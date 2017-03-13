@@ -1,0 +1,53 @@
+#parse("html_res/adg/html-head.vm")
+
+#set ($hideProjectOverview = true)
+#set ($hidePackages = true)
+#set ($hideQuickSearch = true)
+#set ($showHistorical = true)
+#parse("html_res/adg/html-body-start.vm")
+
+#parse("html_res/adg/hist-page-header.vm")
+
+#* render overall pkg coverage graph *#
+#if ($historical.showOverview())
+    #set ($entity = $hasmetrics)
+    #set ($entityText = "$historical.SubjectName")
+    #set ($entityLink = "")
+    #set ($renderHeader = true)
+    #set ($title = "$historical.SubjectType")
+    #if ($title.equalsIgnoreCase("project"))
+        #set ($entityText = $title)
+        #set ($title = "")
+    #end
+
+    <a name="coverage-overview"></a><h2>Coverage overview</h2>
+    #parse("html_res/adg/hm-coverage-graph.vm")
+#end
+
+<a name="added-classes"></a><h2>Added classes</h2>
+
+#if ($allAdded)
+    #foreach($movers in $allAdded)
+        #set ($onlyDiff = false)
+        #parse("html_res/adg/hist-movers.vm")
+    #end
+#end
+
+<a name="changed-classes"></a><h2>Changed classes</h2>
+
+#if ($allMovers)
+    #foreach($movers in $allMovers)
+        #set ($onlyDiff = true)
+        #parse("html_res/adg/hist-movers.vm")
+    #end
+#end
+
+<a name="charts"></a><h2>Charts</h2>
+
+#foreach ($chart in $chartNames)
+<img alt="coverage" src="img/$chart" usemap="#${chart}"/>
+$imageMaps.get($chart)
+#end
+
+
+#parse("html_res/adg/html-body-end.vm")

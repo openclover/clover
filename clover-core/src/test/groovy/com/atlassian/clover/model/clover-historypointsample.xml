@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1205450357151" clover="2.2.0">
+   <project timestamp="1205450315181">
+    <metrics coveredelements="13022" packages="26" coveredconditionals="2485" ncloc="25103" statements="11461" loc="35640" complexity="5430" files="245" conditionals="4090" coveredstatements="8404" coveredmethods="2133" methods="2767" classes="359" elements="18318"/>
+      <package name="org.apache.tools.ant.taskdefs">
+         <metrics coveredelements="133" coveredconditionals="24" ncloc="317" statements="190" loc="453" complexity="70" files="1" conditionals="90" coveredstatements="99" coveredmethods="10" methods="10" classes="2" elements="290"/>
+         <file name="CloverCompilerAdapter.java">
+            <class name="CloverCompilerAdapter">
+               <metrics coveredelements="123" coveredconditionals="23" conditionals="88" statements="183" coveredmethods="8" coveredstatements="92" methods="8" complexity="65" elements="279"/>
+            </class>
+            <metrics coveredelements="133" coveredconditionals="24" conditionals="90" ncloc="317" statements="190" coveredmethods="10" coveredstatements="99" loc="453" methods="10" classes="2" complexity="70" elements="290"/>
+           <class name="CloverCompilerAdapter.CompilerVersionFiddler">");
+               <metrics coveredelements="10" coveredconditionals="1" conditionals="2" statements="7" coveredmethods="2" coveredstatements="7" methods="2" complexity="5" elements="11"/>
+           </class>
+        </file>
+     </package>
+   </project>
+</coverage>

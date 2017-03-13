@@ -1,0 +1,62 @@
+/*
+ * Copyright 2009 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+apply plugin: "groovy"
+apply plugin: "clover"
+
+version = "0.7"
+description = "Spock Framework - Example Project"
+sourceCompatibility = 1.6
+buildDir = "${projectDir}/target"
+
+repositories {
+    mavenCentral() // spock
+    maven { url "https://maven.atlassian.com/repository/public" } // clover
+    maven { url "https://maven.atlassian.com/content/repositories/atlassian-public-snapshot" }
+}
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath ('org.gradle.api.plugins:gradle-clover-plugin:0.8.1')
+    }
+}
+
+allprojects {
+    dependencies {
+        clover "com.atlassian.clover:clover:4.0.0"
+    }
+}
+
+dependencies {
+    compile "org.codehaus.groovy:groovy-all:2.3.9"
+    testCompile "org.spockframework:spock-core:0.7-groovy-2.0"
+}
+
+clover {
+    initString = "clover/db/clover.db"
+    licenseLocation = System.getProperty("user.home") + "/clover.license"
+    testIncludes = [ "**/*.groovy" ]  // default is *Test.groovy and we have other names
+    report {
+        html = true
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = "1.11"
+}

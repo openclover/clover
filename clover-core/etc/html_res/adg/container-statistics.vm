@@ -1,0 +1,23 @@
+#if (!$hideStatistics)
+    <div class="dashboard-widget">
+        <header class="dashboard-widget-header">
+            <h3>Code metrics</h3>
+        </header>
+        <div class="dashboard-widget-content">
+            #set($statsId = "td-header-stats")
+            #set($altStatsId = "td-filtered-header-stats")
+            #set($display = "")
+            #set($statsName = "Remove Filter")
+            #set($filterText = "<strong>$percentFiltered</strong> of code in this $headerMetrics.type is excluded from these metrics.")
+            #parse("html_res/adg/header-stats.vm")
+
+            #set($display = "none")
+            #set($headerMetrics = $headerMetricsRaw)
+            #set($statsId = $altStatsId)
+            #set($filterText = "These metrics include <strong class='bold'>$percentFiltered</strong> of code marked as filtered.")
+            #set($altStatsId = "td-header-stats")
+            #set($statsName = "Apply Filter")
+            #parse("html_res/adg/header-stats.vm")
+        </div>
+    </div>
+#end

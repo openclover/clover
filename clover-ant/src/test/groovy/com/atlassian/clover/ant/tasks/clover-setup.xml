@@ -1,0 +1,30 @@
+<project basedir="" default="" name="">
+
+    <taskdef name="clover-setup" classname="com.atlassian.clover.ant.tasks.CloverSetupTask"/>
+
+    <target name="enable">
+        <clover-setup/>
+    </target>
+
+    <target name="disable">
+        <clover-setup enabled="false"/>
+    </target>
+
+    <!-- Test that attribute can be set -->
+    <target name="instrument-lambda">
+        <clover-setup instrumentLambda="none"/>
+        <clover-setup instrumentLambda="expression"/>
+        <clover-setup instrumentLambda="block"/>
+        <clover-setup instrumentLambda="ALL"/>
+        <echo message="instrument-lambda all options ok"/>
+    </target>
+
+    <target name="setUp">
+
+    </target>
+
+    <target name="tearDown">
+
+    </target>
+
+</project>

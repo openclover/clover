@@ -1,0 +1,2 @@
+This is one of the main *plugins* for Clover. It is essentially empty except that it contains branding
+resources (about.*) so that the "Clover 4 Core" feature is listed in Eclipse's about dialog box.

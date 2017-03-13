@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<testsuite errors="0" failures="0" hostname="hostname" name="Test3" tests="3" time="20.362"
+           timestamp="2007-06-13T03:33:06">
+
+    <testcase classname="Test3" name="method0" time="200.2"/>
+    <testcase classname="Test3" name="method1" time="200.2"/>
+    <testcase classname="Test3" name="method2" time="200.2"/>
+</testsuite>

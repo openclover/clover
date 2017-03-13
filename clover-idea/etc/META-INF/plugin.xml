@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE idea-plugin PUBLIC "" "http://plugins.intellij.net/plugin.dtd">
+<idea-plugin url="http://www.atlassian.com/software/clover/">
+
+	<name>Atlassian Clover for IDEA</name>
+	<id>com.atlassian.clover</id>
+	<description>
+		<![CDATA[<html>
+<b>Introduction</b><br/>
+Clover is an award-winning Java code coverage analysis tool. Clover instruments source code and then records precisely
+what is executed when tests are run. The detailed test coverage reports help developers easily identify areas where the
+testing is weak, enabling them to write better tests faster. Clover fits into a developer's environment, be it Ant,
+Maven, IDEA, Eclipse or the command line. Quality Assurance and Project Managers can access important quality metrics
+over time via html and pdf reports. Clover provides test analysis to thousands of companies and open source projects
+all over the world.
+<br/><br/>
+<b>Resources</b><br/>
+Documentation is available online from
+<a href="http://confluence.atlassian.com/x/i4U3CQ">http://confluence.atlassian.com/display/CLOVER/Clover-for-IDEA</a>.
+<br/>
+To activate this plugin, you will require a Clover license file, available from
+<a href="@CLOVER_LICENSE_URL@">MyAtlassian page</a>
+<br/><br/>
+<b>License</b><br/>
+Clover is licensed under the <a href="@CLOVER_LICENSE_AGREEMENT_URL@">Atlassian Customer Agreement</a>.
+	</html>]]>
+	</description>
+
+	<version>idea-@IDEA_RELEASE_NUM@</version>
+	<vendor email="sales@atlassian.com" logo="/icons/clover_tny.png" url="http://www.atlassian.com">Atlassian</vendor>
+    <!-- Compatible with IDEA 13.0.0 or higher (build 133.xx), see http://confluence.jetbrains.net/display/IDEADEV/Build+Number+Ranges -->
+	<idea-version since-build="133" />
+
+	<change-notes><![CDATA[<html>
+Atlassian Clover for IDEA version 4.0 brings redesigned HTML report. Read
+more about new features in the <a href="https://confluence.atlassian.com/display/CLOVER/Clover+Release+Notes">
+Clover Release Notes</a>
+<br><br>
+A number of other fixes and small improvements were introduced in bug-fix releases. See the
+<a href="https://confluence.atlassian.com/display/CLOVER/Clover-for-IDEA+Changelog">
+Clover-for-IDEA Changelog</a> for more details.
+</html>]]>
+	</change-notes>
+
+	<application-components>
+		<component>
+			<implementation-class>com.atlassian.clover.idea.CloverPlugin</implementation-class>
+			<interface-class>com.atlassian.clover.idea.CloverPlugin</interface-class>
+		</component>
+		<component>
+			<implementation-class>com.atlassian.clover.idea.report.treemap.TreeMapEditorProvider</implementation-class>
+		</component>
+		<component>
+			<implementation-class>com.atlassian.clover.idea.report.cloud.CloudEditorProvider</implementation-class>
+		</component>
+		<component>
+			<implementation-class>com.atlassian.clover.idea.autoupdater.AutoUpdateComponent</implementation-class>
+		</component>
+	</application-components>
+
+	<project-components>
+		<component>
+			<implementation-class>com.atlassian.clover.idea.ProjectPlugin</implementation-class>
+			<interface-class>com.atlassian.clover.idea.IProjectPlugin</interface-class>
+			<option name="workspace" value="true"/>
+			<skipForDefaultProject/>
+		</component>
+		<component>
+			<implementation-class>com.atlassian.clover.idea.RefreshIconsComponent</implementation-class>
+		</component>
+		<component>
+			<implementation-class>com.atlassian.clover.idea.projectview.ProjectViewDecorator</implementation-class>
+		</component>
+		<component>
+			<implementation-class>com.atlassian.clover.idea.autoupdater.NewVersionNotifier</implementation-class>
+		</component>
+	</project-components>
+	<module-components>
+		<component>
+			<implementation-class>com.atlassian.clover.idea.CloverModuleComponent</implementation-class>
+		</component>
+	</module-components>
+	<extensions defaultExtensionNs="com.intellij">
+		<errorHandler implementation="com.atlassian.clover.idea.util.BlameClover"/>
+		<selectInTarget implementation="com.atlassian.clover.idea.SelectInCloverTarget"/>
+		<projectService serviceInterface="com.atlassian.clover.idea.util.tmp.TmpPathResolver"
+		                serviceImplementation="com.atlassian.clover.idea.util.tmp.TmpPathResolverImpl"/>
+		<applicationService serviceInterface="com.atlassian.clover.idea.util.tasks.ExpirableTaskProcessor"
+		                serviceImplementation="com.atlassian.clover.idea.util.tasks.ExpirableTaskProcessor"/>
+		<applicationService serviceInterface="com.atlassian.clover.idea.report.ReportWizardWorkspaceSettings"
+				        serviceImplementation="com.atlassian.clover.idea.report.ReportWizardWorkspaceSettings"/>
+		<applicationService serviceInterface="com.atlassian.clover.idea.coverage.SnapshotFileMutex"
+				        serviceImplementation="com.atlassian.clover.idea.coverage.SnapshotFileMutexService"/>
+		<executor implementation="com.atlassian.clover.idea.junit.CloverTestOptimizationExecutor"/>
+		<programRunner implementation="com.atlassian.clover.idea.junit.JUnitOptimizingProgramRunnerIdea13"/>
+		<applicationService serviceInterface="com.atlassian.clover.idea.junit.config.TestOptimizationGlobalSettings"
+		                    serviceImplementation="com.atlassian.clover.idea.junit.config.TestOptimizationGlobalSettings"/>
+		<!-- id since IDEA 12, groupId since IDEA 14, dynamic since IDEA 12 to call getConfigurables to get children -->
+		<applicationConfigurable instance="com.atlassian.clover.idea.config.GlobalSettingsGroup"
+								 id="com.atlassian.clover.idea.config.GlobalSettingsGroup"
+								 displayName="Clover (global settings)"
+								 groupId="build"
+								 dynamic="true"/>
+		<projectConfigurable instance="com.atlassian.clover.idea.config.CloverProjectConfigurable"
+							 id="com.atlassian.clover.idea.ProjectPlugin"
+							 displayName="Clover (project settings)"
+							 groupId="build"
+							 nonDefaultProject="true"/>
+		<treeStructureProvider implementation="com.atlassian.clover.idea.projectview.ProjectViewDecorator"/>
+		<compiler implementation="com.atlassian.clover.idea.build.DependencyInjectingCompiler"/>
+
+        <!-- clover-***.jar added for debugging purposes -->
+        <!--<compileServer.plugin classpath="clover-idea;extensions.jar;clover-antlr-2.7.7.jar;clover-guava-17.0.jar"/>-->
+        <compileServer.plugin classpath="clover-idea"/>
+	</extensions>
+	<actions>
+		<action id="CloverPlugin.ViewCoverageAction" class="com.atlassian.clover.idea.actions.ViewCoverageAction"
+		        text="Toggle View Coverage" description="" icon="/icons/view_with_clover2.png"/>
+		<action id="CloverPlugin.ViewAllCoverageAction" class="com.atlassian.clover.idea.actions.ViewAllCoverageAction"
+		        text="Turn on coverage highlight" description="" icon="/icons/all_editor_coverage.gif"/>
+		<action id="CloverPlugin.ViewUncoveredCoverageAction"
+		        class="com.atlassian.clover.idea.actions.ViewUncoveredCoverageAction"
+		        text="Turn on coverage highlight for uncovered code only" description=""
+		        icon="/icons/uncovered_editor_coverage.gif"/>
+		<action id="CloverPlugin.ViewNoCoverageAction" class="com.atlassian.clover.idea.actions.ViewNoCoverageAction"
+		        text="Turn off coverage highlight" description="" icon="/icons/no_editor_coverage.gif"/>
+
+		<action id="CloverPlugin.ToggleInstrumentationAction"
+		        class="com.atlassian.clover.idea.actions.ToggleInstrumentationAction" text="Toggle Build with Clover"
+		        description="" icon="/icons/compile_with_clover.png"/>
+		<action id="CloverPlugin.CoverageSummaryAction" class="com.atlassian.clover.idea.actions.CoverageSummaryAction"
+		        text="Coverage Summary" description="Coverage Summary"/>
+		<action id="CloverPlugin.FlattenPackageAction"
+		        class="com.atlassian.clover.idea.actions.view.FlattenPackageToggleAction" text="Flatten Packages"
+		        description="Flatten Packages" icon="/icons/objectBrowser_flattenPackages.png"/>
+		<action id="CloverPlugin.AutoScrollToSourceAction"
+		        class="com.atlassian.clover.idea.actions.view.AutoScrollToggleAction" text="Autoscroll to Source"
+		        description="Autoscroll to Source" icon="/icons/general_autoscrollToSource.png"/>
+		<action id="CloverPlugin.AutoScrollFromSourceAction"
+		        class="com.atlassian.clover.idea.actions.view.AutoScrollFromSourceToggleAction"
+		        text="Autoscroll from Source" description="Autoscroll from Source"
+		        icon="/icons/general_autoscrollFromSource.png"/>
+		<action id="CloverPlugin.RefreshAction" class="com.atlassian.clover.idea.actions.RefreshAction"
+		        text="Refresh Coverage" description="Refresh Coverage Results" icon="/icons/sync.png"/>
+		<action id="CloverPlugin.ShowSummaryAction" class="com.atlassian.clover.idea.actions.view.ShowSummaryToggleAction"
+		        text="Show Coverage Summary" description="Show Coverage Summary view"
+		        icon="/icons/objectBrowser_showStructure.png"/>
+
+		<action id="CloverPlugin.DeleteAction" class="com.atlassian.clover.idea.actions.DeleteAction"
+		        text="Delete Coverage Database"
+		        description="Delete the Clover Coverage Database" icon="/icons/delete.png"/>
+		<action id="CloverPlugin.CleanAction" class="com.atlassian.clover.idea.actions.CleanAction" text="Clean Coverage"
+		        description="Clean gathered coverage information" icon="/icons/general_reset.png"/>
+		<action id="CloverPlugin.CleanSnapshotAction" class="com.atlassian.clover.idea.actions.CleanSnapshotAction" text="Clean Snapshot"
+		        description="Delete the coverage snapshot file used for Test Optimization" icon="/icons/delete_snapshot.png"/>
+
+		<action id="CloverPlugin.AddFilterAction" class="com.atlassian.clover.idea.config.AddFilterAction"
+		        text="Add (Insert)" description="Add a new filter" icon="/icons/general_add.png"/>
+		<action id="CloverPlugin.RemoveFilterAction" class="com.atlassian.clover.idea.config.RemoveFilterAction"
+		        text="Remove (Delete)" description="Remove an existing filter" icon="/icons/general_remove.png"/>
+		<action id="CloverPlugin.CopyFilterAction" class="com.atlassian.clover.idea.config.CopyFilterAction"
+		        text="Copy Filter" description="Copy the selected filter" icon="/icons/general_copy.png"/>
+
+		<action id="CloverPlugin.ReportWizard" class="com.atlassian.clover.idea.actions.ShowReportWizardAction"
+		        text="Generate Clover Report" description="Generate a Clover Coverage Report" popup="true"
+		        icon="/icons/actions_export.png"/>
+		<action id="CloverPlugin.ExpandTestClasses"
+		        class="com.atlassian.clover.idea.actions.testcontrib.ExpandTestClassesAction" text="Always Expand"
+		        description="Always expand test classes" icon="/icons/actions_expandall.png"/>
+		<action id="CloverPlugin.CollapseTestClasses"
+		        class="com.atlassian.clover.idea.actions.testcontrib.CollapseTestClassesAction" text="Always Collapse"
+		        description="Always collapse test classes" icon="/icons/actions_collapseall.png"/>
+		<action id="CloverPlugin.ShowFilterSettings" class="com.atlassian.clover.idea.actions.ShowFilterSettingsAction"
+		        text="Show Filter Settings" description="Show filter settings" icon="/icons/ant_filter.png"/>
+		<action id="CloverPlugin.TestExplorer.TestCaseLayout"
+		        class="com.atlassian.clover.idea.actions.testexplorer.TestCasesListLayoutAction" text="Test Case List"
+		        description="Show test cases in a list."/>
+		<action id="CloverPlugin.TestExplorer.TestPackagesLayout"
+		        class="com.atlassian.clover.idea.actions.testexplorer.TestPackagesLayoutAction" text="Test Packages"
+		        description="Show test cases grouped by package."/>
+		<action id="CloverPlugin.TestExplorer.TestRootFoldersLayout"
+		        class="com.atlassian.clover.idea.actions.testexplorer.TestRootFoldersLayoutAction"
+		        text="Test Source Roots"
+		        description="Show test cases grouped by source root."/>
+		<action id="CloverPlugin.FlattenTestPackageAction"
+		        class="com.atlassian.clover.idea.actions.testexplorer.FlattenTestPackageToggleAction"
+		        text="Flatten Packages" description="Flatten Packages" icon="/icons/objectBrowser_flattenPackages.png"/>
+		<action id="CloverPlugin.TreeMapReport"
+		        class="com.atlassian.clover.idea.actions.TreeMapReportAction"
+		        text="TreeMap report" description="TreeMap report" icon="/icons/report_treemap.gif"/>
+		<action id="CloverPlugin.CloudReport"
+		        class="com.atlassian.clover.idea.actions.cloudreport.CloudReportAction"
+		        text="Cloud report for the project" icon="/icons/cloud_report.png"/>
+		<action id="CloverPlugin.CloudPackageReport"
+		        class="com.atlassian.clover.idea.actions.cloudreport.CloudPackageReportAction"
+		        text="Cloud report for selected package" icon="/icons/package_cloud.png"/>
+		<action id="CloverPlugin.AutoCloudPackageReport"
+		        class="com.atlassian.clover.idea.actions.cloudreport.AutoCloudPackageReportAction"
+		        text="Always view currently selected package in the cloud report (if already open)"
+		        icon="/icons/auto_cloud.png"/>
+		<action class="com.atlassian.clover.idea.actions.ModelScopeAction" text="Model scope action"
+		        id="CloverPlugin.ModelScopeAction"
+		        description="Select Application only/Test only/All classes coverage scope"/>
+		<action class="com.atlassian.clover.idea.actions.IncludePassedTestsCoverageOnlyAction"
+		        text="Include coverage from passed tests only"
+		        description="Include coverage from passed tests only" id="CloverPlugin.IncludePassedTestCoverageOnly"
+		        icon="/icons/include_passed_only.png"/>
+		<action class="com.atlassian.clover.idea.actions.testviewscope.TestViewScopeAction"
+		        id="CloverPlugin.TestViewScope" text=""/>
+		<action class="com.atlassian.clover.idea.actions.testexplorer.CalculateTestCoverage"
+		        text="Toggle calculating test coverage for display in the tree view (may be slow)"
+		        description="Toggle calculating test coverage for display in the tree view (may be slow)"
+		        id="CloverPlugin.CalculateTestCoverage" icon="/icons/calccoverage.png"/>
+		<action id="CloverPlugin.ToggleMarkIncludedFiles" class="com.atlassian.clover.idea.actions.excludes.ToggleMarkIncludedFiles"
+		        text="Annotate icons of files included/excluded in instrumentation" icon="/icons/clover_annotate_included.png"/>
+		<action id="CloverPlugin.ExcludeModule" class="com.atlassian.clover.idea.actions.excludes.ToggleModuleExclusionAction"
+				        text="Exclude module from instrumentation" icon="/icons/clover_annotate_included.png">
+			<add-to-group group-id="ProjectViewPopupMenu" anchor="before"
+			              relative-to-action="ProjectViewPopupMenuRunGroup"/>
+		</action>
+		<action id="CloverPlugin.HideFullyCovered"
+		        class="com.atlassian.clover.idea.actions.view.HideFullyCoveredToggleAction"
+		        text="Hide elements with full coverage" description="Hide elements with full coverage"
+				icon="/icons/hierarchy_hide_fully_covered.gif"/>
+		<action id="CloverPlugin.LoadPerTestData"
+		        class="com.atlassian.clover.idea.actions.testexplorer.LoadPerTestDataAction"
+		        text="Load coverage data" description="Load coverage data"/>
+		<action id="CloverPlugin.LoadPerTestDataToggle"
+		        class="com.atlassian.clover.idea.actions.testexplorer.LoadPerTestDataToggleAction"
+		        text="Always load per-test data."/>
+		<group id="CloverPlugin.ChangeExclusion" class="com.atlassian.clover.idea.actions.excludes.ChangeExclusion"
+		        text="Change Exclusion" popup="true" icon="/icons/clover_annotate_included.png">
+			<add-to-group group-id="ProjectViewPopupMenu" anchor="before"
+			              relative-to-action="ProjectViewPopupMenuRunGroup"/>
+			<action id="CloverPlugin.ChangeExclusion.ToggleInclude" class="com.atlassian.clover.idea.actions.excludes.ToggleIncludeAction" text=""/>
+			<action id="CloverPlugin.ChangeExclusion.ToggleExclude" class="com.atlassian.clover.idea.actions.excludes.ToggleExcludeAction" text=""/>
+			<separator/>
+			<action id="CloverPlugin.ChangeExclusions.EditSettings"
+			        class="com.atlassian.clover.idea.actions.excludes.EditSettingsAction" text="Edit Settings"
+			        description="Edit Settings directly" icon="/icons/general_ideOptions.png"/>
+		</group>
+
+        <action id="CloverPlugin.JumpToActualSource" class="com.atlassian.clover.idea.actions.JumpToActualSourceAction"
+                text="Jump to Actual Source" description="Jump to the actual source instead of the temporary file"
+                icon="/icons/clover_tny.png">
+        </action>
+
+
+		<group id="CloverToolBar"/>
+
+		<group id="CloverPlugin.MainToolBar" class="com.atlassian.clover.idea.CloverActionGroupWrapper">
+			<reference ref="CloverPlugin.RefreshAction"/>
+			<reference ref="CloverPlugin.ToggleInstrumentationAction"/>
+			<reference ref="CloverPlugin.ToggleMarkIncludedFiles"/>
+			<reference ref="CloverPlugin.ViewCoverageAction"/>
+			<reference ref="CloverPlugin.ViewAllCoverageAction"/>
+			<reference ref="CloverPlugin.ViewUncoveredCoverageAction"/>
+			<reference ref="CloverPlugin.ViewNoCoverageAction"/>
+			<reference ref="CloverPlugin.CoverageSummaryAction"/>
+			<reference ref="CloverPlugin.IncludePassedTestCoverageOnly"/>
+			<reference ref="CloverPlugin.CleanSnapshotAction"/>
+			<separator/>
+			<reference ref="CloverPlugin.TreeMapReport"/>
+			<reference ref="CloverPlugin.CloudReport"/>
+			<separator/>
+			<add-to-group group-id="MainToolBar" anchor="before" relative-to-action="ShowSettings"/>
+		</group>
+
+		<group id="CloverPlugin.CloverToolBar">
+			<reference ref="CloverPlugin.FlattenPackageAction"/>
+			<reference ref="CloverPlugin.AutoScrollToSourceAction"/>
+			<reference ref="CloverPlugin.AutoScrollFromSourceAction"/>
+			<reference ref="CloverPlugin.AutoCloudPackageReport"/>
+			<reference ref="CloverPlugin.ShowSummaryAction"/>
+			<separator/>
+			<reference ref="CloverPlugin.ReportWizard"/>
+			<reference ref="CloverPlugin.CloudPackageReport"/>
+			<separator/>
+			<reference ref="CloverPlugin.RefreshAction"/>
+			<reference ref="CloverPlugin.CleanAction"/>
+			<reference ref="CloverPlugin.DeleteAction"/>
+			<reference ref="CloverPlugin.ShowFilterSettings"/>
+			<reference ref="CloverPlugin.HideFullyCovered"/>
+			<reference ref="CloverPlugin.ModelScopeAction"/>
+			<add-to-group group-id="CloverToolBar" anchor="last"/>
+		</group>
+
+		<group id="CloverPlugin.ConfigToolBar">
+			<reference ref="CloverPlugin.AddFilterAction"/>
+			<reference ref="CloverPlugin.RemoveFilterAction"/>
+			<reference ref="CloverPlugin.CopyFilterAction"/>
+		</group>
+		<group id="CloverPlugin.TestContribToolBar">
+			<reference ref="CloverPlugin.AutoScrollToSourceAction"/>
+			<separator/>
+			<reference ref="CloverPlugin.ExpandTestClasses"/>
+			<reference ref="CloverPlugin.CollapseTestClasses"/>
+			<separator/>
+			<reference ref="CloverPlugin.RefreshAction"/>
+		</group>
+
+		<action class="com.atlassian.clover.idea.actions.AboutAction" text="About Clover"
+		        id="CloverPlugin.AboutAction" icon="/icons/about_clover.png"
+		        description="About Clover">
+			<add-to-group group-id="MainToolBar" anchor="before" relative-to-action="ShowSettings"/>
+		</action>
+		<action class="com.atlassian.clover.idea.actions.ShowAllClassesAction"
+		        id="CloverPlugin.Scope.ShowAllClasses"
+                icon="/icons/nodes_TreeClosed.png" text="Show All Classes"/>
+		<action class="com.atlassian.clover.idea.actions.ShowApplicationClassesOnlyAction"
+		        id="CloverPlugin.Scope.ShowApplicationClassesOnly"
+                icon="/icons/modules_sourceRootClosed.png" text="Show Application Classes Only"/>
+		<action class="com.atlassian.clover.idea.actions.ShowTestClassesOnlyAction"
+		        id="CloverPlugin.Scope.ShowTestClassesOnly"
+                icon="/icons/modules_testRootClosed.png" text="Show Test Classes Only"/>
+
+		<group class="com.atlassian.clover.idea.actions.ChooseModelScopeAction" id="CloverPlugin.Scope"
+		       text="Select Application only/Test only/All classes coverage scope" icon="/icons/general_comboArrow.png">
+			<reference ref="CloverPlugin.Scope.ShowAllClasses"/>
+			<reference ref="CloverPlugin.Scope.ShowApplicationClassesOnly"/>
+			<reference ref="CloverPlugin.Scope.ShowTestClassesOnly"/>
+		</group>
+		<group class="com.atlassian.clover.idea.actions.testexplorer.ChooseTestCaseLayoutAction"
+		       id="CloverPlugin.TestCaseLayout" popup="true"
+		       text="Select test cases layout" icon="/icons/general_comboArrow.png">
+
+			<reference ref="CloverPlugin.TestExplorer.TestCaseLayout"/>
+			<reference ref="CloverPlugin.TestExplorer.TestPackagesLayout"/>
+			<reference ref="CloverPlugin.TestExplorer.TestRootFoldersLayout"/>
+		</group>
+		<group id="CloverPlugin.TestExplorerToolBar">
+			<reference ref="CloverPlugin.TestCaseLayout"/>
+			<reference ref="CloverPlugin.FlattenPackageAction"/>
+			<reference ref="CloverPlugin.AutoScrollToSourceAction"/>
+			<separator/>
+			<reference ref="CloverPlugin.ExpandTestClasses"/>
+			<reference ref="CloverPlugin.CollapseTestClasses"/>
+			<separator/>
+			<reference ref="CloverPlugin.RefreshAction"/>
+			<reference ref="CloverPlugin.CleanAction"/>
+			<reference ref="CloverPlugin.DeleteAction"/>
+			<reference ref="CloverPlugin.ShowFilterSettings"/>
+			<reference ref="CloverPlugin.TestViewScope"/>
+			<reference ref="CloverPlugin.CalculateTestCoverage"/>
+			<reference ref="CloverPlugin.LoadPerTestDataToggle"/>
+			<reference ref="CloverPlugin.LoadPerTestData"/>
+		</group>
+		<group id="CloverPlugin.TestCaseScopeCombo">
+			<action class="com.atlassian.clover.idea.actions.testviewscope.ProjectScopeAction"
+			        id="CloverPlugin.TestViewScope.All"
+                    icon="/icon_small.png" text="All tests"/>
+			<action class="com.atlassian.clover.idea.actions.testviewscope.FileScopeAction"
+			        id="CloverPlugin.TestViewScope.File"
+                    icon="/fileTypes/java.png" text="File tests"/>
+			<action class="com.atlassian.clover.idea.actions.testviewscope.ClassScopeAction"
+                    id="CloverPlugin.TestViewScope.Class"
+                    icon="/nodes/class.png" text="Class at cursor"/>
+			<action class="com.atlassian.clover.idea.actions.testviewscope.MethodScopeAction"
+                    id="CloverPlugin.TestViewScope.Method"
+                    icon="/nodes/method.png" text="Method at cursor"/>
+			<action class="com.atlassian.clover.idea.actions.testviewscope.StatementScopeAction"
+                    id="CloverPlugin.TestViewScope.Statement"
+			        icon="/icons/statement.png" text="Statement at cursor"/>
+		</group>
+		<group id="CloverPlugin.CloudReportProjectBar"
+		       class="com.atlassian.clover.idea.actions.cloudreport.CloudReportProjectGroup">
+			<reference ref="CloverPlugin.AutoCloudPackageReport"/>
+			<reference ref="CloverPlugin.CloudPackageReport"/>
+			<reference ref="CloverPlugin.ModelScopeAction"/>
+		</group>
+		<group id="CloverPlugin.CloudReportPackageBar"
+		       class="com.atlassian.clover.idea.actions.cloudreport.CloudReportPackageGroup">
+			<reference ref="CloverPlugin.AutoCloudPackageReport"/>
+			<reference ref="CloverPlugin.CloudReport"/>
+			<action class="com.atlassian.clover.idea.actions.cloudreport.IncludeSubpackagesAction"
+			        text="Include subpackages" id="CloverPlugin.CloudReportIncludeSubpkgs"/>
+		</group>
+
+    </actions>
+
+</idea-plugin>

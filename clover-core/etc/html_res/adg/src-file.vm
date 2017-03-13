@@ -1,0 +1,75 @@
+#parse("html_res/adg/html-head.vm")
+
+#set($bodyOnLoad = "onLoad('${headerTitle}.${fileInfo.name}')")
+#parse("html_res/adg/html-body-start.vm")
+
+#parse("html_res/adg/page-content-header.vm")
+
+#* optional warnings *#
+#parse("html_res/adg/warnings.vm")
+
+#* hidden stacktraces *#
+#parse("html_res/adg/src-file-stacktraces.vm")
+
+#* check if this file contains at least one test class *#
+#set ($isTestFile = false)
+#foreach ($cls in $fileInfo.classes)
+    #if ($cls.isTestClass())
+        #set ($isTestFile = true)
+    #end
+#end
+
+<div class="aui-tabs horizontal-tabs" id="tabs-file">
+    ## hide all tabs if it's not a test file - we don't need to draw a single tab
+    #if ($isTestFile)
+        <ul class="tabs-menu">
+            <li class="menu-item active-tab">
+                <a href="#tabs-file-source"><strong>Source file</strong></a>
+            </li>
+            <li class="menu-item">
+                <a href="test-$currentPageURL"><strong>Test results</strong></a>
+            </li>
+        </ul>
+    #end
+    <div class="tabs-pane aui-tabs-pane-100-pcnt active-pane" id="tabs-file-source">
+        <div>&#160;</div>
+
+        #* stats boxes *#
+        #set ($showHistogramCell = !$hideStatistics && $fileInfo && $chartInfo)
+        <div style="display: table; width: 100%">
+            #if ($showHistogramCell)
+                <div class="clover-histogram-table-cell">
+                    #parse("html_res/adg/container-histogram.vm")
+                </div>
+            #end
+            <div style="display: table-cell; #if ($showHistogramCell)width: 67%;#end">
+                #parse("html_res/adg/container-statistics.vm")
+            </div>
+        </div>
+
+        #* render coverage table for classes and methods present in the source file *#
+        #parse("html_res/adg/src-file-classes-and-methods.vm")
+
+        #* render test cases hitting the source file *#
+        #parse("html_res/adg/src-file-contributing-tests-dialog.vm")
+
+        #* render source lines *#
+        #parse("html_res/adg/src-file-source-lines.vm")
+    </div>
+</div><!-- .aui-tabs -->
+
+<script type="text/javascript"> #* TODO check whether we shall not have this BEFORE inclusion of overlinb in html-head.vm *#
+    var ol_bgclass = "overBG";
+    var ol_fgclass = "overFG";
+    var ol_cgclass = "overCaption";
+    var ol_captionfontclass= "overCaption";
+    var ol_closefontclass = "closeFont";
+    var ol_closeclick = 1;
+    var ol_close = 'X';
+    var ol_wrap = 1;
+    var rootRelPath = '${rootRelPath}';
+    var testsPerFile = ${testsPerFile};
+</script>
+<script src="${jsonFilename}" type="text/javascript"></script>
+
+#parse("html_res/adg/html-body-end.vm")

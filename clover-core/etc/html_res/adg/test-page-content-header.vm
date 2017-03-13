@@ -1,0 +1,14 @@
+<h1 class="aui-h2-clover">
+    #if ($packageInfo)
+        #* Package or class level *#
+        ${stringUtils.capitalize($entity.metrics.type)} ${entity.name}
+    #else
+        #if ($test)
+            #* Single test result *#
+            Test ${renderUtil.htmlEscapeStr($test.testName)}
+        #else
+            #* Project level *#
+            Project overview
+        #end
+    #end
+</h1>

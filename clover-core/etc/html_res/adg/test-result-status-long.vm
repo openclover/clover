@@ -1,0 +1,11 @@
+#if ($testCase.hasResult)
+  #if ($testCase.success)
+    <span class="sortValue">1</span><span class="aui-lozenge aui-lozenge-success">PASS</span>
+  #elseif ($testCase.error)
+    <span class="sortValue">2</span><span class="aui-lozenge aui-lozenge-error">ERROR</span>
+  #else
+    <span class="sortValue">3</span><span class="aui-lozenge aui-lozenge-error">FAIL</span>
+  #end
+#else
+  <span class="sortValue">4</span>-
+#end

@@ -1,0 +1,43 @@
+#parse("html_res/adg/html-head.vm")
+
+#parse("html_res/adg/html-body-start.vm")
+
+#parse("html_res/adg/page-content-header.vm")
+
+<div class="aui-tabs horizontal-tabs">
+    #if ($title == "Top Risks")
+        #set ($currentHorizontalNav = "TopRisks")
+    #else
+        #set ($currentHorizontalNav = "QuickWins")
+    #end
+    #parse("html_res/adg/pkg-tabs-menu.vm")
+
+    <div class="tabs-pane active-pane" id="tabs-first">
+
+        <div>&#160;</div>
+
+        #parse("html_res/adg/warnings.vm")
+
+        #if ($title == "Top Risks")
+            #set ($description = "topRisksDescription")
+        #else
+            #set ($description = "quickWinsDescription")
+        #end
+        <div style="text-align: right; margin-bottom: 10px">
+            #* TODO Move to left *#
+            #if ($showCloudDepthToggle)
+                <button id="cloudDepthCheckbox" class="aui-button active"
+                        onclick="showDeepPackageCloud(this)">Include classes from sub-packages</button>
+            #end
+
+            #set ($buttonTitle = "How to read this chart")
+            ## $title + $buttonTitle + $description
+            #parse("html_res/adg/inline-dialog-help.vm")
+        </div>
+
+        #parse("html_res/adg/cloud.vm")
+
+    </div> <!-- tabs-pane active-pane -->
+</div> <!-- aui-tabs horizontal-tabs -->
+
+#parse("html_res/adg/html-body-end.vm")

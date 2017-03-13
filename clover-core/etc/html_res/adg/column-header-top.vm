@@ -1,0 +1,10 @@
+<thead>
+    <tr>
+        <th width="30%">$title</th>
+        #foreach ($col in $columns)
+            <th colspan="$col.Format.ColSpan">
+                <label #if($col.help) title="$col.help"#end>$col.getTitle($headerInfo.metrics)</label>
+            </th>
+        #end
+    </tr>
+</thead>

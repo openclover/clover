@@ -1,0 +1,14 @@
+<ol class="aui-nav aui-nav-breadcrumbs">
+    #if ($projectInfo)
+        #* Project-level pages, like Dashboard *#
+        <li><a href="dashboard.html">Project ${projectInfo.name}</a></li>
+    #elseif ($packageInfo)
+        #* Package-level pages, like Package Summary, Tag Clouds *#
+        <li><a href="${renderUtil.getRootRelPath($packageInfo.name)}dashboard.html">Project ${packageInfo.containingProject.name}</a></li> #* Project name with link *#
+    #elseif ($fileInfo)
+        #* File-level pages *#
+        <li><a href="${renderUtil.getRootRelPath($fileInfo.containingPackage.name)}dashboard.html">Project ${fileInfo.containingPackage.containingProject.name}</a></li> #* Project name with link *#
+        <li>#if ($fileInfo.testFile)<a href="testsrc-pkg-summary.html">#else<a href="pkg-summary.html">#end
+        Package ${fileInfo.containingPackage.name}</a></li> #* Package name with link *#
+    #end
+</ol>

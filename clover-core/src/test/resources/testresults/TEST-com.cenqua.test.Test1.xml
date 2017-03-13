@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuite errors="0" failures="0" hostname="hostname" name="com.cenqua.test.Test1" tests="3" time="20.362"
+           timestamp="2007-06-13T03:33:04">
+
+    <testcase classname="com.cenqua.test.Test1" name="method0" time="10"/>
+    <testcase classname="com.cenqua.test.Test1" name="method1" time="10"/>
+    <testcase classname="com.cenqua.test.Test1" name="method2" time="10"/>
+</testsuite>
+    

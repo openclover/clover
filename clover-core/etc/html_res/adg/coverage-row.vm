@@ -1,0 +1,26 @@
+<tr>
+    <td>
+        #if ($entityDecorationBefore)
+            $entityDecorationBefore
+        #end
+        <span class="sortValue">${renderUtil.truncateStart($entityText)}</span>
+        #if ($entityLink.length() > 0)
+            <a href="$entityLink" title="$entityText">${renderUtil.truncateStart($entityText)}</a>
+        #else
+            ${renderUtil.truncateStart($entityText)}
+        #end
+        #if ($entityDecorationAfter)
+            $entityDecorationAfter
+        #end
+    </td>
+
+    #set($metrics = ${renderUtil.metricsFor($entity)})      
+    #foreach ($col in $columns)
+        $col.init($metrics)
+        <td class="$col.style $!style" align="right">
+            <span class="sortValue">$col.sortValue()</span>
+            $col.render()
+        </td>
+        $col.reset()
+    #end
+</tr>

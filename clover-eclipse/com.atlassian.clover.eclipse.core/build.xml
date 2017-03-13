@@ -1,0 +1,186 @@
+<project name="eclipse_core" basedir="." default="eclipse.build">
+
+    <import file="../../clover-core/build.xml"/>
+    <import file="../../clover-ant/build.xml"/>
+    <import file="../../clover-eclipse/build.xml"/>
+
+    <dirname property="eclipse.base" file="${ant.file.clover-eclipse}"/>
+    <dirname property="eclipse.core.base" file="${ant.file.eclipse_core}"/>
+
+    <property name="eclipse.plugins.output" location="${common.base}/clover-eclipse/target/plugins"/>
+    <property name="eclipse.core.output" location="${eclipse.plugins.output}/core"/>
+
+    <property name="clover.eclipse.jar"
+              location="${eclipse.core.output}/../com.atlassian.clover.eclipse.core_${eclipse.release.num}.jar"/>
+
+    <property file="../common.properties"/>
+
+    <fileset id="clover-eclipse.3rdparty.rights.fileset" dir="${eclipse.core.base}/etc" includes="license/*"/>
+
+    <target name="eclipse.init" depends="clover-core.init">
+        <mkdir dir="${eclipse.core.output}/classes"/>
+        <mkdir dir="${eclipse.core.output}/anttasks/classes"/>
+
+        <maven-resolve groupId="org.ow2.asm" artifactId="asm" version="5.0.3" pathId="asm5.path"/>
+        <maven-resolve groupId="net.sf.jtreemap" artifactId="ktreemap" version="1.1.0-atlassian-01"/>
+    </target>
+
+    <target name="eclipse.build.internal.anttasks" depends="eclipse.init">
+        <javac destdir="${eclipse.core.output}/anttasks/classes"
+               debug="on"
+               debuglevel="lines,vars,source"
+               deprecation="on"
+               target="${eclipse.jdk.target}"
+               source="${eclipse.source.level}"
+               bootclasspathref="java.rt.path"
+               includeAntRuntime="true">
+            <src path="${eclipse.core.base}/anttasks/src"/>
+        </javac>
+    </target>
+
+    <target name="eclipse.version" depends="eclipse.init">
+        <mkdir dir="${eclipse.core.output}/src/com/atlassian/clover/eclipse/core"/>
+        <copy file="${eclipse.core.base}/src/com/atlassian/clover/eclipse/core/PluginVersionInfo.in"
+              tofile="${eclipse.core.output}/src/com/atlassian/clover/eclipse/core/PluginVersionInfo.java"
+              overwrite="false">
+            <filterset>
+                <filterset refid="core.version.filterset"/>
+                <filter token="ECLIPSE_RELEASE_NUM" value="${eclipse.release.num}"/>
+                <filter token="EVAL_LICENSE" value="${ide.eval.license}"/>
+            </filterset>
+        </copy>
+
+        <copy todir="${eclipse.core.output}" overwrite="true">
+            <fileset dir="${eclipse.core.base}/etc" includes="plugin.xml"/>
+            <filterset>
+                <filterset refid="core.version.filterset"/>
+                <filter token="ECLIPSE_RELEASE_NUM" value="${eclipse.release.num}"/>
+            </filterset>
+        </copy>
+    </target>
+
+    <target name="eclipse.build" depends="clover-core.init, eclipse.version, clover-ant.jar">
+        <fail unless="eclipse.lib.version"/>
+        <propertyeval name="eclipse-xyz.home" from="eclipse-${eclipse.lib.version}.home"/>
+
+        <path id="eclipse.libs">
+            <path refid="asm5.path"/>
+            <pathelement location="${net.sf.jtreemap:ktreemap:jar}"/>
+            <fileset dir="${eclipse-xyz.home}" includes="**/*.jar"/>
+        </path>
+
+        <echo level="verbose" message="Target com.atlassian.clover.eclipse.core::eclipse.build is using [${toString:clover-core.buildpath}:${clover-core.output.classes}:${clover-ant.jar}:${toString:eclipse.libs}] path"/>
+
+        <javac destdir="${eclipse.core.output}/classes"
+               debug="on"
+               debuglevel="lines,vars,source"
+               deprecation="on"
+               target="${eclipse.jdk.target}"
+               source="${eclipse.source.level}"
+               bootclasspathref="java.rt.path"
+               includeAntRuntime="false">
+            <classpath>
+                <path refid="clover-core.buildpath"/>
+                <pathelement location="${clover-core.output.classes}"/>
+                <pathelement location="${clover-ant.jar}"/>
+                <path refid="eclipse.libs"/>
+                <!--<pathelement path="${eclipse.core.output}/classes"/>-->
+            </classpath>
+            <src path="${eclipse.core.base}/src"/>
+            <src path="${eclipse.core.output}/src"/>
+            <exclude name="net/sf/jtreemap/**"/>
+        </javac>
+    </target>
+
+    <!-- required for global testing -->
+    <target name="eclipse.test"/>
+
+    <!-- TODO: Remove this. The only reason we create this intermediate
+       -  jar is so that we can use the listpackages task on it to
+       -  retrieve a list of packages. We should instead re-write
+       -  the listpackages task.
+       -->
+    <target name="eclipse.jar" depends="eclipse.jarup"/>
+
+    <target name="eclipse.jarup" depends="clover-ant.jar, clover-core.image, eclipse.build">
+        <jar destfile="${eclipse.core.output}/clover-eclipse.jar">
+            <zipfileset src="${clover-ant.jar}"/>
+            <fileset dir="${eclipse.core.output}/classes"/>
+            <fileset dir="${eclipse.core.base}/etc/l10n" includes="com/atlassian/clover/eclipse/**/*.properties"/>
+        </jar>
+    </target>
+
+    <target name="eclipse.pkg" depends="eclipse.pkgup"/>
+
+    <target name="eclipse.pkgup" depends="eclipse.build.internal.anttasks, eclipse.jar">
+
+        <taskdef name="listpackages"
+                 classname="com.atlassian.clover.eclipse.core.ant.ListPackagesTask"
+                 classpath="${eclipse.core.output}/anttasks/classes"/>
+
+        <!-- package directory -->
+        <property name="eclipse.pkg.name" value="com.atlassian.clover.eclipse.core_${eclipse.release.num}"/>
+
+        <mkdir dir="${eclipse.core.output}/pkg/META-INF"/>
+
+        <copy todir="${eclipse.core.output}/pkg">
+            <fileset dir="${eclipse.core.base}/etc">
+                <include name="toc.xml"/>
+                <include name="help.html"/>
+                <include name="html/**"/>
+                <include name="icons/*.gif"/>
+                <include name="icons/*.png"/>
+                <include name="icons/**/*.gif"/>
+            </fileset>
+            <!-- We take clover-core.3rdparty.rights.fileset and clover-core.atlassian.rights.fileset from
+                 a clover.jar - see the <jar> task below -->
+            <fileset refid="clover-eclipse.3rdparty.rights.fileset"/>
+        </copy>
+
+        <copy todir="${eclipse.core.output}/pkg">
+            <fileset dir="${eclipse.core.base}/etc" includes="META-INF"/>
+        </copy>
+
+        <listpackages jar="${eclipse.core.output}/clover-eclipse.jar" separator=", " propertyName="eclipse.core.packages"/>
+
+        <manifest file="${eclipse.core.output}/manifest.mf">
+            <attribute name="Bundle-ManifestVersion" value="2"/>
+            <attribute name="Bundle-Name" value="%pluginName"/>
+            <attribute name="Bundle-Vendor" value="%providerName"/>
+            <attribute name="Bundle-SymbolicName" value="com.atlassian.clover.eclipse.core; singleton:=true"/>
+            <attribute name="Bundle-Version" value="${eclipse.release.num}"/>
+            <attribute name="Bundle-Activator" value="com.atlassian.clover.eclipse.core.CloverPlugin"/>
+            <attribute name="Bundle-Localization" value="plugin"/>
+            <attribute name="Require-Bundle" value="org.eclipse.ui;bundle-version=&quot;${required.eclipse.version}&quot;, org.eclipse.core.runtime;bundle-version=&quot;${required.eclipse.version}&quot;, org.eclipse.ui.views, org.eclipse.jface.text, org.eclipse.ui.editors, org.eclipse.ui.workbench.texteditor, org.eclipse.jdt.launching, org.eclipse.debug.core, org.eclipse.debug.ui, org.eclipse.jdt.core, org.eclipse.jdt.ui, org.eclipse.core.resources, org.eclipse.core.filesystem, org.eclipse.jdt.debug.ui, org.eclipse.ui.ide, org.eclipse.ui.console, org.eclipse.ui.forms, org.eclipse.search, org.eclipse.jdt.junit"/>
+            <attribute name="Bundle-Classpath" value="."/>
+            <attribute name="Eclipse-LazyStart" value="true"/>
+            <attribute name="Export-Package" value="${eclipse.core.packages}"/>
+        </manifest>
+
+        <copy file="${eclipse.core.output}/plugin.xml"
+              tofile="${eclipse.core.output}/pkg/plugin.xml"
+              overwrite="true"/>
+        <copy todir="${eclipse.core.output}/pkg"
+              overwrite="true">
+            <fileset dir="${eclipse.core.base}/etc/l10n" includes="plugin.properties"/>
+            <fileset dir="${eclipse.core.base}/etc" includes=".options"/>
+        </copy>
+
+        <jar file="${clover.eclipse.jar}" manifest="${eclipse.core.output}/manifest.mf">
+            <zipfileset src="${clover-ant.jar}"/>
+            <fileset dir="${eclipse.core.output}/classes"/>
+            <fileset dir="${eclipse.core.base}/etc/l10n" includes="com/atlassian/clover/eclipse/**/*.properties"/>
+            <zipfileset dir="${eclipse.core.output}/pkg" excludes="*.jar"/>
+            <zipfileset src="${net.sf.jtreemap:ktreemap:jar}" includes="**/*.class"/>
+            <zipfileset src="${toString:asm5.path}" includes="**/*.class"/> <!-- not using 'org.ow2.asm:asm:jar' as it may point to asm4 -->
+        </jar>
+    </target>
+
+    <target name="eclipse.prod">
+		 <releasepkg module="eclipse"/>
+    </target>
+
+    <target name="eclipse.clean">
+        <delete dir="${eclipse.core.output}"/>
+    </target>
+</project>

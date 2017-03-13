@@ -1,0 +1,141 @@
+<!--
+Copyright 2009 the original author or authors.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<project name="SpockExample" basedir="." default="report" xmlns:artifact="urn:maven-artifact-ant">
+    <property name="src.test.dir" location="src/test/groovy"/>
+    <property name="target.dir" location="target"/>
+    <property name="target.classes.dir" location="${target.dir}/classes"/>
+    <property name="target.testresults.dir" location="${target.dir}/testresults"/>
+    <property name="target.clover.db" location="${target.dir}/clover/db/clover.db"/>
+    <property name="target.clover.report" location="${target.dir}/clover/report"/>
+    <property name="lib.dir" location="${target.dir}/lib"/>
+
+    <property name="maven.ant.tasks.url"
+              value="http://repo1.maven.org/maven2/org/apache/maven/maven-ant-tasks/2.1.3/maven-ant-tasks-2.1.3.jar"/>
+    <property name="maven.ant.tasks.jar" value="${lib.dir}/maven-ant-tasks-2.1.3.jar"/>
+    <available property="maven.ant.tasks.jar.exists" file="${maven.ant.tasks.jar}"/>
+
+    <target name="bootstrap.maven.tasks" unless="maven.ant.tasks.jar.exists">
+        <mkdir dir="${lib.dir}"/>
+        <get src="${maven.ant.tasks.url}" dest="${maven.ant.tasks.jar}"/>
+    </target>
+
+    <target name="init.maven.tasks" depends="bootstrap.maven.tasks">
+        <typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="urn:maven-artifact-ant"
+                classpath="${maven.ant.tasks.jar}"/>
+    </target>
+
+    <target name="resolve.dependencies" depends="init.maven.tasks">
+        <artifact:dependencies pathId="classpath.spock">
+            <!-- Mandatory dependencies for using Spock -->
+            <dependency groupId="org.spockframework" artifactId="spock-core" version="0.7-groovy-2.0"/>
+            <!-- only required if Spock's Ant selector is used, which finds spec classes regardless of their name -->
+            <dependency groupId="org.ow2.asm" artifactId="asm" version="4.2"/>
+            <!-- to have groovyc task -->
+            <dependency groupId="org.codehaus.groovy" artifactId="groovy-all" version="2.3.9"/>
+            <!-- to have Clover instrumentation -->
+            <dependency groupId="com.atlassian.clover" artifactId="clover" version="4.0.0"/>
+        </artifact:dependencies>
+        <echo message="classpath.spock=${toString:classpath.spock}"/>
+    </target>
+
+    <target name="init.groovy.tasks" depends="resolve.dependencies">
+        <!-- Using the Groovy compiler from classpath.spock is a simple and safe setup -->
+        <echo message="classpath.spock=${toString:classpath.spock}"/>
+        <taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc" classpathref="classpath.spock"/>
+    </target>
+
+    <target name="init.clover" depends="resolve.dependencies">
+        <taskdef resource="cloverlib.xml" classpathref="classpath.spock"/>
+        <clover-setup initstring="${target.clover.db}">
+
+        </clover-setup>
+    </target>
+
+    <target name="init" depends="init.groovy.tasks, init.clover">
+        <mkdir dir="${target.dir}"/>
+    </target>
+
+    <target name="compile" depends="init">
+        <mkdir dir="${target.classes.dir}"/>
+        <groovyc srcdir="${src.test.dir}" destdir="${target.classes.dir}" classpathref="classpath.spock"/>
+    </target>
+
+    <target name="test" depends="compile">
+        <mkdir dir="${target.testresults.dir}"/>
+        <junit fork="true" forkmode="once">
+            <classpath path="${target.classes.dir}"/>
+            <classpath refid="classpath.spock"/>
+            <batchtest todir="${target.testresults.dir}">
+                <fileset dir="${target.classes.dir}">
+                    <custom classname="org.spockframework.buildsupport.ant.SpecClassFileSelector"
+                            classpathref="classpath.spock"/>
+                </fileset>
+            </batchtest>
+            <formatter type="brief" usefile="false"/>
+            <formatter type="xml" usefile="true"/>
+        </junit>
+    </target>
+
+    <target name="report" depends="test">
+        <clover-report initstring="${target.clover.db}">
+            <current outfile="${target.clover.report}">
+                <format type="html" />
+            </current>
+        </clover-report>
+    </target>
+
+    <target name="report-with-xml" depends="test"
+            description="Generate Clover HTML report with test results provided in an external XML">
+        <clover-report initstring="${target.clover.db}">
+            <current outfile="${target.clover.report}">
+                <format type="html" />
+                <testresults dir="${target.testresults.dir}" includes="**/*.xml"/>
+            </current>
+        </clover-report>
+    </target>
+
+    <!-- Run 'report' or 'reoport-with-xml' before -->
+    <target name="validate">
+        <!-- Test: static test names instead of method names are used -->
+        <condition property="validation.testnames.ok">
+            <!-- search for: "name="sl-22">maximum of two numbers</a>" -->
+            <resourcecontains resource="${target.clover.report}/default-pkg/UnrollWithSeqNumber.html"
+                              substring="name=&quot;sl-22&quot;>maximum&amp;#160;of&amp;#160;two&amp;#160;numbers&lt;/a>"/>
+        </condition>
+        <fail message="HTML report does not have static test names" unless="validation.testnames.ok"/>
+
+        <!-- Test: runtime test names with sequence numbers are recognized -->
+        <condition property="validation.sequences.ok">
+            <!-- search for: "UnrollWithSeqNumber.maximum of two numbers[0]</a>" -->
+            <resourcecontains resource="${target.clover.report}/default-pkg/test-UnrollWithSeqNumber.html"
+                              substring="UnrollWithSeqNumber.maximum of two numbers[0]&lt;/a>"/>
+        </condition>
+        <fail message="HTML report does not have runtime test names with sequence numbers" unless="validation.sequences.ok"/>
+
+        <!-- Test: runtime test names with variable selectores are recognized -->
+        <condition property="validation.selectors.ok">
+            <!-- search for: "UnrollWithVarsWithSelectors.Fred is a male person</a>" -->
+            <resourcecontains resource="${target.clover.report}/default-pkg/test-UnrollWithVarsWithSelectors.html"
+                              substring="UnrollWithVarsWithSelectors.Fred is a male person&lt;/a>"/>
+        </condition>
+        <fail message="HTML report does not have runtime test names with variable selectors" unless="validation.selectors.ok"/>
+    </target>
+
+    <target name="clean">
+        <delete dir="${target.dir}"/>
+    </target>
+</project>

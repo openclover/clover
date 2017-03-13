@@ -1,0 +1,55 @@
+<project name="eclipse_feature" basedir="." default="eclipse.pkg">
+
+	<import file="../../clover-core/build.xml"/>
+
+	<dirname property="eclipse.base" file="${ant.file.clover-eclipse}"/>
+	<dirname property="eclipse.feature.base" file="${ant.file.eclipse_feature}"/>
+
+	<property name="eclipse.feature.output" location="${common.base}/clover-eclipse/target/features/core/"/>
+
+	<property file="../common.properties"/>
+
+	<target name="eclipse.pkg">
+        <mkdir dir="${eclipse.feature.output}"/>
+
+		<copy encoding="UTF-8" todir="${eclipse.feature.output}" overwrite="true">
+			<fileset dir="${eclipse.feature.base}/etc">
+				<include name="feature.xml"/>
+			</fileset>
+			<filterchain>
+				<replacetokens>
+					<token key="ECLIPSE_RELEASE_NUM" value="${eclipse.release.num}"/>
+					<token key="CLOVER_RELEASE_NUM" value="${core.release.num}"/>
+					<token key="CLOVER_UPDATESITE_URL" value="${clover.updatesite.url}"/>
+					<token key="CLOVER_SITE_URL" value="${clover.site.url}"/>
+					<token key="CLOVER_BLURB" value="${clover.core.blurb}"/>
+					<token key="CLOVER_COPYRIGHT" value="${clover.copyright}"/>
+                    <token key="CLOVER_LICENSE_AGREEMENT_URL" value="${clover.license.agreement.url}"/>
+					<token key="CLOVER_CLICKWRAP_LICENSE" value="${clover.clickwrap.license}"/>
+				</replacetokens>
+			</filterchain>
+		</copy>
+		<copy todir="${eclipse.feature.output}" overwrite="true">
+			<fileset dir="${eclipse.feature.base}/etc/icons">
+				<include name="clover32.png"/>
+			</fileset>
+            <!-- copy Atlassian license; we don't need third party licences because it's a feature, not a plugin -->
+            <fileset refid="clover-core.atlassian.rights.fileset"/>
+		</copy>
+
+		<property name="clover.eclipse.feature.jar"
+				  location="${eclipse.feature.output}/../com.atlassian.clover.eclipse.feature_${eclipse.release.num}.jar"/>
+
+		<jar file="${clover.eclipse.feature.jar}">
+			<zipfileset dir="${eclipse.feature.output}"/>
+		</jar>
+	</target>
+
+	<target name="eclipse.clean">
+		<delete dir="${eclipse.feature.output}"/>
+	</target>
+
+	<target name="eclipse.test"/>
+
+	<target name="eclipse.build"/>
+</project>

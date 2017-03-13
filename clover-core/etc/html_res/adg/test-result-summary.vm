@@ -1,0 +1,3 @@
+<td class="testPasses"><span class="sortValue">$metrics.numTests</span>$metrics.numTests</td>
+<td class="#if($metrics.numTestFailures > 0)testFailures#end"><span class="sortValue">$metrics.numTestFailures</span>$metrics.numTestFailures</td>
+<td class="#if($metrics.numTestErrors > 0)testErrors#end"><span class="sortValue">$metrics.numTestErrors</span>$metrics.numTestErrors</td>

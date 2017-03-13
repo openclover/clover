@@ -1,0 +1,159 @@
+<project name="clover-eclipse" basedir="." default="clover-eclipse.build">
+
+    <dirname property="clover-eclipse.base" file="${ant.file.clover-eclipse}"/>
+
+    <import file="../clover-core/build.xml"/>
+    <import file="clover-eclipse-libs/build.xml"/>
+
+    <property name="clover-eclipse.output" location="${clover-eclipse.base}/target"/>
+
+    <target name="clover-eclipse.install.all" depends="clover-eclipse.pkg" description="Installs Eclipse plugins to an Eclipse installation">
+        <delete dir="${eclipse.home}/plugins" includes="com.atlassian.clover.*.jar"/>
+        <delete dir="${eclipse.home}/features" includes="com.atlassian.clover.*"/>
+
+        <copy todir="${eclipse.home}/plugins">
+            <fileset dir="${clover-eclipse.output}/plugins" includes="com.atlassian.clover.eclipse.core_${eclipse.release.num}.jar"/>
+            <fileset dir="${clover-eclipse.output}/plugins" includes="com.atlassian.clover.eclipse.testopt_${eclipse.release.num}.jar"/>
+        </copy>
+        <unzip dest="${eclipse.home}/plugins/com.atlassian.clover.eclipse.ant_${eclipse.release.num}" src="${clover-eclipse.output}/plugins/com.atlassian.clover.eclipse.ant_${eclipse.release.num}.jar"/>
+        <unzip dest="${eclipse.home}/plugins/com.atlassian.clover.eclipse.branding_${eclipse.release.num}" src="${clover-eclipse.output}/plugins/com.atlassian.clover.eclipse.branding_${eclipse.release.num}.jar"/>
+        <unzip dest="${eclipse.home}/plugins/com.atlassian.clover.eclipse.runtime_${eclipse.release.num}" src="${clover-eclipse.output}/plugins/com.atlassian.clover.eclipse.runtime_${eclipse.release.num}.jar"/>
+        <copy todir="${eclipse.home}/plugins">
+            <fileset dir="${clover-eclipse.output}/plugins" includes="com.atlassian.clover.eclipse.core_${eclipse.release.num}.jar"/>
+        </copy>
+        <unzip dest="${eclipse.home}/features/com.atlassian.clover.eclipse.feature_${eclipse.release.num}" src="${clover-eclipse.output}/features/com.atlassian.clover.eclipse.feature_${eclipse.release.num}.jar"/>
+        <unzip dest="${eclipse.home}/features/com.atlassian.clover.eclipse.ant.feature_${eclipse.release.num}" src="${clover-eclipse.output}/features/com.atlassian.clover.eclipse.ant.feature_${eclipse.release.num}.jar"/>
+    </target>
+    <target name="clover-eclipse.install.core" depends="clover-eclipse.pkg">
+        <delete dir="${eclipse.home}/plugins" includes="com.atlassian.clover.eclipse.core_*.jar"/>
+        <copy todir="${eclipse.home}/plugins">
+            <fileset dir="${clover-eclipse.output}/plugins" includes="com.atlassian.clover.eclipse.core_${eclipse.release.num}.jar"/>
+        </copy>
+    </target>
+    <target name="clover-eclipse.install.testoptimization" depends="clover-eclipse.pkg">
+        <delete dir="${eclipse.home}/plugins" includes="com.atlassian.clover.eclipse.testopt_*.jar"/>
+        <copy todir="${eclipse.home}/plugins">
+            <fileset dir="${clover-eclipse.output}/plugins" includes="com.atlassian.clover.eclipse.testopt_${eclipse.release.num}.jar"/>
+        </copy>
+    </target>
+    <target name="clover-eclipse.install.ant" depends="clover-eclipse.pkg">
+        <delete dir="${eclipse.home}/plugins" includes="com.atlassian.clover.eclipse.ant_*.jar"/>
+        <unzip dest="${eclipse.home}/plugins/com.atlassian.clover.eclipse.ant_${eclipse.release.num}" src="${clover-eclipse.output}/plugins/com.atlassian.clover.eclipse.ant_${eclipse.release.num}.jar"/>
+    </target>
+    <target name="clover-eclipse.install.runtime" depends="clover-eclipse.pkg">
+        <delete dir="${eclipse.home}/plugins" includes="com.atlassian.clover.eclipse.runtime_*"/>
+        <unzip src="${clover-eclipse.output}/plugins/com.atlassian.clover.eclipse.runtime_${eclipse.release.num}.jar" dest="${eclipse.home}/plugins/com.atlassian.clover.eclipse.runtime_${eclipse.release.num}"/>
+    </target>
+
+    <target name="check.version.format">
+        <condition property="eclipse.release.num.ok">
+          <matches string="${eclipse.release.num}" pattern="^[0-9]?\.[0-9]?\.[0-9]*\.(([a-b][1-9][0-9]*-)|v)[0-9]{14}+(-dev[0-9a-zA-Z]*)?$"/>
+        </condition>
+        <fail message="The eclipse release number format is invalid: ${eclipse.release.num} - it must be of the form 1.2.3.v20080101010101 for full releases, 1.2.3.v20080101010101-devXYZ for dev release, 1.2.3.a1-20080101010101 for alpha releases or 1.2.3.b1-20080101010101 for beta releases"
+              unless="eclipse.release.num.ok"/>
+    </target>
+
+    <macrodef name="build-plugin">
+        <attribute name="eclipse-version"/>
+        <sequential>
+            <echo message="Building for Eclipse version @{eclipse-version}"/>
+            <ant target="clover-eclipse.clean"/>
+
+            <ant dir="${clover-eclipse.base}/com.atlassian.clover.eclipse.core" target="eclipse.build">
+                <property name="eclipse.lib.version" value="@{eclipse-version}"/>
+            </ant>
+            <ant dir="${clover-eclipse.base}/com.atlassian.clover.eclipse.testopt" target="eclipse.build">
+                <property name="eclipse.lib.version" value="@{eclipse-version}"/>
+            </ant>
+            <ant dir="${clover-eclipse.base}/com.atlassian.clover.eclipse.runtime" target="eclipse.build">
+                <property name="eclipse.lib.version" value="@{eclipse-version}"/>
+            </ant>
+            <ant dir="${clover-eclipse.base}/com.atlassian.clover.eclipse.branding" target="eclipse.build">
+                <property name="eclipse.lib.version" value="@{eclipse-version}"/>
+            </ant>
+            <ant dir="${clover-eclipse.base}/com.atlassian.clover.eclipse.ant" target="eclipse.build">
+                <property name="eclipse.lib.version" value="@{eclipse-version}"/>
+            </ant>
+            <ant dir="${clover-eclipse.base}/com.atlassian.clover.eclipse.feature" target="eclipse.build">
+                <property name="eclipse.lib.version" value="@{eclipse-version}"/>
+            </ant>
+            <ant dir="${clover-eclipse.base}/com.atlassian.clover.eclipse.ant.feature" target="eclipse.build">
+                <property name="eclipse.lib.version" value="@{eclipse-version}"/>
+            </ant>
+            <ant dir="${clover-eclipse.base}/com.atlassian.clover.eclipse.updatesite" target="eclipse.build">
+                <property name="eclipse.lib.version" value="@{eclipse-version}"/>
+            </ant>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="package-plugin">
+        <attribute name="eclipse-version"/>
+        <sequential>
+            <echo message="Packaging for Eclipse version @{eclipse-version}"/>
+
+            <ant dir="${clover-eclipse.base}/com.atlassian.clover.eclipse.core" target="eclipse.pkg">
+                <property name="eclipse.lib.version" value="@{eclipse-version}"/>
+            </ant>
+            <ant dir="${clover-eclipse.base}/com.atlassian.clover.eclipse.testopt" target="eclipse.pkg">
+                <property name="eclipse.lib.version" value="@{eclipse-version}"/>
+            </ant>
+            <ant dir="${clover-eclipse.base}/com.atlassian.clover.eclipse.runtime" target="eclipse.pkg">
+                <property name="eclipse.lib.version" value="@{eclipse-version}"/>
+            </ant>
+            <ant dir="${clover-eclipse.base}/com.atlassian.clover.eclipse.branding" target="eclipse.pkg">
+                <property name="eclipse.lib.version" value="@{eclipse-version}"/>
+            </ant>
+            <ant dir="${clover-eclipse.base}/com.atlassian.clover.eclipse.ant" target="eclipse.pkg">
+                <property name="eclipse.lib.version" value="@{eclipse-version}"/>
+            </ant>
+            <ant dir="${clover-eclipse.base}/com.atlassian.clover.eclipse.feature" target="eclipse.pkg">
+                <property name="eclipse.lib.version" value="@{eclipse-version}"/>
+            </ant>
+            <ant dir="${clover-eclipse.base}/com.atlassian.clover.eclipse.ant.feature" target="eclipse.pkg">
+                <property name="eclipse.lib.version" value="@{eclipse-version}"/>
+            </ant>
+            <ant dir="${clover-eclipse.base}/com.atlassian.clover.eclipse.updatesite" target="eclipse.pkg">
+                <property name="eclipse.lib.version" value="@{eclipse-version}"/>
+            </ant>
+        </sequential>
+    </macrodef>
+
+    <target name="clover-eclipse.build" depends="clover-core.build, clover-eclipse-libs.initialize">
+        <build-plugin eclipse-version="4.2.2"/>
+    </target>
+
+    <target name="clover-eclipse.build.all.versions" depends="clover-core.build, clover-eclipse-libs.initialize">
+        <build-plugin eclipse-version="4.2.2"/>
+        <build-plugin eclipse-version="4.3.1"/>
+        <build-plugin eclipse-version="4.4.0"/>
+        <build-plugin eclipse-version="4.5.1"/>
+        <build-plugin eclipse-version="4.6.0"/>
+    </target>
+
+    <!-- The dependency on clover-ant.pkg is required here. We need the clover ant
+         jar instrumented as we distribute that in the ant plugin. -->
+    <target name="clover-eclipse.pkg" depends="check.version.format, clover-core.build, clover-eclipse-libs.initialize">
+        <package-plugin eclipse-version="4.2.2"/>
+    </target>
+
+    <target name="clover-eclipse.clean">
+        <delete dir="${clover-eclipse.output}"/>
+    </target>
+
+    <target name="clover-eclipse.test.build"/>
+
+    <target name="clover-eclipse.test" depends="clover-eclipse.build, clover-eclipse.test.build">
+        <ant dir="${clover-eclipse.base}/com.atlassian.clover.eclipse.core" target="eclipse.test"/>
+        <ant dir="${clover-eclipse.base}/com.atlassian.clover.eclipse.branding" target="eclipse.test"/>
+        <ant dir="${clover-eclipse.base}/com.atlassian.clover.eclipse.feature" target="eclipse.test"/>
+        <ant dir="${clover-eclipse.base}/com.atlassian.clover.eclipse.updatesite" target="eclipse.test"/>
+    </target>
+
+	<target name="clover-eclipse.prod" depends="check.version.format">
+		<releasepkg module="eclipse"/>
+	</target>
+
+    <target name="clover-eclipse.prod.build.check" depends="prod.java16.build.check"/>
+
+    <target name="clover-eclipse.repkg"/>
+</project>

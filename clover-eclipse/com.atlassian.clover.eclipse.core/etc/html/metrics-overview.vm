@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <title>$pageTitle</title>
+    <LINK REL ="stylesheet" TYPE="text/css" HREF="${rootRelPath}style.css" TITLE="Style">
+    <LINK REL ="stylesheet" TYPE="text/css" HREF="${rootRelPath}roundedcorners.css" TITLE="Style">
+</head>
+<body>
+<div class="tags roundedLarge">
+	<b class="ctop $cnrclass"><b class="cb1"></b><b class="cb2"></b><b class="cb3"></b><b class="cb4"></b></b>
+	<div class="roundedContent" style="padding: 5px;">
+	#foreach($class in $axis1.classes)
+
+		  #set($link = $renderUtil.getSrcFileLink(true, $class))
+		  #set($fontSize = $renderUtil.getFontSize($axis1, $class, $9, $40))
+		  #set($title1 = "${axis1.calculator.name} - ${axis1.calculator.getFormattedValue($class)}")
+
+		  #set($color = $renderUtil.getColor($axis2, $class))
+		  #set($title2 = "${axis2.calculator.name} - ${axis2.calculator.getFormattedValue($class)}")
+		<a href="${link}" class="tag"
+		   style="font-size: ${fontSize}px;color:#${color}"
+		   title="$title1 #if($title2), $title2 #end">$class.name</a>
+		<span class="tag"
+			   style="font-size: ${fontSize}px;color:#${color}"
+			   title="$title1 #if($title2), $title2 #end">$class.name</span>
+	#end
+	</div>
+	<b class="cbottom"><b class="cb4"></b><b class="cb3"></b><b class="cb2"></b><b class="cb1"></b></b>
+</div>
+</body>
+</html>

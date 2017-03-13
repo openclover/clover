@@ -1,0 +1,7 @@
+<h1 class="aui-h2-clover">
+    #if ($projectInfo && !$packageInfo)
+        Project overview
+    #else
+        ${stringUtils.capitalize($headerMetrics.type)} $headerMetrics.owner.name
+    #end
+</h1>

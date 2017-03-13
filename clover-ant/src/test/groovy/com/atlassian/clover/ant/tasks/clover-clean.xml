@@ -1,0 +1,46 @@
+<project basedir="" default="" name="">
+
+    <taskdef name="clover-clean" classname="com.atlassian.clover.ant.tasks.CloverCleanTask"/>
+    <taskdef name="clover-setup" classname="com.atlassian.clover.ant.tasks.CloverSetupTask"/>
+
+    <target name="with.clover">
+        <clover-setup initstring="${clover-initstring}"/>
+    </target>
+
+    <target name="testKeepDBTrue" depends="with.clover">
+        <clover-clean keepdb="true"/>
+    </target>
+
+    <target name="testKeepDBFalse" depends="with.clover">
+        <clover-clean keepdb="false"/>
+    </target>
+
+    <target name="testKeepSnapshotTrue" depends="with.clover">
+        <clover-clean keepSnapshot="true"/>
+    </target>
+
+    <target name="testKeepSnapshotFalse" depends="with.clover">
+        <clover-clean keepSnapshot="false"/>
+    </target>
+
+    <target name="testVerbose" depends="with.clover">
+        <clover-clean keepdb="false" verbose="true"/>
+    </target>
+
+    <target name="testHaltOnError" depends="with.clover">
+        <clover-clean haltOnError="true"/>
+    </target>
+
+    <target name="testNoSetup">
+        <clover-clean/>
+    </target>
+
+    <target name="setUp">
+
+    </target>
+
+    <target name="tearDown">
+
+    </target>
+
+</project>

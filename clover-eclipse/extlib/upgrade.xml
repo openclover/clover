@@ -1,0 +1,79 @@
+<project name="Clover for Eclipse Jar Upgrader" basedir="." default="eclipse.upgrade">
+    <description>
+    Script upgrades the Clover for Eclipse with new versions of third party libraries:
+       * ASM
+       * KTreeMap
+
+    How to use it:
+    ==============
+        1) When you extract the Clover-for-Eclipse update site you shall have a following directory layout
+            /features
+            /plugins
+            /extlib
+                upgrade.xml - this script
+            site.xml
+        2) To update KTreeMap:
+             - checkout source code from https://bitbucket.org/atlassian/ktreemap
+             - modify KTreeMap source code as needed, bump version number in pom.xml, run 'mvn install' to create a JAR
+             - update version number in ktreemap.ver property in this file
+        3) To update ASM:
+             - update version number in asm5.ver
+        4) Put proper version number in clover.eclipse.release.num property
+        5) Run 'ant -f upgrade.xml'
+             - script will download KTreeMap and ASM and repack Clover-for-Eclipse JAR
+
+    References:
+    ===========
+        If you want to upgrade third party libraries used by Clover Core (they are also used by Clover for Eclipse),
+        please have a look at upgrade script in Clover-for-Ant and modify it to upgrade the following plugins:
+          com.atlassian.clover.eclipse.ant_*.jar/clover-eclipse-ant.jar
+          com.atlassian.clover.eclipse.core_*.jar
+          com.atlassian.clover.eclipse.runtime_*.jar/clover-runtime.jar
+    </description>
+
+    <property name="asm5.ver" value="5.0.3"/>
+    <property name="ktreemap.ver" value="1.1.0-atlassian-01"/> <!-- keep in sync with pom.xml from ktreemap -->
+
+    <!-- Location of Clover-for-Eclipse core plugin -->
+    <property name="clover.eclipse.release.num" value="4.0.6.v20150918000000"/>
+    <property name="clover.eclipse.jar" location="../plugins/com.atlassian.clover.eclipse.core_${clover.eclipse.release.num}.jar"/>
+
+    <target name="init">
+        <mkdir dir="target"/>
+        <get src="http://repo1.maven.org/maven2/org/apache/maven/maven-ant-tasks/2.1.3/maven-ant-tasks-2.1.3.jar"
+             dest="target/maven-ant-tasks-2.1.3.jar"/>
+        <typedef resource="org/apache/maven/artifact/ant/antlib.xml"
+                 classpath="target/maven-ant-tasks-2.1.3.jar"/>
+
+        <!-- Build KTreeMap from sources -->
+        <mvn mavenversion="3.2.5">
+            <arg value="clean"/>
+            <arg value="install"/>
+        </mvn>
+
+        <!-- Fetch dependencies -->
+        <!-- Note: don't use encrypted passwords in .m2/settings.xml (they're unsupported by the dependencies task) -->
+        <dependencies>
+            <dependency groupid="org.ow2.asm" artifactid="asm" version="${asm5.ver}"/>
+            <dependency groupid="net.sf.jtreemap" artifactid="ktreemap" version="${ktreemap.ver}"/>
+        </dependencies>
+    </target>
+
+    <!-- Target for repackaging Clover-for-Eclipse -->
+    <target name="eclipse.upgrade" depends="init">
+        <property name="clover.eclipse.jar.upgraded" location="${clover.eclipse.jar}.tmp"/>
+
+        <echo message="Repackaging ${clover.eclipse.jar}"/>
+        <zip destfile="${clover.eclipse.jar.upgraded}">
+            <!-- Take everything from original JAR except KTreeMap and ASM -->
+            <zipfileset src="${clover.eclipse.jar}"
+                        excludes="net/sf/jtreemap/**/*.class, org/objectweb/asm/**/*.class"/>
+            <!-- Add new KTreeMap and ASM -->
+            <zipfileset src="${net.sf.jtreemap:ktreemap:jar}" includes="**/*.class"/>
+            <zipfileset src="${org.ow2.asm:asm:jar}" includes="**/*.class"/>
+        </zip>
+
+        <!-- Replace original jar -->
+        <move file="${clover.eclipse.jar.upgraded}" tofile="${clover.eclipse.jar}" overwrite="true"/>
+    </target>
+</project>

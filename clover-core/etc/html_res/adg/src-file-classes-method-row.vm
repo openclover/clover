@@ -1,0 +1,14 @@
+## note: this is a heavily used loop, using no whitespace to reduce report size
+<tr id="${class.name}-${rowIndex}">
+<td id="summary-${method.startLine}-${method.startColumn}">
+## either display a static test name (if available) or a method name
+#if ($method.staticTestName) #set ($displayedMethodName = $method.staticTestName) #else #set ($displayedMethodName = $method.name) #end
+<span class="sortValue">${renderUtil.truncateStart($displayedMethodName)}</span>
+${renderUtil.getMethodIndentiation($method)}&#160;&#160;<a href="?line=29#${method.startLine}" title="${renderUtil.htmlEscapeStr($displayedMethodName)}" name="sl-${method.startLine}" onclick="closeDialogAndScrollTo('dialog-${class.name}', '${method.startLine}');">${renderUtil.truncateStart($displayedMethodName)}</a>
+</td>
+<td align="right"><span class="sortValue">$method.startLine</span>${method.startLine}</td>
+#foreach ($col in $columns)
+#set($methodMetrics = $!{renderUtil.metricsFor($method)})
+$col.init($methodMetrics)<td class="$col.style" align="right"><span class="sortValue">$col.sortValue()</span>$col.render()</td>$col.reset()
+#end ## COLUMN LOOP
+</tr>

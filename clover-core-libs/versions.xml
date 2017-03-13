@@ -1,0 +1,19 @@
+<project name="clover-core-libs-versions">
+    <!-- Versions of third party libraries used by Clover -->
+    <property name="annotations.ver" value="13.0"/>
+    <property name="antlr.ver" value="2.7.7"/>
+    <property name="cajo.ver" value="1.117"/>
+    <property name="commons-codec.ver" value="1.9"/>
+    <property name="commons-collections.ver" value="3.2.1"/>
+    <property name="commons-lang.ver" value="2.6"/>
+    <property name="commons-lang3.ver" value="3.3.2"/>
+    <property name="fastutil.ver" value="4.4.3"/>
+    <property name="gson.ver" value="1.3"/>
+    <property name="guava.ver" value="18.0"/>
+    <property name="itext.ver" value="2.0.1"/> <!-- Don't use higher than 2.1.7. Later are based on GPL! -->
+    <property name="jcommon.ver" value="1.0.23"/>
+    <property name="jdom.ver" value="1.0"/>
+    <property name="jfreechart.ver" value="1.0.19"/>
+    <property name="log4j.ver" value="1.2.17"/>
+    <property name="velocity.ver" value="1.7"/>
+</project>

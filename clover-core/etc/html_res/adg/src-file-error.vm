@@ -1,0 +1,25 @@
+#parse("html_res/adg/html-head.vm")
+
+#parse("html_res/adg/html-body-start.vm")
+
+#parse("html_res/adg/page-content-header.vm")
+#parse("html_res/adg/container-statistics.vm")
+#parse("html_res/adg/warnings.vm")
+
+<div class="aui-message aui-message-warning">
+    Syntax error detected in source file: <br/>
+    $filename <br/>
+    $message
+</div>
+
+<table  cellspacing="0" cellpadding="0" class="srcView">
+    #foreach ($line in $srclines)
+    <tr>
+        <td align="right" class="lineCount NoHilight">$velocityCount</td>
+        <td align="right" class="lineCount NoHilight">&#160;</td>
+        <td class="srcCell"><code>$line</code></td>
+    </tr>
+    #end
+</table>
+
+#parse("html_res/adg/html-body-end.vm")

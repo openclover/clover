@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites>
+    <testsuite errors="0" failures="0" hostname="hostname" name="Test1" package="com.cenqua.test" tests="3" time="20.362"
+               timestamp="2007-06-13T03:33:04">
+
+        <testcase classname="com.cenqua.test.Test1" name="method0" time="10"/>
+        <testcase classname="com.cenqua.test.Test1" name="method1" time="10"/>
+        <testcase classname="com.cenqua.test.Test1" name="method2" time="10"/>
+        <testcase classname="com.cenqua.test.Test1" name="methodDuplicate" time="10"/>
+        <testcase classname="com.cenqua.test.Test1" name="methodDuplicate" time="5"/>
+    </testsuite>
+
+    <testsuite errors="0" failures="0" hostname="hostname" name="Test2" package="com.cenqua.test" tests="3" time="20.362"
+               timestamp="2007-06-13T03:33:05">
+
+        <testcase classname="com.cenqua.test.Test2" name="method0" time="20.222"/>
+        <testcase classname="com.cenqua.test.Test2" name="method1" time="20.222"/>
+        <testcase classname="com.cenqua.test.Test2" name="method2" time="20.222"/>
+    </testsuite>
+    
+    <testsuite errors="1" failures="1" hostname="hostname" name="Test3" package="" tests="3" time="20.362"
+               timestamp="2007-06-13T03:33:06">
+
+        <testcase classname="Test3" name="method0" time="200.2"/>
+        <testcase classname="Test3" name="method1" time="200.2"/>
+        <testcase classname="Test3" name="method2" time="200.2"/>
+        <testcase classname="Test3" name="methodFailure" time="200.2">
+            <failure message="This test failed.">Full stack strace of failure.</failure>
+        </testcase>
+        <testcase classname="Test3" name="methodError" time="200.2">
+            <error message="This test had an error.">Full stack strace of error.</error>
+        </testcase>
+    </testsuite>
+    
+    <testsuite errors="0" failures="0" hostname="hostname" name="Test5" package="com.cenqua.test" tests="3" time="20.362"
+               timestamp="2007-06-13T03:33:05">
+
+        <testcase classname="com.cenqua.test.Test4" name="method0" time="30.333"/>
+        <testcase classname="com.cenqua.test.Test4" name="method1" time="30.333"/>
+        <testcase classname="com.cenqua.test.TestNotFound" name="method2" time="30.333"/>
+    </testsuite>
+</testsuites>

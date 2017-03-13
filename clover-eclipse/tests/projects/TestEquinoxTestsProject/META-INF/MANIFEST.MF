@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: TestEquinoxTestsProject Plug-in
+Bundle-SymbolicName: TestEquinoxTestsProject
+Bundle-Version: 1.0.0
+Bundle-Activator: testequinoxtestsproject.Activator
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Import-Package: org.osgi.framework;version="1.3.0"
+Require-Bundle: org.junit,
+ TestEquinoxProject;bundle-version="1.0.0"

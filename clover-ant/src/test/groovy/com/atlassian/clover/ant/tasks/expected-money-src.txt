@@ -1,0 +1,1 @@
+<td align="right" class="coverageCount Good hitByFailedTest" onclick="return showTestsForLine(this, 63, 'Tests that hit divide(int)&#160;:&#160;IMoney');"

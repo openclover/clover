@@ -1,0 +1,22 @@
+<div>
+    Metrics from sub-packages:
+    #if ($currentHorizontalNav == "Test")
+        #set ($pkgTogglePrefix = "testsrc-")
+    #else
+        #set ($pkgTogglePrefix = "")
+    #end
+    <p class="aui-buttons">
+        <a href="${pkgTogglePrefix}pkg-summary.html"
+           class="aui-button#if ($showPackageMetrics == "separated") active#end"
+           id="simple-tooltip"
+           title="Calculate code metrics from sub-packages separately">
+            Separated
+        </a>
+        <a href="${pkgTogglePrefix}agg-pkgs.html"
+           class="aui-button#if ($showPackageMetrics == "aggregated") active#end"
+           id="simple-tooltip"
+           title="Calculate a sum of metrics from a given package and all its sub-packages">
+            Aggregated
+        </a>
+    </p>
+</div>

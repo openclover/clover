@@ -1,0 +1,7 @@
+#set($pcWidth = $renderUtil.getPcWidth($pccovered))
+#set($pcuncovered = $renderUtil.getRemainderPercentStr($pccovered))
+#set($covered = $renderUtil.getPercentStr($pccovered))
+<div style="display: table; width: 100%">
+<div class="barGraphValue"><span class="sortValue">$sortValue</span>$renderUtil.getPercentStr($pccovered)</div><div style="display: table-cell">
+#if ($empty)<div title="Empty" class="barEmpty" style="min-width:${width}px;"></div>#else <div title="$covered Covered"  style="min-width:${width}px;" class="barNegative contribBarNegative $customBarNegative"><div class="barPositive contribBarPositive $customBarPositive" style="width:${pcWidth}"></div></div>#end
+</div></div>

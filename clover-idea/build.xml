@@ -1,0 +1,341 @@
+<project name="clover-idea" basedir="." default="clover-idea.build">
+
+    <dirname property="clover-idea.base" file="${ant.file.clover-idea}"/>
+    <import file="../clover-core/build.xml"/>
+    <import file="../clover-ant/build.xml"/>
+
+    <import file="clover-idea-libs/build.xml"/>
+    <import file="clover-idea-jps/build.xml"/>
+    <import file="clover-idea-config/build.xml"/>
+    <import file="clover-idea-coverage/build.xml"/>
+    <import file="clover-idea-optimizer/build.xml"/>
+    <import file="clover-idea-project/build.xml"/>
+    <import file="clover-idea-util/build.xml"/>
+
+    <property name="clover-idea.output" location="${clover-idea.base}/target"/>
+    <property name="clover-idea.output.classes" location="${clover-idea.output}/classes"/>
+    <property name="clover-idea.output.gensources" location="${clover-idea.output}/src-generated"/>
+    <property name="clover-idea.output.testclasses" location="${clover-idea.output}/test-classes"/>
+
+    <property name="clover-idea.jar" location="${clover-idea.output}/clover-idea.jar"/>
+    <property name="clover-idea.jarjar.jar" location="${clover-idea.output}/clover-idea-jarjar.jar"/>
+
+    <fileset id="clover-idea.3rdparty.rights.fileset" dir="${clover-idea.base}/etc">
+        <include name="licenses/*"/>
+    </fileset>
+
+    <target name="clover-idea.init" depends="common.init, clover-idea-libs.initialize">
+        <mkdir dir="${clover-idea.output.gensources}"/>
+        <mkdir dir="${clover-idea.output}/pkg"/>
+        <mkdir dir="${clover-idea.output.classes}"/>
+
+        <property name="build.with.idea.home" value="${idea13.home}"/>
+
+        <maven-resolve groupId="com.atlassian.clover" artifactId="clover-jtreemap" version="1.1.0"/>
+
+        <path id="clover-idea.libs">
+            <pathelement location="${clover-core.output.classes}"/>
+            <pathelement location="${clover-runtime.output.classes}"/>
+            <fileset refid="clover-core-libs.runtime.jarset"/>
+            <pathelement location="${com.atlassian.clover:clover-jtreemap:jar}"/>
+            <!-- sub-modules, note that they must be built before -->
+            <pathelement location="${clover-idea-jps.jar}"/>
+            <pathelement location="${clover-idea-config.jar}"/>
+            <pathelement location="${clover-idea-coverage.jar}"/>
+            <pathelement location="${clover-idea-optimizer.jar}"/>
+            <pathelement location="${clover-idea-project.jar}"/>
+            <pathelement location="${clover-idea-util.jar}"/>
+        </path>
+
+        <path id="clover-idea.testpath">
+            <pathelement location="${junit.jar}"/>
+            <pathelement location="${hamcrest.jar}"/>
+            <pathelement location="${mockito.jar}"/>
+            <path refid="clover-idea.libs"/>
+            <pathelement location="${clover-idea.output.classes}"/>
+            <pathelement location="${clover-idea.base}/etc"/>
+        </path>
+    </target>
+
+    <target name="clover-idea.version" depends="clover-idea.init">
+        <mkdir dir="${clover-idea.output.gensources}/com/atlassian/clover/idea"/>
+        <copy file="${clover-idea.base}/src/com/atlassian/clover/idea/PluginVersionInfo.in"
+              tofile="${clover-idea.output.gensources}/com/atlassian/clover/idea/PluginVersionInfo.java"
+              overwrite="false">
+            <filterset>
+                <filterset refid="core.version.filterset"/>
+                <filter token="IDEA_RELEASE_NUM" value="${idea.release.num}"/>
+                <filter token="EVAL_LICENSE" value="${ide.eval.license}"/>
+            </filterset>
+        </copy>
+
+        <copy todir="${clover-idea.output}/pkg" overwrite="true">
+            <fileset dir="${clover-idea.base}/etc" includes="META-INF/plugin.xml"/>
+            <filterset>
+                <filterset refid="core.version.filterset"/>
+                <filter token="IDEA_RELEASE_NUM" value="${idea.release.num}"/>
+            </filterset>
+        </copy>
+
+        <copy todir="${clover-idea.output}"
+              overwrite="true">
+            <fileset dir="${clover-idea.base}/etc/autoupdate"/>
+            <filterset>
+                <filterset refid="core.version.filterset"/>
+                <filter token="IDEA_RELEASE_NUM" value="${idea.release.num}"/>
+            </filterset>
+        </copy>
+    </target>
+
+
+    <target name="clover-idea.build" depends="clover-idea.version, clover-ant.initjar,
+                    clover-idea-jps.pkg,
+                    clover-idea-config.pkg, clover-idea-coverage.pkg,
+                    clover-idea-optimizer.pkg, clover-idea-project.pkg,
+                    clover-idea-util.pkg">
+        <!-- compile main code using libraries from the oldest supported IDEA version  -->
+        <javac destdir="${clover-idea.output.classes}"
+               debug="on"
+               deprecation="on"
+               target="${jdk.target}"
+               source="${source.level}"
+               bootclasspathref="java.rt.path"
+               includeAntRuntime="false">
+            <classpath>
+                <path refid="clover-idea.libs"/>
+                <fileset dir="${build.with.idea.home}/lib" includes="*.jar"/>
+            </classpath>
+            <src path="${clover-idea.base}/src"/>
+            <src path="${clover-idea.output.gensources}"/>
+        </javac>
+    </target>
+
+    <target name="clover-idea.pkg" depends="clover-idea.build,
+                    clover-idea-jps.pkg,
+                    clover-idea-config.pkg, clover-idea-coverage.pkg,
+                    clover-idea-optimizer.pkg, clover-idea-project.pkg,
+                    clover-idea-util.pkg">
+        <jar destfile="${clover-idea.jar}">
+            <!-- add clover-idea classes -->
+            <fileset dir="${clover-idea.output.classes}"/>
+            <!-- add clover-idea's sub-modules -->
+            <zipgroupfileset file="${clover-idea-jps.jar}"/>
+            <zipgroupfileset file="${clover-idea-config.jar}"/>
+            <zipgroupfileset file="${clover-idea-coverage.jar}"/>
+            <zipgroupfileset file="${clover-idea-optimizer.jar}"/>
+            <zipgroupfileset file="${clover-idea-project.jar}"/>
+            <zipgroupfileset file="${clover-idea-util.jar}"/>
+            <!-- add clover-core classes and repackaged third party libraries -->
+            <zipgroupfileset file="${clover-ant.jar}"/>
+            <!-- add clover-idea third party libraries -->
+            <zipgroupfileset file="${com.atlassian.clover:clover-jtreemap:jar}"/>
+            <!-- add third party licenses, note that licences from core are already in clover-ant.jar -->
+            <fileset refid="clover-idea.3rdparty.rights.fileset"/>
+            <!-- add icons and other stuff -->
+            <fileset dir="${clover-idea.base}/etc" includes="icons/**/*" excludes="icons/**/*.psd"/>
+            <fileset dir="${clover-idea.base}/etc" includes="l10n/*"/>
+            <fileset dir="${clover-idea.output}/pkg" includes="**/*"/>
+            <!-- add the utility for repackaging third party libraries -->
+            <zipfileset prefix="extlib" dir="${clover-idea.base}">
+                <include name="clover-jtreemap/**"/>
+                <exclude name="**/target/**"/>
+            </zipfileset>
+        </jar>
+    </target>
+
+    <target name="clover-idea.jarjar.changeid" if="clover-idea.jarjar.changeid">
+        <replace file="${clover-idea.output}/jarjar/META-INF/plugin.xml"
+                 token="Clover for IDEA" value="Clover for IDEA JarJar"/>
+    </target>
+
+    <target name="clover-idea.repkg" depends="clover-idea.pkg">
+        <unjar src="${clover-idea.jar}"
+               dest="${clover-idea.output}/jarjar"/>
+        <replace file="${clover-idea.output}/jarjar/META-INF/plugin.xml"
+                 token="com.atlassian" value="repkg.com.atlassian"/>
+        <replace dir="${clover-idea.output}/jarjar/clover/org/apache/velocity/runtime/defaults"
+                 token="clover.org.apache.velocity" value="repkg.clover.org.apache.velocity"/>
+        <antcall target="clover-idea.jarjar.changeid"/>
+
+        <jarjar jarfile="${clover-idea.jarjar.jar}">
+            <fileset dir="${clover-idea.output}/jarjar"/>
+            <zap pattern="org.apache.commons.collections.**"/>
+            <rule pattern="com.atlassian.**" result="repkg.@0"/> <!-- update com.atlassian.clover.idea.util.jdom.JDOMExternUtil when prefix changes -->
+            <rule pattern="com.keypoint.**" result="repkg.@0"/>
+            <rule pattern="com.lowagie.**" result="repkg.@0"/>
+            <rule pattern="com_atlassian_**" result="repkg_@0"/>
+            <rule pattern="clover.com.**" result="repkg.@0"/>
+            <rule pattern="clover.edu.**" result="repkg.@0"/>
+            <rule pattern="clover.it.**" result="repkg.@0"/>
+            <rule pattern="clover.org.**" result="repkg.@0"/>
+            <rule pattern="clover.net.**" result="repkg.@0"/>
+            <rule pattern="clover.antlr.**" result="repkg.@0"/>
+        </jarjar>
+    </target>
+
+    <!-- clean sub-modules as well -->
+    <target name="clover-idea.clean" depends="clover-idea-jps.clean,
+            clover-idea-config.clean, clover-idea-coverage.clean,
+            clover-idea-optimizer.clean, clover-idea-project.clean,
+            clover-idea-util.clean">
+        <delete dir="${clover-idea.output}"/>
+    </target>
+
+    <!-- Note: does not work with 'with.clover' target -->
+    <target name="clover-idea.testproject" depends="clover-ant.jar">
+        <property name="clover-idea.testproject.base" value="${clover-idea.base}/testproject"/>
+        <property name="clover-idea.testproject.output" value="${clover-idea.output}/testproject"/>
+        <ant dir="${clover-idea.testproject.base}" target="clover.all" inheritall="false" inheritrefs="false">
+            <property name="build.dir" value="${clover-idea.testproject.output}"/>
+            <property name="clover.jar" value="${clover-ant.jar}"/>
+            <property name="repkg.clover.jar" value="${repkg.clover.jar}"/>
+            <property name="junit.jar" value="${junit.jar}"/>
+        </ant>
+    </target>
+
+    <target name="clover-idea.test.build" depends="clover-idea.build">
+        <mkdir dir="${clover-idea.output.testclasses}"/>
+        <!-- compile for the lowest version of IDEA supported -->
+        <javac destdir="${clover-idea.output.testclasses}"
+               debug="on"
+               deprecation="on"
+               target="${jdk.target}"
+               source="${source.level}"
+               bootclasspathref="java.rt.path"
+               encoding="UTF8"
+               includeAntRuntime="false">
+            <classpath>
+                <path refid="clover-idea.testpath"/>
+                <fileset dir="${build.with.idea.home}/lib" includes="*.jar"/>
+            </classpath>
+            <src path="${clover-idea.base}/test"/>
+        </javac>
+    </target>
+
+    <target name="clover-idea.test" depends="clover-idea.test.build, clover-idea.testproject,
+            clover-idea-jps.test,
+            clover-idea-config.test, clover-idea-coverage.test,
+            clover-idea-optimizer.test, clover-idea-project.test,
+            clover-idea-util.test">
+        <antcall target="clover-idea.test.jdk16" inheritrefs="true"/>
+        <antcall target="clover-idea.test.jdk17" inheritrefs="true"/>
+        <antcall target="clover-idea.test.jdk18" inheritrefs="true"/>
+    </target>
+
+    <target name="clover-idea.test.all.versions" depends="clover-idea.test.build, clover-idea.testproject,
+            clover-idea-jps.test.all.versions,
+            clover-idea-config.test.all.versions, clover-idea-coverage.test.all.versions,
+            clover-idea-optimizer.test.all.versions, clover-idea-project.test.all.versions,
+            clover-idea-util.test.all.versions">
+        <antcall target="clover-idea.test.all.versions.jdk16" inheritrefs="true"/>
+        <antcall target="clover-idea.test.all.versions.jdk17" inheritrefs="true"/>
+        <antcall target="clover-idea.test.all.versions.jdk18" inheritrefs="true"/>
+    </target>
+
+    <macrodef name="test-idea">
+        <attribute name="home"/>
+        <attribute name="reportID"/>
+        <attribute name="version"/>
+
+        <sequential>
+            <antcall target="_clover-idea.versiontest" inheritrefs="true">
+                <param name="test.with.idea.home" value="@{home}"/>
+                <param name="test.dir" value="${clover-idea.base}/test"/>
+                <param name="report.dir" value="${clover-idea.output}/test/@{reportID}/xml-report"/>
+                <param name="idea.expected.version" value="@{version}"/>
+            </antcall>
+        </sequential>
+    </macrodef>
+
+    <!-- Set of tests for IDEAs with JDK1.6 -->
+    <target name="clover-idea.test.jdk16" if="jdk16">
+        <test-idea home="${idea13.home}" reportID="idea13-jdk16" version="13.0"/>
+    </target>
+
+    <target name="clover-idea.test.all.versions.jdk16" if="jdk16">
+        <test-idea home="${idea13.home}" reportID="idea13-jdk16" version="13.0"/>
+        <test-idea home="${idea140.home}" reportID="idea140-jdk16" version="14.0.4"/>
+        <test-idea home="${idea141.home}" reportID="idea141-jdk16" version="14.1.7"/>
+        <test-idea home="${idea150.home}" reportID="idea150-jdk16" version="15.0.6"/>
+    </target>
+
+    <!-- Set of tests for IDEAs with JDK1.7 -->
+    <target name="clover-idea.test.jdk17" if="jdk17">
+        <test-idea home="${idea13.home}" reportID="idea13-jdk17" version="13.0"/>
+    </target>
+
+    <target name="clover-idea.test.all.versions.jdk17" if="jdk17">
+        <test-idea home="${idea13.home}" reportID="idea13-jdk17" version="13.0"/>
+        <test-idea home="${idea140.home}" reportID="idea140-jdk17" version="14.0.4"/>
+        <test-idea home="${idea141.home}" reportID="idea141-jdk17" version="14.1.7"/>
+        <test-idea home="${idea150.home}" reportID="idea150-jdk17" version="15.0.6"/>
+    </target>
+
+    <!-- Set of tests for IDEAs with JDK1.8 -->
+    <target name="clover-idea.test.jdk18" if="jdk18">
+        <test-idea home="${idea13.home}" reportID="idea13-jdk18" version="13.0"/>
+    </target>
+
+    <target name="clover-idea.test.all.versions.jdk18" if="jdk18">
+        <test-idea home="${idea13.home}" reportID="idea13-jdk18" version="13.0"/>
+        <test-idea home="${idea140.home}" reportID="idea140-jdk18" version="14.0.4"/>
+        <test-idea home="${idea141.home}" reportID="idea141-jdk18" version="14.1.7"/>
+        <test-idea home="${idea150.home}" reportID="idea150-jdk18" version="15.0.6"/>
+        <test-idea home="${idea16.home}" reportID="idea16-jdk18" version="2016.2"/>
+    </target>
+
+    <target name="_clover-idea.versiontest">
+        <echo message="Testing on version ${idea.expected.version} from ${test.with.idea.home}, reports to ${report.dir}"/>
+        <tempfile property="temp.dir" destDir="${clover-idea.output}/tmp" prefix="test"/>
+        <mkdir dir="${temp.dir}"/>
+        <mkdir dir="${report.dir}"/>
+        <mkdir dir="${clover-idea.output}/test/system/log"/>
+        <junit dir="${clover-idea.output}/test" fork="true" forkmode="once" printsummary="withOutAndErr"
+               failureproperty="clover-idea.test.failed" haltonerror="${fail.if.notpass}" haltonfailure="${fail.if.notpass}">
+            <jvmarg line="${test.fork.jvm.args}"/>
+            <jvmarg value="-Xbootclasspath/a:${test.with.idea.home}/lib/boot.jar"/>
+            <jvmarg value="-Xmx512M"/>
+            <jvmarg value="-ea"/>
+            <jvmarg value="-Xdebug"/>
+            <!--<jvmarg value="-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005"/>-->
+            <!--<jvmarg value="-Didea.plugins.path=${production.dest}"/>-->
+
+            <sysproperty key="java.awt.headless" value="true"/>
+            <sysproperty key="java.compiler" value="NONE"/>
+            <sysproperty key="idea.home.path" value="${test.with.idea.home}"/>
+            <sysproperty key="idea.config.path" value="${clover-idea.output}/test/config"/>
+            <sysproperty key="idea.system.path" value="${clover-idea.output}/test/system"/>
+            <sysproperty key="cij.idea.expected.version" value="${idea.expected.version}"/>
+            <sysproperty key="java.io.tmpdir" value="${temp.dir}"/>
+            <sysproperty key="idea.load.plugins.id" value="com.atlassian.clover"/>
+            <sysproperty key="java.library.path" value="${test.with.idea.home}/bin"/>
+
+            <classpath>
+                <path path="${java.class.path}"/>
+                <path refid="clover-idea.testpath"/> <!-- includes normal clover.jar -->
+                <pathelement location="${repkg.clover.jar}"/> <!-- repacked clover.jar -->
+                <pathelement location="${clover-idea.output.testclasses}"/>
+                <pathelement location="${clover-idea.testproject.output}"/>
+                <pathelement location="${test.with.idea.home}/bin"/>
+                <fileset dir="${test.with.idea.home}">
+                    <include name="lib/*.jar"/>
+                    <include name="plugins/*.jar"/>
+                    <include name="plugins/**/*.jar"/>
+                </fileset>
+            </classpath>
+            <batchtest todir="${report.dir}">
+                <fileset dir="${test.dir}" includes="${test.includes}" excludes="${test.excludes}"/>
+                <formatter type="xml"/>
+                <formatter type="plain"/>
+            </batchtest>
+        </junit>
+        <delete dir="${temp.dir}"/>
+    </target>
+
+    <target name="clover-idea.prod">
+        <releasepkg module="idea"/>
+    </target>
+
+    <target name="clover-idea.prod.build.check" depends="prod.java16.build.check"/>
+
+</project>

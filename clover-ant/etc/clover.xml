@@ -1,0 +1,117 @@
+<project>
+    
+    <property name="project.name" value="${ant.project.name}"/> <!-- By default, use the ant project name. -->
+    <property name="project.title" value="${project.name}"/> <!-- If no title is set, use the project.name. -->
+    <property name="test.target" value="test"/> <!-- The name of the target which runs the tests. -->
+    
+    <property name="clover.dir" value="${basedir}/clover"/> <!-- The base directory to output clover reports to -->
+    <property name="clover.historydir" value="${basedir}/.cloverhistory"/> <!-- The base directory for clover historical data -->
+    <property name="clover.historical.json" value="true"/> <!-- Whether or not to generate historical JSON data -->
+    <property name="clover.project.historydir" value="${clover.historydir}/${project.name}"/> <!-- The clover historical data directory for this project -->
+    <property name="clover.dest" value="${clover.dir}/${project.name}"/> <!-- The destination directory for clover reports for this project -->
+    <property name="clover.jar" location="${clover.home}/clover.jar"/> <!-- The location of the clover.jar -->
+    <property name="clover.span" value="1day"/> <!-- The span to use when creating historical reports and snapshots -->
+    <property name="clover.flushpolicy" value="directed"/> <!-- Use the directed flush policy by default -->
+    <property name="clover.flushinterval" value="100"/> <!-- Use the flush interval of 100ms by default -->
+    <property name="clover.snapshot.file" value="${clover.project.historydir}/clover.snapshot"/> <!-- The location of the snapshot file to use when saving optimized data -->
+
+    <taskdef resource="cloverlib.xml" classpath="${clover.jar}"/>
+
+    <clover-columns id="clover.columns">
+        <totalChildren/>
+        <avgMethodComplexity/>
+        <uncoveredElements format="raw"/>
+        <totalPercentageCovered format="longbar"/>
+    </clover-columns>
+
+    <target name="with.clover" description="Enables Clover on this build">
+        <clover-setup flushpolicy="${clover.flushpolicy}" flushinterval="${clover.flushinterval}"/>
+    </target>
+
+    <target name="clover.report" depends="clover.save-history" unless="clover.skip.report"
+            description="Same as clover.current, however a history report will also be created, using the historypoints in ${clover.project.historydir}.">
+        <clover-report>
+            <current outfile="${clover.dest}" title="${project.title}" span="${clover.span}">
+                <format type="html"/>
+                <columns refid="clover.columns"/>
+            </current>
+            <current outfile="${clover.dest}/clover.xml" span="${clover.span}">
+                <format type="xml"/>
+            </current>
+            <historical outfile="${clover.dest}" title="${project.title}" historydir="${clover.project.historydir}" span="${clover.span}" json="${clover.historical.json}">
+                <format type="html"/>
+                <overview/>
+                <metrics/>
+                <coverage/>
+                <added/>
+                <movers/>
+            </historical>
+        </clover-report>
+    </target>
+
+    <target name="clover.current" description="Generates an HTML and XML report to ${clover.dest} using ${project.title}." unless="clover.skip.current">
+        <clover-report>
+            <current outfile="${clover.dest}" title="${project.title}" span="${clover.span}">
+                <format type="html"/>
+                <columns refid="clover.columns"/>
+            </current>
+            <current outfile="${clover.dest}/clover.xml" span="${clover.span}">
+                <format type="xml"/>
+            </current>
+        </clover-report>
+    </target>
+
+    <target name="clover.json" description="Generates a JSON report to ${clover.dest}." unless="clover.skip.json">
+        <clover-report>
+            <current outfile="${clover.dest}" title="${project.title}" span="${clover.span}">
+                <format type="json"/>
+            </current>
+        </clover-report>
+    </target>
+
+    <target name="clover.xml" description="Generates an XML report to ${clover.dest}." unless="clover.skip.xml">
+        <clover-report>
+            <current outfile="${clover.dest}/clover.xml" title="${project.title}" span="${clover.span}">
+                <format type="xml"/>
+            </current>
+        </clover-report>
+    </target>
+
+    <target name="clover.log" description="Logs coverage results to the console." unless="clover.skip.log">
+        <clover-log/>
+    </target>
+
+    <target name="clover.save-history" unless="clover.skip.report"
+            description="Saves a history point to ${clover.project.historydir}">
+        <mkdir dir="${clover.project.historydir}"/>
+        <clover-historypoint historydir="${clover.project.historydir}" span="${clover.span}"/>
+    </target>
+
+    <target name="clover.all" depends="clover.clean, with.clover"
+            description="Runs clover.clean, with.clover, ${test.target}, clover.report from a single target.">
+        <antcall target="${test.target}" inheritrefs="true"/>
+        <antcall target="clover.report"/>
+        <antcall target="clover.log"/>
+    </target>
+
+    <target name="test">
+        <echo>
+            You must specify the name of the target which runs your tests.
+            e.g. -Dtest.target=run.tests
+        </echo>
+    </target>
+
+    <target name="clover.clean" description="Deletes the clover database.">
+        <clover-clean/>
+    </target>
+
+    <target name="clover.snapshot" description="Saves a snapshot file, ${clover.snapshot.file}, to assist with unit test optimization in a CI build.">
+        <clover-snapshot file="${clover.snapshot.file}" span="${clover.span}" />
+    </target>
+
+    <target name="clover.fullclean" depends="clover.clean" unless="clover.skip.fullclean"
+            description="Deletes the clover database, and the ${clover.dest} directory.">
+        <delete dir="${clover.dest}"/>
+    </target>
+
+</project>

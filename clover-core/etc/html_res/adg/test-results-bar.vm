@@ -1,0 +1,26 @@
+#set($pcPass = $renderUtil.getPercentStr($metrics.PcTestPasses))
+#set($pcFail = $renderUtil.getPercentStr($metrics.PcTestFailures))
+#set($pcError = $renderUtil.getPercentStr($metrics.PcTestErrors))
+#set($pcPassFail = $renderUtil.getPcWidth($metrics.PcTestPassesFailures))
+#set($pcFailsNonPass = $renderUtil.getRemainderPcWidth($metrics.PcTestErrors))
+
+## ensure that bars are at least 2px wide
+#if ($pcPassFail == "0%" && $metrics.numTestPasses != 0)
+    #set($pcPassFail = "2px")
+#end
+
+#set($empty = ($metrics.numTests == 0))
+#set($width = 40)
+<div style="display: table; width: 100%">
+    #if ($empty)
+        <div title="Empty" class="barEmpty" style="min-width: ${width}px;"></div>
+    #else
+        <div class="barGraphValue"><span class="sortValue">$metrics.PcTestPasses</span>${pcPass}</div> ## test pass percentage
+        <div style="display: table-cell">
+            #* green-red bar*#
+            <div title="$pcError Errors" style="min-width: ${width}px;" class="testBarError">
+                <div title="$pcPass of tests passed&lt;br/&gt;$pcFail of tests failed" class="testBarFail" style="width: $pcFailsNonPass"><div class="testBarPass" style="width: $pcPassFail"></div></div>
+            </div>
+        </div>
+    #end
+</div>

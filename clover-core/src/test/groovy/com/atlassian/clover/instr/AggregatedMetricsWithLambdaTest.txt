@@ -1,0 +1,47 @@
+import java.util.Iterator;
+
+/**
+ * Top-level class:
+ * statements = 5 (lambdaA + methodTwo), aggregatedStatements (... + class B) = 9
+ * complexity = 5 (lambdaA + methodTwo + methodThree), aggregatedComplexity (... + class B) = 8
+ */
+public class AggregatedMetrics {
+
+    /** Statements = aggregatedStatements = 1, complexity = aggregatedComplexity = 1 */
+    Runnable lambdaA = () -> System.out.println("Hello A");
+
+    /**
+     * Inner class, simple case with no nested classes
+     * statements = 4, aggregatedStatements = 4
+	 * complexity = 3, aggregatedComplexity = 3
+     */
+    class B {
+        /** statements = aggregatedStatements = 1, complexity = aggregatedComplexity = 1 */
+        Runnable lambdaB = () -> System.out.println("Hello B");
+
+        /** statements = 3, aggregatedStatements = 3, complexity = 2, aggregatedComplexity = 2 */
+        void methodOne() {
+            Runnable lambdaC = () -> System.out.println("Hello C");
+            int b = 2;
+        }
+
+    }
+
+    /**
+     * Double lambda + two statements in a method
+     * statements = 4, aggregated statements = 4
+     * complexity = 3, aggregated complexity = 3
+     */
+    void methodTwo() {
+        Callable<Runnable> lambdaC = () -> () -> System.out.println("Callable calls Runnable which calls run");
+        lambdaC.call();
+    }
+
+    /**
+     * Empty method.
+     * statements = aggregatedStatements = 0, complexity = aggregatedComplexity = 1
+     */
+    void methodThree() {
+
+    }
+}

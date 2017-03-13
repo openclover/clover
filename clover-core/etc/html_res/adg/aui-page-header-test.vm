@@ -1,0 +1,10 @@
+<div class="aui-page-header-main"><ol class="aui-nav aui-nav-breadcrumbs">
+    #* Project name - always *#
+    <li>#if ($packageName)<a href="${renderUtil.getRootRelPath($packageName)}dashboard.html">#else #* not available on a project level *#<a href="dashboard.html">#end Project ${projectInfo.name}</a></li>
+#if ($test || $childEntityType == "test") ## Package name - when on class level on below
+    <li><a href="test-pkg-summary.html">Package ${packageName}</a></li>
+#end
+#if ($test) ## Class name - when on test level
+    <li><a href="${renderUtil.getTestClassLink(false, $test.runtimeType)}">Class ${test.runtimeType.name}</a></li>
+#end
+</ol></div>

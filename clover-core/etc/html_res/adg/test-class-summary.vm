@@ -1,0 +1,100 @@
+#parse("html_res/adg/html-head.vm")
+
+#parse("html_res/adg/html-body-start-test.vm")
+
+#parse("html_res/adg/test-page-content-header.vm")
+#parse("html_res/adg/warnings.vm")
+#parse("html_res/adg/test-noresults-warning.vm")
+
+#set ($classPageURL = $currentPageURL.substring(5)) ## crop "test-"
+
+<div class="aui-tabs horizontal-tabs" id="tabs-file">
+    <ul class="tabs-menu">
+        <li class="menu-item">
+            <a href="$classPageURL"><strong>Source file</strong></a>
+        </li>
+        <li class="menu-item active-tab">
+            <a href="#tabs-file-test-results"><strong>Test results</strong></a>
+        </li>
+    </ul>
+    <div class="tabs-pane aui-tabs-pane-100-pcnt active-pane" id="tabs-file-test-results">
+        <div>&#160;</div>
+
+
+#set ($entityText = ${entity.name})
+#set($metrics = $entity.metrics)
+
+#* render overall summary coverage graph *#
+<table id="testClassSummaryTable" class="aui">
+<thead>
+    <tr>
+        <th width="40%"><label>$title</label></th>
+        <th width="10%"><label title="Total number of tests (or test iterations) executed.">Tests</label></th>
+        <th width="10%"><label title="Number of failed tests">Fail</label></th>
+        <th width="10%"><label title="Number of test errors">Error</label></th>
+        <th width="10%">
+            <label title="The total time in seconds taken to run this set of tests.">Time (secs)</label>
+        </th>
+        <th width="20%"><label>% Tests Success</label></th>
+    </tr>
+</thead>
+<tbody>
+    <tr>
+        <td>$entity.name</td>
+        #parse("html_res/adg/test-result-summary.vm")
+        <td>$renderUtil.format3d($metrics.testExecutionTime)</td>
+        <td class="align-middle">
+            #parse("html_res/adg/test-results-bar.vm")
+        </td>
+    </tr>
+</tbody>
+</table>
+
+<div>&#160;</div>
+
+<table id="testClassTestsTable" class="aui aui-table-sortable">
+<thead>
+    <tr>
+        <th width="40%">
+            <label title="Tests (or test iterations) which were executed.">$subtitle</label>
+        </th>
+        <th width="10%"><label>Started</label></th>
+        <th width="10%"><label>Status</label></th>
+        <th width="10%">
+            <label title="The total time in seconds taken to run this set of tests.">Time (secs)</label>
+        </th>
+        <th width="30%"><label>Message</label></th>
+    </tr>
+</thead>
+<tbody>
+
+#* render list of package coverage graphs*#
+#set ($failMessageCount = 0)
+## note: frequenly used loop, using less whitespace to reduce report size
+#foreach ($testCase in $entities)
+#if ($showEmpty || !$testCase.metrics.empty)
+#set ($entityName = "${testCase.className}.${testCase.testName}")
+#set ($entityLink = ${renderUtil.getTestLink(false, $testCase)})
+<tr>
+    <td><span class="sortValue">$entityName</span><a href="$entityLink">$entityName</a></td>
+    <td style="whitespace:nowrap;"><span class="sortValue">$testCase.startTime</span>$renderUtil.formatShortDate($testCase.startTime)</td>
+    <td>#parse("html_res/adg/test-result-status-long.vm")</td>
+    <td><span class="sortValue">$testCase.duration</span>$renderUtil.format3d($testCase.duration)</td>
+    <td style="width:50%">
+    #if($testCase.failMessage)<span class="sortValue">${renderUtil.htmlEscapeStr($testCase.failMessage)}</span>
+        <span class="expand" id="togglebut$velocityCount" onclick="toggleNodeExpansion('togglebut$velocityCount', 'msgc$velocityCount', 'msge$velocityCount');return false;">&#160;</span>
+        <div class="errorMessage" id="msgc$velocityCount">${renderUtil.htmlEscapeStr($testCase.failMessage)}</div>
+        <div class="errorMessage" id="msge$velocityCount" style="display:none;">#if($showSrc) ${renderUtil.linkifyStackTrace($rootRelPath,${testCase.stackTrace})}#else ${renderUtil.htmlEscapeStr($testCase.failFullMessage)}#end</div>
+    #else &#160; #end
+    </td>
+</tr>
+#end
+#end
+
+    </tbody>
+</table>
+
+    </div> <!-- tabs-pane -->
+</div> <!-- aui-tabs horizontal-tabs -->
+
+#parse("html_res/adg/html-body-end.vm")

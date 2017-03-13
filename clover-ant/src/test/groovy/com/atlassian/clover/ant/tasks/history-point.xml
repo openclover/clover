@@ -1,0 +1,65 @@
+<project basedir="" default="" name="">
+
+    <taskdef name="clover-setup" classname="com.atlassian.clover.ant.tasks.CloverSetupTask"/>
+    <taskdef name="clover-historypoint" classname="com.atlassian.clover.ant.tasks.HistoryPointTask"/>
+    <property name="testdir" location="${outdir}"/>
+
+    <target name="setUp">
+        <fail unless="history.dir"
+              message="The 'history.dir' pointing to a temporary location where history snapshot will be stored is missing"/>
+        <fail unless="outdir"
+              message="The 'outdir' pointing to a temporary location where sources/classes/reports will be stored is missing"/>
+
+        <mkdir dir="${history.dir}"/>
+    </target>
+
+    <target name="tearDown">
+        <!--<delete dir="${history.dir}"/>-->
+    </target>
+
+    <target name="with.clover">
+        <clover-setup initstring="${clover-initstring}">
+            <methodContext name="toString" regexp=".*toString.*"/>
+        </clover-setup>
+    </target>
+
+    <target name="testCreateHistoryPoint" depends="with.clover">
+        <clover-historypoint historyDir="${history.dir}"/>
+    </target>
+
+
+    <target name="testTestSourcesElement" depends="with.clover">
+        <clover-historypoint historyDir="${history.dir}">
+            <testsources dir="${testdir}" includes="**/*Test.java"/>
+        </clover-historypoint>
+    </target>
+
+    <target name="testTestResultsElement" depends="with.clover">
+        <clover-historypoint historyDir="${history.dir}" includeFailedTestCoverage="true">
+            <testresults dir="${testdir}" includes="**/TEST*.xml"/>
+        </clover-historypoint>
+    </target>
+
+
+    <target name="testFilter" depends="with.clover">
+        <clover-historypoint historyDir="${history.dir}" filter="toString">
+            <testresults dir="${testdir}" includes="**/TEST*.xml"/>
+        </clover-historypoint>
+    </target>
+
+    <target name="testOverwriteTrue" depends="with.clover">
+        <clover-historypoint historyDir="${history.dir}"/>
+        <clover-historypoint historyDir="${history.dir}" overwrite="true"/>
+    </target>
+
+    <target name="testOverwriteFalse" depends="with.clover">
+        <clover-historypoint historyDir="${history.dir}"/>
+        <clover-historypoint historyDir="${history.dir}" overwrite="false"/>
+    </target>
+
+    <target name="testSrcLevel" depends="with.clover">
+        <clover-historypoint historyDir="${history.dir}" srcLevel="false"/>
+    </target>
+
+
+</project>

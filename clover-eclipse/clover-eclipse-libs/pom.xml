@@ -1,0 +1,41 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.atlassian.clover</groupId>
+    <artifactId>clover-eclipse-libs</artifactId>
+    <version>4.6.0</version>
+    <packaging>pom</packaging>
+    <description>
+        This module contains a minimal subset of Eclipse's JAR files required to compile
+        Clover-for-Eclipse integration. They are used only for classpath and shall not be bundled
+        into Clover-for-Eclipse. These JAR files were taken from a standard
+        "Eclipse for Java Developers" distribution.
+    </description>
+    <licenses>
+        <license>
+            <name>Eclipse Public License</name>
+            <url>https://www.eclipse.org/legal/epl-v10.html</url>
+        </license>
+    </licenses>
+    <name>Eclipse Libraries for Clover</name>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <descriptor>src/assembly/eclipse.xml</descriptor>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

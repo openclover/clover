@@ -1,0 +1,53 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.atlassian.clover</groupId>
+    <artifactId>java-tools</artifactId>
+    <version>1.6.0.45</version>
+    <packaging>jar</packaging>
+    <description>
+        This module contains JDK tools.jar, which is being used in Clover's bootclasspath during compilation.
+        This JAR is not (and shall be not) bundled in Clover's binaries. It's only used to ensure that
+        we compile Clover against specific JDK version (and use classes/symbols available in this version
+        and not the newer one).
+    </description>
+    <licenses>
+        <license>
+            <name>Oracle Binary Code License Agreement for Java SE</name>
+            <url>http://www.oracle.com/technetwork/java/javase/downloads/java-se-archive-license-1382604.html</url>
+        </license>
+    </licenses>
+    <name>Java Runtime Library</name>
+    <build>
+        <!--
+        How to publish new version of the library:
+          * take tools.jar from JDK, rename it to 'java-tools-x.y.z.nn.jar', copy into this directory, do not add to VCS
+          * update <version> number in this pom.xml
+          * commit changes and tag them with 'java-tools-x.y.z.nn'
+          * run 'mvn deploy'
+        The java-tools-x.y.z.nn.jar file together with pom.xml shall be published to your private repository.
+        -->
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <copy file="java-tools-${project.version}.jar"
+                                      tofile="${project.build.directory}/java-tools-${project.version}.jar"
+                                      overwrite="true" verbose="true"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

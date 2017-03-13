@@ -1,0 +1,40 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.atlassian.clover</groupId>
+    <artifactId>clover-idea-libs</artifactId>
+    <version>2016.2.162112132</version> <!-- major.minor.build (2016.2 build IC-162.1121.32) -->
+    <packaging>pom</packaging>
+    <description>
+        This module contains a subset of IntelliJ IDEA's JAR files required to compile Clover-for-IDEA
+        integration against given IDEA version. They are used only for classpath and shall *not* be bundled
+        into Clover-for-IDEA. These JAR files were taken from an IntellJ IDEA distribution.
+    </description>
+    <licenses>
+        <license>
+            <name>JetBrains (Commercial License)</name>
+            <url>https://www.jetbrains.com/idea/buy/license.html</url>
+        </license>
+    </licenses>
+    <name>IDEA Libraries for Clover</name>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <descriptor>src/assembly/idea.xml</descriptor>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

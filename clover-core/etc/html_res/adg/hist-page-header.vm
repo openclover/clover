@@ -1,0 +1,19 @@
+<h1>Historical coverage report</h1>
+
+<div class="aui-group">
+    <div class="aui-item">
+        <div class="dashboard-widget">
+            <header class="dashboard-widget-header">
+                <h3>Date range</h3>
+            </header>
+                <p><b>From:</b>&#160;$startTimestamp</p>
+                <p><b>To:</b>&#160;$endTimestamp</p>
+            </div>
+    </div>
+    <div class="aui-item">
+        #set ($headerMetrics = $hasmetrics.Metrics)
+        #parse("html_res/adg/container-statistics.vm")
+    </div>
+</div>
+
+#parse("html_res/adg/warnings.vm")

@@ -1,0 +1,8 @@
+                        </div> <!-- class="aui-page-panel-content-clover" -->
+                    #parse("html_res/adg/footer.vm")
+                </section> <!-- class="aui-page-panel-content" -->
+            </div> <!-- class="aui-page-panel-inner" -->
+        </div> <!-- class="aui-page-panel" -->
+    </div> <!-- id="page" -->
+</body>
+</html>

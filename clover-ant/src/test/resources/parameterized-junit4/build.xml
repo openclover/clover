@@ -1,0 +1,127 @@
+<project name="ParameterizedJUnit4Example" basedir="." default="validate">
+    <property name="src.test.dir" location="src/test/java"/>
+    <property name="target.dir" location="target"/>
+    <property name="target.classes.dir" location="${target.dir}/classes"/>
+    <property name="target.clover.db" location="${target.dir}/clover/db/clover.db"/>
+    <property name="target.clover.report" location="${target.dir}/clover/report"/>
+
+    <property name="clover.jar" location="${project.dir}/clover-ant/target/clover.jar"/>
+    <property name="repkg.clover.jar" location="${project.dir}/target/clover-repkg.jar"/> <!-- optional, for with.clover builds -->
+    <property name="junit.jar" location="${project.dir}/target/dependencies/junit-4.12.jar"/>
+
+    <target name="setUp"/>
+    <target name="tearDown"/>
+
+    <target name="init.clover">
+        <!-- Check for mandatory properties -->
+        <fail message="The 'project.dir' property is missing." unless="project.dir"/>
+        <available file="${clover.jar}" property="clover.jar.exists"/>
+        <fail message="The 'clover.jar=${clover.jar}' file does not exist." unless="clover.jar.exists"/>
+        <available file="${junit.jar}" property="junit.jar.exists"/>
+        <fail message="The 'junit.jar=${junit.jar}' file does not exist." unless="junit.jar.exists"/>
+
+        <!-- Set compilation/runtime class path -->
+        <path id="project.classpath">
+            <pathelement location="${clover.jar}"/>
+            <pathelement location="${repkg.clover.jar}"/>
+            <pathelement location="${junit.jar}"/>
+            <pathelement location="${project.dir}/target/dependencies/hamcrest-core-1.3.jar"/>
+        </path>
+
+        <!-- Initialize Clover -->
+        <taskdef resource="cloverlib.xml" classpathref="project.classpath"/>
+        <clover-setup initstring="${target.clover.db}">
+            <!-- custom pattern to match an anonymous inline class in SnifferInInnerAndInline -->
+            <testsources dir="${src.test.dir}">
+                <testclass name=".*">
+                    <testmethod name="test.*"/>
+                </testclass>
+            </testsources>
+        </clover-setup>
+    </target>
+
+    <target name="init" depends="init.clover">
+        <mkdir dir="${target.dir}"/>
+    </target>
+
+    <target name="compile" depends="init">
+        <mkdir dir="${target.classes.dir}"/>
+        <javac srcdir="${src.test.dir}" destdir="${target.classes.dir}" classpathref="project.classpath"/>
+    </target>
+
+    <target name="test-with-clover-listener" depends="compile">
+        <java classname="RunJUnit4WithClover" fork="true">
+            <classpath>
+                <path refid="project.classpath"/>
+                <pathelement location="${target.classes.dir}"/>
+            </classpath>
+        </java>
+        <java classname="SnifferInInnerAndInline" fork="true">
+            <classpath>
+                <path refid="project.classpath"/>
+                <pathelement location="${target.classes.dir}"/>
+            </classpath>
+        </java>
+    </target>
+
+    <target name="test-without-clover-listener" depends="compile">
+        <java classname="RunJUnit4WithoutClover" fork="true">
+            <classpath>
+                <path refid="project.classpath"/>
+                <pathelement location="${target.classes.dir}"/>
+            </classpath>
+        </java>
+        <java classname="SnifferInInnerAndInline" fork="true">
+            <classpath>
+                <path refid="project.classpath"/>
+                <pathelement location="${target.classes.dir}"/>
+            </classpath>
+        </java>
+    </target>
+
+    <target name="report">
+        <clover-report initstring="${target.clover.db}">
+            <current outfile="${target.clover.report}">
+                <format type="html" />
+            </current>
+        </clover-report>
+    </target>
+
+    <target name="validate" depends="test-with-clover-listener, report">
+        <!-- Test: runtime test names with sequence numbers are recognized -->
+        <condition property="validation.ok">
+            <and>
+                <!-- search for: "test[0](SquareTest)</a>" -->
+                <resourcecontains resource="${target.clover.report}/default-pkg/test-SquareTest.html"
+                                  substring="SquareTest.test[0](SquareTest)&lt;/a>"/>
+                <!-- search for: "test[5](SquareTest)</a>" -->
+                <resourcecontains resource="${target.clover.report}/default-pkg/test-SquareTest.html"
+                                  substring="SquareTest.test[5](SquareTest)&lt;/a>"/>
+                <!-- search for: "Alice is a woman [0]" -->
+                <resourcecontains resource="${target.clover.report}/default-pkg/test-PersonTest.html"
+                                  substring="Alice is a woman [0]"/>
+                <!-- search for: "PersonTest.Bob is a man [1]" -->
+                <resourcecontains resource="${target.clover.report}/default-pkg/test-PersonTest.html"
+                                  substring="Bob is a man [1]"/>
+                <!-- search for: "PersonTest.Rex is a unknown [2]" -->
+                <resourcecontains resource="${target.clover.report}/default-pkg/test-PersonTest.html"
+                                  substring="Rex is a unknown [2]"/>
+                <!-- search for tests in inner and inline classes -->
+                <resourcecontains resource="${target.clover.report}/default-pkg/test-SnifferInInnerAndInline_InnerStaticTest.html"
+                                  substring="SnifferInInnerAndInline.InnerStaticTest.testInnerStatic"/>
+                <resourcecontains resource="${target.clover.report}/default-pkg/test-SnifferInInnerAndInline_InnerTest.html"
+                                  substring="SnifferInInnerAndInline.InnerTest.testInnerNonStatic"/>
+                <resourcecontains resource="${target.clover.report}/default-pkg/test-SnifferInInnerAndInline.html"
+                                  substring="SnifferInInnerAndInline.testWithInline"/>
+                <resourcecontains resource="${target.clover.report}/default-pkg/test-SnifferInInnerAndInline.html"
+                                  substring="SnifferInInnerAndInline.test"/> <!-- methods from anonymous inline class
+                                  are members of an enclosing class -->
+            </and>
+        </condition>
+        <fail message="HTML report does not have runtime test names" unless="validation.ok"/>
+    </target>
+
+    <target name="clean">
+        <delete dir="${target.dir}"/>
+    </target>
+</project>

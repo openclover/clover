@@ -1,0 +1,85 @@
+#parse("html_res/adg/html-head.vm")
+
+#parse("html_res/adg/html-body-start.vm")
+
+#parse("html_res/adg/page-content-header.vm")
+
+<div class="aui-tabs horizontal-tabs">
+
+    #if ($tree && ${tree.name} == "App")
+        #set ($currentHorizontalNav = "App")
+    #else
+        #set ($currentHorizontalNav = "Test")
+    #end
+    #parse("html_res/adg/pkg-tabs-menu.vm")
+
+    <div class="tabs-pane active-pane" id="tabs-first">
+
+        <div>&#160;</div>
+
+        #parse("html_res/adg/container-statistics.vm")
+        #parse("html_res/adg/warnings.vm")
+
+        #* $title + $buttonTitle + $description *#
+##        #set ($title = "Package summary")
+##        #set ($buttonTitle = "")
+##        #set ($description =
+##            '<p>Number of files in a package may differ from number of classes listed. First, a single source file may ' +
+##            'contain multiple classes. Second, entities having no executable code (empty classes and interfaces) are ' +
+##            'not listed by default.</p>'
+##        )
+##        <div style="text-align: right; margin-bottom: 10px">
+##            #parse("html_res/adg/inline-dialog-help.vm")
+##        </div>
+
+        #* render overall pkg coverage graph *#
+        <table id="packageSummaryTable" class="aui">
+            #set ($title = "Package")
+            #parse("html_res/adg/column-header-top.vm")
+
+            <tbody>
+                #set ($entity = $packageInfo)
+                #set ($entityText = "$packageInfo.name")
+                #set ($entityLink = "")
+                #parse("html_res/adg/coverage-row.vm")
+            </tbody>
+        </table>
+
+        <div>&#160;</div>
+
+        #* render list of classes in a package *#
+        <table id="packageClassesTable" class="aui aui-table-sortable">
+            #set ($title = "Class")
+            #set ($entityDecorationBefore = '')
+            #parse("html_res/adg/column-header.vm")
+
+            <tbody>
+                #set ($title = "Classes")
+                #set ($emptyCount = 0)
+                #foreach ($class in $classlist)
+                    #if ($showEmpty || !$class.empty)
+                        #set ($entity = $class)
+                        #set ($entityText = ${class.Name})
+                        #if ($showSrc)
+                            #set ($entityLink = $renderUtil.getSrcFileLink($topLevel, false, $class))
+                        #end
+                        #parse("html_res/adg/coverage-row.vm")
+                    #else
+                        #set ($emptyCount = $emptyCount + 1)
+                    #end
+                #end
+            </tbody>
+        </table>
+        #if ($emptyCount > 0)
+            <div>
+                <small>
+                    This package contains $emptyCount empty ${renderUtil.pluralize($emptyCount, "class")} or
+                    ${renderUtil.pluralize($emptyCount, "interface")} which ${renderUtil.isAre($emptyCount)} not listed.
+                </small>
+            </div>
+        #end
+
+    </div> <!-- tabs-pane active-pane -->
+</div>
+
+#parse("html_res/adg/html-body-end.vm")

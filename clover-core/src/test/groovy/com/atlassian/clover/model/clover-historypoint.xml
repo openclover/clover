@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1205897401616" clover="2.2.0">
+   <project timestamp="1170853200000">
+      <metrics coveredelements="10350" packages="5" coveredconditionals="5100" ncloc="7" statements="5010" loc="7" complexity="15030" files="7" conditionals="10020" coveredstatements="2650" coveredmethods="2600" methods="5010" classes="7" elements="20040"/>
+      <package name="com.cenqua">
+         <metrics coveredelements="3350" coveredconditionals="1600" ncloc="1" statements="1000" loc="1" complexity="3000" files="1" conditionals="2000" coveredstatements="900" coveredmethods="850" methods="1000" classes="1" elements="4000"/>
+         <file name="Blah.java">
+            <class name="Blah">
+               <metrics coveredelements="3350" coveredconditionals="1600" conditionals="2000" statements="1000" coveredmethods="850" coveredstatements="900" methods="1000" complexity="3000" elements="4000"/>
+            </class>
+            <metrics coveredelements="3350" coveredconditionals="1600" conditionals="2000" ncloc="1" statements="1000" coveredmethods="850" coveredstatements="900" loc="1" methods="1000" classes="1" complexity="3000" elements="4000"/>
+         </file>
+      </package>
+      <package name="com.cenqua.empty">
+         <metrics coveredelements="0" coveredconditionals="0" ncloc="1" statements="0" loc="1" complexity="0" files="1" conditionals="0" coveredstatements="0" coveredmethods="0" methods="0" classes="1" elements="0"/>
+         <file name="Empty.java">
+            <class name="Empty">
+               <metrics coveredelements="0" coveredconditionals="0" conditionals="0" statements="0" coveredmethods="0" coveredstatements="0" methods="0" complexity="0" elements="0"/>
+            </class>
+            <metrics coveredelements="0" coveredconditionals="0" conditionals="0" ncloc="1" statements="0" coveredmethods="0" coveredstatements="0" loc="1" methods="0" classes="1" complexity="0" elements="0"/>
+         </file>
+      </package>
+      <package name="com.cenqua.none">
+         <metrics coveredelements="0" coveredconditionals="0" ncloc="1" statements="10" loc="1" complexity="30" files="1" conditionals="20" coveredstatements="0" coveredmethods="0" methods="10" classes="1" elements="40"/>
+         <file name="NoCover.java">
+            <class name="NoCover">
+               <metrics coveredelements="0" coveredconditionals="0" conditionals="20" statements="10" coveredmethods="0" coveredstatements="0" methods="10" complexity="30" elements="40"/>
+            </class>
+            <metrics coveredelements="0" coveredconditionals="0" conditionals="20" ncloc="1" statements="10" coveredmethods="0" coveredstatements="0" loc="1" methods="10" classes="1" complexity="30" elements="40"/>
+         </file>
+      </package>
+      <package name="com.cenqua.full">
+         <metrics coveredelements="4000" coveredconditionals="2000" ncloc="1" statements="1000" loc="1" complexity="3000" files="1" conditionals="2000" coveredstatements="1000" coveredmethods="1000" methods="1000" classes="1" elements="4000"/>
+         <file name="FullCover.java">
+            <class name="FullCover">
+               <metrics coveredelements="4000" coveredconditionals="2000" conditionals="2000" statements="1000" coveredmethods="1000" coveredstatements="1000" methods="1000" complexity="3000" elements="4000"/>
+            </class>
+            <metrics coveredelements="4000" coveredconditionals="2000" conditionals="2000" ncloc="1" statements="1000" coveredmethods="1000" coveredstatements="1000" loc="1" methods="1000" classes="1" complexity="3000" elements="4000"/>
+         </file>
+      </package>
+      <package name="com.cenqua.mover">
+         <metrics coveredelements="3000" coveredconditionals="1500" ncloc="3" statements="3000" loc="3" complexity="9000" files="3" conditionals="6000" coveredstatements="750" coveredmethods="750" methods="3000" classes="3" elements="12000"/>
+         <file name="Mover.java">
+            <class name="Mover">
+               <metrics coveredelements="2000" coveredconditionals="1000" conditionals="2000" statements="1000" coveredmethods="500" coveredstatements="500" methods="1000" complexity="3000" elements="4000"/>
+            </class>
+            <metrics coveredelements="2000" coveredconditionals="1000" conditionals="2000" ncloc="1" statements="1000" coveredmethods="500" coveredstatements="500" loc="1" methods="1000" classes="1" complexity="3000" elements="4000"/>
+         </file>
+         <file name="Shaker.java">
+            <class name="Shaker">
+               <metrics coveredelements="1000" coveredconditionals="500" conditionals="2000" statements="1000" coveredmethods="250" coveredstatements="250" methods="1000" complexity="3000" elements="4000"/>
+            </class>
+            <metrics coveredelements="1000" coveredconditionals="500" conditionals="2000" ncloc="1" statements="1000" coveredmethods="250" coveredstatements="250" loc="1" methods="1000" classes="1" complexity="3000" elements="4000"/>
+         </file>
+         <file name="Loser.java">
+            <class name="Loser">
+               <metrics coveredelements="0" coveredconditionals="0" conditionals="2000" statements="1000" coveredmethods="0" coveredstatements="0" methods="1000" complexity="3000" elements="4000"/>
+            </class>
+            <metrics coveredelements="0" coveredconditionals="0" conditionals="2000" ncloc="1" statements="1000" coveredmethods="0" coveredstatements="0" loc="1" methods="1000" classes="1" complexity="3000" elements="4000"/>
+         </file>
+      </package>
+   </project>
+   <testproject timestamp="1170853200000">
+      <metrics coveredelements="0" packages="0" coveredconditionals="0" ncloc="0" statements="0" loc="0" complexity="0" files="0" conditionals="0" coveredstatements="0" coveredmethods="0" methods="0" classes="0" elements="0"/>
+   </testproject>
+</coverage>

@@ -1,0 +1,30 @@
+#if ($packageName)
+    #* We need to prefix all links by "../(..)" in case of a package-level cloud report *#
+    #set ($projectRootRelative = ${renderUtil.getRootRelPath($packageName)})
+#else
+    #* No packageName variable? It's a project-level cloud report *#
+    #set ($projectRootRelative = "")
+#end
+
+#foreach ($class in $axis1.classes)
+    #if ($packageInfo)
+        #set($link = $renderUtil.getSrcFileLink(true, false, $class, $packageInfo))
+    #else
+        #set($link = $renderUtil.getSrcFileLink(true, false, $class))
+    #end
+    #set ($fontSize = $renderUtil.getFontSize($axis1, $class, 12, 48))
+    #set ($title1 = "${axis1.calculator.name} - ${axis1.calculator.getFormattedValue($class)}")
+
+    #set ($color = $renderUtil.getColor($axis2, $class))
+    #set ($title2 = "${axis2.calculator.name} - ${axis2.calculator.getFormattedValue($class)}")
+
+    #if ($showSrc)
+        <a href="${link}" class="tag"
+            style="font-size: ${fontSize}px;color:#${color}"
+            title="$title1 #if($title2), $title2 #end">$class.name</a>
+    #else
+        <span class="tag"
+            style="font-size: ${fontSize}px;color:#${color}"
+            title="$title1 #if($title2), $title2 #end">$class.name</span>
+    #end
+#end

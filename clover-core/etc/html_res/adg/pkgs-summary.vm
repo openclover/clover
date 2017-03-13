@@ -1,0 +1,77 @@
+#parse("html_res/adg/html-head.vm")
+
+#parse("html_res/adg/html-body-start.vm")
+
+#parse("html_res/adg/page-content-header.vm")
+
+<div class="aui-tabs horizontal-tabs">
+
+    #if ($tree && ${tree.name} == "App")
+        #set ($currentHorizontalNav = "App")
+    #else
+        #set ($currentHorizontalNav = "Test")
+    #end
+    #parse("html_res/adg/pkg-tabs-menu.vm")
+
+    <div class="tabs-pane active-pane" id="tabs-first">
+
+        <div>&#160;</div>
+
+        #parse("html_res/adg/container-statistics.vm")
+        #parse("html_res/adg/warnings.vm")
+
+        #* render overall summary coverage graph *#
+        <table id="projectSummaryTable" class="aui">
+            #set ($title = "Project")
+            #parse("html_res/adg/column-header-top.vm")
+
+            <tbody>
+                #set ($entity = $projectInfo)
+                #set ($entityText = ${projectInfo.name})
+                #set ($entityLink = "")
+                #parse("html_res/adg/coverage-row.vm")
+            </tbody>
+        </table>
+
+        ## count number of visible packages
+        #if ($showEmpty)
+            #set ($pkgCount = $packages.size())
+        #else
+            #set ($pkgCount = 0)
+            #foreach ($pkg in $packages)
+                #if (!$renderUtil.metricsFor($pkg).empty)
+                    #set ($pkgCount = $pkgCount + 1)
+                #end
+            #end
+        #end
+
+        ## hide buttons and a table header if there are no packages to display
+        #if ($pkgCount > 0)
+            <div>&#160;</div>
+            #set ($showPackageMetrics = "separated")
+            #parse("html_res/adg/pkg-aggregate-toggle.vm")
+
+            <table id="projectPackagesTable" class="aui aui-table-sortable">
+                #set ($title = "Package")
+                #parse("html_res/adg/column-header.vm")
+
+                <tbody>
+                    #* render list of package coverage graphs *#
+                    #set ($title = "Packages")
+                    #foreach ($pkg in $packages)
+                        #set($metrics = ${renderUtil.metricsFor($pkg)})
+                        #if ($showEmpty || !$metrics.empty)
+                            #set ($entity = $pkg)
+                            #set ($entityText = ${pkg.name})
+                            #set ($entityLink = "${renderUtil.getPkgURLPath($pkg.name)}$!{tree.pathPrefix}pkg-summary.html")
+                            #parse("html_res/adg/coverage-row.vm")
+                        #end
+                    #end
+                </tbody>
+            </table>
+        #end
+
+    </div> <!-- tabs-pane active-pane -->
+</div> <!-- aui-tabs horizontal-tabs -->
+
+#parse("html_res/adg/html-body-end.vm")

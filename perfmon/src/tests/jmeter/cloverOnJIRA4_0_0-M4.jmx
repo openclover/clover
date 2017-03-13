@@ -1,0 +1,1355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="2.1">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Test Plan" enabled="true">
+      <stringProp name="TestPlan.comments"></stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+    </TestPlan>
+    <hashTree>
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments">
+          <elementProp name="maven1.basedir" elementType="Argument">
+            <stringProp name="Argument.name">maven1.basedir</stringProp>
+            <stringProp name="Argument.value">${__P(maven1.basedir,unconfigured.maven1.basedir)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="maven1.home.local" elementType="Argument">
+            <stringProp name="Argument.name">maven1.home.local</stringProp>
+            <stringProp name="Argument.value">${__P(maven1.home.local,unconfigured.maven1.home.local)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="maven1.opts" elementType="Argument">
+            <stringProp name="Argument.name">maven1.opts</stringProp>
+            <stringProp name="Argument.value">${__P(maven1.opts,unconfigured.maven1.opts)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="jira.workspace" elementType="Argument">
+            <stringProp name="Argument.name">jira.workspace</stringProp>
+            <stringProp name="Argument.value">${__P(jira.workspace,unconfigured.jira.workspace)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="maven2.basedir" elementType="Argument">
+            <stringProp name="Argument.name">maven2.basedir</stringProp>
+            <stringProp name="Argument.value">${__P(maven2.basedir,unconfigured.maven2.basedir)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="iterations" elementType="Argument">
+            <stringProp name="Argument.name">iterations</stringProp>
+            <stringProp name="Argument.value">${__P(iterations,3)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+        </collectionProp>
+      </Arguments>
+      <hashTree/>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="JIRA" enabled="true">
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1245933276000</longProp>
+        <longProp name="ThreadGroup.end_time">1245933276000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.on_sample_error">stoptest</stringProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="N times" enabled="true">
+          <boolProp name="LoopController.continue_forever">true</boolProp>
+          <stringProp name="LoopController.loops">${iterations}</stringProp>
+        </LoopController>
+        <hashTree>
+          <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapsed(ms): Instr test src" enabled="true">
+            <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="jira.workspace" elementType="Argument">
+                  <stringProp name="Argument.name">jira.workspace</stringProp>
+                  <stringProp name="Argument.value">${jira.workspace}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="instrument.app.source" elementType="Argument">
+                  <stringProp name="Argument.name">instrument.app.source</stringProp>
+                  <stringProp name="Argument.value">false</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="instrument.test.source" elementType="Argument">
+                  <stringProp name="Argument.name">instrument.test.source</stringProp>
+                  <stringProp name="Argument.value">true</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="source.level" elementType="Argument">
+                  <stringProp name="Argument.name">source.level</stringProp>
+                  <stringProp name="Argument.value">1.6</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="flush.policy" elementType="Argument">
+                  <stringProp name="Argument.name">flush.policy</stringProp>
+                  <stringProp name="Argument.value">directed</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="instr.level" elementType="Argument">
+                  <stringProp name="Argument.name">instr.level</stringProp>
+                  <stringProp name="Argument.value">statement</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="include.store.duration" elementType="Argument">
+                  <stringProp name="Argument.name">include.store.duration</stringProp>
+                  <stringProp name="Argument.value">false</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="store.db" elementType="Argument">
+                  <stringProp name="Argument.name">store.db</stringProp>
+                  <stringProp name="Argument.value">false</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="cleanup" elementType="Argument">
+                  <stringProp name="Argument.name">cleanup</stringProp>
+                  <stringProp name="Argument.value">true</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="classname">com.atlassian.clover.perfmon.InstrumentJIRASampler</stringProp>
+          </JavaSampler>
+          <hashTree/>
+          <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapese(ms): Instr app src" enabled="true">
+            <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="jira.workspace" elementType="Argument">
+                  <stringProp name="Argument.name">jira.workspace</stringProp>
+                  <stringProp name="Argument.value">${jira.workspace}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="instrument.app.source" elementType="Argument">
+                  <stringProp name="Argument.name">instrument.app.source</stringProp>
+                  <stringProp name="Argument.value">true</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="instrument.test.source" elementType="Argument">
+                  <stringProp name="Argument.name">instrument.test.source</stringProp>
+                  <stringProp name="Argument.value">false</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="source.level" elementType="Argument">
+                  <stringProp name="Argument.name">source.level</stringProp>
+                  <stringProp name="Argument.value">1.6</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="flush.policy" elementType="Argument">
+                  <stringProp name="Argument.name">flush.policy</stringProp>
+                  <stringProp name="Argument.value">directed</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="instr.level" elementType="Argument">
+                  <stringProp name="Argument.name">instr.level</stringProp>
+                  <stringProp name="Argument.value">statement</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="include.store.duration" elementType="Argument">
+                  <stringProp name="Argument.name">include.store.duration</stringProp>
+                  <stringProp name="Argument.value">false</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="store.db" elementType="Argument">
+                  <stringProp name="Argument.name">store.db</stringProp>
+                  <stringProp name="Argument.value">false</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="cleanup" elementType="Argument">
+                  <stringProp name="Argument.name">cleanup</stringProp>
+                  <stringProp name="Argument.value">true</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="classname">com.atlassian.clover.perfmon.InstrumentJIRASampler</stringProp>
+          </JavaSampler>
+          <hashTree/>
+          <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapsed(ms): Instr all src and store db" enabled="true">
+            <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="jira.workspace" elementType="Argument">
+                  <stringProp name="Argument.name">jira.workspace</stringProp>
+                  <stringProp name="Argument.value">${jira.workspace}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="instrument.app.source" elementType="Argument">
+                  <stringProp name="Argument.name">instrument.app.source</stringProp>
+                  <stringProp name="Argument.value">true</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="instrument.test.source" elementType="Argument">
+                  <stringProp name="Argument.name">instrument.test.source</stringProp>
+                  <stringProp name="Argument.value">true</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="source.level" elementType="Argument">
+                  <stringProp name="Argument.name">source.level</stringProp>
+                  <stringProp name="Argument.value">1.6</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="flush.policy" elementType="Argument">
+                  <stringProp name="Argument.name">flush.policy</stringProp>
+                  <stringProp name="Argument.value">directed</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="instr.level" elementType="Argument">
+                  <stringProp name="Argument.name">instr.level</stringProp>
+                  <stringProp name="Argument.value">statement</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="include.store.duration" elementType="Argument">
+                  <stringProp name="Argument.name">include.store.duration</stringProp>
+                  <stringProp name="Argument.value">true</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="store.db" elementType="Argument">
+                  <stringProp name="Argument.name">store.db</stringProp>
+                  <stringProp name="Argument.value">true</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="cleanup" elementType="Argument">
+                  <stringProp name="Argument.name">cleanup</stringProp>
+                  <stringProp name="Argument.value">true</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="classname">com.atlassian.clover.perfmon.InstrumentJIRASampler</stringProp>
+          </JavaSampler>
+          <hashTree/>
+          <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapsed(ms): Instr all src at method level and store db" enabled="true">
+            <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="jira.workspace" elementType="Argument">
+                  <stringProp name="Argument.name">jira.workspace</stringProp>
+                  <stringProp name="Argument.value">${jira.workspace}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="instrument.app.source" elementType="Argument">
+                  <stringProp name="Argument.name">instrument.app.source</stringProp>
+                  <stringProp name="Argument.value">true</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="instrument.test.source" elementType="Argument">
+                  <stringProp name="Argument.name">instrument.test.source</stringProp>
+                  <stringProp name="Argument.value">true</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="source.level" elementType="Argument">
+                  <stringProp name="Argument.name">source.level</stringProp>
+                  <stringProp name="Argument.value">1.6</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="flush.policy" elementType="Argument">
+                  <stringProp name="Argument.name">flush.policy</stringProp>
+                  <stringProp name="Argument.value">directed</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="instr.level" elementType="Argument">
+                  <stringProp name="Argument.name">instr.level</stringProp>
+                  <stringProp name="Argument.value">statement</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="include.store.duration" elementType="Argument">
+                  <stringProp name="Argument.name">include.store.duration</stringProp>
+                  <stringProp name="Argument.value">true</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="store.db" elementType="Argument">
+                  <stringProp name="Argument.name">store.db</stringProp>
+                  <stringProp name="Argument.value">true</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="cleanup" elementType="Argument">
+                  <stringProp name="Argument.name">cleanup</stringProp>
+                  <stringProp name="Argument.value">true</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="classname">com.atlassian.clover.perfmon.InstrumentJIRASampler</stringProp>
+          </JavaSampler>
+          <hashTree/>
+          <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapsed(ms): Reinstr 1 src" enabled="true">
+            <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="jira.workspace" elementType="Argument">
+                  <stringProp name="Argument.name">jira.workspace</stringProp>
+                  <stringProp name="Argument.value">${jira.workspace}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="instrument.app.source" elementType="Argument">
+                  <stringProp name="Argument.name">instrument.app.source</stringProp>
+                  <stringProp name="Argument.value">true</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="instrument.test.source" elementType="Argument">
+                  <stringProp name="Argument.name">instrument.test.source</stringProp>
+                  <stringProp name="Argument.value">true</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="source.level" elementType="Argument">
+                  <stringProp name="Argument.name">source.level</stringProp>
+                  <stringProp name="Argument.value">1.6</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="flush.policy" elementType="Argument">
+                  <stringProp name="Argument.name">flush.policy</stringProp>
+                  <stringProp name="Argument.value">directed</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="instr.level" elementType="Argument">
+                  <stringProp name="Argument.name">instr.level</stringProp>
+                  <stringProp name="Argument.value">statement</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="cleanup" elementType="Argument">
+                  <stringProp name="Argument.name">cleanup</stringProp>
+                  <stringProp name="Argument.value">true</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="reinstrument.count" elementType="Argument">
+                  <stringProp name="Argument.name">reinstrument.count</stringProp>
+                  <stringProp name="Argument.value">1</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="classname">com.atlassian.clover.perfmon.ReinstrumentJIRASampler</stringProp>
+          </JavaSampler>
+          <hashTree/>
+          <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapsed(ms): Reinstr all src" enabled="true">
+            <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="jira.workspace" elementType="Argument">
+                  <stringProp name="Argument.name">jira.workspace</stringProp>
+                  <stringProp name="Argument.value">${jira.workspace}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="instrument.app.source" elementType="Argument">
+                  <stringProp name="Argument.name">instrument.app.source</stringProp>
+                  <stringProp name="Argument.value">true</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="instrument.test.source" elementType="Argument">
+                  <stringProp name="Argument.name">instrument.test.source</stringProp>
+                  <stringProp name="Argument.value">true</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="source.level" elementType="Argument">
+                  <stringProp name="Argument.name">source.level</stringProp>
+                  <stringProp name="Argument.value">1.6</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="flush.policy" elementType="Argument">
+                  <stringProp name="Argument.name">flush.policy</stringProp>
+                  <stringProp name="Argument.value">directed</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="instr.level" elementType="Argument">
+                  <stringProp name="Argument.name">instr.level</stringProp>
+                  <stringProp name="Argument.value">statement</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="cleanup" elementType="Argument">
+                  <stringProp name="Argument.name">cleanup</stringProp>
+                  <stringProp name="Argument.value">true</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="reinstrument.count" elementType="Argument">
+                  <stringProp name="Argument.name">reinstrument.count</stringProp>
+                  <stringProp name="Argument.value">ALL</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="classname">com.atlassian.clover.perfmon.ReinstrumentJIRASampler</stringProp>
+          </JavaSampler>
+          <hashTree/>
+          <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapsed(ms): clover:on java:compile test:compile" enabled="true">
+            <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="jira.workspace" elementType="Argument">
+                  <stringProp name="Argument.name">jira.workspace</stringProp>
+                  <stringProp name="Argument.value">${jira.workspace}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="maven1.basedir" elementType="Argument">
+                  <stringProp name="Argument.name">maven1.basedir</stringProp>
+                  <stringProp name="Argument.value">${maven1.basedir}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="maven2.basedir" elementType="Argument">
+                  <stringProp name="Argument.name">maven2.basedir</stringProp>
+                  <stringProp name="Argument.value">${maven2.basedir}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="maven1.home.local" elementType="Argument">
+                  <stringProp name="Argument.name">maven1.home.local</stringProp>
+                  <stringProp name="Argument.value">${maven1.home.local}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="maven1.opts" elementType="Argument">
+                  <stringProp name="Argument.name">maven1.opts</stringProp>
+                  <stringProp name="Argument.value">${maven1.opts}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="maven1.arguments" elementType="Argument">
+                  <stringProp name="Argument.name">maven1.arguments</stringProp>
+                  <stringProp name="Argument.value">clover:on java:compile test:compile</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="maven1.pre.arguments" elementType="Argument">
+                  <stringProp name="Argument.name">maven1.pre.arguments</stringProp>
+                  <stringProp name="Argument.value">clean</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="maven1.post.arguments" elementType="Argument">
+                  <stringProp name="Argument.name">maven1.post.arguments</stringProp>
+                  <stringProp name="Argument.value"></stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="classname">com.atlassian.clover.perfmon.RunMavenOnJIRA</stringProp>
+          </JavaSampler>
+          <hashTree/>
+          <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapsed(ms): Load Full Model" enabled="true">
+            <stringProp name="TestPlan.comments">Measures Duration of Loading the Full Model</stringProp>
+            <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="initstring" elementType="Argument">
+                  <stringProp name="Argument.name">initstring</stringProp>
+                  <stringProp name="Argument.value">${jira.workspace}/target/clover/database/clover_coverage.db</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="load.coverage" elementType="Argument">
+                  <stringProp name="Argument.name">load.coverage</stringProp>
+                  <stringProp name="Argument.value">false</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="load.reg.only" elementType="Argument">
+                  <stringProp name="Argument.name">load.reg.only</stringProp>
+                  <stringProp name="Argument.value">true</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="pertest.mem.strategy" elementType="Argument">
+                  <stringProp name="Argument.name">pertest.mem.strategy</stringProp>
+                  <stringProp name="Argument.value">IN_MEMORY</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="pertest.storage.size" elementType="Argument">
+                  <stringProp name="Argument.name">pertest.storage.size</stringProp>
+                  <stringProp name="Argument.value">256m</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="classname">com.atlassian.clover.perfmon.LoadDbSampler</stringProp>
+          </JavaSampler>
+          <hashTree/>
+          <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapsed(ms): Load Full + App + Test Model" enabled="true">
+            <stringProp name="TestPlan.comments">Measures Duration of Loading the Full Model and Making App-Only and Test-Only Copies</stringProp>
+            <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="initstring" elementType="Argument">
+                  <stringProp name="Argument.name">initstring</stringProp>
+                  <stringProp name="Argument.value">${jira.workspace}/target/clover/database/clover_coverage.db</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="load.coverage" elementType="Argument">
+                  <stringProp name="Argument.name">load.coverage</stringProp>
+                  <stringProp name="Argument.value">true</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="load.reg.only" elementType="Argument">
+                  <stringProp name="Argument.name">load.reg.only</stringProp>
+                  <stringProp name="Argument.value">false</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="pertest.mem.strategy" elementType="Argument">
+                  <stringProp name="Argument.name">pertest.mem.strategy</stringProp>
+                  <stringProp name="Argument.value">IN_MEMORY</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="pertest.storage.size" elementType="Argument">
+                  <stringProp name="Argument.name">pertest.storage.size</stringProp>
+                  <stringProp name="Argument.value">256m</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="classname">com.atlassian.clover.perfmon.LoadDbSampler</stringProp>
+          </JavaSampler>
+          <hashTree/>
+          <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Heap(b): Load Full Model" enabled="true">
+            <stringProp name="TestPlan.comments">Measures Size of Full Model</stringProp>
+            <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="initstring" elementType="Argument">
+                  <stringProp name="Argument.name">initstring</stringProp>
+                  <stringProp name="Argument.value">${jira.workspace}/target/clover/database/clover_coverage.db</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="load.coverage" elementType="Argument">
+                  <stringProp name="Argument.name">load.coverage</stringProp>
+                  <stringProp name="Argument.value">false</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="load.reg.only" elementType="Argument">
+                  <stringProp name="Argument.name">load.reg.only</stringProp>
+                  <stringProp name="Argument.value">true</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="pertest.mem.strategy" elementType="Argument">
+                  <stringProp name="Argument.name">pertest.mem.strategy</stringProp>
+                  <stringProp name="Argument.value">IN_MEMORY</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="pertest.storage.size" elementType="Argument">
+                  <stringProp name="Argument.name">pertest.storage.size</stringProp>
+                  <stringProp name="Argument.value">256m</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="classname">com.atlassian.clover.perfmon.LoadDbHeapSampler</stringProp>
+          </JavaSampler>
+          <hashTree/>
+          <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Heap(b): Load Full + App + Test Model" enabled="true">
+            <stringProp name="TestPlan.comments">Measures Size of Full + App + Test models</stringProp>
+            <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="initstring" elementType="Argument">
+                  <stringProp name="Argument.name">initstring</stringProp>
+                  <stringProp name="Argument.value">${jira.workspace}/target/clover/database/clover_coverage.db</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="load.coverage" elementType="Argument">
+                  <stringProp name="Argument.name">load.coverage</stringProp>
+                  <stringProp name="Argument.value">true</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="load.reg.only" elementType="Argument">
+                  <stringProp name="Argument.name">load.reg.only</stringProp>
+                  <stringProp name="Argument.value">false</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="pertest.mem.strategy" elementType="Argument">
+                  <stringProp name="Argument.name">pertest.mem.strategy</stringProp>
+                  <stringProp name="Argument.value">IN_MEMORY</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="pertest.storage.size" elementType="Argument">
+                  <stringProp name="Argument.name">pertest.storage.size</stringProp>
+                  <stringProp name="Argument.value">256m</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="classname">com.atlassian.clover.perfmon.LoadDbHeapSampler</stringProp>
+          </JavaSampler>
+          <hashTree/>
+          <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapsed(ms): Save Reg" enabled="true">
+            <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="initstring" elementType="Argument">
+                  <stringProp name="Argument.name">initstring</stringProp>
+                  <stringProp name="Argument.value">${jira.workspace}/target/clover/database/clover_coverage.db</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="classname">com.atlassian.clover.perfmon.StoreDbSampler</stringProp>
+          </JavaSampler>
+          <hashTree/>
+          <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapsed(ms): clover:on test" enabled="true">
+            <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="jira.workspace" elementType="Argument">
+                  <stringProp name="Argument.name">jira.workspace</stringProp>
+                  <stringProp name="Argument.value">${jira.workspace}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="maven1.basedir" elementType="Argument">
+                  <stringProp name="Argument.name">maven1.basedir</stringProp>
+                  <stringProp name="Argument.value">${maven1.basedir}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="maven2.basedir" elementType="Argument">
+                  <stringProp name="Argument.name">maven2.basedir</stringProp>
+                  <stringProp name="Argument.value">${maven2.basedir}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="maven1.home.local" elementType="Argument">
+                  <stringProp name="Argument.name">maven1.home.local</stringProp>
+                  <stringProp name="Argument.value">${maven1.home.local}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="maven1.opts" elementType="Argument">
+                  <stringProp name="Argument.name">maven1.opts</stringProp>
+                  <stringProp name="Argument.value">${maven1.opts}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="maven1.arguments" elementType="Argument">
+                  <stringProp name="Argument.name">maven1.arguments</stringProp>
+                  <stringProp name="Argument.value">clover:on test</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="maven1.pre.arguments" elementType="Argument">
+                  <stringProp name="Argument.name">maven1.pre.arguments</stringProp>
+                  <stringProp name="Argument.value">clean clover:on java:compile test:compile</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="maven1.post.arguments" elementType="Argument">
+                  <stringProp name="Argument.name">maven1.post.arguments</stringProp>
+                  <stringProp name="Argument.value"></stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="classname">com.atlassian.clover.perfmon.RunMavenOnJIRA</stringProp>
+          </JavaSampler>
+          <hashTree/>
+          <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapsed(ms): Create Snapshot After Run" enabled="true">
+            <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="jira.workspace" elementType="Argument">
+                  <stringProp name="Argument.name">jira.workspace</stringProp>
+                  <stringProp name="Argument.value">${jira.workspace}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="classname">com.atlassian.clover.perfmon.CreateSnapshotSampler</stringProp>
+          </JavaSampler>
+          <hashTree/>
+          <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Heap(b): Load Model+Cov(InMem)" enabled="true">
+            <stringProp name="TestPlan.comments">Measures Size of Full + App + Test models</stringProp>
+            <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="initstring" elementType="Argument">
+                  <stringProp name="Argument.name">initstring</stringProp>
+                  <stringProp name="Argument.value">${jira.workspace}/target/clover/database/clover_coverage.db</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="load.coverage" elementType="Argument">
+                  <stringProp name="Argument.name">load.coverage</stringProp>
+                  <stringProp name="Argument.value">true</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="load.reg.only" elementType="Argument">
+                  <stringProp name="Argument.name">load.reg.only</stringProp>
+                  <stringProp name="Argument.value">false</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="pertest.mem.strategy" elementType="Argument">
+                  <stringProp name="Argument.name">pertest.mem.strategy</stringProp>
+                  <stringProp name="Argument.value">IN_MEMORY</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="pertest.storage.size" elementType="Argument">
+                  <stringProp name="Argument.name">pertest.storage.size</stringProp>
+                  <stringProp name="Argument.value">256m</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="classname">com.atlassian.clover.perfmon.LoadDbHeapSampler</stringProp>
+          </JavaSampler>
+          <hashTree/>
+          <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Heap(b): Load Model+Cov(Sampling+128m Cache)" enabled="true">
+            <stringProp name="TestPlan.comments">Measures Size of Full + App + Test models</stringProp>
+            <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="initstring" elementType="Argument">
+                  <stringProp name="Argument.name">initstring</stringProp>
+                  <stringProp name="Argument.value">${jira.workspace}/target/clover/database/clover_coverage.db</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="load.coverage" elementType="Argument">
+                  <stringProp name="Argument.name">load.coverage</stringProp>
+                  <stringProp name="Argument.value">true</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="load.reg.only" elementType="Argument">
+                  <stringProp name="Argument.name">load.reg.only</stringProp>
+                  <stringProp name="Argument.value">false</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="pertest.mem.strategy" elementType="Argument">
+                  <stringProp name="Argument.name">pertest.mem.strategy</stringProp>
+                  <stringProp name="Argument.value">SAMPLING</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="pertest.storage.size" elementType="Argument">
+                  <stringProp name="Argument.name">pertest.storage.size</stringProp>
+                  <stringProp name="Argument.value">128m</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="classname">com.atlassian.clover.perfmon.LoadDbHeapSampler</stringProp>
+          </JavaSampler>
+          <hashTree/>
+          <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Heap(b): Load Model+Cov(Sampling+256m Cache)" enabled="true">
+            <stringProp name="TestPlan.comments">Measures Size of Full + App + Test models</stringProp>
+            <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="initstring" elementType="Argument">
+                  <stringProp name="Argument.name">initstring</stringProp>
+                  <stringProp name="Argument.value">${jira.workspace}/target/clover/database/clover_coverage.db</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="load.coverage" elementType="Argument">
+                  <stringProp name="Argument.name">load.coverage</stringProp>
+                  <stringProp name="Argument.value">true</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="load.reg.only" elementType="Argument">
+                  <stringProp name="Argument.name">load.reg.only</stringProp>
+                  <stringProp name="Argument.value">false</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="pertest.mem.strategy" elementType="Argument">
+                  <stringProp name="Argument.name">pertest.mem.strategy</stringProp>
+                  <stringProp name="Argument.value">SAMPLING</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="pertest.storage.size" elementType="Argument">
+                  <stringProp name="Argument.name">pertest.storage.size</stringProp>
+                  <stringProp name="Argument.value">256m</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="classname">com.atlassian.clover.perfmon.LoadDbHeapSampler</stringProp>
+          </JavaSampler>
+          <hashTree/>
+          <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Heap(b): Load Model+Cov(Sampling+512m Cache)" enabled="true">
+            <stringProp name="TestPlan.comments">Measures Size of Full + App + Test models</stringProp>
+            <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="initstring" elementType="Argument">
+                  <stringProp name="Argument.name">initstring</stringProp>
+                  <stringProp name="Argument.value">${jira.workspace}/target/clover/database/clover_coverage.db</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="load.coverage" elementType="Argument">
+                  <stringProp name="Argument.name">load.coverage</stringProp>
+                  <stringProp name="Argument.value">true</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="load.reg.only" elementType="Argument">
+                  <stringProp name="Argument.name">load.reg.only</stringProp>
+                  <stringProp name="Argument.value">false</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="pertest.mem.strategy" elementType="Argument">
+                  <stringProp name="Argument.name">pertest.mem.strategy</stringProp>
+                  <stringProp name="Argument.value">SAMPLING</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="pertest.storage.size" elementType="Argument">
+                  <stringProp name="Argument.name">pertest.storage.size</stringProp>
+                  <stringProp name="Argument.value">512m</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="classname">com.atlassian.clover.perfmon.LoadDbHeapSampler</stringProp>
+          </JavaSampler>
+          <hashTree/>
+          <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Heap(b): Query TCI Coverage of Model+Cov(InMem)" enabled="true">
+            <stringProp name="TestPlan.comments">Measures Size of Full + App + Test models</stringProp>
+            <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="initstring" elementType="Argument">
+                  <stringProp name="Argument.name">initstring</stringProp>
+                  <stringProp name="Argument.value">${jira.workspace}/target/clover/database/clover_coverage.db</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="load.coverage" elementType="Argument">
+                  <stringProp name="Argument.name">load.coverage</stringProp>
+                  <stringProp name="Argument.value">true</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="load.reg.only" elementType="Argument">
+                  <stringProp name="Argument.name">load.reg.only</stringProp>
+                  <stringProp name="Argument.value">false</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="pertest.mem.strategy" elementType="Argument">
+                  <stringProp name="Argument.name">pertest.mem.strategy</stringProp>
+                  <stringProp name="Argument.value">IN_MEMORY</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="pertest.storage.size" elementType="Argument">
+                  <stringProp name="Argument.name">pertest.storage.size</stringProp>
+                  <stringProp name="Argument.value">256m</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="classname">com.atlassian.clover.perfmon.QueryPerTestCoverageHitsHeapSampler</stringProp>
+          </JavaSampler>
+          <hashTree/>
+          <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Heap(b): Query TCI Coverage of Model+Cov(Sampling+128m Cache)" enabled="true">
+            <stringProp name="TestPlan.comments">Measures Size of Full + App + Test models</stringProp>
+            <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="initstring" elementType="Argument">
+                  <stringProp name="Argument.name">initstring</stringProp>
+                  <stringProp name="Argument.value">${jira.workspace}/target/clover/database/clover_coverage.db</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="load.coverage" elementType="Argument">
+                  <stringProp name="Argument.name">load.coverage</stringProp>
+                  <stringProp name="Argument.value">true</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="load.reg.only" elementType="Argument">
+                  <stringProp name="Argument.name">load.reg.only</stringProp>
+                  <stringProp name="Argument.value">false</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="pertest.mem.strategy" elementType="Argument">
+                  <stringProp name="Argument.name">pertest.mem.strategy</stringProp>
+                  <stringProp name="Argument.value">SAMPLING</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="pertest.storage.size" elementType="Argument">
+                  <stringProp name="Argument.name">pertest.storage.size</stringProp>
+                  <stringProp name="Argument.value">128m</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="classname">com.atlassian.clover.perfmon.QueryPerTestCoverageHitsHeapSampler</stringProp>
+          </JavaSampler>
+          <hashTree/>
+          <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Heap(b): Query TCI Coverage of Model+Cov(Sampling+256m Cache)" enabled="true">
+            <stringProp name="TestPlan.comments">Measures Size of Full + App + Test models</stringProp>
+            <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="initstring" elementType="Argument">
+                  <stringProp name="Argument.name">initstring</stringProp>
+                  <stringProp name="Argument.value">${jira.workspace}/target/clover/database/clover_coverage.db</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="load.coverage" elementType="Argument">
+                  <stringProp name="Argument.name">load.coverage</stringProp>
+                  <stringProp name="Argument.value">true</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="load.reg.only" elementType="Argument">
+                  <stringProp name="Argument.name">load.reg.only</stringProp>
+                  <stringProp name="Argument.value">false</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="pertest.mem.strategy" elementType="Argument">
+                  <stringProp name="Argument.name">pertest.mem.strategy</stringProp>
+                  <stringProp name="Argument.value">SAMPLING</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="pertest.storage.size" elementType="Argument">
+                  <stringProp name="Argument.name">pertest.storage.size</stringProp>
+                  <stringProp name="Argument.value">256m</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="classname">com.atlassian.clover.perfmon.QueryPerTestCoverageHitsHeapSampler</stringProp>
+          </JavaSampler>
+          <hashTree/>
+          <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Heap(b): Query TCI Coverage of Model+Cov(Sampling+512m Cache)" enabled="true">
+            <stringProp name="TestPlan.comments">Measures Size of Full + App + Test models</stringProp>
+            <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="initstring" elementType="Argument">
+                  <stringProp name="Argument.name">initstring</stringProp>
+                  <stringProp name="Argument.value">${jira.workspace}/target/clover/database/clover_coverage.db</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="load.coverage" elementType="Argument">
+                  <stringProp name="Argument.name">load.coverage</stringProp>
+                  <stringProp name="Argument.value">true</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="load.reg.only" elementType="Argument">
+                  <stringProp name="Argument.name">load.reg.only</stringProp>
+                  <stringProp name="Argument.value">false</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="pertest.mem.strategy" elementType="Argument">
+                  <stringProp name="Argument.name">pertest.mem.strategy</stringProp>
+                  <stringProp name="Argument.value">SAMPLING</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="pertest.storage.size" elementType="Argument">
+                  <stringProp name="Argument.name">pertest.storage.size</stringProp>
+                  <stringProp name="Argument.value">512m</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="classname">com.atlassian.clover.perfmon.QueryPerTestCoverageHitsHeapSampler</stringProp>
+          </JavaSampler>
+          <hashTree/>
+          <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapsed(ms): Load Model+Cov(InMem)" enabled="true">
+            <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="initstring" elementType="Argument">
+                  <stringProp name="Argument.name">initstring</stringProp>
+                  <stringProp name="Argument.value">${jira.workspace}/target/clover/database/clover_coverage.db</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="load.coverage" elementType="Argument">
+                  <stringProp name="Argument.name">load.coverage</stringProp>
+                  <stringProp name="Argument.value">true</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="load.reg.only" elementType="Argument">
+                  <stringProp name="Argument.name">load.reg.only</stringProp>
+                  <stringProp name="Argument.value">false</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="pertest.mem.strategy" elementType="Argument">
+                  <stringProp name="Argument.name">pertest.mem.strategy</stringProp>
+                  <stringProp name="Argument.value">IN_MEMORY</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="pertest.storage.size" elementType="Argument">
+                  <stringProp name="Argument.name">pertest.storage.size</stringProp>
+                  <stringProp name="Argument.value">256m</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="classname">com.atlassian.clover.perfmon.LoadDbSampler</stringProp>
+          </JavaSampler>
+          <hashTree/>
+          <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapsed(ms): Load Model+Cov(Sampling+128m Cache)" enabled="true">
+            <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="initstring" elementType="Argument">
+                  <stringProp name="Argument.name">initstring</stringProp>
+                  <stringProp name="Argument.value">${jira.workspace}/target/clover/database/clover_coverage.db</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="load.coverage" elementType="Argument">
+                  <stringProp name="Argument.name">load.coverage</stringProp>
+                  <stringProp name="Argument.value">true</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="load.reg.only" elementType="Argument">
+                  <stringProp name="Argument.name">load.reg.only</stringProp>
+                  <stringProp name="Argument.value">false</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="pertest.mem.strategy" elementType="Argument">
+                  <stringProp name="Argument.name">pertest.mem.strategy</stringProp>
+                  <stringProp name="Argument.value">SAMPLING</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="pertest.storage.size" elementType="Argument">
+                  <stringProp name="Argument.name">pertest.storage.size</stringProp>
+                  <stringProp name="Argument.value">128m</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="classname">com.atlassian.clover.perfmon.LoadDbSampler</stringProp>
+          </JavaSampler>
+          <hashTree/>
+          <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapsed(ms): Load Model+Cov(Sampling+256m Cache)" enabled="true">
+            <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="initstring" elementType="Argument">
+                  <stringProp name="Argument.name">initstring</stringProp>
+                  <stringProp name="Argument.value">${jira.workspace}/target/clover/database/clover_coverage.db</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="load.coverage" elementType="Argument">
+                  <stringProp name="Argument.name">load.coverage</stringProp>
+                  <stringProp name="Argument.value">true</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="load.reg.only" elementType="Argument">
+                  <stringProp name="Argument.name">load.reg.only</stringProp>
+                  <stringProp name="Argument.value">false</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="pertest.mem.strategy" elementType="Argument">
+                  <stringProp name="Argument.name">pertest.mem.strategy</stringProp>
+                  <stringProp name="Argument.value">SAMPLING</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="pertest.storage.size" elementType="Argument">
+                  <stringProp name="Argument.name">pertest.storage.size</stringProp>
+                  <stringProp name="Argument.value">256m</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="classname">com.atlassian.clover.perfmon.LoadDbSampler</stringProp>
+          </JavaSampler>
+          <hashTree/>
+          <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapsed(ms): Load Model+Cov(Sampling+512m Cache)" enabled="true">
+            <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="initstring" elementType="Argument">
+                  <stringProp name="Argument.name">initstring</stringProp>
+                  <stringProp name="Argument.value">${jira.workspace}/target/clover/database/clover_coverage.db</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="load.coverage" elementType="Argument">
+                  <stringProp name="Argument.name">load.coverage</stringProp>
+                  <stringProp name="Argument.value">true</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="load.reg.only" elementType="Argument">
+                  <stringProp name="Argument.name">load.reg.only</stringProp>
+                  <stringProp name="Argument.value">false</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="pertest.mem.strategy" elementType="Argument">
+                  <stringProp name="Argument.name">pertest.mem.strategy</stringProp>
+                  <stringProp name="Argument.value">SAMPLING</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="pertest.storage.size" elementType="Argument">
+                  <stringProp name="Argument.name">pertest.storage.size</stringProp>
+                  <stringProp name="Argument.value">512m</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="classname">com.atlassian.clover.perfmon.LoadDbSampler</stringProp>
+          </JavaSampler>
+          <hashTree/>
+          <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapsed(ms): Query TCI Coverage(InMem)" enabled="true">
+            <stringProp name="TestPlan.comments">Measures Size of Full + App + Test models</stringProp>
+            <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="initstring" elementType="Argument">
+                  <stringProp name="Argument.name">initstring</stringProp>
+                  <stringProp name="Argument.value">${jira.workspace}/target/clover/database/clover_coverage.db</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="load.coverage" elementType="Argument">
+                  <stringProp name="Argument.name">load.coverage</stringProp>
+                  <stringProp name="Argument.value">true</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="load.reg.only" elementType="Argument">
+                  <stringProp name="Argument.name">load.reg.only</stringProp>
+                  <stringProp name="Argument.value">false</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="pertest.mem.strategy" elementType="Argument">
+                  <stringProp name="Argument.name">pertest.mem.strategy</stringProp>
+                  <stringProp name="Argument.value">IN_MEMORY</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="pertest.storage.size" elementType="Argument">
+                  <stringProp name="Argument.name">pertest.storage.size</stringProp>
+                  <stringProp name="Argument.value">256m</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="classname">com.atlassian.clover.perfmon.QueryPerTestCoverageHitsSampler</stringProp>
+          </JavaSampler>
+          <hashTree/>
+          <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapsed(ms): Query TCI Coverage(Sampling+128m Cache)" enabled="true">
+            <stringProp name="TestPlan.comments">Measures Size of Full + App + Test models</stringProp>
+            <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="initstring" elementType="Argument">
+                  <stringProp name="Argument.name">initstring</stringProp>
+                  <stringProp name="Argument.value">${jira.workspace}/target/clover/database/clover_coverage.db</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="load.coverage" elementType="Argument">
+                  <stringProp name="Argument.name">load.coverage</stringProp>
+                  <stringProp name="Argument.value">true</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="load.reg.only" elementType="Argument">
+                  <stringProp name="Argument.name">load.reg.only</stringProp>
+                  <stringProp name="Argument.value">false</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="pertest.mem.strategy" elementType="Argument">
+                  <stringProp name="Argument.name">pertest.mem.strategy</stringProp>
+                  <stringProp name="Argument.value">SAMPLING</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="pertest.storage.size" elementType="Argument">
+                  <stringProp name="Argument.name">pertest.storage.size</stringProp>
+                  <stringProp name="Argument.value">128m</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="classname">com.atlassian.clover.perfmon.QueryPerTestCoverageHitsSampler</stringProp>
+          </JavaSampler>
+          <hashTree/>
+          <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapsed(ms): Query TCI Coverage(Sampling+256m Cache)" enabled="true">
+            <stringProp name="TestPlan.comments">Measures Size of Full + App + Test models</stringProp>
+            <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="initstring" elementType="Argument">
+                  <stringProp name="Argument.name">initstring</stringProp>
+                  <stringProp name="Argument.value">${jira.workspace}/target/clover/database/clover_coverage.db</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="load.coverage" elementType="Argument">
+                  <stringProp name="Argument.name">load.coverage</stringProp>
+                  <stringProp name="Argument.value">true</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="load.reg.only" elementType="Argument">
+                  <stringProp name="Argument.name">load.reg.only</stringProp>
+                  <stringProp name="Argument.value">false</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="pertest.mem.strategy" elementType="Argument">
+                  <stringProp name="Argument.name">pertest.mem.strategy</stringProp>
+                  <stringProp name="Argument.value">SAMPLING</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="pertest.storage.size" elementType="Argument">
+                  <stringProp name="Argument.name">pertest.storage.size</stringProp>
+                  <stringProp name="Argument.value">256m</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="classname">com.atlassian.clover.perfmon.QueryPerTestCoverageHitsSampler</stringProp>
+          </JavaSampler>
+          <hashTree/>
+          <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapsed(ms): Query TCI Coverage(Sampling+512m Cache)" enabled="true">
+            <stringProp name="TestPlan.comments">Measures Size of Full + App + Test models</stringProp>
+            <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="initstring" elementType="Argument">
+                  <stringProp name="Argument.name">initstring</stringProp>
+                  <stringProp name="Argument.value">${jira.workspace}/target/clover/database/clover_coverage.db</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="load.coverage" elementType="Argument">
+                  <stringProp name="Argument.name">load.coverage</stringProp>
+                  <stringProp name="Argument.value">true</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="load.reg.only" elementType="Argument">
+                  <stringProp name="Argument.name">load.reg.only</stringProp>
+                  <stringProp name="Argument.value">false</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="pertest.mem.strategy" elementType="Argument">
+                  <stringProp name="Argument.name">pertest.mem.strategy</stringProp>
+                  <stringProp name="Argument.value">SAMPLING</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="pertest.storage.size" elementType="Argument">
+                  <stringProp name="Argument.name">pertest.storage.size</stringProp>
+                  <stringProp name="Argument.value">512m</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="classname">com.atlassian.clover.perfmon.QueryPerTestCoverageHitsSampler</stringProp>
+          </JavaSampler>
+          <hashTree/>
+          <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapsed(ms): clover:report XML" enabled="true">
+            <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="jira.workspace" elementType="Argument">
+                  <stringProp name="Argument.name">jira.workspace</stringProp>
+                  <stringProp name="Argument.value">${jira.workspace}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="maven1.basedir" elementType="Argument">
+                  <stringProp name="Argument.name">maven1.basedir</stringProp>
+                  <stringProp name="Argument.value">${maven1.basedir}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="maven2.basedir" elementType="Argument">
+                  <stringProp name="Argument.name">maven2.basedir</stringProp>
+                  <stringProp name="Argument.value">${maven2.basedir}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="maven1.home.local" elementType="Argument">
+                  <stringProp name="Argument.name">maven1.home.local</stringProp>
+                  <stringProp name="Argument.value">${maven1.home.local}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="maven1.opts" elementType="Argument">
+                  <stringProp name="Argument.name">maven1.opts</stringProp>
+                  <stringProp name="Argument.value">${maven1.opts}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="maven1.arguments" elementType="Argument">
+                  <stringProp name="Argument.name">maven1.arguments</stringProp>
+                  <stringProp name="Argument.value">clover:xml-report</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="maven1.pre.arguments" elementType="Argument">
+                  <stringProp name="Argument.name">maven1.pre.arguments</stringProp>
+                  <stringProp name="Argument.value"></stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="maven1.post.arguments" elementType="Argument">
+                  <stringProp name="Argument.name">maven1.post.arguments</stringProp>
+                  <stringProp name="Argument.value"></stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="classname">com.atlassian.clover.perfmon.RunMavenOnJIRA</stringProp>
+          </JavaSampler>
+          <hashTree/>
+          <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapsed(ms): clover:report HTML" enabled="true">
+            <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="jira.workspace" elementType="Argument">
+                  <stringProp name="Argument.name">jira.workspace</stringProp>
+                  <stringProp name="Argument.value">${jira.workspace}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="maven1.basedir" elementType="Argument">
+                  <stringProp name="Argument.name">maven1.basedir</stringProp>
+                  <stringProp name="Argument.value">${maven1.basedir}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="maven2.basedir" elementType="Argument">
+                  <stringProp name="Argument.name">maven2.basedir</stringProp>
+                  <stringProp name="Argument.value">${maven2.basedir}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="maven1.home.local" elementType="Argument">
+                  <stringProp name="Argument.name">maven1.home.local</stringProp>
+                  <stringProp name="Argument.value">${maven1.home.local}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="maven1.opts" elementType="Argument">
+                  <stringProp name="Argument.name">maven1.opts</stringProp>
+                  <stringProp name="Argument.value">${maven1.opts}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="maven1.arguments" elementType="Argument">
+                  <stringProp name="Argument.name">maven1.arguments</stringProp>
+                  <stringProp name="Argument.value">clover:html-report</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="maven1.pre.arguments" elementType="Argument">
+                  <stringProp name="Argument.name">maven1.pre.arguments</stringProp>
+                  <stringProp name="Argument.value"></stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="maven1.post.arguments" elementType="Argument">
+                  <stringProp name="Argument.name">maven1.post.arguments</stringProp>
+                  <stringProp name="Argument.value"></stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="classname">com.atlassian.clover.perfmon.RunMavenOnJIRA</stringProp>
+          </JavaSampler>
+          <hashTree/>
+          <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapsed(ms): clover:report PDF" enabled="true">
+            <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="jira.workspace" elementType="Argument">
+                  <stringProp name="Argument.name">jira.workspace</stringProp>
+                  <stringProp name="Argument.value">${jira.workspace}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="maven1.basedir" elementType="Argument">
+                  <stringProp name="Argument.name">maven1.basedir</stringProp>
+                  <stringProp name="Argument.value">${maven1.basedir}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="maven2.basedir" elementType="Argument">
+                  <stringProp name="Argument.name">maven2.basedir</stringProp>
+                  <stringProp name="Argument.value">${maven2.basedir}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="maven1.home.local" elementType="Argument">
+                  <stringProp name="Argument.name">maven1.home.local</stringProp>
+                  <stringProp name="Argument.value">${maven1.home.local}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="maven1.opts" elementType="Argument">
+                  <stringProp name="Argument.name">maven1.opts</stringProp>
+                  <stringProp name="Argument.value">${maven1.opts}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="maven1.arguments" elementType="Argument">
+                  <stringProp name="Argument.name">maven1.arguments</stringProp>
+                  <stringProp name="Argument.value">clover:pdf-report</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="maven1.pre.arguments" elementType="Argument">
+                  <stringProp name="Argument.name">maven1.pre.arguments</stringProp>
+                  <stringProp name="Argument.value"></stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+                <elementProp name="maven1.post.arguments" elementType="Argument">
+                  <stringProp name="Argument.name">maven1.post.arguments</stringProp>
+                  <stringProp name="Argument.value"></stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="classname">com.atlassian.clover.perfmon.RunMavenOnJIRA</stringProp>
+          </JavaSampler>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>true</xml>
+            <fieldNames>false</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>

@@ -1,0 +1,81 @@
+<project name="clover-scala" default="build">
+    <import file="../common.xml"/>
+    <import file="../clover-ant/build.xml"/>
+
+    <dirname property="clover-scala.base" file="${ant.file.clover-scala}"/>
+
+    <property name="clover.jar" location="${clover-ant.output}/clover.jar"/>
+    <property name="clover.license.src" location="${common.base}/etc/clover-development.license"/>
+    <property name="clover.license.dest" location="${clover-ant.output}/clover.license"/>
+
+    <property name="clover-scala.output" location="${clover-scala.base}/target"/>
+    <property name="clover-scala.output.classes" location="${clover-scala.output}/classes"/>
+    <property name="clover-scala.output.gensrc" location="${clover-scala.output}/src-generated"/>
+
+
+    <target name="init" depends="clover-ant.jar">
+        <dependencies pathid="scala.path">
+            <dependency groupId="org.scala-lang" artifactId="scala-compiler" version="2.8.0.r18462-b20090811081019"/>
+            <dependency groupId="org.scala-lang" artifactId="scala-library" version="2.8.0.r18462-b20090811081019"/>
+        </dependencies>
+
+        <taskdef resource="scala/tools/ant/antlib.xml" classpathref="scala.path"/>
+        <taskdef resource="cloverlib.xml" classpath="${clover.jar}"/>
+    </target>
+
+    <target name="build" depends="init">
+        <mkdir dir="${clover-scala.output.classes}"/>
+        <scalac srcdir="src"
+                destdir="${clover-scala.output.classes}"
+                includes="**/*.scala">
+            <classpath>
+                <path refid="scala.path"/>
+                <pathelement location="${clover.jar}"/>
+            </classpath>
+        </scalac>
+    </target>
+
+    <target name="dist" depends="build">
+        <mkdir dir="${clover-scala.output}"/>
+        <jar destfile="${clover-scala.output}/cloverInstrument.jar">
+            <fileset dir="${clover-scala.output.classes}"/>
+            <fileset file="etc/scalac-plugin.xml"/>
+        </jar>
+    </target>
+
+    <target name="clean">
+        <delete dir="build" includeemptydirs="true" includes="**/*"/>
+    </target>
+
+    <target name="run.instrument" depends="clean, dist">
+        <mkdir dir="${clover-scala.output.gensrc}"/>
+        <java fork="true" classname="scala.tools.nsc.Main">
+            <arg line="-d ${clover-scala.output.gensrc} -classpath ${clover.jar}:${toString:scala.path} -Xprint:all -Xplugin:${clover-scala.output}/cloverInstrument.jar -Xplugin-require:cloverInstrumenter -P:cloverInstrumenter:clover.initstring='${clover-scala.output.gensrc}/clover.db' testsrc/HelloWorld.scala"/>
+            <!--<jvmarg line="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005"/>-->
+            <classpath>
+                <path refid="scala.path"/>
+                <pathelement location="${clover.jar}"/>
+            </classpath>
+        </java>
+    </target>
+
+    <target name="run.run" depends="run.instrument">
+        <java fork="true" classname="foo.bar.HelloWorld">
+            <classpath>
+                <pathelement location="${clover-scala.output.gensrc}"/>
+                <pathelement location="${org.scala-lang:scala-library:jar}"/>
+                <pathelement location="${clover.jar}"/>
+            </classpath>
+        </java>
+    </target>
+
+    <target name="run.report" depends="run.run">
+        <copy file="${clover.license.src}" tofile="${clover.license.dest}"/>
+        <clover-report initstring="${clover-scala.output.gensrc}/clover.db">
+            <current outfile="${clover-scala.output.gensrc}/report" title="Clover Coverage">
+                <format type="html"/>
+                <sourcepath location="${clover-scala.base}/testsrc"/>
+            </current>
+        </clover-report>
+    </target>
+</project>                                                           

@@ -1,0 +1,37 @@
+<project basedir="" default="" name="">
+
+    <taskdef name="clover-setup" classname="com.atlassian.clover.ant.tasks.CloverSetupTask"/>
+
+    <target name="invalid-empty-profiles">
+        <clover-setup>
+            <profiles/>  <!-- We should have at least one profile defined -->
+        </clover-setup>
+    </target>
+
+    <target name="invalid-no-default-profile">
+        <clover-setup>
+            <profiles>
+                <!-- We should have one profile named "default" declared -->
+                <profile name="not-the-default"/>
+            </profiles>
+        </clover-setup>
+    </target>
+
+    <target name="invalid-coverage-recorder">
+        <clover-setup>
+            <profiles>
+                <!-- We should have valid coverage recorder name -->
+                <profile name="default" coverageRecorder="something"/>
+            </profiles>
+        </clover-setup>
+    </target>
+
+    <target name="setUp">
+
+    </target>
+
+    <target name="tearDown">
+
+    </target>
+
+</project>

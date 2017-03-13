@@ -1,0 +1,603 @@
+<project name="common" basedir="." default="common.init">
+    <dirname property="common.base" file="${ant.file.common}"/>
+
+    <!-- output directory -->
+    <property name="build.dir" location="${common.base}/target"/>
+
+    <!-- where to keep downloaded third party libraries -->
+    <property name="build.deps.dir" location="${common.base}/target/dependencies"/>
+
+    <!-- path to mvn executable -->
+    <property name="path.to.mvn" value="mvn"/>
+
+    <!-- path to .m2/repository -->
+    <exec executable="${common.base}/maven_repo.sh" dir="${basedir}" outputproperty="mvn.repository"/>
+
+    <!-- Load local environment settings -->
+    <property file="build.properties"/>
+
+    <property name="lib.dir" location="${common.base}/lib"/>
+    <property name="repkg.clover.jar" location="${build.dir}/clover-repkg.jar"/>
+    <property name="clover.url" value="http://www.atlassian.com/software/clover"/>
+    <property name="clover.help.url" value="http://confluence.atlassian.com/x/JAgQCQ"/>
+    <property name="clover.license.url" value="http://my.atlassian.com"/>
+    <property name="clover.license.agreement.url" value="http://www.atlassian.com/legal/customer-agreement"/>
+    <property name="clover.license.upgrade.url" value="http://www.atlassian.com/clover/renew"/>
+    <property name="clover.repository.url" value="ssh://hg@bitbucket.org/atlassian/clover"/>
+    <!-- fail build if tests fail or have errors - defaults to not failing -->
+    <property name="fail.if.notpass" value="false"/>
+    <!-- whether to not download 3rd party jars if they already exist -->
+    <property name="build.dependency.skip.existing" value="true"/>
+
+    <!-- Java we want to build against -->
+    <property name="jdk.target" value="1.6"/>
+    <property name="source.level" value="1.6"/>
+    <path id="java.rt.path" path="${java.rt.path}"/>
+    <path id="java.tools.path" path="${java.tools.path}"/>
+
+    <!-- Default Groovy version. Use the latest available. -->
+    <property name="default.groovy.version" value="2.2.2"/> <!-- TODO can't use 2.3.0+ because dumpAST() fails -->
+    <!-- Versions which does not work due to Groovy bugs:
+       1.6.8, 1.6.9 - globalSliceEnd from finally block is not called (wrong bytecode is produced by groovyc)
+       1.6.2, 1.6.3, 1.6.4 - Clover works fine, but testImplicitReturnsArePreserved fails because "switch as expression"
+                was implemented in 1.6.5 - http://jira.codehaus.org/browse/GROOVY-3789
+       1.7.1 - globalSliceEnd problem
+       2.0.0 - this groovy release does not work with JDK1.5 - http://jira.codehaus.org/browse/GROOVY-5593
+    -->
+    <property name="unsupported.groovy.versions" value="1.6.2,1.6.3,1.6.4,1.6.8,1.6.9,1.7.1,2.0.0"/>
+    <!-- Default Ant version. Use the latest available. -->
+    <property name="default.ant.version" value="1.9.4"/>
+    <property name="unsupported.ant.versions" value=""/>
+
+    <property name="mvn.version" value="3.2.5"/>
+
+    <!-- ========================================================================== -->
+
+    <!-- Maven Central Repository - used for downloading 3rd party artifacts -->
+    <property name="maven.central.url" value="http://repo1.maven.org/maven2"/>
+
+    <!-- Fetching JAR from Maven Central -->
+    <macrodef name="get-jar">
+        <attribute name="src"/>
+        <attribute name="dest"/>
+        <sequential>
+            <mkdir dir="${build.deps.dir}"/>
+            <get src="${maven.central.url}/@{src}" dest="${build.deps.dir}/@{dest}"
+                 skipexisting="${build.dependency.skip.existing}" verbose="false"/>
+        </sequential>
+    </macrodef>
+
+    <get-jar src="org/apache/maven/maven-ant-tasks/2.1.3/maven-ant-tasks-2.1.3.jar" dest="maven-ant-tasks-2.1.3.jar"/>
+    <typedef resource="org/apache/maven/artifact/ant/antlib.xml"
+             classpath="${build.deps.dir}/maven-ant-tasks-2.1.3.jar"/>
+
+    <get-jar src="ant-contrib/ant-contrib/1.0b3/ant-contrib-1.0b3.jar" dest="ant-contrib-1.0b3.jar"/>
+    <taskdef resource="net/sf/antcontrib/antlib.xml"
+             classpath="${build.deps.dir}/ant-contrib-1.0b3.jar"/>
+
+    <get src="https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/jarjar/jarjar-1.0rc7.jar"
+         dest="${build.deps.dir}/jarjar-1.0rc7.jar" skipexisting="${build.dependency.skip.existing}" verbose="false"/>
+    <taskdef name="jarjar"
+             classname="com.tonicsystems.jarjar.JarJarTask"
+             classpath="${build.deps.dir}/jarjar-1.0rc7.jar"/>
+
+    <!-- ========================================================================== -->
+
+    <property name="clover.historydir" value="${user.home}/cloverhistory"/>
+    <property name="ide.eval.license" value=""/>
+
+    <tstamp>
+      <format property="build.date" pattern="MMMM dd yyyy" locale="en,US"/>
+      <format property="build.stamp.aslong" pattern="yyyyMMddHHmmssSS'L'" locale="en,US"/>
+      <format property="build.stamp" pattern="yyyyMMddHHmmss" locale="en,US"/>
+      <format property="eclipse.build.stamp" pattern="yyyyMMddHHmmss" locale="en,US"/>
+      <format property="idea.build.stamp" pattern="yyyyMMddHHmmss" locale="en,US"/>
+    </tstamp>
+
+    <!-- version numbers for all packages -->
+    <property name="build.number.prefix" value="build-"/> <!-- change this for branches, etc. -->
+    <property name="build.number.string" value="dev"/> <!-- no build numbers for non-prod builds -->
+    <property name="core.release.base" value="4.2.0"/>
+    <!-- duplicated version number because @input does not support expressions :( -->
+    <propertyregex input="4.2.0"
+        property="core.release.num.sanitised"
+        regexp="\W+"
+        replace="_"
+        global="true" />
+
+    <filterset id="common.version.filterset">
+        <filter token="CLOVER_URL" value="${clover.url}"/>
+        <filter token="CLOVER_LICENSE_URL" value="${clover.license.url}"/>
+        <filter token="CLOVER_LICENSE_AGREEMENT_URL" value="${clover.license.agreement.url}"/>
+        <filter token="CLOVER_LICENSE_UPGRADE_URL" value="${clover.license.upgrade.url}"/>
+        <filter token="CLOVER_HELP_URL" value="${clover.help.url}"/>
+        <filter token="BUILD_DATE" value="${build.date}"/>
+        <filter token="BUILD_STAMP" value="${build.stamp.aslong}"/>
+        <filter token="BUILD_NUMBER" value="${build.number.prefix}${build.number.string}"/>
+    </filterset>
+
+    <property name="core.release.qualifier" value=""/>
+    <property name="core.release.num" value="${core.release.base}${core.release.qualifier}"/>
+    <property name="ant.release.num" value="${core.release.num}"/>
+    <loadresource property="core.release.base.ident">
+        <propertyresource name="core.release.base"/>
+        <filterchain>
+            <replacestring from="." to="_" />
+        </filterchain>
+    </loadresource>
+    <propertyregex input="${core.release.base}"
+                   regexp="^([0-9]+\.[0-9]+).*"
+                   select="\1"
+                   property="core.release.major.num"
+                   description="Clover's version number limited to two first major digits, like 4.0"/>
+    <filterset id="core.version.filterset">
+        <filterset refid="common.version.filterset"/>
+        <filter token="CORE_RELEASE_NUM" value="${core.release.num}"/>
+        <filter token="CORE_RELEASE_MAJOR_NUM" value="${core.release.major.num}"/>
+        <filter token="CORE_RELEASE_NUM_SANITISED" value="${core.release.num.sanitised}"/>
+        <filter token="CORE_RELEASE_BASE_IDENT" value="${core.release.base.ident}"/>
+    </filterset>
+
+    <!-- "-dev" by default, add -Declipse.build.suffix= if not a dev build or specify [eclipse|idea].release.num directly -->
+    <condition property="idea.build.suffix" value="-dev${core.release.qualifier}">
+        <isfalse value="${clover.prod.build}"/>
+    </condition>
+    <condition property="idea.build.suffix" value="">
+        <istrue value="${clover.prod.build}"/>
+    </condition>
+    <condition property="eclipse.build.suffix" value="-dev${core.release.qualifier}">
+        <isfalse value="${clover.prod.build}"/>
+    </condition>
+    <condition property="eclipse.build.suffix" value="">
+        <istrue value="${clover.prod.build}"/>
+    </condition>
+
+    <property name="eclipse.release.num" value="${core.release.base}.v${eclipse.build.stamp}${eclipse.build.suffix}"/>
+    <property name="idea.release.num" value="${core.release.base}${idea.build.suffix}"/>
+
+    <!-- common resources for release notes -->
+    <property name="releasenotes.resources.dir"
+              location="${common.base}/etc/releasenotes/resources"/>
+
+    <condition property="windows">
+       <os family="windows"/>
+    </condition>
+
+    <condition property="unix">
+       <os family="unix"/>
+    </condition>
+
+    <!-- Conditions checking if we have JDK >= 1.X. Useful for compilation. -->
+
+    <condition property="jdk1_6+" description="We have JDK 1.6 or  higher">
+        <available classname="java.util.Deque"/>
+    </condition>
+
+    <!-- Conditions checking if we have JDK == 1.X. Useful for designing tests for specific platform. -->
+    <!-- Note: we don't use ${ant.java.version} because currently used Ant version doesn't detect JDK 1.7 -->
+
+    <condition property="jdk16" description="We have JDK 1.6 exactly">
+        <and>
+            <available classname="java.util.Deque"/>
+            <not>
+                <available classname="java.util.concurrent.Phaser"/>
+            </not>
+        </and>
+    </condition>
+
+    <condition property="jdk17" description="We have JDK 1.7 exactly">
+        <and>
+            <available classname="java.util.concurrent.Phaser"/>
+            <not>
+                <available classname="java.lang.FunctionalInterface"/>
+            </not>
+        </and>
+    </condition>
+
+    <condition property="jdk18" description="We have JDK 1.8 exactly">
+        <available classname="java.lang.FunctionalInterface"/>
+    </condition>
+
+    <property name="junit.jar" location="${build.deps.dir}/junit-4.12.jar"/>
+    <property name="hamcrest.jar" location="${build.deps.dir}/hamcrest-core-1.3.jar"/>
+    <property name="multithreadedtc.jar" location="${build.deps.dir}/multithreadedtc-1.01.jar"/>
+    <property name="mockito.jar" location="${build.deps.dir}/mockito-all-1.10.19.jar"/>
+    <property name="groovy.jar" location="${build.deps.dir}/groovy-all-${default.groovy.version}.jar"/>
+
+    <!-- Compile against minimum supported Spock version TODO using 2.0 because groovy fails trying to load spock services -->
+    <property name="spock.jar" location="${build.deps.dir}/spock-core-0.7-groovy-2.0.jar"/>
+
+    <!-- License key -->
+    <property file="${common.base}/etc/licensecert.properties"/>
+    <property name="clover.license.path" location="${common.base}/etc/clover-development.license"/>
+    <property name="clover.logging.level" location="info"/> <!-- only 'debug' and 'verbose' will cause logging level to be set -->
+
+    <!-- Test patterns -->
+    <property name="test.includes" value="**/*Test.*,**/*Spec.*"/> <!-- JUnit + Spock -->
+    <property name="test.excludes" value="**/*FuncTest.*"/>
+
+    <property name="func.test.includes" value="**/*FuncTest.*"/>
+    <property name="func.test.excludes" value=""/>
+
+    <!-- Using synchronous IO for artificial Ant unit tests that write data and then immediately try to run it -->
+    <!-- Also setting large memory requirements as some tests generate lots of in-memory logging -->
+    <property name="test.fork.jvm.args" value="-Xmx512m -Djava.io.tmpdir=${java.io.tmpdir}"/>
+    <!--<property name="test.fork.jvm.args" value="-Xmx512m -Djava.io.tmpdir=${java.io.tmpdir} -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005"/>-->
+    <!--<property name="jvm.args" value="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005"/>-->
+
+    <macrodef name="hg">
+         <attribute name="command"/>
+         <attribute name="params" default=""/>
+         <attribute name="output" default="${build.dir}/hg.output"/>
+         <sequential>
+             <echo message="Executing: 'hg @{command} @{params}' with output in @{output}"/>
+             <exec executable="hg" dir="${common.base}" failonerror="true" output="@{output}">
+                 <arg line="@{command} @{params}"/>
+             </exec>
+         </sequential>
+    </macrodef>
+
+    <!-- Macro to fetch ant, ant-junit, ant-junit4 and ant-launcher JARs -->
+    <macrodef name="get-ant-jars">
+        <attribute name="version"/>
+        <attribute name="with-junit4" default="false"/>
+        <sequential>
+            <mkdir dir="${build.deps.dir}/ant/ant-@{version}"/>
+
+            <get-jar src="org/apache/ant/ant/@{version}/ant-@{version}.jar"
+                     dest="ant/ant-@{version}/ant.jar"/>
+            <get-jar src="org/apache/ant/ant-junit/@{version}/ant-junit-@{version}.jar"
+                     dest="ant/ant-@{version}/ant-junit.jar"/>
+            <get-jar src="org/apache/ant/ant-launcher/@{version}/ant-launcher-@{version}.jar"
+                     dest="ant/ant-@{version}/ant-launcher.jar"/>
+            <if>
+                <equals arg1="@{with-junit4}" arg2="true"/>
+                <then>
+                    <get-jar src="org/apache/ant/ant-junit4/@{version}/ant-junit4-@{version}.jar"
+                             dest="ant/ant-@{version}/ant-junit4.jar"/>
+                </then>
+            </if>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="releasepkg">
+        <attribute name="module"/> <!-- ant, eclipse, idea; will be prefixed with 'clover-' when calling targets -->
+        <attribute name="kind" default="prod"/>
+        <sequential>
+            <ant target="clover-@{module}.prod.build.check"/>
+            <property name="@{module}.@{kind}.tag" value="@{module}-@{kind}-${@{module}.release.num}"/>
+            <echo message="@{kind} build for ${@{module}.@{kind}.tag}"/>
+
+            <!-- update build number - get the latest revision, rolback any local changes from buildnumber.txt, increment -->
+            <hg command="revert" params="--no-backup buildnumber.txt"/>
+            <hg command="update"/>
+            <buildnumber file="buildnumber.txt"/>
+
+            <hg command="commit" params="-m &quot;NONE:auto build increment&quot; buildnumber.txt" />
+            <echo>build.number now ${build.number}</echo>
+
+            <!-- build production package -->
+            <antcall target="clover-@{module}.pkg">
+                <param name="build.number.string" value="${build.number}"/>
+            </antcall>
+
+            <!-- tag the build -->
+            <echo message="tagging ${@{module}.@{kind}.tag}"/>
+            <hg command="update"/>
+            <hg command="tag" params="--force -m'@{kind} ${@{module}.@{kind}.tag}' ${@{module}.@{kind}.tag}"/>
+            <!-- push changes to master repo; we're pushing directly to master repository on Bitbucket because
+                 on Bamboo it would push to an agent's repository cache and we'd loose our tag -->
+            <hg command="push ssh://hg@bitbucket.org/atlassian/clover"/>
+        </sequential>
+    </macrodef>
+
+    <target name="mvn.versioncheck">
+        <!-- Recommended maven versions are 3.0.5 or 3.2.5 -->
+        <echo message="Checking Maven version ..."/>
+        <exec executable="${path.to.mvn}" dir="${basedir}" outputproperty="maven.out">
+            <arg value="-v"/>
+        </exec>
+        <fail message="Invalid Maven version. Use 3.0.5 or 3.2.5">
+            <condition>
+                <not>
+                    <or>
+                        <contains string="${maven.out}" substring="Apache Maven 3.0.5"/>
+                        <contains string="${maven.out}" substring="Apache Maven 3.2.5"/>
+                    </or>
+                </not>
+            </condition>
+        </fail>
+    </target>
+
+    <target name="prod.mvn.setup"
+            description="Configure properties for deployment to the Atlassian Central repository">
+        <!-- No suffix for production builds-->
+        <property name="core.release.suffix" value=""/>
+        <!-- Signing all artefacts -->
+        <property name="maven.deploy.goal" value="org.apache.maven.plugins:maven-gpg-plugin:1.4:sign-and-deploy-file"/>
+        <!-- Atlassian Central (releases) -->
+        <property name="maven.repositoryId" value="atlassian-central"/>
+        <property name="maven.url" value="https://maven.atlassian.com/central-staging"/>
+    </target>
+
+    <target name="dev.mvn.setup"
+            description="Configure properties for deployment to Atlassian Central Snapshots repository">
+        <!-- SNAPSHOT suffix for development builds -->
+        <property name="core.release.suffix" value="-SNAPSHOT"/>
+        <!-- No signing (we don't have proper PGP keys on BEAC; besides it's just a snapshot) -->
+        <property name="maven.deploy.goal" value="org.apache.maven.plugins:maven-deploy-plugin:2.7:deploy-file"/>
+        <!-- Atlassian Central Snapshot -->
+        <property name="maven.repositoryId" value="atlassian-central-snapshot"/>
+        <property name="maven.url" value="https://maven.atlassian.com/content/repositories/atlassian-central-snapshot"/>
+    </target>
+
+    <macrodef name="maven-deploy">
+        <attribute name="goal"/>
+        <attribute name="repositoryId"/>
+        <attribute name="repositoryUrl"/>
+        <attribute name="file"/>
+        <attribute name="pomFile"/>
+        <attribute name="sourcesFile"/>
+        <attribute name="javadocFile"/>
+
+        <sequential>
+            <echo message="Executing: ${path.to.mvn} @{goal}
+-DrepositoryId=@{repositoryId} -Durl=@{repositoryUrl} -DpomFile=@{pomFile} -Dfile=@{file} -Dsources=@{sourcesFile}
+-Djavadoc=@{javadocFile} -f @{pomFile}"/>
+            <!-- Declare <gpg.passphrase> in ~/m2/settings.xml or provide at command line -->
+            <exec executable="${path.to.mvn}" dir="${basedir}" failonerror="true">
+                <arg value="@{goal}"/>
+                <arg value="-DrepositoryId=@{repositoryId}"/>
+                <arg value="-Durl=@{repositoryUrl}"/>
+                <arg value="-DpomFile=@{pomFile}"/>
+                <arg value="-Dfile=@{file}"/>
+                <arg value="-Dsources=@{sourcesFile}"/>
+                <arg value="-Djavadoc=@{javadocFile}"/>
+                <arg value="-Dgpg.passphrase=${gpg.passphrase}"/>
+                <arg value="-f"/>
+                <arg value="@{pomFile}"/>
+            </exec>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="maven-install">
+        <attribute name="file"/>
+        <attribute name="pomFile"/>
+        <attribute name="sourcesFile"/>
+        <attribute name="javadocFile"/>
+
+        <sequential>
+            <exec executable="${path.to.mvn}" dir="${basedir}" failonerror="true">
+                <arg value="org.apache.maven.plugins:maven-install-plugin:2.3.1:install-file"/>
+                <arg value="-DpomFile=@{pomFile}"/>
+                <arg value="-Dfile=@{file}"/>
+                <arg value="-Dsources=@{sourcesFile}"/>
+                <arg value="-Djavadoc=@{javadocFile}"/>
+                <arg value="-f"/>
+                <arg value="@{pomFile}"/>
+            </exec>
+        </sequential>
+    </macrodef>
+
+    <!--
+        A macro to fetch given artifact from Maven repository or local cache. Used to fetch from non-anonymous
+        repository. We call Maven directly becuase a <dependencies> task does not handle
+        encrypted passwords in settings.xml. Thus we must have this artifact present in a local cache.
+        See: https://issues.apache.org/jira/browse/MANTTASKS-177
+
+        Macro exports an artifact location in the 'groupId:artifactId:packaging' property after resolving.
+    -->
+    <macrodef name="maven-resolve">
+        <!-- input -->
+        <attribute name="pom" default="${common.base}/pom.xml"/>
+        <attribute name="groupId"/>
+        <attribute name="artifactId"/>
+        <attribute name="version"/>
+        <attribute name="classifier" default=""/>
+        <attribute name="packaging" default="jar"/>
+        <attribute name="pathId" default=""/>
+
+        <sequential>
+            <!-- first call Maven to download artifact from repository -->
+            <exec executable="${path.to.mvn}" dir="${basedir}" failonerror="true">
+                <arg value="org.apache.maven.plugins:maven-dependency-plugin:2.10:get"/>
+                <arg value="-Dartifact=@{groupId}:@{artifactId}:@{version}:@{packaging}:@{classifier}"/>
+                <arg value="-f"/>
+                <arg value="@{pom}"/>
+            </exec>
+
+            <!-- next guess file location -->
+            <local name="groupId.path"/>
+            <propertyregex input="@{groupId}" regexp="\." replace="/" defaultValue="@{groupId}" property="groupId.path"/>
+            <local name="artifact.name"/>
+            <condition property="artifact.name"
+                       value="@{groupId}:@{artifactId}:@{packaging}"
+                    else="@{groupId}:@{artifactId}:@{packaging}:@{classifier}">
+                <equals arg1="@{classifier}" arg2=""/>
+            </condition>
+
+            <local name="artifact.path"/>
+            <condition property="artifact.path"
+                    value="${mvn.repository}/${groupId.path}/@{artifactId}/@{version}/@{artifactId}-@{version}.@{packaging}"
+                    else="${mvn.repository}/${groupId.path}/@{artifactId}/@{version}/@{artifactId}-@{version}-@{classifier}.@{packaging}">
+                <equals arg1="@{classifier}" arg2=""/>
+            </condition>
+
+            <!-- export as a property -->
+            <echo message="Exporting ${artifact.name}=${artifact.path}"/>
+            <property name="${artifact.name}" location="${artifact.path}"/>
+
+            <!-- export as a path (optional) -->
+            <if>
+                <not>
+                    <equals arg1="@{pathId}" arg2=""/>
+                </not>
+                <then>
+                    <path id="@{pathId}" location="${artifact.path}"/>
+                </then>
+            </if>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="propertyeval">
+        <attribute name="name"/>
+        <attribute name="from"/>
+        <sequential>
+            <property name="@{name}" value="${@{from}}"/>
+        </sequential>
+    </macrodef>
+
+    <!-- Download JDK from internal repository -->
+    <target name="-jdk.download" if="download.internal.maven.artifacts">
+        <property name="java.rt.version" value="1.6.0.45"/>
+        <!-- see java.rt.path in build.properties -->
+        <maven-resolve groupId="com.atlassian.clover" artifactId="java-rt" version="${java.rt.version}"/>
+        <!-- see java.tools.path in build.properties -->
+        <maven-resolve groupId="com.atlassian.clover" artifactId="java-tools" version="${java.rt.version}"/>
+    </target>
+
+    <target name="common.init" depends="prod.java16.build.check, -jdk.download">
+        <mkdir dir="${build.dir}"/>
+
+        <!-- JDK -->
+        <echo level="verbose" message="Using JDK rt.jar ${java.rt.path}"/>
+        <echo level="verbose" message="Using JDK tools.jar ${java.tools.path}"/>
+
+        <!-- Ant -->
+        <get-ant-jars version="1.7.0"/>
+        <get-ant-jars version="1.7.1"/>
+        <get-ant-jars version="1.8.0"/>
+        <get-ant-jars version="1.8.1"/>
+        <get-ant-jars version="1.8.2"/>
+        <get-ant-jars version="1.8.3" with-junit4="true"/>
+        <get-ant-jars version="1.8.4" with-junit4="true"/>
+        <get-ant-jars version="1.9.1" with-junit4="true"/>
+        <get-ant-jars version="1.9.2" with-junit4="true"/>
+        <get-ant-jars version="1.9.3" with-junit4="true"/>
+        <get-ant-jars version="1.9.4" with-junit4="true"/>
+        <get-ant-jars version="1.9.6" with-junit4="true"/>
+        <get-ant-jars version="1.9.7" with-junit4="true"/>
+
+        <!-- Groovy -->
+        <get-jar src="org/codehaus/groovy/groovy-all/${default.groovy.version}/groovy-all-${default.groovy.version}.jar"
+                 dest="groovy-all-${default.groovy.version}.jar"/>
+        <taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc" classpath="${groovy.jar}"/>
+
+        <!-- JUnit with Hamcrest -->
+        <get-jar src="junit/junit/4.12/junit-4.12.jar"
+                 dest="junit-4.12.jar"/>
+        <get-jar src="org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar"
+                 dest="hamcrest-core-1.3.jar"/>
+
+        <!-- MultithreadedTC-->
+        <get-jar src="com/googlecode/multithreadedtc/multithreadedtc/1.01/multithreadedtc-1.01.jar"
+                 dest="multithreadedtc-1.01.jar"/>
+
+        <!-- Mockito -->
+        <get-jar src="org/mockito/mockito-all/1.10.19/mockito-all-1.10.19.jar"
+                 dest="mockito-all-1.10.19.jar"/>
+
+        <!-- Spock -->
+        <get-jar src="org/spockframework/spock-core/0.5-groovy-1.6/spock-core-0.5-groovy-1.6.jar"
+                 dest="spock-core-0.5-groovy-1.6.jar"/>
+        <get-jar src="org/spockframework/spock-core/0.6-groovy-1.7/spock-core-0.6-groovy-1.7.jar"
+                 dest="spock-core-0.6-groovy-1.7.jar"/>
+        <get-jar src="org/spockframework/spock-core/0.6-groovy-1.8/spock-core-0.6-groovy-1.8.jar"
+                 dest="spock-core-0.6-groovy-1.8.jar"/>
+        <get-jar src="org/spockframework/spock-core/0.7-groovy-1.8/spock-core-0.7-groovy-1.8.jar"
+                 dest="spock-core-0.7-groovy-1.8.jar"/>
+        <get-jar src="org/spockframework/spock-core/0.7-groovy-2.0/spock-core-0.7-groovy-2.0.jar"
+                 dest="spock-core-0.7-groovy-2.0.jar"/>
+        <get-jar src="org/spockframework/spock-core/1.0-groovy-2.0/spock-core-1.0-groovy-2.0.jar"
+                 dest="spock-core-1.0-groovy-2.0.jar"/>
+        <get-jar src="org/spockframework/spock-core/1.0-groovy-2.3/spock-core-1.0-groovy-2.3.jar"
+                 dest="spock-core-1.0-groovy-2.3.jar"/>
+        <get-jar src="org/spockframework/spock-core/1.0-groovy-2.4/spock-core-1.0-groovy-2.4.jar"
+                 dest="spock-core-1.0-groovy-2.4.jar"/>
+    </target>
+
+    <property name="clover.db" value="${build.dir}/cloverdb/clover.db"/>
+
+    <target name="with.clover">
+        <taskdef resource="repkgcloverlib.xml" classpath="${repkg.clover.jar}"/>
+        <clover-setup initstring="${clover.db}">
+            <fileset dir="${common.base}/clover-ant">
+                <include name="src/**"/>
+            </fileset>
+            <fileset dir="${common.base}/clover-buildutil">
+                <include name="src/com/atlassian/clover/test/junit/**/*.groovy"/>
+            </fileset>
+            <fileset dir="${common.base}/clover-core">
+                <include name="src/**"/>
+                <include name="runtime-src/**"/>
+            </fileset>
+            <fileset dir="${common.base}/clover-core">
+                <exclude name="target/src-generated/**"/> <!-- Skip JavaLexer, JavaRecognizer etc -->
+            </fileset>
+            <fileset dir="${common.base}/clover-eclipse">
+                <include name="*/src/**"/>
+                <include name="*/test/**"/>
+            </fileset>
+            <fileset dir="${common.base}/clover-idea">
+                <include name="src/**"/>
+                <include name="test/**"/>
+                <include name="clover-*/src/**"/> <!-- sub-modules -->
+            </fileset>
+            <fileset dir="${common.base}/groovy">
+                <include name="src/**"/>
+                <include name="src-groovy1/**"/>
+                <include name="src-groovy2/**"/>
+            </fileset>
+        </clover-setup>
+    </target>
+
+    <target name="clover.check">
+        <clover-check historydir="${clover.historydir}" haltOnFailure="false" initstring="${clover.db}" span="1 day"/>
+    </target>
+
+    <target name="clover.report">
+        <taskdef resource="repkgcloverlib.xml" classpath="${repkg.clover.jar}"/>
+        <clover-report initstring="${clover.db}">
+            <current outfile="${build.dir}/clover" title="Clover Coverage" span="1 day">
+                <testsources dir="${common.base}/clover-ant" includes="src/test/**"/>
+                <testsources dir="${common.base}/clover-buildutil" includes="src/com/atlassian/clover/test/junit/**"/>
+                <testsources dir="${common.base}/clover-core" includes="src/test/**"/>
+                <testsources dir="${common.base}/clover-eclipse" includes="*/test/**"/>
+                <testsources dir="${common.base}/clover-idea" includes="test/**"/>
+                <testsources dir="${common.base}/clover-idea" includes="*/src/test/**"/> <!-- sub-modules -->
+                <testsources dir="${common.base}/groovy" includes="src/test/**"/>
+                <format type="html"/>
+                <columns>
+                    <totalChildren/>
+                    <SUM/>
+                    <filteredElements/>
+                    <avgMethodComplexity/>
+                    <totalPercentageCovered format="longbar"/>
+                </columns>
+            </current>
+            <current outfile="${build.dir}/clover/clover.xml" title="Clover XML"  span="1 day">
+                <format type="xml"/>
+            </current>
+            <!--<current outfile="${build.dir}/clover/clover.pdf" title="Clover PDF"  span="1 day" summary="true">
+                <format type="pdf" srcLevel="false"/>
+            </current>
+            <current outfile="${build.dir}/clover/json">
+                <format type="json"/>
+            </current>-->
+        </clover-report>
+
+        <schemavalidate file="${build.dir}/clover/clover.xml" nonamespacefile="${common.base}/etc/schema/clover.xsd"/>
+    </target>
+
+    <target name="prod.java16.build.check">
+        <fail unless="jdk1_6+">Build aborting
+            ====================================
+
+            THIS PROD BUILD REQUIRES JDK1.6.x OR HIGHER!
+
+            ====================================
+            You are using ${java.version}.
+        </fail>
+    </target>
+
+</project>

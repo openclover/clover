@@ -1,0 +1,12 @@
+#* render all stack traces that pass thru this source file *#
+#if (${fileInfo.failStackEntries})
+    <div style="display:none;">
+        <span id="traceControl" class="expand">&#160;</span>
+        #foreach ($test in ${fileInfo.uniqueFailingTests})
+            <div id="trace-$test.id">
+                <div id="traceCol${test.id}" class="errorMessage" ><a href="${rootRelPath}${renderUtil.getTestLink(true, $test)}" style="font-weight:bold;">${test.testName}</a>: <span style="color:#888;">${renderUtil.truncateEnd(${test.failMessage},60)}</span></div>
+                <div id="traceEx${test.id}" class="errorMessage" style="display:none;color:#888;"><a href="${rootRelPath}${renderUtil.getTestLink(true, $test)}" style="font-weight:bold;">${test.testName}</a>: $renderUtil.linkifyStackTrace($rootRelPath, $test.stackTrace)</div>
+            </div>
+        #end
+    </div>
+#end

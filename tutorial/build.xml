@@ -1,0 +1,50 @@
+<project name="Clover_Tutorial" default="test" basedir=".">
+
+    <property name="build.classes" location="build/classes"/>
+    <property name="build.testclasses" location="build/testclasses"/>
+    <property name="build.testresults" location="build/testresults"/>
+
+    <target name="init">
+        <mkdir dir="lib"/>
+        <property name="junit.jar" location="lib/junit-4.12.jar"/>
+        <property name="hamcrest.jar" location="lib/hamcrest-core-1.3.jar"/>
+
+        <get src="https://repo1.maven.org/maven2/junit/junit/4.12/junit-4.12.jar" dest="${junit.jar}" skipexisting="true"/>
+        <get src="https://repo1.maven.org/maven2/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar" dest="${hamcrest.jar}" skipexisting="true"/>
+
+        <path id="build.classpath">
+            <pathelement location="${build.classes}"/>
+        </path>
+
+        <path id="testbuild.classpath">
+            <path refid="build.classpath"/>
+            <pathelement location="${junit.jar}"/>
+            <pathelement location="${hamcrest.jar}"/>
+            <pathelement location="${build.testclasses}"/>
+        </path>
+    </target>
+
+    <target name="compile" depends="init">
+        <mkdir dir="${build.classes}"/>
+        <javac srcdir="src/main/java" destdir="${build.classes}" classpathref="build.classpath" includeantruntime="false"/>
+
+        <mkdir dir="${build.testclasses}"/>
+        <javac srcdir="src/test/java" destdir="${build.testclasses}" classpathref="testbuild.classpath" includeantruntime="false"/>
+    </target>
+
+    <target name="test" depends="compile">
+        <mkdir dir="${build.testresults}"/>
+        <junit fork="yes" printsummary="true" showoutput="true">
+            <classpath refid="testbuild.classpath"/>
+            <formatter type="xml"/>
+            <batchtest fork="yes" todir="${build.testresults}">
+                <fileset dir="${build.testclasses}" includes="**/*Test.*"/>
+            </batchtest>
+        </junit>
+    </target>
+
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+
+</project>

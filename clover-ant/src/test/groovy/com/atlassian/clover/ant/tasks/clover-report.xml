@@ -1,0 +1,525 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project basedir="" default="" name="clover-report">
+
+    <taskdef name="clover-clean" classname="com.atlassian.clover.ant.tasks.CloverCleanTask"/>
+    <taskdef name="clover-setup" classname="com.atlassian.clover.ant.tasks.CloverSetupTask"/>
+    <taskdef name="clover-report" classname="com.atlassian.clover.ant.tasks.CloverReportTask"/>
+    <taskdef name="clover-html-report" classname="com.atlassian.clover.ant.tasks.CloverHtmlReportTask"/>
+    <taskdef name="clover-pdf-report" classname="com.atlassian.clover.ant.tasks.CloverPdfReportTask"/>
+    <taskdef name="clover-historypoint" classname="com.atlassian.clover.ant.tasks.HistoryPointTask"/>
+    <taskdef name="clover-check" classname="com.atlassian.clover.ant.tasks.CloverPassTask"/>
+
+    <target name="with.clover">
+        <clover-setup initstring="${clover-initstring}"/>
+    </target>
+
+    <target name="testAllColumns" depends="with.clover">
+        <clover-report >
+            <current numThreads="0" outfile="${outdir}" title="Test All Columns" summary="true">
+                <format type="html" showEmpty="true"/>
+                <columns>
+                    <totalChildren/>
+                    <filteredElements/>
+
+                    <complexityCoverage/>
+
+                    <expression title="Sum Global">Complexity^2 * ((1 - %CoveredElements/100)^3) + Complexity</expression>
+                    <expression title="Sum Method" scope="method">Complexity</expression>
+                    <expression title="Sum Class" scope="class">Complexity</expression>
+                    <expression title="Sum Package" scope="package">Complexity</expression>
+                    <sum/>
+
+                    <avgClassesPerFile format="raw"/>
+                    <avgMethodsPerClass format="raw"/>
+                    <avgStatementsPerMethod format="raw"/>
+
+                    <totalFiles format="raw"/>
+                    <totalClasses format="raw"/>
+                    <lineCount format="raw"/>
+                    <ncLineCount format="raw"/>
+
+                    <complexity format="raw"/>
+                    <avgMethodComplexity format="raw"/>
+                    <complexityDensity format="raw"/>
+
+                    <coveredElements format="raw" min="3900" max="5000"/>
+                    <totalPercentageCovered format="%" min="50" max="100"/>
+                    <totalPercentageCovered format="longbar" min="75"/>
+
+                    <totalBranches format="raw"/>
+                    <coveredBranches/>
+                    <coveredBranches format="raw"/>
+                    <uncoveredBranches format="raw"/>
+                    <totalStatements format="raw"/>
+                    <coveredStatements/>
+                    <coveredStatements format="raw"/>
+                    <uncoveredStatements format="raw"/>
+                    <totalMethods format="raw"/>
+                    <coveredMethods/>
+                    <coveredMethods format="raw"/>
+                    <uncoveredMethods format="raw"/>
+
+                    <totalElements format="raw"/>
+                    <coveredElements format="raw"/>
+                    <coveredElements format="%"/>
+                    <coveredElements format="bar"/>
+                    <uncoveredElements format="raw"/>
+                    <uncoveredElements format="%"/>
+                    <uncoveredElements format="bar"/>
+
+                    <percentageCoveredContribution format="%"/>
+                    <percentageCoveredContribution format="longbar"/>
+                    <percentageUncoveredContribution format="%"/>
+                    <percentageUncoveredContribution format="longbar"/>
+                </columns>
+            </current>
+        </clover-report>
+        <loadfile property="contents" srcfile="${outdir}/pkg-summary.html"/>
+        <condition property="success">
+            <and>
+                <contains string="${contents}" substring="Files"/>
+                <contains string="${contents}" substring="Average Method Complexity"/>
+                <contains string="${contents}" substring="Covered Elements"/>
+                <contains string="${contents}" substring="% TOTAL Coverage"/>
+                <contains string="${contents}" substring="Total Branches"/>
+                <contains string="${contents}" substring="% Covered Branches"/>
+                <contains string="${contents}" substring="Covered Branches"/>
+                <contains string="${contents}" substring="Total Statements"/>
+                <contains string="${contents}" substring="% Covered Statements"/>
+                <contains string="${contents}" substring="Covered Statements"/>
+                <contains string="${contents}" substring="Total Methods"/>
+                <contains string="${contents}" substring="% Covered Methods"/>
+                <contains string="${contents}" substring="Covered Methods"/>
+                <contains string="${contents}"
+                          substring="&lt;div title=&quot;Empty&quot; class=&quot;barEmpty&quot; style=&quot;min-width:200px;&quot;&gt;&lt;/div&gt;"/>
+            </and>
+        </condition>
+    </target>
+
+    <target name="testNoColumns" depends="with.clover">
+        <clover-report>
+            <current outfile="${outdir}" title="Test No Columns" summary="true">
+                <format type="html"/>
+            </current>
+        </clover-report>
+
+        <loadfile property="contents" srcfile="${outdir}/pkg-summary.html"/>
+        <condition property="success">
+            <and>
+                <contains string="${contents}" substring="TOTAL Coverage"/>
+                <contains string="${contents}" substring="Average Method Complexity"/>
+                <contains string="${contents}" substring="Packages"/>
+            </and>
+        </condition>
+
+    </target>
+
+    <target name="testBadColumns" depends="with.clover">
+        <clover-report>
+            <current outfile="${outdir}" title="Test No Columns" summary="true">
+                <format type="html"/>
+                <columns>
+                    <totalBranches format="%"/>
+                    <totalMethods/>
+                    <totalStatements/>
+                </columns>
+            </current>
+        </clover-report>
+        <condition property="success">
+            <and>
+                <contains string="${contents}" substring="Total Branches"/>
+                <contains string="${contents}" substring="Total Methods"/>
+                <contains string="${contents}" substring="Total Statemnents"/>
+                <not>
+                    <contains string="${contents}" substring="%&amp;#160;Total Branches"/>
+                </not>
+            </and>
+
+        </condition>
+
+    </target>
+
+    <target name="testSomeColumns" depends="with.clover">
+        <clover-report>
+            <current outfile="${outdir}" title="Test Some Columns" summary="true">
+                <format type="html"/>
+                <columns>
+                    <totalBranches/>
+                    <coveredBranches format="%"/>
+                    <coveredBranches format="raw"/>
+                    <coveredBranches format="shortbar"/>
+                    <coveredBranches format="longbar"/>
+                </columns>
+            </current>
+        </clover-report>
+
+        <loadfile property="contents" srcfile="${outdir}/pkg-summary.html"/>
+        <condition property="success">
+            <and>
+                <contains string="${contents}" substring="Total Branches"/>
+                <contains string="${contents}" substring="% Covered Branches"/>
+                <contains string="${contents}" substring="Covered Branches"/>
+            </and>
+        </condition>
+    </target>
+
+
+    <target name="testBarGraphColumns" depends="with.clover">
+        <clover-report>
+            <current outfile="${outdir}" title="Test Bar Graph Columns" summary="true">
+                <format type="html" showEmpty="true"/>
+                <columns>
+                    <coveredMethods format="bar"/>
+                    <coveredStatements format="bar"/>
+                    <coveredBranches format="bar"/>
+                    <coveredBranches format="%"/>
+                    <coveredBranches format="raw"/>
+                </columns>
+            </current>
+        </clover-report>
+    </target>
+
+    <target name="testCharset" depends="with.clover">
+        <property name="charset" value="ISO-8859-1"/>
+        <clover-report>
+            <current outfile="${outdir}" title="Test Charset" charset="${charset}">
+                <format type="html" showEmpty="true"/>
+            </current>
+        </clover-report>
+        <loadfile property="pkg.summary" srcfile="${outdir}/pkg-summary.html"/>
+        <loadfile property="src.file" srcfile="${outdir}/com/cenqua/empty/Empty.html"/>
+        <loadfile property="index" srcfile="${outdir}/index.html"/>
+
+        <condition property="success">
+            <and>
+                <contains string="${pkg.summary}" substring="charset=${charset}"/>
+                <contains string="${src.file}" substring="charset=${charset}"/>
+                <contains string="${index}" substring="charset=${charset}"/>
+            </and>
+        </condition>
+    </target>
+
+
+    <target name="testHistorical" depends="with.clover">
+        <clover-report>
+            <historical outfile="${outdir}" title="Test History Report"
+                        historyDir="${history.dir}">
+                <format type="html"/>
+                <movers interval="2y" threshold="2%"/>
+                <overview/>
+                <coverage/>
+                <metrics/>
+                <coverage title="Custom Coverage" include="This is now deprecated. Should not fail build">
+                    <columns>
+                        <coveredElements/>
+                    </columns>
+                </coverage>
+                <chart logScale="true" title="Mixed Custom Columns">
+                    <columns>
+                        <totalElements/>
+                        <totalStatements/>
+                        <coveredElements/>
+                        <complexity/>
+                    </columns>
+                </chart>
+
+                <chart logScale="true" title="All Columns Chart">
+                    <columns>
+                        <totalChildren/>
+                            <complexityCoverage/>    
+                            <avgClassesPerFile/>
+                            <avgMethodsPerClass/>
+                            <avgStatementsPerMethod/>
+
+                            <totalFiles />
+                            <totalClasses />
+                            <lineCount />
+                            <ncLineCount />
+
+                            <complexity />
+                            <avgMethodComplexity />
+                            <complexityDensity />
+
+                            <coveredElements />
+                            <totalPercentageCovered />
+                            <uncoveredElements/>
+
+                            <totalBranches/>
+                            <coveredBranches/>
+                            <uncoveredBranches format="raw"/>
+                            <uncoveredBranches format="%"/>
+                            <totalStatements/>
+                            <coveredStatements/>
+                            <uncoveredStatements/>
+                            <totalMethods/>
+                            <coveredMethods/>
+                            <uncoveredMethods/>
+                    </columns>
+                </chart>
+            </historical>
+        </clover-report>
+    </target>
+
+
+    <target name="testXmlReport" depends="with.clover">
+        <clover-report>
+            <current outfile="${outdir}/clover.xml" >
+                <format type="xml"/>
+            </current>
+        </clover-report>
+        <loadfile property="testXmlReport.report" srcfile="${outdir}/clover.xml"/>
+    </target>
+    
+
+    <target name="testHistoricalReportWithMultipleMovers" depends="with.clover">
+        <clover-report>
+            <historical outfile="${outdir}" title="Test History With Multiple Movers Report"
+                        historyDir="${history.dir}">
+                <format type="html"/>
+                <movers interval="2y" range="5" threshold="2%"/>
+                <movers interval="1y" range="1" threshold="21%"/>
+                <movers interval="1y" range="5" threshold="50%"/>
+                <overview/>
+                <coverage/>
+                <metrics/>
+            </historical>
+        </clover-report>
+
+        <loadfile property="testHistoricalReportWithMultipleMovers.report" srcfile="${outdir}/historical.html"/>
+    </target>
+
+    <target name="testLinkedReports" depends="with.clover">
+        <clover-report>
+            <current outfile="${outdir}/current-bars" summary="true">
+                <format type="html" showEmpty="true"/>
+                <columns>
+                    <coveredMethods format="bar"/>
+                    <coveredStatements format="bar"/>
+                    <coveredBranches format="bar"/>
+                    <coveredBranches format="%"/>
+                    <coveredBranches format="raw"/>
+                </columns>
+            </current>
+            <current outfile="${outdir}/current-defaults" summary="true">
+                <format type="html" showEmpty="true"/>
+            </current>
+            <current outfile="${outdir}/current-nonempty" title="Test Non-Empty" summary="true">
+                <format type="html" showEmpty="false"/>
+            </current>
+            <current outfile="${outdir}/current-notitle1" summary="true">
+                <format type="html" showEmpty="true"/>
+            </current>
+            <current outfile="${outdir}/current-notitle2" summary="true">
+                <format type="html" showEmpty="true"/>
+            </current>
+            <current outfile="${outdir}/current-notitle3" summary="true">
+                <format type="html" showEmpty="true"/>
+            </current>
+            <current outfile="${outdir}/current-json">
+                <format type="json" />
+            </current>
+            <historical outfile="${outdir}/historical" title="Test History Report"
+                        historyDir="${history.dir}">
+                <format type="html"/>
+                <movers interval="2y" threshold="2%"/>
+                <overview/>
+                <coverage/>
+                <metrics/>
+            </historical>
+
+
+            <current outfile="${outdir}/current-sametitle1" title="Same Title" summary="true">
+                <format type="html" showEmpty="true"/>
+            </current>
+            <current outfile="${outdir}/current-sametitle2" title="Same Title" summary="true">
+                <format type="html" showEmpty="true"/>
+            </current>
+            <current outfile="${outdir}/current-sametitle3" title="Same Title" summary="true">
+                <format type="html" showEmpty="true"/>
+            </current>
+
+            <historical outfile="${outdir}/historical-sametitle1" title="Same Title"
+                        historyDir="${history.dir}">
+                <format type="html"/>
+            </historical>
+
+            <historical outfile="${outdir}/historical-sametitle2" title="Same Title"
+                        historyDir="${history.dir}">
+                <format type="html"/>
+            </historical>
+
+            <historical outfile="${outdir}/historical-sametitle3" title="Same Title"
+                        historyDir="${history.dir}">
+                <format type="html"/>
+            </historical>
+            <current outfile="${outdir}/clover.xml" title="XML">
+                <format type="xml"/>
+            </current>
+            <current outfile="${outdir}/clover.pdf" title="PDF" summary="true">
+                <format type="pdf" srcLevel="false"/>
+            </current>
+
+        </clover-report>
+
+        <loadfile property="report-contents" srcfile="${outdir}/current-bars/dashboard.html"/>
+        <!-- report-contents checked in junit -->
+    </target>
+
+    <target name="testCloverHtmlReport" depends="with.clover">
+        <clover-html-report outdir="${outdir}" historydir="${history.dir}" title="Clover One Liner!">
+
+        </clover-html-report>
+
+        <loadfile property="contents" srcfile="${outdir}/pkg-summary.html"/>
+        <loadfile property="historical" srcfile="${outdir}/historical.html"/>
+        <condition property="success">
+            <and>
+                <contains string="${contents}" substring="Packages"/>
+                <contains string="${contents}" substring="Files"/>
+                <contains string="${contents}" substring="Average Method Complexity"/>
+                <contains string="${contents}" substring="TOTAL Coverage"/>
+                <contains string="${historical}" substring="Conditionals"/>
+                <contains string="${historical}" substring="Statements"/>
+                <contains string="${historical}" substring="Methods"/>
+                <contains string="${historical}" substring="TOTAL"/>
+            </and>
+        </condition>
+    </target>
+
+    <target name="testConditionalDashboard" depends="with.clover">
+        <clover-html-report outdir="${outdir}" historydir="${history.dir}" title="Clover One Liner!">
+
+        </clover-html-report>
+
+        <loadfile property="dashboard" srcfile="${outdir}/dashboard.html"/>
+        <condition property="treeMapInDashboard">
+            <and>
+                <!-- look for a "Generating Coverage Tree Map" message which is in the tree map box -->
+                <contains string="${dashboard}" substring="Generating Coverage Tree Map"/>
+                <!-- look for a "Coverage Tree Map" link in the vertical navigation -->
+                <contains string="${dashboard}" substring="Coverage Tree Map"/>
+            </and>
+        </condition>
+        <condition property="treeMapDashJsonInDashboard">
+            <contains string="${dashboard}" substring="treemap-dash-json.js"/>
+        </condition>
+
+        <loadfile property="pkg.summary" srcfile="${outdir}/pkg-summary.html"/>
+        <condition property="treeMapInAllPkgs">
+            <contains string="${pkg.summary}" substring='href="treemap.html"'/>
+        </condition>
+        <available file="${outdir}/treemap-dash-json.js" property="treeMapInJson"/>
+    </target>
+
+    <target name="testReport" depends="with.clover">
+        <clover-historypoint historyDir="${history.dir}"/>
+        <clover-report>
+            <current outfile="${outdir}/current">
+                <format type="html"/>
+            </current>
+            <historical outfile="${outdir}/historical" historyDir="${history.dir}">
+                <format type="html"/>
+            </historical>
+        </clover-report>
+        <loadfile property="allPkgsHtml" srcfile="${outdir}/current/pkg-summary.html"/>
+        <loadfile property="historicalHtml" srcfile="${outdir}/historical/historical.html"/>
+    </target>
+
+    <target name="testCloverPdfReport" depends="with.clover">
+        <clover-pdf-report outfile="${outdir}/report.pdf"
+                           historydir="${history.dir}"
+                           title="Clover PDF One Liner!"/>
+
+        <condition property="success">
+            <and>
+                <available file="${outdir}/report.pdf"/>
+            </and>
+        </condition>
+    </target>
+
+
+    <target name="testPdfReports" depends="with.clover">
+
+        <mkdir dir="${outdir}"/>
+        <clover-report>
+            <current outfile="${outdir}/current.pdf" title="Test Bar Graph Columns" summary="true">
+                <format type="pdf" showEmpty="true"/>
+                <columns>
+                    <coveredMethods format="bar"/>
+                    <coveredStatements format="bar"/>
+                    <coveredBranches format="bar"/>
+                    <coveredBranches format="%"/>
+                    <coveredBranches format="raw"/>
+                </columns>
+            </current>
+            <current outfile="${outdir}/current-defaults.pdf" title="Test Default Columns" summary="true">
+                <format type="pdf" showEmpty="true"/>
+            </current>
+            <current outfile="${outdir}/current-nonempty.pdf" title="Test Non-Empty" summary="true">
+                <format type="pdf" showEmpty="false"/>
+            </current>
+            <historical outfile="${outdir}/historical.pdf" title="Test History Report"
+                        historyDir="${history.dir}">
+                <format type="pdf"/>
+                <movers interval="2y" threshold="2%"/>
+                <movers interval="2y" threshold="2%"/>
+                <movers interval="2y" threshold="2%"/>
+                <movers interval="2y" threshold="2%"/>
+                <movers interval="2y" threshold="2%"/>
+                <movers interval="2y" threshold="2%"/>
+                <movers interval="2y" threshold="2%"/>
+                <movers interval="2y" threshold="2%"/>
+                <movers interval="2y" threshold="2%"/>
+                <movers interval="2y" threshold="2%"/>
+                <movers interval="2y" threshold="2%"/>
+                <movers interval="2y" threshold="2%"/>
+                <movers interval="2y" threshold="2%"/>
+                <movers interval="2y" threshold="2%"/>
+                <movers interval="2y" threshold="2%"/>
+                <movers interval="2y" threshold="2%"/>
+                <movers interval="2y" threshold="2%"/>
+                <movers interval="2y" threshold="2%"/>
+                <movers interval="1y" threshold="21%"/>
+                <overview/>
+                <coverage/>
+                <coverage include="statements"/>
+                <metrics/>
+            </historical>
+        </clover-report>
+
+
+        <condition property="success">
+            <and>
+                <available file="${outdir}/current.pdf"/>
+                <available file="${outdir}/current-defaults.pdf"/>
+                <available file="${outdir}/current-nonempty.pdf"/>
+                <available file="${outdir}/historical.pdf"/>
+            </and>
+        </condition>
+
+    </target>
+
+    <target name="clover.check" depends="with.clover">
+        <clover-check historyDir="${history.dir}">
+            <package regex=".*"/>
+        </clover-check>
+    </target>
+
+    <target name="clover.check.threshold" depends="with.clover">
+        <clover-check historyDir="${history.dir}" threshold="4.99%"/>
+    </target>
+
+
+    <target name="clover.check.target" depends="with.clover">
+        <clover-check target="100%" historyDir="${history.dir}"/>
+    </target>
+
+    <target name="setUp">
+        <fail unless="project.dir"/>
+        <echo message="-----------------------------------"/>
+    </target>
+
+    <target name="tearDown">
+
+    </target>
+</project>

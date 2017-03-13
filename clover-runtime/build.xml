@@ -1,0 +1,232 @@
+<project name="clover-runtime" basedir="." default="clover-runtime.build">
+
+    <import file="../clover-buildutil/build.xml"/>
+    <import file="../clover-core-libs/build.xml"/>
+
+    <dirname property="clover-runtime.base" file="${ant.file.clover-runtime}"/>
+
+    <property name="clover-runtime.output" location="${clover-runtime.base}/target"/>
+    <property name="clover-runtime.output.classes" location="${clover-runtime.output}/classes"/>
+    <property name="clover-runtime.output.javadoc" location="${clover-runtime.output}/javadoc"/>
+    <property name="clover-runtime.output.testclasses" location="${clover-runtime.output}/test-classes"/>
+    <property name="clover-runtime.output.gensources" location="${clover-runtime.output}/src-generated"/>
+    <property name="clover-runtime.jar" location="${clover-runtime.output}/clover-runtime.jar"/>
+    <property name="clover-runtime.pom" location="${clover-runtime.output}/clover-runtime.pom"/>
+    <property name="clover-runtime-javadoc.jar" location="${clover-runtime.output}/clover-runtime-javadoc.jar"/>
+    <property name="clover-runtime-sources.jar" location="${clover-runtime.output}/clover-runtime-sources.jar"/>
+
+    <fileset id="clover-runtime.3rdparty.rights.fileset" dir="${clover-runtime.base}/src/main/resources">
+        <include name="licenses/*"/>
+        <include name="LICENSES.html"/>
+    </fileset>
+
+    <fileset id="clover-runtime.atlassian.rights.fileset" dir="${clover-runtime.base}/src/main/resources">
+        <include name="LICENSE.txt"/>
+    </fileset>
+
+    <property environment="env"/>
+
+    <macrodef name="writeRethrowCheckedMethod">
+        <attribute name="classLocation"/>
+        <sequential>
+            <java classname="com.atlassian.clover.build.codegen.WriteRethrowMethod"
+                  classpath="${clover-buildutil.jar}" fork="yes" failonerror="yes">
+                <classpath>
+                    <pathelement location="${repkg.clover.jar}"/>
+                    <path refid="asm3.path"/>
+                </classpath>
+                <arg line="'@{classLocation}'"/>
+            </java>
+        </sequential>
+    </macrodef>
+
+    <target name="_clover-runtime.resolve-dependencies">
+
+    </target>
+
+    <target name="_clover-runtime.strip-libraries" depends="clover-core-libs.initialize">
+        <mkdir dir="${clover-runtime.output.classes}"/>
+
+        <!-- unpack third party libraries, but only used classes - this is to have a smaller runtime -->
+        <unzip src="${clover.annotations.jar}" dest="${clover-runtime.output.classes}"/>
+        <unzip src="${clover.antlr.jar}" dest="${clover-runtime.output.classes}">
+            <patternset>
+                <include name="clover/antlr/CharFormatter*"/>
+                <include name="clover/antlr/collections/impl/BitSet*"/>
+                <include name="clover/antlr/collections/impl/IntRange*"/>
+                <include name="clover/antlr/collections/impl/Vector*"/>
+                <include name="clover/antlr/collections/impl/VectorEnumerator*"/>
+            </patternset>
+        </unzip>
+        <unzip src="${clover.cajo.jar}" dest="${clover-runtime.output.classes}"/>
+        <unzip src="${clover.commons-lang3.jar}" dest="${clover-runtime.output.classes}">
+            <patternset>
+                <include name="clover/org/apache/commons/lang3/mutable/Mutable*"/>
+                <include name="clover/org/apache/commons/lang3/mutable/MutableLong*"/>
+            </patternset>
+        </unzip>
+        <unzip src="${clover.guava.jar}" dest="${clover-runtime.output.classes}">
+            <patternset>
+                <include name="clover/com/google/common/io/ByteStreams*"/>
+                <include name="clover/com/google/common/annotations/Beta*"/>
+                <include name="clover/com/google/common/annotations/GwtCompatible*"/>
+                <include name="clover/com/google/common/base/Preconditions*"/>
+                <include name="clover/com/google/common/io/ByteArrayDataInput*"/>
+                <include name="clover/com/google/common/io/ByteArrayDataOutput*"/>
+                <include name="clover/com/google/common/io/ByteProcessor*"/>
+            </patternset>
+        </unzip>
+        <unzip src="${clover.log4j.jar}" dest="${clover-runtime.output.classes}"/>
+    </target>
+
+    <target name="clover-runtime.init"
+            depends="common.init, clover-buildutil.jar, _clover-runtime.resolve-dependencies, _clover-runtime.strip-libraries">
+        <path id="clover-runtime.buildpath">
+            <pathelement location="${clover-runtime.output.classes}"/> <!-- for third party classes -->
+            <pathelement location="${clover-buildutil.jar}"/>
+            <pathelement location="${spock.jar}"/>
+            <pathelement location="${junit.jar}"/>
+        </path>
+    </target>
+
+    <target name="_clover-runtime.version" depends="clover-runtime.init">
+        <mkdir dir="${clover-runtime.output.gensources}/com_atlassian_clover"/>
+        <copy file="${clover-runtime.base}/src/main/java/com_atlassian_clover/CloverVersionInfo.in"
+              tofile="${clover-runtime.output.gensources}/com_atlassian_clover/CloverVersionInfo.java"
+              overwrite="false">
+            <filterset refid="core.version.filterset"/>
+        </copy>
+    </target>
+
+    <target name="_clover-runtime.test.bindings.uptodate">
+        <uptodate property="bindings.uptodate" targetfile="${clover-runtime.output.gensources}/com/atlassian/clover/instr/Bindings.java">
+            <srcfiles dir="${clover-runtime.output.gensources}" includes="com_atlassian_clover/*.java"/>
+        </uptodate>
+    </target>
+
+    <target name="_clover-runtime.generate.bindings" depends="_clover-runtime.test.bindings.uptodate" unless="bindings.uptodate">
+        <mkdir dir="${clover-runtime.output.gensources}"/>
+        <delete file="${clover-runtime.output.gensources}/com/atlassian/clover/instr/Bindings.java"/>
+        <apt nowarn="true"
+             compile="false"
+             preprocessdir="${clover-runtime.output.gensources}"
+             classpath="${clover-buildutil.jar}:${clover.annotations.jar}:${repkg.clover.jar}">
+            <src path="${clover-runtime.base}/src/main/java"/>
+            <src path="${clover-runtime.output.gensources}"/>
+            <include name="com_atlassian_clover/*.java"/>
+        </apt>
+    </target>
+
+    <target name="clover-runtime.build" depends="_clover-runtime.version, _clover-runtime.generate.bindings">
+        <mkdir dir="${clover-runtime.output.classes}"/>
+        <!-- Compile runtime classes -->
+        <javac destdir="${clover-runtime.output.classes}"
+               debug="on"
+               debuglevel="lines,vars,source"
+               deprecation="on"
+               target="${jdk.target}"
+               source="${source.level}"
+               encoding="UTF8"
+               bootclasspathref="java.rt.path"
+               includeAntRuntime="false">
+            <classpath refid="clover-runtime.buildpath"/>
+            <src path="${clover-runtime.base}/src/main/java"/>
+            <src path="${clover-runtime.output.gensources}"/>
+            <!-- No non-runtime generated source -->
+            <exclude name="**/package-info.java"/>
+        </javac>
+        <writeRethrowCheckedMethod classLocation="${clover-runtime.output.classes}/com_atlassian_clover/CoverageRecorder.class"/>
+    </target>
+
+    <target name="clover-runtime.test.build" depends="clover-runtime.build">
+
+    </target>
+
+    <target name="clover-runtime.test" depends="clover-runtime.test.build">
+
+    </target>
+
+    <target name="clover-runtime.pkg" depends="clover-runtime.build, dev.mvn.setup">
+        <!-- create JAR file -->
+        <jar file="${clover-runtime.jar}">
+            <manifest>
+                <attribute name="Specification-Title" value="Clover"/>
+                <attribute name="Specification-Version" value="${core.release.num}"/>
+                <attribute name="Specification-Vendor" value="Atlassian Pty. Ltd"/>
+                <attribute name="Implementation-Version"
+                           value="${build.number.prefix}${build.number.string} ${build.date}"/>
+                <attribute name="Implementation-Vendor" value="Atlassian Pty. Ltd"/>
+            </manifest>
+            <!-- add third party license files and the Atlassian Customer Agreement -->
+            <fileset refid="clover-runtime.3rdparty.rights.fileset"/>
+            <fileset refid="clover-runtime.atlassian.rights.fileset"/>
+            <!-- add clover-runtime classes as well as repackaged and stripped third party libraries -->
+            <fileset dir="${clover-runtime.output.classes}"/>
+        </jar>
+
+        <!-- create POM file -->
+        <copy file="${clover-runtime.base}/pom.xml" tofile="${clover-runtime.pom}">
+            <filterset>
+                <filter token="VERSION" value="${core.release.num}${core.release.suffix}"/>
+            </filterset>
+        </copy>
+
+        <!-- create JAVADOC file -->
+        <javadoc destdir="${clover-runtime.output.javadoc}"
+                 encoding="iso-8859-1"
+                 failonerror="yes"
+                 access="public">
+            <classpath>
+                <path refid="clover-runtime.buildpath"/>
+                <pathelement location="${clover-runtime.output.classes}"/>
+            </classpath>
+            <fileset dir="${clover-runtime.base}/src/main/java">
+                <include name="**/api/**"/>
+                <include name="**/spi/**"/>
+            </fileset>
+        </javadoc>
+        <jar destfile="${clover-runtime-javadoc.jar}">
+            <fileset dir="${clover-runtime.output.javadoc}"/>
+        </jar>
+
+        <!-- create SOURCES file -->
+        <jar destfile="${clover-runtime-sources.jar}">
+            <fileset dir="${clover-runtime.base}/src/main/java">
+                <include name="**/api/**/*.java"/>
+                <include name="**/spi/**/*.java"/>
+            </fileset>
+        </jar>
+    </target>
+
+    <!--
+     IMPORTANT:
+     1) call 'prod.mvn.setup' if you want to publish to a release repository (instead of a snapshot one)
+     2) call 'clover-runtime.pkg' before to create artifacts; this target does not depend on clover-runtime.prod directly
+        in order to not build artefacts twice (because we have separate build plans for preparation and publishing)
+    -->
+    <target name="clover-runtime.publish"
+            depends="mvn.versioncheck, dev.mvn.setup"
+            description="Deploy the clover-runtime.jar, clover-runtime-javadoc.jar and clover-runtime-sources.jar to the Maven repository. ">
+
+        <echo message="Deploying ${clover-runtime.pom}, ${clover-runtime.jar}, ${clover-runtime-javadoc.jar},
+                       ${clover-runtime-sources.jar} to ${maven.url}"/>
+        <maven-deploy goal="${maven.deploy.goal}"
+                      repositoryId="${maven.repositoryId}" repositoryUrl="${maven.url}"
+                      pomFile="${clover-runtime.pom}" file="${clover-runtime.jar}"
+                      javadocFile="${clover-runtime-javadoc.jar}" sourcesFile="${clover-runtime-sources.jar}"/>
+    </target>
+
+    <target name="clover-runtime.install" depends="clover-runtime.pkg, dev.mvn.setup"
+            description="Install the clover.jar, clover-javadoc.jar, clover-sources.jar into your local repository.">
+
+        <maven-install pomFile="${clover-runtime.pom}" file="${clover-runtime.jar}"
+                       javadocFile="${clover-runtime-javadoc.jar}" sourcesFile="${clover-runtime-sources.jar}"/>
+    </target>
+
+    <target name="clover-runtime.clean">
+        <delete dir="${clover-runtime.output}"/>
+    </target>
+
+    <target name="clover-runtime.repkg"/>
+
+</project>

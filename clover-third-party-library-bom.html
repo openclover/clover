@@ -1,0 +1,630 @@
+<html>
+<head>
+<title>List of third party libraries used by Clover</title>
+</head>
+	<style>
+		.header {
+			background-color: silver;
+			font-weight: bold
+		}
+		.red { 
+			background-color: #FF5555
+		}
+	</style>
+<body>
+
+	<h2>Third party binaries bundled in the final Clover products (Clover-for-Ant, Clover-for-Eclipse, Clover-for-IDEA etc)</h2>
+	
+    <table border="1" cellspacing="0">
+        <tr class="header">
+            <td colspan="4">Third party library</td>
+            <td colspan="3">Usage in Clover</td>
+            <td colspan="3">Artifacts</td>
+			<td>Comment</td>
+        </tr>
+        <tr class="header">
+            <td>Name</td>
+            <td>Version</td>
+            <td>License</td>
+            <td>Download page</td>
+            <td>Module</td>
+            <td>Sources<br/>
+                changed?</td>
+            <td>Binaries<br/>
+                changed?</td>
+            <td>Original artifacts</td>
+            <td>Modified artifacts</td>
+            <td>License file</td>
+			<td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>IntelliJ Annotations</td>
+            <td>13.0</td>
+            <td><a href="http://www.antlr2.org/license.html">Apache 2.0</a></td>
+            <td><a href="http://www.jetbrains.com">www.jetbrains.com</a></td>
+            <td>clover-core-libs</td>
+            <td>no</td>
+            <td>clover. prefix</td>
+            <td>Maven Central repository</td>
+            <td>Atlassian Private com.atlassian.clover:clover-annotations</td>
+            <td>clover-core\etc\licenses\ANNOTATIONS-13.0-LICENSE.TXT</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>ANTLR</td>
+            <td>2.7.7</td>
+            <td><a href="http://www.antlr2.org/license.html">Public Domain</a></td>
+            <td><a href="http://www.antlr2.org">www.antlr2.org</a></td>
+            <td>clover-core-libs</td>
+            <td>no</td>
+            <td>clover. prefix</td>
+            <td>Maven Central repository</td>
+            <td>Atlassian Private com.atlassian.clover:clover-antlr</td>
+            <td>clover-core\etc\licenses\ANTLR-2.7.7-LICENSE.TXT</td>
+			<td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>ASM</td>
+            <td>5.0.3</td>
+            <td>BSD</td>
+            <td><a href="http://asm.ow2.org/">asm.ow2.org</a></td>
+            <td>clover-eclipse</td>
+            <td>no</td>
+            <td>no</td>
+            <td>Maven Central</td>
+            <td>in final eclipse jar</td>
+            <td>clover-eclipse\com.atlassian.clover.eclipse.core\etc\licenses\ASM-5.0.3-LICENSE.TXT</td>
+			<td>ASM is used as both bundled tool (in com.atlassian.clover.eclipse.core.jar) and internal one (see table below)</td>
+        </tr>		
+        <tr>
+            <td>Cajo</td>
+            <td>1.117</td>
+            <td>LGPL v3</td>
+            <td><a href="http://java.net/projects/cajo/pages/Home">java.net/projects/cajo/pages/Home</a></td>
+            <td>clover-core</td>
+            <td>clover. prefix</td>
+            <td>clover. prefix</td>
+            <td class="red">not available</td>
+            <td>clover-core-libs\clover-cajo<br/>
+                Atlassian Private com.atlassian.clover:clover-cajo</td>
+            <td>clover-core\etc\licenses\CAJO-1.117-LICENSE.TXT</td>
+			<td class="red">TODO: upgrade cajo to the latest version in order to have original sources (as the latest version is available on Cajo home page)</td>
+        </tr>
+        <tr>
+            <td>Commons Codec</td>
+            <td>1.9</td>
+            <td>Apache 2.0</td>
+            <td><a href="http://commons.apache.org">commons.apache.org</a></td>
+            <td>clover-core</td>
+            <td>no</td>
+            <td>clover. prefix</td>
+            <td>Maven Central repository</td>
+            <td>Atlassian Private com.atlassian.clover:clover-commons-codec</td>
+            <td>clover-core\etc\licenses\COMMONS-CODEC-1.9-LICENSE.TXT</td>
+			<td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>Commons Collections</td>
+            <td>3.1</td>
+            <td>Apache 2.0</td>
+            <td><a href="http://commons.apache.org">commons.apache.org</a></td>
+            <td>clover-core</td>
+            <td>no</td>
+            <td>clover. prefix</td>
+            <td>Maven Central repository</td>
+            <td>Atlassian Private com.atlassian.clover:clover-commons-collections</td>
+            <td>clover-core\etc\licenses\COMMONS-COLLECTIONS-3.2.1-LICENSE.TXT</td>
+			<td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>Commons Lang</td>
+            <td>2.6</td>
+            <td>Apache 2.0</td>
+            <td><a href="http://commons.apache.org">commons.apache.org</a></td>
+            <td>clover-core</td>
+            <td>no</td>
+            <td>clover. prefix</td>
+            <td>Maven Central repository</td>
+            <td>Atlassian Private com.atlassian.clover:clover-commons-lang</td>
+            <td>clover-core\etc\licenses\COMMONS-LANG-2.6-LICENSE.TXT</td>
+			<td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>Commons Lang 3</td>
+            <td>3.3.2</td>
+            <td>Apache 2.0</td>
+            <td><a href="http://commons.apache.org">commons.apache.org</a></td>
+            <td>clover-core</td>
+            <td>no</td>
+            <td>clover. prefix</td>
+            <td>Maven Central repository</td>
+            <td>Atlassian Private com.atlassian.clover:clover-commons-lang</td>
+            <td>clover-core\etc\licenses\COMMONS-LANG3-3.3.2-LICENSE.TXT</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>FastUtil</td>
+            <td>4.4.3</td>
+            <td>LGPL v2</td>
+            <td><a href="http://fastutil.dsi.unimi.it/">fastutil.dsi.unimi.it</a></td>
+            <td>clover-core</td>
+            <td>no</td>
+            <td>clover. prefix</td>
+            <td>clover-core-libs\clover-fastutil\src\main\resources\fastutil-4.4.3.jar</td>
+            <td>Atlassian Private com.atlassian.clover:clover-fastutil</td>
+            <td>clover-core\etc\licenses\FASTUTIL-4.4.3-LICENSE.TXT</td>
+			<td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>GSON</td>
+            <td>1.3</td>
+            <td>Apache 2.0</td>
+            <td><a href="http://code.google.com/p/google-gson">code.google.com/p/google-gson</a></td>
+            <td>clover-core</td>
+            <td>no</td>
+            <td>clover. prefix</td>
+            <td>clover-core-libs\clover-gson\src\main\resources\gson-1.3.jar</td>
+            <td>Atlassian Private com.atlassian.clover:clover-gson</td>
+            <td>clover-core\etc\licenses\GSON-1.3-LICENSE.TXT</td>
+			<td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>Guava</td>
+            <td>18.0</td>
+            <td>Apache 2.0</td>
+            <td><a href="http://code.google.com/p/guava-libraries/">code.google.com/p/guava-libraries</a></td>
+            <td>clover-core</td>
+            <td>no</td>
+            <td>clover. prefix</td>
+            <td>Maven Central repository</td>
+            <td>Atlassian Private com.atlassian.clover:clover-guava</td>
+            <td>clover-core\etc\licenses\GUAVA-18.0-LICENSE.TXT</td>
+			<td>clover-core</td>
+        </tr>
+        <tr>
+            <td>iText</td>
+            <td>2.0.1</td>
+            <td>LGPL ***</td>
+            <td><a href="http://itextpdf.com">itextpdf.com</a></td>
+            <td>clover-core</td>
+            <td>no</td>
+            <td>clover. prefix</td>
+            <td>Maven Central repository</td>
+            <td>Atlassian Private com.atlassian.clover:clover-itext</td>
+            <td>clover-core\etc\licenses\ITEXT-2.0.1-LICENSE.TXT</td>
+			<td class="red">*** = WARNING DO NOT upgrade iText to library version later than 2.1.7. This is the latest version which was released under LGPL license.
+All newer versions are released under Affero GPL v3, which is a viral license.</td>
+        </tr>
+        <tr>
+            <td>JCommon</td>
+            <td>1.0.23</td>
+            <td>LGPL v3</td>
+            <td><a href="http://">sourceforge.net/projects/jfreechart</a></td>
+            <td>clover-core</td>
+            <td>no</td>
+            <td>clover. prefix</td>
+            <td>Maven Central repository</td>
+            <td>Atlassian Private com.atlassian.clover:clover-jcommon</td>
+            <td>clover-core\etc\licenses\JCOMMON-1.0.23-LICENSE.TXT</td>
+			<td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>JDOM</td>
+            <td>1.0</td>
+            <td>Modified Apache license</td>
+            <td><a href="http://www.jdom.org">www.jdom.org</a></td>
+            <td>clover-core</td>
+            <td>no</td>
+            <td>clover. prefix</td>
+            <td>Maven Central repository</td>
+            <td>Atlassian Private com.atlassian.clover:clover-jdom</td>
+            <td>clover-core\etc\licenses\JDOM-1.0-LICENSE.TXT</td>
+			<td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>JFreeChart</td>
+            <td>1.0.19</td>
+            <td>LGPL v3</td>
+            <td><a href="http://sourceforge.net/projects/jfreechart">sourceforge.net/projects/jfreechart</a></td>
+            <td>clover-core</td>
+            <td>no</td>
+            <td>clover. prefix</td>
+            <td>Maven Central repository</td>
+            <td>Atlassian Private com.atlassian.clover:clover-jfreechart</td>
+            <td>clover-core\etc\licenses\JFREECHART-1.0.19-LICENSE.TXT</td>
+			<td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>JTreeMap</td>
+            <td>1.1.0</td>
+            <td>Apache 2.0</td>
+            <td><a href="http://jtreemap.sourceforge.net">jtreemap.sourceforge.net</a></td>
+            <td>clover-idea</td>
+            <td>no</td>
+            <td>clover. prefix</td>
+            <td>Maven Central repository</td>
+            <td>clover-idea\lib\clover-jtreemap-1.1.0.jar</td>
+            <td>clover-idea\etc\licenses\JTREEMAP-1.1.0-LICENSE.TXT</td>
+			<td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>KTreeMap</td>
+            <td>1.1.0</td>
+            <td>Apache 2.0</td>
+            <td><a href="http://jtreemap.sourceforge.net">jtreemap.sourceforge.net</a></td>
+            <td>clover-eclipse</td>
+            <td>yes</td>
+            <td>yes, see sources</td>
+            <td>https://bitbucket.org/atlassian/ktreemap</td>
+            <td>Atlassian Private net.sf.jtreemap:ktreemap:1.1.0-atlassian-01</td>
+            <td>clover-eclipse\com.atlassian.clover.eclipse.core\etc\licenses\KTREEMAP-1.1.0-LICENSE.TXT</td>
+			<td>modification: removed any references to AWT to avoid AWT/SWT conflict; see also table below</td>
+        </tr>
+        <tr>
+            <td>Log4J</td>
+            <td>1.2.17</td>
+            <td>Apache 2.0</td>
+            <td><a href="http://logging.apache.org/log4j/1.2">logging.apache.org/log4j/1.2</a></td>
+            <td>clover-core</td>
+            <td>no</td>
+            <td>clover. prefix</td>
+            <td>Maven Central repository</td>
+            <td>Atlassian Private com.atlassian.clover:clover-log4j</td>
+            <td>clover-core\etc\licenses\LOG4J-1.2.17-LICENSE.TXT</td>
+			<td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>Velocity</td>
+            <td>1.7</td>
+            <td>Apache 2.0</td>
+            <td><a href="http://velocity.apache.org">velocity.apache.org</a></td>
+            <td>clover-core</td>
+            <td>no</td>
+            <td>clover. prefix</td>
+            <td>Maven Central repository</td>
+            <td>Atlassian Private com.atlassian.clover:clover-velocity</td>
+            <td>clover-core\etc\licenses\VELOCITY-1.7-LICENSE.TXT</td>
+			<td>&nbsp;</td>
+        </tr>
+	</table>
+
+	<h2>Third party sources (and other resources) embedded in Clover's source code and thus bundled in the final Clover products</h2>
+	
+	<table border="1" cellspacing="0">
+		<tr bgcolor="silver">
+            <td colspan="4"><b>Third party library</b></td>
+            <td colspan="4"><b>Usage in Clover</b></td>			
+        </tr>
+        <tr bgcolor="silver">
+            <td><b>Name</b></td>
+            <td><b>Version</b></td>
+            <td><b>License</b></td>
+            <td><b>Download page</b></td>
+            <td><b>Sources</b></td>
+            <td><b>License file</b></td>
+			<td><b>Published?</b></td>
+			<td><b>Comment</b></td>
+        </tr>
+		<tr>
+		    <td>Ant</td>
+			<td>1.5.2</td>
+            <td>Apache 1.1</td>
+			<td><a href="http://ant.apache.org">ant.apache.org</a></td>
+			<td>clover-ant\src\test\groovy\org\apache\tools\ant\BuildFileTestBase.groovy<br/>
+				clover-core\src\main\java\com\atlassian\clover\util\FilterUtils.java</td>
+			<td>clover-core\etc\licenses\ANT-1.5.2-LICENSE.TXT</td>
+			<td>No</td>
+			<td>See(1). <br/>
+				The BuildFileTestBase.java was copied from <a href="http://svn.apache.org/repos/asf/ant/core/tags/ANT_152_FINAL/src/testcases/org/apache/tools/ant/BuildFileTest.java">BuildFileTest.java</a><br/>
+				The FilterUtils.java was copied from <a href="http://svn.apache.org/repos/asf/ant/core/tags/ANT_152_FINAL/src/main/org/apache/tools/ant/types/selectors/SelectorUtils.java">SelectorUtils.java</a></td>
+        </tr>
+		<tr>
+		    <td>ANTLR2 Java Grammar</td>
+			<td>~2004?</td>
+            <td><a href="http://www.antlr2.org/license.html">Public Domain</a></td>
+			<td><a href="http://www.antlr2.org">www.antlr2.org</a></td>
+			<td>clover-core\src\main\java\com\atlassian\clover\instr\java\java.g</td>
+			<td>clover-core\etc\licenses\ANTLR-2.7.7-LICENSE.TXT</td>
+			<td>No</td>
+			<td>Public Domain. No need to publish.</td>
+        </tr>
+		<tr>
+		    <td>ANTLR3 Java Grammar</td>
+			<td>2009</td>
+            <td><a href="http://www.antlr3.org/license.html">BSD</a></td>
+			<td><a href="http://www.antlr2.org">www.antlr3.org</a></td>
+			<td>clover-core\src\src\main\java\com\atlassian\clover\instr\java\java.g</td>
+			<td>clover-core\etc\licenses\ANTLR-JAVA-GRAMMAR-3.0-LICENSE.TXT</td>
+			<td>No</td>
+			<td>A java.g file contains a fragment of grammar from http://openjdk.java.net/projects/compiler-grammar/antlrworks/Java.g, 
+			which was derived from a Java 1.5 grammar based on ANTLR3. BSD license.</td>
+        </tr>
+		<tr>
+		    <td>Groovy</td>
+			<td>1.7.0, 1.8.0</td>
+            <td><a href="http://groovy.codehaus.org/License+Information">Apache 2.0 (*.java)</a> + Public Domain (groovy.g)</td>
+			<td><a href="http://groovy.codehaus.org">groovy.codehaus.org</a></td>
+			<td>groovy\src\clover\org\codehaus\groovy\antlr\parser\groovy.g<br/>
+				groovy\src\clover\org\codehaus\groovy\antlr\GroovySourceAST.java<br/>
+				groovy\src\clover\org\codehaus\groovy\antlr\GroovySourceToken.java<br/>
+				groovy\src\clover\org\codehaus\groovy\antlr\LineColumn.java<br/>
+				groovy\src\clover\org\codehaus\groovy\antlr\SourceBuffer.java<br/>
+				groovy\src\clover\org\codehaus\groovy\antlr\SourceInfo.java</td>
+			<td>clover-core\etc\licenses\GROOVY-1.7.0-LICENSE.TXT</td>
+			<td>No</td>
+			<td>Sources were taken from Groovy version 1.7.0 and next some of them updated to version 1.8.0. Please note that Clover is also backward-compatible with Groovy 1.6.x.
+			 File-by-file comparison with Groovy history from https://github.com/groovy/groovy-core.git and Clover history from https://bitbucket.org/atlassian/clover revealed following matches:
+			 groovy.g from Groovy 1.8.0, GroovySourceAST from 1.7.0, LineColumn from 1.5.2 (or later), SourceBuffer from 1.5.2 (or later), SourceInfo from 1.7.0. 
+			 See also (1).</td>
+        </tr>
+		<tr>
+		    <td>IntelliJ IDEA icons</td>
+			<td>9.0 and later</td>
+            <td><a href="http://www.jetbrains.org/display/IJOS/FAQ">Apache 2.0</a></td>
+			<td><a href="http://www.jetbrains.com">www.jetbrains.com</a></td>
+			<td>clover-idea\etc\icons (some of them)</td>
+			<td>clover-idea\etc\licenses\INTELLIJ-9.0-ICONS-LICENSE.TXT</td>
+			<td>Yes</td>
+			<td>In Clover-for-IDEA JAR, in \icons folder. Icons were taken from IntelliJ IDEA, they are licensed under Apache 2.0.</td>
+        </tr>
+		<tr>
+		    <td>JIT</td>
+			<td>1.1.2</td>
+            <td><a href="https://github.com/philogb/jit/blob/master/LICENSE">BSD</a></td>
+			<td><a href="http://thejit.org">thejit.org</a></td>
+			<td>clover-core\etc\html_res\jit.js</td>
+			<td>clover-core\etc\licenses\JIT-1.1.2-LICENSE.TXT</td>
+			<td>No</td>
+			<td>&nbsp;</td>
+        </tr>		
+		<tr>
+		    <td>JSON</td>
+			<td>~2006-2008</td>
+            <td><a href="http://www.json.org/license.html">JSON Public Domain</a></td>
+			<td><a href="http://www.json.org">www.json.org</a></td>
+			<td>clover-core\src\main\java\com\atlassian\clover\reporters\json\JSONArray.java<br/>
+				clover-core\src\main\java\com\atlassian\clover\reporters\json\JSONObject.java<br/>
+				clover-core\src\main\java\com\atlassian\clover\reporters\json\JSONWriter.java<br/>
+				clover-core\src\main\java\com\atlassian\clover\reporters\json\JSONTokener.java<br/>
+				clover-core\src\main\java\com\atlassian\clover\reporters\json\JSONStringer.java</td>
+			<td>clover-core\etc\licenses\JSON-LICENSE.TXT</td>
+			<td>No</td>
+			<td>Public Domain. No need to publish. In our repository we have sources older than the first commit in https://github.com/douglascrockford/JSON-java</td>
+        </tr>
+        <tr>
+            <td>jQuery</td>
+            <td>1.8.3</td>
+            <td><a href="http://jquery.org/license">MIT</a></td>
+            <td><a href="http://jquery.org">https://jquery.org</a></td>
+            <td>clover-core\etc\html_res\adg\jquery-1.8.3.min.js</td>
+            <td>clover-core\etc\licenses\JQUERY-1.8.3-LICENSE.TXT</td>
+            <td>No</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>Image ajax-loader.gif</td>
+            <td>~2009</td>
+            <td><a href="http://www.wtfpl.net/txt/copying">WTFPL</a></td>
+            <td><a href="http://ajaxload.info/">ajaxload.info</a></td>
+            <td>clover-core\etc\html_res\adg\ajax-loader.gif<br/>
+                clover-core\etc\html_res\classic\ajax-loader.gif</td>
+            <td>(see web page)</td>
+            <td>No</td>
+            <td>&nbsp;</td>
+        </tr>
+	</table>
+	
+	<div>
+	(1) = Apache License v 1.1 and 2.0 does not require publishing sources. It's enough to publish information that we use software developed by Apache Foundation either in "About box" or
+	in the documentation.
+	</div>
+	
+	<h2>Third party tools (binaries and sources) not bundled in final binaries</h2>
+
+    <div><i>Note: most of these tools are downloaded on the fly (and put into target/dependencies folder). They are
+    used for internal purposes, such as compilation or testing.</i></div>
+
+    <table border="1" cellspacing="0">
+        <tr bgcolor="silver">
+            <td colspan="4"><b>Third party library</b></td>
+            <td colspan="2"><b>Usage in Clover</b></td>
+        </tr>
+        <tr bgcolor="silver">
+            <td><b>Name</b></td>
+            <td><b>Version</b></td>
+            <td><b>License</b></td>
+            <td><b>Download page</b></td>
+            <td><b>Location of artifacts</b></td>
+			<td><b>Comment</b></td>
+        </tr>
+        <tr>
+            <td>Ant</td>
+            <td>1.7.0-1.9.4</td>
+            <td>Apache 2.0</td>
+            <td><a href="http://ant.apache.org">ant.apache.org</a></td>
+            <td>target\dependencies\ant\**</td>
+            <td>used for compilation and testing (in classpath)</td>
+        </tr>
+		<tr>
+            <td>Ant-Contrib</td>
+            <td>1.0b3</td>
+            <td>Apache 1.1</td>
+            <td><a href="http://ant-contrib.sourceforge.net/">ant-contrib.sourceforge.net/</a></td>
+            <td>target\dependencies\ant-contrib-1.0b3.jar</td>
+            <td>used in our build.xml files</td>
+        </tr>
+        <tr>
+            <td>ASM</td>
+            <td>3.0</td>
+            <td>BSD</td>
+            <td><a href="http://asm.ow2.org">asm.ow2.org</a></td>
+            <td>~\.m2\...\asm-3.0.jar</td>
+            <td>used for compilation against groovy 1.x (to have proper bytecode),
+                used for compilation (buildutil - writeRethrowCheckedMethod)</td>
+        </tr>
+        <tr>
+            <td>ASM</td>
+            <td>4.0</td>
+            <td>BSD</td>
+            <td><a href="http://asm.ow2.org">asm.ow2.org</a></td>
+            <td>~\.m2\...\asm-4.0.jar</td>
+            <td>used for compilation against groovy 2.x (to have proper bytecode)</td>
+        </tr>
+        <tr>
+            <td>ASM</td>
+            <td>5.0.3</td>
+            <td>BSD</td>
+            <td><a href="http://asm.ow2.org">asm.ow2.org</a></td>
+            <td>~\.m2\...\asm-5.0.3.jar</td>
+            <td>it's bundled in clover-eclipse as runtime library</td>
+        </tr>
+        <tr>
+            <td>Eclipse</td>
+            <td>4.2.2, 4.3.1, 4.4.0, 4.5.1, 4.6.0</td>
+            <td>EPL</td>
+            <td><a href="http://eclipse.org">eclipse.org</a></td>
+            <td>target\dependencies\eclipse</td>
+			<td>used for compilation and testing (in classpath)</td>
+        </tr>
+		<tr>
+            <td>Groovy</td>
+            <td>1.6.9-2.4.7</td>
+            <td>Apache 2.0</td>
+            <td><a href="http://groovy-lang.org">groovy-lang.org</a></td>
+            <td>target\dependencies\groovy-all-*.jar</td>
+            <td>used for compilation and testing (in classpath)</td>
+        </tr>
+        <tr>
+            <td>Hamcrest</td>
+            <td>1.3</td>
+            <td><a href="https://opensource.org/licenses/BSD-3-Clause">New BSD License</a></td>
+            <td><a href="http://hamcrest.org">hamcrest.org</a></td>
+            <td>target\dependencies\hamcrest-core-1.3.jar</td>
+            <td>used in unit tests</td>
+        </tr>
+        <tr>
+            <td>IDEA</td>
+            <td>13-2016</td>
+            <td>Community Edition is Apache 2.0</td>
+            <td><a href="http://www.jetbrains.com">www.jetbrains.com</a></td>
+            <td>target\dependencies\idea</td>
+			<td>used for compilation (in classpath)</td>
+        </tr>
+        <tr>
+            <td>JARJAR</td>
+            <td>1.0rc7, 1.4</td>
+            <td>Apache 2.0</td>
+            <td><a href="https://code.google.com/archive/p/jarjar">code.google.com/archive/p/jarjar</a></td>
+            <td>Maven Central for 1.0.rc7, <br/>
+                Atlassian Private for 1.4 - see clover-core-libs\jarjar</td>
+			<td>used for repackaging of third party jars</td>
+        </tr>
+		<tr>
+            <td>Java Runtime</td>
+            <td>1.6.0</td>
+            <td><a href="http://www.oracle.com/technetwork/java/javase/terms/license/index.html">Oracle</a></td>
+            <td><a href="http://oracle.com">oracle.com</a></td>
+            <td>~\.m2\...\java-rt-1.6.0.45.jar<br/>
+                ~\.m2\...\java-tools-1.6.0.45.jar</td>
+			<td>used for compilation</td>
+        </tr>
+		<tr>
+            <td>JMeter</td>
+            <td>2.3.2</td>
+            <td>Apache 2.0</td>
+            <td><a href="http://jmeter.apache.org/">jmeter.apache.org</a></td>
+            <td>target\dependencies\apache-jmeter-2.13.zip</td>
+			<td>peformance measurement</td>
+        </tr>
+		<tr>
+            <td>JMeter Ant plugin</td>
+            <td>1.0.9</td>
+            <td>Apache 2.0</td>
+            <td><a href="http://programmerplanet.org">programmerplanet.org</a></td>
+            <td>perfmon\lib\ant-jmeter-1.0.9.jar</td>
+			<td>peformance measurement</td>
+        </tr>		
+		<tr>
+            <td>JUnit</td>
+            <td>4.12</td>
+            <td>EPL 1.0</td>
+            <td><a href="http://junit.org">junit.org</a></td>
+            <td>target\dependencies\junit-4.12.jar</td>
+			<td>used in unit tests</td>
+        </tr>
+		<tr>
+		    <td>JUnit XML stylesheet</td>
+			<td>unknown</td>
+            <td>Apache 1.1</td>
+			<td>(origin unknown)</td>
+			<td>etc\style\junit-frames.xsl<br/>
+				etc\style\junit-noframes.xsl</td>
+			<td>INTERNAL. These two files are used internally by the 'global.test.report' goal to format JUnit test results. No need to publish</td>
+        </tr>
+        <tr>
+            <td>Maven Ant Tasks</td>
+            <td>2.1.3</td>
+            <td>Apache 2.0</td>
+            <td><a href="https://maven.apache.org/ant-tasks/download.html">maven.apache.org</a></td>
+            <td>clover-core-libs, clover-eclipse/extlib, clover-jtreemap, spock-example / maven-ant-tasks-2.1.3.jar</td>
+            <td>used in our upgrade.xml scripts to download dependencies from Maven</td>
+        </tr>
+		<tr>
+            <td>Mockito</td>
+            <td>1.10.19</td>
+            <td>MIT</td>
+            <td><a href="http://mockito.org">mockito.org</a></td>
+            <td>target\dependencies\mockito-all-1.10.19.jar</td>
+			<td>used in unit tests</td>
+        </tr>				
+		<tr>
+            <td>MultithreadedTC</td>
+            <td>1.01</td>
+            <td><a href="https://opensource.org/licenses/BSD-3-Clause">New BSD License</a></td>
+            <td><a href="https://code.google.com/archive/p/multithreadedtc">code.google.com/archive/p/multithreadedtc</a></td>
+            <td>target\dependencies\multithreadedtc-1.01.jar</td>
+			<td>used in unit tests</td>
+        </tr>
+        <tr>
+            <td>Spock Framework</td>
+            <td>0.5-1.0</td>
+            <td>Apache 2.0</td>
+            <td><a href="http://spockframework.org/">spockframework.org</a></td>
+            <td>target\dependencies\spock-core-*.jar</td>
+            <td>used for integration testing whether Clover works with various Spock versions</td>
+        </tr>
+        <tr>
+            <td>Spock Example</td>
+            <td>0.6</td>
+            <td>Apache 2.0</td>
+            <td><a href="http://spockframework.org/">spockframework.org</a></td>
+            <td>groovy\src\test\resources\spock-example</td>
+            <td>used for integration testing, example showing how to use spock test framework</td>
+        </tr>
+        <tr>
+            <td>TestNG</td>
+            <td>6.8.21</td>
+            <td>Apache 2.0</td>
+            <td><a href="http://testng.org">testng.org</a></td>
+            <td>target\dependencies\testng-6.8.21.jar</td>
+			<td>used for compilation and tests (in classpath)</td>
+        </tr>
+		<!-- 
+		<tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><a href="http://"></a></td>
+            <td>---</td>
+            <td>no</td>
+            <td>no</td>
+            <td></td>
+            <td>---</td>
+            <td>---</td>
+			<td></td>
+        </tr>
+		-->
+   </table>
+
+</body>
+</html>

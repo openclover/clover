@@ -1,0 +1,80 @@
+<project name="eclipse_updatesite" basedir="." default="eclipse.pkg">
+
+	<import file="../../clover-core/build.xml"/>
+
+	<dirname property="eclipse.base" file="${ant.file.clover-eclipse}"/>
+	<dirname property="eclipse.updatesite.base" file="${ant.file.eclipse_updatesite}"/>
+
+	<property name="eclipse.updatesite.output" location="${common.base}/clover-eclipse/target"/>
+	<property name="eclipse.updatesite.main.output" location="${eclipse.updatesite.output}/main"/>
+    <property name="eclipse.updatesite.cumulative.output" location="${eclipse.updatesite.output}/cumulative"/>
+    <condition property="eclipse.updatesite.cumulative">
+        <and>
+            <available file="${eclipse.updatesite.base}/etc/site-cumulative.xml"/>
+            <available file="${eclipse.updatesite.base}/image/cumulative"/>
+        </and>
+    </condition>
+
+    <target name="eclipse.pkg" depends="eclipse.main.pkg"/>
+
+    <!-- Copy licences from clover eclipse core also to the update site zip -->
+    <fileset id="clover-eclipse.3rdparty.rights.fileset"
+             dir="${eclipse.base}/com.atlassian.clover.eclipse.core/etc"
+             includes="licenses/*"/>
+
+    <target name="eclipse.main.pkg">
+        <make.updatesite sitexml="site.xml" outputdir="${eclipse.updatesite.main.output}" suffix="">
+            <additional-resources>
+                <!-- Package scripts for upgrading third party libraries -->
+                <zipfileset dir="${eclipse.base}">
+                    <include name="extlib/**"/>
+                </zipfileset>
+                <!-- and the instruction -->
+                <fileset dir="${eclipse.updatesite.base}/etc" includes="UpgradingOpenSourceLibs.txt"/>
+                <!-- add all licences here for convenience (they're in specific jar files as well) -->
+                <fileset refid="clover-core.3rdparty.rights.fileset"/>
+                <fileset refid="clover-core.atlassian.rights.fileset"/>
+                <fileset refid="clover-eclipse.3rdparty.rights.fileset"/>
+            </additional-resources>
+        </make.updatesite>
+    </target>
+
+    <macrodef name="make.updatesite">
+        <attribute name="sitexml"/>
+        <attribute name="outputdir"/>
+        <attribute name="suffix"/>
+        <element name="additional-resources" optional="true"/>
+
+        <sequential>
+            <mkdir dir="@{outputdir}"/>
+
+            <copy todir="@{outputdir}" overwrite="true">
+                <fileset dir="${eclipse.updatesite.base}/etc">
+                    <include name="@{sitexml}"/>
+                </fileset>
+                <mergemapper to="site.xml"/>
+                <filterchain>
+                    <replacetokens>
+                        <token key="ECLIPSE_RELEASE_NUM" value="${eclipse.release.num}"/>
+                        <token key="CLOVER_RELEASE_NUM" value="${core.release.num}"/>
+                    </replacetokens>
+                </filterchain>
+		    </copy>
+
+            <zip file="@{outputdir}/com.atlassian.clover.eclipse.updatesite_${eclipse.release.num}@{suffix}.zip">
+                <zipfileset dir="@{outputdir}" includes="site.xml"/>
+                <zipfileset prefix="features" dir="${eclipse.updatesite.output}/features" includes="*${eclipse.release.num}.jar"/>
+                <zipfileset prefix="plugins" dir="${eclipse.updatesite.output}/plugins" includes="*${eclipse.release.num}.jar"/>
+                <additional-resources/>
+            </zip>
+        </sequential>
+    </macrodef>
+
+	<target name="eclipse.clean">
+		<delete dir="${eclipse.updatesite.output}" includes="site.xml,com.atlassian.clover.eclipse.updatesite_*.zip"/>
+	</target>
+
+	<target name="eclipse.build"/>
+	<target name="eclipse.test"/>
+
+</project>

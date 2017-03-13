@@ -1,0 +1,17 @@
+#Fri Apr 17 16:02:59 BST 2009
+block_filters=SourceDirective
+eclipse.preferences.version=1
+flush_interval=1000
+flush_policy=0
+include_filter=**/*.java
+init_string=
+init_string_default=true
+init_string_project_relative=true
+instrument_selected_source_folders=false
+instrumentation_enabled=true
+instrumented_source_folder_patterns[0]=src\n**/*.java\n\ndisabled
+output_root=.clover/bin
+output_root_same_as_project=true
+should_qualify_java_lang=true
+test_include_filter=**/*Test.java
+test_source_folders=0

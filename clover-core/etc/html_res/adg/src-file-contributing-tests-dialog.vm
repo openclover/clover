@@ -1,0 +1,120 @@
+<div>&#160;</div>
+
+<h2>Contributing tests</h2>
+
+#if ($testMetrics.isEmpty())
+    <div class="aui-message">
+        <p>No tests hitting this source file were found.</p>
+    </div>
+#else
+    <div>
+        #set ($numContrTests = $testMetrics.keySet().size())
+        This file is covered by $numContrTests test#if($numContrTests > 1)s#end.
+        <button data-dialog-id="contr-tests-dialog" class="aui-button aui-button-link dialog-show-button">
+            Select tests to highlight the test coverage
+        </button>.
+    </div>
+
+<section role="dialog" id="contr-tests-dialog" class="aui-layer aui-dialog2 aui-dialog2-xlarge" aria-hidden="true">
+    #* dialog header *#
+    <header class="aui-dialog2-header">
+        <h1 class="aui-dialog2-header-main">Contributing tests</h1>
+        <div class="aui-dialog2-header-secondary">
+            <input id="test-filter" class="test-filter text" type="text" name="test-filter"
+                   placeholder="Type to filter tests..." autocomplete="off"
+                   onkeyup="filterTests('tests-body', 'test-filter', 3);"/>
+        </div>
+    </header>
+
+    #* main dialog content *#
+    <div class="aui-dialog2-content">
+    #* ********************************************************************************************************** *#
+
+        <p class="aui-buttons">
+            <button title="Selects all tests for this file, highlighting their coverage."
+                    class="aui-button" id="selectalltests">Select all</button>
+        </p>
+
+        <table class="aui aui-table-sortable">
+            <thead id="tests-head">
+            <tr id="testHeaderRow">
+                <th class="aui-table-column-unsortable"></th>
+                <th>
+                    <label title="The percentage of coverage contributed by each single test.">Test contribution</label>
+                </th>
+                <th>
+                    <label title="The test (or test iteration) which was executed.">Test</label>
+                </th>
+                <th>
+                    <label>Result</label>
+                </th>
+                <th class="aui-table-column-unsortable">
+                    <label>Actions</label>
+                </th>
+            </tr>
+            </thead>
+            <tbody id="tests-body">
+
+## note: it's a heavily used loop, using no indentation to reduce report size
+#foreach ($testCase in $testMetrics.keySet())
+#set ($testMethod = $testCase.sourceMethod)
+#set ($testMetric = $testMetrics.get($testCase))
+<tr id="test-$testCase.id">
+<td><a name="testA-$testCase.id"></a><input type="checkbox" id="cb-$testCase.id" value="$testCase.id" name="testMethod" autocomplete="off" title="Check to highlight coverage of this test in the source code"/></td>
+<td style="vertical-align: middle" #if ($testCase.isResolved()) class="link" onclick="window.location.href='${rootRelPath}$renderUtil.getTestLink(true, $testCase)';"#end>
+<span class="sortValue">$testMetric.PcCoveredElements</span>
+#set($empty = $testMetric.empty)
+#set($width = 40)
+#set($pccovered = $testMetric.pcCoveredElements)
+#set($customBarNegative = "contribBarNegative")
+#set($customBarPositive = "contribBarPositive")
+#parse("html_res/adg/bar-graph-div.vm")
+</td>
+<td id="tc-$testCase.id"> ## testCase.qualifiedName may be null
+#if ($testCase.qualifiedName) <span class="sortValue">$testCase.qualifiedName</span><a href="${rootRelPath}${renderUtil.getTestLink(true, $testCase)}" title="View Test Summary Page">$testCase.qualifiedName</a>
+#else <span class="sortValue">$testCase.testName</span>$testCase.testName
+#end
+</td>
+<td>#parse("html_res/adg/test-result-status-long.vm")</td>
+<td> ## testMethod and runtimeType may be null if test case is not resolved
+#if ($testCase.isResolved())
+<a href="${rootRelPath}$renderUtil.getMethodLink(true, $testMethod)" title="View Test Source">
+#if ($testCase.hasResult) <span class="aui-icon aui-icon-small aui-iconfont-file-txt aui-icon-medium-gray"></span>
+#else <span class="aui-icon aui-icon-small aui-iconfont-devtools-task-disabled aui-icon-medium-gray"></span>
+#end
+</a>
+<a href="${rootRelPath}${renderUtil.getTestLink(true, $testCase)}" title="View Test Summary Page"><span class="aui-icon aui-icon-small aui-iconfont-file-ppt aui-icon-medium-gray"></span></a>
+#end
+</td>
+</tr>
+#end
+
+            </tbody>
+        </table>
+
+        #if ($numTestsHidden)
+            #if ($testsPerFile > 0)
+                <div class="aui-message aui-message-warning">
+                    $numTestsHidden ${renderUtil.pluralize($numTestsHidden, "test")}
+                    ${renderUtil.isAre($numTestsHidden)} not displayed. This report was
+                    configured to show the top $testsPerFile ${renderUtil.pluralize($testsPerFile, "test")}
+                    that covered this file.
+                </div>
+            #end
+        #end
+
+        <div>&#160;</div>
+
+    #* ********************************************************************************************************** *#
+    </div>
+
+    #* dialog footer *#
+    <footer class="aui-dialog2-footer">
+        <div class="aui-dialog2-footer-actions">
+            <button data-dialog-id="contr-tests-dialog" class="aui-button aui-button-primary dialog-close-button">Apply</button>
+        </div>
+        <div class="aui-dialog2-footer-hint">Select tests to highlight code covered by them in the source view.</div>
+    </footer>
+</section>
+
+#end ## if testMetrics

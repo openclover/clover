@@ -1,0 +1,10 @@
+package com.atlassian.clover.idea;
+
+public class PluginVersionInfo {
+
+    public static final String RELEASE_NUMBER = "@IDEA_RELEASE_NUM@";
+    public static final String BUILD_NUMBER = "@BUILD_NUMBER@";
+    public static final String BUILD_DATE = "@BUILD_DATE@";
+    public static final String EVAL_LICENSE ="@EVAL_LICENSE@";
+
+}

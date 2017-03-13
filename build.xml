@@ -1,0 +1,77 @@
+<project name="global" basedir=".">
+
+    <!-- Import build files from top-level clover modules -->
+    <import file="clover-ant/build.xml"/>  <!-- Clover-for-Ant     -->
+    <import file="clover-eclipse/build.xml"/>     <!-- Clover-for-Eclipse -->
+    <import file="clover-idea/build.xml"/>       <!-- Clover-for-IDEA    -->
+    <import file="perfmon/build.xml"/>     <!-- PerformanceMonitor -->
+
+    <property name="test.results.dir" value="${build.dir}/test/html-report"/>
+
+    <macrodef name="subtarget">
+        <attribute name="module"/>
+        <attribute name="target"/>
+        <sequential>
+            <subant target="@{module}.@{target}" inheritrefs="true" inheritall="true">
+                <dirset dir="." file="@{module}"/>
+            </subant>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="doall">
+        <attribute name="target"/>
+        <sequential>
+            <subtarget module="clover-buildutil" target="@{target}"/>
+            <subtarget module="clover-core-libs" target="@{target}"/>
+            <subtarget module="clover-runtime" target="@{target}"/>
+            <subtarget module="clover-core" target="@{target}"/>
+            <subtarget module="groovy" target="@{target}"/>
+            <subtarget module="clover-ant" target="@{target}"/>
+            <subtarget module="clover-eclipse" target="@{target}"/>
+            <subtarget module="clover-idea" target="@{target}"/>
+            <subtarget module="perfmon" target="@{target}"/>
+        </sequential>
+    </macrodef>
+
+    <target name="global.repkg">
+        <doall target="repkg"/>
+    </target>
+
+    <target name="global.build">
+        <doall target="build"/>
+    </target>
+
+    <target name="global.test.build">
+        <doall target="test.build"/>
+    </target>
+
+    <target name="global.test">
+        <doall target="test"/>
+    </target>
+
+    <target name="global.clean">
+        <doall target="clean"/>
+    </target>
+
+    <target name="global.test.report" depends="global.test">
+        <mkdir dir="${test.results.dir}"/>
+        <junitreport todir="${test.results.dir}">
+            <fileset dir="${build.dir}">
+                <include name="**/test/**/TEST-*.xml"/>
+            </fileset>
+            <report format="frames"
+                    todir="${test.results.dir}"
+                    styledir="${common.base}/etc/style"/>
+        </junitreport>
+    </target>
+
+    <target name="global.idea.pack">
+        <tar destfile="target/idea-files.tar">
+            <fileset dir=".">
+                <include name="**/*.ipr"/>
+                <include name="**/*.iml"/>
+            </fileset>
+        </tar>
+    </target>
+
+</project>

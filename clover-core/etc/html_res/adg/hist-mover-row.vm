@@ -1,0 +1,59 @@
+#set($href = "${relToCurrentRoot}${renderUtil.getBaseFileName($diff.currentClassInfo)}")
+#set ($width = ${renderUtil.getWidth(300, $diff.PcDiff)} / ${movers.maxWidth})
+
+#if ($isGainer)
+
+    <tr>
+        <td class="graphItemGainer" title="$diff.Name">
+            #if ($relToCurrentRoot)
+                <a target="classPane" #if($showSrc) href="$href" #else class="nolink" #end>
+            #end
+            ${renderUtil.truncateStart($diff.Name)}
+            #if ($relToCurrentRoot)
+                </a>
+            #end
+        </td>
+        <td>
+            <table class="barGraph" cellspacing="0">
+                <tr>
+                    #if ($onlyDiff)
+                        <td><div class="barPositive" style="width:${width}px"> </div> </td>
+                        <td class="gainerBarGraphFigure"> +$renderUtil.formatMultiply1d($diff.PcDiff, 1) ($diff.getString2())</td>
+                    #else
+                        <td>
+                            <div title="${renderUtil.formatMultiply1dReverse($diff.PcDiff, 1, $movers.maxWidth)} less than Maximum" class="barNegative" style="width: 300px">
+                                <div title="$diff.getString2() ($movers.getColumn().getTitle())" class="barPositive" style="width: ${width}px"/>
+                            </div>
+                        </td>
+                        <td class="gainerBarGraphFigure">
+                            ($diff.getString2())
+                        </td>
+                    #end
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+#else
+
+    <tr>
+        <td>
+            <table class="barGraph" cellspacing="0">
+                <tr>
+                    <td class="loserBarGraphFigure">($diff.getString2()) $renderUtil.formatMultiply1d($diff.PcDiff, 1)</td>
+                    <td align="right"><div class="barNegative" style="width: ${width}px"/></td>
+                </tr>
+            </table>
+        </td>
+        <td class="graphItemLoser" title="$diff.Name">
+            #if ($relToCurrentRoot)
+                <a target="classPane" #if($showSrc) href="$href" #else class="nolink" #end>
+            #end
+            $diff.Name
+            #if ($relToCurrentRoot)
+                </a>
+            #end
+        </td>
+    </tr>
+
+#end

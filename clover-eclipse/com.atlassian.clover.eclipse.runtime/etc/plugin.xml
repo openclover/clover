@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+	<!-- ===================== -->
+	<!-- CLOVER_RUNTIME CLASSPATH VARIABLE INITIALIZER -->
+	<!-- ===================== -->
+	<extension point="org.eclipse.jdt.core.classpathVariableInitializer">
+		<classpathVariableInitializer
+			variable="CLOVER_RUNTIME"
+			class="com.atlassian.clover.eclipse.runtime.VariableInitialiser">
+		</classpathVariableInitializer>
+	</extension>
+</plugin>

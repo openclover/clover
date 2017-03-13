@@ -1,0 +1,45 @@
+#parse("html_res/adg/html-head.vm")
+
+#set ($bodyOnResize = "processTreeMapJson(treeMapJson);")
+#parse("html_res/adg/html-body-start.vm")
+
+#parse("html_res/adg/page-content-header.vm")
+
+<div class="aui-tabs horizontal-tabs">
+    #set ($currentHorizontalNav = "TreeMap")
+    #parse("html_res/adg/pkg-tabs-menu.vm")
+
+    <div class="tabs-pane active-pane" id="tabs-first">
+
+        <div>&#160;</div>
+
+        #parse("html_res/adg/warnings.vm")
+
+        ## $title + $buttonTitle + $description
+        #set ($title = "Coverage Tree Map")
+        #set ($buttonTitle = "How to read this chart")
+        #set ($description = "treeMapDescription")
+        <div style="text-align: right; margin-bottom: 10px">
+            #parse("html_res/adg/inline-dialog-help.vm")
+        </div>
+
+        <div class="treemap-widget">
+            <div id="infovis" style="width:100%;">
+                <div id="treemap-loader" style="position:relative">
+                    <p>
+                        Generating Coverage Tree Map. Please wait...
+                    </p>
+                    <p>
+                        <img src="img/ajax-loader.gif" alt="Loading Treemap"/>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div> <!-- tabs-pane active-pane -->
+</div> <!-- aui-tabs horizontal-tabs -->
+
+<script type="text/javascript" src="jit.js" ></script>
+<script type="text/javascript" src="treemap-json.js" ></script>
+
+#parse("html_res/adg/html-body-end.vm")

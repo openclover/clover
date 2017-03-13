@@ -1,0 +1,7 @@
+<html>
+<body>
+
+#parse("html_res/adg/cloud.vm")
+
+</body>
+</html>

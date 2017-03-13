@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+	<feature id="com.atlassian.clover.eclipse.feature"
+			 url="features/com.atlassian.clover.eclipse.feature_@ECLIPSE_RELEASE_NUM@.jar"
+			 version="@ECLIPSE_RELEASE_NUM@"
+			 label="Clover 4 (@ECLIPSE_RELEASE_NUM@) for Eclipse 4.2 - 4.6 and RAD 9.0 - 9.1">
+        <category name="clover@CLOVER_RELEASE_NUM@"/>
+	</feature>
+
+	<feature id="com.atlassian.clover.eclipse.ant.feature"
+			 url="features/com.atlassian.clover.eclipse.ant.feature_@ECLIPSE_RELEASE_NUM@.jar"
+			 version="@ECLIPSE_RELEASE_NUM@"
+			 label="Clover 4 Ant Support (@ECLIPSE_RELEASE_NUM@) for Eclipse 4.2 - 4.6 and RAD 9.0 - 9.1">
+        <category name="clover@CLOVER_RELEASE_NUM@"/>
+	</feature>
+
+    <category-def name="clover@CLOVER_RELEASE_NUM@" label="Clover @CLOVER_RELEASE_NUM@ (Eclipse 4.2 - 4.6 and RAD 9.0 - 9.1)"/>
+</site>

@@ -1,0 +1,276 @@
+<project name="clover-core" basedir="." default="clover-core.build" xmlns:ivy="antlib:org.apache.ivy.ant">
+
+    <import file="../clover-buildutil/build.xml"/>
+    <import file="../clover-core-libs/build.xml"/>
+    <import file="../clover-runtime/build.xml"/>
+
+    <dirname property="clover-core.base" file="${ant.file.clover-core}"/>
+
+    <property name="column.antlr.path" value="com/atlassian/clover/reporters"/>
+    <property name="clover-core.antlr.path" value="com/atlassian/clover/instr/java"/>
+
+    <property name="clover-core.output" location="${clover-core.base}/target"/>
+    <property name="clover-core.output.classes" location="${clover-core.output}/classes"/>
+    <property name="clover-core.output.testclasses" location="${clover-core.output}/test-classes"/>
+    <property name="clover-core.output.gensources" location="${clover-core.output}/src-generated"/>
+    <property name="clover-core.jar" location="${clover-core.output}/clover-core.jar"/>
+
+    <fileset id="clover-core.3rdparty.rights.fileset" dir="${clover-core.base}/etc">
+        <include name="licenses/*"/>
+        <include name="LICENSES.html"/>
+    </fileset>
+
+    <fileset id="clover-core.atlassian.rights.fileset" dir="${clover-core.base}/etc">
+        <include name="LICENSE.txt"/>
+    </fileset>
+
+    <property environment="env"/>
+
+    <macrodef name="writeRethrowCheckedMethod">
+        <attribute name="classLocation"/>
+        <sequential>
+            <java classname="com.atlassian.clover.build.codegen.WriteRethrowMethod"
+                  classpath="${clover-buildutil.jar}" fork="yes" failonerror="yes">
+                <classpath>
+                    <pathelement location="${repkg.clover.jar}"/>
+                    <path refid="asm3.path"/>
+                </classpath>
+                <arg line="'@{classLocation}'"/>
+            </java>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="antlr">
+        <attribute name="rundir"/>
+        <attribute name="outdir"/>
+        <attribute name="infile"/>
+        <sequential>
+            <mkdir dir="@{outdir}"/>
+            <java classname="clover.antlr.Tool" fork="yes" dir="@{rundir}" failonerror="yes">
+                <classpath refid="clover.antlr.path"/>
+                <classpath location="${repkg.clover.jar}"/>
+                <arg line="-o '@{outdir}' '@{infile}'"/>
+            </java>
+            
+            <replace dir="@{outdir}" token="import antlr" value="import clover.antlr">
+                <include name="**/*.java"/>
+            </replace>
+        </sequential>
+    </macrodef>
+
+    <target name="clover-core.init" depends="common.init, clover-buildutil.jar, clover-core-libs.initialize">
+        <mkdir dir="${clover-core.output.gensources}/${clover-core.antlr.path}"/>
+
+        <path id="clover.antlr.path" location="${clover-core-libs.output.deps}/clover-antlr-${antlr.ver}.jar"/>
+
+        <path id="clover-core.runpath">
+            <fileset refid="clover-core-libs.runtime.jarset"/>
+            <path refid="clover.antlr.path"/>
+        </path>
+
+        <path id="clover-core.buildpath">
+            <path refid="clover-core.runpath"/>
+            <pathelement location="${clover-runtime.output.classes}"/>
+            <pathelement location="${clover-core.output.classes}"/>
+            <pathelement location="${clover-buildutil.jar}"/>
+            <pathelement location="${spock.jar}"/>
+            <pathelement location="${junit.jar}"/>
+        </path>
+
+        <path id="ant.classpath">
+            <fileset dir="${build.deps.dir}/ant/ant-${default.ant.version}">
+                <include name="*.jar"/>
+            </fileset>
+        </path>
+
+        <path id="clover-core.testpath">
+            <path refid="clover-core.buildpath"/>
+            <pathelement location="${junit.jar}"/>
+            <pathelement location="${multithreadedtc.jar}"/>
+            <pathelement location="${hamcrest.jar}"/>
+            <pathelement location="${mockito.jar}"/>
+            <pathelement location="${groovy.jar}"/>
+            <pathelement location="${spock.jar}"/>
+            <pathelement location="${clover-core.output.testclasses}"/>
+            <path refid="ant.classpath"/>
+            <!-- for with.clover -->
+            <pathelement location="${repkg.clover.jar}"/>
+            <path refid="java.tools.path"/>
+            <path refid="asm3.path"/>
+        </path>
+    </target>
+
+    <target name="_clover-core.check.antlr">
+        <uptodate property="_antlr.is.uptodate"
+                  targetfile="${clover-core.output.gensources}/${clover-core.antlr.path}/JavaLexer.java">
+            <srcfiles dir="${clover-core.base}/src/main/java" includes="**/java.g"/>
+        </uptodate>
+
+        <uptodate property="_column.antlr.is.uptodate"
+                  targetfile="${clover-core.output.gensources}/${column.antlr.path}/CalcLexer.java">
+            <srcfiles dir="${clover-core.base}/src/main/java" includes="**/column.g"/>
+        </uptodate>
+    </target>
+
+    <target name="_clover-core.run.antlr" depends="clover-core.init, _clover-core.check.antlr" unless="_antlr.is.uptodate">
+        <antlr rundir="${clover-core.base}/src/main/java" outdir="${clover-core.output.gensources}/${clover-core.antlr.path}" infile="${clover-core.base}/src/main/java/${clover-core.antlr.path}/java.g"/>
+        <replace dir="${clover-core.output.gensources}/${clover-core.antlr.path}" token="public final void mIDENT" value="public void mIDENT">
+            <include name="**/JavaLexer.java"/>
+        </replace>
+        <replace dir="${clover-core.output.gensources}/${clover-core.antlr.path}" token="public final void mIDENT" value="public /*final*/ void mIDENT">
+            <include name="**/JavaLexer.java"/>
+        </replace>
+        <replace dir="${clover-core.output.gensources}/${clover-core.antlr.path}" token="public final void mSTRING_LITERAL" value="public /*final*/ void mSTRING_LITERAL">
+            <include name="**/JavaLexer.java"/>
+        </replace>
+        <replace dir="${clover-core.output.gensources}/${clover-core.antlr.path}" token="public final void mCHAR_LITERAL" value="public /*final*/ void mCHAR_LITERAL">
+            <include name="**/JavaLexer.java"/>
+        </replace>
+    </target>
+
+    <target name="_column.run.antlr" depends="clover-core.init, _clover-core.check.antlr" unless="_column.antlr.is.uptodate">
+        <antlr rundir="${clover-core.base}/src/main/java" outdir="${clover-core.output.gensources}/${column.antlr.path}" infile="${clover-core.base}/src/main/java/${column.antlr.path}/column.g"/>
+    </target>
+
+    <target name="_clover-core.copy.templates">
+        <mkdir dir="${clover-core.output.classes}/html_res"/>
+        <copy todir="${clover-core.output.classes}/html_res">
+            <fileset dir="${clover-core.base}/etc/html_res" includes="**/*"/>
+        </copy>
+    </target>
+
+    <target name="clover-core.build" depends="clover-core-libs.initialize, clover-runtime.build, _clover-core.run.antlr,_column.run.antlr">
+        <mkdir dir="${clover-core.output.classes}"/>
+        <!-- Compile runtime classes -->
+        <javac destdir="${clover-core.output.classes}"
+               debug="on"
+               debuglevel="lines,vars,source"
+               deprecation="on"
+               target="${jdk.target}"
+               source="${source.level}"
+               encoding="UTF8"
+               bootclasspathref="java.rt.path"
+               includeAntRuntime="false">
+            <classpath refid="clover-core.buildpath"/>
+            <src path="${clover-core.output.gensources}"/>
+            <!-- No non-runtime generated source -->
+            <exclude name="com/atlassian/clover/instr/java/*.java"/>
+            <exclude name="com/atlassian/clover/reporters/*.java"/>
+            <exclude name="**/package-info.java"/>
+        </javac>
+        <!-- Compile tooling classes -->
+        <javac destdir="${clover-core.output.classes}"
+               debug="on"
+               debuglevel="lines,vars,source"
+               deprecation="on"
+               target="${jdk.target}"
+               source="${source.level}"
+               encoding="UTF8"
+               bootclasspathref="java.rt.path"
+               includeAntRuntime="false">
+            <classpath refid="clover-core.buildpath"/>
+            <classpath >
+                <fileset file="${junit.jar}"/>
+            </classpath>
+            <classpath location="${clover-core.output.classes}"/>
+            <classpath location="${clover-runtime.jar}"/>
+            <src path="${clover-core.base}/src/main/java"/>
+            <src path="${clover-core.output.gensources}"/>
+            <exclude name="com_atlassian_clover/CloverVersionInfo.java"/>
+            <exclude name="**/package-info.java"/>
+        </javac>
+        <writeRethrowCheckedMethod classLocation="${clover-core.output.classes}/com_atlassian_clover/CoverageRecorder.class"/>
+    </target>
+
+    <target name="clover-core.test.build" depends="clover-core.build,clover-core.image">
+        <mkdir dir="${clover-core.output.testclasses}"/>
+        <javac destdir="${clover-core.output.testclasses}"
+               debug="on"
+               debuglevel="lines,vars,source"
+               deprecation="on"
+               target="${jdk.target}"
+               source="${source.level}"
+               encoding="UTF8"
+               bootclasspathref="java.rt.path"
+               includeAntRuntime="false">
+            <classpath refid="clover-core.testpath"/>
+            <src path="${clover-core.base}/src/test/java"/>
+        </javac>
+        <groovyc srcdir="${clover-core.base}/src/test/groovy"
+                destdir="${clover-core.output.testclasses}">
+            <include name="**/*.groovy"/>
+            <classpath refid="clover-core.testpath"/>
+        </groovyc>
+        <copy todir="${clover-core.output.testclasses}">
+            <fileset dir="${clover-core.base}/src/test/java">
+                <include name="**/*.txt"/>
+                <include name="**/*.properties"/>
+                <include name="**/*.xml"/>
+            </fileset>
+            <fileset dir="${clover-core.base}/src/test/groovy">
+                <include name="**/*.txt"/>
+                <include name="**/*.properties"/>
+                <include name="**/*.xml"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="clover-core.test" depends="clover-core.test.build">
+        <mkdir dir="${clover-core.output}/test/xml-report"/>
+        <junit dir="${clover-core.output}/test" fork="true" forkmode="once" haltonerror="${fail.if.notpass}" haltonfailure="${fail.if.notpass}">
+            <jvmarg line="${test.fork.jvm.args}"/>
+
+            <sysproperty key="project.dir" value="${common.base}"/>
+            <sysproperty key="repkg.clover.jar" value="${repkg.clover.jar}"/>
+            <sysproperty key="junit.jar" value="${junit.jar}"/>
+            <sysproperty key="clover.logging.level" value="${clover.logging.level}"/>
+
+            <classpath refid="clover-core.testpath"/>
+
+            <batchtest todir="${clover-core.output}/test/xml-report">
+                <fileset dir="${clover-core.output.testclasses}" includes="${test.includes}" excludes="${test.excludes}"/>
+                <formatter type="xml"/>
+                <formatter type="plain"/>
+            </batchtest>
+        </junit>
+
+        <mkdir dir="${clover-core.output}/test/html-report"/>
+        <junitreport todir="${clover-core.output}/test/html-report">
+            <fileset dir="${clover-core.output}/test/xml-report">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${clover-core.output}/test/html-report" styledir="${common.base}/etc/style"/>
+        </junitreport>
+    </target>
+
+    <target name="clover-core.image" depends="clover-core.build, _clover-core.copy.templates">
+        <mkdir dir="${clover-core.output.classes}/pdf_res"/>
+        <copy todir="${clover-core.output.classes}/pdf_res">
+            <fileset dir="${clover-core.base}/etc/pdf_res"/>
+        </copy>
+        <copy todir="${clover-core.output.classes}/html_res">
+            <fileset dir="${clover-core.base}/etc/html_res">
+                <include name="**/*.png"/>
+                <include name="**/*.gif"/>
+                <include name="**/*.ico"/>
+                <include name="**/*.js"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="clover-core.clean">
+        <delete dir="${clover-core.output}"/>
+    </target>
+
+    <!--
+      Rewrites CoverageRecorder.class located in the IDE's output directory so that
+      CoverageRecorder#rethrowChecked(Throwable) will rethrow the checked exception
+      without declaring it in its throws clause
+    -->
+    <target name="clover-core.ide.writeRethrowCheckedMethod">
+        <writeRethrowCheckedMethod classLocation="${clover.ide.project.output.dir}/com_atlassian_clover/CoverageRecorder.class"/>
+    </target>
+
+    <target name="clover-core.repkg"/>
+
+</project>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=${charset}"/>
+    <link rel="SHORTCUT ICON" href="img/clover.ico" />
+    <link rel="stylesheet" href="style.css" media="all"/>
+    <link rel="stylesheet" href="aui/css/aui.min.css" media="all"/>
+    <link rel="stylesheet" href="aui/css/aui-experimental.min.css" media="all"/>
+    <!--[if IE 9]><link rel="stylesheet" href="aui/css/aui-ie9.min.css" media="all"/><![endif]-->
+
+    <script src="jquery-1.8.3.min.js" type="text/javascript"></script>
+    <script src="aui/js/aui.min.js" type="text/javascript"></script>
+    <script src="aui/js/aui-experimental.min.js" type="text/javascript"></script>
+    <script src="aui/js/aui-soy.min.js" type="text/javascript"></script>
+    <script src="clover.js" type="text/javascript"></script>
+
+    <title>Clover</title>
+</head>
+
+<body style="min-width: 200px;">
+#set ($configuredMetrics = $headerMetrics)
+#set ($projectMetrics = ${renderUtil.metricsFor($projectInfo)})
+
+<div class="aui-group">
+    <div class="aui-item">
+        <div class="dashboard-widget">
+            <header class="dashboard-widget-header">
+                <h3>
+                    <label title="A summary of the projects overall coverage.">Coverage</label>
+                    <label class="aui-button aui-button-subtle" onclick="self.location='cloverview:coverage'">
+                        <span class="aui-icon aui-icon-small aui-iconfont-arrows-right"></span>
+                    </label>
+                </h3>
+            </header>
+            <div class="dashboard-widget-content">
+                $tpcColumn.init($configuredMetrics)
+                <span>
+                    $renderUtil.formatInt($configuredMetrics.numClasses) classes,
+                    $renderUtil.formatInt($configuredMetrics.numCoveredElements) /
+                    $renderUtil.formatInt($configuredMetrics.numElements) elements
+                </span>
+                $tpcColumn.render()
+            </div>
+        </div>
+
+        <div class="dashboard-widget">
+            <header class="dashboard-widget-header">
+                <h3>
+                    <label title="A summary of results of all tests that were run.">Test results</label>
+                    <label class="aui-button aui-button-subtle" onclick="self.location='cloverview:testresults'">
+                        <span class="aui-icon aui-icon-small aui-iconfont-arrows-right"></span>
+                    </label>
+                </h3>
+            </header>
+            <div class="dashboard-widget-content">
+                #set($width = $200)
+                #set($pcPass = $renderUtil.getPercentStr($projectMetrics.PcTestPasses))
+                <span>
+                    $renderUtil.formatInt($projectMetrics.numTestPasses) / $renderUtil.formatInt($projectMetrics.numTests) tests
+                    ($renderUtil.format2d($projectMetrics.testExecutionTime) secs)
+                </span>
+                #if($hasResults)
+                    #set ($metrics = $projectMetrics)
+                    #parse("html_res/adg/test-results-bar.vm")
+                    #set ($metrics = $null)
+                #else
+                    #parse("html_res/adg/test-noresults-warning.vm")
+                #end
+            </div>
+        </div>
+
+    #if ($chartInfoHistogram)
+        <div class="dashboard-widget">
+            <header class="dashboard-widget-header">
+                <h3>
+                    <label title="A summary of the projects overall coverage.">$chartInfoHistogram.title</label>
+                    <label class="aui-button aui-button-subtle" onclick="self.location='cloverview:coverage'">
+                        <span class="aui-icon aui-icon-small aui-iconfont-arrows-right"></span>
+                    </label>
+                </h3>
+            </header>
+            <div class="dashboard-widget-content">
+                <div class="center">
+                    <img src="img/$chartInfoHistogram.name" alt="img/$chartInfoHistogram.name" usemap="#$chartInfoHistogram.name"/>
+                    $chartInfoHistogram.imageMap
+                </div>
+            </div>
+        </div>
+    #end
+
+    #if ($chartInfoScatter)
+        <div class="dashboard-widget">
+            <header class="dashboard-widget-header">
+                <h3>
+                    <label title="A list of classes that have the highest complexity and least coverage. These pose the greatest potential risk to the project.">$chartInfoScatter.title</label>
+                    <label class="aui-button aui-button-subtle" onclick="self.location='cloverview:coverage'">
+                        <span class="aui-icon aui-icon-small aui-iconfont-arrows-right"></span>
+                    </label>
+                </h3>
+            </header>
+            <div class="dashboard-widget-content">
+                <div class="center">
+                    <img src="img/$chartInfoScatter.name" alt="img/$chartInfoScatter.name" usemap="#$chartInfoScatter.name"/>
+                    $chartInfoScatter.imageMap
+                </div>
+            </div>
+        </div>
+    #end
+
+        <div class="dashboard-widget">
+            <header class="dashboard-widget-header">
+                <h3>
+                    <label title="The most complex packages in the project.">Most complex packages</label>
+                    <label class="aui-button aui-button-subtle" onclick="self.location='cloverview:coverage'">
+                        <span class="aui-icon aui-icon-small aui-iconfont-arrows-right"></span>
+                    </label>
+                </h3>
+            </header>
+            <div class="dashboard-widget-content">
+                $tpcColumn.setFormat("shortbar")
+                <table>
+                    #foreach($pkg in $complexPkgs)
+                        #set($pkgMetrics = ${renderUtil.metricsFor($pkg)})
+                        $tpcColumn.init($pkgMetrics)
+                        #set($link = "${renderUtil.getPkgURLPath($pkg.name)}")
+                        <tr><td>$velocityCount. </td><td>$tpcColumn.render()</td><td><a class="tag" href="${link}">$pkg.name</a> ($pkgMetrics.complexity)</td></tr>
+                    #end
+                </table>
+            </div>
+        </div>
+
+        <div class="dashboard-widget">
+            <header class="dashboard-widget-header">
+                <h3>
+                    <label title="The most complex classes in the project.">Most complex classes</label>
+                    <label class="aui-button aui-button-subtle" onclick="self.location='cloverview:coverage'">
+                        <span class="aui-icon aui-icon-small aui-iconfont-arrows-right"></span>
+                    </label>
+                </h3>
+            </header>
+            <div class="dashboard-widget-content">
+                <table>
+                    #foreach($class in $complexClasses)
+                        #set($classMetrics = ${renderUtil.metricsFor($class)})
+                        $tpcColumn.init($classMetrics)
+                        #set($link = $renderUtil.getSrcFileLink(true, false, $class))
+                        <tr><td>$velocityCount. </td><td>$tpcColumn.render()</td><td>
+                            <a #if ($showSrc) class="tag" href="${link}" #else class="nolink" #end title="$class.qualifiedName">$class.name</a>
+                            ($classMetrics.complexity)
+                        </td></tr>
+                    #end
+                </table>
+            </div>
+        </div>
+
+        <div class="dashboard-widget">
+            <header class="dashboard-widget-header">
+                <h3>
+                    <label title="A list of classes that have the highest complexity and least coverage. These pose the greatest potential risk to the project.">
+                        Top $topRisks.size() project risks</label>
+                    <label class="aui-button aui-button-subtle" onclick="self.location='cloverview:toprisks'">
+                        <span class="aui-icon aui-icon-small aui-iconfont-arrows-right"></span>
+                    </label>
+                </h3>
+            </header>
+            <div class="dashboard-widget-content">
+                <div>
+                    #foreach($class in $topRisks)
+                        #set($link = $renderUtil.getSrcFileLink(true, true, $class))
+                        #set($fontSize = $renderUtil.getFontSize($axisSize, $class, $9, $25))
+                        #set($title1 = "${axisSize.calculator.name} - ${axisSize.calculator.getFormattedValue($class)}")
+
+                        #set($color = $renderUtil.getColor($axisColor, $class))
+                        #set($title2 = "${axisColor.calculator.name} - ${axisColor.calculator.getFormattedValue($class)}")
+                        #if ($showSrc)
+                            <a class="tag" href="${link}"
+                               style="font-size: ${fontSize}px;color:#${color}"
+                               title="$title1 #if($title2), $title2 #end">$class.name</a>
+                        #else
+                            <span class="tag"
+                                  style="font-size: ${fontSize}px;color:#${color}"
+                                  title="$title1 #if($title2), $title2 #end">$class.name</span>
+                        #end
+                    #end
+                </div>
+            </div>
+        </div>
+
+    #if ($showSrc)
+        <div class="dashboard-widget">
+            <header class="dashboard-widget-header">
+                <h3>
+                    <label title="A list of methods least tested, ranked in decreasing complexity.">Least tested methods</label>
+                    <label class="aui-button aui-button-subtle" onclick="self.location='cloverview:quickwins'">
+                        <span class="aui-icon aui-icon-small aui-iconfont-arrows-right"></span>
+                    </label>
+                </h3>
+            </header>
+            <div class="dashboard-widget-content">
+                <table>
+                    #foreach($method in $leastTestedMethods)
+                        #set($methodMetrics = ${renderUtil.metricsFor($method)})
+                        <tr>
+                            <td align="right">${velocityCount}.</td>
+                            <td align="right">$renderUtil.getPercentStr($methodMetrics.pcCoveredElements)</td>
+                            <td style="padding-left:25px; text-indent:-25px;">#set($methodName = "${method.containingClass.name}.${method.name}")
+                                <a class="tag" title="${renderUtil.htmlEscapeStr($methodName)}" href="$renderUtil.getMethodLink(true, $method)">$renderUtil.formatMethodName($methodName)</a> ($methodMetrics.complexity)
+                            </td>
+                        </tr>
+                    #end
+                </table>
+            </div>
+        </div>
+    #end
+
+    </div>
+</div>
+
+</body>
+</html>

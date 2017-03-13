@@ -1,0 +1,107 @@
+#* We may need to prefix all links by "../.. etc" in case we're on a package/class report *#
+#if ($packageName)
+    #set ($projectRootRelative = ${renderUtil.getRootRelPath($packageName)})
+#else
+    #set ($projectRootRelative = "")
+#end
+
+<div class="aui-page-header-inner" style="margin-bottom: 20px;">
+    <div class="aui-page-header-image">
+        #if ($pageTitleIsLink)
+            <a href="${pageTitleAnchor}" target="${pageTitleTarget}">
+        #end
+        <div class="aui-avatar aui-avatar-large aui-avatar-project">
+            <div class="aui-avatar-inner">
+                #if ($pageIcon)
+                    <img src="${rootRelPath}img/${pageIcon}" alt="Project icon"/>
+                #else
+                    <img src="${rootRelPath}img/clover_logo_large.png" alt="Clover icon"/>
+                #end
+            </div>
+        </div>
+        #if ($pageTitleIsLink)
+            </a>
+        #end
+    </div>
+    <div class="aui-page-header-main" >
+        <h1>
+            #if ($pageTitleIsLink)
+                <a href="${pageTitleAnchor}" target="${pageTitleTarget}">
+            #end
+            #if ($pageTitle)
+                $pageTitle
+            #else
+                Coverage Report
+            #end
+            #if ($pageTitleIsLink)
+                </a>
+            #end
+        </h1>
+    </div>
+</div>
+
+<nav class="aui-navgroup aui-navgroup-vertical">
+    <div class="aui-navgroup-inner">
+        #if (!$hideProjectOverview)
+            #if ($projectInfo && !$packageInfo && !$test)
+                #set ($selectedCssClass = "aui-nav-selected")
+            #else
+                #set ($selectedCssClass = "")
+            #end
+            <ul class="aui-nav">
+                <li class="${selectedCssClass}">
+                    <a href="${projectRootRelative}dashboard.html">Project overview</a>
+                </li>
+            </ul>
+        #end
+
+        #if (!$hidePackages)
+        <div class="aui-nav-heading packages-nav-heading">
+            <strong>Packages</strong>
+        </div>
+        <div class="aui-nav project-packages">
+            <form method="get" action="#" class="aui package-filter-container">
+                <input type="text" autocomplete="off" class="package-filter text"
+                       placeholder="Type to filter packages..." name="package-filter" id="package-filter"
+                       title="Start typing package name (or part of the name) to search through the tree. Use arrow keys and the Enter key to navigate."/>
+            </form>
+            <p class="package-filter-no-results-message hidden">
+                <small>No results found.</small>
+            </p>
+            ## find out which package shall be shown as the active one
+            #if ($packageInfo)
+                #set ($data-package-name = $packageInfo.name)
+            #elseif ($fileInfo)
+                #set ($data-package-name = $fileInfo.containingPackage.name)
+            #elseif ($test)
+                #set ($data-package-name = $test.runtimeType.package.name)
+            #else
+                #set ($data-package-name = "")  ## no package, probably we're on a project overview page
+            #end
+            <div class="packages-tree-wrapper" data-root-relative="${projectRootRelative}" data-package-name="${data-package-name}">
+                <div class="packages-tree-container"></div>
+                <div class="clover-packages-lozenges"></div>
+            </div>
+        </div>
+        #end
+
+        #if ($showHistorical)
+            <ul class="aui-nav">
+                #if ($historical.showOverview())
+                    <li>
+                        <a href="#coverage-overview">Coverage overview</a>
+                    </li>
+                #end
+                <li>
+                    <a href="#added-classes">Added classes</a>
+                </li>
+                <li>
+                    <a href="#changed-classes">Changed classes</a>
+                </li>
+                <li>
+                    <a href="#charts">Charts</a>
+                </li>
+            </ul>
+        #end
+    </div>
+</nav>

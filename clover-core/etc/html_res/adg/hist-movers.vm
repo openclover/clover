@@ -1,0 +1,90 @@
+#set ($thresStr = $movers.threshold)
+
+<p>
+    <small>
+        #if ($onlyDiff)
+            Table shows classes for which metric has changed (increased or decreased) above the threshold
+            (<b>+/-$thresStr</b>) over the last <b>${movers.requestedInterval.toSensibleString()}</b>.
+        #else
+            Table shows classes which have been added over the last <b>${movers.requestedInterval.toSensibleString()}</b>.
+        #end
+            Actual interval (based on timestamps of history points) is <b>${movers.actualInterval.toSensibleString()}</b>.
+            Showing maximum <b>${movers.range}</b> classes.
+            Metric used: <b>${movers.getColumn().getTitle()}</b>, max value is <b>${movers.maxWidth}</b>.
+    </small>
+</p>
+
+#if ($onlyDiff)
+    #if ($movers.gainers.size() == 0 && $movers.losers.size() == 0)
+        <div class="aui-message">
+            <p>No changes in metric are outside the specified threshold (<b>+/-$thresStr</b>).</p>
+        </div>
+    #else
+        #if ($movers.gainers.size() > 0)
+            #set ($isGainer = true)
+            <h3>Gainers</h3>
+            <table class="aui">
+            <thead>
+                <tr>
+                    <th>Class</th>
+                    <th>${movers.getColumn().getTitle()}</th>
+                </tr>
+            </thead>
+            <tbody>
+            #foreach ($diff in $movers.gainers)
+                #parse("html_res/adg/hist-mover-row.vm")
+            #end
+            </tbody>
+            </table>
+        #else
+            <h3>Gainers</h3>
+            <div class="aui-message">
+                <p>No classes have gained metric's value more than the threshold (<b>+$thresStr</b>).</p>
+            </div>
+        #end
+
+        #if ($movers.losers.size() > 0)
+            #set ($isGainer = false)
+            <h3>Losers</h3>
+            <table class="aui">
+            <thead>
+            <tr>
+                <th>${movers.getColumn().getTitle()}</th>
+                <th>Class</th>
+            </tr>
+            </thead>
+            <tbody>
+            #foreach ($diff in $movers.losers)
+                #parse("html_res/adg/hist-mover-row.vm")
+            #end
+            </tbody>
+            </table>
+        #else
+            <h3>Losers</h3>
+            <div class="aui-message">
+                <p>No classes have lost metric's value more than the threshold (<b>-$thresStr</b>).</p>
+            </div>
+        #end
+    #end
+#else
+    #if ($movers.gainers.size() == 0)
+        <div class="aui-message">
+            <p>No new classes.</p>
+        </div>
+    #else
+        #set ($isGainer = true)
+        <table class="aui">
+            <thead>
+            <tr>
+                <th>Class</th>
+                <th>${movers.getColumn().getTitle()}</th>
+            </tr>
+            </thead>
+            <tbody>
+                #foreach ($diff in $movers.gainers)
+                    #parse("html_res/adg/hist-mover-row.vm")
+                #end
+            </tbody>
+        </table>
+    #end
+#end

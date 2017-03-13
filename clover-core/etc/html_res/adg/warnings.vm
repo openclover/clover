@@ -1,0 +1,36 @@
+#if ($expired)
+    <div class="aui-message aui-message-error">
+        <p class="title">
+            <strong>Expired License</strong>
+        </p>
+        <p>
+            $headerMsg
+        </p>
+    </div>
+#end
+
+#if ($evalMsg)
+    <div class="aui-message aui-message-warning">
+        <p class="title">
+            <strong>Evaluation License</strong>
+        </p>
+        <p>
+            $evalMsg
+        </p>
+    </div>
+#end
+
+#if ($warningMessages)
+    <div class="aui-message aui-message-warning">
+        <p class="title">
+            <strong>Warning</strong>
+        </p>
+        <p>
+            <ul>
+                #foreach ($warningMessage in $warningMessages)
+                    <li>$warningMessage</li>
+                #end
+            </ul>
+        </p>
+    </div>
+#end

@@ -1,0 +1,38 @@
+Index: project.properties
+===================================================================
+--- project.properties	(revision 92429)
++++ project.properties	(working copy)
+@@ -32,7 +32,7 @@
+ # Now that we have a US language packs, the func tests running in St Louis will end up using it.  However all our assertions
+ # are in the "Queens English" (long to rein over us...).   So we must force the JVM to be in en_AU
+ #
+-maven.junit.jvmargs=-Xmx256m -XX:MaxPermSize=128m -Dfile.encoding=ISO-8859-1 -Duser.language=en -Duser.region=AU
++maven.junit.jvmargs=-Xmx1024m -XX:MaxPermSize=512m -Dfile.encoding=ISO-8859-1 -Duser.language=en -Duser.region=AU
+ maven.war.src=src/webapp
+ maven.test.skip=false
+ maven.javadoc.links=http://www.opensymphony.com/osuser/api/,http://www.opensymphony.com/webwork_old/api,http://java.sun.com/j2se/1.5.0/docs/api/
+Index: maven.xml
+===================================================================
+--- maven.xml	(revision 92429)
++++ maven.xml	(working copy)
+@@ -5,10 +5,7 @@
+     <!-- Need to check for windows as we need to execute mvn.bat on windows instead of mvn -->
+     <r:contains expr="Win.*" text="${os.name}" var="osfamily.matches.windows"/>
+     <!-- setup the os specific mvn2 command -->
+-    <j:set var="mvn.executable" value="mvn"/>
+-    <j:if test="${osfamily.matches.windows}">
+-        <j:set var="mvn.executable" value="mvn.bat"/>
+-    </j:if>
++    <j:set var="mvn.executable" value="${mvn.executable}"/>
+
+     <ant:taskdef name="buildregistry" classname="com.atlassian.modzdetector.ant.GenerateRegistryTask">
+         <ant:classpath>
+@@ -1444,6 +1441,8 @@
+
+     <goal name="include-bundled-plugins" description="Builds bundled plugins zip and copies it to correct location for plugins2." prereqs="jira:setupbuilddir">
+         <ant:exec executable="${mvn.executable}" dir="${basedir}/subprojects/bundledplugins" failonerror="true">
++            <ant:arg value="-o"/>
++            <ant:arg value="-X"/>
+             <ant:arg value="clean"/>
+             <ant:arg value="assembly:assembly"/>
+         </ant:exec>

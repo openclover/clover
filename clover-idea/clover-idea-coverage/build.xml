@@ -1,0 +1,80 @@
+<project name="clover-idea-coverage" basedir="." default="clover-idea-coverage.build">
+
+    <dirname property="clover-idea-coverage.base" file="${ant.file.clover-idea-coverage}"/>
+    <import file="../../clover-core/build.xml"/>
+    <import file="../clover-idea-util/build.xml"/>
+
+    <property name="clover-idea-coverage.main.java" location="${clover-idea-coverage.base}/src/main/java"/>
+
+    <property name="clover-idea-coverage.output" location="${clover-idea-coverage.base}/target"/>
+    <property name="clover-idea-coverage.output.classes" location="${clover-idea-coverage.output}/classes"/>
+
+    <property name="clover-idea-coverage.jar" location="${clover-idea-coverage.output}/clover-idea-coverage.jar"/>
+    <property name="clover-idea-coverage.jarjar.jar" location="${clover-idea-coverage.output}/clover-idea-coverage-jarjar.jar"/>
+
+    <path id="clover-idea-coverage.libs">
+        <pathelement location="${clover-core.output.classes}"/>
+        <pathelement location="${clover-runtime.output.classes}"/>
+        <fileset refid="clover-core-libs.runtime.jarset"/>
+        <pathelement location="${clover-idea-util.jar}"/>
+    </path>
+
+    <target name="clover-idea-coverage.init"/>
+
+    <target name="clover-idea-coverage.build" depends="clover-core.build">
+        <mkdir dir="${clover-idea-coverage.output.classes}"/>
+        <!-- compile main code using libraries from the oldest supported IDEA version  -->
+        <javac destdir="${clover-idea-coverage.output.classes}"
+               debug="on"
+               deprecation="on"
+               target="${jdk.target}"
+               source="${source.level}"
+               bootclasspathref="java.rt.path"
+               includeAntRuntime="false">
+            <classpath>
+                <path refid="clover-idea-coverage.libs"/>
+                <path refid="idea13.classpath"/>
+            </classpath>
+            <src path="${clover-idea-coverage.main.java}"/>
+        </javac>
+        <!-- Copy non-java files like resources -->
+        <copy todir="${clover-idea-coverage.output.classes}">
+            <fileset dir="${clover-idea-coverage.main.java}" excludes="**/*.java"/>
+        </copy>
+    </target>
+
+    <target name="clover-idea-coverage.pkg" depends="clover-idea-coverage.build">
+        <jar destfile="${clover-idea-coverage.jar}">
+            <fileset dir="${clover-idea-coverage.output.classes}"/>
+        </jar>
+    </target>
+
+    <target name="clover-idea-coverage.repkg" depends="clover-idea-coverage.pkg">
+        <unjar src="${clover-idea-coverage.jar}"
+               dest="${clover-idea-coverage.output}/jarjar"/>
+        <replace dir="${clover-idea-coverage.output}/jarjar/clover/org/apache/velocity/runtime/defaults"
+                 token="clover.org.apache.velocity" value="repkg.clover.org.apache.velocity"/>
+
+        <jarjar jarfile="${clover-idea-coverage.jarjar.jar}">
+            <fileset dir="${clover-idea-coverage.output}/jarjar"/>
+            <rule pattern="com.atlassian.**" result="repkg.@0"/>
+        </jarjar>
+    </target>
+
+    <target name="clover-idea-coverage.clean">
+        <delete dir="${clover-idea-coverage.output}"/>
+    </target>
+
+    <target name="clover-idea-coverage.test.build" depends="clover-idea-coverage.build"/>
+
+    <target name="clover-idea-coverage.test" depends="clover-idea-coverage.test.build"/>
+
+    <target name="clover-idea-coverage.test.all.versions" depends="clover-idea-coverage.test.build"/>
+
+    <target name="clover-idea-coverage.prod" depends="clover-idea-coverage.pkg">
+        <!-- nothing to do, just create a jar, it will be bundled into clover-idea -->
+    </target>
+
+    <target name="clover-idea-coverage.prod.build.check" depends="prod.java16.build.check"/>
+
+</project>

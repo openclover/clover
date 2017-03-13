@@ -1,0 +1,70 @@
+<project name="Clover_Tutorial" default="clover.all" basedir=".">
+
+    <property name="build.classes" location="build/classes"/>
+    <property name="build.testclasses" location="build/testclasses"/>
+    <property name="build.testresults" location="build/testresults"/>
+
+    <property name="clover.jar" location="../lib/clover.jar"/>
+    <taskdef resource="cloverlib.xml" classpath="${clover.jar}"/>
+    <clover-env/>
+
+    <property name="clover.ordering" value="failfast"/>   <!-- @ordering: optional; values "failfast", "orginal" or "random"; default: "failfast"; -->
+    <property name="clover.optimize" value="true"/>      <!-- Enable/Disable optimization -->
+    <property name="clover.minimize" value="true"/>      <!-- Exclude tests, or run all?  -->
+    <property name="clover.fullrunevery" value="10"/>    <!-- Determine how many builds between full builds. -->
+
+    <target name="init">
+        <mkdir dir="lib"/>
+        <property name="junit.jar" location="lib/junit-4.12.jar"/>
+        <property name="hamcrest.jar" location="lib/hamcrest-core-1.3.jar"/>
+
+        <get src="https://repo1.maven.org/maven2/junit/junit/4.12/junit-4.12.jar" dest="${junit.jar}" skipexisting="true"/>
+        <get src="https://repo1.maven.org/maven2/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar" dest="${hamcrest.jar}" skipexisting="true"/>
+
+        <path id="build.classpath">
+            <pathelement location="${clover.jar}"/>
+            <pathelement location="${build.classes}"/>
+        </path>
+
+        <path id="testbuild.classpath">
+            <path refid="build.classpath"/>
+            <pathelement location="${junit.jar}"/>
+            <pathelement location="${hamcrest.jar}"/>
+            <pathelement location="${build.testclasses}"/>
+        </path>
+    </target>
+
+    <target name="compile" depends="init">
+        <mkdir dir="${build.classes}"/>
+        <javac srcdir="src/main/java" destdir="${build.classes}" classpathref="build.classpath" includeantruntime="false"/>
+
+        <mkdir dir="${build.testclasses}"/>
+        <javac srcdir="src/test/java" destdir="${build.testclasses}" classpathref="testbuild.classpath" includeantruntime="false"/>
+    </target>
+
+    <target name="test" depends="compile">
+        <mkdir dir="${build.testresults}"/>
+        <junit fork="yes" printsummary="true" showoutput="true">
+            <classpath refid="testbuild.classpath"/>
+            <formatter type="xml"/>
+            <batchtest fork="yes" todir="${build.testresults}">
+                <clover-optimized-testset snapshotfile="${clover.snapshot.file}"
+                                          fullrunevery="${clover.fullrunevery}"
+                                          enabled="${clover.optimize}"
+                                          minimize="${clover.minimize}"
+                                          ordering="${clover.ordering}">
+                    <fileset dir="${build.testclasses}" includes="**/*Test.*"/>
+                </clover-optimized-testset>
+            </batchtest>
+        </junit>
+    </target>
+
+    <target name="clover.all" depends="with.clover, test, clover.snapshot, clover.report" 
+            description="Runs a build with Clover and generates a Clover HTML report">
+    </target>
+
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+
+</project>

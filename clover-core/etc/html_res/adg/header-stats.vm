@@ -1,0 +1,86 @@
+#**
+    Formats for floats and inst using the given metrics, or nothing, if metrics are not present.
+*#
+#macro(float $float)
+#if ($float)$!renderUtil.format2d(${float})#end
+#end
+#macro(int $int)
+#if ($int)$!renderUtil.formatInt(${int})#end
+#end
+
+<div id="$statsId" class="aui-item" style="display: ${display}">
+<div style="display: table">
+    <div class="stats-box">
+        <div class="stats-box-label"><label title="Total number of branches in this ${headerMetrics.type}">Branches:</label></div>
+        <div class="stats-box-value">#int(${headerMetrics.numBranches})</div>
+    </div>
+    <div class="stats-box">
+        <div class="stats-box-label"><label title="Total number of statements in this ${headerMetrics.type}">Statements:</label></div>
+        <div class="stats-box-value">#int(${headerMetrics.numStatements})</div>
+    </div>
+    <div class="stats-box">
+        <div class="stats-box-label"><label title="Total number of methods in this ${headerMetrics.type}">Methods:</label></div>
+        <div class="stats-box-value">#int(${headerMetrics.numMethods})</div>
+    </div>
+    <div class="stats-box">
+        <div class="stats-box-label"><label title="Total number of classes in this ${headerMetrics.type}">Classes:</label></div>
+        <div class="stats-box-value">#int(${headerMetrics.numClasses})</div>
+    </div>
+    #if ($headerMetrics.numFiles)
+        <div class="stats-box">
+            <div class="stats-box-label"><label title="Total number of files in this ${headerMetrics.type}">Files:</label></div>
+            <div class="stats-box-value">#int(${headerMetrics.numFiles})</div>
+        </div>
+    #end
+    #if ($headerMetrics.numPackages)
+        <div class="stats-box">
+            <div class="stats-box-label"><label title="Total number of packages in this ${headerMetrics.type}">Packages:</label></div>
+            <div class="stats-box-value">#int(${headerMetrics.numPackages})</div>
+        </div>
+    #end
+    <div class="stats-box">
+        <div class="stats-box-label"><label title="Total number of lines of code in this ${headerMetrics.type}">LOC:</label></div>
+        <div class="stats-box-value">#int(${headerMetrics.lineCount})</div>
+    </div>
+    <div class="stats-box">
+        <div class="stats-box-label"><label title="Total number of non-comment lines of code in this ${headerMetrics.type}">NCLOC:</label></div>
+        <div class="stats-box-value">#int(${headerMetrics.ncLineCount})</div>
+    </div>
+    <div class="stats-box">
+        <div class="stats-box-label"><label title="Cyclomatic complexity is the number of paths in this ${headerMetrics.type}">Total complexity:</label></div>
+        <div class="stats-box-value">#int(${headerMetrics.complexity})</div>
+    </div>
+    <div class="stats-box">
+        <div class="stats-box-label">
+            <label title="Complexity density is the complexity divided by the number of statements in this ${headerMetrics.type}">Complexity density:</label>
+        </div>
+        <div class="stats-box-value">#float(${headerMetrics.complexityDensity})</div>
+    </div>
+    <div class="stats-box">
+        <div class="stats-box-label"><label title="Number of statements per method.">Statements/Method:</label></div>
+        <div class="stats-box-value">#float(${headerMetrics.avgStatementsPerMethod})</div>
+    </div>
+    <div class="stats-box">
+        <div class="stats-box-label"><label title="Number of methods per class.">Methods/Class:</label></div>
+        <div class="stats-box-value">#float(${headerMetrics.avgMethodsPerClass})</div>
+    </div>
+    #if ($headerMetrics.numPackages)
+        <div class="stats-box">
+            <div class="stats-box-label"><label title="Number of classes per package.">Classes/Package:</label></div>
+            <div class="stats-box-value">#float(${headerMetrics.avgClassesPerPackage})</div>
+        </div>
+    #end
+    <div class="stats-box">
+        <div class="stats-box-label"><label title="Complexity divided by the number of methods in this ${headerMetrics.type}">Average method complexity:</label></div>
+        <div class="stats-box-value">#float(${headerMetrics.avgMethodComplexity})</div>
+    </div>
+</div>
+
+#if ($showFilterToggle)
+    <div class="subtle">
+        <small>$filterText</small>
+        <label class="aui-button aui-button-subtle" onclick="toggleStats('$statsId', '$altStatsId');"
+               title="Include or exclude filtered elements from these statistics.">$statsName</label>
+    </div>
+#end
+</div>

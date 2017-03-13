@@ -1,0 +1,1 @@
+Note: icon directory structures conformant to http://www.eclipse.org/articles/Article-UI-Guidelines/Contents.html

@@ -1,0 +1,39 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.atlassian.clover</groupId>
+    <artifactId>clover-base-pom</artifactId>
+    <packaging>pom</packaging>
+    <name>Clover Base POM</name>
+    <version>1.0</version>
+    <description>This POM is used by Ant build scripts to download dependencies from Maven.</description>
+    <url>http://atlassian.com/software/clover</url>
+    <organization>
+        <name>Atlassian Pty Ltd</name>
+        <url>http://www.atlassian.com/</url>
+    </organization>
+    <issueManagement>
+        <system>jira</system>
+        <url>http://jira.atlassian.com/browse/CLOV</url>
+    </issueManagement>
+    <licenses>
+        <license>
+            <name>Apache License 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <id>mparfianowicz</id>
+            <name>Marek Parfianowicz</name>
+            <email>mparfianowicz@atlassian.com</email>
+        </developer>
+        <developer>
+            <id>glewandowski</id>
+            <name>Grzegorz Lewandowski</name>
+            <email>glewndowski@atlassian.com</email>
+        </developer>
+    </developers>
+</project>

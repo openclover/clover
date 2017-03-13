@@ -1,0 +1,77 @@
+#macro(renderJsonNode $list $key $node $withComma)
+    #if ($node.value.isTestOnly())
+        #set ($pkgPrefix = "testsrc-")
+    #else
+        #set ($pkgPrefix = "")
+    #end
+    #if ($node.value)
+        #set ($fileUrl = ${renderUtil.getPkgURLPath($node.value.packageInfo.name)} + ${pkgPrefix} + "pkg-summary.html")
+    #else
+        #set ($fileUrl = "")
+    #end
+
+    ## HACK to solve a problem that arguments passed to macros are evaluated at the time of use and that variables are
+    ## "global", also for recursive macro invocations. See http://wiki.apache.org/velocity/MacroEvaluationStrategy
+    ## We're using an ArrayList which acts as a call stack
+    $renderUtil.listAddKeyAsLast($list, $key)
+{
+    "id": "$renderUtil.listGetLast($list)",
+    "text": "${key}",
+    "package": "#if ($node.value)${node.value.packageInfo.name}#end",
+    "url": "${fileUrl}",
+    #if ($node.value)
+        "coverage": "${renderUtil.getPercentStr($node.value.packageInfo.metrics.pcCoveredElements)}",
+    #end
+    "icon": "aui-icon aui-icon-small aui-iconfont-devtools-folder-closed",
+    #if ($fileUrl != "")
+        "li_attr": {"data-is-link": "true"},
+    #end
+    "a_attr": {"href": "${fileUrl}"},
+    "children": [
+        #set ($childEntries = $node.children().entrySet())
+        #foreach ($childEntry in $childEntries)
+            #renderJsonNode($list $childEntry.key $childEntry.value true)
+        #end
+    ]
+}#if ($withComma),#end
+$renderUtil.listRemoveLast($list)
+#end ##macro
+
+#set ($arr = [""])
+
+var Packages = {
+    nodes: [
+        ## we can have either one root or multiple roots
+        #if ($packageTree.key.empty)
+            ## e.g.:
+            ##   +
+            ##       +default-pkg
+            ##       +org.apache
+            ## we don't want to have an empty root shown so let's pass it's children
+            #set ($childEntries = $packageTree.children().entrySet())
+            #foreach ($childEntry in $childEntries)
+                #renderJsonNode($arr $childEntry.key $childEntry.value true)
+            #end
+        #else
+            ## e.g.:
+            ##   +com.atlassian
+            ##       +clover
+            ##       +bamboo
+            ## show the root in such case
+            #renderJsonNode($arr $packageTree.key $packageTree true)
+        #end
+    ],
+    settings: {
+        "icons": {
+            "package": {
+                "open": "aui-icon aui-icon-small aui-iconfont-devtools-folder-open",
+                "closed": "aui-icon aui-icon-small aui-iconfont-devtools-folder-closed"
+            },
+            "state": {
+                "collapsed": "aui-icon aui-icon-small aui-iconfont-collapsed",
+                "expanded": "aui-icon aui-icon-small aui-iconfont-expanded",
+                "forRemoval": "hidden aui-iconfont-collapsed aui-iconfont-expanded"
+            }
+        }
+    }
+};

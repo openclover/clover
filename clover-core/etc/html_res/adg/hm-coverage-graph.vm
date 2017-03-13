@@ -1,0 +1,41 @@
+<table class="aui">
+#if ($renderHeader)
+    <thead>
+        <tr>
+            <th><b>&#160;$title</b></th>
+            <th>Conditionals</th>
+            <th>Statements</th>
+            <th>Methods</th>
+            <th colspan="2"><b>TOTAL</b></th>
+        </tr>
+    </thead>
+#end
+
+#set ($metrics = $renderUtil.metricsFor($hasmetrics))
+#set ($covConds =  $metrics.pcCoveredBranches)
+#set ($covStmts =  $metrics.pcCoveredStatements)
+#set ($covMethods = $metrics.pcCoveredMethods)
+#set ($covTotal =  $metrics.pcCoveredElements)
+
+<tbody>
+    <tr>
+        <td>
+          <a title="$entityText"
+            #if ($entityLink.length() > 0)href="$entityLink"#end
+          >${renderUtil.truncateStart($entityText)}</a>
+        </td>
+
+        <td>$renderUtil.getPercentStr($covConds)</td>
+        <td>$renderUtil.getPercentStr($covStmts)</td>
+        <td>$renderUtil.getPercentStr($covMethods)</td>
+        <td>
+            #if ($showBars)
+                #set ($empty = ($metrics.NumElements == 0))
+                #set ($width = "100")
+                #set ($pccovered = $covTotal)
+                #parse("html_res/adg/bar-graph.vm")
+            #end
+        </td>
+    </tr>
+</tbody>
+</table>

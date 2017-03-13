@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+	<!-- ===================== -->
+	<!-- ANT SUPPORT -->
+	<!-- ===================== -->
+	<extension point="org.eclipse.ant.core.antTasks">
+		<antTask name="clover-env" class="CloverEnvTask" library="clover-eclipse-ant.jar"
+				 eclipseRuntime="false" headless="true"/>
+		<antTask name="clover-log" class="CloverLogTask" library="clover-eclipse-ant.jar"
+				 eclipseRuntime="false" headless="true"/>
+		<antTask name="clover-check" class="CloverPassTask" library="clover-eclipse-ant.jar"
+				 eclipseRuntime="false" headless="true"/>
+		<antTask name="clover-setup" class="CloverSetupTask" library="clover-eclipse-ant.jar"
+				 eclipseRuntime="false" headless="true"/>
+		<antTask name="clover-clean" class="CloverCleanTask" library="clover-eclipse-ant.jar"
+				 eclipseRuntime="false" headless="true"/>
+		<antTask name="clover-historypoint" class="HistoryPointTask"
+				 library="clover-eclipse-ant.jar" eclipseRuntime="false" headless="true"/>
+		<antTask name="clover-report" class="CloverReportTask" library="clover-eclipse-ant.jar"
+				 eclipseRuntime="false" headless="true"/>
+		<antTask name="clover-html-report" class="CloverHtmlReportTask"
+				 library="clover-eclipse-ant.jar" eclipseRuntime="false" headless="true"/>
+		<antTask name="clover-pdf-report" class="CloverPdfReportTask"
+				 library="clover-eclipse-ant.jar" eclipseRuntime="false" headless="true"/>
+		<antTask name="clover-instr" class="CloverInstrTask" library="clover-eclipse-ant.jar"
+				 eclipseRuntime="false" headless="true"/>
+		<antTask name="clover-instrument" class="CloverInstrumentTask"
+				 library="clover-eclipse-ant.jar" eclipseRuntime="false" headless="true"/>
+        <antTask name="clover-snapshot" class="CloverSnapshotTask" library="clover-eclipse-ant.jar"
+				 eclipseRuntime="false" headless="true"/>
+		<antTask name="clover-merge" class="CloverMergeTask" library="clover-eclipse-ant.jar"
+				 eclipseRuntime="false" headless="true"/>
+	</extension>
+
+	<extension point="org.eclipse.ant.core.antTypes">
+		<antType name="clover-format" class="CloverFormatType" library="clover-eclipse-ant.jar"
+				 eclipseRuntime="false" headless="true"/>
+        <antType name="clover-optimized-testset" class="CloverOptimizedTestSet" library="clover-eclipse-ant.jar"
+				 eclipseRuntime="false" headless="true"/>
+        <antType name="always-run" class="CloverAlwaysRunTestSet" library="clover-eclipse-ant.jar"
+				 eclipseRuntime="false" headless="true"/>
+	</extension>
+
+	<extension
+		point="org.eclipse.ant.core.antProperties">
+		<antProperty
+			class="com.atlassian.clover.eclipse.ant.CloverEclipseAntProperties"
+			eclipseRuntime="false"
+			headless="true"
+			name="clover.license.path"/>
+        <antProperty
+            class="com.atlassian.clover.eclipse.ant.CloverEclipseAntProperties"
+            eclipseRuntime="false"
+            headless="true"
+            name="clover.eclipse.runtime.jar"/>
+	</extension>
+</plugin>

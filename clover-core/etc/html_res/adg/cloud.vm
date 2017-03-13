@@ -1,0 +1,19 @@
+
+
+<div style="padding: 20px; border: 1px solid #cccccc; background-color: #f5f5f5; border-radius: 3px">
+   #if ($deepaxis)
+       <div id="deepPackageCloud" #if ($shalloaxis) style="display: none" #end >
+           #set($axis1 = $deepaxis1)
+           #set($axis2 = $deepaxis2)
+           #parse("html_res/adg/cloud-body.vm")
+       </div>
+   #end
+
+   #if ($shallowaxis)
+       <div id="shallowPackageCloud" #if ($deepaxis) style="display: none" #end >
+           #set($axis1 = $shallowaxis1)
+           #set($axis2 = $shallowaxis2)
+           #parse("html_res/adg/cloud-body.vm")
+       </div>
+   #end
+</div>

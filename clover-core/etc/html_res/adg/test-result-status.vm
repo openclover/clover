@@ -1,0 +1,9 @@
+#if ($testCase)
+ #if ($testCase.success)
+   <span class="aui-lozenge aui-lozenge-success">P</span>
+ #elseif ($testCase.error)
+   <span class="aui-lozenge aui-lozenge-error">E</span>
+ #else
+   <span class="aui-lozenge aui-lozenge-error">F</span>
+ #end
+#end

@@ -1,0 +1,68 @@
+package com_atlassian_clover;
+
+import com.atlassian.clover.instr.ForInstrumentation;
+
+public class CloverVersionInfo {
+    public static final String RELEASE_NUM = "@CORE_RELEASE_NUM@";
+
+    public static final String SANITIZED_RN = "@CORE_RELEASE_NUM_SANITISED@";
+
+    /** Main Atlassian web site */
+    public static final String ATLASSIAN_COM = "http://www.atlassian.com";
+
+    /** Main Atlassian Support Resources page */
+    public static final String ATLASSIAN_COM_SUPPORT_RESOURCES = "http://www.atlassian.com/resources/support";
+
+    /** Main Atlassian Clover web site */
+    public static final String CLOVER_URL ="@CLOVER_URL@";
+
+    /** Help how to configure Clover license */
+    public static final String CLOVER_LICENSE_CONFIGURATION_HELP_URL ="@CLOVER_HELP_URL@";
+
+    /** Page where you can see your Clover licences */
+    public static final String CLOVER_LICENSE_URL ="@CLOVER_LICENSE_URL@";
+
+    /** License renewal page */
+    public static final String CLOVER_LICENSE_UPGRADE_URL ="@CLOVER_LICENSE_UPGRADE_URL@";
+
+    /** Servlet for generating new license keys */
+    public static final String CLOVER_GENERATE_LICENSE_URL = "http://www.atlassian.com/ex/GenerateLicense.jspa";
+
+    /** Servlet for creating new JIRA issue */
+    public static final String CLOVER_CREATE_ISSUE_URL = "https://jira.atlassian.com/secure/CreateIssueDetails!init.jspa";
+
+    public static final String BUILD_DATE ="@BUILD_DATE@";
+
+    public static final String BUILD_NUMBER ="@BUILD_NUMBER@";
+
+    public static final long BUILD_STAMP = @BUILD_STAMP@;
+
+    /** @deprecated */
+    public static String TITLE_PREFIX = "";
+
+
+    /** method to allow external components to query what version of Clover they are running against **/
+    @ForInstrumentation
+    public static String getReleaseNum() {
+        return RELEASE_NUM;
+    }
+
+    /** method to allow external components to query what version of Clover they are running against **/
+    public static String getBuildNumber() {
+        return BUILD_NUMBER;
+    }
+
+     /** method to allow external components to query what version of Clover they are running against **/
+    @ForInstrumentation
+    public static long getBuildStamp() {
+        return BUILD_STAMP;
+    }
+    
+    /** Format version information Release Number, Build Number and Build Date. **/
+    public static String formatVersionInfo() {
+        return "Version: " + RELEASE_NUM + " #" + BUILD_NUMBER + " Built: " + BUILD_DATE;
+    }
+
+    @ForInstrumentation("oldVersionInClasspath")
+    public static void An_old_version_of_clover_is_on_your_compilation_classpath___Please_remove___Required_version_is___@CORE_RELEASE_BASE_IDENT@(){}
+}

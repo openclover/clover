@@ -1,0 +1,237 @@
+<project basedir="" default="" name="">
+    <taskdef name="clover-clean" classname="com.atlassian.clover.ant.tasks.CloverCleanTask"/>
+    <taskdef name="clover-setup" classname="com.atlassian.clover.ant.tasks.CloverSetupTask"/>
+    <taskdef name="clover-instr" classname="com.atlassian.clover.ant.tasks.CloverInstrTask"/>
+    <taskdef name="clover-snapshot" classname="com.atlassian.clover.ant.tasks.CloverSnapshotTask"/>
+    <typedef name="clover-optimized-testset" classname="com.atlassian.clover.ant.types.CloverOptimizedTestSet"/>
+    <typedef name="always-run" classname="com.atlassian.clover.ant.types.CloverAlwaysRunTestSet"/>
+
+    <taskdef resource="testngtasks" classpath="${project.dir}/target/dependencies/testng-6.8.21.jar"/>
+
+    <property name="src.location" value="${sampleproject.dir}/src"/>
+    <property name="test.location" value="${sampleproject.dir}/test"/>
+    <property name="max.optimized.builds" value="5"/>
+    <property name="minimize.tests" value="true"/>
+
+    <property name="testdir" location="${project.dir}/clover-ant/target/testrun/tmp"/>
+    <!-- Set to true for more detailed logging -->
+    <property name="debug.optimize" value="false"/>
+    <!-- Don't touch! Overidden by various tests -->
+    <property name="instrumentation.level" value="statement"/>
+
+    <path id="unittestpath">
+        <fileset dir="${project.dir}/target/dependencies">
+            <include name="junit*.jar"/>
+        </fileset>
+        <fileset dir="${project.dir}/target/dependencies">
+            <include name="testng-*.jar"/>
+            <include name="jcommander-*.jar"/> <!-- testng dependency -->
+        </fileset>
+        <pathelement location="${project.dir}/clover-ant/target/clover.jar"/> <!-- normal version -->
+        <pathelement location="${repkg.clover.jar}"/> <!-- repackaged version -->
+    </path>
+
+    <target name="setUp">
+        <delete dir="${outdir}"/>
+        <mkdir dir="${outdir}"/>
+    </target>
+
+    <target name="tearDown"/>
+
+    <target name="clean">
+        <delete dir="${outdir}/classes" includes="**/*.class"/>
+        <clover-clean />
+    </target>
+
+    <target name="with.clover" unless="no.setup">
+        <clover-setup flushpolicy="interval" flushinterval="100" instrumentationLevel="${instrumentation.level}"/>
+    </target>
+
+    <target name="init">
+        <mkdir dir="${outdir}/src"/>
+        <mkdir dir="${outdir}/classes"/>
+        <mkdir dir="${outdir}/cycle-${cycleindex}"/>
+    </target>
+
+    <target name="build" depends="init, copy.source, modify.source, compile"/>
+
+    <target name="copy.source" unless="no.source.copy">
+        <copy todir="${outdir}/src" overwrite="true">
+            <fileset dir="${src.location}"/>
+            <filterset>
+                <filter token="CYCLETAG" value="${cycletag}"/>
+            </filterset>
+        </copy>
+    </target>
+
+    <target name="modify.source" unless="no.source.modification">
+        <copy todir="${outdir}/src" overwrite="true">
+            <fileset dir="${src.location}" includesfile="${outdir}/cycle-${cycleindex}/includes.properties"/>
+            <filterset>
+                <filter token="CYCLETAG" value="${cycletag}"/>
+            </filterset>
+        </copy>
+    </target>
+
+    <target name="compile">
+        <javac destdir="${outdir}/classes" debug="on">
+            <src location="${outdir}/src"/>
+            <src location="${test.location}"/>
+            <classpath refid="unittestpath"/>
+        </javac>
+    </target>
+
+    <target name="runJUnitSourceFileSetTests">
+        <echo message="****** Running JUnit"/>
+        <junit fork="true" dir="${outdir}/${testresultsprefix}">
+            <classpath refid="unittestpath"/>
+            <classpath>
+                <pathelement location="${outdir}/classes"/>
+            </classpath>
+            <jvmarg line="-Doutdir=${outdir}/${testresultsprefix} -Dcycletag=${testresultsprefix}"/>
+            <batchtest todir="${outdir}/${testresultsprefix}" fork="true">
+                <clover-optimized-testset debug="${debug.optimize}" fullrunevery="${max.optimized.builds}" minimize="${minimize.tests}">
+                    <fileset dir="${test.location}" includes="**/*Test.java"/>
+                </clover-optimized-testset>
+                <formatter type="xml"/>
+                <formatter type="plain"/>
+            </batchtest>
+        </junit>
+    </target>
+
+    <target name="runJUnitClassFileSetTests">
+        <echo message="****** Running JUnit"/>
+        <junit fork="true" dir="${outdir}/${testresultsprefix}">
+            <classpath refid="unittestpath"/>
+            <classpath>
+                <pathelement location="${outdir}/classes"/>
+            </classpath>
+            <jvmarg line="-Doutdir=${outdir}/${testresultsprefix} -Dcycletag=${testresultsprefix}"/>
+            <batchtest todir="${outdir}/${testresultsprefix}" fork="true">
+                <clover-optimized-testset debug="${debug.optimize}" fullrunevery="${max.optimized.builds}" minimize="${minimize.tests}">
+                    <fileset dir="${outdir}/classes" includes="**/*Test.class"/>
+                </clover-optimized-testset>
+                <formatter type="xml"/>
+                <formatter type="plain"/>
+            </batchtest>
+        </junit>
+    </target>
+
+    <target name="runJUnitSourceFileSetTestsWithMixedOptimizedTests">
+        <echo message="****** Running JUnit"/>
+        <junit fork="true" dir="${outdir}/${testresultsprefix}">
+            <classpath refid="unittestpath"/>
+            <classpath>
+                <pathelement location="${outdir}/classes"/>
+            </classpath>
+            <jvmarg line="-Doutdir=${outdir}/${testresultsprefix} -Dcycletag=${testresultsprefix}"/>
+            <batchtest todir="${outdir}/${testresultsprefix}" fork="true">
+                <clover-optimized-testset debug="${debug.optimize}" fullrunevery="${max.optimized.builds}" minimize="${minimize.tests}">
+                    <fileset dir="${test.location}" includes="**/*Test.java" excludes="**/NoAppClassTest.java"/>
+                </clover-optimized-testset>
+                <!-- Never optimize this test -->
+                <fileset dir="${test.location}" includes="**/NoAppClassTest.java"/>
+                <formatter type="xml"/>
+                <formatter type="plain"/>
+            </batchtest>
+        </junit>
+        <sleep seconds="1"/>
+    </target>
+
+    <target name="runJUnitClassFileSetTestsWithMixedOptimizedTests">
+        <echo message="****** Running JUnit"/>
+        <junit fork="true" dir="${outdir}/${testresultsprefix}">
+            <classpath refid="unittestpath"/>
+            <classpath>
+                <pathelement location="${outdir}/classes"/>
+            </classpath>
+            <jvmarg line="-Doutdir=${outdir}/${testresultsprefix} -Dcycletag=${testresultsprefix}"/>
+            <batchtest todir="${outdir}/${testresultsprefix}" fork="true">
+                <clover-optimized-testset debug="${debug.optimize}" fullrunevery="${max.optimized.builds}" minimize="${minimize.tests}">
+                    <fileset dir="${outdir}/classes" includes="**/*Test.class" excludes="**/NoAppClassTest.class"/>
+                </clover-optimized-testset>
+                <!-- Never optimize this test -->
+                <fileset dir="${outdir}/classes" includes="**/NoAppClassTest.class"/>
+                <formatter type="xml"/>
+                <formatter type="plain"/>
+            </batchtest>
+        </junit>
+        <sleep seconds="1"/>
+    </target>
+
+    <target name="runJUnitSourceFileSetTestsWithAlwaysRunTests">
+        <echo message="****** Running JUnit"/>
+        <junit fork="true" dir="${outdir}/${testresultsprefix}">
+            <classpath refid="unittestpath"/>
+            <classpath>
+                <pathelement location="${outdir}/classes"/>
+            </classpath>
+            <jvmarg line="-Doutdir=${outdir}/${testresultsprefix} -Dcycletag=${testresultsprefix}"/>
+            <batchtest todir="${outdir}/${testresultsprefix}" fork="true">
+                <clover-optimized-testset debug="${debug.optimize}" fullrunevery="${max.optimized.builds}" minimize="${minimize.tests}">
+                    <fileset dir="${test.location}" includes="**/*Test.java"/>
+                    <always-run>
+                        <fileset dir="${test.location}" includes="**/NoAppClassTest.java"/>
+                    </always-run>
+                </clover-optimized-testset>
+                <formatter type="xml"/>
+                <formatter type="plain"/>
+            </batchtest>
+        </junit>
+        <sleep seconds="1"/>
+    </target>
+
+    <target name="runJUnitClassFileSetTestsWithAlwaysRunTests">
+        <echo message="****** Running JUnit"/>
+        <junit fork="true" dir="${outdir}/${testresultsprefix}">
+            <classpath refid="unittestpath"/>
+            <classpath>
+                <pathelement location="${outdir}/classes"/>
+            </classpath>
+            <jvmarg line="-Doutdir=${outdir}/${testresultsprefix} -Dcycletag=${testresultsprefix}"/>
+            <batchtest todir="${outdir}/${testresultsprefix}" fork="true">
+                <clover-optimized-testset debug="${debug.optimize}" fullrunevery="${max.optimized.builds}" minimize="${minimize.tests}">
+                    <fileset dir="${outdir}/classes" includes="**/*Test.class"/>
+                    <always-run>
+                        <fileset dir="${outdir}/classes" includes="**/NoAppClassTest.class"/>
+                    </always-run>
+                </clover-optimized-testset>
+                <formatter type="xml"/>
+                <formatter type="plain"/>
+            </batchtest>
+        </junit>
+        <sleep seconds="1"/>
+    </target>
+
+    <target name="runTestNGTests">
+        <echo message="****** Running TestNG"/>
+        <testng
+            outputdir="${outdir}/${testresultsprefix}"
+		    haltOnFailure="false"
+            verbose="2"
+            listeners="com.atlassian.clover.ant.tasks.testng.CloverOptimizedTestNGSelector"
+            groups="clover-optimized">
+            <sysproperty key="clover.initstring" value="${clover.initstring}"/>
+            <classpath refid="unittestpath"/>
+            <classpath>
+                <pathelement location="${outdir}/classes"/>
+            </classpath>
+
+            <classfileset dir="${outdir}/classes"/>
+        </testng>
+        <sleep seconds="1"/>
+    </target>
+
+    <target name="snapshot">
+        <clover-snapshot span="1m"/>
+    </target>
+
+    <target name="snapshotAt">
+        <clover-snapshot span="1m" file="${outdir}/clover.snapshot"/>
+    </target>
+
+    <target name="cleanCoverageOnly">
+        <delete dir="${outdir}/classes" includes="**/*.class"/>
+        <clover-clean keepdb="true" keepsnapshot="true"/>
+    </target>
+</project>

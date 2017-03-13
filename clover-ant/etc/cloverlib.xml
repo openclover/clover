@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<antlib>
+    <!-- NB: CloverEnvTask must be loaded first as it adds clover.jar
+             to the classpath if needed. This is an internal task only. -->
+    <taskdef name="clover-env" classname="com.atlassian.clover.ant.tasks.CloverEnvTask"/>
+
+    <taskdef name="clover-log" classname="com.atlassian.clover.ant.tasks.CloverLogTask"/>
+    <taskdef name="clover-check" classname="com.atlassian.clover.ant.tasks.CloverPassTask"/>
+    <taskdef name="clover-setup" classname="com.atlassian.clover.ant.tasks.CloverSetupTask"/>
+    <taskdef name="clover-clean" classname="com.atlassian.clover.ant.tasks.CloverCleanTask"/>
+    <taskdef name="clover-historypoint" classname="com.atlassian.clover.ant.tasks.HistoryPointTask"/>
+    <taskdef name="clover-report" classname="com.atlassian.clover.ant.tasks.CloverReportTask"/>
+    <taskdef name="clover-html-report" classname="com.atlassian.clover.ant.tasks.CloverHtmlReportTask"/>
+    <taskdef name="clover-pdf-report" classname="com.atlassian.clover.ant.tasks.CloverPdfReportTask"/>
+    <taskdef name="clover-instr" classname="com.atlassian.clover.ant.tasks.CloverInstrTask"/>
+    <taskdef name="clover-instrument" classname="com.atlassian.clover.ant.tasks.CloverInstrumentTask"/>
+    <taskdef name="clover-merge" classname="com.atlassian.clover.ant.tasks.CloverMergeTask"/>
+    <taskdef name="clover-snapshot" classname="com.atlassian.clover.ant.tasks.CloverSnapshotTask"/>
+    <taskdef name="clover-can-optimize" classname="com.atlassian.clover.ant.tasks.CloverCanOptimizeTests"/>
+
+    <typedef name="clover-optimized-testset" classname="com.atlassian.clover.ant.types.CloverOptimizedTestSet"/>
+    <typedef name="always-run" classname="com.atlassian.clover.ant.types.CloverAlwaysRunTestSet"/>
+    <typedef name="clover-format" classname="com.atlassian.clover.ant.tasks.CloverFormatType"/>
+    <typedef name="clover-columns" classname="com.atlassian.clover.ant.tasks.ColumnsEx"/>
+</antlib>

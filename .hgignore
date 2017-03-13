@@ -1,0 +1,8 @@
+^out
+^target
+^tutorial/\.clover
+^tutorial/clover_html
+^\.idea
+.*\.iws
+.*/target
+clover-idea/clover-idea-libs/src/resources/*

@@ -1,0 +1,102 @@
+#* Renders the onclick for each line if covered by a test *#
+#macro(testsOverLine $count $startLine $overTitle)
+#if ($count > 0) onclick="return showTestsForLine(this, $startLine, '$overTitle');"#end
+#end
+
+#* Renders failure traces with line hilights *#
+#macro(renderTracesPopupControl $lineNum $traceEntries)
+    #set($testsToRender = "[")
+    #set($sep = "")
+    #foreach($tEntry in $traceEntries)
+    ## get the corresponding parent test and render it
+        #set($trace = ${tEntry.parentTrace})
+        #set($testInfo = ${trace.originatingTest})
+        #set($testsToRender = "$testsToRender $sep [$testInfo.id, $tEntry.id]")
+        #set($sep = ",")
+    #end
+    #set($testsToRender = "$testsToRender]")
+    <img onclick="return showFailingTestsPopup(this, $lineNum, $testsToRender);" alt="Test failure here" class="icon" src="${rootRelPath}img/failure_gutter.gif"/>
+#end
+
+#* Renders two td elements with an interstitial for the stats.
+   $start must be of type HasMetrics. e.g MethodInfo, ClassInfo etc *#
+#macro(summaryStats $start)
+    #set($hiddenEleId = "inlinestats-$start.startLine")
+    #set($toggleId = "inlineStatsToggle-$start.startLine")
+    #set($metrics = ${renderUtil.metricsFor($start)})
+    #set($empty = $metrics.empty)
+    #set($width = 40)
+    #set($pccovered = $metrics.pcCoveredElements)
+    #set($customBarPositive = "barPositive")
+    #set($customBarNegative = "barNegative")
+    <td class="coverageCount aui-icon aui-icon-small aui-iconfont-arrows-right" id='$toggleId' onclick="toggleInlineStats(this, '$hiddenEleId');"/>
+    <td align="center" valign="middle">
+        <table id="$hiddenEleId" style="display:none;" class="inlineStats" width="100%" cellspacing="1px" cellpadding="1px">
+            <tr onclick="toggleInlineStats(document.getElementById('$toggleId'), '$hiddenEleId');return true;">
+                <td>#parse("html_res/adg/bar-graph-div.vm")</td><td>$renderUtil.getPercentStr($pccovered)</td>
+                <td class="inlineStat">Uncovered Elements: $renderUtil.formatInt($metrics.NumUncoveredElements) ($renderUtil.formatInt($metrics.NumElements))</td>
+                <td class="inlineStat">Complexity: $renderUtil.formatInt($metrics.complexity)</td>
+                <td class="inlineStat">Complexity Density: $renderUtil.format2d($metrics.complexityDensity)</td>
+                #if($start.test)
+                    #set ($class = $start.containingClass)
+                    <td class="inlineStat">#set($testCase = $class.getTestCase($start.qualifiedName))#parse("html_res/adg/test-result-status-long.vm")</td>
+                #end
+            </tr>
+        </table>
+    </td>
+#end
+
+<h2>Source view</h2>
+
+#if ($errormsg)
+    <div class="aui-message aui-message-error">
+        <p class="title">
+            <strong>Source rendering error</strong>
+        </p>
+        <p>$errormsg</p>
+    </div>
+#end
+
+<div style="display: table; width: 100%;">
+    <div style="display: table-cell">
+        <button class="aui-button aui-button-link"
+                title="Toggles all methods in the source to be either expanded or collapsed."
+                onclick="toggleAllInlineMethods(this); return false;" id="method-expander">
+            Collapse all methods
+        </button>
+    </div>
+    <div style="display: table-cell">
+        <div style="text-align: right; margin-bottom: 10px">
+            #parse("html_res/adg/src-file-legend.vm")
+        </div>
+    </div>
+</div>
+
+<table cellspacing="0" cellpadding="0" class="srcView" width="100%">
+
+    #set ($fileHits = $cloverDb.mapTestsAndCoverageForFile($fileInfo))
+    #set ($openedTbody = false)
+
+## note: this is a heavily used loop; not using whitespace here to reduce report size produced
+#foreach ($line in $renderInfo)
+#if (!$openedTbody) #set($openedTbody = true)<tbody>#end
+#if ($line.methodStart) #set($start = $line.methodStart)#end
+#if ($line.classStart) #set($start = $line.classStart)#end
+#if ($start)
+#set ($hitCount = $renderUtil.tcisInHitRange($fileHits, $start).size())
+#set ($overTitle = "Tests that hit $renderUtil.htmlEscapeStr($start.name)")
+<tr class="inlineStatsRow" align="right" valign="middle">
+<td class="coverageCount"><a name="$start.startLine" class="nolink">&#160;</a></td>
+#summaryStats($start)
+</tr>
+#else #set ($overTitle = "Tests that hit line # $velocityCount") #end
+<tr id="l$velocityCount">
+<td align="right" class="$line.lineNumberCSS"><a class="lineNumHref" href="?line=$velocityCount#src-$velocityCount">$velocityCount</a></td>
+<td align="right" class="$line.coverageCountCSS $line.testHitCSS" #if ($start) #testsOverLine($hitCount $velocityCount $overTitle) #else #testsOverLine($line.testHits.size() $velocityCount $overTitle) #end>#if ($line.Hilight)<span title="$line.Msg" class="nolink">&#160;$line.CoverageStr</span>#else&#160;${line.CoverageStr}#end</td>
+<td class="#if($line.methodStart) methodStart #end srcCell" #if ($start)id="id-${start.startLine}"#end>#if($line.methodStart)<img title="Method Statistics" onclick="toggleSrcRowVis(this, $start.startLine,$start.endLine);" id="img-${start.startLine}" src="${rootRelPath}img/collapse.gif"  alt="toggle" class="icon"/>#elseif(${line.failedStackEntries})#renderTracesPopupControl($velocityCount ${line.failedStackEntries})#else<span class="spacer"></span>#end<span id="src-$velocityCount" class="${line.sourceCSS}">#if($line.Hilight || $line.filtered)<span class="nolink" title="$line.msg">$!{line.Src}</span>#else$!{line.Src}#end#if($line.methodStart)<span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-$start.startLine'), $start.startLine,$start.endLine);" id="e$velocityCount" style="display:none;border:none;">...</span>#end</span></td>
+</tr>
+#set($start = false)
+#end ## foreach
+
+    #if ($openedTbody)</tbody>#end
+</table>

@@ -1,0 +1,1617 @@
+<project name="fisheye" default="code" basedir=".">
+    <property name="jvm.level" value="1.5"/>
+    <property name="source.level" value="1.5"/>
+
+    <property file="${user.home}/.fisheye/locations.properties"/>
+    <property file="locations.properties"/>
+
+    <property name="/" value="${file.separator}"/>
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties">
+        <classpath>
+            <pathelement location="${maven.dependencies.dir}/ant-contrib-1.0b2.jar"/>
+        </classpath>
+    </taskdef>
+    <import file="etc/ant/svnrepogen.xml"/>
+    <import file="etc/ant/p4repogen.xml"/>
+
+    <!-- this version number needs to use '.' not '-' as separators, and must have at least
+         three numeric components to be compatible with OSGi -->
+    <property name="cru.release.num" value="1.6.0.beta2"/>
+    <property name="fe.release.num" value="${cru.release.num}"/>
+    <property name="release.stream" value="1.x"/>
+    <property name="build.number.prefix" value="build-"/>
+    <property name="build.number.string" value="dev"/>
+    <property name="test.output" value="false"/>
+    <property name="svn.rep.root" value="https://studio.atlassian.com/svn/"/>
+
+    <property name="dev.config" location="${user.home}/.fisheye/config.xml"/>
+    <dirname property="dev.dir" file="${dev.config}"/>
+    <property name="dev.var" location="${dev.dir}/var"/>
+
+    <property name="clover.jar" value="${maven.dependencies.test.dir}/clover-2.3.1.jar"/>
+    <property name="clover.excludes" value=""/>
+    <property name="clover.historydir" value="${user.home}/fisheye_cloverhistory"/>
+    <property name="clover.optimize" value="no"/>
+    <property name="maven.repo" value="${user.home}/.m2/repository"/>
+
+    <!-- any parameters passed by ant to JVM to be used by Junit tests (e.g. path to Perforce executables) -->
+    <property name="junit.jvmargs" value="-Xmx512m -XX:MaxPermSize=128m -XX:+HeapDumpOnOutOfMemoryError"/>
+    <property name="p4d.exe" value=""/>
+    <property name="p4.exe" value=""/>
+
+    <!-- any parameters passed by ant to JVM to be used by Junit tests (e.g. path to Perforce executables) -->
+    <property name="junit.jvmargs" value="-Xmx512m -XX:+HeapDumpOnOutOfMemoryError"/>
+    <property name="seleniumServerLocation" value="localhost"/>
+    <property name="seleniumServerPort" value="4444"/>
+    <property name="seleniumBrowserStartString" value="*firefox"/>
+    <property name="crucibleLocation" value="localhost"/>
+    <property name="cruciblePort" value="6060"/>
+    <property name="crucibleContext" value="foo"/>
+    <property name="startSeleniumServer" value="true"/>    
+
+
+    <property name="infdb.jar" location="${maven.dependencies.dir}/infinitydb-v1.0.53_3192.jar"/>
+    <fileset id="jetty.build.fileset" dir="${jetty.dir}">
+        <include name="${maven.dependencies.dir}/servlet-api-2.5-*.jar" />
+        <include name="${maven.dependencies.dir}/jetty-6.1.*.jar" />
+        <include name="${maven.dependencies.dir}/jetty-util-6.1.*.jar" />
+        <include name="${maven.dependencies.dir}/jsp-2.1*.jar" />
+        <include name="${maven.dependencies.dir}/jsp-api-2.1*.jar" />
+        <include name="${maven.dependencies.dir}/jetty-ajp-6.1*.jar" />
+    </fileset>
+
+    <fileset id="shaj.fileset" dir="${shaj.dir}" includes="*.jar"/>
+
+    <fileset id="svnkit.fileset" dir="${maven.dependencies.dir}">
+        <include name="**/svnkit*.jar"/>
+        <include name="**/ganymed*.jar"/>
+        <include name="**/jna*.jar"/>
+        <include name="**/trilead*.jar"/>
+        <include name="**/sqlitejdbc*.jar"/>
+    </fileset>
+
+    <fileset id="maven.dependencies.bundled.plugins.fileset" dir="${maven.dependencies.dir}">
+        <include name="**/sal-api-*.jar"/>
+        <include name="**/sal-fisheye-plugin-*.jar"/>
+    </fileset>
+
+    <fileset id="maven.dependencies.fileset" dir="${maven.dependencies.dir}" includes="**/*.jar">
+        <exclude name="**/svnkit*.jar"/>
+        <exclude name="**/trilead*.jar"/>
+        <exclude name="**/sqlitejdbc*.jar"/>
+        <exclude name="**/cenqua-licensing-*.jar"/>
+        <exclude name="**/cenqua-fisheye-licensing-export-*.jar"/>
+        <exclude name="**/infinitydb-*.jar"/>
+        <exclude name="**/sal-api-*.jar"/>
+        <exclude name="**/sal-fisheye-plugin-*.jar"/>
+    </fileset>
+
+    <fileset id="maven.dependencies.test.fileset" dir="${maven.dependencies.dir}-test" includes="**/*.jar">
+    </fileset>
+
+    <fileset id="maven.dependencies.selenium.fileset" dir="${maven.dependencies.dir}-selenium" includes="**/*.jar">
+    </fileset>
+
+
+
+
+    <fileset id="jdk15.endorsed.fileset" dir="${maven.dependencies.dir}"
+             includes="jaxb*.jar,jaxws*.jar,saaj-impl-1.3.jar,geronimo-ws-metadata_2.0_spec-1.1.1.jar,geronimo-annotation_1.0_spec-1.1.jar,geronimo-activation_1.1_spec-1.0-M1.jar"/>
+
+    <property name="licensing.jar" value="${maven.dependencies.dir}/cenqua-licensing-1.6.jar"/>
+    <property name="licensing-export.jar" value="${maven.dependencies.dir}/cenqua-fisheye-licensing-export-1.6.jar"/>
+
+    <path id="antlrtool.classpath">
+        <pathelement location="${maven.dependencies.dir}/antlr-2.7.7.jar"/>
+    </path>
+
+    <path id="apibuild.classpath">
+        <fileset refid="maven.dependencies.fileset"/>
+    </path>
+
+    <path id="build.classpath">
+        <pathelement location="${clover.jar}"/>
+        <pathelement location="${licensing-export.jar}"/>
+        <pathelement location="${infdb.jar}"/>
+        <fileset refid="maven.dependencies.fileset"/>
+        <fileset refid="svnkit.fileset"/>
+        <fileset refid="shaj.fileset"/>
+        <pathelement location="output/boot"/>
+        <pathelement location="output/schemaclasses"/>
+        <pathelement location="output/fisheye-api.jar"/>
+    </path>
+
+    <path id="test.classpath">
+        <pathelement location="${licensing.jar}"/>
+        <fileset refid="maven.dependencies.test.fileset"/>
+    </path>
+    <path id="selenium.classpath">
+        <fileset refid="maven.dependencies.selenium.fileset"/>
+    </path>
+
+    <filterchain id="crucible-only.filterchain" >
+        <filterreader classname="com.cenqua.fisheye.anttasks.RegExpReplaceFilterReader" classpath="output/ant/classes">
+            <param name="regex" value="\[!CRUCIBLE-ONLY.*?CRUCIBLE-ONLY!]"/>
+            <param name="replace" value=" "/>
+        </filterreader>
+    </filterchain>
+    <filterchain id="fisheye-only.filterchain" >
+        <filterreader classname="com.cenqua.fisheye.anttasks.RegExpReplaceFilterReader" classpath="output/ant/classes">
+            <param name="regex" value="\[!FISHEYE-ONLY.*?FISHEYE-ONLY!]"/>
+            <param name="replace" value=" "/>
+        </filterreader>
+    </filterchain>
+
+
+    <taskdef resource="cloverlib.xml" classpath="${clover.jar}"/>
+    <taskdef resource="cloverjunitlib.xml" classpath="${clover.jar}"/>
+    
+    <taskdef name="license"
+        classname="com.cenqua.util.license.LicenseGenTask"
+        classpath="${licensing.jar}"/>
+
+    <available property="ant171"
+               classname="org.apache.tools.ant.input.SecureInputHandler"/>
+
+    <if>
+        <not><antversion atleast="1.7.1"/></not>
+        <then>
+            <fail message="You need At least Ant 1.7.1 to run this build"/>
+        </then>
+    </if>
+
+    <target name="_build.data" depends="build.tasks">
+        <taskdef name="buildstamp" classname="com.cenqua.fisheye.anttasks.UniqueBuildStampTask" classpath="output/ant/classes"/>
+        <buildstamp name="build.stamp" file="output/build.stamp"/>
+
+        <!-- set want.crucible.mode to false if its not set -->
+        <condition property="want.crucible.mode" value="true" else="false">
+            <isset property="want.crucible.mode"/>
+        </condition>
+        <!-- this will store crucible.mode in sticky.properties unless it is already there -->
+        <propertyfile file="output/sticky.properties">
+            <entry key="crucible.mode" default="${want.crucible.mode}"/>
+        </propertyfile>
+
+        <property file="output/sticky.properties"/>
+
+        <tstamp>
+            <format property="build.date" pattern="yyyy-MM-dd"/>
+        </tstamp>
+
+        <if><istrue value="${crucible.mode}"/>
+            <then>
+                <property name="build.product.name" value="Crucible"/>
+                <property name="build.product.lcname" value="crucible"/>
+                <property name="build.release.num" value="${cru.release.num}"/>
+            </then>
+            <else>
+                <property name="build.product.name" value="FishEye"/>
+                <property name="build.product.lcname" value="fisheye"/>
+                <property name="build.release.num" value="${fe.release.num}"/>
+            </else>
+        </if>
+        <filterset id="build.version.filterset">
+            <filter token="CRU_RELEASE_NUM" value="${cru.release.num}"/>
+            <filter token="CRUCIBLE_MODE" value="${crucible.mode}"/>
+            <filter token="FE_RELEASE_NUM" value="${fe.release.num}"/>
+            <filter token="RELEASE_STREAM" value="${release.stream}"/>
+            <filter token="BUILD_PRODUCT_NAME" value="${build.product.name}"/>
+            <filter token="BUILD_PRODUCT_LCNAME" value="${build.product.lcname}"/>
+            <filter token="BUILD_RELEASE_NUM" value="${build.release.num}"/>
+            <filter token="BUILD_DATE" value="${build.date}"/>
+            <filter token="BUILD_NUMBER" value="${build.number.prefix}${build.number.string}"/>
+            <filter token="BUILD_STAMP" value="${build.stamp}"/>
+        </filterset>
+    </target>
+
+    <target name="cru">
+        <property name="want.crucible.mode" value="true"/>
+    </target>
+
+    <target name="_version" depends="_build.data">
+
+        <copy file="src/java/com/cenqua/fisheye/FisheyeVersionInfo.in"
+            tofile="output/gensrc/com/cenqua/fisheye/FisheyeVersionInfo.java"
+            overwrite="false">
+            <filterset refid="build.version.filterset"/>
+        </copy>
+
+        <copy file="src/java/com/cenqua/crucible/CrucibleVersionInfo.in"
+            tofile="output/gensrc/com/cenqua/crucible/CrucibleVersionInfo.java"
+            overwrite="false">
+            <filterset refid="build.version.filterset"/>
+        </copy>
+
+        <copy file="src/java/com/cenqua/fisheye/fisheye.in"
+            tofile="output/fisheye.xml"
+            overwrite="false">
+            <filterset refid="build.version.filterset"/>
+        </copy>
+
+        <copy file="src/java/com/cenqua/crucible/crucible.in"
+            tofile="output/crucible.xml"
+            overwrite="false">
+            <filterset refid="build.version.filterset"/>
+        </copy>
+
+        <pathconvert property="workspacedir" dirsep="/" >
+            <path location="."/>
+        </pathconvert>
+        <copy file="src/tests/com/cenqua/fisheye/FisheyeTestEnv.in"
+            tofile="output/gensrc_test/com/cenqua/fisheye/FisheyeTestEnv.java"
+            overwrite="false">
+            <filterset>
+                <filter token="WORKSPACE_DIR" value="${workspacedir}"/>
+            </filterset>
+        </copy>
+
+
+    </target>
+
+    <target name="gen.xmlbeans">
+        <antcall target="gen.fe.xmlbeans"/>
+        <antcall target="gen.cru.xmlbeans"/>
+    </target>
+
+    <target name="check.fe.xmlbeans">
+        <uptodate property="uptodate.fe.xmlbeans"
+            targetfile="output/gensrc/com/cenqua/fisheye/config1/ConfigDocument.java" >
+            <srcfiles file="etc/dist/config.xsd"/>
+        </uptodate>
+    </target>
+
+    <target name="gen.fe.xmlbeans" depends="check.fe.xmlbeans" unless="uptodate.fe.xmlbeans" >
+        <taskdef name="xmlbean" classname="org.apache.xmlbeans.impl.tool.XMLBean" classpath="${maven.dependencies.dir}/xmlbeans-2.3.0.jar">
+            <classpath>
+                <fileset dir="${maven.dependencies.dir}" includes="*.jar"/>
+            </classpath>
+        </taskdef>
+        <mkdir dir="output/schemaclasses"/>
+        <mkdir dir="output/gensrc"/>
+        <xmlbean
+            schema="etc/dist/config.xsd"
+            classgendir="output/schemaclasses"
+            srcgendir="output/gensrc"
+            srconly="true"
+            />
+    </target>
+
+    <target name="check.cru.xmlbeans">
+        <uptodate property="uptodate.cru.xmlbeans"
+            targetfile="output/gensrc/com/cenqua/crucible/metrics1/MetricsDocument.java" >
+            <srcfiles file="src/xsd/*.xsd"/>
+        </uptodate>
+    </target>
+
+    <target name="gen.cru.xmlbeans" depends="check.cru.xmlbeans" unless="uptodate.cru.xmlbeans" >
+        <taskdef name="xmlbean" classname="org.apache.xmlbeans.impl.tool.XMLBean" classpath="${maven.dependencies.dir}/xmlbeans-2.3.0.jar">
+            <classpath>
+                <fileset dir="${maven.dependencies.dir}" includes="*.jar"/>
+            </classpath>
+        </taskdef>
+        <mkdir dir="output/schemaclasses"/>
+        <mkdir dir="output/gensrc"/>
+        <xmlbean
+            schema="src/xsd/metrics-config.xsd"
+            classgendir="output/schemaclasses"
+            srcgendir="output/gensrc"
+            srconly="true"
+            />
+    </target>
+
+    <target name="build.tasks">
+        <!-- build utilities -->
+        <mkdir dir="output/ant/classes"/>
+        <depend destdir="output/ant/classes" srcdir="src/buildutil"/>
+        <javac destdir="output/ant/classes" source="${source.level}" target="${jvm.level}" debug="true" encoding="UTF-8"
+                includeAntRuntime="yes">
+            <src location="src/buildutil"/>
+        </javac>
+    </target>
+
+    <target name="dupcheck.buildpath" depends="build.tasks">
+        <taskdef name="classpathDuplicateChecker" classname="com.cenqua.fisheye.anttasks.ClasspathDuplicateChecker" classpath="output/ant/classes"/>
+        <classpathDuplicateChecker>
+            <ignore package="org.w3c.dom"/>
+            <ignore package="javax.xml"/>
+            <!-- annoyingly beanutils incldues some collections -->
+            <ignore package="org.apache.commons.collections"/>
+            <!-- jdk1.5 only includes some of JTA -->
+            <ignore package="javax.transaction"/>
+            <classpath>
+                <path refid="build.classpath"/>
+            </classpath>
+        </classpathDuplicateChecker>
+    </target>
+
+    <target name="jmx-agent-jar" description="build an agent jar that can be used with -javaagent ">
+        <mkdir dir="output/jmxagent"/>
+        <javac destdir="output/jmxagent" srcdir="src/jmxagent" source="${source.level}" target="${jvm.level}" debug="true" encoding="UTF-8"
+                includeAntRuntime="no"/>
+        <jar basedir="output/jmxagent"
+            jarfile="output/jmxagent.jar">
+                <manifest>
+                    <attribute name="Premain-Class" value="com.atlassian.fisheye.jmx.CustomAgent"/>
+                </manifest>
+        </jar>
+    </target>
+
+    <target name="api">
+        <!-- api code -->
+        <mkdir dir="output/api"/>
+        <depend destdir="output/api" srcdir="src/api"/>
+        <javac destdir="output/api" source="${source.level}" target="${jvm.level}" debug="true" encoding="UTF-8"
+                includeAntRuntime="no">
+            <classpath>
+                <path refid="apibuild.classpath"/>
+            </classpath>
+            <src location="src/api"/>
+        </javac>
+        <jar destfile="output/fisheye-api.jar">
+            <fileset dir="output/api"/>
+        </jar>
+
+        <!-- scmutils -->
+        <mkdir dir="output/scmutils"/>
+        <depend destdir="output/scmutils" srcdir="src/scmutils"/>
+        <javac destdir="output/scmutils" source="${source.level}" target="${jvm.level}" debug="true" encoding="UTF-8"
+                includeAntRuntime="no">
+            <classpath>
+                <path refid="apibuild.classpath"/>
+                <pathelement location="output/fisheye-api.jar"/>
+            </classpath>
+            <src location="src/scmutils"/>
+        </javac>
+        <jar destfile="output/scmutils.jar">
+            <fileset dir="output/scmutils"/>
+            <fileset dir="src/scmutils" excludes="**/*.java"/>
+        </jar>
+    </target>
+
+    <target name="code" depends="_version, build.tasks, api, compile.grammars, gen.xmlbeans, dupcheck.buildpath">
+        <!-- boot code -->
+        <mkdir dir="output/boot"/>
+        <depend destdir="output/boot" srcdir="src/boot"/>
+        <javac destdir="output/boot" source="${source.level}" target="${jvm.level}" debug="true" encoding="UTF-8"
+                includeAntRuntime="no">
+            <src location="src/boot"/>
+        </javac>
+
+        <!-- main code -->
+        <mkdir dir="output/classes"/>
+        <depend destdir="output/classes" srcdir="src/java;output/gensrc"/>
+        <javac destdir="output/classes" source="${source.level}" target="${jvm.level}" debug="true" encoding="UTF-8"
+                includeAntRuntime="no">
+            <classpath>
+                <path refid="build.classpath"/>
+            </classpath>
+            <src location="src/java"/>
+            <src location="output/gensrc"/>
+        </javac>
+        <!-- copy resources -->
+        <copy todir="output/classes">
+            <fileset dir="src/java" includes="**/*.properties,**/*.xml,**/*.sql"/>
+        </copy>
+
+        <!-- crucible -->
+        <!-- development utils -->
+        <mkdir dir="output/classes-crudev"/>
+        <depend destdir="output/classes-crudev" srcdir="src/devutil"/>
+        <javac classpathref="build.classpath" destdir="output/classes-crudev" source="${source.level}" target="${jvm.level}" debug="true" encoding="UTF-8"
+                includeAntRuntime="no">
+            <classpath location="output/classes"/>
+            <src location="src/devutil"/>
+        </javac>
+
+        <!-- post-build utilities -->
+        <depend destdir="output/ant/classes" srcdir="src/postbuildutil"/>
+        <javac destdir="output/ant/classes" source="${source.level}" target="${jvm.level}" debug="true" encoding="UTF-8"
+                classpathref="build.classpath" includeAntRuntime="no">
+            <classpath location="output/classes"/>
+            <src location="src/postbuildutil"/>
+        </javac>
+    </target>
+
+    <target name="dist.plugin" depends="dist.core">
+        <!-- copy the framework bundles -->
+        <!--copydir src="src/plugin-framework/framework" dest="output/dist/plugins/framework"/-->
+        <property name="plugin.build.directory" value="output/plugins/bundled"/>
+        <property name="fisheye.build.dir" value="../.."/>
+        <mkdir dir="${plugin.build.directory}"/>
+        <!-- build each individual plugin -->
+        <!-- exclude plugins we don't want to bundle with crucible -->
+        <patternset id="crucible.plugin.patternset">
+            <!--<exclude name="LiteSVN/*"/>-->
+            <exclude name="GitSCM/*"/>
+        </patternset>
+        <!-- exclude plugins we don't want to bundle with fisheye -->
+        <patternset id="fisheye.plugin.patternset">
+            <patternset refid="crucible.plugin.patternset"/>
+            <exclude name="ConfluenceSCM/*"/>
+            <exclude name="FileSystemSCM/*"/>
+        </patternset>
+        <if>
+            <istrue value="${crucible.mode}"/>
+            <then>
+                <property name="plugin.patternset" value="crucible.plugin.patternset"/>
+            </then>
+            <else>
+                <property name="plugin.patternset" value="fisheye.plugin.patternset"/>
+            </else>
+        </if>
+        <subant target="dist">
+            <fileset dir="plugins">
+                <include name="*/build.xml"/>
+                <patternset refid="${plugin.patternset}"/>
+            </fileset>
+            <propertyset>
+                <propertyref name="jvm.level"/>
+                <propertyref name="source.level"/>
+                <propertyref name="plugin.build.directory"/>
+                <propertyref name="fisheye.build.dir"/>
+            </propertyset>
+        </subant>
+      <!-- delete any existing unpacked bundled plugins, because they won't be overwritten when we run again -->
+        <delete dir="output/dist/plugins/bundled"/>
+       <!-- copy other bundled plugins into ${plugin.build.directory} -->
+        <copy todir="${plugin.build.directory}">
+            <fileset refid="maven.dependencies.bundled.plugins.fileset"/>
+        </copy>
+       <!-- zip the bundles-plugins.zip file -->
+        <property name="bundled.plugin.zip.dir" value="output/dist/plugins"/>
+        <mkdir dir="${bundled.plugin.zip.dir}"/>
+        <zip destfile="${bundled.plugin.zip.dir}/bundled-plugins.zip" basedir="${plugin.build.directory}" update="true" whenempty="create"/>
+    </target>
+
+    <target name="check.antlr">
+        <uptodate property="uptodate.antlr"
+            targetfile="output/gensrc/com/cenqua/fisheye/cvsrep/RcsFileLexer.java" >
+            <srcfiles dir="src/antlr" includes="*.g"/>
+        </uptodate>
+    </target>
+
+    <target name="compile.grammars" depends="check.antlr" unless="uptodate.antlr">
+        <mkdir dir="output/gensrc/com/cenqua/fisheye/cvsrep"/>
+        <java classname="antlr.Tool" fork="yes" dir=".">
+            <arg line="-o output/gensrc/com/cenqua/fisheye/cvsrep src/antlr/rcsfile.g"/>
+            <classpath refid="antlrtool.classpath"/>
+    	</java>
+
+        <mkdir dir="output/gensrc/com/cenqua/fisheye/cvsrep/search/query"/>
+        <java classname="antlr.Tool" fork="yes" dir=".">
+            <arg line="-o output/gensrc/com/cenqua/fisheye/cvsrep/search/query src/antlr/querylang.g"/>
+            <classpath refid="antlrtool.classpath"/>
+    	</java>
+
+        <mkdir dir="output/gensrc/com/cenqua/fisheye/syntax"/>
+        <java classname="antlr.Tool" fork="yes" dir=".">
+            <arg line="-o output/gensrc/com/cenqua/fisheye/syntax src/antlr/syntaxdef.g"/>
+            <classpath refid="antlrtool.classpath"/>
+    	</java>
+
+        <mkdir dir="output/gensrc/com/cenqua/fisheye/util/cond"/>
+        <java classname="antlr.Tool" fork="yes" dir=".">
+            <arg line="-o output/gensrc/com/cenqua/fisheye/util/cond src/antlr/bcond.g"/>
+            <classpath refid="antlrtool.classpath"/>
+    	</java>
+    </target>
+
+    <target name="doc.dac" depends="public.javadoc">
+        <mkdir dir="output/doc/dac" />
+        <copy todir="output/doc/dac/">
+            <fileset dir="doc/dac"/>
+        </copy>
+        <copy todir="output/doc/dac/fisheye/${fe.release.num}">
+            <fileset dir="output/doc/javadoc"/>
+        </copy>
+        <copy todir="output/doc/dac/crucible/${cru.release.num}">
+            <fileset dir="output/doc/javadoc" />
+        </copy>
+        <!--
+            API Documentation & .htaccess redirects can now be pushed to docs.atlassian.com by running:
+
+            export RSYNC_RSH=ssh
+            rsync -vlrz output/doc/dac/ tpettersen@docs.atlassian.com:/var/www/domains/atlassian.com/docs/htdocs
+        -->
+    </target>
+
+    <target name="public.javadoc" depends="code">
+        <mkdir dir="output/doc/javadoc"/>
+        <javadoc
+            destdir="output/doc/javadoc"
+            source="${source.level}"
+            >
+            <classpath refid="build.classpath"/>
+            <classpath location="output/dist/fisheye.jar"/>
+
+            <sourcepath>
+                <pathelement location="src/java"/>
+            </sourcepath>
+            <package name="com.cenqua.fisheye.user.plugin"/>
+            <package name="com.atlassian.crucible.spi"/>
+        </javadoc>
+    </target>
+
+    <target name="public.api" depends="public.javadoc">
+        <mkdir dir="output/public/src"/>
+        <copy todir="output/public/src">
+            <fileset dir="src/java">
+                <include name="com/cenqua/fisheye/user/plugin/**"/>
+            </fileset>
+        </copy>
+        <zip file="output/doc/authapi.zip">
+            <zipfileset dir="output/public"/>
+            <zipfileset dir="output/doc">
+                <include name="javadoc/**"/>
+            </zipfileset>
+        </zip>
+    </target>
+
+    <target name="dist" depends="dist.core, dist.plugin"/>
+
+    <target name="dist.core" depends="code">
+        <mkdir dir="output/dist"/>
+        <mkdir dir="output/dist/lib"/>
+        <mkdir dir="output/dist/lib/licenses"/>
+        <mkdir dir="output/dist/lib/svn"/>
+        <copy todir="output/dist/lib" flatten="true">
+            <fileset refid="shaj.fileset"/>
+            <fileset refid="maven.dependencies.fileset"/>
+            <fileset file="${clover.jar}"/>
+            <fileset file="output/fisheye-api.jar"/>
+        </copy>
+        <copy todir="output/dist/lib/licenses">
+            <fileset dir="lib/licenses"/>
+        </copy>
+
+        <copy todir="output/dist/lib/svn">
+            <fileset refid="svnkit.fileset"/>
+            <fileset dir="${svnkit-extra.dir}"/>
+        </copy>
+
+        <!--mkdir dir="output/dist/lib/endorsed"/>
+        <copy todir="output/dist/lib/endorsed" flatten="true">
+            <fileset refid="jdk15.endorsed.fileset"/>
+        </copy-->
+        <copy todir="output/dist/lib" flatten="true">
+            <fileset refid="jdk15.endorsed.fileset"/>
+        </copy>
+
+        <!-- crucible only libs -->
+        <!--if><istrue value="${crucible.mode}"/><then>
+            <copy todir="output/dist/lib" flatten="true">
+                <fileset refid="hibernate.fileset"/>
+                <fileset refid="hsqldb.fileset"/>
+            </copy>
+        </then></if-->
+
+        <antcall target="content" inheritall="true"/>
+
+        <jar destfile="output/dist/fisheyeboot.jar">
+            <fileset dir="output/boot"/>
+            <manifest>
+                <attribute name="Main-Class" value="com.cenqua.fisheye.FishEyeCtl"/>
+            </manifest>
+        </jar>
+
+
+        <jar destfile="output/dist/fisheye.jar">
+            <fileset dir="output/classes"/>
+            <fileset dir="output/schemaclasses"/>
+            <zipfileset src="${licensing-export.jar}"/>
+            <zipfileset src="${infdb.jar}"/>
+        </jar>
+
+        <!--copy auxillary bundled files-->
+        <copy todir="output/dist">
+            <fileset dir="etc/dist"/>
+        </copy>
+
+        <!--copy auxillary crucible bundled files-->
+        <if><istrue value="${crucible.mode}"/><then>
+        <copy todir="output/dist" overwrite="true">
+            <fileset dir="etc/dist-cru"/>
+        </copy>
+        </then></if>
+
+        <!-- copy native libs -->
+        <mkdir dir="output/dist/lib/native"/>
+        <copy todir="output/dist/lib/native">
+            <fileset dir="${shaj.dir}/native"/>
+        </copy>
+
+        <!-- script files -->
+        <loadfile property="value.etc.shellheader.inc" srcfile="etc/shellheader.inc" />
+        <loadfile property="value.etc.batchheader.inc" srcfile="etc/batchheader.inc" />
+        <loadfile property="value.etc.batchfooter.inc" srcfile="etc/batchfooter.inc" />
+
+        <copy todir="output/dist/bin" overwrite="true" >
+            <fileset dir="etc/dist/bin" includes="*.sh,*.bat" />
+            <filterset>
+                <filter token="SH_COMMON_HEADER" value="${value.etc.shellheader.inc}" />
+                <filter token="BAT_COMMON_HEADER" value="${value.etc.batchheader.inc}" />
+                <filter token="BAT_COMMON_FOOTER" value="${value.etc.batchfooter.inc}" />
+            </filterset>
+        </copy>
+
+        <fixcrlf srcdir="output/dist" includes="**/*.sh" eol="lf"/>
+        <fixcrlf srcdir="output/dist" includes="**/*.bat" eol="crlf"/>
+        <taskdef name="classpathDuplicateChecker" classname="com.cenqua.fisheye.anttasks.ClasspathDuplicateChecker" classpath="output/ant/classes"/>
+        <classpathDuplicateChecker>
+            <ignore package="org.w3c.dom"/>
+            <ignore package="javax.xml"/>
+            <!-- annoyingly beanutils incldues some collections -->
+            <ignore package="org.apache.commons.collections"/>
+            <!-- jdk1.5 only includes some of JTA -->
+            <ignore package="javax.transaction"/>
+            <!-- packages that exist in 1.6 but not 1.5 -->
+            <ignore package="javax.activation"/>
+            <ignore package="javax.jws"/>
+            <ignore package="javax.annotation"/>
+            <ignore package="com.sun.xml"/>
+            <ignore package="com.sun.org.apache.xml"/>
+            <ignore package="com.sun.istack"/>
+            <ignore package="com.sun.codemodel"/>
+            <ignore package="com.sun.tools.xjc"/>
+            <ignore package="com.sun.tools.jxc"/>
+            <ignore package="org.relaxng"/>
+            <fileset dir="output/dist/lib">
+                <include name="**/*.jar"/>
+            </fileset>
+        </classpathDuplicateChecker>
+    </target>
+
+    <target name="content.cru" depends="cru">
+        <antcall target="content"/>
+    </target>
+
+    <target name="content" depends="_build.data">
+
+        <if><istrue value="${crucible.mode}"/>
+            <then><filterchain id="content.filterchain" refid="fisheye-only.filterchain"/></then>
+            <else><filterchain id="content.filterchain" refid="crucible-only.filterchain"/></else>
+        </if>
+
+        <filterchain id="jsp.filterchain">
+            <filterreader classname="com.cenqua.fisheye.anttasks.JspWhitespaceFilterReader" classpath="output/ant/classes"/>
+        </filterchain>
+        <!-- strip jsp comments, we don't want customers to see them (unless they begin with KEEP) -->
+        <filterchain id="jspCommentStripper.filterchain">
+            <filterreader classname="com.cenqua.fisheye.anttasks.RegExpReplaceFilterReader" classpath="output/ant/classes">
+                <param name="regex" value="&lt;%--((\s*KEEP (.*?))|(.*?))--%&gt;"/>
+                <param name="replace" value="&lt;%-- $3 --%&gt;"/>
+            </filterreader>
+            <!-- strip remaining empty comments -->
+            <filterreader classname="com.cenqua.fisheye.anttasks.RegExpReplaceFilterReader" classpath="output/ant/classes">
+                <param name="regex" value="&lt;%--\s*--%&gt;"/>
+                <param name="replace" value=""/>
+            </filterreader>
+        </filterchain>
+
+        <mapper id="static.dirname.mapper">
+            <regexpmapper handledirsep="true"
+                    from="^(?!static/)(.*)"
+                    to="\1"/>
+            <regexpmapper handledirsep="true"
+                    from="^static/(.*)"
+                    to="static/${build.stamp}/\1"/>
+        </mapper>
+
+        <!-- copy content -->
+        <copy todir="output/dist/content">
+            <filterchain refid="jsp.filterchain"/>
+            <filterchain refid="content.filterchain"/>
+            <filterchain refid="jspCommentStripper.filterchain"/>
+            <mapper refid="static.dirname.mapper"/>
+            <fileset dir="src/content" includes="**/*.jsp*,**/*.tag,**/*.xml,**/*.properties" />
+        </copy>
+
+        <copy todir="output/dist/content">
+            <mapper refid="static.dirname.mapper"/>
+            <fileset dir="src/content" excludes="**/*.jsp*,**/*.tag,**/*.xml" />
+        </copy>
+    </target>
+
+    <target name="check-prod-build">
+        <propertyregex property="build.jdk.version" input="${java.version}" regexp="^(1\.\d).*" select="\1"/>
+        <if><not><equals arg1="1.5" arg2="${build.jdk.version}"/></not>
+            <then>
+                <fail>Build aborting
+====================================
+A PROD BUILD REQUIRES JDK1.5.x ONLY!
+====================================
+You are using ${build.jdk.version} (${java.version}).
+
+1.5 is required because:
+a) Building with 1.6 may mean you are using methods which don't exist in 1.5
+                </fail>
+            </then>
+        </if>
+
+    </target>
+
+    <target name="prod-dist" depends="check-prod-build,dist,obfuscate,jspc">
+        <!-- re-copy the readme, doing the replace -->
+        <copy todir="output/dist" overwrite="true" >
+            <fileset dir="etc/dist" includes="README.html" />
+            <filterset refid="build.version.filterset"/>
+        </copy>
+        <if><istrue value="${crucible.mode}"/><then>
+             <copy todir="output/dist" overwrite="true" >
+                 <fileset dir="etc/dist-cru" includes="README.html" />
+                 <filterset refid="build.version.filterset"/>
+             </copy>
+        </then></if>
+    </target>
+
+    <target name="_packimpl">
+        <property name="prod.dist.zipname" value="${build.product.lcname}-${build.release.num}${build.type}${pack.zip.suffix}"/>
+        <property name="prod.dist.zipprefix" value="${build.product.lcname}-${build.release.num}"/>
+
+        <zip destfile="output/${prod.dist.zipname}.zip">
+            <zipfileset prefix="${prod.dist.zipprefix}" dir="output/dist">
+                <exclude name="bin/*.sh" />
+            </zipfileset>
+            <zipfileset prefix="${prod.dist.zipprefix}" dir="output/dist"
+                filemode="755" >
+                <include name="bin/*.sh" />
+            </zipfileset>
+        </zip>
+    </target>
+    <target name="pack" depends="prod-dist, _build.data">
+        <property name="pack.zip.suffix" value="-${build.number.prefix}${build.number.string}"/>
+
+        <!--
+             build a zip including jsp source
+          -->
+        <antcall target="_packimpl">
+            <param name="build.type" value="-jspsource"/>
+        </antcall>
+
+        <!--
+             build a zip without jsp source
+          -->
+        <delete file="output/dist/lib/jsp_pre.zip"/>
+        <mkdir dir="output/dist/content/WEB-INF/classes"/>
+        <copy todir="output/dist/content/WEB-INF/classes">
+            <fileset dir="output/jspc-classes"/>
+        </copy>
+         <!-- insert generated web.xml fragment into web.xml -->
+        <loadfile property="generated.web.xml" srcfile="output/generated_web.xml"/>
+        <replace file="output/dist/content/WEB-INF/web.xml" value="${generated.web.xml}" >
+            <replacetoken><![CDATA[<!-- GENERATED WEB XML -->]]></replacetoken>
+        </replace>
+
+        <!-- make all the .jsp files zero length -->
+        <taskdef name="truncate" classname="com.cenqua.fisheye.anttasks.FileTruncateTask" classpath="output/ant/classes"/>
+        <truncate>
+            <fileset dir="output/dist/content" includes="**/*.jsp,**/*.jspf,**/*.tag"/>
+        </truncate>
+
+        <antcall target="_packimpl">
+            <param name="build.type" value=""/>
+        </antcall>
+
+    </target>
+
+    <target name="obfuscate" depends="dist" unless="noob">
+        <taskdef name="jarjar" classname="com.tonicsystems.jarjar.JarJarTask"
+                 classpath="lib/maven-dependencies-test/jarjar-1.0-rc7.jar"/>
+
+        <mkdir dir="output/obfuscate"/>
+        <delete file="output/obfuscate/fisheye_ob.jar"/>
+        <jarjar jarfile="output/obfuscate/fisheye_ob.jar">
+            <zipfileset src="output/dist/fisheye.jar"/>
+            <rule pattern="com.infinitydb.InfinityDB" result="com.cenqua.obfuscate.idb${build.stamp}._${build.stamp}IDB"/>
+            <rule pattern="com.infinitydb.*" result="com.cenqua.obfuscate.idb${build.stamp}._@1"/>
+            <rule pattern="com.infinitydb.**" result="com.cenqua.obfuscate.idb${build.stamp}.@1"/>
+            <rule pattern="com.boilerbay.**" result="com.cenqua.obfuscate.bb${build.stamp}.@1"/>
+        </jarjar>
+        <!-- fixup missing dir entries (jarjar does not create them) -->
+        <delete dir="output/dist/fisheye.jar"/>
+        <jar jarfile="output/dist/fisheye.jar">
+            <zipfileset src="output/obfuscate/fisheye_ob.jar"/>
+        </jar>
+    </target>
+
+    <target name="jspc" depends="dist" unless="nojspc">
+        <taskdef classname="org.apache.jasper.JspC" name="jasper2" >
+            <classpath id="jspc.classpath">
+                <pathelement location="${java.home}/../lib/tools.jar"/>
+                <pathelement location="output/dist/fisheye.jar"/>
+                <path refid="build.classpath"/>
+            </classpath>
+        </taskdef>
+
+        <mkdir dir="output/jspcsrc"/>
+        <jasper2
+            validateXml="false"
+            uriroot="output/dist/content"
+            webXmlFragment="output/generated_web.xml"
+            outputDir="output/jspcsrc" />
+
+        <mkdir dir="output/jspc-classes"/>
+        <javac srcdir="output/jspcsrc" destdir="output/jspc-classes" encoding="UTF-8"
+               source="${source.level}" target="${jvm.level}" debug="on" includeAntRuntime="no">
+            <classpath refid="jspc.classpath"/>
+        </javac>
+        <zip zipfile="output/dist/lib/jsp_pre.zip">
+            <fileset dir="output/jspc-classes"/>
+        </zip>
+    </target>
+
+    <!--
+    PRODUCTION BUILD TARGETS
+    -->
+
+
+    <target name="prod" depends="clean, _build.data, _pre.prod.build, _prod, _post.prod.build" />
+
+    <target name="_pre.prod.build">
+        <delete file="buildnumber/buildnumber.txt" failonerror="true"/>
+        <exec executable="svn" failonerror="true">
+            <arg line="update buildnumber/buildnumber.txt"/>
+        </exec>
+
+        <buildnumber file="buildnumber/buildnumber.txt"/>
+
+        <exec executable="svn" failonerror="true">
+            <arg line="commit -m&quot;NONE:auto build increment&quot; buildnumber/buildnumber.txt"/>
+        </exec>
+        <echo>build.number now ${build.number}</echo>
+
+    </target>
+
+    <target name="_prod">
+        <antcall target="pack">
+            <param name="build.number.string" value="${build.number}"/>
+            <param name="pack.zip.suffix" value=""/>
+        </antcall>
+    </target>
+
+    <target name="_post.prod.build" depends="_build.data">
+        <!-- buildnotes -->
+        <delete file="buildnumber/buildnotes.txt"/>
+        <exec executable="svn" failonerror="true">
+            <arg line="update buildnumber/buildnotes.txt"/>
+        </exec>
+        <echo file="buildnumber/buildnotes.txt" append="true">${build.product.name} ${build.release.num} ${build.number.prefix}${build.number} ${build.date}&#x0A;</echo>
+
+        <exec executable="svn" failonerror="true">
+            <arg line="commit -m&quot;NONE: prod build ${build.product.name}-${build.release.num}&quot; buildnumber/buildnotes.txt "/>
+        </exec>
+
+        <!-- tag -->
+        <echo>tagging build with ${build.number.prefix}${build.number}</echo>
+        <exec executable="svn" failonerror="true">
+            <arg line="cp -m&quot;${build.product.name}-${build.release.num} tagged ${build.number.prefix}${build.number}&quot; . ${svn.rep.root}/FE/tags/${build.number.prefix}${build.number}"/>
+        </exec>
+    </target>
+
+    <property name="license.propsfile" location="etc/dev/betalicense.properties"/>
+
+    <target name="_license" depends="_build.data" unless="nolicense">
+        <mkdir dir="output/dist_inst"/>
+        <!-- Custom Task: see projects/website/license -->
+        <if><istrue value="${crucible.mode}"/>
+            <then>
+                <property name="devlicense.product" value="Crucible"/>
+                <property name="devlicense.filename" value="crucible.license"/>
+            </then>
+            <else>
+                <property name="devlicense.product" value="FishEye"/>
+                <property name="devlicense.filename" value="fisheye.license"/>
+            </else>
+        </if>
+        <license outfile="output/dist_inst/${devlicense.filename}"
+            propsfile="${license.propsfile}"
+            name="FishEye Beta License"
+            product="${devlicense.product}"
+            versions="0.x,1.x"
+            user="Beta Tester"
+            entity="DevBuilder"
+            key="N/A"
+            expires="90 days"
+            terminates="90 days"
+            legalTextID="fisheye_license_beta"
+            seats="20"
+            />
+    </target>
+
+    <target name="syntaxtest" depends="dist">
+           <java
+            classname="com.cenqua.fisheye.syntax.SyntaxDefinition"
+            fork="true">
+              <arg line="./etc/dist/syntax/java.def"/>
+              <classpath>
+                <fileset dir="output/dist" includes="fisheye.jar,lib/*.jar"/>
+              </classpath>
+           </java>
+    </target>
+
+    <property name="run.debug.string" value=""/>
+
+    <target name="debug">
+        <antcall target="run">
+            <param name="run.debug.string" value="-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005" />
+        </antcall>
+    </target>
+
+    <target name="yourkit">
+        <antcall target="run">
+            <param name="run.debug.string" value="-agentlib:yjpagent" />
+        </antcall>
+    </target>
+
+    <target name="jprofiler">
+        <antcall target="run">
+            <param name="run.debug.string" value="-agentlib:jprofilerti -Xbootclasspath/a:${jprofiler.home}/bin/agent.jar" />
+        </antcall>
+    </target>
+
+    
+    <target name="dev-config" depends="_build.data">
+        <mkdir dir="output/dist_inst"/>
+        <copy file="${dev.config}" tofile="output/dist_inst/config.xml" overwrite="false" />
+
+        <copy todir="output/dist_inst/var/plugins/user" flatten="true">
+            <fileset dir="${user.home}/.fisheye">
+              <include name="plugins/*"/>
+            </fileset>
+        </copy>
+
+        <!--copy auxillary crucible bundled files-->
+        <if><istrue value="${crucible.mode}"/><then>
+        <copy todir="output/dist_inst">
+            <fileset dir="etc/dist-cru"/>
+        </copy>
+        </then></if>
+
+        <if><available file="${dev.var}"/><then>
+          <copy todir="output/dist_inst/var">
+            <fileset dir="${dev.var}"/>
+          </copy>
+        </then></if>
+
+        <taskdef name="setup-dev-env" classname="com.cenqua.crucible.postbuild.SetupDevDataTask">
+            <classpath>
+                <pathelement location="output/ant/classes"/>
+                <pathelement location="output/classes"/>
+                <pathelement location="output/classes-crudev"/>
+                <fileset dir="output/dist" includes="*.jar,lib/*.jar"/>
+            </classpath>
+        </taskdef>
+        <setup-dev-env fisheyeInst="output/dist_inst"/>
+    </target>
+
+    <target name="run" depends="dist,_license,dev-config">
+
+        <property name="fisheye.boot.classpath" value=""/>
+        <!-- remove the unpacked bundled plugins, so that they are replaced with
+              the most recent version -->
+        <delete dir="output/dist_inst/var/plugins/bundled" failonerror="false"/>
+
+        <mkdir dir="output/dist_cwd"/>
+        <java dir="output/dist_cwd"
+            jar="output/dist/fisheyeboot.jar"
+            fork="true">
+            <!--jvmarg value="-Dhttp.proxyHost=localhost"/>
+            <jvmarg value="-Dhttp.proxyPort=8888"/-->
+            <jvmarg value="-Dfisheye.inst=../dist_inst"/>
+            <jvmarg line="-ea"/>
+            <jvmarg line="-Djava.awt.headless=true"/>
+            <!--jvmarg line="-Djava.endorsed.dirs=../dist/lib/endorsed"/-->
+            <jvmarg line="-Xmx512m"/>
+            <jvmarg line="-Xms64m"/>
+            <jvmarg line="-XX:MaxPermSize=128m"/>
+            <jvmarg line="${run.debug.string}"/>
+
+            <jvmarg line="-Dcom.sun.management.jmxremote"/>
+
+            <!--<jvmarg line="-verbose:gc"/>-->
+
+<!--
+            <jvmarg line="-Xrunpri:startAudit=t,filter=D:\opt\Borland\JavaStudio\OptimizeitEntSuite\filters\DefaultAllOn.oif,pause=t"/>
+            <jvmarg line="-Xbootclasspath/a:D:\opt\Borland\JavaStudio\OptimizeitEntSuite\lib\oibcp.jar"/>
+            <jvmarg line="-Xbootclasspath/a:D:\opt\Borland\JavaStudio\OptimizeitEntSuite\lib\optit.jar"/>
+            <env key="PATH" value="${java.library.path};D:\opt\Borland\JavaStudio\OptimizeitEntSuite\lib\"/>
+-->
+
+            <jvmarg value="-Xbootclasspath/a:${java.home}/lib/tools.jar"/>
+            <jvmarg value="-Xbootclasspath/a:${java.home}/../lib/tools.jar:${fisheye.boot.classpath}"/>
+            <arg line="run"/>
+            <arg line="--debug-perf"/>
+            <arg line="--debug"/>
+<!--            <arg line="- -Xdisable-changelog-calendar"/>-->
+            <!--<arg line="- -Xdisable-content-indexing"/>-->
+            <!--<arg line="- -Xdisable-dirtree-empty-checks"/>-->
+<!--            <arg line="- -quiet"/>-->
+            <!--<arg line="- -Xno-slurp"/>-->
+<!--            <arg line="- -Xtab-width 4"/>-->
+        </java>
+    </target>
+
+    
+    <target name="stop">
+        <java dir="output/dist_inst"
+            jar="output/dist/fisheyeboot.jar"
+            fork="true"
+            >
+            <classpath>
+                <fileset dir="output/dist" includes="fisheye.jar,lib/*.jar"/>
+            </classpath>
+            <jvmarg value="-Xbootclasspath/p:${fisheye.boot.classpath}"/>
+            <arg line="stop --config config.xml"/>
+        </java>
+    </target>
+
+    <target name="crud">
+        <property name="crucible.debug" value="-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005"/>
+    </target>
+
+    <target name="debug.cru" depends="crud">
+        <antcall target="run.cru"/>
+    </target>
+
+    <target name="run.cru" depends="cru">
+        <if><isset property="crucible.debug"/><else><property name="crucible.debug" value=""/></else></if>
+        <antcall target="run">
+            <param name="run.debug.string" value="${crucible.debug}"/>
+        </antcall>
+    </target>
+
+    <target name="cru.createdb" depends="cru,dist,_license,dev-config">
+        <if><isset property="crucible.debug"/><else><property name="crucible.debug" value=""/></else></if>
+        <delete file="output/dist_inst/var/data/crudb/*" failonerror="true"/>
+        <antcall target="cru.run.helper">
+            <param name="className" value="com.cenqua.crucible.helpers.CreateDB" />
+            <param name="args" value="dbSchema.sql"/>
+        </antcall>
+    </target>
+
+    <target name="cru.querydb" depends="cru,dist,_license,dev-config">
+        <if><isset property="crucible.debug"/><else><property name="crucible.debug" value=""/></else></if>
+        <delete file="output/dist_inst/var/data/crudb/*" failonerror="true"/>
+        <antcall target="cru.run.helper">
+            <param name="className" value="com.cenqua.crucible.helpers.QueryDB" />
+        </antcall>
+    </target>
+
+    <target name="cru.storeMetricsConfig">
+        <if><isset property="crucible.debug"/><else><property name="crucible.debug" value=""/></else></if>
+        <antcall target="cru.run.helper">
+            <param name="className" value="com.cenqua.crucible.helpers.ManageMetricsConfig" />
+            <param name="args" value="new default-metrics-config.xml"/>
+        </antcall>
+    </target>
+
+    <target name="cru.getMetricsConfig">
+        <if><isset property="crucible.debug"/><else><property name="crucible.debug" value=""/></else></if>
+        <antcall target="cru.run.helper">
+            <param name="className" value="com.cenqua.crucible.helpers.ManageMetricsConfig" />
+            <param name="args" value="current"/>
+        </antcall>
+    </target>
+
+    <target name="cru.run.helper" depends="cru,dist,_license,dev-config">
+        <java dir="output/dist_inst"
+            fork="true"
+            classname="${className}"
+            >
+            <classpath>
+                <fileset dir="output/dist" includes="fisheye.jar,lib/*.jar"/>
+                <pathelement location="output/dist/fisheye.jar"/>
+            </classpath>
+            <jvmarg value="-Dfisheye.inst="/>
+            <jvmarg value="-Dfisheye.home=../dist"/>
+            <jvmarg line="${crucible.debug}"/>
+            <arg line="${args}"/>
+        </java>
+    </target>
+
+    <target name="clean">
+        <delete dir="output"/>
+        <delete dir="build"/>
+        <clover-clean />
+    </target>
+
+    <target name="clean.logs">
+        <delete dir="output/dist_inst/var/log/"/>
+    </target>
+
+    <target name="clean.cache">
+        <delete dir="output/dist_inst/var/cache"/>
+    </target>
+
+    <target name="clean.build">
+        <delete dir="build"/>
+        <delete includeemptydirs="true">
+          <fileset dir="output" includes="**/*" excludes="dist_inst/**"/>
+        </delete>
+    </target>
+
+    <target name="clean.web">
+        <delete includeemptydirs="true">
+            <fileset dir="output/dist" includes="**/*" excludes="output/dist/cache/**/*"/>
+        </delete>
+    </target>
+
+    <target name="run.setup" depends="dist">
+    </target>
+
+    <!--
+    TESTING
+    -->
+    <target name="with.clover">
+        <mkdir dir="output/clover"/>
+        <property name="coverage.db" value="output/clover/mycoverage.db"/>
+        <clover-setup>
+            <fileset dir="src" excludes="${clover.excludes}"/>
+        </clover-setup>
+    </target>
+
+    <target name="clover.historypoint" depends="with.clover">
+        <clover-historypoint historydir="${clover.historydir}" />
+    </target>
+
+    <target name="clover.snapshot" depends="with.clover">
+        <property name="clover.span" value="0s"/>
+        <clover-snapshot span="${clover.span}"/>
+    </target>
+
+    <property name="test.results.dir" value="output/test/report"/>
+
+    <target name="clover.report" depends="with.clover">
+        <property name="clover.span" value="0s"/>
+        <mkdir dir="output/test/report/clover"/>
+        <mkdir dir="output/test/report/clover/xml"/>
+        <mkdir dir="output/test/report/clover-hist"/>
+        <clover-historypoint historydir="${clover.historydir}" span="${clover.span}"/>
+        <clover-report>
+            <current outfile="${test.results.dir}/clover" span="${clover.span}">
+                <format type="html" showEmpty="true" srcLevel="true" orderby="ElementsUncoveredDesc"/>
+                <testsources dir="src" includes="tests*/*Test.java"/>
+            </current>
+            <current outfile="${test.results.dir}/clover/xml/clover.xml" span="${clover.span}">
+                <format type="xml"/>
+            </current>
+            <historical
+                outfile="${test.results.dir}/clover-hist"
+                historyDir="${clover.historydir}"
+                >
+                <format type="html" showEmpty="true"/>
+                <coverage/>
+                <overview/>
+                <metrics/>
+                <chart title="Uncovered versus Covered Elements" logScale="false">
+                    <columns>
+                            <coveredElements format="raw"/>
+                            <uncoveredElements format="raw"/>
+                    </columns>
+                </chart>
+                <added interval="1w" range="10"/>
+                <movers/>
+                <movers interval="1w" threshold="1%"/>
+            </historical>
+        </clover-report>
+    </target>
+
+    <target name="clover.pdf.report">
+      <clover-pdf-report outfile="${test.results.dir}/clover/report.pdf"
+			 historydir="etc/clover/hist"
+			 title="FishEye"/>
+    </target>
+
+    <target name="tests.report">
+        <mkdir dir="${test.results.dir}/html"/>
+        <junitreport todir="${test.results.dir}/html" >
+            <fileset dir="${test.results.dir}/results" includes="TEST-*.xml"/>
+            <report todir="${test.results.dir}/html"/>
+        </junitreport>
+
+    </target>
+
+    <target name="tests.check">
+        <fail if="junit.has.failures">There were junit errors/failures</fail>
+    </target>
+
+    <target name="test.repos" depends="_license" >
+        <delete dir="output/tmp/sanity1-cvs"/>
+        <mkdir dir="output/tmp/sanity1-cvs"/>
+        <unzip src="test/cvsrepos/sanity1.zip" dest="output/tmp/sanity1-cvs" />
+
+        <delete dir="output/tmp/sanity1-cvs2"/>
+        <mkdir dir="output/tmp/sanity1-cvs2"/>
+        <unzip src="test/cvsrepos/sanity2.zip" dest="output/tmp/sanity1-cvs2" />
+
+        <delete dir="output/tmp/sanity1"/>
+        <mkdir dir="output/tmp/sanity1"/>
+        <copy todir="output/tmp/sanity1">
+            <fileset dir="output/dist_inst/" includes="*.license"/>
+        </copy>
+
+    </target>
+
+    <property name="test.includes" value="**/*Test.java"/>
+    <property name="test.excludes" value=""/>
+    <property name="test.regression" value="**/regression/*Test.java"/>
+
+    <property name="test.printsummary" value="no"/>
+    <target name="compile.tests" depends="dist">
+        <mkdir dir="output/test/classes"/>
+        <javac destdir="output/test/classes" source="${source.level}" target="${jvm.level}" debug="true" encoding="UTF-8"
+                includeAntRuntime="no">
+            <src location="src/tests"/>
+            <src location="output/gensrc_test"/>
+            <classpath refid="build.classpath"/>
+            <classpath refid="test.classpath"/>
+            <classpath location="output/classes"/>
+        </javac>
+    </target>
+
+    <target name="content.test" depends="content">
+        <!-- copy fisheye content -->
+        <copy todir="output/dist/content">
+            <fileset dir="src/content-test"/>
+        </copy>
+    </target>
+
+    <target name="run.tests" depends="compile.tests,content.test,test.repos">
+        <mkdir dir="${test.results.dir}/results"/>
+        <!-- copy resources -->
+        <copy todir="output/test/classes">
+            <fileset dir="src/tests" includes="**/*.xml,**/*.ftl,**/*.properties"/>
+        </copy>
+
+        <junit forkmode="once" failureproperty="junit.has.failures" showoutput="${test.output}" printsummary="${test.printsummary}">
+            <jvmarg line="-Djava.awt.headless=true"/>
+            <jvmarg value="-Dp4.exe=${p4.exe}"/>
+            <jvmarg value="-Dp4d.exe=${p4d.exe}"/>
+            <jvmarg line="${junit.jvmargs}"/>
+
+            <!--<jvmarg line="-verbose:class"/>-->
+            <!-- Uncomment the line below to run tests in debug mode -->
+            <!--<jvmarg line="-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005"/>-->
+            <classpath refid="build.classpath"/>
+            <classpath refid="test.classpath"/>
+            <classpath location="output/test/classes"/>
+            <classpath location="output/classes"/>
+            <classpath location="${clover.jar}"/>
+            <classpath location="${ant.home}/lib/clover.jar"/>
+            <classpath location="${java.home}/../lib/tools.jar"/>
+
+            <batchtest fork="true" todir="${test.results.dir}/results">
+                <clover-optimized-testset optimize="${clover.optimize}">
+                    <fileset dir="src/tests" includes="${test.includes}" excludes="${test.excludes}"/>
+                </clover-optimized-testset>
+                <formatter type="xml"/>
+                <formatter type="plain"/>
+            </batchtest>
+        </junit>
+    </target>
+
+    <target name="run.selenium" depends="dist,compile.tests,test.repos">
+        <mkdir dir="output/test-ui-classes"/>
+        <javac destdir="output/test-ui-classes" source="${source.level}" target="${jvm.level}" debug="true" encoding="UTF-8"
+                includeAntRuntime="no">
+            <src location="src/test-ui"/>
+            <classpath refid="build.classpath"/>
+            <classpath refid="test.classpath"/>
+            <classpath refid="selenium.classpath"/>
+            <classpath location="output/classes"/>
+            <classpath location="output/test/classes"/>
+        </javac>
+
+        <mkdir dir="${test.results.dir}/ui-results"/>
+        <junit forkmode="once" failureproperty="junit.has.failures" showoutput="${test.output}" printsummary="${test.printsummary}">
+            <jvmarg line="${junit.jvmargs}"/>
+
+            <classpath refid="build.classpath"/>
+            <classpath refid="test.classpath"/>
+            <classpath refid="selenium.classpath"/>
+            <classpath location="output/test/classes"/>
+            <classpath location="output/classes"/>
+            <classpath location="output/test-ui-classes"/>
+            <classpath location="${clover.jar}"/>
+            <classpath location="${ant.home}/lib/clover.jar"/>
+
+            <batchtest fork="true" todir="${test.results.dir}/ui-results">
+                <fileset dir="src/test-ui" includes="**/CrucibleSeleniumTestHarness.java" />
+                <formatter type="xml"/>
+                <formatter type="plain"/>
+            </batchtest>
+        </junit>
+
+    </target>
+
+    <target name="prep.test.cru" depends="cru,code,compile.tests,content.test,test.repos">
+        <mkdir dir="output/test/classes"/>
+        <mkdir dir="${test.results.dir}/results"/>
+        <javac destdir="output/test/classes" source="${source.level}" target="${jvm.level}" debug="true" encoding="UTF-8"
+                includeAntRuntime="no">
+            <src location="src/tests-cru"/>
+            <classpath refid="build.classpath"/>
+            <classpath refid="test.classpath"/>
+            <classpath location="output/ant/classes"/>
+            <classpath location="output/classes"/>
+        </javac>
+        <!-- copy resources -->
+        <copy todir="output/test/classes">
+            <fileset dir="src/tests" includes="**/*.xml"/>
+            <fileset dir="src/tests-cru" includes="**/*.xml"/>
+        </copy>
+        <copy todir="test/cru-testfiles/upgradeScripts/sql">
+            <fileset dir="etc/dist-cru/sql" includes="**/*.sql"/>
+        </copy>
+    </target>
+
+    <target name="test.cru" depends="prep.test.cru">
+
+        <if><isset property="crucible.debug"/><else><property name="crucible.debug" value=""/></else></if>
+        <junit forkmode="once" dir="test/cru-testfiles" failureproperty="junit.has.failures" showoutput="${test.output}" printsummary="${test.printsummary}">
+            <jvmarg line="-Djava.awt.headless=true"/>
+            <jvmarg line="${crucible.debug}"/>
+            <jvmarg value="-Dp4.exe=${p4.exe}"/>
+            <jvmarg value="-Dp4d.exe=${p4d.exe}"/>
+            <jvmarg line="${junit.jvmargs}"/>
+            <classpath refid="build.classpath"/>
+            <classpath refid="test.classpath"/>
+            <classpath location="output/test/classes"/>
+            <classpath location="output/ant/classes"/>
+            <classpath location="output/classes"/>
+            <classpath location="${clover.jar}"/>
+            <classpath location="${ant.home}/lib/clover.jar"/>
+            <classpath location="${java.home}/../lib/tools.jar"/>
+            <classpath location="output/dist_inst"/>
+
+            <batchtest fork="true" todir="${test.results.dir}/results">
+                <clover-optimized-testset optimize="${clover.optimize}">
+                    <fileset dir="src/tests-cru" includes="${test.includes}" excludes="${test.excludes}"/>
+                </clover-optimized-testset>
+                <formatter type="xml"/>
+                <formatter type="plain" />
+            </batchtest>
+        </junit>
+    </target>
+
+    <target name="prep.test.cru.regression" depends="cru,code">
+        <mkdir dir="output/test/classes"/>
+        <mkdir dir="${test.results.dir}/results"/>
+        <javac destdir="output/test/classes" source="${source.level}" target="${jvm.level}" debug="true" encoding="UTF-8"
+                includeAntRuntime="no">
+            <src location="src/tests-cru-regression"/>
+            <classpath refid="build.classpath"/>
+            <classpath refid="test.classpath"/>
+            <classpath location="output/ant/classes"/>
+            <classpath location="output/classes"/>
+        </javac>
+        <!-- copy resources -->
+        <copy todir="output/test/classes">
+            <fileset dir="src/tests-cru" includes="**/*.xml"/>
+        </copy>
+    </target>
+
+    <target name="test.cru.regression" depends="prep.test.cru.regression" description="Run Crucible regression tests (requires a running Crucible instance">
+        <description>
+Running Crucible regression tests.
+
+Make sure a Crucible instance is running and the expected test results
+specified in test/cru-testfiles/regression/regression.properties match
+the contents of the database already loaded into Crucible.
+
+Specify the proper url, username and password to access Crucible in the
+above properties file, or override them using -Dresturl, -Drestuser and
+-Drestpass</description>
+        <property name="crucible.debug" value=""/>
+        <property name="resturl" value=""/>
+        <property name="restuser" value=""/>
+        <property name="restpass" value=""/>
+        <junit forkmode="once" failureproperty="junit.has.failures" showoutput="${test.output}" printsummary="${test.printsummary}">
+            <jvmarg line="-Djava.awt.headless=true"/>
+            <jvmarg line="${crucible.debug}"/>
+            <jvmarg value="-Drestuser=${restuser}"/>
+            <jvmarg value="-Drestpass=${restpass}"/>
+            <jvmarg value="-Dresturl=${resturl}"/>
+            <jvmarg line="${junit.jvmargs}"/>
+            <classpath refid="build.classpath"/>
+            <classpath refid="test.classpath"/>
+            <classpath location="output/test/classes"/>
+            <classpath location="output/ant/classes"/>
+            <classpath location="output/classes"/>
+            <classpath location="${clover.jar}"/>
+            <classpath location="${ant.home}/lib/clover.jar"/>
+            <classpath location="${java.home}/../lib/tools.jar"/>
+            <classpath location="output/dist_inst"/>
+
+            <batchtest fork="true" todir="${test.results.dir}/results">
+                <fileset dir="src/tests-cru-regression" includes="${test.regression}"/>
+                <formatter type="xml"/>
+                <formatter type="plain" />
+            </batchtest>
+        </junit>
+    </target>
+
+    <target name="jmeter.perf" depends="clean.logs, dist, test.repos"
+            description="Runs all jmeter test plans found in src/tests/perf/"
+            if="server.started">
+
+        <property name="jmeter.dir" location="${basedir}/output/tmp/jmeter"/>
+        <property name="jmeter.output" location="${jmeter.dir}/jmeter_perf.jtl"/>
+        <property name="jmeter.html" location="${jmeter.dir}/jmeter_perf.html"/>
+
+        <mkdir dir="${jmeter.dir}"/>
+        <unzip dest="${jmeter.dir}" src="${jmeter.zip}"/>
+        <path id="jmeter.classpath">
+            <fileset dir="${jmeter.dir}" includes="**/*.jar"/>
+        </path>
+        <taskdef name="jmeter"
+                         classname="org.programmerplanet.ant.taskdefs.jmeter.JMeterTask">
+                    <classpath refid="jmeter.classpath"/>
+        </taskdef>
+
+        <jmeter jmeterhome="${jmeter.dir}"
+                resultlog="${jmeter.output}"
+                forcebuildfailure="true">
+            <jvmarg value="-Djmeter.save.saveservice.output_format=xml"/>
+            <jvmarg value="-Djava.awt.headless=true"/>
+            <jvmarg value="-Djmeter.save.saveservice.assertion_results=all"/>
+            <property name="basedir" value="${jmeter.dir}"/>
+            <property name="host" value="192.168.0.113"/>
+            <testplans dir="${basedir}/src/tests/perf/" includes="*.jmx"/>
+        </jmeter>
+
+    </target>
+
+    <target name="jmeter" depends="clean.logs, dist, test.repos"
+            description="Runs all jmeter test plans found in src/tests/functional/">
+
+        <property name="jmeter.dir" location="${basedir}/output/tmp/jmeter"/>
+        <property name="jmeter.output" location="${jmeter.dir}/jmeter_functional.jtl"/>
+        <property name="jmeter.html" location="${jmeter.dir}/jmeter_functional.html"/>
+
+        <mkdir dir="${jmeter.dir}"/>
+        <unzip dest="${jmeter.dir}" src="${jmeter.zip}"/>
+        <path id="jmeter.classpath">
+            <fileset dir="${jmeter.dir}" includes="**/*.jar"/>
+        </path>
+
+        <tstamp>
+            <format pattern="yyyy-MM-dd" property="log.suffix"/>
+        </tstamp>
+
+        <parallel failonany="true">
+            <antcall target="run" inheritall="false">
+                <param name="dev.config" value="etc/dev/config.xml"/>
+                <param name="fisheye.boot.classpath" value="${clover.jar}"/>
+            </antcall>
+
+            <sequential>
+                <property name="server.log" location="${basedir}/output/dist_inst/var/log/fisheye-debug.log.${log.suffix}"/>
+                <echo message=" WAITING FOR: ${server.log}"/>
+                <property name="maxwait" value="60"/>
+                <waitfor maxwait="${maxwait}" checkevery="1" checkeveryunit="second"
+                         maxwaitunit="second"
+                         timeoutproperty="server.timeout">
+                    <and>
+                        <available file="${server.log}"/>
+                        <isfileselected file="${basedir}/output/dist_inst/var/log/fisheye-debug.log.${log.suffix}">
+                            <contains text="finished initial scan"
+                                      casesensitive="no"/>
+                        </isfileselected>
+                    </and>
+                </waitfor>
+                <fail if="server.timeout">Server not finished, scan within allotted ${maxwait}s. Consider increasing this value?</fail>
+
+                <taskdef name="jmeter"
+                         classname="org.programmerplanet.ant.taskdefs.jmeter.JMeterTask">
+                    <classpath refid="jmeter.classpath"/>
+                </taskdef>
+
+                <trycatch property="message">
+                    <try>
+                        <jmeter jmeterhome="${jmeter.dir}"
+                                resultlog="${jmeter.output}"
+                                forcebuildfailure="true">
+                            <jvmarg value="-Djmeter.save.saveservice.output_format=xml"/>
+                            <jvmarg value="-Djmeter.save.saveservice.assertion_results=all"/>
+                            <testplans dir="${basedir}/src/tests/functional/" includes="*.jmx"/>
+                        </jmeter>
+                    </try>
+                    <catch>
+                        <fail>Functional tests failed: ${message}</fail>
+                    </catch>
+                    <finally>
+                        <xslt in="${jmeter.output}"
+                              out="${jmeter.html}"
+                              style="${jmeter.dir}/extras/jmeter-results-report_21.xsl"/>
+                        <echo message=""/>
+                        <echo message="Jmeter results are stored in: ${jmeter.html}"/>
+                        <antcall target="stop">
+                            <param name="fisheye.boot.classpath" value="${clover.jar}"/>
+                        </antcall>
+                    </finally>
+                </trycatch>
+            </sequential>
+        </parallel>
+
+    </target>
+
+    <target name="run.ldap">
+        <property name="ldap.dir" location="test/apps/apacheds"/>
+        <property name="ldap.log4j.properties" value="${ldap.dir}/conf/log4j.properties"/>
+        <path id="ldap.path">
+            <fileset dir="${ldap.dir}/lib">
+                <include name="*.jar"/>
+            </fileset>
+            <fileset dir="${ldap.dir}/conf">
+                <include name="*.properties"/>
+            </fileset>
+        </path>
+        <java fork="true"
+              dir="${basedir}"
+              classname="org.apache.directory.server.UberjarMain"
+              classpathref="ldap.path">
+            <arg line="${ldap.dir}/conf/server.xml"/>
+            <jvmarg line="-Dlog4j.configuration=file://${ldap.log4j.properties}"/>
+            <jvmarg line="-Djava.net.preferIPv4Stack=true"/>
+        </java>
+    </target>
+
+    <!-- =================================================================== -->
+    <!-- Utility Stuff                                                       -->
+    <!-- =================================================================== -->
+
+  <target name="dbedit">
+      <java spawn="true" fork="true" classname="com.infinitydb.itemeditor.ItemEditor">
+        <classpath>
+          <pathelement path="output/dist/fisheye.jar"/>
+          <fileset dir="output/dist/lib" includes="*.jar"/>
+        </classpath>
+        <arg value="${infdb.jar}"/>
+      </java>
+  </target>
+
+    <target name="checkstyle" description="Run checkstyle over the entire source base and output errors to ...">
+
+        <taskdef resource="checkstyletask.properties">
+            <classpath>
+                <fileset refid="checkstyle.fileset"/>
+            </classpath>
+        </taskdef>
+
+        <checkstyle config="${checkstyle.dir}/config/sun_checks.xml" failOnViolation="false">
+            <fileset dir="src/java" includes="**/*.java"/>
+        </checkstyle>
+        <!-- simply use Sun checks for now. All errors are output as text
+        to stdout for best IDEA integration.
+
+        <property name="check.out" value="output/checkstyle"/>
+        <property name="check.xml" value="${check.out}/checkstyle_report.xml"/>
+        <mkdir dir="${check.out}"/>
+        <checkstyle config="${checkstyle.dir}/config/checkstyle_checks.xml" failOnViolation="false">
+            <formatter type="xml" tofile="${check.xml}"/>
+            <fileset dir="src/java" includes="**/*.java"/>
+            <property key="checkstyle.suppressions.file" value="${checkstyle.dir}/config/suppressions.xml"/>
+            <property key="translation.severity" value="error"/>
+            <property key="checkstyle.header.file" value="${checkstyle.dir}/config/java.header"/>
+            <property key="checkstyle.importcontrol.file" value="${checkstyle.dir}/config/import-control.xml"/>
+        </checkstyle>
+        <style in="${check.xml}" out="${check.out}/checkstyle_report.html" style="${checkstyle.dir}/xsl/checkstyle-noframes.xsl"/>
+        -->
+    </target>
+
+   <target name="reviewSOAPClient">
+      <java classname="org.apache.cxf.tools.wsdlto.WSDLToJava" fork="true">
+         <arg value="-client"/>
+          <arg value="-d"/>
+          <arg value="src/java"/>
+          <arg value="-p"/>
+          <arg value="com.atlassian.crucible.spi.rpc.review.client"/>
+         <arg value="reviewService.wsdl"/>
+         <classpath>
+            <fileset dir="/Users/tomd/Desktop/apache-cxf-2.0.3-incubator/lib" includes="*.jar"/>
+         </classpath>
+      </java>
+   </target>
+</project>

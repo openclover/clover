@@ -1,0 +1,94 @@
+#parse("html_res/adg/html-head.vm")
+
+#parse("html_res/adg/html-body-start-test.vm")
+
+
+#parse("html_res/adg/test-page-content-header.vm")
+
+<div class="aui-tabs horizontal-tabs">
+
+    #set ($currentHorizontalNav = "Results")
+    #parse("html_res/adg/pkg-tabs-menu.vm")
+
+    <div class="tabs-pane active-pane" id="tabs-first">
+
+        <div>&#160;</div>
+
+        #parse("html_res/adg/warnings.vm")
+        #parse("html_res/adg/test-noresults-warning.vm")
+
+        #set ($entityText = ${entity.name})
+        #set ($metrics = $entity.metrics)
+
+        #* render overall summary coverage graph *#
+        <table id="projectTestSummaryTable" class="aui">
+            <thead>
+                <tr>
+                    <th width="40%">$title</th>
+                    <th width="10%">Tests</th>
+                    <th width="10%">Fail</th>
+                    <th width="10%">Error</th>
+                    <th width="10%"><label title="The total time in seconds taken to run this set of tests.">Time</label></th>
+                    <th width="20%">% Pass</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>$entity.name</td>
+                    #parse("html_res/adg/test-result-summary.vm")
+                    <td>$renderUtil.format3d($metrics.testExecutionTime)</td>
+                    <td>
+                        #parse("html_res/adg/test-results-bar.vm")
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div>&#160;</div>
+
+        #* render summary of packages *#
+        #set ($title = "Package")
+        <table id="projectTestPackagesTable" class="aui aui-table-sortable">
+            <thead>
+                <tr>
+                    <th width="40%">$subtitle</th>
+                    <th width="10%">Tests</th>
+                    <th width="10%">Fail</th>
+                    <th width="10%">Error</th>
+                    <th width="10%"><label title="The total time in seconds taken to run this set of tests.">Time(secs)</label></th>
+                    <th width="20%">% Pass</th>
+                </tr>
+            </thead>
+            <tbody>
+
+#* render list of package coverage graphs *#
+#foreach ($childEntity in $entities)
+   #if ($showEmpty || $childEntity.metrics.numTests != 0)
+
+    #set ($entityText = ${$childEntity.name})
+     #set($entityName = $childEntity.name)
+
+    #if($childEntityType == "class")
+        #set ($entityLink = "${renderUtil.getTestClassLink(false, $childEntity)}")
+    #elseif($childEntityType == "package")
+        #set ($entityLink = "${renderUtil.getPkgURLPath($childEntity.name)}test-pkg-summary.html")
+    #end
+
+    #set($metrics = $childEntity.metrics)
+    <tr>
+        <td><span class="sortValue">$childEntity.name</span><a href="$entityLink">$entityName</a></td>
+        #parse("html_res/adg/test-result-summary.vm")
+        <td><span class="sortValue">$metrics.testExecutionTime</span>$renderUtil.format3d($metrics.testExecutionTime)</td>
+        <td>
+            #parse("html_res/adg/test-results-bar.vm")
+        </td>
+    </tr>
+   #end
+#end
+            </tbody>
+        </table>
+
+    </div> #* tabs-pane active-pane *#
+</div> #* aui-tabs horizontal-tabs *#
+
+#parse("html_res/adg/html-body-end.vm")

@@ -1,0 +1,74 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>@GROUP_ID@</groupId>
+    <artifactId>@ARTIFACT_ID@</artifactId>
+    <version>@VERSION@</version>
+    <name>Clover Ant</name>
+    <description>
+        Clover is an award winning code coverage and testing tool for Java and Groovy.
+        It integrates easily with Maven, Ant, Grails, Eclipse and IntelliJ IDEA
+        as well as with continuous integration servers such as Bamboo, Jenkins or Hudson.
+
+        Note: before Clover 4.0 this artifact was named com.cenqua.clover:clover.
+    </description>
+    <parent>
+        <groupId>com.atlassian.pom</groupId>
+        <artifactId>central-pom</artifactId>
+        <version>3.0.90</version>
+    </parent>
+    <url>http://atlassian.com/software/clover</url>
+    <packaging>jar</packaging>
+    <organization>
+        <name>Atlassian Pty Ltd</name>
+        <url>http://www.atlassian.com/</url>
+    </organization>
+    <issueManagement>
+        <system>jira</system>
+        <url>http://jira.atlassian.com/browse/CLOV</url>
+    </issueManagement>
+    <licenses>
+        <license>
+            <name>Apache License 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <scm>
+        <connection/>
+        <url/>
+    </scm>
+    <developers>
+        <developer>
+            <id>mparfianowicz</id>
+            <name>Marek Parfianowicz</name>
+            <email>mparfianowicz@atlassian.com</email>
+        </developer>
+        <developer>
+            <id>glewandowski</id>
+            <name>Grzegorz Lewandowski</name>
+            <email>glewndowski@atlassian.com</email>
+        </developer>
+    </developers>
+    <build>
+        <testSourceDirectory>test</testSourceDirectory>
+        <sourceDirectory>src</sourceDirectory>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-webdav</artifactId>
+                <version>1.0-beta-2</version>
+            </extension>
+        </extensions>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.sonatype.plugins</groupId>
+                    <artifactId>nexus-staging-maven-plugin</artifactId>
+                    <configuration>
+                        <autoReleaseAfterClose>false</autoReleaseAfterClose>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+</project>

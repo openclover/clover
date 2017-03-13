@@ -1,0 +1,246 @@
+#parse("html_res/adg/html-head.vm")
+
+#set ($bodyOnResize = "processTreeMapDashJson(treeMapJson);")
+#parse("html_res/adg/html-body-start.vm")
+
+#parse("html_res/adg/page-content-header.vm")
+
+<div class="aui-tabs horizontal-tabs">
+    #set ($currentHorizontalNav = "Dashboard")
+    #parse("html_res/adg/pkg-tabs-menu.vm")
+
+    <div class="tabs-pane active-pane" id="tabs-first">
+
+        <div>&#160;</div>
+
+
+#parse("html_res/adg/warnings.vm")
+
+#set ($colSpan = 2)
+#set ($configuredMetrics = $headerMetrics)
+#set ($projectMetrics = ${renderUtil.metricsFor($projectInfo)})
+
+<div class="aui-group">
+    <div class="aui-item">
+        <div class="dashboard-widget">
+            <header class="dashboard-widget-header">
+                $tpcColumn.init($configuredMetrics)
+                <h3>
+                    Code coverage
+                    <small style="float:right; font-weight: normal">
+                        $renderUtil.formatInt($configuredMetrics.numClasses) classes,
+                        $renderUtil.formatInt($configuredMetrics.numCoveredElements) /
+                        $renderUtil.formatInt($configuredMetrics.numElements) elements
+                    </small>
+                </h3>
+            </header>
+            <div class="dashboard-widget-content">
+                $tpcColumn.render()
+                <p><a href="pkg-summary.html">See more</a></p>
+            </div>
+        </div>
+
+        <div class="dashboard-widget">
+            <header class="dashboard-widget-header">
+                <h3>
+                    Test results
+                    <small style="float:right; font-weight: normal">
+                        $renderUtil.formatInt($projectMetrics.numTestPasses) /
+                        $renderUtil.formatInt($projectMetrics.numTests) tests
+                        $renderUtil.format2d($projectMetrics.testExecutionTime) secs
+                    </small>
+                </h3>
+            </header>
+            <div class="dashboard-widget-content">
+                #if($hasResults)
+                    #set ($metrics = $projectMetrics)
+                    #parse("html_res/adg/test-results-bar.vm")
+                    #set ($metrics = $null)
+                #else
+                    #set($colSpan = 1)
+                    #parse("html_res/adg/test-noresults-warning.vm")
+                #end
+                <p><a href="test-pkg-summary.html">See more</a></p>
+            </div>
+        </div>
+
+        <div class="dashboard-widget">
+            <header class="dashboard-widget-header">
+                <h3>Code metrics</h3>
+            </header>
+            #set ($showFilterToggle = false) ## hide text and button
+            #parse("html_res/adg/header-stats.vm")
+        </div>
+
+        #if ($chartInfoHistogram)
+        <div class="dashboard-widget">
+            <header class="dashboard-widget-header">
+                <h3>$chartInfoHistogram.title</h3>
+            </header>
+            <div class="dashboard-widget-content">
+                <div style="text-align: center"> ## center image on wide screen
+                    <img src="img/$chartInfoHistogram.name" alt="img/$chartInfoHistogram.name" usemap="#$chartInfoHistogram.name"/>
+                </div>
+                $chartInfoHistogram.imageMap
+            </div>
+        </div>
+        #end
+
+        #if ($chartInfoScatter)
+        <div class="dashboard-widget">
+            <header class="dashboard-widget-header">
+                <h3>$chartInfoScatter.title</h3>
+            </header>
+            <div class="dashboard-widget-content">
+                <div style="text-align: center">
+                    <img src="img/$chartInfoScatter.name" alt="img/$chartInfoScatter.name" usemap="#$chartInfoScatter.name"/>
+                </div>
+                $chartInfoScatter.imageMap
+            </div>
+        </div>
+        #end
+
+        #if (! $skipCoverageTreeMap)
+            <div class="dashboard-widget">
+                <header class="dashboard-widget-header">
+                    <h3>Coverage tree map</h3>
+                </header>
+                <div class="dashboard-widget-content">
+                    <div id="infovis" style="width:100%; height:250px;">
+                        <div id="treemap-loader" style="position:relative;top:50px;">
+                            <p>
+                                Generating Coverage Tree Map. Please wait...
+                            </p>
+                            <p>
+                                <img src="img/ajax-loader.gif" alt="Loading Treemap"/>
+                            </p>
+                        </div>
+                    </div>
+                    <p><a href="treemap.html">See more</a></p>
+                </div>
+
+            </div>
+        #end
+    </div>
+
+
+    <div class="aui-item">
+        <div class="dashboard-widget">
+            <header class="dashboard-widget-header">
+                <h3>Top $topRisks.size() project risks</h3>
+            </header>
+            <div class="dashboard-widget-content">
+                #foreach($class in $topRisks)
+                    #set($link = $renderUtil.getSrcFileLink(true, false, $class))
+                    #set($fontSize = $renderUtil.getFontSize($axisSize, $class, 12, 28))
+                    #set($title1 = "${axisSize.calculator.name} - ${axisSize.calculator.getFormattedValue($class)}")
+
+                    #set($color = $renderUtil.getColor($axisColor, $class))
+                    #set($title2 = "${axisColor.calculator.name} - ${axisColor.calculator.getFormattedValue($class)}")
+                    #if ($showSrc)
+                        <a class="tag" href="${link}"
+                            style="font-size: ${fontSize}px;color:#${color}"
+                            title="$title1 #if($title2), $title2 #end">$class.name</a>
+                    #else
+                        <span class="tag"
+                            style="font-size: ${fontSize}px;color:#${color}"
+                            title="$title1 #if($title2), $title2 #end">$class.name</span>
+                    #end
+                #end
+                <p><a href="top-risks.html">See more</a></p>
+            </div>
+        </div>
+
+        <div class="dashboard-widget">
+            <header class="dashboard-widget-header">
+                <h3>Most complex packages</h3>
+            </header>
+            <div class="dashboard-widget-content">
+                $tpcColumn.setFormat("shortbar")
+                <table class="aui">
+                    #foreach($pkg in $complexPkgs)
+                        #set($pkgMetrics = ${renderUtil.metricsFor($pkg)})
+                        $tpcColumn.init($pkgMetrics)
+                        #set($link = "${renderUtil.getPkgURLPath($pkg.name)}pkg-summary.html")
+                        <tr>
+                            <td>$velocityCount. </td>
+                            <td>$tpcColumn.render()</td>
+                            <td>
+                                <a href="${link}">$pkg.name</a>
+                                <span class="aui-badge" title="Package complexity">$pkgMetrics.complexity</span>
+                            </td>
+                        </tr>
+                    #end
+                </table>
+            </div>
+        </div>
+
+        <div class="dashboard-widget">
+            <header class="dashboard-widget-header">
+                <h3>Most complex classes</h3>
+            </header>
+            <div class="dashboard-widget-content">
+                <table class="aui">
+                    #foreach($class in $complexClasses)
+                        #set($classMetrics = ${renderUtil.metricsFor($class)})
+                        $tpcColumn.init($classMetrics)
+                        #set($link = $renderUtil.getSrcFileLink(true, false, $class))
+                        <tr>
+                            <td>$velocityCount. </td>
+                            <td>$tpcColumn.render()</td>
+                            <td>
+                                <a #if ($showSrc) href="${link}" #else class="nolink" #end title="$class.qualifiedName">$class.name</a>
+                                <span class="aui-badge" title="Class complexity">$classMetrics.complexity</span>
+                            </td>
+                        </tr>
+                    #end
+                </table>
+            </div>
+        </div>
+
+        #if ($showSrc)
+        <div class="dashboard-widget">
+            <header class="dashboard-widget-header">
+                <h3>Least tested methods</h3>
+            </header>
+            <div class="dashboard-widget-content">
+                <table class="aui">
+                    #foreach($method in $leastTestedMethods)
+                        #set($methodMetrics = ${renderUtil.metricsFor($method)})
+                        $tpcColumn.init($methodMetrics)
+
+                    <tr>
+                        <td align="right">${velocityCount}.</td>
+                        <td align="right">$tpcColumn.render()</td>
+                        <td>
+                            #if ($method.containingClass)
+                                #set($methodName = "${method.containingClass.name}.${method.name}")  <!-- normal method -->
+                            #else
+                                #if ($method.containingMethod)
+                                    #set($methodName = "${method.containingMethod.simpleName}.${method.name}") <!-- inner method -->
+                                #else
+                                    #set($methodName = "${method.name}") <!-- file method -->
+                                #end
+                            #end
+                          <a title="${renderUtil.htmlEscapeStr($methodName)}" href="$renderUtil.getMethodLink(true, $method)">$renderUtil.htmlEscapeStr($methodName)</a>
+                            <span class="aui-badge" title="Method complexity">$methodMetrics.complexity</span>
+
+                        </td>
+                    </tr>
+                    #end
+                </table>
+            </div>
+        </div>
+        #end
+
+    </div>
+</div>
+                            </div> <!-- tabs-pane active-pane -->
+                        </div>
+
+    <script type="text/javascript" src="jit.js" ></script>
+#if (!$skipCoverageTreeMap)
+    <script type="text/javascript" src="treemap-dash-json.js" ></script>
+#end
+
+#parse("html_res/adg/html-body-end.vm")
