@@ -37,9 +37,5 @@ Developer documentation:
 
 * [Clover Development Hub|https://confluence.atlassian.com/display/CLOVER/Clover+Development+Hub]
 
-Note: Binary files have been removed from repository history, they are now being fetched from Maven repositories.
-This repository can be used to build Clover 4.0 or higher. In case you need to build an older version, you will
-have to download binaries and put in appropriate places, as required by build scripts.
-
 
 Copyright @ 2002 - 2017 Atlassian Pty Ltd
