@@ -22,7 +22,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
  *
  * @see http://weblogs.java.net/blog/kohsuke/archive/2009/09/28/reading-stdin-may-cause-your-jvm-hang
  * @see https://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=94701
- * @see http://jira.atlassian.com/browse/CLOV-746
  **/
 public class PrematureLibraryLoader {
     public static final AtomicBoolean DONE = new AtomicBoolean(false);

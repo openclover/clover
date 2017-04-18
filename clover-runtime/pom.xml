@@ -22,8 +22,8 @@
         <url>http://openclover.org</url>
     </organization>
     <issueManagement>
-        <system>jira</system>
-        <url>http://jira.atlassian.com/browse/CLOV</url>
+        <system>Bitbucket</system>
+        <url>https://bitbucket.org/openclover/clover/issues</url>
     </issueManagement>
     <licenses>
         <license>
