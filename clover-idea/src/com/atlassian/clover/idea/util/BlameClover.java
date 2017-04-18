@@ -16,7 +16,7 @@ import java.net.URLEncoder;
 public class BlameClover extends ErrorReportSubmitter {
     @Override
     public String getReportActionText() {
-        return "Create error report in the Atlassian online issue tracker";
+        return "Create error report in the OpenClover online issue tracker";
     }
 
     @Override

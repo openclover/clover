@@ -7,7 +7,6 @@
     This script upgrades Clover Core / Clover for Ant with the latest version of third party libraries:
         * Annotations (JetBrains)
         * Antlr
-        * Atlassian Extras
         * Cajo
         * Commons Codec
         * Commons Collections

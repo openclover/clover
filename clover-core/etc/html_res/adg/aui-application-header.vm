@@ -11,7 +11,7 @@
         <div class="aui-header-inner">
             <div class="aui-header-primary">
                 <h1 id="logo" class="aui-header-logo aui-header-logo-clover">
-                    <a href="http://www.atlassian.com/clover" title="Open Atlassian Clover home page"><span class="aui-header-logo-device">Clover</span></a>
+                    <a href="http://openclover.org" title="Visit OpenClover home page"><span class="aui-header-logo-device">OpenClover</span></a>
                 </h1>
                 #if ($reportConfigLinkedReports.size() > 0)
                 <ul class="aui-nav">

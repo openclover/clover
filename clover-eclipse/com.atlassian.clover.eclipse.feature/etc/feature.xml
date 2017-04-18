@@ -3,7 +3,7 @@
 	id="com.atlassian.clover.eclipse.feature"
 	label="Clover 4 (for Eclipse 4.2 - 4.6 and RAD 9.0 - 9.1)"
 	version="@ECLIPSE_RELEASE_NUM@"
-	provider-name="Atlassian Pty. Ltd"
+	provider-name="OpenClover.org"
 	icon="clover32.png"
 	plugin="com.atlassian.clover.eclipse.branding">
 

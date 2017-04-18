@@ -152,10 +152,10 @@
             <manifest>
                 <attribute name="Specification-Title" value="Clover"/>
                 <attribute name="Specification-Version" value="${core.release.num}"/>
-                <attribute name="Specification-Vendor" value="Atlassian Pty. Ltd"/>
+                <attribute name="Specification-Vendor" value="OpenClover.org"/>
                 <attribute name="Implementation-Version"
                            value="${build.number.prefix}${build.number.string} ${build.date}"/>
-                <attribute name="Implementation-Vendor" value="Atlassian Pty. Ltd"/>
+                <attribute name="Implementation-Vendor" value="OpenClover.org"/>
             </manifest>
             <!-- add third party license files and the Atlassian Customer Agreement -->
             <fileset refid="clover-runtime.3rdparty.rights.fileset"/>

@@ -7,13 +7,13 @@ public class CloverVersionInfo {
 
     public static final String SANITIZED_RN = "@CORE_RELEASE_NUM_SANITISED@";
 
-    /** Main Atlassian web site */
-    public static final String ATLASSIAN_COM = "http://www.atlassian.com";
+    /** Main web site */
+    public static final String ATLASSIAN_COM = "http://openclover.org";
 
-    /** Main Atlassian Support Resources page */
-    public static final String ATLASSIAN_COM_SUPPORT_RESOURCES = "http://www.atlassian.com/resources/support";
+    /** Main Support Resources page */
+    public static final String ATLASSIAN_COM_SUPPORT_RESOURCES = "http://openclover.org/support";
 
-    /** Main Atlassian Clover web site */
+    /** Main Clover web site */
     public static final String CLOVER_URL ="@CLOVER_URL@";
 
     /** Help how to configure Clover license */

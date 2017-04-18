@@ -100,7 +100,7 @@ public class ConfigUninstaller {
                 } catch (MalformedURLException e) {
                     throw new ConfigUpdateAbortedException(
                         "Clover was unable to locate your Eclipse configuration directory.\n" +
-                        "No configuration updates were performed. Please contact Atlassian support - " + CloverVersionInfo.ATLASSIAN_COM_SUPPORT_RESOURCES,
+                        "No configuration updates were performed. Please contact support - " + CloverVersionInfo.ATLASSIAN_COM_SUPPORT_RESOURCES,
                         e);
                 }
 
@@ -108,7 +108,7 @@ public class ConfigUninstaller {
                 if (configArea == null || !configArea.exists() || !configArea.isDirectory() || !configArea.canWrite()) {
                     throw new ConfigUpdateAbortedException(
                         "Clover is unable to write to your Eclipse configuration directory.\n" +
-                        "No configuration updates were performed. Please contact Atlassian support - " + CloverVersionInfo.ATLASSIAN_COM_SUPPORT_RESOURCES);
+                        "No configuration updates were performed. Please contact support - " + CloverVersionInfo.ATLASSIAN_COM_SUPPORT_RESOURCES);
                 }
 
                 File configIni = new File(configArea, CONFIG_INI);
@@ -119,7 +119,7 @@ public class ConfigUninstaller {
                     || !configIni.canWrite()) {
                     throw new ConfigUpdateAbortedException(
                         "Clover is unable to write to your Eclipse configuration file \"config.ini\".\n" +
-                        "No configuration updates were performed. Please contact Atlassian support - " + CloverVersionInfo.ATLASSIAN_COM_SUPPORT_RESOURCES);
+                        "No configuration updates were performed. Please contact support - " + CloverVersionInfo.ATLASSIAN_COM_SUPPORT_RESOURCES);
                 }
 
                 try {
@@ -127,7 +127,7 @@ public class ConfigUninstaller {
                 } catch (Exception e) {
                     throw new ConfigUpdateFailedException(
                         "Clover encountered an error while updating Eclipse's conifg.ini.\n" +
-                        "Please contact Atlassian support - " + CloverVersionInfo.ATLASSIAN_COM_SUPPORT_RESOURCES,
+                        "Please contact support - " + CloverVersionInfo.ATLASSIAN_COM_SUPPORT_RESOURCES,
                         e);
                 }
 

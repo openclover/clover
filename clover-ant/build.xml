@@ -212,7 +212,7 @@
             <manifest>
                <attribute name="Specification-Title" value="Clover"/>
                <attribute name="Specification-Version" value="${core.release.num}"/>
-               <attribute name="Specification-Vendor" value="Atlassian Pty. Ltd"/>
+               <attribute name="Specification-Vendor" value="OpenClover.org"/>
                <attribute name="Implementation-Version"
                           value="${core.release.num}.${build.number.prefix}${build.number.string}.${build.stamp}"/>
             </manifest>
@@ -238,10 +238,10 @@
             <manifest>
                <attribute name="Specification-Title" value="Clover-Groovy-Integration"/>
                <attribute name="Specification-Version" value="${core.release.num}"/>
-               <attribute name="Specification-Vendor" value="Atlassian Pty. Ltd"/>
+               <attribute name="Specification-Vendor" value="OpenClover.org"/>
                <attribute name="Implementation-Version"
                           value="${build.number.prefix}${build.number.string} ${build.date}"/>
-                <attribute name="Implementation-Vendor" value="Atlassian Pty. Ltd"/>
+                <attribute name="Implementation-Vendor" value="OpenClover.org"/>
             </manifest>
             <fileset refid="clover-ant.etc.grover.fileset"/>
             <fileset dir="${groovy.image.dir}">
@@ -254,10 +254,10 @@
             <manifest>
                <attribute name="Specification-Title" value="Clover"/>
                <attribute name="Specification-Version" value="${core.release.num}"/>
-               <attribute name="Specification-Vendor" value="Atlassian Pty. Ltd"/>
+               <attribute name="Specification-Vendor" value="OpenClover.org"/>
                <attribute name="Implementation-Version"
                           value="${build.number.prefix}${build.number.string} ${build.date}"/>
-                <attribute name="Implementation-Vendor" value="Atlassian Pty. Ltd"/>
+                <attribute name="Implementation-Vendor" value="OpenClover.org"/>
             </manifest>
             <!-- add task definitions from cloverlib.xml etc -->
             <fileset refid="clover-ant.etc.fileset"/>

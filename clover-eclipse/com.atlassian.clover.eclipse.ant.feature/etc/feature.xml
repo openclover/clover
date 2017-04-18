@@ -2,7 +2,7 @@
 <feature id="com.atlassian.clover.eclipse.ant.feature"
          label="Clover 4 Ant Support (for Eclipse 4.2 - 4.6 and RAD 9.0 - 9.1)"
          version="@ECLIPSE_RELEASE_NUM@"
-         provider-name="Atlassian Pty. Ltd"
+         provider-name="OpenClover.org"
          icon="clover32.png"
          plugin="com.atlassian.clover.eclipse.ant">
     <description url="@CLOVER_URL@">@CLOVER_ANT_BLURB@</description>
