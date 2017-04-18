@@ -19,8 +19,7 @@
     <property name="clover-ant.pom.in" location="${clover-ant.base}/pom.xml"/>
     
     <property name="clover-ant.javadoc.api.output" value="${clover-ant.output}/javadoc/api"/>
-    <!-- how to upload documentation - see https://extranet.atlassian.com/x/7gXsfg -->
-    <property name="clover-ant.docs.site" value="uploads@docs-app.internal.atlassian.com:/var/www/domains/docs.atlassian.com/atlassian-clover/${core.release.num}"/>
+    <property name="clover-ant.docs.site" value="ftp.openclover.org:/doc/javadoc/${core.release.num}"/>
 
     <path id="testng.path" path="${build.deps.dir}/testng-6.8.21.jar;${build.deps.dir}/jcommander-1.27.jar"/>
 
@@ -212,7 +211,7 @@
             <manifest>
                <attribute name="Specification-Title" value="Clover"/>
                <attribute name="Specification-Version" value="${core.release.num}"/>
-               <attribute name="Specification-Vendor" value="Atlassian Pty. Ltd"/>
+               <attribute name="Specification-Vendor" value="OpenClover.org"/>
                <attribute name="Implementation-Version"
                           value="${core.release.num}.${build.number.prefix}${build.number.string}.${build.stamp}"/>
             </manifest>
@@ -238,10 +237,10 @@
             <manifest>
                <attribute name="Specification-Title" value="Clover-Groovy-Integration"/>
                <attribute name="Specification-Version" value="${core.release.num}"/>
-               <attribute name="Specification-Vendor" value="Atlassian Pty. Ltd"/>
+               <attribute name="Specification-Vendor" value="OpenClover.org"/>
                <attribute name="Implementation-Version"
                           value="${build.number.prefix}${build.number.string} ${build.date}"/>
-                <attribute name="Implementation-Vendor" value="Atlassian Pty. Ltd"/>
+                <attribute name="Implementation-Vendor" value="OpenClover.org"/>
             </manifest>
             <fileset refid="clover-ant.etc.grover.fileset"/>
             <fileset dir="${groovy.image.dir}">
@@ -254,10 +253,10 @@
             <manifest>
                <attribute name="Specification-Title" value="Clover"/>
                <attribute name="Specification-Version" value="${core.release.num}"/>
-               <attribute name="Specification-Vendor" value="Atlassian Pty. Ltd"/>
+               <attribute name="Specification-Vendor" value="OpenClover.org"/>
                <attribute name="Implementation-Version"
                           value="${build.number.prefix}${build.number.string} ${build.date}"/>
-                <attribute name="Implementation-Vendor" value="Atlassian Pty. Ltd"/>
+                <attribute name="Implementation-Vendor" value="OpenClover.org"/>
             </manifest>
             <!-- add task definitions from cloverlib.xml etc -->
             <fileset refid="clover-ant.etc.fileset"/>

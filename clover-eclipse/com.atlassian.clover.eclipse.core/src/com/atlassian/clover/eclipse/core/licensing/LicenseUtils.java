@@ -59,7 +59,7 @@ public class LicenseUtils {
         return
             "You can " + openLink(asLink) + GENERATE_LICENSE_LINK_TITLE + closeLink(asLink)
             + " (registration required)"
-            + " or you can " + openLink(asLink) + MY_LICENSE_LINK_TITLE + closeLink(asLink) + " on the Atlassian website.";
+            + " or you can " + openLink(asLink) + MY_LICENSE_LINK_TITLE + closeLink(asLink) + " on the website.";
     }
 
     private static String openLink(boolean asLink) {

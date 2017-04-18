@@ -29,11 +29,11 @@
  * For more information relating to Clover integration, please view the
  * <ul>
  * <li><a href="http://confluence.atlassian.com/x/FIREB">Clover for Ant User Guide</a>
- * <li><a href="http://confluence.atlassian.com/x/K4CDBQ">Clover for Maven2 User Guide</a>
+ * <li><a href="http://confluence.atlassian.com/x/K4CDBQ">Clover for Maven User Guide</a>
  * </ul>
  *
  * If you have any problems using this api, or feature requests please don't hesitate to
- * <a href="http://jira.atlassian.com/browse/CLOV">create a JIRA issue</a>.
+ * <a href="https://bitbucket.org/openclover/clover/issues">create an issue</a>.
  * @since 2.6.0
  */
 package com.atlassian.clover.api.ci;

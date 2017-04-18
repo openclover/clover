@@ -1,15 +1,14 @@
 <response>
     <version>
         <number>@IDEA_RELEASE_NUM@</number>
-        <downloadUrl>http://downloads.atlassian.com/software/clover/downloads/clover-idea-@CORE_RELEASE_NUM@.jar
+        <downloadUrl>http://openclover.org/download/openclover/clover-idea-@CORE_RELEASE_NUM@.jar
         </downloadUrl>
         <releaseNotes><![CDATA[<html><body>
-        <h1>Atlassian presents Clover @CORE_RELEASE_NUM@</h1>
-        Upgrading to Clover @CORE_RELEASE_NUM@ is free for all customers with active Clover software maintenance at date of launch.
+        <h1>OpenClover.org team proudly presents OpenClover @CORE_RELEASE_NUM@</h1>
         </body></html>
         ]]></releaseNotes>
         <releaseNotesUrl>
-            http://confluence.atlassian.com/display/CLOVER/Clover+@CORE_RELEASE_MAJOR_NUM@+Release+Notes
+            http://openclover.org/doc/openclover-@CORE_RELEASE_MAJOR_NUM@-release-notes.html
         </releaseNotesUrl>
     </version>
 </response>

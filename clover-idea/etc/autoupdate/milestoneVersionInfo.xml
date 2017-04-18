@@ -1,7 +1,7 @@
 <response>
 	<version>
 		<number>@IDEA_RELEASE_NUM@</number>
-		<downloadUrl>http://downloads.atlassian.com/software/clover/downloads/clover-idea-@IDEA_RELEASE_NUM@.jar</downloadUrl>
+		<downloadUrl>http://openclover.org/download/openclover/clover-idea-@IDEA_RELEASE_NUM@.jar</downloadUrl>
 		<releaseNotes><![CDATA[<html><body>
 		<h1>Milestone version of Clover for IDEA</h1>
 		This is a @IDEA_RELEASE_NUM@ milestone release of Clover for IDEA.
@@ -10,7 +10,7 @@
 		<p>
 		Thank you for helping improve Clover for IDEA - your feedback is important to us.<br>
 		If you experience any difficulties using this version, or have any suggestions as to how we can improve Clover,
-		<a href="http://jira.atlassian.com/browse/CLOV">please let us know</a>. 
+		<a href="https://bitbucket.org/openclover/clover/issues">please let us know</a>.
 		<p>
 		Main changes to the stable 3.1.0 version:
 		<ul><li>NADA yet
@@ -19,7 +19,7 @@
 		</body></html>
         ]]></releaseNotes>
 		<releaseNotesUrl>
-			http://jira.atlassian.com/secure/ReleaseNote.jspa?projectId=11772&amp;styleName=Html&amp;version=14700
+			http://openclover.org/documentation
 		</releaseNotesUrl>
 	</version>
 </response>

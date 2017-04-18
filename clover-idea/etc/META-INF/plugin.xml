@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE idea-plugin PUBLIC "" "http://plugins.intellij.net/plugin.dtd">
-<idea-plugin url="http://www.atlassian.com/software/clover/">
+<idea-plugin url="http://openclover.org">
 
-	<name>Atlassian Clover for IDEA</name>
+	<name>OpenClover for IDEA</name>
 	<id>com.atlassian.clover</id>
 	<description>
 		<![CDATA[<html>
@@ -16,29 +16,25 @@ all over the world.
 <br/><br/>
 <b>Resources</b><br/>
 Documentation is available online from
-<a href="http://confluence.atlassian.com/x/i4U3CQ">http://confluence.atlassian.com/display/CLOVER/Clover-for-IDEA</a>.
+<a href="http://openclover.org/documentation">http://openclover.org/documentation</a>.
 <br/>
-To activate this plugin, you will require a Clover license file, available from
-<a href="@CLOVER_LICENSE_URL@">MyAtlassian page</a>
-<br/><br/>
 <b>License</b><br/>
-Clover is licensed under the <a href="@CLOVER_LICENSE_AGREEMENT_URL@">Atlassian Customer Agreement</a>.
+Clover is licensed under the Apache License 2.0.
 	</html>]]>
 	</description>
 
 	<version>idea-@IDEA_RELEASE_NUM@</version>
-	<vendor email="sales@atlassian.com" logo="/icons/clover_tny.png" url="http://www.atlassian.com">Atlassian</vendor>
+	<vendor email="contact@openclover.org" logo="/icons/clover_tny.png" url="http://openclover.org">OpenClover.org</vendor>
     <!-- Compatible with IDEA 13.0.0 or higher (build 133.xx), see http://confluence.jetbrains.net/display/IDEADEV/Build+Number+Ranges -->
 	<idea-version since-build="133" />
 
 	<change-notes><![CDATA[<html>
-Atlassian Clover for IDEA version 4.0 brings redesigned HTML report. Read
-more about new features in the <a href="https://confluence.atlassian.com/display/CLOVER/Clover+Release+Notes">
-Clover Release Notes</a>
+OpenClover for IDEA version 4.2.0 is the first release based on the open-sourced code of Atlassian Clover(R).
+Read more about new features in the <a href="https://openclover.org/documentation">OpenClover Release Notes</a>
 <br><br>
 A number of other fixes and small improvements were introduced in bug-fix releases. See the
-<a href="https://confluence.atlassian.com/display/CLOVER/Clover-for-IDEA+Changelog">
-Clover-for-IDEA Changelog</a> for more details.
+<a href="https://openclover.org/documentation">
+changelog</a> for more details.
 </html>]]>
 	</change-notes>
 

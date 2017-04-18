@@ -58,9 +58,7 @@ public class ConfigureJvmPage extends WizardPage {
         Label argLabel = new Label(settings, SWT.NONE);
         argLabel.setText("Additional JVM arguments:");
         argLabel.setToolTipText(
-            "Supplies additional arguments to the the created Java Virtual Machine. " +
-            "You will normally not need to enter anything in this field unless directed to " +
-            "do so by Atlassian support staff.");
+            "Supplies additional arguments to the the created Java Virtual Machine. ");
 
         jvmArgsText = new Text(settings, SWT.BORDER);
         jvmArgsText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));

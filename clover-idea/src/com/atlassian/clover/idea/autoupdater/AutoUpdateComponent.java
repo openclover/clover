@@ -42,8 +42,8 @@ public class AutoUpdateComponent implements ApplicationComponent, Runnable, Pers
     private static final long INTERVAL = 24 * 60 * 60;
     private static final TimeUnit TIME_UNIT = TimeUnit.SECONDS;
 
-    public static final String STABLE_URL = "http://update.atlassian.com/clover-idea-plugin/latestStableVersion.xml";
-    public static final String MILESTONE_URL = "http://update.atlassian.com/clover-idea-plugin/latestMilestoneVersion.xml";
+    public static final String STABLE_URL = "http://openclover.org/update/latestStableVersion.xml";
+    public static final String MILESTONE_URL = "http://openclover.org/update/latestMilestoneVersion.xml";
     private final Logger LOG = Logger.getInstance("autoupdate");
 
     private ScheduledFuture<?> scheduledFuture;

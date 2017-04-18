@@ -15,15 +15,15 @@
         <artifactId>central-pom</artifactId>
         <version>3.0.90</version>
     </parent>
-    <url>http://atlassian.com/software/clover</url>
+    <url>http://openclover.org</url>
     <packaging>jar</packaging>
     <organization>
-        <name>Atlassian Pty Ltd</name>
-        <url>http://www.atlassian.com/</url>
+        <name>OpenClover.org</name>
+        <url>http://openclover.org</url>
     </organization>
     <issueManagement>
-        <system>jira</system>
-        <url>http://jira.atlassian.com/browse/CLOV</url>
+        <system>Bitbucket</system>
+        <url>https://bitbucket.org/openclover/clover/issues</url>
     </issueManagement>
     <licenses>
         <license>

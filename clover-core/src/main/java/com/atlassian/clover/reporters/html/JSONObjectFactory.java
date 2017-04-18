@@ -94,7 +94,6 @@ public class JSONObjectFactory {
         srcFileLines.add(srcFileLine);
         for (final LineRenderInfo info : renderInfos) {
             srcFileLine = newArrayList();
-            // TODO: remove these defensive checks. see http://jira.atlassian.com/browse/CLOV-329
             if (info == null) {
                 Logger.getInstance().debug("LineRenderInfo is null for file '" + name + "'.");
                 continue;
