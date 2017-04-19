@@ -44,7 +44,7 @@
     <target name="clover-buildutil.jar" depends="clover-buildutil.build">
         <mkdir dir="${clover-buildutil.output.classes}/META-INF/services"/>
         <echo
-            file="${clover-buildutil.output.classes}/META-INF/services/com.sun.mirror.apt.AnnotationProcessorFactory"
+            file="${clover-buildutil.output.classes}/META-INF/services/javax.annotation.processing.Processor"
             message="com.atlassian.clover.build.codegen.InstrumentationBindingAPF"/>
         <jar file="${clover-buildutil.jar}">
             <fileset dir="${clover-buildutil.output.classes}" excludes="com/atlassian/clover/test/*"/>
