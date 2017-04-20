@@ -98,26 +98,7 @@
         </copy>
     </target>
 
-    <target name="_clover-runtime.test.bindings.uptodate">
-        <uptodate property="bindings.uptodate" targetfile="${clover-runtime.output.gensources}/com/atlassian/clover/instr/Bindings.java">
-            <srcfiles dir="${clover-runtime.output.gensources}" includes="com_atlassian_clover/*.java"/>
-        </uptodate>
-    </target>
-
-    <target name="_clover-runtime.generate.bindings" depends="_clover-runtime.test.bindings.uptodate" unless="bindings.uptodate">
-        <mkdir dir="${clover-runtime.output.gensources}"/>
-        <delete file="${clover-runtime.output.gensources}/com/atlassian/clover/instr/Bindings.java"/>
-        <!--<apt nowarn="true"-->
-             <!--compile="false"-->
-             <!--preprocessdir="${clover-runtime.output.gensources}"-->
-             <!--classpath="${clover-buildutil.jar}:${clover.annotations.jar}:${repkg.clover.jar}">-->
-            <!--<src path="${clover-runtime.base}/src/main/java"/>-->
-            <!--<src path="${clover-runtime.output.gensources}"/>-->
-            <!--<include name="com_atlassian_clover/*.java"/>-->
-        <!--</apt>-->
-    </target>
-
-    <target name="clover-runtime.build" depends="_clover-runtime.version, _clover-runtime.generate.bindings">
+    <target name="clover-runtime.build" depends="_clover-runtime.version">
         <mkdir dir="${clover-runtime.output.classes}"/>
         <!-- Compile runtime classes -->
         <javac destdir="${clover-runtime.output.classes}"
