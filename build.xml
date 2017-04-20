@@ -12,9 +12,10 @@
         <attribute name="module"/>
         <attribute name="target"/>
         <sequential>
-            <subant target="@{module}.@{target}" inheritrefs="true" inheritall="true">
-                <dirset dir="." file="@{module}"/>
-            </subant>
+            <subant target="@{module}.@{target}"
+                    inheritrefs="true"
+                    inheritall="true"
+                    buildpath="@{module}"/>
         </sequential>
     </macrodef>
 
