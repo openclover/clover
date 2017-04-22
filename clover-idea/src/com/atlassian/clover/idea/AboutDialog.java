@@ -92,7 +92,8 @@ public class AboutDialog extends DialogWrapper {
     }
 
     private String getAcknowledgementsText() {
-        StringBuffer sb = new StringBuffer("<p>Clover makes use of the following 3rd party libraries:</p>");
+        StringBuffer sb = new StringBuffer("<p>OpenClover is based on open source code of Atlassian Clover&reg;</p>");
+        sb.append("<p>OpenClover makes use of the following 3rd party libraries:</p>");
         sb.append("<table width=\"100%\" border=\"0\" cellspacing=\"0\">");
         addRow(sb,
                 addProduct("Annotations (IntelliJ)", "http://www.jetbrains.com", "ANNOTATIONS-13.0-LICENSE.TXT"),
@@ -129,7 +130,7 @@ public class AboutDialog extends DialogWrapper {
                 addProduct("Velocity", "http://velocity.apache.org/", "VELOCITY-1.7-LICENSE.TXT"));
 
         addRow(sb,
-                "<td colspan=\"4\">Clover also reuses some icons from:</td>");
+                "<td colspan=\"4\">OpenClover also reuses some icons from:</td>");
         addRow(sb,
                 addProduct("IntelliJ IDEA", "http://www.jetbrains.com/", "INTELLIJ-9.0-ICONS-LICENSE.TXT"),
                 "<td colspan=\"2\">&nbsp;</td>");

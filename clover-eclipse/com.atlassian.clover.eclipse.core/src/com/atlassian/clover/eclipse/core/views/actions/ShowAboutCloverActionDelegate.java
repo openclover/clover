@@ -42,7 +42,7 @@ public class ShowAboutCloverActionDelegate extends CloverProjectActionDelegate {
         @Override
         protected void configureShell(Shell shell) {
             super.configureShell(shell);
-            shell.setText("About Clover Plugin for Eclipse");
+            shell.setText("About OpenClover Plugin for Eclipse");
         }
 
         @Override
@@ -123,10 +123,12 @@ public class ShowAboutCloverActionDelegate extends CloverProjectActionDelegate {
             ackComposite.setLayout(new GridLayout(2, false));
             ackComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
+            Label basedOn = new Label(ackComposite, SWT.NONE);
+            basedOn.setText("OpenClover is based on open source code of Atlassian Clover(R)");
+            SwtUtils.setHorizontalSpan(basedOn, 2);
+
             Label generalAck = new Label(ackComposite, SWT.NONE);
-            generalAck.setText(
-                "Clover makes use of the following 3rd party libraries:");
-            
+            generalAck.setText("OpenClover makes use of the following 3rd party libraries:");
             SwtUtils.setHorizontalSpan(generalAck, 2);
 
             linkAndLicense("Annotations (IntelliJ)", "http://www.jetbrains.com", "ANNOTATIONS-13.0-LICENSE.TXT", ackComposite);
