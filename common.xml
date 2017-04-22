@@ -7,12 +7,6 @@
     <!-- where to keep downloaded third party libraries -->
     <property name="build.deps.dir" location="${common.base}/target/dependencies"/>
 
-    <!-- path to mvn executable -->
-    <property name="path.to.mvn" value="mvn"/>
-
-    <!-- path to .m2/repository -->
-    <exec executable="${common.base}/maven_repo.sh" dir="${basedir}" outputproperty="mvn.repository"/>
-
     <!-- Load local environment settings -->
     <property file="build.properties"/>
 
