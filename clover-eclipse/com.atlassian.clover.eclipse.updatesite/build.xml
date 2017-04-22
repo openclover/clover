@@ -33,7 +33,7 @@
                 <fileset dir="${eclipse.updatesite.base}/etc" includes="UpgradingOpenSourceLibs.txt"/>
                 <!-- add all licences here for convenience (they're in specific jar files as well) -->
                 <fileset refid="clover-core.3rdparty.rights.fileset"/>
-                <fileset refid="clover-core.atlassian.rights.fileset"/>
+                <fileset refid="clover-core.openclover.rights.fileset"/>
                 <fileset refid="clover-eclipse.3rdparty.rights.fileset"/>
             </additional-resources>
         </make.updatesite>
