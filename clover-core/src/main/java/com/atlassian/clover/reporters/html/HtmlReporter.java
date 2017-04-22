@@ -669,7 +669,6 @@ public class HtmlReporter extends CloverReporter {
         copyStaticResource(templatePath, "img/ajax-loader.gif");
         copyStaticResource(templatePath, "img/back.gif");
         copyStaticResource(templatePath, "img/clover.ico");
-        copyStaticResource(templatePath, "img/clover_logo_and_caption.png");
         copyStaticResource(templatePath, "img/clover_logo_large.png");
         copyStaticResource(templatePath, "img/collapse.gif");
         copyStaticResource(templatePath, "img/expand.gif");
