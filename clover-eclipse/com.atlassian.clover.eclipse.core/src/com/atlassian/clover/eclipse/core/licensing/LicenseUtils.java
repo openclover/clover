@@ -95,22 +95,6 @@ public class LicenseUtils {
         return PREFS_TRAIL_LINK.equals(link);
     }
 
-    public static boolean isGenerateLicenseLinkText(String link) {
-        return GENERATE_LICENSE_LINK_TITLE.equals(link);
-    }
-
-    public static boolean isMyLicenseLinkText(String link) {
-        return MY_LICENSE_LINK_TITLE.equals(link);
-    }
-
-    public static String getGenerateLicenseLink() {
-        return CloverVersionInfo.CLOVER_GENERATE_LICENSE_URL;
-    }
-
-    public static String getMyLicenseLink() {
-        return CloverVersionInfo.CLOVER_LICENSE_URL;
-    }
-
     public static String calcInstallDateToken() {
         final long installDate = CloverPlugin.getInstance().getInstallationSettings().getInstallDate();
         try {
