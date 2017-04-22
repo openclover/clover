@@ -260,9 +260,9 @@
             </manifest>
             <!-- add task definitions from cloverlib.xml etc -->
             <fileset refid="clover-ant.etc.fileset"/>
-            <!-- add third party license files and the Atlassian Customer Agreement -->
+            <!-- add third party license files and the OpenClover license -->
             <fileset refid="clover-core.3rdparty.rights.fileset"/>
-            <fileset refid="clover-core.atlassian.rights.fileset"/>
+            <fileset refid="clover-core.openclover.rights.fileset"/>
             <!-- <fileset refid="clover-runtime.3rdparty.rights.fileset"/> not adding as they're also in clover-core -->
             <!-- add clover-ant classes and the grover.jar -->
             <fileset dir="${clover-ant.output.classes}">
@@ -323,10 +323,10 @@
             <fileset dir="${common.base}/etc/schema" includes="clover.xsd"/>
         </copy>
 
-        <!-- 3rd party rights files and Atlassian Customer Agreement -->
+        <!-- 3rd party rights files and the OpenClover license -->
         <copy todir="${clover-ant.output}/pkg">
             <fileset refid="clover-core.3rdparty.rights.fileset"/>
-            <fileset refid="clover-core.atlassian.rights.fileset"/>
+            <fileset refid="clover-core.openclover.rights.fileset"/>
         </copy>
 
         <!-- tutorial -->
