@@ -191,9 +191,12 @@ public class CIOptions implements Serializable {
          * arguments to the JVM process incorrectly on non-Windows operating systems - for example "[-Da=b c][-De=f]"
          * may be passed as "[-Da=b] [c] [-De=f]".</p>
          *
-         * <p>Set this value to <code>true</code> if the following conditions are met:<br/>
-         *  - you have Ant version older than 1.9.7<br/>
-         *  - you are not building on Windows platform</p>
+         * <p>Set this value to <code>true</code> if the following conditions are met:
+         * <ul>
+         *
+         *  <li>you have Ant version older than 1.9.7</li>
+         *  <li>you are not building on Windows platform</li>
+         * </ul>
          *
          * <p>Double quotes will not be added on Windows platform, even if the property is set to <code>true</code>.</p>
          *
