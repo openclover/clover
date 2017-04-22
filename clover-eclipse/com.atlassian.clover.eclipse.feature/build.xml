@@ -33,8 +33,8 @@
 			<fileset dir="${eclipse.feature.base}/etc/icons">
 				<include name="clover32.png"/>
 			</fileset>
-            <!-- copy Atlassian license; we don't need third party licences because it's a feature, not a plugin -->
-            <fileset refid="clover-core.atlassian.rights.fileset"/>
+            <!-- copy OpenClover license; we don't need third party licences because it's a feature, not a plugin -->
+            <fileset refid="clover-core.openclover.rights.fileset"/>
 		</copy>
 
 		<property name="clover.eclipse.feature.jar"

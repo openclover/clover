@@ -56,7 +56,7 @@
             </filterchain>
             <!-- package licences as well -->
             <fileset refid="clover-core.3rdparty.rights.fileset"/>
-            <fileset refid="clover-core.atlassian.rights.fileset"/>
+            <fileset refid="clover-core.openclover.rights.fileset"/>
         </copy>
 
         <copy todir="${eclipse.ant.output}/pkg" overwrite="true">
