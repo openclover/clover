@@ -18,12 +18,10 @@
 
     <property name="lib.dir" location="${common.base}/lib"/>
     <property name="repkg.clover.jar" location="${build.dir}/clover-repkg.jar"/>
-    <property name="clover.url" value="http://www.atlassian.com/software/clover"/>
+    <property name="clover.url" value="http://openclover.org"/>
     <property name="clover.help.url" value="http://confluence.atlassian.com/x/JAgQCQ"/>
-    <property name="clover.license.url" value="http://my.atlassian.com"/>
-    <property name="clover.license.agreement.url" value="http://www.atlassian.com/legal/customer-agreement"/>
-    <property name="clover.license.upgrade.url" value="http://www.atlassian.com/clover/renew"/>
-    <property name="clover.repository.url" value="ssh://hg@bitbucket.org/atlassian/clover"/>
+    <property name="clover.license.agreement.url" value="https://www.apache.org/licenses/LICENSE-2.0.html"/>
+    <property name="clover.repository.url" value="ssh://hg@bitbucket.org/openclover/clover"/>
     <!-- fail build if tests fail or have errors - defaults to not failing -->
     <property name="fail.if.notpass" value="false"/>
     <!-- whether to not download 3rd party jars if they already exist -->
@@ -107,9 +105,7 @@
 
     <filterset id="common.version.filterset">
         <filter token="CLOVER_URL" value="${clover.url}"/>
-        <filter token="CLOVER_LICENSE_URL" value="${clover.license.url}"/>
         <filter token="CLOVER_LICENSE_AGREEMENT_URL" value="${clover.license.agreement.url}"/>
-        <filter token="CLOVER_LICENSE_UPGRADE_URL" value="${clover.license.upgrade.url}"/>
         <filter token="CLOVER_HELP_URL" value="${clover.help.url}"/>
         <filter token="BUILD_DATE" value="${build.date}"/>
         <filter token="BUILD_STAMP" value="${build.stamp.aslong}"/>
@@ -287,7 +283,7 @@
             <hg command="tag" params="--force -m'@{kind} ${@{module}.@{kind}.tag}' ${@{module}.@{kind}.tag}"/>
             <!-- push changes to master repo; we're pushing directly to master repository on Bitbucket because
                  on Bamboo it would push to an agent's repository cache and we'd loose our tag -->
-            <hg command="push ssh://hg@bitbucket.org/atlassian/clover"/>
+            <hg command="push ssh://hg@bitbucket.org/openclover/clover"/>
         </sequential>
     </macrodef>
 

@@ -19,15 +19,6 @@ public class CloverVersionInfo {
     /** Help how to configure Clover license */
     public static final String CLOVER_LICENSE_CONFIGURATION_HELP_URL ="@CLOVER_HELP_URL@";
 
-    /** Page where you can see your Clover licences */
-    public static final String CLOVER_LICENSE_URL ="@CLOVER_LICENSE_URL@";
-
-    /** License renewal page */
-    public static final String CLOVER_LICENSE_UPGRADE_URL ="@CLOVER_LICENSE_UPGRADE_URL@";
-
-    /** Servlet for generating new license keys */
-    public static final String CLOVER_GENERATE_LICENSE_URL = "@CLOVER_URL@";
-
     /** Servlet for creating new JIRA issue */
     public static final String CLOVER_CREATE_ISSUE_URL = "https://bitbucket.org/openclover/clover/issues";
 

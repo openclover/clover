@@ -68,11 +68,11 @@ public class ViewAlertContainer extends Composite implements DatabaseChangeListe
         licenseFailureLink.addExplanationLinkListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent event) {
-                if (LicenseUtils.isGenerateLicenseLinkText(event.text)) {
+                /*if (LicenseUtils.isGenerateLicenseLinkText(event.text)) {
                     BrowserUtils.openExternalBrowser(LicenseUtils.getGenerateLicenseLink());
                 } else if (LicenseUtils.isMyLicenseLinkText(event.text)) {
                     BrowserUtils.openExternalBrowser(LicenseUtils.getMyLicenseLink());
-                } else if (LicenseUtils.isPreferencesLink(event.text)) {
+                } else */if (LicenseUtils.isPreferencesLink(event.text)) {
                     LicenseUtils.openLicensePreferencesPage(getShell());
                 }
             }

@@ -5,7 +5,6 @@ import com.atlassian.clover.CloverLicenseDecoder;
 import com.atlassian.clover.LicenseDecoderException;
 import com.atlassian.clover.idea.CloverPlugin;
 import com.atlassian.clover.idea.util.FileChooser;
-import com.atlassian.clover.idea.util.LicenseUtil;
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
 import com.intellij.openapi.vfs.VirtualFile;
 import com_atlassian_clover.CloverVersionInfo;
@@ -129,7 +128,7 @@ public class LicenseConfigPanel extends JPanel implements ActionListener {
         final String status;
 
         if (license.isExpired()) {
-            status = LicenseUtil.calcExpiryStatement(license);
+            status = "Your license has expired";
         } else {
             SimpleDateFormat df = new SimpleDateFormat("MMMM dd yyyy", Locale.US);
             long buildDate;
