@@ -26,8 +26,8 @@
 
 		<copy todir="${eclipse.legacy.output}/pkg" overwrite="true">
 			<fileset dir="${eclipse.legacy.base}/etc/icons" includes="clover32.png"/>
-            <!-- copy Atlassian license; we don't need third party licences because it's a feature, not a plugin -->
-            <fileset refid="clover-core.atlassian.rights.fileset"/>
+            <!-- copy OpenClover license; we don't need third party licences because it's a feature, not a plugin -->
+            <fileset refid="clover-core.openclover.rights.fileset"/>
 		</copy>
 
 		<manifest file="${eclipse.legacy.output}/manifest.mf">

@@ -20,7 +20,7 @@
         <include name="LICENSES.html"/>
     </fileset>
 
-    <fileset id="clover-core.atlassian.rights.fileset" dir="${clover-core.base}/etc">
+    <fileset id="clover-core.openclover.rights.fileset" dir="${clover-core.base}/etc">
         <include name="LICENSE.txt"/>
     </fileset>
 

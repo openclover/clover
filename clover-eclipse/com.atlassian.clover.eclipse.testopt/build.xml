@@ -80,9 +80,9 @@
                 <include name="icons/*.png"/>
                 <include name="icons/**/*.gif"/>
             </fileset>
-            <!-- add third party licences from clover-core and clover-eclipse-core as well as the Atlassian Customer Agreement -->
+            <!-- add third party licences from clover-core and clover-eclipse-core as well as the OpenClover license -->
             <fileset refid="clover-core.3rdparty.rights.fileset"/>
-            <fileset refid="clover-core.atlassian.rights.fileset"/>
+            <fileset refid="clover-core.openclover.rights.fileset"/>
             <fileset refid="clover-eclipse.3rdparty.rights.fileset"/>
         </copy>
 

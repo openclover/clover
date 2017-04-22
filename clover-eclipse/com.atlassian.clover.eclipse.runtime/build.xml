@@ -40,9 +40,9 @@
 
     <target name="eclipse.jarup" depends="eclipse.build">
         <copy todir="${eclipse.runtime.output}/pkg">
-            <!-- add third party licences from clover runtime as well as Atlassian Customer Agreement -->
+            <!-- add third party licences from clover runtime as well as the OpenClover license -->
             <fileset refid="clover-runtime.3rdparty.rights.fileset"/>
-            <fileset refid="clover-runtime.atlassian.rights.fileset"/>
+            <fileset refid="clover-runtime.openclover.rights.fileset"/>
             <!-- add plugin descriptors -->
             <fileset dir="${eclipse.runtime.base}/etc" includes="plugin.*"/>
             <filterchain>

@@ -132,7 +132,7 @@
                 <include name="icons/*.png"/>
                 <include name="icons/**/*.gif"/>
             </fileset>
-            <!-- We take clover-core.3rdparty.rights.fileset and clover-core.atlassian.rights.fileset from
+            <!-- We take clover-core.3rdparty.rights.fileset and clover-core.openclover.rights.fileset from
                  a clover.jar - see the <jar> task below -->
             <fileset refid="clover-eclipse.3rdparty.rights.fileset"/>
         </copy>

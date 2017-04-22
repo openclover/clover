@@ -20,7 +20,7 @@
         <include name="LICENSES.html"/>
     </fileset>
 
-    <fileset id="clover-runtime.atlassian.rights.fileset" dir="${clover-runtime.base}/src/main/resources">
+    <fileset id="clover-runtime.openclover.rights.fileset" dir="${clover-runtime.base}/src/main/resources">
         <include name="LICENSE.txt"/>
     </fileset>
 
@@ -138,9 +138,9 @@
                            value="${build.number.prefix}${build.number.string} ${build.date}"/>
                 <attribute name="Implementation-Vendor" value="OpenClover.org"/>
             </manifest>
-            <!-- add third party license files and the Atlassian Customer Agreement -->
+            <!-- add third party license files and the OpenClover license -->
             <fileset refid="clover-runtime.3rdparty.rights.fileset"/>
-            <fileset refid="clover-runtime.atlassian.rights.fileset"/>
+            <fileset refid="clover-runtime.openclover.rights.fileset"/>
             <!-- add clover-runtime classes as well as repackaged and stripped third party libraries -->
             <fileset dir="${clover-runtime.output.classes}"/>
         </jar>
