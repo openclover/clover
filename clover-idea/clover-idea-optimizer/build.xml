@@ -190,7 +190,7 @@
             <sysproperty key="idea.system.path" value="${clover-idea-optimizer.output}/test/system"/>
             <sysproperty key="cij.idea.expected.version" value="${idea.expected.version}"/>
             <sysproperty key="java.io.tmpdir" value="${temp.dir}"/>
-            <sysproperty key="idea.load.plugins.id" value="com.atlassian.clover"/>
+            <sysproperty key="idea.load.plugins.id" value="org.openclover.idea"/>
             <sysproperty key="java.library.path" value="${test.with.idea.home}/bin"/>
 
             <classpath>
