@@ -1,6 +1,6 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.atlassian.clover</groupId>
+    <groupId>org.openclover</groupId>
     <artifactId>clover-runtime</artifactId>
     <version>@VERSION@</version>
     <name>Clover Runtime</name>
