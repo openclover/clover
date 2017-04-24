@@ -1,38 +1,54 @@
 # About #
 
-This repository contains source code of Clover Core as well as its integrations: Clover-for-Ant, Clover-for-Eclipse
+This repository contains source code of OpenClover Core as well as its integrations: Clover-for-Ant, Clover-for-Eclipse
 and Clover-for-IDEA plugins. Sources are licensed under Apache 2.0 license.
 
 # Documentation #
 
-User documentation: http://confluence.atlassian.com/display/CLOVER/Clover+Documentation+Home
+User documentation:
 
-Developer guides: https://confluence.atlassian.com/display/CLOVER/Clover+Development+Hub
+* http://openclover.org/documentation
+* http://confluence.atlassian.com/display/CLOVER/Clover+Documentation+Home
 
-Support Knowledge Base: http://confluence.atlassian.com/display/CLOVERKB/Clover+Knowledge+Base+Home
+Developer guides:
 
-Atlassian Community forum: https://community.atlassian.com/t5/Clover/ct-p/clover
+* http://openclover.org/documentation
+* https://confluence.atlassian.com/display/CLOVER/Clover+Development+Hub
 
-Bug and feature tracker: https://jira.atlassian.com/browse/CLOV
+Support Knowledge Base:
 
-Download page: http://www.atlassian.com/software/clover/download
+* http://openclover.org/documentation
+* http://confluence.atlassian.com/display/CLOVERKB/Clover+Knowledge+Base+Home
 
-Source code: https://bitbucket.org/atlassian/clover
+Q&A forums:
+
+* Stackoverflow: https://stackoverflow.com/tags/clover
+* Atlassian Community https://community.atlassian.com/t5/Clover/ct-p/clover
+
+Bug and feature tracker:
+
+* https://bitbucket.org/openclover/clover/issues
+* https://jira.atlassian.com/browse/CLOV
+
+Download page:
+
+* http://openclover.org/downloads
+
+Source code:
+
+* https://bitbucket.org/openclover/clover
 
 See also:
 
-*  https://bitbucket.org/atlassian/gradle-clover-plugin
-*  https://bitbucket.org/atlassian/grails-clover-plugin
-*  https://bitbucket.org/atlassian/maven-clover2-plugin
-*  https://bitbucket.org/atlassian/clover-examples
+* https://bitbucket.org/openclover/clover-maven-plugin
+* https://bitbucket.org/openclover/gradle-clover-plugin
+* https://bitbucket.org/openclover/grails-clover-plugin
+* https://bitbucket.org/openclover/clover-examples
+* https://bitbucket.org/openclover/clover-aspectj-compiler
+* https://github.com/jenkinsci/clover-plugin
+* https://github.com/hudson3-plugins/clover-plugin
 
-
-# Contributing #
-
-In case you would like to contribute, please sign Atlassian Contributor License Agreement:
-
-* [Corporate CLA](https://na2.docusign.net/Member/PowerFormSigning.aspx?PowerFormId=e1c17c66-ca4d-4aab-a953-2c231af4a20b)
-* [Individual CLA](https://na2.docusign.net/Member/PowerFormSigning.aspx?PowerFormId=3f94fbdc-2fbe-46ac-b14c-5d152700ae5d)
-
+---
 
 Copyright @ 2002 - 2017 Atlassian Pty Ltd
+Copyright @ 2017 modifications by OpenClover.org
