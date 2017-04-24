@@ -3,7 +3,7 @@
 <idea-plugin url="http://openclover.org">
 
 	<name>OpenClover for IDEA</name>
-	<id>com.atlassian.clover</id>
+	<id>org.openclover.idea</id>
 	<description>
 		<![CDATA[<html>
 <b>Introduction</b><br/>
