@@ -95,7 +95,7 @@ limitations under the License.
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>com.atlassian.maven.plugins</groupId>
+                <groupId>org.openclover</groupId>
                 <artifactId>clover-maven-plugin</artifactId>
                 <configuration>
                     <cloverDatabase>${project.build.directory}/clover/db/clover.db</cloverDatabase>
