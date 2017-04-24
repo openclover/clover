@@ -34,10 +34,6 @@ class GroovySpockTest extends TestBase {
     /** Location of generated HTML report */
     protected File htmlReportDir
 
-    /** Location of the clover license file */
-    protected String cloverLicensePath = System.getProperty("clover.license.path",
-            new File(getFileProp("project.dir"), "etc/clover-development.license").absolutePath)
-
     /** Location of Spock framework JAR to test against */
     protected File spockJar
 
@@ -72,7 +68,6 @@ class GroovySpockTest extends TestBase {
             java -classpath
             ${calcCompilationClasspath([groovyAllJar.getAbsolutePath(), calcRepkgJarPath()])}
             ${remoteDebug}
-            -Dclover.license.path=${cloverLicensePath}
             com.atlassian.clover.reporters.html.HtmlReporter -i ${db.absolutePath} -o ${htmlReportDir} -a -e
         """)
     }

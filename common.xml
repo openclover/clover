@@ -13,7 +13,7 @@
     <property name="lib.dir" location="${common.base}/lib"/>
     <property name="repkg.clover.jar" location="${build.dir}/clover-repkg.jar"/>
     <property name="clover.url" value="http://openclover.org"/>
-    <property name="clover.help.url" value="http://confluence.atlassian.com/x/JAgQCQ"/>
+    <property name="clover.help.url" value="http://openclover.org/documentation"/>
     <property name="clover.license.agreement.url" value="https://www.apache.org/licenses/LICENSE-2.0.html"/>
     <property name="clover.repository.url" value="ssh://hg@bitbucket.org/openclover/clover"/>
     <!-- fail build if tests fail or have errors - defaults to not failing -->
@@ -197,9 +197,6 @@
     <!-- Compile against minimum supported Spock version TODO using 2.0 because groovy fails trying to load spock services -->
     <property name="spock.jar" location="${build.deps.dir}/spock-core-0.7-groovy-2.0.jar"/>
 
-    <!-- License key -->
-    <property file="${common.base}/etc/licensecert.properties"/>
-    <property name="clover.license.path" location="${common.base}/etc/clover-development.license"/>
     <property name="clover.logging.level" location="info"/> <!-- only 'debug' and 'verbose' will cause logging level to be set -->
 
     <!-- Test patterns -->
