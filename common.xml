@@ -297,25 +297,25 @@
     </target>
 
     <target name="prod.mvn.setup"
-            description="Configure properties for deployment to the Atlassian Central repository">
+            description="Configure properties for deployment to the OSSRH repository">
         <!-- No suffix for production builds-->
         <property name="core.release.suffix" value=""/>
         <!-- Signing all artefacts -->
         <property name="maven.deploy.goal" value="org.apache.maven.plugins:maven-gpg-plugin:1.4:sign-and-deploy-file"/>
-        <!-- Atlassian Central (releases) -->
-        <property name="maven.repositoryId" value="atlassian-central"/>
-        <property name="maven.url" value="https://maven.atlassian.com/central-staging"/>
+        <!-- OSS Sonatype (releases) -->
+        <property name="maven.repositoryId" value="ossrh"/>
+        <property name="maven.url" value="https://oss.sonatype.org/service/local/staging/deploy/maven2/"/>
     </target>
 
     <target name="dev.mvn.setup"
-            description="Configure properties for deployment to Atlassian Central Snapshots repository">
+            description="Configure properties for deployment to OSSRH Snapshots repository">
         <!-- SNAPSHOT suffix for development builds -->
         <property name="core.release.suffix" value="-SNAPSHOT"/>
-        <!-- No signing (we don't have proper PGP keys on BEAC; besides it's just a snapshot) -->
+        <!-- No signing (it's just a snapshot) -->
         <property name="maven.deploy.goal" value="org.apache.maven.plugins:maven-deploy-plugin:2.7:deploy-file"/>
-        <!-- Atlassian Central Snapshot -->
-        <property name="maven.repositoryId" value="atlassian-central-snapshot"/>
-        <property name="maven.url" value="https://maven.atlassian.com/content/repositories/atlassian-central-snapshot"/>
+        <!-- OSS Sonatype (snapshots) -->
+        <property name="maven.repositoryId" value="ossrh"/>
+        <property name="maven.url" value="https://oss.sonatype.org/content/repositories/snapshots"/>
     </target>
 
     <macrodef name="maven-deploy">
