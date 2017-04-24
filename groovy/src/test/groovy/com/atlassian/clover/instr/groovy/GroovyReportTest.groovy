@@ -117,7 +117,6 @@ class GroovyReportTest extends TestBase {
 
                 -Dclover.logging.level=verbose
                 -Djava.io.tmpdir=${System.getProperty("java.io.tmpdir")}
-                -Dclover.license.path=${System.getProperty("clover.license.path")}
                 -Djava.awt.headless=true
                 -classpath ${calcReportClasspath([workingDir.getAbsolutePath(), calcRepkgJarPath()].findAll { it != null }.toList())}
                 com.atlassian.clover.reporters.html.HtmlReporter -i ${db.absolutePath} -o ${reportDir.with { it.getParentFile(); it }.absolutePath}

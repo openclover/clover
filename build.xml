@@ -30,7 +30,7 @@
             <subtarget module="clover-ant" target="@{target}"/>
             <subtarget module="clover-eclipse" target="@{target}"/>
             <subtarget module="clover-idea" target="@{target}"/>
-            <subtarget module="perfmon" target="@{target}"/>
+            <!--<subtarget module="perfmon" target="@{target}"/>-->
         </sequential>
     </macrodef>
 
