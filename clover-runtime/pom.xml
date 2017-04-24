@@ -10,11 +10,6 @@
         It integrates easily with Maven, Ant, Grails, Eclipse and IntelliJ IDEA
         as well as with continuous integration servers such as Bamboo, Jenkins or Hudson.
     </description>
-    <parent>
-        <groupId>com.atlassian.pom</groupId>
-        <artifactId>central-pom</artifactId>
-        <version>3.0.90</version>
-    </parent>
     <url>http://openclover.org</url>
     <packaging>jar</packaging>
     <organization>
@@ -48,17 +43,4 @@
             <email>grzlew@gmail.com</email>
         </developer>
     </developers>
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.sonatype.plugins</groupId>
-                    <artifactId>nexus-staging-maven-plugin</artifactId>
-                    <configuration>
-                        <autoReleaseAfterClose>false</autoReleaseAfterClose>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-    </build>
 </project>

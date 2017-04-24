@@ -447,8 +447,6 @@
     <target name="clover-ant.prepare.pom">
         <copy file="${clover-ant.pom.in}" tofile="${clover-ant.pom}">
             <filterset>
-                <filter token="GROUP_ID" value="org.openclover"/>
-                <filter token="ARTIFACT_ID" value="clover"/>
                 <filter token="VERSION" value="${core.release.num}${core.release.suffix}"/>
             </filterset>
         </copy>

@@ -8,14 +8,14 @@
     <name>Clover Base POM</name>
     <version>1.0</version>
     <description>This POM is used by Ant build scripts to download dependencies from Maven.</description>
-    <url>http://atlassian.com/software/clover</url>
+    <url>http://openclover.org</url>
     <organization>
-        <name>Atlassian Pty Ltd</name>
-        <url>http://www.atlassian.com/</url>
+        <name>OpenClover.org</name>
+        <url>http://openclover.org</url>
     </organization>
     <issueManagement>
-        <system>jira</system>
-        <url>http://jira.atlassian.com/browse/CLOV</url>
+        <system>bitbucket</system>
+        <url>https://bitbucket.org/openclover/clover/issues</url>
     </issueManagement>
     <licenses>
         <license>
@@ -24,16 +24,21 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+    <scm>
+        <connection>scm:hg:ssh://hg@bitbucket.org/openclover/clover</connection>
+        <developerConnection>scm:hg:ssh://hg@bitbucket.org/openclover/clover</developerConnection>
+        <url>https://bitbucket.org/openclover/clover/src</url>
+    </scm>
     <developers>
         <developer>
-            <id>mparfianowicz</id>
+            <id>marek-parfianowicz</id>
             <name>Marek Parfianowicz</name>
-            <email>mparfianowicz@atlassian.com</email>
+            <email>marek.parfianowicz@gmail.com</email>
         </developer>
         <developer>
-            <id>glewandowski</id>
+            <id>grzlew</id>
             <name>Grzegorz Lewandowski</name>
-            <email>glewndowski@atlassian.com</email>
+            <email>grzlew@gmail.com</email>
         </developer>
     </developers>
 </project>
