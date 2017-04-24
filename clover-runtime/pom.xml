@@ -38,14 +38,14 @@
     </scm>
     <developers>
         <developer>
-            <id>mparfianowicz</id>
+            <id>marek-parfianowicz</id>
             <name>Marek Parfianowicz</name>
-            <email>mparfianowicz@atlassian.com</email>
+            <email>marek.parfianowicz@gmail.com</email>
         </developer>
         <developer>
-            <id>glewandowski</id>
+            <id>grzlew</id>
             <name>Grzegorz Lewandowski</name>
-            <email>glewndowski@atlassian.com</email>
+            <email>grzlew@gmail.com</email>
         </developer>
     </developers>
     <build>
