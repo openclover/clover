@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
 	id="com.atlassian.clover.eclipse.feature"
-	label="Clover 4 (for Eclipse 4.2 - 4.6 and RAD 9.0 - 9.1)"
+	label="OpenClover 4 (for Eclipse 4.2 - 4.6 and RAD 9.0 - 9.1)"
 	version="@ECLIPSE_RELEASE_NUM@"
 	provider-name="OpenClover.org"
 	icon="clover32.png"
@@ -14,7 +14,7 @@
 	<license url="@CLOVER_LICENSE_AGREEMENT_URL@">@CLOVER_CLICKWRAP_LICENSE@</license>
 
 	<url>
-		<update label="Clover 4 Update Site" url="@CLOVER_UPDATESITE_URL@"/>
+		<update label="OpenClover 4 Update Site" url="@CLOVER_UPDATESITE_URL@"/>
 	</url>
 
 	<plugin
