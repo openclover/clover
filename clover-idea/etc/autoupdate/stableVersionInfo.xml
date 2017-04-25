@@ -8,7 +8,7 @@
         </body></html>
         ]]></releaseNotes>
         <releaseNotesUrl>
-            http://openclover.org/doc/openclover-@CORE_RELEASE_MAJOR_NUM@-release-notes.html
+            http://openclover.org/doc/openclover-@CORE_RELEASE_NUM@-release-notes.html
         </releaseNotesUrl>
     </version>
 </response>
