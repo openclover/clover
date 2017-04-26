@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-	id="com.atlassian.clover.eclipse.feature"
+	id="org.openclover.eclipse.feature"
 	label="OpenClover 4 (for Eclipse 4.2 - 4.6 and RAD 9.0 - 9.1)"
 	version="@ECLIPSE_RELEASE_NUM@"
 	provider-name="OpenClover.org"
@@ -18,19 +18,19 @@
 	</url>
 
 	<plugin
-		id="com.atlassian.clover.eclipse.branding"
+		id="org.openclover.eclipse.branding"
 		version="@ECLIPSE_RELEASE_NUM@"
 		unpack="true"/>
 	<plugin
-		id="com.atlassian.clover.eclipse.core"
+		id="org.openclover.eclipse.core"
 		version="@ECLIPSE_RELEASE_NUM@"
 		unpack="false"/>
 	<plugin
-		id="com.atlassian.clover.eclipse.runtime"
+		id="org.openclover.eclipse.runtime"
 		version="@ECLIPSE_RELEASE_NUM@"
 		unpack="true"/>
 	<plugin
-		id="com.atlassian.clover.eclipse.testopt"
+		id="org.openclover.eclipse.testopt"
 		version="@ECLIPSE_RELEASE_NUM@"
 		unpack="false"/>
 

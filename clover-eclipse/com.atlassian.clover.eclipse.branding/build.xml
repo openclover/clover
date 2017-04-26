@@ -34,7 +34,7 @@
 			<attribute name="Bundle-ManifestVersion" value="2"/>
 			<attribute name="Bundle-Name" value="%pluginName"/>
 			<attribute name="Bundle-Vendor" value="%providerName"/>
-			<attribute name="Bundle-SymbolicName" value="com.atlassian.clover.eclipse.branding; singleton:=true"/>
+			<attribute name="Bundle-SymbolicName" value="org.openclover.eclipse.branding; singleton:=true"/>
 			<attribute name="Bundle-Version" value="${eclipse.release.num}"/>
 			<attribute name="Bundle-Localization" value="plugin"/>
 			<attribute name="Require-Bundle" value="org.eclipse.ui;bundle-version=&quot;${required.eclipse.version}&quot;, org.eclipse.core.runtime;bundle-version=&quot;${required.eclipse.version}&quot;"/>
@@ -43,7 +43,7 @@
 		</manifest>
 
 		<property name="clover.eclipse.legacy.jar"
-				  location="${eclipse.legacy.output}/../com.atlassian.clover.eclipse.branding_${eclipse.release.num}.jar"/>
+				  location="${eclipse.legacy.output}/../org.openclover.eclipse.branding_${eclipse.release.num}.jar"/>
 
 		<jar file="${clover.eclipse.legacy.jar}" manifest="${eclipse.legacy.output}/manifest.mf">
 			<zipfileset dir="${eclipse.legacy.output}/pkg"/>

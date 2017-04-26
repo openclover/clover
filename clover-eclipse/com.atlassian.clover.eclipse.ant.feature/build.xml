@@ -37,7 +37,7 @@
         </copy>
 
         <property name="clover.eclipse.feature.jar"
-                  location="${eclipse.ant.feature.output}/../com.atlassian.clover.eclipse.ant.feature_${eclipse.release.num}.jar"/>
+                  location="${eclipse.ant.feature.output}/../org.openclover.eclipse.ant.feature_${eclipse.release.num}.jar"/>
 
         <jar file="${clover.eclipse.feature.jar}">
             <zipfileset dir="${eclipse.ant.feature.output}"/>

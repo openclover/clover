@@ -10,7 +10,7 @@
     <property file="../common.properties"/>
 
     <property name="eclipse.ant.plugin.jar"
-              location="${eclipse.ant.output}/../com.atlassian.clover.eclipse.ant_${eclipse.release.num}.jar"/>
+              location="${eclipse.ant.output}/../org.openclover.eclipse.ant_${eclipse.release.num}.jar"/>
     <property name="eclipse.ant.clover.jar"
               location="${eclipse.ant.output}/pkg/clover-eclipse-ant.jar"/>
 
@@ -68,7 +68,7 @@
                 <attribute name="Bundle-ManifestVersion" value="2"/>
                 <attribute name="Bundle-Name" value="%pluginName"/>
                 <attribute name="Bundle-Vendor" value="%providerName"/>
-                <attribute name="Bundle-SymbolicName" value="com.atlassian.clover.eclipse.ant; singleton:=true"/>
+                <attribute name="Bundle-SymbolicName" value="org.openclover.eclipse.ant; singleton:=true"/>
                 <attribute name="Bundle-Version" value="${eclipse.release.num}"/>
                 <attribute name="Bundle-Localization" value="plugin"/>
                 <attribute name="Require-Bundle" value="org.eclipse.ant.core;bundle-version=&quot;${required.eclipse.ant.version}&quot;,org.apache.ant;bundle-version=&quot;${required.ant.version}&quot;,org.eclipse.equinox.preferences,org.eclipse.ui.workbench,org.eclipse.equinox.common,org.eclipse.osgi,org.eclipse.core.runtime"/>

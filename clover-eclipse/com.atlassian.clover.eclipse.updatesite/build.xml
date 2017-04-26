@@ -61,7 +61,7 @@
                 </filterchain>
 		    </copy>
 
-            <zip file="@{outputdir}/com.atlassian.clover.eclipse.updatesite_${eclipse.release.num}@{suffix}.zip">
+            <zip file="@{outputdir}/org.openclover.eclipse.updatesite_${eclipse.release.num}@{suffix}.zip">
                 <zipfileset dir="@{outputdir}" includes="site.xml"/>
                 <zipfileset prefix="features" dir="${eclipse.updatesite.output}/features" includes="*${eclipse.release.num}.jar"/>
                 <zipfileset prefix="plugins" dir="${eclipse.updatesite.output}/plugins" includes="*${eclipse.release.num}.jar"/>
