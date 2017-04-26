@@ -13,7 +13,7 @@
               location="${eclipse.runtime.output}/pkg/clover-runtime.jar"/>
 
     <property name="eclipse.runtime.plugin.jar"
-              location="${eclipse.runtime.output}/../com.atlassian.clover.eclipse.runtime_${eclipse.release.num}.jar"/>
+              location="${eclipse.runtime.output}/../org.openclover.eclipse.runtime_${eclipse.release.num}.jar"/>
 
     <target name="eclipse.init" depends="common.init">
         <mkdir dir="${eclipse.runtime.output}/pkg"/>
@@ -58,7 +58,7 @@
                 <attribute name="Bundle-ManifestVersion" value="2"/>
                 <attribute name="Bundle-Name" value="%pluginName"/>
                 <attribute name="Bundle-Vendor" value="%providerName"/>
-                <attribute name="Bundle-SymbolicName" value="com.atlassian.clover.eclipse.runtime; singleton:=true"/>
+                <attribute name="Bundle-SymbolicName" value="org.openclover.eclipse.runtime; singleton:=true"/>
                 <attribute name="Bundle-Version" value="${eclipse.release.num}"/>
                 <attribute name="Bundle-Activator" value="com.atlassian.clover.eclipse.runtime.CloverPlugin"/>
                 <attribute name="Bundle-Localization" value="plugin"/>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<feature id="com.atlassian.clover.eclipse.ant.feature"
+<feature id="org.openclover.eclipse.ant.feature"
          label="OpenClover 4 Ant Support (for Eclipse 4.2 - 4.6 and RAD 9.0 - 9.1)"
          version="@ECLIPSE_RELEASE_NUM@"
          provider-name="OpenClover.org"
@@ -11,5 +11,5 @@
     <url>
         <update label="OpenClover 4 Update Site" url="@CLOVER_UPDATESITE_URL@"/>
     </url>
-    <plugin id="com.atlassian.clover.eclipse.ant" version="@ECLIPSE_RELEASE_NUM@" unpack="true"/>
+    <plugin id="org.openclover.eclipse.ant" version="@ECLIPSE_RELEASE_NUM@" unpack="true"/>
 </feature>

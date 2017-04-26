@@ -11,7 +11,7 @@
     <property name="eclipse.core.output" location="${eclipse.plugins.output}/core"/>
 
     <property name="clover.eclipse.jar"
-              location="${eclipse.core.output}/../com.atlassian.clover.eclipse.core_${eclipse.release.num}.jar"/>
+              location="${eclipse.core.output}/../org.openclover.eclipse.core_${eclipse.release.num}.jar"/>
 
     <property file="../common.properties"/>
 
@@ -147,7 +147,7 @@
             <attribute name="Bundle-ManifestVersion" value="2"/>
             <attribute name="Bundle-Name" value="%pluginName"/>
             <attribute name="Bundle-Vendor" value="%providerName"/>
-            <attribute name="Bundle-SymbolicName" value="com.atlassian.clover.eclipse.core; singleton:=true"/>
+            <attribute name="Bundle-SymbolicName" value="org.openclover.eclipse.core; singleton:=true"/>
             <attribute name="Bundle-Version" value="${eclipse.release.num}"/>
             <attribute name="Bundle-Activator" value="com.atlassian.clover.eclipse.core.CloverPlugin"/>
             <attribute name="Bundle-Localization" value="plugin"/>
