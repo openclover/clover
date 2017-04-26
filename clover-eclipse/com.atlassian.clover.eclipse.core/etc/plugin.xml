@@ -229,10 +229,10 @@
 
 	<!-- bugaboo! unlike most extensions, this id needs to be fully qualified with plugin's id-->
 	<extension
-		id="com.atlassian.clover.eclipse.core.marker"
+		id="org.openclover.eclipse.core.marker"
 		point="org.eclipse.core.resources.markers"/>
 	<extension
-		id="com.atlassian.clover.eclipse.core.markers.problem"
+		id="org.openclover.eclipse.core.markers.problem"
 		name="Clover Instrumentation Problems"
 		point="org.eclipse.core.resources.markers">
 		<super type="org.eclipse.core.resources.problemmarker"/>
@@ -240,7 +240,7 @@
 		<persistent value="true"/>
 	</extension>
 	<extension
-		id="com.atlassian.clover.eclipse.core.markers.problem.staledb"
+		id="org.openclover.eclipse.core.markers.problem.staledb"
 		name="Clover Coverage Problems"
 		point="org.eclipse.core.resources.markers">
 		<super type="org.eclipse.core.resources.problemmarker"/>
@@ -266,9 +266,9 @@
 		name="Clover Project Nature"
 		point="org.eclipse.core.resources.natures">
 		<requires-nature id="org.eclipse.jdt.core.javanature"/>
-		<builder id="com.atlassian.clover.eclipse.core.prejavabuilder"/>
-		<builder id="com.atlassian.clover.eclipse.core.postjavabuilder"/>
-		<builder id="com.atlassian.clover.eclipse.core.nojavabuilder"/>
+		<builder id="org.openclover.eclipse.core.prejavabuilder"/>
+		<builder id="org.openclover.eclipse.core.postjavabuilder"/>
+		<builder id="org.openclover.eclipse.core.nojavabuilder"/>
 		<runtime>
 			<run class="com.atlassian.clover.eclipse.core.projects.CloverProject"/>
 		</runtime>
@@ -976,7 +976,7 @@
 			class="com.atlassian.clover.eclipse.core.ui.editors.cloud.CloudEditor"
 			icon="icons/clcl16/report_cloud.gif"
 			contributorClass="com.atlassian.clover.eclipse.core.ui.editors.cloud.CloudEditorContributor"
-			id="com.atlassian.clover.eclipse.core.editors.cloud"
+			id="org.openclover.eclipse.core.editors.cloud"
 			name="Clover Coverage Cloud Report"/>
 	</extension>
 
@@ -988,7 +988,7 @@
 		<editor
 			class="com.atlassian.clover.eclipse.core.ui.editors.treemap.TreemapEditor"
 			icon="icons/clcl16/report_treemap.gif"
-			id="com.atlassian.clover.eclipse.core.editors.treemap"
+			id="org.openclover.eclipse.core.editors.treemap"
 			name="Clover Coverage Treemap Report"/>
 	</extension>
 
@@ -999,7 +999,7 @@
 		point="org.eclipse.ui.propertyPages">
 		<page
 			class="com.atlassian.clover.eclipse.core.projects.settings.ProjectPropertyPage"
-			id="com.atlassian.clover.eclipse.core.properties.cloverProjectPropertyPage"
+			id="org.openclover.eclipse.core.properties.cloverProjectPropertyPage"
 			adaptable="true"
 			name="%clover.name"
 			objectClass="org.eclipse.core.resources.IProject">
@@ -1046,13 +1046,13 @@
               category="com.atlassian.clover.eclipse.core.cloverViews"
               class="com.atlassian.clover.eclipse.core.views.testrunexplorer.TestRunExplorerView"/>
 
-		<view id="com.atlassian.clover.eclipse.core.views.testcontributions"
+		<view id="org.openclover.eclipse.core.views.testcontributions"
 			  name="%testcontributions.name"
 			  icon="icons/cview16/clover.gif"
 			  category="com.atlassian.clover.eclipse.core.cloverViews"
 			  class="com.atlassian.clover.eclipse.core.views.testcontributions.TestContributionsView"/>
 			  
-	   <view id="com.atlassian.clover.eclipse.core.views.dashboard"
+	   <view id="org.openclover.eclipse.core.views.dashboard"
               name="%dashboardview.name"
               icon="icons/cview16/clover.gif"
               category="com.atlassian.clover.eclipse.core.cloverViews"
@@ -1547,7 +1547,7 @@
             <view id="com.atlassian.clover.eclipse.core.views.testrunexplorer"
                 relative="org.eclipse.ui.views.ProblemView"
                 relationship="stack"/>
-            <view id="com.atlassian.clover.eclipse.core.views.testcontributions"
+            <view id="org.openclover.eclipse.core.views.testcontributions"
                 relative="org.eclipse.ui.views.ContentOutline"
                 relationship="stack"/>
             <actionSet id="com.atlassian.clover.eclipse.core.launching.CloverActionSet"/>
@@ -1560,7 +1560,7 @@
             <view id="com.atlassian.clover.eclipse.core.views.testrunexplorer"
                 relative="org.eclipse.ui.views.ProblemView"
                 relationship="stack"/>
-            <view id="com.atlassian.clover.eclipse.core.views.testcontributions"
+            <view id="org.openclover.eclipse.core.views.testcontributions"
                 relative="org.eclipse.ui.views.ContentOutline"
                 relationship="stack"/>
             <actionSet id="com.atlassian.clover.eclipse.core.launching.CloverActionSet"/>
@@ -1573,7 +1573,7 @@
             <view id="com.atlassian.clover.eclipse.core.views.testrunexplorer"
                 relative="org.eclipse.ui.views.ProblemView"
                 relationship="stack"/>
-            <view id="com.atlassian.clover.eclipse.core.views.testcontributions"
+            <view id="org.openclover.eclipse.core.views.testcontributions"
                 relative="org.eclipse.ui.views.ContentOutline"
                 relationship="stack"/>
             <actionSet id="com.atlassian.clover.eclipse.core.launching.CloverActionSet"/>

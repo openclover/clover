@@ -5,7 +5,7 @@
 	version="@ECLIPSE_RELEASE_NUM@"
 	provider-name="OpenClover.org"
 	icon="clover32.png"
-	plugin="com.atlassian.clover.eclipse.branding">
+	plugin="org.openclover.eclipse.branding">
 
 	<description url="@CLOVER_URL@">@CLOVER_BLURB@</description>
 
