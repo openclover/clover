@@ -19,9 +19,9 @@ import java.net.URL;
  * with each other.
  */
 public class CloverAntPlugin extends AbstractUIPlugin {
-    public static final String ID = "com.atlassian.clover.eclipse.ant";
+    public static final String ID = "org.openclover.eclipse.ant";
     private static final String CLOVER_LICENSE_KEY = "clover_license";
-    private static final String CORE_ID = "com.atlassian.clover.eclipse.core";
+    private static final String CORE_ID = "org.openclover.eclipse.core";
 
     private static CloverAntPlugin INSTANCE;
 

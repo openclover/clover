@@ -54,7 +54,7 @@ public class CloverPlugin extends AbstractUIPlugin {
     /* Wait 10s after plugin start() completes before starting background processes */
     private static final long STARTUP_BACKOFF_DELAY = 10000;
 
-    public static final String ID = "com.atlassian.clover.eclipse.core";
+    public static final String ID = "org.openclover.eclipse.core";
 
     public static final IPath CLOVER_RUNTIME_VARIABLE = new Path("CLOVER_RUNTIME");
 

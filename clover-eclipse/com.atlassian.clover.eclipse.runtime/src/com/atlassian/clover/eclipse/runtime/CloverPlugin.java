@@ -4,7 +4,7 @@ import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
 
 public class CloverPlugin extends Plugin {
-    public static final String ID = "com.atlassian.clover.eclipse.runtime";
+    public static final String ID = "org.openclover.eclipse.runtime";
 
     public static CloverPlugin instance;
 
