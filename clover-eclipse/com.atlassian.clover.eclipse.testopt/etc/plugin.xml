@@ -129,7 +129,7 @@
 								type="org.eclipse.jdt.core.IJavaElement">
 								<test
 									property="org.eclipse.jdt.core.isInJavaProjectWithNature"
-									value="com.atlassian.clover.eclipse.core.clovernature"/>
+									value="org.openclover.eclipse.core.clovernature"/>
 								<test property="org.eclipse.jdt.core.isInJavaProject"/>
 								<test
 									property="org.eclipse.jdt.core.hasTypeOnClasspath"
@@ -157,7 +157,7 @@
 							<!--<adapt type="org.eclipse.jdt.core.IJavaElement">-->
 								<!--<test-->
 									<!--property="org.eclipse.jdt.core.isInJavaProjectWithNature"-->
-									<!--value="com.atlassian.clover.eclipse.core.clovernature"/>-->
+									<!--value="org.openclover.eclipse.core.clovernature"/>-->
 								<!--<test-->
 									<!--property="org.eclipse.jdt.core.isInJavaProjectWithNature"-->
 									<!--value="org.eclipse.pde.PluginNature"/>-->

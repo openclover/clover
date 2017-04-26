@@ -317,7 +317,7 @@
 				<and>
 					<objectState name="nature" value="org.eclipse.jdt.core.javanature"/>
 					<not>
-						<objectState name="nature" value="com.atlassian.clover.eclipse.core.clovernature"/>
+						<objectState name="nature" value="org.openclover.eclipse.core.clovernature"/>
 					</not>
 					<objectState name="open" value="true"/>
 				</and>
@@ -341,7 +341,7 @@
 			<visibility>
 				<and>
 					<objectState name="nature" value="org.eclipse.jdt.core.javanature"/>
-					<objectState name="nature" value="com.atlassian.clover.eclipse.core.clovernature"/>
+					<objectState name="nature" value="org.openclover.eclipse.core.clovernature"/>
 					<objectState name="open" value="true"/>
 				</and>
 			</visibility>
@@ -379,7 +379,7 @@
 			<visibility>
 				<and>
 					<objectState name="nature" value="org.eclipse.jdt.core.javanature"/>
-					<objectState name="nature" value="com.atlassian.clover.eclipse.core.clovernature"/>
+					<objectState name="nature" value="org.openclover.eclipse.core.clovernature"/>
 					<objectState name="open" value="true"/>
 				</and>
 			</visibility>
@@ -1081,7 +1081,7 @@
 			<enablement>
 				<and>
 					<objectClass name="org.eclipse.jdt.core.IJavaProject"/>
-					<objectState name="nature" value="com.atlassian.clover.eclipse.core.clovernature"/>
+					<objectState name="nature" value="org.openclover.eclipse.core.clovernature"/>
 				</and>
 			</enablement>
 		</decorator>
@@ -1242,7 +1242,7 @@
                      <adapt type="org.eclipse.jdt.core.IJavaElement">
                          <test
                              property="org.eclipse.jdt.core.isInJavaProjectWithNature"
-                             value="com.atlassian.clover.eclipse.core.clovernature"/>
+                             value="org.openclover.eclipse.core.clovernature"/>
                      </adapt>
                         <or>
                           <test property="org.eclipse.jdt.launching.hasMain"/>
@@ -1271,7 +1271,7 @@
                    <adapt type="org.eclipse.jdt.core.IJavaElement">
                        <test
                            property="org.eclipse.jdt.core.isInJavaProjectWithNature"
-                           value="com.atlassian.clover.eclipse.core.clovernature"/>
+                           value="org.openclover.eclipse.core.clovernature"/>
                    </adapt>
                       <or>
                         <test property="org.eclipse.jdt.launching.extendsClass" args="java.applet.Applet"/>
@@ -1300,7 +1300,7 @@
                                 type="org.eclipse.jdt.core.IJavaElement">
                                 <test
                                     property="org.eclipse.jdt.core.isInJavaProjectWithNature"
-                                    value="com.atlassian.clover.eclipse.core.clovernature"/>
+                                    value="org.openclover.eclipse.core.clovernature"/>
                                 <test property="org.eclipse.jdt.core.isInJavaProject"/>
                                 <test
                                     property="org.eclipse.jdt.core.hasTypeOnClasspath"
@@ -1328,7 +1328,7 @@
 							<adapt type="org.eclipse.jdt.core.IJavaElement">
 								<test
 									property="org.eclipse.jdt.core.isInJavaProjectWithNature"
-									value="com.atlassian.clover.eclipse.core.clovernature"/>
+									value="org.openclover.eclipse.core.clovernature"/>
 								<test
 									property="org.eclipse.jdt.core.isInJavaProjectWithNature"
 									value="org.eclipse.pde.PluginNature"/>
@@ -1352,7 +1352,7 @@
 							<adapt type="org.eclipse.jdt.core.IJavaElement">
 								<test
 									property="org.eclipse.jdt.core.isInJavaProjectWithNature"
-									value="com.atlassian.clover.eclipse.core.clovernature"/>
+									value="org.openclover.eclipse.core.clovernature"/>
 								<test
 									property="org.eclipse.jdt.core.isInJavaProjectWithNature"
 									value="org.eclipse.pde.PluginNature"/>

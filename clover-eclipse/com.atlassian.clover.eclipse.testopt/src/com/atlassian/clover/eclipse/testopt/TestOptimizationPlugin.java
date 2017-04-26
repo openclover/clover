@@ -21,7 +21,7 @@ import java.util.Collection;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 public class TestOptimizationPlugin extends AbstractUIPlugin {
-    public static final String ID = "com.atlassian.clover.eclipse.testopt";
+    public static final String ID = "org.openclover.eclipse.testopt";
     
     public static final String USE_DEFAULT_SETTINGS = ID + ".USE_DEFAULT_SETTINGS";
     public static final String SHOW_NO_TESTS_FOUND_DIALOG = ID + ".SHOW_NO_TESTS_FOUND_DIALOG";
