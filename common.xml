@@ -217,8 +217,8 @@
          <attribute name="params" default=""/>
          <attribute name="output" default="${build.dir}/hg.output"/>
          <sequential>
-             <echo message="Executing: 'hg @{command} @{params}' with output in @{output}"/>
-             <exec executable="hg" dir="${common.base}" failonerror="true" output="@{output}">
+             <echo message="Executing: '${path.to.hg} @{command} @{params}' with output in @{output}"/>
+             <exec executable="${path.to.hg}" dir="${common.base}" failonerror="true" output="@{output}">
                  <arg line="@{command} @{params}"/>
              </exec>
          </sequential>
