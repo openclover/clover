@@ -89,9 +89,9 @@
     <!-- version numbers for all packages -->
     <property name="build.number.prefix" value="build-"/> <!-- change this for branches, etc. -->
     <property name="build.number.string" value="dev"/> <!-- no build numbers for non-prod builds -->
-    <property name="core.release.base" value="4.2.0"/>
+    <property name="core.release.base" value="4.2.1"/>
     <!-- duplicated version number because @input does not support expressions :( -->
-    <propertyregex input="4.2.0"
+    <propertyregex input="4.2.1"
         property="core.release.num.sanitised"
         regexp="\W+"
         replace="_"
@@ -340,7 +340,7 @@
                 <arg value="-Dfile=@{file}"/>
                 <arg value="-Dsources=@{sourcesFile}"/>
                 <arg value="-Djavadoc=@{javadocFile}"/>
-                <arg value="-Dgpg.passphrase=${gpg.passphrase}"/>
+                <!--<arg value="-Dgpg.passphrase=${gpg.passphrase}"/>-->
                 <arg value="-f"/>
                 <arg value="@{pomFile}"/>
             </exec>
