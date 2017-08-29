@@ -1,7 +1,7 @@
 package com.atlassian.clover.idea;
 
 import com.atlassian.clover.idea.config.CloverGlobalConfig;
-import com.atlassian.clover.util.ClassPathUtil;
+import org.openclover.util.ClassPathUtil;
 import com.intellij.testFramework.IdeaTestCase;
 
 import java.io.File;

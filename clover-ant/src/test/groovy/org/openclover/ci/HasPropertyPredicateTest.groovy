@@ -1,4 +1,4 @@
-package com.atlassian.clover.ci
+package org.openclover.ci
 
 import clover.com.google.common.base.Predicate
 import org.junit.Test
@@ -7,12 +7,12 @@ import static org.junit.Assert.assertFalse
 import static org.junit.Assert.assertTrue
 
 /**
- * Test for {@link HasPropertyPredicate}
+ * Test for {@link org.openclover.ci.HasPropertyPredicate}
  */
 class HasPropertyPredicateTest {
 
     @Test
-    public void testHasPropertyPredicateWithD() {
+    void testHasPropertyPredicateWithD() {
         Predicate<String> predicate = new HasPropertyPredicate("abc")
         assertFalse(predicate.apply("abc"))       // does not have -D
         assertFalse(predicate.apply("-Dabczzz"))  // it has a wrong suffix
@@ -26,7 +26,7 @@ class HasPropertyPredicateTest {
     }
 
     @Test
-    public void testHasPropertyPredicateWithDefine() {
+    void testHasPropertyPredicateWithDefine() {
         // not that the predicate is stateful
         Predicate<String> predicate = new HasPropertyPredicate("abc")
         assertFalse(predicate.apply("abc"))       // no -D or --define before 'abc'

@@ -1,4 +1,4 @@
-package com.atlassian.clover.ci
+package org.openclover.ci
 
 import com.atlassian.clover.CloverNames
 import com.atlassian.clover.api.ci.CIOptions
@@ -7,10 +7,12 @@ import org.junit.Before
 import org.junit.Test
 
 import static clover.com.google.common.collect.Lists.newArrayList
-import static org.junit.Assert.*
+import static org.junit.Assert.assertEquals
+import static org.junit.Assert.assertFalse
+import static org.junit.Assert.assertTrue
 
 /**
- * Test for {@link com.atlassian.clover.ci.AntIntegrator}
+ * Test for {@link org.openclover.ci.AntIntegrator}
  */
 class AntIntegratorTest {
     List<String> args
@@ -78,21 +80,23 @@ class AntIntegratorTest {
 
     @Test
     void testDoNotPutValuesInDoubleQuotes() {
-        CIOptions options = new CIOptions.Builder().license(new File("/path to/clover.license")).putValuesInQuotes(false).build()
+        File licenseFile = new File("/path to/clover.license")
+        CIOptions options = new CIOptions.Builder().license(licenseFile).putValuesInQuotes(false).build()
 
-        assertArgument(options, "Linux", "-D${CloverNames.PROP_LICENSE_PATH}=/path to/clover.license")
-        assertArgument(options, "Mac OS X", "-D${CloverNames.PROP_LICENSE_PATH}=/path to/clover.license")
-        assertArgument(options, "windows 8.1", "-D${CloverNames.PROP_LICENSE_PATH}=/path to/clover.license")
+        assertArgument(options, "Linux", "-D${CloverNames.PROP_LICENSE_PATH}=${licenseFile.absolutePath}")
+        assertArgument(options, "Mac OS X", "-D${CloverNames.PROP_LICENSE_PATH}=${licenseFile.absolutePath}")
+        assertArgument(options, "windows 8.1", "-D${CloverNames.PROP_LICENSE_PATH}=${licenseFile.absolutePath}")
     }
 
     @Test
     void testPutValuesInDoubleQuotes() {
-        CIOptions options = new CIOptions.Builder().license(new File("/path to/clover.license")).putValuesInQuotes(true).build()
+        File licenseFile = new File("/path to/clover.license")
+        CIOptions options = new CIOptions.Builder().license(licenseFile).putValuesInQuotes(true).build()
 
-        assertArgument(options, "Linux", "-D${CloverNames.PROP_LICENSE_PATH}=\"/path to/clover.license\"")
-        assertArgument(options, "Mac OS X", "-D${CloverNames.PROP_LICENSE_PATH}=\"/path to/clover.license\"")
+        assertArgument(options, "Linux", "-D${CloverNames.PROP_LICENSE_PATH}=\"${licenseFile.absolutePath}\"")
+        assertArgument(options, "Mac OS X", "-D${CloverNames.PROP_LICENSE_PATH}=\"${licenseFile.absolutePath}\"")
         // do not add on windows, even if set to true
-        assertArgument(options, "windows 8.1", "-D${CloverNames.PROP_LICENSE_PATH}=/path to/clover.license")
+        assertArgument(options, "windows 8.1", "-D${CloverNames.PROP_LICENSE_PATH}=${licenseFile.absolutePath}")
     }
 
     private static void assertArgument(CIOptions options, String osName, String expectedArgument) {

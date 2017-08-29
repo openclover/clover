@@ -13,7 +13,7 @@ import com.atlassian.clover.Logger;
 import com.atlassian.clover.ant.AntLogger;
 import com.atlassian.clover.ant.tasks.AntInstrumentationConfig;
 import com.atlassian.clover.ant.tasks.TestSourceSet;
-import com.atlassian.clover.util.ClassPathUtil;
+import org.openclover.util.ClassPathUtil;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Javac;
@@ -26,7 +26,6 @@ import org.apache.tools.ant.types.PatternSet;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;

@@ -1,6 +1,6 @@
 package com.atlassian.clover;
 
-import com.atlassian.clover.util.ClassPathUtil;
+import org.openclover.util.ClassPathUtil;
 import com.atlassian.clover.util.format.ConsoleFormatter;
 import com_atlassian_clover.CloverVersionInfo;
 

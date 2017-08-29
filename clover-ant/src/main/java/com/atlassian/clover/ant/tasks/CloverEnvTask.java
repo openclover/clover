@@ -2,7 +2,7 @@ package com.atlassian.clover.ant.tasks;
 
 import com.atlassian.clover.PrematureLibraryLoader;
 import com.atlassian.clover.api.CloverException;
-import com.atlassian.clover.util.ClassPathUtil;
+import org.openclover.util.ClassPathUtil;
 import com_atlassian_clover.CloverVersionInfo;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Diagnostics;
