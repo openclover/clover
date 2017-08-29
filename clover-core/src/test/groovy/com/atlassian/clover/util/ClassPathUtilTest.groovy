@@ -1,12 +1,13 @@
 package com.atlassian.clover.util
 
 import org.junit.Test
+import org.openclover.util.ClassPathUtil
 
 import static org.junit.Assert.assertNotNull
 import static org.junit.Assert.assertTrue
 
 /**
- * Test for {@link com.atlassian.clover.util.ClassPathUtil}
+ * Test for {@link org.openclover.util.ClassPathUtil}
  */
 class ClassPathUtilTest {
 

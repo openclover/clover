@@ -1,7 +1,7 @@
-package com.atlassian.clover.ci;
+package org.openclover.ci;
 
 import com.atlassian.clover.Logger;
-import com.atlassian.clover.util.ClassPathUtil;
+import org.openclover.util.ClassPathUtil;
 import com.atlassian.clover.CloverNames;
 import com.atlassian.clover.api.ci.Integrator;
 import com.atlassian.clover.api.ci.CIOptions;

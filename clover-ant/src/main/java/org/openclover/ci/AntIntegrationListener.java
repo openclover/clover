@@ -1,8 +1,8 @@
-package com.atlassian.clover.ci;
+package org.openclover.ci;
 
 import com.atlassian.clover.ant.tasks.AntInstrumentationConfig;
 import com.atlassian.clover.ant.tasks.CloverEnvTask;
-import com.atlassian.clover.util.ClassPathUtil;
+import org.openclover.util.ClassPathUtil;
 import com.atlassian.clover.api.optimization.Optimizable;
 import com.atlassian.clover.optimization.LocalSnapshotOptimizer;
 import com.atlassian.clover.optimization.Snapshot;

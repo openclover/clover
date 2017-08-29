@@ -9,7 +9,7 @@ import com.atlassian.clover.idea.config.CloverGlobalConfig;
 import com.atlassian.clover.idea.config.IdeaXmlConfigConstants;
 import com.atlassian.clover.idea.config.IdeaCloverConfig;
 import com.atlassian.clover.idea.config.LicenseConfigPanel;
-import com.atlassian.clover.util.ClassPathUtil;
+import org.openclover.util.ClassPathUtil;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.Constraints;

@@ -1,6 +1,7 @@
-package com.atlassian.clover.util;
+package org.openclover.util;
 
 import com.atlassian.clover.api.CloverException;
+import com.atlassian.clover.util.FileUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

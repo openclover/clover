@@ -3,7 +3,7 @@ package com.atlassian.clover.idea.autoupdater;
 import com.atlassian.clover.Logger;
 import com.atlassian.clover.idea.util.l10n.CloverIdeaPluginMessages;
 import com.atlassian.clover.idea.util.NetUtil;
-import com.atlassian.clover.util.ClassPathUtil;
+import org.openclover.util.ClassPathUtil;
 import com.atlassian.clover.util.IOStreamUtils;
 import com.intellij.ide.startup.StartupActionScriptManager;
 import com.intellij.openapi.application.ApplicationManager;

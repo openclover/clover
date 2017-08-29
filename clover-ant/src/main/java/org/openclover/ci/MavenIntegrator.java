@@ -1,4 +1,4 @@
-package com.atlassian.clover.ci;
+package org.openclover.ci;
 
 import clover.com.google.common.collect.Iterables;
 import com.atlassian.clover.api.ci.CIOptions;
@@ -13,11 +13,10 @@ import static clover.com.google.common.collect.Sets.newHashSet;
 
 /**
  * A utility class that contains methods to assist in integrating clover into a CI server for Maven2 builds.
- *
  */
 public class MavenIntegrator implements Integrator {
 
-    static final String GROUP_ID = "com.atlassian.maven.plugins";
+    static final String GROUP_ID = "org.openclover";
     static final String ARTIFACT_ID = "clover-maven-plugin";
     static final String PREFIX = String.format("%s::%s:", GROUP_ID, ARTIFACT_ID);
 

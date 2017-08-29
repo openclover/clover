@@ -1,4 +1,4 @@
-package com.atlassian.clover.ci
+package org.openclover.ci
 
 import com.atlassian.clover.api.ci.CIOptions
 import com.atlassian.clover.api.ci.Integrator
@@ -10,7 +10,7 @@ import static org.hamcrest.CoreMatchers.not
 import static spock.util.matcher.HamcrestSupport.that
 
 /**
- * Test for {@link MavenIntegrator}
+ * Test for {@link org.openclover.ci.MavenIntegrator}
  */
 class MavenIntegratorSpec extends Specification {
 

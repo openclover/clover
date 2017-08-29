@@ -3,7 +3,7 @@ package com.atlassian.clover.ant.tasks;
 import com.atlassian.clover.ant.groovy.GroovycSupport;
 import com.atlassian.clover.CloverNames;
 import com.atlassian.clover.Logger;
-import com.atlassian.clover.util.ClassPathUtil;
+import org.openclover.util.ClassPathUtil;
 import org.apache.tools.ant.BuildException;
 import com.atlassian.clover.ant.taskdefs.CloverCompilerAdapter;
 import org.apache.tools.ant.types.PatternSet;

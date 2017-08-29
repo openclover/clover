@@ -14,7 +14,7 @@ import com.atlassian.clover.instr.tests.DefaultTestDetector;
 import com.atlassian.clover.instr.tests.FileMappedTestDetector;
 import com.atlassian.clover.instr.tests.NoTestDetector;
 import com.atlassian.clover.instr.tests.TestDetector;
-import com.atlassian.clover.util.ClassPathUtil;
+import org.openclover.util.ClassPathUtil;
 import com.atlassian.clover.util.FileUtils;
 import com.atlassian.clover.util.ReflectionUtils;
 import com_atlassian_clover.CloverVersionInfo;

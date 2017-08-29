@@ -1,4 +1,4 @@
-package com.atlassian.clover.ci;
+package org.openclover.ci;
 
 import clover.com.google.common.base.Predicate;
 

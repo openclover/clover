@@ -1,7 +1,7 @@
 package com.atlassian.clover.api.ci;
 
-import com.atlassian.clover.ci.MavenIntegrator;
-import com.atlassian.clover.ci.AntIntegrator;
+import org.openclover.ci.MavenIntegrator;
+import org.openclover.ci.AntIntegrator;
 
 import java.util.List;
 
