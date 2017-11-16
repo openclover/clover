@@ -50,7 +50,7 @@ import static clover.com.google.common.collect.Lists.newArrayList;
  *   &lt;/clover-log&gt;
  * </pre>
  *
- * See also <a href="http://confluence.atlassian.com/display/CLOVER/clover-log">http://confluence.atlassian.com/display/CLOVER/clover-log</a>
+ * See also <a href="http://openclover.org/doc/manual/4.2.0/ant--clover-log.html">http://openclover.org/doc/manual/4.2.0/ant--clover-log.html</a>
  * @since Clover 1.1
  */
 public class CloverLogTask extends AbstractCloverTask {
