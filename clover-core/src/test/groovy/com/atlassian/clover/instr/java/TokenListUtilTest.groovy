@@ -189,7 +189,7 @@ public class TokenListUtilTest {
     @Test
     public void testIgnoredJavadocTagsAndValues() {
         Map tags = Maps.newHashMap()
-        TokenListUtil.getJDocTagsOnComment(tags, "/** @param baz\n * @deprecated foo\n * @throws Exception\n * @see me\n * @serialField ABC\n * @serialData DATA\n * @author mstudman@atlassian.com\n * @since 2001\n * @version 1\n * @exception Exception\n */")
+        TokenListUtil.getJDocTagsOnComment(tags, "/** @param baz\n * @deprecated foo\n * @throws Exception\n * @see me\n * @serialField ABC\n * @serialData DATA\n * @author abc@def.ghi\n * @since 2001\n * @version 1\n * @exception Exception\n */")
         assertEquals(tags.size(), 0)
         tags.clear()
     }

@@ -31,9 +31,6 @@ public class AnnotationsInContexts {
 
     }
 
-    /**
-     * See https://jira.atlassian.com/browse/CLOV-1096
-     */
     public void inCatchClause() {
         try {
 
