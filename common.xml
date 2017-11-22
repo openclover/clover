@@ -89,9 +89,9 @@
     <!-- version numbers for all packages -->
     <property name="build.number.prefix" value="build-"/> <!-- change this for branches, etc. -->
     <property name="build.number.string" value="dev"/> <!-- no build numbers for non-prod builds -->
-    <property name="core.release.base" value="4.2.1"/>
+    <property name="core.release.base" value="4.2.2"/>
     <!-- duplicated version number because @input does not support expressions :( -->
-    <propertyregex input="4.2.1"
+    <propertyregex input="4.2.2"
         property="core.release.num.sanitised"
         regexp="\W+"
         replace="_"
