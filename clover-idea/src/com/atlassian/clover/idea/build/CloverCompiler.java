@@ -564,6 +564,7 @@ public class CloverCompiler implements JavaSourceTransformingCompiler {
 
     private static final Map<LanguageLevel, String> LANGUAGE_LEVEL_TO_STRING =
             new ImmutableMap.Builder<LanguageLevel, String>()
+                    .put(LanguageLevel.JDK_1_9, "1.9")
                     .put(LanguageLevel.JDK_1_8, "1.8")
                     .put(LanguageLevel.JDK_1_7, "1.7")
                     .put(LanguageLevel.JDK_1_6, "1.6")
@@ -575,7 +576,7 @@ public class CloverCompiler implements JavaSourceTransformingCompiler {
     @VisibleForTesting
     static String sourceLevelString(LanguageLevel languageLevel) {
         final String level = LANGUAGE_LEVEL_TO_STRING.get(languageLevel);
-        return level != null ? level : "1.8";
+        return level != null ? level : "1.9";
     }
 
     private void initCompiler() {
