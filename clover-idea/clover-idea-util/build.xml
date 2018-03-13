@@ -45,7 +45,7 @@
                includeAntRuntime="false">
             <classpath>
                 <path refid="clover-idea-util.libs"/>
-                <path refid="idea13.classpath"/>
+                <path refid="idea140.classpath"/>
             </classpath>
             <src path="${clover-idea-util.main.java}"/>
         </javac>
@@ -91,7 +91,7 @@
                includeAntRuntime="false">
             <classpath>
                 <path refid="clover-idea-util.testpath"/>
-                <path refid="idea13.classpath"/>
+                <path refid="idea140.classpath"/>
             </classpath>
             <src path="${clover-idea-util.base}/src/test/java"/>
         </javac>
@@ -126,34 +126,31 @@
 
     <!-- Set of tests for IDEAs with JDK1.6 -->
     <target name="clover-idea-util.test.jdk16" if="jdk16">
-        <test-idea-util home="${idea13.home}" reportID="idea13-jdk16" version="13.0"/>
+        <test-idea-util home="${idea140.home}" reportID="idea140-jdk16" version="14.0.5"/>
     </target>
 
     <target name="clover-idea-util.test.all.versions.jdk16" if="jdk16">
-        <test-idea-util home="${idea13.home}" reportID="idea13-jdk16" version="13.0"/>
-        <test-idea-util home="${idea140.home}" reportID="idea140-jdk16" version="14.0.4"/>
+        <test-idea-util home="${idea140.home}" reportID="idea140-jdk16" version="14.0.5"/>
         <test-idea-util home="${idea141.home}" reportID="idea141-jdk16" version="14.1.7"/>
     </target>
 
     <!-- Set of tests for IDEAs with JDK1.7 -->
     <target name="clover-idea-util.test.jdk17" if="jdk17">
-        <test-idea-util home="${idea13.home}" reportID="idea13-jdk17" version="13.0"/>
+        <test-idea-util home="${idea140.home}" reportID="idea140-jdk17" version="14.0.5"/>
     </target>
 
     <target name="clover-idea-util.test.all.versions.jdk17" if="jdk17">
-        <test-idea-util home="${idea13.home}" reportID="idea13-jdk17" version="13.0"/>
-        <test-idea-util home="${idea140.home}" reportID="idea140-jdk17" version="14.0.4"/>
+        <test-idea-util home="${idea140.home}" reportID="idea140-jdk17" version="14.0.5"/>
         <test-idea-util home="${idea141.home}" reportID="idea141-jdk17" version="14.1.7"/>
     </target>
 
     <!-- Set of tests for IDEAs with JDK1.8 -->
     <target name="clover-idea-util.test.jdk18" if="jdk18">
-        <test-idea-util home="${idea13.home}" reportID="idea13-jdk18" version="13.0"/>
+        <test-idea-util home="${idea140.home}" reportID="idea140-jdk18" version="14.0.5"/>
     </target>
 
     <target name="clover-idea-util.test.all.versions.jdk18" if="jdk18">
-        <test-idea-util home="${idea13.home}" reportID="idea13-jdk18" version="13.0"/>
-        <test-idea-util home="${idea140.home}" reportID="idea140-jdk18" version="14.0.4"/>
+        <test-idea-util home="${idea140.home}" reportID="idea140-jdk18" version="14.0.5"/>
         <test-idea-util home="${idea141.home}" reportID="idea141-jdk18" version="14.1.7"/>
     </target>
 
