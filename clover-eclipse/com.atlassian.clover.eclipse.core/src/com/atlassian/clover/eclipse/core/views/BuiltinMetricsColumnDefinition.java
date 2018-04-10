@@ -18,7 +18,7 @@ public abstract class BuiltinMetricsColumnDefinition
     extends BuiltinColumnDefinition
     implements NumericColumnDefinition {
     
-    protected static final Double NOT_AVAILABLE_DOUBLE = new Double(-1.0d);
+    protected static final Double NOT_AVAILABLE_DOUBLE = -1.0d;
 
     private final MetricsComparator appOnlyComparator = new MetricsComparator(MetricsScope.APP_ONLY);
     private final MetricsComparator testOnlyComparator = new MetricsComparator(MetricsScope.TEST_ONLY);

@@ -492,7 +492,7 @@ public class TestRunExplorerView extends ExplorerView {
             @Override
             public TestCaseNode newNode(TestCaseInfo tci, IMethod method) {
                 synchronized (testCaseNodeCache) {
-                    Integer hashCode = new Integer(tci.hashCode());
+                    Integer hashCode = tci.hashCode();
                     TestCaseNode tcn = (TestCaseNode) testCaseNodeCache.get(hashCode);
                     if (tcn == null) {
                         tcn = new TestCaseNode(method, tci);
