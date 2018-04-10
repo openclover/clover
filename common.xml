@@ -166,26 +166,17 @@
     <!-- Conditions checking if we have JDK == 1.X. Useful for designing tests for specific platform. -->
     <!-- Note: we don't use ${ant.java.version} because currently used Ant version doesn't detect JDK 1.7 -->
 
-    <condition property="jdk16" description="We have JDK 1.6 exactly">
+    <condition property="jdk8" description="We have JDK8 exactly">
         <and>
-            <available classname="java.util.Deque"/>
+            <available classname="java.lang.FunctionalInterface"/>
             <not>
-                <available classname="java.util.concurrent.Phaser"/>
+                <available classname="java.lang.StackWalker"/>
             </not>
         </and>
     </condition>
 
-    <condition property="jdk17" description="We have JDK 1.7 exactly">
-        <and>
-            <available classname="java.util.concurrent.Phaser"/>
-            <not>
-                <available classname="java.lang.FunctionalInterface"/>
-            </not>
-        </and>
-    </condition>
-
-    <condition property="jdk18" description="We have JDK 1.8 exactly">
-        <available classname="java.lang.FunctionalInterface"/>
+    <condition property="jdk9" description="We have JDK9 exactly">
+        <available classname="java.lang.StackWalker"/>
     </condition>
 
     <property name="junit.jar" location="${build.deps.dir}/junit-4.12.jar"/>
