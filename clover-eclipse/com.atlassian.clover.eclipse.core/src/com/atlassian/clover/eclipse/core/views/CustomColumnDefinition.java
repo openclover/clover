@@ -102,12 +102,12 @@ public class CustomColumnDefinition
         BlockMetrics metrics = scope.getMetricsFor(element);
         if (metrics != null) {
             try {
-                Double result = new Double(
-                    format == CustomColumnDefinition.RAW_FORMAT
+                Double result = format == CustomColumnDefinition.RAW_FORMAT
                         ? calculate(metrics)
-                        : calculate(metrics) / 100.0d);
+                        : calculate(metrics) / 100.0d;
                 return (result.isNaN() || result.isInfinite()) ? NOT_AVAILABLE_DOUBLE : result;
             } catch (Exception e) {
+                // swallow
             }
         }
         return NOT_AVAILABLE_DOUBLE;

@@ -25,7 +25,7 @@ public class BuiltinPcMetricsColumnDefinition extends BuiltinMetricsColumnDefini
         return
             value.equals(NOT_AVAILABLE_DOUBLE)
                 ? NOT_AVAILABLE_DOUBLE
-                : new Double(value.doubleValue()/100);
+                : Double.valueOf(value.doubleValue()/100);
     }
 
     @Override

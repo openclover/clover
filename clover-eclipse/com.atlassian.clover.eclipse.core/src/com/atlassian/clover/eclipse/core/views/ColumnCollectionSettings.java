@@ -29,7 +29,7 @@ public class ColumnCollectionSettings
 
     private static final String COL_WIDTH_SUFFIX = ".width";
 
-    private static final Integer DEFAULT_CUSTOM_COLUMN_WIDTH = new Integer(100);
+    private static final Integer DEFAULT_CUSTOM_COLUMN_WIDTH = 100;
     
     private List<ColumnDefinition> allBuiltinColumns;
     private Map<String, ColumnDefinition> allColumnsById;

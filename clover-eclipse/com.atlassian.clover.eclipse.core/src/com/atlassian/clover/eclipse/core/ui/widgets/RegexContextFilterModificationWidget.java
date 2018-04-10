@@ -334,6 +334,6 @@ public class RegexContextFilterModificationWidget extends Composite {
                 }
             }
         }
-        return MessageFormat.format(template, new Long(maxIndex + 1));
+        return MessageFormat.format(template, maxIndex + 1);
     }
 }

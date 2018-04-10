@@ -33,7 +33,7 @@ public class Markers {
         MarkerUtilities.createMarker(
             resource,
             new HashMap() {
-                {put(IMarker.SEVERITY, new Integer(severity));}
+                {put(IMarker.SEVERITY, severity);}
                 {put(IMarker.MESSAGE, message);}
             }, markerId);
     }
