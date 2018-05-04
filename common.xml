@@ -28,7 +28,7 @@
     <path id="java.tools.path" path="${java.tools.path}"/>
 
     <!-- Default Groovy version. Use the latest available. -->
-    <property name="default.groovy.version" value="2.2.2"/> <!-- TODO can't use 2.3.0+ because dumpAST() fails -->
+    <property name="default.groovy.version" value="2.4.15"/> <!-- TODO can't use 2.3.0+ because dumpAST() fails -->
     <!-- Versions which does not work due to Groovy bugs:
        1.6.8, 1.6.9 - globalSliceEnd from finally block is not called (wrong bytecode is produced by groovyc)
        1.6.2, 1.6.3, 1.6.4 - Clover works fine, but testImplicitReturnsArePreserved fails because "switch as expression"
