@@ -424,27 +424,6 @@ public class CommandLineArgProcessors {
         }
     };
 
-    @Deprecated //TODO Drop since 5.1 CLOV-1795
-    public static ArgProcessor Style = new ArgProcessor() {
-        @Override
-        public boolean matches(String[] args, int i) {
-            return args[i].equals("--style");
-        }
-
-        @Override
-        public int process(String[] args, int i, Current cfg) {
-            Logger.getInstance().warn("--style option is deprecated and will be removed in next major release. " +
-                    "Currently has no effect. Since Clover 4.1.0 classic HTML report is not available anymore " +
-                    "and ADG version will be generated.");
-            return i;
-        }
-
-        @Override
-        public String help() {
-            return "--style <string>\\t\\tdeprecated, won't have any effect \\n\\n";
-        }
-    };
-
     public static ArgProcessor Title = new ArgProcessor() {
         @Override
         public boolean matches(String[] args, int i) {

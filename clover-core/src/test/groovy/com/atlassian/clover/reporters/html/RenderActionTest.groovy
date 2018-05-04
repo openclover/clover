@@ -23,7 +23,7 @@ class RenderActionTest extends TestCase {
         String initStr = basePath.getAbsolutePath() + "/clover.db"
 
         config = HtmlReporter.processArgs([
-                "-i", initStr, "-o", basePath.getAbsolutePath(), "--style", "adg" ] as String[])
+                "-i", initStr, "-o", basePath.getAbsolutePath() ] as String[])
         fixture = new HasMetricsTestFixture("Render File Action Test")
 
     }
