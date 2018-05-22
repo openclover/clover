@@ -1894,7 +1894,15 @@ handler returns [CloverToken last]
 {
     last = null;
 }
-    :   "catch" LPAREN! (annotation2[false])* ("final")? (annotation2[false])* typeSpec (BOR typeSpec)* IDENT RPAREN!
+    :   "catch"
+        LPAREN!
+        ( an=annotation2[false] )*
+        ("final")?
+        ( an=annotation2[false] )*
+        ts=typeSpec
+        (BOR ts=typeSpec)*
+        IDENT
+        RPAREN!
         {enterContext(ContextStore.CONTEXT_CATCH);}
         last=compoundStatement
         {exitContext();}
