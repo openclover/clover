@@ -18,7 +18,7 @@ class TaggedInputReaderTest {
         dos.writeByte(Tags.BYTE_TAG)
         dos.writeByte(0)
         dos.writeByte(Tags.CHAR_TAG)
-        dos.writeChar((int)'a' as char)
+        dos.writeChar((int)('a' as char))
         dos.writeByte(Tags.DOUBLE_TAG)
         dos.writeDouble(1.0d)
         dos.writeByte(Tags.FLOAT_TAG)
