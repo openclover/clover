@@ -498,6 +498,91 @@ tokens {
 
 }
 
+moduleDeclarationPredicate
+    :
+        ( ann=annotation )*
+        ( "open" )?
+        "module"
+    ;
+
+moduleDeclaration
+    :
+        (ann=annotation)*
+        ( "open" )?
+        "module" moduleName=identifier
+        LPAREN
+        ( moduleDirective )*
+        RPAREN
+    ;
+
+moduleDirective
+    :
+        (
+            requiresDirective
+        |
+            exportsDirective
+        |
+            opensDirective
+        |
+            usesDirective
+        |
+            providesDirective
+        )
+    ;
+
+requiresDirective
+    :
+        "requires"
+        ( "transitive" | "static" )?
+        requiredModule=identifier
+        SEMI!
+    ;
+
+exportsDirective
+    :
+        "exports"
+        exportedPackage=identifier
+        (
+            "to"
+            moduleName=identifier ( COMMA! moduleName=identifier )*
+        )?
+        SEMI!
+    ;
+
+opensDirective
+    :
+        "opens"
+        exportedPackage=identifier
+        (
+            "to"
+             moduleName=identifier ( COMMA! moduleName=identifier )*
+        )?
+        SEMI!
+    ;
+
+
+usesDirective
+    :
+        "uses"
+        typeName=identifier
+        SEMI!
+    ;
+
+
+providesDirective
+    :
+        "provides"
+        typeName=identifier
+        "with"
+        withType=identifier
+        (
+            COMMA!
+            withType=identifier
+        )?
+        SEMI!
+    ;
+
+
 // Compilation Unit: In Java, this is a single file.  This is the start
 //   rule for this parser
 compilationUnit
@@ -511,16 +596,23 @@ compilationUnit
         // Next we have a series of zero or more import statements
         ( importDefinition )*
 
-        // Wrapping things up with any number of class or interface
-        //    definitions
-        ( typeDefinition[false]
-            {
-                topLevelClass=true;
-                existingFallthroughSuppression = false;
-            }
-        )*
+        // JLS specifies two kinds of compilation unit: ordinary and modular, but we can keep it simple and just
+        // have module declaration as an alternative to declarations of types
+        (
+            (moduleDeclarationPredicate) =>
+            moduleDeclaration
+        |
+            // Wrapping things up with any number of class or interface
+            //    definitions
+            ( typeDefinition[false]
+                {
+                    topLevelClass=true;
+                    existingFallthroughSuppression = false;
+                }
+            )*
+        )
 
-         EOF!
+        EOF!
     ;
 
 
