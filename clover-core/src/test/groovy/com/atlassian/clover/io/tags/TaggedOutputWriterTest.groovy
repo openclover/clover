@@ -22,7 +22,7 @@ class TaggedOutputWriterTest {
         final TaggedOutputWriter out = new TaggedOutputWriter(daos, new Tags())
         out.writeBoolean(true)
         out.writeByte(0)
-        out.writeChar((int)'a' as char)
+        out.writeChar((int)('a' as char))
         out.writeDouble(1.0d)
         out.writeFloat(1.0f)
         out.writeInt(1)

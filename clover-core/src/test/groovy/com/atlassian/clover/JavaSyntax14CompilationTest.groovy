@@ -15,11 +15,11 @@ class JavaSyntax14CompilationTest extends JavaSyntaxCompilationTestBase {
      * @throws Exception
      */
     void testInstrumentationAndCompilation_14() throws Exception {
-        assertTrue("this test requires at least jdk1.4", JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_4))
+        assertTrue("this test requires at least jdk1.6", JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_6))
 
         final File srcDir = new File(mTestcasesSrcDir, "javasyntax1.4")
         resetAntOutput()
-        instrumentAndCompileSources(srcDir, JavaEnvUtils.JAVA_1_4)
+        instrumentAndCompileSources(srcDir, JavaEnvUtils.JAVA_1_6)
 
         // verify that instrumentation was made
         // input : assert i > 0
