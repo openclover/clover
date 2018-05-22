@@ -1,5 +1,6 @@
 package com.atlassian.clover
 
+import com.atlassian.clover.util.FileUtils
 import org.apache.tools.ant.util.JavaEnvUtils
 
 
@@ -36,10 +37,15 @@ class JavaSyntax19CompilationTest extends JavaSyntaxCompilationTestBase {
 
     void testModuleInfo() {
         if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_9)) {
-            instrumentAndCompileSourceFile(srcDir, mGenSrcDir, "module-info.java", JavaEnvUtils.JAVA_1_9)
-
-            // expect no Clover instrumentation in module-info.java
-            assertFileMatches(fileName, R_INC, true)
+            // copy sub-packages - we're not interested in instrumenting them
+            FileUtils.dirCopy(srcDir, mGenSrcDir, true);
+            // instrument just module-info.java
+            File moduleInfo = new File(srcDir, "module-info.java");
+            instrumentSourceFile(moduleInfo, JavaEnvUtils.JAVA_1_9)
+            // compile all stuff
+            compileSources(mGenSrcDir, [ "module-info.java"] as String[], JavaEnvUtils.JAVA_1_9)
+            // expect no instrumentation in module-info.java
+            assertFileMatches("module-info.java", R_INC, true)
         }
     }
 }

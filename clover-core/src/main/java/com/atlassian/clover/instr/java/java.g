@@ -499,20 +499,27 @@ tokens {
 }
 
 moduleDeclarationPredicate
+{
+    AnnotationImpl an;
+}
     :
-        ( ann=annotation )*
+        ( an=annotation )*
         ( "open" )?
         "module"
     ;
 
 moduleDeclaration
+{
+    AnnotationImpl an;
+    String moduleName;
+}
     :
-        (ann=annotation)*
+        ( an=annotation )*
         ( "open" )?
         "module" moduleName=identifier
-        LPAREN
+        LCURLY
         ( moduleDirective )*
-        RPAREN
+        RCURLY
     ;
 
 moduleDirective
@@ -531,6 +538,9 @@ moduleDirective
     ;
 
 requiresDirective
+{
+    String requiredModule;
+}
     :
         "requires"
         ( "transitive" | "static" )?
@@ -539,6 +549,10 @@ requiresDirective
     ;
 
 exportsDirective
+{
+    String exportedPackage;
+    String moduleName;
+}
     :
         "exports"
         exportedPackage=identifier
@@ -550,9 +564,13 @@ exportsDirective
     ;
 
 opensDirective
+{
+    String openedPackage;
+    String moduleName;
+}
     :
         "opens"
-        exportedPackage=identifier
+        openedPackage=identifier
         (
             "to"
              moduleName=identifier ( COMMA! moduleName=identifier )*
@@ -562,17 +580,24 @@ opensDirective
 
 
 usesDirective
+{
+    String serviceName;
+}
     :
         "uses"
-        typeName=identifier
+        serviceName=identifier
         SEMI!
     ;
 
 
 providesDirective
+{
+    String serviceName;
+    String withType;
+}
     :
         "provides"
-        typeName=identifier
+        serviceName=identifier
         "with"
         withType=identifier
         (
@@ -1892,6 +1917,8 @@ tryCatchBlock [boolean labelled] returns [CloverToken last]
 // an exception handler
 handler returns [CloverToken last]
 {
+    AnnotationImpl an;
+    String ts;
     last = null;
 }
     :   "catch"
