@@ -31,7 +31,7 @@ public class HTMLDialog extends DialogWrapper {
             @Override
             public void hyperlinkUpdate(HyperlinkEvent e) {
                 if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-                    BrowserUtil.launchBrowser(e.getURL().toExternalForm());
+                    BrowserUtil.browse(e.getURL());
                 }
             }
         };
