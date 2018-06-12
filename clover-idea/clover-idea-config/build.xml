@@ -41,7 +41,7 @@
                includeAntRuntime="false">
             <classpath>
                 <path refid="clover-idea-config.libs"/>
-                <path refid="idea140.classpath"/>
+                <path refid="idea14.classpath"/>
             </classpath>
             <src path="${clover-idea-config.base}/src/main/java"/>
         </javac>
@@ -86,7 +86,7 @@
                includeAntRuntime="false">
             <classpath>
                 <path refid="clover-idea-config.testpath"/>
-                <path refid="idea140.classpath"/>
+                <path refid="idea14.classpath"/>
             </classpath>
             <src path="${clover-idea-config.base}/src/test/java"/>
         </javac>
@@ -119,25 +119,23 @@
 
     <!-- Set of tests for IDEAs with JDK8 -->
     <target name="clover-idea-config.test.jdk8" if="jdk8">
-        <test-idea-config home="${idea140.home}" reportID="idea140-jdk8" version="14.0.5"/>
+        <test-idea-config home="${idea14.home}" reportID="idea14-jdk8" version="14.1.7"/>
     </target>
 
     <target name="clover-idea-config.test.all.versions.jdk8" if="jdk8">
-        <test-idea-config home="${idea140.home}" reportID="idea140-jdk8" version="14.0.5"/>
-        <test-idea-config home="${idea141.home}" reportID="idea141-jdk8" version="14.1.7"/>
-        <test-idea-config home="${idea150.home}" reportID="idea150-jdk8" version="15.0.6"/>
+        <test-idea-config home="${idea14.home}" reportID="idea14-jdk8" version="14.1.7"/>
+        <test-idea-config home="${idea15.home}" reportID="idea15-jdk8" version="15.0.6"/>
         <test-idea-config home="${idea16.home}" reportID="idea16-jdk8" version="2016.2"/>
     </target>
 
     <!-- Set of tests for IDEAs with JDK9 -->
     <target name="clover-idea-config.test.jdk9" if="jdk9">
-        <test-idea-config home="${idea140.home}" reportID="idea140-jdk9" version="14.0.5"/>
+        <test-idea-config home="${idea14.home}" reportID="idea14-jdk9" version="14.1.7"/>
     </target>
 
     <target name="clover-idea-config.test.all.versions.jdk9" if="jdk9">
-        <test-idea-config home="${idea140.home}" reportID="idea140-jdk9" version="14.0.5"/>
-        <test-idea-config home="${idea141.home}" reportID="idea141-jdk9" version="14.1.7"/>
-        <test-idea-config home="${idea150.home}" reportID="idea150-jdk9" version="15.0.6"/>
+        <test-idea-config home="${idea14.home}" reportID="idea14-jdk9" version="14.1.7"/>
+        <test-idea-config home="${idea15.home}" reportID="idea15-jdk9" version="15.0.6"/>
         <test-idea-config home="${idea16.home}" reportID="idea16-jdk9" version="2016.2"/>
     </target>
 

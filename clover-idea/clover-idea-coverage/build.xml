@@ -33,7 +33,7 @@
                includeAntRuntime="false">
             <classpath>
                 <path refid="clover-idea-coverage.libs"/>
-                <path refid="idea140.classpath"/>
+                <path refid="idea14.classpath"/>
             </classpath>
             <src path="${clover-idea-coverage.main.java}"/>
         </javac>
