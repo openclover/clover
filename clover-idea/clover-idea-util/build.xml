@@ -45,7 +45,7 @@
                includeAntRuntime="false">
             <classpath>
                 <path refid="clover-idea-util.libs"/>
-                <path refid="idea140.classpath"/>
+                <path refid="idea14.classpath"/>
             </classpath>
             <src path="${clover-idea-util.main.java}"/>
         </javac>
@@ -91,7 +91,7 @@
                includeAntRuntime="false">
             <classpath>
                 <path refid="clover-idea-util.testpath"/>
-                <path refid="idea140.classpath"/>
+                <path refid="idea14.classpath"/>
             </classpath>
             <src path="${clover-idea-util.base}/src/test/java"/>
         </javac>
@@ -124,22 +124,20 @@
 
     <!-- Set of tests for IDEAs with JDK8 -->
     <target name="clover-idea-util.test.jdk8" if="jdk8">
-        <test-idea-util home="${idea140.home}" reportID="idea140-jdk8" version="14.0.5"/>
+        <test-idea-util home="${idea14.home}" reportID="idea14-jdk8" version="14.1.7"/>
     </target>
 
     <target name="clover-idea-util.test.all.versions.jdk8" if="jdk8">
-        <test-idea-util home="${idea140.home}" reportID="idea140-jdk8" version="14.0.5"/>
-        <test-idea-util home="${idea141.home}" reportID="idea141-jdk8" version="14.1.7"/>
+        <test-idea-util home="${idea14.home}" reportID="idea14-jdk8" version="14.1.7"/>
     </target>
 
     <!-- Set of tests for IDEAs with JDK9 -->
     <target name="clover-idea-util.test.jdk9" if="jdk9">
-        <test-idea-util home="${idea140.home}" reportID="idea140-jdk9" version="14.0.5"/>
+        <test-idea-util home="${idea14.home}" reportID="idea14-jdk9" version="14.1.7"/>
     </target>
 
     <target name="clover-idea-util.test.all.versions.jdk9" if="jdk9">
-        <test-idea-util home="${idea140.home}" reportID="idea140-jdk9" version="14.0.5"/>
-        <test-idea-util home="${idea141.home}" reportID="idea141-jdk9" version="14.1.7"/>
+        <test-idea-util home="${idea14.home}" reportID="idea14-jdk9" version="14.1.7"/>
     </target>
 
     <target name="_clover-idea-util.versiontest">

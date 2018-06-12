@@ -8,6 +8,7 @@
     <property name="build.deps.dir" location="${common.base}/target/dependencies"/>
 
     <!-- Load local environment settings -->
+    <property file="${user.home}/build.properties"/>
     <property file="build.properties"/>
 
     <property name="lib.dir" location="${common.base}/lib"/>
