@@ -29,7 +29,7 @@
         <download-idea version="14.0.1391603"/>
         <download-idea version="14.1.141305830"/>
         <download-idea version="15.0.143237031"/>
-        <download-idea version="2016.2.162112132"/>
+        <download-idea version="2016.3.163155298"/>
     </target>
 
     <target name="clover-idea-libs.initialize" depends="-idea.download">
