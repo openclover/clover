@@ -280,21 +280,6 @@ public class CloverCompiler implements JavaSourceTransformingCompiler {
     }
 
     /**
-     * We've got a workaround for IDEA 13.x, which copies the clover-idea.jar to a temporary directory (java.io.tmpdir).
-     * Normally copying happens when the "build with clover" is being toggled or project reloaded. However, someone
-     * could wipe out his temporary directory in the meantime. So this task is to ensure that the JAR is not missing
-     * just before start of the compilation.
-     */
-    public class RefreshCloverGlobalLibraryTask implements CompileTask {
-        @Override
-        public boolean execute(CompileContext compileContext) {
-            // copy Clover JAR to a temporary location if needed (IDEA13 + JAR is not present or different)
-            LibrarySupport.copyCloverJarIfNeccessary();
-            return true;
-        }
-    }
-
-    /**
      * Manages the status of the CloverCompiler.
      */
     class CloverCompilerStatus {
@@ -362,7 +347,6 @@ public class CloverCompiler implements JavaSourceTransformingCompiler {
         compilerManager.addBeforeTask(new CoverageDataCleanerTask(project));
         compilerManager.addBeforeTask(new ValidateInitStringTask());
         compilerManager.addBeforeTask(new ExcludeCloverWorkDirFromProjectTask());
-        compilerManager.addBeforeTask(new RefreshCloverGlobalLibraryTask());
     }
 
     /**
