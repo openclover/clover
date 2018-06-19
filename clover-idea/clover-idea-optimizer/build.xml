@@ -141,13 +141,13 @@
 
     <!-- Set of tests for IDEAs with JDK9 -->
     <target name="clover-idea-optimizer.test.jdk9" if="jdk9">
-        <test-idea-optimizer home="${idea14.home}" reportID="idea14-jdk9" version="14.1.7"/>
+        <!--<test-idea-optimizer home="${idea14.home}" reportID="idea14-jdk9" version="14.1.7"/>-->
     </target>
 
     <target name="clover-idea-optimizer.test.all.versions.jdk9" if="jdk9">
-        <test-idea-optimizer home="${idea14.home}" reportID="idea14-jdk9" version="14.1.7"/>
-        <test-idea-optimizer home="${idea15.home}" reportID="idea15-jdk9" version="15.0.6"/>
-        <test-idea-optimizer home="${idea16.home}" reportID="idea16-jdk9" version="2016.3.8"/>
+        <!--<test-idea-optimizer home="${idea14.home}" reportID="idea14-jdk9" version="14.1.7"/>-->
+        <!--<test-idea-optimizer home="${idea15.home}" reportID="idea15-jdk9" version="15.0.6"/>-->
+        <!--<test-idea-optimizer home="${idea16.home}" reportID="idea16-jdk9" version="2016.3.8"/>-->
     </target>
 
     <target name="_clover-idea-optimizer.versiontest">
