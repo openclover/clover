@@ -6,7 +6,6 @@
 
     <property name="clover.jar" location="../lib/clover.jar"/>
     <taskdef resource="cloverlib.xml" classpath="${clover.jar}"/>
-    <clover-env/>
 
     <property name="clover.ordering" value="failfast"/>   <!-- @ordering: optional; values "failfast", "orginal" or "random"; default: "failfast"; -->
     <property name="clover.optimize" value="true"/>      <!-- Enable/Disable optimization -->
@@ -59,12 +58,24 @@
         </junit>
     </target>
 
-    <target name="clover.all" depends="with.clover, test, clover.snapshot, clover.report" 
-            description="Runs a build with Clover and generates a Clover HTML report">
-    </target>
-
     <target name="clean">
         <delete dir="build"/>
+    </target>
+
+    <target name="with.clover">
+        <clover-setup/>
+    </target>
+
+    <target name="clover.snapshot">
+        <clover-snapshot/>
+    </target>
+
+    <target name="clover.report">
+        <clover-html-report outdir="build/clover_html" title="Tutorial"/>
+    </target>
+
+    <target name="clover.all" depends="with.clover, test, clover.snapshot, clover.report" 
+            description="Runs a build with Clover and generates a Clover HTML report">
     </target>
 
 </project>
