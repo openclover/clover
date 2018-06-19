@@ -24,17 +24,14 @@ Clover is licensed under the Apache License 2.0.
 	</description>
 
 	<version>idea-@IDEA_RELEASE_NUM@</version>
-	<vendor email="contact@openclover.org" logo="/icons/clover_tny.png" url="http://openclover.org">OpenClover.org</vendor>
-    <!-- Compatible with IDEA 13.0.0 or higher (build 133.xx), see http://confluence.jetbrains.net/display/IDEADEV/Build+Number+Ranges -->
-	<idea-version since-build="133" />
+	<vendor email="contact@openclover.org" url="http://openclover.org">OpenClover.org</vendor>
+    <!-- Compatible with IDEA 14.0.0 or higher (build 139.xx),
+    see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html -->
+	<idea-version since-build="139" />
 
 	<change-notes><![CDATA[<html>
-OpenClover for IDEA version 4.2.0 is the first release based on the open-sourced code of Atlassian Clover(R).
-Read more about new features in the <a href="https://openclover.org/documentation">OpenClover Release Notes</a>
-<br><br>
-A number of other fixes and small improvements were introduced in bug-fix releases. See the
-<a href="https://openclover.org/documentation">
-changelog</a> for more details.
+OpenClover for IDEA is free and open-source code coverage tool based on the open-sourced Atlassian Clover(R).
+Learn about new features and bug-fixes in this release in the <a href="https://openclover.org/documentation">Release Notes</a>
 </html>]]>
 	</change-notes>
 
