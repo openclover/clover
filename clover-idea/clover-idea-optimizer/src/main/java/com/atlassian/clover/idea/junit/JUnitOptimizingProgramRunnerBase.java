@@ -29,6 +29,7 @@ import java.util.regex.Pattern;
 
 public class JUnitOptimizingProgramRunnerBase implements SavingsReporter {
     private static final String JUNIT_CONFIGURATION_ID = "JUnit";
+    private static final String ANDROID_JUNIT_CONFIGURATION_ID = "AndroidJUnit";
     private static final Key<Boolean> EXPLICIT_COVERAGE_LOAD_REQUEST_KEY = new Key<Boolean>("com.cenqua.clover.explicit_coverage_load_request");
 
     public static boolean wasExplicitCoverageLoadRequested(ProcessHandler processHandler) {
@@ -41,6 +42,9 @@ public class JUnitOptimizingProgramRunnerBase implements SavingsReporter {
         return JUNIT_CONFIGURATION_ID;
     }
 
+    @NotNull
+    String getAndroidJunitConfigurationId() { return ANDROID_JUNIT_CONFIGURATION_ID; }
+
     Key<Boolean> getExplicitCoverageLoadRequestKey() {
         return EXPLICIT_COVERAGE_LOAD_REQUEST_KEY;
     }
@@ -48,8 +52,9 @@ public class JUnitOptimizingProgramRunnerBase implements SavingsReporter {
     boolean checkExecutionEnvironment(@NotNull ExecutionEnvironment executionEnvironment) {
         if (executionEnvironment.getRunProfile() instanceof RunConfiguration) {
             final RunConfiguration runConfiguration = (RunConfiguration) executionEnvironment.getRunProfile();
-            if (JUNIT_CONFIGURATION_ID.equals(runConfiguration.getType().getId())) {
-                return true;
+            final String configuratonId = runConfiguration.getType().getId();
+            if (JUNIT_CONFIGURATION_ID.equals(configuratonId) || ANDROID_JUNIT_CONFIGURATION_ID.equals(configuratonId)) {
+                    return true;
             }
         }
         MessageDialogs.showInfoMessage(null, CloverIdeaPluginMessages.getString("launch.optimized.junitonly"), "Clover Test Optimization");
@@ -70,10 +75,12 @@ public class JUnitOptimizingProgramRunnerBase implements SavingsReporter {
             }
             return;
         }
-        if (!JUNIT_CONFIGURATION_ID.equals(((RunConfiguration) runProfile).getType().getId())) {
+
+        final String configurationId = ((RunConfiguration) runProfile).getType().getId();
+        if (!JUNIT_CONFIGURATION_ID.equals(configurationId) && !ANDROID_JUNIT_CONFIGURATION_ID.equals(configurationId)) {
             // 'Cannot happen' case
-            Logger.getInstance().warn("Run profile is not a recognized JUnit configuration");
-            reportSavings(currentProject, "Run profile is not a recognized JUnit configuration. No Clover test optimization.");
+            Logger.getInstance().warn("Run profile is not a recognized JUnit or Android JUnit configuration");
+            reportSavings(currentProject, "Run profile is not a recognized JUnit or Android JUnit configuration. No Clover test optimization.");
             return;
         }
         final File tmpFile = retrieveTmpFile(javaParameters);
