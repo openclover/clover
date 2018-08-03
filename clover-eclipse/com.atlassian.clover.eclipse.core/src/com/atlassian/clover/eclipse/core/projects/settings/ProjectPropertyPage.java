@@ -57,7 +57,7 @@ public class ProjectPropertyPage extends BaseSettingsPage implements IWorkbenchP
     }
 
     public static void focusSourceTab(IProject project) throws CoreException {
-        project.getProject().setSessionProperty(LAST_SELECTED_TAB_KEY, new Integer(SOURCE_TAB_INDEX));
+        project.getProject().setSessionProperty(LAST_SELECTED_TAB_KEY, SOURCE_TAB_INDEX);
     }
     
     public class Panel extends Composite {

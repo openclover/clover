@@ -20,7 +20,7 @@ public class ProjectPathMap {
     protected IPath defaultOutputLocation;
     protected IClasspathEntry[] allClasspathEntries;
     protected IClasspathEntry[] sourcePathEntries;
-    protected Map/*<IClasspathEntry,IPath>*/ sourcePathsToOutputPaths;
+    protected Map<IClasspathEntry, IPath> sourcePathsToOutputPaths;
 
     protected ProjectPathMap() {}
 
@@ -29,7 +29,7 @@ public class ProjectPathMap {
         this.defaultOutputLocation = project.getJavaProject().getOutputLocation();
         this.allClasspathEntries = project.getJavaProject().getRawClasspath();
         this.sourcePathsToOutputPaths = newHashMap();
-        List sourcepathEntries = newArrayList();
+        List<IClasspathEntry> sourcepathEntries = newArrayList();
         for (IClasspathEntry entry : allClasspathEntries) {
             if (entry.getEntryKind() == IClasspathEntry.CPE_SOURCE) {
                 sourcepathEntries.add(entry);
@@ -38,7 +38,7 @@ public class ProjectPathMap {
                         entry.getOutputLocation() == null ? this.defaultOutputLocation : entry.getOutputLocation());
             }
         }
-        this.sourcePathEntries = (IClasspathEntry[]) sourcepathEntries.toArray(new IClasspathEntry[sourcepathEntries.size()]);
+        this.sourcePathEntries = sourcepathEntries.toArray(new IClasspathEntry[sourcepathEntries.size()]);
     }
 
     public IPath getDefaultOutputLocation() {
@@ -69,10 +69,11 @@ public class ProjectPathMap {
     }
 
     public Set getOutputLocations() {
-        Set libraries = new LinkedHashSet();
+        Set<String> libraries = new LinkedHashSet<String>();
         for (IClasspathEntry sourcePathEntry : sourcePathEntries) {
-            if (sourcePathEntry.getOutputLocation() != null) {
-                libraries.add(PathUtils.containerFor(sourcePathEntry.getOutputLocation()).getLocation().toOSString());
+            IPath outputLocation = sourcePathEntry.getOutputLocation();
+            if (outputLocation != null) {
+                libraries.add(PathUtils.containerFor(outputLocation).getLocation().toOSString());
             }
         }
         if (defaultOutputLocation != null) {
@@ -84,8 +85,9 @@ public class ProjectPathMap {
     public Set<IPath> getOutputPaths() {
         Set<IPath> libraries = newLinkedHashSet();
         for (IClasspathEntry sourcePathEntry : sourcePathEntries) {
-            if (sourcePathEntry.getOutputLocation() != null) {
-                libraries.add(PathUtils.containerFor(sourcePathEntry.getOutputLocation()).getLocation());
+            IPath outputLocation = sourcePathEntry.getOutputLocation();
+            if (outputLocation != null) {
+                libraries.add(PathUtils.containerFor(outputLocation).getLocation());
             }
         }
         if (defaultOutputLocation != null) {
@@ -97,11 +99,12 @@ public class ProjectPathMap {
     public String toClasspath() {
         StringBuilder buffer = new StringBuilder();
         for (IClasspathEntry sourcePathEntry : sourcePathEntries) {
-            if (sourcePathEntry.getOutputLocation() != null) {
+            IPath outputLocation = sourcePathEntry.getOutputLocation();
+            if (outputLocation != null) {
                 if (buffer.length() > 0) {
                     buffer.append(File.pathSeparatorChar);
                 }
-                buffer.append(PathUtils.containerFor(sourcePathEntry.getOutputLocation()).getLocation().toOSString());
+                buffer.append(PathUtils.containerFor(outputLocation).getLocation().toOSString());
             }
         }
         if (defaultOutputLocation != null) {

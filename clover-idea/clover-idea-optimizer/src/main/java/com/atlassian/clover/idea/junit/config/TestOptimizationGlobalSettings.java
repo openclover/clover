@@ -6,15 +6,13 @@ import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
-import com.intellij.openapi.options.OptionalConfigurable;
 import org.jetbrains.annotations.Nls;
 
-import javax.swing.Icon;
 import javax.swing.JComponent;
 
 @State(name = "CloverTestOptimization", storages = {@Storage(id = "other", file = "$APP_CONFIG$/other.xml")})
 public class TestOptimizationGlobalSettings implements PersistentStateComponent<TestOptimizationGlobalSettings>,
-        OptionalConfigurable, Configurable {
+        Configurable {
     private boolean showAllTestsOptimizedOutDialog = true;
     private boolean showAllTestsOptimizedOutBalloon = true;
 
@@ -65,11 +63,6 @@ public class TestOptimizationGlobalSettings implements PersistentStateComponent<
     @Override
     public void disposeUIResources() {
         configPanel = null;
-    }
-
-    @Override
-    public boolean needDisplay() {
-        return false;
     }
 
     @Override

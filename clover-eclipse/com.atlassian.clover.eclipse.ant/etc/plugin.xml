@@ -5,8 +5,6 @@
 	<!-- ANT SUPPORT -->
 	<!-- ===================== -->
 	<extension point="org.eclipse.ant.core.antTasks">
-		<antTask name="clover-env" class="CloverEnvTask" library="clover-eclipse-ant.jar"
-				 eclipseRuntime="false" headless="true"/>
 		<antTask name="clover-log" class="CloverLogTask" library="clover-eclipse-ant.jar"
 				 eclipseRuntime="false" headless="true"/>
 		<antTask name="clover-check" class="CloverPassTask" library="clover-eclipse-ant.jar"

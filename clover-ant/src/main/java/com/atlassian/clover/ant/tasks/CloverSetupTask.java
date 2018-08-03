@@ -18,8 +18,16 @@ import java.io.File;
  * @since 1.1
  */
 public class CloverSetupTask extends AbstractInstrTask {
-    /** Standard Ant property for compiler selection */
+    /**
+     * Standard Ant property for compiler selection
+     */
     public static final String BUILD_COMPILER = "build.compiler";
+
+    /**
+     * The Clover compiler adapter class
+     */
+    public static final String CLOVER_ADAPTER = "com.atlassian.clover.ant.taskdefs.CloverCompilerAdapter";
+
 
     /**
      * Set the flag which controls whether clover is enabled
@@ -104,7 +112,7 @@ public class CloverSetupTask extends AbstractInstrTask {
         String existingBuildCompiler = getProject().getProperty(BUILD_COMPILER);
 
         // Check if the CloverCompilerAdapter is already installed
-        if (CloverEnvTask.CLOVER_ADAPTER.equals(existingBuildCompiler)) {
+        if (CLOVER_ADAPTER.equals(existingBuildCompiler)) {
             // if it is, remove it for the moment, and set it to the default
             String cmpDelegate = config.getCompilerDelegate();
             getProject().setProperty(BUILD_COMPILER, cmpDelegate == null ? CloverCompilerAdapter.getDefaultAntCompiler() : cmpDelegate);
@@ -126,14 +134,14 @@ public class CloverSetupTask extends AbstractInstrTask {
 
         String buildCompiler = getProject().getProperty(BUILD_COMPILER);
 
-        if (buildCompiler != null && !buildCompiler.equals(CloverEnvTask.CLOVER_ADAPTER) && config.getCompilerDelegate() == null) {
+        if (buildCompiler != null && !buildCompiler.equals(CLOVER_ADAPTER) && config.getCompilerDelegate() == null) {
             config.setCompilerDelegate(buildCompiler);
         }
 
-        getProject().setProperty(BUILD_COMPILER, CloverEnvTask.CLOVER_ADAPTER);
+        getProject().setProperty(BUILD_COMPILER, CLOVER_ADAPTER);
         getProject().setProperty(CloverNames.PROP_INITSTRING, runtimeInitString);
 
-        if (config.getCompilerDelegate() != null && config.getCompilerDelegate().equals(CloverEnvTask.CLOVER_ADAPTER)) {
+        if (config.getCompilerDelegate() != null && config.getCompilerDelegate().equals(CLOVER_ADAPTER)) {
             throw new BuildException("You cannot set clovercompiler to be the Clover compiler adapter. Check the" +
                     " value you are passing to clovercompiler, or the value of the build.compiler Ant property");
 

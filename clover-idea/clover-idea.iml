@@ -15,7 +15,7 @@
       <excludeFolder url="file://$MODULE_DIR$/target/tmp" />
     </content>
     <orderEntry type="library" scope="TEST" name="junit-4.12" level="project" />
-    <orderEntry type="jdk" jdkName="IDEA 13.0.0" jdkType="IDEA JDK" />
+    <orderEntry type="jdk" jdkName="IDEA 14" jdkType="IDEA JDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="clover-core" />
     <orderEntry type="module" module-name="clover-idea-config" />

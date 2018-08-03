@@ -1,14 +1,13 @@
 package com.atlassian.clover.idea;
 
 import com.atlassian.clover.idea.util.MiscUtils;
-import com.atlassian.clover.util.FileUtils;
-import com.intellij.openapi.application.ApplicationInfo;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.roots.LibraryOrderEntry;
 import com.intellij.openapi.roots.ModifiableRootModel;
 import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.openapi.roots.OrderEntry;
+import com.intellij.openapi.roots.OrderEnumerator;
 import com.intellij.openapi.roots.OrderRootType;
 import com.intellij.openapi.roots.libraries.Library;
 import com.intellij.openapi.roots.libraries.LibraryTable;
@@ -16,16 +15,9 @@ import com.intellij.openapi.roots.libraries.LibraryTablesRegistrar;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileManager;
-import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 
 /**
@@ -98,17 +90,11 @@ public class LibrarySupport {
         return library;
     }
 
-    private static boolean isCopyCloverJarWorkaroundNeeded() {
-        // a workaround is needed for IDEA [13.0.0-13.1.0)
-        return ApplicationInfo.getInstance().getMajorVersion().equals("13")
-                && ApplicationInfo.getInstance().getMinorVersion().startsWith("0");
-    }
-
     @Nullable
     public static VirtualFile getCloverClassBase() {
         try {
             // get location of the Clover JAR
-            final URL targetUrl = copyCloverJarIfNeccessary();
+            final URL targetUrl = getSourceCloverJarUrl();
             // return the target location as a VirtualFile, may return null if VFS has not been refreshed
             VirtualFile targetVf = VfsUtil.findFileByURL(targetUrl);
             if (targetVf == null) {
@@ -135,102 +121,22 @@ public class LibrarySupport {
         }
     }
 
-    public static URL copyCloverJarIfNeccessary() {
-        try {
-            // determine source/target location for Clover JAR
-            final URL baseUrl = getSourceCloverJarUrl();
-            final File sourceFile = getSourceCloverJarFile(baseUrl);
-            final File targetFile = getTargetCloverJarFile();
-            final URL targetUrl = getTargetCloverJarUrl(baseUrl, targetFile);
-
-            // copy JAR to a different location
-            copyCloverJarIfNecessary(sourceFile, targetFile);
-            return targetUrl;
-        } catch (MalformedURLException ex) {
-            throw new RuntimeException(ex);
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        } catch (URISyntaxException ex) {
-            throw new RuntimeException(ex);
-        }
-    }
-
-    private static void copyCloverJarIfNecessary(File sourceFile, File targetFile) throws IOException {
-        if (isCopyCloverJarWorkaroundNeeded()) {
-            // copy clover-idea.jar to a directory outside plugins dir - it's a workaround for
-            // https://jira.atlassian.com/browse/CLOV-1395 and http://youtrack.jetbrains.com/issue/IDEA-118928
-            if (!sourceFile.isDirectory()) {
-                // case for a Clover JAR file
-                // optimization: copy only if file differs to avoid unnecessary copying before every build
-                if (!targetFile.isFile() || sourceFile.length() != targetFile.length()
-                        || sourceFile.lastModified() != targetFile.lastModified()) {
-                    targetFile.delete();  // delete existing one (especially if it's a directory)
-                    FileUtils.fileCopy(sourceFile, targetFile);
-                    targetFile.setLastModified(sourceFile.lastModified());
-                }
-            } else {
-                // case for classes stored in a directory (development / debugging)
-                FileUtils.dirCopy(sourceFile, targetFile, true);
-            }
-        }
-    }
-
     /**
      * Returns an URL to the clover.jar (or a directory if classes are unpacked)
      * @return URL
      */
-    private static URL getSourceCloverJarUrl() throws MalformedURLException {
-        // trick: find a path to the CoverageRecorder class using getResource() method
-        @SuppressWarnings({"UnnecessaryFullyQualifiedName"}) // I want this one here
-        final Class recorderClass = com_atlassian_clover.CoverageRecorder.class;
-        final String path = "/" + recorderClass.getName().replace('.', '/') + ".class";
-        final URL recorderClassUrl = recorderClass.getResource(path);
-        // now crop the package path part - we'll end up with a root directory or a JAR archive
-        return new URL(recorderClassUrl.toString().replace(path, "/"));
-    }
-
-    /**
-     * Returns an URL pointing to a location into which a clover.jar shall be copied.
-     * It either points to the <code>originalUrl</code> or to a <code>targetFile</code> (workaround
-     * for the IDEA13).
-     *
-     * @param originalUrl original location of the clover.jar (typically in config/plugins directory)
-     * @param targetFile  alternative location for the clover.jar (typically in temporary directory)
-     * @return URL targetUrl
-     */
-    private static URL getTargetCloverJarUrl(URL originalUrl, File targetFile) throws URISyntaxException, MalformedURLException {
-        if (isCopyCloverJarWorkaroundNeeded()) {
-            return targetFile.toURI().toURL();
-        } else {
-            // not a faulty IDEA13 so we can take a JAR from plugins' directory
-            return originalUrl;
+    private static URL getSourceCloverJarUrl() {
+        try {
+            // trick: find a path to the CoverageRecorder class using getResource() method
+            @SuppressWarnings({"UnnecessaryFullyQualifiedName"}) // I want this one here
+            final Class recorderClass = com_atlassian_clover.CoverageRecorder.class;
+            final String path = "/" + recorderClass.getName().replace('.', '/') + ".class";
+            final URL recorderClassUrl = recorderClass.getResource(path);
+            // now crop the package path part - we'll end up with a root directory or a JAR archive
+            return new URL(recorderClassUrl.toString().replace(path, "/"));
+        } catch (MalformedURLException ex) {
+            throw new RuntimeException(ex);
         }
-    }
-
-    /**
-     * Converts a URL into a File
-     *
-     * @param sourceURL URL pointing to clover.jar (or a directory)
-     * @return File pointing to clover.jar (or a directory)
-     * @throws URISyntaxException
-     */
-    private static File getSourceCloverJarFile(URL sourceURL) throws URISyntaxException {
-        final URI baseUri = "jar".equals(sourceURL.toURI().getScheme())
-                // "jar:file:/...jar!/" case - crop "jar:" at the beginning and "!/" at the end
-                ? new URI(
-                StringUtils.removeEnd(sourceURL.toURI().getSchemeSpecificPart(), "!/")
-                        .replace(" ", "%20"))                // OS X fails to parse space
-                // "file:/...somedir/" case
-                : sourceURL.toURI();
-        return new File(baseUri);
-    }
-
-    /**
-     * Returns a temporary location for a clover.jar
-     * @return File new location
-     */
-    private static File getTargetCloverJarFile() {
-        return new File(FileUtils.getJavaTempDir(), "clover-idea.jar");
     }
 
     /**
@@ -264,7 +170,7 @@ public class LibrarySupport {
                 rootModel.rearrangeOrderEntries(orderEntries);
             }
 
-            logDebugPrintCompilationClasses(module, rootModel);
+            logDebugPrintCompilationClasses(module);
         }
 
         rootModel.commit();
@@ -275,41 +181,18 @@ public class LibrarySupport {
      * Returns a list of virtual files containing compilation classes for specified module. We use reflections
      * due to differences between IDEA11 and IDEA12 API.
      * @param module - idea module
-     * @param rootModel - must be a reference to ModuleRootManager.getInstance(module).getModifiableModel()
      * @return VirtualFile[]
      */
-    private static VirtualFile[] getCompilationClasses(Module module, ModifiableRootModel rootModel) {
-        VirtualFile[] vf;
-
-        try {
-            // try IDEA12+ API:
-            // OrderEnumerator orderEnumerator = OrderEnumerator.orderEntries(module);
-            // vf = orderEnumerator.getAllSourceRoots();
-            Method orderEntries = Class.forName("com.intellij.openapi.roots.OrderEnumerator").getMethod("orderEntries", Module.class);
-            Object orderEnumerator = orderEntries.invoke(null, module);
-            Method getAllSourceRoots = orderEnumerator.getClass().getMethod("getAllSourceRoots");
-            vf = (VirtualFile[])getAllSourceRoots.invoke(orderEnumerator);
-        } catch (Exception ex12) {
-            // if fails, try IDEA9-IDEA11 API:
-            // vf = rootModel.getOrderedRoots(OrderRootType.COMPILATION_CLASSES)
-            try {
-                Method getOrderedRoots = ModifiableRootModel.class.getMethod("getOrderedRoots", OrderRootType.class);
-                Field COMPILATION_CLASSES = OrderRootType.class.getField("COMPILATION_CLASSES");
-                vf = (VirtualFile[])getOrderedRoots.invoke(rootModel, COMPILATION_CLASSES.get(null));
-            } catch (Exception ex11) {
-                throw new UnsupportedOperationException("Failed to get list of classes roots via reflections", ex11);
-            }
-        }
-
-        return vf;
+    private static VirtualFile[] getCompilationClasses(Module module) {
+         return OrderEnumerator.orderEntries(module).getAllSourceRoots();
     }
 
     /**
      * Print list of classes for compilation for the given module (and its rootModel).
      */
-    private static void logDebugPrintCompilationClasses(Module module, ModifiableRootModel rootModel) {
+    private static void logDebugPrintCompilationClasses(Module module) {
         LOG.debug("ModuleRootModel compilation classes: ");
-        VirtualFile[] vf = getCompilationClasses(module, rootModel);
+        VirtualFile[] vf = getCompilationClasses(module);
         for (int i = 0; i < vf.length; i++) {
             final VirtualFile f = vf[i];
             LOG.debug("" + i + ": " + f.getPresentableUrl());

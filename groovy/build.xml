@@ -12,7 +12,7 @@
     <!-- We have few classes which MUST be compiled using Groovy 1.x and 2.x product lines. Use the latest version available. -->
     <property name="default.groovy1.version" value="1.8.9"/>
     <property name="default.groovy2.version" value="2.3.11"/>
-    <property name="default.groovy2-asm5.version" value="2.4.7"/>
+    <property name="default.groovy2-asm5.version" value="2.4.15"/>
     <property name="groovy1.jar" location="${build.deps.dir}/groovy-all-${default.groovy1.version}.jar"/>
     <property name="groovy2.jar" location="${build.deps.dir}/groovy-all-${default.groovy2.version}.jar"/>
     <property name="groovy2-asm5.jar" location="${build.deps.dir}/groovy-all-${default.groovy2-asm5.version}.jar"/>
@@ -79,7 +79,7 @@
         <get-jar src="org/codehaus/groovy/groovy-all/2.1.9/groovy-all-2.1.9.jar" dest="groovy-all-2.1.9.jar"/>
         <get-jar src="org/codehaus/groovy/groovy-all/2.2.2/groovy-all-2.2.2.jar" dest="groovy-all-2.2.2.jar"/>
         <get-jar src="org/codehaus/groovy/groovy-all/2.3.11/groovy-all-2.3.11.jar" dest="groovy-all-2.3.11.jar"/>
-        <get-jar src="org/codehaus/groovy/groovy-all/2.4.7/groovy-all-2.4.7.jar" dest="groovy-all-2.4.7.jar"/>
+        <get-jar src="org/codehaus/groovy/groovy-all/2.4.15/groovy-all-2.4.15.jar" dest="groovy-all-2.4.15.jar"/>
     </target>
 
     <target name="_groovy.check.antlr">

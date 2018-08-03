@@ -289,7 +289,7 @@ public class Instrumenter {
             if (numTestMethods > 0) {
                 log.info(numTestMethods + " test method" + (numTestMethods != 1 ? "s" : "") + " detected.");
             }
-            log.info("Elapsed time = " + Formatting.format3d(secs) + " secs." +
+            log.debug("Elapsed time = " + Formatting.format3d(secs) + " secs." +
                     (secs > 0 ?  " (" + Formatting.format3d((double)numFiles / secs) + " files/sec, " +
                             Formatting.format3d((double)loc/secs)+" srclines/sec)" : ""));
             return registry;
