@@ -45,7 +45,7 @@
             <classpath refid="clover-idea-jps.libs"/>
             <classpath>
                 <path refid="clover-idea-jps.libs"/>
-                <path refid="idea13.classpath"/>
+                <path refid="idea14.classpath"/>
             </classpath>
             <src path="${clover-idea-jps.base}/src/main/java"/>
         </javac>
@@ -90,22 +90,20 @@
                includeAntRuntime="false">
             <classpath>
                 <path refid="clover-idea-jps.testpath"/>
-                <path refid="idea13.classpath"/>
+                <path refid="idea14.classpath"/>
             </classpath>
             <src path="${clover-idea-jps.base}/src/test/java"/>
         </javac>
     </target>
 
     <target name="clover-idea-jps.test" depends="clover-idea-jps.test.build">
-        <antcall target="clover-idea-jps.test.jdk16" inheritrefs="true"/>
-        <antcall target="clover-idea-jps.test.jdk17" inheritrefs="true"/>
-        <antcall target="clover-idea-jps.test.jdk18" inheritrefs="true"/>
+        <antcall target="clover-idea-jps.test.jdk8" inheritrefs="true"/>
+        <antcall target="clover-idea-jps.test.jdk9" inheritrefs="true"/>
     </target>
 
     <target name="clover-idea-jps.test.all.versions" depends="clover-idea-jps.test.build">
-        <antcall target="clover-idea-jps.test.all.versions.jdk16" inheritrefs="true"/>
-        <antcall target="clover-idea-jps.test.all.versions.jdk17" inheritrefs="true"/>
-        <antcall target="clover-idea-jps.test.all.versions.jdk18" inheritrefs="true"/>
+        <antcall target="clover-idea-jps.test.all.versions.jdk8" inheritrefs="true"/>
+        <antcall target="clover-idea-jps.test.all.versions.jdk9" inheritrefs="true"/>
     </target>
 
 
@@ -124,37 +122,26 @@
         </sequential>
     </macrodef>
 
-    <!-- Test against IDEA12 with JDK1.6 -->
-    <target name="clover-idea-jps.test.jdk16" if="jdk16">
-        <test-idea12-compat home="${idea13.home}" reportID="idea13-jdk16" version="13.0"/>
+    <!-- Test against IDEA14+ with JDK8 -->
+    <target name="clover-idea-jps.test.jdk8" if="jdk8">
+        <test-idea12-compat home="${idea14.home}" reportID="idea14-jdk8" version="14.1.7"/>
     </target>
 
-    <target name="clover-idea-jps.test.all.versions.jdk16" if="jdk16">
-        <test-idea12-compat home="${idea13.home}" reportID="idea13-jdk16" version="13.0"/>
-        <test-idea12-compat home="${idea140.home}" reportID="idea140-jdk16" version="14.0.4"/>
-        <test-idea12-compat home="${idea141.home}" reportID="idea141-jdk16" version="14.1.7"/>
+    <target name="clover-idea-jps.test.all.versions.jdk8" if="jdk8">
+        <test-idea12-compat home="${idea14.home}" reportID="idea14-jdk8" version="14.1.7"/>
+        <test-idea12-compat home="${idea15.home}" reportID="idea15-jdk8" version="15.0.6"/>
+        <test-idea12-compat home="${idea16.home}" reportID="idea16-jdk8" version="2016.3.8"/>
     </target>
 
-    <!-- Test against IDEA12+ with JDK1.7 -->
-    <target name="clover-idea-jps.test.jdk17" if="jdk17">
-        <test-idea12-compat home="${idea13.home}" reportID="idea13-jdk17" version="13.0"/>
+    <!-- Test against IDEA14+ with JDK9 -->
+    <target name="clover-idea-jps.test.jdk9" if="jdk9">
+        <!--<test-idea12-compat home="${idea14.home}" reportID="idea14-jdk9" version="14.1.7"/>-->
     </target>
 
-    <target name="clover-idea-jps.test.all.versions.jdk17" if="jdk17">
-        <test-idea12-compat home="${idea13.home}" reportID="idea13-jdk17" version="13.0"/>
-        <test-idea12-compat home="${idea140.home}" reportID="idea140-jdk17" version="14.0.4"/>
-        <test-idea12-compat home="${idea141.home}" reportID="idea141-jdk17" version="14.1.7"/>
-    </target>
-
-    <!-- Test against IDEA13+ with JDK1.8 -->
-    <target name="clover-idea-jps.test.jdk18" if="jdk18">
-        <test-idea12-compat home="${idea13.home}" reportID="idea13-jdk18" version="13.0"/>
-    </target>
-
-    <target name="clover-idea-jps.test.all.versions.jdk18" if="jdk18">
-        <test-idea12-compat home="${idea13.home}" reportID="idea13-jdk18" version="13.0"/>
-        <test-idea12-compat home="${idea140.home}" reportID="idea140-jdk18" version="14.0.4"/>
-        <test-idea12-compat home="${idea141.home}" reportID="idea141-jdk18" version="14.1.7"/>
+    <target name="clover-idea-jps.test.all.versions.jdk9" if="jdk9">
+        <!--<test-idea12-compat home="${idea14.home}" reportID="idea14-jdk9" version="14.1.7"/>-->
+        <!--<test-idea12-compat home="${idea15.home}" reportID="idea15-jdk9" version="15.0.6"/>-->
+        <!--<test-idea12-compat home="${idea16.home}" reportID="idea16-jdk9" version="2016.3.8"/>-->
     </target>
 
     <target name="_clover-idea-jps.versiontest">
@@ -188,7 +175,10 @@
                 <path refid="clover-idea-jps.testpath"/> <!-- includes normal clover.jar -->
                 <pathelement location="${repkg.clover.jar}"/> <!-- repacked clover.jar -->
                 <pathelement location="${clover-idea-jps.output.testclasses}"/>
-                <fileset dir="${test.with.idea.home}" includes="**/*.jar"/>
+                <fileset dir="${test.with.idea.home}">
+                    <include name="lib/*.jar"/>
+                    <include name="lib/**/*.jar"/>
+                </fileset>
                 <pathelement location="${test.with.idea.home}/bin"/>
             </classpath>
             <batchtest todir="${report.dir}">

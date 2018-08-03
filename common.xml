@@ -8,6 +8,7 @@
     <property name="build.deps.dir" location="${common.base}/target/dependencies"/>
 
     <!-- Load local environment settings -->
+    <property file="${user.home}/build.properties"/>
     <property file="build.properties"/>
 
     <property name="lib.dir" location="${common.base}/lib"/>
@@ -28,7 +29,7 @@
     <path id="java.tools.path" path="${java.tools.path}"/>
 
     <!-- Default Groovy version. Use the latest available. -->
-    <property name="default.groovy.version" value="2.2.2"/> <!-- TODO can't use 2.3.0+ because dumpAST() fails -->
+    <property name="default.groovy.version" value="2.4.15"/> <!-- TODO can't use 2.3.0+ because dumpAST() fails -->
     <!-- Versions which does not work due to Groovy bugs:
        1.6.8, 1.6.9 - globalSliceEnd from finally block is not called (wrong bytecode is produced by groovyc)
        1.6.2, 1.6.3, 1.6.4 - Clover works fine, but testImplicitReturnsArePreserved fails because "switch as expression"
@@ -89,9 +90,9 @@
     <!-- version numbers for all packages -->
     <property name="build.number.prefix" value="build-"/> <!-- change this for branches, etc. -->
     <property name="build.number.string" value="dev"/> <!-- no build numbers for non-prod builds -->
-    <property name="core.release.base" value="4.2.2"/>
+    <property name="core.release.base" value="4.3.0"/>
     <!-- duplicated version number because @input does not support expressions :( -->
-    <propertyregex input="4.2.2"
+    <propertyregex input="4.3.0"
         property="core.release.num.sanitised"
         regexp="\W+"
         replace="_"
@@ -166,26 +167,17 @@
     <!-- Conditions checking if we have JDK == 1.X. Useful for designing tests for specific platform. -->
     <!-- Note: we don't use ${ant.java.version} because currently used Ant version doesn't detect JDK 1.7 -->
 
-    <condition property="jdk16" description="We have JDK 1.6 exactly">
+    <condition property="jdk8" description="We have JDK8 exactly">
         <and>
-            <available classname="java.util.Deque"/>
+            <available classname="java.lang.FunctionalInterface"/>
             <not>
-                <available classname="java.util.concurrent.Phaser"/>
+                <available classname="java.lang.StackWalker"/>
             </not>
         </and>
     </condition>
 
-    <condition property="jdk17" description="We have JDK 1.7 exactly">
-        <and>
-            <available classname="java.util.concurrent.Phaser"/>
-            <not>
-                <available classname="java.lang.FunctionalInterface"/>
-            </not>
-        </and>
-    </condition>
-
-    <condition property="jdk18" description="We have JDK 1.8 exactly">
-        <available classname="java.lang.FunctionalInterface"/>
+    <condition property="jdk9" description="We have JDK9 exactly">
+        <available classname="java.lang.StackWalker"/>
     </condition>
 
     <property name="junit.jar" location="${build.deps.dir}/junit-4.12.jar"/>

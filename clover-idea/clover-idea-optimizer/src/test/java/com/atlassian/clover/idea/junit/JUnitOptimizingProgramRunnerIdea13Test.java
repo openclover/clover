@@ -4,7 +4,6 @@ import com.atlassian.clover.idea.junit.config.OptimizedConfigurationSettings;
 import com.intellij.execution.configurations.JavaParameters;
 import com.intellij.execution.configurations.ParametersList;
 import com.intellij.execution.configurations.RunnerSettings;
-import com.intellij.openapi.util.JDOMExternalizable;
 import com.intellij.testFramework.LightIdeaTestCase;
 
 import java.io.File;
@@ -109,7 +108,7 @@ public class JUnitOptimizingProgramRunnerIdea13Test extends LightIdeaTestCase {
      * Test that in IDEA13 or newer we get configuration object of a proper type
      */
     public void testCreateConfigurationDataSinceIdea13() throws Exception {
-        final JDOMExternalizable data = optimizingProgramRunner.createConfigurationData(null);
+        final RunnerSettings data = optimizingProgramRunner.createConfigurationData(null);
         assertNotNull(data);
         assertThat(data, instanceOf(RunnerSettings.class));
         assertThat(data, instanceOf(OptimizedConfigurationSettings.class));

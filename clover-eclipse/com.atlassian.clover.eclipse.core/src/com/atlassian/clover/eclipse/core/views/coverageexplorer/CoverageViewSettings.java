@@ -84,11 +84,7 @@ public class CoverageViewSettings
 
     @Override
     protected List defaultTreeColumnWidths() {
-        return newArrayList(
-                new Integer(300),
-                new Integer(MetricsPcCellRenderer.getDefaultWidth()),
-                new Integer(100),
-                new Integer(100));
+        return newArrayList(300, MetricsPcCellRenderer.getDefaultWidth(), 100, 100);
     }
 
     private int defaultCoverageModel() {

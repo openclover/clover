@@ -233,13 +233,9 @@ public class BuildCoordinator {
 
     private File createCompilationWorkArea() throws CoreException {
         try {
-            File tempFolder =
-                JavaEnvUtils.JAVA_1_4.equals(JavaEnvUtils.getJavaVersion())
-                    //user temp dir - to minimise file length on Windows XP & 1.4
-                    ? null
-                    //Eclipse per-project working dir
-                    : project.getWorkingPath().toFile();
-                return FileUtils.createTempDir("CLOV", tempFolder);
+            //Eclipse per-project working dir
+            File tempFolder = project.getWorkingPath().toFile();
+            return FileUtils.createTempDir("CLOV", tempFolder);
         } catch (IOException e) {
             throw CloverPlugin.logAndThrowError("Unable to create working folder", e);
         }

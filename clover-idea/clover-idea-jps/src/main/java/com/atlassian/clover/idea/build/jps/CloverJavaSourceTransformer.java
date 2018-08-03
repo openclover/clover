@@ -131,7 +131,7 @@ public class CloverJavaSourceTransformer extends JavaSourceTransformer {
         final PrefixTree.Node<String, LanguageLevel> closestSourceRoot = CloverJavaBuilder.getInstance()
                 .getSourceRootToLanguageLevel().findNearest(sourceFile);
         // not found? assume the latest supported
-        return (closestSourceRoot.getValue() != null ? closestSourceRoot.getValue() : LanguageLevel.JDK_1_8);
+        return (closestSourceRoot.getValue() != null ? closestSourceRoot.getValue() : LanguageLevel.JDK_1_9);
     }
 
     protected final Map<LanguageLevel, String> languageLevel2VersionString = new HashMap<LanguageLevel, String>() {{
@@ -141,12 +141,13 @@ public class CloverJavaSourceTransformer extends JavaSourceTransformer {
         put(LanguageLevel.JDK_1_6, "1.6");
         put(LanguageLevel.JDK_1_7, "1.7");
         put(LanguageLevel.JDK_1_8, "1.8");
+        put(LanguageLevel.JDK_1_9, "1.9");
     }};
 
     public String languageLevelToShortString(final LanguageLevel level) {
         return languageLevel2VersionString.containsKey(level)
                 ? languageLevel2VersionString.get(level)
-                : languageLevel2VersionString.get(LanguageLevel.JDK_1_8); // use 1.8 if key not found
+                : languageLevel2VersionString.get(LanguageLevel.JDK_1_9); // use 1.9 if key not found
     }
 
     private void debugTransform(final File file, final CharSequence charSequence,
