@@ -17,10 +17,10 @@ public class JavaInstrumentationConfig extends InstrumentationConfig {
     private boolean java16 = false;
     /** true if we are dealing explicitly with java 1.7 source **/
     private boolean java17 = false;
-    /** true if we are dealing explicitly with java 1.8 source **/
-    private boolean java18 = false;
-    /** true if we are dealing explicitly with java 1.9 source **/
-    private boolean java19 = false;
+    /** true if we are dealing explicitly with java 8 source **/
+    private boolean java8 = false;
+    /** true if we are dealing explicitly with java 9 source **/
+    private boolean java9 = false;
 
     private boolean sourceLevelSet = false;
 
@@ -41,8 +41,8 @@ public class JavaInstrumentationConfig extends InstrumentationConfig {
 
     public String getSourceLevel() {
         ensureSourceLevelSet();
-        return  java19 ? "1.9"
-                : java18 ? "1.8"
+        return  java9 ? "9"
+                : java8 ? "1.8"
                     : java17 ? "1.7"
                         : java16 ? "1.6"
                             : java15 ? "1.5"
@@ -52,9 +52,9 @@ public class JavaInstrumentationConfig extends InstrumentationConfig {
 
     public void setSourceLevel(String source) {
         if (source != null) {
-            java19 = source.equals("1.9") || source.equals("9");
-            java18 = source.equals("1.8") || source.equals("8") || java19;
-            java17 = source.equals("1.7") || source.equals("7") || java18;
+            java9 = source.equals("1.9") || source.equals("9");
+            java8 = source.equals("1.8") || source.equals("8") || java9;
+            java17 = source.equals("1.7") || source.equals("7") || java8;
             java16 = source.equals("1.6") || source.equals("6") || java17;
             java15 = source.equals("1.5") || source.equals("5") || java16;
             java14 = source.equals("1.4") || java15;
@@ -72,14 +72,14 @@ public class JavaInstrumentationConfig extends InstrumentationConfig {
         return java15;
     }
 
-    public boolean isJava18() {
+    public boolean isJava8() {
         ensureSourceLevelSet();
-        return java18;
+        return java8;
     }
 
-    public boolean isJava19(){
+    public boolean isJava9(){
         ensureSourceLevelSet();
-        return java19;
+        return java9;
     }
 
     public void setInstrFileExtension(String extension) {

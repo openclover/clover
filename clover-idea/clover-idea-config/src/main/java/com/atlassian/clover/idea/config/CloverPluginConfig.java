@@ -28,7 +28,7 @@ public interface CloverPluginConfig {
     String LANGUAGE_LEVEL_JAVA_15 = "1.5 - 'enum' keyword, autoboxing, etc.";
     String LANGUAGE_LEVEL_JAVA_17 = "1.7 - try resource blocks, multi-catch clauses, diamond generics, binary literals.";
     String LANGUAGE_LEVEL_JAVA_18 = "1.8 - lambda functions, virtual extension methods.";
-    String LANGUAGE_LEVEL_JAVA_19 = "1.9 - modules.";
+    String LANGUAGE_LEVEL_JAVA_19 = "9 - modules.";
 
     /**
      * Add a config change listener

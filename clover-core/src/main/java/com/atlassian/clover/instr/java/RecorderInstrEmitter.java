@@ -52,7 +52,7 @@ public class RecorderInstrEmitter extends Emitter {
     private String classNotFoundMsg;
     private boolean shouldEmitWarningMethod;
     private List<CloverProfile> profiles;
-    private boolean isJava18OrHigher;
+    private boolean isJava8OrHigher;
 
     public RecorderInstrEmitter(boolean isEnum) {
         super();
@@ -71,7 +71,7 @@ public class RecorderInstrEmitter extends Emitter {
         profiles = state.getCfg().getProfiles();
         registryVersion = state.getSession().getVersion();
         javaLangPrefix = state.getCfg().getJavaLangPrefix();
-        isJava18OrHigher = state.getCfg().isJava18();
+        isJava8OrHigher = state.getCfg().isJava8();
         testClass = state.isDetectTests();
         isSpockTestClass = state.isSpockTestClass();
         isParameterizedJUnitTestClass = state.isParameterizedJUnitTestClass();
@@ -99,7 +99,7 @@ public class RecorderInstrEmitter extends Emitter {
             instrString += generateCloverProfilesField(profiles);
 
             // add a lambdaInc() wrapper method for lambdas - only for java8 or higher
-            if (isJava18OrHigher) {
+            if (isJava8OrHigher) {
                 instrString += generateLambdaIncMethod(recorderSuffix);
             }
 
