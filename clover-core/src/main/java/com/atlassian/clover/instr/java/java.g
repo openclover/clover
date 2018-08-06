@@ -498,115 +498,6 @@ tokens {
 
 }
 
-moduleDeclarationPredicate
-{
-    AnnotationImpl an;
-}
-    :
-        ( an=annotation )*
-        ( "open" )?
-        "module"
-    ;
-
-moduleDeclaration
-{
-    AnnotationImpl an;
-    String moduleName;
-}
-    :
-        ( an=annotation )*
-        ( "open" )?
-        "module" moduleName=identifier
-        LCURLY
-        ( moduleDirective )*
-        RCURLY
-    ;
-
-moduleDirective
-    :
-        (
-            requiresDirective
-        |
-            exportsDirective
-        |
-            opensDirective
-        |
-            usesDirective
-        |
-            providesDirective
-        )
-    ;
-
-requiresDirective
-{
-    String requiredModule;
-}
-    :
-        "requires"
-        ( "transitive" | "static" )?
-        requiredModule=identifier
-        SEMI!
-    ;
-
-exportsDirective
-{
-    String exportedPackage;
-    String moduleName;
-}
-    :
-        "exports"
-        exportedPackage=identifier
-        (
-            "to"
-            moduleName=identifier ( COMMA! moduleName=identifier )*
-        )?
-        SEMI!
-    ;
-
-opensDirective
-{
-    String openedPackage;
-    String moduleName;
-}
-    :
-        "opens"
-        openedPackage=identifier
-        (
-            "to"
-             moduleName=identifier ( COMMA! moduleName=identifier )*
-        )?
-        SEMI!
-    ;
-
-
-usesDirective
-{
-    String serviceName;
-}
-    :
-        "uses"
-        serviceName=identifier
-        SEMI!
-    ;
-
-
-providesDirective
-{
-    String serviceName;
-    String withType;
-}
-    :
-        "provides"
-        serviceName=identifier
-        "with"
-        withType=identifier
-        (
-            COMMA!
-            withType=identifier
-        )?
-        SEMI!
-    ;
-
 
 // Compilation Unit: In Java, this is a single file.  This is the start
 //   rule for this parser
@@ -621,21 +512,14 @@ compilationUnit
         // Next we have a series of zero or more import statements
         ( importDefinition )*
 
-        // JLS specifies two kinds of compilation unit: ordinary and modular, but we can keep it simple and just
-        // have module declaration as an alternative to declarations of types
-        (
-            (moduleDeclarationPredicate) =>
-            moduleDeclaration
-        |
-            // Wrapping things up with any number of class or interface
-            //    definitions
-            ( typeDefinition[false]
-                {
-                    topLevelClass=true;
-                    existingFallthroughSuppression = false;
-                }
-            )*
-        )
+        // Wrapping things up with any number of class or interface
+        //    definitions
+        ( typeDefinition[false]
+            {
+                topLevelClass=true;
+                existingFallthroughSuppression = false;
+            }
+        )*
 
         EOF!
     ;

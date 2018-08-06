@@ -8,6 +8,8 @@ import com.atlassian.clover.api.CloverException;
 import com.atlassian.clover.api.instrumentation.ConcurrentInstrumentationException;
 import com.atlassian.clover.api.instrumentation.InstrumentationSession;
 import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig;
+import com.atlassian.clover.instr.java.module.JavaModuleInfoLexer;
+import com.atlassian.clover.instr.java.module.JavaModuleInfoRecognizer;
 import com.atlassian.clover.registry.entities.FullPackageInfo;
 import com.atlassian.clover.util.ChecksummingReader;
 import com.atlassian.clover.util.FileUtils;
@@ -200,22 +202,44 @@ public class Instrumenter {
         final ChecksummingReader checksummingReader = new ChecksummingReader(bin);
         final UnicodeDecodingReader unicodeReader = new UnicodeDecodingReader(checksummingReader);
 
-        // create java lexer; wrap the lexer in a filter that hides whitespace
-        // tokens from the parser, and collects tokens to output later
-        final JavaLexer lexer = new JavaLexer(unicodeReader, config);
-        final CloverTokenStreamFilter filter = new CloverTokenStreamFilter(in.getSourceFileLocation().getAbsolutePath(), lexer);
-
-        // create a parser that reads from the filtered token stream and start parsing at the compilationUnit rule
         final FileStructureInfo fileStructureInfo = new FileStructureInfo(in.getSourceFileLocation());
-        final JavaRecognizer parser = new JavaRecognizer(filter, config, fileStructureInfo, contextTreeRoot);
-        parser.compilationUnit();
+        final CloverTokenStreamFilter filter;
+        int linecount;
+        int nclinecount;
 
-        // record the number of lines in this file
-        int linecount = lexer.getLineCount();
+        if (in.getSourceFileLocation().getName().equalsIgnoreCase("module-info.java")) {
+            // parser for module-info.java files
+            // create java lexer; wrap the lexer in a filter that hides whitespace
+            // tokens from the parser, and collects tokens to output later
+            final JavaModuleInfoLexer lexer = new JavaModuleInfoLexer(unicodeReader, config);
+            filter = new CloverTokenStreamFilter(in.getSourceFileLocation().getAbsolutePath(), lexer);
+
+            final JavaModuleInfoRecognizer parser = new JavaModuleInfoRecognizer(filter, config, fileStructureInfo, contextTreeRoot);
+            parser.compilationUnit();
+
+            // record the number of lines in this file
+            linecount = lexer.getLineCount();
+            nclinecount = lexer.getNCLineCount();
+        } else {
+            // parser for normal java files
+            // create java lexer; wrap the lexer in a filter that hides whitespace
+            // tokens from the parser, and collects tokens to output later
+            final JavaLexer lexer = new JavaLexer(unicodeReader, config);
+            filter = new CloverTokenStreamFilter(in.getSourceFileLocation().getAbsolutePath(), lexer);
+
+            // create a parser that reads from the filtered token stream and start parsing at the compilationUnit rule
+            final JavaRecognizer parser = new JavaRecognizer(filter, config, fileStructureInfo, contextTreeRoot);
+            parser.compilationUnit();
+
+            // record the number of lines in this file
+            linecount = lexer.getLineCount();
+            nclinecount = lexer.getNCLineCount();
+        }
+
+        // corrent EOL
         if (filter.isEOLTerminated()) {
             linecount--;
         }
-        int nclinecount = lexer.getNCLineCount();
 
         checksummingReader.close();
         unicodeReader.close();

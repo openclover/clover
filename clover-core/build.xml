@@ -106,6 +106,11 @@
             <srcfiles dir="${clover-core.base}/src/main/java" includes="**/java.g"/>
         </uptodate>
 
+        <uptodate property="_module.antlr.is.uptodate"
+                  targetfile="${clover-core.output.gensources}/${clover-core.antlr.path}/module/JavaModuleInfoLexer.java">
+            <srcfiles dir="${clover-core.base}/src/main/java" includes="**/java-module-info.g"/>
+        </uptodate>
+
         <uptodate property="_column.antlr.is.uptodate"
                   targetfile="${clover-core.output.gensources}/${column.antlr.path}/CalcLexer.java">
             <srcfiles dir="${clover-core.base}/src/main/java" includes="**/column.g"/>
@@ -128,6 +133,12 @@
         </replace>
     </target>
 
+    <target name="_clover-core.run.antlr.module" depends="clover-core.init, _clover-core.check.antlr" unless="_module.antlr.is.uptodate">
+        <antlr rundir="${clover-core.base}/src/main/java"
+               outdir="${clover-core.output.gensources}/${clover-core.antlr.path}/module"
+               infile="${clover-core.base}/src/main/java/${clover-core.antlr.path}/module/java-module-info.g"/>
+    </target>
+
     <target name="_column.run.antlr" depends="clover-core.init, _clover-core.check.antlr" unless="_column.antlr.is.uptodate">
         <antlr rundir="${clover-core.base}/src/main/java" outdir="${clover-core.output.gensources}/${column.antlr.path}" infile="${clover-core.base}/src/main/java/${column.antlr.path}/column.g"/>
     </target>
@@ -139,7 +150,8 @@
         </copy>
     </target>
 
-    <target name="clover-core.build" depends="clover-core-libs.initialize, clover-runtime.build, _clover-core.run.antlr,_column.run.antlr">
+    <target name="clover-core.build" depends="clover-core-libs.initialize, clover-runtime.build, _clover-core.run.antlr,
+            _clover-core.run.antlr.module, _column.run.antlr">
         <mkdir dir="${clover-core.output.classes}"/>
         <!-- Compile runtime classes -->
         <javac destdir="${clover-core.output.classes}"
@@ -155,6 +167,7 @@
             <src path="${clover-core.output.gensources}"/>
             <!-- No non-runtime generated source -->
             <exclude name="com/atlassian/clover/instr/java/*.java"/>
+            <exclude name="com/atlassian/clover/instr/java/module/*.java"/>
             <exclude name="com/atlassian/clover/reporters/*.java"/>
             <exclude name="**/package-info.java"/>
         </javac>
