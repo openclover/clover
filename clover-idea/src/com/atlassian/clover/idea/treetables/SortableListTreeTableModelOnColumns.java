@@ -21,7 +21,7 @@ public class SortableListTreeTableModelOnColumns extends ListTreeTableModelOnCol
         return true;
     }
 
-    public void sortNodes(List<DefaultMutableTreeNode> nodes) {
+    public void sortNodes(List<? extends TreeNode> nodes) {
         modelSorter.sortNodes(nodes);
     }
 

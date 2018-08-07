@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.atlassian.clover</groupId>
     <artifactId>clover-idea-libs</artifactId>
-    <version>2016.2.162112132</version> <!-- major.minor.build (2016.2 build IC-162.1121.32) -->
+    <version>2016.3.163155298</version> <!-- major.minor.build (2016.3.8 build IC-163.15529.8) -->
     <packaging>pom</packaging>
     <description>
         This module contains a subset of IntelliJ IDEA's JAR files required to compile Clover-for-IDEA

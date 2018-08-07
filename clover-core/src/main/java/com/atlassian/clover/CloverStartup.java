@@ -42,7 +42,7 @@ public class CloverStartup {
             CloverLicenseInfo.DAYS_REMAINING = license.getDaysTillExpiry();
             evaluateDaysLeft(CloverLicenseInfo.DAYS_REMAINING);
 
-            log.info(ConsoleFormatter.format(CloverLicenseInfo.OWNER_STMT));
+            log.debug(ConsoleFormatter.format(CloverLicenseInfo.OWNER_STMT));
         } catch (LicenseDecoderException e) {
             log.debug(e);
         }
@@ -53,7 +53,7 @@ public class CloverStartup {
                 ", built on " + CloverVersionInfo.BUILD_DATE + " (" + CloverVersionInfo.BUILD_NUMBER + ")");
         String loadedFrom =  ClassPathUtil.getCloverJarPath();
         if (loadedFrom != null) {
-            log.info("Loaded from: " + loadedFrom);
+            log.debug("Loaded from: " + loadedFrom);
         } else {
             log.debug("Couldn't determine path we were loaded from.");
         }

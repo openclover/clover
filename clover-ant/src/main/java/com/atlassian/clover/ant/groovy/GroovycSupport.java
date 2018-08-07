@@ -5,7 +5,7 @@ import com.atlassian.clover.CloverNames;
 import com.atlassian.clover.Logger;
 import com.atlassian.clover.ant.AntInstrUtils;
 import com.atlassian.clover.ant.tasks.AntInstrumentationConfig;
-import com.atlassian.clover.ant.tasks.CloverEnvTask;
+import com.atlassian.clover.ant.tasks.CloverSetupTask;
 import com.atlassian.clover.ant.tasks.TestSourceSet;
 import com.atlassian.clover.api.CloverException;
 import com.atlassian.clover.cfg.instr.InstrumentationConfig;
@@ -337,7 +337,7 @@ public class GroovycSupport implements BuildListener {
 
         try {
 
-            final InputStream groverStream = CloverEnvTask.class.getResourceAsStream(groverResourceName);
+            final InputStream groverStream = CloverSetupTask.class.getResourceAsStream(groverResourceName);
             if (groverStream != null) {
                 if (groverJar != null) {
                     // create parent directory if necessary, check if really exists

@@ -2,7 +2,7 @@ package com.atlassian.clover.idea.treetables;
 
 import com.intellij.util.ui.ColumnInfo;
 
-import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeNode;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -21,19 +21,19 @@ public class ModelSorter {
     }
 
     @SuppressWarnings({"unchecked"})
-    public void sortNodes(List<DefaultMutableTreeNode> nodes) {
+    public void sortNodes(List<? extends TreeNode> nodes) {
         if (sortedColumnIndex < 0 || sortedColumnIndex >= columns.length) {
             return;
         }
-        final Comparator<DefaultMutableTreeNode> columnComparator = columns[sortedColumnIndex].getComparator();
+        final Comparator<TreeNode> columnComparator = columns[sortedColumnIndex].getComparator();
         if (columnComparator == null) {
             return;
         }
 
-        Comparator<DefaultMutableTreeNode> actualComparator = sortingType == SORT_ASCENDING ?
-                columnComparator : new Comparator<DefaultMutableTreeNode>() {
+        Comparator<TreeNode> actualComparator = sortingType == SORT_ASCENDING ?
+                columnComparator : new Comparator<TreeNode>() {
             @Override
-            public int compare(DefaultMutableTreeNode o1, DefaultMutableTreeNode o2) {
+            public int compare(TreeNode o1, TreeNode o2) {
                 return columnComparator.compare(o2, o1);
             }
         };

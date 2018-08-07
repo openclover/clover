@@ -26,27 +26,19 @@
     <target name="clover-idea-libs.clean"/>
 
     <target name="-idea.download" if="download.internal.maven.artifacts">
-        <download-idea version="13.0.133193"/>
         <download-idea version="14.0.1391603"/>
         <download-idea version="14.1.141305830"/>
         <download-idea version="15.0.143237031"/>
-        <download-idea version="2016.2.162112132"/>
+        <download-idea version="2016.3.163155298"/>
     </target>
 
     <target name="clover-idea-libs.initialize" depends="-idea.download">
         <!-- see ideaXX.home in build.properties -->
-
-        <path id="idea13.classpath">
-            <fileset dir="${idea13.home}" includes="**/*.jar"/>
+        <path id="idea14.classpath">
+            <fileset dir="${idea14.home}" includes="**/*.jar"/>
         </path>
-        <path id="idea140.classpath">
-            <fileset dir="${idea140.home}" includes="**/*.jar"/>
-        </path>
-        <path id="idea141.classpath">
-            <fileset dir="${idea141.home}" includes="**/*.jar"/>
-        </path>
-        <path id="idea150.classpath">
-            <fileset dir="${idea150.home}" includes="**/*.jar"/>
+        <path id="idea15.classpath">
+            <fileset dir="${idea15.home}" includes="**/*.jar"/>
         </path>
         <path id="idea16.classpath">
             <fileset dir="${idea16.home}" includes="**/*.jar"/>

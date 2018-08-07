@@ -55,19 +55,11 @@ public class TestRunExplorerViewSettings
 
     @Override
     protected List defaultTreeColumnWidths() {
-        return Arrays.asList(
-                new Integer(200),
-                new Integer(100),
-                new Integer(50),
-                new Integer(75),
-                new Integer(200));
+        return Arrays.asList(200, 100, 50, 75, 200);
     }
 
     private List defaultClassesTestedTreeColumnWidths() {
-        return Arrays.asList(
-                new Integer(150),
-                new Integer(125),
-                new Integer(100));
+        return Arrays.asList(150, 125, 100);
     }
 
     private List allClassesTestedTreeColumns() {

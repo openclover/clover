@@ -34,7 +34,7 @@
                includeAntRuntime="false">
             <classpath>
                 <path refid="clover-idea-project.libs"/>
-                <path refid="idea13.classpath"/>
+                <path refid="idea14.classpath"/>
             </classpath>
             <src path="${clover-idea-project.main.java}"/>
         </javac>

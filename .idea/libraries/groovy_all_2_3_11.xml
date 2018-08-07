@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="groovy-all-2.3.11">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/target/dependencies/groovy-all-2.3.11.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

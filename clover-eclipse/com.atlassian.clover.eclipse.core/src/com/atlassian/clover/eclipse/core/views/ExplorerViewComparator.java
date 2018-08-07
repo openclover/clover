@@ -39,13 +39,13 @@ public abstract class ExplorerViewComparator extends ViewerComparator {
         BlockMetrics metrics2 = scope.getMetricsFor(value2);
         Double custom1;
         try {
-            custom1 = metrics1 == null ? NOT_AVAILABLE_DOUBLE : new Double(column.calculate(metrics1));
+            custom1 = metrics1 == null ? NOT_AVAILABLE_DOUBLE : Double.valueOf(column.calculate(metrics1));
         } catch (Exception e) {
             custom1 = NOT_AVAILABLE_DOUBLE;
         }
         Double custom2;
         try {
-            custom2 = metrics2 == null ? NOT_AVAILABLE_DOUBLE : new Double(column.calculate(metrics2));
+            custom2 = metrics2 == null ? NOT_AVAILABLE_DOUBLE : Double.valueOf(column.calculate(metrics2));
         } catch (Exception e) {
             custom2 = NOT_AVAILABLE_DOUBLE;
         }
