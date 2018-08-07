@@ -702,7 +702,7 @@ packageDefinition
 //    or a "static" method import
 importDefinition
     options {defaultErrorHandler = false;}
-    :   "import" (STATIC)? identifierStar SEMI!
+    :   "import" ("static")? identifierStar SEMI!
     ;
 
 // A type definition in a file is either a class or interface definition.
@@ -2893,19 +2893,6 @@ options {
             // override ANTLR in the case where we are not java 15 and we hit an "enum"
             return JavaTokenTypes.IDENT;
         }
-        // change module-info tokens into regular identifiers
-        /*if (tmpType == JavaTokenTypes.LITERAL_exports
-                || tmpType == JavaTokenTypes.LITERAL_open
-                || tmpType == JavaTokenTypes.LITERAL_module
-                || tmpType == JavaTokenTypes.LITERAL_requires
-                || tmpType == JavaTokenTypes.LITERAL_transitive
-                || tmpType == JavaTokenTypes.LITERAL_opens
-                || tmpType == JavaTokenTypes.LITERAL_to
-                || tmpType == JavaTokenTypes.LITERAL_uses
-                || tmpType == JavaTokenTypes.LITERAL_provides
-                || tmpType == JavaTokenTypes.LITERAL_with) {
-            return JavaTokenTypes.IDENT;
-        }*/
         return tmpType;
     }
     
@@ -3115,19 +3102,6 @@ protected
 VOCAB
     :   '\3'..'\377'
     ;
-
-// module-info keywords
-//EXPORTS     :   "exports";
-//MODULE      :   "module";
-//OPEN        :   "open";
-//OPENS       :   "opens";
-//PROVIDES    :   "provides";
-//REQUIRES    :   "requires";
-//STATIC      :   "static";
-//TO          :   "to";
-//TRANSITIVE  :   "transitive";
-//WITH        :   "with";
-
 
 /**
  * An identifier.  Note that testLiterals is set to true!  This means that after we match the rule, we look in the
