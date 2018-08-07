@@ -6,7 +6,7 @@ import org.apache.tools.ant.util.JavaEnvUtils
 
 /**
  * The purpose of this test is to
- * a) make sure the code compiles under a JDK1.9
+ * a) make sure the code compiles under a JDK9
  * b) make sure that when that code is instrumented, it still compiles
  */
 class JavaSyntax19CompilationTest extends JavaSyntaxCompilationTestBase {
@@ -36,16 +36,23 @@ class JavaSyntax19CompilationTest extends JavaSyntaxCompilationTestBase {
     }
 
     void testModuleInfo() {
+        // copy sub-packages - we're not interested in instrumenting them
+        FileUtils.dirCopy(srcDir, mGenSrcDir, true);
+        // instrument just module-info.java
+        File moduleInfo = new File(srcDir, "module-info.java");
+        instrumentSourceFile(moduleInfo, JavaEnvUtils.JAVA_1_9)
+
         if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_9)) {
-            // copy sub-packages - we're not interested in instrumenting them
-            FileUtils.dirCopy(srcDir, mGenSrcDir, true);
-            // instrument just module-info.java
-            File moduleInfo = new File(srcDir, "module-info.java");
-            instrumentSourceFile(moduleInfo, JavaEnvUtils.JAVA_1_9)
             // compile all stuff
             compileSources(mGenSrcDir, [ "module-info.java"] as String[], JavaEnvUtils.JAVA_1_9)
             // expect no instrumentation in module-info.java
             assertFileMatches("module-info.java", R_INC, true)
         }
     }
+
+    void testDoesNotFailOnModuleInfoKeywordsInRegularSourceFile() {
+        File sourceFile = new File(new File(srcDir, "java9"), "NonModuleInfo.java");
+        instrumentSourceFile(sourceFile, JavaEnvUtils.JAVA_1_6)
+    }
+
 }
