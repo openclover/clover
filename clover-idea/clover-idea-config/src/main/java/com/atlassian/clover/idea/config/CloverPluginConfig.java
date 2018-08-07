@@ -19,40 +19,16 @@ public interface CloverPluginConfig {
     //TODO: different configuration parameters, some of which are not always
     //TODO: required.
 
-    /**
-     *
-     */
     int DIRECTED_FLUSHING = 0;
-    /**
-     *
-     */
     int INTERVAL_FLUSHING = 1;
-    /**
-     *
-     */
     int THREADED_FLUSHING = 2;
 
-    /**
-     *
-     */
     String LANGUAGE_LEVEL_JAVA_13 = "1.3";
-
-    /**
-     *
-     */
     String LANGUAGE_LEVEL_JAVA_14 = "1.4 - 'assert' keyword";
-
-    /**
-     *
-     */
     String LANGUAGE_LEVEL_JAVA_15 = "1.5 - 'enum' keyword, autoboxing, etc.";
-
-    /**
-     *
-     */
     String LANGUAGE_LEVEL_JAVA_17 = "1.7 - try resource blocks, multi-catch clauses, diamond generics, binary literals.";
-
     String LANGUAGE_LEVEL_JAVA_18 = "1.8 - lambda functions, virtual extension methods.";
+    String LANGUAGE_LEVEL_JAVA_19 = "9 - modules.";
 
     /**
      * Add a config change listener

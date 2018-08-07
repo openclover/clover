@@ -1,9 +1,5 @@
 <?xml version="1.0"?>
 <antlib>
-    <!-- NB: CloverEnvTask must be loaded first as it adds clover.jar
-             to the classpath if needed. This is an internal task only. -->
-    <taskdef name="clover-env" classname="com.atlassian.clover.ant.tasks.CloverEnvTask"/>
-
     <taskdef name="clover-log" classname="com.atlassian.clover.ant.tasks.CloverLogTask"/>
     <taskdef name="clover-check" classname="com.atlassian.clover.ant.tasks.CloverPassTask"/>
     <taskdef name="clover-setup" classname="com.atlassian.clover.ant.tasks.CloverSetupTask"/>

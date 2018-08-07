@@ -6,7 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
     </content>
-    <orderEntry type="jdk" jdkName="IDEA 13.0.0" jdkType="IDEA JDK" />
+    <orderEntry type="jdk" jdkName="IDEA 14" jdkType="IDEA JDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="clover-idea-config" />
     <orderEntry type="module" module-name="clover-idea-coverage" />

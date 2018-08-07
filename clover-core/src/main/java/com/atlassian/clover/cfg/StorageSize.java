@@ -8,15 +8,15 @@ import static clover.com.google.common.collect.Maps.newHashMap;
 
 public class StorageSize {
     private static Pattern SIZE_REGEX = Pattern.compile("(0|([1-9][0-9]*))([bkmg])?",Pattern.CASE_INSENSITIVE);
-    private static Map MULTIPLIERS = newHashMap();
+    private static Map<String, Long> MULTIPLIERS = newHashMap();
     public static final StorageSize ZERO = new StorageSize(0);
     public static final StorageSize MAX = new StorageSize(Long.MAX_VALUE);
 
     static {
-        MULTIPLIERS.put("b",new Long(1L));
-        MULTIPLIERS.put("k",new Long(1000L));
-        MULTIPLIERS.put("m",new Long(1000000L));
-        MULTIPLIERS.put("g",new Long(1000000000L));
+        MULTIPLIERS.put("b", 1L);
+        MULTIPLIERS.put("k", 1000L);
+        MULTIPLIERS.put("m", 1000000L);
+        MULTIPLIERS.put("g", 1000000000L);
     }
 
     private long sizeInBytes;
@@ -32,9 +32,9 @@ public class StorageSize {
                 long value = Long.parseLong(m.group(1));
                 String unit = m.group(3);
                 if (unit != null) {
-                    Long mult = (Long)MULTIPLIERS.get(unit.toLowerCase());
+                    Long mult = MULTIPLIERS.get(unit.toLowerCase());
                     if (mult != null) {
-                        return new StorageSize(value * mult.longValue());
+                        return new StorageSize(value * mult);
                     }
                 } else {
                     return new StorageSize(value);

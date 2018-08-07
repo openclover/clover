@@ -94,7 +94,6 @@ public class HtmlReporter extends CloverReporter {
             CommandLineArgProcessors.ShowInnerFunctions,
             CommandLineArgProcessors.ShowLambdaFunctions,
             CommandLineArgProcessors.ShowUnique,
-            CommandLineArgProcessors.Style,
             CommandLineArgProcessors.Title,
             CommandLineArgProcessors.ThreadCount,
             CommandLineArgProcessors.TabWidth,

@@ -245,7 +245,7 @@ public abstract class AbstractCloverPluginConfig implements CloverPluginConfig {
         return (Long) val;
     }
 
-    public static final String DEFAULT_LANGUAGE_LEVEL = LANGUAGE_LEVEL_JAVA_18;
+    public static final String DEFAULT_LANGUAGE_LEVEL = LANGUAGE_LEVEL_JAVA_19;
 
     protected final Map<String, String> languageLevel2VersionString = new HashMap<String, String>() {{
         put(LANGUAGE_LEVEL_JAVA_13, "1.3");
@@ -254,13 +254,14 @@ public abstract class AbstractCloverPluginConfig implements CloverPluginConfig {
         // LANGUAGE_LEVEL_JAVA_16 is missing
         put(LANGUAGE_LEVEL_JAVA_17, "1.7");
         put(LANGUAGE_LEVEL_JAVA_18, "1.8");
+        put(LANGUAGE_LEVEL_JAVA_19, "9");
     }};
 
     /**
      * Returns Java language level as a short-number version string like: "1.4", "1.5" which is
      * useful for for passing as '-source' argument for javac. If language level is not set,
-     * the Java 1.8 is taken as default.
-     * @return String 1.3, 1.4, 1.5, 1.6, 1.7 or 1.8
+     * the Java 9 is taken as default.
+     * @return String 1.3, 1.4, 1.5, 1.6, 1.7, 1.8 or 9
      */
     @Override
     @Nullable

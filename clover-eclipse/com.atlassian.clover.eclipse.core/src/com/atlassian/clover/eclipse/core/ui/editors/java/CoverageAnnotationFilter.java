@@ -178,7 +178,7 @@ public class CoverageAnnotationFilter {
                         String[] testIdStrings = testIdsAsString.split(",");
                         for (String testIdString : testIdStrings) {
                             try {
-                                testIds.add(new Integer(testIdString));
+                                testIds.add(Integer.valueOf(testIdString));
                             } catch (NumberFormatException e) {
                                 testClasses.add(testIdString);
                             }
