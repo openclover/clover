@@ -1,4 +1,5 @@
 import java9.internal.Internal;
+import java9.internal.SpiImplOne;
 import java9.spi.SPI;
 
 // test: we must be able to parse expressions in annotations
@@ -10,9 +11,9 @@ module javasyntax {
     requires static java.sql;
     exports java9;
     exports java9.spi;
-    opens java9.api to common.spi, common.api;
+    opens java9.api to common.spi, common.api, requires.api;
     uses java.lang.String;
-    provides SPI with Internal;
+    provides SPI with Internal, SpiImplOne, java9.internal.SpiImplTwo;
 
     // test: distinguish between keywords and identifiers
     exports exports;
