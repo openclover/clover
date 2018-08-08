@@ -596,7 +596,11 @@ exportsDirective
         exportedPackage=identifier
         (
             { LT(1).getText().equals("to") }? IDENT
-            moduleName=identifier ( COMMA! moduleName=identifier )*
+            moduleName=identifier
+            (
+                COMMA!
+                moduleName=identifier
+            )*
         )?
         SEMI!
     ;
@@ -614,7 +618,11 @@ opensDirective
         openedPackage=identifier
         (
             { LT(1).getText().equals("to") }? IDENT
-            moduleName=identifier ( COMMA! moduleName=identifier )*
+            moduleName=identifier
+            (
+                COMMA!
+                moduleName=identifier
+            )*
         )?
         SEMI!
     ;
@@ -648,7 +656,7 @@ providesDirective
         (
             COMMA!
             withType=identifier
-        )?
+        )*
         SEMI!
     ;
 
