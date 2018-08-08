@@ -39,7 +39,9 @@ public class JUnitOptimizingProgramRunnerIdea13 extends DefaultJavaProgramRunner
 
     @Override
     public SettingsEditor getSettingsEditor(Executor executor, RunConfiguration configuration) {
-        return runnerBase.getJUnitConfigurationId().equals(configuration.getType().getId()) ?
+        final String configurationId = configuration.getType().getId();
+        return (runnerBase.getJUnitConfigurationId().equals(configurationId)
+                || runnerBase.getAndroidJunitConfigurationId().equals(configurationId)) ?
                 new OptimizedConfigurationSettingsEditor() : null;
     }
 
