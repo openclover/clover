@@ -498,14 +498,34 @@ tokens {
 
 }
 
+//
+// module-info.java grammar
+//
+// Note: none of the keywords used in module-info (module, exports, requires etc) is not a "real keyword".
+// You can still use them as identifiers. Therefore, we cannot use string literals explicitly, e.g.
+//     "xyz" identifier SEMI
+// because string literal will become a token and "steal" this keyword from IDENT, failing on parsing regular code.
+// Instead of this we use a trick to to sneak peek the next token and treat it as a simple IDENT
+//      { LT(1).getText().equals("xyz") }? IDENT identifier SEMI
+//
+
+//
+// "(annotations) (open) module <identifier> {"
+//
 moduleDeclarationPredicate
 {
     AnnotationImpl an;
+    String moduleName;
 }
     :
         ( an=annotation )*
-        ( "open" )?
-        "module"
+        (
+            { LT(1).getText().equals("open") && LT(2).getText().equals("module") }? IDENT IDENT
+        |
+            { LT(1).getText().equals("module") }? IDENT
+        )
+        moduleName=identifier
+        LCURLY
     ;
 
 moduleDeclaration
@@ -515,8 +535,11 @@ moduleDeclaration
 }
     :
         ( an=annotation )*
-        ( "open" )?
-        "module" moduleName=identifier
+        (
+            { LT(1).getText().equals("open") }? IDENT
+        )?
+        { LT(1).getText().equals("module") }? IDENT
+        moduleName=identifier
         LCURLY
         ( moduleDirective )*
         RCURLY
@@ -525,85 +548,115 @@ moduleDeclaration
 moduleDirective
     :
         (
+            (requiresDirective)=>
             requiresDirective
         |
+            (exportsDirective)=>
             exportsDirective
         |
+            (opensDirective)=>
             opensDirective
         |
+            (usesDirective)=>
             usesDirective
         |
+            (providesDirective)=>
             providesDirective
         )
     ;
 
+//
+// "requires (transitive|static) <identifier>;"
+//
 requiresDirective
 {
     String requiredModule;
 }
     :
-        "requires"
-        ( "transitive" | "static" )?
+        { LT(1).getText().equals("requires") }? IDENT
+        (
+            { LT(1).getText().equals("transitive") }? IDENT
+        |
+            "static"   // static is java keyword so we don't use a trick like above
+        )?
         requiredModule=identifier
         SEMI!
     ;
 
+//
+// "exports <identifier> (to <identifier>, <identifier>);"
+//
 exportsDirective
 {
     String exportedPackage;
     String moduleName;
 }
     :
-        "exports"
+        { LT(1).getText().equals("exports") }? IDENT
         exportedPackage=identifier
         (
-            "to"
-            moduleName=identifier ( COMMA! moduleName=identifier )*
+            { LT(1).getText().equals("to") }? IDENT
+            moduleName=identifier
+            (
+                COMMA!
+                moduleName=identifier
+            )*
         )?
         SEMI!
     ;
 
+//
+// "opens <identifier> (to <identifier>, <identifier>);"
+//
 opensDirective
 {
     String openedPackage;
     String moduleName;
 }
     :
-        "opens"
+        { LT(1).getText().equals("opens") }? IDENT
         openedPackage=identifier
         (
-            "to"
-             moduleName=identifier ( COMMA! moduleName=identifier )*
+            { LT(1).getText().equals("to") }? IDENT
+            moduleName=identifier
+            (
+                COMMA!
+                moduleName=identifier
+            )*
         )?
         SEMI!
     ;
 
-
+//
+// "uses <identifier>;"
+//
 usesDirective
 {
     String serviceName;
 }
     :
-        "uses"
+        { LT(1).getText().equals("uses") }? IDENT
         serviceName=identifier
         SEMI!
     ;
 
-
+//
+// "provides <identifier> with <identifier>, <identifier>;"
+//
 providesDirective
 {
     String serviceName;
     String withType;
 }
     :
-        "provides"
+        { LT(1).getText().equals("provides") }? IDENT
         serviceName=identifier
-        "with"
+        { LT(1).getText().equals("with") }? IDENT
         withType=identifier
         (
             COMMA!
             withType=identifier
-        )?
+        )*
         SEMI!
     ;
 
