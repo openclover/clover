@@ -1,6 +1,7 @@
 package org.openclover.ci;
 
 import com.atlassian.clover.ant.tasks.AntInstrumentationConfig;
+import com.atlassian.clover.ant.tasks.CloverEnvTask;
 import org.openclover.util.ClassPathUtil;
 import com.atlassian.clover.api.optimization.Optimizable;
 import com.atlassian.clover.optimization.LocalSnapshotOptimizer;
@@ -112,6 +113,7 @@ public class AntIntegrationListener implements BuildListener {
         if (!importOccured) {
             importOccured = true;
             setSystemProperties(buildEvent);
+            importCloverTargets(buildEvent);
         }
 
         Task task = buildEvent.getTask();
@@ -147,6 +149,14 @@ public class AntIntegrationListener implements BuildListener {
 
     public String getCloverOptimizeProperty() {
         return CloverNames.PROP_CLOVER_OPTIMIZATION_ENABLED;
+    }
+
+    private void importCloverTargets(BuildEvent buildEvent) {
+        CloverEnvTask envTask = new CloverEnvTask();
+        envTask.setProject(buildEvent.getProject());
+        envTask.setTaskName("clover-env");
+        envTask.init();
+        envTask.execute();
     }
 
     private void setSystemProperties(BuildEvent buildEvent) {
