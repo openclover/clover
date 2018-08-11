@@ -1,0 +1,19 @@
+<project basedir="." name="clover-env">
+    <property name="clover.home" value=""/>
+    <taskdef resource="cloverlib.xml"/>
+    <clover-env/>
+
+    <target name="testCloverEnvImport">
+        <antcall target="with.clover"/>
+    </target>
+
+
+    <target name="setUp">
+
+    </target>
+
+    <target name="tearDown">
+
+    </target>
+
+</project>

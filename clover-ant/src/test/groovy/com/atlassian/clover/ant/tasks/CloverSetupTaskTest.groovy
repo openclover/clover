@@ -14,29 +14,29 @@ class CloverSetupTaskTest extends CloverSetupTaskTestBase {
     @Test
     void testEnable() throws Exception {
         testBase.setUp()
-        assertFalse(CloverSetupTask.CLOVER_ADAPTER.equals(testBase.getProject().getProperty("build.compiler")))
+        assertFalse(CloverEnvTask.CLOVER_ADAPTER.equals(testBase.getProject().getProperty("build.compiler")))
         testBase.expectLogContaining("enable", "Clover is enabled with initstring")
-        assertTrue(CloverSetupTask.CLOVER_ADAPTER.equals(testBase.getProject().getProperty("build.compiler")))
+        assertTrue(CloverEnvTask.CLOVER_ADAPTER.equals(testBase.getProject().getProperty("build.compiler")))
     }
 
     @Test
     void testEnableDisable() throws Exception {
         testBase.setUp()
-        assertFalse(CloverSetupTask.CLOVER_ADAPTER.equals(testBase.getProject().getProperty("build.compiler")))
+        assertFalse(CloverEnvTask.CLOVER_ADAPTER.equals(testBase.getProject().getProperty("build.compiler")))
         testBase.expectLogContaining("enable", "Clover is enabled with initstring")
-        assertTrue(CloverSetupTask.CLOVER_ADAPTER.equals(testBase.getProject().getProperty("build.compiler")))
+        assertTrue(CloverEnvTask.CLOVER_ADAPTER.equals(testBase.getProject().getProperty("build.compiler")))
         testBase.expectLogContaining("disable", "Clover is disabled")
-        assertFalse(CloverSetupTask.CLOVER_ADAPTER.equals(testBase.getProject().getProperty("build.compiler")))
+        assertFalse(CloverEnvTask.CLOVER_ADAPTER.equals(testBase.getProject().getProperty("build.compiler")))
     }
 
     @Test
     void testDisableEnable() throws Exception {
         testBase.setUp()
-        assertFalse(CloverSetupTask.CLOVER_ADAPTER.equals(testBase.getProject().getProperty("build.compiler")))
+        assertFalse(CloverEnvTask.CLOVER_ADAPTER.equals(testBase.getProject().getProperty("build.compiler")))
         testBase.expectLogContaining("disable", "Clover is disabled")
-        assertFalse(CloverSetupTask.CLOVER_ADAPTER.equals(testBase.getProject().getProperty("build.compiler")))
+        assertFalse(CloverEnvTask.CLOVER_ADAPTER.equals(testBase.getProject().getProperty("build.compiler")))
         testBase.expectLogContaining("enable", "Clover is enabled with initstring")
-        assertTrue(CloverSetupTask.CLOVER_ADAPTER.equals(testBase.getProject().getProperty("build.compiler")))
+        assertTrue(CloverEnvTask.CLOVER_ADAPTER.equals(testBase.getProject().getProperty("build.compiler")))
     }
 
     @Test

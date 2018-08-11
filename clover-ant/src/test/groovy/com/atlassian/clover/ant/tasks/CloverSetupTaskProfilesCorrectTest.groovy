@@ -62,7 +62,7 @@ class CloverSetupTaskProfilesCorrectTest extends CloverSetupTaskTestBase {
         testBase.setUp()
         testBase.expectLogContaining(targetName, "Clover is enabled with initstring")
         // ... and the clover compiler adapter was set
-        assertTrue(CloverSetupTask.CLOVER_ADAPTER.equals(testBase.getProject().getProperty("build.compiler")))
+        assertTrue(CloverEnvTask.CLOVER_ADAPTER.equals(testBase.getProject().getProperty("build.compiler")))
 
         // check if clover-setup is on task list
         Target target = (Target) testBase.getProject().getTargets().get(targetName)
