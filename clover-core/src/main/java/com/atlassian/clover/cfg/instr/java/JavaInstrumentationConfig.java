@@ -41,7 +41,7 @@ public class JavaInstrumentationConfig extends InstrumentationConfig {
 
     public String getSourceLevel() {
         ensureSourceLevelSet();
-        return  java9 ? "9"
+        return  java9 ? "1.9"
                 : java8 ? "1.8"
                     : java17 ? "1.7"
                         : java16 ? "1.6"

@@ -254,7 +254,7 @@ public abstract class AbstractCloverPluginConfig implements CloverPluginConfig {
         // LANGUAGE_LEVEL_JAVA_16 is missing
         put(LANGUAGE_LEVEL_JAVA_17, "1.7");
         put(LANGUAGE_LEVEL_JAVA_18, "1.8");
-        put(LANGUAGE_LEVEL_JAVA_19, "9");
+        put(LANGUAGE_LEVEL_JAVA_19, "1.9");
     }};
 
     /**
