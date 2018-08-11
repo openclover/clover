@@ -32,9 +32,6 @@
 
     <fileset id="clover-ant.etc.fileset" dir="${clover-ant.base}/etc">
         <include name="cloverlib.xml"/>
-        <include name="clover.xml"/>
-        <include name="clovertasks"/>
-        <include name="clovertypes"/>
     </fileset>
 
     <fileset id="clover-ant.etc.grover.fileset" dir="${clover-ant.base}/etc">
@@ -96,6 +93,9 @@
         </javac>
         <copy todir="${clover-ant.output.classes}">
             <fileset refid="clover-ant.etc.fileset"/>
+            <fileset dir="${clover-ant.base}/src/main/java">
+                <include name="**/*.xml"/>
+            </fileset>
         </copy>
     </target>
 
@@ -267,6 +267,7 @@
             <!-- add clover-ant classes and the grover.jar -->
             <fileset dir="${clover-ant.output.classes}">
                 <include name="**/*.class"/>
+                <include name="**/*.xml"/>
                 <include name="${clover-ant.embedded.jar.path}/*.jar"/>
             </fileset>
             <!-- add clover-core classes -->
