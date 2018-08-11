@@ -12,7 +12,7 @@ public class CloverCompilerIdeaTest {
 
     @Test
     public void testLanguageLevelString() {
-        assertEquals("9", CloverCompiler.sourceLevelString(LanguageLevel.JDK_1_9));
+        assertEquals("1.9", CloverCompiler.sourceLevelString(LanguageLevel.JDK_1_9));
         assertEquals("1.8", CloverCompiler.sourceLevelString(LanguageLevel.JDK_1_8));
         assertEquals("1.7", CloverCompiler.sourceLevelString(LanguageLevel.JDK_1_7));
         assertEquals("1.6", CloverCompiler.sourceLevelString(LanguageLevel.JDK_1_6));
