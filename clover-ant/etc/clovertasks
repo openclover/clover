@@ -1,4 +1,0 @@
-## Simply a place holder task here that will print a warning
-## telling users to use cloverlib.xml instead of clovertasks.
-
-clover-warning=com.cenqua.clover.tasks.CloverWarningTask
