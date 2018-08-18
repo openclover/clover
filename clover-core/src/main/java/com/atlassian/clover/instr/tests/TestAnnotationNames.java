@@ -15,12 +15,18 @@ public final class TestAnnotationNames {
     public static final String SPRING_FQ_EXPECTED_ANNO_NAME = "org.springframework.test.annotation.ExpectedException";
     public static final String SPRING_EXPECTED_ANNO_NAME = "ExpectedException";
 
-    // JUnit
+    // JUnit4
     public static final String ORG_JUNIT_NAME = "org.junit";
     public static final String JUNIT_TEST_ANNO_NAME = ORG_JUNIT_NAME + ".Test";
     public static final String JUNIT_IGNORE_ANNO_NAME = ORG_JUNIT_NAME + ".Ignore";
     public static final String IGNORE_ANNO_NAME = "Ignore";
     public static final String EXPECTED_ATTR_NAME = "expected";
+
+    // JUnit5
+    public static final String ORG_JUNIT5_NAME = "org.junit.jupiter.api";
+    public static final String JUNIT5_TEST_ANNO_NAME = ORG_JUNIT5_NAME + ".Test";
+    public static final String JUNIT5_IGNORE_ANNO_NAME = ORG_JUNIT5_NAME + ".Disabled";
+    public static final String DISABLED_ANNO_NAME = "Disabled";
 
     // Instinct framework
     public static final String SPECIFICATION_ANNO_NAME = "Specification";
