@@ -283,8 +283,9 @@
         <!-- tutorial -->
         <copy todir="${clover-ant.output}/pkg/tutorial">
             <fileset dir="${common.base}/tutorial">
-                <exclude name="build/**"/>
-                <exclude name="target/**"/>
+                <exclude name="build/**"/>  <!-- ant -->
+                <exclude name="target/**"/> <!-- maven -->
+                <exclude name="out/**"/>    <!-- idea -->
                 <exclude name=".clover/**"/>
             </fileset>
         </copy>
