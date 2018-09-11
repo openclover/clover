@@ -116,14 +116,13 @@
         </copy>
     </target>
 
-    <target  name="debug">
+    <target name="debug">
         <property name="test.fork.jvm.args" value="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005"/>
     </target>
 
     <macrodef name="test-with">
         <attribute name="test.includes"  description="The test classes to include"/>
         <attribute name="test.excludes"  description="The test classes to exclude"/>
-        <attribute name="run.xml.tests" default="false" description="Whether to run xml validation unit tests"/>
         <attribute name="classpath"  description="The test classpath to use"/>
         <attribute name="runtimejar" default="${repkg.clover.jar}"
                                      description="The jar to use for the system property repkg.clover.jar. It contains repackaged version of the Clover."/>
@@ -158,13 +157,6 @@
                     <formatter type="plain"/>
                 </batchtest>
             </junit>
-
-            <if>
-                <istrue value="@{run.xml.tests}"/>
-                <then>
-                    <antcall target="clover-ant.xml.validate" inheritall="true"/>
-                </then>
-            </if>
         </sequential>
     </macrodef>
 
@@ -180,51 +172,9 @@
     <target name="clover-ant.functest" depends="clover-ant.test.build">
         <!-- Run all *FuncTest classes from the projects. Typically each of them focus on a single clover-ant target -->
         <echo message="Executing test/**/*FuncTest classes..."/>
-        <test-with test.includes="${func.test.includes}" test.excludes="${func.test.excludes}" run.xml.tests="true"
+        <test-with test.includes="${func.test.includes}" test.excludes="${func.test.excludes}"
                    classpath="clover-ant.testpath"/>
     </target>
-
-    <target name="clover-ant.xml.validate" unless="noval"
-            description="Validates html files generated during unit tests.">
-        <!-- Validate HTML -->
-        <property name="html.dir" value="${clover-ant.output}/testrun/tmp"/>
-        <property name="validate.includes" value="**/*.html"/>
-        <property name="validate.excludes" value="com_atlassian_clover_ant_tasks_CloverOptimize*Test/**/*.html"/>
-
-        <xmlvalidate failonerror="true" lenient="yes" warn="yes">
-            <fileset dir="${html.dir}" includes="${validate.includes}" excludes="${validate.excludes}"/>
-        </xmlvalidate>
-    </target>
-
-    <target name="clover-ant.test.report" depends="clover-ant.test">
-        <mkdir dir="${clover-ant.output}/test/html-report"/>
-        <junitreport todir="${clover-ant.output}/test/html-report">
-            <fileset dir="${clover-ant.output}/test/xml-report">
-                <include name="TEST-*.xml"/>
-            </fileset>
-            <report format="frames" todir="${clover-ant.output}/test/html-report" styledir="${common.base}/etc/style"/>
-        </junitreport>
-    </target>
-
-    <target name="clover-ant.ide.test.jar">
-        <jar file="${clover-ant.jar}">
-            <manifest>
-               <attribute name="Specification-Title" value="Clover"/>
-               <attribute name="Specification-Version" value="${core.release.num}"/>
-               <attribute name="Specification-Vendor" value="OpenClover.org"/>
-               <attribute name="Implementation-Version"
-                          value="${core.release.num}.${build.number.prefix}${build.number.string}.${build.stamp}"/>
-            </manifest>
-            <fileset refid="clover-ant.etc.fileset"/>
-            <fileset dir="${clover-core.output.classes}" excludes="**/*.class"/> <!-- get all core resources but not the classes -->
-            <fileset dir="${clover.ide.project.output.dir}"/> <!-- get all instrumented clover classes -->
-            <zipfileset src="${clover.ide.plugin.jar}" includes="repkg*/**/*"/> <!-- get clover1 runtime classes -->
-            <zipgroupfileset refid="clover-core-libs.runtime.jarset"/>
-        </jar>
-    </target>
-
-
-    <target name="clover-ant.initjar" depends="clover-ant.jar"/>
 
     <target name="clover-ant.jar" depends="common.init, clover-ant.build, _clover-ant.jarup, dev.mvn.setup">
         <copy file="${clover-ant.jar}" tofile="${clover-ant.output}/clover-${ant.release.num}${core.release.suffix}.jar"/>
