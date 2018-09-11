@@ -27,6 +27,8 @@
     <property name="clover.optimize" value="true"/>      <!-- Enable/Disable optimization -->
     <property name="clover.minimize" value="true"/>      <!-- Exclude tests, or run all?  -->
     <property name="clover.fullrunevery" value="10"/>    <!-- Determine how many builds between full builds. -->
+    <property name="clover.snapshot.file" value=".clover/clover.snapshot"/>
+
 
     <target name="compile">
         <mkdir dir="${build.classes}"/>
@@ -62,7 +64,7 @@
     </target>
 
     <target name="clover.snapshot">
-        <clover-snapshot/>
+        <clover-snapshot file="${clover.snapshot.file}"/>
     </target>
 
     <target name="clover.report">
