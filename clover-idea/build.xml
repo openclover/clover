@@ -185,12 +185,22 @@
     <target name="clover-idea.testproject" depends="clover-ant.jar">
         <property name="clover-idea.testproject.base" value="${clover-idea.base}/testproject"/>
         <property name="clover-idea.testproject.output" value="${clover-idea.output}/testproject"/>
-        <ant dir="${clover-idea.testproject.base}" target="clover.all" inheritall="false" inheritrefs="false">
-            <property name="build.dir" value="${clover-idea.testproject.output}"/>
-            <property name="clover.jar" value="${clover-ant.jar}"/>
-            <property name="repkg.clover.jar" value="${repkg.clover.jar}"/>
-            <property name="junit.jar" value="${junit.jar}"/>
-        </ant>
+
+        <condition property="os.exec.suffix" value=".exe">
+            <os family="windows"/>
+        </condition>
+        <property name="os.exec.suffix" value=""/>
+        <property name="ant.exe" value="${ant.home}/bin/ant${os.exec.suffix}"/>
+
+        <!-- using <exec> instead of <ant> because we have to pass '-lib clover.jar' for <clover-setup> -->
+        <exec command="${ant.exe}">
+            <arg value="-lib"/>
+            <arg value="${clover-ant.jar}"/>
+            <arg value="-Dbuild.dir=${clover-idea.testproject.output}"/>
+            <arg value="-Dclover.jar=${clover-ant.jar}"/>
+            <arg value="-Drepkg.clover.jar=${repkg.clover.jar}"/>
+            <arg value="-Djunit.jar=${junit.jar}"/>
+        </exec>
     </target>
 
     <target name="clover-idea.test.build" depends="clover-idea.build">
