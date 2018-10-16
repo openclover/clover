@@ -311,8 +311,7 @@
                 <pathelement location="${clover-idea.testproject.output}"/>
                 <pathelement location="${test.with.idea.home}/bin"/>
                 <fileset dir="${test.with.idea.home}">
-                    <include name="lib/*.jar"/>
-                    <include name="plugins/*.jar"/>
+                    <include name="lib/**/*.jar"/>
                     <include name="plugins/**/*.jar"/>
                 </fileset>
             </classpath>
