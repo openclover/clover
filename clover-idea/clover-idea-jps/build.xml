@@ -176,8 +176,8 @@
                 <pathelement location="${repkg.clover.jar}"/> <!-- repacked clover.jar -->
                 <pathelement location="${clover-idea-jps.output.testclasses}"/>
                 <fileset dir="${test.with.idea.home}">
-                    <include name="lib/*.jar"/>
                     <include name="lib/**/*.jar"/>
+                    <include name="plugins/**/*.jar"/>
                 </fileset>
                 <pathelement location="${test.with.idea.home}/bin"/>
             </classpath>
