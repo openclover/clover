@@ -19,14 +19,12 @@ class JavaSyntax19CompilationTest extends JavaSyntaxCompilationTestBase {
     @Override
     protected void setUp() throws Exception {
         super.setUp()
-        if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_9)) {
-            srcDir = new File(mTestcasesSrcDir, "javasyntax1.9")
-            resetAntOutput()
-        }
+        srcDir = new File(mTestcasesSrcDir, "javasyntax1.9")
+        resetAntOutput()
     }
 
     void testAnnotationsOnJavaTypes() {
-        if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_8)) {
+        if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_9)) {
             final String fileName = "java9/Java9PrivateInterfaceMethod.java"
             instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_1_9)
 
