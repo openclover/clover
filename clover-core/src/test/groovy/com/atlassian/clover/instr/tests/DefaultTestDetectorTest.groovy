@@ -82,6 +82,24 @@ class DefaultTestDetectorTest {
     }
 
     @Test
+    void testJUnit5() {
+        DefaultTestDetector detector = new DefaultTestDetector()
+        testJUnit3(detector)
+        testMethodAnnotations(detector, TestAnnotationNames.ORG_JUNIT5_NAME)
+
+        state.getCfg().setSourceLevel("1.5")
+        MethodSignature method = new MethodSignature(null, null, null, "checkFoo", null, "void", null, null)
+        // No visibility modifier is provided to be package private.
+        method.getModifiers().addAnnotation(new AnnotationImpl(TestAnnotationNames.TEST_ANNO_NAME))
+        method.getModifiers().addAnnotation(new AnnotationImpl(TestAnnotationNames.IGNORE_ANNO_NAME))
+        method.getModifiers().clearAnnotations()
+        assertFalse(detector.isMethodMatch(state, JavaMethodContext.createFor(method)))
+        method.getModifiers().addAnnotation(new AnnotationImpl(TestAnnotationNames.JUNIT5_TEST_ANNO_NAME))
+        method.getModifiers().addAnnotation(new AnnotationImpl(TestAnnotationNames.JUNIT5_IGNORE_ANNO_NAME))
+        assertFalse(detector.isMethodMatch(state, JavaMethodContext.createFor(method)))
+    }
+
+    @Test
     void testTestNG() {
         DefaultTestDetector detector = new DefaultTestDetector()
         testMethodAnnotations(detector, "org.testng.annotations")
