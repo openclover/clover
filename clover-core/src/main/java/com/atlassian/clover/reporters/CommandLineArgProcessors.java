@@ -1,6 +1,7 @@
 package com.atlassian.clover.reporters;
 
 import com.atlassian.clover.Logger;
+import com.atlassian.clover.api.command.ArgProcessor;
 import com.atlassian.clover.cfg.Interval;
 import com.atlassian.clover.util.Path;
 
@@ -15,16 +16,7 @@ public class CommandLineArgProcessors {
         System.err.println("  *** ERROR: " + message);
     }
 
-    /**
-     * For parsing command line arguments.
-     */
-    public static interface ArgProcessor {
-        boolean matches(String[] args, int i);
-        int process(String[] args, int i, Current cfg);
-        String help();
-    }
-
-    public static ArgProcessor InitString = new ArgProcessor() {
+    public static ArgProcessor<Current> InitString = new ArgProcessor<Current>() {
         @Override
         public boolean matches(String[] args, int i) {
             return args[i].equals("-i") || args[i].equals("--initstring");
@@ -43,7 +35,7 @@ public class CommandLineArgProcessors {
         }
     };
 
-    public static ArgProcessor OutputDirHtml = new ArgProcessor() {
+    public static ArgProcessor<Current> OutputDirHtml = new ArgProcessor<Current>() {
         @Override
         public boolean matches(String[] args, int i) {
             return args[i].equals("-o") || args[i].equals("--outputdir");
@@ -63,7 +55,7 @@ public class CommandLineArgProcessors {
         }
     };
 
-    public static ArgProcessor OutputDirJson = new ArgProcessor() {
+    public static ArgProcessor<Current> OutputDirJson = new ArgProcessor<Current>() {
         @Override
         public boolean matches(String[] args, int i) {
             return args[i].equals("-o") || args[i].equals("--outputdir");
@@ -82,7 +74,7 @@ public class CommandLineArgProcessors {
         }
     };
 
-    public static ArgProcessor OutputFile = new ArgProcessor() {
+    public static ArgProcessor<Current> OutputFile = new ArgProcessor<Current>() {
         @Override
         public boolean matches(String[] args, int i) {
             return args[i].equals("-o") || args[i].equals("--outfile");
@@ -101,7 +93,7 @@ public class CommandLineArgProcessors {
         }
     };
 
-    public static ArgProcessor AlwaysReport = new ArgProcessor() {
+    public static ArgProcessor<Current> AlwaysReport = new ArgProcessor<Current>() {
         @Override
         public boolean matches(String[] args, int i) {
             return args[i].equals("-a") || args[i].equals("--alwaysreport");
@@ -119,7 +111,7 @@ public class CommandLineArgProcessors {
         }
     };
 
-    public static ArgProcessor HideBars = new ArgProcessor() {
+    public static ArgProcessor<Current> HideBars = new ArgProcessor<Current>() {
         @Override
         public boolean matches(String[] args, int i) {
             return args[i].equals("-b") || args[i].equals("--hidebars");
@@ -137,7 +129,7 @@ public class CommandLineArgProcessors {
         }
     };
 
-    public static ArgProcessor BlackAndWhite = new ArgProcessor() {
+    public static ArgProcessor<Current> BlackAndWhite = new ArgProcessor<Current>() {
         @Override
         public boolean matches(String[] args, int i) {
             return args[i].equals("-bw");
@@ -155,7 +147,7 @@ public class CommandLineArgProcessors {
         }
     };
 
-    public static ArgProcessor OrderBy = new ArgProcessor() {
+    public static ArgProcessor<Current> OrderBy = new ArgProcessor<Current>() {
         @Override
         public boolean matches(String[] args, int i) {
             return args[i].equals("-c") || args[i].equals("--orderby");
@@ -176,7 +168,7 @@ public class CommandLineArgProcessors {
         }
     };
 
-    public static ArgProcessor DebugLogging = new ArgProcessor() {
+    public static ArgProcessor<Current> DebugLogging = new ArgProcessor<Current>() {
         @Override
         public boolean matches(String[] args, int i) {
             return args[i].equals("-d") || args[i].equals("--debug");
@@ -194,7 +186,7 @@ public class CommandLineArgProcessors {
         }
     };
 
-    public static ArgProcessor ShowEmpty = new ArgProcessor() {
+    public static ArgProcessor<Current> ShowEmpty = new ArgProcessor<Current>() {
         @Override
         public boolean matches(String[] args, int i) {
             return args[i].equals("-e") || args[i].equals("--showempty");
@@ -213,7 +205,7 @@ public class CommandLineArgProcessors {
         }
     };
 
-    public static ArgProcessor Filter = new ArgProcessor() {
+    public static ArgProcessor<Current> Filter = new ArgProcessor<Current>() {
         @Override
         public boolean matches(String[] args, int i) {
             return args[i].equals("-f") || args[i].equals("--filter");
@@ -235,7 +227,7 @@ public class CommandLineArgProcessors {
         }
     };
 
-    public static ArgProcessor HideSources = new ArgProcessor() {
+    public static ArgProcessor<Current> HideSources = new ArgProcessor<Current>() {
         @Override
         public boolean matches(String[] args, int i) {
             return args[i].equals("-h") || args[i].equals("--hidesrc");
@@ -253,7 +245,7 @@ public class CommandLineArgProcessors {
         }
     };
 
-    public static ArgProcessor IncludeFailedTestCoverage = new ArgProcessor() {
+    public static ArgProcessor<Current> IncludeFailedTestCoverage = new ArgProcessor<Current>() {
         @Override
         public boolean matches(String[] args, int i) {
             return args[i].equals("-if") || args[i].equals("--includefailcoverage");
@@ -271,7 +263,7 @@ public class CommandLineArgProcessors {
         }
     };
 
-    public static ArgProcessor LineInfo = new ArgProcessor() {
+    public static ArgProcessor<Current> LineInfo = new ArgProcessor<Current>() {
         @Override
         public boolean matches(String[] args, int i) {
             return args[i].equals("-l") || args[i].equals("--lineinfo");
@@ -289,7 +281,7 @@ public class CommandLineArgProcessors {
         }
     };
 
-    public static ArgProcessor NoCache = new ArgProcessor() {
+    public static ArgProcessor<Current> NoCache = new ArgProcessor<Current>() {
         @Override
         public boolean matches(String[] args, int i) {
             return args[i].equals("-n") || args[i].equals("--nocache");
@@ -307,7 +299,7 @@ public class CommandLineArgProcessors {
         }
     };
 
-    public static ArgProcessor PageSize = new ArgProcessor() {
+    public static ArgProcessor<Current> PageSize = new ArgProcessor<Current>() {
         @Override
         public boolean matches(String[] args, int i) {
             return args[i].equals("-p") || args[i].equals("--pagesize");
@@ -326,7 +318,7 @@ public class CommandLineArgProcessors {
         }
     };
 
-    public static ArgProcessor SourcePath = new ArgProcessor() {
+    public static ArgProcessor<Current> SourcePath = new ArgProcessor<Current>() {
         @Override
         public boolean matches(String[] args, int i) {
             return args[i].equals("-p") || args[i].equals("--sourcepath");
@@ -345,7 +337,7 @@ public class CommandLineArgProcessors {
         }
     };
 
-    public static ArgProcessor Span = new ArgProcessor() {
+    public static ArgProcessor<Current> Span = new ArgProcessor<Current>() {
         @Override
         public boolean matches(String[] args, int i) {
             return args[i].equals("-s") || args[i].equals("--span");
@@ -370,7 +362,7 @@ public class CommandLineArgProcessors {
         }
     };
 
-    public static ArgProcessor ShowInnerFunctions = new ArgProcessor() {
+    public static ArgProcessor<Current> ShowInnerFunctions = new ArgProcessor<Current>() {
         @Override
         public boolean matches(String[] args, int i) {
             return args[i].equals("-si") || args[i].equals("--showinner");
@@ -388,7 +380,7 @@ public class CommandLineArgProcessors {
         }
     };
 
-    public static ArgProcessor ShowLambdaFunctions = new ArgProcessor() {
+    public static ArgProcessor<Current> ShowLambdaFunctions = new ArgProcessor<Current>() {
         @Override
         public boolean matches(String[] args, int i) {
             return args[i].equals("-sl") || args[i].equals("--showlambda");
@@ -406,7 +398,7 @@ public class CommandLineArgProcessors {
         }
     };
 
-    public static ArgProcessor ShowUnique = new ArgProcessor() {
+    public static ArgProcessor<Current> ShowUnique = new ArgProcessor<Current>() {
         @Override
         public boolean matches(String[] args, int i) {
             return args[i].equals("-su") || args[i].equals("--showunique");
@@ -424,7 +416,7 @@ public class CommandLineArgProcessors {
         }
     };
 
-    public static ArgProcessor Title = new ArgProcessor() {
+    public static ArgProcessor<Current> Title = new ArgProcessor<Current>() {
         @Override
         public boolean matches(String[] args, int i) {
             return args[i].equals("-t") || args[i].equals("--title");
@@ -443,7 +435,7 @@ public class CommandLineArgProcessors {
         }
     };
 
-    public static ArgProcessor ThreadCount = new ArgProcessor() {
+    public static ArgProcessor<Current> ThreadCount = new ArgProcessor<Current>() {
         @Override
         public boolean matches(String[] args, int i) {
             return args[i].equals("-tc") || args[i].equals("--threadcount");
@@ -471,7 +463,7 @@ public class CommandLineArgProcessors {
         }
     };
 
-    public static ArgProcessor TabWidth = new ArgProcessor() {
+    public static ArgProcessor<Current> TabWidth = new ArgProcessor<Current>() {
         @Override
         public boolean matches(String[] args, int i) {
             return args[i].equals("-tw") || args[i].equals("--tabwidth");
@@ -499,7 +491,7 @@ public class CommandLineArgProcessors {
         }
     };
 
-    public static ArgProcessor VerboseLogging = new ArgProcessor() {
+    public static ArgProcessor<Current> VerboseLogging = new ArgProcessor<Current>() {
         @Override
         public boolean matches(String[] args, int i) {
             return args[i].equals("-v") || args[i].equals("--verbose");

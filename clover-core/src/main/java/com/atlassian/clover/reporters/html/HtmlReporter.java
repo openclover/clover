@@ -1,109 +1,133 @@
 package com.atlassian.clover.reporters.html;
 
+import clover.com.google.common.collect.Iterables;
+import clover.com.google.common.collect.Lists;
 import clover.com.google.common.collect.Maps;
-import clover.org.apache.commons.lang3.ArrayUtils;
 import clover.org.apache.commons.lang3.StringUtils;
-import com.atlassian.clover.api.CloverException;
+import clover.org.apache.velocity.VelocityContext;
+import clover.org.jfree.chart.ChartRenderingInfo;
+import clover.org.jfree.chart.ChartUtilities;
+import clover.org.jfree.chart.JFreeChart;
+import com.atlassian.clover.CloverLicenseInfo;
 import com.atlassian.clover.Logger;
+import com.atlassian.clover.api.CloverException;
+import com.atlassian.clover.api.command.ArgProcessor;
 import com.atlassian.clover.api.registry.ClassInfo;
 import com.atlassian.clover.api.registry.FileInfo;
+import com.atlassian.clover.api.registry.HasMetrics;
 import com.atlassian.clover.api.registry.MethodInfo;
 import com.atlassian.clover.api.registry.PackageInfo;
+import com.atlassian.clover.cfg.Interval;
+import com.atlassian.clover.registry.entities.BaseClassInfo;
+import com.atlassian.clover.registry.entities.BaseFileInfo;
 import com.atlassian.clover.registry.entities.FullClassInfo;
 import com.atlassian.clover.registry.entities.FullFileInfo;
 import com.atlassian.clover.registry.entities.FullPackageInfo;
 import com.atlassian.clover.registry.entities.FullProjectInfo;
+import com.atlassian.clover.registry.entities.PackageFragment;
+import com.atlassian.clover.registry.entities.TestCaseInfo;
+import com.atlassian.clover.registry.metrics.HasMetricsFilter;
+import com.atlassian.clover.registry.metrics.HasMetricsSupport;
 import com.atlassian.clover.reporters.CloverReportConfig;
 import com.atlassian.clover.reporters.CloverReporter;
-import com.atlassian.clover.reporters.CommandLineArgProcessors;
 import com.atlassian.clover.reporters.Current;
 import com.atlassian.clover.reporters.Format;
 import com.atlassian.clover.reporters.Historical;
+import com.atlassian.clover.reporters.TestSelectionHelper;
 import com.atlassian.clover.reporters.Type;
+import com.atlassian.clover.reporters.filters.SourceFileFilter;
 import com.atlassian.clover.reporters.json.JSONHistoricalReporter;
+import com.atlassian.clover.reporters.json.RenderMetricsJSONAction;
 import com.atlassian.clover.reporters.json.RenderTreeMapAction;
 import com.atlassian.clover.reporters.util.CloverChartFactory;
-import com.atlassian.clover.CloverLicense;
-import com.atlassian.clover.CloverLicenseInfo;
-import com.atlassian.clover.registry.metrics.HasMetricsFilter;
-import com.atlassian.clover.api.registry.HasMetrics;
-import com.atlassian.clover.registry.entities.BaseFileInfo;
-import com.atlassian.clover.registry.entities.TestCaseInfo;
-import com.atlassian.clover.registry.entities.PackageFragment;
-import com.atlassian.clover.registry.entities.BaseClassInfo;
-import com.atlassian.clover.registry.metrics.HasMetricsSupport;
-import com.atlassian.clover.cfg.Interval;
-import com.atlassian.clover.reporters.filters.SourceFileFilter;
-import com.atlassian.clover.reporters.TestSelectionHelper;
-import com.atlassian.clover.reporters.json.RenderMetricsJSONAction;
 import com.atlassian.clover.reporters.util.HistoricalReportDescriptor;
-import com.atlassian.clover.util.CloverUtils;
-import com.atlassian.clover.util.FileUtils;
 import com.atlassian.clover.util.CloverExecutor;
 import com.atlassian.clover.util.CloverExecutors;
+import com.atlassian.clover.util.CloverUtils;
+import com.atlassian.clover.util.FileUtils;
 import com.atlassian.clover.util.format.HtmlFormatter;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.ByteArrayOutputStream;
-import java.io.BufferedWriter;
-import java.io.OutputStreamWriter;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Map;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.Callable;
-
-import clover.org.apache.velocity.VelocityContext;
-import clover.org.jfree.chart.JFreeChart;
-import clover.org.jfree.chart.ChartRenderingInfo;
-import clover.org.jfree.chart.ChartUtilities;
 import com_atlassian_clover.CloverVersionInfo;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
+
 import static clover.com.google.common.collect.Lists.newArrayList;
 import static clover.com.google.common.collect.Maps.newHashMap;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.AlwaysReport;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.BlackAndWhite;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.DebugLogging;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.Filter;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.HideBars;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.HideSources;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.IncludeFailedTestCoverage;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.InitString;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.NoCache;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.OrderBy;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.OutputDirHtml;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.ShowEmpty;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.ShowInnerFunctions;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.ShowLambdaFunctions;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.ShowUnique;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.SourcePath;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.Span;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.TabWidth;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.ThreadCount;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.Title;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.VerboseLogging;
 
 public class HtmlReporter extends CloverReporter {
 
-    static final CommandLineArgProcessors.ArgProcessor[] mandatoryArgProcessors = new CommandLineArgProcessors.ArgProcessor[] {
-            CommandLineArgProcessors.InitString,
-            CommandLineArgProcessors.OutputDirHtml
-    };
+    @SuppressWarnings("unchecked")
+    private static final List<ArgProcessor<Current>> mandatoryArgProcessors = Lists.newArrayList(
+            InitString,
+            OutputDirHtml
+    );
 
-    static final CommandLineArgProcessors.ArgProcessor[] optionalArgProcessors = new CommandLineArgProcessors.ArgProcessor[] {
-            CommandLineArgProcessors.AlwaysReport,
-            CommandLineArgProcessors.HideBars,
-            CommandLineArgProcessors.BlackAndWhite,
-            CommandLineArgProcessors.OrderBy,
-            CommandLineArgProcessors.DebugLogging,
-            CommandLineArgProcessors.ShowEmpty,
-            CommandLineArgProcessors.Filter,
-            CommandLineArgProcessors.HideSources,
-            CommandLineArgProcessors.IncludeFailedTestCoverage,
-            CommandLineArgProcessors.NoCache,
-            CommandLineArgProcessors.SourcePath,
-            CommandLineArgProcessors.Span,
-            CommandLineArgProcessors.ShowInnerFunctions,
-            CommandLineArgProcessors.ShowLambdaFunctions,
-            CommandLineArgProcessors.ShowUnique,
-            CommandLineArgProcessors.Title,
-            CommandLineArgProcessors.ThreadCount,
-            CommandLineArgProcessors.TabWidth,
-            CommandLineArgProcessors.VerboseLogging
-    };
+    @SuppressWarnings("unchecked")
+    private static final List<ArgProcessor<Current>> optionalArgProcessors = Lists.newArrayList(
+            AlwaysReport,
+            HideBars,
+            BlackAndWhite,
+            OrderBy,
+            DebugLogging,
+            ShowEmpty,
+            Filter,
+            HideSources,
+            IncludeFailedTestCoverage,
+            NoCache,
+            SourcePath,
+            Span,
+            ShowInnerFunctions,
+            ShowLambdaFunctions,
+            ShowUnique,
+            Title,
+            ThreadCount,
+            TabWidth,
+            VerboseLogging
+    );
 
-    static final CommandLineArgProcessors.ArgProcessor[] allArgProcessors =
-            (CommandLineArgProcessors.ArgProcessor[]) ArrayUtils.addAll(mandatoryArgProcessors, optionalArgProcessors);
+    private static final List<ArgProcessor<Current>> allArgProcessors = Lists.newArrayList(
+            Iterables.concat(mandatoryArgProcessors, optionalArgProcessors));
 
-    /** Map of valid "homepage" values */
+    /**
+     * Map of valid "homepage" values
+     */
     private static final Map<String, String> HTML_HOMEPAGE_VALUES = Collections.unmodifiableMap(new HashMap<String, String>() {{
         put("overview", "pkg-summary.html");
         put("aggregate", "agg-pkgs.html");
@@ -113,9 +137,14 @@ public class HtmlReporter extends CloverReporter {
         put("testresults", "test-pkg-summary.html");
     }});
 
-    /** The default homepage to use if none configured **/
+    /**
+     * The default homepage to use if none configured
+     **/
     private static final String HTML_HOMEPAGE_DEFAULT = "dashboard";
-    /** The summary Tabs for the bottom left frame **/
+
+    /**
+     * The summary Tabs for the bottom left frame
+     **/
     protected static final Map<String, String> SUMMARY_TABS = Collections.unmodifiableMap(new LinkedHashMap<String, String>() {{
         put(TAB_CLASSES, "pkg-app.html");
         put(TAB_TESTS, "pkg-test.html");
@@ -128,16 +157,16 @@ public class HtmlReporter extends CloverReporter {
 
     private static final Comparator TEST_SORT_ORDER = HasMetricsSupport.newTestListComparator();
     private static final Comparator<TestCaseInfo> TEST_CASE_COMPARATOR = new Comparator<TestCaseInfo>() {
-            @Override
-            public int compare(TestCaseInfo lhs, TestCaseInfo rhs) {
-                if (rhs.isSuccess() & lhs.isSuccess()) {
-                    return 0;
-                } else if (!rhs.isSuccess()) {
-                    return 1;
-                } else {
-                    return -1;
-                }
+        @Override
+        public int compare(TestCaseInfo lhs, TestCaseInfo rhs) {
+            if (rhs.isSuccess() & lhs.isSuccess()) {
+                return 0;
+            } else if (!rhs.isSuccess()) {
+                return 1;
+            } else {
+                return -1;
             }
+        }
     };
 
     private final DateFormat dateFormat = new SimpleDateFormat("EEE MMM d yyyy HH:mm:ss z");
@@ -280,7 +309,7 @@ public class HtmlReporter extends CloverReporter {
                 Interval timeOut = reportAsCurrent().getTimeOut();
                 if (!service.awaitTermination(timeOut.getValueInMillis(), TimeUnit.MILLISECONDS)) {
                     throw new CloverException("Timeout of '" + timeOut + "' reached during report generation. " +
-                                              "Please increase this value and try again.");
+                            "Please increase this value and try again.");
                 }
             } finally {
                 RenderFileAction.resetThreadLocals();
@@ -338,7 +367,7 @@ public class HtmlReporter extends CloverReporter {
         copyCommonResources(); // copy png, css, js etc
         final File imgDir = createChartImageDir(); // create 'img' dir for charts
 
-        final Historical historical = (Historical)reportConfig;
+        final Historical historical = (Historical) reportConfig;
         final List charts = historical.getCharts();
 
         final Map<Long, HasMetrics> data = descriptor.getHistoricalModels();
@@ -353,7 +382,7 @@ public class HtmlReporter extends CloverReporter {
             final JFreeChart jFreeChart = CloverChartFactory.createJFreeChart(chart, data);
             final ChartRenderingInfo renderingInfo = new ChartRenderingInfo();
             ChartUtilities.saveChartAsJPEG(new File(imgDir, chartName), 1.0f, jFreeChart,
-                                           chart.getWidth(), chart.getHeight(), renderingInfo);
+                    chart.getWidth(), chart.getHeight(), renderingInfo);
             final String imageMap = ChartUtilities.getImageMap(chartName, renderingInfo);
             imageMaps.put(chartName, imageMap);
         }
@@ -372,7 +401,7 @@ public class HtmlReporter extends CloverReporter {
     }
 
     private Current reportAsCurrent() {
-        return ((Current)reportConfig);
+        return ((Current) reportConfig);
     }
 
     static Current processArgs(String[] args) {
@@ -381,7 +410,7 @@ public class HtmlReporter extends CloverReporter {
         try {
             int i = 0;
             while (i < args.length) {
-                for (CommandLineArgProcessors.ArgProcessor argProcessor : allArgProcessors) {
+                for (ArgProcessor argProcessor : allArgProcessors) {
                     if (argProcessor.matches(args, i)) {
                         i = argProcessor.process(args, i, cfg);
                     }
@@ -405,7 +434,7 @@ public class HtmlReporter extends CloverReporter {
     private static void usage(String msg) {
         System.err.println();
         if (msg != null) {
-            System.err.println("  *** ERROR: "+msg);
+            System.err.println("  *** ERROR: " + msg);
         }
         System.err.println();
 
@@ -490,7 +519,7 @@ public class HtmlReporter extends CloverReporter {
         }
 
         if (CloverLicenseInfo.EXPIRES && !CloverLicenseInfo.EXPIRED) {
-            context.put("evalMsg", "This report was generated with an evaluation server license. "  +
+            context.put("evalMsg", "This report was generated with an evaluation server license. " +
                     " <a href=\"" + CloverVersionInfo.CLOVER_URL + "\">Purchase Clover</a> or " +
                     "<a href=\"" + CloverVersionInfo.CLOVER_LICENSE_CONFIGURATION_HELP_URL + "\">" +
                     "configure your license.</a>");
@@ -541,7 +570,7 @@ public class HtmlReporter extends CloverReporter {
         queue.submit(action);
         final File outfile = new File(reportAsCurrent().getOutFile(), "project.js");
         RenderMetricsJSONAction jsonAction =
-            new RenderMetricsJSONAction(ctx, configuredProject, reportAsCurrent(), outfile, rederingHelper);
+                new RenderMetricsJSONAction(ctx, configuredProject, reportAsCurrent(), outfile, rederingHelper);
         queue.submit(jsonAction);
     }
 
@@ -696,8 +725,8 @@ public class HtmlReporter extends CloverReporter {
             renderTestPages(queue, file);
         }
 
-        FullPackageInfo pkgAppInfo = (FullPackageInfo)getConfiguredModel().getNamedPackage(pkg.getName());
-        FullPackageInfo pkgTestInfo = (FullPackageInfo)getTestModel().getNamedPackage(pkg.getName());
+        FullPackageInfo pkgAppInfo = (FullPackageInfo) getConfiguredModel().getNamedPackage(pkg.getName());
+        FullPackageInfo pkgTestInfo = (FullPackageInfo) getTestModel().getNamedPackage(pkg.getName());
 
         List<? extends ClassInfo> testClasses = pkgTestInfo != null ? pkgTestInfo.getClasses() : new LinkedList<ClassInfo>();
 
@@ -708,7 +737,7 @@ public class HtmlReporter extends CloverReporter {
         }
 
         if (pkgTestInfo != null) {
-           renderPkgSummaryPage(pkgTestInfo, testSrcTree, pkgAppInfo != null, true, false, queue);
+            renderPkgSummaryPage(pkgTestInfo, testSrcTree, pkgAppInfo != null, true, false, queue);
         }
         renderTestResultsPkgSummaryPages(pkg, testClasses);
     }
@@ -718,14 +747,14 @@ public class HtmlReporter extends CloverReporter {
                                       final FullProjectInfo projectInfo, FullFileInfo file) throws Exception {
         if (reportConfig.getFormat().getSrcLevel()) {
             queue.submit(
-                new RenderFileAction(
-                    file,
-                    rederingHelper,
-                    reportAsCurrent(),
-                    insertCommonPropsForCurrent(new VelocityContext(), file.getContainingPackage().getName()),
-                    database,
-                    projectInfo,
-                    charts));
+                    new RenderFileAction(
+                            file,
+                            rederingHelper,
+                            reportAsCurrent(),
+                            insertCommonPropsForCurrent(new VelocityContext(), file.getContainingPackage().getName()),
+                            database,
+                            projectInfo,
+                            charts));
         }
     }
 
@@ -805,17 +834,18 @@ public class HtmlReporter extends CloverReporter {
     }
 
     /**
-     * If the config has a homepage set and it is defined in {@link #HTML_HOMEPAGE_VALUES},
-     * the value will be returned. Otherwise, the homepage as defined on the config will be
-     * returned. If no homepaeg is defined, then {@link #HTML_HOMEPAGE_DEFAULT} is returned.
+     * If the config has a homepage set and it is defined in {@link #HTML_HOMEPAGE_VALUES}, the value will be returned.
+     * Otherwise, the homepage as defined on the config will be returned. If no homepaeg is defined, then {@link
+     * #HTML_HOMEPAGE_DEFAULT} is returned.
+     *
      * @return the value to use for the homepage
      */
     private String getHomepageValue() {
         final String homepageKey = reportConfig.getHomepage() != null ? reportConfig.getHomepage() : HTML_HOMEPAGE_DEFAULT;
         return
-            HTML_HOMEPAGE_VALUES.containsKey(homepageKey)
-                ? HTML_HOMEPAGE_VALUES.get(homepageKey)
-                : homepageKey;
+                HTML_HOMEPAGE_VALUES.containsKey(homepageKey)
+                        ? HTML_HOMEPAGE_VALUES.get(homepageKey)
+                        : homepageKey;
     }
 
     private void renderPackagesSummaryPage(String name, String templateName, VelocityContext context,
@@ -877,13 +907,13 @@ public class HtmlReporter extends CloverReporter {
     }
 
     private void renderPkgClassesPage(
-        String outfileName,
-        String templateName,
-        FullPackageInfo pkg,
-        List classes,
-        VelocityContext context,
-        String currentTabName,
-        boolean isTests) throws Exception {
+            String outfileName,
+            String templateName,
+            FullPackageInfo pkg,
+            List classes,
+            VelocityContext context,
+            String currentTabName,
+            boolean isTests) throws Exception {
 
         File outdir = pkg != null ? CloverUtils.createOutDir(pkg, basePath) : basePath;
         Collections.sort(classes, listComparator);
@@ -935,8 +965,8 @@ public class HtmlReporter extends CloverReporter {
         insertCommonPropsForCurrent(context, pkg.getName());
 
         queue.submit(
-            new RenderPackageSummaryAction(context, basePath, reportConfig, pkg, detailComparator, tree, rederingHelper,
-                    appPagePresent, testPagePresent, linkToClouds));
+                new RenderPackageSummaryAction(context, basePath, reportConfig, pkg, detailComparator, tree, rederingHelper,
+                        appPagePresent, testPagePresent, linkToClouds));
     }
 
     private void renderPkgCloudPages(FullPackageInfo pkg, TreeInfo tree,
@@ -945,11 +975,12 @@ public class HtmlReporter extends CloverReporter {
         insertCommonPropsForCurrent(context, pkg.getName());
 
         queue.submit(
-            new RenderPackageCoverageCloudAction(context, reportConfig, basePath, tree, pkg, appPagePresent, testPagePresent));
+                new RenderPackageCoverageCloudAction(context, reportConfig, basePath, tree, pkg, appPagePresent, testPagePresent));
     }
 
     /**
      * Render tree map for a package and it's subpackages
+     *
      * @param pkg
      * @param queue
      * @see #renderProjectTreeMapPage(com.atlassian.clover.util.CloverExecutor)
@@ -979,7 +1010,7 @@ public class HtmlReporter extends CloverReporter {
                 Boolean.valueOf(getConfiguredModel().getNamedPackage(pkg.getName()) != null));
         context.put("testModelPresent",
                 Boolean.valueOf(getTestModel().getNamedPackage(pkg.getName()) != null));
-        
+
         insertCommonPropsForCurrent(context, pkg.getName());
         insertCommonTestProps(context, classes, "class", pkg, pkg, "test-pkg-summary.html", "Package", "Test Classes");
         HtmlReportUtil.mergeTemplateToFile(outfile, context,
@@ -989,7 +1020,7 @@ public class HtmlReporter extends CloverReporter {
     private void renderTestClassSummaryPage(@NotNull FullClassInfo classInfo) throws Exception {
 
         String outname = rederingHelper.getTestClassLink(false, classInfo);
-        File outfile = CloverUtils.createOutFile((FullFileInfo)classInfo.getContainingFile(), outname, basePath);
+        File outfile = CloverUtils.createOutFile((FullFileInfo) classInfo.getContainingFile(), outname, basePath);
 
         final List<TestCaseInfo> tests = newArrayList(classInfo.getTestCases());
 
@@ -1004,21 +1035,21 @@ public class HtmlReporter extends CloverReporter {
         String link = rederingHelper.getTestClassLink(false, classInfo);
 
         insertCommonTestProps(context, tests, "test", classInfo.getPackage(),
-                              classInfo, link,  "Class", "Tests");
+                classInfo, link, "Class", "Tests");
 
         HtmlReportUtil.mergeTemplateToFile(outfile, context,
                 "test-class-summary.vm");
     }
 
     private void insertCommonTestProps(
-        VelocityContext context,
-        List entities,
-        String childEntityType,
-        PackageInfo pkg,
-        HasMetrics entity,
-        String link,
-        String title,
-        String subtitle) {
+            VelocityContext context,
+            List entities,
+            String childEntityType,
+            PackageInfo pkg,
+            HasMetrics entity,
+            String link,
+            String title,
+            String subtitle) {
 
         context.put("entities", entities);
         context.put("childEntityType", childEntityType);

@@ -1,39 +1,51 @@
 package com.atlassian.clover.reporters.console;
 
-import clover.org.apache.commons.lang3.ArrayUtils;
+import clover.com.google.common.collect.Iterables;
+import clover.com.google.common.collect.Lists;
 import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.CloverLicense;
 import com.atlassian.clover.Logger;
 import com.atlassian.clover.api.CloverException;
+import com.atlassian.clover.api.command.ArgProcessor;
 import com.atlassian.clover.api.registry.BranchInfo;
 import com.atlassian.clover.api.registry.ClassInfo;
 import com.atlassian.clover.api.registry.FileInfo;
 import com.atlassian.clover.api.registry.PackageInfo;
-import com.atlassian.clover.registry.metrics.ClassMetrics;
 import com.atlassian.clover.registry.entities.FullFileInfo;
-import com.atlassian.clover.registry.entities.LineInfo;
 import com.atlassian.clover.registry.entities.FullMethodInfo;
 import com.atlassian.clover.registry.entities.FullPackageInfo;
-import com.atlassian.clover.registry.metrics.ProjectMetrics;
 import com.atlassian.clover.registry.entities.FullStatementInfo;
+import com.atlassian.clover.registry.entities.LineInfo;
+import com.atlassian.clover.registry.metrics.ClassMetrics;
+import com.atlassian.clover.registry.metrics.ProjectMetrics;
 import com.atlassian.clover.reporters.CloverReporter;
+import com.atlassian.clover.reporters.Current;
 import com.atlassian.clover.reporters.Format;
-import com.atlassian.clover.util.Formatting;
 import com.atlassian.clover.util.Color;
+import com.atlassian.clover.util.Formatting;
 
 import java.io.PrintWriter;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import static com.atlassian.clover.reporters.console.ConsoleReporterArgProcessors.*;
+import static com.atlassian.clover.reporters.console.ConsoleReporterArgProcessors.CodeTypes;
+import static com.atlassian.clover.reporters.console.ConsoleReporterArgProcessors.InitString;
+import static com.atlassian.clover.reporters.console.ConsoleReporterArgProcessors.Level;
+import static com.atlassian.clover.reporters.console.ConsoleReporterArgProcessors.ShowInnerFunctions;
+import static com.atlassian.clover.reporters.console.ConsoleReporterArgProcessors.ShowLambdaFunctions;
+import static com.atlassian.clover.reporters.console.ConsoleReporterArgProcessors.SourcePath;
+import static com.atlassian.clover.reporters.console.ConsoleReporterArgProcessors.Span;
+import static com.atlassian.clover.reporters.console.ConsoleReporterArgProcessors.Title;
+import static com.atlassian.clover.reporters.console.ConsoleReporterArgProcessors.UnitTests;
 
 public class ConsoleReporter extends CloverReporter {
 
-    static final ArgProcessor[] mandatoryArgProcessors = new ArgProcessor[] {
+    private static final List<ArgProcessor<Current>> mandatoryArgProcessors = Collections.singletonList(
             InitString
-    };
+    );
 
-    static final ArgProcessor[] optionalArgProcessors = new ArgProcessor[] {
+    @SuppressWarnings("unchecked")
+    private static final List<ArgProcessor<Current>> optionalArgProcessors = Lists.newArrayList(
             CodeTypes,
             Level,
             SourcePath,
@@ -42,10 +54,10 @@ public class ConsoleReporter extends CloverReporter {
             ShowLambdaFunctions,
             Title,
             UnitTests
-    };
+    );
 
-    static final ArgProcessor[] allArgProcessors =
-            (ArgProcessor[]) ArrayUtils.addAll(mandatoryArgProcessors, optionalArgProcessors);
+    private static final List<ArgProcessor<Current>> allArgProcessors = Lists.newArrayList(
+            Iterables.concat(mandatoryArgProcessors, optionalArgProcessors));
 
 
     /** use to log messages **/

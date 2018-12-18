@@ -1,6 +1,7 @@
 package com.atlassian.clover.reporters.console;
 
 import com.atlassian.clover.CodeType;
+import com.atlassian.clover.api.command.ArgProcessor;
 import com.atlassian.clover.reporters.CommandLineArgProcessors;
 import com.atlassian.clover.reporters.Current;
 
@@ -11,7 +12,7 @@ import java.util.Locale;
  */
 public class ConsoleReporterArgProcessors extends CommandLineArgProcessors {
 
-    public static ArgProcessor CodeTypes = new ArgProcessor() {
+    public static ArgProcessor<Current> CodeTypes = new ArgProcessor<Current>() {
         private final String CODE_TYPES_AS_STRING_LIST = ("\""
                 + CodeType.APPLICATION + "\",\""
                 + CodeType.TEST + "\",\""
@@ -43,7 +44,7 @@ public class ConsoleReporterArgProcessors extends CommandLineArgProcessors {
         }
     };
 
-    public static ArgProcessor Level = new ArgProcessor() {
+    public static ArgProcessor<Current> Level = new ArgProcessor<Current>() {
         private final String REPORTING_LEVELS_AS_STRING_LIST = ("\""
                 + ReportingLevel.SUMMARY + "\",\""
                 + ReportingLevel.PACKAGE + "\",\""
@@ -79,7 +80,7 @@ public class ConsoleReporterArgProcessors extends CommandLineArgProcessors {
         }
     };
 
-    public static ArgProcessor UnitTests = new ArgProcessor() {
+    public static ArgProcessor<Current> UnitTests = new ArgProcessor<Current>() {
         @Override
         public boolean matches(String[] args, int i) {
             return args[i].equals("-u") || args[i].equals("--unittests");

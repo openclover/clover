@@ -1,11 +1,12 @@
 package com.atlassian.clover.reporters.xml;
 
-import clover.org.apache.commons.lang3.ArrayUtils;
+import clover.com.google.common.collect.Iterables;
+import clover.com.google.common.collect.Lists;
 import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.api.CloverException;
-import com.atlassian.clover.api.registry.BlockMetrics;
-import com.atlassian.clover.CloverLicense;
 import com.atlassian.clover.Logger;
+import com.atlassian.clover.api.CloverException;
+import com.atlassian.clover.api.command.ArgProcessor;
+import com.atlassian.clover.api.registry.BlockMetrics;
 import com.atlassian.clover.api.registry.BranchInfo;
 import com.atlassian.clover.api.registry.ClassInfo;
 import com.atlassian.clover.api.registry.FileInfo;
@@ -13,22 +14,22 @@ import com.atlassian.clover.api.registry.PackageInfo;
 import com.atlassian.clover.context.ContextSet;
 import com.atlassian.clover.model.XmlNames;
 import com.atlassian.clover.registry.entities.FullClassInfo;
+import com.atlassian.clover.registry.entities.FullFileInfo;
 import com.atlassian.clover.registry.entities.FullMethodInfo;
 import com.atlassian.clover.registry.entities.FullPackageInfo;
-import com.atlassian.clover.registry.metrics.ClassMetrics;
-import com.atlassian.clover.registry.entities.FullFileInfo;
-import com.atlassian.clover.registry.metrics.FileMetrics;
-import com.atlassian.clover.registry.entities.LineInfo;
-import com.atlassian.clover.registry.metrics.PackageMetrics;
 import com.atlassian.clover.registry.entities.FullProjectInfo;
-import com.atlassian.clover.registry.metrics.ProjectMetrics;
 import com.atlassian.clover.registry.entities.FullStatementInfo;
+import com.atlassian.clover.registry.entities.LineInfo;
 import com.atlassian.clover.registry.entities.TestCaseInfo;
+import com.atlassian.clover.registry.metrics.ClassMetrics;
+import com.atlassian.clover.registry.metrics.FileMetrics;
+import com.atlassian.clover.registry.metrics.PackageMetrics;
+import com.atlassian.clover.registry.metrics.ProjectMetrics;
+import com.atlassian.clover.reporters.CloverReportConfig;
+import com.atlassian.clover.reporters.CloverReporter;
 import com.atlassian.clover.reporters.CommandLineArgProcessors;
 import com.atlassian.clover.reporters.Current;
 import com.atlassian.clover.reporters.Format;
-import com.atlassian.clover.reporters.CloverReportConfig;
-import com.atlassian.clover.reporters.CloverReporter;
 import com_atlassian_clover.CloverVersionInfo;
 
 import java.io.BufferedOutputStream;
@@ -41,30 +42,44 @@ import java.util.Map;
 import java.util.zip.GZIPOutputStream;
 
 import static clover.com.google.common.collect.Maps.newHashMap;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.AlwaysReport;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.DebugLogging;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.Filter;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.IncludeFailedTestCoverage;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.InitString;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.OutputFile;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.ShowInnerFunctions;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.ShowLambdaFunctions;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.Span;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.ThreadCount;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.Title;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.VerboseLogging;
 
 public class XMLReporter extends CloverReporter {
 
-    static final CommandLineArgProcessors.ArgProcessor[] mandatoryArgProcessors = new CommandLineArgProcessors.ArgProcessor[] {
-            CommandLineArgProcessors.InitString,
-            CommandLineArgProcessors.OutputFile
-    };
+    @SuppressWarnings("unchecked")
+    private static final List<ArgProcessor<Current>> mandatoryArgProcessors = Lists.newArrayList(
+            InitString,
+            OutputFile
+    );
 
-    static final CommandLineArgProcessors.ArgProcessor[] optionalArgProcessors = new CommandLineArgProcessors.ArgProcessor[] {
-            CommandLineArgProcessors.AlwaysReport,
-            CommandLineArgProcessors.DebugLogging,
-            CommandLineArgProcessors.Filter,
-            CommandLineArgProcessors.IncludeFailedTestCoverage,
+    @SuppressWarnings("unchecked")
+    private static final List<ArgProcessor<Current>> optionalArgProcessors = Lists.newArrayList(
+            AlwaysReport,
+            DebugLogging,
+            Filter,
+            IncludeFailedTestCoverage,
             CommandLineArgProcessors.LineInfo,
-            CommandLineArgProcessors.Span,
-            CommandLineArgProcessors.ShowInnerFunctions,
-            CommandLineArgProcessors.ShowLambdaFunctions,
-            CommandLineArgProcessors.Title,
-            CommandLineArgProcessors.ThreadCount,
-            CommandLineArgProcessors.VerboseLogging,
-    };
+            Span,
+            ShowInnerFunctions,
+            ShowLambdaFunctions,
+            Title,
+            ThreadCount,
+            VerboseLogging
+    );
 
-    static final CommandLineArgProcessors.ArgProcessor[] allArgProcessors =
-            (CommandLineArgProcessors.ArgProcessor[]) ArrayUtils.addAll(mandatoryArgProcessors, optionalArgProcessors);
+    private static final List<ArgProcessor<Current>> allArgProcessors = Lists.newArrayList(
+            Iterables.concat(mandatoryArgProcessors, optionalArgProcessors));
 
     private ContextSet contextSet;
 
@@ -340,7 +355,7 @@ public class XMLReporter extends CloverReporter {
             int i = 0;
 
             while (i < args.length) {
-                for (CommandLineArgProcessors.ArgProcessor argProcessor : allArgProcessors) {
+                for (ArgProcessor argProcessor : allArgProcessors) {
                     if (argProcessor.matches(args, i)) {
                         i = argProcessor.process(args, i, cfg);
                     }
