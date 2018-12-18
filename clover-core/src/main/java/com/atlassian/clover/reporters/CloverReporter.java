@@ -69,25 +69,6 @@ public abstract class CloverReporter {
         }
     }
 
-    public static String buildHelp(String className,
-                                   List<ArgProcessor<Current>> mandatoryArgProcessors,
-                                   List<ArgProcessor<Current>> optionalArgProcessors) {
-        final StringBuilder helpMessage = new StringBuilder();
-        helpMessage.append("  USAGE: ").append(className).append(" [OPTIONS] PARAMS\n\n");
-
-        helpMessage.append("  PARAMS:\n");
-        for (ArgProcessor argProcessor : mandatoryArgProcessors) {
-            helpMessage.append(argProcessor.help());
-        }
-
-        helpMessage.append("  OPTIONS:\n");
-        for (ArgProcessor argProcessor : optionalArgProcessors) {
-            helpMessage.append(argProcessor.help());
-        }
-
-        return helpMessage.toString();
-    }
-
     protected boolean isCurrentReport() {
         return reportConfig instanceof Current;
     }

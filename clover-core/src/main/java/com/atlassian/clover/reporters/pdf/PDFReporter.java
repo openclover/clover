@@ -13,6 +13,7 @@ import com.atlassian.clover.CodeType;
 import com.atlassian.clover.Logger;
 import com.atlassian.clover.api.CloverException;
 import com.atlassian.clover.api.command.ArgProcessor;
+import com.atlassian.clover.api.command.HelpBuilder;
 import com.atlassian.clover.api.registry.HasMetrics;
 import com.atlassian.clover.api.registry.PackageInfo;
 import com.atlassian.clover.registry.entities.FullProjectInfo;
@@ -346,7 +347,7 @@ public class PDFReporter extends CloverReporter {
         }
         System.err.println();
 
-        System.err.println(buildHelp(PDFReporter.class.getName(), mandatoryArgProcessors, optionalArgProcessors));
+        System.err.println(HelpBuilder.buildHelp(PDFReporter.class, mandatoryArgProcessors, optionalArgProcessors));
 
         System.err.println();
     }
