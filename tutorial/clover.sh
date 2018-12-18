@@ -11,7 +11,8 @@
 
 CLOVER=../lib/clover.jar
 INITSTR=build/cli/db/clover.db
-JUNIT=lib/junit-3.8.2.jar
+JUNIT=lib/junit-4.12.jar
+HAMCREST=lib/hamcrest-core-1.3.jar
 CLASSES=build/cli/classes
 INSTRDIR=build/cli/instr/
 REPORT=build/cli/report

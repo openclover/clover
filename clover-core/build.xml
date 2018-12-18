@@ -1,4 +1,4 @@
-<project name="clover-core" basedir="." default="clover-core.build" xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="clover-core" basedir="." default="clover-core.build">
 
     <import file="../clover-buildutil/build.xml"/>
     <import file="../clover-core-libs/build.xml"/>
@@ -260,15 +260,6 @@
 
     <target name="clover-core.clean">
         <delete dir="${clover-core.output}"/>
-    </target>
-
-    <!--
-      Rewrites CoverageRecorder.class located in the IDE's output directory so that
-      CoverageRecorder#rethrowChecked(Throwable) will rethrow the checked exception
-      without declaring it in its throws clause
-    -->
-    <target name="clover-core.ide.writeRethrowCheckedMethod">
-        <writeRethrowCheckedMethod classLocation="${clover.ide.project.output.dir}/com_atlassian_clover/CoverageRecorder.class"/>
     </target>
 
     <target name="clover-core.repkg"/>
