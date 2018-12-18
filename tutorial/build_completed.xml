@@ -4,34 +4,28 @@
     <property name="build.testclasses" location="build/testclasses"/>
     <property name="build.testresults" location="build/testresults"/>
 
-    <property name="clover.jar" location="../lib/clover.jar"/>
-    <taskdef resource="cloverlib.xml" classpath="${clover.jar}"/>
+    <property name="junit.jar" location="lib/junit-4.12.jar"/>
+    <property name="hamcrest.jar" location="lib/hamcrest-core-1.3.jar"/>
+    <property name="groovy-all.jar" location="lib/groovy-all-2.4.15.jar"/>
+    <!-- Ensure you have copied clover.jar to this location -->
+    <property name="clover.jar" location="${user.home}/.ant/lib/clover.jar"/>
 
-    <target name="init">
-        <mkdir dir="lib"/>
-        <property name="junit.jar" location="lib/junit-4.12.jar"/>
-        <property name="hamcrest.jar" location="lib/hamcrest-core-1.3.jar"/>
-        <property name="groovy-all.jar" location="lib/groovy-all-2.4.5.jar"/>
+    <path id="build.classpath">
+        <pathelement location="${clover.jar}"/>
+        <pathelement location="${groovy-all.jar}"/>
+        <pathelement location="${build.classes}"/>
+    </path>
 
-        <get src="https://repo1.maven.org/maven2/junit/junit/4.12/junit-4.12.jar" dest="${junit.jar}" skipexisting="true"/>
-        <get src="https://repo1.maven.org/maven2/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar" dest="${hamcrest.jar}" skipexisting="true"/>
-        <get src="https://repo1.maven.org/maven2/org/codehaus/groovy/groovy-all/2.4.5/groovy-all-2.4.5.jar" dest="${groovy-all.jar}" skipexisting="true"/>
+    <path id="testbuild.classpath">
+        <path refid="build.classpath"/>
+        <pathelement location="${junit.jar}"/>
+        <pathelement location="${hamcrest.jar}"/>
+        <pathelement location="${build.testclasses}"/>
+    </path>
 
-        <path id="build.classpath">
-            <pathelement location="${clover.jar}"/>
-            <pathelement location="${groovy-all.jar}"/>
-            <pathelement location="${build.classes}"/>
-        </path>
+    <taskdef resource="cloverlib.xml"/>
 
-        <path id="testbuild.classpath">
-            <path refid="build.classpath"/>
-            <pathelement location="${junit.jar}"/>
-            <pathelement location="${hamcrest.jar}"/>
-            <pathelement location="${build.testclasses}"/>
-        </path>
-    </target>
-
-    <target name="compile" depends="init">
+    <target name="compile">
         <taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc" classpath="${groovy-all.jar}"/>
 
         <mkdir dir="${build.classes}"/>
