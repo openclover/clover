@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
-  * default test detector. Will detect test classes &amp; methods for junit3.8, junit 4.x, TestNG 4, Instinct 0.1.6 and Spring 3 Annotations
+  * default test detector. Will detect test classes &amp; methods for junit3.8, junit 4.x, junit5.x, TestNG 4, Instinct 0.1.6 and Spring 3 Annotations
  */
 public class DefaultTestDetector implements TestDetector {
     @Override
@@ -16,10 +16,11 @@ public class DefaultTestDetector implements TestDetector {
         // check annotations first
         if ( (sourceContext.areAnnotationsSupported()
                 && typeContext.getModifiers() != null
-                && (   typeContext.getModifiers().containsAnnotation(TestAnnotationNames.TESTNG_FQ_TEST_ANNO_NAME)
-                    || typeContext.getModifiers().containsAnnotation(TestAnnotationNames.TEST_ANNO_NAME)
-                    || typeContext.getModifiers().containsAnnotation(TestAnnotationNames.SPOCK_CLASS_FQ_ANNO_NAME)
-                    || typeContext.getModifiers().containsAnnotation(TestAnnotationNames.SPOCK_CLASS_ANNO_NAME)
+                && ( typeContext.getModifiers().containsAnnotation(
+                        TestAnnotationNames.TESTNG_FQ_TEST_ANNO_NAME,
+                        TestAnnotationNames.TEST_ANNO_NAME,
+                        TestAnnotationNames.SPOCK_CLASS_FQ_ANNO_NAME,
+                        TestAnnotationNames.SPOCK_CLASS_ANNO_NAME )
                 )
              )
             || (typeContext.getDocTags() != null && typeContext.getDocTags().containsKey("testng.test"))
@@ -45,9 +46,10 @@ public class DefaultTestDetector implements TestDetector {
     public boolean isMethodMatch(SourceContext sourceContext, MethodContext methodContext) {
         final MethodSignature signature = methodContext.getSignature();
         if (methodContext != null
-                //Concrete public methods
+                //Concrete methods
                 && !Modifier.isAbstract(signature.getModifiersMask())
-                && Modifier.isPublic(signature.getModifiersMask())
+                //TestNG/JUnit5 require at least non private. i.e. public, package private, protected are okay.
+                && !Modifier.isPrivate(signature.getModifiersMask())
                 // no ctors
                 && signature.getReturnType() != null) {
 
@@ -57,8 +59,8 @@ public class DefaultTestDetector implements TestDetector {
                  return true;
             }
 
-            // junit 3.x -textXXX methods
-            if (signature.getName().startsWith("test") && !signature.hasParams()) {
+            // junit 3.x -textXXX methods which are required to be public.
+            if (Modifier.isPublic(signature.getModifiersMask()) && signature.getName().startsWith("test") && !signature.hasParams()) {
                 return true;
             }
         }
@@ -67,15 +69,21 @@ public class DefaultTestDetector implements TestDetector {
     }
 
     protected boolean hasTestAnnotations(Modifiers modifiers) {
-        // return true if method has any of JUnit, TestNG, Spring, Spock annotations
-        return ( modifiers.containsAnnotation(TestAnnotationNames.JUNIT_TEST_ANNO_NAME)
-                || modifiers.containsAnnotation(TestAnnotationNames.TESTNG_FQ_TEST_ANNO_NAME)
-                || modifiers.containsAnnotation(TestAnnotationNames.TEST_ANNO_NAME)
-                || modifiers.containsAnnotation(TestAnnotationNames.SPOCK_METHOD_FQ_ANNO_NAME)
-                || modifiers.containsAnnotation(TestAnnotationNames.SPOCK_METHOD_ANNO_NAME) )
+        // return true if method has any of JUnit4, JUnit5, TestNG, Spring, Spock annotations
+        return ( modifiers.containsAnnotation(
+                TestAnnotationNames.JUNIT_TEST_ANNO_NAME,
+                TestAnnotationNames.JUNIT5_TEST_ANNO_NAME,
+                TestAnnotationNames.TESTNG_FQ_TEST_ANNO_NAME,
+                TestAnnotationNames.TEST_ANNO_NAME,
+                TestAnnotationNames.SPOCK_METHOD_FQ_ANNO_NAME,
+                TestAnnotationNames.SPOCK_METHOD_ANNO_NAME )
             // but it's not marked as ignored
-            && !( modifiers.containsAnnotation(TestAnnotationNames.JUNIT_IGNORE_ANNO_NAME)
-                || modifiers.containsAnnotation(TestAnnotationNames.IGNORE_ANNO_NAME) );
+            && !( modifiers.containsAnnotation(
+                TestAnnotationNames.JUNIT_IGNORE_ANNO_NAME,
+                TestAnnotationNames.JUNIT5_IGNORE_ANNO_NAME,
+                TestAnnotationNames.IGNORE_ANNO_NAME,
+                TestAnnotationNames.DISABLED_ANNO_NAME ) )
+            );
     }
 
     protected boolean hasTestTags(Map<String, List<String>> tags) {
