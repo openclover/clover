@@ -1,19 +1,24 @@
 package com.atlassian.clover;
 
-import clover.org.apache.commons.lang3.StringUtils;
+import clover.com.google.common.collect.Iterables;
+import clover.com.google.common.collect.Lists;
 import com.atlassian.clover.api.CloverException;
+import com.atlassian.clover.api.command.ArgProcessor;
+import com.atlassian.clover.api.command.HelpBuilder;
 import com.atlassian.clover.cfg.instr.InstrumentationConfig;
 import com.atlassian.clover.cfg.instr.MethodContextDef;
 import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig;
 import com.atlassian.clover.cfg.instr.java.LambdaInstrumentation;
-import com.atlassian.clover.instr.java.Instrumenter;
+import com.atlassian.clover.cmdline.CloverInstrArgProcessors;
 import com.atlassian.clover.context.ContextStore;
+import com.atlassian.clover.instr.java.Instrumenter;
 import com.atlassian.clover.remote.DistributedConfig;
 import com.atlassian.clover.util.FileUtils;
 import com.atlassian.clover.util.SourceScanner;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.List;
 import java.util.Locale;
 
@@ -23,6 +28,34 @@ import static clover.com.google.common.collect.Lists.newArrayList;
  *
  */
 public class CloverInstr {
+
+    @SuppressWarnings("unchecked")
+    private static final List<ArgProcessor<JavaInstrumentationConfig>> mandatoryArgProcessors = Lists.newArrayList(
+            CloverInstrArgProcessors.SrcDir,
+            CloverInstrArgProcessors.DestDir
+    );
+
+    @SuppressWarnings("unchecked")
+    private static final List<ArgProcessor<JavaInstrumentationConfig>> optionalArgProcessors = Lists.newArrayList(
+            CloverInstrArgProcessors.InitString,
+            CloverInstrArgProcessors.DistributedCoverage,
+            CloverInstrArgProcessors.Relative,
+            CloverInstrArgProcessors.FlushPolicy,
+            CloverInstrArgProcessors.FlushInterval,
+            CloverInstrArgProcessors.Encoding,
+            CloverInstrArgProcessors.InstrStrategy,
+            CloverInstrArgProcessors.InstrLevel,
+            CloverInstrArgProcessors.InstrLambda,
+            CloverInstrArgProcessors.SourceLevel,
+            CloverInstrArgProcessors.RecordTestResults,
+            CloverInstrArgProcessors.DontQualifyJavaLang,
+            CloverInstrArgProcessors.MethodContext,
+            CloverInstrArgProcessors.StatementContext,
+            CloverInstrArgProcessors.Verbose
+    );
+
+    private static final List<ArgProcessor<JavaInstrumentationConfig>> allArgProcessors = Lists.newArrayList(
+            Iterables.concat(mandatoryArgProcessors, optionalArgProcessors));
 
     private JavaInstrumentationConfig cfg;
 
@@ -110,61 +143,17 @@ public class CloverInstr {
         return files;
     }
 
-    private static void usage(String msg) {
-        System.err.println();
+    private static void usage(PrintStream out, String msg) {
+        out.println();
         if (msg != null) {
-            System.err.println("  *** ERROR: " + msg);
+            out.println("  *** ERROR: " + msg);
         }
-        System.err.println();
-        System.err.println("  USAGE: " + CloverInstr.class.getName() + " [OPTIONS] PARAMS [FILES...]");
-        System.err.println();
-        System.err.println("  PARAMS:");
-        System.err.println("    -s, --srcdir <dir>\t\t Directory containing source files to be instrumented. If omitted");
-        System.err.println("\t\t\t\t individual source files should be specified on the command line.");
-        System.err.println();
-        System.err.println("    -d, --destdir <dir>\t\t Directory where Clover should place the instrumented sources.");
-        System.err.println();
-        System.err.println();
-        System.err.println("  OPTIONS:");
-        System.err.println("    -i, --initstring <file>\t Clover initstring. This is the path to the dbfile that");
-        System.err.println("\t\t\t\t will be used to construct/update to store coverage data.");
-        System.err.println();
-        System.err.println("    -dc, --distributedCoverage <string>\t Configuration for recording distributed pre-test coverage. ");
-        System.err.println("\t\t\t\t Valid keys and default values are: ON | OFF | " + new DistributedConfig());
-        System.err.println();
-        System.err.println("    -r, --relative\t If specified, the initstring is treated as a relative path, ");
-        System.err.println("\t\t\t\t rather than being converted to an absolute path.");                
-        System.err.println("\t\t\t\t This is useful for distributed testing environments.");
-        System.err.println();
-        System.err.println("    -p, --flushpolicy <policy>\t Set the flushpolicy Clover will use during coverage recording.");
-        System.err.println("\t\t\t\t legal values are \"directed\",\"interval\",\"threaded\". Default is \"directed\". If");
-        System.err.println("\t\t\t\t either \"interval\" or \"threaded\" policies is used, the flushinterval must also be set");
-        System.err.println("\t\t\t\t using the -f option.");
-        System.err.println("    -f, --flushinterval <int>\t Set the interval between flushes (in millisecs). Only applies to");
-        System.err.println("\t\t\t\t \"interval\" or \"threaded\" flush policies.");
-        System.err.println("    -e, --encoding <encoding>\t Set the File encoding to use when reading source files.");
-        System.err.println();
-        System.err.println("    --instrumentation <string>\t Set the instrumentation strategy. Valid values are \"field\" and");
-        System.err.println("\t\t\t\t \"class\". Default is \"class\".");
-        System.err.println();
-        System.err.println("    --instrlevel <string>\t Set the instrumentation level. Valid values are \"statement\" and");
-        System.err.println("\t\t\t\t \"method\". Default is \"statement\".");
-        System.err.println();
-        System.err.println("    --instrlambda <string>\t Set whether lambda functions shall be instrumented. Valid values are: "
-                + StringUtils.join(LambdaInstrumentation.values(), ", ").toLowerCase(Locale.ENGLISH) + ".");
-        System.err.println("\t\t\t\t Default is " + LambdaInstrumentation.NONE + ".");
-        System.err.println();
-        System.err.println("    --source <level>\t\t Set the language level for Clover to use when parsing files.");
-        System.err.println();
-        System.err.println("    --recordTestResults <true|false> \t If set to false, Clover will not record test results.");
-        System.err.println();
-        System.err.println("    --dontFullyQualifyJavaLang \t\t If set, then java.lang will not be used in instrumented source.");
-        System.err.println();
-        System.err.println("    -mc --methodContext <name>=<regexp> \t\t Defines a single custom method context. May be supplied more than once. (\\ may be needed to prevent shell expansion)");
-        System.err.println();
-        System.err.println("    -sc --statementContext <name>=<regexp>\t\t Defines a single custom statement context. May be supplied more than once.(\\ may be needed to prevent shell expansion)");
-        System.err.println();
-        System.err.println("    -v, --verbose\t\t Enable verbose logging.");
+
+        out.println(HelpBuilder.buildHelp(CloverInstr.class, mandatoryArgProcessors, optionalArgProcessors));
+    }
+
+    private static void usage(String msg) {
+        usage(System.err, msg);
     }
 
     private boolean processArgs(String[] args) {
