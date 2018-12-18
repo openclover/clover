@@ -2,6 +2,7 @@ package com.atlassian.clover.reporters;
 
 import com.atlassian.clover.api.CloverException;
 import com.atlassian.clover.Logger;
+import com.atlassian.clover.api.command.ArgProcessor;
 import com.atlassian.clover.reporters.json.JSONReporter;
 import com.atlassian.clover.reporters.pdf.PDFReporter;
 import com.atlassian.clover.reporters.xml.XMLReporter;
@@ -10,10 +11,10 @@ import com.atlassian.clover.CloverStartup;
 import com.atlassian.clover.reporters.html.HtmlReportUtil;
 import com.atlassian.clover.reporters.html.HtmlReporter;
 
+import java.util.List;
+
 /**
- * a class that allows production of all the "hardcopy"
- * clover reports
- *
+ * A class that allows production of all the "hardcopy" clover reports
  */
 public abstract class CloverReporter {
 
@@ -69,18 +70,18 @@ public abstract class CloverReporter {
     }
 
     public static String buildHelp(String className,
-                                   CommandLineArgProcessors.ArgProcessor[] mandatoryArgProcessors,
-                                   CommandLineArgProcessors.ArgProcessor[] optionalArgProcessors) {
+                                   List<ArgProcessor<Current>> mandatoryArgProcessors,
+                                   List<ArgProcessor<Current>> optionalArgProcessors) {
         final StringBuilder helpMessage = new StringBuilder();
         helpMessage.append("  USAGE: ").append(className).append(" [OPTIONS] PARAMS\n\n");
 
         helpMessage.append("  PARAMS:\n");
-        for (CommandLineArgProcessors.ArgProcessor argProcessor : mandatoryArgProcessors) {
+        for (ArgProcessor argProcessor : mandatoryArgProcessors) {
             helpMessage.append(argProcessor.help());
         }
 
         helpMessage.append("  OPTIONS:\n");
-        for (CommandLineArgProcessors.ArgProcessor argProcessor : optionalArgProcessors) {
+        for (ArgProcessor argProcessor : optionalArgProcessors) {
             helpMessage.append(argProcessor.help());
         }
 

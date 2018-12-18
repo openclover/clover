@@ -1,28 +1,27 @@
 package com.atlassian.clover.reporters.pdf;
 
 
+import clover.com.google.common.collect.Iterables;
+import clover.com.google.common.collect.Lists;
 import clover.com.lowagie.text.Document;
 import clover.com.lowagie.text.DocumentException;
 import clover.com.lowagie.text.FontFactory;
-import clover.com.lowagie.text.PageSize;
 import clover.com.lowagie.text.Rectangle;
 import clover.com.lowagie.text.pdf.PdfWriter;
-import clover.org.apache.commons.lang3.ArrayUtils;
-import com.atlassian.clover.api.CloverException;
-import com.atlassian.clover.api.registry.PackageInfo;
-import com.atlassian.clover.reporters.CommandLineArgProcessors;
-import com.atlassian.clover.reporters.Current;
-import com.atlassian.clover.reporters.Historical;
 import com.atlassian.clover.CloverLicenseInfo;
 import com.atlassian.clover.CodeType;
 import com.atlassian.clover.Logger;
-import com.atlassian.clover.CloverLicense;
+import com.atlassian.clover.api.CloverException;
+import com.atlassian.clover.api.command.ArgProcessor;
 import com.atlassian.clover.api.registry.HasMetrics;
-import com.atlassian.clover.registry.metrics.HasMetricsSupport;
+import com.atlassian.clover.api.registry.PackageInfo;
 import com.atlassian.clover.registry.entities.FullProjectInfo;
+import com.atlassian.clover.registry.metrics.HasMetricsSupport;
 import com.atlassian.clover.reporters.CloverReportConfig;
-import com.atlassian.clover.reporters.Format;
 import com.atlassian.clover.reporters.CloverReporter;
+import com.atlassian.clover.reporters.Current;
+import com.atlassian.clover.reporters.Format;
+import com.atlassian.clover.reporters.Historical;
 import com.atlassian.clover.reporters.util.HistoricalReportDescriptor;
 import com_atlassian_clover.CloverVersionInfo;
 
@@ -35,39 +34,55 @@ import java.util.Map;
 
 import static clover.com.google.common.collect.Lists.newLinkedList;
 import static clover.com.google.common.collect.Maps.newHashMap;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.AlwaysReport;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.DebugLogging;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.Filter;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.HideBars;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.IncludeFailedTestCoverage;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.InitString;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.OrderBy;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.OutputFile;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.PageSize;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.ShowEmpty;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.Span;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.ThreadCount;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.Title;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.VerboseLogging;
 
 public class PDFReporter extends CloverReporter {
 
-    static final CommandLineArgProcessors.ArgProcessor[] mandatoryArgProcessors = new CommandLineArgProcessors.ArgProcessor[] {
-            CommandLineArgProcessors.InitString,
-            CommandLineArgProcessors.OutputFile
-    };
+    @SuppressWarnings("unchecked")
+    private static final List<ArgProcessor<Current>> mandatoryArgProcessors = Lists.newArrayList(
+            InitString,
+            OutputFile
+    );
 
-    static final CommandLineArgProcessors.ArgProcessor[] optionalArgProcessors = new CommandLineArgProcessors.ArgProcessor[] {
-            CommandLineArgProcessors.AlwaysReport,
-            CommandLineArgProcessors.HideBars,
-            CommandLineArgProcessors.OrderBy,
-            CommandLineArgProcessors.DebugLogging,
-            CommandLineArgProcessors.ShowEmpty,
-            CommandLineArgProcessors.Filter,
-            CommandLineArgProcessors.IncludeFailedTestCoverage,
-            CommandLineArgProcessors.PageSize,
-            CommandLineArgProcessors.Span,
-            CommandLineArgProcessors.Title,
-            CommandLineArgProcessors.ThreadCount,
-            CommandLineArgProcessors.VerboseLogging
-    };
+    @SuppressWarnings("unchecked")
+    private static final List<ArgProcessor<Current>> optionalArgProcessors = Lists.newArrayList(
+            AlwaysReport,
+            HideBars,
+            OrderBy,
+            DebugLogging,
+            ShowEmpty,
+            Filter,
+            IncludeFailedTestCoverage,
+            PageSize,
+            Span,
+            Title,
+            ThreadCount,
+            VerboseLogging
+    );
 
-    static final CommandLineArgProcessors.ArgProcessor[] allArgProcessors =
-            (CommandLineArgProcessors.ArgProcessor[]) ArrayUtils.addAll(mandatoryArgProcessors, optionalArgProcessors);
+    private static final List<ArgProcessor<Current>> allArgProcessors = Lists.newArrayList(
+            Iterables.concat(mandatoryArgProcessors, optionalArgProcessors));
 
 
-    private static final Rectangle DEFAULT_PAGE_SIZE = PageSize.A4;
+    private static final Rectangle DEFAULT_PAGE_SIZE = clover.com.lowagie.text.PageSize.A4;
     private static final Map<String, Rectangle> SUPPORTED_PAGE_SIZES = newHashMap();
 
     static {
-        SUPPORTED_PAGE_SIZES.put("A4", PageSize.A4);
-        SUPPORTED_PAGE_SIZES.put("LETTER", PageSize.LETTER);
+        SUPPORTED_PAGE_SIZES.put("A4", clover.com.lowagie.text.PageSize.A4);
+        SUPPORTED_PAGE_SIZES.put("LETTER", clover.com.lowagie.text.PageSize.LETTER);
     }
 
     private final Document document;
@@ -305,7 +320,7 @@ public class PDFReporter extends CloverReporter {
             int i = 0;
 
             while (i < args.length) {
-                for (CommandLineArgProcessors.ArgProcessor argProcessor : allArgProcessors) {
+                for (ArgProcessor argProcessor : allArgProcessors) {
                     if (argProcessor.matches(args, i)) {
                         i = argProcessor.process(args, i, config);
                     }

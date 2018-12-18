@@ -1,23 +1,23 @@
 package com.atlassian.clover.reporters.json;
 
 
-import clover.org.apache.commons.lang3.ArrayUtils;
+import clover.com.google.common.collect.Iterables;
+import clover.com.google.common.collect.Lists;
 import clover.org.apache.velocity.VelocityContext;
-import com.atlassian.clover.api.CloverException;
 import com.atlassian.clover.Logger;
+import com.atlassian.clover.api.CloverException;
+import com.atlassian.clover.api.command.ArgProcessor;
 import com.atlassian.clover.api.registry.FileInfo;
 import com.atlassian.clover.api.registry.PackageInfo;
+import com.atlassian.clover.cfg.Interval;
 import com.atlassian.clover.registry.entities.FullFileInfo;
 import com.atlassian.clover.registry.entities.FullPackageInfo;
-import com.atlassian.clover.reporters.CommandLineArgProcessors;
-import com.atlassian.clover.reporters.html.HtmlRenderingSupportImpl;
-import com.atlassian.clover.CloverLicense;
-import com.atlassian.clover.cfg.Interval;
 import com.atlassian.clover.registry.entities.FullProjectInfo;
 import com.atlassian.clover.reporters.CloverReportConfig;
+import com.atlassian.clover.reporters.CloverReporter;
 import com.atlassian.clover.reporters.Current;
 import com.atlassian.clover.reporters.Format;
-import com.atlassian.clover.reporters.CloverReporter;
+import com.atlassian.clover.reporters.html.HtmlRenderingSupportImpl;
 import com.atlassian.clover.util.CloverExecutor;
 import com.atlassian.clover.util.CloverExecutors;
 import com.atlassian.clover.util.CloverUtils;
@@ -26,25 +26,35 @@ import java.io.File;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.AlwaysReport;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.DebugLogging;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.IncludeFailedTestCoverage;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.InitString;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.OutputDirJson;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.ShowInnerFunctions;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.ShowLambdaFunctions;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.ThreadCount;
+import static com.atlassian.clover.reporters.CommandLineArgProcessors.VerboseLogging;
+
 public class JSONReporter extends CloverReporter {
 
-    static final CommandLineArgProcessors.ArgProcessor[] mandatoryArgProcessors = new CommandLineArgProcessors.ArgProcessor[] {
-            CommandLineArgProcessors.InitString,
-            CommandLineArgProcessors.OutputDirJson
-    };
+    private static final List<ArgProcessor<Current>> mandatoryArgProcessors = Lists.newArrayList(
+            InitString,
+            OutputDirJson
+    );
 
-    static final CommandLineArgProcessors.ArgProcessor[] optionalArgProcessors = new CommandLineArgProcessors.ArgProcessor[] {
-            CommandLineArgProcessors.AlwaysReport,
-            CommandLineArgProcessors.DebugLogging,
-            CommandLineArgProcessors.IncludeFailedTestCoverage,
-            CommandLineArgProcessors.ShowInnerFunctions,
-            CommandLineArgProcessors.ShowLambdaFunctions,
-            CommandLineArgProcessors.ThreadCount,
-            CommandLineArgProcessors.VerboseLogging
-    };
+    private static final List<ArgProcessor<Current>> optionalArgProcessors = Lists.newArrayList(
+            AlwaysReport,
+            DebugLogging,
+            IncludeFailedTestCoverage,
+            ShowInnerFunctions,
+            ShowLambdaFunctions,
+            ThreadCount,
+            VerboseLogging
+    );
 
-    static final CommandLineArgProcessors.ArgProcessor[] allArgProcessors =
-            (CommandLineArgProcessors.ArgProcessor[]) ArrayUtils.addAll(mandatoryArgProcessors, optionalArgProcessors);
+    private static final List<ArgProcessor<Current>> allArgProcessors = Lists.newArrayList(
+            Iterables.concat(mandatoryArgProcessors, optionalArgProcessors));
 
     private final HtmlRenderingSupportImpl renderingHelper;
     private final File basePath;
@@ -196,7 +206,7 @@ public class JSONReporter extends CloverReporter {
             int i = 0;
 
             while (i < args.length) {
-                for (CommandLineArgProcessors.ArgProcessor argProcessor : allArgProcessors) {
+                for (ArgProcessor argProcessor : allArgProcessors) {
                     if (argProcessor.matches(args, i)) {
                         i = argProcessor.process(args, i, cfg);
                     }
