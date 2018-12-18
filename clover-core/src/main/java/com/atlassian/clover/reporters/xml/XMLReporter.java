@@ -6,6 +6,7 @@ import com.atlassian.clover.CloverDatabase;
 import com.atlassian.clover.Logger;
 import com.atlassian.clover.api.CloverException;
 import com.atlassian.clover.api.command.ArgProcessor;
+import com.atlassian.clover.api.command.HelpBuilder;
 import com.atlassian.clover.api.registry.BlockMetrics;
 import com.atlassian.clover.api.registry.BranchInfo;
 import com.atlassian.clover.api.registry.ClassInfo;
@@ -382,7 +383,7 @@ public class XMLReporter extends CloverReporter {
         }
         System.err.println();
 
-        System.err.println(buildHelp(XMLReporter.class.getName(), mandatoryArgProcessors, optionalArgProcessors));
+        System.err.println(HelpBuilder.buildHelp(XMLReporter.class, mandatoryArgProcessors, optionalArgProcessors));
 
         System.err.println();
     }

@@ -7,6 +7,7 @@ import clover.org.apache.velocity.VelocityContext;
 import com.atlassian.clover.Logger;
 import com.atlassian.clover.api.CloverException;
 import com.atlassian.clover.api.command.ArgProcessor;
+import com.atlassian.clover.api.command.HelpBuilder;
 import com.atlassian.clover.api.registry.FileInfo;
 import com.atlassian.clover.api.registry.PackageInfo;
 import com.atlassian.clover.cfg.Interval;
@@ -194,7 +195,7 @@ public class JSONReporter extends CloverReporter {
         }
         System.err.println();
 
-        System.err.println(buildHelp(JSONReporter.class.getName(), mandatoryArgProcessors, optionalArgProcessors));
+        System.err.println(HelpBuilder.buildHelp(JSONReporter.class, mandatoryArgProcessors, optionalArgProcessors));
 
         System.err.println();
     }

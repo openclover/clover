@@ -12,6 +12,7 @@ import com.atlassian.clover.CloverLicenseInfo;
 import com.atlassian.clover.Logger;
 import com.atlassian.clover.api.CloverException;
 import com.atlassian.clover.api.command.ArgProcessor;
+import com.atlassian.clover.api.command.HelpBuilder;
 import com.atlassian.clover.api.registry.ClassInfo;
 import com.atlassian.clover.api.registry.FileInfo;
 import com.atlassian.clover.api.registry.HasMetrics;
@@ -438,7 +439,7 @@ public class HtmlReporter extends CloverReporter {
         }
         System.err.println();
 
-        System.err.println(buildHelp(HtmlReporter.class.getName(), mandatoryArgProcessors, optionalArgProcessors));
+        System.err.println(HelpBuilder.buildHelp(HtmlReporter.class, mandatoryArgProcessors, optionalArgProcessors));
         System.err.println(TestSelectionHelper.getParamsUsage());
 
         System.err.println();
