@@ -1,11 +1,16 @@
 package com.atlassian.clover.cmdline;
 
 import clover.org.apache.commons.lang3.StringUtils;
+import com.atlassian.clover.Logger;
+import com.atlassian.clover.api.CloverException;
 import com.atlassian.clover.api.command.ArgProcessor;
+import com.atlassian.clover.cfg.instr.MethodContextDef;
+import com.atlassian.clover.cfg.instr.StatementContextDef;
 import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig;
 import com.atlassian.clover.cfg.instr.java.LambdaInstrumentation;
 import com.atlassian.clover.remote.DistributedConfig;
 
+import java.io.File;
 import java.util.Locale;
 
 public class CloverInstrArgProcessors {
@@ -22,7 +27,7 @@ public class CloverInstrArgProcessors {
         @Override
         public int process(String[] args, int i, JavaInstrumentationConfig cfg) {
             i++;
-//            cfg.setInitString(args[i]);
+            cfg.setSourceDir(new File(args[i]).getAbsoluteFile());
             return i;
         }
 
@@ -42,7 +47,7 @@ public class CloverInstrArgProcessors {
         @Override
         public int process(String[] args, int i, JavaInstrumentationConfig cfg) {
             i++;
-//            cfg.setInitString(args[i]);
+            cfg.setDestDir(new File(args[i]).getAbsoluteFile());
             return i;
         }
 
@@ -61,7 +66,7 @@ public class CloverInstrArgProcessors {
         @Override
         public int process(String[] args, int i, JavaInstrumentationConfig cfg) {
             i++;
-//            cfg.setInitString(args[i]);
+            cfg.setInitstring(args[i]);
             return i;
         }
 
@@ -81,7 +86,7 @@ public class CloverInstrArgProcessors {
         @Override
         public int process(String[] args, int i, JavaInstrumentationConfig cfg) {
             i++;
-//            cfg.setInitString(args[i]);
+            cfg.setDistributedConfig(new DistributedConfig(args[i]));
             return i;
         }
 
@@ -100,8 +105,7 @@ public class CloverInstrArgProcessors {
 
         @Override
         public int process(String[] args, int i, JavaInstrumentationConfig cfg) {
-//            i++;
-//            cfg.setInitString(args[i]);
+            cfg.setRelative(true);
             return i;
         }
 
@@ -122,7 +126,11 @@ public class CloverInstrArgProcessors {
         @Override
         public int process(String[] args, int i, JavaInstrumentationConfig cfg) {
             i++;
-//            cfg.setInitString(args[i]);
+            try {
+                cfg.setFlushPolicyFromString(args[i]);
+            } catch (CloverException e) {
+                usage(e.getMessage());
+            }
             return i;
         }
 
@@ -144,7 +152,16 @@ public class CloverInstrArgProcessors {
         @Override
         public int process(String[] args, int i, JavaInstrumentationConfig cfg) {
             i++;
-//            cfg.setInitString(args[i]);
+            try {
+                final int flushInterval = Integer.parseInt(args[i]);
+                if (flushInterval <= 0) {
+                    usage("Invalid flush interval. Should be a positive integer.");
+                } else {
+                    cfg.setFlushInterval(flushInterval);
+                }
+            } catch (NumberFormatException e) {
+                usage("Invalid flush interval. Should be a positive integer.");
+            }
             return i;
         }
 
@@ -164,7 +181,7 @@ public class CloverInstrArgProcessors {
         @Override
         public int process(String[] args, int i, JavaInstrumentationConfig cfg) {
             i++;
-//            cfg.setInitString(args[i]);
+            cfg.setEncoding(args[i]);
             return i;
         }
 
@@ -183,7 +200,7 @@ public class CloverInstrArgProcessors {
         @Override
         public int process(String[] args, int i, JavaInstrumentationConfig cfg) {
             i++;
-//            cfg.setInitString(args[i]);
+            cfg.setInstrStrategy(args[i]);
             return i;
         }
 
@@ -203,7 +220,7 @@ public class CloverInstrArgProcessors {
         @Override
         public int process(String[] args, int i, JavaInstrumentationConfig cfg) {
             i++;
-//            cfg.setInitString(args[i]);
+            cfg.setInstrLevelStrategy(args[i]);
             return i;
         }
 
@@ -223,7 +240,11 @@ public class CloverInstrArgProcessors {
         @Override
         public int process(String[] args, int i, JavaInstrumentationConfig cfg) {
             i++;
-//            cfg.setInitString(args[i]);
+            try {
+                cfg.setInstrumentLambda(LambdaInstrumentation.valueOf(args[i].toUpperCase(Locale.ENGLISH)));
+            } catch (IllegalArgumentException ex) {
+                usage("Invalid value: " + args[i] + ". " + ex.getMessage());
+            }
             return i;
         }
 
@@ -244,7 +265,7 @@ public class CloverInstrArgProcessors {
         @Override
         public int process(String[] args, int i, JavaInstrumentationConfig cfg) {
             i++;
-//            cfg.setInitString(args[i]);
+            cfg.setSourceLevel(args[i]);
             return i;
         }
 
@@ -263,7 +284,7 @@ public class CloverInstrArgProcessors {
         @Override
         public int process(String[] args, int i, JavaInstrumentationConfig cfg) {
             i++;
-//            cfg.setInitString(args[i]);
+            cfg.setRecordTestResults(Boolean.parseBoolean(args[i]));
             return i;
         }
 
@@ -281,8 +302,7 @@ public class CloverInstrArgProcessors {
 
         @Override
         public int process(String[] args, int i, JavaInstrumentationConfig cfg) {
-//            i++;
-//            cfg.setInitString(args[i]);
+            cfg.setFullyQualifyJavaLang(false);
             return i;
         }
 
@@ -301,13 +321,29 @@ public class CloverInstrArgProcessors {
         @Override
         public int process(String[] args, int i, JavaInstrumentationConfig cfg) {
             i++;
-//            cfg.setInitString(args[i]);
+            try {
+                // format: name=value, where value may have one or more '='
+                cfg.addMethodContext(parseContextDef(args[i]));
+            } catch (CloverException e) {
+                usage("Could not parse custom method context definition: " + args[i] + ". " + e.getMessage());
+            }
             return i;
         }
 
         @Override
         public String help() {
             return "    -mc --methodContext <name>=<regexp> \t\t Defines a single custom method context. May be supplied more than once. (\\ may be needed to prevent shell expansion)";
+        }
+
+        private MethodContextDef parseContextDef(String line) throws CloverException {
+            final int index = line.indexOf('=');
+            if (index <= 0 || (index+1 == line.length())) {
+                throw new CloverException("Custom context definitions must be of the form: 'name=regexp'");
+            }
+            final MethodContextDef contextDef = new MethodContextDef();
+            contextDef.setName(line.substring(0, index));
+            contextDef.setRegexp(line.substring(index+1));
+            return contextDef;
         }
     };
 
@@ -320,7 +356,12 @@ public class CloverInstrArgProcessors {
         @Override
         public int process(String[] args, int i, JavaInstrumentationConfig cfg) {
             i++;
-//            cfg.setInitString(args[i]);
+            try {
+                // expected format: name=value, where value may have one or more '='
+                cfg.addStatementContext(parseContextDef(args[i]));
+            } catch (CloverException e) {
+                usage("Could not parse custom statement context definition: " + args[i] + ". " + e.getMessage());
+            }
             return i;
         }
 
@@ -328,24 +369,53 @@ public class CloverInstrArgProcessors {
         public String help() {
             return "    -sc --statementContext <name>=<regexp>\t\t Defines a single custom statement context. May be supplied more than once.(\\ may be needed to prevent shell expansion)";
         }
+
+        private StatementContextDef parseContextDef(String line) throws CloverException {
+            final int index = line.indexOf('=');
+            if (index <= 0 || (index+1 == line.length())) {
+                throw new CloverException("Custom context definitions must be of the form: 'name=regexp'");
+            }
+            final StatementContextDef contextDef = new StatementContextDef();
+            contextDef.setName(line.substring(0, index));
+            contextDef.setRegexp(line.substring(index+1));
+            return contextDef;
+        }
     };
 
     public static ArgProcessor<JavaInstrumentationConfig> Verbose = new ArgProcessor<JavaInstrumentationConfig>() {
         @Override
         public boolean matches(String[] args, int i) {
-            return args[i].equals("-sc") || args[i].equals("--statementContext");
+            return args[i].equals("-v") || args[i].equals("--verbose");
         }
 
         @Override
         public int process(String[] args, int i, JavaInstrumentationConfig cfg) {
-//            i++;
-//            cfg.setInitString(args[i]);
+            Logger.setVerbose(true);
             return i;
         }
 
         @Override
         public String help() {
             return "    -v, --verbose\t\t Enable verbose logging.";
+        }
+    };
+
+    public static ArgProcessor<JavaInstrumentationConfig> JavaSourceFile = new ArgProcessor<JavaInstrumentationConfig>() {
+
+        @Override
+        public boolean matches(String[] args, int i) {
+            return args[i].endsWith(".java");
+        }
+
+        @Override
+        public int process(String[] args, int i, JavaInstrumentationConfig cfg) {
+            cfg.addSourceFile(args[i]);
+            return i;
+        }
+
+        @Override
+        public String help() {
+            return "   *.java\\t\\t Specific source file to be instrumented.";
         }
     };
 
