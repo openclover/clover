@@ -78,7 +78,7 @@ public class Modifiers implements TaggedPersistent, ModifiersInfo {
      * Returns true if the element is annotated with any of the specified annotations.
      */
     public boolean containsAnnotation(@NotNull String... annotationNames) {
-        for (String annotationName : annotations.keySet()) {
+        for (String annotationName : annotationNames) {
             if (annotations.containsKey(annotationName)) {
                 return true;
             }
