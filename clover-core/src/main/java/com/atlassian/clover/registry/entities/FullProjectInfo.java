@@ -84,7 +84,7 @@ public class FullProjectInfo extends BaseProjectInfo implements HasMetricsNode, 
 
     public PackageFragment[] getPackageRoots() {
         ensureRootsBuilt();
-        return (PackageFragment[]) roots.values().toArray(new PackageFragment[roots.size()]);
+        return (PackageFragment[]) roots.values().toArray(new PackageFragment[0]);
     }
 
     public FullProjectInfo copy() {

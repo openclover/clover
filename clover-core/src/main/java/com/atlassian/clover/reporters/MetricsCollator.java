@@ -103,7 +103,7 @@ public class MetricsCollator {
         int i = 0;
         for (ClassInfo info : pceOrder) {
             final int rank = amcOrder.indexOf(info) + (++i);
-            final Integer key = new Integer(rank);
+            final Integer key = rank;
             final List<ClassInfo> value;
             if (classMap.containsKey(key)) {
                 value = classMap.get(key);

@@ -75,7 +75,7 @@ public class LineInfo {
         if (classStarts == null) {
             return EMPTY_CLASS_INFOS;
         } else {
-            return classStarts.toArray(new FullClassInfo[classStarts.size()]);
+            return classStarts.toArray(new FullClassInfo[0]);
         }
     }
 
@@ -84,7 +84,7 @@ public class LineInfo {
         if (methodStarts == null) {
             return EMPTY_METHOD_INFOS;
         } else {
-            return methodStarts.toArray(new FullMethodInfo[methodStarts.size()]);
+            return methodStarts.toArray(new FullMethodInfo[0]);
         }
     }
 
@@ -93,7 +93,7 @@ public class LineInfo {
         if (statements == null) {
             return EMPTY_STATEMENT_INFOS;
         } else {
-            return statements.toArray(new FullStatementInfo[statements.size()]);
+            return statements.toArray(new FullStatementInfo[0]);
         }
     }
 
@@ -102,7 +102,7 @@ public class LineInfo {
         if (branches == null) {
             return EMPTY_BRANCH_INFOS;
         } else {
-            return branches.toArray(new FullBranchInfo[branches.size()]);
+            return branches.toArray(new FullBranchInfo[0]);
         }
     }
 

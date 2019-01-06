@@ -130,7 +130,7 @@ public class Snapshot implements Serializable {
     }
 
     private void pushVersion(CloverDatabase db) {
-        dbVersions.add(new Long(db.getRegistry().getVersion()));
+        dbVersions.add(db.getRegistry().getVersion());
     }
 
     private boolean isFirstUpdate() {
@@ -139,8 +139,8 @@ public class Snapshot implements Serializable {
 
     private TestRunTimings updateFailedTestsAndTestDurations(CloverDatabase db) {
         long earliestStart = Long.MAX_VALUE;
-        long latestEnd = 0l;
-        long totalTestTime = 0l;
+        long latestEnd = 0L;
+        long totalTestTime = 0L;
         long started = System.currentTimeMillis();
 
         int testCount = 0;

@@ -389,7 +389,7 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
                         if (tmpLineInfo[line] == null) {
                             tmpLineInfo[line] = new LineInfo(line);
                         }
-                        tmpLineInfo[line].setFailStackEntries(stackFrames.toArray(new StackTraceInfo.TraceEntry[stackFrames.size()]));
+                        tmpLineInfo[line].setFailStackEntries(stackFrames.toArray(new StackTraceInfo.TraceEntry[0]));
                     }
 
                 }

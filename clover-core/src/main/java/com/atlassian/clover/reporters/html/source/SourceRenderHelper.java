@@ -274,7 +274,7 @@ public class SourceRenderHelper {
         }
 
         this.outOfDate = csr.getChecksum() != finfo.getChecksum();
-        return renderedLines.toArray(new LineRenderInfo[renderedLines.size()]);
+        return renderedLines.toArray(new LineRenderInfo[0]);
     }
 
     private String[] calcCoverageMsg(FullElementInfo lineElement, String emptyCoverageChar) {

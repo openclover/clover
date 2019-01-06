@@ -77,7 +77,7 @@ public class HistoricalSupport {
             BaseProjectInfo project = model.getProject();
             BasePackageInfo pkg = project.getNamedPackage(pkgStr);
             if (pkg != null) {
-                result.put(new Long(project.getVersion()), new HasMetricsWrapper(pkg, model.getDataFile()));
+                result.put(project.getVersion(), new HasMetricsWrapper(pkg, model.getDataFile()));
             } else {
                 Logger.getInstance().warn("Package " + pkgStr + " not found in historical data at " +
                         Formatting.formatDate(new Date(project.getVersion())));
@@ -96,7 +96,7 @@ public class HistoricalSupport {
         final SortedMap<Long, HasMetrics> result = newTreeMap();
         for (final CoverageDataPoint model : modelList) {
             final BaseProjectInfo project = model.getProject();
-            result.put(new Long(project.getVersion()), new HasMetricsWrapper(project, model.getDataFile()));
+            result.put(project.getVersion(), new HasMetricsWrapper(project, model.getDataFile()));
         }
         return result;
     }
@@ -258,9 +258,9 @@ public class HistoricalSupport {
 
             if (!pc1.equals(pc2)) {
                 if (pc1.intValue() == -1) {
-                    pc1 = new Integer(0);
+                    pc1 = 0;
                 } else if (pc2.intValue() == -1) {
-                    pc2 = new Integer(0);
+                    pc2 = 0;
                 }
             }
 
@@ -288,9 +288,9 @@ public class HistoricalSupport {
             Logger.getInstance().debug("found new " + column.getTitle() + " for " + c2.getQualifiedName());
 
             Number pc2 = col2.getNumber();
-            Number pc1 = new Integer(100);
+            Number pc1 = 100;
             if (pc2.intValue() == -1) {
-                pc2 = new Integer(0);
+                pc2 = 0;
             }
             return new MetricsDiffSummary(null, c2, pc1, pc2, pc2.floatValue(), column);
         }

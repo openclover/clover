@@ -390,9 +390,9 @@ public class TestCaseInfo implements Serializable {
             result = 31 * result + (failFullMessage != null ? failFullMessage.hashCode() : 0);
             result = 31 * result + (staticTestName != null ? staticTestName.hashCode() : 0);
             result = 31 * result + (runtimeTestName != null ? runtimeTestName.hashCode() : 0);
-            hashCode = new Integer(result);
+            hashCode = result;
         }
-        return hashCode.intValue();
+        return hashCode;
     }
 
     @Override

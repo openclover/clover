@@ -38,7 +38,7 @@ public class ExpectedExceptionMiner {
             expectedExceptionsFromJavadoc(sig, exceptionNames);
         }
 
-        return exceptionNames.toArray(new String[exceptionNames.size()]);
+        return exceptionNames.toArray(new String[0]);
     }
 
     private static void expectedExceptionsFromJavadoc(MethodSignature sig, SortedSet<String> exceptionNames) {

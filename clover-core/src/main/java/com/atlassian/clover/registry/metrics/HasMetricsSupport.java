@@ -39,8 +39,8 @@ public class HasMetricsSupport {
     public static final HasMetricsComparator CMP_COMPLEXITY = new HasMetricsComparator() {
         @Override
         public int compare(HasMetrics obj1, HasMetrics obj2) {
-            Integer t1 = new Integer(obj1.getMetrics().getComplexity());
-            Integer t2 = new Integer(obj2.getMetrics().getComplexity());
+            Integer t1 = obj1.getMetrics().getComplexity();
+            Integer t2 = obj2.getMetrics().getComplexity();
             return t1.compareTo(t2);
         }
 
@@ -79,8 +79,8 @@ public class HasMetricsSupport {
     public static final HasMetricsComparator CMP_ELEMENTS_COVERED_ASC = new HasMetricsComparator() {
         @Override
         public int compare(HasMetrics obj1, HasMetrics obj2) {
-            Integer t1 = new Integer(obj1.getMetrics().getNumCoveredElements());
-            Integer t2 = new Integer(obj2.getMetrics().getNumCoveredElements());
+            Integer t1 = obj1.getMetrics().getNumCoveredElements();
+            Integer t2 = obj2.getMetrics().getNumCoveredElements();
             return t1.compareTo(t2);
         }
 
@@ -105,8 +105,8 @@ public class HasMetricsSupport {
     public static final HasMetricsComparator CMP_ELEMENTS_UNCOVERED_ASC = new HasMetricsComparator() {
         @Override
         public int compare(HasMetrics obj1, HasMetrics obj2) {
-            Integer t1 = new Integer(obj1.getMetrics().getNumUncoveredElements());
-            Integer t2 = new Integer(obj2.getMetrics().getNumUncoveredElements());
+            Integer t1 = obj1.getMetrics().getNumUncoveredElements();
+            Integer t2 = obj2.getMetrics().getNumUncoveredElements();
             return t1.compareTo(t2);
         }
 
@@ -360,7 +360,7 @@ public class HasMetricsSupport {
         private String description;
 
         public HasMetricsComparatorChain(List chain) {
-            this((HasMetricsComparator[]) chain.toArray(new HasMetricsComparator[chain.size()]), null, null);
+            this((HasMetricsComparator[]) chain.toArray(new HasMetricsComparator[0]), null, null);
         }
 
         public HasMetricsComparatorChain(HasMetricsComparator[] chain, String name, String desc) {

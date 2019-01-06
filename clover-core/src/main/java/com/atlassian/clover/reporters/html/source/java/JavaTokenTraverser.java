@@ -46,7 +46,7 @@ public final class JavaTokenTraverser implements SourceTraverser<JavaSourceListe
                     //multiline comment parsing for javadoc tags
                     processComment(currentChunk.toString(), listener);
                 }
-                else if (JavaKeywords.contains(new Integer(prev.getType()))) {
+                else if (JavaKeywords.contains(prev.getType())) {
                     listener.onKeyword(currentChunk.toString());
                     gatherPkgIdent = (prev.getType() == JavaTokenTypes.LITERAL_package);
                     gatherImportIdent = (prev.getType() == JavaTokenTypes.LITERAL_import);

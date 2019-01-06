@@ -45,7 +45,7 @@ public class PackageFragment implements HasMetricsNode {
 
     public PackageFragment[] getChildren() {
         if (children != null) {
-            return children.values().toArray(new PackageFragment[children.size()]);
+            return children.values().toArray(new PackageFragment[0]);
         }
         return new PackageFragment[0];
     }

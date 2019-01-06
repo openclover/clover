@@ -352,7 +352,7 @@ public class HtmlReporter extends CloverReporter {
             context.put("relToCurrentRoot", relToCurrentRoot);
             Format format = firstCurrentConfig.getFormat();
             if (format != null) {
-                context.put("showSrc", Boolean.valueOf(format.getSrcLevel()));
+                context.put("showSrc", format.getSrcLevel());
             }
         }
 
@@ -363,7 +363,7 @@ public class HtmlReporter extends CloverReporter {
             context.put("allMovers", descriptor.getMoversDescriptors());
         }
 
-        context.put("colSpan", new Integer(6));
+        context.put("colSpan", 6);
 
         copyCommonResources(); // copy png, css, js etc
         final File imgDir = createChartImageDir(); // create 'img' dir for charts
@@ -942,10 +942,10 @@ public class HtmlReporter extends CloverReporter {
                                             String customClass, String customBarPositive, String customBarNegative) throws Exception {
 
         final VelocityContext context = new VelocityContext();
-        context.put("empty", Boolean.valueOf(pcCovered < 0));
-        context.put("pccovered", new Float(pcCovered));
-        context.put("sortValue", new Float(pcCovered));
-        context.put("width", new Integer(width));
+        context.put("empty", pcCovered < 0);
+        context.put("pccovered", pcCovered);
+        context.put("sortValue", pcCovered);
+        context.put("width", width);
         context.put("customClass", customClass);
         context.put("customBarPositive", customBarPositive);
         context.put("customBarNegative", customBarNegative);

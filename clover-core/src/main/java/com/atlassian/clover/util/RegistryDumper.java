@@ -75,7 +75,7 @@ public class RegistryDumper {
                 Logger.getInstance().info(indent("File Size: " + file.getFilesize()));
                 Logger.getInstance().info(indent("Line Count: " + file.getLineCount()));
                 Logger.getInstance().info(indent("NC Line Count: " + file.getNcLineCount()));
-                Logger.getInstance().info(indent("Timestamp: " + DateFormat.getDateTimeInstance().format(new Long(file.getTimestamp()))));
+                Logger.getInstance().info(indent("Timestamp: " + DateFormat.getDateTimeInstance().format(file.getTimestamp())));
                 Logger.getInstance().info(indent("Slot Index: " + file.getDataIndex()));
                 Logger.getInstance().info(indent("Slot Length: " + file.getDataLength()));
                 Logger.getInstance().info(indent("Class count: " + classCount(file)));
@@ -245,7 +245,7 @@ public class RegistryDumper {
                     file.getFilesize() + "," +
                     file.getLineCount() + "," +
                     file.getNcLineCount() + "," +
-                    DateFormat.getDateTimeInstance().format(new Long(file.getTimestamp())) + "," +
+                    DateFormat.getDateTimeInstance().format(file.getTimestamp()) + "," +
                     file.getDataIndex() + "," +
                     Integer.toString(file.getDataLength()) + "," +
                     Integer.toString(classCount(file)) + "," +

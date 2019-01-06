@@ -116,18 +116,29 @@ public class OptimizationSession {
 //        sb.append('\n');
 
         final String pluralTestKind = Formatting.pluralizedWord(2, optimizationOptions.getOptimizableName());
-        sb.append(
-        "Clover " + (autoSummarize ? "included " : "is including ")
-                + optimizedTestableCount + " test "
-                + Formatting.pluralizedWord(optimizedTestableCount, optimizationOptions.getOptimizableName())
-                + " in this run (total # test " + pluralTestKind + " : " + originalTestableCount + ")");
-        sb.append('\n');
+        sb.append("Clover ")
+                .append(autoSummarize ? "included " : "is including ")
+                .append(optimizedTestableCount)
+                .append(" test ")
+                .append(Formatting.pluralizedWord(optimizedTestableCount, optimizationOptions.getOptimizableName()))
+                .append(" in this run (total # test ")
+                .append(pluralTestKind)
+                .append(" : ")
+                .append(originalTestableCount)
+                .append(")")
+                .append('\n');
+
         if (foundTestableCount < originalTestableCount) {
-            sb.append(
-            "Clover matched " + foundTestableCount + " of your " + originalTestableCount + " test " + pluralTestKind +
-            " with those registered during previous test runs (optimization heuristic was applied to them).\n" +
-            " Unmatched " + pluralTestKind + " may mean your build is misconfigured for test optimization or you have not instrumented your test source with Clover."
-             );
+            sb.append("Clover matched ")
+                    .append(foundTestableCount)
+                    .append(" of your ")
+                    .append(originalTestableCount)
+                    .append(" test ")
+                    .append(pluralTestKind)
+                    .append(" with those registered during previous test runs (optimization heuristic was applied to them).\n")
+                    .append(" Unmatched ")
+                    .append(pluralTestKind)
+                    .append(" may mean your build is misconfigured for test optimization or you have not instrumented your test source with Clover.");
         }
         return sb.toString();
     }
