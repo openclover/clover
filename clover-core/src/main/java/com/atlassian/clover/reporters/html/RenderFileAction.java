@@ -281,14 +281,14 @@ public class RenderFileAction implements Callable {
         }
 
         velocity.put("testMetrics", orderedTestMetrics);
-        velocity.put("numTargetMethods", new Integer(targetMethods.size()));
-        velocity.put("testsPerFile", new Integer(reportConfig.getMaxTestsPerFile()));
+        velocity.put("numTargetMethods", targetMethods.size());
+        velocity.put("testsPerFile", reportConfig.getMaxTestsPerFile());
 
         velocity.put("jsonTestTargets", JSONObjectFactory.getJSONTestTargets(targetMethods, targetElements));
         velocity.put("jsonPageData", JSONObjectFactory.getJSONPageData(fileInfo));
 
         if (sublist.size() < testMetricList.size()) {
-            velocity.put("numTestsHidden", new Integer(testMetricList.size() - sublist.size()));
+            velocity.put("numTestsHidden", testMetricList.size() - sublist.size());
         }
 
         return fcopy;

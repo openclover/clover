@@ -455,7 +455,7 @@ public class HtmlRenderingSupportImpl implements HtmlRenderingSupport {
     }
 
     public int contains(Set set, int key) {
-        return set.contains(new Integer(key)) ? 1: 0;
+        return set.contains(key) ? 1: 0;
     }
 
     public int length(Object[] array) {
@@ -568,7 +568,9 @@ public class HtmlRenderingSupportImpl implements HtmlRenderingSupport {
             final String pkgURLPath = getPkgURLPath(classInfo.getPackage().getName());
             outname.append(pkgURLPath);
         }
-        outname.append("test-" + classInfo.getName().replaceAll("\\W", "_") + ".html");
+        outname.append("test-")
+                .append(classInfo.getName().replaceAll("\\W", "_"))
+                .append(".html");
         return outname.toString();
     }
 

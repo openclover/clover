@@ -204,7 +204,7 @@ public class CloverChartFactory {
                                                 pcPosition,
                                                 SRC_FILE_CHART_TEXT,
                                                 "");
-            chartMap.put(new Integer(i), chartInfo);
+            chartMap.put(i, chartInfo);
         }
 
         return chartMap;

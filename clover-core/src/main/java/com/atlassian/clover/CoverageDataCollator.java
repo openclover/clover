@@ -102,7 +102,7 @@ public class CoverageDataCollator {
 
         //An optimisation - ignore coverage which was generated for versions of files
         //that no longer exist.
-        final MutableLong maxVersion = new MutableLong(0l);
+        final MutableLong maxVersion = new MutableLong(0L);
         final MutableLong minVersion = new MutableLong(Long.MAX_VALUE);
         registry.getProject().visitFiles(new FileInfoVisitor() {
             @Override

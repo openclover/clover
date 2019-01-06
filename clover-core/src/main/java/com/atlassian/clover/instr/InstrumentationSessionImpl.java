@@ -565,9 +565,7 @@ public class InstrumentationSessionImpl implements InstrumentationSession {
         private List<FullFileInfo> collectFileInfos() {
             List<FullFileInfo> fileInfos = newLinkedList();
             for (FullPackageInfo newPkgInfo : changedPkgInfos) {
-                for (FullFileInfo fileInfo : (List<FullFileInfo>)newPkgInfo.getFiles()) {
-                    fileInfos.add(fileInfo);
-                }
+                fileInfos.addAll((List<FullFileInfo>) newPkgInfo.getFiles());
             }
             return fileInfos;
         }

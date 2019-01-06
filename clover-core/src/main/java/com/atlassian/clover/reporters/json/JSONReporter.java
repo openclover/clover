@@ -39,11 +39,13 @@ import static com.atlassian.clover.reporters.CommandLineArgProcessors.VerboseLog
 
 public class JSONReporter extends CloverReporter {
 
+    @SuppressWarnings("unchecked")
     private static final List<ArgProcessor<Current>> mandatoryArgProcessors = Lists.newArrayList(
             InitString,
             OutputDirJson
     );
 
+    @SuppressWarnings("unchecked")
     private static final List<ArgProcessor<Current>> optionalArgProcessors = Lists.newArrayList(
             AlwaysReport,
             DebugLogging,
@@ -207,7 +209,7 @@ public class JSONReporter extends CloverReporter {
             int i = 0;
 
             while (i < args.length) {
-                for (ArgProcessor argProcessor : allArgProcessors) {
+                for (ArgProcessor<Current> argProcessor : allArgProcessors) {
                     if (argProcessor.matches(args, i)) {
                         i = argProcessor.process(args, i, cfg);
                     }

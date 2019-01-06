@@ -72,7 +72,7 @@ public interface ColumnFormat {
 
         @Override
         public Number formatNumber(Column.ColumnData data) {
-            return new Integer((int) data.getValue());
+            return (int) data.getValue();
         }
     }
 
@@ -94,7 +94,7 @@ public interface ColumnFormat {
 
         @Override
         public Number formatNumber(Column.ColumnData data) {
-            return new Integer(-1);
+            return -1;
         }
 
         @Override

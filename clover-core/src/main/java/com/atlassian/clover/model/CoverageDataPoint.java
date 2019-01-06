@@ -27,8 +27,8 @@ public class CoverageDataPoint {
                 return 1;
             } else {
                 try {
-                    Long ts1 = new Long(obj1.getProject().getVersion());
-                    Long ts2 = new Long(obj2.getProject().getVersion());
+                    Long ts1 = obj1.getProject().getVersion();
+                    Long ts2 = obj2.getProject().getVersion();
                     return ts1.compareTo(ts2);
                 } catch (ClassCastException e) {
                     return 0;

@@ -414,7 +414,7 @@ public class ContextStore implements TaggedPersistent {
         // for each context in the smallest registry, determine if the context is universal
         for (NamedContext namedContext : smallest.getAllUserContexts()) {
             RegexpContext context = (RegexpContext) namedContext;
-            Integer contextIdx = new Integer(context.getIndex());
+            Integer contextIdx = context.getIndex();
             boolean universal = true;
             for (CloverDatabase db : mergingDbs) {
                 ContextStore store = db.getContextStore();
@@ -428,7 +428,7 @@ public class ContextStore implements TaggedPersistent {
                         oldMapping = newHashMap();
                         oldMappings.put(db, oldMapping);
                     }
-                    oldMapping.put(contextIdx, new Integer(equiv));
+                    oldMapping.put(contextIdx, equiv);
 
                 } else {
                     // this context is missing from atleast one store, so it isn't universal.
@@ -455,7 +455,7 @@ public class ContextStore implements TaggedPersistent {
                         newMapping = newHashMap();
                         newMappings.put(db, newMapping);
                     }
-                    newMapping.put(equiv, new Integer(mergedIndex));
+                    newMapping.put(equiv, mergedIndex);
                 }
             }
         }
@@ -466,7 +466,7 @@ public class ContextStore implements TaggedPersistent {
 
         for (Map<Integer, Integer> mapping : newMappings.values()) {
             for (NamedContext context : allReservedContexts) {
-                Integer contextIdx = new Integer(context.getIndex());
+                Integer contextIdx = context.getIndex();
                 mapping.put(contextIdx, contextIdx);
             }
         }

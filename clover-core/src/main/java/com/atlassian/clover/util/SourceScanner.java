@@ -13,31 +13,10 @@ import java.util.Collections;
  */
 public class SourceScanner {
 
-    public static interface Visitor {
+    public interface Visitor {
         void common(String path) throws IOException;
         void onlyInSrc(String path) throws IOException;
         void onlyInDest(String path) throws IOException;
-    }
-
-    public static class SrcFileVisitor implements Visitor {
-
-        public void visitSrcFile(String path) throws IOException {
-           //noop
-        }
-
-        @Override
-        public void onlyInSrc(String path) throws IOException {
-            visitSrcFile(path);
-        }
-
-        @Override
-        public void common(String path) throws IOException {
-            //noop
-        }
-        @Override
-        public void onlyInDest(String path) throws IOException {
-            //noop
-        }
     }
 
 

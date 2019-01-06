@@ -108,7 +108,7 @@ public class HtmlReportUtil {
             ColumnFormat format = column.getFormat();
             colSpan += format.getColSpan();
         }
-        context.put("colSpan", new Integer(colSpan));
+        context.put("colSpan", colSpan);
         context.put("headerInfo", parent);
         context.put("childHeaderInfo", childInfo);
 
