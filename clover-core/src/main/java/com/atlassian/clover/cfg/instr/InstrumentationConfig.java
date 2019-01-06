@@ -79,6 +79,7 @@ public class InstrumentationConfig implements Serializable {
     private List<CloverProfile> runtimeProfiles;
     private DistributedConfig distributedConfig;
     private String classNotFoundMsg;
+    private String validationFailureReason;
 
     public boolean isEnabled() {
         return enabled;
@@ -384,4 +385,18 @@ public class InstrumentationConfig implements Serializable {
         runtimeProfiles.add(profile);
     }
 
+    /**
+     * Implement validation in sub-classes.
+     */
+    public boolean validate() {
+        return true;
+    }
+
+    public String getValidationFailureReason() {
+        return validationFailureReason;
+    }
+
+    protected void setValidationFailureReason(String reason) {
+        validationFailureReason = reason;
+    }
 }
