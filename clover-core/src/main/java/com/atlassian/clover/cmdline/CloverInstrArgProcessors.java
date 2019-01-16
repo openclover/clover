@@ -347,6 +347,67 @@ public class CloverInstrArgProcessors {
         }
     };
 
+    public static ArgProcessor<JavaInstrumentationConfig> MethodContextExt = new ArgProcessor<JavaInstrumentationConfig>() {
+        @Override
+        public boolean matches(String[] args, int i) {
+            return args[i].equals("-mce") || args[i].equals("--methodContextExt");
+        }
+
+        @Override
+        public int process(String[] args, int i, JavaInstrumentationConfig cfg) {
+            i++;
+            try {
+                cfg.addMethodContext(parseContextDef(args[i]));
+            } catch (CloverException e) {
+                usage("Could not parse custom method context definition: " + args[i] + ". " + e.getMessage());
+            }
+            return i;
+        }
+
+        @Override
+        public String help() {
+            return "    -mce --methodContextExt '<name>;<regexp>;<maxstmt>;<maxcplx>;<maxaggrstmt>;<maxaggrcplx>' \t\t Defines a single custom method context in an extended format.\n" +
+                    "\t\t\tParameters shall be separated with a semicolon and passed as a single argument (quotes recommended).\n" +
+                    "\t\t\tOptional parameters can be omitted by putting no value between semicolons.\n" +
+                    "\t\t\t<name> context name\n" +
+                    "\t\t\t<regexp> regular expression to match\n" +
+                    "\t\t\t<maxcplx> maximum cyclomatic complexity, optional\n" +
+                    "\t\t\t<maxstmt> maximum number of statements, optional\n" +
+                    "\t\t\t<maxaggrcplx> maximum aggregated cyclomatic complexity, optional\n" +
+                    "\t\t\t<maxaggrstmt> maximum number of aggregated statements, optional\n" +
+                    "\t\t\tExample: -mce 'trivialGetter;public.*get.*\\(\\);;;1;1'\n" +
+                    "\t\t\tThe argument may be supplied more than once.";
+        }
+
+        private MethodContextDef parseContextDef(String line) throws CloverException {
+            final String parameters[] = line.split(";");
+            if (parameters.length < 2 || parameters.length > 6) {
+                throw new CloverException(String.format("Expected between 2 and 6 parameters, but found %d in '%s'",
+                        parameters.length, line));
+            }
+
+            final MethodContextDef contextDef = new MethodContextDef();
+            // mandatory
+            contextDef.setName(parameters[0]);
+            contextDef.setRegexp(parameters[1]);
+            // optional
+            if (parameters.length > 2 && !parameters[2].isEmpty()) {
+                contextDef.setMaxComplexity(Integer.parseInt(parameters[2]));
+            }
+            if (parameters.length > 3 && !parameters[3].isEmpty()) {
+                contextDef.setMaxStatements(Integer.parseInt(parameters[3]));
+            }
+            if (parameters.length > 4 && !parameters[4].isEmpty()) {
+                contextDef.setMaxAggregatedComplexity(Integer.parseInt(parameters[4]));
+            }
+            if (parameters.length > 5 && !parameters[5].isEmpty()) {
+                contextDef.setMaxAggregatedStatements(Integer.parseInt(parameters[5]));
+            }
+            return contextDef;
+        }
+    };
+
+
     public static ArgProcessor<JavaInstrumentationConfig> StatementContext = new ArgProcessor<JavaInstrumentationConfig>() {
         @Override
         public boolean matches(String[] args, int i) {
