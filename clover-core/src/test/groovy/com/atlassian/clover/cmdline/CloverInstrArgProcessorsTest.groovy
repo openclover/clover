@@ -3,11 +3,14 @@ package com.atlassian.clover.cmdline
 import com.atlassian.clover.api.command.ArgProcessor
 import com.atlassian.clover.cfg.instr.InstrumentationConfig
 import com.atlassian.clover.cfg.instr.InstrumentationLevel
+import com.atlassian.clover.cfg.instr.MethodContextDef
 import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig
 import com.atlassian.clover.cfg.instr.java.LambdaInstrumentation
+import org.hamcrest.Matcher
 import org.junit.Test
 
-import static org.junit.Assert.assertEquals
+import static org.hamcrest.CoreMatchers.*
+import static org.junit.Assert.assertThat
 import static org.junit.Assert.assertTrue
 
 class CloverInstrArgProcessorsTest {
@@ -15,211 +18,256 @@ class CloverInstrArgProcessorsTest {
 
     @Test
     void processSrcDir() {
-        assertConfig([ "-s", "/source/dir" ],
+        assertConfig(["-s", "/source/dir"],
                 CloverInstrArgProcessors.SrcDir,
                 { JavaInstrumentationConfig config -> config.getSourceDir() },
-                new File("/source/dir"))
+                equalTo(new File("/source/dir")))
 
-        assertConfig([ "--srcdir", "/source/dir" ],
+        assertConfig(["--srcdir", "/source/dir"],
                 CloverInstrArgProcessors.SrcDir,
                 { JavaInstrumentationConfig config -> config.getSourceDir() },
-                new File("/source/dir"))
+                equalTo(new File("/source/dir")))
     }
 
     @Test
     void processDestDir() {
-        assertConfig([ "-d", "/dest/dir" ],
+        assertConfig(["-d", "/dest/dir"],
                 CloverInstrArgProcessors.DestDir,
                 { JavaInstrumentationConfig config -> config.getDestDir() },
-                new File("/dest/dir"))
+                equalTo(new File("/dest/dir")))
 
-        assertConfig([ "--destdir", "/dest/dir" ],
+        assertConfig(["--destdir", "/dest/dir"],
                 CloverInstrArgProcessors.DestDir,
                 { JavaInstrumentationConfig config -> config.getDestDir() },
-                new File("/dest/dir"))
+                equalTo(new File("/dest/dir")))
     }
 
     @Test
     void processInitstring() {
-        assertConfig([ "-i", "openclover.db" ],
+        assertConfig(["-i", "openclover.db"],
                 CloverInstrArgProcessors.InitString,
                 { JavaInstrumentationConfig config -> config.getInitString() },
-                "openclover.db")
+                equalTo("openclover.db"))
 
-        assertConfig([ "--initstring", "openclover.db" ],
+        assertConfig(["--initstring", "openclover.db"],
                 CloverInstrArgProcessors.InitString,
                 { JavaInstrumentationConfig config -> config.getInitString() },
-                "openclover.db")
+                equalTo("openclover.db"))
     }
 
     @Test
     void processDistributedCoverage() {
-        assertConfig([ "-dc", "ON" ],
+        assertConfig(["-dc", "ON"],
                 CloverInstrArgProcessors.DistributedCoverage,
-                { JavaInstrumentationConfig config -> config.getDistributedConfigString() },
-                "name=clover.tcp.server;host=localhost;port=1198;timeout=5000;numClients=0;retryPeriod=1000")
+                {
+                    JavaInstrumentationConfig config -> config.getDistributedConfigString()
+                },
+                allOf(
+                        containsString("name=clover.tcp.server"),
+                        containsString("host=localhost"),
+                        containsString("port=1198"),
+                        containsString("timeout=5000"),
+                        containsString("numClients=0"),
+                        containsString("retryPeriod=1000")
+                )
+        )
 
-        assertConfig([ "--distributedCoverage", "name=name;host=host;port=80;timeout=123;numClients=2" ],
+        assertConfig(["--distributedCoverage", "name=name;host=host;port=80;timeout=123;numClients=2"],
                 CloverInstrArgProcessors.DistributedCoverage,
-                { JavaInstrumentationConfig config -> config.getDistributedConfigString() },
-                "name=name;host=host;port=80;timeout=123;numClients=2;retryPeriod=1000")
+                {
+                    JavaInstrumentationConfig config -> config.getDistributedConfigString()
+                },
+                allOf(
+                        containsString("name=name"),
+                        containsString("host=host"),
+                        containsString("port=80"),
+                        containsString("timeout=123"),
+                        containsString("numClients=2"),
+                        containsString("retryPeriod=1000")
+                )
+        )
     }
 
     @Test
     void processRelative() {
-        assertConfig([ "" ],
+        assertConfig([""],
                 CloverInstrArgProcessors.Relative,
                 { JavaInstrumentationConfig config -> config.isRelative() },
-                false)
+                equalTo(false))
 
-        assertConfig([ "--relative" ],
+        assertConfig(["--relative"],
                 CloverInstrArgProcessors.Relative,
                 { JavaInstrumentationConfig config -> config.isRelative() },
-                true)
+                equalTo(true))
     }
 
     @Test
     void processFlushPolicy() {
-        assertConfig([ "-p", "directed" ],
+        assertConfig(["-p", "directed"],
                 CloverInstrArgProcessors.FlushPolicy,
                 { JavaInstrumentationConfig config -> config.getFlushPolicy() },
-                InstrumentationConfig.DIRECTED_FLUSHING)
+                equalTo(InstrumentationConfig.DIRECTED_FLUSHING))
 
-        assertConfig([ "-p", "interval" ],
+        assertConfig(["-p", "interval"],
                 CloverInstrArgProcessors.FlushPolicy,
                 { JavaInstrumentationConfig config -> config.getFlushPolicy() },
-                InstrumentationConfig.INTERVAL_FLUSHING)
+                equalTo(InstrumentationConfig.INTERVAL_FLUSHING))
 
-        assertConfig([ "--flushpolicy", "threaded" ],
+        assertConfig(["--flushpolicy", "threaded"],
                 CloverInstrArgProcessors.FlushPolicy,
                 { JavaInstrumentationConfig config -> config.getFlushPolicy() },
-                InstrumentationConfig.THREADED_FLUSHING)
+                equalTo(InstrumentationConfig.THREADED_FLUSHING))
     }
 
     @Test
     void processFlushInterval() {
-        assertConfig([ "-f", "100" ],
+        assertConfig(["-f", "100"],
                 CloverInstrArgProcessors.FlushInterval,
                 { JavaInstrumentationConfig config -> config.getFlushInterval() },
-                100)
+                equalTo(100))
 
-        assertConfig([ "--flushinterval", "200" ],
+        assertConfig(["--flushinterval", "200"],
                 CloverInstrArgProcessors.FlushInterval,
                 { JavaInstrumentationConfig config -> config.getFlushInterval() },
-                200)
+                equalTo(200))
     }
 
 
     @Test
     void processEncoding() {
-        assertConfig([ "-e", "UTF8" ],
+        assertConfig(["-e", "UTF8"],
                 CloverInstrArgProcessors.Encoding,
                 { JavaInstrumentationConfig config -> config.getEncoding() },
-                "UTF8")
+                equalTo("UTF8"))
 
-        assertConfig([ "--encoding", "UTF8" ],
+        assertConfig(["--encoding", "UTF8"],
                 CloverInstrArgProcessors.Encoding,
                 { JavaInstrumentationConfig config -> config.getEncoding() },
-                "UTF8")
+                equalTo("UTF8"))
     }
 
     @Test
     void processInstrStrategy() {
-        assertConfig([ "--instrumentation", "field" ],
+        assertConfig(["--instrumentation", "field"],
                 CloverInstrArgProcessors.InstrStrategy,
                 { JavaInstrumentationConfig config -> config.isClassInstrStrategy() },
-                false)
+                equalTo(false))
 
-        assertConfig([ "--instrumentation", "class" ],
+        assertConfig(["--instrumentation", "class"],
                 CloverInstrArgProcessors.InstrStrategy,
                 { JavaInstrumentationConfig config -> config.isClassInstrStrategy() },
-                true)
+                equalTo(true))
     }
 
     @Test
     void processInstrLevel() {
-        assertConfig([ "--instrlevel", "statement" ],
+        assertConfig(["--instrlevel", "statement"],
                 CloverInstrArgProcessors.InstrLevel,
                 { JavaInstrumentationConfig config -> config.getInstrLevel() },
-                InstrumentationLevel.STATEMENT.ordinal())
+                equalTo(InstrumentationLevel.STATEMENT.ordinal()))
 
-        assertConfig([ "--instrlevel", "method" ],
+        assertConfig(["--instrlevel", "method"],
                 CloverInstrArgProcessors.InstrLevel,
                 { JavaInstrumentationConfig config -> config.getInstrLevel() },
-                InstrumentationLevel.METHOD.ordinal())
+                equalTo(InstrumentationLevel.METHOD.ordinal()))
     }
 
     @Test
     void processInstrLambda() {
-        assertConfig([ "--instrlambda", "none" ],
+        assertConfig(["--instrlambda", "none"],
                 CloverInstrArgProcessors.InstrLambda,
                 { JavaInstrumentationConfig config -> config.getInstrumentLambda() },
-                LambdaInstrumentation.NONE)
+                equalTo(LambdaInstrumentation.NONE))
 
-        assertConfig([ "--instrlambda", "expression" ],
+        assertConfig(["--instrlambda", "expression"],
                 CloverInstrArgProcessors.InstrLambda,
                 { JavaInstrumentationConfig config -> config.getInstrumentLambda() },
-                LambdaInstrumentation.EXPRESSION)
+                equalTo(LambdaInstrumentation.EXPRESSION))
 
-        assertConfig([ "--instrlambda", "all" ],
+        assertConfig(["--instrlambda", "all"],
                 CloverInstrArgProcessors.InstrLambda,
                 { JavaInstrumentationConfig config -> config.getInstrumentLambda() },
-                LambdaInstrumentation.ALL)
+                equalTo(LambdaInstrumentation.ALL))
     }
 
     @Test
     void processSourceLevel() {
-        assertConfig([ "--source", "1.7" ],
+        assertConfig(["--source", "1.7"],
                 CloverInstrArgProcessors.SourceLevel,
                 { JavaInstrumentationConfig config -> config.getSourceLevel() },
-                "1.7")
+                equalTo("1.7"))
     }
 
     @Test
     void processRecordTestResults() {
-        assertConfig([ "--recordTestResults", "true" ],
+        assertConfig(["--recordTestResults", "true"],
                 CloverInstrArgProcessors.RecordTestResults,
                 { JavaInstrumentationConfig config -> config.isRecordTestResults() },
-                true)
+                equalTo(true))
     }
 
     @Test
     void processDontQualifyJavaLang() {
-        assertConfig([ "" ],
+        assertConfig([""],
                 CloverInstrArgProcessors.DontQualifyJavaLang,
                 { JavaInstrumentationConfig config -> config.getJavaLangPrefix() },
-                "java.lang.")
+                equalTo("java.lang."))
 
-        assertConfig([ "--dontFullyQualifyJavaLang" ],
+        assertConfig(["--dontFullyQualifyJavaLang"],
                 CloverInstrArgProcessors.DontQualifyJavaLang,
                 { JavaInstrumentationConfig config -> config.getJavaLangPrefix() },
-                "")
+                equalTo(""))
     }
 
     @Test
     void processMethodContext() {
-        assertConfig([ "-mc", "getter=get.*" ],
+        assertConfig(["-mc", "getter=get.*"],
                 CloverInstrArgProcessors.MethodContext,
                 { JavaInstrumentationConfig config -> config.getMethodContexts().get(0).getRegexp() },
-                "get.*")
+                equalTo("get.*"))
 
-        assertConfig([ "--methodContext", "setter=set.*" ],
+        assertConfig(["--methodContext", "setter=set.*"],
                 CloverInstrArgProcessors.MethodContext,
                 { JavaInstrumentationConfig config -> config.getMethodContexts().get(0).getRegexp() },
-                "set.*")
+                equalTo("set.*"))
+    }
+
+    @Test
+    void processMethodContextExt() {
+        assertConfig(["-mce", "trivialGetter;public.*get.*\\(\\);;;1;1"],
+                CloverInstrArgProcessors.MethodContextExt,
+                { JavaInstrumentationConfig config -> config.getMethodContexts().get(0) },
+                equalTo(
+                        new MethodContextDef(
+                                "trivialGetter", "public.*get.*\\(\\)",
+                                Integer.MAX_VALUE, Integer.MAX_VALUE,
+                                1, 1)
+                )
+        )
+
+        assertConfig(["--methodContextExt", "trivialSetter;public.*set.*;2;1"],
+                CloverInstrArgProcessors.MethodContextExt,
+                { JavaInstrumentationConfig config -> config.getMethodContexts().get(0) },
+                equalTo(
+                        new MethodContextDef(
+                                "trivialSetter", "public.*set.*",
+                                2, 1,
+                                Integer.MAX_VALUE, Integer.MAX_VALUE)
+                )
+        )
     }
 
     @Test
     void processStatementContext() {
-        assertConfig([ "-sc", "logger=log\\.debug" ],
+        assertConfig(["-sc", "logger=log\\.debug"],
                 CloverInstrArgProcessors.StatementContext,
                 { JavaInstrumentationConfig config -> config.getStatementContexts().get(0).getRegexp() },
-                "log\\.debug")
+                equalTo("log\\.debug"))
 
-        assertConfig([ "--statementContext", "print=out\\.println" ],
+        assertConfig(["--statementContext", "print=out\\.println"],
                 CloverInstrArgProcessors.StatementContext,
                 { JavaInstrumentationConfig config -> config.getStatementContexts().get(0).getRegexp() },
-                "out\\.println")
+                equalTo("out\\.println"))
     }
 
     @Test
@@ -230,28 +278,28 @@ class CloverInstrArgProcessorsTest {
 
     @Test
     void processJavaSourceFile() {
-        assertConfig([ "Foo.java" ],
+        assertConfig(["Foo.java"],
                 CloverInstrArgProcessors.JavaSourceFile,
                 { JavaInstrumentationConfig config -> config.getSourceFiles().get(0) },
-                "Foo.java")
+                equalTo("Foo.java"))
 
-        assertConfig([ "Foo.groovy" ],
+        assertConfig(["Foo.groovy"],
                 CloverInstrArgProcessors.JavaSourceFile,
                 { JavaInstrumentationConfig config -> config.getSourceFiles().size() },
-                0)
+                equalTo(0))
     }
 
-    private static assertConfig(List<String> args,
-                                ArgProcessor<JavaInstrumentationConfig> argProcessor,
-                                Closure<Object> configValueExtractor,
-                                Object expectedValue) {
+    private static <T> void assertConfig(List<String> args,
+                                         ArgProcessor<JavaInstrumentationConfig> argProcessor,
+                                         Closure<Object> configValueExtractor,
+                                         Matcher<T> expectedValueMatcher) {
         JavaInstrumentationConfig config = new JavaInstrumentationConfig()
         String[] argsArray = args.toArray(new String[args.size()]);
         int i = 0;
         if (argProcessor.matches(argsArray, i)) {
             argProcessor.process(argsArray, i, config)
         }
-        assertEquals(expectedValue, configValueExtractor.call(config));
+        assertThat(configValueExtractor.call(config), expectedValueMatcher);
     }
 
 }
