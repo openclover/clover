@@ -44,7 +44,7 @@ public class CloverInstr {
             CloverInstrArgProcessors.RecordTestResults,
             CloverInstrArgProcessors.DontQualifyJavaLang,
             CloverInstrArgProcessors.MethodContext,
-            CloverInstrArgProcessors.MethodContextExt,
+            CloverInstrArgProcessors.MethodWithMetricsContext,
             CloverInstrArgProcessors.StatementContext,
             CloverInstrArgProcessors.Verbose,
             CloverInstrArgProcessors.JavaSourceFile
