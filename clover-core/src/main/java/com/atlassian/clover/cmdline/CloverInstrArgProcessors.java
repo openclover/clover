@@ -347,10 +347,10 @@ public class CloverInstrArgProcessors {
         }
     };
 
-    public static ArgProcessor<JavaInstrumentationConfig> MethodContextExt = new ArgProcessor<JavaInstrumentationConfig>() {
+    public static ArgProcessor<JavaInstrumentationConfig> MethodWithMetricsContext = new ArgProcessor<JavaInstrumentationConfig>() {
         @Override
         public boolean matches(String[] args, int i) {
-            return args[i].equals("-mce") || args[i].equals("--methodContextExt");
+            return args[i].equals("-mmc") || args[i].equals("--methodWithMetricsContext");
         }
 
         @Override
@@ -366,7 +366,7 @@ public class CloverInstrArgProcessors {
 
         @Override
         public String help() {
-            return "    -mce --methodContextExt '<name>;<regexp>;<maxstmt>;<maxcplx>;<maxaggrstmt>;<maxaggrcplx>' \t\t Defines a single custom method context in an extended format.\n" +
+            return "    -mmc --methodWithMetricsContext '<name>;<regexp>;<maxstmt>;<maxcplx>;<maxaggrstmt>;<maxaggrcplx>' \t\t Defines a single custom method context with code metrics.\n" +
                     "\t\t\tParameters shall be separated with a semicolon and passed as a single argument (quotes recommended).\n" +
                     "\t\t\tOptional parameters can be omitted by putting no value between semicolons.\n" +
                     "\t\t\t<name> context name\n" +

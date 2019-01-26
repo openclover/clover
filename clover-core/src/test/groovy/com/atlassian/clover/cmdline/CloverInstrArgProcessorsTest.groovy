@@ -233,9 +233,9 @@ class CloverInstrArgProcessorsTest {
     }
 
     @Test
-    void processMethodContextExt() {
-        assertConfig(["-mce", "trivialGetter;public.*get.*\\(\\);;;1;1"],
-                CloverInstrArgProcessors.MethodContextExt,
+    void processMethodWithMetricsContext() {
+        assertConfig(["-mmc", "trivialGetter;public.*get.*\\(\\);;;1;1"],
+                CloverInstrArgProcessors.MethodWithMetricsContext,
                 { JavaInstrumentationConfig config -> config.getMethodContexts().get(0) },
                 equalTo(
                         new MethodContextDef(
@@ -245,8 +245,8 @@ class CloverInstrArgProcessorsTest {
                 )
         )
 
-        assertConfig(["--methodContextExt", "trivialSetter;public.*set.*;2;1"],
-                CloverInstrArgProcessors.MethodContextExt,
+        assertConfig(["--methodWithMetricsContext", "trivialSetter;public.*set.*;2;1"],
+                CloverInstrArgProcessors.MethodWithMetricsContext,
                 { JavaInstrumentationConfig config -> config.getMethodContexts().get(0) },
                 equalTo(
                         new MethodContextDef(
