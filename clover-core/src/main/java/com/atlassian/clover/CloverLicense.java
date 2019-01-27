@@ -59,7 +59,7 @@ public final class CloverLicense {
     }
 
     public String getOwnerStatement() {
-        return productName + " " + licenseName + " edition.";
+        return productName + " is " + licenseName + " software.";
     }
 
     public String getPreExpiryStatement() {

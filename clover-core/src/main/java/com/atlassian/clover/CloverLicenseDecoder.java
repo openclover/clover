@@ -10,7 +10,7 @@ public class CloverLicenseDecoder {
     /**
      * The built-in license key
      */
-    private static final CloverLicense DEFAULT_LICENSE = new CloverLicense("Clover", "free", "", 0L, 0L);
+    private static final CloverLicense DEFAULT_LICENSE = new CloverLicense("OpenClover", "free and open-source", "", 0L, 0L);
 
     public static CloverLicense decode(InputStream licenseIn) throws LicenseDecoderException {
         return decode(readFrom(licenseIn));
