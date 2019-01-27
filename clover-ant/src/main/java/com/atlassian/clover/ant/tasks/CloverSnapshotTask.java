@@ -2,9 +2,7 @@ package com.atlassian.clover.ant.tasks;
 
 import clover.com.google.common.collect.Lists;
 import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.CloverLicense;
 import com.atlassian.clover.CloverNames;
-import com.atlassian.clover.CloverStartup;
 import com.atlassian.clover.CoverageDataSpec;
 import com.atlassian.clover.Logger;
 import com.atlassian.clover.cfg.Interval;

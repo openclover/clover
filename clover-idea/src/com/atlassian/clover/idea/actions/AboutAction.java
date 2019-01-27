@@ -2,10 +2,9 @@ package com.atlassian.clover.idea.actions;
 
 import com.atlassian.clover.CloverLicense;
 import com.atlassian.clover.CloverLicenseInfo;
-import com.atlassian.clover.CloverStartup;
 import com.atlassian.clover.idea.AboutDialog;
-import com.atlassian.clover.idea.util.ui.CloverIcons;
 import com.atlassian.clover.idea.CloverPlugin;
+import com.atlassian.clover.idea.util.ui.CloverIcons;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;

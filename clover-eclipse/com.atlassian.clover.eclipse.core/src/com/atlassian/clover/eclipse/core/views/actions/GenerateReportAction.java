@@ -1,20 +1,17 @@
 package com.atlassian.clover.eclipse.core.views.actions;
 
-import com.atlassian.clover.CloverLicense;
-import com.atlassian.clover.CloverStartup;
 import com.atlassian.clover.eclipse.core.CloverEclipsePluginMessages;
 import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.ui.CloverPluginIcons;
-import com.atlassian.clover.eclipse.core.ui.projects.DatabaseChangeListener;
 import com.atlassian.clover.eclipse.core.projects.CloverProject;
-import com.atlassian.clover.eclipse.core.ui.projects.DatabaseChangeEvent;
 import com.atlassian.clover.eclipse.core.reports.GenerateReportWizard;
 import com.atlassian.clover.eclipse.core.reports.OpenReportDialog;
 import com.atlassian.clover.eclipse.core.reports.OpenReportOperation;
 import com.atlassian.clover.eclipse.core.reports.model.ReportHistoryEntry;
+import com.atlassian.clover.eclipse.core.ui.CloverPluginIcons;
+import com.atlassian.clover.eclipse.core.ui.projects.DatabaseChangeEvent;
+import com.atlassian.clover.eclipse.core.ui.projects.DatabaseChangeListener;
 import com.atlassian.clover.eclipse.core.views.ExplorerView;
 import com.atlassian.clover.eclipse.core.views.SelectionUtils;
-import com.atlassian.clover.eclipse.core.ui.widgets.DialogWithHyperlink;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -31,7 +28,6 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
