@@ -1,9 +1,7 @@
 package com.atlassian.clover.idea.report;
 
-import com.atlassian.clover.api.CloverException;
-import com.atlassian.clover.CloverLicense;
-import com.atlassian.clover.CloverStartup;
 import com.atlassian.clover.Logger;
+import com.atlassian.clover.api.CloverException;
 import com.atlassian.clover.idea.IDEContext;
 import com.atlassian.clover.idea.ProjectPlugin;
 import com.atlassian.clover.idea.config.CloverPluginConfig;

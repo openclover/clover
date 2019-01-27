@@ -1,13 +1,11 @@
 package com.atlassian.clover.idea.actions;
 
-import com.atlassian.clover.CloverLicense;
-import com.atlassian.clover.CloverStartup;
 import com.atlassian.clover.idea.IProjectPlugin;
 import com.atlassian.clover.idea.IdeaIDEContext;
 import com.atlassian.clover.idea.ProjectPlugin;
+import com.atlassian.clover.idea.report.ReportWizard;
 import com.atlassian.clover.idea.util.l10n.CloverIdeaPluginMessages;
 import com.atlassian.clover.idea.util.ui.HTMLDialog;
-import com.atlassian.clover.idea.report.ReportWizard;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;
