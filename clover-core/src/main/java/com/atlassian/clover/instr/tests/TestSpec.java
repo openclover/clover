@@ -110,34 +110,34 @@ public class TestSpec implements TestDetector {
     }
 
     public boolean pkgMatches(String pkg) {
-        return pkgPattern == null || pkgPattern.matcher(pkg).matches();
+        return pkgPattern == null || pkg == null || pkgPattern.matcher(pkg).matches();
     }
 
     public boolean classAnnotationMatches(Modifiers m) {
-        return classAnnotationPattern == null || (m != null && m.containsAnnotation(classAnnotationPattern));
+        return classAnnotationPattern == null || m == null || m.containsAnnotation(classAnnotationPattern);
     }
 
     public boolean classTagMatches(Map<String, List<String>> tags) {
-        return classTagPattern == null || (tags != null && tagsMatch(classTagPattern, tags));
+        return classTagPattern == null || tags == null || tagsMatch(classTagPattern, tags);
     }
 
     public boolean methodTagMatches(Map<String, List<String>> tags) {
-        return methodTagPattern == null || (tags != null && tagsMatch(methodTagPattern, tags));
+        return methodTagPattern == null || tags == null || tags.isEmpty() || tagsMatch(methodTagPattern, tags);
     }
 
     public boolean classMatches(String className) {
-        return classPattern == null || classPattern.matcher(className).matches();
+        return classPattern == null || className == null || classPattern.matcher(className).matches();
     }
 
     public boolean methodAnnotationMatches(Modifiers modifiers) {
-        return methodAnnotationPattern == null || modifiers.containsAnnotation(methodAnnotationPattern);
+        return methodAnnotationPattern == null || modifiers == null || modifiers.containsAnnotation(methodAnnotationPattern);
     }
 
     public boolean superMatches(String superName) {
-         return superPattern == null || superPattern.matcher(superName).matches();
+         return superPattern == null || superName == null || superPattern.matcher(superName).matches();
     }
 
     public boolean methodMatches(String method) {
-        return methodPattern == null || methodPattern.matcher(method).matches();
+        return methodPattern == null || method == null || methodPattern.matcher(method).matches();
     }
 }

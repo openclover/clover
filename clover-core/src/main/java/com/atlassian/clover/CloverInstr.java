@@ -46,6 +46,10 @@ public class CloverInstr {
             CloverInstrArgProcessors.MethodContext,
             CloverInstrArgProcessors.MethodWithMetricsContext,
             CloverInstrArgProcessors.StatementContext,
+            CloverInstrArgProcessors.TestSourceIncludes,
+            CloverInstrArgProcessors.TestSourceExcludes,
+            CloverInstrArgProcessors.TestSourceClass,
+            CloverInstrArgProcessors.TestSourceMethod,
             CloverInstrArgProcessors.Verbose,
             CloverInstrArgProcessors.JavaSourceFile
     );

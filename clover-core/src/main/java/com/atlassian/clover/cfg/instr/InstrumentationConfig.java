@@ -97,6 +97,10 @@ public class InstrumentationConfig implements Serializable {
         this.reportInitErrors = reportInitErrors;
     }
 
+    public boolean isTestDetector() {
+        return testDetector != null;
+    }
+
     public TestDetector getTestDetector() {
         if (testDetector == null) {
             testDetector = new DefaultTestDetector();
