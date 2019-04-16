@@ -271,6 +271,174 @@ class CloverInstrArgProcessorsTest {
     }
 
     @Test
+    void processTestSourceIncludes() {
+        [ "-tsi", "--testSourceIncludes" ].each {
+            assertConfig([it, "**/*Test.java,*/*TestSuite.java,**/*Any*"],
+                    CloverInstrArgProcessors.TestSourceIncludes,
+                    { JavaInstrumentationConfig config -> config.getTestDetector() },
+                    allOf(
+                            TestDetectorMatchers.fileMatches("this/is/a/Test.java"),
+                            TestDetectorMatchers.fileMatches("this/is/a/SecondTest.java"),
+                            not(TestDetectorMatchers.fileMatches("this/is/not/a/ThirdTestCase.java")),
+                            TestDetectorMatchers.fileMatches("main/TestSuite.java"),
+                            not(TestDetectorMatchers.fileMatches("main/not/a/test/TestSuite.java")),
+                            TestDetectorMatchers.fileMatches("also/WithAnyGroovy.groovy"),
+                            TestDetectorMatchers.fileMatches("Any"),
+                            not(TestDetectorMatchers.fileMatches("Else"))
+                    ))
+        }
+    }
+
+    @Test
+    void processTestSourceExcludes() {
+        [ "-tse", "--testSourceExcludes" ].each {
+            assertConfig([it, "**/*Test.java,*/*TestSuite.java,**/*Any*"],
+                    CloverInstrArgProcessors.TestSourceExcludes,
+                    { JavaInstrumentationConfig config -> config.getTestDetector() },
+                    allOf(
+                            not(TestDetectorMatchers.fileMatches("this/is/a/Test.java")),
+                            not(TestDetectorMatchers.fileMatches("this/is/a/SecondTest.java")),
+                            TestDetectorMatchers.fileMatches("this/is/not/a/ThirdTestCase.java"),
+                            not(TestDetectorMatchers.fileMatches("main/TestSuite.java")),
+                            TestDetectorMatchers.fileMatches("main/not/a/test/TestSuite.java"),
+                            not(TestDetectorMatchers.fileMatches("also/WithAnyGroovy.groovy")),
+                            not(TestDetectorMatchers.fileMatches("Any")),
+                            TestDetectorMatchers.fileMatches("Else")
+                    ))
+        }
+    }
+
+    @Test
+    void processTestSourceClass() {
+        [ "-tsc", "--testSourceClass" ].each {
+            // class name
+            assertConfig([it, "Simple.*"],
+                    CloverInstrArgProcessors.TestSourceClass,
+                    { JavaInstrumentationConfig config -> config.getTestDetector() },
+                    allOf(
+                            TestDetectorMatchers.classMatches("Simple", null, null, null, null),
+                            TestDetectorMatchers.classMatches("SimpleClass", null, null, null, null),
+                            not(TestDetectorMatchers.classMatches("ComplexClass", null, null, null, null))
+                    ))
+
+            // package name
+            assertConfig([it, ";com\\.acme\\..*"],
+                    CloverInstrArgProcessors.TestSourceClass,
+                    { JavaInstrumentationConfig config -> config.getTestDetector() },
+                    allOf(
+                            TestDetectorMatchers.classMatches(null, "com.acme.abc", null, null, null),
+                            not(TestDetectorMatchers.classMatches(null, "com.acme", null, null, null)),
+                            not(TestDetectorMatchers.classMatches(null, "prefix.com.acme.abc", null, null, null))
+                    ))
+
+            // annotation
+            assertConfig([it, ";;Test;;"],
+                    CloverInstrArgProcessors.TestSourceClass,
+                    { JavaInstrumentationConfig config -> config.getTestDetector() },
+                    allOf(
+                            TestDetectorMatchers.classMatches(null, null, "Test", null, null),
+                            not(TestDetectorMatchers.classMatches(null, null, "Testing", null, null))
+                    ))
+
+            // superclass
+            assertConfig([it, ".*;.*;;TestCase;"],
+                    CloverInstrArgProcessors.TestSourceClass,
+                    { JavaInstrumentationConfig config -> config.getTestDetector() },
+                    allOf(
+                            TestDetectorMatchers.classMatches(null, null, null, "TestCase", null),
+                            not(TestDetectorMatchers.classMatches(null, null, null, "TestSuite", null))
+                    ))
+
+            // javadoc
+            assertConfig([it, ";;;;contract"],
+                    CloverInstrArgProcessors.TestSourceClass,
+                    { JavaInstrumentationConfig config -> config.getTestDetector() },
+                    allOf(
+                            TestDetectorMatchers.classMatches(null, null, null, null, "contract"),
+                            not(TestDetectorMatchers.classMatches(null, null, null, null, "assuming"))
+                    ))
+
+            // combination of all above
+            assertConfig([it, "Simple.*;com\\.acme\\..*;Test;TestCase;contract"],
+                    CloverInstrArgProcessors.TestSourceClass,
+                    { JavaInstrumentationConfig config -> config.getTestDetector() },
+                    allOf(
+                            TestDetectorMatchers.classMatches("Simple", "com.acme.abc", "Test", "TestCase", "contract"),
+                            not(TestDetectorMatchers.classMatches("Complex", "com.acme.abc", "Test", "TestCase", "contract")),
+                            not(TestDetectorMatchers.classMatches("Simple", "xyz.com.acme.abc", "Test", "TestCase", "contract")),
+                            not(TestDetectorMatchers.classMatches("Simple", "com.acme.abc", "TestRun", "TestCase", "contract")),
+                            not(TestDetectorMatchers.classMatches("Simple", "com.acme.abc", "Test", "TestSuite", "contract")),
+                            not(TestDetectorMatchers.classMatches("Simple", "com.acme.abc", "Test", "TestCase", "assuming")),
+                    ))
+        }
+    }
+
+    @Test
+    void processTestSourceMethod() {
+        [ "-tsm", "--testSourceMethod" ].each {
+            // method name
+            assertConfig([it, "test.*"],
+                    CloverInstrArgProcessors.TestSourceMethod,
+                    { JavaInstrumentationConfig config -> config.getTestDetector() },
+                    allOf(
+                            TestDetectorMatchers.methodMatches("testAbc", null, "void", null),
+                            TestDetectorMatchers.methodMatches("testDef", null, "void", null),
+                            not(TestDetectorMatchers.methodMatches("notTestGhi", null, "void", null))
+                    ))
+
+            // annotation
+            assertConfig([it, ";Test"],
+                    CloverInstrArgProcessors.TestSourceMethod,
+                    { JavaInstrumentationConfig config -> config.getTestDetector() },
+                    allOf(
+                            TestDetectorMatchers.methodMatches(null, "Test", "void", null),
+                            TestDetectorMatchers.methodMatches("testAbc", "Test", "void", null),
+                            not(TestDetectorMatchers.methodMatches(null, "NotTest", "void", null))
+                    ))
+
+            // return type
+            assertConfig([it, ";;void"],
+                    CloverInstrArgProcessors.TestSourceMethod,
+                    { JavaInstrumentationConfig config -> config.getTestDetector() },
+                    allOf(
+                            TestDetectorMatchers.methodMatches(null, null, "void", null),
+                            TestDetectorMatchers.methodMatches("testAbc", "Test", "void", null),
+                            not(TestDetectorMatchers.methodMatches(null, null, "int", null))
+                    ))
+
+            // null return type which means a constructor - always false as we cannot instrument a constructor as a test method
+            assertConfig([it, "Abc;;"],
+                    CloverInstrArgProcessors.TestSourceMethod,
+                    { JavaInstrumentationConfig config -> config.getTestDetector() },
+                    allOf(
+                            not(TestDetectorMatchers.methodMatches("Abc", null, null, null))
+                    ))
+
+            // javadoc tag
+            assertConfig([it, ";;;junit"],
+                    CloverInstrArgProcessors.TestSourceMethod,
+                    { JavaInstrumentationConfig config -> config.getTestDetector() },
+                    allOf(
+                            TestDetectorMatchers.methodMatches(null, null, "void", "junit"),
+                            TestDetectorMatchers.methodMatches("testAbc", "Test", "void", "junit"),
+                            not(TestDetectorMatchers.methodMatches(null, null, "void", "testng"))
+                    ))
+
+            // all of the above
+            assertConfig([it, "test.*;Test;void;junit"],
+                    CloverInstrArgProcessors.TestSourceMethod,
+                    { JavaInstrumentationConfig config -> config.getTestDetector() },
+                    allOf(
+                            TestDetectorMatchers.methodMatches("testAbc", "Test", "void", "junit"),
+                            not(TestDetectorMatchers.methodMatches("notTest", "Test", "void", "junit")),
+                            not(TestDetectorMatchers.methodMatches("testAbc", "NotTest", "void", "junit")),
+                            not(TestDetectorMatchers.methodMatches("testAbc", "Test", "int", "junit")),
+                            not(TestDetectorMatchers.methodMatches("testAbc", "Test", "void", "testng"))
+                    ))
+        }
+    }
+
+    @Test
     void processVerbose() {
         assertTrue(CloverInstrArgProcessors.Verbose.matches(["-v"] as String[], 0))
         assertTrue(CloverInstrArgProcessors.Verbose.matches(["--verbose"] as String[], 0))
@@ -294,6 +462,8 @@ class CloverInstrArgProcessorsTest {
                                          Closure<Object> configValueExtractor,
                                          Matcher<T> expectedValueMatcher) {
         JavaInstrumentationConfig config = new JavaInstrumentationConfig()
+        config.setSourceDir(File.createTempDir())
+
         String[] argsArray = args.toArray(new String[args.size()]);
         int i = 0;
         if (argProcessor.matches(argsArray, i)) {
