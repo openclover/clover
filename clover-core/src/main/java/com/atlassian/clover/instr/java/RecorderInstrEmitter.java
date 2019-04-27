@@ -48,12 +48,15 @@ public class RecorderInstrEmitter extends Emitter {
     private boolean isSpockTestClass;
     /** Whether it's a JUnit parameterized test class */
     private boolean isParameterizedJUnitTestClass;
+	/** Whether it's a JUnit 5 parameterized test class */
+    private boolean isJnit5ParameterizedTest;
     private String distributedConfig;
     private String classNotFoundMsg;
     private boolean shouldEmitWarningMethod;
     private List<CloverProfile> profiles;
     private boolean isJava8OrHigher;
-
+    private InstrumentationState state;
+	
     public RecorderInstrEmitter(boolean isEnum) {
         super();
         this.isEnum = isEnum;
@@ -81,11 +84,13 @@ public class RecorderInstrEmitter extends Emitter {
         if (!state.hasInstrumented()) {
             state.setHasInstrumented(true);
         }
+        this.state = state;		
     }
 
     @Override
     public String getInstr() {
         String instrString;
+        isJnit5ParameterizedTest = state.isParameterizedJUnit5TestClass();
         if (classInstrStrategy || isEnum) {
             String recorderBase = recorderPrefix.substring(0, recorderPrefix.lastIndexOf('.'));
             String recorderSuffix = recorderPrefix.substring(recorderPrefix.lastIndexOf('.') + 1);
@@ -161,7 +166,7 @@ public class RecorderInstrEmitter extends Emitter {
             // the sniffer field is always generated, also for non-test classes, because we may have a non-test top-level
             // class containing inner or inline test classes (and the inner/inline classes don't have their own
             // recorder instance - they reuse a recorder instance from the top-level class)
-            instrString += generateTestSnifferField(isSpockTestClass, isParameterizedJUnitTestClass);
+            instrString += generateTestSnifferField(isSpockTestClass, isParameterizedJUnitTestClass, isJnit5ParameterizedTest);
 
         } else {
             instrString = "public static "
@@ -175,7 +180,7 @@ public class RecorderInstrEmitter extends Emitter {
                     generateCloverProfilesInline(profiles),
                     "new " + javaLangPrefix + "String[]{\"" + CloverNames.PROP_DISTRIBUTED_CONFIG + "\"," + asUnicodeString(distributedConfig) + "}") + ";";
             // the sniffer field is always generated, also for non-test classes, see comment above
-            instrString += generateTestSnifferField(isSpockTestClass, isParameterizedJUnitTestClass);
+            instrString += generateTestSnifferField(isSpockTestClass, isParameterizedJUnitTestClass, isJnit5ParameterizedTest);
         }
         return instrString;
     }
@@ -185,6 +190,14 @@ public class RecorderInstrEmitter extends Emitter {
                 : isParamJUnit ? SnifferType.JUNIT
                         : SnifferType.NULL);
     }
+	
+	
+    static String generateTestSnifferField(boolean isSpock, boolean isParamJUnit, boolean isJunit5ParamTest) {
+        return generateTestSnifferField(isSpock ? SnifferType.SPOCK
+                : isParamJUnit ? SnifferType.JUNIT : isJunit5ParamTest ? SnifferType.JUNIT5
+                : SnifferType.NULL);
+    }
+	
     /**
      * Generate declaration of the field named {@link CloverNames#CLOVER_TEST_NAME_SNIFFER}
      *
@@ -199,6 +212,9 @@ public class RecorderInstrEmitter extends Emitter {
             case JUNIT:
                 // ... = new JUnitParameterizedTestSniffer();
                 return snifferField + "=new com_atlassian_clover.JUnitParameterizedTestSniffer();";
+            case JUNIT5:
+                // ... = new JUnitParameterizedTestSniffer();
+                return snifferField + "=new com_atlassian_clover.Junit5ParameterizedTestSniffer();";
             case SPOCK:
                 // ... = new SpockFeatureNameSniffer();
                 return snifferField + "=new com_atlassian_clover.SpockFeatureNameSniffer();";

@@ -27,6 +27,11 @@ public final class TestAnnotationNames {
     public static final String JUNIT5_TEST_ANNO_NAME = ORG_JUNIT5_NAME + ".Test";
     public static final String JUNIT5_IGNORE_ANNO_NAME = ORG_JUNIT5_NAME + ".Disabled";
     public static final String DISABLED_ANNO_NAME = "Disabled";
+ 
+ // JUnit5 Parameterized Tests
+    public static final String ORG_JUNIT5_PARAMETERIZED_NAME = "org.junit.jupiter.params";
+    public static final String JUNIT5_PARAMETERIZED_ANNO_NAME = "ParameterizedTest";
+    public static final String JUNIT5_FQ_PARAMETERIZED_ANNO_NAME = ORG_JUNIT5_PARAMETERIZED_NAME + "." + JUNIT5_PARAMETERIZED_ANNO_NAME;
 
     // Instinct framework
     public static final String SPECIFICATION_ANNO_NAME = "Specification";
