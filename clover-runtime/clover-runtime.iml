@@ -15,7 +15,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.m2/repository/com/atlassian/clover/clover-antlr/2.7.7/clover-antlr-2.7.7.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/com/atlassian/clover/clover-antlr/2.7.7/clover-antlr-2.7.7.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -24,7 +24,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.m2/repository/com/atlassian/clover/clover-annotations/13.0/clover-annotations-13.0.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/com/atlassian/clover/clover-annotations/13.0/clover-annotations-13.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -68,5 +68,6 @@
     </orderEntry>
     <orderEntry type="library" name="junit-4.12" level="project" />
     <orderEntry type="library" name="spock-core-0.7-groovy-2.0" level="project" />
+    <orderEntry type="library" name="junit5-5.4.1" level="project" />
   </component>
 </module>

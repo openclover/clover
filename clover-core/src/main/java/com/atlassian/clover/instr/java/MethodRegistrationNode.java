@@ -9,6 +9,7 @@ import com.atlassian.clover.api.registry.MethodInfo;
 import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig;
 import com.atlassian.clover.instr.tests.ExpectedExceptionMiner;
 import com.atlassian.clover.instr.tests.naming.DefaultTestNameExtractor;
+import com.atlassian.clover.instr.tests.naming.JUnitParameterizedTestExtractor;
 import com.atlassian.clover.registry.entities.FullMethodInfo;
 import com.atlassian.clover.spi.lang.LanguageConstruct;
 import com.atlassian.clover.CloverNames;
@@ -65,7 +66,10 @@ public class MethodRegistrationNode extends Emitter {
         final String javaLangPrefix = cfg.getJavaLangPrefix();
 
         boolean addTestRewriteInstr = state.isInstrEnabled() && cfg.isRecordTestResults() && isTestMethod;
-
+        /* Check only if any of the previous test methods are not annotated with ParameterizedTest. */
+        if(isTestMethod && !(state.isParameterizedJUnit5TestClass())) {
+            state.setParameterizedJUnit5TestClass(JUnitParameterizedTestExtractor.isJnit5ParameterizedTest(signature));
+        }
         method = (FullMethodInfo) state.getSession().enterMethod(
                 getElementContext(),
                 new FixedSourceRegion(getLine(), getColumn()),
