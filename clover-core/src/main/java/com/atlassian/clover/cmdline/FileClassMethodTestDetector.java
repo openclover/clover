@@ -6,14 +6,13 @@ import com.atlassian.clover.instr.tests.AggregateTestDetector;
 import com.atlassian.clover.instr.tests.AndStrategy;
 import com.atlassian.clover.instr.tests.AntPatternTestDetectorFilter;
 import com.atlassian.clover.instr.tests.DefaultTestDetector;
+import com.atlassian.clover.instr.tests.OrStrategy;
 import com.atlassian.clover.instr.tests.TestDetector;
 import com.atlassian.clover.spec.instr.test.BooleanSpec;
-import com.atlassian.clover.spec.instr.test.OrSpec;
 import com.atlassian.clover.spec.instr.test.TestClassSpec;
 import com.atlassian.clover.spec.instr.test.TestMethodSpec;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class FileClassMethodTestDetector implements TestDetector {
@@ -90,15 +89,11 @@ public class FileClassMethodTestDetector implements TestDetector {
 
             // add a non-empty detector only, otherwise it will reject everything
             if (!testClassSpec.isEmpty()) {
-                final BooleanSpec anyOfTheClasses = new OrSpec();
-
-                for (TestClassSpec classSpec : testClassSpec) {
-                    anyOfTheClasses.addConfiguredTestClass(classSpec);
-                }
-
-                final TestDetector classesAndMethodsTestDetector = BooleanSpec.buildTestDetectorFor(Collections.singletonList(anyOfTheClasses));
-                aggregatedDetector.addDetector(classesAndMethodsTestDetector);
+                final AggregateTestDetector anyOfTheClasses = new AggregateTestDetector(new OrStrategy());
+                BooleanSpec.buildTestDetectorFor(anyOfTheClasses, testClassSpec);
+                aggregatedDetector.addDetector(anyOfTheClasses);
             }
+
             return aggregatedDetector;
         } catch (CloverException e) {
             return new DefaultTestDetector();

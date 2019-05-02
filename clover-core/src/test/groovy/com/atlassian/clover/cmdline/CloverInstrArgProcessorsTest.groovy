@@ -6,6 +6,8 @@ import com.atlassian.clover.cfg.instr.InstrumentationLevel
 import com.atlassian.clover.cfg.instr.MethodContextDef
 import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig
 import com.atlassian.clover.cfg.instr.java.LambdaInstrumentation
+import com.atlassian.clover.instr.java.JavaTypeContext
+import com.atlassian.clover.instr.tests.TestDetector
 import org.hamcrest.Matcher
 import org.junit.Test
 
@@ -341,7 +343,7 @@ class CloverInstrArgProcessorsTest {
                     ))
 
             // superclass
-            assertConfig([it, ".*;.*;;TestCase;"],
+            assertConfig([it, ";;;TestCase;"],
                     CloverInstrArgProcessors.TestSourceClass,
                     { JavaInstrumentationConfig config -> config.getTestDetector() },
                     allOf(
@@ -438,6 +440,65 @@ class CloverInstrArgProcessorsTest {
         }
     }
 
+    /**
+     * Test combination of all four matchers at once, especially that method matchers are dependent on parent class matchers.
+     */
+    @Test
+    void processTestSourceIncludesExcludesClassesMethods() {
+        // some helper contexts to pass assertions if we're not interested in this aspect
+        TestDetector.TypeContext typeContext = new JavaTypeContext([test: "" ], null, "default-pkg", "IT", null)
+        TestDetector.SourceContext sourceContext = new SimpleFileSourceContext("com/acme/include/AnyOne.java")
+
+        assertConfig(
+                [
+                        "-tsi",
+                        "**/include/*One.java,**/include/two/**.java",
+                        "-tse",
+                        "**/include/exclude/**.java,**/deprecated/**.java",
+                        "-tsc",
+                        ";com.acme.*;TestSuite;SuperClass;",
+                        "-tsm",
+                        "test.*;;void;",
+                        "-tsm",
+                        ";Test;;",
+                        "-tsc",
+                        ".*IT;;;;test",
+                        "-tsm",
+                        ";;;test"
+                ],
+                [
+                        CloverInstrArgProcessors.TestSourceIncludes,
+                        CloverInstrArgProcessors.TestSourceExcludes,
+                        CloverInstrArgProcessors.TestSourceClass,
+                        CloverInstrArgProcessors.TestSourceMethod
+                ],
+                {
+                    JavaInstrumentationConfig config -> config.getTestDetector()
+                },
+                allOf(
+                        // "-tsi" and "-tse"
+                        TestDetectorMatchers.fileMatches("com/acme/include/One.java", typeContext),
+                        TestDetectorMatchers.fileMatches("com/acme/include/two/Two.java", typeContext),
+                        not(TestDetectorMatchers.fileMatches("com/acme/include/exclude/Excluded.java", typeContext)),
+                        not(TestDetectorMatchers.fileMatches("deprecated/Deprecated.java", typeContext)),
+
+                        // "-tsc" ";com.acme.*;TestSuite;SuperClass;"
+                        TestDetectorMatchers.classMatches("Any", "com.acme.include", "TestSuite", "SuperClass", null, sourceContext),
+                        not(TestDetectorMatchers.classMatches("Any", "com.acme.not", "TestSuite", null, null, sourceContext)),
+
+                        // "-tsc" ".*IT;;;;test"
+                        TestDetectorMatchers.classMatches("TwoIT", "com.acme.include.two", null, null, "test", sourceContext),
+                        not(TestDetectorMatchers.classMatches("TwoTest", "com.acme.notincluded.two", null, null, "util", sourceContext)),
+
+                        // "-tsm" "test.*;;void;"
+                        TestDetectorMatchers.methodMatches("testSomething", null, "void", null, sourceContext),
+                        // "-tsm" ";Test;;"
+                        TestDetectorMatchers.methodMatches("anyMethod", "Test", "int", "", sourceContext),
+                        // "-tsm" ";;;test"
+                        TestDetectorMatchers.methodMatches("anyMethod", null, "int", "test", sourceContext),
+                ))
+    }
+
     @Test
     void processVerbose() {
         assertTrue(CloverInstrArgProcessors.Verbose.matches(["-v"] as String[], 0))
@@ -472,4 +533,25 @@ class CloverInstrArgProcessorsTest {
         assertThat(configValueExtractor.call(config), expectedValueMatcher);
     }
 
+    private static <T> void assertConfig(List<String> args,
+                                         List<ArgProcessor<JavaInstrumentationConfig>> argProcessors,
+                                         Closure<Object> configValueExtractor,
+                                         Matcher<T> expectedValueMatcher) {
+        JavaInstrumentationConfig config = new JavaInstrumentationConfig()
+        config.setSourceDir(File.createTempDir())
+
+        String[] argsArray = args.toArray(new String[args.size()])
+
+        int i = 0;
+        while (i < args.size()) {
+            for (ArgProcessor<JavaInstrumentationConfig> argProcessor : argProcessors) {
+                if (argProcessor.matches(argsArray, i)) {
+                    i = argProcessor.process(argsArray, i, config)
+                }
+            }
+            i++
+        }
+
+        assertThat(configValueExtractor.call(config), expectedValueMatcher);
+    }
 }
