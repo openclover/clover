@@ -1,6 +1,5 @@
 package com.atlassian.clover.cmdline;
 
-import clover.com.google.common.collect.Lists;
 import com.atlassian.clover.api.CloverException;
 import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig;
 import com.atlassian.clover.instr.tests.AggregateTestDetector;
@@ -14,6 +13,7 @@ import com.atlassian.clover.spec.instr.test.TestClassSpec;
 import com.atlassian.clover.spec.instr.test.TestMethodSpec;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class FileClassMethodTestDetector implements TestDetector {
@@ -27,7 +27,6 @@ public class FileClassMethodTestDetector implements TestDetector {
     private String includePattern;
     private String excludePattern;
     private List<TestClassSpec> testClassSpec = new ArrayList<TestClassSpec>();
-    private List<TestMethodSpec> testMethodSpec = new ArrayList<TestMethodSpec>();
 
     public FileClassMethodTestDetector(JavaInstrumentationConfig cfg) {
         this.cfg = cfg;
@@ -55,8 +54,19 @@ public class FileClassMethodTestDetector implements TestDetector {
         this.testClassSpec.add(testClassSpec);
     }
 
+    /**
+     * In case there's no TestClassSpec then create new one accepting any class.
+     * Add TestMethodSpec to the last TestClassSpec.
+     * @param testMethodSpec
+     */
     public void addTestMethodSpec(TestMethodSpec testMethodSpec) {
-        this.testMethodSpec.add(testMethodSpec);
+        if (testClassSpec.isEmpty()) {
+            final TestClassSpec anyClassWithMethod = new TestClassSpec();
+            testClassSpec.add(anyClassWithMethod);
+        }
+
+        final TestClassSpec lastClassSpec = testClassSpec.get(testClassSpec.size() - 1);
+        lastClassSpec.addConfiguredTestMethod(testMethodSpec);
     }
 
     private TestDetector getTestDetector() {
@@ -74,26 +84,19 @@ public class FileClassMethodTestDetector implements TestDetector {
                     includePattern == null ? null : includePattern.split(","),
                     excludePattern == null ? null : excludePattern.split(","));
 
-            final BooleanSpec anyOfTheClasses = new OrSpec();
-            for (TestClassSpec classSpec : testClassSpec) {
-                anyOfTheClasses.addConfiguredTestClass(classSpec);
-            }
-
-            final BooleanSpec anyOfTheMethods = new OrSpec();
-            for (TestMethodSpec methodSpec : testMethodSpec) {
-                final TestClassSpec anyClassWithMethod = new TestClassSpec();
-                anyClassWithMethod.addConfiguredTestMethod(methodSpec);
-                anyOfTheMethods.addConfiguredTestClass(anyClassWithMethod);
-            }
-
-            final TestDetector classesAndMethodsTestDetector = BooleanSpec.buildTestDetectorFor(
-                    Lists.newArrayList(anyOfTheClasses, anyOfTheMethods));
-
             // we must match all of: files, classes, methods
             final AggregateTestDetector aggregatedDetector = new AggregateTestDetector(new AndStrategy());
             aggregatedDetector.addDetector(includesExcludesTestDetector);
-            // add a non-empty detector, otherwise it will reject everything
-            if (!testClassSpec.isEmpty() || !testMethodSpec.isEmpty()) {
+
+            // add a non-empty detector only, otherwise it will reject everything
+            if (!testClassSpec.isEmpty()) {
+                final BooleanSpec anyOfTheClasses = new OrSpec();
+
+                for (TestClassSpec classSpec : testClassSpec) {
+                    anyOfTheClasses.addConfiguredTestClass(classSpec);
+                }
+
+                final TestDetector classesAndMethodsTestDetector = BooleanSpec.buildTestDetectorFor(Collections.singletonList(anyOfTheClasses));
                 aggregatedDetector.addDetector(classesAndMethodsTestDetector);
             }
             return aggregatedDetector;
@@ -108,7 +111,6 @@ public class FileClassMethodTestDetector implements TestDetector {
                 .add("includePattern", includePattern)
                 .add("excludePattern", excludePattern)
                 .add("testClassSpec", testClassSpec)
-                .add("testMethodSpec", testMethodSpec)
                 .toString();
     }
 }
