@@ -451,11 +451,37 @@ public class CloverInstrArgProcessors {
         if (cfg.isTestDetector()) {
             td = (FileClassMethodTestDetector) cfg.getTestDetector();
         } else {
-            td = new FileClassMethodTestDetector(cfg);
+            td = new FileClassMethodTestDetector();
             cfg.setTestDetector(td);
         }
         return td;
     }
+
+    public static ArgProcessor<JavaInstrumentationConfig> TestSourceRoot = new ArgProcessor<JavaInstrumentationConfig>() {
+
+        @Override
+        public boolean matches(String[] args, int i) {
+            return args[i].equals("-tsr") || args[i].equals("--testSourceRoot");
+        }
+
+        @Override
+        public int process(String[] args, int i, JavaInstrumentationConfig cfg) {
+            i++;
+
+            final FileClassMethodTestDetector td = reuseFileClassMethodTestDetector(cfg);
+            td.setRoot(args[i]);
+
+            return i;
+        }
+
+        @Override
+        public String help() {
+            return "    -tsr --testSourceRoot <path>\t\t Root folder for test sources against which includes/excludes are checked.\n" +
+                    "\t\t\tUse if any include or exclude pattern is defined. \n" +
+                    "\t\t\tIf root is not declared, current working directory is assumed. Example:\n" +
+                    "\t\t\t-tsr 'src/test/java'";
+        }
+    };
 
     public static ArgProcessor<JavaInstrumentationConfig> TestSourceIncludes = new ArgProcessor<JavaInstrumentationConfig>() {
         @Override

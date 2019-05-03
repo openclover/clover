@@ -8,14 +8,14 @@ import java.io.File;
 public class AntPatternTestDetectorFilter implements TestDetector {
     @Nullable final String[] includeFilter;
     @Nullable final String[] excludeFilter;
-    private final String projectRoot;
+    private final File projectRoot;
 
-    public AntPatternTestDetectorFilter(String projectRoot,
+    public AntPatternTestDetectorFilter(File projectRoot,
                                         @Nullable String[] includeFilter,
                                         @Nullable String[] excludeFilter) {
         this.includeFilter = includeFilter;
         this.excludeFilter = excludeFilter;
-        this.projectRoot = projectRoot.endsWith(File.separator) ? projectRoot : projectRoot + File.separator;
+        this.projectRoot = projectRoot;
     }
 
     @Override
@@ -29,10 +29,20 @@ public class AntPatternTestDetectorFilter implements TestDetector {
     }
 
     private boolean matchesPattern(File file) {
-        final String path = file.getPath();
-        final String relative = path.startsWith(projectRoot) ? path.substring(projectRoot.length()) : path;
+        final String path = file.getAbsolutePath();
+        final String root = rootWithEndingSeparator();
+        if (path.startsWith(root)) {
+            // inside a folder, crop the root and check the rest against filters
+            final String relative = path.substring(root.length());
+            return FilterUtils.isIncluded(relative, excludeFilter, includeFilter, true);
+        } else {
+            return false;
+        }
+    }
 
-        return FilterUtils.isIncluded(relative, excludeFilter, includeFilter, true);
+    private String rootWithEndingSeparator() {
+        final String root = projectRoot.getAbsolutePath();
+        return root.endsWith(File.separator) ? root : root + File.separator;
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.atlassian.clover.cmdline;
 
 import com.atlassian.clover.api.CloverException;
-import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig;
 import com.atlassian.clover.instr.tests.AggregateTestDetector;
 import com.atlassian.clover.instr.tests.AndStrategy;
 import com.atlassian.clover.instr.tests.AntPatternTestDetectorFilter;
@@ -12,24 +11,20 @@ import com.atlassian.clover.spec.instr.test.BooleanSpec;
 import com.atlassian.clover.spec.instr.test.TestClassSpec;
 import com.atlassian.clover.spec.instr.test.TestMethodSpec;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FileClassMethodTestDetector implements TestDetector {
 
-    // we want to lazily get project root
-    private final JavaInstrumentationConfig cfg;
-
     // figure out includes and excludes
     private TestDetector testDetector;
 
+    private String root;
     private String includePattern;
     private String excludePattern;
     private List<TestClassSpec> testClassSpec = new ArrayList<TestClassSpec>();
 
-    public FileClassMethodTestDetector(JavaInstrumentationConfig cfg) {
-        this.cfg = cfg;
-    }
 
     @Override
     public boolean isTypeMatch(SourceContext sourceContext, TypeContext typeContext) {
@@ -39,6 +34,10 @@ public class FileClassMethodTestDetector implements TestDetector {
     @Override
     public boolean isMethodMatch(SourceContext sourceContext, MethodContext methodContext) {
         return getTestDetector().isMethodMatch(sourceContext, methodContext);
+    }
+
+    public void setRoot(String root) {
+        this.root = root;
     }
 
     public void setIncludes(String includePattern) {
@@ -54,9 +53,8 @@ public class FileClassMethodTestDetector implements TestDetector {
     }
 
     /**
-     * In case there's no TestClassSpec then create new one accepting any class.
      * Add TestMethodSpec to the last TestClassSpec.
-     * @param testMethodSpec
+     * In case there's no TestClassSpec then create new one accepting any class.
      */
     public void addTestMethodSpec(TestMethodSpec testMethodSpec) {
         if (testClassSpec.isEmpty()) {
@@ -79,7 +77,7 @@ public class FileClassMethodTestDetector implements TestDetector {
 
         try {
             final TestDetector includesExcludesTestDetector = new AntPatternTestDetectorFilter(
-                    cfg.getSourceDir().getAbsolutePath(),
+                    root == null ? new File("") : new File(root),
                     includePattern == null ? null : includePattern.split(","),
                     excludePattern == null ? null : excludePattern.split(","));
 
@@ -103,6 +101,7 @@ public class FileClassMethodTestDetector implements TestDetector {
     @Override
     public String toString() {
         return clover.com.google.common.base.MoreObjects.toStringHelper(this)
+                .add("root", root)
                 .add("includePattern", includePattern)
                 .add("excludePattern", excludePattern)
                 .add("testClassSpec", testClassSpec)
