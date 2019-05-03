@@ -169,16 +169,13 @@ public class CloverInstr {
                     if (argProcessor.matches(args, i)) {
                         i = argProcessor.process(args, i, cfg);
                         matched = true;
-                        i++;
-                        if (i >= args.length) {
-                            break;
-                        }
+                        break;
                     }
                 }
                 if (!matched) {
                     System.err.println("  *** WARN: Unknown option: " + args[i]);
-                    i++;
                 }
+                i++;
             }
 
             if (!cfg.validate()) {
