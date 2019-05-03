@@ -164,12 +164,18 @@ public class CloverInstr {
             int i = 0;
 
             while (i < args.length) {
+                boolean matched = false;
                 for (ArgProcessor<JavaInstrumentationConfig> argProcessor : allArgProcessors) {
                     if (argProcessor.matches(args, i)) {
                         i = argProcessor.process(args, i, cfg);
+                        matched = true;
+                        i++;
                     }
                 }
-                i++;
+                if (!matched) {
+                    System.err.println("  *** WARN: Unknown option: " + args[i]);
+                    i++;
+                }
             }
 
             if (!cfg.validate()) {
