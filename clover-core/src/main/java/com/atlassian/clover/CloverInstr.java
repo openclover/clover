@@ -170,6 +170,9 @@ public class CloverInstr {
                         i = argProcessor.process(args, i, cfg);
                         matched = true;
                         i++;
+                        if (i >= args.length) {
+                            break;
+                        }
                     }
                 }
                 if (!matched) {
