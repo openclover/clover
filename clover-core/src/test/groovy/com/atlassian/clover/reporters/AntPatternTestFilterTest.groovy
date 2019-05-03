@@ -62,7 +62,7 @@ class AntPatternTestFilterTest {
             final String[] matching = pattern[2].split(" ")
             final String[] nonMatching = pattern[3].split(" ")
 
-            AntPatternTestDetectorFilter filter = new AntPatternTestDetectorFilter(PROJECT_ROOT, include, exclude)
+            AntPatternTestDetectorFilter filter = new AntPatternTestDetectorFilter(new File(PROJECT_ROOT), include, exclude)
             for (String file : matching) {
                 if (file.length() == 0) continue
                 assertTrue("Expecting match: " + file, filter.isTypeMatch(makeStateInfo(file), new JavaTypeContext(null, null, null, null, null)))
@@ -86,7 +86,8 @@ class AntPatternTestFilterTest {
 
     private static InstrumentationState makeStateInfo(String file) {
         InstrumentationState state = mock(InstrumentationState.class)
-        when(state.getSourceFile()).thenReturn(new File(file))
+        // absolute or relative path
+        when(state.getSourceFile()).thenReturn(file.startsWith(File.separator) ? new File(file) : new File(PROJECT_ROOT, file))
         return state
     }
 }

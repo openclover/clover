@@ -273,6 +273,19 @@ class CloverInstrArgProcessorsTest {
     }
 
     @Test
+    void processTestSourceRoot() {
+        [ "-tsr", "--testSourceRoot" ].each {
+            assertConfig([it, "src/test/java"],
+                    CloverInstrArgProcessors.TestSourceRoot,
+                    { JavaInstrumentationConfig config -> config.getTestDetector() },
+                    allOf(
+                            TestDetectorMatchers.fileMatches("src/test/java/Test.java"),
+                            not(TestDetectorMatchers.fileMatches("src/main/java/Test.java"))
+                    ))
+        }
+    }
+
+    @Test
     void processTestSourceIncludes() {
         [ "-tsi", "--testSourceIncludes" ].each {
             assertConfig([it, "**/*Test.java,*/*TestSuite.java,**/*Any*"],

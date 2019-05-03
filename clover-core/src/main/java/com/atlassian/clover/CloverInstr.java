@@ -46,6 +46,7 @@ public class CloverInstr {
             CloverInstrArgProcessors.MethodContext,
             CloverInstrArgProcessors.MethodWithMetricsContext,
             CloverInstrArgProcessors.StatementContext,
+            CloverInstrArgProcessors.TestSourceRoot,
             CloverInstrArgProcessors.TestSourceIncludes,
             CloverInstrArgProcessors.TestSourceExcludes,
             CloverInstrArgProcessors.TestSourceClass,
