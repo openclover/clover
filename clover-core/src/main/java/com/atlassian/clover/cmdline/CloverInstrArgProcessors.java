@@ -609,9 +609,9 @@ public class CloverInstrArgProcessors {
         public String help() {
             return "    -tsm --testSourceMethod '<name>;<annotation>;<return type>;<javadoc tag>'\t\t Which methods shall be treated as test ones. Use if built-in test detector is insufficient.\n" +
                     "\t\t\tYou can use this parameter multiple times. You can use an empty value or omit semicolons at the end. Examples:\n" +
-                    "\t\t\t-tsc 'test.*'  - match all methods prefixed with 'test'\n" +
-                    "\t\t\t-tsc ';@Test;void'  - match all void methods annotated with '@Test'\n" +
-                    "\t\t\t-tsc ';;;@test' - match all methods having a '@test' javadoc tag";
+                    "\t\t\t-tsm 'test.*'  - match all methods prefixed with 'test'\n" +
+                    "\t\t\t-tsm ';@Test;void'  - match all void methods annotated with '@Test'\n" +
+                    "\t\t\t-tsm ';;;@test' - match all methods having a '@test' javadoc tag";
         }
 
         private TestMethodSpec parseTestMethodSpec(String arg) throws CloverException {
