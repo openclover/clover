@@ -3,6 +3,8 @@ image: maven:3.6.1
 pipelines:
   default:
     - step:
+        caches:
+          - maven
         script:
           - apt-get update
           - apt-get install -y ant
