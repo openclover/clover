@@ -1,0 +1,13 @@
+image: maven:3.6.1
+
+pipelines:
+  default:
+    - step:
+        script:
+          - mvn install -f clover-core-libs/jarjar/pom.xml
+          - mvn install -Prepack -f clover-core-libs/pom.xml
+          - mvn install -Prepack -f clover-idea/clover-jtreemap/pom.xml
+          - ant global.build
+          - ant global.test
+          - ant clover-ant.pkg clover-idea.pkg clover-eclipse.pkg
+          - ant clover-ant.mvn.install
