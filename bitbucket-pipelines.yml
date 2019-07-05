@@ -4,6 +4,8 @@ pipelines:
   default:
     - step:
         script:
+          - apt-get update
+          - apt-get install -y ant
           - mvn install -f clover-core-libs/jarjar/pom.xml
           - mvn install -Prepack -f clover-core-libs/pom.xml
           - mvn install -Prepack -f clover-idea/clover-jtreemap/pom.xml
