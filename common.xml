@@ -47,7 +47,7 @@
     <!-- ========================================================================== -->
 
     <!-- Maven Central Repository - used for downloading 3rd party artifacts -->
-    <property name="maven.central.url" value="http://repo1.maven.org/maven2"/>
+    <property name="maven.central.url" value="https://repo1.maven.org/maven2"/>
 
     <!-- Fetching JAR from Maven Central -->
     <macrodef name="get-jar">
