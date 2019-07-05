@@ -90,12 +90,6 @@
             <dependencies>
                 <dependency>
                     <groupId>com.atlassian.clover</groupId>
-                    <artifactId>clover-core-libs</artifactId>
-                    <version>4.0.6</version>
-                    <type>pom</type>
-                </dependency>
-                <dependency>
-                    <groupId>com.atlassian.clover</groupId>
                     <artifactId>clover-annotations</artifactId>
                     <version>${annotations.ver}</version>
                 </dependency>
