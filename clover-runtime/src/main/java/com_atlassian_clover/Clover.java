@@ -598,7 +598,7 @@ public final class Clover {
             if (val == null) {
                 //Not thread-safe but also not important (implies a multi-threaded test which we don't support)
                 result = typeID++;
-                typeIDs.put(runtimeType, new Integer(result));
+                typeIDs.put(runtimeType, Integer.valueOf(result));
             } else {
                 result = val.intValue();
             }
