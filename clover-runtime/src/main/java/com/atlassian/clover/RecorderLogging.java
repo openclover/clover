@@ -1,5 +1,6 @@
 package com.atlassian.clover;
 
+import java.lang.reflect.InvocationTargetException;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 
@@ -58,7 +59,7 @@ public class RecorderLogging {
         try {
             Class loggerFactoryClass = Class.forName(classname);
             if (Logger.Factory.class.isAssignableFrom(loggerFactoryClass)) {
-                Logger.Factory factory = (Logger.Factory)loggerFactoryClass.newInstance();
+                Logger.Factory factory = (Logger.Factory)loggerFactoryClass.getDeclaredConstructor().newInstance();
                 Logger.setFactory(factory);
                 successful = true;
             }
@@ -74,6 +75,10 @@ public class RecorderLogging {
         catch (ExceptionInInitializerError e) {
             errorMsg += "An error occured during class initialisation. ";
         }
+        catch (NoSuchMethodException e) {
+            errorMsg += "An error occured during class initialisation. The class must provide a no-args" +
+                    " public constructor. ";
+        }
         catch (IllegalAccessException e) {
             errorMsg += "An error occured during class initialisation. The class must provide a no-args" +
                     " public constructor. ";
@@ -81,6 +86,9 @@ public class RecorderLogging {
         catch (InstantiationException e) {
             errorMsg += "An error occured during class initialisation. The class must provide a no-args" +
                     " public constructor. ";
+        }
+        catch (InvocationTargetException e) {
+            errorMsg += "An error occured during class initialisation. ";
         }
 
         if (!successful) {

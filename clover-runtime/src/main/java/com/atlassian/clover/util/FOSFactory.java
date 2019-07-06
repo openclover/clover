@@ -29,7 +29,7 @@ public class FOSFactory {
                 AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
                     @Override
                     public Boolean run() {
-                        return new Boolean(System.getProperty(CloverNames.PROP_SYNCHRONOUS_IO));
+                        return Boolean.getBoolean(CloverNames.PROP_SYNCHRONOUS_IO);
                     }
             });
         } catch (SecurityException e) {
