@@ -34,7 +34,7 @@ public class JSONObjectFactory {
             List<Map<String, Integer>> methods = newArrayList();
             for (int i = methodSet.nextSetBit(0); i >= 0; i = methodSet.nextSetBit(i + 1)) {
                 Map<String, Integer> method = newHashMap();
-                method.put("sl", new Integer(i));
+                method.put("sl", Integer.valueOf(i));
                 methods.add(method);
             }
 
@@ -44,7 +44,7 @@ public class JSONObjectFactory {
             if (elementSet != null) { // could be null if a test method has no statements
                 for (int i = elementSet.nextSetBit(0); i >= 0; i = elementSet.nextSetBit(i + 1)) {
                     Map<String, Integer> statement = newHashMap();
-                    statement.put("sl", new Integer(i));
+                    statement.put("sl", Integer.valueOf(i));
                     statements.add(statement);
                 }
             }
@@ -65,17 +65,17 @@ public class JSONObjectFactory {
             final FullClassInfo classInfo = (FullClassInfo)ci;
 
             final Map<String, Object> classMap = newHashMap();
-            classMap.put("id", new Integer(classInfo.getDataIndex()));
-            classMap.put("sl", new Integer(classInfo.getStartLine()));
-            classMap.put("el", new Integer(classInfo.getEndLine()));
+            classMap.put("id", Integer.valueOf(classInfo.getDataIndex()));
+            classMap.put("sl", Integer.valueOf(classInfo.getStartLine()));
+            classMap.put("el", Integer.valueOf(classInfo.getEndLine()));
             classMap.put("name", classInfo.getName());
 
             final List<Map<String, Integer>> methods = newArrayList();
             for (final MethodInfo methodInfo : classInfo.getMethods()) {
                 final Map<String, Integer> method = newHashMap();
-                method.put("sl", new Integer(methodInfo.getStartLine()));
-                method.put("el", new Integer(methodInfo.getEndLine()));
-                method.put("sc", new Integer(methodInfo.getStartColumn()));
+                method.put("sl", Integer.valueOf(methodInfo.getStartLine()));
+                method.put("el", Integer.valueOf(methodInfo.getEndLine()));
+                method.put("sc", Integer.valueOf(methodInfo.getStartColumn()));
                 methods.add(method);
             }
             classMap.put("methods", methods);
