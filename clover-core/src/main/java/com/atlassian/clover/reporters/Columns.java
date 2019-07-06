@@ -17,6 +17,7 @@ import com.atlassian.clover.registry.metrics.ProjectMetrics;
 import com.atlassian.clover.registry.FileInfoRegion;
 import com.atlassian.clover.reporters.html.HtmlReportUtil;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -48,12 +49,16 @@ public class Columns {
                             columnType.substring(0, 1).toUpperCase(Locale.ENGLISH) +
                             columnType.substring(1);
             Class colClass = Class.forName(name);
-            return (Column) colClass.newInstance();
+            return (Column) colClass.getDeclaredConstructor().newInstance();
         } catch (ClassNotFoundException e) {
+            Logger.getInstance().debug(e.getMessage(), e);
+        } catch (NoSuchMethodException e) {
             Logger.getInstance().debug(e.getMessage(), e);
         } catch (IllegalAccessException e) {
             Logger.getInstance().debug(e.getMessage(), e);
         } catch (InstantiationException e) {
+            Logger.getInstance().debug(e.getMessage(), e);
+        } catch (InvocationTargetException e) {
             Logger.getInstance().debug(e.getMessage(), e);
         }
         throw new CloverException("Invalid column name: '" + columnType + "'");
@@ -177,7 +182,7 @@ public class Columns {
         public String getTitle(BlockMetrics value)  {
             return formatter.formatTitle("Total Branches");
         }
-        
+
         @Override
         public String getHelp() {
             return "A branch is any part of the code where a decision has been made. e.g. if elseif, ? :, for, while, switch.";
@@ -206,7 +211,7 @@ public class Columns {
         public String getTitle(BlockMetrics value)  {
             return formatter.formatTitle("Covered Branches");
         }
-        
+
         @Override
         public String getHelp() {
             return "A covered branch is a branch that has been followed during testing.";
@@ -582,7 +587,7 @@ public class Columns {
             return new TotalElements(this);
         }
 
-        
+
         @Override
         public void init(BlockMetrics value) {
             setValues(value.getNumElements());
@@ -785,7 +790,7 @@ public class Columns {
             return "The total number of packages in this project.";
         }
     }
-    
+
 
     public static class TotalFiles extends TotalColumn {
 
@@ -1080,7 +1085,7 @@ public class Columns {
             final boolean isFiltered;
             final float pcFiltered;
             final int totalFiltered;
-            
+
             if (rawMetrics == null) {
                 isFiltered = false;
                 pcFiltered = 0f;
@@ -1105,7 +1110,7 @@ public class Columns {
         public String getHelp() {
             return "The percentage of elements that have been filtered from this report.";
         }
-        
+
     }
 
     /**
@@ -1154,7 +1159,7 @@ public class Columns {
         addPkgColumn(column);
         addClassColumn(column);
     }
-    
+
     public void addConfiguredTotalStatements(TotalStatements column) {
         addGlobalColumn(column);
     }
@@ -1174,7 +1179,7 @@ public class Columns {
     public void addConfiguredCoveredElements(CoveredElements column) {
         addGlobalColumn(column);
     }
-    
+
     public void addConfiguredUncoveredElements(UncoveredElements column) {
         addGlobalColumn(column);
     }
@@ -1194,7 +1199,7 @@ public class Columns {
     public void addConfiguredTotalPackages(TotalPackages column) {
         projectColumns.add(column);
     }
-    
+
     public void addConfiguredTotalFiles(TotalFiles column) {
         addPkgColumn(column);
     }
@@ -1317,7 +1322,7 @@ public class Columns {
     public List<Column> getClassColumnsCopy() {
         return copyColumns(classColumns);
     }
-    
+
     public List<Column> getMethodColumnsCopy() {
         return copyColumns(methodColumns);
     }
@@ -1329,15 +1334,19 @@ public class Columns {
             if (Column.class.isAssignableFrom(aClass) &&
                     !Expression.class.isAssignableFrom(aClass)) { // don't add expressions
                 try {
-                    Column col = (Column) aClass.newInstance();
+                    Column col = (Column) aClass.getDeclaredConstructor().newInstance();
                     if (!PercentageColumn.class.isAssignableFrom(aClass)) {
                         col.setFormat("raw");
                     }
                     allColumns.add(col);
 
+                } catch (NoSuchMethodException e) {
+                    Logger.getInstance().warn("Could not add column: " + aClass, e);
                 } catch (InstantiationException e) {
                     Logger.getInstance().warn("Could not add column: " + aClass, e);
                 } catch (IllegalAccessException e) {
+                    Logger.getInstance().warn("Could not add column: " + aClass, e);
+                } catch (InvocationTargetException e) {
                     Logger.getInstance().warn("Could not add column: " + aClass, e);
                 }
             }

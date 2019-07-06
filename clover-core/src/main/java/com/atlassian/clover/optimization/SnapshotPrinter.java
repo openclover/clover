@@ -14,6 +14,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.Collections;
@@ -167,7 +168,7 @@ public class SnapshotPrinter {
             //TODO: sginter revert this functionality
             for (Map.Entry<String, Collection<TestMethodCall>> fileToTestsEntry : snapshot.getFile2TestsMap().entrySet()) {
                 indent++;
-                writer.println(indent((String) fileToTestsEntry.getKey()));
+                writer.println(indent(fileToTestsEntry.getKey()));
                 writer.println(indent("Hitting tests:"));
                 for (TestMethodCall testMethodCall : fileToTestsEntry.getValue()) {
                     indent++;
@@ -197,7 +198,7 @@ public class SnapshotPrinter {
     private static String durationAsString(long duration) {
         return
             new Interval(
-                BigDecimal.valueOf(duration).divide(BigDecimal.valueOf(1000), 2, BigDecimal.ROUND_HALF_UP),
+                BigDecimal.valueOf(duration).divide(BigDecimal.valueOf(1000), 2, RoundingMode.HALF_UP),
                 Interval.UNIT_SECOND).toSensibleString()
             + " (" + duration + " ms)";
     }

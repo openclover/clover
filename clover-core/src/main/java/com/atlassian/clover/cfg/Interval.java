@@ -1,6 +1,7 @@
 package com.atlassian.clover.cfg;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.StringCharacterIterator;
 
 /**
@@ -202,7 +203,7 @@ public class Interval {
             // dividing
             for (int i = desiredUnit; i != unit; --i) {
                 adjustedMagnitude = adjustedMagnitude.divide(MULTIPLIERS[i],
-                                                            2, BigDecimal.ROUND_HALF_UP);
+                                                            2, RoundingMode.HALF_UP);
             }
         }
 
@@ -271,7 +272,7 @@ public class Interval {
     {
         for (int i = UNITS.length-1; i >= 0; i--) {
             BigDecimal val = getValueInUnits(UNITS[i]);
-            val.setScale(0, BigDecimal.ROUND_HALF_UP);
+            val.setScale(0, RoundingMode.HALF_UP);
             if (val.longValue() >= 1) {
                 String description = val.longValue() + " "
                     + NAMES[i] + (val.intValue() == 1 ? "" : "s");

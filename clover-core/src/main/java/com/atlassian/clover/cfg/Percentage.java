@@ -1,11 +1,12 @@
 package com.atlassian.clover.cfg;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class Percentage {
 
     private BigDecimal value;
-    public final int ROUNDING = BigDecimal.ROUND_HALF_EVEN;
+    private final RoundingMode ROUNDING = RoundingMode.HALF_EVEN;
 
     public BigDecimal getValue() {
         return value;
