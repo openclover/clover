@@ -145,8 +145,8 @@ public class HasMetricsSupport {
     public static final HasMetricsComparator CMP_PC_ASC = new HasMetricsComparator() {
         @Override
         public int compare(HasMetrics obj1, HasMetrics obj2) {
-           Float t1 = new Float(obj1.getMetrics().getPcCoveredElements());
-           Float t2 = new Float(obj2.getMetrics().getPcCoveredElements());
+           Float t1 = Float.valueOf(obj1.getMetrics().getPcCoveredElements());
+           Float t2 = Float.valueOf(obj2.getMetrics().getPcCoveredElements());
            return t1.compareTo(t2);
         }
         @Override

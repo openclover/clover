@@ -47,7 +47,7 @@ public class ServiceLocator<S> implements Iterable<S> {
                     BufferedReader reader = new BufferedReader(new InputStreamReader(provider.openStream()));
                     String className = reader.readLine().trim();
                     try {
-                        return (S) Class.forName(className).newInstance();
+                        return (S) Class.forName(className).getDeclaredConstructor().newInstance();
                     } catch (Exception e) {
                         throw new ServiceNotAvailableException("Failed to instantiate service provider " + className, e);
                     }
