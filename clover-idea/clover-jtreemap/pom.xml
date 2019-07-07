@@ -76,7 +76,7 @@
 
                                 <!-- get source jar -->
                                 <property name="source.jar" value="jtreemap-${project.version}.jar"/>
-                                <get src="http://repo1.maven.org/maven2/net/sf/jtreemap/jtreemap/${project.version}/${source.jar}"
+                                <get src="https://repo1.maven.org/maven2/net/sf/jtreemap/jtreemap/${project.version}/${source.jar}"
                                      dest="${project.build.directory}/${source.jar}"
                                      skipexisting="true"/>
 

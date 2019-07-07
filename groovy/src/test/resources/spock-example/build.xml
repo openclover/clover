@@ -24,7 +24,7 @@ limitations under the License.
     <property name="lib.dir" location="${target.dir}/lib"/>
 
     <property name="maven.ant.tasks.url"
-              value="http://repo1.maven.org/maven2/org/apache/maven/maven-ant-tasks/2.1.3/maven-ant-tasks-2.1.3.jar"/>
+              value="https://repo1.maven.org/maven2/org/apache/maven/maven-ant-tasks/2.1.3/maven-ant-tasks-2.1.3.jar"/>
     <property name="maven.ant.tasks.jar" value="${lib.dir}/maven-ant-tasks-2.1.3.jar"/>
     <available property="maven.ant.tasks.jar.exists" file="${maven.ant.tasks.jar}"/>
 
