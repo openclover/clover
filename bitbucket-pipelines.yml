@@ -1,0 +1,16 @@
+image: maven:3.6.1
+
+pipelines:
+  default:
+    - step:
+        caches:
+          - maven
+        script:
+          - apt-get update
+          - apt-get install -y ant
+          - mvn install -f clover-core-libs/jarjar/pom.xml
+          - mvn install -Prepack -f clover-core-libs/pom.xml
+          - mvn install -Prepack -f clover-idea/clover-jtreemap/pom.xml
+          - ant clover-buildutil.build clover-core-libs.build clover-runtime.build clover-core.build groovy.build clover-ant.build
+          - ant clover-buildutil.test clover-core-libs.test clover-runtime.test clover-core.test groovy.test clover-ant.test
+          - ant clover-ant.mvn.install

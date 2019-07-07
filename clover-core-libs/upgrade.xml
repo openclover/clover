@@ -55,7 +55,7 @@
     <property name="clover-core-libs.output" location="${clover-core-libs.base}/target"/>
 
     <!-- Import Maven tasks -->
-    <get src="http://repo1.maven.org/maven2/org/apache/maven/maven-ant-tasks/2.1.3/maven-ant-tasks-2.1.3.jar"
+    <get src="https://repo1.maven.org/maven2/org/apache/maven/maven-ant-tasks/2.1.3/maven-ant-tasks-2.1.3.jar"
          dest="${clover-core-libs.output}/maven-ant-tasks-2.1.3.jar" skipexisting="true" quiet="true"/>
     <typedef resource="org/apache/maven/artifact/ant/antlib.xml"
              classpath="${clover-core-libs.output}/maven-ant-tasks-2.1.3.jar"/>
