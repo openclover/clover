@@ -52,7 +52,7 @@
     </target>
 
     <target name="test-with-clover-listener" depends="compile">
-        <java classname="junit5.parameterized.RunJunit5ParameterizedWithClover" fork="true">
+        <java classname="junit5.parameterized.RunJUUnit5ParameterizedWithClover" fork="true">
             <classpath>
                 <path refid="project.classpath"/>
                 <pathelement location="${target.classes.dir}"/>
@@ -61,7 +61,7 @@
     </target>
 
     <target name="test-without-clover-listener" depends="compile">
-        <java classname="junit5.parameterized.RunJunit5ParameterizedWithoutClover" fork="true">
+        <java classname="junit5.parameterized.RunJUUnit5ParameterizedWithoutClover" fork="true">
             <classpath>
                 <path refid="project.classpath"/>
                 <pathelement location="${target.classes.dir}"/>

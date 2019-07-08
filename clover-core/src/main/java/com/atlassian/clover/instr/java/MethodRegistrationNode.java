@@ -33,6 +33,7 @@ import static clover.com.google.common.collect.Lists.newArrayList;
  */
 public class MethodRegistrationNode extends Emitter {
     private static final Map DEFAULT_RETURN_VALUES;
+
     static {
         Map<String, String> values = newHashMap();
         values.put("boolean", "false");
@@ -66,10 +67,12 @@ public class MethodRegistrationNode extends Emitter {
         final String javaLangPrefix = cfg.getJavaLangPrefix();
 
         boolean addTestRewriteInstr = state.isInstrEnabled() && cfg.isRecordTestResults() && isTestMethod;
-        /* Check only if any of the previous test methods are not annotated with ParameterizedTest. */
-        if(isTestMethod && !(state.isParameterizedJUnit5TestClass())) {
-            state.setParameterizedJUnit5TestClass(JUnitParameterizedTestExtractor.isJnit5ParameterizedTest(signature));
+
+        // Check only if any of the previous test methods are not annotated with ParameterizedTest.
+        if (isTestMethod && !(state.isParameterizedJUnit5TestClass())) {
+            state.setParameterizedJUnit5TestClass(JUnitParameterizedTestExtractor.isJUnit5ParameterizedTest(signature));
         }
+
         method = (FullMethodInfo) state.getSession().enterMethod(
                 getElementContext(),
                 new FixedSourceRegion(getLine(), getColumn()),
@@ -122,7 +125,7 @@ public class MethodRegistrationNode extends Emitter {
             final List expectedExceptions =
                     state.isDetectTests() ?
                             newArrayList(ExpectedExceptionMiner.extractExpectedExceptionsFor(signature, state.getCfg().isJava15(), true))
-                        : Collections.emptyList();
+                            : Collections.emptyList();
 
             final boolean expectsExceptions = expectedExceptions.size() > 0;
 
@@ -143,23 +146,24 @@ public class MethodRegistrationNode extends Emitter {
             instr.append("try{");
             //Not ctors or void-returning methods
             final boolean nonVoidReturn =
-                signature.getReturnType() != null
-                && !"void".equals(signature.getReturnType());
+                    signature.getReturnType() != null
+                            && !"void".equals(signature.getReturnType());
 
             if (nonVoidReturn) {
                 instr.append(signature.getReturnType()).append(" ").append(CloverNames.namespace("r")).append("=");
             }
 
-            instr.append(syntheticTestName);instr.append("(").append(signature.listParamIdents()).append(");");
+            instr.append(syntheticTestName);
+            instr.append("(").append(signature.listParamIdents()).append(");");
             instr.append(CloverNames.namespace("p")).append("=");
             if (expectsExceptions) {
                 instr.append(PerTestRecorder.ABNORMAL_EXIT).append(";").append(CloverNames.namespace("t")).append("=new ").append(javaLangPrefix).append("RuntimeException(");
 
                 StringBuilder msgBuffer = new StringBuilder();
                 msgBuffer.append("Expected one of the following exceptions to be thrown from test method ")
-                    .append(method.getSimpleName())
-                    .append(": ")
-                    .append("[");
+                        .append(method.getSimpleName())
+                        .append(": ")
+                        .append("[");
 
                 for (int i = 0; i < expectedExceptions.size(); i++) {
                     String expectedException = (String) expectedExceptions.get(i);
@@ -170,9 +174,9 @@ public class MethodRegistrationNode extends Emitter {
                 //Output message as a char array to avoid any encoding issues
                 instr.append("new String(new char[] {");
 
-                for(int i = 0; i < msgBuffer.length(); i++) {
-                    instr.append((int)msgBuffer.charAt(i))
-                        .append(",");
+                for (int i = 0; i < msgBuffer.length(); i++) {
+                    instr.append((int) msgBuffer.charAt(i))
+                            .append(",");
                 }
 
                 instr.append("}));");
@@ -187,7 +191,7 @@ public class MethodRegistrationNode extends Emitter {
             if (expectsExceptions) {
                 instr.append("if(");
                 for (int i = 0; i < expectedExceptions.size(); i++) {
-                    String expectedException = (String)expectedExceptions.get(i);
+                    String expectedException = (String) expectedExceptions.get(i);
                     instr.append(CloverNames.namespace("t2")).append(" instanceof ").append(expectedException);
                     if (i < expectedExceptions.size() - 1) {
                         instr.append("||");

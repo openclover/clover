@@ -11,7 +11,7 @@ import org.junit.platform.launcher.core.LauncherFactory;
  * Execute JUnit test runner without Clover's test listener. Clover can still collect code coverage, but test names do
  * not have iteration numbers (parameterized tests).
  */
-public class RunJunit5ParameterizedWithoutClover {
+public class RunJUUnit5ParameterizedWithoutClover {
 
     public static void main(String[] args) {
         runTests();
