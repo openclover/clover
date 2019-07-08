@@ -1,6 +1,6 @@
 package junit5.parameterized;
 
-import com.atlassian.clover.recorder.junit.CloverJUUnit5TestExecutionListener;
+import com.atlassian.clover.recorder.junit.CloverJUnit5TestExecutionListener;
 import org.junit.platform.engine.discovery.DiscoverySelectors;
 import org.junit.platform.launcher.Launcher;
 import org.junit.platform.launcher.LauncherDiscoveryRequest;
@@ -12,7 +12,7 @@ import org.junit.platform.launcher.core.LauncherFactory;
  * Execute JUnit runner with Clover's test listener. Thanks to this, Clover can read the exact name of the test at
  * runtime.
  */
-public class RunJUUnit5ParameterizedWithClover {
+public class RunJUnit5ParameterizedWithClover {
 
     public static void main(String[] args) {
         runTests();
@@ -20,7 +20,7 @@ public class RunJUUnit5ParameterizedWithClover {
 
 
     private static void runTests() {
-        CloverJUUnit5TestExecutionListener cloverTestListener = new CloverJUUnit5TestExecutionListener();
+        CloverJUnit5TestExecutionListener cloverTestListener = new CloverJUnit5TestExecutionListener();
         LauncherDiscoveryRequest request = LauncherDiscoveryRequestBuilder.request()
                 .selectors(DiscoverySelectors.selectClass(PersonTest.class))
                 .build();
