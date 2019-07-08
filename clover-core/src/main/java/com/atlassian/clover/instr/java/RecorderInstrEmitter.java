@@ -22,18 +22,18 @@ import java.util.Locale;
 
 public class RecorderInstrEmitter extends Emitter {
 
-    public static final String LAMBDA_INC_METHOD = "lambdaInc";
+    static final String LAMBDA_INC_METHOD = "lambdaInc";
 
     private static final String INCOMPATIBLE_MSG =
-        "[CLOVER] WARNING: The Clover version used in instrumentation does " +
-        "not match the runtime version. You need to run instrumented classes against the same version of Clover " +
-        "that you instrumented with.";
+            "[CLOVER] WARNING: The Clover version used in instrumentation does " +
+                    "not match the runtime version. You need to run instrumented classes against the same version of Clover " +
+                    "that you instrumented with.";
     private static final String DEFAULT_CLASSNOTFOUND_MSG =
-        "[CLOVER] FATAL ERROR: Clover could not be initialised. Are you " +
-        "sure you have Clover in the runtime classpath?";
+            "[CLOVER] FATAL ERROR: Clover could not be initialised. Are you " +
+                    "sure you have Clover in the runtime classpath?";
     private static final String UNEXPECTED_MSG =
-        "[CLOVER] FATAL ERROR: Clover could not be initialised because of an unexpected error.";
-    
+            "[CLOVER] FATAL ERROR: Clover could not be initialised because of an unexpected error.";
+
     private boolean isEnum;
     private boolean reportInitErrors;
     private boolean classInstrStrategy;
@@ -44,19 +44,24 @@ public class RecorderInstrEmitter extends Emitter {
     private int maxDataIndex;
     private String javaLangPrefix;
     private boolean testClass;
-    /** Whether it's a Spock framework test class */
+    /**
+     * Whether it's a Spock framework test class
+     */
     private boolean isSpockTestClass;
-    /** Whether it's a JUnit parameterized test class */
+    /**
+     * Whether it's a JUnit parameterized test class
+     */
     private boolean isParameterizedJUnitTestClass;
-	/** Whether it's a JUnit 5 parameterized test class */
-    private boolean isJnit5ParameterizedTest;
+    /**
+     * Whether it's a JUnit 5 parameterized test class
+     */
+    private boolean isJUnit5ParameterizedTest;
     private String distributedConfig;
     private String classNotFoundMsg;
     private boolean shouldEmitWarningMethod;
     private List<CloverProfile> profiles;
     private boolean isJava8OrHigher;
-    private InstrumentationState state;
-	
+
     public RecorderInstrEmitter(boolean isEnum) {
         super();
         this.isEnum = isEnum;
@@ -78,19 +83,18 @@ public class RecorderInstrEmitter extends Emitter {
         testClass = state.isDetectTests();
         isSpockTestClass = state.isSpockTestClass();
         isParameterizedJUnitTestClass = state.isParameterizedJUnitTestClass();
+        isJUnit5ParameterizedTest = state.isParameterizedJUnit5TestClass();
         classNotFoundMsg = state.getCfg().getClassNotFoundMsg() != null ? state.getCfg().getClassNotFoundMsg() : DEFAULT_CLASSNOTFOUND_MSG;
         //Only emit the warning method in instr code once per instr session. This minimises permgen pressure.
         shouldEmitWarningMethod = !state.hasInstrumented();
         if (!state.hasInstrumented()) {
             state.setHasInstrumented(true);
         }
-        this.state = state;		
     }
 
     @Override
     public String getInstr() {
         String instrString;
-        isJnit5ParameterizedTest = state.isParameterizedJUnit5TestClass();
         if (classInstrStrategy || isEnum) {
             String recorderBase = recorderPrefix.substring(0, recorderPrefix.lastIndexOf('.'));
             String recorderSuffix = recorderPrefix.substring(recorderPrefix.lastIndexOf('.') + 1);
@@ -117,11 +121,11 @@ public class RecorderInstrEmitter extends Emitter {
             if (reportInitErrors) {
                 instrString += "try{"
                         + (shouldEmitWarningMethod ? ($CloverVersionInfo$oldVersionInClasspath() + ";") : "")
-                        + "if("+ CloverVersionInfo.getBuildStamp() + "L!="
-                        + $CloverVersionInfo$getBuildStamp() + ")" + "{"+ $Clover$l("\"" + INCOMPATIBLE_MSG + "\"") + ";"
+                        + "if(" + CloverVersionInfo.getBuildStamp() + "L!="
+                        + $CloverVersionInfo$getBuildStamp() + ")" + "{" + $Clover$l("\"" + INCOMPATIBLE_MSG + "\"") + ";"
                         + $Clover$l("\"[CLOVER] WARNING: Instr=" + CloverVersionInfo.getReleaseNum()
-                            + "#" + CloverVersionInfo.getBuildStamp() + ",Runtime=\"+"
-                            + $CloverVersionInfo$getReleaseNum() + "+\"#\"+" + $CloverVersionInfo$getBuildStamp()) + ";}";
+                        + "#" + CloverVersionInfo.getBuildStamp() + ",Runtime=\"+"
+                        + $CloverVersionInfo$getReleaseNum() + "+\"#\"+" + $CloverVersionInfo$getBuildStamp()) + ";}";
             }
 
             //REC = Clover.getRecorder(....);
@@ -140,7 +144,7 @@ public class RecorderInstrEmitter extends Emitter {
 
             //_REC = Clover.getRecorder(....);
             instrString += "_" + recorderSuffix + "="
-                + $Clover$getRecorder(
+                    + $Clover$getRecorder(
                     asUnicodeString(initString),
                     registryVersion + "L",
                     recorderCfg + "L",
@@ -166,13 +170,13 @@ public class RecorderInstrEmitter extends Emitter {
             // the sniffer field is always generated, also for non-test classes, because we may have a non-test top-level
             // class containing inner or inline test classes (and the inner/inline classes don't have their own
             // recorder instance - they reuse a recorder instance from the top-level class)
-            instrString += generateTestSnifferField(isSpockTestClass, isParameterizedJUnitTestClass, isJnit5ParameterizedTest);
+            instrString += generateTestSnifferField(isSpockTestClass, isParameterizedJUnitTestClass, isJUnit5ParameterizedTest);
 
         } else {
             instrString = "public static "
-                + CoverageRecorder.class.getName() + " "
-                + recorderPrefix + "="
-                + $Clover$getRecorder(
+                    + CoverageRecorder.class.getName() + " "
+                    + recorderPrefix + "="
+                    + $Clover$getRecorder(
                     asUnicodeString(initString),
                     registryVersion + "L",
                     recorderCfg + "L",
@@ -180,31 +184,33 @@ public class RecorderInstrEmitter extends Emitter {
                     generateCloverProfilesInline(profiles),
                     "new " + javaLangPrefix + "String[]{\"" + CloverNames.PROP_DISTRIBUTED_CONFIG + "\"," + asUnicodeString(distributedConfig) + "}") + ";";
             // the sniffer field is always generated, also for non-test classes, see comment above
-            instrString += generateTestSnifferField(isSpockTestClass, isParameterizedJUnitTestClass, isJnit5ParameterizedTest);
+            instrString += generateTestSnifferField(isSpockTestClass, isParameterizedJUnitTestClass, isJUnit5ParameterizedTest);
         }
         return instrString;
     }
 
-    /*private*/ static String generateTestSnifferField(boolean isSpock, boolean isParamJUnit) {
+    /*private*/
+    static String generateTestSnifferField(boolean isSpock, boolean isParamJUnit) {
         return generateTestSnifferField(isSpock ? SnifferType.SPOCK
                 : isParamJUnit ? SnifferType.JUNIT
-                        : SnifferType.NULL);
+                : SnifferType.NULL);
     }
-	
-	
-    static String generateTestSnifferField(boolean isSpock, boolean isParamJUnit, boolean isJunit5ParamTest) {
+
+
+    private static String generateTestSnifferField(boolean isSpock, boolean isParamJUnit, boolean isJunit5ParamTest) {
         return generateTestSnifferField(isSpock ? SnifferType.SPOCK
                 : isParamJUnit ? SnifferType.JUNIT : isJunit5ParamTest ? SnifferType.JUNIT5
                 : SnifferType.NULL);
     }
-	
+
     /**
      * Generate declaration of the field named {@link CloverNames#CLOVER_TEST_NAME_SNIFFER}
      *
      * @param snifferType null, junit or spock
      * @return String text with a field declaration
      */
-    /*private*/ static String generateTestSnifferField(final SnifferType snifferType) {
+    /*private*/
+    static String generateTestSnifferField(final SnifferType snifferType) {
         // public static final TestNameSniffer __CLRx_y_z_TEST_NAME_SNIFFER
         final String snifferField = "public static final " + TestNameSniffer.class.getName()
                 + " " + CloverNames.CLOVER_TEST_NAME_SNIFFER;
@@ -214,7 +220,7 @@ public class RecorderInstrEmitter extends Emitter {
                 return snifferField + "=new com_atlassian_clover.JUnitParameterizedTestSniffer();";
             case JUNIT5:
                 // ... = new JUnitParameterizedTestSniffer();
-                return snifferField + "=new com_atlassian_clover.Junit5ParameterizedTestSniffer();";
+                return snifferField + "=new com_atlassian_clover.JUUnit5ParameterizedTestSniffer();";
             case SPOCK:
                 // ... = new SpockFeatureNameSniffer();
                 return snifferField + "=new com_atlassian_clover.SpockFeatureNameSniffer();";
@@ -264,21 +270,30 @@ public class RecorderInstrEmitter extends Emitter {
      * @return String code for "lambdaInc"
      */
     private String generateLambdaIncMethod(final String recorderSuffix) {
-        final StringBuilder str = new StringBuilder();
         // using variable names as short as possible to compress the code
-        str.append("@java.lang.SuppressWarnings(\"unchecked\") ");
-        str.append("public static <I, T extends I> I ").append(LAMBDA_INC_METHOD).append("(final int i,final T l,final int si){");
-        str.append("java.lang.reflect.InvocationHandler h=new java.lang.reflect.InvocationHandler(){");
-        str.append("public ").append(javaLangPrefix).append("Object invoke(");
-        str.append(javaLangPrefix).append("Object p,java.lang.reflect.Method m,").append(javaLangPrefix).append("Object[] a) ");
-        str.append("throws Throwable{");
-        str.append(recorderSuffix).append(".inc(i);");
-        str.append(recorderSuffix).append(".inc(si);");
-        str.append("try{return m.invoke(l,a);}catch(java.lang.reflect.InvocationTargetException e){");
-        str.append("throw e.getCause()!=null?e.getCause():new RuntimeException(\"Clover failed to invoke instrumented lambda\",e);");
-        str.append("}}};");
-        str.append("return (I)java.lang.reflect.Proxy.newProxyInstance(l.getClass().getClassLoader(),l.getClass().getInterfaces(),h);");
-        str.append("}");
+        final StringBuilder str = new StringBuilder()
+                .append("@java.lang.SuppressWarnings(\"unchecked\") ")
+                .append("public static <I, T extends I> I ")
+                .append(LAMBDA_INC_METHOD)
+                .append("(final int i,final T l,final int si){")
+                .append("java.lang.reflect.InvocationHandler h=new java.lang.reflect.InvocationHandler(){")
+                .append("public ")
+                .append(javaLangPrefix)
+                .append("Object invoke(")
+                .append(javaLangPrefix)
+                .append("Object p,java.lang.reflect.Method m,")
+                .append(javaLangPrefix)
+                .append("Object[] a) ")
+                .append("throws Throwable{")
+                .append(recorderSuffix)
+                .append(".inc(i);")
+                .append(recorderSuffix)
+                .append(".inc(si);")
+                .append("try{return m.invoke(l,a);}catch(java.lang.reflect.InvocationTargetException e){")
+                .append("throw e.getCause()!=null?e.getCause():new RuntimeException(\"Clover failed to invoke instrumented lambda\",e);")
+                .append("}}};")
+                .append("return (I)java.lang.reflect.Proxy.newProxyInstance(l.getClass().getClassLoader(),l.getClass().getInterfaces(),h);")
+                .append("}");
         return str.toString();
     }
 
@@ -293,11 +308,12 @@ public class RecorderInstrEmitter extends Emitter {
      *    ...
      * };
      * </pre>
+     *
      * @return String
      */
     static String generateCloverProfilesField(List<CloverProfile> profiles) {
         // public static CloverProfile[] profiles = {
-        String str = "public static " + CloverProfile.class.getName()  + "[] profiles = { ";
+        String str = "public static " + CloverProfile.class.getName() + "[] profiles = { ";
         str += generateCloverProfilesNewInstances(profiles);
         str += "};";
         return str;
@@ -313,6 +329,7 @@ public class RecorderInstrEmitter extends Emitter {
      *    ...
      * }
      * </pre>
+     *
      * @return String
      */
     public static String generateCloverProfilesInline(List<CloverProfile> profiles) {
@@ -323,49 +340,47 @@ public class RecorderInstrEmitter extends Emitter {
     }
 
     /**
-     * Helper method for {@link #generateCloverProfilesField(java.util.List)} and
-     * {@link #generateCloverProfilesNewInstances(java.util.List)}
-     * @param profiles
+     * Helper method for {@link #generateCloverProfilesField(java.util.List)}
+     *
+     * @param profiles list of runtime profiles
      * @return String
      */
     private static String generateCloverProfilesNewInstances(List<CloverProfile> profiles) {
-        String str = "";
+        StringBuilder str = new StringBuilder();
         if (profiles != null) {
             for (Iterator<CloverProfile> iter = profiles.iterator(); iter.hasNext(); ) {
                 CloverProfile profile = iter.next();
                 // new CloverProfile(
-                str += "new " + CloverProfile.class.getName() + "(";
+                str.append("new ").append(CloverProfile.class.getName()).append("(");
                 // "default",
-                str += asUnicodeString(profile.getName()) + ", ";
+                str.append(asUnicodeString(profile.getName())).append(", ");
                 // "FIXED",
-                str += "\"" + profile.getCoverageRecorder() + "\", ";
+                str.append("\"").append(profile.getCoverageRecorder()).append("\", ");
                 // "host=localhost;timeout=500") or null)
                 if (profile.getDistributedCoverage() != null) {
-                    str += asUnicodeString(profile.getDistributedCoverage().getConfigString()) + ")";
+                    str.append(asUnicodeString(profile.getDistributedCoverage().getConfigString())).append(")");
                 } else {
-                    str += "null)";
+                    str.append("null)");
                 }
                 if (iter.hasNext()) {
-                    str += ",";
+                    str.append(",");
                 }
             }
         }
-        return str;
+        return str.toString();
     }
 
     /**
      * Returns a unicode representation of the provided string, for example:
-     *   "abc" -> "\u0061\u0062\u0063"
+     * "abc" -> "\u0061\u0062\u0063"
      * In addition it doubles every "\" character in output sequence.
-     * @param str
-     * @return
      */
     public static String asUnicodeString(String str) {
         if (str == null) {
             return "null";
         }
 
-        String res = "\"";
+        StringBuilder res = new StringBuilder("\"");
         for (char c : str.toCharArray()) {
             // Because of fact that unicode escape sequences are being processed by javac compiler at the very beginning
             // (they are just being treated as an alternative way of writing characters in a text file) and a fact that
@@ -377,13 +392,13 @@ public class RecorderInstrEmitter extends Emitter {
             // Example with double backslash:
             //  '\tea' --to-unicode-> "\u005c\u005c\u0074\u0065\u0061" --javac-> "\\tea" = '\tea'
             if (c == '\\') {
-                res += String.format(Locale.US, "\\u%04x\\u%04x", (int) c, (int)c);
+                res.append(String.format(Locale.US, "\\u%04x\\u%04x", (int) c, (int) c));
             } else {
-                res += String.format(Locale.US, "\\u%04x", (int) c);
+                res.append(String.format(Locale.US, "\\u%04x", (int) c));
             }
         }
-        res += "\"";
-        return res;
+        res.append("\"");
+        return res.toString();
     }
 
     public void setMaxDataIndex(int maxIndex) {
