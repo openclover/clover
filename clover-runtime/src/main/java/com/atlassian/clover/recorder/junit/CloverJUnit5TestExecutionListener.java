@@ -2,7 +2,7 @@ package com.atlassian.clover.recorder.junit;
 
 import com.atlassian.clover.CloverNames;
 import com.atlassian.clover.Logger;
-import com_atlassian_clover.JUUnit5ParameterizedTestSniffer;
+import com_atlassian_clover.JUnit5ParameterizedTestSniffer;
 import com_atlassian_clover.JUnitParameterizedTestSniffer;
 import com_atlassian_clover.TestNameSniffer;
 import org.jetbrains.annotations.NotNull;
@@ -25,7 +25,7 @@ import java.lang.reflect.Field;
  *
  * <p>To add this listener to the project, just add this class in {@code }/META-INF/services/org.junit.platform.launcher.TestExecutionListener}</p>
  */
-public class CloverJUUnit5TestExecutionListener implements TestExecutionListener {
+public class CloverJUnit5TestExecutionListener implements TestExecutionListener {
 
     private TestPlan testPlan;
     private TestNameSniffer junitSniffer;
@@ -37,39 +37,39 @@ public class CloverJUUnit5TestExecutionListener implements TestExecutionListener
     }
 
     public void executionStarted(TestIdentifier testIdentifier) {
-        Logger.getInstance().warn("CloverJUUnit5TestExecutionListener: isTest()? "+testIdentifier.isTest());
+        Logger.getInstance().warn("CloverJUnit5TestExecutionListener: isTest()? "+testIdentifier.isTest());
 
         if (testIdentifier.isTest()) {
             /* Unfortunately, junit 5 doesn't have a reliable way to find the current test running class.
              * Hence, using a work around suggested  at the following link.
              * https://github.com/junit-team/junit5/issues/737
              */
-            Logger.getInstance().debug("CloverJUUnit5TestExecutionListener: JUnitPlatform test started: \""
+            Logger.getInstance().debug("CloverJUnit5TestExecutionListener: JUnitPlatform test started: \""
                     + testIdentifier.getDisplayName() + "\"");
 
             // find Clover's field in a test class and pass test information
             //final Class testClass = testIdentifier.getTestClass();
             Class testClass = findTestMethodClassName(this.testPlan, testIdentifier);
-            Logger.getInstance().warn("CloverJUUnit5TestExecutionListener: testClass? "+testClass);
+            Logger.getInstance().warn("CloverJUnit5TestExecutionListener: testClass? "+testClass);
 
             if (testClass != null) {
-                Logger.getInstance().warn("CloverJUUnit5TestExecutionListener: junitSniffer? "+junitSniffer);
+                Logger.getInstance().warn("CloverJUnit5TestExecutionListener: junitSniffer? "+junitSniffer);
                 junitSniffer = lookupTestSnifferField(testClass);
                 if (junitSniffer != null) {
-                    if (junitSniffer instanceof JUUnit5ParameterizedTestSniffer) {
+                    if (junitSniffer instanceof JUnit5ParameterizedTestSniffer) {
                         /* TODO: Junit 5 Parameterized Test's Display name is not returing method name.
                          *  Is the method name needed in the test name? If not, below StringBuilder is not needed.
                          */
-                        Logger.getInstance().warn("CloverJUUnit5TestExecutionListener: junit 5 Sniffer");
+                        Logger.getInstance().warn("CloverJUnit5TestExecutionListener: junit 5 Sniffer");
                         String testName = getMethodName(testIdentifier) +
                                 "[" + testIdentifier.getDisplayName() + "]";
-                        ((JUUnit5ParameterizedTestSniffer) junitSniffer).testStarted(testName);
+                        ((JUnit5ParameterizedTestSniffer) junitSniffer).testStarted(testName);
                     } else if (junitSniffer instanceof JUnitParameterizedTestSniffer) {
                         /* TODO: Junit 4 Parameterized Test's Display name is not returing Class name. Appending class name
                          *  to be consistant with JUnitTestRunnerInterceptor. Is the class name needed in the test name?
                          *  If not, below StringBuilder is not needed.
                          */
-                        Logger.getInstance().warn("CloverJUUnit5TestExecutionListener: junit 4 Sniffer");
+                        Logger.getInstance().warn("CloverJUnit5TestExecutionListener: junit 4 Sniffer");
                         String testName = testIdentifier.getDisplayName() + "(" +
                                 testClass.getName() + ")";
                         ((JUnitParameterizedTestSniffer) junitSniffer).testStarted(testName);
@@ -80,8 +80,8 @@ public class CloverJUUnit5TestExecutionListener implements TestExecutionListener
     }
 
     public void executionFinished(TestIdentifier testIdentifier, TestExecutionResult testExecutionResult) {
-        if (junitSniffer instanceof JUUnit5ParameterizedTestSniffer) {
-            ((JUUnit5ParameterizedTestSniffer) junitSniffer).testEnded();
+        if (junitSniffer instanceof JUnit5ParameterizedTestSniffer) {
+            ((JUnit5ParameterizedTestSniffer) junitSniffer).testEnded();
         } else if (junitSniffer instanceof JUnitParameterizedTestSniffer) {
             ((JUnitParameterizedTestSniffer) junitSniffer).testEnded("");
         }

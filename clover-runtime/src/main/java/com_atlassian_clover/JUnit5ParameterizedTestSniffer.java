@@ -2,7 +2,7 @@ package com_atlassian_clover;
 
 import org.jetbrains.annotations.NotNull;
 
-public class JUUnit5ParameterizedTestSniffer implements TestNameSniffer {
+public class JUnit5ParameterizedTestSniffer implements TestNameSniffer {
 
     /**
      * Value holder

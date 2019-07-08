@@ -220,7 +220,7 @@ public class RecorderInstrEmitter extends Emitter {
                 return snifferField + "=new com_atlassian_clover.JUnitParameterizedTestSniffer();";
             case JUNIT5:
                 // ... = new JUnitParameterizedTestSniffer();
-                return snifferField + "=new com_atlassian_clover.JUUnit5ParameterizedTestSniffer();";
+                return snifferField + "=new com_atlassian_clover.JUnit5ParameterizedTestSniffer();";
             case SPOCK:
                 // ... = new SpockFeatureNameSniffer();
                 return snifferField + "=new com_atlassian_clover.SpockFeatureNameSniffer();";
