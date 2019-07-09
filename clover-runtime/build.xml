@@ -86,6 +86,8 @@
             <pathelement location="${clover-buildutil.jar}"/>
             <pathelement location="${spock.jar}"/>
             <pathelement location="${junit.jar}"/>
+            <pathelement location="${junit-platform-engine.jar}"/>
+            <pathelement location="${junit-platform-launcher.jar}"/>			
         </path>
     </target>
 

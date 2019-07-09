@@ -26,5 +26,6 @@
     <orderEntry type="library" scope="TEST" name="groovy-all-2.4.15" level="project" />
     <orderEntry type="library" scope="TEST" name="junit-4.12" level="project" />
     <orderEntry type="library" scope="TEST" name="spock-core-0.7-groovy-2.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="junit5-5.4.1" level="project" />
   </component>
 </module>
