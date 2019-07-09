@@ -7,5 +7,6 @@ package com.atlassian.clover.recorder.pertest;
 public enum SnifferType {
     NULL,
     JUNIT,
+    JUNIT5,
     SPOCK
 }

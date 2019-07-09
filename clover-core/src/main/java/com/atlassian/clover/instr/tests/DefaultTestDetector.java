@@ -76,7 +76,9 @@ public class DefaultTestDetector implements TestDetector {
                 TestAnnotationNames.TESTNG_FQ_TEST_ANNO_NAME,
                 TestAnnotationNames.TEST_ANNO_NAME,
                 TestAnnotationNames.SPOCK_METHOD_FQ_ANNO_NAME,
-                TestAnnotationNames.SPOCK_METHOD_ANNO_NAME )
+                TestAnnotationNames.SPOCK_METHOD_ANNO_NAME,
+                TestAnnotationNames.JUNIT5_PARAMETERIZED_ANNO_NAME,
+                TestAnnotationNames.JUNIT5_FQ_PARAMETERIZED_ANNO_NAME )
             // but it's not marked as ignored
             && !( modifiers.containsAnnotation(
                 TestAnnotationNames.JUNIT_IGNORE_ANNO_NAME,

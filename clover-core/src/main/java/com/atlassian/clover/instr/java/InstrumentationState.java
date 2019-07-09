@@ -26,6 +26,7 @@ public class InstrumentationState implements TestDetector.SourceContext {
     private boolean detectTests = false;
     private boolean spockTestClass = false;
     private boolean parameterizedJUnitTestClass = false;
+    private boolean parameterizedJUnit5TestClass = false;
     private ContextSet instrContext = new ContextSet();
     private boolean hasInstrumented = false;
     private int autoCloseableClassCount = 0;
@@ -188,5 +189,17 @@ public class InstrumentationState implements TestDetector.SourceContext {
 
     public void setParameterizedJUnitTestClass(boolean parameterizedJUnitTestClass) {
         this.parameterizedJUnitTestClass = parameterizedJUnitTestClass;
+    }
+	
+	/**
+     * Returns true if during instrumentation if atleast one test method is annotated with ParameterizedTest annotation.
+     * @return boolean - true for a Test class with a @ParameterizedTest method, false otherwise
+     */
+    public boolean isParameterizedJUnit5TestClass() {
+        return parameterizedJUnit5TestClass;
+    }
+
+    public void setParameterizedJUnit5TestClass(boolean parameterizedJUnit5TestClass) {
+        this.parameterizedJUnit5TestClass = parameterizedJUnit5TestClass;
     }
 }
