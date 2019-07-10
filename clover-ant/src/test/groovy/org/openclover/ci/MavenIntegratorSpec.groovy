@@ -114,7 +114,7 @@ class MavenIntegratorSpec extends Specification {
     @Unroll
     def "enable clover with historical reports (#args)"() {
         setup:
-        Integrator mvn = Integrator.Factory.newMavenIntegrator(builder.build());
+        Integrator mvn = Integrator.Factory.newMavenIntegrator(builder.build())
         mvn.decorateArguments(args)
 
         expect:
@@ -136,7 +136,7 @@ class MavenIntegratorSpec extends Specification {
     @Unroll
     def "enable clover with various options (#builder)"() {
         setup:
-        Integrator mvn = Integrator.Factory.newMavenIntegrator(builder.build());
+        Integrator mvn = Integrator.Factory.newMavenIntegrator(builder.build())
         mvn.decorateArguments(args)
 
         expect:
@@ -157,7 +157,7 @@ class MavenIntegratorSpec extends Specification {
     @Unroll
     def "enable clover with various duplicated options (#args) and builder (#builder)"() {
         setup:
-        Integrator mvn = Integrator.Factory.newMavenIntegrator(builder.build());
+        Integrator mvn = Integrator.Factory.newMavenIntegrator(builder.build())
         mvn.decorateArguments(args)
 
         expect:
