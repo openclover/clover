@@ -100,9 +100,9 @@ class CloverSetupTaskSharedTest extends CloverSetupTaskTestBase {
         testBase.assertLogContains("Distributed coverage is disabled")
 
         // two test cases
-        testBase.assertLogContains("globalSliceStart(FooTest, 20,"); // testFoo
+        testBase.assertLogContains("globalSliceStart(FooTest, 20,") // testFoo
         testBase.assertLogContains("globalSliceEnd(FooTest, 20, 1, null)")
-        testBase.assertLogContains("globalSliceStart(FooTest, 24,"); // testGoo
+        testBase.assertLogContains("globalSliceStart(FooTest, 24,") // testGoo
         testBase.assertLogContains("globalSliceEnd(FooTest, 24, 1, null)")
 
         // code was executed in another jvm
@@ -172,11 +172,11 @@ class CloverSetupTaskSharedTest extends CloverSetupTaskTestBase {
         testBase.assertFullLogContains("Processed 5 per-test recording files")
 
         // two test cases
-        testBase.assertLogContains("globalSliceStart(FooTest, 20,"); // testFoo
+        testBase.assertLogContains("globalSliceStart(FooTest, 20,") // testFoo
         testBase.assertLogContains("globalSliceEnd(FooTest, 20, 1, null)")
-        testBase.assertLogContains("globalSliceStart(FooTest, 24,"); // testGoo
+        testBase.assertLogContains("globalSliceStart(FooTest, 24,") // testGoo
         testBase.assertLogContains("globalSliceEnd(FooTest, 24, 1, null)")
-        testBase.assertLogContains("globalSliceStart(FooTest, 26"); //testNothing
+        testBase.assertLogContains("globalSliceStart(FooTest, 26") //testNothing
         testBase.assertLogContains("globalSliceEnd(FooTest, 26, 1, null)")
 
         // one shared per-test recorder instance
@@ -233,9 +233,9 @@ class CloverSetupTaskSharedTest extends CloverSetupTaskTestBase {
         testBase.assertLogContains("Distributed coverage is disabled")
 
         // two test cases from first and second test run (class was not recompiled so method IDs are the same)
-        testBase.assertLogContains("globalSliceStart(FooTest, 20,"); // testFoo
+        testBase.assertLogContains("globalSliceStart(FooTest, 20,") // testFoo
         testBase.assertLogContains("globalSliceEnd(FooTest, 20, 1, null)")
-        testBase.assertLogContains("globalSliceStart(FooTest, 24,"); // testGoo
+        testBase.assertLogContains("globalSliceStart(FooTest, 24,") // testGoo
         testBase.assertLogContains("globalSliceEnd(FooTest, 24, 1, null)")
 
         // code was executed in another jvm - two test runs
@@ -299,15 +299,15 @@ class CloverSetupTaskSharedTest extends CloverSetupTaskTestBase {
         // code was executed in another jvm - two test runs
         assertStringContains("Say foo once", getJavaOut(20), false)
         assertStringContains("Say goo once", getJavaOut(20), false)
-        testBase.assertLogContains("Ho ho ho"); // from classSetUp
+        testBase.assertLogContains("Ho ho ho") // from classSetUp
 
         // we should have no errors
         assertTrue(getJavaErr(20).length() == 0)
 
         // three active recorders - 1st for Hoo (clover2.db), 2nd for FooTest (clover.db), 3rd for Foo (clover.db in second JVM)
-        testBase.assertFullLogContains("Clover.getRecorder(" + getCloverDbFile());  // FooTest is using clover.db
-        testBase.assertFullLogContains("Clover.getRecorder(" + getCloverDb2File()); // Hoo is using clover2.db
-        assertStringContains("Clover.getRecorder(" + getCloverDbFile(), getJavaOut(20), false); // Foo is using clover.db
+        testBase.assertFullLogContains("Clover.getRecorder(" + getCloverDbFile())  // FooTest is using clover.db
+        testBase.assertFullLogContains("Clover.getRecorder(" + getCloverDb2File()) // Hoo is using clover2.db
+        assertStringContains("Clover.getRecorder(" + getCloverDbFile(), getJavaOut(20), false) // Foo is using clover.db
 
         // two shared per-test recorder instances (as we have two databases) in
         // * one JVM (distributed coverage is disabled, JVM running Foo does not get globalSliceStart/End call)
@@ -320,7 +320,7 @@ class CloverSetupTaskSharedTest extends CloverSetupTaskTestBase {
         // testGoo               | yes       | no
         // testNothing           | yes       | no
         assertEquals(3, getPerTestCoverageFiles().length)
-        testBase.assertFullLogContains("Processed 3 per-test recording files"); // 3 slices from clover.db
+        testBase.assertFullLogContains("Processed 3 per-test recording files") // 3 slices from clover.db
 
         // check xml report content - global counters - should have coverage from both JVMs and
         //  - both test runs for FooTest
