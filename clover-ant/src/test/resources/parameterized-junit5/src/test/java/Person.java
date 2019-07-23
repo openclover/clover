@@ -1,4 +1,3 @@
-package junit5.parameterized;
 /**
  *
  */

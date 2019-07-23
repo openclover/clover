@@ -1,5 +1,3 @@
-package junit5.parameterized;
-
 import com.atlassian.clover.recorder.junit.CloverJUnit5TestExecutionListener;
 import org.junit.platform.engine.discovery.DiscoverySelectors;
 import org.junit.platform.launcher.Launcher;

@@ -7,8 +7,7 @@
 
     <property name="clover.jar" location="${project.dir}/clover-ant/target/clover.jar"/>
     <property name="repkg.clover.jar" location="${project.dir}/target/clover-repkg.jar"/> <!-- optional, for with.clover builds -->
-    <property name="junit.jar" location="${project.dir}/target/dependencies/junit-4.12.jar"/>
-	
+
     <target name="setUp"/>
     <target name="tearDown"/>
 
@@ -17,19 +16,19 @@
         <fail message="The 'project.dir' property is missing." unless="project.dir"/>
         <available file="${clover.jar}" property="clover.jar.exists"/>
         <fail message="The 'clover.jar=${clover.jar}' file does not exist." unless="clover.jar.exists"/>
-        <available file="${junit.jar}" property="junit.jar.exists"/>
-        <fail message="The 'junit.jar=${junit.jar}' file does not exist." unless="junit.jar.exists"/>
 
 		<path id="junit.lib.path">
 			<fileset dir="${project.dir}">
-				<include name="/target/dependencies/junit-*.jar"/>
+				<include name="target/dependencies/junit-jupiter-*.jar"/>
+				<include name="target/dependencies/junit-platform-*.jar"/>
+                <include name="target/dependencies/opentest4j-*.jar"/>
 			</fileset>
 		</path>
+
         <!-- Set compilation/runtime class path -->
         <path id="project.classpath">
             <pathelement location="${clover.jar}"/>
             <pathelement location="${repkg.clover.jar}"/>
-            <pathelement location="${junit.jar}"/>
 			<path refid="junit.lib.path"/>
             <pathelement location="${project.dir}/target/dependencies/hamcrest-core-1.3.jar"/>
         </path>
@@ -52,7 +51,7 @@
     </target>
 
     <target name="test-with-clover-listener" depends="compile">
-        <java classname="junit5.parameterized.RunJUnit5ParameterizedWithClover" fork="true">
+        <java classname="RunJUnit5ParameterizedWithClover" fork="true">
             <classpath>
                 <path refid="project.classpath"/>
                 <pathelement location="${target.classes.dir}"/>
@@ -61,7 +60,7 @@
     </target>
 
     <target name="test-without-clover-listener" depends="compile">
-        <java classname="junit5.parameterized.RunJUnit5ParameterizedWithoutClover" fork="true">
+        <java classname="RunJUnit5ParameterizedWithoutClover" fork="true">
             <classpath>
                 <path refid="project.classpath"/>
                 <pathelement location="${target.classes.dir}"/>
@@ -90,7 +89,6 @@
                 <!-- search for: "PersonTest.[3] John Doe, UNKNOWN" -->
                 <resourcecontains resource="${target.clover.report}/default-pkg/test-PersonTest.html"
                                   substring="PersonTest.[3] John Doe, UNKNOWN"/>
-                                  are members of an enclosing class -->
             </and>
         </condition>
         <fail message="HTML report does not have runtime test names" unless="validation.ok"/>
