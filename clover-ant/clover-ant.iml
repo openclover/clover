@@ -6,6 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/groovy" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/etc" type="java-resource" />
+      <excludeFolder url="file://$MODULE_DIR$/etc/META-INF/services" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
@@ -22,7 +23,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="ant-1.9.4" level="project" />
+    <orderEntry type="library" name="ant-1.9.14" level="project" />
     <orderEntry type="library" scope="TEST" name="groovy-all-2.4.15" level="project" />
     <orderEntry type="library" scope="TEST" name="junit-4.12" level="project" />
     <orderEntry type="library" scope="TEST" name="spock-core-0.7-groovy-2.0" level="project" />
