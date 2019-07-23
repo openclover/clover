@@ -44,6 +44,12 @@
 
     <property name="mvn.version" value="3.2.5"/>
 
+    <!-- Versions of JUnit5 libraries and its dependencies -->
+    <property name="junit.jupiter.version" value="5.4.1"/>
+    <property name="junit.vintage.version" value="5.4.1"/>
+    <property name="junit.platform.version" value="1.4.1"/>
+    <property name="opentest4j.version" value="1.1.1"/>
+
     <!-- ========================================================================== -->
 
     <!-- Maven Central Repository - used for downloading 3rd party artifacts -->
@@ -186,8 +192,8 @@
     <property name="multithreadedtc.jar" location="${build.deps.dir}/multithreadedtc-1.01.jar"/>
     <property name="mockito.jar" location="${build.deps.dir}/mockito-all-1.10.19.jar"/>
     <property name="groovy.jar" location="${build.deps.dir}/groovy-all-${default.groovy.version}.jar"/>
-	<property name="junit-platform-engine.jar" location="${build.deps.dir}/junit-platform-engine-1.4.1.jar"/>
-	<property name="junit-platform-launcher.jar" location="${build.deps.dir}/junit-platform-launcher-1.4.1.jar"/>
+	<property name="junit-platform-engine.jar" location="${build.deps.dir}/junit-platform-engine-${junit.platform.version}.jar"/>
+	<property name="junit-platform-launcher.jar" location="${build.deps.dir}/junit-platform-launcher-${junit.platform.version}.jar"/>
 
     <!-- Compile against minimum supported Spock version TODO using 2.0 because groovy fails trying to load spock services -->
     <property name="spock.jar" location="${build.deps.dir}/spock-core-0.7-groovy-2.0.jar"/>
@@ -462,19 +468,17 @@
                  dest="hamcrest-core-1.3.jar"/>
 				 
 		<!-- Junit 5 -->
-		<get-jar src="org/junit/jupiter/junit-jupiter-api/5.4.1/junit-jupiter-api-5.4.1.jar"
-			dest="junit-jupiter-api-5.4.1.jar"/>
-		<get-jar src="org/junit/jupiter/junit-jupiter-engine/5.4.1/junit-jupiter-engine-5.4.1.jar"
-			dest="junit-jupiter-engine-5.4.1.jar"/>
-		<get-jar src="org/junit/jupiter/junit-jupiter-params/5.4.1/junit-jupiter-params-5.4.1.jar"
-			dest="junit-jupiter-params-5.4.1.jar"/>
-		<get-jar src="org/junit/vintage/junit-vintage-engine/5.4.1/junit-vintage-engine-5.4.1.jar"
-			dest="junit-vintage-engine-5.4.1.jar"/>
-        <get-jar src="org/junit/platform/junit-platform-engine/1.4.1/junit-platform-engine-1.4.1.jar"
-                 dest="junit-platform-engine-1.4.1.jar"/>
-        <get-jar src="org/junit/platform/junit-platform-launcher/1.4.1/junit-platform-launcher-1.4.1.jar"
-                 dest="junit-platform-launcher-1.4.1.jar"/>
-				 
+		<get-jar src="org/junit/jupiter/junit-jupiter/${junit.jupiter.version}/junit-jupiter-${junit.jupiter.version}.jar"
+			     dest="junit-jupiter-${junit.jupiter.version}.jar"/>
+        <get-jar src="org/junit/platform/junit-platform-engine/${junit.platform.version}/junit-platform-engine-${junit.platform.version}.jar"
+                 dest="junit-platform-engine-${junit.platform.version}.jar"/>
+        <get-jar src="org/junit/platform/junit-platform-commons/${junit.platform.version}/junit-platform-commons-${junit.platform.version}.jar"
+                 dest="junit-platform-commons-${junit.platform.version}.jar"/>
+        <get-jar src="org/junit/platform/junit-platform-launcher/${junit.platform.version}/junit-platform-launcher-${junit.platform.version}.jar"
+                 dest="junit-platform-launcher-${junit.platform.version}.jar"/>
+        <get-jar src="org/opentest4j/opentest4j/${opentest4j.version}/opentest4j-${opentest4j.version}.jar"
+                 dest="opentest4j-${opentest4j.version}.jar"/>
+
         <!-- MultithreadedTC-->
         <get-jar src="com/googlecode/multithreadedtc/multithreadedtc/1.01/multithreadedtc-1.01.jar"
                  dest="multithreadedtc-1.01.jar"/>
