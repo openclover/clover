@@ -26,7 +26,6 @@
       <module fileurl="file://$PROJECT_DIR$/clover-core/src/test/resources/javasyntax1.9/javasyntax1.9.iml" filepath="$PROJECT_DIR$/clover-core/src/test/resources/javasyntax1.9/javasyntax1.9.iml" />
       <module fileurl="file://$PROJECT_DIR$/clover-ant/src/test/resources/parameterized-junit4/parameterized-junit4.iml" filepath="$PROJECT_DIR$/clover-ant/src/test/resources/parameterized-junit4/parameterized-junit4.iml" />
       <module fileurl="file://$PROJECT_DIR$/clover-ant/src/test/resources/parameterized-junit5/parameterized-junit5.iml" filepath="$PROJECT_DIR$/clover-ant/src/test/resources/parameterized-junit5/parameterized-junit5.iml" />
-      <module fileurl="file://$PROJECT_DIR$/perfmon/perfmon.iml" filepath="$PROJECT_DIR$/perfmon/perfmon.iml" />
       <module fileurl="file://$PROJECT_DIR$/groovy/src/test/resources/spock-example/spock-example.iml" filepath="$PROJECT_DIR$/groovy/src/test/resources/spock-example/spock-example.iml" />
     </modules>
   </component>
