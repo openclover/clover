@@ -147,7 +147,7 @@
                debuglevel="lines,vars,source"
                deprecation="on"
                target="${jdk.target}"
-               source="${source.level}"
+               source="${jdk.target}"
                encoding="UTF8"
                bootclasspathref="java.rt.path"
                includeAntRuntime="false">
@@ -164,7 +164,7 @@
                debuglevel="lines,vars,source"
                deprecation="on"
                target="${jdk.target}"
-               source="${source.level}"
+               source="${jdk.target}"
                encoding="UTF8"
                bootclasspathref="java.rt.path"
                includeAntRuntime="false">
@@ -189,7 +189,7 @@
                debuglevel="lines,vars,source"
                deprecation="on"
                target="${jdk.target}"
-               source="${source.level}"
+               source="${jdk.target}"
                encoding="UTF8"
                bootclasspathref="java.rt.path"
                includeAntRuntime="false">

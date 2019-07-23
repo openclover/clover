@@ -88,7 +88,7 @@
                debuglevel="lines,vars,source"
                deprecation="on"
                target="${eclipse.jdk.target}"
-               source="${eclipse.source.level}"
+               source="${eclipse.jdk.target}"
                bootclasspathref="java.rt.path"
                includeAntRuntime="false">
             <classpath>

@@ -23,7 +23,7 @@
                debuglevel="lines,vars,source"
                deprecation="on"
                target="${jdk.target}"
-               source="${source.level}"
+               source="${jdk.target}"
                bootclasspathref="java.rt.path"
                includeAntRuntime="false">
             <include name="**/*.java"/>

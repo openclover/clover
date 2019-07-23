@@ -78,7 +78,7 @@
                debug="on"
                debuglevel="lines,vars,source"
                target="${jdk.target}"
-               source="${source.level}"
+               source="${jdk.target}"
                bootclasspathref="java.rt.path"
                includeAntRuntime="false">
             <classpath>
