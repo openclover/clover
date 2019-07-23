@@ -36,7 +36,7 @@
                debug="on"
                deprecation="on"
                target="${jdk.target}"
-               source="${source.level}"
+               source="${jdk.target}"
                bootclasspathref="java.rt.path"
                includeAntRuntime="false">
             <classpath>
@@ -186,6 +186,6 @@
         <!-- nothing to do, just create a jar, it will be bundled into clover-idea -->
     </target>
 
-    <target name="clover-idea-config.prod.build.check" depends="prod.java16.build.check"/>
+    <target name="clover-idea-config.prod.build.check" depends="prod.jdk8.build.check"/>
 
 </project>

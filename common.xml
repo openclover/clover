@@ -160,8 +160,8 @@
 
     <!-- Conditions checking if we have JDK >= 1.X. Useful for compilation. -->
 
-    <condition property="jdk1_6+" description="We have JDK 1.6 or  higher">
-        <available classname="java.util.Deque"/>
+    <condition property="jdk8+" description="We have JDK8 or higher">
+        <available classname="java.lang.FunctionalInterface"/>
     </condition>
 
     <!-- Conditions checking if we have JDK == 1.X. Useful for designing tests for specific platform. -->
@@ -584,11 +584,11 @@
         <schemavalidate file="${build.dir}/clover/clover.xml" nonamespacefile="${common.base}/etc/schema/clover.xsd"/>
     </target>
 
-    <target name="prod.java16.build.check">
-        <fail unless="jdk1_6+">Build aborting
+    <target name="prod.jdk8.build.check">
+        <fail unless="jdk8+">Build aborting
             ====================================
 
-            THIS PROD BUILD REQUIRES JDK1.6.x OR HIGHER!
+            THIS PROD BUILD REQUIRES JDK8 OR HIGHER!
 
             ====================================
             You are using ${java.version}.

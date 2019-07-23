@@ -153,7 +153,7 @@
 		<releasepkg module="eclipse"/>
 	</target>
 
-    <target name="clover-eclipse.prod.build.check" depends="prod.java16.build.check"/>
+    <target name="clover-eclipse.prod.build.check" depends="prod.jdk8.build.check"/>
 
     <target name="clover-eclipse.repkg"/>
 </project>

@@ -111,7 +111,7 @@
                         debuglevel="lines,vars,source"
                         deprecation="on"
                         target="${jdk.target}"
-                        source="${source.level}"
+                        source="${jdk.target}"
                         encoding="UTF8"
                         includeAntRuntime="false"/>
             </groovyc>
