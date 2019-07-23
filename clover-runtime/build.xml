@@ -102,13 +102,14 @@
 
     <target name="clover-runtime.build" depends="_clover-runtime.version">
         <mkdir dir="${clover-runtime.output.classes}"/>
-        <!-- Compile runtime classes -->
+
+        <!-- Compile runtime classes compatible with JDK6 -->
         <javac destdir="${clover-runtime.output.classes}"
                debug="on"
                debuglevel="lines,vars,source"
                deprecation="on"
                target="${jdk.target}"
-               source="${source.level}"
+               source="${jdk.target}"
                encoding="UTF8"
                bootclasspathref="java.rt.path"
                includeAntRuntime="false">
@@ -117,7 +118,25 @@
             <src path="${clover-runtime.output.gensources}"/>
             <!-- No non-runtime generated source -->
             <exclude name="**/package-info.java"/>
+            <exclude name="**/CloverJUnit5TestExecutionListener.java"/>
         </javac>
+
+        <!-- Compile runtime classes compatible with JDK8 -->
+        <javac destdir="${clover-runtime.output.classes}"
+               debug="on"
+               debuglevel="lines,vars,source"
+               deprecation="on"
+               target="1.8"
+               source="1.8"
+               encoding="UTF8"
+               includeAntRuntime="false">
+            <!-- no 'bootclasspathref' as we'll take default one from the JDK -->
+            <classpath refid="clover-runtime.buildpath"/>
+            <src path="${clover-runtime.base}/src/main/java"/>
+            <!-- JUnit5 requires JDK8 or higher -->
+            <include name="**/CloverJUnit5TestExecutionListener.java"/>
+        </javac>
+
         <writeRethrowCheckedMethod classLocation="${clover-runtime.output.classes}/com_atlassian_clover/CoverageRecorder.class"/>
     </target>
 
