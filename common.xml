@@ -39,7 +39,7 @@
     -->
     <property name="unsupported.groovy.versions" value="1.6.2,1.6.3,1.6.4,1.6.8,1.6.9,1.7.1,2.0.0"/>
     <!-- Default Ant version. Use the latest available. -->
-    <property name="default.ant.version" value="1.9.4"/>
+    <property name="default.ant.version" value="1.9.14"/>
     <property name="unsupported.ant.versions" value=""/>
 
     <property name="mvn.version" value="3.2.5"/>
@@ -56,7 +56,7 @@
         <sequential>
             <mkdir dir="${build.deps.dir}"/>
             <get src="${maven.central.url}/@{src}" dest="${build.deps.dir}/@{dest}"
-                 skipexisting="${build.dependency.skip.existing}" verbose="false"/>
+                 skipexisting="${build.dependency.skip.existing}" verbose="false" quiet="true"/>
         </sequential>
     </macrodef>
 
@@ -69,7 +69,8 @@
              classpath="${build.deps.dir}/ant-contrib-1.0b3.jar"/>
 
     <get src="https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/jarjar/jarjar-1.0rc7.jar"
-         dest="${build.deps.dir}/jarjar-1.0rc7.jar" skipexisting="${build.dependency.skip.existing}" verbose="false"/>
+         dest="${build.deps.dir}/jarjar-1.0rc7.jar" skipexisting="${build.dependency.skip.existing}"
+         verbose="false" quiet="true"/>
     <taskdef name="jarjar"
              classname="com.tonicsystems.jarjar.JarJarTask"
              classpath="${build.deps.dir}/jarjar-1.0rc7.jar"/>
@@ -445,19 +446,9 @@
         <echo level="verbose" message="Using JDK tools.jar ${java.tools.path}"/>
 
         <!-- Ant -->
-        <get-ant-jars version="1.7.0"/>
         <get-ant-jars version="1.7.1"/>
-        <get-ant-jars version="1.8.0"/>
-        <get-ant-jars version="1.8.1"/>
-        <get-ant-jars version="1.8.2"/>
-        <get-ant-jars version="1.8.3" with-junit4="true"/>
         <get-ant-jars version="1.8.4" with-junit4="true"/>
-        <get-ant-jars version="1.9.1" with-junit4="true"/>
-        <get-ant-jars version="1.9.2" with-junit4="true"/>
-        <get-ant-jars version="1.9.3" with-junit4="true"/>
-        <get-ant-jars version="1.9.4" with-junit4="true"/>
-        <get-ant-jars version="1.9.6" with-junit4="true"/>
-        <get-ant-jars version="1.9.7" with-junit4="true"/>
+        <get-ant-jars version="1.9.14" with-junit4="true"/>
 
         <!-- Groovy -->
         <get-jar src="org/codehaus/groovy/groovy-all/${default.groovy.version}/groovy-all-${default.groovy.version}.jar"
@@ -493,14 +484,6 @@
                  dest="mockito-all-1.10.19.jar"/>
 
         <!-- Spock -->
-        <get-jar src="org/spockframework/spock-core/0.5-groovy-1.6/spock-core-0.5-groovy-1.6.jar"
-                 dest="spock-core-0.5-groovy-1.6.jar"/>
-        <get-jar src="org/spockframework/spock-core/0.6-groovy-1.7/spock-core-0.6-groovy-1.7.jar"
-                 dest="spock-core-0.6-groovy-1.7.jar"/>
-        <get-jar src="org/spockframework/spock-core/0.6-groovy-1.8/spock-core-0.6-groovy-1.8.jar"
-                 dest="spock-core-0.6-groovy-1.8.jar"/>
-        <get-jar src="org/spockframework/spock-core/0.7-groovy-1.8/spock-core-0.7-groovy-1.8.jar"
-                 dest="spock-core-0.7-groovy-1.8.jar"/>
         <get-jar src="org/spockframework/spock-core/0.7-groovy-2.0/spock-core-0.7-groovy-2.0.jar"
                  dest="spock-core-0.7-groovy-2.0.jar"/>
         <get-jar src="org/spockframework/spock-core/1.0-groovy-2.0/spock-core-1.0-groovy-2.0.jar"
