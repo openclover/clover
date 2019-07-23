@@ -437,7 +437,7 @@
         <maven-resolve groupId="com.atlassian.clover" artifactId="java-tools" version="${java.rt.version}"/>
     </target>
 
-    <target name="common.init" depends="prod.java16.build.check, -jdk.download">
+    <target name="common.init" depends="prod.jdk8.build.check, -jdk.download">
         <mkdir dir="${build.dir}"/>
 
         <!-- JDK -->
