@@ -21,7 +21,7 @@
     <orderEntry type="module" module-name="clover-core-libs" exported="" />
     <orderEntry type="module" module-name="clover-runtime" />
     <orderEntry type="library" name="spock-core-0.7-groovy-2.0" level="project" />
-    <orderEntry type="library" scope="TEST" name="ant-1.9.4" level="project" />
+    <orderEntry type="library" scope="TEST" name="ant-1.9.14" level="project" />
     <orderEntry type="library" name="junit-4.12" level="project" />
     <orderEntry type="library" scope="TEST" name="mockito-all-1.10.19" level="project" />
     <orderEntry type="library" scope="TEST" name="multithreadedtc-1.01" level="project" />

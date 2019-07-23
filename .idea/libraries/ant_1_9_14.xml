@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="ant-1.9.14">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/target/dependencies/ant/ant-1.9.14" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="file://$PROJECT_DIR$/target/dependencies/ant/ant-1.9.14" recursive="false" />
+  </library>
+</component>

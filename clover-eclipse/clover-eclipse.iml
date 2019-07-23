@@ -24,13 +24,13 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.m2/repository/net/sf/jtreemap/ktreemap/1.1.0-atlassian-01/ktreemap-1.1.0-atlassian-01.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/net/sf/jtreemap/ktreemap/1.1.0-atlassian-01/ktreemap-1.1.0-atlassian-01.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="ant-1.9.4" level="project" />
+    <orderEntry type="library" name="ant-1.9.14" level="project" />
     <orderEntry type="library" name="asm-5.0.3" level="project" />
     <orderEntry type="library" name="junit-4.12" level="project" />
   </component>
