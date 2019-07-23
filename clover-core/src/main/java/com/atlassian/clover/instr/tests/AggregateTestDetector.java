@@ -39,7 +39,7 @@ public class AggregateTestDetector implements TestDetector {
     public boolean isMethodMatch(SourceContext sourceContext, MethodContext methodContext) {
         boolean[] values = new boolean[detectors.size()];        
         for (int i = 0; i < detectors.size(); i++) {
-            TestDetector detector = (TestDetector) detectors.get(i);
+            TestDetector detector = detectors.get(i);
             values[i] = detector.isMethodMatch(sourceContext, methodContext);
         }
         return strategy.process(values);

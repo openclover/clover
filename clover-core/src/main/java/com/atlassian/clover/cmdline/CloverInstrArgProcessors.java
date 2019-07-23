@@ -9,6 +9,8 @@ import com.atlassian.clover.cfg.instr.StatementContextDef;
 import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig;
 import com.atlassian.clover.cfg.instr.java.LambdaInstrumentation;
 import com.atlassian.clover.remote.DistributedConfig;
+import com.atlassian.clover.spec.instr.test.TestClassSpec;
+import com.atlassian.clover.spec.instr.test.TestMethodSpec;
 
 import java.io.File;
 import java.util.Locale;
@@ -442,6 +444,200 @@ public class CloverInstrArgProcessors {
             return contextDef;
         }
     };
+
+    private static FileClassMethodTestDetector reuseFileClassMethodTestDetector(JavaInstrumentationConfig cfg) {
+        // we use isTestDetector to avoid instantiation of DefaultTestDetector via getTestDetector
+        final FileClassMethodTestDetector td;
+        if (cfg.isTestDetector()) {
+            td = (FileClassMethodTestDetector) cfg.getTestDetector();
+        } else {
+            td = new FileClassMethodTestDetector();
+            cfg.setTestDetector(td);
+        }
+        return td;
+    }
+
+    public static ArgProcessor<JavaInstrumentationConfig> TestSourceRoot = new ArgProcessor<JavaInstrumentationConfig>() {
+
+        @Override
+        public boolean matches(String[] args, int i) {
+            return args[i].equals("-tsr") || args[i].equals("--testSourceRoot");
+        }
+
+        @Override
+        public int process(String[] args, int i, JavaInstrumentationConfig cfg) {
+            i++;
+
+            final FileClassMethodTestDetector td = reuseFileClassMethodTestDetector(cfg);
+            td.setRoot(args[i]);
+
+            return i;
+        }
+
+        @Override
+        public String help() {
+            return "    -tsr --testSourceRoot <path>\t\t Root folder for test sources against which includes/excludes are checked.\n" +
+                    "\t\t\tUse if any include or exclude pattern is defined. \n" +
+                    "\t\t\tIf root is not declared, current working directory is assumed. Example:\n" +
+                    "\t\t\t-tsr 'src/test/java'";
+        }
+    };
+
+    public static ArgProcessor<JavaInstrumentationConfig> TestSourceIncludes = new ArgProcessor<JavaInstrumentationConfig>() {
+        @Override
+        public boolean matches(String[] args, int i) {
+            return args[i].equals("-tsi") || args[i].equals("--testSourceIncludes");
+        }
+
+        @Override
+        public int process(String[] args, int i, JavaInstrumentationConfig cfg) {
+            i++;
+
+            final FileClassMethodTestDetector td = reuseFileClassMethodTestDetector(cfg);
+            td.setIncludes(args[i]);
+
+            return i;
+        }
+
+        @Override
+        public String help() {
+            return "    -tsi --testSourceIncludes <ant pattern>\t\t Which files shall be treated as test sources. Use if built-in test detector is insufficient.\n" +
+                    "\t\t\tOne or more Ant patterns, comma separated. Example:\n" +
+                    "\t\t\t-tsi '**/*Test.java,**/*IT.java'";
+        }
+    };
+
+
+    public static ArgProcessor<JavaInstrumentationConfig> TestSourceExcludes = new ArgProcessor<JavaInstrumentationConfig>() {
+        @Override
+        public boolean matches(String[] args, int i) {
+            return args[i].equals("-tse") || args[i].equals("--testSourceExcludes");
+        }
+
+        @Override
+        public int process(String[] args, int i, JavaInstrumentationConfig cfg) {
+            i++;
+
+            final FileClassMethodTestDetector td = reuseFileClassMethodTestDetector(cfg);
+            td.setExcludes(args[i]);
+
+            return i;
+        }
+
+        @Override
+        public String help() {
+            return "    -tse --testSourceExcludes <ant pattern>\t\t Which files shall not be treated as test sources. Use if built-in test detector is insufficient.\n" +
+                    "\t\t\tOne or more Ant patterns, comma separated. Example:\n" +
+                    "\t\t\t-tse '**/TestBase*.java,**/*TestUtil.java'";
+        }
+    };
+
+    public static ArgProcessor<JavaInstrumentationConfig> TestSourceClass = new ArgProcessor<JavaInstrumentationConfig>() {
+        @Override
+        public boolean matches(String[] args, int i) {
+            return args[i].equals("-tsc") || args[i].equals("--testSourceClass");
+        }
+
+        @Override
+        public int process(String[] args, int i, JavaInstrumentationConfig cfg) {
+            i++;
+
+            try {
+                final FileClassMethodTestDetector td = reuseFileClassMethodTestDetector(cfg);
+                td.addTestClassSpec(parseTestClassSpec(args[i]));
+            } catch (CloverException e) {
+                usage("Could not parse test source classes definition: " + args[i] + ". " + e.getMessage());
+            }
+            return i;
+        }
+
+        @Override
+        public String help() {
+            return "    -tsc --testSourceClass '<name>;<package>;<annotation>;<superclass>;<javadoc tag>'\t\t Which classes shall be treated as test code. Use if built-in test detector is insufficient.\n" +
+                    "\t\t\tYou can use this parameter multiple times. You can use regular expressions. You can use an empty value or omit semicolons at the end. Examples:\n" +
+                    "\t\t\t-tsc '.*Test;com\\.acme\\..*'  - match by a package and a class name\n" +
+                    "\t\t\t-tsc ';;@RunWith'  - match by a class annotation\n" +
+                    "\t\t\t-tsc ';;;;@test'   - match by a javadoc tag";
+        }
+
+        private TestClassSpec parseTestClassSpec(String arg) throws CloverException {
+            final String parameters[] = arg.split(";");
+            if (parameters.length < 1 || parameters.length > 5) {
+                throw new CloverException(String.format("Expected between 1 and 5 parameters, but found %d in '%s'",
+                        parameters.length, arg));
+            }
+
+            final TestClassSpec classSpec = new TestClassSpec();
+            if (!parameters[0].isEmpty()) {
+                classSpec.setName(parameters[0]);
+            }
+            if (parameters.length > 1 && !parameters[1].isEmpty()) {
+                classSpec.setPackage(parameters[1]);
+            }
+            if (parameters.length > 2 && !parameters[2].isEmpty()) {
+                classSpec.setAnnotation(parameters[2]);
+            }
+            if (parameters.length > 3 && !parameters[3].isEmpty()) {
+                classSpec.setSuper(parameters[3]);
+            }
+            if (parameters.length > 4 && !parameters[4].isEmpty()) {
+                classSpec.setTag(parameters[4]);
+            }
+            return classSpec;
+        }
+    };
+
+    public static ArgProcessor<JavaInstrumentationConfig> TestSourceMethod = new ArgProcessor<JavaInstrumentationConfig>() {
+        @Override
+        public boolean matches(String[] args, int i) {
+            return args[i].equals("-tsm") || args[i].equals("--testSourceMethod");
+        }
+
+        @Override
+        public int process(String[] args, int i, JavaInstrumentationConfig cfg) {
+            i++;
+            try {
+                final FileClassMethodTestDetector td = reuseFileClassMethodTestDetector(cfg);
+                td.addTestMethodSpec(parseTestMethodSpec(args[i]));
+            } catch (CloverException e) {
+                usage("Could not parse test source methods definition: " + args[i] + ". " + e.getMessage());
+            }
+            return i;
+        }
+
+        @Override
+        public String help() {
+            return "    -tsm --testSourceMethod '<name>;<annotation>;<return type>;<javadoc tag>'\t\t Which methods shall be treated as test ones. Use if built-in test detector is insufficient.\n" +
+                    "\t\t\tYou can use this parameter multiple times. You can use an empty value or omit semicolons at the end. Examples:\n" +
+                    "\t\t\t-tsm 'test.*'  - match all methods prefixed with 'test'\n" +
+                    "\t\t\t-tsm ';@Test;void'  - match all void methods annotated with '@Test'\n" +
+                    "\t\t\t-tsm ';;;@test' - match all methods having a '@test' javadoc tag";
+        }
+
+        private TestMethodSpec parseTestMethodSpec(String arg) throws CloverException {
+            final String parameters[] = arg.split(";");
+            if (parameters.length < 1 || parameters.length > 4) {
+                throw new CloverException(String.format("Expected between 1 and 4 parameters, but found %d in '%s'",
+                        parameters.length, arg));
+            }
+
+            final TestMethodSpec methodSpec = new TestMethodSpec();
+            if (!parameters[0].isEmpty()) {
+                methodSpec.setName(parameters[0]);
+            }
+            if (parameters.length > 1 && !parameters[1].isEmpty()) {
+                methodSpec.setAnnotation(parameters[1]);
+            }
+            if (parameters.length > 2 && !parameters[2].isEmpty()) {
+                methodSpec.setReturnType(parameters[2]);
+            }
+            if (parameters.length > 3 && !parameters[3].isEmpty()) {
+                methodSpec.setTag(parameters[3]);
+            }
+            return methodSpec;
+        }
+    };
+
 
     public static ArgProcessor<JavaInstrumentationConfig> Verbose = new ArgProcessor<JavaInstrumentationConfig>() {
         @Override

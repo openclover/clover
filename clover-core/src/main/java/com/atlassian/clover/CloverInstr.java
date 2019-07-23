@@ -46,6 +46,11 @@ public class CloverInstr {
             CloverInstrArgProcessors.MethodContext,
             CloverInstrArgProcessors.MethodWithMetricsContext,
             CloverInstrArgProcessors.StatementContext,
+            CloverInstrArgProcessors.TestSourceRoot,
+            CloverInstrArgProcessors.TestSourceIncludes,
+            CloverInstrArgProcessors.TestSourceExcludes,
+            CloverInstrArgProcessors.TestSourceClass,
+            CloverInstrArgProcessors.TestSourceMethod,
             CloverInstrArgProcessors.Verbose,
             CloverInstrArgProcessors.JavaSourceFile
     );
@@ -159,10 +164,16 @@ public class CloverInstr {
             int i = 0;
 
             while (i < args.length) {
+                boolean matched = false;
                 for (ArgProcessor<JavaInstrumentationConfig> argProcessor : allArgProcessors) {
                     if (argProcessor.matches(args, i)) {
                         i = argProcessor.process(args, i, cfg);
+                        matched = true;
+                        break;
                     }
+                }
+                if (!matched) {
+                    System.err.println("  *** WARN: Unknown option: " + args[i]);
                 }
                 i++;
             }
