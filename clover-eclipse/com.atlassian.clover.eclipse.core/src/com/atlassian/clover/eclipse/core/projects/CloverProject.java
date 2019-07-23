@@ -361,7 +361,7 @@ public class CloverProject extends BaseNature {
                 return atd;
             default:
                 atd = new AggregateTestDetector(new AndStrategy());
-                atd.addDetector(new AntPatternTestDetectorFilter(project.getLocation().toString(),
+                atd.addDetector(new AntPatternTestDetectorFilter(project.getLocation().toFile(),
                                                                  getSettings().calculateTestIncludeFilter(),
                                                                  getSettings().calculateTestExcludeFilter()));
                 atd.addDetector(defaultTestDetector);
