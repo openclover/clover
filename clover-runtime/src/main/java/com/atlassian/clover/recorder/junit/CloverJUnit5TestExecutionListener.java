@@ -5,7 +5,6 @@ import com.atlassian.clover.Logger;
 import com_atlassian_clover.JUnit5ParameterizedTestSniffer;
 import com_atlassian_clover.JUnitParameterizedTestSniffer;
 import com_atlassian_clover.TestNameSniffer;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.junit.platform.engine.TestExecutionResult;
 import org.junit.platform.engine.TestSource;
@@ -16,9 +15,10 @@ import org.junit.platform.launcher.TestIdentifier;
 import org.junit.platform.launcher.TestPlan;
 
 import java.lang.reflect.Field;
+import java.util.Optional;
 
 /**
- * <p>Clover's Test Execution Listener to be used when tests are run using Jnit5 (i.e. Junit Platform).
+ * <p>Clover's Test Execution Listener to be used when tests are run using JUnit5 (i.e. JUnit Platform).
  * Use {@link JUnitTestRunnerInterceptor} if tests are run using Junit 4.</p>
  *
  * <p>This Listener supports both Junit4 Parameterized tests and Junit 5 Parameterized tests.</p>
@@ -28,7 +28,6 @@ import java.lang.reflect.Field;
 public class CloverJUnit5TestExecutionListener implements TestExecutionListener {
 
     private TestPlan testPlan;
-    private TestNameSniffer junitSniffer;
 
 
     @Override
@@ -37,41 +36,21 @@ public class CloverJUnit5TestExecutionListener implements TestExecutionListener 
     }
 
     public void executionStarted(TestIdentifier testIdentifier) {
-        Logger.getInstance().warn("CloverJUnit5TestExecutionListener: isTest()? "+testIdentifier.isTest());
+        Logger.getInstance().debug("CloverJUnit5TestExecutionListener: JUnit test started: \"" + testIdentifier.getDisplayName() + "\"");
 
         if (testIdentifier.isTest()) {
-            /* Unfortunately, junit 5 doesn't have a reliable way to find the current test running class.
-             * Hence, using a work around suggested  at the following link.
-             * https://github.com/junit-team/junit5/issues/737
-             */
-            Logger.getInstance().debug("CloverJUnit5TestExecutionListener: JUnitPlatform test started: \""
-                    + testIdentifier.getDisplayName() + "\"");
+            final String testName = testIdentifier.getDisplayName(); // always non-null and non-empty as per API
 
             // find Clover's field in a test class and pass test information
-            //final Class testClass = testIdentifier.getTestClass();
-            Class testClass = findTestMethodClassName(this.testPlan, testIdentifier);
-            Logger.getInstance().warn("CloverJUnit5TestExecutionListener: testClass? "+testClass);
+            final Class testClass = findTestMethodClass(this.testPlan, testIdentifier);
 
             if (testClass != null) {
-                Logger.getInstance().warn("CloverJUnit5TestExecutionListener: junitSniffer? "+junitSniffer);
-                junitSniffer = lookupTestSnifferField(testClass);
+                final TestNameSniffer junitSniffer = lookupTestSnifferField(testClass);
+
                 if (junitSniffer != null) {
                     if (junitSniffer instanceof JUnit5ParameterizedTestSniffer) {
-                        /* TODO: Junit 5 Parameterized Test's Display name is not returing method name.
-                         *  Is the method name needed in the test name? If not, below StringBuilder is not needed.
-                         */
-                        Logger.getInstance().warn("CloverJUnit5TestExecutionListener: junit 5 Sniffer");
-                        String testName = getMethodName(testIdentifier) +
-                                "[" + testIdentifier.getDisplayName() + "]";
                         ((JUnit5ParameterizedTestSniffer) junitSniffer).testStarted(testName);
                     } else if (junitSniffer instanceof JUnitParameterizedTestSniffer) {
-                        /* TODO: Junit 4 Parameterized Test's Display name is not returing Class name. Appending class name
-                         *  to be consistant with JUnitTestRunnerInterceptor. Is the class name needed in the test name?
-                         *  If not, below StringBuilder is not needed.
-                         */
-                        Logger.getInstance().warn("CloverJUnit5TestExecutionListener: junit 4 Sniffer");
-                        String testName = testIdentifier.getDisplayName() + "(" +
-                                testClass.getName() + ")";
                         ((JUnitParameterizedTestSniffer) junitSniffer).testStarted(testName);
                     }
                 }
@@ -80,53 +59,81 @@ public class CloverJUnit5TestExecutionListener implements TestExecutionListener 
     }
 
     public void executionFinished(TestIdentifier testIdentifier, TestExecutionResult testExecutionResult) {
-        if (junitSniffer instanceof JUnit5ParameterizedTestSniffer) {
-            ((JUnit5ParameterizedTestSniffer) junitSniffer).testEnded();
-        } else if (junitSniffer instanceof JUnitParameterizedTestSniffer) {
-            ((JUnitParameterizedTestSniffer) junitSniffer).testEnded("");
+        Logger.getInstance().debug("CloverJUnit5TestExecutionListener: JUnit test ended: \"" + testIdentifier.getDisplayName() + "\"");
+
+        if (testIdentifier.isTest()) {
+            final Class testClass = findTestMethodClass(this.testPlan, testIdentifier);
+
+            if (testClass != null) {
+                final TestNameSniffer junitSniffer = lookupTestSnifferField(testClass);
+
+                if (junitSniffer != null) {
+                    if (junitSniffer instanceof JUnit5ParameterizedTestSniffer) {
+                        ((JUnit5ParameterizedTestSniffer) junitSniffer).testEnded();
+                    } else if (junitSniffer instanceof JUnitParameterizedTestSniffer) {
+                        ((JUnitParameterizedTestSniffer) junitSniffer).testEnded("");
+                    }
+                }
+            }
         }
     }
 
     /**
-     * Get Test Method Name from TestIdentifier.
-     *
-     * @param identifier TestIdentifier for which the method name will be queried.
-     * @return - test method name, or empty string if a MethodSource is not found in the given input parameter.
+     * Unfortunately, JUnit 5 doesn't have a reliable way to find the current test running class. Hence, using a work
+     * around suggested  at the following link. https://github.com/junit-team/junit5/issues/737
      */
-    @NotNull
-    private static String getMethodName(TestIdentifier identifier) {
-        String methodName = "";
-        if (!(identifier.getSource().isPresent())) {
-            throw new IllegalStateException("identifier must contain MethodSource");
+    @Nullable
+    private static Class findTestMethodClass(TestPlan testPlan, TestIdentifier identifier) {
+        // method source
+        Class javaClass = fromMethodSource(identifier);
+        if (javaClass != null) {
+            return javaClass;
         }
-        TestSource source = identifier.getSource().get();
-        if (!(source instanceof MethodSource)) {
-            throw new IllegalStateException("identifier must contain MethodSource");
-        }
-        if (source instanceof MethodSource) {
-            methodName = ((MethodSource) source).getMethodName();
-        }
-        return methodName;
 
+        // class source
+        javaClass = fromClassSource(identifier);
+        if (javaClass != null) {
+            return javaClass;
+        }
+
+        // class source, but we have to look it up in the test hierarchy
+        for (TestIdentifier iter = identifier;
+             testPlan.getParent(iter).isPresent();
+             iter = testPlan.getParent(iter).get()) {
+
+            javaClass = fromClassSource(iter);
+            if (javaClass != null) {
+                return javaClass;
+            }
+        }
+
+        return null;
     }
 
-    private static Class findTestMethodClassName(TestPlan testPlan, TestIdentifier identifier) {
-        if (!(identifier.getSource().isPresent())) {
-            throw new IllegalStateException("identifier must contain MethodSource");
-        }
-        TestSource source = identifier.getSource().get();
-        if (!(source instanceof MethodSource)) {
-            throw new IllegalStateException("identifier must contain MethodSource");
-        }
-        TestIdentifier current = identifier;
-        while (current != null) {
-            if (current.getSource().isPresent() && current.getSource().get() instanceof ClassSource) {
-
-                return ((ClassSource) current.getSource().get()).getJavaClass();
+    @Nullable
+    private static Class fromMethodSource(final TestIdentifier identifier) {
+        final Optional<TestSource> source = identifier.getSource();
+        if (source.isPresent() && source.get() instanceof MethodSource) {
+            try {
+                return Class.forName(((MethodSource) source.get()).getClassName());
+            } catch (ClassNotFoundException e) {
+                return null;
             }
-            current = testPlan.getParent(current).orElse(null);
         }
-        throw new IllegalStateException("Class name not found");
+        return null;
+    }
+
+    @Nullable
+    private static Class fromClassSource(final TestIdentifier identifier) {
+        final Optional<TestSource> source = identifier.getSource();
+        if (source.isPresent() && source.get() instanceof ClassSource) {
+            try {
+                return ((ClassSource) source.get()).getJavaClass();
+            } catch (Exception ex) {
+                return null;
+            }
+        }
+        return null;
     }
 
     /**
@@ -136,14 +143,14 @@ public class CloverJUnit5TestExecutionListener implements TestExecutionListener 
      * @return JUnitParameterizedTestSniffer instance or <code>null</code>
      */
     @Nullable
-    protected TestNameSniffer lookupTestSnifferField(Class currentTestClass) {
+    private TestNameSniffer lookupTestSnifferField(Class currentTestClass) {
         try {
             Field sniffer = currentTestClass.getField(CloverNames.CLOVER_TEST_NAME_SNIFFER);
             if (sniffer.getType().isAssignableFrom(TestNameSniffer.class)) {
                 Object snifferObj = sniffer.get(null);
-                if(snifferObj instanceof TestNameSniffer){
+                if (snifferObj instanceof TestNameSniffer) {
                     return (TestNameSniffer) snifferObj;
-                };
+                }
             } else {
                 Logger.getInstance().debug("Unexpected type of the "
                         + CloverNames.CLOVER_TEST_NAME_SNIFFER + " field: " + sniffer.getType().getName()
@@ -151,19 +158,14 @@ public class CloverJUnit5TestExecutionListener implements TestExecutionListener 
             }
         } catch (NoSuchFieldException ex) {
             Logger.getInstance().debug("Field " + CloverNames.CLOVER_TEST_NAME_SNIFFER
-                            + " was not found in an instance of " + currentTestClass.getClass().getName()
+                            + " was not found in an instance of " + currentTestClass.getName()
                             + ". Test name found during instrumentation may differ from the actual name of the test at runtime.",
                     ex);
-        } catch (SecurityException ex) {
+        } catch (SecurityException | IllegalAccessException ex) {
             Logger.getInstance().debug("Field " + CloverNames.CLOVER_TEST_NAME_SNIFFER
-                            + " couldn't be accessed in an instance of " + currentTestClass.getClass().getName()
-                            + ". Test name found during instrumentation may differ from the actual name of the test at runtime."
-                    , ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getInstance().debug("Field " + CloverNames.CLOVER_TEST_NAME_SNIFFER
-                            + " couldn't be accessed in an instance of " + currentTestClass.getClass().getName()
-                            + ". Test name found during instrumentation may differ from the actual name of the test at runtime."
-                    , ex);
+                            + " couldn't be accessed in an instance of " + currentTestClass.getName()
+                            + ". Test name found during instrumentation may differ from the actual name of the test at runtime.",
+                    ex);
         }
 
         // error when searching / accesing the field; return null
