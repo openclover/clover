@@ -189,18 +189,11 @@ public class RecorderInstrEmitter extends Emitter {
         return instrString;
     }
 
-    /*private*/
-    static String generateTestSnifferField(boolean isSpock, boolean isParamJUnit) {
-        return generateTestSnifferField(isSpock ? SnifferType.SPOCK
-                : isParamJUnit ? SnifferType.JUNIT
-                : SnifferType.NULL);
-    }
-
-
-    private static String generateTestSnifferField(boolean isSpock, boolean isParamJUnit, boolean isJunit5ParamTest) {
-        return generateTestSnifferField(isSpock ? SnifferType.SPOCK
-                : isParamJUnit ? SnifferType.JUNIT : isJunit5ParamTest ? SnifferType.JUNIT5
-                : SnifferType.NULL);
+    static String generateTestSnifferField(boolean isSpock, boolean isParamJUnit, boolean isJunit5ParamTest) {
+        return generateTestSnifferField(
+                isSpock ? SnifferType.SPOCK :
+                        (isParamJUnit ? SnifferType.JUNIT :
+                                (isJunit5ParamTest ? SnifferType.JUNIT5 : SnifferType.NULL)));
     }
 
     /**
