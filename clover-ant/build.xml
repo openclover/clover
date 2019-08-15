@@ -32,6 +32,7 @@
 
     <fileset id="clover-ant.etc.fileset" dir="${clover-ant.base}/etc">
         <include name="cloverlib.xml"/>
+        <include name="META-INF/services/org.junit.platform.launcher.TestExecutionListener"/>
     </fileset>
 
     <fileset id="clover-ant.etc.grover.fileset" dir="${clover-ant.base}/etc">
