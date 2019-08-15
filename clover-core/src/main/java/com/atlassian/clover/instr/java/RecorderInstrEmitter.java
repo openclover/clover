@@ -52,10 +52,26 @@ public class RecorderInstrEmitter extends Emitter {
      * Whether it's a JUnit parameterized test class
      */
     private boolean isParameterizedJUnitTestClass;
+
     /**
-     * Whether it's a JUnit 5 parameterized test class
+     * To get a lazy evaluation whether it's a JUnit 5 parameterized test class. This is because at the time when
+     * RecorderInstrEmitter is initialized (beginning of the class), we stil do not know this (only after we detect
+     * a parameterized method).
      */
-    private boolean isJUnit5ParameterizedTest;
+    private class InstrumentationStateView {
+        private InstrumentationState state;
+
+        private InstrumentationStateView(InstrumentationState state) {
+            this.state = state;
+        }
+
+        private boolean isJUnit5ParameterizedTest() {
+            return state.isParameterizedJUnit5TestClass();
+        }
+    }
+    private InstrumentationStateView stateView;
+
+
     private String distributedConfig;
     private String classNotFoundMsg;
     private boolean shouldEmitWarningMethod;
@@ -83,13 +99,15 @@ public class RecorderInstrEmitter extends Emitter {
         testClass = state.isDetectTests();
         isSpockTestClass = state.isSpockTestClass();
         isParameterizedJUnitTestClass = state.isParameterizedJUnitTestClass();
-        isJUnit5ParameterizedTest = state.isParameterizedJUnit5TestClass();
         classNotFoundMsg = state.getCfg().getClassNotFoundMsg() != null ? state.getCfg().getClassNotFoundMsg() : DEFAULT_CLASSNOTFOUND_MSG;
         //Only emit the warning method in instr code once per instr session. This minimises permgen pressure.
         shouldEmitWarningMethod = !state.hasInstrumented();
         if (!state.hasInstrumented()) {
             state.setHasInstrumented(true);
         }
+
+        // for lazy eval
+        stateView = new InstrumentationStateView(state);
     }
 
     @Override
@@ -170,7 +188,7 @@ public class RecorderInstrEmitter extends Emitter {
             // the sniffer field is always generated, also for non-test classes, because we may have a non-test top-level
             // class containing inner or inline test classes (and the inner/inline classes don't have their own
             // recorder instance - they reuse a recorder instance from the top-level class)
-            instrString += generateTestSnifferField(isSpockTestClass, isParameterizedJUnitTestClass, isJUnit5ParameterizedTest);
+            instrString += generateTestSnifferField(isSpockTestClass, isParameterizedJUnitTestClass, stateView.isJUnit5ParameterizedTest());
 
         } else {
             instrString = "public static "
@@ -184,7 +202,7 @@ public class RecorderInstrEmitter extends Emitter {
                     generateCloverProfilesInline(profiles),
                     "new " + javaLangPrefix + "String[]{\"" + CloverNames.PROP_DISTRIBUTED_CONFIG + "\"," + asUnicodeString(distributedConfig) + "}") + ";";
             // the sniffer field is always generated, also for non-test classes, see comment above
-            instrString += generateTestSnifferField(isSpockTestClass, isParameterizedJUnitTestClass, isJUnit5ParameterizedTest);
+            instrString += generateTestSnifferField(isSpockTestClass, isParameterizedJUnitTestClass, stateView.isJUnit5ParameterizedTest());
         }
         return instrString;
     }
