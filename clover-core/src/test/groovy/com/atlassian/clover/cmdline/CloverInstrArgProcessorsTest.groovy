@@ -23,12 +23,12 @@ class CloverInstrArgProcessorsTest {
         assertConfig(["-s", "/source/dir"],
                 CloverInstrArgProcessors.SrcDir,
                 { JavaInstrumentationConfig config -> config.getSourceDir() },
-                equalTo(new File("/source/dir")))
+                equalTo(new File("/source/dir").absoluteFile))
 
         assertConfig(["--srcdir", "/source/dir"],
                 CloverInstrArgProcessors.SrcDir,
                 { JavaInstrumentationConfig config -> config.getSourceDir() },
-                equalTo(new File("/source/dir")))
+                equalTo(new File("/source/dir").absoluteFile))
     }
 
     @Test
@@ -36,12 +36,12 @@ class CloverInstrArgProcessorsTest {
         assertConfig(["-d", "/dest/dir"],
                 CloverInstrArgProcessors.DestDir,
                 { JavaInstrumentationConfig config -> config.getDestDir() },
-                equalTo(new File("/dest/dir")))
+                equalTo(new File("/dest/dir").absoluteFile))
 
         assertConfig(["--destdir", "/dest/dir"],
                 CloverInstrArgProcessors.DestDir,
                 { JavaInstrumentationConfig config -> config.getDestDir() },
-                equalTo(new File("/dest/dir")))
+                equalTo(new File("/dest/dir").absoluteFile))
     }
 
     @Test
@@ -538,12 +538,12 @@ class CloverInstrArgProcessorsTest {
         JavaInstrumentationConfig config = new JavaInstrumentationConfig()
         config.setSourceDir(File.createTempDir())
 
-        String[] argsArray = args.toArray(new String[args.size()]);
-        int i = 0;
+        String[] argsArray = args.toArray(new String[args.size()])
+        int i = 0
         if (argProcessor.matches(argsArray, i)) {
             argProcessor.process(argsArray, i, config)
         }
-        assertThat(configValueExtractor.call(config), expectedValueMatcher);
+        assertThat(configValueExtractor.call(config), expectedValueMatcher)
     }
 
     private static <T> void assertConfig(List<String> args,
@@ -555,7 +555,7 @@ class CloverInstrArgProcessorsTest {
 
         String[] argsArray = args.toArray(new String[args.size()])
 
-        int i = 0;
+        int i = 0
         while (i < args.size()) {
             for (ArgProcessor<JavaInstrumentationConfig> argProcessor : argProcessors) {
                 if (argProcessor.matches(argsArray, i)) {
@@ -565,6 +565,6 @@ class CloverInstrArgProcessorsTest {
             i++
         }
 
-        assertThat(configValueExtractor.call(config), expectedValueMatcher);
+        assertThat(configValueExtractor.call(config), expectedValueMatcher)
     }
 }
