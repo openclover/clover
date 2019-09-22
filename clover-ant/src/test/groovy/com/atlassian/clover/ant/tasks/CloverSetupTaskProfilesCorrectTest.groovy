@@ -159,7 +159,7 @@ class CloverSetupTaskProfilesCorrectTest extends CloverSetupTaskTestBase {
                         RecorderInstrEmitter.asUnicodeString("other") + ", \"SHARED\", null)," +
                         "new ${CloverProfile.name}(" +
                         RecorderInstrEmitter.asUnicodeString("remote") + ", \"FIXED\", " +
-                        "\"\\u0068\\u006f\\u0073\\u0074"; // ...
+                        "\"\\u0068\\u006f\\u0073\\u0074" // ...
         assertFileContains(expectedProfilesCode, getCloverFooInstrFile(), false)
         // ... extra check for closing "};"
         final String expectedProfilesRegexp =

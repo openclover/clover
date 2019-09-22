@@ -26,7 +26,7 @@ abstract class CloverSetupTaskTestBase {
             dumpFile.createNewFile()
             testBase.dumpLogsToFile(dumpFile)
         }
-    };
+    }
 
     CloverSetupTaskTestBase(final String antBuildFile) {
         testBase = new CloverBuildFileTestBase(getClass().getName()) {
@@ -38,7 +38,7 @@ abstract class CloverSetupTaskTestBase {
     }
 
     @After
-    public void tearDown() throws Exception {
+    void tearDown() throws Exception {
         testBase.tearDown()
     }
 
@@ -49,7 +49,7 @@ abstract class CloverSetupTaskTestBase {
     protected String[] getPerTestCoverageFiles() {
         return getCloverDir().list(new FilenameFilter() {
             boolean accept(File dir, String name) {
-                return name.endsWith(".s"); // find '*.s'
+                return name.endsWith(".s") // find '*.s'
             }
         })
     }
@@ -136,7 +136,7 @@ abstract class CloverSetupTaskTestBase {
         return testBase.getProject().getProperty("java.err." + runNumber)
     }
 
-    protected void assertXmlFileContains(Map<String, int[]> expectedCoverage, File cloverXmlFile) throws JDOMException, IOException {
+    protected static void assertXmlFileContains(Map<String, int[]> expectedCoverage, File cloverXmlFile) throws JDOMException, IOException {
         XMLReportReader xmlReader = new XMLReportReader()
         Document xmlDoc = xmlReader.loadDocument(cloverXmlFile)
 

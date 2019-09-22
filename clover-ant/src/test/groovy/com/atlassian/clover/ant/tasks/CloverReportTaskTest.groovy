@@ -206,7 +206,7 @@ class CloverReportTaskTest extends CloverBuildFileTestBase {
     }
 
     void testDashboardAbsentOnSystemProperty() throws Exception {
-        System.getProperties().setProperty("clover.skipTreeMap", ""); // cleaned up in tearDown 
+        System.getProperties().setProperty("clover.skipTreeMap", "") // cleaned up in tearDown
         getProject().executeTarget("testConditionalDashboard")
         assertNull(getProject().getProperty("treeMapInDashboard"))
         assertNull(getProject().getProperty("treeMapDashJsonInDashboard"))
@@ -215,7 +215,7 @@ class CloverReportTaskTest extends CloverBuildFileTestBase {
     }
 
     void testDashboardPresentOnSystemPropertySetToFalse() throws Exception {
-        System.getProperties().setProperty("clover.skipTreeMap", "False"); // cleaned up in tearDown 
+        System.getProperties().setProperty("clover.skipTreeMap", "False") // cleaned up in tearDown
         getProject().executeTarget("testConditionalDashboard")
         assertNotNull(getProject().getProperty("treeMapInDashboard"))
         assertNotNull(getProject().getProperty("treeMapDashJsonInDashboard"))
