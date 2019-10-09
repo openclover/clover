@@ -29,7 +29,7 @@ class CloverPassTaskTest extends CloverBuildFileTestBase {
     }
 
     private String createDatabase(float stmt, float cond, float method, int elements) throws Exception {
-        List classList = Lists.newArrayList()
+        List<CloverTestFixture.Clazz> classList = Lists.newArrayList()
 
         classList.add(new CloverTestFixture.Clazz(util.getWorkDir(), "com.cenqua", "Test",
                 new CloverTestFixture.Coverage(stmt, cond, method, elements)))
@@ -218,7 +218,7 @@ class CloverPassTaskTest extends CloverBuildFileTestBase {
         util.setUpCoverageDb(0.1f)
 
         final GregorianCalendar c = new GregorianCalendar()
-        setUpHistoryPoint((c.get(Calendar.YEAR) + 1) + "-01-01", dateFormat, project);  //next year
+        setUpHistoryPoint((c.get(Calendar.YEAR) + 1) + "-01-01", dateFormat, project)  //next year
         util.setUpCoverageDb(0.5f)
 
         getProject().executeTarget("clover.check.target")

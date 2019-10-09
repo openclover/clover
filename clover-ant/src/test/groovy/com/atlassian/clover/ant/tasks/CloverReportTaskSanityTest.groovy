@@ -40,7 +40,7 @@ class CloverReportTaskSanityTest extends CloverBuildFileTestBase{
         getProject().setProperty("outdir", "merge-db2")
         getProject().executeTarget("cloverMoneyBags")
 
-        getProject().setProperty("outdir", "merge-db3");        
+        getProject().setProperty("outdir", "merge-db3")
         getProject().setProperty("db1", db1)
         getProject().setProperty("db2", db2)
         getProject().executeTarget("testCloverMergeSanityTest")

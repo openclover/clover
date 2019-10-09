@@ -14,7 +14,7 @@ import com.atlassian.clover.test.junit.GroovyVersionStart
 import com.atlassian.clover.versions.LibraryVersion
 
 @Mixin ([TestPropertyMixin, GroovyCombinatorMixin, AntCombinatorMixin, WorkingDirMixin, IncludeExcludeMixin])
-public class TestSuite extends junit.framework.TestSuite {
+class TestSuite extends junit.framework.TestSuite {
     static Map<Class, Closure> TEST_CLASSES_AND_SELECTORS = [
         (CompilationTest): DefaultTestSelector.instance.closure
     ]
@@ -31,7 +31,7 @@ public class TestSuite extends junit.framework.TestSuite {
     File groovyLibDir = new File(projectDir, "target/dependencies")
     File cloverRepkgRuntimeJar = getFileProp("repkg.clover.jar", false)
 
-    public static TestSuite suite() { return new TestSuite() }
+    static TestSuite suite() { return new TestSuite() }
 
     protected TestSuite() {
         eachAnt(antHomesDir, { shouldTestWithAnt(it) }) {String antVersion, File antHome ->
@@ -69,11 +69,11 @@ public class TestSuite extends junit.framework.TestSuite {
         }
     }
 
-    public boolean shouldTestWithGroovy(String version) {
+    boolean shouldTestWithGroovy(String version) {
         shouldInclude(GROOVY_VERSION_INCLUDES, GROOVY_VERSION_EXCLUDES, version)
     }
 
-    public boolean shouldTestWithAnt(String version) {
+    boolean shouldTestWithAnt(String version) {
         shouldInclude(ANT_VERSION_INCLUDES, ANT_VERSION_EXCLUDES, version)
     }
 }
