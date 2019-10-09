@@ -1,34 +1,31 @@
 package com.atlassian.clover.instr.groovy;
 
-import com.atlassian.clover.instr.groovy.bytecode.AbstractRecorderIncStatement;
-import com.atlassian.clover.cfg.instr.InstrumentationConfig;
+import com.atlassian.clover.CloverNames;
+import com.atlassian.clover.Logger;
+import com.atlassian.clover.api.CloverException;
 import com.atlassian.clover.api.instrumentation.InstrumentationSession;
+import com.atlassian.clover.cfg.instr.InstrumentationConfig;
+import com.atlassian.clover.instr.groovy.bytecode.AbstractRecorderIncStatement;
 import com.atlassian.clover.instr.tests.TestDetector;
 import com.atlassian.clover.instr.tests.naming.JUnitParameterizedTestExtractor;
 import com.atlassian.clover.instr.tests.naming.SpockFeatureNameExtractor;
-import com.atlassian.clover.recorder.pertest.SnifferType;
-import com.atlassian.clover.registry.entities.FullElementInfo;
-import com.atlassian.clover.spi.lang.Language;
-import com.atlassian.clover.api.CloverException;
-import com.atlassian.clover.CloverNames;
-import com.atlassian.clover.Logger;
 import com.atlassian.clover.recorder.PerTestRecorder;
+import com.atlassian.clover.recorder.pertest.SnifferType;
 import com.atlassian.clover.registry.Clover2Registry;
+import com.atlassian.clover.registry.entities.FullElementInfo;
 import com.atlassian.clover.registry.entities.FullFileInfo;
 import com.atlassian.clover.registry.entities.Modifiers;
+import com.atlassian.clover.spi.lang.Language;
 import com.atlassian.clover.util.ChecksummingReader;
 import com.atlassian.clover.util.CloverUtils;
-import com_atlassian_clover.BaseTestNameSniffer;
 import com_atlassian_clover.CloverProfile;
 import com_atlassian_clover.CoverageRecorder;
 import com_atlassian_clover.TestNameSniffer;
-import groovyjarjarasm.asm.Opcodes;
 import org.codehaus.groovy.ast.ASTNode;
 import org.codehaus.groovy.ast.ClassHelper;
 import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.ast.FieldNode;
 import org.codehaus.groovy.ast.MethodNode;
-import org.codehaus.groovy.ast.MixinNode;
 import org.codehaus.groovy.ast.ModuleNode;
 import org.codehaus.groovy.ast.Parameter;
 import org.codehaus.groovy.ast.VariableScope;
@@ -634,14 +631,10 @@ public class Grover implements ASTTransformation {
         final Expression fieldInitializationExpr;
         switch (snifferType) {
             case JUNIT:
-                // new JUnitParameterizedTestSniffer()
-                fieldInitializationExpr = new ConstructorCallExpression(
-                        createJUnitSnifferClassNode(), ArgumentListExpression.EMPTY_ARGUMENTS);
-                break;
             case SPOCK:
-                // new SpockFeatureNameSniffer()
+                // new TestNameSniffer.Simple()
                 fieldInitializationExpr = new ConstructorCallExpression(
-                        createSpockSnifferClassNode(), ArgumentListExpression.EMPTY_ARGUMENTS);
+                        createSimpleSnifferClassNode(), ArgumentListExpression.EMPTY_ARGUMENTS);
                 break;
             case NULL:
             default:
@@ -661,41 +654,10 @@ public class Grover implements ASTTransformation {
     }
 
     /**
-     * "Manual" creation of the ClassNode, because usage of ClassHelper.make() was causing dependency to junit.jar
-     * (as JUnitParameterizedTestSniffer extends RunListener implements TestRunListener )
-     *
-     * @return ClassNode representing JUnitParameterizedTestSniffer class
+     * @return ClassNode representing TestNameSniffer.Simple class
      */
-    private ClassNode createJUnitSnifferClassNode() {
-        return new ClassNode(
-                "com_atlassian_clover.JUnitParameterizedTestSniffer",
-                Opcodes.ACC_PUBLIC,
-                new ClassNode("org.junit.runner.notification.RunListener", Opcodes.ACC_PUBLIC, ClassHelper.OBJECT_TYPE),
-                new ClassNode[] {
-                        new ClassNode(
-                                "junit.runner.TestRunListener",
-                                Opcodes.ACC_PUBLIC | Opcodes.ACC_INTERFACE, ClassHelper.OBJECT_TYPE)
-                },
-                MixinNode.EMPTY_ARRAY);
-    }
-
-    /**
-     * "Manual" creation of the ClassNode, because usage of ClassHelper.make() was causing dependency to spock.jar
-     * (as SpockFeatureNameSniffer implements IMethodInterceptor)
-     *
-     * @return ClassNode representing SpockFeatureNameSniffer class
-     */
-    private ClassNode createSpockSnifferClassNode() {
-        return new ClassNode(
-                "com_atlassian_clover.SpockFeatureNameSniffer",
-                Opcodes.ACC_PUBLIC,
-                ClassHelper.make(BaseTestNameSniffer.class),
-                new ClassNode[] {
-                        new ClassNode(
-                                "org.spockframework.runtime.extension.IMethodInterceptor",
-                                Opcodes.ACC_PUBLIC | Opcodes.ACC_INTERFACE, ClassHelper.OBJECT_TYPE)
-                },
-                MixinNode.EMPTY_ARRAY);
+    private ClassNode createSimpleSnifferClassNode() {
+        return ClassHelper.make(TestNameSniffer.Simple.class);
     }
 
     private void addExprEval(ClassNode clazz) {

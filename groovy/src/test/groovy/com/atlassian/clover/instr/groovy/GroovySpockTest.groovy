@@ -128,7 +128,7 @@ class GroovySpockTest extends TestBase {
 
                     // check that three unrolled test cases were ran
                     assertEquals "number of test cases is incorrect", 3, classInfo.testCases.size()
-                    // ... and that test names were dynamically updated at runtime by a SpockFeatureNameSniffer
+                    // ... and that test names were dynamically updated at runtime by a TestNameSniffer
                     assertTrue classInfo.testCases.testName.contains("maximum of two numbers[0]")
                     assertTrue classInfo.testCases.testName.contains("maximum of two numbers[1]")
                     assertTrue classInfo.testCases.testName.contains("maximum of two numbers[2]")
@@ -176,7 +176,7 @@ class GroovySpockTest extends TestBase {
 
                     // check that three unrolled test cases were ran
                     assertEquals 3, classInfo.testCases.size()
-                    // ... and that test names were dynamically updated at runtime by a SpockFeatureNameSniffer
+                    // ... and that test names were dynamically updated at runtime by a TestNameSniffer
                     assertTrue classInfo.testCases.testName.contains("minimum of 3 and 7 is 3")
                     assertTrue classInfo.testCases.testName.contains("minimum of 5 and 4 is 4")
                     assertTrue classInfo.testCases.testName.contains("minimum of 9 and 9 is 9")
@@ -225,7 +225,7 @@ class GroovySpockTest extends TestBase {
 
                     // check that two unrolled test cases were ran
                     assertEquals 2, classInfo.testCases.size()
-                    // ... and that test names were dynamically updated at runtime by a SpockFeatureNameSniffer
+                    // ... and that test names were dynamically updated at runtime by a TestNameSniffer
                     assertTrue classInfo.testCases.testName.contains("Fred is a male person")
                     assertTrue classInfo.testCases.testName.contains("Wilma is a female person")
 

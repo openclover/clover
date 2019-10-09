@@ -140,8 +140,7 @@ class RecorderInstrEmitterTest {
     /**
      * Test whether a TestNameSniffer field is added and initialized to
      * {@link com_atlassian_clover.TestNameSniffer#NULL_INSTANCE} or
-     * {@link com_atlassian_clover.JUnitParameterizedTestSniffer} or
-     * {@link com_atlassian_clover.SpockFeatureNameSniffer}
+     * {@link com_atlassian_clover.TestNameSniffer.Simple} or
      */
     @Test
     void testGenerateTestSnifferField() {
@@ -149,17 +148,9 @@ class RecorderInstrEmitterTest {
         String actualNull = RecorderInstrEmitter.generateTestSnifferField(SnifferType.NULL)
         assertThat(actualNull, new Matches(expectedNull))
 
-        String expectedJUnit = '^public static final .*TestNameSniffer __CLR.*TEST_NAME_SNIFFER=new .*JUnitParameterizedTestSniffer\\(\\);$'
+        String expectedJUnit = '^public static final .*TestNameSniffer __CLR.*TEST_NAME_SNIFFER=new .*TestNameSniffer\\.Simple\\(\\);$'
         String actualJUnit = RecorderInstrEmitter.generateTestSnifferField(SnifferType.JUNIT)
         assertThat(actualJUnit, new Matches(expectedJUnit))
-
-        String expectedJUnit5 = '^public static final .*TestNameSniffer __CLR.*TEST_NAME_SNIFFER=new .*JUnit5ParameterizedTestSniffer\\(\\);$'
-        String actualJUnit5 = RecorderInstrEmitter.generateTestSnifferField(SnifferType.JUNIT5)
-        assertThat(actualJUnit5, new Matches(expectedJUnit5))
-
-        String expectedSpock = '^public static final .*TestNameSniffer __CLR.*TEST_NAME_SNIFFER=new .*SpockFeatureNameSniffer\\(\\);$'
-        String actualSpock = RecorderInstrEmitter.generateTestSnifferField(SnifferType.SPOCK)
-        assertThat(actualSpock, new Matches(expectedSpock))
     }
 
     @Test
@@ -168,13 +159,10 @@ class RecorderInstrEmitterTest {
         assertThat(actualNull, new Contains("NULL_INSTANCE"))
 
         String actualJUnit = RecorderInstrEmitter.generateTestSnifferField(false, true, false)
-        assertThat(actualJUnit, new Contains("JUnitParameterizedTestSniffer"))
-
-        String actualJUnit5 = RecorderInstrEmitter.generateTestSnifferField(false, false, true)
-        assertThat(actualJUnit5, new Contains("JUnit5ParameterizedTestSniffer"))
+        assertThat(actualJUnit, new Contains("TestNameSniffer.Simple"))
 
         String actualSpock = RecorderInstrEmitter.generateTestSnifferField(true, false, false)
-        assertThat(actualSpock, new Contains("SpockFeatureNameSniffer"))
+        assertThat(actualSpock, new Contains("TestNameSniffer.Simple"))
     }
 
 }

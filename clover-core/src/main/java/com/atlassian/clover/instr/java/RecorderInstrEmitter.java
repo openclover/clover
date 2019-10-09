@@ -210,8 +210,7 @@ public class RecorderInstrEmitter extends Emitter {
     static String generateTestSnifferField(boolean isSpock, boolean isParamJUnit, boolean isJunit5ParamTest) {
         return generateTestSnifferField(
                 isSpock ? SnifferType.SPOCK :
-                        (isParamJUnit ? SnifferType.JUNIT :
-                                (isJunit5ParamTest ? SnifferType.JUNIT5 : SnifferType.NULL)));
+                        (isParamJUnit || isJunit5ParamTest ? SnifferType.JUNIT : SnifferType.NULL));
     }
 
     /**
@@ -227,14 +226,9 @@ public class RecorderInstrEmitter extends Emitter {
                 + " " + CloverNames.CLOVER_TEST_NAME_SNIFFER;
         switch (snifferType) {
             case JUNIT:
-                // ... = new JUnitParameterizedTestSniffer();
-                return snifferField + "=new com_atlassian_clover.JUnitParameterizedTestSniffer();";
-            case JUNIT5:
-                // ... = new JUnitParameterizedTestSniffer();
-                return snifferField + "=new com_atlassian_clover.JUnit5ParameterizedTestSniffer();";
             case SPOCK:
-                // ... = new SpockFeatureNameSniffer();
-                return snifferField + "=new com_atlassian_clover.SpockFeatureNameSniffer();";
+                // ... = new TestNameSniffer.Simple();
+                return snifferField + "=new com_atlassian_clover.TestNameSniffer.Simple();";
             case NULL:
             default:
                 // ... = TestNameSniffer.NULL_INSTANCE;
