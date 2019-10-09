@@ -57,11 +57,11 @@ class CloverSetupTaskGrowableTest extends CloverSetupTaskTestBase {
         testBase.assertLogContains("GrowableCoverageRecorder[coverage=CoverageMatrix")
         testBase.assertLogContains("Distributed coverage is disabled")
         // two test cases
-        testBase.assertLogContains("globalSliceStart(FooTest, 23,"); // testFoo
+        testBase.assertLogContains("globalSliceStart(FooTest, 23,") // testFoo
         testBase.assertLogContains("globalSliceEnd(FooTest, 23, 1, null)")
-        testBase.assertLogContains("globalSliceStart(FooTest, 27,"); // testGoo
+        testBase.assertLogContains("globalSliceStart(FooTest, 27,") // testGoo
         testBase.assertLogContains("globalSliceEnd(FooTest, 27, 1, null)")
-        testBase.assertLogContains("Ho ho ho"); // from classSetUp()
+        testBase.assertLogContains("Ho ho ho") // from classSetUp()
 
         // code was executed in another jvm
         assertStringContains("Say foo", getJavaOut(), false)
@@ -77,7 +77,7 @@ class CloverSetupTaskGrowableTest extends CloverSetupTaskTestBase {
         // = 4 per-test coverage slices
         // - 2 slice not flushed due to no coverage (from Hoo class)
         // = 2 per-test slices on disk
-        testBase.assertLogContains("flushed per-test recording (null)"); // twice actually
+        testBase.assertLogContains("flushed per-test recording (null)") // twice actually
         assertEquals(2, getPerTestCoverageFiles().length)
         testBase.assertFullLogContains("Processed 2 per-test recording files")
 
@@ -130,9 +130,9 @@ class CloverSetupTaskGrowableTest extends CloverSetupTaskTestBase {
         assertStringContains("Ho ho ho", getJavaOut(), false)
 
         // two test cases
-        testBase.assertLogContains("globalSliceStart(FooTest, 23,"); // testFoo
+        testBase.assertLogContains("globalSliceStart(FooTest, 23,") // testFoo
         testBase.assertLogContains("globalSliceEnd(FooTest, 23, 1, null)")
-        testBase.assertLogContains("globalSliceStart(FooTest, 27,"); // testGoo
+        testBase.assertLogContains("globalSliceStart(FooTest, 27,") // testGoo
         testBase.assertLogContains("globalSliceEnd(FooTest, 27, 1, null)")
 
         // two active recorders (Foo+Hoo, FooTest+Hoo)
@@ -141,7 +141,7 @@ class CloverSetupTaskGrowableTest extends CloverSetupTaskTestBase {
         // = 8 per-test coverage slices
         // - 4 slices not flushed due to no coverage (Hoo)
         // = 4 slices on on disk
-        testBase.assertLogContains("flushed per-test recording (null)"); // four times actually
+        testBase.assertLogContains("flushed per-test recording (null)") // four times actually
         assertEquals(4, getPerTestCoverageFiles().length)
         testBase.assertFullLogContains("Processed 4 per-test recording files")
 
