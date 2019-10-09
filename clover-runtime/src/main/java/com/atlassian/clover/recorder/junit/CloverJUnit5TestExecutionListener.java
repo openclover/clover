@@ -1,9 +1,7 @@
 package com.atlassian.clover.recorder.junit;
 
-import com.atlassian.clover.CloverNames;
 import com.atlassian.clover.Logger;
-import com_atlassian_clover.JUnit5ParameterizedTestSniffer;
-import com_atlassian_clover.JUnitParameterizedTestSniffer;
+import com.atlassian.clover.recorder.TestNameSnifferHelper;
 import com_atlassian_clover.TestNameSniffer;
 import org.jetbrains.annotations.Nullable;
 import org.junit.platform.engine.TestExecutionResult;
@@ -14,7 +12,6 @@ import org.junit.platform.launcher.TestExecutionListener;
 import org.junit.platform.launcher.TestIdentifier;
 import org.junit.platform.launcher.TestPlan;
 
-import java.lang.reflect.Field;
 import java.util.Optional;
 
 /**
@@ -45,14 +42,10 @@ public class CloverJUnit5TestExecutionListener implements TestExecutionListener 
             final Class testClass = findTestMethodClass(this.testPlan, testIdentifier);
 
             if (testClass != null) {
-                final TestNameSniffer junitSniffer = lookupTestSnifferField(testClass);
+                final TestNameSniffer junitSniffer = TestNameSnifferHelper.lookupTestSnifferField(testClass);
 
                 if (junitSniffer != null) {
-                    if (junitSniffer instanceof JUnit5ParameterizedTestSniffer) {
-                        ((JUnit5ParameterizedTestSniffer) junitSniffer).testStarted(testName);
-                    } else if (junitSniffer instanceof JUnitParameterizedTestSniffer) {
-                        ((JUnitParameterizedTestSniffer) junitSniffer).testStarted(testName);
-                    }
+                    junitSniffer.setTestName(testName);
                 }
             }
         }
@@ -65,14 +58,10 @@ public class CloverJUnit5TestExecutionListener implements TestExecutionListener 
             final Class testClass = findTestMethodClass(this.testPlan, testIdentifier);
 
             if (testClass != null) {
-                final TestNameSniffer junitSniffer = lookupTestSnifferField(testClass);
+                final TestNameSniffer junitSniffer = TestNameSnifferHelper.lookupTestSnifferField(testClass);
 
                 if (junitSniffer != null) {
-                    if (junitSniffer instanceof JUnit5ParameterizedTestSniffer) {
-                        ((JUnit5ParameterizedTestSniffer) junitSniffer).testEnded();
-                    } else if (junitSniffer instanceof JUnitParameterizedTestSniffer) {
-                        ((JUnitParameterizedTestSniffer) junitSniffer).testEnded("");
-                    }
+                    junitSniffer.clearTestName();
                 }
             }
         }
@@ -133,42 +122,6 @@ public class CloverJUnit5TestExecutionListener implements TestExecutionListener 
                 return null;
             }
         }
-        return null;
-    }
-
-    /**
-     * Find the CloverNames.CLOVER_TEST_NAME_SNIFFER field in the current instance of a test class Return instance
-     * assigned to this field if it's a JUnitParameterizedTestSniffer or <code>null</code> otherwise.
-     *
-     * @return JUnitParameterizedTestSniffer instance or <code>null</code>
-     */
-    @Nullable
-    private TestNameSniffer lookupTestSnifferField(Class currentTestClass) {
-        try {
-            Field sniffer = currentTestClass.getField(CloverNames.CLOVER_TEST_NAME_SNIFFER);
-            if (sniffer.getType().isAssignableFrom(TestNameSniffer.class)) {
-                Object snifferObj = sniffer.get(null);
-                if (snifferObj instanceof TestNameSniffer) {
-                    return (TestNameSniffer) snifferObj;
-                }
-            } else {
-                Logger.getInstance().debug("Unexpected type of the "
-                        + CloverNames.CLOVER_TEST_NAME_SNIFFER + " field: " + sniffer.getType().getName()
-                        + " - ignoring. Test name found during instrumentation may differ from the actual name of the test at runtime.");
-            }
-        } catch (NoSuchFieldException ex) {
-            Logger.getInstance().debug("Field " + CloverNames.CLOVER_TEST_NAME_SNIFFER
-                            + " was not found in an instance of " + currentTestClass.getName()
-                            + ". Test name found during instrumentation may differ from the actual name of the test at runtime.",
-                    ex);
-        } catch (SecurityException | IllegalAccessException ex) {
-            Logger.getInstance().debug("Field " + CloverNames.CLOVER_TEST_NAME_SNIFFER
-                            + " couldn't be accessed in an instance of " + currentTestClass.getName()
-                            + ". Test name found during instrumentation may differ from the actual name of the test at runtime.",
-                    ex);
-        }
-
-        // error when searching / accesing the field; return null
         return null;
     }
 
