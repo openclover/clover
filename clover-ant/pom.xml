@@ -18,8 +18,8 @@
         <url>http://openclover.org</url>
     </organization>
     <issueManagement>
-        <system>Bitbucket</system>
-        <url>https://bitbucket.org/openclover/clover/issues</url>
+        <system>GitHub</system>
+        <url>https://github.com/openclover/clover/issues</url>
     </issueManagement>
     <licenses>
         <license>
@@ -29,9 +29,9 @@
         </license>
     </licenses>
     <scm>
-        <connection>scm:hg:ssh://hg@bitbucket.org/openclover/clover</connection>
-        <developerConnection>scm:hg:ssh://hg@bitbucket.org/openclover/clover</developerConnection>
-        <url>https://bitbucket.org/openclover/clover/src</url>
+        <connection>scm:git:ssh://git@github.com/openclover/clover.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/openclover/clover.git</developerConnection>
+        <url>https://github.com/openclover/clover</url>
     </scm>
     <developers>
         <developer>

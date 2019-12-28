@@ -23,11 +23,11 @@ Support Knowledge Base:
 Q&A forums:
 
 * Stackoverflow: https://stackoverflow.com/tags/clover
-* Atlassian Community https://community.atlassian.com/t5/Clover/ct-p/clover
+* Atlassian Community: https://community.atlassian.com/t5/Clover/ct-p/clover
 
 Bug and feature tracker:
 
-* https://bitbucket.org/openclover/clover/issues
+* https://github.com/openclover/clover/issues
 * https://jira.atlassian.com/browse/CLOV
 
 Download page:
@@ -36,15 +36,15 @@ Download page:
 
 Source code:
 
-* https://bitbucket.org/openclover/clover
+* https://github.com/openclover/clover
 
 See also:
 
-* https://bitbucket.org/openclover/clover-maven-plugin
-* https://bitbucket.org/openclover/gradle-clover-plugin
-* https://bitbucket.org/openclover/grails-clover-plugin
-* https://bitbucket.org/openclover/clover-examples
-* https://bitbucket.org/openclover/clover-aspectj-compiler
+* https://github.com/openclover/clover-maven-plugin
+* https://github.com/openclover/gradle-clover-plugin
+* https://github.com/openclover/grails-clover-plugin
+* https://github.com/openclover/clover-examples
+* https://github.com/openclover/clover-aspectj-compiler
 * https://github.com/jenkinsci/clover-plugin
 * https://github.com/hudson3-plugins/clover-plugin
 

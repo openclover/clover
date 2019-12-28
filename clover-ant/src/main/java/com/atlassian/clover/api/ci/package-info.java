@@ -33,7 +33,7 @@
  * </ul>
  *
  * If you have any problems using this api, or feature requests please don't hesitate to
- * <a href="https://bitbucket.org/openclover/clover/issues">create an issue</a>.
+ * <a href="https://github.com/openclover/clover/issues">create an issue</a>.
  * @since 2.6.0
  */
 package com.atlassian.clover.api.ci;

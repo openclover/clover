@@ -180,7 +180,7 @@ artifactId: maven-clover2-plugin</y:AttributeLabel>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" modelName="custom" textColor="#000000" visible="true" width="158.74609375" x="51.126953125" y="-2.701171875">&lt;&lt;proprietary&gt;&gt;
-bitbucket.org/atlassian/clover<y:LabelModel>
+github.com/openclover/clover<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -198,7 +198,7 @@ bitbucket.org/atlassian/clover<y:LabelModel>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" modelName="custom" textColor="#000000" visible="true" width="227.44140625" x="16.779296875" y="-2.701171875">&lt;&lt;open source&gt;&gt;
-bitbucket.org/atlassian/grails-clover-plugin<y:LabelModel>
+github.com/openclover/grails-clover-plugin<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -216,7 +216,7 @@ bitbucket.org/atlassian/grails-clover-plugin<y:LabelModel>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" modelName="custom" textColor="#000000" visible="true" width="234.783203125" x="13.1083984375" y="-2.701171875">&lt;&lt;open source&gt;&gt;
-bitbucket.org/atlassian/maven-clover-plugin<y:LabelModel>
+github.com/openclover/maven-clover-plugin<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -234,7 +234,7 @@ bitbucket.org/atlassian/maven-clover-plugin<y:LabelModel>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" modelName="custom" textColor="#000000" visible="true" width="241.45703125" x="9.771484375" y="-2.701171875">&lt;&lt;open source&gt;&gt;
-bitbucket.org/atlassian/maven-clover2-plugin<y:LabelModel>
+github.com/openclover/maven-clover2-plugin<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>

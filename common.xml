@@ -16,7 +16,7 @@
     <property name="clover.url" value="http://openclover.org"/>
     <property name="clover.help.url" value="http://openclover.org/documentation"/>
     <property name="clover.license.agreement.url" value="https://www.apache.org/licenses/LICENSE-2.0.html"/>
-    <property name="clover.repository.url" value="ssh://hg@bitbucket.org/openclover/clover"/>
+    <property name="clover.repository.url" value="ssh://git@github.com:openclover/clover.git"/>
     <!-- fail build if tests fail or have errors - defaults to not failing -->
     <property name="fail.if.notpass" value="false"/>
     <!-- whether to not download 3rd party jars if they already exist -->
@@ -213,13 +213,13 @@
     <!--<property name="test.fork.jvm.args" value="-Xmx512m -Djava.io.tmpdir=${java.io.tmpdir} -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005"/>-->
     <!--<property name="jvm.args" value="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005"/>-->
 
-    <macrodef name="hg">
+    <macrodef name="git">
          <attribute name="command"/>
          <attribute name="params" default=""/>
-         <attribute name="output" default="${build.dir}/hg.output"/>
+         <attribute name="output" default="${build.dir}/git.output"/>
          <sequential>
-             <echo message="Executing: '${path.to.hg} @{command} @{params}' with output in @{output}"/>
-             <exec executable="${path.to.hg}" dir="${common.base}" failonerror="true" output="@{output}">
+             <echo message="Executing: '${path.to.git} @{command} @{params}' with output in @{output}"/>
+             <exec executable="${path.to.git}" dir="${common.base}" failonerror="true" output="@{output}">
                  <arg line="@{command} @{params}"/>
              </exec>
          </sequential>
@@ -257,11 +257,11 @@
             <echo message="@{kind} build for ${@{module}.@{kind}.tag}"/>
 
             <!-- update build number - get the latest revision, rolback any local changes from buildnumber.txt, increment -->
-            <hg command="revert" params="--no-backup buildnumber.txt"/>
-            <hg command="update"/>
+            <git command="checkout" params="-- buildnumber.txt"/>
+            <git command="pull"/>
             <buildnumber file="buildnumber.txt"/>
 
-            <hg command="commit" params="-m &quot;NONE:auto build increment&quot; buildnumber.txt" />
+            <git command="commit" params="-m &quot;NONE:auto build increment&quot; buildnumber.txt" />
             <echo>build.number now ${build.number}</echo>
 
             <!-- build production package -->
@@ -271,11 +271,11 @@
 
             <!-- tag the build -->
             <echo message="tagging ${@{module}.@{kind}.tag}"/>
-            <hg command="update"/>
-            <hg command="tag" params="--force -m'@{kind} ${@{module}.@{kind}.tag}' ${@{module}.@{kind}.tag}"/>
-            <!-- push changes to master repo; we're pushing directly to master repository on Bitbucket because
+            <git command="pull"/>
+            <git command="tag" params="-f -m'@{kind} ${@{module}.@{kind}.tag}' ${@{module}.@{kind}.tag}"/>
+            <!-- push changes to master repo; we're pushing directly to master repository on GitHub because
                  on Bamboo it would push to an agent's repository cache and we'd loose our tag -->
-            <hg command="push ssh://hg@bitbucket.org/openclover/clover"/>
+            <git command="push ssh://git@github.com/openclover/clover.git"/>
         </sequential>
     </macrodef>
 

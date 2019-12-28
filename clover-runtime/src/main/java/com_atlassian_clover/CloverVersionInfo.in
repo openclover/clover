@@ -20,7 +20,7 @@ public class CloverVersionInfo {
     public static final String CLOVER_LICENSE_CONFIGURATION_HELP_URL ="@CLOVER_HELP_URL@";
 
     /** Servlet for creating new JIRA issue */
-    public static final String CLOVER_CREATE_ISSUE_URL = "https://bitbucket.org/openclover/clover/issues";
+    public static final String CLOVER_CREATE_ISSUE_URL = "https://github.com/openclover/clover/issues";
 
     public static final String BUILD_DATE ="@BUILD_DATE@";
 
