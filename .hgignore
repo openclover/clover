@@ -1,9 +1,0 @@
-^out
-^target
-^tutorial/\.clover
-^tutorial/clover_html
-^\.idea
-.*\.iws
-.*/target
-build.properties
-clover-idea/clover-idea-libs/src/resources/*
