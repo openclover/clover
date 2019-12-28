@@ -275,7 +275,7 @@
             <git command="tag" params="-f -m'@{kind} ${@{module}.@{kind}.tag}' ${@{module}.@{kind}.tag}"/>
             <!-- push changes to master repo; we're pushing directly to master repository on GitHub because
                  on Bamboo it would push to an agent's repository cache and we'd loose our tag -->
-            <git command="push ssh://git@github.com:openclover/clover.git"/>
+            <git command="push ssh://git@github.com/openclover/clover.git"/>
         </sequential>
     </macrodef>
 

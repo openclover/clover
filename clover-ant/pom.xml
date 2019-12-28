@@ -29,8 +29,8 @@
         </license>
     </licenses>
     <scm>
-        <connection>scm:git:ssh://git@github.com:openclover/clover.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com:openclover/clover.git</developerConnection>
+        <connection>scm:git:ssh://git@github.com/openclover/clover.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/openclover/clover.git</developerConnection>
         <url>https://github.com/openclover/clover</url>
     </scm>
     <developers>
