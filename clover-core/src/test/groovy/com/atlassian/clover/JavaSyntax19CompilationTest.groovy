@@ -24,9 +24,9 @@ class JavaSyntax19CompilationTest extends JavaSyntaxCompilationTestBase {
     }
 
     void testAnnotationsOnJavaTypes() {
-        if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_9)) {
+        if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_9)) {
             final String fileName = "java9/Java9PrivateInterfaceMethod.java"
-            instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_1_9)
+            instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_9)
 
             // check private methods in interfaces are instrumented
             assertFileMatches(fileName, R_INC + "int i = 0;", false)
@@ -38,11 +38,11 @@ class JavaSyntax19CompilationTest extends JavaSyntaxCompilationTestBase {
         FileUtils.dirCopy(srcDir, mGenSrcDir, true);
         // instrument just module-info.java
         File moduleInfo = new File(srcDir, "module-info.java");
-        instrumentSourceFile(moduleInfo, JavaEnvUtils.JAVA_1_9)
+        instrumentSourceFile(moduleInfo, JavaEnvUtils.JAVA_9)
 
-        if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_9)) {
+        if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_9)) {
             // compile all stuff
-            compileSources(mGenSrcDir, [ "module-info.java"] as String[], JavaEnvUtils.JAVA_1_9)
+            compileSources(mGenSrcDir, [ "module-info.java"] as String[], JavaEnvUtils.JAVA_9)
             // expect no instrumentation in module-info.java
             assertFileMatches("module-info.java", R_INC, true)
         }
@@ -50,7 +50,7 @@ class JavaSyntax19CompilationTest extends JavaSyntaxCompilationTestBase {
 
     void testDoesNotFailOnModuleInfoKeywordsInRegularSourceFile() {
         File sourceFile = new File(new File(srcDir, "java9"), "NonModuleInfo.java");
-        instrumentSourceFile(sourceFile, JavaEnvUtils.JAVA_1_6)
+        instrumentSourceFile(sourceFile, JavaEnvUtils.JAVA_1_7)
     }
 
 }
