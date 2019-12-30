@@ -95,7 +95,7 @@
             <path refid="ant.classpath"/>
             <!-- for with.clover -->
             <pathelement location="${repkg.clover.jar}"/>
-            <path refid="java.tools.path"/>
+            <pathelement location="${env.JAVA_HOME}/lib/tools.jar"/>
             <path refid="asm3.path"/>
         </path>
     </target>
@@ -149,7 +149,6 @@
                target="${jdk.target}"
                source="${jdk.target}"
                encoding="UTF8"
-               bootclasspathref="java.rt.path"
                includeAntRuntime="false">
             <classpath refid="clover-core.buildpath"/>
             <src path="${clover-core.output.gensources}"/>
@@ -166,7 +165,6 @@
                target="${jdk.target}"
                source="${jdk.target}"
                encoding="UTF8"
-               bootclasspathref="java.rt.path"
                includeAntRuntime="false">
             <classpath refid="clover-core.buildpath"/>
             <classpath >
@@ -191,7 +189,6 @@
                target="${jdk.target}"
                source="${jdk.target}"
                encoding="UTF8"
-               bootclasspathref="java.rt.path"
                includeAntRuntime="false">
             <classpath refid="clover-core.testpath"/>
             <src path="${clover-core.base}/src/test/java"/>

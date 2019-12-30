@@ -40,7 +40,6 @@
                deprecation="on"
                target="${jdk.target}"
                source="${jdk.target}"
-               bootclasspathref="java.rt.path"
                includeAntRuntime="false">
             <classpath refid="clover-idea-jps.libs"/>
             <classpath>
@@ -85,7 +84,6 @@
                deprecation="on"
                target="${jdk.target}"
                source="${jdk.target}"
-               bootclasspathref="java.rt.path"
                encoding="UTF8"
                includeAntRuntime="false">
             <classpath>

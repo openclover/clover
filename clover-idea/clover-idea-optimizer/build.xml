@@ -48,7 +48,6 @@
                deprecation="on"
                target="${jdk.target}"
                source="${jdk.target}"
-               bootclasspathref="java.rt.path"
                includeAntRuntime="false">
             <classpath>
                <path refid="clover-idea-optimizer.libs"/>
@@ -92,7 +91,6 @@
                deprecation="on"
                target="${jdk.target}"
                source="${jdk.target}"
-               bootclasspathref="java.rt.path"
                encoding="UTF8"
                includeAntRuntime="false">
             <classpath>

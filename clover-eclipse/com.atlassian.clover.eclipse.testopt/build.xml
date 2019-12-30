@@ -45,7 +45,6 @@
                deprecation="on"
                target="${eclipse.jdk.target}"
                source="${eclipse.jdk.target}"
-               bootclasspathref="java.rt.path"
                includeAntRuntime="false">
             <classpath>
                 <path refid="eclipse.libs"/>

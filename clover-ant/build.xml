@@ -62,9 +62,6 @@
             <pathelement location="${clover-ant.output.classes}"/>
             <pathelement location="${clover-ant.output.testclasses}"/>
             <pathelement location="${clover-buildutil.output.classes}"/>
-            <!-- Note: we have to use tools.jar from JDK we run tests against and not from java.tools.path used during
-            compilation (otherwise compilation of test projects will fail due to tools.jar-rt.jar incompatibility) -->
-            <pathelement location="${env.JAVA_HOME}/lib/tools.jar"/>
             <pathelement location="${clover-ant.jar}"/>
             <path refid="clover-core.testpath"/>
         </path>
@@ -84,7 +81,6 @@
                deprecation="on"
                target="${jdk.target}"
                source="${jdk.target}"
-               bootclasspathref="java.rt.path"
                includeantruntime="false">
 
             <include name="**/*.java"/>

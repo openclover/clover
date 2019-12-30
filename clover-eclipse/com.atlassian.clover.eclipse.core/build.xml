@@ -32,7 +32,6 @@
                deprecation="on"
                target="${eclipse.jdk.target}"
                source="${eclipse.jdk.target}"
-               bootclasspathref="java.rt.path"
                includeAntRuntime="true">
             <src path="${eclipse.core.base}/anttasks/src"/>
         </javac>
@@ -77,7 +76,6 @@
                deprecation="on"
                target="${eclipse.jdk.target}"
                source="${eclipse.jdk.target}"
-               bootclasspathref="java.rt.path"
                includeAntRuntime="false">
             <classpath>
                 <path refid="clover-core.buildpath"/>

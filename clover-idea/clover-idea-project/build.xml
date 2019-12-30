@@ -30,7 +30,6 @@
                deprecation="on"
                target="${jdk.target}"
                source="${jdk.target}"
-               bootclasspathref="java.rt.path"
                includeAntRuntime="false">
             <classpath>
                 <path refid="clover-idea-project.libs"/>
