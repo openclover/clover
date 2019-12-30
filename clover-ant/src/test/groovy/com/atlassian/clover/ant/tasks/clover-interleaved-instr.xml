@@ -35,7 +35,7 @@
             <fileset dir="${src.location}" includes="*1.java"/>
         </clover-instr>
 
-        <javac target="1.6" source="1.6" srcdir="instr" destdir="classes" includes="*1.java">
+        <javac target="1.7" source="1.7" srcdir="instr" destdir="classes" includes="*1.java">
             <classpath refid="test.path"/>
         </javac>
 
@@ -50,7 +50,7 @@
             <fileset dir="${src.location}" includes="*2.java"/>
         </clover-instr>
 
-        <javac target="1.6" source="1.6" srcdir="instr" destdir="classes" includes="*2.java">
+        <javac target="1.7" source="1.7" srcdir="instr" destdir="classes" includes="*2.java">
             <classpath refid="test.path"/>
         </javac>
 

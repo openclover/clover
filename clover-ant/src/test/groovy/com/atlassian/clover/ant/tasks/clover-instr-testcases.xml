@@ -44,7 +44,7 @@
         <mkdir dir="location1.instr"/>
         <mkdir dir="location2.instr"/>
 
-        <javac target="1.6" source="1.6" srcdir="${src.buildutil.location}" destdir="buildutil.classes">
+        <javac target="1.7" source="1.7" srcdir="${src.buildutil.location}" destdir="buildutil.classes">
             <classpath refid="all.test.path"/>
         </javac>
 
@@ -52,7 +52,7 @@
             <fileset dir="${project.src.location1}"/>
         </clover-instrument>
 
-        <javac target="1.6" source="1.6" srcdir="location1.instr" destdir="location1.classes">
+        <javac target="1.7" source="1.7" srcdir="location1.instr" destdir="location1.classes">
             <classpath refid="all.test.path"/>
         </javac>
 
@@ -60,7 +60,7 @@
             <fileset dir="${project.src.location2}"/>
         </clover-instrument>
 
-        <javac target="1.6" source="1.6" srcdir="location2.instr" destdir="location2.classes">
+        <javac target="1.7" source="1.7" srcdir="location2.instr" destdir="location2.classes">
             <classpath refid="all.test.path"/>
         </javac>
     </target>
