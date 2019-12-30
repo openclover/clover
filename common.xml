@@ -23,8 +23,8 @@
     <property name="build.dependency.skip.existing" value="true"/>
 
     <!-- Java we want to build against -->
-    <property name="jdk.target" value="1.6"/>
-    <property name="source.level" value="1.6"/>
+    <property name="jdk.target" value="1.7"/>
+    <property name="source.level" value="1.7"/>
     <path id="java.rt.path" path="${java.rt.path}"/>
     <path id="java.tools.path" path="${java.tools.path}"/>
 

@@ -79,8 +79,8 @@
         <javac destdir="${clover-idea-config.output.testclasses}"
                debug="on"
                deprecation="on"
-               target="1.6"
-               source="1.6"
+               target="${jdk.target}"
+               source="${jdk.target}"
                bootclasspathref="java.rt.path"
                encoding="UTF8"
                includeAntRuntime="false">
