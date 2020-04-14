@@ -15,20 +15,12 @@ import java.util.List;
 public class JavaInstrumentationConfig extends InstrumentationConfig {
     public static final String JAVA_LANG_PREFIX = "java.lang.";
 
-    /** true if we are dealing explicitly with java 1.4 source **/
-    private boolean java14 = false;
-    /** true if we are dealing explicitly with java 1.5 source **/
-    private boolean java15 = false;
-    /** true if we are dealing explicitly with java 1.6 source **/
-    private boolean java16 = false;
-    /** true if we are dealing explicitly with java 1.7 source **/
-    private boolean java17 = false;
     /** true if we are dealing explicitly with java 8 source **/
     private boolean java8 = false;
     /** true if we are dealing explicitly with java 9 source **/
     private boolean java9 = false;
 
-    private boolean sourceLevelSet = false;
+    private String sourceLevel;
 
     /** if true, use fully qualified names for Java vars **/
     private boolean fullyQualifiedJavaNames = true;
@@ -44,7 +36,7 @@ public class JavaInstrumentationConfig extends InstrumentationConfig {
     private File destDir;
 
     /** Used by CloverInstr */
-    private List<String> sourceFiles = new ArrayList<String>();
+    private List<String> sourceFiles = new ArrayList<>();
 
     public String getJavaLangPrefix() {
         return fullyQualifiedJavaNames ? JAVA_LANG_PREFIX : "";
@@ -56,35 +48,15 @@ public class JavaInstrumentationConfig extends InstrumentationConfig {
 
     public String getSourceLevel() {
         ensureSourceLevelSet();
-        return  java9 ? "1.9"
-                : java8 ? "1.8"
-                    : java17 ? "1.7"
-                        : java16 ? "1.6"
-                            : java15 ? "1.5"
-                                : java14 ? "1.4"
-                                    : "1.3";
+        return sourceLevel;
     }
 
     public void setSourceLevel(String source) {
         if (source != null) {
+            this.sourceLevel = source;
             java9 = source.equals("1.9") || source.equals("9");
             java8 = source.equals("1.8") || source.equals("8") || java9;
-            java17 = source.equals("1.7") || source.equals("7") || java8;
-            java16 = source.equals("1.6") || source.equals("6") || java17;
-            java15 = source.equals("1.5") || source.equals("5") || java16;
-            java14 = source.equals("1.4") || java15;
-            sourceLevelSet = true;
         }
-    }
-
-    public boolean isJava14() {
-        ensureSourceLevelSet();
-        return java14;
-    }
-
-    public boolean isJava15() {
-        ensureSourceLevelSet();
-        return java15;
     }
 
     public boolean isJava8() {
@@ -118,7 +90,7 @@ public class JavaInstrumentationConfig extends InstrumentationConfig {
     }
 
     private void ensureSourceLevelSet() {
-        if (!sourceLevelSet) {
+        if (sourceLevel == null) {
             setSourceLevel(determineSourceLevel());
         }
     }
