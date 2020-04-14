@@ -43,9 +43,6 @@ class JavaSyntax18CompilationTest extends JavaSyntaxCompilationTestBase {
     protected void setUp() throws Exception {
         super.setUp()
 
-        // we're developing on JDK1.5 so assertion is disabled
-        //assertTrue("this test requires at least jdk1.8",
-        //        JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_8))
         if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_8)) {
             srcDir = new File(mTestcasesSrcDir, "javasyntax1.8")
             resetAntOutput()
@@ -476,6 +473,5 @@ class JavaSyntax18CompilationTest extends JavaSyntaxCompilationTestBase {
         if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_8)) {
             instrumentAndCompileSourceFile(srcDir, mGenSrcDir, "pck/package-info.java", JavaEnvUtils.JAVA_1_8)
         }
-
     }
 }

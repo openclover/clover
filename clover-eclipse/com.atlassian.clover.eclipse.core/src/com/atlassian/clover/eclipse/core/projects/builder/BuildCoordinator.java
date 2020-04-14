@@ -8,7 +8,6 @@ import com.atlassian.clover.eclipse.core.projects.model.CoverageModelChangeEvent
 import com.atlassian.clover.eclipse.core.projects.model.DuringFullBuildDatabaseModel;
 import com.atlassian.clover.eclipse.core.ui.widgets.MessageDialogWithCheckbox;
 import com.atlassian.clover.util.FileUtils;
-import com.atlassian.clover.util.JavaEnvUtils;
 import com.atlassian.clover.CloverDatabase;
 import com.atlassian.clover.registry.Clover2Registry;
 import org.eclipse.core.resources.IContainer;

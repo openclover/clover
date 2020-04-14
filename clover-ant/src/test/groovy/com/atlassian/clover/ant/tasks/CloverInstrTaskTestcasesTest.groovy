@@ -3,7 +3,6 @@ package com.atlassian.clover.ant.tasks
 import clover.com.google.common.collect.Maps
 import com.atlassian.clover.CloverDatabase
 import com.atlassian.clover.CoverageData
-import com.atlassian.clover.TestUtils
 import com.atlassian.clover.api.CloverException
 import com.atlassian.clover.registry.entities.TestCaseInfo
 import com.atlassian.clover.support.IOHelper
@@ -35,9 +34,6 @@ class CloverInstrTaskTestcasesTest extends CloverBuildFileTestBase {
     }
 
     void testJUnitTests() throws CloverException {
-        assertTrue("this test requires at least jdk1.5",
-                   TestUtils.getJavaVersion() >= 15)
-
         executeTarget("runJUnitTests")
         assertAntOutputContains("Tests run: 13")
         checkTestResults("JUnit4TestCase")

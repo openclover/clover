@@ -11,7 +11,6 @@ import com.atlassian.clover.registry.FixedSourceRegion;
 import com.atlassian.clover.registry.entities.MethodSignature;
 import com_atlassian_clover.Clover;
 import com_atlassian_clover.CoverageRecorder;
-import org.apache.tools.ant.util.JavaEnvUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -86,10 +85,6 @@ public class TestUtils {
 
         return tempDir;
     }    
-
-    public static int getJavaVersion() {
-        return (int)(10*Float.parseFloat(JavaEnvUtils.getJavaVersion()));
-    }
 
     public static FullMethodInfo addClassWithSingleMethod(InstrumentationSessionImpl session, ContextSet context, String pkg, long timestamp, long fileSize, String clazzName, String methodName, boolean isTest) {
         SourceInfo region = new FixedSourceRegion(0, 0);
