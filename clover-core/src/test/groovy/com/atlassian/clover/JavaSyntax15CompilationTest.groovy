@@ -10,11 +10,8 @@ import org.apache.tools.ant.util.JavaEnvUtils
 class JavaSyntax15CompilationTest extends JavaSyntaxCompilationTestBase {
 
     void testCompilation_15() throws Exception {
-        assertTrue("this test requires at least jdk1.6",
-                JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_6))
-
         final File srcDir = new File(mTestcasesSrcDir, "javasyntax1.5")
-        compileSources(srcDir, JavaEnvUtils.JAVA_1_6)
+        compileSources(srcDir, JavaEnvUtils.JAVA_1_7)
     }
 
     /**
@@ -23,11 +20,8 @@ class JavaSyntax15CompilationTest extends JavaSyntaxCompilationTestBase {
      * @throws Exception
      */
     void testInstrumentationAndCompilation_15() throws Exception {
-        assertTrue("this test requires at least jdk1.6",
-                JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_6))
-
         final File srcDir = new File(mTestcasesSrcDir, "javasyntax1.5")
-        instrumentAndCompileSources(srcDir, JavaEnvUtils.JAVA_1_6)
+        instrumentAndCompileSources(srcDir, JavaEnvUtils.JAVA_1_7)
 
         String[] testCaseMainClasses = [
                 "coverage.enums.EnumTests",

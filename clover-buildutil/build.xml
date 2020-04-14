@@ -24,12 +24,11 @@
                deprecation="on"
                target="${jdk.target}"
                source="${jdk.target}"
-               bootclasspathref="java.rt.path"
                includeAntRuntime="false">
             <include name="**/*.java"/>
             <classpath>
                 <path refid="asm3.path"/>
-                <path refid="java.tools.path"/>
+                <pathelement location="${env.JAVA_HOME}/lib/tools.jar"/>
             </classpath>
         </javac>
         <groovyc srcdir="${clover-buildutil.base}/src"

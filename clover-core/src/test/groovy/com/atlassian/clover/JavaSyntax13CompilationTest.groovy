@@ -14,11 +14,8 @@ import org.apache.tools.ant.util.JavaEnvUtils
 class JavaSyntax13CompilationTest extends JavaSyntaxCompilationTestBase {
 
     void testCompilation_13() {
-        assertTrue("this test requires at least jdk1.6",
-                JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_6))
-
         final File srcDir = new File(mTestcasesSrcDir, "javasyntax1.3")
-        compileSources(srcDir, JavaEnvUtils.JAVA_1_6)
+        compileSources(srcDir, JavaEnvUtils.JAVA_1_7)
     }
 
     /**
@@ -26,10 +23,8 @@ class JavaSyntax13CompilationTest extends JavaSyntaxCompilationTestBase {
      * @throws Exception
      */
     void testInstrumentationAndCompilation_13() throws Exception {
-        assertTrue("this test requires at least jdk1.6", JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_3))
-
         final File srcDir = new File(mTestcasesSrcDir, "javasyntax1.3")
-        instrumentAndCompileSources(srcDir, JavaEnvUtils.JAVA_1_6)
+        instrumentAndCompileSources(srcDir, JavaEnvUtils.JAVA_1_7)
 
         // execute instrumented code
         String[] testCaseMainClasses = [ "simple.ALittleOfEverything" ]
@@ -43,7 +38,7 @@ class JavaSyntax13CompilationTest extends JavaSyntaxCompilationTestBase {
 
     void testColumnAlignment() throws Exception {
         final File srcDir = new File(mTestcasesSrcDir, "javasyntax1.3")
-        instrumentAndCompileSources(srcDir, JavaEnvUtils.JAVA_1_6)
+        instrumentAndCompileSources(srcDir, JavaEnvUtils.JAVA_1_7)
 
         String[] testCaseMainClasses = [ "simple.ColumnAlignment" ]
         executeMainClasses(testCaseMainClasses)

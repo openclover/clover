@@ -23,10 +23,8 @@
     <property name="build.dependency.skip.existing" value="true"/>
 
     <!-- Java we want to build against -->
-    <property name="jdk.target" value="1.6"/>
-    <property name="source.level" value="1.6"/>
-    <path id="java.rt.path" path="${java.rt.path}"/>
-    <path id="java.tools.path" path="${java.tools.path}"/>
+    <property name="jdk.target" value="1.7"/>
+    <property name="source.level" value="1.7"/>
 
     <!-- Default Groovy version. Use the latest available. -->
     <property name="default.groovy.version" value="2.4.15"/> <!-- TODO can't use 2.3.0+ because dumpAST() fails -->
@@ -435,21 +433,8 @@
         </sequential>
     </macrodef>
 
-    <!-- Download JDK from internal repository -->
-    <target name="-jdk.download" if="download.internal.maven.artifacts">
-        <property name="java.rt.version" value="1.6.0.45"/>
-        <!-- see java.rt.path in build.properties -->
-        <maven-resolve groupId="com.atlassian.clover" artifactId="java-rt" version="${java.rt.version}"/>
-        <!-- see java.tools.path in build.properties -->
-        <maven-resolve groupId="com.atlassian.clover" artifactId="java-tools" version="${java.rt.version}"/>
-    </target>
-
-    <target name="common.init" depends="prod.jdk8.build.check, -jdk.download">
+    <target name="common.init" depends="prod.jdk8.build.check">
         <mkdir dir="${build.dir}"/>
-
-        <!-- JDK -->
-        <echo level="verbose" message="Using JDK rt.jar ${java.rt.path}"/>
-        <echo level="verbose" message="Using JDK tools.jar ${java.tools.path}"/>
 
         <!-- Ant -->
         <get-ant-jars version="1.7.1"/>

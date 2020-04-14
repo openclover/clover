@@ -19,7 +19,7 @@ apply plugin: "clover"
 
 version = "0.7"
 description = "Spock Framework - Example Project"
-sourceCompatibility = 1.6
+sourceCompatibility = 1.7
 buildDir = "${projectDir}/target"
 
 repositories {
@@ -39,7 +39,7 @@ buildscript {
 
 allprojects {
     dependencies {
-        clover "com.atlassian.clover:clover:4.0.0"
+        clover "org.openclover:clover:4.4.1"
     }
 }
 

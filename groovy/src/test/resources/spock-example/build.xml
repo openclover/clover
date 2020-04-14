@@ -47,7 +47,7 @@ limitations under the License.
             <!-- to have groovyc task -->
             <dependency groupId="org.codehaus.groovy" artifactId="groovy-all" version="2.3.9"/>
             <!-- to have Clover instrumentation -->
-            <dependency groupId="org.openclover" artifactId="clover" version="4.2.0"/>
+            <dependency groupId="org.openclover" artifactId="clover" version="4.4.1"/>
         </artifact:dependencies>
         <echo message="classpath.spock=${toString:classpath.spock}"/>
     </target>

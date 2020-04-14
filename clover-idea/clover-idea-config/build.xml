@@ -37,7 +37,6 @@
                deprecation="on"
                target="${jdk.target}"
                source="${jdk.target}"
-               bootclasspathref="java.rt.path"
                includeAntRuntime="false">
             <classpath>
                 <path refid="clover-idea-config.libs"/>
@@ -79,9 +78,8 @@
         <javac destdir="${clover-idea-config.output.testclasses}"
                debug="on"
                deprecation="on"
-               target="1.6"
-               source="1.6"
-               bootclasspathref="java.rt.path"
+               target="${jdk.target}"
+               source="${jdk.target}"
                encoding="UTF8"
                includeAntRuntime="false">
             <classpath>

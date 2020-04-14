@@ -111,7 +111,6 @@
                target="${jdk.target}"
                source="${jdk.target}"
                encoding="UTF8"
-               bootclasspathref="java.rt.path"
                includeAntRuntime="false">
             <classpath refid="clover-runtime.buildpath"/>
             <src path="${clover-runtime.base}/src/main/java"/>

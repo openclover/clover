@@ -17,7 +17,6 @@ import org.openclover.util.ClassPathUtil;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Javac;
-import org.apache.tools.ant.util.JavaEnvUtils;
 import org.apache.tools.ant.taskdefs.compilers.CompilerAdapter;
 import org.apache.tools.ant.taskdefs.compilers.CompilerAdapterFactory;
 import org.apache.tools.ant.types.FileSet;
@@ -320,10 +319,6 @@ public class CloverCompilerAdapter implements CompilerAdapter {
     }
 
     public static String getDefaultAntCompiler() {
-        if (JavaEnvUtils.getJavaVersion().equals(JavaEnvUtils.JAVA_1_1)
-             || JavaEnvUtils.getJavaVersion().equals(JavaEnvUtils.JAVA_1_2)) {
-            return "classic";
-        }
         return "modern";
     }
 
