@@ -168,7 +168,7 @@ tokens {
     }
 
     private void instrSuppressWarnings(CloverToken instrPoint) {
-        if (cfg.isJava15() && !existingFallthroughSuppression && fileInfo.isSuppressFallthroughWarnings()) {
+        if (!existingFallthroughSuppression && fileInfo.isSuppressFallthroughWarnings()) {
             if (suppressWarningsInstr == null) {
                 // no existing SuppressWarnings annotation on the outermost type, so add our own
                 instrPoint.addPreEmitter(new SimpleEmitter("@" + cfg.getJavaLangPrefix() + "SuppressWarnings({\"fallthrough\"}) "));
@@ -1734,8 +1734,8 @@ statement [CloverToken owningLabel] returns [CloverToken last]
 
     : {first = (CloverToken)LT(1);}
     (
-        // assert statement. must be java 1.4 - use a semantic predicate to enforce
-        {cfg.isJava14()}? "assert"
+        // an assert statement
+        "assert"
         { enterContext(ContextStore.CONTEXT_ASSERT); instrumentable = false; saveContext = getCurrentContext(); }
         { tmp=(CloverToken)LT(1); }
         expression
@@ -2888,20 +2888,6 @@ options {
         this(new CharBuffer(in));
         setTabSize(1);
         mConfig = aCfg;
-    }
-
-    public int testLiteralsTable(int aType)
-    {
-        int tmpType = super.testLiteralsTable(aType);
-        if (!mConfig.isJava14() && (tmpType == JavaTokenTypes.LITERAL_assert)) {
-            // override ANTLR in the case where we are not java 14 and we hit an "assert"
-            return JavaTokenTypes.IDENT;
-        }
-        if (!mConfig.isJava15() && (tmpType == JavaTokenTypes.LITERAL_enum)) {
-            // override ANTLR in the case where we are not java 15 and we hit an "enum"
-            return JavaTokenTypes.IDENT;
-        }
-        return tmpType;
     }
     
 	protected void nc() {
