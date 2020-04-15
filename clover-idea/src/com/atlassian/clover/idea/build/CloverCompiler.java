@@ -1,7 +1,7 @@
 package com.atlassian.clover.idea.build;
 
 import clover.com.google.common.annotations.VisibleForTesting;
-import clover.com.google.common.collect.ImmutableMap;
+import clover.com.google.common.base.Strings;
 import com.atlassian.clover.CloverDatabase;
 import com.atlassian.clover.Logger;
 import com.atlassian.clover.api.CloverException;
@@ -11,7 +11,6 @@ import com.atlassian.clover.context.MethodRegexpContext;
 import com.atlassian.clover.context.RegexpContext;
 import com.atlassian.clover.context.StatementRegexpContext;
 import com.atlassian.clover.idea.CloverToolWindowId;
-import com.atlassian.clover.idea.LibrarySupport;
 import com.atlassian.clover.idea.ProjectPlugin;
 import com.atlassian.clover.idea.config.IdeaCloverConfig;
 import com.atlassian.clover.idea.config.regexp.Regexp;
@@ -54,6 +53,7 @@ import com.intellij.openapi.wm.ToolWindowManager;
 import com.intellij.pom.java.LanguageLevel;
 import com.intellij.util.messages.MessageBus;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -546,21 +546,15 @@ public class CloverCompiler implements JavaSourceTransformingCompiler {
         return LanguageLevel.values()[Math.min(LanguageLevel.values().length, jdk19Index)];
     }
 
-    private static final Map<LanguageLevel, String> LANGUAGE_LEVEL_TO_STRING =
-            new ImmutableMap.Builder<LanguageLevel, String>()
-                    .put(LanguageLevel.JDK_1_9, "1.9")
-                    .put(LanguageLevel.JDK_1_8, "1.8")
-                    .put(LanguageLevel.JDK_1_7, "1.7")
-                    .put(LanguageLevel.JDK_1_6, "1.6")
-                    .put(LanguageLevel.JDK_1_5, "1.5")
-                    .put(LanguageLevel.JDK_1_4, "1.4")
-                    .put(LanguageLevel.JDK_1_3, "1.3")
-                    .build();
-
+    /**
+     * @param languageLevel IDEA's enum
+     * @return source level like "1.8" or <pre>null</pre>
+     */
+    @Nullable
     @VisibleForTesting
     static String sourceLevelString(LanguageLevel languageLevel) {
-        final String level = LANGUAGE_LEVEL_TO_STRING.get(languageLevel);
-        return level != null ? level : "1.9";
+        // LanguageLevel.JDK_X is empty as -source option is deprecated, change it to null
+        return Strings.emptyToNull(languageLevel.getCompilerComplianceDefaultOption());
     }
 
     private void initCompiler() {

@@ -200,7 +200,7 @@ public class CloverJavaBuilder extends ModuleLevelBuilder {
         instrConfig.setInitstring(config.getInitString());
         instrConfig.setFlushPolicy(config.getFlushPolicy());
         instrConfig.setFlushInterval(config.getFlushInterval());
-        instrConfig.setSourceLevel(config.getLanguageLevelAsNumber());
+        instrConfig.setSourceLevel(config.getLanguageLevel());
         instrConfig.setTestDetector(new JpsProjectTestDetector(project, JpsProjectPrefixTreeUtil.collectRootTypes(project)));
         instrConfig.setInstrumentLambda(config.getInstrumentLambda());
         return instrConfig;

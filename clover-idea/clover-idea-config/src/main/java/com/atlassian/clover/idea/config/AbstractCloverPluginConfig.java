@@ -6,10 +6,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.beans.PropertyChangeEvent;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import static clover.com.google.common.collect.Lists.newArrayList;
 
@@ -245,28 +243,4 @@ public abstract class AbstractCloverPluginConfig implements CloverPluginConfig {
         return (Long) val;
     }
 
-    public static final String DEFAULT_LANGUAGE_LEVEL = LANGUAGE_LEVEL_JAVA_19;
-
-    protected final Map<String, String> languageLevel2VersionString = new HashMap<String, String>() {{
-        put(LANGUAGE_LEVEL_JAVA_13, "1.3");
-        put(LANGUAGE_LEVEL_JAVA_14, "1.4");
-        put(LANGUAGE_LEVEL_JAVA_15, "1.5");
-        // LANGUAGE_LEVEL_JAVA_16 is missing
-        put(LANGUAGE_LEVEL_JAVA_17, "1.7");
-        put(LANGUAGE_LEVEL_JAVA_18, "1.8");
-        put(LANGUAGE_LEVEL_JAVA_19, "1.9");
-    }};
-
-    /**
-     * Returns Java language level as a short-number version string like: "1.4", "1.5" which is
-     * useful for for passing as '-source' argument for javac. If language level is not set,
-     * the Java 9 is taken as default.
-     * @return String 1.3, 1.4, 1.5, 1.6, 1.7, 1.8 or 9
-     */
-    @Override
-    @Nullable
-    public String getLanguageLevelAsNumber() {
-        final String languageLevel = getLanguageLevel() != null ? getLanguageLevel() : DEFAULT_LANGUAGE_LEVEL;
-        return languageLevel2VersionString.get(languageLevel);
-    }
 }

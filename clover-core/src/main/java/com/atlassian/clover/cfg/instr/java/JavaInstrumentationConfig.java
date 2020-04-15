@@ -3,6 +3,7 @@ package com.atlassian.clover.cfg.instr.java;
 import com.atlassian.clover.api.CloverException;
 import com.atlassian.clover.cfg.instr.InstrumentationConfig;
 import com.atlassian.clover.util.JavaEnvUtils;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -51,12 +52,14 @@ public class JavaInstrumentationConfig extends InstrumentationConfig {
         return sourceLevel;
     }
 
-    public void setSourceLevel(String source) {
-        if (source != null) {
-            this.sourceLevel = source;
-            java9 = source.equals("1.9") || source.equals("9");
-            java8 = source.equals("1.8") || source.equals("8") || java9;
-        }
+    /**
+     * Java language level of sources being instrumented.
+     * @param source level, can be <pre>null</pre> to use autodetection
+     */
+    public void setSourceLevel(@Nullable String source) {
+        this.sourceLevel = source;
+        java9 = "1.9".equals(source) || "9".equals(source);
+        java8 = "1.8".equals(source) || "8".equals(source) || java9;
     }
 
     public boolean isJava8() {
