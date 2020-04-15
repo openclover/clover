@@ -459,7 +459,7 @@ class CloverInstrArgProcessorsTest {
     @Test
     void processTestSourceIncludesExcludesClassesMethods() {
         // some helper contexts to pass assertions if we're not interested in this aspect
-        TestDetector.TypeContext typeContext = new JavaTypeContext([test: "" ], null, "default-pkg", "IT", null)
+        TestDetector.TypeContext typeContext = new JavaTypeContext([test: [""] ], null, "default-pkg", "IT", null)
         TestDetector.SourceContext sourceContext = new SimpleFileSourceContext("com/acme/include/AnyOne.java")
 
         assertConfig(

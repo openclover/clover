@@ -22,6 +22,7 @@ import org.junit.Test;
 import java.io.File;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -51,9 +52,9 @@ public class JpsProjectTestDetectorTest {
                 createSourceContext(FileUtils.getPlatformSpecificPath("Project/ModuleA/src/MyClass.java"));
         final TestDetector.SourceContext testSourceContext =
                 createSourceContext(FileUtils.getPlatformSpecificPath("Project/ModuleA/test/MyTest.java"));
-        final TestDetector.TypeContext junitClass = new JavaTypeContext(new HashMap(), new Modifiers(),
+        final TestDetector.TypeContext junitClass = new JavaTypeContext(new HashMap<String, List<String>>(), new Modifiers(),
                 "com.acme", "MyTest", "org.junit.TestCase");
-        final TestDetector.TypeContext normalClass = new JavaTypeContext(new HashMap(), new Modifiers(),
+        final TestDetector.TypeContext normalClass = new JavaTypeContext(new HashMap<String, List<String>>(), new Modifiers(),
                 "com.acme", "MyClass", "java.lang.Object");
 
         // case: class is a JUnit class, located in /src folder -> isTypeMatch returns true

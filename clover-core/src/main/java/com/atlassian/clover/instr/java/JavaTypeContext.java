@@ -13,7 +13,7 @@ public class JavaTypeContext implements TestDetector.TypeContext {
     private final String classname;
     private final String superclass;
 
-    public JavaTypeContext(Map tags, Modifiers mods, String pkgName, String classname, String superclass) {
+    public JavaTypeContext(Map<String, List<String>> tags, Modifiers mods, String pkgName, String classname, String superclass) {
         this.tags = tags;
         this.mods = mods;
         this.pkgName = pkgName;
