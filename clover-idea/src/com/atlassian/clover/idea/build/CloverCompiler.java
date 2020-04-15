@@ -1,7 +1,7 @@
 package com.atlassian.clover.idea.build;
 
 import clover.com.google.common.annotations.VisibleForTesting;
-import clover.com.google.common.base.Strings;
+import clover.com.google.common.collect.ImmutableMap;
 import com.atlassian.clover.CloverDatabase;
 import com.atlassian.clover.Logger;
 import com.atlassian.clover.api.CloverException;
@@ -546,6 +546,17 @@ public class CloverCompiler implements JavaSourceTransformingCompiler {
         return LanguageLevel.values()[Math.min(LanguageLevel.values().length, jdk19Index)];
     }
 
+    private static final Map<LanguageLevel, String> LANGUAGE_LEVEL_TO_STRING =
+            new ImmutableMap.Builder<LanguageLevel, String>()
+                    .put(LanguageLevel.JDK_1_9, "1.9")
+                    .put(LanguageLevel.JDK_1_8, "1.8")
+                    .put(LanguageLevel.JDK_1_7, "1.7")
+                    .put(LanguageLevel.JDK_1_6, "1.6")
+                    .put(LanguageLevel.JDK_1_5, "1.5")
+                    .put(LanguageLevel.JDK_1_4, "1.4")
+                    .put(LanguageLevel.JDK_1_3, "1.3")
+                    .build();
+
     /**
      * @param languageLevel IDEA's enum
      * @return source level like "1.8" or <pre>null</pre>
@@ -554,7 +565,9 @@ public class CloverCompiler implements JavaSourceTransformingCompiler {
     @VisibleForTesting
     static String sourceLevelString(LanguageLevel languageLevel) {
         // LanguageLevel.JDK_X is empty as -source option is deprecated, change it to null
-        return Strings.emptyToNull(languageLevel.getCompilerComplianceDefaultOption());
+        // TODO getCompilerComplianceDefaultOption is available since IDEA 15, use it once IDEA 14 is dropped
+        // TODO return Strings.emptyToNull(languageLevel.getCompilerComplianceDefaultOption());
+        return LANGUAGE_LEVEL_TO_STRING.get(languageLevel);
     }
 
     private void initCompiler() {
