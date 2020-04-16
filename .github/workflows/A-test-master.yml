@@ -20,12 +20,14 @@ jobs:
     
     - name: Download and install KTreemap fork
       run: git clone https://bitbucket.org/atlassian/ktreemap ktreemap
-        - (cd ktreemap; git checkout ktreemap-1.1.0-atlassian-01; mvn install)
+        - cd ktreemap
+        - git checkout ktreemap-1.1.0-atlassian-01
+        - mvn install
 
     - name: Prepare repacked third party libraries
       run: mvn install -f clover-core-libs/jarjar/pom.xml
         - mvn install -Prepack -f clover-core-libs/pom.xml
         - mvn install -Prepack -f clover-idea/clover-jtreemap/pom.xml
  
-    - name: Run tests (except Eclipse and IDEA)
+    - name: Run tests except Eclipse and IDEA
       run: ant -noinput -buildfile build.xml clover-core.test clover-ant.test groovy.test
