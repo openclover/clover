@@ -19,12 +19,12 @@ jobs:
       with:
         java-version: 1.8
     
-    - name: Download KTreemap fork
-      run: |
-        git clone https://bitbucket.org/atlassian/ktreemap
-        cd ktreemap
-        git checkout ktreemap-1.1.0-atlassian-01
-        mvn install
+#    - name: Download KTreemap fork
+#      run: |
+#         git clone https://bitbucket.org/atlassian/ktreemap
+#         cd ktreemap
+#         git checkout ktreemap-1.1.0-atlassian-01
+#         mvn install   # fails because of missing eclipse artifact
 
     - name: Prepare repacked third party libraries
       run: |
