@@ -124,7 +124,7 @@ public class MethodRegistrationNode extends Emitter {
 
             final List expectedExceptions =
                     state.isDetectTests() ?
-                            newArrayList(ExpectedExceptionMiner.extractExpectedExceptionsFor(signature, true, true))
+                            newArrayList(ExpectedExceptionMiner.extractExpectedExceptionsFor(signature, true))
                             : Collections.emptyList();
 
             final boolean expectsExceptions = expectedExceptions.size() > 0;
