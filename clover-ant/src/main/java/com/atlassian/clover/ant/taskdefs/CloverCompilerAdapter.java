@@ -3,6 +3,7 @@ package com.atlassian.clover.ant.taskdefs;
 import clover.com.google.common.collect.Sets;
 import clover.org.apache.commons.lang3.reflect.FieldUtils;
 import com.atlassian.clover.ant.AntInstrUtils;
+import com.atlassian.clover.cfg.instr.java.SourceLevel;
 import com.atlassian.clover.instr.java.Instrumenter;
 import com.atlassian.clover.instr.tests.FileMappedTestDetector;
 import com.atlassian.clover.instr.tests.TestDetector;
@@ -170,7 +171,7 @@ public class CloverCompilerAdapter implements CompilerAdapter {
             // locally set source level overrides previously configured value
             final String src = javac.getSource();
             if (src != null) {
-                instrConfig.setSourceLevel(src);
+                instrConfig.setSourceLevel(SourceLevel.fromString(src));
             }
  
             // locally set encoding overrides previously configured value

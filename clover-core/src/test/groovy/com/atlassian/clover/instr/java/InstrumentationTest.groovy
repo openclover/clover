@@ -8,6 +8,7 @@ import com.atlassian.clover.cfg.instr.InstrumentationLevel
 import com.atlassian.clover.CloverNames
 import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig
 import com.atlassian.clover.cfg.instr.java.LambdaInstrumentation
+import com.atlassian.clover.cfg.instr.java.SourceLevel
 import com.atlassian.clover.registry.Clover2Registry
 import com.atlassian.clover.registry.FixedSourceRegion
 import com.atlassian.clover.registry.entities.FullMethodInfo
@@ -801,7 +802,7 @@ public class InstrumentationTest {
         cfg.setRelative(relativeIS)
         cfg.setProjectName(name.toString())
         cfg.setClassInstrStragegy(classInstrStrategy)
-        cfg.setSourceLevel("8")
+        cfg.setSourceLevel(SourceLevel.JAVA_8)
         cfg.setReportInitErrors(false)
         cfg.setRecordTestResults(testRewriting)
         cfg.setEncoding("ISO-88591")

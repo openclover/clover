@@ -2,6 +2,7 @@ package com.atlassian.clover.instr.java
 
 import com.atlassian.clover.TestUtils
 import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig
+import com.atlassian.clover.cfg.instr.java.SourceLevel
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -90,7 +91,7 @@ public class ParseGenericsTest {
         final JavaInstrumentationConfig cfg = new JavaInstrumentationConfig()
         cfg.setInitstring(initString)
         cfg.setProjectName(testName.methodName)
-        cfg.setSourceLevel("5")
+        cfg.setSourceLevel(SourceLevel.JAVA_7)
         final StringWriter out = new StringWriter()
         final Instrumenter instr = new Instrumenter(cfg)
         instr.startInstrumentation()

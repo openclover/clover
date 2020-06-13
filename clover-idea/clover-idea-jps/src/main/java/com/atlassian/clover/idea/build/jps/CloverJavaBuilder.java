@@ -2,6 +2,7 @@ package com.atlassian.clover.idea.build.jps;
 
 import com.atlassian.clover.api.CloverException;
 import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig;
+import com.atlassian.clover.cfg.instr.java.SourceLevel;
 import com.atlassian.clover.instr.java.Instrumenter;
 import com.atlassian.clover.spi.lang.Language;
 import com.atlassian.clover.context.ContextStore;
@@ -200,7 +201,7 @@ public class CloverJavaBuilder extends ModuleLevelBuilder {
         instrConfig.setInitstring(config.getInitString());
         instrConfig.setFlushPolicy(config.getFlushPolicy());
         instrConfig.setFlushInterval(config.getFlushInterval());
-        instrConfig.setSourceLevel(config.getLanguageLevel());
+        instrConfig.setSourceLevel(SourceLevel.fromString(config.getLanguageLevel()));
         instrConfig.setTestDetector(new JpsProjectTestDetector(project, JpsProjectPrefixTreeUtil.collectRootTypes(project)));
         instrConfig.setInstrumentLambda(config.getInstrumentLambda());
         return instrConfig;

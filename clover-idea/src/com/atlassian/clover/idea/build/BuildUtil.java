@@ -1,6 +1,7 @@
 package com.atlassian.clover.idea.build;
 
 import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig;
+import com.atlassian.clover.cfg.instr.java.SourceLevel;
 import com.atlassian.clover.idea.config.CloverPluginConfig;
 import com.intellij.openapi.project.Project;
 
@@ -34,7 +35,7 @@ public class BuildUtil {
                                                            Project project) {
         instrConfig.setFlushPolicy(config.getFlushPolicy());
         instrConfig.setFlushInterval(config.getFlushInterval());
-        instrConfig.setSourceLevel(config.getLanguageLevel());
+        instrConfig.setSourceLevel(SourceLevel.fromString(config.getLanguageLevel()));
         instrConfig.setTestDetector(new IdeaTestDetector(project));
         instrConfig.setInstrumentLambda(config.getInstrumentLambda());
         return instrConfig;

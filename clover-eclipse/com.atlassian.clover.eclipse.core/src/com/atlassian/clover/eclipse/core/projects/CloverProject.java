@@ -1,6 +1,7 @@
 package com.atlassian.clover.eclipse.core.projects;
 
 import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig;
+import com.atlassian.clover.cfg.instr.java.SourceLevel;
 import com.atlassian.clover.instr.tests.AggregateTestDetector;
 import com.atlassian.clover.instr.tests.AndStrategy;
 import com.atlassian.clover.instr.tests.AntPatternTestDetectorFilter;
@@ -329,7 +330,7 @@ public class CloverProject extends BaseNature {
         config.setProjectName(project.getName());
         config.setEncoding(getProject().getDefaultCharset());
         config.setDefaultBaseDir(getProject().getLocation().toFile());
-        config.setSourceLevel(getJavaProject().getOption(JavaCore.COMPILER_SOURCE, true));
+        config.setSourceLevel(SourceLevel.fromString(getJavaProject().getOption(JavaCore.COMPILER_SOURCE, true)));
         config.setFlushPolicy(settings.getFlushPolicy());
         config.setFlushInterval(settings.getFlushInterval());
         config.setFullyQualifyJavaLang(settings.shouldQualifyJavaLang());

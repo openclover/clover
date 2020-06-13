@@ -16,12 +16,7 @@ import java.util.List;
 public class JavaInstrumentationConfig extends InstrumentationConfig {
     public static final String JAVA_LANG_PREFIX = "java.lang.";
 
-    /** true if we are dealing explicitly with java 8 source **/
-    private boolean java8 = false;
-    /** true if we are dealing explicitly with java 9 source **/
-    private boolean java9 = false;
-
-    private String sourceLevel;
+    private SourceLevel sourceLevel = SourceLevel.autoDetect();
 
     /** if true, use fully qualified names for Java vars **/
     private boolean fullyQualifiedJavaNames = true;
@@ -47,29 +42,15 @@ public class JavaInstrumentationConfig extends InstrumentationConfig {
         this.fullyQualifiedJavaNames = fullyQualifiedJavaNames;
     }
 
-    public String getSourceLevel() {
-        ensureSourceLevelSet();
+    public SourceLevel getSourceLevel() {
         return sourceLevel;
     }
 
     /**
      * Java language level of sources being instrumented.
-     * @param source level, can be <pre>null</pre> to use autodetection
      */
-    public void setSourceLevel(@Nullable String source) {
-        this.sourceLevel = source;
-        java9 = "1.9".equals(source) || "9".equals(source);
-        java8 = "1.8".equals(source) || "8".equals(source) || java9;
-    }
-
-    public boolean isJava8() {
-        ensureSourceLevelSet();
-        return java8;
-    }
-
-    public boolean isJava9(){
-        ensureSourceLevelSet();
-        return java9;
+    public void setSourceLevel(SourceLevel sourceLevel) {
+        this.sourceLevel = sourceLevel;
     }
 
     public void setInstrFileExtension(String extension) {
@@ -86,16 +67,6 @@ public class JavaInstrumentationConfig extends InstrumentationConfig {
 
     public LambdaInstrumentation getInstrumentLambda() {
         return instrumentLambda;
-    }
-
-    protected String determineSourceLevel() {
-        return JavaEnvUtils.getJavaVersion();
-    }
-
-    private void ensureSourceLevelSet() {
-        if (sourceLevel == null) {
-            setSourceLevel(determineSourceLevel());
-        }
     }
 
     public void setSourceDir(File sourceDir) {

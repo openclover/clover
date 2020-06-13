@@ -40,7 +40,7 @@ public class CloverInstr {
             CloverInstrArgProcessors.InstrStrategy,
             CloverInstrArgProcessors.InstrLevel,
             CloverInstrArgProcessors.InstrLambda,
-            CloverInstrArgProcessors.SourceLevel,
+            CloverInstrArgProcessors.SourceLevelArg,
             CloverInstrArgProcessors.RecordTestResults,
             CloverInstrArgProcessors.DontQualifyJavaLang,
             CloverInstrArgProcessors.MethodContext,

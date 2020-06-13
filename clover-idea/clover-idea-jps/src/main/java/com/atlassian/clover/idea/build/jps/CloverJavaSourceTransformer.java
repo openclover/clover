@@ -3,6 +3,7 @@ package com.atlassian.clover.idea.build.jps;
 import clover.antlr.RecognitionException;
 import clover.antlr.TokenStreamException;
 import com.atlassian.clover.api.CloverException;
+import com.atlassian.clover.cfg.instr.java.SourceLevel;
 import com.atlassian.clover.instr.java.Instrumenter;
 import com.atlassian.clover.idea.build.InclusionDetector;
 import com.atlassian.clover.util.trie.PrefixTree;
@@ -94,7 +95,7 @@ public class CloverJavaSourceTransformer extends JavaSourceTransformer {
                 final LanguageLevel level = getLanguageLevelForFile(file);
                 final Instrumenter instrumenter = CloverJavaBuilder.getInstance().getInstrumenter();
                 // TODO CLOV-1284 parallel build - this instrumenter is shared, make language level local
-                instrumenter.getConfig().setSourceLevel(languageLevelToShortString(level));
+                instrumenter.getConfig().setSourceLevel(languageLevelToSourceLevel(level));
                 final JpsEncodingProjectConfiguration projectEncodingConfiguration = JpsEncodingConfigurationService.getInstance().getEncodingConfiguration(jpsProject);
                 final String fileEncoding = projectEncodingConfiguration != null ? projectEncodingConfiguration.getEncoding(file) : null;
 
@@ -134,20 +135,30 @@ public class CloverJavaSourceTransformer extends JavaSourceTransformer {
         return (closestSourceRoot.getValue() != null ? closestSourceRoot.getValue() : LanguageLevel.JDK_1_9);
     }
 
-    protected final Map<LanguageLevel, String> languageLevel2VersionString = new HashMap<LanguageLevel, String>() {{
-        put(LanguageLevel.JDK_1_3, "1.3");
-        put(LanguageLevel.JDK_1_4, "1.4");
-        put(LanguageLevel.JDK_1_5, "1.5");
-        put(LanguageLevel.JDK_1_6, "1.6");
-        put(LanguageLevel.JDK_1_7, "1.7");
-        put(LanguageLevel.JDK_1_8, "1.8");
-        put(LanguageLevel.JDK_1_9, "1.9");
+    // Note: it's similar to com.atlassian.clover.idea.build.CloverCompiler.LANGUAGE_LEVEL_TO_SOURCE_LEVEL
+    // but converts org.jetbrains.jps.model.java.LanguageLevel
+    protected static final Map<LanguageLevel, SourceLevel> LANGUAGE_LEVEL_TO_SOURCE_LEVEL
+            = new HashMap<LanguageLevel, SourceLevel>() {{
+        put(LanguageLevel.JDK_1_9, SourceLevel.JAVA_9);
+        put(LanguageLevel.JDK_1_8, SourceLevel.JAVA_8);
+        put(LanguageLevel.JDK_1_7, SourceLevel.JAVA_7);
+        put(LanguageLevel.JDK_1_6, SourceLevel.JAVA_7);
+        put(LanguageLevel.JDK_1_5, SourceLevel.JAVA_7);
+        put(LanguageLevel.JDK_1_4, SourceLevel.JAVA_7);
+        put(LanguageLevel.JDK_1_3, SourceLevel.JAVA_7);
     }};
 
-    public String languageLevelToShortString(final LanguageLevel level) {
-        return languageLevel2VersionString.containsKey(level)
-                ? languageLevel2VersionString.get(level)
-                : languageLevel2VersionString.get(LanguageLevel.JDK_1_9); // use 1.9 if key not found
+    /**
+     * Convert IDEA's LanguageLevel to ours SourceLevel
+     */
+    public SourceLevel languageLevelToSourceLevel(final LanguageLevel level) {
+        // TODO LanguageLevel#getComplianceOption was introduced in IDEA 15
+        // TODO simplify the code once IDEA 14 is dropped
+        // TODO return SourceLevel.fromString(level.getComplianceOption());
+
+        // if a map returned null then probably JDK 10 or higher was used, assume Java 9 then
+        final SourceLevel sourceLevel = LANGUAGE_LEVEL_TO_SOURCE_LEVEL.get(level);
+        return sourceLevel == null ? SourceLevel.JAVA_9 : sourceLevel;
     }
 
     private void debugTransform(final File file, final CharSequence charSequence,

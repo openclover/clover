@@ -2,7 +2,6 @@ package com.atlassian.clover.ant.tasks;
 
 import clover.com.google.common.collect.Sets;
 import com.atlassian.clover.CloverNames;
-import com.atlassian.clover.Logger;
 import com.atlassian.clover.api.CloverException;
 import com.atlassian.clover.cfg.instr.InstrumentationConfig;
 import com.atlassian.clover.cfg.instr.InstrumentationPlacement;
@@ -34,7 +33,6 @@ public class AntInstrumentationConfig extends JavaInstrumentationConfig {
 
     private boolean preserve;
     private String compilerDelegate;
-    private static final String ANT_BUILD_JAVAC_SOURCE = "ant.build.javac.source";
     private File groverJar;
     private boolean skipGroverJar = false;
 
@@ -44,18 +42,6 @@ public class AntInstrumentationConfig extends JavaInstrumentationConfig {
         setProjectName(project.getName());
         setDefaultBaseDir(project.getBaseDir());
         setInitstring(project.getProperty(CloverNames.PROP_INITSTRING));
-    }
-
-    @Override
-    protected String determineSourceLevel() {
-        String srcLevel = project.getProperty(ANT_BUILD_JAVAC_SOURCE);
-        if (srcLevel == null) {
-            srcLevel = super.determineSourceLevel();
-        } else {
-            Logger.getInstance().verbose("Using source level of '" + srcLevel +
-                    "' as set in Ant property '" + ANT_BUILD_JAVAC_SOURCE + "'");
-        }
-        return srcLevel;
     }
 
     /**
