@@ -143,7 +143,7 @@ public class ShowAboutCloverActionDelegate extends CloverProjectActionDelegate {
             linkAndLicense("FastUtil", "http://fastutil.dsi.unimi.it/", "FASTUTIL-4.4.3-LICENSE.TXT", ackComposite);
             linkAndLicense("Groovy", "http://groovy.codehaus.org", "GROOVY-1.7.0-LICENSE.TXT", ackComposite);
             linkAndLicense("GSON", "http://code.google.com/p/google-gson", "GSON-1.3-LICENSE.TXT", ackComposite);
-            linkAndLicense("Guava", "http://code.google.com/p/guava-libraries", "GUAVA-18.0-LICENSE.TXT", ackComposite);
+            linkAndLicense("Guava", "https://github.com/google/guava", "GUAVA-29.0-LICENSE.TXT", ackComposite);
             linkAndLicense("iText", "http://itextpdf.com", "ITEXT-2.0.1-LICENSE.TXT", ackComposite);
             linkAndLicense("JCommon", "http://www.jfree.org/jfreechart/", "JCOMMON-1.0.23-LICENSE.TXT", ackComposite);
             linkAndLicense("JDOM", "http://www.jdom.org", "JDOM-1.0-LICENSE.TXT", ackComposite);
