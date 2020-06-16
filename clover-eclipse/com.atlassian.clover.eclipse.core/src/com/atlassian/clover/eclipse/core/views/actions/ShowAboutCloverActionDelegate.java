@@ -138,7 +138,7 @@ public class ShowAboutCloverActionDelegate extends CloverProjectActionDelegate {
             linkAndLicense("ASM", "http://asm.ow2.org", "ASM-5.0.3-LICENSE.TXT", ackComposite);
             linkAndLicense("Cajo", "http://java.net/projects/cajo/pages/Home", "CAJO-1.117-LICENSE.TXT", ackComposite);
             linkAndLicense("Commons Codec", "http://commons.apache.org", "COMMONS-CODEC-1.9-LICENSE.TXT", ackComposite);
-            linkAndLicense("Commons Collections", "http://commons.apache.org", "COMMONS-COLLECTIONS-3.2.1-LICENSE.TXT", ackComposite);
+            linkAndLicense("Commons Collections", "http://commons.apache.org", "COMMONS-COLLECTIONS-3.2.2-LICENSE.TXT", ackComposite);
             linkAndLicense("Commons Lang", "http://commons.apache.org", "COMMONS-LANG3-3.3.2-LICENSE.TXT", ackComposite);
             linkAndLicense("FastUtil", "http://fastutil.dsi.unimi.it/", "FASTUTIL-4.4.3-LICENSE.TXT", ackComposite);
             linkAndLicense("Groovy", "http://groovy.codehaus.org", "GROOVY-1.7.0-LICENSE.TXT", ackComposite);
