@@ -105,7 +105,7 @@ public class AboutDialog extends DialogWrapper {
                 addProduct("Cajo", "http://java.net/projects/cajo/pages/Home", "CAJO-1.117-LICENSE.TXT"),
                 addProduct("Commons Codec", "http://commons.apache.org", "COMMONS-CODEC-1.9-LICENSE.TXT"));
         addRow(sb,
-                addProduct("Commons Collections", "http://commons.apache.org", "COMMONS-COLLECTIONS-3.2.1-LICENSE.TXT"),
+                addProduct("Commons Collections", "http://commons.apache.org", "COMMONS-COLLECTIONS-3.2.2-LICENSE.TXT"),
                 addProduct("Commons Lang", "http://commons.apache.org", "COMMONS-LANG3-3.3.2-LICENSE.TXT"));
         addRow(sb,
                 addProduct("FastUtil", "http://fastutil.dsi.unimi.it/", "FASTUTIL-4.4.3-LICENSE.TXT"),

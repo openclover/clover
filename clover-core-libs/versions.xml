@@ -4,7 +4,7 @@
     <property name="antlr.ver" value="2.7.7"/>
     <property name="cajo.ver" value="1.117"/>
     <property name="commons-codec.ver" value="1.9"/>
-    <property name="commons-collections.ver" value="3.2.1"/>
+    <property name="commons-collections.ver" value="3.2.2"/>
     <property name="commons-lang.ver" value="2.6"/>
     <property name="commons-lang3.ver" value="3.3.2"/>
     <property name="fastutil.ver" value="4.4.3"/>
