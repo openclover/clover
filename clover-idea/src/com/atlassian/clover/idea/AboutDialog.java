@@ -112,7 +112,7 @@ public class AboutDialog extends DialogWrapper {
                 addProduct("Groovy", "http://groovy.codehaus.org", "GROOVY-1.7.0-LICENSE.TXT"));
         addRow(sb,
                 addProduct("GSON", "http://code.google.com/p/google-gson", "GSON-1.3-LICENSE.TXT"),
-                addProduct("Guava", "http://code.google.com/p/guava-libraries/", "GUAVA-18.0-LICENSE.TXT"));
+                addProduct("Guava", "https://github.com/google/guava", "GUAVA-29.0-LICENSE.TXT"));
         addRow(sb,
                 addProduct("iText", "http://itextpdf.com", "ITEXT-2.0.1-LICENSE.TXT"),
                 addProduct("JCommon", "http://www.jfree.org/jfreechart/", "JCOMMON-1.0.23-LICENSE.TXT"));
