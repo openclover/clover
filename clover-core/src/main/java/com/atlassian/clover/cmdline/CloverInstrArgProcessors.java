@@ -8,6 +8,7 @@ import com.atlassian.clover.cfg.instr.MethodContextDef;
 import com.atlassian.clover.cfg.instr.StatementContextDef;
 import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig;
 import com.atlassian.clover.cfg.instr.java.LambdaInstrumentation;
+import com.atlassian.clover.cfg.instr.java.SourceLevel;
 import com.atlassian.clover.remote.DistributedConfig;
 import com.atlassian.clover.spec.instr.test.TestClassSpec;
 import com.atlassian.clover.spec.instr.test.TestMethodSpec;
@@ -258,7 +259,7 @@ public class CloverInstrArgProcessors {
         }
     };
 
-    public static ArgProcessor<JavaInstrumentationConfig> SourceLevel = new ArgProcessor<JavaInstrumentationConfig>() {
+    public static ArgProcessor<JavaInstrumentationConfig> SourceLevelArg = new ArgProcessor<JavaInstrumentationConfig>() {
         @Override
         public boolean matches(String[] args, int i) {
             return args[i].equals("--source");
@@ -267,7 +268,11 @@ public class CloverInstrArgProcessors {
         @Override
         public int process(String[] args, int i, JavaInstrumentationConfig cfg) {
             i++;
-            cfg.setSourceLevel(args[i]);
+            cfg.setSourceLevel(SourceLevel.fromString(args[i]));
+
+            if (SourceLevel.isUnsupported(args[i])) {
+                usage(SourceLevel.getUnsupportedMessage(args[i]));
+            }
             return i;
         }
 

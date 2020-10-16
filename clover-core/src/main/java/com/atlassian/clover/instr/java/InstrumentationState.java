@@ -134,7 +134,7 @@ public class InstrumentationState implements TestDetector.SourceContext {
 
     @Override
     public boolean areAnnotationsSupported() {
-        return cfg.isJava15();
+        return true;
     }
 
     @Override

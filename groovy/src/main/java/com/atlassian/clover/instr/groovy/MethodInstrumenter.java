@@ -266,7 +266,7 @@ public class MethodInstrumenter {
     private List<Expression> expectedExceptions(
             @NotNull final FullMethodInfo methodInfo,
             @NotNull final Map<String, ClassNode> annotationClassNodes) {
-        final String[] expectedExceptionNames = ExpectedExceptionMiner.extractExpectedExceptionsFor(methodInfo.getSignature(), true, false);
+        final String[] expectedExceptionNames = ExpectedExceptionMiner.extractExpectedExceptionsFor(methodInfo.getSignature(), false);
         final List<Expression> expectedExceptions = newLinkedList();
         for (String expectedExceptionName : expectedExceptionNames) {
             final ClassNode expectedExceptionClass = annotationClassNodes.get(expectedExceptionName);

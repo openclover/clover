@@ -4,6 +4,7 @@ import clover.com.google.common.collect.Maps
 import com.atlassian.clover.api.registry.ClassInfo
 import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig
 import com.atlassian.clover.cfg.instr.java.LambdaInstrumentation
+import com.atlassian.clover.cfg.instr.java.SourceLevel
 import com.atlassian.clover.instr.java.InstrumentationSource
 import com.atlassian.clover.instr.java.Instrumenter
 import com.atlassian.clover.instr.java.StringInstrumentationSource
@@ -213,7 +214,7 @@ class ContextTest {
     @Test
     void testCloverVoid() throws Exception {
         JavaInstrumentationConfig cfg = createDefaultInstrConfig(getCoverageDbFile())
-        cfg.setSourceLevel("8")
+        cfg.setSourceLevel(SourceLevel.JAVA_8)
         cfg.setInstrumentLambda(LambdaInstrumentation.ALL)
 
         FullProjectInfo model = getModelForInstr(null, cfg, """/**/ package A; class B { public B() {/*CLOVER:VOID*/
@@ -257,7 +258,7 @@ class ContextTest {
     @Test
     void testCloverVoidForExpressions() throws Exception {
         JavaInstrumentationConfig cfg = createDefaultInstrConfig(getCoverageDbFile())
-        cfg.setSourceLevel("8")
+        cfg.setSourceLevel(SourceLevel.JAVA_8)
         cfg.setInstrumentLambda(LambdaInstrumentation.ALL)
         FullProjectInfo model = getModelForInstr(null, cfg, """/**/ package A; class B { public B() {
         stream.map(e -> e.toUpperCase());
@@ -303,7 +304,7 @@ class ContextTest {
         cfg.setDefaultBaseDir(workingDir)
         cfg.setProjectName(testName.methodName)
         cfg.setClassInstrStragegy(false)
-        cfg.setSourceLevel("5")
+        cfg.setSourceLevel(SourceLevel.JAVA_7)
         cfg.setReportInitErrors(false)
         return cfg
     }

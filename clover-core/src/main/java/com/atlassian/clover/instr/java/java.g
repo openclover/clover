@@ -92,7 +92,7 @@ tokens {
         return enterClass(null, mods, tok, aIsInterface, aIsEnum, isAnnotation, null);
     }
 
-    private ClassEntryNode enterClass(Map tags, Modifiers mods, CloverToken tok, boolean aIsInterface, boolean aIsEnum, boolean isAnnotation, String superclass) {
+    private ClassEntryNode enterClass(Map<String, List<String>> tags, Modifiers mods, CloverToken tok, boolean aIsInterface, boolean aIsEnum, boolean isAnnotation, String superclass) {
         String classname = tok.getText();
         int startline = tok.getLine();
         int startcol = tok.getColumn();
@@ -131,10 +131,10 @@ tokens {
         t.addPreEmitter(new ClassExitNode(entry, getClassname(classnameList), t.getLine(), t.getColumn() + t.getText().length()));
     }
 
-    private String getClassname(List classlist) {
+    private String getClassname(List<String> classlist) {
         String fullname = "";
         String sep = "";
-        for (String className : classnameList) {
+        for (String className : classlist) {
             fullname += sep + className;
             sep = ".";
         }
@@ -168,7 +168,7 @@ tokens {
     }
 
     private void instrSuppressWarnings(CloverToken instrPoint) {
-        if (cfg.isJava15() && !existingFallthroughSuppression && fileInfo.isSuppressFallthroughWarnings()) {
+        if (!existingFallthroughSuppression && fileInfo.isSuppressFallthroughWarnings()) {
             if (suppressWarningsInstr == null) {
                 // no existing SuppressWarnings annotation on the outermost type, so add our own
                 instrPoint.addPreEmitter(new SimpleEmitter("@" + cfg.getJavaLangPrefix() + "SuppressWarnings({\"fallthrough\"}) "));
@@ -474,7 +474,7 @@ tokens {
     }
 
     private boolean maybeEnterDeprecated(CloverToken startOfBlock) {
-        Map tags  = TokenListUtil.getJDocTagsAndValuesOnBlock(startOfBlock);
+        Map<String, List<String>> tags  = TokenListUtil.getJDocTagsAndValuesOnBlock(startOfBlock);
         boolean deprecated = tags.containsKey("deprecated");
         if (deprecated) {
             enterContext(ContextStore.CONTEXT_DEPRECATED);
@@ -1046,7 +1046,7 @@ methodModifier returns [int m]
 classDefinition! [Modifiers mods] returns [String classname]
 {
 	CloverToken first = (CloverToken)LT(0);
-	Map tags = null;
+	Map<String, List<String>> tags = null;
     boolean deprecated = false;
     CloverToken endOfBlock = null;
     String superclass = null;
@@ -1350,7 +1350,7 @@ field! [ClassEntryNode containingClass]
     String returnType = "";
     String brackets = "";
     Parameter [] parameters = null;
-    Map tags = null;
+    Map<String, List<String>> tags = null;
     String typename = null;
 }
     :
@@ -1589,9 +1589,9 @@ ctorHead [Map tags, Modifiers mods, CloverToken first] returns [MethodSignature 
 // This is a list of exception classes that the method is declared to throw
 throwsClause returns [String [] throwsTypes]
 {
- List throwsList = new ArrayList();
- throwsTypes = null;
- String id;
+    List<String> throwsList = new ArrayList<String>();
+    throwsTypes = null;
+    String id;
 }
     :   "throws" id=identifier {throwsList.add(id);} ( COMMA! id=identifier {throwsList.add(id);})*
         {
@@ -1603,9 +1603,9 @@ throwsClause returns [String [] throwsTypes]
 // A list of formal parameters
 parameterDeclarationList returns [Parameter [] params]
 {
-  List parameters = new ArrayList();
-  Parameter param = null;
-  params = new Parameter[0];
+    List<Parameter> parameters = new ArrayList<Parameter>();
+    Parameter param = null;
+    params = new Parameter[0];
 }
 
     :   ( param=parameterDeclaration {parameters.add(param);} ( COMMA! param=parameterDeclaration {parameters.add(param);})* )?
@@ -1734,8 +1734,8 @@ statement [CloverToken owningLabel] returns [CloverToken last]
 
     : {first = (CloverToken)LT(1);}
     (
-        // assert statement. must be java 1.4 - use a semantic predicate to enforce
-        {cfg.isJava14()}? "assert"
+        // an assert statement
+        "assert"
         { enterContext(ContextStore.CONTEXT_ASSERT); instrumentable = false; saveContext = getCurrentContext(); }
         { tmp=(CloverToken)LT(1); }
         expression
@@ -2888,20 +2888,6 @@ options {
         this(new CharBuffer(in));
         setTabSize(1);
         mConfig = aCfg;
-    }
-
-    public int testLiteralsTable(int aType)
-    {
-        int tmpType = super.testLiteralsTable(aType);
-        if (!mConfig.isJava14() && (tmpType == JavaTokenTypes.LITERAL_assert)) {
-            // override ANTLR in the case where we are not java 14 and we hit an "assert"
-            return JavaTokenTypes.IDENT;
-        }
-        if (!mConfig.isJava15() && (tmpType == JavaTokenTypes.LITERAL_enum)) {
-            // override ANTLR in the case where we are not java 15 and we hit an "enum"
-            return JavaTokenTypes.IDENT;
-        }
-        return tmpType;
     }
     
 	protected void nc() {

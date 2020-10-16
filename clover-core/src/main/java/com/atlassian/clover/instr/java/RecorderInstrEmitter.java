@@ -9,6 +9,7 @@ import static com.atlassian.clover.instr.Bindings.$CloverVersionInfo$oldVersionI
 
 import com.atlassian.clover.CloverNames;
 import com.atlassian.clover.cfg.instr.InstrumentationConfig;
+import com.atlassian.clover.cfg.instr.java.LanguageFeature;
 import com.atlassian.clover.recorder.pertest.SnifferType;
 import com_atlassian_clover.TestNameSniffer;
 import com_atlassian_clover.CloverProfile;
@@ -76,7 +77,7 @@ public class RecorderInstrEmitter extends Emitter {
     private String classNotFoundMsg;
     private boolean shouldEmitWarningMethod;
     private List<CloverProfile> profiles;
-    private boolean isJava8OrHigher;
+    private boolean areLambdasSupported;
 
     public RecorderInstrEmitter(boolean isEnum) {
         super();
@@ -95,7 +96,7 @@ public class RecorderInstrEmitter extends Emitter {
         profiles = state.getCfg().getProfiles();
         registryVersion = state.getSession().getVersion();
         javaLangPrefix = state.getCfg().getJavaLangPrefix();
-        isJava8OrHigher = state.getCfg().isJava8();
+        areLambdasSupported = state.getCfg().getSourceLevel().supportsFeature(LanguageFeature.LAMBDA);
         testClass = state.isDetectTests();
         isSpockTestClass = state.isSpockTestClass();
         isParameterizedJUnitTestClass = state.isParameterizedJUnitTestClass();
@@ -126,7 +127,7 @@ public class RecorderInstrEmitter extends Emitter {
             instrString += generateCloverProfilesField(profiles);
 
             // add a lambdaInc() wrapper method for lambdas - only for java8 or higher
-            if (isJava8OrHigher) {
+            if (areLambdasSupported) {
                 instrString += generateLambdaIncMethod(recorderSuffix);
             }
 

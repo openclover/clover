@@ -1,16 +1,18 @@
 package com.atlassian.clover.ant.tasks;
 
 import clover.org.apache.commons.lang3.StringUtils;
+import com.atlassian.clover.Logger;
 import com.atlassian.clover.ant.AntCloverProfile;
 import com.atlassian.clover.ant.AntCloverProfiles;
-import com.atlassian.clover.cfg.instr.InstrumentationLevel;
 import com.atlassian.clover.api.CloverException;
+import com.atlassian.clover.cfg.instr.InstrumentationLevel;
 import com.atlassian.clover.cfg.instr.MethodContextDef;
 import com.atlassian.clover.cfg.instr.StatementContextDef;
 import com.atlassian.clover.cfg.instr.java.LambdaInstrumentation;
-import com_atlassian_clover.CloverProfile;
+import com.atlassian.clover.cfg.instr.java.SourceLevel;
 import com.atlassian.clover.context.ContextStore;
 import com.atlassian.clover.remote.DistributedConfig;
+import com_atlassian_clover.CloverProfile;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.types.FileSet;
 
@@ -25,10 +27,14 @@ public abstract class AbstractInstrTask extends AbstractCloverTask {
 
     /**
      * set the default source level to process files at
-     * @param source the src level - e.g. "1.5", "5" etc
+     *
+     * @param source the src level - e.g. "1.7", "9"
      */
     public void setSource(String source) {
-        config.setSourceLevel(source);
+        if (SourceLevel.isUnsupported(source)) {
+            Logger.getInstance().warn(SourceLevel.getUnsupportedMessage(source));
+        }
+        config.setSourceLevel(SourceLevel.fromString(source));
     }
 
     public void setFullyQualifyJavaLang(boolean fullyQualify) {
@@ -50,6 +56,7 @@ public abstract class AbstractInstrTask extends AbstractCloverTask {
      *         &lt;profiles&gt; ... &lt;/profiles&gt;
      *     &lt;/clover-setup|clover-instr&gt;
      * </pre>
+     *
      * @param profiles
      */
     public void addConfiguredProfiles(AntCloverProfiles profiles) {
@@ -86,12 +93,13 @@ public abstract class AbstractInstrTask extends AbstractCloverTask {
 
     /**
      * Flag to indicate whether the initstring should be treated as a relative path
+     *
      * @param relative if true, the initstring is treated as a relative path
      */
     public void setRelative(boolean relative) {
         config.setRelative(relative);
     }
-   
+
     /**
      * Controls the flush intervalu for interval-based flushing.
      *
@@ -102,11 +110,9 @@ public abstract class AbstractInstrTask extends AbstractCloverTask {
     }
 
     /**
-     * Set the flush policy which controls when Clover will flush coverage
-     * data to the clover database.
+     * Set the flush policy which controls when Clover will flush coverage data to the clover database.
      *
      * @param flushPolicy the flush policy to use.
-     *
      */
     public void setFlushPolicy(AntInstrumentationConfig.FlushPolicy flushPolicy) {
         config.setFlushPolicy(flushPolicy.getIndex());
@@ -116,7 +122,6 @@ public abstract class AbstractInstrTask extends AbstractCloverTask {
      * Set the instrumentation strategy
      *
      * @param instrumentation strategy to use.
-     *
      */
     public void setInstrumentation(AntInstrumentationConfig.Instrumentation instrumentation) {
         config.setInstrStrategy(instrumentation.getValue());
@@ -128,6 +133,7 @@ public abstract class AbstractInstrTask extends AbstractCloverTask {
 
     /**
      * Set how lambda expressions (Java8) shall be instrumented.
+     *
      * @param level one of: "none, expression, block, all"
      */
     public void setInstrumentLambda(String level) {
@@ -139,7 +145,9 @@ public abstract class AbstractInstrTask extends AbstractCloverTask {
         }
     }
 
-    /** Optimization only implies method level instrumentation */
+    /**
+     * Optimization only implies method level instrumentation
+     */
     public void setOptimizationOnly(boolean optimizationOnly) {
         this.optimizationOnly = optimizationOnly;
     }
@@ -153,7 +161,7 @@ public abstract class AbstractInstrTask extends AbstractCloverTask {
     }
 
     public void addMethodContext(MethodContextDef context) {
-       config.addMethodContext(context);
+        config.addMethodContext(context);
     }
 
     public void addStatementContext(StatementContextDef context) {
@@ -162,7 +170,7 @@ public abstract class AbstractInstrTask extends AbstractCloverTask {
 
     @Override
     public boolean validate() {
-        
+
         if (config.isIntervalBasedFlushing() && config.getFlushInterval() == 0) {
             throw new BuildException("You must set a flushinterval > 0 when using '" + config.getFlushPolicyString() + "' flushpolicy.");
         }
@@ -170,10 +178,10 @@ public abstract class AbstractInstrTask extends AbstractCloverTask {
         if (optimizationOnly) {
             // optimization only implies method level only instrumentation
             final AntInstrumentationConfig.EnumInstrumentationLevel instrumentationLevel =
-                (AntInstrumentationConfig.EnumInstrumentationLevel)
-                    AntInstrumentationConfig.EnumInstrumentationLevel.getInstance(
-                        AntInstrumentationConfig.EnumInstrumentationLevel.class,
-                        InstrumentationLevel.METHOD.name().toLowerCase());
+                    (AntInstrumentationConfig.EnumInstrumentationLevel)
+                            AntInstrumentationConfig.EnumInstrumentationLevel.getInstance(
+                                    AntInstrumentationConfig.EnumInstrumentationLevel.class,
+                                    InstrumentationLevel.METHOD.name().toLowerCase());
             config.setInstrLevelStrategy(instrumentationLevel.getValue());
         }
 

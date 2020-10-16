@@ -101,12 +101,12 @@ class ClassMatcher extends TypeSafeMatcher<TestDetector> {
             annotations[0] = new AnnotationImpl(annotation)
             modifiers = Modifiers.createFrom(0, annotations)
         }
-        Map<String, String> tags
+        Map<String, List<String>> tags
         if (tag == null) {
             tags = null
         } else {
-            tags = new HashMap<String, String>()
-            tags.put(tag, "")
+            tags = new HashMap<String, List<String>>()
+            tags.put(tag, [""])
         }
 
         return testDetector.isTypeMatch(sourceContext,

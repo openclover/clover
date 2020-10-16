@@ -6,6 +6,7 @@ import com.atlassian.clover.cfg.instr.InstrumentationLevel
 import com.atlassian.clover.cfg.instr.MethodContextDef
 import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig
 import com.atlassian.clover.cfg.instr.java.LambdaInstrumentation
+import com.atlassian.clover.cfg.instr.java.SourceLevel
 import com.atlassian.clover.instr.java.JavaTypeContext
 import com.atlassian.clover.instr.tests.TestDetector
 import org.hamcrest.Matcher
@@ -195,9 +196,9 @@ class CloverInstrArgProcessorsTest {
     @Test
     void processSourceLevel() {
         assertConfig(["--source", "1.7"],
-                CloverInstrArgProcessors.SourceLevel,
+                CloverInstrArgProcessors.SourceLevelArg,
                 { JavaInstrumentationConfig config -> config.getSourceLevel() },
-                equalTo("1.7"))
+                equalTo(SourceLevel.JAVA_7))
     }
 
     @Test
@@ -459,7 +460,7 @@ class CloverInstrArgProcessorsTest {
     @Test
     void processTestSourceIncludesExcludesClassesMethods() {
         // some helper contexts to pass assertions if we're not interested in this aspect
-        TestDetector.TypeContext typeContext = new JavaTypeContext([test: "" ], null, "default-pkg", "IT", null)
+        TestDetector.TypeContext typeContext = new JavaTypeContext([test: [""] ], null, "default-pkg", "IT", null)
         TestDetector.SourceContext sourceContext = new SimpleFileSourceContext("com/acme/include/AnyOne.java")
 
         assertConfig(

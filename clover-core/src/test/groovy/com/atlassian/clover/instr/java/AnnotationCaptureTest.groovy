@@ -2,6 +2,7 @@ package com.atlassian.clover.instr.java
 
 import com.atlassian.clover.api.registry.Annotation
 import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig
+import com.atlassian.clover.cfg.instr.java.SourceLevel
 import com.atlassian.clover.instr.tests.TestDetector
 import com.atlassian.clover.registry.entities.AnnotationImpl
 import com.atlassian.clover.util.FileUtils
@@ -33,7 +34,7 @@ class AnnotationCaptureTest {
         workingDir.deleteOnExit()
 
         config = new JavaInstrumentationConfig()
-        config.setSourceLevel("1.5")
+        config.setSourceLevel(SourceLevel.JAVA_7)
         config.setInitstring(workingDir.getAbsolutePath() + File.separatorChar + "coverage.db")
     }
 

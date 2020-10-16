@@ -68,12 +68,12 @@ class TestSourceSetTest extends TestCase {
         // <testsources>        
         TestSourceSet testSources = new TestSourceSet()
         testSources.addConfiguredTestClass(javaDocSpec)
-        List values = Lists.newArrayList()
+        List<String> values = Lists.newArrayList()
         values.add("value")
 
         testSources.validate()
 
-        Map tags = Maps.newHashMap()
+        Map<String, List<String>> tags = Maps.newHashMap()
         tags.put("thisShouldNotMatch", values)
 
         final TestDetector testDetector = testSources.getDetector()

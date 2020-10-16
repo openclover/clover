@@ -9,6 +9,7 @@ import com.atlassian.clover.api.registry.PackageInfo
 import com.atlassian.clover.api.registry.StatementInfo
 import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig
 import com.atlassian.clover.cfg.instr.java.LambdaInstrumentation
+import com.atlassian.clover.cfg.instr.java.SourceLevel
 import com.atlassian.clover.instr.java.InstrumentationSource
 import com.atlassian.clover.instr.java.Instrumenter
 import com.atlassian.clover.registry.Clover2Registry
@@ -185,7 +186,7 @@ abstract class AggregatedMetricsTestBase {
         cfg.setDefaultBaseDir(workingDir)
         cfg.setInitstring(initString)
         cfg.setRelative(relativeInitString)
-        cfg.setSourceLevel("1.7")
+        cfg.setSourceLevel(SourceLevel.JAVA_7)
         cfg.setEncoding("ISO-88591")
         cfg.setInstrumentLambda(LambdaInstrumentation.ALL)
         return cfg

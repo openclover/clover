@@ -1,30 +1,14 @@
 package com.atlassian.clover.idea.build;
 
-import com.atlassian.clover.api.CloverException;
 import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig;
+import com.atlassian.clover.cfg.instr.java.SourceLevel;
 import com.atlassian.clover.idea.config.CloverPluginConfig;
 import com.intellij.openapi.project.Project;
 
 import java.io.File;
-import java.io.IOException;
 
 public class BuildUtil {
 
-    public static void ensureParentExists(File f) throws IOException {
-        if (f == null) {
-            throw new IllegalArgumentException();
-        }
-        File parent = f.getParentFile();
-        if (!parent.exists() && !parent.mkdirs()) {
-            throw new IOException("Unable to create directory " + parent.getCanonicalPath());
-        }
-    }
-
-    /**
-     *
-     * @param s
-     * @return
-     */
     public static Class load(String s) {
         try {
             return Class.forName(s);
@@ -33,8 +17,7 @@ public class BuildUtil {
         }
     }
 
-    public static JavaInstrumentationConfig configureNewInstrumenter(CloverPluginConfig config, Project project, File instDir)
-            throws CloverException {
+    public static JavaInstrumentationConfig configureNewInstrumenter(CloverPluginConfig config, Project project, File instDir) {
 
         JavaInstrumentationConfig instrConfig = new JavaInstrumentationConfig();
         instrConfig.setInitstring(config.getInitString());
@@ -44,8 +27,7 @@ public class BuildUtil {
         return internalConfigImp(instrConfig, config, project);
     }
 
-    public static JavaInstrumentationConfig configureNewInstrumenter(CloverPluginConfig config, Project project)
-            throws CloverException {
+    public static JavaInstrumentationConfig configureNewInstrumenter(CloverPluginConfig config, Project project) {
         return configureNewInstrumenter(config, project, null);
     }
 
@@ -53,7 +35,7 @@ public class BuildUtil {
                                                            Project project) {
         instrConfig.setFlushPolicy(config.getFlushPolicy());
         instrConfig.setFlushInterval(config.getFlushInterval());
-        instrConfig.setSourceLevel(config.getLanguageLevelAsNumber());
+        instrConfig.setSourceLevel(SourceLevel.fromString(config.getLanguageLevel()));
         instrConfig.setTestDetector(new IdeaTestDetector(project));
         instrConfig.setInstrumentLambda(config.getInstrumentLambda());
         return instrConfig;

@@ -2,6 +2,7 @@ package com.atlassian.clover.instr.tests
 
 import clover.com.google.common.collect.Maps
 import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig
+import com.atlassian.clover.cfg.instr.java.SourceLevel
 import com.atlassian.clover.instr.java.FileStructureInfo
 import com.atlassian.clover.instr.java.InstrumentationState
 import com.atlassian.clover.instr.java.JavaMethodContext
@@ -59,8 +60,8 @@ class DefaultTestDetectorTest {
     void testJUnit38() {
         DefaultTestDetector detector = new DefaultTestDetector()
         testJUnit3(detector)
-        state.getCfg().setSourceLevel("1.3")
-        assertFalse(detector.isTypeMatch(state, new JavaTypeContext(null, null, "", "SimpleTest", "foo")))
+        state.getCfg().setSourceLevel(SourceLevel.JAVA_7)
+        assertTrue(detector.isTypeMatch(state, new JavaTypeContext(null, null, "", "SimpleTest", "foo")))
     }
 
     @Test
@@ -69,7 +70,7 @@ class DefaultTestDetectorTest {
         testJUnit3(detector)
         testMethodAnnotations(detector, TestAnnotationNames.ORG_JUNIT_NAME)
 
-        state.getCfg().setSourceLevel("1.5")
+        state.getCfg().setSourceLevel(SourceLevel.JAVA_7)
         MethodSignature method = new MethodSignature(null, null, null, "checkFoo", null, "void", null, null)
         method.setModifiers(Modifier.PUBLIC)
         method.getModifiers().addAnnotation(new AnnotationImpl(TestAnnotationNames.TEST_ANNO_NAME))
@@ -87,7 +88,7 @@ class DefaultTestDetectorTest {
         testJUnit3(detector)
         testMethodAnnotations(detector, TestAnnotationNames.ORG_JUNIT5_NAME)
 
-        state.getCfg().setSourceLevel("1.5")
+        state.getCfg().setSourceLevel(SourceLevel.JAVA_7)
         MethodSignature method = new MethodSignature(null, null, null, "checkFoo", null, "void", null, null)
         // No visibility modifier is provided to be package private.
         method.getModifiers().addAnnotation(new AnnotationImpl(TestAnnotationNames.TEST_ANNO_NAME))
@@ -103,7 +104,7 @@ class DefaultTestDetectorTest {
     void testTestNG() {
         DefaultTestDetector detector = new DefaultTestDetector()
         testMethodAnnotations(detector, "org.testng.annotations")
-        state.getCfg().setSourceLevel("1.5")
+        state.getCfg().setSourceLevel(SourceLevel.JAVA_7)
 
         Map tags = Maps.newHashMap()
         tags.put("test", Collections.singletonList(""))
@@ -173,19 +174,19 @@ class DefaultTestDetectorTest {
 
     @Test
     void testJDK14NoExpectedAnnotations() {
-        state.getCfg().setSourceLevel("1.4")
+        state.getCfg().setSourceLevel(SourceLevel.JAVA_7)
 
         //No expected annotations
         MethodSignature method = new MethodSignature(null, null, null, "testFoo", null, "void", null, null)
         method.setModifiers(Modifier.PUBLIC)
 
-        List expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, state.getCfg().isJava15(), true))
+        List expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, true))
         assertEquals(0, expectedExceptions.size())
     }
 
     @Test
     void testJDK15NoExpectedAnnotations() {
-        state.getCfg().setSourceLevel("1.5")
+        state.getCfg().setSourceLevel(SourceLevel.JAVA_7)
 
         //No expected annotations
         MethodSignature method = new MethodSignature(null, null, null, "checkFoo", null, "void", null, null)
@@ -193,7 +194,7 @@ class DefaultTestDetectorTest {
         modifiers.setMask(Modifier.PUBLIC)
         modifiers.addAnnotation(new AnnotationImpl(TestAnnotationNames.TESTNG_FQ_TEST_ANNO_NAME))
 
-        List expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, state.getCfg().isJava15(), true))
+        List expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, true))
         assertEquals(0, expectedExceptions.size())
 
         method = new MethodSignature(null, null, null, "checkFoo", null, "void", null, null)
@@ -201,7 +202,7 @@ class DefaultTestDetectorTest {
         modifiers.setMask(Modifier.PUBLIC)
         modifiers.addAnnotation(new AnnotationImpl(TestAnnotationNames.TEST_ANNO_NAME))
 
-        expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, state.getCfg().isJava15(), true))
+        expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, true))
         assertEquals(0, expectedExceptions.size())
 
         method = new MethodSignature(null, null, null, "checkFoo", null, "void", null, null)
@@ -209,13 +210,13 @@ class DefaultTestDetectorTest {
         modifiers.setMask(Modifier.PUBLIC)
         modifiers.addAnnotation(new AnnotationImpl(TestAnnotationNames.JUNIT_TEST_ANNO_NAME))
 
-        expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, state.getCfg().isJava15(), true))
+        expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, true))
         assertEquals(0, expectedExceptions.size())
     }
 
     @Test
     void testSingleExpectedAnnotations() {
-        state.getCfg().setSourceLevel("1.5")
+        state.getCfg().setSourceLevel(SourceLevel.JAVA_7)
 
         //@org.testng.annotations.Test(expectedExceptions=Foo.class)
         MethodSignature method = new MethodSignature(null, null, null, "checkFoo", null, "void", null, null)
@@ -224,7 +225,7 @@ class DefaultTestDetectorTest {
         addAnnotation(modifiers, new AnnotationImpl(TestAnnotationNames.TESTNG_FQ_TEST_ANNO_NAME))
             .put(TestAnnotationNames.EXPECTED_EXCEPTIONS_ATTR_NAME, new StringifiedAnnotationValue("Foo.class"))
 
-        List expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, state.getCfg().isJava15(), true))
+        List expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, true))
         assertEquals(1, expectedExceptions.size())
         assertTrue(expectedExceptions.contains("Foo"))
 
@@ -238,7 +239,7 @@ class DefaultTestDetectorTest {
                 new ArrayAnnotationValue(
                         [ new StringifiedAnnotationValue("org.bar.Foo.class") ] as PersistentAnnotationValue[]))
 
-        expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, state.getCfg().isJava15(), true))
+        expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, true))
         assertEquals(1, expectedExceptions.size())
         assertTrue(expectedExceptions.contains("org.bar.Foo"))
 
@@ -252,7 +253,7 @@ class DefaultTestDetectorTest {
                 new ArrayAnnotationValue(
                         [ new StringifiedAnnotationValue("Foo.class") ] as PersistentAnnotationValue[]))
 
-        expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, state.getCfg().isJava15(), true))
+        expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, true))
         assertEquals(1, expectedExceptions.size())
         assertTrue(expectedExceptions.contains("Foo"))
 
@@ -263,7 +264,7 @@ class DefaultTestDetectorTest {
         addAnnotation(modifiers, new AnnotationImpl(TestAnnotationNames.TEST_ANNO_NAME))
             .put(TestAnnotationNames.EXPECTED_EXCEPTIONS_ATTR_NAME, new StringifiedAnnotationValue("org.bar.Foo.class"))
 
-        expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, state.getCfg().isJava15(), true))
+        expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, true))
         assertEquals(1, expectedExceptions.size())
         assertTrue(expectedExceptions.contains("org.bar.Foo"))
 
@@ -275,7 +276,7 @@ class DefaultTestDetectorTest {
         addAnnotation(modifiers, new AnnotationImpl(TestAnnotationNames.TESTNG_FQ_EXPECTED_ANNO_NAME))
             .put(TestAnnotationNames.VALUE_ATTR_NAME, new StringifiedAnnotationValue("Foo.class"))
 
-        expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, state.getCfg().isJava15(), true))
+        expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, true))
         assertEquals(1, expectedExceptions.size())
         assertTrue(expectedExceptions.contains("Foo"))
 
@@ -287,7 +288,7 @@ class DefaultTestDetectorTest {
         addAnnotation(modifiers, new AnnotationImpl(TestAnnotationNames.TESTNG_EXPECTED_ANNO_NAME))
             .put(TestAnnotationNames.VALUE_ATTR_NAME, new StringifiedAnnotationValue("org.bar.Foo.class"))
 
-        expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, state.getCfg().isJava15(), true))
+        expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, true))
         assertEquals(1, expectedExceptions.size())
         assertTrue(expectedExceptions.contains("org.bar.Foo"))
 
@@ -299,7 +300,7 @@ class DefaultTestDetectorTest {
         addAnnotation(modifiers, new AnnotationImpl(TestAnnotationNames.SPRING_FQ_EXPECTED_ANNO_NAME))
             .put(TestAnnotationNames.VALUE_ATTR_NAME, new StringifiedAnnotationValue("Foo.class"))
 
-        expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, state.getCfg().isJava15(), true))
+        expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, true))
         assertEquals(1, expectedExceptions.size())
         assertTrue(expectedExceptions.contains("Foo"))
 
@@ -311,7 +312,7 @@ class DefaultTestDetectorTest {
         addAnnotation(modifiers, new AnnotationImpl(TestAnnotationNames.SPRING_FQ_EXPECTED_ANNO_NAME))
             .put(TestAnnotationNames.VALUE_ATTR_NAME, new StringifiedAnnotationValue("org.bar.Foo.class"))
 
-        expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, state.getCfg().isJava15(), true))
+        expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, true))
         assertEquals(1, expectedExceptions.size())
         assertTrue(expectedExceptions.contains("org.bar.Foo"))
 
@@ -322,7 +323,7 @@ class DefaultTestDetectorTest {
         addAnnotation(modifiers, new AnnotationImpl(TestAnnotationNames.TEST_ANNO_NAME))
             .put(TestAnnotationNames.EXPECTED_ATTR_NAME, new StringifiedAnnotationValue("Foo.class"))
 
-        expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, state.getCfg().isJava15(), true))
+        expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, true))
         assertEquals(1, expectedExceptions.size())
         assertTrue(expectedExceptions.contains("Foo"))
 
@@ -333,7 +334,7 @@ class DefaultTestDetectorTest {
         addAnnotation(modifiers, new AnnotationImpl(TestAnnotationNames.JUNIT_TEST_ANNO_NAME))
             .put(TestAnnotationNames.EXPECTED_ATTR_NAME, new StringifiedAnnotationValue("Foo.class"))
 
-        expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, state.getCfg().isJava15(), true))
+        expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, true))
         assertEquals(1, expectedExceptions.size())
         assertTrue(expectedExceptions.contains("Foo"))
 
@@ -344,7 +345,7 @@ class DefaultTestDetectorTest {
         addAnnotation(modifiers, new AnnotationImpl(TestAnnotationNames.JUNIT_TEST_ANNO_NAME))
             .put(TestAnnotationNames.EXPECTED_ATTR_NAME, new StringifiedAnnotationValue("Foo.class"))
 
-        expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, state.getCfg().isJava15(), true))
+        expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, true))
         assertEquals(1, expectedExceptions.size())
         assertTrue(expectedExceptions.contains("Foo"))
 
@@ -355,7 +356,7 @@ class DefaultTestDetectorTest {
         addAnnotation(modifiers, new AnnotationImpl(TestAnnotationNames.INSTINCT_SPECIFICATION_ANNO_NAME))
             .put(TestAnnotationNames.EXPECTED_EXCEPTION_ATTR_NAME, new StringifiedAnnotationValue("Foo.class"))
 
-        expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, state.getCfg().isJava15(), true))
+        expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, true))
         assertEquals(1, expectedExceptions.size())
         assertTrue(expectedExceptions.contains("Foo"))
 
@@ -366,14 +367,14 @@ class DefaultTestDetectorTest {
         addAnnotation(modifiers, new AnnotationImpl(TestAnnotationNames.SPECIFICATION_ANNO_NAME))
             .put(TestAnnotationNames.EXPECTED_EXCEPTION_ATTR_NAME, new StringifiedAnnotationValue("Foo.class"))
 
-        expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, state.getCfg().isJava15(), true))
+        expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, true))
         assertEquals(1, expectedExceptions.size())
         assertTrue(expectedExceptions.contains("Foo"))
     }
 
     @Test
     void testMultipleExpectedAnnotations() {
-        state.getCfg().setSourceLevel("1.5")
+        state.getCfg().setSourceLevel(SourceLevel.JAVA_7)
 
         //@org.testng.annotations.Test(expectedExceptions={org.bar.Foo.class,Bar.class})
         MethodSignature method = new MethodSignature(null, null, null, "checkFoo", null, "void", null, null)
@@ -388,7 +389,7 @@ class DefaultTestDetectorTest {
                     new StringifiedAnnotationValue("Bar.class")
                 ] as PersistentAnnotationValue[]))
 
-        List expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, state.getCfg().isJava15(), true))
+        List expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, true))
         assertEquals(2, expectedExceptions.size())
         assertTrue(expectedExceptions.contains("org.bar.Foo"))
         assertTrue(expectedExceptions.contains("Bar"))
@@ -406,7 +407,7 @@ class DefaultTestDetectorTest {
                     new StringifiedAnnotationValue("Bar.class")
                 ] as PersistentAnnotationValue[]))
 
-        expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, state.getCfg().isJava15(), true))
+        expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, true))
         assertEquals(2, expectedExceptions.size())
         assertTrue(expectedExceptions.contains("org.bar.Foo"))
         assertTrue(expectedExceptions.contains("Bar"))
@@ -425,7 +426,7 @@ class DefaultTestDetectorTest {
                     new StringifiedAnnotationValue("Bar.class")
                 ] as PersistentAnnotationValue[]))
 
-        expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, state.getCfg().isJava15(), true))
+        expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, true))
         assertEquals(2, expectedExceptions.size())
         assertTrue(expectedExceptions.contains("org.bar.Foo"))
         assertTrue(expectedExceptions.contains("Bar"))
@@ -444,7 +445,7 @@ class DefaultTestDetectorTest {
                     new StringifiedAnnotationValue("Bar.class")
                 ] as PersistentAnnotationValue[]))
 
-        expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, state.getCfg().isJava15(), true))
+        expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, true))
         assertEquals(2, expectedExceptions.size())
         assertTrue(expectedExceptions.contains("org.bar.Foo"))
         assertTrue(expectedExceptions.contains("Bar"))
@@ -463,7 +464,7 @@ class DefaultTestDetectorTest {
                     new StringifiedAnnotationValue("Bar.class")
                 ] as PersistentAnnotationValue[]))
 
-        expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, state.getCfg().isJava15(), true))
+        expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, true))
         assertEquals(2, expectedExceptions.size())
         assertTrue(expectedExceptions.contains("org.bar.Foo"))
         assertTrue(expectedExceptions.contains("Bar"))
@@ -482,7 +483,7 @@ class DefaultTestDetectorTest {
                     new StringifiedAnnotationValue("Bar.class")
                 ] as PersistentAnnotationValue[]))
 
-        expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, state.getCfg().isJava15(), true))
+        expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, true))
         assertEquals(2, expectedExceptions.size())
         assertTrue(expectedExceptions.contains("org.bar.Foo"))
         assertTrue(expectedExceptions.contains("Bar"))
@@ -495,7 +496,7 @@ class DefaultTestDetectorTest {
 
     @Test
     void testWeirdExpectedAnnotationStructure() {
-        state.getCfg().setSourceLevel("1.5")
+        state.getCfg().setSourceLevel(SourceLevel.JAVA_7)
 
         //@org.testng.annotations.Test(expectedExceptions={"foo","Bar.class"})
         MethodSignature method = new MethodSignature(null, null, null, "checkFoo", null, "void", null, null)
@@ -510,7 +511,7 @@ class DefaultTestDetectorTest {
                     new StringifiedAnnotationValue("\"Bar.class\"")
                 ] as PersistentAnnotationValue[]))
 
-        List expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, state.getCfg().isJava15(), true))
+        List expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, true))
         assertEquals(0, expectedExceptions.size())
 
         //@org.testng.annotations.Test(
@@ -534,7 +535,7 @@ class DefaultTestDetectorTest {
                     new AnnotationImpl("Foo")
                 ] as PersistentAnnotationValue[]))
 
-        expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, state.getCfg().isJava15(), true))
+        expectedExceptions = Arrays.asList(ExpectedExceptionMiner.extractExpectedExceptionsFor(method, true))
         assertEquals(0, expectedExceptions.size())
     }
 
@@ -542,7 +543,7 @@ class DefaultTestDetectorTest {
         MethodSignature method = new MethodSignature(null, null, null, "checkFoo", null, "void", null, null)
         method.getModifiers().addAnnotation(new AnnotationImpl(TestAnnotationNames.TEST_ANNO_NAME))
         method.setModifiers(Modifier.PUBLIC)
-        state.getCfg().setSourceLevel("1.5")
+        state.getCfg().setSourceLevel(SourceLevel.JAVA_7)
         assertTrue(detector.isMethodMatch(state, JavaMethodContext.createFor(method)))
 
         method.setModifiers(Modifier.PRIVATE)
@@ -559,7 +560,7 @@ class DefaultTestDetectorTest {
     }
 
     private void testJUnit3(TestDetector detector) {
-        state.getCfg().setSourceLevel("1.3")
+        state.getCfg().setSourceLevel(SourceLevel.JAVA_7)
         assertTrue(detector.isTypeMatch(state, new JavaTypeContext(null, null, "", "SimpleTest", "TestCase")))
         assertTrue(detector.isTypeMatch(state, new JavaTypeContext(null, null, "", "TestSimple", "TestCase")))
         assertTrue(detector.isTypeMatch(state, new JavaTypeContext(null, null, "", "SimpleTest", "junit.framework.TestCase")))

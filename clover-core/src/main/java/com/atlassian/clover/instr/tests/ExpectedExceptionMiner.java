@@ -27,12 +27,10 @@ public class ExpectedExceptionMiner {
     private static final Pattern DOT_SPLIT_PATTERN =
         Pattern.compile("\\.");
 
-    public static String[] extractExpectedExceptionsFor(MethodSignature sig, boolean checkAnnotations, boolean checkTags) {
+    public static String[] extractExpectedExceptionsFor(MethodSignature sig, boolean checkTags) {
         final SortedSet<String> exceptionNames = Sets.newTreeSet();
 
-        if (checkAnnotations) {
-            expectedExceptionsFromAnnotations(sig, exceptionNames);
-        }
+        expectedExceptionsFromAnnotations(sig, exceptionNames);
 
         if (exceptionNames.size() == 0 && checkTags) {
             expectedExceptionsFromJavadoc(sig, exceptionNames);

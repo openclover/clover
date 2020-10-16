@@ -8,6 +8,7 @@ import com.atlassian.clover.registry.entities.FullClassInfo;
 import com.atlassian.clover.registry.FixedSourceRegion;
 import com.atlassian.clover.registry.entities.Modifiers;
 
+import java.util.List;
 import java.util.Map;
 
 public class ClassEntryNode extends Emitter {
@@ -18,13 +19,15 @@ public class ClassEntryNode extends Emitter {
     private boolean isInterface;
     private boolean isEnum;
     private boolean isAnnotation;
-    private Map tags;
+    private Map<String, List<String>> tags;
     private Modifiers mods;
     private boolean outerDetectTests;
     private CloverToken recorderInsertPoint;
     private RecorderInstrEmitter recorderInstrEmitter;
 
-    public ClassEntryNode(Map tags, Modifiers mods, String className, String pkgname, String superclass, ContextSet context, int line, int col, boolean isTopLevel,
+    public ClassEntryNode(Map<String, List<String>> tags, Modifiers mods,
+                          String className, String pkgname, String superclass,
+                          ContextSet context, int line, int col, boolean isTopLevel,
                           boolean isInterface, boolean isEnum, boolean isAnnotation) {
         super(context, line, col);
         this.tags = tags;
@@ -42,7 +45,8 @@ public class ClassEntryNode extends Emitter {
     public void init(InstrumentationState state) {
         outerDetectTests = state.isDetectTests();
 
-        boolean testClass = state.getTestDetector() != null && state.getTestDetector().isTypeMatch(state, new JavaTypeContext(tags, mods, pkgname, className, superclass));
+        boolean testClass = state.getTestDetector() != null &&
+                state.getTestDetector().isTypeMatch(state, new JavaTypeContext(tags, mods, pkgname, className, superclass));
         state.setDetectTests(testClass);
         // using 'testClass &&' as user could have custom test detector
         state.setSpockTestClass(testClass && SpockFeatureNameExtractor.isClassWithSpecAnnotations(mods));

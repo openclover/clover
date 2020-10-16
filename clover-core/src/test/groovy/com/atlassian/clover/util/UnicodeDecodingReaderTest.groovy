@@ -4,6 +4,7 @@ import clover.antlr.Token
 import clover.antlr.TokenStreamException
 import clover.com.google.common.collect.Lists
 import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig
+import com.atlassian.clover.cfg.instr.java.SourceLevel
 import com.atlassian.clover.instr.java.JavaLexer
 import com.atlassian.clover.instr.java.JavaTokenTypes
 import org.junit.Test
@@ -203,7 +204,7 @@ class UnicodeDecodingReaderTest {
     private Token[] decodeStringToTokens(String input) throws IOException, TokenStreamException {
         // create lexer to parse input string
         final JavaInstrumentationConfig config = new JavaInstrumentationConfig()
-        config.setSourceLevel("1.9")
+        config.setSourceLevel(SourceLevel.JAVA_9)
         config.setEncoding("UTF-8")
         final JavaLexer lexer = new JavaLexer(new UnicodeDecodingReader(new StringReader(input)), config)
 
