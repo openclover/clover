@@ -95,23 +95,18 @@ public class CloverJavaSourceTransformer extends JavaSourceTransformer {
                 final LanguageLevel level = getLanguageLevelForFile(file);
                 final Instrumenter instrumenter = CloverJavaBuilder.getInstance().getInstrumenter();
                 // TODO CLOV-1284 parallel build - this instrumenter is shared, make language level local
-                instrumenter.getConfig().setSourceLevel(languageLevelToSourceLevel(level));
+                final SourceLevel sourceLevel = languageLevelToSourceLevel(level);
+                instrumenter.getConfig().setSourceLevel(sourceLevel);
                 final JpsEncodingProjectConfiguration projectEncodingConfiguration = JpsEncodingConfigurationService.getInstance().getEncodingConfiguration(jpsProject);
                 final String fileEncoding = projectEncodingConfiguration != null ? projectEncodingConfiguration.getEncoding(file) : null;
 
                 final CharSequence instrumentedCharSequence = instrumenter.instrument(file, charSequence, fileEncoding);
-                final String message = "Clover: instrumenting " + file.getName() + " with language level " + level;
+                final String message = "Clover: instrumenting " + file.getName() + " with source level " + sourceLevel;
                 CloverJavaBuilder.getInstance().sendCompilerMessageToIDE(BuildMessage.Kind.PROGRESS, message);
                 debugTransform(file, charSequence, instrumentedCharSequence, level);
 
                 return instrumentedCharSequence;
-            } catch (TokenStreamException ex) {
-                throw new CloverInstrumentationException(ex);
-            } catch (IOException ex) {
-                throw new CloverInstrumentationException(ex);
-            } catch (RecognitionException ex) {
-                throw new CloverInstrumentationException(ex);
-            } catch (CloverException ex) {
+            } catch (TokenStreamException | RecognitionException | IOException | CloverException ex) {
                 throw new CloverInstrumentationException(ex);
             }
         } else {
