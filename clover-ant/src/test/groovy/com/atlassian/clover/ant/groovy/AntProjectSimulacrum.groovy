@@ -45,7 +45,11 @@ public class AntProjectSimulacrum {
     }
 
     public String calcRepkgJarPath() {
-        return cloverRepkgRuntimeJar.absolutePath == cloverRuntimeJar.absolutePath ? null : cloverRepkgRuntimeJar.absolutePath
+        return cloverRepkgRuntimeJar != null
+                ? (cloverRepkgRuntimeJar.absolutePath == cloverRuntimeJar.absolutePath
+                        ? null
+                        : cloverRepkgRuntimeJar.absolutePath)
+                : null
     }
 
     private File buildProjectArtifacts(File workingDir) {

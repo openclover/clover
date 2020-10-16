@@ -61,7 +61,7 @@ class DefaultTestDetectorTest {
         DefaultTestDetector detector = new DefaultTestDetector()
         testJUnit3(detector)
         state.getCfg().setSourceLevel(SourceLevel.JAVA_7)
-        assertFalse(detector.isTypeMatch(state, new JavaTypeContext(null, null, "", "SimpleTest", "foo")))
+        assertTrue(detector.isTypeMatch(state, new JavaTypeContext(null, null, "", "SimpleTest", "foo")))
     }
 
     @Test
