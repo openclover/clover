@@ -849,23 +849,19 @@ public class Grover implements ASTTransformation {
     }
 
     public static Statement recorderInc(final ClassNode clazz, final FullElementInfo m, final ASTNode originalNode) {
-        if (Boolean.getBoolean(CloverNames.PROP_GROVER_EMIT_BYTECODE)) {
-            return new BytecodeSequence(AbstractRecorderIncStatement.newInstance(clazz, recorderFieldName, m.getDataIndex()));
-        } else {
-            int column = originalNode.getColumnNumber();
-            int row = originalNode.getLineNumber();
-            // imitate that it's a 0-length instruction inserted at the beginning of the one being instrumented
-            // original (row1, col1, row2, col2) -> recInc (row1, col1, row1, col1); do it in all nodes
-            final MethodCallExpression methodInc = setSourcePosition(new MethodCallExpression(
-                    newRecorderExpression(clazz, row, column),
-                    "inc",
-                    setSourcePosition(new ArgumentListExpression(
-                            setSourcePosition(new ConstantExpression(m.getDataIndex()), row, column)
-                    ), row, column)
-            ), row, column);
-            methodInc.setImplicitThis(false); // we don't need 'this' in our method call context
-            return setSourcePosition(new ExpressionStatement(methodInc), row, column);
-        }
+        int column = originalNode.getColumnNumber();
+        int row = originalNode.getLineNumber();
+        // imitate that it's a 0-length instruction inserted at the beginning of the one being instrumented
+        // original (row1, col1, row2, col2) -> recInc (row1, col1, row1, col1); do it in all nodes
+        final MethodCallExpression methodInc = setSourcePosition(new MethodCallExpression(
+                newRecorderExpression(clazz, row, column),
+                "inc",
+                setSourcePosition(new ArgumentListExpression(
+                        setSourcePosition(new ConstantExpression(m.getDataIndex()), row, column)
+                ), row, column)
+        ), row, column);
+        methodInc.setImplicitThis(false); // we don't need 'this' in our method call context
+        return setSourcePosition(new ExpressionStatement(methodInc), row, column);
     }
 
     private static <T extends ASTNode> T setSourcePosition(T node, int row, int column) {
