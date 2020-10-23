@@ -5,7 +5,7 @@ import com.atlassian.clover.Logger;
 import com.atlassian.clover.api.CloverException;
 import com.atlassian.clover.api.instrumentation.InstrumentationSession;
 import com.atlassian.clover.cfg.instr.InstrumentationConfig;
-import com.atlassian.clover.instr.groovy.bytecode.AbstractRecorderIncStatement;
+import com.atlassian.clover.instr.groovy.bytecode.RecorderGetterBytecodeInstructionGroovy2;
 import com.atlassian.clover.instr.tests.TestDetector;
 import com.atlassian.clover.instr.tests.naming.JUnitParameterizedTestExtractor;
 import com.atlassian.clover.instr.tests.naming.SpockFeatureNameExtractor;
@@ -66,8 +66,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.Reader;
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -417,7 +415,7 @@ public class Grover implements ASTTransformation {
     }
 
     private boolean alreadyInstrumented(ModuleNode module) {
-        for (ClassNode clazz : (List<ClassNode>) module.getClasses()) {
+        for (ClassNode clazz : module.getClasses()) {
             if (clazz.getNameWithoutPackage().contains(CloverNames.CLOVER_RECORDER_PREFIX)) {
                 return true;
             }
@@ -462,12 +460,9 @@ public class Grover implements ASTTransformation {
             file.createNewFile();
 
             Logger.getInstance().info(description + " for " + getSourceUnitFile(sourceUnit) + " written to " + file.getAbsolutePath());
-            final PrintWriter writer = new PrintWriter(new FileWriter(file));
-            try {
+            try (PrintWriter writer = new PrintWriter(new FileWriter(file))) {
                 writer.println(description);
                 new NodePrinter().print(module, writer);
-            } finally {
-                writer.close();
             }
         } catch (Throwable t) {
             Logger.getInstance().verbose("Failed to write " + description + " for " + getSourceUnitFile(sourceUnit), t);
@@ -491,52 +486,14 @@ public class Grover implements ASTTransformation {
     }
 
     /**
-     * A BytecodeInstruction.visit(MethodVisitor) has MethodVisitor INTERFACE in Groovy 1.x and
-     * MethodVisitor CLASS in Groovy 2.x. Because of this we use reflections in order to get
-     * class with a proper method signature. Otherwise we would end up with IncompatibleClassChangeError
-     * at runtime.
-     *
-     * @return BytecodeInstruction - an instance of RecorderGetterBytecodeInstructionGroovy1 or
-     *         RecorderGetterBytecodeInstructionGroovy2
+     * @return BytecodeInstruction - an instance of RecorderGetterBytecodeInstructionGroovy2
      */
-    private BytecodeInstruction newRecorderGetterBytecodeInstruction(final ClassNode clazz, GroovyInstrumentationConfig sessionConfig) throws Exception {
-        String className;
-        Class methodVisitor;
-        try {
-            // MethodVisitor from groovy-all
-            methodVisitor = Class.forName("groovyjarjarasm.asm.MethodVisitor");
-        } catch (Exception ex1) {
-            try {
-                // MethodVisitor from groovy-eclipse-batch
-                methodVisitor = Class.forName("org.objectweb.asm.MethodVisitor");
-            } catch (Exception ex2) {
-                throw new Exception("Failed to find 'groovyjarjarasm.asm.MethodVisitor' or 'org.objectweb.asm.MethodVisitor' class or interface. "
-                        + " Check if you have Groovy compiler in your classpath (e.g. groovy-all or groovy-eclipse-batch)",
-                        ex2);
-            }
-        }
-
-        if (methodVisitor.isInterface()) {
-            // Try Groovy1 with ASM3
-            className = "com.atlassian.clover.instr.groovy.bytecode.RecorderGetterBytecodeInstructionGroovy1";
-        } else {
-            // Try Groovy2 with ASM4
-            className = "com.atlassian.clover.instr.groovy.bytecode.RecorderGetterBytecodeInstructionGroovy2";
-        }
-
-        try {
-            final Class recorderBytecodeInstruction = Class.forName(className);
-            final Constructor recorderConstructor = recorderBytecodeInstruction.getConstructor(
-                    ClassNode.class, String.class, String.class, String.class,
-                    long.class, long.class, int.class, List.class);
-            return (BytecodeInstruction) recorderConstructor.newInstance(
-                    clazz, recorderFieldName,
-                    sessionConfig.initString, sessionConfig.distConfig, sessionConfig.registryVersion,
-                    sessionConfig.recorderConfig, sessionConfig.maxElements, sessionConfig.profiles);
-        } catch (Exception ex) {
-            throw new Exception("Failed to instantiate " + className + " for " + methodVisitor.getCanonicalName()
-                    + " through reflections", ex);
-        }
+    private BytecodeInstruction newRecorderGetterBytecodeInstruction(final ClassNode clazz, GroovyInstrumentationConfig sessionConfig) {
+        // Try Groovy2 with ASM4
+        return new RecorderGetterBytecodeInstructionGroovy2(
+                clazz, recorderFieldName,
+                sessionConfig.initString, sessionConfig.distConfig, sessionConfig.registryVersion,
+                sessionConfig.recorderConfig, sessionConfig.maxElements, sessionConfig.profiles);
     }
 
     /**
@@ -547,9 +504,6 @@ public class Grover implements ASTTransformation {
      *          ...
      *     }
      * </pre>
-     *
-     * @see com.atlassian.clover.instr.groovy.bytecode.RecorderGetterBytecodeInstructionGroovy1
-     * @see com.atlassian.clover.instr.groovy.bytecode.RecorderGetterBytecodeInstructionGroovy2
      */
     private ClassNode createRecorderFieldAndGetter(final ClassNode clazz, GroovyInstrumentationConfig sessionConfig, GroovyInstrumentationResult flags) throws Exception {
         // add field
@@ -595,7 +549,7 @@ public class Grover implements ASTTransformation {
         return clazz;
     }
 
-    private ClassNode createEvalTestExceptionMethod(final ClassNode clazz, final GroovyInstrumentationResult flags) throws NoSuchFieldException {
+    private ClassNode createEvalTestExceptionMethod(final ClassNode clazz, final GroovyInstrumentationResult flags) {
         if (flags.testResultsRecorded) {
             addEvalTestException(clazz);
         }
@@ -738,7 +692,7 @@ public class Grover implements ASTTransformation {
                 methodCode);
     }
 
-    private void addEvalTestException(ClassNode clazz) throws NoSuchFieldException {
+    private void addEvalTestException(ClassNode clazz) {
         //def evalTestException(Throwable exception, def expected) {
         //  boolean isExpected = false
         //  for (ex in expected) {
@@ -817,7 +771,7 @@ public class Grover implements ASTTransformation {
                         methodScope));
     }
 
-    private long calculateChecksum(File file) throws IOException, UnsupportedEncodingException {
+    private long calculateChecksum(File file) throws IOException {
         if (file.exists()) {
             Reader fileReader;
             if (config.getEncoding() != null) {

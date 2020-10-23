@@ -9,13 +9,12 @@ import org.codehaus.groovy.ast.ClassNode;
 import java.util.List;
 
 /**
- * This class MUST be compiled with Groovy 1.x and ASM 3.x in classpath.
+ * This class MUST be compiled with Groovy 2.x in classpath.
  * @see AbstractRecorderGetterBytecodeInstruction
  */
-public class RecorderGetterBytecodeInstructionGroovy1 extends AbstractRecorderGetterBytecodeInstruction {
+public class RecorderGetterBytecodeInstructionGroovy2 extends AbstractRecorderGetterBytecodeInstruction {
 
-
-    public RecorderGetterBytecodeInstructionGroovy1(ClassNode clazz, String fieldName,
+    public RecorderGetterBytecodeInstructionGroovy2(ClassNode clazz, String fieldName,
                                                     String initString, String distConfig,
                                                     long registryVersion, long recorderConfig, int maxElements,
                                                     List<CloverProfile> profiles) {
@@ -23,12 +22,11 @@ public class RecorderGetterBytecodeInstructionGroovy1 extends AbstractRecorderGe
     }
 
     /**
-     * Attention: this method is identical as in RecorderGetterBytecodeInstructionGroovy2#visit().
-     * The difference in on the byte code level - in Groovy 1.x groovyjarjarasm.asm.MethodVisitor is an Interface.
+     * In Groovy 2.x groovyjarjarasm.asm.MethodVisitor is a class (in Groovy 1.x it was an interface).
      */
     @Override
     public void visit(groovyjarjarasm.asm.MethodVisitor methodVisitor) {
-        String classInternalName = ByteCodeUtilsGroovy1.getClassInternalName(clazz);
+        String classInternalName = ByteCodeUtilsGroovy2.getClassInternalName(clazz);
         String recorderDesciptor = groovyjarjarasm.asm.Type.getDescriptor(CoverageRecorder.class);
 
         groovyjarjarasm.asm.Label returnLabel = new groovyjarjarasm.asm.Label();
@@ -41,13 +39,14 @@ public class RecorderGetterBytecodeInstructionGroovy1 extends AbstractRecorderGe
 
         methodVisitor.visitJumpInsn(groovyjarjarasm.asm.Opcodes.IFNONNULL, returnLabel);
 
-        // 1st-4th args
+        // 1st-4th arg
         methodVisitor.visitLdcInsn(initString);
         methodVisitor.visitLdcInsn(registryVersion);
         methodVisitor.visitLdcInsn(recorderConfig);
         methodVisitor.visitLdcInsn(maxElements);
         // 5th arg
         pushCloverProfilesOnStack(methodVisitor);
+
         // 6th arg
         //new array of type java.lang.String with size 2
         methodVisitor.visitInsn(groovyjarjarasm.asm.Opcodes.ICONST_2);
@@ -75,13 +74,12 @@ public class RecorderGetterBytecodeInstructionGroovy1 extends AbstractRecorderGe
                 "getRecorder",
                 groovyjarjarasm.asm.Type.getMethodDescriptor(
                         groovyjarjarasm.asm.Type.getType(CoverageRecorder.class),
-                        new groovyjarjarasm.asm.Type[]{
-                                groovyjarjarasm.asm.Type.getType(String.class),
-                                groovyjarjarasm.asm.Type.LONG_TYPE,
-                                groovyjarjarasm.asm.Type.LONG_TYPE,
-                                groovyjarjarasm.asm.Type.INT_TYPE,
-                                groovyjarjarasm.asm.Type.getType(CloverProfile[].class),
-                                groovyjarjarasm.asm.Type.getType(String[].class)}));
+                        groovyjarjarasm.asm.Type.getType(String.class),
+                        groovyjarjarasm.asm.Type.LONG_TYPE,
+                        groovyjarjarasm.asm.Type.LONG_TYPE,
+                        groovyjarjarasm.asm.Type.INT_TYPE,
+                        groovyjarjarasm.asm.Type.getType(CloverProfile[].class),
+                        groovyjarjarasm.asm.Type.getType(String[].class)));
 
         methodVisitor.visitFieldInsn(
                 groovyjarjarasm.asm.Opcodes.PUTSTATIC,
@@ -105,9 +103,9 @@ public class RecorderGetterBytecodeInstructionGroovy1 extends AbstractRecorderGe
     private void pushCloverProfilesOnStack(groovyjarjarasm.asm.MethodVisitor mv) {
         if ((profiles == null) || (profiles.isEmpty())) {
             mv.visitInsn(groovyjarjarasm.asm.Opcodes.ACONST_NULL);
-        }   else {
+        } else {
             // put array size
-            ByteCodeUtilsGroovy1.pushConstant(mv, profiles.size());
+            ByteCodeUtilsGroovy2.pushConstant(mv, profiles.size());
             // put array type
             mv.visitTypeInsn(groovyjarjarasm.asm.Opcodes.ANEWARRAY, groovyjarjarasm.asm.Type.getInternalName(CloverProfile.class));
 
@@ -116,7 +114,7 @@ public class RecorderGetterBytecodeInstructionGroovy1 extends AbstractRecorderGe
                 CloverProfile profile = profiles.get(i);
                 // put array index and object type under it
                 mv.visitInsn(groovyjarjarasm.asm.Opcodes.DUP);
-                ByteCodeUtilsGroovy1.pushConstant(mv, i);
+                ByteCodeUtilsGroovy2.pushConstant(mv, i);
                 mv.visitTypeInsn(groovyjarjarasm.asm.Opcodes.NEW, groovyjarjarasm.asm.Type.getInternalName(CloverProfile.class));
                 mv.visitInsn(groovyjarjarasm.asm.Opcodes.DUP);
                 // put 1st arg - profile name
@@ -135,10 +133,9 @@ public class RecorderGetterBytecodeInstructionGroovy1 extends AbstractRecorderGe
                         "<init>",
                         groovyjarjarasm.asm.Type.getMethodDescriptor(
                                 groovyjarjarasm.asm.Type.VOID_TYPE,
-                                new groovyjarjarasm.asm.Type[]{
-                                        groovyjarjarasm.asm.Type.getType(String.class),
-                                        groovyjarjarasm.asm.Type.getType(String.class),
-                                        groovyjarjarasm.asm.Type.getType(String.class)}));
+                                groovyjarjarasm.asm.Type.getType(String.class),
+                                groovyjarjarasm.asm.Type.getType(String.class),
+                                groovyjarjarasm.asm.Type.getType(String.class)));
                 // store object on stack
                 mv.visitInsn(groovyjarjarasm.asm.Opcodes.AASTORE);
             }
@@ -146,7 +143,7 @@ public class RecorderGetterBytecodeInstructionGroovy1 extends AbstractRecorderGe
     }
 
     public void visit(org.objectweb.asm.MethodVisitor methodVisitor) {
-        String classInternalName = ByteCodeUtilsGroovy1.getClassInternalName(clazz);
+        String classInternalName = ByteCodeUtilsGroovy2.getClassInternalName(clazz);
         String recorderDesciptor = org.objectweb.asm.Type.getDescriptor(CoverageRecorder.class);
 
         org.objectweb.asm.Label returnLabel = new org.objectweb.asm.Label();
@@ -225,7 +222,7 @@ public class RecorderGetterBytecodeInstructionGroovy1 extends AbstractRecorderGe
             mv.visitInsn(org.objectweb.asm.Opcodes.ACONST_NULL);
         } else {
             // put array size
-            ByteCodeUtilsGroovy1.pushConstant(mv, profiles.size());
+            ByteCodeUtilsGroovy2.pushConstant(mv, profiles.size());
             // put array type
             mv.visitTypeInsn(org.objectweb.asm.Opcodes.ANEWARRAY, org.objectweb.asm.Type.getInternalName(CloverProfile.class));
 
@@ -234,7 +231,7 @@ public class RecorderGetterBytecodeInstructionGroovy1 extends AbstractRecorderGe
                 CloverProfile profile = profiles.get(i);
                 // put array index and object type under it
                 mv.visitInsn(org.objectweb.asm.Opcodes.DUP);
-                ByteCodeUtilsGroovy1.pushConstant(mv, i);
+                ByteCodeUtilsGroovy2.pushConstant(mv, i);
                 mv.visitTypeInsn(org.objectweb.asm.Opcodes.NEW, org.objectweb.asm.Type.getInternalName(CloverProfile.class));
                 mv.visitInsn(org.objectweb.asm.Opcodes.DUP);
                 // put 1st arg - profile name
