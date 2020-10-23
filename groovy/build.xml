@@ -18,8 +18,8 @@
     <property name="groovy2-asm5.jar" location="${build.deps.dir}/groovy-all-${default.groovy2-asm5.version}.jar"/>
 
     <!-- Default list of versions we test against. -->
-    <property name="clover.test.groovyversion.includes" value="${default.groovy1.version},${default.groovy2.version},${default.groovy2-asm5.version}"/>
-    <property name="clover.test.groovyversion.excludes" value="${unsupported.groovy.versions}"/>
+    <property name="clover.test.groovyversion.includes" value="${default.groovy2.version},${default.groovy2-asm5.version}"/>
+    <property name="clover.test.groovyversion.excludes" value=""/>
     <property name="clover.test.category" value=""/> <!-- used for grouping tests -->
 
     <target name="groovy.init" depends="common.init, clover-core.init, clover-buildutil.jar, clover-runtime.build, _groovy.resolve-dependencies">

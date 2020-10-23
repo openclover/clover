@@ -23,10 +23,10 @@
 
     <path id="testng.path" path="${build.deps.dir}/testng-6.8.21.jar;${build.deps.dir}/jcommander-1.27.jar"/>
 
-    <property name="clover.test.groovyversion.includes" value="${default.groovy1.version},${default.groovy2.version}"/>
-    <property name="clover.test.groovyversion.excludes" value="${unsupported.groovy.versions}"/>
+    <property name="clover.test.groovyversion.includes" value="${default.groovy2.version}"/>
+    <property name="clover.test.groovyversion.excludes" value=""/>
     <property name="clover.test.antversion.includes" value="${default.ant.version}"/>
-    <property name="clover.test.antversion.excludes" value="${unsupported.ant.versions}"/>
+    <property name="clover.test.antversion.excludes" value=""/>
 
     <property name="ant.install.dir" location="${user.home}"/>
 
