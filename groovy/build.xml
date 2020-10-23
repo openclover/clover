@@ -8,18 +8,14 @@
     <property name="groovy.antlr.path" value="clover/org/codehaus/groovy/antlr/parser"/>
     <property name="groovy.image.dir" value="${groovy.output}/classes"/>
 
-
-    <!-- We have few classes which MUST be compiled using Groovy 1.x and 2.x product lines. Use the latest version available. -->
-    <property name="default.groovy1.version" value="1.8.9"/>
     <property name="default.groovy2.version" value="2.3.11"/>
     <property name="default.groovy2-asm5.version" value="2.4.15"/>
-    <property name="groovy1.jar" location="${build.deps.dir}/groovy-all-${default.groovy1.version}.jar"/>
     <property name="groovy2.jar" location="${build.deps.dir}/groovy-all-${default.groovy2.version}.jar"/>
     <property name="groovy2-asm5.jar" location="${build.deps.dir}/groovy-all-${default.groovy2-asm5.version}.jar"/>
 
     <!-- Default list of versions we test against. -->
-    <property name="clover.test.groovyversion.includes" value="${default.groovy1.version},${default.groovy2.version},${default.groovy2-asm5.version}"/>
-    <property name="clover.test.groovyversion.excludes" value="${unsupported.groovy.versions}"/>
+    <property name="clover.test.groovyversion.includes" value="${default.groovy2.version},${default.groovy2-asm5.version}"/>
+    <property name="clover.test.groovyversion.excludes" value=""/>
     <property name="clover.test.category" value=""/> <!-- used for grouping tests -->
 
     <target name="groovy.init" depends="common.init, clover-core.init, clover-buildutil.jar, clover-runtime.build, _groovy.resolve-dependencies">
@@ -29,30 +25,13 @@
         <path id="groovy.buildpath">
             <path refid="clover-core.buildpath"/>
             <pathelement location="${clover-runtime.output.classes}"/>
+            <path refid="asm4.path"/>
             <pathelement location="${groovy.jar}"/>
             <pathelement location="${spock.jar}"/>
             <pathelement location="${clover.antlr.jar}"/>
         </path>
 
-        <!-- Build path to compile against explicitly Groovy 1.x and ASM 3.x -->
-        <path id="groovy1.buildpath">
-            <path refid="asm3.path"/>
-            <pathelement location="${groovy1.jar}"/>
-            <path refid="clover-core.buildpath"/>
-            <pathelement location="${clover-runtime.output.classes}"/>
-            <pathelement location="${clover.antlr.jar}"/>
-        </path>
-
-        <!-- Build path to compile against explicitly Groovy [2.0-2.4.0) and ASM 4.x -->
-        <path id="groovy2.buildpath">
-            <path refid="asm4.path"/>
-            <pathelement location="${groovy2.jar}"/>
-            <path refid="clover-core.buildpath"/>
-            <pathelement location="${clover-runtime.output.classes}"/>
-            <pathelement location="${clover.antlr.jar}"/>
-        </path>
-
-        <!-- Test with Groovy 1.x/2.x. You have to add groovyX.jar -->
+        <!-- Test with Groovy 2.x. You have to add groovyX.jar -->
         <path id="groovy.testpath">
             <path refid="clover-core.buildpath"/>
             <pathelement location="${clover-runtime.output.classes}"/>
@@ -68,13 +47,9 @@
     </target>
 
     <target name="_groovy.resolve-dependencies">
-        <maven-resolve groupId="asm" artifactId="asm" version="3.0" pathId="asm3.path"/>
         <maven-resolve groupId="org.ow2.asm" artifactId="asm" version="4.0" pathId="asm4.path"/>
         <maven-resolve groupId="org.ow2.asm" artifactId="asm" version="5.0.3" pathId="asm5.path"/>
 
-        <get-jar src="org/codehaus/groovy/groovy-all/1.6.9/groovy-all-1.6.9.jar" dest="groovy-all-1.6.9.jar"/>
-        <get-jar src="org/codehaus/groovy/groovy-all/1.7.11/groovy-all-1.7.11.jar" dest="groovy-all-1.7.11.jar"/>
-        <get-jar src="org/codehaus/groovy/groovy-all/1.8.9/groovy-all-1.8.9.jar" dest="groovy-all-1.8.9.jar"/>
         <get-jar src="org/codehaus/groovy/groovy-all/2.0.8/groovy-all-2.0.8.jar" dest="groovy-all-2.0.8.jar"/>
         <get-jar src="org/codehaus/groovy/groovy-all/2.1.9/groovy-all-2.1.9.jar" dest="groovy-all-2.1.9.jar"/>
         <get-jar src="org/codehaus/groovy/groovy-all/2.2.2/groovy-all-2.2.2.jar" dest="groovy-all-2.2.2.jar"/>
@@ -128,18 +103,6 @@
         </path>
         <groovyc-run groovyClassPathRef="groovy.buildpath" sourcePathRef="groovy.common.src"/>
 
-        <!-- Groovy 1.x specific code -->
-        <path id="groovy.1x.src">
-            <pathelement location="${groovy.base}/src-groovy1"/>
-        </path>
-        <groovyc-run groovyClassPathRef="groovy1.buildpath" sourcePathRef="groovy.1x.src"/>
-
-        <!-- Groovy 2.x specific code -->
-        <path id="groovy.2x.src">
-            <pathelement location="${groovy.base}/src-groovy2"/>
-        </path>
-        <groovyc-run groovyClassPathRef="groovy2.buildpath" sourcePathRef="groovy.2x.src"/>
-
         <!-- Copy resource files -->
         <copy todir="${groovy.image.dir}" >
             <fileset dir="${groovy.base}/src/main/java" includes="META-INF/**"/>
@@ -189,7 +152,7 @@
     </macrodef>
 
     <target name="groovy.test" depends="groovy.init, groovy.build, groovy.test.build">
-        <!-- Run set of tests with Groovy 1.x / 2.x -->
+        <!-- Run set of tests with Groovy 2.x -->
         <groovy-test-run testResultDir="${groovy.output}/test"
                          groovyJar="${groovy2-asm5.jar}" asmPath="asm5.path"
                          groovyVersionIncludes="${clover.test.groovyversion.includes}"

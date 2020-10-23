@@ -66,8 +66,7 @@ public class CloverNames {
 
     public static final String PROP_GROVER_PREFIX = PROP_PREFIX + "grover.";
     public static final String PROP_GROVER_NO_POSTBUILD_CLEANUP = PROP_GROVER_PREFIX + "no.postbuild.cleanup";
-    /** EXPERIMENTAL: Whether to put a direct bytecode instruction into a class (Boolean) */
-    public static final String PROP_GROVER_EMIT_BYTECODE = PROP_GROVER_PREFIX + "emit.bytecode";
+
     /** Whether to dump Abstract Syntax Tree of the original and instrumented version of the Groovy class (Boolean) */
     public static final String GROVER_AST_DUMP = PROP_GROVER_PREFIX + "ast.dump";
 

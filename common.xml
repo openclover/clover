@@ -28,17 +28,8 @@
 
     <!-- Default Groovy version. Use the latest available. -->
     <property name="default.groovy.version" value="2.4.15"/> <!-- TODO can't use 2.3.0+ because dumpAST() fails -->
-    <!-- Versions which does not work due to Groovy bugs:
-       1.6.8, 1.6.9 - globalSliceEnd from finally block is not called (wrong bytecode is produced by groovyc)
-       1.6.2, 1.6.3, 1.6.4 - Clover works fine, but testImplicitReturnsArePreserved fails because "switch as expression"
-                was implemented in 1.6.5 - http://jira.codehaus.org/browse/GROOVY-3789
-       1.7.1 - globalSliceEnd problem
-       2.0.0 - this groovy release does not work with JDK1.5 - http://jira.codehaus.org/browse/GROOVY-5593
-    -->
-    <property name="unsupported.groovy.versions" value="1.6.2,1.6.3,1.6.4,1.6.8,1.6.9,1.7.1,2.0.0"/>
     <!-- Default Ant version. Use the latest available. -->
     <property name="default.ant.version" value="1.9.14"/>
-    <property name="unsupported.ant.versions" value=""/>
 
     <property name="mvn.version" value="3.2.5"/>
 
