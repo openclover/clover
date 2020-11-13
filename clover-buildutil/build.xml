@@ -17,7 +17,7 @@
     </target>
 
     <target name="clover-buildutil.build" depends="clover-buildutil.init">
-        <javac srcdir="${clover-buildutil.base}/src"
+        <javac srcdir="${clover-buildutil.base}/src/main/java"
                destdir="${clover-buildutil.output.classes}"
                debug="on"
                debuglevel="lines,vars,source"
@@ -31,7 +31,7 @@
                 <pathelement location="${env.JAVA_HOME}/lib/tools.jar"/>
             </classpath>
         </javac>
-        <groovyc srcdir="${clover-buildutil.base}/src"
+        <groovyc srcdir="${clover-buildutil.base}/src/main/groovy"
                  destdir="${clover-buildutil.output.classes}">
             <classpath>
                 <pathelement location="${groovy.jar}"/>
