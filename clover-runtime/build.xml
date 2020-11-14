@@ -80,7 +80,7 @@
     </target>
 
     <target name="clover-runtime.init"
-            depends="common.init, clover-buildutil.jar, _clover-runtime.resolve-dependencies, _clover-runtime.strip-libraries">
+            depends="common.init, clover-buildutil.build, _clover-runtime.resolve-dependencies, _clover-runtime.strip-libraries">
         <path id="clover-runtime.buildpath">
             <pathelement location="${clover-runtime.output.classes}"/> <!-- for third party classes -->
             <pathelement location="${clover-buildutil.jar}"/>

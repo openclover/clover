@@ -58,7 +58,7 @@
         </sequential>
     </macrodef>
 
-    <target name="clover-core.init" depends="common.init, clover-buildutil.jar, clover-core-libs.initialize">
+    <target name="clover-core.init" depends="common.init, clover-buildutil.build, clover-core-libs.initialize">
         <mkdir dir="${clover-core.output.gensources}/${clover-core.antlr.path}"/>
 
         <path id="clover.antlr.path" location="${clover-core-libs.output.deps}/clover-antlr-${antlr.ver}.jar"/>
