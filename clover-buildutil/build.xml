@@ -5,8 +5,8 @@
     <dirname property="clover-buildutil.base" file="${ant.file.clover-buildutil}"/>
 
     <property name="clover-buildutil.output" location="${clover-buildutil.base}/target"/>
-    <property name="clover-buildutil.output.classes" location="${clover-buildutil.output}/classes"/>
     <property name="clover-buildutil.jar" location="${clover-buildutil.output}/clover-buildutil-${core.release.base}-SNAPSHOT.jar"/> <!-- TODO remove hardcoded -SNAPSHOT -->
+    <property name="clover-buildutil.tests.jar" location="${clover-buildutil.output}/clover-buildutil-${core.release.base}-SNAPSHOT-tests.jar"/> <!-- TODO remove hardcoded -SNAPSHOT -->
 
     <target name="clover-buildutil.build">
         <exec executable="${path.to.mvn}" dir="${basedir}" failonerror="true">

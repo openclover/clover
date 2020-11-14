@@ -61,7 +61,7 @@
             <path refid="clover-ant.buildpath"/>
             <pathelement location="${clover-ant.output.classes}"/>
             <pathelement location="${clover-ant.output.testclasses}"/>
-            <pathelement location="${clover-buildutil.output.classes}"/>
+            <pathelement location="${clover-buildutil.tests.jar}"/>
             <pathelement location="${clover-ant.jar}"/>
             <path refid="clover-core.testpath"/>
         </path>
