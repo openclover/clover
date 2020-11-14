@@ -31,7 +31,7 @@
                 <pathelement location="${env.JAVA_HOME}/lib/tools.jar"/>
             </classpath>
         </javac>
-        <groovyc srcdir="${clover-buildutil.base}/src/main/groovy"
+        <groovyc srcdir="${clover-buildutil.base}/src/test/groovy"
                  destdir="${clover-buildutil.output.classes}">
             <classpath>
                 <pathelement location="${groovy.jar}"/>
