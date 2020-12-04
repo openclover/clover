@@ -41,8 +41,7 @@ class RenderColophonJSONActionTest {
         // assertNotNull(cloverBuild)
         // assertEquals(CloverVersionInfo.BUILD_STAMP, cloverBuild.getLong("stamp"))
         // assertEquals(CloverVersionInfo.BUILD_DATE, cloverBuild.getString("date"))
-        // assertEquals(CloverVersionInfo.BUILD_NUMBER, cloverBuild.getString("number"))
-        // 
+        //
         // final JSONObject report = json.getJSONObject("report")
         // assertNotNull(report)
         // assertEquals(cfg.getFormat().getCallback(), report.getString("callback"))
