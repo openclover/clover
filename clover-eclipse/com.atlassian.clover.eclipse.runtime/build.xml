@@ -27,8 +27,7 @@
                 <attribute name="Specification-Title" value="Clover"/>
                 <attribute name="Specification-Version" value="${core.release.num}"/>
                 <attribute name="Specification-Vendor" value="OpenClover.org"/>
-                <attribute name="Implementation-Version"
-                           value="${core.release.num}.${build.number.prefix}${build.number.string}.${build.stamp}"/>
+                <attribute name="Implementation-Version" value="${core.release.num}"/>
                 <attribute name="Implementation-Vendor" value="OpenClover.org"/>
             </manifest>
             <!-- add clover-runtime classes and repackaged third party libraries -->

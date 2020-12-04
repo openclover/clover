@@ -84,15 +84,7 @@
     </tstamp>
 
     <!-- version numbers for all packages -->
-    <property name="build.number.prefix" value="build-"/> <!-- change this for branches, etc. -->
-    <property name="build.number.string" value="dev"/> <!-- no build numbers for non-prod builds -->
     <property name="core.release.base" value="4.5.0"/>
-    <!-- duplicated version number because @input does not support expressions :( -->
-    <propertyregex input="4.5.0"
-        property="core.release.num.sanitised"
-        regexp="\W+"
-        replace="_"
-        global="true" />
 
     <filterset id="common.version.filterset">
         <filter token="CLOVER_URL" value="${clover.url}"/>
@@ -100,29 +92,15 @@
         <filter token="CLOVER_HELP_URL" value="${clover.help.url}"/>
         <filter token="BUILD_DATE" value="${build.date}"/>
         <filter token="BUILD_STAMP" value="${build.stamp.aslong}"/>
-        <filter token="BUILD_NUMBER" value="${build.number.prefix}${build.number.string}"/>
     </filterset>
 
     <property name="core.release.qualifier" value=""/>
     <property name="core.release.num" value="${core.release.base}${core.release.qualifier}"/>
     <property name="ant.release.num" value="${core.release.num}"/>
-    <loadresource property="core.release.base.ident">
-        <propertyresource name="core.release.base"/>
-        <filterchain>
-            <replacestring from="." to="_" />
-        </filterchain>
-    </loadresource>
-    <propertyregex input="${core.release.base}"
-                   regexp="^([0-9]+\.[0-9]+).*"
-                   select="\1"
-                   property="core.release.major.num"
-                   description="Clover's version number limited to two first major digits, like 4.0"/>
+
     <filterset id="core.version.filterset">
         <filterset refid="common.version.filterset"/>
         <filter token="CORE_RELEASE_NUM" value="${core.release.num}"/>
-        <filter token="CORE_RELEASE_MAJOR_NUM" value="${core.release.major.num}"/>
-        <filter token="CORE_RELEASE_NUM_SANITISED" value="${core.release.num.sanitised}"/>
-        <filter token="CORE_RELEASE_BASE_IDENT" value="${core.release.base.ident}"/>
     </filterset>
 
     <!-- "-dev" by default, add -Declipse.build.suffix= if not a dev build or specify [eclipse|idea].release.num directly -->
@@ -245,18 +223,8 @@
             <property name="@{module}.@{kind}.tag" value="@{module}-@{kind}-${@{module}.release.num}"/>
             <echo message="@{kind} build for ${@{module}.@{kind}.tag}"/>
 
-            <!-- update build number - get the latest revision, rolback any local changes from buildnumber.txt, increment -->
-            <git command="checkout" params="-- buildnumber.txt"/>
-            <git command="pull"/>
-            <buildnumber file="buildnumber.txt"/>
-
-            <git command="commit" params="-m &quot;NONE:auto build increment&quot; buildnumber.txt" />
-            <echo>build.number now ${build.number}</echo>
-
             <!-- build production package -->
-            <antcall target="clover-@{module}.pkg">
-                <param name="build.number.string" value="${build.number}"/>
-            </antcall>
+            <antcall target="clover-@{module}.pkg"/>
 
             <!-- tag the build -->
             <echo message="tagging ${@{module}.@{kind}.tag}"/>

@@ -185,8 +185,7 @@
                <attribute name="Specification-Title" value="Clover-Groovy-Integration"/>
                <attribute name="Specification-Version" value="${core.release.num}"/>
                <attribute name="Specification-Vendor" value="OpenClover.org"/>
-               <attribute name="Implementation-Version"
-                          value="${build.number.prefix}${build.number.string} ${build.date}"/>
+               <attribute name="Implementation-Version" value="${core.release.num}"/>
                 <attribute name="Implementation-Vendor" value="OpenClover.org"/>
             </manifest>
             <fileset refid="clover-ant.etc.grover.fileset"/>
@@ -201,8 +200,7 @@
                <attribute name="Specification-Title" value="Clover"/>
                <attribute name="Specification-Version" value="${core.release.num}"/>
                <attribute name="Specification-Vendor" value="OpenClover.org"/>
-               <attribute name="Implementation-Version"
-                          value="${build.number.prefix}${build.number.string} ${build.date}"/>
+               <attribute name="Implementation-Version" value="${core.release.num}"/>
                 <attribute name="Implementation-Vendor" value="OpenClover.org"/>
             </manifest>
             <!-- add task definitions from cloverlib.xml etc -->
@@ -295,7 +293,7 @@
             <fileset dir="${clover-ant.javadoc.api.output}"/>
         </copy>
 
-        <zip destfile="${clover-ant.output}/clover-ant-${core.release.num}-${build.number.prefix}${build.number.string}.zip">
+        <zip destfile="${clover-ant.output}/clover-ant-${core.release.num}.zip">
             <zipfileset dir="${clover-ant.output}/pkg" prefix="clover-ant-${core.release.num}" excludes="**/clover.sh"/>
             <zipfileset dir="${clover-ant.output}/pkg/tutorial/" includes="clover.sh" prefix="clover-ant-${core.release.num}/tutorial" filemode="775"/>
         </zip>
