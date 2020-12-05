@@ -24,7 +24,7 @@ public class CloverVersionInfo {
 
     public static final String BUILD_DATE ="@BUILD_DATE@";
 
-    public static final long BUILD_STAMP = @BUILD_STAMP@;
+    public static final long BUILD_STAMP = @BUILD_STAMP@L;
 
     /** @deprecated */
     public static String TITLE_PREFIX = "";

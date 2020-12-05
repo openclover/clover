@@ -76,11 +76,8 @@
     <property name="ide.eval.license" value=""/>
 
     <tstamp>
-      <format property="build.date" pattern="MMMM dd yyyy" locale="en,US"/>
-      <format property="build.stamp.aslong" pattern="yyyyMMddHHmmssSS'L'" locale="en,US"/>
+      <format property="build.date" pattern="yyyy-MM-dd" locale="en,US"/>
       <format property="build.stamp" pattern="yyyyMMddHHmmss" locale="en,US"/>
-      <format property="eclipse.build.stamp" pattern="yyyyMMddHHmmss" locale="en,US"/>
-      <format property="idea.build.stamp" pattern="yyyyMMddHHmmss" locale="en,US"/>
     </tstamp>
 
     <!-- version numbers for all packages -->
@@ -91,7 +88,7 @@
         <filter token="CLOVER_LICENSE_AGREEMENT_URL" value="${clover.license.agreement.url}"/>
         <filter token="CLOVER_HELP_URL" value="${clover.help.url}"/>
         <filter token="BUILD_DATE" value="${build.date}"/>
-        <filter token="BUILD_STAMP" value="${build.stamp.aslong}"/>
+        <filter token="BUILD_STAMP" value="${build.stamp}"/>
     </filterset>
 
     <property name="core.release.qualifier" value=""/>
@@ -117,7 +114,7 @@
         <istrue value="${clover.prod.build}"/>
     </condition>
 
-    <property name="eclipse.release.num" value="${core.release.base}.v${eclipse.build.stamp}${eclipse.build.suffix}"/>
+    <property name="eclipse.release.num" value="${core.release.base}.v${build.stamp}${eclipse.build.suffix}"/>
     <property name="idea.release.num" value="${core.release.base}${idea.build.suffix}"/>
 
     <!-- common resources for release notes -->
