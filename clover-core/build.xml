@@ -61,6 +61,8 @@
     <target name="clover-core.init" depends="common.init, clover-buildutil.build, clover-core-libs.initialize">
         <mkdir dir="${clover-core.output.gensources}/${clover-core.antlr.path}"/>
 
+        <maven-resolve groupId="asm" artifactId="asm" version="3.0" pathId="asm3.path"/> <!-- TODO upgrade -->
+
         <path id="clover.antlr.path" location="${clover-core-libs.output.deps}/clover-antlr-${antlr.ver}.jar"/>
 
         <path id="clover-core.runpath">
