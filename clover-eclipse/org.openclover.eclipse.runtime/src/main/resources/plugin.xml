@@ -7,7 +7,7 @@
 	<extension point="org.eclipse.jdt.core.classpathVariableInitializer">
 		<classpathVariableInitializer
 			variable="CLOVER_RUNTIME"
-			class="com.atlassian.clover.eclipse.runtime.VariableInitialiser">
+			class="org.openclover.eclipse.runtime.VariableInitialiser">
 		</classpathVariableInitializer>
 	</extension>
 </plugin>

@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.runtime;
+package org.openclover.eclipse.runtime;
 
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;

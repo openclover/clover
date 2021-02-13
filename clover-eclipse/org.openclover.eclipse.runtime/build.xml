@@ -59,7 +59,7 @@
                 <attribute name="Bundle-Vendor" value="%providerName"/>
                 <attribute name="Bundle-SymbolicName" value="org.openclover.eclipse.runtime; singleton:=true"/>
                 <attribute name="Bundle-Version" value="${eclipse.release.num}"/>
-                <attribute name="Bundle-Activator" value="com.atlassian.clover.eclipse.runtime.CloverPlugin"/>
+                <attribute name="Bundle-Activator" value="org.openclover.eclipse.runtime.CloverPlugin"/>
                 <attribute name="Bundle-Localization" value="plugin"/>
                 <attribute name="Require-Bundle" value="org.eclipse.core.runtime;bundle-version=&quot;${required.eclipse.version}&quot;,org.eclipse.jdt.core;bundle-version=&quot;${required.eclipse.version}&quot;"/>
                 <attribute name="Bundle-Classpath" value="."/>
