@@ -97,7 +97,7 @@
             <attribute name="Bundle-Vendor" value="%providerName"/>
             <attribute name="Bundle-SymbolicName" value="org.openclover.eclipse.testopt; singleton:=true"/>
             <attribute name="Bundle-Version" value="${eclipse.release.num}"/>
-            <attribute name="Bundle-Activator" value="com.atlassian.clover.eclipse.testopt.TestOptimizationPlugin"/>
+            <attribute name="Bundle-Activator" value="org.openclover.eclipse.testopt.TestOptimizationPlugin"/>
             <attribute name="Bundle-Localization" value="plugin"/>
             <attribute name="Require-Bundle" value="org.eclipse.ui;bundle-version=&quot;${required.eclipse.version}&quot;, org.eclipse.core.runtime;bundle-version=&quot;${required.eclipse.version}&quot;, org.eclipse.ui.views, org.eclipse.jface.text, org.eclipse.ui.editors, org.eclipse.ui.workbench.texteditor, org.eclipse.jdt.launching, org.eclipse.debug.core, org.eclipse.debug.ui, org.eclipse.jdt.core, org.eclipse.jdt.ui, org.eclipse.core.resources, org.eclipse.core.filesystem, org.eclipse.jdt.debug.ui, org.eclipse.ui.ide, org.eclipse.ui.console, org.eclipse.ui.forms, org.eclipse.search, org.eclipse.jdt.junit;bundle-version=&quot;[3.4.0,4.0.0)&quot;, org.openclover.eclipse.core;bundle-version=${eclipse.release.num}"/>
             <attribute name="Bundle-Classpath" value="."/>
