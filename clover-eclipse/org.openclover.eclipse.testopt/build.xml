@@ -37,7 +37,7 @@
             <fileset dir="${eclipse-xyz.home}" includes="**/*.jar"/>
         </path>
 
-        <echo level="verbose" message="Target com.atlassian.clover.eclipse.testopt::eclipse.build is using [${clover-ant.jar}:${toString:eclipse.libs}:${clover-core.output.classes}:${eclipse.core.output}/classes] path"/>
+        <echo level="verbose" message="Target org.openclover.eclipse.testopt::eclipse.build is using [${clover-ant.jar}:${toString:eclipse.libs}:${clover-core.output.classes}:${eclipse.core.output}/classes] path"/>
 
         <javac destdir="${eclipse.testoptimization.output}/classes"
                debug="on"
@@ -66,7 +66,7 @@
     <target name="eclipse.pkgup" depends="eclipse.build">
 
         <!-- package directory -->
-        <property name="eclipse.pkg.name" value="com.atlassian.clover.eclipse.testopt_${eclipse.release.num}"/>
+        <property name="eclipse.pkg.name" value="org.openclover.eclipse.testopt_${eclipse.release.num}"/>
 
         <mkdir dir="${eclipse.testoptimization.output}/pkg/META-INF"/>
 
