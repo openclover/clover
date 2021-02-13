@@ -21,7 +21,7 @@
 
 	<target  name="eclipse.versions" depends="eclipse.init">
         <copy todir="${eclipse.testoptimization.output}" overwrite="true">
-            <fileset dir="${eclipse.testoptimization.base}/etc" includes="plugin.xml"/>
+            <fileset dir="${eclipse.testoptimization.base}/src/main/resources" includes="plugin.xml"/>
             <filterset>
                 <filterset refid="core.version.filterset"/>
                 <filter token="ECLIPSE_RELEASE_NUM" value="${eclipse.release.num}"/>
@@ -53,7 +53,7 @@
                 <pathelement location="${clover-core.output.classes}"/>
                 <pathelement location="${eclipse.core.output}/classes"/>
             </classpath>
-            <src path="${eclipse.testoptimization.base}/src"/>
+            <src path="${eclipse.testoptimization.base}/src/main/java"/>
             <exclude name="net/sf/jtreemap/**"/>
         </javac>
     </target>
@@ -71,7 +71,7 @@
         <mkdir dir="${eclipse.testoptimization.output}/pkg/META-INF"/>
 
         <copy todir="${eclipse.testoptimization.output}/pkg">
-            <fileset dir="${eclipse.testoptimization.base}/etc">
+            <fileset dir="${eclipse.testoptimization.base}/src/main/resources">
                 <include name="toc.xml"/>
                 <include name="help.html"/>
                 <include name="html/**"/>
@@ -86,7 +86,7 @@
         </copy>
 
         <copy todir="${eclipse.testoptimization.output}/pkg">
-            <fileset dir="${eclipse.testoptimization.base}/etc" includes="META-INF"/>
+            <fileset dir="${eclipse.testoptimization.base}/src/main/resources" includes="META-INF"/>
         </copy>
 
         <!--<listpackages jar="${eclipse.testoptimization.output}/clover-eclipse.jar" separator=", " propertyName="eclipse.core.packages"/>-->
@@ -110,13 +110,13 @@
               overwrite="true"/>
         <copy todir="${eclipse.testoptimization.output}/pkg"
               overwrite="true">
-            <fileset dir="${eclipse.testoptimization.base}/etc/l10n" includes="plugin.properties"/>
-            <fileset dir="${eclipse.testoptimization.base}/etc" includes=".options"/>
+            <fileset dir="${eclipse.testoptimization.base}/src/main/resources/l10n" includes="plugin.properties"/>
+            <fileset dir="${eclipse.testoptimization.base}/src/main/resources" includes=".options"/>
         </copy>
 
         <jar file="${clover.eclipse_to.jar}" manifest="${eclipse.testoptimization.output}/manifest.mf">
             <fileset dir="${eclipse.testoptimization.output}/classes"/>
-            <fileset dir="${eclipse.testoptimization.base}/etc/l10n" includes="com/atlassian/clover/eclipse/**/*.properties"/>
+            <fileset dir="${eclipse.testoptimization.base}/src/main/resources/l10n" includes="com/atlassian/clover/eclipse/**/*.properties"/>
             <zipfileset dir="${eclipse.testoptimization.output}/pkg" excludes="*.jar"/>
         </jar>
     </target>

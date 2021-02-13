@@ -43,7 +43,7 @@
             <fileset refid="clover-runtime.3rdparty.rights.fileset"/>
             <fileset refid="clover-runtime.openclover.rights.fileset"/>
             <!-- add plugin descriptors -->
-            <fileset dir="${eclipse.runtime.base}/etc" includes="plugin.*"/>
+            <fileset dir="${eclipse.runtime.base}/src/main/resources" includes="plugin.*"/>
             <filterchain>
                 <replacetokens>
                     <token key="ECLIPSE_RELEASE_NUM" value="${eclipse.release.num}"/>
@@ -94,7 +94,7 @@
                 <pathelement location="${eclipse.plugins.output}/core/classes"/>
                 <path refid="eclipse.libs"/>
             </classpath>
-            <src path="${eclipse.runtime.base}/src"/>
+            <src path="${eclipse.runtime.base}/src/main/java"/>
         </javac>
 
     </target>
