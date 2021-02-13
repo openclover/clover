@@ -4,7 +4,7 @@
          version="@ECLIPSE_RELEASE_NUM@"
          provider-name="OpenClover.org"
          icon="clover32.png"
-         plugin="com.atlassian.clover.eclipse.ant">
+         plugin="org.openclover.eclipse.ant">
     <description url="@CLOVER_URL@">@CLOVER_ANT_BLURB@</description>
     <copyright url="@CLOVER_URL@">@CLOVER_COPYRIGHT@</copyright>
     <license url="@CLOVER_LICENSE_AGREEMENT_URL@">@CLOVER_CLICKWRAP_LICENSE@</license>

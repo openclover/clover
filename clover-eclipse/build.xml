@@ -8,26 +8,26 @@
     <property name="clover-eclipse.output" location="${clover-eclipse.base}/target"/>
 
     <target name="clover-eclipse.install.all" depends="clover-eclipse.pkg" description="Installs Eclipse plugins to an Eclipse installation">
-        <delete dir="${eclipse.home}/plugins" includes="com.atlassian.clover.*.jar"/>
-        <delete dir="${eclipse.home}/features" includes="com.atlassian.clover.*"/>
+        <delete dir="${eclipse.home}/plugins" includes="org.openclover.*.jar"/>
+        <delete dir="${eclipse.home}/features" includes="org.openclover.*"/>
 
         <copy todir="${eclipse.home}/plugins">
-            <fileset dir="${clover-eclipse.output}/plugins" includes="com.atlassian.clover.eclipse.core_${eclipse.release.num}.jar"/>
+            <fileset dir="${clover-eclipse.output}/plugins" includes="org.openclover.eclipse.core_${eclipse.release.num}.jar"/>
             <fileset dir="${clover-eclipse.output}/plugins" includes="org.openclover.eclipse.testopt_${eclipse.release.num}.jar"/>
         </copy>
         <unzip dest="${eclipse.home}/plugins/org.openclover.eclipse.ant_${eclipse.release.num}" src="${clover-eclipse.output}/plugins/org.openclover.eclipse.ant_${eclipse.release.num}.jar"/>
-        <unzip dest="${eclipse.home}/plugins/com.atlassian.clover.eclipse.branding_${eclipse.release.num}" src="${clover-eclipse.output}/plugins/com.atlassian.clover.eclipse.branding_${eclipse.release.num}.jar"/>
-        <unzip dest="${eclipse.home}/plugins/com.atlassian.clover.eclipse.runtime_${eclipse.release.num}" src="${clover-eclipse.output}/plugins/com.atlassian.clover.eclipse.runtime_${eclipse.release.num}.jar"/>
+        <unzip dest="${eclipse.home}/plugins/org.openclover.eclipse.branding_${eclipse.release.num}" src="${clover-eclipse.output}/plugins/org.openclover.eclipse.branding_${eclipse.release.num}.jar"/>
+        <unzip dest="${eclipse.home}/plugins/org.openclover.eclipse.runtime_${eclipse.release.num}" src="${clover-eclipse.output}/plugins/org.openclover.eclipse.runtime_${eclipse.release.num}.jar"/>
         <copy todir="${eclipse.home}/plugins">
-            <fileset dir="${clover-eclipse.output}/plugins" includes="com.atlassian.clover.eclipse.core_${eclipse.release.num}.jar"/>
+            <fileset dir="${clover-eclipse.output}/plugins" includes="org.openclover.eclipse.core_${eclipse.release.num}.jar"/>
         </copy>
-        <unzip dest="${eclipse.home}/features/com.atlassian.clover.eclipse.feature_${eclipse.release.num}" src="${clover-eclipse.output}/features/com.atlassian.clover.eclipse.feature_${eclipse.release.num}.jar"/>
-        <unzip dest="${eclipse.home}/features/com.atlassian.clover.eclipse.ant.feature_${eclipse.release.num}" src="${clover-eclipse.output}/features/com.atlassian.clover.eclipse.ant.feature_${eclipse.release.num}.jar"/>
+        <unzip dest="${eclipse.home}/features/org.openclover.eclipse.feature_${eclipse.release.num}" src="${clover-eclipse.output}/features/org.openclover.eclipse.feature_${eclipse.release.num}.jar"/>
+        <unzip dest="${eclipse.home}/features/org.openclover.eclipse.ant.feature_${eclipse.release.num}" src="${clover-eclipse.output}/features/org.openclover.eclipse.ant.feature_${eclipse.release.num}.jar"/>
     </target>
     <target name="clover-eclipse.install.core" depends="clover-eclipse.pkg">
-        <delete dir="${eclipse.home}/plugins" includes="com.atlassian.clover.eclipse.core_*.jar"/>
+        <delete dir="${eclipse.home}/plugins" includes="org.openclover.eclipse.core_*.jar"/>
         <copy todir="${eclipse.home}/plugins">
-            <fileset dir="${clover-eclipse.output}/plugins" includes="com.atlassian.clover.eclipse.core_${eclipse.release.num}.jar"/>
+            <fileset dir="${clover-eclipse.output}/plugins" includes="org.openclover.eclipse.core_${eclipse.release.num}.jar"/>
         </copy>
     </target>
     <target name="clover-eclipse.install.testoptimization" depends="clover-eclipse.pkg">
@@ -37,12 +37,12 @@
         </copy>
     </target>
     <target name="clover-eclipse.install.ant" depends="clover-eclipse.pkg">
-        <delete dir="${eclipse.home}/plugins" includes="com.atlassian.clover.eclipse.ant_*.jar"/>
-        <unzip dest="${eclipse.home}/plugins/com.atlassian.clover.eclipse.ant_${eclipse.release.num}" src="${clover-eclipse.output}/plugins/com.atlassian.clover.eclipse.ant_${eclipse.release.num}.jar"/>
+        <delete dir="${eclipse.home}/plugins" includes="org.openclover.eclipse.ant_*.jar"/>
+        <unzip dest="${eclipse.home}/plugins/org.openclover.eclipse.ant_${eclipse.release.num}" src="${clover-eclipse.output}/plugins/org.openclover.eclipse.ant_${eclipse.release.num}.jar"/>
     </target>
     <target name="clover-eclipse.install.runtime" depends="clover-eclipse.pkg">
-        <delete dir="${eclipse.home}/plugins" includes="com.atlassian.clover.eclipse.runtime_*"/>
-        <unzip src="${clover-eclipse.output}/plugins/com.atlassian.clover.eclipse.runtime_${eclipse.release.num}.jar" dest="${eclipse.home}/plugins/com.atlassian.clover.eclipse.runtime_${eclipse.release.num}"/>
+        <delete dir="${eclipse.home}/plugins" includes="org.openclover.eclipse.runtime_*"/>
+        <unzip src="${clover-eclipse.output}/plugins/org.openclover.eclipse.runtime_${eclipse.release.num}.jar" dest="${eclipse.home}/plugins/org.openclover.eclipse.runtime_${eclipse.release.num}"/>
     </target>
 
     <target name="check.version.format">
