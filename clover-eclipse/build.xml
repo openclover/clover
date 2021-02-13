@@ -68,7 +68,7 @@
             <ant dir="${clover-eclipse.base}/com.atlassian.clover.eclipse.runtime" target="eclipse.build">
                 <property name="eclipse.lib.version" value="@{eclipse-version}"/>
             </ant>
-            <ant dir="${clover-eclipse.base}/com.atlassian.clover.eclipse.branding" target="eclipse.build">
+            <ant dir="${clover-eclipse.base}/org.openclover.eclipse.branding" target="eclipse.build">
                 <property name="eclipse.lib.version" value="@{eclipse-version}"/>
             </ant>
             <ant dir="${clover-eclipse.base}/org.openclover.eclipse.ant" target="eclipse.build">
@@ -100,7 +100,7 @@
             <ant dir="${clover-eclipse.base}/com.atlassian.clover.eclipse.runtime" target="eclipse.pkg">
                 <property name="eclipse.lib.version" value="@{eclipse-version}"/>
             </ant>
-            <ant dir="${clover-eclipse.base}/com.atlassian.clover.eclipse.branding" target="eclipse.pkg">
+            <ant dir="${clover-eclipse.base}/org.openclover.eclipse.branding" target="eclipse.pkg">
                 <property name="eclipse.lib.version" value="@{eclipse-version}"/>
             </ant>
             <ant dir="${clover-eclipse.base}/org.openclover.eclipse.ant" target="eclipse.pkg">
@@ -144,7 +144,7 @@
 
     <target name="clover-eclipse.test" depends="clover-eclipse.build, clover-eclipse.test.build">
         <ant dir="${clover-eclipse.base}/com.atlassian.clover.eclipse.core" target="eclipse.test"/>
-        <ant dir="${clover-eclipse.base}/com.atlassian.clover.eclipse.branding" target="eclipse.test"/>
+        <ant dir="${clover-eclipse.base}/org.openclover.eclipse.branding" target="eclipse.test"/>
         <ant dir="${clover-eclipse.base}/org.openclover.eclipse.feature" target="eclipse.test"/>
         <ant dir="${clover-eclipse.base}/org.openclover.eclipse.updatesite" target="eclipse.test"/>
     </target>
