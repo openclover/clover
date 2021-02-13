@@ -15,7 +15,7 @@
             <fileset dir="${clover-eclipse.output}/plugins" includes="com.atlassian.clover.eclipse.core_${eclipse.release.num}.jar"/>
             <fileset dir="${clover-eclipse.output}/plugins" includes="com.atlassian.clover.eclipse.testopt_${eclipse.release.num}.jar"/>
         </copy>
-        <unzip dest="${eclipse.home}/plugins/com.atlassian.clover.eclipse.ant_${eclipse.release.num}" src="${clover-eclipse.output}/plugins/com.atlassian.clover.eclipse.ant_${eclipse.release.num}.jar"/>
+        <unzip dest="${eclipse.home}/plugins/org.openclover.eclipse.ant_${eclipse.release.num}" src="${clover-eclipse.output}/plugins/org.openclover.eclipse.ant_${eclipse.release.num}.jar"/>
         <unzip dest="${eclipse.home}/plugins/com.atlassian.clover.eclipse.branding_${eclipse.release.num}" src="${clover-eclipse.output}/plugins/com.atlassian.clover.eclipse.branding_${eclipse.release.num}.jar"/>
         <unzip dest="${eclipse.home}/plugins/com.atlassian.clover.eclipse.runtime_${eclipse.release.num}" src="${clover-eclipse.output}/plugins/com.atlassian.clover.eclipse.runtime_${eclipse.release.num}.jar"/>
         <copy todir="${eclipse.home}/plugins">
@@ -71,7 +71,7 @@
             <ant dir="${clover-eclipse.base}/com.atlassian.clover.eclipse.branding" target="eclipse.build">
                 <property name="eclipse.lib.version" value="@{eclipse-version}"/>
             </ant>
-            <ant dir="${clover-eclipse.base}/com.atlassian.clover.eclipse.ant" target="eclipse.build">
+            <ant dir="${clover-eclipse.base}/org.openclover.eclipse.ant" target="eclipse.build">
                 <property name="eclipse.lib.version" value="@{eclipse-version}"/>
             </ant>
             <ant dir="${clover-eclipse.base}/com.atlassian.clover.eclipse.feature" target="eclipse.build">
@@ -103,7 +103,7 @@
             <ant dir="${clover-eclipse.base}/com.atlassian.clover.eclipse.branding" target="eclipse.pkg">
                 <property name="eclipse.lib.version" value="@{eclipse-version}"/>
             </ant>
-            <ant dir="${clover-eclipse.base}/com.atlassian.clover.eclipse.ant" target="eclipse.pkg">
+            <ant dir="${clover-eclipse.base}/org.openclover.eclipse.ant" target="eclipse.pkg">
                 <property name="eclipse.lib.version" value="@{eclipse-version}"/>
             </ant>
             <ant dir="${clover-eclipse.base}/com.atlassian.clover.eclipse.feature" target="eclipse.pkg">

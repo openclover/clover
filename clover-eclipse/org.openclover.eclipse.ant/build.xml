@@ -24,7 +24,7 @@
             <fileset dir="${eclipse-xyz.home}" includes="**/*.jar"/>
         </path>
 
-        <echo level="verbose" message="Target com.atlassian.clover.eclipse.ant::eclipse.build is using [${clover-ant.jar}:${toString:eclipse.libs}] path"/>
+        <echo level="verbose" message="Target org.openclover.eclipse.ant::eclipse.build is using [${clover-ant.jar}:${toString:eclipse.libs}] path"/>
         <mkdir dir="${eclipse.ant.output}/pkg"/>
 
         <javac destdir="${eclipse.ant.output}/pkg"
@@ -75,7 +75,7 @@
                 <attribute name="Eclipse-LazyStart" value="true"/>
                 <attribute name="Bundle-Classpath" value="."/>
             </manifest>
-            <zipfileset dir="${eclipse.ant.output}/pkg" excludes="com.atlassian.clover.eclipse.ant_*-jdk15.jar"/>
+            <zipfileset dir="${eclipse.ant.output}/pkg"/>
         </jar>
     </target>
 
