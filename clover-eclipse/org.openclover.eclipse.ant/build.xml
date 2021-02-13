@@ -71,7 +71,7 @@
                 <attribute name="Bundle-Version" value="${eclipse.release.num}"/>
                 <attribute name="Bundle-Localization" value="plugin"/>
                 <attribute name="Require-Bundle" value="org.eclipse.ant.core;bundle-version=&quot;${required.eclipse.ant.version}&quot;,org.apache.ant;bundle-version=&quot;${required.ant.version}&quot;,org.eclipse.equinox.preferences,org.eclipse.ui.workbench,org.eclipse.equinox.common,org.eclipse.osgi,org.eclipse.core.runtime"/>
-                <attribute name="Bundle-Activator" value="com.atlassian.clover.eclipse.ant.CloverAntPlugin"/>
+                <attribute name="Bundle-Activator" value="org.openclover.eclipse.ant.CloverAntPlugin"/>
                 <attribute name="Eclipse-LazyStart" value="true"/>
                 <attribute name="Bundle-Classpath" value="."/>
             </manifest>

@@ -45,12 +45,12 @@
 	<extension
 		point="org.eclipse.ant.core.antProperties">
 		<antProperty
-			class="com.atlassian.clover.eclipse.ant.CloverEclipseAntProperties"
+			class="org.openclover.eclipse.ant.CloverEclipseAntProperties"
 			eclipseRuntime="false"
 			headless="true"
 			name="clover.license.path"/>
         <antProperty
-            class="com.atlassian.clover.eclipse.ant.CloverEclipseAntProperties"
+            class="org.openclover.eclipse.ant.CloverEclipseAntProperties"
             eclipseRuntime="false"
             headless="true"
             name="clover.eclipse.runtime.jar"/>

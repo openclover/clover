@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.ant;
+package org.openclover.eclipse.ant;
 
 import org.eclipse.ant.core.IAntPropertyValueProvider;
 import org.eclipse.core.runtime.FileLocator;
