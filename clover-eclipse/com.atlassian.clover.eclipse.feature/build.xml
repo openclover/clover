@@ -13,7 +13,7 @@
         <mkdir dir="${eclipse.feature.output}"/>
 
 		<copy encoding="UTF-8" todir="${eclipse.feature.output}" overwrite="true">
-			<fileset dir="${eclipse.feature.base}/etc">
+			<fileset dir="${eclipse.feature.base}/src/main/resources">
 				<include name="feature.xml"/>
 			</fileset>
 			<filterchain>
@@ -30,7 +30,7 @@
 			</filterchain>
 		</copy>
 		<copy todir="${eclipse.feature.output}" overwrite="true">
-			<fileset dir="${eclipse.feature.base}/etc/icons">
+			<fileset dir="${eclipse.feature.base}/src/main/resources/icons">
 				<include name="clover32.png"/>
 			</fileset>
             <!-- copy OpenClover license; we don't need third party licences because it's a feature, not a plugin -->

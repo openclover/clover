@@ -3,13 +3,14 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/com.atlassian.clover.eclipse.ant/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/com.atlassian.clover.eclipse.core/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/com.atlassian.clover.eclipse.core/test" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/com.atlassian.clover.eclipse.core/etc" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/com.atlassian.clover.eclipse.runtime/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/com.atlassian.clover.eclipse.testopt/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/target/plugins/core/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/com.atlassian.clover.eclipse.ant/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/com.atlassian.clover.eclipse.ant/src/main/resources" type="java-resource" />
       <excludeFolder url="file://$MODULE_DIR$/target/plugins/ant" />
       <excludeFolder url="file://$MODULE_DIR$/target/plugins/core/anttasks" />
       <excludeFolder url="file://$MODULE_DIR$/target/plugins/core/classes" />

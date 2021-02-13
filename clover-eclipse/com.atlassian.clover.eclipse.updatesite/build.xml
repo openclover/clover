@@ -10,7 +10,7 @@
     <property name="eclipse.updatesite.cumulative.output" location="${eclipse.updatesite.output}/cumulative"/>
     <condition property="eclipse.updatesite.cumulative">
         <and>
-            <available file="${eclipse.updatesite.base}/etc/site-cumulative.xml"/>
+            <available file="${eclipse.updatesite.base}/src/main/resources/site-cumulative.xml"/>
             <available file="${eclipse.updatesite.base}/image/cumulative"/>
         </and>
     </condition>
@@ -19,7 +19,7 @@
 
     <!-- Copy licences from clover eclipse core also to the update site zip -->
     <fileset id="clover-eclipse.3rdparty.rights.fileset"
-             dir="${eclipse.base}/com.atlassian.clover.eclipse.core/etc"
+             dir="${eclipse.base}/com.atlassian.clover.eclipse.core/src/main/resources"
              includes="licenses/*"/>
 
     <target name="eclipse.main.pkg">
@@ -30,7 +30,7 @@
                     <include name="extlib/**"/>
                 </zipfileset>
                 <!-- and the instruction -->
-                <fileset dir="${eclipse.updatesite.base}/etc" includes="UpgradingOpenSourceLibs.txt"/>
+                <fileset dir="${eclipse.updatesite.base}/src/main/resources" includes="UpgradingOpenSourceLibs.txt"/>
                 <!-- add all licences here for convenience (they're in specific jar files as well) -->
                 <fileset refid="clover-core.3rdparty.rights.fileset"/>
                 <fileset refid="clover-core.openclover.rights.fileset"/>
@@ -49,7 +49,7 @@
             <mkdir dir="@{outputdir}"/>
 
             <copy todir="@{outputdir}" overwrite="true">
-                <fileset dir="${eclipse.updatesite.base}/etc">
+                <fileset dir="${eclipse.updatesite.base}/src/main/resources">
                     <include name="@{sitexml}"/>
                 </fileset>
                 <mergemapper to="site.xml"/>

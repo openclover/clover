@@ -12,10 +12,10 @@
 		<mkdir dir="${eclipse.legacy.output}/pkg"/>
 
 		<copy todir="${eclipse.legacy.output}/pkg" overwrite="true">
-			<fileset dir="${eclipse.legacy.base}/etc">
+			<fileset dir="${eclipse.legacy.base}/src/main/resources">
 				<include name="plugin.*"/>
 			</fileset>
-			<fileset dir="${eclipse.legacy.base}/etc/branding" includes="**/*"/>
+			<fileset dir="${eclipse.legacy.base}/src/main/resources/branding" includes="**/*"/>
 			<filterchain>
 				<replacetokens>
 					<token key="ECLIPSE_RELEASE_NUM" value="${eclipse.release.num}"/>
@@ -25,7 +25,7 @@
 		</copy>
 
 		<copy todir="${eclipse.legacy.output}/pkg" overwrite="true">
-			<fileset dir="${eclipse.legacy.base}/etc/icons" includes="clover32.png"/>
+			<fileset dir="${eclipse.legacy.base}/src/main/resources/icons" includes="clover32.png"/>
             <!-- copy OpenClover license; we don't need third party licences because it's a feature, not a plugin -->
             <fileset refid="clover-core.openclover.rights.fileset"/>
 		</copy>

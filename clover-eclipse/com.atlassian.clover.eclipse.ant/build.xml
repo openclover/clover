@@ -38,15 +38,15 @@
                 <pathelement location="${clover-ant.jar}"/>
                 <path refid="eclipse.libs"/>
             </classpath>
-            <src path="${eclipse.ant.base}/src"/>
+            <src path="${eclipse.ant.base}/src/main/java"/>
         </javac>
     </target>
 
     <target name="eclipse.jarup" depends="eclipse.build">
         <copy file="${clover-ant.jar}" tofile="${eclipse.ant.clover.jar}"/>
         <copy todir="${eclipse.ant.output}/pkg">
-            <fileset dir="${eclipse.ant.base}/etc" includes="plugin.*"/>
-            <fileset dir="${eclipse.ant.base}/etc/branding" includes="**/*"/>
+            <fileset dir="${eclipse.ant.base}/src/main/resources" includes="plugin.*"/>
+            <fileset dir="${eclipse.ant.base}/src/main/resources/branding" includes="**/*"/>
             <filterchain>
                 <replacetokens>
                     <token key="ECLIPSE_RELEASE_NUM" value="${eclipse.release.num}"/>
@@ -59,7 +59,7 @@
         </copy>
 
         <copy todir="${eclipse.ant.output}/pkg" overwrite="true">
-            <fileset dir="${eclipse.ant.base}/etc/icons" includes="clover32.png"/>
+            <fileset dir="${eclipse.ant.base}/src/main/resources/icons" includes="clover32.png"/>
         </copy>
 
         <jar file="${eclipse.ant.plugin.jar}">
