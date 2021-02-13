@@ -1,6 +1,6 @@
 <project name="eclipse_testoptimization" basedir="." default="eclipse.build">
 
-    <import file="../com.atlassian.clover.eclipse.core/build.xml"/>
+    <import file="../org.openclover.eclipse.core/build.xml"/>
 
     <!--<dirname property="eclipse.base" file="${ant.file.clover-eclipse}"/>-->
     <!--<dirname property="eclipse.core.base" file="${ant.file.eclipse_core}"/>-->

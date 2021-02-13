@@ -59,7 +59,7 @@
             <echo message="Building for Eclipse version @{eclipse-version}"/>
             <ant target="clover-eclipse.clean"/>
 
-            <ant dir="${clover-eclipse.base}/com.atlassian.clover.eclipse.core" target="eclipse.build">
+            <ant dir="${clover-eclipse.base}/org.openclover.eclipse.core" target="eclipse.build">
                 <property name="eclipse.lib.version" value="@{eclipse-version}"/>
             </ant>
             <ant dir="${clover-eclipse.base}/org.openclover.eclipse.testopt" target="eclipse.build">
@@ -91,7 +91,7 @@
         <sequential>
             <echo message="Packaging for Eclipse version @{eclipse-version}"/>
 
-            <ant dir="${clover-eclipse.base}/com.atlassian.clover.eclipse.core" target="eclipse.pkg">
+            <ant dir="${clover-eclipse.base}/org.openclover.eclipse.core" target="eclipse.pkg">
                 <property name="eclipse.lib.version" value="@{eclipse-version}"/>
             </ant>
             <ant dir="${clover-eclipse.base}/org.openclover.eclipse.testopt" target="eclipse.pkg">
@@ -143,7 +143,7 @@
     <target name="clover-eclipse.test.build"/>
 
     <target name="clover-eclipse.test" depends="clover-eclipse.build, clover-eclipse.test.build">
-        <ant dir="${clover-eclipse.base}/com.atlassian.clover.eclipse.core" target="eclipse.test"/>
+        <ant dir="${clover-eclipse.base}/org.openclover.eclipse.core" target="eclipse.test"/>
         <ant dir="${clover-eclipse.base}/org.openclover.eclipse.branding" target="eclipse.test"/>
         <ant dir="${clover-eclipse.base}/org.openclover.eclipse.feature" target="eclipse.test"/>
         <ant dir="${clover-eclipse.base}/org.openclover.eclipse.updatesite" target="eclipse.test"/>
