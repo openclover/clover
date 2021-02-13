@@ -71,7 +71,7 @@
     </macrodef>
 
 	<target name="eclipse.clean">
-		<delete dir="${eclipse.updatesite.output}" includes="site.xml,com.atlassian.clover.eclipse.updatesite_*.zip"/>
+		<delete dir="${eclipse.updatesite.output}" includes="site.xml,org.openclover.eclipse.updatesite_*.zip"/>
 	</target>
 
 	<target name="eclipse.build"/>
