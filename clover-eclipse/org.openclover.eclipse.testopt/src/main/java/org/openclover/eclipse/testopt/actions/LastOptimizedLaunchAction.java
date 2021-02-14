@@ -1,6 +1,6 @@
 package org.openclover.eclipse.testopt.actions;
 
-import com.atlassian.clover.eclipse.core.CloverEclipsePluginMessages;
+import org.openclover.eclipse.core.CloverEclipsePluginMessages;
 import org.openclover.eclipse.testopt.OptimizedLaunchingConstants;
 import org.openclover.eclipse.testopt.TestOptimizationPluginMessages;
 import org.eclipse.debug.ui.actions.RelaunchLastAction;
@@ -28,7 +28,7 @@ public class LastOptimizedLaunchAction extends RelaunchLastAction {
 
     @Override
     protected String getCommandId() {
-        return "com.atlassian.clover.eclipse.core.launching.optimized.commands.LastCloveredLaunchShortcut";
+        return "org.openclover.eclipse.core.launching.optimized.commands.LastCloveredLaunchShortcut";
     }
 
     @Override

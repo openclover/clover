@@ -1,6 +1,6 @@
-package com.atlassian.clover.eclipse.test;
+package org.openclover.eclipse.test;
 
-import com.atlassian.clover.eclipse.HelloWorld;
+import org.openclover.eclipse.HelloWorld;
 
 import junit.framework.TestCase;
 

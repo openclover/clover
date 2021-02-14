@@ -11,7 +11,7 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
-			<name>com.atlassian.clover.eclipse.core.prejavabuilder</name>
+			<name>org.openclover.eclipse.core.prejavabuilder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
@@ -21,7 +21,7 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
-			<name>com.atlassian.clover.eclipse.core.postjavabuilder</name>
+			<name>org.openclover.eclipse.core.postjavabuilder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
@@ -42,6 +42,6 @@
 		<nature>org.eclipse.wst.common.modulecore.ModuleCoreNature</nature>
 		<nature>org.eclipse.jem.workbench.JavaEMFNature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
-		<nature>com.atlassian.clover.eclipse.core.clovernature</nature>
+		<nature>org.openclover.eclipse.core.clovernature</nature>
 	</natures>
 </projectDescription>

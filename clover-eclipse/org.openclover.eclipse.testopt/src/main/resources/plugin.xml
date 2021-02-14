@@ -6,55 +6,55 @@
 	</extension>
 	<extension point="org.eclipse.ui.viewActions">
 		<viewContribution
-				targetID="com.atlassian.clover.eclipse.core.views.CloverView"
-				id="com.atlassian.clover.eclipse.testopt.view.action.contribution">
+				targetID="org.openclover.eclipse.core.views.CloverView"
+				id="org.openclover.eclipse.testopt.view.action.contribution">
 			<action
 					label="%project.clearsnapshot"
 					tooltip="%project.clearsnapshottooltip"
 					icon="icons/delete_snapshot.png"
 					class="org.openclover.eclipse.testopt.views.actions.ClearSnapshotActionDelegate"
-					menubarPath="com.atlassian.clover.eclipse.core.actions.coverage.clear"
-					toolbarPath="project.ops/com.atlassian.clover.eclipse.core.actions.coverage.clear"
-					id="com.atlassian.clover.eclipse.testopt.actions.snapshot.clear">
+					menubarPath="org.openclover.eclipse.core.actions.coverage.clear"
+					toolbarPath="project.ops/org.openclover.eclipse.core.actions.coverage.clear"
+					id="org.openclover.eclipse.testopt.actions.snapshot.clear">
 			</action>
 		</viewContribution>
 		<viewContribution
-				targetID="com.atlassian.clover.eclipse.core.views.testrunexplorer"
-				id="com.atlassian.clover.eclipse.testopt.view.action.contribution2">
+				targetID="org.openclover.eclipse.core.views.testrunexplorer"
+				id="org.openclover.eclipse.testopt.view.action.contribution2">
 			<action
 					label="%project.clearsnapshot"
 					tooltip="%project.clearsnapshottooltip"
 					icon="icons/delete_snapshot.png"
 					class="org.openclover.eclipse.testopt.views.actions.ClearSnapshotActionDelegate"
-					menubarPath="com.atlassian.clover.eclipse.core.actions.coverage.clear"
-					toolbarPath="project.ops/com.atlassian.clover.eclipse.core.actions.coverage.clear"
-					id="com.atlassian.clover.eclipse.testopt.actions.snapshot.clear2"/>
+					menubarPath="org.openclover.eclipse.core.actions.coverage.clear"
+					toolbarPath="project.ops/org.openclover.eclipse.core.actions.coverage.clear"
+					id="org.openclover.eclipse.testopt.actions.snapshot.clear2"/>
 		</viewContribution>
 	</extension>
 	<extension
 		point="org.eclipse.ui.popupMenus">
 		<viewerContribution
-				targetID="com.atlassian.clover.eclipse.core.views.CloverView"
-				id="com.atlassian.clover.eclipse.testopt.popup.action.contribution">
+				targetID="org.openclover.eclipse.core.views.CloverView"
+				id="org.openclover.eclipse.testopt.popup.action.contribution">
 			<action
 					label="%project.clearsnapshot"
 					tooltip="%project.clearsnapshottooltip"
 					icon="icons/delete_snapshot.png"
 					class="org.openclover.eclipse.testopt.views.actions.ClearSnapshotActionDelegate"
-					menubarPath="com.atlassian.clover.eclipse.core.actions.coverage.clear"
-					id="com.atlassian.clover.eclipse.testopt.actions.snapshot.clear3"/>
+					menubarPath="org.openclover.eclipse.core.actions.coverage.clear"
+					id="org.openclover.eclipse.testopt.actions.snapshot.clear3"/>
 
 		</viewerContribution>
 		<viewerContribution
-				targetID="com.atlassian.clover.eclipse.core.views.testrunexplorer"
-				id="com.atlassian.clover.eclipse.testopt.popup.action.contribution2">
+				targetID="org.openclover.eclipse.core.views.testrunexplorer"
+				id="org.openclover.eclipse.testopt.popup.action.contribution2">
 			<action
 					label="%project.clearsnapshot"
 					tooltip="%project.clearsnapshottooltip"
 					icon="icons/delete_snapshot.png"
 					class="org.openclover.eclipse.testopt.views.actions.ClearSnapshotActionDelegate"
-					menubarPath="com.atlassian.clover.eclipse.core.actions.coverage.clear"
-					id="com.atlassian.clover.eclipse.testopt.actions.snapshot.clear4"/>
+					menubarPath="org.openclover.eclipse.core.actions.coverage.clear"
+					id="org.openclover.eclipse.testopt.actions.snapshot.clear4"/>
 		</viewerContribution>
 	</extension>
 
@@ -65,8 +65,8 @@
 		point="org.eclipse.ui.preferencePages">
 		<page
 			class="org.openclover.eclipse.testopt.settings.TestOptimizationGlobalPreferencesPage"
-			id="com.atlassian.clover.eclipse.testopt.preferences.testOptimizationPreferencesPage"
-			category="com.atlassian.clover.eclipse.core.preferences.cloverGeneralPreferencesPage"
+			id="org.openclover.eclipse.testopt.preferences.testOptimizationPreferencesPage"
+			category="org.openclover.eclipse.core.preferences.cloverGeneralPreferencesPage"
 			name="%clover.optimization"/>
 	</extension>
 
@@ -81,14 +81,14 @@
 		point="org.eclipse.debug.core.launchDelegates">
 		<launchDelegate
 			delegate="org.openclover.eclipse.testopt.CloveredOptimizedLauncherDelegate"
-			id="com.atlassian.clover.eclipse.core.optimized.JUnitLaunchConfig"
+			id="org.openclover.eclipse.core.optimized.JUnitLaunchConfig"
 			modes="clover.optimized"
 			type="org.eclipse.jdt.junit.launchconfig"/>
 	</extension>
 	<extension
 		point="org.eclipse.debug.ui.launchGroups">
 		<launchGroup
-			id="com.atlassian.clover.eclipse.core.launching.optimized.group"
+			id="org.openclover.eclipse.core.launching.optimized.group"
 			label="%launch.optimized.group.label"
 			mode="clover.optimized"
 			title="%launch.optimized.group.title"
@@ -99,7 +99,7 @@
 		point="org.eclipse.ui.popupMenus">
 		<objectContribution
             adaptable="true"
-            id="com.atlassian.clover.eclipse.core.launching.optimized.popup.menu"
+            id="org.openclover.eclipse.core.launching.optimized.popup.menu"
             objectClass="org.eclipse.jdt.core.IJavaElement">
 			<!-- This action will flll the menu with appropriate Clover-enabled launch shortcuts -->
 			<action
@@ -108,14 +108,14 @@
 				class="org.openclover.eclipse.testopt.actions.ContextualRunOptimizedAction"
 				menubarPath="additions"
 				enablesFor="+"
-				id="com.atlassian.clover.eclipse.core.launching.optimized.popup.menu.submenu">
+				id="org.openclover.eclipse.core.launching.optimized.popup.menu.submenu">
 			</action>
 		</objectContribution>
 	</extension>
 	<extension
 		point="org.eclipse.debug.ui.launchShortcuts">
 		<shortcut
-			id="com.atlassian.clover.eclipse.core.launching.JUnitShortcut"
+			id="org.openclover.eclipse.core.launching.JUnitShortcut"
 			label="%launch.junit.label"
 			icon="icons/run_optimized.png"
 			modes="clover.optimized"
@@ -144,7 +144,7 @@
 			</contextualLaunch>
 		</shortcut>
 		<!--<shortcut-->
-			<!--id="com.atlassian.clover.eclipse.core.launching.optimized.JUnitPDEShortcut"-->
+			<!--id="org.openclover.eclipse.core.launching.optimized.JUnitPDEShortcut"-->
 			<!--label="%launch.junit.plugin.label"-->
 			<!--icon="icons/cview16/clover.gif"-->
 			<!--modes="clover.optimized"-->
@@ -180,7 +180,7 @@
 		      type="org.eclipse.jdt.junit.launchconfig"
 		      helpContextId="org.eclipse.jdt.junit.junit_tab_group"
 		      class="org.eclipse.jdt.internal.junit.launcher.JUnitTabGroup"
-		      id="com.atlassian.clover.eclipse.testopt.junitLaunchGroup">
+		      id="org.openclover.eclipse.testopt.junitLaunchGroup">
 		   <launchMode
 		         description="%launch.optimized.tabgroups.junit.description"
 		         mode="clover.optimized">
@@ -190,18 +190,18 @@
 	<extension point="org.eclipse.debug.ui.launchConfigurationTabs">
 	    <tab
 	       class="org.openclover.eclipse.testopt.settings.OptimizedLaunchConfigurationTab"
-	        group="com.atlassian.clover.eclipse.testopt.junitLaunchGroup"
-	        id="com.atlassian.clover.eclipse.testopt.OptimizedLaunchConfiguration"
+	        group="org.openclover.eclipse.testopt.junitLaunchGroup"
+	        id="org.openclover.eclipse.testopt.OptimizedLaunchConfiguration"
 	        name="Test Optimization">
 		    <placement after="org.eclipse.jdt.junit.JUnitLaunchConfigurationTab"/>
-		    <!--<associatedDelegate delegate="com.atlassian.clover.eclipse.core.optimized.JUnitLaunchConfig"/>-->
+		    <!--<associatedDelegate delegate="org.openclover.eclipse.core.optimized.JUnitLaunchConfig"/>-->
 	    </tab>
 	 </extension>
 
 	<extension
 		point="org.eclipse.ui.actionSets">
 		<actionSet
-			id="com.atlassian.clover.eclipse.core.launching.optimized.CloverActionSet"
+			id="org.openclover.eclipse.core.launching.optimized.CloverActionSet"
 			label="%launch.optimized.actionset.label"
 			visible="false">
 			<menu
@@ -216,34 +216,34 @@
 				class="org.openclover.eclipse.testopt.actions.OptimizedLaunchToolbarAction"
 				hoverIcon="icons/run_optimized.png"
 				icon="icons/run_optimized.png"
-				id="com.atlassian.clover.eclipse.core.launching.optimized.actions.CloverLaunchToolbarAction"
+				id="org.openclover.eclipse.core.launching.optimized.actions.CloverLaunchToolbarAction"
 				label="%launch.optimized.toolbar.label"
 				style="pulldown"
 				toolbarPath="org.eclipse.debug.ui.launchActionSet/debug"/>
 			<action
 				class="org.openclover.eclipse.testopt.actions.OpenOptimizedConfigurationAction"
-				definitionId="com.atlassian.clover.eclipse.core.launching.optimized.commands.OpenOptimizedConfiguration"
-				id="com.atlassian.clover.eclipse.core.launching.optimized.actions.OpenCoverageConfiguration"
+				definitionId="org.openclover.eclipse.core.launching.optimized.commands.OpenOptimizedConfiguration"
+				id="org.openclover.eclipse.core.launching.optimized.actions.OpenCoverageConfiguration"
 				label="%launch.optimized.toolbar.open.label"
 				menubarPath="org.eclipse.ui.run/emptyLaunchGroup"/>
 			<action
 				class="org.openclover.eclipse.testopt.actions.RunOptimizedAsAction"
-				id="com.atlassian.clover.eclipse.core.launching.optimized.actions.RunWithCloverAsAction"
+				id="org.openclover.eclipse.core.launching.optimized.actions.RunWithCloverAsAction"
 				label="%launch.optimized.toolbar.run.as.label"
 				menubarPath="org.eclipse.ui.run/emptyLaunchGroup"
 				style="pulldown"/>
 			<action
 				class="org.openclover.eclipse.testopt.actions.OptimizedRunHistoryAction"
-				id="com.atlassian.clover.eclipse.core.launching.optimized.actions.CloverRunHistoryAction"
+				id="org.openclover.eclipse.core.launching.optimized.actions.CloverRunHistoryAction"
 				label="%launch.optimized.toolbar.run.history.label"
 				menubarPath="org.eclipse.ui.run/emptyLaunchGroup"
 				style="pulldown"/>
 			<action
 				class="org.openclover.eclipse.testopt.actions.LastOptimizedLaunchAction"
-				definitionId="com.atlassian.clover.eclipse.core.launching.optimized.commands.LastCloveredLaunch"
+				definitionId="org.openclover.eclipse.core.launching.optimized.commands.LastCloveredLaunch"
 				hoverIcon="icons/run_optimized.png"
 				icon="icons/run_optimized.png"
-				id="com.atlassian.clover.eclipse.core.lauching.optimized.actions.LastCloveredLaunchAction"
+				id="org.openclover.eclipse.core.lauching.optimized.actions.LastCloveredLaunchAction"
 				label="%launch.optimized.toolbar.last.optimized.name"
 				menubarPath="org.eclipse.ui.run/relaunchGroup"/>
 		</actionSet>
@@ -251,7 +251,7 @@
 	<extension
 		point="org.eclipse.ui.commands">
 		<command
-			id="com.atlassian.clover.eclipse.core.launching.optimized.commands.JUnitShortcut"
+			id="org.openclover.eclipse.core.launching.optimized.commands.JUnitShortcut"
 			categoryId="org.eclipse.debug.ui.category.run"
 			description="%launch.optimized.commands.junit.shortcut.description"
 			name="%launch.optimized.commands.junit.shortcut.name"/>
@@ -259,16 +259,16 @@
 	<extension
 		point="org.eclipse.ui.perspectiveExtensions">
 		<perspectiveExtension targetID="org.eclipse.jdt.ui.JavaPerspective">
-			<actionSet id="com.atlassian.clover.eclipse.core.launching.optimized.CloverActionSet"/>
+			<actionSet id="org.openclover.eclipse.core.launching.optimized.CloverActionSet"/>
 		</perspectiveExtension>
 		<perspectiveExtension targetID="org.eclipse.jst.j2ee.J2EEPerspective">
-			<actionSet id="com.atlassian.clover.eclipse.core.launching.optimized.CloverActionSet"/>
+			<actionSet id="org.openclover.eclipse.core.launching.optimized.CloverActionSet"/>
 		</perspectiveExtension>
 		<perspectiveExtension targetID="org.eclipse.debug.ui.DebugPerspective">
-			<actionSet id="com.atlassian.clover.eclipse.core.launching.optimized.CloverActionSet"/>
+			<actionSet id="org.openclover.eclipse.core.launching.optimized.CloverActionSet"/>
 		</perspectiveExtension>
 		<perspectiveExtension targetID="org.eclipse.pde.ui.PDEPerspective">
-			<actionSet id="com.atlassian.clover.eclipse.core.launching.optimized.CloverActionSet"/>
+			<actionSet id="org.openclover.eclipse.core.launching.optimized.CloverActionSet"/>
 		</perspectiveExtension>
 
 	</extension>
@@ -278,12 +278,12 @@
           locationURI="toolbar:org.eclipse.jdt.junit.ResultView">
        <dynamic
              class="org.openclover.eclipse.testopt.views.actions.SavingsNotificationContributionItem"
-             id="com.atlassian.clover.eclipse.testopt.savingsReporter">
+             id="org.openclover.eclipse.testopt.savingsReporter">
        </dynamic>
     </menuContribution>
  </extension>
 <extension point="org.eclipse.ui.workbench.texteditor.rulerColumns">
-    <column id="com.atlassian.clover.eclipse.core.coverageannotation.touchingtests" name="Touching Tests"
+    <column id="org.openclover.eclipse.core.coverageannotation.touchingtests" name="Touching Tests"
         class="org.openclover.eclipse.testopt.editors.ruler.CoverageAnnotationRulerColumn"
         enabled="true"
         global="true"

@@ -1,7 +1,7 @@
 package org.openclover.eclipse.testopt.actions;
 
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.CloverProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;

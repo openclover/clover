@@ -19,7 +19,7 @@
 
     <!-- Copy licences from clover eclipse core also to the update site zip -->
     <fileset id="clover-eclipse.3rdparty.rights.fileset"
-             dir="${eclipse.base}/com.atlassian.clover.eclipse.core/src/main/resources"
+             dir="${eclipse.base}/org.openclover.eclipse.core/src/main/resources"
              includes="licenses/*"/>
 
     <target name="eclipse.main.pkg">

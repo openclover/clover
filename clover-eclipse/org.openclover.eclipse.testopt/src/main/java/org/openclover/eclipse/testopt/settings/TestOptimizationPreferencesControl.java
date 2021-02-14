@@ -1,7 +1,7 @@
 package org.openclover.eclipse.testopt.settings;
 
 import com.atlassian.clover.api.optimization.OptimizationOptions;
-import com.atlassian.clover.eclipse.core.ui.GLH;
+import org.openclover.eclipse.core.ui.GLH;
 import org.openclover.eclipse.testopt.TestOptimizationPlugin;
 import org.openclover.eclipse.testopt.TestOptimizationPluginMessages;
 import org.eclipse.jface.dialogs.DialogPage;

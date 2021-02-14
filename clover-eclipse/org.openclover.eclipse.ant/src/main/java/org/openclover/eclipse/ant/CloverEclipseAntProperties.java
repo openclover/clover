@@ -32,7 +32,7 @@ public class CloverEclipseAntProperties implements IAntPropertyValueProvider {
                 return null;
             }
         } else if ("clover.eclipse.runtime.jar".equals(propertyName)) {
-            Bundle runtimeBundle = Platform.getBundle("com.atlassian.clover.eclipse.runtime");
+            Bundle runtimeBundle = Platform.getBundle("org.openclover.eclipse.runtime");
             URL jarUrl =
                 runtimeBundle == null
                     ? null

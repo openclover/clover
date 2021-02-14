@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>com.atlassian.clover.eclipse.core</name>
+	<name>org.openclover.eclipse.core</name>
 	<comment></comment>
 	<projects>
 	</projects>

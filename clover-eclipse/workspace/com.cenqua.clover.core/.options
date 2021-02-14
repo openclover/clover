@@ -1,2 +1,2 @@
-com.atlassian.clover.eclipse.core/debug=false
-com.atlassian.clover.eclipse.core/annotations/debug=false
+org.openclover.eclipse.core/debug=false
+org.openclover.eclipse.core/annotations/debug=false

@@ -3,9 +3,9 @@ package org.openclover.eclipse.testopt.editors.ruler.tree;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.swt.graphics.Image;
 
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.ui.CloverPluginIcons;
-import com.atlassian.clover.eclipse.core.views.nodes.Nodes;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.ui.CloverPluginIcons;
+import org.openclover.eclipse.core.views.nodes.Nodes;
 import com.atlassian.clover.registry.entities.TestCaseInfo;
 
 public class TestNameLabelProvider extends ColumnLabelProvider {

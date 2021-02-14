@@ -43,9 +43,9 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.editors.text.EditorsUI;
 
-import com.atlassian.clover.eclipse.core.ui.editors.java.CoverageAnnotation;
-import com.atlassian.clover.eclipse.core.ui.editors.java.CoverageAnnotation.Kind;
-import com.atlassian.clover.eclipse.core.ui.editors.java.ILineCoverageModel.Entry;
+import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotation;
+import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotation.Kind;
+import org.openclover.eclipse.core.ui.editors.java.ILineCoverageModel.Entry;
 import com.atlassian.clover.registry.entities.TestCaseInfo;
 
 public class CoverageAnnotationRulerInformationControl extends

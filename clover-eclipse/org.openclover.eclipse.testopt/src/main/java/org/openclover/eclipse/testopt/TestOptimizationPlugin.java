@@ -1,6 +1,6 @@
 package org.openclover.eclipse.testopt;
 
-import com.atlassian.clover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.CloverPlugin;
 import com.atlassian.clover.optimization.OptimizationSession;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;

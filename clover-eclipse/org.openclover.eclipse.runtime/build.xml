@@ -65,7 +65,7 @@
                 <attribute name="Bundle-Classpath" value="."/>
                 <attribute name="Eclipse-LazyStart" value="true"/>
             </manifest>
-            <!-- put clover-runtime.jar inside com.atlassian.clover.eclipse.runtime_XXX.jar -->
+            <!-- put clover-runtime.jar inside org.openclover.eclipse.runtime_XXX.jar -->
             <zipfileset dir="${eclipse.runtime.output}/pkg"/>
         </jar>
     </target>
@@ -80,7 +80,7 @@
             <fileset dir="${eclipse-xyz.home}" includes="**/*.jar"/>
         </path>
 
-        <echo level="verbose" message="Target com.atlassian.clover.eclipse.runtime::eclipse.build is using [${clover-runtime.jar}:${eclipse.plugins.output}/core/classes:${toString:eclipse.libs}] path"/>
+        <echo level="verbose" message="Target org.openclover.eclipse.runtime::eclipse.build is using [${clover-runtime.jar}:${eclipse.plugins.output}/core/classes:${toString:eclipse.libs}] path"/>
 
         <javac destdir="${eclipse.runtime.output}/pkg"
                debug="on"
