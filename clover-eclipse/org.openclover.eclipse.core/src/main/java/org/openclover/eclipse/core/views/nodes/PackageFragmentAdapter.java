@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.views.nodes;
+package org.openclover.eclipse.core.views.nodes;
 
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.JavaModelException;
@@ -14,7 +14,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.core.resources.IResource;
-import com.atlassian.clover.eclipse.core.projects.model.JavaElementAdapter;
+import org.openclover.eclipse.core.projects.model.JavaElementAdapter;
 
 public class PackageFragmentAdapter
     implements IPackageFragment, JavaElementAdapter {

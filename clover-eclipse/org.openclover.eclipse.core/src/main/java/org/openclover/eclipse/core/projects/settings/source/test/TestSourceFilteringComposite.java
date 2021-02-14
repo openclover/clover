@@ -1,14 +1,14 @@
-package com.atlassian.clover.eclipse.core.projects.settings.source.test;
+package org.openclover.eclipse.core.projects.settings.source.test;
 
 import clover.com.google.common.collect.Sets;
-import com.atlassian.clover.eclipse.core.CloverEclipsePluginMessages;
-import com.atlassian.clover.eclipse.core.projects.settings.source.LayoutUtils;
-import com.atlassian.clover.eclipse.core.ui.GLH;
-import com.atlassian.clover.eclipse.core.ui.SwtUtils;
-import com.atlassian.clover.eclipse.core.projects.settings.ProjectPropertyPage;
-import com.atlassian.clover.eclipse.core.projects.settings.ProjectSettings;
-import com.atlassian.clover.eclipse.core.projects.settings.source.SourceRootWithPattern;
-import com.atlassian.clover.eclipse.core.projects.settings.source.SourceRootsWithPatternTreeContentProvider;
+import org.openclover.eclipse.core.CloverEclipsePluginMessages;
+import org.openclover.eclipse.core.projects.settings.source.LayoutUtils;
+import org.openclover.eclipse.core.ui.GLH;
+import org.openclover.eclipse.core.ui.SwtUtils;
+import org.openclover.eclipse.core.projects.settings.ProjectPropertyPage;
+import org.openclover.eclipse.core.projects.settings.ProjectSettings;
+import org.openclover.eclipse.core.projects.settings.source.SourceRootWithPattern;
+import org.openclover.eclipse.core.projects.settings.source.SourceRootsWithPatternTreeContentProvider;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.viewers.CheckboxTableViewer;

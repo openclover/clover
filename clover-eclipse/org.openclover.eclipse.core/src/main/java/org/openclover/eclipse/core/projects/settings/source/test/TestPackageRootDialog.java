@@ -1,6 +1,6 @@
-package com.atlassian.clover.eclipse.core.projects.settings.source.test;
+package org.openclover.eclipse.core.projects.settings.source.test;
 
-import com.atlassian.clover.eclipse.core.ui.SwtUtils;
+import org.openclover.eclipse.core.ui.SwtUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;

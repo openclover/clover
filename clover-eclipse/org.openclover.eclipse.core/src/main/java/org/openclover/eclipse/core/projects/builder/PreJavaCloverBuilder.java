@@ -1,7 +1,7 @@
-package com.atlassian.clover.eclipse.core.projects.builder;
+package org.openclover.eclipse.core.projects.builder;
 
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.CloverProject;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;

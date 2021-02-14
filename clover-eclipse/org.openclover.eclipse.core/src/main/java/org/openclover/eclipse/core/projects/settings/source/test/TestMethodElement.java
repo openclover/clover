@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.projects.settings.source.test;
+package org.openclover.eclipse.core.projects.settings.source.test;
 
 import com.atlassian.clover.spec.instr.test.TestMethodSpec;
 
@@ -84,7 +84,7 @@ public class TestMethodElement implements TreeElement {
         return result;
     }
 
-    public class AnyConditionElement extends com.atlassian.clover.eclipse.core.projects.settings.source.test.AnyConditionElement {
+    public class AnyConditionElement extends org.openclover.eclipse.core.projects.settings.source.test.AnyConditionElement {
         public AnyConditionElement(TreeElement parent) {
             super(parent);
         }

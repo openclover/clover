@@ -1,6 +1,6 @@
-package com.atlassian.clover.eclipse.core.exclusion;
+package org.openclover.eclipse.core.exclusion;
 
-import com.atlassian.clover.eclipse.core.projects.settings.ProjectSettings;
+import org.openclover.eclipse.core.projects.settings.ProjectSettings;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences.IPreferenceChangeListener;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences.PreferenceChangeEvent;
 import org.eclipse.swt.widgets.Display;

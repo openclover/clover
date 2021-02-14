@@ -1,13 +1,13 @@
-package com.atlassian.clover.eclipse.core.reports;
+package org.openclover.eclipse.core.reports;
 
 import com.atlassian.clover.api.CloverException;
 import com.atlassian.clover.CloverNames;
 import com.atlassian.clover.reporters.Current;
 import com.atlassian.clover.reporters.TestSelectionHelper;
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.projects.CloverProject;
-import com.atlassian.clover.eclipse.core.projects.settings.ProjectSettings;
-import com.atlassian.clover.eclipse.core.licensing.LicenseUtils;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.projects.settings.ProjectSettings;
+import org.openclover.eclipse.core.licensing.LicenseUtils;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;

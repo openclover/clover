@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core;
+package org.openclover.eclipse.core;
 
 import java.text.MessageFormat;
 import java.util.MissingResourceException;

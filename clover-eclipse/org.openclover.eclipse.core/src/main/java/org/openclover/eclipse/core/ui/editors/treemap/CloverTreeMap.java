@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.ui.editors.treemap;
+package org.openclover.eclipse.core.ui.editors.treemap;
 
 import com.atlassian.clover.api.registry.PackageInfo;
 import net.sf.jtreemap.ktreemap.KTreeMap;
@@ -19,8 +19,8 @@ import org.eclipse.jface.viewers.StructuredSelection;
 
 import java.util.List;
 
-import com.atlassian.clover.eclipse.core.views.actions.OpenJavaEditorAction;
-import com.atlassian.clover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.views.actions.OpenJavaEditorAction;
+import org.openclover.eclipse.core.CloverPlugin;
 import com.atlassian.clover.api.registry.HasMetrics;
 
 public class CloverTreeMap extends KTreeMap {

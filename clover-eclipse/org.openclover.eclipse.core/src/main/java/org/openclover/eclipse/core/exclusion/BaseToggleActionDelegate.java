@@ -1,9 +1,9 @@
-package com.atlassian.clover.eclipse.core.exclusion;
+package org.openclover.eclipse.core.exclusion;
 
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.projects.CloverProject;
-import com.atlassian.clover.eclipse.core.projects.settings.ProjectSettings;
-import com.atlassian.clover.eclipse.core.projects.settings.source.SourceFolderPattern;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.projects.settings.ProjectSettings;
+import org.openclover.eclipse.core.projects.settings.source.SourceFolderPattern;
 import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;

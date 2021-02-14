@@ -1,16 +1,16 @@
-package com.atlassian.clover.eclipse.core.projects.settings;
+package org.openclover.eclipse.core.projects.settings;
 
 import com.atlassian.clover.cfg.instr.InstrumentationConfig;
-import com.atlassian.clover.eclipse.core.CloverEclipsePluginMessages;
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.projects.CloverProject;
-import com.atlassian.clover.eclipse.core.projects.settings.source.InstrumentSourceFilteringComposite;
-import com.atlassian.clover.eclipse.core.projects.settings.source.InstrumentationComposite;
-import com.atlassian.clover.eclipse.core.projects.settings.source.SourceFolderPattern;
-import com.atlassian.clover.eclipse.core.projects.settings.source.SourceRootsWithPatternTreeContentProvider;
-import com.atlassian.clover.eclipse.core.projects.settings.source.test.TestSourceFilteringComposite;
-import com.atlassian.clover.eclipse.core.ui.GLH;
-import com.atlassian.clover.eclipse.core.ui.widgets.ContextFilterModificationWidget;
+import org.openclover.eclipse.core.CloverEclipsePluginMessages;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.projects.settings.source.InstrumentSourceFilteringComposite;
+import org.openclover.eclipse.core.projects.settings.source.InstrumentationComposite;
+import org.openclover.eclipse.core.projects.settings.source.SourceFolderPattern;
+import org.openclover.eclipse.core.projects.settings.source.SourceRootsWithPatternTreeContentProvider;
+import org.openclover.eclipse.core.projects.settings.source.test.TestSourceFilteringComposite;
+import org.openclover.eclipse.core.ui.GLH;
+import org.openclover.eclipse.core.ui.widgets.ContextFilterModificationWidget;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;

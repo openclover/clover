@@ -1,11 +1,11 @@
-package com.atlassian.clover.eclipse.core.reports;
+package org.openclover.eclipse.core.reports;
 
 import com.atlassian.clover.CloverDatabase;
 import com.atlassian.clover.CloverDatabaseSpec;
 import com.atlassian.clover.ProgressListener;
 import com.atlassian.clover.cfg.Interval;
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.CloverProject;
 import com.atlassian.clover.reporters.CloverReporter;
 import com.atlassian.clover.reporters.Current;
 import com.atlassian.clover.reporters.html.HtmlReporter;

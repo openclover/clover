@@ -1,12 +1,12 @@
-package com.atlassian.clover.eclipse.core.exclusion;
+package org.openclover.eclipse.core.exclusion;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IViewActionDelegate;
 import org.eclipse.ui.IViewPart;
 
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.settings.InstallationSettings;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.settings.InstallationSettings;
 
 public class ToggleShowAnnotationViewDelegate implements IViewActionDelegate {
 

@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.views.actions;
+package org.openclover.eclipse.core.views.actions;
 
 public abstract class SingleCloverProjectActionDelegate extends MultiCloverProjectActionDelegate {
     @Override

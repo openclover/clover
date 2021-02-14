@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.views;
+package org.openclover.eclipse.core.views;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.SWT;
@@ -8,9 +8,9 @@ import org.eclipse.jface.viewers.ILabelProvider;
 import java.util.WeakHashMap;
 import java.util.Comparator;
 
-import com.atlassian.clover.eclipse.core.views.widgets.ListeningRenderer;
-import com.atlassian.clover.eclipse.core.views.widgets.SelectionAwareCellRenderer;
-import com.atlassian.clover.eclipse.core.projects.model.MetricsScope;
+import org.openclover.eclipse.core.views.widgets.ListeningRenderer;
+import org.openclover.eclipse.core.views.widgets.SelectionAwareCellRenderer;
+import org.openclover.eclipse.core.projects.model.MetricsScope;
 
 public abstract class ColumnDefinition {
     public static final int ANY_COLUMN = -1;

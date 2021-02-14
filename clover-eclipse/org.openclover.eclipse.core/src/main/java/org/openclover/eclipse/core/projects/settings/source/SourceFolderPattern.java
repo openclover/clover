@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.projects.settings.source;
+package org.openclover.eclipse.core.projects.settings.source;
 
 public class SourceFolderPattern {
     private final String srcPath;

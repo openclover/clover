@@ -1,6 +1,6 @@
-package com.atlassian.clover.eclipse.core.views;
+package org.openclover.eclipse.core.views;
 
-import com.atlassian.clover.eclipse.core.views.widgets.ViewAlertContainer;
+import org.openclover.eclipse.core.views.widgets.ViewAlertContainer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.ControlAdapter;

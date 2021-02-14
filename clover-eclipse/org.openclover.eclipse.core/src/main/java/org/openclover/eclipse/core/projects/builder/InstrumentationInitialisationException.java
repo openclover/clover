@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.projects.builder;
+package org.openclover.eclipse.core.projects.builder;
 
 import com.atlassian.clover.api.CloverException;
 

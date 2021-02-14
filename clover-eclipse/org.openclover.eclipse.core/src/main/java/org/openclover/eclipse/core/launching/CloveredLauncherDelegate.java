@@ -1,10 +1,10 @@
-package com.atlassian.clover.eclipse.core.launching;
+package org.openclover.eclipse.core.launching;
 
 import clover.com.google.common.collect.Sets;
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.projects.CloverProject;
-import com.atlassian.clover.eclipse.core.projects.builder.InstrumentationProjectPathMap;
-import com.atlassian.clover.eclipse.core.projects.settings.ProjectSettings;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.projects.builder.InstrumentationProjectPathMap;
+import org.openclover.eclipse.core.projects.settings.ProjectSettings;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExecutableExtension;

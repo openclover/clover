@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.ui.widgets;
+package org.openclover.eclipse.core.ui.widgets;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IconAndMessageDialog;
@@ -12,9 +12,9 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Shell;
 
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.ui.BrowserUtils;
-import com.atlassian.clover.eclipse.core.ui.CloverPluginIcons;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.ui.BrowserUtils;
+import org.openclover.eclipse.core.ui.CloverPluginIcons;
 
 public class DialogWithHyperlink extends IconAndMessageDialog {
 

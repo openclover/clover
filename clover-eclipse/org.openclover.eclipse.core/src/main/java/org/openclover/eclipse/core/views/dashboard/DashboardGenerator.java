@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.views.dashboard;
+package org.openclover.eclipse.core.views.dashboard;
 
 import java.io.File;
 import java.io.IOException;

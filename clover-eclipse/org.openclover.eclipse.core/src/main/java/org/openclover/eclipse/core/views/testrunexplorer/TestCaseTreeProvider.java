@@ -1,10 +1,10 @@
-package com.atlassian.clover.eclipse.core.views.testrunexplorer;
+package org.openclover.eclipse.core.views.testrunexplorer;
 
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.views.CloveredWorkspaceProvider;
-import com.atlassian.clover.eclipse.core.views.WorkingSetNodeFilter;
-import com.atlassian.clover.eclipse.core.views.nodes.NodeRelationshipFilter;
-import com.atlassian.clover.eclipse.core.views.nodes.Nodes;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.views.CloveredWorkspaceProvider;
+import org.openclover.eclipse.core.views.WorkingSetNodeFilter;
+import org.openclover.eclipse.core.views.nodes.NodeRelationshipFilter;
+import org.openclover.eclipse.core.views.nodes.Nodes;
 import org.eclipse.core.runtime.CoreException;
 
 public class TestCaseTreeProvider

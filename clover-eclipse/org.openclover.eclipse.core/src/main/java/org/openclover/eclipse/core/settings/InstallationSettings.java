@@ -1,10 +1,10 @@
-package com.atlassian.clover.eclipse.core.settings;
+package org.openclover.eclipse.core.settings;
 
 import com.atlassian.clover.api.CloverException;
 import com.atlassian.clover.cfg.Interval;
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.PluginVersionInfo;
-import com.atlassian.clover.eclipse.core.views.CustomColumnDefinition;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.PluginVersionInfo;
+import org.openclover.eclipse.core.views.CustomColumnDefinition;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.preferences.ConfigurationScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;

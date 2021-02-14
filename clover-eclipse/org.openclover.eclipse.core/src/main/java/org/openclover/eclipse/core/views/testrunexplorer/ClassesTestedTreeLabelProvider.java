@@ -1,7 +1,7 @@
-package com.atlassian.clover.eclipse.core.views.testrunexplorer;
+package org.openclover.eclipse.core.views.testrunexplorer;
 
-import com.atlassian.clover.eclipse.core.views.ExplorerViewLabelProvider;
-import com.atlassian.clover.eclipse.core.projects.model.MetricsScope;
+import org.openclover.eclipse.core.views.ExplorerViewLabelProvider;
+import org.openclover.eclipse.core.projects.model.MetricsScope;
 
 public class ClassesTestedTreeLabelProvider extends ExplorerViewLabelProvider {
     public ClassesTestedTreeLabelProvider(TestRunExplorerViewSettings settings) {

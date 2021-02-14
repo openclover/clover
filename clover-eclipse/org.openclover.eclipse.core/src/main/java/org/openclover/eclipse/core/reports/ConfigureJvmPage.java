@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.reports;
+package org.openclover.eclipse.core.reports;
 
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.jface.wizard.IWizardPage;
@@ -9,7 +9,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
-import com.atlassian.clover.eclipse.core.ui.SwtUtils;
+import org.openclover.eclipse.core.ui.SwtUtils;
 
 public class ConfigureJvmPage extends WizardPage {
     private static final String[] VM_SIZES = new String[] {

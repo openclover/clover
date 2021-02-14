@@ -1,11 +1,11 @@
-package com.atlassian.clover.eclipse.core.views.widgets.columns;
+package org.openclover.eclipse.core.views.widgets.columns;
 
 import com.atlassian.clover.api.CloverException;
-import com.atlassian.clover.eclipse.core.ui.SwtUtils;
-import com.atlassian.clover.eclipse.core.views.BuiltinMetricsColumnDefinition;
-import com.atlassian.clover.eclipse.core.views.BuiltinPcMetricsColumnDefinition;
-import com.atlassian.clover.eclipse.core.views.ColumnDefinition;
-import com.atlassian.clover.eclipse.core.views.CustomColumnDefinition;
+import org.openclover.eclipse.core.ui.SwtUtils;
+import org.openclover.eclipse.core.views.BuiltinMetricsColumnDefinition;
+import org.openclover.eclipse.core.views.BuiltinPcMetricsColumnDefinition;
+import org.openclover.eclipse.core.views.ColumnDefinition;
+import org.openclover.eclipse.core.views.CustomColumnDefinition;
 import com.atlassian.clover.reporters.ExpressionEvaluator;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.MenuManager;

@@ -1,13 +1,13 @@
-package com.atlassian.clover.eclipse.core.views.actions;
+package org.openclover.eclipse.core.views.actions;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.core.runtime.CoreException;
-import com.atlassian.clover.eclipse.core.views.widgets.context.ContextChooserDialog;
-import com.atlassian.clover.eclipse.core.projects.CloverProject;
-import com.atlassian.clover.eclipse.core.projects.settings.ProjectSettings;
-import com.atlassian.clover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.views.widgets.context.ContextChooserDialog;
+import org.openclover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.projects.settings.ProjectSettings;
+import org.openclover.eclipse.core.CloverPlugin;
 
 public class ShowContextFilterDialogActionDelegate extends SingleCloverProjectActionDelegate {
 

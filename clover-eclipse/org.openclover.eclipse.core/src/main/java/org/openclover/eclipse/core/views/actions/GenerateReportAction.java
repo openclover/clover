@@ -1,17 +1,17 @@
-package com.atlassian.clover.eclipse.core.views.actions;
+package org.openclover.eclipse.core.views.actions;
 
-import com.atlassian.clover.eclipse.core.CloverEclipsePluginMessages;
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.projects.CloverProject;
-import com.atlassian.clover.eclipse.core.reports.GenerateReportWizard;
-import com.atlassian.clover.eclipse.core.reports.OpenReportDialog;
-import com.atlassian.clover.eclipse.core.reports.OpenReportOperation;
-import com.atlassian.clover.eclipse.core.reports.model.ReportHistoryEntry;
-import com.atlassian.clover.eclipse.core.ui.CloverPluginIcons;
-import com.atlassian.clover.eclipse.core.ui.projects.DatabaseChangeEvent;
-import com.atlassian.clover.eclipse.core.ui.projects.DatabaseChangeListener;
-import com.atlassian.clover.eclipse.core.views.ExplorerView;
-import com.atlassian.clover.eclipse.core.views.SelectionUtils;
+import org.openclover.eclipse.core.CloverEclipsePluginMessages;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.reports.GenerateReportWizard;
+import org.openclover.eclipse.core.reports.OpenReportDialog;
+import org.openclover.eclipse.core.reports.OpenReportOperation;
+import org.openclover.eclipse.core.reports.model.ReportHistoryEntry;
+import org.openclover.eclipse.core.ui.CloverPluginIcons;
+import org.openclover.eclipse.core.ui.projects.DatabaseChangeEvent;
+import org.openclover.eclipse.core.ui.projects.DatabaseChangeListener;
+import org.openclover.eclipse.core.views.ExplorerView;
+import org.openclover.eclipse.core.views.SelectionUtils;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -44,7 +44,7 @@ public class GenerateReportAction
     public GenerateReportAction(ExplorerView view) {
         this.view = view;
         this.projects = newHashSet();
-        setId("com.atlassian.clover.eclipse.core.actions.report.generate");
+        setId("org.openclover.eclipse.core.actions.report.generate");
         setText(CloverEclipsePluginMessages.PROJECT_REPORT());
         setToolTipText(CloverEclipsePluginMessages.PROJECT_REPORT_TOOL_TIP());
         setImageDescriptor(CloverPlugin.getImageDescriptor(CloverPluginIcons.REPORT_ICON));

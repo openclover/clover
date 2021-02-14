@@ -1,11 +1,11 @@
-package com.atlassian.clover.eclipse.core.views.testrunexplorer.nodes;
+package org.openclover.eclipse.core.views.testrunexplorer.nodes;
 
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.swt.graphics.Image;
 import com.atlassian.clover.registry.entities.TestCaseInfo;
-import com.atlassian.clover.eclipse.core.views.nodes.Nodes;
-import com.atlassian.clover.eclipse.core.views.nodes.JavaElementNode;
+import org.openclover.eclipse.core.views.nodes.Nodes;
+import org.openclover.eclipse.core.views.nodes.JavaElementNode;
 
 public class TestCaseNode extends JavaElementNode {
     public static final int STATUS_PASS = -1;

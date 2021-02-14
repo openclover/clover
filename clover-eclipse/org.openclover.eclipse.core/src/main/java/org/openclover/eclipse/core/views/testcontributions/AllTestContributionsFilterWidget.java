@@ -1,9 +1,9 @@
-package com.atlassian.clover.eclipse.core.views.testcontributions;
+package org.openclover.eclipse.core.views.testcontributions;
 
 import com.atlassian.clover.api.registry.ClassInfo;
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.ui.editors.java.CoverageAnnotationModel;
-import com.atlassian.clover.eclipse.core.ui.editors.java.CoverageAnnotationFilter;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotationModel;
+import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotationFilter;
 import com.atlassian.clover.registry.entities.TestCaseInfo;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;

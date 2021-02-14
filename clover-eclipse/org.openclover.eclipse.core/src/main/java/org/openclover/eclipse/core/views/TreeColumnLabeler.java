@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.views;
+package org.openclover.eclipse.core.views;
 
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.graphics.GC;

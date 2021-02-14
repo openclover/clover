@@ -1,11 +1,11 @@
-package com.atlassian.clover.eclipse.core.ui.editors.java.annotations.strategies.space;
+package org.openclover.eclipse.core.ui.editors.java.annotations.strategies.space;
 
 import com.atlassian.clover.api.registry.ElementInfo;
 import com.atlassian.clover.api.registry.SourceInfo;
 import com.atlassian.clover.registry.entities.FullElementInfo;
 import com.atlassian.clover.registry.entities.TestCaseInfo;
 import com.atlassian.clover.registry.CoverageDataRange;
-import com.atlassian.clover.eclipse.core.ui.editors.java.CoverageAnnotation;
+import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotation;
 import com.atlassian.clover.CloverDatabase;
 import com.atlassian.clover.CoverageData;
 import org.eclipse.jface.text.BadLocationException;

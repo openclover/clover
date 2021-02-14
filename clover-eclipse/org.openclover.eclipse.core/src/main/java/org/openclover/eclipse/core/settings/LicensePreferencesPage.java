@@ -1,14 +1,14 @@
-package com.atlassian.clover.eclipse.core.settings;
+package org.openclover.eclipse.core.settings;
 
 import com.atlassian.clover.CloverLicenseDecoder;
 import com.atlassian.clover.LicenseDecoderException;
-import com.atlassian.clover.eclipse.core.CloverEclipsePluginMessages;
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.ui.GLH;
-import com.atlassian.clover.eclipse.core.ui.SwtUtils;
-import com.atlassian.clover.eclipse.core.ui.BrowserUtils;
-import com.atlassian.clover.eclipse.core.PluginVersionInfo;
-import com.atlassian.clover.eclipse.core.licensing.LicenseUtils;
+import org.openclover.eclipse.core.CloverEclipsePluginMessages;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.ui.GLH;
+import org.openclover.eclipse.core.ui.SwtUtils;
+import org.openclover.eclipse.core.ui.BrowserUtils;
+import org.openclover.eclipse.core.PluginVersionInfo;
+import org.openclover.eclipse.core.licensing.LicenseUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.dnd.TextTransfer;

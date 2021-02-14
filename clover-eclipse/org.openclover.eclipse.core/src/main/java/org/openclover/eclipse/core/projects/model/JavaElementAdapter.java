@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.projects.model;
+package org.openclover.eclipse.core.projects.model;
 
 import org.eclipse.jdt.core.IJavaElement;
 

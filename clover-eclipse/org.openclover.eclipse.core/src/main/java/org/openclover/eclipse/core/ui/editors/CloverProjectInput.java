@@ -1,6 +1,6 @@
-package com.atlassian.clover.eclipse.core.ui.editors;
+package org.openclover.eclipse.core.ui.editors;
 
-import com.atlassian.clover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.projects.CloverProject;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IPersistableElement;

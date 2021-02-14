@@ -1,9 +1,9 @@
-package com.atlassian.clover.eclipse.core.projects.builder;
+package org.openclover.eclipse.core.projects.builder;
 
 import com.atlassian.clover.api.CloverException;
 import com.atlassian.clover.instr.java.FileInstrumentationSource;
 import com.atlassian.clover.instr.java.InstrumentationSource;
-import com.atlassian.clover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.projects.CloverProject;
 import com.atlassian.clover.registry.Clover2Registry;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;

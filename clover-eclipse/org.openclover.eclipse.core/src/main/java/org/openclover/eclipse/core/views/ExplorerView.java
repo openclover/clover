@@ -1,11 +1,11 @@
-package com.atlassian.clover.eclipse.core.views;
+package org.openclover.eclipse.core.views;
 
 import clover.com.google.common.collect.Maps;
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.views.actions.GenerateReportAction;
-import com.atlassian.clover.eclipse.core.views.actions.OpenJavaEditorAction;
-import com.atlassian.clover.eclipse.core.views.widgets.ColumnController;
-import com.atlassian.clover.eclipse.core.views.widgets.ViewAlertContainer;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.views.actions.GenerateReportAction;
+import org.openclover.eclipse.core.views.actions.OpenJavaEditorAction;
+import org.openclover.eclipse.core.views.widgets.ColumnController;
+import org.openclover.eclipse.core.views.widgets.ViewAlertContainer;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IAdaptable;

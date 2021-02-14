@@ -1,6 +1,6 @@
-package com.atlassian.clover.eclipse.core.projects.model;
+package org.openclover.eclipse.core.projects.model;
 
-import com.atlassian.clover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.projects.CloverProject;
 
 public abstract class VolatileDatabaseModel extends DatabaseModel {
     public VolatileDatabaseModel(CloverProject project, CoverageModelChangeEvent changeEvent) {

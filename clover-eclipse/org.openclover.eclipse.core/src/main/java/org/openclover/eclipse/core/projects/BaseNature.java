@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.projects;
+package org.openclover.eclipse.core.projects;
 
 import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.resources.IProjectDescription;
@@ -8,7 +8,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.IClasspathEntry;
-import com.atlassian.clover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.CloverPlugin;
 
 import java.util.List;
 import java.util.Arrays;

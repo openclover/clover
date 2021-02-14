@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.ui.editors.treemap;
+package org.openclover.eclipse.core.ui.editors.treemap;
 
 import com.atlassian.clover.reporters.util.ReportColors;
 import net.sf.jtreemap.ktreemap.ITreeMapColorProvider;

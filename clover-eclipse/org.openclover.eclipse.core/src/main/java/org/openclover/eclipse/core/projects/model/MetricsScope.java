@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.projects.model;
+package org.openclover.eclipse.core.projects.model;
 
 import com.atlassian.clover.registry.entities.FullProjectInfo;
 import org.eclipse.core.runtime.Platform;
@@ -8,8 +8,8 @@ import org.eclipse.jdt.core.IMethod;
 import com.atlassian.clover.registry.metrics.BlockMetrics;
 import com.atlassian.clover.api.registry.HasMetrics;
 import com.atlassian.clover.registry.entities.TestCaseInfo;
-import com.atlassian.clover.eclipse.core.projects.CloverProject;
-import com.atlassian.clover.eclipse.core.views.nodes.Nodes;
+import org.openclover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.views.nodes.Nodes;
 import com.atlassian.clover.CloverDatabase;
 
 public abstract class MetricsScope {

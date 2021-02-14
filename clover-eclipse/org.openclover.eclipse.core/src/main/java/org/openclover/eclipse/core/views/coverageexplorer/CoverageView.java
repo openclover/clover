@@ -1,24 +1,24 @@
-package com.atlassian.clover.eclipse.core.views.coverageexplorer;
+package org.openclover.eclipse.core.views.coverageexplorer;
 
-import com.atlassian.clover.eclipse.core.CloverEclipsePluginMessages;
-import com.atlassian.clover.eclipse.core.ui.SwtUtils;
-import com.atlassian.clover.eclipse.core.projects.model.MetricsScope;
-import com.atlassian.clover.eclipse.core.projects.CloverProject;
-import com.atlassian.clover.eclipse.core.views.BuiltinColumnDefinition;
-import com.atlassian.clover.eclipse.core.views.BuiltinDecimalMetricsColumnDefinition;
-import com.atlassian.clover.eclipse.core.views.BuiltinIntegralMetricsColumnDefinition;
-import com.atlassian.clover.eclipse.core.views.BuiltinPcMetricsColumnDefinition;
-import com.atlassian.clover.eclipse.core.views.CloveredWorkspaceProvider;
-import com.atlassian.clover.eclipse.core.views.ColumnDefinition;
-import com.atlassian.clover.eclipse.core.views.ExplorerView;
-import com.atlassian.clover.eclipse.core.views.ExplorerViewLabelProvider;
-import com.atlassian.clover.eclipse.core.views.ExplorerViewSettings;
-import com.atlassian.clover.eclipse.core.views.ExplorerViewComparator;
-import com.atlassian.clover.eclipse.core.views.widgets.LinkedProjectRenderer;
-import com.atlassian.clover.eclipse.core.views.widgets.ListeningRenderer;
-import com.atlassian.clover.eclipse.core.views.coverageexplorer.widgets.InstallationSettingsDialog;
-import com.atlassian.clover.eclipse.core.views.coverageexplorer.widgets.ProjectSettingsDialog;
-import com.atlassian.clover.eclipse.core.views.nodes.PackageFragmentNode;
+import org.openclover.eclipse.core.CloverEclipsePluginMessages;
+import org.openclover.eclipse.core.ui.SwtUtils;
+import org.openclover.eclipse.core.projects.model.MetricsScope;
+import org.openclover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.views.BuiltinColumnDefinition;
+import org.openclover.eclipse.core.views.BuiltinDecimalMetricsColumnDefinition;
+import org.openclover.eclipse.core.views.BuiltinIntegralMetricsColumnDefinition;
+import org.openclover.eclipse.core.views.BuiltinPcMetricsColumnDefinition;
+import org.openclover.eclipse.core.views.CloveredWorkspaceProvider;
+import org.openclover.eclipse.core.views.ColumnDefinition;
+import org.openclover.eclipse.core.views.ExplorerView;
+import org.openclover.eclipse.core.views.ExplorerViewLabelProvider;
+import org.openclover.eclipse.core.views.ExplorerViewSettings;
+import org.openclover.eclipse.core.views.ExplorerViewComparator;
+import org.openclover.eclipse.core.views.widgets.LinkedProjectRenderer;
+import org.openclover.eclipse.core.views.widgets.ListeningRenderer;
+import org.openclover.eclipse.core.views.coverageexplorer.widgets.InstallationSettingsDialog;
+import org.openclover.eclipse.core.views.coverageexplorer.widgets.ProjectSettingsDialog;
+import org.openclover.eclipse.core.views.nodes.PackageFragmentNode;
 import com.atlassian.clover.reporters.Columns;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IAdaptable;
@@ -74,7 +74,7 @@ import static clover.com.google.common.collect.Lists.newLinkedList;
 
 public class CoverageView extends ExplorerView implements IShowInTarget {
     //Non-standard view ID but this is the same as the Clover 1.x plugin line
-    public static final String ID = "com.atlassian.clover.eclipse.core.views.CloverView";
+    public static final String ID = "org.openclover.eclipse.core.views.CloverView";
 
     public static final ColumnDefinition COL_ELEMENT =
         new BuiltinColumnDefinition(

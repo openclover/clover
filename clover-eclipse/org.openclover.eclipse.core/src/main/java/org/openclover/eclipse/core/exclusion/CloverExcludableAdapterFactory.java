@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.exclusion;
+package org.openclover.eclipse.core.exclusion;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
@@ -9,7 +9,7 @@ import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaModelException;
 
-import com.atlassian.clover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.projects.CloverProject;
 
 public class CloverExcludableAdapterFactory implements IAdapterFactory {
 

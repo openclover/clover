@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.views.testcontributions;
+package org.openclover.eclipse.core.views.testcontributions;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -8,9 +8,9 @@ import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.PartInitException;
-import com.atlassian.clover.eclipse.core.views.widgets.ViewAlertContainer;
-import com.atlassian.clover.eclipse.core.views.CloverViewPart;
-import com.atlassian.clover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.views.widgets.ViewAlertContainer;
+import org.openclover.eclipse.core.views.CloverViewPart;
+import org.openclover.eclipse.core.CloverPlugin;
 
 public class TestContributionsView extends CloverViewPart {
     public static final String ID = CloverPlugin.ID + ".views.testcontributions";

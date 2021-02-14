@@ -1,8 +1,8 @@
-package com.atlassian.clover.eclipse.core.reports;
+package org.openclover.eclipse.core.reports;
 
-import com.atlassian.clover.eclipse.core.CloverEclipsePluginMessages;
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.reports.model.ReportHistoryEntry;
+import org.openclover.eclipse.core.CloverEclipsePluginMessages;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.reports.model.ReportHistoryEntry;
 import com.atlassian.clover.reporters.Type;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Platform;

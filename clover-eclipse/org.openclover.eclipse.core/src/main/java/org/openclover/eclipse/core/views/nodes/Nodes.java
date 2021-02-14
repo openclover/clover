@@ -1,14 +1,14 @@
-package com.atlassian.clover.eclipse.core.views.nodes;
+package org.openclover.eclipse.core.views.nodes;
 
 import com.atlassian.clover.registry.entities.FullClassInfo;
 import com.atlassian.clover.registry.entities.FullProjectInfo;
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.ui.CloverPluginIcons;
-import com.atlassian.clover.eclipse.core.projects.CloverProject;
-import com.atlassian.clover.eclipse.core.projects.model.JavaElementAdapter;
-import com.atlassian.clover.eclipse.core.projects.model.MetricsScope;
-import com.atlassian.clover.eclipse.core.views.testrunexplorer.nodes.TestCaseNode;
-import com.atlassian.clover.eclipse.core.views.testrunexplorer.nodes.TestCaseNodeFactory;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.ui.CloverPluginIcons;
+import org.openclover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.projects.model.JavaElementAdapter;
+import org.openclover.eclipse.core.projects.model.MetricsScope;
+import org.openclover.eclipse.core.views.testrunexplorer.nodes.TestCaseNode;
+import org.openclover.eclipse.core.views.testrunexplorer.nodes.TestCaseNodeFactory;
 import com.atlassian.clover.registry.entities.TestCaseInfo;
 import com.atlassian.clover.api.registry.HasMetrics;
 import com.atlassian.clover.registry.metrics.HasMetricsNode;

@@ -1,10 +1,10 @@
-package com.atlassian.clover.eclipse.core.ui.projects;
+package org.openclover.eclipse.core.ui.projects;
 
-import com.atlassian.clover.eclipse.core.projects.CloverProject;
-import com.atlassian.clover.eclipse.core.projects.model.DatabaseModel;
-import com.atlassian.clover.eclipse.core.projects.model.StableDatabaseModel;
-import com.atlassian.clover.eclipse.core.projects.model.LoadingDatabaseModel;
-import com.atlassian.clover.eclipse.core.projects.model.LoadedDatabaseModel;
+import org.openclover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.projects.model.DatabaseModel;
+import org.openclover.eclipse.core.projects.model.StableDatabaseModel;
+import org.openclover.eclipse.core.projects.model.LoadingDatabaseModel;
+import org.openclover.eclipse.core.projects.model.LoadedDatabaseModel;
 
 public class DatabaseChangeEvent {
     private final CloverProject project;

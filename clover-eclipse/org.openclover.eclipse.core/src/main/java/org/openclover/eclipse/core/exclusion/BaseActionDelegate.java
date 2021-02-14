@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.exclusion;
+package org.openclover.eclipse.core.exclusion;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;

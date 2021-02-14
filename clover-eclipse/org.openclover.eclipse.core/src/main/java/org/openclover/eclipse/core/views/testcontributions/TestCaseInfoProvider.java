@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.views.testcontributions;
+package org.openclover.eclipse.core.views.testcontributions;
 
 import com.atlassian.clover.api.registry.ClassInfo;
 import com.atlassian.clover.registry.entities.FullClassInfo;

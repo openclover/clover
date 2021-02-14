@@ -1,9 +1,9 @@
-package com.atlassian.clover.eclipse.core.ui.editors.cloud;
+package org.openclover.eclipse.core.ui.editors.cloud;
 
-import com.atlassian.clover.eclipse.core.CloverEclipsePluginMessages;
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.ui.CloverPluginIcons;
-import com.atlassian.clover.eclipse.core.ui.editors.CloverProjectInput;
+import org.openclover.eclipse.core.CloverEclipsePluginMessages;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.ui.CloverPluginIcons;
+import org.openclover.eclipse.core.ui.editors.CloverProjectInput;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;

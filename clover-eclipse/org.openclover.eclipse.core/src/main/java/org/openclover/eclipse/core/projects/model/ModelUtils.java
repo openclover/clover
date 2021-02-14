@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.projects.model;
+package org.openclover.eclipse.core.projects.model;
 
 import com.atlassian.clover.api.registry.ClassInfo;
 import com.atlassian.clover.api.registry.MethodInfo;
@@ -11,8 +11,8 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.resources.IProject;
 import com.atlassian.clover.registry.entities.TestCaseInfo;
-import com.atlassian.clover.eclipse.core.projects.CloverProject;
-import com.atlassian.clover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.CloverPlugin;
 
 public class ModelUtils {
     public static final int SEARCH_SELF_AND_DEPENDENTS = -1;

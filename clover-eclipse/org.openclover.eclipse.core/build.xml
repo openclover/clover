@@ -68,7 +68,7 @@
             <fileset dir="${eclipse-xyz.home}" includes="**/*.jar"/>
         </path>
 
-        <echo level="verbose" message="Target com.atlassian.clover.eclipse.core::eclipse.build is using [${toString:clover-core.buildpath}:${clover-core.output.classes}:${clover-ant.jar}:${toString:eclipse.libs}] path"/>
+        <echo level="verbose" message="Target org.openclover.eclipse.core::eclipse.build is using [${toString:clover-core.buildpath}:${clover-core.output.classes}:${clover-ant.jar}:${toString:eclipse.libs}] path"/>
 
         <javac destdir="${eclipse.core.output}/classes"
                debug="on"
@@ -117,7 +117,7 @@
                  classpath="${eclipse.core.output}/anttasks/classes"/>
 
         <!-- package directory -->
-        <property name="eclipse.pkg.name" value="com.atlassian.clover.eclipse.core_${eclipse.release.num}"/>
+        <property name="eclipse.pkg.name" value="org.openclover.eclipse.core_${eclipse.release.num}"/>
 
         <mkdir dir="${eclipse.core.output}/pkg/META-INF"/>
 
@@ -147,7 +147,7 @@
             <attribute name="Bundle-Vendor" value="%providerName"/>
             <attribute name="Bundle-SymbolicName" value="org.openclover.eclipse.core; singleton:=true"/>
             <attribute name="Bundle-Version" value="${eclipse.release.num}"/>
-            <attribute name="Bundle-Activator" value="com.atlassian.clover.eclipse.core.CloverPlugin"/>
+            <attribute name="Bundle-Activator" value="org.openclover.eclipse.core.CloverPlugin"/>
             <attribute name="Bundle-Localization" value="plugin"/>
             <attribute name="Require-Bundle" value="org.eclipse.ui;bundle-version=&quot;${required.eclipse.version}&quot;, org.eclipse.core.runtime;bundle-version=&quot;${required.eclipse.version}&quot;, org.eclipse.ui.views, org.eclipse.jface.text, org.eclipse.ui.editors, org.eclipse.ui.workbench.texteditor, org.eclipse.jdt.launching, org.eclipse.debug.core, org.eclipse.debug.ui, org.eclipse.jdt.core, org.eclipse.jdt.ui, org.eclipse.core.resources, org.eclipse.core.filesystem, org.eclipse.jdt.debug.ui, org.eclipse.ui.ide, org.eclipse.ui.console, org.eclipse.ui.forms, org.eclipse.search, org.eclipse.jdt.junit"/>
             <attribute name="Bundle-Classpath" value="."/>

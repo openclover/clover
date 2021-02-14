@@ -1,7 +1,7 @@
-package com.atlassian.clover.eclipse.core.licensing;
+package org.openclover.eclipse.core.licensing;
 
 import com.atlassian.clover.CloverLicenseInfo;
-import com.atlassian.clover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.CloverPlugin;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.PreferencesUtil;
 
@@ -25,7 +25,7 @@ public class LicenseUtils {
     public static void openLicensePreferencesPage(Shell shell) {
         PreferencesUtil.createPreferenceDialogOn(
             shell,
-            "com.atlassian.clover.eclipse.core.preferences.cloverLicensePreferencesPage",
+            "org.openclover.eclipse.core.preferences.cloverLicensePreferencesPage",
             null,
             null).open();
     }

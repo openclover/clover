@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.views.actions;
+package org.openclover.eclipse.core.views.actions;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.action.IAction;

@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.ui;
+package org.openclover.eclipse.core.ui;
 
 public interface CharDimensionConverter {
     int convertHeightInCharsToPixels(int i);

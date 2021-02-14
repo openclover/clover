@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.reports.reporters;
+package org.openclover.eclipse.core.reports.reporters;
 
 import com.atlassian.clover.reporters.html.HtmlReporter;
 

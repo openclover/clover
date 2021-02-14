@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.views.actions;
+package org.openclover.eclipse.core.views.actions;
 
 import org.eclipse.jdt.ui.actions.IJavaEditorActionDefinitionIds;
 import org.eclipse.jdt.ui.actions.OpenAction;

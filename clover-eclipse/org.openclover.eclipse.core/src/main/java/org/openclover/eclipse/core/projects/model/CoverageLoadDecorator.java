@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.projects.model;
+package org.openclover.eclipse.core.projects.model;
 
 public interface CoverageLoadDecorator {
 

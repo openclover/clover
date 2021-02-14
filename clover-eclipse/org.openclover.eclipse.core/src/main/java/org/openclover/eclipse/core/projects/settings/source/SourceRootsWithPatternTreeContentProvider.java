@@ -1,7 +1,7 @@
-package com.atlassian.clover.eclipse.core.projects.settings.source;
+package org.openclover.eclipse.core.projects.settings.source;
 
-import com.atlassian.clover.eclipse.core.projects.settings.ProjectSettings;
-import com.atlassian.clover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.settings.ProjectSettings;
+import org.openclover.eclipse.core.CloverPlugin;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaModelException;

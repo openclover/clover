@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.views;
+package org.openclover.eclipse.core.views;
 
 import org.eclipse.ui.IPersistable;
 import org.eclipse.ui.IMemento;
@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.LinkedHashSet;
 
-import com.atlassian.clover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.CloverPlugin;
 
 import static clover.com.google.common.collect.Lists.newArrayList;
 import static clover.com.google.common.collect.Lists.newLinkedList;

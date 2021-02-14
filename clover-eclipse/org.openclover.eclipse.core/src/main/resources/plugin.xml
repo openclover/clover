@@ -10,14 +10,14 @@
 	<!-- These are used to flag lines with coverage data available -->
 	<!-- =============================================== -->
 	<extension point="org.eclipse.ui.editors.annotationTypes">
-		<type name="com.atlassian.clover.eclipse.core.coverageannotation.covered"/>
-		<type name="com.atlassian.clover.eclipse.core.coverageannotation.notcovered"/>
+		<type name="org.openclover.eclipse.core.coverageannotation.covered"/>
+		<type name="org.openclover.eclipse.core.coverageannotation.notcovered"/>
 	</extension>
 
     <extension
         point="org.eclipse.ui.editors.markerAnnotationSpecification">
         <specification
-            annotationType="com.atlassian.clover.eclipse.core.coverageannotation.covered"
+            annotationType="org.openclover.eclipse.core.coverageannotation.covered"
             label="%coveragemarker.covered"
             colorPreferenceKey="clover.covered.colorPreference"
             colorPreferenceValue="120,255,85"
@@ -39,7 +39,7 @@
             isGoToPreviousNavigationTarget="false"
             />
         <specification
-            annotationType="com.atlassian.clover.eclipse.core.coverageannotation.filtered"
+            annotationType="org.openclover.eclipse.core.coverageannotation.filtered"
             label="%coveragemarker.covered.hidden"
             colorPreferenceKey="clover.covered.hidden.colorPreference"
             colorPreferenceValue="239,239,239"
@@ -61,7 +61,7 @@
             isGoToPreviousNavigationTarget="false"
             />
         <specification
-            annotationType="com.atlassian.clover.eclipse.core.coverageannotation.notcovered"
+            annotationType="org.openclover.eclipse.core.coverageannotation.notcovered"
             label="%coveragemarker.notcovered"
             colorPreferenceKey="clover.notcovered.colorPreference"
 			colorPreferenceValue="240,200,200"
@@ -83,7 +83,7 @@
             isGoToPreviousNavigationTarget="false"
             />
         <specification
-            annotationType="com.atlassian.clover.eclipse.core.coverageannotation.incidental"
+            annotationType="org.openclover.eclipse.core.coverageannotation.incidental"
             label="%coveragemarker.covered.incidental"
             colorPreferenceKey="clover.incidental.colorPreference"
             colorPreferenceValue="120,255,85"
@@ -105,7 +105,7 @@
             isGoToPreviousNavigationTarget="false"
             />
         <specification
-            annotationType="com.atlassian.clover.eclipse.core.coverageannotation.failed"
+            annotationType="org.openclover.eclipse.core.coverageannotation.failed"
             label="%coveragemarker.covered.failed"
             colorPreferenceKey="clover.failed.colorPreference"
             colorPreferenceValue="255,200,0"
@@ -127,7 +127,7 @@
             isGoToPreviousNavigationTarget="false"
             />
         <specification
-            annotationType="com.atlassian.clover.eclipse.core.coverageannotation.partialbranch"
+            annotationType="org.openclover.eclipse.core.coverageannotation.partialbranch"
             label="%coveragemarker.covered.partialbranch"
             colorPreferenceKey="clover.partialbranch.colorPreference"
             colorPreferenceValue="240,200,200"
@@ -151,7 +151,7 @@
             textStylePreferenceValue="SQUIGGLES"
             />
         <specification
-                annotationType="com.atlassian.clover.eclipse.core.coverageannotation.covered.testpassed"
+                annotationType="org.openclover.eclipse.core.coverageannotation.covered.testpassed"
                 label="%coveragemarker.covered.testpassed"
                 colorPreferenceKey="clover.covered.testpassed.colorPreference"
                 colorPreferenceValue="0,128,0"
@@ -173,25 +173,25 @@
                 isGoToPreviousNavigationTarget="false"
                 />
         <specification
-                annotationType="com.atlassian.clover.eclipse.core.coverageannotation.covered.testfailed"
+                annotationType="org.openclover.eclipse.core.coverageannotation.covered.testfailed"
                 label="%coveragemarker.covered.testfailed"
-                colorPreferenceKey="com.atlassian.clover.eclipse.core.coverageannotation.covered.testfailed.colorPreference"
+                colorPreferenceKey="org.openclover.eclipse.core.coverageannotation.covered.testfailed.colorPreference"
                 colorPreferenceValue="128,99,28"
-                textPreferenceKey="com.atlassian.clover.eclipse.core.coverageannotation.covered.testfailed.textPreference"
+                textPreferenceKey="org.openclover.eclipse.core.coverageannotation.covered.testfailed.textPreference"
                 textPreferenceValue="false"
-                highlightPreferenceKey="com.atlassian.clover.eclipse.core.coverageannotation.covered.testfailed.highlightPreference"
+                highlightPreferenceKey="org.openclover.eclipse.core.coverageannotation.covered.testfailed.highlightPreference"
                 highlightPreferenceValue="false"
                 contributesToHeader="false"
-                overviewRulerPreferenceKey="com.atlassian.clover.eclipse.core.coverageannotation.covered.testfailed.overviewRulerPreference"
+                overviewRulerPreferenceKey="org.openclover.eclipse.core.coverageannotation.covered.testfailed.overviewRulerPreference"
                 overviewRulerPreferenceValue="true"
-                verticalRulerPreferenceKey="com.atlassian.clover.eclipse.core.coverageannotation.covered.testfailed.verticalRulerPreference"
+                verticalRulerPreferenceKey="org.openclover.eclipse.core.coverageannotation.covered.testfailed.verticalRulerPreference"
                 verticalRulerPreferenceValue="false"
                 presentationLayer="3"
-                showInNextPrevDropdownToolbarActionKey="com.atlassian.clover.eclipse.core.coverageannotation.covered.testfailed.showInNextPrevDropdownToolbarAction"
+                showInNextPrevDropdownToolbarActionKey="org.openclover.eclipse.core.coverageannotation.covered.testfailed.showInNextPrevDropdownToolbarAction"
                 showInNextPrevDropdownToolbarAction="false"
-                isGoToNextNavigationTargetKey="com.atlassian.clover.eclipse.core.coverageannotation.covered.testfailed.isGoToNextNavigationTarget"
+                isGoToNextNavigationTargetKey="org.openclover.eclipse.core.coverageannotation.covered.testfailed.isGoToNextNavigationTarget"
                 isGoToNextNavigationTarget="false"
-                isGoToPreviousNavigationTargetKey="com.atlassian.clover.eclipse.core.coverageannotation.covered.testfailed.isGoToPreviousNavigationTarget"
+                isGoToPreviousNavigationTargetKey="org.openclover.eclipse.core.coverageannotation.covered.testfailed.isGoToPreviousNavigationTarget"
                 isGoToPreviousNavigationTarget="false"
                 />
     </extension>
@@ -205,7 +205,7 @@
 		name="Clover Pre-Java Builder"
 		point="org.eclipse.core.resources.builders">
 		<builder hasNature="true">
-			<run class="com.atlassian.clover.eclipse.core.projects.builder.PreJavaCloverBuilder"/>
+			<run class="org.openclover.eclipse.core.projects.builder.PreJavaCloverBuilder"/>
 		</builder>
 	</extension>
 
@@ -214,7 +214,7 @@
 		name="Clover Post-Java Builder"
 		point="org.eclipse.core.resources.builders">
 		<builder hasNature="true">
-			<run class="com.atlassian.clover.eclipse.core.projects.builder.PostJavaCloverBuilder"/>
+			<run class="org.openclover.eclipse.core.projects.builder.PostJavaCloverBuilder"/>
 		</builder>
 	</extension>
 
@@ -223,7 +223,7 @@
 		name="Clover No-Java Builder"
 		point="org.eclipse.core.resources.builders">
 		<builder hasNature="true">
-			<run class="com.atlassian.clover.eclipse.core.projects.builder.NoJavaCloverBuilder"/>
+			<run class="org.openclover.eclipse.core.projects.builder.NoJavaCloverBuilder"/>
 		</builder>
 	</extension>
 
@@ -236,7 +236,7 @@
 		name="Clover Instrumentation Problems"
 		point="org.eclipse.core.resources.markers">
 		<super type="org.eclipse.core.resources.problemmarker"/>
-		<super type="com.atlassian.clover.eclipse.core.marker"/>
+		<super type="org.openclover.eclipse.core.marker"/>
 		<persistent value="true"/>
 	</extension>
 	<extension
@@ -244,17 +244,17 @@
 		name="Clover Coverage Problems"
 		point="org.eclipse.core.resources.markers">
 		<super type="org.eclipse.core.resources.problemmarker"/>
-		<super type="com.atlassian.clover.eclipse.core.marker"/>
+		<super type="org.openclover.eclipse.core.marker"/>
 		<persistent value="true"/>
 	</extension>
 
 	<extension point="org.eclipse.ui.ide.markerResolution">
 	   <markerResolutionGenerator
-	      markerType="com.atlassian.clover.eclipse.core.markers.problem"
-	      class="com.atlassian.clover.eclipse.core.projects.builder.CoverageLoadFailedMarkerResolutionGenerator"/>
+	      markerType="org.openclover.eclipse.core.markers.problem"
+	      class="org.openclover.eclipse.core.projects.builder.CoverageLoadFailedMarkerResolutionGenerator"/>
 		<markerResolutionGenerator
-		   markerType="com.atlassian.clover.eclipse.core.markers.problem.staledb"
-		   class="com.atlassian.clover.eclipse.core.projects.builder.CoverageLoadFailedMarkerResolutionGenerator"/>
+		   markerType="org.openclover.eclipse.core.markers.problem.staledb"
+		   class="org.openclover.eclipse.core.projects.builder.CoverageLoadFailedMarkerResolutionGenerator"/>
 	</extension>
 
 	<!--
@@ -270,7 +270,7 @@
 		<builder id="org.openclover.eclipse.core.postjavabuilder"/>
 		<builder id="org.openclover.eclipse.core.nojavabuilder"/>
 		<runtime>
-			<run class="com.atlassian.clover.eclipse.core.projects.CloverProject"/>
+			<run class="org.openclover.eclipse.core.projects.CloverProject"/>
 		</runtime>
 	</extension>
 
@@ -283,7 +283,7 @@
 	      <menuContribution
              locationURI="popup:org.eclipse.ui.popup.any">
              <menu
-             	id="com.atlassian.clover.eclipse.core.popup.actions"
+             	id="org.openclover.eclipse.core.popup.actions"
                 label="%clover.name"
                 icon="icons/cview16/clover.gif">
              </menu>
@@ -298,9 +298,9 @@
 			adaptable="true"
 			objectClass="org.eclipse.core.resources.IProject"
 			nameFilter="*"
-			id="com.atlassian.clover.eclipse.core.popup.contribution">
+			id="org.openclover.eclipse.core.popup.contribution">
 			<menu
-				id="com.atlassian.clover.eclipse.core.popup.actions"
+				id="org.openclover.eclipse.core.popup.actions"
 				path="additions"
 				label="%clover.name">
 			</menu>
@@ -311,7 +311,7 @@
 			adaptable="true"
 			objectClass="org.eclipse.core.resources.IProject"
 			nameFilter="*"
-			id="com.atlassian.clover.eclipse.core.popup.addnature.contribution">
+			id="org.openclover.eclipse.core.popup.addnature.contribution">
 			<!-- only show menu if open and project is Java based -->
 			<visibility>
 				<and>
@@ -326,9 +326,9 @@
 			<action
 				label="%project.addnature"
                 enablesFor="1"
-				class="com.atlassian.clover.eclipse.core.views.actions.ToggleSingleCloverProjectNatureActionDelegate"
-				menubarPath="com.atlassian.clover.eclipse.core.popup.actions/additions"
-				id="com.atlassian.clover.eclipse.core.actions.addProjectNature"/>
+				class="org.openclover.eclipse.core.views.actions.ToggleSingleCloverProjectNatureActionDelegate"
+				menubarPath="org.openclover.eclipse.core.popup.actions/additions"
+				id="org.openclover.eclipse.core.actions.addProjectNature"/>
 		</objectContribution>
 
 		<!-- "Clover->Disable for this project" menu item -->
@@ -336,7 +336,7 @@
 			adaptable="true"
 			objectClass="org.eclipse.core.resources.IProject"
 			nameFilter="*"
-			id="com.atlassian.clover.eclipse.core.popup.removenature.contribution">
+			id="org.openclover.eclipse.core.popup.removenature.contribution">
 			<!-- only show menu if open and project is Java based -->
 			<visibility>
 				<and>
@@ -349,9 +349,9 @@
 			<action
 				label="%project.removenature"
                 enablesFor="1"
-				class="com.atlassian.clover.eclipse.core.views.actions.ToggleSingleCloverProjectNatureActionDelegate"
-				menubarPath="com.atlassian.clover.eclipse.core.popup.actions/additions"
-				id="com.atlassian.clover.eclipse.core.actions.removeProjectNature"/>
+				class="org.openclover.eclipse.core.views.actions.ToggleSingleCloverProjectNatureActionDelegate"
+				menubarPath="org.openclover.eclipse.core.popup.actions/additions"
+				id="org.openclover.eclipse.core.actions.removeProjectNature"/>
 		</objectContribution>
 
         <!-- "Clover->Enable/disable for..." menu item -->
@@ -359,14 +359,14 @@
             adaptable="true"
             objectClass="org.eclipse.core.resources.IProject"
             nameFilter="*"
-            id="com.atlassian.clover.eclipse.core.popup.togglenatures.contribution">
+            id="org.openclover.eclipse.core.popup.togglenatures.contribution">
             <!-- only show menu if open and project is Java based -->
             <!-- toggles Clover nature on a project -->
             <action
                 label="%project.togglenatures.short"
-                class="com.atlassian.clover.eclipse.core.views.actions.ToggleMultipleCloverProjectNaturesActionDelegate"
-                menubarPath="com.atlassian.clover.eclipse.core.popup.actions/additions"
-                id="com.atlassian.clover.eclipse.core.actions.toggleProjectNatures"/>
+                class="org.openclover.eclipse.core.views.actions.ToggleMultipleCloverProjectNaturesActionDelegate"
+                menubarPath="org.openclover.eclipse.core.popup.actions/additions"
+                id="org.openclover.eclipse.core.actions.toggleProjectNatures"/>
         </objectContribution>
 
 		<!-- "Clover->Configure" menu item -->
@@ -374,7 +374,7 @@
 			adaptable="true"
 			objectClass="org.eclipse.core.resources.IProject"
 			nameFilter="*"
-			id="com.atlassian.clover.eclipse.core.popup.configure.contribution">
+			id="org.openclover.eclipse.core.popup.configure.contribution">
 			<!-- only show menu if open and project is Java based -->
 			<visibility>
 				<and>
@@ -386,48 +386,48 @@
 			<action
 				label="%project.configure"
                 enablesFor="1"
-				class="com.atlassian.clover.eclipse.core.views.actions.ConfigureCloverActionDelegate"
-				menubarPath="com.atlassian.clover.eclipse.core.popup.actions/additions"
-				id="com.atlassian.clover.eclipse.core.actions.configure"/>
+				class="org.openclover.eclipse.core.views.actions.ConfigureCloverActionDelegate"
+				menubarPath="org.openclover.eclipse.core.popup.actions/additions"
+				id="org.openclover.eclipse.core.actions.configure"/>
 		</objectContribution>
 	    <objectContribution
-	        id="com.atlassian.clover.eclipse.core.ToggleExclusion"
-	        objectClass="com.atlassian.clover.eclipse.core.exclusion.ICloverExcludable" adaptable="true">
+	        id="org.openclover.eclipse.core.ToggleExclusion"
+	        objectClass="org.openclover.eclipse.core.exclusion.ICloverExcludable" adaptable="true">
 			<menu 
-				id="com.atlassian.clover.eclipse.core.popup.actions"
+				id="org.openclover.eclipse.core.popup.actions"
 				path="additions"
 				label="%clover.name">
 				<groupMarker name="additions"/>
 				<separator name="settings" />
 			</menu>
  	     <action 
-	           class="com.atlassian.clover.eclipse.core.exclusion.ToggleShowAnnotationObjectDelegate"
+	           class="org.openclover.eclipse.core.exclusion.ToggleShowAnnotationObjectDelegate"
 	           label="%exclude.toggleShowAnnotations"
-	           id="com.atlassian.clover.eclipse.core.object.toggleShowAnnotation"
-	           menubarPath="com.atlassian.clover.eclipse.core.popup.actions/settings">
+	           id="org.openclover.eclipse.core.object.toggleShowAnnotation"
+	           menubarPath="org.openclover.eclipse.core.popup.actions/settings">
 	     </action>
  	     <action 
-	           class="com.atlassian.clover.eclipse.core.exclusion.EditSettingsActionDelegate"
+	           class="org.openclover.eclipse.core.exclusion.EditSettingsActionDelegate"
 	           enablesFor="1"
 	           label="%exclude.editSettings"
-	           id="com.atlassian.clover.eclipse.core.EditSourceSettingsAction"
-	           menubarPath="com.atlassian.clover.eclipse.core.popup.actions/settings">
+	           id="org.openclover.eclipse.core.EditSourceSettingsAction"
+	           menubarPath="org.openclover.eclipse.core.popup.actions/settings">
 	     </action>
 	     <action 
-	           class="com.atlassian.clover.eclipse.core.exclusion.ToggleExclusionActionDelegate"
+	           class="org.openclover.eclipse.core.exclusion.ToggleExclusionActionDelegate"
 	           enablesFor="1"
-	           id="com.atlassian.clover.eclipse.core.ToggleExclusionAction"
+	           id="org.openclover.eclipse.core.ToggleExclusionAction"
 	           style="toggle"
 	           label="Toggle Exclusion"
-	           menubarPath="com.atlassian.clover.eclipse.core.popup.actions/additions">
+	           menubarPath="org.openclover.eclipse.core.popup.actions/additions">
 	     </action>
  	     <action 
-	           class="com.atlassian.clover.eclipse.core.exclusion.ToggleInclusionActionDelegate"
+	           class="org.openclover.eclipse.core.exclusion.ToggleInclusionActionDelegate"
 	           enablesFor="1"
-	           id="com.atlassian.clover.eclipse.core.ToggleInclusionAction"
+	           id="org.openclover.eclipse.core.ToggleInclusionAction"
 	           style="toggle"
 	           label="Toggle Inclusion"
-	           menubarPath="com.atlassian.clover.eclipse.core.popup.actions/additions">
+	           menubarPath="org.openclover.eclipse.core.popup.actions/additions">
 	     </action>
 	  </objectContribution>
 	</extension>
@@ -435,50 +435,50 @@
 	<extension
 		point="org.eclipse.ui.viewActions">
 		<viewContribution
-			targetID="com.atlassian.clover.eclipse.core.views.CloverView"
-			id="com.atlassian.clover.eclipse.core.view.action.contribution1">
+			targetID="org.openclover.eclipse.core.views.CloverView"
+			id="org.openclover.eclipse.core.view.action.contribution1">
 
 			<action
 				label="%project.blockContext"
                 tooltip="%project.blockContexttooltip"
 				icon="icons/clcl16/project_context.gif"
-				class="com.atlassian.clover.eclipse.core.views.actions.ShowContextFilterDialogActionDelegate"
+				class="org.openclover.eclipse.core.views.actions.ShowContextFilterDialogActionDelegate"
 				menubarPath="project.ops"
 				toolbarPath="project.ops"
-				id="com.atlassian.clover.eclipse.core.actions.coverage.context.edit"/>
+				id="org.openclover.eclipse.core.actions.coverage.context.edit"/>
 			<action
 				label="%project.compilewithclover"
                 tooltip="%project.compilewithclovertooltip"
                 icon="icons/clcl16/project_compile.gif"
-				class="com.atlassian.clover.eclipse.core.views.actions.ToggleCloverCompilerActionDelegate"
+				class="org.openclover.eclipse.core.views.actions.ToggleCloverCompilerActionDelegate"
 				style="toggle"
 				menubarPath="project.ops"
 				toolbarPath="project.ops"
-				id="com.atlassian.clover.eclipse.core.actions.compileWithClover"/>
+				id="org.openclover.eclipse.core.actions.compileWithClover"/>
 			<action
 				label="%project.clearcoverage"
                 tooltip="%project.clearcoveragetooltip"
 				icon="icons/clcl16/project_clear.gif"
-				class="com.atlassian.clover.eclipse.core.views.actions.ClearCoverageActionDelegate"
+				class="org.openclover.eclipse.core.views.actions.ClearCoverageActionDelegate"
 				menubarPath="project.ops"
 				toolbarPath="project.ops"
-				id="com.atlassian.clover.eclipse.core.actions.coverage.clear"/>
+				id="org.openclover.eclipse.core.actions.coverage.clear"/>
 			<action
 				label="%project.refreshcoverage"
                 tooltip="%project.refreshcoveragetooltip"
 				icon="icons/clcl16/project_refresh.gif"
-				class="com.atlassian.clover.eclipse.core.views.actions.RefreshCoverageActionDelegate"
+				class="org.openclover.eclipse.core.views.actions.RefreshCoverageActionDelegate"
 				menubarPath="project.ops"
 				toolbarPath="project.ops"
-				id="com.atlassian.clover.eclipse.core.actions.coverage.refresh"/>
+				id="org.openclover.eclipse.core.actions.coverage.refresh"/>
             <action
                 label="%project.togglenatures.long"
                 tooltip="%project.togglenaturestooltip"
                 icon="icons/cview16/clover.gif"
-                class="com.atlassian.clover.eclipse.core.views.actions.ToggleMultipleCloverProjectNaturesActionDelegate"
+                class="org.openclover.eclipse.core.views.actions.ToggleMultipleCloverProjectNaturesActionDelegate"
                 menubarPath="project.ops"
                 toolbarPath="project.ops"
-                id="com.atlassian.clover.eclipse.core.actions.togglenatures"/>
+                id="org.openclover.eclipse.core.actions.togglenatures"/>
 
 			<menu
 				id="view.coverage.ops"
@@ -489,24 +489,24 @@
 			<action
 				label="%coverageview.showtestonlycoverageinexplorer"
 				tooltip="%coverageview.showtestonlycoverageinexplorertooltip"
-				class="com.atlassian.clover.eclipse.core.views.coverageexplorer.actions.SelectTestOnlyCoverageAction"
+				class="org.openclover.eclipse.core.views.coverageexplorer.actions.SelectTestOnlyCoverageAction"
 				style="radio"
 				menubarPath="view.coverage.ops/additions"
-				id="com.atlassian.clover.eclipse.core.actions.view.coverage.testonly"/>
+				id="org.openclover.eclipse.core.actions.view.coverage.testonly"/>
 			<action
 				label="%coverageview.showapponlycoverageinexplorer"
 				tooltip="%coverageview.showapponlycoverageinexplorertooltip"
-				class="com.atlassian.clover.eclipse.core.views.coverageexplorer.actions.SelectAppOnlyCoverageAction"
+				class="org.openclover.eclipse.core.views.coverageexplorer.actions.SelectAppOnlyCoverageAction"
 				style="radio"
 				menubarPath="view.coverage.ops/additions"
-				id="com.atlassian.clover.eclipse.core.actions.view.coverage.apponly"/>
+				id="org.openclover.eclipse.core.actions.view.coverage.apponly"/>
 			<action
 				label="%coverageview.showallcoverageinexplorer"
 				tooltip="%coverageview.showallcoverageinexplorertooltip"
-				class="com.atlassian.clover.eclipse.core.views.coverageexplorer.actions.SelectFullCoverageAction"
+				class="org.openclover.eclipse.core.views.coverageexplorer.actions.SelectFullCoverageAction"
 				style="radio"
 				menubarPath="view.coverage.ops/additions"
-				id="com.atlassian.clover.eclipse.core.actions.view.coverage.full"/>
+				id="org.openclover.eclipse.core.actions.view.coverage.full"/>
 
 			<menu
 				id="editor.ops"
@@ -518,103 +518,103 @@
 				label="%exclude.toggleShowAnnotations"
 				style="toggle"
 				menubarPath="editor.ops"
-				class="com.atlassian.clover.eclipse.core.exclusion.ToggleShowAnnotationViewDelegate"
-				id="com.atlassian.clover.eclipse.core.exclusion.toggleAnnotations"
+				class="org.openclover.eclipse.core.exclusion.ToggleShowAnnotationViewDelegate"
+				id="org.openclover.eclipse.core.exclusion.toggleAnnotations"
 				/>
             <action
                     label="%CoverageView.showPassedCoverageOnly"
                     tooltip="%CoverageView.showPassedCoverageOnlyToolTip"
                     icon="icons/clcl16/include_passed_only.gif"
-                    class="com.atlassian.clover.eclipse.core.views.actions.ToggleIncludePassedCoverageOnlyActionDelegate"
+                    class="org.openclover.eclipse.core.views.actions.ToggleIncludePassedCoverageOnlyActionDelegate"
                     style="toggle"
                     menubarPath="editor.ops"
                     toolbarPath="editor.ops"
-                    id="com.atlassian.clover.eclipse.core.actions.editor.coverage.includePassedOnly"/>
+                    id="org.openclover.eclipse.core.actions.editor.coverage.includePassedOnly"/>
 			<action
 				label="%coverageview.shownocoverageineditor"
 				tooltip="%coverageview.shownocoverageineditortooltip"
 				icon="icons/clcl16/no_editor_coverage.gif"
-				class="com.atlassian.clover.eclipse.core.views.actions.SelectNoEditorCoverageActionDelegate"
+				class="org.openclover.eclipse.core.views.actions.SelectNoEditorCoverageActionDelegate"
 				style="radio"
 				menubarPath="editor.ops/additions"
 				toolbarPath="editor.ops"
-				id="com.atlassian.clover.eclipse.core.actions.editor.coverage.none"/>
+				id="org.openclover.eclipse.core.actions.editor.coverage.none"/>
 			<action
 				label="%coverageview.showuncoveredcoverageineditor"
 				tooltip="%coverageview.showuncoveredcoverageineditortooltip"
 				icon="icons/clcl16/uncovered_editor_coverage.gif"
-				class="com.atlassian.clover.eclipse.core.views.actions.SelectUncoveredEditorCoverageActionDelegate"
+				class="org.openclover.eclipse.core.views.actions.SelectUncoveredEditorCoverageActionDelegate"
 				style="radio"
 				menubarPath="editor.ops/additions"
 				toolbarPath="editor.ops"
-				id="com.atlassian.clover.eclipse.core.actions.editor.coverage.uncovered"/>
+				id="org.openclover.eclipse.core.actions.editor.coverage.uncovered"/>
 			<action
 				label="%coverageview.showallcoverageineditor"
 				tooltip="%coverageview.showallcoverageineditortooltip"
 				icon="icons/clcl16/all_editor_coverage.gif"
-				class="com.atlassian.clover.eclipse.core.views.actions.SelectAllEditorCoverageActionDelegate"
+				class="org.openclover.eclipse.core.views.actions.SelectAllEditorCoverageActionDelegate"
 				style="radio"
 				menubarPath="editor.ops/additions"
 				toolbarPath="editor.ops"
-				id="com.atlassian.clover.eclipse.core.actions.editor.coverage.all"/>
+				id="org.openclover.eclipse.core.actions.editor.coverage.all"/>
 			<action
 				label="%coverageview.clearworkingset"
-				class="com.atlassian.clover.eclipse.core.views.actions.ClearWorkingSetActionDelegate"
+				class="org.openclover.eclipse.core.views.actions.ClearWorkingSetActionDelegate"
 				menubarPath="view.workingset"
-				id="com.atlassian.clover.eclipse.core.actions.workingset.clear"/>
+				id="org.openclover.eclipse.core.actions.workingset.clear"/>
 			<action
 				label="%coverageview.editworkingset"
-				class="com.atlassian.clover.eclipse.core.views.actions.EditWorkingSetActionDelegate"
+				class="org.openclover.eclipse.core.views.actions.EditWorkingSetActionDelegate"
 				menubarPath="view.workingset"
-				id="com.atlassian.clover.eclipse.core.actions.workingset.edit"/>
+				id="org.openclover.eclipse.core.actions.workingset.edit"/>
 			<action
 				label="%coverageview.toggleworkingset"
-				class="com.atlassian.clover.eclipse.core.views.actions.ToggleWorkingSetModeActionDelegate"
+				class="org.openclover.eclipse.core.views.actions.ToggleWorkingSetModeActionDelegate"
 				menubarPath="view.workingset"
-				id="com.atlassian.clover.eclipse.core.actions.workingset.toggle"/>
+				id="org.openclover.eclipse.core.actions.workingset.toggle"/>
 
 			<action
 				label="%project.generatecoveragecloud"
                 tooltip="%project.generatecoveragecloudtooltip"
 				icon="icons/clcl16/report_cloud.gif"
-				class="com.atlassian.clover.eclipse.core.views.actions.OpenCloudActionDelegate"
+				class="org.openclover.eclipse.core.views.actions.OpenCloudActionDelegate"
 				menubarPath="project.reports"
 				toolbarPath="project.reports"
-				id="com.atlassian.clover.eclipse.core.actions.cloud.open"/>
+				id="org.openclover.eclipse.core.actions.cloud.open"/>
 			<action
 				label="%project.generatetreemap"
                 tooltip="%project.generatetreemaptooltip"
 				icon="icons/clcl16/report_treemap.gif"
-				class="com.atlassian.clover.eclipse.core.views.actions.GenerateTreemapActionDelegate"
+				class="org.openclover.eclipse.core.views.actions.GenerateTreemapActionDelegate"
 				menubarPath="project.reports"
 				toolbarPath="project.reports"
-				id="com.atlassian.clover.eclipse.core.actions.treemap.open"/>
+				id="org.openclover.eclipse.core.actions.treemap.open"/>
 
 
 			<action
 				label="%coverageview.hidefullycovered"
 				icon="icons/clcl16/hierarchy_hide_fully_covered.gif"
 				tooltip="%coverageview.hidefullycoveredtooltip"
-				class="com.atlassian.clover.eclipse.core.views.coverageexplorer.actions.HideFullyCoveredAction"
+				class="org.openclover.eclipse.core.views.coverageexplorer.actions.HideFullyCoveredAction"
 				style="toggle"
 				menubarPath="view.declutter"
 				toolbarPath="view.declutter"
-				id="com.atlassian.clover.eclipse.core.actions.view.hideFullyCovered"/>
+				id="org.openclover.eclipse.core.actions.view.hideFullyCovered"/>
 			<action
 				label="%coverageview.hideunavailable"
 				icon="icons/clcl16/hierarchy_hide_unavailable.gif"
 				tooltip="%coverageview.hideunavailabletooltip"
-				class="com.atlassian.clover.eclipse.core.views.coverageexplorer.actions.HideCoverageUnavailableAction"
+				class="org.openclover.eclipse.core.views.coverageexplorer.actions.HideCoverageUnavailableAction"
 				style="toggle"
 				menubarPath="view.declutter"
 				toolbarPath="view.declutter"
-				id="com.atlassian.clover.eclipse.core.actions.view.hideUnavailable"/>
+				id="org.openclover.eclipse.core.actions.view.hideUnavailable"/>
 
 			<action
 				label="%coverageview.about"
-				class="com.atlassian.clover.eclipse.core.views.actions.ShowAboutCloverActionDelegate"
+				class="org.openclover.eclipse.core.views.actions.ShowAboutCloverActionDelegate"
 				menubarPath="view.about"
-				id="com.atlassian.clover.eclipse.core.actions.view.about"/>
+				id="org.openclover.eclipse.core.actions.view.about"/>
 
 			<menu
 				id="view.hierarchy"
@@ -627,85 +627,85 @@
                 label="%coverageview.hierarchystyletreetoggle"
                 tooltip="%coverageview.hierarchystyletreetoggletooltip"
                 icon="icons/clcl16/tree.gif"
-                class="com.atlassian.clover.eclipse.core.views.coverageexplorer.actions.HierarchyStyleTreeToggleAction"
+                class="org.openclover.eclipse.core.views.coverageexplorer.actions.HierarchyStyleTreeToggleAction"
                 style="toggle"
                 menubarPath="view.hierarchy/additions"
                 toolbarPath="view.hierarchy"
-                id="com.atlassian.clover.eclipse.core.actions.view.hierarchy.treetoggle"/>
+                id="org.openclover.eclipse.core.actions.view.hierarchy.treetoggle"/>
 			<action
 				label="%coverageview.hierarchystylepackagerootsstyle"
                 tooltip="%coverageview.hierarchystylepackagerootsstyletooltip"
 				icon="icons/clcl16/folder.gif"
-				class="com.atlassian.clover.eclipse.core.views.coverageexplorer.actions.SelectPackageRootsStyleAction"
+				class="org.openclover.eclipse.core.views.coverageexplorer.actions.SelectPackageRootsStyleAction"
 				style="radio"
 				menubarPath="view.hierarchy/additions"
 				toolbarPath="view.hierarchy"
-				id="com.atlassian.clover.eclipse.core.actions.view.hierarchy.packagerootsflatpackages"/>
+				id="org.openclover.eclipse.core.actions.view.hierarchy.packagerootsflatpackages"/>
 			<action
 				label="%coverageview.hierarchystylepackagesstyle"
                 tooltip="%coverageview.hierarchystylepackagesstyletooltip"
 				icon="icons/clcl16/package.gif"
-				class="com.atlassian.clover.eclipse.core.views.coverageexplorer.actions.SelectNoPackageRootsAction"
+				class="org.openclover.eclipse.core.views.coverageexplorer.actions.SelectNoPackageRootsAction"
 				style="radio"
 				menubarPath="view.hierarchy/additions"
 				toolbarPath="view.hierarchy"
-				id="com.atlassian.clover.eclipse.core.actions.view.hierarchy.flatpackages"/>
+				id="org.openclover.eclipse.core.actions.view.hierarchy.flatpackages"/>
             <action
                 label="%coverageview.columns"
                 tooltip="%coverageview.columnstooltip"
                 icon="icons/clcl16/table.gif"
-                class="com.atlassian.clover.eclipse.core.views.actions.ConfigureCoverageExplorerColumnsActionDelegate"
+                class="org.openclover.eclipse.core.views.actions.ConfigureCoverageExplorerColumnsActionDelegate"
                 menubarPath="view.columns"
                 toolbarPath="view.columns"
-                id="com.atlassian.clover.eclipse.core.actions.coverageview.columns"/>
+                id="org.openclover.eclipse.core.actions.coverageview.columns"/>
 
 		</viewContribution>
 
         <viewContribution
-            targetID="com.atlassian.clover.eclipse.core.views.testrunexplorer"
-            id="com.atlassian.clover.eclipse.core.view.action.contribution2">
+            targetID="org.openclover.eclipse.core.views.testrunexplorer"
+            id="org.openclover.eclipse.core.view.action.contribution2">
 
             <action
                 label="%project.blockContext"
                 tooltip="%project.blockContexttooltip"
                 icon="icons/clcl16/project_context.gif"
-                class="com.atlassian.clover.eclipse.core.views.actions.ShowContextFilterDialogActionDelegate"
+                class="org.openclover.eclipse.core.views.actions.ShowContextFilterDialogActionDelegate"
                 menubarPath="project.ops"
                 toolbarPath="project.ops"
-                id="com.atlassian.clover.eclipse.core.actions.coverage.context.edit"/>
+                id="org.openclover.eclipse.core.actions.coverage.context.edit"/>
             <action
                 label="%project.compilewithclover"
                 tooltip="%project.compilewithclovertooltip"
                 icon="icons/clcl16/project_compile.gif"
-                class="com.atlassian.clover.eclipse.core.views.actions.ToggleCloverCompilerActionDelegate"
+                class="org.openclover.eclipse.core.views.actions.ToggleCloverCompilerActionDelegate"
                 style="toggle"
                 menubarPath="project.ops"
                 toolbarPath="project.ops"
-                id="com.atlassian.clover.eclipse.core.actions.compileWithClover"/>
+                id="org.openclover.eclipse.core.actions.compileWithClover"/>
             <action
                 label="%project.clearcoverage"
                 tooltip="%project.clearcoveragetooltip"
                 icon="icons/clcl16/project_clear.gif"
-                class="com.atlassian.clover.eclipse.core.views.actions.ClearCoverageActionDelegate"
+                class="org.openclover.eclipse.core.views.actions.ClearCoverageActionDelegate"
                 menubarPath="project.ops"
                 toolbarPath="project.ops"
-                id="com.atlassian.clover.eclipse.core.actions.coverage.clear"/>
+                id="org.openclover.eclipse.core.actions.coverage.clear"/>
             <action
                 label="%project.refreshcoverage"
                 tooltip="%project.refreshcoveragetooltip"
                 icon="icons/clcl16/project_refresh.gif"
-                class="com.atlassian.clover.eclipse.core.views.actions.RefreshCoverageActionDelegate"
+                class="org.openclover.eclipse.core.views.actions.RefreshCoverageActionDelegate"
                 menubarPath="project.ops"
                 toolbarPath="project.ops"
-                id="com.atlassian.clover.eclipse.core.actions.coverage.refresh"/>
+                id="org.openclover.eclipse.core.actions.coverage.refresh"/>
             <action
                 label="%project.togglenatures.long"
                 tooltip="%project.togglenaturestooltip"
                 icon="icons/cview16/clover.gif"
-                class="com.atlassian.clover.eclipse.core.views.actions.ToggleMultipleCloverProjectNaturesActionDelegate"
+                class="org.openclover.eclipse.core.views.actions.ToggleMultipleCloverProjectNaturesActionDelegate"
                 menubarPath="project.ops"
                 toolbarPath="project.ops"
-                id="com.atlassian.clover.eclipse.core.actions.togglenatures"/>
+                id="org.openclover.eclipse.core.actions.togglenatures"/>
 
             <menu
                 id="editor.ops"
@@ -717,83 +717,83 @@
 				label="%exclude.toggleShowAnnotations"
 				style="toggle"
 				menubarPath="editor.ops"
-				class="com.atlassian.clover.eclipse.core.exclusion.ToggleShowAnnotationViewDelegate"
-				id="com.atlassian.clover.eclipse.core.exclusion.toggleAnnotations"
+				class="org.openclover.eclipse.core.exclusion.ToggleShowAnnotationViewDelegate"
+				id="org.openclover.eclipse.core.exclusion.toggleAnnotations"
 				/>
             <action
                     label="%CoverageView.showPassedCoverageOnly"
                     tooltip="%CoverageView.showPassedCoverageOnlyToolTip"
                     icon="icons/clcl16/include_passed_only.gif"
-                    class="com.atlassian.clover.eclipse.core.views.actions.ToggleIncludePassedCoverageOnlyActionDelegate"
+                    class="org.openclover.eclipse.core.views.actions.ToggleIncludePassedCoverageOnlyActionDelegate"
                     style="toggle"
                     menubarPath="editor.ops"
                     toolbarPath="editor.ops"
-                    id="com.atlassian.clover.eclipse.core.actions.editor.coverage.includePassedOnly"/>
+                    id="org.openclover.eclipse.core.actions.editor.coverage.includePassedOnly"/>
             <action
                 label="%coverageview.shownocoverageineditor"
                 tooltip="%coverageview.shownocoverageineditortooltip"
                 icon="icons/clcl16/no_editor_coverage.gif"
-                class="com.atlassian.clover.eclipse.core.views.actions.SelectNoEditorCoverageActionDelegate"
+                class="org.openclover.eclipse.core.views.actions.SelectNoEditorCoverageActionDelegate"
                 style="radio"
                 menubarPath="editor.ops/additions"
                 toolbarPath="editor.ops"
-                id="com.atlassian.clover.eclipse.core.actions.editor.coverage.none"/>
+                id="org.openclover.eclipse.core.actions.editor.coverage.none"/>
             <action
                 label="%coverageview.showuncoveredcoverageineditor"
                 tooltip="%coverageview.showuncoveredcoverageineditortooltip"
                 icon="icons/clcl16/uncovered_editor_coverage.gif"
-                class="com.atlassian.clover.eclipse.core.views.actions.SelectUncoveredEditorCoverageActionDelegate"
+                class="org.openclover.eclipse.core.views.actions.SelectUncoveredEditorCoverageActionDelegate"
                 style="radio"
                 menubarPath="editor.ops/additions"
                 toolbarPath="editor.ops"
-                id="com.atlassian.clover.eclipse.core.actions.editor.coverage.uncovered"/>
+                id="org.openclover.eclipse.core.actions.editor.coverage.uncovered"/>
             <action
                 label="%coverageview.showallcoverageineditor"
                 tooltip="%coverageview.showallcoverageineditortooltip"
                 icon="icons/clcl16/all_editor_coverage.gif"
-                class="com.atlassian.clover.eclipse.core.views.actions.SelectAllEditorCoverageActionDelegate"
+                class="org.openclover.eclipse.core.views.actions.SelectAllEditorCoverageActionDelegate"
                 style="radio"
                 menubarPath="editor.ops/additions"
                 toolbarPath="editor.ops"
-                id="com.atlassian.clover.eclipse.core.actions.editor.coverage.all"/>
+                id="org.openclover.eclipse.core.actions.editor.coverage.all"/>
             <action
                 label="%coverageview.clearworkingset"
-                class="com.atlassian.clover.eclipse.core.views.actions.ClearWorkingSetActionDelegate"
+                class="org.openclover.eclipse.core.views.actions.ClearWorkingSetActionDelegate"
                 menubarPath="view.workingset"
-                id="com.atlassian.clover.eclipse.core.actions.workingset.clear"/>
+                id="org.openclover.eclipse.core.actions.workingset.clear"/>
             <action
                 label="%coverageview.editworkingset"
-                class="com.atlassian.clover.eclipse.core.views.actions.EditWorkingSetActionDelegate"
+                class="org.openclover.eclipse.core.views.actions.EditWorkingSetActionDelegate"
                 menubarPath="view.workingset"
-                id="com.atlassian.clover.eclipse.core.actions.workingset.edit"/>
+                id="org.openclover.eclipse.core.actions.workingset.edit"/>
             <action
                 label="%coverageview.toggleworkingset"
-                class="com.atlassian.clover.eclipse.core.views.actions.ToggleWorkingSetModeActionDelegate"
+                class="org.openclover.eclipse.core.views.actions.ToggleWorkingSetModeActionDelegate"
                 menubarPath="view.workingset"
-                id="com.atlassian.clover.eclipse.core.actions.workingset.toggle"/>
+                id="org.openclover.eclipse.core.actions.workingset.toggle"/>
 
             <action
                 label="%project.generatecoveragecloud"
                 tooltip="%project.generatecoveragecloudtooltip"
                 icon="icons/clcl16/report_cloud.gif"
-                class="com.atlassian.clover.eclipse.core.views.actions.OpenCloudActionDelegate"
+                class="org.openclover.eclipse.core.views.actions.OpenCloudActionDelegate"
                 menubarPath="project.reports"
                 toolbarPath="project.reports"
-                id="com.atlassian.clover.eclipse.core.actions.cloud.open"/>
+                id="org.openclover.eclipse.core.actions.cloud.open"/>
             <action
                 label="%project.generatetreemap"
                 tooltip="%project.generatetreemaptooltip"
                 icon="icons/clcl16/report_treemap.gif"
-                class="com.atlassian.clover.eclipse.core.views.actions.GenerateTreemapActionDelegate"
+                class="org.openclover.eclipse.core.views.actions.GenerateTreemapActionDelegate"
                 menubarPath="project.reports"
                 toolbarPath="project.reports"
-                id="com.atlassian.clover.eclipse.core.actions.treemap.open"/>
+                id="org.openclover.eclipse.core.actions.treemap.open"/>
 
             <action
                 label="%coverageview.about"
-                class="com.atlassian.clover.eclipse.core.views.actions.ShowAboutCloverActionDelegate"
+                class="org.openclover.eclipse.core.views.actions.ShowAboutCloverActionDelegate"
                 menubarPath="view.about"
-                id="com.atlassian.clover.eclipse.core.actions.view.about"/>
+                id="org.openclover.eclipse.core.actions.view.about"/>
 
             <menu
                 id="view.hierarchy"
@@ -806,29 +806,29 @@
                 label="%testrunexplorerview.hierarchystylepackagerootsstyle"
                 tooltip="%testrunexplorerview.hierarchystylepackagerootsstyletooltip"
                 icon="icons/clcl16/folder.gif"
-                class="com.atlassian.clover.eclipse.core.views.testrunexplorer.actions.SelectPackageRootsStyleAction"
+                class="org.openclover.eclipse.core.views.testrunexplorer.actions.SelectPackageRootsStyleAction"
                 style="radio"
                 menubarPath="view.hierarchy/additions"
                 toolbarPath="view.hierarchy"
-                id="com.atlassian.clover.eclipse.core.actions.view.hierarchy.packagerootsflatpackages"/>
+                id="org.openclover.eclipse.core.actions.view.hierarchy.packagerootsflatpackages"/>
             <action
                 label="%testrunexplorerview.hierarchystylepackagesstyle"
                 tooltip="%testrunexplorerview.hierarchystylepackagesstyletooltip"
                 icon="icons/clcl16/package.gif"
-                class="com.atlassian.clover.eclipse.core.views.testrunexplorer.actions.SelectPackagesStyleAction"
+                class="org.openclover.eclipse.core.views.testrunexplorer.actions.SelectPackagesStyleAction"
                 style="radio"
                 menubarPath="view.hierarchy/additions"
                 toolbarPath="view.hierarchy"
-                id="com.atlassian.clover.eclipse.core.actions.view.hierarchy.flatpackages"/>
+                id="org.openclover.eclipse.core.actions.view.hierarchy.flatpackages"/>
             <action
                 label="%testrunexplorerview.flattestcasesstyle"
                 tooltip="%testrunexplorerview.flattestcasesstyletooltip"
                 icon="icons/obj16/test.gif"
-                class="com.atlassian.clover.eclipse.core.views.testrunexplorer.actions.SelectTestCasesStyleAction"
+                class="org.openclover.eclipse.core.views.testrunexplorer.actions.SelectTestCasesStyleAction"
                 style="radio"
                 menubarPath="view.hierarchy/additions"
                 toolbarPath="view.hierarchy"
-                id="com.atlassian.clover.eclipse.core.actions.view.hierarchy.testcases"/>
+                id="org.openclover.eclipse.core.actions.view.hierarchy.testcases"/>
         </viewContribution>
 	</extension>
 
@@ -836,66 +836,66 @@
 		point="org.eclipse.ui.popupMenus">
 
 		<viewerContribution
-			targetID="com.atlassian.clover.eclipse.core.views.CloverView"
-			id="com.atlassian.clover.eclipse.core.popup.action.contribution1">
+			targetID="org.openclover.eclipse.core.views.CloverView"
+			id="org.openclover.eclipse.core.popup.action.contribution1">
 			<action
 				label="%project.blockContext"
                 tooltip="%project.blockContexttooltip"
 				icon="icons/clcl16/project_context.gif"
-				class="com.atlassian.clover.eclipse.core.views.actions.ShowContextFilterDialogActionDelegate"
+				class="org.openclover.eclipse.core.views.actions.ShowContextFilterDialogActionDelegate"
 				menubarPath="project.ops"
 				toolbarPath="project.ops"
-				id="com.atlassian.clover.eclipse.core.actions.coverage.context.edit"/>
+				id="org.openclover.eclipse.core.actions.coverage.context.edit"/>
 			<action
 				label="%project.compilewithclover"
                 tooltip="%project.compilewithclovertooltip"
 				icon="icons/clcl16/project_compile.gif"
-				class="com.atlassian.clover.eclipse.core.views.actions.ToggleCloverCompilerActionDelegate"
+				class="org.openclover.eclipse.core.views.actions.ToggleCloverCompilerActionDelegate"
 				style="toggle"
 				menubarPath="project.ops"
 				toolbarPath="project.ops"
-				id="com.atlassian.clover.eclipse.core.actions.compileWithClover"/>
+				id="org.openclover.eclipse.core.actions.compileWithClover"/>
 			<action
 				label="%project.clearcoverage"
                 tooltip="%project.clearcoveragetooltip"
 				icon="icons/clcl16/project_clear.gif"
-				class="com.atlassian.clover.eclipse.core.views.actions.ClearCoverageActionDelegate"
+				class="org.openclover.eclipse.core.views.actions.ClearCoverageActionDelegate"
 				menubarPath="project.ops"
 				toolbarPath="project.ops"
-				id="com.atlassian.clover.eclipse.core.actions.coverage.clear"/>
+				id="org.openclover.eclipse.core.actions.coverage.clear"/>
 			<action
 				label="%project.refreshcoverage"
                 tooltip="%project.refreshcoveragetooltip"
 				icon="icons/clcl16/project_refresh.gif"
-				class="com.atlassian.clover.eclipse.core.views.actions.RefreshCoverageActionDelegate"
+				class="org.openclover.eclipse.core.views.actions.RefreshCoverageActionDelegate"
 				menubarPath="project.ops"
 				toolbarPath="project.ops"
-				id="com.atlassian.clover.eclipse.core.actions.coverage.refresh"/>
+				id="org.openclover.eclipse.core.actions.coverage.refresh"/>
             <action
                 label="%project.togglenatures.long"
                 tooltip="%project.togglenaturestooltip"
                 icon="icons/cview16/clover.gif"
-                class="com.atlassian.clover.eclipse.core.views.actions.ToggleMultipleCloverProjectNaturesActionDelegate"
+                class="org.openclover.eclipse.core.views.actions.ToggleMultipleCloverProjectNaturesActionDelegate"
                 menubarPath="project.ops"
                 toolbarPath="project.ops"
-                id="com.atlassian.clover.eclipse.core.actions.togglenatures"/>
+                id="org.openclover.eclipse.core.actions.togglenatures"/>
 
 			<action
 				label="%project.generatecoveragecloud"
                 tooltip="%project.generatecoveragecloudtooltip"
 				icon="icons/clcl16/report_cloud.gif"
-				class="com.atlassian.clover.eclipse.core.views.actions.OpenCloudActionDelegate"
+				class="org.openclover.eclipse.core.views.actions.OpenCloudActionDelegate"
 				menubarPath="project.reports"
 				toolbarPath="project.reports"
-				id="com.atlassian.clover.eclipse.core.actions.cloud.open"/>
+				id="org.openclover.eclipse.core.actions.cloud.open"/>
 			<action
 				label="%project.generatetreemap"
                 tooltip="%project.generatetreemaptooltip"
 				icon="icons/clcl16/report_treemap.gif"
-				class="com.atlassian.clover.eclipse.core.views.actions.GenerateTreemapActionDelegate"
+				class="org.openclover.eclipse.core.views.actions.GenerateTreemapActionDelegate"
 				menubarPath="project.reports"
 				toolbarPath="project.reports"
-				id="com.atlassian.clover.eclipse.core.actions.treemap.open"/>
+				id="org.openclover.eclipse.core.actions.treemap.open"/>
 
 		</viewerContribution>
 	</extension>
@@ -904,65 +904,65 @@
         point="org.eclipse.ui.popupMenus">
 
         <viewerContribution
-            targetID="com.atlassian.clover.eclipse.core.views.testrunexplorer"
-            id="com.atlassian.clover.eclipse.core.popup.action.contribution2">
+            targetID="org.openclover.eclipse.core.views.testrunexplorer"
+            id="org.openclover.eclipse.core.popup.action.contribution2">
             <action
                 label="%project.blockContext"
                 tooltip="%project.blockContexttooltip"
                 icon="icons/clcl16/project_context.gif"
-                class="com.atlassian.clover.eclipse.core.views.actions.ShowContextFilterDialogActionDelegate"
+                class="org.openclover.eclipse.core.views.actions.ShowContextFilterDialogActionDelegate"
                 menubarPath="project.ops"
                 toolbarPath="project.ops"
-                id="com.atlassian.clover.eclipse.core.actions.coverage.context.edit"/>
+                id="org.openclover.eclipse.core.actions.coverage.context.edit"/>
             <action
                 label="%project.compilewithclover"
                 icon="icons/clcl16/project_compile.gif"
-                class="com.atlassian.clover.eclipse.core.views.actions.ToggleCloverCompilerActionDelegate"
+                class="org.openclover.eclipse.core.views.actions.ToggleCloverCompilerActionDelegate"
                 style="toggle"
                 menubarPath="project.ops"
                 toolbarPath="project.ops"
-                id="com.atlassian.clover.eclipse.core.actions.compileWithClover"/>
+                id="org.openclover.eclipse.core.actions.compileWithClover"/>
             <action
                 label="%project.clearcoverage"
                 tooltip="%project.clearcoveragetooltip"
                 icon="icons/clcl16/project_clear.gif"
-                class="com.atlassian.clover.eclipse.core.views.actions.ClearCoverageActionDelegate"
+                class="org.openclover.eclipse.core.views.actions.ClearCoverageActionDelegate"
                 menubarPath="project.ops"
                 toolbarPath="project.ops"
-                id="com.atlassian.clover.eclipse.core.actions.coverage.clear"/>
+                id="org.openclover.eclipse.core.actions.coverage.clear"/>
             <action
                 label="%project.refreshcoverage"
                 tooltip="%project.refreshcoveragetooltip"
                 icon="icons/clcl16/project_refresh.gif"
-                class="com.atlassian.clover.eclipse.core.views.actions.RefreshCoverageActionDelegate"
+                class="org.openclover.eclipse.core.views.actions.RefreshCoverageActionDelegate"
                 menubarPath="project.ops"
                 toolbarPath="project.ops"
-                id="com.atlassian.clover.eclipse.core.actions.coverage.refresh"/>
+                id="org.openclover.eclipse.core.actions.coverage.refresh"/>
             <action
                 label="%project.togglenatures.long"
                 tooltip="%project.togglenaturestooltip"
                 icon="icons/cview16/clover.gif"
-                class="com.atlassian.clover.eclipse.core.views.actions.ToggleMultipleCloverProjectNaturesActionDelegate"
+                class="org.openclover.eclipse.core.views.actions.ToggleMultipleCloverProjectNaturesActionDelegate"
                 menubarPath="project.ops"
                 toolbarPath="project.ops"
-                id="com.atlassian.clover.eclipse.core.actions.togglenatures"/>
+                id="org.openclover.eclipse.core.actions.togglenatures"/>
 
             <action
                 label="%project.generatecoveragecloud"
                 tooltip="%project.generatecoveragecloudtooltip"
                 icon="icons/clcl16/report_cloud.gif"
-                class="com.atlassian.clover.eclipse.core.views.actions.OpenCloudActionDelegate"
+                class="org.openclover.eclipse.core.views.actions.OpenCloudActionDelegate"
                 menubarPath="project.reports"
                 toolbarPath="project.reports"
-                id="com.atlassian.clover.eclipse.core.actions.cloud.open"/>
+                id="org.openclover.eclipse.core.actions.cloud.open"/>
             <action
                 label="%project.generatetreemap"
                 tooltip="%project.generatetreemaptooltip"
                 icon="icons/clcl16/report_treemap.gif"
-                class="com.atlassian.clover.eclipse.core.views.actions.GenerateTreemapActionDelegate"
+                class="org.openclover.eclipse.core.views.actions.GenerateTreemapActionDelegate"
                 menubarPath="project.reports"
                 toolbarPath="project.reports"
-                id="com.atlassian.clover.eclipse.core.actions.treemap.open"/>
+                id="org.openclover.eclipse.core.actions.treemap.open"/>
 
         </viewerContribution>
     </extension>
@@ -973,9 +973,9 @@
 	<extension
 		point="org.eclipse.ui.editors">
 		<editor
-			class="com.atlassian.clover.eclipse.core.ui.editors.cloud.CloudEditor"
+			class="org.openclover.eclipse.core.ui.editors.cloud.CloudEditor"
 			icon="icons/clcl16/report_cloud.gif"
-			contributorClass="com.atlassian.clover.eclipse.core.ui.editors.cloud.CloudEditorContributor"
+			contributorClass="org.openclover.eclipse.core.ui.editors.cloud.CloudEditorContributor"
 			id="org.openclover.eclipse.core.editors.cloud"
 			name="Clover Coverage Cloud Report"/>
 	</extension>
@@ -986,7 +986,7 @@
 	<extension
 		point="org.eclipse.ui.editors">
 		<editor
-			class="com.atlassian.clover.eclipse.core.ui.editors.treemap.TreemapEditor"
+			class="org.openclover.eclipse.core.ui.editors.treemap.TreemapEditor"
 			icon="icons/clcl16/report_treemap.gif"
 			id="org.openclover.eclipse.core.editors.treemap"
 			name="Clover Coverage Treemap Report"/>
@@ -998,7 +998,7 @@
 	<extension
 		point="org.eclipse.ui.propertyPages">
 		<page
-			class="com.atlassian.clover.eclipse.core.projects.settings.ProjectPropertyPage"
+			class="org.openclover.eclipse.core.projects.settings.ProjectPropertyPage"
 			id="org.openclover.eclipse.core.properties.cloverProjectPropertyPage"
 			adaptable="true"
 			name="%clover.name"
@@ -1016,13 +1016,13 @@
 	<extension
 		point="org.eclipse.ui.preferencePages">
 		<page
-			class="com.atlassian.clover.eclipse.core.settings.GeneralPreferencesPage"
-			id="com.atlassian.clover.eclipse.core.preferences.cloverGeneralPreferencesPage"
+			class="org.openclover.eclipse.core.settings.GeneralPreferencesPage"
+			id="org.openclover.eclipse.core.preferences.cloverGeneralPreferencesPage"
 			name="%clover.name"/>
 		<page
-			class="com.atlassian.clover.eclipse.core.settings.LicensePreferencesPage"
-			id="com.atlassian.clover.eclipse.core.preferences.cloverLicensePreferencesPage"
-			category="com.atlassian.clover.eclipse.core.preferences.cloverGeneralPreferencesPage"
+			class="org.openclover.eclipse.core.settings.LicensePreferencesPage"
+			id="org.openclover.eclipse.core.preferences.cloverLicensePreferencesPage"
+			category="org.openclover.eclipse.core.preferences.cloverGeneralPreferencesPage"
 			name="%clover.license"/>
 	</extension>
 
@@ -1031,39 +1031,39 @@
 	<!-- ===================== -->
 	<extension point="org.eclipse.ui.views">
 
-		<category id="com.atlassian.clover.eclipse.core.cloverViews" name="%clover.name"/>
+		<category id="org.openclover.eclipse.core.cloverViews" name="%clover.name"/>
 
 		<!-- view id is non-standard but corresponds to view id in 1.x plugin -->
-		<view id="com.atlassian.clover.eclipse.core.views.CloverView"
+		<view id="org.openclover.eclipse.core.views.CloverView"
 			  name="%coverageview.name"
 			  icon="icons/cview16/clover.gif"
-			  category="com.atlassian.clover.eclipse.core.cloverViews"
-			  class="com.atlassian.clover.eclipse.core.views.coverageexplorer.CoverageView"/>
+			  category="org.openclover.eclipse.core.cloverViews"
+			  class="org.openclover.eclipse.core.views.coverageexplorer.CoverageView"/>
 
-        <view id="com.atlassian.clover.eclipse.core.views.testrunexplorer"
+        <view id="org.openclover.eclipse.core.views.testrunexplorer"
               name="%testrunexplorerview.name"
               icon="icons/cview16/clover.gif"
-              category="com.atlassian.clover.eclipse.core.cloverViews"
-              class="com.atlassian.clover.eclipse.core.views.testrunexplorer.TestRunExplorerView"/>
+              category="org.openclover.eclipse.core.cloverViews"
+              class="org.openclover.eclipse.core.views.testrunexplorer.TestRunExplorerView"/>
 
 		<view id="org.openclover.eclipse.core.views.testcontributions"
 			  name="%testcontributions.name"
 			  icon="icons/cview16/clover.gif"
-			  category="com.atlassian.clover.eclipse.core.cloverViews"
-			  class="com.atlassian.clover.eclipse.core.views.testcontributions.TestContributionsView"/>
+			  category="org.openclover.eclipse.core.cloverViews"
+			  class="org.openclover.eclipse.core.views.testcontributions.TestContributionsView"/>
 			  
 	   <view id="org.openclover.eclipse.core.views.dashboard"
               name="%dashboardview.name"
               icon="icons/cview16/clover.gif"
-              category="com.atlassian.clover.eclipse.core.cloverViews"
-              class="com.atlassian.clover.eclipse.core.views.dashboard.DashboardView"/>
+              category="org.openclover.eclipse.core.cloverViews"
+              class="org.openclover.eclipse.core.views.dashboard.DashboardView"/>
 	</extension>
 
 	<!-- ===================== -->
 	<!-- PREFERENCE DEFAULTS -->
 	<!-- ===================== -->
 	<extension point="org.eclipse.core.runtime.preferences">
-		<initializer class="com.atlassian.clover.eclipse.core.settings.PreferencesInitialiser"/>
+		<initializer class="org.openclover.eclipse.core.settings.PreferencesInitialiser"/>
 	</extension>
 
 	<!-- ===================== -->
@@ -1071,7 +1071,7 @@
 	<!-- ===================== -->
 	<extension point="org.eclipse.ui.decorators">
 		<decorator
-			id="com.atlassian.clover.eclipse.core.views.projectDecorator"
+			id="org.openclover.eclipse.core.views.projectDecorator"
 			label="Clover Project Decorator"
 			state="true"
 			lightweight="true"
@@ -1086,14 +1086,14 @@
 			</enablement>
 		</decorator>
 		<decorator
-        	id="com.atlassian.clover.eclipse.core.exclusionDecorator"
+        	id="org.openclover.eclipse.core.exclusionDecorator"
         	label="Clover Exclusion Decorator"
         	lightweight="true"
         	adaptable="true"
         	state="true"
-        	class="com.atlassian.clover.eclipse.core.exclusion.ExclusionLabelDecorator">
+        	class="org.openclover.eclipse.core.exclusion.ExclusionLabelDecorator">
         	<enablement>
-        		<objectClass name="com.atlassian.clover.eclipse.core.exclusion.ICloverExcludable"/>
+        		<objectClass name="org.openclover.eclipse.core.exclusion.ICloverExcludable"/>
         	</enablement>
 		</decorator>
 	</extension>
@@ -1104,8 +1104,8 @@
 	<extension
 		point="org.eclipse.core.runtime.adapters">
 		<factory
-			class="com.atlassian.clover.eclipse.core.projects.model.MetricsAdapterFactory"
-			adaptableType="com.atlassian.clover.eclipse.core.projects.model.MetricsScope$Qualification">
+			class="org.openclover.eclipse.core.projects.model.MetricsAdapterFactory"
+			adaptableType="org.openclover.eclipse.core.projects.model.MetricsScope$Qualification">
 
 			<adapter type="com.atlassian.clover.api.registry.HasMetrics"/>
 			<adapter type="com.atlassian.clover.registry.entities.FullProjectInfo"/>
@@ -1120,19 +1120,19 @@
 			<adapter type="com.atlassian.clover.registry.metrics.ClassMetrics"/>
 		</factory>
 		<factory
-			class="com.atlassian.clover.eclipse.core.projects.CloverProjectAdapterFactory"
+			class="org.openclover.eclipse.core.projects.CloverProjectAdapterFactory"
 			adaptableType="org.eclipse.core.resources.IProject">
-			<adapter type="com.atlassian.clover.eclipse.core.projects.CloverProject"/>
+			<adapter type="org.openclover.eclipse.core.projects.CloverProject"/>
 		</factory>
 		<factory
-			class="com.atlassian.clover.eclipse.core.projects.CloverProjectAdapterFactory"
+			class="org.openclover.eclipse.core.projects.CloverProjectAdapterFactory"
 			adaptableType="org.eclipse.jdt.core.IJavaElement">
-			<adapter type="com.atlassian.clover.eclipse.core.projects.CloverProject"/>
+			<adapter type="org.openclover.eclipse.core.projects.CloverProject"/>
 		</factory>
 	    <factory 
 	        adaptableType="org.eclipse.jdt.core.IJavaElement"
-	        class="com.atlassian.clover.eclipse.core.exclusion.CloverExcludableAdapterFactory">
-	        <adapter type="com.atlassian.clover.eclipse.core.exclusion.ICloverExcludable"/>
+	        class="org.openclover.eclipse.core.exclusion.CloverExcludableAdapterFactory">
+	        <adapter type="org.openclover.eclipse.core.exclusion.ICloverExcludable"/>
 	    </factory>
 	</extension>
 
@@ -1151,39 +1151,39 @@
 		point="org.eclipse.debug.core.launchDelegates">
 		<!-- Standard Java, JUnit and TestNG launch delegates-->
 		<launchDelegate
-			delegate="com.atlassian.clover.eclipse.core.launching.CloveredJavaAppLauncherDelegate"
-			id="com.atlassian.clover.eclipse.core.launching.LocalJavaApplicationLauncher"
+			delegate="org.openclover.eclipse.core.launching.CloveredJavaAppLauncherDelegate"
+			id="org.openclover.eclipse.core.launching.LocalJavaApplicationLauncher"
 			modes="clover"
 			type="org.eclipse.jdt.launching.localJavaApplication"/>
         <launchDelegate
-            delegate="com.atlassian.clover.eclipse.core.launching.CloveredJavaAppletLauncherDelegate"
-            id="com.atlassian.clover.eclipse.core.launching.LocalJavaAppletLauncher"
+            delegate="org.openclover.eclipse.core.launching.CloveredJavaAppletLauncherDelegate"
+            id="org.openclover.eclipse.core.launching.LocalJavaAppletLauncher"
             modes="clover"
             type="org.eclipse.jdt.launching.javaApplet"/>
 		<launchDelegate
-			delegate="com.atlassian.clover.eclipse.core.launching.CloveredJavaAppLauncherDelegate"
-			id="com.atlassian.clover.eclipse.core.launching.JUnitLaunchConfig"
+			delegate="org.openclover.eclipse.core.launching.CloveredJavaAppLauncherDelegate"
+			id="org.openclover.eclipse.core.launching.JUnitLaunchConfig"
 			modes="clover"
 			type="org.eclipse.jdt.junit.launchconfig"/>
 		<launchDelegate
-			delegate="com.atlassian.clover.eclipse.core.launching.CloveredJavaAppLauncherDelegate"
-			id="com.atlassian.clover.eclipse.core.launching.TestNGLaunchConfig"
+			delegate="org.openclover.eclipse.core.launching.CloveredJavaAppLauncherDelegate"
+			id="org.openclover.eclipse.core.launching.TestNGLaunchConfig"
 			modes="clover"
 			type="org.testng.eclipse.launchconfig"/>
 		<!-- Eclipse workbench, Equinox and JUnit (for plugin development) launch delegates-->
 		<launchDelegate
-			delegate="com.atlassian.clover.eclipse.core.launching.CloveredEclipseLauncherDelegate"
-			id="com.atlassian.clover.eclipse.core.launching.WorkbenchPDELaunchConfig"
+			delegate="org.openclover.eclipse.core.launching.CloveredEclipseLauncherDelegate"
+			id="org.openclover.eclipse.core.launching.WorkbenchPDELaunchConfig"
 			modes="clover"
 			type="org.eclipse.pde.ui.RuntimeWorkbench"/>
 		<launchDelegate
-			delegate="com.atlassian.clover.eclipse.core.launching.CloveredEclipseLauncherDelegate"
-			id="com.atlassian.clover.eclipse.core.launching.EquinoxPDELaunchConfig"
+			delegate="org.openclover.eclipse.core.launching.CloveredEclipseLauncherDelegate"
+			id="org.openclover.eclipse.core.launching.EquinoxPDELaunchConfig"
 			modes="clover"
 			type="org.eclipse.pde.ui.EquinoxLauncher"/>
 		<launchDelegate
-			delegate="com.atlassian.clover.eclipse.core.launching.CloveredEclipseLauncherDelegate"
-			id="com.atlassian.clover.eclipse.core.launching.JUnitPDELaunchConfig"
+			delegate="org.openclover.eclipse.core.launching.CloveredEclipseLauncherDelegate"
+			id="org.openclover.eclipse.core.launching.JUnitPDELaunchConfig"
 			modes="clover"
 			type="org.eclipse.pde.ui.JunitLaunchConfig"/>
 	</extension>
@@ -1197,7 +1197,7 @@
 	<extension
 		point="org.eclipse.debug.ui.launchGroups">
 		<launchGroup
-			id="com.atlassian.clover.eclipse.core.launching.group"
+			id="org.openclover.eclipse.core.launching.group"
 			label="%launch.group.label"
 			mode="clover"
 			title="%launch.group.title"
@@ -1210,16 +1210,16 @@
 		point="org.eclipse.ui.popupMenus">
 		<objectContribution
             adaptable="true"
-            id="com.atlassian.clover.eclipse.core.launching.popup.menu"
+            id="org.openclover.eclipse.core.launching.popup.menu"
             objectClass="org.eclipse.jdt.core.IJavaElement">
 			<!-- This action will flll the menu with appropriate Clover-enabled launch shortcuts -->
 			<action
 				label="%launch.popup.group.label"
 				style="pulldown"
-				class="com.atlassian.clover.eclipse.core.launching.actions.ContextualRunWithCloverAction"
+				class="org.openclover.eclipse.core.launching.actions.ContextualRunWithCloverAction"
 				menubarPath="additions"
 				enablesFor="+"
-				id="com.atlassian.clover.eclipse.core.launching.popup.menu.submenu">
+				id="org.openclover.eclipse.core.launching.popup.menu.submenu">
 			</action>
 		</objectContribution>
 	</extension>
@@ -1228,11 +1228,11 @@
 	<extension
 		point="org.eclipse.debug.ui.launchShortcuts">
 		<shortcut
-			id="com.atlassian.clover.eclipse.core.launching.LocalJavaApplicationShortcut"
+			id="org.openclover.eclipse.core.launching.LocalJavaApplicationShortcut"
 			label="%launch.java.application.label"
 			icon="icons/cview16/clover.gif"
 			modes="clover"
-			class="com.atlassian.clover.eclipse.core.launching.CloveredLaunchShortcut:org.eclipse.jdt.debug.ui.localJavaShortcut">
+			class="org.openclover.eclipse.core.launching.CloveredLaunchShortcut:org.eclipse.jdt.debug.ui.localJavaShortcut">
             <contextualLaunch>
               <enablement>
                 <with variable="selection">
@@ -1257,11 +1257,11 @@
               </contextualLaunch>
 		</shortcut>
         <shortcut
-            id="com.atlassian.clover.eclipse.core.launching.LocalJavaAppletShortcut"
+            id="org.openclover.eclipse.core.launching.LocalJavaAppletShortcut"
             label="%launch.java.applet.label"
             icon="icons/cview16/clover.gif"
             modes="clover"
-            class="com.atlassian.clover.eclipse.core.launching.CloveredLaunchShortcut:org.eclipse.jdt.debug.ui.javaAppletShortcut">
+            class="org.openclover.eclipse.core.launching.CloveredLaunchShortcut:org.eclipse.jdt.debug.ui.javaAppletShortcut">
             <contextualLaunch>
               <enablement>
                 <with variable="selection">
@@ -1286,11 +1286,11 @@
               </contextualLaunch>
         </shortcut>
 		<shortcut
-			id="com.atlassian.clover.eclipse.core.launching.JUnitShortcut"
+			id="org.openclover.eclipse.core.launching.JUnitShortcut"
 			label="%launch.junit.label"
 			icon="icons/cview16/clover.gif"
 			modes="clover"
-			class="com.atlassian.clover.eclipse.core.launching.CloveredLaunchShortcut:org.eclipse.jdt.junit.junitShortcut">
+			class="org.openclover.eclipse.core.launching.CloveredLaunchShortcut:org.eclipse.jdt.junit.junitShortcut">
 			<contextualLaunch>
                 <enablement>
                     <with variable="selection">
@@ -1315,11 +1315,11 @@
 			</contextualLaunch>
 		</shortcut>
 		<shortcut
-			id="com.atlassian.clover.eclipse.core.launching.WorkbenchPDEShortcut"
+			id="org.openclover.eclipse.core.launching.WorkbenchPDEShortcut"
 			label="%launch.eclipse.label"
 			icon="icons/cview16/clover.gif"
 			modes="clover"
-			class="com.atlassian.clover.eclipse.core.launching.CloveredLaunchShortcut:org.eclipse.pde.ui.runtimeWorkbenchShortcut">
+			class="org.openclover.eclipse.core.launching.CloveredLaunchShortcut:org.eclipse.pde.ui.runtimeWorkbenchShortcut">
 			<contextualLaunch>
 				<enablement>
 					<with variable="selection">
@@ -1339,11 +1339,11 @@
 			</contextualLaunch>
 		</shortcut>
 		<shortcut
-			id="com.atlassian.clover.eclipse.core.launching.JUnitPDEShortcut"
+			id="org.openclover.eclipse.core.launching.JUnitPDEShortcut"
 			label="%launch.junit.plugin.label"
 			icon="icons/cview16/clover.gif"
 			modes="clover"
-			class="com.atlassian.clover.eclipse.core.launching.CloveredLaunchShortcut:org.eclipse.pde.ui.junitWorkbenchShortcut">
+			class="org.openclover.eclipse.core.launching.CloveredLaunchShortcut:org.eclipse.pde.ui.junitWorkbenchShortcut">
 			<contextualLaunch>
 				<enablement>
 					<with variable="selection">
@@ -1373,8 +1373,8 @@
 	<extension
 		point="org.eclipse.debug.ui.launchConfigurationTabGroups">
 		<launchConfigurationTabGroup
-			id="com.atlassian.clover.eclipse.core.launching.JavaApplicationTabGroup"
-			class="com.atlassian.clover.eclipse.core.launching.CloverTabGroup"
+			id="org.openclover.eclipse.core.launching.JavaApplicationTabGroup"
+			class="org.openclover.eclipse.core.launching.CloverTabGroup"
 			type="org.eclipse.jdt.launching.localJavaApplication"
 			helpContextId="org.eclipse.jdt.debug.ui.launchConfigHelpContext.local_java_application">
 			<launchMode
@@ -1382,8 +1382,8 @@
 				mode="clover"/>
 		</launchConfigurationTabGroup>
         <launchConfigurationTabGroup
-            id="com.atlassian.clover.eclipse.core.launching.JavaAppletTabGroup"
-            class="com.atlassian.clover.eclipse.core.launching.CloverTabGroup"
+            id="org.openclover.eclipse.core.launching.JavaAppletTabGroup"
+            class="org.openclover.eclipse.core.launching.CloverTabGroup"
             type="org.eclipse.jdt.launching.javaApplet"
             helpContextId="org.eclipse.jdt.debug.ui.launchConfigHelpContext.java_applet">
             <launchMode
@@ -1391,8 +1391,8 @@
                 mode="clover"/>
         </launchConfigurationTabGroup>
 		<launchConfigurationTabGroup
-			id="com.atlassian.clover.eclipse.core.launching.JUnitTabGroup"
-			class="com.atlassian.clover.eclipse.core.launching.CloverTabGroup"
+			id="org.openclover.eclipse.core.launching.JUnitTabGroup"
+			class="org.openclover.eclipse.core.launching.CloverTabGroup"
 			type="org.eclipse.jdt.junit.launchconfig"
 			helpContextId="org.eclipse.jdt.junit.junit_tab_group">
 			<launchMode
@@ -1400,32 +1400,32 @@
 				mode="clover"/>
 		</launchConfigurationTabGroup>
 		<launchConfigurationTabGroup
-			id="com.atlassian.clover.eclipse.core.launching.WorkbenchTabGroup"
-			class="com.atlassian.clover.eclipse.core.launching.CloverTabGroup"
+			id="org.openclover.eclipse.core.launching.WorkbenchTabGroup"
+			class="org.openclover.eclipse.core.launching.CloverTabGroup"
 			type="org.eclipse.pde.ui.RuntimeWorkbench">
 			<launchMode
 				description="%launch.tabgroups.workbench.description"
 				mode="clover"/>
 		</launchConfigurationTabGroup>
 		<launchConfigurationTabGroup
-			id="com.atlassian.clover.eclipse.core.launching.JUnitPluginTabGroup"
-			class="com.atlassian.clover.eclipse.core.launching.CloverTabGroup"
+			id="org.openclover.eclipse.core.launching.JUnitPluginTabGroup"
+			class="org.openclover.eclipse.core.launching.CloverTabGroup"
 			type="org.eclipse.pde.ui.JunitLaunchConfig">
 			<launchMode
 				description="%launch.tabgroups.junit.plugin.description"
 				mode="clover"/>
 		</launchConfigurationTabGroup>
 		<launchConfigurationTabGroup
-			id="com.atlassian.clover.eclipse.core.launching.EquinoxTabGroup"
-			class="com.atlassian.clover.eclipse.core.launching.CloverTabGroup"
+			id="org.openclover.eclipse.core.launching.EquinoxTabGroup"
+			class="org.openclover.eclipse.core.launching.CloverTabGroup"
 			type="org.eclipse.pde.ui.EquinoxLauncher">
 			<launchMode
 				description="%launch.tabgroups.equinox.description"
 				mode="clover"/>
 		</launchConfigurationTabGroup>
 		<launchConfigurationTabGroup
-			id="com.atlassian.clover.eclipse.core.launching.TestNGTabGroup"
-			class="com.atlassian.clover.eclipse.core.launching.CloverTabGroup"
+			id="org.openclover.eclipse.core.launching.TestNGTabGroup"
+			class="org.openclover.eclipse.core.launching.CloverTabGroup"
 			type="org.testng.eclipse.launchconfig">
 			<launchMode
 				description="%launch.tabgroups.testng.description"
@@ -1437,7 +1437,7 @@
 	<extension
 		point="org.eclipse.ui.actionSets">
 		<actionSet
-			id="com.atlassian.clover.eclipse.core.launching.CloverActionSet"
+			id="org.openclover.eclipse.core.launching.CloverActionSet"
 			label="%launch.actionset.label"
 			visible="false">
 			<menu
@@ -1449,37 +1449,37 @@
             	<separator name="emptyLaunchGroup"/>
 			</menu>
 			<action
-				class="com.atlassian.clover.eclipse.core.launching.actions.CloverLaunchToolbarAction"
+				class="org.openclover.eclipse.core.launching.actions.CloverLaunchToolbarAction"
 				hoverIcon="icons/etool16/clovered_run.gif"
 				icon="icons/etool16/clovered_run.gif"
-				id="com.atlassian.clover.eclipse.core.launching.actions.CloverLaunchToolbarAction"
+				id="org.openclover.eclipse.core.launching.actions.CloverLaunchToolbarAction"
 				label="%launch.toolbar.label"
 				style="pulldown"
 				toolbarPath="org.eclipse.debug.ui.launchActionSet/debug"/>
 			<action
-				class="com.atlassian.clover.eclipse.core.launching.actions.OpenCloverConfigurationAction"
-				definitionId="com.atlassian.clover.eclipse.core.launching.commands.OpenCloverConfiguration"
-				id="com.atlassian.clover.eclipse.core.launching.actions.OpenCoverageConfiguration"
+				class="org.openclover.eclipse.core.launching.actions.OpenCloverConfigurationAction"
+				definitionId="org.openclover.eclipse.core.launching.commands.OpenCloverConfiguration"
+				id="org.openclover.eclipse.core.launching.actions.OpenCoverageConfiguration"
 				label="%launch.toolbar.open.label"
 				menubarPath="org.eclipse.ui.run/emptyLaunchGroup"/>
 			<action
-				class="com.atlassian.clover.eclipse.core.launching.actions.RunWithCloverAsAction"
-				id="com.atlassian.clover.eclipse.core.launching.actions.RunWithCloverAsAction"
+				class="org.openclover.eclipse.core.launching.actions.RunWithCloverAsAction"
+				id="org.openclover.eclipse.core.launching.actions.RunWithCloverAsAction"
 				label="%launch.toolbar.run.as.label"
 				menubarPath="org.eclipse.ui.run/emptyLaunchGroup"
 				style="pulldown"/>
 			<action
-				class="com.atlassian.clover.eclipse.core.launching.actions.CloverRunHistoryAction"
-				id="com.atlassian.clover.eclipse.core.launching.actions.CloverRunHistoryAction"
+				class="org.openclover.eclipse.core.launching.actions.CloverRunHistoryAction"
+				id="org.openclover.eclipse.core.launching.actions.CloverRunHistoryAction"
 				label="%launch.toolbar.run.history.label"
 				menubarPath="org.eclipse.ui.run/emptyLaunchGroup"
 				style="pulldown"/>
 			<action
-				class="com.atlassian.clover.eclipse.core.launching.actions.LastCloveredLaunchAction"
-				definitionId="com.atlassian.clover.eclipse.core.launching.commands.LastCloveredLaunch"
+				class="org.openclover.eclipse.core.launching.actions.LastCloveredLaunchAction"
+				definitionId="org.openclover.eclipse.core.launching.commands.LastCloveredLaunch"
 				hoverIcon="icons/etool16/clovered_run.gif"
 				icon="icons/etool16/clovered_run.gif"
-				id="com.atlassian.clover.eclipse.core.lauching.actions.LastCloveredLaunchAction"
+				id="org.openclover.eclipse.core.lauching.actions.LastCloveredLaunchAction"
 				label="%launch.toolbar.last.clovered.name"
 				menubarPath="org.eclipse.ui.run/relaunchGroup"/>
 		</actionSet>
@@ -1489,37 +1489,37 @@
 	<extension
 		point="org.eclipse.ui.commands">
 		<command
-			id="com.atlassian.clover.eclipse.core.launching.commands.LastCloveredLaunchShortcut"
+			id="org.openclover.eclipse.core.launching.commands.LastCloveredLaunchShortcut"
 			categoryId="org.eclipse.debug.ui.category.run"
 			description="%launch.commands.last.clovered.description"
 			name="%launch.commands.last.clovered.name"/>
 		<command
-			id="com.atlassian.clover.eclipse.core.launching.commands.OpenCloverLaunchConfigurationShortcut"
+			id="org.openclover.eclipse.core.launching.commands.OpenCloverLaunchConfigurationShortcut"
 			categoryId="org.eclipse.debug.ui.category.run"
 			description="%launch.commands.open.clover.configuration.description"
 			name="%launch.commands.open.clover.configuration.name"/>
 		<command
-			id="com.atlassian.clover.eclipse.core.launching.commands.LocalJavaApplicationShortcut"
+			id="org.openclover.eclipse.core.launching.commands.LocalJavaApplicationShortcut"
 			categoryId="org.eclipse.debug.ui.category.run"
 			description="%launch.commands.local.java.application.shortcut.description"
 			name="%launch.commands.local.java.application.shortcut.name"/>
         <command
-            id="com.atlassian.clover.eclipse.core.launching.commands.LocalJavaAppletShortcut"
+            id="org.openclover.eclipse.core.launching.commands.LocalJavaAppletShortcut"
             categoryId="org.eclipse.debug.ui.category.run"
             description="%launch.commands.local.java.applet.shortcut.description"
             name="%launch.commands.local.java.applet.shortcut.name"/>
 		<command
-			id="com.atlassian.clover.eclipse.core.launching.commands.JUnitShortcut"
+			id="org.openclover.eclipse.core.launching.commands.JUnitShortcut"
 			categoryId="org.eclipse.debug.ui.category.run"
 			description="%launch.commands.junit.shortcut.description"
 			name="%launch.commands.junit.shortcut.name"/>
 		<command
-			id="com.atlassian.clover.eclipse.core.launching.commands.WorkbenchPDEShortcut"
+			id="org.openclover.eclipse.core.launching.commands.WorkbenchPDEShortcut"
 			categoryId="org.eclipse.debug.ui.category.run"
 			description="%launch.commands.workbench.pde.shortcut.description"
 			name="%launch.commands.workbench.pde.shortcut.name"/>
 		<command
-			id="com.atlassian.clover.eclipse.core.launching.commands.JUnitPDEShortcut"
+			id="org.openclover.eclipse.core.launching.commands.JUnitPDEShortcut"
 			categoryId="org.eclipse.debug.ui.category.run"
 			description="%launch.commands.junit.pde.shortcut.description"
 			name="%launch.commands.junit.pde.shortcut.name"/>
@@ -1528,59 +1528,59 @@
     <extension
         point="org.eclipse.jdt.core.compilationParticipant">
         <compilationParticipant
-            class="com.atlassian.clover.eclipse.core.projects.builder.CloverCompilationParticipant"
-            id="com.atlassian.clover.eclipse.core.compilation.participant">
+            class="org.openclover.eclipse.core.projects.builder.CloverCompilationParticipant"
+            id="org.openclover.eclipse.core.compilation.participant">
         </compilationParticipant>
     </extension>
 
     <extension
         point="org.eclipse.ui.perspectiveExtensions">
         <perspectiveExtension targetID="org.eclipse.ui.resourcePerspective">
-            <showInPart id="com.atlassian.clover.eclipse.core.views.CloverView"/>
-            <actionSet id="com.atlassian.clover.eclipse.core.launching.CloverActionSet"/>
+            <showInPart id="org.openclover.eclipse.core.views.CloverView"/>
+            <actionSet id="org.openclover.eclipse.core.launching.CloverActionSet"/>
         </perspectiveExtension>
         <perspectiveExtension targetID="org.eclipse.jdt.ui.JavaPerspective">
-            <showInPart id="com.atlassian.clover.eclipse.core.views.CloverView"/>
-            <view id="com.atlassian.clover.eclipse.core.views.CloverView"
+            <showInPart id="org.openclover.eclipse.core.views.CloverView"/>
+            <view id="org.openclover.eclipse.core.views.CloverView"
                 relative="org.eclipse.ui.views.ProblemView"
                 relationship="stack"/>
-            <view id="com.atlassian.clover.eclipse.core.views.testrunexplorer"
+            <view id="org.openclover.eclipse.core.views.testrunexplorer"
                 relative="org.eclipse.ui.views.ProblemView"
                 relationship="stack"/>
             <view id="org.openclover.eclipse.core.views.testcontributions"
                 relative="org.eclipse.ui.views.ContentOutline"
                 relationship="stack"/>
-            <actionSet id="com.atlassian.clover.eclipse.core.launching.CloverActionSet"/>
+            <actionSet id="org.openclover.eclipse.core.launching.CloverActionSet"/>
         </perspectiveExtension>
         <perspectiveExtension targetID="org.eclipse.jst.j2ee.J2EEPerspective">
-            <showInPart id="com.atlassian.clover.eclipse.core.views.CloverView"/>
-            <view id="com.atlassian.clover.eclipse.core.views.CloverView"
+            <showInPart id="org.openclover.eclipse.core.views.CloverView"/>
+            <view id="org.openclover.eclipse.core.views.CloverView"
                 relative="org.eclipse.ui.views.ProblemView"
                 relationship="stack"/>
-            <view id="com.atlassian.clover.eclipse.core.views.testrunexplorer"
+            <view id="org.openclover.eclipse.core.views.testrunexplorer"
                 relative="org.eclipse.ui.views.ProblemView"
                 relationship="stack"/>
             <view id="org.openclover.eclipse.core.views.testcontributions"
                 relative="org.eclipse.ui.views.ContentOutline"
                 relationship="stack"/>
-            <actionSet id="com.atlassian.clover.eclipse.core.launching.CloverActionSet"/>
+            <actionSet id="org.openclover.eclipse.core.launching.CloverActionSet"/>
         </perspectiveExtension>
         <perspectiveExtension targetID="org.eclipse.pde.ui.PDEPerspective">
-            <showInPart id="com.atlassian.clover.eclipse.core.views.CloverView"/>
-            <view id="com.atlassian.clover.eclipse.core.views.CloverView"
+            <showInPart id="org.openclover.eclipse.core.views.CloverView"/>
+            <view id="org.openclover.eclipse.core.views.CloverView"
                 relative="org.eclipse.ui.views.ProblemView"
                 relationship="stack"/>
-            <view id="com.atlassian.clover.eclipse.core.views.testrunexplorer"
+            <view id="org.openclover.eclipse.core.views.testrunexplorer"
                 relative="org.eclipse.ui.views.ProblemView"
                 relationship="stack"/>
             <view id="org.openclover.eclipse.core.views.testcontributions"
                 relative="org.eclipse.ui.views.ContentOutline"
                 relationship="stack"/>
-            <actionSet id="com.atlassian.clover.eclipse.core.launching.CloverActionSet"/>
+            <actionSet id="org.openclover.eclipse.core.launching.CloverActionSet"/>
         </perspectiveExtension>
         <perspectiveExtension targetID="org.eclipse.debug.ui.DebugPerspective">
-            <showInPart id="com.atlassian.clover.eclipse.core.views.CloverView"/>
-            <actionSet id="com.atlassian.clover.eclipse.core.launching.CloverActionSet"/>
+            <showInPart id="org.openclover.eclipse.core.views.CloverView"/>
+            <actionSet id="org.openclover.eclipse.core.launching.CloverActionSet"/>
         </perspectiveExtension>
     </extension>
 </plugin>

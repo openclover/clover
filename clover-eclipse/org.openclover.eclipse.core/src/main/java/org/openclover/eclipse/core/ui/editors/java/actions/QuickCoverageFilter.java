@@ -1,8 +1,8 @@
-package com.atlassian.clover.eclipse.core.ui.editors.java.actions;
+package org.openclover.eclipse.core.ui.editors.java.actions;
 
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.views.testcontributions.TestCaseInfoLabelProvider;
-import com.atlassian.clover.eclipse.core.views.testcontributions.TestCaseInfoProvider;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.views.testcontributions.TestCaseInfoLabelProvider;
+import org.openclover.eclipse.core.views.testcontributions.TestCaseInfoProvider;
 import org.eclipse.jdt.internal.ui.text.AbstractInformationControl;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
 import org.eclipse.jface.viewers.TreeViewer;

@@ -1,7 +1,7 @@
-package com.atlassian.clover.eclipse.core.views.actions;
+package org.openclover.eclipse.core.views.actions;
 
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.ui.workingset.CloverWorkingSet;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.ui.workingset.CloverWorkingSet;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;

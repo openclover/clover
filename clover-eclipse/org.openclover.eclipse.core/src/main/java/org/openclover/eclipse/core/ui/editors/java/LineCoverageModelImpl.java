@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.ui.editors.java;
+package org.openclover.eclipse.core.ui.editors.java;
 
 import java.util.Arrays;
 import java.util.Set;

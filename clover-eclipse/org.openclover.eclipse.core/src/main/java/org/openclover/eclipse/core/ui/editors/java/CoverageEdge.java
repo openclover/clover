@@ -1,7 +1,7 @@
-package com.atlassian.clover.eclipse.core.ui.editors.java;
+package org.openclover.eclipse.core.ui.editors.java;
 
 import com.atlassian.clover.api.registry.SourceInfo;
-import com.atlassian.clover.eclipse.core.ui.editors.java.annotations.strategies.CoverageAnnotationBuilder;
+import org.openclover.eclipse.core.ui.editors.java.annotations.strategies.CoverageAnnotationBuilder;
 import org.eclipse.jface.text.BadLocationException;
 
 abstract class CoverageEdge {

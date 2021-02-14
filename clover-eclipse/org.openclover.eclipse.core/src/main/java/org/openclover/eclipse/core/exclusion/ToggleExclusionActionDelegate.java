@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.exclusion;
+package org.openclover.eclipse.core.exclusion;
 
 public class ToggleExclusionActionDelegate extends BaseToggleActionDelegate {
 

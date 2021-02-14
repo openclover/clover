@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.views.dashboard;
+package org.openclover.eclipse.core.views.dashboard;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,11 +27,11 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.ViewPart;
 
 import com.atlassian.clover.api.CloverException;
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.projects.CloverProject;
-import com.atlassian.clover.eclipse.core.projects.builder.PathUtils;
-import com.atlassian.clover.eclipse.core.ui.projects.DatabaseChangeEvent;
-import com.atlassian.clover.eclipse.core.ui.projects.DatabaseChangeListener;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.projects.builder.PathUtils;
+import org.openclover.eclipse.core.ui.projects.DatabaseChangeEvent;
+import org.openclover.eclipse.core.ui.projects.DatabaseChangeListener;
 
 public class DashboardView extends ViewPart implements ISelectionListener, DatabaseChangeListener {
 

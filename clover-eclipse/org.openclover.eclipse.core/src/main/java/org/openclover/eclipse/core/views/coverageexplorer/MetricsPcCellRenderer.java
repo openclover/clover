@@ -1,10 +1,10 @@
-package com.atlassian.clover.eclipse.core.views.coverageexplorer;
+package org.openclover.eclipse.core.views.coverageexplorer;
 
-import com.atlassian.clover.eclipse.core.views.ColumnCollectionSettings;
-import com.atlassian.clover.eclipse.core.views.ExplorerViewSettings;
-import com.atlassian.clover.eclipse.core.views.ColumnDefinition;
-import com.atlassian.clover.eclipse.core.views.NumericColumnDefinition;
-import com.atlassian.clover.eclipse.core.views.widgets.HistogramCellRenderer;
+import org.openclover.eclipse.core.views.ColumnCollectionSettings;
+import org.openclover.eclipse.core.views.ExplorerViewSettings;
+import org.openclover.eclipse.core.views.ColumnDefinition;
+import org.openclover.eclipse.core.views.NumericColumnDefinition;
+import org.openclover.eclipse.core.views.widgets.HistogramCellRenderer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;

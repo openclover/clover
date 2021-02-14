@@ -1,6 +1,6 @@
-package com.atlassian.clover.eclipse.core.exclusion
+package org.openclover.eclipse.core.exclusion
 
-import com.atlassian.clover.eclipse.core.projects.settings.source.SourceFolderPattern
+import org.openclover.eclipse.core.projects.settings.source.SourceFolderPattern
 import org.junit.Test
 
 import static org.junit.Assert.assertEquals

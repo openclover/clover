@@ -1,10 +1,10 @@
-package com.atlassian.clover.eclipse.core.views.testrunexplorer.nodes;
+package org.openclover.eclipse.core.views.testrunexplorer.nodes;
 
-import com.atlassian.clover.eclipse.core.views.nodes.NodeHierarchyBuilder;
-import com.atlassian.clover.eclipse.core.views.nodes.NodeRelationship;
-import com.atlassian.clover.eclipse.core.views.nodes.PkgFragRootToPkgFragRelationship;
-import com.atlassian.clover.eclipse.core.views.nodes.ProjToPkgFragRootRelationship;
-import com.atlassian.clover.eclipse.core.views.nodes.WorkspaceToCloveredProjRelationship;
+import org.openclover.eclipse.core.views.nodes.NodeHierarchyBuilder;
+import org.openclover.eclipse.core.views.nodes.NodeRelationship;
+import org.openclover.eclipse.core.views.nodes.PkgFragRootToPkgFragRelationship;
+import org.openclover.eclipse.core.views.nodes.ProjToPkgFragRootRelationship;
+import org.openclover.eclipse.core.views.nodes.WorkspaceToCloveredProjRelationship;
 
 public class PackageRootsHierarchyBuilder extends NodeHierarchyBuilder {
     private TestCaseNodeFactory tcnFactory;

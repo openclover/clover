@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.projects.builder;
+package org.openclover.eclipse.core.projects.builder;
 
 public class FileNameWithEncoding {
     private String fileName;

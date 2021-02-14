@@ -1,14 +1,14 @@
-package com.atlassian.clover.eclipse.core.reports;
+package org.openclover.eclipse.core.reports;
 
-import com.atlassian.clover.eclipse.core.CloverEclipsePluginMessages;
+import org.openclover.eclipse.core.CloverEclipsePluginMessages;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.jface.dialogs.MessageDialog;
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.reports.model.ReportHistoryEntry;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.reports.model.ReportHistoryEntry;
 
 import java.util.List;
 

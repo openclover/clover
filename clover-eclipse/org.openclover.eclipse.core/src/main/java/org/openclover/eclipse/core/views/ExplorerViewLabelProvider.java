@@ -1,7 +1,7 @@
-package com.atlassian.clover.eclipse.core.views;
+package org.openclover.eclipse.core.views;
 
-import com.atlassian.clover.eclipse.core.projects.CloveredProjectLabelProvider;
-import com.atlassian.clover.eclipse.core.projects.model.MetricsScope;
+import org.openclover.eclipse.core.projects.CloveredProjectLabelProvider;
+import org.openclover.eclipse.core.projects.model.MetricsScope;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ITableLabelProvider;

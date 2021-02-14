@@ -1,11 +1,11 @@
-package com.atlassian.clover.eclipse.core.ui.widgets;
+package org.openclover.eclipse.core.ui.widgets;
 
 import com.atlassian.clover.context.ContextStore;
 import com.atlassian.clover.context.ContextSet;
 import com.atlassian.clover.context.MethodRegexpContext;
 import com.atlassian.clover.context.NamedContext;
-import com.atlassian.clover.eclipse.core.CloverEclipsePluginMessages;
-import com.atlassian.clover.eclipse.core.projects.settings.ProjectSettings;
+import org.openclover.eclipse.core.CloverEclipsePluginMessages;
+import org.openclover.eclipse.core.projects.settings.ProjectSettings;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;

@@ -1,12 +1,12 @@
 /**
  *
  */
-package com.atlassian.clover.eclipse.core.views.dashboard;
+package org.openclover.eclipse.core.views.dashboard;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import com.atlassian.clover.eclipse.core.CloverEclipsePluginMessages;
+import org.openclover.eclipse.core.CloverEclipsePluginMessages;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
@@ -33,13 +33,13 @@ import org.eclipse.ui.part.IShowInTarget;
 import org.eclipse.ui.part.ShowInContext;
 import org.eclipse.ui.texteditor.ITextEditor;
 
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.projects.CloverProject;
-import com.atlassian.clover.eclipse.core.ui.editors.cloud.CloudEditor;
-import com.atlassian.clover.eclipse.core.ui.editors.cloud.CloudProjectInput;
-import com.atlassian.clover.eclipse.core.views.actions.GenerateCloudJob;
-import com.atlassian.clover.eclipse.core.views.coverageexplorer.CoverageView;
-import com.atlassian.clover.eclipse.core.views.testrunexplorer.TestRunExplorerView;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.ui.editors.cloud.CloudEditor;
+import org.openclover.eclipse.core.ui.editors.cloud.CloudProjectInput;
+import org.openclover.eclipse.core.views.actions.GenerateCloudJob;
+import org.openclover.eclipse.core.views.coverageexplorer.CoverageView;
+import org.openclover.eclipse.core.views.testrunexplorer.TestRunExplorerView;
 
 final class DashboardLocationListener extends LocationAdapter {
     /**

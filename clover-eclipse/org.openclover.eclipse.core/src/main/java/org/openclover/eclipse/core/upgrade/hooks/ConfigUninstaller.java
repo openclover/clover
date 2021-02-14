@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.upgrade.hooks;
+package org.openclover.eclipse.core.upgrade.hooks;
 
 import com_atlassian_clover.CloverVersionInfo;
 import org.eclipse.swt.widgets.Display;
@@ -19,7 +19,7 @@ import java.util.regex.Matcher;
 import java.net.URL;
 import java.net.MalformedURLException;
 
-import com.atlassian.clover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.CloverPlugin;
 
 import static clover.com.google.common.collect.Lists.newArrayList;
 

@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.views.widgets.columns;
+package org.openclover.eclipse.core.views.widgets.columns;
 
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
@@ -9,9 +9,9 @@ import org.eclipse.jface.resource.CompositeImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.ui.services.IDisposable;
-import com.atlassian.clover.eclipse.core.views.ColumnDefinition;
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.ui.CloverPluginIcons;
+import org.openclover.eclipse.core.views.ColumnDefinition;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.ui.CloverPluginIcons;
 
 public class ColumnDefinitionLabelProvider implements ITableLabelProvider, IDisposable {
     private ResourceManager imageManager;

@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.ui.widgets;
+package org.openclover.eclipse.core.ui.widgets;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;

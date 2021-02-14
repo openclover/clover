@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.views.dashboard
+package org.openclover.eclipse.core.views.dashboard
 
 import clover.com.google.common.io.Files
 import com.atlassian.clover.CloverDatabase

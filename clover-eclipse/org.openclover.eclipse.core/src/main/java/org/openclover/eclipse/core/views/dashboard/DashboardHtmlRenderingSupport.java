@@ -1,10 +1,10 @@
-package com.atlassian.clover.eclipse.core.views.dashboard;
+package org.openclover.eclipse.core.views.dashboard;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
 import com.atlassian.clover.api.registry.ClassInfo;
-import com.atlassian.clover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.CloverPlugin;
 import com.atlassian.clover.registry.entities.FullMethodInfo;
 import com.atlassian.clover.reporters.html.HtmlRenderingSupportImpl;
 

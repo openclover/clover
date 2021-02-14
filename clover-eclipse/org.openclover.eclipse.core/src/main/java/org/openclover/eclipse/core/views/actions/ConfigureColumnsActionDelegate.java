@@ -1,10 +1,10 @@
-package com.atlassian.clover.eclipse.core.views.actions;
+package org.openclover.eclipse.core.views.actions;
 
-import com.atlassian.clover.eclipse.core.views.CustomColumnDefinition;
+import org.openclover.eclipse.core.views.CustomColumnDefinition;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.Dialog;
-import com.atlassian.clover.eclipse.core.views.widgets.columns.ColumnSelectionDialog;
-import com.atlassian.clover.eclipse.core.views.ColumnDefinition;
+import org.openclover.eclipse.core.views.widgets.columns.ColumnSelectionDialog;
+import org.openclover.eclipse.core.views.ColumnDefinition;
 
 import java.util.Set;
 import java.util.List;

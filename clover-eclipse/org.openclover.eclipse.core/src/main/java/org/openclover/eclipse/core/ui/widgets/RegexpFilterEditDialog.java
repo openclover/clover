@@ -1,6 +1,6 @@
-package com.atlassian.clover.eclipse.core.ui.widgets;
+package org.openclover.eclipse.core.ui.widgets;
 
-import com.atlassian.clover.eclipse.core.CloverEclipsePluginMessages;
+import org.openclover.eclipse.core.CloverEclipsePluginMessages;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Text;
@@ -15,8 +15,8 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
 import com.atlassian.clover.context.ContextStore;
-import com.atlassian.clover.eclipse.core.ui.SwtUtils;
-import com.atlassian.clover.eclipse.core.projects.settings.RegexpEntry;
+import org.openclover.eclipse.core.ui.SwtUtils;
+import org.openclover.eclipse.core.projects.settings.RegexpEntry;
 
 import java.util.regex.Pattern;
 

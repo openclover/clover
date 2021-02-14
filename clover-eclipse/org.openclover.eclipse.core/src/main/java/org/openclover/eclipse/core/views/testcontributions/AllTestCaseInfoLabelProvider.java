@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.views.testcontributions;
+package org.openclover.eclipse.core.views.testcontributions;
 
 public class AllTestCaseInfoLabelProvider extends TestCaseInfoLabelProvider {
 

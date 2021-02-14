@@ -1,7 +1,7 @@
-package com.atlassian.clover.eclipse.core.launching.actions;
+package org.openclover.eclipse.core.launching.actions;
 
-import com.atlassian.clover.eclipse.core.CloverEclipsePluginMessages;
-import com.atlassian.clover.eclipse.core.launching.LaunchingConstants;
+import org.openclover.eclipse.core.CloverEclipsePluginMessages;
+import org.openclover.eclipse.core.launching.LaunchingConstants;
 import org.eclipse.debug.ui.actions.RelaunchLastAction;
 
 public class LastCloveredLaunchAction extends RelaunchLastAction {
@@ -27,7 +27,7 @@ public class LastCloveredLaunchAction extends RelaunchLastAction {
 
     @Override
     protected String getCommandId() {
-        return "com.atlassian.clover.eclipse.core.launching.commands.LastCloveredLaunchShortcut";
+        return "org.openclover.eclipse.core.launching.commands.LastCloveredLaunchShortcut";
     }
 
     @Override

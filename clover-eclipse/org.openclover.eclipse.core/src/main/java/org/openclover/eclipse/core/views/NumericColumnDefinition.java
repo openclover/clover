@@ -1,6 +1,6 @@
-package com.atlassian.clover.eclipse.core.views;
+package org.openclover.eclipse.core.views;
 
-import com.atlassian.clover.eclipse.core.projects.model.MetricsScope;
+import org.openclover.eclipse.core.projects.model.MetricsScope;
 
 public interface NumericColumnDefinition {
     public static final Double NOT_AVAILABLE_DOUBLE = -1.0d;

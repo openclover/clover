@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.ui.editors.java.annotations.strategies.space;
+package org.openclover.eclipse.core.ui.editors.java.annotations.strategies.space;
 
 import com.atlassian.clover.api.registry.SourceInfo;
 import com.atlassian.clover.registry.entities.TestCaseInfo;

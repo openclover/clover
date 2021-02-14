@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.projects.settings;
+package org.openclover.eclipse.core.projects.settings;
 
 import clover.com.google.common.collect.Sets;
 import com.atlassian.clover.cfg.instr.InstrumentationConfig;
@@ -11,10 +11,10 @@ import com.atlassian.clover.context.ContextSet;
 import com.atlassian.clover.context.ContextStore;
 import com.atlassian.clover.context.MethodRegexpContext;
 import com.atlassian.clover.context.StatementRegexpContext;
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.projects.CloverProject;
-import com.atlassian.clover.eclipse.core.projects.settings.source.SourceFolderPattern;
-import com.atlassian.clover.eclipse.core.settings.Settings;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.projects.settings.source.SourceFolderPattern;
+import org.openclover.eclipse.core.settings.Settings;
 import com.atlassian.clover.util.FilterUtils;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ProjectScope;

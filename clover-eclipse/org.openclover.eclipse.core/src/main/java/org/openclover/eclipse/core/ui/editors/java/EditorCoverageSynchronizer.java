@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.ui.editors.java;
+package org.openclover.eclipse.core.ui.editors.java;
 
 import org.eclipse.ui.IWindowListener;
 import org.eclipse.ui.IPartListener2;
@@ -14,9 +14,9 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Status;
-import com.atlassian.clover.eclipse.core.settings.InstallationSettings;
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.SystemJob;
+import org.openclover.eclipse.core.settings.InstallationSettings;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.SystemJob;
 
 import java.util.List;
 

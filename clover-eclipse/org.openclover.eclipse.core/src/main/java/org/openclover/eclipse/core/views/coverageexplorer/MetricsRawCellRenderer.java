@@ -1,10 +1,10 @@
-package com.atlassian.clover.eclipse.core.views.coverageexplorer;
+package org.openclover.eclipse.core.views.coverageexplorer;
 
-import com.atlassian.clover.eclipse.core.views.widgets.SelectionAwareCellRenderer;
-import com.atlassian.clover.eclipse.core.views.ExplorerViewSettings;
-import com.atlassian.clover.eclipse.core.views.ColumnCollectionSettings;
-import com.atlassian.clover.eclipse.core.views.NumericColumnDefinition;
-import com.atlassian.clover.eclipse.core.views.ColumnDefinition;
+import org.openclover.eclipse.core.views.widgets.SelectionAwareCellRenderer;
+import org.openclover.eclipse.core.views.ExplorerViewSettings;
+import org.openclover.eclipse.core.views.ColumnCollectionSettings;
+import org.openclover.eclipse.core.views.NumericColumnDefinition;
+import org.openclover.eclipse.core.views.ColumnDefinition;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.Widget;

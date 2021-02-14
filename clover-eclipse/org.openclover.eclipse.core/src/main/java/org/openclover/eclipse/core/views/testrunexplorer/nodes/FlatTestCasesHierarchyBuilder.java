@@ -1,8 +1,8 @@
-package com.atlassian.clover.eclipse.core.views.testrunexplorer.nodes;
+package org.openclover.eclipse.core.views.testrunexplorer.nodes;
 
-import com.atlassian.clover.eclipse.core.views.nodes.NodeHierarchyBuilder;
-import com.atlassian.clover.eclipse.core.views.nodes.NodeRelationship;
-import com.atlassian.clover.eclipse.core.views.nodes.WorkspaceToCloveredProjRelationship;
+import org.openclover.eclipse.core.views.nodes.NodeHierarchyBuilder;
+import org.openclover.eclipse.core.views.nodes.NodeRelationship;
+import org.openclover.eclipse.core.views.nodes.WorkspaceToCloveredProjRelationship;
 
 public class FlatTestCasesHierarchyBuilder extends NodeHierarchyBuilder {
     private TestCaseNodeFactory tcnFactory;

@@ -1,13 +1,13 @@
-package com.atlassian.clover.eclipse.core.settings;
+package org.openclover.eclipse.core.settings;
 
-import com.atlassian.clover.eclipse.core.CloverEclipsePluginMessages;
+import org.openclover.eclipse.core.CloverEclipsePluginMessages;
 import org.eclipse.jface.preference.FieldEditor;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.SWT;
-import com.atlassian.clover.eclipse.core.ui.SwtUtils;
+import org.openclover.eclipse.core.ui.SwtUtils;
 
 public class RefreshFieldEditor extends FieldEditor {
 

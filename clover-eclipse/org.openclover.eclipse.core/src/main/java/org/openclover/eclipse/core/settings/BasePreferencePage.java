@@ -1,8 +1,8 @@
-package com.atlassian.clover.eclipse.core.settings;
+package org.openclover.eclipse.core.settings;
 
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
-import com.atlassian.clover.eclipse.core.ui.CharDimensionConverter;
+import org.openclover.eclipse.core.ui.CharDimensionConverter;
 
 public abstract class BasePreferencePage
     extends org.eclipse.jface.preference.PreferencePage

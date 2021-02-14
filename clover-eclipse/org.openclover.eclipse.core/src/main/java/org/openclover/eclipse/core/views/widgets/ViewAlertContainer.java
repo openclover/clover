@@ -1,16 +1,16 @@
-package com.atlassian.clover.eclipse.core.views.widgets;
+package org.openclover.eclipse.core.views.widgets;
 
 import com.atlassian.clover.CloverLicenseInfo;
 import com.atlassian.clover.CloverStartup;
-import com.atlassian.clover.eclipse.core.ui.BrowserUtils;
-import com.atlassian.clover.eclipse.core.ui.CloverPluginIcons;
-import com.atlassian.clover.eclipse.core.ui.GLH;
-import com.atlassian.clover.eclipse.core.ui.SwtUtils;
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.licensing.LicenseUtils;
-import com.atlassian.clover.eclipse.core.ui.projects.DatabaseChangeEvent;
-import com.atlassian.clover.eclipse.core.ui.projects.DatabaseChangeListener;
-import com.atlassian.clover.eclipse.core.upgrade.hooks.ConfigUninstaller;
+import org.openclover.eclipse.core.ui.BrowserUtils;
+import org.openclover.eclipse.core.ui.CloverPluginIcons;
+import org.openclover.eclipse.core.ui.GLH;
+import org.openclover.eclipse.core.ui.SwtUtils;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.licensing.LicenseUtils;
+import org.openclover.eclipse.core.ui.projects.DatabaseChangeEvent;
+import org.openclover.eclipse.core.ui.projects.DatabaseChangeListener;
+import org.openclover.eclipse.core.upgrade.hooks.ConfigUninstaller;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.core.runtime.CoreException;

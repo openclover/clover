@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.views.testrunexplorer.nodes;
+package org.openclover.eclipse.core.views.testrunexplorer.nodes;
 
 import org.eclipse.jdt.core.IMethod;
 import com.atlassian.clover.registry.CoverageDataProvider;

@@ -1,9 +1,9 @@
-package com.atlassian.clover.eclipse.core.views;
+package org.openclover.eclipse.core.views;
 
 import org.eclipse.ui.IPersistable;
 import org.eclipse.ui.IMemento;
-import com.atlassian.clover.eclipse.core.projects.model.MetricsScope;
-import com.atlassian.clover.eclipse.core.views.nodes.NodeHierarchyBuilder;
+import org.openclover.eclipse.core.projects.model.MetricsScope;
+import org.openclover.eclipse.core.views.nodes.NodeHierarchyBuilder;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.projects.settings.source;
+package org.openclover.eclipse.core.projects.settings.source;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;

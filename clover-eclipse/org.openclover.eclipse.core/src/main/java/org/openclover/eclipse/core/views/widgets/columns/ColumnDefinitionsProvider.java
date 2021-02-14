@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.views.widgets.columns;
+package org.openclover.eclipse.core.views.widgets.columns;
 
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;

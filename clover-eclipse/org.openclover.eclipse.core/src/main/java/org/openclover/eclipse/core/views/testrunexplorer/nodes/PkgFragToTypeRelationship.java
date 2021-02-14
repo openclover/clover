@@ -1,9 +1,9 @@
-package com.atlassian.clover.eclipse.core.views.testrunexplorer.nodes;
+package org.openclover.eclipse.core.views.testrunexplorer.nodes;
 
-import com.atlassian.clover.eclipse.core.views.nodes.NodeRelationship;
-import com.atlassian.clover.eclipse.core.views.nodes.NodeRelationshipFilter;
-import com.atlassian.clover.eclipse.core.views.nodes.PackageFragmentNode;
-import com.atlassian.clover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.views.nodes.NodeRelationship;
+import org.openclover.eclipse.core.views.nodes.NodeRelationshipFilter;
+import org.openclover.eclipse.core.views.nodes.PackageFragmentNode;
+import org.openclover.eclipse.core.CloverPlugin;
 
 import java.util.List;
 import java.util.Set;

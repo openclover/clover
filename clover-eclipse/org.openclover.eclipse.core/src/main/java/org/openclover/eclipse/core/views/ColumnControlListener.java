@@ -1,9 +1,9 @@
-package com.atlassian.clover.eclipse.core.views;
+package org.openclover.eclipse.core.views;
 
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.SelectionEvent;
-import com.atlassian.clover.eclipse.core.views.widgets.ColumnController;
+import org.openclover.eclipse.core.views.widgets.ColumnController;
 
 public abstract class ColumnControlListener extends SelectionAdapter implements ControlListener {
     protected final ColumnCollectionSettings settings;

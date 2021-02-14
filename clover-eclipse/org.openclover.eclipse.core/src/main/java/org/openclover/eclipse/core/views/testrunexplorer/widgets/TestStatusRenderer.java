@@ -1,10 +1,10 @@
-package com.atlassian.clover.eclipse.core.views.testrunexplorer.widgets;
+package org.openclover.eclipse.core.views.testrunexplorer.widgets;
 
-import com.atlassian.clover.eclipse.core.ui.SwtUtils;
-import com.atlassian.clover.eclipse.core.views.ColumnDefinition;
-import com.atlassian.clover.eclipse.core.views.testrunexplorer.nodes.TestCaseNode;
-import com.atlassian.clover.eclipse.core.views.testrunexplorer.TestRunExplorerViewSettings;
-import com.atlassian.clover.eclipse.core.views.widgets.BaseListeningRenderer;
+import org.openclover.eclipse.core.ui.SwtUtils;
+import org.openclover.eclipse.core.views.ColumnDefinition;
+import org.openclover.eclipse.core.views.testrunexplorer.nodes.TestCaseNode;
+import org.openclover.eclipse.core.views.testrunexplorer.TestRunExplorerViewSettings;
+import org.openclover.eclipse.core.views.widgets.BaseListeningRenderer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;

@@ -1,6 +1,6 @@
-package com.atlassian.clover.eclipse.core.reports;
+package org.openclover.eclipse.core.reports;
 
-import com.atlassian.clover.eclipse.core.licensing.LicenseUtils;
+import org.openclover.eclipse.core.licensing.LicenseUtils;
 import com.atlassian.clover.CloverStartup;
 import com.atlassian.clover.Logger;
 

@@ -1,6 +1,6 @@
-package com.atlassian.clover.eclipse.core.views.coverageexplorer;
+package org.openclover.eclipse.core.views.coverageexplorer;
 
-import com.atlassian.clover.eclipse.core.views.ExplorerViewLabelProvider;
+import org.openclover.eclipse.core.views.ExplorerViewLabelProvider;
 
 public class CoverageViewLabelProvider extends ExplorerViewLabelProvider {
     public CoverageViewLabelProvider(final CoverageViewSettings settings) {

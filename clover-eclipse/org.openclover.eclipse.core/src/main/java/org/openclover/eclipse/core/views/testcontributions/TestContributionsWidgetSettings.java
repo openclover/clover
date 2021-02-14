@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.views.testcontributions;
+package org.openclover.eclipse.core.views.testcontributions;
 
 import org.eclipse.ui.IPersistable;
 import org.eclipse.ui.IMemento;

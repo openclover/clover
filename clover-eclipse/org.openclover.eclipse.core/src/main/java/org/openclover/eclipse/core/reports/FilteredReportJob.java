@@ -1,6 +1,6 @@
-package com.atlassian.clover.eclipse.core.reports;
+package org.openclover.eclipse.core.reports;
 
-import com.atlassian.clover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.projects.CloverProject;
 import com.atlassian.clover.reporters.Current;
 import com.atlassian.clover.reporters.CloverReporter;
 import com.atlassian.clover.reporters.html.HtmlReporter;

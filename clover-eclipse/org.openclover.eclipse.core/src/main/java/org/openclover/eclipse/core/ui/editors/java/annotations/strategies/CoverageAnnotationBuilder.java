@@ -1,7 +1,7 @@
-package com.atlassian.clover.eclipse.core.ui.editors.java.annotations.strategies;
+package org.openclover.eclipse.core.ui.editors.java.annotations.strategies;
 
 import com.atlassian.clover.api.registry.SourceInfo;
-import com.atlassian.clover.eclipse.core.ui.editors.java.CoverageAnnotation;
+import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotation;
 import org.eclipse.jface.text.BadLocationException;
 
 import java.util.SortedSet;

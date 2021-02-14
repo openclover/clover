@@ -1,6 +1,6 @@
-package com.atlassian.clover.eclipse.core.settings;
+package org.openclover.eclipse.core.settings;
 
-import com.atlassian.clover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.CloverPlugin;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;

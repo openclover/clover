@@ -1,7 +1,7 @@
-package com.atlassian.clover.eclipse.core.views;
+package org.openclover.eclipse.core.views;
 
-import com.atlassian.clover.eclipse.core.views.nodes.NodeRelationshipFilter;
-import com.atlassian.clover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.views.nodes.NodeRelationshipFilter;
+import org.openclover.eclipse.core.CloverPlugin;
 
 import java.util.Collection;
 import java.util.Iterator;

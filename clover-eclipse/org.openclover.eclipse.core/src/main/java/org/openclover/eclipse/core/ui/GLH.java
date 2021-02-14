@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.ui;
+package org.openclover.eclipse.core.ui;
 
 import org.eclipse.swt.layout.GridLayout;
 

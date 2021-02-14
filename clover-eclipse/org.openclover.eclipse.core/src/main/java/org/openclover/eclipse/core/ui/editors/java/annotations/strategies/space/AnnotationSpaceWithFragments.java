@@ -1,9 +1,9 @@
-package com.atlassian.clover.eclipse.core.ui.editors.java.annotations.strategies.space;
+package org.openclover.eclipse.core.ui.editors.java.annotations.strategies.space;
 
 import com.atlassian.clover.api.registry.SourceInfo;
 import com.atlassian.clover.registry.entities.TestCaseInfo;
 import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.eclipse.core.ui.editors.java.CoverageAnnotation;
+import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotation;
 
 import java.util.List;
 import java.util.SortedSet;

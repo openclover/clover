@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.projects.model;
+package org.openclover.eclipse.core.projects.model;
 
 import com.atlassian.clover.MaskedBitSetCoverageProvider;
 import com.atlassian.clover.CloverDatabase;
@@ -9,7 +9,7 @@ import com.atlassian.clover.api.registry.MethodSignatureInfo;
 import com.atlassian.clover.api.registry.ParameterInfo;
 import com.atlassian.clover.registry.entities.FullClassInfo;
 import com.atlassian.clover.registry.entities.FullMethodInfo;
-import com.atlassian.clover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.projects.CloverProject;
 import com.atlassian.clover.registry.entities.BaseClassInfo;
 import com.atlassian.clover.registry.entities.BaseFileInfo;
 import com.atlassian.clover.registry.entities.BasePackageInfo;

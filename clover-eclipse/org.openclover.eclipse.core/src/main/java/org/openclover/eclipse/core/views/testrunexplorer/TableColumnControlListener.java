@@ -1,9 +1,9 @@
-package com.atlassian.clover.eclipse.core.views.testrunexplorer;
+package org.openclover.eclipse.core.views.testrunexplorer;
 
-import com.atlassian.clover.eclipse.core.views.ColumnControlListener;
-import com.atlassian.clover.eclipse.core.views.ColumnCollectionSettings;
-import com.atlassian.clover.eclipse.core.views.ColumnDefinition;
-import com.atlassian.clover.eclipse.core.views.widgets.ColumnController;
+import org.openclover.eclipse.core.views.ColumnControlListener;
+import org.openclover.eclipse.core.views.ColumnCollectionSettings;
+import org.openclover.eclipse.core.views.ColumnDefinition;
+import org.openclover.eclipse.core.views.widgets.ColumnController;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.widgets.TableColumn;
 

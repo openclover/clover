@@ -1,12 +1,12 @@
-package com.atlassian.clover.eclipse.core.projects.builder;
+package org.openclover.eclipse.core.projects.builder;
 
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.projects.CloverProject;
-import com.atlassian.clover.eclipse.core.projects.model.CoverageFilesUtils;
-import com.atlassian.clover.eclipse.core.projects.model.LoadedDatabaseModel;
-import com.atlassian.clover.eclipse.core.projects.model.CoverageModelChangeEvent;
-import com.atlassian.clover.eclipse.core.projects.model.DuringFullBuildDatabaseModel;
-import com.atlassian.clover.eclipse.core.ui.widgets.MessageDialogWithCheckbox;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.projects.model.CoverageFilesUtils;
+import org.openclover.eclipse.core.projects.model.LoadedDatabaseModel;
+import org.openclover.eclipse.core.projects.model.CoverageModelChangeEvent;
+import org.openclover.eclipse.core.projects.model.DuringFullBuildDatabaseModel;
+import org.openclover.eclipse.core.ui.widgets.MessageDialogWithCheckbox;
 import com.atlassian.clover.util.FileUtils;
 import com.atlassian.clover.CloverDatabase;
 import com.atlassian.clover.registry.Clover2Registry;

@@ -1,7 +1,7 @@
-package com.atlassian.clover.eclipse.core.ui.editors.cloud;
+package org.openclover.eclipse.core.ui.editors.cloud;
 
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.views.actions.GenerateCloudJob;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.views.actions.GenerateCloudJob;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;

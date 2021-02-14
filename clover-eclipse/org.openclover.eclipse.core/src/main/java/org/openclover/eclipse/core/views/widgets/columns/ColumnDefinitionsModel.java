@@ -1,7 +1,7 @@
-package com.atlassian.clover.eclipse.core.views.widgets.columns;
+package org.openclover.eclipse.core.views.widgets.columns;
 
-import com.atlassian.clover.eclipse.core.views.ColumnDefinition;
-import com.atlassian.clover.eclipse.core.views.CustomColumnDefinition;
+import org.openclover.eclipse.core.views.ColumnDefinition;
+import org.openclover.eclipse.core.views.CustomColumnDefinition;
 
 import java.util.LinkedHashSet;
 import java.util.Arrays;

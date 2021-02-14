@@ -1,7 +1,7 @@
-package com.atlassian.clover.eclipse.core.views.testcontributions;
+package org.openclover.eclipse.core.views.testcontributions;
 
-import com.atlassian.clover.eclipse.core.projects.model.DatabaseModel;
-import com.atlassian.clover.eclipse.core.ui.editors.java.CoverageAnnotationModel;
+import org.openclover.eclipse.core.projects.model.DatabaseModel;
+import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotationModel;
 
 public class CoverageSelection {
     private int offset;

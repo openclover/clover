@@ -1,13 +1,13 @@
-package com.atlassian.clover.eclipse.core.ui.widgets;
+package org.openclover.eclipse.core.ui.widgets;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import com.atlassian.clover.eclipse.core.projects.settings.ProjectSettings;
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.settings.InstallationSettings;
+import org.openclover.eclipse.core.projects.settings.ProjectSettings;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.settings.InstallationSettings;
 
 public class ContextFilterModificationWidget extends Composite {
     private BuiltinContextFilterSelectionWidget blockFilter;

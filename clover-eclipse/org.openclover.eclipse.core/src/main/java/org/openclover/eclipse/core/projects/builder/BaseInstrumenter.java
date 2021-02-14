@@ -1,13 +1,13 @@
-package com.atlassian.clover.eclipse.core.projects.builder;
+package org.openclover.eclipse.core.projects.builder;
 
 import com.atlassian.clover.api.instrumentation.ConcurrentInstrumentationException;
 import com.atlassian.clover.api.instrumentation.InstrumentationSession;
 import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig;
 import com.atlassian.clover.instr.java.Instrumenter;
 import com.atlassian.clover.api.CloverException;
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.exclusion.ExclusionFilter;
-import com.atlassian.clover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.exclusion.ExclusionFilter;
+import org.openclover.eclipse.core.projects.CloverProject;
 import com.atlassian.clover.registry.Clover2Registry;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;

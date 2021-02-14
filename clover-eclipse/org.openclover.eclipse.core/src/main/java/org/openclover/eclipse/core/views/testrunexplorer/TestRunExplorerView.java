@@ -1,24 +1,24 @@
-package com.atlassian.clover.eclipse.core.views.testrunexplorer;
+package org.openclover.eclipse.core.views.testrunexplorer;
 
 
-import com.atlassian.clover.eclipse.core.CloverEclipsePluginMessages;
-import com.atlassian.clover.eclipse.core.projects.model.MetricsScope;
-import com.atlassian.clover.eclipse.core.views.BuiltinColumnDefinition;
-import com.atlassian.clover.eclipse.core.views.CloveredWorkspaceProvider;
-import com.atlassian.clover.eclipse.core.views.ColumnBuilder;
-import com.atlassian.clover.eclipse.core.views.ColumnDefinition;
-import com.atlassian.clover.eclipse.core.views.ExplorerView;
-import com.atlassian.clover.eclipse.core.views.ExplorerViewLabelProvider;
-import com.atlassian.clover.eclipse.core.views.ExplorerViewSettings;
-import com.atlassian.clover.eclipse.core.views.TreeColumnControlListener;
-import com.atlassian.clover.eclipse.core.views.testrunexplorer.nodes.CoverageContributionNode;
-import com.atlassian.clover.eclipse.core.views.testrunexplorer.nodes.TestCaseNode;
-import com.atlassian.clover.eclipse.core.views.testrunexplorer.nodes.TestCaseNodeFactory;
-import com.atlassian.clover.eclipse.core.views.testrunexplorer.widgets.TestStatusRenderer;
-import com.atlassian.clover.eclipse.core.views.testrunexplorer.widgets.CoverageContributionCellRenderer;
-import com.atlassian.clover.eclipse.core.views.widgets.ColumnController;
-import com.atlassian.clover.eclipse.core.views.widgets.ListeningRenderer;
-import com.atlassian.clover.eclipse.core.views.widgets.SelectionAwareCellRenderer;
+import org.openclover.eclipse.core.CloverEclipsePluginMessages;
+import org.openclover.eclipse.core.projects.model.MetricsScope;
+import org.openclover.eclipse.core.views.BuiltinColumnDefinition;
+import org.openclover.eclipse.core.views.CloveredWorkspaceProvider;
+import org.openclover.eclipse.core.views.ColumnBuilder;
+import org.openclover.eclipse.core.views.ColumnDefinition;
+import org.openclover.eclipse.core.views.ExplorerView;
+import org.openclover.eclipse.core.views.ExplorerViewLabelProvider;
+import org.openclover.eclipse.core.views.ExplorerViewSettings;
+import org.openclover.eclipse.core.views.TreeColumnControlListener;
+import org.openclover.eclipse.core.views.testrunexplorer.nodes.CoverageContributionNode;
+import org.openclover.eclipse.core.views.testrunexplorer.nodes.TestCaseNode;
+import org.openclover.eclipse.core.views.testrunexplorer.nodes.TestCaseNodeFactory;
+import org.openclover.eclipse.core.views.testrunexplorer.widgets.TestStatusRenderer;
+import org.openclover.eclipse.core.views.testrunexplorer.widgets.CoverageContributionCellRenderer;
+import org.openclover.eclipse.core.views.widgets.ColumnController;
+import org.openclover.eclipse.core.views.widgets.ListeningRenderer;
+import org.openclover.eclipse.core.views.widgets.SelectionAwareCellRenderer;
 import com.atlassian.clover.registry.entities.TestCaseInfo;
 import com.atlassian.clover.util.MetricsFormatUtils;
 import org.eclipse.core.resources.IProject;
@@ -59,7 +59,7 @@ import static clover.com.google.common.collect.Maps.newLinkedHashMap;
 
 
 public class TestRunExplorerView extends ExplorerView {
-    public static final String ID = "com.atlassian.clover.eclipse.core.views.testrunexplorer";
+    public static final String ID = "org.openclover.eclipse.core.views.testrunexplorer";
     //Not threadsafe but will only be ever accessed in the UI thread
     private static DateFormat TIME_FORMAT = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
 

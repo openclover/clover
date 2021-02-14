@@ -1,6 +1,6 @@
-package com.atlassian.clover.eclipse.core.views.nodes;
+package org.openclover.eclipse.core.views.nodes;
 
-import com.atlassian.clover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.CloverPlugin;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IPackageFragment;

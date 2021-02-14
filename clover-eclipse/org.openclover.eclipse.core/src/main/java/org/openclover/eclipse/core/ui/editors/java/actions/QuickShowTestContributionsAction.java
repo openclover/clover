@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.ui.editors.java.actions;
+package org.openclover.eclipse.core.ui.editors.java.actions;
 
 import org.eclipse.ui.IEditorActionDelegate;
 import org.eclipse.ui.IEditorPart;
@@ -6,7 +6,7 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jdt.internal.ui.javaeditor.CompilationUnitEditor;
 import org.eclipse.swt.SWT;
-import com.atlassian.clover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.CloverPlugin;
 
 public class QuickShowTestContributionsAction implements IEditorActionDelegate {
     private IEditorPart editorPart;

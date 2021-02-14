@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.views;
+package org.openclover.eclipse.core.views;
 
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Table;

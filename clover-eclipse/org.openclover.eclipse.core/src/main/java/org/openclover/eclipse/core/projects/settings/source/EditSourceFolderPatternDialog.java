@@ -1,6 +1,6 @@
-package com.atlassian.clover.eclipse.core.projects.settings.source;
+package org.openclover.eclipse.core.projects.settings.source;
 
-import com.atlassian.clover.eclipse.core.CloverEclipsePluginMessages;
+import org.openclover.eclipse.core.CloverEclipsePluginMessages;
 import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;

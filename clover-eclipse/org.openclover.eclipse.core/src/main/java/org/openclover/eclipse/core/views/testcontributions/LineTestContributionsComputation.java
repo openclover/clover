@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.views.testcontributions;
+package org.openclover.eclipse.core.views.testcontributions;
 
 import com.atlassian.clover.registry.entities.FullElementInfo;
 import org.eclipse.core.runtime.IStatus;
@@ -14,11 +14,11 @@ import java.util.Set;
 import java.util.Collections;
 import java.util.Iterator;
 
-import com.atlassian.clover.eclipse.core.ui.editors.java.CoverageAnnotation;
-import com.atlassian.clover.eclipse.core.ui.editors.java.CoverageAnnotationModel;
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.projects.model.DatabaseModel;
-import com.atlassian.clover.eclipse.core.projects.model.MetricsScope;
+import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotation;
+import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotationModel;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.model.DatabaseModel;
+import org.openclover.eclipse.core.projects.model.MetricsScope;
 import com.atlassian.clover.registry.entities.TestCaseInfo;
 import com.atlassian.clover.CloverDatabase;
 

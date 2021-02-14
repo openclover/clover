@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.views.nodes;
+package org.openclover.eclipse.core.views.nodes;
 
 public abstract class NodeRelationship {
     public abstract boolean includes(Object object);

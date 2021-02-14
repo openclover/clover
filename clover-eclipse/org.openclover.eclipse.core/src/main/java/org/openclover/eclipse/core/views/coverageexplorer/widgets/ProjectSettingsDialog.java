@@ -1,9 +1,9 @@
-package com.atlassian.clover.eclipse.core.views.coverageexplorer.widgets;
+package org.openclover.eclipse.core.views.coverageexplorer.widgets;
 
 import com.atlassian.clover.cfg.instr.InstrumentationLevel;
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.projects.CloverProject;
-import com.atlassian.clover.eclipse.core.ui.SwtUtils;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.ui.SwtUtils;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.PopupDialog;

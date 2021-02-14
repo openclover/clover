@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.views.widgets.columns;
+package org.openclover.eclipse.core.views.widgets.columns;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -18,9 +18,9 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
-import com.atlassian.clover.eclipse.core.views.ColumnDefinition;
-import com.atlassian.clover.eclipse.core.views.CustomColumnDefinition;
-import com.atlassian.clover.eclipse.core.ui.SwtUtils;
+import org.openclover.eclipse.core.views.ColumnDefinition;
+import org.openclover.eclipse.core.views.CustomColumnDefinition;
+import org.openclover.eclipse.core.ui.SwtUtils;
 
 import java.util.Set;
 import java.util.List;

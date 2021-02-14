@@ -1,14 +1,14 @@
-package com.atlassian.clover.eclipse.core.views.testrunexplorer;
+package org.openclover.eclipse.core.views.testrunexplorer;
 
 import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.jface.viewers.Viewer;
 
-import com.atlassian.clover.eclipse.core.views.testrunexplorer.nodes.CoverageContributionNode;
-import com.atlassian.clover.eclipse.core.views.ColumnCollectionSettings;
-import com.atlassian.clover.eclipse.core.views.ExplorerViewComparator;
-import com.atlassian.clover.eclipse.core.views.ColumnDefinition;
-import com.atlassian.clover.eclipse.core.views.CustomColumnDefinition;
-import com.atlassian.clover.eclipse.core.projects.model.MetricsScope;
+import org.openclover.eclipse.core.views.testrunexplorer.nodes.CoverageContributionNode;
+import org.openclover.eclipse.core.views.ColumnCollectionSettings;
+import org.openclover.eclipse.core.views.ExplorerViewComparator;
+import org.openclover.eclipse.core.views.ColumnDefinition;
+import org.openclover.eclipse.core.views.CustomColumnDefinition;
+import org.openclover.eclipse.core.projects.model.MetricsScope;
 
 public abstract class ClassesTestedTreeComparator extends ExplorerViewComparator {
     public static ViewerComparator getFor(final ColumnCollectionSettings settings) {

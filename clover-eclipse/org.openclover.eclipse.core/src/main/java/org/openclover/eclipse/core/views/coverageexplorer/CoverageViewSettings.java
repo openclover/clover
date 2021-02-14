@@ -1,13 +1,13 @@
-package com.atlassian.clover.eclipse.core.views.coverageexplorer;
+package org.openclover.eclipse.core.views.coverageexplorer;
 
 import org.eclipse.ui.IMemento;
-import com.atlassian.clover.eclipse.core.projects.model.MetricsScope;
-import com.atlassian.clover.eclipse.core.views.ExplorerViewSettings;
-import com.atlassian.clover.eclipse.core.views.nodes.NodeHierarchyBuilder;
-import com.atlassian.clover.eclipse.core.views.coverageexplorer.nodes.FlatPackagesHierarchyBuilder;
-import com.atlassian.clover.eclipse.core.views.coverageexplorer.nodes.PackageRootsFlatPackagesHierarchyBuilder;
-import com.atlassian.clover.eclipse.core.views.coverageexplorer.nodes.TreePackagesHierarchyBuilder;
-import com.atlassian.clover.eclipse.core.views.coverageexplorer.nodes.PackageRootsTreePackagesHierarchyBuilder;
+import org.openclover.eclipse.core.projects.model.MetricsScope;
+import org.openclover.eclipse.core.views.ExplorerViewSettings;
+import org.openclover.eclipse.core.views.nodes.NodeHierarchyBuilder;
+import org.openclover.eclipse.core.views.coverageexplorer.nodes.FlatPackagesHierarchyBuilder;
+import org.openclover.eclipse.core.views.coverageexplorer.nodes.PackageRootsFlatPackagesHierarchyBuilder;
+import org.openclover.eclipse.core.views.coverageexplorer.nodes.TreePackagesHierarchyBuilder;
+import org.openclover.eclipse.core.views.coverageexplorer.nodes.PackageRootsTreePackagesHierarchyBuilder;
 
 import java.util.List;
 

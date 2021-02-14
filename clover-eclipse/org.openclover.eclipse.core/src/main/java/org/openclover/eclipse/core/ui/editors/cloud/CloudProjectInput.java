@@ -1,7 +1,7 @@
-package com.atlassian.clover.eclipse.core.ui.editors.cloud;
+package org.openclover.eclipse.core.ui.editors.cloud;
 
-import com.atlassian.clover.eclipse.core.ui.editors.CloverProjectInput;
-import com.atlassian.clover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.ui.editors.CloverProjectInput;
+import org.openclover.eclipse.core.projects.CloverProject;
 
 /**
  * We subclass CloverProjectInput in this trivial fashion to

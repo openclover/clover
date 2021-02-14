@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.views.nodes;
+package org.openclover.eclipse.core.views.nodes;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.resources.IResource;

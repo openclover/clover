@@ -1,6 +1,6 @@
-package com.atlassian.clover.eclipse.core.views.coverageexplorer.widgets;
+package org.openclover.eclipse.core.views.coverageexplorer.widgets;
 
-import com.atlassian.clover.eclipse.core.CloverEclipsePluginMessages;
+import org.openclover.eclipse.core.CloverEclipsePluginMessages;
 import org.eclipse.jface.dialogs.PopupDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Control;
@@ -14,10 +14,10 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
-import com.atlassian.clover.eclipse.core.ui.SwtUtils;
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.projects.CloverProject;
-import com.atlassian.clover.eclipse.core.settings.InstallationSettings;
+import org.openclover.eclipse.core.ui.SwtUtils;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.settings.InstallationSettings;
 
 public class InstallationSettingsDialog extends PopupDialog {
     private final Point location;

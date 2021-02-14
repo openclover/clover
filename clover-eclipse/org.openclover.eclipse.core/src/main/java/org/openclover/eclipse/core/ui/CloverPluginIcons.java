@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.ui;
+package org.openclover.eclipse.core.ui;
 
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.jface.resource.ResourceManager;
@@ -8,7 +8,7 @@ import org.osgi.framework.Bundle;
 
 import java.net.URL;
 
-import com.atlassian.clover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.CloverPlugin;
 
 public final class CloverPluginIcons {
     public static final String PROJECT_REFRESH_ICON = "icons/clcl16/project_refresh.gif";

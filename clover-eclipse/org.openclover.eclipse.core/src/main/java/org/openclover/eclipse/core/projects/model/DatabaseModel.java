@@ -1,8 +1,8 @@
-package com.atlassian.clover.eclipse.core.projects.model;
+package org.openclover.eclipse.core.projects.model;
 
 import com.atlassian.clover.CloverDatabase;
 import com.atlassian.clover.registry.entities.FullProjectInfo;
-import com.atlassian.clover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.projects.CloverProject;
 import com.atlassian.clover.registry.entities.BaseClassInfo;
 import com.atlassian.clover.registry.entities.BaseFileInfo;
 import com.atlassian.clover.api.registry.HasMetrics;

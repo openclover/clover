@@ -1,8 +1,8 @@
-package com.atlassian.clover.eclipse.core.views.testrunexplorer;
+package org.openclover.eclipse.core.views.testrunexplorer;
 
-import com.atlassian.clover.eclipse.core.views.ExplorerViewComparator;
-import com.atlassian.clover.eclipse.core.views.ColumnDefinition;
-import com.atlassian.clover.eclipse.core.views.testrunexplorer.nodes.TestCaseNode;
+import org.openclover.eclipse.core.views.ExplorerViewComparator;
+import org.openclover.eclipse.core.views.ColumnDefinition;
+import org.openclover.eclipse.core.views.testrunexplorer.nodes.TestCaseNode;
 import org.eclipse.jface.viewers.Viewer;
 
 public abstract class TestRunExplorerTreeComparator extends ExplorerViewComparator {

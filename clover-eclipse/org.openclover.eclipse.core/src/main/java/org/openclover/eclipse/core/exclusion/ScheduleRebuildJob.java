@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.exclusion;
+package org.openclover.eclipse.core.exclusion;
 
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.IStatus;

@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.launching;
+package org.openclover.eclipse.core.launching;
 
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.core.runtime.CoreException;

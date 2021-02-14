@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.reports;
+package org.openclover.eclipse.core.reports;
 
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
@@ -6,9 +6,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
-import com.atlassian.clover.eclipse.core.ui.widgets.BuiltinContextFilterSelectionWidget;
-import com.atlassian.clover.eclipse.core.ui.widgets.ContextFilterSelectionWidget;
-import com.atlassian.clover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.ui.widgets.BuiltinContextFilterSelectionWidget;
+import org.openclover.eclipse.core.ui.widgets.ContextFilterSelectionWidget;
+import org.openclover.eclipse.core.projects.CloverProject;
 import com.atlassian.clover.context.ContextSet;
 import com.atlassian.clover.context.ContextStore;
 

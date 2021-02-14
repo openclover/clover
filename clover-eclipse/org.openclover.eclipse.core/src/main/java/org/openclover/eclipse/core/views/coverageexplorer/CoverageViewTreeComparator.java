@@ -1,7 +1,7 @@
-package com.atlassian.clover.eclipse.core.views.coverageexplorer;
+package org.openclover.eclipse.core.views.coverageexplorer;
 
-import com.atlassian.clover.eclipse.core.views.ExplorerViewComparator;
-import com.atlassian.clover.eclipse.core.views.ColumnDefinition;
+import org.openclover.eclipse.core.views.ExplorerViewComparator;
+import org.openclover.eclipse.core.views.ColumnDefinition;
 import org.eclipse.jface.viewers.Viewer;
 
 public class CoverageViewTreeComparator extends ExplorerViewComparator {

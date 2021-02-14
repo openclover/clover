@@ -1,10 +1,10 @@
 package org.eclipse.jdt.internal.compiler.batch;
 
 import com.atlassian.clover.CloverNames;
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.projects.builder.BaseInstrumenter;
-import com.atlassian.clover.eclipse.core.projects.builder.InstrumentationProjectPathMap;
-import com.atlassian.clover.eclipse.core.projects.builder.PathUtils;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.builder.BaseInstrumenter;
+import org.openclover.eclipse.core.projects.builder.InstrumentationProjectPathMap;
+import org.openclover.eclipse.core.projects.builder.PathUtils;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;

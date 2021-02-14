@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.views.testcontributions;
+package org.openclover.eclipse.core.views.testcontributions;
 
 import com.atlassian.clover.registry.entities.TestCaseInfo;
 import org.eclipse.core.runtime.jobs.Job;
@@ -9,10 +9,10 @@ import org.eclipse.jdt.ui.JavaUI;
 
 import java.util.Set;
 
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.ui.editors.java.CoverageAnnotationModel;
-import com.atlassian.clover.eclipse.core.projects.model.DatabaseModel;
-import com.atlassian.clover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotationModel;
+import org.openclover.eclipse.core.projects.model.DatabaseModel;
+import org.openclover.eclipse.core.projects.CloverProject;
 
 public abstract class TestContributionsComputation extends Job {
     private static final QualifiedName CONTRIBUTIONS =

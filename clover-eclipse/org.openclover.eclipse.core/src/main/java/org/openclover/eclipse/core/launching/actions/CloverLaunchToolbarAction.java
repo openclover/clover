@@ -1,6 +1,6 @@
-package com.atlassian.clover.eclipse.core.launching.actions;
+package org.openclover.eclipse.core.launching.actions;
 
-import com.atlassian.clover.eclipse.core.launching.LaunchingConstants;
+import org.openclover.eclipse.core.launching.LaunchingConstants;
 import org.eclipse.debug.ui.actions.AbstractLaunchToolbarAction;
 
 public class CloverLaunchToolbarAction extends AbstractLaunchToolbarAction {

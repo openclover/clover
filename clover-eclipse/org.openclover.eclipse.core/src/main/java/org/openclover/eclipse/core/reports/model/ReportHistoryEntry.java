@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.reports.model;
+package org.openclover.eclipse.core.reports.model;
 
 import org.osgi.service.prefs.Preferences;
 

@@ -1,6 +1,6 @@
-package com.atlassian.clover.eclipse.core.views.coverageexplorer;
+package org.openclover.eclipse.core.views.coverageexplorer;
 
-import com.atlassian.clover.eclipse.core.projects.CloveredProjectLabelProvider;
+import org.openclover.eclipse.core.projects.CloveredProjectLabelProvider;
 import com.atlassian.clover.registry.metrics.BlockMetrics;
 import com.atlassian.clover.util.MetricsFormatUtils;
 import org.eclipse.core.runtime.IAdaptable;

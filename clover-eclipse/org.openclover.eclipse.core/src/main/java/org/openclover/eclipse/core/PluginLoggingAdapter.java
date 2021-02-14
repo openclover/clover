@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core;
+package org.openclover.eclipse.core;
 
 import com.atlassian.clover.Logger;
 import org.eclipse.core.runtime.IStatus;

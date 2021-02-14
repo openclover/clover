@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.reports;
+package org.openclover.eclipse.core.reports;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;

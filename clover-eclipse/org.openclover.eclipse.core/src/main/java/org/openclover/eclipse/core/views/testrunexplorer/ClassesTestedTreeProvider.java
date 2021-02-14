@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.views.testrunexplorer;
+package org.openclover.eclipse.core.views.testrunexplorer;
 
 import com.atlassian.clover.CloverDatabase;
 import com.atlassian.clover.BitSetCoverageProvider;
@@ -6,14 +6,14 @@ import com.atlassian.clover.CoverageData;
 import com.atlassian.clover.api.registry.MethodInfo;
 import com.atlassian.clover.registry.entities.FullClassInfo;
 import com.atlassian.clover.registry.entities.FullMethodInfo;
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.projects.CloverProject;
-import com.atlassian.clover.eclipse.core.projects.model.MetricsScope;
-import com.atlassian.clover.eclipse.core.views.nodes.Nodes;
-import com.atlassian.clover.eclipse.core.views.testrunexplorer.nodes.TestCaseNode;
-import com.atlassian.clover.eclipse.core.views.testrunexplorer.nodes.ClassCoverageContributionNode;
-import com.atlassian.clover.eclipse.core.views.testrunexplorer.nodes.CoverageContributionNode;
-import com.atlassian.clover.eclipse.core.views.testrunexplorer.nodes.MethodCoverageContributionNode;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.projects.model.MetricsScope;
+import org.openclover.eclipse.core.views.nodes.Nodes;
+import org.openclover.eclipse.core.views.testrunexplorer.nodes.TestCaseNode;
+import org.openclover.eclipse.core.views.testrunexplorer.nodes.ClassCoverageContributionNode;
+import org.openclover.eclipse.core.views.testrunexplorer.nodes.CoverageContributionNode;
+import org.openclover.eclipse.core.views.testrunexplorer.nodes.MethodCoverageContributionNode;
 import com.atlassian.clover.registry.CoverageDataProvider;
 import com.atlassian.clover.registry.entities.FullFileInfo;
 import com.atlassian.clover.api.registry.HasMetrics;

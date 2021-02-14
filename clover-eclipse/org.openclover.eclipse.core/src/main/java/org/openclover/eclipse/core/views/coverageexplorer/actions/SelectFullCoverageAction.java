@@ -1,6 +1,6 @@
-package com.atlassian.clover.eclipse.core.views.coverageexplorer.actions;
+package org.openclover.eclipse.core.views.coverageexplorer.actions;
 
-import com.atlassian.clover.eclipse.core.views.coverageexplorer.CoverageViewSettings;
+import org.openclover.eclipse.core.views.coverageexplorer.CoverageViewSettings;
 
 public class SelectFullCoverageAction extends SelectCoverageAction {
 

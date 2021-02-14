@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.upgrade.hooks;
+package org.openclover.eclipse.core.upgrade.hooks;
 
 public class ConfigUpdateFailedException extends ConfigUpdateException {
     public ConfigUpdateFailedException(String message, Exception e) {

@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.ui.editors.cloud;
+package org.openclover.eclipse.core.ui.editors.cloud;
 
 import com.atlassian.clover.api.registry.ClassInfo;
 import com.atlassian.clover.reporters.html.HtmlRenderingSupportImpl;

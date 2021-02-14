@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.ui.editors.java.annotations.strategies.space;
+package org.openclover.eclipse.core.ui.editors.java.annotations.strategies.space;
 
 import org.eclipse.jface.text.Position;
 

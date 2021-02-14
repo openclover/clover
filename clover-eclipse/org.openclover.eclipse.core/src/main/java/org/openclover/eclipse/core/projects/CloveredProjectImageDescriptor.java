@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.projects;
+package org.openclover.eclipse.core.projects;
 
 import org.eclipse.jface.resource.CompositeImageDescriptor;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -6,8 +6,8 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.ui.CloverPluginIcons;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.ui.CloverPluginIcons;
 
 public abstract class CloveredProjectImageDescriptor extends CompositeImageDescriptor {
     private final ImageDescriptor originalImage;

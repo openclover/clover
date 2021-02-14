@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.exclusion;
+package org.openclover.eclipse.core.exclusion;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.action.IAction;
@@ -6,7 +6,7 @@ import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.dialogs.PreferencesUtil;
 
-import com.atlassian.clover.eclipse.core.projects.settings.ProjectPropertyPage;
+import org.openclover.eclipse.core.projects.settings.ProjectPropertyPage;
 
 public class EditSettingsActionDelegate extends BaseActionDelegate {
 

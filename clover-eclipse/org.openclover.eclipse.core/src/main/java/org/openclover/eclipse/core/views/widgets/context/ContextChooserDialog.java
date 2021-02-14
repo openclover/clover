@@ -1,8 +1,8 @@
-package com.atlassian.clover.eclipse.core.views.widgets.context;
+package org.openclover.eclipse.core.views.widgets.context;
 
-import com.atlassian.clover.eclipse.core.projects.settings.ProjectSettings;
-import com.atlassian.clover.eclipse.core.ui.widgets.ContextFilterModificationWidget;
-import com.atlassian.clover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.settings.ProjectSettings;
+import org.openclover.eclipse.core.ui.widgets.ContextFilterModificationWidget;
+import org.openclover.eclipse.core.CloverPlugin;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;

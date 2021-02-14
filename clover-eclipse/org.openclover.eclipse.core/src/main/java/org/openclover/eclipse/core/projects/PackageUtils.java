@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.projects;
+package org.openclover.eclipse.core.projects;
 
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IProject;

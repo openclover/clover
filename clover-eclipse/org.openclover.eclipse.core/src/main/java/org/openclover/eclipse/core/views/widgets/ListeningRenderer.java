@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.views.widgets;
+package org.openclover.eclipse.core.views.widgets;
 
 import org.eclipse.swt.widgets.Composite;
 

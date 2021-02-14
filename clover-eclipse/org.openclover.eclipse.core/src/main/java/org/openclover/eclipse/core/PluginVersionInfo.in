@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core;
+package org.openclover.eclipse.core;
 
 public class PluginVersionInfo {
     public static final String RELEASE_NUM = "@ECLIPSE_RELEASE_NUM@";

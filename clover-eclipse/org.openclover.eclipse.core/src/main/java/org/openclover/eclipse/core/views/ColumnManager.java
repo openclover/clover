@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.views;
+package org.openclover.eclipse.core.views;
 
 public abstract class ColumnManager {
     public abstract ColumnDefinition[] getAllColumns();

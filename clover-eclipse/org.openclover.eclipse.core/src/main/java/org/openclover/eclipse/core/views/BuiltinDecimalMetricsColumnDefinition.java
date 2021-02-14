@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.views;
+package org.openclover.eclipse.core.views;
 
 import com.atlassian.clover.util.MetricsFormatUtils;
 import com.atlassian.clover.reporters.Column;

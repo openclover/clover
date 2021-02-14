@@ -1,9 +1,9 @@
-package com.atlassian.clover.eclipse.core.ui.editors.cloud;
+package org.openclover.eclipse.core.ui.editors.cloud;
 
 import clover.org.apache.velocity.VelocityContext;
 import com.atlassian.clover.CloverDatabase;
 import com.atlassian.clover.api.registry.PackageInfo;
-import com.atlassian.clover.eclipse.core.CloverEclipsePluginMessages;
+import org.openclover.eclipse.core.CloverEclipsePluginMessages;
 import com.atlassian.clover.registry.entities.BasePackageInfo;
 import com.atlassian.clover.registry.entities.FullProjectInfo;
 import com.atlassian.clover.reporters.CloudGenerator;

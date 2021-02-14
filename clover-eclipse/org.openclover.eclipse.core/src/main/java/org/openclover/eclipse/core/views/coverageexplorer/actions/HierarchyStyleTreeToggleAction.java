@@ -1,7 +1,7 @@
-package com.atlassian.clover.eclipse.core.views.coverageexplorer.actions;
+package org.openclover.eclipse.core.views.coverageexplorer.actions;
 
-import com.atlassian.clover.eclipse.core.views.actions.UntargetedViewActionDelegate;
-import com.atlassian.clover.eclipse.core.views.coverageexplorer.CoverageView;
+import org.openclover.eclipse.core.views.actions.UntargetedViewActionDelegate;
+import org.openclover.eclipse.core.views.coverageexplorer.CoverageView;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 

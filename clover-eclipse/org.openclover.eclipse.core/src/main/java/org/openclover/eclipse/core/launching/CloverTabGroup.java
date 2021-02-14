@@ -1,6 +1,6 @@
-package com.atlassian.clover.eclipse.core.launching;
+package org.openclover.eclipse.core.launching;
 
-import com.atlassian.clover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.CloverPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExecutableExtension;

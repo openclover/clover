@@ -1,10 +1,10 @@
-package com.atlassian.clover.eclipse.core.views;
+package org.openclover.eclipse.core.views;
 
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.ui.projects.DatabaseChangeEvent;
-import com.atlassian.clover.eclipse.core.ui.projects.DatabaseChangeListener;
-import com.atlassian.clover.eclipse.core.views.nodes.NodeHierarchyBuilder;
-import com.atlassian.clover.eclipse.core.views.nodes.NodeRelationshipFilter;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.ui.projects.DatabaseChangeEvent;
+import org.openclover.eclipse.core.ui.projects.DatabaseChangeListener;
+import org.openclover.eclipse.core.views.nodes.NodeHierarchyBuilder;
+import org.openclover.eclipse.core.views.nodes.NodeRelationshipFilter;
 import org.eclipse.jdt.core.ElementChangedEvent;
 import org.eclipse.jdt.core.IElementChangedListener;
 import org.eclipse.jdt.core.IJavaElement;

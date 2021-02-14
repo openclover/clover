@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.ui;
+package org.openclover.eclipse.core.ui;
 
 import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
 import org.eclipse.ui.browser.IWebBrowser;
@@ -6,7 +6,7 @@ import org.eclipse.ui.PlatformUI;
 
 import java.net.URL;
 
-import com.atlassian.clover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.CloverPlugin;
 
 public class BrowserUtils {
     public static void openExternalBrowser(String url) {

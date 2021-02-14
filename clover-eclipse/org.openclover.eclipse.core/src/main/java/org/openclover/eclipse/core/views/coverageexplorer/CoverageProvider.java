@@ -1,12 +1,12 @@
-package com.atlassian.clover.eclipse.core.views.coverageexplorer;
+package org.openclover.eclipse.core.views.coverageexplorer;
 
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.views.CloveredWorkspaceProvider;
-import com.atlassian.clover.eclipse.core.views.TypeUtils;
-import com.atlassian.clover.eclipse.core.views.WorkingSetNodeFilter;
-import com.atlassian.clover.eclipse.core.views.nodes.NodeRelationshipFilter;
-import com.atlassian.clover.eclipse.core.projects.model.MetricsScope;
-import com.atlassian.clover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.views.CloveredWorkspaceProvider;
+import org.openclover.eclipse.core.views.TypeUtils;
+import org.openclover.eclipse.core.views.WorkingSetNodeFilter;
+import org.openclover.eclipse.core.views.nodes.NodeRelationshipFilter;
+import org.openclover.eclipse.core.projects.model.MetricsScope;
+import org.openclover.eclipse.core.projects.CloverProject;
 import com.atlassian.clover.registry.metrics.BlockMetrics;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.resources.IProject;

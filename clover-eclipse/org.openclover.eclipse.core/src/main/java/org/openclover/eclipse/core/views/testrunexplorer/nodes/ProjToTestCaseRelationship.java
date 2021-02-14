@@ -1,11 +1,11 @@
-package com.atlassian.clover.eclipse.core.views.testrunexplorer.nodes;
+package org.openclover.eclipse.core.views.testrunexplorer.nodes;
 
 import com.atlassian.clover.registry.entities.FullProjectInfo;
-import com.atlassian.clover.eclipse.core.views.nodes.NodeRelationship;
-import com.atlassian.clover.eclipse.core.views.nodes.NodeRelationshipFilter;
-import com.atlassian.clover.eclipse.core.views.nodes.Nodes;
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.views.nodes.NodeRelationship;
+import org.openclover.eclipse.core.views.nodes.NodeRelationshipFilter;
+import org.openclover.eclipse.core.views.nodes.Nodes;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.CloverProject;
 import org.eclipse.core.resources.IProject;
 
 import static clover.com.google.common.collect.Lists.newLinkedList;

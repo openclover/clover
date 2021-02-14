@@ -1,6 +1,6 @@
-package com.atlassian.clover.eclipse.core.projects.settings.source.test;
+package org.openclover.eclipse.core.projects.settings.source.test;
 
-import com.atlassian.clover.eclipse.core.projects.settings.ProjectSettings;
+import org.openclover.eclipse.core.projects.settings.ProjectSettings;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;

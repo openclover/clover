@@ -1,7 +1,7 @@
-package com.atlassian.clover.eclipse.core.launching.actions;
+package org.openclover.eclipse.core.launching.actions;
 
-import com.atlassian.clover.eclipse.core.launching.LaunchingConstants;
-import com.atlassian.clover.eclipse.core.ui.CloverPluginIcons;
+import org.openclover.eclipse.core.launching.LaunchingConstants;
+import org.openclover.eclipse.core.ui.CloverPluginIcons;
 import org.eclipse.debug.ui.actions.ContextualLaunchAction;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.resource.JFaceResources;
@@ -24,19 +24,19 @@ public class ContextualRunWithCloverAction extends ContextualLaunchAction {
         imageManager = new LocalResourceManager(JFaceResources.getResources());
         images = newHashMap();
         addImageForShortcutCommand(
-            "com.atlassian.clover.eclipse.core.launching.LocalJavaApplicationShortcut" + "." + LaunchingConstants.CLOVER_MODE,
+            "org.openclover.eclipse.core.launching.LocalJavaApplicationShortcut" + "." + LaunchingConstants.CLOVER_MODE,
             "org.eclipse.jdt.debug.ui", "icons/full/etool16/java_app.gif");
         addImageForShortcutCommand(
-            "com.atlassian.clover.eclipse.core.launching.LocalJavaAppletShortcut" + "." + LaunchingConstants.CLOVER_MODE,
+            "org.openclover.eclipse.core.launching.LocalJavaAppletShortcut" + "." + LaunchingConstants.CLOVER_MODE,
             "org.eclipse.jdt.debug.ui", "icons/full/etool16/java_applet.gif");
         addImageForShortcutCommand(
-            "com.atlassian.clover.eclipse.core.launching.WorkbenchPDEShortcut" + "." + LaunchingConstants.CLOVER_MODE,
+            "org.openclover.eclipse.core.launching.WorkbenchPDEShortcut" + "." + LaunchingConstants.CLOVER_MODE,
             "org.eclipse.pde.ui", "icons/obj16/eclipse.gif");
         addImageForShortcutCommand(
-            "com.atlassian.clover.eclipse.core.launching.JUnitShortcut" + "." + LaunchingConstants.CLOVER_MODE,
+            "org.openclover.eclipse.core.launching.JUnitShortcut" + "." + LaunchingConstants.CLOVER_MODE,
             "org.eclipse.jdt.junit", "icons/full/obj16/julaunch.gif");
         addImageForShortcutCommand(
-            "com.atlassian.clover.eclipse.core.launching.JUnitPDEShortcut" + "." + LaunchingConstants.CLOVER_MODE,
+            "org.openclover.eclipse.core.launching.JUnitPDEShortcut" + "." + LaunchingConstants.CLOVER_MODE,
             "org.eclipse.pde.ui", "icons/obj16/julaunchpgn.gif");
     }
 

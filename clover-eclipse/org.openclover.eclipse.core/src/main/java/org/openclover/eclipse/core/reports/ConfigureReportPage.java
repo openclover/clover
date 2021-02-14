@@ -1,7 +1,7 @@
-package com.atlassian.clover.eclipse.core.reports;
+package org.openclover.eclipse.core.reports;
 
 import com.atlassian.clover.reporters.ShowLambdaFunctions;
-import com.atlassian.clover.eclipse.core.ui.GLH;
+import org.openclover.eclipse.core.ui.GLH;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.swt.widgets.Text;
@@ -20,9 +20,9 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IStatus;
-import com.atlassian.clover.eclipse.core.ui.SwtUtils;
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.ui.SwtUtils;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.CloverProject;
 
 import java.io.File;
 

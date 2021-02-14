@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.projects.settings;
+package org.openclover.eclipse.core.projects.settings;
 
 import java.util.StringTokenizer;
 

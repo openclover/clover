@@ -1,10 +1,10 @@
-package com.atlassian.clover.eclipse.core.projects.settings.source.test;
+package org.openclover.eclipse.core.projects.settings.source.test;
 
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.ui.CloverPluginIcons;
-import com.atlassian.clover.eclipse.core.projects.settings.source.InstrumentedSourceFoldersListener;
-import com.atlassian.clover.eclipse.core.projects.settings.source.SourceFolderPattern;
-import com.atlassian.clover.eclipse.core.projects.settings.source.SourceRootWithPattern;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.ui.CloverPluginIcons;
+import org.openclover.eclipse.core.projects.settings.source.InstrumentedSourceFoldersListener;
+import org.openclover.eclipse.core.projects.settings.source.SourceFolderPattern;
+import org.openclover.eclipse.core.projects.settings.source.SourceRootWithPattern;
 import org.eclipse.core.commands.common.EventManager;
 import org.eclipse.jface.resource.CompositeImageDescriptor;
 import org.eclipse.jface.resource.ImageDescriptor;

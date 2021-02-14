@@ -1,7 +1,7 @@
-package com.atlassian.clover.eclipse.core.views.testrunexplorer.actions;
+package org.openclover.eclipse.core.views.testrunexplorer.actions;
 
-import com.atlassian.clover.eclipse.core.views.actions.SelectHierarchyStyleActionDelegate;
-import com.atlassian.clover.eclipse.core.views.testrunexplorer.TestRunExplorerViewSettings;
+import org.openclover.eclipse.core.views.actions.SelectHierarchyStyleActionDelegate;
+import org.openclover.eclipse.core.views.testrunexplorer.TestRunExplorerViewSettings;
 
 public class SelectTestCasesStyleAction extends SelectHierarchyStyleActionDelegate {
     public SelectTestCasesStyleAction() {

@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.exclusion;
+package org.openclover.eclipse.core.exclusion;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -8,9 +8,9 @@ import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ILightweightLabelDecorator;
 import org.eclipse.ui.PlatformUI;
 
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.ui.CloverPluginIcons;
-import com.atlassian.clover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.ui.CloverPluginIcons;
+import org.openclover.eclipse.core.projects.CloverProject;
 
 public class ExclusionLabelDecorator implements ILightweightLabelDecorator {
 
@@ -66,7 +66,7 @@ public class ExclusionLabelDecorator implements ILightweightLabelDecorator {
      * Must be called from UI thread.
      */
     public static void decorationChanged() {
-        PlatformUI.getWorkbench().getDecoratorManager().update("com.atlassian.clover.eclipse.core.exclusionDecorator");
+        PlatformUI.getWorkbench().getDecoratorManager().update("org.openclover.eclipse.core.exclusionDecorator");
     }
 
 }

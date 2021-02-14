@@ -1,9 +1,9 @@
-package com.atlassian.clover.eclipse.core.views.actions;
+package org.openclover.eclipse.core.views.actions;
 
 import org.eclipse.ui.actions.ActionDelegate;
 import org.eclipse.ui.IViewActionDelegate;
 import org.eclipse.ui.IViewPart;
-import com.atlassian.clover.eclipse.core.views.ExplorerView;
+import org.openclover.eclipse.core.views.ExplorerView;
 
 public class CloverViewActionDelegate
     extends ActionDelegate

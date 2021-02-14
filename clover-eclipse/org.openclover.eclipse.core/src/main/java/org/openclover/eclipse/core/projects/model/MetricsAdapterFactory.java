@@ -1,9 +1,9 @@
-package com.atlassian.clover.eclipse.core.projects.model;
+package org.openclover.eclipse.core.projects.model;
 
 import com.atlassian.clover.registry.entities.FullFileInfo;
 import com.atlassian.clover.registry.entities.FullProjectInfo;
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.CloverProject;
 import com.atlassian.clover.registry.metrics.BlockMetrics;
 import com.atlassian.clover.registry.entities.FullClassInfo;
 import com.atlassian.clover.registry.metrics.ClassMetrics;

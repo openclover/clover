@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.projects;
+package org.openclover.eclipse.core.projects;
 
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.eclipse.jface.resource.ImageDescriptor;

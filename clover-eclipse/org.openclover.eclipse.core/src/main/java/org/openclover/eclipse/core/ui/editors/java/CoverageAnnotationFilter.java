@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.ui.editors.java;
+package org.openclover.eclipse.core.ui.editors.java;
 
 import com.atlassian.clover.api.registry.BranchInfo;
 import com.atlassian.clover.api.registry.ClassInfo;
@@ -17,7 +17,7 @@ import java.util.Iterator;
 import java.util.BitSet;
 import java.util.Map;
 
-import com.atlassian.clover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.CloverPlugin;
 import com.atlassian.clover.registry.entities.TestCaseInfo;
 import com.atlassian.clover.registry.CoverageDataRange;
 import com.atlassian.clover.CloverDatabase;

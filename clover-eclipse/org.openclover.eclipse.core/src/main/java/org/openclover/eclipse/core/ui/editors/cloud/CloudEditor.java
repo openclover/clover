@@ -1,15 +1,15 @@
-package com.atlassian.clover.eclipse.core.ui.editors.cloud;
+package org.openclover.eclipse.core.ui.editors.cloud;
 
 import com.atlassian.clover.api.registry.PackageInfo;
 import com.atlassian.clover.registry.entities.FullProjectInfo;
-import com.atlassian.clover.eclipse.core.CloverEclipsePluginMessages;
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.ui.CloverPluginIcons;
-import com.atlassian.clover.eclipse.core.ui.editors.CloverProjectInput;
-import com.atlassian.clover.eclipse.core.ui.projects.DatabaseChangeEvent;
-import com.atlassian.clover.eclipse.core.ui.projects.DatabaseChangeListener;
-import com.atlassian.clover.eclipse.core.projects.model.MetricsScope;
-import com.atlassian.clover.eclipse.core.views.actions.OpenJavaEditorAction;
+import org.openclover.eclipse.core.CloverEclipsePluginMessages;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.ui.CloverPluginIcons;
+import org.openclover.eclipse.core.ui.editors.CloverProjectInput;
+import org.openclover.eclipse.core.ui.projects.DatabaseChangeEvent;
+import org.openclover.eclipse.core.ui.projects.DatabaseChangeListener;
+import org.openclover.eclipse.core.projects.model.MetricsScope;
+import org.openclover.eclipse.core.views.actions.OpenJavaEditorAction;
 import com.atlassian.clover.registry.metrics.BlockMetrics;
 import com.atlassian.clover.registry.metrics.HasMetricsSupport;
 import org.eclipse.core.resources.IFolder;

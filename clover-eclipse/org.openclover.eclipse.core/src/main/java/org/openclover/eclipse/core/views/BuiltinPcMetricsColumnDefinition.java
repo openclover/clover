@@ -1,11 +1,11 @@
-package com.atlassian.clover.eclipse.core.views;
+package org.openclover.eclipse.core.views;
 
 import com.atlassian.clover.reporters.Column;
 import com.atlassian.clover.util.MetricsFormatUtils;
-import com.atlassian.clover.eclipse.core.views.widgets.ListeningRenderer;
-import com.atlassian.clover.eclipse.core.views.coverageexplorer.MetricsPcCellRenderer;
-import com.atlassian.clover.eclipse.core.views.coverageexplorer.CoverageViewSettings;
-import com.atlassian.clover.eclipse.core.projects.model.MetricsScope;
+import org.openclover.eclipse.core.views.widgets.ListeningRenderer;
+import org.openclover.eclipse.core.views.coverageexplorer.MetricsPcCellRenderer;
+import org.openclover.eclipse.core.views.coverageexplorer.CoverageViewSettings;
+import org.openclover.eclipse.core.projects.model.MetricsScope;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
 

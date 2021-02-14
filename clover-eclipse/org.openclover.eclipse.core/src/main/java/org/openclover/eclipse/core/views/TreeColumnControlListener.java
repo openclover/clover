@@ -1,9 +1,9 @@
-package com.atlassian.clover.eclipse.core.views;
+package org.openclover.eclipse.core.views;
 
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.jface.viewers.TreeViewer;
-import com.atlassian.clover.eclipse.core.views.widgets.ColumnController;
+import org.openclover.eclipse.core.views.widgets.ColumnController;
 
 /**
  * Listens to control resize events and updates settings accordingly

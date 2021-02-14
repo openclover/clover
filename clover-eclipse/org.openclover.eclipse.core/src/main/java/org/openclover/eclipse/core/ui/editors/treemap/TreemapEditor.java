@@ -1,10 +1,10 @@
-package com.atlassian.clover.eclipse.core.ui.editors.treemap;
+package org.openclover.eclipse.core.ui.editors.treemap;
 
-import com.atlassian.clover.eclipse.core.CloverEclipsePluginMessages;
-import com.atlassian.clover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.eclipse.core.ui.CloverPluginIcons;
-import com.atlassian.clover.eclipse.core.ui.GLH;
-import com.atlassian.clover.eclipse.core.ui.editors.CloverProjectInput;
+import org.openclover.eclipse.core.CloverEclipsePluginMessages;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.ui.CloverPluginIcons;
+import org.openclover.eclipse.core.ui.GLH;
+import org.openclover.eclipse.core.ui.editors.CloverProjectInput;
 import org.eclipse.ui.part.DrillDownAdapter;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.IEditorSite;

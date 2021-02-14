@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.core.views.nodes;
+package org.openclover.eclipse.core.views.nodes;
 
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IPackageFragment;
@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.Map;
 
-import com.atlassian.clover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.CloverPlugin;
 
 import static clover.com.google.common.collect.Lists.newLinkedList;
 import static clover.com.google.common.collect.Maps.newHashMap;
