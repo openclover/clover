@@ -1,4 +1,0 @@
-Clover is using a number of third party libraries.
-In case when you would like to upgrade these libraries (assuming that they are API-compatible) please see instructions on:
-
-http://openclover.org/doc/manual/4.2.0/developer-guide--upgrading-third-party-libraries.html

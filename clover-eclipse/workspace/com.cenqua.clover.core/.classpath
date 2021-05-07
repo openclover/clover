@@ -22,9 +22,9 @@
 	<classpathentry exported="true" kind="lib" path="core_image"/>
 	<classpathentry exported="true" kind="lib" path="versioninfos"/>
 	<classpathentry exported="true" kind="lib" path="lib/ant.jar"/>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/com.atlassian.clover.eclipse.ant"/>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/com.atlassian.clover.eclipse.runtime"/>
-	<classpathentry exported="true" kind="lib" path="/com.atlassian.clover.eclipse.ant/clover-eclipse-ant.jar"/>
-	<classpathentry exported="true" kind="lib" path="/com.atlassian.clover.eclipse.runtime/clover-runtime.jar"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/org.openclover.eclipse.ant"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/org.openclover.eclipse.runtime"/>
+	<classpathentry exported="true" kind="lib" path="/org.openclover.eclipse.ant/clover-eclipse-ant.jar"/>
+	<classpathentry exported="true" kind="lib" path="/org.openclover.eclipse.runtime/clover-runtime.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

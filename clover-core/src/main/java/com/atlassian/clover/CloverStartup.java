@@ -50,7 +50,7 @@ public class CloverStartup {
 
     public static void logVersionInfo(Logger log) {
         log.info("OpenClover Version " + CloverVersionInfo.RELEASE_NUM +
-                ", built on " + CloverVersionInfo.BUILD_DATE + " (" + CloverVersionInfo.BUILD_NUMBER + ")");
+                ", built on " + CloverVersionInfo.BUILD_DATE);
         String loadedFrom =  ClassPathUtil.getCloverJarPath();
         if (loadedFrom != null) {
             log.debug("Loaded from: " + loadedFrom);

@@ -18,7 +18,7 @@
     <property name="clover.test.groovyversion.excludes" value=""/>
     <property name="clover.test.category" value=""/> <!-- used for grouping tests -->
 
-    <target name="groovy.init" depends="common.init, clover-core.init, clover-buildutil.jar, clover-runtime.build, _groovy.resolve-dependencies">
+    <target name="groovy.init" depends="common.init, clover-core.init, clover-buildutil.build, clover-runtime.build, _groovy.resolve-dependencies">
         <mkdir dir="${groovy.output}"/>
 
         <!-- Build path to compile against default Groovy version -->

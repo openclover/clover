@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.atlassian.clover</groupId>
     <artifactId>clover-eclipse-libs</artifactId>
-    <version>4.6.0</version>
+    <version>4.6.3</version>
     <packaging>pom</packaging>
     <description>
         This module contains a minimal subset of Eclipse's JAR files required to compile
@@ -23,7 +23,39 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <!-- download -->
+                                <mkdir dir="${project.build.directory}/download"/>
+                                <get src="${eclipse.download.site}/${eclipse.download.path}/${eclipse.download.file}"
+                                     dest="${project.build.directory}/download/${eclipse.download.file}"/>
+
+                                <!-- extract -->
+                                <mkdir dir="${project.build.directory}/extract"/>
+                                <unzip src="${project.build.directory}/download/${eclipse.download.file}"
+                                       dest="${project.build.directory}/extract">
+                                    <patternset>
+                                        <include name="**/*.jar"/>
+                                    </patternset>
+                                    <mapper type="flatten"/>
+                                </unzip>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.3.0</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -31,11 +63,19 @@
                             <goal>single</goal>
                         </goals>
                         <configuration>
-                            <descriptor>src/assembly/eclipse.xml</descriptor>
+                            <descriptors>
+                                <descriptor>src/assembly/eclipse.xml</descriptor>
+                            </descriptors>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
         </plugins>
     </build>
+    <properties>
+        <!-- download the file directly from one of the mirrors in Germany -->
+        <eclipse.download.site>https://mirrors.dotsrc.org</eclipse.download.site>
+        <eclipse.download.path>eclipse//technology/epp/downloads/release/neon/3</eclipse.download.path>
+        <eclipse.download.file>eclipse-java-neon-3-win32.zip</eclipse.download.file>
+    </properties>
 </project>

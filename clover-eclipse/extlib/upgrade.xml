@@ -26,9 +26,9 @@
     ===========
         If you want to upgrade third party libraries used by Clover Core (they are also used by Clover for Eclipse),
         please have a look at upgrade script in Clover-for-Ant and modify it to upgrade the following plugins:
-          com.atlassian.clover.eclipse.ant_*.jar/clover-eclipse-ant.jar
-          com.atlassian.clover.eclipse.core_*.jar
-          com.atlassian.clover.eclipse.runtime_*.jar/clover-runtime.jar
+          org.openclover.eclipse.ant_*.jar/clover-eclipse-ant.jar
+          org.openclover.eclipse.core_*.jar
+          org.openclover.eclipse.runtime_*.jar/clover-runtime.jar
     </description>
 
     <property name="asm5.ver" value="5.0.3"/>
@@ -36,7 +36,7 @@
 
     <!-- Location of Clover-for-Eclipse core plugin -->
     <property name="clover.eclipse.release.num" value="4.0.6.v20150918000000"/>
-    <property name="clover.eclipse.jar" location="../plugins/com.atlassian.clover.eclipse.core_${clover.eclipse.release.num}.jar"/>
+    <property name="clover.eclipse.jar" location="../plugins/org.openclover.eclipse.core_${clover.eclipse.release.num}.jar"/>
 
     <target name="init">
         <mkdir dir="target"/>

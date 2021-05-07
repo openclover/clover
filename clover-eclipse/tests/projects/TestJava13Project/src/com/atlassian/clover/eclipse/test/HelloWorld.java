@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse.test;
+package org.openclover.eclipse.test;
 
 public class HelloWorld {
     public static void main(String[] args) {
