@@ -3026,9 +3026,31 @@ CHAR_LITERAL
  * String literals. In double quotes we can have:
  *  - a character escaped by a backslash, such as '\t', '\u0000'
  *  - any other character except: CR, LF, double quote, non-escaped backslash
+ *
+ * In the text blocks, we can have any characters except for the three double
+ * quotes not led with a backslash.
  */
 STRING_LITERAL
+    : STRING_LITERAL_SINGLE_LINE
+    | STRING_LITERAL_TEXT_BLOCK
+    ;
+
+protected STRING_LITERAL_SINGLE_LINE
     : {nc();}   '"' ( ESC | ~( '"' | '\\' | '\n' | '\r') )* '"'
+    ;
+
+protected STRING_LITERAL_TEXT_BLOCK
+    : {nc();} '"' '"' '"' ( '\r' | '\n' ) 
+        (   (  BACKSLASH   '"' '"'  '"' ) =>  BACKSLASH   '"' '"' '"'
+          | ( (BACKSLASH)? '"' '"' ~'"' ) => (BACKSLASH)? '"' '"'
+          | ( (BACKSLASH)? '"'     ~'"' ) => (BACKSLASH)? '"'
+          | '\r' '\n'       {newline();}
+          | '\r'            {newline();}
+          | '\n'            {newline();}
+          | ESC
+          | ~('\n'|'\r'|'"')
+        )*
+        '"' '"' '"'
     ;
 
 // escape sequence -- note that this is protected; it can only be called
