@@ -1951,7 +1951,7 @@ tryCatchBlock [boolean labelled] returns [CloverToken last]
   int complexity = 0;
   ContextSet saveContext = getCurrentContext();
 }
-    :   tr:"try" (lp:LPAREN {insertAutoCloseableClassDecl((CloverToken)tr);} declaration {complexity++; instrArmDecl(((CloverToken)lp).getNext(), (CloverToken)LT(0), saveContext);} (semi:SEMI declaration {complexity++; instrArmDecl(((CloverToken)semi).getNext(), (CloverToken)LT(0), saveContext);})* (SEMI)? rp:RPAREN )?
+    :   tr:"try" (lp:LPAREN {insertAutoCloseableClassDecl((CloverToken)tr);} ( declaration | variableDeclarator ) {complexity++; instrArmDecl(((CloverToken)lp).getNext(), (CloverToken)LT(0), saveContext);} (semi:SEMI ( declaration | variableDeclarator ) {complexity++; instrArmDecl(((CloverToken)semi).getNext(), (CloverToken)LT(0), saveContext);})* (SEMI)? rp:RPAREN )?
         {enterContext(ContextStore.CONTEXT_TRY); saveContext = getCurrentContext();}
             last=compoundStatement
         {exitContext();}
