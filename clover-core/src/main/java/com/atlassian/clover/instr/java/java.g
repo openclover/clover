@@ -779,11 +779,13 @@ typeSpec returns [String spec]
 arraySpecOpt returns [String brackets]
 {
  brackets = "";
+ AnnotationImpl ann = null;
 }
 
     :
 
         (options{greedy=true;}: // match as many as possible
+            (ann=annotation)*
             LBRACK RBRACK
             {brackets += "[]";}
         )*
