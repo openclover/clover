@@ -474,4 +474,11 @@ class JavaSyntax18CompilationTest extends JavaSyntaxCompilationTestBase {
             instrumentAndCompileSourceFile(srcDir, mGenSrcDir, "pck/package-info.java", JavaEnvUtils.JAVA_1_8)
         }
     }
+
+    void testPrimitiveArrayConstructorReference() {
+        if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_8)) {
+            final String fileName = "java8/Java8ArrayConstructorReference.java"
+            instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_1_8)
+        }
+    }
 }
