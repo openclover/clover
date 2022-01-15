@@ -474,4 +474,11 @@ class JavaSyntax18CompilationTest extends JavaSyntaxCompilationTestBase {
             instrumentAndCompileSourceFile(srcDir, mGenSrcDir, "pck/package-info.java", JavaEnvUtils.JAVA_1_8)
         }
     }
+
+    void testTypeAnnotationInImplements() {
+        if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_8)) {
+            final String fileName = "typeannotation/implementsclause/TypeAnnotationImplements.java"
+            instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_1_8)
+        }
+    }
 }
