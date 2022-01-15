@@ -1172,8 +1172,10 @@ typeParameters returns [String asString]
 typeParameter
 {
    String type = null;
+   AnnotationImpl ann = null;
 }
     :
+        (ann=annotation)*
         (IDENT|QUESTION)
         (   // I'm pretty sure Antlr generates the right thing here:
             options{generateAmbigWarnings=false;}:
