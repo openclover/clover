@@ -890,9 +890,15 @@ builtInTypeSpec returns [String spec]
 // class name or a primitive (builtin) type
 type {
   String spec = null;
+  AnnotationImpl ann = null;
 }
-    :   spec=classOrInterfaceType
-    |   spec=builtInType
+    :
+    (ann=annotation)*
+    (
+        spec=classOrInterfaceType
+    |
+        spec=builtInType
+    )
     ;
 
 // The primitive types.
