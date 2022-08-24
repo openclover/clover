@@ -743,6 +743,7 @@ typeDefinition2[Modifiers mods, CloverToken first, boolean nested]
     :
         (
             name=classDefinition[mods]
+        |   name=recordDefinition[mods]
         |   name=interfaceDefinition[mods]
         |   name=enumDefinition[mods] {isEnum=true;}
         |   name=annotationTypeDeclaration[mods]
@@ -779,11 +780,13 @@ typeSpec returns [String spec]
 arraySpecOpt returns [String brackets]
 {
  brackets = "";
+ AnnotationImpl ann = null;
 }
 
     :
 
         (options{greedy=true;}: // match as many as possible
+            (ann=annotation)*
             LBRACK RBRACK
             {brackets += "[]";}
         )*
@@ -809,10 +812,12 @@ classOrInterfaceType returns [String type]
     CloverToken first = null;
     CloverToken last = null;
     type = null;
+    AnnotationImpl ann = null;
 }
 
 
 :       {first = (CloverToken)LT(1);}
+        (ann=annotation)*
         IDENT (typeArguments)?
         (options{greedy=true;}: // match as many as possible
             DOT
@@ -851,8 +856,10 @@ typeArguments
 
 singleTypeArgument {
   String type = null;
+  AnnotationImpl ann = null;
 }
     :
+        ( ann=annotation )*
         (
             type=classTypeSpec | type=builtInTypeSpec | QUESTION
         )
@@ -888,9 +895,15 @@ builtInTypeSpec returns [String spec]
 // class name or a primitive (builtin) type
 type {
   String spec = null;
+  AnnotationImpl ann = null;
 }
-    :   spec=classOrInterfaceType
-    |   spec=builtInType
+    :
+    (ann=annotation)*
+    (
+        spec=classOrInterfaceType
+    |
+        spec=builtInType
+    )
     ;
 
 // The primitive types.
@@ -1074,6 +1087,36 @@ classDefinition! [Modifiers mods] returns [String classname]
         }
     ;
 
+// Definition of a record
+recordDefinition! [Modifiers mods] returns [String recordname]
+{
+    CloverToken first = (CloverToken)LT(0);
+    Map<String, List<String>> tags = null;
+    boolean deprecated = false;
+    CloverToken endOfBlock = null;
+    String superclass = null;
+    ClassEntryNode classEntry = null;
+    recordname = null;
+    String typeParam = null;
+}
+    :   "record" {tags = TokenListUtil.getJDocTagsAndValuesOnBlock(first); deprecated = maybeEnterDeprecated(first);}
+        id:IDENT
+        LPAREN! parameterDeclarationList RPAREN!
+        // it _might_ have a superclass...
+        superclass = superClassClause
+        // it might implement some interfaces...
+        implementsClause
+        {
+            classEntry = enterClass(tags, mods, (CloverToken)id, false, false, false, superclass);
+        }
+        // now parse the body of the class
+        endOfBlock = classBlock[classEntry]
+        {
+            exitClass(endOfBlock, classEntry); maybeExitDeprecated(deprecated);
+            recordname = id.getText();
+        }
+    ;
+
 superClassClause! returns [String superclass]
 {
    superclass = null;
@@ -1172,8 +1215,10 @@ typeParameters returns [String asString]
 typeParameter
 {
    String type = null;
+   AnnotationImpl ann = null;
 }
     :
+        (ann=annotation)*
         (IDENT|QUESTION)
         (   // I'm pretty sure Antlr generates the right thing here:
             options{generateAmbigWarnings=false;}:
@@ -1282,7 +1327,7 @@ annotationTypeBody [ClassEntryNode classEntry] returns [CloverToken t]
             |
                 // a nested type declaration
                 // disambiguation: lookup further up to "class/interface" keyword, e.g. "public final class"
-                ( classOrInterfaceModifiers[false] ( "class" | "interface" | AT "interface" | "enum" ) ) =>
+                ( classOrInterfaceModifiers[false] ( "class" | "interface" | AT "interface" | "enum" | "record" ) ) =>
 
                 {
                     topLevelSave = topLevelClass;
@@ -1360,14 +1405,15 @@ field! [ClassEntryNode containingClass]
         }
 
         (
-            // INNER CLASSES, INTERFACES, ENUMS, ANNOTATIONS
+            // INNER CLASSES, INTERFACES, ENUMS, ANNOTATIONS, RECORDS
             // look further to recognize that it's a definition of an inner type
-            ( classOrInterfaceModifiers[false] ( "class" | "interface" | AT "interface" | "enum" ) ) =>
+            ( classOrInterfaceModifiers[false] ( "class" | "interface" | AT "interface" | "enum" | "record" ) ) =>
 
             mods=classOrInterfaceModifiers[false]
             { deprecated = maybeEnterDeprecated(tags, mods); }
             (
                 typename = classDefinition[mods]       // inner class
+            |   typename = recordDefinition[mods]      // inner record                
             |   typename = interfaceDefinition[mods]   // inner interface
             |   typename = enumDefinition[mods]   // inner enum
             |   typename = annotationTypeDeclaration[mods] // inner annotation decl
@@ -1528,8 +1574,13 @@ variableDeclarator!
 declaratorBrackets returns [String brackets]
 {
     brackets = "";
+    AnnotationImpl ann = null;
 }
-    :   (LBRACK RBRACK! {brackets += "[]";})*
+    :
+        (
+            (ann=annotation)*
+            LBRACK RBRACK! {brackets += "[]";}
+        )*
     ;
 
 varInitializer
@@ -1766,6 +1817,9 @@ statement [CloverToken owningLabel] returns [CloverToken last]
 
     // class definition
     |   mods=classOrInterfaceModifiers[false]! classname=classDefinition[mods] { instrumentable = false; }//##TODO - return last token
+
+    // record definition
+    |   mods=classOrInterfaceModifiers[false]! classname=recordDefinition[mods] { instrumentable = false; }//##TODO - return last token
 
     // Attach a label to the front of a statement
     |   IDENT COLON {labelTok = owningLabel; if (!labelled) labelTok = first; } last = statement[labelTok]
@@ -2481,10 +2535,14 @@ primaryExpressionPart
             {
                 pushIdentifierToHeadStack(LT(0).getText());
             }
-        // look for int.class and int[].class
+        // look for int.class, int[].class, and int[]::new
     |   type=builtInType
         ( LBRACK  RBRACK! )*
-        DOT "class"
+        (
+            DOT "class"
+        |
+            METHOD_REF "new"
+        )
     ;
 
 /**
@@ -2650,6 +2708,9 @@ argList
     ;
 
 newArrayDeclarator
+{
+    AnnotationImpl ann = null;
+}
     :   (
             // CONFLICT:
             // newExpression is a primaryExpressionPart which can be
@@ -2660,6 +2721,7 @@ newArrayDeclarator
                 warnWhenFollowAmbig = false;
             }
         :
+            (ann=annotation)*
             LBRACK
                 (expression)?
             RBRACK!
