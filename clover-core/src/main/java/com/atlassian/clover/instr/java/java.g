@@ -773,7 +773,12 @@ declaration!
 // A type specification is a type name with possible brackets afterwards
 //   (which would make it an array type).
 typeSpec returns [String spec]
-    : spec = classTypeSpec
+{
+    AnnotationImpl ann = null;
+}
+    :
+      (ann=annotation)*
+      spec = classTypeSpec
     | spec = builtInTypeSpec
     ;
 
