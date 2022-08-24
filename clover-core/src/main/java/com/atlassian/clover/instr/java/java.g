@@ -779,11 +779,13 @@ typeSpec returns [String spec]
 arraySpecOpt returns [String brackets]
 {
  brackets = "";
+ AnnotationImpl ann = null;
 }
 
     :
 
         (options{greedy=true;}: // match as many as possible
+            (ann=annotation)*
             LBRACK RBRACK
             {brackets += "[]";}
         )*
@@ -853,8 +855,10 @@ typeArguments
 
 singleTypeArgument {
   String type = null;
+  AnnotationImpl ann = null;
 }
     :
+        ( ann=annotation )*
         (
             type=classTypeSpec | type=builtInTypeSpec | QUESTION
         )
@@ -890,9 +894,15 @@ builtInTypeSpec returns [String spec]
 // class name or a primitive (builtin) type
 type {
   String spec = null;
+  AnnotationImpl ann = null;
 }
-    :   spec=classOrInterfaceType
-    |   spec=builtInType
+    :
+    (ann=annotation)*
+    (
+        spec=classOrInterfaceType
+    |
+        spec=builtInType
+    )
     ;
 
 // The primitive types.
@@ -1174,8 +1184,10 @@ typeParameters returns [String asString]
 typeParameter
 {
    String type = null;
+   AnnotationImpl ann = null;
 }
     :
+        (ann=annotation)*
         (IDENT|QUESTION)
         (   // I'm pretty sure Antlr generates the right thing here:
             options{generateAmbigWarnings=false;}:
@@ -1530,8 +1542,13 @@ variableDeclarator!
 declaratorBrackets returns [String brackets]
 {
     brackets = "";
+    AnnotationImpl ann = null;
 }
-    :   (LBRACK RBRACK! {brackets += "[]";})*
+    :
+        (
+            (ann=annotation)*
+            LBRACK RBRACK! {brackets += "[]";}
+        )*
     ;
 
 varInitializer
@@ -2482,10 +2499,14 @@ primaryExpressionPart
             {
                 pushIdentifierToHeadStack(LT(0).getText());
             }
-        // look for int.class and int[].class
+        // look for int.class, int[].class, and int[]::new
     |   type=builtInType
         ( LBRACK  RBRACK! )*
-        DOT "class"
+        (
+            DOT "class"
+        |
+            METHOD_REF "new"
+        )
     ;
 
 /**
@@ -2651,6 +2672,9 @@ argList
     ;
 
 newArrayDeclarator
+{
+    AnnotationImpl ann = null;
+}
     :   (
             // CONFLICT:
             // newExpression is a primaryExpressionPart which can be
@@ -2661,6 +2685,7 @@ newArrayDeclarator
                 warnWhenFollowAmbig = false;
             }
         :
+            (ann=annotation)*
             LBRACK
                 (expression)?
             RBRACK!
