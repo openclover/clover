@@ -2659,6 +2659,9 @@ argList
     ;
 
 newArrayDeclarator
+{
+    AnnotationImpl ann = null;
+}
     :   (
             // CONFLICT:
             // newExpression is a primaryExpressionPart which can be
@@ -2669,6 +2672,7 @@ newArrayDeclarator
                 warnWhenFollowAmbig = false;
             }
         :
+            (ann=annotation)*
             LBRACK
                 (expression)?
             RBRACK!
