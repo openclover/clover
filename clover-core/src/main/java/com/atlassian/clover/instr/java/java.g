@@ -1538,8 +1538,13 @@ variableDeclarator!
 declaratorBrackets returns [String brackets]
 {
     brackets = "";
+    AnnotationImpl ann = null;
 }
-    :   (LBRACK RBRACK! {brackets += "[]";})*
+    :
+        (
+            (ann=annotation)*
+            LBRACK RBRACK! {brackets += "[]";}
+        )*
     ;
 
 varInitializer
