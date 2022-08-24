@@ -811,10 +811,12 @@ classOrInterfaceType returns [String type]
     CloverToken first = null;
     CloverToken last = null;
     type = null;
+    AnnotationImpl ann = null;
 }
 
 
 :       {first = (CloverToken)LT(1);}
+        (ann=annotation)*
         IDENT (typeArguments)?
         (options{greedy=true;}: // match as many as possible
             DOT
