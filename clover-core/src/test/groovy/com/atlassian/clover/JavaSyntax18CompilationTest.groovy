@@ -475,6 +475,13 @@ class JavaSyntax18CompilationTest extends JavaSyntaxCompilationTestBase {
         }
     }
 
+    void testTypeAnnotationInTypeParameter() {
+        if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_8)) {
+            final String fileName = "typeannotation/typeparameter/TypeAnnotationTypeParameter.java"
+            instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_1_8)
+        }
+    }
+
     void testTypeAnnotationInFieldDeclarationPostposingArray() {
         if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_8)) {
             final String fileName = "typeannotation/fielddeclarationpostposingarray/TypeAnnotationInFieldDeclarationPostposingArray.java"
