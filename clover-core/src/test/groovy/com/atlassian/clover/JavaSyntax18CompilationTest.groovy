@@ -475,6 +475,13 @@ class JavaSyntax18CompilationTest extends JavaSyntaxCompilationTestBase {
         }
     }
 
+    void testTypeAnnotationThrowsClause() {
+        if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_8)) {
+            final String fileName = "typeannotation/throwsclause/TypeAnnotationThrowsClause.java"
+            instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_1_8)
+        }
+    }
+
     void testTypeAnnotationInImplements() {
         if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_8)) {
             final String fileName = "typeannotation/implementsclause/TypeAnnotationImplements.java"

@@ -1643,8 +1643,9 @@ throwsClause returns [String [] throwsTypes]
     List<String> throwsList = new ArrayList<String>();
     throwsTypes = null;
     String id;
+    AnnotationImpl ann = null;
 }
-    :   "throws" id=identifier {throwsList.add(id);} ( COMMA! id=identifier {throwsList.add(id);})*
+    :   "throws" (ann=annotation)* id=identifier {throwsList.add(id);} ( COMMA! (ann=annotation)* id=identifier {throwsList.add(id);})*
         {
             throwsTypes = (String[])throwsList.toArray(new String[throwsList.size()]);
         }
