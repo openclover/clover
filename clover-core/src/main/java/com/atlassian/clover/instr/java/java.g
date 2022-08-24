@@ -2490,10 +2490,14 @@ primaryExpressionPart
             {
                 pushIdentifierToHeadStack(LT(0).getText());
             }
-        // look for int.class and int[].class
+        // look for int.class, int[].class, and int[]::new
     |   type=builtInType
         ( LBRACK  RBRACK! )*
-        DOT "class"
+        (
+            DOT "class"
+        |
+            METHOD_REF "new"
+        )
     ;
 
 /**
