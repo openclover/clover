@@ -481,4 +481,26 @@ class JavaSyntax18CompilationTest extends JavaSyntaxCompilationTestBase {
             instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_1_8)
         }
     }
+
+    void testTypeAnnotationInFieldDeclarationArray() {
+        if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_8)) {
+            final String fileName = "typeannotation/fielddeclarationarray/TypeAnnotationInFieldDeclarationArray.java"
+            instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_1_8)
+        }
+    }
+     
+    void testTypeAnnotationNewOperator() {
+        if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_8)) {
+            final String fileName = "typeannotation/newoperator/TypeAnnotationInNewOperator.java"
+            instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_1_8)
+        }
+    }  
+
+    void testTypeAnnotationInFieldDeclarationGeneric() {
+        if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_8)) {
+            final String fileName = "typeannotation/fielddeclarationgenerics/TypeAnnotationInFieldDeclarationGenerics.java"
+            instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_1_8)
+            assertFileMatches(fileName, R_INC + "System.out.println", false)
+        }
+    }
 }

@@ -14,6 +14,6 @@
     <property name="jcommon.ver" value="1.0.23"/>
     <property name="jdom.ver" value="1.0"/>
     <property name="jfreechart.ver" value="1.0.19"/>
-    <property name="log4j.ver" value="1.2.17"/>
+    <property name="log4j.ver" value="2.17.2"/>
     <property name="velocity.ver" value="1.7"/>
 </project>

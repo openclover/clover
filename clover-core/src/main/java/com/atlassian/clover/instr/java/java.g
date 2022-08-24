@@ -779,11 +779,13 @@ typeSpec returns [String spec]
 arraySpecOpt returns [String brackets]
 {
  brackets = "";
+ AnnotationImpl ann = null;
 }
 
     :
 
         (options{greedy=true;}: // match as many as possible
+            (ann=annotation)*
             LBRACK RBRACK
             {brackets += "[]";}
         )*
@@ -851,8 +853,10 @@ typeArguments
 
 singleTypeArgument {
   String type = null;
+  AnnotationImpl ann = null;
 }
     :
+        ( ann=annotation )*
         (
             type=classTypeSpec | type=builtInTypeSpec | QUESTION
         )
@@ -888,9 +892,15 @@ builtInTypeSpec returns [String spec]
 // class name or a primitive (builtin) type
 type {
   String spec = null;
+  AnnotationImpl ann = null;
 }
-    :   spec=classOrInterfaceType
-    |   spec=builtInType
+    :
+    (ann=annotation)*
+    (
+        spec=classOrInterfaceType
+    |
+        spec=builtInType
+    )
     ;
 
 // The primitive types.
