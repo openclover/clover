@@ -851,8 +851,10 @@ typeArguments
 
 singleTypeArgument {
   String type = null;
+  AnnotationImpl ann = null;
 }
     :
+        ( ann=annotation )*
         (
             type=classTypeSpec | type=builtInTypeSpec | QUESTION
         )
