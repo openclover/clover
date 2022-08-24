@@ -474,7 +474,7 @@ class JavaSyntax18CompilationTest extends JavaSyntaxCompilationTestBase {
         if (JavaEnvUtils.getJavaVersion().equals("8")) {
             instrumentAndCompileSourceFile(srcDir, mGenSrcDir, "pck/package-info.java", JavaEnvUtils.JAVA_1_8)
         } else if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_9)) {
-            instrumentAndCompileSourceFile(srcDir, mGenSrcDir, "pck2/package-info.java", JavaEnvUtils.JAVA_1_8)
+            instrumentAndCompileSourceFile(srcDir, mGenSrcDir, "pck2/package-info.java", JavaEnvUtils.JAVA_1_9)
         }
     }
 }
