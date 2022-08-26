@@ -2,8 +2,8 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>clover-log4j</artifactId>
-    <version>1.2.17</version>
+    <artifactId>clover-slf4j</artifactId>
+    <version>1.7.36</version>
     <packaging>jar</packaging>
     <parent>
         <groupId>com.atlassian.clover</groupId>
@@ -15,24 +15,24 @@
     </description>
     <licenses>
         <license>
-            <name>Apache 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+            <name>MIT</name>
+            <url>https://www.slf4j.org/license.html</url>
         </license>
     </licenses>
-    <name>Clover Log4J Library</name>
+    <name>Clover SLF4J Library</name>
     <!-- Repack, install and deploy only with the 'repack' profile -->
     <profiles>
         <profile>
             <id>repack</id>
             <dependencies>
                 <dependency>
-                    <groupId>log4j</groupId>
-                    <artifactId>log4j</artifactId>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
                     <version>${project.version}</version>
                 </dependency>
             </dependencies>
             <properties>
-                <target.jar>clover-log4j-${project.version}.jar</target.jar>
+                <target.jar>clover-slf4j-${project.version}.jar</target.jar>
             </properties>
             <build>
                 <plugins>
@@ -56,10 +56,10 @@
 
                                 <!-- repack source jar -->
                                 <delete file="${project.build.directory}/temp.jar"/>
-                                <echo message="Repacking ${log4j:log4j:jar}"/>
+                                <echo message="Repacking ${org.slf4j:slf4j-api:jar}"/>
                                 <jarjar jarfile="${project.build.directory}/temp.jar">
-                                    <zipfileset src="${log4j:log4j:jar}" includes="**/*" excludes=""/>
-                                    <rule pattern="org.apache.log4j.**" result="clover.@0"/>
+                                    <zipfileset src="${org.slf4j:slf4j-api:jar}" includes="**/*" excludes=""/>
+                                    <rule pattern="org.slf4j.**" result="clover.@0"/>
                                 </jarjar>
 
                                 <!-- delete empty directories (jarjar 1.4 bug workaround) -->

@@ -46,7 +46,7 @@
             <arg value="-Djcommon.ver=${jcommon.ver}"/>
             <arg value="-Djdom.ver=${jdom.ver}"/>
             <arg value="-Djfreechart.ver=${jfreechart.ver}"/>
-            <arg value="-Dlog4j.ver=${log4j.ver}"/>
+            <arg value="-Dslf4j.ver=${slf4j.ver}"/>
             <arg value="-Dvelocity.ver=${velocity.ver}"/>
         </exec>
 
@@ -61,7 +61,7 @@
         <property name="clover.cajo.jar" location="${clover-core-libs.output.deps}/clover-cajo-${cajo.ver}.jar"/>
         <property name="clover.commons-lang3.jar" location="${clover-core-libs.output.deps}/clover-commons-lang3-${commons-lang3.ver}.jar"/>
         <property name="clover.guava.jar" location="${clover-core-libs.output.deps}/clover-guava-${guava.ver}.jar"/>
-        <property name="clover.log4j.jar" location="${clover-core-libs.output.deps}/clover-log4j-${log4j.ver}.jar"/>
+        <property name="clover.slf4j.jar" location="${clover-core-libs.output.deps}/clover-slf4j-${slf4j.ver}.jar"/>
     </target>
 
     <target name="clover-core-libs.build" depends="clover-core-libs.initialize"/>

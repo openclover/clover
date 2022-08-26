@@ -134,7 +134,7 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$MAVEN_REPOSITORY$/com/atlassian/clover/clover-log4j/1.2.17/clover-log4j-1.2.17.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/com/atlassian/clover/clover-slf4j/1.7.36/clover-slf4j-1.7.36.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
