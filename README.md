@@ -48,6 +48,42 @@ See also:
 * https://github.com/jenkinsci/clover-plugin
 * https://github.com/hudson3-plugins/clover-plugin
 
+# Quick setup #
+
+* Install JDK 1.8, Ant 1.10+, Maven 3.8+, Git
+* Prepare work environment: 
+
+```
+#  Download KTreemap fork
+#  git clone https://bitbucket.org/atlassian/ktreemap
+#  cd ktreemap
+#  git checkout ktreemap-1.1.0-atlassian-01
+#  mvn install   # fails because of missing eclipse artifact
+
+# Prepare repacked third party libraries
+mvn install -f clover-core-libs/jarjar/pom.xml
+mvn install -Prepack -f clover-core-libs/pom.xml
+mvn install -Prepack -f clover-idea/clover-jtreemap/pom.xml
+```
+
+Now you can work with the code. A naming convention for Ant targets is:
+
+<global | module-name>.<build | test.build | test | clean | repkg>
+
+There are more global and module-specific targets available.
+
+Examples:
+
+```
+# Compile everything, including tests
+ant global.test.build 
+```
+
+```
+# Run tests for three main modules
+ant clover-core.test clover-ant.test groovy.test
+```
+
 ---
 
 Copyright @ 2002 - 2017 Atlassian Pty Ltd
