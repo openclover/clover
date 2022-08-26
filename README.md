@@ -69,7 +69,7 @@ git checkout ktreemap-1.1.0-atlassian-01
 # an old maven-antrun-plugin does not recognize <target> tag
 sed -i -e 's@<artifactId>maven-antrun-plugin</artifactId>@<artifactId>maven-antrun-plugin</artifactId><version>3.1.0</version>@' pom.xml
 # maven-dependency-plugin fails because of missing eclipse artifact so copy JARs manually
-mkdir target/eclipse; cp ../target/dependencies/eclipse/4.4/plugins/*.jar target/eclipse
+mkdir -p target/eclipse; cp ../target/dependencies/eclipse/4.4/plugins/*.jar target/eclipse
 mvn install -Dmdep.skip=true  
 cd ..
 ```
