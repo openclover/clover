@@ -20,6 +20,13 @@ jobs:
           java-version: 1.8
           cache: 'maven'
 
+      - name: Cache Eclipse binaries
+        id: cache-eclipse
+        uses: actions/cache@v3
+        with:
+          path: target/dependencies/eclipse
+          key: ${{ runner.os }}-eclipse-${{ hashFiles('**') }}
+
       - name: Prepare repacked third party libraries
         run: |
           mvn install -f clover-core-libs/jarjar/pom.xml
