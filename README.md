@@ -51,4 +51,4 @@ See also:
 ---
 
 Copyright @ 2002 - 2017 Atlassian Pty Ltd
-Copyright @ 2017 modifications by OpenClover.org
+Copyright @ 2017 - 2022 modifications by OpenClover.org
