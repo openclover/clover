@@ -25,7 +25,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: target/dependencies/eclipse
-          key: ${{ runner.os }}-eclipse-${{ hashFiles('**') }}
+          key: ${{ runner.os }}-eclipse-${{ hashFiles('clover-eclipse/clover-eclipse-libs/build.xml') }}
 
       - name: Prepare repacked third party libraries
         run: |
