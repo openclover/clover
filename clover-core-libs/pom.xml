@@ -59,7 +59,7 @@
                 <module>clover-jcommon</module>
                 <module>clover-jdom</module>
                 <module>clover-jfreechart</module>
-                <module>clover-log4j</module>
+                <module>clover-slf4j</module>
                 <module>clover-velocity</module>
             </modules>
             <build>
@@ -160,8 +160,8 @@
                 </dependency>
                 <dependency>
                     <groupId>com.atlassian.clover</groupId>
-                    <artifactId>clover-log4j</artifactId>
-                    <version>${log4j.ver}</version>
+                    <artifactId>clover-slf4j</artifactId>
+                    <version>${slf4j.ver}</version>
                 </dependency>
                 <dependency>
                     <groupId>com.atlassian.clover</groupId>
