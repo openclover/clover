@@ -44,7 +44,7 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$MAVEN_REPOSITORY$/com/atlassian/clover/clover-commons-collections/3.2.1/clover-commons-collections-3.2.1.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/com/atlassian/clover/clover-commons-collections/3.2.2/clover-commons-collections-3.2.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -89,7 +89,7 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$MAVEN_REPOSITORY$/com/atlassian/clover/clover-guava/18.0/clover-guava-18.0.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/com/atlassian/clover/clover-guava/29.0-android/clover-guava-29.0-android.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
