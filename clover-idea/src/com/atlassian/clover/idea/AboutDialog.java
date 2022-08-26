@@ -96,38 +96,38 @@ public class AboutDialog extends DialogWrapper {
         sb.append("<p>OpenClover makes use of the following 3rd party libraries:</p>");
         sb.append("<table width=\"100%\" border=\"0\" cellspacing=\"0\">");
         addRow(sb,
-                addProduct("Annotations (IntelliJ)", "http://www.jetbrains.com", "ANNOTATIONS-13.0-LICENSE.TXT"),
-                addProduct("Ant", "http://ant.apache.org", "ANT-1.5.2-LICENSE.TXT"));
+                addProduct("Annotations (IntelliJ)", "https://www.jetbrains.com", "ANNOTATIONS-13.0-LICENSE.TXT"),
+                addProduct("Ant", "https://ant.apache.org", "ANT-1.5.2-LICENSE.TXT"));
         addRow(sb,
-                addProduct("ANTLR2 Library", "http://www.antlr2.org", "ANTLR-2.7.7-LICENSE.TXT"),
-                addProduct("ANTLR3 Java Grammar", "http://www.antlr3.org", "ANTLR-JAVA-GRAMMAR-3.0-LICENSE.TXT"));
+                addProduct("ANTLR2 Library", "https://www.antlr2.org", "ANTLR-2.7.7-LICENSE.TXT"),
+                addProduct("ANTLR3 Java Grammar", "https://www.antlr3.org", "ANTLR-JAVA-GRAMMAR-3.0-LICENSE.TXT"));
         addRow(sb,
-                addProduct("Cajo", "http://java.net/projects/cajo/pages/Home", "CAJO-1.117-LICENSE.TXT"),
-                addProduct("Commons Codec", "http://commons.apache.org", "COMMONS-CODEC-1.9-LICENSE.TXT"));
+                addProduct("Cajo", "https://java.net/projects/cajo/pages/Home", "CAJO-1.117-LICENSE.TXT"),
+                addProduct("Commons Codec", "https://commons.apache.org", "COMMONS-CODEC-1.9-LICENSE.TXT"));
         addRow(sb,
-                addProduct("Commons Collections", "http://commons.apache.org", "COMMONS-COLLECTIONS-3.2.2-LICENSE.TXT"),
-                addProduct("Commons Lang", "http://commons.apache.org", "COMMONS-LANG3-3.3.2-LICENSE.TXT"));
+                addProduct("Commons Collections", "https://commons.apache.org", "COMMONS-COLLECTIONS-3.2.2-LICENSE.TXT"),
+                addProduct("Commons Lang", "https://commons.apache.org", "COMMONS-LANG3-3.3.2-LICENSE.TXT"));
         addRow(sb,
-                addProduct("FastUtil", "http://fastutil.dsi.unimi.it/", "FASTUTIL-4.4.3-LICENSE.TXT"),
-                addProduct("Groovy", "http://groovy.codehaus.org", "GROOVY-1.7.0-LICENSE.TXT"));
+                addProduct("FastUtil", "https://fastutil.dsi.unimi.it/", "FASTUTIL-4.4.3-LICENSE.TXT"),
+                addProduct("Groovy", "https://groovy.codehaus.org", "GROOVY-1.7.0-LICENSE.TXT"));
         addRow(sb,
-                addProduct("GSON", "http://code.google.com/p/google-gson", "GSON-1.3-LICENSE.TXT"),
+                addProduct("GSON", "https://code.google.com/p/google-gson", "GSON-1.3-LICENSE.TXT"),
                 addProduct("Guava", "https://github.com/google/guava", "GUAVA-29.0-LICENSE.TXT"));
         addRow(sb,
-                addProduct("iText", "http://itextpdf.com", "ITEXT-2.0.1-LICENSE.TXT"),
-                addProduct("JCommon", "http://www.jfree.org/jfreechart/", "JCOMMON-1.0.23-LICENSE.TXT"));
+                addProduct("iText", "https://itextpdf.com", "ITEXT-2.0.1-LICENSE.TXT"),
+                addProduct("JCommon", "https://www.jfree.org/jfreechart/", "JCOMMON-1.0.23-LICENSE.TXT"));
         addRow(sb,
-                addProduct("JDOM", "http://www.jdom.org/", "JDOM-1.0-LICENSE.TXT"),
-                addProduct("JFreeChart", "http://www.jfree.org/jfreechart/", "JFREECHART-1.0.19-LICENSE.TXT"));
+                addProduct("JDOM", "https://www.jdom.org/", "JDOM-1.0-LICENSE.TXT"),
+                addProduct("JFreeChart", "https://www.jfree.org/jfreechart/", "JFREECHART-1.0.19-LICENSE.TXT"));
         addRow(sb,
-                addProduct("JTreemap", "http://jtreemap.sourceforge.net/", "JTREEMAP-1.1.0-LICENSE.TXT"),
-                addProduct("JIT", "http://thejit.org/", "JIT-1.1.2-LICENSE.TXT"));
+                addProduct("JTreemap", "https://jtreemap.sourceforge.net/", "JTREEMAP-1.1.0-LICENSE.TXT"),
+                addProduct("JIT", "https://thejit.org/", "JIT-1.1.2-LICENSE.TXT"));
         addRow(sb,
-                addProduct("JSON", "http://www.json.org", "JSON-LICENSE.TXT"),
-                addProduct("jQuery", "http://jquery.com", "JQUERY-1.8.3-LICENSE.TXT"));
+                addProduct("JSON", "https://www.json.org", "JSON-LICENSE.TXT"),
+                addProduct("jQuery", "https://jquery.com", "JQUERY-1.8.3-LICENSE.TXT"));
         addRow(sb,
-                addProduct("Log4j", "http://logging.apache.org/log4j/1.2", "LOG4J-1.2.17-LICENSE.TXT"),
-                addProduct("Velocity", "http://velocity.apache.org/", "VELOCITY-1.7-LICENSE.TXT"));
+                addProduct("SLF4J", "https://www.slf4j.org", "SLF4J-1.7.36-LICENSE.TXT"),
+                addProduct("Velocity", "https://velocity.apache.org/", "VELOCITY-1.7-LICENSE.TXT"));
 
         addRow(sb,
                 "<td colspan=\"4\">OpenClover also reuses some icons from:</td>");
