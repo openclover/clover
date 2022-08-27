@@ -48,7 +48,7 @@ See also:
 * https://github.com/jenkinsci/clover-plugin
 * https://github.com/hudson3-plugins/clover-plugin
 
-# Quick setup #
+# Quick setup for developing OpenClover #
 
 * Install JDK 1.8, Ant 1.10+, Maven 3.8+, Git
 * Prepare work environment: 
