@@ -6,31 +6,45 @@ name: A Test master
 on:
   push:
     branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-      
-    - name: Set up JDK 1.8
-      uses: actions/setup-java@v1
-      with:
-        java-version: 1.8
-    
-#    - name: Download KTreemap fork
-#      run: |
-#         git clone https://bitbucket.org/atlassian/ktreemap
-#         cd ktreemap
-#         git checkout ktreemap-1.1.0-atlassian-01
-#         mvn install   # fails because of missing eclipse artifact
+      - uses: actions/checkout@v2
 
-    - name: Prepare repacked third party libraries
-      run: |
-        mvn install -f clover-core-libs/jarjar/pom.xml
-        mvn install -Prepack -f clover-core-libs/pom.xml
-        mvn install -Prepack -f clover-idea/clover-jtreemap/pom.xml
- 
-    - name: Run core tests
-      run: ant -noinput -buildfile build.xml clover-core.test clover-ant.test groovy.test
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+
+      - name: Prepare repacked third party libraries
+        run: |
+          mvn install -f clover-core-libs/jarjar/pom.xml
+          mvn install -Prepack -f clover-core-libs/pom.xml
+          mvn install -Prepack -f clover-idea/clover-jtreemap/pom.xml
+
+      - name: Download Eclipse IDE binaries
+        run: ant -noinput -buildfile build.xml clover-eclipse-libs.build
+
+      - name: Download KTreemap fork
+        run: |
+           git clone https://bitbucket.org/atlassian/ktreemap
+           cd ktreemap
+           git checkout ktreemap-1.1.0-atlassian-01           
+           # an old maven-antrun-plugin does not recognize <target> tag
+           sed -i 's/<artifactId>maven-antrun-plugin</artifactId>/<artifactId>maven-antrun-plugin</artifactId><version>3.1.0</version>' pom.xml
+           # maven dependency plugin fails because of missing eclipse artifact so copy it manually
+           mkdir target/eclipse
+           cp ../target/dependencies/eclipse/4.4/plugins/*.jar target/eclipse           
+           mvn install -Dmdep.skip=true  
+           cd ..
+
+      - name: Run core tests
+        run: |
+           ant -noinput -buildfile build.xml clover-core.test clover-ant.test groovy.test
+           ant -noinput -buildfile build.xml clover-eclipse.build.all.versions
+        

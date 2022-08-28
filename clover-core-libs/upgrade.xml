@@ -19,7 +19,7 @@
         * JCommon
         * JDOM
         * JFreeChart
-        * Log4j
+        * SLF4J
         * Velocity
 
     How to use it:
@@ -199,14 +199,13 @@
         <property name="clover.jfreechart.jar" location="clover-jfreechart/target/clover-jfreechart-${jfreechart.ver}.jar"/>
     </target>
 
-    <target name="log4j.upgrade">
-        <!-- TODO UPGRADE TO org.apache.logging.log4j:log4j:2.x or replace by slf4j? -->
-        <mvn pom="clover-log4j/pom.xml" mavenversion="${mvn.version}">
+    <target name="slf4j.upgrade">
+        <mvn pom="clover-slf4j/pom.xml" mavenversion="${mvn.version}">
             <arg value="clean"/>
             <arg value="install"/>
             <arg value="-Prepack"/>
         </mvn>
-        <property name="clover.log4j.jar" location="clover-log4j/target/clover-log4j-${log4j.ver}.jar"/>
+        <property name="clover.slf4j.jar" location="clover-slf4j/target/clover-slf4j-${slf4j.ver}.jar"/>
     </target>
 
     <target name="velocity.upgrade"
@@ -228,7 +227,7 @@
                 commons-codec.upgrade, commons-collections.upgrade, commons-lang.upgrade,
                 commons-lang3.upgrade, jcommon.upgrade, jfreechart.upgrade,
                 fastutil.upgrade, gson.upgrade, guava.upgrade, itext.upgrade, jdom.upgrade,
-                log4j.upgrade, velocity.upgrade"/>
+                slf4j.upgrade, velocity.upgrade"/>
 
     <target name="core.upgrade" depends="clover-core-libs.upgrade">
         <property name="clover-core.backup" location="${clover-core.jar}.bak"/>
@@ -268,7 +267,7 @@
             <zipfileset src="${clover.gson.jar}"/>
             <zipfileset src="${clover.guava.jar}"/>
             <zipfileset src="${clover.itext.jar}"/>
-            <zipfileset src="${clover.log4j.jar}"/>
+            <zipfileset src="${clover.slf4j.jar}"/>
             <zipfileset src="${clover.velocity.jar}"/>
         </jar>
 

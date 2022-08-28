@@ -76,7 +76,7 @@
                 <include name="clover/com/google/common/io/ByteProcessor*"/>
             </patternset>
         </unzip>
-        <unzip src="${clover.log4j.jar}" dest="${clover-runtime.output.classes}"/>
+        <unzip src="${clover.slf4j.jar}" dest="${clover-runtime.output.classes}"/>
     </target>
 
     <target name="clover-runtime.init"

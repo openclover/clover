@@ -9,7 +9,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="asm-3.0" level="project" />
-    <orderEntry type="library" name="groovy-all-2.4.15" level="project" />
+    <orderEntry type="library" name="groovy-2.4.21" level="application" />
     <orderEntry type="library" name="junit-4.12" level="project" />
   </component>
 </module>
