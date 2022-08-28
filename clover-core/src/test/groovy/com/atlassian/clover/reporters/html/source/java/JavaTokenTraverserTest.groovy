@@ -95,9 +95,7 @@ class JavaTokenTraverserTest {
             checkRenderingAgainstChunkList("\"\r\"", chunks)
             fail("Should not have reached here with an invalid token.")
         } catch (TokenStreamException e) {
-            assertThat(e.getMessage(), anyOf(
-                    equalTo("expecting '\"', found '\\n'"),
-                    equalTo("expecting '\"', found '\\r'")))
+            assertThat(e.getMessage(), equalTo("unexpected char: '\"'"))
         }
     }
 
