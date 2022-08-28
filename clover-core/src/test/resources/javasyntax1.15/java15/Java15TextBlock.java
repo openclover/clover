@@ -24,7 +24,7 @@ public class Java15TextBlock {
 
         System.out.println("""
                 text \
-                concatinated""");
+                concatenated""");
 
         System.out.println("""
                 contains "" \u005c""

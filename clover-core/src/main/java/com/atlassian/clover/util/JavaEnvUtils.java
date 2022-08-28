@@ -1,6 +1,6 @@
 package com.atlassian.clover.util;
 
-import javax.lang.model.SourceVersion;
+import java.util.stream.Collectors;
 
 /**
  * Code to detect what version of Java we are running on. It does not test for unsupported versions.
@@ -27,7 +27,18 @@ public class JavaEnvUtils {
             javaVersion = JAVA_8;
             Class.forName("java.lang.StackWalker");
             javaVersion = JAVA_9;
-            javaVersion = SourceVersion.latestSupported().toString().substring("RELEASE_".length());
+            Collectors.class.getMethod("toUnmodifiableList");
+            javaVersion = JAVA_10;
+            String.class.getMethod("strip");
+            javaVersion = JAVA_11;
+            Class.class.getMethod("arrayType");
+            javaVersion = JAVA_12;
+            String.class.getMethod("translateEscapes");
+            javaVersion = JAVA_13;
+            Class.forName("java.io.Serial");
+            javaVersion = JAVA_14;
+            Class.class.getMethod("isHidden");
+            javaVersion = JAVA_15;
         } catch (Throwable t) {
             // ignore
         }

@@ -3041,8 +3041,7 @@ protected STRING_LITERAL_SINGLE_LINE
 
 protected STRING_LITERAL_TEXT_BLOCK
     : {nc();} '"' '"' '"' ( '\r' | '\n' ) 
-        (   (  BACKSLASH   '"' '"'  '"' ) =>  BACKSLASH   '"' '"' '"'
-          | ( (BACKSLASH)? '"' '"' ~'"' ) => (BACKSLASH)? '"' '"'
+        (   ( (BACKSLASH)? '"' '"' ~'"' ) => (BACKSLASH)? '"' '"'
           | ( (BACKSLASH)? '"'     ~'"' ) => (BACKSLASH)? '"'
           | '\r' '\n'       {newline();}
           | '\r'            {newline();}

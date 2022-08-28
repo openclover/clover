@@ -1,8 +1,6 @@
 package com.atlassian.clover
 
-import com.atlassian.clover.util.FileUtils
-import org.apache.tools.ant.util.JavaEnvUtils
-
+import com.atlassian.clover.util.JavaEnvUtils
 
 /**
  * The purpose of this test is to
@@ -28,7 +26,7 @@ class JavaSyntax115CompilationTest extends JavaSyntaxCompilationTestBase {
         File srcFile = new File(srcDir, fileName)
 
         // Currently, OpenClover cannot be built on JDK15
-        instrumentSourceFile(srcFile,  com.atlassian.clover.util.JavaEnvUtils.JAVA_15)
+        instrumentSourceFile(srcFile, JavaEnvUtils.JAVA_15)
         assertFileMatches(fileName, R_INC + "System.out.println", false)
     }
 }
