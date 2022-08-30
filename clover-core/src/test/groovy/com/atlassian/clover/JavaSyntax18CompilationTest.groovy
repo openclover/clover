@@ -470,8 +470,11 @@ class JavaSyntax18CompilationTest extends JavaSyntaxCompilationTestBase {
     }
 
     void testPackageInfo() {
-        if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_8)) {
+        // @XmlAccessorType annotation is deprecated in JDK 9 and not available in JDK 11 or later
+        if (JavaEnvUtils.getJavaVersion().equals("8")) {
             instrumentAndCompileSourceFile(srcDir, mGenSrcDir, "pck/package-info.java", JavaEnvUtils.JAVA_1_8)
+        } else if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_9)) {
+            instrumentAndCompileSourceFile(srcDir, mGenSrcDir, "pck2/package-info.java", JavaEnvUtils.JAVA_1_9)
         }
     }
 

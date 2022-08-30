@@ -53,4 +53,12 @@ class JavaSyntax19CompilationTest extends JavaSyntaxCompilationTestBase {
         instrumentSourceFile(sourceFile, JavaEnvUtils.JAVA_1_7)
     }
 
+    void testTryWithResourcesWithVariable() {
+        if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_9)) {
+            final String fileName = "java9/Java9TryWithResourcesWithVariable.java"
+            instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_9)
+
+            assertFileMatches(fileName, R_INC + "ps.println", false)
+        }
+    }
 }
