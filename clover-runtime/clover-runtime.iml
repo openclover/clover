@@ -51,7 +51,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MAVEN_REPOSITORY$/com/atlassian/clover/clover-guava/18.0/clover-guava-18.0.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/com/atlassian/clover/clover-guava/29.0-android/clover-guava-29.0-android.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -60,7 +60,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MAVEN_REPOSITORY$/com/atlassian/clover/clover-log4j/1.2.17/clover-log4j-1.2.17.jar!/" />
+          <root url="jar://$MAVEN_REPOSITORY$/com/atlassian/clover/clover-slf4j/1.7.36/clover-slf4j-1.7.36.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

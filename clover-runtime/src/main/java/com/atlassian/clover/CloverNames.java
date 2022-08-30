@@ -23,7 +23,7 @@ public class CloverNames {
     public static final String PROP_ENV_PROPREF_STARTCHAR = PROP_PREFIX + "env.propref.startchar";
     /** Logging level: debug, verbose, info, warn, error (String) */
     public static final String PROP_LOGGING_LEVEL = PROP_PREFIX + "logging.level";
-    /** Name of the Log4J logging adapter which shall be used (String) */
+    /** Name of the logging adapter which shall be used (String) */
     public static final String PROP_LOGGING_ADAPTER = PROP_PREFIX + "logging.adapter";
     /** Whether to log writing/reading of tagged data files. For debugging only (Boolean) */
     public static final String PROP_LOGGING_TAGGED_IO = PROP_PREFIX + "logging.tagged.io";
