@@ -387,7 +387,7 @@ public class CloverInstrArgProcessors {
         }
 
         private MethodContextDef parseContextDef(String line) throws CloverException {
-            final String parameters[] = line.split(";");
+            final String[] parameters = line.split(";");
             if (parameters.length < 2 || parameters.length > 6) {
                 throw new CloverException(String.format("Expected between 2 and 6 parameters, but found %d in '%s'",
                         parameters.length, line));
@@ -566,7 +566,7 @@ public class CloverInstrArgProcessors {
         }
 
         private TestClassSpec parseTestClassSpec(String arg) throws CloverException {
-            final String parameters[] = arg.split(";");
+            final String[] parameters = arg.split(";");
             if (parameters.length < 1 || parameters.length > 5) {
                 throw new CloverException(String.format("Expected between 1 and 5 parameters, but found %d in '%s'",
                         parameters.length, arg));
@@ -620,7 +620,7 @@ public class CloverInstrArgProcessors {
         }
 
         private TestMethodSpec parseTestMethodSpec(String arg) throws CloverException {
-            final String parameters[] = arg.split(";");
+            final String[] parameters = arg.split(";");
             if (parameters.length < 1 || parameters.length > 4) {
                 throw new CloverException(String.format("Expected between 1 and 4 parameters, but found %d in '%s'",
                         parameters.length, arg));

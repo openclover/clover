@@ -275,7 +275,7 @@ public class Nodes {
             for (IMethod method : methods) {
                 collectTestCases(method, testCases, converter);
             }
-            IType innerTypes[] = type.getTypes();
+            IType[] innerTypes = type.getTypes();
             for (IType innerType : innerTypes) {
                 collectTestCases(innerType, testCases, converter);
             }

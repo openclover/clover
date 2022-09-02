@@ -580,7 +580,7 @@ public class RenderingSupport {
         @Override
         public void tableLayout(PdfPTable table, float[][] width, float[] heights,
                                 int headerRows, int rowStart, PdfContentByte[] canvases) {
-            float widths[] = width[0];
+            float[] widths = width[0];
             PdfContentByte cb = canvases[PdfPTable.TEXTCANVAS];
             float w = widths[1] - widths[0];
             float h = heights[0] - heights[1];
@@ -625,7 +625,7 @@ public class RenderingSupport {
         @Override
         public void tableLayout(PdfPTable table, float[][] width, float[] heights,
                                 int headerRows, int rowStart, PdfContentByte[] canvases) {
-            float widths[] = width[0];
+            float[] widths = width[0];
             PdfContentByte cb = canvases[PdfPTable.TEXTCANVAS];
             cb.saveState();
 

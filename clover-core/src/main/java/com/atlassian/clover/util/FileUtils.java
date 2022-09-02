@@ -226,7 +226,7 @@ public class FileUtils {
      */
     public static boolean deltree(File rootDir) {
         if (rootDir.isDirectory()) {
-            final String files[] = rootDir.list();
+            final String[] files = rootDir.list();
             for (String file : files) {
                 if (!deltree(new File(rootDir, file))) {
                     return false;

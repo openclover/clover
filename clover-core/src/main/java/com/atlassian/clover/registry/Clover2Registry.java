@@ -101,7 +101,7 @@ public class Clover2Registry implements InstrumentationTarget {
             final Map<String, FullFileInfo> fileInfos = newHashMap();
             final long version = regFile.getVersion();
 
-            final Clover2Registry resultReg[] = new Clover2Registry[1];
+            final Clover2Registry[] resultReg = new Clover2Registry[1];
             regFile.readContents(new RegContentsConsumer() {
                 @Override
                 public void consume(RegContents contents) throws IOException, CloverRegistryException {
