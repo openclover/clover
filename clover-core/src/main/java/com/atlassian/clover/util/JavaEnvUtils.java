@@ -1,7 +1,5 @@
 package com.atlassian.clover.util;
 
-import java.util.stream.Collectors;
-
 /**
  * Code to detect what version of Java we are running on. It does not test for unsupported versions.
  * Based on the JavaEnvUtils from Ant
@@ -27,7 +25,7 @@ public class JavaEnvUtils {
             javaVersion = JAVA_8;
             Class.forName("java.lang.StackWalker");
             javaVersion = JAVA_9;
-            Collectors.class.getMethod("toUnmodifiableList");
+            Class.forName("java.util.stream.Collectors").getMethod("toUnmodifiableList");
             javaVersion = JAVA_10;
             String.class.getMethod("strip");
             javaVersion = JAVA_11;
