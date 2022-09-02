@@ -35,7 +35,7 @@ public class RenderFileJSONAction extends RenderFileAction {
 
         try {
             final Map<String, Number> columnValues =
-                JSONReportUtils.collectColumnValuesFor((List)columnsTL.get(), fileInfo, renderingHelper);
+                JSONReportUtils.collectColumnValuesFor(columnsTL.get(), fileInfo, renderingHelper);
 
             final SourceRenderHelper srh = new SourceRenderHelper(database, reportConfig, renderingHelper);
             final FullFileInfo fcopy = fileInfo.copy((FullPackageInfo)fileInfo.getContainingPackage(), HasMetricsFilter.ACCEPT_ALL);

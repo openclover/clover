@@ -206,8 +206,8 @@ public class GroovyModelMiner {
             }
         } else if (e instanceof ClassExpression) {
             //Capture any ClassNodes as these may be needed when augmenting the AST
-            classNodes.put(((ClassExpression)e).getType().getName(), ((ClassExpression)e).getType());
-            return new StringifiedAnnotationValue(extractVerbatimType(((ClassExpression)e).getType(), false, true));
+            classNodes.put(e.getType().getName(), e.getType());
+            return new StringifiedAnnotationValue(extractVerbatimType(e.getType(), false, true));
         } else if (e instanceof ListExpression) {
             ArrayAnnotationValue array = new ArrayAnnotationValue();
             final List<Expression> expressions = ((ListExpression) e).getExpressions();

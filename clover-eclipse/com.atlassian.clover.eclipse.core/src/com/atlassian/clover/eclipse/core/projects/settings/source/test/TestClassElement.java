@@ -63,7 +63,7 @@ public class TestClassElement implements TreeElement {
         result.setSuper(superName);
 
         for (int i = 0; i < testMethods.getMethods().size(); i++) {
-            TestMethodElement testMethodElement = (TestMethodElement) testMethods.getMethods().get(i);
+            TestMethodElement testMethodElement = testMethods.getMethods().get(i);
             result.addConfiguredTestMethod(testMethodElement.toTestMethodSpec());
         }
         

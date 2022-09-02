@@ -49,21 +49,21 @@ public class GeneralConfigPanel extends AbstractInlineConfigPanel {
     @Override
     public void commitTo(CloverPluginConfig config) {
         IdeaCloverConfig iConfig = (IdeaCloverConfig) config;
-        iConfig.setShowGutter(((JCheckBox) getCheckboxes().get(0)).isSelected());
-        iConfig.setShowErrorMarks(((JCheckBox) getCheckboxes().get(1)).isSelected());
-        iConfig.setShowTooltips(((JCheckBox) getCheckboxes().get(2)).isSelected());
-        iConfig.setShowSummaryInToolbar(((JCheckBox) getCheckboxes().get(3)).isSelected());
-        iConfig.setShowInline(((JCheckBox) getCheckboxes().get(4)).isSelected());
+        iConfig.setShowGutter(getCheckboxes().get(0).isSelected());
+        iConfig.setShowErrorMarks(getCheckboxes().get(1).isSelected());
+        iConfig.setShowTooltips(getCheckboxes().get(2).isSelected());
+        iConfig.setShowSummaryInToolbar(getCheckboxes().get(3).isSelected());
+        iConfig.setShowInline(getCheckboxes().get(4).isSelected());
     }
 
     @Override
     public void loadFrom(CloverPluginConfig config) {
         IdeaCloverConfig iConfig = (IdeaCloverConfig) config;
-        ((JCheckBox) getCheckboxes().get(0)).setSelected(iConfig.isShowGutter());
-        ((JCheckBox) getCheckboxes().get(1)).setSelected(iConfig.isShowErrorMarks());
-        ((JCheckBox) getCheckboxes().get(2)).setSelected(iConfig.isShowTooltips());
-        ((JCheckBox) getCheckboxes().get(3)).setSelected(iConfig.isShowSummaryInToolbar());
-        ((JCheckBox) getCheckboxes().get(4)).setSelected(iConfig.isShowInline());
+        getCheckboxes().get(0).setSelected(iConfig.isShowGutter());
+        getCheckboxes().get(1).setSelected(iConfig.isShowErrorMarks());
+        getCheckboxes().get(2).setSelected(iConfig.isShowTooltips());
+        getCheckboxes().get(3).setSelected(iConfig.isShowSummaryInToolbar());
+        getCheckboxes().get(4).setSelected(iConfig.isShowInline());
     }
 
 }

@@ -66,7 +66,7 @@ public class JDOMUtil {
             throws IOException {
         BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
         try {
-            writeDocument(document, ((OutputStream) (bos)));
+            writeDocument(document, bos);
         } finally {
             bos.close();
         }
@@ -74,7 +74,7 @@ public class JDOMUtil {
 
     public static void writeDocument(Document document, OutputStream outputstream)
             throws IOException {
-        writeDocument(document, ((Writer) (new OutputStreamWriter(outputstream, "UTF-8"))));
+        writeDocument(document, new OutputStreamWriter(outputstream, "UTF-8"));
     }
 
     public static String writeDocument(Document document) throws IOException {
@@ -87,7 +87,7 @@ public class JDOMUtil {
             throws UnsupportedEncodingException, IOException {
         CharArrayWriter chararraywriter = new CharArrayWriter();
         writeDocument(document, chararraywriter);
-        return (byte[]) (new String((char[]) chararraywriter.toCharArray())).getBytes("UTF-8");
+        return (new String(chararraywriter.toCharArray())).getBytes("UTF-8");
     }
 
     public static void writeDocument(Document document, Writer writer)
@@ -102,8 +102,8 @@ public class JDOMUtil {
     }
 
     public static boolean areElementsEqual(Element element, Element element1) {
-        Document doc1 = new Document((Element) element.clone());
-        Document doc2 = new Document((Element) element1.clone());
+        Document doc1 = new Document(element.clone());
+        Document doc2 = new Document(element1.clone());
         CharArrayWriter cw1 = new CharArrayWriter();
         CharArrayWriter cw2 = new CharArrayWriter();
         try {

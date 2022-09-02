@@ -8,33 +8,33 @@ class CoverageEdgeComparator implements Comparator<CoverageEdge> {
         if (o1 instanceof CoverageEnd && o2 instanceof CoverageBeginning
             || o1 instanceof CoverageBeginning && o2 instanceof CoverageEnd) {
 
-            if (((CoverageEdge)o1).getColumn() < ((CoverageEdge)o2).getColumn()) {
+            if (o1.getColumn() < o2.getColumn()) {
                 return -1;
-            } else if (((CoverageEdge)o1).getColumn() > ((CoverageEdge)o2).getColumn()) {
+            } else if (o1.getColumn() > o2.getColumn()) {
                 return 1;
             } else {
                 return o1 instanceof CoverageEnd ? -1 : 1;
             }
 
         } else if (o1 instanceof CoverageBeginning && o2 instanceof CoverageBeginning) {
-            int startingLine1 = ((CoverageBeginning) o1).getInfo().getStartLine();
-            int startingColumn1 = ((CoverageBeginning) o1).getInfo().getStartColumn();
-            int startingLine2 = ((CoverageBeginning) o2).getInfo().getStartLine(); 
-            int startingColumn2 = ((CoverageBeginning) o2).getInfo().getStartColumn();
+            int startingLine1 = o1.getInfo().getStartLine();
+            int startingColumn1 = o1.getInfo().getStartColumn();
+            int startingLine2 = o2.getInfo().getStartLine();
+            int startingColumn2 = o2.getInfo().getStartColumn();
 
             int frontDisposition = disposition(startingLine1, startingColumn1, startingLine2, startingColumn2);
             if (frontDisposition == 0) {
                 //Co-located beginnings should be ordered by their endings -
                 //those ending first should be ordered first so their
                 //corresponding CoverageEnd is delivered in the right order
-                int endingLine1 = ((CoverageBeginning) o1).getInfo().getEndLine();
-                int endingColumn1 = ((CoverageBeginning) o1).getInfo().getEndColumn();
-                int endingLine2 = ((CoverageBeginning) o2).getInfo().getEndLine();
-                int endingColumn2 = ((CoverageBeginning) o2).getInfo().getEndColumn();
+                int endingLine1 = o1.getInfo().getEndLine();
+                int endingColumn1 = o1.getInfo().getEndColumn();
+                int endingLine2 = o2.getInfo().getEndLine();
+                int endingColumn2 = o2.getInfo().getEndColumn();
 
                 int backDisposition = disposition(endingLine2, endingColumn2, endingLine1, endingColumn1);
                 if (backDisposition == 0) {
-                    return compareIdentityHashCodeOfInfo((CoverageBeginning) o1, (CoverageBeginning) o2);
+                    return compareIdentityHashCodeOfInfo(o1, o2);
                 } else {
                     return backDisposition;
                 }
@@ -42,21 +42,21 @@ class CoverageEdgeComparator implements Comparator<CoverageEdge> {
                 return frontDisposition;
             }
         } else if (o1 instanceof CoverageEnd && o2 instanceof CoverageEnd) {
-            int endingLine1 = ((CoverageEnd) o1).getInfo().getEndLine();
-            int endingColumn1 = ((CoverageEnd) o1).getInfo().getEndColumn();
-            int endingLine2 = ((CoverageEnd) o2).getInfo().getEndLine();
-            int endingColumn2 = ((CoverageEnd) o2).getInfo().getEndColumn();
+            int endingLine1 = o1.getInfo().getEndLine();
+            int endingColumn1 = o1.getInfo().getEndColumn();
+            int endingLine2 = o2.getInfo().getEndLine();
+            int endingColumn2 = o2.getInfo().getEndColumn();
 
             int backDisposition = disposition(endingLine1, endingColumn1, endingLine2, endingColumn2);
             if (backDisposition == 0) {
-                int startingLine1 = ((CoverageEnd) o1).getInfo().getStartLine();
-                int startingColumn1 = ((CoverageEnd) o1).getInfo().getStartColumn();
-                int startingLine2 = ((CoverageEnd) o2).getInfo().getStartLine();
-                int startingColumn2 = ((CoverageEnd) o2).getInfo().getStartColumn();
+                int startingLine1 = o1.getInfo().getStartLine();
+                int startingColumn1 = o1.getInfo().getStartColumn();
+                int startingLine2 = o2.getInfo().getStartLine();
+                int startingColumn2 = o2.getInfo().getStartColumn();
 
                 int frontDisposition = disposition(startingLine2, startingColumn2, startingLine1, startingColumn1);
                 if (frontDisposition == 0) {
-                    return compareIdentityHashCodeOfInfo((CoverageEnd) o1, (CoverageEnd) o2);
+                    return compareIdentityHashCodeOfInfo(o1, o2);
                 } else {
                     return frontDisposition;
                 }

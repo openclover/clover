@@ -88,7 +88,7 @@ public class SamplingPerTestCoverage extends BasePerTestCoverage {
             public void visitFileInfo(BaseFileInfo file) {
                 //Initialise a TCI sample for this FileInfo
 
-                for(ClassInfo classInfo : (List<ClassInfo>)file.getClasses()) {
+                for(ClassInfo classInfo : file.getClasses()) {
                     //Map method entry index back to the index in the TCI sample array
                     for(MethodInfo methodInfo : classInfo.getMethods()) {
                         methodIdx.add(methodInfo.getDataIndex());
@@ -97,7 +97,7 @@ public class SamplingPerTestCoverage extends BasePerTestCoverage {
 
                 fileSamples.add(
                     new FileInfoSample(
-                        ((FullFileInfo)file).getDataIndex(),
+                        file.getDataIndex(),
                         methodIdx.toIntArray()));
                 methodIdx.clear();
             }

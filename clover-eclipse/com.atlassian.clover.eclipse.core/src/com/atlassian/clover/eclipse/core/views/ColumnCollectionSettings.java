@@ -208,7 +208,7 @@ public class ColumnCollectionSettings
     }
 
     public ColumnDefinition columnForIndex(int columnIndex) {
-        return (ColumnDefinition)newArrayList(visibleColumns).get(columnIndex);
+        return newArrayList(visibleColumns).get(columnIndex);
     }
 
     public void setVisibleColumnSize(ColumnDefinition column, int width) {

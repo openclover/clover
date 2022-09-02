@@ -81,7 +81,7 @@ public class CoverageAnnotationSpaceBuilder implements CoverageAnnotationBuilder
                         (DocumentUtils.lineColToOffset(document, region.getEndLine(), region.getEndColumn())
                             - DocumentUtils.lineColToOffset(document, startRegion.getStartLine(), startRegion.getStartColumn())));
                 if (fragment.startsWith("for (;;)")) {
-                    System.out.println("PARENT: " + ((AnnotationSpaceWithFragments)currentSpace).getParent().toString());
+                    System.out.println("PARENT: " + currentSpace.getParent().toString());
                 }
                 System.out.println(
                     ">>>>\n"

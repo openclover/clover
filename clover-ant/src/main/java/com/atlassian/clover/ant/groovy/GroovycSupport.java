@@ -69,7 +69,7 @@ public class GroovycSupport implements BuildListener {
 
     @SuppressWarnings("unchecked")
     public static void ensureAddedTo(@NotNull final Project project) {
-        for (BuildListener listener : (Vector<BuildListener>) project.getBuildListeners()) {
+        for (BuildListener listener : project.getBuildListeners()) {
             if (isOneOfMe(listener)) {
                 return;
             }

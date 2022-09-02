@@ -219,7 +219,7 @@ public class CloverPlugin extends AbstractUIPlugin {
                         getCoverageMonitor().fireCoverageChange();
                     } else if (InstallationSettings.Keys.LOGGING_LEVEL.equals(propertyName)) {
                         // event.getNewValue() returns null if current value is a default installation value
-                        setLoggingLevel(event.getNewValue() != null ? (String)event.getNewValue() : getInstallationSettings().getLoggingLevel());
+                        setLoggingLevel(event.getNewValue() != null ? event.getNewValue() : getInstallationSettings().getLoggingLevel());
                     } else if (InstallationSettings.Keys.COVERAGE_STYLE_IN_EDITORS.equals(propertyName)) {
                         try {
                             editorSynchronizer.syncWithCoverageSetting(Integer.parseInt((String)event.getNewValue()));

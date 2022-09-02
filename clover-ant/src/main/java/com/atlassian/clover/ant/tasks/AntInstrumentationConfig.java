@@ -55,7 +55,7 @@ public class AntInstrumentationConfig extends JavaInstrumentationConfig {
         if (getInitString() == null) { // first check the attribute on this class
 
             // next check for a project config object with a pre-resolved initstring
-            AntInstrumentationConfig cfg = (AntInstrumentationConfig) project.getReference(CloverNames.PROP_CONFIG);
+            AntInstrumentationConfig cfg = project.getReference(CloverNames.PROP_CONFIG);
             String initString = null;
 
             if (cfg != null) {
@@ -109,7 +109,7 @@ public class AntInstrumentationConfig extends JavaInstrumentationConfig {
 
     @Nullable
     public static AntInstrumentationConfig getFrom(@NotNull final Project project) {
-        return (AntInstrumentationConfig) project.getReference(CloverNames.PROP_CONFIG);
+        return project.getReference(CloverNames.PROP_CONFIG);
     }
 
     public void setIn(Project project) {

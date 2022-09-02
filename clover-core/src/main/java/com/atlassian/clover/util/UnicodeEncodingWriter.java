@@ -32,7 +32,7 @@ public class UnicodeEncodingWriter extends FilterWriter {
     public void write(char[] buf, int off, int len) throws IOException
     {
         for(int i = off; i < off + len; i++) {
-            write((int)buf[i]);
+            write(buf[i]);
         }
     }
 

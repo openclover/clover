@@ -79,7 +79,7 @@ public class StatementInstrumenter extends ClassInstumenter {
     }
 
     private Statement instrumentBlockStatement(BlockStatement blockStatement, Statement entryIncStatement) {
-        final List<Statement> originalStatements = (List<Statement>) blockStatement.getStatements();
+        final List<Statement> originalStatements = blockStatement.getStatements();
         final List<Statement> newStatements = newLinkedList();
 
         boolean isBlockPrefacedWithCtorCall = isCtorCallFirst(originalStatements);

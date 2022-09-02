@@ -574,7 +574,7 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
 
             //Middle expression is the conditional expression
             final int condIndex = (closureList.getExpressions().size() - 1) / 2;
-            final Expression condExpr = (Expression) closureList.getExpressions().get(condIndex);
+            final Expression condExpr = closureList.getExpressions().get(condIndex);
 
             if (condExpr != EmptyExpression.INSTANCE) {
                 final SourceInfo condRegion = ClassInstumenter.countExpressionRegion(condExpr);

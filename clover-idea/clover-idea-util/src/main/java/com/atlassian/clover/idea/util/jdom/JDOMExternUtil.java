@@ -391,7 +391,7 @@ public class JDOMExternUtil {
             }
             Map map = (Map) o;
 
-            for (Element element : (List<Element>) e.getChildren("item")) {
+            for (Element element : e.getChildren("item")) {
                 Element key = element.getChild("key");
                 try {
                     Class keyType = getClassFromElement(key);
@@ -466,7 +466,7 @@ public class JDOMExternUtil {
                 return;
             }
             List<? super Object> list = (List<? super Object>) o;
-            for (Element element : ((List<Element>) e.getChildren("item"))) {
+            for (Element element : e.getChildren("item")) {
                 try {
                     Class valueType = getClassFromElement(element);
                     Object valueObj = readFrom(element, valueType);
