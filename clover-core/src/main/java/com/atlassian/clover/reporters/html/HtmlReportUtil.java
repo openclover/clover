@@ -15,6 +15,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class HtmlReportUtil {
@@ -65,7 +66,7 @@ public class HtmlReportUtil {
         if (Logger.isDebug())
             Logger.getInstance().debug("rendering " + template);
 
-        try (BufferedWriter out = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"))) {
+        try (BufferedWriter out = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8))) {
             if (engine.mergeTemplate(template, "ASCII", context, out)) {
                 if (Logger.isDebug()) {
                     Logger.getInstance().debug("done ");

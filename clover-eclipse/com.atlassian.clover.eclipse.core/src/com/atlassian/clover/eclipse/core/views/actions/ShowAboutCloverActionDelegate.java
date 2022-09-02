@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 
 public class ShowAboutCloverActionDelegate extends CloverProjectActionDelegate {
 
@@ -191,7 +192,7 @@ public class ShowAboutCloverActionDelegate extends CloverProjectActionDelegate {
                     if (in != null) {
 
                         try {
-                            Reader reader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+                            Reader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
                             final StringBuffer sb = new StringBuffer();
                             char[] buf = new char[1024];
                             int read = 0;

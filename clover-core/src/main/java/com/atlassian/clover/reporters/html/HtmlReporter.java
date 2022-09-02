@@ -55,6 +55,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
@@ -952,7 +953,7 @@ public class HtmlReporter extends CloverReporter {
         context.put("renderUtil", new HtmlRenderingSupportImpl());
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        BufferedWriter out = new BufferedWriter(new OutputStreamWriter(baos, "UTF-8"));
+        BufferedWriter out = new BufferedWriter(new OutputStreamWriter(baos, StandardCharsets.UTF_8));
         HtmlReportUtil.getVelocityEngine().mergeTemplate(
                 HtmlReportUtil.getTemplatePath("bar-graph.vm"), "ASCII", context, out);
 

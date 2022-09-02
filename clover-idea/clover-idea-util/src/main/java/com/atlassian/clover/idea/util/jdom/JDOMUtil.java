@@ -24,6 +24,7 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 
 /**
  *
@@ -35,13 +36,13 @@ public class JDOMUtil {
             throws JDOMException, IOException {
 
         SAXBuilder saxbuilder = getBuilder();
-        return saxbuilder.build(new InputStreamReader(inputstream, "UTF-8"));
+        return saxbuilder.build(new InputStreamReader(inputstream, StandardCharsets.UTF_8));
     }
 
     public static Document loadDocument(File file)
             throws JDOMException, IOException {
         SAXBuilder saxbuilder = getBuilder();
-        return saxbuilder.build(new InputStreamReader(new FileInputStream(file), "UTF-8"));
+        return saxbuilder.build(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
     }
 
     public static Document loadDocument(String str)
@@ -71,7 +72,7 @@ public class JDOMUtil {
 
     public static void writeDocument(Document document, OutputStream outputstream)
             throws IOException {
-        writeDocument(document, new OutputStreamWriter(outputstream, "UTF-8"));
+        writeDocument(document, new OutputStreamWriter(outputstream, StandardCharsets.UTF_8));
     }
 
     public static String writeDocument(Document document) throws IOException {
@@ -84,7 +85,7 @@ public class JDOMUtil {
             throws UnsupportedEncodingException, IOException {
         CharArrayWriter chararraywriter = new CharArrayWriter();
         writeDocument(document, chararraywriter);
-        return (new String(chararraywriter.toCharArray())).getBytes("UTF-8");
+        return (new String(chararraywriter.toCharArray())).getBytes(StandardCharsets.UTF_8);
     }
 
     public static void writeDocument(Document document, Writer writer)
