@@ -136,7 +136,7 @@ public class GroovySourceTraverser implements SourceTraverser {
                     for(int i = 0; i < times; i++) {
                         listener.onNewLine();
                     }
-                } else if (KEYWORDS.contains(Integer.valueOf(prevToken.getType()))) {
+                } else if (KEYWORDS.contains(prevToken.getType())) {
                     //A sequence of keywords will always each be separated by whitespace or NLS
                     listener.onKeyword(fragLines[0]);
                     //If an import or package statement, start listening for what comes after to hyperlink if possible

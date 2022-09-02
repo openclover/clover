@@ -446,7 +446,7 @@ public abstract class ExplorerView extends CloverViewPart {
 
     private void buildTreeColumn(ColumnDefinition columnDef, Integer width) {
         TreeColumn column = ColumnBuilder.buildTreeColumn(columnDef, tree, treeColumnLabeler);
-        column.setWidth(width.intValue());
+        column.setWidth(width);
         columnDef.bindRenderer(tree, settings);
         columns.put(columnDef, column);
     }

@@ -130,8 +130,8 @@ public class RenderFileAction implements Callable {
         velocity.put("basename", basename);
         velocity.put("currentPageURL", outname);
         velocity.put("jsonFilename", jsonOutFilename);
-        velocity.put("showLambdaFunctions", Boolean.valueOf(reportConfig.isShowLambdaFunctions()));
-        velocity.put("showInnerFunctions", Boolean.valueOf(reportConfig.isShowInnerFunctions()));
+        velocity.put("showLambdaFunctions", reportConfig.isShowLambdaFunctions());
+        velocity.put("showInnerFunctions", reportConfig.isShowInnerFunctions());
         velocity.put("entityUtils", new EntityVisitorUtils());
         velocity.put("packageName", fileInfo.getContainingPackage().getName());
 

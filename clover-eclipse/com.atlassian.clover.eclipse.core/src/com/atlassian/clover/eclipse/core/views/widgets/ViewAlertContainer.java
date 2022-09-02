@@ -132,7 +132,7 @@ public class ViewAlertContainer extends Composite implements DatabaseChangeListe
     }
 
     private void setEvalNoticeShownThisSession(boolean shown) throws CoreException {
-        ResourcesPlugin.getWorkspace().getRoot().setSessionProperty(EVAL_NOTICE_SHOWN, Boolean.valueOf(shown));
+        ResourcesPlugin.getWorkspace().getRoot().setSessionProperty(EVAL_NOTICE_SHOWN, shown);
     }
 
     private boolean isEvalNoticeShownThisSession() throws CoreException {
@@ -140,7 +140,7 @@ public class ViewAlertContainer extends Composite implements DatabaseChangeListe
         return
             evalNoticeShown != null
             && evalNoticeShown instanceof Boolean
-            && ((Boolean)evalNoticeShown).booleanValue();
+            && (Boolean) evalNoticeShown;
     }
 
     private void updateHookUninstallAlert() {

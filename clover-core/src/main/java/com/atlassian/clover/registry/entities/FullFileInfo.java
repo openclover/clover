@@ -383,7 +383,7 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
 
             if (failStackInfos != null) {
                 for (final Map.Entry<Integer, List<StackTraceInfo.TraceEntry>> entry : failStackInfos.entrySet()) {
-                    final int line = entry.getKey().intValue();
+                    final int line = entry.getKey();
                     final List<StackTraceInfo.TraceEntry> stackFrames = entry.getValue();
                     if (line > 0 && line < tmpLineInfo.length) {
                         if (tmpLineInfo[line] == null) {
@@ -534,7 +534,7 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
         if (failStackInfos == null) {
             failStackInfos = newTreeMap();
         }
-        final Integer lineKey = Integer.valueOf(lineNum);
+        final Integer lineKey = lineNum;
         List<StackTraceInfo.TraceEntry> tracesForLine = failStackInfos.get(lineKey);
         if (tracesForLine == null) {
             tracesForLine = newArrayList();

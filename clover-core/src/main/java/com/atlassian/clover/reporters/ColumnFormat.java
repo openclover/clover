@@ -132,7 +132,7 @@ public interface ColumnFormat {
 
         @Override
         public Number formatNumber(Column.ColumnData data) {
-            return Float.valueOf(data.getValue());
+            return data.getValue();
         }
 
         @Override
@@ -171,7 +171,7 @@ public interface ColumnFormat {
 
         @Override
         public Number formatNumber(Column.ColumnData data) {
-            return Float.valueOf(toPcData(data).getPcValue() * 100);
+            return toPcData(data).getPcValue() * 100;
         }
 
         @Override

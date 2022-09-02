@@ -63,8 +63,8 @@ public class RenderPackageCoverageCloudAction extends RenderCoverageCloudAction 
         context.put("headerMetrics", pkg.getMetrics());
         context.put("headerMetricsRaw", pkg.getRawMetrics());
         context.put("classlist", classes);
-        context.put("appPagePresent", Boolean.valueOf(appPagePresent));
-        context.put("testPagePresent", Boolean.valueOf(testPagePresent));
+        context.put("appPagePresent", appPagePresent);
+        context.put("testPagePresent", testPagePresent);
         context.put("topLevel", Boolean.FALSE);
 
         HtmlReportUtil.addFilteredPercentageToContext(context, pkg);

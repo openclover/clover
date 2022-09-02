@@ -18,14 +18,14 @@ public class JSONReportUtils {
         final Map<String, Number> columnValues = mHelper.collectColumnValues(columns, mInfo);
         final BlockMetrics metrics = mHelper.metricsFor(mInfo);
         //TODO: add as official columns?
-        columnValues.put("Tests", Integer.valueOf(metrics.getNumTests()));
-        columnValues.put("PassingTests", Integer.valueOf(metrics.getNumTestPasses()));
-        columnValues.put("FailingTests", Integer.valueOf(metrics.getNumTestFailures()));
-        columnValues.put("ErroneousTests", Integer.valueOf(metrics.getNumTestErrors()));
-        columnValues.put("TestExecutionTime", Double.valueOf(metrics.getTestExecutionTime()));
-        columnValues.put("PcPassingTests", Float.valueOf(metrics.getPcTestPasses()));
-        columnValues.put("PcFailingTests", Float.valueOf(metrics.getPcTestFailures()));
-        columnValues.put("PcErroneousTests", Float.valueOf(metrics.getPcTestErrors()));
+        columnValues.put("Tests", metrics.getNumTests());
+        columnValues.put("PassingTests", metrics.getNumTestPasses());
+        columnValues.put("FailingTests", metrics.getNumTestFailures());
+        columnValues.put("ErroneousTests", metrics.getNumTestErrors());
+        columnValues.put("TestExecutionTime", metrics.getTestExecutionTime());
+        columnValues.put("PcPassingTests", metrics.getPcTestPasses());
+        columnValues.put("PcFailingTests", metrics.getPcTestFailures());
+        columnValues.put("PcErroneousTests", metrics.getPcTestErrors());
         return columnValues;
     }
 

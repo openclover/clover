@@ -34,8 +34,8 @@ public class Tags {
             throw new IllegalArgumentException("Tag values must be between " + NEXT_TAG + " and " + Byte.MAX_VALUE);
         }
         classNameToReader.put(className, reader);
-        classNameToTag.put(className, Integer.valueOf(tag));
-        tagToReader.put(Integer.valueOf(tag), reader);
+        classNameToTag.put(className, tag);
+        tagToReader.put(tag, reader);
         return this;
     }
 
@@ -49,7 +49,7 @@ public class Tags {
 
     @SuppressWarnings("unchecked")
     public <T extends TaggedPersistent> T invokeObjectReaderFor(int tag, TaggedDataInput in) throws IOException {
-        final ObjectReader<? extends TaggedPersistent> builder = tagToReader.get(Integer.valueOf(tag));
+        final ObjectReader<? extends TaggedPersistent> builder = tagToReader.get(tag);
         if (builder == null) {
             throw new UnknownTagException(tag);
         }
@@ -57,7 +57,7 @@ public class Tags {
     }
 
     public boolean isDefined(int tag) {
-        return tagToReader.containsKey(Integer.valueOf(tag));
+        return tagToReader.containsKey(tag);
     }
 
     public interface ObjectReader<T extends TaggedPersistent> {

@@ -638,7 +638,7 @@ public class TestRunExplorerView extends ExplorerView {
 
     private void buildClassesTestedTreeColumn(ColumnDefinition columnDefinition, Integer width) {
         TreeColumn column = ColumnBuilder.buildTreeColumn(columnDefinition, classesTestedTree, treeColumnLabeler);
-        column.setWidth(width.intValue());
+        column.setWidth(width);
         columnDefinition.bindRenderer(classesTestedTree, settings);
         classesTestedTreeColumns.put(columnDefinition, column);
     }

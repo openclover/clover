@@ -479,8 +479,8 @@ public class HtmlReporter extends CloverReporter {
         String title = (pageTitle != null ? pageTitle : "Clover");
         context.put("headerTitle", pkg.length() == 0 ? title : title + ": " + pkg);
         context.put("pageTitleIsLink",
-                Boolean.valueOf(pageTitleAnchor != null
-                        && pageTitleAnchor.length() > 0));
+                pageTitleAnchor != null
+                        && pageTitleAnchor.length() > 0);
         context.put("pageTitleAnchor", pageTitleAnchor);
         context.put("pageTitleTarget", pageTitleTarget);
         context.put("renderUtil", rederingHelper);
@@ -490,13 +490,13 @@ public class HtmlReporter extends CloverReporter {
         context.put("cloverURL", cloverURL);
         context.put("cloverReleaseNum", CloverVersionInfo.RELEASE_NUM);
         context.put("reportTimestamp", reportTimeStamp);
-        context.put("showEmpty", Boolean.valueOf(reportConfig.getFormat().getShowEmpty()));
-        context.put("showSrc", Boolean.valueOf(reportConfig.getFormat().getSrcLevel()));
-        context.put("showBars", Boolean.valueOf(reportConfig.getFormat().getShowBars()));
-        context.put("noCache", Boolean.valueOf(reportConfig.getFormat().getNoCache()));
-        context.put("expired", Boolean.valueOf(CloverLicenseInfo.EXPIRED));
+        context.put("showEmpty", reportConfig.getFormat().getShowEmpty());
+        context.put("showSrc", reportConfig.getFormat().getSrcLevel());
+        context.put("showBars", reportConfig.getFormat().getShowBars());
+        context.put("noCache", reportConfig.getFormat().getNoCache());
+        context.put("expired", CloverLicenseInfo.EXPIRED);
         context.put("charset", reportConfig.getCharset());
-        context.put("skipCoverageTreeMap", Boolean.valueOf(reportConfig.isSkipCoverageTreeMap()));
+        context.put("skipCoverageTreeMap", reportConfig.isSkipCoverageTreeMap());
 
         // list of linked reports (for vertical navigation / bottom-left frame)
         context.put("reportConfigLinkedReports", reportConfig.getLinkedReports());
@@ -793,7 +793,7 @@ public class HtmlReporter extends CloverReporter {
 
         final File outfile = new File(basePath, filename);
         final VelocityContext context = new VelocityContext();
-        context.put("linkToClouds", Boolean.valueOf(linkToClouds));
+        context.put("linkToClouds", linkToClouds);
         context.put("currentPageURL", filename);
         context.put("headerMetrics", model.getMetrics());
         context.put("headerMetricsRaw", model.getRawMetrics());
@@ -860,7 +860,7 @@ public class HtmlReporter extends CloverReporter {
         Collections.sort(packages, detailComparator);
 
         insertCommonPropsForCurrent(context, "");
-        context.put("linkToClouds", Boolean.valueOf(linkToClouds));
+        context.put("linkToClouds", linkToClouds);
         context.put("projectInfo", model);
         context.put("headerMetrics", model.getMetrics());
         context.put("headerMetricsRaw", model.getRawMetrics());
@@ -927,8 +927,8 @@ public class HtmlReporter extends CloverReporter {
         context.put("packageInfo", pkg);
         context.put("classlist", classes);
         context.put("currentTabName", currentTabName);
-        context.put("isTests", Boolean.valueOf(isTests));
-        context.put("topLevel", Boolean.valueOf(pkg == null));
+        context.put("isTests", isTests);
+        context.put("topLevel", pkg == null);
         context.put("title", "Classes");
 
         HtmlReportUtil.mergeTemplateToFile(outfile, context, templateName);
@@ -1008,9 +1008,9 @@ public class HtmlReporter extends CloverReporter {
         context.put("currentPageURL", "test-pkg-summary.html");
         context.put("projectInfo", getFullModel());
         context.put("appModelPresent",
-                Boolean.valueOf(getConfiguredModel().getNamedPackage(pkg.getName()) != null));
+                getConfiguredModel().getNamedPackage(pkg.getName()) != null);
         context.put("testModelPresent",
-                Boolean.valueOf(getTestModel().getNamedPackage(pkg.getName()) != null));
+                getTestModel().getNamedPackage(pkg.getName()) != null);
 
         insertCommonPropsForCurrent(context, pkg.getName());
         insertCommonTestProps(context, classes, "class", pkg, pkg, "test-pkg-summary.html", "Package", "Test Classes");
@@ -1068,9 +1068,9 @@ public class HtmlReporter extends CloverReporter {
         context.put("topLevel", Boolean.FALSE);
         context.put("title", title);
         context.put("subtitle", subtitle);
-        context.put("hasResults", Boolean.valueOf(getTestModel().hasTestResults()));
+        context.put("hasResults", getTestModel().hasTestResults());
         context.put("appPagePresent",
-                Boolean.valueOf(pkg == null || getConfiguredModel().getNamedPackage(pkg.getName()) != null));
+                pkg == null || getConfiguredModel().getNamedPackage(pkg.getName()) != null);
         context.put("testPagePresent", Boolean.TRUE);
     }
 

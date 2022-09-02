@@ -424,8 +424,8 @@ public class Snapshot implements Serializable {
     long getMostRecentDbVersion() {
         long version = 0;
         for (Long dbVersion : dbVersions) {
-            if (dbVersion.longValue() > version) {
-                version = dbVersion.longValue();
+            if (dbVersion > version) {
+                version = dbVersion;
             }
         }
         return version;

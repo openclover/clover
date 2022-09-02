@@ -97,7 +97,7 @@ public class RenderTestResultAction implements Callable {
         velocity.put("test", testCaseInfo);
         velocity.put("topLevel", Boolean.TRUE);
         velocity.put("projectInfo", fullModel);
-        velocity.put("hasResults", Boolean.valueOf(fullModel.hasTestResults()));
+        velocity.put("hasResults", fullModel.hasTestResults());
         velocity.put("stringUtils", new StringUtils());
         velocity.put("renderUtil", renderingHelper);
 

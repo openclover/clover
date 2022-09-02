@@ -85,7 +85,7 @@ public class GroovycSupport implements BuildListener {
     private GroovycSupport(@NotNull final Project project) {
         this.cleanupAfterBuild =
                 !Boolean.getBoolean(CloverNames.PROP_GROVER_NO_POSTBUILD_CLEANUP)
-                        || !Boolean.valueOf(project.getProperty(CloverNames.PROP_GROVER_NO_POSTBUILD_CLEANUP));
+                        || !Boolean.parseBoolean(project.getProperty(CloverNames.PROP_GROVER_NO_POSTBUILD_CLEANUP));
     }
 
     @Override

@@ -230,7 +230,7 @@ public class JSONArray {
         try {
             return o instanceof Number ?
                 ((Number)o).doubleValue() :
-                Double.valueOf((String)o).doubleValue();
+                    Double.parseDouble((String) o);
         } catch (Exception e) {
             throw new JSONException("JSONArray[" + index +
                 "] is not a number.");
@@ -575,7 +575,7 @@ public class JSONArray {
      * @return this.
      */
     public JSONArray put(double value) throws JSONException {
-        Double d = Double.valueOf(value);
+        Double d = value;
         JSONObject.testValidity(d);
         put(d);
         return this;

@@ -146,11 +146,11 @@ public class HistoricalReportDescriptor {
     }
 
     public long getFirstTimestamp() {
-        return firstTS.longValue();
+        return firstTS;
     }
 
     public long getLastTimestamp() {
-        return lastTS.longValue();
+        return lastTS;
     }
 
     public SortedMap getHistoricalModels() {
@@ -170,13 +170,13 @@ public class HistoricalReportDescriptor {
         Long firstTS = timestamps.get(1); // the default is the second last timestamp
 
         if (requested != null) {
-            long requestedTS = lastTS.longValue() - requested.getValueInMillis();
+            long requestedTS = lastTS - requested.getValueInMillis();
 
-            if (requestedTS >= lastTS.longValue()) {
+            if (requestedTS >= lastTS) {
                 log.warn("Ignoring interval setting of " + requested + ". ");
             } else {
                 for (Long ts : timestamps) {
-                    if (ts.longValue() < requestedTS) {
+                    if (ts < requestedTS) {
                         break;
                     } else {
                         firstTS = ts;
@@ -338,7 +338,7 @@ public class HistoricalReportDescriptor {
         }
 
         private Interval calcActualInterval(Long lastTS, Long firstTS, Interval requested) {
-            Interval actual = new Interval((lastTS.longValue() - firstTS.longValue()) / 1000, Interval.UNIT_SECOND);
+            Interval actual = new Interval((lastTS - firstTS) / 1000, Interval.UNIT_SECOND);
             if (requested != null && !actual.equals(requested)) {
                 log.info("movers interval adjusted to " + actual.toSensibleString());
             } else {

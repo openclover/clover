@@ -88,7 +88,7 @@ public class RenderDashboardAction implements Callable {
         tpc.setFormat("longbar");
         mContext.put("tpcColumn", tpc);
 
-        mContext.put("hasResults", Boolean.valueOf(mProjectInfo.hasTestResults()));
+        mContext.put("hasResults", mProjectInfo.hasTestResults());
         mContext.put("appPagePresent", Boolean.TRUE);
         mContext.put("testPagePresent", Boolean.TRUE);
 

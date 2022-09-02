@@ -119,7 +119,7 @@ public class HtmlReportUtil {
         if (pcFiltered > 0) {
             String percentFiltered = Formatting.getPercentStr(pcFiltered);
             context.put("percentFiltered", percentFiltered);
-            context.put("showFilterToggle", Boolean.valueOf(hasFilteredMetrics(model)));
+            context.put("showFilterToggle", hasFilteredMetrics(model));
         }
     }
 

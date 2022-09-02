@@ -200,7 +200,7 @@ public class HtmlRenderingSupportImpl implements HtmlRenderingSupport {
 
         final StringBuffer link = new StringBuffer();
         link.append(className.replaceAll("\\W", "_")).append("_").append(name.replaceAll("\\W", "_")).append("_").
-                append(Integer.toString(testInfo.getId().intValue(), 36)).append(".html");
+                append(Integer.toString(testInfo.getId(), 36)).append(".html");
         return link;
     }
 

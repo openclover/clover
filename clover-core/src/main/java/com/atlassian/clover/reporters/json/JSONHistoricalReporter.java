@@ -101,7 +101,7 @@ public class JSONHistoricalReporter {
             rowData.put("c", row);
 
             // add timestamp data
-            addRowInfo(row, new Date(timestamp.longValue()), dateFormat.format(timestamp));
+            addRowInfo(row, new Date(timestamp), dateFormat.format(timestamp));
             addColumnData(columns, hasMetrics, row);
         }
         return json;

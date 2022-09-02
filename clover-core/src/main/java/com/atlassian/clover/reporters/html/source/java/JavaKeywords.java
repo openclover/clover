@@ -62,6 +62,6 @@ public class JavaKeywords {
     ));
 
     public static boolean contains(int id) {
-        return SET.contains(Integer.valueOf(id));
+        return SET.contains(id);
     }
 }

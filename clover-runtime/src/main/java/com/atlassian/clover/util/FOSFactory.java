@@ -35,7 +35,7 @@ public class FOSFactory {
         } catch (SecurityException e) {
             Logger.getInstance().info("Unable to determine Clover IO mode", e);
         }
-        USE_SYNCHRONOUS_IO = useSyncIO != null ? useSyncIO.booleanValue() : false;
+        USE_SYNCHRONOUS_IO = useSyncIO != null ? useSyncIO : false;
     }
 
     public static FileOutputStream newFOS(File file) throws FileNotFoundException {

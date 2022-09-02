@@ -108,7 +108,7 @@ public class CajoTcpRecorderService implements RecorderService {
     public Object sendMessage(RpcMessage message) {
         final int numClients = invokeAllClients(message.getName(), message.getMethodArgs());
         Logger.getInstance().debug("Invoked method " + message.getName() + " on " + numClients + " remote clients.");
-        return Integer.valueOf(numClients);
+        return numClients;
     }
 
     private int invokeAllClients(String methodName, Object parameters) {

@@ -18,7 +18,7 @@ public class CloverProperties {
     }
 
     public boolean getBooleanProperty(String name, boolean defaultValue) {
-        return Boolean.valueOf(getSysProperty(name, Boolean.toString(defaultValue)));
+        return Boolean.parseBoolean(getSysProperty(name, Boolean.toString(defaultValue)));
     }
 
     public static String getSysProperty(final String name, final String defaultValue) {
@@ -31,7 +31,7 @@ public class CloverProperties {
     }
 
     public static boolean getBooleanSysProperty(String name, boolean defaultValue) {
-        return Boolean.valueOf(getSysProperty(name, Boolean.toString(defaultValue)));
+        return Boolean.parseBoolean(getSysProperty(name, Boolean.toString(defaultValue)));
     }
 
     private static Map<String, String> toMap(String[] nvpProperties) {

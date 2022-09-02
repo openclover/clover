@@ -362,7 +362,7 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
     private boolean isAnonymousInnerClassCall(ConstructorCallExpression call) {
         try {
             //1.7+ method
-            return ((Boolean)call.getClass().getMethod("isUsingAnonymousInnerClass", new Class[] {}).invoke(call)).booleanValue();
+            return (Boolean) call.getClass().getMethod("isUsingAnonymousInnerClass", new Class[]{}).invoke(call);
         } catch (Exception e) {
             return false;
         }

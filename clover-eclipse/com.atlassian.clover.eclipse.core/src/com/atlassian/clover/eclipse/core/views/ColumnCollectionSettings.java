@@ -93,12 +93,12 @@ public class ColumnCollectionSettings
         Integer columnCount = memento.getInteger(prefixed(VISIBLE_COLUMN_COUNT));
         LinkedHashMap<ColumnDefinition, Integer> visibleColumnsToWidths = newLinkedHashMap();
         LinkedHashSet<ColumnDefinition> visibleColumns = newLinkedHashSet();
-        if (columnCount != null && columnCount.intValue() >= 0) {
-            for (int i = 0; i < columnCount.intValue(); i++) {
+        if (columnCount != null && columnCount >= 0) {
+            for (int i = 0; i < columnCount; i++) {
                 String columnId = memento.getString(prefixed(VISIBLE_COLUMN_PREFIX + i));
                 ColumnDefinition column = (columnId == null ? null : allColumnsById.get(columnId));
                 Integer columnWidth = memento.getInteger(prefixed(VISIBLE_COLUMN_PREFIX + i + COL_WIDTH_SUFFIX));
-                if (column != null && columnWidth != null && columnWidth.intValue() > 0) {
+                if (column != null && columnWidth != null && columnWidth > 0) {
                     visibleColumns.add(column);
                     visibleColumnsToWidths.put(column, columnWidth);
                 }
@@ -114,7 +114,7 @@ public class ColumnCollectionSettings
     private void loadReverseSort(IMemento memento) {
         String reverseSort = memento.getString(prefixed(REVERSE_SORT));
         if (reverseSort != null) {
-            this.reverseSort = Boolean.valueOf(reverseSort).booleanValue();
+            this.reverseSort = Boolean.parseBoolean(reverseSort);
         }
     }
 
@@ -161,7 +161,7 @@ public class ColumnCollectionSettings
             } else {
                 memento.putString(prefixed(VISIBLE_COLUMN_PREFIX + count), colDef.getId());
             }
-            memento.putInteger(prefixed(VISIBLE_COLUMN_PREFIX + count + COL_WIDTH_SUFFIX), entry.getValue().intValue());
+            memento.putInteger(prefixed(VISIBLE_COLUMN_PREFIX + count + COL_WIDTH_SUFFIX), entry.getValue());
             count++;
         }
     }
@@ -212,7 +212,7 @@ public class ColumnCollectionSettings
     }
 
     public void setVisibleColumnSize(ColumnDefinition column, int width) {
-        visibleColumnsToWidths.put(column, new Integer(width));
+        visibleColumnsToWidths.put(column, width);
     }
 
     public void setColumnOrder(int[] orderIndicies) {

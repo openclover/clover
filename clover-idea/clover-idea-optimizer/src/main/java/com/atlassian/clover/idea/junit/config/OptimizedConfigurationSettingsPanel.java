@@ -57,7 +57,7 @@ public class OptimizedConfigurationSettingsPanel extends JPanel {
                 discardInterval.setEnabled(discardSnapshot.isSelected());
             }
         });
-        discardInterval.setValue(Integer.valueOf(0));
+        discardInterval.setValue(0);
     }
 
     public void resetEditorFrom(OptimizedConfigurationSettings settings) {

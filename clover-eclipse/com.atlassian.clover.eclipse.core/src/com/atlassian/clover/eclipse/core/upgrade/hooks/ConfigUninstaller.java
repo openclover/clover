@@ -247,7 +247,7 @@ public class ConfigUninstaller {
     private static boolean isHookInstalled(File configIni) throws IOException {
         //If an upgrade is taking place - install(new) | config(new) | uninstall(old)
         //then don't undo the configuration work for the new plugin
-        if (!Boolean.valueOf(System.getProperty(ALREADY_UNINSTALLED_HOOK_THIS_SESSION_PROPERTY)).booleanValue()) {
+        if (!Boolean.parseBoolean(System.getProperty(ALREADY_UNINSTALLED_HOOK_THIS_SESSION_PROPERTY))) {
             BufferedReader reader = new BufferedReader(new FileReader(configIni));
             Pattern extensionsPattern = Pattern.compile(EXTENSION_REGEX);
 

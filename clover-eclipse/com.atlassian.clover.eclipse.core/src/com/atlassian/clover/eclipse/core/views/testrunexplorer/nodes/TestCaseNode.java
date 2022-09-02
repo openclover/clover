@@ -23,7 +23,7 @@ public class TestCaseNode extends JavaElementNode {
 
     public TestCaseNode(IMethod testMethod, TestCaseInfo tci) {
         this.testMethod = testMethod;
-        this.tciId = tci.getId().intValue();
+        this.tciId = tci.getId();
         this.startTime = tci.getStartTime();
         this.status =
             tci.isSuccess()
