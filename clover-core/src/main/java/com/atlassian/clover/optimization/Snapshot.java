@@ -307,15 +307,12 @@ public class Snapshot implements Serializable {
     public static Snapshot loadFromFile(File file) {
         if (file.exists() && file.isFile() && file.canRead()) {
             try {
-                ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
-                try {
+                try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
                     long start = System.currentTimeMillis();
-                    Snapshot snapshot = (Snapshot)ois.readObject();
+                    Snapshot snapshot = (Snapshot) ois.readObject();
                     Logger.getInstance().verbose("Took " + (System.currentTimeMillis() - start) + "ms to load the snapshot file");
                     snapshot.location = file;
                     return snapshot;
-                } finally {
-                    ois.close();
                 }
             } catch (InvalidClassException e) {
                 Logger.getInstance().debug("Failed to load snapshot file at " + file.getAbsolutePath(), e);

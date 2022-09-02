@@ -83,14 +83,11 @@ public class RegHeader {
      * @throws RegistryFormatException if a known registry problem is encountered
      */
     public static RegHeader readFrom(File registryFile) throws IOException, RegistryFormatException {
-        final DataInputStream stream = new DataInputStream(new FileInputStream(registryFile));
-        try {
+        try (DataInputStream stream = new DataInputStream(new FileInputStream(registryFile))) {
             return readFrom(new StreamInputSource(registryFile.getAbsolutePath(), stream));
         } catch (EOFException e) {
             throw new CorruptedRegistryException(
-                "The Clover registry file \"" + registryFile.getAbsolutePath() + "\" is invalid (truncated header). Please regenerate.");
-        } finally {
-            stream.close();
+                    "The Clover registry file \"" + registryFile.getAbsolutePath() + "\" is invalid (truncated header). Please regenerate.");
         }
     }
 

@@ -77,11 +77,8 @@ public class WriteRethrowMethod extends ClassAdapter {
 
                 classReader.accept(new WriteRethrowMethod(classWriter), 0);
 
-                FileChannel channel = new FileOutputStream(classFile).getChannel();
-                try {
+                try (FileChannel channel = new FileOutputStream(classFile).getChannel()) {
                     channel.write(ByteBuffer.wrap(classWriter.toByteArray()));
-                } finally {
-                    channel.close();
                 }
             }
         } else {

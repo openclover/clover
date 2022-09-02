@@ -64,11 +64,8 @@ public class JDOMUtil {
 
     public static void writeDocument(Document document, File file)
             throws IOException {
-        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
-        try {
+        try (BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file))) {
             writeDocument(document, bos);
-        } finally {
-            bos.close();
         }
     }
 

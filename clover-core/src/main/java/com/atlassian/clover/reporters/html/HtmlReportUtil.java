@@ -65,8 +65,7 @@ public class HtmlReportUtil {
         if (Logger.isDebug())
             Logger.getInstance().debug("rendering " + template);
 
-        BufferedWriter out = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-        try {
+        try (BufferedWriter out = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"))) {
             if (engine.mergeTemplate(template, "ASCII", context, out)) {
                 if (Logger.isDebug()) {
                     Logger.getInstance().debug("done ");
@@ -78,9 +77,6 @@ public class HtmlReportUtil {
             }
         } catch (Exception e) {
             Logger.getInstance().warn("Failed to generate " + outputStream, e);
-        }
-        finally {
-            out.close();
         }
 
     }
