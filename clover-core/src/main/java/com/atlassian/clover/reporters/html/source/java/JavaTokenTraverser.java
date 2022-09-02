@@ -21,8 +21,8 @@ public final class JavaTokenTraverser implements SourceTraverser<JavaSourceListe
 
         Token token = lexer.nextToken();
         Token prev = token;
-        StringBuffer currentChunk = new StringBuffer();
-        StringBuffer accumName = new StringBuffer();
+        StringBuilder currentChunk = new StringBuilder();
+        StringBuilder accumName = new StringBuilder();
         boolean gatherPkgIdent = false;
         boolean gatherImportIdent = false;
 
@@ -57,7 +57,7 @@ public final class JavaTokenTraverser implements SourceTraverser<JavaSourceListe
                             if (gatherImportIdent) {
                                 listener.onImport(accumName.toString());
                             }
-                            accumName = new StringBuffer();
+                            accumName = new StringBuilder();
                             gatherPkgIdent = false;
                             gatherImportIdent = false;
                             listener.onChunk(currentChunk.toString());
@@ -87,7 +87,7 @@ public final class JavaTokenTraverser implements SourceTraverser<JavaSourceListe
                         listener.onChunk(currentChunk.toString());
                     }
                 }
-                currentChunk = new StringBuffer();
+                currentChunk = new StringBuilder();
                 currentChunk.append(token.getText());
             }
             prev = token;
@@ -97,7 +97,7 @@ public final class JavaTokenTraverser implements SourceTraverser<JavaSourceListe
     }
 
     public static void processWhiteSpace(String whitespace, JavaSourceListener listener) {
-        StringBuffer b = new StringBuffer();
+        StringBuilder b = new StringBuilder();
         int i = 0;
         while (i < whitespace.length()) {
             boolean atNewLine = false;
@@ -114,7 +114,7 @@ public final class JavaTokenTraverser implements SourceTraverser<JavaSourceListe
             if (atNewLine) {
                 if (b.length() > 0) {
                     listener.onChunk(b.toString());
-                    b = new StringBuffer();
+                    b = new StringBuilder();
                 }
                 listener.onNewLine();
             }
@@ -129,7 +129,7 @@ public final class JavaTokenTraverser implements SourceTraverser<JavaSourceListe
     }
 
     public static void processComment(String comment, JavaSourceListener listener) {
-        StringBuffer b = new StringBuffer();
+        StringBuilder b = new StringBuilder();
         int i = 0;
         boolean inTag = false;
         while (i < comment.length()) {
@@ -149,21 +149,21 @@ public final class JavaTokenTraverser implements SourceTraverser<JavaSourceListe
             if (!inTag && c1 == '@' && Character.isLetter(c2)) {
                 inTag = true;
                 listener.onCommentChunk(b.toString());
-                b = new StringBuffer();
+                b = new StringBuilder();
             }
             else if (inTag && (!Character.isLetter(c1))) {
                 inTag = false;
                 String tag = b.toString();
                 if (JavadocTags.contains(tag.substring(1))) {
                     listener.onJavadocTag(tag);
-                    b = new StringBuffer();
+                    b = new StringBuilder();
                 }
             }
 
             if (atNewLine) {
                 if (b.length() > 0) {
                     listener.onCommentChunk(b.toString());
-                    b = new StringBuffer();
+                    b = new StringBuilder();
                 }
                 listener.onNewLine();
             }

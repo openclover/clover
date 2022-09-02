@@ -96,7 +96,7 @@ public class GroovySourceTraverser implements SourceTraverser {
         GroovySourceToken prevToken = currToken;
         GroovySourceToken firstToken = currToken;
 
-        StringBuffer accumName = new StringBuffer();
+        StringBuilder accumName = new StringBuilder();
         boolean gatherPkgIdent = false;
         boolean gatherImportIdent = false;
 
@@ -149,7 +149,7 @@ public class GroovySourceTraverser implements SourceTraverser {
                             if (gatherImportIdent) {
                                 listener.onImport(accumName.toString().replace("\\s", ""));
                             }
-                            accumName = new StringBuffer();
+                            accumName = new StringBuilder();
                             gatherPkgIdent = false;
                             gatherImportIdent = false;
                             listener.onChunk(fragment);
