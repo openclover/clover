@@ -96,7 +96,7 @@ public class FullStatementInfo extends FullElementInfo<BasicElementInfo> impleme
     @Override
     public CoverageDataProvider getDataProvider() {
         // get data provider from the parent entity (file, class or method)
-        final AtomicReference<CoverageDataProvider> dataProvider = new AtomicReference<CoverageDataProvider>();
+        final AtomicReference<CoverageDataProvider> dataProvider = new AtomicReference<>();
         parent.getParentEntity().visit(new EntityVisitor() {
             @Override
             public void visitFile(FileInfo parentFile) {

@@ -670,7 +670,7 @@ public class CloverProject extends BaseNature {
 
     public CloverProject[] getDependencies() throws CoreException {
         IProject[] referenced = getProject().getReferencedProjects();
-        List<CloverProject> projects = new ArrayList<CloverProject>(referenced.length);
+        List<CloverProject> projects = new ArrayList<>(referenced.length);
         for (IProject project : referenced) {
             if (CloverProject.isAppliedTo(project)) {
                 projects.add(CloverProject.getFor(project));

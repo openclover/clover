@@ -155,7 +155,7 @@ public class CloudEditor
     }
 
     private void updatePerPackageCloudMapping() {
-        final Map<String, PackageCloudStructure> perPackageCloudMappings = new LinkedHashMap<String, PackageCloudStructure>();
+        final Map<String, PackageCloudStructure> perPackageCloudMappings = new LinkedHashMap<>();
         final FullProjectInfo project = ((CloudProjectInput) getEditorInput()).getProject().getModel().getAppOnlyProjectInfo();
         final File outputDir = getReportBaseFolder();
 

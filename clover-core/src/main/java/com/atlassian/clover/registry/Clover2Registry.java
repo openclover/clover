@@ -72,7 +72,7 @@ public class Clover2Registry implements InstrumentationTarget {
         this.model = new ProjectView.Original(model);
         this.instrumentationHistory = newLinkedList(instrumentationHistory);
         this.contexts = contexts;
-        this.updatesToSave = new CopyOnWriteArrayList<InstrumentationSessionImpl.Update>();
+        this.updatesToSave = new CopyOnWriteArrayList<>();
     }
 
     public Clover2Registry copyForBackgroundCoverageLoad() {

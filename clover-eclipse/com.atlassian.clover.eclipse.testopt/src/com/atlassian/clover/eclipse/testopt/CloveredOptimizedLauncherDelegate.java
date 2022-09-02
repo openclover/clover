@@ -163,7 +163,7 @@ public class CloveredOptimizedLauncherDelegate extends JUnitLaunchConfigurationD
             return allTests;
         }
 
-        final Collection<IMemberAdapter> input = new ArrayList<IMemberAdapter>(allTests.length);
+        final Collection<IMemberAdapter> input = new ArrayList<>(allTests.length);
         for (IMember test : allTests) {
             input.add(new IMemberAdapter(test));
         }

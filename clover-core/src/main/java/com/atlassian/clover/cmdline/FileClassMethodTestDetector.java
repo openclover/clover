@@ -23,7 +23,7 @@ public class FileClassMethodTestDetector implements TestDetector {
     private String root;
     private String includePattern;
     private String excludePattern;
-    private List<TestClassSpec> testClassSpec = new ArrayList<TestClassSpec>();
+    private List<TestClassSpec> testClassSpec = new ArrayList<>();
 
 
     @Override

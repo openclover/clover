@@ -108,16 +108,16 @@ public class TestCaseInfo implements Serializable {
         this.duration = duration;
         this.runtimeTypeName = runtimeTypeName;
         this.sourceMethodName = sourceMethodName;
-        this.runtimeType = new WeakReference<FullClassInfo>(null);
-        this.sourceMethod = new WeakReference<FullMethodInfo>(null);
+        this.runtimeType = new WeakReference<>(null);
+        this.sourceMethod = new WeakReference<>(null);
         this.runtimeTestName = runtimeTestName;
     }
 
     public TestCaseInfo(Integer id, FullClassInfo runtimeType, FullMethodInfo sourceMethod,
                         @Nullable String runtimeTestName) {
         this.id = id;
-        this.runtimeType = new WeakReference<FullClassInfo>(runtimeType);
-        this.sourceMethod = new WeakReference<FullMethodInfo>(sourceMethod);
+        this.runtimeType = new WeakReference<>(runtimeType);
+        this.sourceMethod = new WeakReference<>(sourceMethod);
         // use statically defined test name (if present) or a method name as a name of the test
         this.staticTestName = sourceMethod != null   // may be null in DecoratedTestCaseInfo
                 ? (sourceMethod.getStaticTestName() != null ? sourceMethod.getStaticTestName() : sourceMethod.getSimpleName())
@@ -146,7 +146,7 @@ public class TestCaseInfo implements Serializable {
     public boolean resolve(FullProjectInfo project) {
         final String rtClassname = runtimeTypeName.replaceAll("\\.[0-9]+", ""); // hack - see CCD-294, CCD-307
         final FullClassInfo runtimeType = (FullClassInfo)project.findClass(rtClassname);
-        this.runtimeType = new WeakReference<FullClassInfo>(runtimeType);
+        this.runtimeType = new WeakReference<>(runtimeType);
         int lastDot = sourceMethodName.lastIndexOf(".");
 
         if (lastDot > 0 && lastDot < sourceMethodName.length()) {
@@ -159,7 +159,7 @@ public class TestCaseInfo implements Serializable {
             // if found then find proper method in this class as well
             if (srcClass != null) {
                 testMethodFound = srcClass.getTestMethodDeclaration(sourceMethodName.substring(lastDot + 1));
-                sourceMethod = new WeakReference<FullMethodInfo>(testMethodFound);
+                sourceMethod = new WeakReference<>(testMethodFound);
             }
 
             // read static test name out of the method or just guess the name from the substring

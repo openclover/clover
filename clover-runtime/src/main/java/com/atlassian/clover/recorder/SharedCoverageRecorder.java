@@ -19,7 +19,7 @@ public final class SharedCoverageRecorder extends GrowableCoverageRecorder {
     /**
      * Share the same coverage recorder for the same initstring+cfgbits.
      */
-    static Map<String, CoverageRecorder> sharedRecorders = new HashMap<String, CoverageRecorder>();
+    static Map<String, CoverageRecorder> sharedRecorders = new HashMap<>();
 
     /**
      * Factory method.

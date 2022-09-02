@@ -21,7 +21,7 @@ public class FileInfoRecord {
     public FileInfoRecord(FullFileInfo fileInfo) {
         this.name = fileInfo.getName();
         this.packageName = fileInfo.getContainingPackage().getName();
-        this.fileInfo = new LazyProxy.Preloaded<FullFileInfo>(fileInfo);
+        this.fileInfo = new LazyProxy.Preloaded<>(fileInfo);
     }
 
     public FileInfoRecord(FileChannel channel) throws IOException {

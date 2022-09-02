@@ -136,9 +136,9 @@ public final class LocalSnapshotOptimizer implements Optimizer {
         List<E> result;
 
         if (canOptimize()) {
-            result = new ArrayList<E>(totalInputsSize);
+            result = new ArrayList<>(totalInputsSize);
 
-            final Map<E, Set<TestMethodCall>> testMethods = new HashMap<E, Set<TestMethodCall>>(totalInputsSize);
+            final Map<E, Set<TestMethodCall>> testMethods = new HashMap<>(totalInputsSize);
 
             for (E optimizable : optionalOptimizables) {
                 Set<TestMethodCall> testCases = lookupTestMethods(optimizable);
@@ -181,7 +181,7 @@ public final class LocalSnapshotOptimizer implements Optimizer {
             session.incOptimizedOptimizableCount(result.size());
             session.afterOptimizaion(true);
         } else {
-            result = new ArrayList<E>(totalInputsSize);
+            result = new ArrayList<>(totalInputsSize);
             result.addAll(mandatoryOptimizables);
             result.addAll(optionalOptimizables);
 
@@ -358,17 +358,17 @@ public final class LocalSnapshotOptimizer implements Optimizer {
             final Map<E, Set<TestMethodCall>> testsPerOptimizable,
             final Snapshot snapshot, OptimizationSession session) {
 
-        final List<TestSortEntry<E>> sortedTests = new ArrayList<TestSortEntry<E>>(optimizables.size());
+        final List<TestSortEntry<E>> sortedTests = new ArrayList<>(optimizables.size());
         
         for (E optimizable : optimizables) {
             final Set<TestMethodCall> tests = testsPerOptimizable.get(optimizable);
             sortedTests.add(tests != null ?
-                    new TestSortEntry<E>(optimizable, snapshot.calculateDurationOf(tests), !containsFailed(tests), containsAffected(tests, session))
-                    : new TestSortEntry<E>(optimizable, Snapshot.UNKNOWN_DURATION, true, true));
+                    new TestSortEntry<>(optimizable, snapshot.calculateDurationOf(tests), !containsFailed(tests), containsAffected(tests, session))
+                    : new TestSortEntry<>(optimizable, Snapshot.UNKNOWN_DURATION, true, true));
         }
         Collections.sort(sortedTests);
 
-        final List<E> sortedOptimizables = new ArrayList<E>(sortedTests.size());
+        final List<E> sortedOptimizables = new ArrayList<>(sortedTests.size());
         for (final TestSortEntry<E> sortedTest : sortedTests) {
             sortedOptimizables.add(sortedTest.optimizable);
         }

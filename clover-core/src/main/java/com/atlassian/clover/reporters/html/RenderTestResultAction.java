@@ -25,8 +25,8 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 
 public class RenderTestResultAction implements Callable {
-    private static final ThreadLocal<FullProjectInfo> REUSABLE_MODEL = new ThreadLocal<FullProjectInfo>();
-    private static final ThreadLocal<FullProjectInfo> CONFIGURABLE_MODEL = new ThreadLocal<FullProjectInfo>();
+    private static final ThreadLocal<FullProjectInfo> REUSABLE_MODEL = new ThreadLocal<>();
+    private static final ThreadLocal<FullProjectInfo> CONFIGURABLE_MODEL = new ThreadLocal<>();
 
     private static final Comparator<HasMetrics> TARGET_CLASS_COMPARATOR = new Comparator<HasMetrics>() {
         @Override
@@ -107,7 +107,7 @@ public class RenderTestResultAction implements Callable {
     }
 
     private void gatherUniquenessVariables(List<? extends BaseClassInfo> classes) {
-        final Map<String, ClassInfo> uniqueCoverageMap = new LinkedHashMap<String, ClassInfo>();
+        final Map<String, ClassInfo> uniqueCoverageMap = new LinkedHashMap<>();
         float uniqueElementsHit = buildUniqueCoverageMap(testCaseInfo, uniqueCoverageMap);
 
         int totalElementsHit = 0;

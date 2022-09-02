@@ -95,7 +95,7 @@ public class LambdaAndStreams {
 
     private static final class MapClass {
 
-        private Map<String, String> internalMap = new HashMap<String, String>();
+        private Map<String, String> internalMap = new HashMap<>();
 
         public void map(Effect<Map<String, String>> obj) {
             obj.apply(internalMap);

@@ -35,8 +35,8 @@ public class Environment {
     public static String substituteSysPropRefs(String value) {
         try {
             if(value != null && value.indexOf(PROP_START) != -1) {
-                Collection<String> fragments = new ArrayList<String>();
-                Collection<String> propertyRefs = new ArrayList<String>();
+                Collection<String> fragments = new ArrayList<>();
+                Collection<String> propertyRefs = new ArrayList<>();
                 parsePropertyString(value, fragments, propertyRefs);
                 StringBuilder sb = new StringBuilder();
                 Iterator<String> i = fragments.iterator();

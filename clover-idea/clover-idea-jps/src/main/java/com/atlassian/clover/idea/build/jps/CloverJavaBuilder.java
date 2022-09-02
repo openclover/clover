@@ -136,7 +136,7 @@ public class CloverJavaBuilder extends ModuleLevelBuilder {
      */
     @Override
     public List<String> getCompilableFileExtensions() {
-        final List<String> extensionWithoutDot = new ArrayList<String>(Language.Builtin.JAVA.getFileExtensions().size());
+        final List<String> extensionWithoutDot = new ArrayList<>(Language.Builtin.JAVA.getFileExtensions().size());
         // remove dots as required by ModuleLevelBuilder.getCompilableFileExtensions() API
         for (final String ext : Language.Builtin.JAVA.getFileExtensions()) {
             extensionWithoutDot.add(ext.substring(1));

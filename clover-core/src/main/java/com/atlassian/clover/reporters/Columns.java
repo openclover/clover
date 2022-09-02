@@ -1356,7 +1356,7 @@ public class Columns {
 
     private List<Column> copyColumns(List<Column> cols) {
         // make a deep copy of these
-        List<Column> columns = new ArrayList<Column>(cols.size());
+        List<Column> columns = new ArrayList<>(cols.size());
         for (Column column : cols) {
             columns.add(column.copy());
         }

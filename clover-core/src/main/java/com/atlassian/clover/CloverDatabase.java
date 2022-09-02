@@ -356,7 +356,7 @@ public class CloverDatabase {
         final FullProjectInfo baseProject = destReg.getProject();
 
         // todo - sort here to process the biggest first - might be significant speed improvement
-        Map<CloverDatabaseSpec, CloverDatabase> speccedDbs = new LinkedHashMap<CloverDatabaseSpec, CloverDatabase>();
+        Map<CloverDatabaseSpec, CloverDatabase> speccedDbs = new LinkedHashMap<>();
 
         // load all registries early, to allow context store merging
         for (CloverDatabaseSpec spec : dbspecs) {

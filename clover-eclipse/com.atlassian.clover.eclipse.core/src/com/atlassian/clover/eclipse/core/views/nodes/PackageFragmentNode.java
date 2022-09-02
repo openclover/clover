@@ -13,7 +13,7 @@ public abstract class PackageFragmentNode extends JavaElementNode {
 
     public PackageFragmentNode(String name, Set<? extends IPackageFragment> fragments) {
         this.name = name;
-        this.packageFragments = Collections.unmodifiableSet(new LinkedHashSet<IPackageFragment>(fragments));
+        this.packageFragments = Collections.unmodifiableSet(new LinkedHashSet<>(fragments));
     }
 
     public Set<IPackageFragment> getPackageFragments() {

@@ -21,9 +21,9 @@ public class NonReifiableTypesSafeVarargs {
 
 
     public static void main() {
-        List<String> stringListA = new ArrayList<String>();
-        List<String> stringListB = new ArrayList<String>();
-        List<List<String>> listOfStringLists = new ArrayList<List<String>>();
+        List<String> stringListA = new ArrayList<>();
+        List<String> stringListB = new ArrayList<>();
+        List<List<String>> listOfStringLists = new ArrayList<>();
 
         // Compilation of this line should not produce any warning
         addToList3(listOfStringLists, stringListA, stringListB);

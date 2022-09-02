@@ -92,7 +92,7 @@ public class Snapshot implements Serializable {
 
     public Snapshot(final CloverDatabase db, File locationTosnapshot) {
         cloverVersionInfo = CloverVersionInfo.formatVersionInfo();
-        dbVersions = new LinkedHashSet<Long>();
+        dbVersions = new LinkedHashSet<>();
         initString = db.getInitstring();
         testLookup = newHashMap();
         perTestSourceStates = newHashMap();
@@ -350,7 +350,7 @@ public class Snapshot implements Serializable {
     }
 
     private Set<String> pathsFor(Set<TestMethodCall> tests) {
-        Set<String> paths = new HashSet<String>(tests.size());
+        Set<String> paths = new HashSet<>(tests.size());
         for (TestMethodCall testReference : tests) {
             paths.add(testReference.getPackagePath());
         }

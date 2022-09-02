@@ -20,7 +20,7 @@ public class RpcMessage implements Serializable {
     public static final int METHOD_START = 1;
     public static final int METHOD_END = 2;
 
-    private static final Map<Integer, MethodDescriptor> METHODS = new HashMap<Integer, MethodDescriptor>();
+    private static final Map<Integer, MethodDescriptor> METHODS = new HashMap<>();
 
     static {
         METHODS.put(METHOD_START, new MethodDescriptor("allRecordersSliceStart",

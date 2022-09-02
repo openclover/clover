@@ -207,7 +207,7 @@ public class GroovySourceTraverser implements SourceTraverser {
 
     private String[] getLinesFor(GroovySourceToken first, GroovySourceToken last, List<String> allLines) throws Exception {
         try {
-            List<String> lines = new ArrayList<String>(allLines.subList(first.getLine() - 1, last.getLineLast()));
+            List<String> lines = new ArrayList<>(allLines.subList(first.getLine() - 1, last.getLineLast()));
             String firstLine = lines.get(0);
             if (lines.size() == 1) {
                 lines.set(0, firstLine.substring(first.getColumn()- 1, last.getColumnLast() - 1));

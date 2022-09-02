@@ -26,7 +26,7 @@ public class ReportWizard {
     public static final int FINISHED_EXIT_CODE = 0;
     public static final int CANCELLED_EXIT_CODE = 1;
 
-    private final Stack<ReportWizardPage> previousPageStack = new Stack<ReportWizardPage>();
+    private final Stack<ReportWizardPage> previousPageStack = new Stack<>();
 
     private final String defaultContextSpec;
 

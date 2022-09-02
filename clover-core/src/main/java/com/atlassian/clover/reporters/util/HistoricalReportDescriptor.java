@@ -49,8 +49,8 @@ public class HistoricalReportDescriptor {
         if (histCfg == null) {
             throw new CloverException("Invalid report config");
         }
-        moversDescriptors = new ArrayList<MoversDescriptor>(histCfg.getMovers().size());
-        addedDescriptors = new ArrayList<AddedDescriptor>(histCfg.getAdded().size());
+        moversDescriptors = new ArrayList<>(histCfg.getMovers().size());
+        addedDescriptors = new ArrayList<>(histCfg.getAdded().size());
     }
 
     public boolean gatherHistoricalModels() throws CloverException, IOException {
@@ -209,7 +209,7 @@ public class HistoricalReportDescriptor {
                 final List<MetricsDiffSummary> topN = getPositiveMoversInner(moverClasses, lastMover, range, true);
                 Collections.sort(topN, MetricsDiffSummary.INVERSE_DIFF_COMP);
                 final List<MetricsDiffSummary> bottomN = getBottomMovers(moverClasses, range);
-                final List<MetricsDiffSummary> result = new ArrayList<MetricsDiffSummary>(topN.size() + bottomN.size());
+                final List<MetricsDiffSummary> result = new ArrayList<>(topN.size() + bottomN.size());
                 result.addAll(topN);
                 result.addAll(bottomN);
 

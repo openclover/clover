@@ -35,7 +35,7 @@ public class CloverProperties {
     }
 
     private static Map<String, String> toMap(String[] nvpProperties) {
-        Map<String, String> properties = new HashMap<String, String>();
+        Map<String, String> properties = new HashMap<>();
 
         if (nvpProperties != null) {
             if (nvpProperties.length % 2 != 0) {
@@ -66,7 +66,7 @@ public class CloverProperties {
             }
         });
 
-        Map<String, String> cloverSystemProperties = new HashMap<String, String>();
+        Map<String, String> cloverSystemProperties = new HashMap<>();
         for (Map.Entry<Object, Object> entry : systemProperties.entrySet()) {
             if (((String) entry.getKey()).startsWith(CloverNames.PROP_PREFIX)) {
                 cloverSystemProperties.put((String) entry.getKey(), (String) entry.getValue());

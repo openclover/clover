@@ -23,7 +23,7 @@ public class SourceRootsWithPatternTreeContentProvider implements ITreeContentPr
     private final List<InstrumentedSourceFoldersListener> listeners = newArrayList();
 
     public SourceRootsWithPatternTreeContentProvider(IJavaProject project, Collection<SourceFolderPattern> existing) {
-        Map<String, SourceFolderPattern> index = new HashMap<String, SourceFolderPattern>(existing.size());
+        Map<String, SourceFolderPattern> index = new HashMap<>(existing.size());
         for (SourceFolderPattern sfp : existing) {
             index.put(sfp.getSrcPath(), sfp);
         }
@@ -86,7 +86,7 @@ public class SourceRootsWithPatternTreeContentProvider implements ITreeContentPr
     }
 
     public SourceRootWithPattern[] getEnabledElements() {
-        List<SourceRootWithPattern> selected = new ArrayList<SourceRootWithPattern>(children.length);
+        List<SourceRootWithPattern> selected = new ArrayList<>(children.length);
         for (SourceRootWithPattern child : children) {
             if (child.getPattern().isEnabled()) {
                 selected.add(child);

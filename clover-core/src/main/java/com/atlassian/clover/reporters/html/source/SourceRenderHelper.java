@@ -107,7 +107,7 @@ public class SourceRenderHelper {
         // remove the failed test coverage filter at the file level...
         finfo.setDataProvider(this.coverageProvider);
         final int lineCount = finfo.getLineCount();
-        List<LineRenderInfo> renderedLines = new ArrayList<LineRenderInfo>(lineCount);
+        List<LineRenderInfo> renderedLines = new ArrayList<>(lineCount);
 
         ChecksummingReader csr;
         try {

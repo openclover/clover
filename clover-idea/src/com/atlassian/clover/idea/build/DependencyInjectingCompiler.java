@@ -56,7 +56,7 @@ public class DependencyInjectingCompiler implements SourceInstrumentingCompiler 
     }
 
     protected ProcessingItem[] processForClassicBuild(final CompileContext context, final ProcessingItem[] items) {
-        final List<VirtualFile> toDelete = new ArrayList<VirtualFile>(items.length * 2); // most files contain 1 top level class
+        final List<VirtualFile> toDelete = new ArrayList<>(items.length * 2); // most files contain 1 top level class
 
         ApplicationManager.getApplication().runReadAction(new Runnable() {
             @Override
@@ -115,7 +115,7 @@ public class DependencyInjectingCompiler implements SourceInstrumentingCompiler 
     }
 
     protected ProcessingItem[] processForExternalBuild(final CompileContext context, final ProcessingItem[] items) {
-        final List<VirtualFile> toTouch = new ArrayList<VirtualFile>(items.length);
+        final List<VirtualFile> toTouch = new ArrayList<>(items.length);
 
         ApplicationManager.getApplication().runReadAction(new Runnable() {
             @Override

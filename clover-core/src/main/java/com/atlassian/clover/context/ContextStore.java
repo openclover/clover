@@ -64,8 +64,8 @@ public class ContextStore implements TaggedPersistent {
 
     public static final int NEXT_INDEX = 19;
 
-    private static Map<String, SimpleContext> reservedContexts = new LinkedHashMap<String, SimpleContext>();
-    private static Map<String, MethodRegexpContext> reservedMethodContexts = new LinkedHashMap<String, MethodRegexpContext>();
+    private static Map<String, SimpleContext> reservedContexts = new LinkedHashMap<>();
+    private static Map<String, MethodRegexpContext> reservedMethodContexts = new LinkedHashMap<>();
     private static Set<String> reservedNames = Sets.newHashSet();
     static {
         addContext(reservedContexts, new SimpleContext(CONTEXT_CLOVER_OFF, "SourceDirective"));
@@ -93,8 +93,8 @@ public class ContextStore implements TaggedPersistent {
     }
 
     private int nextIndex = NEXT_INDEX;
-    private Map<String, MethodRegexpContext> methodContexts = new LinkedHashMap<String, MethodRegexpContext>();
-    private Map<String, StatementRegexpContext> statementContexts = new LinkedHashMap<String, StatementRegexpContext>();
+    private Map<String, MethodRegexpContext> methodContexts = new LinkedHashMap<>();
+    private Map<String, StatementRegexpContext> statementContexts = new LinkedHashMap<>();
     /**
      * A map to cache Strings keyed on ContextSets
      */
@@ -119,7 +119,7 @@ public class ContextStore implements TaggedPersistent {
     }
 
     private void initCache() {
-        namedContextCache = new ConcurrentHashMap<com.atlassian.clover.api.registry.ContextSet, String>();
+        namedContextCache = new ConcurrentHashMap<>();
     }
 
     public int addMethodContext(MethodRegexpContext ctx) throws CloverException {

@@ -142,7 +142,7 @@ public class GroovyModelMiner {
 
     public static String[] extractExceptions(MethodNode method) {
         final ClassNode[] exceptions = method.getExceptions();
-        List<String> exceptionNames = new ArrayList<String>(exceptions.length);
+        List<String> exceptionNames = new ArrayList<>(exceptions.length);
         for (ClassNode exception : exceptions) {
             exceptionNames.add(exception.getNameWithoutPackage());
         }
@@ -152,7 +152,7 @@ public class GroovyModelMiner {
     //FQ class name required here so Groovy uses the right Parameter class
     public static com.atlassian.clover.registry.entities.Parameter[] extractParameters(MethodNode method) {
         final Parameter[] parameters = method.getParameters();
-        final List<com.atlassian.clover.registry.entities.Parameter> clovParams = new ArrayList<com.atlassian.clover.registry.entities.Parameter>(parameters.length);
+        final List<com.atlassian.clover.registry.entities.Parameter> clovParams = new ArrayList<>(parameters.length);
 
         for (Parameter p : parameters) {
             clovParams.add(new com.atlassian.clover.registry.entities.Parameter(extractVerbatimType(p.getType(), p.isDynamicTyped()), p.getName()));
@@ -166,7 +166,7 @@ public class GroovyModelMiner {
 
     public static AnnotationImpl[] extractAnnotations(AnnotatedNode annotated, Map<String, ClassNode> classNodes) {
         final List<AnnotationNode> annotations = annotated.getAnnotations();
-        final List<AnnotationImpl> clovAnnotations = new ArrayList<AnnotationImpl>(annotations.size());
+        final List<AnnotationImpl> clovAnnotations = new ArrayList<>(annotations.size());
         for (AnnotationNode n : annotations) {
             clovAnnotations.add(extractAnnotation(n, classNodes));
         }

@@ -50,7 +50,7 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
     public static final long NO_VERSION = -1L;
 
     /** classes declared inside the file */
-    protected Map<String, FullClassInfo> classes = new LinkedHashMap<String, FullClassInfo>();
+    protected Map<String, FullClassInfo> classes = new LinkedHashMap<>();
     /**
      * statements declared inside the file on the top-level (e.g in scripts)
      */
@@ -527,7 +527,7 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
     }
 
     public void setFailStackEntries(final Map<Integer, List<StackTraceInfo.TraceEntry>> entries) {
-        failStackInfos = new TreeMap<Integer, List<StackTraceInfo.TraceEntry>>(entries);
+        failStackInfos = new TreeMap<>(entries);
     }
 
     public void addFailStackEntry(final int lineNum, final StackTraceInfo.TraceEntry traceEntry) {
@@ -727,7 +727,7 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
         // read list
         final List<FullClassInfo> classInfos = in.readList(FullClassInfo.class);
         // and rewrite to map
-        final Map<String, FullClassInfo> classes = new LinkedHashMap<String, FullClassInfo>(classInfos.size()  * 2);
+        final Map<String, FullClassInfo> classes = new LinkedHashMap<>(classInfos.size() * 2);
         for(FullClassInfo classInfo : classInfos) {
             classes.put(classInfo.getName(), classInfo);
         }

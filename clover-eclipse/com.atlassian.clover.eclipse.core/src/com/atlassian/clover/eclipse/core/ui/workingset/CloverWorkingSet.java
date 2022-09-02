@@ -121,7 +121,7 @@ public class CloverWorkingSet {
      * List of the IJavaElements described by the current working set
      */
     private void extractCurrentJavaElements(IAdaptable[] current) {
-        mCachedJavaElements = new ArrayList<IJavaElement>(current.length);
+        mCachedJavaElements = new ArrayList<>(current.length);
         mMatchingFiles.clear();
         mMatchingPackageDirs.clear();
         mMatchingRootDirs.clear();
@@ -231,7 +231,7 @@ public class CloverWorkingSet {
             IPackageFragment fragment = (IPackageFragment) asJavaElement(adaptable);
             if (fragment != null) {
                 IPackageFragmentRoot[] allFragmentRoots = fragment.getJavaProject().getPackageFragmentRoots();
-                ArrayList<IPackageFragment> allSimilarPackages = new ArrayList<IPackageFragment>(allFragmentRoots.length);
+                ArrayList<IPackageFragment> allSimilarPackages = new ArrayList<>(allFragmentRoots.length);
                 for (IPackageFragmentRoot allFragmentRoot : allFragmentRoots) {
                     if (allFragmentRoot.getKind() == IPackageFragmentRoot.K_SOURCE) {
                         IPackageFragment packageFragment = allFragmentRoot.getPackageFragment(fragment.getElementName());

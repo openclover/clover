@@ -14,7 +14,7 @@ public class PkgFragRootToPkgFragRelationship extends NodeRelationship {
         try {
             IPackageFragmentRoot root = (IPackageFragmentRoot) object;
             IJavaElement[] children = root.getChildren();
-            List<IPackageFragment> packageFragments = new ArrayList<IPackageFragment>(children.length);
+            List<IPackageFragment> packageFragments = new ArrayList<>(children.length);
             for (IJavaElement child : children) {
                 if (child instanceof IPackageFragment
                         && ((IPackageFragment) child).getCompilationUnits().length > 0) {

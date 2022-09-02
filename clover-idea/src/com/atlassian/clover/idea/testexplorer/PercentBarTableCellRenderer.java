@@ -29,7 +29,7 @@ public class PercentBarTableCellRenderer extends PercentBarPanel implements Tabl
     }
 
     private static Map<PercentBarColors, PercentBarTableCellRenderer> INSTANCES =
-            new EnumMap<PercentBarColors, PercentBarTableCellRenderer>(PercentBarColors.class);
+            new EnumMap<>(PercentBarColors.class);
 
     public static TableCellRenderer getInstance() {
         return getInstance(PercentBarColors.LIGHTBLUE_ON_WHITE);

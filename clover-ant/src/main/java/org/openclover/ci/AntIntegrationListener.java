@@ -64,7 +64,7 @@ public class AntIntegrationListener implements BuildListener {
         }
         
         if (executionOccured && instrumentationOccured && importOccured) {
-            Vector<String> targets = new Vector<String>(Arrays.asList("clover.current", "clover.json", "clover.report"));
+            Vector<String> targets = new Vector<>(Arrays.asList("clover.current", "clover.json", "clover.report"));
             buildEvent.getProject().executeTargets(targets);
         } else {
             msg.append(" Clover reports not being generated.");

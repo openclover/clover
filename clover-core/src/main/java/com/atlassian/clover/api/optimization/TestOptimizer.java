@@ -83,7 +83,7 @@ public class TestOptimizer {
      * @throws java.lang.IllegalAccessException if getName() call fails
      */
     public List<Optimizable> optimizeObjects(final List objectList) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        final List<Optimizable> list = new ArrayList<Optimizable>(objectList.size());
+        final List<Optimizable> list = new ArrayList<>(objectList.size());
         for (final Object obj : objectList) {
             // name = obj.getName();
             final String name = (String)obj.getClass().getMethod("getName").invoke(obj);
@@ -97,7 +97,7 @@ public class TestOptimizer {
 
     private Collection<Class> convertClassList(final List<? extends Optimizable> optimizables) {
         // create the list of culled and re-ordered classes.
-        final Collection<Class> optimizedClasses = new ArrayList<Class>(optimizables.size());
+        final Collection<Class> optimizedClasses = new ArrayList<>(optimizables.size());
         for (final Optimizable optimizable : optimizables) {
             // lookup the class for each optimizable
             final ClassOptimizable optClass = (ClassOptimizable) optimizable;
@@ -114,7 +114,7 @@ public class TestOptimizer {
      */
     private List<Optimizable> convertClassesToOptimizables(final Collection<Class> testClasses) {
 
-        final List<Optimizable> optimizables = new ArrayList<Optimizable>(testClasses.size());
+        final List<Optimizable> optimizables = new ArrayList<>(testClasses.size());
         for (final Class aClass : testClasses) {
             optimizables.add(new ClassOptimizable(aClass));
         }

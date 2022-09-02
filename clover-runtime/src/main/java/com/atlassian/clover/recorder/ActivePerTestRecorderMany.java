@@ -60,7 +60,7 @@ public final class ActivePerTestRecorderMany extends ActivePerTestRecorderAny {
                             "but test recorder in focus doesn't match: " + those[0]);
 
             ActivePerTestRecorderOne finished = null;
-            Collection<ActivePerTestRecorderOne> singles = new ArrayList<ActivePerTestRecorderOne>(Arrays.asList(this.those));
+            Collection<ActivePerTestRecorderOne> singles = new ArrayList<>(Arrays.asList(this.those));
             for (Iterator<ActivePerTestRecorderOne> iterator = singles.iterator(); iterator.hasNext(); ) {
                 ActivePerTestRecorderOne one = iterator.next();
                 boolean matches = one.matchesTest(type, slice, testRunId);

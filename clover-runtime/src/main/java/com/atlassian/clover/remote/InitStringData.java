@@ -19,7 +19,7 @@ public class InitStringData implements Serializable {
 
     public InitStringData(String initString) {
 
-        this.initStringMap = new HashMap<String, String>();
+        this.initStringMap = new HashMap<>();
 
         final StringTokenizer tok = new StringTokenizer(initString, ";");
 
@@ -78,7 +78,7 @@ public class InitStringData implements Serializable {
      */
     @Override
     public String toString() {
-        final SortedSet<String> keys = new TreeSet<String>(initStringMap.keySet());
+        final SortedSet<String> keys = new TreeSet<>(initStringMap.keySet());
         String initString = "";
         for (String key : keys) {
             initString += (initString.length() > 0 ? ";" : "") + key + "=" + initStringMap.get(key);

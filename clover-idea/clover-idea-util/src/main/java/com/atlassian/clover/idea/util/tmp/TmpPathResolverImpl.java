@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.WeakHashMap;
 
 public class TmpPathResolverImpl implements TmpPathResolver {
-    private Map<String, VirtualFile> mapping = new WeakHashMap<String, VirtualFile>();
+    private Map<String, VirtualFile> mapping = new WeakHashMap<>();
 
     private static Key<String> KEY = Key.create(TmpPathResolverImpl.class.getName());
 

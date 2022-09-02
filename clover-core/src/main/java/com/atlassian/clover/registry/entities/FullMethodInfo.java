@@ -298,7 +298,7 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo> implements 
     }
 
     private ContextSet getParentContextFilter() {
-        final AtomicReference<ContextSet> parentContextFilter = new AtomicReference<ContextSet>();
+        final AtomicReference<ContextSet> parentContextFilter = new AtomicReference<>();
 
         parent.getParentEntity().visit(new EntityVisitor() {
             @Override

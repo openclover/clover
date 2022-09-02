@@ -23,7 +23,7 @@ public class RegContents {
                 }
             };
         } else {
-            coverageSegment = new LazyProxy.Preloaded<CoverageSegment>(null);
+            coverageSegment = new LazyProxy.Preloaded<>(null);
         }
 
         this.sessionSegments =

@@ -34,7 +34,7 @@ public class JSONReportUtils {
             cfg.isColumnsSet()
                 ? cfg.getColumns().getProjectColumnsCopy()
                 : Columns.getAllColumns();
-        List<String> columnNames = new ArrayList<String>(columns.size() + 5);
+        List<String> columnNames = new ArrayList<>(columns.size() + 5);
         for (Column column : columns) {
             columnNames.add(column.getName());
         }

@@ -15,7 +15,7 @@ public class MiscUtils {
             return computable.compute();
         }
 
-        final AtomicReference<T> holder = new AtomicReference<T>();
+        final AtomicReference<T> holder = new AtomicReference<>();
         ApplicationManager.getApplication().invokeAndWait(new Runnable() {
             @Override
             public void run() {

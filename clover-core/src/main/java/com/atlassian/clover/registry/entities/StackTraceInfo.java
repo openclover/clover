@@ -72,7 +72,7 @@ public class StackTraceInfo {
         private TraceEntry down;
 
         // these are possibly filled upon resolve(p)
-        private WeakReference<FullFileInfo> containingFile = new WeakReference<FullFileInfo>(null);
+        private WeakReference<FullFileInfo> containingFile = new WeakReference<>(null);
         private int lineNum = -1;
         private String linePrefix;
         private String linkableLineSegment;
@@ -139,7 +139,7 @@ public class StackTraceInfo {
 
                 if (clazz != null) {
                     final FullFileInfo fileInfo = (FullFileInfo)clazz.getContainingFile();
-                    containingFile = new WeakReference<FullFileInfo>(fileInfo);
+                    containingFile = new WeakReference<>(fileInfo);
                     String lineStr = matcher.group(4);
                     if (LINE_NUMBER_PATTERN.matcher(lineStr).matches()) {
                         lineNum = Integer.parseInt(matcher.group(5));

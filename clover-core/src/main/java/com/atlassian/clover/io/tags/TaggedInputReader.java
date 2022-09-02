@@ -104,7 +104,7 @@ public class TaggedInputReader implements TaggedDataInput {
     @Override
     public <T extends TaggedPersistent> List<T> readList(Class<T> type) throws IOException {
         final int count = readInt();
-        final List<T> entities = new ArrayList<T>();
+        final List<T> entities = new ArrayList<>();
         for(int i = 0; i < count; i++) {
             final T entity = read(type);
             entities.add(entity);

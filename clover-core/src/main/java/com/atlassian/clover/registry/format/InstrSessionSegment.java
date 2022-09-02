@@ -180,7 +180,7 @@ public class InstrSessionSegment {
         this.startTs = startTs;
         this.endTs = endTs;
         this.fileInfoRecords = Collections.unmodifiableList(newLinkedList(fileInfoRecords));
-        this.ctxStore = new LazyProxy.Preloaded<ContextStore>(ctxStore);
+        this.ctxStore = new LazyProxy.Preloaded<>(ctxStore);
     }
 
     private Footer loadFooter(FileChannel channel, long endOfSegment) throws IOException {

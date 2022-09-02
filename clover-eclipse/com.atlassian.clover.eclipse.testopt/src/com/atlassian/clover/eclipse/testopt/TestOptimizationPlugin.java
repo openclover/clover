@@ -119,7 +119,7 @@ public class TestOptimizationPlugin extends AbstractUIPlugin {
         return reg.get(TEST_OPTIMIZATION_ICON);
     }
 
-    private final Collection<OptimizationSessionListener> optimizationSessionListeners = new CopyOnWriteArraySet<OptimizationSessionListener>();
+    private final Collection<OptimizationSessionListener> optimizationSessionListeners = new CopyOnWriteArraySet<>();
 
     public void addOptimizationSessionListener(OptimizationSessionListener listener) {
         optimizationSessionListeners.add(listener);

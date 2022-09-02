@@ -57,7 +57,7 @@ public class TestCaseInfoProvider implements ITreeContentProvider {
     }
     
     public Set<FullClassInfo> getAllTestClasses() {
-        Set<FullClassInfo> testClasses = new HashSet<FullClassInfo>(testCases.size());
+        Set<FullClassInfo> testClasses = new HashSet<>(testCases.size());
         for (TestCaseInfo testCase : testCases) {
             if (testCase.isResolved()) {
                 testClasses.add(testCase.getRuntimeType());
@@ -67,7 +67,7 @@ public class TestCaseInfoProvider implements ITreeContentProvider {
     }
 
     public Set<TestCaseInfo> getTestsFor(ClassInfo testClass) {
-        Set<TestCaseInfo> testClasses = new HashSet<TestCaseInfo>(testCases.size());
+        Set<TestCaseInfo> testClasses = new HashSet<>(testCases.size());
         for (TestCaseInfo testCase : testCases) {
             if (testCase.getRuntimeType() == testClass) {
                 testClasses.add(testCase);

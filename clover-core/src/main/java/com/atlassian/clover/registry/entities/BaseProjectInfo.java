@@ -33,7 +33,7 @@ public class BaseProjectInfo implements ProjectInfo, CachingInfo {
     public BaseProjectInfo(String name, long version) {
         this.name = name;
         this.version = version;
-        this.packages = new LinkedHashMap<String, BasePackageInfo>();
+        this.packages = new LinkedHashMap<>();
     }
 
     public BaseProjectInfo(String name) {
@@ -156,7 +156,7 @@ public class BaseProjectInfo implements ProjectInfo, CachingInfo {
     }
 
     private void buildClassLookupMap() {
-        final Map<String, BaseClassInfo> tmpClassLookup = new LinkedHashMap<String, BaseClassInfo>();
+        final Map<String, BaseClassInfo> tmpClassLookup = new LinkedHashMap<>();
         visitFiles(new FileInfoVisitor() {
             @Override
             public void visitFileInfo(BaseFileInfo file) {
@@ -170,7 +170,7 @@ public class BaseProjectInfo implements ProjectInfo, CachingInfo {
     }
 
     private void buildFileLookupMap() {
-        final Map<String, BaseFileInfo> tmpFileLookup = new LinkedHashMap<String, BaseFileInfo>();
+        final Map<String, BaseFileInfo> tmpFileLookup = new LinkedHashMap<>();
         visitFiles(new FileInfoVisitor() {
             @Override
             public void visitFileInfo(BaseFileInfo file) {

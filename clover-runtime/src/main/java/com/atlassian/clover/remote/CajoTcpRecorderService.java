@@ -21,7 +21,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class CajoTcpRecorderService implements RecorderService {
 
-    private final List<ClientProxy> clientProxies = new CopyOnWriteArrayList<ClientProxy>();
+    private final List<ClientProxy> clientProxies = new CopyOnWriteArrayList<>();
     private DistributedConfig config;
 
     private static final int INIT_SLEEP_MILLIS = 500;

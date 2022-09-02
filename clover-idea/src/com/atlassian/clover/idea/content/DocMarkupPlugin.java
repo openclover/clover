@@ -359,7 +359,7 @@ public class DocMarkupPlugin extends ContentPlugin implements FeatureListener, C
                 return;
             }
 
-            Map<CoverageBlock.Style, Color> colorMap = new EnumMap<CoverageBlock.Style, Color>(CoverageBlock.Style.class);
+            Map<CoverageBlock.Style, Color> colorMap = new EnumMap<>(CoverageBlock.Style.class);
             colorMap.put(BAD, notCoveredStripe);
             colorMap.put(FILTERED, excludedStripe);
             colorMap.put(GOOD, coveredStripe);

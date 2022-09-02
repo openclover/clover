@@ -59,8 +59,8 @@ public class CoverageSegment {
     }
 
     public CoverageSegment(CoverageData coverageData) {
-        this.hitCounts = new LazyLoader.Preloaded<int[]>(coverageData.getHitCounts());
-        this.perTestCoverage = new LazyLoader.Preloaded<InMemPerTestCoverage>((InMemPerTestCoverage)coverageData.getPerTestCoverage());
+        this.hitCounts = new LazyLoader.Preloaded<>(coverageData.getHitCounts());
+        this.perTestCoverage = new LazyLoader.Preloaded<>((InMemPerTestCoverage) coverageData.getPerTestCoverage());
     }
 
     public CoverageSegment(FileChannel channel) throws IOException {

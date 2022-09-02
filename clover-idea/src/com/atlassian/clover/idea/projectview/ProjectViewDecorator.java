@@ -17,7 +17,7 @@ import java.util.Collection;
 public class ProjectViewDecorator implements TreeStructureProvider, ProjectComponent {
     @Override
     public Collection<AbstractTreeNode> modify(AbstractTreeNode parent, Collection<AbstractTreeNode> children, ViewSettings settings) {
-        final Collection<AbstractTreeNode> newChildren = new ArrayList<AbstractTreeNode>(children.size());
+        final Collection<AbstractTreeNode> newChildren = new ArrayList<>(children.size());
         boolean modified = false;
         for (AbstractTreeNode child : children) {
             if (PackageElementNodeWrapper.canAnnotate(child)) {

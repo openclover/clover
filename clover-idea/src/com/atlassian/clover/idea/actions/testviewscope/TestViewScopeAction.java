@@ -15,7 +15,7 @@ import java.util.EnumMap;
 import java.util.Map;
 
 public class TestViewScopeAction extends ComboBoxAction {
-    private final Map<TestViewScope, String> index = new EnumMap<TestViewScope, String>(TestViewScope.class);
+    private final Map<TestViewScope, String> index = new EnumMap<>(TestViewScope.class);
     private final DefaultActionGroup actionGroup;
 
 

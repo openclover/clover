@@ -77,14 +77,14 @@ public class RenderTreeMapAction implements Callable {
 
         final List<FullPackageInfo> pkgInfos = (List<FullPackageInfo>)project.getAllPackages();
 
-        final List<Node> pkgNodes = new ArrayList<Node>(pkgInfos.size());
+        final List<Node> pkgNodes = new ArrayList<>(pkgInfos.size());
 
         final Node projectNode = createNode(project.getDataIndex(), "", project, pkgNodes);
 
         for (final FullPackageInfo packageInfo : pkgInfos) {
             final List classes = packageInfo.getClasses(HasMetricsFilter.ACCEPT_ALL);
             // create a package node.
-            final List<Node> classesList = new ArrayList<Node>(classes.size());
+            final List<Node> classesList = new ArrayList<>(classes.size());
             pkgNodes.add(createNode(packageInfo.getDataIndex(), packageInfo.getName(), packageInfo, classesList));
 
             for (Iterator iterator = classes.iterator(); classLevel && iterator.hasNext(); ) {

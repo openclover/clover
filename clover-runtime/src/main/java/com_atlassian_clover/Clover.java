@@ -462,7 +462,7 @@ public final class Clover {
         public InitialisedRuntime() {
             RecorderLogging.init();
             typeID = Math.abs((int) (System.currentTimeMillis() + Clover.class.hashCode()));
-            typeIDs = Collections.synchronizedMap(new HashMap<String, Integer>());
+            typeIDs = Collections.synchronizedMap(new HashMap<>());
         }
 
         /**
@@ -496,7 +496,7 @@ public final class Clover {
         /**
          * map of configured recorder instances *
          */
-        private final HashMap<String, CoverageRecorder> RECORDERS = new HashMap<String, CoverageRecorder>();
+        private final HashMap<String, CoverageRecorder> RECORDERS = new HashMap<>();
 
         private DistributedClover distributedRuntime = null;
 
@@ -570,7 +570,7 @@ public final class Clover {
         }
 
         private String callerChain(int maxDepth) {
-            final LinkedList<StackTraceElement> elements = new LinkedList<StackTraceElement>(
+            final LinkedList<StackTraceElement> elements = new LinkedList<>(
                     Arrays.asList(new Exception().getStackTrace()));
             elements.removeFirst();
             elements.removeFirst();

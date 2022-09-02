@@ -121,10 +121,10 @@ public class SamplingPerTestCoverage extends BasePerTestCoverage {
         //We assume we know up-front the # of per-test recordings and only
         //resize if we exceed that (load = 1.1)
         this.coverageCache =
-            new SizedLRUCacheMap<String, CloverBitSet>(
-                spec.getPerTestStorageSize().getSizeInBytes(),
-                estPerTestRecordings,
-                1.1f);
+                new SizedLRUCacheMap<>(
+                        spec.getPerTestStorageSize().getSizeInBytes(),
+                        estPerTestRecordings,
+                        1.1f);
     }
 
     @Override

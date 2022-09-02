@@ -23,10 +23,10 @@ class ColumnDefinitionsModel {
     private LinkedHashSet<ColumnDefinition> allColumns;
 
     public ColumnDefinitionsModel(ColumnDefinition[] selectedColumns, ColumnDefinition[] allColumns) {
-        this.allColumns = new LinkedHashSet<ColumnDefinition>(Arrays.asList(allColumns));
-        this.listeners = new LinkedHashSet<PropertyChangeListener>();
-        this.assigned = new LinkedHashSet<ColumnDefinition>(Arrays.asList(selectedColumns));
-        this.remaining = new LinkedHashSet<ColumnDefinition>(Arrays.asList(allColumns));
+        this.allColumns = new LinkedHashSet<>(Arrays.asList(allColumns));
+        this.listeners = new LinkedHashSet<>();
+        this.assigned = new LinkedHashSet<>(Arrays.asList(selectedColumns));
+        this.remaining = new LinkedHashSet<>(Arrays.asList(allColumns));
         this.remaining.removeAll(this.assigned);
     }
 
@@ -49,7 +49,7 @@ class ColumnDefinitionsModel {
     }
 
     private static Set<ColumnDefinition> getColumns(Set<ColumnDefinition> columns, boolean customColumns) {
-        Set<ColumnDefinition> clippedColumns = new LinkedHashSet<ColumnDefinition>(columns);
+        Set<ColumnDefinition> clippedColumns = new LinkedHashSet<>(columns);
         for (Iterator<ColumnDefinition> iter = clippedColumns.iterator(); iter.hasNext();) {
             if (customColumns ^ iter.next().isCustom()) {
                 iter.remove();
@@ -155,13 +155,13 @@ class ColumnDefinitionsModel {
                 break;
             }
         }
-        return new LinkedHashSet<ColumnDefinition>(Arrays.asList(objects));
+        return new LinkedHashSet<>(Arrays.asList(objects));
     }
 
     private LinkedHashSet<ColumnDefinition> replace(LinkedHashSet<ColumnDefinition> set, ColumnDefinition orig, ColumnDefinition updated) {
         LinkedList<ColumnDefinition> list = newLinkedList(set);
         Collections.replaceAll(list, orig, updated);
-        return new LinkedHashSet<ColumnDefinition>(list);
+        return new LinkedHashSet<>(list);
     }
 
     public Set<ColumnDefinition> getBuiltintColumns() {

@@ -25,7 +25,7 @@ public class BasePackageInfo implements PackageInfo, CachingInfo {
 
     protected final String name;
     protected final boolean defaultPkg;
-    protected final Map<String, FileInfo> files = new LinkedHashMap<String, FileInfo>();
+    protected final Map<String, FileInfo> files = new LinkedHashMap<>();
     protected final String path;
 
     protected BaseProjectInfo containingProject;

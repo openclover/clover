@@ -110,7 +110,7 @@ public class CoverageAnnotation extends Annotation {
 
     private CoverageAnnotation(Kind kind, FullElementInfo info, Set<TestCaseInfo> hits, int offset, int length, boolean filtered) {
         super(kind.getId(), false, textForCoverage(info, kind, hits));
-        this.info = new WeakReference<FullElementInfo>(info);
+        this.info = new WeakReference<>(info);
         this.position = new Position(offset, length);
     }
 

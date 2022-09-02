@@ -22,9 +22,9 @@ public class NonReifiableTypesSuppressWarnings {
     }
 
     public static void main() {
-        List<String> stringListA = new ArrayList<String>();
-        List<String> stringListB = new ArrayList<String>();
-        List<List<String>> listOfStringLists = new ArrayList<List<String>>();
+        List<String> stringListA = new ArrayList<>();
+        List<String> stringListB = new ArrayList<>();
+        List<List<String>> listOfStringLists = new ArrayList<>();
 
         // Compilation of this line should produce warning like:
         // [unchecked] unchecked generic array creation for varargs parameter of type List<String>[]

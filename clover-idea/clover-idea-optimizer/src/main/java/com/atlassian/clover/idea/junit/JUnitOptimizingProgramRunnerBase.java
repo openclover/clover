@@ -30,7 +30,7 @@ import java.util.regex.Pattern;
 public class JUnitOptimizingProgramRunnerBase implements SavingsReporter {
     private static final String JUNIT_CONFIGURATION_ID = "JUnit";
     private static final String ANDROID_JUNIT_CONFIGURATION_ID = "AndroidJUnit";
-    private static final Key<Boolean> EXPLICIT_COVERAGE_LOAD_REQUEST_KEY = new Key<Boolean>("com.cenqua.clover.explicit_coverage_load_request");
+    private static final Key<Boolean> EXPLICIT_COVERAGE_LOAD_REQUEST_KEY = new Key<>("com.cenqua.clover.explicit_coverage_load_request");
 
     public static boolean wasExplicitCoverageLoadRequested(ProcessHandler processHandler) {
         final Boolean requested = processHandler.getUserData(EXPLICIT_COVERAGE_LOAD_REQUEST_KEY);

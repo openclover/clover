@@ -241,7 +241,7 @@ public class TestRunExplorerToolWindow extends JPanel implements CoverageListene
     private TestCaseLayout prevTestCaseLayout;
 
     private void saveState(CoverageDataReceptor receptor) {
-        this.previousReceptor = new WeakReference<CoverageDataReceptor>(receptor == null ? NULL_MARKER : receptor);
+        this.previousReceptor = new WeakReference<>(receptor == null ? NULL_MARKER : receptor);
         this.prevCoverageCalculated = calculateCoverage;
         this.prevFlattenPackages = flattenPackages;
         this.prevTestCaseLayout = testCaseLayout;
