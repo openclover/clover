@@ -232,11 +232,7 @@ public class CloverJavaBuilder extends ModuleLevelBuilder {
             final Clover2Registry registry;
             try {
                 registry = Clover2Registry.createOrLoad(new File(instrConfig.getInitString()), instrConfig.getProjectName());
-            } catch (IOException ex) {
-                sendErrorNotification("Clover was unable to instrument your source because of the following error:"
-                        + ex + ". Please try to delete the coverage database run build again.");
-                return null;
-            } catch (CloverException ex) {
+            } catch (IOException | CloverException ex) {
                 sendErrorNotification("Clover was unable to instrument your source because of the following error:"
                         + ex + ". Please try to delete the coverage database run build again.");
                 return null;

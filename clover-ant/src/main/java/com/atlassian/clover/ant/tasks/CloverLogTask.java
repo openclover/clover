@@ -276,9 +276,7 @@ public class CloverLogTask extends AbstractCloverTask {
                 reporter.report(new PrintWriter(out), db);
                 out.flush();
             }
-        } catch (CloverException e) {
-            throw new BuildException(e);
-        } catch (IOException e) {
+        } catch (CloverException | IOException e) {
             throw new BuildException(e);
         }
     }

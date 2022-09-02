@@ -260,11 +260,7 @@ public class CloverCompilerAdapter implements CompilerAdapter {
     private File[] getJavacCompileList() {
         try {
             return (File[])FieldUtils.readField(javac, "compileList", true);
-        } catch (SecurityException ex) {
-            log.error("** Failed to access javac.compileList protected field", ex);
-        } catch (IllegalAccessException ex) {
-            log.error("** Failed to access javac.compileList protected field", ex);
-        } catch (ClassCastException ex) {
+        } catch (SecurityException | ClassCastException | IllegalAccessException ex) {
             log.error("** Failed to access javac.compileList protected field", ex);
         }
         return null;
@@ -278,11 +274,7 @@ public class CloverCompilerAdapter implements CompilerAdapter {
         try {
             FieldUtils.writeField(javac, "compileList", newValue, true);
             return true;
-        } catch (SecurityException ex) {
-            log.error("** Failed to access javac.compileList protected field", ex);
-        } catch (IllegalAccessException ex) {
-            log.error("** Failed to access javac.compileList protected field", ex);
-        } catch (IllegalArgumentException ex) {
+        } catch (SecurityException | IllegalArgumentException | IllegalAccessException ex) {
             log.error("** Failed to access javac.compileList protected field", ex);
         }
         return false;

@@ -139,16 +139,13 @@ public class Clover2Registry implements InstrumentationTarget {
             });
 
             return resultReg[0];
-        } catch (RuntimeException e) {
+        } catch (RuntimeException | IOException e) {
             Logger.getInstance().debug("Exception reading registry file " + registryFile.getAbsolutePath(), e);
             throw new CorruptedRegistryException(registryFile.getAbsolutePath(), e);
         } catch (NoSuchRegistryException e) {
             //IMPORTANT: If the reg file doesn't exist, return null as this tells
             //other code paths to create a new in-memory registry
             return null;
-        } catch (IOException e) {
-            Logger.getInstance().debug("Exception reading registry file " + registryFile.getAbsolutePath(), e);
-            throw new CorruptedRegistryException(registryFile.getAbsolutePath(), e);
         }
     }
 

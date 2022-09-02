@@ -173,10 +173,7 @@ public class RecordingTranscripts {
                 }
             }
         }
-        catch (StringIndexOutOfBoundsException e) {
-            // ignore
-        }
-        catch (NumberFormatException e) {
+        catch (StringIndexOutOfBoundsException | NumberFormatException e) {
             // ignore
         }
 

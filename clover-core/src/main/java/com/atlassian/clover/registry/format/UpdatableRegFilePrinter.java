@@ -44,9 +44,7 @@ public class UpdatableRegFilePrinter {
         } else {
             try {
                 printFile(new File(args[0]));
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-            } catch (CloverException e) {
+            } catch (IOException | CloverException e) {
                 System.out.println(e.getMessage());
             }
         }

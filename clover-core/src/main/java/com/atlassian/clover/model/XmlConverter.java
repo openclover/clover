@@ -211,9 +211,7 @@ public class XmlConverter {
             CoverageDataPoint result = handler.getDataPoint();
             result.setDataFile(in);
             return handler.getDataPoint();
-        } catch (ParserConfigurationException e) {
-            throw new CloverException(e);
-        } catch (SAXException e) {
+        } catch (ParserConfigurationException | SAXException e) {
             throw new CloverException(e);
         }
     }

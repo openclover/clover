@@ -28,8 +28,7 @@ public class PropertyUtil {
         }
         try {
             return getter.invoke(obj, new Object[0]);
-        } catch (IllegalAccessException e) {
-        } catch (InvocationTargetException e) {
+        } catch (IllegalAccessException | InvocationTargetException e) {
         }
         return null;
     }

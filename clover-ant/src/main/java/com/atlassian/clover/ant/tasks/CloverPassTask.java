@@ -375,10 +375,7 @@ public class CloverPassTask extends AbstractCloverTask {
         try {
             passed = checkHistoryDirCoverage(metrics.getPcCoveredElements(), targetFailures, "Total", null) && passed;
         }
-        catch (IOException e) {
-            throw new BuildException(e);
-        }
-        catch (CloverException e) {
+        catch (IOException | CloverException e) {
             throw new BuildException(e);
         }
 
@@ -414,9 +411,7 @@ public class CloverPassTask extends AbstractCloverTask {
                 passed = checkCoverageFor(pm.getPcCoveredBranches(), requirement.conditionalTarget, targetFailures, errorPrefix + " conditional", "target") && passed;
                 try {
                     passed = checkHistoryDirCoverage(pm.getPcCoveredElements(), targetFailures, errorPrefix + " total", packageName) && passed;
-                } catch (IOException e) {
-                    throw new BuildException(e);
-                } catch (CloverException e) {
+                } catch (IOException | CloverException e) {
                     throw new BuildException(e);
                 }
             }

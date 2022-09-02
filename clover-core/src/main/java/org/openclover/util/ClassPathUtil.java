@@ -61,9 +61,7 @@ public class ClassPathUtil {
                     return (new File(FileUtils.fromURI(uri.toString()))).getAbsolutePath();
                 }
             }
-        } catch (SecurityException ex) {
-            return null;
-        } catch (URISyntaxException ex) {
+        } catch (SecurityException | URISyntaxException ex) {
             return null;
         }
 

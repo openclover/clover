@@ -363,9 +363,7 @@ public class CloverDatabase {
             CloverDatabase mergingDb = null;
             try {
                 mergingDb = new CloverDatabase(spec.getInitString());
-            } catch (CorruptedRegistryException e) {
-                Logger.getInstance().info(String.format("File %s doesn't seem to be Clover database, ignoring it.", spec.getInitString()));
-            } catch (NoSuchRegistryException e) {
+            } catch (CorruptedRegistryException | NoSuchRegistryException e) {
                 Logger.getInstance().info(String.format("File %s doesn't seem to be Clover database, ignoring it.", spec.getInitString()));
             }
             speccedDbs.put(spec, mergingDb);

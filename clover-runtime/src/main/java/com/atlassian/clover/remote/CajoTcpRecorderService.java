@@ -58,9 +58,7 @@ public class CajoTcpRecorderService implements RecorderService {
 
             Logger.getInstance().debug("Recording proceeding now that " + Formatting.pluralizedVal(clientProxies.size(), "client") + " are connected.");
 
-        } catch (RemoteException e) {
-            Logger.getInstance().error("Error starting recorder service: " + config, e);
-        } catch (UnknownHostException e) {
+        } catch (RemoteException | UnknownHostException e) {
             Logger.getInstance().error("Error starting recorder service: " + config, e);
         }
     }
@@ -96,9 +94,7 @@ public class CajoTcpRecorderService implements RecorderService {
 
             Logger.getInstance().debug("Accepting connection from client: " + UnicastRemoteObject.getClientHost());
             return new Remote(proxy);
-        } catch (RemoteException e) {
-            Logger.getInstance().error("Error registering listener.", e);
-        } catch (ServerNotActiveException e) {
+        } catch (RemoteException | ServerNotActiveException e) {
             Logger.getInstance().error("Error registering listener.", e);
         }
         return null;

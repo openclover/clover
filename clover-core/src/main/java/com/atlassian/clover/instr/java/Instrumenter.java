@@ -162,11 +162,7 @@ public class Instrumenter {
                     e.recog.getColumn() + ":" + e.getMessage();
             log.error(msg);
             throw new CloverException(msg, e);
-        } catch (TokenStreamException e) {
-            log.error("Error processing " + srcFile);
-            log.error(e.getMessage());
-            throw new CloverException(e);
-        } catch (IOException e) {
+        } catch (TokenStreamException | IOException e) {
             log.error("Error processing " + srcFile);
             log.error(e.getMessage());
             throw new CloverException(e);

@@ -62,13 +62,7 @@ public class RemoteFactory implements RemoteServiceProvider {
 
         try {
             return clazz.getConstructor().newInstance();
-        } catch (NoSuchMethodException e) {
-            Logger.getInstance().error("Could not create: " + clazz, e);
-        } catch (IllegalAccessException e) {
-            Logger.getInstance().error("Could not create: " + clazz, e);
-        } catch (InvocationTargetException e) {
-            Logger.getInstance().error("Could not create: " + clazz, e);
-        } catch (InstantiationException e) {
+        } catch (NoSuchMethodException | InstantiationException | InvocationTargetException | IllegalAccessException e) {
             Logger.getInstance().error("Could not create: " + clazz, e);
         }
         return null;
