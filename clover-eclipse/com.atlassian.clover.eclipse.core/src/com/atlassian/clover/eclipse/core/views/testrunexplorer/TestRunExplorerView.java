@@ -212,7 +212,7 @@ public class TestRunExplorerView extends ExplorerView {
         @Override
         public String getLabel(ExplorerViewSettings settings, MetricsScope scope, ILabelProvider delegate, Object element) {
             if (element instanceof TestCaseNode) {
-                return Double.toString(((TestCaseNode)element).getDurationInSeconds()) + "s";
+                return ((TestCaseNode) element).getDurationInSeconds() + "s";
             } else {
                 return "";
             }

@@ -63,11 +63,11 @@ public final class JavaTokenTraverser implements SourceTraverser<JavaSourceListe
                             listener.onChunk(currentChunk.toString());
                         }
                         else if (JavaTokenTypes.DOT == prev.getType()) {
-                            accumName.append(currentChunk.toString());
+                            accumName.append(currentChunk);
                             listener.onChunk(currentChunk.toString());
                         }
                         else if (JavaTokenTypes.IDENT == prev.getType()) {
-                            accumName.append(currentChunk.toString());
+                            accumName.append(currentChunk);
                             if (gatherPkgIdent) {
                                 listener.onPackageSegment(accumName.toString(), currentChunk.toString());
                             }

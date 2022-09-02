@@ -41,7 +41,7 @@ public class CoverageSegment {
             headerBuffer.putInt(Footer.MARKER);                             //4 = 20
             headerBuffer.flip();
             BufferUtils.writeFully(channel, headerBuffer);
-            Logger.getInstance().debug("Wrote coverage segment: " + toString());
+            Logger.getInstance().debug("Wrote coverage segment: " + this);
         }
 
         public static Footer load(FileChannel channel, long endOfSegment) throws IOException {

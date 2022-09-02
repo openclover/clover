@@ -216,7 +216,7 @@ public class PrefixTree<K, V> {
                 }
                 line.append('+');
 
-                line.append(node.getKey().toString());
+                line.append(node.getKey());
                 if (node.getValue() != null) {
                     line.append(" (").append(node.getValue().toString()).append(')');
                 }

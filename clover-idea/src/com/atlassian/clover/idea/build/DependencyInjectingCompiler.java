@@ -105,7 +105,7 @@ public class DependencyInjectingCompiler implements SourceInstrumentingCompiler 
                     try {
                         file.delete(DependencyInjectingCompiler.this);
                     } catch (IOException e) {
-                        Logger.getInstance().info("Cannot delete output file " + file.toString(), e);
+                        Logger.getInstance().info("Cannot delete output file " + file, e);
                     }
                 }
             }

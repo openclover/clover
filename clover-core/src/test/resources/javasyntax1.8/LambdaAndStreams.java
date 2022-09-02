@@ -76,7 +76,7 @@ public class LambdaAndStreams {
     }
 
     private static void testToArray() {
-        final Object[] r = Stream.of(1, 2, 3, 4, 5, 6).map((i) -> "String:" + String.valueOf(i)).toArray();
+        final Object[] r = Stream.of(1, 2, 3, 4, 5, 6).map((i) -> "String:" + i).toArray();
         final String[] ints = Stream.of(1, 2, 3, 4, 5, 6).toArray(size -> new String[size]);
     }
 

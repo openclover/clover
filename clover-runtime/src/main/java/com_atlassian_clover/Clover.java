@@ -542,7 +542,7 @@ public final class Clover {
                             if (Logger.isDebug()) {
                                 Logger.getInstance().debug(
                                         "Clover.getRecorder("
-                                                + String.valueOf(initString) + ", "
+                                                + initString + ", "
                                                 + dbVersion + ", "
                                                 + cfgbits + ", "
                                                 + maxNumElements + ", "

@@ -530,8 +530,8 @@ public class CloverPassTask extends AbstractCloverTask {
                 long currentVersion = currentConfig.getCoverageDatabase().getModel(codeType).getVersion();
                 for (int i = modelArray.length - 1; i >= 0; i--) {
                     if ((Long) modelArray[i] < currentVersion) {
-                        Logger.getInstance().debug("Comparing current version " + (new Date(currentVersion)).toString()
-                                + " with history version " + (new Date((Long) modelArray[i])).toString());
+                        Logger.getInstance().debug("Comparing current version " + (new Date(currentVersion))
+                                + " with history version " + (new Date((Long) modelArray[i])));
                         return (HistoricalSupport.HasMetricsWrapper) models.get(modelArray[i]);
                     }
                 }

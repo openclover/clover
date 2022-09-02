@@ -229,7 +229,7 @@ public class RegistryDumper {
         Logger.getInstance().info(
             reg.getInitstring() + "," +
             reg.getVersion() + "," +
-            Integer.toString(reg.getDataLength()) + "\n");
+            reg.getDataLength() + "\n");
         Logger.getInstance().info("File,Encoding,Checksum,File Size,Line Count,NC Line Count,Timestamp,Slot Index,Slot Length,Class Count, Method Count, Statement Count,Branch Count");
         reg.getProject().visitFiles(new FileInfoVisitor() {
             @Override
@@ -243,11 +243,11 @@ public class RegistryDumper {
                     file.getNcLineCount() + "," +
                     DateFormat.getDateTimeInstance().format(file.getTimestamp()) + "," +
                     file.getDataIndex() + "," +
-                    Integer.toString(file.getDataLength()) + "," +
-                    Integer.toString(classCount(file)) + "," +
-                    Integer.toString(methodCount(file)) + "," +
-                    Integer.toString(statementCount(file)) + "," +
-                    Integer.toString(branchCount(file)) + ",");
+                    file.getDataLength() + "," +
+                    classCount(file) + "," +
+                    methodCount(file) + "," +
+                    statementCount(file) + "," +
+                    branchCount(file) + ",");
             }
         });
     }

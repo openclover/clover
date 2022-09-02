@@ -74,7 +74,7 @@ public final class ActivePerTestRecorderMany extends ActivePerTestRecorderAny {
             if (finished == null) {
                 Logger.getInstance().verbose(
                         "Test ending (" + ActivePerTestRecorderMany.asString(type, slice, testRunId) + ") " +
-                                "but no active per-test recorders match: " + toString());
+                                "but no active per-test recorders match: " + this);
                 return new RecordingResult(LivePerTestRecording.NULL, this);
             } else {
                 final ActivePerTestRecorderOne[] singlesArray = singles.toArray(new ActivePerTestRecorderOne[singles.size()]);
