@@ -348,9 +348,7 @@ public class RecordingTranscripts {
             if (hash > other.hash) return 1;
             if (hash < other.hash) return -1;
             if (testRecording != other.testRecording) return testRecording ? 1 : -1;
-            if (typedTestId > other.typedTestId) return 1;
-            if (typedTestId < other.typedTestId) return -1;
-            return 0;
+            return Long.compare(typedTestId, other.typedTestId);
         }
 
         public CoverageRecording read(CoverageDataSpec spec) throws IOException {

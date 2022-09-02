@@ -73,12 +73,8 @@ class CoverageEdgeComparator implements Comparator<CoverageEdge> {
             return -1;
         } else if (startingLine1 > startingLine2) {
             return 1;
-        } else if (startingColumn1 < startingColumn2) {
-            return -1;
-        } else if (startingColumn1 > startingColumn2) {
-            return 1;
         } else {
-            return 0;
+            return Integer.compare(startingColumn1, startingColumn2);
         }
     }
 

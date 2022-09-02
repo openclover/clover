@@ -139,14 +139,7 @@ public class GroovySourceAST extends CommonAST implements Comparable, SourceInfo
             return 1;
         }
 
-        if (this.getColumn() < that.getColumn()) {
-            return -1;
-        }
-        if (this.getColumn() > that.getColumn()) {
-            return 1;
-        }
-
-        return 0;
+        return Integer.compare(this.getColumn(), that.getColumn());
     }
 
     public GroovySourceAST childAt(int position) {

@@ -123,12 +123,8 @@ public class RegistryDumper {
                                         return -1;
                                     } else if (startLine1 > startLine2) {
                                         return 1;
-                                    } else if (startCol1 < startCol2) {
-                                        return -1;
-                                    } else if (startCol1 > startCol2) {
-                                        return 1;
                                     } else {
-                                        return 0;
+                                        return Integer.compare(startCol1, startCol2);
                                     }
                                 }
                             });
