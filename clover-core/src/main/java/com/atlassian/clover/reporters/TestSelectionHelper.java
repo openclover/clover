@@ -32,12 +32,16 @@ public class TestSelectionHelper {
         String sourceRoot = null;
 
         for (int i = 0; i < args.length; i++) {
-            if (args[i].equals(TESTS_INCLUDE_PATTERN_PARAM)) {
-                includeFilter = args[++i];
-            } else if (args[i].equals(TESTS_EXCLUDE_PATTERN_PARAM)) {
-                excludeFilter = args[++i];
-            } else if (args[i].equals(SOURCE_ROOT_PARAM)) {
-                sourceRoot = args[++i];
+            switch (args[i]) {
+                case TESTS_INCLUDE_PATTERN_PARAM:
+                    includeFilter = args[++i];
+                    break;
+                case TESTS_EXCLUDE_PATTERN_PARAM:
+                    excludeFilter = args[++i];
+                    break;
+                case SOURCE_ROOT_PARAM:
+                    sourceRoot = args[++i];
+                    break;
             }
         }
         if (includeFilter == null && excludeFilter == null) {
