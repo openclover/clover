@@ -777,9 +777,11 @@ typeSpec returns [String spec]
     AnnotationImpl ann = null;
 }
     :
-      (ann=annotation)*
-      spec = classTypeSpec
-    | spec = builtInTypeSpec
+      ( options { greedy=true; }: ann=annotation )*
+      (
+          spec = classTypeSpec
+        | spec = builtInTypeSpec
+      )
     ;
 
 arraySpecOpt returns [String brackets]
