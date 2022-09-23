@@ -15,10 +15,6 @@
     <property name="clover-core-libs.output" location="${clover-core-libs.base}/target"/>
     <property name="clover-core-libs.output.deps" location="${clover-core-libs.output}/dependencies"/>
 
-
-    <!-- Clover-Libraries bundle for distributing with Clover-for-Ant -->
-    <property name="clover-core-libs.zip" value="${clover-core-libs.output}/extlib.zip"/>
-
     <!-- ================================================================== -->
     <!-- Top-level targets (compatible with 'global.*' targets)             -->
     <!-- ================================================================== -->
@@ -56,11 +52,8 @@
         </fileset>
 
         <!-- Locations of single JAR files - they're being used for repackaging/bundling, for example -->
-        <property name="clover.annotations.jar" location="${clover-core-libs.output.deps}/clover-annotations-${annotations.ver}.jar"/>
         <property name="clover.antlr.jar" location="${clover-core-libs.output.deps}/clover-antlr-${antlr.ver}.jar"/>
         <property name="clover.cajo.jar" location="${clover-core-libs.output.deps}/clover-cajo-${cajo.ver}.jar"/>
-        <property name="clover.commons-lang3.jar" location="${clover-core-libs.output.deps}/clover-commons-lang3-${commons-lang3.ver}.jar"/>
-        <property name="clover.guava.jar" location="${clover-core-libs.output.deps}/clover-guava-${guava.ver}.jar"/>
         <property name="clover.slf4j.jar" location="${clover-core-libs.output.deps}/clover-slf4j-${slf4j.ver}.jar"/>
     </target>
 
@@ -70,18 +63,7 @@
 
     <target name="clover-core-libs.test" depends="clover-core-libs.test.build"/>
 
-    <target name="clover-core-libs.pkg" depends="clover-core-libs.test">
-        <zip destfile="${clover-core-libs.zip}">
-            <fileset dir="${clover-core-libs.base}">
-                <include name="pom.xml"/>
-                <include name="upgrade.xml"/>
-                <include name="versions.xml"/>
-                <include name="**/*.jar"/>
-                <include name="**/pom.xml"/>
-                <exclude name="**/target/**"/>
-            </fileset>
-        </zip>
-    </target>
+    <target name="clover-core-libs.pkg" depends="clover-core-libs.test"/>
 
     <target name="clover-core-libs.clean">
         <delete dir="${clover-core-libs.output}"/>

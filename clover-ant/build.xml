@@ -262,8 +262,6 @@
             <fileset dir="${releasenotes.resources.dir}"/>
         </copy>
 
-        <copy todir="${clover-ant.output}/pkg" file="${clover-ant.base}/etc/releasenotes/UpgradingOpenSourceLibs.txt"/>
-
         <!-- copy xml report XSD -->
         <copy todir="${clover-ant.output}/pkg/etc">
             <fileset dir="${common.base}/etc/schema" includes="clover.xsd"/>

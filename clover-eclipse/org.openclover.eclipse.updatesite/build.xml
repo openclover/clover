@@ -7,13 +7,6 @@
 
 	<property name="eclipse.updatesite.output" location="${common.base}/clover-eclipse/target"/>
 	<property name="eclipse.updatesite.main.output" location="${eclipse.updatesite.output}/main"/>
-    <property name="eclipse.updatesite.cumulative.output" location="${eclipse.updatesite.output}/cumulative"/>
-    <condition property="eclipse.updatesite.cumulative">
-        <and>
-            <available file="${eclipse.updatesite.base}/src/main/resources/site-cumulative.xml"/>
-            <available file="${eclipse.updatesite.base}/image/cumulative"/>
-        </and>
-    </condition>
 
     <target name="eclipse.pkg" depends="eclipse.main.pkg"/>
 
@@ -23,27 +16,13 @@
              includes="licenses/*"/>
 
     <target name="eclipse.main.pkg">
-        <make.updatesite sitexml="site.xml" outputdir="${eclipse.updatesite.main.output}" suffix="">
-            <additional-resources>
-                <!-- Package scripts for upgrading third party libraries -->
-                <zipfileset dir="${eclipse.base}">
-                    <include name="extlib/**"/>
-                </zipfileset>
-                <!-- and the instruction -->
-                <fileset dir="${eclipse.updatesite.base}/src/main/resources" includes="UpgradingOpenSourceLibs.txt"/>
-                <!-- add all licences here for convenience (they're in specific jar files as well) -->
-                <fileset refid="clover-core.3rdparty.rights.fileset"/>
-                <fileset refid="clover-core.openclover.rights.fileset"/>
-                <fileset refid="clover-eclipse.3rdparty.rights.fileset"/>
-            </additional-resources>
-        </make.updatesite>
+        <make.updatesite sitexml="site.xml" outputdir="${eclipse.updatesite.main.output}" suffix=""/>
     </target>
 
     <macrodef name="make.updatesite">
         <attribute name="sitexml"/>
         <attribute name="outputdir"/>
         <attribute name="suffix"/>
-        <element name="additional-resources" optional="true"/>
 
         <sequential>
             <mkdir dir="@{outputdir}"/>
@@ -65,7 +44,10 @@
                 <zipfileset dir="@{outputdir}" includes="site.xml"/>
                 <zipfileset prefix="features" dir="${eclipse.updatesite.output}/features" includes="*${eclipse.release.num}.jar"/>
                 <zipfileset prefix="plugins" dir="${eclipse.updatesite.output}/plugins" includes="*${eclipse.release.num}.jar"/>
-                <additional-resources/>
+                <!-- add all licences here for convenience (they're in specific jar files as well) -->
+                <fileset refid="clover-core.3rdparty.rights.fileset"/>
+                <fileset refid="clover-core.openclover.rights.fileset"/>
+                <fileset refid="clover-eclipse.3rdparty.rights.fileset"/>
             </zip>
         </sequential>
     </macrodef>
