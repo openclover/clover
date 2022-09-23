@@ -3,7 +3,6 @@ package com.atlassian.clover.recorder.junit;
 import com.atlassian.clover.Logger;
 import com.atlassian.clover.recorder.TestNameSnifferHelper;
 import com_atlassian_clover.TestNameSniffer;
-import org.jetbrains.annotations.Nullable;
 import org.junit.platform.engine.TestExecutionResult;
 import org.junit.platform.engine.TestSource;
 import org.junit.platform.engine.support.descriptor.ClassSource;
@@ -71,7 +70,7 @@ public class CloverJUnit5TestExecutionListener implements TestExecutionListener 
      * Unfortunately, JUnit 5 doesn't have a reliable way to find the current test running class. Hence, using a work
      * around suggested  at the following link. https://github.com/junit-team/junit5/issues/737
      */
-    @Nullable
+    /*@Nullable*/
     private static Class findTestMethodClass(TestPlan testPlan, TestIdentifier identifier) {
         // method source
         Class javaClass = fromMethodSource(identifier);
@@ -99,7 +98,7 @@ public class CloverJUnit5TestExecutionListener implements TestExecutionListener 
         return null;
     }
 
-    @Nullable
+    /*@Nullable*/
     private static Class fromMethodSource(final TestIdentifier identifier) {
         final Optional<TestSource> source = identifier.getSource();
         if (source.isPresent() && source.get() instanceof MethodSource) {
@@ -112,7 +111,7 @@ public class CloverJUnit5TestExecutionListener implements TestExecutionListener 
         return null;
     }
 
-    @Nullable
+    /*@Nullable*/
     private static Class fromClassSource(final TestIdentifier identifier) {
         final Optional<TestSource> source = identifier.getSource();
         if (source.isPresent() && source.get() instanceof ClassSource) {

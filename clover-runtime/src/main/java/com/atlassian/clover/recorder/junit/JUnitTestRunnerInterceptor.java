@@ -4,8 +4,6 @@ import com.atlassian.clover.Logger;
 import com.atlassian.clover.recorder.TestNameSnifferHelper;
 import com_atlassian_clover.TestNameSniffer;
 import junit.runner.TestRunListener;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.junit.runner.Description;
 import org.junit.runner.notification.RunListener;
 
@@ -80,8 +78,8 @@ public class JUnitTestRunnerInterceptor extends RunListener implements TestRunLi
 
     // helper methods
 
-    @Nullable
-    protected Class getTestClass(@NotNull String testName) {
+    /*@Nullable*/
+    protected Class getTestClass(/*@NotNull*/ String testName) {
         // find test class from a test name
         int classNameEnd = testName.lastIndexOf(".");
         if (classNameEnd > 0) {   // at least one character for a class name

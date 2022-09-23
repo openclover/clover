@@ -6,8 +6,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.DataInputStream;
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicLong;
 
-import clover.org.apache.commons.lang3.mutable.MutableLong;
 
 public class CoverageUtils {
     public static final int RLE_RUN_MARKER = -1;
@@ -79,7 +79,7 @@ public class CoverageUtils {
         Logger.getInstance().debug("[wrote " + written + " elements as " + coverage.length * 4 + " bytes (uncompressed)]");
     }
 
-    public static int[] readCoverageAndSumCoverage(DataInputStream in, MutableLong sum) throws IOException {
+    public static int[] readCoverageAndSumCoverage(DataInputStream in, AtomicLong sum) throws IOException {
         // read dimensions of coverage data
         final int elementCount = in.readInt();
         final int[] elements = new int[elementCount];
@@ -115,7 +115,7 @@ public class CoverageUtils {
                 }
             }
             Logger.getInstance().debug("[read " + elementCount + " elements as " + (offset + 1) + " bytes with sum " + localSum + "]");
-            sum.setValue(localSum);
+            sum.set(localSum);
             return elements;
         } catch (ArrayIndexOutOfBoundsException e) {
             throw new IOException("Recording corrupt");

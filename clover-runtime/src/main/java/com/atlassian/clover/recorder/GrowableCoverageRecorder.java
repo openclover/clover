@@ -3,7 +3,6 @@ package com.atlassian.clover.recorder;
 import com.atlassian.clover.ErrorInfo;
 import com.atlassian.clover.util.CloverBitSet;
 import com_atlassian_clover.CoverageRecorder;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 
@@ -315,7 +314,7 @@ public class GrowableCoverageRecorder extends BaseCoverageRecorder {
         }
 
         @Override
-        public void sliceEnd(String runtimeType, String method, @Nullable String runtimeTestName,
+        public void sliceEnd(String runtimeType, String method, /*@Nullable*/ String runtimeTestName,
                              long ts, int id, int rid, int exitStatus, ErrorInfo ei) {
             target.sliceEnd(runtimeType, method, runtimeTestName, ts, id, rid, exitStatus, ei);
         }
@@ -349,12 +348,12 @@ public class GrowableCoverageRecorder extends BaseCoverageRecorder {
         }
 
         @Override
-        public void globalSliceEnd(String runtimeType, String method, @Nullable String runtimeTestName, int id) {
+        public void globalSliceEnd(String runtimeType, String method, /*@Nullable*/ String runtimeTestName, int id) {
             target.globalSliceEnd(runtimeType, method, runtimeTestName, id);
         }
 
         @Override
-        public final void globalSliceEnd(String runtimeType, String method, @Nullable String runtimeTestName,
+        public final void globalSliceEnd(String runtimeType, String method, /*@Nullable*/ String runtimeTestName,
                                          int id, int exitStatus, Throwable throwable) {
             target.globalSliceEnd(runtimeType, method, runtimeTestName, id, exitStatus, throwable);
         }

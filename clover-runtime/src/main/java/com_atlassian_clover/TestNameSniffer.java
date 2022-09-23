@@ -1,6 +1,5 @@
 package com_atlassian_clover;
 
-import org.jetbrains.annotations.Nullable;
 
 /**
  * A interface for a class which can "listen" a test runner and return name of the currently executing test.
@@ -14,13 +13,13 @@ public interface TestNameSniffer {
      */
     class Null implements TestNameSniffer {
         @Override
-        @Nullable
+        /*@Nullable*/
         public String getTestName() {
             return null;
         }
 
         @Override
-        public void setTestName(@Nullable String testName) {
+        public void setTestName(/*@Nullable*/ String testName) {
             // no op
         }
 
@@ -37,13 +36,13 @@ public interface TestNameSniffer {
         private transient String testName;
 
         @Override
-        @Nullable
+        /*@Nullable*/
         public String getTestName() {
             return testName;
         }
 
         @Override
-        public void setTestName(@Nullable String testName) {
+        public void setTestName(/*@Nullable*/ String testName) {
             this.testName = testName;
         }
 
@@ -58,10 +57,10 @@ public interface TestNameSniffer {
      */
     TestNameSniffer NULL_INSTANCE = new TestNameSniffer.Null();
 
-    @Nullable
+    /*@Nullable*/
     String getTestName();
 
-    void setTestName(@Nullable String testName);
+    void setTestName(/*@Nullable*/ String testName);
 
     void clearTestName();
 }
