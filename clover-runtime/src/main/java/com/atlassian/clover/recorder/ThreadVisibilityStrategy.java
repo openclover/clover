@@ -2,7 +2,6 @@ package com.atlassian.clover.recorder;
 
 import com.atlassian.clover.ErrorInfo;
 import com_atlassian_clover.CoverageRecorder;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Base interface for different strategies for handling how the current collection of active per test recorders are made
@@ -41,7 +40,7 @@ public interface ThreadVisibilityStrategy extends PerTestRecorder {
          */
         @Override
         public synchronized LivePerTestRecording testFinished(String runtimeType, String method,
-                @Nullable String runtimeTestName,
+                /*@Nullable*/ String runtimeTestName,
                 long end, int slice, int testRunId, int exitStatus, ErrorInfo ei) {
             RecordingResult sliceAndRecorders = recorders.testFinished(runtimeType, method, runtimeTestName,
                     end, slice, testRunId, exitStatus, ei);
@@ -83,7 +82,7 @@ public interface ThreadVisibilityStrategy extends PerTestRecorder {
          */
         @Override
         public synchronized LivePerTestRecording testFinished(String runtimeType, String method,
-                @Nullable String runtimeTestName,
+                /*Nullable*/ String runtimeTestName,
                 long end, int slice, int testRunId, int exitStatus, ErrorInfo ei) {
             RecordingResult sliceAndRecorders = recorders.testFinished(runtimeType, method, runtimeTestName,
                     end, slice, testRunId, exitStatus, ei);
@@ -114,7 +113,7 @@ public interface ThreadVisibilityStrategy extends PerTestRecorder {
         }
 
         @Override
-        public LivePerTestRecording testFinished(String runtimeType, String method, @Nullable String runtimeTestName,
+        public LivePerTestRecording testFinished(String runtimeType, String method, /*@Nullable*/ String runtimeTestName,
                 long end, int slice, int testRunId, int exitStatus, ErrorInfo ei) {
             RecordingResult sliceAndRecorders = recorders.testFinished(runtimeType, method, runtimeTestName,
                     end, slice, testRunId, exitStatus, ei);

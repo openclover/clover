@@ -48,7 +48,6 @@
         <mkdir dir="${clover-runtime.output.classes}"/>
 
         <!-- unpack third party libraries, but only used classes - this is to have a smaller runtime -->
-        <unzip src="${clover.annotations.jar}" dest="${clover-runtime.output.classes}"/>
         <unzip src="${clover.antlr.jar}" dest="${clover-runtime.output.classes}">
             <patternset>
                 <include name="clover/antlr/CharFormatter*"/>
@@ -59,23 +58,6 @@
             </patternset>
         </unzip>
         <unzip src="${clover.cajo.jar}" dest="${clover-runtime.output.classes}"/>
-        <unzip src="${clover.commons-lang3.jar}" dest="${clover-runtime.output.classes}">
-            <patternset>
-                <include name="clover/org/apache/commons/lang3/mutable/Mutable*"/>
-                <include name="clover/org/apache/commons/lang3/mutable/MutableLong*"/>
-            </patternset>
-        </unzip>
-        <unzip src="${clover.guava.jar}" dest="${clover-runtime.output.classes}">
-            <patternset>
-                <include name="clover/com/google/common/io/ByteStreams*"/>
-                <include name="clover/com/google/common/annotations/Beta*"/>
-                <include name="clover/com/google/common/annotations/GwtCompatible*"/>
-                <include name="clover/com/google/common/base/Preconditions*"/>
-                <include name="clover/com/google/common/io/ByteArrayDataInput*"/>
-                <include name="clover/com/google/common/io/ByteArrayDataOutput*"/>
-                <include name="clover/com/google/common/io/ByteProcessor*"/>
-            </patternset>
-        </unzip>
         <unzip src="${clover.slf4j.jar}" dest="${clover-runtime.output.classes}"/>
     </target>
 
