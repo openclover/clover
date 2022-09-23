@@ -871,7 +871,7 @@ singleTypeArgument {
 
         (   // I'm pretty sure Antlr generates the right thing here:
             options{generateAmbigWarnings=false;}:
-            ("extends"|"super") (type=classTypeSpec | type=builtInTypeSpec | QUESTION)
+            ("extends"|"super") ( options { greedy=true; }: ann=annotation )* (type=classTypeSpec | type=builtInTypeSpec | QUESTION)
         )?
     ;
 
