@@ -12,7 +12,6 @@ import com.atlassian.clover.registry.FileInfoVisitor;
 import com.atlassian.clover.registry.metrics.HasMetricsFilter;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;

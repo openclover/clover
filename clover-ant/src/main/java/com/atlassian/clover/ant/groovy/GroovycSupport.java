@@ -14,7 +14,6 @@ import com.atlassian.clover.instr.tests.DefaultTestDetector;
 import com.atlassian.clover.instr.tests.FileMappedTestDetector;
 import com.atlassian.clover.instr.tests.NoTestDetector;
 import com.atlassian.clover.instr.tests.TestDetector;
-import org.openclover.util.ClassPathUtil;
 import com.atlassian.clover.util.FileUtils;
 import com.atlassian.clover.util.ReflectionUtils;
 import com_atlassian_clover.CloverVersionInfo;
@@ -31,6 +30,7 @@ import org.apache.tools.ant.util.GlobPatternMapper;
 import org.apache.tools.ant.util.SourceFileScanner;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.openclover.util.ClassPathUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -43,7 +43,6 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Set;
-import java.util.Vector;
 
 import static clover.com.google.common.collect.Maps.newHashMap;
 

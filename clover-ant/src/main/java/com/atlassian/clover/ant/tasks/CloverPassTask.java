@@ -1,15 +1,15 @@
 package com.atlassian.clover.ant.tasks;
 
 import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.api.CloverException;
 import com.atlassian.clover.CodeType;
 import com.atlassian.clover.Logger;
+import com.atlassian.clover.api.CloverException;
+import com.atlassian.clover.api.registry.HasMetrics;
 import com.atlassian.clover.api.registry.PackageInfo;
 import com.atlassian.clover.cfg.Interval;
 import com.atlassian.clover.cfg.Percentage;
 import com.atlassian.clover.registry.entities.FullProjectInfo;
 import com.atlassian.clover.registry.metrics.BlockMetrics;
-import com.atlassian.clover.api.registry.HasMetrics;
 import com.atlassian.clover.registry.metrics.HasMetricsFilter;
 import com.atlassian.clover.registry.metrics.PackageMetrics;
 import com.atlassian.clover.registry.metrics.ProjectMetrics;
@@ -22,15 +22,14 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.util.StringUtils;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.DecimalFormat;
-import java.util.Iterator;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Date;
 import java.util.regex.PatternSyntaxException;
-import java.io.File;
-import java.io.IOException;
 
 import static clover.com.google.common.collect.Lists.newArrayList;
 
