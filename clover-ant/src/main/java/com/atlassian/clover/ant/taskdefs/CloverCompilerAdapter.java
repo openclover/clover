@@ -225,7 +225,7 @@ public class CloverCompilerAdapter implements CompilerAdapter {
                 }
 
                 instrumenter.endInstrumentation();
-                if ( !setJavacCompileList(replacementCompileSet.toArray(new File[replacementCompileSet.size()])) ) {
+                if ( !setJavacCompileList(replacementCompileSet.toArray(new File[0])) ) {
                     error = new CloverException("Failed to write to javac.compileList field. Unable to integrate Clover with Javac.");
                     return;
                 }

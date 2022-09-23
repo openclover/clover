@@ -184,15 +184,21 @@ public class CoverageDataCollator {
 
     private void logInstrumentationSessionVersions() {
         if (!Logger.canIgnore(Logger.LOG_VERBOSE)) {
-            String sessionTimestamps = "";
+            StringBuilder sessionTimestamps = new StringBuilder();
             int i = 0;
             Logger.getInstance().verbose("Instrumentation sessions:");
             for (Object obj : registry.getInstrHistory()) {
                 Clover2Registry.InstrumentationInfo session = (Clover2Registry.InstrumentationInfo)obj;
-                sessionTimestamps += "  " + i + ": version " + session.getVersion() + " (" + new Date(session.getVersion()) + ")\n";
+                sessionTimestamps
+                        .append("  ")
+                        .append(i)
+                        .append(": version ")
+                        .append(session.getVersion())
+                        .append(" (")
+                        .append(new Date(session.getVersion())).append(")\n");
                 i++;
             }
-            Logger.getInstance().verbose(sessionTimestamps);
+            Logger.getInstance().verbose(sessionTimestamps.toString());
         }
     }
 

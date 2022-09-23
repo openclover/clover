@@ -445,12 +445,11 @@ public class CloverPassTask extends AbstractCloverTask {
             // Otherwise compare with N fractional digits precision
             pcFormat.setMinimumFractionDigits(targetCoverage.getScale());            
             if (targetCoverage.compare(coverage) > 0) {
-                failures.append(level + " coverage of "
-                        + pcFormat.format(coverage)
-                        + " did not meet " + target + " of "
-                        + pcFormat.format(targetCoverage.getAsFloatFraction()));
+                failures.append(
+                        String.format("%s coverage of %s did not meet %s of %s",
+                                level, pcFormat.format(coverage), target,
+                                pcFormat.format(targetCoverage.getAsFloatFraction())));
                 failures.append(StringUtils.LINE_SEP);
-
                 return false;
             }
             else {
@@ -498,19 +497,15 @@ public class CloverPassTask extends AbstractCloverTask {
         List<MetricsDiffSummary> added = HistoricalSupport.getClassesMetricsDifference(then, now, new Percentage("0"), false);
         for (MetricsDiffSummary diff : added) {
             final DecimalFormat diffFormat = new DecimalFormat("###.#");
-            failures.append("  " + diffFormat.format(diff.getPc2()) + "% "
-                    + diff.getName()
-                    + " (Added)"
-                    + StringUtils.LINE_SEP);
+            failures.append(String.format("  %s%% %s (Added)%s",
+                    diffFormat.format(diff.getPc2()), diff.getName(), StringUtils.LINE_SEP));
         }
         List<MetricsDiffSummary> diffs = HistoricalSupport.getClassesMetricsDifference(then, now, new Percentage("0"), true);
         for (MetricsDiffSummary diff : diffs) {
             if (diff.getPcDiff() < 0) {
                 final DecimalFormat diffFormat = new DecimalFormat("###.#");
-                failures.append("  " + diffFormat.format(diff.getPcDiff())
-                        + " to " + diffFormat.format(diff.getPc2()) + "% "
-                        + diff.getName()
-                        + StringUtils.LINE_SEP);
+                failures.append(String.format("  %s to %s%% %s%s",
+                        diffFormat.format(diff.getPcDiff()), diffFormat.format(diff.getPc2()), diff.getName(), StringUtils.LINE_SEP));
             }
         }
     }

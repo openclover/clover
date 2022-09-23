@@ -102,13 +102,13 @@ public abstract class BooleanSpec implements Serializable {
 
     @Override
     public String toString() {
-        String content = "testclasses(";
+        StringBuilder content = new StringBuilder("testclasses(");
         if (testClassSpecs != null) {
             for (final TestClassSpec testClass : testClassSpecs) {
-                content += "\n\t" + testClass.toString();
+                content.append("\n\t").append(testClass.toString());
             }
         }
-        content += ")";
-        return content;
+        content.append(")");
+        return content.toString();
     }
 }

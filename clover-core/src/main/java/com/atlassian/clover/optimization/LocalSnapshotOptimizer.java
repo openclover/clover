@@ -376,7 +376,7 @@ public final class LocalSnapshotOptimizer implements Optimizer {
         return sortedOptimizables;
     }
 
-    private class TestSortEntry<E extends Optimizable> implements Comparable<TestSortEntry<E>> {
+    private static class TestSortEntry<E extends Optimizable> implements Comparable<TestSortEntry<E>> {
         private E optimizable;
         private long duration;
         private boolean succeeded;

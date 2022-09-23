@@ -9,8 +9,6 @@ import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,6 +18,7 @@ import java.io.Reader;
 import java.io.Writer;
 import java.io.FilePermission;
 import java.io.PrintWriter;
+import java.nio.file.Files;
 import java.security.PrivilegedAction;
 import java.text.CharacterIterator;
 import java.text.StringCharacterIterator;
@@ -129,8 +128,8 @@ public class FileUtils {
         InputStream in = null;
         OutputStream out = null;
         try {
-            in = new BufferedInputStream(new FileInputStream(src));
-            out = new BufferedOutputStream(new FileOutputStream(dest));
+            in = new BufferedInputStream(Files.newInputStream(src.toPath()));
+            out = new BufferedOutputStream(Files.newOutputStream(dest.toPath()));
             int b = in.read();
             while (b >= 0) {
                 out.write(b);
@@ -194,7 +193,7 @@ public class FileUtils {
         OutputStream out = null;
         outFile.getParentFile().mkdirs();
         try {
-            out = new BufferedOutputStream(new FileOutputStream(outFile));
+            out = new BufferedOutputStream(Files.newOutputStream(outFile.toPath()));
             ByteStreams.copy(in, out);
         } finally {
             IOStreamUtils.close(in);
@@ -309,7 +308,7 @@ public class FileUtils {
         try {
             final Reader in;
             if (encoding != null) {
-                in = new InputStreamReader(new FileInputStream(f), encoding);
+                in = new InputStreamReader(Files.newInputStream(f.toPath()), encoding);
             } else {
                 in = new FileReader(f);
             }

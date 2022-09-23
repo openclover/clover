@@ -70,7 +70,7 @@ public class CloverOptimizedTestNGSelector implements IAnnotationTransformer, IA
         } else {
             List<String> groupsAsList = newArrayList(groups);
             groupsAsList.add("clover-optimized");
-            groups = groupsAsList.toArray(new String[groupsAsList.size()]);
+            groups = groupsAsList.toArray(new String[0]);
         }
         annotation.setGroups(groups);
     }

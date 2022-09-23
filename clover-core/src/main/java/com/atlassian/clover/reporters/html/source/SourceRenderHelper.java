@@ -341,7 +341,7 @@ public class SourceRenderHelper {
         }
     }
 
-    private static ChecksummingReader getChecksummingReader(FullFileInfo finfo) throws FileNotFoundException, UnsupportedEncodingException {
+    private static ChecksummingReader getChecksummingReader(FullFileInfo finfo) throws IOException {
         return new ChecksummingReader(finfo.getSourceReader());
     }
 

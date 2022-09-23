@@ -20,8 +20,8 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 
 public class TestResultProcessor {
@@ -60,7 +60,7 @@ public class TestResultProcessor {
             for (File file : files) {
                 try {
                     log.verbose("Processing test result file " + file);
-                    parser.parse(new BufferedInputStream(new FileInputStream(file)), handler);
+                    parser.parse(new BufferedInputStream(Files.newInputStream(file.toPath())), handler);
                     fileCount++;
                     testCaseCount += handler.getTestCaseCount();
                 } catch (IOException e) {

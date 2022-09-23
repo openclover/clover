@@ -22,9 +22,9 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.zip.GZIPInputStream;
 
 /**
@@ -229,7 +229,7 @@ public class XmlConverter {
     }
 
     private static InputStream getInputStream(File inf) throws IOException {
-        InputStream in = new BufferedInputStream(new FileInputStream(inf));
+        InputStream in = new BufferedInputStream(Files.newInputStream(inf.toPath()));
         if (inf.getName().endsWith(".gz")) {
             return new GZIPInputStream(in);
         } else {

@@ -19,13 +19,12 @@ import com.atlassian.clover.registry.entities.TestCaseInfo;
 import com_atlassian_clover.CloverVersionInfo;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.nio.file.Files;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -271,7 +270,7 @@ public class Snapshot implements Serializable {
             }
             location.createNewFile();
         }
-        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(location));
+        ObjectOutputStream oos = new ObjectOutputStream(Files.newOutputStream(location.toPath()));
         oos.writeObject(this);
         oos.close();
     }
@@ -307,7 +306,7 @@ public class Snapshot implements Serializable {
     public static Snapshot loadFromFile(File file) {
         if (file.exists() && file.isFile() && file.canRead()) {
             try {
-                try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+                try (ObjectInputStream ois = new ObjectInputStream(Files.newInputStream(file.toPath()))) {
                     long start = System.currentTimeMillis();
                     Snapshot snapshot = (Snapshot) ois.readObject();
                     Logger.getInstance().verbose("Took " + (System.currentTimeMillis() - start) + "ms to load the snapshot file");

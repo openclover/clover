@@ -33,11 +33,11 @@ import org.jetbrains.annotations.Nullable;
 import org.openclover.util.ClassPathUtil;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.file.Files;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -353,7 +353,7 @@ public class GroovycSupport implements BuildListener {
                 }
 
                 // copy from resource stream to target location
-                final OutputStream jarOutStream = new FileOutputStream(jarFile);
+                final OutputStream jarOutStream = Files.newOutputStream(jarFile.toPath());
                 final byte[] buffer = new byte[1000];
                 int read = groverStream.read(buffer);
                 while (read != -1) {

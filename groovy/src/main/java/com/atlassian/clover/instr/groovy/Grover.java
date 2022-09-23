@@ -59,7 +59,6 @@ import org.codehaus.groovy.transform.ASTTransformation;
 import org.codehaus.groovy.transform.GroovyASTTransformation;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -67,6 +66,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
@@ -772,7 +772,7 @@ public class Grover implements ASTTransformation {
         if (file.exists()) {
             Reader fileReader;
             if (config.getEncoding() != null) {
-                fileReader = new InputStreamReader(new FileInputStream(file), config.getEncoding());
+                fileReader = new InputStreamReader(Files.newInputStream(file.toPath()), config.getEncoding());
             } else {
                 fileReader = new FileReader(file);
             }

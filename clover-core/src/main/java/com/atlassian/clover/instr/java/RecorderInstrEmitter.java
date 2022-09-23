@@ -59,7 +59,7 @@ public class RecorderInstrEmitter extends Emitter {
      * RecorderInstrEmitter is initialized (beginning of the class), we stil do not know this (only after we detect
      * a parameterized method).
      */
-    private class InstrumentationStateView {
+    private static class InstrumentationStateView {
         private InstrumentationState state;
 
         private InstrumentationStateView(InstrumentationState state) {

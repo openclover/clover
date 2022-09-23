@@ -65,18 +65,18 @@ public class TestClassSpec implements Serializable {
 
     @Override
     public String toString() {
-        String content = "testclass("
+        StringBuilder content = new StringBuilder("testclass("
                 + (pkg != null ? " package=" + pkg : "")
                 + (annotation != null ? " annotation=" + annotation : "")
                 + (name != null ? " name=" + name : "")
                 + (superName != null ? " super=" + superName : "")
-                + (tag != null ? " tag=" + tag : "");
+                + (tag != null ? " tag=" + tag : ""));
         if (testMethodSpecs != null) {
             for (final TestMethodSpec testMethod : testMethodSpecs) {
-                content += "\n\t" + testMethod.toString();
+                content.append("\n\t").append(testMethod.toString());
             }
         }
-        content += ")";
-        return content;
+        content.append(")");
+        return content.toString();
     }
 }

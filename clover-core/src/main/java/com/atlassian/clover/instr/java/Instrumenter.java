@@ -31,13 +31,13 @@ import org.jetbrains.annotations.Nullable;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.nio.file.Files;
 import java.util.Set;
 
 public class Instrumenter {
@@ -115,7 +115,7 @@ public class Instrumenter {
             instrTmp = File.createTempFile("clover", ".java");
             final String currentFileEncoding = fileEncoding != null ? fileEncoding : config.getEncoding();
             if (currentFileEncoding != null) {
-                out = new OutputStreamWriter(new FileOutputStream(instrTmp), currentFileEncoding);
+                out = new OutputStreamWriter(Files.newOutputStream(instrTmp.toPath()), currentFileEncoding);
             } else {
                 out = new FileWriter(instrTmp);
             }

@@ -56,7 +56,7 @@ public class SamplingPerTestCoverage extends BasePerTestCoverage {
     private BitSet passOnlyCoverageMask;
 
     /** A super-set of TCIs that covered a FileInfo at {@link #idx} through one or more of its methods */ 
-    private class FileInfoSample {
+    private static class FileInfoSample {
         private final int idx;
         private final int[] methodIdx;
         private final Set<TestCaseInfo> tcis;
@@ -96,9 +96,9 @@ public class SamplingPerTestCoverage extends BasePerTestCoverage {
                 }
 
                 fileSamples.add(
-                    new FileInfoSample(
-                        file.getDataIndex(),
-                        methodIdx.toIntArray()));
+                        new FileInfoSample(
+                                file.getDataIndex(),
+                                methodIdx.toIntArray()));
                 methodIdx.clear();
             }
         });

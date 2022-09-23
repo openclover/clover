@@ -146,7 +146,7 @@ public class GroovyModelMiner {
         for (ClassNode exception : exceptions) {
             exceptionNames.add(exception.getNameWithoutPackage());
         }
-        return exceptionNames.toArray(new String[exceptionNames.size()]);
+        return exceptionNames.toArray(new String[0]);
     }
 
     //FQ class name required here so Groovy uses the right Parameter class
@@ -157,7 +157,7 @@ public class GroovyModelMiner {
         for (Parameter p : parameters) {
             clovParams.add(new com.atlassian.clover.registry.entities.Parameter(extractVerbatimType(p.getType(), p.isDynamicTyped()), p.getName()));
         }
-        return clovParams.toArray(new com.atlassian.clover.registry.entities.Parameter[clovParams.size()]);
+        return clovParams.toArray(new com.atlassian.clover.registry.entities.Parameter[0]);
     }
 
     public static AnnotationImpl[] extractAnnotations(AnnotatedNode annotated) {
@@ -170,7 +170,7 @@ public class GroovyModelMiner {
         for (AnnotationNode n : annotations) {
             clovAnnotations.add(extractAnnotation(n, classNodes));
         }
-        return clovAnnotations.toArray(new AnnotationImpl[clovAnnotations.size()]);
+        return clovAnnotations.toArray(new AnnotationImpl[0]);
     }
 
     public static AnnotationImpl extractAnnotation(AnnotationNode annotationNode) {

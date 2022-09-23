@@ -216,7 +216,7 @@ public class GroovySourceTraverser implements SourceTraverser {
                 lines.set(0, firstLine.substring(first.getColumn() - 1, firstLine.length()));
                 lines.set(lines.size() - 1, lastLine.substring(0, last.getColumnLast() - 1));
             }
-            return lines.toArray(new String[lines.size()]);
+            return lines.toArray(new String[0]);
         } catch (Exception e) {
             Logger.getInstance().verbose("Failed to grab lines for tokens", e);
             Logger.getInstance().debug("First token: " + first);
