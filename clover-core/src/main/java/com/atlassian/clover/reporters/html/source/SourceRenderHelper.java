@@ -55,7 +55,7 @@ public class SourceRenderHelper {
         this.tabStr = StringUtils.repeat(spaceChar, report.getFormat().getTabWidth());
     }
 
-    public void insertLineInfosForFile(FullFileInfo fileInfo, VelocityContext context, ContextSet contextSet, String emptyChar, List[] testLineInfo) throws TokenStreamException {
+    public void insertLineInfosForFile(FullFileInfo fileInfo, VelocityContext context, ContextSet contextSet, String emptyChar, List[] testLineInfo) {
         try {
             LineRenderInfo[] renderInfo = gatherSrcRenderInfo(context, fileInfo, contextSet, emptyChar, testLineInfo);
             context.put("renderInfo", renderInfo);

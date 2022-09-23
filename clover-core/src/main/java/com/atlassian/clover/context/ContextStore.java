@@ -555,10 +555,7 @@ public class ContextStore implements TaggedPersistent {
         if (nextIndex != that.nextIndex) return false;
         if (!Objects.equals(methodContexts, that.methodContexts))
             return false;
-        if (!Objects.equals(statementContexts, that.statementContexts))
-            return false;
-
-        return true;
+        return Objects.equals(statementContexts, that.statementContexts);
     }
 
     @Override

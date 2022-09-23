@@ -58,11 +58,9 @@ public class VelocityLogAdapter implements LogChute {
 
     @Override
     public boolean isLevelEnabled(int level) {
-        switch (level) {
-            case LogChute.DEBUG_ID:
-                return Logger.isDebug() || Logger.isVerbose();
-            default:
-                return true;
+        if (level == LogChute.DEBUG_ID) {
+            return Logger.isDebug() || Logger.isVerbose();
         }
+        return true;
     }
 }

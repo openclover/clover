@@ -502,7 +502,7 @@ public class Grover implements ASTTransformation {
      *     }
      * </pre>
      */
-    private ClassNode createRecorderFieldAndGetter(final ClassNode clazz, GroovyInstrumentationConfig sessionConfig, GroovyInstrumentationResult flags) throws Exception {
+    private ClassNode createRecorderFieldAndGetter(final ClassNode clazz, GroovyInstrumentationConfig sessionConfig, GroovyInstrumentationResult flags) {
         // add field
         FieldNode recorderField =
                 clazz.addField(recorderFieldName, ClassNode.ACC_STATIC | ClassNode.ACC_PRIVATE | ClassNode.ACC_SYNTHETIC,

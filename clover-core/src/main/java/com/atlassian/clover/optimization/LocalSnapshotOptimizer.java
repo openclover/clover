@@ -396,9 +396,9 @@ public final class LocalSnapshotOptimizer implements Optimizer {
          **/
         @Override
         public int compareTo(TestSortEntry<E> other) {
-            if (!(succeeded ^ other.succeeded)) {
+            if (succeeded == other.succeeded) {
                 //If both succeeded or failed
-                if (!(affectedByChanges ^ other.affectedByChanges)) {
+                if (affectedByChanges == other.affectedByChanges) {
                     //If both were affected or not affected by changes
                     long duration = this.duration == -1 ? Integer.MAX_VALUE : this.duration;
                     long otherDuration = other.duration == -1 ? Integer.MAX_VALUE : other.duration;

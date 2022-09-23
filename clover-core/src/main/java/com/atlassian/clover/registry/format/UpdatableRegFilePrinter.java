@@ -19,7 +19,7 @@ public class UpdatableRegFilePrinter {
 
             regFile.readContents(new RegContentsConsumer() {
                 @Override
-                public void consume(RegContents contents) throws IOException, CloverRegistryException {
+                public void consume(RegContents contents) throws IOException {
                     //Sessions are ordered newest to oldest
                     for (InstrSessionSegment sessionSegment : contents.getSessions()) {
                         out.write("\tSession startTs=" + sessionSegment.getStartTs() + " endTs=" + sessionSegment.getEndTs() + " version=" + sessionSegment.getVersion() + "\n");

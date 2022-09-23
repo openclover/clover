@@ -70,14 +70,14 @@ public class CoverageSegment {
 
         this.hitCounts = new LazyLoader<int[]>(channel, endOfSegment - Footer.SIZE - footer.perTestCovByteLen - footer.covByteLen + 1) {
             @Override
-            protected int[] getImpl(FileChannel channel) throws IOException, RegistryFormatException, RegistryFormatException {
+            protected int[] getImpl(FileChannel channel) throws IOException, RegistryFormatException {
                 return loadHitCounts(channel, footer.covByteLen);
             }
         };
 
         this.perTestCoverage = new LazyLoader<InMemPerTestCoverage>(channel, endOfSegment - Footer.SIZE - footer.perTestCovByteLen + 1) {
             @Override
-            protected InMemPerTestCoverage getImpl(FileChannel channel) throws IOException, RegistryFormatException {
+            protected InMemPerTestCoverage getImpl(FileChannel channel) throws IOException {
                 return loadPerTestCoverage(channel);
             }
         };

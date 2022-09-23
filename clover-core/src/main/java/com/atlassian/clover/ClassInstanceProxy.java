@@ -21,9 +21,7 @@ public final class ClassInstanceProxy {
 
         if (classloaderHashCode != that.classloaderHashCode) return false;
         if (classHashCode != that.classHashCode) return false;
-        if (!name.equals(that.name)) return false;
-
-        return true;
+        return name.equals(that.name);
     }
 
     public int hashCode() {

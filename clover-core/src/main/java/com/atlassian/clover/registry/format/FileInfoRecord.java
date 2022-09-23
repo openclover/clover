@@ -38,7 +38,7 @@ public class FileInfoRecord {
 
         fileInfo = new LazyLoader<FullFileInfo>(channel, channel.position()) {
             @Override
-            protected FullFileInfo getImpl(FileChannel channel) throws IOException, RegistryFormatException {
+            protected FullFileInfo getImpl(FileChannel channel) throws IOException {
                 return TaggedIO.read(channel, InstrSessionSegment.TAGS, FullFileInfo.class);
             }
         };

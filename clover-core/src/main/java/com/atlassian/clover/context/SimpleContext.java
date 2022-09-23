@@ -44,9 +44,7 @@ public class SimpleContext implements NamedContext {
         SimpleContext that = (SimpleContext) o;
 
         if (index != that.index) return false;
-        if (!Objects.equals(name, that.name)) return false;
-
-        return true;
+        return Objects.equals(name, that.name);
     }
 
     public int hashCode() {

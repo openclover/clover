@@ -104,7 +104,7 @@ public class Clover2Registry implements InstrumentationTarget {
             final Clover2Registry[] resultReg = new Clover2Registry[1];
             regFile.readContents(new RegContentsConsumer() {
                 @Override
-                public void consume(RegContents contents) throws IOException, CloverRegistryException {
+                public void consume(RegContents contents) {
                     ContextStore ctxStore = null;
 
                     //Sessions are ordered newest to oldest

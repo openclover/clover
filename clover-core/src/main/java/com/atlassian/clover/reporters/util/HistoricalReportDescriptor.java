@@ -43,7 +43,7 @@ public class HistoricalReportDescriptor {
     private boolean enoughForMovers;
 
     public HistoricalReportDescriptor(CloverReportConfig cfg)
-            throws CloverException, IOException {
+            throws CloverException {
         log = Logger.getInstance();
         histCfg = (Historical) cfg;
         if (histCfg == null) {
@@ -53,7 +53,7 @@ public class HistoricalReportDescriptor {
         addedDescriptors = new ArrayList<>(histCfg.getAdded().size());
     }
 
-    public boolean gatherHistoricalModels() throws CloverException, IOException {
+    public boolean gatherHistoricalModels() throws IOException {
         File[] historyFiles = histCfg.getHistoryFiles();
         if (historyFiles == null) {
             historyFiles = FileUtils.listMatchingFilesForDir(

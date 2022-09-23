@@ -267,9 +267,7 @@ public class BlockMetrics implements com.atlassian.clover.api.registry.BlockMetr
         if (numTestErrors != that.numTestErrors) return false;
         if (numTestFailures != that.numTestFailures) return false;
         if (numTestPasses != that.numTestPasses) return false;
-        if (numTests != that.numTests) return false;
-
-        return true;
+        return numTests == that.numTests;
     }
 
     public int hashCode() {

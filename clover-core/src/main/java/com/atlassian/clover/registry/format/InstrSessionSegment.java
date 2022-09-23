@@ -165,7 +165,7 @@ public class InstrSessionSegment {
 
         this.ctxStore = new LazyLoader<ContextStore>(channel, endOfSegment - Footer.SIZE - footer.ctxStoreByteLen + 1) {
             @Override
-            protected ContextStore getImpl(FileChannel channel) throws IOException, RegistryFormatException {
+            protected ContextStore getImpl(FileChannel channel) throws IOException {
                 return loadContextStore(channel);
             }
         };

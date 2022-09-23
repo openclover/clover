@@ -156,7 +156,7 @@ public class RenderFileAction implements Callable {
     }
 
     @SuppressWarnings("unchecked")
-    public FullFileInfo insertSrcFileProperties() throws TokenStreamException, JSONException {
+    public FullFileInfo insertSrcFileProperties() throws JSONException {
         velocity.put("headerMetrics", fileInfo.getMetrics());
         velocity.put("headerMetricsRaw", fileInfo.getRawMetrics());
         velocity.put("fileInfo", fileInfo);

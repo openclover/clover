@@ -77,9 +77,7 @@ public class FileMetrics extends ClassMetrics {
 
         if (lineCount != that.lineCount) return false;
         if (ncLineCount != that.ncLineCount) return false;
-        if (numClasses != that.numClasses) return false;
-
-        return true;
+        return numClasses == that.numClasses;
     }
 
     public int hashCode() {

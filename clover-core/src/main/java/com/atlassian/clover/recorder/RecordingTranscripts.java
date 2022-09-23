@@ -318,9 +318,7 @@ public class RecordingTranscripts {
             if (timestamp != other.timestamp) return false;
             if (typedTestId != other.typedTestId) return false;
             if (runId != other.runId) return false;
-            if (!datafile.equals(other.datafile)) return false;
-
-            return true;
+            return datafile.equals(other.datafile);
         }
 
         public int hashCode() {

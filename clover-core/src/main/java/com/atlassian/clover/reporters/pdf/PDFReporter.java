@@ -193,7 +193,7 @@ public class PDFReporter extends CloverReporter {
         return true;
     }
 
-    private void newPage() throws DocumentException, IOException {
+    private void newPage() throws DocumentException {
         document.newPage();
         document.add(RenderingSupport.createHistoricalPageHeader(reportTitle, titleAnchor, colours));
         if (CloverLicenseInfo.EXPIRED) {
@@ -203,7 +203,7 @@ public class PDFReporter extends CloverReporter {
         }
     }
 
-    private void generateHistoricalReport(Historical historicalConfig, HistoricalReportDescriptor desc) throws CloverException, DocumentException, IOException {
+    private void generateHistoricalReport(Historical historicalConfig, HistoricalReportDescriptor desc) throws DocumentException {
         document.add(
             RenderingSupport.createHistoricalReportHeader(
                 desc.getSubjectMetrics(), desc.getFirstTimestamp(), desc.getLastTimestamp(),
@@ -264,7 +264,7 @@ public class PDFReporter extends CloverReporter {
         document.newPage();
     }
 
-    private void generateCurrentReport(Current currentConfig) throws CloverException, DocumentException{
+    private void generateCurrentReport(Current currentConfig) throws DocumentException {
         final FullProjectInfo project = database.getModel(CodeType.APPLICATION);
 
         HasMetrics parent;

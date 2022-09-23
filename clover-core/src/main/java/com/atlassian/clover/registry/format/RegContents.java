@@ -18,7 +18,7 @@ public class RegContents {
         if (coverageLocation != CoverageSegment.NONE_IDX) {
             coverageSegment = new LazyLoader<CoverageSegment>(channel, coverageLocation) {
                 @Override
-                public CoverageSegment getImpl(FileChannel channel) throws IOException, RegistryFormatException {
+                public CoverageSegment getImpl(FileChannel channel) throws IOException {
                     return new CoverageSegment(channel);
                 }
             };

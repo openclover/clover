@@ -488,7 +488,7 @@ public class FileUtils {
         return temp;
     }
 
-    public static File createEmptyDir(File parent, String name) throws IOException {
+    public static File createEmptyDir(File parent, String name) {
         final File emptyDir = new File(parent, name);
         deltree(emptyDir);
         emptyDir.mkdirs();

@@ -43,7 +43,7 @@ public class RenderPackageTreeJsonAction implements Callable {
         return null;
     }
 
-    protected File insertPackageTreeProperties() throws Exception {
+    protected File insertPackageTreeProperties() {
         final PrefixTree packageTree = createTreeFromList(collectAllPackagesByName());
 
         context.put("projectInfo", fullProjectInfo);

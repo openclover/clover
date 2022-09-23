@@ -19,7 +19,7 @@ public interface ProjectView extends InstrumentationTarget {
         @Override
         public FullProjectInfo getProject() { return null; }
         @Override
-        public RegistryUpdate applyUpdate(long expectedVersion, InstrumentationSessionImpl.Update update) throws ConcurrentInstrumentationException { return null; }
+        public RegistryUpdate applyUpdate(long expectedVersion, InstrumentationSessionImpl.Update update) { return null; }
         @Override
         public void resolve(Path sourcePath) {}
     };
@@ -128,7 +128,7 @@ public interface ProjectView extends InstrumentationTarget {
 
         @Override
         @SuppressWarnings("unchecked")
-        public RegistryUpdate applyUpdate(long expectedVersion, InstrumentationSessionImpl.Update update) throws ConcurrentInstrumentationException {
+        public RegistryUpdate applyUpdate(long expectedVersion, InstrumentationSessionImpl.Update update) {
             project.setVersion(update.getVersion());
 
             final CoverageDataProvider dataProvider = project.getDataProvider();

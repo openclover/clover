@@ -72,10 +72,7 @@ class TestMethodCall implements Serializable {
             return false;
         if (!Objects.equals(runtimeTypeName, that.runtimeTypeName))
             return false;
-        if (!Objects.equals(sourceMethodName, that.sourceMethodName))
-            return false;
-
-        return true;
+        return Objects.equals(sourceMethodName, that.sourceMethodName);
     }
 
     public int hashCode() {

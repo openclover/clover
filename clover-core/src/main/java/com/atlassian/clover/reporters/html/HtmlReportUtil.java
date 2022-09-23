@@ -61,7 +61,7 @@ public class HtmlReportUtil {
         mergeTemplateToStream(engine, new FileOutputStream(outfile), context, template);
     }
 
-    public static void mergeTemplateToStream(VelocityEngine engine, OutputStream outputStream, VelocityContext context, String template) throws IOException {
+    public static void mergeTemplateToStream(VelocityEngine engine, OutputStream outputStream, VelocityContext context, String template) {
 
         if (Logger.isDebug())
             Logger.getInstance().debug("rendering " + template);

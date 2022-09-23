@@ -181,15 +181,7 @@ public class RecorderInstrEmitter extends Emitter {
             }
             //REC = _REC
             instrString += recorderSuffix + "=" + "_" + recorderSuffix + ";";
-
             instrString += "}}";
-
-            // add extra test sniffer field (required by test classes), note that it's not inside static inner recorder
-            // class and that it has less 'random' name (independent of a file/class index)
-            // the sniffer field is always generated, also for non-test classes, because we may have a non-test top-level
-            // class containing inner or inline test classes (and the inner/inline classes don't have their own
-            // recorder instance - they reuse a recorder instance from the top-level class)
-            instrString += generateTestSnifferField(isSpockTestClass, isParameterizedJUnitTestClass, stateView.isJUnit5ParameterizedTest());
 
         } else {
             instrString = "public static "
@@ -202,9 +194,14 @@ public class RecorderInstrEmitter extends Emitter {
                     Integer.toString(maxDataIndex),
                     generateCloverProfilesInline(profiles),
                     "new " + javaLangPrefix + "String[]{\"" + CloverNames.PROP_DISTRIBUTED_CONFIG + "\"," + asUnicodeString(distributedConfig) + "}") + ";";
-            // the sniffer field is always generated, also for non-test classes, see comment above
-            instrString += generateTestSnifferField(isSpockTestClass, isParameterizedJUnitTestClass, stateView.isJUnit5ParameterizedTest());
         }
+
+        // add extra test sniffer field (required by test classes), note that it's not inside static inner recorder
+        // class and that it has less 'random' name (independent of a file/class index)
+        // the sniffer field is always generated, also for non-test classes, because we may have a non-test top-level
+        // class containing inner or inline test classes (and the inner/inline classes don't have their own
+        // recorder instance - they reuse a recorder instance from the top-level class)
+        instrString += generateTestSnifferField(isSpockTestClass, isParameterizedJUnitTestClass, stateView.isJUnit5ParameterizedTest());
         return instrString;
     }
 

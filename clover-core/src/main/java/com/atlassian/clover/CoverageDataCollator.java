@@ -151,7 +151,7 @@ public class CoverageDataCollator {
         Logger.getInstance().debug("Processed " + numRecordings + " recording files in " + (end - start) + "ms (" + (numRecordings != 0 ? "" + (end - start) / numRecordings + "ms" : "-") + " per recording)");
     }
 
-    private void collatePerTestRecordings(Collection<RecordingTranscripts.FileRef> perTestRecordings, final CoverageData coverageData, final CoverageDataSpec spec, ProgressListener progressListener) throws CloverException {
+    private void collatePerTestRecordings(Collection<RecordingTranscripts.FileRef> perTestRecordings, final CoverageData coverageData, final CoverageDataSpec spec, ProgressListener progressListener) {
         final long start = System.currentTimeMillis();
 
         int numPerTestRecordings = 0;

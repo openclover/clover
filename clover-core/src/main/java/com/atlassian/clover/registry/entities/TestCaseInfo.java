@@ -365,9 +365,7 @@ public class TestCaseInfo implements Serializable {
         if (!Objects.equals(sourceMethodName, that.sourceMethodName))
             return false;
         if (!Objects.equals(staticTestName, that.staticTestName)) return false;
-        if (!Objects.equals(runtimeTestName, that.runtimeTestName)) return false;
-
-        return true;
+        return Objects.equals(runtimeTestName, that.runtimeTestName);
     }
 
     @Override

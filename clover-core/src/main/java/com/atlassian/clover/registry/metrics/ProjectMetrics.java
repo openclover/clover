@@ -53,10 +53,7 @@ public class ProjectMetrics extends PackageMetrics {
         if (!super.equals(o)) return false;
 
         ProjectMetrics that = (ProjectMetrics) o;
-
-        if (numPackages != that.numPackages) return false;
-
-        return true;
+        return numPackages == that.numPackages;
     }
 
     public int hashCode() {
