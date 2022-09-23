@@ -160,6 +160,11 @@
                 <artifactId>hamcrest-core</artifactId>
                 <version>1.3</version>
             </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>1.10.19</version>
+            </dependency>
             <!-- groovy -->
             <dependency>
                 <groupId>org.codehaus.groovy</groupId>
@@ -170,6 +175,12 @@
                 <groupId>asm</groupId>
                 <artifactId>asm</artifactId>
                 <version>3.0</version>
+            </dependency>
+            <!-- ant -->
+            <dependency>
+                <groupId>org.apache.ant</groupId>
+                <artifactId>ant</artifactId>
+                <version>1.10.12</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
