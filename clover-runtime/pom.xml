@@ -43,10 +43,6 @@
         <!-- repacked third party libraries used by the clover-runtime -->
         <dependency>
             <groupId>com.atlassian.clover</groupId>
-            <artifactId>clover-annotations</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.atlassian.clover</groupId>
             <artifactId>clover-antlr</artifactId>
         </dependency>
         <dependency>
@@ -55,15 +51,7 @@
         </dependency>
         <dependency>
             <groupId>com.atlassian.clover</groupId>
-            <artifactId>clover-commons-lang3</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.atlassian.clover</groupId>
-            <artifactId>clover-guava</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.atlassian.clover</groupId>
-            <artifactId>clover-log4j</artifactId>
+            <artifactId>clover-slf4j</artifactId>
         </dependency>
     </dependencies>
     <build>
@@ -200,12 +188,9 @@
                         <configuration>
                             <artifactSet>
                                 <includes>
-                                    <include>com.atlassian.clover:clover-annotations</include>
                                     <include>com.atlassian.clover:clover-antlr</include>
                                     <include>com.atlassian.clover:clover-cajo</include>
-                                    <include>com.atlassian.clover:clover-commons-lang3</include>
-                                    <include>com.atlassian.clover:clover-guava</include>
-                                    <include>com.atlassian.clover:clover-log4j</include>
+                                    <include>com.atlassian.clover:clover-slf4j</include>
                                 </includes>
                             </artifactSet>
                             <filters>
@@ -226,26 +211,7 @@
                                     </excludes>
                                 </filter>
                                 <filter>
-                                    <artifact>com.atlassian.clover:clover-commons-lang3</artifact>
-                                    <includes>
-                                        <include>clover/org/apache/commons/lang3/mutable/Mutable*</include>
-                                        <include>clover/org/apache/commons/lang3/mutable/MutableLong*</include>
-                                    </includes>
-                                </filter>
-                                <filter>
-                                    <artifact>com.atlassian.clover:clover-guava</artifact>
-                                    <includes>
-                                        <include>clover/com/google/common/io/ByteStreams*</include>
-                                        <include>clover/com/google/common/annotations/Beta*</include>
-                                        <include>clover/com/google/common/annotations/GwtCompatible*</include>
-                                        <include>clover/com/google/common/base/Preconditions*</include>
-                                        <include>clover/com/google/common/io/ByteArrayDataInput*</include>
-                                        <include>clover/com/google/common/io/ByteArrayDataOutput*</include>
-                                        <include>clover/com/google/common/io/ByteProcessor*</include>
-                                    </includes>
-                                </filter>
-                                <filter>
-                                    <artifact>com.atlassian.clover:clover-log4j</artifact>
+                                    <artifact>com.atlassian.clover:clover-slf4j</artifact>
                                     <excludes>
                                         <exclude>META-INF/MANIFEST.MF</exclude>
                                     </excludes>
