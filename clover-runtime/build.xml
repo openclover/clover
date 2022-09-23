@@ -48,7 +48,6 @@
         <mkdir dir="${clover-runtime.output.classes}"/>
 
         <!-- unpack third party libraries, but only used classes - this is to have a smaller runtime -->
-        <unzip src="${clover.annotations.jar}" dest="${clover-runtime.output.classes}"/>
         <unzip src="${clover.antlr.jar}" dest="${clover-runtime.output.classes}">
             <patternset>
                 <include name="clover/antlr/CharFormatter*"/>

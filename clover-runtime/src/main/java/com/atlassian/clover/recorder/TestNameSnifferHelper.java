@@ -3,7 +3,6 @@ package com.atlassian.clover.recorder;
 import com.atlassian.clover.CloverNames;
 import com.atlassian.clover.Logger;
 import com_atlassian_clover.TestNameSniffer;
-import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Field;
 
@@ -15,7 +14,7 @@ public class TestNameSnifferHelper {
      *
      * @return TestNameSniffer instance or <code>null</code>
      */
-    @Nullable
+    /*@Nullable*/
     public static TestNameSniffer lookupTestSnifferField(Class currentTestClass) {
         try {
             Field sniffer = currentTestClass.getField(CloverNames.CLOVER_TEST_NAME_SNIFFER);

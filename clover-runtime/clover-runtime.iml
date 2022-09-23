@@ -24,15 +24,6 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MAVEN_REPOSITORY$/com/atlassian/clover/clover-annotations/13.0/clover-annotations-13.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
           <root url="jar://$MAVEN_REPOSITORY$/com/atlassian/clover/clover-cajo/1.117/clover-cajo-1.117.jar!/" />
         </CLASSES>
         <JAVADOC />

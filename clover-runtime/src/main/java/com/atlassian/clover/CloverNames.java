@@ -1,7 +1,6 @@
 package com.atlassian.clover;
 
 import com_atlassian_clover.CloverVersionInfo;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * List of system properties as well as some predefined names for created files etc.
@@ -90,8 +89,8 @@ public class CloverNames {
         return pkgTokens[0].equals("com") ? "" : pkgTokens[0];
     }
 
-    @NotNull
-    public static String namespace(@NotNull String name) {
+    /*@NotNull*/
+    public static String namespace(/*@NotNull*/ String name) {
         return "$CLV_" + name + "$";
     }
 }

@@ -5,7 +5,6 @@ import com.atlassian.clover.ErrorInfo;
 import com.atlassian.clover.Logger;
 import com_atlassian_clover.Clover;
 import com_atlassian_clover.CoverageRecorder;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.io.File;
@@ -122,7 +121,7 @@ public abstract class BaseCoverageRecorder extends CoverageRecorder {
     }
 
     @Override
-    public void globalSliceEnd(String runtimeType, String method, @Nullable String runtimeTestName, int id) {
+    public void globalSliceEnd(String runtimeType, String method, /*@Nullable*/ String runtimeTestName, int id) {
         if (Logger.isDebug()) {
             Logger.getInstance().debug("globalSliceEnd(" + runtimeType + ", " + id + ")");
         }
@@ -130,7 +129,7 @@ public abstract class BaseCoverageRecorder extends CoverageRecorder {
     }
 
     @Override
-    public final void globalSliceEnd(String runtimeType, String method, @Nullable String runtimeTestName, int id, int exitStatus, Throwable throwable) {
+    public final void globalSliceEnd(String runtimeType, String method, /*@Nullable*/ String runtimeTestName, int id, int exitStatus, Throwable throwable) {
         if (Logger.isDebug()) {
             Logger.getInstance().debug("globalSliceEnd(" + runtimeType + ", " + id + ", " + exitStatus + ", " + throwable + ")");
         }
@@ -359,7 +358,7 @@ public abstract class BaseCoverageRecorder extends CoverageRecorder {
      * @param ei An ErrorInfo for any RuntimeException or Error thrown (if any, otherwise null)
      */
     @Override
-    public void sliceEnd(String runtimeType, String method, @Nullable String runtimeTestName,
+    public void sliceEnd(String runtimeType, String method, /*@Nullable*/ String runtimeTestName,
                          long endTime, int id, int rid, int exitStatus, ErrorInfo ei) {
         //Force a full flush after every test completes.
         //This will ensure the second last recording file (for flush on JVM exit)
