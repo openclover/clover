@@ -64,17 +64,6 @@
                 <include name="clover/org/apache/commons/lang3/mutable/MutableLong*"/>
             </patternset>
         </unzip>
-        <unzip src="${clover.guava.jar}" dest="${clover-runtime.output.classes}">
-            <patternset>
-                <include name="clover/com/google/common/io/ByteStreams*"/>
-                <include name="clover/com/google/common/annotations/Beta*"/>
-                <include name="clover/com/google/common/annotations/GwtCompatible*"/>
-                <include name="clover/com/google/common/base/Preconditions*"/>
-                <include name="clover/com/google/common/io/ByteArrayDataInput*"/>
-                <include name="clover/com/google/common/io/ByteArrayDataOutput*"/>
-                <include name="clover/com/google/common/io/ByteProcessor*"/>
-            </patternset>
-        </unzip>
         <unzip src="${clover.slf4j.jar}" dest="${clover-runtime.output.classes}"/>
     </target>
 
