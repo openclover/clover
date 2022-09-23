@@ -1,4 +1,3 @@
-
 header {
 package com.atlassian.clover.instr.java;
 
@@ -19,12 +18,10 @@ import com.atlassian.clover.registry.*;
 import com.atlassian.clover.registry.entities.*;
 
 }
-/** Java 1.5/JSR14 Recognizer
- *
+/**
+ * Java 1.5/JSR14 Recognizer
  * Based on the Public Domain Java 1.3 antlr grammar provided at
  * <a href="http://www.antlr.org">www.antlr.org</a>
- *
- *
  */
 class JavaRecognizer extends Parser;
 options {
@@ -239,11 +236,11 @@ tokens {
      * Instrument beginning of a lambda expression. We shall get a code like this:
      *   before:   [() -> 1 + 2]
      *   after :   [RECORDER_INSTANCE_NAME.lambdaInc(777, () -> 1 + 2]
-     *
+     * <p/>
      * or in case when class cast is also present:
      *   before:   [(Integer)() -> 1 + 2]
      *   after :   [(Integer)RECORDER_INSTANCE_NAME.lambdaInc(777, (Integer)() -> 1 + 2]
-     *
+     * <p/>
      * Tokens:
      * <pre>
      *   (Integer)(x, y) -> x + y
@@ -288,11 +285,11 @@ tokens {
      * Instrument beginning of a lambda method reference. We shall get a code like this:
      *   before:   [Math::sum]
      *   after :   [RECORDER_INSTANCE_NAME.lambdaInc(777, Math::abs]
-     *
+     * <p/>
      * or in case when class cast is also present:
      *   before:   [(Function<Integer,Integer>)Math::abs]
      *   after :   [(Function<Integer,Integer>)RECORDER_INSTANCE_NAME.lambdaInc(777, (Function<Integer,Integer>)Math::abs]
-     *
+     * <p/>
      * Tokens:
      * <pre>
      *   (Function<Integer,Integer>)Math::abs
@@ -328,15 +325,15 @@ tokens {
          }
     }
 
- /**
+    /**
      * Instrument beginning of a lambda expression, which shall be transformed into lambda block. We shall get a code like this:
      *   before:   [() -> 1 + 2]
      *   after :   [() -> {RECORDER_INSTANCE_NAME.inc(777); return 1 + 2]
-     *
+     * <p/>
      * or in case when class cast is also present:
      *   before:   [(Integer)() -> 1 + 2]
      *   after :   [(Integer)() -> {RECORDER_INSTANCE_NAME.inc(777); return 1 + 2]
-     *
+     * <p/>
      *  Return key word will be skipped if lambda expression is noted as void return type by CLOVER:VOID directive, like this:
      *
      *  [() -> /*CLOVER:VOID"&#42;&#47;" System.out.println("Hello World!")]
@@ -2078,11 +2075,11 @@ lambdaFunctionPredicate
 /**
  * Lambda function in a form like:
  *   <code>(arguments) -> body</code>
- *
+ * <p/>
  * where body is in a form of a single statement or expression, e.g.:
  *   <code>System.out.println("Hello")</code>
  *   <code>x + y</code>
- *
+ * <p/>
  * or in a form of the code block, e.g.:
  *   <pre>
  *   {
@@ -2091,7 +2088,7 @@ lambdaFunctionPredicate
  *      block;
  *   }
  *   </pre>
- *
+ * <p/>
  * or in a form of the method reference, e.g:
  *   <code>Math::abs</code>
  */
@@ -2196,10 +2193,10 @@ lambdaFunction returns [CloverToken last]
  * List of formal arguments for lambda function definition. Possible forms are:
  * 1) Empty list of arguments for a lambda function, i.e.:
  *     <code>()</code>
- *
+ * <p/>
  * 2) List of explicitly declared arguments' types, for instance:
  *     <code>(Integer x, String s)</code>
- *
+ * <p/>
  * 3) List of arguments for where types are undefined, for example:
  *     <pre>
  *         (x, y, z)    // few identifiers separated by comma, enclosed in parentheses
@@ -2414,7 +2411,7 @@ unaryExpression
 
 /**
  * Unary expression which is not "+/- value".
- *
+ * <p/>
  * classCastStart/classCastEnd - a pair of marker tokens used to remember a class cast. This pair of markers is used to
  * solve type-inference for lambdaInc wrapper. For example:
  * <pre>
@@ -2425,7 +2422,7 @@ unaryExpression
  * <pre>
  *   Object o = (Produce<String>)lambdaInc(123, String::new);
  * </pre>
- *
+ * <p/>
  * The problem is that javac is unable to infer proper type of lambdaInc - it sees Object. In such case when Clover
  * finds a method reference with a class cast, it will memorize class cast start/end and copy it into a lambda wrapper:
  * <pre>
@@ -2639,7 +2636,7 @@ supplementaryPostIncDecPart
 
 /** object instantiation.
  *  Trees are built as illustrated by the following input/tree pairs:
- *
+ * <pre>
  *  new T()
  *
  *  new
@@ -2684,7 +2681,7 @@ supplementaryPostIncDecPart
  *             EXPR             1
  *               |
  *               2
- *
+ * </pre>
  */
 newExpression
 {
