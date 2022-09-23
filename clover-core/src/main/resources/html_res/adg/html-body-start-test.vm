@@ -1,0 +1,18 @@
+<body>
+    <div id="page">
+        #* Blue application header *#
+        #parse("html_res/adg/aui-application-header.vm")
+
+        #* Page content *#
+        <div class="aui-page-panel">
+            <div class="aui-page-panel-inner">
+                <div class="aui-page-panel-nav aui-page-panel-nav-clover">
+                    #parse("html_res/adg/aui-vertical-nav.vm")
+                </div>
+                <section class="aui-page-panel-content">
+                    <div class="aui-page-panel-content-clover">
+
+                    #* Page header *#
+                    #parse("html_res/adg/aui-page-header-test.vm")
+
+    #* closing tags in html-body-end.vm *#
