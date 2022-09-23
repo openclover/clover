@@ -30,12 +30,12 @@
 
     <property name="ant.install.dir" location="${user.home}"/>
 
-    <fileset id="clover-ant.etc.fileset" dir="${clover-ant.base}/etc">
+    <fileset id="clover-ant.etc.fileset" dir="${clover-ant.base}/src/main/resources">
         <include name="cloverlib.xml"/>
         <include name="META-INF/services/org.junit.platform.launcher.TestExecutionListener"/>
     </fileset>
 
-    <fileset id="clover-ant.etc.grover.fileset" dir="${clover-ant.base}/etc">
+    <fileset id="clover-ant.etc.grover.fileset" dir="${clover-ant.base}/src/main/resources">
         <include name="META-INF/services/org.codehaus.groovy.transform.ASTTransformation"/>
     </fileset>
 
@@ -254,7 +254,7 @@
 
         <!-- release notes -->
         <copy todir="${clover-ant.output}/pkg">
-            <fileset dir="${clover-ant.base}/etc/releasenotes"/>
+            <fileset dir="${clover-ant.base}/src/main/resources/releasenotes"/>
             <filterset refid="core.version.filterset"/>
         </copy>
 
