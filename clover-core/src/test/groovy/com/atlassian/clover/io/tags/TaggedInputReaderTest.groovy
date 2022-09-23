@@ -81,7 +81,7 @@ class TaggedInputReaderTest {
         dos.writeBoolean(true)
         dos.flush()
 
-        final TaggedInputReader input = new TaggedInputReader(new DataInputStream(new ByteArrayInputStream(bytes.toByteArray())), new Tags().registerTag(MyTaggedObject.class.getName(), Tags.NEXT_TAG, new Tags.ObjectReader<MyTaggedObject>() {
+        final TaggedInputReader input = new TaggedInputReader(new DataInputStream(new ByteArrayInputStream(bytes.toByteArray())), new Tags().registerTag(MyTaggedObject.class.getName(), Tags.NEXT_TAG, new ObjectReader<MyTaggedObject>() {
             MyTaggedObject read(TaggedDataInput input) throws IOException {
                 return new MyTaggedObject()
             }
@@ -101,7 +101,7 @@ class TaggedInputReaderTest {
         dos.flush()
 
         try {
-            final TaggedInputReader myReader = new TaggedInputReader(new DataInputStream(new ByteArrayInputStream(bytes.toByteArray())), new Tags().registerTag(MyTaggedObject.class.getName(), Tags.NEXT_TAG, new Tags.ObjectReader<MyTaggedObject>() {
+            final TaggedInputReader myReader = new TaggedInputReader(new DataInputStream(new ByteArrayInputStream(bytes.toByteArray())), new Tags().registerTag(MyTaggedObject.class.getName(), Tags.NEXT_TAG, new ObjectReader<MyTaggedObject>() {
                 ///CLOVER:OFF
                 MyTaggedObject read(TaggedDataInput input) throws IOException {
                     return new MyTaggedObject()
@@ -131,11 +131,11 @@ class TaggedInputReaderTest {
         final TaggedInputReader input =
             new TaggedInputReader(
                 new DataInputStream(new ByteArrayInputStream(bytes.toByteArray())),
-                new Tags().registerTag(MyTaggedObject.class.getName(), Tags.NEXT_TAG, new Tags.ObjectReader<MyTaggedObject>() {
+                new Tags().registerTag(MyTaggedObject.class.getName(), Tags.NEXT_TAG, new ObjectReader<MyTaggedObject>() {
                     MyTaggedObject read(TaggedDataInput input) throws IOException {
                         return new MyTaggedObject()
                     }
-                }).registerTag(MyTaggedObject2.class.getName(), Tags.NEXT_TAG + 1, new Tags.ObjectReader<MyTaggedObject2>() {
+                }).registerTag(MyTaggedObject2.class.getName(), Tags.NEXT_TAG + 1, new ObjectReader<MyTaggedObject2>() {
                     ///CLOVER:OFF
                     MyTaggedObject2 read(TaggedDataInput input) throws IOException {
                         return new MyTaggedObject2()

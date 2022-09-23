@@ -18,7 +18,7 @@ class TagsTest {
     @Test
     void testCanRegisterTagAndReadTag() throws IOException {
         final boolean[] read = [ false ] as boolean[]
-        final Tags.ObjectReader<TaggedPersistent> reader = new Tags.ObjectReader<TaggedPersistent>() {
+        final ObjectReader<TaggedPersistent> reader = new ObjectReader<TaggedPersistent>() {
             TaggedPersistent read(TaggedDataInput input) throws IOException {
                 read[0] = true
                 return readResult

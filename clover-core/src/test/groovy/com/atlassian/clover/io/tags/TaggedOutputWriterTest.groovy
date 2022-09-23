@@ -61,7 +61,7 @@ class TaggedOutputWriterTest {
         final MyTaggedObject myTaggedObject = new MyTaggedObject()
         final ByteArrayOutputStream bytes = new ByteArrayOutputStream()
         final DataOutputStream daos = new DataOutputStream(bytes)
-        final TaggedOutputWriter out = new TaggedOutputWriter(daos, new Tags().registerTag(MyTaggedObject.class.getName(), Tags.NEXT_TAG, new Tags.ObjectReader<MyTaggedObject>() {
+        final TaggedOutputWriter out = new TaggedOutputWriter(daos, new Tags().registerTag(MyTaggedObject.class.getName(), Tags.NEXT_TAG, new ObjectReader<MyTaggedObject>() {
             ///CLOVER:OFF
             MyTaggedObject read(TaggedDataInput input) throws IOException {
                 return null
@@ -85,7 +85,7 @@ class TaggedOutputWriterTest {
     @Test
     void testWritingUnknownClassCausesException() throws IOException {
         try {
-            new TaggedOutputWriter(new DataOutputStream(new ByteArrayOutputStream()), new Tags().registerTag("foo", Tags.NEXT_TAG, new Tags.ObjectReader<TaggedPersistent>() {
+            new TaggedOutputWriter(new DataOutputStream(new ByteArrayOutputStream()), new Tags().registerTag("foo", Tags.NEXT_TAG, new ObjectReader<TaggedPersistent>() {
                 ///CLOVER:OFF
                 TaggedPersistent read(TaggedDataInput input) throws IOException {
                     return null

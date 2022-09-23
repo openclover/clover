@@ -2,7 +2,7 @@ package com.atlassian.clover.idea.build.jps;
 
 import com.atlassian.clover.idea.config.CloverPluginConfig;
 import com.atlassian.clover.util.trie.FilePathPrefixTree;
-import com.atlassian.clover.util.trie.PrefixTree;
+import com.atlassian.clover.util.trie.Node;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.jps.model.JpsProject;
@@ -110,7 +110,7 @@ public class JpsModelUtil {
         }
 
         // can return null if root for sourceFile is not found
-        final PrefixTree.Node<String, JpsModuleSourceRoot> closestRoot = sourceRootsTree.findNearestWithValue(sourceFile);
+        final Node<String, JpsModuleSourceRoot> closestRoot = sourceRootsTree.findNearestWithValue(sourceFile);
         return closestRoot != null ? closestRoot.getValue() : null;
     }
 
@@ -142,7 +142,7 @@ public class JpsModelUtil {
         //       + src        ->isAncestorOf(src,sourceFile)=true
         //         + Foo.java -> belongs to ModuleB, not ModuleA
         // solution: find the deepest module (i.e. it's source root) in a hierarchy
-        final PrefixTree.Node<String, JpsModule> closestModule = ancestorModules.findNearestWithValue(sourceFile);
+        final Node<String, JpsModule> closestModule = ancestorModules.findNearestWithValue(sourceFile);
         return closestModule != null ? closestModule.getValue() : null;
     }
 

@@ -6,7 +6,7 @@ import com.atlassian.clover.api.CloverException;
 import com.atlassian.clover.cfg.instr.java.SourceLevel;
 import com.atlassian.clover.instr.java.Instrumenter;
 import com.atlassian.clover.idea.build.InclusionDetector;
-import com.atlassian.clover.util.trie.PrefixTree;
+import com.atlassian.clover.util.trie.Node;
 import com.intellij.openapi.diagnostic.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.jps.builders.java.JavaSourceTransformer;
@@ -124,7 +124,7 @@ public class CloverJavaSourceTransformer extends JavaSourceTransformer {
      */
     public LanguageLevel getLanguageLevelForFile(final File sourceFile) {
         // search for a closest source root in our cache
-        final PrefixTree.Node<String, LanguageLevel> closestSourceRoot = CloverJavaBuilder.getInstance()
+        final Node<String, LanguageLevel> closestSourceRoot = CloverJavaBuilder.getInstance()
                 .getSourceRootToLanguageLevel().findNearest(sourceFile);
         // not found? assume the latest supported
         return (closestSourceRoot.getValue() != null ? closestSourceRoot.getValue() : LanguageLevel.JDK_1_9);

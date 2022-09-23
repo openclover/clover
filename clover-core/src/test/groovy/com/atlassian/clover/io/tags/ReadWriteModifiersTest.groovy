@@ -18,19 +18,19 @@ class ReadWriteModifiersTest {
         // configure writer
         final ByteArrayOutputStream bytes = new ByteArrayOutputStream()
         final Tags tags = new Tags()
-                .registerTag(Modifiers.class.getName(), Tags.NEXT_TAG, new Tags.ObjectReader<Modifiers>() {
+                .registerTag(Modifiers.class.getName(), Tags.NEXT_TAG, new ObjectReader<Modifiers>() {
                     Modifiers read(TaggedDataInput input) throws IOException {
                         return Modifiers.read(input)
                     }
-                }).registerTag(AnnotationImpl.class.getName(), Tags.NEXT_TAG + 1, new Tags.ObjectReader<AnnotationImpl>() {
+                }).registerTag(AnnotationImpl.class.getName(), Tags.NEXT_TAG + 1, new ObjectReader<AnnotationImpl>() {
                     AnnotationImpl read(TaggedDataInput input) throws IOException {
                         return AnnotationImpl.read(input)
                     }
-                }).registerTag(ArrayAnnotationValue.class.getName(), Tags.NEXT_TAG + 2, new Tags.ObjectReader<ArrayAnnotationValue>() {
+                }).registerTag(ArrayAnnotationValue.class.getName(), Tags.NEXT_TAG + 2, new ObjectReader<ArrayAnnotationValue>() {
                     ArrayAnnotationValue read(TaggedDataInput input) throws IOException {
                         return ArrayAnnotationValue.read(input)
                     }
-                }).registerTag(StringifiedAnnotationValue.class.getName(), Tags.NEXT_TAG + 3, new Tags.ObjectReader<StringifiedAnnotationValue>() {
+                }).registerTag(StringifiedAnnotationValue.class.getName(), Tags.NEXT_TAG + 3, new ObjectReader<StringifiedAnnotationValue>() {
                     StringifiedAnnotationValue read(TaggedDataInput input) throws IOException {
                         return StringifiedAnnotationValue.read(input)
                     }
