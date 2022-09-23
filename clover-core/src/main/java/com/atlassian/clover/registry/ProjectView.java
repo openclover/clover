@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import static clover.com.google.common.collect.Lists.newLinkedList;
 
 public interface ProjectView extends InstrumentationTarget {
-    public static ProjectView NONE = new ProjectView() {
+    ProjectView NONE = new ProjectView() {
         @Override
         public FullProjectInfo getProject() { return null; }
         @Override
@@ -24,10 +24,10 @@ public interface ProjectView extends InstrumentationTarget {
         public void resolve(Path sourcePath) {}
     };
 
-    public FullProjectInfo getProject();
-    public void resolve(Path sourcePath);
+    FullProjectInfo getProject();
+    void resolve(Path sourcePath);
 
-    public static class Original implements ProjectView {
+    class Original implements ProjectView {
         private final AtomicLong version;
         private final FullProjectInfo project;
         private final Collection<Filtered> filteredViews;
@@ -112,7 +112,7 @@ public interface ProjectView extends InstrumentationTarget {
         }
     }
 
-    public static class Filtered implements ProjectView {
+    class Filtered implements ProjectView {
         private final HasMetricsFilter.Invertable filter;
         private final FullProjectInfo project;
 

@@ -7,6 +7,6 @@ package com.atlassian.clover.api.registry;
  */
 public interface HasParent {
 
-    public EntityContainer getParent();
+    EntityContainer getParent();
 
 }

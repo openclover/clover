@@ -10,6 +10,6 @@ import java.io.IOException;
  * loaded at report-time
  */
 public interface RecordingTranscript extends CoverageRecording {
-    public long getWriteTimeStamp();
-    public void read(DataInputStream in, CoverageDataSpec spec) throws IOException;
+    long getWriteTimeStamp();
+    void read(DataInputStream in, CoverageDataSpec spec) throws IOException;
 }

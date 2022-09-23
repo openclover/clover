@@ -13,5 +13,5 @@ package com.atlassian.clover.api.optimization;
  */
 public interface Optimizable {
     /** @return non-null name */
-    public String getName();
+    String getName();
 }

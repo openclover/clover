@@ -11,9 +11,9 @@ import com.atlassian.clover.Logger;
 
 public interface FilesetFileVisitor {
 
-    public void visit(File file);
+    void visit(File file);
 
-    static class Util {
+    class Util {
 
         static void collectFiles(Project project, List<FileSet> fileSets, FilesetFileVisitor visitor) {
             collectFiles(project, fileSets, false, visitor);

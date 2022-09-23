@@ -214,13 +214,13 @@ public class InMemPerTestCoverage extends BasePerTestCoverage implements Seriali
 
     /** Predicate for filtering on tcis */
     private interface TestCaseInfoPredicate {
-        static final TestCaseInfoPredicate SUCCESS_ONLY = new TestCaseInfoPredicate() {
+        TestCaseInfoPredicate SUCCESS_ONLY = new TestCaseInfoPredicate() {
             @Override
             public boolean eval(final TestCaseInfo tci) {
                 return tci.isSuccess();
             }
         };
-        static final TestCaseInfoPredicate ALL = new TestCaseInfoPredicate() {
+        TestCaseInfoPredicate ALL = new TestCaseInfoPredicate() {
             @Override
             public boolean eval(final TestCaseInfo tci) {
                 return true;

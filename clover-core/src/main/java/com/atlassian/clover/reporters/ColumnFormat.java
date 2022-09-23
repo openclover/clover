@@ -13,15 +13,15 @@ import static clover.com.google.common.collect.Maps.newHashMap;
  */
 public interface ColumnFormat {
 
-    final static String PERCENTAGE = "%";
-    final static String PC = "pc";
-    final static String RAW = "raw";
-    final static String BAR = "bar";
-    final static String LONGBAR = "longbar";
-    final static String SHORTBAR = "shortbar";
+    String PERCENTAGE = "%";
+    String PC = "pc";
+    String RAW = "raw";
+    String BAR = "bar";
+    String LONGBAR = "longbar";
+    String SHORTBAR = "shortbar";
 
-    public static final String SORT_TYPE_NUMBER = "number";
-    public static final String SORT_TYPE_ALPHA = "alpha";
+    String SORT_TYPE_NUMBER = "number";
+    String SORT_TYPE_ALPHA = "alpha";
 
     String format(Column.ColumnData data);
 
@@ -47,7 +47,7 @@ public interface ColumnFormat {
 
     boolean isWithinThreshold(Column.ColumnData data, float min, float max);
 
-    static class Factory {
+    class Factory {
 
         private static final Map<String, ColumnFormat> FORMATS = newHashMap();
         static {
@@ -64,7 +64,7 @@ public interface ColumnFormat {
         }
     }
 
-    static class IntColumnFormat extends FloatColumnFormat {
+    class IntColumnFormat extends FloatColumnFormat {
         @Override
         public String format(Column.ColumnData data) {
             return Formatting.formatInt((int) data.getValue());
@@ -79,7 +79,7 @@ public interface ColumnFormat {
     /**
      * A formatter to use when there is no data and an error message should be displayed instead.
      */
-    static class ErrorColumnFormat implements ColumnFormat {
+    class ErrorColumnFormat implements ColumnFormat {
 
         private final String errorMsg;
 
@@ -123,7 +123,7 @@ public interface ColumnFormat {
         }
     }
 
-    static class FloatColumnFormat implements ColumnFormat {
+    class FloatColumnFormat implements ColumnFormat {
 
         @Override
         public String format(Column.ColumnData data) {
@@ -161,7 +161,7 @@ public interface ColumnFormat {
         }
     }
 
-    static class PercentageColumnFormat extends FloatColumnFormat {
+    class PercentageColumnFormat extends FloatColumnFormat {
 
         @Override
         public String format(Column.ColumnData data) {
@@ -196,7 +196,7 @@ public interface ColumnFormat {
 
     }
 
-    abstract static class BarGraphColumnFormat extends PercentageColumnFormat {
+    abstract class BarGraphColumnFormat extends PercentageColumnFormat {
 
         @Override
         public String format(Column.ColumnData data) {
@@ -226,14 +226,14 @@ public interface ColumnFormat {
         abstract int getBarSize();
     }
 
-    static class ShortBarGraphColumnFormat extends BarGraphColumnFormat {
+    class ShortBarGraphColumnFormat extends BarGraphColumnFormat {
         @Override
         int getBarSize() {
             return 40;
         }
     }
 
-    static class LongBarGraphColumnFormat extends BarGraphColumnFormat {
+    class LongBarGraphColumnFormat extends BarGraphColumnFormat {
         @Override
         int getBarSize() {
             return 200;

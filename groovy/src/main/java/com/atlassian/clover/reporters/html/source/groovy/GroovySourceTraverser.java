@@ -227,6 +227,6 @@ public class GroovySourceTraverser implements SourceTraverser {
     }
 
     private interface Closure<T> {
-        public void perform(T t);
+        void perform(T t);
     }
 }

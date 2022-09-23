@@ -23,7 +23,7 @@ public class PrefixTree<K, V> {
      * @param <K> sub-key type
      * @param <V> value type
      */
-    public static interface Node<K, V> {
+    public interface Node<K, V> {
         @Nullable
         V getValue();
 
@@ -64,14 +64,14 @@ public class PrefixTree<K, V> {
         }
     }
 
-    public static interface NodeFactory {
+    public interface NodeFactory {
         <K, V> Node<K, V> createNode(@NotNull K key, @Nullable V value);
 
         /** Make a shallow copy of Node#children() */
         <K, V> Map<K, Node<K, V>> cloneChildren(@NotNull Node<K, V> node);
     }
 
-    public static interface NodeVisitor<K, V> {
+    public interface NodeVisitor<K, V> {
         /**
          * Visit given node.
          * @param node current node

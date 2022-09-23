@@ -4,9 +4,9 @@ package com.atlassian.clover.api.registry;
  *
  */
 public interface ElementInfo extends SourceInfo {
-    public int getHitCount();
+    int getHitCount();
 
-    public ContextSet getContext();
+    ContextSet getContext();
 
     /**
      * Returns cyclomatic complexity of this code element

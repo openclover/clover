@@ -18,7 +18,7 @@ public interface Integrator {
      */
     void decorateArguments(List<String> args);
 
-    public static class Factory {
+    class Factory {
 
         /**
          * Creates an integrator for Ant, using the given options.

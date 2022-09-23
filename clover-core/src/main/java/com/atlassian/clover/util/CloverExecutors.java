@@ -105,6 +105,5 @@ public class CloverExecutors {
         public void uncaughtException(Thread thread, Throwable throwable) {
             Logger.getInstance().error(thread.getName(), throwable);
         }
-    };
-
+    }
 }

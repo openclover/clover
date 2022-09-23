@@ -275,7 +275,7 @@ public class SamplingPerTestCoverage extends BasePerTestCoverage {
                                 e);
                         }
                     }
-                    tciIter.remove();;
+                    tciIter.remove();
                 }
             }
         }

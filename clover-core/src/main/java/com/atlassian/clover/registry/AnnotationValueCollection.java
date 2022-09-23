@@ -5,5 +5,5 @@ package com.atlassian.clover.registry;
  * left to implementing classes.
  */
 public interface AnnotationValueCollection {
-    public void put(String key, PersistentAnnotationValue value);
+    void put(String key, PersistentAnnotationValue value);
 }
