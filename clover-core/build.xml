@@ -15,12 +15,12 @@
     <property name="clover-core.output.gensources" location="${clover-core.output}/src-generated"/>
     <property name="clover-core.jar" location="${clover-core.output}/clover-core.jar"/>
 
-    <fileset id="clover-core.3rdparty.rights.fileset" dir="${clover-core.base}/etc">
+    <fileset id="clover-core.3rdparty.rights.fileset" dir="${clover-core.base}/src/main/resources">
         <include name="licenses/*"/>
         <include name="LICENSES.html"/>
     </fileset>
 
-    <fileset id="clover-core.openclover.rights.fileset" dir="${clover-core.base}/etc">
+    <fileset id="clover-core.openclover.rights.fileset" dir="${clover-core.base}/src/main/resources">
         <include name="LICENSE.txt"/>
     </fileset>
 
@@ -137,7 +137,7 @@
     <target name="_clover-core.copy.templates">
         <mkdir dir="${clover-core.output.classes}/html_res"/>
         <copy todir="${clover-core.output.classes}/html_res">
-            <fileset dir="${clover-core.base}/etc/html_res" includes="**/*"/>
+            <fileset dir="${clover-core.base}/src/main/resources/html_res" includes="**/*"/>
         </copy>
     </target>
 
@@ -245,10 +245,10 @@
     <target name="clover-core.image" depends="clover-core.build, _clover-core.copy.templates">
         <mkdir dir="${clover-core.output.classes}/pdf_res"/>
         <copy todir="${clover-core.output.classes}/pdf_res">
-            <fileset dir="${clover-core.base}/etc/pdf_res"/>
+            <fileset dir="${clover-core.base}/src/main/resources/pdf_res"/>
         </copy>
         <copy todir="${clover-core.output.classes}/html_res">
-            <fileset dir="${clover-core.base}/etc/html_res">
+            <fileset dir="${clover-core.base}/src/main/resources/html_res">
                 <include name="**/*.png"/>
                 <include name="**/*.gif"/>
                 <include name="**/*.ico"/>
