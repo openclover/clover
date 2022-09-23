@@ -778,8 +778,10 @@ typeSpec returns [String spec]
 }
     :
       ( options { greedy=true; }: ann=annotation )*
-      spec = classTypeSpec
-    | spec = builtInTypeSpec
+      (
+          spec = classTypeSpec
+        | spec = builtInTypeSpec
+      )
     ;
 
 arraySpecOpt returns [String brackets]
