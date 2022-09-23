@@ -188,7 +188,7 @@ class RegHeaderTest {
         final File regFile = File.createTempFile("clover", "db")
         regFile.deleteOnExit()
         FileChannel channel = new FileOutputStream(regFile).getChannel()
-        final RegHeader header1
+        RegHeader header1 = null
         try {
             header1 = new RegHeader(RegAccessMode.READWRITE, 0L, 0, CoverageSegment.NONE_IDX, InstrSessionSegment.NONE_IDX,
                     testName.methodName)
@@ -206,7 +206,7 @@ class RegHeaderTest {
         assertEquals(header1.getVersion(), header2.getVersion())
 
         channel = new FileOutputStream(regFile).getChannel()
-        final RegHeader header3
+        RegHeader header3 = null
         try {
             header3 = new RegHeader(RegAccessMode.READONLY, System.currentTimeMillis(), 20, 256L, Long.MAX_VALUE,
                     testName.methodName)
