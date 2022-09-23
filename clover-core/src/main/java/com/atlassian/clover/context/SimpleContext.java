@@ -1,5 +1,7 @@
 package com.atlassian.clover.context;
 
+import java.util.Objects;
+
 public class SimpleContext implements NamedContext {
     private int index;
     private String name;
@@ -42,7 +44,7 @@ public class SimpleContext implements NamedContext {
         SimpleContext that = (SimpleContext) o;
 
         if (index != that.index) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (!Objects.equals(name, that.name)) return false;
 
         return true;
     }

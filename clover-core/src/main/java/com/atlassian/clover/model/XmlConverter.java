@@ -66,78 +66,90 @@ public class XmlConverter {
             if (seenProjectElement) {
                 return;
             }
-            if (qName.equals(XmlNames.E_COVERAGE)) {
-                model.setVersion(getAttribute(atts, XmlNames.A_CLOVER, "????"));
-                model.setGenerated(Long.parseLong(atts.getValue(XmlNames.A_GENERATED)));
-            } else if (qName.equals(XmlNames.E_PROJECT)) {
-                currentLevel = PROJECT_LEVEL;
-                if (requiredLevel >= currentLevel) {
-                    project = new FullProjectInfo(
-                            atts.getValue(XmlNames.A_NAME, ""),
-                            Long.parseLong(atts.getValue(XmlNames.A_TIMESTAMP)));
-                    model.setProject(project);
-                    currentEntity = project;
-                }
-            } else if (qName.equals(XmlNames.E_PACKAGE)) {
-                currentLevel = PACKAGE_LEVEL;
-                if (requiredLevel >= currentLevel) {
-                    pkg = new FullPackageInfo(project, atts.getValue(XmlNames.A_NAME), 0);
-                    project.addPackage(pkg);
-                    currentEntity = pkg;
-                }
-            } else if (qName.equals(XmlNames.E_FILE)) {
-                currentLevel = FILE_LEVEL;
-                if (requiredLevel >= currentLevel) {
-                    file = new FullFileInfo(
-                            pkg,
-                            new File(atts.getValue(XmlNames.A_NAME)),
-                            atts.getValue(XmlNames.A_ENCODING),
-                            0, 0, 0, 0, 0, 0, 0); //hack - old historypoints don't have these values, so leave em as zero for the moment. new ones should
-                    pkg.addFile(file);
-                    currentEntity = file;
-                }
-            } else if (qName.equals(XmlNames.E_CLASS)) {
-                currentLevel = CLASS_LEVEL;
-                if (requiredLevel >= currentLevel) {
-                    FullClassInfo clazz = new FullClassInfo(
-                            pkg, file, 0, atts.getValue(XmlNames.A_NAME),
-                            new FixedSourceRegion(0, 0, 0, 0)/* TODO */,
-                            new Modifiers(),
-                            false, false, false); //hack - old historypoints don't have these values, so leave em as zero for the moment. new ones should
-                    file.addClass(clazz);
-                    currentEntity = clazz;
-                }
-            } else if (qName.equals(XmlNames.E_METRICS)) {
-                BlockMetrics mets = getMetrics(atts, currentEntity);
-                if (requiredLevel >= currentLevel) {
-                    currentEntity.setMetrics(mets);
-                }
-            } else {
-                // ignore
+            switch (qName) {
+                case XmlNames.E_COVERAGE:
+                    model.setVersion(getAttribute(atts, XmlNames.A_CLOVER, "????"));
+                    model.setGenerated(Long.parseLong(atts.getValue(XmlNames.A_GENERATED)));
+                    break;
+                case XmlNames.E_PROJECT:
+                    currentLevel = PROJECT_LEVEL;
+                    if (requiredLevel >= currentLevel) {
+                        project = new FullProjectInfo(
+                                atts.getValue(XmlNames.A_NAME, ""),
+                                Long.parseLong(atts.getValue(XmlNames.A_TIMESTAMP)));
+                        model.setProject(project);
+                        currentEntity = project;
+                    }
+                    break;
+                case XmlNames.E_PACKAGE:
+                    currentLevel = PACKAGE_LEVEL;
+                    if (requiredLevel >= currentLevel) {
+                        pkg = new FullPackageInfo(project, atts.getValue(XmlNames.A_NAME), 0);
+                        project.addPackage(pkg);
+                        currentEntity = pkg;
+                    }
+                    break;
+                case XmlNames.E_FILE:
+                    currentLevel = FILE_LEVEL;
+                    if (requiredLevel >= currentLevel) {
+                        file = new FullFileInfo(
+                                pkg,
+                                new File(atts.getValue(XmlNames.A_NAME)),
+                                atts.getValue(XmlNames.A_ENCODING),
+                                0, 0, 0, 0, 0, 0, 0); //hack - old historypoints don't have these values, so leave em as zero for the moment. new ones should
+                        pkg.addFile(file);
+                        currentEntity = file;
+                    }
+                    break;
+                case XmlNames.E_CLASS:
+                    currentLevel = CLASS_LEVEL;
+                    if (requiredLevel >= currentLevel) {
+                        FullClassInfo clazz = new FullClassInfo(
+                                pkg, file, 0, atts.getValue(XmlNames.A_NAME),
+                                new FixedSourceRegion(0, 0, 0, 0)/* TODO */,
+                                new Modifiers(),
+                                false, false, false); //hack - old historypoints don't have these values, so leave em as zero for the moment. new ones should
+                        file.addClass(clazz);
+                        currentEntity = clazz;
+                    }
+                    break;
+                case XmlNames.E_METRICS:
+                    BlockMetrics mets = getMetrics(atts, currentEntity);
+                    if (requiredLevel >= currentLevel) {
+                        currentEntity.setMetrics(mets);
+                    }
+                    break;
+                default:
+                    // ignore
+                    break;
             }
         }
 
         @Override
         public void endElement(String namespaceURI, String localName, String qName) {
-            if (qName.equals(XmlNames.E_PROJECT)) {
-                currentLevel = TOP_LEVEL;
-                seenProjectElement = true;
-            } else if (qName.equals(XmlNames.E_PACKAGE)) {
-                currentLevel = PROJECT_LEVEL;
-                if (currentEntity instanceof BasePackageInfo) {
-                    currentEntity = ((BasePackageInfo) currentEntity).getContainingProject();
-                }
-
-            } else if (qName.equals(XmlNames.E_FILE)) {
-                currentLevel = PACKAGE_LEVEL;
-                if (currentEntity instanceof BaseFileInfo) {
-                    currentEntity = ((BaseFileInfo) currentEntity).getContainingPackage();
-                }
-            } else if (qName.equals(XmlNames.E_CLASS)) {
-                currentLevel = FILE_LEVEL;
-                if (currentEntity instanceof BaseClassInfo) {
-                    currentEntity = ((BaseClassInfo) currentEntity).getContainingFile();
-                }
+            switch (qName) {
+                case XmlNames.E_PROJECT:
+                    currentLevel = TOP_LEVEL;
+                    seenProjectElement = true;
+                    break;
+                case XmlNames.E_PACKAGE:
+                    currentLevel = PROJECT_LEVEL;
+                    if (currentEntity instanceof BasePackageInfo) {
+                        currentEntity = ((BasePackageInfo) currentEntity).getContainingProject();
+                    }
+                    break;
+                case XmlNames.E_FILE:
+                    currentLevel = PACKAGE_LEVEL;
+                    if (currentEntity instanceof BaseFileInfo) {
+                        currentEntity = ((BaseFileInfo) currentEntity).getContainingPackage();
+                    }
+                    break;
+                case XmlNames.E_CLASS:
+                    currentLevel = FILE_LEVEL;
+                    if (currentEntity instanceof BaseClassInfo) {
+                        currentEntity = ((BaseClassInfo) currentEntity).getContainingFile();
+                    }
+                    break;
             }
         }
 

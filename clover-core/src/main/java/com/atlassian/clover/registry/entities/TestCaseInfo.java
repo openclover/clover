@@ -10,6 +10,7 @@ import java.io.ObjectStreamException;
 import java.io.Serializable;
 import java.lang.ref.WeakReference;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import static clover.com.google.common.collect.Maps.newHashMap;
@@ -360,16 +361,16 @@ public class TestCaseInfo implements Serializable {
         if (failure != that.failure) return false;
         if (hasResult != that.hasResult) return false;
         if (startTime != that.startTime) return false;
-        if (failFullMessage != null ? !failFullMessage.equals(that.failFullMessage) : that.failFullMessage != null)
+        if (!Objects.equals(failFullMessage, that.failFullMessage))
             return false;
-        if (failMessage != null ? !failMessage.equals(that.failMessage) : that.failMessage != null) return false;
-        if (failType != null ? !failType.equals(that.failType) : that.failType != null) return false;
-        if (runtimeTypeName != null ? !runtimeTypeName.equals(that.runtimeTypeName) : that.runtimeTypeName != null)
+        if (!Objects.equals(failMessage, that.failMessage)) return false;
+        if (!Objects.equals(failType, that.failType)) return false;
+        if (!Objects.equals(runtimeTypeName, that.runtimeTypeName))
             return false;
-        if (sourceMethodName != null ? !sourceMethodName.equals(that.sourceMethodName) : that.sourceMethodName != null)
+        if (!Objects.equals(sourceMethodName, that.sourceMethodName))
             return false;
-        if (staticTestName != null ? !staticTestName.equals(that.staticTestName) : that.staticTestName != null) return false;
-        if (runtimeTestName != null ? !runtimeTestName.equals(that.runtimeTestName) : that.runtimeTestName != null) return false;
+        if (!Objects.equals(staticTestName, that.staticTestName)) return false;
+        if (!Objects.equals(runtimeTestName, that.runtimeTestName)) return false;
 
         return true;
     }

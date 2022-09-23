@@ -4,6 +4,7 @@ import com.atlassian.clover.registry.entities.FullProjectInfo;
 import com.atlassian.clover.registry.entities.TestCaseInfo;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /** Package-internal representation of a recorded call to a test method */
 class TestMethodCall implements Serializable {
@@ -67,11 +68,11 @@ class TestMethodCall implements Serializable {
 
         TestMethodCall that = (TestMethodCall)o;
 
-        if (packagePath != null ? !packagePath.equals(that.packagePath) : that.packagePath != null)
+        if (!Objects.equals(packagePath, that.packagePath))
             return false;
-        if (runtimeTypeName != null ? !runtimeTypeName.equals(that.runtimeTypeName) : that.runtimeTypeName != null)
+        if (!Objects.equals(runtimeTypeName, that.runtimeTypeName))
             return false;
-        if (sourceMethodName != null ? !sourceMethodName.equals(that.sourceMethodName) : that.sourceMethodName != null)
+        if (!Objects.equals(sourceMethodName, that.sourceMethodName))
             return false;
 
         return true;

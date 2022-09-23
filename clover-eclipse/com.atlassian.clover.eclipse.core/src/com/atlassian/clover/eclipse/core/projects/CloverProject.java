@@ -65,6 +65,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import static clover.com.google.common.collect.Lists.newArrayList;
@@ -798,7 +799,7 @@ public class CloverProject extends BaseNature {
 
             Version version = (Version) o;
 
-            if (label != null ? !label.equals(version.label) : version.label != null) return false;
+            if (!Objects.equals(label, version.label)) return false;
 
             return true;
         }

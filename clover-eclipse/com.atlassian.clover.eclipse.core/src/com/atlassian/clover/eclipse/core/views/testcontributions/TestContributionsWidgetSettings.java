@@ -32,7 +32,7 @@ public abstract class TestContributionsWidgetSettings
 
             String reverseSort = memento.getString(prefix(REVERSE_SORT));
             if (reverseSort != null) {
-                this.reverseSort = Boolean.valueOf(reverseSort);
+                this.reverseSort = Boolean.parseBoolean(reverseSort);
             }
 
             for (int i = 0; i < columnWidths.length; i++) {

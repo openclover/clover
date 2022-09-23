@@ -1,5 +1,7 @@
 package com.atlassian.clover.util.collections;
 
+import java.util.Objects;
+
 /** Special thanks to Dick Wall */
 public class Pair<A, B> {
     public final A first;
@@ -23,12 +25,10 @@ public class Pair<A, B> {
             return false;
         }
         final Pair other = (Pair) obj;
-        if (this.first != other.first &&
-                (this.first == null || !this.first.equals(other.first))) {
+        if (!Objects.equals(this.first, other.first)) {
             return false;
         }
-        if (this.second != other.second &&
-                (this.second == null || !this.second.equals(other.second))) {
+        if (!Objects.equals(this.second, other.second)) {
             return false;
         }
         return true;

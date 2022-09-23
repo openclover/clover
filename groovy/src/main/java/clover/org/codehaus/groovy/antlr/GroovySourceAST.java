@@ -143,7 +143,7 @@ public class GroovySourceAST extends CommonAST implements Comparable, SourceInfo
     }
 
     public GroovySourceAST childAt(int position) {
-        List list = newArrayList();
+        List<AST> list = newArrayList();
         AST child = this.getFirstChild();
         while (child != null) {
             list.add(child);

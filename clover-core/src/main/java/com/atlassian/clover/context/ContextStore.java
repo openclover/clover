@@ -28,6 +28,7 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.concurrent.ConcurrentHashMap;
@@ -552,9 +553,9 @@ public class ContextStore implements TaggedPersistent {
         ContextStore that = (ContextStore)o;
 
         if (nextIndex != that.nextIndex) return false;
-        if (methodContexts != null ? !methodContexts.equals(that.methodContexts) : that.methodContexts != null)
+        if (!Objects.equals(methodContexts, that.methodContexts))
             return false;
-        if (statementContexts != null ? !statementContexts.equals(that.statementContexts) : that.statementContexts != null)
+        if (!Objects.equals(statementContexts, that.statementContexts))
             return false;
 
         return true;

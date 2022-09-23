@@ -1,5 +1,7 @@
 package com.atlassian.clover.eclipse.core.projects.settings.source;
 
+import java.util.Objects;
+
 public class SourceFolderPattern {
     private final String srcPath;
     private final String includePattern;
@@ -50,11 +52,11 @@ public class SourceFolderPattern {
 
         if (enabled != that.enabled)
             return false;
-        if (excludePattern != null ? !excludePattern.equals(that.excludePattern) : that.excludePattern != null)
+        if (!Objects.equals(excludePattern, that.excludePattern))
             return false;
-        if (includePattern != null ? !includePattern.equals(that.includePattern) : that.includePattern != null)
+        if (!Objects.equals(includePattern, that.includePattern))
             return false;
-        if (srcPath != null ? !srcPath.equals(that.srcPath) : that.srcPath != null)
+        if (!Objects.equals(srcPath, that.srcPath))
             return false;
 
         return true;

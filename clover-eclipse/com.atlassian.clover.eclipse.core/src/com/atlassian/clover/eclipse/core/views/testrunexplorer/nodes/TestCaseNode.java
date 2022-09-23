@@ -7,6 +7,8 @@ import com.atlassian.clover.registry.entities.TestCaseInfo;
 import com.atlassian.clover.eclipse.core.views.nodes.Nodes;
 import com.atlassian.clover.eclipse.core.views.nodes.JavaElementNode;
 
+import java.util.Objects;
+
 public class TestCaseNode extends JavaElementNode {
     public static final int STATUS_PASS = -1;
     public static final int STATUS_FAIL = 0;
@@ -85,13 +87,13 @@ public class TestCaseNode extends JavaElementNode {
         if (startTime != that.startTime) return false;
         if (status != that.status) return false;
         if (tciId != that.tciId) return false;
-        if (failureMessage != null ? !failureMessage.equals(that.failureMessage) : that.failureMessage != null)
+        if (!Objects.equals(failureMessage, that.failureMessage))
             return false;
-        if (fullFailureMessage != null ? !fullFailureMessage.equals(that.fullFailureMessage) : that.fullFailureMessage != null)
+        if (!Objects.equals(fullFailureMessage, that.fullFailureMessage))
             return false;
-        if (testCaseIcon != null ? !testCaseIcon.equals(that.testCaseIcon) : that.testCaseIcon != null)
+        if (!Objects.equals(testCaseIcon, that.testCaseIcon))
             return false;
-        if (testMethod != null ? !testMethod.equals(that.testMethod) : that.testMethod != null)
+        if (!Objects.equals(testMethod, that.testMethod))
             return false;
 
         return true;
