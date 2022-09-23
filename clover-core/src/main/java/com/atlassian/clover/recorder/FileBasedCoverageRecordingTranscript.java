@@ -1,12 +1,12 @@
 package com.atlassian.clover.recorder;
 
-import clover.org.apache.commons.lang3.mutable.MutableLong;
 import com.atlassian.clover.CoverageDataSpec;
 import com.atlassian.clover.util.CoverageUtils;
 
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class FileBasedCoverageRecordingTranscript extends BaseCoverageRecording implements GlobalCoverageRecordingTranscript {
     protected int[] hitCounts;
@@ -23,7 +23,7 @@ public class FileBasedCoverageRecordingTranscript extends BaseCoverageRecording 
 
     @Override
     public void read(DataInputStream in, CoverageDataSpec spec) throws IOException {
-        MutableLong sum = new MutableLong(0);
+        AtomicLong sum = new AtomicLong(0);
         hitCounts = CoverageUtils.readCoverageAndSumCoverage(in, sum);
         coverageSum = sum.longValue();
     }

@@ -58,12 +58,6 @@
             </patternset>
         </unzip>
         <unzip src="${clover.cajo.jar}" dest="${clover-runtime.output.classes}"/>
-        <unzip src="${clover.commons-lang3.jar}" dest="${clover-runtime.output.classes}">
-            <patternset>
-                <include name="clover/org/apache/commons/lang3/mutable/Mutable*"/>
-                <include name="clover/org/apache/commons/lang3/mutable/MutableLong*"/>
-            </patternset>
-        </unzip>
         <unzip src="${clover.slf4j.jar}" dest="${clover-runtime.output.classes}"/>
     </target>
 
