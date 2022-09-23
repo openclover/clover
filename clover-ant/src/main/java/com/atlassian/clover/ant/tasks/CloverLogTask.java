@@ -196,20 +196,14 @@ public class CloverLogTask extends AbstractCloverTask {
     /**
      * Sets whether to show unit test summary (total number of tests, number of tests run,
      * number of passed / failed / error)
-     * @param show
      */
     public void setShowUnitTests(final boolean show) {
         showUnitTests = show;
     }
 
-    /**
-     *
-     * @param span
-     */
     public void setSpan(final Interval span) {
         this.span = span;
     }
-
 
     /**
      * Print the coverage information to the Ant log

@@ -37,7 +37,7 @@ import static clover.com.google.common.collect.Maps.newHashMap;
  * This model of per-test coverage does not retain all coverage data in memory but rather
  * keeps a reference to each per test coverage file on disk and loads on demand.
  * A capacity LRU cache is used to reduce disk IO.
- *
+ * <p/>
  * In order to maintain performance, it samples the first element (entry hit) of
  * each method in each FileInfo for the tests that that hit it then groups this
  * information at the file level. When coverage data for a range is requested, only the tests that hit

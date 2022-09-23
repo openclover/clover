@@ -26,9 +26,6 @@ public class TestCaseInfoLookup {
 
     /**
      * Search by a fully qualified test name, like "com.acme.FooTest.testThisFeature".
-     * It can also search by
-     * @param qualifiedName
-     * @return
      */
     public TestCaseInfo getBy(String qualifiedName) {
         return byQualifiedName.get(qualifiedName);

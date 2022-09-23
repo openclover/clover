@@ -10,7 +10,6 @@ public class StringFormatting {
      * @param src   the source string
      * @param match  the string to look for
      * @param subs  the string to replace it with
-     * @return
      */
     public static String replaceAll(String src, String match, String subs) {
         StringBuilder buf = new StringBuilder(src.length());

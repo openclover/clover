@@ -7,7 +7,6 @@ import java.util.List;
 
 /**
  * An Integrator is designed to provied a simple means to enable Clover for a build from a CI environment.
- *
  * This interface also contains a Factory for creating new instances of implementing Integrator classes.
  */
 public interface Integrator {

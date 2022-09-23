@@ -147,9 +147,6 @@ public class FileUtils {
      * directory layout. If <pre>deleteDestDir</pre> is set to true, destination directory will be deleted if exists.
      * Otherwise files/subdirectories from source directory will be added to existing target directory (possibly
      * overwriting existing files). Note that timestamps are not preserved.
-     * @param srcDir
-     * @param destDir
-     * @param deleteDestDir
      */
     public static void dirCopy(File srcDir, File destDir, boolean deleteDestDir) throws IOException {
         // check input arguments
@@ -238,7 +235,6 @@ public class FileUtils {
 
     /**
      * Converts all backslashes to forward-slashes, so that Unix-style file separator is used.
-     * @param inputPath
      * @return normalized path (or null if inputPath is null)
      */
     public static String getNormalizedPath(String inputPath) {
@@ -248,7 +244,6 @@ public class FileUtils {
     /**
      * Converts all forward-slashes and back-slashes to a platform-specific file separator
      * (i.e. '/' on Unix, '\' on Windows). The File.separatorChar is used.
-     * @param inputPath
      * @return converted path (or null if inputPath is null)
      */
     public static String getPlatformSpecificPath(String inputPath) {
@@ -510,7 +505,6 @@ public class FileUtils {
     }
 
     /**
-     * @param dir
      * @return new File(".") if dir is null
      */
     public static File getCurrentDirIfNull(File dir) {

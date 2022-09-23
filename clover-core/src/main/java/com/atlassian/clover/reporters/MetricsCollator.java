@@ -37,7 +37,6 @@ public class MetricsCollator {
      * Given a list of {@link com.atlassian.clover.api.registry.ClassInfo} objects,
      * return a list of {@link com.atlassian.clover.api.registry.MethodInfo} s, ranked
      * by PC COvered (asc), Num Elements Uncovered and Complexity.
-     * @param classes
      * @return List&lt;MethodInfo&gt;
      */
     public List<MethodInfo> getLeastTestedMethods(final List<? extends ClassInfo> classes,

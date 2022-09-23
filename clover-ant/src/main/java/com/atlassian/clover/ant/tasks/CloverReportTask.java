@@ -127,9 +127,6 @@ public class CloverReportTask extends AbstractCloverTask {
             }
         }
 
-        /**
-         * @param fileset
-         */
         public void addTestResults(FileSet fileset) {
             testResults.add(fileset);
         }

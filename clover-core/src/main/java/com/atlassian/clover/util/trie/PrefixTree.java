@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Implementation of the prefix tree (trie) data structure http://en.wikipedia.org/wiki/Trie
+ * Implementation of the prefix tree (trie) data structure <a href="http://en.wikipedia.org/wiki/Trie">Trie</a>
  *
  * @param <K> type of the sub-key
  * @param <V> value to be stored in a leaf
@@ -233,7 +233,7 @@ public class PrefixTree<K, V> {
      * Walk through all the nodes of the prefix tree (including empty intermediate nodes) calling the callback.
      * Walking is performed IN-ORDER (current node first, next children). It's not specified in which order child
      * nodes will be visited.
-     *
+     * <p/>
      * Walking assumes that the NodeVisitor will not replace instances of the nodes (i.e. that tree structure
      * does not change while walking).
      *
@@ -248,7 +248,7 @@ public class PrefixTree<K, V> {
      * Walk through all the nodes of the prefix tree (including empty intermediate nodes) calling the callback.
      * Walking is performed IN-ORDER (current node first, next children). It's not specified in which order child
      * nodes will be visited.
-     *
+     * <p/>
      * Walking assumes that the NodeVisitor will not replace instances of the nodes (i.e. that tree structure
      * does not change while walking).
      *
@@ -268,7 +268,7 @@ public class PrefixTree<K, V> {
      * Walk through all the nodes of the prefix tree (including empty intermediate nodes) calling the callback.
      * Walking is performed IN-DEPTH (children first, current node last). It's not specified in which order child
      * nodes will be visited.
-     *
+     * <p/>
      * Walking assumes that the NodeVisitor may replace instances of the nodes (i.e. that tree structure
      * may change while walking).
      *
@@ -284,7 +284,7 @@ public class PrefixTree<K, V> {
      * Walk through all the nodes of the prefix tree (including empty intermediate nodes) calling the callback.
      * Walking is performed IN-DEPTH (children first, current node last). It's not specified in which order child
      * nodes will be visited.
-     *
+     * <p/>
      * Walking assumes that the NodeVisitor may replace instances of the nodes (i.e. that tree structure
      * may change while walking).
      *

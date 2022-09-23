@@ -2111,7 +2111,7 @@ lambdaFunction returns [CloverToken last]
 
     last = null;
 
-    /**
+    /*
      * A pair of marker tokens used to remember a class cast. This pair of markers is used to solve type-inference for
      * lambdaInc wrapper. For example:
      * <pre>
@@ -2484,7 +2484,7 @@ unaryExpressionNotPlusMinus[CloverToken classCastStart, CloverToken classCastEnd
  */
 postfixExpression[CloverToken classCastStart, CloverToken classCastEnd]
 {
-    /**
+    /*
      * A marker token to remember where the method reference starts (like "Math::abs" or "String::new" or "int[]::new"
      * This is declared as a field and not as a local variable of a rule, because it must be shared between
      * postfixExpression (start and end of a reference) and supplementaryExpressionPart (end of an array constructor

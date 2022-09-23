@@ -247,11 +247,11 @@ public class JSONObject {
      * with <code>"get"</code> or <code>"is"</code> followed by an uppercase letter,
      * the method is invoked, and a key and the value returned from the getter method
      * are put into the new JSONObject.
-     *
+     * <p/>
      * The key is formed by removing the <code>"get"</code> or <code>"is"</code> prefix. If the second remaining
      * character is not upper case, then the first
      * character is converted to lower case.
-     *
+     * <p/>
      * For example, if an object has a method named <code>"getName"</code>, and
      * if the result of calling <code>object.getName()</code> is <code>"Larry Fine"</code>,
      * then the JSONObject will contain <code>"name": "Larry Fine"</code>.
@@ -727,7 +727,6 @@ public class JSONObject {
      * @param key   A key string.
      * @param value A Collection value.
      * @return      this.
-     * @throws JSONException
      */
     public JSONObject put(String key, Collection value) throws JSONException {
         put(key, new JSONArray(value));
@@ -953,7 +952,6 @@ public class JSONObject {
      * @param key   A key string.
      * @param value A Map value.
      * @return      this.
-     * @throws JSONException
      */
     public JSONObject put(String key, Map value) throws JSONException {
         put(key, new JSONObject(value));
@@ -1351,7 +1349,6 @@ public class JSONObject {
       * Warning: This method assumes that the data structure is acyclical.
       *
       * @return The writer.
-      * @throws JSONException
       */
      public Writer write(Writer writer) throws JSONException {
         try {

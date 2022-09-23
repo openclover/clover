@@ -48,7 +48,6 @@ public class TestResultProcessor {
 
     /**
      * @return the number of test results processed
-     * @throws CloverException
      */
     public int scan() throws CloverException {
         Logger log = Logger.getInstance();

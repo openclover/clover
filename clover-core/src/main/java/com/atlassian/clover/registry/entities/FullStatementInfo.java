@@ -179,10 +179,8 @@ public class FullStatementInfo extends FullElementInfo<BasicElementInfo> impleme
     }
 
     /**
-     *
      * @param in input source
      * @return FullStatementInfo you must set the parent !
-     * @throws IOException
      */
     public static FullStatementInfo read(TaggedDataInput in) throws IOException {
         // read statement metadata

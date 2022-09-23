@@ -67,9 +67,6 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo> implements 
 
     /**
      * For method-in-class
-     * @param containingClass
-     * @param context
-     * @param methodInfo
      */
     public FullMethodInfo(FullClassInfo containingClass, ContextSet context, BasicMethodInfo methodInfo) {
         super(context, methodInfo);
@@ -78,9 +75,6 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo> implements 
 
     /**
      * For method-in-method
-     * @param containingMethod
-     * @param context
-     * @param methodInfo
      */
     public FullMethodInfo(FullMethodInfo containingMethod, ContextSet context, BasicMethodInfo methodInfo) {
         super(context, methodInfo);
@@ -89,9 +83,6 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo> implements 
 
     /**
      * For method-in-file
-     * @param containingFile
-     * @param context
-     * @param methodInfo
      */
     public FullMethodInfo(FullFileInfo containingFile, ContextSet context, BasicMethodInfo methodInfo) {
         super(context, methodInfo);

@@ -47,10 +47,10 @@ public class CloverCompilerAdapter implements CompilerAdapter {
      * smarts occur, and "-source" WILL NOT get passed to javac.exe; c) In
      * Ant1.5+, but when "with.clover" is enabled, then the "smarts" do not
      * kick in, java.exe complains that it does not understand "-source".
-     *
+     * <p/>
      * The problem c) occurs because the "smarts" depends on the setting of
      * the compilerVersion (aka build.compiler) property. <p>
-     *
+     * <p/>
      * The solution, which this class implements, is to "fudge" then
      * "restore" the compilerVersion setting before calling the underlying
      * compiler adapther

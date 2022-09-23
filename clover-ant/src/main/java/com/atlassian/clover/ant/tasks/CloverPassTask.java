@@ -265,9 +265,6 @@ public class CloverPassTask extends AbstractCloverTask {
         currentConfig.setSpan(span);
     }
 
-    /**
-     * @param fileset
-     */
     public void addTestResults(FileSet fileset) {
         testResults.add(fileset);
     }
@@ -276,9 +273,6 @@ public class CloverPassTask extends AbstractCloverTask {
         currentConfig.setIncludeFailedTestCoverage(include);
     }
 
-    /**
-     * @param fileset
-     */
     public void addTestSources(FileSet fileset) {
         testSources.add(fileset);
     }

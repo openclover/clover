@@ -570,7 +570,6 @@ public class FullClassInfo extends BaseClassInfo implements HasMetricsNode, Cove
      * find a method decl from its name
      * at the moment this method just returns the first method that has the requested name, or null
      *
-     * @param methodname
      * @return  FullMethodInfo or null if not found
      */
     public FullMethodInfo getTestMethodDeclaration(String methodname) {

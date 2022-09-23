@@ -270,7 +270,7 @@ public class RecorderInstrEmitter extends Emitter {
      * is that the proxy instance is unable to access non-public interfaces - it ends with an error
      * [java.lang.IllegalAccessException: Class CoverageRecorder$1 can not access a member of
      * class Xyz with modifiers "public abstract"].
-     *
+     * <p/>
      * Therefore in order to wrap a lambda implementing non-public interface, our wrapper must be in the same scope.
      *
      * @return String code for "lambdaInc"

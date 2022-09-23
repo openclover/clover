@@ -71,7 +71,7 @@ public class CloverDatabase {
      * @param includeFilter a filter that is applied to the loading of the registry. It controls what elements are visible to the database
      * @param name an alternative name for the model
      * @param filterSpec the filter to use when excluding metrics
-     * @param progressListener
+     * @param progressListener progress listener
      * @throws CloverException if something goes wrong.
      */
     public CloverDatabase(
@@ -255,7 +255,6 @@ public class CloverDatabase {
 
     /**
      * Gets test hits for a given range - FileInfo, ClassInfo etc
-     * @param range
      * @return a set of TestCaseInfos that hit the given receptor
      * @see CoverageDataProvider
      */
@@ -316,8 +315,6 @@ public class CloverDatabase {
      * @param update if true, merge any existing database at initString
      * @param updateSpan if update is true, the span to use when merging any existing database
      * @param listener gets progress callbacks
-     * @throws CloverException
-     * @throws IOException
      */
     public static void merge(List<CloverDatabaseSpec> dbspecs, String initString, boolean update, Interval updateSpan, ProgressListener listener) throws CloverException, IOException {
 

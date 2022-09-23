@@ -95,7 +95,6 @@ public class SourceBuffer {
 
     /**
      * Writes the specified character into the buffer
-     * @param c
      */
     public void write(int c) {
         if (c != -1) {

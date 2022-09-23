@@ -383,9 +383,6 @@ public class Grover implements ASTTransformation {
      *  <li>safe evalation</li>
      *  <li>test result recording</li>
      * </ul>
-     *
-     * @param fileInfo
-     * @param flagsForInstrumentedClasses
      */
     protected void addHelperFieldsAndMethods(final FullFileInfo fileInfo,
                                              final Map<ClassNode, GroovyInstrumentationResult> flagsForInstrumentedClasses) throws Exception {

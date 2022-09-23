@@ -103,9 +103,6 @@ public class CloverUtils {
      * Converts a class, including inner classes and anon. inner classes to
      * a class name that Clover can use when looking up coverage information.
      * Basically it's a hack - see CCD-294, CCD-307
-     *
-     * @param className
-     * @return String
      */
     public static String cloverizeClassName(String className) {
         return className == null ? className : className.replace('$', '.').replaceAll("\\.[0-9]+", "");

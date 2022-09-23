@@ -41,7 +41,6 @@ public class RenderTreeMapAction implements Callable {
      * Generate JSON to be used by the treemap in <a href="http://thejit.org/docs/files/Treemap-js.html">The Jit</a>.
      *
      * @return the json string that was created
-     * @throws Exception
      */
     @Override
     public Object call() throws Exception {
@@ -118,7 +117,7 @@ public class RenderTreeMapAction implements Callable {
 
 
     /**
-     * A class to model the json format required by http://thejit.org/docs/files/Treemap-js.html
+     * A class to model the json format required by <a href="http://thejit.org/docs/files/Treemap-js.html">Treemap-js</a>
      *
      *<pre>
      * var json = {

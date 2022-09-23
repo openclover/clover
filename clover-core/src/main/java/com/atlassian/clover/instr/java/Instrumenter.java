@@ -181,10 +181,6 @@ public class Instrumenter {
      * @param out the destination stream
      * @param fileEncoding encoding of the file being instrumented, a <code>null</code> value means undefined
      * @return FileStructureInfo - file reference to the instrumented version
-     * @throws CloverException      if something goes wrong
-     * @throws TokenStreamException
-     * @throws IOException
-     * @throws RecognitionException
      */
     public FileStructureInfo instrument(final @NotNull InstrumentationSource in, final @NotNull Writer out,
                                         final @Nullable String fileEncoding)
@@ -246,10 +242,6 @@ public class Instrumenter {
      * @param charSequence source text to be instrumented
      * @param fileEncoding original file encodng, a <code>null</code> value means undefined
      * @return CharSequence instrumented version of sources
-     * @throws TokenStreamException
-     * @throws IOException
-     * @throws RecognitionException
-     * @throws CloverException
      */
     public CharSequence instrument(final @NotNull File orig, final @NotNull CharSequence charSequence,
                                    final @Nullable String fileEncoding)

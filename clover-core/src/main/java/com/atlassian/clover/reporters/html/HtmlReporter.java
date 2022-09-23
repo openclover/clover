@@ -983,8 +983,6 @@ public class HtmlReporter extends CloverReporter {
     /**
      * Render tree map for a package and it's subpackages
      *
-     * @param pkg
-     * @param queue
      * @see #renderProjectTreeMapPage(com.atlassian.clover.util.CloverExecutor)
      */
     private void renderPkgTreeMapPage(FullPackageInfo pkg, CloverExecutor queue) {

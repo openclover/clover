@@ -45,11 +45,6 @@ public class CloverOptimizedTestNGSelector implements IAnnotationTransformer, IA
     /**
      * Add "clover-optimized" group to any method annotated with any of "@BeforeTest / @BeforeSuite / @AfterTest
      * / @AfterSuite" etc.
-     *
-     * @param annotation
-     * @param aClass
-     * @param constructor
-     * @param method
      */
     @Override
     public void transform(IConfigurationAnnotation annotation, Class aClass, Constructor constructor, Method method) {

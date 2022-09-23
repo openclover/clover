@@ -56,8 +56,6 @@ public abstract class AbstractInstrTask extends AbstractCloverTask {
      *         &lt;profiles&gt; ... &lt;/profiles&gt;
      *     &lt;/clover-setup|clover-instr&gt;
      * </pre>
-     *
-     * @param profiles
      */
     public void addConfiguredProfiles(AntCloverProfiles profiles) {
         // validate - we must have at least one profile named "default"

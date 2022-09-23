@@ -4,7 +4,6 @@ import java.util.StringTokenizer;
 
 /**
  * Default implementation of artifact versioning.
- *
  * Originally from Maven 3.0.3 (DefaultArtifactVersion)
  */
 public class LibraryVersion implements Comparable<LibraryVersion> {

@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * Represents a single class or it's equivalent (an interface, trait etc).
- *
+ * <p/>
  * Implemented interfaces:
  * <ul>
  *     <li>SourceInfo - represents content of the whole class</li>

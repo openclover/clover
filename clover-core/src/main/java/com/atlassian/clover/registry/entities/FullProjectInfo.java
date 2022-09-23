@@ -93,7 +93,6 @@ public class FullProjectInfo extends BaseProjectInfo implements HasMetricsNode, 
 
     /**
      * create a deep copy of this project tree, applying the filter to all levels
-     * @param filter
      * @return  filtered copy of the projectinfo
      */
     public FullProjectInfo copy(HasMetricsFilter filter) {
@@ -102,8 +101,6 @@ public class FullProjectInfo extends BaseProjectInfo implements HasMetricsNode, 
 
     /**
      * create a deep copy of this project tree, applying the filter and context set to all levels
-     * @param filter
-     * @param contextFilter
      * @return  filtered copy of the projectinfo
      */
     public FullProjectInfo copy(HasMetricsFilter filter, ContextSet contextFilter) {

@@ -94,13 +94,9 @@ public class TestCaseInfo implements Serializable {
     }
 
     /**
-     *
      * @param startTime  approximate time when test has started (in miliseconds since epoch), use 0 if unknown
      * @param endTime    approximate time when test has finished (in miliseconds since epoch), use 0 if unknown
      * @param duration   how long test was running (in seconds)
-     * @param runtimeTypeName
-     * @param sourceMethodName
-     * @param runtimeTestName
      */
     private TestCaseInfo(long startTime, long endTime, double duration,
                          String runtimeTypeName, String sourceMethodName, @Nullable String runtimeTestName) {
@@ -253,7 +249,6 @@ public class TestCaseInfo implements Serializable {
     /**
      * Manually set how long test was executing. Method is useful for parsing test results from external sources,
      * like JUnit XML files.
-     * @param duration
      */
     public void setDuration(double duration) {
         this.duration = duration;

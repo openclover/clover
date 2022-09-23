@@ -96,9 +96,6 @@ public class SnapshotPrinter {
      *      }
      *   }
      * </pre>
-     * @param snapshot
-     * @param out
-     * @throws JSONException
      */
     public static void jsonPrint(Snapshot snapshot, OutputStream out) throws JSONException {
         if (snapshot != null) {
