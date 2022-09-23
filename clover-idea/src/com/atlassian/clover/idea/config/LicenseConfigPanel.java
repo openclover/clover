@@ -17,6 +17,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 public class LicenseConfigPanel extends JPanel implements ActionListener {
     private JPanel summaryPanel;
@@ -111,7 +112,7 @@ public class LicenseConfigPanel extends JPanel implements ActionListener {
         if (vf.length == 1 && !vf[0].isDirectory()) {
             try {
                 byte[] contents = vf[0].contentsToByteArray();
-                setLicenseText(new String(contents, "UTF-8"));
+                setLicenseText(new String(contents, StandardCharsets.UTF_8));
                 return true;
             } catch (IOException e1) {
                 JOptionPane.showMessageDialog(null, e1.getMessage(), "Loading license file", JOptionPane.ERROR_MESSAGE);

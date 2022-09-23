@@ -3,7 +3,7 @@ package com.atlassian.clover.remote;
 /**
  */
 public interface Config {
-    static final String SEP = ":";
+    String SEP = ":";
 
     /**
      * Returns the name of this configuration object
@@ -13,7 +13,6 @@ public interface Config {
 
     /**
      * Returns true if this config is enabled.
-     *
      * This should be checked before calling any other methods on the config.
      * @return true if enabled, false otherwise.
      */

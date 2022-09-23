@@ -27,9 +27,10 @@ public class ArrayAnnotationValue implements PersistentAnnotationValue, Annotati
         values.addAll(Arrays.asList(annotationValues));
     }
 
-    /** Adds an annotation value to the array.
-     *  @key ignored
-     *  @value the annotation value
+    /**
+     * Adds an annotation value to the array.
+     * @param key ignored
+     * @param value the annotation value
      */
     @Override
     public void put(String key, PersistentAnnotationValue value) {

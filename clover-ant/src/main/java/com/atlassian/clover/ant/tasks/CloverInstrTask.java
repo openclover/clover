@@ -13,13 +13,12 @@ import java.util.Set;
 
 
 /**
- * 
  *   &lt;clover-instr srcdir="" destdir="" initstring="" &gt;
  *       &lt;fileset dir="foo"&gt;
  *           &lt;include name=""/&gt;
  *       &lt;/fileset&gt;
  *   &lt;/clover-instr&gt;
- *
+ * <p/>
  *   &lt;clover-instr srcdir="" testsrcdir="" destdir="" initstring="" &gt;
  *       &lt;fileset dir="foo"&gt;
  *           &lt;include name=""/&gt;
@@ -48,7 +47,6 @@ public class CloverInstrTask extends AbstractInstrTask {
 
     /**
      * the destination dir for the instrumentation
-     * @param destDir
      */
     public void setDestDir(File destDir) {
         this.destDir = destDir;

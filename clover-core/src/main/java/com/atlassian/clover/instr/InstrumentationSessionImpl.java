@@ -261,7 +261,7 @@ public class InstrumentationSessionImpl implements InstrumentationSession {
 
         final BasicMethodInfo basicMethodInfo = new BasicMethodInfo(region, currentOffsetFromFile, complexity,
                 signature, isTest, staticTestName, isLambda, construct);
-        final AtomicReference<FullMethodInfo> method = new AtomicReference<FullMethodInfo>();
+        final AtomicReference<FullMethodInfo> method = new AtomicReference<>();
 
         getCurrentContainer().visit(new EntityVisitor() {
             @Override
@@ -441,7 +441,7 @@ public class InstrumentationSessionImpl implements InstrumentationSession {
     @Override
     @Nullable
     public FullClassInfo getCurrentClass() {
-        final AtomicReference<FullClassInfo> classFound = new AtomicReference<FullClassInfo>(null);
+        final AtomicReference<FullClassInfo> classFound = new AtomicReference<>(null);
         final EntityVisitor classVisitor = new ClassEntityVisitor(classFound);
 
         // look backwards, i.e. from top of the stack
@@ -464,7 +464,7 @@ public class InstrumentationSessionImpl implements InstrumentationSession {
         }
 
         // integrity check - ensure that we pop a class
-        final AtomicReference<FullClassInfo> classFound = new AtomicReference<FullClassInfo>(null);
+        final AtomicReference<FullClassInfo> classFound = new AtomicReference<>(null);
         final EntityVisitor classVisitor = new ClassEntityVisitor(classFound);
         int lastIndex = parentStack.size() - 1;
         parentStack.get(lastIndex).visit(classVisitor);
@@ -481,7 +481,7 @@ public class InstrumentationSessionImpl implements InstrumentationSession {
     @Override
     @Nullable
     public FullMethodInfo getCurrentMethod() {
-        final AtomicReference<FullMethodInfo> methodFound = new AtomicReference<FullMethodInfo>(null);
+        final AtomicReference<FullMethodInfo> methodFound = new AtomicReference<>(null);
         final EntityVisitor methodVisitor = new MethodEntityVisitor(methodFound);
 
         // look backwards, i.e. from top of the stack
@@ -504,7 +504,7 @@ public class InstrumentationSessionImpl implements InstrumentationSession {
         }
 
         // integrity check - ensure that we pop a class
-        final AtomicReference<FullMethodInfo> methodFound = new AtomicReference<FullMethodInfo>(null);
+        final AtomicReference<FullMethodInfo> methodFound = new AtomicReference<>(null);
         final EntityVisitor methodVisitor = new MethodEntityVisitor(methodFound);
         int lastIndex = parentStack.size() - 1;
         parentStack.get(lastIndex).visit(methodVisitor);

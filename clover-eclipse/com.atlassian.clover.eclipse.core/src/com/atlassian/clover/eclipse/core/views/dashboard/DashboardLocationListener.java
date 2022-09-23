@@ -152,8 +152,8 @@ final class DashboardLocationListener extends LocationAdapter {
         event.doit = false;
         final String relativePath = uri.getPath().substring(1);
         final String[] locations = uri.getFragment().split("_");
-        final int line = locations.length > 0 ? Integer.valueOf(locations[0]) - 1 : 0;
-        final int column = locations.length > 1 ? Integer.valueOf(locations[1]) - 1 : 0;
+        final int line = locations.length > 0 ? Integer.parseInt(locations[0]) - 1 : 0;
+        final int column = locations.length > 1 ? Integer.parseInt(locations[1]) - 1 : 0;
 
         final IJavaElement element = this.dashboardView.lastSelectedProject.getJavaProject().findElement(
                 new Path(relativePath));

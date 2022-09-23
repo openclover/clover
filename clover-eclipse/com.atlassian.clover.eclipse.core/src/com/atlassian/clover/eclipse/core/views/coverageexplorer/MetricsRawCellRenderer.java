@@ -32,7 +32,7 @@ public abstract class MetricsRawCellRenderer extends SelectionAwareCellRenderer 
     }
 
     private int alignmentFor(Object data) {
-        return ((ColumnDefinition)column).getAlignment();
+        return column.getAlignment();
     }
 
     protected abstract String formatValue(Object item);

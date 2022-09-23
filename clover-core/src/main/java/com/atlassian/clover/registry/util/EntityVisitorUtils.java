@@ -44,7 +44,7 @@ public class EntityVisitorUtils {
     }
 
     public static class GetParent {
-        private final AtomicReference<MethodInfo> parentMethod = new AtomicReference<MethodInfo>();
+        private final AtomicReference<MethodInfo> parentMethod = new AtomicReference<>();
         private final EntityVisitor parentMethodVisitor = new EntityVisitor() {
             @Override
             public void visitMethod(@NotNull MethodInfo parent) {

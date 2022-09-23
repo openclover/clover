@@ -128,8 +128,6 @@ public class HtmlRenderingSupportImpl implements HtmlRenderingSupport {
     }
 
     /**
-     * @param pkgA
-     * @param pkgB
      * @return the path of package pkgA relative to the pkgB, ie: we are in pkgB
      * and want to get to package A.
      */
@@ -200,7 +198,7 @@ public class HtmlRenderingSupportImpl implements HtmlRenderingSupport {
 
         final StringBuffer link = new StringBuffer();
         link.append(className.replaceAll("\\W", "_")).append("_").append(name.replaceAll("\\W", "_")).append("_").
-                append(Integer.toString(testInfo.getId().intValue(), 36)).append(".html");
+                append(Integer.toString(testInfo.getId(), 36)).append(".html");
         return link;
     }
 
@@ -508,8 +506,6 @@ public class HtmlRenderingSupportImpl implements HtmlRenderingSupport {
 
     /**
      * renders a stack trace by inserting hyperlinking for class/filenames where found.
-     * @param proj
-     * @param trace
      * @return stack trace with hyperlinked class links
      */
     public String linkifyStackTrace(String rootRelPath, FullProjectInfo proj, String trace) {
@@ -576,9 +572,6 @@ public class HtmlRenderingSupportImpl implements HtmlRenderingSupport {
 
     /**
      * Returns a value a given percentage amount between min and max.
-     * @param input
-     * @param min
-     * @param max
      * @return a value representing input along the interval min--max.
      */
     public int constrain(float input, int min, int max) {
@@ -617,7 +610,6 @@ public class HtmlRenderingSupportImpl implements HtmlRenderingSupport {
 
     /**
      * Replace all non-alhphanumeric characters by a blank "_".
-     * @return
      */
     public static String blankNonAlpha(String input) {
         return input.replaceAll("[^a-zA-Z0-9]", "_");

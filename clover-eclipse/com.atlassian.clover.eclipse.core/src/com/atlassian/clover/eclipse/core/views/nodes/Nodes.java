@@ -275,7 +275,7 @@ public class Nodes {
             for (IMethod method : methods) {
                 collectTestCases(method, testCases, converter);
             }
-            IType innerTypes[] = type.getTypes();
+            IType[] innerTypes = type.getTypes();
             for (IType innerType : innerTypes) {
                 collectTestCases(innerType, testCases, converter);
             }
@@ -298,7 +298,7 @@ public class Nodes {
         TestCaseInfo[] tcis = MetricsScope.TEST_ONLY.getTestCaseInfosFor(method);
         if (tcis != null) {
             for (TestCaseInfo tci : tcis) {
-                if (tci.getId().intValue() == testCaseNode.getTciId()) {
+                if (tci.getId() == testCaseNode.getTciId()) {
                     testCases.add(converter.convert(tci, method));
                     //There can only be one test that maps to a test ID
                     break;

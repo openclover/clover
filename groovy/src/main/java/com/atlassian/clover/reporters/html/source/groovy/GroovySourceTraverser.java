@@ -96,7 +96,7 @@ public class GroovySourceTraverser implements SourceTraverser {
         GroovySourceToken prevToken = currToken;
         GroovySourceToken firstToken = currToken;
 
-        StringBuffer accumName = new StringBuffer();
+        StringBuilder accumName = new StringBuilder();
         boolean gatherPkgIdent = false;
         boolean gatherImportIdent = false;
 
@@ -136,7 +136,7 @@ public class GroovySourceTraverser implements SourceTraverser {
                     for(int i = 0; i < times; i++) {
                         listener.onNewLine();
                     }
-                } else if (KEYWORDS.contains(Integer.valueOf(prevToken.getType()))) {
+                } else if (KEYWORDS.contains(prevToken.getType())) {
                     //A sequence of keywords will always each be separated by whitespace or NLS
                     listener.onKeyword(fragLines[0]);
                     //If an import or package statement, start listening for what comes after to hyperlink if possible
@@ -149,7 +149,7 @@ public class GroovySourceTraverser implements SourceTraverser {
                             if (gatherImportIdent) {
                                 listener.onImport(accumName.toString().replace("\\s", ""));
                             }
-                            accumName = new StringBuffer();
+                            accumName = new StringBuilder();
                             gatherPkgIdent = false;
                             gatherImportIdent = false;
                             listener.onChunk(fragment);
@@ -205,9 +205,9 @@ public class GroovySourceTraverser implements SourceTraverser {
         }
     }
 
-    private String[] getLinesFor(GroovySourceToken first, GroovySourceToken last, List<String> allLines) throws Exception {
+    private String[] getLinesFor(GroovySourceToken first, GroovySourceToken last, List<String> allLines) {
         try {
-            List<String> lines = new ArrayList<String>(allLines.subList(first.getLine() - 1, last.getLineLast()));
+            List<String> lines = new ArrayList<>(allLines.subList(first.getLine() - 1, last.getLineLast()));
             String firstLine = lines.get(0);
             if (lines.size() == 1) {
                 lines.set(0, firstLine.substring(first.getColumn()- 1, last.getColumnLast() - 1));
@@ -216,7 +216,7 @@ public class GroovySourceTraverser implements SourceTraverser {
                 lines.set(0, firstLine.substring(first.getColumn() - 1, firstLine.length()));
                 lines.set(lines.size() - 1, lastLine.substring(0, last.getColumnLast() - 1));
             }
-            return lines.toArray(new String[lines.size()]);
+            return lines.toArray(new String[0]);
         } catch (Exception e) {
             Logger.getInstance().verbose("Failed to grab lines for tokens", e);
             Logger.getInstance().debug("First token: " + first);
@@ -227,6 +227,6 @@ public class GroovySourceTraverser implements SourceTraverser {
     }
 
     private interface Closure<T> {
-        public void perform(T t);
+        void perform(T t);
     }
 }

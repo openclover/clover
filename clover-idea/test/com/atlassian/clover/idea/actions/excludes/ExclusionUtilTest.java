@@ -41,7 +41,7 @@ public class ExclusionUtilTest extends TestCase {
         for (String[] testSet : testSets2) {
             final String config = testSet[0];
             final String pattern = testSet[1];
-            final boolean included = Boolean.valueOf(testSet[2]);
+            final boolean included = Boolean.parseBoolean(testSet[2]);
 
             assertEquals("" + config + (included ? " includes " : " doesnt include ") + pattern, included, ExclusionUtil.isExplicitlyIncluded(config, pattern));
         }

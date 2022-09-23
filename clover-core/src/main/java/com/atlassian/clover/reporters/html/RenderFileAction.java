@@ -91,8 +91,8 @@ public class RenderFileAction implements Callable {
      * This is to be called once before the {@link #call} method .
      */
     public static void initThreadLocals() {
-        columnsTL = new ThreadLocal<List<Column>>();
-        contextSetTL = new ThreadLocal<ContextSet>();
+        columnsTL = new ThreadLocal<>();
+        contextSetTL = new ThreadLocal<>();
     }
 
     /**
@@ -130,8 +130,8 @@ public class RenderFileAction implements Callable {
         velocity.put("basename", basename);
         velocity.put("currentPageURL", outname);
         velocity.put("jsonFilename", jsonOutFilename);
-        velocity.put("showLambdaFunctions", Boolean.valueOf(reportConfig.isShowLambdaFunctions()));
-        velocity.put("showInnerFunctions", Boolean.valueOf(reportConfig.isShowInnerFunctions()));
+        velocity.put("showLambdaFunctions", reportConfig.isShowLambdaFunctions());
+        velocity.put("showInnerFunctions", reportConfig.isShowInnerFunctions());
         velocity.put("entityUtils", new EntityVisitorUtils());
         velocity.put("packageName", fileInfo.getContainingPackage().getName());
 
@@ -156,7 +156,7 @@ public class RenderFileAction implements Callable {
     }
 
     @SuppressWarnings("unchecked")
-    public FullFileInfo insertSrcFileProperties() throws TokenStreamException, JSONException {
+    public FullFileInfo insertSrcFileProperties() throws JSONException {
         velocity.put("headerMetrics", fileInfo.getMetrics());
         velocity.put("headerMetricsRaw", fileInfo.getRawMetrics());
         velocity.put("fileInfo", fileInfo);
@@ -263,7 +263,7 @@ public class RenderFileAction implements Callable {
         this.testLineInfo = testLineInfo;
 
         final Map<TestCaseInfo, BlockMetrics> orderedTestMetrics =
-                new LinkedHashMap<TestCaseInfo, BlockMetrics>(testMetrics.size());
+                new LinkedHashMap<>(testMetrics.size());
         final List<Map.Entry<TestCaseInfo, BlockMetrics>> testMetricList =
                 Lists.newLinkedList(testMetrics.entrySet());
         Collections.sort(testMetricList, TEST_METRICS_COMPARATOR);

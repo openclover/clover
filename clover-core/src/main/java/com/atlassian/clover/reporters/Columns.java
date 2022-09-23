@@ -50,15 +50,8 @@ public class Columns {
                             columnType.substring(1);
             Class colClass = Class.forName(name);
             return (Column) colClass.getDeclaredConstructor().newInstance();
-        } catch (ClassNotFoundException e) {
-            Logger.getInstance().debug(e.getMessage(), e);
-        } catch (NoSuchMethodException e) {
-            Logger.getInstance().debug(e.getMessage(), e);
-        } catch (IllegalAccessException e) {
-            Logger.getInstance().debug(e.getMessage(), e);
-        } catch (InstantiationException e) {
-            Logger.getInstance().debug(e.getMessage(), e);
-        } catch (InvocationTargetException e) {
+        } catch (ClassNotFoundException | InvocationTargetException | InstantiationException | IllegalAccessException |
+                 NoSuchMethodException e) {
             Logger.getInstance().debug(e.getMessage(), e);
         }
         throw new CloverException("Invalid column name: '" + columnType + "'");
@@ -1340,13 +1333,8 @@ public class Columns {
                     }
                     allColumns.add(col);
 
-                } catch (NoSuchMethodException e) {
-                    Logger.getInstance().warn("Could not add column: " + aClass, e);
-                } catch (InstantiationException e) {
-                    Logger.getInstance().warn("Could not add column: " + aClass, e);
-                } catch (IllegalAccessException e) {
-                    Logger.getInstance().warn("Could not add column: " + aClass, e);
-                } catch (InvocationTargetException e) {
+                } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException |
+                         InstantiationException e) {
                     Logger.getInstance().warn("Could not add column: " + aClass, e);
                 }
             }
@@ -1356,7 +1344,7 @@ public class Columns {
 
     private List<Column> copyColumns(List<Column> cols) {
         // make a deep copy of these
-        List<Column> columns = new ArrayList<Column>(cols.size());
+        List<Column> columns = new ArrayList<>(cols.size());
         for (Column column : cols) {
             columns.add(column.copy());
         }

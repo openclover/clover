@@ -151,7 +151,7 @@ public class CloveredOptimizedLauncherDelegate extends JUnitLaunchConfigurationD
             TestOptimizationPlugin.logWarning("Cannot optimize: unable to retrieve Clover settings for project " + project.getElementName(), e);
             return allTests;
         }
-        TestOptimizationPlugin.logDebug("Optimizing with options: " + options.toString());
+        TestOptimizationPlugin.logDebug("Optimizing with options: " + options);
 
         final Snapshot snapshot = loadSnapshot(options);
         if (snapshot == null) {
@@ -163,7 +163,7 @@ public class CloveredOptimizedLauncherDelegate extends JUnitLaunchConfigurationD
             return allTests;
         }
 
-        final Collection<IMemberAdapter> input = new ArrayList<IMemberAdapter>(allTests.length);
+        final Collection<IMemberAdapter> input = new ArrayList<>(allTests.length);
         for (IMember test : allTests) {
             input.add(new IMemberAdapter(test));
         }

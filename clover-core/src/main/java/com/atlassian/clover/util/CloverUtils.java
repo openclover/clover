@@ -66,7 +66,7 @@ public class CloverUtils {
         if (cloverDbDir != null && cloverDbDir.exists() && cloverDbDir.isDirectory()) {
             final String baseName = cloverDb.getName();
             final String testSnapshotName = Snapshot.fileNameForInitString(baseName);
-            final String fileNames[] = cloverDbDir.list(new FilenameFilter() {
+            final String[] fileNames = cloverDbDir.list(new FilenameFilter() {
                 @Override
                 public boolean accept(File dir, String name) {
                     if (baseName.equals(name)) {
@@ -103,9 +103,6 @@ public class CloverUtils {
      * Converts a class, including inner classes and anon. inner classes to
      * a class name that Clover can use when looking up coverage information.
      * Basically it's a hack - see CCD-294, CCD-307
-     *
-     * @param className
-     * @return String
      */
     public static String cloverizeClassName(String className) {
         return className == null ? className : className.replace('$', '.').replaceAll("\\.[0-9]+", "");

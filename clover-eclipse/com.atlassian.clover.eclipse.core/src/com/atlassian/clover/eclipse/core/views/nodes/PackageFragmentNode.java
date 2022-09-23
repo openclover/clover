@@ -4,6 +4,7 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IPackageFragment;
 
 import java.util.Collections;
+import java.util.Objects;
 import java.util.Set;
 import java.util.LinkedHashSet;
 
@@ -13,7 +14,7 @@ public abstract class PackageFragmentNode extends JavaElementNode {
 
     public PackageFragmentNode(String name, Set<? extends IPackageFragment> fragments) {
         this.name = name;
-        this.packageFragments = Collections.unmodifiableSet(new LinkedHashSet<IPackageFragment>(fragments));
+        this.packageFragments = Collections.unmodifiableSet(new LinkedHashSet<>(fragments));
     }
 
     public Set<IPackageFragment> getPackageFragments() {
@@ -36,7 +37,7 @@ public abstract class PackageFragmentNode extends JavaElementNode {
 
         PackageFragmentNode that = (PackageFragmentNode)o;
 
-        if (name != null ? !name.equals(that.name) : that.name != null)
+        if (!Objects.equals(name, that.name))
             return false;
 //        if (packageFragments != null ? !packageFragments.containsAll(that.packageFragments) : that.packageFragments != null)
 //            return false;

@@ -106,9 +106,9 @@ public interface MethodInfo extends
     /**
      * Name of the test associated with a method. Some test frameworks can declare a name of the test using annotations
      * or javadoc tags, so that later the test name and not the original method name is used in reporting.
-     *
+     * <p/>
      * For instance, the Spock framweork uses @FeatureMetadata(name="name of the test")
-     *
+     * <p/>
      * Note that this method returns a static name of the test, i.e. declared in the code. Some test frameworks might
      * dynamically generate test names. Examples are the Spock's @Unroll and JUnit's @Parameterized.
      *

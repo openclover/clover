@@ -9,9 +9,9 @@ public interface LivePerTestRecording extends PerTestRecording {
     /**
      * Transcribe the coverage in some way, returning a memento of the transcription
      */
-    public String transcribe() throws IOException;
+    String transcribe() throws IOException;
 
-    public static LivePerTestRecording NULL = new LivePerTestRecording() {
+    LivePerTestRecording NULL = new LivePerTestRecording() {
         ///CLOVER:OFF
         @Override
         public String getTestTypeName() {

@@ -13,19 +13,19 @@ public class ReportWizardWorkspaceSettings implements PersistentStateComponent<R
     private ShowLambdaFunctions showLambda = ShowLambdaFunctions.NONE;
 
     public boolean isIncludeSources() {
-        return includeSources != null && includeSources.booleanValue();
+        return includeSources != null && includeSources;
     }
 
     public void setIncludeSources(boolean include) {
-        includeSources = Boolean.valueOf(include);
+        includeSources = include;
     }
 
     public boolean isIncludeFailedCoverage() {
-        return includeFailedCoverage != null && includeFailedCoverage.booleanValue();
+        return includeFailedCoverage != null && includeFailedCoverage;
     }
 
     public void setIncludeFailedCoverage(boolean include) {
-        includeFailedCoverage = Boolean.valueOf(include);
+        includeFailedCoverage = include;
     }
 
     @Override

@@ -64,8 +64,6 @@ public class CloverReportTask extends AbstractCloverTask {
 
         private Project project = null;
 
-        private final String typeName = "Current";
-
         public void addFormat(CloverFormatType format) {
             this.format = format;
         }
@@ -101,7 +99,7 @@ public class CloverReportTask extends AbstractCloverTask {
 
         @Override
         public String getTypeName() {
-            return typeName;
+            return "Current";
         }
 
         public void addFileSet(FileSet fileset) {
@@ -127,9 +125,6 @@ public class CloverReportTask extends AbstractCloverTask {
             }
         }
 
-        /**
-         * @param fileset
-         */
         public void addTestResults(FileSet fileset) {
             testResults.add(fileset);
         }
@@ -144,11 +139,6 @@ public class CloverReportTask extends AbstractCloverTask {
 
         public List<FileSet> getTestSources() {
             return testSources;
-        }
-
-        @Override
-        public boolean validate() {
-            return super.validate();
         }
 
         private void initFileSets() {
@@ -213,8 +203,6 @@ public class CloverReportTask extends AbstractCloverTask {
          */
         private List<FileSet> filesets = newArrayList();
 
-        private String typeName = "Historical";
-
         private String historyIncludes;
 
         public void addFormat(CloverFormatType format) {
@@ -260,7 +248,7 @@ public class CloverReportTask extends AbstractCloverTask {
 
         @Override
         public String getTypeName() {
-            return typeName;
+            return "Historical";
         }
 
         public void setHistoryIncludes(String includesSpec) {

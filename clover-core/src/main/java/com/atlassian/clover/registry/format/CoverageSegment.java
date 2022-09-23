@@ -41,7 +41,7 @@ public class CoverageSegment {
             headerBuffer.putInt(Footer.MARKER);                             //4 = 20
             headerBuffer.flip();
             BufferUtils.writeFully(channel, headerBuffer);
-            Logger.getInstance().debug("Wrote coverage segment: " + toString());
+            Logger.getInstance().debug("Wrote coverage segment: " + this);
         }
 
         public static Footer load(FileChannel channel, long endOfSegment) throws IOException {
@@ -59,8 +59,8 @@ public class CoverageSegment {
     }
 
     public CoverageSegment(CoverageData coverageData) {
-        this.hitCounts = new LazyLoader.Preloaded<int[]>(coverageData.getHitCounts());
-        this.perTestCoverage = new LazyLoader.Preloaded<InMemPerTestCoverage>((InMemPerTestCoverage)coverageData.getPerTestCoverage());
+        this.hitCounts = new LazyLoader.Preloaded<>(coverageData.getHitCounts());
+        this.perTestCoverage = new LazyLoader.Preloaded<>((InMemPerTestCoverage) coverageData.getPerTestCoverage());
     }
 
     public CoverageSegment(FileChannel channel) throws IOException {
@@ -70,14 +70,14 @@ public class CoverageSegment {
 
         this.hitCounts = new LazyLoader<int[]>(channel, endOfSegment - Footer.SIZE - footer.perTestCovByteLen - footer.covByteLen + 1) {
             @Override
-            protected int[] getImpl(FileChannel channel) throws IOException, RegistryFormatException, RegistryFormatException {
+            protected int[] getImpl(FileChannel channel) throws IOException, RegistryFormatException {
                 return loadHitCounts(channel, footer.covByteLen);
             }
         };
 
         this.perTestCoverage = new LazyLoader<InMemPerTestCoverage>(channel, endOfSegment - Footer.SIZE - footer.perTestCovByteLen + 1) {
             @Override
-            protected InMemPerTestCoverage getImpl(FileChannel channel) throws IOException, RegistryFormatException {
+            protected InMemPerTestCoverage getImpl(FileChannel channel) throws IOException {
                 return loadPerTestCoverage(channel);
             }
         };
@@ -112,7 +112,7 @@ public class CoverageSegment {
 
         int[] hitCounts = new int[(int)(covByteLen / 4)];
 
-        int hitCountBufferSize = (int) Math.min((long) Integer.MAX_VALUE, covByteLen);
+        int hitCountBufferSize = (int) Math.min(Integer.MAX_VALUE, covByteLen);
         ByteBuffer hitCountsBuffer = ByteBuffer.allocate(hitCountBufferSize);
         //Read each page of bytes
         for (long curByteCount = 0; curByteCount < covByteLen; curByteCount += Integer.MAX_VALUE) {
@@ -130,7 +130,7 @@ public class CoverageSegment {
         final long startPos = channel.position();
 
         int[] hitCountsVal = hitCounts.get();
-        int hitCountByteBufferSize = (int)Math.min((long) Integer.MAX_VALUE, ((long)hitCountsVal.length) * 4);
+        int hitCountByteBufferSize = (int)Math.min(Integer.MAX_VALUE, ((long)hitCountsVal.length) * 4);
         final ByteBuffer hitCountByteBuffer = ByteBuffer.allocate(hitCountByteBufferSize);
         final IntBuffer hitCountIntBuffer = hitCountByteBuffer.asIntBuffer();
         //Write each page of bytes

@@ -19,9 +19,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * This is necessary because on XP has a bug where reads on Stdin (ie System.in.read())
  * will block library loading. This is not normally a problem because most loads occur at the
  * beginning of a build anyway. Ant reads stdin via the StreamPumper thread.
- *
- * @see http://weblogs.java.net/blog/kohsuke/archive/2009/09/28/reading-stdin-may-cause-your-jvm-hang
- * @see https://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=94701
+ * <ul>
+ *   <li><a href="https://weblogs.java.net/blog/kohsuke/archive/2009/09/28/reading-stdin-may-cause-your-jvm-hang>reading-stdin-may-cause-your-jvm-hang</a></li>
+ *   <li><a href="https://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=94701">FeedbackID=94701</a></li>
+ * </ul>
  **/
 public class PrematureLibraryLoader {
     public static final AtomicBoolean DONE = new AtomicBoolean(false);

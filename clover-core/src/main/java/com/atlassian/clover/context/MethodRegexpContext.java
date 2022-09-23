@@ -85,13 +85,10 @@ public class MethodRegexpContext extends RegexpContext implements TaggedPersiste
         if (!super.equals(o)) return false;
 
         MethodRegexpContext that = (MethodRegexpContext) o;
-        if ( (maxComplexity != that.maxComplexity)
-                || (maxStatements != that.maxStatements)
-                || (maxAggregatedComplexity != that.maxAggregatedComplexity)
-                || (maxAggregatedStatements != that.maxAggregatedStatements) ) {
-            return false;
-        }
-        return true;
+        return (maxComplexity == that.maxComplexity)
+                && (maxStatements == that.maxStatements)
+                && (maxAggregatedComplexity == that.maxAggregatedComplexity)
+                && (maxAggregatedStatements == that.maxAggregatedStatements);
     }
 
     public int hashCode() {

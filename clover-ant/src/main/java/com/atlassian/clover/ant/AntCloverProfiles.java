@@ -27,7 +27,6 @@ public class AntCloverProfiles {
      *      &lt;profile ...&gt;  &lt;!-- one or more --&gt;
      * &lt;/profiles&gt;
      * </pre>
-     * @param profile
      */
     public void addConfiguredProfile(AntCloverProfile profile) {
         validate(profile);
@@ -37,8 +36,6 @@ public class AntCloverProfiles {
     /**
      * Data validation:
      *  - profile names must be unique
-     * @param profile
-     * @throws IllegalArgumentException
      */
     private void validate(AntCloverProfile profile) throws IllegalArgumentException {
         for (AntCloverProfile p : profiles) {

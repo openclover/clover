@@ -103,9 +103,7 @@ public class ClassMetrics extends BlockMetrics {
 
         if (numCoveredMethods != that.numCoveredMethods) return false;
         if (numMethods != that.numMethods) return false;
-        if (numTestMethods != that.numTestMethods) return false;
-
-        return true;
+        return numTestMethods == that.numTestMethods;
     }
 
     public int hashCode() {

@@ -13,6 +13,6 @@ public interface HasStatements {
      * @return List&lt;? extends StatementInfo&gt; - list of statements or empty list if none
      */
     @NotNull
-    public List<? extends StatementInfo> getStatements();
+    List<? extends StatementInfo> getStatements();
 
 }

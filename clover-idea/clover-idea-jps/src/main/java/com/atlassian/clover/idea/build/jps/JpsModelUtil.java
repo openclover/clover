@@ -90,7 +90,7 @@ public class JpsModelUtil {
         //   + excluded
         //     + src
         //       + Foo.java    -> sourceFile is still excluded
-        final FilePathPrefixTree<Boolean> excludedRootsTree = new FilePathPrefixTree<Boolean>(Boolean.FALSE); // not excluded by default
+        final FilePathPrefixTree<Boolean> excludedRootsTree = new FilePathPrefixTree<>(Boolean.FALSE); // not excluded by default
         for (final File excludedRoot : getExcludedRoots(module)) {
             excludedRootsTree.add(excludedRoot, Boolean.TRUE);
         }
@@ -104,7 +104,7 @@ public class JpsModelUtil {
         // + src          -> source root #1
         //   + test       -> source root #2
         //     + Foo.java -> belongs to the 'test' root, not the 'src'
-        final FilePathPrefixTree<JpsModuleSourceRoot> sourceRootsTree = new FilePathPrefixTree<JpsModuleSourceRoot>();
+        final FilePathPrefixTree<JpsModuleSourceRoot> sourceRootsTree = new FilePathPrefixTree<>();
         for (final JpsModuleSourceRoot sourceRoot : module.getSourceRoots()) {
             sourceRootsTree.add(sourceRoot.getFile(), sourceRoot);
         }
@@ -125,7 +125,7 @@ public class JpsModelUtil {
     @Nullable
     public static JpsModule findModuleForFile(final JpsProject project, final File sourceFile) {
         // prefix tree(source root -> module) for which the sourceFile matches
-        final FilePathPrefixTree<JpsModule> ancestorModules = new FilePathPrefixTree<JpsModule>();
+        final FilePathPrefixTree<JpsModule> ancestorModules = new FilePathPrefixTree<>();
 
         // search through all modules
         for (final JpsModule jpsModule : project.getModules()) {
@@ -154,7 +154,7 @@ public class JpsModelUtil {
      */
     public static Set<File> getExcludedRoots(final JpsModule jpsModule) {
         final JpsUrlList excludedRootsAsUrls = jpsModule.getExcludeRootsList();
-        final Set<File> excludedRootsAsFiles = new HashSet<File>(excludedRootsAsUrls.getUrls().size());
+        final Set<File> excludedRootsAsFiles = new HashSet<>(excludedRootsAsUrls.getUrls().size());
         for (final String url : excludedRootsAsUrls.getUrls()) {
             excludedRootsAsFiles.add(JpsPathUtil.urlToFile(url));
         }

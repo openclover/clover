@@ -38,9 +38,7 @@ public class CloverHtmlReportTask extends CloverReportTask {
     public void setShowUniqueCoverage(boolean show) {
         this.showUniqueCoverage = show;
     }
-    /**
-     * @param testResultDir
-     */
+
     public void setTestResultsDir(File testResultDir) {
         FileSet resultsFileSet = new FileSet();
         resultsFileSet.setDir(testResultDir);

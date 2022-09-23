@@ -18,7 +18,7 @@ public class ContextSet implements com.atlassian.clover.api.registry.ContextSet,
             if (bs.member(i)) {
                 Integer mapValue = mapping.get(i);
                 if (mapValue != null) {
-                    res.add(mapValue.intValue());
+                    res.add(mapValue);
                 }
             }
         }

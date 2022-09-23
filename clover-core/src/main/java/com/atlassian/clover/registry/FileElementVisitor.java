@@ -7,12 +7,12 @@ import com.atlassian.clover.api.registry.StatementInfo;
 
 public interface FileElementVisitor {
 
-    public void visitClass(ClassInfo info);
+    void visitClass(ClassInfo info);
 
-    public void visitMethod(MethodInfo info);
+    void visitMethod(MethodInfo info);
 
-    public void visitStatement(StatementInfo info);
+    void visitStatement(StatementInfo info);
 
-    public void visitBranch(BranchInfo info);
+    void visitBranch(BranchInfo info);
 
 }

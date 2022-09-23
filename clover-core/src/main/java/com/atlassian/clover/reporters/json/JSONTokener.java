@@ -153,7 +153,6 @@ public class JSONTokener {
     /**
      * Get the next char in the string, skipping whitespace
      * and comments (slashslash, slashstar, and hash).
-     * @throws JSONException
      * @return  A character, or 0 if there are no more characters.
      */
     public char nextClean() throws JSONException {
@@ -446,7 +445,7 @@ public class JSONTokener {
      * @return  A JSONException object, suitable for throwing
      */
     public JSONException syntaxError(String message) {
-        return new JSONException(message + toString());
+        return new JSONException(message + this);
     }
 
 

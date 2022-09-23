@@ -45,11 +45,6 @@ public class CloverOptimizedTestNGSelector implements IAnnotationTransformer, IA
     /**
      * Add "clover-optimized" group to any method annotated with any of "@BeforeTest / @BeforeSuite / @AfterTest
      * / @AfterSuite" etc.
-     *
-     * @param annotation
-     * @param aClass
-     * @param constructor
-     * @param method
      */
     @Override
     public void transform(IConfigurationAnnotation annotation, Class aClass, Constructor constructor, Method method) {
@@ -75,7 +70,7 @@ public class CloverOptimizedTestNGSelector implements IAnnotationTransformer, IA
         } else {
             List<String> groupsAsList = newArrayList(groups);
             groupsAsList.add("clover-optimized");
-            groups = groupsAsList.toArray(new String[groupsAsList.size()]);
+            groups = groupsAsList.toArray(new String[0]);
         }
         annotation.setGroups(groups);
     }

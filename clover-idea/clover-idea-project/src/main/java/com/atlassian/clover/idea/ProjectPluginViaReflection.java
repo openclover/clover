@@ -15,15 +15,8 @@ public class ProjectPluginViaReflection {
             Class<?> projectPlugin = Class.forName("com.atlassian.clover.idea.ProjectPlugin");
             Method getPlugin = projectPlugin.getMethod("getPlugin", Project.class);
             return (IProjectPlugin)getPlugin.invoke(null, project);
-        } catch (ClassNotFoundException e) {
-            return null;
-        } catch (InvocationTargetException e) {
-            return null;
-        } catch (NoSuchMethodException e) {
-            return null;
-        } catch (IllegalAccessException e) {
-            return null;
-        } catch (ClassCastException e) {
+        } catch (ClassNotFoundException | ClassCastException | IllegalAccessException | NoSuchMethodException |
+                 InvocationTargetException e) {
             return null;
         }
     }

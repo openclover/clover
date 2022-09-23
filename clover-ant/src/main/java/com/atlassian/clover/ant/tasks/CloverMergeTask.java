@@ -41,7 +41,7 @@ public class CloverMergeTask extends AbstractCloverTask {
 
         public List<CloverDatabaseSpec> getIncludedDbs() {
 
-            final FileSet fs = (isReference()) ? (FileSet)getCheckedRef(FileSet.class, "fileset") : this;
+            final FileSet fs = (isReference()) ? getCheckedRef(FileSet.class, "fileset") : this;
             final String [] files = fs.getDirectoryScanner(getProject()).getIncludedFiles();
             final List<CloverDatabaseSpec> dbs = newLinkedList();
             final String baseDir = fs.getDir(getProject()).getAbsolutePath();

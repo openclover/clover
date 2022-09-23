@@ -31,8 +31,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 
 public class AboutDialog extends DialogWrapper {
@@ -234,11 +234,7 @@ class MyHyperlinkListener implements HyperlinkListener {
         final String path = url.getPath();
 
         Reader reader;
-        try {
-            reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(path), "UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            return;
-        }
+        reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(path), StandardCharsets.UTF_8));
         final StringBuilder sb = new StringBuilder();
         char[] buf = new char[1024];
         int read = 0;

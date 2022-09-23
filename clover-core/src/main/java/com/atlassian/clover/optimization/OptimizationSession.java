@@ -81,7 +81,7 @@ public class OptimizationSession {
         Logger.getInstance().info(
         "Clover " + (autoSummarize ? "included " : "is including ")
             + Color.make(
-                + optimizedTestableCount + " test "
+                optimizedTestableCount + " test "
                 + Formatting.pluralizedWord(optimizedTestableCount, optimizationOptions.getOptimizableName())).b()
             + " in this run (total # test " + pluralTestKind + " : " + originalTestableCount + ")");
         Logger.getInstance().verbose(

@@ -68,8 +68,8 @@ public class DefaultCoverageManager implements CoverageManager, AcceptsCoverageT
 
     //---(Coverage Listeners / Coverage Monitors)---
 
-    private final List<CoverageListener> listeners = new CopyOnWriteArrayList<CoverageListener>();
-    private final List<CoverageTreeListener> treeListeners = new CopyOnWriteArrayList<CoverageTreeListener>();
+    private final List<CoverageListener> listeners = new CopyOnWriteArrayList<>();
+    private final List<CoverageTreeListener> treeListeners = new CopyOnWriteArrayList<>();
 
     private Path sourcePath;
     private boolean loadPerTestData;

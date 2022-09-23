@@ -27,13 +27,11 @@ import com.atlassian.clover.util.Path;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
@@ -50,7 +48,7 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
     public static final long NO_VERSION = -1L;
 
     /** classes declared inside the file */
-    protected Map<String, FullClassInfo> classes = new LinkedHashMap<String, FullClassInfo>();
+    protected Map<String, FullClassInfo> classes = new LinkedHashMap<>();
     /**
      * statements declared inside the file on the top-level (e.g in scripts)
      */
@@ -383,7 +381,7 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
 
             if (failStackInfos != null) {
                 for (final Map.Entry<Integer, List<StackTraceInfo.TraceEntry>> entry : failStackInfos.entrySet()) {
-                    final int line = entry.getKey().intValue();
+                    final int line = entry.getKey();
                     final List<StackTraceInfo.TraceEntry> stackFrames = entry.getValue();
                     if (line > 0 && line < tmpLineInfo.length) {
                         if (tmpLineInfo[line] == null) {
@@ -527,14 +525,14 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
     }
 
     public void setFailStackEntries(final Map<Integer, List<StackTraceInfo.TraceEntry>> entries) {
-        failStackInfos = new TreeMap<Integer, List<StackTraceInfo.TraceEntry>>(entries);
+        failStackInfos = new TreeMap<>(entries);
     }
 
     public void addFailStackEntry(final int lineNum, final StackTraceInfo.TraceEntry traceEntry) {
         if (failStackInfos == null) {
             failStackInfos = newTreeMap();
         }
-        final Integer lineKey = Integer.valueOf(lineNum);
+        final Integer lineKey = lineNum;
         List<StackTraceInfo.TraceEntry> tracesForLine = failStackInfos.get(lineKey);
         if (tracesForLine == null) {
             tracesForLine = newArrayList();
@@ -543,11 +541,11 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
         tracesForLine.add(traceEntry);
     }
 
-    public Reader getSourceReader() throws FileNotFoundException, UnsupportedEncodingException {
+    public Reader getSourceReader() throws IOException {
         if (getEncoding() == null) {
             return new FileReader(getPhysicalFile());
         } else {
-            return new InputStreamReader(new FileInputStream(getPhysicalFile()), getEncoding());
+            return new InputStreamReader(Files.newInputStream(getPhysicalFile().toPath()), getEncoding());
         }
     }
 
@@ -727,7 +725,7 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
         // read list
         final List<FullClassInfo> classInfos = in.readList(FullClassInfo.class);
         // and rewrite to map
-        final Map<String, FullClassInfo> classes = new LinkedHashMap<String, FullClassInfo>(classInfos.size()  * 2);
+        final Map<String, FullClassInfo> classes = new LinkedHashMap<>(classInfos.size() * 2);
         for(FullClassInfo classInfo : classInfos) {
             classes.put(classInfo.getName(), classInfo);
         }

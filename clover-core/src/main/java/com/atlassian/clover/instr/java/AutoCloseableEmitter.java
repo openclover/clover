@@ -8,7 +8,7 @@ import com.atlassian.clover.CloverNames;
  * which we can't allow for compilation consistency so that means
  * we can't just create anonymous AutoCloseables in the try ARM clause.
  * We need to create anonymous ClRAutoCloseables.
- *
+ * <p/>
  * We emit a new ClRAutoCloseables declaration (they are numbered across the instrumentation session)
  * for each try ARM block because the Clover instrumenter doesn't easily support
  * forward references to types we may inject.

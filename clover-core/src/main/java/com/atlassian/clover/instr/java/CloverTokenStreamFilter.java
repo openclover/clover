@@ -183,7 +183,6 @@ public class CloverTokenStreamFilter extends TokenStreamHiddenTokenFilter {
 
     /**
      * process directives, set final emitter state. This leaves the token stream ready for output
-     * @param structure
      */
     public void instrument(FileStructureInfo structure, FullFileInfo fileInfo, InstrumentationSession session, JavaInstrumentationConfig cfg) {
         InstrumentationState state = new InstrumentationState(session, fileInfo, structure, cfg);

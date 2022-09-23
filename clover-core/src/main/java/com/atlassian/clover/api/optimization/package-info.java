@@ -1,9 +1,9 @@
 /**
  * Provides classes to optimize a set of Tests programatically using Clover's Test Optimzation.
- *
+ * <p/>
  * A {@link com.atlassian.clover.api.optimization.TestOptimizer} takes an instance of
  * {@link com.atlassian.clover.api.optimization.OptimizationOptions}.
- *
+ * <p/>
  * {@link com.atlassian.clover.api.optimization.OptimizationOptions} are built and configured using an
  * {@link com.atlassian.clover.api.optimization.OptimizationOptions.Builder}.
  *

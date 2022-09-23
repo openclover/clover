@@ -119,7 +119,7 @@ public class TestOptimizationPlugin extends AbstractUIPlugin {
         return reg.get(TEST_OPTIMIZATION_ICON);
     }
 
-    private final Collection<OptimizationSessionListener> optimizationSessionListeners = new CopyOnWriteArraySet<OptimizationSessionListener>();
+    private final Collection<OptimizationSessionListener> optimizationSessionListeners = new CopyOnWriteArraySet<>();
 
     public void addOptimizationSessionListener(OptimizationSessionListener listener) {
         optimizationSessionListeners.add(listener);
@@ -144,9 +144,7 @@ public class TestOptimizationPlugin extends AbstractUIPlugin {
             this.lastLaunchConfiguration = lastLaunchConfiguration;
             try {
                 saveToPreferences(LAST_LAUNCH_CONFIGURATION, lastLaunchConfiguration != null ? lastLaunchConfiguration.getMemento() : null);
-            } catch (CoreException e) {
-                TestOptimizationPlugin.logError("Cannot store last launch configuration", e);
-            } catch (BackingStoreException e) {
+            } catch (CoreException | BackingStoreException e) {
                 TestOptimizationPlugin.logError("Cannot store last launch configuration", e);
             }
         }

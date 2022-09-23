@@ -72,7 +72,7 @@ public class Clover2Registry implements InstrumentationTarget {
         this.model = new ProjectView.Original(model);
         this.instrumentationHistory = newLinkedList(instrumentationHistory);
         this.contexts = contexts;
-        this.updatesToSave = new CopyOnWriteArrayList<InstrumentationSessionImpl.Update>();
+        this.updatesToSave = new CopyOnWriteArrayList<>();
     }
 
     public Clover2Registry copyForBackgroundCoverageLoad() {
@@ -101,10 +101,10 @@ public class Clover2Registry implements InstrumentationTarget {
             final Map<String, FullFileInfo> fileInfos = newHashMap();
             final long version = regFile.getVersion();
 
-            final Clover2Registry resultReg[] = new Clover2Registry[1];
+            final Clover2Registry[] resultReg = new Clover2Registry[1];
             regFile.readContents(new RegContentsConsumer() {
                 @Override
-                public void consume(RegContents contents) throws IOException, CloverRegistryException {
+                public void consume(RegContents contents) {
                     ContextStore ctxStore = null;
 
                     //Sessions are ordered newest to oldest
@@ -139,16 +139,13 @@ public class Clover2Registry implements InstrumentationTarget {
             });
 
             return resultReg[0];
-        } catch (RuntimeException e) {
+        } catch (RuntimeException | IOException e) {
             Logger.getInstance().debug("Exception reading registry file " + registryFile.getAbsolutePath(), e);
             throw new CorruptedRegistryException(registryFile.getAbsolutePath(), e);
         } catch (NoSuchRegistryException e) {
             //IMPORTANT: If the reg file doesn't exist, return null as this tells
             //other code paths to create a new in-memory registry
             return null;
-        } catch (IOException e) {
-            Logger.getInstance().debug("Exception reading registry file " + registryFile.getAbsolutePath(), e);
-            throw new CorruptedRegistryException(registryFile.getAbsolutePath(), e);
         }
     }
 

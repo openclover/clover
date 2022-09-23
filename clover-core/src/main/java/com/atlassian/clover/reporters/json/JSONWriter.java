@@ -77,7 +77,7 @@ public class JSONWriter {
     /**
      * The object/array stack.
      */
-    private char stack[];
+    private char[] stack;
 
     /**
      * The stack top index. A value of 0 indicates that the stack is empty.
@@ -276,7 +276,6 @@ public class JSONWriter {
      * <code>false</code>.
      * @param b A boolean.
      * @return this
-     * @throws JSONException
      */
     public JSONWriter value(boolean b) throws JSONException {
         return this.append(b ? "true" : "false");
@@ -296,7 +295,6 @@ public class JSONWriter {
      * Append a long value.
      * @param l A long.
      * @return this
-     * @throws JSONException
      */
     public JSONWriter value(long l) throws JSONException {
         return this.append(Long.toString(l));

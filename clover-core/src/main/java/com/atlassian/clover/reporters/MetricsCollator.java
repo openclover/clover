@@ -1,17 +1,15 @@
 package com.atlassian.clover.reporters;
 
 import com.atlassian.clover.api.registry.ClassInfo;
-import com.atlassian.clover.api.registry.MethodInfo;
-import com.atlassian.clover.registry.util.EntityVisitorUtils;
-import com.atlassian.clover.registry.metrics.HasMetricsFilter;
 import com.atlassian.clover.api.registry.HasMetrics;
+import com.atlassian.clover.api.registry.MethodInfo;
+import com.atlassian.clover.registry.metrics.HasMetricsFilter;
 import com.atlassian.clover.registry.metrics.HasMetricsSupport;
-import com.atlassian.clover.registry.entities.BaseClassInfo;
+import com.atlassian.clover.registry.util.EntityVisitorUtils;
 
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import static clover.com.google.common.collect.Lists.newArrayList;
@@ -37,7 +35,6 @@ public class MetricsCollator {
      * Given a list of {@link com.atlassian.clover.api.registry.ClassInfo} objects,
      * return a list of {@link com.atlassian.clover.api.registry.MethodInfo} s, ranked
      * by PC COvered (asc), Num Elements Uncovered and Complexity.
-     * @param classes
      * @return List&lt;MethodInfo&gt;
      */
     public List<MethodInfo> getLeastTestedMethods(final List<? extends ClassInfo> classes,

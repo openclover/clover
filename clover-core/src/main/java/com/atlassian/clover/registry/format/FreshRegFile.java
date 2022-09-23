@@ -67,8 +67,7 @@ public class FreshRegFile extends RegFile<UpdatableRegFile> {
 
         //Must use RAF here because we rewind and update - otherwise channel.position(..)
         //followed by a write will blank out intermediate data
-        final RandomAccessFile file = new RandomAccessFile(tmpfile, "rw");
-        try {
+        try (RandomAccessFile file = new RandomAccessFile(tmpfile, "rw")) { //Will close the channel as well
             final FileChannel channel = file.getChannel();
 
             //Write a basic header that indicates writing is incomplete
@@ -90,12 +89,12 @@ public class FreshRegFile extends RegFile<UpdatableRegFile> {
                 maxSlotLength = Math.max(maxSlotLength, delta.getSlotCount());
 
                 final InstrSessionSegment session =
-                    new InstrSessionSegment(
-                        delta.getVersion(),
-                        delta.getStartTs(),
-                        delta.getEndTs(),
-                        toRecords(delta.getFileInfos()),
-                        delta.getContextStore());
+                        new InstrSessionSegment(
+                                delta.getVersion(),
+                                delta.getStartTs(),
+                                delta.getEndTs(),
+                                toRecords(delta.getFileInfos()),
+                                delta.getContextStore());
                 session.write(channel);
                 sessions.add(session);
             }
@@ -104,9 +103,6 @@ public class FreshRegFile extends RegFile<UpdatableRegFile> {
             header = new RegHeader(accessMode, finalVersion, maxSlotLength, covLoc, channel.position() - 1L, getName());
             channel.position(0);
             header.write(channel);
-        } finally {
-            //Will close the channel as well
-            file.close();
         }
 
         if (registryFile.exists()) {

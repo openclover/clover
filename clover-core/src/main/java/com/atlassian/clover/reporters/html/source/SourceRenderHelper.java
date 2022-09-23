@@ -55,7 +55,7 @@ public class SourceRenderHelper {
         this.tabStr = StringUtils.repeat(spaceChar, report.getFormat().getTabWidth());
     }
 
-    public void insertLineInfosForFile(FullFileInfo fileInfo, VelocityContext context, ContextSet contextSet, String emptyChar, List[] testLineInfo) throws TokenStreamException {
+    public void insertLineInfosForFile(FullFileInfo fileInfo, VelocityContext context, ContextSet contextSet, String emptyChar, List[] testLineInfo) {
         try {
             LineRenderInfo[] renderInfo = gatherSrcRenderInfo(context, fileInfo, contextSet, emptyChar, testLineInfo);
             context.put("renderInfo", renderInfo);
@@ -107,7 +107,7 @@ public class SourceRenderHelper {
         // remove the failed test coverage filter at the file level...
         finfo.setDataProvider(this.coverageProvider);
         final int lineCount = finfo.getLineCount();
-        List<LineRenderInfo> renderedLines = new ArrayList<LineRenderInfo>(lineCount);
+        List<LineRenderInfo> renderedLines = new ArrayList<>(lineCount);
 
         ChecksummingReader csr;
         try {
@@ -341,7 +341,7 @@ public class SourceRenderHelper {
         }
     }
 
-    private static ChecksummingReader getChecksummingReader(FullFileInfo finfo) throws FileNotFoundException, UnsupportedEncodingException {
+    private static ChecksummingReader getChecksummingReader(FullFileInfo finfo) throws IOException {
         return new ChecksummingReader(finfo.getSourceReader());
     }
 

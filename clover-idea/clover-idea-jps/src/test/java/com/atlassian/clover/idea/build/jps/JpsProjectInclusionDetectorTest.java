@@ -138,7 +138,7 @@ public class JpsProjectInclusionDetectorTest {
         cloverPluginConfig.setInstrumentTests(false);
         sampleProject.getContainer().setChild(
                 CloverJpsProjectConfigurationSerializer.CloverProjectConfigurationRole.INSTANCE,
-                new JpsSimpleElementImpl<CloverPluginConfig>(cloverPluginConfig));
+                new JpsSimpleElementImpl<>(cloverPluginConfig));
 
         // find regular file in an app source folder, in a nested module, where parent has excluded directory set
         JpsProjectInclusionDetector detector = (JpsProjectInclusionDetector) JpsProjectInclusionDetector.processFile(
@@ -249,7 +249,7 @@ public class JpsProjectInclusionDetectorTest {
         // add project-level configuration for Clover
         jpsProject.getContainer().setChild(
                 CloverJpsProjectConfigurationSerializer.CloverProjectConfigurationRole.INSTANCE,
-                new JpsSimpleElementImpl<CloverPluginConfig>(cloverPluginConfig));
+                new JpsSimpleElementImpl<>(cloverPluginConfig));
 
         return jpsProject;
     }

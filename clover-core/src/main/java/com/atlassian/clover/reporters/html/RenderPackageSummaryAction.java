@@ -51,7 +51,7 @@ public class RenderPackageSummaryAction implements Callable {
         File outfile = new File(outDir, summaryFilename);
 
         sortClasses(childClasses, detailComparator);
-        context.put("linkToClouds", Boolean.valueOf(linkToClouds));
+        context.put("linkToClouds", linkToClouds);
         context.put("currentPageURL", summaryFilename);
         context.put("packageInfo", pkg);
         context.put("packageName", pkg.getName());
@@ -59,8 +59,8 @@ public class RenderPackageSummaryAction implements Callable {
         context.put("headerMetricsRaw", pkg.getRawMetrics());
         context.put("classlist", childClasses);
         context.put("tree", tree);
-        context.put("appPagePresent", Boolean.valueOf(appPagePresent));
-        context.put("testPagePresent", Boolean.valueOf(testPagePresent));
+        context.put("appPagePresent", appPagePresent);
+        context.put("testPagePresent", testPagePresent);
         context.put("topLevel", Boolean.FALSE);
         context.put("title", "Classes");
 

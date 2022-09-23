@@ -30,12 +30,7 @@ public class TestNameSnifferHelper {
                             + " was not found in an instance of " + currentTestClass.getName()
                             + ". Test name found during instrumentation may differ from the actual name of the test at runtime.",
                     ex);
-        } catch (SecurityException ex) {
-            Logger.getInstance().debug("Field " + CloverNames.CLOVER_TEST_NAME_SNIFFER
-                            + " couldn't be accessed in an instance of " + currentTestClass.getName()
-                            + ". Test name found during instrumentation may differ from the actual name of the test at runtime.",
-                    ex);
-        } catch (IllegalAccessException ex) {
+        } catch (SecurityException | IllegalAccessException ex) {
             Logger.getInstance().debug("Field " + CloverNames.CLOVER_TEST_NAME_SNIFFER
                             + " couldn't be accessed in an instance of " + currentTestClass.getName()
                             + ". Test name found during instrumentation may differ from the actual name of the test at runtime.",

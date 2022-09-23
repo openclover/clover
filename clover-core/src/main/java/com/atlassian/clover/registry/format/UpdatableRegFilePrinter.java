@@ -19,7 +19,7 @@ public class UpdatableRegFilePrinter {
 
             regFile.readContents(new RegContentsConsumer() {
                 @Override
-                public void consume(RegContents contents) throws IOException, CloverRegistryException {
+                public void consume(RegContents contents) throws IOException {
                     //Sessions are ordered newest to oldest
                     for (InstrSessionSegment sessionSegment : contents.getSessions()) {
                         out.write("\tSession startTs=" + sessionSegment.getStartTs() + " endTs=" + sessionSegment.getEndTs() + " version=" + sessionSegment.getVersion() + "\n");
@@ -38,15 +38,13 @@ public class UpdatableRegFilePrinter {
     }
 
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         if (args.length != 1) {
             printUsage();
         } else {
             try {
                 printFile(new File(args[0]));
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-            } catch (CloverException e) {
+            } catch (IOException | CloverException e) {
                 System.out.println(e.getMessage());
             }
         }

@@ -5,5 +5,5 @@ import com.atlassian.clover.api.instrumentation.ConcurrentInstrumentationExcepti
 import com.atlassian.clover.instr.InstrumentationSessionImpl;
 
 public interface InstrumentationTarget {
-    public RegistryUpdate applyUpdate(long expectedVersion, InstrumentationSessionImpl.Update update) throws ConcurrentInstrumentationException;
+    RegistryUpdate applyUpdate(long expectedVersion, InstrumentationSessionImpl.Update update) throws ConcurrentInstrumentationException;
 }

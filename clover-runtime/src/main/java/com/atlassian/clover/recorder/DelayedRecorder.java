@@ -11,7 +11,7 @@ import com_atlassian_clover.CoverageRecorder;
 /**
  * Coverage recorder where it is initially inactive and not recording any coverage but later switches on
  * on the first public method call once the Clover runtime has been initialised.
- *
+ * <p/>
  * This class is used for situations where Clover is mid-initialisation but a {@link CoverageRecorder}
  * has been requested. The request should be honored and coverage recording should start
  * once Clover finishes initialisation. 

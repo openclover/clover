@@ -42,9 +42,9 @@ public class ComparableVersion implements Comparable<ComparableVersion> {
     private ListItem items;
 
     private interface Item {
-        final int INTEGER_ITEM = 0;
-        final int STRING_ITEM = 1;
-        final int LIST_ITEM = 2;
+        int INTEGER_ITEM = 0;
+        int STRING_ITEM = 1;
+        int LIST_ITEM = 2;
 
         int compareTo(Item item);
 
@@ -171,7 +171,6 @@ public class ComparableVersion implements Comparable<ComparableVersion> {
          * or QUALIFIERS.size and then resort to lexical ordering. Most comparisons are decided by the first character,
          * so this is still fast. If more characters are needed then it requires a lexical sort anyway.
          *
-         * @param qualifier
          * @return an equivalent value that can be used with lexical comparison
          */
         public static String comparableQualifier(String qualifier) {
@@ -299,7 +298,7 @@ public class ComparableVersion implements Comparable<ComparableVersion> {
 
         ListItem list = items;
 
-        Stack<Item> stack = new Stack<Item>();
+        Stack<Item> stack = new Stack<>();
         stack.push(list);
 
         boolean isDigit = false;

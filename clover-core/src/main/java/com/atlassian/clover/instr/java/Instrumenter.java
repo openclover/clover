@@ -31,13 +31,13 @@ import org.jetbrains.annotations.Nullable;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.nio.file.Files;
 import java.util.Set;
 
 public class Instrumenter {
@@ -115,7 +115,7 @@ public class Instrumenter {
             instrTmp = File.createTempFile("clover", ".java");
             final String currentFileEncoding = fileEncoding != null ? fileEncoding : config.getEncoding();
             if (currentFileEncoding != null) {
-                out = new OutputStreamWriter(new FileOutputStream(instrTmp), currentFileEncoding);
+                out = new OutputStreamWriter(Files.newOutputStream(instrTmp.toPath()), currentFileEncoding);
             } else {
                 out = new FileWriter(instrTmp);
             }
@@ -162,11 +162,7 @@ public class Instrumenter {
                     e.recog.getColumn() + ":" + e.getMessage();
             log.error(msg);
             throw new CloverException(msg, e);
-        } catch (TokenStreamException e) {
-            log.error("Error processing " + srcFile);
-            log.error(e.getMessage());
-            throw new CloverException(e);
-        } catch (IOException e) {
+        } catch (TokenStreamException | IOException e) {
             log.error("Error processing " + srcFile);
             log.error(e.getMessage());
             throw new CloverException(e);
@@ -185,10 +181,6 @@ public class Instrumenter {
      * @param out the destination stream
      * @param fileEncoding encoding of the file being instrumented, a <code>null</code> value means undefined
      * @return FileStructureInfo - file reference to the instrumented version
-     * @throws CloverException      if something goes wrong
-     * @throws TokenStreamException
-     * @throws IOException
-     * @throws RecognitionException
      */
     public FileStructureInfo instrument(final @NotNull InstrumentationSource in, final @NotNull Writer out,
                                         final @Nullable String fileEncoding)
@@ -250,10 +242,6 @@ public class Instrumenter {
      * @param charSequence source text to be instrumented
      * @param fileEncoding original file encodng, a <code>null</code> value means undefined
      * @return CharSequence instrumented version of sources
-     * @throws TokenStreamException
-     * @throws IOException
-     * @throws RecognitionException
-     * @throws CloverException
      */
     public CharSequence instrument(final @NotNull File orig, final @NotNull CharSequence charSequence,
                                    final @Nullable String fileEncoding)

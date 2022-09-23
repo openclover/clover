@@ -200,8 +200,8 @@ public class CloudEditorController implements CoverageListener, HasMetricsListen
             lastSelectedElement = null;
         } else {
             if (element != null) {
-                lastSelectedDatabase = new WeakReference<CloverDatabase>(db);
-                lastSelectedElement = new WeakReference<HasMetrics>(element);
+                lastSelectedDatabase = new WeakReference<>(db);
+                lastSelectedElement = new WeakReference<>(element);
             }
         }
     }

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
+import java.nio.charset.StandardCharsets;
 
 public class CloverLicenseDecoder {
 
@@ -27,7 +28,7 @@ public class CloverLicenseDecoder {
     private static String readFrom(InputStream licenseIn) throws LicenseDecoderException {
         try {
             final StringBuilder licenseCert = new StringBuilder();
-            LineNumberReader lin = new LineNumberReader(new InputStreamReader(licenseIn, "UTF-8"));
+            LineNumberReader lin = new LineNumberReader(new InputStreamReader(licenseIn, StandardCharsets.UTF_8));
             for (String line = lin.readLine(); line != null; line = lin.readLine()) {
                 licenseCert.append(line).append("\n");
             }

@@ -11,8 +11,8 @@ public class TestCaseInfoLookup {
     private ConcurrentHashMap<String, TestCaseInfo> byQualifiedName;
 
     public TestCaseInfoLookup() {
-        byId = new ConcurrentHashMap<Integer, TestCaseInfo>();
-        byQualifiedName = new ConcurrentHashMap<String, TestCaseInfo>();
+        byId = new ConcurrentHashMap<>();
+        byQualifiedName = new ConcurrentHashMap<>();
     }
 
     public void add(TestCaseInfo tci) {
@@ -26,9 +26,6 @@ public class TestCaseInfoLookup {
 
     /**
      * Search by a fully qualified test name, like "com.acme.FooTest.testThisFeature".
-     * It can also search by
-     * @param qualifiedName
-     * @return
      */
     public TestCaseInfo getBy(String qualifiedName) {
         return byQualifiedName.get(qualifiedName);

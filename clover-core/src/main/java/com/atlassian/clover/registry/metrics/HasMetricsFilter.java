@@ -29,10 +29,10 @@ public interface HasMetricsFilter {
         public boolean accept(HasMetrics hm) { return false; }
     };
 
-    public boolean accept(HasMetrics hm);
+    boolean accept(HasMetrics hm);
 
-    public static interface Invertable extends HasMetricsFilter {
-        public boolean isInverted();
-        public Invertable invert();
+    interface Invertable extends HasMetricsFilter {
+        boolean isInverted();
+        Invertable invert();
     }
 }

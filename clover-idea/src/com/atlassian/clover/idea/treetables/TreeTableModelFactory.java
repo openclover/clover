@@ -69,11 +69,7 @@ public class TreeTableModelFactory {
             final Method getTree = potentialTreeTableView.getClass().getMethod("getTree");
             Object o = getTree.invoke(potentialTreeTableView);
             return (o instanceof JTree) ? (JTree) o : null;
-        } catch (NoSuchMethodException e) {
-            return null;
-        } catch (InvocationTargetException e) {
-            return null;
-        } catch (IllegalAccessException e) {
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             return null;
         }
 

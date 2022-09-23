@@ -30,13 +30,7 @@ public class FileChooser  {
                     FileChooserDescriptor.class, Component.class, Project.class, VirtualFile.class);
             vf = (VirtualFile[])chooseFiles.invoke(null, fileChooser, component, null, null);
             tryOldApi = false;
-        } catch (NoSuchMethodException ex) {
-            Logger.getInstance().verbose(idea12FailMessage, ex);
-            tryOldApi = true;
-        } catch (InvocationTargetException ex) {
-            Logger.getInstance().verbose(idea12FailMessage, ex);
-            tryOldApi = true;
-        } catch (IllegalAccessException ex) {
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ex) {
             Logger.getInstance().verbose(idea12FailMessage, ex);
             tryOldApi = true;
         }
@@ -48,11 +42,7 @@ public class FileChooser  {
                 final Method chooseFiles = com.intellij.openapi.fileChooser.FileChooser.class.getMethod("chooseFiles",
                         Component.class, FileChooserDescriptor.class);
                 vf = (VirtualFile[])chooseFiles.invoke(null, component, fileChooser);
-            } catch (NoSuchMethodException ex) {
-                Logger.getInstance().verbose(idea11FailMessage, ex);
-            } catch (InvocationTargetException ex) {
-                Logger.getInstance().verbose(idea11FailMessage, ex);
-            } catch (IllegalAccessException ex) {
+            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ex) {
                 Logger.getInstance().verbose(idea11FailMessage, ex);
             }
         }

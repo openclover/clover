@@ -35,7 +35,7 @@ public class IdeaTestFilter extends DefaultTestFilter {
         try {
             virtualFile = VfsUtil.findFileByURL(file.toURI().toURL());
         } catch (MalformedURLException e) {
-            throw new RuntimeException("Cannot convert File to VirtualFile (" + file.toString() + ")", e);
+            throw new RuntimeException("Cannot convert File to VirtualFile (" + file + ")", e);
         }
         return virtualFile != null && ProjectRootManager.getInstance(project).getFileIndex().isInTestSourceContent(virtualFile);
     }

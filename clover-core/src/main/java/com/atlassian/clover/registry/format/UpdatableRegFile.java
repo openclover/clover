@@ -66,15 +66,14 @@ public class UpdatableRegFile extends RegFile<UpdatableRegFile> {
         //Must use RAF here because we rewind and update - otherwise channel.position(..)
         //followed by a write will blank out intermediate data
         final File registryFile = getFile();
-        final RandomAccessFile randomAccessFile = new RandomAccessFile(registryFile, "rw");
-        try {
+        try (RandomAccessFile randomAccessFile = new RandomAccessFile(registryFile, "rw")) {
             final FileChannel channel = randomAccessFile.getChannel();
             final Collection<InstrSessionSegment> sessions = newLinkedList();
 
             final RegHeader currentHeader = RegHeader.readFrom(getFile().getAbsolutePath(), channel);
             if (currentHeader.getVersion() != header.getVersion()) {
                 throw new ConcurrentInstrumentationException(
-                    "The on-disk registry version (" + currentHeader.getVersion() + ") differs from the in-memory version (" + header.getVersion() + ")");
+                        "The on-disk registry version (" + currentHeader.getVersion() + ") differs from the in-memory version (" + header.getVersion() + ")");
             }
 
             int maxSlotLength = header.getSlotCount();
@@ -87,12 +86,12 @@ public class UpdatableRegFile extends RegFile<UpdatableRegFile> {
                 maxSlotLength = Math.max(maxSlotLength, delta.getSlotCount());
 
                 final InstrSessionSegment session =
-                    new InstrSessionSegment(
-                        delta.getVersion(),
-                        delta.getStartTs(),
-                        delta.getEndTs(),
-                        toRecords(delta.getFileInfos()),
-                        delta.getContextStore());
+                        new InstrSessionSegment(
+                                delta.getVersion(),
+                                delta.getStartTs(),
+                                delta.getEndTs(),
+                                toRecords(delta.getFileInfos()),
+                                delta.getContextStore());
 
                 session.write(channel);
                 sessions.add(session);
@@ -100,22 +99,20 @@ public class UpdatableRegFile extends RegFile<UpdatableRegFile> {
 
             //Update the header with new values
             final RegHeader header =
-                new RegHeader(
-                    this.header.getAccessMode(),
-                    latestVersion,
-                    maxSlotLength,
-                    this.header.getCoverageLocation(),
-                    channel.position() - 1L,
-                    getName());
+                    new RegHeader(
+                            this.header.getAccessMode(),
+                            latestVersion,
+                            maxSlotLength,
+                            this.header.getCoverageLocation(),
+                            channel.position() - 1L,
+                            getName());
 
             channel.position(0);
             header.write(channel);
-            
+
             registryFile.setLastModified(latestVersion);
 
             return new UpdatableRegFile(getFile(), header);
-        } finally {
-            randomAccessFile.close();
         }
     }
 

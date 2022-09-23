@@ -27,7 +27,7 @@ import static clover.com.google.common.collect.Lists.newArrayList;
  * @version $Revision: 7922 $
  */
 public class SourceBuffer {
-    private final List lines;
+    private final List<StringBuffer> lines;
     private StringBuffer current;
 
     public SourceBuffer() {
@@ -95,7 +95,6 @@ public class SourceBuffer {
 
     /**
      * Writes the specified character into the buffer
-     * @param c
      */
     public void write(int c) {
         if (c != -1) {

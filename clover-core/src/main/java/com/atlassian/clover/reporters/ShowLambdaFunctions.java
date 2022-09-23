@@ -9,7 +9,7 @@ public enum ShowLambdaFunctions {
     FIELDS_ONLY("Declared in fields only"),
     FIELDS_AND_INLINE("Declared in fields and in-line");
 
-    private String description;
+    private final String description;
 
     ShowLambdaFunctions(String description) {
         this.description = description;

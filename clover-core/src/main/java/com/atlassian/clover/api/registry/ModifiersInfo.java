@@ -15,7 +15,7 @@ public interface ModifiersInfo {
      * @return Collection&lt;Annotation&gt; list of annotations with that name or empty list if not found
      */
     @NotNull
-    public Collection<Annotation> getAnnotation(@NotNull String name);
+    Collection<Annotation> getAnnotation(@NotNull String name);
 
     /**
      * Returns a multi-map of all annotations - one key (annotation name) may contain mutliple values
@@ -24,5 +24,5 @@ public interface ModifiersInfo {
      * @return  Map&lt;String, Collection&lt;Annotation&gt;&gt; - map(name, annotations)
      */
     @NotNull
-    public Map<String, Collection<Annotation>> getAnnotations();
+    Map<String, Collection<Annotation>> getAnnotations();
 }

@@ -29,7 +29,7 @@ public class CharSequenceInstrumentationSource implements InstrumentationSource 
     }
 
     @Override
-    public Reader createReader() throws IOException {
+    public Reader createReader() {
         return new StringReader(charSequence.toString());
     }
 }

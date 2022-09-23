@@ -1,11 +1,11 @@
 package com.atlassian.clover.instr.java;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.nio.file.Files;
 
 /**
  * Data source reading from a File.
@@ -33,7 +33,7 @@ public class FileInstrumentationSource implements InstrumentationSource {
     @Override
     public Reader createReader() throws IOException {
         if (encoding != null) {
-            return new InputStreamReader(new FileInputStream(sourceFile), encoding);
+            return new InputStreamReader(Files.newInputStream(sourceFile.toPath()), encoding);
         } else {
             return new FileReader(sourceFile);
         }

@@ -230,7 +230,7 @@ public class JSONArray {
         try {
             return o instanceof Number ?
                 ((Number)o).doubleValue() :
-                Double.valueOf((String)o).doubleValue();
+                    Double.parseDouble((String) o);
         } catch (Exception e) {
             throw new JSONException("JSONArray[" + index +
                 "] is not a number.");
@@ -575,7 +575,7 @@ public class JSONArray {
      * @return this.
      */
     public JSONArray put(double value) throws JSONException {
-        Double d = Double.valueOf(value);
+        Double d = value;
         JSONObject.testValidity(d);
         put(d);
         return this;
@@ -801,7 +801,6 @@ public class JSONArray {
      *  representation of the object, beginning
      *  with <code>[</code>&nbsp;<small>(left bracket)</small> and ending
      *  with <code>]</code>&nbsp;<small>(right bracket)</small>.
-     * @throws JSONException
      */
     public String toString(int indentFactor) throws JSONException {
         return toString(indentFactor, 0);
@@ -816,7 +815,6 @@ public class JSONArray {
      * @param indent The indention of the top level.
      * @return a printable, displayable, transmittable
      *  representation of the array.
-     * @throws JSONException
      */
     String toString(int indentFactor, int indent) throws JSONException {
         int len = length();
@@ -858,7 +856,6 @@ public class JSONArray {
      * Warning: This method assumes that the data structure is acyclical.
      *
      * @return The writer.
-     * @throws JSONException
      */
     public Writer write(Writer writer) throws JSONException {
         try {

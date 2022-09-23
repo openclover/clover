@@ -12,7 +12,7 @@ public class MoneyTest extends SuperMoneyTest {
 //    }
 
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         junit.textui.TestRunner.run(MoneyTest.class);
     }
 

@@ -104,7 +104,7 @@ public class Modifiers implements TaggedPersistent, ModifiersInfo {
         // fetch existing values for this name or create new collection
         Collection<Annotation> values = annotations.get(annotation.getName());
         if (values == null) {
-            values = new ArrayList<Annotation>(1); // size=1 because assuming that repeating annotations are rarely used
+            values = new ArrayList<>(1); // size=1 because assuming that repeating annotations are rarely used
         }
         values.add(annotation);
 

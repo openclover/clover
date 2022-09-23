@@ -10,11 +10,11 @@ import com_atlassian_clover.CoverageRecorder;
  * discouraged. Where more than one is active at a time, all will record per-test coverage.
  */
 public interface PerTestRecorder {
-    public static final int NO_EXIT_RESULT = -1;
-    public static final int ABNORMAL_EXIT = 0;
-    public static final int NORMAL_EXIT = 1;
+    int NO_EXIT_RESULT = -1;
+    int ABNORMAL_EXIT = 0;
+    int NORMAL_EXIT = 1;
 
-    public static class Null implements PerTestRecorder {
+    class Null implements PerTestRecorder {
         @Override
         public void testStarted(String runtimeType, long start, int slice, int testRunId) {
         }
@@ -30,7 +30,7 @@ public interface PerTestRecorder {
         }
     }
 
-    public static class Diffing implements PerTestRecorder {
+    class Diffing implements PerTestRecorder {
         protected final CoverageRecorder coverageRecorder;
         protected long start;
         protected CoverageSnapshot startingCoverage;
@@ -66,10 +66,10 @@ public interface PerTestRecorder {
         }
     }
 
-    public void testStarted(String runtimeType, long start, int slice, int testRunId);
+    void testStarted(String runtimeType, long start, int slice, int testRunId);
 
-    public LivePerTestRecording testFinished(String runtimeType, String method, /*@Nullable*/ String runtimeTestName,
+    LivePerTestRecording testFinished(String runtimeType, String method, /*@Nullable*/ String runtimeTestName,
                                              long end, int slice, int testRunId, int exitStatus, ErrorInfo ei);
 
-    public void set(int index);
+    void set(int index);
 }

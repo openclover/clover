@@ -16,8 +16,7 @@ public abstract class CoverageRecorder {
     public static final int FLUSHPOLICY_THREADED = 2;
 
     /**
-     * Config information is packed into a single long which is added to instrumentation
-     *
+     * Config information is packed into a single long which is added to instrumentation.
      * Bits
      *  0-31 = integer flush interval in milliseconds
      * 32-34 = flush policy: 0 = directed, 1 = interval, 2 = threaded

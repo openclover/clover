@@ -23,14 +23,6 @@ public final class FixedSizeCoverageRecorder extends BaseCoverageRecorder {
     /**
      * Factory method. Use this to get an instance of the recorder. Do not call constructors directly
      * (they're not private only for the sake of unit tests).
-     *
-     * @param dbFile
-     * @param dbVersion
-     * @param maxNumElements
-     * @param cfgbits
-     * @return CoverageRecorder instance
-     * @throws IOException
-     * @throws RegistryFormatException
      */
     public static CoverageRecorder createFor(final File dbFile, final long dbVersion, final int maxNumElements, final long cfgbits) throws IOException, RegistryFormatException {
         final RegHeader header = RegHeader.readFrom(dbFile);

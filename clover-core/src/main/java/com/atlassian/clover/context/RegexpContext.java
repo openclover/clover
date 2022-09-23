@@ -42,9 +42,7 @@ public abstract class RegexpContext extends SimpleContext {
 
         RegexpContext that = (RegexpContext) o;
 
-        if (pattern != null ? !pattern.pattern().equals(that.pattern.pattern()) : that.pattern != null) return false;
-
-        return true;
+        return pattern != null ? pattern.pattern().equals(that.pattern.pattern()) : that.pattern == null;
     }
 
     public int hashCode() {

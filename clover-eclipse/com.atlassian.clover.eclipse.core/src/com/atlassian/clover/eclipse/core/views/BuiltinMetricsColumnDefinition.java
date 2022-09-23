@@ -105,8 +105,8 @@ public abstract class BuiltinMetricsColumnDefinition
         @Override
         public int compare(Object object1, Object object2) {
             if (object1.getClass() == object2.getClass()) {
-                Double value1 = new Double(getValue(scope, object1).doubleValue());
-                Double value2 = new Double(getValue(scope, object2).doubleValue());
+                Double value1 = getValue(scope, object1).doubleValue();
+                Double value2 = getValue(scope, object2).doubleValue();
                 return value1.compareTo(value2);
             } else {
                 return ExplorerViewComparator.compareType(object1, object2);

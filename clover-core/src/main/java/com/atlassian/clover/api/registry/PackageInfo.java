@@ -53,7 +53,7 @@ public interface PackageInfo extends EntityContainer, HasClasses, HasFiles, HasC
     /**
      * Returns a list of top-level classes (i.e. declared on a file's top-level, not as inner classes or inline ones)
      * declared in this package. It does not return classes from sub-packages.
-     *
+     * <p/>
      * Note that in many programming languages you can have more than one class in a source file. It can also happen
      * that some source file has no classes.
      *
@@ -66,7 +66,7 @@ public interface PackageInfo extends EntityContainer, HasClasses, HasFiles, HasC
     /**
      * Returns a list of top-level classes (i.e. not inner or inline ones) declared in this package AND all
      * sub-packages.
-     *
+     * <p/>
      * For example, if this package is named "com.acme" then it will return all top-level classes
      * from "com.acme" as well as from "com.acme.foo", "com.acme.foo.bar" but not "com.other".
      *
@@ -86,7 +86,7 @@ public interface PackageInfo extends EntityContainer, HasClasses, HasFiles, HasC
 
     /**
      * Returns list of all classes (including inner or inline classes) declared in this package AND all sub-packages.
-     *
+     * <p/>
      * For example if this package is named "com.acme" then it will return all top-level and inner classes
      * from "com.acme" as well as from "com.acme.foo", "com.acme.foo.bar" but not from "com.other".
      *

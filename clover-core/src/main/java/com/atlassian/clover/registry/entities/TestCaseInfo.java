@@ -10,6 +10,7 @@ import java.io.ObjectStreamException;
 import java.io.Serializable;
 import java.lang.ref.WeakReference;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import static clover.com.google.common.collect.Maps.newHashMap;
@@ -93,13 +94,9 @@ public class TestCaseInfo implements Serializable {
     }
 
     /**
-     *
      * @param startTime  approximate time when test has started (in miliseconds since epoch), use 0 if unknown
      * @param endTime    approximate time when test has finished (in miliseconds since epoch), use 0 if unknown
      * @param duration   how long test was running (in seconds)
-     * @param runtimeTypeName
-     * @param sourceMethodName
-     * @param runtimeTestName
      */
     private TestCaseInfo(long startTime, long endTime, double duration,
                          String runtimeTypeName, String sourceMethodName, @Nullable String runtimeTestName) {
@@ -108,16 +105,16 @@ public class TestCaseInfo implements Serializable {
         this.duration = duration;
         this.runtimeTypeName = runtimeTypeName;
         this.sourceMethodName = sourceMethodName;
-        this.runtimeType = new WeakReference<FullClassInfo>(null);
-        this.sourceMethod = new WeakReference<FullMethodInfo>(null);
+        this.runtimeType = new WeakReference<>(null);
+        this.sourceMethod = new WeakReference<>(null);
         this.runtimeTestName = runtimeTestName;
     }
 
     public TestCaseInfo(Integer id, FullClassInfo runtimeType, FullMethodInfo sourceMethod,
                         @Nullable String runtimeTestName) {
         this.id = id;
-        this.runtimeType = new WeakReference<FullClassInfo>(runtimeType);
-        this.sourceMethod = new WeakReference<FullMethodInfo>(sourceMethod);
+        this.runtimeType = new WeakReference<>(runtimeType);
+        this.sourceMethod = new WeakReference<>(sourceMethod);
         // use statically defined test name (if present) or a method name as a name of the test
         this.staticTestName = sourceMethod != null   // may be null in DecoratedTestCaseInfo
                 ? (sourceMethod.getStaticTestName() != null ? sourceMethod.getStaticTestName() : sourceMethod.getSimpleName())
@@ -146,7 +143,7 @@ public class TestCaseInfo implements Serializable {
     public boolean resolve(FullProjectInfo project) {
         final String rtClassname = runtimeTypeName.replaceAll("\\.[0-9]+", ""); // hack - see CCD-294, CCD-307
         final FullClassInfo runtimeType = (FullClassInfo)project.findClass(rtClassname);
-        this.runtimeType = new WeakReference<FullClassInfo>(runtimeType);
+        this.runtimeType = new WeakReference<>(runtimeType);
         int lastDot = sourceMethodName.lastIndexOf(".");
 
         if (lastDot > 0 && lastDot < sourceMethodName.length()) {
@@ -159,7 +156,7 @@ public class TestCaseInfo implements Serializable {
             // if found then find proper method in this class as well
             if (srcClass != null) {
                 testMethodFound = srcClass.getTestMethodDeclaration(sourceMethodName.substring(lastDot + 1));
-                sourceMethod = new WeakReference<FullMethodInfo>(testMethodFound);
+                sourceMethod = new WeakReference<>(testMethodFound);
             }
 
             // read static test name out of the method or just guess the name from the substring
@@ -252,7 +249,6 @@ public class TestCaseInfo implements Serializable {
     /**
      * Manually set how long test was executing. Method is useful for parsing test results from external sources,
      * like JUnit XML files.
-     * @param duration
      */
     public void setDuration(double duration) {
         this.duration = duration;
@@ -360,18 +356,16 @@ public class TestCaseInfo implements Serializable {
         if (failure != that.failure) return false;
         if (hasResult != that.hasResult) return false;
         if (startTime != that.startTime) return false;
-        if (failFullMessage != null ? !failFullMessage.equals(that.failFullMessage) : that.failFullMessage != null)
+        if (!Objects.equals(failFullMessage, that.failFullMessage))
             return false;
-        if (failMessage != null ? !failMessage.equals(that.failMessage) : that.failMessage != null) return false;
-        if (failType != null ? !failType.equals(that.failType) : that.failType != null) return false;
-        if (runtimeTypeName != null ? !runtimeTypeName.equals(that.runtimeTypeName) : that.runtimeTypeName != null)
+        if (!Objects.equals(failMessage, that.failMessage)) return false;
+        if (!Objects.equals(failType, that.failType)) return false;
+        if (!Objects.equals(runtimeTypeName, that.runtimeTypeName))
             return false;
-        if (sourceMethodName != null ? !sourceMethodName.equals(that.sourceMethodName) : that.sourceMethodName != null)
+        if (!Objects.equals(sourceMethodName, that.sourceMethodName))
             return false;
-        if (staticTestName != null ? !staticTestName.equals(that.staticTestName) : that.staticTestName != null) return false;
-        if (runtimeTestName != null ? !runtimeTestName.equals(that.runtimeTestName) : that.runtimeTestName != null) return false;
-
-        return true;
+        if (!Objects.equals(staticTestName, that.staticTestName)) return false;
+        return Objects.equals(runtimeTestName, that.runtimeTestName);
     }
 
     @Override

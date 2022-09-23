@@ -64,19 +64,11 @@ public class RecorderLogging {
 
         } catch (ClassNotFoundException e) {
             errorMsg += "Class not found. ";
-        } catch (ExceptionInInitializerError e) {
+        } catch (ExceptionInInitializerError | InvocationTargetException e) {
             errorMsg += "An error occured during class initialisation. ";
-        } catch (NoSuchMethodException e) {
+        } catch (NoSuchMethodException | InstantiationException | IllegalAccessException e) {
             errorMsg += "An error occured during class initialisation. The class must provide a no-args" +
                     " public constructor. ";
-        } catch (IllegalAccessException e) {
-            errorMsg += "An error occured during class initialisation. The class must provide a no-args" +
-                    " public constructor. ";
-        } catch (InstantiationException e) {
-            errorMsg += "An error occured during class initialisation. The class must provide a no-args" +
-                    " public constructor. ";
-        } catch (InvocationTargetException e) {
-            errorMsg += "An error occured during class initialisation. ";
         }
 
         if (!successful) {

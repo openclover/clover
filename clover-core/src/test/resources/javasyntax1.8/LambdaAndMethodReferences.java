@@ -39,7 +39,7 @@ public class LambdaAndMethodReferences {
 
         // referencing by 'Class::methodName', which is being translated to
         // '(Class obj) -> { obj.methodName(); }' by the compiler
-        ArrayList<String> myStringList = new ArrayList<String>();
+        ArrayList<String> myStringList = new ArrayList<>();
         myStringList.forEach(String::toLowerCase);
     }
 

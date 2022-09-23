@@ -64,7 +64,7 @@ public class TestRunExplorerTreeBuilder {
     private Map<PackageInfo, Map<FullClassInfo, Collection<TestCaseInfo>>> indexPerPackage(Collection<? extends TestCaseInfo> testCases) {
 
         final Map<PackageInfo, Map<FullClassInfo, Collection<TestCaseInfo>>> index =
-                new IdentityHashMap<PackageInfo, Map<FullClassInfo, Collection<TestCaseInfo>>>();
+                new IdentityHashMap<>();
         for (TestCaseInfo testCase : testCases) {
             FullClassInfo classInfo = testCase.getRuntimeType();
             if (classInfo == null) {
@@ -76,7 +76,7 @@ public class TestRunExplorerTreeBuilder {
             Collection<TestCaseInfo> tciList;
             Map<FullClassInfo, Collection<TestCaseInfo>> clsMap = index.get(packageInfo);
             if (clsMap == null) {
-                clsMap = new IdentityHashMap<FullClassInfo, Collection<TestCaseInfo>>();
+                clsMap = new IdentityHashMap<>();
                 index.put(packageInfo, clsMap);
                 tciList = null;
             } else {
@@ -203,7 +203,7 @@ public class TestRunExplorerTreeBuilder {
                                                          CoverageDataReceptor receptor,
                                                          CloverDatabase currentDatabase,
                                                          CoverageManager coverageManager) {
-        final Collection<DecoratedTestCaseInfo> decorated = new ArrayList<DecoratedTestCaseInfo>(testCases.size());
+        final Collection<DecoratedTestCaseInfo> decorated = new ArrayList<>(testCases.size());
         for (TestCaseInfo testCase : testCases) {
             decorated.add(new DecoratedTestCaseInfo(testCase, receptor, currentDatabase, coverageManager));
         }
@@ -231,7 +231,7 @@ public class TestRunExplorerTreeBuilder {
         ApplicationManager.getApplication().assertIsDispatchThread();
         if (WindowManager.getInstance().getFrame(project) != null) {
             final BackgroundCoverageCalculator calculator = new BackgroundCoverageCalculator(testCases, receptor, currentDatabase);
-            lastCalculator = new WeakReference<BackgroundCoverageCalculator>(calculator);
+            lastCalculator = new WeakReference<>(calculator);
             calculator.queue();
         }
 
@@ -265,7 +265,7 @@ public class TestRunExplorerTreeBuilder {
     }
 
     private void addSorted(DefaultMutableTreeNode root, Collection<? extends TestCaseInfo> testCases) {
-        List<DefaultMutableTreeNode> nodes = new ArrayList<DefaultMutableTreeNode>(testCases.size());
+        List<DefaultMutableTreeNode> nodes = new ArrayList<>(testCases.size());
         for (TestCaseInfo tci : testCases) {
             final DefaultMutableTreeNode node = new DefaultMutableTreeNode(tci);
             nodes.add(node);

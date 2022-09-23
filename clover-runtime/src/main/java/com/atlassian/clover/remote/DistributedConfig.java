@@ -31,7 +31,7 @@ public class DistributedConfig implements Config, Serializable {
     }
     /**
      * Parses a String of the form: "ON|OFF|name=name;host=host;port=port;timeout=timeout;numclients=2;".
-     *
+     * <p/>
      * If str is "ON" or "on", then this config be enabled with default values for all properties.
      * If str is "OFF" or "off", then this config will be disabled, and no values should be queuried.
      * 

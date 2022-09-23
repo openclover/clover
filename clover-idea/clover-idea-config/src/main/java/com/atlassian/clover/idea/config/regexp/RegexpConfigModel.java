@@ -97,7 +97,7 @@ public class RegexpConfigModel extends Observable implements Observer {
      * @param config config to commit data to
      */
     public void commitTo(CloverPluginConfig config) {
-        final List<Regexp> l = new ArrayList<Regexp>(regexps.size());
+        final List<Regexp> l = new ArrayList<>(regexps.size());
         for (Regexp r : regexps) {
             l.add(new Regexp(r));
         }

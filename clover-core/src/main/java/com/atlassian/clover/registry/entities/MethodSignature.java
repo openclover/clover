@@ -126,7 +126,6 @@ public class MethodSignature implements TaggedPersistent, MethodSignatureInfo {
 
     /**
      * Returns the parameter types for the method signature.
-     *
      * This will be null for instance and static initializers. ie {...} and static {...}
      * @return an array of parameter types, or null
      */

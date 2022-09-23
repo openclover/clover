@@ -43,17 +43,17 @@ public class HistoricalReportDescriptor {
     private boolean enoughForMovers;
 
     public HistoricalReportDescriptor(CloverReportConfig cfg)
-            throws CloverException, IOException {
+            throws CloverException {
         log = Logger.getInstance();
         histCfg = (Historical) cfg;
         if (histCfg == null) {
             throw new CloverException("Invalid report config");
         }
-        moversDescriptors = new ArrayList<MoversDescriptor>(histCfg.getMovers().size());
-        addedDescriptors = new ArrayList<AddedDescriptor>(histCfg.getAdded().size());
+        moversDescriptors = new ArrayList<>(histCfg.getMovers().size());
+        addedDescriptors = new ArrayList<>(histCfg.getAdded().size());
     }
 
-    public boolean gatherHistoricalModels() throws CloverException, IOException {
+    public boolean gatherHistoricalModels() throws IOException {
         File[] historyFiles = histCfg.getHistoryFiles();
         if (historyFiles == null) {
             historyFiles = FileUtils.listMatchingFilesForDir(
@@ -146,11 +146,11 @@ public class HistoricalReportDescriptor {
     }
 
     public long getFirstTimestamp() {
-        return firstTS.longValue();
+        return firstTS;
     }
 
     public long getLastTimestamp() {
-        return lastTS.longValue();
+        return lastTS;
     }
 
     public SortedMap getHistoricalModels() {
@@ -170,13 +170,13 @@ public class HistoricalReportDescriptor {
         Long firstTS = timestamps.get(1); // the default is the second last timestamp
 
         if (requested != null) {
-            long requestedTS = lastTS.longValue() - requested.getValueInMillis();
+            long requestedTS = lastTS - requested.getValueInMillis();
 
-            if (requestedTS >= lastTS.longValue()) {
+            if (requestedTS >= lastTS) {
                 log.warn("Ignoring interval setting of " + requested + ". ");
             } else {
                 for (Long ts : timestamps) {
-                    if (ts.longValue() < requestedTS) {
+                    if (ts < requestedTS) {
                         break;
                     } else {
                         firstTS = ts;
@@ -209,7 +209,7 @@ public class HistoricalReportDescriptor {
                 final List<MetricsDiffSummary> topN = getPositiveMoversInner(moverClasses, lastMover, range, true);
                 Collections.sort(topN, MetricsDiffSummary.INVERSE_DIFF_COMP);
                 final List<MetricsDiffSummary> bottomN = getBottomMovers(moverClasses, range);
-                final List<MetricsDiffSummary> result = new ArrayList<MetricsDiffSummary>(topN.size() + bottomN.size());
+                final List<MetricsDiffSummary> result = new ArrayList<>(topN.size() + bottomN.size());
                 result.addAll(topN);
                 result.addAll(bottomN);
 
@@ -338,7 +338,7 @@ public class HistoricalReportDescriptor {
         }
 
         private Interval calcActualInterval(Long lastTS, Long firstTS, Interval requested) {
-            Interval actual = new Interval((lastTS.longValue() - firstTS.longValue()) / 1000, Interval.UNIT_SECOND);
+            Interval actual = new Interval((lastTS - firstTS) / 1000, Interval.UNIT_SECOND);
             if (requested != null && !actual.equals(requested)) {
                 log.info("movers interval adjusted to " + actual.toSensibleString());
             } else {

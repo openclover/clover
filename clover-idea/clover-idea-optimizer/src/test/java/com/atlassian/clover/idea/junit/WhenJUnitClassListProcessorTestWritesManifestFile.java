@@ -22,7 +22,7 @@ public class WhenJUnitClassListProcessorTestWritesManifestFile {
     public void testShouldReadBackAsExpected() throws Exception {
         for (String[] testCase : FileBasedJUnitClassListProcessorIdeaTest.TEST_CASES) {
             List<String> header = Arrays.asList(testCase[0], testCase[1]);
-            final List<Optimizable> optimizables = new ArrayList<Optimizable>(testCase.length - 2);
+            final List<Optimizable> optimizables = new ArrayList<>(testCase.length - 2);
             for (int i = 2; i < testCase.length; i++) {
                 optimizables.add(new StringOptimizable(testCase[i]));
             }
@@ -43,7 +43,7 @@ public class WhenJUnitClassListProcessorTestWritesManifestFile {
     public void testShouldReadBackAsExpectedIdea11AndAbove() throws Exception {
         for (String[] testCase : FileBasedJUnitClassListProcessorIdeaTest.TEST_CASES_IDEA_11_TO_13) {
             List<String> header = Arrays.asList(testCase[0]);
-            final List<Optimizable> optimizables = new ArrayList<Optimizable>(testCase.length - 1);
+            final List<Optimizable> optimizables = new ArrayList<>(testCase.length - 1);
             for (int i = 1; i < testCase.length; i++) {
                 optimizables.add(new StringOptimizable(testCase[i]));
             }
@@ -53,7 +53,7 @@ public class WhenJUnitClassListProcessorTestWritesManifestFile {
 
             assertTrue(JUnitClassListProcessor.writeManifestFile(tmpFile,
                     header.toArray(new String[header.size()]), optimizables));
-            List<String> newHeader = new ArrayList<String>();
+            List<String> newHeader = new ArrayList<>();
             final List<Optimizable> newOptimizables = JUnitClassListProcessor.readOptimizables(tmpFile, newHeader);
 
             assertEquals(header, newHeader);
@@ -62,7 +62,7 @@ public class WhenJUnitClassListProcessorTestWritesManifestFile {
     }
 
     private static List<String> asStrings(List<Optimizable> optimizables) {
-        final List<String> strings = new ArrayList<String>(optimizables.size());
+        final List<String> strings = new ArrayList<>(optimizables.size());
         for (Optimizable optimizable : optimizables) {
             strings.add(optimizable.getName());
         }

@@ -21,7 +21,7 @@ public class FileInfoRecord {
     public FileInfoRecord(FullFileInfo fileInfo) {
         this.name = fileInfo.getName();
         this.packageName = fileInfo.getContainingPackage().getName();
-        this.fileInfo = new LazyProxy.Preloaded<FullFileInfo>(fileInfo);
+        this.fileInfo = new LazyProxy.Preloaded<>(fileInfo);
     }
 
     public FileInfoRecord(FileChannel channel) throws IOException {
@@ -38,7 +38,7 @@ public class FileInfoRecord {
 
         fileInfo = new LazyLoader<FullFileInfo>(channel, channel.position()) {
             @Override
-            protected FullFileInfo getImpl(FileChannel channel) throws IOException, RegistryFormatException {
+            protected FullFileInfo getImpl(FileChannel channel) throws IOException {
                 return TaggedIO.read(channel, InstrSessionSegment.TAGS, FullFileInfo.class);
             }
         };

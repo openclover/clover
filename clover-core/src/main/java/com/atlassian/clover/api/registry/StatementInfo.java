@@ -14,6 +14,6 @@ public interface StatementInfo extends ElementInfo, InstrumentationInfo, HasPare
      * @return LanguageConstruct
      */
     @NotNull
-    public LanguageConstruct getConstruct();
+    LanguageConstruct getConstruct();
 
 }

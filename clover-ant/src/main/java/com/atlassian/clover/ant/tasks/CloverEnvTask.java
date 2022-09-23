@@ -28,7 +28,7 @@ public class CloverEnvTask extends Task {
     public void execute() throws BuildException {
         logEnvironment();
 
-        ProjectHelper helper = (ProjectHelper) getProject().getReference(ProjectHelper.PROJECTHELPER_REFERENCE);
+        ProjectHelper helper = getProject().getReference(ProjectHelper.PROJECTHELPER_REFERENCE);
         try {
             URL importURL = CloverEnvTask.class.getResource("clover.xml");
             log("Loading clover.xml: " + importURL);

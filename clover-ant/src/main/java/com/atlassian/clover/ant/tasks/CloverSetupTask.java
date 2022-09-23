@@ -92,10 +92,8 @@ public class CloverSetupTask extends AbstractInstrTask {
     }
 
     /**
-     * Setup Clover to run
-     *
-     * Note that this task just enables the clover compiler adapter -
-     * it does not do much more than setup some properties and structures
+     * Setup Clover to run. Note that this task just enables the clover compiler adapter -
+     * it does not do much more than setup some properties and structures.
      */
     @Override
     public void cloverExecute() {

@@ -90,6 +90,6 @@ public class CloverPdfReportTask extends CloverReportTask {
             throw new CloverException(config.getValidationFailureReason());
         }
 
-        new PDFReporter(config, secondaryReports.toArray(new CloverReportConfig[secondaryReports.size()])).execute();
+        new PDFReporter(config, secondaryReports.toArray(new CloverReportConfig[0])).execute();
     }
 }

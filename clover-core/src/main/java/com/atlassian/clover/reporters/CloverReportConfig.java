@@ -68,7 +68,6 @@ public abstract class CloverReportConfig {
 
     /**
      * The character encoding to use.
-     *
      * This will be used in the &lt;meta http-equiv="Content-Type" content="text/html; charset=${charset}"/&gt; tag in
      * the reports.
      */
@@ -170,7 +169,6 @@ public abstract class CloverReportConfig {
 
     /**
      * Gets the main out file for this report.
-     *
      * If outFile is a file, it will be returned, otherwise, the main file will be calculated using outFile and
      * mainFileName.
      *

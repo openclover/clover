@@ -64,7 +64,7 @@ public class AntIntegrationListener implements BuildListener {
         }
         
         if (executionOccured && instrumentationOccured && importOccured) {
-            Vector<String> targets = new Vector<String>(Arrays.asList("clover.current", "clover.json", "clover.report"));
+            Vector<String> targets = new Vector<>(Arrays.asList("clover.current", "clover.json", "clover.report"));
             buildEvent.getProject().executeTargets(targets);
         } else {
             msg.append(" Clover reports not being generated.");
@@ -89,10 +89,7 @@ public class AntIntegrationListener implements BuildListener {
         try {
             Snapshot.generateFor(optimizationOptions.getInitString()).store();
 
-        } catch (IOException e) {
-            Logger.getInstance().debug("Exception when writing snapshot", e);
-            Logger.getInstance().error("Problem writing snapshot file: " + e.getMessage());
-        } catch (CloverException e) {
+        } catch (IOException | CloverException e) {
             Logger.getInstance().debug("Exception when writing snapshot", e);
             Logger.getInstance().error("Problem writing snapshot file: " + e.getMessage());
         }
@@ -239,9 +236,7 @@ public class AntIntegrationListener implements BuildListener {
                     addCloverToPath(javadoc, tagInfo);
                 }
             }
-        } catch (NoSuchFieldException e) {
-            Logger.getInstance().debug("Could not inject Clover onto classpath of javadoc task", e);
-        } catch (IllegalAccessException e) {
+        } catch (NoSuchFieldException | IllegalAccessException e) {
             Logger.getInstance().debug("Could not inject Clover onto classpath of javadoc task", e);
         }
     }
@@ -254,9 +249,7 @@ public class AntIntegrationListener implements BuildListener {
                 final Javadoc.ExtensionInfo doclet = javadoc.createDoclet();
                 addCloverToPath(javadoc, doclet);
             }
-        } catch (NoSuchFieldException e) {
-            Logger.getInstance().debug("Could not inject Clover onto classpath of javadoc task", e);
-        } catch (IllegalAccessException e) {
+        } catch (NoSuchFieldException | IllegalAccessException e) {
             Logger.getInstance().debug("Could not inject Clover onto classpath of javadoc task", e);
         }
     }
@@ -289,12 +282,7 @@ public class AntIntegrationListener implements BuildListener {
             Logger.getInstance().debug("batchTests.size() = " + batchTests.size());
             Logger.getInstance().debug("individualTests.size() = " + individualTests.size());
         }
-        catch (IllegalAccessException e) {
-            Logger.getInstance().debug("Unable to access JUnit test field",e);
-            Logger.getInstance().warn("Unable to configure JUnit for test optimization");
-            return;
-        }
-        catch (NoSuchFieldException e) {
+        catch (IllegalAccessException | NoSuchFieldException e) {
             Logger.getInstance().debug("Unable to access JUnit test field",e);
             Logger.getInstance().warn("Unable to configure JUnit for test optimization");
             return;

@@ -181,7 +181,7 @@ public class FullPackageInfo extends BasePackageInfo implements HasMetricsNode, 
     @Override
     public boolean isDescendantOf(com.atlassian.clover.api.registry.PackageInfo other) {
         // fetch parent project from the other package
-        final AtomicReference<ProjectInfo> otherContainingProject = new AtomicReference<ProjectInfo>();
+        final AtomicReference<ProjectInfo> otherContainingProject = new AtomicReference<>();
         other.getParent().visit(new EntityVisitor() {
             @Override
             public void visitProject(ProjectInfo parentProject) {

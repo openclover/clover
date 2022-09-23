@@ -14,8 +14,8 @@ import static clover.com.google.common.collect.Lists.newLinkedList;
 
 /**
  * An optimizer which optimizes a junit.framework.TestSuite of tests.
- *
- * This class currently wont optimize a TestSuite of TestSuites.
+ * <p/>
+ * This class currently won't optimize a TestSuite of TestSuites.
  * TODO: Support for suites of suites.
  * TODO: Move these methods to TestOptimizer
  */
@@ -41,7 +41,7 @@ public class TestSuiteOptimizer {
     /**
      * Optimize the given suite of tests and return a new TestSuite instance with a reduced amount of tests.
      * The name of the returned TestSuite is the same as the name of suite parameter.
-     *
+     * <p/>
      * This does not optimize a TestSuite of TestSuites.
      * 
      * @param suite the suite of tests to optimize

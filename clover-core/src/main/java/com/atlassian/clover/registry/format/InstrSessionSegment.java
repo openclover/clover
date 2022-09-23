@@ -165,7 +165,7 @@ public class InstrSessionSegment {
 
         this.ctxStore = new LazyLoader<ContextStore>(channel, endOfSegment - Footer.SIZE - footer.ctxStoreByteLen + 1) {
             @Override
-            protected ContextStore getImpl(FileChannel channel) throws IOException, RegistryFormatException {
+            protected ContextStore getImpl(FileChannel channel) throws IOException {
                 return loadContextStore(channel);
             }
         };
@@ -180,7 +180,7 @@ public class InstrSessionSegment {
         this.startTs = startTs;
         this.endTs = endTs;
         this.fileInfoRecords = Collections.unmodifiableList(newLinkedList(fileInfoRecords));
-        this.ctxStore = new LazyProxy.Preloaded<ContextStore>(ctxStore);
+        this.ctxStore = new LazyProxy.Preloaded<>(ctxStore);
     }
 
     private Footer loadFooter(FileChannel channel, long endOfSegment) throws IOException {
