@@ -14,7 +14,7 @@ public class ShowSummaryToggleAction extends ToggleAction {
 
     @Override
     public boolean isSelected(AnActionEvent event) {
-        Project project = (Project) DataKeys.PROJECT.getData(event.getDataContext());
+        Project project = DataKeys.PROJECT.getData(event.getDataContext());
         if (project == null) {
             return false;
         }
@@ -24,7 +24,7 @@ public class ShowSummaryToggleAction extends ToggleAction {
 
     @Override
     public void setSelected(AnActionEvent event, boolean b) {
-        Project project = (Project) DataKeys.PROJECT.getData(event.getDataContext());
+        Project project = DataKeys.PROJECT.getData(event.getDataContext());
         if (project != null) {
             IdeaCloverConfig projectConfig = ProjectPlugin.getPlugin(project).getConfig();
             projectConfig.setShowSummaryInToolwindow(b);

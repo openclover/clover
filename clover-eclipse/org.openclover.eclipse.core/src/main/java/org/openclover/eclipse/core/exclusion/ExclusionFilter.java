@@ -45,7 +45,7 @@ public class ExclusionFilter {
     }
 
     static String[] calculateIncludeFilter(List<SourceFolderPattern> folderPatterns) {
-        List<String> list = new ArrayList<String>(folderPatterns.size());
+        List<String> list = new ArrayList<>(folderPatterns.size());
         for (SourceFolderPattern pattern : folderPatterns) {
             if (pattern.isEnabled()) {
                 list.addAll(unroll(pattern.getSrcPath(), pattern.getIncludePattern()));
@@ -55,7 +55,7 @@ public class ExclusionFilter {
     }
 
     static String[] calculateExcludeFilter(List<SourceFolderPattern> folderPatterns) {
-        List<String> list = new ArrayList<String>(folderPatterns.size());
+        List<String> list = new ArrayList<>(folderPatterns.size());
         for (SourceFolderPattern pattern : folderPatterns) {
             if (pattern.isEnabled()) {
                 list.addAll(unroll(pattern.getSrcPath(), pattern.getExcludePattern()));
@@ -66,7 +66,7 @@ public class ExclusionFilter {
 
     static List<String> unroll(final String folder, String expression) {
         final String[] patterns = expression.split(",");
-        final List<String> list = new ArrayList<String>(patterns.length);
+        final List<String> list = new ArrayList<>(patterns.length);
         for (String pattern : patterns) {
             pattern = pattern.trim();
             if (pattern.length() == 0) {

@@ -3,6 +3,7 @@ package com.atlassian.clover.registry.entities;
 import com.atlassian.clover.api.registry.BlockMetrics;
 import com.atlassian.clover.api.registry.PackageInfo;
 import com.atlassian.clover.api.registry.ProjectInfo;
+import com.atlassian.clover.context.ContextSet;
 import com.atlassian.clover.registry.CoverageDataProvider;
 import com.atlassian.clover.registry.CoverageDataReceptor;
 import com.atlassian.clover.registry.FileInfoVisitor;
@@ -11,11 +12,9 @@ import com.atlassian.clover.registry.metrics.HasMetricsNode;
 import com.atlassian.clover.registry.metrics.PackageMetrics;
 import com.atlassian.clover.registry.metrics.ProjectMetrics;
 import com.atlassian.clover.util.Path;
-import com.atlassian.clover.context.ContextSet;
 
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -93,7 +92,6 @@ public class FullProjectInfo extends BaseProjectInfo implements HasMetricsNode, 
 
     /**
      * create a deep copy of this project tree, applying the filter to all levels
-     * @param filter
      * @return  filtered copy of the projectinfo
      */
     public FullProjectInfo copy(HasMetricsFilter filter) {
@@ -102,8 +100,6 @@ public class FullProjectInfo extends BaseProjectInfo implements HasMetricsNode, 
 
     /**
      * create a deep copy of this project tree, applying the filter and context set to all levels
-     * @param filter
-     * @param contextFilter
      * @return  filtered copy of the projectinfo
      */
     public FullProjectInfo copy(HasMetricsFilter filter, ContextSet contextFilter) {

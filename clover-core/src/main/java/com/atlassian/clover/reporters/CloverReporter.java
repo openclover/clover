@@ -1,17 +1,14 @@
 package com.atlassian.clover.reporters;
 
-import com.atlassian.clover.api.CloverException;
+import com.atlassian.clover.CloverDatabase;
+import com.atlassian.clover.CloverStartup;
 import com.atlassian.clover.Logger;
-import com.atlassian.clover.api.command.ArgProcessor;
+import com.atlassian.clover.api.CloverException;
+import com.atlassian.clover.reporters.html.HtmlReportUtil;
+import com.atlassian.clover.reporters.html.HtmlReporter;
 import com.atlassian.clover.reporters.json.JSONReporter;
 import com.atlassian.clover.reporters.pdf.PDFReporter;
 import com.atlassian.clover.reporters.xml.XMLReporter;
-import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.CloverStartup;
-import com.atlassian.clover.reporters.html.HtmlReportUtil;
-import com.atlassian.clover.reporters.html.HtmlReporter;
-
-import java.util.List;
 
 /**
  * A class that allows production of all the "hardcopy" clover reports

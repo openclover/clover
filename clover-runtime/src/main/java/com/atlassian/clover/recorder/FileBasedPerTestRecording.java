@@ -54,16 +54,12 @@ public class FileBasedPerTestRecording extends BaseCoverageRecording implements 
     }
 
     /**
-     *
-     * @return
-     * @throws IOException
      * @see PerTestRecordingTranscript#read(java.io.DataInputStream, com.atlassian.clover.CoverageDataSpec)
      */
     @Override
     public String transcribe() throws IOException {
         File file = createCoverageFolderFor(fileOnDisk);
-        DataOutputStream out = new DataOutputStream(IOStreamUtils.createDeflateOutputStream(file));
-        try {
+        try (DataOutputStream out = new DataOutputStream(IOStreamUtils.createDeflateOutputStream(file))) {
             header.write(out);
             out.writeUTF(testTypeName);
             out.writeUTF(testMethodName);
@@ -81,8 +77,6 @@ public class FileBasedPerTestRecording extends BaseCoverageRecording implements 
             out.flush();
         } catch (IOException e) {
             Logger.getInstance().error("IO Exception flushing sliced coverage for recorder: " + fileOnDisk.getAbsolutePath(), e);
-        } finally {
-            out.close();
         }
         return file.getAbsolutePath();
     }

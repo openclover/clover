@@ -24,7 +24,7 @@ public class JpsProjectPrefixTreeUtil {
     public static FilePathPrefixTree<LanguageLevel> collectLanguageLevels(final JpsProject project) {
         // put the latest support language level JDK_1_7 into the root
         final FilePathPrefixTree<LanguageLevel> languageLevelTrie =
-                new FilePathPrefixTree<LanguageLevel>(LanguageLevel.JDK_1_7);
+                new FilePathPrefixTree<>(LanguageLevel.JDK_1_7);
         final JpsJavaExtensionService javaExt = JpsJavaExtensionService.getInstance();
 
         for (final JpsModule module : project.getModules()) {
@@ -44,7 +44,7 @@ public class JpsProjectPrefixTreeUtil {
      * @return FilePathPrefixTree&lt;JpsModule&gt;
      */
     public static FilePathPrefixTree<JpsModule> collectModules(final JpsProject project) {
-        final FilePathPrefixTree<JpsModule> moduleTrie = new FilePathPrefixTree<JpsModule>();
+        final FilePathPrefixTree<JpsModule> moduleTrie = new FilePathPrefixTree<>();
 
         for (final JpsModule module : project.getModules()) {
             for (final JpsModuleSourceRoot moduleSourceRoot : module.getSourceRoots()) {
@@ -63,7 +63,7 @@ public class JpsProjectPrefixTreeUtil {
      * @return FilePathPrefixTree&lt;JpsModuleSourceRootType&gt;
      */
     public static FilePathPrefixTree<JpsModuleSourceRootType> collectRootTypes(final JpsProject project) {
-        final FilePathPrefixTree<JpsModuleSourceRootType> moduleTrie = new FilePathPrefixTree<JpsModuleSourceRootType>();
+        final FilePathPrefixTree<JpsModuleSourceRootType> moduleTrie = new FilePathPrefixTree<>();
 
         // collect app/test source roots
         for (final JpsModule module : project.getModules()) {
@@ -82,7 +82,7 @@ public class JpsProjectPrefixTreeUtil {
      * @return FilePathPrefixTree&lt;Boolean&gt;
      */
     public static FilePathPrefixTree<Boolean> collectExcludedRoots(final JpsProject project) {
-        final FilePathPrefixTree<Boolean> moduleTrie = new FilePathPrefixTree<Boolean>(Boolean.FALSE);
+        final FilePathPrefixTree<Boolean> moduleTrie = new FilePathPrefixTree<>(Boolean.FALSE);
 
         // collect excluded source roots
         for (final JpsModule module : project.getModules()) {

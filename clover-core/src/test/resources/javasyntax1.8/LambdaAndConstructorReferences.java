@@ -28,7 +28,7 @@ public class LambdaAndConstructorReferences {
 
         }
 
-        Three<S> three = new Three<S>();
+        Three<S> three = new Three<>();
 
         class Three<U> {
             public U hi() { return null; }
@@ -89,7 +89,7 @@ public class LambdaAndConstructorReferences {
 
         // and use other qualifiers like fields, array indexes etc
         One<String>[] ones = new One[10];
-        ones[0] = new One<String>();
+        ones[0] = new One<>();
         Produce<String> oneThreeHi = ones[3 - 2 - 1].three::<Integer>hi;
     }
 

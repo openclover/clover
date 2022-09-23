@@ -39,8 +39,6 @@ public class HistoryPointTask extends AbstractCloverTask {
 
     /**
      * Sepcify the directory into which the history information will be written.
-     *
-     * @param historyDir
      */
     public void setHistoryDir(File historyDir) {
         this.historyDir = historyDir;
@@ -48,8 +46,6 @@ public class HistoryPointTask extends AbstractCloverTask {
 
     /**
      * Specify the effective date for this history point.
-     *
-     * @param dateString
      */
     public void setDate(String dateString) {
         this.dateString = dateString;
@@ -57,8 +53,6 @@ public class HistoryPointTask extends AbstractCloverTask {
 
     /**
      * Specify the format of the date property. Defaults to the default SimpleDateFormat
-     *
-     * @param dateFormat
      * @see HistoryPointTask#setDate(java.lang.String)
      */
     public void setDateFormat(String dateFormat) {
@@ -67,8 +61,6 @@ public class HistoryPointTask extends AbstractCloverTask {
 
     /**
      * Specify the span to be used for generating this history-point
-     *
-     * @param span
      */
     public void setSpan(Interval span) {
         this.span = span;
@@ -84,8 +76,6 @@ public class HistoryPointTask extends AbstractCloverTask {
 
     /**
      * Support the use of filesets to filter the history point coverage.
-     *
-     * @param fileset
      */
     public void addFileSet(FileSet fileset) {
         config.addFileSet(fileset);
@@ -96,9 +86,6 @@ public class HistoryPointTask extends AbstractCloverTask {
         config.addTestSources(fileset);
     }
 
-    /**
-     * @param fileset
-     */
     public void addTestResults(FileSet fileset) {
         config.addTestResults(fileset);
     }

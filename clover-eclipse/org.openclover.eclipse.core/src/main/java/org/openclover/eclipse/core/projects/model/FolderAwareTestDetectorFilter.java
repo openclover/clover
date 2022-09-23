@@ -14,7 +14,7 @@ public class FolderAwareTestDetectorFilter implements TestDetector {
     private final List<File> srcFolders;
 
     public FolderAwareTestDetectorFilter(CloverProject project, List<String> selectedFolders) {
-        srcFolders = new ArrayList<File>(selectedFolders.size());
+        srcFolders = new ArrayList<>(selectedFolders.size());
         final IProject iProject = project.getProject();
         for (String selectedFolder : selectedFolders) {
             final IResource srcFolder = iProject.findMember(selectedFolder);

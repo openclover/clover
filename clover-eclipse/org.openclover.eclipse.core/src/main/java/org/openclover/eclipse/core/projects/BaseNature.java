@@ -52,7 +52,7 @@ public abstract class BaseNature implements IProjectNature {
 
         boolean added = false;
 
-        List<ICommand> newCommands = new ArrayList<ICommand>(commands.size() + 1);
+        List<ICommand> newCommands = new ArrayList<>(commands.size() + 1);
         newCommands.addAll(commands);
 
         //Remove any current references

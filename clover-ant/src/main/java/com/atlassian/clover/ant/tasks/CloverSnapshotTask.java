@@ -60,7 +60,7 @@ public class CloverSnapshotTask extends AbstractCloverTask {
                 }
 
                 final LinkedList<Long> versions = Lists.newLinkedList(snapshot.getDbVersions());
-                final long lastVersion = versions.size() == 0 ? initialSpan.getValueInMillis() : versions.getLast().longValue();
+                final long lastVersion = versions.size() == 0 ? initialSpan.getValueInMillis() : versions.getLast();
                 final long span = Math.max(0, System.currentTimeMillis() - lastVersion); 
                 start = System.currentTimeMillis();
                 CloverDatabase db =

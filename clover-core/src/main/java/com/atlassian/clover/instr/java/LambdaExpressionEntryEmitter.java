@@ -63,7 +63,7 @@ public class LambdaExpressionEntryEmitter extends Emitter {
                 instr.append(".");
                 instr.append(RecorderInstrEmitter.LAMBDA_INC_METHOD);
                 instr.append("(");
-                instr.append(Integer.toString(method.getDataIndex()));
+                instr.append(method.getDataIndex());
                 instr.append(","); // add a comma because we'll have original lambda as a second argument of lambdaInc
                 instr.append(classCast); // add a class cast before lambda (optional)
                 setInstr(instr.toString());

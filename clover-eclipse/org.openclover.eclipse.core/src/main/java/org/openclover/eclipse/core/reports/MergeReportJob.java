@@ -136,7 +136,7 @@ public class MergeReportJob extends ForkingReportJob {
                     }
                 }
 
-                System.out.println(initStringsAndSpans.toString());
+                System.out.println(initStringsAndSpans);
                 final CloverDatabaseSpec[] specs = new CloverDatabaseSpec[initStringsAndSpans.size() / 2];
                 for (int i = 0; i < initStringsAndSpans.size(); i += 2) {
                     specs[i / 2] = new CloverDatabaseSpec((String) initStringsAndSpans.get(i));

@@ -16,7 +16,7 @@ public class PkgFragRootToTreePkgFragNodeRelationship extends NodeRelationship {
         try {
             IPackageFragmentRoot root = (IPackageFragmentRoot) object;
             IJavaElement[] children = root.getChildren();
-            List<TreePackageFragmentNode> packageFragments = new ArrayList<TreePackageFragmentNode>(children.length);
+            List<TreePackageFragmentNode> packageFragments = new ArrayList<>(children.length);
             for (IJavaElement child : children) {
                 if (child instanceof IPackageFragment
                         && isTopLevelPackage((IPackageFragment) child)) {

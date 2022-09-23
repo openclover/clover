@@ -4,6 +4,7 @@ import org.osgi.service.prefs.Preferences;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 import com.atlassian.clover.cfg.Interval;
 import com.atlassian.clover.reporters.Current;
@@ -76,9 +77,9 @@ public class ReportHistoryEntry {
         ReportHistoryEntry that = (ReportHistoryEntry)o;
 
         if (when != that.when) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null)
+        if (!Objects.equals(name, that.name))
             return false;
-        if (path != null ? !path.equals(that.path) : that.path != null)
+        if (!Objects.equals(path, that.path))
             return false;
 
         return true;

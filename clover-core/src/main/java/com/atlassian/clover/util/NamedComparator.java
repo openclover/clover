@@ -4,8 +4,8 @@ import java.util.Comparator;
 
 public interface NamedComparator<T> extends Comparator<T>
 {
-    public String getName();
+    String getName();
 
-    public String getDescription();
+    String getDescription();
 
 }

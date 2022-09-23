@@ -338,7 +338,7 @@ public class JpsModelUtilTest {
         final JpsProject jpsProject = new JpsProjectImpl(new JpsModelImpl(null), null);
         jpsProject.getContainer().setChild(
                 CloverJpsProjectConfigurationSerializer.CloverProjectConfigurationRole.INSTANCE,
-                new JpsSimpleElementImpl<CloverPluginConfig>(config));
+                new JpsSimpleElementImpl<>(config));
         return jpsProject;
     }
 

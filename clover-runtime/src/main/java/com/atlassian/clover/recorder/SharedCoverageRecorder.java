@@ -11,7 +11,7 @@ import java.util.Map;
  * build with multiple instrumentation sessions (typical for Grails application which compiles each domain class
  * and controller class in a separate groovyc call) only one recorder instance will be used, thus reducing number of
  * coverage files produced.
- *
+ * <p/>
  * SharedCoverageRecorder shall not be used in case when user has multiple databases with the same initstring
  * (for example: a multi-module maven project with relative initstring).
  */
@@ -19,15 +19,10 @@ public final class SharedCoverageRecorder extends GrowableCoverageRecorder {
     /**
      * Share the same coverage recorder for the same initstring+cfgbits.
      */
-    static Map<String, CoverageRecorder> sharedRecorders = new HashMap<String, CoverageRecorder>();
+    static final Map<String, CoverageRecorder> sharedRecorders = new HashMap<>();
 
     /**
      * Factory method.
-     * @param dbName
-     * @param dbVersion
-     * @param cfgbits
-     * @param maxNumElements
-     * @return CoverageRecorder instance
      */
     public static synchronized CoverageRecorder createFor(final String dbName, final long dbVersion, final long cfgbits, final int maxNumElements) {
         // trick: ignore dbVersion and create new instance only for new dbName+cfgbits

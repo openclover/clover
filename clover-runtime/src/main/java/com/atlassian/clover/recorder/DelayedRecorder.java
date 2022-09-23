@@ -7,12 +7,11 @@ import com.atlassian.clover.util.CloverBitSet;
 import com_atlassian_clover.Clover;
 import com_atlassian_clover.CloverProfile;
 import com_atlassian_clover.CoverageRecorder;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Coverage recorder where it is initially inactive and not recording any coverage but later switches on
  * on the first public method call once the Clover runtime has been initialised.
- *
+ * <p/>
  * This class is used for situations where Clover is mid-initialisation but a {@link CoverageRecorder}
  * has been requested. The request should be honored and coverage recording should start
  * once Clover finishes initialisation. 
@@ -160,13 +159,13 @@ public class DelayedRecorder extends CoverageRecorder {
 
     @Override
     @ForInstrumentation
-    public void globalSliceEnd(String runtimeType, String method, @Nullable String runtimeTestName, int id) {
+    public void globalSliceEnd(String runtimeType, String method, /*@Nullable*/ String runtimeTestName, int id) {
         syncWithCloverRuntime().globalSliceEnd(runtimeType, method, runtimeTestName, id);
     }
 
     @Override
     @ForInstrumentation
-    public void globalSliceEnd(String runtimeType, String method, @Nullable String runtimeTestName,
+    public void globalSliceEnd(String runtimeType, String method, /*@Nullable*/ String runtimeTestName,
                                int id, int exitStatus, Throwable throwable) {
         syncWithCloverRuntime().globalSliceEnd(runtimeType, method, runtimeTestName, id, exitStatus, throwable);
     }

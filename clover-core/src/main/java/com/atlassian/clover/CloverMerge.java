@@ -81,42 +81,47 @@ public class CloverMerge {
             Interval interval = Interval.ZERO_SECONDS;
 
             while (i < args.length) {
-                if (args[i].equals("-i") || args[i].equals("--initstring")) {
-                    i++;
-                    initString = args[i];
-                }
-                else if (args[i].equals("-u") || args[i].equals("--update")) {
-                    update = true;
-                    if (i < args.length - 1) {
+                switch (args[i]) {
+                    case "-i":
+                    case "--initstring":
+                        i++;
+                        initString = args[i];
+                        break;
+                    case "-u":
+                    case "--update":
+                        update = true;
+                        if (i < args.length - 1) {
+                            try {
+                                i++;
+                                updateSpan = new Interval(args[i]);
+                            } catch (NumberFormatException e) {
+                                // ignore this. if a user has specified an update span, but incorrectly, it will be
+                                // reported as an error later anyway.
+                                i--;
+                            }
+                        }
+                        break;
+                    case "-s":
+                    case "--span":
+                        i++;
                         try {
-                            i++;
-                            updateSpan = new Interval(args[i]);
+                            interval = new Interval(args[i]);
+                        } catch (NumberFormatException e) {
+                            usage("Bad interval format '" + args[i] + "'");
+                            return false;
                         }
-                        catch (NumberFormatException e) {
-                            // ignore this. if a user has specified an update span, but incorrectly, it will be
-                            // reported as an error later anyway.
-                            i--;
-                        }
-                    }
-                }
-                else if (args[i].equals("-s") || args[i].equals("--span")) {
-                    i++;
-                    try {
-                        interval = new Interval(args[i]);
-                    }
-                    catch (NumberFormatException e) {
-                        usage("Bad interval format '"+args[i]+"'");
-                        return false;
-                    }
-                }
-                else if (args[i].equals("-v") || args[i].equals("--verbose")) {
-                    Logger.setVerbose(true);
-                }
-                else if (args[i].equals("-d") || args[i].equals("--debug")) {
-                    Logger.setDebug(true);
-                }
-                else {
-                    mergingDbs.put(args[i], interval);
+                        break;
+                    case "-v":
+                    case "--verbose":
+                        Logger.setVerbose(true);
+                        break;
+                    case "-d":
+                    case "--debug":
+                        Logger.setDebug(true);
+                        break;
+                    default:
+                        mergingDbs.put(args[i], interval);
+                        break;
                 }
                 i++;
             }

@@ -1,23 +1,22 @@
 package com.atlassian.clover.reporters.json;
 
 import clover.org.apache.velocity.VelocityContext;
+import com.atlassian.clover.CloverDatabase;
+import com.atlassian.clover.Logger;
 import com.atlassian.clover.registry.entities.FullFileInfo;
+import com.atlassian.clover.registry.entities.FullPackageInfo;
 import com.atlassian.clover.registry.entities.FullProjectInfo;
+import com.atlassian.clover.registry.metrics.HasMetricsFilter;
 import com.atlassian.clover.reporters.Current;
 import com.atlassian.clover.reporters.html.HtmlRenderingSupportImpl;
 import com.atlassian.clover.reporters.html.HtmlReportUtil;
 import com.atlassian.clover.reporters.html.RenderFileAction;
 import com.atlassian.clover.reporters.html.source.SourceRenderHelper;
-import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.Logger;
-import com.atlassian.clover.registry.metrics.HasMetricsFilter;
-import com.atlassian.clover.registry.entities.FullPackageInfo;
 import com.atlassian.clover.spi.reporters.html.source.LineRenderInfo;
 import com.atlassian.clover.util.CloverUtils;
 
 import java.io.File;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 import static clover.com.google.common.collect.Lists.newArrayList;
@@ -35,7 +34,7 @@ public class RenderFileJSONAction extends RenderFileAction {
 
         try {
             final Map<String, Number> columnValues =
-                JSONReportUtils.collectColumnValuesFor((List)columnsTL.get(), fileInfo, renderingHelper);
+                JSONReportUtils.collectColumnValuesFor(columnsTL.get(), fileInfo, renderingHelper);
 
             final SourceRenderHelper srh = new SourceRenderHelper(database, reportConfig, renderingHelper);
             final FullFileInfo fcopy = fileInfo.copy((FullPackageInfo)fileInfo.getContainingPackage(), HasMetricsFilter.ACCEPT_ALL);

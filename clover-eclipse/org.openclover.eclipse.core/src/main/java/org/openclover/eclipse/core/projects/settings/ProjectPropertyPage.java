@@ -109,7 +109,7 @@ public class ProjectPropertyPage extends BaseSettingsPage implements IWorkbenchP
             tabFolder.pack();
             final Object lastIdx = project.getProject().getSessionProperty(LAST_SELECTED_TAB_KEY);
             if (lastIdx instanceof Integer) {
-                tabFolder.setSelection(((Integer)lastIdx).intValue());
+                tabFolder.setSelection((Integer) lastIdx);
             }
             tabFolder.addListener(SWT.Selection, new Listener() {
 

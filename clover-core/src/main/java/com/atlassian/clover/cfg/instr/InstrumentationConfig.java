@@ -353,12 +353,9 @@ public class InstrumentationConfig implements Serializable {
         Logger.getInstance().verbose("Saving instrumentation config to " + file.getAbsolutePath());
         Logger.getInstance().verbose("Files included for instrumentation: " + getIncludedFiles());
         FileOutputStream fos = new FileOutputStream(file);
-        ObjectOutputStream oos = new ObjectOutputStream(fos);
-        try {
+        try (ObjectOutputStream oos = new ObjectOutputStream(fos)) {
             oos.writeObject(this);
             oos.flush();
-        } finally {
-            oos.close();
         }
     }
 

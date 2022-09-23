@@ -109,17 +109,10 @@ public class EclipseCloudGenerator {
             ClassInfoStatsCalculator calcAxis1,
             ClassInfoStatsCalculator calcAxis2) throws IOException {
 
-        OutputStream outputStream = null;
-        try {
-            outputStream = new FileOutputStream(new File(dir, fileName));
-
+        try (OutputStream outputStream = new FileOutputStream(new File(dir, fileName))) {
             final EclipseEditorLinkingHtmlRenderingSupport shallowAxisRender = new EclipseEditorLinkingHtmlRenderingSupport(offsetFromRoot + fileName);
             final CloudGenerator reportGenerator = createReportGenerator(pageTitle, outputStream, shallowAxisRender);
             reportGenerator.createReport(classes, calcAxis1, calcAxis2);
-        } finally {
-            if (outputStream != null) {
-                outputStream.close();
-            }
         }
     }
 
@@ -132,17 +125,10 @@ public class EclipseCloudGenerator {
             ClassInfoStatsCalculator calcAxis1,
             ClassInfoStatsCalculator calcAxis2) throws IOException {
 
-        OutputStream outputStream = null;
-        try {
-            outputStream = new FileOutputStream(new File(dir, AGGREGATE_PREFIX + fileName));
-
+        try (OutputStream outputStream = new FileOutputStream(new File(dir, AGGREGATE_PREFIX + fileName))) {
             final EclipseEditorLinkingHtmlRenderingSupport deepAxisRender = new EclipseEditorLinkingHtmlRenderingSupport(offsetFromRoot + AGGREGATE_PREFIX + fileName);
             final CloudGenerator reportGenerator = createReportGenerator(pageTitle, outputStream, deepAxisRender);
             reportGenerator.createReport(classes, calcAxis1, calcAxis2);
-        } finally {
-            if (outputStream != null) {
-                outputStream.close();
-            }
         }
     }
 

@@ -1,13 +1,13 @@
 package com.atlassian.clover.util;
 
 /**
- * A small Java implementation of http://en.wikipedia.org/wiki/ANSI_escape_code .
- *
+ * A small Java implementation of <a href="http://en.wikipedia.org/wiki/ANSI_escape_code">ANSI_escape_code</a> .
+ * <p/>
  * To enable Color formatting, the ansi.color System property must be set to true.
  * To enable Color formatting for a specific category, the ansi.color System property must be set to the category name.
  * e.g. -Dansi.color=true
  * or   -Dansi.color=category.name
- *
+ * <p/>
  * This class uses the Builder Pattern, to allow combining formats.
  * The color should always be called after the format ({@link #bg}, {@link #u}, {@link #b} etc)
  * e.g. for a blue background and a bold, white foreground you would use:
@@ -39,7 +39,7 @@ public class Color {
 
     /**
      * Creates a color, with a specific appender name.
-     *
+     * <p/>
      * This allows output of ansi formatting to be decided at runtime.
      * To enable color output just for the category 'categoryName' ensure the system property ansi.color is set to 'categoryName'.
      * e.g. -Dansi.color=categoryName
@@ -57,7 +57,6 @@ public class Color {
      * Creates a color instance with a given message.
      *
      * @param msg the message to use when formatting this color. NB: this may be overwritten by {@link #apply}
-     * @return
      */
     public static Color make(String msg) {
         Color color = new Color();

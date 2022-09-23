@@ -34,7 +34,7 @@ public class InMemPerTestCoverage extends BasePerTestCoverage implements Seriali
 
     public InMemPerTestCoverage(int coverageSize) {
         super(coverageSize);
-        this.tciToHits = new LinkedHashMap<TestCaseInfo,BitSet>();
+        this.tciToHits = new LinkedHashMap<>();
         this.tciIDToTCIMap = new Int2ObjectOpenHashMap();
     }
 
@@ -54,7 +54,7 @@ public class InMemPerTestCoverage extends BasePerTestCoverage implements Seriali
      */
     public InMemPerTestCoverage(InMemPerTestCoverage other, int coverageSize) {
         super(coverageSize);
-        this.tciToHits = new LinkedHashMap<TestCaseInfo,BitSet>(other.tciToHits);
+        this.tciToHits = new LinkedHashMap<>(other.tciToHits);
         for (Map.Entry<TestCaseInfo, BitSet> entry : tciToHits.entrySet()) {
             BitSet slots = entry.getValue();
             if (slots.size() > coverageSize) {
@@ -90,7 +90,7 @@ public class InMemPerTestCoverage extends BasePerTestCoverage implements Seriali
 
     @Override
     public Set<TestCaseInfo> getTests() {
-        return new LinkedHashSet<TestCaseInfo>(tciToHits.keySet());
+        return new LinkedHashSet<>(tciToHits.keySet());
     }
 
     @Override
@@ -214,13 +214,13 @@ public class InMemPerTestCoverage extends BasePerTestCoverage implements Seriali
 
     /** Predicate for filtering on tcis */
     private interface TestCaseInfoPredicate {
-        static final TestCaseInfoPredicate SUCCESS_ONLY = new TestCaseInfoPredicate() {
+        TestCaseInfoPredicate SUCCESS_ONLY = new TestCaseInfoPredicate() {
             @Override
             public boolean eval(final TestCaseInfo tci) {
                 return tci.isSuccess();
             }
         };
-        static final TestCaseInfoPredicate ALL = new TestCaseInfoPredicate() {
+        TestCaseInfoPredicate ALL = new TestCaseInfoPredicate() {
             @Override
             public boolean eval(final TestCaseInfo tci) {
                 return true;

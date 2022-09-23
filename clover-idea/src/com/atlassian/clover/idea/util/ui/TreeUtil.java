@@ -13,7 +13,7 @@ public class TreeUtil {
     }
 
     public static void sortNodes(final DefaultMutableTreeNode node, final SortableListTreeTableModelOnColumns tableModel) {
-        List<TreeNode> childrenArray = new ArrayList<TreeNode>(node.getChildCount());
+        List<TreeNode> childrenArray = new ArrayList<>(node.getChildCount());
 
         Enumeration<TreeNode> children = node.children();
         while (children.hasMoreElements()) {

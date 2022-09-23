@@ -7,12 +7,9 @@ import java.io.Serializable;
 import java.util.Map;
 import java.util.HashMap;
 
-/**
- *
- */
 public class RpcMessage implements Serializable {
 
-    public static final long serialVersionUID = 1l;
+    public static final long serialVersionUID = 1L;
     
     private final Integer methodId;
     private final Object[] methodArgs;
@@ -20,7 +17,7 @@ public class RpcMessage implements Serializable {
     public static final int METHOD_START = 1;
     public static final int METHOD_END = 2;
 
-    private static final Map<Integer, MethodDescriptor> METHODS = new HashMap<Integer, MethodDescriptor>();
+    private static final Map<Integer, MethodDescriptor> METHODS = new HashMap<>();
 
     static {
         METHODS.put(METHOD_START, new MethodDescriptor("allRecordersSliceStart",

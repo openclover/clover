@@ -2,12 +2,11 @@ package com.atlassian.clover.recorder;
 
 import com.atlassian.clover.ErrorInfo;
 import com_atlassian_clover.CoverageRecorder;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Base interface for different strategies for handling how the current collection of active per test recorders are made
  * visible across different threads.
- *
+ * <p/>
  * Three subclasses: Volatile, Synchronized and SingleThreaded
  */
 public interface ThreadVisibilityStrategy extends PerTestRecorder {
@@ -17,7 +16,7 @@ public interface ThreadVisibilityStrategy extends PerTestRecorder {
      * starting or ending). This class is only guaranteed to work for JVMs that implement the visibility guarantees
      * outlined by JLS for Java 5.
      */
-    public static class Volatile implements ThreadVisibilityStrategy {
+    class Volatile implements ThreadVisibilityStrategy {
         /**
          * Stack of recorders - volatile to allow cheap mostly read/seldom write lock when used with
          * testStarted/testFinished synchronization
@@ -41,7 +40,7 @@ public interface ThreadVisibilityStrategy extends PerTestRecorder {
          */
         @Override
         public synchronized LivePerTestRecording testFinished(String runtimeType, String method,
-                @Nullable String runtimeTestName,
+                /*@Nullable*/ String runtimeTestName,
                 long end, int slice, int testRunId, int exitStatus, ErrorInfo ei) {
             RecordingResult sliceAndRecorders = recorders.testFinished(runtimeType, method, runtimeTestName,
                     end, slice, testRunId, exitStatus, ei);
@@ -59,7 +58,7 @@ public interface ThreadVisibilityStrategy extends PerTestRecorder {
      * A Holder that guarantees correct per-test recorder visibility to all accessing threads. This will work for all
      * JVMs but may have significant performance implications because of the excessive synchronization.
      */
-    public static class Synchronized implements ThreadVisibilityStrategy {
+    class Synchronized implements ThreadVisibilityStrategy {
         /**
          * Stack of recorders - volatile to allow cheap mostly read/seldom write lock when used with
          * testStarted/testFinished synchronization
@@ -83,7 +82,7 @@ public interface ThreadVisibilityStrategy extends PerTestRecorder {
          */
         @Override
         public synchronized LivePerTestRecording testFinished(String runtimeType, String method,
-                @Nullable String runtimeTestName,
+                /*Nullable*/ String runtimeTestName,
                 long end, int slice, int testRunId, int exitStatus, ErrorInfo ei) {
             RecordingResult sliceAndRecorders = recorders.testFinished(runtimeType, method, runtimeTestName,
                     end, slice, testRunId, exitStatus, ei);
@@ -101,7 +100,7 @@ public interface ThreadVisibilityStrategy extends PerTestRecorder {
      * A Holder that makes no guarantees about visibility where more than one thread gets or set the per-test recorder.
      * This class should be sufficient for the vast majority of unit tests.
      */
-    public static class SingleThreaded implements ThreadVisibilityStrategy {
+    class SingleThreaded implements ThreadVisibilityStrategy {
         private ActivePerTestRecorderAny recorders;
 
         public SingleThreaded(CoverageRecorder coverageRecorder) {
@@ -114,7 +113,7 @@ public interface ThreadVisibilityStrategy extends PerTestRecorder {
         }
 
         @Override
-        public LivePerTestRecording testFinished(String runtimeType, String method, @Nullable String runtimeTestName,
+        public LivePerTestRecording testFinished(String runtimeType, String method, /*@Nullable*/ String runtimeTestName,
                 long end, int slice, int testRunId, int exitStatus, ErrorInfo ei) {
             RecordingResult sliceAndRecorders = recorders.testFinished(runtimeType, method, runtimeTestName,
                     end, slice, testRunId, exitStatus, ei);

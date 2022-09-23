@@ -14,7 +14,6 @@ import com.atlassian.clover.instr.tests.DefaultTestDetector;
 import com.atlassian.clover.instr.tests.FileMappedTestDetector;
 import com.atlassian.clover.instr.tests.NoTestDetector;
 import com.atlassian.clover.instr.tests.TestDetector;
-import org.openclover.util.ClassPathUtil;
 import com.atlassian.clover.util.FileUtils;
 import com.atlassian.clover.util.ReflectionUtils;
 import com_atlassian_clover.CloverVersionInfo;
@@ -31,19 +30,19 @@ import org.apache.tools.ant.util.GlobPatternMapper;
 import org.apache.tools.ant.util.SourceFileScanner;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.openclover.util.ClassPathUtil;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.file.Files;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Set;
-import java.util.Vector;
 
 import static clover.com.google.common.collect.Maps.newHashMap;
 
@@ -69,7 +68,7 @@ public class GroovycSupport implements BuildListener {
 
     @SuppressWarnings("unchecked")
     public static void ensureAddedTo(@NotNull final Project project) {
-        for (BuildListener listener : (Vector<BuildListener>) project.getBuildListeners()) {
+        for (BuildListener listener : project.getBuildListeners()) {
             if (isOneOfMe(listener)) {
                 return;
             }
@@ -85,7 +84,7 @@ public class GroovycSupport implements BuildListener {
     private GroovycSupport(@NotNull final Project project) {
         this.cleanupAfterBuild =
                 !Boolean.getBoolean(CloverNames.PROP_GROVER_NO_POSTBUILD_CLEANUP)
-                        || !Boolean.valueOf(project.getProperty(CloverNames.PROP_GROVER_NO_POSTBUILD_CLEANUP));
+                        || !Boolean.parseBoolean(project.getProperty(CloverNames.PROP_GROVER_NO_POSTBUILD_CLEANUP));
     }
 
     @Override
@@ -354,7 +353,7 @@ public class GroovycSupport implements BuildListener {
                 }
 
                 // copy from resource stream to target location
-                final OutputStream jarOutStream = new FileOutputStream(jarFile);
+                final OutputStream jarOutStream = Files.newOutputStream(jarFile.toPath());
                 final byte[] buffer = new byte[1000];
                 int read = groverStream.read(buffer);
                 while (read != -1) {

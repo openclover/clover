@@ -65,6 +65,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import static clover.com.google.common.collect.Lists.newArrayList;
@@ -670,7 +671,7 @@ public class CloverProject extends BaseNature {
 
     public CloverProject[] getDependencies() throws CoreException {
         IProject[] referenced = getProject().getReferencedProjects();
-        List<CloverProject> projects = new ArrayList<CloverProject>(referenced.length);
+        List<CloverProject> projects = new ArrayList<>(referenced.length);
         for (IProject project : referenced) {
             if (CloverProject.isAppliedTo(project)) {
                 projects.add(CloverProject.getFor(project));
@@ -798,7 +799,7 @@ public class CloverProject extends BaseNature {
 
             Version version = (Version) o;
 
-            if (label != null ? !label.equals(version.label) : version.label != null) return false;
+            if (!Objects.equals(label, version.label)) return false;
 
             return true;
         }

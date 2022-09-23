@@ -146,7 +146,7 @@ public class TestSourceFilteringComposite extends Composite {
 
     private List<String> getCurrentSelectedTestFolders() throws JavaModelException {
         final Object[] selection = testRootFolders.getCheckedElements();
-        final List<String> selectedFolders = new ArrayList<String>(selection.length);
+        final List<String> selectedFolders = new ArrayList<>(selection.length);
         for (Object aSelection : selection) {
             selectedFolders.add(((SourceRootWithPattern) aSelection).getPattern().getSrcPath());
         }

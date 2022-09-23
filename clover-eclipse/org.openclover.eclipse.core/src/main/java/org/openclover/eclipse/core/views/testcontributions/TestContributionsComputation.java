@@ -69,11 +69,11 @@ public abstract class TestContributionsComputation extends Job {
     }
 
     public boolean isInputChanged() {
-        return ((Boolean)getProperty(INPUT_CHANGED)).booleanValue();
+        return (Boolean) getProperty(INPUT_CHANGED);
     }
 
     protected void setInputChanged(boolean changed) {
-        setProperty(INPUT_CHANGED, Boolean.valueOf(changed));
+        setProperty(INPUT_CHANGED, changed);
     }
 
     protected void setCoverageAnnotationModel(CoverageAnnotationModel newCoverageAnnotationModel) {

@@ -143,7 +143,7 @@ public class CloverChartFactory {
     public static ChartInfo getChartForFile(FullFileInfo fileInfo, Map<Integer, CloverChartFactory.ChartInfo> charts) {
         double coverage = fileInfo.getMetrics().getPcCoveredElements();
         if (coverage >= 0 && (!fileInfo.isTestFile())) {
-            return charts.get(Integer.valueOf(CloverChartFactory.getDataIndex(fileInfo.getMetrics().getPcCoveredElements())));
+            return charts.get(CloverChartFactory.getDataIndex(fileInfo.getMetrics().getPcCoveredElements()));
         }
         return null;
     }

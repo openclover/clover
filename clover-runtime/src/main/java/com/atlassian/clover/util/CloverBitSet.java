@@ -8,7 +8,7 @@ import java.util.BitSet;
 public class CloverBitSet extends clover.antlr.collections.impl.BitSet implements ByteSized {
     private final static int BITS_PER_UNIT = 1 << LOG_BITS;
     private final static int BIT_INDEX_MASK = BITS_PER_UNIT - 1;
-    private final static byte END_ZERO_TABLE[] = {
+    private final static byte[] END_ZERO_TABLE = {
       -25, 0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0,
         4, 0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0,
         5, 0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0,
@@ -197,7 +197,7 @@ public class CloverBitSet extends clover.antlr.collections.impl.BitSet implement
 
         int reps = Math.min(bits.length, otherBits.length);
         for (int i = 0; i < reps; i++) {
-            if ((bits[i] & otherBits[i]) != 0l) {
+            if ((bits[i] & otherBits[i]) != 0L) {
                 return true;
             }
         }

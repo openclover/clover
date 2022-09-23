@@ -52,36 +52,20 @@ public abstract class ClassesTestedTreeComparator extends ExplorerViewComparator
     }
 
     public static int compareName(Object o1, Object o2) {
-        CoverageContributionNode cov1 =
-            (CoverageContributionNode)o1;
-        CoverageContributionNode cov2 =
-            (CoverageContributionNode)o2;
+        CoverageContributionNode cov1 = (CoverageContributionNode)o1;
+        CoverageContributionNode cov2 = (CoverageContributionNode)o2;
         return cov1.getElement().getElementName().compareTo(cov2.getElement().getElementName());
     }
 
     public static int compareContribCoverage(Object o1, Object o2) {
-        CoverageContributionNode cov1 =
-            (CoverageContributionNode)o1;
-        CoverageContributionNode cov2 =
-            (CoverageContributionNode)o2;
-        return
-            cov1.getCoverage() == cov2.getCoverage()
-                ? 0
-                : cov1.getCoverage() < cov2.getCoverage()
-                    ? -1
-                    : 1;
+        CoverageContributionNode cov1 = (CoverageContributionNode)o1;
+        CoverageContributionNode cov2 = (CoverageContributionNode)o2;
+        return Float.compare(cov1.getCoverage(), cov2.getCoverage());
     }
 
     public static int compareUniqueCoverage(Object o1, Object o2) {
-        CoverageContributionNode cov1 =
-            (CoverageContributionNode)o1;
-        CoverageContributionNode cov2 =
-            (CoverageContributionNode)o2;
-        return
-            cov1.getUnique() == cov2.getUnique()
-                ? 0
-                : cov1.getUnique() < cov2.getUnique()
-                    ? -1
-                    : 1;
+        CoverageContributionNode cov1 = (CoverageContributionNode)o1;
+        CoverageContributionNode cov2 = (CoverageContributionNode)o2;
+        return Float.compare(cov1.getUnique(), cov2.getUnique());
     }
 }

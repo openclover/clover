@@ -14,7 +14,6 @@ import com.atlassian.clover.RecorderLogging;
 import com.atlassian.clover.recorder.SharedCoverageRecorder;
 import com.atlassian.clover.remote.DistributedClover;
 import com.atlassian.clover.remote.RpcMessage;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -457,7 +456,7 @@ public final class Clover {
         private int typeID;
 
         private int testRunID = 0;
-        private Map<String, Integer> typeIDs;
+        private final Map<String, Integer> typeIDs;
 
         public InitialisedRuntime() {
             RecorderLogging.init();
@@ -496,7 +495,7 @@ public final class Clover {
         /**
          * map of configured recorder instances *
          */
-        private final HashMap<String, CoverageRecorder> RECORDERS = new HashMap<String, CoverageRecorder>();
+        private final HashMap<String, CoverageRecorder> RECORDERS = new HashMap<>();
 
         private DistributedClover distributedRuntime = null;
 
@@ -542,7 +541,7 @@ public final class Clover {
                             if (Logger.isDebug()) {
                                 Logger.getInstance().debug(
                                         "Clover.getRecorder("
-                                                + String.valueOf(initString) + ", "
+                                                + initString + ", "
                                                 + dbVersion + ", "
                                                 + cfgbits + ", "
                                                 + maxNumElements + ", "
@@ -570,7 +569,7 @@ public final class Clover {
         }
 
         private String callerChain(int maxDepth) {
-            final LinkedList<StackTraceElement> elements = new LinkedList<StackTraceElement>(
+            final LinkedList<StackTraceElement> elements = new LinkedList<>(
                     Arrays.asList(new Exception().getStackTrace()));
             elements.removeFirst();
             elements.removeFirst();
@@ -598,9 +597,9 @@ public final class Clover {
             if (val == null) {
                 //Not thread-safe but also not important (implies a multi-threaded test which we don't support)
                 result = typeID++;
-                typeIDs.put(runtimeType, Integer.valueOf(result));
+                typeIDs.put(runtimeType, result);
             } else {
-                result = val.intValue();
+                result = val;
             }
             return result;
         }
@@ -663,7 +662,7 @@ public final class Clover {
         }
 
         @Override
-        public void allRecordersSliceEnd(final String type, final String method, @Nullable final String runtimeTestName,
+        public void allRecordersSliceEnd(final String type, final String method, /*@Nullable*/ final String runtimeTestName,
                                          final int slice, final int p, final ErrorInfo ei) {
             AccessController.doPrivileged(new PrivilegedAction<Void>() {
                 @Override
@@ -767,43 +766,43 @@ public final class Clover {
             if (profiles == null || profiles.length == 0) {
                 Logger.getInstance().debug("CLOVER: No profiles defined in instrumented classes. Using standard settings.");
                 return null;
-            } else {
-                // 2. read system property or take cached value
-                if (cloverProfileName == null) {
-                    synchronized(this) {
-                        try {
-                            cloverProfileName = System.getProperty(CloverNames.PROP_CLOVER_PROFILE);
-                            if (cloverProfileName == null) {
-                                Logger.getInstance().debug("CLOVER: System property '" + CloverNames.PROP_CLOVER_PROFILE
-                                        + "' was not found. Assuming the 'default' profile.");
-                                cloverProfileName = CloverProfile.DEFAULT_NAME;
-                            }
-                        } catch (SecurityException ex) {
-                            Logger.getInstance().verbose("CLOVER: Unable to read '" + CloverNames.PROP_CLOVER_PROFILE +
-                                    "' system property. Assuming the 'default' profile.", ex);
+            }
+
+            // 2. read system property or take cached value
+            if (cloverProfileName == null) {
+                synchronized(this) {
+                    try {
+                        cloverProfileName = System.getProperty(CloverNames.PROP_CLOVER_PROFILE);
+                        if (cloverProfileName == null) {
+                            Logger.getInstance().debug("CLOVER: System property '" + CloverNames.PROP_CLOVER_PROFILE
+                                    + "' was not found. Assuming the 'default' profile.");
                             cloverProfileName = CloverProfile.DEFAULT_NAME;
                         }
+                    } catch (SecurityException ex) {
+                        Logger.getInstance().verbose("CLOVER: Unable to read '" + CloverNames.PROP_CLOVER_PROFILE +
+                                "' system property. Assuming the 'default' profile.", ex);
+                        cloverProfileName = CloverProfile.DEFAULT_NAME;
                     }
                 }
-
-                // 3. profile found?
-                for (CloverProfile profile : profiles) {
-                    if (profile.getName().equals(cloverProfileName)) {
-                        Logger.getInstance().verbose(
-                                "CLOVER: Using profile '" + cloverProfileName + "' with settings "
-                                        + "[coverageRecorder=" + profile.getCoverageRecorder()
-                                        + ( profile.getDistributedCoverage() != null
-                                                ? " distributedCoverage=" + profile.getDistributedCoverage().getConfigString()
-                                                : "")
-                                        + "]");
-                        return profile;
-                    }
-                }
-
-                Logger.getInstance().verbose(
-                        "CLOVER: Profile '" + cloverProfileName + "' not found in instrumented classes. Using standard settings.");
-                return null;
             }
+
+            // 3. profile found?
+            for (CloverProfile profile : profiles) {
+                if (profile.getName().equals(cloverProfileName)) {
+                    Logger.getInstance().verbose(
+                            "CLOVER: Using profile '" + cloverProfileName + "' with settings "
+                                    + "[coverageRecorder=" + profile.getCoverageRecorder()
+                                    + ( profile.getDistributedCoverage() != null
+                                            ? " distributedCoverage=" + profile.getDistributedCoverage().getConfigString()
+                                            : "")
+                                    + "]");
+                    return profile;
+                }
+            }
+
+            Logger.getInstance().verbose(
+                    "CLOVER: Profile '" + cloverProfileName + "' not found in instrumented classes. Using standard settings.");
+            return null;
         }
 
         private void logRecorderCreationFailure(File dbFile, Throwable t) {

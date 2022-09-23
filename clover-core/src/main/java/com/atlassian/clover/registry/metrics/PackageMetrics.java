@@ -50,10 +50,7 @@ public class PackageMetrics extends FileMetrics {
         if (!super.equals(o)) return false;
 
         PackageMetrics that = (PackageMetrics) o;
-
-        if (numFiles != that.numFiles) return false;
-
-        return true;
+        return numFiles == that.numFiles;
     }
 
     public int hashCode() {

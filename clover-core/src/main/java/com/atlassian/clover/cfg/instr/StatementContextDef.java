@@ -3,6 +3,7 @@ package com.atlassian.clover.cfg.instr;
 import com.atlassian.clover.api.CloverException;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 
 public class StatementContextDef implements Serializable {
@@ -51,8 +52,8 @@ public class StatementContextDef implements Serializable {
 
         StatementContextDef that = (StatementContextDef) o;
 
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        return regexp != null ? regexp.equals(that.regexp) : that.regexp == null;
+        if (!Objects.equals(name, that.name)) return false;
+        return Objects.equals(regexp, that.regexp);
     }
 
     @Override

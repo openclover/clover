@@ -17,7 +17,7 @@ public class ProjToPkgFragRootRelationship extends NodeRelationship {
             if (cloverProject != null && cloverProject.getModel().isLoaded()) {
                 IPackageFragmentRoot[] roots =
                     cloverProject.getJavaProject().getPackageFragmentRoots();
-                Collection<Object> sourceRoots = new ArrayList<Object>(roots.length);
+                Collection<Object> sourceRoots = new ArrayList<>(roots.length);
 
                 final NodeRelationship pkgFragRootToPkgFrag = new PkgFragRootToPkgFragRelationship();
                 for (IPackageFragmentRoot root : roots) {

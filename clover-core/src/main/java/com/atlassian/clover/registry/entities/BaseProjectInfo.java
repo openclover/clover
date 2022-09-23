@@ -12,7 +12,6 @@ import com.atlassian.clover.registry.FileInfoVisitor;
 import com.atlassian.clover.registry.metrics.HasMetricsFilter;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +32,7 @@ public class BaseProjectInfo implements ProjectInfo, CachingInfo {
     public BaseProjectInfo(String name, long version) {
         this.name = name;
         this.version = version;
-        this.packages = new LinkedHashMap<String, BasePackageInfo>();
+        this.packages = new LinkedHashMap<>();
     }
 
     public BaseProjectInfo(String name) {
@@ -83,7 +82,7 @@ public class BaseProjectInfo implements ProjectInfo, CachingInfo {
     /**
      * convenience method to find a class in a project using its fully qualified name. Initialized lazily, so
      * the first call may be slow
-     * @param fqcn
+     * @param fqcn a fully qualified class name
      * @return corresponding BaseClassInfo or null if not found
      */
     @Override
@@ -156,7 +155,7 @@ public class BaseProjectInfo implements ProjectInfo, CachingInfo {
     }
 
     private void buildClassLookupMap() {
-        final Map<String, BaseClassInfo> tmpClassLookup = new LinkedHashMap<String, BaseClassInfo>();
+        final Map<String, BaseClassInfo> tmpClassLookup = new LinkedHashMap<>();
         visitFiles(new FileInfoVisitor() {
             @Override
             public void visitFileInfo(BaseFileInfo file) {
@@ -170,7 +169,7 @@ public class BaseProjectInfo implements ProjectInfo, CachingInfo {
     }
 
     private void buildFileLookupMap() {
-        final Map<String, BaseFileInfo> tmpFileLookup = new LinkedHashMap<String, BaseFileInfo>();
+        final Map<String, BaseFileInfo> tmpFileLookup = new LinkedHashMap<>();
         visitFiles(new FileInfoVisitor() {
             @Override
             public void visitFileInfo(BaseFileInfo file) {

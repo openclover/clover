@@ -362,7 +362,7 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
     private boolean isAnonymousInnerClassCall(ConstructorCallExpression call) {
         try {
             //1.7+ method
-            return ((Boolean)call.getClass().getMethod("isUsingAnonymousInnerClass", new Class[] {}).invoke(call)).booleanValue();
+            return (Boolean) call.getClass().getMethod("isUsingAnonymousInnerClass", new Class[]{}).invoke(call);
         } catch (Exception e) {
             return false;
         }
@@ -574,7 +574,7 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
 
             //Middle expression is the conditional expression
             final int condIndex = (closureList.getExpressions().size() - 1) / 2;
-            final Expression condExpr = (Expression) closureList.getExpressions().get(condIndex);
+            final Expression condExpr = closureList.getExpressions().get(condIndex);
 
             if (condExpr != EmptyExpression.INSTANCE) {
                 final SourceInfo condRegion = ClassInstumenter.countExpressionRegion(condExpr);

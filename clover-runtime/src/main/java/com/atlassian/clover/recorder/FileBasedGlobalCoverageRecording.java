@@ -31,7 +31,7 @@ public class FileBasedGlobalCoverageRecording extends BaseCoverageRecording impl
     };
 
     private static final boolean USE_RLE_COMPRESSION =
-        Boolean.valueOf(System.getProperty(CloverNames.PROP_RLE_COVERAGE, Boolean.TRUE.toString())).booleanValue();
+            Boolean.parseBoolean(System.getProperty(CloverNames.PROP_RLE_COVERAGE, Boolean.TRUE.toString()));
 
     private final int[][] elements;
     private final int numElements;

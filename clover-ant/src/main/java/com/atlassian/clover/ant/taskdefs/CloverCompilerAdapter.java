@@ -47,10 +47,10 @@ public class CloverCompilerAdapter implements CompilerAdapter {
      * smarts occur, and "-source" WILL NOT get passed to javac.exe; c) In
      * Ant1.5+, but when "with.clover" is enabled, then the "smarts" do not
      * kick in, java.exe complains that it does not understand "-source".
-     *
+     * <p/>
      * The problem c) occurs because the "smarts" depends on the setting of
      * the compilerVersion (aka build.compiler) property. <p>
-     *
+     * <p/>
      * The solution, which this class implements, is to "fudge" then
      * "restore" the compilerVersion setting before calling the underlying
      * compiler adapther
@@ -225,7 +225,7 @@ public class CloverCompilerAdapter implements CompilerAdapter {
                 }
 
                 instrumenter.endInstrumentation();
-                if ( !setJavacCompileList(replacementCompileSet.toArray(new File[replacementCompileSet.size()])) ) {
+                if ( !setJavacCompileList(replacementCompileSet.toArray(new File[0])) ) {
                     error = new CloverException("Failed to write to javac.compileList field. Unable to integrate Clover with Javac.");
                     return;
                 }
@@ -260,11 +260,7 @@ public class CloverCompilerAdapter implements CompilerAdapter {
     private File[] getJavacCompileList() {
         try {
             return (File[])FieldUtils.readField(javac, "compileList", true);
-        } catch (SecurityException ex) {
-            log.error("** Failed to access javac.compileList protected field", ex);
-        } catch (IllegalAccessException ex) {
-            log.error("** Failed to access javac.compileList protected field", ex);
-        } catch (ClassCastException ex) {
+        } catch (SecurityException | ClassCastException | IllegalAccessException ex) {
             log.error("** Failed to access javac.compileList protected field", ex);
         }
         return null;
@@ -278,11 +274,7 @@ public class CloverCompilerAdapter implements CompilerAdapter {
         try {
             FieldUtils.writeField(javac, "compileList", newValue, true);
             return true;
-        } catch (SecurityException ex) {
-            log.error("** Failed to access javac.compileList protected field", ex);
-        } catch (IllegalAccessException ex) {
-            log.error("** Failed to access javac.compileList protected field", ex);
-        } catch (IllegalArgumentException ex) {
+        } catch (SecurityException | IllegalArgumentException | IllegalAccessException ex) {
             log.error("** Failed to access javac.compileList protected field", ex);
         }
         return false;

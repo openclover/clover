@@ -53,7 +53,7 @@ public class OptimizedConfigurationSettings implements RunnerSettings {
         minimize = "true".equals(JDOMExternalizerUtil.readField(element, "minimize"));
 
         final String compilesBeforeStr = JDOMExternalizerUtil.readField(element, "compilesBeforeStaleSnapshot");
-        compilesBeforeStaleSnapshot = compilesBeforeStr != null ? Integer.valueOf(compilesBeforeStr) : COMPILES_BEFORE_STALE_SNAPSHOT_DEFAULT;
+        compilesBeforeStaleSnapshot = compilesBeforeStr != null ? Integer.parseInt(compilesBeforeStr) : COMPILES_BEFORE_STALE_SNAPSHOT_DEFAULT;
 
         final String reorderStr = JDOMExternalizerUtil.readField(element, "reorder");
         reorder = reorderStr != null ? OptimizationOptions.TestSortOrder.valueOf(reorderStr) : REORDER_DEFAULT;

@@ -45,16 +45,12 @@ public class DistributedClover {
             Logger.getInstance().info("Distributed coverage is enabled with: " + config);
 
             if (serverMode) {
-                client = null;
                 service = createServer(config);
             } else {
-                service = null;
                 client = createClient(config);
             }
         } catch (Exception e) {
             Logger.getInstance().error("Could not initialise Distributed Coverage collection in Clover: " + e.getMessage(), e);
-            client = null;
-            service = null;
         } finally {
             this.client = client;
             this.service = service;

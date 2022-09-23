@@ -36,7 +36,6 @@ public class GroovyUtils {
      *  1) first/last line/column number is >= 1 <br/>
      *  2) last line >= first line <br/>
      *  3) in case of single line node, also last column >= first column <br/>
-     * @param node
      * @return boolean - true if source region looks fine, false otherwise
      */
     public static boolean hasValidSourceRegion(ASTNode node) {

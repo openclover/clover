@@ -2,8 +2,6 @@ package com.atlassian.clover.cfg.instr.java;
 
 import com.atlassian.clover.api.CloverException;
 import com.atlassian.clover.cfg.instr.InstrumentationConfig;
-import com.atlassian.clover.util.JavaEnvUtils;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.util.ArrayList;

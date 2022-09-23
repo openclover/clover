@@ -53,21 +53,21 @@ public class CoverageViewSettings
         if (memento != null) {
             Integer coverageModel = memento.getInteger(COVERAGE_MODEL);
             if (coverageModel != null) {
-                this.coverageModel = coverageModel.intValue();
+                this.coverageModel = coverageModel;
             }
 
             Integer hideUnavailable = memento.getInteger(HIDE_UNAVAILABLE);
             if (hideUnavailable != null) {
-                this.hideUnavailable = hideUnavailable.intValue() != 0;
+                this.hideUnavailable = hideUnavailable != 0;
             }
 
             Integer hideFullyCovered = memento.getInteger(HIDE_FULLY_COVERED);
             if (hideUnavailable != null) {
-                this.hideFullyCovered = hideFullyCovered.intValue() != 0;
+                this.hideFullyCovered = hideFullyCovered != 0;
             }
             Integer showPackageTree = memento.getInteger(SHOW_PACKAGE_TREE);
             if (showPackageTree != null) {
-                this.showPackageTree = showPackageTree.intValue() != 0;
+                this.showPackageTree = showPackageTree != 0;
             }
         }
     }

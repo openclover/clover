@@ -19,13 +19,12 @@ import com.atlassian.clover.registry.entities.TestCaseInfo;
 import com_atlassian_clover.CloverVersionInfo;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.nio.file.Files;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -92,7 +91,7 @@ public class Snapshot implements Serializable {
 
     public Snapshot(final CloverDatabase db, File locationTosnapshot) {
         cloverVersionInfo = CloverVersionInfo.formatVersionInfo();
-        dbVersions = new LinkedHashSet<Long>();
+        dbVersions = new LinkedHashSet<>();
         initString = db.getInitstring();
         testLookup = newHashMap();
         perTestSourceStates = newHashMap();
@@ -271,7 +270,7 @@ public class Snapshot implements Serializable {
             }
             location.createNewFile();
         }
-        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(location));
+        ObjectOutputStream oos = new ObjectOutputStream(Files.newOutputStream(location.toPath()));
         oos.writeObject(this);
         oos.close();
     }
@@ -307,15 +306,12 @@ public class Snapshot implements Serializable {
     public static Snapshot loadFromFile(File file) {
         if (file.exists() && file.isFile() && file.canRead()) {
             try {
-                ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
-                try {
+                try (ObjectInputStream ois = new ObjectInputStream(Files.newInputStream(file.toPath()))) {
                     long start = System.currentTimeMillis();
-                    Snapshot snapshot = (Snapshot)ois.readObject();
+                    Snapshot snapshot = (Snapshot) ois.readObject();
                     Logger.getInstance().verbose("Took " + (System.currentTimeMillis() - start) + "ms to load the snapshot file");
                     snapshot.location = file;
                     return snapshot;
-                } finally {
-                    ois.close();
                 }
             } catch (InvalidClassException e) {
                 Logger.getInstance().debug("Failed to load snapshot file at " + file.getAbsolutePath(), e);
@@ -350,7 +346,7 @@ public class Snapshot implements Serializable {
     }
 
     private Set<String> pathsFor(Set<TestMethodCall> tests) {
-        Set<String> paths = new HashSet<String>(tests.size());
+        Set<String> paths = new HashSet<>(tests.size());
         for (TestMethodCall testReference : tests) {
             paths.add(testReference.getPackagePath());
         }
@@ -424,8 +420,8 @@ public class Snapshot implements Serializable {
     long getMostRecentDbVersion() {
         long version = 0;
         for (Long dbVersion : dbVersions) {
-            if (dbVersion.longValue() > version) {
-                version = dbVersion.longValue();
+            if (dbVersion > version) {
+                version = dbVersion;
             }
         }
         return version;

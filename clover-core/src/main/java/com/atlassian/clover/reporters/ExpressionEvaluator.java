@@ -46,10 +46,7 @@ public class ExpressionEvaluator {
         try {
             parser.expr();
             return parser;
-        } catch (RecognitionException e) {
-            Logger.getInstance().debug(e.getMessage(), e);
-            throw wrapException(expr, e);
-        } catch (TokenStreamException e) {
+        } catch (RecognitionException | TokenStreamException e) {
             Logger.getInstance().debug(e.getMessage(), e);
             throw wrapException(expr, e);
         }

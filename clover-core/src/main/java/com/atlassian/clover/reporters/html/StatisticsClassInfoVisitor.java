@@ -10,7 +10,7 @@ import java.util.List;
 public class StatisticsClassInfoVisitor {
     private long min = Long.MAX_VALUE;
     private long max = Long.MIN_VALUE;
-    private final Map<BaseClassInfo, String> classes = new LinkedHashMap<BaseClassInfo, String>();
+    private final Map<BaseClassInfo, String> classes = new LinkedHashMap<>();
     private final ClassInfoStatsCalculator calculator;
 
     public StatisticsClassInfoVisitor(ClassInfoStatsCalculator calculator) {

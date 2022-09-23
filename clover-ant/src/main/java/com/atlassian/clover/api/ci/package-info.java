@@ -2,7 +2,7 @@
  *
  * Provides classes to programtically integrate Clover into an Ant or Maven2 build, typically from
  * within a Continuous Integration server.
- *
+ * <p/>
  * Clover can be integrated into both Ant and Maven2 purely by decorating the respective command lines.
  * This api adds a nice wrapper around creating the appropriate list of arguments to add to the command line depending
  * on what options an end user has configured.
@@ -20,9 +20,7 @@
  *  antIntegrator.decorateArguments(args);
  *
  *  // args now contain extra args that will enable Clover to instrument all java source files and generate a coverage report.
- *
  * </pre>
- *
  *
  * <h2>Related Documentation</h2>
  *

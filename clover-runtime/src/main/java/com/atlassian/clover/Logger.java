@@ -76,8 +76,6 @@ public abstract class Logger {
      * If set, this instance will be returned by all requests made to getInstance,
      * overriding the factory implementation and thereby providing backward
      * compatibility.
-     *
-     * @param instance
      */
     public static void setInstance(Logger instance) {
         SINGLETON = instance;

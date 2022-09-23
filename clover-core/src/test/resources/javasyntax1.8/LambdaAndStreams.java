@@ -76,7 +76,7 @@ public class LambdaAndStreams {
     }
 
     private static void testToArray() {
-        final Object[] r = Stream.of(1, 2, 3, 4, 5, 6).map((i) -> "String:" + String.valueOf(i)).toArray();
+        final Object[] r = Stream.of(1, 2, 3, 4, 5, 6).map((i) -> "String:" + i).toArray();
         final String[] ints = Stream.of(1, 2, 3, 4, 5, 6).toArray(size -> new String[size]);
     }
 
@@ -95,7 +95,7 @@ public class LambdaAndStreams {
 
     private static final class MapClass {
 
-        private Map<String, String> internalMap = new HashMap<String, String>();
+        private Map<String, String> internalMap = new HashMap<>();
 
         public void map(Effect<Map<String, String>> obj) {
             obj.apply(internalMap);

@@ -6,10 +6,10 @@ import java.text.StringCharacterIterator;
 
 /**
  * An interval represents a period of time.
- *
+ * <p/>
  * An interval has two components - The magnitude of the interval
  * and the units of the interval.
- *
+ * <p/>
  * The class must be configured through a static method to define
  * the acceptable units, the base unit and the relative size of the
  * units.
@@ -188,7 +188,6 @@ public class Interval {
      * Get the magnitude of this interval in the given unit.
      *
      * @param desiredUnit the unit in which the interval's magnitude is desired.
-     *
      * @return the magnitude of the interval in the given unit.
      */
     public BigDecimal getValueInUnits(int desiredUnit) {
@@ -244,15 +243,6 @@ public class Interval {
     }
 
     /**
-     * Convert the interval to an Integer string in the given unit
-     *
-     * @param desiredUnit the unit in which the intervale is to be expressed.
-     *
-     * @return the string representation of the interval as an Integer in the given unit.
-     */
-
-
-    /**
      * Convert this interval to its string representation.
      *
      * @see Object#toString
@@ -260,9 +250,6 @@ public class Interval {
     public String toString() {
         return toString(unit);
     }
-
-
-
 
     /**
      * Convert to an string representation, choosing a sensible
@@ -282,8 +269,6 @@ public class Interval {
         return toString();
     }
 
-
-
     /**
      * Get the unit for this interval.
      *
@@ -292,7 +277,6 @@ public class Interval {
     public int getUnit() {
         return unit;
     }
-
 
     /**
      * Get the magnitude of this interval
@@ -324,10 +308,8 @@ public class Interval {
         return lhsMagnitude.compareTo(rhsMagnitude);
     }
 
-
     /**
      * Check this interval for equality to another object.
-     *
      * This will only return true if the two intervals have the same magntiude
      * and units. This includes the scales of the interval magnitudes.
      *
@@ -342,7 +324,6 @@ public class Interval {
         return magnitude.equals(rhsInterval.magnitude) &&
                unit == rhsInterval.unit;
     }
-
 
     /**
      * Generate the hash code for this interval

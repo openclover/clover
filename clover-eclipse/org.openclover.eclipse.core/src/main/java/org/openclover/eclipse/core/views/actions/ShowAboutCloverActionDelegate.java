@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 
 public class ShowAboutCloverActionDelegate extends CloverProjectActionDelegate {
 
@@ -131,29 +132,29 @@ public class ShowAboutCloverActionDelegate extends CloverProjectActionDelegate {
             generalAck.setText("OpenClover makes use of the following 3rd party libraries:");
             SwtUtils.setHorizontalSpan(generalAck, 2);
 
-            linkAndLicense("Annotations (IntelliJ)", "http://www.jetbrains.com", "ANNOTATIONS-13.0-LICENSE.TXT", ackComposite);
-            linkAndLicense("Ant", "http://ant.apache.org", "ANT-1.5.2-LICENSE.TXT", ackComposite);
-            linkAndLicense("ANTLR2 Library", "http://www.antlr2.org", "ANTLR-2.7.7-LICENSE.TXT", ackComposite);
-            linkAndLicense("ANTLR3 Java Grammar", "http://www.antlr3.org", "ANTLR-JAVA-GRAMMAR-3.0-LICENSE.TXT", ackComposite);
-            linkAndLicense("ASM", "http://asm.ow2.org", "ASM-5.0.3-LICENSE.TXT", ackComposite);
-            linkAndLicense("Cajo", "http://java.net/projects/cajo/pages/Home", "CAJO-1.117-LICENSE.TXT", ackComposite);
-            linkAndLicense("Commons Codec", "http://commons.apache.org", "COMMONS-CODEC-1.9-LICENSE.TXT", ackComposite);
-            linkAndLicense("Commons Collections", "http://commons.apache.org", "COMMONS-COLLECTIONS-3.2.2-LICENSE.TXT", ackComposite);
-            linkAndLicense("Commons Lang", "http://commons.apache.org", "COMMONS-LANG3-3.3.2-LICENSE.TXT", ackComposite);
-            linkAndLicense("FastUtil", "http://fastutil.dsi.unimi.it/", "FASTUTIL-4.4.3-LICENSE.TXT", ackComposite);
-            linkAndLicense("Groovy", "http://groovy.codehaus.org", "GROOVY-1.7.0-LICENSE.TXT", ackComposite);
-            linkAndLicense("GSON", "http://code.google.com/p/google-gson", "GSON-1.3-LICENSE.TXT", ackComposite);
+            linkAndLicense("Annotations (IntelliJ)", "https://www.jetbrains.com", "ANNOTATIONS-13.0-LICENSE.TXT", ackComposite);
+            linkAndLicense("Ant", "https://ant.apache.org", "ANT-1.5.2-LICENSE.TXT", ackComposite);
+            linkAndLicense("ANTLR2 Library", "https://www.antlr2.org", "ANTLR-2.7.7-LICENSE.TXT", ackComposite);
+            linkAndLicense("ANTLR3 Java Grammar", "https://www.antlr3.org", "ANTLR-JAVA-GRAMMAR-3.0-LICENSE.TXT", ackComposite);
+            linkAndLicense("ASM", "https://asm.ow2.org", "ASM-5.0.3-LICENSE.TXT", ackComposite);
+            linkAndLicense("Cajo", "https://java.net/projects/cajo/pages/Home", "CAJO-1.117-LICENSE.TXT", ackComposite);
+            linkAndLicense("Commons Codec", "https://commons.apache.org", "COMMONS-CODEC-1.9-LICENSE.TXT", ackComposite);
+            linkAndLicense("Commons Collections", "https://commons.apache.org", "COMMONS-COLLECTIONS-3.2.2-LICENSE.TXT", ackComposite);
+            linkAndLicense("Commons Lang", "https://commons.apache.org", "COMMONS-LANG3-3.3.2-LICENSE.TXT", ackComposite);
+            linkAndLicense("FastUtil", "https://fastutil.dsi.unimi.it/", "FASTUTIL-4.4.3-LICENSE.TXT", ackComposite);
+            linkAndLicense("Groovy", "https://groovy.codehaus.org", "GROOVY-1.7.0-LICENSE.TXT", ackComposite);
+            linkAndLicense("GSON", "https://code.google.com/p/google-gson", "GSON-1.3-LICENSE.TXT", ackComposite);
             linkAndLicense("Guava", "https://github.com/google/guava", "GUAVA-29.0-LICENSE.TXT", ackComposite);
-            linkAndLicense("iText", "http://itextpdf.com", "ITEXT-2.0.1-LICENSE.TXT", ackComposite);
-            linkAndLicense("JCommon", "http://www.jfree.org/jfreechart/", "JCOMMON-1.0.23-LICENSE.TXT", ackComposite);
-            linkAndLicense("JDOM", "http://www.jdom.org", "JDOM-1.0-LICENSE.TXT", ackComposite);
-            linkAndLicense("JFreechart", "http://www.jfree.org/jfreechart/", "JFREECHART-1.0.19-LICENSE.TXT", ackComposite);
-            linkAndLicense("JIT", "http://thejit.org/", "JIT-1.1.2-LICENSE.TXT", ackComposite);
-            linkAndLicense("jQuery", "http://jquery.com/", "JQUERY-1.8.3-LICENSE.TXT", ackComposite);
-            linkAndLicense("JSON", "http://www.json.org", "JSON-LICENSE.TXT", ackComposite);
-            linkAndLicense("KTreemap", "http://jtreemap.sourceforge.net/", "KTREEMAP-1.1.0-LICENSE.TXT", ackComposite);
-            linkAndLicense("Log4j", "http://logging.apache.org/log4j/1.2", "LOG4J-1.2.17-LICENSE.TXT", ackComposite);
-            linkAndLicense("Velocity", "http://velocity.apache.org/", "VELOCITY-1.7-LICENSE.TXT", ackComposite);
+            linkAndLicense("iText", "https://itextpdf.com", "ITEXT-2.0.1-LICENSE.TXT", ackComposite);
+            linkAndLicense("JCommon", "https://www.jfree.org/jfreechart/", "JCOMMON-1.0.23-LICENSE.TXT", ackComposite);
+            linkAndLicense("JDOM", "https://www.jdom.org", "JDOM-1.0-LICENSE.TXT", ackComposite);
+            linkAndLicense("JFreechart", "https://www.jfree.org/jfreechart/", "JFREECHART-1.0.19-LICENSE.TXT", ackComposite);
+            linkAndLicense("JIT", "https://thejit.org/", "JIT-1.1.2-LICENSE.TXT", ackComposite);
+            linkAndLicense("jQuery", "https://jquery.com/", "JQUERY-1.8.3-LICENSE.TXT", ackComposite);
+            linkAndLicense("JSON", "https://www.json.org", "JSON-LICENSE.TXT", ackComposite);
+            linkAndLicense("KTreemap", "https://jtreemap.sourceforge.net/", "KTREEMAP-1.1.0-LICENSE.TXT", ackComposite);
+            linkAndLicense("SLF4J", "https://www.slf4j.org/", "SLF4J-1.7.36-LICENSE.TXT", ackComposite);
+            linkAndLicense("Velocity", "https://velocity.apache.org/", "VELOCITY-1.7-LICENSE.TXT", ackComposite);
 
             TabItem ackTab = new TabItem(tabFolder, SWT.NONE);
             ackTab.setText("Acknowledgements");
@@ -191,7 +192,7 @@ public class ShowAboutCloverActionDelegate extends CloverProjectActionDelegate {
                     if (in != null) {
 
                         try {
-                            Reader reader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+                            Reader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
                             final StringBuffer sb = new StringBuffer();
                             char[] buf = new char[1024];
                             int read = 0;

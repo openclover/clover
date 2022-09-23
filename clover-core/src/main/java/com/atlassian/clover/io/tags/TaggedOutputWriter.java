@@ -115,7 +115,6 @@ public class TaggedOutputWriter implements TaggedDataOutput {
      *
      * @param type     use T.class
      * @param elements list of objects
-     * @throws IOException
      */
     @Override
     public <T extends TaggedPersistent> void writeList(Class<T> type, List<T> elements) throws IOException {

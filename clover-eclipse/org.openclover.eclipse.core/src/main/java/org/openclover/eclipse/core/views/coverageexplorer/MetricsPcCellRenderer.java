@@ -37,7 +37,7 @@ public class MetricsPcCellRenderer extends HistogramCellRenderer {
 
     @Override
     protected double getEmptyValue() {
-        return NumericColumnDefinition.NOT_AVAILABLE_DOUBLE.doubleValue();
+        return NumericColumnDefinition.NOT_AVAILABLE_DOUBLE;
     }
 
     @Override

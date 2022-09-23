@@ -26,8 +26,7 @@ import com.atlassian.clover.reporters.Historical;
 import com.atlassian.clover.reporters.util.HistoricalReportDescriptor;
 import com_atlassian_clover.CloverVersionInfo;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -111,7 +110,7 @@ public class PDFReporter extends CloverReporter {
 
             this.document.addTitle("Clover Coverage Report");
             this.document.addCreator("Clover " + CloverVersionInfo.RELEASE_NUM + " using iText v0.96");
-            this.docWriter = PdfWriter.getInstance(document, new FileOutputStream(config.getOutFile()));
+            this.docWriter = PdfWriter.getInstance(document, Files.newOutputStream(config.getOutFile().toPath()));
             this.docWriter.setPageEvent(new PageFooterRenderer(docsize, System.currentTimeMillis(), colours));
         } catch (Exception e) {
             throw new CloverException("Report rendering error: " + e.getMessage());
@@ -193,7 +192,7 @@ public class PDFReporter extends CloverReporter {
         return true;
     }
 
-    private void newPage() throws DocumentException, IOException {
+    private void newPage() throws DocumentException {
         document.newPage();
         document.add(RenderingSupport.createHistoricalPageHeader(reportTitle, titleAnchor, colours));
         if (CloverLicenseInfo.EXPIRED) {
@@ -203,7 +202,7 @@ public class PDFReporter extends CloverReporter {
         }
     }
 
-    private void generateHistoricalReport(Historical historicalConfig, HistoricalReportDescriptor desc) throws CloverException, DocumentException, IOException {
+    private void generateHistoricalReport(Historical historicalConfig, HistoricalReportDescriptor desc) throws DocumentException {
         document.add(
             RenderingSupport.createHistoricalReportHeader(
                 desc.getSubjectMetrics(), desc.getFirstTimestamp(), desc.getLastTimestamp(),
@@ -264,7 +263,7 @@ public class PDFReporter extends CloverReporter {
         document.newPage();
     }
 
-    private void generateCurrentReport(Current currentConfig) throws CloverException, DocumentException{
+    private void generateCurrentReport(Current currentConfig) throws DocumentException {
         final FullProjectInfo project = database.getModel(CodeType.APPLICATION);
 
         HasMetrics parent;

@@ -1,4 +1,3 @@
-
 header {
 package com.atlassian.clover.instr.java;
 
@@ -19,12 +18,10 @@ import com.atlassian.clover.registry.*;
 import com.atlassian.clover.registry.entities.*;
 
 }
-/** Java 1.5/JSR14 Recognizer
- *
+/**
+ * Java 1.5/JSR14 Recognizer
  * Based on the Public Domain Java 1.3 antlr grammar provided at
  * <a href="http://www.antlr.org">www.antlr.org</a>
- *
- *
  */
 class JavaRecognizer extends Parser;
 options {
@@ -239,11 +236,11 @@ tokens {
      * Instrument beginning of a lambda expression. We shall get a code like this:
      *   before:   [() -> 1 + 2]
      *   after :   [RECORDER_INSTANCE_NAME.lambdaInc(777, () -> 1 + 2]
-     *
+     * <p/>
      * or in case when class cast is also present:
      *   before:   [(Integer)() -> 1 + 2]
      *   after :   [(Integer)RECORDER_INSTANCE_NAME.lambdaInc(777, (Integer)() -> 1 + 2]
-     *
+     * <p/>
      * Tokens:
      * <pre>
      *   (Integer)(x, y) -> x + y
@@ -288,11 +285,11 @@ tokens {
      * Instrument beginning of a lambda method reference. We shall get a code like this:
      *   before:   [Math::sum]
      *   after :   [RECORDER_INSTANCE_NAME.lambdaInc(777, Math::abs]
-     *
+     * <p/>
      * or in case when class cast is also present:
      *   before:   [(Function<Integer,Integer>)Math::abs]
      *   after :   [(Function<Integer,Integer>)RECORDER_INSTANCE_NAME.lambdaInc(777, (Function<Integer,Integer>)Math::abs]
-     *
+     * <p/>
      * Tokens:
      * <pre>
      *   (Function<Integer,Integer>)Math::abs
@@ -328,15 +325,15 @@ tokens {
          }
     }
 
- /**
+    /**
      * Instrument beginning of a lambda expression, which shall be transformed into lambda block. We shall get a code like this:
      *   before:   [() -> 1 + 2]
      *   after :   [() -> {RECORDER_INSTANCE_NAME.inc(777); return 1 + 2]
-     *
+     * <p/>
      * or in case when class cast is also present:
      *   before:   [(Integer)() -> 1 + 2]
      *   after :   [(Integer)() -> {RECORDER_INSTANCE_NAME.inc(777); return 1 + 2]
-     *
+     * <p/>
      *  Return key word will be skipped if lambda expression is noted as void return type by CLOVER:VOID directive, like this:
      *
      *  [() -> /*CLOVER:VOID"&#42;&#47;" System.out.println("Hello World!")]
@@ -743,6 +740,7 @@ typeDefinition2[Modifiers mods, CloverToken first, boolean nested]
     :
         (
             name=classDefinition[mods]
+        |   name=recordDefinition[mods]
         |   name=interfaceDefinition[mods]
         |   name=enumDefinition[mods] {isEnum=true;}
         |   name=annotationTypeDeclaration[mods]
@@ -772,18 +770,27 @@ declaration!
 // A type specification is a type name with possible brackets afterwards
 //   (which would make it an array type).
 typeSpec returns [String spec]
-    : spec = classTypeSpec
-    | spec = builtInTypeSpec
+{
+    AnnotationImpl ann = null;
+}
+    :
+      ( options { greedy=true; }: ann=annotation )*
+      (
+          spec = classTypeSpec
+        | spec = builtInTypeSpec
+      )
     ;
 
 arraySpecOpt returns [String brackets]
 {
  brackets = "";
+ AnnotationImpl ann = null;
 }
 
     :
 
         (options{greedy=true;}: // match as many as possible
+            (ann=annotation)*
             LBRACK RBRACK
             {brackets += "[]";}
         )*
@@ -809,10 +816,12 @@ classOrInterfaceType returns [String type]
     CloverToken first = null;
     CloverToken last = null;
     type = null;
+    AnnotationImpl ann = null;
 }
 
 
 :       {first = (CloverToken)LT(1);}
+        (ann=annotation)*
         IDENT (typeArguments)?
         (options{greedy=true;}: // match as many as possible
             DOT
@@ -851,15 +860,17 @@ typeArguments
 
 singleTypeArgument {
   String type = null;
+  AnnotationImpl ann = null;
 }
     :
+        ( options { greedy=true; }: ann=annotation )*
         (
             type=classTypeSpec | type=builtInTypeSpec | QUESTION
         )
 
         (   // I'm pretty sure Antlr generates the right thing here:
             options{generateAmbigWarnings=false;}:
-            ("extends"|"super") (type=classTypeSpec | type=builtInTypeSpec | QUESTION)
+            ("extends"|"super") ( options { greedy=true; }: ann=annotation )* (type=classTypeSpec | type=builtInTypeSpec | QUESTION)
         )?
     ;
 
@@ -888,9 +899,15 @@ builtInTypeSpec returns [String spec]
 // class name or a primitive (builtin) type
 type {
   String spec = null;
+  AnnotationImpl ann = null;
 }
-    :   spec=classOrInterfaceType
-    |   spec=builtInType
+    :
+    ( options { greedy=true; }: ann=annotation )*
+    (
+        spec=classOrInterfaceType
+    |
+        spec=builtInType
+    )
     ;
 
 // The primitive types.
@@ -930,7 +947,7 @@ identifier returns [String str]
 
 identifierStar
     :   IDENT
-        ( DOT IDENT )*
+        ( options { greedy=true; }: DOT IDENT )*
         ( DOT STAR  )?
     ;
 
@@ -1074,6 +1091,37 @@ classDefinition! [Modifiers mods] returns [String classname]
         }
     ;
 
+// Definition of a record
+recordDefinition! [Modifiers mods] returns [String recordname]
+{
+    CloverToken first = (CloverToken)LT(0);
+    Map<String, List<String>> tags = null;
+    boolean deprecated = false;
+    CloverToken endOfBlock = null;
+    String superclass = null;
+    ClassEntryNode classEntry = null;
+    recordname = null;
+    String typeParam = null;
+    Parameter [] parameters = null;
+}
+    :   "record" {tags = TokenListUtil.getJDocTagsAndValuesOnBlock(first); deprecated = maybeEnterDeprecated(first);}
+        id:IDENT
+        LPAREN! parameters=parameterDeclarationList RPAREN!
+        // it _might_ have a superclass...
+        superclass = superClassClause
+        // it might implement some interfaces...
+        implementsClause
+        {
+            classEntry = enterClass(tags, mods, (CloverToken)id, false, false, false, superclass);
+        }
+        // now parse the body of the class
+        endOfBlock = classBlock[classEntry]
+        {
+            exitClass(endOfBlock, classEntry); maybeExitDeprecated(deprecated);
+            recordname = id.getText();
+        }
+    ;
+
 superClassClause! returns [String superclass]
 {
    superclass = null;
@@ -1172,8 +1220,10 @@ typeParameters returns [String asString]
 typeParameter
 {
    String type = null;
+   AnnotationImpl ann = null;
 }
     :
+        (ann=annotation)*
         (IDENT|QUESTION)
         (   // I'm pretty sure Antlr generates the right thing here:
             options{generateAmbigWarnings=false;}:
@@ -1282,7 +1332,7 @@ annotationTypeBody [ClassEntryNode classEntry] returns [CloverToken t]
             |
                 // a nested type declaration
                 // disambiguation: lookup further up to "class/interface" keyword, e.g. "public final class"
-                ( classOrInterfaceModifiers[false] ( "class" | "interface" | AT "interface" | "enum" ) ) =>
+                ( classOrInterfaceModifiers[false] ( "class" | "interface" | AT "interface" | "enum" | "record" ) ) =>
 
                 {
                     topLevelSave = topLevelClass;
@@ -1360,14 +1410,15 @@ field! [ClassEntryNode containingClass]
         }
 
         (
-            // INNER CLASSES, INTERFACES, ENUMS, ANNOTATIONS
+            // INNER CLASSES, INTERFACES, ENUMS, ANNOTATIONS, RECORDS
             // look further to recognize that it's a definition of an inner type
-            ( classOrInterfaceModifiers[false] ( "class" | "interface" | AT "interface" | "enum" ) ) =>
+            ( classOrInterfaceModifiers[false] ( "class" | "interface" | AT "interface" | "enum" | "record" ) ) =>
 
             mods=classOrInterfaceModifiers[false]
             { deprecated = maybeEnterDeprecated(tags, mods); }
             (
                 typename = classDefinition[mods]       // inner class
+            |   typename = recordDefinition[mods]      // inner record                
             |   typename = interfaceDefinition[mods]   // inner interface
             |   typename = enumDefinition[mods]   // inner enum
             |   typename = annotationTypeDeclaration[mods] // inner annotation decl
@@ -1528,8 +1579,13 @@ variableDeclarator!
 declaratorBrackets returns [String brackets]
 {
     brackets = "";
+    AnnotationImpl ann = null;
 }
-    :   (LBRACK RBRACK! {brackets += "[]";})*
+    :
+        (
+            (ann=annotation)*
+            LBRACK RBRACK! {brackets += "[]";}
+        )*
     ;
 
 varInitializer
@@ -1592,8 +1648,9 @@ throwsClause returns [String [] throwsTypes]
     List<String> throwsList = new ArrayList<String>();
     throwsTypes = null;
     String id;
+    AnnotationImpl ann = null;
 }
-    :   "throws" id=identifier {throwsList.add(id);} ( COMMA! id=identifier {throwsList.add(id);})*
+    :   "throws" (ann=annotation)* id=identifier {throwsList.add(id);} ( COMMA! (ann=annotation)* id=identifier {throwsList.add(id);})*
         {
             throwsTypes = (String[])throwsList.toArray(new String[throwsList.size()]);
         }
@@ -1634,8 +1691,8 @@ parameterModifier
 {
   AnnotationImpl ann = null;
 }
-    :   (ann=annotation)*
-        (f:"final" (ann=annotation)* )?
+    :   ( options { greedy=true; }: ann=annotation )*
+        (f:"final" ( options { greedy=true; }: ann=annotation )* )?
     ;
 
 
@@ -1764,7 +1821,10 @@ statement [CloverToken owningLabel] returns [CloverToken last]
     |   expression se2:SEMI! { flushAfter = (CloverToken)se2; }
 
     // class definition
-    |   mods=classOrInterfaceModifiers[false]! classname=classDefinition[mods] { instrumentable = false; }//##TODO - return last token
+    |   (classOrInterfaceModifiers[false] "class") => mods=classOrInterfaceModifiers[false]! classname=classDefinition[mods] { instrumentable = false; }//##TODO - return last token
+
+    // record definition
+    |   (classOrInterfaceModifiers[false] "record") => mods=classOrInterfaceModifiers[false]! classname=recordDefinition[mods] { instrumentable = false; }//##TODO - return last token
 
     // Attach a label to the front of a statement
     |   IDENT COLON {labelTok = owningLabel; if (!labelled) labelTok = first; } last = statement[labelTok]
@@ -1951,7 +2011,7 @@ tryCatchBlock [boolean labelled] returns [CloverToken last]
   int complexity = 0;
   ContextSet saveContext = getCurrentContext();
 }
-    :   tr:"try" (lp:LPAREN {insertAutoCloseableClassDecl((CloverToken)tr);} declaration {complexity++; instrArmDecl(((CloverToken)lp).getNext(), (CloverToken)LT(0), saveContext);} (semi:SEMI declaration {complexity++; instrArmDecl(((CloverToken)semi).getNext(), (CloverToken)LT(0), saveContext);})* (SEMI)? rp:RPAREN )?
+    :   tr:"try" (lp:LPAREN {insertAutoCloseableClassDecl((CloverToken)tr);} ( (IDENT) => variableDeclarator | declaration ) {complexity++; instrArmDecl(((CloverToken)lp).getNext(), (CloverToken)LT(0), saveContext);} (semi:SEMI ( (IDENT) => variableDeclarator | declaration ) {complexity++; instrArmDecl(((CloverToken)semi).getNext(), (CloverToken)LT(0), saveContext);})* (SEMI)? rp:RPAREN )?
         {enterContext(ContextStore.CONTEXT_TRY); saveContext = getCurrentContext();}
             last=compoundStatement
         {exitContext();}
@@ -1976,9 +2036,9 @@ handler returns [CloverToken last]
 }
     :   "catch"
         LPAREN!
-        ( an=annotation2[false] )*
+        ( options { greedy=true; }: an=annotation2[false] )*
         ("final")?
-        ( an=annotation2[false] )*
+        ( options { greedy=true; }: an=annotation2[false] )*
         ts=typeSpec
         (BOR ts=typeSpec)*
         IDENT
@@ -2018,11 +2078,11 @@ lambdaFunctionPredicate
 /**
  * Lambda function in a form like:
  *   <code>(arguments) -> body</code>
- *
+ * <p/>
  * where body is in a form of a single statement or expression, e.g.:
  *   <code>System.out.println("Hello")</code>
  *   <code>x + y</code>
- *
+ * <p/>
  * or in a form of the code block, e.g.:
  *   <pre>
  *   {
@@ -2031,7 +2091,7 @@ lambdaFunctionPredicate
  *      block;
  *   }
  *   </pre>
- *
+ * <p/>
  * or in a form of the method reference, e.g:
  *   <code>Math::abs</code>
  */
@@ -2051,7 +2111,7 @@ lambdaFunction returns [CloverToken last]
 
     last = null;
 
-    /**
+    /*
      * A pair of marker tokens used to remember a class cast. This pair of markers is used to solve type-inference for
      * lambdaInc wrapper. For example:
      * <pre>
@@ -2136,10 +2196,10 @@ lambdaFunction returns [CloverToken last]
  * List of formal arguments for lambda function definition. Possible forms are:
  * 1) Empty list of arguments for a lambda function, i.e.:
  *     <code>()</code>
- *
+ * <p/>
  * 2) List of explicitly declared arguments' types, for instance:
  *     <code>(Integer x, String s)</code>
- *
+ * <p/>
  * 3) List of arguments for where types are undefined, for example:
  *     <pre>
  *         (x, y, z)    // few identifiers separated by comma, enclosed in parentheses
@@ -2235,7 +2295,7 @@ expressionList
 assignmentExpression
     :
         conditionalExpression
-        (
+        ( options { greedy=true; }:
             (   ASSIGN^
             |   PLUS_ASSIGN^
             |   MINUS_ASSIGN^
@@ -2354,7 +2414,7 @@ unaryExpression
 
 /**
  * Unary expression which is not "+/- value".
- *
+ * <p/>
  * classCastStart/classCastEnd - a pair of marker tokens used to remember a class cast. This pair of markers is used to
  * solve type-inference for lambdaInc wrapper. For example:
  * <pre>
@@ -2365,7 +2425,7 @@ unaryExpression
  * <pre>
  *   Object o = (Produce<String>)lambdaInc(123, String::new);
  * </pre>
- *
+ * <p/>
  * The problem is that javac is unable to infer proper type of lambdaInc - it sees Object. In such case when Clover
  * finds a method reference with a class cast, it will memorize class cast start/end and copy it into a lambda wrapper:
  * <pre>
@@ -2424,7 +2484,7 @@ unaryExpressionNotPlusMinus[CloverToken classCastStart, CloverToken classCastEnd
  */
 postfixExpression[CloverToken classCastStart, CloverToken classCastEnd]
 {
-    /**
+    /*
      * A marker token to remember where the method reference starts (like "Math::abs" or "String::new" or "int[]::new"
      * This is declared as a field and not as a local variable of a rule, because it must be shared between
      * postfixExpression (start and end of a reference) and supplementaryExpressionPart (end of an array constructor
@@ -2480,10 +2540,14 @@ primaryExpressionPart
             {
                 pushIdentifierToHeadStack(LT(0).getText());
             }
-        // look for int.class and int[].class
+        // look for int.class, int[].class, and int[]::new
     |   type=builtInType
         ( LBRACK  RBRACK! )*
-        DOT "class"
+        (
+            DOT "class"
+        |
+            METHOD_REF "new"
+        )
     ;
 
 /**
@@ -2575,7 +2639,7 @@ supplementaryPostIncDecPart
 
 /** object instantiation.
  *  Trees are built as illustrated by the following input/tree pairs:
- *
+ * <pre>
  *  new T()
  *
  *  new
@@ -2620,7 +2684,7 @@ supplementaryPostIncDecPart
  *             EXPR             1
  *               |
  *               2
- *
+ * </pre>
  */
 newExpression
 {
@@ -2649,6 +2713,9 @@ argList
     ;
 
 newArrayDeclarator
+{
+    AnnotationImpl ann = null;
+}
     :   (
             // CONFLICT:
             // newExpression is a primaryExpressionPart which can be
@@ -2659,6 +2726,7 @@ newArrayDeclarator
                 warnWhenFollowAmbig = false;
             }
         :
+            (ann=annotation)*
             LBRACK
                 (expression)?
             RBRACK!
@@ -3026,9 +3094,30 @@ CHAR_LITERAL
  * String literals. In double quotes we can have:
  *  - a character escaped by a backslash, such as '\t', '\u0000'
  *  - any other character except: CR, LF, double quote, non-escaped backslash
+ *
+ * In the text blocks, we can have any characters except for the three double
+ * quotes not led with a backslash.
  */
 STRING_LITERAL
+    : STRING_LITERAL_SINGLE_LINE
+    | STRING_LITERAL_TEXT_BLOCK
+    ;
+
+protected STRING_LITERAL_SINGLE_LINE
     : {nc();}   '"' ( ESC | ~( '"' | '\\' | '\n' | '\r') )* '"'
+    ;
+
+protected STRING_LITERAL_TEXT_BLOCK
+    : {nc();} '"' '"' '"' ( '\r' | '\n' ) 
+        (   ( (BACKSLASH)? '"' '"' ~'"' ) => (BACKSLASH)? '"' '"'
+          | ( (BACKSLASH)? '"'     ~'"' ) => (BACKSLASH)? '"'
+          | ( '\r' '\n' ) => '\r' '\n' {newline();}
+          | '\r'                       {newline();}
+          | '\n'                       {newline();}
+          | (ESC) => ESC
+          | ~('\n'|'\r'|'"')
+        )*
+        '"' '"' '"'
     ;
 
 // escape sequence -- note that this is protected; it can only be called

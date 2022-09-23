@@ -66,7 +66,7 @@ public class CoverageModelsMonitor {
     public void fireCoverageChange(CloverProject project, DatabaseModel oldModel, DatabaseModel newModel) {
         Collection<DatabaseChangeListener> listenersCopy;
         synchronized (this.listeners) {
-            listenersCopy = Collections.unmodifiableList(new ArrayList<DatabaseChangeListener>(this.listeners));
+            listenersCopy = Collections.unmodifiableList(new ArrayList<>(this.listeners));
         }
 
         DatabaseChangeEvent event = new DatabaseChangeEvent(project, oldModel, newModel);

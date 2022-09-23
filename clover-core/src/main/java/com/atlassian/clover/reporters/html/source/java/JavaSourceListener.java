@@ -7,12 +7,12 @@ import com.atlassian.clover.reporters.html.source.SourceListener;
  * useful for rendering - new lines, comments, keywords, identifiers, string literals, imports, packages
  */
 public interface JavaSourceListener extends SourceListener {
-    public void onPackageSegment(String packageName, String seg);
-    public void onImportSegment(String importedName, String seg);
-    public void onImport(String accum);
-    public void onIdentifier(String ident);
-    public void onStringLiteral(String s);
-    public void onKeyword(String s);
-    public void onCommentChunk(String s);
-    public void onJavadocTag(String s);
+    void onPackageSegment(String packageName, String seg);
+    void onImportSegment(String importedName, String seg);
+    void onImport(String accum);
+    void onIdentifier(String ident);
+    void onStringLiteral(String s);
+    void onKeyword(String s);
+    void onCommentChunk(String s);
+    void onJavadocTag(String s);
 }

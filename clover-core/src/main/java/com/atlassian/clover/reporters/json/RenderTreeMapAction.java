@@ -41,7 +41,6 @@ public class RenderTreeMapAction implements Callable {
      * Generate JSON to be used by the treemap in <a href="http://thejit.org/docs/files/Treemap-js.html">The Jit</a>.
      *
      * @return the json string that was created
-     * @throws Exception
      */
     @Override
     public Object call() throws Exception {
@@ -77,14 +76,14 @@ public class RenderTreeMapAction implements Callable {
 
         final List<FullPackageInfo> pkgInfos = (List<FullPackageInfo>)project.getAllPackages();
 
-        final List<Node> pkgNodes = new ArrayList<Node>(pkgInfos.size());
+        final List<Node> pkgNodes = new ArrayList<>(pkgInfos.size());
 
         final Node projectNode = createNode(project.getDataIndex(), "", project, pkgNodes);
 
         for (final FullPackageInfo packageInfo : pkgInfos) {
             final List classes = packageInfo.getClasses(HasMetricsFilter.ACCEPT_ALL);
             // create a package node.
-            final List<Node> classesList = new ArrayList<Node>(classes.size());
+            final List<Node> classesList = new ArrayList<>(classes.size());
             pkgNodes.add(createNode(packageInfo.getDataIndex(), packageInfo.getName(), packageInfo, classesList));
 
             for (Iterator iterator = classes.iterator(); classLevel && iterator.hasNext(); ) {
@@ -118,7 +117,7 @@ public class RenderTreeMapAction implements Callable {
 
 
     /**
-     * A class to model the json format required by http://thejit.org/docs/files/Treemap-js.html
+     * A class to model the json format required by <a href="http://thejit.org/docs/files/Treemap-js.html">Treemap-js</a>
      *
      *<pre>
      * var json = {

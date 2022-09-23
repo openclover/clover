@@ -98,7 +98,7 @@ class AnnotationSpaceWithFragments extends AnnotationSpace {
 
     public boolean currentFragmentCompatibleWith(SourceInfo region, boolean hidden) {
         //First fragment's region is representative of all regions for the node
-        return ((AnnotationFragment) fragments.get(0)).compatibleWith(region, hidden);
+        return fragments.get(0).compatibleWith(region, hidden);
     }
 
     public void foldIntoCurrentFragment(SourceInfo region, boolean hidden) throws BadLocationException {

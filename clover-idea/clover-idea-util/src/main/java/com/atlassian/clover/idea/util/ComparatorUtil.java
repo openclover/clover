@@ -42,8 +42,7 @@ public class ComparatorUtil {
      * @return Comparison result
      */
     public static int compareLong(long arg1, long arg2) {
-        return arg1 == arg2 ? 0 :
-                arg1 < arg2 ? -1 : 1;
+        return Long.compare(arg1, arg2);
     }
 
     public static boolean areEqual(Object obj, Object obj1) {

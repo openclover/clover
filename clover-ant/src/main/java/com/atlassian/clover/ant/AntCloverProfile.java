@@ -28,7 +28,6 @@ public class AntCloverProfile extends CloverProfile {
 
     /**
      * Setter for Ant's <code>&lt;profile name="..."&gt;</code> attribute.
-     * @param name
      */
     public void setName(String name) {
         this.name = name;
@@ -36,7 +35,6 @@ public class AntCloverProfile extends CloverProfile {
 
     /**
      * Setter for Ant's <code>&lt;profile coverageRecorder="..."&gt;</code> attribute.
-     * @param recorderName
      */
     public void setCoverageRecorder(String recorderName) {
         try {

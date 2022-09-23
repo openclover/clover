@@ -129,13 +129,13 @@ public class TestSourceSet extends FileSet implements TestSourceMatcher {
 
     @Override
     public String toString() {
-        String content = "testsources(" + (getDir() != null ? "dir=" + getDir().getPath() : "") + " enabled=" + enabled;
+        StringBuilder content = new StringBuilder("testsources(" + (getDir() != null ? "dir=" + getDir().getPath() : "") + " enabled=" + enabled);
         if (boolSpecs != null) {
             for (final BooleanSpec boolSpec : boolSpecs) {
-                content += "\n\t" + boolSpec.toString();
+                content.append("\n\t").append(boolSpec.toString());
             }
         }
-        content += ")";
-        return content;
+        content.append(")");
+        return content.toString();
     }
 }

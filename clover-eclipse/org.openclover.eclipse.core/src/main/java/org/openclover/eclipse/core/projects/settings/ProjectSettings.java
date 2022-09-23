@@ -507,7 +507,7 @@ public class ProjectSettings extends Settings {
 
     private <T> List<T> getListProperty(String key, ListMarshaller<T> marshaller) {
         // read all of the properties.
-        List<T> property = new ArrayList<T>();
+        List<T> property = new ArrayList<>();
         for (int i = 0; ; i++) {
             String indexedKey = key + "[" + i + "]";
 

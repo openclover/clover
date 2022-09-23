@@ -22,7 +22,7 @@ public class TypeInference {
      * The classic approach.
      */
     public void useNoTypeInference() {
-        Map<String, List<String>> myMap = new HashMap<String, List<String>>();
+        Map<String, List<String>> myMap = new HashMap<>();
     }
 
     /**
@@ -51,7 +51,7 @@ public class TypeInference {
      */
     public void createObjectClassicWay() {
         // MyClass<Integer>(String)
-        MyClass<Integer> myObject = new MyClass<Integer>("");
+        MyClass<Integer> myObject = new MyClass<>("");
     }
 
     /**

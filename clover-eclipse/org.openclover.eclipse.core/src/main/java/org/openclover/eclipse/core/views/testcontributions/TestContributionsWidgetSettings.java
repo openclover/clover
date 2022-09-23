@@ -27,18 +27,18 @@ public abstract class TestContributionsWidgetSettings
 
             Integer sortedColumn = memento.getInteger(prefix(SORTED_COLUMN));
             if (sortedColumn != null) {
-                this.sortedColumn = sortedColumn.intValue();
+                this.sortedColumn = sortedColumn;
             }
 
             String reverseSort = memento.getString(prefix(REVERSE_SORT));
             if (reverseSort != null) {
-                this.reverseSort = Boolean.valueOf(reverseSort).booleanValue();
+                this.reverseSort = Boolean.parseBoolean(reverseSort);
             }
 
             for (int i = 0; i < columnWidths.length; i++) {
                 Integer width = memento.getInteger(prefix(COL_WIDTH_PREFIX + i));
                 if (width != null) {
-                    columnWidths[i] = width.intValue();
+                    columnWidths[i] = width;
                 }
             }
         }

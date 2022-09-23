@@ -31,7 +31,7 @@ public class JSONHistoricalReporter {
     /**
      * Generates historical JSON data using a subset of the
      * <a href="http://code.google.com/apis/visualization/documentation/dev/implementing_data_source.html#jsondatatable">Google Visualisation DataSource response format</a>.
-     *
+     * <p/>
      * Since Clover reports are only static, this will only contain the 'table' object, and does not contain the surrounding status etc.
      * These extra fields could be added by a service which serves this file.
      * <p/>
@@ -49,7 +49,7 @@ public class JSONHistoricalReporter {
      * may be passed directly to a <a href="http://code.google.com/apis/visualization/documentation/reference.html#DataTable">google.visualization.DataTable</a>
      * constructor like so:
      * new google.visualization.DataTable(json.table[0], 0.5);
-     *
+     * <p/>
      * e.g.
      * <pre>
      *    var data = new google.visualization.DataTable(json.table[0], 0.5);
@@ -101,7 +101,7 @@ public class JSONHistoricalReporter {
             rowData.put("c", row);
 
             // add timestamp data
-            addRowInfo(row, new Date(timestamp.longValue()), dateFormat.format(timestamp));
+            addRowInfo(row, new Date(timestamp), dateFormat.format(timestamp));
             addColumnData(columns, hasMetrics, row);
         }
         return json;

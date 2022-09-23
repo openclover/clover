@@ -109,7 +109,7 @@ public class InstrumentSourcePatternsComponent extends Composite {
 
     private static List<SourceFolderPattern> getSFPList(SourceRootsWithPatternTreeContentProvider provider) {
         final SourceRootWithPattern[] elements = provider.getAllElements();
-        final List<SourceFolderPattern> patterns = new ArrayList<SourceFolderPattern>(elements.length);
+        final List<SourceFolderPattern> patterns = new ArrayList<>(elements.length);
 
         for (SourceRootWithPattern srwp : elements) {
             patterns.add(new SourceFolderPattern(srwp.getPattern()));

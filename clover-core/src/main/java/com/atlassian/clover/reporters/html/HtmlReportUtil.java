@@ -11,10 +11,11 @@ import com.atlassian.clover.api.registry.HasMetrics;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.List;
 
 public class HtmlReportUtil {
@@ -57,16 +58,15 @@ public class HtmlReportUtil {
     static final int EXTRA_COLS = 1;
 
     public static void mergeTemplateToFile(VelocityEngine engine, File outfile, VelocityContext context, String template) throws IOException {
-        mergeTemplateToStream(engine, new FileOutputStream(outfile), context, template);
+        mergeTemplateToStream(engine, Files.newOutputStream(outfile.toPath()), context, template);
     }
 
-    public static void mergeTemplateToStream(VelocityEngine engine, OutputStream outputStream, VelocityContext context, String template) throws IOException {
+    public static void mergeTemplateToStream(VelocityEngine engine, OutputStream outputStream, VelocityContext context, String template) {
 
         if (Logger.isDebug())
             Logger.getInstance().debug("rendering " + template);
 
-        BufferedWriter out = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-        try {
+        try (BufferedWriter out = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8))) {
             if (engine.mergeTemplate(template, "ASCII", context, out)) {
                 if (Logger.isDebug()) {
                     Logger.getInstance().debug("done ");
@@ -78,9 +78,6 @@ public class HtmlReportUtil {
             }
         } catch (Exception e) {
             Logger.getInstance().warn("Failed to generate " + outputStream, e);
-        }
-        finally {
-            out.close();
         }
 
     }
@@ -119,7 +116,7 @@ public class HtmlReportUtil {
         if (pcFiltered > 0) {
             String percentFiltered = Formatting.getPercentStr(pcFiltered);
             context.put("percentFiltered", percentFiltered);
-            context.put("showFilterToggle", Boolean.valueOf(hasFilteredMetrics(model)));
+            context.put("showFilterToggle", hasFilteredMetrics(model));
         }
     }
 

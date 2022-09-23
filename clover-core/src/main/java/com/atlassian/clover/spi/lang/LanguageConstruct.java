@@ -25,7 +25,7 @@ public interface LanguageConstruct {
     /**
      * Language constructs that Clover supports for the languages it supports out-of-the-box.
      */
-    public enum Builtin implements LanguageConstruct {
+    enum Builtin implements LanguageConstruct {
         METHOD("()", "method {2,choice,0#not entered|1#entered {2,number,integer} time|1<entered {2,number,integer} times}."),
         STATEMENT(";", "statement {2,choice,0#not executed|1#executed 1 time|1<executed {2,number,integer} times}."),
         BRANCH("?", "true branch executed {2} {2,choice,0#times|1#time|1<times}, false branch executed {3} {3,choice,0#times|1#time|1<times}."),
@@ -38,7 +38,7 @@ public interface LanguageConstruct {
         private final String id;
         private final MessageFormat msgFormat;
 
-        private Builtin(String id, String msgFormat) {
+        Builtin(String id, String msgFormat) {
             this.id = id;
             this.msgFormat = new MessageFormat(msgFormat);
         }

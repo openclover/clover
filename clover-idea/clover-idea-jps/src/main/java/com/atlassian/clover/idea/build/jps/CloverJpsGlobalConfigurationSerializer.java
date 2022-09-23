@@ -49,7 +49,7 @@ public class CloverJpsGlobalConfigurationSerializer extends JpsGlobalExtensionSe
     @Override
     public void loadExtension(@NotNull JpsGlobal jpsGlobal, @NotNull Element componentTag) {
         final String licenseText = JDOMExternalizerUtil.readField(componentTag, "licenseText", "");
-        final long installDate = Long.valueOf(JDOMExternalizerUtil.readField(componentTag, "installDate", "-1"));
+        final long installDate = Long.parseLong(JDOMExternalizerUtil.readField(componentTag, "installDate", "-1"));
 
         // the CloverPlugin implements PersistentStateComponent<Element>
         CloverGlobalConfig data = new CloverGlobalConfig(licenseText, installDate);

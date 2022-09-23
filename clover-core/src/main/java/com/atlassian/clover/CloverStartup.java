@@ -75,8 +75,6 @@ public class CloverStartup {
      * be used by the loadLicense methods to retrieve the license information
      * and configure the systems license information.
      *
-     * @param loader
-     *
      * @see CloverStartup#loadLicense(com.atlassian.clover.Logger)
      * @see CloverStartup#loadLicense(com.atlassian.clover.Logger, boolean)
      */
@@ -89,8 +87,6 @@ public class CloverStartup {
     /**
      * One final post processing run to remove the '$daysleft string from
      * the license messages, replacing them with the provided value.
-     *
-     * @param daysLeft
      */
     private static void evaluateDaysLeft(long daysLeft) {
         final String regex = "\\$[dD][aA][yY][sS][lL][eE][fF][tT]"; // $daysleft

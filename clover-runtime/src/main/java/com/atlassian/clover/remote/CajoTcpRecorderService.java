@@ -21,7 +21,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class CajoTcpRecorderService implements RecorderService {
 
-    private final List<ClientProxy> clientProxies = new CopyOnWriteArrayList<ClientProxy>();
+    private final List<ClientProxy> clientProxies = new CopyOnWriteArrayList<>();
     private DistributedConfig config;
 
     private static final int INIT_SLEEP_MILLIS = 500;
@@ -58,9 +58,7 @@ public class CajoTcpRecorderService implements RecorderService {
 
             Logger.getInstance().debug("Recording proceeding now that " + Formatting.pluralizedVal(clientProxies.size(), "client") + " are connected.");
 
-        } catch (RemoteException e) {
-            Logger.getInstance().error("Error starting recorder service: " + config, e);
-        } catch (UnknownHostException e) {
+        } catch (RemoteException | UnknownHostException e) {
             Logger.getInstance().error("Error starting recorder service: " + config, e);
         }
     }
@@ -79,13 +77,13 @@ public class CajoTcpRecorderService implements RecorderService {
         }
     }
 
+    static final String REGISTER_CALLBACK = "registerListener";
+
     /**
      * This method is invoked when a remote client wishes to register itself with this service.
      *
      * @return a reference to be used by the client to create an ItemProxy
      */
-    static final String REGISTER_CALLBACK = "registerListener";
-
     public Remote registerListener() {
 
         Logger.getInstance().verbose("registerListener(). proxies: " + clientProxies);
@@ -96,9 +94,7 @@ public class CajoTcpRecorderService implements RecorderService {
 
             Logger.getInstance().debug("Accepting connection from client: " + UnicastRemoteObject.getClientHost());
             return new Remote(proxy);
-        } catch (RemoteException e) {
-            Logger.getInstance().error("Error registering listener.", e);
-        } catch (ServerNotActiveException e) {
+        } catch (RemoteException | ServerNotActiveException e) {
             Logger.getInstance().error("Error registering listener.", e);
         }
         return null;
@@ -108,7 +104,7 @@ public class CajoTcpRecorderService implements RecorderService {
     public Object sendMessage(RpcMessage message) {
         final int numClients = invokeAllClients(message.getName(), message.getMethodArgs());
         Logger.getInstance().debug("Invoked method " + message.getName() + " on " + numClients + " remote clients.");
-        return Integer.valueOf(numClients);
+        return numClients;
     }
 
     private int invokeAllClients(String methodName, Object parameters) {

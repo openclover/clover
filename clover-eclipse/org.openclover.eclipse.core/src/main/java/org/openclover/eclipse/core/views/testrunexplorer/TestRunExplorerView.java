@@ -212,7 +212,7 @@ public class TestRunExplorerView extends ExplorerView {
         @Override
         public String getLabel(ExplorerViewSettings settings, MetricsScope scope, ILabelProvider delegate, Object element) {
             if (element instanceof TestCaseNode) {
-                return Double.toString(((TestCaseNode)element).getDurationInSeconds()) + "s";
+                return ((TestCaseNode) element).getDurationInSeconds() + "s";
             } else {
                 return "";
             }
@@ -638,7 +638,7 @@ public class TestRunExplorerView extends ExplorerView {
 
     private void buildClassesTestedTreeColumn(ColumnDefinition columnDefinition, Integer width) {
         TreeColumn column = ColumnBuilder.buildTreeColumn(columnDefinition, classesTestedTree, treeColumnLabeler);
-        column.setWidth(width.intValue());
+        column.setWidth(width);
         columnDefinition.bindRenderer(classesTestedTree, settings);
         classesTestedTreeColumns.put(columnDefinition, column);
     }

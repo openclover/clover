@@ -173,10 +173,7 @@ public class RecordingTranscripts {
                 }
             }
         }
-        catch (StringIndexOutOfBoundsException e) {
-            // ignore
-        }
-        catch (NumberFormatException e) {
+        catch (StringIndexOutOfBoundsException | NumberFormatException e) {
             // ignore
         }
 
@@ -321,9 +318,7 @@ public class RecordingTranscripts {
             if (timestamp != other.timestamp) return false;
             if (typedTestId != other.typedTestId) return false;
             if (runId != other.runId) return false;
-            if (!datafile.equals(other.datafile)) return false;
-
-            return true;
+            return datafile.equals(other.datafile);
         }
 
         public int hashCode() {
@@ -351,9 +346,7 @@ public class RecordingTranscripts {
             if (hash > other.hash) return 1;
             if (hash < other.hash) return -1;
             if (testRecording != other.testRecording) return testRecording ? 1 : -1;
-            if (typedTestId > other.typedTestId) return 1;
-            if (typedTestId < other.typedTestId) return -1;
-            return 0;
+            return Long.compare(typedTestId, other.typedTestId);
         }
 
         public CoverageRecording read(CoverageDataSpec spec) throws IOException {

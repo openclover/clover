@@ -38,7 +38,7 @@ public class ProjToTreePkgFragNodeRelationship extends NodeRelationship {
                                 Set<IPackageFragment> fragments =
                                         pkgNamesToFragments.get(packageFragment.getElementName());
                                 if (fragments == null) {
-                                    fragments = new LinkedHashSet<IPackageFragment>();
+                                    fragments = new LinkedHashSet<>();
                                     pkgNamesToFragments.put(packageFragment.getElementName(), fragments);
                                 }
                                 fragments.add((IPackageFragment) packageFragment);

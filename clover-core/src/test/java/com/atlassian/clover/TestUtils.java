@@ -60,7 +60,6 @@ public class TestUtils {
 
     /**
      * Read the 'project.dir' system property, assert that it's not null and points to a workspace directory.
-     * @return
      */
     public static File getProjectDirFromProperty() {
         final String PROJECT_DIR = "project.dir";

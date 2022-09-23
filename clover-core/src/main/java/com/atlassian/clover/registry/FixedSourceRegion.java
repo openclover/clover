@@ -75,9 +75,7 @@ public class FixedSourceRegion implements SourceInfo, TaggedPersistent {
         if (endColumn != that.endColumn) return false;
         if (endLine != that.endLine) return false;
         if (startColumn != that.startColumn) return false;
-        if (startLine != that.startLine) return false;
-
-        return true;
+        return startLine == that.startLine;
     }
 
     @Override

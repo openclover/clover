@@ -17,7 +17,7 @@ public class RegexpEntry {
         StringTokenizer tokens = new StringTokenizer(str, ",", true);
 
         //No longer peristed property 'enabled'
-        Boolean.valueOf(tokens.nextToken()).booleanValue();
+        Boolean.valueOf(tokens.nextToken());
         tokens.nextToken(); // the delimiter token
         type = (Integer.parseInt(tokens.nextToken()));
         tokens.nextToken(); // the delimiter token
@@ -25,7 +25,7 @@ public class RegexpEntry {
         Integer.parseInt(tokens.nextToken());
         tokens.nextToken(); // the delimiter token
         //No longer persisted property 'changed'
-        Boolean.valueOf(tokens.nextToken()).booleanValue();
+        Boolean.valueOf(tokens.nextToken());
         changed = false;
         tokens.nextToken(); // the delimiter token
         originalName = name = (tokens.nextToken());

@@ -8,7 +8,7 @@ import org.eclipse.ui.dialogs.PreferencesUtil;
 import java.io.IOException;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 
 import com_atlassian_clover.CloverVersionInfo;
@@ -97,19 +97,14 @@ public class LicenseUtils {
 
     public static String calcInstallDateToken() {
         final long installDate = CloverPlugin.getInstance().getInstallationSettings().getInstallDate();
-        try {
-            return new String(Base64.encodeBase64( (CloverVersionInfo.SANITIZED_RN + ":" + installDate).getBytes("US-ASCII") ));
-        } catch (UnsupportedEncodingException e) {
-            CloverPlugin.logError("Unable to generate install date token", e);
-            return "";
-        }
+        return new String(Base64.encodeBase64( (CloverVersionInfo.SANITIZED_RN + ":" + installDate).getBytes(StandardCharsets.US_ASCII) ));
     }
     
     public static long parseInstallDateToken(String licenseToken) {
         long installDate = 0l;
         try {
             if (licenseToken != null) {
-                final String[] tokenParts = new String(Base64.decodeBase64(licenseToken.getBytes("US-ASCII")), "US-ASCII").split(":");
+                final String[] tokenParts = new String(Base64.decodeBase64(licenseToken.getBytes(StandardCharsets.US_ASCII)), StandardCharsets.US_ASCII).split(":");
                 if (tokenParts.length == 2 && CloverVersionInfo.SANITIZED_RN.equals(tokenParts[0])) {
                     return Long.parseLong(tokenParts[1]);
                 }

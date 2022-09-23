@@ -43,7 +43,7 @@ public class RenderPackageTreeJsonAction implements Callable {
         return null;
     }
 
-    protected File insertPackageTreeProperties() throws Exception {
+    protected File insertPackageTreeProperties() {
         final PrefixTree packageTree = createTreeFromList(collectAllPackagesByName());
 
         context.put("projectInfo", fullProjectInfo);
@@ -61,7 +61,7 @@ public class RenderPackageTreeJsonAction implements Callable {
         final List<? extends PackageInfo> packages = fullProjectInfo.getAllPackages();
         Collections.sort(packages, HasMetricsSupport.LEX_COMP);
 
-        final List<PackageInfoExt> packagesExt = new ArrayList<PackageInfoExt>(packages.size());
+        final List<PackageInfoExt> packagesExt = new ArrayList<>(packages.size());
         for (PackageInfo packageInfo : packages) {
             packagesExt.add(new PackageInfoExt(
                     packageInfo,

@@ -197,7 +197,7 @@ public class ClassesTestedTreeProvider
     private List<MethodInfo> getTestMethods(List<TestCaseInfo> testCases, CloverDatabase database) {
         final List<MethodInfo> testCaseMethods = newLinkedList();
         for (TestCaseInfo testInTestProject : testCases) {
-            TestCaseInfo testInDependentProject = database.getTestCase(testInTestProject.getId().intValue());
+            TestCaseInfo testInDependentProject = database.getTestCase(testInTestProject.getId());
             if (testInDependentProject != null && testInDependentProject.getSourceMethod() != null) {
                 testCaseMethods.add(testInDependentProject.getSourceMethod());
             }

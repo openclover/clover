@@ -95,16 +95,11 @@ public class TaggedInputReader implements TaggedDataInput {
 
     /**
      * Read a list of objects, proceeded by their count and return them in a list.
-     *
-     * @param type use T.class
-     * @param &lt;T&gt; object type
-     * @return List&lt;T&gt; list of objects
-     * @throws IOException
      */
     @Override
     public <T extends TaggedPersistent> List<T> readList(Class<T> type) throws IOException {
         final int count = readInt();
-        final List<T> entities = new ArrayList<T>();
+        final List<T> entities = new ArrayList<>();
         for(int i = 0; i < count; i++) {
             final T entity = read(type);
             entities.add(entity);

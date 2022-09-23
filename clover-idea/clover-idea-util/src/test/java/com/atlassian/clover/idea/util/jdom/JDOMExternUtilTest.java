@@ -65,7 +65,7 @@ public class JDOMExternUtilTest {
     public void testWriteColorPair() throws Exception {
         // no colors
         assertThat(
-                JDOMExternUtil.writeToString("highlight", (Pair) null),
+                JDOMExternUtil.writeToString("highlight", null),
                 containsString(HIGHLIGHT_NULL));
         assertThat(
                 JDOMExternUtil.writeToString("highlight", Pair.of(null, null)),

@@ -30,7 +30,7 @@ public class BuiltinPcMetricsColumnDefinition extends BuiltinMetricsColumnDefini
 
     @Override
     public ListeningRenderer newRenderer(Composite composite, ExplorerViewSettings settings) {
-        return new MetricsPcCellRenderer((Tree)composite, (CoverageViewSettings)settings, settings.getTreeColumnSettings(), this);
+        return new MetricsPcCellRenderer((Tree)composite, settings, settings.getTreeColumnSettings(), this);
     }
 
     @Override

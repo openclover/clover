@@ -32,7 +32,7 @@ public final class CloverEclipsePluginMessages {
         }
         if (arg == null)
             arg = ""; 
-        return MessageFormat.format(format, (arg instanceof Object[]) ? (Object[])arg : new Object[]{arg});
+        return MessageFormat.format(format, (arg instanceof Object[]) ? arg : new Object[]{arg});
     }
 
     public static String CLOVER_COPYRIGHT() {

@@ -29,7 +29,7 @@ public class RewriteLambdaToBlockMatcher {
     ).build();
 
     public static boolean shouldRewriteAsBlock(Deque<Deque<String>> currentStack) {
-        ArrayDeque<Deque<String>> stack = new ArrayDeque<Deque<String>>(currentStack);
+        ArrayDeque<Deque<String>> stack = new ArrayDeque<>(currentStack);
         return !stack.isEmpty() && isCalleeMethodOnStack(stack);
     }
 

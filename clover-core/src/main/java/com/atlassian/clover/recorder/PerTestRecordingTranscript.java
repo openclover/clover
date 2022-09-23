@@ -44,10 +44,6 @@ public class PerTestRecordingTranscript extends BaseCoverageRecording implements
     }
 
     /**
-     *
-     * @param in
-     * @param spec
-     * @throws IOException
      * @see com.atlassian.clover.recorder.FileBasedPerTestRecording#transcribe()
      */
     @Override

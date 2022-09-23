@@ -49,7 +49,7 @@ public class ParentEntity {
         this.containingFile = containingFile;
     }
 
-    private class ParentClassExtractor extends EntityVisitor {
+    private static class ParentClassExtractor extends EntityVisitor {
         ClassInfo cls = null;
 
         @Override
@@ -63,7 +63,7 @@ public class ParentEntity {
         }
     }
 
-    private class ParentMethodExtractor extends EntityVisitor {
+    private static class ParentMethodExtractor extends EntityVisitor {
         MethodInfo methodInfo = null;
 
         @Override
@@ -77,7 +77,7 @@ public class ParentEntity {
         }
     }
 
-    private class FileExtractor extends EntityVisitor {
+    private static class FileExtractor extends EntityVisitor {
         FileInfo fileInfo = null;
 
         @Override

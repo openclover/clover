@@ -73,18 +73,18 @@ public class ReportWizardDialog extends JDialog {
     }
 
     protected JComponent createSouthPanel() {
-        Action[] actions = ((javax.swing.Action[]) createActions());
+        Action[] actions = createActions();
 
         final JPanel panel = new JPanel(new GridBagLayout());
         if (actions.length > 0) {
             int gridx = 0;
 
             panel.add(// left strut
-                      ((java.awt.Component) Box.createHorizontalGlue()),
+                    Box.createHorizontalGlue(),
                       new GridBagConstraints(gridx++, 0, 1, 1, 1, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
                                              new Insets(8, 0, 0, 0), 0, 0));
             if (actions.length > 0) {
-                JPanel buttonsPanel = ((javax.swing.JPanel) createButtons(actions));
+                JPanel buttonsPanel = createButtons(actions);
                 panel.add(buttonsPanel,
                           new GridBagConstraints(gridx++, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.NONE,
                                                  new Insets(8, 0, 0, 0), 0, 0));
@@ -100,11 +100,11 @@ public class ReportWizardDialog extends JDialog {
         contentPane.setLayout(new BorderLayout());
         contentPane.setBorder(DEFAULT_BORDER);
 
-        JComponent centerPanel = ((javax.swing.JComponent) createCenterPanel());
+        JComponent centerPanel = createCenterPanel();
         if (centerPanel != null) {
             contentPane.add(centerPanel, BorderLayout.CENTER);
         }
-        JComponent southPanel = ((javax.swing.JComponent) createSouthPanel());
+        JComponent southPanel = createSouthPanel();
         if (southPanel != null) {
             contentPane.add(southPanel, BorderLayout.SOUTH);
         }

@@ -60,7 +60,7 @@ public final class ActivePerTestRecorderMany extends ActivePerTestRecorderAny {
                             "but test recorder in focus doesn't match: " + those[0]);
 
             ActivePerTestRecorderOne finished = null;
-            Collection<ActivePerTestRecorderOne> singles = new ArrayList<ActivePerTestRecorderOne>(Arrays.asList(this.those));
+            Collection<ActivePerTestRecorderOne> singles = new ArrayList<>(Arrays.asList(this.those));
             for (Iterator<ActivePerTestRecorderOne> iterator = singles.iterator(); iterator.hasNext(); ) {
                 ActivePerTestRecorderOne one = iterator.next();
                 boolean matches = one.matchesTest(type, slice, testRunId);
@@ -74,10 +74,10 @@ public final class ActivePerTestRecorderMany extends ActivePerTestRecorderAny {
             if (finished == null) {
                 Logger.getInstance().verbose(
                         "Test ending (" + ActivePerTestRecorderMany.asString(type, slice, testRunId) + ") " +
-                                "but no active per-test recorders match: " + toString());
+                                "but no active per-test recorders match: " + this);
                 return new RecordingResult(LivePerTestRecording.NULL, this);
             } else {
-                final ActivePerTestRecorderOne[] singlesArray = singles.toArray(new ActivePerTestRecorderOne[singles.size()]);
+                final ActivePerTestRecorderOne[] singlesArray = singles.toArray(new ActivePerTestRecorderOne[0]);
                 final double duration = (end - finished.start) / 1e3; // TODO (nanoTimerEnd - nanoTimerStart) / 1e6;
                 // optimization: flush to disk non-empty coverage only
                 final LivePerTestRecording livePerTestRecording = finished.coverage.isModified() ?

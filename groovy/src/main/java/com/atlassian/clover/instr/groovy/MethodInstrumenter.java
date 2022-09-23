@@ -63,14 +63,15 @@ public class MethodInstrumenter {
 
     /**
      * FOR TEST REWRITING:
+     * <pre>
      * \@Test
      * \@Expected([RuntimeException.class, FooException.class])
      * def testFoo() {
      *   someStatements()
      * }
-     *
-     * -->
-     *
+     * </pre>
+     * <p/>
+     * <pre>
      * \@Test
      * \@Expected([RuntimeException.class, FooException.class])
      * def testFoo() {
@@ -92,15 +93,15 @@ public class MethodInstrumenter {
      *       exception)
      *   }
      * }
-     *
+     * </pre>
      * FOR FLUSH REWRITING:
-     *
+     * <pre>
      * def testFoo() {
      *   someStatements()
      * }
-     *
-     * -->
-     *
+     * </pre>
+     * <p/>
+     * <pre>
      * def testFoo() {
      *   try {
      *     someStatements()
@@ -108,7 +109,7 @@ public class MethodInstrumenter {
      *     CLASS.R().maybeFlush() OR CLASS.R().flushNeeded()
      *   }
      * }
-     *
+     * </pre>
      * @return Pair&lt;Statement, Boolean&gt; - new statement, true if testResults are recorded
      */
     @NotNull

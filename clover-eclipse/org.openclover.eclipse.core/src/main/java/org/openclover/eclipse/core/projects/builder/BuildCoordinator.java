@@ -64,7 +64,7 @@ public class BuildCoordinator {
         if (files.length > 0) {
             Set<IFile> beingCompiled = project.getFilesNeedingCloverCompile();
             if (beingCompiled == null) {
-                beingCompiled = new LinkedHashSet<IFile>();
+                beingCompiled = new LinkedHashSet<>();
                 project.setFilesNeedingCloverCompile(beingCompiled);
             }
             for (BuildContext file : files) {

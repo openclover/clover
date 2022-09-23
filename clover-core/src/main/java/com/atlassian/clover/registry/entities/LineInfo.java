@@ -12,20 +12,13 @@ import static clover.com.google.common.collect.Lists.newArrayList;
 
 /**
  *  information about a particular source line.
- *
  *  this class grows arrays linearly because they are almost always likely to be tiny (1 or 2 entries)
  */
 public class LineInfo {
     public static Comparator<ElementInfo> COLUMN_COMPARATOR = new Comparator<ElementInfo>() {
         @Override
         public int compare(ElementInfo a, ElementInfo b) {
-            if (a.getStartColumn() < b.getStartColumn()) {
-                return -1;
-            } else if (a.getStartColumn() > b.getStartColumn()) {
-                return 1;
-            } else {
-                return 0;
-            }
+            return Integer.compare(a.getStartColumn(), b.getStartColumn());
         }
     };
     

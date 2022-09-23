@@ -25,7 +25,7 @@ public class InstrumentationBindingAPF extends AbstractProcessor {
 
     @Override
     public Set<String> getSupportedAnnotationTypes() {
-        Set<String> annotataions = new LinkedHashSet<String>();
+        Set<String> annotataions = new LinkedHashSet<>();
         annotataions.add(ForInstrumentation.class.getCanonicalName());
         return annotataions;
     }
@@ -52,7 +52,7 @@ public class InstrumentationBindingAPF extends AbstractProcessor {
                 writer.println("package com.atlassian.clover.instr;");
                 writer.println("public class Bindings {");
 
-                final Map<String, String> fqClassNames = new HashMap<String, String>();
+                final Map<String, String> fqClassNames = new HashMap<>();
 
                 for (Element decl : roundEnv.getElementsAnnotatedWith(mine)) {
                     if (decl.getKind() == ElementKind.METHOD) {

@@ -57,7 +57,7 @@ public class ByteCodeUtilsGroovy2 {
                 } else if (value >= Short.MIN_VALUE && value <= Short.MAX_VALUE) {
                     mv.visitIntInsn(groovyjarjarasm.asm.Opcodes.SIPUSH, value);
                 } else {
-                    mv.visitLdcInsn(Integer.valueOf(value));
+                    mv.visitLdcInsn(value);
                 }
         }
     }
@@ -95,7 +95,7 @@ public class ByteCodeUtilsGroovy2 {
                 } else if (value >= Short.MIN_VALUE && value <= Short.MAX_VALUE) {
                     mv.visitIntInsn(org.objectweb.asm.Opcodes.SIPUSH, value);
                 } else {
-                    mv.visitLdcInsn(Integer.valueOf(value));
+                    mv.visitLdcInsn(value);
                 }
         }
     }

@@ -9,13 +9,13 @@ import static org.junit.Assert.assertTrue;
 public class MetricsHelper {
 
     public static void assertMetricsEquals(FileMetrics expectedMetrics, FileMetrics actualMetrics) {
-        assertMetricsEquals((ClassMetrics) expectedMetrics, (ClassMetrics) actualMetrics);
+        assertMetricsEquals(expectedMetrics, (ClassMetrics) actualMetrics);
         assertEquals("getLineCount", expectedMetrics.getLineCount(), actualMetrics.getLineCount());
         assertEquals("getNcLineCount", expectedMetrics.getNcLineCount(), actualMetrics.getNcLineCount());
     }
 
     public static void assertMetricsEquals(ClassMetrics expectedMetrics, ClassMetrics actualMetrics) {
-        assertMetricsEquals((com.atlassian.clover.api.registry.BlockMetrics)expectedMetrics,
+        assertMetricsEquals(expectedMetrics,
                 (com.atlassian.clover.api.registry.BlockMetrics)actualMetrics);
         assertEquals("getNumMethods", expectedMetrics.getNumMethods(), actualMetrics.getNumMethods());
         assertEquals("getNumMethods", expectedMetrics.getNumTestMethods(), actualMetrics.getNumTestMethods());

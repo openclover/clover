@@ -70,7 +70,7 @@ public abstract class RenderCoverageCloudAction implements Callable {
     }
 
     /**
-     * @param outDir
+     * @param outDir output directory
      * @param allTabs a map(&lt;String&gt;title, &lt;String&gt;href prefix)
      * @param axis1    the axis to use for the size
      * @param axis2    the axis to use for the color

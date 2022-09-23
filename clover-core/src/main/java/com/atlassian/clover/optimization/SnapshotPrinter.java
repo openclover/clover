@@ -8,7 +8,6 @@ import com.atlassian.clover.reporters.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -16,6 +15,7 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
@@ -38,7 +38,7 @@ public class SnapshotPrinter {
             Config config = parseCommandLineArgs(args);
             OutputStream out = (config.outputFile == null
                     ? System.out
-                    : new FileOutputStream(config.outputFile));
+                    : Files.newOutputStream(config.outputFile.toPath()));
 
             if (config.format.equalsIgnoreCase("json")) {
                 jsonPrint(Snapshot.loadFrom(config.snapshotFile), out);
@@ -96,9 +96,6 @@ public class SnapshotPrinter {
      *      }
      *   }
      * </pre>
-     * @param snapshot
-     * @param out
-     * @throws JSONException
      */
     public static void jsonPrint(Snapshot snapshot, OutputStream out) throws JSONException {
         if (snapshot != null) {

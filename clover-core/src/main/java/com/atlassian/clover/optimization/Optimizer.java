@@ -17,12 +17,12 @@ public interface Optimizer {
     /**
      * Optimizes a {@link Collection} of {@link Optimizable} objects.
      */
-    public <E extends Optimizable> List<E> optimize(Collection<E> optimizables);
+    <E extends Optimizable> List<E> optimize(Collection<E> optimizables);
 
     /**
      * Optimizes a {@link Collection} of {@link com.atlassian.clover.api.optimization.Optimizable} objects.
      */
-    public <E extends Optimizable> List<E> optimize(
+    <E extends Optimizable> List<E> optimize(
         Collection<E> optimizables,
         OptimizationSession session);
 
@@ -30,7 +30,7 @@ public interface Optimizer {
      * Optimizes two {@link Collection}s of {@link Optimizable} objects where
      * the first {@link Collection} must not be minimzed.
      */
-    public <E extends Optimizable> List<E> optimize(
+    <E extends Optimizable> List<E> optimize(
         Collection<E> mandatoryOptimizables,
         Collection<E> optionalOptimizables);
 
@@ -38,7 +38,7 @@ public interface Optimizer {
      * Optimizes two {@link Collection}s of {@link Optimizable} objects where
      * the first {@link Collection} must not be minimzed.
      */
-    public <E extends Optimizable> List<E> optimize(
+    <E extends Optimizable> List<E> optimize(
         Collection<E> mandatoryOptimizables,
         Collection<E> optionalOptimizables,
         OptimizationSession session);
@@ -51,7 +51,7 @@ public interface Optimizer {
      * @param session stores incremental information about optimization and can be later used
      *        for debug/logging summary
      */
-    public <E extends Optimizable> boolean include(E optimizable, OptimizationSession session);
+    <E extends Optimizable> boolean include(E optimizable, OptimizationSession session);
 
     /**
      * Determines if the Optimizer is in a state where it can optimize. If it
@@ -59,5 +59,5 @@ public interface Optimizer {
      * true and both {@link #optimize(java.util.Collection)} and {@link #optimize(java.util.Collection, java.util.Collection)}
      * will return all supplied {@link Optimizable} objects supplied to it.
      **/
-    public boolean canOptimize();
+    boolean canOptimize();
 }

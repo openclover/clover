@@ -3,7 +3,6 @@ package com.atlassian.clover.recorder;
 import com.atlassian.clover.ErrorInfo;
 import com.atlassian.clover.util.CloverBitSet;
 import com_atlassian_clover.CoverageRecorder;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 
@@ -11,7 +10,7 @@ import java.io.IOException;
  * {@link CoverageRecorder} which can grow its capacity to record coverage. This is necessary
  * where the original Clover database is unavailable due to various deployment scenarios
  * and Clover should make best efforts to record coverage.
- *
+ * <p/>
  * This class will emit proxy {@link CoverageRecorder}s from {@link #withCapacityFor(int)} which can track
  * enough coverage required at the point when they were requested (normally when a Clovered class is first loaded).
  * If more coverage needs to be tracked a subsequent call to {@link #withCapacityFor(int)} should be made for a new proxy
@@ -19,7 +18,7 @@ import java.io.IOException;
  * cannot support the required number of elements, will redirect to the underlying {@link GrowableCoverageRecorder}
  * which will return a sufficenly large proxy (having grown the underlying {@link CoverageMatrix} in a thread safe
  * manner).
- *
+ * <p/>
  * Proxies and the original {@link GrowableCoverageRecorder} share coverage by sharing int[] sections of the total
  * logical coverage array (which in essence becomes an int[][] ie a matrix). The master matrix may grow but because the
  * original int[] objects remain in use and shared across all subsequent proxies the total coverage is shared in a relatively
@@ -36,11 +35,6 @@ public class GrowableCoverageRecorder extends BaseCoverageRecorder {
     /**
      * Factory method. Use this to get an instance of the recorder. Do not call constructors directly
      * (they're not private only for the sake of unit tests).
-     * @param dbName
-     * @param dbVersion
-     * @param cfgbits
-     * @param maxNumElements
-     * @return CoverageRecorder instance
      */
     public static CoverageRecorder createFor(String dbName, long dbVersion, long cfgbits, int maxNumElements) {
         //Only ever return a proxy so its coverage matrix reference (final) is used by the instrumented
@@ -215,7 +209,7 @@ public class GrowableCoverageRecorder extends BaseCoverageRecorder {
      * A lightweight proxy which provides just enough coverage capacity
      * for the class that asked for it but delegates to the original
      * GrowableCoverageRecorder for all other functions.
-     *
+     * <p/>
      * Its CoverageMatrix shares int[] elements with the original
      * GrowableCoverageRecorder's CoverageMatrix.
      */
@@ -315,7 +309,7 @@ public class GrowableCoverageRecorder extends BaseCoverageRecorder {
         }
 
         @Override
-        public void sliceEnd(String runtimeType, String method, @Nullable String runtimeTestName,
+        public void sliceEnd(String runtimeType, String method, /*@Nullable*/ String runtimeTestName,
                              long ts, int id, int rid, int exitStatus, ErrorInfo ei) {
             target.sliceEnd(runtimeType, method, runtimeTestName, ts, id, rid, exitStatus, ei);
         }
@@ -339,23 +333,23 @@ public class GrowableCoverageRecorder extends BaseCoverageRecorder {
         }
 
         @Override
-        public final void globalSliceStart(String runtimeType, int id) {
+        public void globalSliceStart(String runtimeType, int id) {
             target.globalSliceStart(runtimeType, id);
         }
 
         @Override
-        public final void globalSliceStart(String runtimeType, int id, long startTime) {
+        public void globalSliceStart(String runtimeType, int id, long startTime) {
             target.globalSliceStart(runtimeType, id, startTime);
         }
 
         @Override
-        public void globalSliceEnd(String runtimeType, String method, @Nullable String runtimeTestName, int id) {
+        public void globalSliceEnd(String runtimeType, String method, /*@Nullable*/ String runtimeTestName, int id) {
             target.globalSliceEnd(runtimeType, method, runtimeTestName, id);
         }
 
         @Override
-        public final void globalSliceEnd(String runtimeType, String method, @Nullable String runtimeTestName,
-                                         int id, int exitStatus, Throwable throwable) {
+        public void globalSliceEnd(String runtimeType, String method, /*@Nullable*/ String runtimeTestName,
+                                   int id, int exitStatus, Throwable throwable) {
             target.globalSliceEnd(runtimeType, method, runtimeTestName, id, exitStatus, throwable);
         }
         ///CLOVER:ON

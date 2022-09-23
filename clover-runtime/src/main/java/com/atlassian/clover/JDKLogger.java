@@ -4,9 +4,9 @@ import java.util.logging.Level;
 
 public class JDKLogger extends Logger {
 
-    private java.util.logging.Logger instance;
+    private final java.util.logging.Logger instance;
 
-    private static java.util.logging.Level[] LOG_LEVELS = new Level[] {
+    private static final java.util.logging.Level[] LOG_LEVELS = new Level[] {
                     Level.SEVERE,
                     Level.WARNING,
                     Level.INFO,

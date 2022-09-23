@@ -25,7 +25,7 @@ public abstract class ExplorerViewSettings implements IPersistable {
         if (memento != null) {
             Integer hierarchyStyle = memento.getInteger(HIERARCHY_STYLE);
             if (hierarchyStyle != null) {
-                this.hierarchyStyle = hierarchyStyle.intValue();
+                this.hierarchyStyle = hierarchyStyle;
             }
         }
     }

@@ -90,7 +90,7 @@ public class RefreshPolicyConfigPanel extends ConfigPanel implements ActionListe
         if (directedButton == null) {
             final URL image = getClass().getResource("/icons/sync.png");
             final String message = String.format("<html>Manual: press %s to refresh.",
-                                                 image != null ? "<img src='" + image.toString() + "'>" : "Refresh");
+                                                 image != null ? "<img src='" + image + "'>" : "Refresh");
             directedButton = new JRadioButton(message);
             getButtonGroup().add(directedButton);
             directedButton.setSelected(true);

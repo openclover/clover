@@ -131,7 +131,7 @@ public class JavaHtmlSourceRenderer extends PlaintextHtmlSourceRenderer implemen
             }
         });
 
-        return lazyMap.get(pkg.getName()).booleanValue();
+        return lazyMap.get(pkg.getName());
     }
 
     @Override

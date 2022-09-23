@@ -18,7 +18,7 @@ public class CloverActionGroupWrapper extends DefaultActionGroup {
     public void update(AnActionEvent e) {
         super.update(e);
 
-        Project project = (Project) DataKeys.PROJECT.getData(e.getDataContext());
+        Project project = DataKeys.PROJECT.getData(e.getDataContext());
         if (project != null) {
             boolean cloverEnabled = ProjectPlugin.getPlugin(project).isEnabled();
             if (cloverEnabled) {

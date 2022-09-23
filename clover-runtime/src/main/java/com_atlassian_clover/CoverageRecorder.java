@@ -4,7 +4,6 @@ import com.atlassian.clover.instr.ForInstrumentation;
 import com.atlassian.clover.recorder.CoverageSnapshot;
 import com.atlassian.clover.ErrorInfo;
 import com.atlassian.clover.util.CloverBitSet;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Mostly abstract base class for coverage recorders.
@@ -17,8 +16,7 @@ public abstract class CoverageRecorder {
     public static final int FLUSHPOLICY_THREADED = 2;
 
     /**
-     * Config information is packed into a single long which is added to instrumentation
-     *
+     * Config information is packed into a single long which is added to instrumentation.
      * Bits
      *  0-31 = integer flush interval in milliseconds
      * 32-34 = flush policy: 0 = directed, 1 = interval, 2 = threaded
@@ -59,7 +57,7 @@ public abstract class CoverageRecorder {
 
     public abstract void sliceStart(String runtimeType, long ts, int id, int rid);
 
-    public abstract void sliceEnd(String runtimeType, String method, @Nullable String runtimeTestName,
+    public abstract void sliceEnd(String runtimeType, String method, /*@Nullable*/ String runtimeTestName,
                                   long ts, int id, int rid, int exitStatus, ErrorInfo errorInfo);
 
     /** Increment slot at index */
@@ -90,10 +88,10 @@ public abstract class CoverageRecorder {
     public abstract void globalSliceStart(String runtimeType, int id, long startTime);
 
     @ForInstrumentation
-    public abstract void globalSliceEnd(String runtimeType, String method, @Nullable String runtimeTestName, int id);
+    public abstract void globalSliceEnd(String runtimeType, String method, /*@Nullable*/ String runtimeTestName, int id);
 
     @ForInstrumentation
-    public abstract void globalSliceEnd(String runtimeType, String method, @Nullable String runtimeTestName, int id, int exitStatus, Throwable throwable);
+    public abstract void globalSliceEnd(String runtimeType, String method, /*@Nullable*/ String runtimeTestName, int id, int exitStatus, Throwable throwable);
 
     public static long getConfigBits(
         long flushPolicy, int flushInterval, boolean useCurrentThreadGroup,

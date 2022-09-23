@@ -35,9 +35,9 @@ import com_atlassian_clover.CloverVersionInfo;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.GZIPOutputStream;
@@ -131,9 +131,9 @@ public class XMLReporter extends CloverReporter {
             outFile.getParentFile().mkdirs();
         }
         if (reportConfig.isCompress()) {
-            os = new BufferedOutputStream(new GZIPOutputStream(new FileOutputStream(outFile)));
+            os = new BufferedOutputStream(new GZIPOutputStream(Files.newOutputStream(outFile.toPath())));
         } else {
-            os = new BufferedOutputStream(new FileOutputStream(outFile));
+            os = new BufferedOutputStream(Files.newOutputStream(outFile.toPath()));
         }
         return new XMLWriter(os, "UTF-8");
     }

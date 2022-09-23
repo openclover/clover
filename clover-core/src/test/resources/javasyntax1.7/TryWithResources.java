@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @see http://docs.oracle.com/javase/7/docs/technotes/guides/language/try-with-resources.html
@@ -34,7 +35,7 @@ public class TryWithResources {
     public static void writeToFileZipFileContents(String zipFileName, String outputFileName)
             throws java.io.IOException {
 
-        java.nio.charset.Charset charset = java.nio.charset.Charset.forName("US-ASCII");
+        java.nio.charset.Charset charset = StandardCharsets.US_ASCII;
         java.nio.file.Path outputFilePath = java.nio.file.Paths.get(outputFileName);
 
         // Open zip file and create output file with try-with-resources statement

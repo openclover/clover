@@ -55,7 +55,7 @@ public class ExclusionUtil {
         if (settings.isInstrumentSelectedSourceFolders()) {
             final String srcPath = excludable.getPackageFragmentRoot().getResource().getProjectRelativePath().toString();
             final List<SourceFolderPattern> instrumentedFolderPatterns = settings.getInstrumentedFolderPatterns();
-            final List<SourceFolderPattern> newFolderPatterns = new ArrayList<SourceFolderPattern>(instrumentedFolderPatterns
+            final List<SourceFolderPattern> newFolderPatterns = new ArrayList<>(instrumentedFolderPatterns
                     .size());
             for (SourceFolderPattern sfp : instrumentedFolderPatterns) {
                 if (srcPath.equals(sfp.getSrcPath())) {

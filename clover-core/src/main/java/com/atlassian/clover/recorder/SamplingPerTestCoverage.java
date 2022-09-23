@@ -37,7 +37,7 @@ import static clover.com.google.common.collect.Maps.newHashMap;
  * This model of per-test coverage does not retain all coverage data in memory but rather
  * keeps a reference to each per test coverage file on disk and loads on demand.
  * A capacity LRU cache is used to reduce disk IO.
- *
+ * <p/>
  * In order to maintain performance, it samples the first element (entry hit) of
  * each method in each FileInfo for the tests that that hit it then groups this
  * information at the file level. When coverage data for a range is requested, only the tests that hit
@@ -56,7 +56,7 @@ public class SamplingPerTestCoverage extends BasePerTestCoverage {
     private BitSet passOnlyCoverageMask;
 
     /** A super-set of TCIs that covered a FileInfo at {@link #idx} through one or more of its methods */ 
-    private class FileInfoSample {
+    private static class FileInfoSample {
         private final int idx;
         private final int[] methodIdx;
         private final Set<TestCaseInfo> tcis;
@@ -88,7 +88,7 @@ public class SamplingPerTestCoverage extends BasePerTestCoverage {
             public void visitFileInfo(BaseFileInfo file) {
                 //Initialise a TCI sample for this FileInfo
 
-                for(ClassInfo classInfo : (List<ClassInfo>)file.getClasses()) {
+                for(ClassInfo classInfo : file.getClasses()) {
                     //Map method entry index back to the index in the TCI sample array
                     for(MethodInfo methodInfo : classInfo.getMethods()) {
                         methodIdx.add(methodInfo.getDataIndex());
@@ -96,9 +96,9 @@ public class SamplingPerTestCoverage extends BasePerTestCoverage {
                 }
 
                 fileSamples.add(
-                    new FileInfoSample(
-                        ((FullFileInfo)file).getDataIndex(),
-                        methodIdx.toIntArray()));
+                        new FileInfoSample(
+                                file.getDataIndex(),
+                                methodIdx.toIntArray()));
                 methodIdx.clear();
             }
         });
@@ -121,10 +121,10 @@ public class SamplingPerTestCoverage extends BasePerTestCoverage {
         //We assume we know up-front the # of per-test recordings and only
         //resize if we exceed that (load = 1.1)
         this.coverageCache =
-            new SizedLRUCacheMap<String, CloverBitSet>(
-                spec.getPerTestStorageSize().getSizeInBytes(),
-                estPerTestRecordings,
-                1.1f);
+                new SizedLRUCacheMap<>(
+                        spec.getPerTestStorageSize().getSizeInBytes(),
+                        estPerTestRecordings,
+                        1.1f);
     }
 
     @Override
@@ -275,7 +275,7 @@ public class SamplingPerTestCoverage extends BasePerTestCoverage {
                                 e);
                         }
                     }
-                    tciIter.remove();;
+                    tciIter.remove();
                 }
             }
         }

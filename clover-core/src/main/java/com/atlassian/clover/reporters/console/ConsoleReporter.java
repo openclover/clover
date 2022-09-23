@@ -301,7 +301,7 @@ public class ConsoleReporter extends CloverReporter {
     }
 
     @Override
-    protected int executeImpl() throws CloverException {
+    protected int executeImpl() {
         report(new PrintWriter(System.out), database);
         return 0;
     }

@@ -41,7 +41,7 @@ public class Path {
     /**
      * Constructs a chain of paths from <pre>osPathString</pre> using a specified <pre>pathSep</pre>
      * path separator. All file separators within a path are being normalized to have unix-style endings.
-     *
+     * <p/>
      * Example:
      * <pre>
      *    new Path("/my/path1:\my\path2", ":")

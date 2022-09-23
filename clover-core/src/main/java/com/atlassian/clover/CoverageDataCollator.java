@@ -151,7 +151,7 @@ public class CoverageDataCollator {
         Logger.getInstance().debug("Processed " + numRecordings + " recording files in " + (end - start) + "ms (" + (numRecordings != 0 ? "" + (end - start) / numRecordings + "ms" : "-") + " per recording)");
     }
 
-    private void collatePerTestRecordings(Collection<RecordingTranscripts.FileRef> perTestRecordings, final CoverageData coverageData, final CoverageDataSpec spec, ProgressListener progressListener) throws CloverException {
+    private void collatePerTestRecordings(Collection<RecordingTranscripts.FileRef> perTestRecordings, final CoverageData coverageData, final CoverageDataSpec spec, ProgressListener progressListener) {
         final long start = System.currentTimeMillis();
 
         int numPerTestRecordings = 0;
@@ -184,15 +184,21 @@ public class CoverageDataCollator {
 
     private void logInstrumentationSessionVersions() {
         if (!Logger.canIgnore(Logger.LOG_VERBOSE)) {
-            String sessionTimestamps = "";
+            StringBuilder sessionTimestamps = new StringBuilder();
             int i = 0;
             Logger.getInstance().verbose("Instrumentation sessions:");
             for (Object obj : registry.getInstrHistory()) {
                 Clover2Registry.InstrumentationInfo session = (Clover2Registry.InstrumentationInfo)obj;
-                sessionTimestamps += "  " + i + ": version " + session.getVersion() + " (" + new Date(session.getVersion()) + ")\n";
+                sessionTimestamps
+                        .append("  ")
+                        .append(i)
+                        .append(": version ")
+                        .append(session.getVersion())
+                        .append(" (")
+                        .append(new Date(session.getVersion())).append(")\n");
                 i++;
             }
-            Logger.getInstance().verbose(sessionTimestamps);
+            Logger.getInstance().verbose(sessionTimestamps.toString());
         }
     }
 

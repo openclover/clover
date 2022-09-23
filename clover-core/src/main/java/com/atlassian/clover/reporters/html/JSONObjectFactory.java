@@ -28,13 +28,13 @@ public class JSONObjectFactory {
             BitSet elementSet = targetElements.get(testcase);
 
             Map<String, Object> test = newHashMap();
-            test.put("pass", Boolean.valueOf(testcase.isSuccess()));
+            test.put("pass", testcase.isSuccess());
             test.put("name", testcase.getTestName());
 
             List<Map<String, Integer>> methods = newArrayList();
             for (int i = methodSet.nextSetBit(0); i >= 0; i = methodSet.nextSetBit(i + 1)) {
                 Map<String, Integer> method = newHashMap();
-                method.put("sl", Integer.valueOf(i));
+                method.put("sl", i);
                 methods.add(method);
             }
 
@@ -44,7 +44,7 @@ public class JSONObjectFactory {
             if (elementSet != null) { // could be null if a test method has no statements
                 for (int i = elementSet.nextSetBit(0); i >= 0; i = elementSet.nextSetBit(i + 1)) {
                     Map<String, Integer> statement = newHashMap();
-                    statement.put("sl", Integer.valueOf(i));
+                    statement.put("sl", i);
                     statements.add(statement);
                 }
             }
@@ -65,17 +65,17 @@ public class JSONObjectFactory {
             final FullClassInfo classInfo = (FullClassInfo)ci;
 
             final Map<String, Object> classMap = newHashMap();
-            classMap.put("id", Integer.valueOf(classInfo.getDataIndex()));
-            classMap.put("sl", Integer.valueOf(classInfo.getStartLine()));
-            classMap.put("el", Integer.valueOf(classInfo.getEndLine()));
+            classMap.put("id", classInfo.getDataIndex());
+            classMap.put("sl", classInfo.getStartLine());
+            classMap.put("el", classInfo.getEndLine());
             classMap.put("name", classInfo.getName());
 
             final List<Map<String, Integer>> methods = newArrayList();
             for (final MethodInfo methodInfo : classInfo.getMethods()) {
                 final Map<String, Integer> method = newHashMap();
-                method.put("sl", Integer.valueOf(methodInfo.getStartLine()));
-                method.put("el", Integer.valueOf(methodInfo.getEndLine()));
-                method.put("sc", Integer.valueOf(methodInfo.getStartColumn()));
+                method.put("sl", methodInfo.getStartLine());
+                method.put("el", methodInfo.getEndLine());
+                method.put("sc", methodInfo.getStartColumn());
                 methods.add(method);
             }
             classMap.put("methods", methods);

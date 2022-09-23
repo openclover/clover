@@ -9,8 +9,6 @@ import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,6 +18,7 @@ import java.io.Reader;
 import java.io.Writer;
 import java.io.FilePermission;
 import java.io.PrintWriter;
+import java.nio.file.Files;
 import java.security.PrivilegedAction;
 import java.text.CharacterIterator;
 import java.text.StringCharacterIterator;
@@ -129,8 +128,8 @@ public class FileUtils {
         InputStream in = null;
         OutputStream out = null;
         try {
-            in = new BufferedInputStream(new FileInputStream(src));
-            out = new BufferedOutputStream(new FileOutputStream(dest));
+            in = new BufferedInputStream(Files.newInputStream(src.toPath()));
+            out = new BufferedOutputStream(Files.newOutputStream(dest.toPath()));
             int b = in.read();
             while (b >= 0) {
                 out.write(b);
@@ -147,9 +146,6 @@ public class FileUtils {
      * directory layout. If <pre>deleteDestDir</pre> is set to true, destination directory will be deleted if exists.
      * Otherwise files/subdirectories from source directory will be added to existing target directory (possibly
      * overwriting existing files). Note that timestamps are not preserved.
-     * @param srcDir
-     * @param destDir
-     * @param deleteDestDir
      */
     public static void dirCopy(File srcDir, File destDir, boolean deleteDestDir) throws IOException {
         // check input arguments
@@ -197,7 +193,7 @@ public class FileUtils {
         OutputStream out = null;
         outFile.getParentFile().mkdirs();
         try {
-            out = new BufferedOutputStream(new FileOutputStream(outFile));
+            out = new BufferedOutputStream(Files.newOutputStream(outFile.toPath()));
             ByteStreams.copy(in, out);
         } finally {
             IOStreamUtils.close(in);
@@ -226,7 +222,7 @@ public class FileUtils {
      */
     public static boolean deltree(File rootDir) {
         if (rootDir.isDirectory()) {
-            final String files[] = rootDir.list();
+            final String[] files = rootDir.list();
             for (String file : files) {
                 if (!deltree(new File(rootDir, file))) {
                     return false;
@@ -238,7 +234,6 @@ public class FileUtils {
 
     /**
      * Converts all backslashes to forward-slashes, so that Unix-style file separator is used.
-     * @param inputPath
      * @return normalized path (or null if inputPath is null)
      */
     public static String getNormalizedPath(String inputPath) {
@@ -248,7 +243,6 @@ public class FileUtils {
     /**
      * Converts all forward-slashes and back-slashes to a platform-specific file separator
      * (i.e. '/' on Unix, '\' on Windows). The File.separatorChar is used.
-     * @param inputPath
      * @return converted path (or null if inputPath is null)
      */
     public static String getPlatformSpecificPath(String inputPath) {
@@ -314,7 +308,7 @@ public class FileUtils {
         try {
             final Reader in;
             if (encoding != null) {
-                in = new InputStreamReader(new FileInputStream(f), encoding);
+                in = new InputStreamReader(Files.newInputStream(f.toPath()), encoding);
             } else {
                 in = new FileReader(f);
             }
@@ -493,7 +487,7 @@ public class FileUtils {
         return temp;
     }
 
-    public static File createEmptyDir(File parent, String name) throws IOException {
+    public static File createEmptyDir(File parent, String name) {
         final File emptyDir = new File(parent, name);
         deltree(emptyDir);
         emptyDir.mkdirs();
@@ -510,7 +504,6 @@ public class FileUtils {
     }
 
     /**
-     * @param dir
      * @return new File(".") if dir is null
      */
     public static File getCurrentDirIfNull(File dir) {

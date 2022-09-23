@@ -119,15 +119,13 @@
     </macrodef>
 
     <target name="clover-eclipse.build" depends="clover-core.build, clover-eclipse-libs.initialize">
-        <build-plugin eclipse-version="4.2.2"/>
+        <build-plugin eclipse-version="4.4"/>
     </target>
 
     <target name="clover-eclipse.build.all.versions" depends="clover-core.build, clover-eclipse-libs.initialize">
-        <build-plugin eclipse-version="4.2.2"/>
-        <build-plugin eclipse-version="4.3.1"/>
-        <build-plugin eclipse-version="4.4.0"/>
-        <build-plugin eclipse-version="4.5.1"/>
-        <build-plugin eclipse-version="4.6.0"/>
+        <build-plugin eclipse-version="4.4"/>
+        <build-plugin eclipse-version="4.5"/>
+        <build-plugin eclipse-version="4.6"/>
     </target>
 
     <!-- The dependency on clover-ant.pkg is required here. We need the clover ant

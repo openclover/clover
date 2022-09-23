@@ -29,7 +29,7 @@ public class StringInstrumentationSource implements InstrumentationSource {
     }
 
     @Override
-    public Reader createReader() throws IOException {
+    public Reader createReader() {
         return new StringReader(content);
     }
 }

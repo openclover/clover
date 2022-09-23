@@ -7,11 +7,11 @@ import java.io.BufferedOutputStream;
 import java.io.Closeable;
 import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
 import java.util.zip.Deflater;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.InflaterInputStream;
@@ -32,8 +32,8 @@ public class IOStreamUtils {
         return new BufferedOutputStream(new DeflaterOutputStream(FOSFactory.newFOS(file), new Deflater(Deflater.BEST_SPEED), 8192));
     }
 
-    public static InputStream createInflaterInputStream(final File file) throws FileNotFoundException {
-        return new BufferedInputStream(new InflaterInputStream(new BufferedInputStream(new FileInputStream(file))));
+    public static InputStream createInflaterInputStream(final File file) throws IOException {
+        return new BufferedInputStream(new InflaterInputStream(new BufferedInputStream(Files.newInputStream(file.toPath()))));
     }
 
     public static void writeChars(String str, DataOutputStream out) throws IOException {

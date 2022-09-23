@@ -1,15 +1,15 @@
 package com.atlassian.clover.ant.tasks;
 
 import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.api.CloverException;
 import com.atlassian.clover.CodeType;
 import com.atlassian.clover.Logger;
+import com.atlassian.clover.api.CloverException;
+import com.atlassian.clover.api.registry.HasMetrics;
 import com.atlassian.clover.api.registry.PackageInfo;
 import com.atlassian.clover.cfg.Interval;
 import com.atlassian.clover.cfg.Percentage;
 import com.atlassian.clover.registry.entities.FullProjectInfo;
 import com.atlassian.clover.registry.metrics.BlockMetrics;
-import com.atlassian.clover.api.registry.HasMetrics;
 import com.atlassian.clover.registry.metrics.HasMetricsFilter;
 import com.atlassian.clover.registry.metrics.PackageMetrics;
 import com.atlassian.clover.registry.metrics.ProjectMetrics;
@@ -22,15 +22,14 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.util.StringUtils;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.DecimalFormat;
-import java.util.Iterator;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Date;
 import java.util.regex.PatternSyntaxException;
-import java.io.File;
-import java.io.IOException;
 
 import static clover.com.google.common.collect.Lists.newArrayList;
 
@@ -265,9 +264,6 @@ public class CloverPassTask extends AbstractCloverTask {
         currentConfig.setSpan(span);
     }
 
-    /**
-     * @param fileset
-     */
     public void addTestResults(FileSet fileset) {
         testResults.add(fileset);
     }
@@ -276,9 +272,6 @@ public class CloverPassTask extends AbstractCloverTask {
         currentConfig.setIncludeFailedTestCoverage(include);
     }
 
-    /**
-     * @param fileset
-     */
     public void addTestSources(FileSet fileset) {
         testSources.add(fileset);
     }
@@ -375,10 +368,7 @@ public class CloverPassTask extends AbstractCloverTask {
         try {
             passed = checkHistoryDirCoverage(metrics.getPcCoveredElements(), targetFailures, "Total", null) && passed;
         }
-        catch (IOException e) {
-            throw new BuildException(e);
-        }
-        catch (CloverException e) {
+        catch (IOException | CloverException e) {
             throw new BuildException(e);
         }
 
@@ -414,9 +404,7 @@ public class CloverPassTask extends AbstractCloverTask {
                 passed = checkCoverageFor(pm.getPcCoveredBranches(), requirement.conditionalTarget, targetFailures, errorPrefix + " conditional", "target") && passed;
                 try {
                     passed = checkHistoryDirCoverage(pm.getPcCoveredElements(), targetFailures, errorPrefix + " total", packageName) && passed;
-                } catch (IOException e) {
-                    throw new BuildException(e);
-                } catch (CloverException e) {
+                } catch (IOException | CloverException e) {
                     throw new BuildException(e);
                 }
             }
@@ -457,12 +445,11 @@ public class CloverPassTask extends AbstractCloverTask {
             // Otherwise compare with N fractional digits precision
             pcFormat.setMinimumFractionDigits(targetCoverage.getScale());            
             if (targetCoverage.compare(coverage) > 0) {
-                failures.append(level + " coverage of "
-                        + pcFormat.format(coverage)
-                        + " did not meet " + target + " of "
-                        + pcFormat.format(targetCoverage.getAsFloatFraction()));
+                failures.append(
+                        String.format("%s coverage of %s did not meet %s of %s",
+                                level, pcFormat.format(coverage), target,
+                                pcFormat.format(targetCoverage.getAsFloatFraction())));
                 failures.append(StringUtils.LINE_SEP);
-
                 return false;
             }
             else {
@@ -510,19 +497,15 @@ public class CloverPassTask extends AbstractCloverTask {
         List<MetricsDiffSummary> added = HistoricalSupport.getClassesMetricsDifference(then, now, new Percentage("0"), false);
         for (MetricsDiffSummary diff : added) {
             final DecimalFormat diffFormat = new DecimalFormat("###.#");
-            failures.append("  " + diffFormat.format(diff.getPc2()) + "% "
-                    + diff.getName()
-                    + " (Added)"
-                    + StringUtils.LINE_SEP);
+            failures.append(String.format("  %s%% %s (Added)%s",
+                    diffFormat.format(diff.getPc2()), diff.getName(), StringUtils.LINE_SEP));
         }
         List<MetricsDiffSummary> diffs = HistoricalSupport.getClassesMetricsDifference(then, now, new Percentage("0"), true);
         for (MetricsDiffSummary diff : diffs) {
             if (diff.getPcDiff() < 0) {
                 final DecimalFormat diffFormat = new DecimalFormat("###.#");
-                failures.append("  " + diffFormat.format(diff.getPcDiff())
-                        + " to " + diffFormat.format(diff.getPc2()) + "% "
-                        + diff.getName()
-                        + StringUtils.LINE_SEP);
+                failures.append(String.format("  %s to %s%% %s%s",
+                        diffFormat.format(diff.getPcDiff()), diffFormat.format(diff.getPc2()), diff.getName(), StringUtils.LINE_SEP));
             }
         }
     }
@@ -534,9 +517,9 @@ public class CloverPassTask extends AbstractCloverTask {
                 Object[] modelArray = models.keySet().toArray();
                 long currentVersion = currentConfig.getCoverageDatabase().getModel(codeType).getVersion();
                 for (int i = modelArray.length - 1; i >= 0; i--) {
-                    if (((Long) modelArray[i]).longValue() < currentVersion) {
-                        Logger.getInstance().debug("Comparing current version " + (new Date(currentVersion)).toString()
-                                + " with history version " + (new Date(((Long) modelArray[i]).longValue())).toString());
+                    if ((Long) modelArray[i] < currentVersion) {
+                        Logger.getInstance().debug("Comparing current version " + (new Date(currentVersion))
+                                + " with history version " + (new Date((Long) modelArray[i])));
                         return (HistoricalSupport.HasMetricsWrapper) models.get(modelArray[i]);
                     }
                 }

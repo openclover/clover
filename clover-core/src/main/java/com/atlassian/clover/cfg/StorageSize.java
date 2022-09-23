@@ -58,10 +58,7 @@ public class StorageSize {
         if (o == null || getClass() != o.getClass()) return false;
 
         StorageSize that = (StorageSize) o;
-
-        if (sizeInBytes != that.sizeInBytes) return false;
-
-        return true;
+        return sizeInBytes == that.sizeInBytes;
     }
 
     @Override

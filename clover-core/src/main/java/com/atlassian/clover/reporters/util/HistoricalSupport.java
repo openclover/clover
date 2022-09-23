@@ -68,8 +68,7 @@ public class HistoricalSupport {
 
     }
 
-    static SortedMap<Long, HasMetrics> getPackageMetricsForRange(String pkgStr, File[] files, long from, long to)
-        throws IOException {
+    static SortedMap<Long, HasMetrics> getPackageMetricsForRange(String pkgStr, File[] files, long from, long to) {
         List<CoverageDataPoint> modelList = HistoricalSupport.getModelsForRange(files, from, to, XmlConverter.PACKAGE_LEVEL);
         SortedMap<Long, HasMetrics> result = newTreeMap();
 
@@ -90,7 +89,7 @@ public class HistoricalSupport {
         return getProjectMetricsForRange(files, 0, Long.MAX_VALUE);
     }
 
-    static SortedMap<Long, HasMetrics> getProjectMetricsForRange(File[] files, long from, long to) throws IOException {
+    static SortedMap<Long, HasMetrics> getProjectMetricsForRange(File[] files, long from, long to) {
         final List<CoverageDataPoint> modelList =
                 HistoricalSupport.getModelsForRange(files, from, to, XmlConverter.PROJECT_LEVEL);
         final SortedMap<Long, HasMetrics> result = newTreeMap();
