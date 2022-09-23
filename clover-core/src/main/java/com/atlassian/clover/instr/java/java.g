@@ -777,7 +777,7 @@ typeSpec returns [String spec]
     AnnotationImpl ann = null;
 }
     :
-      (ann=annotation)*
+      ( options { greedy=true; }: ann=annotation )*
       spec = classTypeSpec
     | spec = builtInTypeSpec
     ;
@@ -864,7 +864,7 @@ singleTypeArgument {
   AnnotationImpl ann = null;
 }
     :
-        ( ann=annotation )*
+        ( options { greedy=true; }: ann=annotation )*
         (
             type=classTypeSpec | type=builtInTypeSpec | QUESTION
         )
@@ -903,7 +903,7 @@ type {
   AnnotationImpl ann = null;
 }
     :
-    (ann=annotation)*
+    ( options { greedy=true; }: ann=annotation )*
     (
         spec=classOrInterfaceType
     |
@@ -948,7 +948,7 @@ identifier returns [String str]
 
 identifierStar
     :   IDENT
-        ( DOT IDENT )*
+        ( options { greedy=true; }: DOT IDENT )*
         ( DOT STAR  )?
     ;
 
@@ -1103,10 +1103,11 @@ recordDefinition! [Modifiers mods] returns [String recordname]
     ClassEntryNode classEntry = null;
     recordname = null;
     String typeParam = null;
+    Parameter [] parameters = null;
 }
     :   "record" {tags = TokenListUtil.getJDocTagsAndValuesOnBlock(first); deprecated = maybeEnterDeprecated(first);}
         id:IDENT
-        LPAREN! parameterDeclarationList RPAREN!
+        LPAREN! parameters=parameterDeclarationList RPAREN!
         // it _might_ have a superclass...
         superclass = superClassClause
         // it might implement some interfaces...
@@ -1691,8 +1692,8 @@ parameterModifier
 {
   AnnotationImpl ann = null;
 }
-    :   (ann=annotation)*
-        (f:"final" (ann=annotation)* )?
+    :   ( options { greedy=true; }: ann=annotation )*
+        (f:"final" ( options { greedy=true; }: ann=annotation )* )?
     ;
 
 
@@ -1821,10 +1822,10 @@ statement [CloverToken owningLabel] returns [CloverToken last]
     |   expression se2:SEMI! { flushAfter = (CloverToken)se2; }
 
     // class definition
-    |   mods=classOrInterfaceModifiers[false]! classname=classDefinition[mods] { instrumentable = false; }//##TODO - return last token
+    |   (classOrInterfaceModifiers[false] "class") => mods=classOrInterfaceModifiers[false]! classname=classDefinition[mods] { instrumentable = false; }//##TODO - return last token
 
     // record definition
-    |   mods=classOrInterfaceModifiers[false]! classname=recordDefinition[mods] { instrumentable = false; }//##TODO - return last token
+    |   (classOrInterfaceModifiers[false] "record") => mods=classOrInterfaceModifiers[false]! classname=recordDefinition[mods] { instrumentable = false; }//##TODO - return last token
 
     // Attach a label to the front of a statement
     |   IDENT COLON {labelTok = owningLabel; if (!labelled) labelTok = first; } last = statement[labelTok]
@@ -2011,7 +2012,7 @@ tryCatchBlock [boolean labelled] returns [CloverToken last]
   int complexity = 0;
   ContextSet saveContext = getCurrentContext();
 }
-    :   tr:"try" (lp:LPAREN {insertAutoCloseableClassDecl((CloverToken)tr);} ( declaration | variableDeclarator ) {complexity++; instrArmDecl(((CloverToken)lp).getNext(), (CloverToken)LT(0), saveContext);} (semi:SEMI ( declaration | variableDeclarator ) {complexity++; instrArmDecl(((CloverToken)semi).getNext(), (CloverToken)LT(0), saveContext);})* (SEMI)? rp:RPAREN )?
+    :   tr:"try" (lp:LPAREN {insertAutoCloseableClassDecl((CloverToken)tr);} ( (IDENT) => variableDeclarator | declaration ) {complexity++; instrArmDecl(((CloverToken)lp).getNext(), (CloverToken)LT(0), saveContext);} (semi:SEMI ( (IDENT) => variableDeclarator | declaration ) {complexity++; instrArmDecl(((CloverToken)semi).getNext(), (CloverToken)LT(0), saveContext);})* (SEMI)? rp:RPAREN )?
         {enterContext(ContextStore.CONTEXT_TRY); saveContext = getCurrentContext();}
             last=compoundStatement
         {exitContext();}
@@ -2036,9 +2037,9 @@ handler returns [CloverToken last]
 }
     :   "catch"
         LPAREN!
-        ( an=annotation2[false] )*
+        ( options { greedy=true; }: an=annotation2[false] )*
         ("final")?
-        ( an=annotation2[false] )*
+        ( options { greedy=true; }: an=annotation2[false] )*
         ts=typeSpec
         (BOR ts=typeSpec)*
         IDENT
@@ -2295,7 +2296,7 @@ expressionList
 assignmentExpression
     :
         conditionalExpression
-        (
+        ( options { greedy=true; }:
             (   ASSIGN^
             |   PLUS_ASSIGN^
             |   MINUS_ASSIGN^
@@ -3111,10 +3112,10 @@ protected STRING_LITERAL_TEXT_BLOCK
     : {nc();} '"' '"' '"' ( '\r' | '\n' ) 
         (   ( (BACKSLASH)? '"' '"' ~'"' ) => (BACKSLASH)? '"' '"'
           | ( (BACKSLASH)? '"'     ~'"' ) => (BACKSLASH)? '"'
-          | '\r' '\n'       {newline();}
-          | '\r'            {newline();}
-          | '\n'            {newline();}
-          | ESC
+          | ( '\r' '\n' ) => '\r' '\n' {newline();}
+          | '\r'                       {newline();}
+          | '\n'                       {newline();}
+          | (ESC) => ESC
           | ~('\n'|'\r'|'"')
         )*
         '"' '"' '"'
