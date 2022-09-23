@@ -14,7 +14,6 @@ import com.atlassian.clover.RecorderLogging;
 import com.atlassian.clover.recorder.SharedCoverageRecorder;
 import com.atlassian.clover.remote.DistributedClover;
 import com.atlassian.clover.remote.RpcMessage;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -663,7 +662,7 @@ public final class Clover {
         }
 
         @Override
-        public void allRecordersSliceEnd(final String type, final String method, @Nullable final String runtimeTestName,
+        public void allRecordersSliceEnd(final String type, final String method, /*@Nullable*/ final String runtimeTestName,
                                          final int slice, final int p, final ErrorInfo ei) {
             AccessController.doPrivileged(new PrivilegedAction<Void>() {
                 @Override

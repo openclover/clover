@@ -4,7 +4,6 @@ import com.atlassian.clover.ErrorInfo;
 import com.atlassian.clover.Logger;
 import com.atlassian.clover.util.CloverBitSet;
 import com_atlassian_clover.CoverageRecorder;
-import org.jetbrains.annotations.Nullable;
 
 public final class NullRecorder extends CoverageRecorder {
     public static final NullRecorder INSTANCE = new NullRecorder();
@@ -95,11 +94,11 @@ public final class NullRecorder extends CoverageRecorder {
     }
 
     @Override
-    public void globalSliceEnd(String runtimeType, String method, @Nullable String runtimeTestName, int id) {
+    public void globalSliceEnd(String runtimeType, String method, /*@Nullable*/ String runtimeTestName, int id) {
     }
 
     @Override
-    public void globalSliceEnd(String runtimeType, String method, @Nullable String runtimeTestName,
+    public void globalSliceEnd(String runtimeType, String method, /*@Nullable*/ String runtimeTestName,
                                int id, int exitStatus, Throwable throwable) {
     }
 
