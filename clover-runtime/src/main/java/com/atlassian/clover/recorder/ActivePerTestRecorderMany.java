@@ -77,7 +77,7 @@ public final class ActivePerTestRecorderMany extends ActivePerTestRecorderAny {
                                 "but no active per-test recorders match: " + this);
                 return new RecordingResult(LivePerTestRecording.NULL, this);
             } else {
-                final ActivePerTestRecorderOne[] singlesArray = singles.toArray(new ActivePerTestRecorderOne[singles.size()]);
+                final ActivePerTestRecorderOne[] singlesArray = singles.toArray(new ActivePerTestRecorderOne[0]);
                 final double duration = (end - finished.start) / 1e3; // TODO (nanoTimerEnd - nanoTimerStart) / 1e6;
                 // optimization: flush to disk non-empty coverage only
                 final LivePerTestRecording livePerTestRecording = finished.coverage.isModified() ?

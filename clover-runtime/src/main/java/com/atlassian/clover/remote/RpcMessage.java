@@ -7,12 +7,9 @@ import java.io.Serializable;
 import java.util.Map;
 import java.util.HashMap;
 
-/**
- *
- */
 public class RpcMessage implements Serializable {
 
-    public static final long serialVersionUID = 1l;
+    public static final long serialVersionUID = 1L;
     
     private final Integer methodId;
     private final Object[] methodArgs;

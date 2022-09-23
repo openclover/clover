@@ -7,15 +7,14 @@ import java.io.Serializable;
 /**
  * Contains information about the clover profile which was defined during instrumentation
  * and can be selected at runtime via {@link com.atlassian.clover.CloverNames#PROP_CLOVER_PROFILE} system property.
- *
- * Profiles allows to change Clover configuration at runtime without recompiling the sources.
+ * Profiles allow to change Clover configuration at runtime without recompiling the sources.
  */
 public class CloverProfile implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     /** Possible coverage recorder types */
-    public static enum CoverageRecorderType {
+    public enum CoverageRecorderType {
         /** Fixed array size recorder, requires presence of clover.db to read the size */
         FIXED,
         /** Resizeable array recorder, grows when needed, no need to have clover.db */
@@ -44,11 +43,8 @@ public class CloverProfile implements Serializable {
 
     /**
      * Constructor with primitive strings. Used by {@link com.atlassian.clover.instr.java.RecorderInstrEmitter}
-     * @param name
-     * @param coverageRecorder
-     * @param distributedCoverage can be null
      */
-    public CloverProfile(String name, String coverageRecorder, String distributedCoverage) {
+    public CloverProfile(String name, String coverageRecorder, /*@Nullable*/ String distributedCoverage) {
         this.name = name;
         setCoverageRecorder(CoverageRecorderType.valueOf(coverageRecorder)); // wrap String into enum for validation
         setDistributedCoverage(distributedCoverage);

@@ -197,7 +197,7 @@ public class CloverBitSet extends clover.antlr.collections.impl.BitSet implement
 
         int reps = Math.min(bits.length, otherBits.length);
         for (int i = 0; i < reps; i++) {
-            if ((bits[i] & otherBits[i]) != 0l) {
+            if ((bits[i] & otherBits[i]) != 0L) {
                 return true;
             }
         }

@@ -62,7 +62,7 @@ public class Environment {
                     } catch (SecurityException e) {
                         Logger.getInstance().verbose("Security exception getting system property \"" + propertyName + "\" (will not be substituted)");
                     }
-                    fragment = replacement == null ? (PROP_START + "{" + propertyName + "}") : replacement.toString();
+                    fragment = replacement == null ? (PROP_START + "{" + propertyName + "}") : replacement;
                 }
 
                 return sb.toString();
@@ -83,15 +83,13 @@ public class Environment {
             if(pos == value.length() - 1) {
                 fragments.add(String.valueOf(PROP_START));
                 prev = pos + 1;
-            } else
-            if(value.charAt(pos + 1) != '{') {
-                if(value.charAt(pos + 1) == PROP_START) {
+            } else if (value.charAt(pos + 1) != '{') {
+                if (value.charAt(pos + 1) == PROP_START) {
                     fragments.add(String.valueOf(PROP_START));
-                    prev = pos + 2;
                 } else {
                     fragments.add(value.substring(pos, pos + 2));
-                    prev = pos + 2;
                 }
+                prev = pos + 2;
             } else {
                 int endName = value.indexOf('}', pos);
                 if(endName < 0) {

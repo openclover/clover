@@ -7,11 +7,11 @@ import com.atlassian.clover.registry.RegistryFormatException;
 import java.io.DataInputStream;
 import java.io.EOFException;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
+import java.nio.file.Files;
 import java.util.zip.Adler32;
 
 /**
@@ -83,7 +83,7 @@ public class RegHeader {
      * @throws RegistryFormatException if a known registry problem is encountered
      */
     public static RegHeader readFrom(File registryFile) throws IOException, RegistryFormatException {
-        try (DataInputStream stream = new DataInputStream(new FileInputStream(registryFile))) {
+        try (DataInputStream stream = new DataInputStream(Files.newInputStream(registryFile.toPath()))) {
             return readFrom(new StreamInputSource(registryFile.getAbsolutePath(), stream));
         } catch (EOFException e) {
             throw new CorruptedRegistryException(
@@ -180,12 +180,12 @@ public class RegHeader {
      * yet allow shared behaviour across NIO and IO.
      **/
     private interface HeaderInputSource {
-        public String getName();
-        public long getLong() throws IOException;
-        public int getInt() throws IOException;
-        public long getLong(Adler32 checksum) throws IOException;
-        public int getInt(Adler32 checksum) throws IOException;
-        public char getChar(Adler32 checksum) throws IOException;
+        String getName();
+        long getLong() throws IOException;
+        int getInt() throws IOException;
+        long getLong(Adler32 checksum) throws IOException;
+        int getInt(Adler32 checksum) throws IOException;
+        char getChar(Adler32 checksum) throws IOException;
     }
 
     /** {@link HeaderInputSource} from a {@link ByteBuffer} */

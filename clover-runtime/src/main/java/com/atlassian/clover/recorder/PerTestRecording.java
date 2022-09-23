@@ -1,7 +1,7 @@
 package com.atlassian.clover.recorder;
 
 public interface PerTestRecording extends CoverageRecording {
-    final int FORMAT = 1;
+    int FORMAT = 1;
 
     /**
      * Return name of the class related with the executed test. Note that name of the test class at runtime may
@@ -22,7 +22,7 @@ public interface PerTestRecording extends CoverageRecording {
      * Return name of the test which it had during execution. Some test frameworks might use a different name for the
      * test than name of the test method itself or a test name defined statically in source code (usually using
      * annotations). Examples are: @Unroll annotation for Spock, @Parameterized annotation for JUnit4.
-     *
+     * <p/>
      * Might return <code>null</code> if runtime name is unknown; in such case usually fallback to {@link
      * #getTestMethodName()}
      *

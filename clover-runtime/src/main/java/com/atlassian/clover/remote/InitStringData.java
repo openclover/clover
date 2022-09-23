@@ -79,11 +79,11 @@ public class InitStringData implements Serializable {
     @Override
     public String toString() {
         final SortedSet<String> keys = new TreeSet<>(initStringMap.keySet());
-        String initString = "";
+        StringBuilder initString = new StringBuilder();
         for (String key : keys) {
-            initString += (initString.length() > 0 ? ";" : "") + key + "=" + initStringMap.get(key);
+            initString.append(initString.length() > 0 ? ";" : "").append(key).append("=").append(initStringMap.get(key));
         }
-        return initString;
+        return initString.toString();
     }
 
 

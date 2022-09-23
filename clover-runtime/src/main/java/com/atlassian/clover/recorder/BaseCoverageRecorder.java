@@ -36,9 +36,6 @@ public abstract class BaseCoverageRecorder extends CoverageRecorder {
     private volatile boolean flushInProgress;
     private volatile boolean keepFlushing;
 
-    private final long initTS;
-    private final int hashcode;
-
     protected final long dbVersion;
     protected final String dbName;
     protected final String recName;
@@ -57,8 +54,8 @@ public abstract class BaseCoverageRecorder extends CoverageRecorder {
         }
         this.dbName = dbName;
 
-        hashcode = hashCode();
-        initTS = System.currentTimeMillis();
+        int hashcode = hashCode();
+        long initTS = System.currentTimeMillis();
         recName = Clover.getRecordingName(hashcode, dbName, initTS);
         alternateRecName = recName + GlobalCoverageRecording.ALT_SUFFIX;
     }
@@ -151,8 +148,7 @@ public abstract class BaseCoverageRecorder extends CoverageRecorder {
             while (keepFlushing) {
                 try {
                     Thread.sleep(flushInterval);
-                }
-                catch (InterruptedException e) {
+                } catch (InterruptedException e) {
                     // ignore
                 }
 

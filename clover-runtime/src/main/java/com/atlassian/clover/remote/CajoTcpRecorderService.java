@@ -77,13 +77,13 @@ public class CajoTcpRecorderService implements RecorderService {
         }
     }
 
+    static final String REGISTER_CALLBACK = "registerListener";
+
     /**
      * This method is invoked when a remote client wishes to register itself with this service.
      *
      * @return a reference to be used by the client to create an ItemProxy
      */
-    static final String REGISTER_CALLBACK = "registerListener";
-
     public Remote registerListener() {
 
         Logger.getInstance().verbose("registerListener(). proxies: " + clientProxies);

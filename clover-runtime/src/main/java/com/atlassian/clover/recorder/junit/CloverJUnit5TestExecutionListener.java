@@ -68,8 +68,8 @@ public class CloverJUnit5TestExecutionListener implements TestExecutionListener 
     }
 
     /**
-     * Unfortunately, JUnit 5 doesn't have a reliable way to find the current test running class. Hence, using a work
-     * around suggested  at the following link. https://github.com/junit-team/junit5/issues/737
+     * Unfortunately, JUnit 5 doesn't have a reliable way to find the current test running class. Hence, using a
+     * work-around suggested  at the following link. <a href="https://github.com/junit-team/junit5/issues/737">issue 737</a>
      */
     @Nullable
     private static Class findTestMethodClass(TestPlan testPlan, TestIdentifier identifier) {

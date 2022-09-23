@@ -10,12 +10,12 @@ import com_atlassian_clover.CoverageRecorder;
  * Exactly one active per-test recorders
  */
 public final class ActivePerTestRecorderOne extends ActivePerTestRecorderAny {
-    protected volatile boolean[] coverageShortcut;
-    protected final CloverBitSet coverage;
-    protected final RuntimeType type;
-    protected final long start;
-    protected final int slice;
-    protected final int testRunID;
+    private volatile boolean[] coverageShortcut;
+    final CloverBitSet coverage;
+    private final RuntimeType type;
+    final long start;
+    private final int slice;
+    private final int testRunID;
 
     public ActivePerTestRecorderOne(CoverageRecorder coverageRecorder, CloverBitSet coverage, RuntimeType type, long start, int slice, int testRunID) {
         super(coverageRecorder);

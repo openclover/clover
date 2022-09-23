@@ -54,9 +54,6 @@ public class FileBasedPerTestRecording extends BaseCoverageRecording implements 
     }
 
     /**
-     *
-     * @return
-     * @throws IOException
      * @see PerTestRecordingTranscript#read(java.io.DataInputStream, com.atlassian.clover.CoverageDataSpec)
      */
     @Override

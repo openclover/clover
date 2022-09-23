@@ -3,7 +3,7 @@ package com.atlassian.clover;
 import java.io.PrintStream;
 
 public class DefaultLogger extends Logger {
-    private static String[] LOG_LEVEL_STR = {
+    private static final String[] LOG_LEVEL_STR = {
         "ERROR",
         "WARN",
         "INFO",
