@@ -2,8 +2,7 @@ package com.atlassian.clover.ant.tasks
 
 import clover.com.google.common.collect.Lists
 import clover.com.google.common.collect.Maps
-import com.atlassian.clover.CloverTestFixture
-import com.atlassian.clover.TestUtils
+import com.atlassian.clover.ant.testutils.CloverTestFixture
 import com.atlassian.clover.testutils.IOHelper
 
 class CloverTestUtil {
@@ -27,7 +26,7 @@ class CloverTestUtil {
     CloverTestUtil(final String className, final String testName) throws Exception {
         this.className = className
         this.testName = testName
-        projDir = TestUtils.getProjectDirFromProperty()
+        projDir = IOHelper.getProjectDirFromProperty()
 
         createWorkDir()
         createHistoryDir()

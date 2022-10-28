@@ -12,7 +12,7 @@ import com.atlassian.clover.registry.entities.FullFileInfo
 import com.atlassian.clover.registry.entities.FullProjectInfo
 import com.atlassian.clover.registry.metrics.ProjectMetrics
 
-import static com.atlassian.clover.registry.metrics.MetricsHelper.assertMetricsEquals
+import static com.atlassian.clover.ant.testutils.MetricsHelper.assertMetricsEquals
 
 class CloverReportTaskSanityTest extends CloverBuildFileTestBase{
 

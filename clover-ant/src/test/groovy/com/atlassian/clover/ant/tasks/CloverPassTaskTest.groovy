@@ -1,7 +1,7 @@
 package com.atlassian.clover.ant.tasks
 
 import clover.com.google.common.collect.Lists
-import com.atlassian.clover.CloverTestFixture
+import com.atlassian.clover.ant.testutils.CloverTestFixture
 import com.atlassian.clover.cfg.Percentage
 import com.atlassian.clover.registry.metrics.BlockMetrics
 import org.apache.tools.ant.Project

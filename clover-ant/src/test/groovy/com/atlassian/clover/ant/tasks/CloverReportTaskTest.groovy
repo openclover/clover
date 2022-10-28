@@ -1,6 +1,6 @@
 package com.atlassian.clover.ant.tasks
 
-import com.atlassian.clover.TestUtils
+import com.atlassian.clover.testutils.IOHelper
 import org.apache.tools.ant.util.FileUtils
 import org.hamcrest.CoreMatchers
 
@@ -134,7 +134,7 @@ class CloverReportTaskTest extends CloverBuildFileTestBase {
         final String dateFormat = "yyyy-MM-dd"
         // Note: we have to ensure that line endings from our test file are the same as produced by ant; therefore replace
         // all endings - "\r\n" or "\n" with system 'line.separator'
-        final File reportLinksFile = new File(TestUtils.getProjectDirFromProperty(),
+        final File reportLinksFile = new File(IOHelper.getProjectDirFromProperty(),
                 "clover-ant/src/test/groovy/com/atlassian/clover/ant/tasks/report-links.txt")
         assertTrue("The '" + reportLinksFile.getAbsolutePath() + "' is not a file",
                 reportLinksFile.isFile())

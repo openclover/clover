@@ -78,5 +78,29 @@ class AssertionUtils {
         }
     }
 
+    /**
+     * Read file contents into a String.
+     * @param inputFile file to be read
+     * @return String - file content
+     */
+    private static String readFile(final File inputFile) {
+        final int BUF_SIZE = 8000
+        final char[] buffer = new char[BUF_SIZE]
+        final StringBuilder out = new StringBuilder()
+
+        try {
+            int charsRead
+            final Reader fileReader = new BufferedReader(new FileReader(inputFile))
+
+            while ( (charsRead = fileReader.read(buffer, 0, BUF_SIZE)) != -1 ) {
+                out.append(buffer, 0, charsRead)
+            }
+            fileReader.close()
+        } catch (IOException ex) {
+            fail(ex.toString())
+        }
+
+        out.toString()
+    }
 
 }

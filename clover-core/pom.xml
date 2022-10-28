@@ -25,6 +25,13 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-buildutil</artifactId>
+            <version>${project.version}</version>
+            <classifier>tests</classifier>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <!-- for maven-exec-plugin -->
             <groupId>antlr</groupId>
             <artifactId>antlr</artifactId>

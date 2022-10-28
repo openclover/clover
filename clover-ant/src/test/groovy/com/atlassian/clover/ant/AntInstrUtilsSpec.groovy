@@ -1,7 +1,7 @@
 package com.atlassian.clover.ant
 
 import com.atlassian.clover.util.FileUtils
-import com.atlassian.clover.util.RecordingLogger
+import com.atlassian.clover.ant.testutils.RecordingLogger
 import org.apache.tools.ant.Project
 import org.apache.tools.ant.types.FileSet
 import org.apache.tools.ant.types.Path

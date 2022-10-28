@@ -9,6 +9,7 @@ import com.atlassian.clover.registry.entities.FullFileInfo
 import com.atlassian.clover.registry.entities.FullProjectInfo
 import com.atlassian.clover.registry.entities.FullStatementInfo
 import com.atlassian.clover.registry.entities.LineInfo
+import com.atlassian.clover.testutils.AssertionUtils
 import com.atlassian.clover.util.FileUtils
 import com.atlassian.clover.util.SourceScanner
 import junit.framework.TestCase
@@ -335,7 +336,7 @@ abstract class JavaSyntaxCompilationTestBase extends TestCase {
      */
     protected void assertFileMatches(String instrumentedFileName, String regExp, boolean negate) {
         final File instrumentedFile = new File(mGenSrcDir, instrumentedFileName)
-        TestUtils.assertFileMatches(regExp, instrumentedFile, negate)
+        AssertionUtils.assertFileMatches(regExp, instrumentedFile, negate)
     }
 
     /**
@@ -346,7 +347,7 @@ abstract class JavaSyntaxCompilationTestBase extends TestCase {
      */
     protected void assertFileContains(String instrumentedFileName, String subString, boolean negate) {
         final File instrumentedFile = new File(mGenSrcDir, instrumentedFileName)
-        TestUtils.assertFileContains(subString, instrumentedFile, negate)
+        AssertionUtils.assertFileContains(subString, instrumentedFile, negate)
     }
 
     protected FullProjectInfo getModel() throws Exception {
