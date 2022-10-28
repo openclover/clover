@@ -24,6 +24,6 @@
     <orderEntry type="library" name="junit-4.12" level="project" />
     <orderEntry type="library" scope="TEST" name="mockito-all-1.10.19" level="project" />
     <orderEntry type="library" scope="TEST" name="multithreadedtc-1.01" level="project" />
-    <orderEntry type="library" name="groovy-2.4.21" level="application" />
+    <orderEntry type="library" name="groovy-2.5.9" level="application" />
   </component>
 </module>

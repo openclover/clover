@@ -24,7 +24,7 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="ant-1.9.14" level="project" />
-    <orderEntry type="library" scope="TEST" name="groovy-2.4.21" level="application" />
+    <orderEntry type="library" scope="TEST" name="groovy-2.5.9" level="application" />
     <orderEntry type="library" scope="TEST" name="junit-4.12" level="project" />
     <orderEntry type="library" scope="TEST" name="spock-core-0.7-groovy-2.0" level="project" />
     <orderEntry type="library" scope="TEST" name="junit5-5.4.1" level="project" />
