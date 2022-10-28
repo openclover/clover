@@ -4,8 +4,8 @@ import com.atlassian.clover.CloverNames
 
 import org.junit.Test
 
-import static com.atlassian.clover.TestUtils.assertStringContains
-import static com.atlassian.clover.TestUtils.assertStringMatches
+import static com.atlassian.clover.groovy.utils.TestUtils.assertStringContains
+import static com.atlassian.clover.groovy.utils.TestUtils.assertStringMatches
 import com_atlassian_clover.CloverProfile
 import com.atlassian.clover.remote.DistributedConfig
 

@@ -13,7 +13,7 @@ import com.atlassian.clover.registry.entities.TestCaseInfo
 import com.atlassian.clover.test.junit.GroovyVersionStart
 import com.atlassian.clover.test.junit.Result
 
-import static com.atlassian.clover.TestUtils.*
+import static com.atlassian.clover.groovy.utils.TestUtils.*
 
 /**
  * Integration test that checks how Clover handles the Spock test framework. Specific issues for this framework are:

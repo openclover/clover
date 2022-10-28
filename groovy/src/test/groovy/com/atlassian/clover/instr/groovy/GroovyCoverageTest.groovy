@@ -11,7 +11,7 @@ import com.atlassian.clover.cfg.instr.InstrumentationConfig
 import com.atlassian.clover.CodeType
 import com.atlassian.clover.registry.entities.FullProjectInfo
 
-import static com.atlassian.clover.TestUtils.assertStringContains
+import static com.atlassian.clover.groovy.utils.TestUtils.assertStringContains
 
 /**
  * Integration tests that detect if the correct coverage is recorded for given Groovy code. All code samples are executed via PSVM methods.
