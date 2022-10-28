@@ -4,6 +4,7 @@ import com.atlassian.clover.instr.ForInstrumentation;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.RoundEnvironment;
+import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
@@ -15,20 +16,13 @@ import javax.tools.JavaFileObject;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
 @SupportedSourceVersion(SourceVersion.RELEASE_7)
+@SupportedAnnotationTypes("com.atlassian.clover.instr.ForInstrumentation")
 public class InstrumentationBindingAPF extends AbstractProcessor {
-
-    @Override
-    public Set<String> getSupportedAnnotationTypes() {
-        Set<String> annotataions = new LinkedHashSet<>();
-        annotataions.add(ForInstrumentation.class.getCanonicalName());
-        return annotataions;
-    }
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
@@ -77,10 +71,8 @@ public class InstrumentationBindingAPF extends AbstractProcessor {
                         writer.print(methodName);
                         writer.print("(");
 
-                        // limit number of arguments if set in annotation
-                        final int maxArgs = methodDecl.getAnnotation(ForInstrumentation.class).maxArguments();
-                        final int numParams = maxArgs == ForInstrumentation.UNLIMITED ? methodDecl.getParameters().size()
-                                : Math.min(methodDecl.getParameters().size(), maxArgs);
+                        // number of arguments
+                        final int numParams = methodDecl.getParameters().size();
                         if (!isStatic) {
                             writer.print("String instanceName");
                             if (numParams > 0) {
@@ -110,11 +102,9 @@ public class InstrumentationBindingAPF extends AbstractProcessor {
                         }
 
                         // shall we write opening brace (true by default)?
-                        final String optionalOpeningBrace =
-                                methodDecl.getAnnotation(ForInstrumentation.class).openingBrace() ? "(" : "";
+                        final String optionalOpeningBrace = "(";
                         // shall we write closing brace and semicolon (true by default)?
-                        final String optionalClosingBrace =
-                                methodDecl.getAnnotation(ForInstrumentation.class).closingBrace() ? "+ \")\";" : ";";
+                        final String optionalClosingBrace = "+ \")\";";
 
                         if (isStatic) {
                             // write static method call like [return COMACME_PKG + ".MyClass.myMethod("]
