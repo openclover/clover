@@ -4,7 +4,7 @@ import clover.com.google.common.collect.Lists
 import clover.com.google.common.collect.Maps
 import com.atlassian.clover.CloverTestFixture
 import com.atlassian.clover.TestUtils
-import com.atlassian.clover.support.IOHelper
+import com.atlassian.clover.ant.utils.IOHelper
 
 class CloverTestUtil {
     static String PROP_INITSTRING = "clover-initstring"

@@ -6,7 +6,7 @@ import org.apache.tools.ant.Project
 import org.apache.tools.ant.types.FileSet
 import org.apache.tools.ant.types.Reference
 import com.atlassian.clover.reporters.Current
-import com.atlassian.clover.support.IOHelper
+import com.atlassian.clover.ant.utils.IOHelper
 
 import static clover.com.google.common.collect.Lists.newArrayList
 
