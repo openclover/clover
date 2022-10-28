@@ -246,6 +246,43 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- copy test resources -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>testResources</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <resources>
+                        <resource>
+                            <directory>src/main/resources</directory>
+                        </resource>
+                        <resource>
+                            <directory>src/test/groovy</directory>
+                            <includes>
+                                <include>**/*.txt</include>
+                                <include>**/*.properties</include>
+                                <include>**/*.xml</include>
+                            </includes>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <redirectTestOutputToFile>true</redirectTestOutputToFile>
+                    <systemPropertyVariables>
+                        <project.dir>${project.basedir}/..</project.dir> <!-- many tests rely on this property -->
+                    </systemPropertyVariables>
+                </configuration>
+            </plugin>
             <!-- generate sources jar -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
