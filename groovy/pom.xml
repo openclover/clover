@@ -1,0 +1,177 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.openclover</groupId>
+        <artifactId>clover-base-pom</artifactId>
+        <version>4.5.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <artifactId>clover-groovy</artifactId>
+    <name>Clover for Groovy</name>
+    <description>
+        OpenClover's plugin for the Groovy compiler. Plugs-in as an Abstract Syntax Tree (AST) Transformer.
+    </description>
+    <dependencies>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-runtime</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-buildutil</artifactId>
+            <version>${project.version}</version>
+            <classifier>tests</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.ow2.asm</groupId>
+            <artifactId>asm</artifactId>
+        </dependency>
+        <!-- test frameworks supported by the clover-groovy -->
+        <dependency>
+            <groupId>org.spockframework</groupId>
+            <artifactId>spock-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- for maven-exec-plugin -->
+        <dependency>
+            <groupId>com.atlassian.clover</groupId>
+            <artifactId>clover-antlr</artifactId>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <!-- generate ANTLR language grammars -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${project.build.directory}/generated-sources</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <id>generate-groovy-g</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>clover.antlr.Tool</mainClass>
+                            <arguments>
+                                <argument>-o</argument>
+                                <argument>${project.build.directory}/generated-sources/clover/org/codehaus/groovy/antlr/parser</argument>
+                                <argument>${project.basedir}/src/main/java/clover/org/codehaus/groovy/antlr/parser/groovy.g</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- fix parsers generated from grammars because we use a repacked ANTLR library as well as
+                 override implementations of idents and string literals -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>correct-antlr-sources</id>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <replace dir="${project.build.directory}/generated-sources" token="import antlr" value="import clover.antlr">
+                                    <include name="**/*.java"/>
+                                </replace>
+                                <replace dir="${project.build.directory}/generated-sources" token="extends antlr" value="extends clover.antlr">
+                                    <include name="**/*.java"/>
+                                </replace>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- compile sources with 1.7 level by default -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <compilerId>groovy-eclipse-compiler</compilerId>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.codehaus.groovy</groupId>
+                        <artifactId>groovy-eclipse-compiler</artifactId>
+                        <version>2.9.2-01</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.codehaus.groovy</groupId>
+                        <artifactId>groovy-eclipse-batch</artifactId>
+                        <version>2.5.14-02</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <!-- Use groovy-eclipse-compiler to add groovy source folders -->
+            <plugin>
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy-eclipse-compiler</artifactId>
+                <version>2.9.2-01</version>
+                <extensions>true</extensions>
+            </plugin>
+            <!-- generate sources jar -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- generate javadoc jar -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
