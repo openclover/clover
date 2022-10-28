@@ -2,7 +2,7 @@ package com.atlassian.clover.util
 
 import clover.com.google.common.collect.Sets
 import com.atlassian.clover.TestUtils
-import com.atlassian.clover.support.IOHelper
+import com.atlassian.clover.testutils.IOHelper
 import junit.framework.TestCase
 
 class FileUtilsTest extends TestCase {

@@ -5,7 +5,7 @@ import com.atlassian.clover.CloverDatabase
 import com.atlassian.clover.CoverageData
 import com.atlassian.clover.api.CloverException
 import com.atlassian.clover.registry.entities.TestCaseInfo
-import com.atlassian.clover.ant.utils.IOHelper
+import com.atlassian.clover.testutils.IOHelper
 
 class CloverInstrTaskTestcasesTest extends CloverBuildFileTestBase {
 

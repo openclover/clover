@@ -2,8 +2,8 @@ package com.atlassian.clover.ant.tasks
 
 import org.junit.Test
 
-import static com.atlassian.clover.ant.utils.TestUtils.assertFileContains
-import static com.atlassian.clover.ant.utils.TestUtils.assertStringContains
+import static com.atlassian.clover.testutils.AssertionUtils.assertFileContains
+import static com.atlassian.clover.testutils.AssertionUtils.assertStringContains
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertNull
 

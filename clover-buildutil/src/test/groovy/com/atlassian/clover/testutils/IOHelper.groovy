@@ -1,4 +1,4 @@
-package com.atlassian.clover.ant.utils
+package com.atlassian.clover.testutils
 
 class IOHelper {
 

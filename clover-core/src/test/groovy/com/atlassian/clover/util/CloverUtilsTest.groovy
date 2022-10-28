@@ -7,7 +7,7 @@ import com.atlassian.clover.CloverTestFixture
 import com.atlassian.clover.CoverageDataSpec
 import com.atlassian.clover.api.CloverException
 import com.atlassian.clover.optimization.Snapshot
-import com.atlassian.clover.support.IOHelper
+import com.atlassian.clover.testutils.IOHelper
 import junit.framework.TestCase
 
 import java.lang.reflect.InvocationTargetException

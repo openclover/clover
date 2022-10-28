@@ -6,7 +6,7 @@ import org.hamcrest.CoreMatchers
 
 import java.text.DecimalFormat
 
-import static com.atlassian.clover.TestUtils.assertStringContains
+import static com.atlassian.clover.testutils.AssertionUtils.assertStringContains
 import static org.junit.Assert.assertThat
 
 class CloverReportTaskTest extends CloverBuildFileTestBase {

@@ -1,52 +1,12 @@
-package com.atlassian.clover.ant.utils
+package com.atlassian.clover.testutils
 
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
-import static org.junit.Assert.*
+import static org.junit.Assert.assertFalse
+import static org.junit.Assert.assertTrue
 
-class TestUtils {
-
-    /**
-     * Read the 'project.dir' system property, assert that it's not null and points to a workspace directory.
-     */
-    static File getProjectDirFromProperty() {
-        final String PROJECT_DIR = "project.dir"
-        final String projectDir = System.getProperty(PROJECT_DIR)
-        assertNotNull("The '" + PROJECT_DIR + "' property is not set. It must point to the Clover's workspace root",
-                projectDir)
-        assertTrue("The location pointed by '" + PROJECT_DIR + "' is not a directory",
-                new File(projectDir).isDirectory())
-        assertTrue("The location pointed by '" + PROJECT_DIR + "' does not seem to be a Clover workspace directory",
-                new File(projectDir, "common.xml").isFile())
-
-        new File(projectDir)
-    }
-
-    /**
-     * Read file contents into a String.
-     * @param inputFile file to be read
-     * @return String - file content
-     */
-    private static String readFile(final File inputFile) {
-        final int BUF_SIZE = 8000
-        final char[] buffer = new char[BUF_SIZE]
-        final StringBuilder out = new StringBuilder()
-
-        try {
-            int charsRead
-            final Reader fileReader = new BufferedReader(new FileReader(inputFile))
-
-            while ( (charsRead = fileReader.read(buffer, 0, BUF_SIZE)) != -1 ) {
-                out.append(buffer, 0, charsRead)
-            }
-            fileReader.close()
-        } catch (IOException ex) {
-            fail(ex.toString())
-        }
-
-        out.toString()
-    }
+class AssertionUtils {
 
     /**
      * Check whether string contains substring.
@@ -117,4 +77,6 @@ class TestUtils {
                     matcher.find())
         }
     }
+
+
 }

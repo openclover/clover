@@ -21,7 +21,7 @@ import com.atlassian.clover.registry.metrics.HasMetricsTestFixture
 import com.atlassian.clover.registry.metrics.ProjectMetrics
 import com.atlassian.clover.reporters.Columns
 import com.atlassian.clover.reporters.Historical
-import com.atlassian.clover.support.IOHelper
+import com.atlassian.clover.testutils.IOHelper
 import com.atlassian.clover.util.CloverUtils
 import junit.framework.TestCase
 

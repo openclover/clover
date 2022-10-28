@@ -8,7 +8,7 @@ import com.atlassian.clover.registry.entities.FullClassInfo
 import com.atlassian.clover.registry.metrics.HasMetricsFilter
 import com.atlassian.clover.registry.entities.FullProjectInfo
 import com.atlassian.clover.registry.entities.TestCaseInfo
-import com.atlassian.clover.support.IOHelper
+import com.atlassian.clover.testutils.IOHelper
 import com.atlassian.clover.util.FileUtils
 import junit.framework.TestCase
 

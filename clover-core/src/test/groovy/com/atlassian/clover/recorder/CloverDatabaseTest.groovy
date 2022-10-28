@@ -25,7 +25,7 @@ import com.atlassian.clover.registry.entities.TestCaseInfo
 import com.atlassian.clover.registry.format.RegAccessMode
 import com.atlassian.clover.registry.format.RegHeader
 import com.atlassian.clover.registry.metrics.ProjectMetrics
-import com.atlassian.clover.support.IOHelper
+import com.atlassian.clover.testutils.IOHelper
 import com.atlassian.clover.util.CloverBitSet
 import com.atlassian.clover.util.SimpleCoverageRange
 import com_atlassian_clover.Clover

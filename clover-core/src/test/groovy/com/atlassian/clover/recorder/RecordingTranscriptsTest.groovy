@@ -1,7 +1,7 @@
 package com.atlassian.clover.recorder
 
 import com.atlassian.clover.RuntimeType
-import com.atlassian.clover.support.IOHelper
+import com.atlassian.clover.testutils.IOHelper
 import com.atlassian.clover.util.CloverBitSet
 import com.atlassian.clover.util.collections.Pair
 import com_atlassian_clover.Clover
