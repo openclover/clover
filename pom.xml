@@ -173,8 +173,8 @@
             <!-- groovy -->
             <dependency>
                 <groupId>org.codehaus.groovy</groupId>
-                <artifactId>groovy-all</artifactId>
-                <version>2.4.21</version>
+                <artifactId>groovy</artifactId>
+                <version>2.5.9</version>
             </dependency>
             <dependency>
                 <groupId>org.ow2.asm</groupId>

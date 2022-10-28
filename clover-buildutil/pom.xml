@@ -44,12 +44,12 @@
                     <dependency>
                         <groupId>org.codehaus.groovy</groupId>
                         <artifactId>groovy-eclipse-compiler</artifactId>
-                        <version>3.6.0-03</version>
+                        <version>2.9.2-01</version>
                     </dependency>
                     <dependency>
                         <groupId>org.codehaus.groovy</groupId>
                         <artifactId>groovy-eclipse-batch</artifactId>
-                        <version>3.0.6-01</version>
+                        <version>2.5.14-02</version>
                     </dependency>
                 </dependencies>
             </plugin>
@@ -57,7 +57,7 @@
             <plugin>
                 <groupId>org.codehaus.groovy</groupId>
                 <artifactId>groovy-eclipse-compiler</artifactId>
-                <version>3.6.0-03</version>
+                <version>2.9.2-01</version>
                 <extensions>true</extensions>
             </plugin>
             <plugin>

@@ -30,11 +30,10 @@
             <artifactId>antlr</artifactId>
             <version>2.7.7</version>
         </dependency>
+        <!-- for groovy-eclipse-compiler -->
         <dependency>
-            <!-- for groovy-eclipse-compiler -->
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy</artifactId>
-            <version>2.5.9</version>
         </dependency>
         <!-- non-repacked third party libs as we need to build using their APIs -->
         <dependency>
