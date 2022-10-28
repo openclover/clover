@@ -8,13 +8,8 @@
     <property name="groovy.antlr.path" value="clover/org/codehaus/groovy/antlr/parser"/>
     <property name="groovy.image.dir" value="${groovy.output}/classes"/>
 
-    <property name="default.groovy2.version" value="2.3.11"/>
-    <property name="default.groovy2-asm5.version" value="2.4.21"/>
-    <property name="groovy2.jar" location="${build.deps.dir}/groovy-all-${default.groovy2.version}.jar"/>
-    <property name="groovy2-asm5.jar" location="${build.deps.dir}/groovy-all-${default.groovy2-asm5.version}.jar"/>
-
     <!-- Default list of versions we test against. -->
-    <property name="clover.test.groovyversion.includes" value="${default.groovy2.version},${default.groovy2-asm5.version}"/>
+    <property name="clover.test.groovyversion.includes" value="${default.groovy.version}"/>
     <property name="clover.test.groovyversion.excludes" value=""/>
     <property name="clover.test.category" value=""/> <!-- used for grouping tests -->
 
@@ -25,7 +20,7 @@
         <path id="groovy.buildpath">
             <path refid="clover-core.buildpath"/>
             <pathelement location="${clover-runtime.output.classes}"/>
-            <path refid="asm4.path"/>
+            <path refid="asm5.path"/>
             <pathelement location="${groovy.jar}"/>
             <pathelement location="${spock.jar}"/>
             <pathelement location="${clover.antlr.jar}"/>
@@ -47,14 +42,8 @@
     </target>
 
     <target name="_groovy.resolve-dependencies">
-        <maven-resolve groupId="org.ow2.asm" artifactId="asm" version="4.0" pathId="asm4.path"/>
         <maven-resolve groupId="org.ow2.asm" artifactId="asm" version="5.0.3" pathId="asm5.path"/>
-
-        <get-jar src="org/codehaus/groovy/groovy-all/2.0.8/groovy-all-2.0.8.jar" dest="groovy-all-2.0.8.jar"/>
-        <get-jar src="org/codehaus/groovy/groovy-all/2.1.9/groovy-all-2.1.9.jar" dest="groovy-all-2.1.9.jar"/>
-        <get-jar src="org/codehaus/groovy/groovy-all/2.2.2/groovy-all-2.2.2.jar" dest="groovy-all-2.2.2.jar"/>
-        <get-jar src="org/codehaus/groovy/groovy-all/2.3.11/groovy-all-2.3.11.jar" dest="groovy-all-2.3.11.jar"/>
-        <get-jar src="org/codehaus/groovy/groovy-all/2.4.21/groovy-all-2.4.21.jar" dest="groovy-all-2.4.21.jar"/>
+        <get-jar src="org/codehaus/groovy/groovy/2.5.9/groovy-2.5.9.jar" dest="groovy-2.5.9.jar"/>
     </target>
 
     <target name="_groovy.check.antlr">
@@ -154,7 +143,7 @@
     <target name="groovy.test" depends="groovy.init, groovy.build, groovy.test.build">
         <!-- Run set of tests with Groovy 2.x -->
         <groovy-test-run testResultDir="${groovy.output}/test"
-                         groovyJar="${groovy2-asm5.jar}" asmPath="asm5.path"
+                         groovyJar="${groovy.jar}" asmPath="asm5.path"
                          groovyVersionIncludes="${clover.test.groovyversion.includes}"
                          groovyVersionExcludes="${clover.test.groovyversion.excludes}"
                          testCategory="${clover.test.category}"/>
@@ -164,7 +153,7 @@
         <mkdir dir="${groovy.output.testclasses}"/>
         <groovyc destdir="${groovy.output.testclasses}" encoding="UTF8">
             <classpath>
-                <pathelement location="${groovy2-asm5.jar}"/>
+                <pathelement location="${groovy.jar}"/>
                 <path refid="groovy.testpath"/>
             </classpath>
             <src path="${groovy.base}/src/test/groovy"/>

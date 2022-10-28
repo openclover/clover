@@ -9,7 +9,7 @@ public class GroovyCombinatorMixin {
     }
 
     public List findGroovyAllVersionsAndJars(File groovyLibDir, Closure filter = {true}) {
-        def isGroovyAllJar = /groovy-all-(.*)\.jar/
+        def isGroovyAllJar = /groovy-(.*)\.jar/
         groovyLibDir.list().findAll {
             Matcher matcher = it =~ isGroovyAllJar
             if (matcher) {

@@ -27,7 +27,7 @@
     <property name="source.level" value="1.7"/>
 
     <!-- Default Groovy version. Use the latest available. -->
-    <property name="default.groovy.version" value="2.4.15"/> <!-- TODO can't use 2.3.0+ because dumpAST() fails -->
+    <property name="default.groovy.version" value="2.5.9"/> <!-- TODO can't use 2.3.0+ because dumpAST() fails -->
     <!-- Default Ant version. Use the latest available. -->
     <property name="default.ant.version" value="1.9.14"/>
 
@@ -155,7 +155,8 @@
     <property name="hamcrest.jar" location="${build.deps.dir}/hamcrest-core-1.3.jar"/>
     <property name="multithreadedtc.jar" location="${build.deps.dir}/multithreadedtc-1.01.jar"/>
     <property name="mockito.jar" location="${build.deps.dir}/mockito-all-1.10.19.jar"/>
-    <property name="groovy.jar" location="${build.deps.dir}/groovy-all-${default.groovy.version}.jar"/>
+    <property name="groovy.jar" location="${build.deps.dir}/groovy-${default.groovy.version}.jar"/>
+    <property name="groovy-ant.jar" location="${build.deps.dir}/groovy-ant-${default.groovy.version}.jar"/>
 	<property name="junit-platform-engine.jar" location="${build.deps.dir}/junit-platform-engine-${junit.platform.version}.jar"/>
 	<property name="junit-platform-launcher.jar" location="${build.deps.dir}/junit-platform-launcher-${junit.platform.version}.jar"/>
 
@@ -398,9 +399,11 @@
         <get-ant-jars version="1.9.14" with-junit4="true"/>
 
         <!-- Groovy -->
-        <get-jar src="org/codehaus/groovy/groovy-all/${default.groovy.version}/groovy-all-${default.groovy.version}.jar"
-                 dest="groovy-all-${default.groovy.version}.jar"/>
-        <taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc" classpath="${groovy.jar}"/>
+        <get-jar src="org/codehaus/groovy/groovy/${default.groovy.version}/groovy-${default.groovy.version}.jar"
+                 dest="groovy-${default.groovy.version}.jar"/>
+        <get-jar src="org/codehaus/groovy/groovy-ant/${default.groovy.version}/groovy-ant-${default.groovy.version}.jar"
+                 dest="groovy-ant-${default.groovy.version}.jar"/>
+        <taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc" classpath="${groovy.jar};${groovy-ant.jar}"/>
 
         <!-- JUnit with Hamcrest -->
         <get-jar src="junit/junit/4.12/junit-4.12.jar"

@@ -33,8 +33,8 @@
         <dependency>
             <!-- for groovy-eclipse-compiler -->
             <groupId>org.codehaus.groovy</groupId>
-            <artifactId>groovy-all</artifactId>
-            <version>2.4.15</version>
+            <artifactId>groovy</artifactId>
+            <version>2.5.9</version>
         </dependency>
         <!-- non-repacked third party libs as we need to build using their APIs -->
         <dependency>

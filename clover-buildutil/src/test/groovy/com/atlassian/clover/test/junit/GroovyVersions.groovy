@@ -1,7 +1,7 @@
 package com.atlassian.clover.test.junit
 
 class GroovyVersions {
-    static String DEFAULT_VERSION = "2.4.21";
+    static String DEFAULT_VERSION = "2.5.9";
 
     static Closure SPLIT = { String it ->
         it == null ? null : it.split(",")

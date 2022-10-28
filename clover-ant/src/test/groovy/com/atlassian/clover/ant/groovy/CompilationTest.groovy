@@ -39,7 +39,7 @@ public class CompilationTest extends DynamicallyNamedTestBase {
         String antVersion = AntVersions.DEFAULT_VERSION
         String groovyVersion = GroovyVersions.DEFAULT_VERSION
         File antHome = new File(new File(projectDir, "target/dependencies/ant"), "ant-${antVersion}")
-        File groovyAllJar = new File(new File(projectDir, "target/dependencies"), "groovy-all-${groovyVersion}.jar")
+        File groovyAllJar = new File(new File(projectDir, "target/dependencies"), "groovy-${groovyVersion}.jar")
 
         new AntProjectSimulacrum(
                 methodName: testName,
