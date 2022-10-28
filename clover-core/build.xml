@@ -33,7 +33,7 @@
                   classpath="${clover-buildutil.jar}" fork="yes" failonerror="yes">
                 <classpath>
                     <pathelement location="${repkg.clover.jar}"/>
-                    <path refid="asm3.path"/>
+                    <path refid="asm5.path"/>
                 </classpath>
                 <arg line="'@{classLocation}'"/>
             </java>
@@ -61,7 +61,7 @@
     <target name="clover-core.init" depends="common.init, clover-buildutil.build, clover-core-libs.initialize">
         <mkdir dir="${clover-core.output.gensources}/${clover-core.antlr.path}"/>
 
-        <maven-resolve groupId="asm" artifactId="asm" version="3.0" pathId="asm3.path"/> <!-- TODO upgrade -->
+        <maven-resolve groupId="org.ow2.asm" artifactId="asm" version="5.0.3" pathId="asm5.path"/>
 
         <path id="clover.antlr.path" location="${clover-core-libs.output.deps}/clover-antlr-${antlr.ver}.jar"/>
 
@@ -98,7 +98,7 @@
             <!-- for with.clover -->
             <pathelement location="${repkg.clover.jar}"/>
             <pathelement location="${env.JAVA_HOME}/lib/tools.jar"/>
-            <path refid="asm3.path"/>
+            <path refid="asm5.path"/>
         </path>
     </target>
 
@@ -184,28 +184,12 @@
 
     <target name="clover-core.test.build" depends="clover-core.build,clover-core.image">
         <mkdir dir="${clover-core.output.testclasses}"/>
-        <javac destdir="${clover-core.output.testclasses}"
-               debug="on"
-               debuglevel="lines,vars,source"
-               deprecation="on"
-               target="${jdk.target}"
-               source="${jdk.target}"
-               encoding="UTF8"
-               includeAntRuntime="false">
-            <classpath refid="clover-core.testpath"/>
-            <src path="${clover-core.base}/src/test/java"/>
-        </javac>
         <groovyc srcdir="${clover-core.base}/src/test/groovy"
                 destdir="${clover-core.output.testclasses}">
             <include name="**/*.groovy"/>
             <classpath refid="clover-core.testpath"/>
         </groovyc>
         <copy todir="${clover-core.output.testclasses}">
-            <fileset dir="${clover-core.base}/src/test/java">
-                <include name="**/*.txt"/>
-                <include name="**/*.properties"/>
-                <include name="**/*.xml"/>
-            </fileset>
             <fileset dir="${clover-core.base}/src/test/groovy">
                 <include name="**/*.txt"/>
                 <include name="**/*.properties"/>
