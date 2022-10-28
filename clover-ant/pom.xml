@@ -1,60 +1,72 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.openclover</groupId>
+    <parent>
+        <groupId>org.openclover</groupId>
+        <artifactId>clover-base-pom</artifactId>
+        <version>4.5.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
     <artifactId>clover</artifactId>
-    <version>@VERSION@</version>
     <name>Clover Ant</name>
     <description>
-        Clover is an award winning code coverage and testing tool for Java and Groovy.
+        Clover is an award-winning code coverage and testing tool for Java and Groovy.
         It integrates easily with Maven, Ant, Grails, Eclipse and IntelliJ IDEA
         as well as with continuous integration servers such as Bamboo, Jenkins or Hudson.
-
-        Note: before Clover 4.0 this artifact was named com.cenqua.clover:clover.
     </description>
-    <url>http://openclover.org</url>
-    <packaging>jar</packaging>
-    <organization>
-        <name>OpenClover.org</name>
-        <url>http://openclover.org</url>
-    </organization>
-    <issueManagement>
-        <system>GitHub</system>
-        <url>https://github.com/openclover/clover/issues</url>
-    </issueManagement>
-    <licenses>
-        <license>
-            <name>Apache License 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
-    <scm>
-        <connection>scm:git:ssh://git@github.com/openclover/clover.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/openclover/clover.git</developerConnection>
-        <url>https://github.com/openclover/clover</url>
-    </scm>
-    <developers>
-        <developer>
-            <id>marek-parfianowicz</id>
-            <name>Marek Parfianowicz</name>
-            <email>marek.parfianowicz@gmail.com</email>
-        </developer>
-        <developer>
-            <id>grzlew</id>
-            <name>Grzegorz Lewandowski</name>
-            <email>grzlew@gmail.com</email>
-        </developer>
-    </developers>
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-runtime</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-buildutil</artifactId>
+            <classifier>tests</classifier>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- for groovy-eclipse-compiler -->
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>2.4.21</version>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.clover</groupId>
+            <artifactId>clover-commons-lang3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ant</groupId>
+            <artifactId>ant</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ant</groupId>
+            <artifactId>ant-junit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.clover</groupId>
+            <artifactId>clover-annotations</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.clover</groupId>
+            <artifactId>clover-guava</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.clover</groupId>
+            <artifactId>clover-jdom</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
     <build>
         <extensions>
             <extension>
@@ -64,10 +76,82 @@
             </extension>
         </extensions>
         <plugins>
+            <!-- don't copy META-INF/services before compilation, because groovyc shall not use Grover ASTTransformer -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <compilerId>groovy-eclipse-compiler</compilerId>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.codehaus.groovy</groupId>
+                        <artifactId>groovy-eclipse-compiler</artifactId>
+                        <version>2.9.2-01</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.codehaus.groovy</groupId>
+                        <artifactId>groovy-eclipse-batch</artifactId>
+                        <version>2.5.14-02</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <!-- Use groovy-eclipse-compiler to add groovy source folders -->
+            <plugin>
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy-eclipse-compiler</artifactId>
+                <version>2.9.2-01</version>
+                <extensions>true</extensions>
+            </plugin>
+            <!-- execute tests -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>process-test-resources</phase>
+                        <goals>
+                            <goal>testResources</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <redirectTestOutputToFile>true</redirectTestOutputToFile>
+                    <systemPropertyVariables>
+                        <project.dir>${project.basedir}/..</project.dir> <!-- many tests rely on this property -->
+                    </systemPropertyVariables>
+                </configuration>
+            </plugin>
+            <!-- pack resources we skipped initially -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>resources</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- generate sources jar -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>3.0.1</version>
                 <executions>
                     <execution>
                         <goals>
@@ -76,10 +160,10 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- generate javadoc jar -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.10.4</version>
                 <executions>
                     <execution>
                         <goals>
