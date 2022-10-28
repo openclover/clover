@@ -12,16 +12,21 @@
     <name>Clover Runtime</name>
     <description>
         Clover's runtime library - required by code instrumented by Clover.
-        Clover is an award winning code coverage and testing tool for Java and Groovy.
+        Clover is an award-winning code coverage and testing tool for Java and Groovy.
         It integrates easily with Maven, Ant, Grails, Eclipse and IntelliJ IDEA
         as well as with continuous integration servers such as Bamboo, Jenkins or Hudson.
     </description>
     <dependencies>
-        <!-- build utitilites (annotations for annotation processing) -->
+        <!-- build utitilites (annotations for annotation processing, bytecode instrumentation) -->
         <dependency>
             <groupId>org.openclover</groupId>
             <artifactId>clover-buildutil</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.ow2.asm</groupId>
+            <artifactId>asm</artifactId>
+            <version>5.0.3</version>
         </dependency>
         <!-- test frameworks supported by the clover-runtime -->
         <dependency>

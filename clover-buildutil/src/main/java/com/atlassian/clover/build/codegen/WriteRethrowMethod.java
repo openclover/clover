@@ -1,8 +1,6 @@
 package com.atlassian.clover.build.codegen;
 
-import org.objectweb.asm.MethodAdapter;
 import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.ClassAdapter;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.ClassReader;
@@ -19,11 +17,11 @@ import java.nio.channels.FileChannel;
  * rethrow the supplied Throwable instead of just returning from the method.
  * This is required as test method rewriting needs to catch Throwable for the purposes
  * of determining test failure but must be able to rethrow the Throwable without changing
- * the signature of the rewritten method (in cases where it has not declared throwing Throwable.
+ * the signature of the rewritten method (in cases where it has not declared throwing Throwable).
  */
-public class WriteRethrowMethod extends ClassAdapter {
+public class WriteRethrowMethod extends ClassVisitor {
     public WriteRethrowMethod(ClassVisitor classVisitor) {
-        super(classVisitor);
+        super(Opcodes.ASM5, classVisitor);
     }
 
     @Override
@@ -37,9 +35,9 @@ public class WriteRethrowMethod extends ClassAdapter {
 
     /**
      */
-    public static class RethrowRewriter extends MethodAdapter {
+    public static class RethrowRewriter extends MethodVisitor {
         public RethrowRewriter(MethodVisitor methodVisitor) {
-            super(methodVisitor);
+            super(Opcodes.ASM5, methodVisitor);
         }
 
         /** Converts "public void rethrow(Throwable t) {return;}" to "public void rethrow(Throwable t) {throw t;}" */
