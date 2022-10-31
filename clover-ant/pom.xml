@@ -6,6 +6,7 @@
         <version>4.5.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
+    <!-- keep 'clover' name instead of 'clover-ant' for backward compatiblity -->
     <artifactId>clover</artifactId>
     <name>Clover Ant</name>
     <description>
@@ -22,6 +23,11 @@
         <dependency>
             <groupId>org.openclover</groupId>
             <artifactId>clover-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-groovy</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -76,14 +82,6 @@
             </extension>
         </extensions>
         <plugins>
-            <!-- don't copy META-INF/services before compilation, because groovyc shall not use Grover ASTTransformer -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -118,9 +116,18 @@
                 <artifactId>maven-resources-plugin</artifactId>
                 <executions>
                     <execution>
+                        <id>copy-test-resources</id>
                         <phase>process-test-resources</phase>
                         <goals>
                             <goal>testResources</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <!-- don't copy META-INF/services before compilation, because groovyc shall not use Grover ASTTransformer -->
+                        <id>copy-main-resources</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>resources</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -134,19 +141,6 @@
                         <project.dir>${project.basedir}/..</project.dir> <!-- many tests rely on this property -->
                     </systemPropertyVariables>
                 </configuration>
-            </plugin>
-            <!-- pack resources we skipped initially -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>resources</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
             <!-- generate sources jar -->
             <plugin>
@@ -168,6 +162,84 @@
                     <execution>
                         <goals>
                             <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- generate clover.jar (combination of clover-ant + clover-core + clover-runtime) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.4</version>
+                <executions>
+                    <execution>
+                        <id>package-jar</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <artifactSet>
+                                <includes>
+                                    <include>org.openclover:clover-runtime</include>
+                                    <include>org.openclover:clover-core</include>
+                                    <include>org.openclover:clover-groovy</include>
+                                </includes>
+                            </artifactSet>
+                            <filters>
+                                <!-- exclude overlapping resources -->
+                                <filter>
+                                    <artifact>org.openclover:clover-runtime</artifact>
+                                    <excludes>
+                                        <exclude>licenses/*.TXT</exclude>
+                                        <exclude>LICENSES.html</exclude>
+                                        <exclude>LICENSE.txt</exclude>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                    </excludes>
+                                </filter>
+                                <filter>
+                                    <artifact>org.openclover:clover-groovy</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                    </excludes>
+                                </filter>
+                                <filter>
+                                    <artifact>org.openclover:clover-core</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <manifestEntries>
+                                        <Specification-Title>OpenClover for Ant</Specification-Title>
+                                        <Specification-Version>${project.version}</Specification-Version>
+                                        <Specification-Vendor>OpenClover.org</Specification-Vendor>
+                                        <Implementation-Version>${project.version}</Implementation-Version>
+                                        <Implementation-Vendor>OpenClover.org</Implementation-Vendor>
+                                    </manifestEntries>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- generate 'OpenClover for Ant' installer zip -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.4.2</version>
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/assembly/assembly.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
                         </goals>
                     </execution>
                 </executions>
