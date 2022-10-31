@@ -41,7 +41,7 @@
             <outputDirectory>tutorial</outputDirectory>
             <excludes>
                 <exclude>target/*</exclude>
-                <include>build/*</include>
+                <exclude>build/*</exclude>
             </excludes>
         </fileSet>
     </fileSets>

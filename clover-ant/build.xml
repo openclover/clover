@@ -12,9 +12,9 @@
     <property name="clover-ant.jar" location="${clover-ant.output}/clover.jar"/>
     <property name="clover-ant-javadoc.jar" location="${clover-ant.output}/clover-javadoc.jar"/>
     <property name="clover-ant-sources.jar" location="${clover-ant.output}/clover-sources.jar"/>
-    <property name="clover-ant.embedded.jar.path" value="embeddedjars/clover${core.release.base}${core.release.qualifier}"/>
+    <property name="clover-ant.embedded.jar.path" value="embeddedjars"/>
     <property name="clover-ant.embedded.jar.dir" location="${clover-ant.output.classes}/${clover-ant.embedded.jar.path}"/>
-    <property name="clover-ant.grover.jar" location="${clover-ant.embedded.jar.dir}/grover.jar"/>
+    <property name="clover-ant.grover.jar" location="${clover-ant.embedded.jar.dir}/grover-${core.release.base}${core.release.qualifier}.jar"/>
     <property name="clover-ant.pom" location="${clover-ant.output}/pom.xml"/>
     <property name="clover-ant.pom.in" location="${clover-ant.base}/pom.xml"/>
     

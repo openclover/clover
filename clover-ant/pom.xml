@@ -6,8 +6,7 @@
         <version>4.5.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <!-- keep 'clover' name instead of 'clover-ant' for backward compatiblity -->
-    <artifactId>clover</artifactId>
+    <artifactId>clover-ant</artifactId>
     <name>Clover Ant</name>
     <description>
         Clover is an award-winning code coverage and testing tool for Java and Groovy.
@@ -166,81 +165,49 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- generate clover.jar (combination of clover-ant + clover-core + clover-runtime) -->
+            <!-- generate clover.jar (combination of clover-ant + clover-core + clover-runtime + clover+groovy) -->
+            <!-- generate OpenClover for Ant installer zip -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.4</version>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.4.2</version>
                 <executions>
                     <execution>
                         <id>package-jar</id>
                         <phase>package</phase>
                         <goals>
-                            <goal>shade</goal>
+                            <goal>single</goal>
                         </goals>
                         <configuration>
-                            <artifactSet>
-                                <includes>
-                                    <include>org.openclover:clover-runtime</include>
-                                    <include>org.openclover:clover-core</include>
-                                    <include>org.openclover:clover-groovy</include>
-                                </includes>
-                            </artifactSet>
-                            <filters>
-                                <!-- exclude overlapping resources -->
-                                <filter>
-                                    <artifact>org.openclover:clover-runtime</artifact>
-                                    <excludes>
-                                        <exclude>licenses/*.TXT</exclude>
-                                        <exclude>LICENSES.html</exclude>
-                                        <exclude>LICENSE.txt</exclude>
-                                        <exclude>META-INF/MANIFEST.MF</exclude>
-                                    </excludes>
-                                </filter>
-                                <filter>
-                                    <artifact>org.openclover:clover-groovy</artifact>
-                                    <excludes>
-                                        <exclude>META-INF/MANIFEST.MF</exclude>
-                                    </excludes>
-                                </filter>
-                                <filter>
-                                    <artifact>org.openclover:clover-core</artifact>
-                                    <excludes>
-                                        <exclude>META-INF/MANIFEST.MF</exclude>
-                                    </excludes>
-                                </filter>
-                            </filters>
-                            <transformers>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <manifestEntries>
-                                        <Specification-Title>OpenClover for Ant</Specification-Title>
-                                        <Specification-Version>${project.version}</Specification-Version>
-                                        <Specification-Vendor>OpenClover.org</Specification-Vendor>
-                                        <Implementation-Version>${project.version}</Implementation-Version>
-                                        <Implementation-Vendor>OpenClover.org</Implementation-Vendor>
-                                    </manifestEntries>
-                                </transformer>
-                            </transformers>
+                            <finalName>clover-${project.version}</finalName>
+                            <appendAssemblyId>false</appendAssemblyId>
+                            <descriptors>
+                                <descriptor>src/assembly/clover-jar.xml</descriptor>
+                            </descriptors>
+                            <archive>
+                                <manifestEntries>
+                                    <Specification-Title>OpenClover for Ant</Specification-Title>
+                                    <Specification-Version>${project.version}</Specification-Version>
+                                    <Specification-Vendor>OpenClover.org</Specification-Vendor>
+                                    <Implementation-Version>${project.version}</Implementation-Version>
+                                    <Implementation-Vendor>OpenClover.org</Implementation-Vendor>
+                                </manifestEntries>
+                            </archive>
                         </configuration>
                     </execution>
-                </executions>
-            </plugin>
-            <!-- generate 'OpenClover for Ant' installer zip -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.4.2</version>
-                <configuration>
-                    <descriptors>
-                        <descriptor>src/assembly/assembly.xml</descriptor>
-                    </descriptors>
-                </configuration>
-                <executions>
                     <execution>
+                        <id>package-zip</id>
                         <phase>package</phase>
                         <goals>
                             <goal>single</goal>
                         </goals>
+                        <configuration>
+                            <finalName>clover-all-${project.version}</finalName>
+                            <appendAssemblyId>false</appendAssemblyId>
+                            <descriptors>
+                                <descriptor>src/assembly/clover-all.xml</descriptor>
+                            </descriptors>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
