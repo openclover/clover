@@ -1,0 +1,61 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.openclover</groupId>
+        <artifactId>clover-eclipse-base</artifactId>
+        <version>4.5.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <artifactId>org.openclover.eclipse.branding</artifactId>
+    <name>OpenClover Eclipse Branding</name>
+    <description>
+        This is one of the main *plugins* for Clover. It is essentially empty except
+        that it contains branding resources (about.*) so that the "OpenClover Core" feature is
+        listed in Eclipse's about dialog box.
+    </description>
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <propertiesEncoding>UTF-8</propertiesEncoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
+                            <Bundle-Name>%pluginName</Bundle-Name>
+                            <Bundle-Vendor>%providerName</Bundle-Vendor>
+                            <Bundle-SymbolicName>org.openclover.eclipse.branding; singleton:=true</Bundle-SymbolicName>
+                            <Bundle-Version>${project.version}</Bundle-Version>
+                            <Bundle-Localization>plugin</Bundle-Localization>
+                            <Require-Bundle>org.eclipse.ui;bundle-version=&quot;[3.4.0,4.0.0)&quot;, org.eclipse.core.runtime;bundle-version=&quot;[3.4.0,4.0.0)&quot;</Require-Bundle>
+                            <Bundle-Classpath>.</Bundle-Classpath>
+                            <Eclipse-LazyStart>true</Eclipse-LazyStart>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
