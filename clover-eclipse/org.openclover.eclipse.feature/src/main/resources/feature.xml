@@ -1,37 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
 	id="org.openclover.eclipse.feature"
-	label="OpenClover 4 (for Eclipse 4.2 - 4.6 and RAD 9.0 - 9.1)"
-	version="@ECLIPSE_RELEASE_NUM@"
+	label="OpenClover"
+	version="${project.version}"
 	provider-name="OpenClover.org"
-	icon="clover32.png"
+	icon="icons/clover32.png"
 	plugin="org.openclover.eclipse.branding">
 
-	<description url="@CLOVER_URL@">@CLOVER_BLURB@</description>
+	<description url="${clover.site.url}">
+		OpenClover is a powerful Java code coverage analysis tool. OpenClover
+		instruments source code and then records precisely what is executed
+		when tests are run. The detailed test coverage reports help developers
+		easily identify areas where the testing is weak, enabling them
+		to write better tests faster. OpenClover fits into a developer&apos;s
+		environment, be it Ant, Maven, IDEA, Eclipse, the command line, or
+		any combination. Quality Assurance and Project Managers can access
+		important quality metrics over time via html and pdf reports. OpenClover
+		provides test analysis to thousands of companies and open source projects
+		all over the world.
+	</description>
 
-	<copyright url="@CLOVER_URL@">@CLOVER_COPYRIGHT@</copyright>
+	<copyright url="${clover.site.url}">${clover.copyright}</copyright>
 
-	<license url="@CLOVER_LICENSE_AGREEMENT_URL@">@CLOVER_CLICKWRAP_LICENSE@</license>
+	<license url="${clover.license.agreement.url}">${clover.clickwrap.license}</license>
 
 	<url>
-		<update label="OpenClover 4 Update Site" url="@CLOVER_UPDATESITE_URL@"/>
+		<update label="OpenClover Update Site" url="${clover.updatesite.url}"/>
 	</url>
 
 	<plugin
 		id="org.openclover.eclipse.branding"
-		version="@ECLIPSE_RELEASE_NUM@"
+		version="${project.version}"
 		unpack="true"/>
 	<plugin
 		id="org.openclover.eclipse.core"
-		version="@ECLIPSE_RELEASE_NUM@"
+		version="${project.version}"
 		unpack="false"/>
 	<plugin
 		id="org.openclover.eclipse.runtime"
-		version="@ECLIPSE_RELEASE_NUM@"
+		version="${project.version}"
 		unpack="true"/>
 	<plugin
 		id="org.openclover.eclipse.testopt"
-		version="@ECLIPSE_RELEASE_NUM@"
+		version="${project.version}"
 		unpack="false"/>
 
 </feature>

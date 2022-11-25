@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature id="org.openclover.eclipse.ant.feature"
-         label="OpenClover 4 Ant Support (for Eclipse 4.2 - 4.6 and RAD 9.0 - 9.1)"
-         version="@ECLIPSE_RELEASE_NUM@"
+         label="OpenClover Ant Support"
+         version="${project.version}"
          provider-name="OpenClover.org"
-         icon="clover32.png"
+         icon="icons/clover32.png"
          plugin="org.openclover.eclipse.ant">
-    <description url="@CLOVER_URL@">@CLOVER_ANT_BLURB@</description>
-    <copyright url="@CLOVER_URL@">@CLOVER_COPYRIGHT@</copyright>
-    <license url="@CLOVER_LICENSE_AGREEMENT_URL@">@CLOVER_CLICKWRAP_LICENSE@</license>
+    <description url="${clover.site.url}">
+        This is an optional accompaniment to the main OpenClover plugin.
+        It provides support for OpenClover Ant tasks for Ant build files run within Eclipse.
+    </description>
+    <copyright url="${clover.site.url}">${clover.copyright}</copyright>
+    <license url="${clover.license.agreement.url}">${clover.clickwrap.license}</license>
     <url>
-        <update label="OpenClover 4 Update Site" url="@CLOVER_UPDATESITE_URL@"/>
+        <update label="OpenClover Update Site" url="${clover.updatesite.url}"/>
     </url>
-    <plugin id="org.openclover.eclipse.ant" version="@ECLIPSE_RELEASE_NUM@" unpack="true"/>
+    <plugin id="org.openclover.eclipse.ant" version="${project.version}" unpack="true"/>
 </feature>
