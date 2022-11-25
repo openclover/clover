@@ -3,16 +3,16 @@
 	<feature id="org.openclover.eclipse.feature"
 			 url="features/org.openclover.eclipse.feature_@ECLIPSE_RELEASE_NUM@.jar"
 			 version="@ECLIPSE_RELEASE_NUM@"
-			 label="OpenClover 4 (@ECLIPSE_RELEASE_NUM@) for Eclipse 4.2 - 4.6 and RAD 9.0 - 9.1">
+			 label="OpenClover (@ECLIPSE_RELEASE_NUM@)">
         <category name="clover@CLOVER_RELEASE_NUM@"/>
 	</feature>
 
 	<feature id="org.openclover.eclipse.ant.feature"
 			 url="features/org.openclover.eclipse.ant.feature_@ECLIPSE_RELEASE_NUM@.jar"
 			 version="@ECLIPSE_RELEASE_NUM@"
-			 label="OpenClover 4 Ant Support (@ECLIPSE_RELEASE_NUM@) for Eclipse 4.2 - 4.6 and RAD 9.0 - 9.1">
+			 label="OpenClover Ant Support (@ECLIPSE_RELEASE_NUM@)">
         <category name="clover@CLOVER_RELEASE_NUM@"/>
 	</feature>
 
-    <category-def name="clover@CLOVER_RELEASE_NUM@" label="OpenClover @CLOVER_RELEASE_NUM@ (Eclipse 4.2 - 4.6 and RAD 9.0 - 9.1)"/>
+    <category-def name="clover@CLOVER_RELEASE_NUM@" label="OpenClover @CLOVER_RELEASE_NUM@"/>
 </site>
