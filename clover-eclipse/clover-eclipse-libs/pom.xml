@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.atlassian.clover</groupId>
     <artifactId>clover-eclipse-libs</artifactId>
-    <version>4.6.3</version>
+    <version>2021.12</version> <!-- matches Eclipse version -->
     <packaging>pom</packaging>
     <description>
         This module contains a minimal subset of Eclipse's JAR files required to compile
@@ -75,7 +75,7 @@
     <properties>
         <!-- download the file directly from one of the mirrors in Germany -->
         <eclipse.download.site>https://mirrors.dotsrc.org</eclipse.download.site>
-        <eclipse.download.path>eclipse//technology/epp/downloads/release/neon/3</eclipse.download.path>
-        <eclipse.download.file>eclipse-java-neon-3-win32.zip</eclipse.download.file>
+        <eclipse.download.path>eclipse/technology/epp/downloads/release/2021-12/R</eclipse.download.path>
+        <eclipse.download.file>eclipse-java-2021-12-R-win32-x86_64.zip</eclipse.download.file>
     </properties>
 </project>
