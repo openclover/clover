@@ -1,13 +1,9 @@
 package org.openclover.eclipse.core.views.widgets;
 
-import com.atlassian.clover.CloverLicenseInfo;
-import com.atlassian.clover.CloverStartup;
-import org.openclover.eclipse.core.ui.BrowserUtils;
 import org.openclover.eclipse.core.ui.CloverPluginIcons;
 import org.openclover.eclipse.core.ui.GLH;
 import org.openclover.eclipse.core.ui.SwtUtils;
 import org.openclover.eclipse.core.CloverPlugin;
-import org.openclover.eclipse.core.licensing.LicenseUtils;
 import org.openclover.eclipse.core.ui.projects.DatabaseChangeEvent;
 import org.openclover.eclipse.core.ui.projects.DatabaseChangeListener;
 import org.openclover.eclipse.core.upgrade.hooks.ConfigUninstaller;
@@ -45,13 +41,10 @@ import java.util.Set;
 import static clover.com.google.common.collect.Sets.newHashSet;
 
 public class ViewAlertContainer extends Composite implements DatabaseChangeListener {
-    private static final QualifiedName EVAL_NOTICE_SHOWN = new QualifiedName(CloverPlugin.ID, "eval_notice_shown");
 
     private Composite alerts;
     private Composite content;
-    private Alert licenseFailureLink;
     private Alert hookUninstallLink;
-    private Alert evalLicenseLink;
 
     public ViewAlertContainer(Composite parent) {
         super(parent, SWT.NONE);
@@ -60,23 +53,6 @@ public class ViewAlertContainer extends Composite implements DatabaseChangeListe
         alerts = new Composite(this, SWT.NONE);
         alerts.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         alerts.setLayout(new GLH(1, false).marginHeight(0).marginWidth(0).verticalSpacing(0).getGridLayout());
-
-        licenseFailureLink =
-            new Alert(
-                AlertStyle.ERROR, alerts, false, "",
-                LicenseUtils.calcLicenseNextStepsStatement(true));
-        licenseFailureLink.addExplanationLinkListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent event) {
-                /*if (LicenseUtils.isGenerateLicenseLinkText(event.text)) {
-                    BrowserUtils.openExternalBrowser(LicenseUtils.getGenerateLicenseLink());
-                } else if (LicenseUtils.isMyLicenseLinkText(event.text)) {
-                    BrowserUtils.openExternalBrowser(LicenseUtils.getMyLicenseLink());
-                } else */if (LicenseUtils.isPreferencesLink(event.text)) {
-                    LicenseUtils.openLicensePreferencesPage(getShell());
-                }
-            }
-        });
 
         hookUninstallLink =
             new Alert(
@@ -94,9 +70,6 @@ public class ViewAlertContainer extends Composite implements DatabaseChangeListe
                 }
             }
         });
-
-        evalLicenseLink =
-            new Alert(AlertStyle.INFO, alerts, true, "", "");
     }
 
     public void setContent(SashForm content) {
@@ -108,39 +81,6 @@ public class ViewAlertContainer extends Composite implements DatabaseChangeListe
         if (event.isForWorkspace()) {
             updateLinks(false);
         }
-    }
-
-    private void updateLicenseAlerts() {
-        if (CloverLicenseInfo.TERMINATED) {
-            licenseFailureLink.setText(
-                LicenseUtils.endInPeriod(LicenseUtils.calcTerminationStatement()),
-                LicenseUtils.calcExtendedTerminationStatement(true));
-            SwtUtils.gridDataFor(licenseFailureLink).exclude = false;
-            SwtUtils.gridDataFor(evalLicenseLink).exclude = true;
-        } else if (CloverLicenseInfo.EXPIRED) {
-            licenseFailureLink.setText(
-                LicenseUtils.endInPeriod(LicenseUtils.calcExpiryStatement()),
-                LicenseUtils.calcExtendedExpiryStatement(true));
-            SwtUtils.gridDataFor(licenseFailureLink).exclude = false;
-            SwtUtils.gridDataFor(evalLicenseLink).exclude = true;
-        } else {
-            SwtUtils.gridDataFor(licenseFailureLink).exclude = true;
-            SwtUtils.gridDataFor(evalLicenseLink).exclude = true;
-        }
-        licenseFailureLink.setVisible(!SwtUtils.gridDataFor(licenseFailureLink).exclude);
-        evalLicenseLink.setVisible(!SwtUtils.gridDataFor(evalLicenseLink).exclude);
-    }
-
-    private void setEvalNoticeShownThisSession(boolean shown) throws CoreException {
-        ResourcesPlugin.getWorkspace().getRoot().setSessionProperty(EVAL_NOTICE_SHOWN, shown);
-    }
-
-    private boolean isEvalNoticeShownThisSession() throws CoreException {
-        final Object evalNoticeShown = ResourcesPlugin.getWorkspace().getRoot().getSessionProperty(EVAL_NOTICE_SHOWN);
-        return
-            evalNoticeShown != null
-            && evalNoticeShown instanceof Boolean
-            && (Boolean) evalNoticeShown;
     }
 
     private void updateHookUninstallAlert() {
@@ -160,7 +100,6 @@ public class ViewAlertContainer extends Composite implements DatabaseChangeListe
         run(new Runnable() {
             @Override
             public void run() {
-                updateLicenseAlerts();
                 updateHookUninstallAlert();
                 updateContainerVisibility();
             }
@@ -169,9 +108,7 @@ public class ViewAlertContainer extends Composite implements DatabaseChangeListe
 
     private void updateContainerVisibility() {
         SwtUtils.gridDataFor(alerts).exclude =
-            SwtUtils.gridDataFor(hookUninstallLink).exclude &&
-            SwtUtils.gridDataFor(evalLicenseLink).exclude &&
-            SwtUtils.gridDataFor(licenseFailureLink).exclude;
+            SwtUtils.gridDataFor(hookUninstallLink).exclude;
         alerts.setVisible(!SwtUtils.gridDataFor(alerts).exclude);
         getParent().layout(true, true);
     }

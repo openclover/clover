@@ -45,8 +45,7 @@ import org.eclipse.jdt.core.IMethod;
 
      @Override
      public Object getAdapter(Object object, Class clazz) {
-         if (CloverPlugin.getInstance().isLicensePresent()
-             && object instanceof MetricsScope.Qualification) {
+         if (object instanceof MetricsScope.Qualification) {
              Object adapter =
                  getNaturalAdapter(
                      ((MetricsScope.Qualification)object).getAdaptable(),

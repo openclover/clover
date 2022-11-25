@@ -309,34 +309,4 @@ public class GenerateReportWizard extends Wizard {
         }
     }
 
-    /**
-     * Permissions check - is 'Current XML' reporting available to this license
-     * holder.
-     *
-     * @return true if xml reporting is available.
-     */
-    protected boolean isXmlAvailable() {
-        return true;
-    }
-
-    /**
-     * Permissions check - is 'Current HTML' reporting available to this license
-     * holder.
-     *
-     * @return true if html reporting is available.
-     */
-    protected boolean isHtmlAvailable() {
-        return true;
-    }
-
-    /**
-     * Permissions check - is 'Current PDF' reporting available to this license
-     * holder.
-     *
-     * @return true if pdf reporting is available.
-     */
-    protected boolean isPdfAvailable() {
-        return true;
-    }
-
 }

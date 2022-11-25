@@ -35,7 +35,6 @@ public class PreferencesInitialiser extends AbstractPreferenceInitializer {
         node.put(InstallationSettings.Keys.ACTION_WHEN_CONTEXT_CHANGES, InstallationSettings.Defaults.ACTION_WHEN_CONTEXT_CHANGES);
         node.putBoolean(InstallationSettings.Keys.WHEN_INSTRUMENTATION_SOURCE_CHANGES_PROMPT_ME, InstallationSettings.Defaults.WHEN_INSTRUMENTATION_SOURCE_CHANGE_PROMPT_ME);
         node.put(InstallationSettings.Keys.ACTION_WHEN_INSTRUMENTATION_SOURCE_CHANGES, InstallationSettings.Defaults.ACTION_WHEN_INSTRUMENTATION_SOURCE_CHANGES);
-        node.put(InstallationSettings.Keys.CLOVER_LICENSE, InstallationSettings.Defaults.CLOVER_LICENSE);
         node.putLong(InstallationSettings.Keys.COVERAGE_REFRESH_PERIOD, InstallationSettings.Defaults.COVERAGE_REFRESH_PERIOD);
         node.putBoolean(InstallationSettings.Keys.AUTO_REFRESH_COVERAGE_DATA, true);
         node.put(InstallationSettings.Keys.COVERAGE_SPAN, InstallationSettings.Defaults.COVERAGE_SPAN);

@@ -1,6 +1,5 @@
 package org.openclover.eclipse.core.views.actions;
 
-import com.atlassian.clover.CloverLicenseInfo;
 import org.openclover.eclipse.core.CloverEclipsePluginMessages;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.PluginVersionInfo;
@@ -85,13 +84,6 @@ public class ShowAboutCloverActionDelegate extends CloverProjectActionDelegate {
                     PluginVersionInfo.RELEASE_NUM + " (" + PluginVersionInfo.BUILD_NUMBER + ")",
                     convertWidthInCharsToPixels(60));
 
-            // 2nd row
-            new Label(aboutComposite, SWT.NONE).setText("License:");
-            SwtUtils.createMultilineLabel(
-                    aboutComposite,
-                    getLicenseDescription(),
-                    convertWidthInCharsToPixels(60));
-
             // 4th row
             new Label(aboutComposite, SWT.NONE); // empty label
             SwtUtils.createMultilineLabel(
@@ -100,18 +92,6 @@ public class ShowAboutCloverActionDelegate extends CloverProjectActionDelegate {
                     convertWidthInCharsToPixels(60));
 
             return aboutComposite;
-        }
-
-        private String getLicenseDescription() {
-            final String msg;
-            if (CloverLicenseInfo.TERMINATED) {
-                msg = CloverLicenseInfo.TERMINATION_STMT;
-            } else if (CloverLicenseInfo.EXPIRED) {
-                msg = CloverLicenseInfo.OWNER_STMT + "\n" + CloverLicenseInfo.POST_EXPIRY_STMT;
-            } else {
-                msg = CloverLicenseInfo.OWNER_STMT + "\n" + CloverLicenseInfo.PRE_EXPIRY_STMT;
-            }
-            return msg;
         }
 
         private void createAckTab(TabFolder tabFolder) {

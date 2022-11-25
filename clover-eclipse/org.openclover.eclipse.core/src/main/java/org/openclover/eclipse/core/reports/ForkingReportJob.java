@@ -1,13 +1,10 @@
 package org.openclover.eclipse.core.reports;
 
-import com.atlassian.clover.api.CloverException;
-import com.atlassian.clover.CloverNames;
 import com.atlassian.clover.reporters.Current;
 import com.atlassian.clover.reporters.TestSelectionHelper;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.projects.settings.ProjectSettings;
-import org.openclover.eclipse.core.licensing.LicenseUtils;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
@@ -29,10 +26,8 @@ import org.eclipse.jdt.launching.IRuntimeClasspathEntry;
 import org.eclipse.jdt.launching.IVMInstall;
 import org.eclipse.jdt.launching.JavaRuntime;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
@@ -58,17 +53,6 @@ public abstract class ForkingReportJob extends ReportJob {
         return config;
     }
 
-    protected File generateTempLicenseFile() throws CloverException {
-        File licenseFile;
-        try {
-            licenseFile = File.createTempFile("clover", "license");
-            licenseFile.deleteOnExit();
-            LicenseUtils.writeLicenseTo(licenseFile);
-        } catch (IOException e) {
-            throw new CloverException("Unable to write the Clover license to a temporary file.", e);
-        }
-        return licenseFile;
-    }
 
     protected ILaunchConfigurationWorkingCopy launchConfigFor(String name) throws CoreException {
         ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
@@ -106,14 +90,12 @@ public abstract class ForkingReportJob extends ReportJob {
         return "\"" + string.replaceAll("\"", "\\\"") + "\"";
     }
 
-    protected void bindReportingSystemProperties(File licenseFile, ILaunchConfigurationWorkingCopy launchConfigCopy) {
+    protected void bindReportingSystemProperties(ILaunchConfigurationWorkingCopy launchConfigCopy) {
         launchConfigCopy.setAttribute(
             IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS,
             userArgs()
             + " -Djava.awt.headless=true"
-            + " -D" + CloverNames.PROP_LICENSE_PATH + "=" + quote(licenseFile.getAbsolutePath())
-            + " -D" + ForkingReporter.FORKING_REPORTER_PROP + "=" + calculateReporterClass() 
-            + " -D" + LicenseUtils.LICENSE_TOKEN_PROP + "=" + LicenseUtils.calcInstallDateToken());
+            + " -D" + ForkingReporter.FORKING_REPORTER_PROP + "=" + calculateReporterClass());
     }
 
     private String userArgs() {
@@ -210,13 +192,11 @@ public abstract class ForkingReportJob extends ReportJob {
     }
 
     protected ILaunch buildAndLaunchForkedReporter(IProgressMonitor monitor) throws Exception {
-        File licenseFile = generateTempLicenseFile();
-
         ILaunchConfigurationWorkingCopy launchConfigCopy = launchConfigFor("Clover Reports");
 
         bindCloverRequiredClasspath(launchConfigCopy);
         bindCloverRequiredJvm(launchConfigCopy);
-        bindReportingSystemProperties(licenseFile, launchConfigCopy);
+        bindReportingSystemProperties(launchConfigCopy);
         bindMainClassName(launchConfigCopy, ForkingReporter.class.getName());
         bindMainClassArguments(launchConfigCopy, calculateProgramArgs());
 

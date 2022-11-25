@@ -45,7 +45,6 @@
             <filterset>
                 <filterset refid="core.version.filterset"/>
                 <filter token="ECLIPSE_RELEASE_NUM" value="${eclipse.release.num}"/>
-                <filter token="EVAL_LICENSE" value="${ide.eval.license}"/>
             </filterset>
         </copy>
 

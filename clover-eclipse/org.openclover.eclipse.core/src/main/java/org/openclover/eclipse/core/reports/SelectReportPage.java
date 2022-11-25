@@ -41,21 +41,21 @@ public class SelectReportPage extends WizardPage {
 
         htmlSelection = new Button(composite, SWT.RADIO);
         htmlSelection.setText("HTML Report");
-        htmlSelection.setEnabled(wizard.isHtmlAvailable());
+        htmlSelection.setEnabled(true);
         gd = new GridData();
         gd.horizontalAlignment = GridData.BEGINNING;
         htmlSelection.setLayoutData(gd);
 
         pdfSelection = new Button(composite, SWT.RADIO);
         pdfSelection.setText("PDF Report");
-        pdfSelection.setEnabled(wizard.isPdfAvailable());
+        pdfSelection.setEnabled(true);
         gd = new GridData();
         gd.horizontalAlignment = GridData.BEGINNING;
         pdfSelection.setLayoutData(gd);
 
         xmlSelection = new Button(composite, SWT.RADIO);
         xmlSelection.setText("XML Report");
-        xmlSelection.setEnabled(wizard.isXmlAvailable());
+        xmlSelection.setEnabled(true);
         gd = new GridData();
         gd.horizontalAlignment = GridData.BEGINNING;
         xmlSelection.setLayoutData(gd);

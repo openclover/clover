@@ -18,16 +18,12 @@ public class PostJavaCloverBuilder extends BaseCloverBuilder {
         final CloverProject targetProject = CloverProject.getFor(getProject());
 
         if (targetProject != null) {
-            if (CloverPlugin.getInstance().isLicensePresent()) {
-                if (!targetProject.getSettings().isInstrumentationEnabled()) {
-                    CloverPlugin.logVerbose("PostJavaCloverBuilder: not building as Clover compilation not enabled");
-                } else {
-                    CloverPlugin.logVerbose("CLOVER: BUILD[" + kindToString(kind) + "] ENDING : " + new Date() + "----");
-                    targetProject.getBuildCoordinator().onEndOfBuild(kind, monitor);
-                    CloverPlugin.logVerbose("CLOVER: BUILD[" + kindToString(kind) + "] COMPLETED : " + new Date() + "----");
-                }
+            if (!targetProject.getSettings().isInstrumentationEnabled()) {
+                CloverPlugin.logVerbose("PostJavaCloverBuilder: not building as Clover compilation not enabled");
             } else {
-                CloverPlugin.logVerbose("PostJavaCloverBuilder: not building as license terminated");
+                CloverPlugin.logVerbose("CLOVER: BUILD[" + kindToString(kind) + "] ENDING : " + new Date() + "----");
+                targetProject.getBuildCoordinator().onEndOfBuild(kind, monitor);
+                CloverPlugin.logVerbose("CLOVER: BUILD[" + kindToString(kind) + "] COMPLETED : " + new Date() + "----");
             }
         } else {
             CloverPlugin.logWarning("PostJavaCloverBuilder: not building as user project no longer open");

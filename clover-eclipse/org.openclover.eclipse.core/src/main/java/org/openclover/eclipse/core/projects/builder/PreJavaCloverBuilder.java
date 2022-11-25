@@ -35,14 +35,10 @@ public class PreJavaCloverBuilder extends BaseCloverBuilder {
         CloverProject targetProject = CloverProject.getFor(getProject());
 
         if (targetProject != null) {
-            if (CloverPlugin.getInstance().isLicensePresent()) {
-                if (!targetProject.getSettings().isInstrumentationEnabled()) {
-                    CloverPlugin.logVerbose("PreJavaCloverBuilder: not cleaning as Clover compilation not enabled");
-                } else {
-                    targetProject.getBuildCoordinator().onClean(monitor);
-                }
+            if (!targetProject.getSettings().isInstrumentationEnabled()) {
+                CloverPlugin.logVerbose("PreJavaCloverBuilder: not cleaning as Clover compilation not enabled");
             } else {
-                CloverPlugin.logVerbose("PreJavaCloverBuilder: not cleaning as license terminated");
+                targetProject.getBuildCoordinator().onClean(monitor);
             }
         } else {
             CloverPlugin.logWarning("PreJavaCloverBuilder: not cleaning as user project no longer open");

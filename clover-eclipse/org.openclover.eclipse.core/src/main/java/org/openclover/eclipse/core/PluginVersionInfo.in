@@ -6,6 +6,4 @@ public class PluginVersionInfo {
     public static final String BUILD_DATE ="@BUILD_DATE@";
 
     public static final String BUILD_NUMBER ="@BUILD_NUMBER@";
-
-    public static final String EVAL_LICENSE ="@EVAL_LICENSE@";
 }

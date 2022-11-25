@@ -65,7 +65,6 @@
             <filterset>
                 <filterset refid="core.version.filterset"/>
                 <filter token="IDEA_RELEASE_NUM" value="${idea.release.num}"/>
-                <filter token="EVAL_LICENSE" value="${ide.eval.license}"/>
             </filterset>
         </copy>
 

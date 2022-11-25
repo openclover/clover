@@ -653,8 +653,7 @@ public class CoverageAnnotationModel implements IAnnotationModel, IDocumentListe
     public void databaseChanged(DatabaseChangeEvent event) {
         //Only refresh if coverage change resulted from a successful load,
         //unload or close - reducing spurious refreshes for intermediate
-        //state changes.
-        //Also refresh for a workspace event (e.g. invalid license change) 
+        //state changes. Also refresh for a workspace event
         if ((event.isApplicableTo(cloverProjectForEditorInput()) && event.isSubstantiveProjectChange()) || event.isForWorkspace()) {
             refreshAsync();
         }

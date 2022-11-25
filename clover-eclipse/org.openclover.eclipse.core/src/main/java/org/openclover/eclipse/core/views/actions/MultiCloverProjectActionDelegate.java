@@ -13,7 +13,7 @@ public class MultiCloverProjectActionDelegate extends CloverProjectActionDelegat
     @Override
     protected void updateStateForSelection(IAction action) {
         try {
-            if (projects.size() > 0 && projects.size() <= getMaxSelectedProjectCount() && CloverPlugin.getInstance().isLicensePresent()) {
+            if (projects.size() > 0 && projects.size() <= getMaxSelectedProjectCount()) {
                 boolean shouldEnable = true;
                 for (IProject project : projects) {
                     shouldEnable &= enableFor(project);

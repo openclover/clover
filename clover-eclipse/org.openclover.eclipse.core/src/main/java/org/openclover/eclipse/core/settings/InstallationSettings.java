@@ -16,7 +16,6 @@ import static clover.com.google.common.collect.Lists.newLinkedList;
 
 public class InstallationSettings extends Settings {
     public static class Keys {
-        public static final String CLOVER_LICENSE = "clover_license";
         public static final String COVERAGE_REFRESH_PERIOD = "coverage_refresh";
         public static final String ACTION_WHEN_REBUILDING = "action_when_rebuilding";
         public static final String WHEN_REBUILDING_PROMPT_ME = "when_rebuilding_prompt_me";
@@ -80,7 +79,6 @@ public class InstallationSettings extends Settings {
         public static final String COVERAGE_SPAN = "0s";
         public static final int SHOW_COVERAGE_IN_EDITORS = Values.SHOW_ALL_COVERAGE_IN_EDITORS;
         public static final String LOGGING_LEVEL = Values.NO_LOGGING_LEVEL;
-        public static final String CLOVER_LICENSE = PluginVersionInfo.EVAL_LICENSE;
         public static final boolean PRIME_AWT_IN_UI_THREAD = false;
         public static final boolean ALWAYS_FULL_BUILD = false;
         public static final boolean AGGREGATE_COVERAGE = true;
@@ -112,10 +110,6 @@ public class InstallationSettings extends Settings {
 
     public long getCoverageRefreshPeriod() {
         return getLong(Keys.COVERAGE_REFRESH_PERIOD, 0l);
-    }
-
-    public String getLicenseText() {
-        return getString(Keys.CLOVER_LICENSE);
     }
 
     public boolean isAutoRefreshingCoverage() {

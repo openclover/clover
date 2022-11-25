@@ -75,10 +75,6 @@ public final class CloverEclipsePluginMessages {
         return getString("ProjectPropertyPage.filtering");
     }
 
-    public static String LICENSE() {
-        return getString("ProjectPropertyPage.license");
-    }
-
     public static String FLUSH_POLICY() {
         return getString("ProjectPropertyPage.flushPolicy");
     }
@@ -449,62 +445,6 @@ public final class CloverEclipsePluginMessages {
 
     public static String TEST_MESSAGE_COL_TOOL_TIP() {
         return getString("TestRunExplorerView.messageColumnToolTip");
-    }
-
-    public static String LICENSE_SUMMARY() {
-        return getString("LicensePreferencesPage.licenseSummary");
-    }
-
-    public static String LICENSE_STATUS() {
-        return getString("LicensePreferencesPage.licenseStatus");
-    }
-
-    public static String LICENSE_STATUS_LICENSED() {
-        return getString("LicensePreferencesPage.licenseStatusLicensed");
-    }
-
-    public static String LICENSE_TYPE() {
-        return getString("LicensePreferencesPage.licenseType");
-    }
-
-    public static String LICENSE_STATEMENT() {
-        return getString("LicensePreferencesPage.licenseMessage");
-    }
-
-    public static String LICENSE_SID() {
-        return getString("LicensePreferencesPage.licenseSID");
-    }
-
-    public static String LICENSE_TEXT() {
-        return getString("LicensePreferencesPage.licenseText");
-    }
-
-    public static String LICENSE_TEXT_EXPLANATION(String nextSteps) {
-        return getFormattedString("LicensePreferencesPage.licenseTextExplanation", new Object[] {nextSteps});
-    }
-
-    public static String LICENSE_TEXT_PASTE() {
-        return getString("LicensePreferencesPage.licenseTextPaste");
-    }
-
-    public static String LICENSE_TEXT_LOAD() {
-        return getString("LicensePreferencesPage.licenseTextLoad");
-    }
-
-    public static String LICENSE_FILE_ERROR_TITLE() {
-        return getString("LicensePreferencesPage.licenseFileErrorTitle");
-    }
-
-    public static String LICENSE_FILE_ERROR_MESSAGE(String path, String error) {
-        return getFormattedString("LicensePreferencesPage.licenseFileErrorMessage", new Object[] { path, error });
-    }
-
-    public static String LICENSE_FILE_CANT_READ() {
-        return getString("LicensePreferencesPage.licenseFileCantRead");
-    }
-
-    public static String LICENSE_FILE_NOT_LICENSE() {
-        return getString("LicensePreferencesPage.licenseFileNotLicense");
     }
 
     public static String METRICS_SUMMARY() {

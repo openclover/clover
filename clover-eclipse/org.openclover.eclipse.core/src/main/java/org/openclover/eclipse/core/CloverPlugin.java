@@ -1,9 +1,5 @@
 package org.openclover.eclipse.core;
 
-import com.atlassian.clover.CloverLicense;
-import com.atlassian.clover.CloverLicenseDecoder;
-import com.atlassian.clover.CloverLicenseInfo;
-import com.atlassian.clover.CloverStartup;
 import com.atlassian.clover.Logger;
 import org.openclover.eclipse.core.ui.editors.java.EditorCoverageSynchronizer;
 import org.openclover.eclipse.core.exclusion.ExclusionLabelDecorator;
@@ -73,7 +69,6 @@ public class CloverPlugin extends AbstractUIPlugin {
     private List customColumns;
     private InstallationSettings installationSettings;
     private WorkspaceSettings workspaceSettings;
-    private CloverLicense license;
 
     public static boolean isLoggingDebugFor(String category) {
         return getInstance().isDebugging() && getInstance().debugPlatformOptionOn(category);
@@ -142,10 +137,6 @@ public class CloverPlugin extends AbstractUIPlugin {
         logInfo("Clover plugin constructed");
     }
 
-    public CloverLicense getLicense() {
-        return license;
-    }
-
     /**
      * This method is called upon plug-in activation
      */
@@ -158,7 +149,6 @@ public class CloverPlugin extends AbstractUIPlugin {
         ensureInstallDateGenerated();
 
         setLoggingLevel(getInstallationSettings().getLoggingLevel());
-        loadLicense();
         loadCustomColumns();
         buildWorkingSet();
 
@@ -207,17 +197,13 @@ public class CloverPlugin extends AbstractUIPlugin {
     }
 
     private void listenForSettingsChanges() {
-        //Watch license preference and reload when necessary
         installationSettings.addListener(
             new IEclipsePreferences.IPreferenceChangeListener() {
                 @Override
                 public void preferenceChange(IEclipsePreferences.PreferenceChangeEvent event) {
                     final String propertyName = event.getKey();
 
-                    if (InstallationSettings.Keys.CLOVER_LICENSE.equals(propertyName)) {
-                        CloverStartup.loadLicense(cloverLogger, false, getInstallationSettings().getInstallDate());
-                        getCoverageMonitor().fireCoverageChange();
-                    } else if (InstallationSettings.Keys.LOGGING_LEVEL.equals(propertyName)) {
+                    if (InstallationSettings.Keys.LOGGING_LEVEL.equals(propertyName)) {
                         // event.getNewValue() returns null if current value is a default installation value
                         setLoggingLevel(event.getNewValue() != null ? (String)event.getNewValue() : getInstallationSettings().getLoggingLevel());
                     } else if (InstallationSettings.Keys.COVERAGE_STYLE_IN_EDITORS.equals(propertyName)) {
@@ -269,27 +255,6 @@ public class CloverPlugin extends AbstractUIPlugin {
 
     private String prefixed(String key) {
         return CloverPlugin.ID + ".preferences." + key;
-    }
-
-    private void loadLicense() {
-        //Load license through preferences
-        CloverStartup.setLicenseLoader(new CloverStartup.LicenseLoader() {
-            @Override
-            public CloverLicense loadLicense(Logger log) {
-                String licenseText = getInstallationSettings().getLicenseText();
-
-                try {
-                    license = CloverLicenseDecoder.decode(licenseText);
-                } catch (Exception e) {
-                    license = null;
-                    log.error("Unable to load licence from preferences", e);
-                }
-                return license;
-            }
-        });
-
-        //Load license
-        CloverStartup.loadLicense(cloverLogger, false, getInstallationSettings().getInstallDate());
     }
 
     private void ensureInstallDateGenerated() {
@@ -438,10 +403,6 @@ public class CloverPlugin extends AbstractUIPlugin {
 
     public CloverWorkingSet getCloverWorkingSet() {
         return workingSet;
-    }
-
-    public boolean isLicensePresent() {
-        return !CloverLicenseInfo.TERMINATED;
     }
 
     public void showViews(IWorkbenchPage page) throws PartInitException {

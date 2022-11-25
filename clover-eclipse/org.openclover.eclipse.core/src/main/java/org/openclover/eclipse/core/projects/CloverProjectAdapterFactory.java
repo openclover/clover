@@ -20,18 +20,16 @@ public class CloverProjectAdapterFactory implements IAdapterFactory {
 
     @Override
     public Object getAdapter(Object adaptee, Class clazz) {
-        if (CloverPlugin.getInstance().isLicensePresent()) {
-            try {
-                if (clazz == CloverProject.class) {
-                    if (adaptee instanceof IProject) {
-                        return CloverProject.getFor((IProject)adaptee);
-                    } else if (adaptee instanceof IJavaElement) {
-                        return CloverProject.getFor(((IJavaElement)adaptee).getJavaProject());
-                    }
+        try {
+            if (clazz == CloverProject.class) {
+                if (adaptee instanceof IProject) {
+                    return CloverProject.getFor((IProject)adaptee);
+                } else if (adaptee instanceof IJavaElement) {
+                    return CloverProject.getFor(((IJavaElement)adaptee).getJavaProject());
                 }
-            } catch (Exception e) {
-                CloverPlugin.logError("Error adapting " + adaptee + " to class " + clazz, e);
             }
+        } catch (Exception e) {
+            CloverPlugin.logError("Error adapting " + adaptee + " to class " + clazz, e);
         }
         return null;
     }

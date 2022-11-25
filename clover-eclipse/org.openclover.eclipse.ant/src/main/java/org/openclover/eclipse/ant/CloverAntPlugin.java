@@ -6,11 +6,6 @@ import org.eclipse.core.runtime.preferences.ConfigurationScope;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.net.URL;
-
 /**
  * Plugin to support license synchronisation between the main CloverPlugin and Ant
  * support. It is very important that this plugin does not, in any way, dynamically
@@ -20,8 +15,6 @@ import java.net.URL;
  */
 public class CloverAntPlugin extends AbstractUIPlugin {
     public static final String ID = "org.openclover.eclipse.ant";
-    private static final String CLOVER_LICENSE_KEY = "clover_license";
-    private static final String CORE_ID = "org.openclover.eclipse.core";
 
     private static CloverAntPlugin INSTANCE;
 
@@ -36,26 +29,6 @@ public class CloverAntPlugin extends AbstractUIPlugin {
     @Override
     public void start(BundleContext bundleContext) throws Exception {
         super.start(bundleContext);
-        updateLicenseFile();
-    }                
-
-    public void updateLicenseFile() throws IOException {
-        final String licenseText = ConfigurationScope.INSTANCE.getNode(CORE_ID)
-                .get(CLOVER_LICENSE_KEY, "");
-
-        final File licenseFile = getLicenseFile();
-        if (!licenseFile.exists()) {
-            licenseFile.createNewFile();
-        }
-        final FileWriter writer = new FileWriter(licenseFile);
-        writer.write(licenseText);
-        writer.flush();
-        writer.close();
     }
 
-    public File getLicenseFile() throws IOException {
-        URL locationUrl = FileLocator.find(getBundle(), new Path("/"), null);
-        URL fileUrl = FileLocator.toFileURL(locationUrl);
-        return new File(fileUrl.getFile(), "clover.license");
-    }
 }
