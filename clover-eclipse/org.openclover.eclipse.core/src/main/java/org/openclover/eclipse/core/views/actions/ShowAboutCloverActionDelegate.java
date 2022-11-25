@@ -81,7 +81,7 @@ public class ShowAboutCloverActionDelegate extends CloverProjectActionDelegate {
             new Label(aboutComposite, SWT.NONE).setText("Version:");
             SwtUtils.createMultilineLabel(
                     aboutComposite,
-                    PluginVersionInfo.RELEASE_NUM + " (" + PluginVersionInfo.BUILD_NUMBER + ")",
+                    PluginVersionInfo.RELEASE_NUM,
                     convertWidthInCharsToPixels(60));
 
             // 4th row

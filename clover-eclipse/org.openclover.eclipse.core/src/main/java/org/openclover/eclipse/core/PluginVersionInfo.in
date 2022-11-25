@@ -1,9 +1,0 @@
-package org.openclover.eclipse.core;
-
-public class PluginVersionInfo {
-    public static final String RELEASE_NUM = "@ECLIPSE_RELEASE_NUM@";
-
-    public static final String BUILD_DATE ="@BUILD_DATE@";
-
-    public static final String BUILD_NUMBER ="@BUILD_NUMBER@";
-}
