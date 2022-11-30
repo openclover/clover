@@ -51,6 +51,27 @@
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
+    <modules>
+        <module>clover-buildutil</module>
+        <module>clover-core-libs</module>
+        <module>clover-runtime</module>
+        <module>clover-core</module>
+        <module>groovy</module>
+        <module>clover-ant</module>
+        <module>clover-eclipse</module>
+        <!--<module>clover-idea</module>-->
+    </modules>
+    <profiles>
+        <profile>
+            <!-- Run `mvn install -Pworkspace-setup -P\!default` to prepare 3rd party dependencies -->
+            <id>workspace-setup</id>
+            <modules>
+                <module>clover-core-libs</module>
+                <module>clover-eclipse-libs</module>
+                <module>clover-idea-libs</module>
+            </modules>
+        </profile>
+    </profiles>
     <dependencyManagement>
         <dependencies>
             <!-- repacked versions of popular libraries -->
@@ -211,6 +232,11 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.7.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>3.0.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
