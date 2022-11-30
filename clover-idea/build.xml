@@ -181,7 +181,7 @@
 
     <!-- Note: does not work with 'with.clover' target -->
     <target name="clover-idea.testproject" depends="clover-ant.jar">
-        <property name="clover-idea.testproject.base" value="${clover-idea.base}/testproject"/>
+        <property name="clover-idea.testproject.base" value="${clover-idea.base}/src/test/resources/testproject"/>
         <property name="clover-idea.testproject.output" value="${clover-idea.output}/testproject"/>
 
         <condition property="os.exec.suffix" value=".exe">
