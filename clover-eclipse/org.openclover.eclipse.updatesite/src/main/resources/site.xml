@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
 	<feature id="org.openclover.eclipse.feature"
-			 url="features/org.openclover.eclipse.feature_@ECLIPSE_RELEASE_NUM@.jar"
-			 version="@ECLIPSE_RELEASE_NUM@"
-			 label="OpenClover (@ECLIPSE_RELEASE_NUM@)">
-        <category name="clover@CLOVER_RELEASE_NUM@"/>
+			 url="features/org.openclover.eclipse.feature_${project.version}.jar"
+			 version="${project.version}"
+			 label="OpenClover (${project.version})">
+        <category name="clover${project.version}"/>
 	</feature>
 
 	<feature id="org.openclover.eclipse.ant.feature"
-			 url="features/org.openclover.eclipse.ant.feature_@ECLIPSE_RELEASE_NUM@.jar"
-			 version="@ECLIPSE_RELEASE_NUM@"
-			 label="OpenClover Ant Support (@ECLIPSE_RELEASE_NUM@)">
-        <category name="clover@CLOVER_RELEASE_NUM@"/>
+			 url="features/org.openclover.eclipse.ant.feature_${project.version}.jar"
+			 version="${project.version}"
+			 label="OpenClover Ant Support (${project.version})">
+        <category name="clover${project.version}"/>
 	</feature>
 
-    <category-def name="clover@CLOVER_RELEASE_NUM@" label="OpenClover @CLOVER_RELEASE_NUM@"/>
+    <category-def name="clover${project.version}" label="OpenClover ${project.version}"/>
 </site>
