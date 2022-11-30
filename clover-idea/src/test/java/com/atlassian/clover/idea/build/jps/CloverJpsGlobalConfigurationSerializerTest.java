@@ -8,7 +8,6 @@ import org.jetbrains.jps.model.JpsSimpleElement;
 import org.jetbrains.jps.model.impl.JpsModelImpl;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -35,9 +34,6 @@ public class CloverJpsGlobalConfigurationSerializerTest {
 
         final CloverGlobalConfig data = ((JpsSimpleElement<CloverGlobalConfig>)jpsElement).getData();
         assertNotNull(data);
-
-        assertEquals("abc", data.getLicenseText());
-        assertEquals(1366375690090L, data.getInstallDate());
     }
 
 
@@ -46,16 +42,12 @@ public class CloverJpsGlobalConfigurationSerializerTest {
      *
      * <pre>
      * &lt;component name="Clover"&gt;
-     *     &lt;option name="licenseText" value="..." /&gt;
-     *     &lt;option name="installDate" value="1366375690090" /&gt;
      * &lt;/component&gt;
      * </pre>
      * @return Element
      */
     protected Element createSampleData() {
         final Element root = new Element("component").setAttribute("name", "Clover");
-        root.addContent(new Element("option").setAttribute("name", "licenseText").setAttribute("value", "abc"));
-        root.addContent(new Element("option").setAttribute("name", "installDate").setAttribute("value", "1366375690090"));
         return root;
     }
 }

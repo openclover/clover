@@ -4,8 +4,6 @@ import com.atlassian.clover.idea.IProjectPlugin;
 import com.atlassian.clover.idea.IdeaIDEContext;
 import com.atlassian.clover.idea.ProjectPlugin;
 import com.atlassian.clover.idea.report.ReportWizard;
-import com.atlassian.clover.idea.util.l10n.CloverIdeaPluginMessages;
-import com.atlassian.clover.idea.util.ui.HTMLDialog;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;
@@ -31,20 +29,11 @@ public class ShowReportWizardAction extends AnAction {
 
     @Override
     public void actionPerformed(AnActionEvent event) {
-        if (isReportingAllowed()) {
-            final Project project = DataKeys.PROJECT.getData(event.getDataContext());
+        final Project project = DataKeys.PROJECT.getData(event.getDataContext());
 
-            // initialise the wizard.
-            final IdeaIDEContext context = new IdeaIDEContext(project);
-
-            ReportWizard.showAndProcess(project, context);
-        } else {
-            new HTMLDialog(CloverIdeaPluginMessages.getString("Report.notLicensedTitle"), CloverIdeaPluginMessages.getString("Report.notLicensed")).show();
-        }
-
+        // initialise the wizard.
+        final IdeaIDEContext context = new IdeaIDEContext(project);
+        ReportWizard.showAndProcess(project, context);
     }
 
-    private boolean isReportingAllowed() {
-        return true;
-    }
 }

@@ -1,7 +1,5 @@
 package com.atlassian.clover.idea;
 
-import com.atlassian.clover.CloverLicense;
-import com.atlassian.clover.CloverLicenseInfo;
 import com.atlassian.clover.idea.config.IdeaCloverConfig;
 import com.atlassian.clover.idea.util.ui.CloverIcons;
 import com.atlassian.clover.idea.util.l10n.CloverIdeaPluginMessages;
@@ -43,7 +41,7 @@ public class AboutDialog extends DialogWrapper {
     public AboutDialog(Project project) {
         super(project, false);
         this.project = project;
-        if (project != null && !CloverLicenseInfo.TERMINATED) {
+        if (project != null) {
             enabledCheckbox.setSelected(ProjectPlugin.getPlugin(project).getConfig().isEnabled());
         } else {
             enabledCheckbox.setSelected(false);
@@ -161,34 +159,12 @@ public class AboutDialog extends DialogWrapper {
 
         addRow(sb,
                 "<td>Version:</td>",
-                "<td>" + PluginVersionInfo.RELEASE_NUMBER + " (" + PluginVersionInfo.BUILD_NUMBER + ")" + "</td>");
-        addRow(sb,
-                "<td>License:</td>",
-                "<td>" + getLicenseInfo() + "</td>");
+                "<td>" + PluginVersionInfo.RELEASE_NUMBER + "</td>");
         addRow(sb,
                 "<td colspan=\"2\">" + CloverIdeaPluginMessages.getString("clover.copyright") + "</td>");
 
         sb.append("</table>");
         return sb.toString();
-    }
-
-    private String getLicenseInfo() {
-        final String licenseInfo;
-        if (CloverLicenseInfo.TERMINATED) {
-            licenseInfo = CloverLicenseInfo.TERMINATION_STMT;
-        } else {
-            StringBuilder sb = new StringBuilder(CloverLicenseInfo.OWNER_STMT);
-            final String msg = CloverLicenseInfo.EXPIRED ? CloverLicenseInfo.POST_EXPIRY_STMT : CloverLicenseInfo.PRE_EXPIRY_STMT;
-            if (msg.length() > 0) {
-                sb.append("<br>").append(msg);
-            }
-            CloverLicense currentLicense = CloverPlugin.getPlugin().getLicense();
-            if (currentLicense != null && currentLicense.isMaintenanceExpired()) {
-                sb.append("<br>").append(CloverIdeaPluginMessages.LICENSE_MAINTENANCE_RENEW());
-            }
-            licenseInfo = sb.toString();
-        }
-        return licenseInfo;
     }
 
     @Override

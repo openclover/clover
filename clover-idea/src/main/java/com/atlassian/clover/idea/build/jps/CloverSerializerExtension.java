@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * Serializer extension service which returns three serializers:
  * <ul>
- *  <li>for global settings (per IDEA installation) - e.g. license key</li>
+ *  <li>for global settings (per IDEA installation)</li>
  *  <li>for project/workspace settings (per IDEA project) - e.g. initstring</li>
  *  <li>for module settings (per module) - e.g. exclusion from instrumentation</li>
  * </ul>

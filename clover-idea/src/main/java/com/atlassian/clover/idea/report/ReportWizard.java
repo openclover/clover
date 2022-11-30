@@ -103,8 +103,7 @@ public class ReportWizard {
 
 
     /**
-     * Permissions check - is 'Current XML' reporting available to this license
-     * holder.
+     * Permissions check - is 'Current XML' reporting available.
      *
      * @return true if xml reporting is available.
      */
@@ -113,8 +112,7 @@ public class ReportWizard {
     }
 
     /**
-     * Permissions check - is 'Current HTML' reporting available to this license
-     * holder.
+     * Permissions check - is 'Current HTML' reporting available.
      *
      * @return true if html reporting is available.
      */
@@ -123,8 +121,7 @@ public class ReportWizard {
     }
 
     /**
-     * Permissions check - is 'Current PDF' reporting available to this license
-     * holder.
+     * Permissions check - is 'Current PDF' reporting available.
      *
      * @return true if pdf reporting is available.
      */

@@ -1,15 +1,10 @@
 package com.atlassian.clover.idea;
 
-import com.atlassian.clover.CloverLicense;
-import com.atlassian.clover.CloverLicenseDecoder;
-import com.atlassian.clover.CloverLicenseInfo;
 import com.atlassian.clover.CloverStartup;
 import com.atlassian.clover.Logger;
 import com.atlassian.clover.idea.config.CloverGlobalConfig;
 import com.atlassian.clover.idea.config.IdeaXmlConfigConstants;
 import com.atlassian.clover.idea.config.IdeaCloverConfig;
-import com.atlassian.clover.idea.config.LicenseConfigPanel;
-import org.openclover.util.ClassPathUtil;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.Constraints;
@@ -20,15 +15,10 @@ import com.intellij.openapi.components.ApplicationComponent;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
-import com.intellij.openapi.options.ConfigurationException;
-import com.intellij.openapi.options.SearchableConfigurable;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import javax.swing.JComponent;
-import java.io.File;
 
 @State(name = IdeaXmlConfigConstants.OTHER_XML_FILE_COMPONENT_NAME, storages = {@Storage(id = "other", file = "$APP_CONFIG$/other.xml")})
 public class CloverPlugin implements ApplicationComponent, PersistentStateComponent<CloverGlobalConfig> {
@@ -85,11 +75,6 @@ public class CloverPlugin implements ApplicationComponent, PersistentStateCompon
     }
 
     /**
-     * Default evaluation period
-     */
-    public static final long EVALUATION_PERIOD = 30L * CloverLicense.ONE_DAY;
-
-    /**
      * Logger. Initialized in constructor as we change LoggerFactory into one which returns IdeaLogger
      */
     private final Logger LOG;
@@ -98,11 +83,6 @@ public class CloverPlugin implements ApplicationComponent, PersistentStateCompon
      * Global configuration
      */
     private CloverGlobalConfig globalConfig = new CloverGlobalConfig();
-
-    /**
-     * Decoded license key
-     */
-    private CloverLicense license;
 
 
     /**
@@ -141,10 +121,9 @@ public class CloverPlugin implements ApplicationComponent, PersistentStateCompon
     public void initComponent() {
         // run through initialisation sequence...
         CloverStartup.logVersionInfo(LOG);
-        LOG.info("Plugin Version " + PluginVersionInfo.RELEASE_NUMBER +
-                "[" + PluginVersionInfo.BUILD_NUMBER + "]");
+        LOG.info("Plugin Version " + PluginVersionInfo.RELEASE_NUMBER);
 
-        loadLicense();
+        activateCloverForProjects();
 
         // TODO As we dropped IDEA 10.x we could add the <add-to-group group-id="CompilerErrorViewPopupMenu" anchor="last"/>
         // TODO for <action id="CloverPlugin.JumpToActualSource" ...> and remove the following lines.
@@ -170,45 +149,13 @@ public class CloverPlugin implements ApplicationComponent, PersistentStateCompon
         // nothing to do
     }
 
-    public long getInstallDate() {
-        return globalConfig.getInstallDate();
-    }
-
-    @Nullable
-    public CloverLicense getLicense() {
-        return license;
-    }
-
-    protected void loadLicense() {
-        final IdeaLicenseLoader ideaLicenseLoader = new IdeaLicenseLoader();
-        license = ideaLicenseLoader.loadLicense(LOG);
-        CloverStartup.setLicenseLoader(ideaLicenseLoader);
-        // License check.
-        CloverStartup.loadLicense(LOG, false, globalConfig.getInstallDate());
-        boolean isActivated = false;
-        if (!CloverLicenseInfo.TERMINATED) {
-
-            isActivated = true;
-
-        }
+    protected void activateCloverForProjects() {
         Project[] projects = ProjectManager.getInstance().getOpenProjects();
         for (Project project : projects) {
-            // trigger license check, enable Clover for all projects as a side-effect
             final IdeaCloverConfig cloverConfig = ProjectPlugin.getPlugin(project).getConfig();
-            cloverConfig.setEnabled(isActivated);
+            cloverConfig.setEnabled(true);
             cloverConfig.notifyListeners();
         }
-    }
-
-    /**
-     * Returns the earliest of: System#currentTimeMillis(), value set in <code>config</code> (if available)
-     * and jar (or class dir) modification time stamp
-     * @param config
-     */
-    protected long calculateInstallDate(CloverGlobalConfig config) {
-        final long dateFromConfig = (config.isInstallDateSet() ? config.getInstallDate() : System.currentTimeMillis());
-        final File jarFile = new File(ClassPathUtil.getCloverJarPath());
-        return jarFile.exists() ? Math.min(dateFromConfig, jarFile.lastModified()) : dateFromConfig;
     }
 
     @Override
@@ -218,95 +165,7 @@ public class CloverPlugin implements ApplicationComponent, PersistentStateCompon
 
     @Override
     public void loadState(CloverGlobalConfig state) {
-        globalConfig = new CloverGlobalConfig(
-                state.getLicenseText(),
-                calculateInstallDate(state)); // recalculate installation date
+        globalConfig = new CloverGlobalConfig();
     }
 
-    /**
-     *
-     */
-    class IdeaLicenseLoader implements CloverStartup.LicenseLoader {
-
-        @Override
-        @Nullable
-        public CloverLicense loadLicense(Logger log) {
-            try {
-                final String licenseString =
-                        (globalConfig.getLicenseText() != null && globalConfig.getLicenseText().trim().length() != 0)
-                                ? globalConfig.getLicenseText() : PluginVersionInfo.EVAL_LICENSE;
-                return CloverLicenseDecoder.decode(licenseString);
-
-            } catch (Exception ex) {
-                if (log != null) {
-                    log.info("Error parsing license: " + ex.getMessage(), ex);
-                }
-                return null;
-            }
-        }
-    }
-
-    public SearchableConfigurable getConfigurable() {
-        return configurable;
-    }
-
-    private final SearchableConfigurable configurable =  new SearchableConfigurable() {
-        @Override
-        @NotNull
-        public String getId() {
-            return "Clover License";
-        }
-
-        @Override
-        public Runnable enableSearch(String s) {
-            return null;
-        }
-
-        @Override
-        public String getDisplayName() {
-            return "License";
-        }
-
-        @Override
-        public String getHelpTopic() {
-            return null;
-        }
-
-        private LicenseConfigPanel configPanel;
-
-        @Override
-        public JComponent createComponent() {
-            if (configPanel == null) {
-                configPanel = new LicenseConfigPanel();
-                configPanel.setLicenseText(globalConfig.getLicenseText());
-            }
-            return configPanel;
-        }
-
-        @Override
-        public void disposeUIResources() {
-            configPanel = null;
-        }
-
-        @Override
-        public boolean isModified() {
-            return !configPanel.getLicenseText().equals(globalConfig.getLicenseText());
-        }
-
-        @Override
-        public void apply() throws ConfigurationException {
-            license = null;
-            globalConfig  = new CloverGlobalConfig(
-                    configPanel.getLicenseText(),  // copy license key from dialog
-                    globalConfig.getInstallDate()
-            );
-            loadLicense();
-        }
-
-        @Override
-        public void reset() {
-            configPanel.setLicenseText(globalConfig.getLicenseText()); // restore license key in dialog
-        }
-
-    };
 }

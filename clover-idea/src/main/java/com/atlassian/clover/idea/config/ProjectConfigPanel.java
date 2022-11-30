@@ -23,7 +23,6 @@ import static clover.com.google.common.collect.Lists.newArrayList;
 public class ProjectConfigPanel extends JPanel implements ActionListener, ConfigChangeListener {
 
     private static final String LICENSED_CARD = "licensed card";
-    private static final String UNLICENSED_CARD = "unlicensed card";
 
     private final List<ConfigPanel> configPanels = newArrayList();
 
@@ -34,7 +33,6 @@ public class ProjectConfigPanel extends JPanel implements ActionListener, Config
     private ContextFilterPane filterPane;
     private JTabbedPane tabbedPane;
     private JPanel licensedPane;
-    private CloverDisabledPanel unlicensedPane;
 
     private final Project project;
     private final IdeaCloverConfig ideaCloverConfig;
@@ -50,7 +48,6 @@ public class ProjectConfigPanel extends JPanel implements ActionListener, Config
         CardLayout layout = new CardLayout();
         setLayout(layout);
 
-        add(getUnlicensedPanel(), UNLICENSED_CARD);
         add(getLicensedPanel(), LICENSED_CARD);
 
         layout.show(this, LICENSED_CARD);
@@ -58,12 +55,6 @@ public class ProjectConfigPanel extends JPanel implements ActionListener, Config
         enableConfig(true);
     }
 
-    private CloverDisabledPanel getUnlicensedPanel() {
-        if (unlicensedPane == null) {
-            unlicensedPane = new CloverDisabledPanel(project);
-        }
-        return unlicensedPane;
-    }
 
     private JPanel getLicensedPanel() {
         if (licensedPane == null) {
@@ -254,7 +245,6 @@ public class ProjectConfigPanel extends JPanel implements ActionListener, Config
 
     @Override
     public void configChange(ConfigChangeEvent evt) {
-        // one of the reasons for config change may be the new license
         if (evt.hasPropertyChange(IdeaCloverConfig.ENABLED)) {
             ((CardLayout) getLayout()).show(this, LICENSED_CARD);
             loadFrom(ideaCloverConfig);

@@ -1,6 +1,5 @@
 package com.atlassian.clover.idea.config;
 
-import com.atlassian.clover.CloverLicenseInfo;
 import com.atlassian.clover.cfg.instr.java.LambdaInstrumentation;
 import com.atlassian.clover.idea.config.regexp.Regexp;
 import com.atlassian.clover.util.collections.Pair;
@@ -210,18 +209,18 @@ public class MappedCloverPluginConfig extends AbstractCloverPluginConfig {
     }
 
     /**
-     * Allows enabling the plugin only when current license has not terminated.
+     * Allows enabling the plugin.
      *
      * @param enabled enable plugin
      */
     @Override
     public void setEnabled(boolean enabled) {
-        putProperty(ENABLED, enabled && !CloverLicenseInfo.TERMINATED);
+        putProperty(ENABLED, enabled);
     }
 
     @Override
     public boolean isEnabled() {
-        return getBooleanProperty(ENABLED, DEFAULT_ENABLED) && !CloverLicenseInfo.TERMINATED;
+        return getBooleanProperty(ENABLED, DEFAULT_ENABLED);
     }
 
     @Override
