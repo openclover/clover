@@ -16,7 +16,6 @@
             <unpackOptions>
                 <includes>
                     <include>LICENSE.txt</include>
-                    <include>LICENSES.html</include>
                 </includes>
             </unpackOptions>
         </dependencySet>

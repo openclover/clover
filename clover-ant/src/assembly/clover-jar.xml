@@ -16,7 +16,6 @@
             <unpackOptions>
                 <excludes>
                     <exclude>licenses/*.TXT</exclude>
-                    <exclude>LICENSES.html</exclude>
                     <exclude>LICENSE.txt</exclude>
                     <exclude>META-INF/MANIFEST.MF</exclude>
                 </excludes>
