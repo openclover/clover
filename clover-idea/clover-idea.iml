@@ -9,6 +9,7 @@
       <sourceFolder url="file://$MODULE_DIR$/target/src-generated" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/test" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/target/testproject" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/target/classes" />
       <excludeFolder url="file://$MODULE_DIR$/target/test" />
       <excludeFolder url="file://$MODULE_DIR$/target/test-classes" />
