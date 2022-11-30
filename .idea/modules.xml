@@ -9,13 +9,7 @@
       <module fileurl="file://$PROJECT_DIR$/clover-eclipse/clover-eclipse.iml" filepath="$PROJECT_DIR$/clover-eclipse/clover-eclipse.iml" />
       <module fileurl="file://$PROJECT_DIR$/clover-eclipse/clover-eclipse-libs/clover-eclipse-libs.iml" filepath="$PROJECT_DIR$/clover-eclipse/clover-eclipse-libs/clover-eclipse-libs.iml" />
       <module fileurl="file://$PROJECT_DIR$/clover-idea/clover-idea.iml" filepath="$PROJECT_DIR$/clover-idea/clover-idea.iml" />
-      <module fileurl="file://$PROJECT_DIR$/clover-idea/clover-idea-config/clover-idea-config.iml" filepath="$PROJECT_DIR$/clover-idea/clover-idea-config/clover-idea-config.iml" />
-      <module fileurl="file://$PROJECT_DIR$/clover-idea/clover-idea-coverage/clover-idea-coverage.iml" filepath="$PROJECT_DIR$/clover-idea/clover-idea-coverage/clover-idea-coverage.iml" />
-      <module fileurl="file://$PROJECT_DIR$/clover-idea/clover-idea-jps/clover-idea-jps.iml" filepath="$PROJECT_DIR$/clover-idea/clover-idea-jps/clover-idea-jps.iml" />
       <module fileurl="file://$PROJECT_DIR$/clover-idea/clover-idea-libs/clover-idea-libs.iml" filepath="$PROJECT_DIR$/clover-idea/clover-idea-libs/clover-idea-libs.iml" />
-      <module fileurl="file://$PROJECT_DIR$/clover-idea/clover-idea-optimizer/clover-idea-optimizer.iml" filepath="$PROJECT_DIR$/clover-idea/clover-idea-optimizer/clover-idea-optimizer.iml" />
-      <module fileurl="file://$PROJECT_DIR$/clover-idea/clover-idea-project/clover-idea-project.iml" filepath="$PROJECT_DIR$/clover-idea/clover-idea-project/clover-idea-project.iml" />
-      <module fileurl="file://$PROJECT_DIR$/clover-idea/clover-idea-util/clover-idea-util.iml" filepath="$PROJECT_DIR$/clover-idea/clover-idea-util/clover-idea-util.iml" />
       <module fileurl="file://$PROJECT_DIR$/clover-idea/clover-jtreemap/clover-jtreemap.iml" filepath="$PROJECT_DIR$/clover-idea/clover-jtreemap/clover-jtreemap.iml" />
       <module fileurl="file://$PROJECT_DIR$/clover-runtime/clover-runtime.iml" filepath="$PROJECT_DIR$/clover-runtime/clover-runtime.iml" />
       <module fileurl="file://$PROJECT_DIR$/groovy/groovy.iml" filepath="$PROJECT_DIR$/groovy/groovy.iml" />

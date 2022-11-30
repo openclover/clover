@@ -8,6 +8,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/target/src-generated" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/target/testproject" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/etc" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/target/classes" />
       <excludeFolder url="file://$MODULE_DIR$/target/test" />
@@ -18,12 +19,6 @@
     <orderEntry type="library" scope="TEST" name="junit-4.12" level="project" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="clover-core" />
-    <orderEntry type="module" module-name="clover-idea-config" />
-    <orderEntry type="module" module-name="clover-idea-coverage" />
-    <orderEntry type="module" module-name="clover-idea-optimizer" />
-    <orderEntry type="module" module-name="clover-idea-project" />
-    <orderEntry type="module" module-name="clover-idea-util" />
-    <orderEntry type="module" module-name="clover-idea-jps" />
     <orderEntry type="module" module-name="clover-runtime" />
     <orderEntry type="module-library">
       <library>

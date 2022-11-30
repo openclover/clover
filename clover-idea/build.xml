@@ -5,12 +5,6 @@
     <import file="../clover-ant/build.xml"/>
 
     <import file="clover-idea-libs/build.xml"/>
-    <import file="clover-idea-jps/build.xml"/>
-    <import file="clover-idea-config/build.xml"/>
-    <import file="clover-idea-coverage/build.xml"/>
-    <import file="clover-idea-optimizer/build.xml"/>
-    <import file="clover-idea-project/build.xml"/>
-    <import file="clover-idea-util/build.xml"/>
 
     <property name="clover-idea.output" location="${clover-idea.base}/target"/>
     <property name="clover-idea.output.classes" location="${clover-idea.output}/classes"/>
@@ -38,13 +32,6 @@
             <pathelement location="${clover-runtime.output.classes}"/>
             <fileset refid="clover-core-libs.runtime.jarset"/>
             <pathelement location="${com.atlassian.clover:clover-jtreemap:jar}"/>
-            <!-- sub-modules, note that they must be built before -->
-            <pathelement location="${clover-idea-jps.jar}"/>
-            <pathelement location="${clover-idea-config.jar}"/>
-            <pathelement location="${clover-idea-coverage.jar}"/>
-            <pathelement location="${clover-idea-optimizer.jar}"/>
-            <pathelement location="${clover-idea-project.jar}"/>
-            <pathelement location="${clover-idea-util.jar}"/>
         </path>
 
         <path id="clover-idea.testpath">
@@ -87,11 +74,7 @@
     </target>
 
 
-    <target name="clover-idea.build" depends="clover-idea.version, clover-ant.jar,
-                    clover-idea-jps.pkg,
-                    clover-idea-config.pkg, clover-idea-coverage.pkg,
-                    clover-idea-optimizer.pkg, clover-idea-project.pkg,
-                    clover-idea-util.pkg">
+    <target name="clover-idea.build" depends="clover-idea.version, clover-ant.jar">
         <!-- compile main code using libraries from the oldest supported IDEA version  -->
         <javac destdir="${clover-idea.output.classes}"
                debug="on"
@@ -108,21 +91,10 @@
         </javac>
     </target>
 
-    <target name="clover-idea.pkg" depends="clover-idea.build,
-                    clover-idea-jps.pkg,
-                    clover-idea-config.pkg, clover-idea-coverage.pkg,
-                    clover-idea-optimizer.pkg, clover-idea-project.pkg,
-                    clover-idea-util.pkg">
+    <target name="clover-idea.pkg" depends="clover-idea.build">
         <jar destfile="${clover-idea.jar}">
             <!-- add clover-idea classes -->
             <fileset dir="${clover-idea.output.classes}"/>
-            <!-- add clover-idea's sub-modules -->
-            <zipgroupfileset file="${clover-idea-jps.jar}"/>
-            <zipgroupfileset file="${clover-idea-config.jar}"/>
-            <zipgroupfileset file="${clover-idea-coverage.jar}"/>
-            <zipgroupfileset file="${clover-idea-optimizer.jar}"/>
-            <zipgroupfileset file="${clover-idea-project.jar}"/>
-            <zipgroupfileset file="${clover-idea-util.jar}"/>
             <!-- add clover-core classes and repackaged third party libraries -->
             <zipgroupfileset file="${clover-ant.jar}"/>
             <!-- add clover-idea third party libraries -->
@@ -171,11 +143,7 @@
         </jarjar>
     </target>
 
-    <!-- clean sub-modules as well -->
-    <target name="clover-idea.clean" depends="clover-idea-jps.clean,
-            clover-idea-config.clean, clover-idea-coverage.clean,
-            clover-idea-optimizer.clean, clover-idea-project.clean,
-            clover-idea-util.clean">
+    <target name="clover-idea.clean">
         <delete dir="${clover-idea.output}"/>
     </target>
 
@@ -219,20 +187,12 @@
         </javac>
     </target>
 
-    <target name="clover-idea.test" depends="clover-idea.test.build, clover-idea.testproject,
-            clover-idea-jps.test,
-            clover-idea-config.test, clover-idea-coverage.test,
-            clover-idea-optimizer.test, clover-idea-project.test,
-            clover-idea-util.test">
+    <target name="clover-idea.test" depends="clover-idea.test.build, clover-idea.testproject">
         <antcall target="clover-idea.test.jdk8" inheritrefs="true"/>
         <antcall target="clover-idea.test.jdk9" inheritrefs="true"/>
     </target>
 
-    <target name="clover-idea.test.all.versions" depends="clover-idea.test.build, clover-idea.testproject,
-            clover-idea-jps.test.all.versions,
-            clover-idea-config.test.all.versions, clover-idea-coverage.test.all.versions,
-            clover-idea-optimizer.test.all.versions, clover-idea-project.test.all.versions,
-            clover-idea-util.test.all.versions">
+    <target name="clover-idea.test.all.versions" depends="clover-idea.test.build, clover-idea.testproject">
         <antcall target="clover-idea.test.all.versions.jdk8" inheritrefs="true"/>
         <antcall target="clover-idea.test.all.versions.jdk9" inheritrefs="true"/>
     </target>
