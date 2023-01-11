@@ -18,23 +18,158 @@
         </license>
     </licenses>
     <name>IDEA Libraries for Clover</name>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <descriptor>src/assembly/idea.xml</descriptor>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+    <profiles>
+        <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>org.openclover.idea.libs</groupId>
+                    <artifactId>idea</artifactId>
+                    <version>${idea.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.openclover.idea.libs</groupId>
+                    <artifactId>idea-lib</artifactId>
+                    <version>${idea-lib.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.openclover.idea.libs</groupId>
+                    <artifactId>idea-plugins-devkit</artifactId>
+                    <version>${idea-plugins-devkit.version}</version>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>workspace-setup</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>3.0.0</version>
+                        <executions>
+                            <execution>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <!-- download -->
+                                        <echo message="Downloading IDEA ..."/>
+                                        <mkdir dir="${project.build.directory}/download"/>
+                                        <get src="${idea.download.site}/${idea.download.path}/${idea.download.file}"
+                                             dest="${project.build.directory}/download/${idea.download.file}"
+                                             skipexisting="true"/>
+
+                                        <!-- extract -->
+                                        <echo message="Unpacking IDEA archive ..."/>
+                                        <mkdir dir="${project.build.directory}/extract"/>
+                                        <untar src="${project.build.directory}/download/${idea.download.file}"
+                                               dest="${project.build.directory}/extract"
+                                               compression="gzip">
+                                            <patternset>
+                                                <include name="**/*.jar"/>
+                                            </patternset>
+                                        </untar>
+
+                                        <!-- note: jar with zipfileset is slow, thus unpacking+packing separately -->
+
+                                        <!-- unpack individual jars -->
+                                        <echo message="Unpacking JARs from lib ..."/>
+                                        <unjar dest="${project.build.directory}/merge/idea-lib">
+                                            <fileset dir="${project.build.directory}/extract/${idea.download.dir}/lib"
+                                                     includes="**/*.jar"
+                                                     excludes="idea.jar"/> <!-- let's keep IDEA core separately -->
+                                        </unjar>
+
+                                        <echo message="Unpacking JARs from plugins ..."/>
+                                        <unjar dest="${project.build.directory}/merge/idea-plugins-devkit">
+                                            <fileset dir="${project.build.directory}/extract/${idea.download.dir}/plugins/devkit/lib"
+                                                     includes="**/*.jar"/>
+                                        </unjar>
+
+                                        <!-- merge jars into one -->
+                                        <echo message="Packing classes into new JARs ..."/>
+                                        <jar destfile="${project.build.directory}/merge/idea-lib.jar"
+                                             basedir="${project.build.directory}/merge/idea-lib"
+                                             excludes="META-INF/MANIFEST.MF,META-INF/INDEX.LIST,META-INF/*.SF,META-INF/*.DSA,META-INF/*.RSA"
+                                             level="0">
+                                        </jar>
+                                        <jar destfile="${project.build.directory}/merge/idea-plugins-devkit.jar"
+                                             basedir="${project.build.directory}/merge/idea-plugins-devkit"
+                                             excludes="META-INF/MANIFEST.MF"
+                                             level="0">
+                                        </jar>
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-install-plugin</artifactId>
+                        <version>3.0.1</version>
+                        <executions>
+                            <execution>
+                                <id>install-idea</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>install-file</goal>
+                                </goals>
+                                <configuration>
+                                    <file>${project.build.directory}/extract/${idea.download.dir}/lib/idea.jar</file>
+                                    <groupId>org.openclover.idea.libs</groupId>
+                                    <artifactId>idea</artifactId>
+                                    <version>${idea.lib.version}</version>
+                                    <packaging>jar</packaging>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>install-idea-lib</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>install-file</goal>
+                                </goals>
+                                <configuration>
+                                    <file>${project.build.directory}/merge/idea-lib.jar</file>
+                                    <groupId>org.openclover.idea.libs</groupId>
+                                    <artifactId>idea-lib</artifactId>
+                                    <version>${idea.lib.version}</version>
+                                    <packaging>jar</packaging>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>install-idea-plugins-devkit</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>install-file</goal>
+                                </goals>
+                                <configuration>
+                                    <file>${project.build.directory}/merge/idea-plugins-devkit.jar</file>
+                                    <groupId>org.openclover.idea.libs</groupId>
+                                    <artifactId>idea-plugins-devkit</artifactId>
+                                    <version>${idea.plugins.devkit.version}</version>
+                                    <packaging>jar</packaging>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+    <properties>
+        <idea.download.site>https://download.jetbrains.com</idea.download.site>
+        <idea.download.path>idea</idea.download.path>
+        <idea.download.file>ideaIC-2016.3.8-no-jdk.tar.gz</idea.download.file>
+        <idea.download.dir>idea-IC-163.15529.8</idea.download.dir>
+        <!-- artifact versions -->
+        <idea.version>${project.version}</idea.version>
+        <idea.lib.version>${project.version}</idea.lib.version>
+        <idea.plugins.devkit.version>${project.version}</idea.plugins.devkit.version>
+    </properties>
 </project>

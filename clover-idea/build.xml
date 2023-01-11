@@ -189,12 +189,6 @@
 
     <target name="clover-idea.test" depends="clover-idea.test.build, clover-idea.testproject">
         <antcall target="clover-idea.test.jdk8" inheritrefs="true"/>
-        <antcall target="clover-idea.test.jdk9" inheritrefs="true"/>
-    </target>
-
-    <target name="clover-idea.test.all.versions" depends="clover-idea.test.build, clover-idea.testproject">
-        <antcall target="clover-idea.test.all.versions.jdk8" inheritrefs="true"/>
-        <antcall target="clover-idea.test.all.versions.jdk9" inheritrefs="true"/>
     </target>
 
     <macrodef name="test-idea">
@@ -214,24 +208,7 @@
 
     <!-- Set of tests for IDEAs with JDK8 -->
     <target name="clover-idea.test.jdk8" if="jdk8">
-        <test-idea home="${idea14.home}" reportID="idea14-jdk8" version="14.1.7"/>
-    </target>
-
-    <target name="clover-idea.test.all.versions.jdk8" if="jdk8">
-        <test-idea home="${idea14.home}" reportID="idea14-jdk8" version="14.1.7"/>
-        <test-idea home="${idea15.home}" reportID="idea15-jdk8" version="15.0.6"/>
         <test-idea home="${idea16.home}" reportID="idea16-jdk8" version="2016.3.8"/>
-    </target>
-
-    <!-- Set of tests for IDEAs with JDK9 -->
-    <target name="clover-idea.test.jdk9" if="jdk9">
-        <!--<test-idea home="${idea14.home}" reportID="idea14-jdk9" version="14.1.7"/>-->
-    </target>
-
-    <target name="clover-idea.test.all.versions.jdk9" if="jdk9">
-        <!--<test-idea home="${idea14.home}" reportID="idea14-jdk9" version="14.1.7"/>-->
-        <!--<test-idea home="${idea15.home}" reportID="idea15-jdk9" version="15.0.6"/>-->
-        <!--<test-idea home="${idea16.home}" reportID="idea16-jdk9" version="2016.3.8"/>-->
     </target>
 
     <target name="_clover-idea.versiontest">
