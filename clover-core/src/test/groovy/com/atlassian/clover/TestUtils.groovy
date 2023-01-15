@@ -8,6 +8,7 @@ import com.atlassian.clover.registry.FixedSourceRegion
 import com.atlassian.clover.registry.entities.FullMethodInfo
 import com.atlassian.clover.registry.entities.MethodSignature
 import com.atlassian.clover.registry.entities.Modifiers
+import com.atlassian.clover.testutils.IOHelper
 import com.atlassian.clover.util.FileUtils
 import com_atlassian_clover.Clover
 import com_atlassian_clover.CoverageRecorder
@@ -48,7 +49,7 @@ class TestUtils {
     }
 
     static File createEmptyDirFor(Class test, String methodName) throws IOException {
-        final File projectDir = getProjectDirFromProperty()
+        final File projectDir = IOHelper.getProjectDirFromProperty()
         final String testTmpDir = FileUtils.getPlatformSpecificPath(projectDir.getAbsolutePath() + "/clover-core/target/testrun/tmp/")
         final File tempDir = FileUtils.createEmptyDir(
                 new File(testTmpDir),

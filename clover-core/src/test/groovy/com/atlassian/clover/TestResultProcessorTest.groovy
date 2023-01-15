@@ -30,7 +30,7 @@ class TestResultProcessorTest extends TestCase {
     File projectDir
 
     void setUp() throws IOException, CloverException {
-        projectDir = TestUtils.getProjectDirFromProperty()
+        projectDir = IOHelper.getProjectDirFromProperty()
         workingDir = IOHelper.createTmpDir(TestResultProcessorTest.class.getName())
 
         CloverTestFixture testFixture = new CloverTestFixture(workingDir)

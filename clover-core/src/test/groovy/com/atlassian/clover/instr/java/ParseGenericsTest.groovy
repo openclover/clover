@@ -3,6 +3,7 @@ package com.atlassian.clover.instr.java
 import com.atlassian.clover.TestUtils
 import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig
 import com.atlassian.clover.cfg.instr.java.SourceLevel
+import com.atlassian.clover.testutils.IOHelper
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -20,7 +21,7 @@ public class ParseGenericsTest {
 
     @Before
     public void setUp() throws Exception {
-        mProjDir = TestUtils.getProjectDirFromProperty()
+        mProjDir = IOHelper.getProjectDirFromProperty()
         mTestcasesSrcDir = new File(mProjDir, CLOVER_CORE_TEST_INSTR_DIR)
         assertTrue(mTestcasesSrcDir.isDirectory())
     }

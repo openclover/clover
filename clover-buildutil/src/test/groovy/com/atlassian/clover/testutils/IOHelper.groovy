@@ -1,5 +1,8 @@
 package com.atlassian.clover.testutils
 
+import static org.junit.Assert.assertNotNull
+import static org.junit.Assert.assertTrue
+
 class IOHelper {
 
     static boolean delete(File file) {

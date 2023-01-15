@@ -10,6 +10,7 @@ import com.atlassian.clover.registry.entities.FullProjectInfo
 import com.atlassian.clover.registry.entities.FullStatementInfo
 import com.atlassian.clover.registry.entities.LineInfo
 import com.atlassian.clover.testutils.AssertionUtils
+import com.atlassian.clover.testutils.IOHelper
 import com.atlassian.clover.util.FileUtils
 import com.atlassian.clover.util.SourceScanner
 import junit.framework.TestCase
@@ -50,7 +51,7 @@ abstract class JavaSyntaxCompilationTestBase extends TestCase {
     private ByteArrayOutputStream execOutErrStream
 
     protected void setUp() throws Exception {
-        mProjDir = TestUtils.getProjectDirFromProperty()
+        mProjDir = IOHelper.getProjectDirFromProperty()
 
         mTestcasesSrcDir = new File(mProjDir, CLOVER_CORE_TESTCASES_SOURCE_DIR)
         buildTmp = new File(mProjDir, CLOVER_CORE_TEST_RUN_DIR)
