@@ -22,11 +22,11 @@
         </dependency>
         <!-- repacked third party libraries -->
         <dependency>
-            <groupId>com.atlassian.clover</groupId>
+            <groupId>org.openclover</groupId>
             <artifactId>clover-cajo</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.atlassian.clover</groupId>
+            <groupId>org.openclover</groupId>
             <artifactId>clover-jtreemap</artifactId>
             <version>1.1.0</version>
         </dependency>

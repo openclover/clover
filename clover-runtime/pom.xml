@@ -47,15 +47,15 @@
         </dependency>
         <!-- repacked third party libraries used by the clover-runtime -->
         <dependency>
-            <groupId>com.atlassian.clover</groupId>
+            <groupId>org.openclover</groupId>
             <artifactId>clover-antlr</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.atlassian.clover</groupId>
+            <groupId>org.openclover</groupId>
             <artifactId>clover-cajo</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.atlassian.clover</groupId>
+            <groupId>org.openclover</groupId>
             <artifactId>clover-slf4j</artifactId>
         </dependency>
     </dependencies>

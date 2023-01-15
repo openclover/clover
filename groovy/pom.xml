@@ -46,7 +46,7 @@
         </dependency>
         <!-- for maven-exec-plugin -->
         <dependency>
-            <groupId>com.atlassian.clover</groupId>
+            <groupId>org.openclover</groupId>
             <artifactId>clover-antlr</artifactId>
         </dependency>
     </dependencies>

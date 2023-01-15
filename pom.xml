@@ -58,7 +58,6 @@
         <module>clover-core</module>
         <module>groovy</module>
         <module>clover-ant</module>
-        <module>clover-eclipse-libs</module>
         <module>clover-eclipse</module>
         <module>clover-idea</module>
     </modules>
@@ -69,7 +68,8 @@
             <modules>
                 <module>clover-core-libs</module>
                 <module>clover-eclipse-libs</module>
-                <module>clover-idea/clover-idea-libs</module>
+                <module>clover-idea-libs</module>
+                <module>clover-jtreemap</module>
             </modules>
         </profile>
     </profiles>
@@ -77,77 +77,77 @@
         <dependencies>
             <!-- repacked versions of popular libraries -->
             <dependency>
-                <groupId>com.atlassian.clover</groupId>
+                <groupId>org.openclover</groupId>
                 <artifactId>clover-annotations</artifactId>
                 <version>13.0</version>
             </dependency>
             <dependency>
-                <groupId>com.atlassian.clover</groupId>
+                <groupId>org.openclover</groupId>
                 <artifactId>clover-antlr</artifactId>
                 <version>2.7.7</version>
             </dependency>
             <dependency>
-                <groupId>com.atlassian.clover</groupId>
+                <groupId>org.openclover</groupId>
                 <artifactId>clover-cajo</artifactId>
                 <version>1.117</version>
             </dependency>
             <dependency>
-                <groupId>com.atlassian.clover</groupId>
+                <groupId>org.openclover</groupId>
                 <artifactId>clover-commons-codec</artifactId>
                 <version>1.9</version>
             </dependency>
             <dependency>
-                <groupId>com.atlassian.clover</groupId>
+                <groupId>org.openclover</groupId>
                 <artifactId>clover-commons-collections</artifactId>
                 <version>3.2.2</version>
             </dependency>
             <dependency>
-                <groupId>com.atlassian.clover</groupId>
+                <groupId>org.openclover</groupId>
                 <artifactId>clover-commons-lang3</artifactId>
                 <version>3.3.2</version>
             </dependency>
             <dependency>
-                <groupId>com.atlassian.clover</groupId>
+                <groupId>org.openclover</groupId>
                 <artifactId>clover-fastutil</artifactId>
                 <version>4.4.3</version>
             </dependency>
             <dependency>
-                <groupId>com.atlassian.clover</groupId>
+                <groupId>org.openclover</groupId>
                 <artifactId>clover-gson</artifactId>
                 <version>1.3</version>
             </dependency>
             <dependency>
-                <groupId>com.atlassian.clover</groupId>
+                <groupId>org.openclover</groupId>
                 <artifactId>clover-guava</artifactId>
                 <version>29.0-android</version>
             </dependency>
             <dependency>
-                <groupId>com.atlassian.clover</groupId>
+                <groupId>org.openclover</groupId>
                 <artifactId>clover-itext</artifactId>
                 <version>2.0.1</version> <!-- don't upgrade above 2.1.7 -->
             </dependency>
             <dependency>
-                <groupId>com.atlassian.clover</groupId>
+                <groupId>org.openclover</groupId>
                 <artifactId>clover-jcommon</artifactId>
                 <version>1.0.23</version>
             </dependency>
             <dependency>
-                <groupId>com.atlassian.clover</groupId>
+                <groupId>org.openclover</groupId>
                 <artifactId>clover-jdom</artifactId>
                 <version>1.0</version>
             </dependency>
             <dependency>
-                <groupId>com.atlassian.clover</groupId>
+                <groupId>org.openclover</groupId>
                 <artifactId>clover-jfreechart</artifactId>
                 <version>1.0.19</version>
             </dependency>
             <dependency>
-                <groupId>com.atlassian.clover</groupId>
+                <groupId>org.openclover</groupId>
                 <artifactId>clover-slf4j</artifactId>
                 <version>1.7.36</version>
             </dependency>
             <dependency>
-                <groupId>com.atlassian.clover</groupId>
+                <groupId>org.openclover</groupId>
                 <artifactId>clover-velocity</artifactId>
                 <version>1.7</version>
             </dependency>

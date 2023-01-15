@@ -43,7 +43,7 @@
             <version>2.5.9</version>
         </dependency>
         <dependency>
-            <groupId>com.atlassian.clover</groupId>
+            <groupId>org.openclover</groupId>
             <artifactId>clover-commons-lang3</artifactId>
         </dependency>
         <dependency>
@@ -59,15 +59,15 @@
             <artifactId>testng</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.atlassian.clover</groupId>
+            <groupId>org.openclover</groupId>
             <artifactId>clover-annotations</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.atlassian.clover</groupId>
+            <groupId>org.openclover</groupId>
             <artifactId>clover-guava</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.atlassian.clover</groupId>
+            <groupId>org.openclover</groupId>
             <artifactId>clover-jdom</artifactId>
             <scope>test</scope>
         </dependency>
