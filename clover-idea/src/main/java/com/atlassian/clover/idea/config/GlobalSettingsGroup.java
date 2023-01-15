@@ -26,7 +26,6 @@ public class GlobalSettingsGroup extends UnnamedConfigurableGroup implements Con
     @Override
     public Configurable[] getConfigurables() {
         return new Configurable[] {
-                CloverPlugin.getPlugin().getConfigurable(),
                 TestOptimizationGlobalSettings.getInstance(),
                 AutoUpdateComponent.getInstance().getConfigurable()
 

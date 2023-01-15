@@ -46,7 +46,7 @@
 
     <target name="clover-idea.version" depends="clover-idea.init">
         <mkdir dir="${clover-idea.output.gensources}/com/atlassian/clover/idea"/>
-        <copy file="${clover-idea.base}/src/com/atlassian/clover/idea/PluginVersionInfo.in"
+        <copy file="${clover-idea.base}/src/main/resources-filtered/com/atlassian/clover/idea/PluginVersionInfo.java"
               tofile="${clover-idea.output.gensources}/com/atlassian/clover/idea/PluginVersionInfo.java"
               overwrite="false">
             <filterset>
@@ -65,7 +65,7 @@
 
         <copy todir="${clover-idea.output}"
               overwrite="true">
-            <fileset dir="${clover-idea.base}/etc/autoupdate"/>
+            <fileset dir="${clover-idea.base}/src/main/resources/autoupdate"/>
             <filterset>
                 <filterset refid="core.version.filterset"/>
                 <filter token="IDEA_RELEASE_NUM" value="${idea.release.num}"/>
