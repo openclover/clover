@@ -1,8 +1,5 @@
 package com.atlassian.clover.testutils
 
-import static org.junit.Assert.assertNotNull
-import static org.junit.Assert.assertTrue
-
 class IOHelper {
 
     static boolean delete(File file) {
@@ -33,18 +30,11 @@ class IOHelper {
     }
 
     /**
-     * Read the 'project.dir' system property, assert that it's not null and points to a workspace directory.
+     * Read the 'project.dir' system property. If not present, fallback to current working directory.
      */
     static File getProjectDirFromProperty() {
-        final String PROJECT_DIR = "project.dir"
-        final String projectDir = System.getProperty(PROJECT_DIR)
-        assertNotNull("The '" + PROJECT_DIR + "' property is not set. It must point to the Clover's workspace root",
-                projectDir)
-        assertTrue("The location pointed by '" + PROJECT_DIR + "' is not a directory",
-                new File(projectDir).isDirectory())
-        assertTrue("The location pointed by '" + PROJECT_DIR + "' does not seem to be a Clover workspace directory",
-                new File(projectDir, "common.xml").isFile())
-
-        new File(projectDir)
+        final String projectDir = System.getProperty("project.dir")
+        return projectDir != null && new File(projectDir).isDirectory() ?
+                new File(projectDir) : new File().getAbsoluteFile()
     }
 }

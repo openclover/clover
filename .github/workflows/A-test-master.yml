@@ -46,16 +46,10 @@ jobs:
            sed -i -e 's@<artifactId>maven-antrun-plugin</artifactId>@<artifactId>maven-antrun-plugin</artifactId><version>3.1.0</version>@' pom.xml
            # maven dependency plugin fails because of missing eclipse artifact so copy it manually
            mkdir -p target/eclipse
-           cp ../target/dependencies/eclipse/4.4/plugins/*.jar target/eclipse           
+           cp ../clover-eclipse/clover-eclipse-libs/target/extract/*.jar target/eclipse           
            mvn install -Dmdep.skip=true  
            cd ..
 
-      - name: Build all modules and run core tests
+      - name: Run all standard tests and build all modules
         run: |
-          mvn install -f clover-buildutil/pom.xml
-          mvn install -f clover-runtime/pom.xml
-          mvn install -f clover-core/pom.xml
-          mvn install -f groovy/pom.xml
-          mvn install -f clover-ant/pom.xml
-          mvn install -f clover-eclipse/pom.xml
-          mvn install -f clover-idea/pom.xml
+          mvn install

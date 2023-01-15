@@ -7,6 +7,7 @@ import com.atlassian.clover.test.junit.JavaExecutorMixin
 import com.atlassian.clover.test.junit.TestPropertyMixin
 import com.atlassian.clover.test.junit.WorkingDirMixin
 import com.atlassian.clover.CloverNames
+import com.atlassian.clover.testutils.IOHelper
 
 @Mixin ([WorkingDirMixin, JavaExecutorMixin, TestPropertyMixin])
 public class CompilationTest extends DynamicallyNamedTestBase {
@@ -32,7 +33,7 @@ public class CompilationTest extends DynamicallyNamedTestBase {
     }
 
     private AntProjectSimulacrum createDefaultAntProjectSimulacrum(String testName) {
-        File projectDir = getFileProp("project.dir")
+        File projectDir = IOHelper.getProjectDirFromProperty()
         File cloverRuntimeJar = new File(projectDir, "clover-ant/target/clover.jar")
         File cloverRepkgRuntimeJar = getFileProp("repkg.clover.jar", false)
 
