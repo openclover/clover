@@ -8,10 +8,10 @@ public class CloverVersionInfo {
     public static final String SANITIZED_RN = "@CORE_RELEASE_BASE_IDENT@";
 
     /** Main web site */
-    public static final String ATLASSIAN_COM = "http://openclover.org";
+    public static final String ATLASSIAN_COM = "https://openclover.org";
 
     /** Main Support Resources page */
-    public static final String ATLASSIAN_COM_SUPPORT_RESOURCES = "http://openclover.org/support";
+    public static final String ATLASSIAN_COM_SUPPORT_RESOURCES = "https://openclover.org/support";
 
     /** Main Clover web site */
     public static final String CLOVER_URL ="@CLOVER_URL@";

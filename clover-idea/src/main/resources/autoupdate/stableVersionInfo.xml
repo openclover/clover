@@ -1,14 +1,14 @@
 <response>
     <version>
         <number>@IDEA_RELEASE_NUM@</number>
-        <downloadUrl>http://openclover.org/download/openclover/clover-idea-@CORE_RELEASE_NUM@.jar
+        <downloadUrl>https://openclover.org/download/openclover/clover-idea-@CORE_RELEASE_NUM@.jar
         </downloadUrl>
         <releaseNotes><![CDATA[<html><body>
         <h1>OpenClover.org team proudly presents OpenClover @CORE_RELEASE_NUM@</h1>
         </body></html>
         ]]></releaseNotes>
         <releaseNotesUrl>
-            http://openclover.org/doc/openclover-@CORE_RELEASE_NUM@-release-notes.html
+            https://openclover.org/doc/openclover-@CORE_RELEASE_NUM@-release-notes.html
         </releaseNotesUrl>
     </version>
 </response>

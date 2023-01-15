@@ -7,18 +7,18 @@ and Clover-for-IDEA plugins. Sources are licensed under Apache 2.0 license.
 
 User documentation:
 
-* http://openclover.org/documentation
-* http://confluence.atlassian.com/display/CLOVER/Clover+Documentation+Home
+* https://openclover.org/documentation
+* https://confluence.atlassian.com/display/CLOVER/Clover+Documentation+Home
 
 Developer guides:
 
-* http://openclover.org/documentation
+* https://openclover.org/documentation
 * https://confluence.atlassian.com/display/CLOVER/Clover+Development+Hub
 
 Support Knowledge Base:
 
-* http://openclover.org/documentation
-* http://confluence.atlassian.com/display/CLOVERKB/Clover+Knowledge+Base+Home
+* https://openclover.org/documentation
+* https://confluence.atlassian.com/display/CLOVERKB/Clover+Knowledge+Base+Home
 
 Q&A forums:
 
@@ -32,7 +32,7 @@ Bug and feature tracker:
 
 Download page:
 
-* http://openclover.org/downloads
+* https://openclover.org/downloads
 
 Source code:
 

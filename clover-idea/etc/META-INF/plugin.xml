@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE idea-plugin PUBLIC "" "http://plugins.intellij.net/plugin.dtd">
-<idea-plugin url="http://openclover.org">
+<idea-plugin url="https://openclover.org">
 
 	<name>OpenClover for IDEA</name>
 	<id>org.openclover.idea</id>
@@ -16,7 +16,7 @@ all over the world.
 <br/><br/>
 <b>Resources</b><br/>
 Documentation is available online from
-<a href="http://openclover.org/documentation">http://openclover.org/documentation</a>.
+<a href="https://openclover.org/documentation">https://openclover.org/documentation</a>.
 <br/>
 <b>License</b><br/>
 Clover is licensed under the Apache License 2.0.
@@ -24,7 +24,7 @@ Clover is licensed under the Apache License 2.0.
 	</description>
 
 	<version>idea-@IDEA_RELEASE_NUM@</version>
-	<vendor email="contact@openclover.org" url="http://openclover.org">OpenClover.org</vendor>
+	<vendor email="contact@openclover.org" url="https://openclover.org">OpenClover.org</vendor>
     <!-- Compatible with IDEA 14.0.0 or higher (build 139.xx),
     see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html -->
 	<idea-version since-build="139" />

@@ -1,7 +1,7 @@
 <response>
 	<version>
 		<number>@IDEA_RELEASE_NUM@</number>
-		<downloadUrl>http://openclover.org/download/openclover/clover-idea-@IDEA_RELEASE_NUM@.jar</downloadUrl>
+		<downloadUrl>https://openclover.org/download/openclover/clover-idea-@IDEA_RELEASE_NUM@.jar</downloadUrl>
 		<releaseNotes><![CDATA[<html><body>
 		<h1>Milestone version of Clover for IDEA</h1>
 		This is a @IDEA_RELEASE_NUM@ milestone release of Clover for IDEA.
@@ -19,7 +19,7 @@
 		</body></html>
         ]]></releaseNotes>
 		<releaseNotesUrl>
-			http://openclover.org/documentation
+			https://openclover.org/documentation
 		</releaseNotesUrl>
 	</version>
 </response>

@@ -11,7 +11,7 @@
         <div class="aui-header-inner">
             <div class="aui-header-primary">
                 <h1 id="logo" class="aui-header-logo aui-header-logo-clover">
-                    <a href="http://openclover.org" title="Visit OpenClover home page"><span class="aui-header-logo-device">OpenClover</span></a>
+                    <a href="https://openclover.org" title="Visit OpenClover home page"><span class="aui-header-logo-device">OpenClover</span></a>
                 </h1>
                 #if ($reportConfigLinkedReports.size() > 0)
                 <ul class="aui-nav">
@@ -55,7 +55,7 @@
 ##                    #end
                     <li id="system-help-menu">
                         <a class="aui-nav-link" title="Open online documentation" target="_blank"
-                           href="http://openclover.org/documentation">
+                           href="https://openclover.org/documentation">
                             <span class="aui-icon aui-icon-small aui-iconfont-help">&#160;Help</span>
                         </a>
                     </li>
