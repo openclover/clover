@@ -20,10 +20,10 @@
         </license>
     </licenses>
     <name>Clover JCommon Library</name>
-    <!-- Repack, install and deploy only with the 'repack' profile -->
+    <!-- Repack, install and deploy only with the 'workspace-setup' profile -->
     <profiles>
         <profile>
-            <id>repack</id>
+            <id>workspace-setup</id>
             <dependencies>
                 <dependency>
                     <groupId>org.jfree</groupId>

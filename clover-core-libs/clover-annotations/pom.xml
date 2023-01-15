@@ -21,10 +21,10 @@
         </license>
     </licenses>
     <name>IntelliJ Annotations</name>
-    <!-- Repack, install and deploy only with the 'repack' profile -->
+    <!-- Repack, install and deploy only with the 'workspace-setup' profile -->
     <profiles>
         <profile>
-            <id>repack</id>
+            <id>workspace-setup</id>
             <properties>
                 <target.jar>clover-annotations-${project.version}.jar</target.jar>
             </properties>

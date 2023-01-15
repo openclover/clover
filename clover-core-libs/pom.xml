@@ -84,7 +84,7 @@
             </build>
         </profile>
         <profile>
-            <!-- Used to download all clover-core-libs artifacts from Maven. Instead of modules as in 'repack' profile,
+            <!-- Used to download all clover-core-libs artifacts from Maven. Instead of modules as in 'workspace-setup' profile,
             here we have dependencies to specified versions of already published artifacts -->
             <id>dependencies</id>
             <dependencies>
