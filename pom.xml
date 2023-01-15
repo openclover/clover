@@ -67,8 +67,8 @@
             <id>workspace-setup</id>
             <modules>
                 <module>clover-core-libs</module>
-                <module>clover-eclipse-libs</module>
-                <module>clover-idea-libs</module>
+                <module>clover-eclipse/clover-eclipse-libs</module>
+                <module>clover-idea/clover-idea-libs</module>
             </modules>
         </profile>
     </profiles>
