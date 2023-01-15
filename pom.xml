@@ -59,7 +59,7 @@
         <module>groovy</module>
         <module>clover-ant</module>
         <module>clover-eclipse</module>
-        <!--<module>clover-idea</module>-->
+        <module>clover-idea</module>
     </modules>
     <profiles>
         <profile>

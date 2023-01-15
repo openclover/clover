@@ -7,3 +7,4 @@
 **/*.iml
 **/target
 /clover-idea/clover-idea-libs/src/resources/**
+**/dependency-reduced-pom.xml

@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="asm-3.0">
-    <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/asm/asm/3.0/asm-3.0.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

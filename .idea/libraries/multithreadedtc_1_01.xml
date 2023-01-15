@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="multithreadedtc-1.01">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/target/dependencies/multithreadedtc-1.01.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
