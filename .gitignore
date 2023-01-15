@@ -4,6 +4,6 @@
 /tutorial/clover_html
 /.idea/
 **/*.iws
+**/*.iml
 **/target
-build.properties
 /clover-idea/clover-idea-libs/src/resources/**
