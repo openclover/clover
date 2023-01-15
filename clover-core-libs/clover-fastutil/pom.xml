@@ -6,9 +6,10 @@
     <version>4.4.3</version>
     <packaging>jar</packaging>
     <parent>
-        <groupId>com.atlassian.clover</groupId>
+        <groupId>org.openclover</groupId>
         <artifactId>clover-core-libs</artifactId>
-        <version>4.0.6</version>
+        <version>4.5.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <description>
         Repacked with 'clover.' prefix version of the library.
