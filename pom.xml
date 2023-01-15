@@ -56,7 +56,7 @@
         <module>clover-core-libs</module>
         <module>clover-runtime</module>
         <module>clover-core</module>
-        <module>groovy</module>
+        <module>clover-groovy</module>
         <module>clover-ant</module>
         <module>clover-eclipse</module>
         <module>clover-idea</module>

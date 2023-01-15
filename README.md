@@ -48,55 +48,53 @@ See also:
 * https://github.com/jenkinsci/clover-plugin
 * https://github.com/hudson3-plugins/clover-plugin
 
-# Quick setup for developing OpenClover #
+# Quick setup for developing OpenClover
 
-* Install JDK 1.8, Ant 1.10+, Maven 3.8+, Git
-* Prepare work environment: 
+### Install JDK 1.8, Ant 1.10+, Maven 3.8+, Git
+
+### Prepare repacked third party libraries
 
 ```
-# Prepare repacked third party libraries
 mvn install -f clover-core-libs/jarjar/pom.xml
 mvn install -Pworkspace-setup -f clover-core-libs/pom.xml
-mvn install -Pworkspace-setup -f clover-idea/clover-jtreemap/pom.xml
+mvn install -Pworkspace-setup -f clover-eclipse-libs/pom.xml
+mvn install -Pworkspace-setup -f clover-jtreemap/pom.xml
+mvn install -Pworkspace-setup -f clover-idea-libs/pom.xml
+```
 
-# Download Eclipse IDE binaries
-ant clover-eclipse-libs.build
+### Download KTremap fork and install it
 
-# Download KTremap fork and install it
+```
 git clone https://bitbucket.org/atlassian/ktreemap
 cd ktreemap
-git checkout ktreemap-1.1.0-atlassian-01
+git checkout ktreemap-1.1.0-atlassian-01           
 # an old maven-antrun-plugin does not recognize <target> tag
 sed -i -e 's@<artifactId>maven-antrun-plugin</artifactId>@<artifactId>maven-antrun-plugin</artifactId><version>3.1.0</version>@' pom.xml
-# maven-dependency-plugin fails because of missing eclipse artifact so copy JARs manually
-mkdir -p target/eclipse; cp ../target/dependencies/eclipse/4.4/plugins/*.jar target/eclipse
+# maven dependency plugin fails because of missing eclipse artifact so copy it manually
+mkdir -p target/eclipse
+cp ../clover-eclipse-libs/target/extract/*.jar target/eclipse           
 mvn install -Dmdep.skip=true  
 cd ..
 ```
 
-Now you can work with the code. A naming convention for Ant targets is:
+Now you can work with the code using Maven. You can also open it in IntelliJ IDEA,
+by importing the root pom.xml.
 
-< global | module-name >.< build | test.build | test | clean | repkg >
-
-There are more global and module-specific targets available, see build.xml files.
-
-Examples:
+### Example commands
 
 ```
-# Compile everything, including tests
-ant global.test.build
+# Compile everything and run all tests
+mvn test
 
-# Check binary compatibility wtih all Eclipse versions supported 
-ant clover-eclipse.build.all.versions
-
-# Check binary compatibility wtih all IntelliJ versions supported
-ant clover-idea.test.all.versions
+# Install all modules locally, without testing 
+mvn install -DskipTests=true
 
 # Run tests for three main modules
-ant clover-core.test clover-ant.test groovy.test
+mvn test -pl clover-ant,clover-core,clover-groovy
 ```
 
 ---
 
 Copyright @ 2002 - 2017 Atlassian Pty Ltd
-Copyright @ 2017 - 2022 modifications by OpenClover.org
+
+Copyright @ 2017 - 2023 modifications by OpenClover.org
