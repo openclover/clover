@@ -179,7 +179,7 @@
                             <goal>single</goal>
                         </goals>
                         <configuration>
-                            <finalName>clover-${project.version}</finalName>
+                            <finalName>clover-ant-${project.version}</finalName>
                             <appendAssemblyId>false</appendAssemblyId>
                             <descriptors>
                                 <descriptor>src/assembly/clover-jar.xml</descriptor>
@@ -202,7 +202,7 @@
                             <goal>single</goal>
                         </goals>
                         <configuration>
-                            <finalName>clover-all-${project.version}</finalName>
+                            <finalName>clover-ant-${project.version}</finalName>
                             <appendAssemblyId>false</appendAssemblyId>
                             <descriptors>
                                 <descriptor>src/assembly/clover-all.xml</descriptor>

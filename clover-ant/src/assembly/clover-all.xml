@@ -25,7 +25,7 @@
             <directory>target</directory>
             <outputDirectory>lib</outputDirectory>
             <includes>
-                <include>clover-*.jar</include>
+                <include>clover-ant-*.jar</include>
             </includes>
         </fileSet>
         <fileSet>
