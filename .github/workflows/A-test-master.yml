@@ -27,16 +27,15 @@ jobs:
         uses: actions/cache@v3
         with:
           path: target/dependencies/eclipse
-          key: ${{ runner.os }}-eclipse-${{ hashFiles('clover-eclipse/clover-eclipse-libs/build.xml') }}
+          key: ${{ runner.os }}-eclipse-${{ hashFiles('clover-eclipse/clover-eclipse-libs/pom.xml') }}
 
-      - name: Prepare repacked third party libraries
+      - name: Prepare third party libraries
         run: |
           mvn install -f clover-core-libs/jarjar/pom.xml
-          mvn install -Prepack -f clover-core-libs/pom.xml
-          mvn install -Prepack -f clover-idea/clover-jtreemap/pom.xml
-
-      - name: Download Eclipse IDE binaries
-        run: ant -noinput -buildfile build.xml clover-eclipse-libs.build
+          mvn install -Pworkspace-setup -f clover-core-libs/pom.xml
+          mvn install -Pworkspace-setup -f clover-eclipse/clover-eclipse-libs/pom.xml
+          mvn install -Pworkspace-setup -f clover-idea/clover-jtreemap/pom.xml
+          mvn install -Pworkspace-setup -f clover-idea/clover-idea-libs/pom.xml
 
       - name: Download KTreemap fork
         run: |
@@ -51,8 +50,12 @@ jobs:
            mvn install -Dmdep.skip=true  
            cd ..
 
-      - name: Run core tests
+      - name: Build all modules and run core tests
         run: |
-           ant -noinput -buildfile build.xml clover-core.test clover-ant.test groovy.test
-           ant -noinput -buildfile build.xml clover-eclipse.build.all.versions
-        
+          mvn install -f clover-buildutil/pom.xml
+          mvn install -f clover-runtime/pom.xml
+          mvn install -f clover-core/pom.xml
+          mvn install -f groovy/pom.xml
+          mvn install -f clover-ant/pom.xml
+          mvn install -f clover-eclipse/pom.xml
+          mvn install -f clover-idea/pom.xml

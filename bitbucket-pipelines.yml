@@ -19,4 +19,4 @@ pipelines:
           - mvn install -f groovy/pom.xml
           - mvn install -f clover-ant/pom.xml
           - mvn install -f clover-eclipse/pom.xml
-          - mvn install -f clover-idea/pom.xl
+          - mvn install -f clover-idea/pom.xml
