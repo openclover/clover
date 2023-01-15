@@ -6,15 +6,17 @@ pipelines:
         caches:
           - maven
         script:
-          - apt-get update
-          - apt-get install -y ant
+          - echo "Preparing third party dependencies ..."
           - mvn install -f clover-core-libs/jarjar/pom.xml
-          - mvn install -Prepack -f clover-core-libs/pom.xml
-          - mvn install -Prepack -f clover-idea/clover-jtreemap/pom.xml
-          - ant clover-buildutil.build clover-core-libs.build clover-runtime.build clover-core.build groovy.build clover-ant.build
-          - ant clover-buildutil.test clover-core-libs.test clover-runtime.test clover-core.test groovy.test clover-ant.test
-          - ant clover-ant.mvn.install
-          - # TODO Eclipse and IDEA are excluded becase we don't have a convenient way of downloading them (not in Maven Central)
-          - # ant global.build
-          - # ant global.test
-          - # ant clover-ant.pkg clover-idea.pkg clover-eclipse.pkg clover-ant.mvn.install
+          - mvn install -Pworkspace-setup -f clover-core-libs/pom.xml
+          - mvn install -Pworkspace-setup -f clover-eclipse/clover-eclipse-libs/pom.xml
+          - mvn install -Pworkspace-setup -f clover-idea/clover-jtreemap/pom.xml
+          - mvn install -Pworkspace-setup -f clover-idea/clover-idea-libs/pom.xml
+          - echo "Building modules ..."
+          - mvn install -f clover-buildutil/pom.xml
+          - mvn install -f clover-runtime/pom.xml
+          - mvn install -f clover-core/pom.xml
+          - mvn install -f groovy/pom.xml
+          - mvn install -f clover-ant/pom.xml
+          - mvn install -f clover-eclipse/pom.xml
+          - mvn install -f clover-idea/pom.xl

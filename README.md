@@ -56,8 +56,8 @@ See also:
 ```
 # Prepare repacked third party libraries
 mvn install -f clover-core-libs/jarjar/pom.xml
-mvn install -Prepack -f clover-core-libs/pom.xml
-mvn install -Prepack -f clover-idea/clover-jtreemap/pom.xml
+mvn install -Pworkspace-setup -f clover-core-libs/pom.xml
+mvn install -Pworkspace-setup -f clover-idea/clover-jtreemap/pom.xml
 
 # Download Eclipse IDE binaries
 ant clover-eclipse-libs.build

@@ -37,7 +37,7 @@
     <!-- Repack, install and deploy only with the 'repack' profile -->
     <profiles>
         <profile>
-            <id>repack</id>
+            <id>workspace-setup</id>
             <properties>
                 <skip.nexus.staging>false</skip.nexus.staging>
                 <maven.install.skip>false</maven.install.skip>

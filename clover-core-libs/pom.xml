@@ -35,9 +35,9 @@
         </plugins>
     </build>
     <profiles>
-        <!-- Repack, install and deploy only with the 'repack' profile -->
+        <!-- Repack, install and deploy only with the 'workspace-setup' profile -->
         <profile>
-            <id>repack</id>
+            <id>workspace-setup</id>
             <properties>
                 <skipLocalStaging>true</skipLocalStaging>
                 <skip.nexus.staging>false</skip.nexus.staging>
