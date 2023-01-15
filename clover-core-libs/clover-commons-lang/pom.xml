@@ -2,14 +2,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>clover-velocity</artifactId>
-    <version>1.7</version>
+    <artifactId>clover-commons-lang</artifactId>
+    <version>2.6</version>
     <packaging>jar</packaging>
     <parent>
         <groupId>org.openclover</groupId>
         <artifactId>clover-core-libs</artifactId>
         <version>4.5.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
     <description>
         Repacked with 'clover.' prefix version of the library.
@@ -20,20 +19,20 @@
             <url>http://www.apache.org/licenses/LICENSE-2.0</url>
         </license>
     </licenses>
-    <name>Clover Velocity Library</name>
+    <name>Clover Commons Lang Library</name>
     <!-- Repack, install and deploy only with the 'workspace-setup' profile -->
     <profiles>
         <profile>
             <id>workspace-setup</id>
             <dependencies>
                 <dependency>
-                    <groupId>org.apache.velocity</groupId>
-                    <artifactId>velocity</artifactId>
+                    <groupId>commons-lang</groupId>
+                    <artifactId>commons-lang</artifactId>
                     <version>${project.version}</version>
                 </dependency>
             </dependencies>
             <properties>
-                <target.jar>clover-velocity-${project.version}.jar</target.jar>
+                <target.jar>clover-commons-lang-${project.version}.jar</target.jar>
             </properties>
             <build>
                 <plugins>
@@ -55,34 +54,16 @@
                                 <taskdef name="jarjar" classname="com.tonicsystems.jarjar.JarJarTask"
                                          classpathref="maven.compile.classpath"/>
 
-                                <!-- Repack JAR and correct classes' names in few configuration files - jarjar will not
-                                     handle such stuff -->
-                                <property name="source.jar" value="${org.apache.velocity:velocity:jar}"/>
-                                <property name="velocity.tmp.dir" location="${project.build.directory}/temp"/>
-                                <property name="properties.dir"
-                                          value="${velocity.tmp.dir}/org/apache/velocity/runtime/defaults"/>
-
-                                <unzip src="${source.jar}" dest="${velocity.tmp.dir}"/>
-                                <replace file="${properties.dir}/directive.properties"
-                                         token="org.apache.velocity.runtime.directive"
-                                         value="clover.org.apache.velocity.runtime.directive"/>
-                                <replace file="${properties.dir}/velocity.properties"
-                                         token="org.apache.velocity"
-                                         value="clover.org.apache.velocity"/>
-
-                                <!-- Now use jarjar and prefix classes with 'clover.' -->
-                                <echo message="Repackaging ${velocity.tmp.dir} into ${project.build.directory}/temp.jar"/>
+                                <!-- repack source jar -->
                                 <delete file="${project.build.directory}/temp.jar"/>
+                                <echo message="Repacking ${commons-lang:commons-lang:jar}"/>
                                 <jarjar jarfile="${project.build.directory}/temp.jar">
-                                    <fileset dir="${velocity.tmp.dir}"/>
-                                    <rule pattern="org.apache.commons.collections.**" result="clover.@0"/>
+                                    <zipfileset src="${commons-lang:commons-lang:jar}" includes="**/*"
+                                                excludes="org/apache/commons/lang/enum/**"/>
                                     <rule pattern="org.apache.commons.lang.**" result="clover.@0"/>
-                                    <rule pattern="org.apache.velocity.**" result="clover.@0"/>
-                                    <rule pattern="org.jdom.**" result="clover.@0"/>
                                 </jarjar>
 
                                 <!-- delete empty directories (jarjar 1.4 bug workaround) -->
-                                <echo message="Pruning empty directories from ${project.build.directory}/temp.jar into ${project.build.directory}/${target.jar}"/>
                                 <delete file="${project.build.directory}/${target.jar}"/>
                                 <zip destfile="${project.build.directory}/${target.jar}">
                                     <zipfileset src="${project.build.directory}/temp.jar"

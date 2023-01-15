@@ -34,6 +34,7 @@
                 <module>clover-cajo</module>
                 <module>clover-commons-codec</module>
                 <module>clover-commons-collections</module>
+                <module>clover-commons-lang</module>
                 <module>clover-commons-lang3</module>
                 <module>clover-fastutil</module>
                 <module>clover-gson</module>

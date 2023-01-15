@@ -66,6 +66,10 @@
         </dependency>
         <dependency>
             <groupId>org.openclover</groupId>
+            <artifactId>clover-commons-lang</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
             <artifactId>clover-commons-lang3</artifactId>
         </dependency>
         <dependency>

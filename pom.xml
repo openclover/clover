@@ -103,6 +103,11 @@
             </dependency>
             <dependency>
                 <groupId>org.openclover</groupId>
+                <artifactId>clover-commons-lang</artifactId>
+                <version>2.6</version>
+            </dependency>
+            <dependency>
+                <groupId>org.openclover</groupId>
                 <artifactId>clover-commons-lang3</artifactId>
                 <version>3.3.2</version>
             </dependency>
