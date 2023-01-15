@@ -58,6 +58,7 @@
         <module>clover-core</module>
         <module>groovy</module>
         <module>clover-ant</module>
+        <module>clover-eclipse-libs</module>
         <module>clover-eclipse</module>
         <module>clover-idea</module>
     </modules>
@@ -67,7 +68,7 @@
             <id>workspace-setup</id>
             <modules>
                 <module>clover-core-libs</module>
-                <module>clover-eclipse/clover-eclipse-libs</module>
+                <module>clover-eclipse-libs</module>
                 <module>clover-idea/clover-idea-libs</module>
             </modules>
         </profile>
