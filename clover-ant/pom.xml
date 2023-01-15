@@ -179,7 +179,11 @@
                             <goal>single</goal>
                         </goals>
                         <configuration>
-                            <finalName>clover-ant-${project.version}</finalName>
+                            <!-- Important: for backward compatibility, clover-core + clover-runtime + clover-ant are
+                            being merged into single 'clover' artifact, which is later:
+                            a) deployed to maven central (org.openclover:clover is a primary artifact used in builds)
+                            b) packed into clover-ant zip, deployed to website and maven central -->
+                            <finalName>clover-${project.version}</finalName>
                             <appendAssemblyId>false</appendAssemblyId>
                             <descriptors>
                                 <descriptor>src/assembly/clover-jar.xml</descriptor>

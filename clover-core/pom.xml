@@ -310,6 +310,15 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- We don't deploy clover-core to avoid confusion with clover.jar artifact, which contains
+            clover-core + clover-runtime + clover-ant -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>

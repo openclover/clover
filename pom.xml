@@ -8,10 +8,10 @@
     <name>Clover Base POM</name>
     <version>4.5.0-SNAPSHOT</version>
     <description>This POM is used by Ant build scripts to download dependencies from Maven.</description>
-    <url>http://openclover.org</url>
+    <url>https://openclover.org</url>
     <organization>
         <name>OpenClover.org</name>
-        <url>http://openclover.org</url>
+        <url>https://openclover.org</url>
     </organization>
     <issueManagement>
         <system>GitHub</system>
@@ -280,14 +280,5 @@
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
         <maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
-
-        <!-- a set of properties being embedded in produced binaries -->
-        <clover.url>${project.organization.url}</clover.url>
-        <clover.license.agreement.url>http://www.apache.org/licenses/LICENSE-2.0</clover.license.agreement.url>
-        <clover.help.url>${project.organization.url}/documentation</clover.help.url>
-        <build.date>${maven.build.timestamp}</build.date>
-        <build.stamp>0</build.stamp>
-        <core.release.base>4.5.0</core.release.base>
-        <core.release.num>${project.version}</core.release.num>
     </properties>
 </project>

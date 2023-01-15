@@ -25,8 +25,11 @@
             <directory>target</directory>
             <outputDirectory>lib</outputDirectory>
             <includes>
-                <include>clover-ant-*.jar</include>
+                <include>clover-*.jar</include>
             </includes>
+            <excludes>
+                <exclude>clover-ant-*.jar</exclude>
+            </excludes>
         </fileSet>
         <fileSet>
             <directory>src/main/resources/releasenotes</directory>
