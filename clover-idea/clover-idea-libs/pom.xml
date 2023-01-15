@@ -2,9 +2,9 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.atlassian.clover</groupId>
+    <groupId>org.openclover</groupId>
     <artifactId>clover-idea-libs</artifactId>
-    <version>2016.3.163155298</version> <!-- major.minor.build (2016.3.8 build IC-163.15529.8) -->
+    <version>141.3058.30</version> <!-- major.minor.build (14.1.7 build IC-141.3058.30) -->
     <packaging>pom</packaging>
     <description>
         This module contains a subset of IntelliJ IDEA's JAR files required to compile Clover-for-IDEA
@@ -28,17 +28,29 @@
                 <dependency>
                     <groupId>org.openclover.idea.libs</groupId>
                     <artifactId>idea</artifactId>
-                    <version>${idea.version}</version>
+                    <version>${project.version}</version>
                 </dependency>
                 <dependency>
                     <groupId>org.openclover.idea.libs</groupId>
-                    <artifactId>idea-lib</artifactId>
-                    <version>${idea-lib.version}</version>
+                    <artifactId>others</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.openclover.idea.plugins</groupId>
+                    <artifactId>devkit</artifactId>
+                    <version>${project.version}</version>
                 </dependency>
                 <dependency>
                     <groupId>org.openclover.idea.libs</groupId>
-                    <artifactId>idea-plugins-devkit</artifactId>
-                    <version>${idea-plugins-devkit.version}</version>
+                    <artifactId>bin</artifactId>
+                    <version>${project.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.openclover.idea.libs</groupId>
+                    <artifactId>boot</artifactId>
+                    <version>${project.version}</version>
+                    <scope>test</scope>
                 </dependency>
             </dependencies>
         </profile>
@@ -70,39 +82,32 @@
                                         <mkdir dir="${project.build.directory}/extract"/>
                                         <untar src="${project.build.directory}/download/${idea.download.file}"
                                                dest="${project.build.directory}/extract"
-                                               compression="gzip">
-                                            <patternset>
-                                                <include name="**/*.jar"/>
-                                            </patternset>
-                                        </untar>
+                                               compression="gzip"/>
 
                                         <!-- note: jar with zipfileset is slow, thus unpacking+packing separately -->
-
-                                        <!-- unpack individual jars -->
                                         <echo message="Unpacking JARs from lib ..."/>
                                         <unjar dest="${project.build.directory}/merge/idea-lib">
                                             <fileset dir="${project.build.directory}/extract/${idea.download.dir}/lib"
                                                      includes="**/*.jar"
-                                                     excludes="idea.jar"/> <!-- let's keep IDEA core separately -->
-                                        </unjar>
-
-                                        <echo message="Unpacking JARs from plugins ..."/>
-                                        <unjar dest="${project.build.directory}/merge/idea-plugins-devkit">
-                                            <fileset dir="${project.build.directory}/extract/${idea.download.dir}/plugins/devkit/lib"
-                                                     includes="**/*.jar"/>
+                                                     excludes="idea.jar,boot.jar"/>
+                                            <!-- idea.jar is large so keep it separately; boot.jar is needed on Xbootclasspath -->
                                         </unjar>
 
                                         <!-- merge jars into one -->
                                         <echo message="Packing classes into new JARs ..."/>
+                                        <jar destfile="${project.build.directory}/merge/idea-bin.jar"
+                                             basedir="${project.build.directory}/extract/${idea.download.dir}/bin"
+                                             level="0"/>
+
                                         <jar destfile="${project.build.directory}/merge/idea-lib.jar"
                                              basedir="${project.build.directory}/merge/idea-lib"
                                              excludes="META-INF/MANIFEST.MF,META-INF/INDEX.LIST,META-INF/*.SF,META-INF/*.DSA,META-INF/*.RSA"
                                              level="0">
                                         </jar>
-                                        <jar destfile="${project.build.directory}/merge/idea-plugins-devkit.jar"
-                                             basedir="${project.build.directory}/merge/idea-plugins-devkit"
-                                             excludes="META-INF/MANIFEST.MF"
-                                             level="0">
+
+                                        <jar destfile="${project.build.directory}/merge/idea-plugins-devkit.jar">
+                                            <zipfileset src="${project.build.directory}/extract/${idea.download.dir}/plugins/devkit/lib/devkit.jar"/>
+                                            <zipfileset src="${project.build.directory}/extract/${idea.download.dir}/plugins/devkit/lib/devkit-jps-plugin.jar"/>
                                         </jar>
                                     </target>
                                 </configuration>
@@ -115,7 +120,21 @@
                         <version>3.0.1</version>
                         <executions>
                             <execution>
-                                <id>install-idea</id>
+                                <id>install-idea-lib-boot</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>install-file</goal>
+                                </goals>
+                                <configuration>
+                                    <file>${project.build.directory}/extract/${idea.download.dir}/lib/boot.jar</file>
+                                    <groupId>org.openclover.idea.libs</groupId>
+                                    <artifactId>boot</artifactId>
+                                    <version>${project.version}</version>
+                                    <packaging>jar</packaging>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>install-idea-lib-idea</id>
                                 <phase>install</phase>
                                 <goals>
                                     <goal>install-file</goal>
@@ -124,7 +143,7 @@
                                     <file>${project.build.directory}/extract/${idea.download.dir}/lib/idea.jar</file>
                                     <groupId>org.openclover.idea.libs</groupId>
                                     <artifactId>idea</artifactId>
-                                    <version>${idea.lib.version}</version>
+                                    <version>${project.version}</version>
                                     <packaging>jar</packaging>
                                 </configuration>
                             </execution>
@@ -137,8 +156,8 @@
                                 <configuration>
                                     <file>${project.build.directory}/merge/idea-lib.jar</file>
                                     <groupId>org.openclover.idea.libs</groupId>
-                                    <artifactId>idea-lib</artifactId>
-                                    <version>${idea.lib.version}</version>
+                                    <artifactId>others</artifactId>
+                                    <version>${project.version}</version>
                                     <packaging>jar</packaging>
                                 </configuration>
                             </execution>
@@ -150,9 +169,23 @@
                                 </goals>
                                 <configuration>
                                     <file>${project.build.directory}/merge/idea-plugins-devkit.jar</file>
+                                    <groupId>org.openclover.idea.plugins</groupId>
+                                    <artifactId>devkit</artifactId>
+                                    <version>${project.version}</version>
+                                    <packaging>jar</packaging>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>install-idea-bin</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>install-file</goal>
+                                </goals>
+                                <configuration>
+                                    <file>${project.build.directory}/merge/idea-bin.jar</file>
                                     <groupId>org.openclover.idea.libs</groupId>
-                                    <artifactId>idea-plugins-devkit</artifactId>
-                                    <version>${idea.plugins.devkit.version}</version>
+                                    <artifactId>bin</artifactId>
+                                    <version>${project.version}</version>
                                     <packaging>jar</packaging>
                                 </configuration>
                             </execution>
@@ -165,11 +198,7 @@
     <properties>
         <idea.download.site>https://download.jetbrains.com</idea.download.site>
         <idea.download.path>idea</idea.download.path>
-        <idea.download.file>ideaIC-2016.3.8-no-jdk.tar.gz</idea.download.file>
-        <idea.download.dir>idea-IC-163.15529.8</idea.download.dir>
-        <!-- artifact versions -->
-        <idea.version>${project.version}</idea.version>
-        <idea.lib.version>${project.version}</idea.lib.version>
-        <idea.plugins.devkit.version>${project.version}</idea.plugins.devkit.version>
+        <idea.download.file>ideaIC-14.1.7.tar.gz</idea.download.file>
+        <idea.download.dir>idea-IC-141.3058.30</idea.download.dir>
     </properties>
 </project>
