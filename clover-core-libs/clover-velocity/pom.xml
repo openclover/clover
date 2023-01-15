@@ -75,7 +75,7 @@
                                 <jarjar jarfile="${project.build.directory}/temp.jar">
                                     <fileset dir="${velocity.tmp.dir}"/>
                                     <rule pattern="org.apache.commons.collections.**" result="clover.@0"/>
-                                    <rule pattern="org.apache.commons.lang.**" result="clover.@0"/>
+                                    <rule pattern="org.apache.commons.lang.**" result="clover.org.apache.commons.lang3.@1"/>
                                     <rule pattern="org.apache.velocity.**" result="clover.@0"/>
                                     <rule pattern="org.jdom.**" result="clover.@0"/>
                                 </jarjar>

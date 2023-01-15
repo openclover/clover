@@ -50,7 +50,6 @@
                 <module>clover-cajo</module>
                 <module>clover-commons-codec</module>
                 <module>clover-commons-collections</module>
-                <module>clover-commons-lang</module>
                 <module>clover-commons-lang3</module>
                 <module>clover-fastutil</module>
                 <module>clover-gson</module>
@@ -112,11 +111,6 @@
                     <groupId>com.atlassian.clover</groupId>
                     <artifactId>clover-commons-collections</artifactId>
                     <version>${commons-collections.ver}</version>
-                </dependency>
-                <dependency>
-                    <groupId>com.atlassian.clover</groupId>
-                    <artifactId>clover-commons-lang</artifactId>
-                    <version>${commons-lang.ver}</version>
                 </dependency>
                 <dependency>
                     <groupId>com.atlassian.clover</groupId>

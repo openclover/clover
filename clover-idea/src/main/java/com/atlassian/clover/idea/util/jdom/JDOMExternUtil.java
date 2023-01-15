@@ -1,6 +1,6 @@
 package com.atlassian.clover.idea.util.jdom;
 
-import clover.org.apache.commons.lang.StringUtils;
+import clover.org.apache.commons.lang3.StringUtils;
 import com.atlassian.clover.util.collections.Pair;
 import com.intellij.openapi.diagnostic.Logger;
 import org.jdom.Document;
