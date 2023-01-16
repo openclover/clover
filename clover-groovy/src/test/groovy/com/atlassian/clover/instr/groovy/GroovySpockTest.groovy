@@ -27,7 +27,7 @@ import static com.atlassian.clover.groovy.utils.TestUtils.*
 class GroovySpockTest extends TestBase {
 
     /** Location of sample code */
-    protected File spockExampleDir = new File("src/test/resources/spock-example")
+    protected File spockExampleDir = new File("src/test/resources/spock-example").getAbsoluteFile()
 
     protected File spockExampleSrcDir = new File(spockExampleDir, "src/test/groovy")
 
