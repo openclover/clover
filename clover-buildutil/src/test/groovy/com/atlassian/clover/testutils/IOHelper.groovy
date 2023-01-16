@@ -35,6 +35,6 @@ class IOHelper {
     static File getProjectDirFromProperty() {
         final String projectDir = System.getProperty("project.dir")
         return projectDir != null && new File(projectDir).isDirectory() ?
-                new File(projectDir) : new File().getAbsoluteFile()
+                new File(projectDir) : new File(".").getAbsoluteFile().getParentFile()
     }
 }
