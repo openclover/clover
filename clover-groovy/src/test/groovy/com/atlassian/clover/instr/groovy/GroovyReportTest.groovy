@@ -122,7 +122,8 @@ class GroovyReportTest extends TestBase {
                 com.atlassian.clover.reporters.html.HtmlReporter -i ${db.absolutePath} -o ${reportDir.with { it.getParentFile(); it }.absolutePath}
             """)
         assertEquals "exit code=${result.getExitCode()}", 0, result.getExitCode()
-        assertTrue "stderr = ${result.getStdErr()}", result.getStdErr() == null || result.getStdErr().length() == 0
+        def stdErr = filterOutTimesWarning(result.getStdErr())
+        assertTrue "stderr = ${stdErr}", stdErr == null || stdErr.length() == 0
         assertTrue assertion.call(reportDir)
     }
 
@@ -135,5 +136,10 @@ class GroovyReportTest extends TestBase {
                 groverClasses.absolutePath,
                 servicesFolder.absolutePath,
             ]).findAll { it != null }.join(File.pathSeparator)
+    }
+
+    String filterOutTimesWarning(String input) {
+        def warning = "Warning: the fonts \"Times\" and \"Lucida Bright\" are not available for the Java logical font \"Serif\", which may have unexpected appearance or behavior. Re-enable the \"Times\" font to remove this warning.\n"
+        input?.replace(warning, "")
     }
 }
