@@ -12,7 +12,7 @@ import com.atlassian.clover.versions.LibraryVersion
 import java.lang.reflect.Method
 
 @Mixin ([GroovyCombinatorMixin, SpockCombinatorMixin, TestPropertyMixin, IncludeExcludeMixin])
-public class GroovySpockTestSuite extends junit.framework.TestSuite {
+class GroovySpockTestSuite extends junit.framework.TestSuite {
     static Map<Class, Closure> TEST_CLASSES_AND_SELECTORS = [
         (GroovySpockTest): DefaultTestSelector.instance.closure,
     ]
@@ -23,12 +23,12 @@ public class GroovySpockTestSuite extends junit.framework.TestSuite {
     /** Groovy versions to test against */
     static List GROOVY_VERSION_INCLUDES = System.getProperty("clover.test.groovyversion.includes").with(GroovyVersions.CHOOSE_LATEST_MAJOR_IF_NULL_ELSE_SPLIT)
 
-    private File spockLibDir = new File(getFileProp("project.dir"), "target/dependencies")
-    private File groovyLibDir = new File(getFileProp("project.dir"), "target/dependencies")
+    private File spockLibDir = new File("target/test-dependencies")
+    private File groovyLibDir = new File("target/test-dependencies")
 
-    public static GroovySpockTestSuite suite() { return new GroovySpockTestSuite() }
+    static GroovySpockTestSuite suite() { return new GroovySpockTestSuite() }
 
-    public GroovySpockTestSuite() {
+    GroovySpockTestSuite() {
         // for all spock versions
         eachSpock(spockLibDir, { shouldTestWithSpockJar(it) }) {
             String spockVersion, File spockJar ->
@@ -64,11 +64,11 @@ public class GroovySpockTestSuite extends junit.framework.TestSuite {
     }
 
     boolean shouldTestWithSpockJar(String spockVersion) {
-        shouldInclude(SPOCK_VERSION_INCLUDES, null, spockVersion)
+        shouldInclude(SPOCK_VERSION_INCLUDES, spockVersion)
     }
 
     boolean shouldTestWithGroovyJar(String groovyVersion) {
-        shouldInclude(GROOVY_VERSION_INCLUDES, null, groovyVersion)
+        shouldInclude(GROOVY_VERSION_INCLUDES, groovyVersion)
     }
 
     /** "groovy major version:spock's groovy version" map */

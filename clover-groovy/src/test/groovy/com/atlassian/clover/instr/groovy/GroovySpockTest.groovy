@@ -27,7 +27,7 @@ import static com.atlassian.clover.groovy.utils.TestUtils.*
 class GroovySpockTest extends TestBase {
 
     /** Location of sample code */
-    protected File spockExampleDir = new File(getFileProp("project.dir"), "groovy/src/test/resources/spock-example")
+    protected File spockExampleDir = new File("src/test/resources/spock-example")
 
     protected File spockExampleSrcDir = new File(spockExampleDir, "src/test/groovy")
 
@@ -39,7 +39,7 @@ class GroovySpockTest extends TestBase {
 
     GroovySpockTest(String testName) {
         super(testName);
-        spockJar = new File(getFileProp("project.dir"), "target/dependencies/spock-core-0.7-groovy-2.0.jar")
+        spockJar = getSpockJarFromProperty()
     }
 
     GroovySpockTest(methodName, specificName, groovyAllJar, spockJar) {

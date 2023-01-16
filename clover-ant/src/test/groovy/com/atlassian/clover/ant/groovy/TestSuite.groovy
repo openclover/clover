@@ -20,16 +20,11 @@ class TestSuite extends junit.framework.TestSuite {
     ]
     
     static List GROOVY_VERSION_INCLUDES = System.getProperty("clover.test.groovyversion.includes").with(GroovyVersions.CHOOSE_DEFAULT_SUPPORTED_IF_NULL_ELSE_SPLIT)
-    static List GROOVY_VERSION_EXCLUDES = System.getProperty("clover.test.groovyversion.excludes").with(GroovyVersions.SPLIT)
 
     static List ANT_VERSION_INCLUDES = System.getProperty("clover.test.antversion.includes").with(AntVersions.CHOOSE_DEFAULT_SUPPORTED_IF_NULL_ELSE_SPLIT)
-    static List ANT_VERSION_EXCLUDES = System.getProperty("clover.test.antversion.excludes").with(AntVersions.SPLIT)
 
-    File projectDir = getFileProp("project.dir")
-    File cloverRuntimeJar = new File(projectDir, "clover-ant/target/clover.jar")
-    File antHomesDir = new File(projectDir, "target/dependencies/ant")
-    File groovyLibDir = new File(projectDir, "target/dependencies")
-    File cloverRepkgRuntimeJar = getFileProp("repkg.clover.jar", false)
+    File antHomesDir = new File("target/test-dependencies")
+    File groovyLibDir = new File("target/test-dependencies")
 
     static TestSuite suite() { return new TestSuite() }
 
@@ -64,16 +59,32 @@ class TestSuite extends junit.framework.TestSuite {
         if (countTestCases() == 0) {
             throw new IllegalArgumentException(
                 "No tests configured to run.\n" +
-                "Included Groovy versions: ${GROOVY_VERSION_INCLUDES}. Excluded Groovy versions: ${GROOVY_VERSION_EXCLUDES}. Groovy versions seen: ${findGroovyAllVersionsAndJars(groovyLibDir)}\n" +
-                "Included Ant versions: ${ANT_VERSION_INCLUDES}. Excluded Ant versions: ${ANT_VERSION_EXCLUDES}. Ant versions seen: ${findAntVersionsAndHomes(antHomesDir)}")
+                "Included Groovy versions: ${GROOVY_VERSION_INCLUDES}. Groovy versions seen: ${findGroovyAllVersionsAndJars(groovyLibDir)}\n" +
+                "Included Ant versions: ${ANT_VERSION_INCLUDES}. Ant versions seen: ${findAntVersions(antHomesDir)}")
         }
     }
 
     boolean shouldTestWithGroovy(String version) {
-        shouldInclude(GROOVY_VERSION_INCLUDES, GROOVY_VERSION_EXCLUDES, version)
+        shouldInclude(GROOVY_VERSION_INCLUDES, version)
     }
 
     boolean shouldTestWithAnt(String version) {
-        shouldInclude(ANT_VERSION_INCLUDES, ANT_VERSION_EXCLUDES, version)
+        shouldInclude(ANT_VERSION_INCLUDES, version)
+    }
+
+    File getCloverRepkgRuntimeJar() {
+        getFileProp("repkg.clover.jar", false)
+    }
+
+    static File getCloverRuntimeJar() {
+        // find clover-X.Y.Z-suffix.jar, but not -javadoc or -sources or clover-ant-
+        new File("target").listFiles(new FileFilter() {
+            @Override
+            boolean accept(File pathname) {
+                pathname.name.matches("clover-[0-9]+.*\\.jar") &&
+                        !pathname.name.matches("-javadoc\\.jar") &&
+                        !pathname.name.matches("-sources\\.jar")
+            }
+        })[0]
     }
 }

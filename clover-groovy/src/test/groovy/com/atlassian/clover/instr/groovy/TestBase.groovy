@@ -3,6 +3,7 @@ package com.atlassian.clover.instr.groovy
 import com.atlassian.clover.cfg.instr.InstrumentationConfig
 import com.atlassian.clover.test.junit.CloverDbTestMixin
 import com.atlassian.clover.test.junit.DynamicallyNamedTestBase
+import com.atlassian.clover.test.junit.GroovyVersions
 import com.atlassian.clover.test.junit.JavaExecutorMixin
 import com.atlassian.clover.test.junit.Result
 import com.atlassian.clover.test.junit.TestPropertyMixin
@@ -11,30 +12,28 @@ import com.atlassian.clover.CloverNames
 import com.atlassian.clover.context.ContextStore
 
 @Mixin ([WorkingDirMixin, CloverDbTestMixin, TestPropertyMixin, JavaExecutorMixin])
-public abstract class TestBase extends DynamicallyNamedTestBase {
-    protected File cloverRepkgRuntimeJar = getFileProp("repkg.clover.jar", false)
-    protected File cloverCoreClasses = new File(getFileProp("project.dir"), "clover-core/target/classes")
-    protected File cloverRuntimeClasses = new File(getFileProp("project.dir"), "clover-runtime/target/classes")
-    protected File groverClasses = new File(getFileProp("project.dir"), "groovy/target/classes")
-    protected File[] cloverLibs = new File(getFileProp("project.dir"), "clover-core-libs/target/dependencies/").listFiles()
-    protected File servicesFolder = new File(getFileProp("project.dir"), "clover-ant/etc")
-    protected File loggingProperties = new File(getFileProp("project.dir"), "groovy/src/test/resources/logging.properties")
-    protected File junitJar = getFileProp("junit.jar")
+abstract class TestBase extends DynamicallyNamedTestBase {
+    protected File cloverCoreClasses = new File( "../clover-core/target/classes")
+    protected File cloverRuntimeClasses = new File( "../clover-runtime/target/classes")
+    protected File groverClasses = new File( "target/classes")
+    protected File servicesFolder = new File( "../clover-ant/src/main/resources")
+    protected File loggingProperties = new File( "src/test/resources/logging.properties")
+    protected File junitJar = getJUnitJarFromProperty()
     /** Location of hamcrest-core required by JUnit 4.11+ */
-    protected File hamcrestJar = new File(getFileProp("project.dir"), "target/dependencies/hamcrest-core-1.3.jar")
-    protected File groovyAllJar = getFileProp("groovy-all.jar", false) //Can be null as it may be set by the test suite
+    protected File hamcrestJar = getHamcrestJarFromProperty()
+    protected File groovyAllJar = getGroovyJarFromProperty()
     protected File groverConfigDir
 
-    public TestBase(String testName) {
+    TestBase(String testName) {
         super(testName)
     }
 
-    public TestBase(String methodName, String specificName, File groovyAllJar) {
+    TestBase(String methodName, String specificName, File groovyAllJar) {
         super(methodName, specificName);
         this.groovyAllJar = groovyAllJar
     }
 
-    public void setUp() {
+    void setUp() {
         createWorkingDir()
         reserveCloverDbFile()
         groverConfigDir = (File) File.createTempFile("grover", "config", workingDir).with {File dir ->
@@ -44,7 +43,7 @@ public abstract class TestBase extends DynamicallyNamedTestBase {
         }
     }
 
-    public void tearDown() {
+    void tearDown() {
         //deleteWorkingDir()
     }
 
@@ -137,7 +136,7 @@ public abstract class TestBase extends DynamicallyNamedTestBase {
         return result
     }
 
-    public String calcRepkgJarPath() {
+    String calcRepkgJarPath() {
         return cloverRepkgRuntimeJar?.exists() ? cloverRepkgRuntimeJar.absolutePath : null
     }
 
@@ -153,5 +152,38 @@ public abstract class TestBase extends DynamicallyNamedTestBase {
                 junitJar.absolutePath,
                 hamcrestJar.absolutePath
             ]).findAll { it != null }.join(File.pathSeparator)
+    }
+
+    File getGroovyJarFromProperty() {
+        def groovyVer = System.getProperty("clover-groovy.test.groovy.ver") ?: GroovyVersions.DEFAULT_VERSION
+        new File("target/test-dependencies/groovy-${groovyVer}.jar")
+    }
+
+    File getSpockJarFromProperty() {
+        def spockVer = System.getProperty("clover-groovy.test.spock.ver") ?: "0.7-groovy-2.0"
+        new File("target/test-dependencies/spock-core-${spockVer}.jar")
+    }
+
+    File getHamcrestJarFromProperty() {
+        def hamcrestVer = System.getProperty("clover-groovy.test.hamcrest.ver") ?: "1.3"
+        new File("target/test-dependencies/hamcrest-core-${hamcrestVer}.jar")
+    }
+
+    File getJUnitJarFromProperty() {
+        def junitVer = System.getProperty("clover-groovy.test.junit.ver") ?: "1.4"
+        new File("target/test-dependencies/junit-${junitVer}.jar")
+    }
+
+    File getCloverRepkgRuntimeJar() {
+        getFileProp("repkg.clover.jar", false)
+    }
+
+    File[] getCloverLibs() {
+        new File("target/test-dependencies").listFiles(new FileFilter() {
+            @Override
+            boolean accept(File pathname) {
+                return pathname.name.matches("clover-.*\\.jar")
+            }
+        })
     }
 }
