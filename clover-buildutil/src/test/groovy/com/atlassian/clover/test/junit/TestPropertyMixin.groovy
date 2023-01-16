@@ -1,8 +1,8 @@
 package com.atlassian.clover.test.junit
 
 /** Mixin for grabbing mandatory system properties required for testing  */
-public class TestPropertyMixin {
-    public File getFileProp(String name, boolean mandatory) {
+class TestPropertyMixin {
+    File getFileProp(String name, boolean mandatory) {
         String prop = System.getProperty(name)
         if (prop == null) {
             if (mandatory) {
@@ -14,7 +14,7 @@ public class TestPropertyMixin {
         new File(prop)
     }
 
-    public File getFileProp(String name) {
+    File getFileProp(String name) {
         getFileProp(name, true)
     }
 }

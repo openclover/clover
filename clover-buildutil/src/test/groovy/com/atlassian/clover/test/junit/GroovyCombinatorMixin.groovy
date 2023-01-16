@@ -3,12 +3,12 @@ package com.atlassian.clover.test.junit
 import java.util.regex.Matcher
 
 /** Mixin for iterating over Groovy versions in the project  */
-public class GroovyCombinatorMixin {
-    public void eachGroovy(File groovyLibDir, Closure filter = {true}, Closure c) {
+class GroovyCombinatorMixin {
+    void eachGroovy(File groovyLibDir, Closure filter = {true}, Closure c) {
         findGroovyAllVersionsAndJars(groovyLibDir, filter).each(c)
     }
 
-    public List findGroovyAllVersionsAndJars(File groovyLibDir, Closure filter = {true}) {
+    List findGroovyAllVersionsAndJars(File groovyLibDir, Closure filter = {true}) {
         def isGroovyAllJar = /groovy-(.*)\.jar/
         groovyLibDir.list().findAll {
             Matcher matcher = it =~ isGroovyAllJar

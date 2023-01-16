@@ -3,22 +3,22 @@ package com.atlassian.clover.test.junit
 import java.util.regex.Matcher
 
 /** Mixin for iterating over Ant versions in the project  */
-public class AntCombinatorMixin {
-    public def eachAnt(File antHomesDir, Closure filter = {true}, Closure c) {
-        findAntVersionsAndHomes(antHomesDir, filter).each(c)
+class AntCombinatorMixin {
+    def eachAnt(File antHomesDir, Closure filter = {true}, Closure c) {
+        findAntVersions(antHomesDir, filter).each(c)
     }
 
-    public List findAntVersionsAndHomes(File antHomesDir, Closure filter = {true}) {
-        def isAntDir = /ant-(.*)/
+    List findAntVersions(File antHomesDir, Closure filter = {true}) {
+        def isAntJar = /ant-(.*)\.jar/
         antHomesDir.list().findAll {
-            Matcher matcher = it =~ isAntDir
+            Matcher matcher = it =~ isAntJar
             if (matcher) {
                 filter.call(matcher[0][1])
             } else {
                 false
             }
         }.collect {String name ->
-            [(name =~ isAntDir)[0][1], new File(antHomesDir, name)]
+            [(name =~ isAntJar)[0][1], new File(antHomesDir, name)]
         }
     }
 }
