@@ -277,6 +277,10 @@
                                     <groupId>org.openclover</groupId>
                                     <artifactId>clover-velocity</artifactId>
                                 </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.openclover</groupId>
+                                    <artifactId>clover-cajo</artifactId>
+                                </artifactItem>
                             </artifactItems>
                         </configuration>
                     </execution>
