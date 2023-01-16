@@ -26,8 +26,15 @@ jobs:
         id: cache-eclipse
         uses: actions/cache@v3
         with:
-          path: target/dependencies/eclipse
-          key: ${{ runner.os }}-eclipse-${{ hashFiles('clover-eclipse/clover-eclipse-libs/pom.xml') }}
+          path: clover-eclipse-libs/target/download
+          key: ${{ runner.os }}-eclipse-${{ hashFiles('clover-eclipse-libs/pom.xml') }}
+
+      - name: Cache IDEA binaries
+        id: cache-idea
+        uses: actions/cache@v3
+        with:
+          path: clover-idea-libs/target/download
+          key: ${{ runner.os }}-idea-${{ hashFiles('clover-idea-libs/pom.xml') }}
 
       - name: Prepare third party libraries
         run: |
