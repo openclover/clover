@@ -12,22 +12,26 @@ class DefaultLoggerTest extends TestCase {
     private static String ERROR_PREFIX = "ERROR: "
 
     boolean originalDebug
+    boolean originalVerbose
 
     void setUp() {
         System.setOut(new PrintStream(out))
         System.setErr(new PrintStream(err))
         originalDebug = DefaultLogger.isDebug()
+        originalVerbose = DefaultLogger.isVerbose()
     }
 
     void tearDown() {
         System.setOut(defaultOut)
         System.setErr(defaultErr)
         DefaultLogger.setDebug(originalDebug)
+        DefaultLogger.setVerbose(originalVerbose)
     }
 
     void testLogInfo() throws IOException {
         DefaultLogger log = new DefaultLogger()
         DefaultLogger.setDebug(false)
+        DefaultLogger.setVerbose(false)
         final String msg = "Testing"
         log.info(msg)
         assertSystemOutEquals(msg)
@@ -41,6 +45,7 @@ class DefaultLoggerTest extends TestCase {
     void testLogError() throws IOException {
         DefaultLogger log = new DefaultLogger()
         DefaultLogger.setDebug(false)
+        DefaultLogger.setVerbose(false)
         final String msg = "Testing"
         log.error(msg)
         assertSystemErrEquals(ERROR_PREFIX + msg)
