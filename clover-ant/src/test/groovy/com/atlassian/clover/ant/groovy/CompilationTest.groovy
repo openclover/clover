@@ -33,8 +33,7 @@ class CompilationTest extends DynamicallyNamedTestBase {
     }
 
     private AntProjectSimulacrum createDefaultAntProjectSimulacrum(String testName) {
-        File projectDir = IOHelper.getProjectDirFromProperty()
-        File cloverRuntimeJar = new File(projectDir, "clover-ant/target/clover.jar")
+        File cloverRuntimeJar = getCloverRuntimeJar()
         File cloverRepkgRuntimeJar = getFileProp("repkg.clover.jar", false)
 
         String antVersion = AntVersions.DEFAULT_VERSION
@@ -53,6 +52,19 @@ class CompilationTest extends DynamicallyNamedTestBase {
                 cloverRepkgRuntimeJar: cloverRepkgRuntimeJar,
                 test: this)
     }
+
+    static File getCloverRuntimeJar() {
+        // find clover-X.Y.Z-suffix.jar, but not -javadoc or -sources or clover-ant-
+        new File("target").listFiles(new FileFilter() {
+            @Override
+            boolean accept(File pathname) {
+                pathname.name.matches("clover-[0-9]+.*\\.jar") &&
+                        !pathname.name.matches("-javadoc\\.jar") &&
+                        !pathname.name.matches("-sources\\.jar")
+            }
+        })[0]
+    }
+
 
 //====ARTIFACT TEMPLATES====
     static String INIT_TARGET = '''
