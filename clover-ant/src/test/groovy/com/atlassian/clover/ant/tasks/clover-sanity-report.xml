@@ -10,6 +10,9 @@
     <taskdef name="clover-check" classname="com.atlassian.clover.ant.tasks.CloverPassTask"/>
     <taskdef name="clover-merge" classname="com.atlassian.clover.ant.tasks.CloverMergeTask"/>
 
+    <property name="clover.jar" location="${project.dir}/clover-ant/target/clover-${clover-ant.test.clover.ver}.jar"/>
+    <property name="junit.jar" location="${project.dir}/clover-ant/target/test-dependencies/junit-${clover-ant.test.junit.ver}.jar"/>
+
     <target name="setUp">
         <fail unless="project.dir" message="The 'project.dir' property is missing"/>
         <fail unless="outdir" message="The 'outdir' property is missing"/>
@@ -20,8 +23,8 @@
     </target>
 
     <path id="unittestpath">
-        <pathelement location="${project.dir}/target/dependencies/junit-4.12.jar"/>
-        <pathelement location="${project.dir}/clover-ant/target/clover.jar"/> <!-- normal version -->
+        <pathelement location="${junit.jar}"/>
+        <pathelement location="${clover.jar}"/> <!-- normal version -->
         <pathelement location="${repkg.clover.jar}"/> <!-- repackaged version -->
     </path>
 

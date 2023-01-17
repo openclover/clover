@@ -7,27 +7,27 @@
     <taskdef name="clover-report" classname="com.atlassian.clover.ant.tasks.CloverReportTask"/>
     <taskdef name="clover-setup" classname="com.atlassian.clover.ant.tasks.CloverSetupTask"/>
 
+    <property name="clover.jar" value="${project.dir}/clover-ant/target/clover-${clover-ant.test.clover.ver}.jar"/>
+    <property name="junit.jar" value="${project.dir}/clover-ant/target/test-dependencies/junit-${clover-ant.test.junit.ver}.jar"/>
+    <property name="testng.jar" value="${project.dir}/clover-ant/target/test-dependencies/testng-${clover-ant.test.testng.ver}.jar"/>
+
     <property name="src.buildutil.location" value="${testdetection.dir}/buildutil"/>
     <property name="project.src.location1" value="${testdetection.dir}/version1"/>
     <property name="project.src.location2" value="${testdetection.dir}/version2"/>
 
     <path id="test.path">
-        <pathelement location="${project.dir}/clover-ant/target/clover.jar"/> <!-- normal version -->
+        <pathelement location="${clover.jar}"/> <!-- normal version -->
         <pathelement location="${repkg.clover.jar}"/> <!-- repackaged version -->
     </path>
 
     <path id="junit.path">
         <path refid="test.path"/>
-        <fileset dir="${testdetection.dir}/lib">
-            <include name="junit*.jar"/>
-        </fileset>
+        <pathelement location="${junit.jar}"/>
     </path>
 
-    <path id="testngjdk15.path">
+    <path id="testng.path">
         <path refid="test.path"/>
-        <fileset dir="${testdetection.dir}/lib">
-            <include name="testng-*-jdk15.jar"/>
-        </fileset>
+        <pathelement location="${testng.jar}"/>
     </path>
 
     <path id="all.test.path">
@@ -85,8 +85,7 @@
     </target>
 
     <target name="runTestNGJDK15Tests" depends="compile" xmlns:testngjdk15="antlib:testngjdk15">
-        <taskdef uri="antlib:testngjdk15" resource="testngtasks"
-                 classpath="${testdetection.dir}/lib/testng-5.9-jdk15.jar"/>
+        <taskdef uri="antlib:testngjdk15" resource="testngtasks" classpath="${testng.jar}"/>
 
         <mkdir dir="testngjdk15_report"/>
 

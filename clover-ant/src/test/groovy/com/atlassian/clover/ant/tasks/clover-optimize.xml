@@ -6,7 +6,12 @@
     <typedef name="clover-optimized-testset" classname="com.atlassian.clover.ant.types.CloverOptimizedTestSet"/>
     <typedef name="always-run" classname="com.atlassian.clover.ant.types.CloverAlwaysRunTestSet"/>
 
-    <taskdef resource="testngtasks" classpath="${project.dir}/target/dependencies/testng-6.8.21.jar"/>
+    <property name="clover.jar" location="${project.dir}/clover-ant/target/clover-${clover-ant.test.clover.ver}.jar"/>
+    <property name="jcommander.jar" location="${project.dir}/clover-ant/target/test-dependencies/jcommander-${clover-ant.test.jcommander.ver}.jar"/>
+    <property name="junit.jar" location="${project.dir}/clover-ant/target/test-dependencies/junit-${clover-ant.test.junit.ver}.jar"/>
+    <property name="testng.jar" location="${project.dir}/clover-ant/target/test-dependencies/testng-${clover-ant.test.testng.ver}.jar"/>
+
+    <taskdef resource="testngtasks" classpath="${testng.jar}"/>
 
     <property name="src.location" value="${sampleproject.dir}/src"/>
     <property name="test.location" value="${sampleproject.dir}/test"/>
@@ -20,14 +25,10 @@
     <property name="instrumentation.level" value="statement"/>
 
     <path id="unittestpath">
-        <fileset dir="${project.dir}/target/dependencies">
-            <include name="junit*.jar"/>
-        </fileset>
-        <fileset dir="${project.dir}/target/dependencies">
-            <include name="testng-*.jar"/>
-            <include name="jcommander-*.jar"/> <!-- testng dependency -->
-        </fileset>
-        <pathelement location="${project.dir}/clover-ant/target/clover.jar"/> <!-- normal version -->
+        <pathelement location="${junit.jar}"/>
+        <pathelement location="${testng.jar}"/>
+        <pathelement location="${jcommander.jar}"/>
+        <pathelement location="${clover.jar}"/> <!-- normal version -->
         <pathelement location="${repkg.clover.jar}"/> <!-- repackaged version -->
     </path>
 

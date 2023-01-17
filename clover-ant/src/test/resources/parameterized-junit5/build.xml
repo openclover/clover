@@ -5,8 +5,10 @@
     <property name="target.clover.db" location="${target.dir}/clover/db/clover.db"/>
     <property name="target.clover.report" location="${target.dir}/clover/report"/>
 
-    <property name="clover.jar" location="${project.dir}/clover-ant/target/clover.jar"/>
+    <property name="clover.jar" location="${project.dir}/clover-ant/target/clover-${clover-ant.test.clover.ver}.jar"/>
     <property name="repkg.clover.jar" location="${project.dir}/target/clover-repkg.jar"/> <!-- optional, for with.clover builds -->
+    <property name="junit5.jar" location="${project.dir}/clover-ant/target/test-dependencies/junit-jupiter-${clover-ant.test.junit5.ver}.jar"/>
+    <property name="hamcrest.jar" location="${project.dir}/clover-ant/target/test-dependencies/hamcrest-core-${clover-ant.test.hamcrest.ver}.jar"/>
 
     <target name="setUp"/>
     <target name="tearDown"/>
@@ -18,11 +20,7 @@
         <fail message="The 'clover.jar=${clover.jar}' file does not exist." unless="clover.jar.exists"/>
 
 		<path id="junit.lib.path">
-			<fileset dir="${project.dir}">
-				<include name="target/dependencies/junit-jupiter-*.jar"/>
-				<include name="target/dependencies/junit-platform-*.jar"/>
-                <include name="target/dependencies/opentest4j-*.jar"/>
-			</fileset>
+            <pathelement location="${junit5.jar}"/>
 		</path>
 
         <!-- Set compilation/runtime class path -->
@@ -30,7 +28,7 @@
             <pathelement location="${clover.jar}"/>
             <pathelement location="${repkg.clover.jar}"/>
 			<path refid="junit.lib.path"/>
-            <pathelement location="${project.dir}/target/dependencies/hamcrest-core-1.3.jar"/>
+            <pathelement location="${hamcrest.jar}"/>
         </path>
 
         <!-- Initialize Clover -->
