@@ -1,5 +1,5 @@
 <project basedir="" default="" name="">
-    <property name="testdetection.dir" value="${project.dir}/clover-core/src/test/resources/testdetection"/>
+    <property name="testdetection.dir" value="${project.dir}/clover-ant/src/test/resources/testdetection"/>
 
     <property file="expected-testcases.properties"/>
 
