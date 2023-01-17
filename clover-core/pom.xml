@@ -285,9 +285,6 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <redirectTestOutputToFile>true</redirectTestOutputToFile>
-                    <systemPropertyVariables>
-                        <project.dir>${project.basedir}/..</project.dir> <!-- many tests rely on this property -->
-                    </systemPropertyVariables>
                 </configuration>
             </plugin>
             <!-- generate sources jar -->

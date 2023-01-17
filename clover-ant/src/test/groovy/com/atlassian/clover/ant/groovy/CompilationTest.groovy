@@ -10,7 +10,7 @@ import com.atlassian.clover.CloverNames
 import com.atlassian.clover.testutils.IOHelper
 
 @Mixin ([WorkingDirMixin, JavaExecutorMixin, TestPropertyMixin])
-public class CompilationTest extends DynamicallyNamedTestBase {
+class CompilationTest extends DynamicallyNamedTestBase {
 
     AntProjectSimulacrum project
 
@@ -18,7 +18,7 @@ public class CompilationTest extends DynamicallyNamedTestBase {
      * Constructor called when ran as a standalone test. Using predefined values (default Ant and Groovy).
      * @param testName
      */
-    public CompilationTest(String testName) {
+    CompilationTest(String testName) {
         super(testName, testName)
         this.project = createDefaultAntProjectSimulacrum(testName)
     }
@@ -27,7 +27,7 @@ public class CompilationTest extends DynamicallyNamedTestBase {
      * Constructor called from a {@link com.atlassian.clover.ant.groovy.TestSuite}. Testing against various Ant and
      * Groovy versions.
      */
-    public CompilationTest(String baseName, String specificName, AntProjectSimulacrum project) {
+    CompilationTest(String baseName, String specificName, AntProjectSimulacrum project) {
         super(baseName, specificName)
         this.project = project
     }
@@ -39,14 +39,14 @@ public class CompilationTest extends DynamicallyNamedTestBase {
 
         String antVersion = AntVersions.DEFAULT_VERSION
         String groovyVersion = GroovyVersions.DEFAULT_VERSION
-        File antHome = new File(new File(projectDir, "target/dependencies/ant"), "ant-${antVersion}")
-        File groovyAllJar = new File(new File(projectDir, "target/dependencies"), "groovy-${groovyVersion}.jar")
+        File antJar = new File("clover-ant/target/test-dependencies", "ant-${antVersion}.jar")
+        File groovyAllJar = new File("clover-ant/target/test-dependencies", "groovy-${groovyVersion}.jar")
 
         new AntProjectSimulacrum(
                 methodName: testName,
                 testVersionedName: testName,
                 antVersion: antVersion.replace('.', '_'),
-                antHome: antHome,
+                antJar: antJar,
                 groovyVersion: groovyVersion.replace('.', '_'),
                 groovyAllJar: groovyAllJar,
                 cloverRuntimeJar: cloverRuntimeJar,

@@ -4,13 +4,13 @@ import com.atlassian.clover.test.junit.JavaExecutorMixin
 import junit.framework.Test
 
 @Mixin (JavaExecutorMixin)
-public class AntProjectSimulacrum {
+class AntProjectSimulacrum {
     public static String DEBUG_OPTIONS = ""//-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5009"
 
     String methodName
     String testVersionedName
     String antVersion
-    File antHome
+    File antJar
     String groovyVersion
     File groovyAllJar
     File cloverRuntimeJar
@@ -19,9 +19,7 @@ public class AntProjectSimulacrum {
     File buildXml
 
     List<String> calcAntClasspath() {
-        return antHome.list().findAll {it.endsWith(".jar")}.collect {String jar ->
-            new File(antHome, jar).getAbsolutePath()
-        }
+        [ antJar.getAbsolutePath() ]
     }
 
     def getName() {
@@ -35,8 +33,6 @@ public class AntProjectSimulacrum {
         launchJava """-classpath ${[calcAntClasspath(), calcRepkgJarPath()].flatten().findAll { it != null }.join(File.pathSeparator)}
         ${DEBUG_OPTIONS}
         -Djava.io.tmpdir=${System.getProperty("java.io.tmpdir")}
-        -Dant.home=\"${antHome.absolutePath}\"
-        -Dant.library.dir=\"${antHome.absolutePath}\"
         -Djava.awt.headless=true
         org.apache.tools.ant.launch.Launcher
         -f ${buildXml}
@@ -44,7 +40,7 @@ public class AntProjectSimulacrum {
         ${targets.join(' ')}"""
     }
 
-    public String calcRepkgJarPath() {
+    String calcRepkgJarPath() {
         return cloverRepkgRuntimeJar != null
                 ? (cloverRepkgRuntimeJar.absolutePath == cloverRuntimeJar.absolutePath
                         ? null

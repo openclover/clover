@@ -29,7 +29,7 @@ class TestSuite extends junit.framework.TestSuite {
     static TestSuite suite() { return new TestSuite() }
 
     protected TestSuite() {
-        eachAnt(antHomesDir, { shouldTestWithAnt(it) }) {String antVersion, File antHome ->
+        eachAnt(antHomesDir, { shouldTestWithAnt(it) }) {String antVersion, File antJar ->
             eachGroovy(groovyLibDir, { shouldTestWithGroovy(it) }) {String groovyVersion, File groovyAllJar ->
                 TEST_CLASSES_AND_SELECTORS.each {Class c, Closure selector ->
                     c.getDeclaredMethods().findAll(selector).each {Method m ->
@@ -43,7 +43,7 @@ class TestSuite extends junit.framework.TestSuite {
                                 methodName: m.getName(),
                                 testVersionedName: versionedMethodName,
                                 antVersion: antVersion.replace('.', '_'),
-                                antHome: antHome,
+                                antJar: antJar,
                                 groovyVersion: groovyVersion.replace('.', '_'),
                                 groovyAllJar: groovyAllJar,
                                 cloverRuntimeJar: cloverRuntimeJar,
