@@ -54,6 +54,7 @@
 
 package org.apache.tools.ant
 
+import com.atlassian.clover.testutils.IOHelper
 import junit.framework.TestCase
 
 /**
@@ -188,6 +189,10 @@ abstract class BuildFileTestBase extends TestCase {
     }
 
     private String cleanBuffer(StringBuffer buffer) {
+        if (buffer == null) {
+            return ""
+        }
+
         StringBuilder cleanedBuffer = new StringBuilder()
         boolean cr = false
         for (int i = 0; i < buffer.length(); i++) { 
@@ -229,7 +234,8 @@ abstract class BuildFileTestBase extends TestCase {
             }
         }
         project.init()
-        project.setUserProperty( "ant.file" , new File(filename).getAbsolutePath() )
+        project.setUserProperty( "ant.file" , new File(filename).absolutePath)
+        project.setProperty("project.dir", IOHelper.projectDir.absolutePath)
         project.setSystemProperties()
         project.addBuildListener(new AntTestListener())
         ProjectHelper.configureProject(project, new File(filename))

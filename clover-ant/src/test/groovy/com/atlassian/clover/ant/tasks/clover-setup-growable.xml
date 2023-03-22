@@ -11,8 +11,6 @@
     <property name="footest.source.file" location="${build.dir}/FooTest.java"/>
     <property name="reader.source.file" location="${build.dir}/PipeReader.java"/>
 
-    <taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${project.dir}/target/dependencies/ant-contrib-1.0b3.jar"/>
-
     <macrodef name="generate-source-files">
         <sequential>
             <!-- helper class for simple inter-process communication -->
@@ -117,9 +115,9 @@ public class FooTest {
 
             <path id="runtime.classpath">
                 <pathelement location="${build.classes.dir}"/>
-                <pathelement location="${project.dir}/clover-ant/target/clover.jar"/> <!-- normal version -->
+                <pathelement location="${project.dir}/clover-ant/target/clover-${clover-ant.test.clover.ver}.jar"/> <!-- normal version -->
                 <pathelement location="${repkg.clover.jar}"/> <!-- repackaged version -->
-                <pathelement location="${project.dir}/target/dependencies/hamcrest-core-1.3.jar"/>
+                <pathelement location="${project.dir}/clover-ant/target/test-dependencies/hamcrest-core-${clover-ant.test.hamcrest.ver}.jar"/>
             </path>
 
             <echo message="A @{testcase} test case runtime.classpath=${toString:runtime.classpath}"/>
