@@ -3,15 +3,16 @@ package com.atlassian.clover.instr.groovy
 import com.atlassian.clover.test.junit.GroovyVersionStart
 
 class GroovyReportTest extends TestBase {
-    public GroovyReportTest(methodName, specificName, groovyAllJar) {
-        super(methodName, specificName, groovyAllJar);
+
+    GroovyReportTest(String testName) {
+        super(testName)
     }
 
-    public GroovyReportTest(String testName) {
-        super(testName);
+    GroovyReportTest(String methodName, String specificName, File groovyAllJar, List<File> additionalGroovyJars) {
+        super(methodName, specificName, groovyAllJar, additionalGroovyJars)
     }
 
-    public void testReportsOnFourClassTypes() {
+    void testReportsOnFourClassTypes() {
         instrumentAndCompileWithGrover(
             ["FooEnum.groovy":
             """
@@ -47,7 +48,7 @@ class GroovyReportTest extends TestBase {
         }
     }
 
-    public void testStillReportOnEnumMethods() {
+    void testStillReportOnEnumMethods() {
         instrumentAndCompileWithGrover(
             ["Foo.groovy":
             """
@@ -72,7 +73,7 @@ class GroovyReportTest extends TestBase {
     }
 
     @GroovyVersionStart("1.8.0")
-    public void testReportsOnDollarSlashyStrings() {
+    void testReportsOnDollarSlashyStrings() {
         //A 1.8 sanity test to ensure our lexer doesn't break on 1.8 syntax
         instrumentAndCompileWithGrover(
             ["Foo.groovy":
@@ -118,7 +119,7 @@ class GroovyReportTest extends TestBase {
                 -Dclover.logging.level=verbose
                 -Djava.io.tmpdir=${System.getProperty("java.io.tmpdir")}
                 -Djava.awt.headless=true
-                -classpath ${calcReportClasspath([workingDir.getAbsolutePath(), calcRepkgJarPath()].findAll { it != null }.toList())}
+                -classpath ${calcReportClasspath([workingDir, calcRepkgJar()].findAll { it != null }.toList())}
                 com.atlassian.clover.reporters.html.HtmlReporter -i ${db.absolutePath} -o ${reportDir.with { it.getParentFile(); it }.absolutePath}
             """)
         assertEquals "exit code=${result.getExitCode()}", 0, result.getExitCode()
@@ -127,15 +128,10 @@ class GroovyReportTest extends TestBase {
         assertTrue assertion.call(reportDir)
     }
 
-    protected String calcReportClasspath(List others = []) {
-        return (others +
-            cloverLibs.collect { it.absolutePath } +
-            [
-                cloverCoreClasses.absolutePath,
-                cloverRuntimeClasses.absolutePath,
-                groverClasses.absolutePath,
-                servicesFolder.absolutePath,
-            ]).findAll { it != null }.join(File.pathSeparator)
+    protected String calcReportClasspath(List<File> others = []) {
+        return (others + cloverLibs + [ cloverCoreClasses, cloverRuntimeClasses, groverClasses, servicesFolder ])
+                .collect { File it -> it.absolutePath }
+                .findAll { it != null }.join(File.pathSeparator)
     }
 
     String filterOutTimesWarning(String input) {

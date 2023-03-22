@@ -34,30 +34,31 @@ class GroovySpockTest extends TestBase {
     /** Location of generated HTML report */
     protected File htmlReportDir
 
-    /** Location of Spock framework JAR to test against */
-    protected File spockJar
-
     GroovySpockTest(String testName) {
-        super(testName);
-        spockJar = getSpockJarFromProperty()
+        super(testName, testName, getGroovyJarFromProperty(), [ getSpockJarFromProperty() ])
     }
 
-    GroovySpockTest(methodName, specificName, groovyAllJar, spockJar) {
-        super(methodName, specificName, groovyAllJar)
-        this.spockJar = spockJar
+    GroovySpockTest(String methodName, String specificName, File groovyAllJar, List<File> additionalGroovyJars) {
+        super(methodName, specificName, groovyAllJar, additionalGroovyJars)
+    }
+
+    private static File getSpockJarFromProperty() {
+        def spockVer = System.getProperty("clover-groovy.test.spock.ver") ?: "0.7-groovy-2.0"
+        new File("target/test-dependencies/spock-core-${spockVer}.jar")
     }
 
     protected Result instrumentAndCompileWithGroovyAndSpock(List<String> files) {
         List sourceFiles = files.collect { new File(spockExampleSrcDir, it) }
 //        String remoteDebug = "-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005 "
         String remoteDebug = ""
-        instrumentAndCompileWithGrover(sourceFiles, remoteDebug, [spockJar.getAbsolutePath()])
+        instrumentAndCompileWithGrover(sourceFiles, remoteDebug, additionalGroovyJars)
     }
 
     protected Result runSpockRunner(String className) {
 //        String remoteDebug = "-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5006 "
         String remoteDebug = ""
-        run("org.junit.runner.JUnitCore ${className}", [remoteDebug, "-Dclover.logging.level=debug"], [spockJar.getAbsolutePath()])
+        run("org.junit.runner.JUnitCore ${className}", [remoteDebug, "-Dclover.logging.level=debug"],
+                additionalGroovyJars.collect {it.getAbsolutePath() })
     }
 
     protected Result runHtmlReport() {
@@ -66,7 +67,7 @@ class GroovySpockTest extends TestBase {
         htmlReportDir = new File(workingDir, "html")
         launchCmd("""
             java -classpath
-            ${calcCompilationClasspath([groovyAllJar.getAbsolutePath(), calcRepkgJarPath()])}
+            ${calcCompilationClasspath([groovyAllJar, calcRepkgJar()] + additionalGroovyJars)}
             ${remoteDebug}
             com.atlassian.clover.reporters.html.HtmlReporter -i ${db.absolutePath} -o ${htmlReportDir} -a -e
         """)

@@ -23,6 +23,18 @@ class TestSuite extends junit.framework.TestSuite {
 
     private File groovyLibDir = new File("target/test-dependencies")
 
+    static File getCommonsCliJar() {
+        new File("target/test-dependencies/commons-cli-1.2.jar")
+    }
+
+    static File getAsmJar() {
+        new File("target/test-dependencies/asm-4.1.jar")
+    }
+
+    static File getAntlrJar() {
+        new File("target/test-dependencies/antlr-2.7.7.jar")
+    }
+
     static TestSuite suite() { return new TestSuite() }
 
     TestSuite() {
@@ -32,7 +44,11 @@ class TestSuite extends junit.framework.TestSuite {
                     //Run the test if groovy start version is not specified or if it is and we're >= to it
                     if (!m.isAnnotationPresent(GroovyVersionStart.class)
                         || new LibraryVersion(m.getAnnotation(GroovyVersionStart.class).value()).compareTo(new LibraryVersion(version)) <= 0) {
-                        testClass.declaredConstructors.find {it.parameterTypes.length == 3}.newInstance(m.name, "${m.name}_For_Groovy_${version}".toString(), groovyAllJar).with { addTest(it) }
+                        List<File> additionalLibraries = [ commonsCliJar, asmJar, antlrJar ]
+                        testClass.declaredConstructors
+                                .find {it.parameterTypes.length == 4}
+                                .newInstance(m.name, "${m.name}_For_Groovy_${version}".toString(), groovyAllJar, additionalLibraries)
+                                .with { addTest(it) }
                     }
                 }
             }

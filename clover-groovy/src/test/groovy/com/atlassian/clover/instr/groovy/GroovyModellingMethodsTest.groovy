@@ -15,16 +15,17 @@ import java.util.regex.Pattern
 /**
  * Integration tests that detect if the correct Clover model is generated for given Groovy code.
  **/
-public class GroovyModellingMethodsTest extends TestBase {
-    public GroovyModellingMethodsTest(String methodName, String specificName, File groovyAllJar) {
-        super(methodName, specificName, groovyAllJar)
+class GroovyModellingMethodsTest extends TestBase {
+
+    GroovyModellingMethodsTest(String testName) {
+        super(testName)
     }
 
-    public GroovyModellingMethodsTest(String testName) {
-        super(testName);
+    GroovyModellingMethodsTest(String methodName, String specificName, File groovyAllJar, List<File> additionalGroovyJars) {
+        super(methodName, specificName, groovyAllJar, additionalGroovyJars)
     }
 
-    public void testMethodsFiltered() {
+    void testMethodsFiltered() {
         String fooContents = """
             public class Foo {
 
@@ -47,11 +48,11 @@ public class GroovyModellingMethodsTest extends TestBase {
 
             }
           """
-        final MethodContextDef context = new MethodContextDef();
+        final MethodContextDef context = new MethodContextDef()
         context.regexp = ".*barVoid.*"
         context.name = "barVoid"
 
-        final MethodContextDef groovyContext = new MethodContextDef();
+        final MethodContextDef groovyContext = new MethodContextDef()
         groovyContext.regexp = "public def printGoodbye\\(\\)" // this is the full regexp for matching def methodName()
         groovyContext.name = "goodbye"
 
@@ -80,7 +81,7 @@ public class GroovyModellingMethodsTest extends TestBase {
     }
 
 
-    public void testInterfacesRecognizedAndMethodsNotAddedToRegistry() {
+    void testInterfacesRecognizedAndMethodsNotAddedToRegistry() {
         instrumentAndCompileWithGrover(
                 ["Foo.groovy":
                          """
@@ -98,7 +99,7 @@ public class GroovyModellingMethodsTest extends TestBase {
         }
     }
 
-    public void testAnnotationRecognizedAndFieldsNotAddedToRegistry() {
+    void testAnnotationRecognizedAndFieldsNotAddedToRegistry() {
         instrumentAndCompileWithGrover(
                 ["Foo.groovy":
                          """
@@ -116,7 +117,7 @@ public class GroovyModellingMethodsTest extends TestBase {
         }
     }
 
-    public void testEnumRecognizedAndMethodsAddedToRegistry() {
+    void testEnumRecognizedAndMethodsAddedToRegistry() {
         instrumentAndCompileWithGrover(
                 ["Foo.groovy":
                          """
@@ -140,7 +141,7 @@ public class GroovyModellingMethodsTest extends TestBase {
         }
     }
 
-    public void testAbstractMethodsNotAddedToRegistry() {
+    void testAbstractMethodsNotAddedToRegistry() {
         instrumentAndCompileWithGrover(
                 ["Foo.groovy":
                          """
@@ -158,7 +159,7 @@ public class GroovyModellingMethodsTest extends TestBase {
         }
     }
 
-    public void testGroovyMethodSignaturesRecognized() {
+    void testGroovyMethodSignaturesRecognized() {
         instrumentAndCompileWithGrover(
                 ["Foo.groovy":
                          """
@@ -297,7 +298,7 @@ public class GroovyModellingMethodsTest extends TestBase {
     }
 
     /** Prior to 1.7 methods with default args appear as two or more methods, default variants with -1 for src positions */
-    public void testMethodWithDefaultArgAddedToRegistryOnlyOnce() {
+    void testMethodWithDefaultArgAddedToRegistryOnlyOnce() {
         instrumentAndCompileWithGrover(
                 ["Foo.groovy":
                          """
@@ -319,7 +320,7 @@ public class GroovyModellingMethodsTest extends TestBase {
         }
     }
 
-    public void testDefaultTestDetection() {
+    void testDefaultTestDetection() {
         instrumentAndCompileWithGrover(
                 ["Foo1Test.groovy":
                          """

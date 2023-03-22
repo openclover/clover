@@ -46,12 +46,12 @@ class GroovySpockTestSuite extends junit.framework.TestSuite {
                                 || new LibraryVersion(testMethod.getAnnotation(GroovyVersionStart.class).value()).
                                         compareTo(new LibraryVersion(groovyVersion)) <= 0) {
 
-                            // expected constructor signature: (methodName, specificName, groovyAllJar, spockJar)
+                            // expected constructor signature: (methodName, specificName, groovyAllJar, [ spockJar ])
                             testClass.declaredConstructors.find { it.parameterTypes.length == 4 }
                                     .newInstance(
                                             testMethod.name,
                                             "${testMethod.name}_For_Spock_${spockVersion}_and_Groovy_${groovyVersion}".toString(),
-                                            groovyAllJar, spockJar).with { addTest(it) }
+                                            groovyAllJar, [ spockJar ]).with { addTest(it) }
                         }
                     }
                 }

@@ -11,16 +11,18 @@ import com.atlassian.clover.test.junit.Result
 /**
  * Integration tests that detect if the correct Clover model is generated for given Groovy code.
  **/
-public class GroovyModellingStatementsTest extends TestBase {
-    public GroovyModellingStatementsTest(String methodName, String specificName, File groovyAllJar) {
-        super(methodName, specificName, groovyAllJar)
+class GroovyModellingStatementsTest extends TestBase {
+
+    GroovyModellingStatementsTest(String testName) {
+        super(testName)
     }
 
-    public GroovyModellingStatementsTest(String testName) {
-        super(testName);
+    GroovyModellingStatementsTest(String methodName, String specificName, File groovyAllJar, List<File> additionalGroovyJars) {
+        super(methodName, specificName, groovyAllJar, additionalGroovyJars)
     }
 
-    public void testOnlyFieldsWithEmbeddedStatementsAddedToModel() {
+
+    void testOnlyFieldsWithEmbeddedStatementsAddedToModel() {
         instrumentAndCompileWithGrover(
                 ["Foo.groovy":
                          """
@@ -48,7 +50,7 @@ public class GroovyModellingStatementsTest extends TestBase {
 
 
     @GroovyVersionStart("1.8.0")
-    public void testAnonymousInnerClassInstr() {
+    void testAnonymousInnerClassInstr() {
         instrumentAndCompileWithGrover(
                 ["com/atlassian/foo/bar/Foo.groovy":
                          """
@@ -89,16 +91,16 @@ public class GroovyModellingStatementsTest extends TestBase {
      */
     @GroovyVersionStart("2.0.0")
     // CompileStatic was introduced in Groovy 2.0
-    public void testSafeEvalWithCompileStatic() {
-        safeEvalAndCompileStatic(true);
+    void testSafeEvalWithCompileStatic() {
+        safeEvalAndCompileStatic(true)
     }
 
     /**
      * Test whether our wrapper for the safe navigation operator (?.) returns correct type (and not just an Object)
      * and whether groovyc is able to match a method signature. Should work in all groovy versions.
      */
-    public void testSafeEvalWithoutCompileStatic() {
-        safeEvalAndCompileStatic(false);
+    void testSafeEvalWithoutCompileStatic() {
+        safeEvalAndCompileStatic(false)
     }
 
     protected void safeEvalAndCompileStatic(boolean withCompileStatic) {
@@ -156,7 +158,7 @@ public class GroovyModellingStatementsTest extends TestBase {
         }
     }
 
-    public void testEvalSafelyWithGenericTypes() {
+    void testEvalSafelyWithGenericTypes() {
         Result compilationResult = instrumentAndCompileWithGrover(([
                 "B.groovy":
                         '''
@@ -178,7 +180,7 @@ public class GroovyModellingStatementsTest extends TestBase {
     }
 
     @GroovyVersionStart("1.8.0")
-    public void testEvalSafelyWithGenericTypesClosure() {
+    void testEvalSafelyWithGenericTypesClosure() {
         Result compilationResult = instrumentAndCompileWithGrover(([
                 "A.groovy":
                         '''
@@ -205,7 +207,7 @@ public class GroovyModellingStatementsTest extends TestBase {
      */
     @GroovyVersionStart("2.0.0")
     // CompileStatic was introduced in Groovy 2.0
-    public void testCompileStaticWithClosuresAndImplicitThis() {
+    void testCompileStaticWithClosuresAndImplicitThis() {
         Result compilationResult = instrumentAndCompileWithGrover([
                 "A.groovy":
                         '''
@@ -239,7 +241,7 @@ public class GroovyModellingStatementsTest extends TestBase {
      * The https://jira.codehaus.org/browse/GROOVY-7041 was fixed in 2.3.8
      */
     @GroovyVersionStart("2.3.8")
-    public void testSpreadOperator() {
+    void testSpreadOperator() {
         instrumentAndCompileWithGrover([
                 "A.groovy":
                         '''@groovy.transform.CompileStatic
@@ -254,7 +256,7 @@ public class GroovyModellingStatementsTest extends TestBase {
         ])
     }
 
-    public void testComplexityOfBranches() {
+    void testComplexityOfBranches() {
         instrumentAndCompileWithGrover(
                 ["Foo.groovy":
                          """
@@ -291,7 +293,7 @@ public class GroovyModellingStatementsTest extends TestBase {
         }
     }
 
-    public void testStatementsInsideConstructorsMethodsAndInitializerBlocks() {
+    void testStatementsInsideConstructorsMethodsAndInitializerBlocks() {
         instrumentAndCompileWithGrover(["Statements.groovy":
             '''class StatementsClass {
                     def z = 123
@@ -396,7 +398,7 @@ public class GroovyModellingStatementsTest extends TestBase {
         }
     }
 
-    public void testCodeBlockNesting() {
+    void testCodeBlockNesting() {
         instrumentAndCompileWithGrover(["BlockNesting.groovy":
 '''class BlockNesting {
     void methodOne() {
@@ -454,7 +456,7 @@ public class GroovyModellingStatementsTest extends TestBase {
         }
     }
 
-    public void testTryFinallyBlock() {
+    void testTryFinallyBlock() {
         instrumentAndCompileWithGrover(["TryFinally.groovy":
                 '''class TryFinally {void one() {
                     try { }

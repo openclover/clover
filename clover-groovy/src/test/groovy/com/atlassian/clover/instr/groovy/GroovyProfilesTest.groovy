@@ -15,15 +15,15 @@ import com.atlassian.clover.remote.DistributedConfig
  *
  * @see com.atlassian.clover.ant.tasks.CloverSetupTaskProfilesCorrectTest
  */
-public class GroovyProfilesTest extends TestBase {
+class GroovyProfilesTest extends TestBase {
     public static final String PROPERTY_NOT_FOUND_MSG =
-        "CLOVER: System property '" + CloverNames.PROP_CLOVER_PROFILE + "' was not found. Assuming the 'default' profile.";
+        "CLOVER: System property '" + CloverNames.PROP_CLOVER_PROFILE + "' was not found. Assuming the 'default' profile."
 
-    public static final String USING_PROFILE_MSG = "CLOVER: Using profile '%s' with settings [coverageRecorder=%s";
+    public static final String USING_PROFILE_MSG = "CLOVER: Using profile '%s' with settings [coverageRecorder=%s"
 
-    public static final String NO_PROFILES_DEFINED_MSG = "CLOVER: No profiles defined in instrumented classes. Using standard settings.";
+    public static final String NO_PROFILES_DEFINED_MSG = "CLOVER: No profiles defined in instrumented classes. Using standard settings."
 
-    public static final String PROFILE_NOT_FOUND_MSG = "CLOVER: Profile '%s' not found in instrumented classes. Using standard settings.";
+    public static final String PROFILE_NOT_FOUND_MSG = "CLOVER: Profile '%s' not found in instrumented classes. Using standard settings."
 
     public static final String fooGroovyContent = """
                 public class Foo {
@@ -31,14 +31,14 @@ public class GroovyProfilesTest extends TestBase {
                     println "Foo!"
                   }
                 }
-              """;
+              """
 
-    public GroovyProfilesTest(methodName, specificName, groovyAllJar) {
-        super(methodName, specificName, groovyAllJar);
+    GroovyProfilesTest(String testName) {
+        super(testName)
     }
 
-    public GroovyProfilesTest(String testName) {
-        super(testName);
+    GroovyProfilesTest(String methodName, String specificName, File groovyAllJar, List<File> additionalGroovyJars) {
+        super(methodName, specificName, groovyAllJar, additionalGroovyJars)
     }
 
     /**
@@ -48,7 +48,7 @@ public class GroovyProfilesTest extends TestBase {
      * Expected:
      *  - when there are no profiles, Clover selects fixed coverage recorder.
      */
-    public void testExecuteNoProfiles() {
+    void testExecuteNoProfiles() {
         instrumentAndCompileWithGrover(
                 ["Foo.groovy": fooGroovyContent],
                 "-Dclover.grover.ast.dump=true"
@@ -68,7 +68,7 @@ public class GroovyProfilesTest extends TestBase {
      *
      * @throws Exception
      */
-    public void testExecuteDefaultProfile() {
+    void testExecuteDefaultProfile() {
         instrumentAndCompileWithGrover(
                 ["Foo.groovy": fooGroovyContent],
                 "-Dclover.grover.ast.dump=true",
@@ -81,8 +81,8 @@ public class GroovyProfilesTest extends TestBase {
         def result = run("Foo", ["-Dclover.logging.level=debug"])
 
         // check execution log
-        assertStringContains(PROPERTY_NOT_FOUND_MSG, result.stdOut, false);
-        assertStringContains(String.format(USING_PROFILE_MSG, "default", "GROWABLE"), result.stdOut, false);
+        assertStringContains(PROPERTY_NOT_FOUND_MSG, result.stdOut, false)
+        assertStringContains(String.format(USING_PROFILE_MSG, "default", "GROWABLE"), result.stdOut, false)
     }
 
     /**
@@ -92,7 +92,7 @@ public class GroovyProfilesTest extends TestBase {
      * Expected:
      * - Clover selects coverage recorder from "other" profile
      */
-    public void testExecuteOtherProfile() {
+    void testExecuteOtherProfile() {
         instrumentAndCompileWithGrover(
                 ["Foo.groovy": fooGroovyContent],
                 "-Dclover.grover.ast.dump=true",
@@ -110,9 +110,9 @@ public class GroovyProfilesTest extends TestBase {
         def result = run("Foo", ["-Dclover.logging.level=debug", "-Dclover.profile=other"])
 
         // check execution log
-        assertStringContains(String.format(USING_PROFILE_MSG, "other", "SHARED"), result.stdOut, false);
+        assertStringContains(String.format(USING_PROFILE_MSG, "other", "SHARED"), result.stdOut, false)
         assertStringContains("SharedCoverageRecorder[growableRecorder=GrowableCoverageRecorder[coverage=CoverageMatrix",
-                result.stdOut, false);
+                result.stdOut, false)
     }
 
     /**
@@ -122,7 +122,7 @@ public class GroovyProfilesTest extends TestBase {
      * Expected:
      *  - "two" profile not found, warning, Clover selects standard coverage recorder.
      */
-    public void testExecuteNotFoundProfile() {
+    void testExecuteNotFoundProfile() {
         instrumentAndCompileWithGrover(
                 ["Foo.groovy": fooGroovyContent],
                 "-Dclover.grover.ast.dump=true",
@@ -136,8 +136,8 @@ public class GroovyProfilesTest extends TestBase {
         def result = run("Foo", ["-Dclover.logging.level=debug", "-Dclover.profile=two"])
 
         // check execution log
-        assertStringContains(String.format(PROFILE_NOT_FOUND_MSG, "two"), result.stdOut, false);
-        assertStringContains("FixedSizeCoverageRecorder", result.stdOut, false);
+        assertStringContains(String.format(PROFILE_NOT_FOUND_MSG, "two"), result.stdOut, false)
+        assertStringContains("FixedSizeCoverageRecorder", result.stdOut, false)
     }
 
     /**
@@ -147,7 +147,7 @@ public class GroovyProfilesTest extends TestBase {
      * - clover.profile=some system property
      * Expected: no profiles defined, selects standard coverage recorder
      */
-    public void testExecuteNotFoundNullProfile() {
+    void testExecuteNotFoundNullProfile() {
         instrumentAndCompileWithGrover(
                 ["Foo.groovy": fooGroovyContent],
                 "-Dclover.grover.ast.dump=true"
@@ -155,8 +155,8 @@ public class GroovyProfilesTest extends TestBase {
         def result = run("Foo", ["-Dclover.logging.level=debug", "-Dclover.profile=some"])
 
         // check execution log
-        assertStringContains(NO_PROFILES_DEFINED_MSG, result.stdOut, false);
-        assertStringContains("FixedSizeCoverageRecorder", result.stdOut, false);
+        assertStringContains(NO_PROFILES_DEFINED_MSG, result.stdOut, false)
+        assertStringContains("FixedSizeCoverageRecorder", result.stdOut, false)
     }
 
     /**
@@ -166,7 +166,7 @@ public class GroovyProfilesTest extends TestBase {
      * Expected:
      * - presence of the profile shall override settings from top-level node
      */
-    public void testDistributedCoverageFromProfile() {
+    void testDistributedCoverageFromProfile() {
         instrumentAndCompileWithGrover(
                 ["Foo.groovy": fooGroovyContent],
                 "-Dclover.grover.ast.dump=true",
@@ -185,9 +185,9 @@ public class GroovyProfilesTest extends TestBase {
         // check execution log
         assertStringContains(
                 String.format(USING_PROFILE_MSG, "default", "FIXED distributedCoverage=host=host.from.profile;timeout=10]"),
-                result.stdOut, false);
+                result.stdOut, false)
         assertStringMatches("Distributed coverage is enabled with: name=clover.tcp.server;host=host.from.profile",
-                result.stdOut, false);
+                result.stdOut, false)
     }
 
     /**
@@ -200,7 +200,7 @@ public class GroovyProfilesTest extends TestBase {
      * settings from clover-instr/distributedCoverage are taken
      */
     @Test
-    public void testDistributedCoverageFromTopLevel() {
+    void testDistributedCoverageFromTopLevel() {
         instrumentAndCompileWithGrover(
                 ["Foo.groovy": fooGroovyContent],
                 "-Dclover.grover.ast.dump=true",
@@ -220,9 +220,9 @@ public class GroovyProfilesTest extends TestBase {
         // check execution log
         assertStringContains(
                 String.format(USING_PROFILE_MSG, "default", "FIXED"),
-                result.stdOut, false);
+                result.stdOut, false)
         assertStringMatches("Distributed coverage is enabled with: name=clover.tcp.server;host=host.from.top.level",
-                result.stdOut, false);
+                result.stdOut, false)
     }
 
     /**
@@ -233,7 +233,7 @@ public class GroovyProfilesTest extends TestBase {
      * - as profile is not selected, it will take the "default" one, and enable distributed coverage
      */
     @Test
-    public void testDistributedCoverageUseDefault() {
+    void testDistributedCoverageUseDefault() {
         instrumentAndCompileWithGrover(
                 ["Foo.groovy": fooGroovyContent],
                 "-Dclover.grover.ast.dump=true",
@@ -250,13 +250,9 @@ public class GroovyProfilesTest extends TestBase {
         def result = run("Foo", ["-Dclover.logging.level=debug"])
 
         // check execution log
-        assertStringContains(String.format(USING_PROFILE_MSG, "default", "FIXED"), result.stdOut, false);
+        assertStringContains(String.format(USING_PROFILE_MSG, "default", "FIXED"), result.stdOut, false)
         assertStringMatches("Distributed coverage is enabled with: name=clover.tcp.server;host=host.from.profile",
-                result.stdOut, false);
+                result.stdOut, false)
     }
 
-
-    public GroovyProfilesTest(String methodName, String specificName, File groovyAllJar) {
-        super(methodName, specificName, groovyAllJar)
-    }
 }

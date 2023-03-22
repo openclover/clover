@@ -10,16 +10,17 @@ import com.atlassian.clover.util.ChecksummingReader
 /**
  * Integration tests that detect if the correct Clover model is generated for given Groovy code.
  **/
-public class GroovyModellingTest extends TestBase {
-    public GroovyModellingTest(String methodName, String specificName, File groovyAllJar) {
-        super(methodName, specificName, groovyAllJar)
+class GroovyModellingTest extends TestBase {
+
+    GroovyModellingTest(String testName) {
+        super(testName)
     }
 
-    public GroovyModellingTest(String testName) {
-        super(testName);
+    GroovyModellingTest(String methodName, String specificName, File groovyAllJar, List<File> additionalGroovyJars) {
+        super(methodName, specificName, groovyAllJar, additionalGroovyJars)
     }
 
-    public void testNoConfigMeansNoInstrumentation() {
+    void testNoConfigMeansNoInstrumentation() {
         instrumentAndCompileWithGrover(
                 ["Foo.groovy":
                          """
@@ -31,7 +32,7 @@ public class GroovyModellingTest extends TestBase {
         assertFalse db.exists()
     }
 
-    public void testFileChecksumIsCalculated() {
+    void testFileChecksumIsCalculated() {
         String fooContents = """
           public class Foo {
             public void barVoid() {}
@@ -51,7 +52,7 @@ public class GroovyModellingTest extends TestBase {
     }
 
 
-    public void testFullyQualifiedNames() {
+    void testFullyQualifiedNames() {
         instrumentAndCompileWithGrover(
                 ["com/atlassian/foo/bar/Foo.groovy":
                          """
@@ -79,7 +80,7 @@ public class GroovyModellingTest extends TestBase {
     }
 
 
-    public void testMethodLevelInstr() {
+    void testMethodLevelInstr() {
         instrumentAndCompileWithGrover(
                 ["com/atlassian/foo/bar/Foo.groovy":
                          """

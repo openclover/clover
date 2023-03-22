@@ -16,16 +16,17 @@ import static com.atlassian.clover.testutils.AssertionUtils.assertStringContains
 /**
  * Integration tests that detect if the correct coverage is recorded for given Groovy code. All code samples are executed via PSVM methods.
  */
-public class GroovyCoverageTest extends TestBase {
-    public GroovyCoverageTest(methodName, specificName, groovyAllJar) {
-        super(methodName, specificName, groovyAllJar);
+class GroovyCoverageTest extends TestBase {
+
+    GroovyCoverageTest(String testName) {
+        super(testName)
     }
 
-    public GroovyCoverageTest(String testName) {
-        super(testName);
+    GroovyCoverageTest(String methodName, String specificName, File groovyAllJar, List<File> additionalGroovyJars) {
+        super(methodName, specificName, groovyAllJar, additionalGroovyJars)
     }
 
-    public void testMethodEntry() {
+    void testMethodEntry() {
         instrumentAndCompileWithGrover(
             ["Foo.groovy":
             """
@@ -53,7 +54,7 @@ public class GroovyCoverageTest extends TestBase {
     }
 
 
-    public void testUncoveredElementMetric() {
+    void testUncoveredElementMetric() {
         instrumentAndCompileWithGrover(
             ["Foo.groovy":
             """
@@ -80,7 +81,7 @@ public class GroovyCoverageTest extends TestBase {
         }
     }
 
-    public void testCtorsRecognisedAndCtorChainingPreserved() {
+    void testCtorsRecognisedAndCtorChainingPreserved() {
         instrumentAndCompileWithGrover(
             ["Foo.groovy":
             """
@@ -130,7 +131,7 @@ public class GroovyCoverageTest extends TestBase {
         }
     }
 
-    public void testMethodEntryAcrossClasses() {
+    void testMethodEntryAcrossClasses() {
         instrumentAndCompileWithGrover(
             ["Foo.groovy":
             """
@@ -165,7 +166,7 @@ public class GroovyCoverageTest extends TestBase {
         }
     }
 
-    public void testTestThatDeclaresAVar() {
+    void testTestThatDeclaresAVar() {
         instrumentAndCompileWithGrover(
             ["FooTest.groovy":
             """
@@ -194,7 +195,7 @@ public class GroovyCoverageTest extends TestBase {
         }
     }
 
-    public void testMethodStatementExecution() {
+    void testMethodStatementExecution() {
         instrumentAndCompileWithGrover(
             ["Foo.groovy":
             """
@@ -310,7 +311,7 @@ public class GroovyCoverageTest extends TestBase {
      * Test succeeds on Groovy 1.6.5 or higher. The "switch as expression" was implemented in 1.6.5:
      * http://jira.codehaus.org/browse/GROOVY-3789
      */
-    public void testImplicitReturnsArePreserved() {
+    void testImplicitReturnsArePreserved() {
         instrumentAndCompileWithGrover(
                 ["Foo.groovy": """
                     public class Foo {
@@ -378,7 +379,7 @@ public class GroovyCoverageTest extends TestBase {
 
 
     //Tests that it all works if we have to construct a block but have no enclosing method from which to get the variable scope
-    public void testNonBlockIfStatementsInNonMethods() {
+    void testNonBlockIfStatementsInNonMethods() {
         instrumentAndCompileWithGrover(
             ["Foo.groovy":
             """
@@ -419,7 +420,7 @@ public class GroovyCoverageTest extends TestBase {
         }
     }
 
-    public void testClosureStatementsInSurprisingPlaces() {
+    void testClosureStatementsInSurprisingPlaces() {
         instrumentAndCompileWithGrover(
             ["Foo.groovy":
             """
@@ -496,7 +497,7 @@ public class GroovyCoverageTest extends TestBase {
         }
     }
 
-    public void testTestSlicesRecorded() {
+    void testTestSlicesRecorded() {
         instrumentAndCompileWithGrover(
             ["FooTest.groovy":
             """
@@ -566,7 +567,7 @@ public class GroovyCoverageTest extends TestBase {
         }
     }
 
-    public void testExpectedExceptionsHandled() {
+    void testExpectedExceptionsHandled() {
         instrumentAndCompileWithGrover(
             ["FooTest.groovy":
             """
@@ -620,7 +621,7 @@ public class GroovyCoverageTest extends TestBase {
         }
     }
 
-    public void testFieldsWithInitialisers() {
+    void testFieldsWithInitialisers() {
         instrumentAndCompileWithGrover(
             ["Foo.groovy":
             """
@@ -657,7 +658,7 @@ public class GroovyCoverageTest extends TestBase {
         }
     }
 
-    public void testExpressionBranches() {
+    void testExpressionBranches() {
         instrumentAndCompileWithGrover(
             ["Foo.groovy":
             """
@@ -706,7 +707,7 @@ public class GroovyCoverageTest extends TestBase {
         }
     }
 
-    public void testThreadedFlushing() {
+    void testThreadedFlushing() {
          instrumentAndCompileWithGrover(
              ["FooTest.groovy":
              """
@@ -732,7 +733,7 @@ public class GroovyCoverageTest extends TestBase {
          }
      }
 
-    public void testIntervalFlushing() {
+    void testIntervalFlushing() {
          instrumentAndCompileWithGrover(
              ["FooTest.groovy":
              """
@@ -758,7 +759,4 @@ public class GroovyCoverageTest extends TestBase {
          }
      }
 
-    public GroovyCoverageTest(String methodName, String specificName, File groovyAllJar) {
-        super(methodName, specificName, groovyAllJar)
-    }
 }
