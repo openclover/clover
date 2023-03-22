@@ -13,6 +13,9 @@ import clover.antlr.CommonToken;
 import clover.antlr.TokenStream;
 import clover.antlr.TokenStreamRecognitionException;
 import org.codehaus.groovy.GroovyBugError;
+import org.codehaus.groovy.antlr.GroovySourceAST;
+import org.codehaus.groovy.antlr.SourceBuffer;
+import org.codehaus.groovy.antlr.SourceInfo;
 }
 
 /** JSR-241 Groovy Recognizer.

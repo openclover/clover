@@ -2,7 +2,8 @@ package org.openclover.eclipse.core.views.dashboard
 
 import clover.com.google.common.io.Files
 import com.atlassian.clover.CloverDatabase
-import com.atlassian.clover.registry.metrics.HasMetricsTestFixture
+import com.atlassian.clover.api.registry.CloverRegistryException
+import com.atlassian.clover.registry.Clover2Registry
 import com.atlassian.clover.util.FileUtils
 import org.hamcrest.CoreMatchers
 import org.junit.Test
@@ -13,6 +14,13 @@ import static org.junit.Assert.assertThat
 import static org.junit.Assert.assertTrue
 
 class DashboardGeneratorTest {
+
+    private static Clover2Registry createSampleRegistryAt(File dbLocation) throws IOException, CloverRegistryException {
+        Clover2Registry reg = new Clover2Registry(dbLocation, "Test")
+        reg.saveAndOverwriteFile()
+        return reg
+    }
+
     @Test
     void testExecute() throws Exception {
         File cloverDb = null
@@ -20,10 +28,9 @@ class DashboardGeneratorTest {
 
         try {
             // create sample database
-            final HasMetricsTestFixture fixture = new HasMetricsTestFixture("EclipseProject")
             cloverDb = File.createTempFile("clover", ".db")
             cloverDb.deleteOnExit()
-            fixture.createSampleRegistryAt(cloverDb)
+            createSampleRegistryAt(cloverDb)
 
             reportDir = FileUtils.createTempDir("eclipse-dashboard")
             reportDir.deleteOnExit()
