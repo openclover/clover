@@ -24,13 +24,13 @@ class TestResultProcessorTest extends TestCase {
     public static String PATH_TO_TEST_FILES = "clover-core/src/test/resources/testresults"
 
     List testResultFiles; 
-    List testSuiteFiles = Lists.newArrayList();
+    List testSuiteFiles = newArrayList();
     CloverDatabase db
     File workingDir
     File projectDir
 
     void setUp() throws IOException, CloverException {
-        projectDir = IOHelper.getProjectDirFromProperty()
+        projectDir = IOHelper.getProjectDir()
         workingDir = IOHelper.createTmpDir(TestResultProcessorTest.class.getName())
 
         CloverTestFixture testFixture = new CloverTestFixture(workingDir)

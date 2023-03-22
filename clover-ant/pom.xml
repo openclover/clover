@@ -189,9 +189,14 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
+                    <!-- skip long-running integration tests -->
+                    <excludes>
+                        <exclude>**/*TestSuite</exclude>
+                        <exclude>**/*FuncTest</exclude>
+                    </excludes>
+                    <!--<argLine>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005</argLine>-->
                     <redirectTestOutputToFile>true</redirectTestOutputToFile>
                     <systemPropertyVariables>
-                        <project.dir>${project.basedir}/..</project.dir> <!-- many tests rely on this property -->
                         <clover-ant.test.ant.ver>${clover-ant.test.ant.ver}</clover-ant.test.ant.ver>
                         <clover-ant.test.clover.ver>${clover-ant.test.clover.ver}</clover-ant.test.clover.ver>
                         <clover-ant.test.groovy.ver>${clover-ant.test.groovy.ver}</clover-ant.test.groovy.ver>
@@ -203,6 +208,16 @@
                     </systemPropertyVariables>
                 </configuration>
             </plugin>
+            <!--<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <configuration>
+                    <includes>
+                        <include>*TestSuite</include>
+                        <include>*FuncTest</include>
+                    </includes>
+                </configuration>
+            </plugin>-->
             <!-- generate sources jar -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

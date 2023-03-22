@@ -49,7 +49,7 @@ class TestUtils {
     }
 
     static File createEmptyDirFor(Class test, String methodName) throws IOException {
-        final File projectDir = IOHelper.getProjectDirFromProperty()
+        final File projectDir = IOHelper.getProjectDir()
         final String testTmpDir = FileUtils.getPlatformSpecificPath(projectDir.getAbsolutePath() + "/clover-core/target/testrun/tmp/")
         final File tempDir = FileUtils.createEmptyDir(
                 new File(testTmpDir),

@@ -26,7 +26,7 @@ class CloverTestUtil {
     CloverTestUtil(final String className, final String testName) throws Exception {
         this.className = className
         this.testName = testName
-        projDir = IOHelper.getProjectDirFromProperty()
+        projDir = IOHelper.getProjectDir()
 
         createWorkDir()
         createHistoryDir()

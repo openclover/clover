@@ -51,7 +51,7 @@ abstract class JavaSyntaxCompilationTestBase extends TestCase {
     private ByteArrayOutputStream execOutErrStream
 
     protected void setUp() throws Exception {
-        mProjDir = IOHelper.getProjectDirFromProperty()
+        mProjDir = IOHelper.getProjectDir()
 
         mTestcasesSrcDir = new File(mProjDir, CLOVER_CORE_TESTCASES_SOURCE_DIR)
         buildTmp = new File(mProjDir, CLOVER_CORE_TEST_RUN_DIR)

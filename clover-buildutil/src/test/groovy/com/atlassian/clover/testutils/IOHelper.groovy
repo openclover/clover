@@ -30,11 +30,24 @@ class IOHelper {
     }
 
     /**
-     * Read the 'project.dir' system property. If not present, fallback to current working directory.
+     * Read the 'project.dir' system property. If not present, try to detect the workspace root
+     * (a current working directory or it's parent).
      */
-    static File getProjectDirFromProperty() {
+    static File getProjectDir() {
         final String projectDir = System.getProperty("project.dir")
-        return projectDir != null && new File(projectDir).isDirectory() ?
-                new File(projectDir) : new File(".").getAbsoluteFile().getParentFile()
+        if (projectDir != null && new File(projectDir).isDirectory()) {
+            return new File(projectDir)
+        }
+
+        File currentDir = new File(".").getAbsoluteFile().getParentFile()
+        if (new File(currentDir, "CONTRIBUTING.txt").isFile()) {
+            return currentDir
+        }
+
+        if (new File(currentDir.getParentFile(), "CONTRIBUTING.txt").isFile()) {
+            return currentDir.getParentFile()
+        }
+
+        throw new IllegalStateException("Unable to determine project directory, project.dir=${projectDir}, current dir=${currentDir}")
     }
 }
