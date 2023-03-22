@@ -1,6 +1,6 @@
 package com.atlassian.clover.test.junit
 
 @Singleton
-public class DefaultTestSelector {
+class DefaultTestSelector {
   public Closure closure = { it.name =~ /^test*/ }
 }

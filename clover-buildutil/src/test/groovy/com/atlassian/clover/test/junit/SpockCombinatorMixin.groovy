@@ -5,12 +5,12 @@ import java.util.regex.Matcher
 /**
  * Mixin for iterating over Spock versions in the project
  */
-public class SpockCombinatorMixin {
-    public void eachSpock(File spockLibDir, Closure filter = {true}, Closure c) {
+class SpockCombinatorMixin {
+    void eachSpock(File spockLibDir, Closure filter = {true}, Closure c) {
         findSpockAllVersionsAndJars(spockLibDir, filter).each(c)
     }
 
-    public List findSpockAllVersionsAndJars(File spockLibDir, Closure filter = {true}) {
+    List findSpockAllVersionsAndJars(File spockLibDir, Closure filter = {true}) {
         def isSpockJar = /(spock-core-.*-groovy-.*)\.jar/
         spockLibDir.list().findAll {
             Matcher matcher = it =~ isSpockJar

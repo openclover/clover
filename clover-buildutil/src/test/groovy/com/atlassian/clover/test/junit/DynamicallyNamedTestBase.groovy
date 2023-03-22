@@ -3,15 +3,15 @@ package com.atlassian.clover.test.junit
 import junit.framework.TestCase
 
 /** Base classes for tests with dynamically generated names  */
-public class DynamicallyNamedTestBase extends TestCase {
-    def String methodName;
+class DynamicallyNamedTestBase extends TestCase {
+    String methodName
 
-    public DynamicallyNamedTestBase(String testName) {
+    DynamicallyNamedTestBase(String testName) {
         super(testName)
         this.methodName = testName
     }
 
-    public DynamicallyNamedTestBase(String methodName, String specificName) {
+    DynamicallyNamedTestBase(String methodName, String specificName) {
         super(specificName)
         this.methodName = methodName
     }
@@ -20,7 +20,7 @@ public class DynamicallyNamedTestBase extends TestCase {
         def compoundName = getName()
         setName(methodName)
         try {
-            super.runTest();
+            super.runTest()
         } finally {
             setName(compoundName)
         }
