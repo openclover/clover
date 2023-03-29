@@ -61,10 +61,14 @@ jobs:
         run: |
           mvn install -DskipTests=true
 
-      - name: Run tests for core, groovy, ant
+      - name: Run tests for runtime, core, groovy, ant
         run: |
           mvn verify -pl clover-runtime,clover-core,clover-groovy,clover-ant
 
       - name: Run tests for eclipse and idea
         run: |
           mvn verify -pl clover-eclipse,clover-idea
+
+      - name: Run functional tests
+        run: |
+          mvn verify -pl tests-functional
