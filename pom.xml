@@ -62,6 +62,7 @@
         <module>clover-ant-zip</module>
         <module>clover-eclipse</module>
         <module>clover-idea</module>
+        <module>tests-functional</module>
     </modules>
     <profiles>
         <profile>
