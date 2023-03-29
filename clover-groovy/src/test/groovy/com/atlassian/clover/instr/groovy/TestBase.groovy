@@ -13,6 +13,7 @@ import com.atlassian.clover.context.ContextStore
 
 @Mixin ([WorkingDirMixin, CloverDbTestMixin, TestPropertyMixin, JavaExecutorMixin])
 abstract class TestBase extends DynamicallyNamedTestBase {
+    protected File cloverAllResources = new File( "../clover-all/src/main/resources")
     protected File cloverCoreClasses = new File( "../clover-core/target/classes")
     protected File cloverRuntimeClasses = new File( "../clover-runtime/target/classes")
     protected File groverClasses = new File( "target/classes")
@@ -100,7 +101,7 @@ abstract class TestBase extends DynamicallyNamedTestBase {
            ${ ([groovyAllJar, calcRepkgJar()] + additionalGroovyJars).findAll { it != null }.join(File.pathSeparator)}
            org.codehaus.groovy.tools.FileSystemCompiler
            -classpath
-           ${calcCompilationClasspath([groverConfigDir.getAbsolutePath()] + extraClasspath)}
+           ${calcCompilationClasspath([ groverConfigDir ] + extraClasspath)}
            -d
            ${workingDir.getAbsolutePath()}
            ${sourceFiles.collect {File f -> f.absolutePath }.join(" ")}
@@ -142,18 +143,14 @@ abstract class TestBase extends DynamicallyNamedTestBase {
         return cloverRepkgRuntimeJar?.exists() ? cloverRepkgRuntimeJar : null
     }
 
-    protected String calcCompilationClasspath(List others = []) {
-        return (others +
-            cloverLibs.collect { it.absolutePath } +
-            [
-                groovyAllJar.absolutePath,
-                cloverCoreClasses.absolutePath,
-                cloverRuntimeClasses.absolutePath,
-                groverClasses.absolutePath,
-                servicesFolder.absolutePath,
-                junitJar.absolutePath,
-                hamcrestJar.absolutePath
-            ]).findAll { it != null }.join(File.pathSeparator)
+    protected String calcCompilationClasspath(List<File> others = []) {
+        return (others + cloverLibs + [
+                groovyAllJar, cloverAllResources, cloverCoreClasses, cloverRuntimeClasses,
+                groverClasses, servicesFolder, junitJar, hamcrestJar
+            ])
+                .findAll { it != null }
+                .collect { it.absolutePath }
+                .join(File.pathSeparator)
     }
 
     static File getGroovyJarFromProperty() {

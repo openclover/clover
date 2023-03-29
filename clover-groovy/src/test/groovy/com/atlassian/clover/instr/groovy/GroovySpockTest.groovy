@@ -58,7 +58,7 @@ class GroovySpockTest extends TestBase {
 //        String remoteDebug = "-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5006 "
         String remoteDebug = ""
         run("org.junit.runner.JUnitCore ${className}", [remoteDebug, "-Dclover.logging.level=debug"],
-                additionalGroovyJars.collect {it.getAbsolutePath() })
+                additionalGroovyJars)
     }
 
     protected Result runHtmlReport() {
