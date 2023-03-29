@@ -18,13 +18,21 @@ class GroovySpockTestSuite extends junit.framework.TestSuite {
     ]
 
     /** Spock versions to test against */
-    static List SPOCK_VERSION_INCLUDES = System.getProperty("clover.test.spockversion.includes").with(SpockVersions.CHOOSE_DEFAULT_IF_NULL_ELSE_SPLIT)
+    static List SPOCK_VERSION_INCLUDES = System.getProperty("clover.test.spockversion.includes")
+            .with(SpockVersions.CHOOSE_DEFAULT_IF_NULL_ELSE_SPLIT)
 
     /** Groovy versions to test against */
-    static List GROOVY_VERSION_INCLUDES = System.getProperty("clover.test.groovyversion.includes").with(GroovyVersions.CHOOSE_LATEST_MAJOR_IF_NULL_ELSE_SPLIT)
+    static List GROOVY_VERSION_INCLUDES = System.getProperty("clover.test.groovyversion.includes")
+            .with(GroovyVersions.CHOOSE_LATEST_MAJOR_IF_NULL_ELSE_SPLIT)
 
-    private File spockLibDir = new File("target/test-dependencies")
-    private File groovyLibDir = new File("target/test-dependencies")
+    private File testDependenciesDir = new File("target/test-dependencies")
+    private File spockLibDir = testDependenciesDir
+    private File groovyLibDir = testDependenciesDir
+
+    // dependencies of groovy jar (older versions)
+    private File commonsCliJar = new File(testDependenciesDir, "commons-cli-1.2.jar")
+    private File asmJar = new File(testDependenciesDir, "asm-4.1.jar")
+    private File antlrJar = new File(testDependenciesDir, "antlr-2.7.7.jar")
 
     static GroovySpockTestSuite suite() { return new GroovySpockTestSuite() }
 
@@ -51,7 +59,7 @@ class GroovySpockTestSuite extends junit.framework.TestSuite {
                                     .newInstance(
                                             testMethod.name,
                                             "${testMethod.name}_For_Spock_${spockVersion}_and_Groovy_${groovyVersion}".toString(),
-                                            groovyAllJar, [ spockJar ]).with { addTest(it) }
+                                            groovyAllJar, [ spockJar, commonsCliJar, asmJar, antlrJar ]).with { addTest(it) }
                         }
                     }
                 }
