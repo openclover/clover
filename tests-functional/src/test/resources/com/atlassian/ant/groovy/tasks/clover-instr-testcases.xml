@@ -1,5 +1,5 @@
 <project basedir="" default="" name="">
-    <property name="testdetection.dir" value="${project.dir}/clover-ant/src/test/resources/testdetection"/>
+    <property name="testdetection.dir" value="${project.dir}/tests-functional/src/test/resources/testdetection"/>
 
     <property file="expected-testcases.properties"/>
 
@@ -8,8 +8,8 @@
     <taskdef name="clover-setup" classname="com.atlassian.clover.ant.tasks.CloverSetupTask"/>
 
     <property name="clover.jar" value="${project.dir}/clover-all/target/clover-${clover-ant.test.clover.ver}.jar"/>
-    <property name="junit.jar" value="${project.dir}/clover-ant/target/test-dependencies/junit-${clover-ant.test.junit.ver}.jar"/>
-    <property name="testng.jar" value="${project.dir}/clover-ant/target/test-dependencies/testng-${clover-ant.test.testng.ver}.jar"/>
+    <property name="junit.jar" value="${project.dir}/tests-functional/target/test-dependencies/junit-${clover-ant.test.junit.ver}.jar"/>
+    <property name="testng.jar" value="${project.dir}/tests-functional/target/test-dependencies/testng-${clover-ant.test.testng.ver}.jar"/>
 
     <property name="src.buildutil.location" value="${testdetection.dir}/buildutil"/>
     <property name="project.src.location1" value="${testdetection.dir}/version1"/>

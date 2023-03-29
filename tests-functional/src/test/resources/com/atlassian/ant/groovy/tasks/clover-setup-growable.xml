@@ -3,10 +3,9 @@
 
     <taskdef name="clover-instr" classname="com.atlassian.clover.ant.tasks.CloverInstrTask"/>
     <taskdef name="clover-report" classname="com.atlassian.clover.ant.tasks.CloverReportTask"/>
-    <taskdef name="clover-merge" classname="com.atlassian.clover.ant.tasks.CloverMergeTask"/>
 
     <!-- Properties common for all test cases -->
-    <property name="build.dir" location="${project.dir}/clover-ant/target/it/clover-setup-shared"/>
+    <property name="build.dir" location="${project.dir}/tests-functional/target/it/clover-setup-growable"/>
     <property name="foo.source.file" location="${build.dir}/Foo.java"/>
     <property name="hoo.source.file" location="${build.dir}/Hoo.java"/>
     <property name="footest.source.file" location="${build.dir}/FooTest.java"/>
@@ -18,7 +17,7 @@
             <echo file="${reader.source.file}"><![CDATA[
 import java.io.*;
 public class PipeReader {
-    public static File pipe = new File(System.getProperty("java.io.tmpdir"), "clover-setup-shared.pipe");
+    public static File pipe = new File(System.getProperty("java.io.tmpdir"), "clover-setup-growable.pipe");
     public static void deletePipe() {
         pipe.delete();
     }
@@ -45,16 +44,17 @@ public class PipeReader {
             <echo file="${foo.source.file}"><![CDATA[
 public class Foo {
     public void foo() {
-        System.out.println("Say foo once");
+        System.out.println("Say foo");
     }
     public void notTested() {
         System.out.println("Not called");
     }
     public void goo() {
-        System.out.println("Say goo once");
+        System.out.println("Say goo");
     }
     public static void main(String[] args) throws java.io.IOException, InterruptedException {
         int ch;
+        new Hoo().hoo(); // force load of another coverage recorder instance
         do {
             ch = PipeReader.readKey(); // will block
             if (ch == 'f') {
@@ -67,87 +67,6 @@ public class Foo {
 }
 ]]></echo>
 
-            <!-- test class -->
-            <echo file="${footest.source.file}"><![CDATA[
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import java.io.IOException;
-public class FooTest {
-    @Test public void testFoo() throws IOException, InterruptedException {
-        PipeReader.sendKey('f');
-    }
-    public int notATestMethod() {
-        return 0;
-    }
-    @Test public void testGoo() throws IOException, InterruptedException {
-        PipeReader.sendKey('g');
-    }
-    @Test public void testNothing() { }
-    @BeforeClass public static void classSetUp() throws IOException {
-        PipeReader.deletePipe();
-    }
-    @AfterClass public static void classTearDown() throws IOException, InterruptedException {
-        PipeReader.sendKey('z');
-    }
-}
-]]></echo>
-        </sequential>
-    </macrodef>
-
-    <macrodef name="generate-source-files-2">
-        <sequential>
-            <!-- New version of Foo class. Methods which were instrumented and covered in first run
-            are either deleted or moved. It means it shall ignore old coverage recording file and use only
-            the second one. -->
-            <echo file="${foo.source.file}"><![CDATA[
-public class Foo {
-    public void placeholder() {
-        int i = 0;
-        i++;
-        i++;
-        i++;
-        i++;
-        i++;
-        i++;
-        i++;
-        i++;
-        i++;
-        i++;
-        i++;
-        i++;
-        i++;
-        i++;
-        i++;
-        i++;
-        i++;
-        i++;
-    }
-    public void foo() {
-        System.out.println("Say foo again");
-    }
-    public void goo() {
-        System.out.println("Say goo again");
-    }
-    public static void main(String[] args) throws java.io.IOException, InterruptedException {
-        int ch;
-        do {
-            ch = PipeReader.readKey(); // will block
-            if (ch == 'f') {
-                new Foo().foo();
-            } else if (ch == 'g') {
-                new Foo().goo();
-            }
-        } while (ch != 'z');
-    }
-}
-]]></echo>
-        </sequential>
-    </macrodef>
-
-
-    <macrodef name="generate-source-files-db2">
-        <sequential>
             <echo file="${hoo.source.file}"><![CDATA[
 public class Hoo {
     public void hoo() {
@@ -172,7 +91,6 @@ public class FooTest {
     @Test public void testGoo() throws IOException, InterruptedException {
         PipeReader.sendKey('g');
     }
-    @Test public void testNothing() { }
     @BeforeClass public static void classSetUp() throws IOException {
         PipeReader.deletePipe();
         new Hoo().hoo(); // force load of another coverage recorder instance
@@ -185,7 +103,6 @@ public class FooTest {
         </sequential>
     </macrodef>
 
-
     <!-- Properties different for each test case -->
     <macrodef name="set-testcase-properties">
         <attribute name="testcase"/>
@@ -194,15 +111,13 @@ public class FooTest {
             <property name="build.classes.dir" location="${build.dir}/@{testcase}/classes" description="compiled classes"/>
             <property name="build.clover.dir" location="${build.dir}/@{testcase}/clover" description="clover database and coverage files"/>
             <property name="clover.db" location="${build.clover.dir}/clover.db"/>
-            <property name="clover2.db" location="${build.clover.dir}/clover-2.db"/>
-            <property name="clover.merged.db" location="${build.clover.dir}/clover-merged.db"/>
             <property name="clover.xml.file" location="${build.clover.dir}/clover.xml"/>
 
             <path id="runtime.classpath">
                 <pathelement location="${build.classes.dir}"/>
                 <pathelement location="${project.dir}/clover-all/target/clover-${clover-ant.test.clover.ver}.jar"/> <!-- normal version -->
                 <pathelement location="${repkg.clover.jar}"/> <!-- repackaged version -->
-                <pathelement location="${project.dir}/target/dependencies/hamcrest-core-${clover-ant.test.hamcrest.ver}.jar"/>
+                <pathelement location="${project.dir}/tests-functional/target/test-dependencies/hamcrest-core-${clover-ant.test.hamcrest.ver}.jar"/>
             </path>
 
             <echo message="A @{testcase} test case runtime.classpath=${toString:runtime.classpath}"/>
@@ -228,7 +143,6 @@ public class FooTest {
     <!-- Execute test code -->
     <macrodef name="run-junit">
         <attribute name="jvmarg" default="-Dsome.default.value=true"/>
-        <attribute name="runNumber" default="0"/>
         <sequential>
             <parallel>
                 <!-- start clover.server -->
@@ -240,7 +154,7 @@ public class FooTest {
                     <classpath refid="runtime.classpath"/>
                 </junit>
                 <!-- start clover.client -->
-                <java fork="true" classname="Foo" outputproperty="java.out.@{runNumber}" errorproperty="java.err.@{runNumber}">
+                <java fork="true" classname="Foo" outputproperty="java.out" errorproperty="java.err">
                     <jvmarg value="-Dclover.logging.level=debug"/>
                     <classpath refid="runtime.classpath"/>
                 </java>
@@ -248,19 +162,9 @@ public class FooTest {
         </sequential>
     </macrodef>
 
-    <macrodef name="merge-databases">
-        <sequential>
-            <clover-merge initstring="${clover.merged.db}">
-                <cloverDb initstring="${clover.db}"/>
-                <cloverDb initstring="${clover2.db}"/>
-            </clover-merge>
-        </sequential>
-    </macrodef>
-
     <macrodef name="generate-reports">
-        <attribute name="db" default="${clover.db}"/>
         <sequential>
-            <clover-report initstring="@{db}">
+            <clover-report initstring="${clover.db}">
                 <current outfile="${clover.xml.file}">
                     <format type="xml"/>
                 </current>
@@ -272,135 +176,97 @@ public class FooTest {
     </macrodef>
 
     <target name="instr-foo">
-        <delete file="${build.instr.dir}/Foo.java"/>
-        <delete file="${build.classes.dir}/Foo.class"/>
         <clover-instr initstring="${clover.db}" destdir="${build.instr.dir}">
             <fileset dir="${build.dir}" includes="Foo.java"/>
             <profiles>
-                <profile name="default" coverageRecorder="shared"/>
+                <profile name="default" coverageRecorder="growable"/>
+            </profiles>
+        </clover-instr>
+    </target>
+
+    <target name="instr-hoo">
+        <clover-instr initstring="${clover.db}" destdir="${build.instr.dir}">
+            <fileset dir="${build.dir}" includes="Hoo.java"/>
+            <profiles>
+                <profile name="default" coverageRecorder="growable"/>
             </profiles>
         </clover-instr>
     </target>
 
     <target name="instr-footest">
-        <delete file="${build.instr.dir}/FooTest.java"/>
-        <delete file="${build.classes.dir}/FooTest.class"/>
         <clover-instr initstring="${clover.db}" destdir="${build.instr.dir}">
             <fileset dir="${build.dir}" includes="FooTest.java"/>
             <profiles>
-                <profile name="default" coverageRecorder="shared"/>
+                <profile name="default" coverageRecorder="growable"/>
             </profiles>
         </clover-instr>
     </target>
 
-    <target name="instr-hoo-and-footest">
-        <!-- Instrument into two different databases -->
-        <delete file="${build.instr.dir}/FooTest.java"/>
-        <delete file="${build.classes.dir}/FooTest.class"/>
+    <target name="instr-foo-distr">
         <clover-instr initstring="${clover.db}" destdir="${build.instr.dir}">
-            <fileset dir="${build.dir}" includes="FooTest.java"/>
+            <fileset dir="${build.dir}" includes="Foo.java"/>
             <profiles>
-                <profile name="default" coverageRecorder="shared"/>
+                <profile name="default" coverageRecorder="growable">
+                    <distributedCoverage name="execute-growable-distributed" host="localhost" numClients="1"/>
+                </profile>
             </profiles>
         </clover-instr>
-        <delete file="${build.instr.dir}/Hoo.java"/>
-        <delete file="${build.classes.dir}/Hoo.class"/>
-        <clover-instr initstring="${clover2.db}" destdir="${build.instr.dir}">
+    </target>
+
+    <target name="instr-hoo-distr">
+        <clover-instr initstring="${clover.db}" destdir="${build.instr.dir}">
             <fileset dir="${build.dir}" includes="Hoo.java"/>
             <profiles>
-                <profile name="default" coverageRecorder="shared"/>
+                <profile name="default" coverageRecorder="growable">
+                    <distributedCoverage name="execute-growable-distributed" host="localhost" numClients="1"/>
+                </profile>
             </profiles>
         </clover-instr>
     </target>
 
-    <target name="execute-shared">
-        <set-testcase-properties testcase="execute-shared"/>
+    <target name="instr-footest-distr">
+        <clover-instr initstring="${clover.db}" destdir="${build.instr.dir}">
+            <fileset dir="${build.dir}" includes="FooTest.java"/>
+            <profiles>
+                <profile name="default" coverageRecorder="growable">
+                    <distributedCoverage name="execute-growable-distributed" host="localhost" numClients="1"/>
+                </profile>
+            </profiles>
+        </clover-instr>
+    </target>
+
+    <target name="execute-growable">
+        <set-testcase-properties testcase="execute-growable"/>
         <generate-source-files/>
         <make-testcase-dirs/>
         <!-- We instrument each file separately because having includes="*.java" causes that files are be instrumented
         in random order, thus randomly failing "globalSliceStart()" assertion in JUnit test. Using <antcall> to make
-        sure that Clover's references will not persist so that we have "true sessions". -->
+        sure that Clover's references will not persist so that we have true instrumentation sessions.  -->
         <antcall target="instr-foo"/>
+        <antcall target="instr-hoo"/>
         <antcall target="instr-footest"/>
         <copy file="${reader.source.file}" todir="${build.instr.dir}"/>
 
         <run-javac/>
-        <run-junit runNumber="0"/>
+        <run-junit/>
         <generate-reports/>
     </target>
 
-    <target name="execute-shared-distributed">
-        <set-testcase-properties testcase="execute-shared-distributed"/>
+    <target name="execute-growable-distributed">
+        <set-testcase-properties testcase="execute-growable-distributed"/>
         <generate-source-files/>
         <make-testcase-dirs/>
         <!-- We instrument each file separately because having includes="*.java" causes that files are be instrumented
-        in random order, thus randomly failing "globalSliceStart()" assertion in JUnit test -->
-        <clover-instr initstring="${clover.db}" destdir="${build.instr.dir}">
-            <fileset dir="${build.dir}" includes="Foo.java"/>
-            <profiles>
-                <profile name="default" coverageRecorder="shared">
-                    <distributedCoverage host="localhost" port="1199" numClients="1"/>
-                </profile>
-            </profiles>
-        </clover-instr>
-        <clover-instr initstring="${clover.db}" destdir="${build.instr.dir}">
-            <fileset dir="${build.dir}" includes="FooTest.java"/>
-            <profiles>
-                <profile name="default" coverageRecorder="shared">
-                    <distributedCoverage host="localhost" port="1199" numClients="1"/>
-                </profile>
-            </profiles>
-        </clover-instr>
+        in random order, thus randomly failing "globalSliceStart()" assertion in JUnit test. Using <antcall> to make
+        sure that Clover's references will not persist so that we have true instrumentation sessions -->
+        <antcall target="instr-foo-distr"/>
+        <antcall target="instr-hoo-distr"/>
+        <antcall target="instr-footest-distr"/>
         <copy file="${reader.source.file}" todir="${build.instr.dir}"/>
 
         <run-javac/>
-        <run-junit jvmarg="-Dclover.server=true" runNumber="1"/>
+        <run-junit jvmarg="-Dclover.server=true"/>
         <generate-reports/>
-    </target>
-
-    <target name="execute-shared-multiple-sessions">
-        <set-testcase-properties testcase="execute-shared-multiple-sessions"/>
-        <make-testcase-dirs/>
-
-        <!-- First set of three source files, two instrumentation sessions. Using <antcall> to make sure that Clover's
-          references will not persist so that we have "true" instrumentation sessions. -->
-        <generate-source-files/>
-        <antcall target="instr-foo"/>
-        <antcall target="instr-footest"/>
-        <copy file="${reader.source.file}" todir="${build.instr.dir}"/>
-
-        <run-javac/>
-        <run-junit runNumber="10"/>
-
-        <!-- Second set of source files, Foo.java is updated with new code, new instrumentation session -->
-        <generate-source-files-2/>
-        <antcall target="instr-foo"/>
-
-        <run-javac/>
-        <run-junit runNumber="11"/>
-
-        <!-- Generate cumulative report from three instr sessions and two builds -->
-        <generate-reports/>
-    </target>
-
-    <target name="execute-shared-multiple-databases">
-        <set-testcase-properties testcase="execute-shared-multiple-databases"/>
-        <make-testcase-dirs/>
-
-        <!-- Three source files, two different databases. Using <antcall> to make sure that Clover's references
-        will not persist so that we have true separation of instrumentation sessions. -->
-        <generate-source-files/>
-        <generate-source-files-db2/>
-        <antcall target="instr-foo"/>
-        <antcall target="instr-hoo-and-footest"/>
-        <copy file="${reader.source.file}" todir="${build.instr.dir}"/>
-
-        <run-javac/>
-        <run-junit runNumber="20"/>
-
-        <!-- Generate cumulative report from two databases and three instr sessions and two test runs -->
-        <merge-databases/>
-        <generate-reports db="${clover.merged.db}"/>
     </target>
 
     <target name="setUp">

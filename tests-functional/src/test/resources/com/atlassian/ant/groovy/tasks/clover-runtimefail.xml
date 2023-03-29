@@ -2,7 +2,7 @@
     <taskdef name="clover-instrument" classname="com.atlassian.clover.ant.tasks.CloverInstrumentTask"/>
     <taskdef name="clover-setup" classname="com.atlassian.clover.ant.tasks.CloverSetupTask"/>
 
-    <property name="junit.jar" location="${project.dir}/clover-ant/target/test-dependencies/junit-${clover-ant.test.junit.ver}.jar"/>
+    <property name="junit.jar" location="${project.dir}/tests-functional/target/test-dependencies/junit-${clover-ant.test.junit.ver}.jar"/>
 
     <path id="test.path">
         <pathelement location="${outdir}/classes"/>

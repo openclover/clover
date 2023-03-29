@@ -7,9 +7,9 @@
     <typedef name="always-run" classname="com.atlassian.clover.ant.types.CloverAlwaysRunTestSet"/>
 
     <property name="clover.jar" location="${project.dir}/clover-all/target/clover-${clover-ant.test.clover.ver}.jar"/>
-    <property name="jcommander.jar" location="${project.dir}/clover-ant/target/test-dependencies/jcommander-${clover-ant.test.jcommander.ver}.jar"/>
-    <property name="junit.jar" location="${project.dir}/clover-ant/target/test-dependencies/junit-${clover-ant.test.junit.ver}.jar"/>
-    <property name="testng.jar" location="${project.dir}/clover-ant/target/test-dependencies/testng-${clover-ant.test.testng.ver}.jar"/>
+    <property name="jcommander.jar" location="${project.dir}/tests-functional/target/test-dependencies/jcommander-${clover-ant.test.jcommander.ver}.jar"/>
+    <property name="junit.jar" location="${project.dir}/tests-functional/target/test-dependencies/junit-${clover-ant.test.junit.ver}.jar"/>
+    <property name="testng.jar" location="${project.dir}/tests-functional/target/test-dependencies/testng-${clover-ant.test.testng.ver}.jar"/>
 
     <taskdef resource="testngtasks" classpath="${testng.jar}"/>
 
@@ -18,7 +18,7 @@
     <property name="max.optimized.builds" value="5"/>
     <property name="minimize.tests" value="true"/>
 
-    <property name="testdir" location="${project.dir}/clover-ant/target/testrun/tmp"/>
+    <property name="testdir" location="${project.dir}/tests-functional/target/testrun/tmp"/>
     <!-- Set to true for more detailed logging -->
     <property name="debug.optimize" value="false"/>
     <!-- Don't touch! Overidden by various tests -->

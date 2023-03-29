@@ -5,7 +5,7 @@
     <taskdef name="clover-instr" classname="com.atlassian.clover.ant.tasks.CloverInstrTask"/>
 
     <!-- Properties common for all test cases -->
-    <property name="build.dir" location="${project.dir}/clover-ant/target/it/profiles-correct"/>
+    <property name="build.dir" location="${project.dir}/tests-functional/target/it/profiles-correct"/>
     <property name="foo.source.file" location="${build.dir}/Foo.java"/>
 
     <!-- Properties different for each test case -->
