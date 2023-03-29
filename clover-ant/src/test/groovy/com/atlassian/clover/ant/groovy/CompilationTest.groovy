@@ -38,8 +38,10 @@ class CompilationTest extends DynamicallyNamedTestBase {
 
         String antVersion = AntVersions.DEFAULT_VERSION
         String groovyVersion = GroovyVersions.DEFAULT_VERSION
+
         File antJar = new File("clover-ant/target/test-dependencies", "ant-${antVersion}.jar")
         File groovyAllJar = new File("clover-ant/target/test-dependencies", "groovy-${groovyVersion}.jar")
+        List<File> additionalGroovyJars = []
 
         new AntProjectSimulacrum(
                 methodName: testName,
@@ -48,6 +50,7 @@ class CompilationTest extends DynamicallyNamedTestBase {
                 antJar: antJar,
                 groovyVersion: groovyVersion.replace('.', '_'),
                 groovyAllJar: groovyAllJar,
+                additionalGroovyJars: additionalGroovyJars,
                 cloverRuntimeJar: cloverRuntimeJar,
                 cloverRepkgRuntimeJar: cloverRepkgRuntimeJar,
                 test: this)

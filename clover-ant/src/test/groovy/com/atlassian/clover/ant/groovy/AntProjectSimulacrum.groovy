@@ -13,13 +13,14 @@ class AntProjectSimulacrum {
     File antJar
     String groovyVersion
     File groovyAllJar
+    List<File> additionalGroovyJars = []
     File cloverRuntimeJar
     File cloverRepkgRuntimeJar
     Test test
     File buildXml
 
-    List<String> calcAntClasspath() {
-        [ antJar.getAbsolutePath() ]
+    List<File> calcAntClasspath() {
+        [ antJar ]
     }
 
     def getName() {
@@ -30,21 +31,27 @@ class AntProjectSimulacrum {
         if (buildXml == null) {
             buildXml = buildProjectArtifacts(workingDir)
         }
-        launchJava """-classpath ${[calcAntClasspath(), calcRepkgJarPath()].flatten().findAll { it != null }.join(File.pathSeparator)}
-        ${DEBUG_OPTIONS}
-        -Djava.io.tmpdir=${System.getProperty("java.io.tmpdir")}
-        -Djava.awt.headless=true
-        org.apache.tools.ant.launch.Launcher
-        -f ${buildXml}
-        -verbose
-        ${targets.join(' ')}"""
+        String classpath = [calcAntClasspath(), calcRepkgJarPath(), additionalGroovyJars]
+                .flatten()
+                .findAll { it != null }
+                .collect { File it -> it.absolutePath }
+                .join(File.pathSeparator)
+
+        launchJava """-classpath ${classpath}
+                ${DEBUG_OPTIONS}
+                -Djava.io.tmpdir=${System.getProperty("java.io.tmpdir")}
+                -Djava.awt.headless=true
+                org.apache.tools.ant.launch.Launcher
+                -f ${buildXml}
+                -verbose
+                ${targets.join(' ')}"""
     }
 
-    String calcRepkgJarPath() {
+    File calcRepkgJarPath() {
         return cloverRepkgRuntimeJar != null
                 ? (cloverRepkgRuntimeJar.absolutePath == cloverRuntimeJar.absolutePath
                         ? null
-                        : cloverRepkgRuntimeJar.absolutePath)
+                        : cloverRepkgRuntimeJar)
                 : null
     }
 

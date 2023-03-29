@@ -19,12 +19,17 @@ class TestSuite extends junit.framework.TestSuite {
         (CompilationTest): DefaultTestSelector.instance.closure
     ]
     
-    static List GROOVY_VERSION_INCLUDES = System.getProperty("clover.test.groovyversion.includes").with(GroovyVersions.CHOOSE_DEFAULT_SUPPORTED_IF_NULL_ELSE_SPLIT)
+    static List GROOVY_VERSION_INCLUDES = System.getProperty("clover.test.groovyversion.includes", "")
+            .with(GroovyVersions.CHOOSE_DEFAULT_SUPPORTED_IF_NULL_ELSE_SPLIT)
 
-    static List ANT_VERSION_INCLUDES = System.getProperty("clover.test.antversion.includes").with(AntVersions.CHOOSE_DEFAULT_SUPPORTED_IF_NULL_ELSE_SPLIT)
+    static List ANT_VERSION_INCLUDES = System.getProperty("clover.test.antversion.includes", "")
+            .with(AntVersions.CHOOSE_DEFAULT_SUPPORTED_IF_NULL_ELSE_SPLIT)
 
-    File antHomesDir = new File("target/test-dependencies")
-    File groovyLibDir = new File("target/test-dependencies")
+    File testDependenciesDir = new File("target/test-dependencies")
+    File antHomesDir = testDependenciesDir
+    File groovyLibDir = testDependenciesDir
+
+    List<File> additionalGroovyJars = []
 
     static TestSuite suite() { return new TestSuite() }
 
@@ -46,6 +51,7 @@ class TestSuite extends junit.framework.TestSuite {
                                 antJar: antJar,
                                 groovyVersion: groovyVersion.replace('.', '_'),
                                 groovyAllJar: groovyAllJar,
+                                additionalGroovyJars: additionalGroovyJars,
                                 cloverRuntimeJar: cloverRuntimeJar,
                                 cloverRepkgRuntimeJar: cloverRepkgRuntimeJar)
                             //Let's hope the first ctor is the right one!

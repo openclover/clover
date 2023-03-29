@@ -19,7 +19,8 @@ class TestSuite extends junit.framework.TestSuite {
         (GroovyReportTest): DefaultTestSelector.instance.closure
     ]
 
-    static List GROOVY_VERSION_INCLUDES = System.getProperty("clover.test.groovyversion.includes").with(GroovyVersions.CHOOSE_LATEST_MAJOR_IF_NULL_ELSE_SPLIT)
+    static List GROOVY_VERSION_INCLUDES = System.getProperty("clover.test.groovyversion.includes")
+            .with(GroovyVersions.CHOOSE_LATEST_MAJOR_IF_NULL_ELSE_SPLIT)
 
     private File groovyLibDir = new File("target/test-dependencies")
 

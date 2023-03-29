@@ -18,11 +18,11 @@ class GroovySpockTestSuite extends junit.framework.TestSuite {
     ]
 
     /** Spock versions to test against */
-    static List SPOCK_VERSION_INCLUDES = System.getProperty("clover.test.spockversion.includes")
+    static List SPOCK_VERSION_INCLUDES = System.getProperty("clover.test.spockversion.includes", "")
             .with(SpockVersions.CHOOSE_DEFAULT_IF_NULL_ELSE_SPLIT)
 
     /** Groovy versions to test against */
-    static List GROOVY_VERSION_INCLUDES = System.getProperty("clover.test.groovyversion.includes")
+    static List GROOVY_VERSION_INCLUDES = System.getProperty("clover.test.groovyversion.includes", "")
             .with(GroovyVersions.CHOOSE_LATEST_MAJOR_IF_NULL_ELSE_SPLIT)
 
     private File testDependenciesDir = new File("target/test-dependencies")
