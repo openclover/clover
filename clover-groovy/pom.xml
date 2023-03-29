@@ -245,6 +245,8 @@
                                     <artifactId>junit</artifactId>
                                     <version>${clover-groovy.test.junit.ver}</version>
                                 </artifactItem>
+                                <!-- repacked libraries used by clover -->
+                                <!-- TODO remove them, they could be in clover.jar -->
                                 <artifactItem>
                                     <groupId>org.openclover</groupId>
                                     <artifactId>clover-annotations</artifactId>

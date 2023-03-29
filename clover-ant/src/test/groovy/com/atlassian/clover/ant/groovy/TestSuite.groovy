@@ -26,14 +26,13 @@ class TestSuite extends junit.framework.TestSuite {
             .with(AntVersions.CHOOSE_DEFAULT_SUPPORTED_IF_NULL_ELSE_SPLIT)
 
     File testDependenciesDir = new File("target/test-dependencies")
-    File antHomesDir = testDependenciesDir
-    File groovyLibDir = testDependenciesDir
-
-    List<File> additionalGroovyJars = []
 
     static TestSuite suite() { return new TestSuite() }
 
     protected TestSuite() {
+        File antHomesDir = testDependenciesDir
+        File groovyLibDir = testDependenciesDir
+
         eachAnt(antHomesDir, { shouldTestWithAnt(it) }) {String antVersion, File antJar ->
             eachGroovy(groovyLibDir, { shouldTestWithGroovy(it) }) {String groovyVersion, File groovyAllJar ->
                 TEST_CLASSES_AND_SELECTORS.each {Class c, Closure selector ->
@@ -47,11 +46,9 @@ class TestSuite extends junit.framework.TestSuite {
                             new AntProjectSimulacrum(
                                 methodName: m.getName(),
                                 testVersionedName: versionedMethodName,
-                                antVersion: antVersion.replace('.', '_'),
-                                antJar: antJar,
-                                groovyVersion: groovyVersion.replace('.', '_'),
-                                groovyAllJar: groovyAllJar,
-                                additionalGroovyJars: additionalGroovyJars,
+                                testDependenciesDir: testDependenciesDir,
+                                antVersion: antVersion,
+                                groovyVersion: groovyVersion,
                                 cloverRuntimeJar: cloverRuntimeJar,
                                 cloverRepkgRuntimeJar: cloverRepkgRuntimeJar)
                             //Let's hope the first ctor is the right one!

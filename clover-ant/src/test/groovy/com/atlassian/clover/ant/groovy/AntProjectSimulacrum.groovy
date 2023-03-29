@@ -9,18 +9,52 @@ class AntProjectSimulacrum {
 
     String methodName
     String testVersionedName
+    File testDependenciesDir
     String antVersion
-    File antJar
     String groovyVersion
-    File groovyAllJar
-    List<File> additionalGroovyJars = []
     File cloverRuntimeJar
     File cloverRepkgRuntimeJar
     Test test
     File buildXml
 
     List<File> calcAntClasspath() {
-        [ antJar ]
+        [ antJar, antLauncherJar ]
+    }
+
+    private File getAntJar() {
+        new File(testDependenciesDir, "ant-${antVersion}.jar")
+    }
+
+    private File getAntLauncherJar() {
+        new File(testDependenciesDir, "ant-launcher-${antVersion}.jar")
+    }
+
+    private List<File> calcGroovyClasspath() {
+        [ groovyJar, groovyAntJar, additionalGroovyJars ].flatten()
+    }
+
+    private File getGroovyJar() {
+        new File(testDependenciesDir, "groovy-${groovyVersion}.jar")
+    }
+
+    private File getGroovyAntJar() {
+        new File(testDependenciesDir, "groovy-ant-${groovyVersion}.jar")
+    }
+
+    private List<File> getAdditionalGroovyJars() {
+        File antlrJar = new File(testDependenciesDir, "antlr-2.7.7.jar")
+        File asmJar = new File(testDependenciesDir, "asm-4.1.jar")
+        File commonsCliJar = new File(testDependenciesDir, "commons-cli-1.2.jar")
+        [ antlrJar, asmJar, commonsCliJar ]
+    }
+
+    private List<File> getCloverLibs() {
+        testDependenciesDir.listFiles(new FileFilter() {
+            @Override
+            boolean accept(File pathname) {
+                return pathname.name.matches("clover-.*\\.jar")
+            }
+        })
     }
 
     def getName() {
@@ -31,7 +65,7 @@ class AntProjectSimulacrum {
         if (buildXml == null) {
             buildXml = buildProjectArtifacts(workingDir)
         }
-        String classpath = [calcAntClasspath(), calcRepkgJarPath(), additionalGroovyJars]
+        String classpath = [calcAntClasspath(), calcRepkgJarPath()]
                 .flatten()
                 .findAll { it != null }
                 .collect { File it -> it.absolutePath }
@@ -69,10 +103,17 @@ class AntProjectSimulacrum {
         def proj = """
         <project>
           <path id="groovy.path">
-            <pathelement path="${groovyAllJar.getAbsolutePath()}"/>
+            ${calcGroovyClasspath()
+                .collect { "<pathelement path=\"${it.getAbsolutePath()}\"/>" }
+                .join("\n")
+            }
           </path>
           <path id="clover.path">
             <pathelement path="${cloverRuntimeJar.getAbsolutePath()}"/>
+            ${getCloverLibs()
+                .collect { "<pathelement path=\"${it.getAbsolutePath()}\"/>" }
+                .join("\n")
+            }
           </path>
 
           <taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc" classpathref="groovy.path"/>

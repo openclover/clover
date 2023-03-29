@@ -7,7 +7,6 @@ import com.atlassian.clover.test.junit.JavaExecutorMixin
 import com.atlassian.clover.test.junit.TestPropertyMixin
 import com.atlassian.clover.test.junit.WorkingDirMixin
 import com.atlassian.clover.CloverNames
-import com.atlassian.clover.testutils.IOHelper
 
 @Mixin ([WorkingDirMixin, JavaExecutorMixin, TestPropertyMixin])
 class CompilationTest extends DynamicallyNamedTestBase {
@@ -39,18 +38,14 @@ class CompilationTest extends DynamicallyNamedTestBase {
         String antVersion = AntVersions.DEFAULT_VERSION
         String groovyVersion = GroovyVersions.DEFAULT_VERSION
 
-        File antJar = new File("clover-ant/target/test-dependencies", "ant-${antVersion}.jar")
-        File groovyAllJar = new File("clover-ant/target/test-dependencies", "groovy-${groovyVersion}.jar")
-        List<File> additionalGroovyJars = []
+        File testDependenciesDir = new File("target/test-dependencies")
 
         new AntProjectSimulacrum(
                 methodName: testName,
                 testVersionedName: testName,
-                antVersion: antVersion.replace('.', '_'),
-                antJar: antJar,
-                groovyVersion: groovyVersion.replace('.', '_'),
-                groovyAllJar: groovyAllJar,
-                additionalGroovyJars: additionalGroovyJars,
+                testDependenciesDir: testDependenciesDir,
+                antVersion: antVersion,
+                groovyVersion: groovyVersion,
                 cloverRuntimeJar: cloverRuntimeJar,
                 cloverRepkgRuntimeJar: cloverRepkgRuntimeJar,
                 test: this)

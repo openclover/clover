@@ -145,14 +145,41 @@
                         <configuration>
                             <outputDirectory>${build.directory}/test-dependencies</outputDirectory>
                             <artifactItems>
+                                <!-- dependencies of groovy -->
+                                <dependency>
+                                    <groupId>commons-cli</groupId>
+                                    <artifactId>commons-cli</artifactId>
+                                    <version>1.2</version>
+                                </dependency>
+                                <dependency>
+                                    <groupId>org.ow2.asm</groupId>
+                                    <artifactId>asm</artifactId>
+                                    <version>4.1</version>
+                                </dependency>
+                                <dependency>
+                                    <groupId>antlr</groupId>
+                                    <artifactId>antlr</artifactId>
+                                    <version>2.7.7</version>
+                                </dependency>
+                                <!-- just one groovy and ant version for cross-version testing -->
                                 <artifactItem>
                                     <groupId>org.codehaus.groovy</groupId>
                                     <artifactId>groovy</artifactId>
                                     <version>${clover-ant.test.groovy.ver}</version>
                                 </artifactItem>
                                 <artifactItem>
+                                    <groupId>org.codehaus.groovy</groupId>
+                                    <artifactId>groovy-ant</artifactId>
+                                    <version>${clover-ant.test.groovy.ver}</version>
+                                </artifactItem>
+                                <artifactItem>
                                     <groupId>org.apache.ant</groupId>
                                     <artifactId>ant</artifactId>
+                                    <version>${clover-ant.test.ant.ver}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.ant</groupId>
+                                    <artifactId>ant-launcher</artifactId>
                                     <version>${clover-ant.test.ant.ver}</version>
                                 </artifactItem>
                                 <artifactItem>
@@ -179,6 +206,60 @@
                                     <groupId>com.beust</groupId>
                                     <artifactId>jcommander</artifactId>
                                     <version>${clover-ant.test.jcommander.ver}</version>
+                                </artifactItem>
+                                <!-- repacked libraries used by clover -->
+                                <!-- TODO remove them, they could be in clover.jar -->
+                                <artifactItem>
+                                    <groupId>org.openclover</groupId>
+                                    <artifactId>clover-annotations</artifactId>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.openclover</groupId>
+                                    <artifactId>clover-antlr</artifactId>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.openclover</groupId>
+                                    <artifactId>clover-commons-collections</artifactId>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.openclover</groupId>
+                                    <artifactId>clover-commons-lang</artifactId>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.openclover</groupId>
+                                    <artifactId>clover-commons-lang3</artifactId>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.openclover</groupId>
+                                    <artifactId>clover-fastutil</artifactId>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.openclover</groupId>
+                                    <artifactId>clover-gson</artifactId>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.openclover</groupId>
+                                    <artifactId>clover-guava</artifactId>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.openclover</groupId>
+                                    <artifactId>clover-itext</artifactId>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.openclover</groupId>
+                                    <artifactId>clover-jcommon</artifactId>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.openclover</groupId>
+                                    <artifactId>clover-jfreechart</artifactId>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.openclover</groupId>
+                                    <artifactId>clover-velocity</artifactId>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.openclover</groupId>
+                                    <artifactId>clover-cajo</artifactId>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
