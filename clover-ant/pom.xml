@@ -43,10 +43,6 @@
             <version>2.5.9</version>
         </dependency>
         <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-commons-lang3</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.apache.ant</groupId>
             <artifactId>ant</artifactId>
         </dependency>
@@ -58,9 +54,42 @@
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
         </dependency>
+        <!-- packaging into clover.jar via assembly plugin -->
         <dependency>
             <groupId>org.openclover</groupId>
             <artifactId>clover-annotations</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-antlr</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-cajo</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-commons-codec</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-commons-collections</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-commons-lang</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-commons-lang3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-fastutil</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-gson</artifactId>
         </dependency>
         <dependency>
             <groupId>org.openclover</groupId>
@@ -68,8 +97,27 @@
         </dependency>
         <dependency>
             <groupId>org.openclover</groupId>
+            <artifactId>clover-itext</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-jcommon</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
             <artifactId>clover-jdom</artifactId>
-            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-jfreechart</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-slf4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-velocity</artifactId>
         </dependency>
     </dependencies>
     <build>
@@ -207,60 +255,6 @@
                                     <artifactId>jcommander</artifactId>
                                     <version>${clover-ant.test.jcommander.ver}</version>
                                 </artifactItem>
-                                <!-- repacked libraries used by clover -->
-                                <!-- TODO remove them, they could be in clover.jar -->
-                                <artifactItem>
-                                    <groupId>org.openclover</groupId>
-                                    <artifactId>clover-annotations</artifactId>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.openclover</groupId>
-                                    <artifactId>clover-antlr</artifactId>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.openclover</groupId>
-                                    <artifactId>clover-commons-collections</artifactId>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.openclover</groupId>
-                                    <artifactId>clover-commons-lang</artifactId>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.openclover</groupId>
-                                    <artifactId>clover-commons-lang3</artifactId>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.openclover</groupId>
-                                    <artifactId>clover-fastutil</artifactId>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.openclover</groupId>
-                                    <artifactId>clover-gson</artifactId>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.openclover</groupId>
-                                    <artifactId>clover-guava</artifactId>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.openclover</groupId>
-                                    <artifactId>clover-itext</artifactId>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.openclover</groupId>
-                                    <artifactId>clover-jcommon</artifactId>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.openclover</groupId>
-                                    <artifactId>clover-jfreechart</artifactId>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.openclover</groupId>
-                                    <artifactId>clover-velocity</artifactId>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.openclover</groupId>
-                                    <artifactId>clover-cajo</artifactId>
-                                </artifactItem>
                             </artifactItems>
                         </configuration>
                     </execution>
@@ -270,10 +264,24 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
-                    <!-- skip long-running integration tests -->
                     <excludes>
-                        <exclude>**/*TestSuite</exclude>
-                        <exclude>**/*FuncTest</exclude>
+                        <!-- skip long-running integration tests -->
+                        <exclude>**/*TestSuite.*</exclude>
+                        <exclude>**/*FuncTest.*</exclude>
+                        <!-- skip tests which require clover.jar to be packed -->
+                        <exclude>**/CloverCleanTaskTest.*</exclude>
+                        <exclude>**/CloverEnvTaskTest.*</exclude>
+                        <exclude>**/CloverInstrTaskTest.*</exclude>
+                        <exclude>**/CloverInstrTaskTestcasesTest.*</exclude>
+                        <exclude>**/CloverInterleavedTest.*</exclude>
+                        <exclude>**/CloverPassTaskTest.*</exclude>
+                        <exclude>**/CloverReportTaskSanityTest.*</exclude>
+                        <exclude>**/CloverReportTaskTest.*</exclude>
+                        <exclude>**/CloverRuntimeFailTest.*</exclude>
+                        <exclude>**/CloverSetupTask*Test.*</exclude>
+                        <exclude>**/HistoryPointTaskTest.*</exclude>
+                        <exclude>**/ParameterizedJUnit4Test.*</exclude>
+                        <exclude>**/ParameterizedJUnit5Test.*</exclude>
                     </excludes>
                     <!--<argLine>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005</argLine>-->
                     <redirectTestOutputToFile>true</redirectTestOutputToFile>

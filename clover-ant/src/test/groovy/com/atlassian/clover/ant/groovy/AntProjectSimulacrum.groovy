@@ -48,15 +48,6 @@ class AntProjectSimulacrum {
         [ antlrJar, asmJar, commonsCliJar ]
     }
 
-    private List<File> getCloverLibs() {
-        testDependenciesDir.listFiles(new FileFilter() {
-            @Override
-            boolean accept(File pathname) {
-                return pathname.name.matches("clover-.*\\.jar")
-            }
-        })
-    }
-
     def getName() {
       return testVersionedName
     }
@@ -110,10 +101,6 @@ class AntProjectSimulacrum {
           </path>
           <path id="clover.path">
             <pathelement path="${cloverRuntimeJar.getAbsolutePath()}"/>
-            ${getCloverLibs()
-                .collect { "<pathelement path=\"${it.getAbsolutePath()}\"/>" }
-                .join("\n")
-            }
           </path>
 
           <taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc" classpathref="groovy.path"/>

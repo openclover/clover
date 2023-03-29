@@ -40,6 +40,35 @@
             </includes>
             <unpack>false</unpack>
         </dependencySet>
+        <dependencySet>
+            <outputDirectory>.</outputDirectory>
+            <includes>
+                <include>org.openclover:clover-annotations</include>
+                <include>org.openclover:clover-antlr</include>
+                <include>org.openclover:clover-cajo</include>
+                <include>org.openclover:clover-commons-codec</include>
+                <include>org.openclover:clover-commons-collections</include>
+                <include>org.openclover:clover-commons-lang</include>
+                <include>org.openclover:clover-commons-lang3</include>
+                <include>org.openclover:clover-fastutil</include>
+                <include>org.openclover:clover-gson</include>
+                <include>org.openclover:clover-guava</include>
+                <include>org.openclover:clover-itext</include>
+                <include>org.openclover:clover-jcommon</include>
+                <include>org.openclover:clover-jdom</include>
+                <include>org.openclover:clover-jfreechart</include>
+                <include>org.openclover:clover-slf4j</include>
+                <include>org.openclover:clover-velocity</include>
+            </includes>
+            <unpack>true</unpack>
+            <unpackOptions>
+                <excludes>
+                    <exclude>licenses/*.TXT</exclude>
+                    <exclude>LICENSE.txt</exclude>
+                    <exclude>META-INF/MANIFEST.MF</exclude>
+                </excludes>
+            </unpackOptions>
+        </dependencySet>
     </dependencySets>
     <fileSets>
         <fileSet>

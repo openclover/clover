@@ -285,8 +285,26 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <redirectTestOutputToFile>true</redirectTestOutputToFile>
+                    <excludes>
+                        <!-- they require a packaged clover.jar -->
+                        <exclude>**/CompilationTest.*</exclude>
+                        <exclude>**/TestSuite.*</exclude>
+                    </excludes>
                 </configuration>
             </plugin>
+            <!-- execute integration tests -->
+            <!--<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <configuration>
+                    <redirectTestOutputToFile>true</redirectTestOutputToFile>
+                    <includes>
+                        &lt;!&ndash; they require a packaged clover.jar &ndash;&gt;
+                        <include>**/CompilationTest.*</include>
+                        <include>**/TestSuite.*</include>
+                    </includes>
+                </configuration>
+            </plugin>-->
             <!-- generate sources jar -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
