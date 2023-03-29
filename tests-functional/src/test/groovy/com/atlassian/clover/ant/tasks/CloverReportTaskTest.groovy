@@ -135,7 +135,7 @@ class CloverReportTaskTest extends CloverBuildFileTestBase {
         // Note: we have to ensure that line endings from our test file are the same as produced by ant; therefore replace
         // all endings - "\r\n" or "\n" with system 'line.separator'
         final File reportLinksFile = new File(IOHelper.getProjectDir(),
-                "clover-ant/src/test/groovy/com/atlassian/clover/ant/tasks/report-links.txt")
+                "tests-functional/src/test/resources/com/atlassian/clover/ant/tasks/report-links.txt")
         assertTrue("The '" + reportLinksFile.getAbsolutePath() + "' is not a file",
                 reportLinksFile.isFile())
         final String reportLinksValue = normalizeWhitespace(FileUtils.readFully(new FileReader(reportLinksFile)))

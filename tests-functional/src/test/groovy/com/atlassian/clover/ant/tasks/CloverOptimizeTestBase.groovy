@@ -115,12 +115,12 @@ abstract class CloverOptimizeTestBase extends CloverBuildFileTestBase {
         File sampleProjectDir =
             new File(
                 util.getProjectDir(),
-                "clover-ant/src/test/resources/" + getTestSourceBaseName() + "/" + getName())
+                "tests-functional/src/test/resources/" + getTestSourceBaseName() + "/" + getName())
         if (!sampleProjectDir.exists()) {
             sampleProjectDir =
                 new File(
                     util.getProjectDir(),
-                    "clover-ant/src/test/resources/" + getTestSourceBaseName() + "/defaultSampleProject")
+                    "tests-functional/src/test/resources/" + getTestSourceBaseName() + "/defaultSampleProject")
         }
         properties.put("sampleproject.dir", sampleProjectDir.getAbsolutePath())
         properties.put("outdir", util.getWorkDir().getAbsolutePath())
