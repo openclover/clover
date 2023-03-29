@@ -108,6 +108,11 @@
                         <configuration>
                             <outputDirectory>${build.directory}/test-dependencies</outputDirectory>
                             <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.openclover</groupId>
+                                    <artifactId>clover</artifactId>
+                                    <version>${project.version}</version>
+                                </artifactItem>
                                 <!-- dependencies of groovy -->
                                 <dependency>
                                     <groupId>commons-cli</groupId>
@@ -197,7 +202,7 @@
                 <configuration>
                     <includes>
                         <include>**/*Test.*</include>
-                        <include>**/*TestSuite.</include>
+                        <include>**/*TestSuite.*</include>
                     </includes>
                     <failIfNoTests>true</failIfNoTests>
                     <!--<argLine>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005</argLine>-->

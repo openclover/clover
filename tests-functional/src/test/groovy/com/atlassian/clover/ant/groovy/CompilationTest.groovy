@@ -53,7 +53,7 @@ class CompilationTest extends DynamicallyNamedTestBase {
 
     static File getCloverRuntimeJar() {
         // find clover-X.Y.Z-suffix.jar, but not -javadoc or -sources or clover-ant-
-        new File("target").listFiles(new FileFilter() {
+        new File("target/test-dependencies").listFiles(new FileFilter() {
             @Override
             boolean accept(File pathname) {
                 pathname.name.matches("clover-[0-9]+.*\\.jar") &&
