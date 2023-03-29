@@ -9,7 +9,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>clover-groovy</artifactId>
-    <name>Clover for Groovy</name>
+    <name>OpenClover for Groovy</name>
     <description>
         OpenClover's plugin for the Groovy compiler. Plugs-in as an Abstract Syntax Tree (AST) Transformer.
     </description>

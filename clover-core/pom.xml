@@ -9,7 +9,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>clover-core</artifactId>
-    <name>Clover Core</name>
+    <name>OpenClover Core</name>
     <description>
         Clover's core classes.
     </description>

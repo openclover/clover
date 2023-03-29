@@ -10,6 +10,20 @@
         <dependencySet>
             <outputDirectory>.</outputDirectory>
             <includes>
+                <include>org.openclover:clover-ant</include>
+            </includes>
+            <unpack>true</unpack>
+            <unpackOptions>
+                <excludes>
+                    <exclude>licenses/*.TXT</exclude>
+                    <exclude>LICENSE.txt</exclude>
+                    <exclude>META-INF/MANIFEST.MF</exclude>
+                </excludes>
+            </unpackOptions>
+        </dependencySet>
+        <dependencySet>
+            <outputDirectory>.</outputDirectory>
+            <includes>
                 <include>org.openclover:clover-runtime</include>
             </includes>
             <unpack>true</unpack>

@@ -5,7 +5,7 @@
     <property name="target.clover.db" location="${target.dir}/clover/db/clover.db"/>
     <property name="target.clover.report" location="${target.dir}/clover/report"/>
 
-    <property name="clover.jar" location="${project.dir}/clover-ant/target/clover-${clover-ant.test.clover.ver}.jar"/>
+    <property name="clover.jar" location="${project.dir}/clover-all/target/clover-${clover-ant.test.clover.ver}.jar"/>
     <property name="repkg.clover.jar" location="${project.dir}/target/clover-repkg.jar"/> <!-- optional, for with.clover builds -->
     <property name="junit.jar" location="${project.dir}/clover-ant/target/test-dependencies/junit-${clover-ant.test.junit.ver}.jar"/>
     <property name="hamcrest.jar" location="${project.dir}/clover-ant/target/test-dependencies/hamcrest-core-${clover-ant.test.hamcrest.ver}.jar"/>

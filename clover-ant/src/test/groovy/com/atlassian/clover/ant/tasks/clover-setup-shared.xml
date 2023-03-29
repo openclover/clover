@@ -200,7 +200,7 @@ public class FooTest {
 
             <path id="runtime.classpath">
                 <pathelement location="${build.classes.dir}"/>
-                <pathelement location="${project.dir}/clover-ant/target/clover-${clover-ant.test.clover.ver}.jar"/> <!-- normal version -->
+                <pathelement location="${project.dir}/clover-all/target/clover-${clover-ant.test.clover.ver}.jar"/> <!-- normal version -->
                 <pathelement location="${repkg.clover.jar}"/> <!-- repackaged version -->
                 <pathelement location="${project.dir}/target/dependencies/hamcrest-core-${clover-ant.test.hamcrest.ver}.jar"/>
             </path>

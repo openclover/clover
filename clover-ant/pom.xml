@@ -7,12 +7,8 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>clover-ant</artifactId>
-    <name>Clover Ant</name>
-    <description>
-        Clover is an award-winning code coverage and testing tool for Java and Groovy.
-        It integrates easily with Maven, Ant, Grails, Eclipse and IntelliJ IDEA
-        as well as with continuous integration servers such as Bamboo, Jenkins or Hudson.
-    </description>
+    <name>OpenClover Ant</name>
+    <description>OpenClover integration with Ant.</description>
     <dependencies>
         <dependency>
             <groupId>org.openclover</groupId>
@@ -24,11 +20,11 @@
             <artifactId>clover-core</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-groovy</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.openclover</groupId>-->
+<!--            <artifactId>clover-groovy</artifactId>-->
+<!--            <version>${project.version}</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.openclover</groupId>
             <artifactId>clover-buildutil</artifactId>
@@ -54,80 +50,13 @@
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
         </dependency>
-        <!-- packaging into clover.jar via assembly plugin -->
-        <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-annotations</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-antlr</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-cajo</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-commons-codec</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-commons-collections</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-commons-lang</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-commons-lang3</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-fastutil</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-gson</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-guava</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-itext</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-jcommon</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.openclover</groupId>
             <artifactId>clover-jdom</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-jfreechart</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-slf4j</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-velocity</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <build>
-        <extensions>
-            <extension>
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-webdav</artifactId>
-                <version>1.0-beta-2</version>
-            </extension>
-        </extensions>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -167,14 +96,6 @@
                         <phase>process-test-resources</phase>
                         <goals>
                             <goal>testResources</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <!-- don't copy META-INF/services before compilation, because groovyc shall not use Grover ASTTransformer -->
-                        <id>copy-main-resources</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>resources</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -328,56 +249,6 @@
                         <goals>
                             <goal>jar</goal>
                         </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <!-- generate clover.jar (combination of clover-ant + clover-core + clover-runtime + clover+groovy) -->
-            <!-- generate OpenClover for Ant installer zip -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.4.2</version>
-                <executions>
-                    <execution>
-                        <id>package-jar</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <!-- Important: for backward compatibility, clover-core + clover-runtime + clover-ant are
-                            being merged into single 'clover' artifact, which is later:
-                            a) deployed to maven central (org.openclover:clover is a primary artifact used in builds)
-                            b) packed into clover-ant zip, deployed to website and maven central -->
-                            <finalName>clover-${project.version}</finalName>
-                            <appendAssemblyId>false</appendAssemblyId>
-                            <descriptors>
-                                <descriptor>src/assembly/clover-jar.xml</descriptor>
-                            </descriptors>
-                            <archive>
-                                <manifestEntries>
-                                    <Specification-Title>OpenClover for Ant</Specification-Title>
-                                    <Specification-Version>${project.version}</Specification-Version>
-                                    <Specification-Vendor>OpenClover.org</Specification-Vendor>
-                                    <Implementation-Version>${project.version}</Implementation-Version>
-                                    <Implementation-Vendor>OpenClover.org</Implementation-Vendor>
-                                </manifestEntries>
-                            </archive>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>package-zip</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <finalName>clover-ant-${project.version}</finalName>
-                            <appendAssemblyId>false</appendAssemblyId>
-                            <descriptors>
-                                <descriptor>src/assembly/clover-all.xml</descriptor>
-                            </descriptors>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>

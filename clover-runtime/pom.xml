@@ -9,7 +9,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>clover-runtime</artifactId>
-    <name>Clover Runtime</name>
+    <name>OpenClover Runtime</name>
     <description>
         Clover's runtime library - required by code instrumented by Clover.
         Clover is an award-winning code coverage and testing tool for Java and Groovy.

@@ -10,7 +10,7 @@
         <dependencySet>
             <outputDirectory>.</outputDirectory>
             <includes>
-                <include>org.openclover:clover-core</include>
+                <include>org.openclover:clover</include>
             </includes>
             <unpack>true</unpack>
             <unpackOptions>
@@ -19,18 +19,14 @@
                 </includes>
             </unpackOptions>
         </dependencySet>
-    </dependencySets>
-    <fileSets>
-        <fileSet>
-            <directory>target</directory>
+        <dependencySet>
             <outputDirectory>lib</outputDirectory>
             <includes>
-                <include>clover-*.jar</include>
+                <include>org.openclover:clover</include>
             </includes>
-            <excludes>
-                <exclude>clover-ant-*.jar</exclude>
-            </excludes>
-        </fileSet>
+        </dependencySet>
+    </dependencySets>
+    <fileSets>
         <fileSet>
             <directory>src/main/resources/releasenotes</directory>
             <outputDirectory>.</outputDirectory>

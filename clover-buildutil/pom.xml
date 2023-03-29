@@ -9,9 +9,9 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>clover-buildutil</artifactId>
-    <name>Clover Buildutil</name>
+    <name>OpenClover Build Utilities</name>
     <description>
-        Clover's build and test utilities.
+        OpenClover's build and test utilities.
     </description>
     <dependencies>
         <dependency>

@@ -13,7 +13,7 @@
     <description>
         Base POM file for third party libraries repacked with the 'clover.' prefix.
     </description>
-    <name>Clover Core Libs</name>
+    <name>OpenClover Core Libs</name>
     <licenses>
         <license>
             <name>Apache License 2.0</name>

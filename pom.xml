@@ -5,7 +5,7 @@
     <groupId>org.openclover</groupId>
     <artifactId>clover-base-pom</artifactId>
     <packaging>pom</packaging>
-    <name>Clover Base POM</name>
+    <name>OpenClover Base POM</name>
     <version>4.5.0-SNAPSHOT</version>
     <description>This POM is used by Ant build scripts to download dependencies from Maven.</description>
     <url>https://openclover.org</url>
@@ -58,6 +58,8 @@
         <module>clover-core</module>
         <module>clover-groovy</module>
         <module>clover-ant</module>
+        <module>clover-all</module>
+        <module>clover-ant-zip</module>
         <module>clover-eclipse</module>
         <module>clover-idea</module>
     </modules>

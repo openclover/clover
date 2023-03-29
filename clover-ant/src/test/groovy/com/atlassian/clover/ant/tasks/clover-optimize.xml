@@ -6,7 +6,7 @@
     <typedef name="clover-optimized-testset" classname="com.atlassian.clover.ant.types.CloverOptimizedTestSet"/>
     <typedef name="always-run" classname="com.atlassian.clover.ant.types.CloverAlwaysRunTestSet"/>
 
-    <property name="clover.jar" location="${project.dir}/clover-ant/target/clover-${clover-ant.test.clover.ver}.jar"/>
+    <property name="clover.jar" location="${project.dir}/clover-all/target/clover-${clover-ant.test.clover.ver}.jar"/>
     <property name="jcommander.jar" location="${project.dir}/clover-ant/target/test-dependencies/jcommander-${clover-ant.test.jcommander.ver}.jar"/>
     <property name="junit.jar" location="${project.dir}/clover-ant/target/test-dependencies/junit-${clover-ant.test.junit.ver}.jar"/>
     <property name="testng.jar" location="${project.dir}/clover-ant/target/test-dependencies/testng-${clover-ant.test.testng.ver}.jar"/>

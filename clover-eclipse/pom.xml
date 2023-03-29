@@ -10,7 +10,7 @@
     </parent>
     <artifactId>clover-eclipse</artifactId>
     <packaging>pom</packaging>
-    <name>Clover Eclipse Base</name>
+    <name>OpenClover Eclipse Base</name>
     <description>A base POM for OpenClover for Eclipse plugins and features</description>
     <modules>
         <module>org.openclover.eclipse.ant</module>
