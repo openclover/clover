@@ -18,7 +18,8 @@ class AntProjectSimulacrum {
     File buildXml
 
     List<File> calcAntClasspath() {
-        [ antJar, antLauncherJar ]
+        // we must put clover.jar in ant classpath to be able to load tasks from cloverlib.xml
+        [ antJar, antLauncherJar, cloverRuntimeJar ]
     }
 
     private File getAntJar() {
@@ -99,12 +100,9 @@ class AntProjectSimulacrum {
                 .join("\n")
             }
           </path>
-          <path id="clover.path">
-            <pathelement path="${cloverRuntimeJar.getAbsolutePath()}"/>
-          </path>
 
           <taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc" classpathref="groovy.path"/>
-          <taskdef resource="cloverlib.xml" classpathref="clover.path"/>
+          <taskdef resource="cloverlib.xml"/>
           <property name="workDir" location="${workingDir.getAbsolutePath()}"/>
           ${body}
         </project>
