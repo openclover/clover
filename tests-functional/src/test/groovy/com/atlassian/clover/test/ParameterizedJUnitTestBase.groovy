@@ -11,8 +11,8 @@ import com.atlassian.clover.util.FileUtils
  */
 abstract class ParameterizedJUnitTestBase extends CloverBuildFileTestBase {
 
-    static final String CLOVER_ANT_TEST_RESOURCES_DIR =
-            "clover-ant${File.separator}src${File.separator}test${File.separator}resources"
+    static final String TEST_RESOURCES_DIR =
+            "tests-functional${File.separator}src${File.separator}test${File.separator}resources"
 
     abstract String getCodeExampleDir();
 

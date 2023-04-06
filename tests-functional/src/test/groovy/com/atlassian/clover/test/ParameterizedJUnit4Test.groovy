@@ -12,7 +12,7 @@ class ParameterizedJUnit4Test extends ParameterizedJUnitTestBase {
 
     @Override
     String getCodeExampleDir() {
-        return "${CLOVER_ANT_TEST_RESOURCES_DIR}${File.separator}parameterized-junit4"
+        return "${TEST_RESOURCES_DIR}${File.separator}parameterized-junit4"
     }
 
 }

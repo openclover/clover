@@ -6,9 +6,9 @@
     <property name="target.clover.report" location="${target.dir}/clover/report"/>
 
     <property name="clover.jar" location="${project.dir}/clover-all/target/clover-${clover-ant.test.clover.ver}.jar"/>
-    <property name="repkg.clover.jar" location="${project.dir}/target/clover-repkg.jar"/> <!-- optional, for with.clover builds -->
-    <property name="junit5.jar" location="${project.dir}/clover-ant/target/test-dependencies/junit-jupiter-${clover-ant.test.junit5.ver}.jar"/>
-    <property name="hamcrest.jar" location="${project.dir}/clover-ant/target/test-dependencies/hamcrest-core-${clover-ant.test.hamcrest.ver}.jar"/>
+    <property name="repkg.clover.jar" location="${project.dir}/clover-all/target/clover-repkg.jar"/> <!-- optional, for with.clover builds -->
+    <property name="junit5.jar" location="${project.dir}/tests-functional/target/test-dependencies/junit-jupiter-${clover-ant.test.junit5.ver}.jar"/>
+    <property name="hamcrest.jar" location="${project.dir}/tests-functional/target/test-dependencies/hamcrest-core-${clover-ant.test.hamcrest.ver}.jar"/>
 
     <target name="setUp"/>
     <target name="tearDown"/>
@@ -18,16 +18,14 @@
         <fail message="The 'project.dir' property is missing." unless="project.dir"/>
         <available file="${clover.jar}" property="clover.jar.exists"/>
         <fail message="The 'clover.jar=${clover.jar}' file does not exist." unless="clover.jar.exists"/>
-
-		<path id="junit.lib.path">
-            <pathelement location="${junit5.jar}"/>
-		</path>
+        <available file="${junit5.jar}" property="junit5.jar.exists"/>
+        <fail message="The 'junit5.jar=${junit5.jar}' file does not exist." unless="junit5.jar.exists"/>
 
         <!-- Set compilation/runtime class path -->
         <path id="project.classpath">
             <pathelement location="${clover.jar}"/>
             <pathelement location="${repkg.clover.jar}"/>
-			<path refid="junit.lib.path"/>
+            <pathelement location="${junit5.jar}"/>
             <pathelement location="${hamcrest.jar}"/>
         </path>
 
