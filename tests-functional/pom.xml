@@ -166,6 +166,36 @@
                                     <version>${clover-ant.test.junit5.ver}</version>
                                 </artifactItem>
                                 <artifactItem>
+                                    <groupId>org.junit.jupiter</groupId>
+                                    <artifactId>junit-jupiter-api</artifactId>
+                                    <version>${clover-ant.test.junit5.ver}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.junit.jupiter</groupId>
+                                    <artifactId>junit-jupiter-engine</artifactId>
+                                    <version>${clover-ant.test.junit5.ver}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.junit.jupiter</groupId>
+                                    <artifactId>junit-jupiter-params</artifactId>
+                                    <version>${clover-ant.test.junit5.ver}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.junit.platform</groupId>
+                                    <artifactId>junit-platform-commons</artifactId>
+                                    <version>${clover-ant.test.junit.platform.ver}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.junit.platform</groupId>
+                                    <artifactId>junit-platform-engine</artifactId>
+                                    <version>${clover-ant.test.junit.platform.ver}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.junit.platform</groupId>
+                                    <artifactId>junit-platform-launcher</artifactId>
+                                    <version>${clover-ant.test.junit.platform.ver}</version>
+                                </artifactItem>
+                                <artifactItem>
                                     <groupId>org.hamcrest</groupId>
                                     <artifactId>hamcrest-core</artifactId>
                                     <version>${clover-ant.test.hamcrest.ver}</version>
@@ -220,6 +250,7 @@
                         <clover-ant.test.jcommander.ver>${clover-ant.test.jcommander.ver}</clover-ant.test.jcommander.ver>
                         <clover-ant.test.junit.ver>${clover-ant.test.junit.ver}</clover-ant.test.junit.ver>
                         <clover-ant.test.junit5.ver>${clover-ant.test.junit5.ver}</clover-ant.test.junit5.ver>
+                        <clover-ant.test.junit.platform.ver>${clover-ant.test.junit.platform.ver}</clover-ant.test.junit.platform.ver>
                         <clover-ant.test.testng.ver>${clover-ant.test.testng.ver}</clover-ant.test.testng.ver>
                     </systemPropertyVariables>
                 </configuration>
@@ -242,6 +273,7 @@
         <clover-ant.test.jcommander.ver>1.5</clover-ant.test.jcommander.ver>
         <clover-ant.test.junit.ver>4.12</clover-ant.test.junit.ver>
         <clover-ant.test.junit5.ver>5.9.2</clover-ant.test.junit5.ver>
+        <clover-ant.test.junit.platform.ver>1.9.2</clover-ant.test.junit.platform.ver>
         <clover-ant.test.testng.ver>6.8.21</clover-ant.test.testng.ver>
     </properties>
 </project>

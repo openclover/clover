@@ -1,6 +1,6 @@
 <project name="ParameterizedJUnit4Example" basedir="." default="validate">
-    <property name="src.test.dir" location="src/test/java"/>
-    <property name="target.dir" location="target"/>
+    <property name="src.test.dir" location="${outdir}/src/test/java"/>
+    <property name="target.dir" location="${outdir}/target"/>
     <property name="target.classes.dir" location="${target.dir}/classes"/>
     <property name="target.clover.db" location="${target.dir}/clover/db/clover.db"/>
     <property name="target.clover.report" location="${target.dir}/clover/report"/>
