@@ -12,6 +12,8 @@
 
     <property name="clover.jar" location="${project.dir}/clover-all/target/clover-${clover-ant.test.clover.ver}.jar"/>
     <property name="junit.jar" location="${project.dir}/tests-functional/target/test-dependencies/junit-${clover-ant.test.junit.ver}.jar"/>
+    <property name="test.resources.dir" location="${project.dir}/tests-functional/src/test/resources"/>
+    <property name="test.resources.tasks.dir" location="${test.resources.dir}/com/atlassian/clover/ant/tasks"/>
 
     <target name="setUp">
         <fail unless="project.dir" message="The 'project.dir' property is missing"/>
@@ -118,20 +120,17 @@
         <loadfile property="excludecontent" srcfile="${outdir}/excludes/moneybags/pkg-summary.html"/>
 
         <loadfile property="money-src" srcfile="${outdir}/moneybags/Money.html"/>
-        <loadfile property="expected-money-src" srcfile="expected-money-src.txt"/>
+        <loadfile property="expected-money-src" srcfile="${test.resources.tasks.dir}/expected-money-src.txt"/>
 
         <property name="money-da-not-instrumented" value="${money-src}"/>
-        <loadfile property="expected-money-da-not-instrumented" srcfile="expected-money-da-not-instrumented.txt"/>
-
-
-         
+        <loadfile property="expected-money-da-not-instrumented" srcfile="${test.resources.tasks.dir}/expected-money-da-not-instrumented.txt"/>
 
         <loadresource property="linkified-stack-trace-src">
             <fileset dir="${outdir}/moneybags/">
               <include name="MoneyTest_testLinkificationInReport*.html"/>
             </fileset>
         </loadresource>
-        <loadfile property="expected-linkified-stack-trace-src" srcfile="expected-linkified-stack-trace.txt"/>
+        <loadfile property="expected-linkified-stack-trace-src" srcfile="${test.resources.tasks.dir}/expected-linkified-stack-trace.txt"/>
 
         <condition property="excludes.success">
             <not>
@@ -217,13 +216,13 @@
 
 
         <loadfile property="filtered-money" srcfile="${outdir}/moneybags/Money.html"/>
-        <loadfile property="expected-filtered-money" srcfile="expected-filtered-money.txt"/>
+        <loadfile property="expected-filtered-money" srcfile="${test.resources.tasks.dir}/expected-filtered-money.txt"/>
 
         <property name="filtered-xml-report" location="${outdir}/clover.xml"/>
         <property name="filtered-xml-historypoint" location="${outdir}/clover-filtered-historypoint.xml"/>
         <property name="filtered-xml-historypoint-failed-coverage-included" location="${outdir}/clover-failed-coverage-included-historypoint.xml"/>
-        <property name="expected-filtered-xml-report" location="expected-filtered-xml-report.txt"/>
-        <property name="expected-failed-coverage-included-historypoint" location="expected-failed-coverage-included-historypoint.txt"/>
+        <property name="expected-filtered-xml-report" location="${test.resources.tasks.dir}/expected-filtered-xml-report.txt"/>
+        <property name="expected-failed-coverage-included-historypoint" location="${test.resources.tasks.dir}/expected-failed-coverage-included-historypoint.txt"/>
 
         <condition property="filtered-pdf-report-exists">
             <available file="${outdir}/clover.pdf"/>

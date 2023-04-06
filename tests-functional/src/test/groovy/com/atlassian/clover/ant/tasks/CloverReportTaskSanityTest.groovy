@@ -32,15 +32,15 @@ class CloverReportTaskSanityTest extends CloverBuildFileTestBase{
     void testCloverMergeSanityTest() throws Exception {
         String db1 = util.getWorkDir().getAbsolutePath() + "/merge-db1/db/clover.db"
         getProject().setUserProperty(CloverNames.PROP_INITSTRING, db1)
-        getProject().setProperty("outdir", "merge-db1")
+        getProject().setProperty("outdir", util.getWorkDir().getAbsolutePath() + "merge-db1")
         getProject().executeTarget("cloverMoneyBags")
 
         String db2 = util.getWorkDir().getAbsolutePath() + "/merge-db2/db/clover.db"
         getProject().setUserProperty(CloverNames.PROP_INITSTRING, db2)
-        getProject().setProperty("outdir", "merge-db2")
+        getProject().setProperty("outdir", util.getWorkDir().getAbsolutePath() + "merge-db2")
         getProject().executeTarget("cloverMoneyBags")
 
-        getProject().setProperty("outdir", "merge-db3")
+        getProject().setProperty("outdir", util.getWorkDir().getAbsolutePath() + "merge-db3")
         getProject().setProperty("db1", db1)
         getProject().setProperty("db2", db2)
         getProject().executeTarget("testCloverMergeSanityTest")
