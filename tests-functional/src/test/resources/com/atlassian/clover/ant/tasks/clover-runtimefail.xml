@@ -4,8 +4,11 @@
 
     <property name="junit.jar" location="${project.dir}/tests-functional/target/test-dependencies/junit-${clover-ant.test.junit.ver}.jar"/>
 
+    <property name="classes.dir" location="${outdir}/classes"/>
+    <property name="src.dir" location="${outdir}/src"/>
+
     <path id="test.path">
-        <pathelement location="${outdir}/classes"/>
+        <pathelement location="${classes.dir}"/>
         <pathelement location="${junit.jar}"/>
         <path location="${repkg.clover.jar}"/>
     </path>
@@ -15,7 +18,7 @@
     <property name="initstring" value="${outdir}/.clover/coverage.db"/>
 
     <target name="instrumentAndCompile">
-        <echo file="src/Main.java">
+        <echo file="${src.dir}/Main.java">
               public class Main {
                 public static void main(String[] args) {
                     System.out.println("Hello, world");
@@ -23,25 +26,25 @@
               }
         </echo>
         <clover-setup initstring="${initstring}"/>
-        <javac srcdir="src" destdir="classes"/>
+        <javac srcdir="${src.dir}" destdir="${classes.dir}"/>
     </target>
 
     <target name="testCloverClassesMissing" depends="instrumentAndCompile">
         <java fork="true" classname="Main">
-            <classpath path="classes"/>
+            <classpath path="${classes.dir}"/>
         </java>
     </target>
 
     <target name="testCloverMissing" depends="instrumentAndCompile">
         <java fork="true" classname="Main">
-            <classpath path="classes"/>
+            <classpath path="${classes.dir}"/>
         </java>
     </target>
 
     <target name="testMissingDb" depends="instrumentAndCompile">
         <delete file="${initstring}"/>
         <java fork="true" classname="Main">
-            <classpath path="classes"/>
+            <classpath path="${classes.dir}"/>
             <classpath location="${repkg.clover.jar}"/>
         </java>
     </target>
@@ -49,7 +52,7 @@
     <target name="testSecurityException" depends="instrumentAndCompile">
         <java fork="true" classname="Main">
             <jvmarg line="-Djava.security.manager -Djava.security.policy=/dev/null"/>
-            <classpath path="classes"/>
+            <classpath path="${classes.dir}"/>
             <classpath location="${repkg.clover.jar}"/>
         </java>
     </target>
@@ -70,17 +73,17 @@
         <java fork="true" classname="Main" failonerror="true">
             <jvmarg line="-Djava.security.manager -Djava.security.policy=${outdir}/security.policy"/>
             <sysproperty key="repkg.clover.jar" value="${repkg.clover.jar}"/>
-            <classpath path="classes"/>
+            <classpath path="${classes.dir}"/>
             <classpath location="${repkg.clover.jar}"/>
         </java>
     </target>
 
     <target name="setUp">
-        <delete dir="src"/>
-        <delete dir="classes"/>
+        <delete dir="${src.dir}"/>
+        <delete dir="${classes.dir}"/>
 
-        <mkdir dir="src"/>
-        <mkdir dir="classes"/>
+        <mkdir dir="${src.dir}"/>
+        <mkdir dir="${classes.dir}"/>
     </target>
 
     <target name="tearDown">
