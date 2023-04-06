@@ -7,57 +7,59 @@
     <taskdef name="clover-report" classname="com.atlassian.clover.ant.tasks.CloverReportTask"/>
 
     <property name="src.location" value="${project.dir}/clover-core/src/test/resources/interleaved"/>
-    <property name="initstring" value="cloverdb/coverage.db"/>
+    <property name="initstring" value="${outdir}/coverage.db"/>
+
+    <property name="instr.dir" value="${outdir}/instr"/>
+    <property name="classes.dir" value="${outdir}/classes"/>
+    <property name="report.dir" value="${outdir}/report"/>
 
     <path id="test.path">
-        <pathelement location="${outdir}/classes"/> <!-- compiled code for test cases -->
+        <pathelement location="${classes.dir}"/> <!-- compiled code for test cases -->
         <pathelement location="${project.dir}/clover-all/target/clover-${clover-ant.test.clover.ver}.jar"/> <!-- normal version -->
         <pathelement location="${repkg.clover.jar}"/> <!-- repackaged version -->
     </path>
 
     <target name="setUp">
         <fail unless="project.dir"/>
-        <mkdir dir="${outdir}/instr"/>
-        <mkdir dir="${outdir}/cloverdb"/>
-        <mkdir dir="${outdir}/classes"/>
-        <mkdir dir="${outdir}/report"/>
+        <mkdir dir="${instr.dir}"/>
+        <mkdir dir="${classes.dir}"/>
+        <mkdir dir="${report.dir}"/>
     </target>
 
     <target name="tearDown">
-        <delete dir="${outdir}/instr"/>
-        <delete dir="${outdir}/cloverdb"/>
-        <delete dir="${outdir}/classes"/>
-        <delete dir="${outdir}/report"/>
+        <delete dir="${instr.dir}"/>
+        <delete dir="${classes.dir}"/>
+        <delete dir="${report.dir}"/>
     </target>
 
     <target name="interleavedCompileAndTest">
-        <clover-instr destDir="instr" initstring="${initstring}">
+        <clover-instr destDir="${instr.dir}" initstring="${initstring}">
             <fileset dir="${src.location}" includes="*1.java"/>
         </clover-instr>
 
-        <javac target="1.7" source="1.7" srcdir="instr" destdir="classes" includes="*1.java">
+        <javac target="1.7" source="1.7" srcdir="${instr.dir}" destdir="${classes.dir}" includes="*1.java">
             <classpath refid="test.path"/>
         </javac>
 
         <java fork="true" classname="AppClass1">
             <classpath refid="test.path"/>
             <classpath>
-                <pathelement location="classes"/>
+                <pathelement location="${classes.dir}"/>
             </classpath>
         </java>
 
-        <clover-instr destDir="instr" initstring="${initstring}">
+        <clover-instr destDir="${instr.dir}" initstring="${initstring}">
             <fileset dir="${src.location}" includes="*2.java"/>
         </clover-instr>
 
-        <javac target="1.7" source="1.7" srcdir="instr" destdir="classes" includes="*2.java">
+        <javac target="1.7" source="1.7" srcdir="${instr.dir}" destdir="${classes.dir}" includes="*2.java">
             <classpath refid="test.path"/>
         </javac>
 
         <java fork="true" classname="AppClass2">
             <classpath refid="test.path"/>
             <classpath>
-                <pathelement location="classes"/>
+                <pathelement location="${classes.dir}"/>
             </classpath>
         </java>
     </target>
@@ -71,13 +73,13 @@
 
     <target name="htmlReport">
         <clover-report initString="${initstring}">
-            <current outfile="${outdir}/report" title="Report" summary="true">
+            <current outfile="${report.dir}" title="Report" summary="true">
                 <format type="html"/>
                 <columns>
                     <coveredMethods format="%"/>
                 </columns>
             </current>
         </clover-report>
-        <loadfile property="pkgAppHtml" srcfile="${outdir}/report/default-pkg/pkg-summary.html"/>
+        <loadfile property="pkgAppHtml" srcfile="${report.dir}/default-pkg/pkg-summary.html"/>
     </target>
 </project>
