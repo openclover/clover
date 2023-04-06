@@ -16,6 +16,7 @@
     <property name="src.buildutil.location" value="${testdetection.dir}/buildutil"/>
     <property name="project.src.location1" value="${testdetection.dir}/version1"/>
     <property name="project.src.location2" value="${testdetection.dir}/version2"/>
+    <property name="testrun.dir" value="${project.dir}/tests-functional/target/testrun/tmp/com_atlassian_clover_ant_tasks_CloverInstrTaskTestcasesTest"/>
 
     <path id="test.path">
         <pathelement location="${clover.jar}"/> <!-- normal version -->
@@ -40,46 +41,46 @@
     </path>
 
     <target name="compile">
-        <mkdir dir="buildutil.classes"/>
-        <mkdir dir="location1.classes"/>
-        <mkdir dir="location2.classes"/>
-        <mkdir dir="location1.instr"/>
-        <mkdir dir="location2.instr"/>
+        <mkdir dir="${testrun.dir}/buildutil.classes"/>
+        <mkdir dir="${testrun.dir}/location1.classes"/>
+        <mkdir dir="${testrun.dir}/location2.classes"/>
+        <mkdir dir="${testrun.dir}/location1.instr"/>
+        <mkdir dir="${testrun.dir}/location2.instr"/>
 
-        <javac target="1.7" source="1.7" srcdir="${src.buildutil.location}" destdir="buildutil.classes">
+        <javac target="1.7" source="1.7" srcdir="${src.buildutil.location}" destdir="${testrun.dir}/buildutil.classes">
             <classpath refid="all.test.path"/>
         </javac>
 
-        <clover-instrument destDir="location1.instr">
+        <clover-instrument destDir="${testrun.dir}/location1.instr">
             <fileset dir="${project.src.location1}"/>
         </clover-instrument>
 
-        <javac target="1.7" source="1.7" srcdir="location1.instr" destdir="location1.classes">
+        <javac target="1.7" source="1.7" srcdir="${testrun.dir}/location1.instr" destdir="${testrun.dir}/location1.classes">
             <classpath refid="all.test.path"/>
         </javac>
 
-        <clover-instrument destDir="location2.instr">
+        <clover-instrument destDir="${testrun.dir}/location2.instr">
             <fileset dir="${project.src.location2}"/>
         </clover-instrument>
 
-        <javac target="1.7" source="1.7" srcdir="location2.instr" destdir="location2.classes">
+        <javac target="1.7" source="1.7" srcdir="${testrun.dir}/location2.instr" destdir="${testrun.dir}/location2.classes">
             <classpath refid="all.test.path"/>
         </javac>
     </target>
 
     <target name="runJUnitTests" depends="compile">
-        <mkdir dir="junit_report"/>
+        <mkdir dir="${testrun.dir}/junit_report"/>
 
         <junit fork="true">
-            <test name="JUnit4TestCase" haltonfailure="no" todir="junit_report" >
+            <test name="JUnit4TestCase" haltonfailure="no" todir="${testrun.dir}/junit_report" >
                 <formatter usefile="false" type="plain"/>
                 <formatter usefile="true" type="plain"/>
             </test>
 
             <classpath>
-                <pathelement path="buildutil.classes"/>
-                <pathelement path="location2.classes"/>
-                <pathelement path="location1.classes"/>
+                <pathelement path="${testrun.dir}/buildutil.classes"/>
+                <pathelement path="${testrun.dir}/location2.classes"/>
+                <pathelement path="${testrun.dir}/location1.classes"/>
                 <path refid="junit.path"/>
             </classpath>
         </junit>
@@ -89,15 +90,15 @@
     <target name="runTestNGJDK15Tests" depends="compile" xmlns:testngjdk15="antlib:testngjdk15">
         <taskdef uri="antlib:testngjdk15" resource="testngtasks" classpath="${testng.jar}"/>
 
-        <mkdir dir="testngjdk15_report"/>
+        <mkdir dir="${testrun.dir}/testngjdk15_report"/>
 
-        <testngjdk15:testng outputDir="testngjdk15_report" testname="TestNGJDK15TestCase" haltOnFailure="false"
+        <testngjdk15:testng outputDir="${testrun.dir}/testngjdk15_report" testname="TestNGJDK15TestCase" haltOnFailure="false"
                             listeners="TestListener">
-            <classfileset dir="location1.classes" includes="TestNGJDK15TestCase.class"/>
+            <classfileset dir="${testrun.dir}/location1.classes" includes="TestNGJDK15TestCase.class"/>
             <classpath>
-                <pathelement path="buildutil.classes"/>
-                <pathelement path="location2.classes"/>
-                <pathelement path="location1.classes"/>
+                <pathelement path="${testrun.dir}/buildutil.classes"/>
+                <pathelement path="${testrun.dir}/location2.classes"/>
+                <pathelement path="${testrun.dir}/location1.classes"/>
                 <pathelement path="${testng.jar}"/>
                 <pathelement path="${jcommander.jar}"/>
                 <pathelement path="${clover.jar}"/>
@@ -107,12 +108,12 @@
 
     <target name="setUp">
         <fail unless="project.dir"/>
-        <mkdir dir="cloverdb"/>
-        <delete dir="location1.instr"/>
-        <delete dir="location2.instr"/>
-        <delete dir="buildutil.classes"/>
-        <delete dir="location1.classes"/>
-        <delete dir="location2.classes"/>
+        <mkdir dir="${testrun.dir}/cloverdb"/>
+        <delete dir="${testrun.dir}/location1.instr"/>
+        <delete dir="${testrun.dir}/location2.instr"/>
+        <delete dir="${testrun.dir}/buildutil.classes"/>
+        <delete dir="${testrun.dir}/location1.classes"/>
+        <delete dir="${testrun.dir}/location2.classes"/>
     </target>
 
     <target name="tearDown">
