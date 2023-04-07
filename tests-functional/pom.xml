@@ -196,6 +196,11 @@
                                     <version>${clover-ant.test.junit.platform.ver}</version>
                                 </artifactItem>
                                 <artifactItem>
+                                    <groupId>org.opentest4j</groupId>
+                                    <artifactId>opentest4j</artifactId>
+                                    <version>1.1.1</version>
+                                </artifactItem>
+                                <artifactItem>
                                     <groupId>org.hamcrest</groupId>
                                     <artifactId>hamcrest-core</artifactId>
                                     <version>${clover-ant.test.hamcrest.ver}</version>
