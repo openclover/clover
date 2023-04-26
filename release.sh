@@ -16,7 +16,7 @@ assertCleanWorkspace() {
 updateVersionNumber() {
   version="$1"
   echo "UPDATING VERSION NUMBER TO $version"
-  mvn org.codehaus.mojo:versions-maven-plugin:2.15.0:set -DnewVersion=$version -DremoveSnapshot=true
+  mvn org.codehaus.mojo:versions-maven-plugin:2.15.0:set -DnewVersion=$version -DgenerateBackupPoms=false
 }
 
 tagReleaseAndPush() {
