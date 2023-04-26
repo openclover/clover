@@ -6,7 +6,7 @@
     <artifactId>clover-base-pom</artifactId>
     <packaging>pom</packaging>
     <name>OpenClover Base POM</name>
-    <version>4.6.0-SNAPSHOT</version>
+    <version>0.0.0</version>
     <description>This POM is used by Ant build scripts to download dependencies from Maven.</description>
     <url>https://openclover.org</url>
     <organization>

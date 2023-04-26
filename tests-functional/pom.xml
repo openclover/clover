@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.openclover</groupId>
         <artifactId>clover-base-pom</artifactId>
-        <version>4.6.0-SNAPSHOT</version>
+        <version>0.0.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>tests-functional</artifactId>
