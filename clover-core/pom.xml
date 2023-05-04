@@ -212,6 +212,21 @@
                             </arguments>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>generate-groovy-g</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>clover.antlr.Tool</mainClass>
+                            <arguments>
+                                <argument>-o</argument>
+                                <argument>${project.build.directory}/src-generated/clover/org/codehaus/groovy/antlr/parser</argument>
+                                <argument>${project.basedir}/src/main/java/clover/org/codehaus/groovy/antlr/parser/groovy.g</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
             <!-- fix parsers generated from grammars because we use a repacked ANTLR library as well as

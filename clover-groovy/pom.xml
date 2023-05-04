@@ -44,87 +44,16 @@
         <dependency>
             <groupId>org.spockframework</groupId>
             <artifactId>spock-core</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-        <!-- for maven-exec-plugin -->
-        <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-antlr</artifactId>
-        </dependency>
     </dependencies>
     <build>
         <plugins>
-            <!-- generate ANTLR language grammars -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>3.2.0</version>
-                <executions>
-                    <execution>
-                        <phase>initialize</phase>
-                        <goals>
-                            <goal>add-source</goal>
-                        </goals>
-                        <configuration>
-                            <sources>
-                                <source>${project.build.directory}/generated-sources</source>
-                            </sources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>3.0.0</version>
-                <executions>
-                    <execution>
-                        <id>generate-groovy-g</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>java</goal>
-                        </goals>
-                        <configuration>
-                            <mainClass>clover.antlr.Tool</mainClass>
-                            <arguments>
-                                <argument>-o</argument>
-                                <argument>${project.build.directory}/generated-sources/clover/org/codehaus/groovy/antlr/parser</argument>
-                                <argument>${project.basedir}/src/main/java/clover/org/codehaus/groovy/antlr/parser/groovy.g</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <!-- fix parsers generated from grammars because we use a repacked ANTLR library as well as
-                 override implementations of idents and string literals -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>3.1.0</version>
-                <executions>
-                    <execution>
-                        <id>correct-antlr-sources</id>
-                        <phase>process-sources</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                        <configuration>
-                            <target>
-                                <replace dir="${project.build.directory}/generated-sources" token="import antlr" value="import clover.antlr">
-                                    <include name="**/*.java"/>
-                                </replace>
-                                <replace dir="${project.build.directory}/generated-sources" token="extends antlr" value="extends clover.antlr">
-                                    <include name="**/*.java"/>
-                                </replace>
-                            </target>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
             <!-- compile sources with 1.7 level by default -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
