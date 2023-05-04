@@ -276,23 +276,22 @@
                         <goals>
                             <goal>testResources</goal>
                         </goals>
+                        <configuration>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/resources</directory>
+                                </resource>
+                                <resource>
+                                    <directory>src/test/resources</directory>
+                                    <includes>
+                                        <include>com/**/*.txt</include>
+                                        <include>com/**/*.xml</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <resources>
-                        <resource>
-                            <directory>src/main/resources</directory>
-                        </resource>
-                        <resource>
-                            <directory>src/test/groovy</directory>
-                            <includes>
-                                <include>**/*.txt</include>
-                                <include>**/*.properties</include>
-                                <include>**/*.xml</include>
-                            </includes>
-                        </resource>
-                    </resources>
-                </configuration>
             </plugin>
             <!-- execute tests -->
             <plugin>
