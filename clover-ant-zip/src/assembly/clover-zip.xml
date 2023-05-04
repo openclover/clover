@@ -8,7 +8,7 @@
     <includeBaseDirectory>false</includeBaseDirectory>
     <dependencySets>
         <dependencySet>
-            <outputDirectory>.</outputDirectory>
+            <outputDirectory>clover-${project.version}</outputDirectory>
             <includes>
                 <include>org.openclover:clover</include>
             </includes>
@@ -16,11 +16,12 @@
             <unpackOptions>
                 <includes>
                     <include>LICENSE.txt</include>
+                    <include>licenses/*</include>
                 </includes>
             </unpackOptions>
         </dependencySet>
         <dependencySet>
-            <outputDirectory>lib</outputDirectory>
+            <outputDirectory>clover-${project.version}/lib</outputDirectory>
             <includes>
                 <include>org.openclover:clover</include>
             </includes>
@@ -29,14 +30,14 @@
     <fileSets>
         <fileSet>
             <directory>src/main/resources/releasenotes</directory>
-            <outputDirectory>.</outputDirectory>
+            <outputDirectory>clover-${project.version}</outputDirectory>
             <includes>
                 <include>README.html</include>
             </includes>
         </fileSet>
         <fileSet>
             <directory>../tutorial</directory>
-            <outputDirectory>tutorial</outputDirectory>
+            <outputDirectory>clover-${project.version}/tutorial</outputDirectory>
             <excludes>
                 <exclude>target/*</exclude>
                 <exclude>build/*</exclude>

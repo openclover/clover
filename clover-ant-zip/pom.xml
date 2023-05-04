@@ -7,6 +7,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>clover-ant-zip</artifactId>
+    <packaging>pom</packaging>
     <name>OpenClover Ant Zip</name>
     <description>OpenClover for Ant ZIP installer</description>
     <dependencies>
