@@ -18,20 +18,11 @@
         </dependency>
     </dependencies>
     <build>
-<!-- TODO upload to openclover.org website while releasing -->
-<!--        <extensions>-->
-<!--            <extension>-->
-<!--                <groupId>org.apache.maven.wagon</groupId>-->
-<!--                <artifactId>wagon-webdav</artifactId>-->
-<!--                <version>1.0-beta-2</version>-->
-<!--            </extension>-->
-<!--        </extensions>-->
         <plugins>
             <!-- generate OpenClover for Ant installer zip -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.4.2</version>
                 <executions>
                     <execution>
                         <id>package-zip</id>
