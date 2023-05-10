@@ -17,14 +17,10 @@
     <dependencies>
         <dependency>
             <groupId>org.openclover</groupId>
-            <artifactId>clover-core</artifactId>
+            <artifactId>clover</artifactId>
             <version>${project.version}</version>
         </dependency>
         <!-- repacked third party libraries -->
-        <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-cajo</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.openclover</groupId>
             <artifactId>clover-jtreemap</artifactId>
@@ -49,6 +45,9 @@
             <resource>
                 <directory>etc</directory>
                 <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
             </resource>
             <resource>
                 <directory>src/main/resources-filtered</directory>
@@ -164,6 +163,26 @@
                         <idea.load.plugins.id>org.openclover.idea</idea.load.plugins.id>
                     </systemProperties>
                 </configuration>
+            </plugin>
+            <!-- generate plugin jar -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>package-jar</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <appendAssemblyId>false</appendAssemblyId>
+                            <descriptors>
+                                <descriptor>src/assembly/clover-idea-jar.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <!-- generate sources jar -->
             <plugin>
