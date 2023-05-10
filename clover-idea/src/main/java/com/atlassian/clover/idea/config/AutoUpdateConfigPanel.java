@@ -15,15 +15,12 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class AutoUpdateConfigPanel extends JPanel {
     private final JCheckBox autoUpdate = new JCheckBox(CloverIdeaPluginMessages.getString("autoupdate.auto"));
-    private final JCheckBox useMilestone = new JCheckBox(CloverIdeaPluginMessages.getString("autoupdate.usemilestone"));
 
     public AutoUpdateConfigPanel() {
         setLayout(new GridBagLayout());
@@ -31,7 +28,6 @@ public class AutoUpdateConfigPanel extends JPanel {
         final VerticalBox box = new VerticalBox();
         box.setBorder(BorderFactory.createTitledBorder(CloverIdeaPluginMessages.getString("autoupdate.configtitle")));
         box.add(autoUpdate);
-        box.add(useMilestone);
 
         final HorizontalBox buttons = new HorizontalBox();
         final JButton checkNow = new JButton(CloverIdeaPluginMessages.getString("autoupdate.checknow"));
@@ -50,7 +46,7 @@ public class AutoUpdateConfigPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 final NewVersionNotifier notifier = getAnyNotifier();
                 if (notifier != null) {
-                    notifier.checkNow(useMilestone.isSelected());
+                    notifier.checkNow();
                 }
             }
         });
@@ -65,15 +61,6 @@ public class AutoUpdateConfigPanel extends JPanel {
                 }
             }
         });
-
-        autoUpdate.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                useMilestone.setEnabled(autoUpdate.isSelected());
-            }
-        });
-        useMilestone.setEnabled(autoUpdate.isSelected());
-
     }
 
     private NewVersionNotifier getAnyNotifier() {
@@ -85,12 +72,10 @@ public class AutoUpdateConfigPanel extends JPanel {
 
     public void setAutoUpdateConfig(AutoUpdateConfiguration config) {
         autoUpdate.setSelected(config.isAutoUpdate());
-        useMilestone.setSelected(config.isUseMilestone());
     }
 
     public AutoUpdateConfiguration getAutoUpdateConfig() {
-        return new AutoUpdateConfiguration(autoUpdate.isSelected(), useMilestone.isSelected());
+        return new AutoUpdateConfiguration(autoUpdate.isSelected());
     }
 
-    
 }

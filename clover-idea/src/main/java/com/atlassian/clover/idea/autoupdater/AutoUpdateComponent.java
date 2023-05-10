@@ -2,7 +2,6 @@ package com.atlassian.clover.idea.autoupdater;
 
 import com.atlassian.clover.versions.LibraryVersion;
 import com.atlassian.clover.Logger;
-import com.atlassian.clover.idea.util.ui.CloverIcons;
 import com.atlassian.clover.idea.PluginVersionInfo;
 import com.atlassian.clover.idea.util.l10n.CloverIdeaPluginMessages;
 import com.atlassian.clover.idea.config.AutoUpdateConfigPanel;
@@ -29,7 +28,6 @@ import org.jdom.xpath.XPath;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.swing.Icon;
 import javax.swing.JComponent;
 import java.io.InputStream;
 import java.util.concurrent.ScheduledFuture;
@@ -43,7 +41,6 @@ public class AutoUpdateComponent implements ApplicationComponent, Runnable, Pers
     private static final TimeUnit TIME_UNIT = TimeUnit.SECONDS;
 
     public static final String STABLE_URL = "https://openclover.org/update/latestStableVersion.xml";
-    public static final String MILESTONE_URL = "https://openclover.org/update/latestMilestoneVersion.xml";
     private final Logger LOG = Logger.getInstance("autoupdate");
 
     private ScheduledFuture<?> scheduledFuture;
@@ -177,9 +174,8 @@ public class AutoUpdateComponent implements ApplicationComponent, Runnable, Pers
         }
     }
 
-    static LatestVersionInfo parse(boolean stable, Document document) {
+    static LatestVersionInfo parse(Document document) {
         return new LatestVersionInfo(
-                stable,
                 getValue(document, "/response/version/number"),
                 getValue(document, "/response/version/downloadUrl"),
                 getValue(document, "/response/version/releaseNotes"),
@@ -228,8 +224,7 @@ public class AutoUpdateComponent implements ApplicationComponent, Runnable, Pers
     @Override
     public void run() {
         try {
-            final boolean useMilestone = getState().isUseMilestone();
-            final LatestVersionInfo latestVersion = checkLatestVersion(useMilestone);
+            final LatestVersionInfo latestVersion = checkLatestVersion();
             if (latestVersion != null) {
                 ApplicationManager.getApplication().invokeLater(new Runnable() {
                     @Override
@@ -248,20 +243,17 @@ public class AutoUpdateComponent implements ApplicationComponent, Runnable, Pers
     /**
      * Retrieve information about the latest Clover version available for download
      *
-     * @param useMilestone if <code>true</code> then look also for intermediate milestone versions,
-     *                     if <code>false</code> then search for stable releases only
      * @return LatestVersionInfo or <code>null</code> (reflection failure?)
      * @throws JDOMException in case of XML parsing error
      * @throws IOException in case of networking error
      */
     @Nullable
-    public static LatestVersionInfo checkLatestVersion(boolean useMilestone) throws JDOMException, IOException {
-        final String url = useMilestone ? MILESTONE_URL : STABLE_URL;
-        final InputStream stream = NetUtil.openUrlStream(url);
+    public static LatestVersionInfo checkLatestVersion() throws JDOMException, IOException {
+        final InputStream stream = NetUtil.openUrlStream(STABLE_URL);
         if (stream != null) {
             try {
                 final Document document = new SAXBuilder().build(stream);
-                return parse(!useMilestone, document);
+                return parse(document);
             } finally {
                 stream.close();
             }

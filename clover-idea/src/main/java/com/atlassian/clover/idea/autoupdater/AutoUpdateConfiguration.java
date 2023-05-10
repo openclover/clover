@@ -6,21 +6,18 @@ import static clover.com.google.common.collect.Lists.newArrayList;
 
 public class AutoUpdateConfiguration {
     private boolean autoUpdate = true;
-    private boolean useMilestone;
     private List<String> ignoredVersions = newArrayList();
 
     public AutoUpdateConfiguration(AutoUpdateConfiguration configuration) {
         autoUpdate = configuration.autoUpdate;
-        useMilestone = configuration.useMilestone;
         ignoredVersions = newArrayList(configuration.ignoredVersions);
     }
 
     public AutoUpdateConfiguration() {
     }
 
-    public AutoUpdateConfiguration(boolean autoUpdate, boolean useMilestone) {
+    public AutoUpdateConfiguration(boolean autoUpdate) {
         this.autoUpdate = autoUpdate;
-        this.useMilestone = useMilestone;
     }
 
     public boolean isAutoUpdate() {
@@ -29,14 +26,6 @@ public class AutoUpdateConfiguration {
 
     public void setAutoUpdate(boolean autoUpdate) {
         this.autoUpdate = autoUpdate;
-    }
-
-    public boolean isUseMilestone() {
-        return useMilestone;
-    }
-
-    public void setUseMilestone(boolean useMilestone) {
-        this.useMilestone = useMilestone;
     }
 
     public List<String> getIgnoredVersions() {
@@ -63,8 +52,6 @@ public class AutoUpdateConfiguration {
 
         if (autoUpdate != that.autoUpdate)
             return false;
-        if (useMilestone != that.useMilestone)
-            return false;
         if (!ignoredVersions.equals(that.ignoredVersions))
             return false;
 
@@ -74,7 +61,6 @@ public class AutoUpdateConfiguration {
     @Override
     public int hashCode() {
         int result = (autoUpdate ? 1 : 0);
-        result = 31 * result + (useMilestone ? 1 : 0);
         result = 31 * result + ignoredVersions.hashCode();
         return result;
     }

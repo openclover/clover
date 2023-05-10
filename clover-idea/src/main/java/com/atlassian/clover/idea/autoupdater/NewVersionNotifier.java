@@ -35,10 +35,10 @@ public class NewVersionNotifier implements ProjectComponent {
         }
     }
 
-    public void checkNow(boolean useMilestone) {
+    public void checkNow() {
         final LatestVersionInfo latestVersionInfo;
         try {
-            latestVersionInfo = AutoUpdateComponent.checkLatestVersion(useMilestone);
+            latestVersionInfo = AutoUpdateComponent.checkLatestVersion();
         } catch (Exception e) {
             ExceptionDialog.showOKDialog(
                     null,

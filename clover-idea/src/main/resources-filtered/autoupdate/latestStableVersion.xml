@@ -1,0 +1,14 @@
+<response>
+    <version>
+        <number>${project.version}</number>
+        <downloadUrl>https://openclover.org/download/openclover/clover-idea-${project.version}.jar
+        </downloadUrl>
+        <releaseNotes><![CDATA[<html><body>
+        <h1>OpenClover.org team proudly presents OpenClover ${project.version}</h1>
+        </body></html>
+        ]]></releaseNotes>
+        <releaseNotesUrl>
+            https://openclover.org/doc/openclover-${project.version}-release-notes.html
+        </releaseNotesUrl>
+    </version>
+</response>

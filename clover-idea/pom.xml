@@ -54,6 +54,17 @@
                 <directory>src/main/resources-filtered</directory>
                 <filtering>true</filtering>
                 <targetPath>${project.build.directory}/generated-sources</targetPath>
+                <excludes>
+                    <exclude>autoupdate/**</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources-filtered</directory>
+                <filtering>true</filtering>
+                <targetPath>${project.build.directory}</targetPath>
+                <includes>
+                    <include>autoupdate/**</include>
+                </includes>
             </resource>
         </resources>
         <plugins>
