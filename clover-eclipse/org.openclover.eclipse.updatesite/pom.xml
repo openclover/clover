@@ -10,6 +10,7 @@
     </parent>
     <artifactId>org.openclover.eclipse.updatesite</artifactId>
     <name>OpenClover Eclipse Update Site</name>
+    <packaging>pom</packaging>
     <description>An update site archive for OpenClover for Eclipse.</description>
     <dependencies>
         <dependency>
