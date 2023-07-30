@@ -38,7 +38,6 @@
                 <module>clover-commons-lang3</module>
                 <module>clover-fastutil</module>
                 <module>clover-gson</module>
-                <module>clover-guava</module>
                 <module>clover-itext</module>
                 <module>clover-jcommon</module>
                 <module>clover-jdom</module>
