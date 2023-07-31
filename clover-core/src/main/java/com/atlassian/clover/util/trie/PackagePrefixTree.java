@@ -7,7 +7,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
+import static org.openclover.util.Lists.newArrayList;
 
 /**
  *

@@ -20,8 +20,8 @@ import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
-import static clover.com.google.common.collect.Maps.newTreeMap;
+import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.util.Maps.newTreeMap;
 
 
 /**

@@ -1,7 +1,6 @@
 package com.atlassian.clover;
 
 import clover.com.google.common.collect.Iterables;
-import clover.com.google.common.collect.Lists;
 import com.atlassian.clover.api.CloverException;
 import com.atlassian.clover.api.command.ArgProcessor;
 import com.atlassian.clover.api.command.HelpBuilder;
@@ -17,6 +16,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.List;
 
+import static org.openclover.util.Lists.newArrayList;
 
 /**
  * A commandline tool to instrument Java source code.
@@ -24,13 +24,13 @@ import java.util.List;
 public class CloverInstr {
 
     @SuppressWarnings("unchecked")
-    private static final List<ArgProcessor<JavaInstrumentationConfig>> mandatoryArgProcessors = Lists.newArrayList(
+    private static final List<ArgProcessor<JavaInstrumentationConfig>> mandatoryArgProcessors = newArrayList(
             CloverInstrArgProcessors.SrcDir,
             CloverInstrArgProcessors.DestDir
     );
 
     @SuppressWarnings("unchecked")
-    private static final List<ArgProcessor<JavaInstrumentationConfig>> optionalArgProcessors = Lists.newArrayList(
+    private static final List<ArgProcessor<JavaInstrumentationConfig>> optionalArgProcessors = newArrayList(
             CloverInstrArgProcessors.InitString,
             CloverInstrArgProcessors.DistributedCoverage,
             CloverInstrArgProcessors.Relative,
@@ -55,7 +55,7 @@ public class CloverInstr {
             CloverInstrArgProcessors.JavaSourceFile
     );
 
-    private static final List<ArgProcessor<JavaInstrumentationConfig>> allArgProcessors = Lists.newArrayList(
+    private static final List<ArgProcessor<JavaInstrumentationConfig>> allArgProcessors = newArrayList(
             Iterables.concat(mandatoryArgProcessors, optionalArgProcessors));
 
     private JavaInstrumentationConfig cfg;
@@ -121,7 +121,7 @@ public class CloverInstr {
 
 
     private List<String> scanSrcDir(final File dir) throws IOException {
-        final List<String> files = Lists.newArrayList();
+        final List<String> files = newArrayList();
         SourceScanner scanner = new SourceScanner(dir, ".*\\.java");
         scanner.visit(new SourceScanner.Visitor() {
 

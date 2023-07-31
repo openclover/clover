@@ -1,6 +1,5 @@
 package com.atlassian.clover.recorder;
 
-import clover.com.google.common.collect.Sets;
 import clover.it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import clover.it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import com.atlassian.clover.registry.Clover2Registry;
@@ -17,7 +16,8 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-import static clover.com.google.common.collect.Maps.newHashMap;
+import static org.openclover.util.Maps.newHashMap;
+import static org.openclover.util.Sets.newHashSet;
 
 /**
  * Models test hits against element slots. Slot count is fixed
@@ -181,7 +181,7 @@ public class InMemPerTestCoverage extends BasePerTestCoverage implements Seriali
     /** @return an unordered set of tcis that intersect with the given receptors */
     @Override
     public Set<TestCaseInfo> getTestsCovering(CoverageDataRange range) {
-        Set<TestCaseInfo> tcis = Sets.newHashSet();
+        Set<TestCaseInfo> tcis = newHashSet();
         for (Map.Entry<TestCaseInfo, BitSet> entry : tciToHits.entrySet()) {
             TestCaseInfo tci = entry.getKey();
             BitSet hits = entry.getValue();

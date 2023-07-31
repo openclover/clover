@@ -34,7 +34,7 @@ import org.apache.tools.ant.taskdefs.optional.junit.JUnitTask;
 import org.apache.tools.ant.taskdefs.optional.junit.BatchTest;
 import org.apache.tools.ant.taskdefs.optional.junit.JUnitTest;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
+import static org.openclover.util.Lists.newArrayList;
 
 public class AntIntegrationListener implements BuildListener {
     private OptimizationOptions optimizationOptions;

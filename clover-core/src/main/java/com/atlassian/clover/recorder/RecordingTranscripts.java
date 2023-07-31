@@ -1,6 +1,5 @@
 package com.atlassian.clover.recorder;
 
-import clover.com.google.common.collect.Sets;
 import com.atlassian.clover.CoverageDataSpec;
 import com.atlassian.clover.Logger;
 import com.atlassian.clover.util.IOStreamUtils;
@@ -16,7 +15,8 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static clover.com.google.common.collect.Maps.newHashMap;
+import static org.openclover.util.Maps.newHashMap;
+import static org.openclover.util.Sets.newHashSet;
 
 public class RecordingTranscripts {
     public static final String NUM_R36 = "([0-9a-z]+)";
@@ -254,16 +254,16 @@ public class RecordingTranscripts {
             perTestFiles.putAll(origPerTestFiles);
 
             return Pair.<Set<FileRef>, Set<FileRef>>of(
-                    Sets.newHashSet(newRecordingFiles.values()),
-                    Sets.newHashSet(newPerTestFiles.values()));
+                    newHashSet(newRecordingFiles.values()),
+                    newHashSet(newPerTestFiles.values()));
         }
         
         public Set<FileRef> getPerTestRecordingFiles() {
-            return Sets.newHashSet(perTestFiles.values());
+            return newHashSet(perTestFiles.values());
         }
 
         public Set<FileRef> getCoverageRecordingFiles() {
-            return Sets.newHashSet(recordingFiles.values());
+            return newHashSet(recordingFiles.values());
         }
 
 

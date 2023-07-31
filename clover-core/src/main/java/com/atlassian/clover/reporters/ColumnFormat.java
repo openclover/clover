@@ -6,7 +6,7 @@ import com.atlassian.clover.reporters.html.HtmlReporter;
 
 import java.util.Map;
 
-import static clover.com.google.common.collect.Maps.newHashMap;
+import static org.openclover.util.Maps.newHashMap;
 
 /**
  * A class used to render values and titles of specific columns.

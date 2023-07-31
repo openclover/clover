@@ -1,6 +1,5 @@
 package com.atlassian.clover.registry
 
-import clover.com.google.common.collect.Maps
 import com.atlassian.clover.api.registry.PackageInfo
 import com.atlassian.clover.context.ContextSet
 import com.atlassian.clover.registry.entities.BasicElementInfo
@@ -15,12 +14,14 @@ import com.atlassian.clover.registry.entities.MethodSignature
 import com.atlassian.clover.registry.entities.Modifiers
 import com.atlassian.clover.spi.lang.LanguageConstruct
 
+import static org.openclover.util.Maps.newHashMap
+
 /**
  * A helper class to build a hierarchical structure of a project, packages, classes, methods and statements
  * for testing purposes.
  */
 class ModelBuilder {
-    Map<String, Object> elements = Maps.newHashMap()
+    Map<String, Object> elements = newHashMap()
 
     ProjectWrapper proj(String name) {
         return new ProjectWrapper(new FullProjectInfo(name))

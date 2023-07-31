@@ -72,7 +72,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 
-import static clover.com.google.common.collect.Maps.newHashMap;
+import static org.openclover.util.Maps.newHashMap;
 
 /**
  * Shizzler of the nizzle. This is where it all starts, baby.

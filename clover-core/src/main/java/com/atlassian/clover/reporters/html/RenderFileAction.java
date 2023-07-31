@@ -1,7 +1,5 @@
 package com.atlassian.clover.reporters.html;
 
-import clover.com.google.common.collect.Lists;
-import clover.com.google.common.collect.Sets;
 import clover.org.apache.velocity.VelocityContext;
 import clover.antlr.TokenStreamException;
 import com.atlassian.clover.api.registry.BlockMetrics;
@@ -41,8 +39,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
-import static clover.com.google.common.collect.Maps.newHashMap;
+import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.util.Lists.newLinkedList;
+import static org.openclover.util.Maps.newHashMap;
+import static org.openclover.util.Sets.newHashSet;
 
 /**
  */
@@ -186,7 +186,7 @@ public class RenderFileAction implements Callable {
         final Map<TestCaseInfo, BlockMetrics> testMetrics = newHashMap(); // testid -> metrics
         Set<TestCaseInfo> testHits = database.getTestHits(fileInfo);
         FullFileInfo fcopy = fileInfo.copy((FullPackageInfo) fileInfo.getContainingPackage(), HasMetricsFilter.ACCEPT_ALL);
-        Set<TestCaseInfo> testSet = Sets.newHashSet();
+        Set<TestCaseInfo> testSet = newHashSet();
 
         final List<TestCaseInfo>[] testLineInfo = (List<TestCaseInfo>[])new ArrayList[fcopy.getLineCount() + 1];
 
@@ -265,7 +265,7 @@ public class RenderFileAction implements Callable {
         final Map<TestCaseInfo, BlockMetrics> orderedTestMetrics =
                 new LinkedHashMap<>(testMetrics.size());
         final List<Map.Entry<TestCaseInfo, BlockMetrics>> testMetricList =
-                Lists.newLinkedList(testMetrics.entrySet());
+                newLinkedList(testMetrics.entrySet());
         Collections.sort(testMetricList, TEST_METRICS_COMPARATOR);
 
         final List<Map.Entry<TestCaseInfo, BlockMetrics>> sublist;

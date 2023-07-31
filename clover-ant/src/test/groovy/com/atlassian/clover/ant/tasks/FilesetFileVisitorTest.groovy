@@ -8,7 +8,7 @@ import org.apache.tools.ant.types.Reference
 import com.atlassian.clover.reporters.Current
 import com.atlassian.clover.testutils.IOHelper
 
-import static clover.com.google.common.collect.Lists.newArrayList
+import static org.openclover.util.Lists.newArrayList
 
 class FilesetFileVisitorTest extends TestCase {
 

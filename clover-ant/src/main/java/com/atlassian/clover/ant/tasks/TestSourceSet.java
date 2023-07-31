@@ -1,6 +1,5 @@
 package com.atlassian.clover.ant.tasks;
 
-import clover.com.google.common.collect.Sets;
 import com.atlassian.clover.instr.tests.TestDetector;
 import com.atlassian.clover.instr.tests.TestSourceMatcher;
 import com.atlassian.clover.instr.tests.NoTestDetector;
@@ -17,7 +16,8 @@ import java.io.File;
 import java.util.List;
 import java.util.Set;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
+import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.util.Sets.newHashSet;
 
 public class TestSourceSet extends FileSet implements TestSourceMatcher {
     private boolean enabled = true;
@@ -75,12 +75,12 @@ public class TestSourceSet extends FileSet implements TestSourceMatcher {
 
     public Set<File> getIncludedFiles() {
         maybeBuildFileSets();
-        return Sets.newHashSet(includedFiles);
+        return newHashSet(includedFiles);
     }
 
     public Set<File> getExcludedFiles() {
         maybeBuildFileSets();
-        return Sets.newHashSet(excludedFiles);
+        return newHashSet(excludedFiles);
     }
 
     @Override
@@ -104,8 +104,8 @@ public class TestSourceSet extends FileSet implements TestSourceMatcher {
 
     private void maybeBuildFileSets() {
         if (includedFiles == null) {
-            Set<File> is = Sets.newHashSet();
-            Set<File> es = Sets.newHashSet();
+            Set<File> is = newHashSet();
+            Set<File> es = newHashSet();
 
             // return empty lists if disabled; otherwise scan directory
             if (enabled) {

@@ -1,10 +1,10 @@
 package com.atlassian.clover.spi.lang;
 
-import clover.com.google.common.collect.Sets;
-
 import java.util.Collections;
 import java.util.Locale;
 import java.util.Set;
+
+import static org.openclover.util.Sets.newHashSet;
 
 /**
  * A language that Clover may support.
@@ -37,7 +37,7 @@ public interface Language {
 
         Builtin(String extension, LanguageConstruct... constructs) {
             this.extensions = Collections.singleton(extension);
-            this.constructs = Collections.unmodifiableSet(Sets.newHashSet(constructs));
+            this.constructs = Collections.unmodifiableSet(newHashSet(constructs));
         }
 
         @Override

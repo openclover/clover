@@ -19,7 +19,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
+import static org.openclover.util.Lists.newArrayList;
 
 public class FileBasedJUnitClassListProcessorIdeaTest extends LightIdeaTestCase {
     static final String[][] TEST_CASES = {

@@ -1,11 +1,11 @@
 package com.atlassian.clover.context
 
-import clover.com.google.common.collect.Maps
 import org.junit.Test
 
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertFalse
 import static org.junit.Assert.assertTrue
+import static org.openclover.util.Maps.newHashMap
 
 class ContextSetTest {
 
@@ -99,7 +99,7 @@ class ContextSetTest {
     @Test
     void testMappedBitset() {
         ContextSet src = new ContextSet().set(1).set(2).set(3)
-        Map<Integer, Integer> mapping = Maps.newHashMap()
+        Map<Integer, Integer> mapping = newHashMap()
         mapping.put(new Integer(1), new Integer(10))
 
         ContextSet dest = ContextSet.remap(src, mapping)

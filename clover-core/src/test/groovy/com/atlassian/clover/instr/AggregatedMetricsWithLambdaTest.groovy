@@ -1,10 +1,11 @@
 package com.atlassian.clover.instr
 
-import clover.com.google.common.collect.Maps
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestName
+
+import static org.openclover.util.Maps.newHashMap
 
 /**
  * Test for {@link com.atlassian.clover.instr.InstrumentationSessionImpl} checking how aggregated metrics
@@ -40,7 +41,7 @@ class AggregatedMetricsWithLambdaTest extends AggregatedMetricsTestBase {
     @Test
     void testAggregatedClassMetricsWithLambda() {
         // expected results
-        final Map<RegistryKey, MetricValue> expClassMetrics = Maps.newHashMap()
+        final Map<RegistryKey, MetricValue> expClassMetrics = newHashMap()
         expClassMetrics.put(new RegistryKey("AggregatedMetrics"), new MetricValue(5, 9, 5, 8))
         expClassMetrics.put(new RegistryKey("AggregatedMetrics.B"), new MetricValue(4, 4, 3, 3))
 
@@ -58,7 +59,7 @@ class AggregatedMetricsWithLambdaTest extends AggregatedMetricsTestBase {
     @Test
     void testAggregatedMethodMetricsWithLambda() {
         // Map( (class name, method name) -> (statements, aggregated statements) )
-        final Map<RegistryKey, MetricValue> expMethodMetrics = Maps.newHashMap()
+        final Map<RegistryKey, MetricValue> expMethodMetrics = newHashMap()
         expMethodMetrics.put(new RegistryKey("AggregatedMetrics", '$lam#0'), new MetricValue(1, 1, 1, 1))
         expMethodMetrics.put(new RegistryKey("AggregatedMetrics", 'methodTwo'), new MetricValue(4, 4, 3, 3))
         expMethodMetrics.put(new RegistryKey("AggregatedMetrics", '$lam#3'), new MetricValue(2, 2, 2, 2)); //lam#3 encloses lam#4

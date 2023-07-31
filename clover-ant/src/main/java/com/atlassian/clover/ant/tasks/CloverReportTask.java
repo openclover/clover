@@ -22,9 +22,9 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
-import static clover.com.google.common.collect.Maps.newHashMap;
-import static clover.com.google.common.collect.Maps.newTreeMap;
+import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.util.Maps.newHashMap;
+import static org.openclover.util.Maps.newTreeMap;
 
 /**
  * The Clover report task serves as a driver for the various different

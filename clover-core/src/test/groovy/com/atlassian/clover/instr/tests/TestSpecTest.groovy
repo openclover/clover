@@ -1,7 +1,5 @@
 package com.atlassian.clover.instr.tests
 
-import clover.com.google.common.collect.Lists
-import clover.com.google.common.collect.Maps
 import com.atlassian.clover.instr.java.JavaMethodContext
 import com.atlassian.clover.instr.java.JavaTypeContext
 import com.atlassian.clover.registry.entities.AnnotationImpl
@@ -14,6 +12,8 @@ import java.util.regex.Pattern
 
 import static org.junit.Assert.assertFalse
 import static org.junit.Assert.assertTrue
+import static org.openclover.util.Lists.newArrayList
+import static org.openclover.util.Maps.newHashMap
 
 class TestSpecTest {
 
@@ -25,7 +25,7 @@ class TestSpecTest {
     void setUp() {
         spec = new TestSpec()
         mods = new Modifiers()
-        tags = Maps.newHashMap()
+        tags = newHashMap()
     }
 
     @Test
@@ -39,7 +39,7 @@ class TestSpecTest {
     void testIsClassMatchOnTags() {
 
         spec.setClassTagPattern(Pattern.compile("javadoctest"))
-        List<String> values = Lists.newArrayList()
+        List<String> values = newArrayList()
         values.add("value")
 
         // test with null tags
@@ -108,7 +108,7 @@ class TestSpecTest {
     @Test
     void testIsMethodMatchOnTags() {
         spec.setMethodTagPattern(Pattern.compile("testng\\.test"))
-        List<String> value = Lists.newArrayList()
+        List<String> value = newArrayList()
         value.add("value")
 
         // test with null tags             //note: return type cannot be null

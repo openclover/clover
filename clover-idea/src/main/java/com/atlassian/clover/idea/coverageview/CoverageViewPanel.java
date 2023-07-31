@@ -72,7 +72,7 @@ import java.beans.PropertyChangeEvent;
 import java.io.File;
 import java.util.Collection;
 
-import static clover.com.google.common.collect.Sets.newHashSet;
+import static org.openclover.util.Sets.newHashSet;
 
 public class CoverageViewPanel extends TreeTablePanel implements ConfigChangeListener, CoverageTreeListener,
         DataProvider {

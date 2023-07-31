@@ -8,7 +8,7 @@ import java.util.concurrent.Callable;
 import java.io.File;
 import java.io.IOException;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
+import static org.openclover.util.Lists.newArrayList;
 
 public abstract class RenderCoverageCloudAction implements Callable {
     protected final List classes;

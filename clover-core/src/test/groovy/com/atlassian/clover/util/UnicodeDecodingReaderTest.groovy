@@ -2,7 +2,6 @@ package com.atlassian.clover.util
 
 import clover.antlr.Token
 import clover.antlr.TokenStreamException
-import clover.com.google.common.collect.Lists
 import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig
 import com.atlassian.clover.cfg.instr.java.SourceLevel
 import com.atlassian.clover.instr.java.JavaLexer
@@ -10,6 +9,7 @@ import com.atlassian.clover.instr.java.JavaTokenTypes
 import org.junit.Test
 
 import static org.junit.Assert.*
+import static org.openclover.util.Lists.newArrayList
 
 /**
  * Test of {@link com.atlassian.clover.instr.java.JavaLexer} against unicode characters
@@ -209,7 +209,7 @@ class UnicodeDecodingReaderTest {
         final JavaLexer lexer = new JavaLexer(new UnicodeDecodingReader(new StringReader(input)), config)
 
         // get text from all tokens and concatenate it
-        final ArrayList<Token> tokens = Lists.newArrayList()
+        final ArrayList<Token> tokens = newArrayList()
         Token token
         for (token = lexer.nextToken(); token.getType() != Token.EOF_TYPE; token = lexer.nextToken()) {
             tokens.add(token)

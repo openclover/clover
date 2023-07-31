@@ -17,7 +17,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
+import static org.openclover.util.Lists.newArrayList;
 
 /**
  * Helper class to validate Ant's FileSet and PatternSet classes

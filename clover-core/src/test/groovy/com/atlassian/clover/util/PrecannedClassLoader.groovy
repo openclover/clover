@@ -1,9 +1,9 @@
 package com.atlassian.clover.util
 
-import clover.com.google.common.collect.Maps
+import static org.openclover.util.Maps.newHashMap
 
 class PrecannedClassLoader extends ClassLoader {
-    private Map precanned = Maps.newHashMap()
+    private Map precanned = newHashMap()
 
     PrecannedClassLoader(ClassLoader classLoader, Map precanned) {
         super(classLoader)

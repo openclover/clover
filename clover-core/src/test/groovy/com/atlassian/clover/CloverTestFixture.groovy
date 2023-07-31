@@ -1,7 +1,5 @@
 package com.atlassian.clover
 
-import clover.com.google.common.collect.Lists
-import clover.com.google.common.collect.Maps
 import com.atlassian.clover.api.CloverException
 import com.atlassian.clover.instr.InstrumentationSessionImpl
 import com.atlassian.clover.recorder.FixedSizeCoverageRecorder
@@ -14,11 +12,14 @@ import com.atlassian.clover.registry.entities.MethodSignature
 import com.atlassian.clover.registry.entities.Modifiers
 import com_atlassian_clover.Clover
 
+import static org.openclover.util.Lists.newArrayList
+import static org.openclover.util.Maps.newHashMap
+
 class CloverTestFixture {
 
     private final File tmpDir
 
-    private final Map<String, Clover2Registry> registries = Maps.newHashMap()
+    private final Map<String, Clover2Registry> registries = newHashMap()
 
     /**
      * @param dir File
@@ -36,7 +37,7 @@ class CloverTestFixture {
      * @throws IOException
      */
     String getTestCoverageDatabase() throws IOException, CloverException {
-        List<Clazz> classList = Lists.newArrayList()
+        List<Clazz> classList = newArrayList()
         classList.add(new Clazz(tmpDir, "org.test", "TestA", new Coverage(0.23f, 0.34f, 0.45f)))
 
         String initString = createCoverageDB()

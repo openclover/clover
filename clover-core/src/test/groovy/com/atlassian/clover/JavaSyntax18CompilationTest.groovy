@@ -1,6 +1,5 @@
 package com.atlassian.clover
 
-import clover.com.google.common.collect.Lists
 import com.atlassian.clover.api.registry.Annotation
 import com.atlassian.clover.api.registry.AnnotationValue
 import com.atlassian.clover.api.registry.ClassInfo
@@ -12,6 +11,7 @@ import org.apache.tools.ant.util.JavaEnvUtils
 
 import static org.hamcrest.CoreMatchers.hasItems
 import static org.junit.Assert.assertThat
+import static org.openclover.util.Lists.newArrayList
 
 /**
  * The purpose of this test is to
@@ -410,7 +410,7 @@ class JavaSyntax18CompilationTest extends JavaSyntaxCompilationTestBase {
             //   name=Foo, attributes=( "value" -> "1" )
             //   name=Foo, attributes=( "value" -> "2" )
             //   name=Foo, attributes=( "value" -> "3" )
-            Collection<String> defaultAttributeValues = Lists.newArrayList()
+            Collection<String> defaultAttributeValues = newArrayList()
             for (Annotation bitAnnotation : bitAnnotations) {
                 Map<String, ? extends AnnotationValue> attributes = bitAnnotation.getAttributes()
                 defaultAttributeValues.add( ((StringifiedAnnotationValue)attributes.get("value")).getValue() )

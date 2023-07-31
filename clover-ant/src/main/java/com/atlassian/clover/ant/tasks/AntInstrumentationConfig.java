@@ -1,6 +1,5 @@
 package com.atlassian.clover.ant.tasks;
 
-import clover.com.google.common.collect.Sets;
 import com.atlassian.clover.CloverNames;
 import com.atlassian.clover.api.CloverException;
 import com.atlassian.clover.cfg.instr.InstrumentationConfig;
@@ -22,7 +21,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
+import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.util.Sets.newHashSet;
 
 public class AntInstrumentationConfig extends JavaInstrumentationConfig {
     private final transient Project project;
@@ -216,7 +216,7 @@ public class AntInstrumentationConfig extends JavaInstrumentationConfig {
 
     public void configureIncludedFiles() {
         if (instrFilesets != null) {
-            Collection<File> includedFiles = Sets.newHashSet();
+            Collection<File> includedFiles = newHashSet();
             for (FileSet fileset : instrFilesets) {
                 final String[] included = fileset.getDirectoryScanner(project).getIncludedFiles();
                 for (String path : included) {

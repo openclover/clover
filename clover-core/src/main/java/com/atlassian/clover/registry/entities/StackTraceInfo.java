@@ -8,7 +8,7 @@ import java.io.StringReader;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
+import static org.openclover.util.Lists.newArrayList;
 
 public class StackTraceInfo {
 

@@ -16,7 +16,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import static clover.com.google.common.collect.Maps.newHashMap;
+import static org.openclover.util.Maps.newHashMap;
 
 
 /**

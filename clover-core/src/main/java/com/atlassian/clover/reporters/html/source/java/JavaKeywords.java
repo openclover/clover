@@ -1,14 +1,15 @@
 package com.atlassian.clover.reporters.html.source.java;
 
-import clover.com.google.common.collect.Sets;
 import com.atlassian.clover.instr.java.JavaTokenTypes;
 
 import java.util.Set;
 import java.util.Collections;
 
+import static org.openclover.util.Sets.newHashSet;
+
 /** Determins if a token id corresponds to a Java keyword */
 public class JavaKeywords {
-    private static final Set<Integer> SET = Collections.unmodifiableSet(Sets.newHashSet(
+    private static final Set<Integer> SET = Collections.unmodifiableSet(newHashSet(
             JavaTokenTypes.ABSTRACT,
             JavaTokenTypes.FINAL,
             JavaTokenTypes.LITERAL_assert,

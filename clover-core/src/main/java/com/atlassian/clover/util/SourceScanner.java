@@ -1,12 +1,12 @@
 package com.atlassian.clover.util;
 
-import clover.com.google.common.collect.Sets;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.FilenameFilter;
 import java.util.Set;
 import java.util.Collections;
+
+import static org.openclover.util.Sets.newHashSet;
 
 /**
  * Scans a directory for files (a simplified DirectoryScanner)
@@ -62,7 +62,7 @@ public class SourceScanner {
 
         final String[] srcFiles = src.list(nameSpecFilter);
         final String[] destFiles = dest != null ? dest.list(nameSpecFilter) : null;
-        final Set<String> destFileSet = destFiles != null ? Sets.newHashSet(destFiles) : Collections.<String>emptySet();
+        final Set<String> destFileSet = destFiles != null ? newHashSet(destFiles) : Collections.<String>emptySet();
 
         for (String name : srcFiles) {
             final String filePath;

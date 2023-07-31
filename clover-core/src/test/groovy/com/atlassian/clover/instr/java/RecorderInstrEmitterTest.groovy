@@ -1,6 +1,5 @@
 package com.atlassian.clover.instr.java
 
-import clover.com.google.common.collect.Lists
 import com.atlassian.clover.recorder.pertest.SnifferType
 import com.atlassian.clover.remote.DistributedConfig
 import com_atlassian_clover.CloverProfile
@@ -10,6 +9,7 @@ import org.mockito.internal.matchers.Matches
 
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertThat
+import static org.openclover.util.Lists.newArrayList
 
 /**
  * Test for {@link RecorderInstrEmitter}
@@ -53,7 +53,7 @@ class RecorderInstrEmitterTest {
     @Test
     void testGenerateCloverProfilesFieldEmptyProfiles() {
         String expected = "public static " + CloverProfile.class.getName() + "[] profiles = { };"
-        String actual = RecorderInstrEmitter.generateCloverProfilesField(Lists.newArrayList())
+        String actual = RecorderInstrEmitter.generateCloverProfilesField(newArrayList())
         assertEquals(expected, actual)
     }
 
@@ -77,7 +77,7 @@ class RecorderInstrEmitterTest {
         String expected = "public static " + CloverProfile.class.getName() + "[] profiles = { " +
                 "new " + CloverProfile.class.getName() + "(\"" + defaultAsUnicode + "\", \"FIXED\", null)" +
                 "};"
-        List<CloverProfile> profiles = Lists.newArrayList()
+        List<CloverProfile> profiles = newArrayList()
         profiles.add(new CloverProfile("default", CloverProfile.CoverageRecorderType.FIXED, null))
 
         assertEquals(expected, RecorderInstrEmitter.generateCloverProfilesField(profiles))
@@ -94,7 +94,7 @@ class RecorderInstrEmitterTest {
                 RecorderInstrEmitter.asUnicodeString(distributedConfigStrSorted) + ")" +
                 "};"
 
-        List<CloverProfile> profiles = Lists.newArrayList()
+        List<CloverProfile> profiles = newArrayList()
         profiles.add(new CloverProfile("default", CloverProfile.CoverageRecorderType.FIXED,
                 new DistributedConfig(distributedConfigStr)))
 
@@ -113,7 +113,7 @@ class RecorderInstrEmitterTest {
                 "new " + CloverProfile.class.getName() + "(\"" + sharedAsUnicode + "\", \"SHARED\", null)" +
                 "};"
 
-        List<CloverProfile> profiles = Lists.newArrayList()
+        List<CloverProfile> profiles = newArrayList()
         profiles.add(new CloverProfile("default", CloverProfile.CoverageRecorderType.FIXED,
                 new DistributedConfig(distributedConfigStr)))
         profiles.add(new CloverProfile("shared", CloverProfile.CoverageRecorderType.SHARED, null))
@@ -129,7 +129,7 @@ class RecorderInstrEmitterTest {
                 "new " + CloverProfile.class.getName() + "(\"" + sharedAsUnicode + "\", \"SHARED\", null)" +
                 "}"
 
-        List<CloverProfile> profiles = Lists.newArrayList()
+        List<CloverProfile> profiles = newArrayList()
         profiles.add(new CloverProfile("default", CloverProfile.CoverageRecorderType.FIXED,
                 new DistributedConfig(distributedConfigStr)))
         profiles.add(new CloverProfile("shared", CloverProfile.CoverageRecorderType.SHARED, null))

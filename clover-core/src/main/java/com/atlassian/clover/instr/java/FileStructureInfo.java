@@ -5,7 +5,7 @@ import com.atlassian.clover.api.registry.MethodInfo;
 import java.io.File;
 import java.util.List;
 
-import static clover.com.google.common.collect.Lists.newLinkedList;
+import static org.openclover.util.Lists.newLinkedList;
 
 /**
  *

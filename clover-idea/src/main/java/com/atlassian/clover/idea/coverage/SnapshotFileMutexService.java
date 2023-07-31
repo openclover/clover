@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import static clover.com.google.common.collect.Maps.newHashMap;
+import static org.openclover.util.Maps.newHashMap;
 
 public class SnapshotFileMutexService implements SnapshotFileMutex {
     private final Map<File, CountedLock> locks = newHashMap();

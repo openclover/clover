@@ -1,6 +1,5 @@
 package com.atlassian.clover.recorder;
 
-import clover.com.google.common.collect.Sets;
 import clover.it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import clover.it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import clover.it.unimi.dsi.fastutil.ints.Int2ObjectRBTreeMap;
@@ -30,8 +29,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Collection;
 
-import static clover.com.google.common.collect.Lists.newLinkedList;
-import static clover.com.google.common.collect.Maps.newHashMap;
+import static org.openclover.util.Lists.newLinkedList;
+import static org.openclover.util.Maps.newHashMap;
+import static org.openclover.util.Sets.newHashSet;
 
 /**
  * This model of per-test coverage does not retain all coverage data in memory but rather
@@ -64,7 +64,7 @@ public class SamplingPerTestCoverage extends BasePerTestCoverage {
         private FileInfoSample(int idx, int[] methodIdx) {
             this.idx = idx;
             this.methodIdx = methodIdx;
-            this.tcis = Sets.newHashSet();
+            this.tcis = newHashSet();
         }
 
         public void sample(TestCaseInfo tci, CloverBitSet coverage) {
@@ -138,7 +138,7 @@ public class SamplingPerTestCoverage extends BasePerTestCoverage {
 
         Set<String> pathsToCoverage = (Set<String>)tciIdsToRecordingFiles.get(tci.getId());
         if (pathsToCoverage == null) {
-            pathsToCoverage = Sets.newHashSet();
+            pathsToCoverage = newHashSet();
             tciIdsToRecordingFiles.put(tci.getId(), pathsToCoverage);
         }
         pathsToCoverage.add(recording.getFile().getAbsolutePath());
@@ -228,13 +228,13 @@ public class SamplingPerTestCoverage extends BasePerTestCoverage {
     @Override
     @SuppressWarnings("unchecked")
     public Set<TestCaseInfo> getTests() {
-        return Sets.newHashSet(tciIdToTCIMap.values());
+        return newHashSet(tciIdToTCIMap.values());
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public Set<TestCaseInfo> getTestsCovering(CoverageDataRange range) {
-        final Set<TestCaseInfo> tcis = Sets.newHashSet();
+        final Set<TestCaseInfo> tcis = newHashSet();
 
         final int startIdx = range.getDataIndex();
         final int endIdx = range.getDataLength() + range.getDataIndex();

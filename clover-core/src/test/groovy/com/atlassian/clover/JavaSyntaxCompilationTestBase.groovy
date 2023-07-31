@@ -1,6 +1,5 @@
 package com.atlassian.clover
 
-import clover.com.google.common.collect.Lists
 import clover.org.apache.commons.lang3.ArrayUtils
 import com.atlassian.clover.api.registry.MethodInfo
 import com.atlassian.clover.cfg.instr.java.LambdaInstrumentation
@@ -28,6 +27,8 @@ import org.jetbrains.annotations.Nullable
 
 import java.util.regex.Matcher
 import java.util.regex.Pattern
+
+import static org.openclover.util.Lists.newArrayList
 
 /**
  * This is a base class for test cases testing compilation and instrumentation under different JDK versions
@@ -183,7 +184,7 @@ abstract class JavaSyntaxCompilationTestBase extends TestCase {
     }
 
      protected List<File> scanSrcDir(final File dir) throws IOException {
-        final List<File> files = Lists.newArrayList()
+        final List<File> files = newArrayList()
         SourceScanner scanner = new SourceScanner(dir, ".*\\.java")
         scanner.visit(new SourceScanner.Visitor() {
 

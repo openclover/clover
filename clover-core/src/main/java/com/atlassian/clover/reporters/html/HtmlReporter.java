@@ -1,8 +1,6 @@
 package com.atlassian.clover.reporters.html;
 
 import clover.com.google.common.collect.Iterables;
-import clover.com.google.common.collect.Lists;
-import clover.com.google.common.collect.Maps;
 import clover.org.apache.commons.lang3.StringUtils;
 import clover.org.apache.velocity.VelocityContext;
 import clover.org.jfree.chart.ChartRenderingInfo;
@@ -69,8 +67,6 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
-import static clover.com.google.common.collect.Maps.newHashMap;
 import static com.atlassian.clover.reporters.CommandLineArgProcessors.AlwaysReport;
 import static com.atlassian.clover.reporters.CommandLineArgProcessors.BlackAndWhite;
 import static com.atlassian.clover.reporters.CommandLineArgProcessors.DebugLogging;
@@ -92,17 +88,20 @@ import static com.atlassian.clover.reporters.CommandLineArgProcessors.TabWidth;
 import static com.atlassian.clover.reporters.CommandLineArgProcessors.ThreadCount;
 import static com.atlassian.clover.reporters.CommandLineArgProcessors.Title;
 import static com.atlassian.clover.reporters.CommandLineArgProcessors.VerboseLogging;
+import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.util.Maps.newHashMap;
+import static org.openclover.util.Maps.newLinkedHashMap;
 
 public class HtmlReporter extends CloverReporter {
 
     @SuppressWarnings("unchecked")
-    private static final List<ArgProcessor<Current>> mandatoryArgProcessors = Lists.newArrayList(
+    private static final List<ArgProcessor<Current>> mandatoryArgProcessors = newArrayList(
             InitString,
             OutputDirHtml
     );
 
     @SuppressWarnings("unchecked")
-    private static final List<ArgProcessor<Current>> optionalArgProcessors = Lists.newArrayList(
+    private static final List<ArgProcessor<Current>> optionalArgProcessors = newArrayList(
             AlwaysReport,
             HideBars,
             BlackAndWhite,
@@ -124,7 +123,7 @@ public class HtmlReporter extends CloverReporter {
             VerboseLogging
     );
 
-    private static final List<ArgProcessor<Current>> allArgProcessors = Lists.newArrayList(
+    private static final List<ArgProcessor<Current>> allArgProcessors = newArrayList(
             Iterables.concat(mandatoryArgProcessors, optionalArgProcessors));
 
     /**
@@ -232,7 +231,7 @@ public class HtmlReporter extends CloverReporter {
      * A method which removes any reports which are not "readable by humans" (HTML or PDF or TEXT).
      */
     private void filterLinkedReports() {
-        final Map<String, CloverReportConfig> filteredLinkedReports = Maps.newLinkedHashMap();
+        final Map<String, CloverReportConfig> filteredLinkedReports = newLinkedHashMap();
         for (Map.Entry<String, CloverReportConfig> linkedReport : reportConfig.getLinkedReports().entrySet()) {
             final CloverReportConfig linkedConfig = linkedReport.getValue();
             if (!linkedConfig.validate()) {

@@ -1,6 +1,5 @@
 package com.atlassian.clover.ant.taskdefs;
 
-import clover.com.google.common.collect.Sets;
 import clover.org.apache.commons.lang3.reflect.FieldUtils;
 import com.atlassian.clover.ant.AntInstrUtils;
 import com.atlassian.clover.cfg.instr.java.SourceLevel;
@@ -29,6 +28,8 @@ import java.io.File;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+
+import static org.openclover.util.Sets.newHashSet;
 
 /**
  * error handling in this class sux - but it is forced on us by Ant, or more
@@ -192,14 +193,14 @@ public class CloverCompilerAdapter implements CompilerAdapter {
                 error = new CloverException("The javac.compileList is null. Unable to integrate Clover with Javac.");
                 return;
             }
-            final Set<File> compileSet = Sets.newHashSet(compileList);
+            final Set<File> compileSet = newHashSet(compileList);
 
             //the copyset contains files that are to be compiled without instrumentation. Initially
             //this is the entire compile set
-            final Collection<File> copySet = Sets.newHashSet(compileSet);
+            final Collection<File> copySet = newHashSet(compileSet);
 
             //the instrset contains files that need instrumentation. This is initially empty.
-            final Collection<File> instrSet = Sets.newHashSet();
+            final Collection<File> instrSet = newHashSet();
 
             //Sort source into copied source and instrumented source
             AntInstrUtils.sieveSourceForInstrumentation(project, javac.getSrcdir(), instrPatternSet, instrFileSetsList, compileSet, copySet, instrSet);
@@ -211,7 +212,7 @@ public class CloverCompilerAdapter implements CompilerAdapter {
             }
 
             // generate a new list for the compiler. Add all the files that won't be instrumented.
-            final Collection<File> replacementCompileSet = Sets.newHashSet(copySet);
+            final Collection<File> replacementCompileSet = newHashSet(copySet);
 
             try {
                 tmpDir = AntInstrUtils.createInstrDir(instrConfig.getTmpDir());

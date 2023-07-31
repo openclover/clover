@@ -1,6 +1,5 @@
 package org.openclover.eclipse.core.projects.settings;
 
-import clover.com.google.common.collect.Sets;
 import com.atlassian.clover.cfg.instr.InstrumentationConfig;
 import com.atlassian.clover.cfg.instr.InstrumentationLevel;
 import com.atlassian.clover.CloverDatabase;
@@ -29,6 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
+
+import static org.openclover.util.Sets.newHashSet;
 
 public class ProjectSettings extends Settings {
     public static final String DEFAULT_INCLUDE_PATTERN = "**/*.java";
@@ -88,7 +89,7 @@ public class ProjectSettings extends Settings {
         public static final LambdaInstrumentation INSTRUMENT_LAMBDA = LambdaInstrumentation.NONE;
     }
 
-    private static final Set<String> CONTAINER_NATURES = Sets.newHashSet(
+    private static final Set<String> CONTAINER_NATURES = newHashSet(
             "org.eclipse.wst.common.project.facet.core.nature"
     );
     

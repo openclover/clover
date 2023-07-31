@@ -56,9 +56,9 @@ import java.util.BitSet;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import static clover.com.google.common.collect.Lists.newLinkedList;
-import static clover.com.google.common.collect.Sets.newHashSet;
-import static clover.com.google.common.collect.Sets.newTreeSet;
+import static org.openclover.util.Lists.newLinkedList;
+import static org.openclover.util.Sets.newHashSet;
+import static org.openclover.util.Sets.newTreeSet;
 
 public class CoverageAnnotationModel implements IAnnotationModel, IDocumentListener, DatabaseChangeListener, AnnotationDisplayListener, ISchedulingRule {
     private static final Object MODEL_KEY = new Object();

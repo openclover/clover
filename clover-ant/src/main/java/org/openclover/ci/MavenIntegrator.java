@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
-import static clover.com.google.common.collect.Sets.newHashSet;
+import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.util.Sets.newHashSet;
 
 /**
  * A utility class that contains methods to assist in integrating clover into a CI server for Maven2 builds.

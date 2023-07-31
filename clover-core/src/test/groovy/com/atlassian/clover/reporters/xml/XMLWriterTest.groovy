@@ -1,9 +1,10 @@
 package com.atlassian.clover.reporters.xml
 
-import clover.com.google.common.collect.Maps
 import org.junit.Test
 
 import static org.junit.Assert.assertEquals
+import static org.openclover.util.Maps.newHashMap
+import static org.openclover.util.Maps.newTreeMap
 
 class XMLWriterTest {
 
@@ -30,7 +31,7 @@ class XMLWriterTest {
     void testWriteElements() throws IOException {
         StringWriter out = new StringWriter()
         XMLWriter xml = new XMLWriter(out)
-        xml.writeElementStart("foo", Maps.newHashMap())
+        xml.writeElementStart("foo", newHashMap())
         xml.close()
         String expected = "<foo>"
         String actual = out.toString().trim()
@@ -38,13 +39,13 @@ class XMLWriterTest {
 
         out = new StringWriter()
         xml = new XMLWriter(out)
-        xml.writeElementStart("foo", Maps.newHashMap(), true)
+        xml.writeElementStart("foo", newHashMap(), true)
         xml.close()
         expected = "<foo/>"
         actual = out.toString().trim()
         assertEquals(expected, actual)
 
-        Map attribs = Maps.newTreeMap()
+        Map attribs = newTreeMap()
 
         attribs.put("key1", "value1")
         attribs.put("key2", "value2")
@@ -74,7 +75,7 @@ class XMLWriterTest {
         StringWriter out = new StringWriter()
         XMLWriter xml = new XMLWriter(out)
         xml.writeText("foo")
-        xml.writeElementStart("b", Maps.newHashMap())
+        xml.writeElementStart("b", newHashMap())
         xml.writeText("bar")
         xml.writeElementEnd("b")
         xml.close()

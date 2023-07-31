@@ -1,12 +1,12 @@
 package com.atlassian.clover.instr
 
-import clover.com.google.common.collect.Maps
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestName
 
 import static org.junit.Assert.assertEquals
+import static org.openclover.util.Maps.newHashMap
 
 /**
  * Test for {@link InstrumentationSessionImpl} checking how aggregated metrics are calculated for top-level, inner and
@@ -41,7 +41,7 @@ class AggregatedMetricsWithInnerAndInlineClassesTest extends AggregatedMetricsTe
     @Test
     void testAggregatedMetricsForClasses() {
         // expected results
-        final Map<RegistryKey, MetricValue> expClassMetrics = Maps.newHashMap()
+        final Map<RegistryKey, MetricValue> expClassMetrics = newHashMap()
         expClassMetrics.put(new RegistryKey("AggregatedMetrics"), new MetricValue(1, 15, 1, 15))
         expClassMetrics.put(new RegistryKey("AggregatedMetrics.B"), new MetricValue(3, 3, 2, 2))
         expClassMetrics.put(new RegistryKey("AggregatedMetrics.C"), new MetricValue(5, 5, 5, 5))
@@ -64,7 +64,7 @@ class AggregatedMetricsWithInnerAndInlineClassesTest extends AggregatedMetricsTe
     @Test
     void testAggregatedMetricsForMethods() {
         // Map( (class name, method name) -> (statements, aggregated statements) )
-        final Map<RegistryKey, MetricValue> expMethodMetrics = Maps.newHashMap()
+        final Map<RegistryKey, MetricValue> expMethodMetrics = newHashMap()
         expMethodMetrics.put(new RegistryKey("AggregatedMetrics", "myMethod"), new MetricValue(1, 1, 1, 1))
         expMethodMetrics.put(new RegistryKey("AggregatedMetrics.C", "methodThree"), new MetricValue(2, 4, 1, 4))
         expMethodMetrics.put(new RegistryKey("AggregatedMetrics.C", "methodFour"), new MetricValue(1, 1, 1, 1))

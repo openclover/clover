@@ -1,6 +1,6 @@
 package com.atlassian.clover.ant.tasks
 
-import clover.com.google.common.collect.Maps
+import static org.openclover.util.Maps.newHashMap
 
 abstract class CloverOptimizeTestBase extends CloverBuildFileTestBase {
     private int spaceCount
@@ -111,7 +111,7 @@ abstract class CloverOptimizeTestBase extends CloverBuildFileTestBase {
     }
 
     protected Map<String, String> newProjectProperties() {
-        Map<String, String> properties = Maps.newHashMap(util.getProperties())
+        Map<String, String> properties = newHashMap(util.getProperties())
         File sampleProjectDir =
             new File(
                 util.getProjectDir(),

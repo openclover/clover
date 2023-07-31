@@ -31,7 +31,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.regex.PatternSyntaxException;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
+import static org.openclover.util.Lists.newArrayList;
 
 /**
  * Clover Ant Task to report pass/fail status of a test run against

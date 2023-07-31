@@ -1,11 +1,12 @@
 package com.atlassian.clover.util.trie
 
-import clover.com.google.common.collect.Lists
+import org.openclover.util.Lists
 import org.jetbrains.annotations.NotNull
 import org.junit.Test
 
 import static org.hamcrest.CoreMatchers.*
 import static org.junit.Assert.*
+import static org.openclover.util.Lists.newArrayList
 
 /**
  * Test for {@link com.atlassian.clover.util.trie.PrefixTree}
@@ -25,10 +26,10 @@ class PrefixTreeTest {
      */
     PrefixTree<String, Integer> createSampleTree() {
         final PrefixTree<String, Integer> trie = new PrefixTree<String, Integer>(NodeFactoryImpl.TREE_MAP_BACKED, "", Integer.valueOf(0))
-        final KeySequence<String> key1 = new KeySequence<String>(Lists.newArrayList("a", "b"))
-        final KeySequence<String> key2 = new KeySequence<String>(Lists.newArrayList("a", "b", "c", "d"))
-        final KeySequence<String> key3 = new KeySequence<String>(Lists.newArrayList("a", "b", "c", "e"))
-        final KeySequence<String> key4 = new KeySequence<String>(Lists.newArrayList("a", "z"))
+        final KeySequence<String> key1 = new KeySequence<String>(newArrayList("a", "b"))
+        final KeySequence<String> key2 = new KeySequence<String>(newArrayList("a", "b", "c", "d"))
+        final KeySequence<String> key3 = new KeySequence<String>(newArrayList("a", "b", "c", "e"))
+        final KeySequence<String> key4 = new KeySequence<String>(newArrayList("a", "z"))
 
         trie.add(key1, Integer.valueOf(1))
         trie.add(key2, Integer.valueOf(2))
@@ -64,7 +65,7 @@ class PrefixTreeTest {
         assertEquals(Integer.valueOf(10), nodeFound.getValue())
 
         // case: empty trie structure, value attached to the root node, find not existing subnode
-        final KeySequence<String> nonExistingKey = new KeySequence<String>(Lists.newArrayList("some", "key"))
+        final KeySequence<String> nonExistingKey = new KeySequence<String>(newArrayList("some", "key"))
         assertNull(trieWithRootValue.find(nonExistingKey))
     }
 
@@ -77,7 +78,7 @@ class PrefixTreeTest {
         final PrefixTree<String, Integer> trie = new PrefixTree<String, Integer>(NodeFactoryImpl.HASH_MAP_BACKED, "", null)
 
         // case: add a single key
-        final KeySequence<String> key1 = new KeySequence<String>(Lists.newArrayList("abc", "def"))
+        final KeySequence<String> key1 = new KeySequence<String>(newArrayList("abc", "def"))
         trie.add(key1, Integer.valueOf(10))
         assertEquals(Integer.valueOf(10), trie.find(key1).getValue())
 
@@ -86,13 +87,13 @@ class PrefixTreeTest {
         assertEquals(Integer.valueOf(20), trie.find(key1).getValue())
 
         // case: add more keys, we should have all of them stored
-        final KeySequence<String> key2 = new KeySequence<String>(Lists.newArrayList("ghi", "jkl", "mno"))
+        final KeySequence<String> key2 = new KeySequence<String>(newArrayList("ghi", "jkl", "mno"))
         trie.add(key2, Integer.valueOf(30))
         assertEquals(Integer.valueOf(20), trie.find(key1).getValue())
         assertEquals(Integer.valueOf(30), trie.find(key2).getValue())
 
         // case: search for non-existing key
-        final KeySequence<String> key3 = new KeySequence<String>(Lists.newArrayList("xyz"))
+        final KeySequence<String> key3 = new KeySequence<String>(newArrayList("xyz"))
         assertNull(trie.find(key3))
     }
 
@@ -103,53 +104,53 @@ class PrefixTreeTest {
     @Test
     void testAddFindNearest() {
         PrefixTree<String, Integer> trie = new PrefixTree<String, Integer>(NodeFactoryImpl.HASH_MAP_BACKED, "", Integer.valueOf(0))
-        trie.add(new KeySequence<String>(Lists.newArrayList("abc")), Integer.valueOf(1))
-        trie.add(new KeySequence<String>(Lists.newArrayList("abc", "def")), Integer.valueOf(2))
-        trie.add(new KeySequence<String>(Lists.newArrayList("abc", "def", "ghi")), Integer.valueOf(3))
-        trie.add(new KeySequence<String>(Lists.newArrayList("jkl")), Integer.valueOf(4))
-        trie.add(new KeySequence<String>(Lists.newArrayList("jkl", "mno")), Integer.valueOf(5))
+        trie.add(new KeySequence<String>(newArrayList("abc")), Integer.valueOf(1))
+        trie.add(new KeySequence<String>(newArrayList("abc", "def")), Integer.valueOf(2))
+        trie.add(new KeySequence<String>(newArrayList("abc", "def", "ghi")), Integer.valueOf(3))
+        trie.add(new KeySequence<String>(newArrayList("jkl")), Integer.valueOf(4))
+        trie.add(new KeySequence<String>(newArrayList("jkl", "mno")), Integer.valueOf(5))
 
         // find our roots
         assertEquals(
                 Integer.valueOf(1),
-                trie.findNearest(new KeySequence<String>(Lists.newArrayList("abc"))).getValue())
+                trie.findNearest(new KeySequence<String>(newArrayList("abc"))).getValue())
         assertEquals(
                 Integer.valueOf(2),
-                trie.findNearest(new KeySequence<String>(Lists.newArrayList("abc", "def"))).getValue())
+                trie.findNearest(new KeySequence<String>(newArrayList("abc", "def"))).getValue())
         assertEquals(
                 Integer.valueOf(3),
-                trie.findNearest(new KeySequence<String>(Lists.newArrayList("abc", "def", "ghi"))).getValue())
+                trie.findNearest(new KeySequence<String>(newArrayList("abc", "def", "ghi"))).getValue())
         assertEquals(
                 Integer.valueOf(4),
-                trie.findNearest(new KeySequence<String>(Lists.newArrayList("jkl"))).getValue())
+                trie.findNearest(new KeySequence<String>(newArrayList("jkl"))).getValue())
         assertEquals(
                 Integer.valueOf(5),
-                trie.findNearest(new KeySequence<String>(Lists.newArrayList("jkl", "mno"))).getValue())
+                trie.findNearest(new KeySequence<String>(newArrayList("jkl", "mno"))).getValue())
 
         // find something directly under roots
         assertEquals(
                 Integer.valueOf(1),
-                trie.findNearest(new KeySequence<String>(Lists.newArrayList("abc", "Foo.java"))).getValue())
+                trie.findNearest(new KeySequence<String>(newArrayList("abc", "Foo.java"))).getValue())
         assertEquals(
                 Integer.valueOf(2),
-                trie.findNearest(new KeySequence<String>(Lists.newArrayList("abc", "def", "Foo.java"))).getValue())
+                trie.findNearest(new KeySequence<String>(newArrayList("abc", "def", "Foo.java"))).getValue())
         assertEquals(
                 Integer.valueOf(3),
-                trie.findNearest(new KeySequence<String>(Lists.newArrayList("abc", "def", "ghi", "Foo.java"))).getValue())
+                trie.findNearest(new KeySequence<String>(newArrayList("abc", "def", "ghi", "Foo.java"))).getValue())
         assertEquals(
                 Integer.valueOf(4),
-                trie.findNearest(new KeySequence<String>(Lists.newArrayList("jkl", "Foo.java"))).getValue())
+                trie.findNearest(new KeySequence<String>(newArrayList("jkl", "Foo.java"))).getValue())
         assertEquals(
                 Integer.valueOf(5),
-                trie.findNearest(new KeySequence<String>(Lists.newArrayList("jkl", "mno", "Foo.java"))).getValue())
+                trie.findNearest(new KeySequence<String>(newArrayList("jkl", "mno", "Foo.java"))).getValue())
 
         // find something few levels deeper
         assertEquals(
                 Integer.valueOf(1),
-                trie.findNearest(new KeySequence<String>(Lists.newArrayList("abc", "some", "more", "levels", "Foo.java"))).getValue())
+                trie.findNearest(new KeySequence<String>(newArrayList("abc", "some", "more", "levels", "Foo.java"))).getValue())
         assertEquals(
                 Integer.valueOf(3),
-                trie.findNearest(new KeySequence<String>(Lists.newArrayList("abc", "def", "ghi", "some", "more", "levels", "Foo.java"))).getValue())
+                trie.findNearest(new KeySequence<String>(newArrayList("abc", "def", "ghi", "some", "more", "levels", "Foo.java"))).getValue())
 
         // test "not found"; tricky stuff: the findNearest() will either find a rootNode (on Linux/MacOS) or a first
         // node under a rootNode (on Windows; a reason is that new File("/") is resolved to "C:", which is a drive letter)
@@ -157,7 +158,7 @@ class PrefixTreeTest {
                 trie.findNearest(new KeySequence<String>(Collections.<String>emptyList())).getValue(),
                 anyOf(nullValue(), equalTo(Integer.valueOf(0))))
         assertThat(
-                trie.findNearest(new KeySequence<String>(Lists.newArrayList("something", "outside", "our", "roots", "Foo.java"))).getValue(),
+                trie.findNearest(new KeySequence<String>(newArrayList("something", "outside", "our", "roots", "Foo.java"))).getValue(),
                 anyOf(nullValue(), equalTo(Integer.valueOf(0))))
 
     }
@@ -184,14 +185,14 @@ class PrefixTreeTest {
         // not have a value assigned to it
         // expected: take first non-null value from its ancestors
         final Node<String, Integer> nodeABCFoo = trie.findNearestWithValue(new KeySequence<String>(
-                Lists.newArrayList("a", "b", "c", "Foo.java")))
+                newArrayList("a", "b", "c", "Foo.java")))
         assertNotNull(nodeABCFoo)
         assertEquals(Integer.valueOf(1), nodeABCFoo.getValue()); // take from "a/b" node
 
         // case: search for an existing intermediate node which does not have a value assigned to it
         // expected: take first non-null value from its ancestors
         final Node<String, Integer> nodeABC = trie.findNearestWithValue(new KeySequence<String>(
-                Lists.newArrayList("a", "b", "c")))
+                newArrayList("a", "b", "c")))
         assertNotNull(nodeABC)
         assertEquals(Integer.valueOf(1), nodeABC.getValue()); // take from "a/b" node
 
@@ -199,14 +200,14 @@ class PrefixTreeTest {
         // value assigned in it
         // expected: take value from a root node (if any is set)
         final Node<String, Integer> nodeA = trie.findNearestWithValue(new KeySequence<String>(
-                Lists.newArrayList("a")))
+                newArrayList("a")))
         assertNotNull(nodeA)
         assertEquals(Integer.valueOf(0), nodeA.getValue()); // take from rootNode
 
         // case: search for a non-existing key
         // expected: root node or null if root node does not have any value set
         final Node<String, Integer> nodeNotFound = trie.findNearestWithValue(new KeySequence<String>(
-                Lists.newArrayList("not", "existing", "path", "at", "all")))
+                newArrayList("not", "existing", "path", "at", "all")))
         assertNotNull(nodeNotFound)
         assertEquals(Integer.valueOf(0), nodeNotFound.getValue()); // take from rootNode
 

@@ -1,6 +1,5 @@
 package com.atlassian.clover.instr.tests;
 
-import clover.com.google.common.collect.Sets;
 import com.atlassian.clover.api.registry.Annotation;
 import com.atlassian.clover.api.registry.AnnotationValue;
 import com.atlassian.clover.registry.entities.AnnotationImpl;
@@ -13,6 +12,8 @@ import java.util.Map;
 import java.util.SortedSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static org.openclover.util.Sets.newTreeSet;
 
 public class ExpectedExceptionMiner {
     /** Regex to match xdoclet attributes in format 'name = "value"' */
@@ -28,7 +29,7 @@ public class ExpectedExceptionMiner {
         Pattern.compile("\\.");
 
     public static String[] extractExpectedExceptionsFor(MethodSignature sig, boolean checkTags) {
-        final SortedSet<String> exceptionNames = Sets.newTreeSet();
+        final SortedSet<String> exceptionNames = newTreeSet();
 
         expectedExceptionsFromAnnotations(sig, exceptionNames);
 

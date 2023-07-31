@@ -1,12 +1,13 @@
 package com.atlassian.clover.ant.tasks
 
-import clover.com.google.common.collect.Lists
 import com.atlassian.clover.ant.testutils.CloverTestFixture
 import com.atlassian.clover.cfg.Percentage
 import com.atlassian.clover.registry.metrics.BlockMetrics
 import org.apache.tools.ant.Project
 
 import java.text.DecimalFormat
+
+import static org.openclover.util.Lists.newArrayList
 
 class CloverPassTaskTest extends CloverBuildFileTestBase {
     private CloverTestFixture fixture
@@ -29,7 +30,7 @@ class CloverPassTaskTest extends CloverBuildFileTestBase {
     }
 
     private String createDatabase(float stmt, float cond, float method, int elements) throws Exception {
-        List<CloverTestFixture.Clazz> classList = Lists.newArrayList()
+        List<CloverTestFixture.Clazz> classList = newArrayList()
 
         classList.add(new CloverTestFixture.Clazz(util.getWorkDir(), "com.cenqua", "Test",
                 new CloverTestFixture.Coverage(stmt, cond, method, elements)))

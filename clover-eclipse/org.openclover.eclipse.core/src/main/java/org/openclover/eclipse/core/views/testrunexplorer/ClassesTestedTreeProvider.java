@@ -41,10 +41,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Collections;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
-import static clover.com.google.common.collect.Lists.newLinkedList;
-import static clover.com.google.common.collect.Maps.newHashMap;
-import static clover.com.google.common.collect.Sets.newHashSet;
+import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.util.Lists.newLinkedList;
+import static org.openclover.util.Maps.newHashMap;
+import static org.openclover.util.Sets.newHashSet;
 
 public class ClassesTestedTreeProvider
     extends WorkbenchContentProvider

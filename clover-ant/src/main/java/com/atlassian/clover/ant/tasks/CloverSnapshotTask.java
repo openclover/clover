@@ -1,6 +1,5 @@
 package com.atlassian.clover.ant.tasks;
 
-import clover.com.google.common.collect.Lists;
 import com.atlassian.clover.CloverDatabase;
 import com.atlassian.clover.CloverNames;
 import com.atlassian.clover.CoverageDataSpec;
@@ -13,6 +12,8 @@ import org.apache.tools.ant.BuildException;
 
 import java.io.File;
 import java.util.LinkedList;
+
+import static org.openclover.util.Lists.newLinkedList;
 
 public class CloverSnapshotTask extends AbstractCloverTask {
     private Interval initialSpan = Interval.DEFAULT_SPAN;
@@ -59,7 +60,7 @@ public class CloverSnapshotTask extends AbstractCloverTask {
                     SnapshotPrinter.textPrint(snapshot, Logger.getInstance(), Logger.LOG_INFO);
                 }
 
-                final LinkedList<Long> versions = Lists.newLinkedList(snapshot.getDbVersions());
+                final LinkedList<Long> versions = newLinkedList(snapshot.getDbVersions());
                 final long lastVersion = versions.size() == 0 ? initialSpan.getValueInMillis() : versions.getLast();
                 final long span = Math.max(0, System.currentTimeMillis() - lastVersion); 
                 start = System.currentTimeMillis();

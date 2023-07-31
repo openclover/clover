@@ -8,7 +8,7 @@ import java.awt.event.ComponentEvent;
 import java.util.HashMap;
 import java.util.Map;
 
-import static clover.com.google.common.collect.Maps.newHashMap;
+import static org.openclover.util.Maps.newHashMap;
 
 public class BorderLayoutConverter extends BorderLayout {
 

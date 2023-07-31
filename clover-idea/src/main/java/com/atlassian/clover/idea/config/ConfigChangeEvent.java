@@ -7,7 +7,7 @@ import java.util.EventObject;
 import java.util.List;
 import java.util.Map;
 
-import static clover.com.google.common.collect.Maps.newHashMap;
+import static org.openclover.util.Maps.newHashMap;
 
 /**
  * The Config Change Event encapsulates a number of property changes. Consider

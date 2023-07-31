@@ -1,6 +1,5 @@
 package com.atlassian.clover.reporters.html;
 
-import clover.com.google.common.collect.Lists;
 import clover.org.apache.velocity.VelocityContext;
 import com.atlassian.clover.api.registry.ClassInfo;
 import com.atlassian.clover.registry.entities.BaseClassInfo;
@@ -18,6 +17,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
+
+import static org.openclover.util.Lists.newArrayList;
 
 /**
  */
@@ -65,12 +66,12 @@ public class RenderDashboardAction implements Callable {
         final ClassInfoStatsCalculator pcCoveredEleCalculator = new ClassInfoStatsCalculator.PcCoveredElementsCalculator();
         final ClassInfoStatsCalculator eleCountCalculator = new ClassInfoStatsCalculator.ElementCountCalculator();
 
-        final List<BaseClassInfo> amcOrder = Lists.newArrayList(classes);
+        final List<BaseClassInfo> amcOrder = newArrayList(classes);
         Collections.sort(amcOrder, new OrderedCalculatorComparator(
                 new ClassInfoStatsCalculator[]{avgMethodCmpCalculator, pcCoveredEleCalculator, eleCountCalculator})
         );
 
-        final List<BaseClassInfo> pceOrder = Lists.newArrayList(classes);
+        final List<BaseClassInfo> pceOrder = newArrayList(classes);
         Collections.sort(pceOrder, new OrderedCalculatorComparator(
                 new ClassInfoStatsCalculator[]{pcCoveredEleCalculator, avgMethodCmpCalculator, eleCountCalculator}));
 

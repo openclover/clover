@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
+import static org.openclover.util.Lists.newArrayList;
 
 public abstract class BaseNature implements IProjectNature {
     /** Eclipse project attached to this */

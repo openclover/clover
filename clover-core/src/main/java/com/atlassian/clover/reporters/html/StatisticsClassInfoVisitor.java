@@ -1,11 +1,12 @@
 package com.atlassian.clover.reporters.html;
 
-import clover.com.google.common.collect.Lists;
 import com.atlassian.clover.registry.entities.BaseClassInfo;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.List;
+
+import static org.openclover.util.Lists.newArrayList;
 
 public class StatisticsClassInfoVisitor {
     private long min = Long.MAX_VALUE;
@@ -45,7 +46,7 @@ public class StatisticsClassInfoVisitor {
     }
 
     public List<BaseClassInfo> getClasses() {
-        return Lists.newArrayList(classes.keySet());
+        return newArrayList(classes.keySet());
     }
 
     public boolean hasClassInfo(BaseClassInfo info) {

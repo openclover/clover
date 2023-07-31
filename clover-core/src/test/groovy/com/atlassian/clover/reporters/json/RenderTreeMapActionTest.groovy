@@ -1,6 +1,5 @@
 package com.atlassian.clover.reporters.json
 
-import clover.com.google.common.collect.Lists
 import clover.org.apache.velocity.VelocityContext
 import com.atlassian.clover.TestUtils
 import com.atlassian.clover.api.registry.ClassInfo
@@ -24,6 +23,7 @@ import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertNotNull
 import static org.mockito.Mockito.mock
 import static org.mockito.Mockito.when
+import static org.openclover.util.Lists.newLinkedList
 
 class RenderTreeMapActionTest {
 
@@ -99,7 +99,7 @@ class RenderTreeMapActionTest {
 
 
         // list of 3 child classes, for package
-        final List<ClassInfo> classes = Lists.newLinkedList()
+        final List<ClassInfo> classes = newLinkedList()
         mockHasMetrics(classes, mock(FullClassInfo.class), "TestClass1", 4, 2)
         mockHasMetrics(classes, mock(FullClassInfo.class), "TestClass2", 6, 4)
         mockHasMetrics(classes, mock(FullClassInfo.class), "TestClass3", 10, 10)

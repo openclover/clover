@@ -1,6 +1,5 @@
 package org.openclover.eclipse.core.views;
 
-import clover.com.google.common.collect.Maps;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.views.actions.GenerateReportAction;
 import org.openclover.eclipse.core.views.actions.OpenJavaEditorAction;
@@ -58,7 +57,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static clover.com.google.common.collect.Maps.newHashMap;
+import static org.openclover.util.Maps.newHashMap;
+import static org.openclover.util.Maps.newLinkedHashMap;
 
 public abstract class ExplorerView extends CloverViewPart {
     public static final int ACTION_OPEN = 0;
@@ -427,7 +427,7 @@ public abstract class ExplorerView extends CloverViewPart {
         }
 
         columnListeners = newHashMap();
-        columns = Maps.newLinkedHashMap();
+        columns = newLinkedHashMap();
 
         Map<ColumnDefinition, Integer> columnsToWidths = settings.getTreeColumnSettings().getVisibleColumnsToWidths();
         for (Map.Entry<ColumnDefinition, Integer> entry : columnsToWidths.entrySet()) {

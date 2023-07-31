@@ -31,7 +31,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
+import static org.openclover.util.Lists.newArrayList;
 import static com.atlassian.clover.spi.reporters.html.source.SourceReportCss.*;
 
 public class SourceRenderHelper {

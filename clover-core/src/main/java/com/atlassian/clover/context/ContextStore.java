@@ -1,7 +1,5 @@
 package com.atlassian.clover.context;
 
-import clover.com.google.common.collect.Lists;
-import clover.com.google.common.collect.Sets;
 import com.atlassian.clover.api.registry.BranchInfo;
 import com.atlassian.clover.api.registry.ClassInfo;
 import com.atlassian.clover.api.registry.MethodInfo;
@@ -21,6 +19,7 @@ import com.atlassian.clover.registry.FileElementVisitor;
 import com.atlassian.clover.registry.entities.FullFileInfo;
 import com.atlassian.clover.registry.entities.FullMethodInfo;
 import com.atlassian.clover.registry.entities.FullStatementInfo;
+import org.openclover.util.Lists;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -35,8 +34,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
-import static clover.com.google.common.collect.Maps.newHashMap;
+import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.util.Maps.newHashMap;
+import static org.openclover.util.Sets.newHashSet;
 
 
 public class ContextStore implements TaggedPersistent {
@@ -67,7 +67,7 @@ public class ContextStore implements TaggedPersistent {
 
     private static Map<String, SimpleContext> reservedContexts = new LinkedHashMap<>();
     private static Map<String, MethodRegexpContext> reservedMethodContexts = new LinkedHashMap<>();
-    private static Set<String> reservedNames = Sets.newHashSet();
+    private static Set<String> reservedNames = newHashSet();
     static {
         addContext(reservedContexts, new SimpleContext(CONTEXT_CLOVER_OFF, "SourceDirective"));
         addContext(reservedContexts, new SimpleContext(CONTEXT_STATIC, "static"));
@@ -569,7 +569,7 @@ public class ContextStore implements TaggedPersistent {
     @Override
     public void write(TaggedDataOutput out) throws IOException {
         out.writeInt(nextIndex);
-        final Set<String> customNames = Sets.newHashSet(methodContexts.keySet());
+        final Set<String> customNames = newHashSet(methodContexts.keySet());
         customNames.removeAll(reservedNames);
 
         out.writeInt(customNames.size());

@@ -2,7 +2,6 @@ package com.atlassian.clover.reporters.pdf;
 
 
 import clover.com.google.common.collect.Iterables;
-import clover.com.google.common.collect.Lists;
 import clover.com.lowagie.text.Document;
 import clover.com.lowagie.text.DocumentException;
 import clover.com.lowagie.text.FontFactory;
@@ -32,8 +31,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import static clover.com.google.common.collect.Lists.newLinkedList;
-import static clover.com.google.common.collect.Maps.newHashMap;
 import static com.atlassian.clover.reporters.CommandLineArgProcessors.AlwaysReport;
 import static com.atlassian.clover.reporters.CommandLineArgProcessors.DebugLogging;
 import static com.atlassian.clover.reporters.CommandLineArgProcessors.Filter;
@@ -48,17 +45,21 @@ import static com.atlassian.clover.reporters.CommandLineArgProcessors.Span;
 import static com.atlassian.clover.reporters.CommandLineArgProcessors.ThreadCount;
 import static com.atlassian.clover.reporters.CommandLineArgProcessors.Title;
 import static com.atlassian.clover.reporters.CommandLineArgProcessors.VerboseLogging;
+import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.util.Lists.newLinkedList;
+import static org.openclover.util.Maps.newHashMap;
+
 
 public class PDFReporter extends CloverReporter {
 
     @SuppressWarnings("unchecked")
-    private static final List<ArgProcessor<Current>> mandatoryArgProcessors = Lists.newArrayList(
+    private static final List<ArgProcessor<Current>> mandatoryArgProcessors = newArrayList(
             InitString,
             OutputFile
     );
 
     @SuppressWarnings("unchecked")
-    private static final List<ArgProcessor<Current>> optionalArgProcessors = Lists.newArrayList(
+    private static final List<ArgProcessor<Current>> optionalArgProcessors = newArrayList(
             AlwaysReport,
             HideBars,
             OrderBy,
@@ -73,7 +74,7 @@ public class PDFReporter extends CloverReporter {
             VerboseLogging
     );
 
-    private static final List<ArgProcessor<Current>> allArgProcessors = Lists.newArrayList(
+    private static final List<ArgProcessor<Current>> allArgProcessors = newArrayList(
             Iterables.concat(mandatoryArgProcessors, optionalArgProcessors));
 
 

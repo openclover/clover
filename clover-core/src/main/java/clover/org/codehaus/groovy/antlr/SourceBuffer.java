@@ -17,7 +17,7 @@ package clover.org.codehaus.groovy.antlr;
 
 import java.util.List;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
+import static org.openclover.util.Lists.newArrayList;
 
 /**
  * A simple buffer that provides line/col access to chunks of source code

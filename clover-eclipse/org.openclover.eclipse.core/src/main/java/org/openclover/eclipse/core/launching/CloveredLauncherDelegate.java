@@ -1,6 +1,5 @@
 package org.openclover.eclipse.core.launching;
 
-import clover.com.google.common.collect.Sets;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.projects.builder.InstrumentationProjectPathMap;
@@ -30,7 +29,8 @@ import org.eclipse.jdt.launching.IRuntimeClasspathEntry;
 import java.util.List;
 import java.util.Set;
 
-import static clover.com.google.common.collect.Lists.newLinkedList;
+import static org.openclover.util.Lists.newLinkedList;
+import static org.openclover.util.Sets.newHashSet;
 
 public abstract class CloveredLauncherDelegate
     implements ILaunchConfigurationDelegate2, IExecutableExtension {
@@ -51,7 +51,7 @@ public abstract class CloveredLauncherDelegate
             throw CloverPlugin.logAndThrowError("Unknown launch type " + launchType);
         } else {
             // TODO: we may have multiple delegates, we're picking up a first one right now
-            ILaunchDelegate[] delegates = type.getDelegates(Sets.newHashSet(ILaunchManager.RUN_MODE));
+            ILaunchDelegate[] delegates = type.getDelegates(newHashSet(ILaunchManager.RUN_MODE));
             if (delegates.length > 0) {
                 return delegates[0].getDelegate();
             } else {

@@ -9,7 +9,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import java.util.Iterator;
 import java.util.Set;
 
-import static clover.com.google.common.collect.Sets.newHashSet;
+import static org.openclover.util.Sets.newHashSet;
 
 public class SelectionUtils {
     private SelectionUtils() {

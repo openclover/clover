@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.List;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
+import static org.openclover.util.Lists.newArrayList;
 
 
 public class FileMappedTestDetector implements TestDetector, Serializable {

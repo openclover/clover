@@ -32,8 +32,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
-import static clover.com.google.common.collect.Sets.newHashSet;
+import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.util.Sets.newHashSet;
 
 public class ToggleCloverProjectsDialog extends Dialog {
     private static final int CLOVER_PROJ_WARN_THRESHOLD = 4;

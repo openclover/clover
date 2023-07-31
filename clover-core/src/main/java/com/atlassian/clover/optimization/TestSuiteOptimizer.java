@@ -10,7 +10,7 @@ import com.atlassian.clover.api.optimization.Optimizable;
 import com.atlassian.clover.api.optimization.TestOptimizer;
 import com.atlassian.clover.api.optimization.OptimizationOptions;
 
-import static clover.com.google.common.collect.Lists.newLinkedList;
+import static org.openclover.util.Lists.newLinkedList;
 
 /**
  * An optimizer which optimizes a junit.framework.TestSuite of tests.

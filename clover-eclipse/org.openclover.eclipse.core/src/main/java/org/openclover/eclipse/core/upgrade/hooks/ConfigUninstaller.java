@@ -21,7 +21,7 @@ import java.net.MalformedURLException;
 
 import org.openclover.eclipse.core.CloverPlugin;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
+import static org.openclover.util.Lists.newArrayList;
 
 public class ConfigUninstaller {
     private static final String EXTENSION_REGEX = "^(\\s)*osgi\\.framework\\.extensions(\\s)*=(\\s)*(.*)$";
