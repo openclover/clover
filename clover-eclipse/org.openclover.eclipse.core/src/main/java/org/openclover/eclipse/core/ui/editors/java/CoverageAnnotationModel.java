@@ -1,6 +1,5 @@
 package org.openclover.eclipse.core.ui.editors.java;
 
-import clover.com.google.common.base.Function;
 import clover.com.google.common.collect.Iterators;
 import com.atlassian.clover.api.registry.BranchInfo;
 import com.atlassian.clover.api.registry.ClassInfo;
@@ -21,6 +20,7 @@ import org.openclover.eclipse.core.projects.model.MetricsScope;
 import org.openclover.eclipse.core.settings.InstallationSettings;
 import com.atlassian.clover.registry.entities.LineInfo;
 import com.atlassian.clover.registry.entities.TestCaseInfo;
+import org.openclover.util.function.Function;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -487,7 +487,7 @@ public class CoverageAnnotationModel implements IAnnotationModel, IDocumentListe
         // so we convert Iterator<CoverageAnnotation> to Iterator<Annotation>
         return Iterators.transform(annotations.iterator(), new Function<CoverageAnnotation, Annotation>() {
             @Override
-            public Annotation apply(CoverageAnnotation coverageAnnotation) {
+            public Annotation test(CoverageAnnotation coverageAnnotation) {
                 return coverageAnnotation;
             }
         });

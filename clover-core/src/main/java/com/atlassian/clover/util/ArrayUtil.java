@@ -1,7 +1,6 @@
 package com.atlassian.clover.util;
 
-import clover.com.google.common.base.Function;
-import clover.com.google.common.base.Functions;
+import org.openclover.util.function.Function;
 import clover.com.google.common.collect.Iterables;
 
 import java.util.Arrays;
@@ -24,12 +23,7 @@ public class ArrayUtil {
      * @return String[] output by calling toString().toLowerCase
      */
     public static String[] toLowerCaseStringArray(Object[] input) {
-        return transformArray(input, new Function<Object, String>() {
-            @Override
-            public String apply(java.lang.Object o) {
-                return o.toString().toLowerCase(Locale.ENGLISH);
-            }
-        }, String.class);
+        return transformArray(input, new ToLowercaseStringFunction(), String.class);
     }
 
     /**
@@ -40,7 +34,7 @@ public class ArrayUtil {
      * @return String[] output by calling toString() on every element
      */
     public static String[] toStringArray(Object[] input) {
-        return transformArray(input, Functions.toStringFunction(), String.class);
+        return transformArray(input, new ToStringFunction(), String.class);
     }
 
     /**
@@ -58,4 +52,19 @@ public class ArrayUtil {
     public static <F, T> T[] transformArray(F[] input, Function<F, T> transformer, Class<T> targetClass) {
         return Iterables.toArray(Iterables.transform(Arrays.asList(input), transformer), targetClass);
     }
+
+    private static class ToStringFunction implements Function<Object, String> {
+        @Override
+        public String apply(Object o) {
+            return o.toString();
+        }
+    }
+
+    private static class ToLowercaseStringFunction implements Function<Object, String> {
+        @Override
+        public String apply(Object o) {
+            return o.toString().toLowerCase(Locale.ENGLISH);
+        }
+    }
+
 }
