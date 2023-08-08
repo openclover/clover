@@ -2,6 +2,7 @@ package org.openclover.util;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.TreeSet;
@@ -32,5 +33,9 @@ public abstract class Sets {
 
     public static <S extends Comparable<S>> TreeSet<S> newTreeSet() {
         return new TreeSet<>();
+    }
+
+    public static <S> TreeSet<S> newTreeSet(Comparator<? super S> comparator) {
+        return new TreeSet<>(comparator);
     }
 }

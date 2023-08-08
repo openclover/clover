@@ -1,6 +1,5 @@
 package org.openclover.eclipse.core.ui.editors.java;
 
-import clover.com.google.common.collect.Iterators;
 import com.atlassian.clover.api.registry.BranchInfo;
 import com.atlassian.clover.api.registry.ClassInfo;
 import com.atlassian.clover.api.registry.MethodInfo;
@@ -44,6 +43,7 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.swt.widgets.Display;
+import org.openclover.util.function.TransformingIterator;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -485,9 +485,9 @@ public class CoverageAnnotationModel implements IAnnotationModel, IDocumentListe
     public Iterator<Annotation> getAnnotationIterator() {
         // since Eclipse 4.6, the getAnnotationIterator returns Iterator<Annotation> instead of Iterator
         // so we convert Iterator<CoverageAnnotation> to Iterator<Annotation>
-        return Iterators.transform(annotations.iterator(), new Function<CoverageAnnotation, Annotation>() {
+        return new TransformingIterator<>(annotations.iterator(), new Function<CoverageAnnotation, Annotation>() {
             @Override
-            public Annotation test(CoverageAnnotation coverageAnnotation) {
+            public Annotation apply(CoverageAnnotation coverageAnnotation) {
                 return coverageAnnotation;
             }
         });

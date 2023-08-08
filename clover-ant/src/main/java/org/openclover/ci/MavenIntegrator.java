@@ -1,8 +1,8 @@
 package org.openclover.ci;
 
-import clover.com.google.common.collect.Iterables;
 import com.atlassian.clover.api.ci.CIOptions;
 import com.atlassian.clover.api.ci.Integrator;
+import org.openclover.util.function.Streams;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -168,7 +168,7 @@ public class MavenIntegrator implements Integrator {
     }
 
     private boolean containsArg(List<String> args, String property) {
-        return Iterables.tryFind(args, new HasPropertyPredicate(property)).isPresent();
+        return Streams.matchesAny(args, new HasPropertyPredicate(property));
     }
 
     /**

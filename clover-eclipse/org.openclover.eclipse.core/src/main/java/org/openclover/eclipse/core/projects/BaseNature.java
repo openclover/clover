@@ -11,7 +11,6 @@ import org.eclipse.jdt.core.IClasspathEntry;
 import org.openclover.eclipse.core.CloverPlugin;
 
 import java.util.List;
-import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Iterator;
 

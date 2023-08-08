@@ -2,7 +2,6 @@ package com.atlassian.clover.reporters.html.source;
 
 import clover.org.apache.commons.lang3.StringUtils;
 import clover.org.apache.velocity.VelocityContext;
-import clover.antlr.TokenStreamException;
 import com.atlassian.clover.api.registry.BranchInfo;
 import com.atlassian.clover.api.registry.ContextSet;
 import com.atlassian.clover.api.registry.ElementInfo;
@@ -25,7 +24,6 @@ import com.atlassian.clover.util.IOStreamUtils;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

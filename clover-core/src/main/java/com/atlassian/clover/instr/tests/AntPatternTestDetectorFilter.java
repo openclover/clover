@@ -2,6 +2,7 @@ package com.atlassian.clover.instr.tests;
 
 import com.atlassian.clover.util.FilterUtils;
 import org.jetbrains.annotations.Nullable;
+import org.openclover.util.Objects;
 
 import java.io.File;
 
@@ -47,7 +48,7 @@ public class AntPatternTestDetectorFilter implements TestDetector {
 
     @Override
     public String toString() {
-        return clover.com.google.common.base.MoreObjects.toStringHelper(this)
+        return Objects.toStringBuilder(this)
                 .add("includeFilter", includeFilter)
                 .add("excludeFilter", excludeFilter)
                 .add("projectRoot", projectRoot)

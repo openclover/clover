@@ -5,7 +5,6 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 
 import java.util.Collection;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 

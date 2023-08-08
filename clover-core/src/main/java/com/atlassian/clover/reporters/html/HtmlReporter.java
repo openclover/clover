@@ -1,6 +1,5 @@
 package com.atlassian.clover.reporters.html;
 
-import clover.com.google.common.collect.Iterables;
 import clover.org.apache.commons.lang3.StringUtils;
 import clover.org.apache.velocity.VelocityContext;
 import clover.org.jfree.chart.ChartRenderingInfo;
@@ -88,6 +87,7 @@ import static com.atlassian.clover.reporters.CommandLineArgProcessors.TabWidth;
 import static com.atlassian.clover.reporters.CommandLineArgProcessors.ThreadCount;
 import static com.atlassian.clover.reporters.CommandLineArgProcessors.Title;
 import static com.atlassian.clover.reporters.CommandLineArgProcessors.VerboseLogging;
+import static org.openclover.util.Lists.join;
 import static org.openclover.util.Lists.newArrayList;
 import static org.openclover.util.Maps.newHashMap;
 import static org.openclover.util.Maps.newLinkedHashMap;
@@ -123,8 +123,8 @@ public class HtmlReporter extends CloverReporter {
             VerboseLogging
     );
 
-    private static final List<ArgProcessor<Current>> allArgProcessors = newArrayList(
-            Iterables.concat(mandatoryArgProcessors, optionalArgProcessors));
+    private static final List<ArgProcessor<Current>> allArgProcessors =
+            join(mandatoryArgProcessors, optionalArgProcessors);
 
     /**
      * Map of valid "homepage" values

@@ -1,7 +1,5 @@
 package com.atlassian.clover.ant.tasks
 
-import static org.openclover.util.Lists.newArrayList
-
 abstract class CloverOptimizeJUnitFilesetTestBase extends CloverOptimizeJUnitTestBase {
     CloverOptimizeJUnitFilesetTestBase(String name, String defaultRunTarget, Map runTargetsForTests) {
         super(name, defaultRunTarget, runTargetsForTests)

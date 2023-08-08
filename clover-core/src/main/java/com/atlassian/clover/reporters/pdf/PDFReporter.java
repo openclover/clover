@@ -1,7 +1,6 @@
 package com.atlassian.clover.reporters.pdf;
 
 
-import clover.com.google.common.collect.Iterables;
 import clover.com.lowagie.text.Document;
 import clover.com.lowagie.text.DocumentException;
 import clover.com.lowagie.text.FontFactory;
@@ -45,6 +44,7 @@ import static com.atlassian.clover.reporters.CommandLineArgProcessors.Span;
 import static com.atlassian.clover.reporters.CommandLineArgProcessors.ThreadCount;
 import static com.atlassian.clover.reporters.CommandLineArgProcessors.Title;
 import static com.atlassian.clover.reporters.CommandLineArgProcessors.VerboseLogging;
+import static org.openclover.util.Lists.join;
 import static org.openclover.util.Lists.newArrayList;
 import static org.openclover.util.Lists.newLinkedList;
 import static org.openclover.util.Maps.newHashMap;
@@ -74,8 +74,8 @@ public class PDFReporter extends CloverReporter {
             VerboseLogging
     );
 
-    private static final List<ArgProcessor<Current>> allArgProcessors = newArrayList(
-            Iterables.concat(mandatoryArgProcessors, optionalArgProcessors));
+    private static final List<ArgProcessor<Current>> allArgProcessors =
+            join(mandatoryArgProcessors, optionalArgProcessors);
 
 
     private static final Rectangle DEFAULT_PAGE_SIZE = clover.com.lowagie.text.PageSize.A4;

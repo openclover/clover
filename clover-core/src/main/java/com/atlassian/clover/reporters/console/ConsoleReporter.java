@@ -1,6 +1,5 @@
 package com.atlassian.clover.reporters.console;
 
-import clover.com.google.common.collect.Iterables;
 import com.atlassian.clover.CloverDatabase;
 import com.atlassian.clover.Logger;
 import com.atlassian.clover.api.CloverException;
@@ -37,6 +36,7 @@ import static com.atlassian.clover.reporters.console.ConsoleReporterArgProcessor
 import static com.atlassian.clover.reporters.console.ConsoleReporterArgProcessors.Span;
 import static com.atlassian.clover.reporters.console.ConsoleReporterArgProcessors.Title;
 import static com.atlassian.clover.reporters.console.ConsoleReporterArgProcessors.UnitTests;
+import static org.openclover.util.Lists.join;
 import static org.openclover.util.Lists.newArrayList;
 
 public class ConsoleReporter extends CloverReporter {
@@ -57,9 +57,8 @@ public class ConsoleReporter extends CloverReporter {
             UnitTests
     );
 
-    private static final List<ArgProcessor<Current>> allArgProcessors = newArrayList(
-            Iterables.concat(mandatoryArgProcessors, optionalArgProcessors));
-
+    private static final List<ArgProcessor<Current>> allArgProcessors =
+            join(mandatoryArgProcessors, optionalArgProcessors);
 
     /** use to log messages **/
     private static final Logger LOG = Logger.getInstance();

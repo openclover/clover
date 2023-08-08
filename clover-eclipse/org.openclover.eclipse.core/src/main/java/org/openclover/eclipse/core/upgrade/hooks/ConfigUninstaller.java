@@ -13,7 +13,6 @@ import java.io.FileWriter;
 import java.io.BufferedWriter;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.net.URL;

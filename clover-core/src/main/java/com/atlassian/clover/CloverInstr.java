@@ -1,6 +1,5 @@
 package com.atlassian.clover;
 
-import clover.com.google.common.collect.Iterables;
 import com.atlassian.clover.api.CloverException;
 import com.atlassian.clover.api.command.ArgProcessor;
 import com.atlassian.clover.api.command.HelpBuilder;
@@ -16,6 +15,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.List;
 
+import static org.openclover.util.Lists.join;
 import static org.openclover.util.Lists.newArrayList;
 
 /**
@@ -55,8 +55,8 @@ public class CloverInstr {
             CloverInstrArgProcessors.JavaSourceFile
     );
 
-    private static final List<ArgProcessor<JavaInstrumentationConfig>> allArgProcessors = newArrayList(
-            Iterables.concat(mandatoryArgProcessors, optionalArgProcessors));
+    private static final List<ArgProcessor<JavaInstrumentationConfig>> allArgProcessors =
+            join(mandatoryArgProcessors, optionalArgProcessors);
 
     private JavaInstrumentationConfig cfg;
 

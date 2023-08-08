@@ -1,9 +1,8 @@
 package com.atlassian.clover.util;
 
 import org.openclover.util.function.Function;
-import clover.com.google.common.collect.Iterables;
 
-import java.util.Arrays;
+import java.lang.reflect.Array;
 import java.util.Locale;
 
 /**
@@ -39,8 +38,7 @@ public class ArrayUtil {
 
     /**
      * Convert <code>input</code> array of type F into an output array of type T using the <code>transformer</code>
-     * function. It's a wrapper for {@link Iterables#transform(Iterable, clover.com.google.common.base.Function)}} which
-     * allows to work on array.
+     * function.
      *
      * @param input       input array
      * @param transformer conversion
@@ -49,8 +47,13 @@ public class ArrayUtil {
      * @param <T>         to type
      * @return T[] an array of type targetClass
      */
+    @SuppressWarnings("unchecked")
     public static <F, T> T[] transformArray(F[] input, Function<F, T> transformer, Class<T> targetClass) {
-        return Iterables.toArray(Iterables.transform(Arrays.asList(input), transformer), targetClass);
+        final T[] output = (T[]) Array.newInstance(targetClass, input.length);
+        for (int i = 0; i < input.length; i++) {
+            output[i] = transformer.apply(input[i]);
+        }
+        return output;
     }
 
     private static class ToStringFunction implements Function<Object, String> {

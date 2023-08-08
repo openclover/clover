@@ -1,14 +1,16 @@
 package com.atlassian.clover.instr.java;
 
-import clover.com.google.common.collect.ImmutableSet;
-
 import java.util.ArrayDeque;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Deque;
+import java.util.HashSet;
 import java.util.Set;
 
 public class RewriteLambdaToBlockMatcher {
 
-    private static final Set<String> TO_REWRITE_CALLEE_METHODS = new ImmutableSet.Builder<String>().add(
+    private static final Set<String> TO_REWRITE_CALLEE_METHODS = Collections.unmodifiableSet(
+            new HashSet<>(Arrays.asList(
             "min",
             "map",
             "generate",
@@ -26,7 +28,7 @@ public class RewriteLambdaToBlockMatcher {
             "transformValues",
             "thenApply",
             "thenCompose"
-    ).build();
+    )));
 
     public static boolean shouldRewriteAsBlock(Deque<Deque<String>> currentStack) {
         ArrayDeque<Deque<String>> stack = new ArrayDeque<>(currentStack);

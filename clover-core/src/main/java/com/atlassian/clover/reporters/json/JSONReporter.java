@@ -1,7 +1,6 @@
 package com.atlassian.clover.reporters.json;
 
 
-import clover.com.google.common.collect.Iterables;
 import clover.org.apache.velocity.VelocityContext;
 import com.atlassian.clover.Logger;
 import com.atlassian.clover.api.CloverException;
@@ -35,6 +34,7 @@ import static com.atlassian.clover.reporters.CommandLineArgProcessors.ShowInnerF
 import static com.atlassian.clover.reporters.CommandLineArgProcessors.ShowLambdaFunctions;
 import static com.atlassian.clover.reporters.CommandLineArgProcessors.ThreadCount;
 import static com.atlassian.clover.reporters.CommandLineArgProcessors.VerboseLogging;
+import static org.openclover.util.Lists.join;
 import static org.openclover.util.Lists.newArrayList;
 
 public class JSONReporter extends CloverReporter {
@@ -56,8 +56,8 @@ public class JSONReporter extends CloverReporter {
             VerboseLogging
     );
 
-    private static final List<ArgProcessor<Current>> allArgProcessors = newArrayList(
-            Iterables.concat(mandatoryArgProcessors, optionalArgProcessors));
+    private static final List<ArgProcessor<Current>> allArgProcessors =
+            join(mandatoryArgProcessors, optionalArgProcessors);
 
     private final HtmlRenderingSupportImpl renderingHelper;
     private final File basePath;
