@@ -17,6 +17,7 @@ abstract class TestBase extends DynamicallyNamedTestBase {
     protected File cloverCoreClasses = new File( "../clover-core/target/classes")
     protected File cloverRuntimeClasses = new File( "../clover-runtime/target/classes")
     protected File groverClasses = new File( "target/classes")
+    protected File groverMetaInfServices = new File("src/main/assembly")
     protected File servicesFolder = new File( "../clover-ant/src/main/resources")
     protected File loggingProperties = new File( "src/test/resources/logging.properties")
     protected File junitJar = getJUnitJarFromProperty()
@@ -146,7 +147,7 @@ abstract class TestBase extends DynamicallyNamedTestBase {
     protected String calcCompilationClasspath(List<File> others = []) {
         return (others + cloverLibs + [
                 groovyAllJar, cloverAllResources, cloverCoreClasses, cloverRuntimeClasses,
-                groverClasses, servicesFolder, junitJar, hamcrestJar
+                groverClasses, groverMetaInfServices, servicesFolder, junitJar, hamcrestJar
             ])
                 .findAll { it != null }
                 .collect { it.absolutePath }
