@@ -11,7 +11,7 @@ import org.junit.rules.TestName
 import static org.junit.Assert.assertTrue
 
 class ParseGenericsTest {
-    public static final String CLOVER_CORE_TEST_INSTR_DIR = "clover-core/src/test/groovy/com/atlassian/clover/instr/java/"
+    public static final String CLOVER_CORE_TEST_INSTR_DIR = "clover-core/src/test/resources/com/atlassian/clover/instr/java/"
     private File mProjDir
     private File mTestcasesSrcDir
 
