@@ -92,45 +92,19 @@
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>install-intellij-bin</id>
+                        <id>install-intellij-zip</id>
                         <phase>process-test-resources</phase>
                         <goals>
                             <goal>unpack</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.build.directory}/idea/bin</outputDirectory>
+                            <outputDirectory>${project.build.directory}/idea</outputDirectory>
                             <artifactItems>
                                 <artifactItem>
                                     <groupId>org.openclover.idea.libs</groupId>
-                                    <artifactId>bin</artifactId>
+                                    <artifactId>idea-zip</artifactId>
                                     <version>${idea.version}</version>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>install-intellij-boot-and-idea-jars</id>
-                        <phase>process-test-resources</phase>
-                        <goals>
-                            <goal>copy</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/idea/lib</outputDirectory>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.openclover.idea.libs</groupId>
-                                    <artifactId>boot</artifactId>
-                                    <version>${idea.version}</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.openclover.idea.libs</groupId>
-                                    <artifactId>idea</artifactId>
-                                    <version>${idea.version}</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.openclover.idea.libs</groupId>
-                                    <artifactId>others</artifactId>
-                                    <version>${idea.version}</version>
+                                    <type>zip</type>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
@@ -151,7 +125,6 @@
                         -ea
                         <!-- -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005-->
                     </argLine>
-                    <skip>true</skip> <!-- TODO remove once tests are fixed -->
                     <systemProperties>
                         <java.awt.headless>true</java.awt.headless>
                         <java.compiler>NONE</java.compiler>
