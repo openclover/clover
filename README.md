@@ -62,19 +62,21 @@ mvn install -Pworkspace-setup -f clover-jtreemap/pom.xml
 mvn install -Pworkspace-setup -f clover-idea-libs/pom.xml
 ```
 
-### Download KTremap fork and install it
+### Download KTremap and install it
+
+Add https://packages.atlassian.com/mvn/maven-atlassian-external to your list of Maven repositories in settings.xml
+
+OR
+
+Download the following files and install locally:
 
 ```
-git clone https://bitbucket.org/atlassian/ktreemap
-cd ktreemap
-git checkout ktreemap-1.1.0-atlassian-01           
-# an old maven-antrun-plugin does not recognize <target> tag
-sed -i -e 's@<artifactId>maven-antrun-plugin</artifactId>@<artifactId>maven-antrun-plugin</artifactId><version>3.1.0</version>@' pom.xml
-# maven dependency plugin fails because of missing eclipse artifact so copy it manually
-mkdir -p target/eclipse
-cp ../clover-eclipse-libs/target/extract/*.jar target/eclipse           
-mvn install -Dmdep.skip=true  
-cd ..
+PACKAGES_ATLASSIAN_COM=https://packages.atlassian.com/mvn/maven-atlassian-external/
+KTREEMAP_PATH=net/sf/jtreemap/ktreemap/1.1.0-atlassian-01
+
+wget $PACKAGES_ATLASSIAN_COM/$KTREEMAP_PATH/ktreemap-1.1.0-atlassian-01.jar
+wget $PACKAGES_ATLASSIAN_COM/$KTREEMAP_PATH/ktreemap-1.1.0-atlassian-01.pom
+mvn install:install-file -Dfile=ktreemap-1.1.0-atlassian-01.jar -DpomFile=ktreemap-1.1.0-atlassian-01.pom
 ```
 
 Now you can work with the code using Maven. You can also open it in IntelliJ IDEA,

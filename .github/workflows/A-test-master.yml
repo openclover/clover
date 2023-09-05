@@ -46,16 +46,9 @@ jobs:
 
       - name: Download KTreemap fork
         run: |
-           git clone https://bitbucket.org/atlassian/ktreemap
-           cd ktreemap
-           git checkout ktreemap-1.1.0-atlassian-01           
-           # an old maven-antrun-plugin does not recognize <target> tag
-           sed -i -e 's@<artifactId>maven-antrun-plugin</artifactId>@<artifactId>maven-antrun-plugin</artifactId><version>3.1.0</version>@' pom.xml
-           # maven dependency plugin fails because of missing eclipse artifact so copy it manually
-           mkdir -p target/eclipse
-           cp ../clover-eclipse-libs/target/extract/*.jar target/eclipse           
-           mvn install -Dmdep.skip=true  
-           cd ..
+          wget https://packages.atlassian.com/mvn/maven-atlassian-external/net/sf/jtreemap/ktreemap/1.1.0-atlassian-01/ktreemap-1.1.0-atlassian-01.jar
+          wget https://packages.atlassian.com/mvn/maven-atlassian-external/net/sf/jtreemap/ktreemap/1.1.0-atlassian-01/ktreemap-1.1.0-atlassian-01.pom
+          mvn install:install-file -Dfile=ktreemap-1.1.0-atlassian-01.jar -DpomFile=ktreemap-1.1.0-atlassian-01.pom
 
       - name: Compile and pack all modules
         run: |
