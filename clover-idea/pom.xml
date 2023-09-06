@@ -28,10 +28,16 @@
         </dependency>
         <!-- Minimal set of IntelliJ IDEA dependencies, for compilation -->
         <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-idea-libs</artifactId>
+            <groupId>org.openclover.idea.libs</groupId>
+            <artifactId>clover-idea-all</artifactId>
             <version>${idea.version}</version>
             <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover.idea.libs</groupId>
+            <artifactId>idea-zip</artifactId>
+            <version>${idea.version}</version>
+            <type>zip</type>
         </dependency>
         <!-- test dependencies -->
         <dependency>
@@ -120,7 +126,7 @@
                     </additionalClasspathElements>
                     <argLine>
                         -Djava.library.path=${project.build.directory}/idea/bin
-                        -Xbootclasspath/a:${project.build.directory}/idea/lib/boot-${idea.version}.jar
+                        -Xbootclasspath/a:${project.build.directory}/idea/lib/boot.jar
                         -Xmx512M
                         -ea
                         <!-- -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005-->
@@ -129,12 +135,13 @@
                         <java.awt.headless>true</java.awt.headless>
                         <java.compiler>NONE</java.compiler>
                         <idea.home.path>${project.build.directory}/idea</idea.home.path>
-                        <idea.config.path>${project.build.directory}/idea/config</idea.config.path>
-                        <idea.system.path>${project.build.directory}/idea/system</idea.system.path>
-                        <cij.idea.expected.version>${idea.version}</cij.idea.expected.version>
+                        <idea.config.path>${project.build.directory}/idea-test/config</idea.config.path>
+                        <idea.system.path>${project.build.directory}/idea-test/system</idea.system.path>
+                        <cij.idea.expected.version>${idea.version}</cij.idea.expected.version> <!-- TODO 14.1.7 ? -->
                         <java.io.tmpdir>${project.build.directory}/idea/tmp</java.io.tmpdir>
                         <idea.load.plugins.id>org.openclover.idea</idea.load.plugins.id>
                     </systemProperties>
+                    <useManifestOnlyJar>false</useManifestOnlyJar>
                 </configuration>
             </plugin>
             <!-- generate plugin jar -->
