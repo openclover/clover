@@ -2,10 +2,11 @@ package com.atlassian.clover.io.tags
 
 import com.atlassian.clover.registry.entities.AnnotationImpl
 import com.atlassian.clover.registry.entities.ArrayAnnotationValue
-import com.atlassian.clover.registry.entities.Modifier
 import com.atlassian.clover.registry.entities.Modifiers
 import com.atlassian.clover.registry.entities.StringifiedAnnotationValue
 import org.junit.Test
+
+import java.lang.reflect.Modifier
 
 import static org.junit.Assert.assertEquals
 

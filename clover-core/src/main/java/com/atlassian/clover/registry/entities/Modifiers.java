@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -130,7 +131,7 @@ public class Modifiers implements TaggedPersistent, ModifiersInfo {
         if (visibilityMods == 0) {
             return "package";
         }
-        return Modifier.toString(visibilityMods);
+        return ModifierExt.toString(visibilityMods);
     }
 
     @Override
@@ -167,7 +168,7 @@ public class Modifiers implements TaggedPersistent, ModifiersInfo {
     @Override
     public String toString() {
         return "Modifiers{" +
-            "modifiers=" + Modifier.toString(mask) +
+            "modifiers=" + ModifierExt.toString(mask) +
             ", annotations=" + annotations +
             '}';
     }

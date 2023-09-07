@@ -11,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.DataOutput;
 import java.io.IOException;
+import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -74,7 +75,7 @@ public class MethodSignature implements TaggedPersistent, MethodSignatureInfo {
             int mods = modifiers.getMask();
             mods &= ~(Modifier.PUBLIC | Modifier.PROTECTED);
             mods |= Modifier.PRIVATE;
-            normSeqPrefix = Modifier.toString(mods) + (typeParams != null ? " " + typeParams : "") + (returnType != null ? " " + returnType : "") + " ";
+            normSeqPrefix = ModifierExt.toString(mods) + (typeParams != null ? " " + typeParams : "") + (returnType != null ? " " + returnType : "") + " ";
             normSeqSuffix = TokenListUtil.getNormalisedSequence(nameToken.getNext(), lastToken);
         }
         this.tags = flyweightIfEmptyFor(tags);
@@ -279,7 +280,7 @@ public class MethodSignature implements TaggedPersistent, MethodSignatureInfo {
     @Override
     public String getNormalizedSignature() {
         // normalize the method sig
-        final String modifiers = Modifier.toString(getModifiersMask());
+        final String modifiers = ModifierExt.toString(getModifiersMask());
         StringBuilder builder = new StringBuilder();
         // TODO: if isGroovy() && getReturnType == 'def' don't add a modifier?
         // TODO: more possible when CLOV-888 is implemented.
