@@ -1,0 +1,117 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.openclover</groupId>
+        <artifactId>clover-base-pom</artifactId>
+        <version>4.5.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>clover-jtreemap</artifactId>
+    <version>1.1.0</version>
+    <packaging>jar</packaging>
+    <description>
+        Repacked with 'clover.' prefix version of the library.
+    </description>
+    <licenses>
+        <license>
+            <name>Apache 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <name>Clover JTreeMap Library</name>
+    <!-- Do nothing in the 'default' profile -->
+    <properties>
+        <skip.nexus.staging>true</skip.nexus.staging>
+        <maven.install.skip>true</maven.install.skip>
+        <maven.deploy.skip>true</maven.deploy.skip>
+    </properties>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <configuration>
+                    <skipNexusStagingDeployMojo>${skip.nexus.staging}</skipNexusStagingDeployMojo>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <!-- Repack, install and deploy only with the 'workspace-setup' profile -->
+    <profiles>
+        <profile>
+            <id>workspace-setup</id>
+            <properties>
+                <skip.nexus.staging>false</skip.nexus.staging>
+                <maven.install.skip>false</maven.install.skip>
+                <maven.deploy.skip>false</maven.deploy.skip>
+                <target.jar>clover-jtreemap-${project.version}.jar</target.jar>
+            </properties>
+            <!-- JTreeMap 1.1.0 has invalid pom.xml (version format is 3) on Maven Central.
+            Downloading JAR directly instead, see below.
+            <dependencies>
+                <dependency>
+                    <groupId>net.sf.jtreemap</groupId>
+                    <artifactId>jtreemap</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+            </dependencies> -->
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>1.8</version>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <target>
+                                <!-- import jarjar -->
+                                <mkdir dir="${project.build.directory}"/>
+                                <taskdef name="jarjar" classname="com.tonicsystems.jarjar.JarJarTask"
+                                         classpathref="maven.compile.classpath"/>
+
+                                <!-- get source jar -->
+                                <property name="source.jar" value="jtreemap-${project.version}.jar"/>
+                                <get src="https://repo1.maven.org/maven2/net/sf/jtreemap/jtreemap/${project.version}/${source.jar}"
+                                     dest="${project.build.directory}/${source.jar}"
+                                     skipexisting="true"/>
+
+                                <!-- repack source jar -->
+                                <delete file="${project.build.directory}/temp.jar"/>
+                                <echo message="Repacking ${project.build.directory}/${source.jar}"/>
+                                <jarjar jarfile="${project.build.directory}/temp.jar">
+                                    <zipfileset src="${project.build.directory}/${source.jar}" includes="**/*" excludes=""/>
+                                    <rule pattern="net.sf.jtreemap.**" result="clover.@0"/>
+                                </jarjar>
+
+                                <!-- delete empty directories (jarjar 1.4 bug workaround) -->
+                                <delete file="${project.build.directory}/${target.jar}"/>
+                                <zip destfile="${project.build.directory}/${target.jar}">
+                                    <zipfileset src="${project.build.directory}/temp.jar"
+                                                excludes="net/**"/>
+                                </zip>
+                            </target>
+                        </configuration>
+                        <dependencies>
+                            <dependency>
+                                <!-- This is not available in Maven Central. You can run 'mvn install' in the
+                                'jarjar' sub-module to have it locally. -->
+                                <groupId>com.tonicsystems</groupId>
+                                <artifactId>jarjar</artifactId>
+                                <version>1.4</version>
+                            </dependency>
+                        </dependencies>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>

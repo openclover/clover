@@ -1,0 +1,66 @@
+#* We may need to prefix all links by "../.. etc" in case we're on a package/class report *#
+#if ($packageName)
+    #set ($projectRootRelative = ${renderUtil.getRootRelPath($packageName)})
+#else
+    #set ($projectRootRelative = "")
+#end
+
+#* Application header *#
+<header id="header" role="banner">
+    <nav class="aui-header aui-dropdown2-trigger-group" role="navigation">
+        <div class="aui-header-inner">
+            <div class="aui-header-primary">
+                <h1 id="logo" class="aui-header-logo aui-header-logo-clover">
+                    <a href="https://openclover.org" title="Visit OpenClover home page"><span class="aui-header-logo-device">OpenClover</span></a>
+                </h1>
+                #if ($reportConfigLinkedReports.size() > 0)
+                <ul class="aui-nav">
+                    <li>
+                        <a href="#dropdown2-jira3" aria-owns="dropdown2-jira3" aria-haspopup="true"
+                           class="aui-dropdown2-trigger" aria-controls="dropdown2-header7">
+                            Linked reports
+                            <span class="aui-icon-dropdown"></span>
+                        </a>
+
+                        <div class="aui-dropdown2 aui-style-default aui-dropdown2-in-header" id="dropdown2-jira3"
+                             style="display: none; top: 40px; min-width: 160px; left: 1213px; " aria-hidden="true">
+                            <div class="aui-dropdown2-section">
+                                <ul>
+                                    #set($pathSep = "/")
+                                    #foreach($key in $reportConfigLinkedReports.keySet() )
+                                        #set($linkedConfig = ${reportConfigLinkedReports.get($key)})
+                                        #set($relPath = $fileUtils.getRelativePath($reportConfigOutFile, $linkedConfig.MainOutFile, $pathSep))
+                                        <li><a href="${projectRootRelative}${relPath}">${renderUtil.htmlEscapeStr($key)}</a></li>
+                                    #end
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                #end
+            </div>
+            <div class="aui-header-secondary">
+                <ul class="aui-nav">
+##                    #if (!$hideQuickSearch)
+##                        <li>
+##                            <form id="quicksearch" class="aui-quicksearch dont-default-focus ajs-dirty-warning-exempt"
+##                                  method="post" action="#">
+##                                <input id="quickSearchInput" class="search" type="text" name="searchString"
+##                                       placeholder="Quick Search" autocomplete="off"
+##                                       title="Quick Search. Type package, file, class, method or test name."
+##                                        ></input>
+##                                <input class="hidden" type="submit" value="Search"></input>
+##                            </form>
+##                        </li>
+##                    #end
+                    <li id="system-help-menu">
+                        <a class="aui-nav-link" title="Open online documentation" target="_blank"
+                           href="https://openclover.org/documentation">
+                            <span class="aui-icon aui-icon-small aui-iconfont-help">&#160;Help</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>

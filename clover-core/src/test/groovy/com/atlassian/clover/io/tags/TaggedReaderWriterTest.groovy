@@ -35,7 +35,7 @@ public class TaggedReaderWriterTest {
         final Tags tags = new Tags().registerTag(
                 MyClass.class.getName(),
                 Tags.NEXT_TAG,
-                new Tags.ObjectReader<MyClass>() {
+                new ObjectReader<MyClass>() {
                     ///CLOVER:OFF
                     public MyClass read(TaggedDataInput input) throws IOException {
                         return new MyClass(input.readUTF());

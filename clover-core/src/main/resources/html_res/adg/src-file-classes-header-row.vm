@@ -1,0 +1,17 @@
+<tr> ## HEADER ROW START
+    <th>Class</th>
+    <th>Line #</th>
+
+    #foreach ($col in $columns)
+        #set($classMetrics = ${renderUtil.metricsFor($class)})
+        $col.init($classMetrics)
+        <th class="$col.style">
+            <label #if($col.help) title="$col.help"#end>$col.getTitle($childHeaderInfo.metrics)</label>
+        </th>
+        $col.reset()
+    #end
+
+    #if ($showDetailsButton)
+        <th>Actions</th>
+    #end
+</tr> ## HEADER ROW END

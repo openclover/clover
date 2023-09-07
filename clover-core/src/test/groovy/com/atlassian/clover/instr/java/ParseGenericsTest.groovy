@@ -1,8 +1,8 @@
 package com.atlassian.clover.instr.java
 
-import com.atlassian.clover.TestUtils
 import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig
 import com.atlassian.clover.cfg.instr.java.SourceLevel
+import com.atlassian.clover.testutils.IOHelper
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -10,8 +10,8 @@ import org.junit.rules.TestName
 
 import static org.junit.Assert.assertTrue
 
-public class ParseGenericsTest {
-    public static final String CLOVER_CORE_TEST_INSTR_DIR = "clover-core/src/test/groovy/com/atlassian/clover/instr/java/"
+class ParseGenericsTest {
+    public static final String CLOVER_CORE_TEST_INSTR_DIR = "clover-core/src/test/resources/com/atlassian/clover/instr/java/"
     private File mProjDir
     private File mTestcasesSrcDir
 
@@ -19,14 +19,14 @@ public class ParseGenericsTest {
     public TestName testName = new TestName()
 
     @Before
-    public void setUp() throws Exception {
-        mProjDir = TestUtils.getProjectDirFromProperty()
+    void setUp() throws Exception {
+        mProjDir = IOHelper.getProjectDir()
         mTestcasesSrcDir = new File(mProjDir, CLOVER_CORE_TEST_INSTR_DIR)
         assertTrue(mTestcasesSrcDir.isDirectory())
     }
 
     @Test
-    public void testGenericParsing() throws Exception {
+    void testGenericParsing() throws Exception {
         checkParsing([
             // generic class
             "class B<TA,TB> {}",
@@ -35,7 +35,7 @@ public class ParseGenericsTest {
     }
 
     @Test
-    public void testFileTestcase() throws Exception {
+    void testFileTestcase() throws Exception {
         assertSourceOkay("GenericsTestcase.java.txt")
         assertSourceOkay("GenericsTestcase-2_2.java.txt")
     }
@@ -52,11 +52,11 @@ public class ParseGenericsTest {
 
         // parse and instrument source file
         final InstrumentationSource source = new InstrumentationSource() {
-            public File getSourceFileLocation() {
+            File getSourceFileLocation() {
                 return sourceFile
             }
 
-            public Reader createReader() throws IOException {
+            Reader createReader() throws IOException {
                 return new InputStreamReader(new FileInputStream(new File(mTestcasesSrcDir, srcName)))
             }
         }

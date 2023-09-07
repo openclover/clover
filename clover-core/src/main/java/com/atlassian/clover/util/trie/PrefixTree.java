@@ -4,9 +4,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.PrintStream;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,70 +13,6 @@ import java.util.Map;
  * @param <V> value to be stored in a leaf
  */
 public class PrefixTree<K, V> {
-
-    /**
-     * A single tree node containing some token (or is empty).
-     *
-     * @param <K> sub-key type
-     * @param <V> value type
-     */
-    public interface Node<K, V> {
-        @Nullable
-        V getValue();
-
-        @NotNull
-        K getKey();
-
-        @Nullable
-        Node<K, V> getChild(K subKey);
-
-        @NotNull
-        Node<K, V> addChild(@NotNull Node<K, V> subKey);
-
-        void setValue(@Nullable V value);
-
-        @NotNull
-        Map<K, Node<K, V>> children();
-    }
-
-    /**
-     * A values which can be added to the tree, represented in as a sequence of tokens.
-     *
-     * @param <K> token type
-     */
-    public static class KeySequence<K> implements Iterable<K> {
-        private final List<K> subKeys;
-
-        public KeySequence() {
-            subKeys = Collections.emptyList();
-        }
-
-        public KeySequence(List<K> subKeys) {
-            this.subKeys = subKeys;
-        }
-
-        @Override
-        public Iterator<K> iterator() {
-            return subKeys.iterator();
-        }
-    }
-
-    public interface NodeFactory {
-        <K, V> Node<K, V> createNode(@NotNull K key, @Nullable V value);
-
-        /** Make a shallow copy of Node#children() */
-        <K, V> Map<K, Node<K, V>> cloneChildren(@NotNull Node<K, V> node);
-    }
-
-    public interface NodeVisitor<K, V> {
-        /**
-         * Visit given node.
-         * @param node current node
-         * @param depth current recursion depth
-         * @return Node&lt;K, V&gt; state of a node after visiting (may be a new instance if modifed)
-         */
-        Node<K, V> visit(@NotNull final Node<K, V> node, int depth);
-    }
 
     @NotNull
     protected Node<K, V> rootNode;

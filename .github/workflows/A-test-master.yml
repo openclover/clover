@@ -26,33 +26,42 @@ jobs:
         id: cache-eclipse
         uses: actions/cache@v3
         with:
-          path: target/dependencies/eclipse
-          key: ${{ runner.os }}-eclipse-${{ hashFiles('clover-eclipse/clover-eclipse-libs/build.xml') }}
+          path: clover-eclipse-libs/target/download
+          key: ${{ runner.os }}-eclipse-${{ hashFiles('clover-eclipse-libs/pom.xml') }}
 
-      - name: Prepare repacked third party libraries
+      - name: Cache IDEA binaries
+        id: cache-idea
+        uses: actions/cache@v3
+        with:
+          path: clover-idea-libs/target/download
+          key: ${{ runner.os }}-idea-${{ hashFiles('clover-idea-libs/pom.xml') }}
+
+      - name: Prepare third party libraries
         run: |
           mvn install -f clover-core-libs/jarjar/pom.xml
-          mvn install -Prepack -f clover-core-libs/pom.xml
-          mvn install -Prepack -f clover-idea/clover-jtreemap/pom.xml
-
-      - name: Download Eclipse IDE binaries
-        run: ant -noinput -buildfile build.xml clover-eclipse-libs.build
+          mvn install -Pworkspace-setup -f clover-core-libs/pom.xml
+          mvn install -Pworkspace-setup -f clover-eclipse-libs/pom.xml
+          mvn install -Pworkspace-setup -f clover-jtreemap/pom.xml
+          mvn install -Pworkspace-setup -f clover-idea-libs/pom.xml
 
       - name: Download KTreemap fork
         run: |
-           git clone https://bitbucket.org/atlassian/ktreemap
-           cd ktreemap
-           git checkout ktreemap-1.1.0-atlassian-01           
-           # an old maven-antrun-plugin does not recognize <target> tag
-           sed -i -e 's@<artifactId>maven-antrun-plugin</artifactId>@<artifactId>maven-antrun-plugin</artifactId><version>3.1.0</version>@' pom.xml
-           # maven dependency plugin fails because of missing eclipse artifact so copy it manually
-           mkdir -p target/eclipse
-           cp ../target/dependencies/eclipse/4.4/plugins/*.jar target/eclipse           
-           mvn install -Dmdep.skip=true  
-           cd ..
+          wget https://packages.atlassian.com/mvn/maven-atlassian-external/net/sf/jtreemap/ktreemap/1.1.0-atlassian-01/ktreemap-1.1.0-atlassian-01.jar
+          wget https://packages.atlassian.com/mvn/maven-atlassian-external/net/sf/jtreemap/ktreemap/1.1.0-atlassian-01/ktreemap-1.1.0-atlassian-01.pom
+          mvn install:install-file -Dfile=ktreemap-1.1.0-atlassian-01.jar -DpomFile=ktreemap-1.1.0-atlassian-01.pom
 
-      - name: Run core tests
+      - name: Compile and pack all modules
         run: |
-           ant -noinput -buildfile build.xml clover-core.test clover-ant.test groovy.test
-           ant -noinput -buildfile build.xml clover-eclipse.build.all.versions
-        
+          mvn install -DskipTests=true
+
+      - name: Run tests for runtime, core, groovy, ant
+        run: |
+          mvn verify -pl clover-runtime,clover-core,clover-groovy,clover-ant
+
+      - name: Run tests for eclipse and idea
+        run: |
+          mvn verify -pl clover-eclipse,clover-idea
+
+      - name: Run functional tests
+        run: |
+          mvn verify -pl tests-functional

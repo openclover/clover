@@ -1,64 +1,284 @@
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.openclover</groupId>
+    <parent>
+        <groupId>org.openclover</groupId>
+        <artifactId>clover-base-pom</artifactId>
+        <version>4.5.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
     <artifactId>clover-runtime</artifactId>
-    <version>@VERSION@</version>
-    <name>Clover Runtime</name>
+    <name>OpenClover Runtime</name>
     <description>
         Clover's runtime library - required by code instrumented by Clover.
-        Clover is an award winning code coverage and testing tool for Java and Groovy.
+        Clover is an award-winning code coverage and testing tool for Java and Groovy.
         It integrates easily with Maven, Ant, Grails, Eclipse and IntelliJ IDEA
         as well as with continuous integration servers such as Bamboo, Jenkins or Hudson.
     </description>
-    <url>http://openclover.org</url>
-    <packaging>jar</packaging>
-    <organization>
-        <name>OpenClover.org</name>
-        <url>http://openclover.org</url>
-    </organization>
-    <issueManagement>
-        <system>GitHub</system>
-        <url>https://github.com/openclover/clover/issues</url>
-    </issueManagement>
-    <licenses>
-        <license>
-            <name>Apache License 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
-    <scm>
-        <connection/>
-        <url/>
-    </scm>
-    <developers>
-        <developer>
-            <id>marek-parfianowicz</id>
-            <name>Marek Parfianowicz</name>
-            <email>marek.parfianowicz@gmail.com</email>
-        </developer>
-        <developer>
-            <id>grzlew</id>
-            <name>Grzegorz Lewandowski</name>
-            <email>grzlew@gmail.com</email>
-        </developer>
-    </developers>
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
+    <dependencies>
+        <!-- build utitilites (annotations for annotation processing, bytecode instrumentation) -->
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-buildutil</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.ow2.asm</groupId>
+            <artifactId>asm</artifactId>
+            <version>5.0.3</version>
+        </dependency>
+        <!-- test frameworks supported by the clover-runtime -->
+        <dependency>
+            <groupId>org.spockframework</groupId>
+            <artifactId>spock-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-engine</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-launcher</artifactId>
+        </dependency>
+        <!-- repacked third party libraries used by the clover-runtime -->
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-antlr</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-cajo</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-slf4j</artifactId>
+        </dependency>
+    </dependencies>
     <build>
         <plugins>
+            <!-- add target/generated-sources folder -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>add-generated-sources</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${project.build.directory}/generated-sources</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-timestamp</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>timestamp-property</goal>
+                        </goals>
+                        <configuration>
+                            <name>build.stamp</name>
+                            <pattern>yyyyMMddHHmmss</pattern>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- delete existing Bindings.java, it will be recreated by annotation processor -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <delete dir="${project.build.directory}/generated-sources/annotations" includeemptydirs="true"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- generate CloverVersionInfo.java source file -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>generate-version-info</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <!-- version number like X.Y.Z, so with any suffixes removed -->
+                                <loadresource property="core.release.base">
+                                    <propertyresource name="project.version"/>
+                                    <filterchain>
+                                        <replaceregex pattern="([0-9]+.[0-9]+.[0-9]+).*" replace="\1"/>
+                                    </filterchain>
+                                </loadresource>
+
+                                <!-- version number like X.Y.Z as X_Y_Z so that we can use it in a method name -->
+                                <loadresource property="core.release.base.ident">
+                                    <propertyresource name="core.release.base"/>
+                                    <filterchain>
+                                        <replacestring from="." to="_" />
+                                    </filterchain>
+                                </loadresource>
+
+                                <mkdir dir="${project.build.directory}/generated-sources/com_atlassian_clover"/>
+                                <copy file="src/main/java/com_atlassian_clover/CloverVersionInfo.in"
+                                      tofile="${project.build.directory}/generated-sources/com_atlassian_clover/CloverVersionInfo.java"
+                                      overwrite="false">
+                                    <filterset>
+                                        <filter token="CLOVER_URL" value="${project.organization.url}"/>
+                                        <filter token="CLOVER_LICENSE_AGREEMENT_URL" value="https://www.apache.org/licenses/LICENSE-2.0"/>
+                                        <filter token="CLOVER_HELP_URL" value="${project.organization.url}/documentation"/>
+                                        <filter token="BUILD_DATE" value="${maven.build.timestamp}"/>
+                                        <filter token="BUILD_STAMP" value="${build.stamp}"/>
+                                        <filter token="CORE_RELEASE_NUM" value="${project.version}"/>
+                                        <filter token="CORE_RELEASE_BASE_IDENT" value="${core.release.base.ident}"/>
+                                    </filterset>
+                                </copy>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- compile sources with 1.7 level by default, except JUnit5 test listener which requires 1.8 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>build-for-jdk17</id>
+                        <configuration>
+                            <source>1.7</source>
+                            <target>1.7</target>
+                            <excludes>
+                                <!-- No non-runtime generated source -->
+                                <exclude>**/package-info.java</exclude>
+                                <!-- JUnit5 requires JDK8 or higher -->
+                                <exclude>**/CloverJUnit5TestExecutionListener.java</exclude>
+                            </excludes>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>build-for-jdk18</id>
+                        <configuration>
+                            <source>1.8</source>
+                            <target>1.8</target>
+                            <includes>
+                                <!-- For JUnit5 -->
+                                <include>**/CloverJUnit5TestExecutionListener.java</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- generate bytecode for a CoverageRecorder.rethrow() method -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.openclover</groupId>
+                        <artifactId>clover-buildutil</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>write-rethrow-method</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>com.atlassian.clover.build.codegen.WriteRethrowMethod</mainClass>
+                            <commandlineArgs>
+                                ${project.build.outputDirectory}/com_atlassian_clover/CoverageRecorder.class
+                            </commandlineArgs>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- pack main jar, including stripped and repacked third party libraries -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.4</version>
+                <executions>
+                    <execution>
+                        <id>package-jar</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <artifactSet>
+                                <includes>
+                                    <include>com.atlassian.clover:clover-antlr</include>
+                                    <include>com.atlassian.clover:clover-cajo</include>
+                                    <include>com.atlassian.clover:clover-slf4j</include>
+                                </includes>
+                            </artifactSet>
+                            <filters>
+                                <filter>
+                                    <artifact>com.atlassian.clover:clover-antlr</artifact>
+                                    <includes>
+                                        <include>clover/antlr/CharFormatter*</include>
+                                        <include>clover/antlr/collections/impl/BitSet*</include>
+                                        <include>clover/antlr/collections/impl/IntRange*</include>
+                                        <include>clover/antlr/collections/impl/Vector*</include>
+                                        <include>clover/antlr/collections/impl/VectorEnumerator*</include>
+                                    </includes>
+                                </filter>
+                                <filter>
+                                    <artifact>com.atlassian.clover:clover-cajo</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                    </excludes>
+                                </filter>
+                                <filter>
+                                    <artifact>com.atlassian.clover:clover-slf4j</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <manifestEntries>
+                                        <Specification-Title>OpenClover</Specification-Title>
+                                        <Specification-Version>${project.version}</Specification-Version>
+                                        <Specification-Vendor>OpenClover.org</Specification-Vendor>
+                                        <Implementation-Version>${project.version}</Implementation-Version>
+                                        <Implementation-Vendor>OpenClover.org</Implementation-Vendor>
+                                    </manifestEntries>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- generate sources jar -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>3.0.1</version>
                 <executions>
                     <execution>
                         <goals>
@@ -67,10 +287,10 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- generate javadoc jar -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.10.4</version>
                 <executions>
                     <execution>
                         <goals>

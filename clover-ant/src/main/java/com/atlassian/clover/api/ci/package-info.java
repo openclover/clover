@@ -26,8 +26,8 @@
  *
  * For more information relating to Clover integration, please view the
  * <ul>
- * <li><a href="http://openclover.org/doc/manual/4.2.0/ant--user-guide.html">Clover for Ant User Guide</a>
- * <li><a href="http://openclover.org/doc/manual/4.2.0/maven--user-guide.html">Clover for Maven User Guide</a>
+ * <li><a href="https://openclover.org/doc/manual/latest/ant--user-guide.html">Clover for Ant User Guide</a>
+ * <li><a href="https://openclover.org/doc/manual/latest/maven--user-guide.html">Clover for Maven User Guide</a>
  * </ul>
  *
  * If you have any problems using this api, or feature requests please don't hesitate to

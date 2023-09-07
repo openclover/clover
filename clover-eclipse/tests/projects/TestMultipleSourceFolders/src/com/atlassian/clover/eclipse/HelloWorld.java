@@ -1,4 +1,4 @@
-package com.atlassian.clover.eclipse;
+package org.openclover.eclipse;
 
 public class HelloWorld {
 

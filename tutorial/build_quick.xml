@@ -17,7 +17,10 @@
         are two different things.
     -->
     <target name="install.clover">
-        <copy todir="${user.home}/.ant/lib" file="../lib/clover.jar"/>
+        <copy todir="${user.home}/.ant/lib">
+            <fileset dir="../lib" includes="clover-*.jar"/>
+            <mapper type="glob" from="clover-*.jar" to="clover.jar"/>
+        </copy>
     </target>
 
 

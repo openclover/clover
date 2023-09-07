@@ -7,18 +7,18 @@ and Clover-for-IDEA plugins. Sources are licensed under Apache 2.0 license.
 
 User documentation:
 
-* http://openclover.org/documentation
-* http://confluence.atlassian.com/display/CLOVER/Clover+Documentation+Home
+* https://openclover.org/documentation
+* https://confluence.atlassian.com/display/CLOVER/Clover+Documentation+Home
 
 Developer guides:
 
-* http://openclover.org/documentation
+* https://openclover.org/documentation
 * https://confluence.atlassian.com/display/CLOVER/Clover+Development+Hub
 
 Support Knowledge Base:
 
-* http://openclover.org/documentation
-* http://confluence.atlassian.com/display/CLOVERKB/Clover+Knowledge+Base+Home
+* https://openclover.org/documentation
+* https://confluence.atlassian.com/display/CLOVERKB/Clover+Knowledge+Base+Home
 
 Q&A forums:
 
@@ -32,7 +32,7 @@ Bug and feature tracker:
 
 Download page:
 
-* http://openclover.org/downloads
+* https://openclover.org/downloads
 
 Source code:
 
@@ -48,55 +48,55 @@ See also:
 * https://github.com/jenkinsci/clover-plugin
 * https://github.com/hudson3-plugins/clover-plugin
 
-# Quick setup for developing OpenClover #
+# Quick setup for developing OpenClover
 
-* Install JDK 1.8, Ant 1.10+, Maven 3.8+, Git
-* Prepare work environment: 
+### Install JDK 1.8, Ant 1.10+, Maven 3.8+, Git
+
+### Prepare repacked third party libraries
 
 ```
-# Prepare repacked third party libraries
 mvn install -f clover-core-libs/jarjar/pom.xml
-mvn install -Prepack -f clover-core-libs/pom.xml
-mvn install -Prepack -f clover-idea/clover-jtreemap/pom.xml
-
-# Download Eclipse IDE binaries
-ant clover-eclipse-libs.build
-
-# Download KTremap fork and install it
-git clone https://bitbucket.org/atlassian/ktreemap
-cd ktreemap
-git checkout ktreemap-1.1.0-atlassian-01
-# an old maven-antrun-plugin does not recognize <target> tag
-sed -i -e 's@<artifactId>maven-antrun-plugin</artifactId>@<artifactId>maven-antrun-plugin</artifactId><version>3.1.0</version>@' pom.xml
-# maven-dependency-plugin fails because of missing eclipse artifact so copy JARs manually
-mkdir -p target/eclipse; cp ../target/dependencies/eclipse/4.4/plugins/*.jar target/eclipse
-mvn install -Dmdep.skip=true  
-cd ..
+mvn install -Pworkspace-setup -f clover-core-libs/pom.xml
+mvn install -Pworkspace-setup -f clover-eclipse-libs/pom.xml
+mvn install -Pworkspace-setup -f clover-jtreemap/pom.xml
+mvn install -Pworkspace-setup -f clover-idea-libs/pom.xml
 ```
 
-Now you can work with the code. A naming convention for Ant targets is:
+### Download KTremap and install it
 
-< global | module-name >.< build | test.build | test | clean | repkg >
+Add https://packages.atlassian.com/mvn/maven-atlassian-external to your list of Maven repositories in settings.xml
 
-There are more global and module-specific targets available, see build.xml files.
+OR
 
-Examples:
+Download the following files and install locally:
 
 ```
-# Compile everything, including tests
-ant global.test.build
+PACKAGES_ATLASSIAN_COM=https://packages.atlassian.com/mvn/maven-atlassian-external/
+KTREEMAP_PATH=net/sf/jtreemap/ktreemap/1.1.0-atlassian-01
 
-# Check binary compatibility wtih all Eclipse versions supported 
-ant clover-eclipse.build.all.versions
+wget $PACKAGES_ATLASSIAN_COM/$KTREEMAP_PATH/ktreemap-1.1.0-atlassian-01.jar
+wget $PACKAGES_ATLASSIAN_COM/$KTREEMAP_PATH/ktreemap-1.1.0-atlassian-01.pom
+mvn install:install-file -Dfile=ktreemap-1.1.0-atlassian-01.jar -DpomFile=ktreemap-1.1.0-atlassian-01.pom
+```
 
-# Check binary compatibility wtih all IntelliJ versions supported
-ant clover-idea.test.all.versions
+Now you can work with the code using Maven. You can also open it in IntelliJ IDEA,
+by importing the root pom.xml.
+
+### Example commands
+
+```
+# Compile everything and run all tests
+mvn test
+
+# Install all modules locally, without testing 
+mvn install -DskipTests=true
 
 # Run tests for three main modules
-ant clover-core.test clover-ant.test groovy.test
+mvn test -pl clover-ant,clover-core,clover-groovy
 ```
 
 ---
 
 Copyright @ 2002 - 2017 Atlassian Pty Ltd
-Copyright @ 2017 - 2022 modifications by OpenClover.org
+
+Copyright @ 2017 - 2023 modifications by OpenClover.org

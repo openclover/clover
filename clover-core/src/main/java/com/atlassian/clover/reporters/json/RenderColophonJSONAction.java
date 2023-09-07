@@ -33,7 +33,6 @@ public class RenderColophonJSONAction implements Callable {
                         .put("release", CloverVersionInfo.RELEASE_NUM)
                         .put("build",
                         new JSONObject()
-                            .put("number", CloverVersionInfo.BUILD_NUMBER)
                             .put("date", CloverVersionInfo.BUILD_DATE)
                             .put("stamp", CloverVersionInfo.BUILD_STAMP)))
                 .put("report",

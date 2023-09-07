@@ -1,9 +1,10 @@
 /out/
 /target/
-/tutorial/.clover
-/tutorial/clover_html
 /.idea/
 **/*.iws
+**/*.iml
 **/target
-build.properties
-/clover-idea/clover-idea-libs/src/resources/**
+**/dependency-reduced-pom.xml
+**/.clover/
+**/._.DS_Store
+**/.DS_Store

@@ -1,0 +1,4 @@
+# about.mappings
+# contains fill-ins for about.properties
+
+0=${project.version}

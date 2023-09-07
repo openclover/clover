@@ -7,11 +7,11 @@ import com.atlassian.clover.api.registry.MethodInfo;
 import com.atlassian.clover.api.registry.ModifiersInfo;
 import com.atlassian.clover.instr.tests.TestAnnotationNames;
 import com.atlassian.clover.registry.entities.MethodSignature;
-import com.atlassian.clover.registry.entities.Modifier;
 import com.atlassian.clover.registry.entities.StringifiedAnnotationValue;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.reflect.Modifier;
 import java.util.Collection;
 import java.util.Map;
 

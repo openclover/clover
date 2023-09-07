@@ -57,8 +57,8 @@ public class GroovycSupport implements BuildListener {
 
     private static final String GROVER = "grover";
     private static final String JAR = ".jar";
-    private static final String GROVER_JAR = GROVER + JAR;
-    private static final String EMBEDDEDJARS_CLOVER = "embeddedjars/clover" + CloverVersionInfo.RELEASE_NUM;
+    private static final String EMBEDDED_GROVER_JAR = String.format("embeddedjars/clover-groovy-%s.jar",
+            CloverVersionInfo.RELEASE_NUM);
 
     private final boolean cleanupAfterBuild;
     private File workingDir;
@@ -332,7 +332,7 @@ public class GroovycSupport implements BuildListener {
     public static File extractGroverJar(@Nullable final File groverJar, boolean deleteOnExit) {
         File jar = null;
         Throwable whyFailed = null;
-        final String groverResourceName = "/" + CloverNames.getRepkgPrefix() + EMBEDDEDJARS_CLOVER + "/" + GROVER_JAR;
+        final String groverResourceName = "/" + CloverNames.getRepkgPrefix() + EMBEDDED_GROVER_JAR;
 
         try {
 

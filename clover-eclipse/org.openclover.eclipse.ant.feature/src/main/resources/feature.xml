@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature id="org.openclover.eclipse.ant.feature"
+         label="OpenClover Ant Support"
+         version="${project.version}"
+         provider-name="OpenClover.org"
+         icon="icons/clover32.png"
+         plugin="org.openclover.eclipse.ant">
+    <description url="${clover.site.url}">
+        This is an optional accompaniment to the main OpenClover plugin.
+        It provides support for OpenClover Ant tasks for Ant build files run within Eclipse.
+    </description>
+    <copyright url="${clover.site.url}">${clover.copyright}</copyright>
+    <license url="${clover.license.agreement.url}">${clover.clickwrap.license}</license>
+    <url>
+        <update label="OpenClover Update Site" url="${clover.updatesite.url}"/>
+    </url>
+    <plugin id="org.openclover.eclipse.ant" version="${project.version}" unpack="true"/>
+</feature>

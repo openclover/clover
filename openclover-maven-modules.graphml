@@ -1,0 +1,1373 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--Created by yFiles for HTML 2.5.0.3-->
+<graphml xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://www.yworks.com/xml/schema/graphml.html/2.0/ygraphml.xsd " xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:demostyle2="http://www.yworks.com/yFilesHTML/demos/FlatDemoStyle/2.0" xmlns:demostyle="http://www.yworks.com/yFilesHTML/demos/FlatDemoStyle/1.0" xmlns:icon-style="http://www.yworks.com/yed-live/icon-style/1.0" xmlns:bpmn="http://www.yworks.com/xml/yfiles-bpmn/2.0" xmlns:demotablestyle="http://www.yworks.com/yFilesHTML/demos/FlatDemoTableStyle/1.0" xmlns:uml="http://www.yworks.com/yFilesHTML/demos/UMLDemoStyle/1.0" xmlns:GraphvizNodeStyle="http://www.yworks.com/yFilesHTML/graphviz-node-style/1.0" xmlns:VuejsNodeStyle="http://www.yworks.com/demos/yfiles-vuejs-node-style/1.0" xmlns:explorer-style="http://www.yworks.com/data-explorer/1.0" xmlns:y="http://www.yworks.com/xml/yfiles-common/3.0" xmlns:x="http://www.yworks.com/xml/yfiles-common/markup/3.0" xmlns:sys="http://www.yworks.com/xml/yfiles-common/markup/primitives/2.0" xmlns:yjs="http://www.yworks.com/xml/yfiles-for-html/2.0/xaml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<key id="d0" for="node" attr.type="int" attr.name="zOrder" y:attr.uri="http://www.yworks.com/xml/yfiles-z-order/1.0/zOrder"/>
+	<key id="d1" for="node" attr.type="boolean" attr.name="Expanded" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/folding/Expanded">
+		<default>true</default>
+	</key>
+	<key id="d2" for="node" attr.type="string" attr.name="url"/>
+	<key id="d3" for="node" attr.type="string" attr.name="description"/>
+	<key id="d4" for="node" attr.name="NodeLabels" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/NodeLabels"/>
+	<key id="d5" for="node" attr.name="NodeGeometry" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/NodeGeometry"/>
+	<key id="d6" for="all" attr.name="UserTags" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/UserTags"/>
+	<key id="d7" for="node" attr.name="NodeStyle" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/NodeStyle"/>
+	<key id="d8" for="node" attr.name="NodeViewState" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/folding/1.1/NodeViewState"/>
+	<key id="d9" for="edge" attr.type="string" attr.name="url"/>
+	<key id="d10" for="edge" attr.type="string" attr.name="description"/>
+	<key id="d11" for="edge" attr.name="EdgeLabels" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/EdgeLabels"/>
+	<key id="d12" for="edge" attr.name="EdgeGeometry" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/EdgeGeometry"/>
+	<key id="d13" for="edge" attr.name="EdgeStyle" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/EdgeStyle"/>
+	<key id="d14" for="edge" attr.name="EdgeViewState" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/folding/1.1/EdgeViewState"/>
+	<key id="d15" for="port" attr.name="PortLabels" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/PortLabels"/>
+	<key id="d16" for="port" attr.name="PortLocationParameter" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/PortLocationParameter">
+		<default>
+			<x:Static Member="y:FreeNodePortLocationModel.NodeCenterAnchored"/>
+		</default>
+	</key>
+	<key id="d17" for="port" attr.name="PortStyle" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/PortStyle">
+		<default>
+			<x:Static Member="y:VoidPortStyle.Instance"/>
+		</default>
+	</key>
+	<key id="d18" for="port" attr.name="PortViewState" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/folding/1.1/PortViewState"/>
+	<key id="d19" attr.name="SharedData" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/SharedData"/>
+	<data key="d19">
+		<y:SharedData>
+			<yjs:SolidColorFill x:Key="1" color="#FF99CCFF"/>
+			<yjs:SolidColorFill x:Key="2" color="#FFA3F1BB"/>
+			<y:RatioAnchoredLabelModelParameter x:Key="3" LayoutOffset="3.134765625,3.4482421875"/>
+			<yjs:SolidColorFill x:Key="4" color="Black"/>
+			<yjs:Font x:Key="5" fontSize="12" fontFamily="'Arial'"/>
+			<yjs:SolidColorFill x:Key="6" color="#FFFFCC00"/>
+			<yjs:Stroke x:Key="7" fill="#FF000000" miterLimit="1.45"/>
+			<y:RatioAnchoredLabelModelParameter x:Key="8" LayoutOffset="-0.6881510416666714,11.2470703125"/>
+			<yjs:SolidColorFill x:Key="9" color="Black"/>
+			<yjs:Font x:Key="10" fontSize="12" fontFamily="'Arial'"/>
+			<yjs:SolidColorFill x:Key="11" color="#FFFFCC00"/>
+			<yjs:Stroke x:Key="12" fill="#FF000000" miterLimit="1.45"/>
+			<y:FreeNodePortLocationModelParameter x:Key="13" Ratio="0.5,0.49999999999999983"/>
+			<yjs:SolidColorFill x:Key="14" color="#FF99CCFF"/>
+			<yjs:SolidColorFill x:Key="15" color="#FFA3F1BB"/>
+			<y:FreeNodePortLocationModelParameter x:Key="16" Ratio="0.4999999999999999,0.5"/>
+			<y:FreeNodePortLocationModelParameter x:Key="17" Ratio="0.4999999999999999,0.5"/>
+			<y:FreeNodePortLocationModelParameter x:Key="18" Ratio="1,0.9929107371400725" Offset="0.018081134777872876,0"/>
+			<y:RatioAnchoredLabelModelParameter x:Key="19" LayoutOffset="19.1318359375,-0.701171875"/>
+			<yjs:SolidColorFill x:Key="20" color="Black"/>
+			<yjs:Font x:Key="21" fontSize="12" fontFamily="'Arial'"/>
+			<yjs:SolidColorFill x:Key="22" color="#FFFFCC00"/>
+			<yjs:Stroke x:Key="23" fill="#FF000000" miterLimit="1.45"/>
+			<yjs:Font x:Key="24" fontSize="36" fontFamily="'Arial'"/>
+			<yjs:SolidColorFill x:Key="25" color="#FFFFCC00"/>
+			<yjs:SolidColorFill x:Key="26" color="#FFA3F1BB"/>
+			<yjs:SolidColorFill x:Key="27" color="Black"/>
+			<yjs:Arrow x:Key="28" type="NONE" scale="2"/>
+			<yjs:SolidColorFill x:Key="29" color="Black"/>
+			<yjs:SolidColorFill x:Key="30" color="Black"/>
+			<yjs:Arrow x:Key="31" type="NONE"/>
+		</y:SharedData>
+	</data>
+	<graph id="G" edgedefault="directed">
+		<data key="d6">
+			<y:Json>{"version":"2.0.0","__mg":"yed-live","theme":{"name":"light","version":"1.0.0"}}</y:Json>
+		</data>
+		<node id="n0">
+			<data key="d0">0</data>
+			<data key="d2"><![CDATA[]]></data>
+			<data key="d5">
+				<y:RectD X="827.333333333333" Y="1048.5" Width="190.83808001243213" Height="204"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNodeStyle fill="#FF99CCFF" highlightFill="#FFA3F1BB">
+					<uml:UMLNodeStyle.model>
+						<uml:UMLClassModel stereotype="atlassian-central" constraint="" className="clover-runtime" attributesOpen="true" operationsOpen="true">
+							<uml:UMLClassModel.attributes>
+								<x:Array Type="sys:Object">
+									<sys:String><![CDATA[groupId: com.atlassian.clover]]></sys:String>
+									<sys:String><![CDATA[artifactId: clover-runtime]]></sys:String>
+									<sys:String><![CDATA[packaging: jar]]></sys:String>
+									<sys:String><![CDATA[deployed: yes]]></sys:String>
+									<sys:String><![CDATA[website: no]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.attributes>
+							<uml:UMLClassModel.operations>
+								<x:Array Type="sys:Object"/>
+							</uml:UMLClassModel.operations>
+						</uml:UMLClassModel>
+					</uml:UMLNodeStyle.model>
+				</uml:UMLNodeStyle>
+			</data>
+			<port name="p0">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.49999999999999994,0.5"/>
+				</data>
+			</port>
+			<port name="p1">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.49999999999999994,0.5"/>
+				</data>
+			</port>
+			<port name="p2">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.49999999999999994,0.5"/>
+				</data>
+			</port>
+		</node>
+		<node id="n1">
+			<data key="d0">1</data>
+			<data key="d2"><![CDATA[]]></data>
+			<data key="d5">
+				<y:RectD X="374.4167852044527" Y="644.375" Width="186.1664295910946" Height="188"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNodeStyle fill="#FF99CCFF" highlightFill="#FFA3F1BB">
+					<uml:UMLNodeStyle.model>
+						<uml:UMLClassModel stereotype="atlassian-private" constraint="" className="clover (clover-all)" attributesOpen="true" operationsOpen="true">
+							<uml:UMLClassModel.attributes>
+								<x:Array Type="sys:Object">
+									<sys:String><![CDATA[groupId: com.atlassian.clover]]></sys:String>
+									<sys:String><![CDATA[artifactId: clover]]></sys:String>
+									<sys:String><![CDATA[packaging: pom]]></sys:String>
+									<sys:String><![CDATA[deployment: yes]]></sys:String>
+									<sys:String><![CDATA[website: no]]></sys:String>
+									<sys:String><![CDATA[development: active]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.attributes>
+							<uml:UMLClassModel.operations>
+								<x:Array Type="sys:Object"/>
+							</uml:UMLClassModel.operations>
+						</uml:UMLClassModel>
+					</uml:UMLNodeStyle.model>
+				</uml:UMLNodeStyle>
+			</data>
+			<port name="p0">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.49999999999999994,0.5"/>
+				</data>
+			</port>
+			<port name="p1">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.49999999999999994,0.5"/>
+				</data>
+			</port>
+			<port name="p2">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.49999999999999994,0.5"/>
+				</data>
+			</port>
+			<port name="p3">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.49999999999999994,0.5"/>
+				</data>
+			</port>
+			<port name="p4">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.49999999999999994,0.5"/>
+				</data>
+			</port>
+			<port name="p5">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.49999999999999994,0.5"/>
+				</data>
+			</port>
+			<port name="p6">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.49999999999999994,0.5"/>
+				</data>
+			</port>
+			<port name="p7">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.5,0.005263157894736803"/>
+				</data>
+			</port>
+			<port name="p8">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.5,0.005263157894736803"/>
+				</data>
+			</port>
+			<port name="p9">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.5,0.005263157894736803"/>
+				</data>
+			</port>
+			<port name="p10"/>
+		</node>
+		<node id="n2">
+			<data key="d0">2</data>
+			<data key="d2"><![CDATA[]]></data>
+			<data key="d5">
+				<y:RectD X="-205.7082147955473" Y="240.25" Width="186.1664295910946" Height="188"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNodeStyle fill="#FF99CCFF" highlightFill="#FFA3F1BB">
+					<uml:UMLNodeStyle.model>
+						<uml:UMLClassModel stereotype="atlassian-public" constraint="" className="clover-ant-zip" attributesOpen="true" operationsOpen="true">
+							<uml:UMLClassModel.attributes>
+								<x:Array Type="sys:Object">
+									<sys:String><![CDATA[groupId: com.atlassian.clover]]></sys:String>
+									<sys:String><![CDATA[artifactId: clover-ant]]></sys:String>
+									<sys:String><![CDATA[packaging: zip]]></sys:String>
+									<sys:String><![CDATA[deployed: no]]></sys:String>
+									<sys:String><![CDATA[website: yes]]></sys:String>
+									<sys:String><![CDATA[development: active]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.attributes>
+							<uml:UMLClassModel.operations>
+								<x:Array Type="sys:Object"/>
+							</uml:UMLClassModel.operations>
+						</uml:UMLClassModel>
+					</uml:UMLNodeStyle.model>
+				</uml:UMLNodeStyle>
+			</data>
+			<port name="p0">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.49999999999999994,0.5"/>
+				</data>
+			</port>
+			<port name="p1">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.49999999999999994,0.5"/>
+				</data>
+			</port>
+		</node>
+		<node id="n3">
+			<data key="d0">3</data>
+			<data key="d2"><![CDATA[]]></data>
+			<data key="d5">
+				<y:RectD X="374.3256276214016" Y="1048.5" Width="186.2575871741457" Height="204"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNodeStyle fill="#FF99CCFF" highlightFill="#FFA3F1BB">
+					<uml:UMLNodeStyle.model>
+						<uml:UMLClassModel stereotype="atlassian-central" constraint="" className="clover-core" attributesOpen="true" operationsOpen="true">
+							<uml:UMLClassModel.attributes>
+								<x:Array Type="sys:Object">
+									<sys:String><![CDATA[groupId: com.atlassian.clover]]></sys:String>
+									<sys:String><![CDATA[artifactId: clover]]></sys:String>
+									<sys:String><![CDATA[packaging: jar]]></sys:String>
+									<sys:String><![CDATA[deployed: no]]></sys:String>
+									<sys:String><![CDATA[website: no]]></sys:String>
+									<sys:String><![CDATA[development: active]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.attributes>
+							<uml:UMLClassModel.operations>
+								<x:Array Type="sys:Object"/>
+							</uml:UMLClassModel.operations>
+						</uml:UMLClassModel>
+					</uml:UMLNodeStyle.model>
+				</uml:UMLNodeStyle>
+			</data>
+			<port name="p0">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.4623992359128594,0.39761904761904737"/>
+				</data>
+			</port>
+			<port name="p1">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.49999999999999994,0.5"/>
+				</data>
+			</port>
+			<port name="p2">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.49999999999999994,0.5"/>
+				</data>
+			</port>
+			<port name="p3">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.49999999999999994,0.5"/>
+				</data>
+			</port>
+			<port name="p4">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.49999999999999994,0.5"/>
+				</data>
+			</port>
+			<port name="p5">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.49999999999999994,0.5"/>
+				</data>
+			</port>
+			<port name="p6">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.6536931232061864,0.5"/>
+				</data>
+			</port>
+			<port name="p7">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.49999999999999994,0.5"/>
+				</data>
+			</port>
+			<port name="p8">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.49999999999999994,0.5"/>
+				</data>
+			</port>
+			<port name="p9">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.49999999999999994,0.5"/>
+				</data>
+			</port>
+			<port name="p10">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.005314444251151074,0.5"/>
+				</data>
+			</port>
+			<port name="p11">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.5,0.9951456310679612"/>
+				</data>
+			</port>
+		</node>
+		<node id="n4">
+			<data key="d0">11</data>
+			<data key="d2"><![CDATA[]]></data>
+			<data key="d5">
+				<y:RectD X="1434.7315400062162" Y="1473.375" Width="186.1664295910946" Height="188"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNodeStyle fill="#FF99CCFF" highlightFill="#FFA3F1BB">
+					<uml:UMLNodeStyle.model>
+						<uml:UMLClassModel stereotype="atlassian-private" constraint="" className="clover-buildutil" attributesOpen="true" operationsOpen="true">
+							<uml:UMLClassModel.attributes>
+								<x:Array Type="sys:Object">
+									<sys:String><![CDATA[groupId: com.atlassian.clover]]></sys:String>
+									<sys:String><![CDATA[artifactId: clover-buildutil]]></sys:String>
+									<sys:String><![CDATA[packaging: jar]]></sys:String>
+									<sys:String><![CDATA[deployed: no]]></sys:String>
+									<sys:String><![CDATA[website: no]]></sys:String>
+									<sys:String><![CDATA[development: active]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.attributes>
+							<uml:UMLClassModel.operations>
+								<x:Array Type="sys:Object"/>
+							</uml:UMLClassModel.operations>
+						</uml:UMLClassModel>
+					</uml:UMLNodeStyle.model>
+				</uml:UMLNodeStyle>
+			</data>
+			<port name="p0">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.49999999999999994,0.5"/>
+				</data>
+			</port>
+		</node>
+		<node id="n5">
+			<data key="d0">12</data>
+			<data key="d2"><![CDATA[]]></data>
+			<data key="d5">
+				<y:RectD X="926.333333333333" Y="240.25" Width="186.1664295910946" Height="188"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNodeStyle fill="#FF99CCFF" highlightFill="#FFA3F1BB">
+					<uml:UMLNodeStyle.model>
+						<uml:UMLClassModel stereotype="atlassian-public" constraint="" className="clover-idea" attributesOpen="true" operationsOpen="true">
+							<uml:UMLClassModel.attributes>
+								<x:Array Type="sys:Object">
+									<sys:String><![CDATA[groupId: com.atlassian.clover]]></sys:String>
+									<sys:String><![CDATA[artifactId: clover-idea]]></sys:String>
+									<sys:String><![CDATA[packaging: jar]]></sys:String>
+									<sys:String><![CDATA[deployed: no]]></sys:String>
+									<sys:String><![CDATA[website: yes]]></sys:String>
+									<sys:String><![CDATA[development: active]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.attributes>
+							<uml:UMLClassModel.operations>
+								<x:Array Type="sys:Object"/>
+							</uml:UMLClassModel.operations>
+						</uml:UMLClassModel>
+					</uml:UMLNodeStyle.model>
+				</uml:UMLNodeStyle>
+			</data>
+			<port name="p0">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.49999999999999994,0.5"/>
+				</data>
+			</port>
+			<port name="p1">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.49999999999999994,0.5"/>
+				</data>
+			</port>
+			<port name="p2">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.5,0.9947368421052631"/>
+				</data>
+			</port>
+			<port name="p3">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.5,0.9947368421052631"/>
+				</data>
+			</port>
+		</node>
+		<node id="n6">
+			<data key="d0">14</data>
+			<data key="d2"><![CDATA[]]></data>
+			<data key="d5">
+				<y:RectD X="374.4167852044527" Y="240.25" Width="186.1664295910946" Height="188"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNodeStyle fill="#FF99CCFF" highlightFill="#FFA3F1BB">
+					<uml:UMLNodeStyle.model>
+						<uml:UMLClassModel stereotype="atlassian-public" constraint="" className="clover-eclipse" attributesOpen="true" operationsOpen="true">
+							<uml:UMLClassModel.attributes>
+								<x:Array Type="sys:Object">
+									<sys:String><![CDATA[groupId: com.atlassian.clover]]></sys:String>
+									<sys:String><![CDATA[artifactId: clover-eclipse]]></sys:String>
+									<sys:String><![CDATA[packaging: zip]]></sys:String>
+									<sys:String><![CDATA[deployed: no]]></sys:String>
+									<sys:String><![CDATA[website: yes]]></sys:String>
+									<sys:String><![CDATA[development: active]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.attributes>
+							<uml:UMLClassModel.operations>
+								<x:Array Type="sys:Object"/>
+							</uml:UMLClassModel.operations>
+						</uml:UMLClassModel>
+					</uml:UMLNodeStyle.model>
+				</uml:UMLNodeStyle>
+			</data>
+			<port name="p0">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.49999999999999994,0.5"/>
+				</data>
+			</port>
+			<port name="p1">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.49999999999999994,0.5"/>
+				</data>
+			</port>
+			<port name="p2">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.5,0.9947368421052631"/>
+				</data>
+			</port>
+		</node>
+		<node id="n7">
+			<data key="d0">15</data>
+			<data key="d2"><![CDATA[]]></data>
+			<data key="d5">
+				<y:RectD X="-205.70821479554726" Y="1056.5" Width="186.16642959109458" Height="188"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNodeStyle fill="#FF99CCFF" highlightFill="#FFA3F1BB">
+					<uml:UMLNodeStyle.model>
+						<uml:UMLClassModel stereotype="" constraint="" className="clover-groovy" attributesOpen="true" operationsOpen="false">
+							<uml:UMLClassModel.attributes>
+								<x:Array Type="sys:Object">
+									<sys:String><![CDATA[groupId: org.openclover]]></sys:String>
+									<sys:String><![CDATA[artifactId: clover-groovy]]></sys:String>
+									<sys:String><![CDATA[packaging: jar]]></sys:String>
+									<sys:String><![CDATA[deployed: no]]></sys:String>
+									<sys:String><![CDATA[website: no]]></sys:String>
+									<sys:String><![CDATA[development: active]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.attributes>
+							<uml:UMLClassModel.operations>
+								<x:Array Type="sys:Object"/>
+							</uml:UMLClassModel.operations>
+						</uml:UMLClassModel>
+					</uml:UMLNodeStyle.model>
+				</uml:UMLNodeStyle>
+			</data>
+			<data key="d8">
+				<y:ViewState>
+					<y:FolderNodeState x:Key="c|view" Layout="233.75,632.25,156.8017992588903,184.125"/>
+				</y:ViewState>
+			</data>
+			<port name="p0">
+				<data key="d18">
+					<y:ViewState>
+						<y:Port x:Key="c|view"/>
+					</y:ViewState>
+				</data>
+			</port>
+			<port name="p1">
+				<data key="d18">
+					<y:ViewState>
+						<y:Port x:Key="c|view"/>
+					</y:ViewState>
+				</data>
+			</port>
+			<port name="p2">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.5,0.9929577464788732"/>
+				</data>
+				<data key="d18">
+					<y:ViewState>
+						<y:Port x:Key="c|view"/>
+					</y:ViewState>
+				</data>
+			</port>
+			<port name="p3">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.5,0.9929577464788732"/>
+				</data>
+				<data key="d18">
+					<y:ViewState>
+						<y:Port x:Key="c|view"/>
+					</y:ViewState>
+				</data>
+			</port>
+			<port name="p4">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.5,0.9929577464788732"/>
+				</data>
+				<data key="d18">
+					<y:ViewState>
+						<y:Port x:Key="c|view"/>
+					</y:ViewState>
+				</data>
+			</port>
+			<port name="p5">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.5,0.9929577464788732"/>
+				</data>
+				<data key="d18">
+					<y:ViewState>
+						<y:Port x:Key="c|view"/>
+					</y:ViewState>
+				</data>
+			</port>
+			<port name="p6">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.9937028421298317,0.5"/>
+				</data>
+				<data key="d18">
+					<y:ViewState>
+						<y:Port x:Key="c|view"/>
+					</y:ViewState>
+				</data>
+			</port>
+			<port name="p7">
+				<data key="d16">
+					<y:FreeNodePortLocationModelParameter Ratio="0.5,0.9947368421052631"/>
+				</data>
+				<data key="d18">
+					<y:ViewState>
+						<y:Port x:Key="c|view"/>
+					</y:ViewState>
+				</data>
+			</port>
+		</node>
+		<node id="n8">
+			<data key="d0">16</data>
+			<data key="d2"><![CDATA[]]></data>
+			<data key="d5">
+				<y:RectD X="-205.7082147955473" Y="1996.125" Width="280.88075426655894" Height="191.75"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNodeStyle fill="#FF99CCFF" highlightFill="#FFA3F1BB">
+					<uml:UMLNodeStyle.model>
+						<uml:UMLClassModel stereotype="atlassian-private" constraint="" className="perfmon" attributesOpen="true" operationsOpen="false">
+							<uml:UMLClassModel.attributes>
+								<x:Array Type="sys:Object">
+									<sys:String><![CDATA[groupId: N/A]]></sys:String>
+									<sys:String><![CDATA[artifactId: N/A]]></sys:String>
+									<sys:String><![CDATA[packaging: N/A]]></sys:String>
+									<sys:String><![CDATA[deployment: no]]></sys:String>
+									<sys:String><![CDATA[website: no]]></sys:String>
+									<sys:String><![CDATA[development: inactive]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.attributes>
+							<uml:UMLClassModel.operations>
+								<x:Array Type="sys:Object"/>
+							</uml:UMLClassModel.operations>
+						</uml:UMLClassModel>
+					</uml:UMLNodeStyle.model>
+				</uml:UMLNodeStyle>
+			</data>
+		</node>
+		<node id="n9">
+			<data key="d0">17</data>
+			<data key="d2"><![CDATA[]]></data>
+			<data key="d5">
+				<y:RectD X="213.07698637784438" Y="1998" Width="280.88075426655894" Height="188"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNodeStyle fill="{y:GraphMLReference 1}" highlightFill="{y:GraphMLReference 2}">
+					<uml:UMLNodeStyle.model>
+						<uml:UMLClassModel stereotype="" constraint="" className="scala" attributesOpen="true" operationsOpen="false">
+							<uml:UMLClassModel.attributes>
+								<x:Array Type="sys:Object">
+									<sys:String><![CDATA[groupId: N/A]]></sys:String>
+									<sys:String><![CDATA[artifactId: N/A]]></sys:String>
+									<sys:String><![CDATA[packaging: N/A]]></sys:String>
+									<sys:String><![CDATA[deployment: no]]></sys:String>
+									<sys:String><![CDATA[website: no]]></sys:String>
+									<sys:String><![CDATA[development: prototype]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.attributes>
+							<uml:UMLClassModel.operations>
+								<x:Array Type="sys:Object"/>
+							</uml:UMLClassModel.operations>
+						</uml:UMLClassModel>
+					</uml:UMLNodeStyle.model>
+				</uml:UMLNodeStyle>
+			</data>
+			<port name="p0"/>
+		</node>
+		<node id="n10">
+			<data key="d0">18</data>
+			<data key="d2"><![CDATA[]]></data>
+			<data key="d4">
+				<x:List>
+					<y:Label LayoutParameter="{y:GraphMLReference 19}">
+						<y:Label.Text><![CDATA[OpenClover runtime. 
+
+A minimal portion of OpenClover
+required by an intrumented code.
+
+Must be present in classpath
+at runtime. Deployed to Maven 
+Central (so that it can be referred
+directly) as well as packed in
+clover (clover-all) artifact.]]></y:Label.Text>
+						<y:Label.Style>
+							<yjs:DefaultLabelStyle horizontalTextAlignment="CENTER" font="{y:GraphMLReference 21}" autoFlip="false" textFill="{y:GraphMLReference 20}"/>
+						</y:Label.Style>
+					</y:Label>
+				</x:List>
+			</data>
+			<data key="d5">
+				<y:RectD X="1059.5" Y="1048.5" Width="190.8380800124321" Height="204"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNoteStyle fill="{y:GraphMLReference 22}" stroke="{y:GraphMLReference 23}"/>
+			</data>
+			<port name="p0"/>
+		</node>
+		<node id="n11">
+			<data key="d0">20</data>
+			<data key="d2"><![CDATA[]]></data>
+			<data key="d4">
+				<x:List>
+					<y:Label>
+						<y:Label.Text><![CDATA[LEGEND
+
+1) aggregation line means a sub-module with maven <parent> tag
+
+2) dependency line means maven's <dependency>
+
+3) <<assembly>> stereotype means that dependent module 
+should be bundled using maven-assembly-plugin
+
+4) <<atlassian-private>> means that artifact is not public 
+and is stored in maven.atlassian.com/atlassian-private
+
+5) <<atlassian-public>> means that artifact is published
+in Atlassian Public, but not in Maven Central.
+
+6) <<atlassian-central>> means that artifact is published 
+in Atlassian Central and Maven Central.]]></y:Label.Text>
+						<y:Label.LayoutParameter>
+							<y:RatioAnchoredLabelModelParameter LayoutOffset="10.892578125,26.7900390625"/>
+						</y:Label.LayoutParameter>
+						<y:Label.Style>
+							<yjs:DefaultLabelStyle autoFlip="false" textFill="#FF000000">
+								<yjs:DefaultLabelStyle.font>
+									<yjs:Font fontSize="12" fontFamily="'Arial'"/>
+								</yjs:DefaultLabelStyle.font>
+							</yjs:DefaultLabelStyle>
+						</y:Label.Style>
+					</y:Label>
+				</x:List>
+			</data>
+			<data key="d5">
+				<y:RectD X="878.3380800124323" Y="1958.25" Width="372" Height="303.5"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNoteStyle fill="#FFFFCC00">
+					<uml:UMLNoteStyle.stroke>
+						<yjs:Stroke fill="#FF000000" miterLimit="1.45"/>
+					</uml:UMLNoteStyle.stroke>
+				</uml:UMLNoteStyle>
+			</data>
+		</node>
+		<node id="n12">
+			<data key="d0">21</data>
+			<data key="d2"><![CDATA[]]></data>
+			<data key="d4">
+				<x:List>
+					<y:Label LayoutParameter="{y:GraphMLReference 3}">
+						<y:Label.Text><![CDATA[A primary OpenClover artifact.
+Used to build any integrations 
+with other tools. It's an "all-in-one"
+JAR containing clover-ant, 
+clover-core, clover-runtime 
+and a collection of
+repacked third party libraries
+from clover-core-libs.]]></y:Label.Text>
+						<y:Label.Style>
+							<yjs:DefaultLabelStyle horizontalTextAlignment="CENTER" font="{y:GraphMLReference 5}" autoFlip="false" textFill="{y:GraphMLReference 4}"/>
+						</y:Label.Style>
+					</y:Label>
+				</x:List>
+			</data>
+			<data key="d5">
+				<y:RectD X="152.0835704089054" Y="644.375" Width="186.1664295910946" Height="188"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNoteStyle fill="{y:GraphMLReference 6}" stroke="{y:GraphMLReference 7}"/>
+			</data>
+			<port name="p0"/>
+		</node>
+		<node id="n13">
+			<data key="d0">22</data>
+			<data key="d2"><![CDATA[]]></data>
+			<data key="d3"><![CDATA[]]></data>
+			<data key="d5">
+				<y:RectD X="-205.70821479554726" Y="1464.5" Width="186.16642959109458" Height="191.75"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNodeStyle fill="{y:GraphMLReference 14}" highlightFill="{y:GraphMLReference 15}">
+					<uml:UMLNodeStyle.model>
+						<uml:UMLClassModel stereotype="atlassian-private" constraint="" className="clover-core-libs" attributesOpen="true" operationsOpen="true">
+							<uml:UMLClassModel.attributes>
+								<x:Array Type="sys:Object">
+									<sys:String><![CDATA[groupId: org.openclover]]></sys:String>
+									<sys:String><![CDATA[artifactId: clover-core-libs]]></sys:String>
+									<sys:String><![CDATA[packaging: pom]]></sys:String>
+									<sys:String><![CDATA[deployed: no]]></sys:String>
+									<sys:String><![CDATA[website: no]]></sys:String>
+									<sys:String><![CDATA[development: active]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.attributes>
+							<uml:UMLClassModel.operations>
+								<x:Array Type="sys:Object"/>
+							</uml:UMLClassModel.operations>
+						</uml:UMLClassModel>
+					</uml:UMLNodeStyle.model>
+				</uml:UMLNodeStyle>
+			</data>
+			<port name="p0">
+				<data key="d16">
+					<y:GraphMLReference ResourceKey="16"/>
+				</data>
+			</port>
+			<port name="p1">
+				<data key="d16">
+					<y:GraphMLReference ResourceKey="17"/>
+				</data>
+			</port>
+			<port name="p2">
+				<data key="d16">
+					<y:GraphMLReference ResourceKey="18"/>
+				</data>
+			</port>
+		</node>
+		<node id="n14">
+			<data key="d0">23</data>
+			<data key="d2"><![CDATA[]]></data>
+			<data key="d3"><![CDATA[]]></data>
+			<data key="d4">
+				<x:List>
+					<y:Label LayoutParameter="{y:GraphMLReference 8}">
+						<y:Label.Text><![CDATA[Parent module for repacked
+third party libraries. OpenClover
+uses popular open source libraries
+like Apache Commons or Guava.
+
+In order to avoid class conflicts
+when an instrumented projects
+uses different library versions, 
+all third party packages have been
+renamed with 'clover.' prefix.]]></y:Label.Text>
+						<y:Label.Style>
+							<yjs:DefaultLabelStyle horizontalTextAlignment="CENTER" font="{y:GraphMLReference 10}" autoFlip="false" textFill="{y:GraphMLReference 9}"/>
+						</y:Label.Style>
+					</y:Label>
+				</x:List>
+			</data>
+			<data key="d5">
+				<y:RectD X="-427.70809625776127" Y="1464.5" Width="186.1664295910946" Height="191.75000000000003"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNoteStyle fill="{y:GraphMLReference 11}" stroke="{y:GraphMLReference 12}"/>
+			</data>
+			<port name="p0">
+				<data key="d16">
+					<y:GraphMLReference ResourceKey="13"/>
+				</data>
+			</port>
+		</node>
+		<node id="n15">
+			<data key="d0">24</data>
+			<data key="d4">
+				<x:List>
+					<y:Label LayoutParameter="{x:Static y:InteriorLabelModel.North}">
+						<y:Label.Text><![CDATA[<<repository>> github.com/openclover/clover]]></y:Label.Text>
+						<y:Label.Style>
+							<yjs:DefaultLabelStyle textFill="BLACK" textSize="36">
+								<yjs:DefaultLabelStyle.font>
+									<yjs:Font fontSize="36" fontFamily="'Arial'"/>
+								</yjs:DefaultLabelStyle.font>
+							</yjs:DefaultLabelStyle>
+						</y:Label.Style>
+					</y:Label>
+				</x:List>
+			</data>
+			<data key="d5">
+				<y:RectD X="-439.0414295910946" Y="-3.125" Width="1781.2914295910946" Height="51"/>
+			</data>
+			<data key="d7">
+				<bpmn:GroupNodeStyle/>
+			</data>
+			<graph id="n15:" edgedefault="directed"/>
+		</node>
+		<node id="n16">
+			<data key="d0">-1</data>
+			<data key="d4">
+				<x:List>
+					<y:Label LayoutParameter="{x:Static y:InteriorLabelModel.NorthWest}">
+						<y:Label.Text><![CDATA[<<repository>> github.com/openclover/clover-maven-plugin]]></y:Label.Text>
+						<y:Label.Style>
+							<yjs:DefaultLabelStyle textFill="BLACK" textSize="36">
+								<yjs:DefaultLabelStyle.font>
+									<yjs:Font fontSize="36" fontFamily="'Arial'"/>
+								</yjs:DefaultLabelStyle.font>
+							</yjs:DefaultLabelStyle>
+						</y:Label.Style>
+					</y:Label>
+				</x:List>
+			</data>
+			<data key="d5">
+				<y:RectD X="1805.291429591095" Y="-3.125" Width="993.0414295910946" Height="582.875"/>
+			</data>
+			<data key="d7">
+				<bpmn:GroupNodeStyle/>
+			</data>
+			<graph id="n16:" edgedefault="directed">
+				<node id="n16::n0">
+					<data key="d0">5</data>
+					<data key="d2"><![CDATA[]]></data>
+					<data key="d5">
+						<y:RectD X="1888.6222710470925" Y="240.25" Width="190.83808001243207" Height="188"/>
+					</data>
+					<data key="d7">
+						<uml:UMLNodeStyle fill="#FFFFCC00" highlightFill="#FFA3F1BB">
+							<uml:UMLNodeStyle.model>
+								<uml:UMLClassModel stereotype="deprecated" constraint="" className="maven-clover-plugin" attributesOpen="true" operationsOpen="true">
+									<uml:UMLClassModel.attributes>
+										<x:Array Type="sys:Object">
+											<sys:String><![CDATA[groupId: org.openclover]]></sys:String>
+											<sys:String><![CDATA[artifactId: clover-maven-plugin]]></sys:String>
+											<sys:String><![CDATA[packaging: jar]]></sys:String>
+											<sys:String><![CDATA[deployed: yes]]></sys:String>
+											<sys:String><![CDATA[website: no]]></sys:String>
+											<sys:String><![CDATA[development: active]]></sys:String>
+										</x:Array>
+									</uml:UMLClassModel.attributes>
+									<uml:UMLClassModel.operations>
+										<x:Array Type="sys:Object"/>
+									</uml:UMLClassModel.operations>
+								</uml:UMLClassModel>
+							</uml:UMLNodeStyle.model>
+						</uml:UMLNodeStyle>
+					</data>
+					<port name="p0">
+						<data key="d16">
+							<y:FreeNodePortLocationModelParameter Ratio="0.5000000000000001,0.5"/>
+						</data>
+					</port>
+				</node>
+			</graph>
+		</node>
+		<node id="n17">
+			<data key="d0">-2</data>
+			<data key="d4">
+				<x:List>
+					<y:Label LayoutParameter="{x:Static y:InteriorLabelModel.North}">
+						<y:Label.Text><![CDATA[<<repository>> github.com/openclover/grails-maven-plugin]]></y:Label.Text>
+						<y:Label.Style>
+							<yjs:DefaultLabelStyle font="{y:GraphMLReference 24}" textFill="BLACK" textSize="36"/>
+						</y:Label.Style>
+					</y:Label>
+				</x:List>
+			</data>
+			<data key="d5">
+				<y:RectD X="1805.291429591095" Y="741.25" Width="993.0414295910946" Height="582.875"/>
+			</data>
+			<data key="d7">
+				<bpmn:GroupNodeStyle/>
+			</data>
+			<graph id="n17:" edgedefault="directed">
+				<node id="n17::n0">
+					<data key="d0">4</data>
+					<data key="d2"><![CDATA[]]></data>
+					<data key="d5">
+						<y:RectD X="1888.6222710470925" Y="971.3125" Width="190.83808001243187" Height="188"/>
+					</data>
+					<data key="d7">
+						<uml:UMLNodeStyle fill="{y:GraphMLReference 25}" highlightFill="{y:GraphMLReference 26}">
+							<uml:UMLNodeStyle.model>
+								<uml:UMLClassModel stereotype="atlassian-public" constraint="" className="clover-for-grails" attributesOpen="true" operationsOpen="true">
+									<uml:UMLClassModel.attributes>
+										<x:Array Type="sys:Object">
+											<sys:String><![CDATA[pluginName: clover]]></sys:String>
+											<sys:String><![CDATA[packaging: zip]]></sys:String>
+											<sys:String><![CDATA[deployed: yes]]></sys:String>
+											<sys:String><![CDATA[website: no]]></sys:String>
+											<sys:String><![CDATA[development: end-of-life]]></sys:String>
+										</x:Array>
+									</uml:UMLClassModel.attributes>
+									<uml:UMLClassModel.operations>
+										<x:Array Type="sys:Object"/>
+									</uml:UMLClassModel.operations>
+								</uml:UMLClassModel>
+							</uml:UMLNodeStyle.model>
+						</uml:UMLNodeStyle>
+					</data>
+					<port name="p0"/>
+				</node>
+			</graph>
+		</node>
+		<node id="n18">
+			<data key="d0">25</data>
+			<data key="d2"><![CDATA[]]></data>
+			<data key="d5">
+				<y:RectD X="827.333333333333" Y="1464.5" Width="243.13075426655894" Height="191.75"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNodeStyle fill="{y:GraphMLReference 1}" highlightFill="{y:GraphMLReference 2}">
+					<uml:UMLNodeStyle.model>
+						<uml:UMLClassModel stereotype="" constraint="" className="tutorial" attributesOpen="true" operationsOpen="true">
+							<uml:UMLClassModel.attributes>
+								<x:Array Type="sys:Object">
+									<sys:String><![CDATA[groupId: com.atassian.clover.samples]]></sys:String>
+									<sys:String><![CDATA[artifactId: money-test]]></sys:String>
+									<sys:String><![CDATA[packaging: jar]]></sys:String>
+									<sys:String><![CDATA[deployment: no]]></sys:String>
+									<sys:String><![CDATA[website: yes (inside clover-ant-zip)]]></sys:String>
+									<sys:String><![CDATA[development: active]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.attributes>
+							<uml:UMLClassModel.operations>
+								<x:Array Type="sys:Object"/>
+							</uml:UMLClassModel.operations>
+						</uml:UMLClassModel>
+					</uml:UMLNodeStyle.model>
+				</uml:UMLNodeStyle>
+			</data>
+			<port name="p0"/>
+		</node>
+		<node id="n19">
+			<data key="d0">28</data>
+			<data key="d2"><![CDATA[]]></data>
+			<data key="d4">
+				<x:List>
+					<y:Label LayoutParameter="{y:GraphMLReference 3}">
+						<y:Label.Text><![CDATA[OpenClover for IDEA
+plugin JAR.]]></y:Label.Text>
+						<y:Label.Style>
+							<yjs:DefaultLabelStyle horizontalTextAlignment="CENTER" font="{y:GraphMLReference 5}" autoFlip="false" textFill="{y:GraphMLReference 4}"/>
+						</y:Label.Style>
+					</y:Label>
+				</x:List>
+			</data>
+			<data key="d5">
+				<y:RectD X="711.75" Y="240.25" Width="183" Height="51"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNoteStyle fill="{y:GraphMLReference 6}" stroke="{y:GraphMLReference 7}"/>
+			</data>
+			<port name="p0"/>
+		</node>
+		<node id="n20">
+			<data key="d0">29</data>
+			<data key="d2"><![CDATA[]]></data>
+			<data key="d4">
+				<x:List>
+					<y:Label LayoutParameter="{y:GraphMLReference 3}">
+						<y:Label.Text><![CDATA[OpenClover for Eclipse. 
+A parent module for a 
+few features, plugins and
+an update site zip.
+]]></y:Label.Text>
+						<y:Label.Style>
+							<yjs:DefaultLabelStyle horizontalTextAlignment="CENTER" font="{y:GraphMLReference 5}" autoFlip="false" textFill="{y:GraphMLReference 4}"/>
+						</y:Label.Style>
+					</y:Label>
+				</x:List>
+			</data>
+			<data key="d5">
+				<y:RectD X="155.25" Y="240.25" Width="183" Height="188"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNoteStyle fill="{y:GraphMLReference 6}" stroke="{y:GraphMLReference 7}"/>
+			</data>
+			<port name="p0"/>
+		</node>
+		<node id="n21">
+			<data key="d0">30</data>
+			<data key="d2"><![CDATA[]]></data>
+			<data key="d4">
+				<x:List>
+					<y:Label LayoutParameter="{y:GraphMLReference 3}">
+						<y:Label.Text><![CDATA[The OpenClover for Ant
+ZIP archive containing:
+clover.jar, tutorial and
+a release notes.]]></y:Label.Text>
+						<y:Label.Style>
+							<yjs:DefaultLabelStyle horizontalTextAlignment="CENTER" font="{y:GraphMLReference 5}" autoFlip="false" textFill="{y:GraphMLReference 4}"/>
+						</y:Label.Style>
+					</y:Label>
+				</x:List>
+			</data>
+			<data key="d5">
+				<y:RectD X="-427.25" Y="240.25" Width="183" Height="188"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNoteStyle fill="{y:GraphMLReference 6}" stroke="{y:GraphMLReference 7}"/>
+			</data>
+			<port name="p0"/>
+		</node>
+		<node id="n22">
+			<data key="d0">31</data>
+			<data key="d2"><![CDATA[]]></data>
+			<data key="d3"><![CDATA[]]></data>
+			<data key="d4">
+				<x:List>
+					<y:Label LayoutParameter="{y:GraphMLReference 8}">
+						<y:Label.Text><![CDATA[OpenClover Groovy 
+compiler plugin.
+
+Embedded inside clover-core
+and extracted dynamically
+at runtime.]]></y:Label.Text>
+						<y:Label.Style>
+							<yjs:DefaultLabelStyle horizontalTextAlignment="CENTER" font="{y:GraphMLReference 10}" autoFlip="false" textFill="{y:GraphMLReference 9}"/>
+						</y:Label.Style>
+					</y:Label>
+				</x:List>
+			</data>
+			<data key="d5">
+				<y:RectD X="-427.7080962577612" Y="1056.5" Width="186.16642959109456" Height="196.00000000000003"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNoteStyle fill="{y:GraphMLReference 11}" stroke="{y:GraphMLReference 12}"/>
+			</data>
+			<port name="p0">
+				<data key="d16">
+					<y:GraphMLReference ResourceKey="13"/>
+				</data>
+			</port>
+		</node>
+		<node id="n23">
+			<data key="d0">32</data>
+			<data key="d2"><![CDATA[]]></data>
+			<data key="d4">
+				<x:List>
+					<y:Label LayoutParameter="{y:GraphMLReference 3}">
+						<y:Label.Text><![CDATA[OpenClover core 
+functionality related with 
+source code instrumentation,
+code database and coverage
+recording files management,
+report generation. 
+
+While it offers a simple 
+command-line interface, it's
+more robust to use it's Java APIs
+directly, like it's done from 
+clover-ant or clover-maven-plugin.
+]]></y:Label.Text>
+						<y:Label.Style>
+							<yjs:DefaultLabelStyle horizontalTextAlignment="CENTER" font="{y:GraphMLReference 5}" autoFlip="false" textFill="{y:GraphMLReference 4}"/>
+						</y:Label.Style>
+					</y:Label>
+				</x:List>
+			</data>
+			<data key="d5">
+				<y:RectD X="152.0835704089054" Y="988.75" Width="186.1664295910946" Height="224.25"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNoteStyle fill="{y:GraphMLReference 6}" stroke="{y:GraphMLReference 7}"/>
+			</data>
+			<port name="p0"/>
+		</node>
+		<node id="n24">
+			<data key="d0">33</data>
+			<data key="d2"><![CDATA[]]></data>
+			<data key="d3"><![CDATA[]]></data>
+			<data key="d5">
+				<y:RectD X="51.04154812888072" Y="1464.5" Width="186.16642959109458" Height="191.75"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNodeStyle fill="{y:GraphMLReference 14}" highlightFill="{y:GraphMLReference 15}">
+					<uml:UMLNodeStyle.model>
+						<uml:UMLClassModel stereotype="atlassian-private" constraint="" className="clover-eclipse-libs" attributesOpen="true" operationsOpen="true">
+							<uml:UMLClassModel.attributes>
+								<x:Array Type="sys:Object">
+									<sys:String><![CDATA[groupId: org.openclover]]></sys:String>
+									<sys:String><![CDATA[artifactId: clover-eclipse-libs]]></sys:String>
+									<sys:String><![CDATA[packaging: pom]]></sys:String>
+									<sys:String><![CDATA[deployed: no]]></sys:String>
+									<sys:String><![CDATA[website: no]]></sys:String>
+									<sys:String><![CDATA[development: active]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.attributes>
+							<uml:UMLClassModel.operations>
+								<x:Array Type="sys:Object"/>
+							</uml:UMLClassModel.operations>
+						</uml:UMLClassModel>
+					</uml:UMLNodeStyle.model>
+				</uml:UMLNodeStyle>
+			</data>
+			<port name="p0">
+				<data key="d16">
+					<y:GraphMLReference ResourceKey="16"/>
+				</data>
+			</port>
+			<port name="p1">
+				<data key="d16">
+					<y:GraphMLReference ResourceKey="17"/>
+				</data>
+			</port>
+			<port name="p2">
+				<data key="d16">
+					<y:GraphMLReference ResourceKey="18"/>
+				</data>
+			</port>
+		</node>
+		<node id="n25">
+			<data key="d0">34</data>
+			<data key="d2"><![CDATA[]]></data>
+			<data key="d3"><![CDATA[]]></data>
+			<data key="d5">
+				<y:RectD X="307.79131105330873" Y="1464.5" Width="186.16642959109458" Height="191.75"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNodeStyle fill="{y:GraphMLReference 14}" highlightFill="{y:GraphMLReference 15}">
+					<uml:UMLNodeStyle.model>
+						<uml:UMLClassModel stereotype="atlassian-private" constraint="" className="clover-idea-libs" attributesOpen="true" operationsOpen="true">
+							<uml:UMLClassModel.attributes>
+								<x:Array Type="sys:Object">
+									<sys:String><![CDATA[groupId: org.openclover]]></sys:String>
+									<sys:String><![CDATA[artifactId: clover-idea-libs]]></sys:String>
+									<sys:String><![CDATA[packaging: pom]]></sys:String>
+									<sys:String><![CDATA[deployed: no]]></sys:String>
+									<sys:String><![CDATA[website: no]]></sys:String>
+									<sys:String><![CDATA[development: active]]></sys:String>
+								</x:Array>
+							</uml:UMLClassModel.attributes>
+							<uml:UMLClassModel.operations>
+								<x:Array Type="sys:Object"/>
+							</uml:UMLClassModel.operations>
+						</uml:UMLClassModel>
+					</uml:UMLNodeStyle.model>
+				</uml:UMLNodeStyle>
+			</data>
+			<port name="p0">
+				<data key="d16">
+					<y:GraphMLReference ResourceKey="16"/>
+				</data>
+			</port>
+			<port name="p1">
+				<data key="d16">
+					<y:GraphMLReference ResourceKey="17"/>
+				</data>
+			</port>
+			<port name="p2">
+				<data key="d16">
+					<y:GraphMLReference ResourceKey="18"/>
+				</data>
+			</port>
+		</node>
+		<node id="n26">
+			<data key="d0">35</data>
+			<data key="d2"><![CDATA[]]></data>
+			<data key="d4">
+				<x:List>
+					<y:Label LayoutParameter="{y:GraphMLReference 19}">
+						<y:Label.Text><![CDATA[OpenClover tutorial.
+
+A simple "Money" project with
+build files for Ant, Maven
+as well as project files for
+Eclipse and IDEA.]]></y:Label.Text>
+						<y:Label.Style>
+							<yjs:DefaultLabelStyle horizontalTextAlignment="CENTER" font="{y:GraphMLReference 21}" autoFlip="false" textFill="{y:GraphMLReference 20}"/>
+						</y:Label.Style>
+					</y:Label>
+				</x:List>
+			</data>
+			<data key="d5">
+				<y:RectD X="614.726496982652" Y="1458.375" Width="190.8380800124321" Height="197.875"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNoteStyle fill="{y:GraphMLReference 22}" stroke="{y:GraphMLReference 23}"/>
+			</data>
+			<port name="p0"/>
+		</node>
+		<node id="n27">
+			<data key="d0">36</data>
+			<data key="d4">
+				<x:List>
+					<y:Label LayoutParameter="{x:Static y:InteriorLabelModel.North}">
+						<y:Label.Text><![CDATA[<<repository>> github.com/openclover/clover-aspectj-compiler]]></y:Label.Text>
+						<y:Label.Style>
+							<yjs:DefaultLabelStyle font="{y:GraphMLReference 24}" textFill="BLACK" textSize="36"/>
+						</y:Label.Style>
+					</y:Label>
+				</x:List>
+			</data>
+			<data key="d5">
+				<y:RectD X="1805.291429591095" Y="1485.625" Width="993.0414295910946" Height="582.875"/>
+			</data>
+			<data key="d7">
+				<bpmn:GroupNodeStyle/>
+			</data>
+			<graph id="n27:" edgedefault="directed">
+				<node id="n27::n0">
+					<data key="d0">0</data>
+					<data key="d2"><![CDATA[]]></data>
+					<data key="d5">
+						<y:RectD X="1888.622271047092" Y="1683.0625" Width="206.18776671815803" Height="204"/>
+					</data>
+					<data key="d7">
+						<uml:UMLNodeStyle fill="{y:GraphMLReference 25}" highlightFill="{y:GraphMLReference 26}">
+							<uml:UMLNodeStyle.model>
+								<uml:UMLClassModel stereotype="atlassian-public" constraint="" className="clover-aspectj-compiler" attributesOpen="true" operationsOpen="true">
+									<uml:UMLClassModel.attributes>
+										<x:Array Type="sys:Object">
+											<sys:String><![CDATA[groupId: org.openclover]]></sys:String>
+											<sys:String><![CDATA[artifactId: clover-aspectj-compiler]]></sys:String>
+											<sys:String><![CDATA[packaging: jar]]></sys:String>
+											<sys:String><![CDATA[deployed: yes]]></sys:String>
+											<sys:String><![CDATA[website: no]]></sys:String>
+											<sys:String><![CDATA[development: active]]></sys:String>
+										</x:Array>
+									</uml:UMLClassModel.attributes>
+									<uml:UMLClassModel.operations>
+										<x:Array Type="sys:Object"/>
+									</uml:UMLClassModel.operations>
+								</uml:UMLClassModel>
+							</uml:UMLNodeStyle.model>
+						</uml:UMLNodeStyle>
+					</data>
+					<port name="p0"/>
+				</node>
+			</graph>
+		</node>
+		<node id="n28">
+			<data key="d0">37</data>
+			<data key="d2"><![CDATA[]]></data>
+			<data key="d4">
+				<x:List>
+					<y:Label LayoutParameter="{y:GraphMLReference 19}">
+						<y:Label.Text><![CDATA[A collection of build
+utilities, such as 
+annotation processors
+or bytecode generators.]]></y:Label.Text>
+						<y:Label.Style>
+							<yjs:DefaultLabelStyle horizontalTextAlignment="CENTER" font="{y:GraphMLReference 21}" autoFlip="false" textFill="{y:GraphMLReference 20}"/>
+						</y:Label.Style>
+					</y:Label>
+				</x:List>
+			</data>
+			<data key="d5">
+				<y:RectD X="1204.226496982652" Y="1473.375" Width="190.8380800124321" Height="197.875"/>
+			</data>
+			<data key="d7">
+				<uml:UMLNoteStyle fill="{y:GraphMLReference 22}" stroke="{y:GraphMLReference 23}"/>
+			</data>
+			<port name="p0"/>
+		</node>
+		<edge id="e0" source="n1" target="n3" sourceport="p0" targetport="p0">
+			<data key="d13">
+				<yjs:PolylineEdgeStyle targetArrow="{y:GraphMLReference 28}">
+					<yjs:PolylineEdgeStyle.stroke>
+						<yjs:Stroke fill="{y:GraphMLReference 27}" miterLimit="1.45" thickness="2"/>
+					</yjs:PolylineEdgeStyle.stroke>
+					<yjs:PolylineEdgeStyle.sourceArrow>
+						<yjs:Arrow type="DIAMOND" scale="2" stroke="#FF000000" fill="{y:GraphMLReference 27}" cropLength="1"/>
+					</yjs:PolylineEdgeStyle.sourceArrow>
+				</yjs:PolylineEdgeStyle>
+			</data>
+		</edge>
+		<edge id="e1" source="n1" target="n0" sourceport="p3" targetport="p1">
+			<data key="d9"><![CDATA[]]></data>
+			<data key="d13">
+				<yjs:PolylineEdgeStyle targetArrow="{y:GraphMLReference 28}">
+					<yjs:PolylineEdgeStyle.stroke>
+						<yjs:Stroke fill="{y:GraphMLReference 29}" miterLimit="1.45" thickness="2"/>
+					</yjs:PolylineEdgeStyle.stroke>
+					<yjs:PolylineEdgeStyle.sourceArrow>
+						<yjs:Arrow type="DIAMOND" scale="2" stroke="#FF000000" fill="{y:GraphMLReference 29}" cropLength="1"/>
+					</yjs:PolylineEdgeStyle.sourceArrow>
+				</yjs:PolylineEdgeStyle>
+			</data>
+		</edge>
+		<edge id="e2" source="n1" target="n2" sourceport="p6" targetport="p1">
+			<data key="d9"><![CDATA[]]></data>
+			<data key="d13">
+				<yjs:PolylineEdgeStyle>
+					<yjs:PolylineEdgeStyle.stroke>
+						<yjs:Stroke fill="{y:GraphMLReference 30}" miterLimit="1.45" thickness="2"/>
+					</yjs:PolylineEdgeStyle.stroke>
+					<yjs:PolylineEdgeStyle.targetArrow>
+						<yjs:Arrow type="DIAMOND" scale="2" stroke="#FF000000" fill="{y:GraphMLReference 30}" cropLength="1"/>
+					</yjs:PolylineEdgeStyle.targetArrow>
+					<yjs:PolylineEdgeStyle.sourceArrow>
+						<yjs:Arrow type="NONE" scale="2" stroke="#FF000000" fill="{y:GraphMLReference 30}"/>
+					</yjs:PolylineEdgeStyle.sourceArrow>
+				</yjs:PolylineEdgeStyle>
+			</data>
+		</edge>
+		<edge id="e3" source="n14" target="n13" sourceport="p0" targetport="p0">
+			<data key="d9"><![CDATA[]]></data>
+			<data key="d10"><![CDATA[]]></data>
+			<data key="d13">
+				<yjs:PolylineEdgeStyle targetArrow="{y:GraphMLReference 31}" sourceArrow="{y:GraphMLReference 31}">
+					<yjs:PolylineEdgeStyle.stroke>
+						<yjs:Stroke fill="#FF000000" miterLimit="1.45"/>
+					</yjs:PolylineEdgeStyle.stroke>
+				</yjs:PolylineEdgeStyle>
+			</data>
+		</edge>
+		<edge id="e4" source="n6" target="n1" sourceport="p2" targetport="p7">
+			<data key="d13">
+				<yjs:PolylineEdgeStyle>
+					<yjs:PolylineEdgeStyle.stroke>
+						<yjs:Stroke fill="{y:GraphMLReference 27}" miterLimit="1.45" thickness="2"/>
+					</yjs:PolylineEdgeStyle.stroke>
+					<yjs:PolylineEdgeStyle.targetArrow>
+						<yjs:Arrow type="NONE" scale="2" stroke="#FF000000" fill="{y:GraphMLReference 27}"/>
+					</yjs:PolylineEdgeStyle.targetArrow>
+					<yjs:PolylineEdgeStyle.sourceArrow>
+						<yjs:Arrow type="DIAMOND" scale="2" stroke="#FF000000" fill="{y:GraphMLReference 27}" cropLength="1"/>
+					</yjs:PolylineEdgeStyle.sourceArrow>
+				</yjs:PolylineEdgeStyle>
+			</data>
+		</edge>
+		<edge id="e5" source="n5" target="n1" sourceport="p3" targetport="p10">
+			<data key="d13">
+				<yjs:PolylineEdgeStyle>
+					<yjs:PolylineEdgeStyle.stroke>
+						<yjs:Stroke fill="{y:GraphMLReference 27}" miterLimit="1.45" thickness="2"/>
+					</yjs:PolylineEdgeStyle.stroke>
+					<yjs:PolylineEdgeStyle.targetArrow>
+						<yjs:Arrow type="NONE" scale="2" stroke="#FF000000" fill="{y:GraphMLReference 27}"/>
+					</yjs:PolylineEdgeStyle.targetArrow>
+					<yjs:PolylineEdgeStyle.sourceArrow>
+						<yjs:Arrow type="DIAMOND" scale="2" stroke="#FF000000" fill="{y:GraphMLReference 27}" cropLength="1"/>
+					</yjs:PolylineEdgeStyle.sourceArrow>
+				</yjs:PolylineEdgeStyle>
+			</data>
+		</edge>
+		<edge id="e6" source="n7" target="n3" sourceport="p7" targetport="p11">
+			<data key="d13">
+				<yjs:PolylineEdgeStyle>
+					<yjs:PolylineEdgeStyle.stroke>
+						<yjs:Stroke fill="{y:GraphMLReference 27}" miterLimit="1.45" thickness="2"/>
+					</yjs:PolylineEdgeStyle.stroke>
+					<yjs:PolylineEdgeStyle.targetArrow>
+						<yjs:Arrow type="DIAMOND" scale="2" stroke="#FF000000" fill="{y:GraphMLReference 27}" cropLength="1"/>
+					</yjs:PolylineEdgeStyle.targetArrow>
+					<yjs:PolylineEdgeStyle.sourceArrow>
+						<yjs:Arrow type="NONE" scale="2" stroke="#FF000000" fill="{y:GraphMLReference 27}"/>
+					</yjs:PolylineEdgeStyle.sourceArrow>
+				</yjs:PolylineEdgeStyle>
+			</data>
+		</edge>
+	</graph>
+</graphml>

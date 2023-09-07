@@ -7,11 +7,11 @@ import com.atlassian.clover.context.ContextSet;
 import com.atlassian.clover.registry.Clover2Registry;
 import com.atlassian.clover.registry.FixedSourceRegion;
 import com.atlassian.clover.registry.entities.MethodSignature;
-import com.atlassian.clover.registry.entities.Modifier;
 import com.atlassian.clover.registry.entities.Modifiers;
 import com.atlassian.clover.registry.entities.Parameter;
 import com.atlassian.clover.spi.lang.LanguageConstruct;
 
+import java.lang.reflect.Modifier;
 import java.io.File;
 import java.io.IOException;
 

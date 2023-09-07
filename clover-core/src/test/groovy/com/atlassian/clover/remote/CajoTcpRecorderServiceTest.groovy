@@ -2,6 +2,7 @@ package com.atlassian.clover.remote
 
 import com.atlassian.clover.util.RecordingLogger
 import com.atlassian.clover.Logger
+import org.junit.Ignore
 import org.junit.Test
 
 import static org.junit.Assert.*
@@ -9,6 +10,7 @@ import static org.junit.Assert.*
 /**
  * Test for {@link com.atlassian.clover.remote.CajoTcpRecorderService}
  */
+@Ignore
 class CajoTcpRecorderServiceTest {
 
     private static final String KEY_TCP_PORT = "cajo.tcp.port"

@@ -6,7 +6,7 @@ import com.atlassian.clover.TestUtils
 import com.atlassian.clover.context.ContextSet
 import com.atlassian.clover.registry.Clover2Registry
 import com.atlassian.clover.registry.entities.FullMethodInfo
-import com.atlassian.clover.support.IOHelper
+import com.atlassian.clover.testutils.IOHelper
 import com_atlassian_clover.CoverageRecorder
 import junit.framework.TestCase
 

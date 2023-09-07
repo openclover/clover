@@ -8,10 +8,10 @@ import java.util.Map;
 /**
 *
 */
-public class NodeImpl<K, V> implements PrefixTree.Node<K, V> {
+public class NodeImpl<K, V> implements Node<K, V> {
 
     @NotNull
-    protected final Map<K, PrefixTree.Node<K, V>> children;
+    protected final Map<K, Node<K, V>> children;
 
     @NotNull
     private final K key;
@@ -19,7 +19,7 @@ public class NodeImpl<K, V> implements PrefixTree.Node<K, V> {
     @Nullable
     private V value;
 
-    public NodeImpl(@NotNull K key, @Nullable V value, @NotNull Map<K, PrefixTree.Node<K, V>> children) {
+    public NodeImpl(@NotNull K key, @Nullable V value, @NotNull Map<K, Node<K, V>> children) {
         this.key = key;
         this.value = value;
         this.children = children;
@@ -44,20 +44,20 @@ public class NodeImpl<K, V> implements PrefixTree.Node<K, V> {
 
     @Nullable
     @Override
-    public PrefixTree.Node<K, V> getChild(@NotNull K subKey) {
+    public Node<K, V> getChild(@NotNull K subKey) {
         return children.get(subKey);
     }
 
     @NotNull
     @Override
-    public PrefixTree.Node<K, V> addChild(@NotNull PrefixTree.Node<K, V> subNode) {
+    public Node<K, V> addChild(@NotNull Node<K, V> subNode) {
         children.put(subNode.getKey(), subNode);
         return children.get(subNode.getKey());
     }
 
     @NotNull
     @Override
-    public Map<K, PrefixTree.Node<K, V>> children() {
+    public Map<K, Node<K, V>> children() {
         return children;
     }
 }

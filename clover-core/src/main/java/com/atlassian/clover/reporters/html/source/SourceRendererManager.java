@@ -1,5 +1,6 @@
 package com.atlassian.clover.reporters.html.source;
 
+import com.atlassian.clover.reporters.html.source.groovy.GroovySourceRenderer;
 import com.atlassian.clover.reporters.html.source.java.JavaSourceRenderer;
 import com.atlassian.clover.services.ServiceLocator;
 import com.atlassian.clover.services.ServiceNotAvailableException;
@@ -18,13 +19,7 @@ public class SourceRendererManager {
     static {
         RENDERERS = Collections.unmodifiableMap(new HashMap<String, SourceRenderer>() {{
                 registerRenderer(new JavaSourceRenderer());
-
-                //Must use Class.forName() because we can't see this class in this module
-                try {
-                    registerRenderer((SourceRenderer) Class.forName("com.atlassian.clover.reporters.html.source.groovy.GroovySourceRenderer").getDeclaredConstructor().newInstance());
-                } catch (Exception e) {
-                    Logger.getInstance().warn("Failed to register the Groovy source renderer - syntax highlighting will not be performed for Groovy code", e);
-                }
+                registerRenderer(new GroovySourceRenderer());
 
                 for (SourceRenderer sourceRenderer : ServiceLocator.load(SourceRenderer.class, SourceRenderHelper.class.getClassLoader())) {
                     try {

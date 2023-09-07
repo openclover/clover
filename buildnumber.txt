@@ -1,3 +1,0 @@
-#Build Number for ANT. Do not edit!
-#Fri Oct 11 23:36:56 CEST 2019
-build.number=1023

@@ -1,0 +1,150 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.openclover</groupId>
+        <artifactId>clover-base-pom</artifactId>
+        <version>4.5.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <!-- for backward compatibility it's named 'clover' instead of 'clover-all' -->
+    <artifactId>clover</artifactId>
+    <name>OpenClover</name>
+    <description>
+        OpenClover is an award-winning code coverage and testing tool for Java and Groovy.
+        It integrates easily with Maven, Ant, Grails, Eclipse and IntelliJ IDEA
+        as well as with continuous integration servers such as Bamboo, Jenkins or Hudson.
+    </description>
+    <dependencies>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-ant</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-runtime</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-groovy</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- packaging into clover.jar via assembly plugin -->
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-annotations</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-antlr</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-cajo</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-commons-codec</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-commons-collections</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-commons-lang</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-commons-lang3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-fastutil</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-gson</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-guava</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-itext</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-jcommon</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-jdom</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-jfreechart</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-slf4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-velocity</artifactId>
+        </dependency>
+    </dependencies>
+    <build>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-webdav</artifactId>
+                <version>1.0-beta-2</version>
+            </extension>
+        </extensions>
+        <plugins>
+            <!-- generate clover.jar, a combination of clover-ant + clover-core + clover-runtime + clover+groovy +
+                 repacked clover-* third-party libraries -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>package-jar</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <!-- Important: for backward compatibility, clover-core + clover-runtime + clover-ant are
+                            being merged into single 'clover' artifact, which is later:
+                            a) deployed to maven central (org.openclover:clover is a primary artifact used in builds)
+                            b) packed into clover-ant zip, deployed to website and maven central -->
+                            <finalName>clover-${project.version}</finalName>
+                            <appendAssemblyId>false</appendAssemblyId>
+                            <descriptors>
+                                <descriptor>src/assembly/clover-jar.xml</descriptor>
+                            </descriptors>
+                            <archive>
+                                <manifestEntries>
+                                    <Specification-Title>OpenClover for Ant</Specification-Title>
+                                    <Specification-Version>${project.version}</Specification-Version>
+                                    <Specification-Vendor>OpenClover.org</Specification-Vendor>
+                                    <Implementation-Version>${project.version}</Implementation-Version>
+                                    <Implementation-Vendor>OpenClover.org</Implementation-Vendor>
+                                </manifestEntries>
+                            </archive>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

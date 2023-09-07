@@ -1,0 +1,17 @@
+#if (!$hideStatistics)
+    #if ($fileInfo && $chartInfo)
+        <div class="dashboard-widget">
+            <header class="dashboard-widget-header">
+                <h3>Coverage histogram</h3>
+            </header>
+            <div class="dashboard-widget-content">
+                <div class="aui-item clover-aui-item-histogram">
+                    <img src="${rootRelPath}img/$chartInfo.name" alt="${rootRelPath}img/$chartInfo.name"
+                         usemap="#${chartInfo.name}" class="clover-histogram-img"/>
+                    $chartInfo.imageMap<br />
+                    <span class="subtle"><strong>$chartInfo.extraNum% </strong>$chartInfo.text</span>
+                </div>
+            </div>
+        </div>
+    #end
+#end

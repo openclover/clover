@@ -1056,7 +1056,7 @@ methodModifier returns [int m]
     |   "synchronized"  { m=java.lang.reflect.Modifier.SYNCHRONIZED; }
 
     // not a true modifier, used only to mark virtual extension method in an interface, we keep information about it
-    |   "default"       { m=com.atlassian.clover.registry.entities.Modifier.DEFAULT; }
+    |   "default"       { m=com.atlassian.clover.registry.entities.ModifierExt.DEFAULT; }
     ;
 
 // Definition of a Java class

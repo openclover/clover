@@ -60,7 +60,4 @@ public class Tags {
         return tagToReader.containsKey(tag);
     }
 
-    public interface ObjectReader<T extends TaggedPersistent> {
-        T read(TaggedDataInput in) throws IOException;
-    }
 }

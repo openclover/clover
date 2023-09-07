@@ -8,7 +8,7 @@ import com.atlassian.clover.registry.entities.FullClassInfo
 import com.atlassian.clover.registry.metrics.HasMetricsFilter
 import com.atlassian.clover.registry.entities.FullProjectInfo
 import com.atlassian.clover.registry.entities.TestCaseInfo
-import com.atlassian.clover.support.IOHelper
+import com.atlassian.clover.testutils.IOHelper
 import com.atlassian.clover.util.FileUtils
 import junit.framework.TestCase
 
@@ -24,13 +24,13 @@ class TestResultProcessorTest extends TestCase {
     public static String PATH_TO_TEST_FILES = "clover-core/src/test/resources/testresults"
 
     List testResultFiles; 
-    List testSuiteFiles = Lists.newArrayList();
+    List testSuiteFiles = newArrayList();
     CloverDatabase db
     File workingDir
     File projectDir
 
     void setUp() throws IOException, CloverException {
-        projectDir = TestUtils.getProjectDirFromProperty()
+        projectDir = IOHelper.getProjectDir()
         workingDir = IOHelper.createTmpDir(TestResultProcessorTest.class.getName())
 
         CloverTestFixture testFixture = new CloverTestFixture(workingDir)

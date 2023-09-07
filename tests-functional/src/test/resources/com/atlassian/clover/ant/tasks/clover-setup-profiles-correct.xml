@@ -1,0 +1,229 @@
+<project basedir="." name="">
+    <!-- The ${project.dir} and ${repkg.clover.jar} property must be provided -->
+
+    <taskdef name="clover-setup" classname="com.atlassian.clover.ant.tasks.CloverSetupTask"/>
+    <taskdef name="clover-instr" classname="com.atlassian.clover.ant.tasks.CloverInstrTask"/>
+
+    <!-- Properties common for all test cases -->
+    <property name="build.dir" location="${project.dir}/tests-functional/target/it/profiles-correct"/>
+    <property name="foo.source.file" location="${build.dir}/Foo.java"/>
+
+    <!-- Properties different for each test case -->
+    <macrodef name="set-testcase-properties">
+        <attribute name="testcase"/>
+        <sequential>
+            <property name="build.instr.dir" location="${build.dir}/@{testcase}/instr" description="instrumented sources"/>
+            <property name="build.classes.dir" location="${build.dir}/@{testcase}/classes" description="compiled classes"/>
+            <property name="build.clover.dir" location="${build.dir}/@{testcase}/clover" description="clover database and coverage files"/>
+
+            <property name="foo.instr.file" location="${build.instr.dir}/Foo.java"/>
+            <property name="clover.db" location="${build.clover.dir}/clover.db"/>
+
+            <path id="runtime.classpath">
+                <pathelement location="${build.classes.dir}"/>
+                <pathelement location="${project.dir}/clover-all/target/clover-${clover-ant.test.clover.ver}.jar"/> <!-- normal version -->
+                <pathelement location="${repkg.clover.jar}"/> <!-- repackaged version -->
+            </path>
+
+            <echo message="A @{testcase} test case runtime.classpath=${toString:runtime.classpath}"/>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="make-testcase-dirs">
+        <sequential>
+            <delete dir="${build.instr.dir}"/>
+            <delete dir="${build.classes.dir}"/>
+            <delete dir="${build.clover.dir}"/>
+            <mkdir dir="${build.instr.dir}"/>
+            <mkdir dir="${build.classes.dir}"/>
+            <mkdir dir="${build.clover.dir}"/>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="javac-foo">
+        <sequential>
+            <javac srcdir="${build.instr.dir}" destdir="${build.classes.dir}"/>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="java-foo">
+        <attribute name="jvmarg" default="-Dsome.default.value=true"/>
+        <sequential>
+            <java classname="Foo" classpathref="runtime.classpath" fork="true" outputproperty="java.out">
+                <jvmarg value="-Dclover.logging.level=debug"/>
+                <jvmarg value="@{jvmarg}"/>
+            </java>
+        </sequential>
+    </macrodef>
+
+
+    <target name="setup-with-profiles">
+        <clover-setup>
+            <profiles>
+                <profile name="local"/>
+                <profile name="default" coverageRecorder="fixed"/>
+                <profile name="remote">
+                    <distributedCoverage name="tcp-config"
+                                         port="7777" host="myhost.com"
+                                         timeout="500" numClients="10" retryPeriod="500"/>
+                </profile>
+            </profiles>
+        </clover-setup>
+    </target>
+
+    <target name="execute-no-profiles">
+        <set-testcase-properties testcase="no-profiles"/>
+        <make-testcase-dirs/>
+        <clover-instr initstring="${clover.db}" destdir="${build.instr.dir}">
+            <fileset dir="${build.dir}" includes="Foo.java"/>
+        </clover-instr>
+
+        <javac-foo/>
+        <java-foo/>
+    </target>
+
+    <target name="execute-default-profile">
+        <set-testcase-properties testcase="default-profile"/>
+        <make-testcase-dirs/>
+        <clover-instr initstring="${clover.db}" destdir="${build.instr.dir}">
+            <fileset dir="${build.dir}" includes="Foo.java"/>
+            <profiles>
+                <profile name="default" coverageRecorder="growable"/>
+            </profiles>
+        </clover-instr>
+
+        <javac-foo/>
+        <java-foo/>
+    </target>
+
+    <target name="execute-other-profile">
+        <set-testcase-properties testcase="other-profile"/>
+        <make-testcase-dirs/>
+        <clover-instr initstring="${clover.db}" destdir="${build.instr.dir}">
+            <fileset dir="${build.dir}" includes="Foo.java"/>
+            <profiles>
+                <profile name="default" coverageRecorder="growable"/>
+                <profile name="other" coverageRecorder="shared"/>
+                <profile name="remote">
+                    <distributedCoverage name="tcp-config"
+                                         port="7777" host="myhost.com"
+                                         timeout="500" numClients="10" retryPeriod="500"/>
+                </profile>
+            </profiles>
+        </clover-instr>
+
+        <javac-foo/>
+        <java-foo jvmarg="-Dclover.profile=other"/>
+    </target>
+
+    <target name="execute-not-found-profile">
+        <set-testcase-properties testcase="not-found-profile"/>
+        <make-testcase-dirs/>
+        <clover-instr initstring="${clover.db}" destdir="${build.instr.dir}">
+            <fileset dir="${build.dir}" includes="Foo.java"/>
+            <profiles>
+                <profile name="default" coverageRecorder="growable"/>
+                <profile name="one" coverageRecorder="fixed"/>
+            </profiles>
+        </clover-instr>
+
+        <javac-foo/>
+        <java-foo jvmarg="-Dclover.profile=two"/>
+    </target>
+
+    <target name="execute-not-found-null-profile">
+        <set-testcase-properties testcase="not-found-null-profile"/>
+        <make-testcase-dirs/>
+        <clover-instr initstring="${clover.db}" destdir="${build.instr.dir}">
+            <fileset dir="${build.dir}" includes="Foo.java"/>
+        </clover-instr>
+
+        <javac-foo/>
+        <java-foo jvmarg="-Dclover.profile=some"/>
+    </target>
+
+    <target name="execute-distributed-coverage-from-profile">
+        <set-testcase-properties testcase="distributed-coverage-from-profile"/>
+        <make-testcase-dirs/>
+        <clover-instr initstring="${clover.db}" destdir="${build.instr.dir}">
+            <fileset dir="${build.dir}" includes="Foo.java"/>
+            <distributedCoverage host="host.from.top.level" timeout="10"/>
+            <profiles>
+                <profile name="default">
+                    <distributedCoverage host="host.from.profile" timeout="10"/> <!-- should take this -->
+                </profile>
+            </profiles>
+        </clover-instr>
+
+        <javac-foo/>
+        <java-foo jvmarg="-Dclover.profile=default"/>
+    </target>
+
+    <target name="execute-distributed-coverage-from-top-level">
+        <set-testcase-properties testcase="distributed-coverage-top-level"/>
+        <make-testcase-dirs/>
+        <clover-instr initstring="${clover.db}" destdir="${build.instr.dir}">
+            <fileset dir="${build.dir}" includes="Foo.java"/>
+            <distributedCoverage host="host.from.top.level" timeout="10"/> <!-- should take this -->
+            <profiles>
+                <profile name="default"/> <!-- ... because default is empty -->
+                <profile name="other">
+                    <distributedCoverage host="host.from.profile" timeout="10"/>
+                </profile>
+            </profiles>
+        </clover-instr>
+
+        <javac-foo/>
+        <java-foo/> <!-- no clover.profile so will use default -->
+    </target>
+
+    <target name="execute-distributed-coverage-use-default">
+        <set-testcase-properties testcase="distributed-coverage-use-default"/>
+        <make-testcase-dirs/>
+        <clover-instr initstring="${clover.db}" destdir="${build.instr.dir}">
+            <fileset dir="${build.dir}" includes="Foo.java"/>
+            <profiles>
+                <profile name="default">
+                    <distributedCoverage host="host.from.profile" timeout="10"/>
+                </profile>
+            </profiles>
+        </clover-instr>
+
+        <javac-foo/>
+        <java-foo/> <!-- no clover.profile, default is used -->
+    </target>
+
+    <target name="disable-clover-at-runtime">
+        <set-testcase-properties testcase="disable-clover-at-runtime"/>
+        <make-testcase-dirs/>
+        <clover-instr initstring="${clover.db}" destdir="${build.instr.dir}">
+            <fileset dir="${build.dir}" includes="Foo.java"/>
+        </clover-instr>
+
+        <javac-foo/>
+        <java-foo jvmarg="-Dclover.enable=false"/>
+    </target>
+
+    <target name="setUp">
+        <echo message="project.dir=${project.dir}"/>
+        <echo message="repkg.clover.jar=${repkg.clover.jar}"/>
+
+        <fail unless="project.dir"
+              message="The project.dir pointing to Clover workspace root directory must be provided."/>
+        <mkdir dir="${build.dir}"/>
+
+        <!-- create source file for testing -->
+        <echo file="${foo.source.file}"><![CDATA[
+        public class Foo {
+            public static void main(String[] args) {
+               System.out.println("Foo");
+            }
+        }
+        ]]></echo>
+    </target>
+
+    <target name="tearDown">
+
+    </target>
+
+</project>

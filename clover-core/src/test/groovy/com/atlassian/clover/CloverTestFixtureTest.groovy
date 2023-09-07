@@ -6,7 +6,7 @@ import com.atlassian.clover.CloverTestFixture.Coverage
 import com.atlassian.clover.registry.entities.FullPackageInfo
 import com.atlassian.clover.registry.metrics.PackageMetrics
 import com.atlassian.clover.registry.metrics.ProjectMetrics
-import com.atlassian.clover.support.IOHelper
+import com.atlassian.clover.testutils.IOHelper
 import junit.framework.TestCase
 
 class CloverTestFixtureTest extends TestCase {
