@@ -82,10 +82,6 @@
         </dependency>
         <dependency>
             <groupId>org.openclover</groupId>
-            <artifactId>clover-guava</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.openclover</groupId>
             <artifactId>clover-itext</artifactId>
         </dependency>
         <dependency>
