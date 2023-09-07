@@ -15,17 +15,6 @@
         open-sourced Atlassian Clover(R).
     </description>
     <dependencies>
-        <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <!-- repacked third party libraries -->
-        <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-jtreemap</artifactId>
-            <version>1.1.0</version>
-        </dependency>
         <!-- Minimal set of IntelliJ IDEA dependencies, for compilation -->
         <dependency>
             <groupId>org.openclover.idea.libs</groupId>
@@ -38,6 +27,18 @@
             <artifactId>idea-zip</artifactId>
             <version>${idea.version}</version>
             <type>zip</type>
+        </dependency>
+        <!-- main clover jar -->
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- repacked third party libraries -->
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-jtreemap</artifactId>
+            <version>1.1.0</version>
         </dependency>
         <!-- test dependencies -->
         <dependency>
