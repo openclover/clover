@@ -45,6 +45,11 @@
             <artifactId>mockito-all</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     <build>
         <resources>
@@ -117,12 +122,109 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- run a test project before executing tests as some JUnits rely on it -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>run-test-project</id>
+                        <phase>process-test-resources</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <taskdef resource="net/sf/antcontrib/antcontrib.properties" classpathref="maven.plugin.classpath"/>
+                                <taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask" classpathref="maven.plugin.classpath"/>
+
+                                <property name="testproject.base" location="${project.basedir}/src/test/resources/testproject"/>
+                                <property name="testproject.output" location="${project.build.directory}/testproject"/>
+                                <property name="testproject.db" location="${testproject.output}/clover/coverage.db"/>
+
+                                <if>
+                                    <not><available file="${testproject.db}"/></not>
+                                    <then>
+                                        <!-- instrument -->
+                                        <java classname="com.atlassian.clover.CloverInstr"
+                                              classpath="${org.openclover:clover:jar}">
+                                            <arg value="-s"/>
+                                            <arg value="${testproject.base}"/>
+                                            <arg value="-d"/>
+                                            <arg value="${testproject.output}/instr"/>
+                                            <arg value="-i"/>
+                                            <arg value="${testproject.db}"/>
+                                        </java>
+                                        <!-- compile instrumented -->
+                                        <mkdir dir="${testproject.output}/classes"/>
+                                        <javac srcdir="${testproject.output}/instr"
+                                               debug="on" includeantruntime="false"
+                                               destdir="${testproject.output}/classes">
+                                            <classpath>
+                                                <pathelement location="${org.openclover:clover:jar}"/>
+                                                <pathelement location="${junit:junit:jar}"/>
+                                            </classpath>
+                                        </javac>
+                                        <!-- run tests -->
+                                        <mkdir dir="${testproject.output}/report"/>
+                                        <junit fork="true" forkmode="once" logfailedtests="false">
+                                            <classpath>
+                                                <pathelement location="${testproject.output}/classes"/>
+                                                <pathelement location="${org.openclover:clover:jar}"/>
+                                                <pathelement location="${junit:junit:jar}"/>
+                                            </classpath>
+                                            <batchtest todir="${testproject.output}/report">
+                                                <fileset dir="${testproject.output}/classes" includes="**/*Test.class"/>
+                                                <formatter type="plain"/>
+                                            </batchtest>
+                                        </junit>
+                                        <!-- generate reports -->
+                                        <java classname="com.atlassian.clover.reporters.html.HtmlReporter"
+                                              classpath="${org.openclover:clover:jar}"
+                                              fork="true">
+                                            <arg value="-i"/>
+                                            <arg value="${testproject.db}"/>
+                                            <arg value="-o"/>
+                                            <arg value="${testproject.output}/clover-report"/>
+                                        </java>
+                                    </then>
+                                    <else>
+                                        <echo message="Skipping testproject build as ${testproject.db} already exists."/>
+                                    </else>
+                                </if>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.ant</groupId>
+                        <artifactId>ant-junit</artifactId>
+                        <version>1.10.13</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>ant-contrib</groupId>
+                        <artifactId>ant-contrib</artifactId>
+                        <version>1.0b3</version>
+                        <exclusions>
+                            <exclusion>
+                                <groupId>ant</groupId>
+                                <artifactId>ant</artifactId>
+                            </exclusion>
+                        </exclusions>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <!-- run tests for IDEA -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <additionalClasspathElements>
                         <additionalClasspathElement>${project.build.directory}/idea/bin</additionalClasspathElement>
+                        <!-- some tests load files from this location as resources -->
+                        <additionalClasspathElement>${project.build.directory}/testproject</additionalClasspathElement>
                     </additionalClasspathElements>
                     <argLine>
                         -Djava.library.path=${project.build.directory}/idea/bin
@@ -137,7 +239,7 @@
                         <idea.home.path>${project.build.directory}/idea</idea.home.path>
                         <idea.config.path>${project.build.directory}/idea-test/config</idea.config.path>
                         <idea.system.path>${project.build.directory}/idea-test/system</idea.system.path>
-                        <cij.idea.expected.version>${idea.version}</cij.idea.expected.version> <!-- TODO 14.1.7 ? -->
+                        <cij.idea.expected.version>${idea.version.short}</cij.idea.expected.version>
                         <java.io.tmpdir>${project.build.directory}/idea/tmp</java.io.tmpdir>
                         <idea.load.plugins.id>org.openclover.idea</idea.load.plugins.id>
                     </systemProperties>
@@ -200,5 +302,6 @@
     </build>
     <properties>
         <idea.version>141.3058.30</idea.version>
+        <idea.version.short>14.1.7</idea.version.short>
     </properties>
 </project>
