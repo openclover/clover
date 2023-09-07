@@ -12,6 +12,7 @@ import com.atlassian.clover.reporters.filters.DefaultTestFilter;
 import junit.framework.TestCase;
 
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeNode;
 import java.util.Enumeration;
 
 /**
@@ -83,12 +84,12 @@ public class TestRunExplorerTreeBuilderTest extends TestCase {
         assertEquals(4, aOnlyTestNode.getChildCount());
         //execution time-based test - not deterministic
         @SuppressWarnings("unchecked")
-        final Enumeration<DefaultMutableTreeNode> children = aOnlyTestNode.children();
+        final Enumeration<TreeNode> children = aOnlyTestNode.children();
         double prevTime = 0;
         StringBuilder sb = new StringBuilder();
         while (children.hasMoreElements()) {
-            final DefaultMutableTreeNode node = children.nextElement();
-            final TestCaseInfo tci = (TestCaseInfo) node.getUserObject();
+            final TreeNode node = children.nextElement();
+            final TestCaseInfo tci = (TestCaseInfo) ((DefaultMutableTreeNode)node).getUserObject();
             sb.append("Test ").append(tci.getTestName()).append(", duration=").append(tci.getDuration());
             assertTrue(sb.toString(), prevTime <= tci.getDuration());
             prevTime = tci.getDuration();
@@ -98,12 +99,12 @@ public class TestRunExplorerTreeBuilderTest extends TestCase {
         TreeUtil.sortNodes(rootNode, model);
         //execution time-based test - again not deterministic
         @SuppressWarnings("unchecked")
-        final Enumeration<DefaultMutableTreeNode> childrenRev = aOnlyTestNode.children();
+        final Enumeration<TreeNode> childrenRev = aOnlyTestNode.children();
         prevTime = Float.MAX_VALUE;
         sb = new StringBuilder();
         while (childrenRev.hasMoreElements()) {
-            final DefaultMutableTreeNode node = childrenRev.nextElement();
-            final TestCaseInfo tci = (TestCaseInfo) node.getUserObject();
+            final TreeNode node = childrenRev.nextElement();
+            final TestCaseInfo tci = (TestCaseInfo) ((DefaultMutableTreeNode)node).getUserObject();
             sb.append("Test ").append(tci.getTestName()).append(", duration=").append(tci.getDuration());
             assertTrue(sb.toString(), prevTime >= tci.getDuration());
             prevTime = tci.getDuration();
