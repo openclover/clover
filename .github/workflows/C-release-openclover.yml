@@ -1,0 +1,73 @@
+name: C Release OpenClover
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v3
+        with:
+          java-version: 1.8
+          cache: maven
+          server-id: ossrh
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_PASSWORD
+
+      - name: Cache Eclipse binaries
+        id: cache-eclipse
+        uses: actions/cache@v3
+        with:
+          path: clover-eclipse-libs/target/download
+          key: ${{ runner.os }}-eclipse-${{ hashFiles('clover-eclipse-libs/pom.xml') }}
+
+      - name: Cache IDEA binaries
+        id: cache-idea
+        uses: actions/cache@v3
+        with:
+          path: clover-idea-libs/target/download
+          key: ${{ runner.os }}-idea-${{ hashFiles('clover-idea-libs/pom.xml') }}
+
+      - name: Prepare third party libraries
+        run: |
+          mvn install -f clover-core-libs/jarjar/pom.xml
+          mvn install -Pworkspace-setup -f clover-core-libs/pom.xml
+          mvn install -Pworkspace-setup -f clover-eclipse-libs/pom.xml
+          mvn install -Pworkspace-setup -f clover-jtreemap/pom.xml
+          mvn install -Pworkspace-setup -f clover-idea-libs/pom.xml
+
+      - name: Download KTreemap fork
+        run: |
+          wget https://packages.atlassian.com/mvn/maven-atlassian-external/net/sf/jtreemap/ktreemap/1.1.0-atlassian-01/ktreemap-1.1.0-atlassian-01.jar
+          wget https://packages.atlassian.com/mvn/maven-atlassian-external/net/sf/jtreemap/ktreemap/1.1.0-atlassian-01/ktreemap-1.1.0-atlassian-01.pom
+          mvn install:install-file -Dfile=ktreemap-1.1.0-atlassian-01.jar -DpomFile=ktreemap-1.1.0-atlassian-01.pom
+
+      - name: Publish a release
+        run: |
+          echo "Prerequisite: a non-SNAPSHOT version on master!"
+          mvn --batch-mode deploy -DdryRun=true
+        env:
+          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+
+      - name: Upload non-Maven artifacts
+        run: |
+          echo "TODO upload javadocs to openclover.org"
+          echo "scp -R clover-ant/target/apidocs $OPENCLOVER_ORG_SCP/$OPENCLOVER_ORG_DOWNLOAD_PATH/javadoc/$VERSION
+          
+          echo "TODO uploading IDEA idea.jar and latestVersionInfo to openclover.org"
+          echo "scp clover-idea/target/clover-idea-*.jar $OPENCLOVER_ORG_SCP/$OPENCLOVER_ORG_DOWNLOAD_PATH"
+          echo "scp clover-idea/target/autoupdate/latestStableVersion.xml $OPENCLOVER_ORG_SCP/$OPENCLOVER_ORG_UPDATE_PATH"
+          
+          echo "TODO Uploading Eclipse plugin to openclover.org"
+          echo "scp clover-eclipse/org.openclover.eclipse.updatesite/target/clover-eclipse-site-*.zip $OPENCLOVER_ORG_SCP/$OPENCLOVER_ORG_DOWNLOAD_PATH"
+          echo "ssh -exec unzip $OPENCLOVER_ORG_DOWNLOAD_PATH/clover-eclipse-site-*.zip $OPENCLOVER_ORG_UPDATE_PATH"
+
+        env:
+          OPENCLOVER_ORG_SCP=sftp.openclover.org
+          OPENCLOVER_ORG_DOWNLOAD_PATH=/download/openclover
+          OPENCLOVER_ORG_UPDATE_PATH=/update
+          OPENCLOVER_ORG_DOC_PATH=/doc
+          VERSION=4.5.0
