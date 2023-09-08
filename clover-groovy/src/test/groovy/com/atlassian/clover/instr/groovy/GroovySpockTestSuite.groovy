@@ -92,7 +92,7 @@ class GroovySpockTestSuite extends junit.framework.TestSuite {
     ]
 
     /**
-     * Reads groovy version number from spock version (e.g. "spock-0.7-groovy-2.0" has "2.0") and matches against
+     * Reads groovy version number from spock version (e.g. "spock-1.0-groovy-2.0" has "2.0") and matches against
      * actual groovy version.
      * @param actualGroovyVersion
      * @param spockVersion
