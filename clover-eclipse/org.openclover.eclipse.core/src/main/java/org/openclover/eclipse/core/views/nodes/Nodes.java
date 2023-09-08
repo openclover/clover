@@ -26,7 +26,7 @@ import org.eclipse.swt.graphics.Image;
 import java.util.List;
 import java.util.Set;
 
-import static clover.com.google.common.collect.Lists.newLinkedList;
+import static org.openclover.util.Lists.newLinkedList;
 
 public class Nodes {
     public static final TestCaseConverter TO_TESTCASEINFO = new TestCaseConverter() {

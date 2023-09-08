@@ -204,10 +204,6 @@
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.openclover</groupId>
-                                    <artifactId>clover-guava</artifactId>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.openclover</groupId>
                                     <artifactId>clover-itext</artifactId>
                                 </artifactItem>
                                 <artifactItem>

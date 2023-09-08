@@ -9,7 +9,7 @@ import org.eclipse.core.runtime.CoreException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
+import static org.openclover.util.Lists.newArrayList;
 
 public class ExclusionUtil {
     private ExclusionUtil() {

@@ -1,10 +1,11 @@
 package com.atlassian.clover;
 
-import clover.com.google.common.collect.Sets;
 import com.atlassian.clover.registry.entities.TestCaseInfo;
 
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static org.openclover.util.Sets.newHashSet;
 
 public class TestCaseInfoLookup {
     private ConcurrentHashMap<Integer, TestCaseInfo> byId;
@@ -32,6 +33,6 @@ public class TestCaseInfoLookup {
     }
 
     public Set<TestCaseInfo> getTestCaseInfos() {
-        return Sets.newHashSet(byId.values());
+        return newHashSet(byId.values());
     }
 }

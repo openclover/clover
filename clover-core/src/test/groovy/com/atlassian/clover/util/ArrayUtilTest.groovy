@@ -1,7 +1,7 @@
 package com.atlassian.clover.util
 
-import clover.com.google.common.base.Function
 import org.junit.Test
+import org.openclover.util.function.Function
 
 import static org.junit.Assert.assertArrayEquals
 
@@ -23,7 +23,7 @@ class ArrayUtilTest {
     void testTransformArray() throws Exception {
         String[] input = [ "Hello", "World!" ]
         Integer[] output = ArrayUtil.transformArray(input, new Function<String, Integer>() {
-            public Integer apply(String s) {
+            Integer apply(String s) {
                 return s.length()
             }
 

@@ -1,6 +1,5 @@
 package org.openclover.eclipse.core.projects.settings.source.test;
 
-import clover.com.google.common.collect.Sets;
 import org.openclover.eclipse.core.CloverEclipsePluginMessages;
 import org.openclover.eclipse.core.projects.settings.source.LayoutUtils;
 import org.openclover.eclipse.core.ui.GLH;
@@ -26,6 +25,8 @@ import org.eclipse.swt.widgets.Text;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
+import static org.openclover.util.Sets.newHashSet;
 
 public class TestSourceFilteringComposite extends Composite {
     private final Button testFoldersAllButton;
@@ -100,7 +101,7 @@ public class TestSourceFilteringComposite extends Composite {
         testRootFolders.setContentProvider(contentProvider); // use as source root folders info - not suitable as data model
         testRootFolders.setInput(contentProvider.getProject());
 
-        final Set<String> selectedFolders = Sets.newHashSet(lastSelectedFolders);
+        final Set<String> selectedFolders = newHashSet(lastSelectedFolders);
         for (SourceRootWithPattern srwp : contentProvider.getChildren(project)) {
             if (selectedFolders.contains(srwp.getPattern().getSrcPath())) {
                 testRootFolders.setChecked(srwp, true);

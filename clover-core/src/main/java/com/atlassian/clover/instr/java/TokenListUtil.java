@@ -1,7 +1,6 @@
 package com.atlassian.clover.instr.java;
 
 import clover.antlr.CommonHiddenStreamToken;
-import clover.com.google.common.collect.Sets;
 
 import java.util.Collections;
 import java.util.List;
@@ -10,8 +9,9 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static clover.com.google.common.collect.Lists.newLinkedList;
-import static clover.com.google.common.collect.Maps.newHashMap;
+import static org.openclover.util.Lists.newLinkedList;
+import static org.openclover.util.Maps.newHashMap;
+import static org.openclover.util.Sets.newHashSet;
 
 public class TokenListUtil {
     /**
@@ -45,7 +45,7 @@ public class TokenListUtil {
             "(:?\\s+(.*))?" + //optional trailing text with capature group 2 holding the text
             "$"); //the end
 
-    private static final Set<String> IGNORED_TAGS = Collections.unmodifiableSet(Sets.newHashSet(
+    private static final Set<String> IGNORED_TAGS = Collections.unmodifiableSet(newHashSet(
         "deprecated",
         "param",
         "throws",

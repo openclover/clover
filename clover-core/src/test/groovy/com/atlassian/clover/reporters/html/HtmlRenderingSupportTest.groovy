@@ -1,6 +1,6 @@
 package com.atlassian.clover.reporters.html
 
-import clover.com.google.common.collect.Lists
+import org.openclover.util.Lists
 import com.atlassian.clover.reporters.Format
 import org.junit.Before
 import org.junit.Test

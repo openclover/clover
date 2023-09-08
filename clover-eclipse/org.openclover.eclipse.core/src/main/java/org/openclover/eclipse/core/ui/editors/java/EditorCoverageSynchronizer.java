@@ -20,7 +20,7 @@ import org.openclover.eclipse.core.SystemJob;
 
 import java.util.List;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
+import static org.openclover.util.Lists.newArrayList;
 
 public class EditorCoverageSynchronizer implements IWindowListener, IPartListener2, IDisposable {
     private IWorkbench workbench;

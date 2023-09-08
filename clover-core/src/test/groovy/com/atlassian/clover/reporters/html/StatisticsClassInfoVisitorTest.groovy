@@ -1,15 +1,16 @@
 package com.atlassian.clover.reporters.html
 
-import clover.com.google.common.collect.Lists
 import com.atlassian.clover.registry.entities.BaseClassInfo
 import com.atlassian.clover.registry.metrics.BlockMetrics
 import com.atlassian.clover.registry.entities.FullFileInfo
 import com.atlassian.clover.registry.metrics.HasMetricsTestFixture
 import junit.framework.TestCase
 
+import static org.openclover.util.Lists.newArrayList
+
 class StatisticsClassInfoVisitorTest extends TestCase {
 
-    List classes = Lists.newArrayList()
+    List classes = newArrayList()
     HasMetricsTestFixture fixture
     FullFileInfo fileInfo 
 

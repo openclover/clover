@@ -47,8 +47,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
-import static clover.com.google.common.collect.Maps.newHashMap;
+import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.util.Maps.newHashMap;
 
 public class TestRunExplorerTreeBuilder {
     private final Project project;

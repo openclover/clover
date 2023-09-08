@@ -103,7 +103,7 @@ Learn about new features and bug-fixes in this release in the <a href="https://o
 		<compiler implementation="com.atlassian.clover.idea.build.DependencyInjectingCompiler"/>
 
         <!-- clover-***.jar added for debugging purposes -->
-        <!--<compileServer.plugin classpath="clover-idea;extensions.jar;clover-antlr-2.7.7.jar;clover-guava-29.0-android.jar"/>-->
+        <!--<compileServer.plugin classpath="clover-idea;extensions.jar;clover-antlr-2.7.7.jar"/>-->
         <compileServer.plugin classpath="clover-idea"/>
 	</extensions>
 	<actions>

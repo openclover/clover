@@ -1,7 +1,5 @@
 package com.atlassian.clover.ant.tasks
 
-import clover.com.google.common.collect.Lists
-import clover.com.google.common.collect.Maps
 import com.atlassian.clover.instr.java.JavaMethodContext
 import com.atlassian.clover.instr.java.JavaTypeContext
 import com.atlassian.clover.instr.tests.DefaultTestDetector
@@ -15,6 +13,9 @@ import com.atlassian.clover.spec.instr.test.OrSpec
 import com.atlassian.clover.spec.instr.test.TestClassSpec
 import com.atlassian.clover.spec.instr.test.TestMethodSpec
 import junit.framework.TestCase
+
+import static org.openclover.util.Lists.newArrayList
+import static org.openclover.util.Maps.newHashMap
 
 class TestSourceSetTest extends TestCase {
     public Modifiers mods
@@ -68,12 +69,12 @@ class TestSourceSetTest extends TestCase {
         // <testsources>        
         TestSourceSet testSources = new TestSourceSet()
         testSources.addConfiguredTestClass(javaDocSpec)
-        List<String> values = Lists.newArrayList()
+        List<String> values = newArrayList()
         values.add("value")
 
         testSources.validate()
 
-        Map<String, List<String>> tags = Maps.newHashMap()
+        Map<String, List<String>> tags = newHashMap()
         tags.put("thisShouldNotMatch", values)
 
         final TestDetector testDetector = testSources.getDetector()
@@ -100,7 +101,7 @@ class TestSourceSetTest extends TestCase {
         testSources.addConfiguredTestClass(classSpec)
         testSources.validate()
 
-        Map tags = Maps.newHashMap()
+        Map tags = newHashMap()
         tags.put("thisShouldNotMatch", "value")
         MethodSignature noMatch = new MethodSignature(null, null, null, tags, null, "Test", null, "void", null, null)
 

@@ -1,6 +1,5 @@
 package com.atlassian.clover.lang;
 
-import clover.com.google.common.collect.Sets;
 import com.atlassian.clover.services.ServiceLocator;
 import com.atlassian.clover.services.ServiceNotAvailableException;
 import com.atlassian.clover.spi.lang.Language;
@@ -11,11 +10,12 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
-import static clover.com.google.common.collect.Maps.newHashMap;
+import static org.openclover.util.Maps.newHashMap;
+import static org.openclover.util.Sets.newHashSet;
 
 public class Languages {
     private static final Map<String, LanguageConstruct> LANGUAGE_CONSTRUCTS = newHashMap();
-    private static final Set<Language> LANGUAGES = Sets.newHashSet();
+    private static final Set<Language> LANGUAGES = newHashSet();
 
     static {
         Collections.addAll(LANGUAGES, Language.Builtin.values());

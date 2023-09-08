@@ -8,7 +8,7 @@ import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.eclipse.core.resources.IProject;
 
-import static clover.com.google.common.collect.Lists.newLinkedList;
+import static org.openclover.util.Lists.newLinkedList;
 
 public class ProjToTestCaseRelationship extends NodeRelationship {
     private TestCaseNodeFactory tcnFactory;

@@ -29,7 +29,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import static clover.com.google.common.collect.Lists.newLinkedList;
+import static org.openclover.util.Lists.newLinkedList;
 
 public class InstrSessionSegment {
     static final long NONE_IDX = -1L;

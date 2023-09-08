@@ -1,6 +1,5 @@
 package com.atlassian.clover.util;
 
-import clover.com.google.common.collect.Sets;
 import com.atlassian.clover.CloverNames;
 import com.atlassian.clover.Logger;
 import com.atlassian.clover.api.registry.MethodInfo;
@@ -18,6 +17,8 @@ import java.util.HashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static org.openclover.util.Sets.newHashSet;
+
 public class CloverUtils {
 
     /**
@@ -26,7 +27,7 @@ public class CloverUtils {
     private static final Object FILE_SYSTEM_LOCK = new Object();
     public static final String SYNTH_TESTNAME_PREF = CloverNames.CLOVER_PREFIX + CloverVersionInfo.SANITIZED_RN;
 
-    private static final HashSet<String> IGNORE_TRACE_LINES = Sets.newHashSet(
+    private static final HashSet<String> IGNORE_TRACE_LINES = newHashSet(
             "sun.reflect.NativeMethodAccessorImpl.invoke",
             "sun.reflect.DelegatingMethodAccessorImpl.invoke",
             "sun.reflect.NativeMethodAccessorImpl.invoke0",

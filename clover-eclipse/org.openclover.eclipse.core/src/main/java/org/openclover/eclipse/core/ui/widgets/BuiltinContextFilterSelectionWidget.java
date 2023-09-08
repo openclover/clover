@@ -16,7 +16,7 @@ import org.eclipse.swt.widgets.Label;
 import java.util.HashMap;
 import java.util.List;
 
-import static clover.com.google.common.collect.Maps.newHashMap;
+import static org.openclover.util.Maps.newHashMap;
 
 public class BuiltinContextFilterSelectionWidget extends Composite {
     protected static final int CONTEXTS_PER_LINE = 3;

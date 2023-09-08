@@ -17,7 +17,7 @@ import java.io.File;
 import java.util.Date;
 import java.util.Map;
 
-import static clover.com.google.common.collect.Maps.newHashMap;
+import static org.openclover.util.Maps.newHashMap;
 
 public abstract class CloverReportConfig {
     private static final String ERR_NO_OUTFILE_SPECIFIED = "No outfile specified.";

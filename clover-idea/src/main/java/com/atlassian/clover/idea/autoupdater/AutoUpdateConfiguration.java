@@ -2,7 +2,7 @@ package com.atlassian.clover.idea.autoupdater;
 
 import java.util.List;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
+import static org.openclover.util.Lists.newArrayList;
 
 public class AutoUpdateConfiguration {
     private boolean autoUpdate = true;

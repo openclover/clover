@@ -1,6 +1,5 @@
 package com.atlassian.clover.api.optimization
 
-import clover.com.google.common.collect.Lists
 import com.atlassian.clover.instr.InstrumentationSessionImpl
 import com.atlassian.clover.CloverDatabase
 import com.atlassian.clover.api.CloverException
@@ -11,6 +10,8 @@ import com.atlassian.clover.optimization.Snapshot
 import com.atlassian.clover.optimization.TestOptimizationBase
 import org.junit.Before
 import org.junit.Test
+
+import static org.openclover.util.Lists.newLinkedList
 
 class TestOptimizerTest extends TestOptimizationBase {
 
@@ -40,7 +41,7 @@ class TestOptimizerTest extends TestOptimizationBase {
 
         // check that optimize includes 0 tests.
         // for testing, use StringOptimizable, since classes are fake.
-        List<Optimizable> classes = Lists.newLinkedList()
+        List<Optimizable> classes = newLinkedList()
         classes.add(new StringOptimizable(THIS_PACKAGE + '.AppClass2Test'))
         classes.add(new StringOptimizable(THIS_PACKAGE + '.AppClass23Test'))
         classes.add(new StringOptimizable(THIS_PACKAGE + '.AppClass234Test'))

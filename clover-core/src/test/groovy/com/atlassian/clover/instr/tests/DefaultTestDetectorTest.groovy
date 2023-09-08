@@ -1,6 +1,5 @@
 package com.atlassian.clover.instr.tests
 
-import clover.com.google.common.collect.Maps
 import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig
 import com.atlassian.clover.cfg.instr.java.SourceLevel
 import com.atlassian.clover.instr.java.FileStructureInfo
@@ -24,6 +23,7 @@ import java.lang.reflect.Modifier
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertFalse
 import static org.junit.Assert.assertTrue
+import static org.openclover.util.Maps.newHashMap
 
 class DefaultTestDetectorTest {
     private InstrumentationState state
@@ -106,7 +106,7 @@ class DefaultTestDetectorTest {
         testMethodAnnotations(detector, "org.testng.annotations")
         state.getCfg().setSourceLevel(SourceLevel.JAVA_7)
 
-        Map tags = Maps.newHashMap()
+        Map tags = newHashMap()
         tags.put("test", Collections.singletonList(""))
         MethodSignature method = new MethodSignature(null, null, null, tags, new Modifiers(), "checkFoo", null, "void", null, null)
         method.setModifiers(Modifier.PUBLIC)
@@ -124,7 +124,7 @@ class DefaultTestDetectorTest {
             params[i] = new Parameter("type"+i,"ident"+i)
         }
 
-        tags = Maps.newHashMap()
+        tags = newHashMap()
         tags.put("test", Collections.singletonList(""))
         method = new MethodSignature(null, null, null, tags, new Modifiers(), "checkFoo", null, "void", params, null)
         method.setModifiers(Modifier.PUBLIC)

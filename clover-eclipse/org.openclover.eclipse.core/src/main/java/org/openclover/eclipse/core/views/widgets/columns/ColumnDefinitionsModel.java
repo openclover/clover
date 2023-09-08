@@ -13,8 +13,8 @@ import java.util.Collections;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 
-import static clover.com.google.common.collect.Lists.newLinkedList;
-import static clover.com.google.common.collect.Sets.newHashSet;
+import static org.openclover.util.Lists.newLinkedList;
+import static org.openclover.util.Sets.newHashSet;
 
 class ColumnDefinitionsModel {
     private LinkedHashSet<ColumnDefinition> remaining;

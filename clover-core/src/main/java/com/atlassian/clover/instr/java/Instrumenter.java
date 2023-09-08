@@ -3,7 +3,6 @@ package com.atlassian.clover.instr.java;
 import clover.antlr.RecognitionException;
 import clover.antlr.TokenStreamException;
 import clover.antlr.TokenStreamRecognitionException;
-import clover.com.google.common.collect.Sets;
 import com.atlassian.clover.api.CloverException;
 import com.atlassian.clover.api.instrumentation.ConcurrentInstrumentationException;
 import com.atlassian.clover.api.instrumentation.InstrumentationSession;
@@ -39,6 +38,8 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.util.Set;
+
+import static org.openclover.util.Sets.newHashSet;
 
 public class Instrumenter {
     private final JavaInstrumentationConfig config;
@@ -295,7 +296,7 @@ public class Instrumenter {
     private void resetStatistics() {
         numFiles = 0;
         numClasses = 0;
-        packages = Sets.newHashSet();
+        packages = newHashSet();
         numMethods = 0;
         numTestMethods = 0;
         loc = 0;

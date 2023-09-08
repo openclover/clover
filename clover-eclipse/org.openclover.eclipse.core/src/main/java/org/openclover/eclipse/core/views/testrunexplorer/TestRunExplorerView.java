@@ -54,8 +54,8 @@ import java.util.Date;
 import java.util.Map;
 import java.util.WeakHashMap;
 
-import static clover.com.google.common.collect.Maps.newHashMap;
-import static clover.com.google.common.collect.Maps.newLinkedHashMap;
+import static org.openclover.util.Maps.newHashMap;
+import static org.openclover.util.Maps.newLinkedHashMap;
 
 
 public class TestRunExplorerView extends ExplorerView {

@@ -52,8 +52,8 @@ import java.util.Set;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
-import static clover.com.google.common.collect.Lists.newLinkedList;
-import static clover.com.google.common.collect.Maps.newHashMap;
+import static org.openclover.util.Lists.newLinkedList;
+import static org.openclover.util.Maps.newHashMap;
 
 
 /**

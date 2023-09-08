@@ -1,6 +1,5 @@
 package com.atlassian.clover.registry.entities;
 
-import clover.com.google.common.collect.Sets;
 import com.atlassian.clover.recorder.PerTestRecordingTranscript;
 import org.jetbrains.annotations.Nullable;
 
@@ -13,7 +12,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-import static clover.com.google.common.collect.Maps.newHashMap;
+import static org.openclover.util.Maps.newHashMap;
+import static org.openclover.util.Sets.newHashSet;
 
 public class TestCaseInfo implements Serializable {
     static final long serialVersionUID = 0L;
@@ -89,7 +89,7 @@ public class TestCaseInfo implements Serializable {
         }
 
         public static Set<TestCaseInfo> getCacheValues() {
-            return Sets.newHashSet(instanceCache.values());
+            return newHashSet(instanceCache.values());
         }
     }
 

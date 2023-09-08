@@ -1,23 +1,23 @@
 package com.atlassian.clover.ant;
 
-import clover.com.google.common.base.Function;
-import clover.com.google.common.base.Joiner;
-import clover.com.google.common.base.Predicate;
-import clover.com.google.common.base.Predicates;
-import clover.com.google.common.collect.Collections2;
 import clover.org.apache.commons.lang3.ArrayUtils;
+import clover.org.apache.commons.lang3.StringUtils;
 import com.atlassian.clover.Logger;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.PatternSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.openclover.util.function.Function;
+import org.openclover.util.function.Predicate;
+import org.openclover.util.function.Predicates;
+import org.openclover.util.function.Streams;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
+import static org.openclover.util.Lists.newArrayList;
 
 /**
  * Helper class to validate Ant's FileSet and PatternSet classes
@@ -56,7 +56,7 @@ public class AntFileSetUtils {
 
     protected static final Predicate<String> isTrimmed = new Predicate<String>() {
         @Override
-        public boolean apply(@Nullable final String s) {
+        public boolean test(@Nullable final String s) {
             return s != null && s.trim().equals(s);
         }
     };
@@ -67,9 +67,9 @@ public class AntFileSetUtils {
         final String[] allPatterns = ArrayUtils.addAll(includePatterns, excludePatterns);
         if (allPatterns != null) {
             return newArrayList(
-                    Collections2.filter(
+                    Streams.filter(
                             newArrayList(allPatterns),
-                            Predicates.not(isTrimmed)));
+                            Predicates.negate(isTrimmed)));
         } else {
             return Collections.emptyList();
         }
@@ -88,7 +88,7 @@ public class AntFileSetUtils {
         return "Attention: found inclusion/exclusion patterns for '"
                 + sourceDirectory
                 + "' containing leading/trailing whitespaces:\n"
-                + Joiner.on("\n").join(Collections2.transform(patterns, wrapInBrackets));
+                + StringUtils.join(Streams.map(patterns, wrapInBrackets), "\n");
     }
 
 }

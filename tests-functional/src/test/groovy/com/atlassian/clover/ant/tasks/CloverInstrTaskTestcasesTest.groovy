@@ -1,11 +1,12 @@
 package com.atlassian.clover.ant.tasks
 
-import clover.com.google.common.collect.Maps
 import com.atlassian.clover.CloverDatabase
 import com.atlassian.clover.CoverageData
 import com.atlassian.clover.api.CloverException
 import com.atlassian.clover.registry.entities.TestCaseInfo
 import com.atlassian.clover.testutils.IOHelper
+
+import static org.openclover.util.Maps.newHashMap
 
 class CloverInstrTaskTestcasesTest extends CloverBuildFileTestBase {
 
@@ -75,7 +76,7 @@ class CloverInstrTaskTestcasesTest extends CloverBuildFileTestBase {
     }
 
     private void gatherTestCases(final String testClass) throws CloverException {
-        testcases = Maps.newHashMap()
+        testcases = newHashMap()
         currentTestClass = testClass
         final CloverDatabase cdb = new CloverDatabase(initstring)
         assertNotNull(cdb)

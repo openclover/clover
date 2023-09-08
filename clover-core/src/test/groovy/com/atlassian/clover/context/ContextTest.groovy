@@ -1,6 +1,5 @@
 package com.atlassian.clover.context
 
-import clover.com.google.common.collect.Maps
 import com.atlassian.clover.api.registry.ClassInfo
 import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig
 import com.atlassian.clover.cfg.instr.java.LambdaInstrumentation
@@ -25,6 +24,7 @@ import java.util.regex.Pattern
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertFalse
 import static org.junit.Assert.assertTrue
+import static org.openclover.util.Maps.newHashMap
 
 class ContextTest {
 
@@ -120,7 +120,7 @@ class ContextTest {
         int c4 = contextStore.addMethodContext(ctx4)
         int c5 = contextStore.addMethodContext(ctx5)
 
-        Map<String, MethodRegexpContext> hashTest = Maps.newHashMap()
+        Map<String, MethodRegexpContext> hashTest = newHashMap()
         hashTest.put(ctx1.getName(), ctx1)
         hashTest.put(ctx2.getName(), ctx2)
         hashTest.put(ctx3.getName(), ctx3)

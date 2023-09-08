@@ -1,6 +1,5 @@
 package com.atlassian.clover.reporters
 
-import clover.com.google.common.collect.Lists
 import com.atlassian.clover.api.registry.MethodInfo
 import com.atlassian.clover.context.ContextSet
 import com.atlassian.clover.registry.FixedSourceRegion
@@ -13,9 +12,11 @@ import com.atlassian.clover.registry.metrics.HasMetricsTestFixture
 import com.atlassian.clover.registry.metrics.MetricsHelper
 import junit.framework.TestCase
 
+import static org.openclover.util.Lists.newArrayList
+
 class MetricsCollatorTest extends TestCase {
-    List<FullClassInfo> classes = Lists.newArrayList()
-    List<FullClassInfo> classes2 = Lists.newArrayList()
+    List<FullClassInfo> classes = newArrayList()
+    List<FullClassInfo> classes2 = newArrayList()
     HasMetricsTestFixture fixture
 
     MetricsCollatorTest() {

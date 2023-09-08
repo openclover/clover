@@ -7,7 +7,7 @@ import com.atlassian.clover.registry.entities.FullPackageInfo;
 import java.util.Collection;
 import java.util.Map;
 
-import static clover.com.google.common.collect.Maps.newHashMap;
+import static org.openclover.util.Maps.newHashMap;
 
 public class SimplePackageFragment implements HasMetrics {
     private final String name;

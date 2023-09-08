@@ -10,7 +10,7 @@ import com.intellij.openapi.util.Key;
 
 import java.util.Collection;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
+import static org.openclover.util.Lists.newArrayList;
 
 public class CloudVirtualFile extends DummyVirtualFile {
     private static final Key<CloudVirtualFile> FILE_KEY = Key.create(CloudVirtualFile.class.getName());

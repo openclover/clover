@@ -22,8 +22,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.SortedMap;
 
-import static clover.com.google.common.collect.Lists.newLinkedList;
-import static clover.com.google.common.collect.Maps.newTreeMap;
+import static org.openclover.util.Lists.newLinkedList;
+import static org.openclover.util.Maps.newTreeMap;
 
 /**
  * Helper class that provides utility methods to support

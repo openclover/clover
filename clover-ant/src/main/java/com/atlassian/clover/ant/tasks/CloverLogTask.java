@@ -1,6 +1,5 @@
 package com.atlassian.clover.ant.tasks;
 
-import clover.com.google.common.collect.Sets;
 import com.atlassian.clover.CloverDatabase;
 import com.atlassian.clover.api.CloverException;
 import com.atlassian.clover.CodeType;
@@ -28,7 +27,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
+import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.util.Sets.newHashSet;
 
 /**
  * Clover Ant task to print the coverage to the Ant log or Ant property.
@@ -226,7 +226,7 @@ public class CloverLogTask extends AbstractCloverTask {
         }
 
         if (packages.size() != 0) {
-            final Set<String> packageSet = Sets.newHashSet();
+            final Set<String> packageSet = newHashSet();
             for (final Package packageInfo : packages) {
                 packageSet.add(packageInfo.packageName);
             }
@@ -241,7 +241,7 @@ public class CloverLogTask extends AbstractCloverTask {
             final CloverDatabase db = new CloverDatabase(initString, filter, getProject().getName(), filterSpec);
 
             // gather test source files
-            final Set<File> testFiles = Sets.newHashSet();
+            final Set<File> testFiles = newHashSet();
             FilesetFileVisitor.Util.collectFiles(getProject(), testSources, new FilesetFileVisitor() {
                 @Override
                 public void visit(File file) {

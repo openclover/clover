@@ -1,6 +1,5 @@
 package com.atlassian.clover
 
-import clover.com.google.common.collect.Lists
 import com.atlassian.clover.CloverTestFixture.Clazz
 import com.atlassian.clover.CloverTestFixture.Coverage
 import com.atlassian.clover.registry.entities.FullPackageInfo
@@ -8,6 +7,8 @@ import com.atlassian.clover.registry.metrics.PackageMetrics
 import com.atlassian.clover.registry.metrics.ProjectMetrics
 import com.atlassian.clover.testutils.IOHelper
 import junit.framework.TestCase
+
+import static org.openclover.util.Lists.newArrayList
 
 class CloverTestFixtureTest extends TestCase {
 
@@ -34,7 +35,7 @@ class CloverTestFixtureTest extends TestCase {
     }
 
     void testSingleClass() throws Exception {
-        List<Clazz> classList = Lists.newArrayList()
+        List<Clazz> classList = newArrayList()
         classList.add(new Clazz(tmpDir, "com.cenqua", "Test",new Coverage(0.90f, 0.80f, 0.85f)))
 
         String initStr = subject.createCoverageDB()

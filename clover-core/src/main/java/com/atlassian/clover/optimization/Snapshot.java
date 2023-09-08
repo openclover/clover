@@ -1,6 +1,5 @@
 package com.atlassian.clover.optimization;
 
-import clover.com.google.common.collect.Sets;
 import clover.it.unimi.dsi.fastutil.objects.Object2LongMap;
 import clover.it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
 import com.atlassian.clover.CloverDatabase;
@@ -17,6 +16,7 @@ import com.atlassian.clover.registry.FileInfoVisitor;
 import com.atlassian.clover.registry.entities.FullProjectInfo;
 import com.atlassian.clover.registry.entities.TestCaseInfo;
 import com_atlassian_clover.CloverVersionInfo;
+import org.openclover.util.Sets;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,7 +31,8 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-import static clover.com.google.common.collect.Maps.newHashMap;
+import static org.openclover.util.Maps.newHashMap;
+import static org.openclover.util.Sets.newHashSet;
 
 /**
  * A snapshot of the known state of testing activity relating to a Clover-enabled project
@@ -103,7 +104,7 @@ public class Snapshot implements Serializable {
                 return UNKNOWN_DURATION;
             }
         };
-        failingTests = Sets.newHashSet();
+        failingTests = newHashSet();
         location = locationTosnapshot;
         updateFor(db);
     }
@@ -252,7 +253,7 @@ public class Snapshot implements Serializable {
     }
 
     private Set<TestMethodCall> testsFor(FullProjectInfo project, Collection<TestCaseInfo> tcis) {
-        Set<TestMethodCall> tests = Sets.newHashSet();
+        Set<TestMethodCall> tests = newHashSet();
         for (final TestCaseInfo tci : tcis) {
             String testName = TestMethodCall.getSourceMethodNameFor(tci, project);
             Set<TestMethodCall> testsForName = testName == null ? null : testLookup.get(testName);
@@ -503,7 +504,7 @@ public class Snapshot implements Serializable {
             for (String filePath : value.keySet()) {
                 Collection<TestMethodCall> tests = result.get(filePath);
                 if (tests == null) {
-                    tests = Sets.newHashSet();
+                    tests = newHashSet();
                     result.put(filePath, tests);
                 }
                 tests.add(test);

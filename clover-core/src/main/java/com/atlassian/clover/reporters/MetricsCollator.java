@@ -12,8 +12,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
-import static clover.com.google.common.collect.Maps.newTreeMap;
+import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.util.Maps.newTreeMap;
 
 /**
  * A class indepedent of any specific formatters, used simply to collate

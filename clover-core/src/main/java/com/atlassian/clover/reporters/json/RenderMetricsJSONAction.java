@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
+import static org.openclover.util.Lists.newArrayList;
 
 public class RenderMetricsJSONAction implements Callable {
     private static ThreadLocal columns;

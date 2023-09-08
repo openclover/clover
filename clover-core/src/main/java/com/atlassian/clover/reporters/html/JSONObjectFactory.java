@@ -14,8 +14,8 @@ import java.util.Map;
 import java.util.BitSet;
 import java.util.List;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
-import static clover.com.google.common.collect.Maps.newHashMap;
+import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.util.Maps.newHashMap;
 
 public class JSONObjectFactory {
     // JSON: {test_ID : {"methods": [ID1, ID2, ID3...], "name" : "testXXX() void"}, ...};

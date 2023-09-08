@@ -1,13 +1,13 @@
 package com.atlassian.clover.reporters.html.source.java;
 
-import clover.com.google.common.collect.Sets;
-
 import java.util.Set;
 import java.util.Collections;
 
+import static org.openclover.util.Sets.newHashSet;
+
 /** Determines if a string is a javadoc tag */
 public final class JavadocTags {
-    private static final Set<String> SET = Collections.unmodifiableSet(Sets.newHashSet(
+    private static final Set<String> SET = Collections.unmodifiableSet(newHashSet(
             "author",
             "version",
             "see",

@@ -126,11 +126,6 @@
             </dependency>
             <dependency>
                 <groupId>org.openclover</groupId>
-                <artifactId>clover-guava</artifactId>
-                <version>29.0-android</version>
-            </dependency>
-            <dependency>
-                <groupId>org.openclover</groupId>
                 <artifactId>clover-itext</artifactId>
                 <version>2.0.1</version> <!-- don't upgrade above 2.1.7 -->
             </dependency>

@@ -9,8 +9,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import static clover.com.google.common.collect.Lists.newLinkedList;
-import static clover.com.google.common.collect.Sets.newLinkedHashSet;
+import static org.openclover.util.Lists.newLinkedList;
+import static org.openclover.util.Sets.newLinkedHashSet;
 
 /**
  * Collects the children of IPackageFragments nodes as ICompliationUnits nodes

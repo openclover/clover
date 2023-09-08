@@ -15,8 +15,8 @@ import com.atlassian.clover.reporters.html.HtmlReportUtil;
 import com.atlassian.clover.reporters.Columns;
 import com.atlassian.clover.reporters.Column;
 
-import static clover.com.google.common.collect.Lists.newLinkedList;
-import static clover.com.google.common.collect.Maps.newHashMap;
+import static org.openclover.util.Lists.newLinkedList;
+import static org.openclover.util.Maps.newHashMap;
 
 /**
  */

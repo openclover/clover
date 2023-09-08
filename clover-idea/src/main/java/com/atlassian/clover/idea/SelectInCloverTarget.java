@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
-import static clover.com.google.common.collect.Maps.newTreeMap;
+import static org.openclover.util.Maps.newTreeMap;
 
 public class SelectInCloverTarget implements SelectInTarget {
     private final Map<Priority, SelectInCloverView> views = newTreeMap();

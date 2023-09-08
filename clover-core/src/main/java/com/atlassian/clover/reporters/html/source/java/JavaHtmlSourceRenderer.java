@@ -1,6 +1,5 @@
 package com.atlassian.clover.reporters.html.source.java;
 
-import clover.com.google.common.collect.Sets;
 import clover.org.apache.commons.collections.Factory;
 import com.atlassian.clover.api.registry.ClassInfo;
 import com.atlassian.clover.api.registry.PackageInfo;
@@ -17,9 +16,9 @@ import java.util.Map;
 
 import clover.org.apache.commons.collections.map.LazyMap;
 
-import static clover.com.google.common.collect.Maps.newHashMap;
 import static com.atlassian.clover.spi.reporters.html.source.SourceReportCss.*;
-
+import static org.openclover.util.Maps.newHashMap;
+import static org.openclover.util.Sets.newHashSet;
 
 /**
  * Renders Java tokens in HTML
@@ -37,7 +36,7 @@ public class JavaHtmlSourceRenderer extends PlaintextHtmlSourceRenderer implemen
 
     private final FullProjectInfo projectInfo;
     private final FullPackageInfo packageInfo;
-    private final Set<FullPackageInfo> pkgsInScope = Sets.newHashSet();
+    private final Set<FullPackageInfo> pkgsInScope = newHashSet();
     private final Map<String, ClassInfo> classesInScope = newHashMap();
     private final Map<String, Boolean> areTestOnlyPackages = newHashMap();
 

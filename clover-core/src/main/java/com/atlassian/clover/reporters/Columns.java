@@ -1,6 +1,5 @@
 package com.atlassian.clover.reporters;
 
-import clover.com.google.common.collect.Sets;
 import com.atlassian.clover.api.CloverException;
 import com.atlassian.clover.api.registry.BlockMetrics;
 import com.atlassian.clover.api.registry.HasMetrics;
@@ -23,7 +22,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-import static clover.com.google.common.collect.Lists.newLinkedList;
+import static org.openclover.util.Lists.newLinkedList;
+import static org.openclover.util.Sets.newHashSet;
 
 /**
  * A holder of Column objects. Columns are added (usually via
@@ -1289,7 +1289,7 @@ public class Columns {
 
     public Set<Column> getProjectColumns() {
         // since ProjectMetrics extends from MethodMetrics, add all metrics
-        Set<Column> allColumns = Sets.newHashSet(projectColumns);
+        Set<Column> allColumns = newHashSet(projectColumns);
         allColumns.addAll(pkgColumns);
         allColumns.addAll(classColumns);
         allColumns.addAll(methodColumns);

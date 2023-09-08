@@ -22,8 +22,8 @@ import org.eclipse.ui.ide.IDE;
 import java.io.File;
 import java.util.List;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
-import static clover.com.google.common.collect.Lists.newLinkedList;
+import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.util.Lists.newLinkedList;
 
 public abstract class OpenReportOperation {
 

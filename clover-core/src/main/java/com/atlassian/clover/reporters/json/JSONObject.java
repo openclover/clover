@@ -34,7 +34,7 @@ import java.util.Map;
 import java.util.Date;
 import java.util.TreeMap;
 
-import static clover.com.google.common.collect.Maps.newTreeMap;
+import static org.openclover.util.Maps.newTreeMap;
 
 /**
  * A JSONObject is an unordered collection of name/value pairs. Its

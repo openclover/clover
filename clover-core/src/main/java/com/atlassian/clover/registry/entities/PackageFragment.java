@@ -1,6 +1,5 @@
 package com.atlassian.clover.registry.entities;
 
-import clover.com.google.common.collect.Lists;
 import com.atlassian.clover.api.registry.BlockMetrics;
 import com.atlassian.clover.api.registry.ClassInfo;
 import com.atlassian.clover.registry.metrics.HasMetricsNode;
@@ -12,7 +11,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-import static clover.com.google.common.collect.Maps.newTreeMap;
+import static org.openclover.util.Maps.newTreeMap;
+import static org.openclover.util.Lists.newArrayList;
 
 public class PackageFragment implements HasMetricsNode {
 
@@ -182,7 +182,7 @@ public class PackageFragment implements HasMetricsNode {
     }
 
     private void buildOrderedChildList() {
-        orderedKids = Lists.newArrayList(children.values());
+        orderedKids = newArrayList(children.values());
         if (orderby != null) {
             Collections.sort(orderedKids, orderby);
         }

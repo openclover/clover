@@ -22,7 +22,7 @@ import clover.antlr.collections.AST;
 
 import java.util.List;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
+import static org.openclover.util.Lists.newArrayList;
 
 /**
  * We have an AST subclass so we can track source information.

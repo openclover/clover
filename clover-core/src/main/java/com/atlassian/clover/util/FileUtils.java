@@ -1,6 +1,5 @@
 package com.atlassian.clover.util;
 
-import clover.com.google.common.io.ByteStreams;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedInputStream;
@@ -194,10 +193,18 @@ public class FileUtils {
         outFile.getParentFile().mkdirs();
         try {
             out = new BufferedOutputStream(Files.newOutputStream(outFile.toPath()));
-            ByteStreams.copy(in, out);
+            streamCopy(in, out);
         } finally {
             IOStreamUtils.close(in);
             IOStreamUtils.close(out);
+        }
+    }
+
+    public static void streamCopy(InputStream inputStream, OutputStream outputStream) throws IOException {
+        final byte[] buffer = new byte[16 * 1024];
+        int bytesRead;
+        while ((bytesRead = inputStream.read(buffer)) != -1) {
+            outputStream.write(buffer, 0, bytesRead);
         }
     }
 

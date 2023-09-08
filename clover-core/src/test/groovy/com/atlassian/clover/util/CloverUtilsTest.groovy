@@ -1,6 +1,5 @@
 package com.atlassian.clover.util
 
-import clover.com.google.common.collect.Lists
 import com.atlassian.clover.CloverDatabase
 import com.atlassian.clover.CloverNames
 import com.atlassian.clover.CloverTestFixture
@@ -11,6 +10,8 @@ import com.atlassian.clover.testutils.IOHelper
 import junit.framework.TestCase
 
 import java.lang.reflect.InvocationTargetException
+
+import static org.openclover.util.Lists.newArrayList
 
 class CloverUtilsTest extends TestCase {
 
@@ -255,7 +256,7 @@ class CloverUtilsTest extends TestCase {
 
     private File createCoverage(boolean createDb, boolean createRecordings, boolean createSnapshot) throws IOException, CloverException {
 
-        List<CloverTestFixture.Clazz> classList = Lists.newArrayList()
+        List<CloverTestFixture.Clazz> classList = newArrayList()
         CloverTestFixture.Clazz clazz = new CloverTestFixture.Clazz(tmpDir, "com.cenqua", "Test",new CloverTestFixture.Coverage(0.90f, 0.80f, 0.85f))
         classList.add(clazz)
 

@@ -1,6 +1,5 @@
 package com.atlassian.clover.recorder
 
-import clover.com.google.common.collect.Lists
 import com.atlassian.clover.CloverDatabase
 import com.atlassian.clover.CloverDatabaseSpec
 import com.atlassian.clover.CodeType
@@ -38,6 +37,7 @@ import org.junit.rules.TestName
 import java.util.regex.Pattern
 
 import static org.junit.Assert.*
+import static org.openclover.util.Lists.newArrayList
 
 class CloverDatabaseTest {
 
@@ -74,7 +74,7 @@ class CloverDatabaseTest {
         db1.loadCoverageData()
 
         CloverDatabaseSpec spec = new CloverDatabaseSpec(initStr)
-        List<CloverDatabaseSpec> specs = Lists.newArrayList()
+        List<CloverDatabaseSpec> specs = newArrayList()
         specs.add(spec)
         performMergeAndCheck(specs, db1.getFullModel().getDataLength(), 0.4f, db1.getFullModel().getMetrics())
     }
@@ -87,7 +87,7 @@ class CloverDatabaseTest {
         CloverDatabase db1 = new CloverDatabase(initStr)
         db1.loadCoverageData()
 
-        performMergeAndCheck(initStr, Lists.newArrayList(),
+        performMergeAndCheck(initStr, newArrayList(),
                 db1.getFullModel().getDataLength(), 0.4f, db1.getFullModel().getMetrics())
     }
 
@@ -100,7 +100,7 @@ class CloverDatabaseTest {
         CloverDatabaseSpec dbspec3 = new CloverDatabaseSpec(createSingleClassDatabase("a.b.c", "d", 32000, 1234, 4321,
                 [ 0, 0, 1, 0, 0 ] as int[]))
 
-        List<CloverDatabaseSpec> specs = Lists.newArrayList()
+        List<CloverDatabaseSpec> specs = newArrayList()
         specs.add(dbspec2)
         specs.add(dbspec3)
 
@@ -120,7 +120,7 @@ class CloverDatabaseTest {
         CloverDatabaseSpec dbspec3 = new CloverDatabaseSpec(createSingleClassDatabase("a.b.c", "d", 32000, 1234, 4321,
                 [ 0, 0, 1, 0, 0 ] as int[]))
 
-        List<CloverDatabaseSpec> specs = Lists.newArrayList()
+        List<CloverDatabaseSpec> specs = newArrayList()
         specs.add(dbspec1); specs.add(dbspec2); specs.add(dbspec3)
         CloverDatabase db123 = performMergeAndCheck(specs, 5, 1.0f, null)
 
@@ -193,7 +193,7 @@ class CloverDatabaseTest {
 
         db1.saveAndOverwriteFile(); db2.saveAndOverwriteFile(); db3.saveAndOverwriteFile()
 
-        List<CloverDatabaseSpec> specs = Lists.newArrayList()
+        List<CloverDatabaseSpec> specs = newArrayList()
 
         specs.add(new CloverDatabaseSpec(db1)); specs.add(new CloverDatabaseSpec(db2))
         specs.add(new CloverDatabaseSpec(db3))
@@ -218,7 +218,7 @@ class CloverDatabaseTest {
         CloverDatabaseSpec dbspec3 = new CloverDatabaseSpec(createSingleClassDatabase("a.b.c", "d", 32000, 4444, newest - 2,
                 [0, 0, 1, 0, 0] as int[]))
 
-        List<CloverDatabaseSpec> specs = Lists.newArrayList()
+        List<CloverDatabaseSpec> specs = newArrayList()
         // newest first
         specs.add(dbspec1); specs.add(dbspec2); specs.add(dbspec3)
 
@@ -245,7 +245,7 @@ class CloverDatabaseTest {
         CloverDatabaseSpec dbspec3 = new CloverDatabaseSpec(createSingleClassDatabase("a.b.c", "d", 32000, 4444, newest - 2,
                 [0, 0, 1, 0] as int[]))
 
-        List<CloverDatabaseSpec> specs = Lists.newArrayList()
+        List<CloverDatabaseSpec> specs = newArrayList()
         // newest first - the first record encountered will be used, and the other two will be discarded
         specs.add(dbspec1); specs.add(dbspec2); specs.add(dbspec3)
 
@@ -274,7 +274,7 @@ class CloverDatabaseTest {
         CloverDatabaseSpec dbspec4 = new CloverDatabaseSpec(createSingleClassDatabase("d", "d", 32000, 4, 4,
                 [0, 0, 0, 1, 0] as int[]))
 
-        List<CloverDatabaseSpec> specs = Lists.newArrayList()
+        List<CloverDatabaseSpec> specs = newArrayList()
         specs.add(dbspec1); specs.add(dbspec2); specs.add(dbspec3); specs.add(dbspec4)
         CloverDatabase merged = performMergeAndCheck(specs, 20, 0.2f, null)
         assertTrue(merged.getRegistry().isReadOnly())

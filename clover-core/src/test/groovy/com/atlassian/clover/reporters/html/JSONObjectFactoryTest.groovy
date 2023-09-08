@@ -1,7 +1,5 @@
 package com.atlassian.clover.reporters.html
 
-import clover.com.google.common.collect.Lists
-import clover.com.google.common.collect.Maps
 import com.atlassian.clover.context.ContextSet
 import com.atlassian.clover.registry.entities.BasicMethodInfo
 import com.atlassian.clover.registry.entities.FullClassInfo
@@ -17,6 +15,9 @@ import com.atlassian.clover.reporters.json.JSONException
 import com.atlassian.clover.reporters.json.JSONObject
 import junit.framework.TestCase
 
+import static org.openclover.util.Lists.newArrayList
+import static org.openclover.util.Maps.newHashMap
+
 class JSONObjectFactoryTest extends TestCase {
 
     private final int indentFactor = 2
@@ -24,24 +25,24 @@ class JSONObjectFactoryTest extends TestCase {
     private JSONObject getExpectedTargets() throws JSONException {
         JSONObject json = new JSONObject()
 
-        List methodsList1 = Lists.newArrayList()
+        List methodsList1 = newArrayList()
         methodsList1.add(Collections.singletonMap("sl", new Integer(0)))
 
-        List statementsList1 = Lists.newArrayList()
+        List statementsList1 = newArrayList()
         statementsList1.add(Collections.singletonMap("sl", new Integer(1)))
 
-        Map classMap1 = Maps.newHashMap()
+        Map classMap1 = newHashMap()
         classMap1.put("statements", statementsList1)
         classMap1.put("pass", Boolean.FALSE)
         classMap1.put("methods", methodsList1)
         classMap1.put("name", "test1-runtime")
 
-        List methodsList2 = Lists.newArrayList()
+        List methodsList2 = newArrayList()
         methodsList2.add(Collections.singletonMap("sl", new Integer(0)))
         methodsList2.add(Collections.singletonMap("sl", new Integer(1)))
 
-        Map classMap2 = Maps.newHashMap()
-        classMap2.put("statements", Lists.newArrayList())
+        Map classMap2 = newHashMap()
+        classMap2.put("statements", newArrayList())
         classMap2.put("pass", Boolean.FALSE)
         classMap2.put("methods", methodsList2)
         classMap2.put("name", "test0-runtime")
@@ -56,12 +57,12 @@ class JSONObjectFactoryTest extends TestCase {
     private JSONObject getExpectedEmptyElementsTargets() throws JSONException {
         JSONObject json = new JSONObject()
 
-        List methodsList1 = Lists.newArrayList()
+        List methodsList1 = newArrayList()
         methodsList1.add(Collections.singletonMap("sl", new Integer(0)))
 
-        List statementsList1 = Lists.newArrayList()
+        List statementsList1 = newArrayList()
 
-        Map classMap1 = Maps.newHashMap()
+        Map classMap1 = newHashMap()
         classMap1.put("statements", statementsList1)
         classMap1.put("pass", Boolean.FALSE)
         classMap1.put("methods", methodsList1)
@@ -73,15 +74,15 @@ class JSONObjectFactoryTest extends TestCase {
     }
 
     private List getExpectedSrcLines() {
-        List list = Lists.newArrayList()
-        list.add(Lists.newArrayList())
-        list.add(Lists.newArrayList())
+        List list = newArrayList()
+        list.add(newArrayList())
+        list.add(newArrayList())
 
-        List listInner1 = Lists.newArrayList()
+        List listInner1 = newArrayList()
         listInner1.add(new Integer(0))
         list.add(listInner1)
 
-        List listInner2 = Lists.newArrayList()
+        List listInner2 = newArrayList()
         listInner2.add(new Integer(0))
         listInner2.add(new Integer(1))
         listInner2.add(new Integer(2))
@@ -92,30 +93,30 @@ class JSONObjectFactoryTest extends TestCase {
 
     private JSONObject getExpectedPageData1() throws JSONException {
         JSONObject json = new JSONObject()
-        json.put("classes", Lists.newArrayList())
+        json.put("classes", newArrayList())
         return json
     }
 
     private JSONObject getExpectedPageData2() throws JSONException {
         JSONObject json = new JSONObject()
 
-        List classesList = Lists.newArrayList()
+        List classesList = newArrayList()
 
-        Map classMap1 = Maps.newHashMap()
+        Map classMap1 = newHashMap()
         classMap1.put("sl", new Integer(8))
         classMap1.put("el", new Integer(12))
         classMap1.put("name", "TestClass2")
         classMap1.put("id", new Integer(1))
-        classMap1.put("methods", Lists.newArrayList())
+        classMap1.put("methods", newArrayList())
 
-        List methodsList2 = Lists.newArrayList()
-        Map methodsMap2 = Maps.newHashMap()
+        List methodsList2 = newArrayList()
+        Map methodsMap2 = newHashMap()
         methodsMap2.put("sl", new Integer(3))
         methodsMap2.put("el", new Integer(3))
         methodsMap2.put("sc", new Integer(1))
         methodsList2.add(methodsMap2)
 
-        Map classMap2 = Maps.newHashMap()
+        Map classMap2 = newHashMap()
         classMap2.put("sl", new Integer(2))
         classMap2.put("el", new Integer(6))
         classMap2.put("name", "TestClass1")
@@ -152,18 +153,18 @@ class JSONObjectFactoryTest extends TestCase {
     void testGetJSONSrcFileLines() {
         LineRenderInfo[] renderInfo = new LineRenderInfo[3]
 
-        List testList = Lists.newArrayList()
+        List testList = newArrayList()
         renderInfo[0] = new LineRenderInfo()
-        renderInfo[0].setTestHits(Lists.newArrayList(testList))
+        renderInfo[0].setTestHits(newArrayList(testList))
 
         testList.add(new TestCaseInfo(new Integer(0), null, fixtureMethod("test0"), "test0-runtime"))
         renderInfo[1] = new LineRenderInfo()
-        renderInfo[1].setTestHits(Lists.newArrayList(testList))
+        renderInfo[1].setTestHits(newArrayList(testList))
 
         testList.add(new TestCaseInfo(new Integer(1), null, fixtureMethod("test1"), "test1-runtime"))
         testList.add(new TestCaseInfo(new Integer(2), null, fixtureMethod("test2"), "test2-runtime"))
         renderInfo[2] = new LineRenderInfo()
-        renderInfo[2].setTestHits(Lists.newArrayList(testList))
+        renderInfo[2].setTestHits(newArrayList(testList))
 
         List json = JSONObjectFactory.getJSONSrcFileLines(renderInfo, "test")
         assertEquals(getExpectedSrcLines().toString(), json.toString())
@@ -181,7 +182,7 @@ class JSONObjectFactoryTest extends TestCase {
         mbs1.set(0, true)
         mbs1.set(1, false)
 
-        Map targetMethods = Maps.newHashMap()
+        Map targetMethods = newHashMap()
         targetMethods.put(testcase0, mbs0)
         targetMethods.put(testcase1, mbs1)
 
@@ -193,7 +194,7 @@ class JSONObjectFactoryTest extends TestCase {
         ebs1.set(0, false)
         ebs1.set(1, true)
 
-        Map targetElements = Maps.newHashMap()
+        Map targetElements = newHashMap()
         targetElements.put(testcase0, ebs0)
         targetElements.put(testcase1, ebs1)
 
@@ -203,8 +204,8 @@ class JSONObjectFactoryTest extends TestCase {
 
     void testGetJSONTestTargetsWithEmptyElements() throws JSONException {
         TestCaseInfo testcase0 = new TestCaseInfo(new Integer(0), null, fixtureMethod("test0"), "test0-runtime")
-        Map targetMethods = Maps.newHashMap()
-        Map targetElements = Maps.newHashMap()
+        Map targetMethods = newHashMap()
+        Map targetElements = newHashMap()
 
         BitSet mbs0 = new BitSet(1)
         mbs0.set(0, true)

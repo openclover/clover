@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import static clover.com.google.common.collect.Lists.newLinkedList;
+import static org.openclover.util.Lists.newLinkedList;
 
 /**
  * Class holds chain of paths separated by a path separator (e.g "/my/path1:/my/path2")

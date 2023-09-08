@@ -4,7 +4,7 @@ import com.atlassian.clover.spec.instr.test.TestClassSpec;
 
 import java.util.List;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
+import static org.openclover.util.Lists.newArrayList;
 
 public class TestClassElement implements TreeElement {
     private ExpressionElement parent;

@@ -22,11 +22,10 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.model.WorkbenchContentProvider;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
+import static org.openclover.util.Lists.newArrayList;
 
 /**
  *

@@ -38,7 +38,7 @@ import org.eclipse.swt.widgets.Control;
 
 import java.util.Set;
 
-import static clover.com.google.common.collect.Sets.newHashSet;
+import static org.openclover.util.Sets.newHashSet;
 
 public class ViewAlertContainer extends Composite implements DatabaseChangeListener {
 

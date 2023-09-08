@@ -39,8 +39,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
-import static clover.com.google.common.collect.Lists.newLinkedList;
+import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.util.Lists.newLinkedList;
 
 /**
  * Wrapping test methods into a try-catch block.

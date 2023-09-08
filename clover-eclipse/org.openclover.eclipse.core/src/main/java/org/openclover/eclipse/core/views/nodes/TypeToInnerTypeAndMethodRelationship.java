@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
+import static org.openclover.util.Lists.newArrayList;
 
 public class TypeToInnerTypeAndMethodRelationship extends NodeRelationship {
     @Override

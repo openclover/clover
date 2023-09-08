@@ -3,7 +3,6 @@ package com.atlassian.clover.idea.util.tasks;
 import clover.org.apache.commons.collections.list.SetUniqueList;
 import com.atlassian.clover.Logger;
 import com.atlassian.clover.idea.util.MiscUtils;
-import clover.com.google.common.annotations.VisibleForTesting;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.progress.ProcessCanceledException;
@@ -11,11 +10,12 @@ import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.Task;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.TestOnly;
 
 import java.util.Iterator;
 import java.util.List;
 
-import static clover.com.google.common.collect.Lists.newLinkedList;
+import static org.openclover.util.Lists.newLinkedList;
 
 public class ExpirableTaskProcessor {
     @SuppressWarnings({"unchecked"})
@@ -26,7 +26,7 @@ public class ExpirableTaskProcessor {
     public ExpirableTaskProcessor() {
     }
 
-    @VisibleForTesting
+    @TestOnly
     ExpirableTaskProcessor(Boolean shouldBeHeadless) {
         this.shouldBeHeadless = shouldBeHeadless;
     }

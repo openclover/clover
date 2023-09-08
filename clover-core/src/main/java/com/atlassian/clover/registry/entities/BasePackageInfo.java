@@ -1,6 +1,5 @@
 package com.atlassian.clover.registry.entities;
 
-import clover.com.google.common.collect.Lists;
 import com.atlassian.clover.api.registry.BlockMetrics;
 import com.atlassian.clover.api.registry.ClassInfo;
 import com.atlassian.clover.api.registry.ContextSet;
@@ -19,7 +18,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
+import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.util.Lists.newLinkedList;
 
 public class BasePackageInfo implements PackageInfo, CachingInfo {
 
@@ -152,7 +152,7 @@ public class BasePackageInfo implements PackageInfo, CachingInfo {
     @NotNull
     public List<? extends ClassInfo> getClassesIncludingSubPackages() {
         final List<? extends PackageInfo> packages = getContainingProject().getAllPackages();
-        final List<ClassInfo> classes = Lists.newLinkedList(getClasses()); // gather classes from this package
+        final List<ClassInfo> classes = newLinkedList(getClasses()); // gather classes from this package
 
         for (final PackageInfo aPackage : packages) {
             final BasePackageInfo otherPkg = (BasePackageInfo) aPackage;
@@ -194,7 +194,7 @@ public class BasePackageInfo implements PackageInfo, CachingInfo {
     @NotNull
     public List<? extends ClassInfo> getAllClassesIncludingSubPackages() {
         final List<? extends PackageInfo> packages = getContainingProject().getAllPackages();
-        final List<ClassInfo> classes = Lists.newLinkedList(getAllClasses()); // gather all classes from this package
+        final List<ClassInfo> classes = newLinkedList(getAllClasses()); // gather all classes from this package
 
         for (final PackageInfo aPackage : packages) {
             final BasePackageInfo otherPkg = (BasePackageInfo) aPackage;

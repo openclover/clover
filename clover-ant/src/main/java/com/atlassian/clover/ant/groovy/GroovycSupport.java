@@ -1,6 +1,5 @@
 package com.atlassian.clover.ant.groovy;
 
-import clover.com.google.common.collect.Sets;
 import com.atlassian.clover.CloverNames;
 import com.atlassian.clover.Logger;
 import com.atlassian.clover.ant.AntInstrUtils;
@@ -44,10 +43,12 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.Set;
 
-import static clover.com.google.common.collect.Maps.newHashMap;
+import static org.openclover.util.Maps.newHashMap;
+import static org.openclover.util.Sets.newHashSet;
+import static org.openclover.util.Sets.newLinkedHashSet;
 
 public class GroovycSupport implements BuildListener {
-    private static final Collection<String> COMPILERS = Sets.newHashSet(
+    private static final Collection<String> COMPILERS = newHashSet(
             "org.codehaus.groovy.ant.Groovyc",                                        // Groovy compiler itself
             "org.codehaus.groovy.grails.compiler.Grailsc",                            // compiler wrapper since Grails 2.0
             "org.codehaus.groovy.grails.compiler.GrailsCompiler",                     // compiler wrapper for Grails 1.x
@@ -62,7 +63,7 @@ public class GroovycSupport implements BuildListener {
 
     private final boolean cleanupAfterBuild;
     private File workingDir;
-    private Collection<String> groovycTaskNames = Sets.newHashSet();
+    private Collection<String> groovycTaskNames = newHashSet();
     private int numTaskDefsLastSeen = 0;
     private File groverJar;
 
@@ -286,7 +287,7 @@ public class GroovycSupport implements BuildListener {
 
     @NotNull
     private Collection<File> toFiles(@NotNull final Collection<ParentAndChildPath> parentAndChildPaths) {
-        final Collection<File> files = Sets.newHashSet();
+        final Collection<File> files = newHashSet();
         for (ParentAndChildPath parentAndChildPath : parentAndChildPaths) {
             files.add(parentAndChildPath.toFile());
         }
@@ -396,7 +397,7 @@ public class GroovycSupport implements BuildListener {
                                                                   @NotNull final Path origSrcDirs,
                                                                   @Nullable final File destDir,
                                                                   @NotNull final String extension) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        final Collection<ParentAndChildPath> toBeCompiled = Sets.newLinkedHashSet();
+        final Collection<ParentAndChildPath> toBeCompiled = newLinkedHashSet();
         for (String origSrcDirPath : origSrcDirs.list()) {
             File origSrcDir = project.resolveFile(origSrcDirPath);
             if (origSrcDir.exists()) {
@@ -426,9 +427,9 @@ public class GroovycSupport implements BuildListener {
                                                 final Path srcPath,
                                                 @NotNull final Collection<ParentAndChildPath> sourceToCompile) {
         final Map<File, ParentAndChildPath> toCompileMap = mapToFiles(sourceToCompile);
-        final Collection<File> toCompileFiles = Sets.newHashSet(toCompileMap.keySet());
-        final Collection<File> filteredOut = Sets.newLinkedHashSet();
-        final Collection<File> toInstrument = Sets.newLinkedHashSet();
+        final Collection<File> toCompileFiles = newHashSet(toCompileMap.keySet());
+        final Collection<File> filteredOut = newLinkedHashSet();
+        final Collection<File> toInstrument = newLinkedHashSet();
 
         AntInstrUtils.sieveSourceForInstrumentation(
                 project,
@@ -448,10 +449,10 @@ public class GroovycSupport implements BuildListener {
                                                              boolean commitFilterToGroovyc,
                                                              @NotNull final Collection<ParentAndChildPath> javaSourceToCompile) {
         Map<File, ParentAndChildPath> toCompileMap = mapToFiles(javaSourceToCompile);
-        Collection<File> toCompileFiles = Sets.newHashSet(toCompileMap.keySet());
+        Collection<File> toCompileFiles = newHashSet(toCompileMap.keySet());
 
-        Collection<File> filteredOut = Sets.newLinkedHashSet();
-        Collection<File> toInstrument = Sets.newLinkedHashSet();
+        Collection<File> filteredOut = newLinkedHashSet();
+        Collection<File> toInstrument = newLinkedHashSet();
         AntInstrUtils.sieveSourceForInstrumentation(
                 project,
                 srcPath,
@@ -490,7 +491,7 @@ public class GroovycSupport implements BuildListener {
     }
 
     private Collection<ParentAndChildPath> grabFromFiles(Map<File, ParentAndChildPath> toCompileMap, Collection<File> toInstrument) {
-        Collection<ParentAndChildPath> result = Sets.newHashSet();
+        Collection<ParentAndChildPath> result = newHashSet();
         for (File file : toInstrument) {
             result.add(toCompileMap.get(file));
         }
@@ -525,7 +526,7 @@ public class GroovycSupport implements BuildListener {
                                                                @NotNull final File destDir,
                                                                @NotNull final String[] files,
                                                                @NotNull final String extension) {
-        Collection<ParentAndChildPath> outOfDateFiles = Sets.newLinkedHashSet();
+        Collection<ParentAndChildPath> outOfDateFiles = newLinkedHashSet();
         GlobPatternMapper mapper = new GlobPatternMapper();
         SourceFileScanner sfs = new SourceFileScanner(groovyc);
         mapper.setFrom("*." + extension);
@@ -574,7 +575,7 @@ public class GroovycSupport implements BuildListener {
     protected void initGroovycTaskNames(@NotNull final Project project) {
         final Hashtable taskDefs = project.getTaskDefinitions();
         if (taskDefs.size() > numTaskDefsLastSeen) {
-            groovycTaskNames = Sets.newHashSet();
+            groovycTaskNames = newHashSet();
             for (Map.Entry entry : (Set<Map.Entry>) taskDefs.entrySet()) {
                 final Object value = entry.getValue();
                 if (value instanceof Class && COMPILERS.contains(((Class) value).getName())) {

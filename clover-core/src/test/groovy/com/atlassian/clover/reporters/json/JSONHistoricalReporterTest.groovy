@@ -1,10 +1,11 @@
 package com.atlassian.clover.reporters.json
 
-import clover.com.google.common.collect.Maps
 import com.atlassian.clover.TestUtils
 import junit.framework.TestCase
 import com.atlassian.clover.reporters.Columns
 import com.atlassian.clover.registry.metrics.HasMetricsTestFixture
+
+import static org.openclover.util.Maps.newHashMap
 
 class JSONHistoricalReporterTest extends TestCase {
 
@@ -13,7 +14,7 @@ class JSONHistoricalReporterTest extends TestCase {
         final File outFile = File.createTempFile(getName(), ".json", TestUtils.createEmptyDirFor(getClass(), getName()))
 
         JSONHistoricalReporter reporter = new JSONHistoricalReporter(outFile)
-        Map data = Maps.newHashMap() // Long, HasMetrics
+        Map data = newHashMap() // Long, HasMetrics
 
         HasMetricsTestFixture fixture = new HasMetricsTestFixture(getName())
         data.put(new Long(0), fixture.getProject())

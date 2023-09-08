@@ -14,7 +14,7 @@ import org.eclipse.jdt.core.JavaModelException;
 import java.util.Collection;
 import java.util.List;
 
-import static clover.com.google.common.collect.Lists.newLinkedList;
+import static org.openclover.util.Lists.newLinkedList;
 
 public class InstrumentationProjectPathMap extends ProjectPathMap {
     private CloverProject project;

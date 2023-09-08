@@ -1,6 +1,5 @@
 package org.openclover.eclipse.core.views.dashboard
 
-import clover.com.google.common.io.Files
 import com.atlassian.clover.CloverDatabase
 import com.atlassian.clover.api.registry.CloverRegistryException
 import com.atlassian.clover.registry.Clover2Registry
@@ -8,10 +7,9 @@ import com.atlassian.clover.util.FileUtils
 import org.hamcrest.CoreMatchers
 import org.junit.Test
 
-import java.nio.charset.Charset
-
 import static org.junit.Assert.assertThat
 import static org.junit.Assert.assertTrue
+import static org.junit.Assert.fail
 
 class DashboardGeneratorTest {
 
@@ -43,7 +41,7 @@ class DashboardGeneratorTest {
             // check content
             final File dashboardFile = new File(reportDir, "dashboard-eclipse.html")
             assertTrue(dashboardFile.exists())
-            final String dasboardContent = Files.toString(dashboardFile, Charset.forName("UTF-8"))
+            final String dasboardContent = readFile(dashboardFile)
             assertThat(dasboardContent, CoreMatchers.containsString("Coverage"))
             assertThat(dasboardContent, CoreMatchers.containsString("Test results"))
             assertThat(dasboardContent, CoreMatchers.containsString("Most complex packages"))
@@ -59,5 +57,25 @@ class DashboardGeneratorTest {
                 FileUtils.deltree(reportDir)
             }
         }
+    }
+
+    private static String readFile(File inputFile) {
+        char[] buffer = new char[16384]
+        StringBuilder out = new StringBuilder()
+        Reader fileReader = null
+
+        try {
+            fileReader = new BufferedReader(new FileReader(inputFile))
+            int size
+            while ( (size = fileReader.read(buffer)) != -1 ) {
+                out.append(buffer, 0, size)
+            }
+        } catch (IOException ex) {
+            fail(ex.toString())
+        } finally {
+            fileReader?.close()
+        }
+
+        out.toString()
     }
 }

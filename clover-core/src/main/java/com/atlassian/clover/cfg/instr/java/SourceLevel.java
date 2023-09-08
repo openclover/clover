@@ -1,6 +1,5 @@
 package com.atlassian.clover.cfg.instr.java;
 
-import clover.com.google.common.collect.Sets;
 import com.atlassian.clover.util.JavaEnvUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -8,18 +7,20 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.openclover.util.Sets.newHashSet;
+
 /**
  * Java language level of sources being instrumented.
  */
 public enum SourceLevel {
-    JAVA_7("1.7", Sets.newHashSet("1.7", "7"), Collections.<LanguageFeature>emptySet()),
-    JAVA_8("1.8", Sets.newHashSet("1.8", "8"), Collections.singleton(LanguageFeature.LAMBDA)),
-    JAVA_9("9", Sets.newHashSet("1.9", "9"), Sets.newHashSet(LanguageFeature.LAMBDA, LanguageFeature.MODULES)),
-    JAVA_10("10", Sets.newHashSet("1.10", "10"), Sets.newHashSet(LanguageFeature.LAMBDA, LanguageFeature.MODULES)),
-    JAVA_11("11", Sets.newHashSet("1.11", "11"), Sets.newHashSet(LanguageFeature.LAMBDA, LanguageFeature.MODULES));
+    JAVA_7("1.7", newHashSet("1.7", "7"), Collections.<LanguageFeature>emptySet()),
+    JAVA_8("1.8", newHashSet("1.8", "8"), Collections.singleton(LanguageFeature.LAMBDA)),
+    JAVA_9("9", newHashSet("1.9", "9"), newHashSet(LanguageFeature.LAMBDA, LanguageFeature.MODULES)),
+    JAVA_10("10", newHashSet("1.10", "10"), newHashSet(LanguageFeature.LAMBDA, LanguageFeature.MODULES)),
+    JAVA_11("11", newHashSet("1.11", "11"), newHashSet(LanguageFeature.LAMBDA, LanguageFeature.MODULES));
 
     private static final Set<String> unsupportedSourceLevels =
-            Sets.newHashSet("1.0", "1.1", "1.2", "1.3", "1.4", "1.5", "5", "1.6", "6");
+            newHashSet("1.0", "1.1", "1.2", "1.3", "1.4", "1.5", "5", "1.6", "6");
     private final String primaryVersionString;
     private final HashSet<String> versionStrings;
     private final Set<LanguageFeature> languageFeatures;

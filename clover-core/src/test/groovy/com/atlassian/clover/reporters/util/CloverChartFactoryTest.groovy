@@ -1,7 +1,5 @@
 package com.atlassian.clover.reporters.util
 
-import clover.com.google.common.collect.Lists
-import clover.com.google.common.collect.Maps
 import clover.org.jfree.chart.ChartFrame
 import clover.org.jfree.chart.ChartPanel
 import clover.org.jfree.chart.JFreeChart
@@ -27,6 +25,9 @@ import junit.framework.TestCase
 
 import javax.swing.JFrame
 import java.awt.Window
+
+import static org.openclover.util.Lists.newArrayList
+import static org.openclover.util.Maps.newHashMap
 
 class CloverChartFactoryTest extends TestCase {
 
@@ -165,7 +166,7 @@ class CloverChartFactoryTest extends TestCase {
 
     private List<BaseClassInfo> getTestMetrics() throws IOException {
 
-        java.util.List<BaseClassInfo> data = Lists.newArrayList()
+        java.util.List<BaseClassInfo> data = newArrayList()
         data.add(createClassInfo("blah1", 7, 10, 2))
         data.add(createClassInfo("blah2", 4, 10, 1))
         data.add(createClassInfo("blah3", 1, 10, 0))
@@ -199,7 +200,7 @@ class CloverChartFactoryTest extends TestCase {
         metrics3.setNumStatements(10)
 
 
-        Map<Long, HasMetrics> data = Maps.newHashMap()
+        Map<Long, HasMetrics> data = newHashMap()
         data.put(new Long(0), new MockHasMetrics(metrics))
         data.put(new Long(1000), new MockHasMetrics(metrics2))
         data.put(new Long(2000), new MockHasMetrics(metrics3))

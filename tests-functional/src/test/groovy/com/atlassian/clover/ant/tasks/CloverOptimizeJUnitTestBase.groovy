@@ -1,7 +1,8 @@
 package com.atlassian.clover.ant.tasks
 
-import clover.com.google.common.collect.Maps
 import com.atlassian.clover.cfg.instr.InstrumentationLevel
+
+import static org.openclover.util.Maps.newHashMap
 
 abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
     protected CloverOptimizeJUnitTestBase(String name, String defaultRunTarget, Map<String, String> runTargetsForTests) {
@@ -366,7 +367,7 @@ abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
 
         expectTestsRunResults(
             cycle(1),
-            Maps.newHashMap())
+            newHashMap())
 
         buildComplete()
         noSourceChange()
@@ -374,7 +375,7 @@ abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
 
         expectTestsRunResults(
             cycle(2),
-            Maps.newHashMap())
+            newHashMap())
     }
 
     void testUnoptimizedCIBuildCycles() throws Exception {
