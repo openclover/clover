@@ -43,7 +43,7 @@ class GroovySpockTest extends TestBase {
     }
 
     private static File getSpockJarFromProperty() {
-        def spockVer = System.getProperty("clover-groovy.test.spock.ver") ?: "0.7-groovy-2.0"
+        def spockVer = System.getProperty("clover-groovy.test.spock.ver") ?: "1.0-groovy-2.4"
         new File("target/test-dependencies/spock-core-${spockVer}.jar")
     }
 
@@ -85,10 +85,10 @@ class GroovySpockTest extends TestBase {
                 assertFile p, named("HelloSpock.groovy"), {FullFileInfo f ->
                     assertClass f, { it.name == "HelloSpock" }, {FullClassInfo c ->
 
-                        MethodInfo featureMethod = null;
+                        MethodInfo featureMethod = null
                         for (MethodInfo methodInfo : c.getMethods()) {
                             if (methodInfo.simpleName.startsWith("\$spock")) {
-                                featureMethod = methodInfo;
+                                featureMethod = methodInfo
                             }
                         }
 
@@ -307,7 +307,7 @@ class GroovySpockTest extends TestBase {
         assertTrue htmlSourcePage.exists()
 
         // ... and that we've got 3 test results
-        String[][] rows = [ [3, 7, 3], [5, 4, 4], [9, 9, 9]];
+        String[][] rows = [ [3, 7, 3], [5, 4, 4], [9, 9, 9]]
         for (String[] row : rows) {
             assertTestResultPage(row,
                     "${CLASS_NAME}_minimum_of_${row[0]}_and_${row[1]}_is_${row[2]}_[0-9]+\\.html",
@@ -333,7 +333,7 @@ class GroovySpockTest extends TestBase {
         assertTrue htmlSourcePage.exists()
 
         // ... and that we've got 2 test results
-        String[][] rows = [ ["Fred", "male"], ["Wilma", "female"] ];
+        String[][] rows = [ ["Fred", "male"], ["Wilma", "female"] ]
         for (String[] row : rows) {
             assertTestResultPage(row,
                     "${CLASS_NAME}_${row[0]}_is_a_${row[1]}_person_[0-9]+\\.html",
@@ -354,7 +354,7 @@ class GroovySpockTest extends TestBase {
             boolean accept(File dir, String name) {
                 name.matches(resultPageName)
             }
-        });
+        })
 
         // exactly one page for each test iteration
         assertEquals("Number of test result pages is ${resultPages.length} for inputs ${Arrays.toString(row)}",
