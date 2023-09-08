@@ -94,7 +94,7 @@
                         </goals>
                         <phase>test-compile</phase>
                         <configuration>
-                            <outputDirectory>${build.directory}/test-dependencies</outputDirectory>
+                            <outputDirectory>${project.build.directory}/test-dependencies</outputDirectory>
                             <artifactItems>
                                 <!-- dependencies of groovy -->
                                 <dependency>
@@ -300,6 +300,6 @@
         <clover-groovy.test.junit.ver>4.12</clover-groovy.test.junit.ver>
         <clover-groovy.test.hamcrest.ver>1.3</clover-groovy.test.hamcrest.ver>
         <clover-groovy.test.spock.ver>0.7-groovy-2.0</clover-groovy.test.spock.ver>
-        <clover-groovy.test.groovy.ver>2.5.23</clover-groovy.test.groovy.ver>
+        <clover-groovy.test.groovy.ver>2.5.14</clover-groovy.test.groovy.ver>
     </properties>
 </project>
