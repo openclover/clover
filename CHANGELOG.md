@@ -22,7 +22,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Issue #165: Migrate from Log4j to SLF4J (CVE-2019-17571, CVE-2022-23305, CVE-2022-23307).
 - Issue #112: Remove Guava dependency (CVE-2018-10237, CVE-2020-8908, CVE-2023-2976).
-- Issue #204: Bump Groovy to 2.5.23 ([SNYK-JAVA-ORGCODEHAUSGROOVY-1048694](https://security.snyk.io/vuln/SNYK-JAVA-ORGCODEHAUSGROOVY-1048694)).
 - Issue #131: Upgrade commons-collections to 3.2.2 or later (CVE-2015-6420).
 
 ### Removed
