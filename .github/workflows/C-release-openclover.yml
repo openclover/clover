@@ -1,5 +1,13 @@
 name: C Release OpenClover
 
+on:
+  workflow_dispatch:
+    inputs:
+      releaseVersion:
+        description: 'Release version'
+        required: true
+        type: string
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -70,4 +78,4 @@ jobs:
           OPENCLOVER_ORG_DOWNLOAD_PATH=/download/openclover
           OPENCLOVER_ORG_UPDATE_PATH=/update
           OPENCLOVER_ORG_DOC_PATH=/doc
-          VERSION=4.5.0
+          VERSION=${{ inputs.releaseVersion }}
