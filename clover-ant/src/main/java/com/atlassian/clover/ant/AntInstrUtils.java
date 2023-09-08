@@ -1,6 +1,6 @@
 package com.atlassian.clover.ant;
 
-import clover.com.google.common.base.Joiner;
+import clover.org.apache.commons.lang3.StringUtils;
 import com.atlassian.clover.CloverNames;
 import com.atlassian.clover.Contract;
 import com.atlassian.clover.Logger;
@@ -228,10 +228,10 @@ public class AntInstrUtils {
         // note: not checking Logger.isVerbose() because it does not work with 'ant -d/ant -v'
         String message = "Filtering source files in: " + srcDir;
         if (includePatterns != null) {
-            message += " include patterns: " + Joiner.on(",").join(includePatterns);
+            message += " include patterns: " + StringUtils.join(includePatterns, ",");
         }
         if (excludePatterns != null) {
-            message += " exclude patterns: " + Joiner.on(",").join(excludePatterns);
+            message += " exclude patterns: " + StringUtils.join(excludePatterns, ",");
         }
         LOG.verbose(message);
 

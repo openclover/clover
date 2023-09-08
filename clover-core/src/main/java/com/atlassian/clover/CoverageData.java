@@ -1,6 +1,5 @@
 package com.atlassian.clover;
 
-import clover.com.google.common.collect.Sets;
 import com.atlassian.clover.recorder.GlobalCoverageRecordingTranscript;
 import com.atlassian.clover.recorder.PerTestCoverage;
 import com.atlassian.clover.recorder.PerTestRecordingTranscript;
@@ -14,6 +13,8 @@ import com.atlassian.clover.util.CloverBitSet;
 import java.util.BitSet;
 import java.util.Map;
 import java.util.Set;
+
+import static org.openclover.util.Sets.newHashSet;
 
 public class CoverageData extends BaseTCILookupStore implements ApplicationCoverage, PerTestCoverage {
     public static final StorageSize DEFAULT_EST_PER_TEST_COV_SIZE = StorageSize.fromString("256m");
@@ -195,7 +196,7 @@ public class CoverageData extends BaseTCILookupStore implements ApplicationCover
     }
 
     public static Set<TestCaseInfo> tcisInHitRange(Map<TestCaseInfo, BitSet> tcisAndHits, CoverageDataRange range) {
-        Set<TestCaseInfo> hits = Sets.newHashSet();
+        Set<TestCaseInfo> hits = newHashSet();
         for (final Map.Entry<TestCaseInfo, BitSet> tciAndHits : tcisAndHits.entrySet()) {
             final int startIdx = range.getDataIndex();
             final int endIdx = range.getDataIndex() + range.getDataLength();

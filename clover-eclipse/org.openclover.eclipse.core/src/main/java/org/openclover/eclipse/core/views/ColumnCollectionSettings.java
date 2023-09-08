@@ -5,7 +5,6 @@ import org.eclipse.ui.IMemento;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Arrays;
 import java.util.Set;
@@ -13,11 +12,11 @@ import java.util.LinkedHashSet;
 
 import org.openclover.eclipse.core.CloverPlugin;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
-import static clover.com.google.common.collect.Lists.newLinkedList;
-import static clover.com.google.common.collect.Maps.newHashMap;
-import static clover.com.google.common.collect.Maps.newLinkedHashMap;
-import static clover.com.google.common.collect.Sets.newLinkedHashSet;
+import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.util.Lists.newLinkedList;
+import static org.openclover.util.Maps.newHashMap;
+import static org.openclover.util.Maps.newLinkedHashMap;
+import static org.openclover.util.Sets.newLinkedHashSet;
 
 public class ColumnCollectionSettings
     implements IPersistable {

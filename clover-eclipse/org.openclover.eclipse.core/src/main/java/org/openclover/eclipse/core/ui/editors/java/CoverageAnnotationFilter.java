@@ -24,7 +24,7 @@ import com.atlassian.clover.CloverDatabase;
 import com.atlassian.clover.CoverageData;
 import com.atlassian.clover.context.ContextSet;
 
-import static clover.com.google.common.collect.Sets.newHashSet;
+import static org.openclover.util.Sets.newHashSet;
 
 public class CoverageAnnotationFilter {
     public static final QualifiedName EXCLUDED_TEST_NAMES = new QualifiedName(CloverPlugin.ID, "CoverageAnnotationExcludedTestNames");

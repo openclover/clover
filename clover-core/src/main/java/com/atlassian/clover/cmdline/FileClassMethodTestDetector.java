@@ -10,6 +10,7 @@ import com.atlassian.clover.instr.tests.TestDetector;
 import com.atlassian.clover.spec.instr.test.BooleanSpec;
 import com.atlassian.clover.spec.instr.test.TestClassSpec;
 import com.atlassian.clover.spec.instr.test.TestMethodSpec;
+import org.openclover.util.Objects;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -100,7 +101,7 @@ public class FileClassMethodTestDetector implements TestDetector {
 
     @Override
     public String toString() {
-        return clover.com.google.common.base.MoreObjects.toStringHelper(this)
+        return Objects.toStringBuilder(this)
                 .add("root", root)
                 .add("includePattern", includePattern)
                 .add("excludePattern", excludePattern)

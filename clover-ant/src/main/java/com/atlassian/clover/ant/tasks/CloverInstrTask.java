@@ -1,6 +1,5 @@
 package com.atlassian.clover.ant.tasks;
 
-import clover.com.google.common.collect.Sets;
 import com.atlassian.clover.instr.java.Instrumenter;
 import com.atlassian.clover.instr.tests.FileMappedTestDetector;
 import com.atlassian.clover.Logger;
@@ -11,6 +10,7 @@ import org.apache.tools.ant.types.FileSet;
 import java.io.File;
 import java.util.Set;
 
+import static org.openclover.util.Sets.newHashSet;
 
 /**
  *   &lt;clover-instr srcdir="" destdir="" initstring="" &gt;
@@ -121,7 +121,7 @@ public class CloverInstrTask extends AbstractInstrTask {
         final Logger log = Logger.getInstance();
         
         try {
-            final Set<File> instrSet = Sets.newHashSet();
+            final Set<File> instrSet = newHashSet();
 
             if (config.getInstrFilesets() != null) {
                 for (final FileSet fileSet : config.getInstrFilesets()) {

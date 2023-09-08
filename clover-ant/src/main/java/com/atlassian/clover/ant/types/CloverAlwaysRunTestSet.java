@@ -6,7 +6,7 @@ import org.apache.tools.ant.types.Resource;
 
 import java.util.List;
 
-import static clover.com.google.common.collect.Lists.newLinkedList;
+import static org.openclover.util.Lists.newLinkedList;
 
 public class CloverAlwaysRunTestSet extends DataType {
     private List<ResourceCollection> resourceCollections;

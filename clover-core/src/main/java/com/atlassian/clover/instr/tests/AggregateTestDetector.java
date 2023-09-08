@@ -2,7 +2,7 @@ package com.atlassian.clover.instr.tests;
 
 import java.util.List;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
+import static org.openclover.util.Lists.newArrayList;
 
 /**
  * A TestDetector which has many TestDetectors and applies a boolean strategy for joining them together.

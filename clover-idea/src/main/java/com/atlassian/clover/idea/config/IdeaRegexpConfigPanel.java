@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
+import static org.openclover.util.Lists.newArrayList;
 
 public class IdeaRegexpConfigPanel extends ConfigPanel implements Observer {
 

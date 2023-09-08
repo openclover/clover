@@ -9,7 +9,7 @@ import org.eclipse.jface.viewers.Viewer;
 
 import com.atlassian.clover.registry.entities.TestCaseInfo;
 
-import static clover.com.google.common.collect.Maps.newHashMap;
+import static org.openclover.util.Maps.newHashMap;
 
 public class CoverageAnnotationContentProvider implements ITreeContentProvider {
 

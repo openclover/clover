@@ -20,7 +20,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.io.File;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
+import static org.openclover.util.Lists.newArrayList;
 
 public class CloverOptimizedTestNGSelector implements IAnnotationTransformer, IAnnotationTransformer2 {
     private Optimizer optimizer;

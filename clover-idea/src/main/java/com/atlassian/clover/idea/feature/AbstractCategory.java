@@ -2,7 +2,7 @@ package com.atlassian.clover.idea.feature;
 
 import java.util.List;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
+import static org.openclover.util.Lists.newArrayList;
 
 public abstract class AbstractCategory implements Category {
 

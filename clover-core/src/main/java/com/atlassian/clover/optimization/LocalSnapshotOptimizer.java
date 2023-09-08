@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
+import static org.openclover.util.Lists.newArrayList;
 
 /** An {@link Optimizer} that uses a local {@link Snapshot} file to optimize. */
 public final class LocalSnapshotOptimizer implements Optimizer {

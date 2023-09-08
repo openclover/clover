@@ -1,6 +1,5 @@
 package com.atlassian.clover.reporters.html
 
-import clover.com.google.common.collect.Maps
 import clover.org.apache.velocity.VelocityContext
 import com.atlassian.clover.CloverDatabase
 import com.atlassian.clover.api.CloverException
@@ -12,6 +11,8 @@ import com.atlassian.clover.reporters.Current
 import com.atlassian.clover.reporters.util.CloverChartFactory
 import com.atlassian.clover.spi.reporters.html.source.LineRenderInfo
 import junit.framework.TestCase
+
+import static org.openclover.util.Maps.newHashMap
 
 class RenderFileActionTest extends TestCase {
 
@@ -50,7 +51,7 @@ class RenderFileActionTest extends TestCase {
 
         RenderFileAction action = new RenderFileAction(finfo, helper, config, ctx,
                                                        cloverDatabase, fixture.getProject(),
-                                                       Maps.newHashMap())
+                                                       newHashMap())
         action.call()
 
         assertEquals(ctx.get("headerMetrics"), finfo.getMetrics())

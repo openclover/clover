@@ -1,6 +1,6 @@
 package org.openclover.ci;
 
-import clover.com.google.common.base.Predicate;
+import org.openclover.util.function.Predicate;
 
 /**
  * Search for properties in a form:
@@ -18,7 +18,7 @@ public class HasPropertyPredicate implements Predicate<String> {
     }
 
     @Override
-    public boolean apply(final String property) {
+    public boolean test(final String property) {
         boolean isFound = property.startsWith("-D" + name + "=")   // -Dname=
                 || property.equals("-D" + name)                    // -Dname
                 || (isDefineBefore && property.startsWith(name + "="))   // --define/-D name=

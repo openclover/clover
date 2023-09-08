@@ -32,7 +32,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
+import static org.openclover.util.Lists.newArrayList;
 
 public abstract class ForkingReportJob extends ReportJob {
     private static final long POLL_INTERVAL = 1000;

@@ -15,7 +15,7 @@ import java.awt.GridLayout;
 import java.util.List;
 import java.util.Map;
 
-import static clover.com.google.common.collect.Maps.newHashMap;
+import static org.openclover.util.Maps.newHashMap;
 
 /**
  * Simple JPanel that displays a checkbox for each context.

@@ -1,9 +1,9 @@
 package com.atlassian.clover.ant.testutils
 
-import clover.com.google.common.collect.Lists
 import com.atlassian.clover.Logger
 import org.hamcrest.Description
 import org.hamcrest.TypeSafeMatcher
+import org.openclover.util.Lists
 
 /**
  * A Logger that will record what got logged.
@@ -34,7 +34,7 @@ class RecordingLogger extends Logger {
     static class MessageContainsMatcher extends TypeSafeMatcher<LogMessage> {
         private String expectedMessageFragment
 
-        public MessageContainsMatcher(String expectedMessageFragment) {
+        MessageContainsMatcher(String expectedMessageFragment) {
             this.expectedMessageFragment = expectedMessageFragment
         }
 
@@ -52,7 +52,7 @@ class RecordingLogger extends Logger {
     static class MessageEqualsMatcher extends TypeSafeMatcher<LogMessage> {
         private String expectedMessage
 
-        public MessageEqualsMatcher(String expectedMessage) {
+        MessageEqualsMatcher(String expectedMessage) {
             this.expectedMessage = expectedMessage
         }
 
@@ -70,7 +70,7 @@ class RecordingLogger extends Logger {
     static class ThrowableEqualsMatcher extends TypeSafeMatcher<LogMessage> {
         private Throwable expectedThrowable
 
-        public ThrowableEqualsMatcher(Throwable expectedThrowable) {
+        ThrowableEqualsMatcher(Throwable expectedThrowable) {
             this.expectedThrowable = expectedThrowable
         }
 

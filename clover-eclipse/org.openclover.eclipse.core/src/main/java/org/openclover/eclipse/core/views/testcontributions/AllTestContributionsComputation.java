@@ -25,8 +25,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import static clover.com.google.common.collect.Maps.newHashMap;
-import static clover.com.google.common.collect.Sets.newHashSet;
+import static org.openclover.util.Maps.newHashMap;
+import static org.openclover.util.Sets.newHashSet;
 
 public class AllTestContributionsComputation extends TestContributionsComputation {
     private static final QualifiedName COMPILATION_UNIT = new QualifiedName(CloverPlugin.ID, "TestContributionsCompilationUnit");

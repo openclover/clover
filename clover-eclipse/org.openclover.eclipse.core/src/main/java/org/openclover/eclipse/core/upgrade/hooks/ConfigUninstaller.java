@@ -13,7 +13,6 @@ import java.io.FileWriter;
 import java.io.BufferedWriter;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.net.URL;
@@ -21,7 +20,7 @@ import java.net.MalformedURLException;
 
 import org.openclover.eclipse.core.CloverPlugin;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
+import static org.openclover.util.Lists.newArrayList;
 
 public class ConfigUninstaller {
     private static final String EXTENSION_REGEX = "^(\\s)*osgi\\.framework\\.extensions(\\s)*=(\\s)*(.*)$";

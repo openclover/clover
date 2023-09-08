@@ -9,8 +9,8 @@ import org.apache.tools.ant.types.FileSet;
 
 import java.util.List;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
-import static clover.com.google.common.collect.Lists.newLinkedList;
+import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.util.Lists.newLinkedList;
 
 public class CloverMergeTask extends AbstractCloverTask {
 

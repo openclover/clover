@@ -1,7 +1,5 @@
 package org.openclover.eclipse.core.ui.editors.java;
 
-import clover.com.google.common.base.Function;
-import clover.com.google.common.collect.Iterators;
 import com.atlassian.clover.api.registry.BranchInfo;
 import com.atlassian.clover.api.registry.ClassInfo;
 import com.atlassian.clover.api.registry.MethodInfo;
@@ -21,6 +19,7 @@ import org.openclover.eclipse.core.projects.model.MetricsScope;
 import org.openclover.eclipse.core.settings.InstallationSettings;
 import com.atlassian.clover.registry.entities.LineInfo;
 import com.atlassian.clover.registry.entities.TestCaseInfo;
+import org.openclover.util.function.Function;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -44,6 +43,7 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.swt.widgets.Display;
+import org.openclover.util.function.TransformingIterator;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -56,9 +56,9 @@ import java.util.BitSet;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import static clover.com.google.common.collect.Lists.newLinkedList;
-import static clover.com.google.common.collect.Sets.newHashSet;
-import static clover.com.google.common.collect.Sets.newTreeSet;
+import static org.openclover.util.Lists.newLinkedList;
+import static org.openclover.util.Sets.newHashSet;
+import static org.openclover.util.Sets.newTreeSet;
 
 public class CoverageAnnotationModel implements IAnnotationModel, IDocumentListener, DatabaseChangeListener, AnnotationDisplayListener, ISchedulingRule {
     private static final Object MODEL_KEY = new Object();
@@ -485,7 +485,7 @@ public class CoverageAnnotationModel implements IAnnotationModel, IDocumentListe
     public Iterator<Annotation> getAnnotationIterator() {
         // since Eclipse 4.6, the getAnnotationIterator returns Iterator<Annotation> instead of Iterator
         // so we convert Iterator<CoverageAnnotation> to Iterator<Annotation>
-        return Iterators.transform(annotations.iterator(), new Function<CoverageAnnotation, Annotation>() {
+        return new TransformingIterator<>(annotations.iterator(), new Function<CoverageAnnotation, Annotation>() {
             @Override
             public Annotation apply(CoverageAnnotation coverageAnnotation) {
                 return coverageAnnotation;

@@ -1,7 +1,5 @@
 package com.atlassian.clover.reporters.xml;
 
-import clover.com.google.common.collect.Iterables;
-import clover.com.google.common.collect.Lists;
 import com.atlassian.clover.CloverDatabase;
 import com.atlassian.clover.Logger;
 import com.atlassian.clover.api.CloverException;
@@ -42,7 +40,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.zip.GZIPOutputStream;
 
-import static clover.com.google.common.collect.Maps.newHashMap;
 import static com.atlassian.clover.reporters.CommandLineArgProcessors.AlwaysReport;
 import static com.atlassian.clover.reporters.CommandLineArgProcessors.DebugLogging;
 import static com.atlassian.clover.reporters.CommandLineArgProcessors.Filter;
@@ -55,17 +52,20 @@ import static com.atlassian.clover.reporters.CommandLineArgProcessors.Span;
 import static com.atlassian.clover.reporters.CommandLineArgProcessors.ThreadCount;
 import static com.atlassian.clover.reporters.CommandLineArgProcessors.Title;
 import static com.atlassian.clover.reporters.CommandLineArgProcessors.VerboseLogging;
+import static org.openclover.util.Lists.join;
+import static org.openclover.util.Maps.newHashMap;
+import static org.openclover.util.Lists.newArrayList;
 
 public class XMLReporter extends CloverReporter {
 
     @SuppressWarnings("unchecked")
-    private static final List<ArgProcessor<Current>> mandatoryArgProcessors = Lists.newArrayList(
+    private static final List<ArgProcessor<Current>> mandatoryArgProcessors = newArrayList(
             InitString,
             OutputFile
     );
 
     @SuppressWarnings("unchecked")
-    private static final List<ArgProcessor<Current>> optionalArgProcessors = Lists.newArrayList(
+    private static final List<ArgProcessor<Current>> optionalArgProcessors = newArrayList(
             AlwaysReport,
             DebugLogging,
             Filter,
@@ -79,8 +79,8 @@ public class XMLReporter extends CloverReporter {
             VerboseLogging
     );
 
-    private static final List<ArgProcessor<Current>> allArgProcessors = Lists.newArrayList(
-            Iterables.concat(mandatoryArgProcessors, optionalArgProcessors));
+    private static final List<ArgProcessor<Current>> allArgProcessors =
+            join(mandatoryArgProcessors, optionalArgProcessors);
 
     private ContextSet contextSet;
 

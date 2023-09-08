@@ -13,9 +13,9 @@ import java.util.Map;
 
 import org.openclover.eclipse.core.CloverPlugin;
 
-import static clover.com.google.common.collect.Lists.newLinkedList;
-import static clover.com.google.common.collect.Maps.newHashMap;
-import static clover.com.google.common.collect.Sets.newHashSet;
+import static org.openclover.util.Lists.newLinkedList;
+import static org.openclover.util.Maps.newHashMap;
+import static org.openclover.util.Sets.newHashSet;
 
 public class PhysicalTreePkgFragNodeToTreeMultiPkgFragNodeAndCURelationship extends NodeRelationship {
     @Override

@@ -3,7 +3,7 @@ package org.openclover.eclipse.core.views.nodes;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.eclipse.jdt.core.ICompilationUnit;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
+import static org.openclover.util.Lists.newArrayList;
 
 public class CUToTypeRelationship extends NodeRelationship {
     @Override

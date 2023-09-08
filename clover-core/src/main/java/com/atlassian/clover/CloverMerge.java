@@ -5,8 +5,8 @@ import com.atlassian.clover.cfg.Interval;
 import java.util.List;
 import java.util.Map;
 
-import static clover.com.google.common.collect.Lists.newLinkedList;
-import static clover.com.google.common.collect.Maps.newHashMap;
+import static org.openclover.util.Lists.newLinkedList;
+import static org.openclover.util.Maps.newHashMap;
 
 /**
  *

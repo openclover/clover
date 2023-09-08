@@ -1,10 +1,8 @@
 package com.atlassian.clover.util;
 
-import clover.com.google.common.base.Function;
-import clover.com.google.common.base.Functions;
-import clover.com.google.common.collect.Iterables;
+import org.openclover.util.function.Function;
 
-import java.util.Arrays;
+import java.lang.reflect.Array;
 import java.util.Locale;
 
 /**
@@ -24,12 +22,7 @@ public class ArrayUtil {
      * @return String[] output by calling toString().toLowerCase
      */
     public static String[] toLowerCaseStringArray(Object[] input) {
-        return transformArray(input, new Function<Object, String>() {
-            @Override
-            public String apply(java.lang.Object o) {
-                return o.toString().toLowerCase(Locale.ENGLISH);
-            }
-        }, String.class);
+        return transformArray(input, new ToLowercaseStringFunction(), String.class);
     }
 
     /**
@@ -40,13 +33,12 @@ public class ArrayUtil {
      * @return String[] output by calling toString() on every element
      */
     public static String[] toStringArray(Object[] input) {
-        return transformArray(input, Functions.toStringFunction(), String.class);
+        return transformArray(input, new ToStringFunction(), String.class);
     }
 
     /**
      * Convert <code>input</code> array of type F into an output array of type T using the <code>transformer</code>
-     * function. It's a wrapper for {@link Iterables#transform(Iterable, clover.com.google.common.base.Function)}} which
-     * allows to work on array.
+     * function.
      *
      * @param input       input array
      * @param transformer conversion
@@ -55,7 +47,27 @@ public class ArrayUtil {
      * @param <T>         to type
      * @return T[] an array of type targetClass
      */
+    @SuppressWarnings("unchecked")
     public static <F, T> T[] transformArray(F[] input, Function<F, T> transformer, Class<T> targetClass) {
-        return Iterables.toArray(Iterables.transform(Arrays.asList(input), transformer), targetClass);
+        final T[] output = (T[]) Array.newInstance(targetClass, input.length);
+        for (int i = 0; i < input.length; i++) {
+            output[i] = transformer.apply(input[i]);
+        }
+        return output;
     }
+
+    private static class ToStringFunction implements Function<Object, String> {
+        @Override
+        public String apply(Object o) {
+            return o.toString();
+        }
+    }
+
+    private static class ToLowercaseStringFunction implements Function<Object, String> {
+        @Override
+        public String apply(Object o) {
+            return o.toString().toLowerCase(Locale.ENGLISH);
+        }
+    }
+
 }

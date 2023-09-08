@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
+import static org.openclover.util.Lists.newArrayList;
 
 
 public class FullMethodInfo extends FullElementInfo<BasicMethodInfo> implements HasAggregatedMetrics, HasMetricsNode, TaggedPersistent, MethodInfo {

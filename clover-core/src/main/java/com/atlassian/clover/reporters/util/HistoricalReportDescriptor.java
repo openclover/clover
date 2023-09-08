@@ -21,8 +21,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.SortedMap;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
-import static clover.com.google.common.collect.Lists.newLinkedList;
+import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.util.Lists.newLinkedList;
 
 /**
  * convenience class that interprets a report config and gathers data required for historical report renderers

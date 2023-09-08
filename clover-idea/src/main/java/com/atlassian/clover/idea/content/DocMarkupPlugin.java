@@ -38,12 +38,12 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
 import static com.atlassian.clover.idea.content.DocMarkupPlugin.CoverageBlock.Style.BAD;
 import static com.atlassian.clover.idea.content.DocMarkupPlugin.CoverageBlock.Style.FAILED_ONLY;
 import static com.atlassian.clover.idea.content.DocMarkupPlugin.CoverageBlock.Style.FILTERED;
 import static com.atlassian.clover.idea.content.DocMarkupPlugin.CoverageBlock.Style.GOOD;
 import static com.atlassian.clover.idea.content.DocMarkupPlugin.CoverageBlock.Style.OLD;
+import static org.openclover.util.Lists.newArrayList;
 
 public class DocMarkupPlugin extends ContentPlugin implements FeatureListener, ConfigChangeListener {
 

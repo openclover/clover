@@ -1,6 +1,5 @@
 package com.atlassian.clover.ant.tasks;
 
-import clover.com.google.common.collect.Sets;
 import com.atlassian.clover.Logger;
 import com.atlassian.clover.ant.AntFileSetUtils;
 import com.atlassian.clover.registry.entities.FullFileInfo;
@@ -15,11 +14,11 @@ import java.util.List;
 import java.util.Set;
 import java.util.Map;
 
-import static clover.com.google.common.collect.Maps.newHashMap;
-
+import static org.openclover.util.Maps.newHashMap;
+import static org.openclover.util.Sets.newHashSet;
 
 public class FilesetFilter implements HasMetricsFilter {
-    private final Set<File> files = Sets.newHashSet();
+    private final Set<File> files = newHashSet();
     private final Map<String, Set<String>> fileNamesToPaths = newHashMap();
 
     public FilesetFilter(Project p, List<FileSet> fileSets) {
@@ -37,7 +36,7 @@ public class FilesetFilter implements HasMetricsFilter {
 
                 Set<String> paths = fileNamesToPaths.get(file.getName());
                 if (paths == null) {
-                    paths = Sets.newHashSet();
+                    paths = newHashSet();
                     fileNamesToPaths.put(file.getName(), paths);
                 }
                 paths.add(file.getAbsolutePath());

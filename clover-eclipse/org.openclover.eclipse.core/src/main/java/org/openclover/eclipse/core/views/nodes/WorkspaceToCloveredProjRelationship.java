@@ -6,10 +6,9 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IProject;
 
 import java.util.List;
-import java.util.Arrays;
 import java.util.Iterator;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
+import static org.openclover.util.Lists.newArrayList;
 
 /**
  * Collectes the children of IWorkspace nodes as IProject nodes

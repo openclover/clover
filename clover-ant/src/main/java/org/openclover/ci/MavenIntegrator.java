@@ -1,15 +1,15 @@
 package org.openclover.ci;
 
-import clover.com.google.common.collect.Iterables;
 import com.atlassian.clover.api.ci.CIOptions;
 import com.atlassian.clover.api.ci.Integrator;
+import org.openclover.util.function.Streams;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
-import static clover.com.google.common.collect.Sets.newHashSet;
+import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.util.Sets.newHashSet;
 
 /**
  * A utility class that contains methods to assist in integrating clover into a CI server for Maven2 builds.
@@ -168,7 +168,7 @@ public class MavenIntegrator implements Integrator {
     }
 
     private boolean containsArg(List<String> args, String property) {
-        return Iterables.tryFind(args, new HasPropertyPredicate(property)).isPresent();
+        return Streams.matchesAny(args, new HasPropertyPredicate(property));
     }
 
     /**

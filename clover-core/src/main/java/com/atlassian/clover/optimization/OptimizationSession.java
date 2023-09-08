@@ -1,6 +1,5 @@
 package com.atlassian.clover.optimization;
 
-import clover.com.google.common.collect.Sets;
 import com.atlassian.clover.Logger;
 import com.atlassian.clover.api.optimization.OptimizationOptions;
 import com.atlassian.clover.cfg.Interval;
@@ -10,6 +9,8 @@ import com.atlassian.clover.util.Formatting;
 import java.util.Set;
 import java.util.Collections;
 
+import static org.openclover.util.Sets.newHashSet;
+
 public class OptimizationSession {
     private OptimizationOptions optimizationOptions;
     private long savingsInMs;
@@ -18,7 +19,7 @@ public class OptimizationSession {
     private int optimizedTestableCount;
     private int foundTestableCount;
     private boolean autoSummarize;
-    private final Set<String> modifiedFiles = Sets.newHashSet();
+    private final Set<String> modifiedFiles = newHashSet();
     private boolean triedToOptimize;
 
     public OptimizationSession(OptimizationOptions optimizationOptions, boolean autoSummarize) {

@@ -1,9 +1,10 @@
 package com.atlassian.clover.util
 
-import clover.com.google.common.collect.Sets
 import com.atlassian.clover.TestUtils
 import com.atlassian.clover.testutils.IOHelper
 import junit.framework.TestCase
+
+import static org.openclover.util.Sets.newHashSet
 
 class FileUtilsTest extends TestCase {
 
@@ -21,7 +22,7 @@ class FileUtilsTest extends TestCase {
         if (! ( (roots.length == 1) && roots[0].getAbsolutePath().equals("/") )) {
             // for windows: find a drive letter which is not used on windows - we want to avoid IOException thrown
             // from test method caused by a device which is temporary unavailable (e.g. dvd-rom or network drive)
-            final Set<String> rootPaths = Sets.newHashSet()
+            final Set<String> rootPaths = newHashSet()
 
             // collect root letters ('C', 'D'... on windows, '/' for unixes)
             for (File root : File.listRoots()) {

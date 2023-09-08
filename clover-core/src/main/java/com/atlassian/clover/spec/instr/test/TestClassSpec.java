@@ -3,7 +3,7 @@ package com.atlassian.clover.spec.instr.test;
 import java.io.Serializable;
 import java.util.List;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
+import static org.openclover.util.Lists.newArrayList;
 
 public class TestClassSpec implements Serializable {
 

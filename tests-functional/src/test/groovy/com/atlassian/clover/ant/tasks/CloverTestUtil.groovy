@@ -1,9 +1,10 @@
 package com.atlassian.clover.ant.tasks
 
-import clover.com.google.common.collect.Lists
-import clover.com.google.common.collect.Maps
 import com.atlassian.clover.ant.testutils.CloverTestFixture
 import com.atlassian.clover.testutils.IOHelper
+
+import static org.openclover.util.Lists.newArrayList
+import static org.openclover.util.Maps.newHashMap
 
 class CloverTestUtil {
     static String PROP_INITSTRING = "clover-initstring"
@@ -18,7 +19,7 @@ class CloverTestUtil {
     private File projDir
     private File historyDir
     private String initString
-    private Map<String, String> buildProperties = Maps.newHashMap()
+    private Map<String, String> buildProperties = newHashMap()
     private float factor = 0.5f
     private String testName
     private String className
@@ -107,7 +108,7 @@ class CloverTestUtil {
     }
 
     List<CloverTestFixture.Clazz> createClassList(final float moveFactor, final File workDir) throws IOException {
-        final List<CloverTestFixture.Clazz> classList = Lists.newArrayList()
+        final List<CloverTestFixture.Clazz> classList = newArrayList()
 
         classList.add(new CloverTestFixture.Clazz(workDir, "com.cenqua", "Blah",
                 new CloverTestFixture.Coverage(0.90f, 0.80f, 0.85f)))

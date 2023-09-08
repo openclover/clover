@@ -1,6 +1,5 @@
 package com.atlassian.clover.instr
 
-import clover.com.google.common.collect.Lists
 import com.atlassian.clover.TestUtils
 import com.atlassian.clover.api.registry.ClassInfo
 import com.atlassian.clover.api.registry.FileInfo
@@ -20,6 +19,7 @@ import org.junit.Before
 
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.fail
+import static org.openclover.util.Lists.newLinkedList
 
 /**
  * Test base for {@link com.atlassian.clover.instr.InstrumentationSessionImpl}
@@ -162,7 +162,7 @@ abstract class AggregatedMetricsTestBase {
      * @return List&lt;MethodInfo&gt
      */
     List<FullMethodInfo> findAllMethods(PackageInfo packageInfo, RegistryKey key) {
-        List<FullMethodInfo> ret = Lists.newLinkedList()
+        List<FullMethodInfo> ret = newLinkedList()
         for (ClassInfo classInfo : packageInfo.getClasses()) {
             if (classInfo.getName().equals(key.className)) {
                 for (MethodInfo methodInfo : classInfo.getMethods()) {

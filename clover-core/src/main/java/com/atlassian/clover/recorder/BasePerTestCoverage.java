@@ -1,11 +1,12 @@
 package com.atlassian.clover.recorder;
 
-import clover.com.google.common.collect.Sets;
 import com.atlassian.clover.registry.entities.TestCaseInfo;
 
 import java.util.BitSet;
 import java.util.Set;
 import java.io.Serializable;
+
+import static org.openclover.util.Sets.newHashSet;
 
 public abstract class BasePerTestCoverage implements PerTestCoverage, Serializable {
     private static final long serialVersionUID = 8596722259646445122L;
@@ -49,7 +50,7 @@ public abstract class BasePerTestCoverage implements PerTestCoverage, Serializab
             //Coverage for set of TCIs
             BitSet coverage = getHitsFor(slices, null);
 
-            Set<TestCaseInfo> otherSlices = Sets.newHashSet(getTests());
+            Set<TestCaseInfo> otherSlices = newHashSet(getTests());
             otherSlices.removeAll(slices);
             //Coverage for TCIs not in set
             BitSet otherCoverage = getHitsFor(otherSlices, null);

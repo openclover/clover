@@ -1,6 +1,5 @@
 package com.atlassian.clover.registry.entities;
 
-import clover.com.google.common.collect.Sets;
 import com.atlassian.clover.Logger;
 import com.atlassian.clover.api.registry.BlockMetrics;
 import com.atlassian.clover.api.registry.BranchInfo;
@@ -40,9 +39,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
-import static clover.com.google.common.collect.Maps.newTreeMap;
-
+import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.util.Maps.newTreeMap;
+import static org.openclover.util.Sets.newHashSet;
+import static org.openclover.util.Sets.newTreeSet;
 
 public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, FileInfo, HasMetricsNode, TaggedPersistent {
     public static final long NO_VERSION = -1L;
@@ -291,7 +291,7 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
      * @return a set of source regions for this file, sorted by start position and length.
      */
     public Set<SourceInfo> getSourceRegions() {
-        final Set<SourceInfo> regions = Sets.newTreeSet(FixedSourceRegion.SOURCE_ORDER_COMP);
+        final Set<SourceInfo> regions = newTreeSet(FixedSourceRegion.SOURCE_ORDER_COMP);
         for (ClassInfo classInfo : classes.values()) {
             FullClassInfo fullClassInfo = (FullClassInfo) classInfo;
             fullClassInfo.gatherSourceRegions(regions);
@@ -509,7 +509,7 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
         Set<TestCaseInfo> tests = null;
 
         if (failStackInfos != null) {
-            tests = Sets.newHashSet();
+            tests = newHashSet();
             for (final Map.Entry<Integer, List<StackTraceInfo.TraceEntry>> entry : failStackInfos.entrySet()) {
                 final List<StackTraceInfo.TraceEntry> entries = entry.getValue();
                 for (StackTraceInfo.TraceEntry traceEntry : entries) {

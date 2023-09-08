@@ -1,11 +1,9 @@
 package com.atlassian.clover.ant.tasks;
 
-import clover.com.google.common.collect.Lists;
 import com.atlassian.clover.reporters.Format;
 import com.atlassian.clover.reporters.Columns;
 import com.atlassian.clover.reporters.CloverReportConfig;
 import com.atlassian.clover.reporters.pdf.PDFReporter;
-
 import com.atlassian.clover.api.CloverException;
 
 import java.io.File;
@@ -14,7 +12,8 @@ import java.util.ArrayList;
 
 import org.apache.tools.ant.BuildException;
 
-import static clover.com.google.common.collect.Maps.newTreeMap;
+import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.util.Maps.newTreeMap;
 
 public class CloverPdfReportTask extends CloverReportTask {
     private String title = "";
@@ -85,7 +84,7 @@ public class CloverPdfReportTask extends CloverReportTask {
         myLinkedReports.putAll(linkedReports);// copy all
         myLinkedReports.remove(config.getUniqueTitle()); // remove this report from the links
 
-        final ArrayList<CloverReportConfig> secondaryReports = Lists.newArrayList(myLinkedReports.values());
+        final ArrayList<CloverReportConfig> secondaryReports = newArrayList(myLinkedReports.values());
         if (!config.validate()) {
             throw new CloverException(config.getValidationFailureReason());
         }

@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static clover.com.google.common.collect.Maps.newHashMap;
+import static org.openclover.util.Maps.newHashMap;
 
 /**
  * Represents a Java 1.5 source annotation. Annotation have a name and have attributes (name & value pairs).

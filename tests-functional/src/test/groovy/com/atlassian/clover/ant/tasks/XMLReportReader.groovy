@@ -1,12 +1,13 @@
 package com.atlassian.clover.ant.tasks
 
-import clover.com.google.common.collect.Lists
 import clover.org.jdom.Document
 import clover.org.jdom.Element
 import clover.org.jdom.JDOMException
 import clover.org.jdom.input.SAXBuilder
 import org.xml.sax.EntityResolver
 import org.xml.sax.InputSource
+
+import static org.openclover.util.Lists.newArrayList
 
 /**
  * Parses a Clover XML report file. This is a helper class for unit tests.
@@ -42,7 +43,7 @@ class XMLReportReader {
      * @return List&lt;Element&gt
      */
     List<Element> getSourceFiles(Document root) {
-        final List<Element> sourceFiles = Lists.newArrayList()
+        final List<Element> sourceFiles = newArrayList()
 
         // get packages from application
         final Element projectElem = root.getRootElement().getChild("project")

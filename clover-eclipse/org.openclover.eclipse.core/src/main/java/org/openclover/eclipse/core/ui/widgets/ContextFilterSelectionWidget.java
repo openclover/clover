@@ -13,7 +13,7 @@ import com.atlassian.clover.context.NamedContext;
 import java.util.List;
 import java.util.HashMap;
 
-import static clover.com.google.common.collect.Maps.newHashMap;
+import static org.openclover.util.Maps.newHashMap;
 
 public class ContextFilterSelectionWidget extends BuiltinContextFilterSelectionWidget {
     protected HashMap<String, Button> customCheckboxes;

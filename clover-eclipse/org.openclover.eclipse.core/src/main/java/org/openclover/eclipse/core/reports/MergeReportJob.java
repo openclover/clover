@@ -19,7 +19,7 @@ import org.eclipse.core.runtime.SubMonitor;
 import java.util.ArrayList;
 import java.util.List;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
+import static org.openclover.util.Lists.newArrayList;
 
 /**
  *

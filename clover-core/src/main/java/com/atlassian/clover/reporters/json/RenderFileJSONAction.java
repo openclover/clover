@@ -19,7 +19,7 @@ import java.io.File;
 import java.util.Collection;
 import java.util.Map;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
+import static org.openclover.util.Lists.newArrayList;
 
 /**
  */

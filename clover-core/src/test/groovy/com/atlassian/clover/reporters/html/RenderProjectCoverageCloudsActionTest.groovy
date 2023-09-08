@@ -1,6 +1,5 @@
 package com.atlassian.clover.reporters.html
 
-import clover.com.google.common.collect.Lists
 import com.atlassian.clover.api.registry.BranchInfo
 import com.atlassian.clover.registry.entities.FullStatementInfo
 import com.atlassian.clover.reporters.CloverReportConfig
@@ -14,6 +13,8 @@ import com.atlassian.clover.registry.metrics.HasMetricsTestFixture
 import com.atlassian.clover.registry.entities.FullMethodInfo
 import com.atlassian.clover.context.ContextSet
 import com.atlassian.clover.context.ContextStore
+
+import static org.openclover.util.Lists.newArrayList
 
 /**
  */
@@ -46,7 +47,7 @@ class RenderProjectCoverageCloudsActionTest extends TestCase {
         ctx = new VelocityContext()
         reportConfig = new Current()
         tree = new HtmlReporter.TreeInfo("pathPrefix", "name")
-        classes = Lists.newArrayList()
+        classes = newArrayList()
         basePath = new File("pathName")
 
         fixture = new HasMetricsTestFixture(this.getClass().getName())

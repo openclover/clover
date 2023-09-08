@@ -1,7 +1,5 @@
 package com.atlassian.clover.ant.tasks
 
-import clover.com.google.common.collect.Lists
-
 abstract class CloverOptimizeJUnitFilesetTestBase extends CloverOptimizeJUnitTestBase {
     CloverOptimizeJUnitFilesetTestBase(String name, String defaultRunTarget, Map runTargetsForTests) {
         super(name, defaultRunTarget, runTargetsForTests)
@@ -208,11 +206,11 @@ abstract class CloverOptimizeJUnitFilesetTestBase extends CloverOptimizeJUnitTes
 
         File testOrderLog = new File(new File(util.getWorkDir().getAbsolutePath(), cycle), "testorder.log")
         BufferedReader br = new BufferedReader(new FileReader(testOrderLog))
-        List<String> lines = Lists.newArrayList()
+        List<String> lines = newArrayList()
         for (String line = br.readLine(); line != null; line = br.readLine()) {
             lines.add(line)
         }
         assertEquals("Test ordering was not as expected for cycle " + cycle + ", ",
-                Lists.newArrayList(testsAndExpectations.keySet()), lines)
+                newArrayList(testsAndExpectations.keySet()), lines)
     }
 }

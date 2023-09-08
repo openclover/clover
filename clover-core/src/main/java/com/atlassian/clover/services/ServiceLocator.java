@@ -10,7 +10,7 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 
-import static clover.com.google.common.collect.Lists.newLinkedList;
+import static org.openclover.util.Lists.newLinkedList;
 
 /**
  * Locates service implementations via the META-INF services lookup protocol.

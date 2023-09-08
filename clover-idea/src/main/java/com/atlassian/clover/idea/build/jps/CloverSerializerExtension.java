@@ -1,6 +1,5 @@
 package com.atlassian.clover.idea.build.jps;
 
-import clover.com.google.common.collect.Lists;
 import com.atlassian.clover.Logger;
 import com.atlassian.clover.idea.config.IdeaXmlConfigConstants;
 import com.atlassian.clover.idea.config.CloverModuleConfig;
@@ -21,6 +20,8 @@ import org.jetbrains.jps.model.serialization.module.JpsModulePropertiesSerialize
 
 import java.util.Collections;
 import java.util.List;
+
+import static org.openclover.util.Lists.newArrayList;
 
 /**
  * Serializer extension service which returns three serializers:
@@ -47,7 +48,7 @@ public class CloverSerializerExtension extends JpsModelSerializerExtension {
     @NotNull
     @Override
     public List<? extends JpsGlobalExtensionSerializer> getGlobalExtensionSerializers() {
-        return Lists.newArrayList(new CloverJpsGlobalConfigurationSerializer());
+        return newArrayList(new CloverJpsGlobalConfigurationSerializer());
     }
 
     @NotNull
@@ -59,7 +60,7 @@ public class CloverSerializerExtension extends JpsModelSerializerExtension {
     @NotNull
     @Override
     public List<? extends JpsProjectExtensionSerializer> getProjectExtensionSerializers() {
-        return Lists.newArrayList(new CloverJpsProjectConfigurationSerializer());
+        return newArrayList(new CloverJpsProjectConfigurationSerializer());
     }
 
     @Override

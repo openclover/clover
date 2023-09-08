@@ -38,8 +38,8 @@ import java.lang.reflect.Method;
 import java.util.Set;
 import java.util.Map;
 
-import static clover.com.google.common.collect.Maps.newHashMap;
-import static clover.com.google.common.collect.Sets.newHashSet;
+import static org.openclover.util.Maps.newHashMap;
+import static org.openclover.util.Sets.newHashSet;
 
 /**
  * This lives in org.eclipse.jdt.internal.compiler.batch to allow package-protected access

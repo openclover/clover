@@ -14,7 +14,7 @@ import org.eclipse.jdt.core.JavaModelException;
 
 import java.util.List;
 
-import static clover.com.google.common.collect.Lists.newLinkedList;
+import static org.openclover.util.Lists.newLinkedList;
 
 public class TypeToTestInnerTypeAndTestMethodRelationship extends NodeRelationship {
 

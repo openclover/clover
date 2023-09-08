@@ -22,7 +22,7 @@ import org.eclipse.ui.IMemento;
 
 import java.util.Set;
 
-import static clover.com.google.common.collect.Sets.newHashSet;
+import static org.openclover.util.Sets.newHashSet;
 
 public class AllTestContributionsFilterWidget
     extends TestContributionsWidget

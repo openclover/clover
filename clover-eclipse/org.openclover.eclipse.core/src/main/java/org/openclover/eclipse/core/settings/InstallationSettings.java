@@ -12,7 +12,7 @@ import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import java.util.Collections;
 import java.util.List;
 
-import static clover.com.google.common.collect.Lists.newLinkedList;
+import static org.openclover.util.Lists.newLinkedList;
 
 public class InstallationSettings extends Settings {
     public static class Keys {

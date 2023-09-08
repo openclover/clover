@@ -1,7 +1,5 @@
 package com.atlassian.clover.idea.build;
 
-import clover.com.google.common.annotations.VisibleForTesting;
-import clover.com.google.common.collect.ImmutableMap;
 import com.atlassian.clover.CloverDatabase;
 import com.atlassian.clover.Logger;
 import com.atlassian.clover.api.CloverException;
@@ -55,6 +53,7 @@ import com.intellij.pom.java.LanguageLevel;
 import com.intellij.util.messages.MessageBus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.TestOnly;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -63,6 +62,8 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.text.MessageFormat;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -550,21 +551,21 @@ public class CloverCompiler implements JavaSourceTransformingCompiler {
     // Note: it's similar to com.atlassian.clover.idea.build.jps.CloverJavaSourceTransformer.LANGUAGE_LEVEL_TO_SOURCE_LEVEL
     // but converts com.intellij.pom.java.LanguageLevel
     private static final Map<LanguageLevel, SourceLevel> LANGUAGE_LEVEL_TO_SOURCE_LEVEL =
-            new ImmutableMap.Builder<LanguageLevel, SourceLevel>()
-                    .put(LanguageLevel.JDK_1_9, SourceLevel.JAVA_9)
-                    .put(LanguageLevel.JDK_1_8, SourceLevel.JAVA_8)
-                    .put(LanguageLevel.JDK_1_7, SourceLevel.JAVA_7)
-                    .put(LanguageLevel.JDK_1_6, SourceLevel.JAVA_7)
-                    .put(LanguageLevel.JDK_1_5, SourceLevel.JAVA_7)
-                    .put(LanguageLevel.JDK_1_4, SourceLevel.JAVA_7)
-                    .put(LanguageLevel.JDK_1_3, SourceLevel.JAVA_7)
-                    .build();
+            Collections.unmodifiableMap(new HashMap<LanguageLevel, SourceLevel>() {{
+                put(LanguageLevel.JDK_1_9, SourceLevel.JAVA_9);
+                put(LanguageLevel.JDK_1_8, SourceLevel.JAVA_8);
+                put(LanguageLevel.JDK_1_7, SourceLevel.JAVA_7);
+                put(LanguageLevel.JDK_1_6, SourceLevel.JAVA_7);
+                put(LanguageLevel.JDK_1_5, SourceLevel.JAVA_7);
+                put(LanguageLevel.JDK_1_4, SourceLevel.JAVA_7);
+                put(LanguageLevel.JDK_1_3, SourceLevel.JAVA_7);
+            }});
 
     /**
      * @param languageLevel IDEA's enum
      * @return source level like "1.8" or <pre>null</pre>
      */
-    @VisibleForTesting
+    @TestOnly
     static SourceLevel languageLevelToSourceLevel(LanguageLevel languageLevel) {
         // TODO getCompilerComplianceDefaultOption is available since IDEA 15, use it once IDEA 14 is dropped
         // TODO return SourceLevel.fromString(languageLevel.getCompilerComplianceDefaultOption())

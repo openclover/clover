@@ -1,16 +1,16 @@
 package com.atlassian.clover.instr.java
 
-import clover.com.google.common.collect.Maps
 import org.junit.Test
 
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertTrue
+import static org.openclover.util.Maps.newHashMap
 
 public class TokenListUtilTest {
 
     @Test
     public void testJavadocTagsAndValues() {
-        Map tags = Maps.newHashMap()
+        Map tags = newHashMap()
 
         TokenListUtil.getJDocTagsOnComment(tags, "")
         assertEquals(tags.size(), 0)
@@ -188,7 +188,7 @@ public class TokenListUtilTest {
 
     @Test
     public void testIgnoredJavadocTagsAndValues() {
-        Map tags = Maps.newHashMap()
+        Map tags = newHashMap()
         TokenListUtil.getJDocTagsOnComment(tags, "/** @param baz\n * @deprecated foo\n * @throws Exception\n * @see me\n * @serialField ABC\n * @serialData DATA\n * @author abc@def.ghi\n * @since 2001\n * @version 1\n * @exception Exception\n */")
         assertEquals(tags.size(), 0)
         tags.clear()

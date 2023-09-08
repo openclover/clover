@@ -1,7 +1,5 @@
 package com.atlassian.clover
 
-import clover.com.google.common.collect.Lists
-import clover.com.google.common.collect.Sets
 import com.atlassian.clover.api.CloverException
 import com.atlassian.clover.api.registry.ClassInfo
 import com.atlassian.clover.registry.entities.FullClassInfo
@@ -12,7 +10,9 @@ import com.atlassian.clover.testutils.IOHelper
 import com.atlassian.clover.util.FileUtils
 import junit.framework.TestCase
 
-import static clover.com.google.common.collect.Lists.newArrayList;
+import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.util.Lists.newLinkedList;
+import static org.openclover.util.Sets.newHashSet
 
 /**
  * This tests parsing TEST xml files.
@@ -35,7 +35,7 @@ class TestResultProcessorTest extends TestCase {
 
         CloverTestFixture testFixture = new CloverTestFixture(workingDir)
         final String initString = testFixture.createCoverageDB()
-        final List classList = Lists.newLinkedList()
+        final List classList = newLinkedList()
         final CloverTestFixture.Coverage cvg = new CloverTestFixture.Coverage(1, 1, 1, 4)
         classList.add(new CloverTestFixture.Clazz(workingDir, "com.cenqua.test", "Test1", cvg))
         classList.add(new CloverTestFixture.Clazz(workingDir, "com.cenqua.test", "Test2", cvg))
@@ -110,11 +110,11 @@ class TestResultProcessorTest extends TestCase {
         }}
         
         Map<FullClassInfo, Set<Integer>> testMethods = new HashMap<FullClassInfo, Set<Integer>>() {{
-            put(test1, Sets.newHashSet(0, 1, 2))
-            put(test2, Sets.newHashSet(0, 1, 2))
-            put(t3, Sets.newHashSet(0, 1, 2))
-            put(test4, Sets.newHashSet(0, 1))
-            put(test5, Sets.newHashSet(2))
+            put(test1, newHashSet(0, 1, 2))
+            put(test2, newHashSet(0, 1, 2))
+            put(t3, newHashSet(0, 1, 2))
+            put(test4, newHashSet(0, 1))
+            put(test5, newHashSet(2))
         }}
 
         for (FullClassInfo classInfo : [ test1, test2, t3, test4 ]) {

@@ -1,7 +1,5 @@
 package com.atlassian.clover.ant.testutils
 
-import clover.com.google.common.collect.Lists
-import clover.com.google.common.collect.Maps
 import com.atlassian.clover.api.CloverException
 import com.atlassian.clover.context.ContextSet
 import com.atlassian.clover.instr.InstrumentationSessionImpl
@@ -9,6 +7,8 @@ import com.atlassian.clover.recorder.FixedSizeCoverageRecorder
 import com.atlassian.clover.registry.Clover2Registry
 import com.atlassian.clover.registry.entities.*
 import com_atlassian_clover.Clover
+import org.openclover.util.Lists
+import org.openclover.util.Maps
 
 class CloverTestFixture {
 

@@ -1,11 +1,12 @@
 package com.atlassian.clover.instr.tests.naming;
 
-import clover.com.google.common.collect.Lists;
 import com.atlassian.clover.api.registry.MethodInfo;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+
+import static org.openclover.util.Lists.newArrayList;
 
 /**
  * Standard implementation of the "combined" test extractor supporting:
@@ -17,7 +18,7 @@ public class DefaultTestNameExtractor implements TestNameExtractor {
 
     public static final TestNameExtractor INSTANCE = new DefaultTestNameExtractor();
 
-    private static final List<TestNameExtractor> TEST_EXTRACTORS = Lists.newArrayList(
+    private static final List<TestNameExtractor> TEST_EXTRACTORS = newArrayList(
             new JUnitParameterizedTestExtractor(),
             new SpockFeatureNameExtractor(),
             new NullNameExtractor());

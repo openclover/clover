@@ -1,10 +1,5 @@
 package com.atlassian.clover.instr.java;
 
-import static clover.com.google.common.collect.Maps.newHashMap;
-import static com.atlassian.clover.instr.Bindings.$CoverageRecorder$globalSliceEnd;
-import static com.atlassian.clover.instr.Bindings.$CoverageRecorder$globalSliceStart;
-import static com.atlassian.clover.instr.Bindings.$CoverageRecorder$rethrow;
-
 import com.atlassian.clover.api.registry.MethodInfo;
 import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig;
 import com.atlassian.clover.instr.tests.ExpectedExceptionMiner;
@@ -26,7 +21,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import static clover.com.google.common.collect.Lists.newArrayList;
+import static com.atlassian.clover.instr.Bindings.$CoverageRecorder$globalSliceEnd;
+import static com.atlassian.clover.instr.Bindings.$CoverageRecorder$globalSliceStart;
+import static com.atlassian.clover.instr.Bindings.$CoverageRecorder$rethrow;
+import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.util.Maps.newHashMap;
 
 /**
 

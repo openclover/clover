@@ -1,6 +1,5 @@
 package com.atlassian.clover.registry
 
-import clover.com.google.common.collect.Lists
 import com.atlassian.clover.api.CloverException
 import com.atlassian.clover.api.registry.CloverRegistryException
 import com.atlassian.clover.api.registry.SourceInfo
@@ -27,6 +26,7 @@ import org.junit.Test
 import org.junit.rules.TestName
 
 import static org.junit.Assert.*
+import static org.openclover.util.Lists.newArrayList
 
 public class Clover2RegistryTest {
     private File tmpDir
@@ -466,7 +466,7 @@ public class Clover2RegistryTest {
         public RegFile saveAndOverwriteFile() throws IOException, CloverRegistryException {
             final FullProjectInfo emptyProject = new FullProjectInfo(getProject().getName())
             emptyProject.setDataLength(getDataLength())
-            return saveAndOverwriteFile(emptyProject, Lists.newArrayList(), new ContextStore(), null)
+            return saveAndOverwriteFile(emptyProject, newArrayList(), new ContextStore(), null)
         }
     }
 
