@@ -134,7 +134,7 @@
                                 </goals>
                                 <phase>test-compile</phase>
                                 <configuration>
-                                    <outputDirectory>${build.directory}/test-dependencies</outputDirectory>
+                                    <outputDirectory>${project.build.directory}/test-dependencies</outputDirectory>
                                     <artifactItems>
                                         <artifactItem>
                                             <groupId>org.openclover</groupId>

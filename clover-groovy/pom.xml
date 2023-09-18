@@ -94,7 +94,7 @@
                         </goals>
                         <phase>test-compile</phase>
                         <configuration>
-                            <outputDirectory>${build.directory}/test-dependencies</outputDirectory>
+                            <outputDirectory>${project.build.directory}/test-dependencies</outputDirectory>
                             <artifactItems>
                                 <!-- dependencies of groovy -->
                                 <artifactItem>
@@ -280,7 +280,7 @@
                                 </goals>
                                 <phase>test-compile</phase>
                                 <configuration>
-                                    <outputDirectory>${build.directory}/test-dependencies</outputDirectory>
+                                    <outputDirectory>${project.build.directory}/test-dependencies</outputDirectory>
                                     <artifactItems>
                                         <!-- multiple groovy versions for cross-version testing -->
                                         <artifactItem>

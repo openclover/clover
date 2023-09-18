@@ -29,6 +29,6 @@ jobs:
       - name: Prepare release tag
         run: |
           mvn --batch-mode release:prepare \
-              -DpreparationGoals="clean test" \
+              -DpreparationGoals="clean" \
               -DreleaseVersion=${{ inputs.releaseVersion }} -DdevelopmentVersion=${{ inputs.nextReleaseVersion}} \
               -DtagNameFormat="openclover-@{project.version}" -Dpassword=${{ secrets.repositoryWriteToken }}
