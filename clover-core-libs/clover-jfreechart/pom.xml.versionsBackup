@@ -1,0 +1,82 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>clover-jfreechart</artifactId>
+    <version>1.0.19</version>
+    <packaging>jar</packaging>
+    <parent>
+        <groupId>org.openclover</groupId>
+        <artifactId>clover-core-libs</artifactId>
+        <version>4.5.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <description>
+        Repacked with 'clover.' prefix version of the library.
+    </description>
+    <licenses>
+        <license>
+            <name>LGPL v3</name>
+            <url>http://www.gnu.org/licenses/lgpl.html</url>
+        </license>
+    </licenses>
+    <name>Clover JFreeChart Library</name>
+    <!-- Repack, install and deploy only with the 'workspace-setup' profile -->
+    <profiles>
+        <profile>
+            <id>workspace-setup</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.jfree</groupId>
+                    <artifactId>jfreechart</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+            </dependencies>
+            <properties>
+                <target.jar>clover-jfreechart-${project.version}.jar</target.jar>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <target>
+                                <!-- import jarjar -->
+                                <mkdir dir="${project.build.directory}"/>
+                                <taskdef name="jarjar" classname="com.tonicsystems.jarjar.JarJarTask"
+                                         classpathref="maven.compile.classpath"/>
+
+                                <!-- repack source jar -->
+                                <delete file="${project.build.directory}/temp.jar"/>
+                                <echo message="Repacking ${org.jfree:jfreechart:jar}"/>
+                                <jarjar jarfile="${project.build.directory}/temp.jar">
+                                    <zipfileset src="${org.jfree:jfreechart:jar}" includes="**/*" excludes=""/>
+                                    <rule pattern="com.keypoint.**" result="clover.@0"/>
+                                    <rule pattern="org.jfree.**" result="clover.@0"/>
+                                </jarjar>
+
+                                <!-- delete empty directories (jarjar 1.4 bug workaround) -->
+                                <delete file="${project.build.directory}/${target.jar}"/>
+                                <zip destfile="${project.build.directory}/${target.jar}">
+                                    <zipfileset src="${project.build.directory}/temp.jar">
+                                        <exclude name="com/**"/>
+                                        <exclude name="org/**"/>
+                                    </zipfileset>
+                                </zip>
+                            </target>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>
