@@ -1,11 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.openclover</groupId>
         <artifactId>clover-base-pom</artifactId>
-        <version>4.5.0-SNAPSHOT</version>
+        <version>4.5.0-RC1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>clover-idea</artifactId>
@@ -137,61 +135,56 @@
                         </goals>
                         <configuration>
                             <target>
-                                <taskdef resource="net/sf/antcontrib/antcontrib.properties" classpathref="maven.plugin.classpath"/>
-                                <taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask" classpathref="maven.plugin.classpath"/>
+                                <taskdef resource="net/sf/antcontrib/antcontrib.properties" classpathref="maven.plugin.classpath" />
+                                <taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask" classpathref="maven.plugin.classpath" />
 
-                                <property name="testproject.base" location="${project.basedir}/src/test/resources/testproject"/>
-                                <property name="testproject.output" location="${project.build.directory}/testproject"/>
-                                <property name="testproject.db" location="${testproject.output}/clover/coverage.db"/>
+                                <property name="testproject.base" location="${project.basedir}/src/test/resources/testproject" />
+                                <property name="testproject.output" location="${project.build.directory}/testproject" />
+                                <property name="testproject.db" location="${testproject.output}/clover/coverage.db" />
 
                                 <if>
-                                    <not><available file="${testproject.db}"/></not>
+                                    <not><available file="${testproject.db}" /></not>
                                     <then>
                                         <!-- instrument -->
-                                        <java classname="com.atlassian.clover.CloverInstr"
-                                              classpath="${org.openclover:clover:jar}">
-                                            <arg value="-s"/>
-                                            <arg value="${testproject.base}"/>
-                                            <arg value="-d"/>
-                                            <arg value="${testproject.output}/instr"/>
-                                            <arg value="-i"/>
-                                            <arg value="${testproject.db}"/>
+                                        <java classname="com.atlassian.clover.CloverInstr" classpath="${org.openclover:clover:jar}">
+                                            <arg value="-s" />
+                                            <arg value="${testproject.base}" />
+                                            <arg value="-d" />
+                                            <arg value="${testproject.output}/instr" />
+                                            <arg value="-i" />
+                                            <arg value="${testproject.db}" />
                                         </java>
                                         <!-- compile instrumented -->
-                                        <mkdir dir="${testproject.output}/classes"/>
-                                        <javac srcdir="${testproject.output}/instr"
-                                               debug="on" includeantruntime="false"
-                                               destdir="${testproject.output}/classes">
+                                        <mkdir dir="${testproject.output}/classes" />
+                                        <javac srcdir="${testproject.output}/instr" debug="on" includeantruntime="false" destdir="${testproject.output}/classes">
                                             <classpath>
-                                                <pathelement location="${org.openclover:clover:jar}"/>
-                                                <pathelement location="${junit:junit:jar}"/>
+                                                <pathelement location="${org.openclover:clover:jar}" />
+                                                <pathelement location="${junit:junit:jar}" />
                                             </classpath>
                                         </javac>
                                         <!-- run tests -->
-                                        <mkdir dir="${testproject.output}/report"/>
+                                        <mkdir dir="${testproject.output}/report" />
                                         <junit fork="true" forkmode="once" logfailedtests="false">
                                             <classpath>
-                                                <pathelement location="${testproject.output}/classes"/>
-                                                <pathelement location="${org.openclover:clover:jar}"/>
-                                                <pathelement location="${junit:junit:jar}"/>
+                                                <pathelement location="${testproject.output}/classes" />
+                                                <pathelement location="${org.openclover:clover:jar}" />
+                                                <pathelement location="${junit:junit:jar}" />
                                             </classpath>
                                             <batchtest todir="${testproject.output}/report">
-                                                <fileset dir="${testproject.output}/classes" includes="**/*Test.class"/>
-                                                <formatter type="plain"/>
+                                                <fileset dir="${testproject.output}/classes" includes="**/*Test.class" />
+                                                <formatter type="plain" />
                                             </batchtest>
                                         </junit>
                                         <!-- generate reports -->
-                                        <java classname="com.atlassian.clover.reporters.html.HtmlReporter"
-                                              classpath="${org.openclover:clover:jar}"
-                                              fork="true">
-                                            <arg value="-i"/>
-                                            <arg value="${testproject.db}"/>
-                                            <arg value="-o"/>
-                                            <arg value="${testproject.output}/clover-report"/>
+                                        <java classname="com.atlassian.clover.reporters.html.HtmlReporter" classpath="${org.openclover:clover:jar}" fork="true">
+                                            <arg value="-i" />
+                                            <arg value="${testproject.db}" />
+                                            <arg value="-o" />
+                                            <arg value="${testproject.output}/clover-report" />
                                         </java>
                                     </then>
                                     <else>
-                                        <echo message="Skipping testproject build as ${testproject.db} already exists."/>
+                                        <echo message="Skipping testproject build as ${testproject.db} already exists." />
                                     </else>
                                 </if>
                             </target>

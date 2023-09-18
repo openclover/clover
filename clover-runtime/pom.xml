@@ -1,11 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.openclover</groupId>
         <artifactId>clover-base-pom</artifactId>
-        <version>4.5.0-SNAPSHOT</version>
+        <version>4.5.0-RC1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>clover-runtime</artifactId>
@@ -105,7 +103,7 @@
                         </goals>
                         <configuration>
                             <target>
-                                <delete dir="${project.build.directory}/generated-sources/annotations" includeemptydirs="true"/>
+                                <delete dir="${project.build.directory}/generated-sources/annotations" includeemptydirs="true" />
                             </target>
                         </configuration>
                     </execution>
@@ -120,32 +118,30 @@
                             <target>
                                 <!-- version number like X.Y.Z, so with any suffixes removed -->
                                 <loadresource property="core.release.base">
-                                    <propertyresource name="project.version"/>
+                                    <propertyresource name="project.version" />
                                     <filterchain>
-                                        <replaceregex pattern="([0-9]+.[0-9]+.[0-9]+).*" replace="\1"/>
+                                        <replaceregex pattern="([0-9]+.[0-9]+.[0-9]+).*" replace="\1" />
                                     </filterchain>
                                 </loadresource>
 
                                 <!-- version number like X.Y.Z as X_Y_Z so that we can use it in a method name -->
                                 <loadresource property="core.release.base.ident">
-                                    <propertyresource name="core.release.base"/>
+                                    <propertyresource name="core.release.base" />
                                     <filterchain>
                                         <replacestring from="." to="_" />
                                     </filterchain>
                                 </loadresource>
 
-                                <mkdir dir="${project.build.directory}/generated-sources/com_atlassian_clover"/>
-                                <copy file="src/main/java/com_atlassian_clover/CloverVersionInfo.in"
-                                      tofile="${project.build.directory}/generated-sources/com_atlassian_clover/CloverVersionInfo.java"
-                                      overwrite="false">
+                                <mkdir dir="${project.build.directory}/generated-sources/com_atlassian_clover" />
+                                <copy file="src/main/java/com_atlassian_clover/CloverVersionInfo.in" tofile="${project.build.directory}/generated-sources/com_atlassian_clover/CloverVersionInfo.java" overwrite="false">
                                     <filterset>
-                                        <filter token="CLOVER_URL" value="${project.organization.url}"/>
-                                        <filter token="CLOVER_LICENSE_AGREEMENT_URL" value="https://www.apache.org/licenses/LICENSE-2.0"/>
-                                        <filter token="CLOVER_HELP_URL" value="${project.organization.url}/documentation"/>
-                                        <filter token="BUILD_DATE" value="${maven.build.timestamp}"/>
-                                        <filter token="BUILD_STAMP" value="${build.stamp}"/>
-                                        <filter token="CORE_RELEASE_NUM" value="${project.version}"/>
-                                        <filter token="CORE_RELEASE_BASE_IDENT" value="${core.release.base.ident}"/>
+                                        <filter token="CLOVER_URL" value="${project.organization.url}" />
+                                        <filter token="CLOVER_LICENSE_AGREEMENT_URL" value="https://www.apache.org/licenses/LICENSE-2.0" />
+                                        <filter token="CLOVER_HELP_URL" value="${project.organization.url}/documentation" />
+                                        <filter token="BUILD_DATE" value="${maven.build.timestamp}" />
+                                        <filter token="BUILD_STAMP" value="${build.stamp}" />
+                                        <filter token="CORE_RELEASE_NUM" value="${project.version}" />
+                                        <filter token="CORE_RELEASE_BASE_IDENT" value="${core.release.base.ident}" />
                                     </filterset>
                                 </copy>
                             </target>
