@@ -1,6 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.openclover</groupId>
@@ -241,22 +239,22 @@
                         <configuration>
                             <target>
                                 <replace dir="${project.build.directory}/src-generated" token="import antlr" value="import clover.antlr">
-                                    <include name="**/*.java"/>
+                                    <include name="**/*.java" />
                                 </replace>
                                 <replace dir="${project.build.directory}/src-generated" token="extends antlr" value="extends clover.antlr">
-                                    <include name="**/*.java"/>
+                                    <include name="**/*.java" />
                                 </replace>
                                 <replace dir="${project.build.directory}/src-generated" token="public final void mIDENT" value="public void mIDENT">
-                                    <include name="**/JavaLexer.java"/>
+                                    <include name="**/JavaLexer.java" />
                                 </replace>
                                 <replace dir="${project.build.directory}/src-generated" token="public final void mIDENT" value="public /*final*/ void mIDENT">
-                                    <include name="**/JavaLexer.java"/>
+                                    <include name="**/JavaLexer.java" />
                                 </replace>
                                 <replace dir="${project.build.directory}/src-generated" token="public final void mSTRING_LITERAL" value="public /*final*/ void mSTRING_LITERAL">
-                                    <include name="**/JavaLexer.java"/>
+                                    <include name="**/JavaLexer.java" />
                                 </replace>
                                 <replace dir="${project.build.directory}/src-generated" token="public final void mCHAR_LITERAL" value="public /*final*/ void mCHAR_LITERAL">
-                                    <include name="**/JavaLexer.java"/>
+                                    <include name="**/JavaLexer.java" />
                                 </replace>
                             </target>
                         </configuration>

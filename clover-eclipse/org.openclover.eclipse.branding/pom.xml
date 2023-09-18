@@ -1,6 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.openclover</groupId>
@@ -42,7 +40,7 @@
                             <Bundle-SymbolicName>org.openclover.eclipse.branding; singleton:=true</Bundle-SymbolicName>
                             <Bundle-Version>${project.version}</Bundle-Version>
                             <Bundle-Localization>plugin</Bundle-Localization>
-                            <Require-Bundle>org.eclipse.ui;bundle-version=&quot;[3.4.0,4.0.0)&quot;, org.eclipse.core.runtime;bundle-version=&quot;[3.4.0,4.0.0)&quot;</Require-Bundle>
+                            <Require-Bundle>org.eclipse.ui;bundle-version="[3.4.0,4.0.0)", org.eclipse.core.runtime;bundle-version="[3.4.0,4.0.0)"</Require-Bundle>
                             <Bundle-Classpath>.</Bundle-Classpath>
                             <Eclipse-LazyStart>true</Eclipse-LazyStart>
                         </manifestEntries>
