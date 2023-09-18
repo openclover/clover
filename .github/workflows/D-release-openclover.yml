@@ -26,6 +26,7 @@ jobs:
           server-id: ossrh
           server-username: ${{ secrets.OSSRH_USERNAME }}
           server-password: ${{ secrets.OSSRH_PASSWORD }}
+          gpg-private-key: ${{ secrets.ARTIFACT_SIGNING_GPG_KEY }}
 
       - name: Prepare third party libraries
         run: |
@@ -43,7 +44,7 @@ jobs:
 
       - name: Publish a release
         run: |
-          mvn --batch-mode deploy -DdryRun=true -X
+          mvn --batch-mode deploy
 
       - name: Upload non-Maven artifacts
         run: |
