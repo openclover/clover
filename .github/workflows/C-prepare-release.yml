@@ -31,12 +31,12 @@ jobs:
           git config user.name "Marek Parfianowicz (github-actions)"
           git config user.email "marek.parfianowicz+github-actions@gmail.com"
           echo "Updating pom.xml files to version ${{ inputs.releaseVersion }}"
-          mvn versions:set "-DnewVersion=${{ inputs.releaseVersion }}"
+          mvn versions:set "-DnewVersion=${{ inputs.releaseVersion }}" -DgenerateBackupPoms=false
           git add .
           git commit -m "Prepare release openclover-${{ inputs.releaseVersion }}"
           git tag openclover-${{ inputs.releaseVersion }}
           echo "Updating pom.xml files to version ${{ inputs.nextReleaseVersion }}"
-          mvn versions:set "-DnewVersion=${{ inputs.nextReleaseVersion }}"
+          mvn versions:set "-DnewVersion=${{ inputs.nextReleaseVersion }}" -DgenerateBackupPoms=false
           git add .
           git commit -m "Prepare for next development iteration"
           echo "Pushing commits and tag openclover-${{ inputs.releaseVersion }}"
