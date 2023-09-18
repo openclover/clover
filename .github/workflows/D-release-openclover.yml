@@ -49,22 +49,20 @@ jobs:
         run: |
           echo "TODO Uploading ant javadocs to openclover.org"
           SSH_ID=~/.ssh/id_ed25519
-          echo $SSH_KEY > $SSH_ID
-          echo "scp -i $SSH_ID -P $SSH_PORT -R clover-ant/target/apidocs $OPENCLOVER_ORG_SCP/$OPENCLOVER_ORG_DOWNLOAD_PATH/javadoc/$VERSION
-          
+          echo ${{ secrets.sshKey }} > $SSH_ID
+          echo "scp -i $SSH_ID -P $SSH_PORT -R clover-ant/target/apidocs $SSH_USERNAME@$OPENCLOVER_ORG_HOST:$OPENCLOVER_ORG_DOWNLOAD_PATH/javadoc/$VERSION"
+          echo "ssh -i $SSH_ID -P $SSH_PORT $SSH_USERNAME@$OPENCLOVER_ORG_HOST 'rm -r $OPENCLOVER_ORG_DOWNLOAD_PATH/javadoc/latest'"
+          echo "scp -i $SSH_ID -P $SSH_PORT -R clover-ant/target/apidocs $SSH_USERNAME@$OPENCLOVER_ORG_HOST:$OPENCLOVER_ORG_DOWNLOAD_PATH/javadoc/latest"
           echo "TODO Uploading IDEA jar and latestStableVersion.xml to openclover.org"
-          echo "scp -i $SSH_ID -P $SSH_PORT clover-idea/target/clover-idea-$VERSION.jar $OPENCLOVER_ORG_SCP/$OPENCLOVER_ORG_DOWNLOAD_PATH"
-          echo "scp -i $SSH_ID -P $SSH_PORT clover-idea/target/autoupdate/latestStableVersion.xml $OPENCLOVER_ORG_SCP/$OPENCLOVER_ORG_UPDATE_PATH"
-          
+          echo "scp -i $SSH_ID -P $SSH_PORT clover-idea/target/clover-idea-$VERSION.jar $SSH_USERNAME@$OPENCLOVER_ORG_HOST:$OPENCLOVER_ORG_DOWNLOAD_PATH"
+          echo "scp -i $SSH_ID -P $SSH_PORT clover-idea/target/autoupdate/latestStableVersion.xml $SSH_USERNAME@$OPENCLOVER_ORG_HOST:$OPENCLOVER_ORG_UPDATE_PATH"
           echo "TODO Uploading Eclipse zip to openclover.org"
-          echo "scp -i $SSH_ID -P $SSH_PORT clover-eclipse/org.openclover.eclipse.updatesite/target/clover-eclipse-site-$VERSION.zip $OPENCLOVER_ORG_SCP/$OPENCLOVER_ORG_DOWNLOAD_PATH"
-          echo "ssh -i $SSH_ID -P $SSH_PORT 'unzip $OPENCLOVER_ORG_DOWNLOAD_PATH/clover-eclipse-site-$VERSION.zip -d $OPENCLOVER_ORG_UPDATE_PATH'"
-
+          echo "scp -i $SSH_ID -P $SSH_PORT clover-eclipse/org.openclover.eclipse.updatesite/target/clover-eclipse-site-$VERSION.zip $SSH_USERNAME@$OPENCLOVER_ORG_HOST:$OPENCLOVER_ORG_DOWNLOAD_PATH"
+          echo "ssh -i $SSH_ID -P $SSH_PORT $SSH_USERNAME@$OPENCLOVER_ORG_HOST 'unzip $OPENCLOVER_ORG_DOWNLOAD_PATH/clover-eclipse-site-$VERSION.zip -d $OPENCLOVER_ORG_UPDATE_PATH'"
         env:
-          SSH_HOST=${{ secrets.sshHost }}
           SSH_PORT=${{ secrets.sshPort }}
           SSH_USERNAME=${{ secrets.sshUsername }}
-          SSH_KEY=${{ secrets.sshKey }} 
+          OPENCLOVER_ORG_HOST=${{ secrets.sshHost }}
           OPENCLOVER_ORG_DOWNLOAD_PATH=/download/openclover
           OPENCLOVER_ORG_UPDATE_PATH=/update
           OPENCLOVER_ORG_DOC_PATH=/doc
