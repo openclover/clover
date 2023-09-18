@@ -33,4 +33,7 @@ jobs:
           mvn --batch-mode release:prepare \
               "-DpreparationGoals=clean" \
               "-DreleaseVersion=${{ inputs.releaseVersion }}" "-DdevelopmentVersion=${{ inputs.nextReleaseVersion }}" \
-              "-DtagNameFormat=openclover-@{project.version}" "-Dpassword=${{ secrets.GITHUB_TOKEN }}"
+              "-DtagNameFormat=openclover-@{project.version}" -DpushChanges=false
+          git add .
+          git push origin
+          git push origin openclover-${{ inputs.releaseVersion }}
