@@ -30,10 +30,15 @@ jobs:
         run: |
           git config user.name "Marek Parfianowicz (github-actions)"
           git config user.email "marek.parfianowicz+github-actions@gmail.com"
-          mvn --batch-mode release:prepare \
-              "-DpreparationGoals=clean" \
-              "-DreleaseVersion=${{ inputs.releaseVersion }}" "-DdevelopmentVersion=${{ inputs.nextReleaseVersion }}" \
-              "-DtagNameFormat=openclover-@{project.version}" -DpushChanges=false
+          echo "Updating pom.xml files to version ${{ inputs.releaseVersion }}"
+          mvn versions:set "-DnewVersion=${{ inputs.releaseVersion }}"
           git add .
+          git commit -m "Prepare release openclover-${{ inputs.releaseVersion }}"
+          git tag openclover-${{ inputs.releaseVersion }}
+          echo "Updating pom.xml files to version ${{ inputs.nextReleaseVersion }}"
+          mvn versions:set "-DnewVersion=${{ inputs.nextReleaseVersion }}"
+          git add .
+          git commit -m "Prepare for next development iteration"
+          echo "Pushing commits and tag openclover-${{ inputs.releaseVersion }}"
           git push origin
           git push origin openclover-${{ inputs.releaseVersion }}
