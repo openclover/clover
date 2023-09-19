@@ -260,6 +260,14 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- don't deploy, it will be packed inside clover jar -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
     <profiles>

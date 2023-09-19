@@ -303,10 +303,6 @@
                             <goal>sign</goal>
                         </goals>
                         <configuration>
-                            <!--<gpgArguments>
-                                <arg>&#45;&#45;pinentry-mode</arg>
-                                <arg>loopback</arg>
-                            </gpgArguments>-->
                             <skip>${gpg.skip}</skip>
                         </configuration>
                     </execution>
