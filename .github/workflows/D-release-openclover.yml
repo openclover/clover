@@ -45,7 +45,7 @@ jobs:
 
       - name: Publish a release
         run: |
-          mvn --batch-mode deploy
+          mvn --batch-mode deploy -Dgpg.skip=false
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
