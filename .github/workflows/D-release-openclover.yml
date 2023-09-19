@@ -27,6 +27,7 @@ jobs:
           server-username: ${{ secrets.OSSRH_USERNAME }}
           server-password: ${{ secrets.OSSRH_PASSWORD }}
           gpg-private-key: ${{ secrets.ARTIFACT_SIGNING_GPG_KEY }}
+          gpg-passphrase: ${{ secrets.ARTIFACT_SIGNING_GPG_PASSPHRASE }}
 
       - name: Prepare third party libraries
         run: |
@@ -64,7 +65,7 @@ jobs:
           SSH_PORT: ${{ secrets.sshPort }}
           SSH_USERNAME: ${{ secrets.sshUsername }}
           OPENCLOVER_ORG_HOST: ${{ secrets.sshHost }}
-          OPENCLOVER_ORG_DOWNLOAD_PATH: /download/openclover
-          OPENCLOVER_ORG_UPDATE_PATH: /update
-          OPENCLOVER_ORG_DOC_PATH: /doc
+          OPENCLOVER_ORG_DOWNLOAD_PATH: /domains/openclover.org/public_html/download/openclover
+          OPENCLOVER_ORG_UPDATE_PATH: /domains/openclover.org/public_html/update
+          OPENCLOVER_ORG_DOC_PATH: /domains/openclover.org/public_html/doc
           VERSION: ${{ inputs.releaseVersion }}
