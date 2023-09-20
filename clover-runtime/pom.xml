@@ -27,6 +27,12 @@
             <version>5.0.3</version>
         </dependency>
         <!-- test frameworks supported by the clover-runtime -->
+        <!-- override groovy-all version from a transitive dependency from spock-core -->
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>2.4.21</version>
+        </dependency>
         <dependency>
             <groupId>org.spockframework</groupId>
             <artifactId>spock-core</artifactId>
