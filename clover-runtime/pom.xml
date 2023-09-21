@@ -15,7 +15,7 @@
         as well as with continuous integration servers such as Bamboo, Jenkins or Hudson.
     </description>
     <dependencies>
-        <!-- build utitilites (annotations for annotation processing, bytecode instrumentation) -->
+        <!-- build utilities (annotations for annotation processing, bytecode instrumentation) -->
         <dependency>
             <groupId>org.openclover</groupId>
             <artifactId>clover-buildutil</artifactId>
@@ -295,6 +295,42 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <!-- install artifact with pom-reduced.xml (with no dependencies) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <configuration>
+                    <pomFile>${project.basedir}/pom-reduced.xml</pomFile>
+                </configuration>
+            </plugin>
+            <!-- deploy artifact with pom-reduced.xml (with no dependencies) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>deploy-with-reduced-pom</id>
+                        <goals>
+                            <goal>sign-and-deploy-file</goal>
+                        </goals>
+                        <phase>deploy</phase>
+                        <configuration>
+                            <pomFile>${project.basedir}/pom-reduced.xml</pomFile>
+                            <file>${project.build.directory}/${project.artifactId}-${project.version}.jar</file>
+                            <javadoc>${project.build.directory}/${project.artifactId}-${project.version}-javadoc.jar</javadoc>
+                            <sources>${project.build.directory}/${project.artifactId}-${project.version}-sources.jar</sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- don't use default deploy as it would deploy pom.xml -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
             </plugin>
         </plugins>
     </build>

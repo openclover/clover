@@ -210,12 +210,57 @@
                                     <artifactId>testng</artifactId>
                                     <version>6.8.21</version>
                                 </additionalDependency>
+                                <additionalDependency>
+                                    <groupId>org.junit.platform</groupId>
+                                    <artifactId>junit-platform-engine</artifactId>
+                                    <version>1.9.2</version>
+                                </additionalDependency>
+                                <additionalDependency>
+                                    <groupId>org.junit.platform</groupId>
+                                    <artifactId>junit-platform-launcher</artifactId>
+                                    <version>1.9.2</version>
+                                </additionalDependency>
                             </additionalDependencies>
                             <!-- clover-runtime contains a package in a folder different from package name, leading to warning -->
                             <excludePackageNames>annotations.*</excludePackageNames>
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <!-- install artifact with pom-reduced.xml (with no dependencies) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <configuration>
+                    <pomFile>${project.basedir}/pom-reduced.xml</pomFile>
+                </configuration>
+            </plugin>
+            <!-- deploy artifact with pom-reduced.xml (with no dependencies) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>sign-and-deploy-file</goal>
+                        </goals>
+                        <phase>deploy</phase>
+                        <configuration>
+                            <pomFile>${project.basedir}/pom-reduced.xml</pomFile>
+                            <file>${project.build.directory}/${project.artifactId}-${project.version}.jar</file>
+                            <javadoc>${project.build.directory}/${project.artifactId}-${project.version}-javadoc.jar</javadoc>
+                            <sources>${project.build.directory}/${project.artifactId}-${project.version}-sources.jar</sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- don't use default deploy as it would deploy pom.xml -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
             </plugin>
         </plugins>
     </build>
