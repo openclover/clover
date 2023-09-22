@@ -41,6 +41,28 @@
                 <artifactId>maven-resources-plugin</artifactId>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.openclover</groupId>
+                                    <artifactId>clover</artifactId>
+                                    <version>${project.version}</version>
+                                    <outputDirectory>${project.build.outputDirectory}</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
                 <executions>
@@ -60,6 +82,46 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
+                            <Bundle-Name>%pluginName</Bundle-Name>
+                            <Bundle-Vendor>%providerName</Bundle-Vendor>
+                            <Bundle-SymbolicName>org.openclover.eclipse.core singleton:=true</Bundle-SymbolicName>
+                            <Bundle-Version>${project.version}</Bundle-Version>
+                            <Bundle-Localization>plugin</Bundle-Localization>
+                            <Require-Bundle>
+                                org.eclipse.ui;bundle-version=&quot;[3.4.0,4.0.0)&quot;,
+                                org.eclipse.core.runtime;bundle-version=&quot;[3.4.0,4.0.0)&quot;,
+                                org.eclipse.core.filesystem,
+                                org.eclipse.core.resources,
+                                org.eclipse.debug.core,
+                                org.eclipse.debug.ui,
+                                org.eclipse.jdt.core,
+                                org.eclipse.jdt.debug.ui,
+                                org.eclipse.jdt.junit,
+                                org.eclipse.jdt.launching,
+                                org.eclipse.jdt.ui,
+                                org.eclipse.jface.text,
+                                org.eclipse.search,
+                                org.eclipse.ui.ide,
+                                org.eclipse.ui.console,
+                                org.eclipse.ui.editors,
+                                org.eclipse.ui.forms,
+                                org.eclipse.ui.workbench.texteditor,
+                                org.eclipse.ui.views
+                            </Require-Bundle>
+                            <Bundle-Activator>org.openclover.eclipse.core.CloverPlugin</Bundle-Activator>
+                            <Eclipse-LazyStart>true</Eclipse-LazyStart>
+                            <Bundle-Classpath>.</Bundle-Classpath>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

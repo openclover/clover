@@ -26,6 +26,57 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.openclover</groupId>
+                                    <artifactId>clover</artifactId>
+                                    <version>${project.version}</version>
+                                    <outputDirectory>${project.build.outputDirectory}</outputDirectory>
+                                    <destFileName>clover-eclipse-ant.jar</destFileName>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
+                            <Bundle-Name>%pluginName</Bundle-Name>
+                            <Bundle-Vendor>%providerName</Bundle-Vendor>
+                            <Bundle-SymbolicName>org.openclover.eclipse.ant; singleton:=true</Bundle-SymbolicName>
+                            <Bundle-Version>${project.version}</Bundle-Version>
+                            <Bundle-Localization>plugin</Bundle-Localization>
+                            <Require-Bundle>
+                                org.eclipse.ant.core;bundle-version=&quot;[3.1.0,4.0.0)&quot;,
+                                org.apache.ant;bundle-version=&quot;[1.7.0,2.0.0)&quot;,
+                                org.eclipse.core.runtime,
+                                org.eclipse.equinox.common,
+                                org.eclipse.equinox.preferences,
+                                org.eclipse.osgi,
+                                org.eclipse.ui.workbench
+                            </Require-Bundle>
+                            <Bundle-Activator>org.openclover.eclipse.ant.CloverAntPlugin</Bundle-Activator>
+                            <Eclipse-LazyStart>true</Eclipse-LazyStart>
+                            <Bundle-Classpath>.</Bundle-Classpath>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-deploy-plugin</artifactId>
                 <configuration>
                     <skip>true</skip>

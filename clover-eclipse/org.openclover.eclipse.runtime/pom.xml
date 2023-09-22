@@ -19,12 +19,63 @@
             <version>luna-sr2</version>
             <type>pom</type>
         </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-runtime</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.openclover</groupId>
+                                    <artifactId>clover-runtime</artifactId>
+                                    <version>${project.version}</version>
+                                    <outputDirectory>${project.build.outputDirectory}</outputDirectory>
+                                    <destFileName>clover-runtime.jar</destFileName>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
+                            <Bundle-Name>%pluginName</Bundle-Name>
+                            <Bundle-Vendor>%providerName</Bundle-Vendor>
+                            <Bundle-SymbolicName>org.openclover.eclipse.runtime; singleton:=true</Bundle-SymbolicName>
+                            <Bundle-Version>${project.version}</Bundle-Version>
+                            <Bundle-Localization>plugin</Bundle-Localization>
+                            <Require-Bundle>
+                                org.eclipse.core.runtime;bundle-version=&quot;[3.4.0,4.0.0)&quot;,
+                                org.eclipse.jdt.core;bundle-version=&quot;[3.4.0,4.0.0)&quot;
+                            </Require-Bundle>
+                            <Bundle-Activator>org.openclover.eclipse.runtime.CloverPlugin</Bundle-Activator>
+                            <Eclipse-LazyStart>true</Eclipse-LazyStart>
+                            <Bundle-Classpath>.</Bundle-Classpath>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
