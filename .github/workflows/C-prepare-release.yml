@@ -37,6 +37,9 @@ jobs:
           git tag openclover-${{ inputs.releaseVersion }}
           echo "Updating pom.xml files to version ${{ inputs.nextReleaseVersion }}"
           mvn versions:set "-DnewVersion=${{ inputs.nextReleaseVersion }}" -DgenerateBackupPoms=false
+          ECLIPSE_VER=${{ inputs.nextReleaseVersion }}.v`date +%Y%m%d` 
+          echo "Updating pom.xml files for Eclipse to version ECLIPSE_VER"
+          mvn versions:set "-DnewVersion=$ECLIPSE_VER" -DgenerateBackupPoms=false -pl clover-eclipse
           git add .
           git commit -m "Prepare for next development iteration"
           echo "Pushing commits and tag openclover-${{ inputs.releaseVersion }}"
