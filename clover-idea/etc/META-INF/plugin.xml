@@ -23,7 +23,7 @@ Clover is licensed under the Apache License 2.0.
 	</html>]]>
 	</description>
 
-	<version>idea-@IDEA_RELEASE_NUM@</version>
+	<version>idea-${project.version}</version>
 	<vendor email="contact@openclover.org" url="https://openclover.org">OpenClover.org</vendor>
     <!-- Compatible with IDEA 14.0.0 or higher (build 139.xx),
     see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html -->

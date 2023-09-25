@@ -69,10 +69,7 @@
                             <Bundle-SymbolicName>org.openclover.eclipse.runtime; singleton:=true</Bundle-SymbolicName>
                             <Bundle-Version>${project.version}</Bundle-Version>
                             <Bundle-Localization>plugin</Bundle-Localization>
-                            <Require-Bundle>
-                                org.eclipse.core.runtime;bundle-version=&quot;[3.4.0,4.0.0)&quot;,
-                                org.eclipse.jdt.core;bundle-version=&quot;[3.4.0,4.0.0)&quot;
-                            </Require-Bundle>
+                            <Require-Bundle>org.eclipse.core.runtime;bundle-version=&quot;[3.4.0,4.0.0)&quot;,org.eclipse.jdt.core;bundle-version=&quot;[3.4.0,4.0.0)&quot;</Require-Bundle>
                             <Bundle-Activator>org.openclover.eclipse.runtime.CloverPlugin</Bundle-Activator>
                             <Eclipse-LazyStart>true</Eclipse-LazyStart>
                             <Bundle-Classpath>.</Bundle-Classpath>

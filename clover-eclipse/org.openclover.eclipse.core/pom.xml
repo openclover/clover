@@ -33,6 +33,11 @@
     <build>
         <resources>
             <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <targetPath>${project.build.outputDirectory}</targetPath>
+            </resource>
+            <resource>
                 <directory>src/main/resources-filtered</directory>
                 <filtering>true</filtering>
                 <targetPath>${project.build.directory}/generated-sources</targetPath>
@@ -98,27 +103,7 @@
                             <Bundle-SymbolicName>org.openclover.eclipse.core singleton:=true</Bundle-SymbolicName>
                             <Bundle-Version>${project.version}</Bundle-Version>
                             <Bundle-Localization>plugin</Bundle-Localization>
-                            <Require-Bundle>
-                                org.eclipse.ui;bundle-version=&quot;[3.4.0,4.0.0)&quot;,
-                                org.eclipse.core.runtime;bundle-version=&quot;[3.4.0,4.0.0)&quot;,
-                                org.eclipse.core.filesystem,
-                                org.eclipse.core.resources,
-                                org.eclipse.debug.core,
-                                org.eclipse.debug.ui,
-                                org.eclipse.jdt.core,
-                                org.eclipse.jdt.debug.ui,
-                                org.eclipse.jdt.junit,
-                                org.eclipse.jdt.launching,
-                                org.eclipse.jdt.ui,
-                                org.eclipse.jface.text,
-                                org.eclipse.search,
-                                org.eclipse.ui.ide,
-                                org.eclipse.ui.console,
-                                org.eclipse.ui.editors,
-                                org.eclipse.ui.forms,
-                                org.eclipse.ui.workbench.texteditor,
-                                org.eclipse.ui.views
-                            </Require-Bundle>
+                            <Require-Bundle>org.eclipse.ui;bundle-version=&quot;[3.4.0,4.0.0)&quot;,org.eclipse.core.runtime;bundle-version=&quot;[3.4.0,4.0.0)&quot;,org.eclipse.core.filesystem,org.eclipse.core.resources,org.eclipse.debug.core,org.eclipse.debug.ui,org.eclipse.jdt.core,org.eclipse.jdt.debug.ui,org.eclipse.jdt.junit,org.eclipse.jdt.launching,org.eclipse.jdt.ui,org.eclipse.jface.text,org.eclipse.search,org.eclipse.ui.ide,org.eclipse.ui.console,org.eclipse.ui.editors,org.eclipse.ui.forms,org.eclipse.ui.workbench.texteditor,org.eclipse.ui.views</Require-Bundle>
                             <Bundle-Activator>org.openclover.eclipse.core.CloverPlugin</Bundle-Activator>
                             <Eclipse-LazyStart>true</Eclipse-LazyStart>
                             <Bundle-Classpath>.</Bundle-Classpath>

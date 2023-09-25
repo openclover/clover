@@ -26,6 +26,12 @@
         </dependency>
     </dependencies>
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -62,15 +68,7 @@
                             <Bundle-SymbolicName>org.openclover.eclipse.ant; singleton:=true</Bundle-SymbolicName>
                             <Bundle-Version>${project.version}</Bundle-Version>
                             <Bundle-Localization>plugin</Bundle-Localization>
-                            <Require-Bundle>
-                                org.eclipse.ant.core;bundle-version=&quot;[3.1.0,4.0.0)&quot;,
-                                org.apache.ant;bundle-version=&quot;[1.7.0,2.0.0)&quot;,
-                                org.eclipse.core.runtime,
-                                org.eclipse.equinox.common,
-                                org.eclipse.equinox.preferences,
-                                org.eclipse.osgi,
-                                org.eclipse.ui.workbench
-                            </Require-Bundle>
+                            <Require-Bundle>org.eclipse.ant.core;bundle-version=&quot;[3.1.0,4.0.0)&quot;,org.apache.ant;bundle-version=&quot;[1.7.0,2.0.0)&quot;,org.eclipse.core.runtime,org.eclipse.equinox.common,org.eclipse.equinox.preferences,org.eclipse.osgi,org.eclipse.ui.workbench</Require-Bundle>
                             <Bundle-Activator>org.openclover.eclipse.ant.CloverAntPlugin</Bundle-Activator>
                             <Eclipse-LazyStart>true</Eclipse-LazyStart>
                             <Bundle-Classpath>.</Bundle-Classpath>
