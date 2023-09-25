@@ -241,6 +241,15 @@
                 <artifactId>maven-gpg-plugin</artifactId>
                 <executions>
                     <execution>
+                        <id>no-sign</id>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <goals>
                             <goal>sign-and-deploy-file</goal>
                         </goals>
