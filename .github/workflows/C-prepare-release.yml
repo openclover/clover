@@ -33,20 +33,26 @@ jobs:
           echo "Updating pom.xml files to version ${{ inputs.releaseVersion }}"
           mvn versions:set "-DnewVersion=${{ inputs.releaseVersion }}" -DgenerateBackupPoms=false
           mvn versions:set-property -Dproperty=clover.version "-DnewVersion=${{ inputs.releaseVersion }}" -DgenerateBackupPoms=false
+          sed -i '' "s@<version>.*</version>@<version>${{ inputs.releaseVersion }}</version>@" clover-runtime/pom-reduced.xml
+          sed -i '' "s@<version>.*</version>@<version>${{ inputs.releaseVersion }}</version>@" clover-all/pom-reduced.xml
           ECLIPSE_VER=`echo ${{ inputs.releaseVersion }} | cut -f 1 -d '-'`.v`date +%Y%m%d` 
           echo "Updating pom.xml files for Eclipse to version $ECLIPSE_VER"
           mvn versions:set "-DnewVersion=$ECLIPSE_VER" -DgenerateBackupPoms=false -pl clover-eclipse
           git add .
           git commit -m "Prepare release openclover-${{ inputs.releaseVersion }}"
           git tag openclover-${{ inputs.releaseVersion }}
+          echo ""
           echo "Updating pom.xml files to version ${{ inputs.nextReleaseVersion }}"
           mvn versions:set "-DnewVersion=${{ inputs.nextReleaseVersion }}" -DgenerateBackupPoms=false
           mvn versions:set-property -Dproperty=clover.version "-DnewVersion=${{ inputs.nextReleaseVersion }}" -DgenerateBackupPoms=false
+          sed -i '' "s@<version>.*</version>@<version>${{ inputs.nextReleaseVersion }}</version>@" clover-runtime/pom-reduced.xml
+          sed -i '' "s@<version>.*</version>@<version>${{ inputs.nextReleaseVersion }}</version>@" clover-all/pom-reduced.xml
           ECLIPSE_VER=`echo ${{ inputs.nextReleaseVersion }} | cut -f 1 -d '-'`.vYYYYMMDD
           echo "Updating pom.xml files for Eclipse to version $ECLIPSE_VER"
           mvn versions:set "-DnewVersion=$ECLIPSE_VER" -DgenerateBackupPoms=false -pl clover-eclipse
           git add .
           git commit -m "Prepare for next development iteration"
+          echo "" 
           echo "Pushing commits and tag openclover-${{ inputs.releaseVersion }}"
           git push origin
           git push origin openclover-${{ inputs.releaseVersion }}
