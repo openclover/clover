@@ -37,7 +37,7 @@ jobs:
           mvn versions:set-property -Dproperty=clover.version "-DnewVersion=${{ inputs.releaseVersion }}" -DgenerateBackupPoms=false
           sed -i $SED_I "s@<version>.*</version>@<version>${{ inputs.releaseVersion }}</version>@" clover-runtime/pom-reduced.xml
           sed -i $SED_I "s@<version>.*</version>@<version>${{ inputs.releaseVersion }}</version>@" clover-all/pom-reduced.xml
-          ECLIPSE_VER=`echo ${{ inputs.releaseVersion }} | cut -f 1 -d '-'`.v`date +%Y%m%d` 
+          ECLIPSE_VER=`echo ${{ inputs.releaseVersion }} | cut -f 1 -d '-'`.v`date +%Y%m%d`000000
           echo "Updating pom.xml files for Eclipse to version $ECLIPSE_VER"
           mvn versions:set "-DnewVersion=$ECLIPSE_VER" -DgenerateBackupPoms=false -pl clover-eclipse
           git add .
@@ -49,7 +49,7 @@ jobs:
           mvn versions:set-property -Dproperty=clover.version "-DnewVersion=${{ inputs.nextReleaseVersion }}" -DgenerateBackupPoms=false
           sed -i $SED_I "s@<version>.*</version>@<version>${{ inputs.nextReleaseVersion }}</version>@" clover-runtime/pom-reduced.xml
           sed -i $SED_I "s@<version>.*</version>@<version>${{ inputs.nextReleaseVersion }}</version>@" clover-all/pom-reduced.xml
-          ECLIPSE_VER=`echo ${{ inputs.nextReleaseVersion }} | cut -f 1 -d '-'`.vYYYYMMDD
+          ECLIPSE_VER=`echo ${{ inputs.nextReleaseVersion }} | cut -f 1 -d '-'`.v20230101000000
           echo "Updating pom.xml files for Eclipse to version $ECLIPSE_VER"
           mvn versions:set "-DnewVersion=$ECLIPSE_VER" -DgenerateBackupPoms=false -pl clover-eclipse
           git add .
