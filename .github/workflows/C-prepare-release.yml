@@ -32,6 +32,7 @@ jobs:
           git config user.email "marek.parfianowicz+github-actions@gmail.com"
           echo "Updating pom.xml files to version ${{ inputs.releaseVersion }}"
           mvn versions:set "-DnewVersion=${{ inputs.releaseVersion }}" -DgenerateBackupPoms=false
+          mvn versions:set-property -Dproperty=clover.version "-DnewVersion=${{ inputs.releaseVersion }}" -DgenerateBackupPoms=false
           ECLIPSE_VER=`echo ${{ inputs.releaseVersion }} | cut -f 1 -d '-'`.v`date +%Y%m%d` 
           echo "Updating pom.xml files for Eclipse to version $ECLIPSE_VER"
           mvn versions:set "-DnewVersion=$ECLIPSE_VER" -DgenerateBackupPoms=false -pl clover-eclipse
@@ -40,6 +41,7 @@ jobs:
           git tag openclover-${{ inputs.releaseVersion }}
           echo "Updating pom.xml files to version ${{ inputs.nextReleaseVersion }}"
           mvn versions:set "-DnewVersion=${{ inputs.nextReleaseVersion }}" -DgenerateBackupPoms=false
+          mvn versions:set-property -Dproperty=clover.version "-DnewVersion=${{ inputs.nextReleaseVersion }}" -DgenerateBackupPoms=false
           ECLIPSE_VER=`echo ${{ inputs.nextReleaseVersion }} | cut -f 1 -d '-'`.vYYYYMMDD
           echo "Updating pom.xml files for Eclipse to version $ECLIPSE_VER"
           mvn versions:set "-DnewVersion=$ECLIPSE_VER" -DgenerateBackupPoms=false -pl clover-eclipse

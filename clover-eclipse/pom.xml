@@ -7,7 +7,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>clover-eclipse</artifactId>
-    <version>4.5.0-SNAPSHOT.v20230925</version>
+    <version>4.5.0.vYYYYMMDD</version>
     <packaging>pom</packaging>
     <name>OpenClover Eclipse Base</name>
     <description>A base POM for OpenClover for Eclipse plugins and features</description>
