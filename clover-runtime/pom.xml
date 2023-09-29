@@ -91,6 +91,7 @@
                         <configuration>
                             <name>build.stamp</name>
                             <pattern>yyyyMMddHHmmss</pattern>
+                            <locale>en,US</locale>
                         </configuration>
                     </execution>
                 </executions>
@@ -293,6 +294,9 @@
                         <goals>
                             <goal>jar</goal>
                         </goals>
+                        <configuration>
+                            <sourceFileExcludes>annotations/**</sourceFileExcludes>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
