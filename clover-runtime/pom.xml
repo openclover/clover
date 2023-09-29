@@ -229,14 +229,14 @@
                         <configuration>
                             <artifactSet>
                                 <includes>
-                                    <include>com.atlassian.clover:clover-antlr</include>
-                                    <include>com.atlassian.clover:clover-cajo</include>
-                                    <include>com.atlassian.clover:clover-slf4j</include>
+                                    <include>org.openclover:clover-antlr</include>
+                                    <include>org.openclover:clover-cajo</include>
+                                    <include>org.openclover:clover-slf4j</include>
                                 </includes>
                             </artifactSet>
                             <filters>
                                 <filter>
-                                    <artifact>com.atlassian.clover:clover-antlr</artifact>
+                                    <artifact>org.openclover:clover-antlr</artifact>
                                     <includes>
                                         <include>clover/antlr/CharFormatter*</include>
                                         <include>clover/antlr/collections/impl/BitSet*</include>
@@ -246,13 +246,13 @@
                                     </includes>
                                 </filter>
                                 <filter>
-                                    <artifact>com.atlassian.clover:clover-cajo</artifact>
+                                    <artifact>org.openclover:clover-cajo</artifact>
                                     <excludes>
                                         <exclude>META-INF/MANIFEST.MF</exclude>
                                     </excludes>
                                 </filter>
                                 <filter>
-                                    <artifact>com.atlassian.clover:clover-slf4j</artifact>
+                                    <artifact>org.openclover:clover-slf4j</artifact>
                                     <excludes>
                                         <exclude>META-INF/MANIFEST.MF</exclude>
                                     </excludes>
