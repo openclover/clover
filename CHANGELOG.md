@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- BETA support for Java 10-17. Not supported: switch expressions, instrumentation of module-info.java.
+- Support for Java 10-17 (experimental). Not supported: switch expressions, instrumentation of module-info.java.
 - Support for annotations on data types.
 
 ### Fixed
