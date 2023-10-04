@@ -15,7 +15,7 @@ jobs:
           SSH_ID=id_ed25519
           echo "${{ secrets.sshKey }}" > $SSH_ID
           chmod 400 $SSH_ID
-          mdkir ~/.ssh
+          mkdir ~/.ssh
           echo "[$OPENCLOVER_ORG_HOST]:$SSH_PORT ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDIQZaqssRl7Aifv3rJ28FzCgu0CTUPX4Jo0f1R/Xpru" >> ~/.ssh/known_hosts
           echo "Before"
           ssh -vvv -i $SSH_ID -p $SSH_PORT $SSH_USERNAME@$OPENCLOVER_ORG_HOST "echo DONE"
