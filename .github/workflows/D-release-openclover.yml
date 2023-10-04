@@ -57,8 +57,8 @@ jobs:
           echo "${{ secrets.sshKey }}" > $SSH_ID
           chmod 400 $SSH_ID
           echo "Uploading ant javadocs to openclover.org"
-          scp -i $SSH_ID -P $SSH_PORT clover-ant/target/clover-ant-$VERSION-javadoc.jar $SSH_USERNAME@$OPENCLOVER_ORG_HOST:$OPENCLOVER_ORG_DOC_PATH/javadoc
-          ssh -i $SSH_ID -p $SSH_PORT $SSH_USERNAME@$OPENCLOVER_ORG_HOST "cd $OPENCLOVER_ORG_DOC_PATH/javadoc && rm -rf latest && unzip clover-ant-$VERSION-javadoc.jar -d $VERSION && unzip clover-ant-$VERSION-javadoc.jar -d latest && rm clover-ant-$VERSION-javadoc.jar"
+          scp -vvv -i $SSH_ID -P $SSH_PORT clover-ant/target/clover-ant-$VERSION-javadoc.jar $SSH_USERNAME@$OPENCLOVER_ORG_HOST:$OPENCLOVER_ORG_DOC_PATH/javadoc
+          ssh -vvv -i $SSH_ID -p $SSH_PORT $SSH_USERNAME@$OPENCLOVER_ORG_HOST "cd $OPENCLOVER_ORG_DOC_PATH/javadoc && rm -rf latest && unzip clover-ant-$VERSION-javadoc.jar -d $VERSION && unzip clover-ant-$VERSION-javadoc.jar -d latest && rm clover-ant-$VERSION-javadoc.jar"
           echo "Uploading Ant zip to openclover.org"
           scp -i $SSH_ID -P $SSH_PORT clover-ant-zip/target/clover-ant-$VERSION.zip $SSH_USERNAME@$OPENCLOVER_ORG_HOST:$OPENCLOVER_ORG_DOWNLOAD_PATH
           echo "Uploading IDEA jar and latestStableVersion.xml to openclover.org"
