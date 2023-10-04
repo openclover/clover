@@ -60,7 +60,7 @@ jobs:
           echo "[$OPENCLOVER_ORG_HOST]:$SSH_PORT ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDIQZaqssRl7Aifv3rJ28FzCgu0CTUPX4Jo0f1R/Xpru" >> ~/.ssh/known_hosts
           echo "Uploading ant javadocs to openclover.org"
           scp -i $SSH_ID -P $SSH_PORT clover-ant/target/clover-ant-$VERSION-javadoc.jar $SSH_USERNAME@$OPENCLOVER_ORG_HOST:$OPENCLOVER_ORG_DOC_PATH/javadoc
-          ssh -i $SSH_ID -p $SSH_PORT $SSH_USERNAME@$OPENCLOVER_ORG_HOST "cd $OPENCLOVER_ORG_DOC_PATH/javadoc && rm -rf latest && unzip clover-ant-$VERSION-javadoc.jar -d $VERSION && unzip clover-ant-$VERSION-javadoc.jar -d latest && rm clover-ant-$VERSION-javadoc.jar"
+          ssh -i $SSH_ID -p $SSH_PORT $SSH_USERNAME@$OPENCLOVER_ORG_HOST "cd $OPENCLOVER_ORG_DOC_PATH/javadoc && rm -rf latest && unzip -o clover-ant-$VERSION-javadoc.jar -d $VERSION && unzip -o clover-ant-$VERSION-javadoc.jar -d latest && rm clover-ant-$VERSION-javadoc.jar"
           echo "Uploading Ant zip to openclover.org"
           scp -i $SSH_ID -P $SSH_PORT clover-ant-zip/target/clover-ant-$VERSION.zip $SSH_USERNAME@$OPENCLOVER_ORG_HOST:$OPENCLOVER_ORG_DOWNLOAD_PATH
           echo "Uploading IDEA jar and latestStableVersion.xml to openclover.org"
@@ -69,7 +69,7 @@ jobs:
           echo "Uploading Eclipse zip to openclover.org"
           ECLIPSE_VERSION=`echo $VERSION | cut -f 1 -d '-'`.v`date +%Y%m%d`000000
           scp -i $SSH_ID -P $SSH_PORT clover-eclipse/org.openclover.eclipse.updatesite/target/clover-eclipse-site-$ECLIPSE_VERSION.zip $SSH_USERNAME@$OPENCLOVER_ORG_HOST:$OPENCLOVER_ORG_DOWNLOAD_PATH
-          ssh -i $SSH_ID -p $SSH_PORT $SSH_USERNAME@$OPENCLOVER_ORG_HOST "unzip $OPENCLOVER_ORG_DOWNLOAD_PATH/clover-eclipse-site-$ECLIPSE_VERSION.zip -d $OPENCLOVER_ORG_UPDATE_PATH"
+          ssh -i $SSH_ID -p $SSH_PORT $SSH_USERNAME@$OPENCLOVER_ORG_HOST "unzip -o $OPENCLOVER_ORG_DOWNLOAD_PATH/clover-eclipse-site-$ECLIPSE_VERSION.zip -d $OPENCLOVER_ORG_UPDATE_PATH"
           rm -f $SSH_ID
         env:
           SSH_PORT: ${{ secrets.sshPort }}
