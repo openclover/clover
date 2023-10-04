@@ -1,7 +1,12 @@
 name: E Test
 
 on:
-  workflow_dispatch
+  workflow_dispatch:
+    inputs:
+      releaseVersion:
+        description: 'Release version'
+        required: true
+        type: string
 
 jobs:
   build:
@@ -10,6 +15,42 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v3
+        with:
+          java-version: 8.0
+          distribution: temurin
+          cache: maven
+          gpg-private-key: ${{ secrets.ARTIFACT_SIGNING_GPG_KEY }}
+          gpg-passphrase: GPG_PASSPHRASE
+
+      - name: Prepare third party libraries
+        run: |
+          mvn install -f clover-core-libs/jarjar/pom.xml
+          mvn install -Pworkspace-setup -f clover-core-libs/pom.xml
+          mvn install -Pworkspace-setup -f clover-eclipse-libs/pom.xml
+          mvn install -Pworkspace-setup -f clover-jtreemap/pom.xml
+          mvn install -Pworkspace-setup -f clover-idea-libs/pom.xml
+
+      - name: Download KTreemap fork
+        run: |
+          wget https://packages.atlassian.com/mvn/maven-atlassian-external/net/sf/jtreemap/ktreemap/1.1.0-atlassian-01/ktreemap-1.1.0-atlassian-01.jar
+          wget https://packages.atlassian.com/mvn/maven-atlassian-external/net/sf/jtreemap/ktreemap/1.1.0-atlassian-01/ktreemap-1.1.0-atlassian-01.pom
+          mvn install:install-file -Dfile=ktreemap-1.1.0-atlassian-01.jar -DpomFile=ktreemap-1.1.0-atlassian-01.pom
+
+      - name: Build a release
+        run: |
+          if [ `uname` = 'Darwin' ]; then SED_I="''"; else SED_I=""; fi
+          mvn versions:set "-DnewVersion=${{ inputs.releaseVersion }}" -DgenerateBackupPoms=false
+          mvn versions:set-property -Dproperty=clover.version "-DnewVersion=${{ inputs.releaseVersion }}" -DgenerateBackupPoms=false
+          sed -i $SED_I "s@<version>.*</version>@<version>${{ inputs.releaseVersion }}</version>@" clover-runtime/pom-reduced.xml
+          sed -i $SED_I "s@<version>.*</version>@<version>${{ inputs.releaseVersion }}</version>@" clover-all/pom-reduced.xml
+          ECLIPSE_VER=`echo ${{ inputs.releaseVersion }} | cut -f 1 -d '-'`.v`date +%Y%m%d`000000
+          mvn versions:set "-DnewVersion=$ECLIPSE_VER" -DgenerateBackupPoms=false -pl clover-eclipse
+          mvn --batch-mode install -Dgpg.skip=false -DskipTests=true
+        env:
+          GPG_PASSPHRASE: ${{ secrets.ARTIFACT_SIGNING_GPG_PASSPHRASE }}
+
       - name: Upload non-Maven artifacts
         run: |
           SSH_ID=id_ed25519
@@ -17,10 +58,24 @@ jobs:
           chmod 400 $SSH_ID
           mkdir ~/.ssh
           echo "[$OPENCLOVER_ORG_HOST]:$SSH_PORT ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDIQZaqssRl7Aifv3rJ28FzCgu0CTUPX4Jo0f1R/Xpru" >> ~/.ssh/known_hosts
-          echo "Before"
-          ssh -vvv -i $SSH_ID -p $SSH_PORT $SSH_USERNAME@$OPENCLOVER_ORG_HOST "echo DONE"
-          echo "After"
+          echo "Uploading ant javadocs to openclover.org"
+          scp -i $SSH_ID -P $SSH_PORT clover-ant/target/clover-ant-$VERSION-javadoc.jar $SSH_USERNAME@$OPENCLOVER_ORG_HOST:$OPENCLOVER_ORG_DOC_PATH/javadoc
+          ssh -i $SSH_ID -p $SSH_PORT $SSH_USERNAME@$OPENCLOVER_ORG_HOST "cd $OPENCLOVER_ORG_DOC_PATH/javadoc && rm -rf latest && unzip clover-ant-$VERSION-javadoc.jar -d $VERSION && unzip clover-ant-$VERSION-javadoc.jar -d latest && rm clover-ant-$VERSION-javadoc.jar"
+          echo "Uploading Ant zip to openclover.org"
+          scp -i $SSH_ID -P $SSH_PORT clover-ant-zip/target/clover-ant-$VERSION.zip $SSH_USERNAME@$OPENCLOVER_ORG_HOST:$OPENCLOVER_ORG_DOWNLOAD_PATH
+          echo "Uploading IDEA jar and latestStableVersion.xml to openclover.org"
+          scp -i $SSH_ID -P $SSH_PORT clover-idea/target/clover-idea-$VERSION.jar $SSH_USERNAME@$OPENCLOVER_ORG_HOST:$OPENCLOVER_ORG_DOWNLOAD_PATH
+          scp -i $SSH_ID -P $SSH_PORT clover-idea/target/autoupdate/latestStableVersion.xml $SSH_USERNAME@$OPENCLOVER_ORG_HOST:$OPENCLOVER_ORG_UPDATE_PATH
+          echo "Uploading Eclipse zip to openclover.org"
+          ECLIPSE_VERSION=`echo $VERSION | cut -f 1 -d '-'`.v`date +%Y%m%d`
+          scp -i $SSH_ID -P $SSH_PORT clover-eclipse/org.openclover.eclipse.updatesite/target/clover-eclipse-site-$ECLIPSE_VERSION.zip $SSH_USERNAME@$OPENCLOVER_ORG_HOST:$OPENCLOVER_ORG_DOWNLOAD_PATH
+          ssh -i $SSH_ID -p $SSH_PORT $SSH_USERNAME@$OPENCLOVER_ORG_HOST "unzip $OPENCLOVER_ORG_DOWNLOAD_PATH/clover-eclipse-site-$ECLIPSE_VERSION.zip -d $OPENCLOVER_ORG_UPDATE_PATH"
+          rm -f $SSH_ID
         env:
           SSH_PORT: ${{ secrets.sshPort }}
           SSH_USERNAME: ${{ secrets.sshUsername }}
           OPENCLOVER_ORG_HOST: ${{ secrets.sshHost }}
+          OPENCLOVER_ORG_DOWNLOAD_PATH: ${{ secrets.sshDomainPath }}/download/openclover
+          OPENCLOVER_ORG_UPDATE_PATH: ${{ secrets.sshDomainPath }}/update
+          OPENCLOVER_ORG_DOC_PATH: ${{ secrets.sshDomainPath }}/doc
+          VERSION: ${{ inputs.releaseVersion }}
