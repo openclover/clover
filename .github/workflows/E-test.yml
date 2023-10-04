@@ -1,0 +1,26 @@
+name: E Test
+
+on:
+  workflow_dispatch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Upload non-Maven artifacts
+        run: |
+          SSH_ID=id_ed25519
+          echo "${{ secrets.sshKey }}" > $SSH_ID
+          chmod 400 $SSH_ID
+          mdkir ~/.ssh
+          echo "[$OPENCLOVER_ORG_HOST]:$SSH_PORT ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDIQZaqssRl7Aifv3rJ28FzCgu0CTUPX4Jo0f1R/Xpru" >> ~/.ssh/known_hosts
+          echo "Before"
+          ssh -vvv -i $SSH_ID -p $SSH_PORT $SSH_USERNAME@$OPENCLOVER_ORG_HOST "echo DONE"
+          echo "After"
+        env:
+          SSH_PORT: ${{ secrets.sshPort }}
+          SSH_USERNAME: ${{ secrets.sshUsername }}
+          OPENCLOVER_ORG_HOST: ${{ secrets.sshHost }}
