@@ -1,15 +1,13 @@
 package com.atlassian.clover
 
-import com.atlassian.clover.util.FileUtils
-import org.apache.tools.ant.util.JavaEnvUtils
-
+import com.atlassian.clover.util.JavaEnvUtils
 
 /**
  * The purpose of this test is to
- * a) make sure the code compiles under a JDK16
+ * a) make sure the code compiles under a JDK15
  * b) make sure that when that code is instrumented, it still compiles
  */
-class JavaSyntax116CompilationTest extends JavaSyntaxCompilationTestBase {
+class JavaSyntax15CompilationTest extends JavaSyntaxCompilationTestBase {
 
     protected File srcDir
 
@@ -19,16 +17,16 @@ class JavaSyntax116CompilationTest extends JavaSyntaxCompilationTestBase {
     @Override
     protected void setUp() throws Exception {
         super.setUp()
-        srcDir = new File(mTestcasesSrcDir, "javasyntax1.16")
+        srcDir = new File(mTestcasesSrcDir, "javasyntax1.15")
         resetAntOutput()
     }
 
-    void testRecordClass() {
-        final String fileName = "java16/Java16RecordClass.java"
+    void testTextBlock() {
+        final String fileName = "java15/Java15TextBlock.java"
         File srcFile = new File(srcDir, fileName)
 
-        // Currently, OpenClover cannot be built on JDK16
-        instrumentSourceFile(srcFile,  com.atlassian.clover.util.JavaEnvUtils.JAVA_16)
+        // Currently, OpenClover cannot be built on JDK15
+        instrumentSourceFile(srcFile, JavaEnvUtils.JAVA_15)
         assertFileMatches(fileName, R_INC + "System.out.println", false)
     }
 }
