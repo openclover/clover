@@ -9,6 +9,9 @@ import org.apache.tools.ant.util.JavaEnvUtils
  */
 class JavaSyntax7CompilationTest extends JavaSyntaxCompilationTestBase {
 
+    /** Regular expression for: __CLR_hash_code.R.inc(index) */
+    protected final String R_INC = "__CLR[a-zA-Z0-9_]+\\.R\\.inc\\([0-9]+\\);"
+
     /**
      * Test java 1.7 language features and how Clover handles them.
      *
@@ -56,6 +59,14 @@ class JavaSyntax7CompilationTest extends JavaSyntaxCompilationTestBase {
         // NonReifiableTypesSuppressWarnings
         instrumentAndCompileSourceFile(srcDir, mGenSrcDir, "NonReifiableTypesSuppressWarnings.java", JavaEnvUtils.JAVA_1_7)
         assertAntOutputContains(".*\\[unchecked\\] unchecked generic array creation for varargs parameter of type List<String>\\[\\].*", false)
+    }
+
+    void testRecordIsNotReservedKeyword() {
+        final File srcDir = new File(mTestcasesSrcDir, "javasyntax1.7")
+        final String fileName = "RecordIsNotReservedKeyword.java"
+
+        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, com.atlassian.clover.util.JavaEnvUtils.JAVA_7)
+        assertFileMatches(fileName, R_INC + "System.out.println", false)
     }
 
 }
