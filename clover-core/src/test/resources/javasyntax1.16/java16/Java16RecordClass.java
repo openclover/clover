@@ -21,3 +21,13 @@ record Record2(int x, int y) {
         this.y = y * 2;
     }
 }
+
+/** Despite introducing records in Java16, you can still use it for symbols, sic! */
+class RecordIsNotReservedKeyword {
+    int record = 0;
+    int record(int record) {
+        this.record = record;
+        System.out.println(record);
+        return record;
+    }
+}

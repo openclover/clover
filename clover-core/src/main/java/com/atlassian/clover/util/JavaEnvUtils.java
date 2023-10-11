@@ -8,17 +8,17 @@ public class JavaEnvUtils {
     /** Version of currently running VM. */
     private static String javaVersion;
 
-    private static final String JAVA_7 = "7";
-    private static final String JAVA_8 = "8";
-    private static final String JAVA_9 = "9";
-    private static final String JAVA_10 = "10";
-    private static final String JAVA_11 = "11";
-    private static final String JAVA_12 = "12";
-    private static final String JAVA_13 = "13";
-    private static final String JAVA_14 = "14";
-    private static final String JAVA_15 = "15";
-    private static final String JAVA_16 = "16";
-    private static final String JAVA_17 = "17";
+    public static final String JAVA_7 = "7";
+    public static final String JAVA_8 = "8";
+    public static final String JAVA_9 = "9";
+    public static final String JAVA_10 = "10";
+    public static final String JAVA_11 = "11";
+    public static final String JAVA_12 = "12";
+    public static final String JAVA_13 = "13";
+    public static final String JAVA_14 = "14";
+    public static final String JAVA_15 = "15";
+    public static final String JAVA_16 = "16";
+    public static final String JAVA_17 = "17";
 
     static {
         try {
@@ -50,5 +50,9 @@ public class JavaEnvUtils {
 
     public static String getJavaVersion() {
         return javaVersion;
+    }
+
+    public static boolean isAtLeastJavaVersion(String expectedVersion) {
+        return Integer.parseInt(javaVersion) >= Integer.parseInt(expectedVersion);
     }
 }

@@ -1,7 +1,7 @@
 package com.atlassian.clover
 
 import com.atlassian.clover.util.FileUtils
-import org.apache.tools.ant.util.JavaEnvUtils
+import com.atlassian.clover.util.JavaEnvUtils
 
 
 /**
@@ -24,9 +24,9 @@ class JavaSyntax10CompilationTest extends JavaSyntaxCompilationTestBase {
     }
 
     void testVarVariable() {
-        if (JavaEnvUtils.isAtLeastJavaVersion(com.atlassian.clover.util.JavaEnvUtils.JAVA_10)) {
+        if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_10)) {
             final String fileName = "java10/Java10Var.java"
-            instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, com.atlassian.clover.util.JavaEnvUtils.JAVA_10)
+            instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_10)
 
             // check private methods in interfaces are instrumented
             assertFileMatches(fileName, R_INC + "System.out.println", false)

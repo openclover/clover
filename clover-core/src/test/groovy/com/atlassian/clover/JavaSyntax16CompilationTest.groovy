@@ -1,7 +1,7 @@
 package com.atlassian.clover
 
 import com.atlassian.clover.util.FileUtils
-import org.apache.tools.ant.util.JavaEnvUtils
+import com.atlassian.clover.util.JavaEnvUtils
 
 
 /**
@@ -28,7 +28,16 @@ class JavaSyntax16CompilationTest extends JavaSyntaxCompilationTestBase {
         File srcFile = new File(srcDir, fileName)
 
         // Currently, OpenClover cannot be built on JDK16
-        instrumentSourceFile(srcFile,  com.atlassian.clover.util.JavaEnvUtils.JAVA_16)
+        instrumentSourceFile(srcFile,  JavaEnvUtils.JAVA_16)
         assertFileMatches(fileName, R_INC + "System.out.println", false)
+    }
+
+    void testRecordIsNotReservedKeyword() {
+        final File srcDir = new File(mTestcasesSrcDir, "javasyntax1.7")
+        final String fileName = "RecordIsNotReservedKeyword.java"
+        final File srcFile = new File(srcDir, fileName)
+
+        instrumentSourceFile(srcFile, JavaEnvUtils.JAVA_16)
+        assertFileMatches(fileName, R_INC + "System.out.println(record)", false)
     }
 }

@@ -1,6 +1,6 @@
 package com.atlassian.clover
 
-import org.apache.tools.ant.util.JavaEnvUtils
+import com.atlassian.clover.util.JavaEnvUtils
 
 /**
  * The purpose of this test is to
@@ -48,16 +48,16 @@ class JavaSyntax7CompilationTest extends JavaSyntaxCompilationTestBase {
         // Note: we must use -Xlint or -Xlint:unchecked compiler option
 
         // NonReifiableTypesHeapPollution
-        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, "NonReifiableTypesHeapPollution.java", JavaEnvUtils.JAVA_1_7)
+        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, "NonReifiableTypesHeapPollution.java", JavaEnvUtils.JAVA_7)
         assertAntOutputContains(".*\\[unchecked\\] Possible heap pollution from parameterized vararg type T.*", false)
         assertAntOutputContains(".*\\[unchecked\\] unchecked generic array creation for varargs parameter of type List<String>\\[\\].*", false)
 
         // NonReifiableTypesSafeVarargs
-        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, "NonReifiableTypesSafeVarargs.java", JavaEnvUtils.JAVA_1_7)
+        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, "NonReifiableTypesSafeVarargs.java", JavaEnvUtils.JAVA_7)
         assertAntOutputContains(".*\\[unchecked\\].*", true); // i.e. no warnings
 
         // NonReifiableTypesSuppressWarnings
-        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, "NonReifiableTypesSuppressWarnings.java", JavaEnvUtils.JAVA_1_7)
+        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, "NonReifiableTypesSuppressWarnings.java", JavaEnvUtils.JAVA_7)
         assertAntOutputContains(".*\\[unchecked\\] unchecked generic array creation for varargs parameter of type List<String>\\[\\].*", false)
     }
 
@@ -65,8 +65,8 @@ class JavaSyntax7CompilationTest extends JavaSyntaxCompilationTestBase {
         final File srcDir = new File(mTestcasesSrcDir, "javasyntax1.7")
         final String fileName = "RecordIsNotReservedKeyword.java"
 
-        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, com.atlassian.clover.util.JavaEnvUtils.JAVA_7)
-        assertFileMatches(fileName, R_INC + "System.out.println", false)
+        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_7)
+        assertFileMatches(fileName, R_INC + "System.out.println(record)", false)
     }
 
 }

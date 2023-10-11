@@ -3,11 +3,10 @@
  * See https://github.com/openclover/clover/issues/206
  */
 public RecordIsNotReservedKeyword {
-
     int record = 0;
-
     int record(int record) {
         this.record = record;
+        System.out.println(record);
         return record;
     }
 }

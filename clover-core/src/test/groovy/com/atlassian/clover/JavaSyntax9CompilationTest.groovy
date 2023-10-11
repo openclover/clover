@@ -1,7 +1,7 @@
 package com.atlassian.clover
 
 import com.atlassian.clover.util.FileUtils
-import org.apache.tools.ant.util.JavaEnvUtils
+import com.atlassian.clover.util.JavaEnvUtils
 
 
 /**
