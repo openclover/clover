@@ -7,7 +7,7 @@ import org.apache.tools.ant.util.JavaEnvUtils
  * <li>make sure the code compiles under JDK1.5 or later</li>
  * <li>make sure that when that code is instrumented, it still compiles</li>
  */
-class JavaSyntax15CompilationTest extends JavaSyntaxCompilationTestBase {
+class JavaSyntax5CompilationTest extends JavaSyntaxCompilationTestBase {
 
     void testCompilation_15() throws Exception {
         final File srcDir = new File(mTestcasesSrcDir, "javasyntax1.5")

@@ -7,7 +7,7 @@ import org.apache.tools.ant.util.JavaEnvUtils
  * <li>make sure the code compiles under JDK1.4 or later</li>
  * <li>make sure that when that code is instrumented, it still compiles</li>
  */
-class JavaSyntax14CompilationTest extends JavaSyntaxCompilationTestBase {
+class JavaSyntax4CompilationTest extends JavaSyntaxCompilationTestBase {
 
     /**
      * Test java 1.4 language features and how clover handles them.

@@ -18,7 +18,7 @@ import static org.openclover.util.Lists.newArrayList
  * a) make sure the code compiles under a JDK1.8
  * b) make sure that when that code is instrumented, it still compiles
  */
-class JavaSyntax18CompilationTest extends JavaSyntaxCompilationTestBase {
+class JavaSyntax8CompilationTest extends JavaSyntaxCompilationTestBase {
 
     protected File srcDir
 

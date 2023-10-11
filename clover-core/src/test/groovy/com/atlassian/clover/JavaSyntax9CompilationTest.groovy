@@ -9,7 +9,7 @@ import org.apache.tools.ant.util.JavaEnvUtils
  * a) make sure the code compiles under a JDK9
  * b) make sure that when that code is instrumented, it still compiles
  */
-class JavaSyntax19CompilationTest extends JavaSyntaxCompilationTestBase {
+class JavaSyntax9CompilationTest extends JavaSyntaxCompilationTestBase {
 
     protected File srcDir
 

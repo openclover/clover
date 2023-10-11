@@ -6,10 +6,10 @@ import org.apache.tools.ant.util.JavaEnvUtils
 
 /**
  * The purpose of this test is to
- * a) make sure the code compiles under a JDK10
+ * a) make sure the code compiles under a JDK11
  * b) make sure that when that code is instrumented, it still compiles
  */
-class JavaSyntax110CompilationTest extends JavaSyntaxCompilationTestBase {
+class JavaSyntax11CompilationTest extends JavaSyntaxCompilationTestBase {
 
     protected File srcDir
 
@@ -19,14 +19,14 @@ class JavaSyntax110CompilationTest extends JavaSyntaxCompilationTestBase {
     @Override
     protected void setUp() throws Exception {
         super.setUp()
-        srcDir = new File(mTestcasesSrcDir, "javasyntax1.10")
+        srcDir = new File(mTestcasesSrcDir, "javasyntax1.11")
         resetAntOutput()
     }
 
     void testVarVariable() {
-        if (JavaEnvUtils.isAtLeastJavaVersion(com.atlassian.clover.util.JavaEnvUtils.JAVA_10)) {
-            final String fileName = "java10/Java10Var.java"
-            instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, com.atlassian.clover.util.JavaEnvUtils.JAVA_10)
+        if (JavaEnvUtils.isAtLeastJavaVersion(com.atlassian.clover.util.JavaEnvUtils.JAVA_11)) {
+            final String fileName = "java11/Java11VarInLambdaParameter.java"
+            instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, com.atlassian.clover.util.JavaEnvUtils.JAVA_11)
 
             // check private methods in interfaces are instrumented
             assertFileMatches(fileName, R_INC + "System.out.println", false)

@@ -11,7 +11,7 @@ import org.apache.tools.ant.util.JavaEnvUtils
  * a) make sure the code compiles under JDK1.3 or later
  * b) make sure that when that code is instrumented, it still compiles
  */
-class JavaSyntax13CompilationTest extends JavaSyntaxCompilationTestBase {
+class JavaSyntax3CompilationTest extends JavaSyntaxCompilationTestBase {
 
     void testCompilation_13() {
         final File srcDir = new File(mTestcasesSrcDir, "javasyntax1.3")

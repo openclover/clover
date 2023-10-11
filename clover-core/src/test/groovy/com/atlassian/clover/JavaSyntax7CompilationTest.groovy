@@ -7,7 +7,7 @@ import org.apache.tools.ant.util.JavaEnvUtils
  * a) make sure the code compiles under JDK1.7 or later
  * b) make sure that when that code is instrumented, it still compiles
  */
-class JavaSyntax17CompilationTest extends JavaSyntaxCompilationTestBase {
+class JavaSyntax7CompilationTest extends JavaSyntaxCompilationTestBase {
 
     /**
      * Test java 1.7 language features and how Clover handles them.
