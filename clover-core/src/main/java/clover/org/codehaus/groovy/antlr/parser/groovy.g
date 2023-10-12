@@ -2422,8 +2422,9 @@ pathElementStart!
     |   LCURLY
     ;
 
-/** This is the grammar for what can follow a dot:  x.a, x.@a, x.&a, x.'a', etc.
- *  Note: <code>typeArguments</code> is handled by the caller of <code>namePart</code>.
+/**
+ * This is the grammar for what can follow a dot:  x.a, x.@a, x.&amp;a, x.'a', etc.
+ * Note: <code>typeArguments</code> is handled by the caller of <code>namePart</code>.
  */
 namePart  {Token first = LT(1);}
     :

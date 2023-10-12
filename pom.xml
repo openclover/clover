@@ -254,10 +254,11 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>2.10.4</version>
+                    <version>3.6.0</version>
                     <configuration>
-                        <additionalparam>-Xdoclint:-missing</additionalparam>
+                        <doclint>-missing</doclint>
                         <quiet>true</quiet>
+                        <release>8</release>
                     </configuration>
                 </plugin>
                 <plugin>
