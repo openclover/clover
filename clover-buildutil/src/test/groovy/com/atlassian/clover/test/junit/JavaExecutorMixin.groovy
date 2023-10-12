@@ -1,7 +1,7 @@
 package com.atlassian.clover.test.junit
 
 /** Mixin for executing a Java process  */
-class JavaExecutorMixin {
+trait JavaExecutorMixin {
     Result launchJavap(params) {
       launchCmd("${[System.getenv("JAVA_HOME"), 'bin', 'javap'].join(File.separator)} ${params}")
     }

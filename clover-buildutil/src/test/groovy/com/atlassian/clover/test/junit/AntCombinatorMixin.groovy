@@ -3,7 +3,7 @@ package com.atlassian.clover.test.junit
 import java.util.regex.Matcher
 
 /** Mixin for iterating over Ant versions in the project  */
-class AntCombinatorMixin {
+trait AntCombinatorMixin {
     def eachAnt(File antHomesDir, Closure filter = {true}, Closure c) {
         findAntVersions(antHomesDir, filter).each(c)
     }

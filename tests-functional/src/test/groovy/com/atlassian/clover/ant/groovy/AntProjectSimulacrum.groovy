@@ -3,8 +3,7 @@ package com.atlassian.clover.ant.groovy
 import com.atlassian.clover.test.junit.JavaExecutorMixin
 import junit.framework.Test
 
-@Mixin (JavaExecutorMixin)
-class AntProjectSimulacrum {
+class AntProjectSimulacrum implements JavaExecutorMixin {
     public static String DEBUG_OPTIONS = ""//-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5009"
 
     String methodName

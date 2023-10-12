@@ -1,7 +1,7 @@
 package com.atlassian.clover.test.junit
 
 /** Mixin for making assertsions on a clover .db file  */
-class CloverDbTestMixin {
+trait CloverDbTestMixin {
     protected File db
 
     void reserveCloverDbFile() {

@@ -1,7 +1,7 @@
 package com.atlassian.clover.test.junit
 
 /** Mixin for tests that require a working directory */
-class WorkingDirMixin {
+trait WorkingDirMixin {
   File workingDir
 
   void createWorkingDir() {

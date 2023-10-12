@@ -11,8 +11,9 @@ import com.atlassian.clover.versions.LibraryVersion
 
 import java.lang.reflect.Method
 
-@Mixin ([GroovyCombinatorMixin, SpockCombinatorMixin, TestPropertyMixin, IncludeExcludeMixin])
-class GroovySpockTestSuite extends junit.framework.TestSuite {
+class GroovySpockTestSuite
+        extends junit.framework.TestSuite
+        implements GroovyCombinatorMixin, SpockCombinatorMixin, TestPropertyMixin, IncludeExcludeMixin {
     static Map<Class, Closure> TEST_CLASSES_AND_SELECTORS = [
         (GroovySpockTest): DefaultTestSelector.instance.closure,
     ]

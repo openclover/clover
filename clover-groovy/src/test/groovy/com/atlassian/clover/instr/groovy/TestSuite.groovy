@@ -10,8 +10,9 @@ import com.atlassian.clover.test.junit.GroovyVersions
 import com.atlassian.clover.versions.LibraryVersion
 import com.atlassian.clover.test.junit.GroovyVersionStart
 
-@Mixin ([GroovyCombinatorMixin, TestPropertyMixin, IncludeExcludeMixin])
-class TestSuite extends junit.framework.TestSuite {
+class TestSuite
+        extends junit.framework.TestSuite
+        implements GroovyCombinatorMixin, TestPropertyMixin, IncludeExcludeMixin {
     static Map<Class, Closure> TEST_CLASSES_AND_SELECTORS = [
         (GroovyProfilesTest): DefaultTestSelector.instance.closure,
         (GroovyModellingTest): DefaultTestSelector.instance.closure,

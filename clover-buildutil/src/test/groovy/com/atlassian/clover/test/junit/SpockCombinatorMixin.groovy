@@ -5,7 +5,7 @@ import java.util.regex.Matcher
 /**
  * Mixin for iterating over Spock versions in the project
  */
-class SpockCombinatorMixin {
+trait SpockCombinatorMixin {
     void eachSpock(File spockLibDir, Closure filter = {true}, Closure c) {
         findSpockAllVersionsAndJars(spockLibDir, filter).each(c)
     }

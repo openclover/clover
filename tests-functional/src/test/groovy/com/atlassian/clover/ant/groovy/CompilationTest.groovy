@@ -8,8 +8,8 @@ import com.atlassian.clover.test.junit.TestPropertyMixin
 import com.atlassian.clover.test.junit.WorkingDirMixin
 import com.atlassian.clover.CloverNames
 
-@Mixin ([WorkingDirMixin, JavaExecutorMixin, TestPropertyMixin])
-class CompilationTest extends DynamicallyNamedTestBase {
+class CompilationTest extends DynamicallyNamedTestBase
+        implements WorkingDirMixin, JavaExecutorMixin, TestPropertyMixin {
 
     AntProjectSimulacrum project
 

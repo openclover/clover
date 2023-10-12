@@ -11,8 +11,9 @@ import com.atlassian.clover.test.junit.WorkingDirMixin
 import com.atlassian.clover.CloverNames
 import com.atlassian.clover.context.ContextStore
 
-@Mixin ([WorkingDirMixin, CloverDbTestMixin, TestPropertyMixin, JavaExecutorMixin])
-abstract class TestBase extends DynamicallyNamedTestBase {
+abstract class TestBase
+        extends DynamicallyNamedTestBase
+        implements WorkingDirMixin, CloverDbTestMixin, TestPropertyMixin, JavaExecutorMixin {
     protected File cloverAllResources = new File( "../clover-all/src/main/resources")
     protected File cloverCoreClasses = new File( "../clover-core/target/classes")
     protected File cloverRuntimeClasses = new File( "../clover-runtime/target/classes")
