@@ -33,7 +33,7 @@
             <artifactId>asm</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.codehaus.groovy</groupId>
+            <groupId>org.apache.groovy</groupId>
             <artifactId>groovy</artifactId>
             <version>${clover-groovy.test.groovy.ver}</version>
         </dependency>
@@ -111,7 +111,7 @@
                                     <version>2.7.7</version>
                                 </artifactItem>
                                 <artifactItem>
-                                    <groupId>org.codehaus.groovy</groupId>
+                                    <groupId>org.apache.groovy</groupId>
                                     <artifactId>groovy</artifactId>
                                     <version>${clover-groovy.test.groovy.ver}</version>
                                 </artifactItem>
