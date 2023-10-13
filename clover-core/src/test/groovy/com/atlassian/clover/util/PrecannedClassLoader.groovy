@@ -13,7 +13,7 @@ class PrecannedClassLoader extends ClassLoader {
     Class loadClass(String name, boolean resolve) throws ClassNotFoundException {
         Class result = null
         try {
-            result = findClass(name)
+            result = findClassInternal(name)
             if (result != null && resolve) {
                 resolveClass(result)
             }
@@ -31,12 +31,12 @@ class PrecannedClassLoader extends ClassLoader {
         return result
     }
 
-    protected Class findClass(String name) throws ClassNotFoundException {
+    protected Class findClassInternal(String name) throws ClassNotFoundException {
         if (precanned.containsKey(name)) {
             byte[] bytes = (byte[]) precanned.get(name)
             return defineClass(name, bytes, 0, bytes.length)
         } else {
-            return super.findClass(name)
+            return findClass(name)
         }
     }
 }
