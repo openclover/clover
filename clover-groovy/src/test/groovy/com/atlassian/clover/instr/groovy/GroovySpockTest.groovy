@@ -43,7 +43,7 @@ class GroovySpockTest extends TestBase {
     }
 
     private static File getSpockJarFromProperty() {
-        def spockVer = System.getProperty("clover-groovy.test.spock.ver") ?: "1.0-groovy-2.4"
+        def spockVer = System.getProperty("clover-groovy.test.spock.ver") ?: "2.3-groovy-4.0"
         new File("target/test-dependencies/spock-core-${spockVer}.jar")
     }
 
