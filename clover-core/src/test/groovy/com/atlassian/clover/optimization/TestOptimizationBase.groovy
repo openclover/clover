@@ -8,9 +8,10 @@ import com.atlassian.clover.registry.Clover2Registry
 import com.atlassian.clover.registry.entities.FullMethodInfo
 import com.atlassian.clover.testutils.IOHelper
 import com_atlassian_clover.CoverageRecorder
-import junit.framework.TestCase
+import org.junit.Rule
+import org.junit.rules.TestName
 
-abstract class TestOptimizationBase extends TestCase {
+abstract class TestOptimizationBase {
     protected static final String THIS_PACKAGE = "com.acme"
     protected static final String TEST_MAIN_METHOD_SUFFIX = ".testMain"
 
@@ -29,11 +30,14 @@ abstract class TestOptimizationBase extends TestCase {
     protected int testID
     protected int fileSize
 
-    protected void setUp() throws Exception {
-        tmpDir = IOHelper.createTmpDir(getName())
+    @Rule
+    public TestName testName = new TestName()
+
+    protected void baseSetUp() throws Exception {
+        tmpDir = IOHelper.createTmpDir(testName.getMethodName())
         File registryFile = File.createTempFile("registry", ".cdb", tmpDir)
 
-        registry = new Clover2Registry(registryFile, getName())
+        registry = new Clover2Registry(registryFile, testName.getMethodName())
         ContextSet context = new ContextSet()
         final InstrumentationSessionImpl session = (InstrumentationSessionImpl) registry.startInstr()
 
@@ -55,7 +59,7 @@ abstract class TestOptimizationBase extends TestCase {
         recorder = TestUtils.newRecorder(registry)
     }
 
-    void tearDown() throws Exception {
+    void baseTearDown() throws Exception {
         ///CLOVER:OFF
         if (!IOHelper.delete(tmpDir)) {
             throw new RuntimeException(

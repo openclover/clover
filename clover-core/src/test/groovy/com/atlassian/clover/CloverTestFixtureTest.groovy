@@ -6,34 +6,34 @@ import com.atlassian.clover.registry.entities.FullPackageInfo
 import com.atlassian.clover.registry.metrics.PackageMetrics
 import com.atlassian.clover.registry.metrics.ProjectMetrics
 import com.atlassian.clover.testutils.IOHelper
-import junit.framework.TestCase
+import org.junit.After
+import org.junit.Before
+import org.junit.Test
 
+import static org.junit.Assert.assertEquals
 import static org.openclover.util.Lists.newArrayList
 
-class CloverTestFixtureTest extends TestCase {
+class CloverTestFixtureTest {
 
     private CloverTestFixture subject
     private File tmpDir
 
-    CloverTestFixtureTest(String testName) {
-        super(testName)
-    }
-
+    @Before
     void setUp() throws Exception {
-        super.setUp()
         // create a temporary directory.
         tmpDir = IOHelper.createTmpDir(CloverTestFixtureTest.class.getName())
         subject = new CloverTestFixture(tmpDir)
     }
 
+    @After
     void tearDown() throws Exception {
         if (!IOHelper.delete(tmpDir)) {
             throw new RuntimeException("Unable to delete temporary test directory " +
                     tmpDir.getAbsolutePath())
         }
-        super.tearDown()
     }
 
+    @Test
     void testSingleClass() throws Exception {
         List<Clazz> classList = newArrayList()
         classList.add(new Clazz(tmpDir, "com.cenqua", "Test",new Coverage(0.90f, 0.80f, 0.85f)))

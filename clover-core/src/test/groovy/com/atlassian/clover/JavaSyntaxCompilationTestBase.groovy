@@ -86,7 +86,7 @@ abstract class JavaSyntaxCompilationTestBase {
 
         System.err.println()
         System.err.println("====")
-        System.err.println("starting unit test " + testName)
+        System.err.println("starting unit test " + testName.getMethodName())
         System.err.println("tmpDir=" + tmpDir)
         System.err.println("projDir=" + mProjDir)
     }

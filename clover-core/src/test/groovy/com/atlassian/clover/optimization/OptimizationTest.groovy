@@ -8,10 +8,28 @@ import com.atlassian.clover.api.optimization.OptimizationOptions
 import com.atlassian.clover.context.ContextSet
 import com.atlassian.clover.instr.InstrumentationSessionImpl
 import com.atlassian.clover.util.CloverUtils
+import org.junit.After
+import org.junit.Before
+import org.junit.Test
+
+import static org.junit.Assert.assertEquals
+import static org.junit.Assert.assertTrue
 
 class OptimizationTest extends TestOptimizationBase {
+
+    @Before
+    void setUp() {
+        baseSetUp()
+    }
+
+    @After
+    void tearDown() {
+        baseTearDown()
+    }
+
+    @Test
     void testCantOptimizeIfNoSnapshotOrRegistry() throws Exception {
-        File tempDir = TestUtils.createEmptyDirFor(getClass(), getName())
+        File tempDir = TestUtils.createEmptyDirFor(getClass(), testName.getMethodName())
 
         assertTrue(
             !new LocalSnapshotOptimizer(null, null, new OptimizationOptions.Builder().build()).canOptimize())
@@ -50,6 +68,7 @@ class OptimizationTest extends TestOptimizationBase {
             !new LocalSnapshotOptimizer(new OptimizationOptions.Builder().snapshot(snapshotFile).initString(databaseFile.getAbsolutePath()).build()).canOptimize())
     }
 
+    @Test
     void testOptimizableNameResolution() throws Exception {
         runNoAppClassTest_testMain()
         runAppClass2Test_testMain()
@@ -98,6 +117,7 @@ class OptimizationTest extends TestOptimizationBase {
         }
     }
 
+    @Test
     void testAddedTestFlaggedAsRequiringRun() throws Exception {
         runNoAppClassTest_testMain()
         runAppClass2Test_testMain()
@@ -128,6 +148,7 @@ class OptimizationTest extends TestOptimizationBase {
         assertEquals(THIS_PACKAGE + ".AddedTest", ((MockOptimizable)optimized.get(0)).getName())
     }
 
+    @Test
     void testOptimizingTestWithNoKnownTestCases() throws Exception {
         runNoAppClassTest_testMain()
         Snapshot snapshot = Snapshot.generateFor(CloverDatabase.loadWithCoverage(registry.getInitstring(), new CoverageDataSpec()))
@@ -138,10 +159,9 @@ class OptimizationTest extends TestOptimizationBase {
         List<MockOptimizable> output = optimizer.optimize(input)
 
         assertEquals(input, output)
-
     }
 
-
+    @Test
     void testFailingTestsAreRemembered() throws Exception {
         runAppClass234Test_testMain()
         runFailingTest_testFail()
@@ -170,9 +190,8 @@ class OptimizationTest extends TestOptimizationBase {
         Collection<Optimizable> optimized2 = optimizer.optimize(Arrays.asList(optimizables))
         assertTrue(optimized2.contains(new MockOptimizable(THIS_PACKAGE + ".FailingTest")))
         assertEquals(1, optimized2.size())
-
-
     }
+
     private class MockOptimizable implements Optimizable {
         private String name
 

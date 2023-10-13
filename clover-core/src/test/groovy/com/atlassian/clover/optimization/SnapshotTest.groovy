@@ -7,12 +7,34 @@ import com.atlassian.clover.context.ContextSet
 import com.atlassian.clover.instr.InstrumentationSessionImpl
 import com.atlassian.clover.registry.entities.FullMethodInfo
 import com_atlassian_clover.CloverVersionInfo
+import org.junit.After
+import org.junit.Before
+import org.junit.Test
+
+import static org.junit.Assert.assertEquals
+import static org.junit.Assert.assertFalse
+import static org.junit.Assert.assertNotNull
+import static org.junit.Assert.assertNull
+import static org.junit.Assert.assertTrue
 
 class SnapshotTest extends TestOptimizationBase {
+
+    @Before
+    void setUp() {
+        baseSetUp()
+    }
+
+    @After
+    void tearDown() {
+        baseTearDown()
+    }
+
+    @Test
     void testLoadingAbsentSnapshotYieldsNull() {
         assertNull(Snapshot.loadFor(registry.getInitstring()))
     }
 
+    @Test
     void testCanCreateValidSnapshotForDbWithNoCoverage() throws Exception {
         Snapshot snapshot = Snapshot.generateFor(
             CloverDatabase.loadWithCoverage(
@@ -29,6 +51,7 @@ class SnapshotTest extends TestOptimizationBase {
         assertEquals(((Long)snapshot.getDbVersions().iterator().next()).longValue(), registry.getVersion())
     }
 
+    @Test
     void testCanDeleteSnapshot() throws Exception {
         Snapshot snapshot = Snapshot.generateFor(
             CloverDatabase.loadWithCoverage(
@@ -44,6 +67,7 @@ class SnapshotTest extends TestOptimizationBase {
         assertFalse(snapshot.getLocation().exists())
     }
 
+    @Test
     void testCanCreateLoadAndDeleteSnapshotAtOtherLocation() throws Exception {
         File SnapshotLocation = new File(tmpDir, "foo.teststate")
         Snapshot snapshot = Snapshot.generateFor(
@@ -65,6 +89,7 @@ class SnapshotTest extends TestOptimizationBase {
         assertFalse(snapshot.getLocation().exists())
     }
 
+    @Test
     void testCanCreateSnapshotForSampleDb() throws Exception {
         runNoAppClassTest_testMain()
         runAppClass2Test_testMain()
@@ -117,6 +142,7 @@ class SnapshotTest extends TestOptimizationBase {
                 appClass234Test_testMain.getContainingClass().getQualifiedName()) + TEST_MAIN_METHOD_SUFFIX)
     }
 
+    @Test
     void testStoringWithoutUpdatingDoesNotUpdateDbVersion() throws Exception {
         Snapshot Snapshot1 =
             Snapshot.generateFor(
@@ -132,6 +158,7 @@ class SnapshotTest extends TestOptimizationBase {
         assertEquals(Snapshot1.getDbVersions(), Snapshot2.getDbVersions())
     }
 
+    @Test
     void testStoringWithUpdateAddsDbVersion() throws Exception {
         Snapshot.generateFor(
             CloverDatabase.loadWithCoverage(
@@ -161,6 +188,7 @@ class SnapshotTest extends TestOptimizationBase {
         assertTrue(Snapshot2.getDbVersions().contains(new Long(endVersion)))
     }
 
+    @Test
     void testTestDurationCalculationIsAccurate() throws Exception {
         final long runStart = 0
         final long setupDuration = 100
@@ -217,6 +245,7 @@ class SnapshotTest extends TestOptimizationBase {
         return THIS_PACKAGE.replace('.', '/') + "/" + classSimpleName + ".java"
     }
 
+    @Test
     void testCanEstimateTestDurationWhenTestAdded() throws Exception {
         final long firstRunStart = 0
         final long setupDuration = 100
