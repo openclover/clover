@@ -37,6 +37,12 @@
             <artifactId>groovy</artifactId>
             <version>${clover-groovy.test.groovy.ver}</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.groovy</groupId>
+            <artifactId>groovy-xml</artifactId>
+            <version>${clover-groovy.test.groovy.ver}</version>
+            <scope>test</scope>
+        </dependency>
         <!-- test frameworks supported by the clover-groovy -->
         <dependency>
             <groupId>org.spockframework</groupId>

@@ -154,7 +154,7 @@ class PrintingVisitor extends ClassCodeVisitorSupport {
         printNode(node, TryCatchStatement, { super.visitTryCatchFinally(it) });
     }
 
-    protected void visitEmptyStatement(EmptyStatement node) {
+    void visitEmptyStatement(EmptyStatement node) {
         printNode(node, EmptyStatement, {});
     }
 
@@ -351,7 +351,7 @@ class PrintingVisitor extends ClassCodeVisitorSupport {
         printNode(node, BytecodeExpression, { super.visitBytecodeExpression(it) });
     }
 
-    protected void visitListOfExpressions(List list) {
+    void visitListOfExpressions(List<? extends Expression> list) {
         list.each { Expression node ->
             if (node instanceof NamedArgumentListExpression) {
                 printNode(node, NamedArgumentListExpression, { it.visit(this) });

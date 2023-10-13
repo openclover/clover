@@ -1,6 +1,7 @@
 package com.atlassian.clover.instr.groovy
 
 import com.atlassian.clover.test.junit.GroovyVersionStart
+import groovy.xml.XmlParser
 
 class GroovyReportTest extends TestBase {
 
