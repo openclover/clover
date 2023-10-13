@@ -8,9 +8,12 @@ import com.atlassian.clover.registry.entities.FullProjectInfo
 import com.atlassian.clover.registry.entities.StringifiedAnnotationValue
 import com_atlassian_clover.CoverageRecorder
 import org.apache.tools.ant.util.JavaEnvUtils
+import org.junit.Before
+import org.junit.Test
 
 import static org.hamcrest.CoreMatchers.hasItems
 import static org.hamcrest.MatcherAssert.assertThat
+import static org.junit.Assert.assertEquals
 import static org.openclover.util.Lists.newArrayList
 
 /**
@@ -39,16 +42,16 @@ class JavaSyntax18CompilationTest extends JavaSyntaxCompilationTestBase {
     protected final String R_LAMBDA_INC_RIGHT = ",[0-9]+\\)"
 
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp()
-
+    @Before
+    void setUp() throws Exception {
+        setUpProject()
         if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_8)) {
             srcDir = new File(mTestcasesSrcDir, "javasyntax1.8")
             resetAntOutput()
         }
     }
 
+    @Test
     void testAnnotationsOnJavaTypes() {
         if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_8)) {
             final String fileName = "AnnotationsOnJavaTypes.java"
@@ -71,6 +74,7 @@ class JavaSyntax18CompilationTest extends JavaSyntaxCompilationTestBase {
         }
     }
 
+    @Test
     void testLambdaAndMethodReferences() throws IOException {
         if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_8)) {
             final String fileName = "LambdaAndMethodReferences.java"
@@ -88,6 +92,7 @@ class JavaSyntax18CompilationTest extends JavaSyntaxCompilationTestBase {
         }
     }
 
+    @Test
     void testLambdaAndTest() {
         if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_8)) {
             final String fileName = "LambdaAndTest.java"
@@ -100,6 +105,7 @@ class JavaSyntax18CompilationTest extends JavaSyntaxCompilationTestBase {
         }
     }
 
+    @Test
     void testLambdaAndCloverOff() throws Exception {
         if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_8)) {
             final String fileName = "LambdaAndCloverOff.java"
@@ -140,7 +146,7 @@ class JavaSyntax18CompilationTest extends JavaSyntaxCompilationTestBase {
         }
     }
 
-
+    @Test
     void testLambdaAndConstructorReferences() throws IOException {
         if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_8)) {
             final String fileName = "LambdaAndConstructorReferences.java"
@@ -179,6 +185,7 @@ class JavaSyntax18CompilationTest extends JavaSyntaxCompilationTestBase {
         }
     }
 
+    @Test
     void testLambdaAndGenerics() throws IOException {
         if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_8)) {
             final String fileName = "LambdaAndGenerics.java"
@@ -204,6 +211,7 @@ class JavaSyntax18CompilationTest extends JavaSyntaxCompilationTestBase {
         }
     }
 
+    @Test
     void testLambdaArgumentAndReturnTypes() throws IOException {
         if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_8)) {
             final String fileName = "LambdaArgumentAndReturnTypes.java"
@@ -240,6 +248,7 @@ class JavaSyntax18CompilationTest extends JavaSyntaxCompilationTestBase {
         }
     }
 
+    @Test
     void testLambdaInContexts() throws IOException {
         if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_8)) {
             final String fileName = "LambdaInContexts.java"
@@ -339,6 +348,7 @@ class JavaSyntax18CompilationTest extends JavaSyntaxCompilationTestBase {
         }
     }
 
+    @Test
     void testLambdaOneLinersAndBlocks() throws IOException {
         if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_8)) {
             final String fileName = "LambdaOneLinersAndBlocks.java"
@@ -388,6 +398,7 @@ class JavaSyntax18CompilationTest extends JavaSyntaxCompilationTestBase {
 
      * @throws Exception
      */
+    @Test
     void testRepeatingAnnotations() throws Exception {
         if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_8)) {
             final String fileName = "RepeatingAnnotations.java"
@@ -421,6 +432,7 @@ class JavaSyntax18CompilationTest extends JavaSyntaxCompilationTestBase {
         }
     }
 
+    @Test
     void testVirtualExtensionMethod() throws Exception {
         if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_8)) {
             final String fileName = "VirtualExtensionMethod.java"
@@ -449,6 +461,7 @@ class JavaSyntax18CompilationTest extends JavaSyntaxCompilationTestBase {
         }
     }
 
+    @Test
     void testVirtualExtensionMethodAndInheritance() throws Exception {
         if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_8)) {
             final String fileName = "VirtualExtensionMethodAndInheritance.java"
@@ -462,6 +475,7 @@ class JavaSyntax18CompilationTest extends JavaSyntaxCompilationTestBase {
         }
     }
 
+    @Test
     void testLambdaAndStreams() {
         if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_8)) {
             final String fileName = "LambdaAndStreams.java"
@@ -469,6 +483,7 @@ class JavaSyntax18CompilationTest extends JavaSyntaxCompilationTestBase {
         }
     }
 
+    @Test
     void testPackageInfo() {
         // @XmlAccessorType annotation is deprecated in JDK 9 and not available in JDK 11 or later
         if (JavaEnvUtils.getJavaVersion().equals("8")) {
@@ -478,6 +493,7 @@ class JavaSyntax18CompilationTest extends JavaSyntaxCompilationTestBase {
         }
     }
 
+    @Test
     void testTypeAnnotationInstanceofOperator() {
         if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_8)) {
             final String fileName = "typeannotation/instanceofoperator/TypeAnnotationInstanceofOperator.java"
@@ -485,6 +501,7 @@ class JavaSyntax18CompilationTest extends JavaSyntaxCompilationTestBase {
         }
     }
 
+    @Test
     void testTypeAnnotationThrowsClause() {
         if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_8)) {
             final String fileName = "typeannotation/throwsclause/TypeAnnotationThrowsClause.java"
@@ -492,6 +509,7 @@ class JavaSyntax18CompilationTest extends JavaSyntaxCompilationTestBase {
         }
     }
 
+    @Test
     void testTypeAnnotationInImplements() {
         if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_8)) {
             final String fileName = "typeannotation/implementsclause/TypeAnnotationImplements.java"
@@ -499,6 +517,7 @@ class JavaSyntax18CompilationTest extends JavaSyntaxCompilationTestBase {
         }
     }
 
+    @Test
     void testTypeAnnotationInTypeParameter() {
         if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_8)) {
             final String fileName = "typeannotation/typeparameter/TypeAnnotationTypeParameter.java"
@@ -506,6 +525,7 @@ class JavaSyntax18CompilationTest extends JavaSyntaxCompilationTestBase {
         }
     }
 
+    @Test
     void testTypeAnnotationInFieldDeclarationPostposingArray() {
         if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_8)) {
             final String fileName = "typeannotation/fielddeclarationpostposingarray/TypeAnnotationInFieldDeclarationPostposingArray.java"
@@ -513,6 +533,7 @@ class JavaSyntax18CompilationTest extends JavaSyntaxCompilationTestBase {
         }
     }
 
+    @Test
     void testPrimitiveArrayConstructorReference() {
         if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_8)) {
             final String fileName = "java8/Java8ArrayConstructorReference.java"
@@ -520,6 +541,7 @@ class JavaSyntax18CompilationTest extends JavaSyntaxCompilationTestBase {
         }
     }
 
+    @Test
     void testTypeAnnotationInNewOperatorArray() {
         if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_8)) {
             final String fileName = "typeannotation/newoperatorarray/TypeAnnotationInNewOperatorArray.java"
@@ -527,20 +549,23 @@ class JavaSyntax18CompilationTest extends JavaSyntaxCompilationTestBase {
         }
     }
 
+    @Test
     void testTypeAnnotationInFieldDeclarationArray() {
         if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_8)) {
             final String fileName = "typeannotation/fielddeclarationarray/TypeAnnotationInFieldDeclarationArray.java"
             instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_1_8)
         }
     }
-     
+
+    @Test
     void testTypeAnnotationNewOperator() {
         if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_8)) {
             final String fileName = "typeannotation/newoperator/TypeAnnotationInNewOperator.java"
             instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_1_8)
         }
-    }  
+    }
 
+    @Test
     void testTypeAnnotationInFieldDeclarationGeneric() {
         if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_1_8)) {
             final String fileName = "typeannotation/fielddeclarationgenerics/TypeAnnotationInFieldDeclarationGenerics.java"
