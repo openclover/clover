@@ -237,6 +237,19 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- generate tests jar (mixins used by tests-functional) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>create-tests-jar</id>
+                        <goals>
+                            <goal>test-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <!-- generate grover.jar using assembly -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

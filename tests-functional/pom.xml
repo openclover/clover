@@ -23,6 +23,13 @@
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-groovy</artifactId>
+            <classifier>tests</classifier>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
         <!-- for groovy-eclipse-compiler -->
         <dependency>
             <groupId>org.apache.groovy</groupId>
