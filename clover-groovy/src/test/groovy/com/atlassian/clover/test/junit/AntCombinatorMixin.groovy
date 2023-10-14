@@ -16,12 +16,12 @@ trait AntCombinatorMixin {
         antHomesDir.list().findAll( {
             Matcher matcher = it =~ isAntJar
             if (matcher) {
-                filter.call(matcher[0][1])
+                filter.call(matcher.group(0)[1])
             } else {
                 false
             }
         }).collect {String name ->
-            [(name =~ isAntJar)[0][1], new File(antHomesDir, name)]
+            [(name =~ isAntJar).group(0)[1], new File(antHomesDir, name)]
         }
     }
 }

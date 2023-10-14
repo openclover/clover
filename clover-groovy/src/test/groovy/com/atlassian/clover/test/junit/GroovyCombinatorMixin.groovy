@@ -16,12 +16,12 @@ trait GroovyCombinatorMixin {
         groovyLibDir.list().findAll {
             Matcher matcher = it =~ isGroovyAllJar
             if (matcher) {
-                filter.call(matcher[0][1])
+                filter.call(matcher.group(0)[1])
             } else {
                 false
             }
         }.collect {String name ->
-            [(name =~ isGroovyAllJar)[0][1], new File(groovyLibDir, name)]
+            [(name =~ isGroovyAllJar).group(0)[1], new File(groovyLibDir, name)]
         }
     }
 }
