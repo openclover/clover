@@ -1,8 +1,9 @@
 package com.atlassian.clover.instr.groovy
 
-import com.atlassian.clover.test.junit.GroovyVersionStart
+import groovy.transform.CompileStatic
 import groovy.xml.XmlParser
 
+@CompileStatic
 class GroovyReportTest extends TestBase {
 
     GroovyReportTest(String testName) {
@@ -15,44 +16,44 @@ class GroovyReportTest extends TestBase {
 
     void testReportsOnFourClassTypes() {
         instrumentAndCompileWithGrover(
-            ["FooEnum.groovy":
-            """
+                ["FooEnum.groovy"      :
+                         """
                 public enum FooEnum {
                 }
               """,
-            "FooClass.groovy":
-            """
+                 "FooClass.groovy"     :
+                         """
                 public class FooClass {
                   public static void main(String[] args) {}
                 }
             """,
-            "FooInterface.groovy":
-            """
+                 "FooInterface.groovy" :
+                         """
                 public interface FooInterface {
                 }
             """,
-            "FooAnnotation.groovy":
-            """
+                 "FooAnnotation.groovy":
+                         """
                 public @interface FooAnnotation {
                 }
             """
-            ])
+                ])
 
         runWithAsserts("FooClass")
 
-        reportAndAssert() { dir ->
+        reportAndAssert() { File dir ->
             assertXHTMLFile(dir, "default-pkg/FooEnum.html") &&
-            assertXHTMLFile(dir, "default-pkg/FooClass.html") &&
-            assertXHTMLFile(dir, "default-pkg/FooInterface.html") &&
-            assertXHTMLFile(dir, "default-pkg/FooAnnotation.html") &&
-            true
+                    assertXHTMLFile(dir, "default-pkg/FooClass.html") &&
+                    assertXHTMLFile(dir, "default-pkg/FooInterface.html") &&
+                    assertXHTMLFile(dir, "default-pkg/FooAnnotation.html") &&
+                    true
         }
     }
 
     void testStillReportOnEnumMethods() {
         instrumentAndCompileWithGrover(
-            ["Foo.groovy":
-            """
+                ["Foo.groovy":
+                         """
                 public enum Foo {
                     A, B;
 
@@ -65,20 +66,35 @@ class GroovyReportTest extends TestBase {
 
         runWithAsserts("Foo")
 
-        reportAndAssert() { dir ->
+        reportAndAssert() { File dir ->
             assertXHTMLFile(dir, "default-pkg/Foo.html") { Node page ->
-                def line5 = page.depthFirst().tr.find { println it.'@id'; it.'@id' == 'l5'}
-                line5 != null && line5.td.find { println it.'@class'; it.'@class' == 'coverageCount Good missedByTest' }.span[0].'@title'.contains("method entered 1 time.")
+                def line5 = ((NodeList) page.depthFirst())["tr"]
+                        .find { Object obj ->
+                            Node it = (Node) obj
+                            println it.attribute('id');
+                            it.attribute('id') == 'l5'
+                        }
+
+                if (line5 == null) return false
+
+                NodeList tdCells = (NodeList) line5["td"]
+                        .find { Object obj ->
+                            Node it = (Node) obj
+                            println it.attribute('class')
+                            it.attribute('class') == 'coverageCount Good missedByTest'
+                        }
+                NodeList spans = tdCells["span"]
+                Node firstSpan = (Node) spans[0]
+                firstSpan.attribute('title').toString().contains("method entered 1 time.")
             }
         }
     }
 
-    @GroovyVersionStart("1.8.0")
     void testReportsOnDollarSlashyStrings() {
         //A 1.8 sanity test to ensure our lexer doesn't break on 1.8 syntax
         instrumentAndCompileWithGrover(
-            ["Foo.groovy":
-            """
+                ["Foo.groovy":
+                         """
                 def name = 'Michael'
                 def date = new Date()
 
@@ -97,14 +113,11 @@ class GroovyReportTest extends TestBase {
 
         runWithAsserts("Foo")
 
-        reportAndAssert() { dir ->
-            assertXHTMLFile(dir, "default-pkg/Foo.html") &&
-            true
-        }
+        reportAndAssert() { File dir -> assertXHTMLFile(dir, "default-pkg/Foo.html") }
     }
 
-    boolean assertXHTMLFile(File dir, String path, Closure assertion = {true}) {
-        new File(dir, path).with {
+    static boolean assertXHTMLFile(File dir, String path, Closure<Boolean> assertion = { true }) {
+        new File(dir, path).with { File it ->
             assertTrue(it.exists())
             final parser = new XmlParser(false, false)
             parser.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false)
@@ -113,7 +126,7 @@ class GroovyReportTest extends TestBase {
         }
     }
 
-    private void reportAndAssert(Closure assertion) {
+    private void reportAndAssert(Closure<Boolean> assertion) {
         def reportDir = new File(groverConfigDir, "report")
         def result = launchJava("""
 
@@ -130,7 +143,7 @@ class GroovyReportTest extends TestBase {
     }
 
     protected String calcReportClasspath(List<File> others = []) {
-        return (others + cloverLibs + [ cloverCoreClasses, cloverRuntimeClasses, groverClasses, servicesFolder ])
+        return (others + cloverLibs + [cloverCoreClasses, cloverRuntimeClasses, groverClasses, servicesFolder])
                 .collect { File it -> it.absolutePath }
                 .findAll { it != null }.join(File.pathSeparator)
     }

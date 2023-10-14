@@ -1,5 +1,6 @@
 package com.atlassian.clover.instr.groovy
 
+import com.atlassian.clover.api.registry.ClassInfo
 import com.atlassian.clover.api.registry.MethodInfo
 import com.atlassian.clover.registry.Clover2Registry
 import com.atlassian.clover.registry.entities.FullClassInfo
@@ -7,10 +8,12 @@ import com.atlassian.clover.registry.entities.FullFileInfo
 import com.atlassian.clover.registry.entities.FullPackageInfo
 import com.atlassian.clover.test.junit.GroovyVersionStart
 import com.atlassian.clover.test.junit.Result
+import groovy.transform.CompileStatic
 
 /**
  * Integration tests that detect if the correct Clover model is generated for given Groovy code.
  **/
+@CompileStatic
 class GroovyModellingStatementsTest extends TestBase {
 
     GroovyModellingStatementsTest(String testName) {
@@ -34,10 +37,10 @@ class GroovyModellingStatementsTest extends TestBase {
            """])
 
         assertRegistry db, { Clover2Registry reg ->
-            assertPackage reg.model.project, { it.isDefault() }, { FullPackageInfo p ->
+            assertPackage reg.model.project, isDefaultPackage, { FullPackageInfo p ->
                 assertFile p, named("Foo.groovy"), { FullFileInfo f ->
                     assertClass f, named("Foo"), { FullClassInfo c ->
-                        assertMethod(c, { it.simpleName == "field myfieldWithCalculationInit" }, { MethodInfo m ->
+                        assertMethod(c, { MethodInfo it -> it.simpleName == "field myfieldWithCalculationInit" }, { MethodInfo m ->
                             "".equals(m.signature.returnType) && m.signature.parameters.length == 0
                         }) &&
                                 !c.methods.any(simplyNamed("myfieldWithSimpleInit")) &&
@@ -48,8 +51,6 @@ class GroovyModellingStatementsTest extends TestBase {
         }
     }
 
-
-    @GroovyVersionStart("1.8.0")
     void testAnonymousInnerClassInstr() {
         instrumentAndCompileWithGrover(
                 ["com/atlassian/foo/bar/Foo.groovy":
@@ -89,8 +90,6 @@ class GroovyModellingStatementsTest extends TestBase {
      * so that the @CompileStatic transformation can properly determine exact types (instead of relying on Groovy's
      * meta-object protocol).
      */
-    @GroovyVersionStart("2.0.0")
-    // CompileStatic was introduced in Groovy 2.0
     void testSafeEvalWithCompileStatic() {
         safeEvalAndCompileStatic(true)
     }
@@ -134,9 +133,9 @@ class GroovyModellingStatementsTest extends TestBase {
                 ])
 
         assertRegistry db, { Clover2Registry reg ->
-            assertPackage reg.model.project, { it.isDefault() }, { FullPackageInfo p ->
+            assertPackage reg.model.project, isDefaultPackage, { FullPackageInfo p ->
                 assertFile p, named("C.groovy"), { FullFileInfo f ->
-                    assertClass f, { it.name == "C" }, { FullClassInfo c ->
+                    assertClass f, { ClassInfo it -> it.name == "C" }, { FullClassInfo c ->
                         assertMethod(c, and(simplyNamed("testSafeEvalWithField")), { MethodInfo m ->
                             assertBranch(m, at(10, 43, 10, 44), complexity(1))
                         }) &&
@@ -179,7 +178,6 @@ class GroovyModellingStatementsTest extends TestBase {
         runWithAsserts("B")
     }
 
-    @GroovyVersionStart("1.8.0")
     void testEvalSafelyWithGenericTypesClosure() {
         Result compilationResult = instrumentAndCompileWithGrover(([
                 "A.groovy":
@@ -205,8 +203,6 @@ class GroovyModellingStatementsTest extends TestBase {
      * 1. code will compile with no errors like "Non static method ... cannot be called from static context"
      * 2. code will run correctly with no "GroovyCastException: Cannot cast object X to ... CoverageRecorder"
      */
-    @GroovyVersionStart("2.0.0")
-    // CompileStatic was introduced in Groovy 2.0
     void testCompileStaticWithClosuresAndImplicitThis() {
         Result compilationResult = instrumentAndCompileWithGrover([
                 "A.groovy":
@@ -277,7 +273,7 @@ class GroovyModellingStatementsTest extends TestBase {
            """])
 
         assertRegistry db, { Clover2Registry reg ->
-            assertPackage reg.model.project, { it.isDefault() }, { FullPackageInfo p ->
+            assertPackage reg.model.project, isDefaultPackage, { FullPackageInfo p ->
                 assertFile p, named("Foo.groovy"), { FullFileInfo f ->
                     assertClass f, named("Foo"), { FullClassInfo c ->
                         assertMethod c, simplyNamed("main"), { MethodInfo m ->
@@ -337,10 +333,10 @@ class GroovyModellingStatementsTest extends TestBase {
             '''])
 
         assertRegistry db, { Clover2Registry reg ->
-            assertPackage reg.model.project, { it.isDefault() }, { FullPackageInfo p ->
+            assertPackage reg.model.project, isDefaultPackage, { FullPackageInfo p ->
                 assertFile p, named("Statements.groovy"), { FullFileInfo f ->
 
-                    assertClass (f, { it.name == "StatementsClass" }, { FullClassInfo c ->
+                    assertClass (f, named("StatementsClass"), { FullClassInfo c ->
                         // an artificial method in which we keep field initializer
                         // they contain zero statements, hit counter is attached to a method
                         assertMethod(c, and(simplyNamed("field z"), at(2, 21, 2, 32), complexity(1)), { MethodInfo m ->
@@ -360,7 +356,7 @@ class GroovyModellingStatementsTest extends TestBase {
                         })
                     }) &&
 
-                    assertClass (f, { it.name == "StatementsEnum" }, { FullClassInfo c ->
+                    assertClass (f, named("StatementsEnum"), { FullClassInfo c ->
                         assertMethod(c, and(simplyNamed("field z"), at(15, 21, 15, 32), complexity(1)), { MethodInfo m ->
                             m.statements.size() == 0 && m.branches.size() == 0
                         }) &&
@@ -377,7 +373,7 @@ class GroovyModellingStatementsTest extends TestBase {
                     }) &&
 
                     // note: we don't instrument interfaces so we don't have information about it's methods
-                    assertClass (f, { it.name == "StatementsInterface" }) //&&
+                    assertClass (f, named("StatementsInterface")) //&&
 
 // TODO CLOV-1960 instrument traits
 //                    assertClass (f, { it.name == "StatementsTrait" }, { FullClassInfo c ->
@@ -428,9 +424,9 @@ class GroovyModellingStatementsTest extends TestBase {
 }'''], "-Dclover.grover.ast.dump=true")
 
         assertRegistry db, { Clover2Registry reg ->
-            assertPackage reg.model.project, { it.isDefault() }, { FullPackageInfo p ->
+            assertPackage reg.model.project, isDefaultPackage, { FullPackageInfo p ->
                 assertFile p, named("BlockNesting.groovy"), { FullFileInfo f ->
-                    assertClass f, { it.name == "BlockNesting" }, { FullClassInfo c ->
+                    assertClass f, named("BlockNesting"), { FullClassInfo c ->
                         assertMethod c, simplyNamed("methodOne"), { MethodInfo m ->
                             m.statements.size() == 14 &&
                             m.branches.size() == 2 &&                 // while + if
@@ -464,9 +460,9 @@ class GroovyModellingStatementsTest extends TestBase {
                 }}'''])
 
         assertRegistry db, { Clover2Registry reg ->
-            assertPackage reg.model.project, { it.isDefault() }, { FullPackageInfo p ->
+            assertPackage reg.model.project, isDefaultPackage, { FullPackageInfo p ->
                 assertFile p, named("TryFinally.groovy"), { FullFileInfo f ->
-                    assertClass f, { it.name == "TryFinally" }, { FullClassInfo c ->
+                    assertClass f, named("TryFinally"), { FullClassInfo c ->
                         assertMethod c, simplyNamed("one"), { MethodInfo m ->
                             m.statements.size() == 2 &&
                             assertStatement(m, at(2, 21, 3, 42)) && // try-finally

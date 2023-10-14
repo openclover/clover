@@ -126,15 +126,15 @@ trait CloverDbTestMixin {
         return true
     }
 
-    boolean assertHitByTest(covered, CloverDatabase db, FullClassInfo c, String testName) {
-        assertTrue("${covered} was not hit by test ${testName}",
-                hitByTest(db, c, testName).call(covered))
+    boolean assertHitByTest(InstrumentationInfo covered, CloverDatabase db, FullClassInfo c, String testName) {
+        boolean result = hitByTest(db, c, testName).call(covered)
+        assertTrue("${covered} was not hit by test ${testName}".toString(), result)
         return true
     }
 
-    boolean assertNotHitByTest(covered, CloverDatabase db, FullClassInfo c, String testName) {
-        assertFalse("${covered} was hit by test ${testName}",
-                hitByTest(db, c, testName).call(covered))
+    boolean assertNotHitByTest(InstrumentationInfo covered, CloverDatabase db, FullClassInfo c, String testName) {
+        boolean result = hitByTest(db, c, testName).call(covered)
+        assertFalse("${covered} was hit by test ${testName}".toString(), result)
         return true
     }
 
@@ -145,6 +145,8 @@ trait CloverDbTestMixin {
                     it.endColumn == endColumn
         }
     }
+
+    Closure<Boolean> isDefaultPackage = { PackageInfo it -> it.isDefault() }
 
     Closure<Boolean> complexity(int cpx) {
         return { ElementInfo it -> it.complexity == cpx }

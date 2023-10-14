@@ -2,7 +2,9 @@ package com.atlassian.clover.instr.groovy
 
 import com.atlassian.clover.CloverDatabase
 import com.atlassian.clover.CoverageDataSpec
+import com.atlassian.clover.api.registry.ClassInfo
 import com.atlassian.clover.api.registry.MethodInfo
+import com.atlassian.clover.api.registry.PackageInfo
 import com.atlassian.clover.registry.Clover2Registry
 import com.atlassian.clover.registry.entities.FullClassInfo
 import com.atlassian.clover.registry.entities.FullFileInfo
@@ -10,8 +12,8 @@ import com.atlassian.clover.registry.entities.FullMethodInfo
 import com.atlassian.clover.registry.entities.FullPackageInfo
 import com.atlassian.clover.registry.entities.FullProjectInfo
 import com.atlassian.clover.registry.entities.TestCaseInfo
-import com.atlassian.clover.test.junit.GroovyVersionStart
 import com.atlassian.clover.test.junit.Result
+import groovy.transform.CompileStatic
 
 import static com.atlassian.clover.groovy.utils.TestUtils.*
 
@@ -24,6 +26,7 @@ import static com.atlassian.clover.groovy.utils.TestUtils.*
  *    - or subsitute variables with their values like "check if #a == #b" will become "check if 5 == 0" for a=5, b=0
  *
  */
+@CompileStatic
 class GroovySpockTest extends TestBase {
 
     /** Location of sample code */
@@ -81,9 +84,9 @@ class GroovySpockTest extends TestBase {
         runSpockRunner("HelloSpock")
 
         assertRegistry db, { Clover2Registry reg ->
-            assertPackage reg.model.project, { it.isDefault() }, {FullPackageInfo p ->
+            assertPackage reg.model.project, { PackageInfo it -> it.isDefault() }, {FullPackageInfo p ->
                 assertFile p, named("HelloSpock.groovy"), {FullFileInfo f ->
-                    assertClass f, { it.name == "HelloSpock" }, {FullClassInfo c ->
+                    assertClass f, { ClassInfo it -> it.name == "HelloSpock" }, {FullClassInfo c ->
 
                         MethodInfo featureMethod = null
                         for (MethodInfo methodInfo : c.getMethods()) {
@@ -116,38 +119,42 @@ class GroovySpockTest extends TestBase {
 
         FullProjectInfo projectInfo = CloverDatabase.loadWithCoverage(db.absolutePath, new CoverageDataSpec()).getFullModel()
 
-        assertPackage projectInfo, { it.isDefault() }, { FullPackageInfo p ->
+        assertPackage projectInfo, { PackageInfo it -> it.isDefault() }, { FullPackageInfo p ->
             assertFile p, named(FILE_NAME), { FullFileInfo f ->
-                assertClass f, { it.name == CLASS_NAME }, { FullClassInfo classInfo ->
+                assertClass f, { ClassInfo it -> it.name == CLASS_NAME }, { FullClassInfo classInfo ->
 
                     // check that spock feature method exists
                     classInfo.methods.simpleName.contains(FEATURE_NAME)
                     // ... and that it contains proper static test name obtained by a DefaultTestNameExtractor
-                    assertMethod classInfo, { it.simpleName == FEATURE_NAME }, { FullMethodInfo method ->
+                    assertMethod classInfo, { MethodInfo it -> it.simpleName == FEATURE_NAME }, { FullMethodInfo method ->
                         "maximum of two numbers" == method.staticTestName
                     }
 
                     // check that three unrolled test cases were ran
                     assertEquals "number of test cases is incorrect", 3, classInfo.testCases.size()
                     // ... and that test names were dynamically updated at runtime by a TestNameSniffer
-                    assertTrue classInfo.testCases.testName.contains("maximum of two numbers[0]")
-                    assertTrue classInfo.testCases.testName.contains("maximum of two numbers[1]")
-                    assertTrue classInfo.testCases.testName.contains("maximum of two numbers[2]")
+                    assertTrue(testNameContains(classInfo.testCases, "maximum of two numbers[0]"))
+                    assertTrue(testNameContains(classInfo.testCases, "maximum of two numbers[1]"))
+                    assertTrue(testNameContains(classInfo.testCases, "maximum of two numbers[2]"))
 
                     // ... and that these tests have links to the original method
                     def featureMethod = classInfo.methods.find { it.simpleName == FEATURE_NAME }
-                    assertTestCase classInfo, { it.testName == "maximum of two numbers[0]" }, { TestCaseInfo testInfo ->
+                    assertTestCase classInfo, { TestCaseInfo it -> it.testName == "maximum of two numbers[0]" }, { TestCaseInfo testInfo ->
                         featureMethod == testInfo.sourceMethod
                     }
-                    assertTestCase classInfo, { it.testName == "maximum of two numbers[1]" }, { TestCaseInfo testInfo ->
+                    assertTestCase classInfo, { TestCaseInfo it -> it.testName == "maximum of two numbers[1]" }, { TestCaseInfo testInfo ->
                         featureMethod == testInfo.sourceMethod
                     }
-                    assertTestCase classInfo, { it.testName == "maximum of two numbers[2]" }, { TestCaseInfo testInfo ->
+                    assertTestCase classInfo, { TestCaseInfo it -> it.testName == "maximum of two numbers[2]" }, { TestCaseInfo testInfo ->
                         featureMethod == testInfo.sourceMethod
                     }
                 }
             }
         }
+    }
+
+    private static boolean testNameContains(Collection<TestCaseInfo> testCases, String value) {
+        testCases.stream().anyMatch({ TestCaseInfo tci -> tci.testName.contains(value)})
     }
 
     /**
@@ -164,33 +171,33 @@ class GroovySpockTest extends TestBase {
 
         FullProjectInfo projectInfo = CloverDatabase.loadWithCoverage(db.absolutePath, new CoverageDataSpec()).getFullModel()
 
-        assertPackage projectInfo, { it.isDefault() }, { FullPackageInfo p ->
+        assertPackage projectInfo, { PackageInfo it -> it.isDefault() }, { FullPackageInfo p ->
             assertFile p, named(FILE_NAME), { FullFileInfo f ->
-                assertClass f, { it.name == CLASS_NAME }, { FullClassInfo classInfo ->
+                assertClass f, { ClassInfo it -> it.name == CLASS_NAME }, { FullClassInfo classInfo ->
 
                     // check that spock feature method exists
                     classInfo.methods.simpleName.contains(FEATURE_NAME)
                     // ... and that it contains proper static test name obtained by a DefaultTestNameExtractor
-                    assertMethod classInfo, { it.simpleName == FEATURE_NAME }, { FullMethodInfo method ->
+                    assertMethod classInfo, { MethodInfo it -> it.simpleName == FEATURE_NAME }, { FullMethodInfo method ->
                         "minimum of #a and #b is #c" == method.staticTestName
                     }
 
                     // check that three unrolled test cases were ran
                     assertEquals 3, classInfo.testCases.size()
                     // ... and that test names were dynamically updated at runtime by a TestNameSniffer
-                    assertTrue classInfo.testCases.testName.contains("minimum of 3 and 7 is 3")
-                    assertTrue classInfo.testCases.testName.contains("minimum of 5 and 4 is 4")
-                    assertTrue classInfo.testCases.testName.contains("minimum of 9 and 9 is 9")
+                    assertTrue testNameContains(classInfo.testCases, "minimum of 3 and 7 is 3")
+                    assertTrue testNameContains(classInfo.testCases, "minimum of 5 and 4 is 4")
+                    assertTrue testNameContains(classInfo.testCases, "minimum of 9 and 9 is 9")
 
                     // ... and that these tests have links to the original method
                     def featureMethod = classInfo.methods.find { it.simpleName == FEATURE_NAME }
-                    assertTestCase classInfo, { it.testName == "minimum of 3 and 7 is 3" }, { TestCaseInfo testInfo ->
+                    assertTestCase classInfo, { TestCaseInfo it -> it.testName == "minimum of 3 and 7 is 3" }, { TestCaseInfo testInfo ->
                         featureMethod == testInfo.sourceMethod
                     }
-                    assertTestCase classInfo, { it.testName == "minimum of 5 and 4 is 4" }, { TestCaseInfo testInfo ->
+                    assertTestCase classInfo, { TestCaseInfo it -> it.testName == "minimum of 5 and 4 is 4" }, { TestCaseInfo testInfo ->
                         featureMethod == testInfo.sourceMethod
                     }
-                    assertTestCase classInfo, { it.testName == "minimum of 9 and 9 is 9" }, { TestCaseInfo testInfo ->
+                    assertTestCase classInfo, { TestCaseInfo it -> it.testName == "minimum of 9 and 9 is 9" }, { TestCaseInfo testInfo ->
                         featureMethod == testInfo.sourceMethod
                     }
                 }
@@ -213,29 +220,29 @@ class GroovySpockTest extends TestBase {
 
         FullProjectInfo projectInfo = CloverDatabase.loadWithCoverage(db.absolutePath, new CoverageDataSpec()).getFullModel()
 
-        assertPackage projectInfo, { it.isDefault() }, { FullPackageInfo p ->
+        assertPackage projectInfo, { PackageInfo it -> it.isDefault() }, { FullPackageInfo p ->
             assertFile p, named(FILE_NAME), { FullFileInfo f ->
-                assertClass f, { it.name == CLASS_NAME }, { FullClassInfo classInfo ->
+                assertClass f, { ClassInfo it -> it.name == CLASS_NAME }, { FullClassInfo classInfo ->
 
                     // check that spock feature method exists
                     classInfo.methods.simpleName.contains(FEATURE_NAME)
                     // ... and that it contains proper static test name obtained by a DefaultTestNameExtractor
-                    assertMethod classInfo, { it.simpleName == FEATURE_NAME }, { FullMethodInfo method ->
+                    assertMethod classInfo, { MethodInfo it -> it.simpleName == FEATURE_NAME }, { FullMethodInfo method ->
                         "#person.name is a #sex.toLowerCase() person" == method.staticTestName
                     }
 
                     // check that two unrolled test cases were ran
                     assertEquals 2, classInfo.testCases.size()
                     // ... and that test names were dynamically updated at runtime by a TestNameSniffer
-                    assertTrue classInfo.testCases.testName.contains("Fred is a male person")
-                    assertTrue classInfo.testCases.testName.contains("Wilma is a female person")
+                    assertTrue testNameContains(classInfo.testCases, "Fred is a male person")
+                    assertTrue testNameContains(classInfo.testCases, "Wilma is a female person")
 
                     // ... and that these tests have links to the original method
                     def featureMethod = classInfo.methods.find { it.simpleName == FEATURE_NAME }
-                    assertTestCase classInfo, { it.testName == "Fred is a male person" }, { TestCaseInfo testInfo ->
+                    assertTestCase classInfo, { TestCaseInfo it -> it.testName == "Fred is a male person" }, { TestCaseInfo testInfo ->
                         featureMethod == testInfo.sourceMethod
                     }
-                    assertTestCase classInfo, { it.testName == "Wilma is a female person" }, { TestCaseInfo testInfo ->
+                    assertTestCase classInfo, { TestCaseInfo it -> it.testName == "Wilma is a female person" }, { TestCaseInfo testInfo ->
                         featureMethod == testInfo.sourceMethod
                     }
                 }
@@ -250,7 +257,7 @@ class GroovySpockTest extends TestBase {
     void testTestNameToMethodNameHtmlLink() {
         String CLASS_NAME = "HelloSpock"
 
-        instrumentAndCompileWithGroovyAndSpock(["${CLASS_NAME}.groovy"])
+        instrumentAndCompileWithGroovyAndSpock(["${CLASS_NAME}.groovy".toString()])
         runSpockRunner(CLASS_NAME)
         runHtmlReport()
 
@@ -274,7 +281,7 @@ class GroovySpockTest extends TestBase {
         String CLASS_NAME = "UnrollWithSeqNumber"
 
         // instrument and run tests
-        instrumentAndCompileWithGroovyAndSpock(["${CLASS_NAME}.groovy"])
+        instrumentAndCompileWithGroovyAndSpock(["${CLASS_NAME}.groovy".toString()])
         runSpockRunner(CLASS_NAME)
         runHtmlReport()
 
@@ -298,7 +305,7 @@ class GroovySpockTest extends TestBase {
         String CLASS_NAME = "UnrollWithSimpleVar"
 
         // instrument and run tests
-        instrumentAndCompileWithGroovyAndSpock(["${CLASS_NAME}.groovy"])
+        instrumentAndCompileWithGroovyAndSpock(["${CLASS_NAME}.groovy".toString()])
         runSpockRunner(CLASS_NAME)
         runHtmlReport()
 
@@ -307,7 +314,7 @@ class GroovySpockTest extends TestBase {
         assertTrue htmlSourcePage.exists()
 
         // ... and that we've got 3 test results
-        String[][] rows = [ [3, 7, 3], [5, 4, 4], [9, 9, 9]]
+        String[][] rows = [ [3, 7, 3] as String[], [5, 4, 4] as String[], [9, 9, 9] as String[] ]
         for (String[] row : rows) {
             assertTestResultPage(row,
                     "${CLASS_NAME}_minimum_of_${row[0]}_and_${row[1]}_is_${row[2]}_[0-9]+\\.html",
@@ -319,12 +326,11 @@ class GroovySpockTest extends TestBase {
      * Check if variable-parameterized tests containing variables with fields or method calls are matched to
      * a proper method in HTML report.
      */
-    @GroovyVersionStart("1.8.0")
     void testUnrolledParameterizedTestsWithSelectorsToHtmlLink() {
         String CLASS_NAME = "UnrollWithVarsWithSelectors"
 
         // instrument and run tests
-        instrumentAndCompileWithGroovyAndSpock(["${CLASS_NAME}.groovy"])
+        instrumentAndCompileWithGroovyAndSpock(["${CLASS_NAME}.groovy".toString()])
         runSpockRunner(CLASS_NAME)
         runHtmlReport()
 

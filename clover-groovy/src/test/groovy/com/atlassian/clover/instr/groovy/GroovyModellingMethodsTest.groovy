@@ -1,13 +1,17 @@
 package com.atlassian.clover.instr.groovy
 
 import com.atlassian.clover.api.registry.Annotation
+import com.atlassian.clover.api.registry.BranchInfo
+import com.atlassian.clover.api.registry.ClassInfo
 import com.atlassian.clover.api.registry.MethodInfo
+import com.atlassian.clover.cfg.instr.InstrumentationConfig
 import com.atlassian.clover.cfg.instr.MethodContextDef
 import com.atlassian.clover.context.ContextSet
 import com.atlassian.clover.context.ContextStore
 import com.atlassian.clover.context.MethodRegexpContext
 import com.atlassian.clover.registry.Clover2Registry
 import com.atlassian.clover.registry.entities.*
+import groovy.transform.CompileStatic
 
 import java.lang.reflect.Modifier
 import java.util.regex.Pattern
@@ -15,6 +19,7 @@ import java.util.regex.Pattern
 /**
  * Integration tests that detect if the correct Clover model is generated for given Groovy code.
  **/
+@CompileStatic
 class GroovyModellingMethodsTest extends TestBase {
 
     GroovyModellingMethodsTest(String testName) {
@@ -56,28 +61,32 @@ class GroovyModellingMethodsTest extends TestBase {
         groovyContext.regexp = "public def printGoodbye\\(\\)" // this is the full regexp for matching def methodName()
         groovyContext.name = "goodbye"
 
-        instrumentAndCompileWithGrover(["Foo.groovy": fooContents], "", [], {
-            it.addMethodContext(context); it.addMethodContext(groovyContext); it
-        })
+        instrumentAndCompileWithGrover(
+                ["Foo.groovy": fooContents],
+                "",
+                [],
+                { InstrumentationConfig it ->
+                    it.addMethodContext(context); it.addMethodContext(groovyContext); it
+                })
 
         final ContextStore store = new ContextStore()
         store.addMethodContext(new MethodRegexpContext(context.name, Pattern.compile(context.regexp)))
         store.addMethodContext(new MethodRegexpContext(groovyContext.name, Pattern.compile(groovyContext.regexp)))
         ContextSet set = store.createContextSetFilter(context.name)
         set = set.or(store.createContextSetFilter(groovyContext.name))
-        assertRegistry db, { Clover2Registry reg ->
-            assertPackage reg.model.project, { it.isDefault() }, { FullPackageInfo p ->
+        assertRegistry(db, { Clover2Registry reg ->
+            assertPackage reg.model.project, isDefaultPackage, { FullPackageInfo p ->
                 assertFile p, named("Foo.groovy"), { FullFileInfo f ->
-                    assertClass f, { it.name == "Foo" && it.methods.size() == 4 }, { FullClassInfo c ->
-                        assertMethod(c, and(simplyNamed("barVoid")), { it.isFiltered(set) }) &&
-                                assertMethod(c, and(simplyNamed("keepMe")), { !it.isFiltered(set) }) &&
+                    assertClass f, { ClassInfo it -> it.name == "Foo" && it.methods.size() == 4 }, { FullClassInfo c ->
+                        assertMethod(c, and(simplyNamed("barVoid")), { BranchInfo it -> it.isFiltered(set) }) &&
+                                assertMethod(c, and(simplyNamed("keepMe")), { BranchInfo it -> !it.isFiltered(set) }) &&
 
-                                assertMethod(c, and(simplyNamed("printHello")), { !it.isFiltered(set) }) &&
-                                assertMethod(c, and(simplyNamed("printGoodbye")), { it.isFiltered(set) })
+                                assertMethod(c, and(simplyNamed("printHello")), { BranchInfo it -> !it.isFiltered(set) }) &&
+                                assertMethod(c, and(simplyNamed("printGoodbye")), { BranchInfo it -> it.isFiltered(set) })
                     }
                 }
             }
-        }
+        })
     }
 
 
@@ -90,13 +99,15 @@ class GroovyModellingMethodsTest extends TestBase {
                  }
             """])
 
-        assertRegistry db, { Clover2Registry reg ->
-            assertPackage Clover2Registry.fromFile(db).model.project, { it.isDefault() }, { FullPackageInfo p ->
-                assertFile p, named("Foo.groovy"), { FullFileInfo f ->
-                    assertClass f, { it.name == "Foo" && it.isInterface() && it.methods.size() == 0 }
-                }
-            }
-        }
+        assertRegistry(db, { Clover2Registry reg ->
+            assertPackage(Clover2Registry.fromFile(db).model.project,
+                    isDefaultPackage,
+                    { FullPackageInfo p ->
+                        assertFile p, named("Foo.groovy"), { FullFileInfo f ->
+                            assertClass f, { BaseClassInfo it -> it.name == "Foo" && it.isInterface() && it.methods.size() == 0 }
+                        }
+                    })
+        })
     }
 
     void testAnnotationRecognizedAndFieldsNotAddedToRegistry() {
@@ -108,13 +119,15 @@ class GroovyModellingMethodsTest extends TestBase {
                  }
             """])
 
-        assertRegistry db, { Clover2Registry reg ->
-            assertPackage reg.model.project, { it.isDefault() }, { FullPackageInfo p ->
-                assertFile p, named("Foo.groovy"), { FullFileInfo f ->
-                    assertClass f, { it.name == "Foo" && it.isAnnotationType() && it.methods.size() == 0 }
-                }
-            }
-        }
+        assertRegistry(db, { Clover2Registry reg ->
+            assertPackage(reg.model.project,
+                    isDefaultPackage,
+                    { FullPackageInfo p ->
+                        assertFile p, named("Foo.groovy"), { FullFileInfo f ->
+                            assertClass f, { BaseClassInfo it -> it.name == "Foo" && it.isAnnotationType() && it.methods.size() == 0 }
+                        }
+                    })
+        })
     }
 
     void testEnumRecognizedAndMethodsAddedToRegistry() {
@@ -128,17 +141,24 @@ class GroovyModellingMethodsTest extends TestBase {
                   }
             """])
 
-        assertRegistry db, { Clover2Registry reg ->
-            assertPackage reg.model.project, { it.isDefault() }, { FullPackageInfo p ->
-                assertFile p, named("Foo.groovy"), { FullFileInfo f ->
-                    assertClass f, { it.name == "Foo" && it.isEnum() }, { FullClassInfo c ->
-                        assertMethod c, and(simplyNamed("bar"), at(5, 21, 5, 42), {
-                            it.signature.returnType == "void"
-                        }, { it.signature.parameters.length == 0 })
-                    }
-                }
-            }
-        }
+        assertRegistry(db, { Clover2Registry reg ->
+            assertPackage(reg.model.project,
+                    isDefaultPackage,
+                    { FullPackageInfo p ->
+                        assertFile(p,
+                                named("Foo.groovy"),
+                                { FullFileInfo f ->
+                                    assertClass(f,
+                                            { BaseClassInfo it -> it.name == "Foo" && it.isEnum() },
+                                            { FullClassInfo c ->
+                                                assertMethod c, and(simplyNamed("bar"),
+                                                        at(5, 21, 5, 42),
+                                                        { MethodInfo it -> it.signature.returnType == "void" },
+                                                        { MethodInfo it -> it.signature.parameters.length == 0})
+                                            })
+                                })
+                    })
+        })
     }
 
     void testAbstractMethodsNotAddedToRegistry() {
@@ -151,9 +171,9 @@ class GroovyModellingMethodsTest extends TestBase {
             """])
 
         assertRegistry db, { Clover2Registry reg ->
-            assertPackage reg.model.project, { it.isDefault() }, { FullPackageInfo p ->
+            assertPackage reg.model.project, isDefaultPackage, { FullPackageInfo p ->
                 assertFile p, named("Foo.groovy"), { FullFileInfo f ->
-                    assertClass f, named("Foo"), { it.methods.size() == 0 }
+                    assertClass f, named("Foo"), { ClassInfo it -> it.methods.size() == 0 }
                 }
             }
         }
@@ -187,34 +207,34 @@ class GroovyModellingMethodsTest extends TestBase {
            """])
 
         assertRegistry db, { Clover2Registry reg ->
-            assertPackage reg.model.project, { it.isDefault() }, { FullPackageInfo p ->
+            assertPackage reg.model.project, isDefaultPackage, { FullPackageInfo p ->
                 assertFile p, named("Foo.groovy"), { FullFileInfo f ->
                     assertClass f, named("Foo"), { FullClassInfo c ->
-                        assertMethod(c, simplyNamed("barVoid"), { MethodInfo m ->
+                        assertMethod(c, simplyNamed("barVoid"), { FullMethodInfo m ->
                             m.signature.returnType == "void" &&
                                     m.signature.parameters.length == 0 &&
                                     m.signature.modifiersMask == Modifier.PUBLIC
                         }) &&
 
-                                assertMethod(c, simplyNamed("barDef"), { MethodInfo m ->
+                                assertMethod(c, simplyNamed("barDef"), { FullMethodInfo m ->
                                     m.signature.returnType == "def" &&
                                             m.signature.parameters.every { Parameter param -> param.name =~ /param[0-9]/ && param.type == "def" } &&
                                             m.signature.modifiersMask == Modifier.PUBLIC
                                 }) &&
 
-                                assertMethod(c, simplyNamed("barUntypedParams"), { MethodInfo m ->
+                                assertMethod(c, simplyNamed("barUntypedParams"), { FullMethodInfo m ->
                                     m.signature.returnType == "def" &&
                                             m.signature.parameters.every { Parameter param -> param.name =~ /param[0-9]/ && param.type == "def" } &&
                                             m.signature.modifiersMask == Modifier.PUBLIC
                                 }) &&
 
-                                assertMethod(c, simplyNamed("barClosure"), { MethodInfo m ->
+                                assertMethod(c, simplyNamed("barClosure"), { FullMethodInfo m ->
                                     m.signature.returnType == "def" &&
                                             m.signature.parameters.every { Parameter param -> param.name == "c" && param.type == "Closure" } &&
                                             m.signature.modifiersMask == Modifier.PUBLIC
                                 }) &&
 
-                                assertMethod(c, simplyNamed("barDefaults"), { MethodInfo m ->
+                                assertMethod(c, simplyNamed("barDefaults"), { FullMethodInfo m ->
                                     m.signature.returnType == "def" &&
                                             (m.signature.parameters[0].name == "c" && m.signature.parameters[0].type == "Closure") &&
                                             (m.signature.parameters[1].name == "m" && m.signature.parameters[1].type == "def") &&
@@ -222,20 +242,20 @@ class GroovyModellingMethodsTest extends TestBase {
                                             m.signature.modifiersMask == Modifier.PUBLIC
                                 }) &&
 
-                                assertMethod(c, simplyNamed("barPrivateVarArg"), { MethodInfo m ->
+                                assertMethod(c, simplyNamed("barPrivateVarArg"), { FullMethodInfo m ->
                                     m.signature.returnType == "Object" &&
                                             m.signature.parameters.every { Parameter param -> param.name == "f" && param.type == "Foo[]" } &&
                                             m.signature.modifiersMask == Modifier.PRIVATE
                                 }) &&
 
-                                assertMethod(c, simplyNamed("barTypeParam"), { MethodInfo m ->
+                                assertMethod(c, simplyNamed("barTypeParam"), { FullMethodInfo m ->
                                     m.signature.returnType == "T" &&
                                             m.signature.parameters.every { Parameter param -> param.name == "t" && param.type == "T" } &&
                                             m.signature.modifiersMask == Modifier.PRIVATE &&
                                             m.signature.typeParams == "T"
                                 }) &&
 
-                                assertMethod(c, simplyNamed("barGenericsFrenzy"), { MethodInfo m ->
+                                assertMethod(c, simplyNamed("barGenericsFrenzy"), { FullMethodInfo m ->
                                     m.signature.returnType == "Map<V, Set<T>>" &&
                                             m.signature.parameters[0].with { param -> param.name == "t" && param.type == "Collection<T>" } &&
                                             m.signature.parameters[1].with { param -> param.name == "s" && param.type == "Map<? extends Serializable, Class<V>>" } &&
@@ -244,7 +264,7 @@ class GroovyModellingMethodsTest extends TestBase {
                                             m.signature.typeParams == "V, T extends List<V>"
                                 }) &&
 
-                                assertMethod(c, simplyNamed("barAnnotated"), { MethodInfo m ->
+                                assertMethod(c, simplyNamed("barAnnotated"), { FullMethodInfo m ->
                                     m.signature.returnType == "void" &&
                                             m.signature.parameters.length == 0 &&
                                             m.signature.modifiersMask == Modifier.PUBLIC &&
@@ -286,7 +306,7 @@ class GroovyModellingMethodsTest extends TestBase {
                                             }
                                 }) &&
 
-                                assertMethod(c, simplyNamed("barArrayFrenzy"), { MethodInfo m ->
+                                assertMethod(c, simplyNamed("barArrayFrenzy"), { FullMethodInfo m ->
                                     m.signature.returnType == "int[][][]" &&
                                             m.signature.parameters[0].with { param -> param.name == "a" && param.type == "String[]" } &&
                                             m.signature.modifiersMask == Modifier.PRIVATE
@@ -309,7 +329,7 @@ class GroovyModellingMethodsTest extends TestBase {
             """])
 
         assertRegistry db, { Clover2Registry reg ->
-            assertPackage reg.model.project, { it.isDefault() }, { FullPackageInfo p ->
+            assertPackage reg.model.project, isDefaultPackage, { FullPackageInfo p ->
                 assertFile p, named("Foo.groovy"), { FullFileInfo f ->
                     assertClass f, named("Foo"), { FullClassInfo c ->
                         c.methods.size() == 1 &&
@@ -338,11 +358,11 @@ class GroovyModellingMethodsTest extends TestBase {
             """])
 
         assertRegistry db, { Clover2Registry reg ->
-            assertPackage Clover2Registry.fromFile(db).model.project, { it.isDefault() }, { FullPackageInfo p ->
+            assertPackage Clover2Registry.fromFile(db).model.project, isDefaultPackage, { FullPackageInfo p ->
                 assertFile(p, named("Foo1Test.groovy")) { FullFileInfo f ->
-                    assertClass f, { it.name == "Foo1Test" && it.isTestClass() }, { FullClassInfo c ->
+                    assertClass f, { ClassInfo it -> it.name == "Foo1Test" && it.isTestClass() }, { FullClassInfo c ->
                         assertMethod c, {
-                            it.simpleName == "testIt" && it.signature.returnType == "void" && it.signature.parameters.length == 0 && it.isTest()
+                            MethodInfo it -> it.simpleName == "testIt" && it.signature.returnType == "void" && it.signature.parameters.length == 0 && it.isTest()
                         }
                     }
                 } &&
