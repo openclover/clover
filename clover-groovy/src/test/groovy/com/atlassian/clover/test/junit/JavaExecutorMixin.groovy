@@ -1,17 +1,19 @@
 package com.atlassian.clover.test.junit
 
+import groovy.transform.CompileStatic
+
 /** Mixin for executing a Java process  */
+@CompileStatic
 trait JavaExecutorMixin {
-    Result launchJavap(params) {
+    Result launchJavap(String params) {
       launchCmd("${[System.getenv("JAVA_HOME"), 'bin', 'javap'].join(File.separator)} ${params}")
     }
 
-    Result launchJava(params) {
+    Result launchJava(String params) {
       launchCmd("${[System.getenv("JAVA_HOME"), 'bin', 'java'].join(File.separator)} ${params}")
     }
 
     Result launchCmd(String cmd) {
-      System.out.println("Test " + getName() + ":")
       System.out.println("Executing:")
       System.out.println(cmd)
 

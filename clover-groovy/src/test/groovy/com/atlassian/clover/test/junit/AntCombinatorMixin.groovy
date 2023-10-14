@@ -1,23 +1,26 @@
 package com.atlassian.clover.test.junit
 
+import groovy.transform.CompileStatic
+
 import java.util.regex.Matcher
 
 /** Mixin for iterating over Ant versions in the project  */
+@CompileStatic
 trait AntCombinatorMixin {
-    def eachAnt(File antHomesDir, Closure filter = {true}, Closure c) {
+    void eachAnt(File antHomesDir, Closure<Boolean> filter = {true}, Closure<Void> c) {
         findAntVersions(antHomesDir, filter).each(c)
     }
 
-    List findAntVersions(File antHomesDir, Closure filter = {true}) {
+    List findAntVersions(File antHomesDir, Closure<Boolean> filter = {true}) {
         def isAntJar = /ant-(.*)\.jar/
-        antHomesDir.list().findAll {
+        antHomesDir.list().findAll( {
             Matcher matcher = it =~ isAntJar
             if (matcher) {
                 filter.call(matcher[0][1])
             } else {
                 false
             }
-        }.collect {String name ->
+        }).collect {String name ->
             [(name =~ isAntJar)[0][1], new File(antHomesDir, name)]
         }
     }

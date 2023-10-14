@@ -1,8 +1,10 @@
 package com.atlassian.clover.test.junit
 
+import groovy.transform.CompileStatic
 import junit.framework.TestCase
 
 /** Base classes for tests with dynamically generated names  */
+@CompileStatic
 class DynamicallyNamedTestBase extends TestCase {
     String methodName
 

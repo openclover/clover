@@ -1,10 +1,13 @@
 package com.atlassian.clover.test.junit
 
+import groovy.transform.CompileStatic
+
 import java.util.regex.Matcher
 
 /**
  * Mixin for iterating over Spock versions in the project
  */
+@CompileStatic
 trait SpockCombinatorMixin {
     void eachSpock(File spockLibDir, Closure filter = {true}, Closure c) {
         findSpockAllVersionsAndJars(spockLibDir, filter).each(c)
