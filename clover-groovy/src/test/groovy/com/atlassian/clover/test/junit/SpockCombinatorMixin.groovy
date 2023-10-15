@@ -18,12 +18,12 @@ trait SpockCombinatorMixin {
         spockLibDir.list().findAll {
             Matcher matcher = it =~ isSpockJar
             if (matcher) {
-                filter.call(matcher.group(0)[1])
+                filter.call(matcher.group(1))
             } else {
                 false
             }
         }.collect {String name ->
-            [(name =~ isSpockJar).group(0)[1], new File(spockLibDir, name)]
+            [(name =~ isSpockJar).group(1), new File(spockLibDir, name)]
         }
     }
 }

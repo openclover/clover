@@ -97,8 +97,8 @@ abstract class TestBase
         }
 
         File groverInstrConfigFile = new File(groverConfigDir, CloverNames.getGroverConfigFileName())
-        decorateConfig(new InstrumentationConfig()).with {
-            if (!it.equals(null)) { //Groovy bug where null.with { it == null } => false
+        decorateConfig(new InstrumentationConfig()).with { InstrumentationConfig it ->
+            if (it != null) { //Groovy bug where null.with { it == null } => false
                 setInitstring(db.getAbsolutePath())
                 setIncludedFiles(sourceFiles as List)
                 saveToFile(groverInstrConfigFile)

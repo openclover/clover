@@ -133,6 +133,11 @@
                                     <version>${clover-groovy.test.spock.ver}</version>
                                 </artifactItem>
                                 <artifactItem>
+                                    <groupId>org.opentest4j</groupId>
+                                    <artifactId>opentest4j</artifactId>
+                                    <version>1.2.0</version>
+                                </artifactItem>
+                                <artifactItem>
                                     <groupId>org.hamcrest</groupId>
                                     <artifactId>hamcrest-core</artifactId>
                                     <version>${clover-groovy.test.hamcrest.ver}</version>
