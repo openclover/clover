@@ -49,6 +49,12 @@
             <artifactId>spock-core</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- required by spock at runtime -->
+        <dependency>
+            <groupId>org.opentest4j</groupId>
+            <artifactId>opentest4j</artifactId>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

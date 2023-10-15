@@ -23,7 +23,11 @@ import static org.junit.Assert.assertTrue
 /** Mixin for making assertions on a clover .db file  */
 @CompileStatic
 trait CloverDbTestMixin {
-    public File db
+    private File db
+
+    File getDb() {
+        db
+    }
 
     void reserveCloverDbFile(File workingDir) {
         db = File.createTempFile("clover", ".db", workingDir)

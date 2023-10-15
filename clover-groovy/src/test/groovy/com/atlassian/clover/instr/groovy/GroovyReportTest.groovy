@@ -77,13 +77,13 @@ class GroovyReportTest extends TestBase {
 
                 if (line5 == null) return false
 
-                NodeList tdCells = (NodeList) line5["td"]
+                Node tdCell = (Node) line5["td"]
                         .find { Object obj ->
                             Node it = (Node) obj
                             println it.attribute('class')
                             it.attribute('class') == 'coverageCount Good missedByTest'
                         }
-                NodeList spans = tdCells["span"]
+                NodeList spans = (NodeList) tdCell["span"]
                 Node firstSpan = (Node) spans[0]
                 firstSpan.attribute('title').toString().contains("method entered 1 time.")
             }

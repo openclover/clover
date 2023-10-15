@@ -54,10 +54,6 @@ abstract class TestBase
         //deleteWorkingDir()
     }
 
-    File getDb() {
-        return db
-    }
-
     /**
      * Instrument sources provided as input arguments in a map: file name -> file content
      *
