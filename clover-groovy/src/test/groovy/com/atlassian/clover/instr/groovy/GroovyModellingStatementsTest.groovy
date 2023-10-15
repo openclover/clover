@@ -466,7 +466,7 @@ class GroovyModellingStatementsTest extends TestBase {
                         assertMethod c, simplyNamed("one"), { MethodInfo m ->
                             m.statements.size() == 2 &&
                             assertStatement(m, at(2, 21, 3, 42)) && // try-finally
-                            assertStatement(m, at(3, 31, 3, 41))   // int i = 0
+                            assertStatement(m, at(3, 31, 3, 40))   // int i = 0
                         }
                     }
                 }

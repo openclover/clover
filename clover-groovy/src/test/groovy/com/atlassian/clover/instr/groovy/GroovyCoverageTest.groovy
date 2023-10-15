@@ -502,7 +502,7 @@ class GroovyCoverageTest extends TestBase {
                             }) &&
                                     assertMethod(c, simplyNamed("bar"), { MethodInfo m ->
                                         m.hitCount == 1 &&
-                                                assertStatement(m, at(7, 44, 7, 65), hits(1)) &&       //println "Hello, \$it"
+                                                assertStatement(m, at(7, 44, 7, 64), hits(1)) &&       //println "Hello, \$it"
                                                 assertStatement(m, at(15, 31, 15, 36), hits(3)) &&     //1 + 1 - evaled 3 times because the first value matches on 1
                                                 assertStatement(m, at(22, 33, 22, 37), hits(1)) &&     //true
                                                 assertStatement(m, at(22, 41, 22, 46), hits(1)) &&     //false
@@ -679,7 +679,7 @@ class GroovyCoverageTest extends TestBase {
                             })) &&
                                     assertMethod(c, simplyNamed("field someInt"), hits(1)) &&
                                     assertMethod(c, and(simplyNamed("field foo"), at(7, 19, 7, 72)), and(hits(1), { MethodInfo m ->
-                                        assertStatement(m, at(7, 56, 7, 71), hits(2)) &&
+                                        assertStatement(m, at(7, 56, 7, 70), hits(2)) &&
                                                 assertBranch(m, at(7, 56, 7, 58), hits(1, 1))
                                     }))
                         }
@@ -717,7 +717,7 @@ class GroovyCoverageTest extends TestBase {
                     assertFile p, named("Foo.groovy"), { FullFileInfo f ->
                         assertClass f, named("Foo"), { FullClassInfo c ->
                             assertMethod(c, and(simplyNamed("field foo"), at(3, 19, 3, 110)), and(hits(1), { MethodInfo m ->
-                                assertStatement(m, at(3, 73, 3, 109), hits(1)) &&
+                                assertStatement(m, at(3, 73, 3, 108), hits(1)) &&
                                         assertBranch(m, at(3, 73, 3, 89), hits(1, 0))
                             })) &&
                                     assertMethod(c, and(simplyNamed("field foo2"), at(4, 19, 4, 73)), and(hits(1), { MethodInfo m ->

@@ -78,11 +78,11 @@ class GroovyModellingMethodsTest extends TestBase {
             assertPackage reg.model.project, isDefaultPackage, { FullPackageInfo p ->
                 assertFile p, named("Foo.groovy"), { FullFileInfo f ->
                     assertClass f, { ClassInfo it -> it.name == "Foo" && it.methods.size() == 4 }, { FullClassInfo c ->
-                        assertMethod(c, and(simplyNamed("barVoid")), { BranchInfo it -> it.isFiltered(set) }) &&
-                                assertMethod(c, and(simplyNamed("keepMe")), { BranchInfo it -> !it.isFiltered(set) }) &&
+                        assertMethod(c, and(simplyNamed("barVoid")), { FullMethodInfo it -> it.isFiltered(set) }) &&
+                                assertMethod(c, and(simplyNamed("keepMe")), { FullMethodInfo it -> !it.isFiltered(set) }) &&
 
-                                assertMethod(c, and(simplyNamed("printHello")), { BranchInfo it -> !it.isFiltered(set) }) &&
-                                assertMethod(c, and(simplyNamed("printGoodbye")), { BranchInfo it -> it.isFiltered(set) })
+                                assertMethod(c, and(simplyNamed("printHello")), { FullMethodInfo it -> !it.isFiltered(set) }) &&
+                                assertMethod(c, and(simplyNamed("printGoodbye")), { FullMethodInfo it -> it.isFiltered(set) })
                     }
                 }
             }
