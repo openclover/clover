@@ -512,7 +512,7 @@ class GroovyCoverageTest extends TestBase {
                                                 assertStatement(m, at(41, 27, 41, 30), hits(1)) &&     //"a"
                                                 assertStatement(m, at(41, 43, 41, 46), hits(1)) &&     //"a"
                                                 assertStatement(m, at(42, 28, 42, 43), hits(1)) &&     //println "Adieu"
-                                                assertStatement(m, at(42, 50, 42, 60), hits(1))      //"Goodbye"
+                                                assertStatement(m, at(42, 50, 42, 59), hits(1))      //"Goodbye"
                                     })
                         }
                     }
@@ -718,10 +718,10 @@ class GroovyCoverageTest extends TestBase {
                         assertClass f, named("Foo"), { FullClassInfo c ->
                             assertMethod(c, and(simplyNamed("field foo"), at(3, 19, 3, 110)), and(hits(1), { MethodInfo m ->
                                 assertStatement(m, at(3, 73, 3, 108), hits(1)) &&
-                                        assertBranch(m, at(3, 73, 3, 89), hits(1, 0))
+                                        assertBranch(m, at(3, 73, 3, 88), hits(1, 0))
                             })) &&
                                     assertMethod(c, and(simplyNamed("field foo2"), at(4, 19, 4, 73)), and(hits(1), { MethodInfo m ->
-                                        assertStatement(m, at(4, 57, 4, 72), hits(2)) &&
+                                        assertStatement(m, at(4, 57, 4, 71), hits(2)) &&
                                                 assertBranch(m, at(4, 57, 4, 59), hits(1, 1))
                                     })) &&
                                     assertMethod(c, and(simplyNamed("field foo3"), at(5, 19, 5, 78)), and(hits(1), { MethodInfo m ->
