@@ -5,6 +5,7 @@ import com.atlassian.clover.test.junit.GroovyCombinatorMixin
 import com.atlassian.clover.test.junit.GroovyVersionStart
 import com.atlassian.clover.test.junit.GroovyVersions
 import com.atlassian.clover.test.junit.IncludeExcludeMixin
+import com.atlassian.clover.test.junit.JavaVersionMixin
 import com.atlassian.clover.test.junit.SpockCombinatorMixin
 import com.atlassian.clover.test.junit.TestPropertyMixin
 import com.atlassian.clover.versions.LibraryVersion
@@ -13,7 +14,8 @@ import java.lang.reflect.Method
 
 class GroovySpockTestSuite
         extends junit.framework.TestSuite
-        implements GroovyCombinatorMixin, SpockCombinatorMixin, TestPropertyMixin, IncludeExcludeMixin {
+        implements GroovyCombinatorMixin, SpockCombinatorMixin, TestPropertyMixin, IncludeExcludeMixin, JavaVersionMixin {
+
     static Map<Class, Closure> TEST_CLASSES_AND_SELECTORS = [
         (GroovySpockTest): DefaultTestSelector.instance.closure,
     ]
@@ -77,7 +79,7 @@ class GroovySpockTestSuite
     }
 
     boolean shouldTestWithGroovyJar(String groovyVersion) {
-        shouldInclude(GROOVY_VERSION_INCLUDES, groovyVersion)
+        shouldInclude(GROOVY_VERSION_INCLUDES, groovyVersion) && shouldRunInCurrentJava(groovyVersion)
     }
 
     /** "groovy major version:spock's groovy version" map */
