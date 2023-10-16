@@ -14,7 +14,7 @@ trait SpockCombinatorMixin {
     }
 
     List findSpockAllVersionsAndJars(File spockLibDir, Closure filter = {true}) {
-        def isSpockJar = /(spock-core-.*-groovy-.*)\.jar/
+        def isSpockJar = /^(spock-core-.*-groovy-.*)\.jar$/
         spockLibDir.list().findAll {
             Matcher matcher = it =~ isSpockJar
             if (matcher) {

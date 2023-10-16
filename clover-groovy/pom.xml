@@ -56,6 +56,12 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.spockframework</groupId>
+            <artifactId>spock-junit4</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- junit -->
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
@@ -130,6 +136,11 @@
                                 <artifactItem>
                                     <groupId>org.spockframework</groupId>
                                     <artifactId>spock-core</artifactId>
+                                    <version>${clover-groovy.test.spock.ver}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.spockframework</groupId>
+                                    <artifactId>spock-junit4</artifactId>
                                     <version>${clover-groovy.test.spock.ver}</version>
                                 </artifactItem>
                                 <artifactItem>

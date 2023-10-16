@@ -12,7 +12,7 @@ trait AntCombinatorMixin {
     }
 
     List findAntVersions(File antHomesDir, Closure<Boolean> filter = {true}) {
-        def isAntJar = /ant-(.*)\.jar/
+        def isAntJar = /^ant-(.*)\.jar$/
         antHomesDir.list().findAll( {
             Matcher matcher = it =~ isAntJar
             if (matcher) {

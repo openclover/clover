@@ -38,7 +38,8 @@ class GroovySpockTest extends TestBase {
     protected File htmlReportDir
 
     GroovySpockTest(String testName) {
-        super(testName, testName, getGroovyJarFromProperty(), [ getSpockJarFromProperty(), getOpenTest4J() ])
+        super(testName, testName, getGroovyJarFromProperty(),
+                [ getSpockJarFromProperty(), getSpockJUnitJarFromProperty(), getOpenTest4J() ])
     }
 
     GroovySpockTest(String methodName, String specificName, File groovyAllJar, List<File> additionalGroovyJars) {
@@ -48,6 +49,11 @@ class GroovySpockTest extends TestBase {
     private static File getSpockJarFromProperty() {
         def spockVer = System.getProperty("clover-groovy.test.spock.ver") ?: "2.3-groovy-4.0"
         new File("target/test-dependencies/spock-core-${spockVer}.jar")
+    }
+
+    private static File getSpockJUnitJarFromProperty() {
+        def spockVer = System.getProperty("clover-groovy.test.spock.ver") ?: "2.3-groovy-4.0"
+        new File("target/test-dependencies/spock-junit4-${spockVer}.jar")
     }
 
     private static File getOpenTest4J() {
