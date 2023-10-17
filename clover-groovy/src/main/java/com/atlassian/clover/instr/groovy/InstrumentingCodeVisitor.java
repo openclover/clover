@@ -354,7 +354,12 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
                     field.setInitialValueExpression(transform(field.getInitialValueExpression()));
                 }
             }
+        } else if (transformed instanceof EmptyExpression) {
+            // EmptyExpression.INSTANCE is immutable, we can't even modify source position
+            // TODO inject our own MutableEmptyExpression
+            return transformed;
         }
+
         transformed.setSourcePosition(expr);
         return transformed;
     }
