@@ -56,8 +56,13 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.spockframework</groupId>
-            <artifactId>spock-junit4</artifactId>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-console-standalone</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
             <scope>test</scope>
         </dependency>
         <!-- junit -->
@@ -157,6 +162,16 @@
                                     <groupId>junit</groupId>
                                     <artifactId>junit</artifactId>
                                     <version>${clover-groovy.test.junit.ver}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.junit.platform</groupId>
+                                    <artifactId>junit-platform-console-standalone</artifactId>
+                                    <version>1.9.2</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.junit.jupiter</groupId>
+                                    <artifactId>junit-jupiter-engine</artifactId>
+                                    <version>5.9.3</version>
                                 </artifactItem>
                                 <!-- repacked libraries used by clover -->
                                 <artifactItem>

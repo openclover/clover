@@ -57,12 +57,17 @@ class GroovySpockTestSuite
                                 || new LibraryVersion(testMethod.getAnnotation(GroovyVersionStart.class).value()).
                                         compareTo(new LibraryVersion(groovyVersion)) <= 0) {
 
-                            // expected constructor signature: (methodName, specificName, groovyAllJar, [ spockJar ])
-                            testClass.declaredConstructors.find { it.parameterTypes.length == 4 }
+                            // expected constructor signature: (methodName, specificName, groovyAllJar, [ spockJar ], withJUnit5)
+                            boolean withJUnit5 = spockVersion.startsWith("2.")
+                            testClass.declaredConstructors.find { it.parameterTypes.length == 5 }
                                     .newInstance(
                                             testMethod.name,
                                             "${testMethod.name}_For_Spock_${spockVersion}_and_Groovy_${groovyVersion}".toString(),
-                                            groovyAllJar, [ spockJar, commonsCliJar, asmJar, antlrJar ]).with { addTest(it) }
+                                            groovyAllJar,
+                                            [ spockJar, commonsCliJar, asmJar, antlrJar ],
+                                            withJUnit5).with {
+                                                    addTest(it)
+                                            }
                         }
                     }
                 }
@@ -109,8 +114,8 @@ class GroovySpockTestSuite
         String spockGroovyVersion = spockGroovyVersionMatcher[0][2]
         def groovyMajorVersionMatcher = actualGroovyVersion =~ /([0-9]*\.[0-9]*)(.*)/
         String groovyMajorVersion = groovyMajorVersionMatcher[0][1]
-        // find proper version in a map (or use spock-x.x-core-groovy-2.4 if not found)
-        return groovyVsSpock.get(groovyMajorVersion, "2.4").equals(spockGroovyVersion)
+        // find proper version in a map (or use spock-x.x-core-groovy-4.0 if not found)
+        return groovyVsSpock.get(groovyMajorVersion, "4.0").equals(spockGroovyVersion)
     }
 
 }

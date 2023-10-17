@@ -37,13 +37,18 @@ class GroovySpockTest extends TestBase {
     /** Location of generated HTML report */
     protected File htmlReportDir
 
+    protected boolean withJUnit5
+
     GroovySpockTest(String testName) {
         super(testName, testName, getGroovyJarFromProperty(),
-                [ getSpockJarFromProperty(), getSpockJUnitJarFromProperty(), getOpenTest4J() ])
+                [ getSpockJarFromProperty(), getOpenTest4J() ])
+        this.withJUnit5 = true // assuming that we run Spock 2.x by default
     }
 
-    GroovySpockTest(String methodName, String specificName, File groovyAllJar, List<File> additionalGroovyJars) {
+    GroovySpockTest(String methodName, String specificName, File groovyAllJar, List<File> additionalGroovyJars,
+                    boolean withJUnit5) {
         super(methodName, specificName, groovyAllJar, additionalGroovyJars)
+        this.withJUnit5 = withJUnit5
     }
 
     private static File getSpockJarFromProperty() {
@@ -51,13 +56,16 @@ class GroovySpockTest extends TestBase {
         new File("target/test-dependencies/spock-core-${spockVer}.jar")
     }
 
-    private static File getSpockJUnitJarFromProperty() {
-        def spockVer = System.getProperty("clover-groovy.test.spock.ver") ?: "2.3-groovy-4.0"
-        new File("target/test-dependencies/spock-junit4-${spockVer}.jar")
-    }
-
     private static File getOpenTest4J() {
         new File("target/test-dependencies/opentest4j-1.2.0.jar")
+    }
+
+    private static File getJUnitPlatformLauncher() {
+        new File("target/test-dependencies/junit-platform-console-standalone-1.9.2.jar")
+    }
+
+    private static File getJUnitJupiterEngine() {
+        new File("target/test-dependencies/junit-jupiter-engine-5.9.3.jar")
     }
 
     protected Result instrumentAndCompileWithGroovyAndSpock(List<String> files) {
@@ -68,10 +76,24 @@ class GroovySpockTest extends TestBase {
     }
 
     protected Result runSpockRunner(String className) {
+        withJUnit5 ? runSpockRunnerWithJUnit5(className) : runSpockRunnerWithJUnit4(className)
+    }
+
+    /** Use with Spock 1.x */
+    protected Result runSpockRunnerWithJUnit4(String className) {
 //        String remoteDebug = "-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5006 "
         String remoteDebug = ""
         run("org.junit.runner.JUnitCore ${className}", [remoteDebug, "-Dclover.logging.level=debug"],
                 additionalGroovyJars)
+    }
+
+    /** Use with Spock 2.x */
+    protected Result runSpockRunnerWithJUnit5(String className) {
+//        String remoteDebug = "-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5006 "
+        String remoteDebug = ""
+        run("org.junit.platform.console.ConsoleLauncher --select-class=${className} --disable-ansi-colors --disable-banner --details=summary",
+                [remoteDebug, "-Dclover.logging.level=debug"],
+                additionalGroovyJars + getOpenTest4J() + getJUnitPlatformLauncher() + getJUnitJupiterEngine())
     }
 
     protected Result runHtmlReport() {
