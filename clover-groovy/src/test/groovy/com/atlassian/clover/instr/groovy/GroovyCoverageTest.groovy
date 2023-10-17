@@ -279,7 +279,7 @@ class GroovyCoverageTest extends TestBase {
                                 m.hitCount == 1 &&
                                         assertStatement(m, at(4, 19, 4, 41), hits(1)) &&     //println
                                         assertStatement(m, at(5, 19, 5, 53), hits(1)) &&     //5.times statement
-                                        assertStatement(m, at(5, 29, 5, 52), hits(5)) &&     //5.times block
+                                        assertStatement(m, at(5, 29, 5, 51), hits(5)) &&     //5.times block
                                         assertStatement(m, at(6, 19, 20, 20), hits(1)) &&    //for statement
                                         assertStatement(m, at(7, 21, 19, 22), hits(4)) &&    //switch statement
                                         assertStatement(m, at(9, 29, 9, 42), hits(1)) &&     //println "one"
@@ -728,7 +728,7 @@ class GroovyCoverageTest extends TestBase {
                                         assertBranch(m, at(5, 37, 5, 66), hits(0, 1))
                                     })) &&
                                     assertMethod(c, and(simplyNamed("field foo4"), at(6, 19, 6, 79)), and(hits(1), { MethodInfo m ->
-                                        assertBranch(m, at(6, 37, 6, 67), hits(0, 1))
+                                        assertBranch(m, at(6, 37, 6, 66), hits(0, 1))
                                     })) &&
                                     assertMethod(c, and(simplyNamed("field foo5"), at(7, 19, 7, 94)), and(hits(1), { MethodInfo m ->
                                         assertBranch(m, at(7, 37, 7, 74), hits(1, 0))
