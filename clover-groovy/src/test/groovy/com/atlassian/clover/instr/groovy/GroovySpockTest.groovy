@@ -165,19 +165,19 @@ class GroovySpockTest extends TestBase {
                     // check that three unrolled test cases were ran
                     assertEquals "number of test cases is incorrect", 3, classInfo.testCases.size()
                     // ... and that test names were dynamically updated at runtime by a TestNameSniffer
-                    assertTrue(testNameContains(classInfo.testCases, "maximum of two numbers[0]"))
-                    assertTrue(testNameContains(classInfo.testCases, "maximum of two numbers[1]"))
-                    assertTrue(testNameContains(classInfo.testCases, "maximum of two numbers[2]"))
+                    assertTrue(testNameContains(classInfo.testCases, "maximum of two numbers [a: 3, b: 7, c: 7, #0]"))
+                    assertTrue(testNameContains(classInfo.testCases, "maximum of two numbers [a: 5, b: 4, c: 5, #1]"))
+                    assertTrue(testNameContains(classInfo.testCases, "maximum of two numbers [a: 9, b: 9, c: 9, #2]"))
 
                     // ... and that these tests have links to the original method
                     def featureMethod = classInfo.methods.find { it.simpleName == FEATURE_NAME }
-                    assertTestCase classInfo, { TestCaseInfo it -> it.testName == "maximum of two numbers[0]" }, { TestCaseInfo testInfo ->
+                    assertTestCase classInfo, { TestCaseInfo it -> it.testName == "maximum of two numbers [a: 3, b: 7, c: 7, #0]" }, { TestCaseInfo testInfo ->
                         featureMethod == testInfo.sourceMethod
                     }
-                    assertTestCase classInfo, { TestCaseInfo it -> it.testName == "maximum of two numbers[1]" }, { TestCaseInfo testInfo ->
+                    assertTestCase classInfo, { TestCaseInfo it -> it.testName == "maximum of two numbers [a: 5, b: 4, c: 5, #1]" }, { TestCaseInfo testInfo ->
                         featureMethod == testInfo.sourceMethod
                     }
-                    assertTestCase classInfo, { TestCaseInfo it -> it.testName == "maximum of two numbers[2]" }, { TestCaseInfo testInfo ->
+                    assertTestCase classInfo, { TestCaseInfo it -> it.testName == "maximum of two numbers [a: 9, b: 9, c: 9, #2]" }, { TestCaseInfo testInfo ->
                         featureMethod == testInfo.sourceMethod
                     }
                 }
@@ -298,12 +298,15 @@ class GroovySpockTest extends TestBase {
         assertTrue helloSpockHtml.exists()
 
         // ... and that we've got 3 test results
-        for (int i = 0; i < 3; i++) {
-            String[] row = [ i ]
-            assertTestResultPage(row,
-                    "${CLASS_NAME}_length_of_Spock_s_and_his_friends__names_${i}.html",
-                    "<a  href=\"../default-pkg/HelloSpock.html?line=20#src-20\" >length of Spock's and his friends' names</a>")
-        }
+        assertTestResultPage([0] as String[],
+                "HelloSpock_length_of_Spock_s_and_his_friends__names__name__Kirk__length__4_.*\\.html",
+                "<a  href=\"../default-pkg/HelloSpock.html?line=20#src-20\" >length of Spock's and his friends' names [name: Kirk, length: 4")
+        assertTestResultPage([1] as String[],
+                "HelloSpock_length_of_Spock_s_and_his_friends__names__name__Scotty__length__6_.*\\.html",
+                "<a  href=\"../default-pkg/HelloSpock.html?line=20#src-20\" >length of Spock's and his friends' names [name: Scotty, length: 6")
+        assertTestResultPage([2] as String[],
+                "HelloSpock_length_of_Spock_s_and_his_friends__names__name__Spock__length__5_.*\\.html",
+                "<a  href=\"../default-pkg/HelloSpock.html?line=20#src-20\" >length of Spock's and his friends' names [name: Spock, length: 5")
     }
 
     /**
@@ -322,12 +325,15 @@ class GroovySpockTest extends TestBase {
         assertTrue htmlSourcePage.exists()
 
         // ... and that we've got 3 test results
-        for (int i = 0; i < 3; i++) {
-            String[] row = [ i ]
-            assertTestResultPage(row,
-                    "${CLASS_NAME}_maximum_of_two_numbers_${row[0]}__[0-9]+\\.html",
-                    "<a  href=\"../default-pkg/${CLASS_NAME}.html?line=22#src-22\" >maximum of two numbers[${row[0]}]</a>")
-        }
+        assertTestResultPage([0] as String[],
+                "${CLASS_NAME}_maximum_of_two_numbers.*___0__.*\\.html",
+                "<a  href=\"../default-pkg/${CLASS_NAME}.html?line=22#src-22\" >maximum of two numbers [a: 3, b: 7, c: 7, #0]</a>")
+        assertTestResultPage([1] as String[],
+                "${CLASS_NAME}_maximum_of_two_numbers.*___1__.*\\.html",
+                "<a  href=\"../default-pkg/${CLASS_NAME}.html?line=22#src-22\" >maximum of two numbers [a: 5, b: 4, c: 5, #1]</a>")
+        assertTestResultPage([2] as String[],
+                "${CLASS_NAME}_maximum_of_two_numbers.*___2__.*\\.html",
+                "<a  href=\"../default-pkg/${CLASS_NAME}.html?line=22#src-22\" >maximum of two numbers [a: 9, b: 9, c: 9, #2]</a>")
     }
 
     /**
