@@ -184,6 +184,10 @@ trait CloverDbTestMixin {
         return { subject -> others.inject(true) { result, other -> result && other.call(subject) } }
     }
 
+    Closure<Boolean> or(Closure<Boolean>... others) {
+        return { subject -> others.inject(true) { result, other -> result || other.call(subject) } }
+    }
+
     Closure<Boolean> hitByTest(CloverDatabase db, FullClassInfo c, String testName) {
         return { InstrumentationInfo it ->
             db.getCoverageData()

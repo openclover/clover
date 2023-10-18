@@ -279,7 +279,7 @@ class GroovyCoverageTest extends TestBase {
                                 m.hitCount == 1 &&
                                         assertStatement(m, at(4, 19, 4, 41), hits(1)) &&     //println
                                         assertStatement(m, at(5, 19, 5, 53), hits(1)) &&     //5.times statement
-                                        assertStatement(m, at(5, 29, 5, 51), hits(5)) &&     //5.times block
+                                        assertStatement(m, or(at(5, 29, 5, 51), /*groovy2*/at(5, 29, 5, 52)), hits(5)) &&     //5.times block
                                         assertStatement(m, at(6, 19, 20, 20), hits(1)) &&    //for statement
                                         assertStatement(m, at(7, 21, 19, 22), hits(4)) &&    //switch statement
                                         assertStatement(m, at(9, 29, 9, 42), hits(1)) &&     //println "one"
@@ -502,7 +502,7 @@ class GroovyCoverageTest extends TestBase {
                             }) &&
                                     assertMethod(c, simplyNamed("bar"), { MethodInfo m ->
                                         m.hitCount == 1 &&
-                                                assertStatement(m, at(7, 44, 7, 64), hits(1)) &&       //println "Hello, \$it"
+                                                assertStatement(m, or(at(7, 44, 7, 64), /*groovy2*/at(7, 44, 7, 65)), hits(1)) &&       //println "Hello, \$it"
                                                 assertStatement(m, at(15, 31, 15, 36), hits(3)) &&     //1 + 1 - evaled 3 times because the first value matches on 1
                                                 assertStatement(m, at(22, 33, 22, 37), hits(1)) &&     //true
                                                 assertStatement(m, at(22, 41, 22, 46), hits(1)) &&     //false
@@ -512,7 +512,7 @@ class GroovyCoverageTest extends TestBase {
                                                 assertStatement(m, at(41, 27, 41, 30), hits(1)) &&     //"a"
                                                 assertStatement(m, at(41, 43, 41, 46), hits(1)) &&     //"a"
                                                 assertStatement(m, at(42, 28, 42, 43), hits(1)) &&     //println "Adieu"
-                                                assertStatement(m, at(42, 50, 42, 59), hits(1))      //"Goodbye"
+                                                assertStatement(m, or(at(42, 50, 42, 59), /*groovy2*/at(42, 50, 42, 60)), hits(1))      //"Goodbye"
                                     })
                         }
                     }
@@ -679,7 +679,7 @@ class GroovyCoverageTest extends TestBase {
                             })) &&
                                     assertMethod(c, simplyNamed("field someInt"), hits(1)) &&
                                     assertMethod(c, and(simplyNamed("field foo"), at(7, 19, 7, 72)), and(hits(1), { MethodInfo m ->
-                                        assertStatement(m, at(7, 56, 7, 70), hits(2)) &&
+                                        assertStatement(m, or(at(7, 56, 7, 70), /*groovy2*/at(7, 56, 7, 71)), hits(2)) &&
                                                 assertBranch(m, at(7, 56, 7, 58), hits(1, 1))
                                     }))
                         }
@@ -717,18 +717,18 @@ class GroovyCoverageTest extends TestBase {
                     assertFile p, named("Foo.groovy"), { FullFileInfo f ->
                         assertClass f, named("Foo"), { FullClassInfo c ->
                             assertMethod(c, and(simplyNamed("field foo"), at(3, 19, 3, 110)), and(hits(1), { MethodInfo m ->
-                                assertStatement(m, at(3, 73, 3, 108), hits(1)) &&
-                                        assertBranch(m, at(3, 73, 3, 88), hits(1, 0))
+                                assertStatement(m, or(at(3, 73, 3, 108), /*groovy2*/at(3, 73, 3, 109)), hits(1)) &&
+                                        assertBranch(m, or(at(3, 73, 3, 88), /*groovy2*/at(3, 73, 3, 89)), hits(1, 0))
                             })) &&
                                     assertMethod(c, and(simplyNamed("field foo2"), at(4, 19, 4, 73)), and(hits(1), { MethodInfo m ->
-                                        assertStatement(m, at(4, 57, 4, 71), hits(2)) &&
+                                        assertStatement(m, or(at(4, 57, 4, 71), /*groovy2*/at(4, 57, 4, 72)), hits(2)) &&
                                                 assertBranch(m, at(4, 57, 4, 59), hits(1, 1))
                                     })) &&
                                     assertMethod(c, and(simplyNamed("field foo3"), at(5, 19, 5, 78)), and(hits(1), { MethodInfo m ->
                                         assertBranch(m, at(5, 37, 5, 66), hits(0, 1))
                                     })) &&
                                     assertMethod(c, and(simplyNamed("field foo4"), at(6, 19, 6, 79)), and(hits(1), { MethodInfo m ->
-                                        assertBranch(m, at(6, 37, 6, 66), hits(0, 1))
+                                        assertBranch(m, or(at(6, 37, 6, 66), /*groovy2*/at(6, 37, 6, 67)), hits(0, 1))
                                     })) &&
                                     assertMethod(c, and(simplyNamed("field foo5"), at(7, 19, 7, 94)), and(hits(1), { MethodInfo m ->
                                         assertBranch(m, at(7, 37, 7, 74), hits(1, 0))
