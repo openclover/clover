@@ -1,16 +1,20 @@
 package com.atlassian.clover.ant.tasks
 
-import junit.framework.TestCase
 
 import org.apache.tools.ant.Project
 import org.apache.tools.ant.types.FileSet
 import org.apache.tools.ant.types.Reference
 import com.atlassian.clover.reporters.Current
 import com.atlassian.clover.testutils.IOHelper
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
+import org.junit.rules.TestName
 
+import static org.junit.Assert.assertEquals
 import static org.openclover.util.Lists.newArrayList
 
-class FilesetFileVisitorTest extends TestCase {
+class FilesetFileVisitorTest {
 
     private Project proj
     private File abstractTestFile
@@ -20,12 +24,15 @@ class FilesetFileVisitorTest extends TestCase {
     private FileSet fileSetReference
     private File dir
 
+    @Rule
+    public TestName testName = new TestName()
+
+    @Before
     void setUp() throws Exception {
-        super.setUp()
         proj = new Project()
 
         //set up file directory
-        dir = IOHelper.createTmpDir(getName())
+        dir = IOHelper.createTmpDir(testName.getMethodName())
         dir.deleteOnExit()
         abstractTestFile = File.createTempFile("abstracttest", "", dir)
         sourceFile = File.createTempFile("src", "", dir)
@@ -44,26 +51,25 @@ class FilesetFileVisitorTest extends TestCase {
         fileSetReference.setProject(proj)
 
         fileSetReference.setDir(dir)
-
     }
 
-    void tearDown() throws Exception {
-        super.tearDown()
-    }    
-
+    @Test
     void testCollectNoFiles() throws IOException {
         assertFileSets(proj, newArrayList(), [] as File[])
     }
 
+    @Test
     void testCollectAllFiles() throws IOException {
         assertFileSets(proj, fileSetsWithRefId, [ abstractTestFile, sourceFile, testFile ] as File[])
     }
 
+    @Test
     void testCollectTestFiles() throws IOException {
         fileSetReference.setIncludes("**/*test*")
         assertFileSets(proj, fileSetsWithRefId, [abstractTestFile, testFile] as File[])
     }
 
+    @Test
     void testCollectNonAbstractTestFiles() throws IOException {
 
         //set up file set for non-abstract tests
@@ -77,7 +83,7 @@ class FilesetFileVisitorTest extends TestCase {
         assertFileSets(proj, nonAbstractFileSets, [testFile] as File[])
     }
 
-    private void assertFileSets(Project proj, List filesets, File[] expectedFiles) {
+    private static void assertFileSets(Project proj, List filesets, File[] expectedFiles) {
         final Current currentConfig = new Current()
         FilesetFileVisitor.Util.collectFiles(proj, filesets, new FilesetFileVisitor() {
             void visit(File file) {

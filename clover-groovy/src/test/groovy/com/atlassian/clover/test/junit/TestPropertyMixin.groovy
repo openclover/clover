@@ -1,7 +1,10 @@
 package com.atlassian.clover.test.junit
 
+import groovy.transform.CompileStatic
+
 /** Mixin for grabbing mandatory system properties required for testing  */
-class TestPropertyMixin {
+@CompileStatic
+trait TestPropertyMixin {
     File getFileProp(String name, boolean mandatory) {
         String prop = System.getProperty(name)
         if (prop == null) {

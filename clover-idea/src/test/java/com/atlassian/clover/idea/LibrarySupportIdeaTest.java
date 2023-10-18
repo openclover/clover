@@ -14,14 +14,14 @@ import com.intellij.openapi.roots.libraries.LibraryTablesRegistrar;
 import com.intellij.openapi.util.Computable;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.testFramework.IdeaTestCase;
-import org.mockito.Mockito;
-import org.mockito.internal.matchers.StartsWith;
 
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Locale;
 
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.CoreMatchers.startsWith;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Mockito.mock;
 
 public class LibrarySupportIdeaTest extends IdeaTestCase {
     public static final String LIB_NAME = "CloverLibrarySupportTestLibraryName";
@@ -154,7 +154,7 @@ public class LibrarySupportIdeaTest extends IdeaTestCase {
                     // virtualFiles[0].getPath={java.io.tmpdir}/clover-idea.jar
                     // ignore file separator ("\" vs "/") and a letter case ("C:" vs "c:" on windows) in this test
                     assertThat(FileUtils.getNormalizedPath(virtualFiles[0].getPath()).toLowerCase(Locale.ENGLISH),
-                            new StartsWith(
+                            startsWith(
                                     FileUtils.getNormalizedPath(System.getProperty("java.io.tmpdir")).toLowerCase(Locale.ENGLISH)));
 
                     // cleanup
@@ -168,10 +168,10 @@ public class LibrarySupportIdeaTest extends IdeaTestCase {
         OrderEntry[] empty = new OrderEntry[0];
         assertFalse(LibrarySupport.reorderEntries(empty, null));
 
-        OrderEntry o1 = Mockito.mock(OrderEntry.class, "OrderEntry 1");
-        OrderEntry o2 = Mockito.mock(OrderEntry.class, "OrderEntry 2");
-        OrderEntry o3 = Mockito.mock(OrderEntry.class, "OrderEntry 3");
-        OrderEntry o4 = Mockito.mock(OrderEntry.class, "OrderEntry 4");
+        OrderEntry o1 = mock(OrderEntry.class, "OrderEntry 1");
+        OrderEntry o2 = mock(OrderEntry.class, "OrderEntry 2");
+        OrderEntry o3 = mock(OrderEntry.class, "OrderEntry 3");
+        OrderEntry o4 = mock(OrderEntry.class, "OrderEntry 4");
         OrderEntry[] one = new OrderEntry[] { o1 };
 
         assertFalse(LibrarySupport.reorderEntries(one, null));
@@ -191,7 +191,7 @@ public class LibrarySupportIdeaTest extends IdeaTestCase {
         assertEquals(Arrays.asList(o2, o1), Arrays.asList(two));
 
         OrderEntry[] four = new OrderEntry[] {o1, o2, o3, o4};
-        assertFalse(LibrarySupport.reorderEntries(four, Mockito.mock(OrderEntry.class, "OrderEntry 5")));
+        assertFalse(LibrarySupport.reorderEntries(four, mock(OrderEntry.class, "OrderEntry 5")));
         assertEquals(Arrays.asList(o1, o2, o3, o4), Arrays.asList(four));
         assertFalse(LibrarySupport.reorderEntries(four, o1));
         assertEquals(Arrays.asList(o1, o2, o3, o4), Arrays.asList(four));

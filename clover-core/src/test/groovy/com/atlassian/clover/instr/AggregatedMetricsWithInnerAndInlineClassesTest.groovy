@@ -28,14 +28,6 @@ class AggregatedMetricsWithInnerAndInlineClassesTest extends AggregatedMetricsTe
     }
 
     /**
-     * Set up temporary directory
-     */
-    @Before
-    void setUp() throws Exception {
-        super.setUp()
-    }
-
-    /**
      * Test if aggregatedStatements and aggregatedComplexity for classes are calculated properly.
      */
     @Test

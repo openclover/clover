@@ -244,6 +244,6 @@ class RegHeaderTest {
         final FileChannel inChannel = new FileInputStream(regFile).getChannel()
         final RegHeader header = RegHeader.readFrom(regFile.getAbsolutePath(), inChannel)
         assertEquals(RegHeader.MAX_NAME_LENGTH, header.getName().length())
-        assertEquals(name.substring(0, RegHeader.MAX_NAME_LENGTH), header.getName())
+        assertEquals(name.toString().substring(0, RegHeader.MAX_NAME_LENGTH), header.getName())
     }
 }

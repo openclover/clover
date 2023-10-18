@@ -3,6 +3,7 @@ package com.atlassian.clover.ant.tasks
 import com.atlassian.clover.instr.java.RecorderInstrEmitter
 import com.atlassian.clover.CloverNames
 import com_atlassian_clover.CloverProfile
+import groovy.transform.CompileStatic
 import org.apache.tools.ant.RuntimeConfigurable
 import org.apache.tools.ant.Target
 import org.apache.tools.ant.Task
@@ -21,6 +22,7 @@ import static org.junit.Assert.assertTrue
  * {@link com_atlassian_clover.Clover#getRecorder(String, long, long, int, com_atlassian_clover.CloverProfile[], String[])}
  * as well as &lt;clover-setup/&gt; and &lt;clover-instr/&gt;.
  */
+@CompileStatic
 class CloverSetupTaskProfilesCorrectTest extends CloverSetupTaskTestBase {
 
     public static final String PROPERTY_NOT_FOUND_MSG =

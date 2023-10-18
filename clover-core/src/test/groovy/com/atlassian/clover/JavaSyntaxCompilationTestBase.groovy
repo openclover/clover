@@ -12,7 +12,6 @@ import com.atlassian.clover.testutils.AssertionUtils
 import com.atlassian.clover.testutils.IOHelper
 import com.atlassian.clover.util.FileUtils
 import com.atlassian.clover.util.SourceScanner
-import junit.framework.TestCase
 import org.apache.tools.ant.BuildEvent
 import org.apache.tools.ant.BuildListener
 import org.apache.tools.ant.Project
@@ -24,16 +23,23 @@ import org.apache.tools.ant.types.Path
 import org.apache.tools.ant.types.PatternSet
 import org.apache.tools.ant.util.JavaEnvUtils
 import org.jetbrains.annotations.Nullable
+import org.junit.After
+import org.junit.Rule
+import org.junit.rules.TestName
 
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
+import static org.junit.Assert.assertEquals
+import static org.junit.Assert.assertFalse
+import static org.junit.Assert.assertNotNull
+import static org.junit.Assert.assertTrue
 import static org.openclover.util.Lists.newArrayList
 
 /**
  * This is a base class for test cases testing compilation and instrumentation under different JDK versions
  */
-abstract class JavaSyntaxCompilationTestBase extends TestCase {
+abstract class JavaSyntaxCompilationTestBase {
     public static final String CLOVER_CORE_TESTCASES_SOURCE_DIR = "clover-core/src/test/resources"
     public static final String CLOVER_CORE_TEST_RUN_DIR = "clover-core/target/testrun"
     public static final String CLOVER_CORE_CLASSES_DIR = "clover-core/target/classes"
@@ -51,7 +57,10 @@ abstract class JavaSyntaxCompilationTestBase extends TestCase {
     private ByteArrayOutputStream mAntOutput
     private ByteArrayOutputStream execOutErrStream
 
-    protected void setUp() throws Exception {
+    @Rule
+    public TestName testName = new TestName()
+
+    void setUpProject() throws Exception {
         mProjDir = IOHelper.getProjectDir()
 
         mTestcasesSrcDir = new File(mProjDir, CLOVER_CORE_TESTCASES_SOURCE_DIR)
@@ -72,17 +81,18 @@ abstract class JavaSyntaxCompilationTestBase extends TestCase {
         mAntProj = new Project()
         mAntProj.init()
         mAntProj.setBaseDir(mProjDir)
-        mAntOutput = new ByteArrayOutputStream(1024 * 30); // 30kB buffer
+        mAntOutput = new ByteArrayOutputStream(1024 * 30) // 30kB buffer
         mAntProj.addBuildListener(new PrintStreamBuildListener(new PrintStream(mAntOutput)))
 
         System.err.println()
         System.err.println("====")
-        System.err.println("starting unit test " + getName())
+        System.err.println("starting unit test " + testName.getMethodName())
         System.err.println("tmpDir=" + tmpDir)
         System.err.println("projDir=" + mProjDir)
     }
 
-    protected void tearDown() throws Exception {
+    @After
+    void tearDown() throws Exception {
         FileUtils.deltree(new File(mInitString).getParentFile())
     }
 
@@ -211,7 +221,7 @@ abstract class JavaSyntaxCompilationTestBase extends TestCase {
             String[] cmdArray = [ javaExe, "-cp", getClasspath(), mainClass ]
             ExecuteWatchdog watchdog = new ExecuteWatchdog(30000L)
 
-            execOutErrStream = new ByteArrayOutputStream(1024 * 30); // 30kB buffer
+            execOutErrStream = new ByteArrayOutputStream(1024 * 30) // 30kB buffer
             Execute exe = new Execute(new PumpStreamHandler(execOutErrStream), watchdog)
             exe.setAntRun(mAntProj)
             exe.setWorkingDirectory(mAntProj.getBaseDir())
@@ -355,7 +365,7 @@ abstract class JavaSyntaxCompilationTestBase extends TestCase {
     protected FullProjectInfo getModel() throws Exception {
         if (mModel == null) {
             final CloverDatabase db = new CloverDatabase(mInitString)
-            db.loadCoverageData();            
+            db.loadCoverageData()
             mModel = db.getModel(CodeType.APPLICATION)
         }
         return mModel
@@ -404,7 +414,7 @@ abstract class JavaSyntaxCompilationTestBase extends TestCase {
         javac.setIncludes("**/*.java")
         javac.setDebug(true)
         Javac.ImplementationSpecificArgument arg = javac.createCompilerArg()
-        arg.setValue("-Xlint"); // enable all extra warnings
+        arg.setValue("-Xlint") // enable all extra warnings
 
         // compile code
         javac.perform()

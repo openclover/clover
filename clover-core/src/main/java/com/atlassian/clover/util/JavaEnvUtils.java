@@ -55,4 +55,8 @@ public class JavaEnvUtils {
     public static boolean isAtLeastJavaVersion(String expectedVersion) {
         return Integer.parseInt(javaVersion) >= Integer.parseInt(expectedVersion);
     }
+
+    public static boolean isAtMostJavaVersion(String expectedVersion) {
+        return Integer.parseInt(javaVersion) <= Integer.parseInt(expectedVersion);
+    }
 }

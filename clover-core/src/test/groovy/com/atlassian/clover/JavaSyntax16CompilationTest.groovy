@@ -2,6 +2,8 @@ package com.atlassian.clover
 
 import com.atlassian.clover.util.FileUtils
 import com.atlassian.clover.util.JavaEnvUtils
+import org.junit.Before
+import org.junit.Test
 
 
 /**
@@ -16,13 +18,14 @@ class JavaSyntax16CompilationTest extends JavaSyntaxCompilationTestBase {
     /** Regular expression for: __CLR_hash_code.R.inc(index) */
     protected final String R_INC = "__CLR[a-zA-Z0-9_]+\\.R\\.inc\\([0-9]+\\);"
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp()
+    @Before
+    void setUp() throws Exception {
+        setUpProject()
         srcDir = new File(mTestcasesSrcDir, "javasyntax1.16")
         resetAntOutput()
     }
 
+    @Test
     void testRecordClass() {
         final String fileName = "java16/Java16RecordClass.java"
         File srcFile = new File(srcDir, fileName)

@@ -1,8 +1,10 @@
 package com.atlassian.clover.test.junit
 
+import groovy.transform.CompileStatic
 
-class IncludeExcludeMixin {
-    boolean shouldInclude(List includes, String version) {
+@CompileStatic
+trait IncludeExcludeMixin {
+    boolean shouldInclude(List<String> includes, String version) {
         boolean include = includes == null || "all" in includes || version in includes
         return include
     }

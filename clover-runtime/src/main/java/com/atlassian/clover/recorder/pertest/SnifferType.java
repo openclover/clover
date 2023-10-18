@@ -1,8 +1,8 @@
 package com.atlassian.clover.recorder.pertest;
 
 /**
- * Helper enum for {@link com.atlassian.clover.instr.java.RecorderInstrEmitter} and
- * {@link Grover}
+ * Helper enum for <code>com.atlassian.clover.instr.java.RecorderInstrEmitter</code> and
+ * <code>com.atlassian.clover.instr.groovy.Grover</code>.
  */
 public enum SnifferType {
     NULL,

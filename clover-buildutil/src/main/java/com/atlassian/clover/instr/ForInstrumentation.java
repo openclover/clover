@@ -12,7 +12,7 @@ import static java.lang.annotation.RetentionPolicy.SOURCE;
  * For example, by annotating a method as follows:
  * <pre>
  *     class Foo {
- *         @ForInstrumentation
+ *         &#64;ForInstrumentation
  *         void foo(int x, int y)
  *     }
  * </pre>

@@ -1,6 +1,8 @@
 package com.atlassian.clover
 
 import com.atlassian.clover.util.JavaEnvUtils
+import org.junit.Before
+import org.junit.Test
 
 /**
  * The purpose of this test is to
@@ -12,11 +14,17 @@ class JavaSyntax7CompilationTest extends JavaSyntaxCompilationTestBase {
     /** Regular expression for: __CLR_hash_code.R.inc(index) */
     protected final String R_INC = "__CLR[a-zA-Z0-9_]+\\.R\\.inc\\([0-9]+\\);"
 
+    @Before
+    void setUp() {
+        setUpProject()
+    }
+
     /**
      * Test java 1.7 language features and how Clover handles them.
      *
      * @throws Exception
      */
+    @Test
     void testInstrumentationAndCompilation_17() throws Exception {
         final File srcDir = new File(mTestcasesSrcDir, "javasyntax1.7")
         resetAntOutput()
@@ -41,6 +49,7 @@ class JavaSyntax7CompilationTest extends JavaSyntaxCompilationTestBase {
      *
      * @throws Exception
      */
+    @Test
     void testInstrumentationAndCompilation_17_NonReifiableTypes() throws Exception {
         final File srcDir = new File(mTestcasesSrcDir, "javasyntax1.7")
 

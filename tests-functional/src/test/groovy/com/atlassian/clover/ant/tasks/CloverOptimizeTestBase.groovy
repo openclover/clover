@@ -1,7 +1,10 @@
 package com.atlassian.clover.ant.tasks
 
+import groovy.transform.CompileStatic
+
 import static org.openclover.util.Maps.newHashMap
 
+@CompileStatic
 abstract class CloverOptimizeTestBase extends CloverBuildFileTestBase {
     private int spaceCount
     protected Map<String, String> runTargetsForTests
@@ -149,7 +152,7 @@ abstract class CloverOptimizeTestBase extends CloverBuildFileTestBase {
         pw.close()
     }
 
-    protected void expectTestsRunResults(String cycle, Map<String, String[]> testsAndExpectations) throws Exception {
+    protected void expectTestsRunResults(String cycle, Map<String, List<String>> testsAndExpectations) throws Exception {
         File testOutputDir = new File(util.getWorkDir().getAbsolutePath(), cycle)
         assertTrue(
             testOutputDir.toString() + " directory should exist",
@@ -164,7 +167,7 @@ abstract class CloverOptimizeTestBase extends CloverBuildFileTestBase {
                 }
             }).length)
 
-        for (Map.Entry<String, String[]> entry : testsAndExpectations.entrySet()) {
+        for (Map.Entry<String, List<String>> entry : testsAndExpectations.entrySet()) {
             String testClassName = entry.getKey()
             File testFile = new File(testOutputDir, "TEST-com.cenqua.clover.testcases.testoptimization." + testClassName + ".xml")
             assertTrue(

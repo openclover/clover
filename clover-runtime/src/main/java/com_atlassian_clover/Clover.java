@@ -180,12 +180,12 @@ public final class Clover {
 
     /**
      * Generate a unique file name for recording snapshot.
+     * See <code>com.atlassian.clover.recorder.RecordingTranscripts#STD_REC_SUFFIX</code> - regexp for recording name
      *
      * @param hash   unique hash identifying the coverage recorder
      * @param dbname base name of the clover database (used as prefix)
      * @param timestamp     snapshot timestamp
      * @return String generated file name
-     * @see com.atlassian.clover.recorder.RecordingTranscripts#STD_REC_SUFFIX - regexp for recording name
      */
     public static String getRecordingName(int hash, String dbname, long timestamp) {
         // make sure that we don't have a negative number to ensure that generated suffix components
@@ -197,7 +197,7 @@ public final class Clover {
 
     /**
      * Generate a unique file name for test slice recording snapshot.
-     *
+     * See <code>com.atlassian.clover.recorder.RecordingTranscripts#SLICE_SUFFIX</code> - regexp for slice recording name
      * @param typeid    the runtime type id of the slice
      * @param methodID  test method identified
      * @param runID     number of test run of the method
@@ -205,7 +205,6 @@ public final class Clover {
      * @param dbname    base name of the clover database (used as prefix)
      * @param timestamp snapshot timestamp
      * @return String generated file name
-     * @see com.atlassian.clover.recorder.RecordingTranscripts#SLICE_SUFFIX - regexp for slice recording name
      */
     public static String getSliceRecordingName(int typeid, int methodID, int runID, int hash, String dbname, long timestamp) {
         long globalSliceID = ((long) typeid) << 32 | methodID;

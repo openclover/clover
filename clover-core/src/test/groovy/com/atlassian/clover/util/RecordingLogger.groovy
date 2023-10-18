@@ -4,7 +4,7 @@ import com.atlassian.clover.Logger
 import org.hamcrest.Description
 import org.hamcrest.TypeSafeMatcher
 
-import static org.openclover.util.Lists.newLinkedList
+import static org.openclover.util.Lists.newArrayList
 
 /**
  * A Logger that will record what got logged.
@@ -87,7 +87,7 @@ class RecordingLogger extends Logger {
     }
 
 
-    private final List<LogMessage> buffer = Collections.synchronizedList(newLinkedList())
+    private final List<LogMessage> buffer = Collections.synchronizedList(newArrayList())
 
     void log(int level, String msg, Throwable t) {
         buffer.add(new LogMessage(level, msg, t))

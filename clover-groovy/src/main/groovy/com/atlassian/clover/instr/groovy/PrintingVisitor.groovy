@@ -1,5 +1,7 @@
 package com.atlassian.clover.instr.groovy
 
+import groovy.transform.CompileStatic
+import org.codehaus.groovy.ast.ASTNode
 import org.codehaus.groovy.ast.ClassCodeVisitorSupport
 import org.codehaus.groovy.ast.ClassNode
 import org.codehaus.groovy.ast.ConstructorNode
@@ -8,6 +10,7 @@ import org.codehaus.groovy.ast.FieldNode
 import org.codehaus.groovy.ast.MethodNode
 import org.codehaus.groovy.ast.Parameter
 import org.codehaus.groovy.ast.PropertyNode
+import org.codehaus.groovy.ast.Variable
 import org.codehaus.groovy.ast.expr.ArgumentListExpression
 import org.codehaus.groovy.ast.expr.ArrayExpression
 import org.codehaus.groovy.ast.expr.AttributeExpression
@@ -65,20 +68,32 @@ import org.codehaus.groovy.ast.stmt.WhileStatement
 import org.codehaus.groovy.classgen.BytecodeExpression
 import org.codehaus.groovy.control.SourceUnit
 
+@CompileStatic
 class PrintingVisitor extends ClassCodeVisitorSupport {
 
     private int depth = -1
-    private adapter
-    private writer
+    private NodePrinter adapter
+    private Writer writer
 
-    PrintingVisitor(adapter, writer) {
+    PrintingVisitor(NodePrinter adapter, Writer writer) {
         if (!adapter) throw new IllegalArgumentException("Null: adapter")
-        this.adapter = adapter;
+        this.adapter = adapter
         this.writer = writer
     }
 
-    private void printNode(node, Class expectedSubclass, Closure superMethod) {
-        if (expectedSubclass.name.equals(node.class.name)) {
+    private <T extends ASTNode> void printNode(T node, Class expectedSubclass, Closure<Void> superMethod) {
+        if (expectedSubclass.name == node.class.name) {
+            depth.times { writer.print("\t") }
+            writer.println(adapter.toString(node))
+        }
+
+        depth++
+        superMethod.call(node)
+        depth--
+    }
+
+    private <T extends Variable> void printNode(T node, Class expectedSubclass, Closure<Void> superMethod) {
+        if (expectedSubclass.name == node.class.name) {
             depth.times { writer.print("\t") }
             writer.println(adapter.toString(node))
         }
@@ -89,7 +104,7 @@ class PrintingVisitor extends ClassCodeVisitorSupport {
     }
 
     protected SourceUnit getSourceUnit() {
-        return null;
+        return null
     }
 
     protected void visitStatement(Statement statement) {
@@ -99,262 +114,383 @@ class PrintingVisitor extends ClassCodeVisitorSupport {
     }
 
     void visitClass(ClassNode node) {
-        printNode(node, ClassNode, { super.visitClass(it) });
+        printNode(node, ClassNode, { ClassNode it ->
+            super.visitClass(it)
+        })
     }
 
     void visitConstructor(ConstructorNode node) {
-        printNode(node, ConstructorNode, { super.visitConstructor(it) });
+        printNode(node, ConstructorNode, { ConstructorNode it ->
+            super.visitConstructor(it)
+        })
     }
 
     void visitMethod(MethodNode node) {
-        printNode(node, MethodNode, { super.visitMethod(it) });
+        printNode(node, MethodNode, { MethodNode it ->
+            super.visitMethod(it)
+        })
     }
 
     void visitField(FieldNode node) {
-        printNode(node, FieldNode, { super.visitField(it) });
+        printNode(node, FieldNode, { FieldNode it ->
+            super.visitField(it)
+        })
     }
 
     void visitProperty(PropertyNode node) {
-        printNode(node, PropertyNode, { super.visitProperty(it) });
+        printNode(node, PropertyNode, { PropertyNode it ->
+            super.visitProperty(it)
+        })
     }
 
     void visitBlockStatement(BlockStatement node) {
-        printNode(node, BlockStatement, { super.visitBlockStatement(it) });
+        printNode(node, BlockStatement, { BlockStatement it ->
+            super.visitBlockStatement(it)
+        })
     }
 
     void visitForLoop(ForStatement node) {
-        printNode(node, ForStatement, { super.visitForLoop(it) });
+        printNode(node, ForStatement, { ForStatement it ->
+            super.visitForLoop(it)
+        })
     }
 
     void visitWhileLoop(WhileStatement node) {
-        printNode(node, WhileStatement, { super.visitWhileLoop(it) });
+        printNode(node, WhileStatement, { WhileStatement it ->
+            super.visitWhileLoop(it)
+        })
     }
 
     void visitDoWhileLoop(DoWhileStatement node) {
-        printNode(node, DoWhileStatement, { super.visitDoWhileLoop(it) });
+        printNode(node, DoWhileStatement, { DoWhileStatement it ->
+            super.visitDoWhileLoop(it)
+        })
     }
 
     void visitIfElse(IfStatement node) {
-        printNode(node, IfStatement, { super.visitIfElse(it) });
+        printNode(node, IfStatement, { IfStatement it ->
+            super.visitIfElse(it)
+        })
     }
 
     void visitExpressionStatement(ExpressionStatement node) {
-        printNode(node, ExpressionStatement, { super.visitExpressionStatement(it) });
+        printNode(node, ExpressionStatement, { ExpressionStatement it ->
+            super.visitExpressionStatement(it)
+        })
     }
 
     void visitReturnStatement(ReturnStatement node) {
-        printNode(node, ReturnStatement, { super.visitReturnStatement(it) });
+        printNode(node, ReturnStatement, { ReturnStatement it ->
+            super.visitReturnStatement(it)
+        })
     }
 
     void visitAssertStatement(AssertStatement node) {
-        printNode(node, AssertStatement, { super.visitAssertStatement(it) });
+        printNode(node, AssertStatement, { AssertStatement it ->
+            super.visitAssertStatement(it)
+        })
     }
 
     void visitTryCatchFinally(TryCatchStatement node) {
-        printNode(node, TryCatchStatement, { super.visitTryCatchFinally(it) });
+        printNode(node, TryCatchStatement, { TryCatchStatement it ->
+            super.visitTryCatchFinally(it)
+        })
     }
 
-    protected void visitEmptyStatement(EmptyStatement node) {
-        printNode(node, EmptyStatement, {});
+    void visitEmptyStatement(EmptyStatement node) {
+        printNode(node, EmptyStatement, { EmptyStatement it ->
+            super.visitEmptyStatement(it)
+        })
     }
 
     void visitSwitch(SwitchStatement node) {
-        printNode(node, SwitchStatement, { super.visitSwitch(it) });
+        printNode(node, SwitchStatement, { SwitchStatement it ->
+            super.visitSwitch(it)
+        })
     }
 
     void visitCaseStatement(CaseStatement node) {
-        printNode(node, CaseStatement, { super.visitCaseStatement(it) });
+        printNode(node, CaseStatement, { CaseStatement it ->
+            super.visitCaseStatement(it)
+        })
     }
 
     void visitBreakStatement(BreakStatement node) {
-        printNode(node, BreakStatement, { super.visitBreakStatement(it) });
+        printNode(node, BreakStatement, { BreakStatement it ->
+            super.visitBreakStatement(it)
+        })
     }
 
     void visitContinueStatement(ContinueStatement node) {
-        printNode(node, ContinueStatement, { super.visitContinueStatement(it) });
+        printNode(node, ContinueStatement, { ContinueStatement it ->
+            super.visitContinueStatement(it)
+        })
     }
 
     void visitSynchronizedStatement(SynchronizedStatement node) {
-        printNode(node, SynchronizedStatement, { super.visitSynchronizedStatement(it) });
+        printNode(node, SynchronizedStatement, { SynchronizedStatement it ->
+            super.visitSynchronizedStatement(it)
+        })
     }
 
     void visitThrowStatement(ThrowStatement node) {
-        printNode(node, ThrowStatement, { super.visitThrowStatement(it) });
+        printNode(node, ThrowStatement, { ThrowStatement it ->
+            super.visitThrowStatement(it)
+        })
     }
 
     void visitMethodCallExpression(MethodCallExpression node) {
-        printNode(node, MethodCallExpression, { super.visitMethodCallExpression(it) });
+        printNode(node, MethodCallExpression, { MethodCallExpression it ->
+            super.visitMethodCallExpression(it)
+        })
     }
 
     void visitStaticMethodCallExpression(StaticMethodCallExpression node) {
-        printNode(node, StaticMethodCallExpression, { super.visitStaticMethodCallExpression(it) });
+        printNode(node, StaticMethodCallExpression, { StaticMethodCallExpression it ->
+            super.visitStaticMethodCallExpression(it)
+        })
     }
 
     void visitConstructorCallExpression(ConstructorCallExpression node) {
-        printNode(node, ConstructorCallExpression, { super.visitConstructorCallExpression(it) });
+        printNode(node, ConstructorCallExpression, { ConstructorCallExpression it ->
+            super.visitConstructorCallExpression(it)
+        })
     }
 
     void visitBinaryExpression(BinaryExpression node) {
-        printNode(node, BinaryExpression, { super.visitBinaryExpression(it) });
+        printNode(node, BinaryExpression, { BinaryExpression it ->
+            super.visitBinaryExpression(it)
+        })
     }
 
     void visitTernaryExpression(TernaryExpression node) {
-        printNode(node, TernaryExpression, { super.visitTernaryExpression(it) });
+        printNode(node, TernaryExpression, { TernaryExpression it ->
+            super.visitTernaryExpression(it)
+        })
     }
 
     void visitShortTernaryExpression(ElvisOperatorExpression node) {
-        printNode(node, ElvisOperatorExpression, { super.visitShortTernaryExpression(it) });
+        printNode(node, ElvisOperatorExpression, { ElvisOperatorExpression it ->
+            super.visitShortTernaryExpression(it)
+        })
     }
 
     void visitPostfixExpression(PostfixExpression node) {
-        printNode(node, PostfixExpression, { super.visitPostfixExpression(it) });
+        printNode(node, PostfixExpression, { PostfixExpression it ->
+            super.visitPostfixExpression(it)
+        })
     }
 
     void visitPrefixExpression(PrefixExpression node) {
-        printNode(node, PrefixExpression, { super.visitPrefixExpression(it) });
+        printNode(node, PrefixExpression, { PrefixExpression it ->
+            super.visitPrefixExpression(it)
+        })
     }
 
     void visitBooleanExpression(BooleanExpression node) {
-        printNode(node, BooleanExpression, { super.visitBooleanExpression(it) });
+        printNode(node, BooleanExpression, { BooleanExpression it ->
+            super.visitBooleanExpression(it)
+        })
     }
 
     void visitNotExpression(NotExpression node) {
-        printNode(node, NotExpression, { super.visitNotExpression(it) });
+        printNode(node, NotExpression, { NotExpression it ->
+            super.visitNotExpression(it)
+        })
     }
 
     void visitClosureExpression(ClosureExpression node) {
-        printNode(node, ClosureExpression, {
-            it.parameters?.each { parameter -> visitParameter(parameter) }
+        printNode(node, ClosureExpression, { ClosureExpression it ->
+            if (it.parameters != null) {
+                for (Parameter parameter : it.parameters) {
+                    visitParameter(parameter)
+                }
+            }
             super.visitClosureExpression(it)
-        });
+        })
     }
 
     /**
      * Makes walking parameters look like others in the visitor.
      */
     void visitParameter(Parameter node) {
-        printNode(node, Parameter, {
+        printNode(node, Parameter, { Parameter it ->
             if (node.initialExpression) {
                 node.initialExpression?.visit(this)
             }
-        });
+        })
     }
 
     void visitTupleExpression(TupleExpression node) {
-        printNode(node, TupleExpression, { super.visitTupleExpression(it) });
+        printNode(node, TupleExpression, { TupleExpression it ->
+            super.visitTupleExpression(it)
+        })
     }
 
     void visitListExpression(ListExpression node) {
-        printNode(node, ListExpression, { super.visitListExpression(it) });
+        printNode(node, ListExpression, { ListExpression it ->
+            super.visitListExpression(it)
+        })
     }
 
     void visitArrayExpression(ArrayExpression node) {
-        printNode(node, ArrayExpression, { super.visitArrayExpression(it) });
+        printNode(node, ArrayExpression, { ArrayExpression it ->
+            super.visitArrayExpression(it)
+        })
     }
 
     void visitMapExpression(MapExpression node) {
-        printNode(node, MapExpression, { super.visitMapExpression(it) });
+        printNode(node, MapExpression, { MapExpression it ->
+            super.visitMapExpression(it)
+        })
     }
 
     void visitMapEntryExpression(MapEntryExpression node) {
-        printNode(node, MapEntryExpression, { super.visitMapEntryExpression(it) });
+        printNode(node, MapEntryExpression, { MapEntryExpression it ->
+            super.visitMapEntryExpression(it)
+        })
     }
 
     void visitRangeExpression(RangeExpression node) {
-        printNode(node, RangeExpression, { super.visitRangeExpression(it) });
+        printNode(node, RangeExpression, { RangeExpression it ->
+            super.visitRangeExpression(it)
+        })
     }
 
     void visitSpreadExpression(SpreadExpression node) {
-        printNode(node, SpreadExpression, { super.visitSpreadExpression(it) });
+        printNode(node, SpreadExpression, { SpreadExpression it ->
+            super.visitSpreadExpression(it)
+        })
     }
 
     void visitSpreadMapExpression(SpreadMapExpression node) {
-        printNode(node, SpreadMapExpression, { super.visitSpreadMapExpression(it) });
+        printNode(node, SpreadMapExpression, { SpreadMapExpression it ->
+            super.visitSpreadMapExpression(it)
+        })
     }
 
     void visitMethodPointerExpression(MethodPointerExpression node) {
-        printNode(node, MethodPointerExpression, { super.visitMethodPointerExpression(it) });
+        printNode(node, MethodPointerExpression, { MethodPointerExpression it ->
+            super.visitMethodPointerExpression(it)
+        })
     }
 
     void visitUnaryMinusExpression(UnaryMinusExpression node) {
-        printNode(node, UnaryMinusExpression, { super.visitUnaryMinusExpression(it) });
+        printNode(node, UnaryMinusExpression, { UnaryMinusExpression it ->
+            super.visitUnaryMinusExpression(it)
+        })
     }
 
     void visitUnaryPlusExpression(UnaryPlusExpression node) {
-        printNode(node, UnaryPlusExpression, { super.visitUnaryPlusExpression(it) });
+        printNode(node, UnaryPlusExpression, { UnaryPlusExpression it ->
+            super.visitUnaryPlusExpression(it)
+        })
     }
 
     void visitBitwiseNegationExpression(BitwiseNegationExpression node) {
-        printNode(node, BitwiseNegationExpression, { super.visitBitwiseNegationExpression(it) });
+        printNode(node, BitwiseNegationExpression, { BitwiseNegationExpression it ->
+            super.visitBitwiseNegationExpression(it)
+        })
     }
 
     void visitCastExpression(CastExpression node) {
-        printNode(node, CastExpression, { super.visitCastExpression(it) });
+        printNode(node, CastExpression, { CastExpression it ->
+            super.visitCastExpression(it)
+        })
     }
 
     void visitConstantExpression(ConstantExpression node) {
-        printNode(node, ConstantExpression, { super.visitConstantExpression(it) });
+        printNode(node, ConstantExpression, { ConstantExpression it ->
+            super.visitConstantExpression(it)
+        })
     }
 
     void visitClassExpression(ClassExpression node) {
-        printNode(node, ClassExpression, { super.visitClassExpression(it) });
+        printNode(node, ClassExpression, { ClassExpression it ->
+            super.visitClassExpression(it)
+        })
     }
 
     void visitVariableExpression(VariableExpression node) {
-        printNode(node, VariableExpression, { VariableExpression it ->
-            if (it.accessedVariable) {
-                if (it.accessedVariable instanceof Parameter) {
-                    visitParameter((Parameter) it.accessedVariable)
-                } else if (it.accessedVariable instanceof DynamicVariable) {
-                    printNode(it.accessedVariable, DynamicVariable, { it.initialExpression?.visit(this) });
-                }
+        printNode(node, VariableExpression, visitParameterOrDynamicVariable)
+    }
+
+    private Closure<Void> visitParameterOrDynamicVariable = { VariableExpression it ->
+        if (it.accessedVariable) {
+            if (it.accessedVariable instanceof Parameter) {
+                visitParameter((Parameter) it.accessedVariable)
+            } else if (it.accessedVariable instanceof DynamicVariable) {
+                DynamicVariable dynamicVariable = (DynamicVariable) it.accessedVariable
+                printNode(dynamicVariable, DynamicVariable, visitDynamicVariable)
             }
-        });
+        }
+    }
+
+    private Closure<Void> visitDynamicVariable = { DynamicVariable dv ->
+        dv.initialExpression?.visit(this)
     }
 
     void visitDeclarationExpression(DeclarationExpression node) {
-        printNode(node, DeclarationExpression, { super.visitDeclarationExpression(it) });
+        printNode(node, DeclarationExpression, { DeclarationExpression it ->
+            super.visitDeclarationExpression(it)
+        })
     }
 
     void visitPropertyExpression(PropertyExpression node) {
-        printNode(node, PropertyExpression, { super.visitPropertyExpression(it) });
+        printNode(node, PropertyExpression, { PropertyExpression it ->
+            super.visitPropertyExpression(it)
+        })
     }
 
     void visitAttributeExpression(AttributeExpression node) {
-        printNode(node, AttributeExpression, { super.visitAttributeExpression(it) });
+        printNode(node, AttributeExpression, { AttributeExpression it ->
+            super.visitAttributeExpression(it)
+        })
     }
 
     void visitFieldExpression(FieldExpression node) {
-        printNode(node, FieldExpression, { super.visitFieldExpression(it) });
+        printNode(node, FieldExpression, { FieldExpression it ->
+            super.visitFieldExpression(it)
+        })
     }
 
     void visitGStringExpression(GStringExpression node) {
-        printNode(node, GStringExpression, { super.visitGStringExpression(it) });
+        printNode(node, GStringExpression, { GStringExpression it ->
+            super.visitGStringExpression(it)
+        })
     }
 
     void visitCatchStatement(CatchStatement node) {
-        printNode(node, CatchStatement, {
+        printNode(node, CatchStatement, { CatchStatement it ->
             if (it.variable) visitParameter(it.variable)
             super.visitCatchStatement(it)
-        });
+        })
     }
 
     void visitArgumentlistExpression(ArgumentListExpression node) {
-        printNode(node, ArgumentListExpression, { super.visitArgumentlistExpression(it) });
+        printNode(node, ArgumentListExpression, { ArgumentListExpression it ->
+            super.visitArgumentlistExpression(it)
+        })
     }
 
     void visitClosureListExpression(ClosureListExpression node) {
-        printNode(node, ClosureListExpression, { super.visitClosureListExpression(it) });
+        printNode(node, ClosureListExpression, { ClosureListExpression it ->
+            super.visitClosureListExpression(it)
+        })
     }
 
     void visitBytecodeExpression(BytecodeExpression node) {
-        printNode(node, BytecodeExpression, { super.visitBytecodeExpression(it) });
+        printNode(node, BytecodeExpression, { BytecodeExpression it ->
+            super.visitBytecodeExpression(it)
+        })
     }
 
-    protected void visitListOfExpressions(List list) {
-        list.each { Expression node ->
+    void visitListOfExpressions(List<? extends Expression> list) {
+        for (Expression node : list) {
             if (node instanceof NamedArgumentListExpression) {
-                printNode(node, NamedArgumentListExpression, { it.visit(this) });
+                printNode(node, NamedArgumentListExpression, { NamedArgumentListExpression it ->
+                    it.visit(this)
+                })
             } else {
                 node.visit(this)
             }

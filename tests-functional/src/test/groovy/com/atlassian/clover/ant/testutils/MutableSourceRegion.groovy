@@ -1,7 +1,9 @@
 package com.atlassian.clover.ant.testutils
 
 import com.atlassian.clover.api.registry.SourceInfo
+import groovy.transform.CompileStatic
 
+@CompileStatic
 class MutableSourceRegion implements SourceInfo {
     protected int startLine
     protected int startColumn

@@ -13,9 +13,9 @@ import clover.antlr.CommonToken;
 import clover.antlr.TokenStream;
 import clover.antlr.TokenStreamRecognitionException;
 import org.codehaus.groovy.GroovyBugError;
-import org.codehaus.groovy.antlr.GroovySourceAST;
-import org.codehaus.groovy.antlr.SourceBuffer;
-import org.codehaus.groovy.antlr.SourceInfo;
+import clover.org.codehaus.groovy.antlr.GroovySourceAST;
+import clover.org.codehaus.groovy.antlr.SourceBuffer;
+import clover.org.codehaus.groovy.antlr.SourceInfo;
 }
 
 /** JSR-241 Groovy Recognizer.
@@ -2422,8 +2422,9 @@ pathElementStart!
     |   LCURLY
     ;
 
-/** This is the grammar for what can follow a dot:  x.a, x.@a, x.&a, x.'a', etc.
- *  Note: <code>typeArguments</code> is handled by the caller of <code>namePart</code>.
+/**
+ * This is the grammar for what can follow a dot:  x.a, x.@a, x.&amp;a, x.'a', etc.
+ * Note: <code>typeArguments</code> is handled by the caller of <code>namePart</code>.
  */
 namePart  {Token first = LT(1);}
     :

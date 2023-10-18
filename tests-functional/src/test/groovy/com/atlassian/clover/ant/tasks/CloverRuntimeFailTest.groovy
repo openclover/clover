@@ -1,5 +1,8 @@
 package com.atlassian.clover.ant.tasks
 
+import groovy.transform.CompileStatic
+
+@CompileStatic
 class CloverRuntimeFailTest extends CloverBuildFileTestBase {
     CloverRuntimeFailTest(String name) {
         super(name)

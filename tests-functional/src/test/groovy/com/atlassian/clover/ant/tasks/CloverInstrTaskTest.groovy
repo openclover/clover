@@ -3,7 +3,9 @@ package com.atlassian.clover.ant.tasks
 import com.atlassian.clover.instr.java.RecorderInstrEmitter
 import com.atlassian.clover.api.CloverException
 import com.atlassian.clover.remote.DistributedConfig
+import groovy.transform.CompileStatic
 
+@CompileStatic
 class CloverInstrTaskTest extends CloverBuildFileTestBase {
 
     CloverInstrTaskTest(String aTestName) {

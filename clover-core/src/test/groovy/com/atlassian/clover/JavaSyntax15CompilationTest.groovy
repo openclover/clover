@@ -1,32 +1,57 @@
 package com.atlassian.clover
 
 import com.atlassian.clover.util.JavaEnvUtils
+import org.junit.Before
+import org.junit.Test
 
 /**
  * The purpose of this test is to
- * a) make sure the code compiles under a JDK15
- * b) make sure that when that code is instrumented, it still compiles
+ * <li>make sure the code compiles under JDK1.5 or later</li>
+ * <li>make sure that when that code is instrumented, it still compiles</li>
  */
 class JavaSyntax15CompilationTest extends JavaSyntaxCompilationTestBase {
 
-    protected File srcDir
-
-    /** Regular expression for: __CLR_hash_code.R.inc(index) */
-    protected final String R_INC = "__CLR[a-zA-Z0-9_]+\\.R\\.inc\\([0-9]+\\);"
-
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp()
-        srcDir = new File(mTestcasesSrcDir, "javasyntax1.15")
-        resetAntOutput()
+    @Before
+    void setUp() {
+        setUpProject()
     }
 
-    void testTextBlock() {
-        final String fileName = "java15/Java15TextBlock.java"
-        File srcFile = new File(srcDir, fileName)
-
-        // Currently, OpenClover cannot be built on JDK15
-        instrumentSourceFile(srcFile, JavaEnvUtils.JAVA_15)
-        assertFileMatches(fileName, R_INC + "System.out.println", false)
+    @Test
+    void testCompilation_15() throws Exception {
+        final File srcDir = new File(mTestcasesSrcDir, "javasyntax1.5")
+        compileSources(srcDir, JavaEnvUtils.JAVA_1_7)
     }
+
+    /**
+     * Test java 1.5 language features and clover handles them.
+     *
+     * @throws Exception
+     */
+    @Test
+    void testInstrumentationAndCompilation_15() throws Exception {
+        final File srcDir = new File(mTestcasesSrcDir, "javasyntax1.5")
+        instrumentAndCompileSources(srcDir, JavaEnvUtils.JAVA_1_7)
+
+        String[] testCaseMainClasses = [
+                "coverage.enums.EnumTests",
+                "coverage.metadata.TestCases",
+        ]
+        executeMainClasses(testCaseMainClasses)
+
+        // assert metrics
+        assertMethodCoverage("coverage.enums.E1", 13)
+
+        assertStatementCoverage("coverage.enums.E2", 8, 1)
+        assertMethodCoverage("coverage.enums.E2", 14, 2)
+
+        assertMethodCoverage("coverage.enums.E3", 7)
+
+        //TODO remove this once 1.5 goes final?
+//        assertMethodCoverage("coverage.metadata.Annot2", 8)
+//        assertMethodCoverage("coverage.metadata.Annot2", 16)
+
+        assertMethodCoverage("coverage.metadata.DeprecatedTest", 5)
+    }
+
 }
+

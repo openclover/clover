@@ -1,15 +1,18 @@
 package com.atlassian.clover.instr.groovy
 
 import com.atlassian.clover.api.registry.MethodInfo
+import com.atlassian.clover.cfg.instr.InstrumentationConfig
 import com.atlassian.clover.registry.Clover2Registry
 import com.atlassian.clover.registry.entities.FullClassInfo
 import com.atlassian.clover.registry.entities.FullFileInfo
 import com.atlassian.clover.registry.entities.FullPackageInfo
 import com.atlassian.clover.util.ChecksummingReader
+import groovy.transform.CompileStatic
 
 /**
  * Integration tests that detect if the correct Clover model is generated for given Groovy code.
  **/
+@CompileStatic
 class GroovyModellingTest extends TestBase {
 
     GroovyModellingTest(String testName) {
@@ -43,7 +46,7 @@ class GroovyModellingTest extends TestBase {
 
         int checksum = (int) new ChecksummingReader(new StringReader(fooContents)).with { readLines(); getChecksum() }
         assertRegistry db, { Clover2Registry reg ->
-            assertPackage reg.model.project, { it.isDefault() }, { FullPackageInfo p ->
+            assertPackage reg.model.project, isDefaultPackage, { FullPackageInfo p ->
                 assertFile p, named("Foo.groovy"), { FullFileInfo f ->
                     f.checksum == checksum
                 }
@@ -91,7 +94,12 @@ class GroovyModellingTest extends TestBase {
                     println 'hello'
                 }
               }
-            """], "", [], { it.instrLevelStrategy = "method"; it })
+            """],
+                "",
+                [],
+                { InstrumentationConfig it ->
+                    it.instrLevelStrategy = "method"; it
+                })
 
         assertRegistry db, { Clover2Registry reg ->
             assertPackage reg.model.project, named("com.atlassian.foo.bar"), { FullPackageInfo p ->
