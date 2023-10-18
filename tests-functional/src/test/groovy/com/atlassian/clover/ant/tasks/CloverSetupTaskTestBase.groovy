@@ -3,6 +3,7 @@ package com.atlassian.clover.ant.tasks
 import clover.org.jdom.Document
 import clover.org.jdom.Element
 import clover.org.jdom.JDOMException
+import groovy.transform.CompileStatic
 import org.junit.After
 import org.junit.Rule
 import org.junit.rules.TestWatcher
@@ -15,6 +16,7 @@ import static org.junit.Assert.assertNotNull
 /**
  * Base class for &lt;clover-setup/&gt; tests.
  */
+@CompileStatic
 abstract class CloverSetupTaskTestBase {
     protected final CloverBuildFileTestBase testBase
 

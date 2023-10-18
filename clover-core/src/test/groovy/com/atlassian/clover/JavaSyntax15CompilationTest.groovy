@@ -1,6 +1,8 @@
 package com.atlassian.clover
 
 import org.apache.tools.ant.util.JavaEnvUtils
+import org.junit.Before
+import org.junit.Test
 
 /**
  * The purpose of this test is to
@@ -9,6 +11,12 @@ import org.apache.tools.ant.util.JavaEnvUtils
  */
 class JavaSyntax15CompilationTest extends JavaSyntaxCompilationTestBase {
 
+    @Before
+    void setUp() {
+        setUpProject()
+    }
+
+    @Test
     void testCompilation_15() throws Exception {
         final File srcDir = new File(mTestcasesSrcDir, "javasyntax1.5")
         compileSources(srcDir, JavaEnvUtils.JAVA_1_7)
@@ -19,6 +27,7 @@ class JavaSyntax15CompilationTest extends JavaSyntaxCompilationTestBase {
      *
      * @throws Exception
      */
+    @Test
     void testInstrumentationAndCompilation_15() throws Exception {
         final File srcDir = new File(mTestcasesSrcDir, "javasyntax1.5")
         instrumentAndCompileSources(srcDir, JavaEnvUtils.JAVA_1_7)

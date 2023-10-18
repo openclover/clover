@@ -1,5 +1,6 @@
 package com.atlassian.clover.ant.tasks
 
+import groovy.transform.CompileStatic
 import org.w3c.dom.Document
 import org.xml.sax.SAXException
 
@@ -11,6 +12,7 @@ import javax.xml.xpath.XPathConstants
 import javax.xml.xpath.XPathExpressionException
 import javax.xml.xpath.XPathFactory
 
+@CompileStatic
 class CloverOptimizeTestNGFuncTest extends CloverOptimizeTestBase {
     CloverOptimizeTestNGFuncTest(String name) {
         super(name, "runTestNGTests", Collections.<String, String>emptyMap())

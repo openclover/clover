@@ -54,7 +54,7 @@ public class FileBasedPerTestRecording extends BaseCoverageRecording implements 
     }
 
     /**
-     * @see PerTestRecordingTranscript#read(java.io.DataInputStream, com.atlassian.clover.CoverageDataSpec)
+     * See <code>PerTestRecordingTranscript#read(java.io.DataInputStream, com.atlassian.clover.CoverageDataSpec)</code>
      */
     @Override
     public String transcribe() throws IOException {

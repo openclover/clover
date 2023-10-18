@@ -1,10 +1,12 @@
 package com.atlassian.clover.ant.tasks
 
+import groovy.transform.CompileStatic
 import org.junit.Test
 
 import static org.junit.Assert.assertFalse
 import static org.junit.Assert.assertTrue
 
+@CompileStatic
 class CloverSetupTaskTest extends CloverSetupTaskTestBase {
 
     CloverSetupTaskTest() {

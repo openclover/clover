@@ -42,7 +42,7 @@ public class CloverProfile implements Serializable {
     }
 
     /**
-     * Constructor with primitive strings. Used by {@link com.atlassian.clover.instr.java.RecorderInstrEmitter}
+     * Constructor with primitive strings. Used by <code>com.atlassian.clover.instr.java.RecorderInstrEmitter</code>.
      */
     public CloverProfile(String name, String coverageRecorder, /*@Nullable*/ String distributedCoverage) {
         this.name = name;

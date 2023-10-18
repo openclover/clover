@@ -57,17 +57,16 @@ class TestSelectionHelperTest {
         }
     }
 
-    static class Matches extends ArgumentMatcher<AntPatternTestFilter> {
+    static class Matches implements ArgumentMatcher<AntPatternTestFilter> {
         private final String string
         Matches(String s) {
             string = s
         }
 
-        boolean matches(Object argument) {
+        boolean matches(AntPatternTestFilter argument) {
             return string.equals(argument.toString())
         }
 
-        @Override
         void describeTo(Description description) {
             description.appendText(string)
         }

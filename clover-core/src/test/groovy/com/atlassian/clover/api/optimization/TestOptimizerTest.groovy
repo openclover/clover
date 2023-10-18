@@ -8,21 +8,23 @@ import com.atlassian.clover.context.ContextSet
 import com.atlassian.clover.registry.entities.FullFileInfo
 import com.atlassian.clover.optimization.Snapshot
 import com.atlassian.clover.optimization.TestOptimizationBase
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
+import static org.junit.Assert.assertEquals
 import static org.openclover.util.Lists.newLinkedList
 
 class TestOptimizerTest extends TestOptimizationBase {
 
     @Before
     void setUp() throws Exception {
-        super.setUp()
+        baseSetUp()
     }
 
-    @Override
+    @After
     void tearDown() throws Exception {
-        super.tearDown()
+        baseTearDown()
     }
 
     @Test
@@ -66,7 +68,6 @@ class TestOptimizerTest extends TestOptimizationBase {
 
         final List<Optimizable> optimizedClasses2 =  optimizer.optimize(classes)
         assertEquals(2, optimizedClasses2.size())
-
     }
 
 }

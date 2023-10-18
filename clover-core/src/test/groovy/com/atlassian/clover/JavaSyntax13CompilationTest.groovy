@@ -5,6 +5,11 @@ import com.atlassian.clover.registry.entities.FullFileInfo
 import com.atlassian.clover.registry.entities.LineInfo
 import com.atlassian.clover.registry.entities.FullProjectInfo
 import org.apache.tools.ant.util.JavaEnvUtils
+import org.junit.Before
+import org.junit.Test
+
+import static org.junit.Assert.assertEquals
+import static org.junit.Assert.assertNotNull
 
 /**
  * The purpose of this test is to
@@ -13,6 +18,12 @@ import org.apache.tools.ant.util.JavaEnvUtils
  */
 class JavaSyntax13CompilationTest extends JavaSyntaxCompilationTestBase {
 
+    @Before
+    void setUp() {
+        setUpProject()
+    }
+
+    @Test
     void testCompilation_13() {
         final File srcDir = new File(mTestcasesSrcDir, "javasyntax1.3")
         compileSources(srcDir, JavaEnvUtils.JAVA_1_7)
@@ -22,6 +33,7 @@ class JavaSyntax13CompilationTest extends JavaSyntaxCompilationTestBase {
      * Test java 1.3 language features and how Clover handles them.
      * @throws Exception
      */
+    @Test
     void testInstrumentationAndCompilation_13() throws Exception {
         final File srcDir = new File(mTestcasesSrcDir, "javasyntax1.3")
         instrumentAndCompileSources(srcDir, JavaEnvUtils.JAVA_1_7)
@@ -36,6 +48,7 @@ class JavaSyntax13CompilationTest extends JavaSyntaxCompilationTestBase {
         assertStatementCoverage("simple.ALittleOfEverything", 12, 1)
     }
 
+    @Test
     void testColumnAlignment() throws Exception {
         final File srcDir = new File(mTestcasesSrcDir, "javasyntax1.3")
         instrumentAndCompileSources(srcDir, JavaEnvUtils.JAVA_1_7)

@@ -9,7 +9,7 @@ import com.intellij.testFramework.LightIdeaTestCase;
 import java.io.File;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * Test for {@link JUnitOptimizingProgramRunnerIdea13}

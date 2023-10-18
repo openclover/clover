@@ -1,11 +1,15 @@
 package com.atlassian.clover.test.junit
 
+import groovy.transform.CompileStatic
+
 /** Mixin for tests that require a working directory */
-class WorkingDirMixin {
+@CompileStatic
+trait WorkingDirMixin {
   File workingDir
 
-  void createWorkingDir() {
+  File createWorkingDir() {
     workingDir = (File)File.createTempFile("clovertest", "").with { delete(); mkdirs(); it }
+    return workingDir
   }
 
   void deleteWorkingDir() {

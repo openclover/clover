@@ -4,7 +4,9 @@ import com.atlassian.clover.CloverDatabase
 import com.atlassian.clover.CoverageDataSpec
 import com.atlassian.clover.api.CloverException
 import com.atlassian.clover.optimization.Snapshot
+import groovy.transform.CompileStatic
 
+@CompileStatic
 class CloverCleanTaskTest extends CloverBuildFileTestBase {
 
     CloverCleanTaskTest(String aTestName) {

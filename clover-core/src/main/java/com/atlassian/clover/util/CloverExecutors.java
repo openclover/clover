@@ -17,10 +17,10 @@ public class CloverExecutors {
     private CloverExecutors() { }
 
     /**
-     * Creates either a fixed thread pool, if numThreads > 0,
-     * or a non-threaded executor service if numThreads <= 0.
+     * Creates either a fixed thread pool, if numThreads &gt; 0,
+     * or a non-threaded executor service if numThreads &lt;= 0.
      * 
-     * @param numThreads must be >= 0
+     * @param numThreads must be &gt;= 0
      * @param threadPrefix should not be <code>null</code>
      * @return a {@link CloverExecutorService}, that supports both threaded (if numThreads > 0) and non-threaded
      * (numThreads == 0) execution of tasks
