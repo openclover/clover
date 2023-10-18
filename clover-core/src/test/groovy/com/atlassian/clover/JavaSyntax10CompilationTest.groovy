@@ -1,6 +1,5 @@
 package com.atlassian.clover
 
-import com.atlassian.clover.util.FileUtils
 import com.atlassian.clover.util.JavaEnvUtils
 import org.junit.Before
 import org.junit.Test
