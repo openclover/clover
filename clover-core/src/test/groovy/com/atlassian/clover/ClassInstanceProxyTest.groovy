@@ -1,22 +1,28 @@
 package com.atlassian.clover
 
-import junit.framework.TestCase
+import org.junit.Test
 
 import java.lang.reflect.Field
 
 import com.atlassian.clover.util.PrecannedClassLoader
 
-class ClassInstanceProxyTest extends TestCase {
-    void testIdentiy() {
+import static org.junit.Assert.assertEquals
+import static org.junit.Assert.assertFalse
+
+class ClassInstanceProxyTest {
+    @Test
+    void testIdentity() {
         final ClassInstanceProxy object1 = new ClassInstanceProxy(Object.class)
         assertEquals(object1, object1)
     }
 
+    @Test
     void testNull() {
         final ClassInstanceProxy object1 = new ClassInstanceProxy(Object.class)
-        assertFalse(object1.equals(null))
+        assertFalse(object1 == null)
     }
 
+    @Test
     void testDuplicates() {
         final ClassInstanceProxy object1 = new ClassInstanceProxy(Object.class)
         final ClassInstanceProxy object2 = new ClassInstanceProxy(Object.class)
@@ -24,12 +30,14 @@ class ClassInstanceProxyTest extends TestCase {
         assertEquals(object1, object2)
     }
 
+    @Test
     void testDifferent() {
         final ClassInstanceProxy object = new ClassInstanceProxy(Object.class)
         final ClassInstanceProxy string = new ClassInstanceProxy(String.class)
-        assertFalse(object.equals(string))
+        assertFalse(object == string)
     }
 
+    @Test
     void testDifferentClassloaders() throws Exception {
         final InputStream stream = getClass().getResourceAsStream("/" + ClassInstanceProxy.class.getName().replace('.', '/') + ".class")
         final ByteArrayOutputStream baos = new ByteArrayOutputStream()
@@ -44,15 +52,16 @@ class ClassInstanceProxyTest extends TestCase {
         PrecannedClassLoader otherClassLoader =
             new PrecannedClassLoader(
                 getClass().getClassLoader(),
-                new HashMap() {{put(ClassInstanceProxy.class.getName(), baos.toByteArray());}})
+                new HashMap() {{ put(ClassInstanceProxy.class.getName(), baos.toByteArray()) }})
 
         final ClassInstanceProxy self1 = new ClassInstanceProxy(ClassInstanceProxy.class)
         final ClassInstanceProxy self2 = new ClassInstanceProxy(
                 otherClassLoader.loadClass(ClassInstanceProxy.class.getName(), true))
-        assertFalse(self1.equals(self2))
+        assertFalse(self1 == self2)
         assertFalse(self1.hashCode() == self2.hashCode())
     }
 
+    @Test
     void testClassAndClassloaderHashCollisionForClassesWithDifferentNames() throws Exception {
         final ClassInstanceProxy object = new ClassInstanceProxy(Object.class)
         final ClassInstanceProxy string = new ClassInstanceProxy(String.class)
@@ -60,6 +69,6 @@ class ClassInstanceProxyTest extends TestCase {
         hashCodeField.setAccessible(true)
         
         hashCodeField.set(string, new Integer(Object.class.hashCode()))
-        assertFalse(object.equals(string))
+        assertFalse(object == string)
     }
 }

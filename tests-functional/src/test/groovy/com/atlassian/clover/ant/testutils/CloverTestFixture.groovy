@@ -7,9 +7,11 @@ import com.atlassian.clover.recorder.FixedSizeCoverageRecorder
 import com.atlassian.clover.registry.Clover2Registry
 import com.atlassian.clover.registry.entities.*
 import com_atlassian_clover.Clover
+import groovy.transform.CompileStatic
 import org.openclover.util.Lists
 import org.openclover.util.Maps
 
+@CompileStatic
 class CloverTestFixture {
 
     private final File tmpDir
@@ -136,17 +138,17 @@ class CloverTestFixture {
 
             Runtime.getRuntime().removeShutdownHook(recorder.getShutdownFlusher())
 
-            int coveredStmts = (coverage.statementCoverage * clazz.coverage.elements) as float
+            int coveredStmts = (coverage.statementCoverage * clazz.coverage.elements) as int
             for (int i = 0; i < coveredStmts; i++) {
                 recorder.inc(clazz.stmts[i].getDataIndex())
             }
-            int coveredConditionals = (coverage.conditionalCoverage * clazz.coverage.elements) as float
+            int coveredConditionals = (coverage.conditionalCoverage * clazz.coverage.elements) as int
             for (int i = 0; i < coveredConditionals; i++) {
                 recorder.inc(clazz.cnds[i].getDataIndex())
                 recorder.inc(clazz.cnds[i].getDataIndex() + 1)
             }
 
-            int coveredMethods = (coverage.methodCoverage * clazz.coverage.elements) as float
+            int coveredMethods = (coverage.methodCoverage * clazz.coverage.elements) as int
             for (int i = 0; i < coveredMethods; i++) {
                 recorder.inc(clazz.mthds[i].getDataIndex())
             }
@@ -178,18 +180,6 @@ class CloverTestFixture {
 
         Coverage(float stmt, float cnd, float mthd) {
             this(stmt, cnd, mthd, 1000)
-        }
-
-        void setStatementCoverage(float v) {
-            statementCoverage = v
-        }
-
-        void setConditionalCoverage(float v) {
-            conditionalCoverage = v
-        }
-
-        void setMethodCoverage(float v) {
-            methodCoverage = v
         }
     }
 

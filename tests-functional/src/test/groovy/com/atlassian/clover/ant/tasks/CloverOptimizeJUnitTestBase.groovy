@@ -1,9 +1,9 @@
 package com.atlassian.clover.ant.tasks
 
 import com.atlassian.clover.cfg.instr.InstrumentationLevel
+import groovy.transform.CompileStatic
 
-import static org.openclover.util.Maps.newHashMap
-
+@CompileStatic
 abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
     protected CloverOptimizeJUnitTestBase(String name, String defaultRunTarget, Map<String, String> runTargetsForTests) {
         super(name, defaultRunTarget, runTargetsForTests)
@@ -16,10 +16,10 @@ abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
         expectTestsRunResults(
             cycle(0),
             [
-                    "AppClass2Test" : [ "AppClass2", cycle(0) ] as String[],
-                    "AppClass23Test" : [ "AppClass2", cycle(0), "AppClass3", cycle(0) ] as String[],
-                    "AppClass234Test" : [ "AppClass2", cycle(0), "AppClass3", cycle(0), "AppClass4", cycle(0) ] as String[],
-                    "NoAppClassTest" : [ ] as String[]
+                    "AppClass2Test" : [ "AppClass2", cycle(0) ],
+                    "AppClass23Test" : [ "AppClass2", cycle(0), "AppClass3", cycle(0) ],
+                    "AppClass234Test" : [ "AppClass2", cycle(0), "AppClass3", cycle(0), "AppClass4", cycle(0) ],
+                    "NoAppClassTest" : [] as List<String>
             ])
 
         buildComplete()
@@ -35,9 +35,9 @@ abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
         expectTestsRunResults(
             cycle(2),
             [
-                    "AppClass2Test" : [ "AppClass2", cycle(2) ] as String[],
-                    "AppClass23Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(0) ] as String[],
-                    "AppClass234Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(0), "AppClass4", cycle(0) ] as String[]
+                    "AppClass2Test" : [ "AppClass2", cycle(2) ],
+                    "AppClass23Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(0) ],
+                    "AppClass234Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(0), "AppClass4", cycle(0) ]
             ])
 
         buildComplete()
@@ -47,8 +47,8 @@ abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
         expectTestsRunResults(
             cycle(3),
             [
-                    "AppClass23Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(3) ] as String[],
-                    "AppClass234Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(0) ] as String[]
+                    "AppClass23Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(3) ],
+                    "AppClass234Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(0) ]
             ])
 
         buildComplete()
@@ -58,7 +58,7 @@ abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
         expectTestsRunResults(
             cycle(4),
             [
-                    "AppClass234Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(4) ] as String[]
+                    "AppClass234Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(4) ]
             ])
     }
 
@@ -73,11 +73,11 @@ abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
         expectTestsRunResults(
             cycle(0),
             [
-                    "AlwaysFailingTest" : [] as String[],
-                    "AppClass2Test" : [ "AppClass2", cycle(0) ] as String[],
-                    "AppClass23Test" : [ "AppClass2", cycle(0), "AppClass3", cycle(0) ] as String[],
-                    "AppClass234Test" : [ "AppClass2", cycle(0), "AppClass3", cycle(0), "AppClass4", cycle(0) ] as String[],
-                    "NoAppClassTest" : [] as String[]
+                    "AlwaysFailingTest" : [] as List<String>,
+                    "AppClass2Test" : [ "AppClass2", cycle(0) ],
+                    "AppClass23Test" : [ "AppClass2", cycle(0), "AppClass3", cycle(0) ],
+                    "AppClass234Test" : [ "AppClass2", cycle(0), "AppClass3", cycle(0), "AppClass4", cycle(0) ],
+                    "NoAppClassTest" : [] as List<String>
             ])
 
         buildComplete()
@@ -87,7 +87,7 @@ abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
         expectTestsRunResults(
             cycle(1),
             [
-                    "AlwaysFailingTest" : []
+                    "AlwaysFailingTest" : [] as List<String>
             ])
 
         buildComplete()
@@ -97,10 +97,10 @@ abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
         expectTestsRunResults(
             cycle(2),
             [
-                    "AlwaysFailingTest" : [] as String[],
-                    "AppClass2Test" : ["AppClass2", cycle(2) ] as String[],
-                    "AppClass23Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(0) ] as String[],
-                    "AppClass234Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(0), "AppClass4", cycle(0) ] as String[]
+                    "AlwaysFailingTest" : [] as List<String>,
+                    "AppClass2Test" : ["AppClass2", cycle(2) ],
+                    "AppClass23Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(0) ],
+                    "AppClass234Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(0), "AppClass4", cycle(0) ]
             ])
 
         buildComplete()
@@ -110,7 +110,7 @@ abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
         expectTestsRunResults(
             cycle(3),
             [
-                    "AlwaysFailingTest" : [],
+                    "AlwaysFailingTest" : [] as List<String>,
                     "AppClass23Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3)],
                     "AppClass234Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(0)]
             ])
@@ -122,7 +122,7 @@ abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
         expectTestsRunResults(
             cycle(4),
             [
-                    "AlwaysFailingTest" : [],
+                    "AlwaysFailingTest" : [] as List<String>,
                     "AppClass234Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(4)]
             ])
     }
@@ -134,10 +134,10 @@ abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
         expectTestsRunResults(
             cycle(0),
             [
-                    "AppClass2Test" : ["AppClass2", cycle(0)] as String[],
-                    "AppClass23Test" : ["AppClass2", cycle(0), "AppClass3", cycle(0)] as String[],
-                    "AppClass234Test" : ["AppClass2", cycle(0), "AppClass3", cycle(0), "AppClass4", cycle(0)] as String[],
-                    "NoAppClassTest" : [] as String[]
+                    "AppClass2Test" : ["AppClass2", cycle(0)],
+                    "AppClass23Test" : ["AppClass2", cycle(0), "AppClass3", cycle(0)],
+                    "AppClass234Test" : ["AppClass2", cycle(0), "AppClass3", cycle(0), "AppClass4", cycle(0)],
+                    "NoAppClassTest" : [] as List<String>
             ])
 
         buildComplete()
@@ -153,9 +153,9 @@ abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
         expectTestsRunResults(
             cycle(2),
             [
-                    "AppClass2Test" : ["AppClass2", cycle(2)] as String[],
-                    "AppClass23Test" : ["AppClass2", cycle(2), "AppClass3", cycle(0)] as String[],
-                    "AppClass234Test" : ["AppClass2", cycle(2), "AppClass3", cycle(0), "AppClass4", cycle(0)] as String[]
+                    "AppClass2Test" : ["AppClass2", cycle(2)],
+                    "AppClass23Test" : ["AppClass2", cycle(2), "AppClass3", cycle(0)],
+                    "AppClass234Test" : ["AppClass2", cycle(2), "AppClass3", cycle(0), "AppClass4", cycle(0)]
             ])
 
         buildComplete()
@@ -165,8 +165,8 @@ abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
         expectTestsRunResults(
             cycle(3),
             [
-                    "AppClass23Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3)] as String[],
-                    "AppClass234Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(0)] as String[]
+                    "AppClass23Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3)],
+                    "AppClass234Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(0)]
             ])
 
         buildComplete()
@@ -176,7 +176,7 @@ abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
         expectTestsRunResults(
             cycle(4),
             [
-                    "AppClass234Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(4)] as String[]
+                    "AppClass234Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(4)]
             ])
     }
 
@@ -188,12 +188,12 @@ abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
         expectTestsRunResults(
             cycle(0),
             [
-                    "AppClass2Test" : ["AppClass2", cycle(0)] as String[],
-                    "AppClass23Test" : ["AppClass2", cycle(0), "AppClass3", cycle(0)] as String[],
-                    "AppClass234Test" : ["AppClass2", cycle(0), "AppClass3", cycle(0), "AppClass4", cycle(0)] as String[],
-                    "AppClass2345Test" : ["AppClass2", cycle(0), "AppClass3", cycle(0), "AppClass4", cycle(0), "AppClass5", cycle(0)] as String[],
-                    "AppClass23456Test" : ["AppClass2", cycle(0), "AppClass3", cycle(0), "AppClass4", cycle(0), "AppClass5", cycle(0), "AppClass6", cycle(0)] as String[],
-                    "NoAppClassTest" : [] as String[]
+                    "AppClass2Test" : ["AppClass2", cycle(0)],
+                    "AppClass23Test" : ["AppClass2", cycle(0), "AppClass3", cycle(0)],
+                    "AppClass234Test" : ["AppClass2", cycle(0), "AppClass3", cycle(0), "AppClass4", cycle(0)],
+                    "AppClass2345Test" : ["AppClass2", cycle(0), "AppClass3", cycle(0), "AppClass4", cycle(0), "AppClass5", cycle(0)],
+                    "AppClass23456Test" : ["AppClass2", cycle(0), "AppClass3", cycle(0), "AppClass4", cycle(0), "AppClass5", cycle(0), "AppClass6", cycle(0)],
+                    "NoAppClassTest" : [] as List<String>
             ])
 
         //INCREMENTAL TEST RUN
@@ -215,11 +215,11 @@ abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
         expectTestsRunResults(
             cycle(2),
             [
-                    "AppClass2Test" : ["AppClass2", cycle(2)] as String[],
-                    "AppClass23Test" : ["AppClass2", cycle(2), "AppClass3", cycle(0)] as String[],
-                    "AppClass234Test" : ["AppClass2", cycle(2), "AppClass3", cycle(0), "AppClass4", cycle(0)] as String[],
-                    "AppClass2345Test" : ["AppClass2", cycle(2), "AppClass3", cycle(0), "AppClass4", cycle(0), "AppClass5", cycle(0)] as String[],
-                    "AppClass23456Test" : ["AppClass2", cycle(2), "AppClass3", cycle(0), "AppClass4", cycle(0), "AppClass5", cycle(0), "AppClass6", cycle(0)] as String[]
+                    "AppClass2Test" : ["AppClass2", cycle(2)],
+                    "AppClass23Test" : ["AppClass2", cycle(2), "AppClass3", cycle(0)],
+                    "AppClass234Test" : ["AppClass2", cycle(2), "AppClass3", cycle(0), "AppClass4", cycle(0)],
+                    "AppClass2345Test" : ["AppClass2", cycle(2), "AppClass3", cycle(0), "AppClass4", cycle(0), "AppClass5", cycle(0)],
+                    "AppClass23456Test" : ["AppClass2", cycle(2), "AppClass3", cycle(0), "AppClass4", cycle(0), "AppClass5", cycle(0), "AppClass6", cycle(0)]
             ])
 
         buildComplete()
@@ -232,12 +232,12 @@ abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
         expectTestsRunResults(
             cycle(3),
             [
-                    "AppClass2Test" : ["AppClass2", cycle(2)] as String[],
-                    "AppClass23Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3)] as String[],
-                    "AppClass234Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(0)] as String[],
-                    "AppClass2345Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(0), "AppClass5", cycle(0)] as String[],
-                    "AppClass23456Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(0), "AppClass5", cycle(0), "AppClass6", cycle(0)] as String[],
-                    "NoAppClassTest" : [] as String[]
+                    "AppClass2Test" : ["AppClass2", cycle(2)],
+                    "AppClass23Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3)],
+                    "AppClass234Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(0)],
+                    "AppClass2345Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(0), "AppClass5", cycle(0)],
+                    "AppClass23456Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(0), "AppClass5", cycle(0), "AppClass6", cycle(0)],
+                    "NoAppClassTest" : [] as List<String>
             ])
 
         //INCREMENTAL TEST RUN
@@ -250,9 +250,9 @@ abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
         expectTestsRunResults(
             cycle(4),
             [
-                    "AppClass234Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(4)] as String[],
-                    "AppClass2345Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(4), "AppClass5", cycle(0)] as String[],
-                    "AppClass23456Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(4), "AppClass5", cycle(0), "AppClass6", cycle(0)] as String[]
+                    "AppClass234Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(4)],
+                    "AppClass2345Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(4), "AppClass5", cycle(0)],
+                    "AppClass23456Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(4), "AppClass5", cycle(0), "AppClass6", cycle(0)]
             ])
 
         //INCREMENTAL TEST RUN
@@ -265,8 +265,8 @@ abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
         expectTestsRunResults(
             cycle(5),
             [
-                    "AppClass2345Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(4), "AppClass5", cycle(5)] as String[],
-                    "AppClass23456Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(4), "AppClass5", cycle(5), "AppClass6", cycle(0)] as String[]
+                    "AppClass2345Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(4), "AppClass5", cycle(5)],
+                    "AppClass23456Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(4), "AppClass5", cycle(5), "AppClass6", cycle(0)]
             ])
 
         buildComplete()
@@ -279,12 +279,12 @@ abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
         expectTestsRunResults(
             cycle(6),
             [
-                    "AppClass2Test" : ["AppClass2", cycle(2)] as String[],
-                    "AppClass23Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3)] as String[],
-                    "AppClass234Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(4)] as String[],
-                    "AppClass2345Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(4), "AppClass5", cycle(5)] as String[],
-                    "AppClass23456Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(4), "AppClass5", cycle(5), "AppClass6", cycle(6)] as String[],
-                    "NoAppClassTest" : [] as String[]
+                    "AppClass2Test" : ["AppClass2", cycle(2)],
+                    "AppClass23Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3)],
+                    "AppClass234Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(4)],
+                    "AppClass2345Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(4), "AppClass5", cycle(5)],
+                    "AppClass23456Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(4), "AppClass5", cycle(5), "AppClass6", cycle(6)],
+                    "NoAppClassTest" : [] as List<String>
             ])
     }
 
@@ -295,10 +295,10 @@ abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
         expectTestsRunResults(
             cycle(0),
             [
-                    "AppClass2Test" : ["AppClass2", cycle(0)] as String[],
-                    "AppClass23Test" : ["AppClass2", cycle(0), "AppClass3", cycle(0)] as String[],
-                    "AppClass234Test" : ["AppClass2", cycle(0), "AppClass3", cycle(0), "AppClass4", cycle(0)] as String[],
-                    "NoAppClassTest" : [] as String[]
+                    "AppClass2Test" : ["AppClass2", cycle(0)],
+                    "AppClass23Test" : ["AppClass2", cycle(0), "AppClass3", cycle(0)],
+                    "AppClass234Test" : ["AppClass2", cycle(0), "AppClass3", cycle(0), "AppClass4", cycle(0)],
+                    "NoAppClassTest" : [] as List<String>
             ])
 
         buildComplete()
@@ -308,7 +308,7 @@ abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
         expectTestsRunResults(
             cycle(1),
             [
-                    "NoAppClassTest" : []
+                    "NoAppClassTest" : [] as List<String>
             ])
 
         buildComplete()
@@ -318,10 +318,10 @@ abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
         expectTestsRunResults(
             cycle(2),
             [
-                    "AppClass2Test" : ["AppClass2", cycle(2)] as String[],
-                    "AppClass23Test" : ["AppClass2", cycle(2), "AppClass3", cycle(0)] as String[],
-                    "AppClass234Test" : ["AppClass2", cycle(2), "AppClass3", cycle(0), "AppClass4", cycle(0)] as String[],
-                    "NoAppClassTest" : [] as String[]
+                    "AppClass2Test" : ["AppClass2", cycle(2)],
+                    "AppClass23Test" : ["AppClass2", cycle(2), "AppClass3", cycle(0)],
+                    "AppClass234Test" : ["AppClass2", cycle(2), "AppClass3", cycle(0), "AppClass4", cycle(0)],
+                    "NoAppClassTest" : [] as List<String>
             ])
 
         buildComplete()
@@ -331,9 +331,9 @@ abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
         expectTestsRunResults(
             cycle(3),
             [
-                    "AppClass23Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3)] as String[],
-                    "AppClass234Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(0)] as String[],
-                    "NoAppClassTest" : [] as String[]
+                    "AppClass23Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3)],
+                    "AppClass234Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(0)],
+                    "NoAppClassTest" : [] as List<String>
             ])
 
         buildComplete()
@@ -343,8 +343,8 @@ abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
         expectTestsRunResults(
             cycle(4),
             [
-                    "AppClass234Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(4)] as String[],
-                    "NoAppClassTest" : [] as String[]
+                    "AppClass234Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(4)],
+                    "NoAppClassTest" : [] as List<String>
             ])
     }
 
@@ -355,10 +355,10 @@ abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
         expectTestsRunResults(
             cycle(0),
             [
-                    "AppClass2Test" : ["AppClass2", cycle(0)] as String[],
-                    "AppClass23Test" : ["AppClass2", cycle(0), "AppClass3", cycle(0)] as String[],
-                    "AppClass234Test" : ["AppClass2", cycle(0), "AppClass3", cycle(0), "AppClass4", cycle(0)] as String[],
-                    "NoAppClassTest" : [] as String[]
+                    "AppClass2Test" : ["AppClass2", cycle(0)],
+                    "AppClass23Test" : ["AppClass2", cycle(0), "AppClass3", cycle(0)],
+                    "AppClass234Test" : ["AppClass2", cycle(0), "AppClass3", cycle(0), "AppClass4", cycle(0)],
+                    "NoAppClassTest" : [] as List<String>
             ])
 
         buildComplete()
@@ -367,7 +367,7 @@ abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
 
         expectTestsRunResults(
             cycle(1),
-            newHashMap())
+            new HashMap<>())
 
         buildComplete()
         noSourceChange()
@@ -375,7 +375,7 @@ abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
 
         expectTestsRunResults(
             cycle(2),
-            newHashMap())
+            new HashMap<>())
     }
 
     void testUnoptimizedCIBuildCycles() throws Exception {
@@ -385,10 +385,10 @@ abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
         expectTestsRunResults(
             cycle(0),
             [
-                    "AppClass2Test" : ["AppClass2", cycle(0)] as String[],
-                    "AppClass23Test" : ["AppClass2", cycle(0), "AppClass3", cycle(0)] as String[],
-                    "AppClass234Test" : ["AppClass2", cycle(0), "AppClass3", cycle(0), "AppClass4", cycle(0)] as String[],
-                    "NoAppClassTest" : [] as String[]
+                    "AppClass2Test" : ["AppClass2", cycle(0)],
+                    "AppClass23Test" : ["AppClass2", cycle(0), "AppClass3", cycle(0)],
+                    "AppClass234Test" : ["AppClass2", cycle(0), "AppClass3", cycle(0), "AppClass4", cycle(0)],
+                    "NoAppClassTest" : [] as List<String>
             ])
 
         buildComplete()
@@ -398,10 +398,10 @@ abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
         expectTestsRunResults(
             cycle(1),
             [
-                    "AppClass2Test" : ["AppClass2", cycle(0)] as String[],
-                    "AppClass23Test" : ["AppClass2", cycle(0), "AppClass3", cycle(0)] as String[],
-                    "AppClass234Test" : ["AppClass2", cycle(0), "AppClass3", cycle(0), "AppClass4", cycle(0)] as String[],
-                    "NoAppClassTest" : [] as String[]
+                    "AppClass2Test" : ["AppClass2", cycle(0)],
+                    "AppClass23Test" : ["AppClass2", cycle(0), "AppClass3", cycle(0)],
+                    "AppClass234Test" : ["AppClass2", cycle(0), "AppClass3", cycle(0), "AppClass4", cycle(0)],
+                    "NoAppClassTest" : [] as List<String>
             ])
 
         buildComplete()
@@ -411,10 +411,10 @@ abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
         expectTestsRunResults(
             cycle(2),
             [
-                    "AppClass2Test" : ["AppClass2", cycle(2)] as String[],
-                    "AppClass23Test" : ["AppClass2", cycle(2), "AppClass3", cycle(0)] as String[],
-                    "AppClass234Test" : ["AppClass2", cycle(2), "AppClass3", cycle(0), "AppClass4", cycle(0)] as String[],
-                    "NoAppClassTest" : [] as String[]
+                    "AppClass2Test" : ["AppClass2", cycle(2)],
+                    "AppClass23Test" : ["AppClass2", cycle(2), "AppClass3", cycle(0)],
+                    "AppClass234Test" : ["AppClass2", cycle(2), "AppClass3", cycle(0), "AppClass4", cycle(0)],
+                    "NoAppClassTest" : [] as List<String>
             ])
 
         buildComplete()
@@ -424,10 +424,10 @@ abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
         expectTestsRunResults(
             cycle(3),
             [
-                    "AppClass2Test" : ["AppClass2", cycle(2)] as String[],
-                    "AppClass23Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3)] as String[],
-                    "AppClass234Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(0)] as String[],
-                    "NoAppClassTest" : [] as String[]
+                    "AppClass2Test" : ["AppClass2", cycle(2)],
+                    "AppClass23Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3)],
+                    "AppClass234Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(0)],
+                    "NoAppClassTest" : [] as List<String>
             ])
 
         buildComplete()
@@ -437,10 +437,10 @@ abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
         expectTestsRunResults(
             cycle(4),
             [
-                    "AppClass2Test" : ["AppClass2", cycle(2)] as String[],
-                    "AppClass23Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3)] as String[],
-                    "AppClass234Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(4)] as String[],
-                    "NoAppClassTest" : [] as String[]
+                    "AppClass2Test" : ["AppClass2", cycle(2)],
+                    "AppClass23Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3)],
+                    "AppClass234Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(4)],
+                    "NoAppClassTest" : [] as List<String>
             ])
     }
 
@@ -452,10 +452,10 @@ abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
         expectTestsRunResults(
             cycle(0),
             [
-                    "AppClass2Test" : ["AppClass2", cycle(0)] as String[],
-                    "AppClass23Test" : ["AppClass2", cycle(0), "AppClass3", cycle(0)] as String[],
-                    "AppClass234Test" : ["AppClass2", cycle(0), "AppClass3", cycle(0), "AppClass4", cycle(0)] as String[],
-                    "NoAppClassTest" : [] as String[]
+                    "AppClass2Test" : ["AppClass2", cycle(0)],
+                    "AppClass23Test" : ["AppClass2", cycle(0), "AppClass3", cycle(0)],
+                    "AppClass234Test" : ["AppClass2", cycle(0), "AppClass3", cycle(0), "AppClass4", cycle(0)],
+                    "NoAppClassTest" : [] as List<String>
             ])
 
         buildComplete()
@@ -466,10 +466,10 @@ abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
         expectTestsRunResults(
             cycle(1),
             [
-                    "AppClass2Test" : ["AppClass2", cycle(0)] as String[],
-                    "AppClass23Test" : ["AppClass2", cycle(0), "AppClass3", cycle(0)] as String[],
-                    "AppClass234Test" : ["AppClass2", cycle(0), "AppClass3", cycle(0), "AppClass4", cycle(0)] as String[],
-                    "NoAppClassTest" : [] as String[]
+                    "AppClass2Test" : ["AppClass2", cycle(0)],
+                    "AppClass23Test" : ["AppClass2", cycle(0), "AppClass3", cycle(0)],
+                    "AppClass234Test" : ["AppClass2", cycle(0), "AppClass3", cycle(0), "AppClass4", cycle(0)],
+                    "NoAppClassTest" : [] as List<String>
             ])
 
         buildComplete()
@@ -480,10 +480,10 @@ abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
         expectTestsRunResults(
             cycle(2),
             [
-                    "AppClass2Test" : ["AppClass2", cycle(2)] as String[],
-                    "AppClass23Test" : ["AppClass2", cycle(2), "AppClass3", cycle(0)] as String[],
-                    "AppClass234Test" : ["AppClass2", cycle(2), "AppClass3", cycle(0), "AppClass4", cycle(0)] as String[],
-                    "NoAppClassTest" : [] as String[]
+                    "AppClass2Test" : ["AppClass2", cycle(2)],
+                    "AppClass23Test" : ["AppClass2", cycle(2), "AppClass3", cycle(0)],
+                    "AppClass234Test" : ["AppClass2", cycle(2), "AppClass3", cycle(0), "AppClass4", cycle(0)],
+                    "NoAppClassTest" : [] as List<String>
             ])
 
         buildComplete()
@@ -494,10 +494,10 @@ abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
         expectTestsRunResults(
             cycle(3),
             [
-                    "AppClass2Test" : ["AppClass2", cycle(2)] as String[],
-                    "AppClass23Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3)] as String[],
-                    "AppClass234Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(0)] as String[],
-                    "NoAppClassTest" : [] as String[]
+                    "AppClass2Test" : ["AppClass2", cycle(2)],
+                    "AppClass23Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3)],
+                    "AppClass234Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(0)],
+                    "NoAppClassTest" : [] as List<String>
             ])
 
         buildComplete()
@@ -508,10 +508,10 @@ abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
         expectTestsRunResults(
             cycle(4),
             [
-                    "AppClass2Test" : ["AppClass2", cycle(2)] as String[],
-                    "AppClass23Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3)] as String[],
-                    "AppClass234Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(4)] as String[],
-                    "NoAppClassTest" : [] as String[]
+                    "AppClass2Test" : ["AppClass2", cycle(2)],
+                    "AppClass23Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3)],
+                    "AppClass234Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(4)],
+                    "NoAppClassTest" : [] as List<String>
             ])
     }
 
@@ -522,11 +522,11 @@ abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
         expectTestsRunResults(
             cycle(0),
             [
-                    "AppClass2Test" : ["AppClass2", cycle(0)] as String[],
-                    "AppClass23Test" : ["AppClass2", cycle(0), "AppClass3", cycle(0)] as String[],
-                    "AppClass234Test" : ["AppClass2", cycle(0), "AppClass3", cycle(0), "AppClass4", cycle(0)] as String[],
-                    "NoAppClassTest" : [] as String[],
-                    "InitiallyFailingTest" : [] as String[]
+                    "AppClass2Test" : ["AppClass2", cycle(0)],
+                    "AppClass23Test" : ["AppClass2", cycle(0), "AppClass3", cycle(0)],
+                    "AppClass234Test" : ["AppClass2", cycle(0), "AppClass3", cycle(0), "AppClass4", cycle(0)],
+                    "NoAppClassTest" : [] as List<String>,
+                    "InitiallyFailingTest" : [] as List<String>
             ])
 
         buildComplete()
@@ -536,7 +536,7 @@ abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
         expectTestsRunResults(
             cycle(1),
             [
-                    "InitiallyFailingTest" : []
+                    "InitiallyFailingTest" : [] as List<String>
             ])
 
         buildComplete()
@@ -546,9 +546,9 @@ abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
         expectTestsRunResults(
             cycle(2),
             [
-                    "AppClass2Test" : ["AppClass2", cycle(2)] as String[],
-                    "AppClass23Test" : ["AppClass2", cycle(2), "AppClass3", cycle(0)] as String[],
-                    "AppClass234Test" : ["AppClass2", cycle(2), "AppClass3", cycle(0), "AppClass4", cycle(0)] as String[]
+                    "AppClass2Test" : ["AppClass2", cycle(2)],
+                    "AppClass23Test" : ["AppClass2", cycle(2), "AppClass3", cycle(0)],
+                    "AppClass234Test" : ["AppClass2", cycle(2), "AppClass3", cycle(0), "AppClass4", cycle(0)]
             ])
 
         buildComplete()
@@ -558,8 +558,8 @@ abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
         expectTestsRunResults(
             cycle(3),
             [
-                    "AppClass23Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3)] as String[],
-                    "AppClass234Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(0)] as String[]
+                    "AppClass23Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3)],
+                    "AppClass234Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(0)]
             ])
 
         buildComplete()
@@ -569,7 +569,7 @@ abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {
         expectTestsRunResults(
             cycle(4),
             [
-                    "AppClass234Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(4)] as String[]
+                    "AppClass234Test" : ["AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(4)]
             ])
     }
 

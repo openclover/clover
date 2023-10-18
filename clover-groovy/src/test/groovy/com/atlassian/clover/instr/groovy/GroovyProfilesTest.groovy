@@ -1,7 +1,8 @@
 package com.atlassian.clover.instr.groovy
 
 import com.atlassian.clover.CloverNames
-
+import com.atlassian.clover.cfg.instr.InstrumentationConfig
+import groovy.transform.CompileStatic
 import org.junit.Test
 
 import static com.atlassian.clover.testutils.AssertionUtils.assertStringContains
@@ -15,6 +16,7 @@ import com.atlassian.clover.remote.DistributedConfig
  *
  * @see com.atlassian.clover.ant.tasks.CloverSetupTaskProfilesCorrectTest
  */
+@CompileStatic
 class GroovyProfilesTest extends TestBase {
     public static final String PROPERTY_NOT_FOUND_MSG =
         "CLOVER: System property '" + CloverNames.PROP_CLOVER_PROFILE + "' was not found. Assuming the 'default' profile."
@@ -73,7 +75,7 @@ class GroovyProfilesTest extends TestBase {
                 ["Foo.groovy": fooGroovyContent],
                 "-Dclover.grover.ast.dump=true",
                 [],
-                {
+                { InstrumentationConfig it ->
                     it.addProfile(new CloverProfile("default", "GROWABLE", null))
                     it
                 }
@@ -97,7 +99,7 @@ class GroovyProfilesTest extends TestBase {
                 ["Foo.groovy": fooGroovyContent],
                 "-Dclover.grover.ast.dump=true",
                 [],
-                {
+                { InstrumentationConfig it ->
                     it.addProfile(new CloverProfile("default", "GROWABLE", null))
                     it.addProfile(new CloverProfile("other", "SHARED", null))
                     it.addProfile(new CloverProfile(
@@ -127,7 +129,7 @@ class GroovyProfilesTest extends TestBase {
                 ["Foo.groovy": fooGroovyContent],
                 "-Dclover.grover.ast.dump=true",
                 [],
-                {
+                { InstrumentationConfig it ->
                     it.addProfile(new CloverProfile("default", "GROWABLE", null))
                     it.addProfile(new CloverProfile("one", "FIXED", null))
                     it
@@ -171,7 +173,7 @@ class GroovyProfilesTest extends TestBase {
                 ["Foo.groovy": fooGroovyContent],
                 "-Dclover.grover.ast.dump=true",
                 [],
-                {
+                { InstrumentationConfig it ->
                     it.setDistributedConfig(new DistributedConfig("host=host.from.top.level;timeout=10"))
                     it.addProfile(new CloverProfile(
                             "default",
@@ -205,7 +207,7 @@ class GroovyProfilesTest extends TestBase {
                 ["Foo.groovy": fooGroovyContent],
                 "-Dclover.grover.ast.dump=true",
                 [],
-                {
+                { InstrumentationConfig it ->
                     it.setDistributedConfig(new DistributedConfig("host=host.from.top.level;timeout=10"))
                     it.addProfile(new CloverProfile("default", "FIXED", null))
                     it.addProfile(new CloverProfile(
@@ -238,7 +240,7 @@ class GroovyProfilesTest extends TestBase {
                 ["Foo.groovy": fooGroovyContent],
                 "-Dclover.grover.ast.dump=true",
                 [],
-                {
+                { InstrumentationConfig it ->
                     it.setDistributedConfig(new DistributedConfig("host=host.from.top.level;timeout=10"))
                     it.addProfile(new CloverProfile(
                             "default",

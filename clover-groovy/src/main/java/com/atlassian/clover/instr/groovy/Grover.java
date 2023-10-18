@@ -72,6 +72,11 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 
+import static groovyjarjarasm.asm.Opcodes.ACC_FINAL;
+import static groovyjarjarasm.asm.Opcodes.ACC_PRIVATE;
+import static groovyjarjarasm.asm.Opcodes.ACC_PUBLIC;
+import static groovyjarjarasm.asm.Opcodes.ACC_STATIC;
+import static groovyjarjarasm.asm.Opcodes.ACC_SYNTHETIC;
 import static org.openclover.util.Maps.newHashMap;
 
 /**
@@ -505,13 +510,13 @@ public class Grover implements ASTTransformation {
     private ClassNode createRecorderFieldAndGetter(final ClassNode clazz, GroovyInstrumentationConfig sessionConfig, GroovyInstrumentationResult flags) {
         // add field
         FieldNode recorderField =
-                clazz.addField(recorderFieldName, ClassNode.ACC_STATIC | ClassNode.ACC_PRIVATE | ClassNode.ACC_SYNTHETIC,
+                clazz.addField(recorderFieldName, ACC_STATIC | ACC_PRIVATE | ACC_SYNTHETIC,
                         ClassHelper.make(com_atlassian_clover.CoverageRecorder.class),
                         ConstantExpression.NULL);
 
         // add method (no code yet)
         MethodNode recorderGetter =
-                clazz.addMethod(recorderGetterName, ClassNode.ACC_STATIC | ClassNode.ACC_PRIVATE | ClassNode.ACC_SYNTHETIC,
+                clazz.addMethod(recorderGetterName, ACC_STATIC | ACC_PRIVATE | ACC_SYNTHETIC,
                         ClassHelper.make(com_atlassian_clover.CoverageRecorder.class),
                         new Parameter[]{}, new ClassNode[]{},
                         new BlockStatement());
@@ -598,7 +603,7 @@ public class Grover implements ASTTransformation {
         // add field
         // public static final __CLRx_y_z_TEST_NAME_SNIFFER = ...
         clazz.addField( CloverNames.CLOVER_TEST_NAME_SNIFFER,
-                        ClassNode.ACC_STATIC | ClassNode.ACC_PUBLIC | ClassNode.ACC_SYNTHETIC | ClassNode.ACC_FINAL,
+                ACC_STATIC | ACC_PUBLIC | ACC_SYNTHETIC | ACC_FINAL,
                         ClassHelper.make(com_atlassian_clover.TestNameSniffer.class),
                         fieldInitializationExpr);
         return clazz;
@@ -631,7 +636,7 @@ public class Grover implements ASTTransformation {
                 methodScope);
 
         clazz.addMethod(
-                CloverNames.namespace("exprEval"), ClassNode.ACC_STATIC | ClassNode.ACC_PUBLIC,
+                CloverNames.namespace("exprEval"), ACC_STATIC | ACC_PUBLIC,
                 ClassHelper.DYNAMIC_TYPE,
                 new Parameter[]{expr, index},
                 new ClassNode[]{},
@@ -682,7 +687,7 @@ public class Grover implements ASTTransformation {
         );
 
         clazz.addMethod(
-                CloverNames.namespace("elvisEval"), ClassNode.ACC_STATIC | ClassNode.ACC_PUBLIC,
+                CloverNames.namespace("elvisEval"), ACC_STATIC | ACC_PUBLIC,
                 ClassHelper.DYNAMIC_TYPE,
                 new Parameter[]{expr, index},
                 new ClassNode[]{},
@@ -705,7 +710,7 @@ public class Grover implements ASTTransformation {
         Parameter exVariable = new Parameter(ClassHelper.make(Class.class), "ex");
 
         clazz.addMethod(
-                CloverNames.namespace("evalTestException"), ClassNode.ACC_STATIC | ClassNode.ACC_PUBLIC,
+                CloverNames.namespace("evalTestException"), ACC_STATIC | ACC_PUBLIC,
                 ClassHelper.int_TYPE,
                 new Parameter[]{exceptionParam, expectedParam},
                 new ClassNode[]{},

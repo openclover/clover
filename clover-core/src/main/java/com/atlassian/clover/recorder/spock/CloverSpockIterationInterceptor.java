@@ -29,8 +29,8 @@ public class CloverSpockIterationInterceptor implements IMethodInterceptor {
                 IterationInfo iterationInfo = invocation.getIteration();
                 if (iterationInfo != null) {
                     Logger.getInstance().debug("CloverSpockIterationInterceptor test name=" + iterationInfo.getName()
-                            + " method name=" + invocation.getMethod().getName());
-                    spockSniffer.setTestName(iterationInfo.getName());
+                            + " display name=" + iterationInfo.getDisplayName());
+                    spockSniffer.setTestName(iterationInfo.getDisplayName());
                 }
             }
         }

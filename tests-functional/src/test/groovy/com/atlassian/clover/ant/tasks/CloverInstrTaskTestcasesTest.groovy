@@ -5,9 +5,11 @@ import com.atlassian.clover.CoverageData
 import com.atlassian.clover.api.CloverException
 import com.atlassian.clover.registry.entities.TestCaseInfo
 import com.atlassian.clover.testutils.IOHelper
+import groovy.transform.CompileStatic
 
 import static org.openclover.util.Maps.newHashMap
 
+@CompileStatic
 class CloverInstrTaskTestcasesTest extends CloverBuildFileTestBase {
 
     private String initstring

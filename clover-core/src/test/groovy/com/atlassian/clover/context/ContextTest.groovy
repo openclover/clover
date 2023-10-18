@@ -247,8 +247,8 @@ class ContextTest {
         }
 
         assertFalse ctor.voidReturnType
-        assert methods.size == 4
-        assert methods.findAll { it.lambda }.size == 4
+        assert methods.size() == 4
+        assert methods.findAll { it.lambda }.size() == 4
         assertTrue methods[0].voidReturnType
         assertTrue methods[1].voidReturnType
         assertFalse methods[2].voidReturnType
@@ -287,8 +287,8 @@ class ContextTest {
         }
 
         assertFalse ctor.voidReturnType
-        assert methods.size == 3
-        assert methods.findAll { it.lambda }.size == 3
+        assert methods.size() == 3
+        assert methods.findAll { it.lambda }.size() == 3
         assertFalse methods[0].voidReturnType
         assertTrue methods[1].voidReturnType
         assertTrue methods[2].voidReturnType

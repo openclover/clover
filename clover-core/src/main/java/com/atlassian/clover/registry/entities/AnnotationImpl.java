@@ -18,7 +18,7 @@ import java.util.Set;
 import static org.openclover.util.Maps.newHashMap;
 
 /**
- * Represents a Java 1.5 source annotation. Annotation have a name and have attributes (name & value pairs).
+ * Represents a Java 1.5 source annotation. Annotation have a name and have attributes (name and value pairs).
  * Annotations can also the values of annotation attributes.
  */
 public class AnnotationImpl implements Annotation, PersistentAnnotationValue, AnnotationValueCollection {

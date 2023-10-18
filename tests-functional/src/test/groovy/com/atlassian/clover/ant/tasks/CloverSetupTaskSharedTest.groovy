@@ -1,5 +1,6 @@
 package com.atlassian.clover.ant.tasks
 
+import groovy.transform.CompileStatic
 import org.junit.Test
 
 import static com.atlassian.clover.testutils.AssertionUtils.assertFileContains
@@ -14,6 +15,7 @@ import static org.junit.Assert.assertTrue
  * {@link com.atlassian.clover.recorder.SharedCoverageRecorder}
  * with and without {@link com.atlassian.clover.remote.DistributedConfig}
  */
+@CompileStatic
 class CloverSetupTaskSharedTest extends CloverSetupTaskTestBase {
 
     // see setUp task in clover-setup-growable.xml

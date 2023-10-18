@@ -1,5 +1,8 @@
 package com.atlassian.clover.ant.tasks
 
+import groovy.transform.CompileStatic
+
+@CompileStatic
 class CloverOptimizeJUnitSrcFilesetMethodInstrFuncTest extends CloverOptimizeJUnitSrcFilesetFuncTest {
     CloverOptimizeJUnitSrcFilesetMethodInstrFuncTest(String name) {
         super(name)

@@ -1,10 +1,11 @@
 package com.atlassian.clover.ant.groovy
 
 import com.atlassian.clover.test.junit.JavaExecutorMixin
+import groovy.transform.CompileStatic
 import junit.framework.Test
 
-@Mixin (JavaExecutorMixin)
-class AntProjectSimulacrum {
+@CompileStatic
+class AntProjectSimulacrum implements JavaExecutorMixin {
     public static String DEBUG_OPTIONS = ""//-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5009"
 
     String methodName
@@ -31,7 +32,11 @@ class AntProjectSimulacrum {
     }
 
     private List<File> calcGroovyClasspath() {
-        [ groovyJar, groovyAntJar, additionalGroovyJars ].flatten()
+        List<File> path = new ArrayList<>()
+        path.add(groovyJar)
+        path.add(groovyAntJar)
+        path.addAll(additionalGroovyJars)
+        path
     }
 
     private File getGroovyJar() {
@@ -57,9 +62,9 @@ class AntProjectSimulacrum {
         if (buildXml == null) {
             buildXml = buildProjectArtifacts(workingDir)
         }
-        String classpath = [calcAntClasspath(), calcRepkgJarPath()]
-                .flatten()
-                .findAll { it != null }
+        List<File> classpathWithRepckJar = calcAntClasspath() + calcRepkgJarPath()
+        String classpath = classpathWithRepckJar
+                .findAll { File it -> it != null }
                 .collect { File it -> it.absolutePath }
                 .join(File.pathSeparator)
 
@@ -82,12 +87,12 @@ class AntProjectSimulacrum {
     }
 
     private File buildProjectArtifacts(File workingDir) {
-        def src = test.metaClass.getProperty(test, methodName + "Src")
-        src.each {entry ->
-            new File(workingDir, (String) entry.key).with {
+        Map<String, String> src = (Map<String, String>) test.metaClass.getProperty(test, methodName + "Src")
+        src.each { Map.Entry<String, String> entry ->
+            new File(workingDir, entry.key).with {
                 it.parentFile.mkdirs()
                 it.createNewFile()
-                writeStringToFile(it, (String) entry.value)
+                writeStringToFile(it, entry.value)
             }
         }
         def buildxml = File.createTempFile("build", ".xml", workingDir)
@@ -111,8 +116,8 @@ class AntProjectSimulacrum {
         return buildxml
     }
 
-    private void writeStringToFile(File file, String value) {
-        def fout = new FileWriter(file)
+    private static void writeStringToFile(File file, String value) {
+        Writer fout = new FileWriter(file)
         fout.write(value)
         fout.close()
     }

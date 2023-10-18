@@ -4,6 +4,7 @@ import clover.org.jdom.Document
 import clover.org.jdom.Element
 import clover.org.jdom.JDOMException
 import clover.org.jdom.input.SAXBuilder
+import groovy.transform.CompileStatic
 import org.xml.sax.EntityResolver
 import org.xml.sax.InputSource
 
@@ -12,6 +13,7 @@ import static org.openclover.util.Lists.newArrayList
 /**
  * Parses a Clover XML report file. This is a helper class for unit tests.
  */
+@CompileStatic
 class XMLReportReader {
 
     /**

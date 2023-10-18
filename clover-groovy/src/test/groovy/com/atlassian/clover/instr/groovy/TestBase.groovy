@@ -10,9 +10,12 @@ import com.atlassian.clover.test.junit.TestPropertyMixin
 import com.atlassian.clover.test.junit.WorkingDirMixin
 import com.atlassian.clover.CloverNames
 import com.atlassian.clover.context.ContextStore
+import groovy.transform.CompileStatic
 
-@Mixin ([WorkingDirMixin, CloverDbTestMixin, TestPropertyMixin, JavaExecutorMixin])
-abstract class TestBase extends DynamicallyNamedTestBase {
+@CompileStatic
+abstract class TestBase
+        extends DynamicallyNamedTestBase
+        implements WorkingDirMixin, CloverDbTestMixin, TestPropertyMixin, JavaExecutorMixin {
     protected File cloverAllResources = new File( "../clover-all/src/main/resources")
     protected File cloverCoreClasses = new File( "../clover-core/target/classes")
     protected File cloverRuntimeClasses = new File( "../clover-runtime/target/classes")
@@ -32,14 +35,14 @@ abstract class TestBase extends DynamicallyNamedTestBase {
     }
 
     TestBase(String methodName, String specificName, File groovyAllJar, List<File> additionalGroovyJars) {
-        super(methodName, specificName);
+        super(methodName, specificName)
         this.groovyAllJar = groovyAllJar
         this.additionalGroovyJars = additionalGroovyJars
     }
 
     void setUp() {
-        createWorkingDir()
-        reserveCloverDbFile()
+        File workingDir = createWorkingDir()
+        reserveCloverDbFile(workingDir)
         groverConfigDir = (File) File.createTempFile("grover", "config", workingDir).with {File dir ->
             dir.delete()
             dir.mkdir()
@@ -60,9 +63,17 @@ abstract class TestBase extends DynamicallyNamedTestBase {
      * @param decorateConfig
      * @return
      */
-    protected Result instrumentAndCompileWithGrover(Map fileAndSource, String props = "", List<File> extraClasspath = [], decorateConfig = { it }) {
-        List<File> sourceFiles = fileAndSource.entrySet().collect {Map.Entry<String, String> entry ->
-            new File(workingDir, entry.key).with { getParentFile().mkdirs(); createNewFile(); append(entry.value); it }
+    protected Result instrumentAndCompileWithGrover(Map fileAndSource,
+                                                    String props = "",
+                                                    List<File> extraClasspath = [],
+                                                    Closure<InstrumentationConfig> decorateConfig = { InstrumentationConfig cfg -> cfg }) {
+        List<File> sourceFiles = fileAndSource.entrySet().collect { Map.Entry<String, String> entry ->
+            new File(workingDir, entry.key.toString()).with {
+                getParentFile().mkdirs();
+                createNewFile();
+                append(entry.value);
+                it
+            }
         }
 
         instrumentAndCompileWithGrover(sourceFiles, props, extraClasspath, decorateConfig)
@@ -77,14 +88,17 @@ abstract class TestBase extends DynamicallyNamedTestBase {
      * @param decorateConfig
      * @return
      */
-    protected Result instrumentAndCompileWithGrover(List<File> sourceFiles, String props = "", List<File> extraClasspath = [], decorateConfig = { it }) {
+    protected Result instrumentAndCompileWithGrover(List<File> sourceFiles,
+                                                    String props = "",
+                                                    List<File> extraClasspath = [],
+                                                    Closure<InstrumentationConfig> decorateConfig = { InstrumentationConfig cfg -> cfg }) {
         if (groovyAllJar == null) {
             throw new IllegalArgumentException("No -Dgroovy-all.jar property specified")
         }
 
         File groverInstrConfigFile = new File(groverConfigDir, CloverNames.getGroverConfigFileName())
-        decorateConfig(new InstrumentationConfig()).with {
-            if (!it.equals(null)) { //Groovy bug where null.with { it == null } => false
+        decorateConfig(new InstrumentationConfig()).with { InstrumentationConfig it ->
+            if (it != null) { //Groovy bug where null.with { it == null } => false
                 setInitstring(db.getAbsolutePath())
                 setIncludedFiles(sourceFiles as List)
                 saveToFile(groverInstrConfigFile)
@@ -133,7 +147,7 @@ abstract class TestBase extends DynamicallyNamedTestBase {
      * @param props extra java properties
      * @return Result result of process execution (error code, stdout, strerr)
      */
-    Result runWithAsserts(String className, props = []) {
+    Result runWithAsserts(String className, List<String> props = []) {
         def result = run(className, props)
         assertEquals "exit code=${result.getExitCode()}", 0, result.getExitCode()
         assertTrue "stderr = ${result.getStdErr()}", result.getStdErr() == null || result.getStdErr().length() == 0
@@ -179,6 +193,6 @@ abstract class TestBase extends DynamicallyNamedTestBase {
             boolean accept(File pathname) {
                 return pathname.name.matches("clover-.*\\.jar")
             }
-        })
+        }).toList()
     }
 }

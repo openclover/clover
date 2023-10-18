@@ -1,5 +1,6 @@
 package com.atlassian.clover.ant.tasks
 
+import groovy.transform.CompileStatic
 import org.apache.tools.ant.BuildException
 import org.junit.Rule
 import org.junit.Test
@@ -7,6 +8,7 @@ import org.junit.rules.ExpectedException
 
 import static org.hamcrest.CoreMatchers.containsString
 
+@CompileStatic
 class CloverSetupTaskProfilesInvalidTest extends CloverSetupTaskTestBase {
 
     @Rule

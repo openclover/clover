@@ -1,12 +1,14 @@
 package com.atlassian.clover.ant.tasks
 
 import com.atlassian.clover.util.FileUtils
+import groovy.transform.CompileStatic
 import org.apache.tools.ant.BuildFileTestBase
 
 /**
  * Declare the following properties to run this test:
  * project.dir=clover root directory
  */
+@CompileStatic
 abstract class CloverBuildFileTestBase extends BuildFileTestBase {
     protected CloverTestUtil util
 
@@ -81,7 +83,6 @@ abstract class CloverBuildFileTestBase extends BuildFileTestBase {
             out.println getOutput()
             out.println "ERROR LOG:"
             out.println getError()
-
         }
     }
 

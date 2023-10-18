@@ -1,5 +1,8 @@
 package com.atlassian.clover.ant.tasks
 
+import groovy.transform.CompileStatic
+
+@CompileStatic
 abstract class CloverOptimizeJUnitFilesetTestBase extends CloverOptimizeJUnitTestBase {
     CloverOptimizeJUnitFilesetTestBase(String name, String defaultRunTarget, Map runTargetsForTests) {
         super(name, defaultRunTarget, runTargetsForTests)
@@ -12,10 +15,10 @@ abstract class CloverOptimizeJUnitFilesetTestBase extends CloverOptimizeJUnitTes
         expectTestsRunResults(
             cycle(0),
             [
-                    "AppClass2Test" : [ "AppClass2", cycle(0) ] as String[],
-                    "AppClass23Test" :  [ "AppClass2", cycle(0), "AppClass3", cycle(0) ] as String[],
-                    "AppClass234Test" : [ "AppClass2", cycle(0), "AppClass3", cycle(0), "AppClass4", cycle(0) ] as String[],
-                    "NoAppClassTest" : [ ] as String[]
+                    "AppClass2Test" : [ "AppClass2", cycle(0) ],
+                    "AppClass23Test" :  [ "AppClass2", cycle(0), "AppClass3", cycle(0) ],
+                    "AppClass234Test" : [ "AppClass2", cycle(0), "AppClass3", cycle(0), "AppClass4", cycle(0) ],
+                    "NoAppClassTest" : [ ] as List<String>
             ])
 
         buildComplete()
@@ -25,7 +28,7 @@ abstract class CloverOptimizeJUnitFilesetTestBase extends CloverOptimizeJUnitTes
         expectTestsRunResults(
             cycle(1),
             [
-                    "NoAppClassTest" : []
+                    "NoAppClassTest" : [] as List<String>
             ])
 
         buildComplete()
@@ -35,10 +38,10 @@ abstract class CloverOptimizeJUnitFilesetTestBase extends CloverOptimizeJUnitTes
         expectTestsRunResults(
             cycle(2),
             [
-                    "AppClass2Test" : [ "AppClass2", cycle(2) ] as String[],
-                    "AppClass23Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(0) ] as String[],
-                    "AppClass234Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(0), "AppClass4", cycle(0) ] as String[],
-                    "NoAppClassTest" :  [ ] as String[]
+                    "AppClass2Test" : [ "AppClass2", cycle(2) ],
+                    "AppClass23Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(0) ],
+                    "AppClass234Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(0), "AppClass4", cycle(0) ],
+                    "NoAppClassTest" :  [ ] as List<String>
             ])
 
         buildComplete()
@@ -48,9 +51,9 @@ abstract class CloverOptimizeJUnitFilesetTestBase extends CloverOptimizeJUnitTes
         expectTestsRunResults(
             cycle(3),
             [
-                    "AppClass23Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(3) ] as String[],
-                    "AppClass234Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(0) ] as String[],
-                    "NoAppClassTest" : [ ] as String[]
+                    "AppClass23Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(3) ],
+                    "AppClass234Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(0) ],
+                    "NoAppClassTest" : [ ] as List<String>
             ])
 
         buildComplete()
@@ -60,8 +63,8 @@ abstract class CloverOptimizeJUnitFilesetTestBase extends CloverOptimizeJUnitTes
         expectTestsRunResults(
             cycle(4),
             [
-                    "AppClass234Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(4) ] as String[],
-                    "NoAppClassTest" : [ ] as String[]
+                    "AppClass234Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(4) ],
+                    "NoAppClassTest" : [ ] as List<String>
             ])
     }
 
@@ -73,10 +76,10 @@ abstract class CloverOptimizeJUnitFilesetTestBase extends CloverOptimizeJUnitTes
         expectTestsRunResults(
             cycle(0),
             [
-                    "AppClass2Test" : [ "AppClass2", cycle(0) ] as String[],
-                    "AppClass23Test" : [ "AppClass2", cycle(0), "AppClass3", cycle(0) ] as String[],
-                    "AppClass234Test" : [ "AppClass2", cycle(0), "AppClass3", cycle(0), "AppClass4", cycle(0) ] as String[],
-                    "NoAppClassTest" : [] as String[]
+                    "AppClass2Test" : [ "AppClass2", cycle(0) ],
+                    "AppClass23Test" : [ "AppClass2", cycle(0), "AppClass3", cycle(0) ],
+                    "AppClass234Test" : [ "AppClass2", cycle(0), "AppClass3", cycle(0), "AppClass4", cycle(0) ],
+                    "NoAppClassTest" : [] as List<String>
             ])
 
         buildComplete()
@@ -92,9 +95,9 @@ abstract class CloverOptimizeJUnitFilesetTestBase extends CloverOptimizeJUnitTes
         expectOrderedTestsRunResults(
             cycle(2),
             [
-                    "AppClass234Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(0), "AppClass4", cycle(0) ] as String[],
-                    "AppClass2Test" : [ "AppClass2", cycle(2) ] as String[],
-                    "AppClass23Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(0) ] as String[]
+                    "AppClass234Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(0), "AppClass4", cycle(0) ],
+                    "AppClass2Test" : [ "AppClass2", cycle(2) ],
+                    "AppClass23Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(0) ]
             ])
 
         buildComplete()
@@ -104,8 +107,8 @@ abstract class CloverOptimizeJUnitFilesetTestBase extends CloverOptimizeJUnitTes
         expectOrderedTestsRunResults(
             cycle(3),
             [
-                    "AppClass234Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(0) ] as String[],
-                    "AppClass23Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(3) ] as String[]
+                    "AppClass234Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(0) ],
+                    "AppClass23Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(3) ]
             ])
 
         buildComplete()
@@ -115,7 +118,7 @@ abstract class CloverOptimizeJUnitFilesetTestBase extends CloverOptimizeJUnitTes
         expectOrderedTestsRunResults(
             cycle(4),
             [
-                    "AppClass234Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(4) ] as String[]
+                    "AppClass234Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(4) ]
             ])
     }
 
@@ -133,11 +136,11 @@ abstract class CloverOptimizeJUnitFilesetTestBase extends CloverOptimizeJUnitTes
         expectTestsRunResults(
             cycle(0),
             [
-                    "AlwaysFailingTest" : [ ] as String[],
-                    "AppClass2Test" : [ "AppClass2", cycle(0) ] as String[],
-                    "AppClass23Test" : [ "AppClass2", cycle(0), "AppClass3", cycle(0) ] as String[],
-                    "AppClass234Test"  : [ "AppClass2", cycle(0), "AppClass3", cycle(0), "AppClass4", cycle(0) ] as String[],
-                    "NoAppClassTest" : [ ]  as String[]
+                    "AlwaysFailingTest" : [ ] as List<String>,
+                    "AppClass2Test" : [ "AppClass2", cycle(0) ],
+                    "AppClass23Test" : [ "AppClass2", cycle(0), "AppClass3", cycle(0) ],
+                    "AppClass234Test"  : [ "AppClass2", cycle(0), "AppClass3", cycle(0), "AppClass4", cycle(0) ],
+                    "NoAppClassTest" : [ ]  as List<String>
             ])
 
         buildComplete()
@@ -148,11 +151,11 @@ abstract class CloverOptimizeJUnitFilesetTestBase extends CloverOptimizeJUnitTes
         expectOrderedTestsRunResults(
             cycle(1),
             [
-                    "AlwaysFailingTest" : [ ] as String[],
-                    "AppClass234Test" :  [ "AppClass2", cycle(0), "AppClass3", cycle(0), "AppClass4", cycle(0) ] as String[],
-                    "NoAppClassTest" : [ ] as String[],
-                    "AppClass2Test" : [ "AppClass2", cycle(0) ] as String[],
-                    "AppClass23Test" : [ "AppClass2", cycle(0), "AppClass3", cycle(0) ] as String[]
+                    "AlwaysFailingTest" : [ ] as List<String>,
+                    "AppClass234Test" :  [ "AppClass2", cycle(0), "AppClass3", cycle(0), "AppClass4", cycle(0) ],
+                    "NoAppClassTest" : [ ] as List<String>,
+                    "AppClass2Test" : [ "AppClass2", cycle(0) ],
+                    "AppClass23Test" : [ "AppClass2", cycle(0), "AppClass3", cycle(0) ]
             ])
 
         buildComplete()
@@ -163,11 +166,11 @@ abstract class CloverOptimizeJUnitFilesetTestBase extends CloverOptimizeJUnitTes
         expectOrderedTestsRunResults(
             cycle(2),
             [
-                    "AlwaysFailingTest" : [ ] as String[],
-                    "AppClass234Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(0), "AppClass4", cycle(0) ] as String[],
-                    "AppClass2Test" : [ "AppClass2", cycle(2) ] as String[],
-                    "AppClass23Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(0) ] as String[],
-                    "NoAppClassTest" : [ ] as String[],
+                    "AlwaysFailingTest" : [ ] as List<String>,
+                    "AppClass234Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(0), "AppClass4", cycle(0) ],
+                    "AppClass2Test" : [ "AppClass2", cycle(2) ],
+                    "AppClass23Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(0) ],
+                    "NoAppClassTest" : [ ] as List<String>,
             ])
 
         buildComplete()
@@ -178,11 +181,11 @@ abstract class CloverOptimizeJUnitFilesetTestBase extends CloverOptimizeJUnitTes
         expectOrderedTestsRunResults(
             cycle(3),
             [
-                    "AlwaysFailingTest" : [ ] as String[],
-                    "AppClass234Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(0) ] as String[],
-                    "AppClass23Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(3) ] as String[],
-                    "NoAppClassTest" : [ ] as String[],
-                    "AppClass2Test" : [ "AppClass2", cycle(2) ] as String[]
+                    "AlwaysFailingTest" : [ ] as List<String>,
+                    "AppClass234Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(0) ],
+                    "AppClass23Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(3) ],
+                    "NoAppClassTest" : [ ] as List<String>,
+                    "AppClass2Test" : [ "AppClass2", cycle(2) ]
             ])
 
         buildComplete()
@@ -193,24 +196,24 @@ abstract class CloverOptimizeJUnitFilesetTestBase extends CloverOptimizeJUnitTes
         expectOrderedTestsRunResults(
             cycle(4),
             [
-                    "AlwaysFailingTest" : [ ] as String[],
-                    "AppClass234Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(4) ] as String[],
-                    "NoAppClassTest" : [ ] as String[],
-                    "AppClass2Test" : [ "AppClass2", cycle(2) ] as String[],
-                    "AppClass23Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(3) ] as String[]
+                    "AlwaysFailingTest" : [ ] as List<String>,
+                    "AppClass234Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(3), "AppClass4", cycle(4) ],
+                    "NoAppClassTest" : [ ] as List<String>,
+                    "AppClass2Test" : [ "AppClass2", cycle(2) ],
+                    "AppClass23Test" : [ "AppClass2", cycle(2), "AppClass3", cycle(3) ]
             ])
     }
 
-    protected void expectOrderedTestsRunResults(String cycle, Map<String, String[]> testsAndExpectations) throws Exception {
+    protected void expectOrderedTestsRunResults(String cycle, Map<String, List<String>> testsAndExpectations) throws Exception {
         expectTestsRunResults(cycle, testsAndExpectations)
 
         File testOrderLog = new File(new File(util.getWorkDir().getAbsolutePath(), cycle), "testorder.log")
         BufferedReader br = new BufferedReader(new FileReader(testOrderLog))
-        List<String> lines = newArrayList()
+        List<String> lines = new ArrayList<>()
         for (String line = br.readLine(); line != null; line = br.readLine()) {
             lines.add(line)
         }
         assertEquals("Test ordering was not as expected for cycle " + cycle + ", ",
-                newArrayList(testsAndExpectations.keySet()), lines)
+                new ArrayList<String>(testsAndExpectations.keySet()), lines)
     }
 }

@@ -11,9 +11,11 @@ import com.atlassian.clover.registry.entities.BasePackageInfo
 import com.atlassian.clover.registry.entities.FullFileInfo
 import com.atlassian.clover.registry.entities.FullProjectInfo
 import com.atlassian.clover.registry.metrics.ProjectMetrics
+import groovy.transform.CompileStatic
 
 import static com.atlassian.clover.ant.testutils.MetricsHelper.assertMetricsEquals
 
+@CompileStatic
 class CloverReportTaskSanityTest extends CloverBuildFileTestBase{
 
     CloverReportTaskSanityTest(String name) {
