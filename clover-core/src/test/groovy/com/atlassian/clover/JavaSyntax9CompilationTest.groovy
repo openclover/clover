@@ -23,7 +23,7 @@ class JavaSyntax9CompilationTest extends JavaSyntaxCompilationTestBase {
     @Before
     void setUp() throws Exception {
         setUpProject()
-        srcDir = new File(mTestcasesSrcDir, "javasyntax1.9")
+        srcDir = new File(mTestcasesSrcDir, "javasyntax9")
         resetAntOutput()
     }
 
