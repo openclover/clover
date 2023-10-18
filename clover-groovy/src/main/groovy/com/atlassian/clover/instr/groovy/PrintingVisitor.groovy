@@ -301,7 +301,11 @@ class PrintingVisitor extends ClassCodeVisitorSupport {
 
     void visitClosureExpression(ClosureExpression node) {
         printNode(node, ClosureExpression, { ClosureExpression it ->
-            it.parameters?.each { parameter -> visitParameter(parameter) }
+            if (it.parameters != null) {
+                for (Parameter parameter : it.parameters) {
+                    visitParameter(parameter)
+                }
+            }
             super.visitClosureExpression(it)
         })
     }
@@ -482,7 +486,7 @@ class PrintingVisitor extends ClassCodeVisitorSupport {
     }
 
     void visitListOfExpressions(List<? extends Expression> list) {
-        list.each { Expression node ->
+        for (Expression node : list) {
             if (node instanceof NamedArgumentListExpression) {
                 printNode(node, NamedArgumentListExpression, { NamedArgumentListExpression it ->
                     it.visit(this)

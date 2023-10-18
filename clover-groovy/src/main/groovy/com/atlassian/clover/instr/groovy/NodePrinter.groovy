@@ -40,6 +40,7 @@ import org.codehaus.groovy.ast.stmt.ExpressionStatement
 import org.codehaus.groovy.ast.stmt.ReturnStatement
 import org.codehaus.groovy.ast.stmt.TryCatchStatement
 
+import java.util.function.Function
 import java.util.stream.Collectors
 
 @CompileStatic
@@ -166,9 +167,18 @@ class NodePrinter {
 
     static String joinParameterTypes(Parameter[] parameters) {
         Arrays.asList(parameters).stream()
-                .map({ Parameter it-> it.getType().toString() })
+                .map(typeToString)
                 .collect(Collectors.joining(", "))
     }
+
+    static class TypeToString implements Function<Parameter, String> {
+        @Override
+        String apply(Parameter parameter) {
+            parameter.getType().toString()
+        }
+    }
+
+    static TypeToString typeToString = new TypeToString();
 
     static <T extends ASTNode> String toString(T node) {
         String nodeName = node.class.name
