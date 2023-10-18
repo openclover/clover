@@ -55,6 +55,7 @@
 package org.apache.tools.ant
 
 import com.atlassian.clover.testutils.IOHelper
+import groovy.transform.CompileStatic
 import junit.framework.TestCase
 
 /**
@@ -64,6 +65,7 @@ import junit.framework.TestCase
  * This class provides a number of utility methods for particular build file 
  * tests which extend this class. 
  */
+@CompileStatic
 abstract class BuildFileTestBase extends TestCase {
     
     protected Project project

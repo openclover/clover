@@ -3,12 +3,14 @@ package com.atlassian.clover.ant.tasks
 import com.atlassian.clover.ant.testutils.CloverTestFixture
 import com.atlassian.clover.cfg.Percentage
 import com.atlassian.clover.registry.metrics.BlockMetrics
+import groovy.transform.CompileStatic
 import org.apache.tools.ant.Project
 
 import java.text.DecimalFormat
 
 import static org.openclover.util.Lists.newArrayList
 
+@CompileStatic
 class CloverPassTaskTest extends CloverBuildFileTestBase {
     private CloverTestFixture fixture
 

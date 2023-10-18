@@ -1,6 +1,7 @@
 package com.atlassian.clover.ant.tasks
 
 import com.atlassian.clover.testutils.IOHelper
+import groovy.transform.CompileStatic
 import org.apache.tools.ant.util.FileUtils
 import org.hamcrest.CoreMatchers
 
@@ -9,6 +10,7 @@ import java.text.DecimalFormat
 import static com.atlassian.clover.testutils.AssertionUtils.assertStringContains
 import static org.hamcrest.MatcherAssert.assertThat
 
+@CompileStatic
 class CloverReportTaskTest extends CloverBuildFileTestBase {
 
     CloverReportTaskTest(String name) {

@@ -2,10 +2,12 @@ package com.atlassian.clover.ant.tasks
 
 import com.atlassian.clover.ant.testutils.CloverTestFixture
 import com.atlassian.clover.testutils.IOHelper
+import groovy.transform.CompileStatic
 
 import static org.openclover.util.Lists.newArrayList
 import static org.openclover.util.Maps.newHashMap
 
+@CompileStatic
 class CloverTestUtil {
     static String PROP_INITSTRING = "clover-initstring"
     public static final String CLOVER_ANT_TEST_BUILD_FILES_DIR = "tests-functional/src/test/resources/com/atlassian/clover/ant/tasks"

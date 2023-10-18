@@ -1,9 +1,11 @@
 package com.atlassian.clover.ant.tasks
 
+import groovy.transform.CompileStatic
 import org.hamcrest.CoreMatchers
 
 import static org.hamcrest.MatcherAssert.assertThat
 
+@CompileStatic
 class CloverInterleavedTest extends CloverBuildFileTestBase {
     CloverInterleavedTest(String name) {
         super(name)

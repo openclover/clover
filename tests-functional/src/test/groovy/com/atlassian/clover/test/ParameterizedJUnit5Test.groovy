@@ -1,9 +1,12 @@
 package com.atlassian.clover.test
 
+import groovy.transform.CompileStatic
+
 /**
  * Tests how Clover integrates with JUnit5 in order to intercept test names at runtime.
  * Test is using 'test/resources/parameterized-junit5' code sample.
  */
+@CompileStatic
 class ParameterizedJUnit5Test extends ParameterizedJUnitTestBase {
 
     ParameterizedJUnit5Test(String name) {

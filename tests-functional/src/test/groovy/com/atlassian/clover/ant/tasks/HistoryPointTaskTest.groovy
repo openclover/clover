@@ -1,5 +1,8 @@
 package com.atlassian.clover.ant.tasks
 
+import groovy.transform.CompileStatic
+
+@CompileStatic
 class HistoryPointTaskTest extends CloverBuildFileTestBase {
 
     HistoryPointTaskTest(String aTestName) {
