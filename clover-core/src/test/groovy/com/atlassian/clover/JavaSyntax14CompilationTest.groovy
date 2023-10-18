@@ -1,6 +1,8 @@
 package com.atlassian.clover
 
 import org.apache.tools.ant.util.JavaEnvUtils
+import org.junit.Before
+import org.junit.Test
 
 /**
  * The purpose of this test is to
@@ -9,11 +11,17 @@ import org.apache.tools.ant.util.JavaEnvUtils
  */
 class JavaSyntax14CompilationTest extends JavaSyntaxCompilationTestBase {
 
+    @Before
+    void setUp() {
+        setUpProject()
+    }
+
     /**
      * Test java 1.4 language features and how clover handles them.
      *
      * @throws Exception
      */
+    @Test
     void testInstrumentationAndCompilation_14() throws Exception {
         final File srcDir = new File(mTestcasesSrcDir, "javasyntax1.4")
         resetAntOutput()

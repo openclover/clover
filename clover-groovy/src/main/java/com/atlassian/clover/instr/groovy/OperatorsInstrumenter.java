@@ -36,6 +36,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
+import static groovyjarjarasm.asm.Opcodes.ACC_PUBLIC;
+import static groovyjarjarasm.asm.Opcodes.ACC_STATIC;
 import static org.openclover.util.Lists.newArrayList;
 import static org.openclover.util.Maps.newHashMap;
 
@@ -273,7 +275,7 @@ public class OperatorsInstrumenter extends ClassInstumenter {
 
         final MethodNode methodNode = new MethodNode(
                 safeEvalMethodName,
-                ClassNode.ACC_STATIC | ClassNode.ACC_PUBLIC,
+                ACC_STATIC | ACC_PUBLIC,
                 evalReturnType,
                 new Parameter[]{expr, index},
                 new ClassNode[]{},

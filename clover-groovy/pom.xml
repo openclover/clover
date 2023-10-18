@@ -1,11 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.openclover</groupId>
         <artifactId>clover-base-pom</artifactId>
-        <version>4.5.0-SNAPSHOT</version>
+        <version>4.6.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>clover-groovy</artifactId>
@@ -35,9 +33,15 @@
             <artifactId>asm</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.codehaus.groovy</groupId>
+            <groupId>org.apache.groovy</groupId>
             <artifactId>groovy</artifactId>
             <version>${clover-groovy.test.groovy.ver}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.groovy</groupId>
+            <artifactId>groovy-xml</artifactId>
+            <version>${clover-groovy.test.groovy.ver}</version>
+            <scope>test</scope>
         </dependency>
         <!-- test frameworks supported by the clover-groovy -->
         <dependency>
@@ -45,6 +49,23 @@
             <artifactId>spock-core</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- required by spock at runtime -->
+        <dependency>
+            <groupId>org.opentest4j</groupId>
+            <artifactId>opentest4j</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-console-standalone</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- junit -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -66,12 +87,12 @@
                     <dependency>
                         <groupId>org.codehaus.groovy</groupId>
                         <artifactId>groovy-eclipse-compiler</artifactId>
-                        <version>2.9.2-01</version>
+                        <version>3.7.0</version>
                     </dependency>
                     <dependency>
                         <groupId>org.codehaus.groovy</groupId>
                         <artifactId>groovy-eclipse-batch</artifactId>
-                        <version>2.5.14-02</version>
+                        <version>3.0.8-01</version>
                     </dependency>
                 </dependencies>
             </plugin>
@@ -79,7 +100,7 @@
             <plugin>
                 <groupId>org.codehaus.groovy</groupId>
                 <artifactId>groovy-eclipse-compiler</artifactId>
-                <version>2.9.2-01</version>
+                <version>3.7.0</version>
                 <extensions>true</extensions>
             </plugin>
             <!-- copy third party jars for test projects -->
@@ -97,71 +118,40 @@
                             <outputDirectory>${project.build.directory}/test-dependencies</outputDirectory>
                             <artifactItems>
                                 <!-- dependencies of groovy -->
-                                <dependency>
+                                <artifactItem>
                                     <groupId>commons-cli</groupId>
                                     <artifactId>commons-cli</artifactId>
                                     <version>1.2</version>
-                                </dependency>
-                                <dependency>
+                                </artifactItem>
+                                <artifactItem>
                                     <groupId>org.ow2.asm</groupId>
                                     <artifactId>asm</artifactId>
                                     <version>4.1</version>
-                                </dependency>
-                                <dependency>
+                                </artifactItem>
+                                <artifactItem>
                                     <groupId>antlr</groupId>
                                     <artifactId>antlr</artifactId>
                                     <version>2.7.7</version>
-                                </dependency>
-                                <!-- multiple groovy versions for cross-version testing -->
-                                <artifactItem>
-                                    <groupId>org.codehaus.groovy</groupId>
-                                    <artifactId>groovy</artifactId>
-                                    <version>2.0.8</version>
                                 </artifactItem>
                                 <artifactItem>
-                                    <groupId>org.codehaus.groovy</groupId>
-                                    <artifactId>groovy</artifactId>
-                                    <version>2.1.9</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.codehaus.groovy</groupId>
-                                    <artifactId>groovy</artifactId>
-                                    <version>2.2.2</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.codehaus.groovy</groupId>
-                                    <artifactId>groovy</artifactId>
-                                    <version>2.3.11</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.codehaus.groovy</groupId>
-                                    <artifactId>groovy</artifactId>
-                                    <version>2.4.21</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.codehaus.groovy</groupId>
+                                    <groupId>org.apache.groovy</groupId>
                                     <artifactId>groovy</artifactId>
                                     <version>${clover-groovy.test.groovy.ver}</version>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.spockframework</groupId>
                                     <artifactId>spock-core</artifactId>
-                                    <version>1.0-groovy-2.0</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.spockframework</groupId>
-                                    <artifactId>spock-core</artifactId>
-                                    <version>1.0-groovy-2.3</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.spockframework</groupId>
-                                    <artifactId>spock-core</artifactId>
-                                    <version>1.0-groovy-2.4</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.spockframework</groupId>
-                                    <artifactId>spock-core</artifactId>
                                     <version>${clover-groovy.test.spock.ver}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.spockframework</groupId>
+                                    <artifactId>spock-junit4</artifactId>
+                                    <version>${clover-groovy.test.spock.ver}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.opentest4j</groupId>
+                                    <artifactId>opentest4j</artifactId>
+                                    <version>1.2.0</version>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.hamcrest</groupId>
@@ -172,6 +162,16 @@
                                     <groupId>junit</groupId>
                                     <artifactId>junit</artifactId>
                                     <version>${clover-groovy.test.junit.ver}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.junit.platform</groupId>
+                                    <artifactId>junit-platform-console-standalone</artifactId>
+                                    <version>1.9.2</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.junit.jupiter</groupId>
+                                    <artifactId>junit-jupiter-engine</artifactId>
+                                    <version>5.9.3</version>
                                 </artifactItem>
                                 <!-- repacked libraries used by clover -->
                                 <artifactItem>
@@ -230,6 +230,16 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>run-unit-tests</id>
+                        <configuration>
+                            <excludes>
+                                <exclude>**/*TestSuite.*</exclude>
+                            </excludes>
+                        </configuration>
+                    </execution>
+                </executions>
                 <configuration>
                     <!--<argLine>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005</argLine>-->
                     <systemPropertyVariables>
@@ -264,6 +274,19 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- generate tests jar (mixins used by tests-functional) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>create-tests-jar</id>
+                        <goals>
+                            <goal>test-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <!-- generate grover.jar using assembly -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -293,13 +316,148 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- don't deploy, it will be packed inside clover jar -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
+    <profiles>
+        <profile>
+            <id>compatibility</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>copy-groovy-jars</id>
+                                <goals>
+                                    <goal>copy</goal>
+                                </goals>
+                                <phase>test-compile</phase>
+                                <configuration>
+                                    <outputDirectory>${project.build.directory}/test-dependencies</outputDirectory>
+                                    <artifactItems>
+                                        <!-- multiple groovy versions for cross-version testing -->
+                                        <artifactItem>
+                                            <groupId>org.codehaus.groovy</groupId>
+                                            <artifactId>groovy</artifactId>
+                                            <version>2.0.8</version>
+                                        </artifactItem>
+                                        <artifactItem>
+                                            <groupId>org.codehaus.groovy</groupId>
+                                            <artifactId>groovy</artifactId>
+                                            <version>2.1.9</version>
+                                        </artifactItem>
+                                        <artifactItem>
+                                            <groupId>org.codehaus.groovy</groupId>
+                                            <artifactId>groovy</artifactId>
+                                            <version>2.2.2</version>
+                                        </artifactItem>
+                                        <artifactItem>
+                                            <groupId>org.codehaus.groovy</groupId>
+                                            <artifactId>groovy</artifactId>
+                                            <version>2.3.11</version>
+                                        </artifactItem>
+                                        <artifactItem>
+                                            <groupId>org.codehaus.groovy</groupId>
+                                            <artifactId>groovy</artifactId>
+                                            <version>2.4.21</version>
+                                        </artifactItem>
+                                        <artifactItem>
+                                            <groupId>org.codehaus.groovy</groupId>
+                                            <artifactId>groovy</artifactId>
+                                            <version>2.5.23</version>
+                                        </artifactItem>
+                                        <artifactItem>
+                                            <groupId>org.codehaus.groovy</groupId>
+                                            <artifactId>groovy</artifactId>
+                                            <version>3.0.19</version>
+                                        </artifactItem>
+                                        <artifactItem>
+                                            <groupId>org.apache.groovy</groupId>
+                                            <artifactId>groovy</artifactId>
+                                            <version>4.0.15</version>
+                                        </artifactItem>
+                                        <artifactItem>
+                                            <groupId>org.spockframework</groupId>
+                                            <artifactId>spock-core</artifactId>
+                                            <version>1.0-groovy-2.0</version>
+                                        </artifactItem>
+                                        <artifactItem>
+                                            <groupId>org.spockframework</groupId>
+                                            <artifactId>spock-core</artifactId>
+                                            <version>1.0-groovy-2.3</version>
+                                        </artifactItem>
+                                        <artifactItem>
+                                            <groupId>org.spockframework</groupId>
+                                            <artifactId>spock-core</artifactId>
+                                            <version>1.3-groovy-2.4</version>
+                                        </artifactItem>
+                                        <artifactItem>
+                                            <groupId>org.spockframework</groupId>
+                                            <artifactId>spock-core</artifactId>
+                                            <version>1.3-groovy-2.5</version>
+                                        </artifactItem>
+                                        <artifactItem>
+                                            <groupId>org.spockframework</groupId>
+                                            <artifactId>spock-core</artifactId>
+                                            <version>2.3-groovy-2.5</version>
+                                        </artifactItem>
+                                        <artifactItem>
+                                            <groupId>org.spockframework</groupId>
+                                            <artifactId>spock-core</artifactId>
+                                            <version>2.3-groovy-3.0</version>
+                                        </artifactItem>
+                                        <artifactItem>
+                                            <groupId>org.spockframework</groupId>
+                                            <artifactId>spock-core</artifactId>
+                                            <version>2.3-groovy-4.0</version>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>run-test-suites</id>
+                                <configuration>
+                                    <skipTests>${func.test.skip}</skipTests>
+                                    <includes>
+                                        <include>**/*TestSuite.*</include>
+                                    </includes>
+                                </configuration>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <!--<argLine>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005</argLine>-->
+                            <systemPropertyVariables>
+                                <clover-groovy.test.junit.ver>${clover-groovy.test.junit.ver}</clover-groovy.test.junit.ver>
+                                <clover-groovy.test.hamcrest.ver>${clover-groovy.test.hamcrest.ver}</clover-groovy.test.hamcrest.ver>
+                                <clover-groovy.test.spock.ver>${clover-groovy.test.spock.ver}</clover-groovy.test.spock.ver>
+                                <clover-groovy.test.groovy.ver>${clover-groovy.test.groovy.ver}</clover-groovy.test.groovy.ver>
+                            </systemPropertyVariables>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
     <properties>
         <!-- override these to run matrix tests against different versions of libraries -->
         <clover-groovy.test.junit.ver>4.12</clover-groovy.test.junit.ver>
         <clover-groovy.test.hamcrest.ver>1.3</clover-groovy.test.hamcrest.ver>
-        <clover-groovy.test.spock.ver>0.7-groovy-2.0</clover-groovy.test.spock.ver>
-        <clover-groovy.test.groovy.ver>2.5.14</clover-groovy.test.groovy.ver>
+        <clover-groovy.test.spock.ver>2.3-groovy-4.0</clover-groovy.test.spock.ver>
+        <clover-groovy.test.groovy.ver>4.0.15</clover-groovy.test.groovy.ver>
     </properties>
 </project>

@@ -10,8 +10,11 @@
         <dependencySet>
             <outputDirectory>.</outputDirectory>
             <includes>
-                <include>org.openclover:clover-ant</include>
+                <include>org.openclover:clover-ant:jar</include>
             </includes>
+            <excludes>
+                <exclude>*:*:*:sources</exclude>
+            </excludes>
             <unpack>true</unpack>
             <unpackOptions>
                 <excludes>
@@ -24,8 +27,11 @@
         <dependencySet>
             <outputDirectory>.</outputDirectory>
             <includes>
-                <include>org.openclover:clover-runtime</include>
+                <include>org.openclover:clover-runtime:jar</include>
             </includes>
+            <excludes>
+                <exclude>*:*:*:sources</exclude>
+            </excludes>
             <unpack>true</unpack>
             <unpackOptions>
                 <excludes>
@@ -38,8 +44,11 @@
         <dependencySet>
             <outputDirectory>.</outputDirectory>
             <includes>
-                <include>org.openclover:clover-core</include>
+                <include>org.openclover:clover-core:jar</include>
             </includes>
+            <excludes>
+                <exclude>*:*:*:sources</exclude>
+            </excludes>
             <unpack>true</unpack>
             <unpackOptions>
                 <excludes>
@@ -50,7 +59,7 @@
         <dependencySet>
             <outputDirectory>embeddedjars</outputDirectory>
             <includes>
-                <include>org.openclover:clover-groovy</include>
+                <include>org.openclover:clover-groovy:jar</include>
             </includes>
             <unpack>false</unpack>
         </dependencySet>

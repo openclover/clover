@@ -1,11 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.openclover</groupId>
         <artifactId>clover-eclipse</artifactId>
-        <version>4.5.0-SNAPSHOT</version>
+        <version>4.6.0.v20230101000000</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>org.openclover.eclipse.testopt</artifactId>
@@ -31,6 +29,26 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
+                            <Bundle-Name>%pluginName</Bundle-Name>
+                            <Bundle-Vendor>%providerName</Bundle-Vendor>
+                            <Bundle-SymbolicName>org.openclover.eclipse.testopt; singleton:=true</Bundle-SymbolicName>
+                            <Bundle-Version>${project.version}</Bundle-Version>
+                            <Bundle-Localization>plugin</Bundle-Localization>
+                            <Require-Bundle>org.eclipse.ui;bundle-version=&quot;[3.4.0,4.0.0)&quot;,org.eclipse.core.runtime;bundle-version=&quot;[3.4.0,4.0.0)&quot;,org.eclipse.ui.views,org.eclipse.jface.text,org.eclipse.ui.editors,org.eclipse.ui.workbench.texteditor,org.eclipse.jdt.launching,org.eclipse.debug.core,org.eclipse.debug.ui,org.eclipse.jdt.core,org.eclipse.jdt.ui,org.eclipse.core.resources,org.eclipse.core.filesystem,org.eclipse.jdt.debug.ui,org.eclipse.ui.ide,org.eclipse.ui.console,org.eclipse.ui.forms,org.eclipse.search,org.eclipse.jdt.junit;bundle-version=&quot;[3.4.0,4.0.0)&quot;,org.openclover.eclipse.core;bundle-version=${project.version}</Require-Bundle>
+                            <Bundle-Activator>org.openclover.eclipse.testopt.TestOptimizationPlugin</Bundle-Activator>
+                            <Eclipse-LazyStart>true</Eclipse-LazyStart>
+                            <Bundle-Classpath>.</Bundle-Classpath>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

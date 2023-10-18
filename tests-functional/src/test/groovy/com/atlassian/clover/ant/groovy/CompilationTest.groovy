@@ -7,9 +7,11 @@ import com.atlassian.clover.test.junit.JavaExecutorMixin
 import com.atlassian.clover.test.junit.TestPropertyMixin
 import com.atlassian.clover.test.junit.WorkingDirMixin
 import com.atlassian.clover.CloverNames
+import groovy.transform.CompileStatic
 
-@Mixin ([WorkingDirMixin, JavaExecutorMixin, TestPropertyMixin])
-class CompilationTest extends DynamicallyNamedTestBase {
+@CompileStatic
+class CompilationTest extends DynamicallyNamedTestBase
+        implements WorkingDirMixin, JavaExecutorMixin, TestPropertyMixin {
 
     AntProjectSimulacrum project
 
@@ -442,10 +444,6 @@ class CompilationTest extends DynamicallyNamedTestBase {
         assertFalse(
                 "Javap output indicates that class was instrumented:\n\n${result.stdOut}",
                 result.stdOut.contains("public static com_atlassian_clover.CoverageRecorder R"))
-    }
-
-    private void assertCloveredClassAt(boolean invert, String dir, String className) {
-        assertMatchingCloveredClassAt(invert, dir, className)
     }
 
     private String defineGroovyClass(String pkg, String className, String optionalBody = "") {

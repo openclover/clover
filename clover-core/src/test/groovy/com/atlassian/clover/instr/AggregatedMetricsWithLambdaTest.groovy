@@ -27,14 +27,6 @@ class AggregatedMetricsWithLambdaTest extends AggregatedMetricsTestBase {
     }
 
     /**
-     * Set up temporary directory
-     */
-    @Before
-    void setUp() throws Exception {
-        super.setUp()
-    }
-
-    /**
      * Test if aggregatedStatements and aggregatedComplexity for classes are calculated properly when a lambda
      * expression is defined and assigned to a field or declared inside a method.
      */

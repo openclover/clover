@@ -4,11 +4,11 @@ import com.atlassian.clover.recorder.pertest.SnifferType
 import com.atlassian.clover.remote.DistributedConfig
 import com_atlassian_clover.CloverProfile
 import org.junit.Test
-import org.mockito.internal.matchers.Contains
-import org.mockito.internal.matchers.Matches
 
+import static org.hamcrest.CoreMatchers.containsString
+import static org.hamcrest.text.MatchesPattern.matchesPattern
 import static org.junit.Assert.assertEquals
-import static org.junit.Assert.assertThat
+import static org.hamcrest.MatcherAssert.assertThat
 import static org.openclover.util.Lists.newArrayList
 
 /**
@@ -146,23 +146,23 @@ class RecorderInstrEmitterTest {
     void testGenerateTestSnifferField() {
         String expectedNull = '^public static final .*TestNameSniffer __CLR.*TEST_NAME_SNIFFER=.*TestNameSniffer\\.NULL_INSTANCE;$'
         String actualNull = RecorderInstrEmitter.generateTestSnifferField(SnifferType.NULL)
-        assertThat(actualNull, new Matches(expectedNull))
+        assertThat(actualNull, matchesPattern(expectedNull))
 
         String expectedJUnit = '^public static final .*TestNameSniffer __CLR.*TEST_NAME_SNIFFER=new .*TestNameSniffer\\.Simple\\(\\);$'
         String actualJUnit = RecorderInstrEmitter.generateTestSnifferField(SnifferType.JUNIT)
-        assertThat(actualJUnit, new Matches(expectedJUnit))
+        assertThat(actualJUnit, matchesPattern(expectedJUnit))
     }
 
     @Test
     void testGenerateTestSnifferField_Bool_Bool() {
         String actualNull = RecorderInstrEmitter.generateTestSnifferField(false, false, false)
-        assertThat(actualNull, new Contains("NULL_INSTANCE"))
+        assertThat(actualNull, containsString("NULL_INSTANCE"))
 
         String actualJUnit = RecorderInstrEmitter.generateTestSnifferField(false, true, false)
-        assertThat(actualJUnit, new Contains("TestNameSniffer.Simple"))
+        assertThat(actualJUnit, containsString("TestNameSniffer.Simple"))
 
         String actualSpock = RecorderInstrEmitter.generateTestSnifferField(true, false, false)
-        assertThat(actualSpock, new Contains("TestNameSniffer.Simple"))
+        assertThat(actualSpock, containsString("TestNameSniffer.Simple"))
     }
 
 }

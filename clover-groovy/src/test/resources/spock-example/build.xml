@@ -41,7 +41,7 @@ limitations under the License.
     <target name="resolve.dependencies" depends="init.maven.tasks">
         <artifact:dependencies pathId="classpath.spock">
             <!-- Mandatory dependencies for using Spock -->
-            <dependency groupId="org.spockframework" artifactId="spock-core" version="0.7-groovy-2.0"/>
+            <dependency groupId="org.spockframework" artifactId="spock-core" version="1.0-groovy-2.4"/>
             <!-- only required if Spock's Ant selector is used, which finds spec classes regardless of their name -->
             <dependency groupId="org.ow2.asm" artifactId="asm" version="4.2"/>
             <!-- to have groovyc task -->

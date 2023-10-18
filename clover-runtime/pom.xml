@@ -1,11 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.openclover</groupId>
         <artifactId>clover-base-pom</artifactId>
-        <version>4.5.0-SNAPSHOT</version>
+        <version>4.6.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>clover-runtime</artifactId>
@@ -17,7 +15,7 @@
         as well as with continuous integration servers such as Bamboo, Jenkins or Hudson.
     </description>
     <dependencies>
-        <!-- build utitilites (annotations for annotation processing, bytecode instrumentation) -->
+        <!-- build utilities (annotations for annotation processing, bytecode instrumentation) -->
         <dependency>
             <groupId>org.openclover</groupId>
             <artifactId>clover-buildutil</artifactId>
@@ -29,6 +27,12 @@
             <version>5.0.3</version>
         </dependency>
         <!-- test frameworks supported by the clover-runtime -->
+        <!-- override groovy-all version from a transitive dependency from spock-core -->
+        <dependency>
+            <groupId>org.apache.groovy</groupId>
+            <artifactId>groovy</artifactId>
+            <version>4.0.15</version>
+        </dependency>
         <dependency>
             <groupId>org.spockframework</groupId>
             <artifactId>spock-core</artifactId>
@@ -87,35 +91,31 @@
                         <configuration>
                             <name>build.stamp</name>
                             <pattern>yyyyMMddHHmmss</pattern>
+                            <locale>en,US</locale>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
-            <!-- delete existing Bindings.java, it will be recreated by annotation processor -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <version>1.8</version>
                 <executions>
                     <execution>
+                        <!-- delete existing Bindings.java, it will be recreated by annotation processor -->
+                        <id>clear-bindings</id>
                         <phase>generate-sources</phase>
                         <goals>
                             <goal>run</goal>
                         </goals>
                         <configuration>
                             <target>
-                                <delete dir="${project.build.directory}/generated-sources/annotations" includeemptydirs="true"/>
+                                <delete dir="${project.build.directory}/generated-sources/annotations" includeemptydirs="true" />
                             </target>
                         </configuration>
                     </execution>
-                </executions>
-            </plugin>
-            <!-- generate CloverVersionInfo.java source file -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <executions>
                     <execution>
+                        <!-- generate CloverVersionInfo.java source file -->
                         <id>generate-version-info</id>
                         <phase>generate-sources</phase>
                         <goals>
@@ -125,32 +125,30 @@
                             <target>
                                 <!-- version number like X.Y.Z, so with any suffixes removed -->
                                 <loadresource property="core.release.base">
-                                    <propertyresource name="project.version"/>
+                                    <propertyresource name="project.version" />
                                     <filterchain>
-                                        <replaceregex pattern="([0-9]+.[0-9]+.[0-9]+).*" replace="\1"/>
+                                        <replaceregex pattern="([0-9]+.[0-9]+.[0-9]+).*" replace="\1" />
                                     </filterchain>
                                 </loadresource>
 
                                 <!-- version number like X.Y.Z as X_Y_Z so that we can use it in a method name -->
                                 <loadresource property="core.release.base.ident">
-                                    <propertyresource name="core.release.base"/>
+                                    <propertyresource name="core.release.base" />
                                     <filterchain>
                                         <replacestring from="." to="_" />
                                     </filterchain>
                                 </loadresource>
 
-                                <mkdir dir="${project.build.directory}/generated-sources/com_atlassian_clover"/>
-                                <copy file="src/main/java/com_atlassian_clover/CloverVersionInfo.in"
-                                      tofile="${project.build.directory}/generated-sources/com_atlassian_clover/CloverVersionInfo.java"
-                                      overwrite="false">
+                                <mkdir dir="${project.build.directory}/generated-sources/com_atlassian_clover" />
+                                <copy file="src/main/java/com_atlassian_clover/CloverVersionInfo.in" tofile="${project.build.directory}/generated-sources/com_atlassian_clover/CloverVersionInfo.java" overwrite="false">
                                     <filterset>
-                                        <filter token="CLOVER_URL" value="${project.organization.url}"/>
-                                        <filter token="CLOVER_LICENSE_AGREEMENT_URL" value="https://www.apache.org/licenses/LICENSE-2.0"/>
-                                        <filter token="CLOVER_HELP_URL" value="${project.organization.url}/documentation"/>
-                                        <filter token="BUILD_DATE" value="${maven.build.timestamp}"/>
-                                        <filter token="BUILD_STAMP" value="${build.stamp}"/>
-                                        <filter token="CORE_RELEASE_NUM" value="${project.version}"/>
-                                        <filter token="CORE_RELEASE_BASE_IDENT" value="${core.release.base.ident}"/>
+                                        <filter token="CLOVER_URL" value="${project.organization.url}" />
+                                        <filter token="CLOVER_LICENSE_AGREEMENT_URL" value="https://www.apache.org/licenses/LICENSE-2.0" />
+                                        <filter token="CLOVER_HELP_URL" value="${project.organization.url}/documentation" />
+                                        <filter token="BUILD_DATE" value="${maven.build.timestamp}" />
+                                        <filter token="BUILD_STAMP" value="${build.stamp}" />
+                                        <filter token="CORE_RELEASE_NUM" value="${project.version}" />
+                                        <filter token="CORE_RELEASE_BASE_IDENT" value="${core.release.base.ident}" />
                                     </filterset>
                                 </copy>
                             </target>
@@ -231,14 +229,14 @@
                         <configuration>
                             <artifactSet>
                                 <includes>
-                                    <include>com.atlassian.clover:clover-antlr</include>
-                                    <include>com.atlassian.clover:clover-cajo</include>
-                                    <include>com.atlassian.clover:clover-slf4j</include>
+                                    <include>org.openclover:clover-antlr</include>
+                                    <include>org.openclover:clover-cajo</include>
+                                    <include>org.openclover:clover-slf4j</include>
                                 </includes>
                             </artifactSet>
                             <filters>
                                 <filter>
-                                    <artifact>com.atlassian.clover:clover-antlr</artifact>
+                                    <artifact>org.openclover:clover-antlr</artifact>
                                     <includes>
                                         <include>clover/antlr/CharFormatter*</include>
                                         <include>clover/antlr/collections/impl/BitSet*</include>
@@ -248,13 +246,13 @@
                                     </includes>
                                 </filter>
                                 <filter>
-                                    <artifact>com.atlassian.clover:clover-cajo</artifact>
+                                    <artifact>org.openclover:clover-cajo</artifact>
                                     <excludes>
                                         <exclude>META-INF/MANIFEST.MF</exclude>
                                     </excludes>
                                 </filter>
                                 <filter>
-                                    <artifact>com.atlassian.clover:clover-slf4j</artifact>
+                                    <artifact>org.openclover:clover-slf4j</artifact>
                                     <excludes>
                                         <exclude>META-INF/MANIFEST.MF</exclude>
                                     </excludes>
@@ -296,8 +294,58 @@
                         <goals>
                             <goal>jar</goal>
                         </goals>
+                        <configuration>
+                            <sourceFileExcludes>annotations/**</sourceFileExcludes>
+                        </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <!-- install artifact with pom-reduced.xml (with no dependencies) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <configuration>
+                    <pomFile>${project.basedir}/pom-reduced.xml</pomFile>
+                </configuration>
+            </plugin>
+            <!-- deploy artifact with pom-reduced.xml (with no dependencies) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>default</id>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>deploy-with-reduced-pom</id>
+                        <goals>
+                            <goal>sign-and-deploy-file</goal>
+                        </goals>
+                        <phase>deploy</phase>
+                        <configuration>
+                            <pomFile>${project.basedir}/pom-reduced.xml</pomFile>
+                            <file>${project.build.directory}/${project.artifactId}-${project.version}.jar</file>
+                            <javadoc>${project.build.directory}/${project.artifactId}-${project.version}-javadoc.jar</javadoc>
+                            <sources>${project.build.directory}/${project.artifactId}-${project.version}-sources.jar</sources>
+                            <repositoryId>ossrh</repositoryId>
+                            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- don't use default deploy as it would deploy pom.xml -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
             </plugin>
         </plugins>
     </build>

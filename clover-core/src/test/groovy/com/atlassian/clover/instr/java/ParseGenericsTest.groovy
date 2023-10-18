@@ -40,6 +40,26 @@ class ParseGenericsTest {
         assertSourceOkay("GenericsTestcase-2_2.java.txt")
     }
 
+    static class TestInstrumentationSource implements InstrumentationSource {
+        private File sourceFile
+        private File mTestcasesSrcDir
+        private String srcName
+
+        TestInstrumentationSource(File sourceFile, File mTestcasesSrcDir, String srcName) {
+            this.sourceFile = sourceFile
+            this.mTestcasesSrcDir = mTestcasesSrcDir
+            this.srcName = srcName
+        }
+
+        File getSourceFileLocation() {
+            return sourceFile
+        }
+
+        Reader createReader() throws IOException {
+            return new InputStreamReader(new FileInputStream(new File(mTestcasesSrcDir, srcName)))
+        }
+    }
+
     private void assertSourceOkay(final String srcName) throws Exception {
         // generate temporary location for a database
         final File coverageDbFile = File.createTempFile(testName.methodName, ".tmp")
@@ -51,15 +71,7 @@ class ParseGenericsTest {
         final File sourceFile = File.createTempFile(testName.methodName, "tmp")
 
         // parse and instrument source file
-        final InstrumentationSource source = new InstrumentationSource() {
-            File getSourceFileLocation() {
-                return sourceFile
-            }
-
-            Reader createReader() throws IOException {
-                return new InputStreamReader(new FileInputStream(new File(mTestcasesSrcDir, srcName)))
-            }
-        }
+        final InstrumentationSource source = new TestInstrumentationSource(sourceFile, mTestcasesSrcDir, srcName)
         parseFile(initString, source)
 
         // delete fake file

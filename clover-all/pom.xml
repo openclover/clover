@@ -1,9 +1,9 @@
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.openclover</groupId>
         <artifactId>clover-base-pom</artifactId>
-        <version>4.5.0-SNAPSHOT</version>
+        <version>4.6.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <!-- for backward compatibility it's named 'clover' instead of 'clover-all' -->
@@ -22,8 +22,20 @@
         </dependency>
         <dependency>
             <groupId>org.openclover</groupId>
+            <artifactId>clover-ant</artifactId>
+            <version>${project.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
             <artifactId>clover-runtime</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-runtime</artifactId>
+            <version>${project.version}</version>
+            <classifier>sources</classifier>
         </dependency>
         <dependency>
             <groupId>org.openclover</groupId>
@@ -32,8 +44,20 @@
         </dependency>
         <dependency>
             <groupId>org.openclover</groupId>
+            <artifactId>clover-core</artifactId>
+            <version>${project.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
             <artifactId>clover-groovy</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-groovy</artifactId>
+            <version>${project.version}</version>
+            <classifier>sources</classifier>
         </dependency>
         <!-- packaging into clover.jar via assembly plugin -->
         <dependency>
@@ -139,7 +163,115 @@
                             </archive>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>package-sources-jar</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <!-- sources from clover-core + clover-runtime + clover-ant + clover-groovy -->
+                            <descriptors>
+                                <descriptor>src/assembly/clover-sources-jar.xml</descriptor>
+                            </descriptors>
+                            <archive>
+                                <manifestEntries>
+                                    <Specification-Title>OpenClover for Ant</Specification-Title>
+                                    <Specification-Version>${project.version}</Specification-Version>
+                                    <Specification-Vendor>OpenClover.org</Specification-Vendor>
+                                    <Implementation-Version>${project.version}</Implementation-Version>
+                                    <Implementation-Vendor>OpenClover.org</Implementation-Vendor>
+                                </manifestEntries>
+                            </archive>
+                        </configuration>
+                    </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <includeDependencySources>true</includeDependencySources>
+                            <dependencySourceIncludes>
+                                <dependencySourceInclude>org.openclover:clover-ant</dependencySourceInclude>
+                                <dependencySourceInclude>org.openclover:clover-core</dependencySourceInclude>
+                                <dependencySourceInclude>org.openclover:clover-groovy</dependencySourceInclude>
+                                <dependencySourceInclude>org.openclover:clover-runtime</dependencySourceInclude>
+                            </dependencySourceIncludes>
+                            <additionalDependencies>
+                                <!-- added to fix warnings from missing symbols from clover-ant -->
+                                <additionalDependency>
+                                    <groupId>org.testng</groupId>
+                                    <artifactId>testng</artifactId>
+                                    <version>6.8.21</version>
+                                </additionalDependency>
+                                <additionalDependency>
+                                    <groupId>org.junit.platform</groupId>
+                                    <artifactId>junit-platform-engine</artifactId>
+                                    <version>1.9.2</version>
+                                </additionalDependency>
+                                <additionalDependency>
+                                    <groupId>org.junit.platform</groupId>
+                                    <artifactId>junit-platform-launcher</artifactId>
+                                    <version>1.9.2</version>
+                                </additionalDependency>
+                            </additionalDependencies>
+                            <!-- clover-runtime contains a package in a folder different from package name, leading to warning -->
+                            <excludePackageNames>annotations.*</excludePackageNames>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- install artifact with pom-reduced.xml (with no dependencies) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <configuration>
+                    <pomFile>${project.basedir}/pom-reduced.xml</pomFile>
+                </configuration>
+            </plugin>
+            <!-- deploy artifact with pom-reduced.xml (with no dependencies) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>no-sign</id>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <goals>
+                            <goal>sign-and-deploy-file</goal>
+                        </goals>
+                        <phase>deploy</phase>
+                        <configuration>
+                            <pomFile>${project.basedir}/pom-reduced.xml</pomFile>
+                            <file>${project.build.directory}/${project.artifactId}-${project.version}.jar</file>
+                            <javadoc>${project.build.directory}/${project.artifactId}-${project.version}-javadoc.jar</javadoc>
+                            <sources>${project.build.directory}/${project.artifactId}-${project.version}-sources.jar</sources>
+                            <repositoryId>ossrh</repositoryId>
+                            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- don't use default deploy as it would deploy pom.xml -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
             </plugin>
         </plugins>
     </build>

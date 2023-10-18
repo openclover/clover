@@ -1,6 +1,7 @@
 package com.atlassian.clover.ant.testutils
 
 import com.atlassian.clover.registry.metrics.*
+import groovy.transform.CompileStatic
 
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertTrue
@@ -8,6 +9,7 @@ import static org.junit.Assert.assertTrue
 /**
  * Helper class to set metrics
  */
+@CompileStatic
 class MetricsHelper {
 
     static void assertMetricsEquals(FileMetrics expectedMetrics, FileMetrics actualMetrics) {

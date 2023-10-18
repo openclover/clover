@@ -9,6 +9,7 @@
     <dependencySets>
         <dependencySet>
             <outputDirectory>plugins</outputDirectory>
+            <outputFileNameMapping>${artifact.artifactId}_${artifact.version}.${artifact.extension}</outputFileNameMapping>
             <includes>
                 <include>org.openclover:org.openclover.eclipse.ant</include>
                 <include>org.openclover:org.openclover.eclipse.branding</include>
@@ -20,6 +21,7 @@
         </dependencySet>
         <dependencySet>
             <outputDirectory>features</outputDirectory>
+            <outputFileNameMapping>${artifact.artifactId}_${artifact.version}.${artifact.extension}</outputFileNameMapping>
             <includes>
                 <include>org.openclover:org.openclover.eclipse.ant.feature</include>
                 <include>org.openclover:org.openclover.eclipse.feature</include>

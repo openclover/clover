@@ -2,6 +2,7 @@ package com.atlassian.clover.instr.groovy
 
 import com.atlassian.clover.test.junit.DefaultTestSelector
 import com.atlassian.clover.test.junit.GroovyCombinatorMixin
+import com.atlassian.clover.test.junit.JavaVersionMixin
 import com.atlassian.clover.test.junit.TestPropertyMixin
 import java.lang.reflect.Method
 
@@ -10,8 +11,10 @@ import com.atlassian.clover.test.junit.GroovyVersions
 import com.atlassian.clover.versions.LibraryVersion
 import com.atlassian.clover.test.junit.GroovyVersionStart
 
-@Mixin ([GroovyCombinatorMixin, TestPropertyMixin, IncludeExcludeMixin])
-class TestSuite extends junit.framework.TestSuite {
+class TestSuite
+        extends junit.framework.TestSuite
+        implements GroovyCombinatorMixin, TestPropertyMixin, IncludeExcludeMixin, JavaVersionMixin {
+
     static Map<Class, Closure> TEST_CLASSES_AND_SELECTORS = [
         (GroovyProfilesTest): DefaultTestSelector.instance.closure,
         (GroovyModellingTest): DefaultTestSelector.instance.closure,
@@ -61,6 +64,6 @@ class TestSuite extends junit.framework.TestSuite {
     }
 
     boolean shouldTestWithGroovyJar(String version) {
-        shouldInclude(GROOVY_VERSION_INCLUDES, version)
+        shouldInclude(GROOVY_VERSION_INCLUDES, version) && shouldRunInCurrentJava(version)
     }
 }

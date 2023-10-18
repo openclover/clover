@@ -1,6 +1,8 @@
 package com.atlassian.clover
 
 import org.apache.tools.ant.util.JavaEnvUtils
+import org.junit.Before
+import org.junit.Test
 
 /**
  * The purpose of this test is to
@@ -9,11 +11,17 @@ import org.apache.tools.ant.util.JavaEnvUtils
  */
 class JavaSyntax17CompilationTest extends JavaSyntaxCompilationTestBase {
 
+    @Before
+    void setUp() {
+        setUpProject()
+    }
+
     /**
      * Test java 1.7 language features and how Clover handles them.
      *
      * @throws Exception
      */
+    @Test
     void testInstrumentationAndCompilation_17() throws Exception {
         final File srcDir = new File(mTestcasesSrcDir, "javasyntax1.7")
         resetAntOutput()
@@ -38,6 +46,7 @@ class JavaSyntax17CompilationTest extends JavaSyntaxCompilationTestBase {
      *
      * @throws Exception
      */
+    @Test
     void testInstrumentationAndCompilation_17_NonReifiableTypes() throws Exception {
         final File srcDir = new File(mTestcasesSrcDir, "javasyntax1.7")
 

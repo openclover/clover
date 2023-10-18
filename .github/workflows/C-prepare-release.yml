@@ -1,0 +1,60 @@
+name: C Prepare release
+
+on:
+  workflow_dispatch:
+    inputs:
+      releaseVersion:
+        description: 'Release version'
+        required: true
+        type: string
+      nextReleaseVersion:
+        description: 'Next version'
+        required: true
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v3
+        with:
+          java-version: 8.0
+          distribution: temurin
+
+      - name: Prepare release tag
+        run: |
+          git config user.name "Marek Parfianowicz (github-actions)"
+          git config user.email "marek.parfianowicz+github-actions@gmail.com"
+          # macOS requires empty '' for sed -i, linux does not
+          if [ `uname` = 'Darwin' ]; then SED_I="''"; else SED_I=""; fi
+          echo "Updating pom.xml files to version ${{ inputs.releaseVersion }}"
+          mvn versions:set "-DnewVersion=${{ inputs.releaseVersion }}" -DgenerateBackupPoms=false
+          mvn versions:set-property -Dproperty=clover.version "-DnewVersion=${{ inputs.releaseVersion }}" -DgenerateBackupPoms=false
+          sed -i $SED_I "s@<version>.*</version>@<version>${{ inputs.releaseVersion }}</version>@" clover-runtime/pom-reduced.xml
+          sed -i $SED_I "s@<version>.*</version>@<version>${{ inputs.releaseVersion }}</version>@" clover-all/pom-reduced.xml
+          ECLIPSE_VER=`echo ${{ inputs.releaseVersion }} | cut -f 1 -d '-'`.v`date +%Y%m%d`000000
+          echo "Updating pom.xml files for Eclipse to version $ECLIPSE_VER"
+          mvn versions:set "-DnewVersion=$ECLIPSE_VER" -DgenerateBackupPoms=false -pl clover-eclipse
+          git add .
+          git commit -m "Prepare release openclover-${{ inputs.releaseVersion }}"
+          git tag openclover-${{ inputs.releaseVersion }}
+          echo ""
+          echo "Updating pom.xml files to version ${{ inputs.nextReleaseVersion }}"
+          mvn versions:set "-DnewVersion=${{ inputs.nextReleaseVersion }}" -DgenerateBackupPoms=false
+          mvn versions:set-property -Dproperty=clover.version "-DnewVersion=${{ inputs.nextReleaseVersion }}" -DgenerateBackupPoms=false
+          sed -i $SED_I "s@<version>.*</version>@<version>${{ inputs.nextReleaseVersion }}</version>@" clover-runtime/pom-reduced.xml
+          sed -i $SED_I "s@<version>.*</version>@<version>${{ inputs.nextReleaseVersion }}</version>@" clover-all/pom-reduced.xml
+          ECLIPSE_VER=`echo ${{ inputs.nextReleaseVersion }} | cut -f 1 -d '-'`.v20230101000000
+          echo "Updating pom.xml files for Eclipse to version $ECLIPSE_VER"
+          mvn versions:set "-DnewVersion=$ECLIPSE_VER" -DgenerateBackupPoms=false -pl clover-eclipse
+          git add .
+          git commit -m "Prepare for next development iteration"
+          echo "" 
+          echo "Pushing commits and tag openclover-${{ inputs.releaseVersion }}"
+          git push origin
+          git push origin openclover-${{ inputs.releaseVersion }}

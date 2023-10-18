@@ -3,12 +3,14 @@ package com.atlassian.clover.test
 import com.atlassian.clover.ant.tasks.CloverBuildFileTestBase
 import com.atlassian.clover.ant.tasks.CloverTestUtil
 import com.atlassian.clover.util.FileUtils
+import groovy.transform.CompileStatic
 
 
 /**
  * Tests how Clover integrates with JUnit4 in order to intercept test names at runtime.
  * Test is using 'test/resources/parameterized-junit4' code sample.
  */
+@CompileStatic
 abstract class ParameterizedJUnitTestBase extends CloverBuildFileTestBase {
 
     static final String TEST_RESOURCES_DIR =

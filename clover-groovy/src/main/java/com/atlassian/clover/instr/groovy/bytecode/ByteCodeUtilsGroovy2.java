@@ -29,7 +29,6 @@ public class ByteCodeUtilsGroovy2 {
      * @param mv    visitor of the method to be modified
      * @param value value to be pushed on stack
      * @see #pushConstant(org.objectweb.asm.MethodVisitor, int)
-     * @see com.atlassian.clover.instr.groovy.bytecode.ByteCodeUtilsGroovy1#pushConstant(groovyjarjarasm.asm.MethodVisitor, int)
      */
     public static void pushConstant(groovyjarjarasm.asm.MethodVisitor mv, int value) {
         switch (value) {

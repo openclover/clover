@@ -46,7 +46,7 @@ public class XMLWriter {
     private static final String APOS = "'";
 
     /**
-     * Replaces &<>'" with their XML entities. This makes these safe for use in an XML attribute value.
+     * Replaces &amp; &lt; &gt; ' " with their XML entities. This makes these safe for use in an XML attribute value.
      * @param str the str to escape
      * @return the escaped string
      */

@@ -1,5 +1,8 @@
 package com.atlassian.clover.ant.tasks
 
+import groovy.transform.CompileStatic
+
+@CompileStatic
 class CloverEnvTaskTest extends CloverBuildFileTestBase {
     CloverEnvTaskTest(String name) {
         super(name)
