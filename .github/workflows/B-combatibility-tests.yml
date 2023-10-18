@@ -50,6 +50,6 @@ jobs:
         run: |
           mvn install -DskipTests=true
 
-      - name: Run tests for runtime, core, groovy, ant
+      - name: Run matrix tests for clover-groovy and tests-functional
         run: |
           mvn verify -pl clover-groovy,tests-functional -Pcompatibility
