@@ -4,6 +4,8 @@ import com.atlassian.clover.util.JavaEnvUtils
 import org.junit.Before
 import org.junit.Test
 
+import static org.junit.Assume.assumeTrue
+
 
 /**
  * The purpose of this test is to
@@ -20,18 +22,18 @@ class JavaSyntax10CompilationTest extends JavaSyntaxCompilationTestBase {
     @Before
     void setUp() throws Exception {
         setUpProject()
-        srcDir = new File(mTestcasesSrcDir, "javasyntax1.10")
+        srcDir = new File(mTestcasesSrcDir, "javasyntax10")
         resetAntOutput()
     }
 
     @Test
     void testVarVariable() {
-        if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_10)) {
-            final String fileName = "java10/Java10Var.java"
-            instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_10)
+        assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_10))
 
-            // check private methods in interfaces are instrumented
-            assertFileMatches(fileName, R_INC + "System.out.println", false)
-        }
+        final String fileName = "java10/Java10Var.java"
+        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_10)
+
+        // check private methods in interfaces are instrumented
+        assertFileMatches(fileName, R_INC + "System.out.println", false)
     }
 }

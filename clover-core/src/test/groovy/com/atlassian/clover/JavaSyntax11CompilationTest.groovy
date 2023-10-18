@@ -1,9 +1,10 @@
 package com.atlassian.clover
 
-import com.atlassian.clover.util.FileUtils
 import com.atlassian.clover.util.JavaEnvUtils
 import org.junit.Before
 import org.junit.Test
+
+import static org.junit.Assume.assumeTrue
 
 
 /**
@@ -21,18 +22,18 @@ class JavaSyntax11CompilationTest extends JavaSyntaxCompilationTestBase {
     @Before
     void setUp() throws Exception {
         setUpProject()
-        srcDir = new File(mTestcasesSrcDir, "javasyntax1.11")
+        srcDir = new File(mTestcasesSrcDir, "javasyntax11")
         resetAntOutput()
     }
 
     @Test
-    void testVarVariable() {
-        if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_11)) {
-            final String fileName = "java11/Java11VarInLambdaParameter.java"
-            instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_11)
+    void testVarVariableInLambdaParameter() {
+        assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_11))
 
-            // check private methods in interfaces are instrumented
-            assertFileMatches(fileName, R_INC + "System.out.println", false)
-        }
+        final String fileName = "java11/Java11VarInLambdaParameter.java"
+        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_11)
+
+        // check private methods in interfaces are instrumented
+        assertFileMatches(fileName, R_INC + "System.out.println", false)
     }
 }

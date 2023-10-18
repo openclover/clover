@@ -1,9 +1,10 @@
 package com.atlassian.clover
 
-import com.atlassian.clover.util.FileUtils
 import com.atlassian.clover.util.JavaEnvUtils
 import org.junit.Before
 import org.junit.Test
+
+import static org.junit.Assume.assumeTrue
 
 
 /**
@@ -21,26 +22,26 @@ class JavaSyntax16CompilationTest extends JavaSyntaxCompilationTestBase {
     @Before
     void setUp() throws Exception {
         setUpProject()
-        srcDir = new File(mTestcasesSrcDir, "javasyntax1.16")
+        srcDir = new File(mTestcasesSrcDir, "javasyntax16")
         resetAntOutput()
     }
 
     @Test
     void testRecordClass() {
-        final String fileName = "java16/Java16RecordClass.java"
-        File srcFile = new File(srcDir, fileName)
+        assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_16))
 
-        // Currently, OpenClover cannot be built on JDK16
-        instrumentSourceFile(srcFile,  JavaEnvUtils.JAVA_16)
+        final String fileName = "java16/Java16RecordClass.java"
+        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_16)
         assertFileMatches(fileName, R_INC + "System.out.println", false)
     }
 
+    @Test
     void testRecordIsNotReservedKeyword() {
+        // test under every JDK to ensure there's no regression (bug OC-206)
         final File srcDir = new File(mTestcasesSrcDir, "javasyntax1.7")
         final String fileName = "RecordIsNotReservedKeyword.java"
-        final File srcFile = new File(srcDir, fileName)
 
-        instrumentSourceFile(srcFile, JavaEnvUtils.JAVA_16)
+        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_8)
         assertFileMatches(fileName, R_INC + "System.out.println(record)", false)
     }
 }

@@ -4,6 +4,8 @@ import com.atlassian.clover.util.JavaEnvUtils
 import org.junit.Before
 import org.junit.Test
 
+import static org.junit.Assume.assumeTrue
+
 /**
  * The purpose of this test is to
  * a) make sure the code compiles under a JDK15
@@ -19,17 +21,16 @@ class JavaSyntax15CompilationTest extends JavaSyntaxCompilationTestBase {
     @Before
     void setUp() throws Exception {
         setUpProject()
-        srcDir = new File(mTestcasesSrcDir, "javasyntax1.15")
+        srcDir = new File(mTestcasesSrcDir, "javasyntax15")
         resetAntOutput()
     }
 
     @Test
     void testTextBlock() {
-        final String fileName = "java15/Java15TextBlock.java"
-        File srcFile = new File(srcDir, fileName)
+        assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_15))
 
-        // Currently, OpenClover cannot be built on JDK15
-        instrumentSourceFile(srcFile, JavaEnvUtils.JAVA_15)
+        final String fileName = "java15/Java15TextBlock.java"
+        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_15)
         assertFileMatches(fileName, R_INC + "System.out.println", false)
     }
 }
