@@ -13,7 +13,7 @@ trait GroovyCombinatorMixin {
 
     List findGroovyAllVersionsAndJars(File groovyLibDir, Closure<Boolean> filter = {true}) {
         def isGroovyAllJar = /^groovy-(.*)\.jar$/
-        groovyLibDir.list().findAll {
+        groovyLibDir.list().findAll { String it ->
             Matcher matcher = it =~ isGroovyAllJar
             if (matcher) {
                 filter.call(matcher.group(1))
@@ -21,7 +21,9 @@ trait GroovyCombinatorMixin {
                 false
             }
         }.collect { String name ->
-            [(name =~ isGroovyAllJar).group(1), new File(groovyLibDir, name)]
+            Matcher matcher = name =~ isGroovyAllJar
+            matcher.find()
+            [matcher.group(1), new File(groovyLibDir, name)]
         }
     }
 }
