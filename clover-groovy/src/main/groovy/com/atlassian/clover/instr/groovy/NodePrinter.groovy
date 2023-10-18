@@ -155,7 +155,12 @@ class NodePrinter {
 
     void print(ModuleNode module, Writer out) {
         new PrintingVisitor(this, out).with { GroovyClassVisitor printer ->
-            module?.classes?.each { ClassNode clazz -> printer.visitClass(clazz) }
+            List<ClassNode> classNodeList = module?.classes
+            if (classNodeList != null) {
+                for (ClassNode classNode : classNodeList) {
+                    printer.visitClass(classNode)
+                }
+            }
         }
     }
 
