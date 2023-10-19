@@ -9,7 +9,10 @@ import org.junit.Test
  * a) make sure the code compiles under JDK1.7 or later
  * b) make sure that when that code is instrumented, it still compiles
  */
-class JavaSyntax17CompilationTest extends JavaSyntaxCompilationTestBase {
+class JavaSyntax7CompilationTest extends JavaSyntaxCompilationTestBase {
+
+    /** Regular expression for: __CLR_hash_code.R.inc(index) */
+    protected final String R_INC = "__CLR[a-zA-Z0-9_]+\\.R\\.inc\\([0-9]+\\);"
 
     @Before
     void setUp() {
@@ -65,6 +68,15 @@ class JavaSyntax17CompilationTest extends JavaSyntaxCompilationTestBase {
         // NonReifiableTypesSuppressWarnings
         instrumentAndCompileSourceFile(srcDir, mGenSrcDir, "NonReifiableTypesSuppressWarnings.java", JavaEnvUtils.JAVA_1_7)
         assertAntOutputContains(".*\\[unchecked\\] unchecked generic array creation for varargs parameter of type List<String>\\[\\].*", false)
+    }
+
+    @Test
+    void testRecordIsNotReservedKeyword() {
+        final File srcDir = new File(mTestcasesSrcDir, "javasyntax1.7")
+        final String fileName = "RecordIsNotReservedKeyword.java"
+
+        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_1_7)
+        assertFileMatches(fileName, R_INC + "System.out.println\\(record\\);", false)
     }
 
 }

@@ -6,12 +6,13 @@ import org.junit.Test
 
 import static org.junit.Assume.assumeTrue
 
+
 /**
  * The purpose of this test is to
- * a) make sure the code compiles under a JDK15
+ * a) make sure the code compiles under a JDK11
  * b) make sure that when that code is instrumented, it still compiles
  */
-class JavaSyntax15CompilationTest extends JavaSyntaxCompilationTestBase {
+class JavaSyntax11CompilationTest extends JavaSyntaxCompilationTestBase {
 
     protected File srcDir
 
@@ -21,16 +22,18 @@ class JavaSyntax15CompilationTest extends JavaSyntaxCompilationTestBase {
     @Before
     void setUp() throws Exception {
         setUpProject()
-        srcDir = new File(mTestcasesSrcDir, "javasyntax15")
+        srcDir = new File(mTestcasesSrcDir, "javasyntax11")
         resetAntOutput()
     }
 
     @Test
-    void testTextBlock() {
-        assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_15))
+    void testVarVariableInLambdaParameter() {
+        assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_11))
 
-        final String fileName = "java15/Java15TextBlock.java"
-        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_15)
+        final String fileName = "java11/Java11VarInLambdaParameter.java"
+        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_11)
+
+        // check private methods in interfaces are instrumented
         assertFileMatches(fileName, R_INC + "System.out.println", false)
     }
 }

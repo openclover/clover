@@ -493,6 +493,12 @@ tokens {
        }
     }
 
+    // a trick to not treat "record" as a keyword (as it can be used as identifier - variable/method)
+    // usage: { isKeyword() }? IDENT
+    private boolean isKeyword(String keyword) throws TokenStreamException {
+        return LT(1).getText().equals(keyword);
+    }
+
 }
 
 //
@@ -740,7 +746,7 @@ typeDefinition2[Modifiers mods, CloverToken first, boolean nested]
     :
         (
             name=classDefinition[mods]
-        |   name=recordDefinition[mods]
+        |   ( { isKeyword("record") }? IDENT) => name=recordDefinition[mods]
         |   name=interfaceDefinition[mods]
         |   name=enumDefinition[mods] {isEnum=true;}
         |   name=annotationTypeDeclaration[mods]
@@ -1104,7 +1110,11 @@ recordDefinition! [Modifiers mods] returns [String recordname]
     String typeParam = null;
     Parameter [] parameters = null;
 }
-    :   "record" {tags = TokenListUtil.getJDocTagsAndValuesOnBlock(first); deprecated = maybeEnterDeprecated(first);}
+    :   { isKeyword("record") }? IDENT
+        {
+            tags = TokenListUtil.getJDocTagsAndValuesOnBlock(first);
+            deprecated = maybeEnterDeprecated(first);
+        }
         id:IDENT
         LPAREN! parameters=parameterDeclarationList RPAREN!
         // it _might_ have a superclass...
@@ -1332,7 +1342,7 @@ annotationTypeBody [ClassEntryNode classEntry] returns [CloverToken t]
             |
                 // a nested type declaration
                 // disambiguation: lookup further up to "class/interface" keyword, e.g. "public final class"
-                ( classOrInterfaceModifiers[false] ( "class" | "interface" | AT "interface" | "enum" | "record" ) ) =>
+                ( classOrInterfaceModifiers[false] ( "class" | "interface" | AT "interface" | "enum" | { isKeyword("record") }? IDENT) ) =>
 
                 {
                     topLevelSave = topLevelClass;
@@ -1412,7 +1422,7 @@ field! [ClassEntryNode containingClass]
         (
             // INNER CLASSES, INTERFACES, ENUMS, ANNOTATIONS, RECORDS
             // look further to recognize that it's a definition of an inner type
-            ( classOrInterfaceModifiers[false] ( "class" | "interface" | AT "interface" | "enum" | "record" ) ) =>
+            ( classOrInterfaceModifiers[false] ( "class" | "interface" | AT "interface" | "enum" | { isKeyword("record") }? IDENT) ) =>
 
             mods=classOrInterfaceModifiers[false]
             { deprecated = maybeEnterDeprecated(tags, mods); }
@@ -1815,16 +1825,17 @@ statement [CloverToken owningLabel] returns [CloverToken last]
     // up, but that's pretty hard without a symbol table ;)
     |  (declaration)=> declaration se1:SEMI! {flushAfter = (CloverToken)se1;}
 
-    // An expression statement.  This could be a method call,
-    // assignment statement, or any other expression evaluated for
-    // side-effects.
-    |   expression se2:SEMI! { flushAfter = (CloverToken)se2; }
+    // NOTE: we check for records before normal statement as "record" can be recognized as IDENT leading to syntax error
+    // record definition
+    |   (classOrInterfaceModifiers[false] { isKeyword("record") }? IDENT) => mods=classOrInterfaceModifiers[false]! classname=recordDefinition[mods] { instrumentable = false; }//##TODO - return last token
 
     // class definition
     |   (classOrInterfaceModifiers[false] "class") => mods=classOrInterfaceModifiers[false]! classname=classDefinition[mods] { instrumentable = false; }//##TODO - return last token
 
-    // record definition
-    |   (classOrInterfaceModifiers[false] "record") => mods=classOrInterfaceModifiers[false]! classname=recordDefinition[mods] { instrumentable = false; }//##TODO - return last token
+    // An expression statement.  This could be a method call,
+    // assignment statement, or any other expression evaluated for
+    // side-effects.
+    |   expression se2:SEMI! { flushAfter = (CloverToken)se2; }
 
     // Attach a label to the front of a statement
     |   IDENT COLON {labelTok = owningLabel; if (!labelled) labelTok = first; } last = statement[labelTok]

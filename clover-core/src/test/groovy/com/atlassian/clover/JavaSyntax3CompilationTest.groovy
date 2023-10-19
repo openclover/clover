@@ -16,7 +16,7 @@ import static org.junit.Assert.assertNotNull
  * a) make sure the code compiles under JDK1.3 or later
  * b) make sure that when that code is instrumented, it still compiles
  */
-class JavaSyntax13CompilationTest extends JavaSyntaxCompilationTestBase {
+class JavaSyntax3CompilationTest extends JavaSyntaxCompilationTestBase {
 
     @Before
     void setUp() {
