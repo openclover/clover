@@ -76,7 +76,7 @@ class JavaSyntax7CompilationTest extends JavaSyntaxCompilationTestBase {
         final String fileName = "RecordIsNotReservedKeyword.java"
 
         instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_1_7)
-        assertFileMatches(fileName, R_INC + "System.out.println(record)", false)
+        assertFileMatches(fileName, R_INC + "System.out.println\\(record\\);", false)
     }
 
 }
