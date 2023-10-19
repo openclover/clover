@@ -1,5 +1,3 @@
-package java16;
-
 public class Java16RecordClass {
     public static void main(String[] args) {
         Record0 r0 = new Record0();
@@ -75,4 +73,3 @@ class MethodsWithRecords {
         final int record = p.a();
     }
 }
-

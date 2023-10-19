@@ -30,9 +30,12 @@ class JavaSyntax16CompilationTest extends JavaSyntaxCompilationTestBase {
     void testRecordClass() {
         assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_16))
 
-        final String fileName = "java16/Java16RecordClass.java"
+        final String fileName = "Java16RecordClass.java"
         instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_16)
-        assertFileMatches(fileName, R_INC + "System.out.println", false)
+
+        assertFileMatches(fileName, R_INC + "this\\.x = x \\* 2", false)
+        assertFileMatches(fileName, R_INC + "this\\.y = y \\* 2", false)
+        assertFileMatches(fileName, R_INC + "return x \\+ y \\+ z;", false)
     }
 
     @Test
@@ -42,6 +45,6 @@ class JavaSyntax16CompilationTest extends JavaSyntaxCompilationTestBase {
         final String fileName = "RecordIsNotReservedKeyword.java"
 
         instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_8)
-        assertFileMatches(fileName, R_INC + "System.out.println(record)", false)
+        assertFileMatches(fileName, R_INC + "System.out.println\\(record\\);", false)
     }
 }
