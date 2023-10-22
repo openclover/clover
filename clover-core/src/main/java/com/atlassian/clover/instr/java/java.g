@@ -1026,6 +1026,137 @@ fieldModifier returns [int m]
     |   "volatile"      { m=java.lang.reflect.Modifier.VOLATILE; }
     ;
 
+methodSignature [Map tags, CloverToken first, boolean isPredicate] returns [MethodSignatureExt signatureExt]
+{
+    Modifiers mods = null;
+    boolean deprecated = false;
+    String typeParam = null;
+    String returnType = "";
+    Parameter [] parameters = null;
+    String brackets = "";
+    String [] throwsTypes = null;
+    signatureExt = MethodSignatureExt.of(null, null, null);
+}
+    :
+        mods=methodModifiers[false]
+
+        { if (!isPredicate) { deprecated = maybeEnterDeprecated(tags, mods); } }
+
+        (typeParam=typeParameters)?
+
+        // return type of the method
+        returnType=typeSpec
+
+        // the name of the method
+        methodName:IDENT
+
+        // parse the formal parameter declarations.
+        LPAREN! parameters=parameterDeclarationList RPAREN!
+
+        brackets = declaratorBrackets
+
+        // get the list of exceptions that this method is
+        // declared to throw
+        (throwsTypes=throwsClause)?
+        {
+            CloverToken endSig = (CloverToken) LT(0);
+            MethodSignature signature = new MethodSignature(first, (CloverToken)methodName, endSig, tags, mods,
+                    methodName.getText(), typeParam, returnType + brackets, parameters, throwsTypes);
+            signatureExt = MethodSignatureExt.of(signature, endSig, deprecated);
+        }
+    ;
+
+// This is the signature of a constructor.  It includes the name and parameters for the constructor.
+// This also watches for a list of exception classes in a "throws" clause.
+standardConstructorSignature [Map tags, CloverToken first, boolean isPredicate] returns [MethodSignatureExt signatureExt]
+{
+    Modifiers mods = null;
+    boolean deprecated = false;
+    String typeParam = null;
+    Parameter [] params = null;
+    String [] throwsTypes = null;
+    signatureExt = MethodSignatureExt.of(null, null, null);
+}
+    :
+        mods=constructorModifiers[false]
+
+        { if (!isPredicate) { deprecated = maybeEnterDeprecated(tags, mods); } }
+
+        (typeParam=typeParameters)?
+
+        // name of the constructor
+        constructorName:IDENT
+
+        // parse the formal parameter declarations.
+        LPAREN! params=parameterDeclarationList RPAREN!
+
+        // get the list of exceptions that this method is declared to throw
+        (throwsTypes=throwsClause)?
+        {
+            CloverToken endSig = (CloverToken)LT(0);
+            MethodSignature signature = new MethodSignature(first, (CloverToken)constructorName, endSig, tags, mods,
+                    constructorName.getText(), null, null, params, throwsTypes);
+            signatureExt = MethodSignatureExt.of(signature, endSig, deprecated);
+        }
+    ;
+
+// This is the signature of compact canonical constructor which is allowed in records.
+compactConstructorSignature [Map tags, CloverToken first, boolean isPredicate] returns [MethodSignatureExt signatureExt]
+{
+    Modifiers mods = null;
+    boolean deprecated = false;
+    String typeParam = null;
+    signatureExt = MethodSignatureExt.of(null, null, null);
+}
+    :
+        mods=constructorModifiers[false]
+
+        { if (!isPredicate) { deprecated = maybeEnterDeprecated(tags, mods); } }
+
+        (typeParam=typeParameters)?
+
+        // just name of the constructor
+        constructorName:IDENT
+        {
+            CloverToken endSig = (CloverToken)LT(0);
+            MethodSignature signature = new MethodSignature(first, (CloverToken)constructorName, endSig, tags, mods,
+                    constructorName.getText(), null, null, null, null);
+            signatureExt = MethodSignatureExt.of(signature, endSig, deprecated);
+        }
+    ;
+
+/**
+ * A list of zero or more modifiers in the constructor signature, including annotations.
+ */
+constructorModifiers [boolean instrSuppressWarnings] returns [Modifiers mods]
+{
+    mods = new Modifiers();
+    int m = 0;
+    AnnotationImpl ann = null;
+}
+    :
+        (
+            options{ generateAmbigWarnings=false; }:
+            m=constructorModifier { mods.setMask(mods.getMask() | m); }
+        |
+            ann=annotation2[instrSuppressWarnings] { mods.addAnnotation(ann); }
+        )*
+    ;
+
+/**
+ * Keywords allowed for a constructor modifier
+ */
+constructorModifier returns [int m]
+{
+    m = 0;
+}
+    :   "private"       { m=java.lang.reflect.Modifier.PRIVATE; }
+    |   "protected"     { m=java.lang.reflect.Modifier.PROTECTED; }
+    |   "public"        { m=java.lang.reflect.Modifier.PUBLIC; }
+    ;
+
+
+
 /**
  * A list of zero or more modifiers in the method signature, including annotations.
  */
@@ -1406,6 +1537,7 @@ field! [ClassEntryNode containingClass]
     Modifiers mods = null;
     String name = null;
     MethodSignature signature = null;
+    MethodSignatureExt signatureExt = null;
     String [] throwsTypes = null;
     String returnType = "";
     String brackets = "";
@@ -1414,104 +1546,98 @@ field! [ClassEntryNode containingClass]
     String typename = null;
 }
     :
-        // read javadocs written before the member (if any)
-        {
-            tags = TokenListUtil.getJDocTagsAndValuesOnBlock(first);
-        }
+    // read javadocs written before the member (if any)
+    {
+        tags = TokenListUtil.getJDocTagsAndValuesOnBlock(first);
+    }
+    (
 
-        (
-            // INNER CLASSES, INTERFACES, ENUMS, ANNOTATIONS, RECORDS
-            // look further to recognize that it's a definition of an inner type
-            ( classOrInterfaceModifiers[false] ( "class" | "interface" | AT "interface" | "enum" | { isKeyword("record") }? IDENT) ) =>
+        // compact canonical constructors
+        // lookup for e.g. "@Anno public <T> Rec {"
+        ( compactConstructorSignature[tags, first, true] LCURLY ) =>
+        signatureExt = compactConstructorSignature[tags, first, false]
+        ccb:constructorBody[signatureExt.signature(), first, signatureExt.endToken()]
+        { maybeExitDeprecated(signatureExt.isDeprecated()); }
 
-            mods=classOrInterfaceModifiers[false]
-            { deprecated = maybeEnterDeprecated(tags, mods); }
-            (
-                typename = classDefinition[mods]       // inner class
-            |   typename = recordDefinition[mods]      // inner record                
-            |   typename = interfaceDefinition[mods]   // inner interface
-            |   typename = enumDefinition[mods]   // inner enum
-            |   typename = annotationTypeDeclaration[mods] // inner annotation decl
-            )
+    |
 
-        |
-            // CONSTRUCTORS OR METHODS
-            // look further to recognize that it's a constructor or method, e.g.:
-            //   "public MyClass ..."
-            //   "private <T> List<T> foo("
-            ( mods=methodModifiers[false] (typeParameters)? (ctorHead[tags, mods, first] | typeSpec IDENT LPAREN) ) =>
+        // standard constructors
+        // lookup for e.g. "@Anno public <T> Rec(int a, int b) throws Exception {"
+        ( standardConstructorSignature[tags, first, true] LCURLY ) =>
+        signatureExt = standardConstructorSignature[tags, first, false]
+        cb:constructorBody[signatureExt.signature(), first, signatureExt.endToken()]
+        { maybeExitDeprecated(signatureExt.isDeprecated()); }
 
-            // common part
-            mods=methodModifiers[false]
-            { deprecated = maybeEnterDeprecated(tags, mods); }
-            (typeParam=typeParameters)?
 
-            (
-                // constructor-specific part
+    |
+        // FIELDS
+        // look further to recognize that it's a field
+        ( fieldModifiers[false] typeSpec variableDefinitions ) =>
 
-                // TODO - collect more of the ctor signature here
-                signature = ctorHead[tags, mods, first]
-                {
-                    endSig = (CloverToken)LT(0);
-                }
-                s:constructorBody[signature, first, endSig] // constructor body
-            |
-                // method-specific part
-
-                returnType=typeSpec              // return type of the method
-                methodName:IDENT                 // the name of the method
-
-                // parse the formal parameter declarations.
-                LPAREN! parameters=parameterDeclarationList RPAREN!
-
-                brackets = declaratorBrackets
-
-                // get the list of exceptions that this method is
-                // declared to throw
-                (throwsTypes=throwsClause)?
-                {
-                    endSig = (CloverToken)LT(0);
-                    // todo - add parameters to method signature
-                    signature = new MethodSignature(first, (CloverToken)methodName, endSig, tags, mods, methodName.getText(),
-                                                    typeParam, returnType+brackets, parameters, throwsTypes);
-                }
-                (outerCompoundStmt[signature, first, endSig, ContextStore.CONTEXT_METHOD] | SEMI )
-            )
-
-        |
-            // FIELDS
-            // look further to recognize that it's a field
-            ( fieldModifiers[false] typeSpec variableDefinitions ) =>
-
-            mods=fieldModifiers[false]
-            { deprecated = maybeEnterDeprecated(tags, mods); }
-            returnType=typeSpec
-            variableDefinitions
-            SEMI
-        )
+        mods=fieldModifiers[false]
+        { deprecated = maybeEnterDeprecated(tags, mods); }
+        returnType=typeSpec
+        variableDefinitions
+        SEMI
         { maybeExitDeprecated(deprecated); }
 
-    // "static { ... }" class initializer
-    |   {
+    |
+
+        // "static { ... }" class initializer
+        {
             deprecated = maybeEnterDeprecated(first);
             signature = new MethodSignature(null, null, null, "<clinit>, line " + first.getLine(), null, null, null, null);
         }
-
-        "static" outerCompoundStmt[signature, first, null, ContextStore.CONTEXT_STATIC]
-
+        "static"
+        outerCompoundStmt[signature, first, null, ContextStore.CONTEXT_STATIC]
         { maybeExitDeprecated(deprecated); }
 
-    // ...or "{ ... }" instance initializer
     |
+
+        // ...or "{ ... }" instance initializer
         {
             deprecated = maybeEnterDeprecated(first);
             signature = new MethodSignature(null, null, null, "<init>, line " + first.getLine(), null, null, null, null);
         }
-
         outerCompoundStmt[signature, first, null, ContextStore.CONTEXT_INSTANCE]
-
         { maybeExitDeprecated(deprecated); }
 
+    |
+
+        // INNER CLASSES, INTERFACES, ENUMS, ANNOTATIONS, RECORDS
+        // look further to recognize that it's a definition of an inner type
+        ( classOrInterfaceModifiers[false] ( "class" | "interface" | AT "interface" | "enum" | { isKeyword("record") }? IDENT) IDENT ) =>
+
+        mods=classOrInterfaceModifiers[false]
+        { deprecated = maybeEnterDeprecated(tags, mods); }
+        (
+            typename = classDefinition[mods]       // inner class
+        |
+            typename = recordDefinition[mods]      // inner record
+        |
+            typename = interfaceDefinition[mods]   // inner interface
+        |
+            typename = enumDefinition[mods]   // inner enum
+        |
+            typename = annotationTypeDeclaration[mods] // inner annotation decl
+        )
+        { maybeExitDeprecated(deprecated); }
+
+    |
+
+        // methods
+        // lookup for e.g. "@Anno public <S, T> S foo(T in) throws Exception {"
+        // or abstract methods ending with a semicolon, e.g. "abstract void call();"
+        ( methodSignature[tags, first, true] (LCURLY|SEMI) ) =>
+        signatureExt = methodSignature[tags, first, false]
+        (
+            outerCompoundStmt[signatureExt.signature(), first, signatureExt.endToken(), ContextStore.CONTEXT_METHOD]
+        |
+            SEMI
+        )
+        { maybeExitDeprecated(signatureExt.isDeprecated()); }
+
+    )
     ;
 
 constructorBody[MethodSignature signature, CloverToken start, CloverToken endSig]
@@ -1627,29 +1753,10 @@ arrayInitializer
 // The two "things" that can initialize an array element are an expression
 //   and another (nested) array initializer.
 initializer
-    :   expression
-    |   arrayInitializer
-    ;
-
-// This is the header of a method.  It includes the name and parameters
-//   for the method.
-//   This also watches for a list of exception classes in a "throws" clause.
-ctorHead [Map tags, Modifiers mods, CloverToken first] returns [MethodSignature sig]
-{
- sig = null;
- Parameter [] params = null;
- String [] throwsTypes = null;
-}
-    :   (ctorName:IDENT  // the name of the method
-        // parse the formal parameter declarations.
-        LPAREN! params=parameterDeclarationList RPAREN!
-
-        // get the list of exceptions that this method is declared to throw
-        (throwsTypes=throwsClause)?)
-        {
-            CloverToken endSig = (CloverToken)LT(0);
-            sig = new MethodSignature(first, (CloverToken)ctorName, endSig, tags, mods, ctorName.getText(), null, null, params, throwsTypes);
-         }
+    :
+        expression
+    |
+        arrayInitializer
     ;
 
 // This is a list of exception classes that the method is declared to throw

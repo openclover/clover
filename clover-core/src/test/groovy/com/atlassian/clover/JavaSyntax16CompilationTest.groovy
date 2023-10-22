@@ -33,9 +33,23 @@ class JavaSyntax16CompilationTest extends JavaSyntaxCompilationTestBase {
         final String fileName = "Java16RecordClass.java"
         instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_16)
 
+        // Record2 constructor is instrumented
+        assertFileMatches(fileName, "public Record2\\(int x, int y\\) \\{" + R_INC, false)
         assertFileMatches(fileName, R_INC + "this\\.x = x \\* 2", false)
         assertFileMatches(fileName, R_INC + "this\\.y = y \\* 2", false)
+
+        // Record3 method is instrumented
         assertFileMatches(fileName, R_INC + "return x \\+ y \\+ z;", false)
+
+        // RecordIsNotAReservedKeyword method with 'record' as symbols is instrumented
+        assertFileMatches(fileName, R_INC + "this\\.record = record;", false)
+        assertFileMatches(fileName, R_INC + "System\\.out\\.println\\(record\\);", false)
+        assertFileMatches(fileName, R_INC + "return record;", false)
+
+        // CompactConstructor constructor is instrumented
+        assertFileMatches(fileName, "CompactConstructor \\{" + R_INC, false)
+        assertFileMatches(fileName, R_INC + "a \\*= 10;", false)
+        assertFileMatches(fileName, R_INC + "b \\+= 2;", false)
     }
 
     @Test

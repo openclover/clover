@@ -73,3 +73,11 @@ class MethodsWithRecords {
         final int record = p.a();
     }
 }
+
+/** Test records with compact constructors */
+record CompactConstructor(int a, int b) {
+    CompactConstructor {
+        a *= 10;
+        b += 2;
+    }
+}
