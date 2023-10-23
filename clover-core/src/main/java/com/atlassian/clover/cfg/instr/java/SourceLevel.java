@@ -7,6 +7,10 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import static com.atlassian.clover.cfg.instr.java.LanguageFeature.LAMBDA;
+import static com.atlassian.clover.cfg.instr.java.LanguageFeature.MODULES;
+import static com.atlassian.clover.cfg.instr.java.LanguageFeature.RECORDS;
+import static com.atlassian.clover.cfg.instr.java.LanguageFeature.TEXT_BLOCKS;
 import static org.openclover.util.Sets.newHashSet;
 
 /**
@@ -14,10 +18,16 @@ import static org.openclover.util.Sets.newHashSet;
  */
 public enum SourceLevel {
     JAVA_7("1.7", newHashSet("1.7", "7"), Collections.<LanguageFeature>emptySet()),
-    JAVA_8("1.8", newHashSet("1.8", "8"), Collections.singleton(LanguageFeature.LAMBDA)),
-    JAVA_9("9", newHashSet("1.9", "9"), newHashSet(LanguageFeature.LAMBDA, LanguageFeature.MODULES)),
-    JAVA_10("10", newHashSet("1.10", "10"), newHashSet(LanguageFeature.LAMBDA, LanguageFeature.MODULES)),
-    JAVA_11("11", newHashSet("1.11", "11"), newHashSet(LanguageFeature.LAMBDA, LanguageFeature.MODULES));
+    JAVA_8("1.8", newHashSet("1.8", "8"), Collections.singleton(LAMBDA)),
+    JAVA_9("9", newHashSet("1.9", "9"), newHashSet(LAMBDA, MODULES)),
+    JAVA_10("10", newHashSet("1.10", "10"), newHashSet(LAMBDA, MODULES)),
+    JAVA_11("11", newHashSet("1.11", "11"), newHashSet(LAMBDA, MODULES)),
+    JAVA_12("12", newHashSet("12"), newHashSet(LAMBDA, MODULES)),
+    JAVA_13("13", newHashSet("13"), newHashSet(LAMBDA, MODULES)),
+    JAVA_14("14", newHashSet("14"), newHashSet(LAMBDA, MODULES)),
+    JAVA_15("15", newHashSet("15"), newHashSet(LAMBDA, MODULES, TEXT_BLOCKS)),
+    JAVA_16("16", newHashSet("16"), newHashSet(LAMBDA, MODULES, TEXT_BLOCKS, RECORDS)),
+    JAVA_17("17", newHashSet("17"), newHashSet(LAMBDA, MODULES, TEXT_BLOCKS, RECORDS));
 
     private static final Set<String> unsupportedSourceLevels =
             newHashSet("1.0", "1.1", "1.2", "1.3", "1.4", "1.5", "5", "1.6", "6");
@@ -40,6 +50,24 @@ public enum SourceLevel {
      * @return SourceLevel
      */
     public static SourceLevel fromString(@NotNull String source) {
+        if (JAVA_17.matchesVersion(source)) {
+            return JAVA_17;
+        }
+        if (JAVA_16.matchesVersion(source)) {
+            return JAVA_16;
+        }
+        if (JAVA_15.matchesVersion(source)) {
+            return JAVA_15;
+        }
+        if (JAVA_14.matchesVersion(source)) {
+            return JAVA_14;
+        }
+        if (JAVA_13.matchesVersion(source)) {
+            return JAVA_13;
+        }
+        if (JAVA_12.matchesVersion(source)) {
+            return JAVA_12;
+        }
         if (JAVA_11.matchesVersion(source)) {
             return JAVA_11;
         }
@@ -75,7 +103,7 @@ public enum SourceLevel {
 
     public static String getUnsupportedMessage(@NotNull String source) {
         return String.format("Source level '%s' is unsupported, assuming '%s'.",
-                source, com.atlassian.clover.cfg.instr.java.SourceLevel.JAVA_7.asString());
+                source, JAVA_7.asString());
     }
 
     public boolean supportsFeature(LanguageFeature feature) {

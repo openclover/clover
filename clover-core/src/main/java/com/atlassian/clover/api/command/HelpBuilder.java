@@ -11,12 +11,12 @@ public class HelpBuilder {
 
         helpMessage.append("  PARAMS:\n");
         for (ArgProcessor argProcessor : mandatoryArgProcessors) {
-            helpMessage.append(argProcessor.help());
+            helpMessage.append(argProcessor.help() + "\n");
         }
 
         helpMessage.append("  OPTIONS:\n");
         for (ArgProcessor argProcessor : optionalArgProcessors) {
-            helpMessage.append(argProcessor.help());
+            helpMessage.append(argProcessor.help() + "\n");
         }
 
         return helpMessage.toString();

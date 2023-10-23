@@ -75,7 +75,7 @@ public class CloverInstrArgProcessors {
 
         @Override
         public String help() {
-            return "    -i, --initstring <file>\t Clover initstring. This is the path to the dbfile that"
+            return "    -i, --initstring <file>\t Clover initstring. This is the path to the dbfile that\n"
                     + "\t\t\t\t will be used to construct/update to store coverage data.";
         }
     };
@@ -114,8 +114,8 @@ public class CloverInstrArgProcessors {
 
         @Override
         public String help() {
-            return "    -r, --relative\t If specified, the initstring is treated as a relative path, "
-                    + "\t\t\t\t rather than being converted to an absolute path."
+            return "    -r, --relative\t If specified, the initstring is treated as a relative path, \n"
+                    + "\t\t\t\t rather than being converted to an absolute path.\n"
                     + "\t\t\t\t This is useful for distributed testing environments.";
         }
     };
@@ -139,9 +139,9 @@ public class CloverInstrArgProcessors {
 
         @Override
         public String help() {
-            return "   -p, --flushpolicy <policy>\t Set the flushpolicy Clover will use during coverage recording."
-                    + "\t\t\t\t legal values are \"directed\",\"interval\",\"threaded\". Default is \"directed\". If"
-                    + "\t\t\t\t either \"interval\" or \"threaded\" policies is used, the flushinterval must also be set"
+            return "   -p, --flushpolicy <policy>\t Set the flushpolicy Clover will use during coverage recording.\n"
+                    + "\t\t\t\t legal values are \"directed\",\"interval\",\"threaded\". Default is \"directed\". If\n"
+                    + "\t\t\t\t either \"interval\" or \"threaded\" policies is used, the flushinterval must also be set\n"
                     + "\t\t\t\t using the -f option.";
         }
     };
@@ -229,7 +229,7 @@ public class CloverInstrArgProcessors {
 
         @Override
         public String help() {
-            return "    --instrlevel <string>\t Set the instrumentation level. Valid values are \"statement\" and"
+            return "    --instrlevel <string>\t Set the instrumentation level. Valid values are \"statement\" and\n"
                     + "\t\t\t\t \"method\". Default is \"statement\".";
         }
     };
@@ -253,8 +253,8 @@ public class CloverInstrArgProcessors {
 
         @Override
         public String help() {
-            return "    --instrlambda <string>\t Set whether lambda functions shall be instrumented. Valid values are: "
-                    + StringUtils.join(LambdaInstrumentation.values(), ", ").toLowerCase(Locale.ENGLISH) + "."
+            return "    --instrlambda <string>\t Set whether lambda functions shall be instrumented. Valid values are: \n"
+                    + StringUtils.join(LambdaInstrumentation.values(), ", ").toLowerCase(Locale.ENGLISH) + ".\n"
                     + "\t\t\t\t Default is " + LambdaInstrumentation.NONE + ".";
         }
     };
@@ -339,7 +339,8 @@ public class CloverInstrArgProcessors {
 
         @Override
         public String help() {
-            return "    -mc --methodContext <name>=<regexp> \t\t Defines a single custom method context. May be supplied more than once. (\\ may be needed to prevent shell expansion)";
+            return "    -mc --methodContext <name>=<regexp> \t\t Defines a single custom method context. \n"
+                    + "\t\t\t\t May be supplied more than once. (\\ may be needed to prevent shell expansion)";
         }
 
         private MethodContextDef parseContextDef(String line) throws CloverException {
@@ -435,7 +436,8 @@ public class CloverInstrArgProcessors {
 
         @Override
         public String help() {
-            return "    -sc --statementContext <name>=<regexp>\t\t Defines a single custom statement context. May be supplied more than once.(\\ may be needed to prevent shell expansion)";
+            return "    -sc --statementContext <name>=<regexp>\t\t Defines a single custom statement context. \n"
+                    + "\t\t\t\t May be supplied more than once.(\\ may be needed to prevent shell expansion)";
         }
 
         private StatementContextDef parseContextDef(String line) throws CloverException {
