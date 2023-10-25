@@ -22,7 +22,7 @@ class CloverTestUtil {
     private File historyDir
     private String initString
     private Map<String, String> buildProperties = newHashMap()
-    private float factor = 0.5f
+    private double factor = 0.5d
     private String testName
     private String className
 
@@ -50,7 +50,7 @@ class CloverTestUtil {
         }
     }
 
-    void setFactor(final float factor) {
+    void setFactor(final double factor) {
         this.factor = factor
     }
 
@@ -99,7 +99,7 @@ class CloverTestUtil {
      * @param moveFactor
      * @throws IOException
      */
-    void setUpCoverageDb(final float moveFactor) throws Exception {
+    void setUpCoverageDb(final double moveFactor) throws Exception {
         // create a coverage database.
         final CloverTestFixture fixture = new CloverTestFixture(workDir)
         final List<CloverTestFixture.Clazz> classList = createClassList(moveFactor, workDir)
@@ -109,29 +109,29 @@ class CloverTestUtil {
         fixture.write(initString, classList)
     }
 
-    List<CloverTestFixture.Clazz> createClassList(final float moveFactor, final File workDir) throws IOException {
+    List<CloverTestFixture.Clazz> createClassList(final double moveFactor, final File workDir) throws IOException {
         final List<CloverTestFixture.Clazz> classList = newArrayList()
 
         classList.add(new CloverTestFixture.Clazz(workDir, "com.cenqua", "Blah",
-                new CloverTestFixture.Coverage(0.90f, 0.80f, 0.85f)))
+                new CloverTestFixture.Coverage(0.90d, 0.80d, 0.85d)))
 
         classList.add(new CloverTestFixture.Clazz(workDir, "com.cenqua.empty", "Empty",
-                new CloverTestFixture.Coverage(0f, 0f, 0f, 0)))
+                new CloverTestFixture.Coverage(0d, 0d, 0d, 0)))
 
         classList.add(new CloverTestFixture.Clazz(workDir, "com.cenqua.none", "NoCover",
-                new CloverTestFixture.Coverage(0f, 0f, 0f, 10)))
+                new CloverTestFixture.Coverage(0d, 0d, 0d, 10)))
 
         classList.add(new CloverTestFixture.Clazz(workDir, "com.cenqua.full", "FullCover",
-                new CloverTestFixture.Coverage(1f, 1f, 1f)))
+                new CloverTestFixture.Coverage(1d, 1d, 1d)))
 
         classList.add(new CloverTestFixture.Clazz(workDir, "com.cenqua.mover", "Mover",
                 new CloverTestFixture.Coverage(moveFactor, moveFactor, moveFactor)))
 
         classList.add(new CloverTestFixture.Clazz(workDir, "com.cenqua.mover", "Shaker",
-                new CloverTestFixture.Coverage(moveFactor * 0.5 as float, moveFactor * 0.5 as float, moveFactor * 0.5 as float)))
+                new CloverTestFixture.Coverage(moveFactor * 0.5d, moveFactor * 0.5d, moveFactor * 0.5d)))
 
         classList.add(new CloverTestFixture.Clazz(workDir, "com.cenqua.mover", "Loser",
-                new CloverTestFixture.Coverage(1.0 - moveFactor as float, 1.0 - moveFactor as float, 1.0 - moveFactor as float)))
+                new CloverTestFixture.Coverage(1.0d - moveFactor, 1.0d - moveFactor, 1.0d - moveFactor)))
 
         return classList
     }

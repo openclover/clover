@@ -142,10 +142,10 @@ class CloverPassTaskTest extends CloverBuildFileTestBase {
     void testThreshold() throws Exception {
         final String dateFormat = "yyyy-MM-dd"
 
-        util.setUpCoverageDb(1.0f)
+        util.setUpCoverageDb(1.0d)
          setUpHistoryPoint("2008-03-02", dateFormat, project)
 
-        util.setUpCoverageDb(0.5f)
+        util.setUpCoverageDb(0.5d)
         getProject().executeTarget("clover.check.threshold")
 
         String realLog = getLog()
@@ -167,7 +167,7 @@ class CloverPassTaskTest extends CloverBuildFileTestBase {
         fixture.register(initString, classList)
         fixture.write(initString, classList)
 
-        util.setUpCoverageDb(0.0f)
+        util.setUpCoverageDb(0.0d)
        setUpHistoryPoint("2008-03-01", dateFormat, project)
 
 
@@ -193,7 +193,7 @@ class CloverPassTaskTest extends CloverBuildFileTestBase {
         fixture.register(initString, classList)
         fixture.write(initString, classList)
 
-        util.setUpCoverageDb(0.0f)
+        util.setUpCoverageDb(0.0d)
 
         setUpHistoryPoint("2008-03-01", dateFormat, project)
 
@@ -214,15 +214,15 @@ class CloverPassTaskTest extends CloverBuildFileTestBase {
         final String dateFormat = "yyyy-MM-dd"
 
 
-        util.setUpCoverageDb(0.0f)
+        util.setUpCoverageDb(0.0d)
         setUpHistoryPoint("2008-03-01", dateFormat, project)
-        util.setUpCoverageDb(1.0f)
+        util.setUpCoverageDb(1.0d)
          setUpHistoryPoint("2008-03-02", dateFormat, project)
-        util.setUpCoverageDb(0.1f)
+        util.setUpCoverageDb(0.1d)
 
         final GregorianCalendar c = new GregorianCalendar()
         setUpHistoryPoint((c.get(Calendar.YEAR) + 1) + "-01-01", dateFormat, project)  //next year
-        util.setUpCoverageDb(0.5f)
+        util.setUpCoverageDb(0.5d)
 
         getProject().executeTarget("clover.check.target")
 
@@ -239,7 +239,7 @@ class CloverPassTaskTest extends CloverBuildFileTestBase {
         assertTrue("expecting log to contain \""+log+"\" log was \""
                    + realLog + "\"",
                 realLog.contains(log))
-        log = "Total coverage of " + new DecimalFormat("###.00%").format(0.6163) + " did not meet last history point target of " + new DecimalFormat("###.00%").format(0.6662)
+        log = "Total coverage of " + new DecimalFormat("###.00%").format(0.6163d) + " did not meet last history point target of " + new DecimalFormat("###.00%").format(0.6662d)
         assertTrue("expecting log to contain \""+log+"\" log was \""
                    + realLog + "\"",
                 realLog.contains(log))
@@ -269,13 +269,13 @@ class CloverPassTaskTest extends CloverBuildFileTestBase {
         final String dateFormat = "yyyy-MM-dd"
         final GregorianCalendar c = new GregorianCalendar()
 
-        util.setUpCoverageDb(0.0f)
+        util.setUpCoverageDb(0.0d)
         setUpHistoryPoint((c.get(Calendar.YEAR) + 1) + "-01-01", dateFormat, project)
-        util.setUpCoverageDb(1.0f)
+        util.setUpCoverageDb(1.0d)
         setUpHistoryPoint((c.get(Calendar.YEAR) + 1) + "-01-02", dateFormat, project)
-        util.setUpCoverageDb(0.1f)
+        util.setUpCoverageDb(0.1d)
         setUpHistoryPoint((c.get(Calendar.YEAR) + 1) + "-01-03", dateFormat, project)
-        util.setUpCoverageDb(0.5f)
+        util.setUpCoverageDb(0.5d)
 
         getProject().executeTarget("clover.check")
 

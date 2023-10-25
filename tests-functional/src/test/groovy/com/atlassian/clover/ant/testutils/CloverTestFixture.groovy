@@ -35,7 +35,7 @@ class CloverTestFixture {
      */
     String getTestCoverageDatabase() throws IOException, CloverException {
         List<Clazz> classList = Lists.newArrayList()
-        classList.add(new Clazz(tmpDir, "org.test", "TestA", new Coverage(0.23f, 0.34f, 0.45f)))
+        classList.add(new Clazz(tmpDir, "org.test", "TestA", new Coverage(0.23d, 0.34d, 0.45d)))
 
         String initString = createCoverageDB()
         register(initString, classList)
@@ -165,20 +165,20 @@ class CloverTestFixture {
     }
 
     static class Coverage {
-        private float statementCoverage = -1
-        private float conditionalCoverage = -1
-        private float methodCoverage = -1
+        private double statementCoverage = -1
+        private double conditionalCoverage = -1
+        private double methodCoverage = -1
         private int elements
 
 
-        Coverage(float stmt, float cnd, float mthd, int elements) {
+        Coverage(double stmt, double cnd, double mthd, int elements) {
             statementCoverage = stmt
             conditionalCoverage = cnd
             methodCoverage = mthd
             this.elements = elements
         }
 
-        Coverage(float stmt, float cnd, float mthd) {
+        Coverage(double stmt, double cnd, double mthd) {
             this(stmt, cnd, mthd, 1000)
         }
     }
