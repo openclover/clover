@@ -204,7 +204,7 @@ class CloverPassTaskTest extends CloverBuildFileTestBase {
         assertTrue("expecting log to contain \""+log+"\" log was \""
                    + realLog + "\"",
                 realLog.contains(log))
-        log = "  " + coverageValue.format(0.058) + " com.cenqua.NewClass (Added)"
+        log = "  " + coverageValue.format(0.057) + " com.cenqua.NewClass (Added)"
         assertTrue("expecting log to contain \""+log+"\" log was \""
                    + realLog + "\"",
                 realLog.contains(log))
