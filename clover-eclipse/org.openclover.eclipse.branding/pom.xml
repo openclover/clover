@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.openclover</groupId>
         <artifactId>clover-eclipse</artifactId>
-        <version>4.5.1.v20231029000000</version>
+        <version>4.5.2.v20230101000000</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>org.openclover.eclipse.branding</artifactId>
