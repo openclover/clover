@@ -13,28 +13,42 @@
     <property name="reader.source.file" location="${build.dir}/PipeReader.java"/>
 
     <macrodef name="generate-source-files">
+        <attribute name="pipeName"/>
         <sequential>
             <!-- helper class for simple inter-process communication -->
             <echo file="${reader.source.file}"><![CDATA[
 import java.io.*;
 public class PipeReader {
-    public static File pipe = new File(System.getProperty("java.io.tmpdir"), "clover-setup-shared.pipe");
+    public static File pipe = new File(System.getProperty("java.io.tmpdir"), "@{pipeName}");
     public static void deletePipe() {
         pipe.delete();
+        System.out.println("SHARED pipe deleted");
     }
     public static void sendKey(int ch) throws IOException, InterruptedException {
         FileOutputStream fos = new FileOutputStream(pipe);
         fos.write(ch);
         fos.close();
+        System.out.println("SHARED sendKey pipe closed");
         int i = 0;
-        while (pipe.isFile()) { Thread.sleep(10); i++; if (i>200) throw new InterruptedException("sendKey timeout!"); }
+        while (pipe.isFile()) {
+            Thread.sleep(10);
+            i++;
+            System.out.println("SHARED sendKey i=" + i);
+            if (i>1000) throw new InterruptedException("sendKey timeout!");
+        }
     }
     public static int readKey() throws IOException, InterruptedException {
         int i = 0;
-        while (!pipe.isFile()) { Thread.sleep(10); i++; if (i>200) throw new InterruptedException("readKey timeout!"); }
+        while (!pipe.isFile()) {
+            Thread.sleep(10);
+            i++;
+            System.out.println("SHARED readKey i=" + i);
+            if (i>1000) throw new InterruptedException("readKey timeout!");
+        }
         FileInputStream fos = new FileInputStream(pipe);
         int ch = fos.read();
         fos.close();
+        System.out.println("SHARED readKey pipe closed");
         pipe.delete();
         return ch;
     }
@@ -240,10 +254,13 @@ public class FooTest {
                     <classpath refid="runtime.classpath"/>
                 </junit>
                 <!-- start clover.client -->
-                <java fork="true" classname="Foo" outputproperty="java.out.@{runNumber}" errorproperty="java.err.@{runNumber}">
-                    <jvmarg value="-Dclover.logging.level=debug"/>
-                    <classpath refid="runtime.classpath"/>
-                </java>
+                <sequential>
+                    <sleep seconds="1"/>
+                    <java fork="true" classname="Foo" outputproperty="java.out.@{runNumber}" errorproperty="java.err.@{runNumber}">
+                        <jvmarg value="-Dclover.logging.level=debug"/>
+                        <classpath refid="runtime.classpath"/>
+                    </java>
+                </sequential>
             </parallel>
         </sequential>
     </macrodef>
@@ -315,7 +332,7 @@ public class FooTest {
 
     <target name="execute-shared">
         <set-testcase-properties testcase="execute-shared"/>
-        <generate-source-files/>
+        <generate-source-files pipeName="clover-setup-shared.pipe"/>
         <make-testcase-dirs/>
         <!-- We instrument each file separately because having includes="*.java" causes that files are be instrumented
         in random order, thus randomly failing "globalSliceStart()" assertion in JUnit test. Using <antcall> to make
@@ -331,7 +348,7 @@ public class FooTest {
 
     <target name="execute-shared-distributed">
         <set-testcase-properties testcase="execute-shared-distributed"/>
-        <generate-source-files/>
+        <generate-source-files pipeName="clover-setup-shared-distributed.pipe"/>
         <make-testcase-dirs/>
         <!-- We instrument each file separately because having includes="*.java" causes that files are be instrumented
         in random order, thus randomly failing "globalSliceStart()" assertion in JUnit test -->
@@ -339,7 +356,7 @@ public class FooTest {
             <fileset dir="${build.dir}" includes="Foo.java"/>
             <profiles>
                 <profile name="default" coverageRecorder="shared">
-                    <distributedCoverage host="localhost" port="1199" numClients="1"/>
+                    <distributedCoverage host="127.0.0.1" port="1199" numClients="1"/>
                 </profile>
             </profiles>
         </clover-instr>
@@ -347,7 +364,7 @@ public class FooTest {
             <fileset dir="${build.dir}" includes="FooTest.java"/>
             <profiles>
                 <profile name="default" coverageRecorder="shared">
-                    <distributedCoverage host="localhost" port="1199" numClients="1"/>
+                    <distributedCoverage host="127.0.0.1" port="1199" numClients="1"/>
                 </profile>
             </profiles>
         </clover-instr>
@@ -364,7 +381,7 @@ public class FooTest {
 
         <!-- First set of three source files, two instrumentation sessions. Using <antcall> to make sure that Clover's
           references will not persist so that we have "true" instrumentation sessions. -->
-        <generate-source-files/>
+        <generate-source-files pipeName="clover-setup-shared-multiple-sessions.pipe"/>
         <antcall target="instr-foo"/>
         <antcall target="instr-footest"/>
         <copy file="${reader.source.file}" todir="${build.instr.dir}"/>
@@ -389,7 +406,7 @@ public class FooTest {
 
         <!-- Three source files, two different databases. Using <antcall> to make sure that Clover's references
         will not persist so that we have true separation of instrumentation sessions. -->
-        <generate-source-files/>
+        <generate-source-files pipeName="clover-setup-shared-multiple-databases.pipe"/>
         <generate-source-files-db2/>
         <antcall target="instr-foo"/>
         <antcall target="instr-hoo-and-footest"/>
