@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.openclover</groupId>
         <artifactId>clover-base-pom</artifactId>
-        <version>4.5.1-SNAPSHOT</version>
+        <version>4.5.1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <!-- for backward compatibility it's named 'clover' instead of 'clover-all' -->

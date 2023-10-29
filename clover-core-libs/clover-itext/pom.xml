@@ -9,7 +9,7 @@
     <parent>
         <groupId>org.openclover</groupId>
         <artifactId>clover-core-libs</artifactId>
-        <version>4.5.1-SNAPSHOT</version>
+        <version>4.5.1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <description>
