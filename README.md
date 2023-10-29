@@ -1,7 +1,7 @@
 ![GitHub](https://img.shields.io/github/license/openclover/clover)
 ![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/y/openclover/clover/master)
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/openclover/clover/master)
-![Generic badge](https://img.shields.io/badge/Website-openclover.org-green.svg)](https://openclover.org/)
+![Generic badge](https://img.shields.io/badge/Website-openclover.org-green.svg)(https://openclover.org/)
 
 ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/openclover/clover/A-build-and-test.yml?label=JDK8)
 ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/openclover/clover/A-build-and-test-jdk11.yml?label=JDK11)
