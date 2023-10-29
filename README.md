@@ -1,17 +1,17 @@
-![GitHub](https://img.shields.io/github/license/openclover/clover)
-![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/y/openclover/clover/master)
-![GitHub last commit (branch)](https://img.shields.io/github/last-commit/openclover/clover/master)
+[![GitHub](https://img.shields.io/badge/license-Apache%202.0-silver.svg)](https://github.com/openclover/clover/blob/master/LICENSE.txt)
+[![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/y/openclover/clover/master)](https://github.com/openclover/clover/commits/master)
+[![GitHub last commit (branch)](https://img.shields.io/github/last-commit/openclover/clover/master)](https://github.com/openclover/clover/commits/master)
 [![Generic badge](https://img.shields.io/badge/Website-openclover.org-green.svg)](https://openclover.org/)
 
-![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/openclover/clover/A-build-and-test.yml?label=JDK8)
-![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/openclover/clover/A-build-and-test-jdk11.yml?label=JDK11)
-![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/openclover/clover/A-build-and-test-jdk17.yml?label=JDK17)
+[![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/openclover/clover/A-build-and-test.yml?label=JDK8)](https://github.com/openclover/clover/actions/workflows/A-build-and-test.yml)
+[![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/openclover/clover/A-build-and-test-jdk11.yml?label=JDK11)](https://github.com/openclover/clover/actions/workflows/A-build-and-test-jdk11.yml)
+[![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/openclover/clover/A-build-and-test-jdk17.yml?label=JDK17)](https://github.com/openclover/clover/actions/workflows/A-build-and-test-jdk17.yml)
 
 
-![GitHub milestone details](https://img.shields.io/github/milestones/progress-percent/openclover/clover/11)
-![GitHub milestone details](https://img.shields.io/github/milestones/progress-percent/openclover/clover/14)
-![GitHub milestone details](https://img.shields.io/github/milestones/progress-percent/openclover/clover/15)
-![GitHub milestone details](https://img.shields.io/github/milestones/progress-percent/openclover/clover/4)
+[![GitHub milestone details](https://img.shields.io/github/milestones/progress-percent/openclover/clover/11)](https://github.com/openclover/clover/milestone/11)
+[![GitHub milestone details](https://img.shields.io/github/milestones/progress-percent/openclover/clover/14)](https://github.com/openclover/clover/milestone/14)
+[![GitHub milestone details](https://img.shields.io/github/milestones/progress-percent/openclover/clover/15)](https://github.com/openclover/clover/milestone/15)
+[![GitHub milestone details](https://img.shields.io/github/milestones/progress-percent/openclover/clover/4)](https://github.com/openclover/clover/milestone/4)
 
 # About #
 
