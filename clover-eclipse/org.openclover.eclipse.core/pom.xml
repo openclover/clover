@@ -10,7 +10,7 @@
     <name>OpenClover Eclipse Core Plugin</name>
     <description>An Eclipse plugin providing integration of OpenClover with Java projects.</description>
     <properties>
-        <clover.version>4.6.0-SNAPSHOT</clover.version>
+        <clover.version>4.5.1-SNAPSHOT</clover.version>
     </properties>
     <dependencies>
         <dependency>

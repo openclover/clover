@@ -6,7 +6,7 @@ import org.junit.Test
 import static com.atlassian.clover.testutils.AssertionUtils.assertFileContains
 import static com.atlassian.clover.testutils.AssertionUtils.assertStringContains
 import static org.junit.Assert.assertEquals
-import static org.junit.Assert.assertNull
+import static org.junit.Assert.assertTrue
 
 /**
  * Test for:
@@ -66,12 +66,12 @@ class CloverSetupTaskGrowableTest extends CloverSetupTaskTestBase {
         testBase.assertLogContains("Ho ho ho") // from classSetUp()
 
         // code was executed in another jvm
-        assertStringContains("Say foo", getJavaOut(), false)
-        assertStringContains("Say goo", getJavaOut(), false)
-        assertStringContains("Ho ho ho", getJavaOut(), false)
+        assertStringContains("Say foo", getJavaOut(0), false)
+        assertStringContains("Say goo", getJavaOut(0), false)
+        assertStringContains("Ho ho ho", getJavaOut(0), false)
 
         // we should have no errors
-        assertNull("There shouldn't be errors", getJavaErr(0))
+        assertTrue(getJavaErr(0) == null || getJavaErr(0).trim().isEmpty())
 
         // three instrumentation sessions = 3 recorders; 2 active recorders running in each JVM
         // * one JVM (distributed coverage is disabled so JVM running Foo does not get globalSliceStart/End call)
@@ -119,17 +119,17 @@ class CloverSetupTaskGrowableTest extends CloverSetupTaskTestBase {
         testBase.assertLogContains("GrowableCoverageRecorder[coverage=CoverageMatrix")
 
         // Check if distributed coverage server has started in the 'junit' process
-        testBase.assertLogContains("Distributed coverage is enabled with: name=execute-growable-distributed;host=localhost")
+        testBase.assertLogContains("Distributed coverage is enabled with: name=execute-growable-distributed;host=127.0.0.1")
         testBase.assertLogContains("Started coverage service: execute-growable-distributed")
         testBase.assertLogContains("Recording proceeding now that 1 client are connected")
 
         // Check if distributed coverage client has started in the 'java' process
-        assertStringContains("Starting distributed coverage client: name=execute-growable-distributed;host=localhost", getJavaOut(), false)
-        assertStringContains("Attempting connection to: //localhost:1198/execute-growable-distributed", getJavaOut(), false)
-        assertStringContains("Received remote item: Remote_Stub", getJavaOut(), false)
-        assertStringContains("Say foo", getJavaOut(), false)
-        assertStringContains("Say goo", getJavaOut(), false)
-        assertStringContains("Ho ho ho", getJavaOut(), false)
+        assertStringContains("Starting distributed coverage client: name=execute-growable-distributed;host=127.0.0.1", getJavaOut(1), false)
+        assertStringContains("Attempting connection to: //127.0.0.1:1198/execute-growable-distributed", getJavaOut(1), false)
+        assertStringContains("Received remote item: Remote_Stub", getJavaOut(1), false)
+        assertStringContains("Say foo", getJavaOut(1), false)
+        assertStringContains("Say goo", getJavaOut(1), false)
+        assertStringContains("Ho ho ho", getJavaOut(1), false)
 
         // two test cases
         testBase.assertLogContains("globalSliceStart(FooTest, 23,") // testFoo

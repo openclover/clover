@@ -402,7 +402,8 @@ class CompilationTest extends DynamicallyNamedTestBase
     private void assertNoClassAt(String dir, String className) {
         File classFile = getClassFile(dir, className)
         String[] classFiles = classFile.parentFile.list()
-        assertFalse("Compiled class found at ${dir}/${classFile.name}.class", classFiles.any { it == "${classFile.name}.class" })
+        assertFalse("Compiled class found at ${dir}/${classFile.name}.class",
+                classFiles != null && classFiles.any { it == "${classFile.name}.class" })
     }
 
     private File getClassFile(String dir, String className) {
@@ -410,14 +411,15 @@ class CompilationTest extends DynamicallyNamedTestBase
         return new File(new File(workingDir, dir), className.replace(".", File.separator))
     }
 
-    private Closure recorderMatcher(className) {
+    private static Closure recorderMatcher(className) {
         return { it =~ "${className}\\\$${CloverNames.CLOVER_RECORDER_PREFIX}.*" }
     }
 
     private void assertCloveredClassAt(String dir, String className) {
         File classFile = getClassFile(dir, className)
         String[] classFiles = classFile.parentFile.list()
-        assertTrue("Compiled class not found at ${dir}/${classFile.name}.class", classFiles.any { it == "${classFile.name}.class" })
+        assertTrue("Compiled class not found at ${dir}/${classFile.name}.class",
+                classFiles != null && classFiles.any { it == "${classFile.name}.class" })
 
         if (!classFiles.any(recorderMatcher(classFile.name))) {
             def result = launchJavap "-private -classpath ${new File(workingDir, dir)} ${className}"
@@ -432,7 +434,8 @@ class CompilationTest extends DynamicallyNamedTestBase
     private void assertNonCloveredClassAt(String dir, String className) {
         File classFile = getClassFile(dir, className)
         String[] classFiles = classFile.parentFile.list()
-        assertTrue("Compiled class not found at ${dir}/${classFile.name}.class", classFiles.any { it == "${classFile.name}.class" })
+        assertTrue("Compiled class not found at ${dir}/${classFile.name}.class",
+                classFiles != null && classFiles.any { it == "${classFile.name}.class" })
 
         assertFalse(
                 "Matching Clover recorder found for ${className} in ${dir}. " + "Class files matched:\n${classFiles.findAll(recorderMatcher(classFile.name)).join("\n")}",
@@ -446,7 +449,7 @@ class CompilationTest extends DynamicallyNamedTestBase
                 result.stdOut.contains("public static com_atlassian_clover.CoverageRecorder R"))
     }
 
-    private String defineGroovyClass(String pkg, String className, String optionalBody = "") {
+    private static String defineGroovyClass(String pkg, String className, String optionalBody = "") {
         return """
           package ${pkg}
 
@@ -459,7 +462,7 @@ class CompilationTest extends DynamicallyNamedTestBase
         """
     }
 
-    private String defineJavaClass(String pkg, String className, String optionalBody = "") {
+    private static String defineJavaClass(String pkg, String className, String optionalBody = "") {
         return """
           package ${pkg};
 

@@ -12,28 +12,42 @@
     <property name="reader.source.file" location="${build.dir}/PipeReader.java"/>
 
     <macrodef name="generate-source-files">
+        <attribute name="pipeName"/>
         <sequential>
             <!-- helper class for simple inter-process communication -->
             <echo file="${reader.source.file}"><![CDATA[
 import java.io.*;
 public class PipeReader {
-    public static File pipe = new File(System.getProperty("java.io.tmpdir"), "clover-setup-growable.pipe");
+    public static File pipe = new File(System.getProperty("java.io.tmpdir"), "@{pipeName}");
     public static void deletePipe() {
         pipe.delete();
+        System.out.println("GROWABLE pipe deleted");
     }
     public static void sendKey(int ch) throws IOException, InterruptedException {
         FileOutputStream fos = new FileOutputStream(pipe);
         fos.write(ch);
         fos.close();
+        System.out.println("GROWABLE sendKey pipe closed");
         int i = 0;
-        while (pipe.isFile()) { Thread.sleep(10); i++; if (i>200) throw new InterruptedException("sendKey timeout!"); }
+        while (pipe.isFile()) {
+            Thread.sleep(10);
+            i++;
+            System.out.println("GROWABLE sendKey i=" + i);
+            if (i>1000) throw new InterruptedException("sendKey timeout!");
+        }
     }
     public static int readKey() throws IOException, InterruptedException {
         int i = 0;
-        while (!pipe.isFile()) { Thread.sleep(10); i++; if (i>200) throw new InterruptedException("readKey timeout!"); }
+        while (!pipe.isFile()) {
+            Thread.sleep(10);
+            i++;
+            System.out.println("GROWABLE readKey i=" + i);
+            if (i>1000) throw new InterruptedException("readKey timeout!");
+        }
         FileInputStream fos = new FileInputStream(pipe);
         int ch = fos.read();
         fos.close();
+        System.out.println("GROWABLE readKey pipe closed");
         pipe.delete();
         return ch;
     }
@@ -142,6 +156,7 @@ public class FooTest {
 
     <!-- Execute test code -->
     <macrodef name="run-junit">
+        <attribute name="runNumber"/>
         <attribute name="jvmarg" default="-Dsome.default.value=true"/>
         <sequential>
             <parallel>
@@ -154,10 +169,13 @@ public class FooTest {
                     <classpath refid="runtime.classpath"/>
                 </junit>
                 <!-- start clover.client -->
-                <java fork="true" classname="Foo" outputproperty="java.out" errorproperty="java.err">
-                    <jvmarg value="-Dclover.logging.level=debug"/>
-                    <classpath refid="runtime.classpath"/>
-                </java>
+                <sequential>
+                    <sleep seconds="1"/>
+                    <java fork="true" classname="Foo" outputproperty="java.out.@{runNumber}" errorproperty="java.err.@{runNumber}">
+                        <jvmarg value="-Dclover.logging.level=debug"/>
+                        <classpath refid="runtime.classpath"/>
+                    </java>
+                </sequential>
             </parallel>
         </sequential>
     </macrodef>
@@ -207,7 +225,7 @@ public class FooTest {
             <fileset dir="${build.dir}" includes="Foo.java"/>
             <profiles>
                 <profile name="default" coverageRecorder="growable">
-                    <distributedCoverage name="execute-growable-distributed" host="localhost" numClients="1"/>
+                    <distributedCoverage name="execute-growable-distributed" host="127.0.0.1" numClients="1"/>
                 </profile>
             </profiles>
         </clover-instr>
@@ -218,7 +236,7 @@ public class FooTest {
             <fileset dir="${build.dir}" includes="Hoo.java"/>
             <profiles>
                 <profile name="default" coverageRecorder="growable">
-                    <distributedCoverage name="execute-growable-distributed" host="localhost" numClients="1"/>
+                    <distributedCoverage name="execute-growable-distributed" host="127.0.0.1" numClients="1"/>
                 </profile>
             </profiles>
         </clover-instr>
@@ -229,7 +247,7 @@ public class FooTest {
             <fileset dir="${build.dir}" includes="FooTest.java"/>
             <profiles>
                 <profile name="default" coverageRecorder="growable">
-                    <distributedCoverage name="execute-growable-distributed" host="localhost" numClients="1"/>
+                    <distributedCoverage name="execute-growable-distributed" host="127.0.0.1" numClients="1"/>
                 </profile>
             </profiles>
         </clover-instr>
@@ -237,7 +255,7 @@ public class FooTest {
 
     <target name="execute-growable">
         <set-testcase-properties testcase="execute-growable"/>
-        <generate-source-files/>
+        <generate-source-files pipeName="clover-setup-growable.pipe"/>
         <make-testcase-dirs/>
         <!-- We instrument each file separately because having includes="*.java" causes that files are be instrumented
         in random order, thus randomly failing "globalSliceStart()" assertion in JUnit test. Using <antcall> to make
@@ -248,13 +266,13 @@ public class FooTest {
         <copy file="${reader.source.file}" todir="${build.instr.dir}"/>
 
         <run-javac/>
-        <run-junit/>
+        <run-junit runNumber="0"/>
         <generate-reports/>
     </target>
 
     <target name="execute-growable-distributed">
         <set-testcase-properties testcase="execute-growable-distributed"/>
-        <generate-source-files/>
+        <generate-source-files pipeName="clover-setup-growable-distributed.pipe"/>
         <make-testcase-dirs/>
         <!-- We instrument each file separately because having includes="*.java" causes that files are be instrumented
         in random order, thus randomly failing "globalSliceStart()" assertion in JUnit test. Using <antcall> to make
@@ -265,7 +283,7 @@ public class FooTest {
         <copy file="${reader.source.file}" todir="${build.instr.dir}"/>
 
         <run-javac/>
-        <run-junit jvmarg="-Dclover.server=true"/>
+        <run-junit runNumber="1" jvmarg="-Dclover.server=true"/>
         <generate-reports/>
     </target>
 

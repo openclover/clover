@@ -66,10 +66,10 @@ class CloverReportTaskTest extends CloverBuildFileTestBase {
 
         setUpHistoryPoint("2005-09-04", dateFormat)
 
-        util.setUpCoverageDb(0.6f)
+        util.setUpCoverageDb(0.6d)
         setUpHistoryPoint("2006-04-01", dateFormat)
 
-        util.setUpCoverageDb(0.9f)
+        util.setUpCoverageDb(0.9d)
         setUpHistoryPoint("2006-08-02", dateFormat)
 
         getProject().executeTarget("testHistorical")
@@ -86,11 +86,11 @@ class CloverReportTaskTest extends CloverBuildFileTestBase {
 
         setUpHistoryPoint("2005-01-01", dateFormat)
 
-        util.setUpCoverageDb(0.6f)
+        util.setUpCoverageDb(0.625d)
 
         setUpHistoryPoint("2006-01-01", dateFormat)
 
-        util.setUpCoverageDb(0.9f)
+        util.setUpCoverageDb(0.875d)
 
         setUpHistoryPoint("2007-01-01", dateFormat)
 
@@ -119,7 +119,7 @@ class CloverReportTaskTest extends CloverBuildFileTestBase {
                 "Metric used: <b>% TOTAL Coverage</b>, max value is <b>100</b>."))
         assertThat(output, CoreMatchers.containsString(moversProperties.getProperty("mover-2")))
         String loser2Prop = moversProperties.getProperty("loser-2")
-        loser2Prop = loser2Prop.replace("29.9", new DecimalFormat("###.0").format(29.9))
+        loser2Prop = loser2Prop.replace("29.9", new DecimalFormat("###.0").format(29.9d))
         assertThat(output, CoreMatchers.containsString(loser2Prop))
 
         assertThat(output, CoreMatchers.containsString(
@@ -144,10 +144,10 @@ class CloverReportTaskTest extends CloverBuildFileTestBase {
 
         setUpHistoryPoint("2006-01-01", dateFormat)
 
-        util.setUpCoverageDb(0.1f)
+        util.setUpCoverageDb(0.1d)
         setUpHistoryPoint("2006-01-02", dateFormat)
 
-        util.setUpCoverageDb(0.9f)
+        util.setUpCoverageDb(0.9d)
         setUpHistoryPoint("2006-01-03", dateFormat)
 
         getProject().executeTarget("testLinkedReports")
@@ -158,7 +158,7 @@ class CloverReportTaskTest extends CloverBuildFileTestBase {
     void testCloverHtmlReport() throws Exception {
         final String dateFormat = "yyyy-MM-dd"
         setUpHistoryPoint("2006-14-08", dateFormat)
-        util.setUpCoverageDb(0.1f)
+        util.setUpCoverageDb(0.1d)
         setUpHistoryPoint("2006-15-08", dateFormat)
         int historyCount = util.getHistoryDir().list().length
         getProject().executeTarget("testCloverHtmlReport")
@@ -175,7 +175,7 @@ class CloverReportTaskTest extends CloverBuildFileTestBase {
     void testCloverPdfReport() throws Exception {
         final String dateFormat = "yyyy-MM-dd"
         setUpHistoryPoint("2006-14-08", dateFormat)
-        util.setUpCoverageDb(0.1f)
+        util.setUpCoverageDb(0.1d)
         setUpHistoryPoint("2006-15-08", dateFormat)
         int historyCount = util.getHistoryDir().list().length
 
@@ -189,10 +189,10 @@ class CloverReportTaskTest extends CloverBuildFileTestBase {
 
         setUpHistoryPoint("2006-01-01", dateFormat)
 
-        util.setUpCoverageDb(0.1f)
+        util.setUpCoverageDb(0.1d)
         setUpHistoryPoint("2006-01-02", dateFormat)
 
-        util.setUpCoverageDb(0.9f)
+        util.setUpCoverageDb(0.9d)
         setUpHistoryPoint("2006-01-03", dateFormat)
 
         getProject().executeTarget("testPdfReports")
