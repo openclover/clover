@@ -31,17 +31,17 @@ jobs:
 
       - name: Prepare third party libraries
         run: |
-          mvn install -f clover-core-libs/jarjar/pom.xml
-          mvn install -Pworkspace-setup -f clover-core-libs/pom.xml
-          mvn install -Pworkspace-setup -f clover-eclipse-libs/pom.xml
-          mvn install -Pworkspace-setup -f clover-jtreemap/pom.xml
-          mvn install -Pworkspace-setup -f clover-idea-libs/pom.xml
+          mvn --batch-mode install -f clover-core-libs/jarjar/pom.xml
+          mvn --batch-mode install -Pworkspace-setup -f clover-core-libs/pom.xml
+          mvn --batch-mode install -Pworkspace-setup -f clover-eclipse-libs/pom.xml
+          mvn --batch-mode install -Pworkspace-setup -f clover-jtreemap/pom.xml
+          mvn --batch-mode install -Pworkspace-setup -f clover-idea-libs/pom.xml
 
       - name: Download KTreemap fork
         run: |
           wget https://packages.atlassian.com/mvn/maven-atlassian-external/net/sf/jtreemap/ktreemap/1.1.0-atlassian-01/ktreemap-1.1.0-atlassian-01.jar
           wget https://packages.atlassian.com/mvn/maven-atlassian-external/net/sf/jtreemap/ktreemap/1.1.0-atlassian-01/ktreemap-1.1.0-atlassian-01.pom
-          mvn install:install-file -Dfile=ktreemap-1.1.0-atlassian-01.jar -DpomFile=ktreemap-1.1.0-atlassian-01.pom
+          mvn --batch-mode install:install-file -Dfile=ktreemap-1.1.0-atlassian-01.jar -DpomFile=ktreemap-1.1.0-atlassian-01.pom
 
       - name: Publish a release
         run: |
