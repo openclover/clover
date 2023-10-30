@@ -61,4 +61,17 @@ class JavaSyntax16CompilationTest extends JavaSyntaxCompilationTestBase {
         instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_8)
         assertFileMatches(fileName, R_INC + "System.out.println\\(record\\);", false)
     }
+
+    @Test
+    void testInstanceOfPatternMatching() {
+        assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_16))
+
+        final String fileName = "Java16InstanceOfPatternMatching.java"
+        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_16)
+        assertFileMatches(fileName, R_INC + "System.out.println", false)
+
+        executeMainClasses("Java16InstanceOfPatternMatching")
+        assertExecOutputContains("obj is String = a string", false)
+        assertExecOutputContains("obj is not null and is an Object and not String or Integer", false)
+    }
 }
