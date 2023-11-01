@@ -2,6 +2,7 @@
 [![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/y/openclover/clover/master)](https://github.com/openclover/clover/commits/master)
 [![GitHub last commit (branch)](https://img.shields.io/github/last-commit/openclover/clover/master)](https://github.com/openclover/clover/commits/master)
 [![Generic badge](https://img.shields.io/badge/Website-openclover.org-green.svg)](https://openclover.org/)
+[![RSS](https://img.shields.io/badge/rss-F88900?logo=rss&logoColor=white)](https://openclover.org/blog-rss.xml)
 
 [![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/openclover/clover/A-build-and-test.yml?label=JDK8)](https://github.com/openclover/clover/actions/workflows/A-build-and-test.yml)
 [![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/openclover/clover/A-build-and-test-jdk11.yml?label=JDK11)](https://github.com/openclover/clover/actions/workflows/A-build-and-test-jdk11.yml)
