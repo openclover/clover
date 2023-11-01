@@ -2,7 +2,7 @@ package com.atlassian.clover.instr.java;
 
 /**
  * Reads subsequent tokens from an expression and counts cyclomatic complexity for it.
- * Every "||" or "&&" adds 1 to complexity.
+ * Every "||" or "&amp;&amp;" adds 1 to complexity.
  */
 public class ExpressionComplexityCounter implements CloverTokenConsumer {
     private int complexity;
