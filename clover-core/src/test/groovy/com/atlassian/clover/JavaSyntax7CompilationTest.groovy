@@ -11,9 +11,6 @@ import org.junit.Test
  */
 class JavaSyntax7CompilationTest extends JavaSyntaxCompilationTestBase {
 
-    /** Regular expression for: __CLR_hash_code.R.inc(index) */
-    protected final String R_INC = "__CLR[a-zA-Z0-9_]+\\.R\\.inc\\([0-9]+\\);"
-
     @Before
     void setUp() {
         setUpProject()

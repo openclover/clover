@@ -45,6 +45,23 @@ abstract class JavaSyntaxCompilationTestBase {
     public static final String CLOVER_CORE_CLASSES_DIR = "clover-core/target/classes"
     public static final String CLOVER_RUNTIME_CLASSES_DIR = "clover-runtime/target/classes"
 
+    /** Regular expression for: __CLR_hash_code.R.inc(index) */
+    protected final String R_INC = "__CLR[a-zA-Z0-9_]+\\.R\\.inc\\([0-9]+\\);"
+
+    /** Regular expression for: __CLR_hash_code.R.iget(index) */
+    protected final String R_IGET = "__CLR[a-zA-Z0-9_]+\\.R\\.iget\\([0-9]+\\)"
+
+    /** Regular expression for true part of branch coverage: (__CLR_hash_code.R.iget(index)!=0|true) */
+    protected final String R_IGET_TRUE = "\\(" + R_IGET + "!=0\\|true\\)"
+
+    /** Regular expression for false part of branch coverage: (__CLR_hash_code.R.iget(index)==0&false) */
+    protected final String R_IGET_FALSE = "\\(" + R_IGET + "==0\\&false\\)"
+
+    /** Regular expression for lambda:  */
+    protected final String R_LAMBDA_INC_LEFT = "__CLR[a-zA-Z0-9_]+\\.lambdaInc\\([0-9]+,"
+    protected final String R_LAMBDA_INC_RIGHT = ",[0-9]+\\)"
+
+
     protected File mTestcasesSrcDir
     private File mOutputDir
     protected File mGenSrcDir
