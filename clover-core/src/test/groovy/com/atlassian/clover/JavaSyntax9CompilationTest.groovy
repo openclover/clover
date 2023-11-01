@@ -17,9 +17,6 @@ class JavaSyntax9CompilationTest extends JavaSyntaxCompilationTestBase {
 
     protected File srcDir
 
-    /** Regular expression for: __CLR_hash_code.R.inc(index) */
-    protected final String R_INC = "__CLR[a-zA-Z0-9_]+\\.R\\.inc\\([0-9]+\\);"
-
     @Before
     void setUp() throws Exception {
         setUpProject()

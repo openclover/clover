@@ -16,8 +16,6 @@ class JavaSyntax16CompilationTest extends JavaSyntaxCompilationTestBase {
 
     protected File srcDir
 
-    /** Regular expression for: __CLR_hash_code.R.inc(index) */
-    protected final String R_INC = "__CLR[a-zA-Z0-9_]+\\.R\\.inc\\([0-9]+\\);"
 
     @Before
     void setUp() throws Exception {
@@ -59,6 +57,32 @@ class JavaSyntax16CompilationTest extends JavaSyntaxCompilationTestBase {
         final String fileName = "RecordIsNotReservedKeyword.java"
 
         instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_8)
-        assertFileMatches(fileName, R_INC + "System.out.println\\(record\\);", false)
+        assertFileMatches(fileName, R_INC + "System\\.out\\.println\\(record\\);", false)
+    }
+
+    @Test
+    void expectCodeInstrumentsAndCompilesAndRunsWithInstanceOfPatternMatching() {
+        assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_16))
+
+        final String fileName = "Java16InstanceOfPatternMatching.java"
+        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_16)
+        assertFileMatches(fileName, R_INC + "System\\.out\\.println\\(\"obj is String", false)
+
+        executeMainClasses("Java16InstanceOfPatternMatching")
+        assertExecOutputContains("obj is String = a string", false)
+        assertExecOutputContains("obj is not null and is an Object and not String or Integer", false)
+    }
+
+    @Test
+    void expectNoBranchInstrumentationForInstanceOfWithPatternMatching() {
+        assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_16))
+
+        final String fileName = "Java16InstanceOfPatternMatching.java"
+        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_16)
+
+        assertFileMatches(fileName, "\\(o1 instanceof String\\)&&\\(" + R_IGET, false) // instrument
+        assertFileMatches(fileName, "\\(o2 instanceof String s\\)", false) // do not instrument
+        assertFileMatches(fileName, "\\(o3 instanceof A\\.B ab\\)", false) // do not instrument
+        assertFileMatches(fileName, "\\(o4 instanceof A\\.B\\[\\] arr\\)", false) // do not instrument
     }
 }

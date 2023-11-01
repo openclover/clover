@@ -2500,7 +2500,11 @@ relationalExpression
                 )
                 shiftExpression
             )*
-        |   "instanceof" type=typeSpec
+        |
+            ("instanceof" type=typeSpec IDENT) =>
+            "instanceof" type=typeSpec IDENT
+        |
+            "instanceof" type=typeSpec
         )
     ;
 
