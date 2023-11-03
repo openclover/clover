@@ -526,6 +526,19 @@ tokens {
         return LT(1).getText().equals(firstKeyword) && LT(2).getText().equals(secondKeyword);
     }
 
+    /**
+     * Returns n-th token from LT(n) casted to CloverToken
+     */
+    private CloverToken lt(int i) throws TokenStreamException {
+        return (CloverToken) LT(i);
+    }
+
+    /**
+     * Casts Token into CloverToken
+     */
+    private CloverToken ct(Token token) {
+        return (CloverToken) token;
+    }
 }
 
 //
@@ -759,7 +772,7 @@ typeDefinition[boolean nested]
             pushHeadIdentifierStack(); // for the case when identifiers are recognized outside expression context
                                        // (i.e. annotations)
                                        // we don't want to fail on empty stack
-            first = (CloverToken)LT(1);
+            first = lt(1);
         }
         mods=classOrInterfaceModifiers[!nested]!
         typeDefinition2[mods, first, nested]
@@ -865,7 +878,7 @@ classOrInterfaceType returns [String type]
 }
     :
         {
-            first = (CloverToken)LT(1);
+            first = lt(1);
         }
         (ann=annotation)*
         IDENT
@@ -876,7 +889,7 @@ classOrInterfaceType returns [String type]
             IDENT (typeArguments)?
         )*
         {
-            last = (CloverToken)LT(0);
+            last = lt(0);
             type = TokenListUtil.getNormalisedSequence(first, last);
         }
     ;
@@ -1177,8 +1190,8 @@ methodSignature [Map tags, CloverToken first, boolean isPredicate] returns [Meth
         // declared to throw
         (throwsTypes=throwsClause)?
         {
-            CloverToken endSig = (CloverToken) LT(0);
-            MethodSignature signature = new MethodSignature(first, (CloverToken)methodName, endSig, tags, mods,
+            CloverToken endSig = lt(0);
+            MethodSignature signature = new MethodSignature(first, ct(methodName), endSig, tags, mods,
                     methodName.getText(), typeParam, returnType + brackets, parameters, throwsTypes);
             signatureExt = MethodSignatureExt.of(signature, endSig, deprecated);
         }
@@ -1211,8 +1224,8 @@ standardConstructorSignature [Map tags, CloverToken first, boolean isPredicate] 
         // get the list of exceptions that this method is declared to throw
         (throwsTypes=throwsClause)?
         {
-            CloverToken endSig = (CloverToken)LT(0);
-            MethodSignature signature = new MethodSignature(first, (CloverToken)constructorName, endSig, tags, mods,
+            CloverToken endSig = lt(0);
+            MethodSignature signature = new MethodSignature(first, ct(constructorName), endSig, tags, mods,
                     constructorName.getText(), null, null, params, throwsTypes);
             signatureExt = MethodSignatureExt.of(signature, endSig, deprecated);
         }
@@ -1236,8 +1249,8 @@ compactConstructorSignature [Map tags, CloverToken first, boolean isPredicate] r
         // just name of the constructor
         constructorName:IDENT
         {
-            CloverToken endSig = (CloverToken)LT(0);
-            MethodSignature signature = new MethodSignature(first, (CloverToken)constructorName, endSig, tags, mods,
+            CloverToken endSig = lt(0);
+            MethodSignature signature = new MethodSignature(first, ct(constructorName), endSig, tags, mods,
                     constructorName.getText(), null, null, null, null);
             signatureExt = MethodSignatureExt.of(signature, endSig, deprecated);
         }
@@ -1328,7 +1341,7 @@ methodModifier returns [int m]
 // Definition of a Java class
 classDefinition! [Modifiers mods] returns [String classname]
 {
-	CloverToken first = (CloverToken)LT(0);
+	CloverToken first = lt(0);
 	Map<String, List<String>> tags = null;
     boolean deprecated = false;
     CloverToken endOfBlock = null;
@@ -1352,7 +1365,7 @@ classDefinition! [Modifiers mods] returns [String classname]
         // it might implement some interfaces...
         implementsClause
         {
-            classEntry = enterClass(tags, mods, (CloverToken)id, false, false, false, superclass);
+            classEntry = enterClass(tags, mods, ct(id), false, false, false, superclass);
         }
         // now parse the body of the class
         endOfBlock = classBlock[classEntry]
@@ -1365,7 +1378,7 @@ classDefinition! [Modifiers mods] returns [String classname]
 // Definition of a record
 recordDefinition! [Modifiers mods] returns [String recordName]
 {
-    CloverToken first = (CloverToken)LT(0);
+    CloverToken first = lt(0);
     Map<String, List<String>> tags = null;
     boolean deprecated = false;
     CloverToken endOfBlock = null;
@@ -1388,7 +1401,7 @@ recordDefinition! [Modifiers mods] returns [String recordName]
         // it might implement some interfaces...
         implementsClause
         {
-            classEntry = enterClass(tags, mods, (CloverToken)id, false, false, false, superclass);
+            classEntry = enterClass(tags, mods, ct(id), false, false, false, superclass);
         }
         // now parse the body of the class
         endOfBlock = classBlock[classEntry]
@@ -1418,13 +1431,13 @@ interfaceDefinition! [Modifiers mods] returns [String name]
     :
         INTERFACE
         {
-            deprecated = maybeEnterDeprecated((CloverToken)LT(0));
+            deprecated = maybeEnterDeprecated(lt(0));
         }
         id:IDENT
         // it _might_ have type parameters
         (typeParam=typeParameters)?
         {
-            classEntry = enterClass(mods, (CloverToken)id, true, false, false);
+            classEntry = enterClass(mods, ct(id), true, false, false);
         }
         // it might extend some other interfaces
         interfaceExtends
@@ -1447,13 +1460,13 @@ enumDefinition! [Modifiers mods] returns [String name]
     :
         ENUM
         {
-            deprecated = maybeEnterDeprecated((CloverToken)LT(0));
+            deprecated = maybeEnterDeprecated(lt(0));
         }
 
         id:IDENT
 
         {
-            classEntry = enterClass(mods, (CloverToken)id, false, true, false);
+            classEntry = enterClass(mods, ct(id), false, true, false);
         }
 
         implementsClause
@@ -1474,7 +1487,7 @@ annotationTypeDeclaration [Modifiers mods] returns [String name]
     :
         AT INTERFACE id:IDENT
         {
-            classEntry = enterClass(mods, (CloverToken)id, false, false, true);
+            classEntry = enterClass(mods, ct(id), false, false, true);
         }
         endOfBlock = annotationTypeBody[classEntry]
         {
@@ -1486,7 +1499,7 @@ annotationTypeDeclaration [Modifiers mods] returns [String name]
 typeParameters returns [String asString]
 {
     int currentLtLevel = 0;
-    CloverToken start = (CloverToken)LT(1);
+    CloverToken start = lt(1);
     asString = null;
 }
     :
@@ -1501,7 +1514,7 @@ typeParameters returns [String asString]
         {(currentLtLevel != 0) || ltCounter == currentLtLevel}?
 
         {
-            asString = TokenListUtil.getNormalisedSequence(start, (CloverToken)LT(0));
+            asString = TokenListUtil.getNormalisedSequence(start, lt(0));
         }
     ;
 
@@ -1534,7 +1547,7 @@ classBlock [ClassEntryNode classEntry] returns [CloverToken t]
     :
         ip:LCURLY!
         {
-            setRecorderMemberInsertPoint(classEntry, (CloverToken)ip);
+            setRecorderMemberInsertPoint(classEntry, ct(ip));
         }
         (
             field[classEntry]
@@ -1543,7 +1556,7 @@ classBlock [ClassEntryNode classEntry] returns [CloverToken t]
         )*
         rc:RCURLY!
         {
-            t = (CloverToken)rc;
+            t = ct(rc);
         }
     ;
 
@@ -1588,7 +1601,7 @@ enumBlock [ClassEntryNode classEntry] returns [CloverToken t]
         )?
         ip:RCURLY!
         {
-            t = (CloverToken)ip;
+            t = ct(ip);
             setRecorderMemberInsertPoint(classEntry, t);
         }
     ;
@@ -1624,7 +1637,7 @@ annotationTypeBody [ClassEntryNode classEntry] returns [CloverToken t]
     :
         ip:LCURLY!
         {
-            setRecorderMemberInsertPoint(classEntry, (CloverToken)ip);
+            setRecorderMemberInsertPoint(classEntry, ct(ip));
         }
         (
             // an annotation member ("method")
@@ -1664,7 +1677,7 @@ annotationTypeBody [ClassEntryNode classEntry] returns [CloverToken t]
         )*
         endOfBlock:RCURLY!
         {
-            t = (CloverToken)endOfBlock;
+            t = ct(endOfBlock);
         }
     ;
 
@@ -1707,7 +1720,7 @@ implementsClause
 field! [ClassEntryNode containingClass]
 {
     CloverToken tmp;
-    CloverToken first = (CloverToken)LT(1);
+    CloverToken first = lt(1);
     CloverToken endSig = null;
     String typeParam = null;
     boolean deprecated = false;
@@ -1839,10 +1852,10 @@ constructorBody[MethodSignature signature, CloverToken start, CloverToken endSig
 
         {
             // special case for instrumenting entry to ctors - HACK add ctor sig for completeness
-            MethodEntryInstrEmitter entry = instrEnterMethod(signature, start, (CloverToken)lc, endOfInv);
-            instrExitMethod(entry, (CloverToken)rc);
+            MethodEntryInstrEmitter entry = instrEnterMethod(signature, start, ct(lc), endOfInv);
+            instrExitMethod(entry, ct(rc));
             exitContext();
-            fileInfo.addMethodMarker(entry, start, endSig, (CloverToken)rc);
+            fileInfo.addMethodMarker(entry, start, endSig, ct(rc));
         }
     ;
 
@@ -1863,13 +1876,13 @@ explicitConstructorInvocation returns [CloverToken t]
 
             pos1:THIS! LPAREN argList RPAREN! t1:SEMI!
             {
-                t=instrInlineAfter((CloverToken)t1, (CloverToken)pos1, (CloverToken)t1);
+                t=instrInlineAfter(ct(t1), ct(pos1), ct(t1));
             }
 
         |
             pos2:SUPER! lp2:LPAREN^ argList RPAREN! t2:SEMI!
             {
-                t=instrInlineAfter((CloverToken)t2, (CloverToken)pos2, (CloverToken)t2);
+                t=instrInlineAfter(ct(t2), ct(pos2), ct(t2));
             }
 
         |
@@ -1878,7 +1891,7 @@ explicitConstructorInvocation returns [CloverToken t]
             (DOT! THIS)? // HACK see CCD-264 - explicit ctor invocation can have form ClassName.this.super(..)
             DOT! pos3:SUPER! lp3:LPAREN^ argList RPAREN! t3:SEMI!
             {
-                t=instrInlineAfter((CloverToken)t3, (CloverToken)pos3, (CloverToken)t3);
+                t=instrInlineAfter(ct(t3), ct(pos3), ct(t3));
             }
         )
     ;
@@ -2092,7 +2105,7 @@ compoundStatement returns [CloverToken t]
         (t=statement[null])*
         rc:RCURLY!
         {
-            t = (CloverToken)rc;
+            t = ct(rc);
         }
     ;
 
@@ -2109,11 +2122,11 @@ outerCompoundStmt [MethodSignature sig, CloverToken start, CloverToken endSig, i
         (tmp=statement[null])*
         rc:RCURLY!
         {
-            MethodEntryInstrEmitter entry = instrEnterMethod(sig, start, (CloverToken)lc);
-            instrExitMethod(entry, (CloverToken)rc);
+            MethodEntryInstrEmitter entry = instrEnterMethod(sig, start, ct(lc));
+            instrExitMethod(entry, ct(rc));
             exitContext();
             if (context == ContextStore.CONTEXT_METHOD) {
-                fileInfo.addMethodMarker(entry, start, endSig, (CloverToken)rc);
+                fileInfo.addMethodMarker(entry, start, endSig, ct(rc));
             }
         }
     ;
@@ -2145,7 +2158,7 @@ statement [CloverToken owningLabel] returns [CloverToken last]
 }
     :
     {
-        first = (CloverToken)LT(1);
+        first = lt(1);
     }
     (
         // an assert statement
@@ -2156,14 +2169,14 @@ statement [CloverToken owningLabel] returns [CloverToken last]
             saveContext = getCurrentContext();
         }
         {
-            tmp=(CloverToken)LT(1);
+            tmp=lt(1);
         }
         expression
-        ( colon:COLON! {instrBoolExpr(tmp, (CloverToken)colon); assertColonPart=true;}  expression )?
+        ( colon:COLON! {instrBoolExpr(tmp, ct(colon)); assertColonPart=true;}  expression )?
         semi:SEMI!
         {
             if (!assertColonPart) {
-                 instrBoolExpr(tmp, (CloverToken)semi);
+                 instrBoolExpr(tmp, ct(semi));
             }
             exitContext();
         }
@@ -2184,7 +2197,7 @@ statement [CloverToken owningLabel] returns [CloverToken last]
         (declaration) =>
         declaration se1:SEMI!
         {
-            flushAfter = (CloverToken)se1;
+            flushAfter = ct(se1);
         }
 
     |
@@ -2212,7 +2225,7 @@ statement [CloverToken owningLabel] returns [CloverToken last]
         // side-effects.
         expression se2:SEMI!
         {
-            flushAfter = (CloverToken)se2;
+            flushAfter = ct(se2);
         }
 
     |
@@ -2235,13 +2248,13 @@ statement [CloverToken owningLabel] returns [CloverToken last]
         }
         LPAREN!
         {
-            tmp=(CloverToken)LT(1);
+            tmp=lt(1);
         }
         expression
         rp1:RPAREN!
         {
-            instrBoolExpr(tmp, (CloverToken)rp1);
-            addOpenBraceAfter((CloverToken)rp1);
+            instrBoolExpr(tmp, ct(rp1));
+            addOpenBraceAfter(ct(rp1));
         }
         last=statement[null]
         {
@@ -2257,7 +2270,7 @@ statement [CloverToken owningLabel] returns [CloverToken last]
             }:
             el:ELSE!
             {
-                addOpenBraceAfter((CloverToken)el);
+                addOpenBraceAfter(ct(el));
                 enterContext(ContextStore.CONTEXT_ELSE);
                 saveContext = getCurrentContext();
             }
@@ -2292,7 +2305,7 @@ statement [CloverToken owningLabel] returns [CloverToken last]
         )
         rp:RPAREN!
         {
-            addOpenBraceAfter((CloverToken)rp);
+            addOpenBraceAfter(ct(rp));
         }
         last = statement[null]   // statement to loop over
         {
@@ -2309,13 +2322,13 @@ statement [CloverToken owningLabel] returns [CloverToken last]
         }
         LPAREN!
         {
-            tmp = (CloverToken)LT(1);
+            tmp = lt(1);
         }
         expression
         rp2:RPAREN!
         {
-            instrBoolExpr(tmp, (CloverToken)rp2);
-            addOpenBraceAfter((CloverToken)rp2);
+            instrBoolExpr(tmp, ct(rp2));
+            addOpenBraceAfter(ct(rp2));
         }
         last=statement[null]
         {
@@ -2327,7 +2340,7 @@ statement [CloverToken owningLabel] returns [CloverToken last]
         // do-while statement
         d1:DO
         {
-            addOpenBraceAfter((CloverToken)d1);
+            addOpenBraceAfter(ct(d1));
             enterContext(ContextStore.CONTEXT_DO);
             saveContext = getCurrentContext();
         }
@@ -2338,15 +2351,15 @@ statement [CloverToken owningLabel] returns [CloverToken last]
         }
         WHILE! LPAREN!
         {
-            tmp=(CloverToken)LT(1);
+            tmp=lt(1);
         }
         expression rp3:RPAREN!
         {
-            instrBoolExpr(tmp, (CloverToken)rp3);
+            instrBoolExpr(tmp, ct(rp3));
         }
         sem:SEMI!
         {
-            flushAfter = (CloverToken)sem;
+            flushAfter = ct(sem);
         }
 
     |
@@ -2365,7 +2378,7 @@ statement [CloverToken owningLabel] returns [CloverToken last]
         // switch/case statement
         sw:SWITCH
         {
-            tmp = (CloverToken)sw;
+            tmp = ct(sw);
             if (labelled) {
                 tmp = owningLabel;
             }
@@ -2416,7 +2429,7 @@ statement [CloverToken owningLabel] returns [CloverToken last]
     )
         {
             if (last == null) {
-                last = (CloverToken)LT(0);
+                last = lt(0);
             }
 
             if (instrumentable) {
@@ -2480,7 +2493,7 @@ aCase[FlagDeclEmitter flag] returns [int complexity]
         )
         t:COLON!
         {
-            instrInlineAfter((CloverToken)t, (CloverToken)pos, (CloverToken)t, flag);
+            instrInlineAfter(ct(t), ct(pos), ct(t), flag);
             fileInfo.setSuppressFallthroughWarnings(true);
         }
     ;
@@ -2513,11 +2526,11 @@ forCond
     :
         (
             {
-                tmp=(CloverToken)LT(1);
+                tmp=lt(1);
             }
             expression se:SEMI!
             {
-                instrBoolExpr(tmp, (CloverToken)se);
+                instrBoolExpr(tmp, ct(se));
             }
         )
         |
@@ -2541,7 +2554,7 @@ tryCatchBlock [boolean labelled] returns [CloverToken last]
         (
             lp:LPAREN
             {
-                insertAutoCloseableClassDecl((CloverToken)tr);
+                insertAutoCloseableClassDecl(ct(tr));
             }
             (
                 (IDENT) =>
@@ -2551,14 +2564,14 @@ tryCatchBlock [boolean labelled] returns [CloverToken last]
             )
             {
                 complexity++;
-                instrArmDecl(((CloverToken)lp).getNext(), (CloverToken)LT(0), saveContext);
+                instrArmDecl((ct(lp)).getNext(), lt(0), saveContext);
             }
             (
                 semi:SEMI
                 ( (IDENT) => variableDeclarator | declaration )
                 {
                     complexity++;
-                    instrArmDecl(((CloverToken)semi).getNext(), (CloverToken)LT(0), saveContext);
+                    instrArmDecl((ct(semi)).getNext(), lt(0), saveContext);
                 }
             )*
             (SEMI)?
@@ -2590,7 +2603,7 @@ tryCatchBlock [boolean labelled] returns [CloverToken last]
         )?
         {
             if (!labelled) {
-                instrInlineBefore((CloverToken)tr, last, saveContext, complexity);
+                instrInlineBefore(ct(tr), last, saveContext, complexity);
             }
         }
     ;
@@ -2717,17 +2730,17 @@ lambdaFunction returns [CloverToken last]
         // "(cast) (args) ->" or "(args) ->"; see lambdaFunctionPredicate
         (
             (LPAREN type=classTypeSpec (BAND classOrInterfaceType)* RPAREN la=lambdaArgs LAMBDA) =>
-                { classCastStart = (CloverToken)LT(1); }
+                { classCastStart = lt(1); }
                 LPAREN type=classTypeSpec
                 (BAND typeExt=classOrInterfaceType { type += "&" + typeExt; } )*
                 RPAREN
-                { classCastEnd = (CloverToken)LT(0); }
-                { startLambdaArgs = (CloverToken)LT(1); }
+                { classCastEnd = lt(0); }
+                { startLambdaArgs = lt(1); }
                 la=lambdaArgs
                 LAMBDA
         |
             (la=lambdaArgs LAMBDA) =>
-                { startLambdaArgs = (CloverToken)LT(1); }
+                { startLambdaArgs = lt(1); }
                 la=lambdaArgs
                 LAMBDA
         )
@@ -2742,7 +2755,7 @@ lambdaFunction returns [CloverToken last]
             {
                 // wrap entire lambda, including argument list and not just an expression body
                 // pass also a preceding class cast if present (non-null)
-                startLambdaBody = (CloverToken)LT(1);
+                startLambdaBody = lt(1);
                 exprToBlockHeuristic = RewriteLambdaToBlockMatcher.shouldRewriteAsBlock(identifiersStack);
                 if (exprToBlockHeuristic) {
                     exprToBlockStartEntryEmitter = instrEnterLambdaExprToBlockExpression(lambdaSignature, startLambdaArgs, startLambdaBody);
@@ -2753,20 +2766,20 @@ lambdaFunction returns [CloverToken last]
             }
             expression
             {   if (exprToBlockHeuristic) {
-                    instrExitLambdaExprToBlockExpression(exprToBlockStartEntryEmitter, (CloverToken)LT(0));
+                    instrExitLambdaExprToBlockExpression(exprToBlockStartEntryEmitter, lt(0));
                 } else {
-                    instrExitLambdaExpression(expressionEntryEmitter, (CloverToken)LT(0));
+                    instrExitLambdaExpression(expressionEntryEmitter, lt(0));
                 }
             }
         |
             {
                 // expected LT(1)=LCURLY
-                blockEntryEmitter = instrEnterLambdaBlock(lambdaSignature, (CloverToken)LT(1));
+                blockEntryEmitter = instrEnterLambdaBlock(lambdaSignature, lt(1));
             }
             cs=compoundStatement
             {
                 // expected LT(0)=RCURLY
-                instrExitLambdaBlock(blockEntryEmitter, (CloverToken)LT(0));
+                instrExitLambdaBlock(blockEntryEmitter, lt(0));
             }
         )
     ;
@@ -2903,10 +2916,10 @@ conditionalExpression
         (lambdaFunctionPredicate) => lf=lambdaFunction
     |
         (logicalOrExpression (QUESTION)?) =>
-        {startOfCond = (CloverToken)LT(1);}
+        {startOfCond = lt(1);}
         logicalOrExpression
         (   endOfCond:QUESTION
-            {if (!constExpr) instrBoolExpr(startOfCond, (CloverToken)endOfCond);}
+            {if (!constExpr) instrBoolExpr(startOfCond, ct(endOfCond));}
             assignmentExpression COLON! conditionalExpression
         )?
     ;
@@ -3050,9 +3063,9 @@ unaryExpressionNotPlusMinus[CloverToken classCastStart, CloverToken classCastEnd
             // follows, it's a typecast.  No semantic checking needed to parse.
             // if it _looks_ like a cast, it _is_ a cast; else it's a "(expr)"
             (LPAREN type=classTypeSpec (BAND type=classOrInterfaceType)* RPAREN unaryExpressionNotPlusMinus[null, null])=>
-            { classCastStart = (CloverToken)LT(1); }
+            { classCastStart = lt(1); }
             LPAREN  type=classTypeSpec (BAND type=classOrInterfaceType)* RPAREN
-            { classCastEnd = (CloverToken)LT(0); }
+            { classCastEnd = lt(0); }
             unaryExpressionNotPlusMinus[classCastStart, classCastEnd]
         |
             postfixExpression[classCastStart, classCastEnd]
@@ -3078,7 +3091,7 @@ postfixExpression[CloverToken classCastStart, CloverToken classCastEnd]
     :
         {
             // we might start a method reference, remember this token
-            startMethodReference = (CloverToken)LT(1);
+            startMethodReference = lt(1);
         }
         primaryExpressionPart         // start with a primary part like constant or identifier
         supplementaryExpressionPart[classCastStart, classCastEnd, startMethodReference]   // add extra stuff like array indexes, this/super (optional)
@@ -3092,7 +3105,7 @@ postfixExpression[CloverToken classCastStart, CloverToken classCastEnd]
                         LambdaUtil.generateLambdaNameWithId(la, lambdaCounter++), null, null, la, null, new Modifiers());
                 LambdaExpressionEntryEmitter expressionEntryEmitter = instrEnterLambdaMethodReference(
                         methodReferenceSignature, startMethodReference, classCastStart, classCastEnd);
-                instrExitMethodReference(expressionEntryEmitter, (CloverToken)LT(0));
+                instrExitMethodReference(expressionEntryEmitter, lt(0));
             }
         |
             supplementaryPostIncDecPart   // possibly add on a post-increment or post-decrement.
@@ -3175,7 +3188,7 @@ supplementaryExpressionPart[CloverToken classCastStart, CloverToken classCastEnd
                     LambdaExpressionEntryEmitter expressionEntryEmitter = instrEnterLambdaExpression(
                             methodReferenceSignature, startMethodReference, startMethodReference,
                             classCastStart, classCastEnd);
-                    instrExitLambdaExpression(expressionEntryEmitter, (CloverToken)LT(0));
+                    instrExitLambdaExpression(expressionEntryEmitter, lt(0));
                 }
             )
         |
@@ -3350,7 +3363,7 @@ annotation2 [boolean instrSuppressWarnings] returns [AnnotationImpl anno]
   anno = new AnnotationImpl();
 }
     :
-        AT annotationName=identifier { ident=(CloverToken)LT(0);isSuppressWarnings = instrSuppressWarnings && "SuppressWarnings".equals(annotationName);anno.setName(annotationName);}
+        AT annotationName=identifier { ident=lt(0);isSuppressWarnings = instrSuppressWarnings && "SuppressWarnings".equals(annotationName);anno.setName(annotationName);}
         (
             lparen:LPAREN RPAREN // normalAnnotationRest
         |    (LPAREN IDENT ASSIGN )=> LPAREN annMemberValuePair[anno, isSuppressWarnings] (COMMA annMemberValuePair[anno, false])* RPAREN {hasArgs=true;} // normalAnnotation
@@ -3363,7 +3376,7 @@ annotation2 [boolean instrSuppressWarnings] returns [AnnotationImpl anno]
                 suppressWarningsInstr = new SimpleEmitter("{\"fallthrough\"}");
                 Emitter openParen = new SimpleEmitter("(");
                 Emitter closeParen = new SimpleEmitter(")");
-                CloverToken instrPoint = (CloverToken)lparen;
+                CloverToken instrPoint = ct(lparen);
                 if (instrPoint == null) {
                     instrPoint = ident;
                     suppressWarningsInstr.addDependent(openParen);
@@ -3416,10 +3429,10 @@ annMemberValue2 [AnnotationValueCollection anno, String key, boolean isSuppressW
                     Emitter closeCurly = new SimpleEmitter("}");
                     Emitter comma = new SimpleEmitter(",");
                     Emitter fallthrough = new SimpleEmitter("\"fallthrough\"");
-                    ((CloverToken)t).addPreEmitter(suppressWarningsInstr);
-                    ((CloverToken)t).addPostEmitter(comma);
-                    ((CloverToken)t).addPostEmitter(fallthrough);
-                    ((CloverToken)t).addPostEmitter(closeCurly);
+                    ct(t).addPreEmitter(suppressWarningsInstr);
+                    ct(t).addPostEmitter(comma);
+                    ct(t).addPostEmitter(fallthrough);
+                    ct(t).addPostEmitter(closeCurly);
                     // adding as dependents allows them all to be turned off as a group
                     suppressWarningsInstr.addDependent(closeCurly);
                     suppressWarningsInstr.addDependent(comma);
@@ -3437,12 +3450,12 @@ annMemberValue2 [AnnotationValueCollection anno, String key, boolean isSuppressW
 protected
 conditionalExpression2 returns [String asString]
 {
-	CloverToken start = (CloverToken)LT(1);
+	CloverToken start = lt(1);
 	CloverToken end = null;
 	asString = null;
 }
 	:
-	conditionalExpression { end = (CloverToken)LT(0); asString = TokenListUtil.getNormalisedSequence(start, end); }	
+	conditionalExpression { end = lt(0); asString = TokenListUtil.getNormalisedSequence(start, end); }
 	;
 
 protected
@@ -3461,7 +3474,7 @@ annMemberValueArrayInitializer [AnnotationValueCollection anno, String key, bool
         (seenFallthrough = annMemberValues[annoArray, isSuppressWarnings] { emitComma = true;})?
         (COMMA{ emitComma=false; })?
         {
-            CloverToken t = (CloverToken)LT(0);
+            CloverToken t = lt(0);
             if (isSuppressWarnings) {
 
                 if (seenFallthrough) {
@@ -3472,10 +3485,10 @@ annMemberValueArrayInitializer [AnnotationValueCollection anno, String key, bool
                     // add "fallthrough" to existing array init
                     if (emitComma) {
                         suppressWarningsInstr = new SimpleEmitter(",");
-                        ((CloverToken)t).addPostEmitter(suppressWarningsInstr);
+                        ct(t).addPostEmitter(suppressWarningsInstr);
                     }
                     Emitter fallthrough = new SimpleEmitter("\"fallthrough\"");
-                    ((CloverToken)t).addPostEmitter(fallthrough);
+                    ct(t).addPostEmitter(fallthrough);
                     if (suppressWarningsInstr == null) {
                         suppressWarningsInstr = fallthrough;
                     }
