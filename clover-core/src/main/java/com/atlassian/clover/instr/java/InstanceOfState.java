@@ -16,7 +16,7 @@ public enum InstanceOfState {
         @Override
         InstanceOfState nextToken(CloverToken token) {
             // "o instanceof"
-            return token.getType() == JavaTokenTypes.LITERAL_instanceof
+            return token.getType() == JavaTokenTypes.INSTANCEOF
                     ? INSTANCEOF
                     : NOTHING;
         }

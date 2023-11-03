@@ -4,8 +4,8 @@ import org.junit.Test
 
 import static com.atlassian.clover.instr.java.JavaTokenTypes.DOT
 import static com.atlassian.clover.instr.java.JavaTokenTypes.IDENT
+import static com.atlassian.clover.instr.java.JavaTokenTypes.INSTANCEOF
 import static com.atlassian.clover.instr.java.JavaTokenTypes.LBRACK
-import static com.atlassian.clover.instr.java.JavaTokenTypes.LITERAL_instanceof
 import static com.atlassian.clover.instr.java.JavaTokenTypes.RBRACK
 import static org.junit.Assert.assertEquals
 
@@ -16,7 +16,7 @@ class InstanceOfStateTest {
 
         // obj instanceof String
         state = state.nextToken(new CloverToken(IDENT, "obj"))
-        state = state.nextToken(new CloverToken(LITERAL_instanceof, "instanceof"))
+        state = state.nextToken(new CloverToken(INSTANCEOF, "instanceof"))
         state = state.nextToken(new CloverToken(IDENT, "String"))
 
         assertEquals(InstanceOfState.FULL_TYPE, state)
@@ -28,7 +28,7 @@ class InstanceOfStateTest {
 
         // obj instanceof String[]
         state = state.nextToken(new CloverToken(IDENT, "obj"))
-        state = state.nextToken(new CloverToken(LITERAL_instanceof, "instanceof"))
+        state = state.nextToken(new CloverToken(INSTANCEOF, "instanceof"))
         state = state.nextToken(new CloverToken(IDENT, "String"))
         state = state.nextToken(new CloverToken(LBRACK, "["))
         state = state.nextToken(new CloverToken(RBRACK, "]"))
@@ -42,7 +42,7 @@ class InstanceOfStateTest {
 
         // obj instanceof A.B.C
         state = state.nextToken(new CloverToken(IDENT, "obj"))
-        state = state.nextToken(new CloverToken(LITERAL_instanceof, "instanceof"))
+        state = state.nextToken(new CloverToken(INSTANCEOF, "instanceof"))
         state = state.nextToken(new CloverToken(IDENT, "A"))
         state = state.nextToken(new CloverToken(DOT, "."))
         state = state.nextToken(new CloverToken(IDENT, "B"))
@@ -58,7 +58,7 @@ class InstanceOfStateTest {
 
         // obj instanceof A.B[] arr
         state = state.nextToken(new CloverToken(IDENT, "obj"))
-        state = state.nextToken(new CloverToken(LITERAL_instanceof, "instanceof"))
+        state = state.nextToken(new CloverToken(INSTANCEOF, "instanceof"))
         state = state.nextToken(new CloverToken(IDENT, "A"))
         state = state.nextToken(new CloverToken(DOT, "."))
         state = state.nextToken(new CloverToken(IDENT, "B"))
@@ -75,7 +75,7 @@ class InstanceOfStateTest {
 
         // obj instanceof String str
         state = state.nextToken(new CloverToken(IDENT, "obj"))
-        state = state.nextToken(new CloverToken(LITERAL_instanceof, "instanceof"))
+        state = state.nextToken(new CloverToken(INSTANCEOF, "instanceof"))
         state = state.nextToken(new CloverToken(IDENT, "String"))
         state = state.nextToken(new CloverToken(IDENT, "str"))
 
