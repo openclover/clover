@@ -413,8 +413,9 @@ abstract class JavaSyntaxCompilationTestBase {
         javac.setEncoding("UTF8")
         javac.setIncludes("**/*.java")
         javac.setDebug(true)
-        Javac.ImplementationSpecificArgument arg = javac.createCompilerArg()
-        arg.setValue("-Xlint") // enable all extra warnings
+        javac.createCompilerArg().setValue("-Xlint") // enable all extra warnings
+        javac.createCompilerArg().setValue("-J-Duser.language=en") // some tests check compiler messages
+        javac.createCompilerArg().setValue("-J-Duser.locale=EN")
 
         // compile code
         javac.perform()
