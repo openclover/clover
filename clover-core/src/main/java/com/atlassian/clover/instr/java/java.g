@@ -18,6 +18,7 @@ import com.atlassian.clover.registry.*;
 import com.atlassian.clover.registry.entities.*;
 
 }
+
 /**
  * Java 1.5/JSR14 Recognizer
  * Based on the Public Domain Java 1.3 antlr grammar provided at
@@ -42,7 +43,8 @@ tokens {
     FOR_ITERATOR; EMPTY_STAT; FINAL="final"; ABSTRACT="abstract";
     STRICTFP="strictfp"; SUPER_CTOR_CALL; CTOR_CALL;
 }
- {
+
+{
 
     /** use to log messages **/
     private static final Logger LOG = Logger.getInstance();
@@ -85,20 +87,23 @@ tokens {
         pushHeadIdentifierStack();
     }
 
-    private ClassEntryNode enterClass(Modifiers mods, CloverToken tok, boolean aIsInterface, boolean aIsEnum, boolean isAnnotation) {
+    private ClassEntryNode enterClass(Modifiers mods, CloverToken tok,
+            boolean aIsInterface, boolean aIsEnum, boolean isAnnotation) {
+
         return enterClass(null, mods, tok, aIsInterface, aIsEnum, isAnnotation, null);
     }
 
-    private ClassEntryNode enterClass(Map<String, List<String>> tags, Modifiers mods, CloverToken tok, boolean aIsInterface, boolean aIsEnum, boolean isAnnotation, String superclass) {
+    private ClassEntryNode enterClass(Map<String, List<String>> tags, Modifiers mods, CloverToken tok,
+            boolean aIsInterface, boolean aIsEnum, boolean isAnnotation, String superclass) {
+
         String classname = tok.getText();
-        int startline = tok.getLine();
-        int startcol = tok.getColumn();
+        int startLine = tok.getLine();
+        int startCol = tok.getColumn();
         classnameList.add(classname);
-        // the fullname of this class is the concatenation of
-        // all containing classnames.
-        String fullname = getClassname(classnameList);
-        ClassEntryNode node = new ClassEntryNode(tags, mods, fullname, fileInfo.getPackageName(), superclass, getCurrentContext(), startline, startcol,
-                topLevelClass, aIsInterface, aIsEnum, isAnnotation); 
+        // the full name of this class is the concatenation of all containing class names
+        String fullName = getClassname(classnameList);
+        ClassEntryNode node = new ClassEntryNode(tags, mods, fullName, fileInfo.getPackageName(), superclass,
+                getCurrentContext(), startLine, startCol, topLevelClass, aIsInterface, aIsEnum, isAnnotation);
         tok.addPreEmitter(node);
         if (topLevelClass) {
             currentTopLevelClassEntry = node;
@@ -128,14 +133,14 @@ tokens {
         t.addPreEmitter(new ClassExitNode(entry, getClassname(classnameList), t.getLine(), t.getColumn() + t.getText().length()));
     }
 
-    private String getClassname(List<String> classlist) {
-        String fullname = "";
+    private String getClassname(List<String> classList) {
+        String fullName = "";
         String sep = "";
-        for (String className : classlist) {
-            fullname += sep + className;
+        for (String className : classList) {
+            fullName += sep + className;
             sep = ".";
         }
-        return fullname;
+        return fullName;
     }
 
     private void enterContext(int newContext) {
@@ -184,10 +189,10 @@ tokens {
     }
 
     private MethodEntryInstrEmitter instrEnterMethod(MethodSignature sig, CloverToken start,
-                                                     CloverToken lcurly, CloverToken skip) {
-        CloverToken instrPoint = (skip == null ? lcurly : skip);
+                                                     CloverToken leftCurly, CloverToken skip) {
+        CloverToken instrPoint = (skip == null ? leftCurly : skip);
         MethodRegistrationNode reg = new MethodRegistrationNode(getCurrentContext(), sig, start.getLine(), start.getColumn());
-        lcurly.addPreEmitter(reg);
+        leftCurly.addPreEmitter(reg);
 
         MethodEntryInstrEmitter ret = new MethodEntryInstrEmitter(reg);
         instrPoint.addPostEmitter(ret);
@@ -195,8 +200,8 @@ tokens {
         return ret;
     }
 
-    private MethodEntryInstrEmitter instrEnterMethod(MethodSignature sig, CloverToken start, CloverToken lcurly) {
-        return instrEnterMethod(sig, start, lcurly, null);
+    private MethodEntryInstrEmitter instrEnterMethod(MethodSignature sig, CloverToken start, CloverToken leftCurly) {
+        return instrEnterMethod(sig, start, leftCurly, null);
     }
 
     private void instrExitMethod(MethodEntryInstrEmitter entryEmitter, CloverToken tok) {
@@ -307,7 +312,8 @@ tokens {
                 classCast = TokenListUtil.getNormalisedSequence(classCastStart, classCastEnd);
             }
             LambdaExpressionEntryEmitter emitter = new LambdaExpressionEntryEmitter(lambdaSignature, classCast,
-                    methodReferenceStart.getLine(), methodReferenceStart.getColumn(), methodReferenceStart.getLine(), methodReferenceStart .getColumn());
+                    methodReferenceStart.getLine(), methodReferenceStart.getColumn(),
+                    methodReferenceStart.getLine(), methodReferenceStart.getColumn());
             methodReferenceStart.addPreEmitter(emitter);
             return emitter;
         }
@@ -345,12 +351,16 @@ tokens {
      *             ^ bodyStart
      * </pre>
      */
-     private LambdaExprToBlockStartEntryEmitter instrEnterLambdaExprToBlockExpression(MethodSignature lambdaSignature, CloverToken lambdaStart, CloverToken bodyStart) {
+     private LambdaExprToBlockStartEntryEmitter instrEnterLambdaExprToBlockExpression(MethodSignature lambdaSignature,
+            CloverToken lambdaStart, CloverToken bodyStart) {
+
         if (cfg.getInstrumentLambda() == LambdaInstrumentation.ALL
                 || cfg.getInstrumentLambda() == LambdaInstrumentation.ALL_BUT_REFERENCE
                 || cfg.getInstrumentLambda() == LambdaInstrumentation.EXPRESSION) {
-             LambdaExprToBlockStartEntryEmitter startEmitter = new LambdaExprToBlockStartEntryEmitter(lambdaSignature, lambdaStart.getLine(), lambdaStart.getColumn());
-             LambdaExprToBlockBodyEntryEmitter bodyEmitter = new LambdaExprToBlockBodyEntryEmitter(startEmitter, bodyStart.getLine(), bodyStart.getColumn());
+             LambdaExprToBlockStartEntryEmitter startEmitter = new LambdaExprToBlockStartEntryEmitter(
+                    lambdaSignature, lambdaStart.getLine(), lambdaStart.getColumn());
+             LambdaExprToBlockBodyEntryEmitter bodyEmitter = new LambdaExprToBlockBodyEntryEmitter(
+                    startEmitter, bodyStart.getLine(), bodyStart.getColumn());
              lambdaStart.addPreEmitter(startEmitter);
              bodyStart.addPreEmitter(bodyEmitter);
              return startEmitter;
@@ -368,7 +378,8 @@ tokens {
         if (cfg.getInstrumentLambda() == LambdaInstrumentation.ALL
                      || cfg.getInstrumentLambda() == LambdaInstrumentation.ALL_BUT_REFERENCE
                      || cfg.getInstrumentLambda() == LambdaInstrumentation.EXPRESSION) {
-             tok.addPostEmitter(new LambdaExprToBlockExitEmitter(entryEmitter, tok.getLine(), tok.getColumn()+tok.getText().length()));
+             tok.addPostEmitter(
+                    new LambdaExprToBlockExitEmitter(entryEmitter, tok.getLine(), tok.getColumn()+tok.getText().length()));
          }
      }
 
@@ -378,19 +389,19 @@ tokens {
     }
 
     private FlagDeclEmitter declareFlagBefore(CloverToken tok) {
-       FlagDeclEmitter flag = new FlagDeclEmitter();
-       tok.addPreEmitter(flag);
-       return flag;
+        FlagDeclEmitter flag = new FlagDeclEmitter();
+        tok.addPreEmitter(flag);
+        return flag;
     }
 
     private CloverToken instrInlineAfter(CloverToken instr, CloverToken start, CloverToken end) {
         if (cfg.isStatementInstrEnabled()) {
-          instr.addPostEmitter(
-            new StatementInstrEmitter(
-              getCurrentContext(), start.getLine(), start.getColumn(), end.getLine(),
-              end.getColumn() + end.getText().length()));
-          instr.addPostEmitter(new DirectedFlushEmitter());
-          fileInfo.addStatementMarker(start, end);
+            instr.addPostEmitter(
+                    new StatementInstrEmitter(
+                            getCurrentContext(), start.getLine(), start.getColumn(), end.getLine(),
+                            end.getColumn() + end.getText().length()));
+            instr.addPostEmitter(new DirectedFlushEmitter());
+            fileInfo.addStatementMarker(start, end);
         }
         return instr;
     }
@@ -398,23 +409,23 @@ tokens {
     // same as above, but protected by a flag check
     private CloverToken instrInlineAfter(CloverToken tok, CloverToken start, CloverToken end, FlagDeclEmitter flag) {
         if (cfg.isStatementInstrEnabled()) {
-          tok.addPostEmitter(
-            new FlaggedInstrEmitter(
-              flag,
-              new StatementInstrEmitter(
-                getCurrentContext(), start.getLine(), start.getColumn(),
-                end.getLine(), end.getColumn() + end.getText().length())));
-          fileInfo.addStatementMarker(start, end);
+            tok.addPostEmitter(
+                    new FlaggedInstrEmitter(
+                        flag,
+                        new StatementInstrEmitter(
+                                getCurrentContext(), start.getLine(), start.getColumn(),
+                                end.getLine(), end.getColumn() + end.getText().length())));
+            fileInfo.addStatementMarker(start, end);
         }
         return tok;
     }
 
     private CloverToken instrInlineBefore(CloverToken start, CloverToken end, ContextSet context, int complexity) {
         if (cfg.isStatementInstrEnabled()) {
-          start.addPreEmitter(
-            new StatementInstrEmitter(
-              context, start.getLine(), start.getColumn(), end.getLine(),
-              end.getColumn() + end.getText().length(), complexity));
+            start.addPreEmitter(
+                    new StatementInstrEmitter(
+                                context, start.getLine(), start.getColumn(), end.getLine(),
+                                end.getColumn() + end.getText().length(), complexity));
         }
         return start;
     }
@@ -431,7 +442,7 @@ tokens {
           start.addPreEmitter(
             new ArmInstrEmitter(
               context, start.getLine(), start.getColumn(), end.getLine(),
-              end.getColumn() + end.getText().length(), 1/*TODO*/));
+              end.getColumn() + end.getText().length(), 1 /*TODO*/));
         }
     }
 
@@ -463,8 +474,9 @@ tokens {
           ExpressionInfo expr = ExpressionInfo.fromTokens(begin, end);
           if (!expr.isConstant()) {
               begin.addPreEmitter(new StartBoolInstrEmitter(expr));
-              end.addPreEmitter(new EndBoolInstrEmitter(getCurrentContext(), begin.getLine(), begin.getColumn() - 1,
-              end.getLine(), end.getColumn() + end.getText().length(), expr));
+              end.addPreEmitter(
+                    new EndBoolInstrEmitter(getCurrentContext(), begin.getLine(), begin.getColumn() - 1,
+                            end.getLine(), end.getColumn() + end.getText().length(), expr));
           }
         }
         return end;
@@ -489,7 +501,7 @@ tokens {
 
     private void maybeExitDeprecated(boolean dep) {
        if (dep) {
-         exitContext();
+            exitContext();
        }
     }
 
@@ -667,11 +679,13 @@ providesDirective
 // Compilation Unit: In Java, this is a single file.  This is the start
 //   rule for this parser
 compilationUnit
-    :   // A compilation unit starts with an optional package definition
+    :
+        // A compilation unit starts with an optional package definition
         (   (packageDefinition)=> packageDefinition
             // need above syntactic predicate to dis-amb the 'annotation' leading both
             // packageDefinition and typeDefinition
-        |   /* nothing */
+        |
+            /* nothing */
         )
 
         // Next we have a series of zero or more import statements
@@ -704,7 +718,8 @@ packageDefinition
     String pn = "";
     AnnotationImpl ann = null;
 }
-    :   (ann=annotation)*
+    :
+        (ann=annotation)*
         "package"  pn=identifier SEMI! {fileInfo.setPackageName(pn);}
     ;
 
@@ -713,7 +728,8 @@ packageDefinition
 //    or a "static" method import
 importDefinition
     options {defaultErrorHandler = false;}
-    :   "import" ("static")? identifierStar SEMI!
+    :
+        "import" ("static")? identifierStar SEMI!
     ;
 
 // A type definition in a file is either a class or interface definition.
@@ -732,7 +748,8 @@ typeDefinition[boolean nested]
         }
         mods=classOrInterfaceModifiers[!nested]!
         typeDefinition2[mods, first, nested]
-    |   SEMI!
+    |
+        SEMI!
         {
             popHeadIdentifierStack();
         }
@@ -746,10 +763,14 @@ typeDefinition2[Modifiers mods, CloverToken first, boolean nested]
     :
         (
             name=classDefinition[mods]
-        |   ( { isKeyword("record") }? IDENT) => name=recordDefinition[mods]
-        |   name=interfaceDefinition[mods]
-        |   name=enumDefinition[mods] {isEnum=true;}
-        |   name=annotationTypeDeclaration[mods]
+        |
+            ( { isKeyword("record") }? IDENT) => name=recordDefinition[mods]
+        |
+            name=interfaceDefinition[mods]
+        |
+            name=enumDefinition[mods] {isEnum=true;}
+        |
+            name=annotationTypeDeclaration[mods]
         )
         {
             if (!nested) {
@@ -780,25 +801,27 @@ typeSpec returns [String spec]
     AnnotationImpl ann = null;
 }
     :
-      ( options { greedy=true; }: ann=annotation )*
-      (
-          spec = classTypeSpec
-        | spec = builtInTypeSpec
-      )
+        ( options { greedy=true; }: ann=annotation )*
+        (
+            spec = classTypeSpec
+        |
+            spec = builtInTypeSpec
+        )
     ;
 
 arraySpecOpt returns [String brackets]
 {
- brackets = "";
- AnnotationImpl ann = null;
+    brackets = "";
+    AnnotationImpl ann = null;
 }
-
     :
-
-        (options{greedy=true;}: // match as many as possible
+        (
+            options{ greedy=true; }: // match as many as possible
             (ann=annotation)*
             LBRACK RBRACK
-            {brackets += "[]";}
+            {
+                brackets += "[]";
+            }
         )*
     ;
 
@@ -808,12 +831,13 @@ arraySpecOpt returns [String brackets]
 // - generic type arguments after
 classTypeSpec returns [String typeSpec]
 {
-  String arrayOpt = "";
+    String arrayOpt = "";
 }
-    :   typeSpec = classOrInterfaceType
+    :
+        typeSpec = classOrInterfaceType
         arrayOpt = arraySpecOpt
         {
-           typeSpec += arrayOpt;
+            typeSpec += arrayOpt;
         }
     ;
 
@@ -824,12 +848,15 @@ classOrInterfaceType returns [String type]
     type = null;
     AnnotationImpl ann = null;
 }
-
-
-:       {first = (CloverToken)LT(1);}
+    :
+        {
+            first = (CloverToken)LT(1);
+        }
         (ann=annotation)*
-        IDENT (typeArguments)?
-        (options{greedy=true;}: // match as many as possible
+        IDENT
+        (typeArguments)?
+        (
+            options{greedy=true;}: // match as many as possible
             DOT
             IDENT (typeArguments)?
         )*
@@ -840,22 +867,31 @@ classOrInterfaceType returns [String type]
     ;
 
 typeArguments
-{int currentLtLevel = 0;}
+{
+    int currentLtLevel = 0;
+}
     :
-        {currentLtLevel = ltCounter;}
-        LT {ltCounter++;}
+        {
+            currentLtLevel = ltCounter;
+        }
+        LT
+        {
+            ltCounter++;
+        }
         (
-            options{generateAmbigWarnings=false;}:
+            options{ generateAmbigWarnings=false; }:
 
             singleTypeArgument
-            (options{greedy=true;}: // match as many as possible
+            (
+                options{ greedy=true; }: // match as many as possible
                 COMMA singleTypeArgument
             )*
         )?
 
-        (   // turn warning off since Antlr generates the right code,
+        (
+            // turn warning off since Antlr generates the right code,
             // plus we have our semantic predicate below
-            options{generateAmbigWarnings=false;}:
+            options{ generateAmbigWarnings=false; }:
             typeArgumentsEnd
         )?
 
@@ -864,28 +900,55 @@ typeArguments
         {(currentLtLevel != 0) || ltCounter == currentLtLevel}?
     ;
 
-singleTypeArgument {
-  String type = null;
-  AnnotationImpl ann = null;
+singleTypeArgument
+{
+    String type = null;
+    AnnotationImpl ann = null;
 }
     :
-        ( options { greedy=true; }: ann=annotation )*
         (
-            type=classTypeSpec | type=builtInTypeSpec | QUESTION
+            options { greedy=true; }:
+            ann=annotation
+        )*
+        (
+            type=classTypeSpec
+        |
+            type=builtInTypeSpec
+        |
+            QUESTION
         )
 
-        (   // I'm pretty sure Antlr generates the right thing here:
-            options{generateAmbigWarnings=false;}:
-            ("extends"|"super") ( options { greedy=true; }: ann=annotation )* (type=classTypeSpec | type=builtInTypeSpec | QUESTION)
+        (
+            // I'm pretty sure Antlr generates the right thing here:
+            options{ generateAmbigWarnings=false; }:
+            (
+                "extends"
+            |
+                "super"
+            )
+            (
+                options { greedy=true; }:
+                ann=annotation
+            )*
+            (
+                type=classTypeSpec
+            |
+                type=builtInTypeSpec
+            |
+                QUESTION
+            )
         )?
     ;
 
 // this gobbles up *some* amount of '>' characters, and counts how many
 // it gobbled.
-protected typeArgumentsEnd:
-        GT {ltCounter-=1;}
-    |   SR {ltCounter-=2;}
-    |   BSR {ltCounter-=3;}
+protected typeArgumentsEnd
+    :
+        GT { ltCounter-=1; }
+    |
+        SR { ltCounter-=2; }
+    |
+        BSR { ltCounter-=3; }
     ;
 
 // A builtin type specification is a builtin type with possible brackets
@@ -894,7 +957,8 @@ builtInTypeSpec returns [String spec]
 {
     String arrayOpt = "";
 }
-    :   spec = builtInType
+    :
+        spec = builtInType
         arrayOpt = arraySpecOpt
         {
             spec += arrayOpt;
@@ -903,12 +967,16 @@ builtInTypeSpec returns [String spec]
 
 // A type name. which is either a (possibly qualified and parameterized)
 // class name or a primitive (builtin) type
-type {
-  String spec = null;
-  AnnotationImpl ann = null;
+type
+{
+    String spec = null;
+    AnnotationImpl ann = null;
 }
     :
-    ( options { greedy=true; }: ann=annotation )*
+    (
+        options { greedy=true; }:
+        ann=annotation
+    )*
     (
         spec=classOrInterfaceType
     |
@@ -921,15 +989,29 @@ builtInType returns [String type]
 {
     type = "";
 }
-    : (  "void"
-    |   "boolean"
-    |   "byte"
-    |   "char"
-    |   "short"
-    |   "int"
-    |   "float"
-    |   "long"
-    |   "double" ) { type = LT(0).getText();}
+    :
+    (
+        "void"
+    |
+        "boolean"
+    |
+        "byte"
+    |
+        "char"
+    |
+        "short"
+    |
+        "int"
+    |
+        "float"
+    |
+        "long"
+    |
+        "double"
+    )
+    {
+        type = LT(0).getText();
+    }
     ;
 
 // A (possibly-qualified) java identifier.  We start with the first IDENT
@@ -940,10 +1022,11 @@ identifier returns [String str]
     StringBuffer buf = new StringBuffer();
     str = null;
 }
-    :   i1:IDENT  {buf.append(i1.getText());}
+    :
+        i1:IDENT  { buf.append(i1.getText()); }
         (
-            DOT      {buf.append('.');}
-            i2:IDENT {buf.append(i2.getText());}
+            DOT      { buf.append('.'); }
+            i2:IDENT { buf.append(i2.getText()); }
         )*
 
         {
@@ -952,9 +1035,15 @@ identifier returns [String str]
     ;
 
 identifierStar
-    :   IDENT
-        ( options { greedy=true; }: DOT IDENT )*
-        ( DOT STAR  )?
+    :
+        IDENT
+        (
+            options { greedy=true; }:
+            DOT IDENT
+        )*
+        (
+            DOT STAR
+        )?
     ;
 
 /**
@@ -983,13 +1072,20 @@ classOrInterfaceModifier returns [int m]
     int im;
     m = 0;
 }
-    :   "private"       { m=java.lang.reflect.Modifier.PRIVATE; }
-    |   "protected"     { m=java.lang.reflect.Modifier.PROTECTED; }
-    |   "public"        { m=java.lang.reflect.Modifier.PUBLIC; }
-    |   "abstract"      { m=java.lang.reflect.Modifier.ABSTRACT; }
-    |   "final"         { m=java.lang.reflect.Modifier.FINAL; }    // for classes only
-    |   "static"        { m=java.lang.reflect.Modifier.STATIC; }
-    |   "strictfp"      { m=java.lang.reflect.Modifier.STRICT; }
+    :
+        "private"       { m=java.lang.reflect.Modifier.PRIVATE; }
+    |
+        "protected"     { m=java.lang.reflect.Modifier.PROTECTED; }
+    |
+        "public"        { m=java.lang.reflect.Modifier.PUBLIC; }
+    |
+        "abstract"      { m=java.lang.reflect.Modifier.ABSTRACT; }
+    |
+        "final"         { m=java.lang.reflect.Modifier.FINAL; }    // for classes only
+    |
+        "static"        { m=java.lang.reflect.Modifier.STATIC; }
+    |
+        "strictfp"      { m=java.lang.reflect.Modifier.STRICT; }
     ;
 
 /**
@@ -1017,13 +1113,20 @@ fieldModifier returns [int m]
 {
     m = 0;
 }
-    :   "private"       { m=java.lang.reflect.Modifier.PRIVATE; }
-    |   "protected"     { m=java.lang.reflect.Modifier.PROTECTED; }
-    |   "public"        { m=java.lang.reflect.Modifier.PUBLIC; }
-    |   "final"         { m=java.lang.reflect.Modifier.FINAL; }
-    |   "static"        { m=java.lang.reflect.Modifier.STATIC; }
-    |   "transient"     { m=java.lang.reflect.Modifier.TRANSIENT; }
-    |   "volatile"      { m=java.lang.reflect.Modifier.VOLATILE; }
+    :
+        "private"       { m=java.lang.reflect.Modifier.PRIVATE; }
+    |
+        "protected"     { m=java.lang.reflect.Modifier.PROTECTED; }
+    |
+        "public"        { m=java.lang.reflect.Modifier.PUBLIC; }
+    |
+        "final"         { m=java.lang.reflect.Modifier.FINAL; }
+    |
+        "static"        { m=java.lang.reflect.Modifier.STATIC; }
+    |
+        "transient"     { m=java.lang.reflect.Modifier.TRANSIENT; }
+    |
+        "volatile"      { m=java.lang.reflect.Modifier.VOLATILE; }
     ;
 
 methodSignature [Map tags, CloverToken first, boolean isPredicate] returns [MethodSignatureExt signatureExt]
@@ -1150,11 +1253,13 @@ constructorModifier returns [int m]
 {
     m = 0;
 }
-    :   "private"       { m=java.lang.reflect.Modifier.PRIVATE; }
-    |   "protected"     { m=java.lang.reflect.Modifier.PROTECTED; }
-    |   "public"        { m=java.lang.reflect.Modifier.PUBLIC; }
+    :
+        "private"       { m=java.lang.reflect.Modifier.PRIVATE; }
+    |
+        "protected"     { m=java.lang.reflect.Modifier.PROTECTED; }
+    |
+        "public"        { m=java.lang.reflect.Modifier.PUBLIC; }
     ;
-
 
 
 /**
@@ -1182,18 +1287,27 @@ methodModifier returns [int m]
 {
     m = 0;
 }
-    :   "private"       { m=java.lang.reflect.Modifier.PRIVATE; }
-    |   "protected"     { m=java.lang.reflect.Modifier.PROTECTED; }
-    |   "public"        { m=java.lang.reflect.Modifier.PUBLIC; }
-    |   "abstract"      { m=java.lang.reflect.Modifier.ABSTRACT; }
-    |   "final"         { m=java.lang.reflect.Modifier.FINAL; }
-    |   "native"        { m=java.lang.reflect.Modifier.NATIVE; }
-    |   "static"        { m=java.lang.reflect.Modifier.STATIC; }
-    |   "strictfp"      { m=java.lang.reflect.Modifier.STRICT; }
-    |   "synchronized"  { m=java.lang.reflect.Modifier.SYNCHRONIZED; }
-
-    // not a true modifier, used only to mark virtual extension method in an interface, we keep information about it
-    |   "default"       { m=com.atlassian.clover.registry.entities.ModifierExt.DEFAULT; }
+    :
+        "private"       { m=java.lang.reflect.Modifier.PRIVATE; }
+    |
+        "protected"     { m=java.lang.reflect.Modifier.PROTECTED; }
+    |
+        "public"        { m=java.lang.reflect.Modifier.PUBLIC; }
+    |
+        "abstract"      { m=java.lang.reflect.Modifier.ABSTRACT; }
+    |
+        "final"         { m=java.lang.reflect.Modifier.FINAL; }
+    |
+        "native"        { m=java.lang.reflect.Modifier.NATIVE; }
+    |
+        "static"        { m=java.lang.reflect.Modifier.STATIC; }
+    |
+        "strictfp"      { m=java.lang.reflect.Modifier.STRICT; }
+    |
+        "synchronized"  { m=java.lang.reflect.Modifier.SYNCHRONIZED; }
+    |
+        // not a true modifier, used only to mark virtual extension method in an interface, we keep information about it
+        "default"       { m=com.atlassian.clover.registry.entities.ModifierExt.DEFAULT; }
     ;
 
 // Definition of a Java class
@@ -1208,7 +1322,12 @@ classDefinition! [Modifiers mods] returns [String classname]
     classname = null;
     String typeParam = null;
 }
-    :   "class" {tags = TokenListUtil.getJDocTagsAndValuesOnBlock(first); deprecated = maybeEnterDeprecated(first);}
+    :
+        "class"
+        {
+            tags = TokenListUtil.getJDocTagsAndValuesOnBlock(first);
+            deprecated = maybeEnterDeprecated(first);
+        }
         id:IDENT
         // it _might_ have type paramaters
         (typeParam=typeParameters)?
@@ -1229,7 +1348,7 @@ classDefinition! [Modifiers mods] returns [String classname]
     ;
 
 // Definition of a record
-recordDefinition! [Modifiers mods] returns [String recordname]
+recordDefinition! [Modifiers mods] returns [String recordName]
 {
     CloverToken first = (CloverToken)LT(0);
     Map<String, List<String>> tags = null;
@@ -1237,11 +1356,12 @@ recordDefinition! [Modifiers mods] returns [String recordname]
     CloverToken endOfBlock = null;
     String superclass = null;
     ClassEntryNode classEntry = null;
-    recordname = null;
+    recordName = null;
     String typeParam = null;
     Parameter [] parameters = null;
 }
-    :   { isKeyword("record") }? IDENT
+    :
+        { isKeyword("record") }? IDENT
         {
             tags = TokenListUtil.getJDocTagsAndValuesOnBlock(first);
             deprecated = maybeEnterDeprecated(first);
@@ -1259,15 +1379,16 @@ recordDefinition! [Modifiers mods] returns [String recordname]
         endOfBlock = classBlock[classEntry]
         {
             exitClass(endOfBlock, classEntry); maybeExitDeprecated(deprecated);
-            recordname = id.getText();
+            recordName = id.getText();
         }
     ;
 
 superClassClause! returns [String superclass]
 {
-   superclass = null;
+    superclass = null;
 }
-    :   ( "extends" superclass=classOrInterfaceType )?
+    :
+        ( "extends" superclass=classOrInterfaceType )?
     ;
 
 // Definition of a Java Interface
@@ -1279,9 +1400,13 @@ interfaceDefinition! [Modifiers mods] returns [String name]
     name = null;
     String typeParam = null;
 }
-    :   "interface" {deprecated = maybeEnterDeprecated((CloverToken)LT(0));}
+    :
+        "interface"
+        {
+            deprecated = maybeEnterDeprecated((CloverToken)LT(0));
+        }
         id:IDENT
-        // it _might_ have type paramaters
+        // it _might_ have type parameters
         (typeParam=typeParameters)?
         {
             classEntry = enterClass(mods, (CloverToken)id, true, false, false);
@@ -1291,7 +1416,8 @@ interfaceDefinition! [Modifiers mods] returns [String name]
         // now parse the body of the interface (looks like a class...)
         endOfBlock = classBlock[classEntry]
         {
-            exitClass(endOfBlock, classEntry); maybeExitDeprecated(deprecated);
+            exitClass(endOfBlock, classEntry);
+            maybeExitDeprecated(deprecated);
             name = id.getText();
         }
     ;
@@ -1303,8 +1429,11 @@ enumDefinition! [Modifiers mods] returns [String name]
     ClassEntryNode classEntry = null;
     name = null;
 }
-    :    "enum"
-        {deprecated = maybeEnterDeprecated((CloverToken)LT(0));}
+    :
+        "enum"
+        {
+            deprecated = maybeEnterDeprecated((CloverToken)LT(0));
+        }
 
         id:IDENT
 
@@ -1319,7 +1448,6 @@ enumDefinition! [Modifiers mods] returns [String name]
             maybeExitDeprecated(deprecated);
             name = id.getText();
         }
-
     ;
 
 annotationTypeDeclaration [Modifiers mods] returns [String name]
@@ -1342,31 +1470,40 @@ annotationTypeDeclaration [Modifiers mods] returns [String name]
 
 typeParameters returns [String asString]
 {
-  int currentLtLevel = 0;
-  CloverToken start = (CloverToken)LT(1);
-  asString = null;
+    int currentLtLevel = 0;
+    CloverToken start = (CloverToken)LT(1);
+    asString = null;
 }
     :
-        {currentLtLevel = ltCounter;}
-        LT {ltCounter++;}
+        {
+            currentLtLevel = ltCounter;
+        }
+        LT { ltCounter++; }
         typeParameter (COMMA typeParameter)*
         (typeArgumentsEnd)?
         // make sure we have gobbled up enough '>' characters
         // if we are at the "top level" of nested typeArgument productions
         {(currentLtLevel != 0) || ltCounter == currentLtLevel}?
 
-        {asString = TokenListUtil.getNormalisedSequence(start, (CloverToken)LT(0));}
+        {
+            asString = TokenListUtil.getNormalisedSequence(start, (CloverToken)LT(0));
+        }
     ;
 
 typeParameter
 {
-   String type = null;
-   AnnotationImpl ann = null;
+    String type = null;
+    AnnotationImpl ann = null;
 }
     :
         (ann=annotation)*
-        (IDENT|QUESTION)
-        (   // I'm pretty sure Antlr generates the right thing here:
+        (
+            IDENT
+        |
+            QUESTION
+        )
+        (
+            // I'm pretty sure Antlr generates the right thing here:
             options{generateAmbigWarnings=false;}:
             "extends" type=classOrInterfaceType
             (BAND type=classOrInterfaceType)*
@@ -1376,10 +1513,23 @@ typeParameter
 // This is the body of a class.  You can have fields and extra semicolons,
 // That's about it (until you see what a field is...)
 classBlock [ClassEntryNode classEntry] returns [CloverToken t]
-{t = null;}
-    :   ip:LCURLY! { setRecorderMemberInsertPoint(classEntry, (CloverToken)ip);}
-            ( field[classEntry] | SEMI! )*
-        rc:RCURLY! {t = (CloverToken)rc;}
+{
+    t = null;
+}
+    :
+        ip:LCURLY!
+        {
+            setRecorderMemberInsertPoint(classEntry, (CloverToken)ip);
+        }
+        (
+            field[classEntry]
+        |
+            SEMI!
+        )*
+        rc:RCURLY!
+        {
+            t = (CloverToken)rc;
+        }
     ;
 
 enumBlock [ClassEntryNode classEntry] returns [CloverToken t]
@@ -1389,7 +1539,7 @@ enumBlock [ClassEntryNode classEntry] returns [CloverToken t]
 }
     :   LCURLY!
         (
-            options {warnWhenFollowAmbig = false;}:
+            options { warnWhenFollowAmbig = false; }:
             (
                 enumConstant
                 (
@@ -1397,7 +1547,7 @@ enumBlock [ClassEntryNode classEntry] returns [CloverToken t]
                     //           constant or start the optional ',' at end?
                     //           ANTLR generates proper code by matching
                     //           the comma as soon as possible.
-                    options {warnWhenFollowAmbig = false;}:
+                    options { warnWhenFollowAmbig = false; }:
                     COMMA enumConstant
                 )*
             )?
@@ -1411,13 +1561,21 @@ enumBlock [ClassEntryNode classEntry] returns [CloverToken t]
                 //TODO what about the case where an enum constant declares a body
                 // but there is no SEMI... where to we put the inst var?
                 SEMI
-                (  field[null] | SEMI! )*
-                {topLevelClass = topLevelSave;}
-
+                (
+                    field[null]
+                |
+                    SEMI!
+                )*
+                {
+                    topLevelClass = topLevelSave;
+                }
             )?
         )?
         ip:RCURLY!
-        { t = (CloverToken)ip; setRecorderMemberInsertPoint(classEntry, t); }
+        {
+            t = (CloverToken)ip;
+            setRecorderMemberInsertPoint(classEntry, t);
+        }
     ;
 
 enumConstant
@@ -1439,7 +1597,6 @@ enumConstant
         {
             topLevelClass = topLevelSave;
         }
-
     ;
 
 annotationTypeBody [ClassEntryNode classEntry] returns [CloverToken t]
@@ -1451,42 +1608,44 @@ annotationTypeBody [ClassEntryNode classEntry] returns [CloverToken t]
 }
     :
         ip:LCURLY!
-        { setRecorderMemberInsertPoint(classEntry, (CloverToken)ip); }
+        {
+            setRecorderMemberInsertPoint(classEntry, (CloverToken)ip);
+        }
         (
-                // an annotation member ("method")
-                // disambiguation: lookup further up to parenthesis, e.g. "public int foo("
-                ( methodModifiers[false] typeSpec IDENT LPAREN ) =>
+            // an annotation member ("method")
+            // disambiguation: lookup further up to parenthesis, e.g. "public int foo("
+            ( methodModifiers[false] typeSpec IDENT LPAREN ) =>
 
-                mods=methodModifiers[false]
-                type=typeSpec
-                IDENT LPAREN RPAREN (annDefaultValue)?  SEMI
+            mods=methodModifiers[false]
+            type=typeSpec
+            IDENT LPAREN RPAREN (annDefaultValue)?  SEMI
 
-            |
-                // a constant declaration
-                // disambiguation: lookup further up to a first variable, e.g. "public int x = 8"
-                ( fieldModifiers[false] typeSpec variableDeclarator ) =>
+        |
+            // a constant declaration
+            // disambiguation: lookup further up to a first variable, e.g. "public int x = 8"
+            ( fieldModifiers[false] typeSpec variableDeclarator ) =>
 
-                mods=fieldModifiers[false]
-                type=typeSpec
-                variableDefinitions SEMI
+            mods=fieldModifiers[false]
+            type=typeSpec
+            variableDefinitions SEMI
 
-            |
-                // a nested type declaration
-                // disambiguation: lookup further up to "class/interface" keyword, e.g. "public final class"
-                ( classOrInterfaceModifiers[false] ( "class" | "interface" | AT "interface" | "enum" | { isKeyword("record") }? IDENT) ) =>
+        |
+            // a nested type declaration
+            // disambiguation: lookup further up to "class/interface" keyword, e.g. "public final class"
+            ( classOrInterfaceModifiers[false] ( "class" | "interface" | AT "interface" | "enum" | { isKeyword("record") }? IDENT) ) =>
 
-                {
-                    topLevelSave = topLevelClass;
-                    topLevelClass = false;
-                }
-                mods=classOrInterfaceModifiers[false]
-                typeDefinition2[mods, null, true] 
-                {
-                    topLevelClass = topLevelSave;
-                }
-            |
-                // a semicolon
-                SEMI
+            {
+                topLevelSave = topLevelClass;
+                topLevelClass = false;
+            }
+            mods=classOrInterfaceModifiers[false]
+            typeDefinition2[mods, null, true]
+            {
+                topLevelClass = topLevelSave;
+            }
+        |
+            // a semicolon
+            SEMI
         )*
         endOfBlock:RCURLY!
         {
@@ -1497,7 +1656,7 @@ annotationTypeBody [ClassEntryNode classEntry] returns [CloverToken t]
 protected
 annDefaultValue
 {
-  boolean ft = false;
+    boolean ft = false;
 }
     :
         "default" ft=annMemberValue[false,false]
@@ -1506,19 +1665,22 @@ annDefaultValue
 // An interface can extend several other interfaces...
 interfaceExtends
 {
-  String type = null;
-}    :   (
-        "extends"!
-        type=classOrInterfaceType ( COMMA! type=classOrInterfaceType )*
+    String type = null;
+}
+    :
+        (
+            "extends"!
+            type=classOrInterfaceType ( COMMA! type=classOrInterfaceType )*
         )?
     ;
 
 // A class can implement several interfaces...
 implementsClause
 {
-   String type = null;
+    String type = null;
 }
-    :   (
+    :
+        (
             "implements"! type=classOrInterfaceType ( COMMA! type=classOrInterfaceType )*
         )?
     ;
@@ -1567,7 +1729,6 @@ field! [ClassEntryNode containingClass]
         signatureExt = standardConstructorSignature[tags, first, false]
         cb:constructorBody[signatureExt.signature(), first, signatureExt.endToken()]
         { maybeExitDeprecated(signatureExt.isDeprecated()); }
-
 
     |
         // FIELDS
@@ -1642,25 +1803,31 @@ field! [ClassEntryNode containingClass]
 
 constructorBody[MethodSignature signature, CloverToken start, CloverToken endSig]
 {
-  CloverToken endOfInv = null;
-  CloverToken tmp;
+    CloverToken endOfInv = null;
+    CloverToken tmp;
 }
-    :   {enterContext(ContextStore.CONTEXT_CTOR);}
-
+    :
+        {
+            enterContext(ContextStore.CONTEXT_CTOR);
+        }
         lc:LCURLY
         // Predicate might be slow but only checked once per constructor def
         // not for general methods.
-        (   (explicitConstructorInvocation) => endOfInv = explicitConstructorInvocation
-        | )
+        (
+            (explicitConstructorInvocation) =>
+            endOfInv = explicitConstructorInvocation
+        |
+            /* empty */
+        )
         (tmp=statement[null])*
         rc:RCURLY!
 
         {
-         // special case for instrumenting entry to ctors - HACK add ctor sig for completeness
-         MethodEntryInstrEmitter entry = instrEnterMethod(signature, start, (CloverToken)lc, endOfInv);
-         instrExitMethod(entry, (CloverToken)rc);
-         exitContext();
-         fileInfo.addMethodMarker(entry, start, endSig, (CloverToken)rc);
+            // special case for instrumenting entry to ctors - HACK add ctor sig for completeness
+            MethodEntryInstrEmitter entry = instrEnterMethod(signature, start, (CloverToken)lc, endOfInv);
+            instrExitMethod(entry, (CloverToken)rc);
+            exitContext();
+            fileInfo.addMethodMarker(entry, start, endSig, (CloverToken)rc);
         }
     ;
 
@@ -1668,27 +1835,31 @@ explicitConstructorInvocation returns [CloverToken t]
 {
     t = null;
 }
-    :   (   options {
+    :
+        (
+            options {
                 // this/super can begin a primaryExpressionPart too; with finite
                 // lookahead ANTLR will think the 3rd alternative conflicts
                 // with 1, 2.  I am shutting off warning since ANTLR resolves
                 // the nondeterminism by correctly matching alts 1 or 2 when
                 // it sees this( or super(
                 generateAmbigWarnings=false;
-            }
+            }:
 
-        :   pos1:"this"! LPAREN argList RPAREN! t1:SEMI!
+            pos1:"this"! LPAREN argList RPAREN! t1:SEMI!
             {
                 t=instrInlineAfter((CloverToken)t1, (CloverToken)pos1, (CloverToken)t1);
             }
 
-        |   pos2:"super"! lp2:LPAREN^ argList RPAREN! t2:SEMI!
+        |
+            pos2:"super"! lp2:LPAREN^ argList RPAREN! t2:SEMI!
             {
                 t=instrInlineAfter((CloverToken)t2, (CloverToken)pos2, (CloverToken)t2);
             }
 
+        |
             // (new Outer()).super()  (create enclosing instance)
-        |   primaryExpressionPart
+            primaryExpressionPart
             (DOT! "this")? // HACK see CCD-264 - explicit ctor invocation can have form ClassName.this.super(..)
             DOT! pos3:"super"! lp3:LPAREN^ argList RPAREN! t3:SEMI!
             {
@@ -1698,7 +1869,8 @@ explicitConstructorInvocation returns [CloverToken t]
     ;
 
 variableDefinitions
-    :   variableDeclarator (COMMA! variableDeclarator)*
+    :
+        variableDeclarator (COMMA! variableDeclarator)*
     ;
 
 /** Declaration of a variable.  This can be a class/instance variable,
@@ -1707,9 +1879,10 @@ variableDefinitions
  */
 variableDeclarator!
 {
-  String brackets = null;
+    String brackets = null;
 }
-    :   IDENT brackets=declaratorBrackets varInitializer
+    :
+        IDENT brackets=declaratorBrackets varInitializer
     ;
 
 declaratorBrackets returns [String brackets]
@@ -1720,32 +1893,32 @@ declaratorBrackets returns [String brackets]
     :
         (
             (ann=annotation)*
-            LBRACK RBRACK! {brackets += "[]";}
+            LBRACK RBRACK! { brackets += "[]"; }
         )*
     ;
 
 varInitializer
-    :   ( ASSIGN initializer )?
+    :
+        ( ASSIGN initializer )?
     ;
 
 // This is an initializer used to set up an array.
 arrayInitializer
-    :   LCURLY
-            (   initializer
-                (
-                    // CONFLICT: does a COMMA after an initializer start a new
-                    //           initializer or start the option ',' at end?
-                    //           ANTLR generates proper code by matching
-                    //           the comma as soon as possible.
-                    options {
-                        warnWhenFollowAmbig = false;
-                    }
-                :
-                    COMMA! initializer
-                )*
+    :
+        LCURLY
+        (
+            initializer
+            (
+                // CONFLICT: does a COMMA after an initializer start a new
+                //           initializer or start the option ',' at end?
+                //           ANTLR generates proper code by matching
+                //           the comma as soon as possible.
+                options { warnWhenFollowAmbig = false; }:
+                COMMA! initializer
+            )*
 
-            )?
-            (COMMA!)?
+        )?
+        (COMMA!)?
         RCURLY!
     ;
 
@@ -1767,7 +1940,17 @@ throwsClause returns [String [] throwsTypes]
     String id;
     AnnotationImpl ann = null;
 }
-    :   "throws" (ann=annotation)* id=identifier {throwsList.add(id);} ( COMMA! (ann=annotation)* id=identifier {throwsList.add(id);})*
+    :
+        "throws" (ann=annotation)* id=identifier
+        {
+            throwsList.add(id);
+        }
+        (
+            COMMA! (ann=annotation)* id=identifier
+            {
+                throwsList.add(id);
+            }
+        )*
         {
             throwsTypes = (String[])throwsList.toArray(new String[throwsList.size()]);
         }
@@ -1781,35 +1964,56 @@ parameterDeclarationList returns [Parameter [] params]
     Parameter param = null;
     params = new Parameter[0];
 }
-
-    :   ( param=parameterDeclaration {parameters.add(param);} ( COMMA! param=parameterDeclaration {parameters.add(param);})* )?
+    :
+        (
+            param=parameterDeclaration
+            {
+                parameters.add(param);
+            }
+            (
+                COMMA! param=parameterDeclaration
+                {
+                    parameters.add(param);
+                }
+            )*
+        )?
         {
-          params = (Parameter[])parameters.toArray(new Parameter [parameters.size()]);
+            params = (Parameter[])parameters.toArray(new Parameter [parameters.size()]);
         }
     ;
 
 // A formal parameter.
 parameterDeclaration! returns [Parameter parameter]
 {
-  Parameter param = null;
-  String brackets = "";
-  String type=null;
-
-  parameter=null;
+    Parameter param = null;
+    String brackets = "";
+    String type=null;
+    parameter=null;
 }
-    :   parameterModifier type=typeSpec (ELLIPSIS)? i:IDENT
+    :
+        parameterModifier type=typeSpec (ELLIPSIS)? i:IDENT
         brackets=declaratorBrackets
         {
-          parameter = new Parameter(type+brackets,i.getText());
+            parameter = new Parameter(type+brackets,i.getText());
         }
     ;
 
 parameterModifier
 {
-  AnnotationImpl ann = null;
+    AnnotationImpl ann = null;
 }
-    :   ( options { greedy=true; }: ann=annotation )*
-        (f:"final" ( options { greedy=true; }: ann=annotation )* )?
+    :
+        (
+            options { greedy=true; }:
+            ann=annotation
+        )*
+        (
+            f:"final"
+            (
+                options { greedy=true; }:
+                ann=annotation
+            )*
+        )?
     ;
 
 
@@ -1825,8 +2029,16 @@ implicitParameterDeclarationList returns [Parameter[] parameters]
     parameters = new Parameter[0];
 }
     :
-        param=implicitParameterDeclaration { parameterList.add(param); }
-        ( COMMA! param=implicitParameterDeclaration { parameterList.add(param); } )*
+        param=implicitParameterDeclaration
+        {
+            parameterList.add(param);
+        }
+        (
+            COMMA! param=implicitParameterDeclaration
+            {
+                parameterList.add(param);
+            }
+        )*
         {
             parameters = parameterList.toArray(new Parameter[parameterList.size()]);
         }
@@ -1856,27 +2068,38 @@ implicitParameterDeclaration returns [Parameter parameter]
 //   As a completely indepdent braced block of code inside a method
 //      it starts a new scope for variable definitions
 compoundStatement returns [CloverToken t]
-{t = null;}
-    :   LCURLY
-            // include the (possibly-empty) list of statements
-            (t=statement[null])*
-        rc:RCURLY! {t = (CloverToken)rc;}
+{
+    t = null;
+}
+    :
+        LCURLY
+        // include the (possibly-empty) list of statements
+        (t=statement[null])*
+        rc:RCURLY!
+        {
+            t = (CloverToken)rc;
+        }
     ;
 
 outerCompoundStmt [MethodSignature sig, CloverToken start, CloverToken endSig, int context]
 {
-  CloverToken tmp;
+    CloverToken tmp;
 }
-    :   {enterContext(context);}
+    :
+        {
+            enterContext(context);
+        }
         lc:LCURLY
-            // include the (possibly-empty) list of statements
-            (tmp=statement[null])*
+        // include the (possibly-empty) list of statements
+        (tmp=statement[null])*
         rc:RCURLY!
         {
             MethodEntryInstrEmitter entry = instrEnterMethod(sig, start, (CloverToken)lc);
             instrExitMethod(entry, (CloverToken)rc);
             exitContext();
-            if (context == ContextStore.CONTEXT_METHOD) fileInfo.addMethodMarker(entry, start, endSig, (CloverToken)rc);
+            if (context == ContextStore.CONTEXT_METHOD) {
+                fileInfo.addMethodMarker(entry, start, endSig, (CloverToken)rc);
+            }
         }
     ;
 
@@ -1905,13 +2128,21 @@ statement [CloverToken owningLabel] returns [CloverToken last]
     String classname = null;
     ContextSet saveContext = getCurrentContext();
 }
-
-    : {first = (CloverToken)LT(1);}
+    :
+    {
+        first = (CloverToken)LT(1);
+    }
     (
         // an assert statement
         "assert"
-        { enterContext(ContextStore.CONTEXT_ASSERT); instrumentable = false; saveContext = getCurrentContext(); }
-        { tmp=(CloverToken)LT(1); }
+        {
+            enterContext(ContextStore.CONTEXT_ASSERT);
+            instrumentable = false;
+            saveContext = getCurrentContext();
+        }
+        {
+            tmp=(CloverToken)LT(1);
+        }
         expression
         ( colon:COLON! {instrBoolExpr(tmp, (CloverToken)colon); assertColonPart=true;}  expression )?
         semi:SEMI!
@@ -1922,128 +2153,251 @@ statement [CloverToken owningLabel] returns [CloverToken last]
             exitContext();
         }
 
-    // A list of statements in curly braces -- start a new scope!
+    |
+        // A list of statements in curly braces -- start a new scope!
+        tmp = compoundStatement
+        {
+            matchable = false;
+            instrumentable = false;
+        }
 
-    |  tmp = compoundStatement {matchable = false; instrumentable = false;}
+    |
+        // declarations are ambiguous with "ID DOT" relative to expression
+        // statements.  Must backtrack to be sure.  Could use a semantic
+        // predicate to test symbol table to see what the type was coming
+        // up, but that's pretty hard without a symbol table ;)
+        (declaration) =>
+        declaration se1:SEMI!
+        {
+            flushAfter = (CloverToken)se1;
+        }
 
-    // declarations are ambiguous with "ID DOT" relative to expression
-    // statements.  Must backtrack to be sure.  Could use a semantic
-    // predicate to test symbol table to see what the type was coming
-    // up, but that's pretty hard without a symbol table ;)
-    |  (declaration)=> declaration se1:SEMI! {flushAfter = (CloverToken)se1;}
+    |
+        // NOTE: we check for records before normal statement as "record" can be recognized as IDENT leading to syntax error
+        // record definition
+        (classOrInterfaceModifiers[false] { isKeyword("record") }? IDENT) =>
+        mods=classOrInterfaceModifiers[false]! classname=recordDefinition[mods]
+        {
+            instrumentable = false;
+            //TODO - return last token
+        }
 
-    // NOTE: we check for records before normal statement as "record" can be recognized as IDENT leading to syntax error
-    // record definition
-    |   (classOrInterfaceModifiers[false] { isKeyword("record") }? IDENT) => mods=classOrInterfaceModifiers[false]! classname=recordDefinition[mods] { instrumentable = false; }//##TODO - return last token
+    |
+        // class definition
+        (classOrInterfaceModifiers[false] "class") =>
+        mods=classOrInterfaceModifiers[false]! classname=classDefinition[mods]
+        {
+            instrumentable = false;
+            //TODO - return last token
+        }
 
-    // class definition
-    |   (classOrInterfaceModifiers[false] "class") => mods=classOrInterfaceModifiers[false]! classname=classDefinition[mods] { instrumentable = false; }//##TODO - return last token
+    |
+        // An expression statement.  This could be a method call,
+        // assignment statement, or any other expression evaluated for
+        // side-effects.
+        expression se2:SEMI!
+        {
+            flushAfter = (CloverToken)se2;
+        }
 
-    // An expression statement.  This could be a method call,
-    // assignment statement, or any other expression evaluated for
-    // side-effects.
-    |   expression se2:SEMI! { flushAfter = (CloverToken)se2; }
+    |
+        // Attach a label to the front of a statement
+        IDENT COLON
+        {
+            labelTok = owningLabel;
+            if (!labelled) {
+                labelTok = first;
+            }
+        }
+        last=statement[labelTok]
 
-    // Attach a label to the front of a statement
-    |   IDENT COLON {labelTok = owningLabel; if (!labelled) labelTok = first; } last = statement[labelTok]
-
-    // If-else statement
-    |   "if" { enterContext(ContextStore.CONTEXT_IF); saveContext = getCurrentContext();}
-        LPAREN! { tmp=(CloverToken)LT(1); } expression rp1:RPAREN!
-        { instrBoolExpr(tmp, (CloverToken)rp1); addOpenBraceAfter((CloverToken)rp1); }
-          last = statement[null] {addCloseBraceAfter(last); exitContext();}
+    |
+        // If-else statement
+        "if"
+        {
+            enterContext(ContextStore.CONTEXT_IF);
+            saveContext = getCurrentContext();
+        }
+        LPAREN!
+        {
+            tmp=(CloverToken)LT(1);
+        }
+        expression
+        rp1:RPAREN!
+        {
+            instrBoolExpr(tmp, (CloverToken)rp1);
+            addOpenBraceAfter((CloverToken)rp1);
+        }
+        last=statement[null]
+        {
+            addCloseBraceAfter(last);
+            exitContext();
+        }
         (
             // CONFLICT: the old "dangling-else" problem...
             //           ANTLR generates proper code matching
             //           as soon as possible.  Hush warning.
             options {
                 warnWhenFollowAmbig = false;
+            }:
+            el:"else"!
+            {
+                addOpenBraceAfter((CloverToken)el);
+                enterContext(ContextStore.CONTEXT_ELSE);
+                saveContext = getCurrentContext();
             }
-        :
-            el:"else"! {addOpenBraceAfter((CloverToken)el);enterContext(ContextStore.CONTEXT_ELSE); saveContext = getCurrentContext();}
-            last = statement[null] {addCloseBraceAfter(last);exitContext();}
+            last = statement[null]
+            {
+                addCloseBraceAfter(last);
+                exitContext();
+            }
         )?
 
-
-    // For statement
-    |   "for"
-        { enterContext(ContextStore.CONTEXT_FOR);  saveContext = getCurrentContext();}
+    |
+        // For statement
+        "for"
+        {
+            enterContext(ContextStore.CONTEXT_FOR);
+            saveContext = getCurrentContext();
+        }
         LPAREN!
         (
             (parameterDeclaration COLON) =>
-            ( // enhanced for
+            (
+                // enhanced for
                 parameter=parameterDeclaration COLON expression
             )
         |
-            ( // traditional for
+            (
+                // traditional for
                 forInit SEMI!   // initializer
                 forCond    // condition test
                 forIter         // updater
             )
         )
-        rp:RPAREN!{addOpenBraceAfter((CloverToken)rp);}
+        rp:RPAREN!
+        {
+            addOpenBraceAfter((CloverToken)rp);
+        }
         last = statement[null]   // statement to loop over
-        {addCloseBraceAfter(last); exitContext();}
+        {
+            addCloseBraceAfter(last);
+            exitContext();
+        }
 
-    // While statement
-    |   "while"
-        { enterContext(ContextStore.CONTEXT_WHILE);  saveContext = getCurrentContext();}
-        LPAREN! { tmp = (CloverToken)LT(1); } expression rp2:RPAREN!
-        {instrBoolExpr(tmp, (CloverToken)rp2); addOpenBraceAfter((CloverToken)rp2);}
-           last = statement[null]
-        {addCloseBraceAfter(last); exitContext();}
+    |
+        // While statement
+        "while"
+        {
+            enterContext(ContextStore.CONTEXT_WHILE);
+            saveContext = getCurrentContext();
+        }
+        LPAREN!
+        {
+            tmp = (CloverToken)LT(1);
+        }
+        expression
+        rp2:RPAREN!
+        {
+            instrBoolExpr(tmp, (CloverToken)rp2);
+            addOpenBraceAfter((CloverToken)rp2);
+        }
+        last=statement[null]
+        {
+            addCloseBraceAfter(last);
+            exitContext();
+        }
 
-    // do-while statement
-    |   d1:"do"
-        { addOpenBraceAfter((CloverToken)d1);
-            enterContext(ContextStore.CONTEXT_DO);  saveContext = getCurrentContext();}
-           tmp=statement[null]
-        {addCloseBraceAfter(tmp);exitContext();}
-        "while"! LPAREN! { tmp=(CloverToken)LT(1); } expression rp3:RPAREN!
-            {instrBoolExpr(tmp, (CloverToken)rp3);} sem:SEMI! {flushAfter = (CloverToken)sem;}
+    |
+        // do-while statement
+        d1:"do"
+        {
+            addOpenBraceAfter((CloverToken)d1);
+            enterContext(ContextStore.CONTEXT_DO);
+            saveContext = getCurrentContext();
+        }
+        tmp=statement[null]
+        {
+            addCloseBraceAfter(tmp);
+            exitContext();
+        }
+        "while"! LPAREN!
+        {
+            tmp=(CloverToken)LT(1);
+        }
+        expression rp3:RPAREN!
+        {
+            instrBoolExpr(tmp, (CloverToken)rp3);
+        }
+        sem:SEMI!
+        {
+            flushAfter = (CloverToken)sem;
+        }
 
-    // get out of a loop (or switch)
-    |   "break" (IDENT)? SEMI!
+    |
+        // get out of a loop (or switch)
+        "break" (IDENT)? SEMI!
 
-    // do next iteration of a loop
-    |   "continue" (IDENT)? SEMI!
+    |
+        // do next iteration of a loop
+        "continue" (IDENT)? SEMI!
 
-    // Return an expression
-    |   "return" (expression)? SEMI!
+    |
+        // Return an expression
+        "return" (expression)? SEMI!
 
-    // switch/case statement
-    |   sw:"switch"
-        { tmp = (CloverToken)sw;
-          if (labelled) {
-             tmp = owningLabel;
-          }
-          flag = declareFlagBefore(tmp);
-          enterContext(ContextStore.CONTEXT_SWITCH);
-          saveContext = getCurrentContext();
-
+    |
+        // switch/case statement
+        sw:"switch"
+        {
+            tmp = (CloverToken)sw;
+            if (labelled) {
+                tmp = owningLabel;
+            }
+            flag = declareFlagBefore(tmp);
+            enterContext(ContextStore.CONTEXT_SWITCH);
+            saveContext = getCurrentContext();
         }
         LPAREN! expression RPAREN! LCURLY!
-            ( tmpCmp = casesGroup[flag] { complexity += tmpCmp; })*
-        {exitContext();}
+        (
+            tmpCmp = casesGroup[flag]
+            {
+                complexity += tmpCmp;
+            }
+        )*
+        {
+            exitContext();
+        }
         rc:RCURLY!
 
-    // exception try-catch block
-    |   (tryCatchBlock[labelled]) => last = tryCatchBlock[labelled] {instrumentable = false; /* instrumentation happens in the tryCatchBlock rule */}
+    |
+        // exception try-catch block
+        (tryCatchBlock[labelled]) =>
+        last = tryCatchBlock[labelled]
+        {
+            instrumentable = false; /* instrumentation happens in the tryCatchBlock rule */
+        }
 
-    // throw an exception
-    |   "throw" expression SEMI!
+    |
+        // throw an exception
+        "throw" expression SEMI!
 
-    // synchronize a statement
-    |   "synchronized" LPAREN! expression RPAREN!
+    |
+        // synchronize a statement
+        "synchronized" LPAREN! expression RPAREN!
         {
             enterContext(ContextStore.CONTEXT_SYNC);
             saveContext = getCurrentContext();
         }
         last = compoundStatement
-        { exitContext();}
+        {
+            exitContext();
+        }
 
-    // empty statement
-    |   SEMI
+
+    |
+        // empty statement
+        SEMI
     )
         {
             if (last == null) {
@@ -2069,15 +2423,19 @@ casesGroup[FlagDeclEmitter flag] returns [int complexity]
     int tmp = 0;
     complexity = 0;
 }
-    :   (   // CONFLICT: to which case group do the statements bind?
+    :
+        (
+            // CONFLICT: to which case group do the statements bind?
             //           ANTLR generates proper code: it groups the
             //           many "case"/"default" labels together then
             //           follows them with the statements
             options {
                 warnWhenFollowAmbig = false;
+            }:
+            tmp = aCase[flag]
+            {
+                complexity += tmp;
             }
-            :
-            tmp = aCase[flag] {complexity += tmp;}
         )+
         caseSList
     ;
@@ -2087,8 +2445,23 @@ aCase[FlagDeclEmitter flag] returns [int complexity]
     Token pos = null;
     complexity = 0;
 }
-    :   ( si1:"case" {constExpr = true;} expression {constExpr = false; pos = si1; complexity++;}
-        | si2:"default"         {pos = si2;}
+    :
+        (
+            si1:"case"
+            {
+                constExpr = true;
+            }
+            expression
+            {
+                constExpr = false;
+                pos = si1;
+                complexity++;
+            }
+        |
+            si2:"default"
+            {
+                pos = si2;
+            }
         )
         t:COLON!
         {
@@ -2097,49 +2470,111 @@ aCase[FlagDeclEmitter flag] returns [int complexity]
         }
     ;
 
-caseSList {
-  CloverToken tmp;
+caseSList
+{
+    CloverToken tmp;
 }
-    :   (tmp=statement[null])*
+    :
+        (tmp=statement[null])*
     ;
 
 // The initializer for a for loop
 forInit
-        // if it looks like a declaration, it is
-    :   (   (declaration)=> declaration
-        // otherwise it could be an expression list...
-        |   expressionList
+    :
+        (
+            // if it looks like a declaration, it is
+            (declaration) =>
+            declaration
+        |
+            // otherwise it could be an expression list...
+            expressionList
         )?
     ;
 
-forCond {
-  CloverToken tmp = null;
+forCond
+{
+    CloverToken tmp = null;
 }
-    :   ({ tmp=(CloverToken)LT(1);  } expression se:SEMI!{instrBoolExpr(tmp, (CloverToken)se);}) | SEMI!
+    :
+        (
+            {
+                tmp=(CloverToken)LT(1);
+            }
+            expression se:SEMI!
+            {
+                instrBoolExpr(tmp, (CloverToken)se);
+            }
+        )
+        |
+            SEMI!
     ;
 
 forIter
-    :   (expressionList)?
+    :
+        (expressionList)?
     ;
 
 // an exception handler try/catch block
 tryCatchBlock [boolean labelled] returns [CloverToken last]
 {
-  last = null;
-  int complexity = 0;
-  ContextSet saveContext = getCurrentContext();
+    last = null;
+    int complexity = 0;
+    ContextSet saveContext = getCurrentContext();
 }
-    :   tr:"try" (lp:LPAREN {insertAutoCloseableClassDecl((CloverToken)tr);} ( (IDENT) => variableDeclarator | declaration ) {complexity++; instrArmDecl(((CloverToken)lp).getNext(), (CloverToken)LT(0), saveContext);} (semi:SEMI ( (IDENT) => variableDeclarator | declaration ) {complexity++; instrArmDecl(((CloverToken)semi).getNext(), (CloverToken)LT(0), saveContext);})* (SEMI)? rp:RPAREN )?
-        {enterContext(ContextStore.CONTEXT_TRY); saveContext = getCurrentContext();}
-            last=compoundStatement
-        {exitContext();}
-        (last=handler {complexity++;})*
-        ( "finally"
-            {enterContext(ContextStore.CONTEXT_FINALLY); saveContext = getCurrentContext();}
-            last=compoundStatement
-            {exitContext();}
+    :
+        tr:"try"
+        (
+            lp:LPAREN
+            {
+                insertAutoCloseableClassDecl((CloverToken)tr);
+            }
+            (
+                (IDENT) =>
+                variableDeclarator
+            |
+                declaration
+            )
+            {
+                complexity++;
+                instrArmDecl(((CloverToken)lp).getNext(), (CloverToken)LT(0), saveContext);
+            }
+            (
+                semi:SEMI
+                ( (IDENT) => variableDeclarator | declaration )
+                {
+                    complexity++;
+                    instrArmDecl(((CloverToken)semi).getNext(), (CloverToken)LT(0), saveContext);
+                }
+            )*
+            (SEMI)?
+            rp:RPAREN
         )?
-        { if (!labelled) {
+        {
+            enterContext(ContextStore.CONTEXT_TRY);
+            saveContext = getCurrentContext();
+        }
+        last=compoundStatement
+        {
+            exitContext();
+        }
+        (
+            last=handler
+            {
+                complexity++;
+            }
+        )*
+        (
+            "finally"
+            {
+                enterContext(ContextStore.CONTEXT_FINALLY); saveContext = getCurrentContext();
+            }
+            last=compoundStatement
+            {
+                exitContext();
+            }
+        )?
+        {
+            if (!labelled) {
                 instrInlineBefore((CloverToken)tr, last, saveContext, complexity);
             }
         }
@@ -2152,18 +2587,29 @@ handler returns [CloverToken last]
     String ts;
     last = null;
 }
-    :   "catch"
+    :
+        "catch"
         LPAREN!
-        ( options { greedy=true; }: an=annotation2[false] )*
+        (
+            options { greedy=true; }:
+            an=annotation2[false]
+        )*
         ("final")?
-        ( options { greedy=true; }: an=annotation2[false] )*
+        (
+            options { greedy=true; }:
+            an=annotation2[false]
+        )*
         ts=typeSpec
         (BOR ts=typeSpec)*
         IDENT
         RPAREN!
-        {enterContext(ContextStore.CONTEXT_CATCH);}
+        {
+            enterContext(ContextStore.CONTEXT_CATCH);
+        }
         last=compoundStatement
-        {exitContext();}
+        {
+            exitContext();
+        }
     ;
 
 /////////////////////////////////////////////////
