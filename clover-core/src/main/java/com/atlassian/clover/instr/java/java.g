@@ -508,10 +508,22 @@ tokens {
        }
     }
 
-    // a trick to not treat "record" as a keyword (as it can be used as identifier - variable/method)
-    // usage: { isKeyword() }? IDENT
-    private boolean isKeyword(String keyword) throws TokenStreamException {
+    /**
+     * A helper method to lookup a next token, this way avoiding writing a string literal in a grammar rule,
+     * which otherwise would have been interpreted by ANTLR as a token (a reserved keyword). Use it when a
+     * "pseudo-keyword" (like "record", "sealed", "module") have to be checked in a given context.
+     * Usage: <pre>{isNextKeyword("abc")}? IDENT</pre>
+     */
+    private boolean isNextKeyword(String keyword) throws TokenStreamException {
         return LT(1).getText().equals(keyword);
+    }
+
+    /**
+     * Like above, but looks up two tokens.
+     * Sample usage: <pre>{isNextKeyword("abc", "def")}? IDENT IDENT</pre>
+     */
+    private boolean isNextKeyword(String firstKeyword, String secondKeyword) throws TokenStreamException {
+        return LT(1).getText().equals(firstKeyword) && LT(2).getText().equals(secondKeyword);
     }
 
 }
@@ -524,7 +536,7 @@ tokens {
 //     "xyz" identifier SEMI
 // because string literal will become a token and "steal" this keyword from IDENT, failing on parsing regular code.
 // Instead of this we use a trick to to sneak peek the next token and treat it as a simple IDENT
-//      { LT(1).getText().equals("xyz") }? IDENT identifier SEMI
+//      { isNextKeyword("xyz") }? IDENT identifier SEMI
 //
 
 //
@@ -538,9 +550,9 @@ moduleDeclarationPredicate
     :
         ( an=annotation )*
         (
-            { LT(1).getText().equals("open") && LT(2).getText().equals("module") }? IDENT IDENT
+            { isNextKeyword("open", "module") }? IDENT IDENT
         |
-            { LT(1).getText().equals("module") }? IDENT
+            { isNextKeyword("module") }? IDENT
         )
         moduleName=identifier
         LCURLY
@@ -554,9 +566,9 @@ moduleDeclaration
     :
         ( an=annotation )*
         (
-            { LT(1).getText().equals("open") }? IDENT
+            { isNextKeyword("open") }? IDENT
         )?
-        { LT(1).getText().equals("module") }? IDENT
+        { isNextKeyword("module") }? IDENT
         moduleName=identifier
         LCURLY
         ( moduleDirective )*
@@ -591,9 +603,9 @@ requiresDirective
     String requiredModule;
 }
     :
-        { LT(1).getText().equals("requires") }? IDENT
+        { isNextKeyword("requires") }? IDENT
         (
-            { LT(1).getText().equals("transitive") }? IDENT
+            { isNextKeyword("transitive") }? IDENT
         |
             STATIC   // static is java keyword so we don't use a trick like above
         )?
@@ -610,10 +622,10 @@ exportsDirective
     String moduleName;
 }
     :
-        { LT(1).getText().equals("exports") }? IDENT
+        { isNextKeyword("exports") }? IDENT
         exportedPackage=identifier
         (
-            { LT(1).getText().equals("to") }? IDENT
+            { isNextKeyword("to") }? IDENT
             moduleName=identifier
             (
                 COMMA!
@@ -632,10 +644,10 @@ opensDirective
     String moduleName;
 }
     :
-        { LT(1).getText().equals("opens") }? IDENT
+        { isNextKeyword("opens") }? IDENT
         openedPackage=identifier
         (
-            { LT(1).getText().equals("to") }? IDENT
+            { isNextKeyword("to") }? IDENT
             moduleName=identifier
             (
                 COMMA!
@@ -653,7 +665,7 @@ usesDirective
     String serviceName;
 }
     :
-        { LT(1).getText().equals("uses") }? IDENT
+        { isNextKeyword("uses") }? IDENT
         serviceName=identifier
         SEMI!
     ;
@@ -667,9 +679,9 @@ providesDirective
     String withType;
 }
     :
-        { LT(1).getText().equals("provides") }? IDENT
+        { isNextKeyword("provides") }? IDENT
         serviceName=identifier
-        { LT(1).getText().equals("with") }? IDENT
+        { isNextKeyword("with") }? IDENT
         withType=identifier
         (
             COMMA!
@@ -767,7 +779,7 @@ typeDefinition2[Modifiers mods, CloverToken first, boolean nested]
         (
             name=classDefinition[mods]
         |
-            ( { isKeyword("record") }? IDENT) => name=recordDefinition[mods]
+            ( { isNextKeyword("record") }? IDENT) => name=recordDefinition[mods]
         |
             name=interfaceDefinition[mods]
         |
@@ -1364,7 +1376,7 @@ recordDefinition! [Modifiers mods] returns [String recordName]
     Parameter [] parameters = null;
 }
     :
-        { isKeyword("record") }? IDENT
+        { isNextKeyword("record") }? IDENT
         {
             tags = TokenListUtil.getJDocTagsAndValuesOnBlock(first);
             deprecated = maybeEnterDeprecated(first);
@@ -1635,7 +1647,7 @@ annotationTypeBody [ClassEntryNode classEntry] returns [CloverToken t]
         |
             // a nested type declaration
             // disambiguation: lookup further up to "class/interface" keyword, e.g. "public final class"
-            ( classOrInterfaceModifiers[false] ( CLASS | INTERFACE | AT INTERFACE | ENUM | { isKeyword("record") }? IDENT) ) =>
+            ( classOrInterfaceModifiers[false] ( CLASS | INTERFACE | AT INTERFACE | ENUM | { isNextKeyword("record") }? IDENT) ) =>
 
             {
                 topLevelSave = topLevelClass;
@@ -1770,7 +1782,7 @@ field! [ClassEntryNode containingClass]
 
         // INNER CLASSES, INTERFACES, ENUMS, ANNOTATIONS, RECORDS
         // look further to recognize that it's a definition of an inner type
-        ( classOrInterfaceModifiers[false] ( CLASS | INTERFACE | AT INTERFACE | ENUM | { isKeyword("record") }? IDENT) IDENT ) =>
+        ( classOrInterfaceModifiers[false] ( CLASS | INTERFACE | AT INTERFACE | ENUM | { isNextKeyword("record") }? IDENT) IDENT ) =>
 
         mods=classOrInterfaceModifiers[false]
         { deprecated = maybeEnterDeprecated(tags, mods); }
@@ -2178,7 +2190,7 @@ statement [CloverToken owningLabel] returns [CloverToken last]
     |
         // NOTE: we check for records before normal statement as "record" can be recognized as IDENT leading to syntax error
         // record definition
-        (classOrInterfaceModifiers[false] { isKeyword("record") }? IDENT) =>
+        (classOrInterfaceModifiers[false] { isNextKeyword("record") }? IDENT) =>
         mods=classOrInterfaceModifiers[false]! classname=recordDefinition[mods]
         {
             instrumentable = false;
