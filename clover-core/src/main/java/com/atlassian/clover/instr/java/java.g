@@ -1080,7 +1080,7 @@ identifierStar
 classOrInterfaceModifiers [boolean instrSuppressWarnings] returns [Modifiers mods]
 {
     mods = new Modifiers();
-    int m = 0;
+    long m = 0;
     AnnotationImpl ann = null;
 }
     :
@@ -1095,9 +1095,8 @@ classOrInterfaceModifiers [boolean instrSuppressWarnings] returns [Modifiers mod
 /**
  * Keywords allowed for a class or interface modifier.
  */
-classOrInterfaceModifier returns [int m]
+classOrInterfaceModifier returns [long m]
 {
-    int im;
     m = 0;
 }
     :
@@ -1130,7 +1129,7 @@ classOrInterfaceModifier returns [int m]
 fieldModifiers [boolean instrSuppressWarnings] returns [Modifiers mods]
 {
     mods = new Modifiers();
-    int m = 0;
+    long m = 0;
     AnnotationImpl ann = null;
 }
     :
@@ -1270,7 +1269,7 @@ compactConstructorSignature [Map tags, CloverToken first, boolean isPredicate] r
 constructorModifiers [boolean instrSuppressWarnings] returns [Modifiers mods]
 {
     mods = new Modifiers();
-    int m = 0;
+    long m = 0;
     AnnotationImpl ann = null;
 }
     :
@@ -1304,7 +1303,7 @@ constructorModifier returns [int m]
 methodModifiers [boolean instrSuppressWarnings] returns [Modifiers mods]
 {
     mods = new Modifiers();
-    int m = 0;
+    long m = 0;
     AnnotationImpl ann = null;
 }
     :
@@ -1319,7 +1318,7 @@ methodModifiers [boolean instrSuppressWarnings] returns [Modifiers mods]
 /**
  * Keywords allowed for a method modifier
  */
-methodModifier returns [int m]
+methodModifier returns [long m]
 {
     m = 0;
 }
@@ -1365,8 +1364,10 @@ classDefinition! [Modifiers mods] returns [String classname]
             deprecated = maybeEnterDeprecated(first);
         }
         id:IDENT
+
         // it _might_ have type paramaters
         (typeParam=typeParameters)?
+
 
         // it _might_ have a superclass...
         superclass = superClassClause
@@ -1375,6 +1376,7 @@ classDefinition! [Modifiers mods] returns [String classname]
         {
             classEntry = enterClass(tags, mods, ct(id), false, false, false, superclass);
         }
+        // if a class is sealed then it might have permits clause
         // now parse the body of the class
         endOfBlock = classBlock[classEntry]
         {

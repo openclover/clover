@@ -43,7 +43,7 @@ public class MethodExitInstrEmitter extends Emitter {
                 }
                 if (entry.isAddTestInstr()) {
                     String typeInstr = "getClass().getName()";
-                    if (Modifier.isStatic(entry.getSignature().getModifiersMask())) {
+                    if (Modifier.isStatic(entry.getSignature().getBaseModifiersMask())) {
                        typeInstr = entry.getMethod().getContainingClass().getName() + ".class.getName()";
                     }
                     instr.append($CoverageRecorder$globalSliceEnd(state.getRecorderPrefix(), typeInstr,

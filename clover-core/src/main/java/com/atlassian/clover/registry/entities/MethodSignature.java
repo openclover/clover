@@ -51,7 +51,7 @@ public class MethodSignature implements TaggedPersistent, MethodSignatureInfo {
         this.name = name;
     }
 
-    public MethodSignature(String name, int modifiers, AnnotationImpl[] annotations) {
+    public MethodSignature(String name, long modifiers, AnnotationImpl[] annotations) {
         this.name = name;
         this.modifiers = Modifiers.createFrom(modifiers, annotations);
     }
@@ -72,7 +72,7 @@ public class MethodSignature implements TaggedPersistent, MethodSignatureInfo {
         if ((firstToken != null) || (lastToken != null)) {
             //Make renamed method private so in classes annotated with @org.testng.annoations.Test
             //the renamed method is not counted as a test (thus doubly counting test methods)
-            int mods = modifiers.getMask();
+            long mods = modifiers.getMask();
             mods &= ~(Modifier.PUBLIC | Modifier.PROTECTED);
             mods |= Modifier.PRIVATE;
             normSeqPrefix = ModifierExt.toString(mods) + (typeParams != null ? " " + typeParams : "") + (returnType != null ? " " + returnType : "") + " ";
@@ -91,11 +91,16 @@ public class MethodSignature implements TaggedPersistent, MethodSignatureInfo {
         return tags;
     }
 
-    public int getModifiersMask() {
+    public long getModifiersMask() {
         return modifiers.getMask();
     }
 
-    public void setModifiers(int modifiers) {
+    /** Return only low 32 bits from the mask, ModifiersExt might not fit */
+    public int getBaseModifiersMask() {
+        return (int) modifiers.getMask();
+    }
+
+    public void setModifiers(long modifiers) {
         this.modifiers.setMask(modifiers);
     }
 

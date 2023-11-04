@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.Map;
 
 public interface ModifiersInfo {
-    int getMask();
+    long getMask();
 
     /**
      * Returns one (or more - introduced in Java 8) annotations with a given name.

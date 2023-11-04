@@ -47,9 +47,9 @@ public class DefaultTestDetector implements TestDetector {
         final MethodSignature signature = methodContext.getSignature();
         if (methodContext != null
                 //Concrete methods
-                && !Modifier.isAbstract(signature.getModifiersMask())
+                && !Modifier.isAbstract(signature.getBaseModifiersMask())
                 //TestNG/JUnit5 require at least non private. i.e. public, package private, protected are okay.
-                && !Modifier.isPrivate(signature.getModifiersMask())
+                && !Modifier.isPrivate(signature.getBaseModifiersMask())
                 // no ctors
                 && signature.getReturnType() != null) {
 
@@ -60,7 +60,7 @@ public class DefaultTestDetector implements TestDetector {
             }
 
             // junit 3.x -textXXX methods which are required to be public.
-            if (Modifier.isPublic(signature.getModifiersMask()) && signature.getName().startsWith("test") && !signature.hasParams()) {
+            if (Modifier.isPublic(signature.getBaseModifiersMask()) && signature.getName().startsWith("test") && !signature.hasParams()) {
                 return true;
             }
         }

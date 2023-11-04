@@ -77,7 +77,7 @@ public class JUnitParameterizedTestExtractor implements TestNameExtractor {
     @Nullable
     private static MethodInfo findDataMethod(ClassInfo classInfo) {
         for (MethodInfo methodInfo : classInfo.getMethods()) {
-            final int mask = methodInfo.getSignature().getModifiers().getMask();
+            final long mask = methodInfo.getSignature().getModifiers().getMask();
             if (methodInfo.getSimpleName().equals("data") && ((mask & Modifier.PUBLIC) != 0)
                     && ((mask & Modifier.STATIC) != 0)) {
                 // seems to be this method, return it
