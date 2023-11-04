@@ -53,9 +53,9 @@ tokens {
 }
 
 {
-    private boolean noncomment = false;
-    private int linecount = 1; // ##HACK - to cope with 1 line files that have no new line
-    private int ncLinecount = 0;
+    private boolean nonComment = false;
+    private int lineCount = 1; // ##HACK - to cope with 1 line files that have no new line
+    private int ncLineCount = 0;
     private JavaInstrumentationConfig mConfig;
 
     public JavaLexer(Reader in, JavaInstrumentationConfig aCfg) {
@@ -65,24 +65,24 @@ tokens {
     }
     
 	protected void nc() {
-		noncomment = true;
+		nonComment = true;
 	}
 
 	public void newline() {
-		linecount++;
-		if (noncomment) {
-			ncLinecount++;
-			noncomment = false;
+		lineCount++;
+		if (nonComment) {
+			ncLineCount++;
+			nonComment = false;
 		}
 		super.newline();
 	}
 
 	public int getLineCount() {
-		return linecount;
+		return lineCount;
 	}
 
 	public int getNCLineCount() {
-		return ncLinecount;
+		return ncLineCount;
 	}
 }
 
@@ -158,7 +158,7 @@ WS  :   (   ' '
 SL_COMMENT
     :   "//"
         (~('\n'|'\r') )*
-        // don't match a newline always, becuase there might not be one!
+        // don't match a newline always, because there might not be one!
         //('\n'|'\r'('\n')? {System.out.println("match point 2");} )
         //{newline();}
     ;
@@ -296,7 +296,7 @@ VOCAB
 
 /**
  * An identifier.  Note that testLiterals is set to true!  This means that after we match the rule, we look in the
- * literals table to see if it's a literal or really an identifer
+ * literals table to see if it's a literal or really an identifier
  */
 IDENT
 options { testLiterals=true; }
@@ -304,7 +304,7 @@ options { testLiterals=true; }
         { nc(); } IdentifierStart (IdentifierPart)*
     ;
 
-// a complete rewrite of the overly spaghettied NUM_INT rule, to support hex floats
+// a complete rewrite of the overly "spaghettified" NUM_INT rule, to support hex floats
 // inspired by
 // http://fisheye1.cenqua.com/browse/checkstyle/checkstyle/src/checkstyle/com/puppycrawl/tools/checkstyle/grammars/java.g?r1=1.11&r2=1.12
 NUM_INT
