@@ -1,5 +1,3 @@
-package java15;
-
 public class Java15TextBlock {
     public void textBlock() {
 
