@@ -1109,11 +1109,19 @@ classOrInterfaceModifier returns [int m]
     |
         ABSTRACT       { m=java.lang.reflect.Modifier.ABSTRACT; }
     |
-        FINAL         { m=java.lang.reflect.Modifier.FINAL; }    // for classes only
+        // for classes only
+        FINAL         { m=java.lang.reflect.Modifier.FINAL; }
     |
         STATIC        { m=java.lang.reflect.Modifier.STATIC; }
     |
         STRICTFP      { m=java.lang.reflect.Modifier.STRICT; }
+    |
+        // for classes or interfaces
+        { isNextKeyword("sealed") }? IDENT { m = com.atlassian.clover.registry.entities.ModifierExt.SEALED; }
+    |
+        // for classes or interfaces
+        // TODO non-sealed won't work, these are three tokens
+        { isNextKeyword("sealed") }? IDENT { m = com.atlassian.clover.registry.entities.ModifierExt.NON_SEALED; }
     ;
 
 /**
