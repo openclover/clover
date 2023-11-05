@@ -24,7 +24,7 @@ import static org.openclover.util.Maps.newHashMap;
  */
 public class Modifiers implements TaggedPersistent, ModifiersInfo {
 
-    public static Modifiers createFrom(int modifiers, @Nullable AnnotationImpl[] annotations) {
+    public static Modifiers createFrom(long modifiers, @Nullable AnnotationImpl[] annotations) {
         final Modifiers result = new Modifiers();
         result.setMask(modifiers);
         if (annotations != null) {
@@ -51,7 +51,7 @@ public class Modifiers implements TaggedPersistent, ModifiersInfo {
         }
     }
 
-    private int mask = 0;
+    private long mask = 0;
 
     /**
      * List of annotation objects. Key is an annotation name, value contains list of annotations (and their attributes)
@@ -117,17 +117,17 @@ public class Modifiers implements TaggedPersistent, ModifiersInfo {
         annotations.clear();
     }
 
-    public void setMask(int mask) {
+    public void setMask(long mask) {
         this.mask = mask;
     }
 
     @Override
-    public int getMask() {
+    public long getMask() {
         return mask;
     }
 
     public String getVisibility() {
-        int visibilityMods = mask & (Modifier.PRIVATE | Modifier.PROTECTED | Modifier.PUBLIC);
+        long visibilityMods = mask & (Modifier.PRIVATE | Modifier.PROTECTED | Modifier.PUBLIC);
         if (visibilityMods == 0) {
             return "package";
         }
@@ -136,7 +136,7 @@ public class Modifiers implements TaggedPersistent, ModifiersInfo {
 
     @Override
     public void write(final TaggedDataOutput out) throws IOException {
-        out.writeInt(mask);
+        out.writeLong(mask);
 
         // count all annotations (we can have repeating annotations)
         int size = 0;
@@ -155,7 +155,7 @@ public class Modifiers implements TaggedPersistent, ModifiersInfo {
 
     public static Modifiers read(final TaggedDataInput in) throws IOException {
         final Modifiers result = new Modifiers();
-        result.setMask(in.readInt());
+        result.setMask(in.readLong());
         final int entriesSize = in.readInt();
         for (int i = 0; i < entriesSize; i++) {
             // no worries about un-flattening, the addAnnotation will handle repeated annotations

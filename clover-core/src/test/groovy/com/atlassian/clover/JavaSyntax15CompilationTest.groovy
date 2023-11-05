@@ -26,7 +26,7 @@ class JavaSyntax15CompilationTest extends JavaSyntaxCompilationTestBase {
     void testTextBlock() {
         assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_15))
 
-        final String fileName = "java15/Java15TextBlock.java"
+        final String fileName = "Java15TextBlock.java"
         instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_15)
         assertFileMatches(fileName, R_INC + "System.out.println", false)
     }

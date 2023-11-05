@@ -21,7 +21,7 @@ import java.util.zip.Adler32;
  */
 public class RegHeader {
     public static final long REG_MAGIC = 0xCAFEFEED;
-    public static final int REG_FORMAT_VERSION = 40000; /* A.BB.CC 4.0.0 update this value whenever format is changed */
+    public static final int REG_FORMAT_VERSION = 40502; /* A.BB.CC 4.5.2 update this value whenever format is changed */
     public static final int MAX_NAME_LENGTH = 64;
     /** Size in bytes of the header */
     public static final int SIZE = 52 + (MAX_NAME_LENGTH * 4);

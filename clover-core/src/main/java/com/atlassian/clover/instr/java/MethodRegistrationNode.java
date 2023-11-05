@@ -133,7 +133,7 @@ public class MethodRegistrationNode extends Emitter {
             instr.append("{");
 
             String typeInstr = "getClass().getName()";
-            if (Modifier.isStatic(getSignature().getModifiersMask())) {
+            if (Modifier.isStatic(getSignature().getBaseModifiersMask())) {
                 typeInstr = getMethod().getContainingClass().getName() + ".class.getName()";
             }
 

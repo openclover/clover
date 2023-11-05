@@ -11,9 +11,9 @@ public class ConstantExpressionDetector implements CloverTokenConsumer {
     private static final BitSet CONSTANT_TOKENS = new BitSet();
 
     static {
-        CONSTANT_TOKENS.set(JavaTokenTypes.LITERAL_true);
-        CONSTANT_TOKENS.set(JavaTokenTypes.LITERAL_false);
-        CONSTANT_TOKENS.set(JavaTokenTypes.LITERAL_null);
+        CONSTANT_TOKENS.set(JavaTokenTypes.TRUE);
+        CONSTANT_TOKENS.set(JavaTokenTypes.FALSE);
+        CONSTANT_TOKENS.set(JavaTokenTypes.NULL);
 
         CONSTANT_TOKENS.set(JavaTokenTypes.NUM_INT);
         CONSTANT_TOKENS.set(JavaTokenTypes.NUM_FLOAT);

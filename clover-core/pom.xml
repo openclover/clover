@@ -177,7 +177,22 @@
                 <version>3.0.0</version>
                 <executions>
                     <execution>
-                        <id>generate-java-g</id>
+                        <id>generate-java-lexer-g</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>antlr.Tool</mainClass>
+                            <arguments>
+                                <argument>-o</argument>
+                                <argument>${project.build.directory}/src-generated/com/atlassian/clover/instr/java</argument>
+                                <argument>${project.basedir}/src/main/java/com/atlassian/clover/instr/java/java-lexer.g</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-java-parser-g</id>
                         <phase>generate-sources</phase>
                         <goals>
                             <goal>java</goal>

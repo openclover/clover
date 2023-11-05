@@ -524,7 +524,7 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo> implements 
      * @return true if public, false otherwise
      */
     public boolean isPublic() {
-        return Modifier.isPublic(sharedInfo.getSignature().getModifiersMask());
+        return Modifier.isPublic(sharedInfo.getSignature().getBaseModifiersMask());
     }
 
      /**

@@ -38,7 +38,7 @@ public class MethodEntryInstrEmitter extends Emitter {
                 instr.append("try{");
 
                 String typeInstr = "getClass().getName()";
-                if (Modifier.isStatic(getSignature().getModifiersMask())) {
+                if (Modifier.isStatic(getSignature().getBaseModifiersMask())) {
                    typeInstr = getMethod().getContainingClass().getName() + ".class.getName()";
                 }
 

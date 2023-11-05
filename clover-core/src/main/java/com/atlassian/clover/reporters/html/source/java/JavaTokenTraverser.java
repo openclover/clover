@@ -48,8 +48,8 @@ public final class JavaTokenTraverser implements SourceTraverser<JavaSourceListe
                 }
                 else if (JavaKeywords.contains(prev.getType())) {
                     listener.onKeyword(currentChunk.toString());
-                    gatherPkgIdent = (prev.getType() == JavaTokenTypes.LITERAL_package);
-                    gatherImportIdent = (prev.getType() == JavaTokenTypes.LITERAL_import);
+                    gatherPkgIdent = (prev.getType() == JavaTokenTypes.PACKAGE);
+                    gatherImportIdent = (prev.getType() == JavaTokenTypes.IMPORT);
                 }
                 else {
                     if (gatherPkgIdent || gatherImportIdent) {
