@@ -86,6 +86,16 @@ tokens {
 	}
 }
 
+// we treat "non-sealed" as a special token; this is not defined on the list of tokens, with the literal,
+// because definition of MINUS '-' would kick-in before detection of "non-sealed", thus it would never yield
+// a NON_SEALED token, but the "IDENT MINUS IDENT" instead
+// due to the 4-character lookahead, the rule is not perfect and will match for any "non-" prefix
+// we can't increase lookahead due to performance reasons
+NON_SEALED
+    :
+        "non" MINUS "sealed"
+        {nc();}
+    ;
 
 // OPERATORS
 QUESTION        :   '?'     {nc();};

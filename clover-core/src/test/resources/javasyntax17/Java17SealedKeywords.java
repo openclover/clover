@@ -7,7 +7,11 @@ public class Java17SealedKeywords {
         int sealed = 10;
         int non = 20;
         int permits = 30;
-        int total = non-sealed + permits; // like "non-sealed" keyword
+        // FAIL: int total = non-sealed + permits;
+        // TODO the "non-sealed" is treated as NON_SEALED token instead of arithmetic operation
+        // FAIL: int total = non- sealed + permits;
+        // TODO the "non-" is recognized as a beginning of "non-sealed" and expects "s" instead of " "
+        int total = non - sealed + permits;
         System.out.println("total=" + total);
 
         sealed();
