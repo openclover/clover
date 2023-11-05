@@ -24,19 +24,28 @@ class JavaSyntax14CompilationTest extends JavaSyntaxCompilationTestBase {
     }
 
     @Test
-    void testCaseWithColonCanUseBothBreakAndYield() {
+    void caseWithColonCanUseBothBreakAndYield() {
         assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_14))
 
-        final String fileName = "Java14.java"
+        final String fileName = "Java14CaseColonBreakYield.java"
         instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_14)
+
+        // using break in switch statements
+
+        // using yield in switch expressions
+
     }
 
     @Test
-    void testSwitchWithCaseAndDefaultWithLambdas() {
+    void switchExpressionWithCaseAndDefaultCanUseLambdas() {
         assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_14))
 
-        final String fileName = "Java14.java"
+        final String fileName = "Java14CaseAndDefaultWithLambdas.java"
         instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_14)
+
+        // using lambdas in switch statements
+        // assert case
+        // assert default
     }
 
     @Test
@@ -97,7 +106,7 @@ class JavaSyntax14CompilationTest extends JavaSyntaxCompilationTestBase {
         // a standalone statement in method, instance initializer block, static block
         assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_14))
 
-        final String fileName = "Java14.java"
+        final String fileName = "Java14CaseMixedYieldAndExpression.java"
         instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_14)
     }
 }
