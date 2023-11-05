@@ -3156,6 +3156,9 @@ primaryExpressionPart
         |
             METHOD_REF NEW
         )
+    |
+        // hack: "non-sealed" in expression means "non - sealed", allow this to parse
+        NON_SEALED
     ;
 
 /**

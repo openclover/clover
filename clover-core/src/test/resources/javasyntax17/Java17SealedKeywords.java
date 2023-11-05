@@ -7,10 +7,13 @@ public class Java17SealedKeywords {
         int sealed = 10;
         int non = 20;
         int permits = 30;
-        // FAIL: int total = non-sealed + permits;
-        // TODO the "non-sealed" is treated as NON_SEALED token instead of arithmetic operation
-        // FAIL: int total = non- sealed + permits;
+        // although "non-sealed" is read by the JavaLexer as NON_SEALED token,
+        // later the JavaRecognizer treats it as arithmetic expression
+        int total3 = non-sealed + permits;
+
         // TODO the "non-" is recognized as a beginning of "non-sealed" and expects "s" instead of " "
+        // FAIL: int total = non- sealed + permits;
+
         int total = non - sealed + permits;
         System.out.println("total=" + total);
 
