@@ -27,7 +27,17 @@ class JavaSyntax17CompilationTest extends JavaSyntaxCompilationTestBase {
         assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_17))
 
         final String fileName = "Java17SealedClass.java"
-        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_16)
+        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_17)
+
+        // assertFileMatches(fileName, R_INC + "return x \\+ y \\+ z;", false)
+    }
+
+    @Test
+    void testSealedInterfacesParsing() {
+        assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_17))
+
+        final String fileName = "Java17SealedInterface.java"
+        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_17)
 
         // assertFileMatches(fileName, R_INC + "return x \\+ y \\+ z;", false)
     }
@@ -37,7 +47,7 @@ class JavaSyntax17CompilationTest extends JavaSyntaxCompilationTestBase {
         assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_17))
 
         final String fileName = "Java17SealedKeywords.java"
-        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_16)
+        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_17)
 
         // assertFileMatches(fileName, R_INC + "return x \\+ y \\+ z;", false)
     }

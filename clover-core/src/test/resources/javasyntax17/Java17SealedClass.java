@@ -1,6 +1,8 @@
+import java.io.Serializable;
+
 public class Java17SealedClass {
 
-    // test different order of modifiers and extends/permits combinations
+    // test different order of modifiers
 
     // PublicStaticSealedClass
     // + SubClassA final
@@ -34,6 +36,22 @@ public class Java17SealedClass {
 
     private class SubClassH extends SubClassG { }
 
-    // permits with extends not allowed?
-    // sealed class SubClassE permits SubClassF extends Object { }
+    // test different order of extends / permits / implements
+
+    // permits ... extends ... is not allowed
+    //sealed class ClassExtendsObject2 permits SubClassExtendsObject2 extends Object { }
+    //private final class SubClassExtendsObject2 extends ClassExtendsObject2 { }
+
+    // extends ... permits ... is fine
+    sealed class ClassExtendsObject extends Object permits SubClassExtendsObject { }
+    final class SubClassExtendsObject extends ClassExtendsObject { }
+
+    // permits ... implements ... is not allowed
+    //sealed class ClassImplementsSerializable2 permits SubClassImplementsSerializable2 implements Serializable { }
+    //final class SubClassImplementsSerializable2 extends ClassImplementsSerializable2 { }
+
+    // implements ... permits ... is fine
+    sealed class ClassImplementsSerializable implements Serializable permits SubClassImplementsSerializable { }
+    final class SubClassImplementsSerializable extends ClassImplementsSerializable { }
+
 }

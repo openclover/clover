@@ -1372,18 +1372,21 @@ classDefinition! [Modifiers mods] returns [String classname]
         }
         id:IDENT
 
-        // it _might_ have type paramaters
+        // it _might_ have type parameters
         (typeParam=typeParameters)?
-
 
         // it _might_ have a superclass...
         superclass = superClassClause
         // it might implement some interfaces...
         implementsClause
+
+        // if a class is sealed then it must have the permits clause
+        permitsClause[mods]
+
         {
             classEntry = enterClass(tags, mods, ct(id), false, false, false, superclass);
         }
-        // if a class is sealed then it might have permits clause
+
         // now parse the body of the class
         endOfBlock = classBlock[classEntry]
         {
@@ -1413,8 +1416,10 @@ recordDefinition! [Modifiers mods] returns [String recordName]
         }
         id:IDENT
         LPAREN! parameters=parameterDeclarationList RPAREN!
+
         // it _might_ have a superclass...
         superclass = superClassClause
+
         // it might implement some interfaces...
         implementsClause
         {
@@ -1458,6 +1463,10 @@ interfaceDefinition! [Modifiers mods] returns [String name]
         }
         // it might extend some other interfaces
         interfaceExtends
+
+        // if an interface is sealed then it must have the permits clause
+        permitsClause[mods]
+
         // now parse the body of the interface (looks like a class...)
         endOfBlock = classBlock[classEntry]
         {
@@ -1727,6 +1736,22 @@ implementsClause
     :
         (
             IMPLEMENTS! type=classOrInterfaceType ( COMMA! type=classOrInterfaceType )*
+        )?
+    ;
+
+// for a sealed class or interface
+permitsClause [Modifiers mods]
+{
+    String type = null;
+}
+    :
+        (
+            {
+                (mods.getMask() & com.atlassian.clover.registry.entities.ModifierExt.SEALED) != 0
+                    && isNextKeyword("permits")
+            }?
+            IDENT!
+            type=classOrInterfaceType ( COMMA! type=classOrInterfaceType )*
         )?
     ;
 
