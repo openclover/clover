@@ -509,6 +509,14 @@ tokens {
     }
 
     /**
+     * A helper method to check a currently matched token.
+     * Usage: <pre>{isCurrentKeyword("abc")}?</pre>
+     */
+    private boolean isCurrentKeyword(String keyword) throws TokenStreamException {
+        return LT(0).getText().equals(keyword);
+    }
+
+    /**
      * A helper method to lookup a next token, this way avoiding writing a string literal in a grammar rule,
      * which otherwise would have been interpreted by ANTLR as a token (a reserved keyword). Use it when a
      * "pseudo-keyword" (like "record", "sealed", "module") have to be checked in a given context.
@@ -774,7 +782,9 @@ typeDefinition[boolean nested]
                                        // we don't want to fail on empty stack
             first = lt(1);
         }
-        // TODO: we ne need semantic predicate here?
+
+        // disambiguation to recognize a difference between e.g. top-level record (IDENT) and a variable (IDENT)
+        ( classOrInterfaceModifiers[false] ( CLASS | INTERFACE | AT INTERFACE | ENUM | { isCurrentKeyword("record") }? ) ) =>
         mods=classOrInterfaceModifiers[!nested]!
         typeDefinition2[mods, first, nested]
     |
@@ -793,7 +803,7 @@ typeDefinition2[Modifiers mods, CloverToken first, boolean nested]
         (
             name=classDefinition[mods]
         |
-            ( { isNextKeyword("record") }? IDENT) => name=recordDefinition[mods]
+            ( { isCurrentKeyword("record") }? ) => name=recordDefinition[mods]
         |
             name=interfaceDefinition[mods]
         |
@@ -1128,6 +1138,14 @@ classOrInterfaceModifier returns [long m]
         {
             m = com.atlassian.clover.registry.entities.ModifierExt.SEALED;
         }
+    |
+        // although "record" it's not a class or interface modifier, but marks the record class (so it's
+        // more like the "class" keyword, because of the fact that we treat it as IDENT,
+        // we must process it in this rule, together with "sealed" to distinguish them in the token stream
+        { isNextKeyword("record") }? IDENT
+        {
+            m = com.atlassian.clover.registry.entities.ModifierExt.RECORD;
+        }
     ;
 
 /**
@@ -1409,7 +1427,8 @@ recordDefinition! [Modifiers mods] returns [String recordName]
     Parameter [] parameters = null;
 }
     :
-        { isNextKeyword("record") }? IDENT
+        // the "record" IDENT has been already matched in the classOrInterfaceModifier rule
+        { (mods.getMask() & com.atlassian.clover.registry.entities.ModifierExt.RECORD) != 0 }?
         {
             tags = TokenListUtil.getJDocTagsAndValuesOnBlock(first);
             deprecated = maybeEnterDeprecated(first);
@@ -1686,7 +1705,7 @@ annotationTypeBody [ClassEntryNode classEntry] returns [CloverToken t]
         |
             // a nested type declaration
             // disambiguation: lookup further up to "class/interface" keyword, e.g. "public final class"
-            ( classOrInterfaceModifiers[false] ( CLASS | INTERFACE | AT INTERFACE | ENUM | { isNextKeyword("record") }? IDENT) ) =>
+            ( classOrInterfaceModifiers[false] ( CLASS | INTERFACE | AT INTERFACE | ENUM | { isCurrentKeyword("record") }? ) ) =>
 
             {
                 topLevelSave = topLevelClass;
@@ -1837,7 +1856,7 @@ field! [ClassEntryNode containingClass]
 
         // INNER CLASSES, INTERFACES, ENUMS, ANNOTATIONS, RECORDS
         // look further to recognize that it's a definition of an inner type
-        ( classOrInterfaceModifiers[false] ( CLASS | INTERFACE | AT INTERFACE | ENUM | { isNextKeyword("record") }? IDENT) IDENT ) =>
+        ( classOrInterfaceModifiers[false] ( CLASS | INTERFACE | AT INTERFACE | ENUM | { isCurrentKeyword("record") }? ) IDENT ) =>
 
         mods=classOrInterfaceModifiers[false]
         { deprecated = maybeEnterDeprecated(tags, mods); }
@@ -2245,7 +2264,7 @@ statement [CloverToken owningLabel] returns [CloverToken last]
     |
         // NOTE: we check for records before normal statement as "record" can be recognized as IDENT leading to syntax error
         // record definition
-        (classOrInterfaceModifiers[false] { isNextKeyword("record") }? IDENT) =>
+        (classOrInterfaceModifiers[false] { isCurrentKeyword("record") }? ) =>
         mods=classOrInterfaceModifiers[false]! classname=recordDefinition[mods]
         {
             instrumentable = false;
