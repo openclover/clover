@@ -10,18 +10,18 @@ public class ModifierExt {
      * An artificial modifier to hold the "default" keyword, which is being used to mark the virtual extension
      * method in an interface.
      */
-    public static final long DEFAULT      = 0x0000_0100_0000L;
+    public static final long DEFAULT      = 0x0001_0000_0000L;
 
     /**
      * An artificial modifier to hold the "sealed" pseudo-keyword, used to mark classes or interfaces as sealed.
      */
-    public static final long SEALED       = 0x0000_1000_0000L;
+    public static final long SEALED       = 0x0002_0000_0000L;
 
     /**
      * An artificial modifier to hold the "non-sealed" pseudo-keyword, used to marked subclasses or
      * sub-interfaces of a sealed class/interface as open for extension.
      */
-    public static final long NON_SEALED   = 0x0001_0000_0000L;
+    public static final long NON_SEALED   = 0x0004_0000_0000L;
 
     public static String toString(long modifierMask) {
         String optDefault = ((modifierMask & DEFAULT) != 0) ? "default " : "";

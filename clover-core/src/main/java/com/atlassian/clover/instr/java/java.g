@@ -774,6 +774,7 @@ typeDefinition[boolean nested]
                                        // we don't want to fail on empty stack
             first = lt(1);
         }
+        // TODO: we ne need semantic predicate here?
         mods=classOrInterfaceModifiers[!nested]!
         typeDefinition2[mods, first, nested]
     |
@@ -1115,12 +1116,18 @@ classOrInterfaceModifier returns [long m]
     |
         STRICTFP      { m=java.lang.reflect.Modifier.STRICT; }
     |
-        // for classes or interfaces
-        { isNextKeyword("sealed") }? IDENT { m = com.atlassian.clover.registry.entities.ModifierExt.SEALED; }
+        // non-sealed is treated like a keyword!
+        // a workaround, because otherwise it would see "non-sealed" as IDENT-MINUS-IDENT
+        NON_SEALED
+        {
+            m = com.atlassian.clover.registry.entities.ModifierExt.NON_SEALED;
+        }
     |
-        // for classes or interfaces
-        // TODO non-sealed won't work, these are three tokens
-        { isNextKeyword("sealed") }? IDENT { m = com.atlassian.clover.registry.entities.ModifierExt.NON_SEALED; }
+        // sealed is treated like an identifier
+        { isNextKeyword("sealed") }? IDENT
+        {
+            m = com.atlassian.clover.registry.entities.ModifierExt.SEALED;
+        }
     ;
 
 /**
