@@ -5,9 +5,7 @@ import org.junit.Before
 import org.junit.Test
 
 import static org.hamcrest.MatcherAssert.assertThat
-import static org.hamcrest.Matchers.containsString
-import static org.hamcrest.Matchers.instanceOf
-import static org.junit.Assert.fail
+import static org.hamcrest.Matchers.equalTo
 import static org.junit.Assume.assumeTrue
 
 /**
@@ -39,13 +37,8 @@ class JavaSyntax15CompilationTest extends JavaSyntaxCompilationTestBase {
     void testTextBlockInvalid() {
         assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_15))
 
-        final String fileName = "Java15TextBlockInvalid.java"
-        try {
-            instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_15)
-            fail("Expected instrumentation to fail")
-        } catch (Exception ex) {
-            assertThat(ex, instanceOf(AssertionError.class))
-            assertThat(ex.message, containsString("instrumentation problem processing"))
-        }
+        File srcFile = new File(srcDir, "Java15TextBlockInvalid.java")
+        int retCode = instrumentSourceFileNoAssert(srcFile, JavaEnvUtils.JAVA_15)
+        assertThat(retCode, equalTo(1))
     }
 }

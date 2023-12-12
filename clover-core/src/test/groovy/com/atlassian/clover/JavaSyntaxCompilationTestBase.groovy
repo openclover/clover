@@ -174,6 +174,11 @@ abstract class JavaSyntaxCompilationTestBase {
      * @param srcVersion
      */
     protected void instrumentSourceFile(final File file, final String srcVersion, final String[] extraArgs) {
+        final int result = instrumentSourceFileNoAssert(file, srcVersion, extraArgs)
+        assertEquals("instrumentation problem processing \"$file.absolutePath\":".toString(), 0, result)
+    }
+
+    protected int instrumentSourceFileNoAssert(final File file, final String srcVersion, final String[] extraArgs) {
         final String[] args = [
                 "--source", srcVersion,
                 "--verbose",
@@ -184,8 +189,7 @@ abstract class JavaSyntaxCompilationTestBase {
                 file.getAbsolutePath()
         ]
 
-        final int result = CloverInstr.mainImpl((String[]) ArrayUtils.addAll(args, extraArgs))
-        assertEquals("instrumentation problem processing \"$file.absolutePath\":".toString(), 0, result)
+        return CloverInstr.mainImpl((String[]) ArrayUtils.addAll(args, extraArgs))
     }
 
     /**
