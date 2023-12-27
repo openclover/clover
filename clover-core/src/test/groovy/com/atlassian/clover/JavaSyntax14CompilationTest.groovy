@@ -136,31 +136,43 @@ class JavaSyntax14CompilationTest extends JavaSyntaxCompilationTestBase {
     }
 
     @Test
-    void testSwitchWithCaseExpressionAndBlockReturningYield() {
+    void switchExpressionWithBlockWithYieldOrReturn() {
         assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_14))
 
-        final String fileName = "Java14.java"
+        final String fileName = "Java14SwitchExpressionCaseAndDefaultWithBlocks.java"
         instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_14)
+
+        assertFileMatches(fileName, R_INC + quote("int color = switch (i)"))
+        assertFileMatches(fileName, quote("case 0 -> { ") + R_INC + quote("yield 0x00; }"))
+        assertFileMatches(fileName, quote("case 1 -> { ") + R_INC + quote("yield 0x10; }"))
+        assertFileMatches(fileName, quote("default -> { ") + R_INC + quote("return null; }"))
+    }
+
+    @Test
+    void switchExpressionWithBlockReturningVoid() {
+        assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_14))
+
+        final String fileName = "Java14SwitchExpressionCaseAndDefaultWithBlocks.java"
+        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_14)
+
+        assertFileMatches(fileName, quote("case 0 -> { ") + R_INC + quote("System.out.println(\"0x00\"); }"))
+        assertFileMatches(fileName, quote("case 1 -> { ") + R_INC + quote("System.out.println(\"0x10\"); }"))
+        assertFileMatches(fileName, quote("default -> { ") + R_INC + quote("System.out.println(\"0xFF\"); }"))
+    }
+
+    @Test
+    void switchExpressionWithBlockThrowingException() {
+        assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_14))
+
+        final String fileName = "Java14SwitchExpressionCaseAndDefaultWithBlocks.java"
+        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_14)
+
+        assertFileMatches(fileName, R_INC + quote("throw new IllegalArgumentException(\"negative\");"))
+        assertFileMatches(fileName, R_INC + quote("throw new IllegalArgumentException(\"positive\");"))
     }
 
     @Test
     void testSwitchWithCaseWithMultipleValues() {
-        assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_14))
-
-        final String fileName = "Java14.java"
-        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_14)
-    }
-
-    @Test
-    void testCaseExpressionCanBeVoid() {
-        assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_14))
-
-        final String fileName = "Java14.java"
-        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_14)
-    }
-
-    @Test
-    void testCaseExpressionCanReturnValue() {
         assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_14))
 
         final String fileName = "Java14.java"
