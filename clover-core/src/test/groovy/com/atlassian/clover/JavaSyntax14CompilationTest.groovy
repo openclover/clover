@@ -172,11 +172,18 @@ class JavaSyntax14CompilationTest extends JavaSyntaxCompilationTestBase {
     }
 
     @Test
-    void testSwitchWithCaseWithMultipleValues() {
+    void switchExpressionWithCaseWithMultipleValues() {
         assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_14))
 
-        final String fileName = "Java14.java"
+        final String fileName = "Java14SwitchExpressionWithMultiValueCase.java"
         instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_14)
+
+        assertFileMatches(fileName, quote("case 0, 1, 2*3 -> ") + R_CASE_EXPRESSION_LEFT + quote("10;") + R_CASE_EXPRESSION_RIGHT)
+        assertFileMatches(fileName, quote("default -> ") + R_CASE_EXPRESSION_LEFT + quote("11;") + R_CASE_EXPRESSION_RIGHT)
+        assertFileMatches(fileName, quote("case 0, 1, 2 -> ") + R_CASE_EXPRESSION_LEFT + quote("20;") + R_CASE_EXPRESSION_RIGHT)
+        assertFileMatches(fileName, quote("case null -> ") + R_CASE_EXPRESSION_LEFT + quote("21;") + R_CASE_EXPRESSION_RIGHT)
+        assertFileMatches(fileName, quote("case 0, 1, 2 -> ") + R_CASE_EXPRESSION_LEFT + quote("30;") + R_CASE_EXPRESSION_RIGHT)
+        assertFileMatches(fileName, quote("case null, default -> ") + R_CASE_EXPRESSION_LEFT + quote("31;") + R_CASE_EXPRESSION_RIGHT)
     }
 
     @Test
@@ -202,10 +209,13 @@ class JavaSyntax14CompilationTest extends JavaSyntaxCompilationTestBase {
 
     @Test
     void testSwitchCaseWithColonsMixedWithExpressions() {
-        // a standalone statement in method, instance initializer block, static block
         assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_14))
 
-        final String fileName = "Java14CaseMixedYieldAndExpression.java"
-        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_14)
+        final String fileName = "Java14SwitchExpressionMixedCasesFailed.java"
+        final File srcFile = new File(srcDir, fileName)
+        int returnCode = instrumentSourceFileNoAssert(srcFile, JavaEnvUtils.JAVA_14, [] as String[])
+
+        // it's not allowed to mix "case X:" with "case X ->" in the same switch statement
+        assertEquals(1, returnCode)
     }
 }
