@@ -61,6 +61,10 @@ abstract class JavaSyntaxCompilationTestBase {
     protected final String R_LAMBDA_INC_LEFT = "__CLR[a-zA-Z0-9_]+\\.lambdaInc\\([0-9]+,"
     protected final String R_LAMBDA_INC_RIGHT = ",[0-9]+\\)"
 
+    /** Regular expression for case expression returning value */
+    protected final String R_CASE_EXPRESSION_LEFT = "{" + R_INC + "yield "
+    protected final String R_CASE_EXPRESSION_LEFT_VOID = "{" + R_INC
+    protected final String R_CASE_EXPRESSION_RIGHT = "}"
 
     protected File mTestcasesSrcDir
     private File mOutputDir
@@ -367,7 +371,7 @@ abstract class JavaSyntaxCompilationTestBase {
      * @param regExp         regular expression to be searched inside a file
      * @param negate         negate assertion - if set to true then assert that file does NOT contain regexp
      */
-    protected void assertFileMatches(String instrumentedFileName, String regExp, boolean negate) {
+    protected void assertFileMatches(String instrumentedFileName, String regExp, boolean negate = false) {
         final File instrumentedFile = new File(mGenSrcDir, instrumentedFileName)
         AssertionUtils.assertFileMatches(regExp, instrumentedFile, negate)
     }
@@ -378,7 +382,7 @@ abstract class JavaSyntaxCompilationTestBase {
      * @param subString         substring to be searched inside a file
      * @param negate         negate assertion - if set to true then assert that file does NOT contain regexp
      */
-    protected void assertFileContains(String instrumentedFileName, String subString, boolean negate) {
+    protected void assertFileContains(String instrumentedFileName, String subString, boolean negate = false) {
         final File instrumentedFile = new File(mGenSrcDir, instrumentedFileName)
         AssertionUtils.assertFileContains(subString, instrumentedFile, negate)
     }

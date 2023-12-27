@@ -4,6 +4,7 @@ import com.atlassian.clover.util.JavaEnvUtils
 import org.junit.Before
 import org.junit.Test
 
+import static org.junit.Assert.assertEquals
 import static org.junit.Assume.assumeTrue
 
 /**
@@ -24,16 +25,55 @@ class JavaSyntax14CompilationTest extends JavaSyntaxCompilationTestBase {
     }
 
     @Test
-    void caseWithColonCanUseBothBreakAndYield() {
+    void switchExpressionWithCaseWithColonCanUseYield() {
         assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_14))
 
-        final String fileName = "Java14CaseColonBreakYield.java"
+        final String fileName = "Java14SwitchExpressionWithCaseColon.java"
         instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_14)
 
-        // using break in switch statements
+        // using yield in switch expressions is allowed also for "case X:" form
+        assertFileMatches(fileName, "case 0:.*" + R_INC + "yield 10;")
+        assertFileMatches(fileName, "default:.*" + R_INC + "yield 11;")
+        assertFileMatches(fileName, "case 10:.*" + R_INC + "yield 20;")
+        assertFileMatches(fileName, "case 11:.*" + R_INC + "yield 21;")
+        assertFileMatches(fileName, "default:.*" + R_INC + "yield 22;")
+    }
 
-        // using yield in switch expressions
+    @Test
+    void switchExpressionWithCaseWithColonCannotUseBreak() {
+        assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_14))
 
+        final String fileName = "Java14SwitchExpressionWithCaseColonFailed.java"
+        final File srcFile = new File(srcDir, fileName)
+        int returnCode = instrumentSourceFileNoAssert(srcFile, JavaEnvUtils.JAVA_14, [] as String[])
+
+        // using break in switch expressions is NOT allowed for "case X:" form
+        // a reason is that a switch expression must return a value and break returns no value
+        assertEquals(1, returnCode)
+    }
+
+    @Test
+    void switchStatementWithCaseWithColonCanUseBreak() {
+        assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_14))
+
+        final String fileName = "Java14SwitchStatementWithCaseColon.java"
+        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_14)
+
+        // this is a regression test, using break in switch statements must be allowed
+        assertFileMatches(fileName, "case 30:.*" + R_INC + "k\\+\\+;" + R_INC + "break;")
+        assertFileMatches(fileName, "default:.*" + R_INC + "break;")
+    }
+
+    @Test
+    void switchStatementWithCaseWithColonCannotUseYield() {
+        assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_14))
+
+        final String fileName = "Java14SwitchStatementWithCaseColonFailed.java"
+        final File srcFile = new File(srcDir, fileName)
+        int returnCode = instrumentSourceFileNoAssert(srcFile, JavaEnvUtils.JAVA_14, [] as String[])
+
+        // it's not allowed to use yield in switch statements (a value returned cannot be ignored)
+        assertEquals(1, returnCode)
     }
 
     @Test
