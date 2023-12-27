@@ -77,16 +77,59 @@ class JavaSyntax14CompilationTest extends JavaSyntaxCompilationTestBase {
     }
 
     @Test
-    void switchExpressionWithCaseAndDefaultCanUseLambdas() {
+    void switchExpressionWithCaseAndDefaultCanUseLambdasReturningValues() {
         assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_14))
 
-        final String fileName = "Java14CaseAndDefaultWithLambdas.java"
+        final String fileName = "Java14SwitchExpressionCaseAndDefaultWithLambdas.java"
         instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_14)
 
-        // using lambdas in switch statements
-        // assert case
-        // assert default
+        // switch expression with value-returning lambdas
+        assertFileMatches(fileName, "case R -> " + R_CASE_EXPRESSION_LEFT +  "\"red\";" + R_CASE_EXPRESSION_RIGHT)
+        assertFileMatches(fileName, "case G -> " + R_CASE_EXPRESSION_LEFT +  "\"green\";" + R_CASE_EXPRESSION_RIGHT)
+        assertFileMatches(fileName, "case B -> " + R_CASE_EXPRESSION_LEFT +  "\"blue\";" + R_CASE_EXPRESSION_RIGHT)
+        assertFileMatches(fileName, "case 0 -> " + R_CASE_EXPRESSION_LEFT +  "\"EvenOrOdd\\.EVEN\";" + R_CASE_EXPRESSION_RIGHT)
+        assertFileMatches(fileName, "case 1 -> " + R_CASE_EXPRESSION_LEFT +  "\"EvenOrOdd\\.ODD\";" + R_CASE_EXPRESSION_RIGHT)
+        assertFileMatches(fileName, "default -> " + R_CASE_EXPRESSION_LEFT +  "\"EvenOrOdd\\.UNKNOWN\";" + R_CASE_EXPRESSION_RIGHT)
     }
+
+    @Test
+    void switchExpressionWithCaseAndDefaultCanUseLambdasReturningVoid() {
+        assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_14))
+
+        final String fileName = "Java14SwitchExpressionCaseAndDefaultWithLambdas.java"
+        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_14)
+
+        // switch expression with void lambdas
+        assertFileMatches(fileName, "case R -> " + R_CASE_EXPRESSION_LEFT_VOID + "System\\.out\\.println\\(\"red\"\\);" + R_CASE_EXPRESSION_RIGHT)
+        assertFileMatches(fileName, "case G -> " + R_CASE_EXPRESSION_LEFT_VOID + "System\\.out\\.println\\(\"green\"\\);" + R_CASE_EXPRESSION_RIGHT)
+        assertFileMatches(fileName, "case B -> " + R_CASE_EXPRESSION_LEFT_VOID + "System\\.out\\.println\\(\"blue\"\\);" + R_CASE_EXPRESSION_RIGHT)
+        assertFileMatches(fileName, "case 0 -> " + R_CASE_EXPRESSION_LEFT_VOID + "System\\.out\\.println\\(EvenOrOdd\\.EVEN\\);" + R_CASE_EXPRESSION_RIGHT)
+        assertFileMatches(fileName, "case 1 -> " + R_CASE_EXPRESSION_LEFT_VOID + "System\\.out\\.println\\(EvenOrOdd\\.ODD\\);" + R_CASE_EXPRESSION_RIGHT)
+        assertFileMatches(fileName, "default -> " + R_CASE_EXPRESSION_LEFT_VOID + "System\\.out\\.println\\(EvenOrOdd\\.UNKNOWN\\);" + R_CASE_EXPRESSION_RIGHT)
+    }
+
+    @Test
+    void switchExpressionWithCaseAndDefaultCanThrowExceptions() {
+        assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_14))
+
+        final String fileName = "Java14SwitchExpressionCaseAndDefaultWithThrows.java"
+        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_14)
+
+        assertFileMatches(fileName, "case -1 -> " + R_CASE_EXPRESSION_LEFT + "throw new IllegalArgumentException(\"negative\");" + R_CASE_EXPRESSION_RIGHT)
+        assertFileMatches(fileName, "default -> " + R_CASE_EXPRESSION_LEFT + "0;" + R_CASE_EXPRESSION_RIGHT)
+
+        assertFileMatches(fileName, "case -1 -> " + R_CASE_EXPRESSION_LEFT + "throw new IllegalArgumentException(\"negative\");" + R_CASE_EXPRESSION_RIGHT)
+        assertFileMatches(fileName, "case 0 -> " + R_CASE_EXPRESSION_LEFT + "throw new IllegalArgumentException(\"zero\");" + R_CASE_EXPRESSION_RIGHT)
+        assertFileMatches(fileName, "default -> " + R_CASE_EXPRESSION_LEFT + "throw new IllegalArgumentException(\"anything\");" + R_CASE_EXPRESSION_RIGHT)
+    }
+
+
+
+
+
+
+
+
 
     @Test
     void testSwitchWithCaseExpressionAndBlockReturningYield() {
