@@ -1,4 +1,4 @@
-public class Java14SwitchExpressionWithMultivalueCase {
+public class Java14SwitchExpressionWithMultiValueCase {
 
     static void switchExpressionWithMultipleCaseValues(int i) {
         int k;
@@ -13,7 +13,9 @@ public class Java14SwitchExpressionWithMultivalueCase {
         int k = switch (j) {
             case 0, 1, 2 -> 20;
             // the "null" keyword must be also allowed as case value
-            case null -> 21;
+            // note: pattern matching can be used since Java 17 preview
+            // TODO: enable this test for Java 21
+            // case null -> 21;
         };
     }
 
@@ -22,7 +24,9 @@ public class Java14SwitchExpressionWithMultivalueCase {
         int k = switch (j) {
             case 0, 1, 2 -> 30;
             // a special case when "default" is written as "case default:" instead of "default:"
-            case null, default -> 31;
+            // note: pattern matching can be used since Java 17 preview
+            // TODO: enable this test for Java 21
+            // case null, default -> 31;
         };
     }
 }

@@ -4,7 +4,7 @@ public class Java14SwitchExpressionCaseAndDefaultWithBlocks {
         int color = switch (i) {
             case 0 -> { yield 0x00; }
             case 1 -> { yield 0x10; }
-            default -> { return null; }
+            default -> { yield 0x20; }
         };
         return color;
     }
@@ -27,7 +27,7 @@ public class Java14SwitchExpressionCaseAndDefaultWithBlocks {
             case 0 -> 0;
             default -> {
                 throw new IllegalArgumentException("positive");
-            };
+            }
         };
     }
 

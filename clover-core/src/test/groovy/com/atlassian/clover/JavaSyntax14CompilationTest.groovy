@@ -136,7 +136,7 @@ class JavaSyntax14CompilationTest extends JavaSyntaxCompilationTestBase {
     }
 
     @Test
-    void switchExpressionWithBlockWithYieldOrReturn() {
+    void switchExpressionWithBlockWithYield() {
         assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_14))
 
         final String fileName = "Java14SwitchExpressionCaseAndDefaultWithBlocks.java"
@@ -145,7 +145,7 @@ class JavaSyntax14CompilationTest extends JavaSyntaxCompilationTestBase {
         assertFileMatches(fileName, R_INC + quote("int color = switch (i)"))
         assertFileMatches(fileName, quote("case 0 -> { ") + R_INC + quote("yield 0x00; }"))
         assertFileMatches(fileName, quote("case 1 -> { ") + R_INC + quote("yield 0x10; }"))
-        assertFileMatches(fileName, quote("default -> { ") + R_INC + quote("return null; }"))
+        assertFileMatches(fileName, quote("default -> { ") + R_INC + quote("yield 0x20; }"))
     }
 
     @Test
@@ -187,24 +187,49 @@ class JavaSyntax14CompilationTest extends JavaSyntaxCompilationTestBase {
     }
 
     @Test
-    void testSwitchIsAnExpression() {
+    void switchIsAnExpressionInDifferentContexts() {
         assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_14))
 
-        final String fileName = "Java14.java"
+        final String fileName = "Java14SwitchExpressionInVariousContexts.java"
         instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_14)
 
         // assignment to a variable
+        assertFileMatches(fileName, R_INC + quote("int k = switch (j) {"))
+
         // argument of a method call
+        assertFileMatches(fileName, R_INC + quote("foo(switch (k) {")) // no R_INC before switch
+        assertFileMatches(fileName, quote("case 10 -> ") + R_CASE_EXPRESSION_LEFT + "100;" + R_CASE_EXPRESSION_RIGHT)
+        assertFileMatches(fileName, quote("default -> ") + R_CASE_EXPRESSION_LEFT + "200;" + R_CASE_EXPRESSION_RIGHT)
+
         // part of an expression
+        assertFileMatches(fileName, quote("") + R_CASE_EXPRESSION_LEFT +
+                quote("if (switch (j) {") + ".*" +
+                quote("case 0 -> ") + R_CASE_EXPRESSION_LEFT + quote("30;") + R_CASE_EXPRESSION_RIGHT +
+                ".*" +
+                quote("} % 10 == 0)") +
+                quote(")&&") + R_IGET_TRUE // part of the branch coverage expression
+        )
     }
 
     @Test
-    void testSwitchIsAStatement() {
-        // a standalone statement in method, instance initializer block, static block
+    void switchIsAStatementInDifferentContexts() {
         assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_14))
 
-        final String fileName = "Java14.java"
+        final String fileName = "Java14SwitchExpressionInVariousContexts.java"
         instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_14)
+
+        // a standalone statement in method
+        assertFileMatches(fileName, quote("") + R_CASE_EXPRESSION_LEFT +
+                quote("") + R_CASE_EXPRESSION_RIGHT)
+
+        // instance initializer block
+        assertFileMatches(fileName, quote("{") + "\\b+" +
+                R_INC + quote("switch (kkk) {") + R_CASE_EXPRESSION_LEFT +
+                quote("") + R_CASE_EXPRESSION_RIGHT)
+
+        // static block
+        assertFileMatches(fileName, quote("") + R_CASE_EXPRESSION_LEFT +
+                quote("") + R_CASE_EXPRESSION_RIGHT)
     }
 
     @Test

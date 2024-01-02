@@ -1,4 +1,4 @@
-public class Java14CaseAndDefaultWithLambdas {
+public class Java14SwitchExpressionCaseAndDefaultWithLambdas {
     enum Colors {
         R, G, B;
     }
