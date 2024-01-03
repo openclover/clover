@@ -377,14 +377,26 @@ tokens {
      *   before:   [() -> 1 + 2]
      *   after :   [() -> 1 + 2;}]
      */
-     private void instrExitLambdaExprToBlockExpression(LambdaExprToBlockStartEntryEmitter entryEmitter, CloverToken tok) {
+    private void instrExitLambdaExprToBlockExpression(LambdaExprToBlockStartEntryEmitter entryEmitter, CloverToken tok) {
         if (cfg.getInstrumentLambda() == LambdaInstrumentation.ALL
                      || cfg.getInstrumentLambda() == LambdaInstrumentation.ALL_BUT_REFERENCE
                      || cfg.getInstrumentLambda() == LambdaInstrumentation.EXPRESSION) {
              tok.addPostEmitter(
                     new LambdaExprToBlockExitEmitter(entryEmitter, tok.getLine(), tok.getColumn()+tok.getText().length()));
          }
-     }
+    }
+
+    private void instrEnterCaseExpression(CloverToken insertionPoint, ContextSet context) {
+        // TODO
+        // insertionPoint.addPreEmitter(
+        //        new CaseExpressionEntryEmitter(insertionPoint.getLine(), insertionPoint.getColumn()+tok.getText().length()));
+    }
+
+    private void instrExitCaseExpression(CloverToken insertionPoint, ContextSet context) {
+        // TODO
+        // insertionPoint.addPostEmitter(
+        //        new CaseExpressionExitEmitter(insertionPoint.getLine(), insertionPoint.getColumn()+tok.getText().length()));
+    }
 
     private CloverToken maybeAddFlushInstr(CloverToken last) {
         last.addPostEmitter(new DirectedFlushEmitter());
@@ -2284,6 +2296,7 @@ statement [CloverToken owningLabel] returns [CloverToken last]
         // An expression statement.  This could be a method call,
         // assignment statement, or any other expression evaluated for
         // side-effects.
+        ( expression SEMI ) =>
         expression se2:SEMI!
         {
             flushAfter = ct(se2);
@@ -2436,7 +2449,8 @@ statement [CloverToken owningLabel] returns [CloverToken last]
         RETURN (expression)? SEMI!
 
     |
-        // switch/case statement
+        // switch/case statement XXX
+        ( SWITCH LPAREN expression RPAREN LCURLY) =>
         sw:SWITCH
         {
             tmp = ct(sw);
@@ -3188,6 +3202,7 @@ postfixExpression[CloverToken classCastStart, CloverToken classCastEnd]
 primaryExpressionPart
 {
     String type = null;
+    int complexity;
 }
     :
         IDENT
@@ -3219,6 +3234,80 @@ primaryExpressionPart
     |
         // hack: "non-sealed" in expression means "non - sealed", allow this to parse
         NON_SEALED
+    |
+        ( SWITCH LPAREN expression RPAREN LCURLY ) =>
+        complexity = switchExpression
+    ;
+
+/**
+ * A switch expression containing one or more "case ->" or "default ->" conditions.
+ */
+switchExpression returns [int complexity]
+{
+    int caseComplexity = 0;
+    ContextSet saveContext = getCurrentContext();
+    CloverToken tmp = null;
+    complexity = 0;
+}
+    :
+        sw:SWITCH
+        {
+            tmp = ct(sw);
+            enterContext(ContextStore.CONTEXT_SWITCH);
+            saveContext = getCurrentContext();
+        }
+        LPAREN! expression RPAREN! LCURLY!
+        (
+            caseComplexity = lambdaCase[saveContext]
+            {
+                complexity += caseComplexity;
+            }
+        )+
+        {
+            exitContext();
+        }
+        rc:RCURLY!
+    ;
+
+/**
+ * A single "case x ->" or "default ->" label, followed by an expression or a block statement.
+ */
+lambdaCase[ContextSet context] returns [int complexity]
+{
+    CloverToken endTok = null;
+    Token pos = null;
+    complexity = 1;
+}
+    :
+        (
+            si1:CASE
+            {
+                constExpr = true;
+            }
+            expression
+            {
+                constExpr = false;
+                pos = si1;
+            }
+        |
+            si2:DEFAULT
+            {
+                pos = si2;
+            }
+        )
+        t:LAMBDA!
+        (
+            {
+                instrEnterCaseExpression(lt(1), context);
+            }
+            expression
+            {
+                instrExitCaseExpression(lt(0), context);
+            }
+        |
+            // no need for special instrumentation, we will instrument it like a simple { } block, inside
+            endTok=compoundStatement
+        )
     ;
 
 /**

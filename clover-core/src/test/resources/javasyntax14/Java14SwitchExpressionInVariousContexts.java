@@ -44,6 +44,13 @@ public class Java14SwitchExpressionInVariousContexts {
         }
     }
 
+    static void switchExpressionInThrowWithThrow(int j) {
+        throw switch (j) {
+            case 0 -> new RuntimeException("zero");
+            case 1 -> new IllegalArgumentException("one");
+            default -> throw new IllegalArgumentException("unsupported");
+        };
+    }
     static void foo(int i) { }
 
 }
