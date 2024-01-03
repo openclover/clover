@@ -2449,7 +2449,7 @@ statement [CloverToken owningLabel] returns [CloverToken last]
         }
         LPAREN! expression RPAREN! LCURLY!
         (
-            tmpCmp = casesGroup[flag]
+            tmpCmp = colonCasesGroup[flag]
             {
                 complexity += tmpCmp;
             }
@@ -2507,7 +2507,10 @@ statement [CloverToken owningLabel] returns [CloverToken last]
         }
     ;
 
-casesGroup[FlagDeclEmitter flag] returns [int complexity]
+/**
+ * A group of one or more "case x:" labels, followed by a list of statements.
+ */
+colonCasesGroup[FlagDeclEmitter flag] returns [int complexity]
 {
     int tmp = 0;
     complexity = 0;
@@ -2521,15 +2524,18 @@ casesGroup[FlagDeclEmitter flag] returns [int complexity]
             options {
                 warnWhenFollowAmbig = false;
             }:
-            tmp = aCase[flag]
+            tmp = colonCase[flag]
             {
                 complexity += tmp;
             }
         )+
-        caseSList
+        caseStatementsList
     ;
 
-aCase[FlagDeclEmitter flag] returns [int complexity]
+/**
+ * A single "case x:" or "default:" label.
+ */
+colonCase[FlagDeclEmitter flag] returns [int complexity]
 {
     Token pos = null;
     complexity = 0;
@@ -2559,7 +2565,10 @@ aCase[FlagDeclEmitter flag] returns [int complexity]
         }
     ;
 
-caseSList
+/**
+ * A list of statements inside a single "case" or "default" block.
+ */
+caseStatementsList
 {
     CloverToken tmp;
 }
