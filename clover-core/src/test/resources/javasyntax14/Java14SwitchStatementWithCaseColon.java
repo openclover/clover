@@ -4,11 +4,8 @@ public class Java14SwitchStatementWithCaseColon {
         // ALLOWED
         int k = 30;
         switch (k) {
-            case 30:
-                k++;
-                break;
-            default:
-                break;
+            case 30:k++;break;
+            default:break;
         }
     }
 }

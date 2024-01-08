@@ -2274,6 +2274,12 @@ statement [CloverToken owningLabel] returns [CloverToken last]
         }
 
     |
+        // note: yield can appear inside traditional case blocks and also in compound statement blocks inside
+        // lambda case; that's why rule is placed here; a drawback is that instrumenter accepts yield in any place
+        ( { isNextKeyword("yield") }? IDENT expression SEMI ) =>
+        { isNextKeyword("yield") }? IDENT expression SEMI!
+
+    |
         // NOTE: we check for records before normal statement as "record" can be recognized as IDENT leading to syntax error
         // record definition
         (classOrInterfaceModifiers[false] { isCurrentKeyword("record") }? ) =>
@@ -3284,7 +3290,7 @@ lambdaCase[ContextSet context] returns [int complexity]
             {
                 constExpr = true;
             }
-            expression
+            patternMatch
             {
                 constExpr = false;
                 pos = si1;
@@ -3304,10 +3310,17 @@ lambdaCase[ContextSet context] returns [int complexity]
             {
                 instrExitCaseExpression(lt(0), context);
             }
+            SEMI!
         |
             // no need for special instrumentation, we will instrument it like a simple { } block, inside
             endTok=compoundStatement
         )
+    ;
+
+patternMatch
+    :
+        // just constants, string literals, true/false, null etc
+        primaryExpressionPart
     ;
 
 /**
