@@ -193,13 +193,45 @@ public class HtmlRenderingSupportImpl implements HtmlRenderingSupport {
     }
 
     public StringBuffer getTestFileName(TestCaseInfo testInfo) {
-        final String name = testInfo.getTestName();
         final String className = testInfo.getRuntimeType().getName();
 
         final StringBuffer link = new StringBuffer();
-        link.append(className.replaceAll("\\W", "_")).append("_").append(name.replaceAll("\\W", "_")).append("_").
-                append(Integer.toString(testInfo.getId(), 36)).append(".html");
+        final String testIdBase36 = Integer.toString(testInfo.getId(), 36);
+        // file name limit is 255 characters, so shorten class name and test name if necessary
+        final String classNameSanitized = shortenName(className.replaceAll("\\W", "_"),
+                254 - testIdBase36.length() - "__.html".length());
+        final String testNameSanitized = shortenName(testInfo.getTestName().replaceAll("\\W", "_"),
+                254 - testIdBase36.length() - classNameSanitized.length() - "__.html".length());
+
+        link.append(classNameSanitized)
+                .append("_")
+                .append(testNameSanitized)
+                .append("_")
+                .append(testIdBase36)
+                .append(".html");
         return link;
+    }
+
+    static String shortenName(String originalName, int maxCharacters) {
+        // return original name if fits in the limit
+        if (originalName == null || originalName.length() <= maxCharacters) {
+            return originalName;
+        }
+
+        // get non-negative hash from name
+        final int absHash = originalName.hashCode() != Integer.MIN_VALUE ?
+                Math.abs(originalName.hashCode()) :
+                Integer.MAX_VALUE;
+        final String hashBase36 = Integer.toString(absHash, 36);
+        final int originalLength = maxCharacters - hashBase36.length();
+
+        // return only hash, truncate it if needed
+        if (originalLength <= 0) {
+            return hashBase36.substring(0, Math.min(hashBase36.length(), Math.max(0, maxCharacters)));
+        }
+
+        // return truncated name + full hash
+        return originalName.substring(0, originalLength) + hashBase36;
     }
 
     public StringBuffer getTestLink(boolean topLevel, TestCaseInfo testInfo) {
