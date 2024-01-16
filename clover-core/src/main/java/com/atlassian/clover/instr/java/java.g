@@ -2228,6 +2228,7 @@ statement [CloverToken owningLabel] returns [CloverToken last]
     Parameter parameter = null;
     String classname = null;
     ContextSet saveContext = getCurrentContext();
+    ContextSetAndComplexity contextAndComplexity = null;
 }
     :
     {
@@ -2455,30 +2456,21 @@ statement [CloverToken owningLabel] returns [CloverToken last]
         RETURN (expression)? SEMI!
 
     |
-        // switch/case statement XXX
-        ( SWITCH LPAREN expression RPAREN LCURLY) =>
-        sw:SWITCH
+        // a classic switch/case with colons
+        ( SWITCH LPAREN expression RPAREN LCURLY (CASE expression | DEFAULT) COLON) =>
+        contextAndComplexity = colonSwitchExpression[owningLabel, false]
         {
-            tmp = ct(sw);
-            if (labelled) {
-                tmp = owningLabel;
-            }
-            flag = declareFlagBefore(tmp);
-            enterContext(ContextStore.CONTEXT_SWITCH);
-            saveContext = getCurrentContext();
+            saveContext = contextAndComplexity.context;
+            complexity += contextAndComplexity.complexity;
         }
-        LPAREN! expression RPAREN! LCURLY!
-        (
-            tmpCmp = colonCasesGroup[flag]
-            {
-                complexity += tmpCmp;
-            }
-        )*
+    |
+        // a new switch/case with lambdas
+        ( SWITCH LPAREN expression RPAREN LCURLY (CASE patternMatch | DEFAULT) LAMBDA) =>
+        contextAndComplexity = lambdaSwitchExpression[owningLabel]
         {
-            exitContext();
+            saveContext = contextAndComplexity.context;
+            complexity += contextAndComplexity.complexity;
         }
-        rc:RCURLY!
-
     |
         // exception try-catch block
         (tryCatchBlock[labelled]) =>
@@ -2580,7 +2572,11 @@ colonCase[FlagDeclEmitter flag] returns [int complexity]
         )
         t:COLON!
         {
-            instrInlineAfter(ct(t), ct(pos), ct(t), flag);
+            if (flag != null) {
+                instrInlineAfter(ct(t), ct(pos), ct(t), flag);
+            } else {
+                instrInlineAfter(ct(t), ct(pos), ct(t));
+            }
             fileInfo.setSuppressFallthroughWarnings(true);
         }
     ;
@@ -3205,32 +3201,41 @@ postfixExpression[CloverToken classCastStart, CloverToken classCastEnd]
 
 
 // the basic element of an expression
-primaryExpressionPart
+primaryExpressionPart returns [ContextSetAndComplexity ret]
 {
     String type = null;
-    int complexity;
+    ret = null;
 }
     :
         IDENT
         {
-                pushIdentifierToHeadStack(LT(0).getText());
+            pushIdentifierToHeadStack(LT(0).getText());
         }
-    |   constant
-    |   TRUE
-    |   FALSE
-    |   THIS
-            {
-                pushIdentifierToHeadStack(LT(0).getText());
-            }
-    |   NULL
-    |   newExpression
-    |   LPAREN! assignmentExpression RPAREN!
-    |   SUPER
-            {
-                pushIdentifierToHeadStack(LT(0).getText());
-            }
+    |
+        constant
+    |
+        TRUE
+    |
+        FALSE
+    |
+        THIS
+        {
+            pushIdentifierToHeadStack(LT(0).getText());
+        }
+    |
+        NULL
+    |
+        newExpression
+    |
+        LPAREN! assignmentExpression RPAREN!
+    |
+        SUPER
+        {
+            pushIdentifierToHeadStack(LT(0).getText());
+        }
+    |
         // look for int.class, int[].class, and int[]::new
-    |   type=builtInType
+        type=builtInType
         ( LBRACK  RBRACK! )*
         (
             DOT CLASS
@@ -3241,32 +3246,76 @@ primaryExpressionPart
         // hack: "non-sealed" in expression means "non - sealed", allow this to parse
         NON_SEALED
     |
-        ( SWITCH LPAREN expression RPAREN LCURLY ) =>
-        complexity = switchExpression
+        // a new lambda switch can be a part of an expression
+        ( SWITCH LPAREN expression RPAREN LCURLY (CASE patternMatch | DEFAULT) LAMBDA) =>
+        ret = lambdaSwitchExpression[null]
+    |
+        // even the old one colon switch has been retrofitted
+        ( SWITCH LPAREN expression RPAREN LCURLY (CASE expression | DEFAULT) COLON) =>
+        ret = colonSwitchExpression[null, true]
     ;
 
 /**
- * A switch expression containing one or more "case ->" or "default ->" conditions.
+ * A switch statement or expression containing one or more "case :" or "default :" conditions.
+ * @param owningLabel a label before switch or null if not present
+ * @param isInsideExpression true if the switch is part of an expression, false if is a standalone statement
  */
-switchExpression returns [int complexity]
+colonSwitchExpression [CloverToken owningLabel, boolean isInsideExpression] returns [ContextSetAndComplexity ret]
+{
+    CloverToken tmp = null;
+    boolean labelled = (owningLabel != null);
+    FlagDeclEmitter flag = null;
+    ret = new ContextSetAndComplexity();
+    int casesGroupComplexity;
+}
+    :
+        sw:SWITCH
+        {
+            tmp = ct(sw);
+            if (labelled) {
+                tmp = owningLabel;
+            }
+            if (!isInsideExpression) {
+                flag = declareFlagBefore(tmp);
+            }
+            enterContext(ContextStore.CONTEXT_SWITCH);
+            ret.context = getCurrentContext();
+        }
+        LPAREN! expression RPAREN! LCURLY!
+        (
+            casesGroupComplexity = colonCasesGroup[flag]
+            {
+                ret.complexity += casesGroupComplexity;
+            }
+        )*
+        {
+            exitContext();
+        }
+        rc:RCURLY!
+    ;
+
+/**
+ * A switch statement or expression containing one or more "case ->" or "default ->" conditions.
+ */
+lambdaSwitchExpression [CloverToken owningLabel] returns [ContextSetAndComplexity ret]
 {
     int caseComplexity = 0;
     ContextSet saveContext = getCurrentContext();
     CloverToken tmp = null;
-    complexity = 0;
+    ret = new ContextSetAndComplexity();
 }
     :
         sw:SWITCH
         {
             tmp = ct(sw);
             enterContext(ContextStore.CONTEXT_SWITCH);
-            saveContext = getCurrentContext();
+            ret.context = getCurrentContext();
         }
         LPAREN! expression RPAREN! LCURLY!
         (
             caseComplexity = lambdaCase[saveContext]
             {
-                complexity += caseComplexity;
+                ret.complexity += caseComplexity;
             }
         )+
         {

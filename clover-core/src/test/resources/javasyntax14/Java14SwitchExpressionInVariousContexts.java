@@ -1,13 +1,21 @@
 public class Java14SwitchExpressionInVariousContexts {
 
-    static void switchExpressionInAssignment(int j) {
+    static void colonSwitchExpressionInAssignment(int j) {
+        int k = switch (j) {
+            case 0: yield 10;
+            case 1: yield 11;
+            default: yield 12;
+        };
+    }
+
+    static void lambdaSwitchExpressionInAssignment(int j) {
         int k = switch (j) {
             case 0 -> 10;
             default -> 11;
         };
     }
 
-    static void switchExpressionInExpression(int j) {
+    static void lambdaSwitchExpressionInExpression(int j) {
         int k = 8 + (switch (j) {
             case 0 -> 20;
             default -> 21;
@@ -21,21 +29,21 @@ public class Java14SwitchExpressionInVariousContexts {
         }
     }
 
-    static void switchExpressionAsMethodArgument(int k) {
+    static void lambdaSwitchExpressionAsMethodArgument(int k) {
         foo(switch (k) {
             case 10 -> 100;
             default -> 200;
         });
     }
 
-    static void switchExpressionAsMethodStatement(int kk) {
+    static void lambdsSwitchExpressionAsMethodStatement(int kk) {
         switch (kk) {
             case 77 -> System.out.println("77");
             default -> System.out.println("not 77");
         }
     }
 
-    // switch expression in an initializer block
+    // lambda switch expression in an initializer block
     int kkk = 88;
     {
         switch (kkk) {
@@ -51,6 +59,7 @@ public class Java14SwitchExpressionInVariousContexts {
             default -> throw new IllegalArgumentException("unsupported");
         };
     }
+
     static void foo(int i) { }
 
 }
