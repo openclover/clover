@@ -386,16 +386,42 @@ tokens {
          }
     }
 
-    private void instrEnterCaseExpression(CloverToken insertionPoint, ContextSet context) {
-        // TODO
-        // insertionPoint.addPreEmitter(
-        //        new CaseExpressionEntryEmitter(insertionPoint.getLine(), insertionPoint.getColumn()+tok.getText().length()));
+    private CaseExpressionEntryEmitter instrEnterCaseExpression(CloverToken insertionPoint, CloverToken endToken, ContextSet context, int complexity) {
+        // we add "caseInc(123,()->" AFTER the "->"
+        final CaseExpressionEntryEmitter entryEmitter = new CaseExpressionEntryEmitter(
+                context,
+                insertionPoint.getLine(),
+                insertionPoint.getColumn(),
+                endToken.getLine(),
+                endToken.getColumn(),
+                complexity);
+        insertionPoint.addPostEmitter(entryEmitter);
+        return entryEmitter;
     }
 
-    private void instrExitCaseExpression(CloverToken insertionPoint, ContextSet context) {
-        // TODO
-        // insertionPoint.addPostEmitter(
-        //        new CaseExpressionExitEmitter(insertionPoint.getLine(), insertionPoint.getColumn()+tok.getText().length()));
+    private void instrExitCaseExpression(CaseExpressionEntryEmitter entryEmitter, CloverToken insertionPoint) {
+        // we add closing ")" BEFORE the ";"
+        insertionPoint.addPreEmitter(
+                new CaseExpressionExitEmitter(entryEmitter));
+    }
+
+    private CaseThrowExpressionEntryEmitter instrEnterCaseThrowExpression(CloverToken insertionPoint, CloverToken endToken, ContextSet context, int complexity) {
+        // we add "{ R.inc();" AFTER the "->"
+        final CaseThrowExpressionEntryEmitter entryEmitter = new CaseThrowExpressionEntryEmitter(
+                context,
+                insertionPoint.getLine(),
+                insertionPoint.getColumn(),
+                endToken.getLine(),
+                endToken.getColumn(),
+                complexity);
+        insertionPoint.addPostEmitter(entryEmitter);
+        return entryEmitter;
+    }
+
+    private void instrExitCaseThrowExpression(CaseThrowExpressionEntryEmitter entryEmitter, CloverToken insertionPoint) {
+        // we add closing "}" AFTER the ";"
+        insertionPoint.addPostEmitter(
+                new CaseThrowExpressionExitEmitter(entryEmitter));
     }
 
     private CloverToken maybeAddFlushInstr(CloverToken last) {
@@ -3331,6 +3357,8 @@ lambdaCase[ContextSet context] returns [int complexity]
 {
     CloverToken endTok = null;
     Token pos = null;
+    CaseExpressionEntryEmitter expressionEntryEmitter = null;
+    CaseThrowExpressionEntryEmitter throwEntryEmitter = null;
     complexity = 1;
 }
     :
@@ -3352,14 +3380,22 @@ lambdaCase[ContextSet context] returns [int complexity]
         )
         t:LAMBDA!
         (
+            // throwing an exception must be instrumented differently
+            (THROW expression SEMI) =>
+            THROW expression SEMI
             {
-                instrEnterCaseExpression(lt(1), context);
+                /* TODO calculate and pass expression's complexity */
+                throwEntryEmitter = instrEnterCaseThrowExpression(ct(t), lt(0), context, 0);
+                instrExitCaseThrowExpression(throwEntryEmitter, lt(0));
             }
-            expression
+        |
+            // void and value-returning expressions
+            expression SEMI
             {
-                instrExitCaseExpression(lt(0), context);
+                /* TODO calculate and pass expression's complexity */
+                expressionEntryEmitter = instrEnterCaseExpression(ct(t), lt(0), context, 0);
+                instrExitCaseExpression(expressionEntryEmitter, lt(0));
             }
-            SEMI!
         |
             // no need for special instrumentation, we will instrument it like a simple { } block, inside
             endTok=compoundStatement
