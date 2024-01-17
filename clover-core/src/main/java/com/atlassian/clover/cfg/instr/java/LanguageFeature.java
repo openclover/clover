@@ -8,5 +8,7 @@ public enum LanguageFeature {
     /** Multi-line text blocks in """...""" */
     TEXT_BLOCKS,
     /** Record classes and compact canonical constructors */
-    RECORDS
+    RECORDS,
+    /** Switch treated as expressions */
+    SWITCH_EXPRESSIONS
 }
