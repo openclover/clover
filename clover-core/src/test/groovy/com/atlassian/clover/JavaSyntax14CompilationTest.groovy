@@ -207,11 +207,10 @@ class JavaSyntax14CompilationTest extends JavaSyntaxCompilationTestBase {
         instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_14)
 
         assertFileMatches(fileName, quote("case 0, 1, 2*3 -> ") + R_CASE_EXPRESSION_LEFT + quote("10;") + R_CASE_EXPRESSION_RIGHT)
-        assertFileMatches(fileName, quote("default -> ") + R_CASE_EXPRESSION_LEFT + quote("11;") + R_CASE_EXPRESSION_RIGHT)
         assertFileMatches(fileName, quote("case 0, 1, 2 -> ") + R_CASE_EXPRESSION_LEFT + quote("20;") + R_CASE_EXPRESSION_RIGHT)
-        assertFileMatches(fileName, quote("case null -> ") + R_CASE_EXPRESSION_LEFT + quote("21;") + R_CASE_EXPRESSION_RIGHT)
-        assertFileMatches(fileName, quote("case 0, 1, 2 -> ") + R_CASE_EXPRESSION_LEFT + quote("30;") + R_CASE_EXPRESSION_RIGHT)
-        assertFileMatches(fileName, quote("case null, default -> ") + R_CASE_EXPRESSION_LEFT + quote("31;") + R_CASE_EXPRESSION_RIGHT)
+// TODO pattern matching since JDK21
+//        assertFileMatches(fileName, quote("case null -> ") + R_CASE_EXPRESSION_LEFT + quote("21;") + R_CASE_EXPRESSION_RIGHT)
+//        assertFileMatches(fileName, quote("case null, default -> ") + R_CASE_EXPRESSION_LEFT + quote("31;") + R_CASE_EXPRESSION_RIGHT)
     }
 
     @Test
@@ -226,16 +225,17 @@ class JavaSyntax14CompilationTest extends JavaSyntaxCompilationTestBase {
 
         // argument of a method call
         assertFileMatches(fileName, R_INC + quote("foo(switch (k) {")) // no R_INC before switch
-        assertFileMatches(fileName, quote("case 10 -> ") + R_CASE_EXPRESSION_LEFT + "100;" + R_CASE_EXPRESSION_RIGHT)
-        assertFileMatches(fileName, quote("default -> ") + R_CASE_EXPRESSION_LEFT + "200;" + R_CASE_EXPRESSION_RIGHT)
+        assertFileMatches(fileName, quote("case 10 ->") + R_CASE_EXPRESSION_LEFT + " 100" + R_CASE_EXPRESSION_RIGHT + ";")
+        assertFileMatches(fileName, quote("default ->") + R_CASE_EXPRESSION_LEFT + " 200" + R_CASE_EXPRESSION_RIGHT + ";")
 
         // part of an expression
-        assertFileMatches(fileName, quote("") + R_CASE_EXPRESSION_LEFT +
-                quote("if (switch (j) {") + ".*" +
-                quote("case 0 -> ") + R_CASE_EXPRESSION_LEFT + quote("30;") + R_CASE_EXPRESSION_RIGHT +
-                ".*" +
+        assertFileMatches(fileName,
+                // we have '((((' because of the branch evaluation
+                R_INC + quote("if ((((switch (j) {") + "\\s+" +
+                quote("case 0 ->") + R_CASE_EXPRESSION_LEFT + quote(" 30") + R_CASE_EXPRESSION_RIGHT + ";" + "\\s+" +
+                quote("default ->") + R_CASE_EXPRESSION_LEFT + quote(" 31") + R_CASE_EXPRESSION_RIGHT + ";" + "\\s+" +
                 quote("} % 10 == 0)") +
-                quote(")&&") + R_IGET_TRUE // part of the branch coverage expression
+                quote("&&(") + R_IGET // part of the branch coverage expression
         )
     }
 
