@@ -3405,7 +3405,9 @@ lambdaCase[ContextSet context] returns [int complexity]
 patternMatch
     :
         // just constants, string literals, true/false, null etc
-        primaryExpressionPart
+        // can be more than one, separated by comma
+        conditionalExpression
+        (COMMA conditionalExpression)*
     ;
 
 /**

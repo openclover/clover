@@ -16,6 +16,7 @@ public class Java14SwitchExpressionWithMultiValueCase {
             // note: pattern matching can be used since Java 17 preview
             // TODO: enable this test for Java 21
             // case null -> 21;
+            default -> 21;
         };
     }
 
@@ -27,6 +28,7 @@ public class Java14SwitchExpressionWithMultiValueCase {
             // note: pattern matching can be used since Java 17 preview
             // TODO: enable this test for Java 21
             // case null, default -> 31;
+            default -> 31;
         };
     }
 }
