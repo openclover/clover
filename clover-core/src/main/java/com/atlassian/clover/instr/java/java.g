@@ -1961,6 +1961,7 @@ constructorBody[MethodSignature signature, CloverToken start, CloverToken endSig
 explicitConstructorInvocation returns [CloverToken t]
 {
     t = null;
+    ContextSetAndComplexity cc = null;
 }
     :
         (
@@ -1986,7 +1987,7 @@ explicitConstructorInvocation returns [CloverToken t]
 
         |
             // (new Outer()).super()  (create enclosing instance)
-            primaryExpressionPart
+            cc=primaryExpressionPart
             (DOT! THIS)? // HACK see CCD-264 - explicit ctor invocation can have form ClassName.this.super(..)
             DOT! pos3:SUPER! lp3:LPAREN^ argList RPAREN! t3:SEMI!
             {
@@ -2584,7 +2585,7 @@ colonCase[FlagDeclEmitter flag] returns [int complexity]
             {
                 constExpr = true;
             }
-            expression
+            constantExpression
             {
                 constExpr = false;
                 pos = si1;
@@ -2994,7 +2995,6 @@ expressionList
     :   expression (COMMA! expression)*
     ;
 
-
 // assignment expression (level 13)
 assignmentExpression
     :
@@ -3199,13 +3199,14 @@ postfixExpression[CloverToken classCastStart, CloverToken classCastEnd]
      * reference).
      */
     CloverToken startMethodReference = null;
+    ContextSetAndComplexity cc = null;
 }
     :
         {
             // we might start a method reference, remember this token
             startMethodReference = lt(1);
         }
-        primaryExpressionPart         // start with a primary part like constant or identifier
+        cc=primaryExpressionPart         // start with a primary part like constant or identifier
         supplementaryExpressionPart[classCastStart, classCastEnd, startMethodReference]   // add extra stuff like array indexes, this/super (optional)
         (
             (methodReferencePredicate) =>
@@ -3404,10 +3405,10 @@ lambdaCase[ContextSet context] returns [int complexity]
 
 patternMatch
     :
-        // just constants, string literals, true/false, null etc
+        // just constants, string literals, true/false, null etc; also constant expressions
         // can be more than one, separated by comma
-        conditionalExpression
-        (COMMA conditionalExpression)*
+        constantExpression
+        (COMMA constantExpression)*
     ;
 
 /**
@@ -3600,6 +3601,107 @@ constant
     |   NUM_FLOAT
     |   NUM_LONG
     |   NUM_DOUBLE
+    ;
+
+/////////////////////////////////////////////////
+// constant expressions
+/////////////////////////////////////////////////
+
+constantExpression
+    :
+        constantConditionalExpression
+    ;
+
+constantConditionalExpression
+    :
+        constantLogicalOrExpression
+        (
+            QUESTION
+            constantConditionalExpression COLON! constantConditionalExpression
+        )?
+    ;
+
+constantLogicalOrExpression
+    :   constantLogicalAndExpression (LOR constantLogicalAndExpression)*
+    ;
+
+constantLogicalAndExpression
+    :   constantInclusiveOrExpression (LAND constantInclusiveOrExpression)*
+    ;
+
+constantInclusiveOrExpression
+    :   constantExclusiveOrExpression (BOR constantExclusiveOrExpression)*
+    ;
+
+constantExclusiveOrExpression
+    :   constantAndExpression (BXOR constantAndExpression)*
+    ;
+
+constantAndExpression
+    :   constantEqualityExpression (BAND constantEqualityExpression)*
+    ;
+
+constantEqualityExpression
+    :   constantRelationalExpression ((NOT_EQUAL | EQUAL) constantRelationalExpression)*
+    ;
+
+constantRelationalExpression
+    :   constantShiftExpression ( ( LT | GT | LE | GE ) constantShiftExpression )*
+    ;
+
+constantShiftExpression
+    :   constantAdditiveExpression ( (SL | SR | BSR) constantAdditiveExpression )*
+    ;
+
+constantAdditiveExpression
+    :   constantMultiplicativeExpression ( (PLUS | MINUS) constantMultiplicativeExpression )*
+    ;
+
+constantMultiplicativeExpression
+    :   constantUnaryExpression ( (STAR | DIV | MOD ) constantUnaryExpression )*
+    ;
+
+constantUnaryExpression
+    :   MINUS constantUnaryExpression
+    |   PLUS constantUnaryExpression
+    |   constantUnaryExpressionNotPlusMinus
+    ;
+
+constantUnaryExpressionNotPlusMinus
+{
+    String type = null;
+}
+    :
+        BNOT constantUnaryExpression
+    |
+        LNOT constantUnaryExpression
+    |
+        (
+            // subrule allows option to shut off warnings
+            //options {
+            //    // "(int" ambig with postfixExpr due to lack of sequence
+            //    // info in linear approximate LL(k).  It's ok.  Shut up.
+            //    generateAmbigWarnings=false;
+            //}:
+            // only casts to primitive types and type String are allowed in constant expressions
+            (LPAREN (builtInTypeSpec | {isNextKeyword("String")}? IDENT) RPAREN constantUnaryExpression)=>
+            LPAREN (type=builtInTypeSpec | {isNextKeyword("String")}? IDENT) RPAREN
+            constantUnaryExpression
+        |
+            constantPostfixExpression
+        )
+    ;
+
+constantPostfixExpression
+    :
+        // start with a primary part like constant or identifier
+        (
+            IDENT | constant | TRUE | FALSE | THIS | NULL | SUPER | DEFAULT
+        )
+        // qualified id (id.id.id.id) -- build the name
+        (
+            DOT ( IDENT | THIS | SUPER | CLASS )
+        )*
     ;
 
 
