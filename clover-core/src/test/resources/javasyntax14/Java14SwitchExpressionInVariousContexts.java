@@ -43,6 +43,13 @@ public class Java14SwitchExpressionInVariousContexts {
         }
     }
 
+    static void lambdaSwitchExpressionInsideArrayInitializer(int kk) {
+        int[] array = new int[switch (kk) {
+            case 0 -> 0;
+            default -> kk;
+        }];
+    }
+
     // lambda switch expression in an initializer block
     int kkk = 88;
     {
