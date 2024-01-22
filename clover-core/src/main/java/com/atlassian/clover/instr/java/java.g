@@ -3130,7 +3130,6 @@ conditionalExpression returns [int complexity]
     CloverToken startOfCond = null;
     CloverToken lf = null;
     int complexity1 = 0, complexity2 = 0, complexity3 = 0;
-    int ternaryComplexity = 0;
     complexity = 0;
 }
     :
@@ -3147,14 +3146,11 @@ conditionalExpression returns [int complexity]
                     instrBoolExpr(startOfCond, ct(endOfCond));
             }
             complexity2=assignmentExpression COLON! complexity3=conditionalExpression
-            {
-                // as ternary exists, it's complexity is 1 ...
-                ternaryComplexity = 1;
-            }
         )?
         {
-            // ... plus whatever we have in branches
-            complexity = complexity1 + complexity2 + complexity3 + ternaryComplexity;
+            // as ternary exists, it's complexity is 1, but this is already accounted for in ExpressionInfo.fromTokens
+            // sum whatever we have in branches
+            complexity = complexity1 + complexity2 + complexity3;
         }
     ;
 
