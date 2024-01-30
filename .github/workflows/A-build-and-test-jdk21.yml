@@ -1,0 +1,57 @@
+name: A Build and test on JDK21
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          java-version: 21
+          distribution: temurin
+          cache: maven
+
+      - name: Cache Eclipse binaries
+        id: cache-eclipse
+        uses: actions/cache@v3
+        with:
+          path: clover-eclipse-libs/target/download
+          key: ${{ runner.os }}-eclipse-${{ hashFiles('clover-eclipse-libs/pom.xml') }}
+
+      - name: Cache IDEA binaries
+        id: cache-idea
+        uses: actions/cache@v3
+        with:
+          path: clover-idea-libs/target/download
+          key: ${{ runner.os }}-idea-${{ hashFiles('clover-idea-libs/pom.xml') }}
+
+      - name: Prepare third party libraries
+        run: |
+          mvn --batch-mode install -f clover-core-libs/jarjar/pom.xml
+          mvn --batch-mode install -Pworkspace-setup -f clover-core-libs/pom.xml
+          mvn --batch-mode install -Pworkspace-setup -f clover-eclipse-libs/pom.xml
+          mvn --batch-mode install -Pworkspace-setup -f clover-jtreemap/pom.xml
+          mvn --batch-mode install -Pworkspace-setup -f clover-idea-libs/pom.xml
+
+      - name: Download KTreemap fork
+        run: |
+          wget https://packages.atlassian.com/mvn/maven-atlassian-external/net/sf/jtreemap/ktreemap/1.1.0-atlassian-01/ktreemap-1.1.0-atlassian-01.jar
+          wget https://packages.atlassian.com/mvn/maven-atlassian-external/net/sf/jtreemap/ktreemap/1.1.0-atlassian-01/ktreemap-1.1.0-atlassian-01.pom
+          mvn --batch-mode install:install-file -Dfile=ktreemap-1.1.0-atlassian-01.jar -DpomFile=ktreemap-1.1.0-atlassian-01.pom
+
+      - name: Compile and pack all modules
+        run: |
+          mvn --batch-mode install -DskipTests=true
+
+      - name: Run tests for runtime, core, groovy, ant
+        run: |
+          mvn --batch-mode verify -pl clover-runtime,clover-core,clover-groovy,clover-ant
