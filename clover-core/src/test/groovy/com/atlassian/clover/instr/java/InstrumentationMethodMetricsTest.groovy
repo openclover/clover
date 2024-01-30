@@ -169,8 +169,8 @@ class InstrumentationMethodMetricsTest extends InstrumentationTestBase {
                 }""", 3, 0, 2)
 
         // expressions with switch expressions inside
-        // notice that both forms have the same cyclomatic complexity, although number of statements can differ
-        // as explained above
+        // notice that in samples below both forms have the same cyclomatic complexity,
+        // although number of statements can differ, as explained above
         checkMethodMetrics(
                 """void A() {
                     int i = switch(j) {
@@ -188,6 +188,38 @@ class InstrumentationMethodMetricsTest extends InstrumentationTestBase {
                         default: throw new IllegalArgumentException(); 
                     };
                 }""", 7, 0, 3)
+
+        // colon-based switch statements with hidden branches
+        // the colon-based switch does not require to cover all possible values,
+        // the 'default' keyword is also optional, so there might be an "invisible" branch
+        checkMethodMetrics(
+                """void A(int j) {
+                    int i;
+                    switch(j) { 
+                        case 0: i = -1; break; // 1st path
+                        case 1: i = 1; break;  // 2nd path
+                        default: /* no op */;  // 3rd path
+                    };
+                }""", 10, 0, 3)
+
+        checkMethodMetrics(
+                """void A(int j) {
+                    int i;
+                    switch(j) { 
+                        case 0: i = -1; break;         // 1st path
+                        case 1: i = 1; break;          // 2nd path
+                        /* "invisible" default path */ // 3rd path
+                    };
+                }""", 8, 0, 3)
+
+        checkMethodMetrics(
+                """void A(int j) {
+                    int i;
+                    switch(j) { 
+                        default: i = -1;               // 1st path
+                        /* no "invisible" path */ 
+                    };
+                }""", 4, 0, 1)
     }
 
     @Test
