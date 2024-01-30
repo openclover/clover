@@ -3574,10 +3574,13 @@ colonSwitchExpression [CloverToken owningLabel, boolean isInsideExpression] retu
  */
 lambdaSwitchExpression [CloverToken owningLabel] returns [ContextSetAndComplexity ret]
 {
-    int caseComplexity = 0, exprComplexity = 0;
+    // every switch must have at least one case/default branch, cyclomatic complexity is number of branches minus 1
+    // every case/default increases it by one, cyclomatic complexity of only one branch is zero
+    int caseComplexity = -1;
+    int exprComplexity = 0;
     ContextSet saveContext = getCurrentContext();
     CloverToken tmp = null;
-    ret = ContextSetAndComplexity.empty();
+    ret = ContextSetAndComplexity.ofComplexity(caseComplexity);
 }
     :
         sw:SWITCH

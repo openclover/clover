@@ -10,42 +10,207 @@ import static org.junit.Assert.assertEquals
 
 class InstrumentationMethodMetricsTest extends InstrumentationTestBase {
 
+    /**
+     * Simple one execution path, no cycles. Complexity of 1 "coming" from the method itself.
+     */
     @Test
-    void testMethodMetrics() throws Exception {
-        checkMethodMetrics("void A() {}",0, 0, 1)
-        checkMethodMetrics("void A() {a();}",1, 0, 1)
-        checkMethodMetrics("void A() {a = (6 < 7);}",1 ,0 ,1)
-        checkMethodMetrics("void A() {a();b();c();}",3, 0, 1)
+    void testMethodMetricsForNoCycle() throws Exception {
+        // an empty method, method call, variable assignment, a few statements
+        checkMethodMetrics(
+                """void A() {
+                }""", 0, 0, 1)
+        checkMethodMetrics(
+                """void A() {
+                    a();
+                }""", 1, 0, 1)
+        checkMethodMetrics(
+                """void A() {
+                    a = (6 < 7);
+                }""", 1, 0, 1)
+        checkMethodMetrics(
+                """void A() {
+                    a();
+                    b();
+                    c();
+                }""", 3, 0, 1)
+    }
 
-        // if
-        checkMethodMetrics("void A() {if (a()) b(); else c();}",3, 2, 2)
-        checkMethodMetrics("void A() {if (a() || b()) c();}", 2, 2, 3)
-        checkMethodMetrics("void A() {if (1 + 2 == 4) c();}", 2, 0, 1)
+    /**
+     * The "if-else" statement might increase cyclomatic complexity and/or number of branches.
+     */
+    @Test
+    void testMethodMetricsForIfElseStatements() throws Exception {
+        // if-else with simple method call expression, two branches (true/false) in expression
+        // two paths of execution (if-path, else-path), so one cycle
+        checkMethodMetrics(
+                """void A() {
+                    if (a()) 
+                        b(); 
+                    else 
+                        c();
+                }""", 3, 2, 2)
 
+        // if with the boolean expression in condition, two branches (true/false) in expression
+        // two paths of execution inside expression - 'a()' or 'b()' - so one extra cycle
+        // two paths of execution (if-path, empty-else-path) - so another one cycle
+        checkMethodMetrics(
+                """void A() {
+                    if (a() || b()) 
+                        c();
+                }""", 2, 2, 3)
+
+        // if with a constant expression, so it always evaluates to the same value, no branches then
+        // of the two paths of execution (if-path, empty-else-path) only one always runs, so in fact no cycle
+        checkMethodMetrics(
+                """void A() {
+                    if (1 + 2 == 4) 
+                        c();
+                }""", 2, 0, 1)
+    }
+
+    /**
+     * Similarly as above, 'for' loops might increase cyclomatic complexity and/or number of branches.
+     */
+    @Test
+    void testMethodMetricsWithForLoops() throws Exception {
         // for
-        checkMethodMetrics("void A() {for (;a();) b(); }",2, 2, 2)
-        checkMethodMetrics("void A() {for (;a() || b();) c();}", 2, 2, 3)
-        checkMethodMetrics("void A() {for (;1 + 2 == 4;) c();}", 2, 0, 1)
+        checkMethodMetrics(
+                """void A() {
+                    for (;a();) 
+                        b(); 
+                }""", 2, 2, 2)
+        checkMethodMetrics(
+                """void A() {
+                    for (;a() || b();) 
+                        c();
+                }""", 2, 2, 3)
+        checkMethodMetrics(
+                """void A() {
+                    for (;1 + 2 == 4;) 
+                        c();
+                }""", 2, 0, 1)
+    }
 
+    @Test
+    void testMethodMetricsWithWhileLoops() throws Exception {
         // while
-        checkMethodMetrics("void A() {while (a()) b();}",2, 2, 2)
-        checkMethodMetrics("void A() {while (a() || b()) c();}", 2, 2, 3)
-        checkMethodMetrics("void A() {while (1 + 2 == 4) c();}", 2, 0, 1)
+        checkMethodMetrics(
+                """void A() {
+                    while (a()) b();
+                }""", 2, 2, 2)
+        checkMethodMetrics(
+                """void A() {
+                    while (a() || b()) 
+                        c();
+                }""", 2, 2, 3)
+        checkMethodMetrics(
+                """void A() {
+                    while (1 + 2 == 4) 
+                        c();
+                }""", 2, 0, 1)
+    }
+
+    @Test
+    void testMethodMetricsForSwitchStatements() throws Exception {
+        // NOTICE: code metrics for colon-based and lambda-based switch blocks are different!
 
         // switch with colon cases
-        checkMethodMetrics("void A() {switch (a()) { case 1: b();}}", 3, 0, 2)
-        checkMethodMetrics("void A() {switch (a()) { case 1: b(); case 2: c();}}", 5, 0, 3)
+        // because colon cases can be grouped together, each of them represents a separate entry
+        // point into the case block; therefore, every case is instrumented separately and is treated as
+        // a statement; statements in a block are also instrumented, even if there is only one case and
+        // one statement
+        checkMethodMetrics(
+                """void A() {
+                    switch (a()) { 
+                        case 1: 
+                            b();
+                    }
+                }""", 3, 0, 2)
+
+        checkMethodMetrics(
+                """void A() {
+                    switch (a()) { 
+                        case 1:
+                            b(); 
+                        case 2: 
+                            c();
+                    }
+                }""", 5, 0, 3)
+
+        // two cases grouped together, still the same number of statements and complexity as above
+        checkMethodMetrics(
+                """void A() {
+                    switch (a()) { 
+                        case 1:
+                        case 2:  
+                            b();
+                            c();
+                    }
+                }""", 5, 0, 3)
 
         // switch with lambda cases
-        checkMethodMetrics("void A() {switch (a()) { case 1 -> b();}}", 3, 0, 2)
-        checkMethodMetrics("void A() {switch (a()) { case 1 -> b(); case 2 -> c();}}", 5, 0, 3)
+        // because lambda cases cannot be grouped, each case label is associated with a separate code block
+        // and each of them is the only entry point to that block; therefore, the case label itself is
+        // NOT instrumented and does not represent a statement; expressions or code blocks inside the case
+        // are of course instrumented
+        checkMethodMetrics(
+                """void A() {
+                    switch (a()) { 
+                        case 1 -> b();
+                    }
+                }""", 2, 0, 1)
 
+        checkMethodMetrics(
+                """void A() {
+                    switch (a()) { 
+                        case 1 -> b(); 
+                        case 2 -> c();
+                    }
+                }""", 3, 0, 2)
+
+        // expressions with switch expressions inside
+        // notice that both forms have the same cyclomatic complexity, although number of statements can differ
+        // as explained above
+        checkMethodMetrics(
+                """void A() {
+                    int i = switch(j) {
+                        case 0 -> -1;
+                        case 1 -> 1;
+                        default -> throw new IllegalArgumentException();
+                    };
+                }""", 4, 0, 3)
+
+        checkMethodMetrics(
+                """void A() {
+                    int i = switch(j) { 
+                        case 0: yield -1; 
+                        case 1: yield 1; 
+                        default: throw new IllegalArgumentException(); 
+                    };
+                }""", 7, 0, 3)
+    }
+
+    @Test
+    void testMethodMetricsForTernaryExpressions() throws Exception {
         // ternary
-        checkMethodMetrics("void A() {a() ? 1 : 2;}", 1, 2, 2)
-        checkMethodMetrics("void A() {a() || b()? 1 : 2;}", 1, 2, 3)
-        checkMethodMetrics("void A() {a() ? b() ? c()? 1 : 2 : 3 : 4;}", 1, 6, 4)
+        checkMethodMetrics(
+                """void A() {
+                    a() ? 1 : 2;
+                }""", 1, 2, 2)
 
-        // nested functions
+        checkMethodMetrics(
+                """void A() {
+                    a() || b() ? 1 : 2;
+                }""", 1, 2, 3)
+
+        checkMethodMetrics(
+                """void A() {
+                    a() ? 
+                        b() ? 
+                            c() ? 1 : 2 
+                            : 3 
+                        : 4;
+                }""", 1, 6, 4)
     }
 
     @Test
