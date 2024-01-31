@@ -3,14 +3,14 @@
     <parent>
         <groupId>org.openclover</groupId>
         <artifactId>clover-eclipse</artifactId>
-        <version>4.5.2.v20240131000000</version>
+        <version>4.6.0.v20230101000000</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>org.openclover.eclipse.core</artifactId>
     <name>OpenClover Eclipse Core Plugin</name>
     <description>An Eclipse plugin providing integration of OpenClover with Java projects.</description>
     <properties>
-        <clover.version>4.5.2</clover.version>
+        <clover.version>4.6.0-SNAPSHOT</clover.version>
     </properties>
     <dependencies>
         <dependency>
