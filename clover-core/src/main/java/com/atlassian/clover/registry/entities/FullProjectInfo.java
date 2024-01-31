@@ -130,7 +130,7 @@ public class FullProjectInfo extends BaseProjectInfo implements HasMetricsNode, 
         }
         
         if (orderby != null) {
-            Collections.sort(tmpOrderedPkgRoots, orderby);
+            tmpOrderedPkgRoots.sort(orderby);
         }
         orderedPkgRoots = tmpOrderedPkgRoots;
         roots = tmpRoots;
@@ -139,7 +139,7 @@ public class FullProjectInfo extends BaseProjectInfo implements HasMetricsNode, 
     private void buildOrderedPackageList() {
         List tmpOrderedPkgs = newArrayList(packages.values());
         if (orderby != null) {
-            Collections.sort(tmpOrderedPkgs, orderby);
+            tmpOrderedPkgs.sort(orderby);
         }
         orderedPkgs = tmpOrderedPkgs;
     }

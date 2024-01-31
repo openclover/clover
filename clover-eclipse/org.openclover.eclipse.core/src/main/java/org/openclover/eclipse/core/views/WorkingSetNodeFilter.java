@@ -14,11 +14,7 @@ public class WorkingSetNodeFilter implements NodeRelationshipFilter {
     @Override
     public Object[] perform(Collection elements) {
         if (requiresFiltering()) {
-            for(Iterator iter = elements.iterator(); iter.hasNext();) {
-                if (!accept(iter.next())) {
-                    iter.remove();
-                }
-            }
+            elements.removeIf(o -> !accept(o));
         }
         return elements.toArray();
     }

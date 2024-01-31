@@ -110,7 +110,7 @@ public class RegistryDumper {
                         stmtsAndBranches.addAll(methodInfo.getBranches());
                         stmtsAndBranches.addAll(methodInfo.getStatements());
 
-                        Collections.sort(stmtsAndBranches, (sourceInfo1, sourceInfo2) -> {
+                        stmtsAndBranches.sort((sourceInfo1, sourceInfo2) -> {
                             final int startLine1 = sourceInfo1.getStartLine();
                             final int startCol1 = sourceInfo1.getStartColumn();
                             final int startLine2 = sourceInfo2.getStartLine();

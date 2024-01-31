@@ -263,7 +263,7 @@ public class RenderFileAction implements Callable {
                 new LinkedHashMap<>(testMetrics.size());
         final List<Map.Entry<TestCaseInfo, BlockMetrics>> testMetricList =
                 newLinkedList(testMetrics.entrySet());
-        Collections.sort(testMetricList, TEST_METRICS_COMPARATOR);
+        testMetricList.sort(TEST_METRICS_COMPARATOR);
 
         final List<Map.Entry<TestCaseInfo, BlockMetrics>> sublist;
         if (reportConfig.getMaxTestsPerFile() >= 0 && // ensure a value has been set

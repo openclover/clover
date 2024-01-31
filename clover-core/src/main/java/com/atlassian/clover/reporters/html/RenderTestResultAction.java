@@ -88,7 +88,7 @@ public class RenderTestResultAction implements Callable {
 
         velocity.put("currentPageURL", outname);
 
-        Collections.sort(classes, TARGET_CLASS_COMPARATOR);
+        classes.sort(TARGET_CLASS_COMPARATOR);
         velocity.put("targetClasses", classes);
         velocity.put("test", testCaseInfo);
         velocity.put("topLevel", Boolean.TRUE);
@@ -129,7 +129,7 @@ public class RenderTestResultAction implements Callable {
     private int buildUniqueCoverageMap(TestCaseInfo tci, Map<String, ClassInfo> uniqueCoverageMap) {
         final FullProjectInfo projectInfo = createUniqueCoverageModel(tci);
         final List<? extends BaseClassInfo> uniqueClassesCovered = getCoverageByTest(projectInfo);
-        Collections.sort(uniqueClassesCovered, TARGET_CLASS_COMPARATOR);
+        uniqueClassesCovered.sort(TARGET_CLASS_COMPARATOR);
 
         int uniqueElementsHit = 0;
         for (BaseClassInfo info : uniqueClassesCovered) {

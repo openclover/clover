@@ -532,7 +532,7 @@ public class CoverageTreeModel {
                             classInfo));
             fragmentNode.add(classNode);
             List<? extends MethodInfo> methods = classInfo.getMethods();
-            Collections.sort(methods, HASMETRICS_COMPARATOR);
+            methods.sort(HASMETRICS_COMPARATOR);
 
             for (MethodInfo method : methods) {
                 // do not show lambda functions, do not show inner functions too (no recursion here)

@@ -424,11 +424,7 @@ public class ContextStore implements TaggedPersistent {
                 if (equiv >= 0) {
                     // found an equivalent context in this store, record the mapping from
                     // smallest -> this reg
-                    Map<Integer, Integer> oldMapping = oldMappings.get(db);
-                    if (oldMapping == null) {
-                        oldMapping = newHashMap();
-                        oldMappings.put(db, oldMapping);
-                    }
+                    Map<Integer, Integer> oldMapping = oldMappings.computeIfAbsent(db, k -> newHashMap());
                     oldMapping.put(contextIdx, equiv);
 
                 } else {
@@ -451,11 +447,7 @@ public class ContextStore implements TaggedPersistent {
                 for (CloverDatabase db : mergingDbs) {
                     Map<Integer, Integer> oldMapping = oldMappings.get(db);
                     Integer equiv = oldMapping.get(contextIdx);
-                    Map<Integer, Integer> newMapping = newMappings.get(db);
-                    if (newMapping == null) {
-                        newMapping = newHashMap();
-                        newMappings.put(db, newMapping);
-                    }
+                    Map<Integer, Integer> newMapping = newMappings.computeIfAbsent(db, k -> newHashMap());
                     newMapping.put(equiv, mergedIndex);
                 }
             }

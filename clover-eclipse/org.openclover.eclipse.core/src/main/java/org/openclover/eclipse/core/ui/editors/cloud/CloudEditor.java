@@ -154,7 +154,7 @@ public class CloudEditor
         addCloudMap(perPackageCloudMappings, getProjectCloudName(), outputDir, false);
 
         final List<? extends PackageInfo> packages = project.getAllPackages();
-        Collections.sort(packages, HasMetricsSupport.CMP_LEX);
+        packages.sort(HasMetricsSupport.CMP_LEX);
 
         for (final PackageInfo pkg : packages) {
             addCloudMap(perPackageCloudMappings, pkg.getName(), new File(outputDir, pkg.getPath()),

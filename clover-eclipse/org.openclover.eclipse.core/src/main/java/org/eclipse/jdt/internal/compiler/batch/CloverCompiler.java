@@ -310,11 +310,7 @@ public class CloverCompiler extends Main {
     }
 
     private void registerRecorderBaseNames(IFile file) {
-        Set<String> recorderBaseNames = dirsToRecorderClassBaseNames.get(file.getParent());
-        if (recorderBaseNames == null) {
-            recorderBaseNames = newHashSet();
-            dirsToRecorderClassBaseNames.put(file.getParent(), recorderBaseNames);
-        }
+        Set<String> recorderBaseNames = dirsToRecorderClassBaseNames.computeIfAbsent(file.getParent(), k -> newHashSet());
         recorderBaseNames.add(
             file.getName().substring(
                 0,
@@ -322,11 +318,7 @@ public class CloverCompiler extends Main {
     }
 
     private void registerRecorderName(IFile file) {
-        Set<String> recorderNames = dirsToRecorderClassNames.get(file.getParent());
-        if (recorderNames == null) {
-            recorderNames = newHashSet();
-            dirsToRecorderClassNames.put(file.getParent(), recorderNames);
-        }
+        Set<String> recorderNames = dirsToRecorderClassNames.computeIfAbsent(file.getParent(), k -> newHashSet());
         recorderNames.add(file.getName());
     }
 

@@ -145,7 +145,7 @@ public class HistoricalSupport {
 
         }
         Logger.getInstance().info("Read "+models.size()+" history point"+ ( models.size() == 1 ? "" : "s") +".");
-        Collections.sort(models, CoverageDataPoint.CHRONOLOGICAL_CMP);
+        models.sort(CoverageDataPoint.CHRONOLOGICAL_CMP);
         return models;
     }
 
@@ -197,7 +197,7 @@ public class HistoricalSupport {
                 }
             }
         }
-        Collections.sort(diffs, MetricsDiffSummary.DIFF_COMP);
+        diffs.sort(MetricsDiffSummary.DIFF_COMP);
         return diffs;
     }
 
@@ -229,7 +229,7 @@ public class HistoricalSupport {
             }
         }
 
-        Collections.sort(diffs, MetricsDiffSummary.DIFF_COMP);
+        diffs.sort(MetricsDiffSummary.DIFF_COMP);
         return diffs;
     }
 

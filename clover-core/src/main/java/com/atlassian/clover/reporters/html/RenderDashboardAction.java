@@ -67,12 +67,11 @@ public class RenderDashboardAction implements Callable {
         final ClassInfoStatsCalculator eleCountCalculator = new ClassInfoStatsCalculator.ElementCountCalculator();
 
         final List<BaseClassInfo> amcOrder = newArrayList(classes);
-        Collections.sort(amcOrder, new OrderedCalculatorComparator(
-                new ClassInfoStatsCalculator[]{avgMethodCmpCalculator, pcCoveredEleCalculator, eleCountCalculator})
-        );
+        amcOrder.sort(new OrderedCalculatorComparator(
+                new ClassInfoStatsCalculator[]{avgMethodCmpCalculator, pcCoveredEleCalculator, eleCountCalculator}));
 
         final List<BaseClassInfo> pceOrder = newArrayList(classes);
-        Collections.sort(pceOrder, new OrderedCalculatorComparator(
+        pceOrder.sort(new OrderedCalculatorComparator(
                 new ClassInfoStatsCalculator[]{pcCoveredEleCalculator, avgMethodCmpCalculator, eleCountCalculator}));
 
         final StatisticsClassInfoVisitor amcVisitor = StatisticsClassInfoVisitor.visit(amcOrder, avgMethodCmpCalculator);

@@ -51,11 +51,7 @@ public class CoverageAnnotationContentProvider implements ITreeContentProvider {
             
             for (TestCaseInfo tci: testCases) {
                 final String testClass = tci.getRuntimeTypeName();
-                Map<String, TestCaseInfo> tests = data.get(testClass);
-                if (tests == null) {
-                    tests = newHashMap();
-                    data.put(testClass, tests);
-                }
+                Map<String, TestCaseInfo> tests = data.computeIfAbsent(testClass, k -> newHashMap());
                 final String testName = tci.getSourceMethodName();
                 final TestCaseInfo prev = tests.get(testName);
                 if (prev == null || prev.getEndTime() < tci.getEndTime()) {

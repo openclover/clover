@@ -1,6 +1,7 @@
 package com.atlassian.clover.registry.entities;
 
 import com.atlassian.clover.api.registry.ElementInfo;
+import com.atlassian.clover.api.registry.SourceInfo;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
@@ -15,8 +16,7 @@ import static org.openclover.util.Lists.newArrayList;
  *  this class grows arrays linearly because they are almost always likely to be tiny (1 or 2 entries)
  */
 public class LineInfo {
-    public static Comparator<ElementInfo> COLUMN_COMPARATOR = (a, b) ->
-            Integer.compare(a.getStartColumn(), b.getStartColumn());
+    public static Comparator<ElementInfo> COLUMN_COMPARATOR = Comparator.comparingInt(SourceInfo::getStartColumn);
     
     private int line;
 
@@ -55,7 +55,7 @@ public class LineInfo {
         if (branches != null) {
             elements.addAll(branches);
         }
-        Collections.sort(elements, COLUMN_COMPARATOR);
+        elements.sort(COLUMN_COMPARATOR);
         return elements; 
     }
 

@@ -59,7 +59,7 @@ public class MetricsCollator {
         comparators.add(HasMetricsSupport.CMP_ELEMENTS_UNCOVERED_DESC);
         comparators.add(HasMetricsSupport.CMP_COMPLEXITY_DESC);
         final HasMetricsSupport.HasMetricsComparator cmp = new HasMetricsSupport.HasMetricsComparatorChain(comparators);
-        Collections.sort(methodsLeastTested, cmp);
+        methodsLeastTested.sort(cmp);
         final int toIndex = methodsLeastTested.size() < numMethods ? methodsLeastTested.size() : numMethods;
         return methodsLeastTested.subList(0, toIndex);
     }
@@ -112,7 +112,7 @@ public class MetricsCollator {
     }
 
     public List getTopOfList(List infos, int topNCount, HasMetricsSupport.HasMetricsComparator cmp) {
-        Collections.sort(infos, cmp);
+        infos.sort(cmp);
         Collections.reverse(infos);
         int last = infos.size() >= topNCount ? topNCount : infos.size();
         return infos.subList(0, last);

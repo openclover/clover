@@ -204,11 +204,7 @@ public class ClassesTestedTreeProvider
 
     private List removeFailed(boolean doIt, List testCaseInfos) {
         if (doIt) {
-            for(Iterator iter = testCaseInfos.iterator(); iter.hasNext();) {
-                if (!((TestCaseInfo)iter.next()).isSuccess()) {
-                    iter.remove();
-                }
-            }
+            testCaseInfos.removeIf(o -> !((TestCaseInfo) o).isSuccess());
         }
         return testCaseInfos;
     }

@@ -130,12 +130,7 @@ public abstract class BaseNature implements IProjectNature {
         IJavaProject javaProject = getJavaProject();
 
         List<IClasspathEntry> newEntries = newArrayList(javaProject.getRawClasspath()); // copy
-        for (Iterator<IClasspathEntry> iterator = newEntries.iterator(); iterator.hasNext();) {
-            IClasspathEntry entry = iterator.next();
-            if (similarOrSame(entry, newEntry)) {
-                iterator.remove();
-            }
-        }
+        newEntries.removeIf(entry -> similarOrSame(entry, newEntry));
         newEntries.add(0, newEntry);
 
         javaProject.setRawClasspath(
@@ -152,13 +147,7 @@ public abstract class BaseNature implements IProjectNature {
         IJavaProject javaProject = getJavaProject();
 
         List<IClasspathEntry> oldEntries = newArrayList(javaProject.getRawClasspath()); // copy
-
-        for (Iterator<IClasspathEntry> oldEntriesIter = oldEntries.iterator(); oldEntriesIter.hasNext();) {
-            IClasspathEntry oldEntry = oldEntriesIter.next();
-            if (similarOrSame(oldEntry, entry)) {
-                oldEntriesIter.remove();
-            }
-        }
+        oldEntries.removeIf(oldEntry -> similarOrSame(oldEntry, entry));
 
         javaProject.setRawClasspath(
             oldEntries.toArray(new IClasspathEntry[oldEntries.size()]),

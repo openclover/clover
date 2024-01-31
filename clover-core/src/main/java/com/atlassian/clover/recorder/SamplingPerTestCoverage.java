@@ -101,7 +101,7 @@ public class SamplingPerTestCoverage extends BasePerTestCoverage {
         });
 
         this.fileInfoSamples = fileSamples.toArray(new FileInfoSample[0]);
-        Arrays.sort(this.fileInfoSamples, (fs1, fs2) -> fs1.idx - fs2.idx);
+        Arrays.sort(this.fileInfoSamples, Comparator.comparingInt(fs -> fs.idx));
 
         this.fileIdxToSamplings = new Int2ObjectRBTreeMap();
         for (FileInfoSample fileSample : this.fileInfoSamples) {

@@ -33,7 +33,7 @@ public class ModelSorter {
         Comparator<TreeNode> actualComparator = sortingType == SORT_ASCENDING ?
                 columnComparator : (o1, o2) -> columnComparator.compare(o2, o1);
 
-        Collections.sort(nodes, actualComparator);
+        nodes.sort(actualComparator);
     }
 
     public int getSortingType() {

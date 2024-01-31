@@ -118,13 +118,7 @@ public class LineTestContributionsComputation extends TestContributionsComputati
                     //Might be null if coverage model is being loaded
                     if (database != null) {
                         Set<TestCaseInfo> testHits = database.getTestHits(coveredElement);
-                        for (Iterator<TestCaseInfo> iterator = testHits.iterator(); iterator.hasNext();) {
-                            TestCaseInfo testCase = iterator.next();
-
-                            if (!testCase.isResolved() && !testCase.resolve(MetricsScope.FULL.getProjectInfoFor(coverageModel.getDatabase()))) {
-                                iterator.remove();
-                            }
-                        }
+                        testHits.removeIf(testCase -> !testCase.isResolved() && !testCase.resolve(MetricsScope.FULL.getProjectInfoFor(coverageModel.getDatabase())));
 
                         setTestCases(testHits);
                     }
