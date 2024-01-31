@@ -3,11 +3,11 @@
     <parent>
         <groupId>org.openclover</groupId>
         <artifactId>clover-base-pom</artifactId>
-        <version>4.5.2-SNAPSHOT</version>
+        <version>4.5.2</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>clover-eclipse</artifactId>
-    <version>4.5.2.v20230101000000</version>
+    <version>4.5.2.v20240131000000</version>
     <packaging>pom</packaging>
     <name>OpenClover Eclipse Base</name>
     <description>A base POM for OpenClover for Eclipse plugins and features</description>
