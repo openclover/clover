@@ -35,8 +35,8 @@
                     <!-- disable annotation processing because it fails on finding InstrumentationBindingAPF,
                          declared in META-INF/services, and this is a processor we are actually creating -->
                     <compilerArgument>-proc:none</compilerArgument>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
                 <dependencies>
                     <dependency>

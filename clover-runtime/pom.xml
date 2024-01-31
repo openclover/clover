@@ -164,8 +164,8 @@
                     <execution>
                         <id>build-for-jdk17</id>
                         <configuration>
-                            <source>1.7</source>
-                            <target>1.7</target>
+                            <source>1.8</source>
+                            <target>1.8</target>
                             <excludes>
                                 <!-- No non-runtime generated source -->
                                 <exclude>**/package-info.java</exclude>
