@@ -6,10 +6,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 
 public interface DatabasePostLoadDecorator extends CoverageLoadDecorator {
     public static final DatabasePostLoadDecorator[] NONE = new DatabasePostLoadDecorator[] {};
-    public static final DatabasePostLoadDecorator NULL = new DatabasePostLoadDecorator() {
-        @Override
-        public void decorate(CloverProject project, CloverDatabase database, IProgressMonitor monitor) {}
-    };
+    public static final DatabasePostLoadDecorator NULL = (project, database, monitor) -> {};
     
     public void decorate(CloverProject project, CloverDatabase database, IProgressMonitor monitor) throws Exception;
 }

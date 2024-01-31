@@ -23,12 +23,7 @@ public abstract class JavaElementNode implements IAdaptable {
     //Seems like faulty logic in JavaTaskListAdapter & MarkerView which expect all selections to be this way
     //Or could be user error, for values of user { MS }
     private ITaskListResourceAdapter getTaskListResourceAdapter() {
-        return new ITaskListResourceAdapter() {
-            @Override
-            public IResource getAffectedResource(IAdaptable iAdaptable) {
-                return (IResource)getAdapter(IResource.class);
-            }
-        };
+        return iAdaptable -> (IResource)getAdapter(IResource.class);
     }
 
     private Object delegateAdaption(Class clazz) {

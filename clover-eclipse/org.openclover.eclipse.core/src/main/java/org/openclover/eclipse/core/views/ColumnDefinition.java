@@ -14,12 +14,7 @@ import org.openclover.eclipse.core.projects.model.MetricsScope;
 
 public abstract class ColumnDefinition {
     public static final int ANY_COLUMN = -1;
-    public static final Comparator TITLE_COMPARATOR = new Comparator() {
-        @Override
-        public int compare(Object o1, Object o2) {
-            return ((ColumnDefinition)o1).getTitle().compareTo(((ColumnDefinition)o2).getTitle());
-        }
-    };
+    public static final Comparator TITLE_COMPARATOR = (o1, o2) -> ((ColumnDefinition)o1).getTitle().compareTo(((ColumnDefinition)o2).getTitle());
 
     private final String id;
     private final int lockedColumnIndex;

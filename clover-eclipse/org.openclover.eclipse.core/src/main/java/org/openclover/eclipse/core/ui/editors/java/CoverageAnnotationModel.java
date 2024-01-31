@@ -297,9 +297,7 @@ public class CoverageAnnotationModel implements IAnnotationModel, IDocumentListe
                 //TODO: Hack! We need the annotations in order so we can shift them and their neighbour
                 //around if we detect ^(\s)+
                 SortedSet<CoverageAnnotation> annotations = newTreeSet(
-                    new Comparator<CoverageAnnotation>() {
-                        @Override
-                        public int compare(CoverageAnnotation annotation1, CoverageAnnotation annotation2) {
+                        (annotation1, annotation2) -> {
                             Position position1 = annotation1.getPosition();
                             Position position2 = annotation2.getPosition();
                             if (position1.getOffset() < position2.getOffset()) {
@@ -315,9 +313,7 @@ public class CoverageAnnotationModel implements IAnnotationModel, IDocumentListe
                                     return 0;
                                 }
                             }
-                        }
-
-                    });
+                        });
 
                 annotationBuilder.toAnnotations(annotations);
 
@@ -437,12 +433,9 @@ public class CoverageAnnotationModel implements IAnnotationModel, IDocumentListe
                 listeners = newLinkedList(this.listeners);
             }
 
-            Display.getDefault().asyncExec(new Runnable() {
-                @Override
-                public void run() {
-                    for (IAnnotationModelListener listener : listeners) {
-                        fireAnnotationsChanged(listener, event);
-                    }
+            Display.getDefault().asyncExec(() -> {
+                for (IAnnotationModelListener listener : listeners) {
+                    fireAnnotationsChanged(listener, event);
                 }
             });
         }
@@ -485,12 +478,7 @@ public class CoverageAnnotationModel implements IAnnotationModel, IDocumentListe
     public Iterator<Annotation> getAnnotationIterator() {
         // since Eclipse 4.6, the getAnnotationIterator returns Iterator<Annotation> instead of Iterator
         // so we convert Iterator<CoverageAnnotation> to Iterator<Annotation>
-        return new TransformingIterator<>(annotations.iterator(), new Function<CoverageAnnotation, Annotation>() {
-            @Override
-            public Annotation apply(CoverageAnnotation coverageAnnotation) {
-                return coverageAnnotation;
-            }
-        });
+        return new TransformingIterator<>(annotations.iterator(), coverageAnnotation -> coverageAnnotation);
     }
 
     @Override

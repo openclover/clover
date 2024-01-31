@@ -28,15 +28,12 @@ public class SavingsNotificationContributionItem extends WorkbenchWindowControlC
     private final TestRunListener testRunListener = new TestRunListener() {
         @Override
         public void sessionStarted(final ITestRunSession isession) {
-            Display.getDefault().asyncExec(new Runnable() {
-                @Override
-                public void run() {
-                    final TestRunSession session = (TestRunSession) isession;
-                    dirty = true;
-                    // this is a test run without Clover optimization, clear stats
-                    if (!OptimizedLaunchingConstants.OPTIMIZED_MODE.equals(session.getLaunch().getLaunchMode())) {
-                        sessionIcon.refresh(null);
-                    }
+            Display.getDefault().asyncExec(() -> {
+                final TestRunSession session = (TestRunSession) isession;
+                dirty = true;
+                // this is a test run without Clover optimization, clear stats
+                if (!OptimizedLaunchingConstants.OPTIMIZED_MODE.equals(session.getLaunch().getLaunchMode())) {
+                    sessionIcon.refresh(null);
                 }
             });
         }
@@ -73,13 +70,10 @@ public class SavingsNotificationContributionItem extends WorkbenchWindowControlC
 
     @Override
     public void sessionFinished(final OptimizationSession session) {
-        Display.getDefault().asyncExec(new Runnable() {
-            @Override
-            public void run() {
-                lastOptimizationSession = session;
-                dirty = true;
-                sessionIcon.refresh(session);
-            }
+        Display.getDefault().asyncExec(() -> {
+            lastOptimizationSession = session;
+            dirty = true;
+            sessionIcon.refresh(session);
         });
     }
 

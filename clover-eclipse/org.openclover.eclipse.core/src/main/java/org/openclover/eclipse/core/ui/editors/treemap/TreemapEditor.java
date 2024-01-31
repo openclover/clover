@@ -91,12 +91,9 @@ public class TreemapEditor extends EditorPart {
         refreshButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent selectionEvent) {
-                Display.getDefault().asyncExec(new Runnable() {
-                    @Override
-                    public void run() {
-                        treeMap.setRoot(getRoot((CloverProjectInput)getEditorInput()));
-                        treeMap.redraw();
-                    }
+                Display.getDefault().asyncExec(() -> {
+                    treeMap.setRoot(getRoot((CloverProjectInput)getEditorInput()));
+                    treeMap.redraw();
                 });
             }
         });
@@ -192,12 +189,7 @@ public class TreemapEditor extends EditorPart {
     private void hookContextMenu() {
         MenuManager menuMgr = new MenuManager("#PopupMenu");
         menuMgr.setRemoveAllWhenShown(true);
-        menuMgr.addMenuListener(new IMenuListener() {
-            @Override
-            public void menuAboutToShow(IMenuManager manager) {
-                fillContextMenu(manager);
-            }
-        });
+        menuMgr.addMenuListener(manager -> fillContextMenu(manager));
         Menu menu = menuMgr.createContextMenu(treeMap);
         treeMap.setMenu(menu);
     }

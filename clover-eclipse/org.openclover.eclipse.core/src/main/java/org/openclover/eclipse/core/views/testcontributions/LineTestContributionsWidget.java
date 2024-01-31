@@ -30,21 +30,18 @@ public class LineTestContributionsWidget extends TestContributionsWidget {
                 @Override
                 public void done(IJobChangeEvent event) {
                     if (event.getResult().getSeverity() != Status.CANCEL) {
-                        Display.getDefault().syncExec(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    if (testsViewer.getContentProvider() != null
-                                        && testContributionsComputation != null
-                                        && viewPart.getViewSite().getPage().isPartVisible(viewPart)) {
-                                        if (testContributionsComputation.isInputChanged()) {
-                                            testsViewer.setInput(testContributionsComputation);
-                                        }
-                                        testContributionsComputation.prime(editor);
+                        Display.getDefault().syncExec(() -> {
+                            try {
+                                if (testsViewer.getContentProvider() != null
+                                    && testContributionsComputation != null
+                                    && viewPart.getViewSite().getPage().isPartVisible(viewPart)) {
+                                    if (testContributionsComputation.isInputChanged()) {
+                                        testsViewer.setInput(testContributionsComputation);
                                     }
-                                } catch (Exception e) {
-                                    CloverPlugin.logError("Unable to update line-based test contributions", e);
+                                    testContributionsComputation.prime(editor);
                                 }
+                            } catch (Exception e) {
+                                CloverPlugin.logError("Unable to update line-based test contributions", e);
                             }
                         });
 

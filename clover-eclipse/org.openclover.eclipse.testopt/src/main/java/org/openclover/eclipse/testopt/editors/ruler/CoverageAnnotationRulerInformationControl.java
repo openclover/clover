@@ -98,58 +98,50 @@ public class CoverageAnnotationRulerInformationControl extends
         nameColumn.getColumn().setResizable(true);
         nameColumn.setLabelProvider(new TestNameLabelProvider());
         
-        treeViewer.addDoubleClickListener(new IDoubleClickListener() {
-            
-            @Override
-            public void doubleClick(DoubleClickEvent event) {
-                Object o = ((StructuredSelection)event.getSelection()).getFirstElement();
-                if (o instanceof TestCaseInfo) {
-                    TestCaseInfo tci = (TestCaseInfo) o;
-                    final String pattern = tci.getSourceMethodName();
-                    SearchPattern searchPattern = SearchPattern.createPattern(pattern, IJavaSearchConstants.METHOD, IJavaSearchConstants.DECLARATIONS, SearchPattern.R_EXACT_MATCH|SearchPattern.R_CASE_SENSITIVE);
-                    IJavaSearchScope scope = SearchEngine.createWorkspaceScope();
-                    SearchRequestor requestor = new SearchRequestor() {
-                        
-                        @Override
-                        public void acceptSearchMatch(SearchMatch match) throws CoreException {
-                            final Object element = match.getElement();
-                            if (element instanceof IJavaElement) {
-                                JavaUI.openInEditor((IJavaElement) element);
-                            }
+        treeViewer.addDoubleClickListener(event -> {
+            Object o = ((StructuredSelection)event.getSelection()).getFirstElement();
+            if (o instanceof TestCaseInfo) {
+                TestCaseInfo tci = (TestCaseInfo) o;
+                final String pattern = tci.getSourceMethodName();
+                SearchPattern searchPattern = SearchPattern.createPattern(pattern, IJavaSearchConstants.METHOD, IJavaSearchConstants.DECLARATIONS, SearchPattern.R_EXACT_MATCH|SearchPattern.R_CASE_SENSITIVE);
+                IJavaSearchScope scope = SearchEngine.createWorkspaceScope();
+                SearchRequestor requestor = new SearchRequestor() {
+
+                    @Override
+                    public void acceptSearchMatch(SearchMatch match) throws CoreException {
+                        final Object element = match.getElement();
+                        if (element instanceof IJavaElement) {
+                            JavaUI.openInEditor((IJavaElement) element);
                         }
-                    };
-                    SearchEngine searchEngine = new SearchEngine();
-                    try {
-                        searchEngine.search(searchPattern, new SearchParticipant[] {SearchEngine.getDefaultSearchParticipant()}, scope, requestor, null);
-                    } catch (CoreException e) {
-                        e.printStackTrace();
                     }
-                } else {
-                    final TreePath[] paths = ((ITreeSelection)event.getViewer().getSelection()).getPaths();
-                    if (paths.length > 0) {
-                        if (treeViewer.getExpandedState(paths[0])) {
-                            treeViewer.collapseToLevel(paths[0], TreeViewer.ALL_LEVELS);
-                        } else {
-                            treeViewer.expandToLevel(paths[0], 1);
-                        }
+                };
+                SearchEngine searchEngine = new SearchEngine();
+                try {
+                    searchEngine.search(searchPattern, new SearchParticipant[] {SearchEngine.getDefaultSearchParticipant()}, scope, requestor, null);
+                } catch (CoreException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                final TreePath[] paths = ((ITreeSelection)event.getViewer().getSelection()).getPaths();
+                if (paths.length > 0) {
+                    if (treeViewer.getExpandedState(paths[0])) {
+                        treeViewer.collapseToLevel(paths[0], TreeViewer.ALL_LEVELS);
+                    } else {
+                        treeViewer.expandToLevel(paths[0], 1);
                     }
                 }
-                
             }
+
         });
-        treeViewer.getControl().addMouseMoveListener(new MouseMoveListener() {
-            
-            @Override
-            public void mouseMove(MouseEvent e) {
-                final Tree tree = treeViewer.getTree();
-                final TreeItem item = tree.getItem(new Point(e.x, e.y));
-                if (item != null && item.getData() instanceof TestCaseInfo) {
-                    if (tree.getCursor() == null) {
-                        tree.setCursor(tree.getDisplay().getSystemCursor(SWT.CURSOR_HAND));
-                    }
-                } else {
-                    tree.setCursor(null);
+        treeViewer.getControl().addMouseMoveListener(mouseEvent -> {
+            final Tree tree = treeViewer.getTree();
+            final TreeItem item = tree.getItem(new Point(mouseEvent.x, mouseEvent.y));
+            if (item != null && item.getData() instanceof TestCaseInfo) {
+                if (tree.getCursor() == null) {
+                    tree.setCursor(tree.getDisplay().getSystemCursor(SWT.CURSOR_HAND));
                 }
+            } else {
+                tree.setCursor(null);
             }
         });
         

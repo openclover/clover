@@ -131,13 +131,10 @@ public class TestOptimizationPreferencesControl extends Composite {
             if (editor == discardSnapshotEditor) {
                 discardSnapshotEditor.setPropertyChangeListener(listener == null
                         ? discardSnapshotAgeEnabler
-                        : new IPropertyChangeListener() {
-                    @Override
-                    public void propertyChange(PropertyChangeEvent event) {
-                        discardSnapshotAgeEnabler.propertyChange(event);
-                        listener.propertyChange(event);
-                    }
-                });
+                        : (IPropertyChangeListener) event -> {
+                            discardSnapshotAgeEnabler.propertyChange(event);
+                            listener.propertyChange(event);
+                        });
             } else {
                 editor.setPropertyChangeListener(listener);
             }

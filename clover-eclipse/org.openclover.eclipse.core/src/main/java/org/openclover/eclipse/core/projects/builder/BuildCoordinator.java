@@ -111,29 +111,26 @@ public class BuildCoordinator {
                             SubMonitor.convert(monitor, INSTRUMENTATION_PROGRESS),
                             buildKind);
 
-                    ResourcesPlugin.getWorkspace().run(new IWorkspaceRunnable() {
-                        @Override
-                        public void run(IProgressMonitor monitor) throws CoreException {
-                            try {
-                                compile(
-                                    workAreaPathMap,
-                                    instrumenter,
-                                    SubMonitor.convert(monitor, COMPILATION_PROGRESS));
-                            } finally {
-                                if (isPreserveInstrumentedSources()) {
-                                    File copyArea = createInstrSourcesCopyWorkArea();
-                                    try {
-                                        FileUtils.dirCopy(workArea, copyArea, false);
-                                        CloverPlugin.logInfo("CLOVER: Instrumented sources have been preserved in " + copyArea.getAbsolutePath());
-                                    } catch (IOException ex) {
-                                        CloverPlugin.logInfo("CLOVER: Failed to copy instrumented sources from "
-                                                + workArea.getAbsolutePath() + " to "
-                                                + copyArea.getAbsolutePath());
-                                    }
-                                } else {
-                                    CloverPlugin.logDebug("Removing instrumented sources from " + workArea.getAbsolutePath());
-                                    removeWorkArea(workArea, monitor);
+                    ResourcesPlugin.getWorkspace().run(monitor1 -> {
+                        try {
+                            compile(
+                                workAreaPathMap,
+                                instrumenter,
+                                SubMonitor.convert(monitor1, COMPILATION_PROGRESS));
+                        } finally {
+                            if (isPreserveInstrumentedSources()) {
+                                File copyArea = createInstrSourcesCopyWorkArea();
+                                try {
+                                    FileUtils.dirCopy(workArea, copyArea, false);
+                                    CloverPlugin.logInfo("CLOVER: Instrumented sources have been preserved in " + copyArea.getAbsolutePath());
+                                } catch (IOException ex) {
+                                    CloverPlugin.logInfo("CLOVER: Failed to copy instrumented sources from "
+                                            + workArea.getAbsolutePath() + " to "
+                                            + copyArea.getAbsolutePath());
                                 }
+                            } else {
+                                CloverPlugin.logDebug("Removing instrumented sources from " + workArea.getAbsolutePath());
+                                removeWorkArea(workArea, monitor1);
                             }
                         }
                     }, monitor);
@@ -502,18 +499,13 @@ public class BuildCoordinator {
         final boolean shouldClearCoverage;
         if (CloverPlugin.getInstance().getInstallationSettings().isPromptingOnRebuild()) {
             final MessageDialogWithCheckbox.Result result = new MessageDialogWithCheckbox.Result();
-            Display.getDefault().syncExec(new Runnable() {
-                @Override
-                public void run() {
-                    MessageDialogWithCheckbox.openQuestion(
-                        null,
-                        "Delete existing Clover coverage data?",
-                        "You are doing a rebuild, do you want delete the old coverage data for project \"" + project.getName() + "\"?",
-                        true,
-                        "Display this prompt again?", true,
-                        result);
-                }
-            });
+            Display.getDefault().syncExec(() -> MessageDialogWithCheckbox.openQuestion(
+                null,
+                "Delete existing Clover coverage data?",
+                "You are doing a rebuild, do you want delete the old coverage data for project \"" + project.getName() + "\"?",
+                true,
+                "Display this prompt again?", true,
+                result));
 
             shouldClearCoverage = result.isYesSelected();
 
@@ -533,15 +525,12 @@ public class BuildCoordinator {
 
             if (instrumentationOutput != null && instrumentationOutput.exists()) {
                 project.runOnWorkingDir(
-                    new CloverProject.Callable() {
-                        @Override
-                        public void call() throws CoreException {
+                        () -> {
                             //Resync with file system so deletes less likely to fail
                             instrumentationOutput.refreshLocal(IResource.DEPTH_INFINITE, monitor);
                             instrumentationOutput.accept(
                                 new CleaningVisitor(instrumentationOutput, monitor));
-                        }
-                    });
+                        });
             }
         } catch (Exception e) {
             CloverPlugin.logError("Unable to clean Clover output directory", e);

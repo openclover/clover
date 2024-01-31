@@ -106,30 +106,27 @@ public class ClassesTestedTreeProvider
             final CoverageData data = database.getCoverageData();
             final CoverageDataProvider testHits = new BitSetCoverageProvider(data.getHitsFor(testCasesSet), data);
             final CoverageDataProvider uniqueTestHits = new BitSetCoverageProvider(data.getUniqueHitsFor(testCasesSet), data);
-            appOnlyProject.getClasses(new HasMetricsFilter() {
-                @Override
-                public boolean accept(HasMetrics hm) {
-                     final FullClassInfo classInfo = (FullClassInfo) hm;
-                    try {
-                        final IType clazz = project.getJavaProject().findType(classInfo.getQualifiedName(), (IProgressMonitor)null);
-                        if (clazz != null) {
-                            //TODO: filter should be in accordance with global context filter
-                            maybeAddCoverageContributionNode(
-                                NodeBuilder.FOR_CLASSES,
-                                classInfo,
-                                clazz,
-                                classInfo.copy((FullFileInfo)classInfo.getContainingFile(), HasMetricsFilter.ACCEPT_ALL),
-                                testHits,
-                                uniqueTestHits,
-                                testedClassInfos);
-                        }
-                    } catch (Exception e) {
-                        CloverPlugin.logError("Unable to calculate classes tested", e);
+            appOnlyProject.getClasses(hm -> {
+                 final FullClassInfo classInfo = (FullClassInfo) hm;
+                try {
+                    final IType clazz = project.getJavaProject().findType(classInfo.getQualifiedName(), (IProgressMonitor)null);
+                    if (clazz != null) {
+                        //TODO: filter should be in accordance with global context filter
+                        maybeAddCoverageContributionNode(
+                            NodeBuilder.FOR_CLASSES,
+                            classInfo,
+                            clazz,
+                            classInfo.copy((FullFileInfo)classInfo.getContainingFile(), HasMetricsFilter.ACCEPT_ALL),
+                            testHits,
+                            uniqueTestHits,
+                            testedClassInfos);
                     }
-
-                    //We don't really want to collect, just visit
-                    return false;
+                } catch (Exception e) {
+                    CloverPlugin.logError("Unable to calculate classes tested", e);
                 }
+
+                //We don't really want to collect, just visit
+                return false;
             });
         }
         return testedClassInfos;
@@ -250,16 +247,13 @@ public class ClassesTestedTreeProvider
     public void selectionChanged(SelectionChangedEvent event) {
         if (event.getSelection() instanceof IStructuredSelection) {
             final Object selection = ((IStructuredSelection) event.getSelection()).getFirstElement();
-            Display.getDefault().asyncExec(new Runnable() {
-                @Override
-                public void run() {
-                    //We support any Java element or any TestCaseNodes (which wraps
-                    //IMethod, itself being a Java element)
-                    treeViewer.setInput(
-                        (asJavaElement(selection) == null)
-                            ? null
-                            : selection);
-                }
+            Display.getDefault().asyncExec(() -> {
+                //We support any Java element or any TestCaseNodes (which wraps
+                //IMethod, itself being a Java element)
+                treeViewer.setInput(
+                    (asJavaElement(selection) == null)
+                        ? null
+                        : selection);
             });
         }
     }
@@ -267,18 +261,8 @@ public class ClassesTestedTreeProvider
     private interface NodeBuilder {
         CoverageContributionNode build(IJavaElement element, float testContribution, float uniqueTestContribution, CoverageDataProvider testHits, CoverageDataProvider uniqueTestHits);
 
-        public static NodeBuilder FOR_CLASSES = new NodeBuilder() {
-            @Override
-            public CoverageContributionNode build(IJavaElement element, float testContribution, float uniqueTestContribution, CoverageDataProvider testHits, CoverageDataProvider uniqueTestHits) {
-                return new ClassCoverageContributionNode((IType)element, testContribution, uniqueTestContribution, testHits, uniqueTestHits);
-            }
-        };
+        public static NodeBuilder FOR_CLASSES = (element, testContribution, uniqueTestContribution, testHits, uniqueTestHits) -> new ClassCoverageContributionNode((IType)element, testContribution, uniqueTestContribution, testHits, uniqueTestHits);
 
-        public static NodeBuilder FOR_METHODS = new NodeBuilder() {
-            @Override
-            public CoverageContributionNode build(IJavaElement element, float testContribution, float uniqueTestContribution, CoverageDataProvider testHits, CoverageDataProvider uniqueTestHits) {
-                return new MethodCoverageContributionNode((IMethod)element, testContribution, uniqueTestContribution, testHits, uniqueTestHits);
-            }
-        };
+        public static NodeBuilder FOR_METHODS = (element, testContribution, uniqueTestContribution, testHits, uniqueTestHits) -> new MethodCoverageContributionNode((IMethod)element, testContribution, uniqueTestContribution, testHits, uniqueTestHits);
     }
 }

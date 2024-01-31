@@ -48,14 +48,11 @@ public abstract class BaseInstrumenter {
                 //Do model updates (but not saving) in UI thread to avoid MT problems but only if an incremental build
                 final ConcurrentInstrumentationException[] uiThreadException =
                     new ConcurrentInstrumentationException[] { null };
-                final Runnable finishWork = new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            session.close();
-                        } catch (ConcurrentInstrumentationException e) {
-                            uiThreadException[0] = e;
-                        }
+                final Runnable finishWork = () -> {
+                    try {
+                        session.close();
+                    } catch (ConcurrentInstrumentationException e) {
+                        uiThreadException[0] = e;
                     }
                 };
                 if (fullBuild) {

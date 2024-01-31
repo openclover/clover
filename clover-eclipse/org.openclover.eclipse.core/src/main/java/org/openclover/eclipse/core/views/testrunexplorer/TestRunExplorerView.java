@@ -112,18 +112,10 @@ public class TestRunExplorerView extends ExplorerView {
             }
         }
     };
-    public static final Comparator TESTCASE_COL_ELEMENT_FLAT_NAME_COMPARATOR = new Comparator() {
-        @Override
-        public int compare(Object object1, Object object2) {
-            return TestRunExplorerTreeComparator.compareTestCaseName(object1, object2, true);
-        }
-    };
-    public static final Comparator TESTCASE_COL_ELEMENT_FULL_NAME_COMPARATOR = new Comparator() {
-        @Override
-        public int compare(Object object1, Object object2) {
-            return TestRunExplorerTreeComparator.compareTestCaseName(object1, object2, false);
-        }
-    };
+    public static final Comparator TESTCASE_COL_ELEMENT_FLAT_NAME_COMPARATOR = (object1, object2) ->
+            TestRunExplorerTreeComparator.compareTestCaseName(object1, object2, true);
+    public static final Comparator TESTCASE_COL_ELEMENT_FULL_NAME_COMPARATOR = (object1, object2) ->
+            TestRunExplorerTreeComparator.compareTestCaseName(object1, object2, false);
 
     public static final BuiltinColumnDefinition TESTCASE_COL_STARTED = new BuiltinColumnDefinition(
         "TestCaseStarted",
@@ -164,12 +156,8 @@ public class TestRunExplorerView extends ExplorerView {
             return TESTCASE_COL_STARTED_COMPARATOR;
         }
     };
-    public static final Comparator TESTCASE_COL_STARTED_COMPARATOR = new Comparator() {
-        @Override
-        public int compare(Object object1, Object object2) {
-            return TestRunExplorerTreeComparator.compareStarted(object1,  object2);
-        }
-    };
+    public static final Comparator TESTCASE_COL_STARTED_COMPARATOR = (object1, object2) ->
+            TestRunExplorerTreeComparator.compareStarted(object1,  object2);
 
     public static final BuiltinColumnDefinition TESTCASE_COL_STATUS = new BuiltinColumnDefinition(
         "TestCaseStatus",
@@ -194,12 +182,9 @@ public class TestRunExplorerView extends ExplorerView {
             return TESTCASE_COL_STATUS_COMPARATOR;
         }
     };
-    public static final Comparator TESTCASE_COL_STATUS_COMPARATOR = new Comparator() {
-        @Override
-        public int compare(Object object1, Object object2) {
-            return TestRunExplorerTreeComparator.compareStatus(object1, object2);
-        }
-    };
+
+    public static final Comparator TESTCASE_COL_STATUS_COMPARATOR = (object1, object2) ->
+            TestRunExplorerTreeComparator.compareStatus(object1, object2);
 
     public static final BuiltinColumnDefinition TESTCASE_COL_TIME = new BuiltinColumnDefinition(
         "TestCaseTime",
@@ -239,12 +224,8 @@ public class TestRunExplorerView extends ExplorerView {
             return TESTCASE_COL_TIME_COMPARATOR;
         }
     };
-    public static final Comparator TESTCASE_COL_TIME_COMPARATOR = new Comparator() {
-        @Override
-        public int compare(Object object1, Object object2) {
-            return TestRunExplorerTreeComparator.compareTime(object1, object2);
-        }
-    };
+    public static final Comparator TESTCASE_COL_TIME_COMPARATOR = (object1, object2) ->
+            TestRunExplorerTreeComparator.compareTime(object1, object2);
 
     public static final BuiltinColumnDefinition TESTCASE_COL_MESSAGE = new BuiltinColumnDefinition(
         "TestCaseMessage",
@@ -292,12 +273,8 @@ public class TestRunExplorerView extends ExplorerView {
             return TESTCASE_COL_MESSAGE_COMPARATOR;
         }
     };
-    public static final Comparator TESTCASE_COL_MESSAGE_COMPARATOR = new Comparator() {
-        @Override
-        public int compare(Object object1, Object object2) {
-            return TestRunExplorerTreeComparator.compareMessage(object1, object2);
-        }
-    };
+    public static final Comparator TESTCASE_COL_MESSAGE_COMPARATOR = (object1, object2) ->
+            TestRunExplorerTreeComparator.compareMessage(object1, object2);
 
     public static final ColumnDefinition[] DEFAULT_TESTCASE_BUILTIN_COLUMN_DEFINITIONS = {
         TESTCASE_COL_ELEMENT,
@@ -357,12 +334,8 @@ public class TestRunExplorerView extends ExplorerView {
             return CONTRIB_COL_CLASS_COMPARATOR;
         }
     };
-    public static final Comparator CONTRIB_COL_CLASS_COMPARATOR = new Comparator() {
-        @Override
-        public int compare(Object object1, Object object2) {
-            return ClassesTestedTreeComparator.compareName(object1, object2);
-        }
-    };
+    public static final Comparator CONTRIB_COL_CLASS_COMPARATOR = (object1, object2) ->
+            ClassesTestedTreeComparator.compareName(object1, object2);
 
     public static final ColumnDefinition CONTRIB_COL_CONTRIB = new BuiltinColumnDefinition(
         "TestContribCoverage",
@@ -400,12 +373,8 @@ public class TestRunExplorerView extends ExplorerView {
             return CONTRIB_COL_CONTRIB_COMPARATOR;
         }
     };
-    public static final Comparator CONTRIB_COL_CONTRIB_COMPARATOR = new Comparator() {
-        @Override
-        public int compare(Object object1, Object object2) {
-            return ClassesTestedTreeComparator.compareContribCoverage(object1, object2);
-        }
-    };
+    public static final Comparator CONTRIB_COL_CONTRIB_COMPARATOR = (object1, object2) ->
+            ClassesTestedTreeComparator.compareContribCoverage(object1, object2);
 
     public static final ColumnDefinition CONTRIB_COL_UNIQUE = new BuiltinColumnDefinition(
         "TestContribUniqueCoverage",
@@ -446,12 +415,8 @@ public class TestRunExplorerView extends ExplorerView {
             return CONTRIB_COL_UNIQUE_COMPARATOR;
         }
     };
-    public static final Comparator CONTRIB_COL_UNIQUE_COMPARATOR = new Comparator() {
-        @Override
-        public int compare(Object object1, Object object2) {
-            return ClassesTestedTreeComparator.compareUniqueCoverage(object1, object2);
-        }
-    };
+    public static final Comparator CONTRIB_COL_UNIQUE_COMPARATOR = (object1, object2) ->
+            ClassesTestedTreeComparator.compareUniqueCoverage(object1, object2);
 
     public static final ColumnDefinition[] DEFAULT_BUILTIN_CONTRIB_COLUMNS = {
         CONTRIB_COL_CLASS,
@@ -477,29 +442,21 @@ public class TestRunExplorerView extends ExplorerView {
     private TreeViewer coverageContribPaneViewer;
     private Composite explorerTreePane;
     private Map testCaseNodeCache;
-    private ColumnController classesTestColumnController = new ColumnController() {
-        @Override
-        public void syncSorting() {
-            updateClassesTestedSorter();
-        }
-    };
+    private ColumnController classesTestColumnController = () -> updateClassesTestedSorter();
 
     @Override
     public void init(IViewSite site, IMemento memento) throws PartInitException {
         super.init(site, memento);
         testCaseNodeCache = Collections.synchronizedMap(new WeakHashMap());
-        settings = new TestRunExplorerViewSettings(memento, new TestCaseNodeFactory() {
-            @Override
-            public TestCaseNode newNode(TestCaseInfo tci, IMethod method) {
-                synchronized (testCaseNodeCache) {
-                    Integer hashCode = tci.hashCode();
-                    TestCaseNode tcn = (TestCaseNode) testCaseNodeCache.get(hashCode);
-                    if (tcn == null) {
-                        tcn = new TestCaseNode(method, tci);
-                        testCaseNodeCache.put(hashCode, tcn);
-                    }
-                    return tcn;
+        settings = new TestRunExplorerViewSettings(memento, (tci, method) -> {
+            synchronized (testCaseNodeCache) {
+                Integer hashCode = tci.hashCode();
+                TestCaseNode tcn = (TestCaseNode) testCaseNodeCache.get(hashCode);
+                if (tcn == null) {
+                    tcn = new TestCaseNode(method, tci);
+                    testCaseNodeCache.put(hashCode, tcn);
                 }
+                return tcn;
             }
         });
     }

@@ -178,15 +178,12 @@ public class CloverProject extends BaseNature {
         ensureWorkingDirCreated();
         ensureLastBuildStamped();
         ResourcesPlugin.getWorkspace().addResourceChangeListener(
-            new IResourceChangeListener() {
-                @Override
-                public void resourceChanged(IResourceChangeEvent event) {
+                event -> {
                     if (event.getResource().equals(project) && project.isOpen()) {
                         CloverPlugin.logVerbose("A Clover project is closing");
                         setModel(new ClosedDatabaseModel(CloverProject.this, CoverageModelChangeEvent.CLOSE(CloverProject.this)));
                     }
-                }
-            }, IResourceChangeEvent.PRE_CLOSE);
+                }, IResourceChangeEvent.PRE_CLOSE);
     }
 
     public void ensureWorkingDirCreated() {
@@ -393,24 +390,18 @@ public class CloverProject extends BaseNature {
     }
 
     public DatabaseModel getModel() {
-        return onPinnedModel(new ModelOperation<DatabaseModel>() {
-            @Override
-            public DatabaseModel run(DatabaseModel model) {
-                if (!model.isLoaded()) {
-                    model.loadDbAndCoverage(CoverageModelChangeEvent.IDLY(CloverProject.this));
-                }
-                return model;
+        return onPinnedModel(model -> {
+            if (!model.isLoaded()) {
+                model.loadDbAndCoverage(CoverageModelChangeEvent.IDLY(CloverProject.this));
             }
+            return model;
         });
     }
 
     public void setModel(final DatabaseModel update) {
-        onPinnedModel(new ModelOperation<Void>() {
-            @Override
-            public Void run(DatabaseModel model) {
-                maybeSetModel(model, update);
-                return null;
-            }
+        onPinnedModel((ModelOperation<Void>) model -> {
+            maybeSetModel(model, update);
+            return null;
         });
     }
 
@@ -422,12 +413,7 @@ public class CloverProject extends BaseNature {
      * @return true if the model was set, false otherwise
      */
     public boolean compareAndSetModel(final DatabaseModel expected, final DatabaseModel update) {
-        return onPinnedModel(new ModelOperation<Boolean>() {
-            @Override
-            public Boolean run(DatabaseModel model) {
-                return maybeSetModel(expected, update);
-            }
-        });
+        return onPinnedModel(model -> maybeSetModel(expected, update));
     }
 
     private boolean maybeSetModel(DatabaseModel expected, DatabaseModel update) {
@@ -457,17 +443,14 @@ public class CloverProject extends BaseNature {
         CloverDatabase database = null;
         do {
             final DatabaseModel loadedOrLoadingModel =
-                onPinnedModel(new ModelOperation<DatabaseModel>() {
-                    @Override
-                    public DatabaseModel run(DatabaseModel model) {
-                        if (model.isLoading() || model.isLoaded()) {
-                            return model;
-                        } else {
-                            model.loadDbAndCoverage(new CoverageModelChangeEvent(CloverProject.this, "Load-join", false));
-                            //*this* model is not loading, the next time around the loop, it may be. Return null to shortcut evaluation this round
-                            return null;
-                         }
-                    }
+                onPinnedModel(model -> {
+                    if (model.isLoading() || model.isLoaded()) {
+                        return model;
+                    } else {
+                        model.loadDbAndCoverage(new CoverageModelChangeEvent(CloverProject.this, "Load-join", false));
+                        //*this* model is not loading, the next time around the loop, it may be. Return null to shortcut evaluation this round
+                        return null;
+                     }
                 });
             if (loadedOrLoadingModel != null) {
                 if (loadedOrLoadingModel.isLoading()) {
@@ -516,41 +499,32 @@ public class CloverProject extends BaseNature {
     }
 
     public void refreshModel(final boolean forceModelReload, final boolean forceCoverageReload, final CoverageModelChangeEvent changeEvent) {
-        onPinnedModel(new ModelOperation<Void>() {
-            @Override
-            public Void run(DatabaseModel model) {
-                if ((forceModelReload || model.isRegistryOfDate()) && !model.isLoading()) {
-                    model.loadDbAndCoverage(changeEvent);
-                } else if ((forceCoverageReload || model.isCoverageOutOfDate()) && !model.isLoading()) {
-                    model.refreshCoverage(changeEvent);
-                }
-                return null;
+        onPinnedModel((ModelOperation<Void>) model -> {
+            if ((forceModelReload || model.isRegistryOfDate()) && !model.isLoading()) {
+                model.loadDbAndCoverage(changeEvent);
+            } else if ((forceCoverageReload || model.isCoverageOutOfDate()) && !model.isLoading()) {
+                model.refreshCoverage(changeEvent);
             }
+            return null;
         });
     }
 
     public void clearCoverage() {
-        onPinnedModel(new ModelOperation<Void>() {
-            @Override
-            public Void run(DatabaseModel model) {
-                model.loadDbAndCoverage(
-                    new CoverageModelChangeEvent(
-                        "Clearing coverage",
-                        true,
-                        new DatabasePreLoadDecorator[] { new CoverageClearerModelDecorator() },
-                        DatabasePostLoadDecorator.NONE));
-                return null;
-            }
+        onPinnedModel((ModelOperation<Void>) model -> {
+            model.loadDbAndCoverage(
+                new CoverageModelChangeEvent(
+                    "Clearing coverage",
+                    true,
+                    new DatabasePreLoadDecorator[] { new CoverageClearerModelDecorator() },
+                    DatabasePostLoadDecorator.NONE));
+            return null;
         });
     }
 
     private void closeCoverage() {
-        onPinnedModel(new ModelOperation<Void>() {
-            @Override
-            public Void run(DatabaseModel model) {
-                model.close(CoverageModelChangeEvent.CLOSE(CloverProject.this));
-                return null;
-            }
+        onPinnedModel((ModelOperation<Void>) model -> {
+            model.close(CoverageModelChangeEvent.CLOSE(CloverProject.this));
+            return null;
         });
     }
 
@@ -642,18 +616,13 @@ public class CloverProject extends BaseNature {
             return true;
         } catch (Throwable t) {
             CloverPlugin.logError("Error toggling Clover support", t);
-            Display.getDefault().syncExec(new Runnable() {
-                @Override
-                public void run() {
-                    MessageDialog.openError(
-                        shell,
-                        "Unable to " + (isProjectCloverEnabled[0] ? "disable" : "enable") + " Clover",
-                        "An error occurred while " + (isProjectCloverEnabled[0] ? "disabling" : "enabling") + " Clover on this project.\n" +
-                        "Please check that Eclipse has permission to write to the project directory, that\n" +
-                        "any Team plugins you use allow Eclipse to save the project file and then try\n" +
-                        "again.");
-                }
-            });
+            Display.getDefault().syncExec(() -> MessageDialog.openError(
+                shell,
+                "Unable to " + (isProjectCloverEnabled[0] ? "disable" : "enable") + " Clover",
+                "An error occurred while " + (isProjectCloverEnabled[0] ? "disabling" : "enabling") + " Clover on this project.\n" +
+                "Please check that Eclipse has permission to write to the project directory, that\n" +
+                "any Team plugins you use allow Eclipse to save the project file and then try\n" +
+                "again."));
             return false;
         }
     }
