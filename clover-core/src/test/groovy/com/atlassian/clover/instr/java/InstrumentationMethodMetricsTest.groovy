@@ -111,7 +111,7 @@ class InstrumentationMethodMetricsTest extends InstrumentationTestBase {
     }
 
     @Test
-    void testMethodMetricsForSwitchStatements() throws Exception {
+    void testMethodMetricsForColonBasedSwitchStatements() throws Exception {
         // NOTICE: code metrics for colon-based and lambda-based switch blocks are different!
 
         // switch with colon cases
@@ -147,7 +147,10 @@ class InstrumentationMethodMetricsTest extends InstrumentationTestBase {
                             c();
                     }
                 }""", 5, 0, 3)
+    }
 
+    @Test
+    void testMethodMetricsForLambdaBasedSwitchStatements() throws Exception {
         // switch with lambda cases
         // because lambda cases cannot be grouped, each case label is associated with a separate code block
         // and each of them is the only entry point to that block; therefore, the case label itself is
@@ -167,7 +170,10 @@ class InstrumentationMethodMetricsTest extends InstrumentationTestBase {
                         case 2 -> c();
                     }
                 }""", 3, 0, 2)
+    }
 
+    @Test
+    void testSwitchStatementsInBothFormsHaveEquivalentCyclomaticComplexity() throws Exception {
         // expressions with switch expressions inside
         // notice that in samples below both forms have the same cyclomatic complexity,
         // although number of statements can differ, as explained above
@@ -188,7 +194,10 @@ class InstrumentationMethodMetricsTest extends InstrumentationTestBase {
                         default: throw new IllegalArgumentException(); 
                     };
                 }""", 7, 0, 3)
+    }
 
+    @Test
+    void testCyclomaticComplexityForColonBasedSwitchStatementsWithHiddenPaths() throws Exception {
         // colon-based switch statements with hidden branches
         // the colon-based switch does not require to cover all possible values,
         // the 'default' keyword is also optional, so there might be an "invisible" branch
@@ -220,6 +229,26 @@ class InstrumentationMethodMetricsTest extends InstrumentationTestBase {
                         /* no "invisible" path */ 
                     };
                 }""", 4, 0, 1)
+    }
+
+    @Test
+    void testCyclomaticComplexityIsPropagatedForArgumentLists() throws Exception {
+        checkMethodMetrics(
+                """void A(int j) {          // 1 from method
+                    foo(                    // statement
+                        switch(j) {         // 1 cycle
+                            case 0 -> 10;   // statement
+                            default -> 99;  // statement
+                        },
+                        switch(j) {         // 2 cycles
+                            case 0 -> 10;   // statement
+                            case 1 -> 20;   // statement
+                            default -> 99;  // statement
+                        },
+                        switch(j) {         // 0 cycles
+                            default -> 99;  // statement
+                        });
+                }""", 7, 0, 4)
     }
 
     @Test
