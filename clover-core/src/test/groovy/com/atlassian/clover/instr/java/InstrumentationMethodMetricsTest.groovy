@@ -233,6 +233,7 @@ class InstrumentationMethodMetricsTest extends InstrumentationTestBase {
 
     @Test
     void testCyclomaticComplexityIsPropagatedForArgumentLists() throws Exception {
+        // arg list in method calls
         checkMethodMetrics(
                 """void A(int j) {          // 1 from method
                     foo(                    // statement
@@ -249,6 +250,17 @@ class InstrumentationMethodMetricsTest extends InstrumentationTestBase {
                             default -> 99;  // statement
                         });
                 }""", 7, 0, 4)
+
+        // arg list in constructor calls
+        checkMethodMetrics(
+                """void A(int j) {          // 1 from method
+                    super(                  // statement
+                        switch(j) {         // 2 cycles
+                            case 0 -> 10;   // statement
+                            case 1 -> 20;   // statement
+                            default -> 99;  // statement
+                        });
+                }""", 4, 0, 3)
     }
 
     @Test
