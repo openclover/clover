@@ -457,12 +457,8 @@ public class CoverageTreeModel {
         }
     }
 
-    private static final Comparator<HasMetrics> HASMETRICS_COMPARATOR = new Comparator<HasMetrics>() {
-        @Override
-        public int compare(HasMetrics o1, HasMetrics o2) {
-            return o1.getName().compareToIgnoreCase(o2.getName());
-        }
-    };
+    private static final Comparator<HasMetrics> HASMETRICS_COMPARATOR = (o1, o2) ->
+            o1.getName().compareToIgnoreCase(o2.getName());
 
 
     /**

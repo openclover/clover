@@ -60,17 +60,10 @@ public class LibrarySupportIdeaTest extends IdeaTestCase {
         final Module module = getModule();
 
         final LibraryTable table = LibraryTablesRegistrar.getInstance().getLibraryTable();
-        final Library existing = ApplicationManager.getApplication().runWriteAction(new Computable<Library>() {
-            @Override
-            public Library compute() {
-                return table.createLibrary("Existing Library");
-            }
-        });
-        ApplicationManager.getApplication().runWriteAction(new Runnable() {
-            @Override
-            public void run() {
-                LibrarySupport.addLibraryTo(existing, module);
-            }
+        final Library existing = ApplicationManager.getApplication()
+                .runWriteAction((Computable<Library>) () -> table.createLibrary("Existing Library"));
+        ApplicationManager.getApplication().runWriteAction(() -> {
+            LibrarySupport.addLibraryTo(existing, module);
         });
 
         wrapAdd(module);
@@ -84,17 +77,10 @@ public class LibrarySupportIdeaTest extends IdeaTestCase {
 
         final LibraryTable table = LibraryTablesRegistrar.getInstance().getLibraryTable();
         wrapAdd(module);
-        final Library existing = ApplicationManager.getApplication().runWriteAction(new Computable<Library>() {
-            @Override
-            public Library compute() {
-                return table.createLibrary("Existing Library");
-            }
-        });
-        ApplicationManager.getApplication().runWriteAction(new Runnable() {
-            @Override
-            public void run() {
-                LibrarySupport.addLibraryTo(existing, module);
-            }
+        final Library existing = ApplicationManager.getApplication()
+                .runWriteAction((Computable<Library>) () -> table.createLibrary("Existing Library"));
+        ApplicationManager.getApplication().runWriteAction(() -> {
+            LibrarySupport.addLibraryTo(existing, module);
         });
 
         // check preconditions
@@ -104,7 +90,6 @@ public class LibrarySupportIdeaTest extends IdeaTestCase {
         wrapAdd(module);
         final OrderEntry[] orderEntries2 = ModuleRootManager.getInstance(module).getOrderEntries();
         assertEquals(testLibrary, ((LibraryOrderEntry)orderEntries2[0]).getLibrary());
-
     }
 
     private boolean isIdea13_0_x() {
@@ -116,24 +101,21 @@ public class LibrarySupportIdeaTest extends IdeaTestCase {
         // running test inside write action because getValidatedCloverLibrary can call createCloverLibrary which is a
         // write operation; in real application we call getValidatedCloverLibrary from the addCloverLibrary which is
         // encapsulated already
-        ApplicationTestHelper.runWriteAction(new ApplicationTestHelper.Action() {
-            @Override
-            public void run() throws Exception {
-                if (!isIdea13_0_x()) { // normal behaviour for all versions != IDEA 13.0.x
-                    Library library = LibrarySupport.getValidatedCloverLibrary();
-                    VirtualFile[] virtualFiles = library.getRootProvider().getFiles(OrderRootType.CLASSES);
-                    assertEquals(1, virtualFiles.length);
+        ApplicationTestHelper.runWriteAction(() -> {
+            if (!isIdea13_0_x()) { // normal behaviour for all versions != IDEA 13.0.x
+                Library library = LibrarySupport.getValidatedCloverLibrary();
+                VirtualFile[] virtualFiles = library.getRootProvider().getFiles(OrderRootType.CLASSES);
+                assertEquals(1, virtualFiles.length);
 
-                    // check that the library path has matches the location of the CoverageRecorder.class, i.e.:
-                    // recorderClassUrl=file:/{virtualFiles[0].getPath()}/com_atlassian_clover/CoverageRecorder.class
-                    final Class recorderClass = com_atlassian_clover.CoverageRecorder.class;
-                    final String path = "/" + recorderClass.getName().replace('.', '/') + ".class";
-                    final URL recorderClassUrl = recorderClass.getResource(path);
-                    assertTrue(recorderClassUrl.toString().contains(virtualFiles[0].getPath()));
+                // check that the library path has matches the location of the CoverageRecorder.class, i.e.:
+                // recorderClassUrl=file:/{virtualFiles[0].getPath()}/com_atlassian_clover/CoverageRecorder.class
+                final Class recorderClass = com_atlassian_clover.CoverageRecorder.class;
+                final String path = "/" + recorderClass.getName().replace('.', '/') + ".class";
+                final URL recorderClassUrl = recorderClass.getResource(path);
+                assertTrue(recorderClassUrl.toString().contains(virtualFiles[0].getPath()));
 
-                    // cleanup
-                    deleteTestLibrary(library);
-                }
+                // cleanup
+                deleteTestLibrary(library);
             }
         });
     }
@@ -142,24 +124,21 @@ public class LibrarySupportIdeaTest extends IdeaTestCase {
         // running test inside write action because getValidatedCloverLibrary can call createCloverLibrary which is a
         // write operation; in real application we call getValidatedCloverLibrary from the addCloverLibrary which is
         // encapsulated already
-        ApplicationTestHelper.runWriteAction(new ApplicationTestHelper.Action() {
-            @Override
-            public void run() throws Exception {
-                if (isIdea13_0_x()) { // workaround is for IDEA 13.0.x only
-                    Library library = LibrarySupport.getValidatedCloverLibrary();
-                    VirtualFile[] virtualFiles = library.getRootProvider().getFiles(OrderRootType.CLASSES);
-                    assertEquals(1, virtualFiles.length);
+        ApplicationTestHelper.runWriteAction(() -> {
+            if (isIdea13_0_x()) { // workaround is for IDEA 13.0.x only
+                Library library = LibrarySupport.getValidatedCloverLibrary();
+                VirtualFile[] virtualFiles = library.getRootProvider().getFiles(OrderRootType.CLASSES);
+                assertEquals(1, virtualFiles.length);
 
-                    // check that the library path is located in the temporary directory, i.e.:
-                    // virtualFiles[0].getPath={java.io.tmpdir}/clover-idea.jar
-                    // ignore file separator ("\" vs "/") and a letter case ("C:" vs "c:" on windows) in this test
-                    assertThat(FileUtils.getNormalizedPath(virtualFiles[0].getPath()).toLowerCase(Locale.ENGLISH),
-                            startsWith(
-                                    FileUtils.getNormalizedPath(System.getProperty("java.io.tmpdir")).toLowerCase(Locale.ENGLISH)));
+                // check that the library path is located in the temporary directory, i.e.:
+                // virtualFiles[0].getPath={java.io.tmpdir}/clover-idea.jar
+                // ignore file separator ("\" vs "/") and a letter case ("C:" vs "c:" on windows) in this test
+                assertThat(FileUtils.getNormalizedPath(virtualFiles[0].getPath()).toLowerCase(Locale.ENGLISH),
+                        startsWith(
+                                FileUtils.getNormalizedPath(System.getProperty("java.io.tmpdir")).toLowerCase(Locale.ENGLISH)));
 
-                    // cleanup
-                    deleteTestLibrary(library);
-                }
+                // cleanup
+                deleteTestLibrary(library);
             }
         });
     }
@@ -209,21 +188,13 @@ public class LibrarySupportIdeaTest extends IdeaTestCase {
     }
 
     private boolean wrapAdd(final Module module) {
-        return ApplicationManager.getApplication().runWriteAction(new Computable<Boolean>() {
-            @Override
-            public Boolean compute() {
-                return LibrarySupport.addLibraryTo(testLibrary, module);
-            }
-        });
+        return ApplicationManager.getApplication()
+                .runWriteAction((Computable<Boolean>) () -> LibrarySupport.addLibraryTo(testLibrary, module));
     }
 
     private boolean wrapRemove(final Module module) {
-        return ApplicationManager.getApplication().runWriteAction(new Computable<Boolean>() {
-            @Override
-            public Boolean compute() {
-                return LibrarySupport.removeLibraryFrom(module, LIB_NAME);
-            }
-        });
+        return ApplicationManager.getApplication()
+                .runWriteAction((Computable<Boolean>) () -> LibrarySupport.removeLibraryFrom(module, LIB_NAME));
     }
 
 
@@ -239,22 +210,12 @@ public class LibrarySupportIdeaTest extends IdeaTestCase {
 
     private static Library createTestLibrary() {
         final LibraryTable table = LibraryTablesRegistrar.getInstance().getLibraryTable();
-        return ApplicationManager.getApplication().runWriteAction(new Computable<Library>() {
-            @Override
-            public Library compute() {
-                return table.createLibrary(LIB_NAME);
-            }
-        });
+        return ApplicationManager.getApplication().runWriteAction((Computable<Library>) () -> table.createLibrary(LIB_NAME));
     }
 
     private static void deleteTestLibrary(final Library lib) {
         final LibraryTable table = LibraryTablesRegistrar.getInstance().getLibraryTable();
-        ApplicationManager.getApplication().runWriteAction(new Runnable() {
-            @Override
-            public void run() {
-                table.removeLibrary(lib);
-            }
-        });
+        ApplicationManager.getApplication().runWriteAction(() -> table.removeLibrary(lib));
 
     }
 }

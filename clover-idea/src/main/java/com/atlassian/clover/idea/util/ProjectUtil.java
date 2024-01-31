@@ -40,13 +40,10 @@ public class ProjectUtil {
             throw new IllegalArgumentException("Project argument can not be null.");
         }
         Application app = ApplicationManager.getApplication();
-        return app.runReadAction(new Computable<File>() {
-            @Override
-            public File compute() {
-                final VirtualFile baseDir = project.getBaseDir();
-                final String basePath = baseDir != null ? baseDir.getPath() : FileUtil.getTempDirectory();
-                return new File(basePath);
-            }
+        return app.runReadAction((Computable<File>) () -> {
+            final VirtualFile baseDir = project.getBaseDir();
+            final String basePath = baseDir != null ? baseDir.getPath() : FileUtil.getTempDirectory();
+            return new File(basePath);
         });
     }
 
@@ -59,12 +56,9 @@ public class ProjectUtil {
      */
     public static File getModuleWorkspace(final Module module) {
         Application app = ApplicationManager.getApplication();
-        return app.runReadAction(new Computable<File>() {
-            @Override
-            public File compute() {
-                File projectWksp = getProjectWorkspace(module.getProject());
-                return new File(projectWksp, module.getName());
-            }
+        return app.runReadAction((Computable<File>) () -> {
+            File projectWksp = getProjectWorkspace(module.getProject());
+            return new File(projectWksp, module.getName());
         });
     }
 

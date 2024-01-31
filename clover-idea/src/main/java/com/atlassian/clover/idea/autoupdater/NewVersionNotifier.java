@@ -87,12 +87,7 @@ public class NewVersionNotifier implements ProjectComponent {
         if (statusBar != null) {
             // add a widget only if was not added before (as method may be called multiple times)
             if (notificationIconWidget == null) {
-                notificationIconWidget = new StatusBarCloverIconWidget(new Consumer<MouseEvent>() {
-                    @Override
-                    public void consume(MouseEvent mouseEvent) {
-                        popNotificationDialog();
-                    }
-                });
+                notificationIconWidget = new StatusBarCloverIconWidget(mouseEvent -> popNotificationDialog());
                 statusBar.addWidget(notificationIconWidget);
                 // force immediate refresh to show new icon
                 final JFrame projectFrame = windowManager.getFrame(project);

@@ -122,13 +122,7 @@ public class TestRunExplorerToolWindow extends JPanel implements CoverageListene
     @Override
     public synchronized void update(final CloverDatabase db) {
         currentCloverDatabase = db;
-        ApplicationManager.getApplication().invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                doUpdate();
-
-            }
-        });
+        ApplicationManager.getApplication().invokeLater(() -> doUpdate());
     }
 
     private TestViewScope testViewScope;
@@ -279,15 +273,12 @@ public class TestRunExplorerToolWindow extends JPanel implements CoverageListene
     public synchronized void scheduleUpdate() {
         if (!scheduledCalculationPending) {
             scheduledCalculationPending = true;
-            ApplicationManager.getApplication().invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    synchronized (TestRunExplorerToolWindow.this) {
-                        // dont loose updates scheduled when calculateTestCoverage is already running
-                        scheduledCalculationPending = false;
-                    }
-                    doUpdate();
+            ApplicationManager.getApplication().invokeLater(() -> {
+                synchronized (TestRunExplorerToolWindow.this) {
+                    // dont loose updates scheduled when calculateTestCoverage is already running
+                    scheduledCalculationPending = false;
                 }
+                doUpdate();
             });
         }
     }

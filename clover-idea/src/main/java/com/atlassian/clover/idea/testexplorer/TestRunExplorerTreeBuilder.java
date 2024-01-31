@@ -270,12 +270,7 @@ public class TestRunExplorerTreeBuilder {
             final DefaultMutableTreeNode node = new DefaultMutableTreeNode(tci);
             nodes.add(node);
             if (tci instanceof DecoratedTestCaseInfo) {
-                ((DecoratedTestCaseInfo)tci).setAsyncUpdate(new Runnable() {
-                    @Override
-                    public void run() {
-                        sortableModel.nodeChanged(node);
-                    }
-                });
+                ((DecoratedTestCaseInfo)tci).setAsyncUpdate(() -> sortableModel.nodeChanged(node));
             }
         }
         sortableModel.sortNodes(nodes);

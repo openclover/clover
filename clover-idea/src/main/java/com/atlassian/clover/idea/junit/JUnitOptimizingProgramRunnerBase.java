@@ -154,12 +154,7 @@ public class JUnitOptimizingProgramRunnerBase implements SavingsReporter {
      */
     private void reportSavings(@NotNull final Project project, @NotNull final String optimizationMessage) {
         if (!ApplicationManager.getApplication().isDispatchThread()) {
-            ApplicationManager.getApplication().invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    reportSavings(project, optimizationMessage);
-                }
-            });
+            ApplicationManager.getApplication().invokeLater(() -> reportSavings(project, optimizationMessage));
         } else {
             final String windowId = ExecutorRegistry.getInstance().getExecutorById(CloverTestOptimizationExecutor.EXECUTOR_ID).getToolWindowId();
             ToolWindowManager.getInstance(project).notifyByBalloon(windowId, MessageType.INFO, optimizationMessage, CloverIcons.CLOVER_BIG, null);

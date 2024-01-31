@@ -72,12 +72,8 @@ public class ProjectConfigPanel extends JPanel implements ActionListener, Config
         getEnablePanel().getEnabledInput().addActionListener(this);
         ideaCloverConfig.addConfigChangeListener(this);
 
-        getTabbedContent().getModel().addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                ideaCloverConfig.setLastProjectConfigTabSelected(getTabbedContent().getSelectedIndex());
-            }
-        });
+        getTabbedContent().getModel().addChangeListener(changeEvent ->
+                ideaCloverConfig.setLastProjectConfigTabSelected(getTabbedContent().getSelectedIndex()));
     }
 
     private EnabledConfigPanel getEnablePanel() {

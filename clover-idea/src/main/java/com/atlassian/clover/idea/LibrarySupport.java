@@ -100,14 +100,11 @@ public class LibrarySupport {
             if (targetVf == null) {
                 // VirtualFileManager.refreshAndFindFileByUrl must run inside a write action
                 final VirtualFile[] vf = new VirtualFile[1];
-                MiscUtils.invokeWriteActionAndWait(new Runnable() {
-                    @Override
-                    public void run() {
-                        LOG.debug("Clover: VfsUtil.findFileByURL(\"" + targetUrl + "\") returned null. Refreshing VFS.");
-                        // VirtualFileManager expects "file:///path/to/clover.jar" and not "file:/path/to/clover.jar"
-                        String targetUrlFix = targetUrl.toString().replace("file:/", "file:///");
-                        vf[0] = VirtualFileManager.getInstance().refreshAndFindFileByUrl(targetUrlFix);
-                    }
+                MiscUtils.invokeWriteActionAndWait(() -> {
+                    LOG.debug("Clover: VfsUtil.findFileByURL(\"" + targetUrl + "\") returned null. Refreshing VFS.");
+                    // VirtualFileManager expects "file:///path/to/clover.jar" and not "file:/path/to/clover.jar"
+                    String targetUrlFix = targetUrl.toString().replace("file:/", "file:///");
+                    vf[0] = VirtualFileManager.getInstance().refreshAndFindFileByUrl(targetUrlFix);
                 });
                 targetVf = vf[0];
 

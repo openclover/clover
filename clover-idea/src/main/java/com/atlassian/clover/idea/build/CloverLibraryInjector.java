@@ -40,18 +40,15 @@ public class CloverLibraryInjector implements ConfigChangeListener {
     }
 
     private void addCloverLibrary(final Module[] modules) {
-        final Runnable addLibrary = new Runnable() {
-            @Override
-            public void run() {
-                final Library cloverLibrary = LibrarySupport.getValidatedCloverLibrary();
-                boolean isModified = false;
-                for (Module module : modules) {
-                    isModified |= LibrarySupport.addLibraryTo(cloverLibrary, module);
-                }
-                // force saving project changes into disk (for external build)
-                if (isModified) {
-                    project.save();
-                }
+        final Runnable addLibrary = () -> {
+            final Library cloverLibrary = LibrarySupport.getValidatedCloverLibrary();
+            boolean isModified = false;
+            for (Module module : modules) {
+                isModified |= LibrarySupport.addLibraryTo(cloverLibrary, module);
+            }
+            // force saving project changes into disk (for external build)
+            if (isModified) {
+                project.save();
             }
         };
 
@@ -65,17 +62,14 @@ public class CloverLibraryInjector implements ConfigChangeListener {
     }
 
     private void removeCloverLibrary(final Module[] modules) {
-        final Runnable removeLibrary = new Runnable() {
-            @Override
-            public void run() {
-                boolean isModified = false;
-                for (Module module : modules) {
-                    isModified |= LibrarySupport.removeCloverLibraryFrom(module);
-                }
-                // force saving project changes into disk (for external build)
-                if (isModified) {
-                    project.save();
-                }
+        final Runnable removeLibrary = () -> {
+            boolean isModified = false;
+            for (Module module : modules) {
+                isModified |= LibrarySupport.removeCloverLibraryFrom(module);
+            }
+            // force saving project changes into disk (for external build)
+            if (isModified) {
+                project.save();
             }
         };
 

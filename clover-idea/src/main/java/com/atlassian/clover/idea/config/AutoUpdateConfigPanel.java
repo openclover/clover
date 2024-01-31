@@ -41,24 +41,17 @@ public class AutoUpdateConfigPanel extends JPanel {
 
         add(new JPanel(), new GBC(0, 1).setWeight(1, 1).setFill(GBC.BOTH));
 
-        checkNow.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                final NewVersionNotifier notifier = getAnyNotifier();
-                if (notifier != null) {
-                    notifier.checkNow();
-                }
+        checkNow.addActionListener(e -> {
+            final NewVersionNotifier notifier = getAnyNotifier();
+            if (notifier != null) {
+                notifier.checkNow();
             }
         });
 
-        downloadManually.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                final String url = Messages.showInputDialog(CloverIdeaPluginMessages.getString("autoupdate.enterurl"), CloverIdeaPluginMessages.getString("autoupdate.updatingplugin"), CloverIcons.CLOVER_BIG);
-                if (url != null) {
-                    AutoUpdateComponent.getInstance().performUpdate(url);
-                }
+        downloadManually.addActionListener(e -> {
+            final String url = Messages.showInputDialog(CloverIdeaPluginMessages.getString("autoupdate.enterurl"), CloverIdeaPluginMessages.getString("autoupdate.updatingplugin"), CloverIcons.CLOVER_BIG);
+            if (url != null) {
+                AutoUpdateComponent.getInstance().performUpdate(url);
             }
         });
     }

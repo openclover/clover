@@ -69,12 +69,7 @@ public class ProjectPlugin implements IProjectPlugin, ProjectComponent, ModuleRo
         this.project = project;
         config = IdeaCloverConfig.fromProject(this.project);
 
-        StartupManager.getInstance(project).runWhenProjectIsInitialized(new Runnable() {
-            @Override
-            public void run() {
-                projectPostStartup();
-            }
-        });
+        StartupManager.getInstance(project).runWhenProjectIsInitialized(() -> projectPostStartup());
     }
 
     /**
@@ -223,12 +218,7 @@ public class ProjectPlugin implements IProjectPlugin, ProjectComponent, ModuleRo
             if (ApplicationManager.getApplication().isDispatchThread()) {
                 cManager.reload();
             } else {
-                ApplicationManager.getApplication().invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        cManager.reload();
-                    }
-                });
+                ApplicationManager.getApplication().invokeLater(() -> cManager.reload());
             }
 
             PropertyCoverageMonitor monitor = new PropertyCoverageMonitor(config);

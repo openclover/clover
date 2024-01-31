@@ -84,24 +84,14 @@ public class CloverPluginDownloader extends Task.Backgroundable {
             FileUtil.copy(tempFile, newFile);
             LOG.info("Scheduling deletion of " + currentFile);
             StartupActionScriptManager.addActionCommand(new StartupActionScriptManager.DeleteCommand(currentFile));
-            ApplicationManager.getApplication().invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    onTrueSuccess();
-                }
-            });
+            ApplicationManager.getApplication().invokeLater(() -> onTrueSuccess());
 
         } catch (final Exception e) {
 
             final boolean isCancelled = e instanceof ProcessCanceledException;
             if (!isCancelled) {
                 Logger.getInstance().info("Exception during new version download", e);
-                ApplicationManager.getApplication().invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        onFailure(e);
-                    }
-                });
+                ApplicationManager.getApplication().invokeLater(() -> onFailure(e));
             }
 
             IOStreamUtils.close(os);

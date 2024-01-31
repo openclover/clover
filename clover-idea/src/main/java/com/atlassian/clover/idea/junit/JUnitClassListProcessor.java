@@ -64,12 +64,7 @@ public class JUnitClassListProcessor {
         final Collection<Optimizable> optimized = optimize(currentProject, optimizationSettings, underTest, sessionHolder);
         if (optimized.size() == 0) {
             if (!ApplicationManager.getApplication().isDispatchThread()) {
-                ApplicationManager.getApplication().invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        NoTestsFoundNotification.showNotifications();
-                    }
-                });
+                ApplicationManager.getApplication().invokeLater(() -> NoTestsFoundNotification.showNotifications());
             } else {
                 NoTestsFoundNotification.showNotifications();
             }
@@ -86,25 +81,21 @@ public class JUnitClassListProcessor {
             final String msg = "Clover coverage database not found for project '" + project.getName() + "'\n\n"
                     + "Have you enabled Build with Clover on this project?";
             Logger.getInstance().info(msg);
-            ApplicationManager.getApplication().invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    ToolWindowManager.getInstance(project).notifyByBalloon(CloverToolWindowId.TOOL_WINDOW_ID,
-                                                                                  MessageType.WARNING,
-                                                                                  msg);
-                }
-            });
+            ApplicationManager.getApplication().invokeLater(() ->
+                    ToolWindowManager
+                            .getInstance(project)
+                            .notifyByBalloon(CloverToolWindowId.TOOL_WINDOW_ID, MessageType.WARNING, msg));
             return optimizables;
         }
 
         final String initString = database.getInitstring();
         final OptimizationOptions optimizationOptions =
-            new OptimizationOptions.Builder()
-                .optimizableName("class")
-                .initString(initString)
-                .reorder(settings.getReorder())
-                .maxCompilesBeforeStaleSnapshot(settings.isDiscardSnapshots() ? settings.getCompilesBeforeStaleSnapshot() : Integer.MAX_VALUE)
-                .minimize(settings.isMinimize()).build();
+                new OptimizationOptions.Builder()
+                        .optimizableName("class")
+                        .initString(initString)
+                        .reorder(settings.getReorder())
+                        .maxCompilesBeforeStaleSnapshot(settings.isDiscardSnapshots() ? settings.getCompilesBeforeStaleSnapshot() : Integer.MAX_VALUE)
+                        .minimize(settings.isMinimize()).build();
 
         final Snapshot snapshot;
         final SnapshotFileMutex mutex = ServiceManager.getService(SnapshotFileMutex.class);
@@ -136,14 +127,14 @@ public class JUnitClassListProcessor {
         }
 
         sessionHolder[0] = new OptimizationSession(optimizationOptions);
-        @SuppressWarnings({"unchecked"})
-        final List<Optimizable> optimized = optimizer.optimize(optimizables, sessionHolder[0]);
+        @SuppressWarnings({"unchecked"}) final List<Optimizable> optimized = optimizer.optimize(optimizables, sessionHolder[0]);
         return optimized;
     }
 
     /**
      * Read lines from the file and wrap them as Optimizable adapter
-     * @param tmpFile file to read lines from
+     *
+     * @param tmpFile      file to read lines from
      * @param headerHolder first 2 lines of the file would go there
      * @return list of optimizables or null if the file cannot be run
      * @throws java.io.IOException when reading the temporary manifest file

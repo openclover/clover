@@ -26,13 +26,9 @@ public class HTMLDialog extends DialogWrapper {
         super(false);
         setTitle(title);
         this.text = text;
-        this.hyperlinkListener = new HyperlinkListener() {
-
-            @Override
-            public void hyperlinkUpdate(HyperlinkEvent e) {
-                if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-                    BrowserUtil.browse(e.getURL());
-                }
+        this.hyperlinkListener = hyperlinkEvent -> {
+            if (hyperlinkEvent.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+                BrowserUtil.browse(hyperlinkEvent.getURL());
             }
         };
 

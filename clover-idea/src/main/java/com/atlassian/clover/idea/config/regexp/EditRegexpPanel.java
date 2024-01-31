@@ -96,12 +96,7 @@ public class EditRegexpPanel extends JPanel implements Observer {
         getNameField().getDocument().addDocumentListener(l);
         getRegexpField().getDocument().addDocumentListener(l);
 
-        final ActionListener al = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                handleEditUiUpdate();
-            }
-        };
+        final ActionListener al = e -> handleEditUiUpdate();
         getTypeComboBox().addActionListener(al);
 
     }
@@ -211,12 +206,9 @@ public class EditRegexpPanel extends JPanel implements Observer {
 
             setRegexpHelp(ContextFilterRegexpType.Method);
 
-            typeComboBox.addItemListener(new ItemListener() {
-                @Override
-                public void itemStateChanged(ItemEvent e) {
-                    if (e.getStateChange() == ItemEvent.SELECTED) {
-                        setRegexpHelp(ContextFilterRegexpType.valueOf(e.getItem().toString()));
-                    }
+            typeComboBox.addItemListener(itemEvent -> {
+                if (itemEvent.getStateChange() == ItemEvent.SELECTED) {
+                    setRegexpHelp(ContextFilterRegexpType.valueOf(itemEvent.getItem().toString()));
                 }
             });
         }

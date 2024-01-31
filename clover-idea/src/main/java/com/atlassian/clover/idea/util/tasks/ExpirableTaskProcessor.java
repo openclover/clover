@@ -98,23 +98,13 @@ public class ExpirableTaskProcessor {
                         Logger.getInstance().warn("Clover UI update task threw an exception", e);
                     }
                     // run task cancellation in the UI thread
-                    MiscUtils.invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            taskDelegate.onCancel();
-                        }
-                    });
+                    MiscUtils.invokeLater(() -> taskDelegate.onCancel());
                     continue;
                 }
 
                 progressIndicator.checkCanceled();
                 // run task success in the UI thread
-                MiscUtils.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        taskDelegate.onSuccess();
-                    }
-                });
+                MiscUtils.invokeLater(() -> taskDelegate.onSuccess());
             }
 
             // no more tasks in the queue, release the worker

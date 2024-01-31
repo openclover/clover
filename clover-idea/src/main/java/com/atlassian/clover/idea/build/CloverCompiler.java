@@ -150,21 +150,18 @@ public class CloverCompiler implements JavaSourceTransformingCompiler {
          */
         @Override
         public void compilationFinished(boolean aborted, int errors, int warnings, CompileContext compileContext) {
-            final Runnable updateRegistryTask = new Runnable() {
-                @Override
-                public void run() {
-                    LOG.info("CLOVER: COMPILATION IN EXTERNAL BUILD PROCESS HAS FINISHED");
-                    if (!isCloverInstrumentationEnabled()) {
-                        return;
-                    }
-
-                    LOG.info("CLOVER: RELOADING DATABASE AND COVERAGE DATA");
-                    final CoverageManager coverageManager = ProjectPlugin.getPlugin(project).getCoverageManager();
-                    // we don't load registry from file and pass here as parameter, because CoverageManager will reload it
-                    // note: in closeInstrumentationSession() we pass it as compilation is made in the same process
-                    coverageManager.lockRegistryForUpdate(null);
-                    coverageManager.releaseUpdatedRegistry(null);
+            final Runnable updateRegistryTask = () -> {
+                LOG.info("CLOVER: COMPILATION IN EXTERNAL BUILD PROCESS HAS FINISHED");
+                if (!isCloverInstrumentationEnabled()) {
+                    return;
                 }
+
+                LOG.info("CLOVER: RELOADING DATABASE AND COVERAGE DATA");
+                final CoverageManager coverageManager = ProjectPlugin.getPlugin(project).getCoverageManager();
+                // we don't load registry from file and pass here as parameter, because CoverageManager will reload it
+                // note: in closeInstrumentationSession() we pass it as compilation is made in the same process
+                coverageManager.lockRegistryForUpdate(null);
+                coverageManager.releaseUpdatedRegistry(null);
             };
 
             if (!ApplicationManager.getApplication().isDispatchThread()) {
@@ -207,12 +204,9 @@ public class CloverCompiler implements JavaSourceTransformingCompiler {
                 // heuristics to detect project recompile
                 context.addMessage(CompilerMessageCategory.INFORMATION, "Clover: deleting coverage data.", null, -1, -1);
                 instr = null; // need to recreate instrumenter after deleting the coverage db
-                ApplicationManager.getApplication().invokeAndWait(new Runnable() {
-                    @Override
-                    public void run() {
-                        ProjectPlugin.getPlugin(project).getCoverageManager().delete();
-                    }
-                }, ModalityState.defaultModalityState());
+                ApplicationManager.getApplication().invokeAndWait(
+                        () -> ProjectPlugin.getPlugin(project).getCoverageManager().delete(),
+                        ModalityState.defaultModalityState());
             } else {
                 Logger.getInstance(CoverageDataCleanerTask.class.getName()).info(
                         MessageFormat.format("Coverage database not deleted: narrowed built detected ({0} of {1} files in the build scope)",
@@ -267,13 +261,10 @@ public class CloverCompiler implements JavaSourceTransformingCompiler {
 
         @Override
         public boolean execute(CompileContext context) {
-            MiscUtils.invokeWriteActionAndWait(new Runnable() {
-                @Override
-                public void run() {
-                    File wksp = ProjectUtil.getProjectWorkspace(project);
-                    if (wksp.exists()) {
-                        ProjectUtil.excludeFromProject(project, LocalFileSystem.getInstance().refreshAndFindFileByIoFile(wksp));
-                    }
+            MiscUtils.invokeWriteActionAndWait(() -> {
+                File wksp = ProjectUtil.getProjectWorkspace(project);
+                if (wksp.exists()) {
+                    ProjectUtil.excludeFromProject(project, LocalFileSystem.getInstance().refreshAndFindFileByIoFile(wksp));
                 }
             });
 
@@ -439,48 +430,45 @@ public class CloverCompiler implements JavaSourceTransformingCompiler {
         final Application app = ApplicationManager.getApplication();
 
         // instrument all of the items.
-        return app.runReadAction(new Computable<Boolean>() {
-            @Override
-            public Boolean compute() {
-                LOG.debug("transform: " + vf + ", " + origVf);
+        return app.runReadAction((Computable<Boolean>) () -> {
+            LOG.debug("transform: " + vf + ", " + origVf);
 
-                ServiceManager.getService(project, TmpPathResolver.class).registerMapping(origVf, vf.getPath());
+            ServiceManager.getService(project, TmpPathResolver.class).registerMapping(origVf, vf.getPath());
 
-                try {
-                    // Initialise instrumentation handler.
-                    final IdeaCloverConfig config = ProjectPlugin.getPlugin(project).getConfig();
-                    final Instrumenter instrumenter = getInstrumenter(config);
-                    final Module module = ModuleUtil.findModuleForFile(origVf, project);
-                    final JavaInstrumentationConfig instrConfig = instrumenter.getConfig();
+            try {
+                // Initialise instrumentation handler.
+                final IdeaCloverConfig config = ProjectPlugin.getPlugin(project).getConfig();
+                final Instrumenter instrumenter = getInstrumenter(config);
+                final Module module = ModuleUtil.findModuleForFile(origVf, project);
+                final JavaInstrumentationConfig instrConfig = instrumenter.getConfig();
 
-                    if (module != null) {
-                        final SourceLevel sourceLevel = languageLevelToSourceLevel(LanguageLevelUtil.getEffectiveLanguageLevel(module));
-                        LOG.debug("Source level " + sourceLevel.asString());
-                        instrConfig.setSourceLevel(sourceLevel);
-                    } else {
-                        LOG.info("Cannot determine module for " + origVf +
-                                ", using previous source level " + instrConfig.getSourceLevel());
-                    }
-
-                    status.instrumenting(context, origVf);
-
-                    final String fileEncoding = CharsetUtil.getFileEncoding(origVf);
-                    final Writer writer;
-                    if (fileEncoding == null) {
-                        writer = new FileWriter(VfsUtil.convertToFile(vf));
-                    } else {
-                        writer = new OutputStreamWriter(new FileOutputStream(VfsUtil.convertToFile(vf)), fileEncoding);
-                    }
-                    final InstrumentationSource input = new VirtualFileInstrumentationSource(origVf);
-                    instrumenter.instrument(input, writer, fileEncoding);
-
-                    return Boolean.TRUE;
-
-                } catch (Exception e) {
-                    LOG.info("Exception caught during compile.", e);
-                    context.addMessage(CompilerMessageCategory.ERROR, "CloverException: " + e.getMessage(), (origVf != null) ? origVf.getUrl() : null, -1, -1);
-                    return Boolean.FALSE;
+                if (module != null) {
+                    final SourceLevel sourceLevel = languageLevelToSourceLevel(LanguageLevelUtil.getEffectiveLanguageLevel(module));
+                    LOG.debug("Source level " + sourceLevel.asString());
+                    instrConfig.setSourceLevel(sourceLevel);
+                } else {
+                    LOG.info("Cannot determine module for " + origVf +
+                            ", using previous source level " + instrConfig.getSourceLevel());
                 }
+
+                status.instrumenting(context, origVf);
+
+                final String fileEncoding = CharsetUtil.getFileEncoding(origVf);
+                final Writer writer;
+                if (fileEncoding == null) {
+                    writer = new FileWriter(VfsUtil.convertToFile(vf));
+                } else {
+                    writer = new OutputStreamWriter(new FileOutputStream(VfsUtil.convertToFile(vf)), fileEncoding);
+                }
+                final InstrumentationSource input = new VirtualFileInstrumentationSource(origVf);
+                instrumenter.instrument(input, writer, fileEncoding);
+
+                return Boolean.TRUE;
+
+            } catch (Exception e) {
+                LOG.info("Exception caught during compile.", e);
+                context.addMessage(CompilerMessageCategory.ERROR, "CloverException: " + e.getMessage(), (origVf != null) ? origVf.getUrl() : null, -1, -1);
+                return Boolean.FALSE;
             }
         });
     }

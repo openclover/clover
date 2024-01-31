@@ -51,12 +51,7 @@ public class ConfigureHtmlUI extends AbstractConfigureUI {
 
     @Override
     protected void initListeners() {
-        getUseFilters().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                wizard.refreshState(!getUseFilters().isSelected());
-            }
-        });
+        getUseFilters().addActionListener(e -> wizard.refreshState(!getUseFilters().isSelected()));
     }
 
     private JTextArea getHelpText() {

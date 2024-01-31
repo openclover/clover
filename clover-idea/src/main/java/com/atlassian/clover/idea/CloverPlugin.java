@@ -95,12 +95,7 @@ public class CloverPlugin implements ApplicationComponent, PersistentStateCompon
     }
 
     public CloverPlugin() {
-        Logger.setFactory(new Logger.Factory() {
-            @Override
-            public Logger getLoggerInstance(String category) {
-                return new IdeaLogger(com.intellij.openapi.diagnostic.Logger.getInstance(category));
-            }
-        });
+        Logger.setFactory(category -> new IdeaLogger(com.intellij.openapi.diagnostic.Logger.getInstance(category)));
 
         LOG = Logger.getInstance(CloverPlugin.class.getName());
     }

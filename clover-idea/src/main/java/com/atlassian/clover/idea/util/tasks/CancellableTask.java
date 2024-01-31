@@ -30,24 +30,14 @@ public class CancellableTask extends Task.Backgroundable {
             // in unit test mode; for this reason we call onSuccess() manually
             if (isHeadless()) {
                 // ensure that we run from a dispatch thread (for unit test mode)
-                MiscUtils.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        onSuccess();
-                    }
-                });
+                MiscUtils.invokeLater(() -> onSuccess());
             }
         } catch (ProcessCanceledException e) {
             throw e;
         } catch (Exception e) {
             Logger.getInstance().warn("Task finished with an exception", e);
             // ensure that we run from a dispatch thread
-            ApplicationManager.getApplication().invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    onCancel();
-                }
-            });
+            ApplicationManager.getApplication().invokeLater(() -> onCancel());
         }
     }
 

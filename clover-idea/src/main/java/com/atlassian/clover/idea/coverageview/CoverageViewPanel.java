@@ -185,40 +185,37 @@ public class CoverageViewPanel extends TreeTablePanel implements ConfigChangeLis
 
         coverageTreeModel = model;
         // UI Changes can only be made from the EventDispatch thread.
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                if (model == null) {
-                    selectionChangeNotifier.notify(null);
-                    tableModel.setRoot(new DefaultMutableTreeNode(" Coverage data not loaded."));
+        SwingUtilities.invokeLater(() -> {
+            if (model == null) {
+                selectionChangeNotifier.notify(null);
+                tableModel.setRoot(new DefaultMutableTreeNode(" Coverage data not loaded."));
+            } else {
+                if (hideFullyCovered) {
+                    if (!model.hasFilter(FULLY_COVERED_FILTER)) {
+                        model.addFilter(FULLY_COVERED_FILTER); // see above
+                    }
                 } else {
-                    if (hideFullyCovered) {
-                        if (!model.hasFilter(FULLY_COVERED_FILTER)) {
-                            model.addFilter(FULLY_COVERED_FILTER); // see above
-                        }
-                    } else {
-                        if (model.hasFilter(FULLY_COVERED_FILTER)) {
-                            model.removeFilter(FULLY_COVERED_FILTER); // removeFilter has side effect of clearing the tree, avoid when not necessary
-                        }
+                    if (model.hasFilter(FULLY_COVERED_FILTER)) {
+                        model.removeFilter(FULLY_COVERED_FILTER); // removeFilter has side effect of clearing the tree, avoid when not necessary
                     }
-                    // turn off autoScrolling - refreshing will change the coverage
-                    // tree but should not trigger the autoScroll features.
-                    final boolean toSavedValue = autoScrollToSource;
-                    try {
-                        autoScrollToSource = false;
-                        TreeExpansionHelper teh = new TreeExpansionHelper(treeTableView.getTree());
+                }
+                // turn off autoScrolling - refreshing will change the coverage
+                // tree but should not trigger the autoScroll features.
+                final boolean toSavedValue = autoScrollToSource;
+                try {
+                    autoScrollToSource = false;
+                    TreeExpansionHelper teh = new TreeExpansionHelper(treeTableView.getTree());
 
-                        // create new tree.
-                        tableModel.setRoot(model.getClassTree(!flattenPackages, currentModelScope));
+                    // create new tree.
+                    tableModel.setRoot(model.getClassTree(!flattenPackages, currentModelScope));
 
-                        teh.restore(treeTableView.getTree());
-                        if (selectionOverride != null) {
-                            selectHasMetrics(selectionOverride);
-                            selectionOverride = null;
-                        }
-                    } finally {
-                        autoScrollToSource = toSavedValue;
+                    teh.restore(treeTableView.getTree());
+                    if (selectionOverride != null) {
+                        selectHasMetrics(selectionOverride);
+                        selectionOverride = null;
                     }
+                } finally {
+                    autoScrollToSource = toSavedValue;
                 }
             }
         });

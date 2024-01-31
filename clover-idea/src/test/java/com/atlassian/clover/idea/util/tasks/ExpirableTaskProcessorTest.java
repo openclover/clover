@@ -35,13 +35,10 @@ public class ExpirableTaskProcessorTest extends LightIdeaTestCase {
             @Override
             public void run(@NotNull ProgressIndicator progressIndicator) {
                 // adding new tasks to queue shall be done from dispatch thread as it would normally happen in UI
-                MiscUtils.invokeAndWait(new Computable<Object>() {
-                    @Override
-                    public Object compute() {
-                        etp.queue(slaveTaskDelegate);
-                        etp.queue(slaveTaskDelegate);
-                        return null;
-                    }
+                MiscUtils.invokeAndWait(() -> {
+                    etp.queue(slaveTaskDelegate);
+                    etp.queue(slaveTaskDelegate);
+                    return null;
                 });
             }
         };
@@ -119,14 +116,11 @@ public class ExpirableTaskProcessorTest extends LightIdeaTestCase {
         @Override
         public void run(@NotNull ProgressIndicator progressIndicator) {
             // adding new tasks to queue shall be done from dispatch thread as it would normally happen in UI
-            MiscUtils.invokeAndWait(new Computable<Object>() {
-                @Override
-                public Object compute() {
-                    for (ExpirableTaskDelegate taskDelegate : scheduleOrder) {
-                        etp.queue(taskDelegate);
-                    }
-                    return null;
+            MiscUtils.invokeAndWait(() -> {
+                for (ExpirableTaskDelegate taskDelegate : scheduleOrder) {
+                    etp.queue(taskDelegate);
                 }
+                return null;
             });
         }
     }

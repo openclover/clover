@@ -24,38 +24,32 @@ public class ThreadedDatabaseMonitor extends AbstractCoverageMonitor implements 
     private long interval = 2000;
 
     public ThreadedDatabaseMonitor() {
-        final Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (!cleanup) {
-                    synchronized (LOCK) {
-                        while (!running && !cleanup) {
-                            try {
-                                LOCK.wait();
-                            } catch (InterruptedException e) {
-                                LOG.debug("ThreadedDatabaseMonitor LOCK.wait was interrupted");
-                            }
-                        }
-                    }
-                    if (cleanup) {
-                        break;
-                    }
-                    if (running) {
-                        ApplicationManager.getApplication().invokeLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                LOG.verbose("ThreadedDatabaseMonitor checking canLoadCoverageData.");
-                                if (coverageManager.canLoadCoverageData()) {
-                                    LOG.verbose("-> Can load");
-                                    coverageManager.loadCoverageData(false);
-                                }
-                            }
-                        });
+        final Thread thread = new Thread(() -> {
+            while (!cleanup) {
+                synchronized (LOCK) {
+                    while (!running && !cleanup) {
                         try {
-                            Thread.sleep(interval);
-                        } catch (Exception e) {
-                            LOG.debug("ThreadedDatabaseMonitor thread sleep was interrupted");
+                            LOCK.wait();
+                        } catch (InterruptedException e) {
+                            LOG.debug("ThreadedDatabaseMonitor LOCK.wait was interrupted");
                         }
+                    }
+                }
+                if (cleanup) {
+                    break;
+                }
+                if (running) {
+                    ApplicationManager.getApplication().invokeLater(() -> {
+                        LOG.verbose("ThreadedDatabaseMonitor checking canLoadCoverageData.");
+                        if (coverageManager.canLoadCoverageData()) {
+                            LOG.verbose("-> Can load");
+                            coverageManager.loadCoverageData(false);
+                        }
+                    });
+                    try {
+                        Thread.sleep(interval);
+                    } catch (Exception e) {
+                        LOG.debug("ThreadedDatabaseMonitor thread sleep was interrupted");
                     }
                 }
             }
