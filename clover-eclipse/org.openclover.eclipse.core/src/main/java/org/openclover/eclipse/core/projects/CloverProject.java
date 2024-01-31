@@ -137,8 +137,8 @@ public class CloverProject extends BaseNature {
     }
 
     private static boolean builderPresent(List builders, String builderId) {
-        for (int i = 0; i < builders.size(); i++) {
-            if (((ICommand)builders.get(i)).getBuilderName().equals(builderId)) {
+        for (Object builder : builders) {
+            if (((ICommand) builder).getBuilderName().equals(builderId)) {
                 return true;
             }
         }

@@ -41,10 +41,10 @@ public class ToggleMultipleCloverProjectNaturesActionDelegate
         Display.getDefault().asyncExec(() -> {
             if (dialog.open() == Dialog.OK) {
                 final Set toToggle = dialog.getProjectsToToggle();
-                for (Iterator iterator = toToggle.iterator(); iterator.hasNext();) {
+                for (Object o : toToggle) {
                     CloverProject.toggleWithUserFeedback(
-                        shell,
-                        (IProject)iterator.next());
+                            shell,
+                            (IProject) o);
                 }
                 try {
                     // Automatically show Clover views if at least one project will have Clover enabled
