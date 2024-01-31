@@ -377,14 +377,52 @@ tokens {
      *   before:   [() -> 1 + 2]
      *   after :   [() -> 1 + 2;}]
      */
-     private void instrExitLambdaExprToBlockExpression(LambdaExprToBlockStartEntryEmitter entryEmitter, CloverToken tok) {
+    private void instrExitLambdaExprToBlockExpression(LambdaExprToBlockStartEntryEmitter entryEmitter, CloverToken tok) {
         if (cfg.getInstrumentLambda() == LambdaInstrumentation.ALL
                      || cfg.getInstrumentLambda() == LambdaInstrumentation.ALL_BUT_REFERENCE
                      || cfg.getInstrumentLambda() == LambdaInstrumentation.EXPRESSION) {
              tok.addPostEmitter(
                     new LambdaExprToBlockExitEmitter(entryEmitter, tok.getLine(), tok.getColumn()+tok.getText().length()));
          }
-     }
+    }
+
+    private CaseExpressionEntryEmitter instrEnterCaseExpression(CloverToken insertionPoint, CloverToken endToken, ContextSet context, int complexity) {
+        // we add "caseInc(123,()->" AFTER the "->"
+        final CaseExpressionEntryEmitter entryEmitter = new CaseExpressionEntryEmitter(
+                context,
+                insertionPoint.getLine(),
+                insertionPoint.getColumn(),
+                endToken.getLine(),
+                endToken.getColumn(),
+                complexity);
+        insertionPoint.addPostEmitter(entryEmitter);
+        return entryEmitter;
+    }
+
+    private void instrExitCaseExpression(CaseExpressionEntryEmitter entryEmitter, CloverToken insertionPoint) {
+        // we add closing ")" BEFORE the ";"
+        insertionPoint.addPreEmitter(
+                new CaseExpressionExitEmitter(entryEmitter));
+    }
+
+    private CaseThrowExpressionEntryEmitter instrEnterCaseThrowExpression(CloverToken insertionPoint, CloverToken endToken, ContextSet context, int complexity) {
+        // we add "{ R.inc();" AFTER the "->"
+        final CaseThrowExpressionEntryEmitter entryEmitter = new CaseThrowExpressionEntryEmitter(
+                context,
+                insertionPoint.getLine(),
+                insertionPoint.getColumn(),
+                endToken.getLine(),
+                endToken.getColumn(),
+                complexity);
+        insertionPoint.addPostEmitter(entryEmitter);
+        return entryEmitter;
+    }
+
+    private void instrExitCaseThrowExpression(CaseThrowExpressionEntryEmitter entryEmitter, CloverToken insertionPoint) {
+        // we add closing "}" AFTER the ";"
+        insertionPoint.addPostEmitter(
+                new CaseThrowExpressionExitEmitter(entryEmitter));
+    }
 
     private CloverToken maybeAddFlushInstr(CloverToken last) {
         last.addPostEmitter(new DirectedFlushEmitter());
@@ -397,12 +435,12 @@ tokens {
         return flag;
     }
 
-    private CloverToken instrInlineAfter(CloverToken instr, CloverToken start, CloverToken end) {
+    private CloverToken instrInlineAfter(CloverToken instr, CloverToken start, CloverToken end, int complexity) {
         if (cfg.isStatementInstrEnabled()) {
             instr.addPostEmitter(
                     new StatementInstrEmitter(
                             getCurrentContext(), start.getLine(), start.getColumn(), end.getLine(),
-                            end.getColumn() + end.getText().length()));
+                            end.getColumn() + end.getText().length(), complexity));
             instr.addPostEmitter(new DirectedFlushEmitter());
             fileInfo.addStatementMarker(start, end);
         }
@@ -410,14 +448,14 @@ tokens {
     }
 
     // same as above, but protected by a flag check
-    private CloverToken instrInlineAfter(CloverToken tok, CloverToken start, CloverToken end, FlagDeclEmitter flag) {
+    private CloverToken instrInlineAfter(CloverToken tok, CloverToken start, CloverToken end, FlagDeclEmitter flag, int complexity) {
         if (cfg.isStatementInstrEnabled()) {
             tok.addPostEmitter(
                     new FlaggedInstrEmitter(
                         flag,
                         new StatementInstrEmitter(
                                 getCurrentContext(), start.getLine(), start.getColumn(),
-                                end.getLine(), end.getColumn() + end.getText().length())));
+                                end.getLine(), end.getColumn() + end.getText().length(), complexity)));
             fileInfo.addStatementMarker(start, end);
         }
         return tok;
@@ -824,13 +862,13 @@ typeDefinition2[Modifiers mods, CloverToken first, boolean nested]
  * A declaration is the creation of a reference or primitive-type variable
  * Create a separate Type/Var tree for each var in the var list.
  */
-declaration!
+declaration! returns [int complexity]
 {
     Modifiers mods = null;
     String type = null;
 }
     :
-        mods=fieldModifiers[false] type=typeSpec variableDefinitions
+        mods=fieldModifiers[false] type=typeSpec complexity=variableDefinitions
     ;
 
 // A type specification is a type name with possible brackets afterwards
@@ -1656,6 +1694,7 @@ enumConstant
     boolean topLevelSave = topLevelClass;
     CloverToken endOfBlock = null;
     AnnotationImpl ann = null;
+    int argListComplexity = 0; // ignored for enum constant
 }
     :
         {
@@ -1663,7 +1702,7 @@ enumConstant
            topLevelClass = false;
         }
         (ann=annotation)*
-        IDENT ( LPAREN argList RPAREN )?
+        IDENT ( LPAREN argListComplexity=argList RPAREN )?
         (
             endOfBlock = classBlock[null]
         )?
@@ -1678,6 +1717,7 @@ annotationTypeBody [ClassEntryNode classEntry] returns [CloverToken t]
     t = null;
     Modifiers mods = null;
     String type = null;
+    int ignoredComplexity;
 }
     :
         ip:LCURLY!
@@ -1700,7 +1740,8 @@ annotationTypeBody [ClassEntryNode classEntry] returns [CloverToken t]
 
             mods=fieldModifiers[false]
             type=typeSpec
-            variableDefinitions SEMI
+            ignoredComplexity=variableDefinitions       // it's a constant so complexity is 0
+            SEMI
 
         |
             // a nested type declaration
@@ -1795,6 +1836,7 @@ field! [ClassEntryNode containingClass]
     Parameter [] parameters = null;
     Map<String, List<String>> tags = null;
     String typename = null;
+    int ignoredComplexity;
 }
     :
     // read javadocs written before the member (if any)
@@ -1827,7 +1869,7 @@ field! [ClassEntryNode containingClass]
         mods=fieldModifiers[false]
         { deprecated = maybeEnterDeprecated(tags, mods); }
         returnType=typeSpec
-        variableDefinitions
+        ignoredComplexity=variableDefinitions  // we don't instrument fields, so ignore the returned value
         SEMI
         { maybeExitDeprecated(deprecated); }
 
@@ -1922,6 +1964,8 @@ constructorBody[MethodSignature signature, CloverToken start, CloverToken endSig
 
 explicitConstructorInvocation returns [CloverToken t]
 {
+    ContextSetAndComplexity cc = null;
+    int argListComplexity = 0;
     t = null;
 }
     :
@@ -1935,43 +1979,54 @@ explicitConstructorInvocation returns [CloverToken t]
                 generateAmbigWarnings=false;
             }:
 
-            pos1:THIS! LPAREN argList RPAREN! t1:SEMI!
+            pos1:THIS! LPAREN argListComplexity=argList RPAREN! t1:SEMI!
             {
-                t=instrInlineAfter(ct(t1), ct(pos1), ct(t1));
+                t=instrInlineAfter(ct(t1), ct(pos1), ct(t1), argListComplexity);
             }
 
         |
-            pos2:SUPER! lp2:LPAREN^ argList RPAREN! t2:SEMI!
+            pos2:SUPER! lp2:LPAREN^ argListComplexity=argList RPAREN! t2:SEMI!
             {
-                t=instrInlineAfter(ct(t2), ct(pos2), ct(t2));
+                t=instrInlineAfter(ct(t2), ct(pos2), ct(t2), argListComplexity);
             }
 
         |
             // (new Outer()).super()  (create enclosing instance)
-            primaryExpressionPart
+            cc=primaryExpressionPart
             (DOT! THIS)? // HACK see CCD-264 - explicit ctor invocation can have form ClassName.this.super(..)
-            DOT! pos3:SUPER! lp3:LPAREN^ argList RPAREN! t3:SEMI!
+            DOT! pos3:SUPER! lp3:LPAREN^ argListComplexity=argList RPAREN! t3:SEMI!
             {
-                t=instrInlineAfter(ct(t3), ct(pos3), ct(t3));
+                t=instrInlineAfter(ct(t3), ct(pos3), ct(t3), argListComplexity);
             }
         )
     ;
 
-variableDefinitions
+variableDefinitions returns [int complexity]
+{
+    int tmpComplexity = 0;
+    complexity = 0;
+}
     :
-        variableDeclarator (COMMA! variableDeclarator)*
+        complexity=variableDeclarator
+        (
+            COMMA!
+            tmpComplexity=variableDeclarator
+            {
+                complexity += tmpComplexity;
+            }
+        )*
     ;
 
-/** Declaration of a variable.  This can be a class/instance variable,
- *   or a local variable in a method
+/**
+ * Declaration of a variable.  This can be a class/instance variable, or a local variable in a method.
  * It can also include possible initialization.
  */
-variableDeclarator!
+variableDeclarator! returns [int complexity]
 {
     String brackets = null;
 }
     :
-        IDENT brackets=declaratorBrackets varInitializer
+        IDENT brackets=declaratorBrackets complexity=varInitializer
     ;
 
 declaratorBrackets returns [String brackets]
@@ -1986,24 +2041,37 @@ declaratorBrackets returns [String brackets]
         )*
     ;
 
-varInitializer
+varInitializer returns [int complexity]
+{
+    complexity = 0;
+}
     :
-        ( ASSIGN initializer )?
+        ( ASSIGN complexity=initializer )?
     ;
 
 // This is an initializer used to set up an array.
-arrayInitializer
+arrayInitializer returns [int complexity]
+{
+    int initComplexity;
+    complexity = 0;
+}
     :
         LCURLY
         (
-            initializer
+            initComplexity=initializer
+            {
+                complexity += initComplexity;
+            }
             (
                 // CONFLICT: does a COMMA after an initializer start a new
                 //           initializer or start the option ',' at end?
                 //           ANTLR generates proper code by matching
                 //           the comma as soon as possible.
                 options { warnWhenFollowAmbig = false; }:
-                COMMA! initializer
+                COMMA! initComplexity=initializer
+                {
+                    complexity += initComplexity;
+                }
             )*
 
         )?
@@ -2014,11 +2082,14 @@ arrayInitializer
 
 // The two "things" that can initialize an array element are an expression
 //   and another (nested) array initializer.
-initializer
+initializer returns [int complexity]
+{
+    complexity = 0;
+}
     :
-        expression
+        complexity=expression
     |
-        arrayInitializer
+        complexity=arrayInitializer
     ;
 
 // This is a list of exception classes that the method is declared to throw
@@ -2209,13 +2280,14 @@ statement [CloverToken owningLabel] returns [CloverToken last]
     boolean instrumentable = !labelled;
     CloverToken instr = null; // instr point for statement
     CloverToken flushAfter = null; // if not null, add maybeFlush instr
-    int complexity=  0;
-    int tmpCmp = 0;
+    int complexity = 0; // complexity of the entire statement
+    int declComplexity, exprComplexity = 0, forInitComp = 0, forCondComp = 0, forIterComp = 0;
     boolean wasDefault = false;
     Modifiers mods = null;
     Parameter parameter = null;
     String classname = null;
     ContextSet saveContext = getCurrentContext();
+    ContextSetAndComplexity contextAndComplexity = null;
 }
     :
     {
@@ -2232,8 +2304,15 @@ statement [CloverToken owningLabel] returns [CloverToken last]
         {
             tmp=lt(1);
         }
-        expression
-        ( colon:COLON! {instrBoolExpr(tmp, ct(colon)); assertColonPart=true;}  expression )?
+        exprComplexity=expression
+        (
+            colon:COLON!
+            {
+                instrBoolExpr(tmp, ct(colon));
+                assertColonPart=true;
+            }
+            exprComplexity=expression
+        )?
         semi:SEMI!
         {
             if (!assertColonPart) {
@@ -2256,9 +2335,19 @@ statement [CloverToken owningLabel] returns [CloverToken last]
         // predicate to test symbol table to see what the type was coming
         // up, but that's pretty hard without a symbol table ;)
         (declaration) =>
-        declaration se1:SEMI!
+        declComplexity=declaration se1:SEMI!
         {
+            complexity += declComplexity;
             flushAfter = ct(se1);
+        }
+
+    |
+        // note: yield can appear inside traditional case blocks and also in compound statement blocks inside
+        // lambda case; that's why rule is placed here; a drawback is that instrumenter accepts yield in any place
+        ( { isNextKeyword("yield") }? IDENT expression SEMI ) =>
+        { isNextKeyword("yield") }? IDENT exprComplexity=expression SEMI!
+        {
+            complexity += exprComplexity;
         }
 
     |
@@ -2284,9 +2373,11 @@ statement [CloverToken owningLabel] returns [CloverToken last]
         // An expression statement.  This could be a method call,
         // assignment statement, or any other expression evaluated for
         // side-effects.
-        expression se2:SEMI!
+        ( expression SEMI ) =>
+        exprComplexity=expression se2:SEMI!
         {
             flushAfter = ct(se2);
+            complexity += exprComplexity;
         }
 
     |
@@ -2311,7 +2402,10 @@ statement [CloverToken owningLabel] returns [CloverToken last]
         {
             tmp=lt(1);
         }
-        expression
+        exprComplexity=expression
+        {
+            complexity += exprComplexity;
+        }
         rp1:RPAREN!
         {
             instrBoolExpr(tmp, ct(rp1));
@@ -2354,14 +2448,20 @@ statement [CloverToken owningLabel] returns [CloverToken last]
             (parameterDeclaration COLON) =>
             (
                 // enhanced for
-                parameter=parameterDeclaration COLON expression
+                parameter=parameterDeclaration COLON exprComplexity=expression
+                {
+                    complexity += exprComplexity;
+                }
             )
         |
             (
                 // traditional for
-                forInit SEMI!   // initializer
-                forCond    // condition test
-                forIter         // updater
+                forInitComp=forInit SEMI!   // initializer
+                forCondComp=forCond         // condition test
+                forIterComp=forIter         // updater
+                {
+                    complexity += forInitComp + forCondComp + forIterComp;
+                }
             )
         )
         rp:RPAREN!
@@ -2385,7 +2485,10 @@ statement [CloverToken owningLabel] returns [CloverToken last]
         {
             tmp = lt(1);
         }
-        expression
+        exprComplexity=expression
+        {
+            complexity += exprComplexity;
+        }
         rp2:RPAREN!
         {
             instrBoolExpr(tmp, ct(rp2));
@@ -2414,7 +2517,11 @@ statement [CloverToken owningLabel] returns [CloverToken last]
         {
             tmp=lt(1);
         }
-        expression rp3:RPAREN!
+        exprComplexity=expression
+        {
+            complexity += exprComplexity;
+        }
+        rp3:RPAREN!
         {
             instrBoolExpr(tmp, ct(rp3));
         }
@@ -2433,32 +2540,30 @@ statement [CloverToken owningLabel] returns [CloverToken last]
 
     |
         // Return an expression
-        RETURN (expression)? SEMI!
-
-    |
-        // switch/case statement
-        sw:SWITCH
-        {
-            tmp = ct(sw);
-            if (labelled) {
-                tmp = owningLabel;
-            }
-            flag = declareFlagBefore(tmp);
-            enterContext(ContextStore.CONTEXT_SWITCH);
-            saveContext = getCurrentContext();
-        }
-        LPAREN! expression RPAREN! LCURLY!
+        RETURN
         (
-            tmpCmp = casesGroup[flag]
+            exprComplexity=expression
             {
-                complexity += tmpCmp;
+                complexity += exprComplexity;
             }
-        )*
+        )?
+        SEMI!
+    |
+        // a classic switch/case with colons
+        ( SWITCH LPAREN expression RPAREN LCURLY (CASE expression | DEFAULT) COLON) =>
+        contextAndComplexity = colonSwitchExpression[owningLabel, false]
         {
-            exitContext();
+            saveContext = contextAndComplexity.getContext();
+            complexity += contextAndComplexity.getComplexity();
         }
-        rc:RCURLY!
-
+    |
+        // a new switch/case with lambdas
+        ( SWITCH LPAREN expression RPAREN LCURLY (CASE patternMatch | DEFAULT) LAMBDA) =>
+        contextAndComplexity = lambdaSwitchExpression[owningLabel]
+        {
+            saveContext = contextAndComplexity.getContext();
+            complexity += contextAndComplexity.getComplexity();
+        }
     |
         // exception try-catch block
         (tryCatchBlock[labelled]) =>
@@ -2469,12 +2574,15 @@ statement [CloverToken owningLabel] returns [CloverToken last]
 
     |
         // throw an exception
-        THROW expression SEMI!
-
+        THROW exprComplexity=expression SEMI!
+        {
+            complexity += exprComplexity;
+        }
     |
         // synchronize a statement
-        SYNCHRONIZED LPAREN! expression RPAREN!
+        SYNCHRONIZED LPAREN! exprComplexity=expression RPAREN!
         {
+            complexity += exprComplexity;
             enterContext(ContextStore.CONTEXT_SYNC);
             saveContext = getCurrentContext();
         }
@@ -2483,9 +2591,8 @@ statement [CloverToken owningLabel] returns [CloverToken last]
             exitContext();
         }
 
-
     |
-        // empty statement
+        // an empty statement
         SEMI
     )
         {
@@ -2507,7 +2614,11 @@ statement [CloverToken owningLabel] returns [CloverToken last]
         }
     ;
 
-casesGroup[FlagDeclEmitter flag] returns [int complexity]
+
+/**
+ * A group of one or more "case x:" labels, followed by a list of statements.
+ */
+colonCasesGroup[FlagDeclEmitter flag] returns [int complexity]
 {
     int tmp = 0;
     complexity = 0;
@@ -2521,15 +2632,18 @@ casesGroup[FlagDeclEmitter flag] returns [int complexity]
             options {
                 warnWhenFollowAmbig = false;
             }:
-            tmp = aCase[flag]
+            tmp = colonCase[flag]
             {
                 complexity += tmp;
             }
         )+
-        caseSList
+        caseStatementsList
     ;
 
-aCase[FlagDeclEmitter flag] returns [int complexity]
+/**
+ * A single "case x:" or "default:" label.
+ */
+colonCase[FlagDeclEmitter flag] returns [int complexity]
 {
     Token pos = null;
     complexity = 0;
@@ -2540,7 +2654,7 @@ aCase[FlagDeclEmitter flag] returns [int complexity]
             {
                 constExpr = true;
             }
-            expression
+            constantExpression
             {
                 constExpr = false;
                 pos = si1;
@@ -2554,12 +2668,20 @@ aCase[FlagDeclEmitter flag] returns [int complexity]
         )
         t:COLON!
         {
-            instrInlineAfter(ct(t), ct(pos), ct(t), flag);
+            // 0 cyclomatic complexity here as we pass it up to the switch statement
+            if (flag != null) {
+                instrInlineAfter(ct(t), ct(pos), ct(t), flag, 0);
+            } else {
+                instrInlineAfter(ct(t), ct(pos), ct(t), 0);
+            }
             fileInfo.setSuppressFallthroughWarnings(true);
         }
     ;
 
-caseSList
+/**
+ * A list of statements inside a single "case" or "default" block.
+ */
+caseStatementsList
 {
     CloverToken tmp;
 }
@@ -2568,28 +2690,32 @@ caseSList
     ;
 
 // The initializer for a for loop
-forInit
+forInit returns [int complexity]
+{
+    complexity = 0;
+}
     :
         (
             // if it looks like a declaration, it is
             (declaration) =>
-            declaration
+            complexity=declaration
         |
             // otherwise it could be an expression list...
-            expressionList
+            complexity=expressionList
         )?
     ;
 
-forCond
+forCond returns [int complexity]
 {
     CloverToken tmp = null;
+    complexity = 0;
 }
     :
         (
             {
                 tmp=lt(1);
             }
-            expression se:SEMI!
+            complexity=expression se:SEMI!
             {
                 instrBoolExpr(tmp, ct(se));
             }
@@ -2598,15 +2724,19 @@ forCond
             SEMI!
     ;
 
-forIter
+forIter returns [int complexity]
+{
+    complexity = 0;
+}
     :
-        (expressionList)?
+        (complexity=expressionList)?
     ;
 
 // an exception handler try/catch block
 tryCatchBlock [boolean labelled] returns [CloverToken last]
 {
     last = null;
+    int declComplexity;
     int complexity = 0;
     ContextSet saveContext = getCurrentContext();
 }
@@ -2619,18 +2749,25 @@ tryCatchBlock [boolean labelled] returns [CloverToken last]
             }
             (
                 (IDENT) =>
-                variableDeclarator
+                declComplexity=variableDeclarator
             |
-                declaration
+                declComplexity=declaration
             )
             {
+                complexity += declComplexity;
                 complexity++;
                 instrArmDecl((ct(lp)).getNext(), lt(0), saveContext);
             }
             (
                 semi:SEMI
-                ( (IDENT) => variableDeclarator | declaration )
+                (
+                    (IDENT) =>
+                    declComplexity=variableDeclarator
+                |
+                    declComplexity=declaration
+                )
                 {
+                    complexity += declComplexity;
                     complexity++;
                     instrArmDecl((ct(semi)).getNext(), lt(0), saveContext);
                 }
@@ -2785,6 +2922,7 @@ lambdaFunction returns [CloverToken last]
      */
     CloverToken classCastStart = null;
     CloverToken classCastEnd = null;
+    int tmpComplexity = 0;
 }
     :
         // optional class cast, e.g: "Object o = (Runnable) () -> { ... };" therefore we can have
@@ -2825,8 +2963,10 @@ lambdaFunction returns [CloverToken last]
                             classCastStart, classCastEnd);
                 }
             }
-            expression
-            {   if (exprToBlockHeuristic) {
+            // TODO use tmpComplexity in LambdaExpressionEntryEmitter
+            tmpComplexity=expression
+            {
+                if (exprToBlockHeuristic) {
                     instrExitLambdaExprToBlockExpression(exprToBlockStartEntryEmitter, lt(0));
                 } else {
                     instrExitLambdaExpression(expressionEntryEmitter, lt(0));
@@ -2916,38 +3056,55 @@ lambdaArgs returns [Parameter[] parameters]
 //
 // the last two are not usually on a precedence chart; I put them in
 // to point out that new has a higher precedence than '.', so you
-// can validy use
+// can validly use
 //     new Frame().show()
 //
 // Note that the above precedence levels map to the rules below...
 // Once you have a precedence chart, writing the appropriate rules as below
-//   is usually very straightfoward
+//   is usually very straightforward
 
 
 
 // the mother of all expressions
-expression
+// returns cyclomatic complexity (typically 0, unless ternary operator or switch expression is used)
+expression returns [int complexity]
     :
-    {
-        pushHeadIdentifierStack();
-    }
-    assignmentExpression
-    {
-        popHeadIdentifierStack();
-    }
+        {
+            pushHeadIdentifierStack();
+        }
+        complexity=assignmentExpression
+        {
+            popHeadIdentifierStack();
+        }
     ;
 
 
 // This is a list of expressions.
-expressionList
-    :   expression (COMMA! expression)*
+expressionList returns [int complexity]
+{
+    int tmpComplexity = 0;
+    complexity = 0;
+}
+    :
+        complexity=expression
+        (
+            COMMA!
+            tmpComplexity=expression
+            {
+                complexity += tmpComplexity;
+            }
+        )*
     ;
 
 
 // assignment expression (level 13)
-assignmentExpression
+assignmentExpression returns [int complexity]
+{
+    int complexity1 = 0, complexity2 = 0;
+    complexity = 0;
+}
     :
-        conditionalExpression
+        complexity1=conditionalExpression
         ( options { greedy=true; }:
             (   ASSIGN^
             |   PLUS_ASSIGN^
@@ -2962,78 +3119,162 @@ assignmentExpression
             |   BXOR_ASSIGN^
             |   BOR_ASSIGN^
             )
-            assignmentExpression
+            complexity2=assignmentExpression
         )?
+        {
+            complexity = complexity1 + complexity2;
+        }
     ;
 
 
 // conditional test (level 12)
-conditionalExpression
+conditionalExpression returns [int complexity]
 {
     CloverToken startOfCond = null;
     CloverToken lf = null;
+    int complexity1 = 0, complexity2 = 0, complexity3 = 0;
+    complexity = 0;
 }
     :
-        (lambdaFunctionPredicate) => lf=lambdaFunction
+        (lambdaFunctionPredicate) =>
+        lf=lambdaFunction
     |
         (logicalOrExpression (QUESTION)?) =>
         {startOfCond = lt(1);}
-        logicalOrExpression
-        (   endOfCond:QUESTION
-            {if (!constExpr) instrBoolExpr(startOfCond, ct(endOfCond));}
-            assignmentExpression COLON! conditionalExpression
+        complexity1=logicalOrExpression
+        (
+            endOfCond:QUESTION
+            {
+                if (!constExpr)
+                    instrBoolExpr(startOfCond, ct(endOfCond));
+            }
+            complexity2=assignmentExpression COLON! complexity3=conditionalExpression
         )?
+        {
+            // as ternary exists, it's complexity is 1, but this is already accounted for in ExpressionInfo.fromTokens
+            // sum whatever we have in branches
+            complexity = complexity1 + complexity2 + complexity3;
+        }
     ;
 
 
 // logical or (||)  (level 11)
-logicalOrExpression
-    :   logicalAndExpression (LOR logicalAndExpression)*
+logicalOrExpression returns [int complexity]
+{
+    int tmpComplexity = 0;
+}
+    :
+        complexity=logicalAndExpression
+        (
+            LOR
+            tmpComplexity=logicalAndExpression
+            {
+                complexity += tmpComplexity;
+            }
+        )*
     ;
 
 
 // logical and (&&)  (level 10)
-logicalAndExpression
-    :   inclusiveOrExpression (LAND inclusiveOrExpression)*
+logicalAndExpression returns [int complexity]
+{
+    int tmpComplexity = 0;
+}
+    :
+        complexity=inclusiveOrExpression
+        (
+            LAND
+            tmpComplexity=inclusiveOrExpression
+            {
+                complexity += tmpComplexity;
+            }
+        )*
     ;
 
 
 // bitwise or non-short-circuiting or (|)  (level 9)
-inclusiveOrExpression
-    :   exclusiveOrExpression (BOR exclusiveOrExpression)*
+inclusiveOrExpression returns [int complexity]
+{
+    int tmpComplexity = 0;
+}
+    :
+        complexity=exclusiveOrExpression
+        (
+            BOR
+            tmpComplexity=exclusiveOrExpression
+            {
+                complexity += tmpComplexity;
+            }
+        )*
     ;
 
 
 // exclusive or (^)  (level 8)
-exclusiveOrExpression
-    :   andExpression (BXOR andExpression)*
+exclusiveOrExpression returns [int complexity]
+{
+    int tmpComplexity = 0;
+}
+    :
+        complexity=andExpression
+        (
+            BXOR
+            tmpComplexity=andExpression
+            {
+                complexity += tmpComplexity;
+            }
+        )*
     ;
 
 
 // bitwise or non-short-circuiting and (&)  (level 7)
-andExpression
-    :   equalityExpression (BAND equalityExpression)*
+andExpression returns [int complexity]
+{
+    int tmpComplexity = 0;
+}
+    :
+        complexity=equalityExpression
+        (
+            BAND
+            tmpComplexity=equalityExpression
+            {
+                complexity += tmpComplexity;
+            }
+        )*
     ;
 
 
 // equality/inequality (==/!=) (level 6)
-equalityExpression
-    :   relationalExpression ((NOT_EQUAL | EQUAL) relationalExpression)*
+equalityExpression returns [int complexity]
+{
+    int tmpComplexity = 0;
+}
+    :
+        complexity=relationalExpression
+        (
+            (NOT_EQUAL | EQUAL)
+            tmpComplexity=relationalExpression
+            {
+                complexity += tmpComplexity;
+            }
+        )*
     ;
 
 
 // boolean relational expressions (level 5)
-relationalExpression
+relationalExpression returns [int complexity]
 {
-  String type = null;
+    String type = null;
+    int tmpComplexity = 0;
 }
-    :   shiftExpression
-        (   (   (   LT
-                |   GT
-                |   LE
-                |   GE
-                )
-                shiftExpression
+    :
+        complexity=shiftExpression
+        (
+            (
+                ( LT | GT | LE | GE )
+                tmpComplexity=shiftExpression
+                {
+                    complexity += tmpComplexity;
+                }
             )*
         |
             (INSTANCEOF type=typeSpec IDENT) =>
@@ -3045,28 +3286,66 @@ relationalExpression
 
 
 // bit shift expressions (level 4)
-shiftExpression
-    :   additiveExpression ((SL | SR | BSR) additiveExpression)*
+shiftExpression returns [int complexity]
+{
+    int tmpComplexity = 0;
+}
+    :
+        complexity=additiveExpression
+        (
+            (SL | SR | BSR)
+            tmpComplexity=additiveExpression
+            {
+                complexity += tmpComplexity;
+            }
+        )*
     ;
 
 
 // binary addition/subtraction (level 3)
-additiveExpression
-    :   multiplicativeExpression ((PLUS | MINUS) multiplicativeExpression)*
+additiveExpression returns [int complexity]
+{
+    int tmpComplexity = 0;
+}
+    :
+        complexity=multiplicativeExpression
+        (
+            (PLUS | MINUS)
+            tmpComplexity=multiplicativeExpression
+            {
+                complexity += tmpComplexity;
+            }
+        )*
     ;
 
 
 // multiplication/division/modulo (level 2)
-multiplicativeExpression
-    :   unaryExpression ((STAR | DIV | MOD ) unaryExpression)*
+multiplicativeExpression returns [int complexity]
+{
+    int tmpComplexity = 0;
+}
+    :
+        complexity=unaryExpression
+        (
+            (STAR | DIV | MOD )
+            tmpComplexity=unaryExpression
+            {
+                complexity += tmpComplexity;
+            }
+        )*
     ;
 
-unaryExpression
-    :   INC unaryExpression
-    |   DEC unaryExpression
-    |   MINUS unaryExpression
-    |   PLUS unaryExpression
-    |   unaryExpressionNotPlusMinus[null, null]
+unaryExpression returns [int complexity]
+    :
+        INC complexity=unaryExpression
+    |
+        DEC complexity=unaryExpression
+    |
+        MINUS complexity=unaryExpression
+    |
+        PLUS complexity=unaryExpression
+    |
+        complexity=unaryExpressionNotPlusMinus[null, null]
     ;
 
 /**
@@ -3099,14 +3378,17 @@ unaryExpression
  *    postfixExpression[start, end]
  * </pre>
  */
-unaryExpressionNotPlusMinus[CloverToken classCastStart, CloverToken classCastEnd]
+unaryExpressionNotPlusMinus[CloverToken classCastStart, CloverToken classCastEnd] returns [int complexity]
 {
     String type = null;
+    complexity = 0;
 }
-    :   BNOT unaryExpression
-    |   LNOT unaryExpression
-
-    |   (
+    :
+        BNOT complexity=unaryExpression
+    |
+        LNOT complexity=unaryExpression
+    |
+        (
             // subrule allows option to shut off warnings
             options {
                 // "(int" ambig with postfixExpr due to lack of sequence
@@ -3118,7 +3400,7 @@ unaryExpressionNotPlusMinus[CloverToken classCastStart, CloverToken classCastEnd
             // Have to backtrack to see if operator follows
             (LPAREN type=builtInTypeSpec RPAREN unaryExpression)=>
             LPAREN type=builtInTypeSpec RPAREN
-            unaryExpression
+            complexity=unaryExpression
         |
             // Have to backtrack to see if operator follows.  If no operator
             // follows, it's a typecast.  No semantic checking needed to parse.
@@ -3127,9 +3409,9 @@ unaryExpressionNotPlusMinus[CloverToken classCastStart, CloverToken classCastEnd
             { classCastStart = lt(1); }
             LPAREN  type=classTypeSpec (BAND type=classOrInterfaceType)* RPAREN
             { classCastEnd = lt(0); }
-            unaryExpressionNotPlusMinus[classCastStart, classCastEnd]
+            complexity=unaryExpressionNotPlusMinus[classCastStart, classCastEnd]
         |
-            postfixExpression[classCastStart, classCastEnd]
+            complexity=postfixExpression[classCastStart, classCastEnd]
         )
     ;
 
@@ -3139,7 +3421,7 @@ unaryExpressionNotPlusMinus[CloverToken classCastStart, CloverToken classCastEnd
  * @param classCastStart - used for instrumentation of a method reference with type cast
  * @param classCastEnd - used for instrumentation of a method reference with type cast
  */
-postfixExpression[CloverToken classCastStart, CloverToken classCastEnd]
+postfixExpression[CloverToken classCastStart, CloverToken classCastEnd] returns [int complexity]
 {
     /*
      * A marker token to remember where the method reference starts (like "Math::abs" or "String::new" or "int[]::new"
@@ -3148,14 +3430,25 @@ postfixExpression[CloverToken classCastStart, CloverToken classCastEnd]
      * reference).
      */
     CloverToken startMethodReference = null;
+    ContextSetAndComplexity cc = null;
+    int tmpComplexity = 0;
+    complexity = 0;
 }
     :
         {
             // we might start a method reference, remember this token
             startMethodReference = lt(1);
         }
-        primaryExpressionPart         // start with a primary part like constant or identifier
-        supplementaryExpressionPart[classCastStart, classCastEnd, startMethodReference]   // add extra stuff like array indexes, this/super (optional)
+        // start with a primary part like constant or identifier
+        cc=primaryExpressionPart
+        {
+            complexity += cc.getComplexity();
+        }
+        // add extra stuff like array indexes, this/super (optional)
+        tmpComplexity=supplementaryExpressionPart[classCastStart, classCastEnd, startMethodReference]
+        {
+            complexity += tmpComplexity;
+        }
         (
             (methodReferencePredicate) =>
             methodReferencePart           // add a method reference or
@@ -3176,31 +3469,48 @@ postfixExpression[CloverToken classCastStart, CloverToken classCastEnd]
 
 
 // the basic element of an expression
-primaryExpressionPart
+primaryExpressionPart returns [ContextSetAndComplexity ret]
 {
     String type = null;
+    int tmpComplexity = 0;
+    ret = ContextSetAndComplexity.empty();
 }
     :
         IDENT
         {
-                pushIdentifierToHeadStack(LT(0).getText());
+            pushIdentifierToHeadStack(LT(0).getText());
         }
-    |   constant
-    |   TRUE
-    |   FALSE
-    |   THIS
-            {
-                pushIdentifierToHeadStack(LT(0).getText());
-            }
-    |   NULL
-    |   newExpression
-    |   LPAREN! assignmentExpression RPAREN!
-    |   SUPER
-            {
-                pushIdentifierToHeadStack(LT(0).getText());
-            }
+    |
+        constant
+    |
+        TRUE
+    |
+        FALSE
+    |
+        THIS
+        {
+            pushIdentifierToHeadStack(LT(0).getText());
+        }
+    |
+        NULL
+    |
+        tmpComplexity=newExpression
+        {
+            ret = ContextSetAndComplexity.ofComplexity(tmpComplexity);
+        }
+    |
+        LPAREN! tmpComplexity=assignmentExpression RPAREN!
+        {
+            ret = ContextSetAndComplexity.ofComplexity(tmpComplexity);
+        }
+    |
+        SUPER
+        {
+            pushIdentifierToHeadStack(LT(0).getText());
+        }
+    |
         // look for int.class, int[].class, and int[]::new
-    |   type=builtInType
+        type=builtInType
         ( LBRACK  RBRACK! )*
         (
             DOT CLASS
@@ -3210,6 +3520,147 @@ primaryExpressionPart
     |
         // hack: "non-sealed" in expression means "non - sealed", allow this to parse
         NON_SEALED
+    |
+        // a new lambda switch can be a part of an expression
+        ( SWITCH LPAREN expression RPAREN LCURLY (CASE patternMatch | DEFAULT) LAMBDA) =>
+        ret = lambdaSwitchExpression[null]
+    |
+        // even the old one colon switch has been retrofitted
+        ( SWITCH LPAREN expression RPAREN LCURLY (CASE expression | DEFAULT) COLON) =>
+        ret = colonSwitchExpression[null, true]
+    ;
+
+/**
+ * A switch statement or expression containing one or more "case :" or "default :" conditions.
+ * @param owningLabel a label before switch or null if not present
+ * @param isInsideExpression true if the switch is part of an expression, false if is a standalone statement
+ */
+colonSwitchExpression [CloverToken owningLabel, boolean isInsideExpression] returns [ContextSetAndComplexity ret]
+{
+    CloverToken tmp = null;
+    boolean labelled = (owningLabel != null);
+    FlagDeclEmitter flag = null;
+    ret = ContextSetAndComplexity.empty();
+    int casesGroupComplexity, exprComplexity;
+}
+    :
+        sw:SWITCH
+        {
+            tmp = ct(sw);
+            if (labelled) {
+                tmp = owningLabel;
+            }
+            if (!isInsideExpression) {
+                flag = declareFlagBefore(tmp);
+            }
+            enterContext(ContextStore.CONTEXT_SWITCH);
+            ret.setContext(getCurrentContext());
+        }
+        LPAREN! exprComplexity=expression RPAREN! LCURLY!
+        {
+            ret.addComplexity(exprComplexity);
+        }
+        (
+            casesGroupComplexity = colonCasesGroup[flag]
+            {
+                ret.addComplexity(casesGroupComplexity);
+            }
+        )*
+        {
+            exitContext();
+        }
+        rc:RCURLY!
+    ;
+
+/**
+ * A switch statement or expression containing one or more "case ->" or "default ->" conditions.
+ */
+lambdaSwitchExpression [CloverToken owningLabel] returns [ContextSetAndComplexity ret]
+{
+    // every switch must have at least one case/default branch, cyclomatic complexity is number of branches minus 1
+    // every case/default increases it by one, cyclomatic complexity of only one branch is zero
+    int caseComplexity = -1;
+    int exprComplexity = 0;
+    ContextSet saveContext = getCurrentContext();
+    CloverToken tmp = null;
+    ret = ContextSetAndComplexity.ofComplexity(caseComplexity);
+}
+    :
+        sw:SWITCH
+        {
+            tmp = ct(sw);
+            enterContext(ContextStore.CONTEXT_SWITCH);
+            ret.setContext(getCurrentContext());
+        }
+        LPAREN! exprComplexity=expression RPAREN! LCURLY!
+        {
+            ret.addComplexity(exprComplexity);
+        }
+        (
+            caseComplexity = lambdaCase[saveContext]
+            {
+                ret.addComplexity(caseComplexity);
+            }
+        )+
+        {
+            exitContext();
+        }
+        rc:RCURLY!
+    ;
+
+/**
+ * A single "case x ->" or "default ->" label, followed by an expression or a block statement.
+ */
+lambdaCase[ContextSet context] returns [int complexity]
+{
+    CloverToken endTok = null;
+    Token pos = null;
+    CaseExpressionEntryEmitter expressionEntryEmitter = null;
+    CaseThrowExpressionEntryEmitter throwEntryEmitter = null;
+    int exprComplexity = 0;
+    complexity = 1;
+}
+    :
+        (
+            si1:CASE
+            patternMatch
+            {
+                pos = si1;
+            }
+        |
+            si2:DEFAULT
+            {
+                pos = si2;
+            }
+        )
+        t:LAMBDA!
+        (
+            // throwing an exception must be instrumented differently
+            (THROW expression SEMI) =>
+            THROW exprComplexity=expression SEMI
+            {
+                throwEntryEmitter = instrEnterCaseThrowExpression(ct(t), lt(0), context, exprComplexity);
+                instrExitCaseThrowExpression(throwEntryEmitter, lt(0));
+            }
+        |
+            // void and value-returning expressions
+            exprComplexity=expression SEMI
+            {
+                expressionEntryEmitter = instrEnterCaseExpression(ct(t), lt(0), context, exprComplexity);
+                instrExitCaseExpression(expressionEntryEmitter, lt(0));
+            }
+        |
+            // no need for special instrumentation, we will instrument it like a simple { } block, inside
+            endTok=compoundStatement
+        )
+    ;
+
+patternMatch
+    :
+        // just constants, string literals, true/false, null etc; also constant expressions
+        // can be more than one, separated by comma
+        constantExpression
+        (COMMA constantExpression)*
     ;
 
 /**
@@ -3219,21 +3670,35 @@ primaryExpressionPart
  * @param classCastStart - used for instrumentation of a method reference with type cast
  * @param classCastEnd - used for instrumentation of a method reference with type cast
  */
-supplementaryExpressionPart[CloverToken classCastStart, CloverToken classCastEnd, CloverToken startMethodReference]
+supplementaryExpressionPart[CloverToken classCastStart, CloverToken classCastEnd, CloverToken startMethodReference] returns [int complexity]
+{
+    int argListComplexity = 0;
+    int exprComplexity = 0;
+    int newComplexity = 0;
+    complexity = 0;
+}
     :
         (
             // qualified id (id.id.id.id...) -- build the name
-            DOT (
-                  (typeArguments)? // a prefix to a generic class to supply type arguments
-                  IDENT
-                      {
-                          pushIdentifierToHeadStack(LT(0).getText());
-                      }
-                | THIS
-                | CLASS
-                | newExpression
-                | SUPER // ClassName.super.field
-                )
+            DOT
+            (
+                (typeArguments)? // a prefix to a generic class to supply type arguments
+                IDENT
+                {
+                    pushIdentifierToHeadStack(LT(0).getText());
+                }
+            |
+                THIS
+            |
+                CLASS
+            |
+                newComplexity=newExpression
+                {
+                    complexity += newComplexity;
+                }
+            |
+                SUPER // ClassName.super.field
+            )
             // the above line needs a semantic check to make sure "class"
             // is the _last_ qualifier.
         |
@@ -3257,7 +3722,10 @@ supplementaryExpressionPart[CloverToken classCastStart, CloverToken classCastEnd
             )
         |
             // an array indexing operation
-            LBRACK expression RBRACK!
+            LBRACK exprComplexity=expression RBRACK!
+            {
+                complexity += exprComplexity;
+            }
         |
             // method invocation
             // The next line is not strictly proper; it allows x(3)(4) or
@@ -3267,7 +3735,10 @@ supplementaryExpressionPart[CloverToken classCastStart, CloverToken classCastEnd
             // It also allows ctor invocation like super(3) which is now
             // handled by the explicit constructor rule, but it would
             // be hard to syntactically prevent ctor calls here
-            LPAREN argList RPAREN!
+            LPAREN argListComplexity=argList RPAREN!
+            {
+                complexity += argListComplexity;
+            }
         )*
     ;
 
@@ -3348,13 +3819,22 @@ supplementaryPostIncDecPart
  *               2
  * </pre>
  */
-newExpression
+newExpression returns [int complexity]
 {
     CloverToken endOfBlock = null;
     String typeParam = null;
+    int argListComplexity = 0;
+    int declComplexity = 0;
+    int initComplexity = 0;
+    complexity = 0;
 }
-    :   NEW (typeParam=typeParameters)? type
-        (   LPAREN! argList RPAREN! (endOfBlock=classBlock[null])?
+    :
+        NEW (typeParam=typeParameters)? type
+        (
+            LPAREN! argListComplexity=argList RPAREN! (endOfBlock=classBlock[null])?
+            {
+                complexity = argListComplexity;
+            }
 
             //java 1.1
             // Note: This will allow bad constructs like
@@ -3364,19 +3844,33 @@ newExpression
             //   a) [ expr ] and [ ] are not mixed
             //   b) [ expr ] and an init are not used together
 
-        |   newArrayDeclarator (arrayInitializer)?
+        |
+            declComplexity=newArrayDeclarator
+            (
+                initComplexity=arrayInitializer
+            )?
+            {
+                complexity = declComplexity + initComplexity;
+            }
         )
     ;
 
-argList
-    :   (   expressionList
-        |   /*nothing*/
+argList returns [int complexity]
+{
+    complexity = 0;
+}
+    :
+        (
+            complexity=expressionList
+        |
+            /*nothing*/
         )
     ;
 
-newArrayDeclarator
+newArrayDeclarator returns [int complexity]
 {
     AnnotationImpl ann = null;
+    complexity = 0;
 }
     :   (
             // CONFLICT:
@@ -3390,7 +3884,7 @@ newArrayDeclarator
         :
             (ann=annotation)*
             LBRACK
-                (expression)?
+                (complexity=expression)?
             RBRACK!
         )+
     ;
@@ -3402,6 +3896,101 @@ constant
     |   NUM_FLOAT
     |   NUM_LONG
     |   NUM_DOUBLE
+    ;
+
+/////////////////////////////////////////////////
+// constant expressions
+/////////////////////////////////////////////////
+
+constantExpression
+    :
+        constantConditionalExpression
+    ;
+
+constantConditionalExpression
+    :
+        constantLogicalOrExpression
+        (
+            QUESTION
+            constantConditionalExpression COLON! constantConditionalExpression
+        )?
+    ;
+
+constantLogicalOrExpression
+    :   constantLogicalAndExpression (LOR constantLogicalAndExpression)*
+    ;
+
+constantLogicalAndExpression
+    :   constantInclusiveOrExpression (LAND constantInclusiveOrExpression)*
+    ;
+
+constantInclusiveOrExpression
+    :   constantExclusiveOrExpression (BOR constantExclusiveOrExpression)*
+    ;
+
+constantExclusiveOrExpression
+    :   constantAndExpression (BXOR constantAndExpression)*
+    ;
+
+constantAndExpression
+    :   constantEqualityExpression (BAND constantEqualityExpression)*
+    ;
+
+constantEqualityExpression
+    :   constantRelationalExpression ((NOT_EQUAL | EQUAL) constantRelationalExpression)*
+    ;
+
+constantRelationalExpression
+    :   constantShiftExpression ( ( LT | GT | LE | GE ) constantShiftExpression )*
+    ;
+
+constantShiftExpression
+    :   constantAdditiveExpression ( (SL | SR | BSR) constantAdditiveExpression )*
+    ;
+
+constantAdditiveExpression
+    :   constantMultiplicativeExpression ( (PLUS | MINUS) constantMultiplicativeExpression )*
+    ;
+
+constantMultiplicativeExpression
+    :   constantUnaryExpression ( (STAR | DIV | MOD ) constantUnaryExpression )*
+    ;
+
+constantUnaryExpression
+    :   MINUS constantUnaryExpression
+    |   PLUS constantUnaryExpression
+    |   constantUnaryExpressionNotPlusMinus
+    ;
+
+constantUnaryExpressionNotPlusMinus
+{
+    String type = null;
+}
+    :
+        BNOT constantUnaryExpression
+    |
+        LNOT constantUnaryExpression
+    |
+        (
+            // only casts to primitive types and type String are allowed in constant expressions
+            (LPAREN (builtInTypeSpec | {isNextKeyword("String")}? IDENT) RPAREN constantUnaryExpression)=>
+            LPAREN (type=builtInTypeSpec | {isNextKeyword("String")}? IDENT) RPAREN
+            constantUnaryExpression
+        |
+            constantPostfixExpression
+        )
+    ;
+
+constantPostfixExpression
+    :
+        // start with a primary part like constant or identifier
+        (
+            IDENT | constant | TRUE | FALSE | THIS | NULL | SUPER | DEFAULT
+        )
+        // qualified id (id.id.id.id) -- build the name
+        (
+            DOT ( IDENT | THIS | SUPER | CLASS )
+        )*
     ;
 
 
@@ -3511,27 +4100,34 @@ annMemberValue2 [AnnotationValueCollection anno, String key, boolean isSuppressW
         | annMemberValueArrayInitializer [anno, key, isSuppressWarnings]
     ;
 
+
 protected
 conditionalExpression2 returns [String asString]
 {
 	CloverToken start = lt(1);
 	CloverToken end = null;
+	int tmpComplexity;
 	asString = null;
 }
 	:
-	conditionalExpression { end = lt(0); asString = TokenListUtil.getNormalisedSequence(start, end); }
+	    tmpComplexity=conditionalExpression
+	    {
+	        end = lt(0);
+	        asString = TokenListUtil.getNormalisedSequence(start, end);
+        }
 	;
+
 
 protected
 annMemberValueArrayInitializer [AnnotationValueCollection anno, String key, boolean isSuppressWarnings]
 {
-  boolean emitComma = false;
-  boolean seenFallthrough = false;
-  CloverToken last = null;
-  ArrayAnnotationValue annoArray = (anno == null) ? null : new ArrayAnnotationValue();
-  if (anno != null) {
-  	anno.put(key, annoArray);
-  }
+    boolean emitComma = false;
+    boolean seenFallthrough = false;
+    CloverToken last = null;
+    ArrayAnnotationValue annoArray = (anno == null) ? null : new ArrayAnnotationValue();
+    if (anno != null) {
+  	    anno.put(key, annoArray);
+    }
 }
     :
         LCURLY
