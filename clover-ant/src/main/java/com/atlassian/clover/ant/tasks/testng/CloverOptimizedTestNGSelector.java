@@ -92,12 +92,7 @@ public class CloverOptimizedTestNGSelector implements IAnnotationTransformer, IA
             if (name.indexOf("$") > -1) {
                 name.delete(name.indexOf("$"), name.length());
             }
-            return new Optimizable() {
-                @Override
-                public String getName() {
-                    return name.toString();
-                }
-            };
+            return () -> name.toString();
         }
     }
 

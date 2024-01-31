@@ -282,19 +282,9 @@ public class CloverPassTask extends AbstractCloverTask {
 
     private void initFileSets() {
         // gather test result files
-        FilesetFileVisitor.Util.collectFiles(getProject(), testResults, new FilesetFileVisitor() {
-            @Override
-            public void visit(File file) {
-                currentConfig.addTestResultFile(file);
-            }
-        });
+        FilesetFileVisitor.Util.collectFiles(getProject(), testResults, file -> currentConfig.addTestResultFile(file));
         // gather test source files
-        FilesetFileVisitor.Util.collectFiles(getProject(), testSources, new FilesetFileVisitor() {
-            @Override
-            public void visit(File file) {
-                currentConfig.addTestSourceFile(file);
-            }
-        });
+        FilesetFileVisitor.Util.collectFiles(getProject(), testSources, file -> currentConfig.addTestSourceFile(file));
     }
 
 
@@ -383,12 +373,7 @@ public class CloverPassTask extends AbstractCloverTask {
                 matchedPackages.add(packageInfo);
             } else if (requirement.regex != null) {
                 try {
-                    matchedPackages.addAll(projectInfo.getPackages(new HasMetricsFilter() {
-                        @Override
-                        public boolean accept(HasMetrics node) {
-                            return node.getName().matches(requirement.regex);
-                        }
-                    }));
+                    matchedPackages.addAll(projectInfo.getPackages(node -> node.getName().matches(requirement.regex)));
                 } catch (PatternSyntaxException e) {
                     throw new BuildException("Invalid package regular expression '" + requirement.regex + "': " + e.getMessage());
                 }

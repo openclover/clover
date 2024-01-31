@@ -143,28 +143,13 @@ public class CloverReportTask extends AbstractCloverTask {
 
         private void initFileSets() {
             // gather global source files
-            FilesetFileVisitor.Util.collectFiles(project, filesets, new FilesetFileVisitor() {
-                @Override
-                public void visit(File file) {
-                    addGlobalFileName(file.getAbsolutePath());
-                }
-            });
+            FilesetFileVisitor.Util.collectFiles(project, filesets, file -> addGlobalFileName(file.getAbsolutePath()));
 
             // gather test result files
-            FilesetFileVisitor.Util.collectFiles(project, testResults, new FilesetFileVisitor() {
-                @Override
-                public void visit(File file) {
-                    addTestResultFile(file);
-                }
-            });
+            FilesetFileVisitor.Util.collectFiles(project, testResults, file -> addTestResultFile(file));
 
             // gather test source files, ignoring if the dirs are missing
-            FilesetFileVisitor.Util.collectFiles(project, testSources, true, new FilesetFileVisitor() {
-                @Override
-                public void visit(File file) {
-                    addTestSourceFile(file);
-                }
-            });
+            FilesetFileVisitor.Util.collectFiles(project, testSources, true, file -> addTestSourceFile(file));
         }
     }
 

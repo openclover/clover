@@ -242,12 +242,7 @@ public class CloverLogTask extends AbstractCloverTask {
 
             // gather test source files
             final Set<File> testFiles = newHashSet();
-            FilesetFileVisitor.Util.collectFiles(getProject(), testSources, new FilesetFileVisitor() {
-                @Override
-                public void visit(File file) {
-                    testFiles.add(file);
-                }
-            });
+            FilesetFileVisitor.Util.collectFiles(getProject(), testSources, file -> testFiles.add(file));
 
             db.loadCoverageData(
                     new CoverageDataSpec(
