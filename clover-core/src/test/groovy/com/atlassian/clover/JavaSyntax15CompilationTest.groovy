@@ -4,6 +4,8 @@ import com.atlassian.clover.util.JavaEnvUtils
 import org.junit.Before
 import org.junit.Test
 
+import static org.hamcrest.MatcherAssert.assertThat
+import static org.hamcrest.Matchers.equalTo
 import static org.junit.Assume.assumeTrue
 
 /**
@@ -29,5 +31,14 @@ class JavaSyntax15CompilationTest extends JavaSyntaxCompilationTestBase {
         final String fileName = "Java15TextBlock.java"
         instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_15)
         assertFileMatches(fileName, R_INC + "System.out.println", false)
+    }
+
+    @Test
+    void testTextBlockInvalid() {
+        assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_15))
+
+        File srcFile = new File(srcDir, "Java15TextBlockInvalid.java")
+        int retCode = instrumentSourceFileNoAssert(srcFile, JavaEnvUtils.JAVA_15)
+        assertThat(retCode, equalTo(1))
     }
 }

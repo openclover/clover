@@ -24,11 +24,10 @@ import java.util.Locale;
 public class RecorderInstrEmitter extends Emitter {
 
     static final String LAMBDA_INC_METHOD = "lambdaInc";
+    static final String CASE_INC_METHOD = "caseInc";
 
     private static final String INCOMPATIBLE_MSG =
-            "[CLOVER] WARNING: The Clover version used in instrumentation does " +
-                    "not match the runtime version. You need to run instrumented classes against the same version of Clover " +
-                    "that you instrumented with.";
+            "[CLOVER] WARNING: The Clover version used in instrumentation shall match the runtime version.";
     private static final String DEFAULT_CLASSNOTFOUND_MSG =
             "[CLOVER] FATAL ERROR: Clover could not be initialised. Are you " +
                     "sure you have Clover in the runtime classpath?";
@@ -78,6 +77,7 @@ public class RecorderInstrEmitter extends Emitter {
     private boolean shouldEmitWarningMethod;
     private List<CloverProfile> profiles;
     private boolean areLambdasSupported;
+    private boolean areSwitchExpressionsSupported;
 
     public RecorderInstrEmitter(boolean isEnum) {
         super();
@@ -97,6 +97,7 @@ public class RecorderInstrEmitter extends Emitter {
         registryVersion = state.getSession().getVersion();
         javaLangPrefix = state.getCfg().getJavaLangPrefix();
         areLambdasSupported = state.getCfg().getSourceLevel().supportsFeature(LanguageFeature.LAMBDA);
+        areSwitchExpressionsSupported = state.getCfg().getSourceLevel().supportsFeature(LanguageFeature.SWITCH_EXPRESSIONS);
         testClass = state.isDetectTests();
         isSpockTestClass = state.isSpockTestClass();
         isParameterizedJUnitTestClass = state.isParameterizedJUnitTestClass();
@@ -129,6 +130,12 @@ public class RecorderInstrEmitter extends Emitter {
             // add a lambdaInc() wrapper method for lambdas - only for java8 or higher
             if (areLambdasSupported) {
                 instrString += generateLambdaIncMethod(recorderSuffix);
+            }
+
+            // add caseInc() wrappers for switch case written as expressions
+            if (areSwitchExpressionsSupported) {
+                instrString += generateCaseIncValueMethod(recorderSuffix);
+                instrString += generateCaseIncVoidMethod(recorderSuffix);
             }
 
             // static initialization block
@@ -298,6 +305,38 @@ public class RecorderInstrEmitter extends Emitter {
                 .append("return (I)java.lang.reflect.Proxy.newProxyInstance(l.getClass().getClassLoader(),l.getClass().getInterfaces(),h);")
                 .append("}");
         return str.toString();
+    }
+
+    /**
+     * Generates caseInc helper method to wrap case expressions returning values.
+     * <pre>
+     *     public static <T> T caseInc(int i, java.util.function.Supplier<T> s) {
+     *         inc(i);
+     *         return s.get();
+     *     }
+     * </pre>
+     * @param recorderSuffix name of the coverage recorder field
+     * @return String code of the method
+     */
+    private String generateCaseIncValueMethod(String recorderSuffix) {
+        return "public static <T> T caseInc(int i,java.util.function.Supplier<T> s){" +
+                recorderSuffix + ".inc(i);return s.get();}";
+    }
+
+    /**
+     * Generates caseInc helper method to wrap case expressions returning values.
+     * <pre>
+     *     public static void caseInc(int i, Runnable r) {
+     *         inc(i);
+     *         r.run();
+     *     }
+     * </pre>
+     * @param recorderSuffix name of the coverage recorder field
+     * @return String code of the method
+     */
+    private String generateCaseIncVoidMethod(String recorderSuffix) {
+        return "public static void caseInc(int i,Runnable r){" +
+                recorderSuffix + ".inc(i);r.run();}";
     }
 
     /**

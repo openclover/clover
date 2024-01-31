@@ -10,6 +10,7 @@ import java.util.Set;
 import static com.atlassian.clover.cfg.instr.java.LanguageFeature.LAMBDA;
 import static com.atlassian.clover.cfg.instr.java.LanguageFeature.MODULES;
 import static com.atlassian.clover.cfg.instr.java.LanguageFeature.RECORDS;
+import static com.atlassian.clover.cfg.instr.java.LanguageFeature.SWITCH_EXPRESSIONS;
 import static com.atlassian.clover.cfg.instr.java.LanguageFeature.TEXT_BLOCKS;
 import static org.openclover.util.Sets.newHashSet;
 
@@ -24,10 +25,10 @@ public enum SourceLevel {
     JAVA_11("11", newHashSet("1.11", "11"), newHashSet(LAMBDA, MODULES)),
     JAVA_12("12", newHashSet("12"), newHashSet(LAMBDA, MODULES)),
     JAVA_13("13", newHashSet("13"), newHashSet(LAMBDA, MODULES)),
-    JAVA_14("14", newHashSet("14"), newHashSet(LAMBDA, MODULES)),
-    JAVA_15("15", newHashSet("15"), newHashSet(LAMBDA, MODULES, TEXT_BLOCKS)),
-    JAVA_16("16", newHashSet("16"), newHashSet(LAMBDA, MODULES, TEXT_BLOCKS, RECORDS)),
-    JAVA_17("17", newHashSet("17"), newHashSet(LAMBDA, MODULES, TEXT_BLOCKS, RECORDS));
+    JAVA_14("14", newHashSet("14"), newHashSet(LAMBDA, MODULES, SWITCH_EXPRESSIONS)),
+    JAVA_15("15", newHashSet("15"), newHashSet(LAMBDA, MODULES, SWITCH_EXPRESSIONS, TEXT_BLOCKS)),
+    JAVA_16("16", newHashSet("16"), newHashSet(LAMBDA, MODULES, SWITCH_EXPRESSIONS, TEXT_BLOCKS, RECORDS)),
+    JAVA_17("17", newHashSet("17"), newHashSet(LAMBDA, MODULES, SWITCH_EXPRESSIONS, TEXT_BLOCKS, RECORDS));
 
     private static final Set<String> unsupportedSourceLevels =
             newHashSet("1.0", "1.1", "1.2", "1.3", "1.4", "1.5", "5", "1.6", "6");
