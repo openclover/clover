@@ -64,7 +64,7 @@ public class JUnitClassListProcessor {
         final Collection<Optimizable> optimized = optimize(currentProject, optimizationSettings, underTest, sessionHolder);
         if (optimized.size() == 0) {
             if (!ApplicationManager.getApplication().isDispatchThread()) {
-                ApplicationManager.getApplication().invokeLater(() -> NoTestsFoundNotification.showNotifications());
+                ApplicationManager.getApplication().invokeLater(NoTestsFoundNotification::showNotifications);
             } else {
                 NoTestsFoundNotification.showNotifications();
             }

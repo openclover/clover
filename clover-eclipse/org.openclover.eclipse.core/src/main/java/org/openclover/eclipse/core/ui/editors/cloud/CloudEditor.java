@@ -57,7 +57,7 @@ public class CloudEditor
     private DatabaseChangeListener coverageListener = event -> {
         if (event.isApplicableTo(((CloverProjectInput) getEditorInput()).getProject())
             && event.isSubstantiveProjectChange()) {
-            Display.getDefault().asyncExec(() -> CloudEditor.this.onCoverageChanged());
+            Display.getDefault().asyncExec(CloudEditor.this::onCoverageChanged);
         }
     };
 

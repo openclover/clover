@@ -122,7 +122,7 @@ public class TestRunExplorerToolWindow extends JPanel implements CoverageListene
     @Override
     public synchronized void update(final CloverDatabase db) {
         currentCloverDatabase = db;
-        ApplicationManager.getApplication().invokeLater(() -> doUpdate());
+        ApplicationManager.getApplication().invokeLater(this::doUpdate);
     }
 
     private TestViewScope testViewScope;

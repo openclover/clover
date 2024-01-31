@@ -23,8 +23,8 @@ public abstract class BaseListeningRenderer implements ListeningRenderer {
     protected ColumnDefinition column;
     protected ColumnCollectionSettings settings;
 
-    protected Listener paintListener = event -> paint(event);
-    protected Listener eraseListener = event -> erase(event);
+    protected Listener paintListener = this::paint;
+    protected Listener eraseListener = this::erase;
 
     public BaseListeningRenderer(Composite rendered, ColumnCollectionSettings settings, ColumnDefinition column) {
         this.rendered = rendered;

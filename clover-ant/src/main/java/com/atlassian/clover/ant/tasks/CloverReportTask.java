@@ -146,10 +146,10 @@ public class CloverReportTask extends AbstractCloverTask {
             FilesetFileVisitor.Util.collectFiles(project, filesets, file -> addGlobalFileName(file.getAbsolutePath()));
 
             // gather test result files
-            FilesetFileVisitor.Util.collectFiles(project, testResults, file -> addTestResultFile(file));
+            FilesetFileVisitor.Util.collectFiles(project, testResults, this::addTestResultFile);
 
             // gather test source files, ignoring if the dirs are missing
-            FilesetFileVisitor.Util.collectFiles(project, testSources, true, file -> addTestSourceFile(file));
+            FilesetFileVisitor.Util.collectFiles(project, testSources, true, this::addTestSourceFile);
         }
     }
 

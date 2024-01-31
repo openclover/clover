@@ -105,7 +105,7 @@ public abstract class ExplorerView extends CloverViewPart {
 
     private ExplorerView.ActivationPartListener thisPartActivationListener;
 
-    protected ColumnController treeColumnController = () -> buildTreeSorter();
+    protected ColumnController treeColumnController = this::buildTreeSorter;
     private TreeColumnManager treeColumnManager = new TreeColumnManager();
     private Map<TreeColumn, TreeColumnControlListener> columnListeners = newHashMap();
 
@@ -303,7 +303,7 @@ public abstract class ExplorerView extends CloverViewPart {
     protected MenuManager newContextMenuManager() {
         MenuManager manager = new MenuManager("#PopupMenu");
         manager.setRemoveAllWhenShown(true);
-        manager.addMenuListener(manager1 -> fillContextMenu(manager1));
+        manager.addMenuListener(this::fillContextMenu);
         return manager;
     }
 

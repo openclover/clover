@@ -109,9 +109,9 @@ public class GroovySourceTraverser implements SourceTraverser {
                 //String literals will either be strings (staring with ', ''', " or """) or regular expressions (staring with '/')
                 if (GroovyTokenTypes.STRING_LITERAL == prevToken.getType()) {
                     if (fragLines[0].charAt(0) == '/') {
-                        splitNewlinesAnd(fragLines, listener, chunk -> listener.onRegexp(chunk));
+                        splitNewlinesAnd(fragLines, listener, listener::onRegexp);
                     } else {
-                        splitNewlinesAnd(fragLines, listener, chunk -> listener.onStringLiteral(chunk));
+                        splitNewlinesAnd(fragLines, listener, listener::onStringLiteral);
                     }
                 } else if (GroovyTokenTypes.STRING_CTOR_START == prevToken.getType()
                            || GroovyTokenTypes.STRING_CTOR_END == prevToken.getType()
@@ -120,7 +120,7 @@ public class GroovySourceTraverser implements SourceTraverser {
                     //The string ctor start is the first non-expression part of the string
                     //The string ctor middle is any non-expression part in between expression parts
                     //The string ctor end is the final non-expression part
-                    splitNewlinesAnd(fragLines, listener, chunk -> listener.onStringLiteral(chunk));
+                    splitNewlinesAnd(fragLines, listener, listener::onStringLiteral);
                 } else if (GroovyTokenTypes.SL_COMMENT == prevToken.getType()) {
                     //A single line comment can't have newlines
                     listener.onCommentChunk(fragLines[0]);
@@ -169,7 +169,7 @@ public class GroovySourceTraverser implements SourceTraverser {
                         listener.onIdentifier(fragment);
                     } else {
                         //Whitespace, curlies etc
-                        splitNewlinesAnd(fragLines, listener, chunk -> listener.onChunk(chunk));
+                        splitNewlinesAnd(fragLines, listener, listener::onChunk);
                     }
                 }
                 firstToken = currToken;

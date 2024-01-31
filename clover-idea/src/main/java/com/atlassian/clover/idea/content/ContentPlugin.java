@@ -95,7 +95,7 @@ public abstract class ContentPlugin implements DocumentListener, CoverageTreeLis
         currentCoverageModel = coverageModel;
         final CloverDatabase db = coverageModel != null ? coverageModel.getCloverDatabase() : null;
         coverageInfo = db != null ? (FullFileInfo) db.getFullModel().findFile(openFilename) : null;
-        SwingUtilities.invokeLater(() -> refresh());
+        SwingUtilities.invokeLater(this::refresh);
     }
 
     protected boolean hasPotentialCloverableElements() {

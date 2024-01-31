@@ -69,7 +69,7 @@ public class ProjectPlugin implements IProjectPlugin, ProjectComponent, ModuleRo
         this.project = project;
         config = IdeaCloverConfig.fromProject(this.project);
 
-        StartupManager.getInstance(project).runWhenProjectIsInitialized(() -> projectPostStartup());
+        StartupManager.getInstance(project).runWhenProjectIsInitialized(this::projectPostStartup);
     }
 
     /**

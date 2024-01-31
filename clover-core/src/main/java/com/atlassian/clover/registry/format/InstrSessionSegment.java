@@ -35,22 +35,22 @@ public class InstrSessionSegment {
     static final long NONE_IDX = -1L;
     static final Tags TAGS =
         new Tags()
-                .registerTag(FullFileInfo.class.getName(), Tags.NEXT_TAG + 0, (ObjectReader<FullFileInfo>) in -> FullFileInfo.read(in))
-                .registerTag(FullClassInfo.class.getName(), Tags.NEXT_TAG + 1, (ObjectReader<FullClassInfo>) in -> FullClassInfo.read(in))
-                .registerTag(FullMethodInfo.class.getName(), Tags.NEXT_TAG + 2, (ObjectReader<FullMethodInfo>) in -> FullMethodInfo.read(in))
-                .registerTag(FullStatementInfo.class.getName(), Tags.NEXT_TAG + 3, (ObjectReader<FullStatementInfo>) in -> FullStatementInfo.read(in))
-                .registerTag(FullBranchInfo.class.getName(), Tags.NEXT_TAG + 4, (ObjectReader<FullBranchInfo>) in -> FullBranchInfo.read(in))
-                .registerTag(ContextSet.class.getName(), Tags.NEXT_TAG + 5, (ObjectReader<ContextSet>) in -> ContextSet.read(in))
-                .registerTag(FixedSourceRegion.class.getName(), Tags.NEXT_TAG + 6, (ObjectReader<FixedSourceRegion>) in -> FixedSourceRegion.read(in))
-                .registerTag(MethodSignature.class.getName(), Tags.NEXT_TAG + 7, (ObjectReader<MethodSignature>) in -> MethodSignature.read(in))
-                .registerTag(Modifiers.class.getName(), Tags.NEXT_TAG + 8, (ObjectReader<Modifiers>) in -> Modifiers.read(in))
-                .registerTag(Parameter.class.getName(), Tags.NEXT_TAG + 9, (ObjectReader<Parameter>) in -> Parameter.read(in))
-                .registerTag(AnnotationImpl.class.getName(), Tags.NEXT_TAG + 10, (ObjectReader<AnnotationImpl>) in -> AnnotationImpl.read(in))
-                .registerTag(ArrayAnnotationValue.class.getName(), Tags.NEXT_TAG + 11, (ObjectReader<ArrayAnnotationValue>) in -> ArrayAnnotationValue.read(in))
-                .registerTag(StringifiedAnnotationValue.class.getName(), Tags.NEXT_TAG + 12, (ObjectReader<StringifiedAnnotationValue>) in -> StringifiedAnnotationValue.read(in))
-                .registerTag(ContextStore.class.getName(), (byte)(Tags.NEXT_TAG + 13), (ObjectReader<ContextStore>) in -> ContextStore.read(in))
-                .registerTag(StatementRegexpContext.class.getName(), (byte)(Tags.NEXT_TAG + 14), (ObjectReader<StatementRegexpContext>) in -> StatementRegexpContext.read(in))
-                .registerTag(MethodRegexpContext.class.getName(), (byte)(Tags.NEXT_TAG + 15), (ObjectReader<MethodRegexpContext>) in -> MethodRegexpContext.read(in));
+                .registerTag(FullFileInfo.class.getName(), Tags.NEXT_TAG + 0, (ObjectReader<FullFileInfo>) FullFileInfo::read)
+                .registerTag(FullClassInfo.class.getName(), Tags.NEXT_TAG + 1, (ObjectReader<FullClassInfo>) FullClassInfo::read)
+                .registerTag(FullMethodInfo.class.getName(), Tags.NEXT_TAG + 2, (ObjectReader<FullMethodInfo>) FullMethodInfo::read)
+                .registerTag(FullStatementInfo.class.getName(), Tags.NEXT_TAG + 3, (ObjectReader<FullStatementInfo>) FullStatementInfo::read)
+                .registerTag(FullBranchInfo.class.getName(), Tags.NEXT_TAG + 4, (ObjectReader<FullBranchInfo>) FullBranchInfo::read)
+                .registerTag(ContextSet.class.getName(), Tags.NEXT_TAG + 5, (ObjectReader<ContextSet>) ContextSet::read)
+                .registerTag(FixedSourceRegion.class.getName(), Tags.NEXT_TAG + 6, (ObjectReader<FixedSourceRegion>) FixedSourceRegion::read)
+                .registerTag(MethodSignature.class.getName(), Tags.NEXT_TAG + 7, (ObjectReader<MethodSignature>) MethodSignature::read)
+                .registerTag(Modifiers.class.getName(), Tags.NEXT_TAG + 8, (ObjectReader<Modifiers>) Modifiers::read)
+                .registerTag(Parameter.class.getName(), Tags.NEXT_TAG + 9, (ObjectReader<Parameter>) Parameter::read)
+                .registerTag(AnnotationImpl.class.getName(), Tags.NEXT_TAG + 10, (ObjectReader<AnnotationImpl>) AnnotationImpl::read)
+                .registerTag(ArrayAnnotationValue.class.getName(), Tags.NEXT_TAG + 11, (ObjectReader<ArrayAnnotationValue>) ArrayAnnotationValue::read)
+                .registerTag(StringifiedAnnotationValue.class.getName(), Tags.NEXT_TAG + 12, (ObjectReader<StringifiedAnnotationValue>) StringifiedAnnotationValue::read)
+                .registerTag(ContextStore.class.getName(), (byte)(Tags.NEXT_TAG + 13), (ObjectReader<ContextStore>) ContextStore::read)
+                .registerTag(StatementRegexpContext.class.getName(), (byte)(Tags.NEXT_TAG + 14), (ObjectReader<StatementRegexpContext>) StatementRegexpContext::read)
+                .registerTag(MethodRegexpContext.class.getName(), (byte)(Tags.NEXT_TAG + 15), (ObjectReader<MethodRegexpContext>) MethodRegexpContext::read);
 
     private final long version;
     private final long startTs;

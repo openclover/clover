@@ -121,7 +121,7 @@ public class CloudEditorController implements CoverageListener, HasMetricsListen
     private void update(final CloverDatabase db, final HasMetrics selectedElement) {
         cacheElement(db, selectedElement);
         if (db == null) {
-            ApplicationManager.getApplication().invokeLater(() -> cloudView.clean());
+            ApplicationManager.getApplication().invokeLater(cloudView::clean);
             return;
         }
         final String packagePrefix = packagePrefix(selectedElement);

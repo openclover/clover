@@ -282,9 +282,9 @@ public class CloverPassTask extends AbstractCloverTask {
 
     private void initFileSets() {
         // gather test result files
-        FilesetFileVisitor.Util.collectFiles(getProject(), testResults, file -> currentConfig.addTestResultFile(file));
+        FilesetFileVisitor.Util.collectFiles(getProject(), testResults, currentConfig::addTestResultFile);
         // gather test source files
-        FilesetFileVisitor.Util.collectFiles(getProject(), testSources, file -> currentConfig.addTestSourceFile(file));
+        FilesetFileVisitor.Util.collectFiles(getProject(), testSources, currentConfig::addTestSourceFile);
     }
 
 

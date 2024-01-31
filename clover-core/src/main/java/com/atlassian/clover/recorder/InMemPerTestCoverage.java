@@ -146,7 +146,7 @@ public class InMemPerTestCoverage extends BasePerTestCoverage implements Seriali
     /** @return a non-null slot set with those that intersect the given slices/tcis in the given range set to true */
     @Override
     public BitSet getHitsFor(final Set<TestCaseInfo> tcis, CoverageDataRange range) {
-        return getCoverage(tci -> tcis.contains(tci), range);
+        return getCoverage(tcis::contains, range);
     }
 
     /** @return a non-null slot set with those that satisfy the predicate set to true */
@@ -209,7 +209,7 @@ public class InMemPerTestCoverage extends BasePerTestCoverage implements Seriali
 
     /** Predicate for filtering on tcis */
     private interface TestCaseInfoPredicate {
-        TestCaseInfoPredicate SUCCESS_ONLY = tci -> tci.isSuccess();
+        TestCaseInfoPredicate SUCCESS_ONLY = TestCaseInfo::isSuccess;
         TestCaseInfoPredicate ALL = tci -> true;
         boolean eval(final TestCaseInfo slice);
     }

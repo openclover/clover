@@ -84,7 +84,7 @@ public class CloverPluginDownloader extends Task.Backgroundable {
             FileUtil.copy(tempFile, newFile);
             LOG.info("Scheduling deletion of " + currentFile);
             StartupActionScriptManager.addActionCommand(new StartupActionScriptManager.DeleteCommand(currentFile));
-            ApplicationManager.getApplication().invokeLater(() -> onTrueSuccess());
+            ApplicationManager.getApplication().invokeLater(this::onTrueSuccess);
 
         } catch (final Exception e) {
 

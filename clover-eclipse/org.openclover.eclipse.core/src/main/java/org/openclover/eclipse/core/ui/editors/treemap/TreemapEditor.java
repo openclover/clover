@@ -189,7 +189,7 @@ public class TreemapEditor extends EditorPart {
     private void hookContextMenu() {
         MenuManager menuMgr = new MenuManager("#PopupMenu");
         menuMgr.setRemoveAllWhenShown(true);
-        menuMgr.addMenuListener(manager -> fillContextMenu(manager));
+        menuMgr.addMenuListener(this::fillContextMenu);
         Menu menu = menuMgr.createContextMenu(treeMap);
         treeMap.setMenu(menu);
     }
