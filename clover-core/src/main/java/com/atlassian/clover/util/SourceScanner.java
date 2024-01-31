@@ -30,13 +30,9 @@ public class SourceScanner {
     public SourceScanner(File srcDir, File destDir, final String nameSpec) {
         this.srcDir = srcDir;
         this.destDir = destDir;
-        this.nameSpecFilter = new FilenameFilter() {
-
-            @Override
-            public boolean accept(File parent, String name) {
-                File file = new File(parent, name);
-                return file.isDirectory() || name.matches(nameSpec);
-            }
+        this.nameSpecFilter = (parent, name) -> {
+            File file = new File(parent, name);
+            return file.isDirectory() || name.matches(nameSpec);
         };
     }
 

@@ -140,23 +140,20 @@ public class PrefixTree<K, V> {
      * @param rootNode   node for which tree shall be printed
      */
     void printTree(@NotNull final PrintStream out, @NotNull final Node<K, V> rootNode) {
-        final NodeVisitor<K,V> nodePrinter = new NodeVisitor<K, V>() {
-            @Override
-            public Node<K, V> visit(@NotNull Node<K, V> node, int depth) {
-                final StringBuilder line = new StringBuilder();
-                for (int i = 0; i < depth; i++) {
-                    line.append("  ");
-                }
-                line.append('+');
-
-                line.append(node.getKey());
-                if (node.getValue() != null) {
-                    line.append(" (").append(node.getValue().toString()).append(')');
-                }
-
-                out.println(line);
-                return node;
+        final NodeVisitor<K,V> nodePrinter = (node, depth) -> {
+            final StringBuilder line = new StringBuilder();
+            for (int i = 0; i < depth; i++) {
+                line.append("  ");
             }
+            line.append('+');
+
+            line.append(node.getKey());
+            if (node.getValue() != null) {
+                line.append(" (").append(node.getValue().toString()).append(')');
+            }
+
+            out.println(line);
+            return node;
         };
 
         walkTree(rootNode, nodePrinter);

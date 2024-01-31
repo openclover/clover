@@ -15,12 +15,8 @@ import static org.openclover.util.Lists.newArrayList;
  *  this class grows arrays linearly because they are almost always likely to be tiny (1 or 2 entries)
  */
 public class LineInfo {
-    public static Comparator<ElementInfo> COLUMN_COMPARATOR = new Comparator<ElementInfo>() {
-        @Override
-        public int compare(ElementInfo a, ElementInfo b) {
-            return Integer.compare(a.getStartColumn(), b.getStartColumn());
-        }
-    };
+    public static Comparator<ElementInfo> COLUMN_COMPARATOR = (a, b) ->
+            Integer.compare(a.getStartColumn(), b.getStartColumn());
     
     private int line;
 

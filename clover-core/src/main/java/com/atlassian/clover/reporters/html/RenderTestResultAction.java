@@ -28,12 +28,8 @@ public class RenderTestResultAction implements Callable {
     private static final ThreadLocal<FullProjectInfo> REUSABLE_MODEL = new ThreadLocal<>();
     private static final ThreadLocal<FullProjectInfo> CONFIGURABLE_MODEL = new ThreadLocal<>();
 
-    private static final Comparator<HasMetrics> TARGET_CLASS_COMPARATOR = new Comparator<HasMetrics>() {
-        @Override
-        public int compare(HasMetrics m, HasMetrics m1) {
-            return Float.compare(m1.getMetrics().getPcCoveredElements(), m.getMetrics().getPcCoveredElements());
-        }
-    };
+    private static final Comparator<HasMetrics> TARGET_CLASS_COMPARATOR = (hasMetrics1, hasMetrics2) ->
+            Float.compare(hasMetrics2.getMetrics().getPcCoveredElements(), hasMetrics1.getMetrics().getPcCoveredElements());
 
     private final HtmlRenderingSupportImpl renderingHelper; // read only
     private final Current reportConfig; // read only
@@ -45,13 +41,13 @@ public class RenderTestResultAction implements Callable {
     private final FullProjectInfo readOnlyModel; // gets copied in thread locals
 
     public RenderTestResultAction(
-        TestCaseInfo testCaseInfo,
-        HtmlRenderingSupportImpl renderingHelper,
-        Current reportConfig,
-        FullProjectInfo readOnlyModel,
-        VelocityContext velocity,
-        FullProjectInfo fullModel,
-        CloverDatabase database) {
+            TestCaseInfo testCaseInfo,
+            HtmlRenderingSupportImpl renderingHelper,
+            Current reportConfig,
+            FullProjectInfo readOnlyModel,
+            VelocityContext velocity,
+            FullProjectInfo fullModel,
+            CloverDatabase database) {
 
         this.renderingHelper = renderingHelper;
         this.reportConfig = reportConfig;
@@ -73,9 +69,9 @@ public class RenderTestResultAction implements Callable {
             CONFIGURABLE_MODEL.set(readOnlyModel.copy());
         }
 
-        final FullFileInfo finfo = (FullFileInfo)testCaseInfo.getRuntimeType().getContainingFile();
+        final FullFileInfo finfo = (FullFileInfo) testCaseInfo.getRuntimeType().getContainingFile();
         final StringBuffer outname = renderingHelper.getTestFileName(testCaseInfo);
-        final File outfile  = CloverUtils.createOutFile(finfo, outname.toString(), reportConfig.getOutFile());
+        final File outfile = CloverUtils.createOutFile(finfo, outname.toString(), reportConfig.getOutFile());
 
         FullProjectInfo projectInfo = CONFIGURABLE_MODEL.get();
 
@@ -125,7 +121,8 @@ public class RenderTestResultAction implements Callable {
 
     /**
      * Fills the given map with classname[String],ClassInfo of unique coverage
-     * @param tci the test case info to build the unique coverage for
+     *
+     * @param tci               the test case info to build the unique coverage for
      * @param uniqueCoverageMap the map to store each ClassInfo object, keyed on {@link com.atlassian.clover.registry.entities.FullClassInfo#getQualifiedName()}, (String)
      * @return the number of unique elements that were hit by the tests
      */
@@ -141,7 +138,7 @@ public class RenderTestResultAction implements Callable {
         }
         return uniqueElementsHit;
     }
-    
+
     private FullProjectInfo createUniqueCoverageModel(TestCaseInfo tci) {
         FullProjectInfo projectInfo = REUSABLE_MODEL.get();
         final CoverageData data = database.getCoverageData();
@@ -150,12 +147,8 @@ public class RenderTestResultAction implements Callable {
     }
 
     private List<? extends BaseClassInfo> getCoverageByTest(FullProjectInfo projectInfo) {
-        return projectInfo.getClasses(new HasMetricsFilter() {
-            @Override
-            public boolean accept(HasMetrics hm) {
-                return ((!((ClassInfo)hm).isTestClass()) &&
-                        (hm.getMetrics().getNumCoveredElements() > 0));
-            }
-        });
+        return projectInfo.getClasses(hasMetrics ->
+                ((!((ClassInfo) hasMetrics).isTestClass()) &&
+                        (hasMetrics.getMetrics().getNumCoveredElements() > 0)));
     }
 }

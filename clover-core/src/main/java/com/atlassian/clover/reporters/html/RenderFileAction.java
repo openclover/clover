@@ -50,13 +50,10 @@ public class RenderFileAction implements Callable {
     protected static ThreadLocal<List<Column>> columnsTL;
     protected static ThreadLocal<ContextSet> contextSetTL;
 
-    private final static Comparator TEST_METRICS_COMPARATOR = new Comparator() {
-        @Override
-        public int compare(Object object, Object object1) {
-            BlockMetrics m = (BlockMetrics) ((Map.Entry) object).getValue();
-            BlockMetrics m1 = (BlockMetrics) ((Map.Entry) object1).getValue();
-            return (int) (1000 * (m1.getPcCoveredElements() - m.getPcCoveredElements()));
-        }
+    private final static Comparator TEST_METRICS_COMPARATOR = (object, object1) -> {
+        BlockMetrics m = (BlockMetrics) ((Map.Entry) object).getValue();
+        BlockMetrics m1 = (BlockMetrics) ((Map.Entry) object1).getValue();
+        return (int) (1000 * (m1.getPcCoveredElements() - m.getPcCoveredElements()));
     };
 
     protected final FullFileInfo fileInfo; // shared: call made to setDataProvider on local copy

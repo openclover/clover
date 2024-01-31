@@ -17,19 +17,16 @@ public class UpdatableRegFilePrinter {
             final UpdatableRegFile regFile = new UpdatableRegFile(registryFile);
             out.write("Registry name=" + regFile.getName() + " version=" + regFile.getVersion() + " \n");
 
-            regFile.readContents(new RegContentsConsumer() {
-                @Override
-                public void consume(RegContents contents) throws IOException {
-                    //Sessions are ordered newest to oldest
-                    for (InstrSessionSegment sessionSegment : contents.getSessions()) {
-                        out.write("\tSession startTs=" + sessionSegment.getStartTs() + " endTs=" + sessionSegment.getEndTs() + " version=" + sessionSegment.getVersion() + "\n");
+            regFile.readContents(contents -> {
+                //Sessions are ordered newest to oldest
+                for (InstrSessionSegment sessionSegment : contents.getSessions()) {
+                    out.write("\tSession startTs=" + sessionSegment.getStartTs() + " endTs=" + sessionSegment.getEndTs() + " version=" + sessionSegment.getVersion() + "\n");
 
-                        for (FileInfoRecord fileInfoRec : sessionSegment.getFileInfoRecords()) {
-                             out.write("\t\tFile name=" + fileInfoRec.getName() + " package=" + fileInfoRec.getPackageName() + "\n");
-                        }
+                    for (FileInfoRecord fileInfoRec : sessionSegment.getFileInfoRecords()) {
+                         out.write("\t\tFile name=" + fileInfoRec.getName() + " package=" + fileInfoRec.getPackageName() + "\n");
                     }
-                    out.flush();
                 }
+                out.flush();
             });
     }
 

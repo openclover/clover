@@ -33,13 +33,7 @@ public class CloverMerge {
             databases.add(new CloverDatabaseSpec(db, mergingDbs.get(db)));
         }
         try {
-            CloverDatabase.merge(databases, initString, update, updateSpan, new ProgressListener() {
-
-                @Override
-                public void handleProgress(String desc, float pc) {
-                    System.out.println(desc);
-                }
-            });
+            CloverDatabase.merge(databases, initString, update, updateSpan, (desc, pc) -> System.out.println(desc));
         }
         catch (Exception e) {
             Logger.getInstance().error("Error writing new clover db '" + initString, e);

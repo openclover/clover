@@ -382,13 +382,10 @@ public class CloverChartFactory {
     }
 
     private static XYURLGenerator getXYURLGenerator(final Map<XYDataItem, BaseClassInfo> classInfoMap) {
-        return new XYURLGenerator(){
-            @Override
-            public String generateURL(XYDataset dataset, int series, int item) {
-                XYDataItem key = new XYDataItem(dataset.getX(series, item), dataset.getY(series, item));
-                BaseClassInfo classInfo = classInfoMap.get(key);
-                return new String(HTML_HELPER.getSrcFileLink(true, true, classInfo));
-            }
+        return (dataset, series, item) -> {
+            XYDataItem key = new XYDataItem(dataset.getX(series, item), dataset.getY(series, item));
+            BaseClassInfo classInfo = classInfoMap.get(key);
+            return new String(HTML_HELPER.getSrcFileLink(true, true, classInfo));
         };
     }
 

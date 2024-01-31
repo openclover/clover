@@ -157,16 +157,13 @@ public class HtmlReporter extends CloverReporter {
     protected static final String TAB_RESULTS = "Results";
 
     private static final Comparator TEST_SORT_ORDER = HasMetricsSupport.newTestListComparator();
-    private static final Comparator<TestCaseInfo> TEST_CASE_COMPARATOR = new Comparator<TestCaseInfo>() {
-        @Override
-        public int compare(TestCaseInfo lhs, TestCaseInfo rhs) {
-            if (rhs.isSuccess() & lhs.isSuccess()) {
-                return 0;
-            } else if (!rhs.isSuccess()) {
-                return 1;
-            } else {
-                return -1;
-            }
+    private static final Comparator<TestCaseInfo> TEST_CASE_COMPARATOR = (lhs, rhs) -> {
+        if (rhs.isSuccess() & lhs.isSuccess()) {
+            return 0;
+        } else if (!rhs.isSuccess()) {
+            return 1;
+        } else {
+            return -1;
         }
     };
 
@@ -886,12 +883,8 @@ public class HtmlReporter extends CloverReporter {
         final VelocityContext context = new VelocityContext();
 
         final FullProjectInfo projectInfo = getFullModel().copy(
-                new HasMetricsFilter() {
-                    @Override
-                    public boolean accept(HasMetrics hm) {
-                        return !(hm instanceof BaseClassInfo) || ((BaseClassInfo) hm).isTestClass();
-                    }
-                }
+                hasMetrics ->
+                        !(hasMetrics instanceof BaseClassInfo) || ((BaseClassInfo) hasMetrics).isTestClass()
         );
         List packages = projectInfo.getAllPackages();
 

@@ -102,40 +102,37 @@ public class Clover2Registry implements InstrumentationTarget {
             final long version = regFile.getVersion();
 
             final Clover2Registry[] resultReg = new Clover2Registry[1];
-            regFile.readContents(new RegContentsConsumer() {
-                @Override
-                public void consume(RegContents contents) {
-                    ContextStore ctxStore = null;
+            regFile.readContents(contents -> {
+                ContextStore ctxStore = null;
 
-                    //Sessions are ordered newest to oldest
-                    for (InstrSessionSegment sessionSegment : contents.getSessions()) {
-                        //Grab first context store ie the most recent store from the most recent session
-                        ctxStore = ctxStore == null ? sessionSegment.getCtxStore() : ctxStore;
+                //Sessions are ordered newest to oldest
+                for (InstrSessionSegment sessionSegment : contents.getSessions()) {
+                    //Grab first context store ie the most recent store from the most recent session
+                    ctxStore = ctxStore == null ? sessionSegment.getCtxStore() : ctxStore;
 
-                        final Collection<FileInfoRecord> fileInfoRecs = sessionSegment.getFileInfoRecords();
+                    final Collection<FileInfoRecord> fileInfoRecs = sessionSegment.getFileInfoRecords();
 
-                        instrHistory.add(
-                            new InstrumentationInfo(
-                                sessionSegment.getVersion(),
-                                sessionSegment.getStartTs(),
-                                sessionSegment.getEndTs()));
+                    instrHistory.add(
+                        new InstrumentationInfo(
+                            sessionSegment.getVersion(),
+                            sessionSegment.getStartTs(),
+                            sessionSegment.getEndTs()));
 
-                        buildModel(version, filter, projInfo, fileInfos, sessionSegment, fileInfoRecs);
-                    }
-
-                    recreateDataIndicesAndLengths(regFile, projInfo);
-
-                    Clover2Registry reg = new Clover2Registry(regFile, projInfo, instrHistory, ctxStore);
-
-                    final CoverageSegment coverage = contents.getCoverage();
-                    if (coverage != null) {
-                        final CoverageData covData = new CoverageData(reg.getVersion(), coverage.getHitCounts(), coverage.getPerTestCoverage());
-                        reg.setCoverageData(covData);
-                        reg.getProject().setDataProvider(covData);
-                    }
-
-                    resultReg[0] = reg;
+                    buildModel(version, filter, projInfo, fileInfos, sessionSegment, fileInfoRecs);
                 }
+
+                recreateDataIndicesAndLengths(regFile, projInfo);
+
+                Clover2Registry reg = new Clover2Registry(regFile, projInfo, instrHistory, ctxStore);
+
+                final CoverageSegment coverage = contents.getCoverage();
+                if (coverage != null) {
+                    final CoverageData covData = new CoverageData(reg.getVersion(), coverage.getHitCounts(), coverage.getPerTestCoverage());
+                    reg.setCoverageData(covData);
+                    reg.getProject().setDataProvider(covData);
+                }
+
+                resultReg[0] = reg;
             });
 
             return resultReg[0];

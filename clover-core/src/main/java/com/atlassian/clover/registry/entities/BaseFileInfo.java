@@ -143,12 +143,7 @@ public class BaseFileInfo implements FileInfo {
 
     @Override
     public EntityContainer getParent() {
-        return new EntityContainer() {
-            @Override
-            public void visit(EntityVisitor entityVisitor) {
-                entityVisitor.visitPackage(containingPackage);
-            }
-        };
+        return entityVisitor -> entityVisitor.visitPackage(containingPackage);
     }
 
     @Override

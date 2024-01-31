@@ -21,13 +21,9 @@ import static org.openclover.util.Maps.newTreeMap;
  */
 public class MetricsCollator {
 
-    final HasMetricsFilter methodFilter = new HasMetricsFilter() {
-        @Override
-        public boolean accept(HasMetrics hm) {
-            return hm.getMetrics().getPcCoveredElements() != 1 &&
-                    hm.getMetrics().getNumElements() > 0;
-        }
-    };
+    final HasMetricsFilter methodFilter = hasMetrics ->
+            hasMetrics.getMetrics().getPcCoveredElements() != 1 &&
+                    hasMetrics.getMetrics().getNumElements() > 0;
 
     final EntityVisitorUtils entityUtils = new EntityVisitorUtils();
 
@@ -35,6 +31,7 @@ public class MetricsCollator {
      * Given a list of {@link com.atlassian.clover.api.registry.ClassInfo} objects,
      * return a list of {@link com.atlassian.clover.api.registry.MethodInfo} s, ranked
      * by PC COvered (asc), Num Elements Uncovered and Complexity.
+     *
      * @return List&lt;MethodInfo&gt;
      */
     public List<MethodInfo> getLeastTestedMethods(final List<? extends ClassInfo> classes,
@@ -50,7 +47,7 @@ public class MetricsCollator {
             for (MethodInfo methodInfo : classInfo.getAllMethods()) {
                 if (methodFilter.accept(methodInfo)
                         && (showLambdaFunctions || !methodInfo.isLambda())
-                        && (showInnerFunctions || !entityUtils.isInnerMethod(methodInfo) )
+                        && (showInnerFunctions || !entityUtils.isInnerMethod(methodInfo))
                 ) {
                     methodsLeastTested.add(methodInfo);
                 }
@@ -91,6 +88,7 @@ public class MetricsCollator {
      * Sums the index of the class when ordered by %covered elements and that when ordered
      * by average method complexity. This gives a single 'risk value' that is then the key
      * in the returned map.
+     *
      * @param pceOrder a list of ClassInfos ordered by percentage of elements covered
      * @param amcOrder a list of ClassInfos ordered by average method complexity
      * @return an ordered map keyed on Integer (risk value), value List of ClassInfo.

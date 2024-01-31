@@ -83,33 +83,25 @@ public class SamplingPerTestCoverage extends BasePerTestCoverage {
 
         final List<FileInfoSample> fileSamples = newLinkedList();
         final IntArrayList methodIdx = new IntArrayList();
-        registry.getProject().visitFiles(new FileInfoVisitor() {
-            @Override
-            public void visitFileInfo(BaseFileInfo file) {
-                //Initialise a TCI sample for this FileInfo
+        registry.getProject().visitFiles(fileInfo -> {
+            //Initialise a TCI sample for this FileInfo
 
-                for(ClassInfo classInfo : file.getClasses()) {
-                    //Map method entry index back to the index in the TCI sample array
-                    for(MethodInfo methodInfo : classInfo.getMethods()) {
-                        methodIdx.add(methodInfo.getDataIndex());
-                    }
+            for(ClassInfo classInfo : fileInfo.getClasses()) {
+                //Map method entry index back to the index in the TCI sample array
+                for(MethodInfo methodInfo : classInfo.getMethods()) {
+                    methodIdx.add(methodInfo.getDataIndex());
                 }
-
-                fileSamples.add(
-                        new FileInfoSample(
-                                file.getDataIndex(),
-                                methodIdx.toIntArray()));
-                methodIdx.clear();
             }
+
+            fileSamples.add(
+                    new FileInfoSample(
+                            fileInfo.getDataIndex(),
+                            methodIdx.toIntArray()));
+            methodIdx.clear();
         });
 
         this.fileInfoSamples = fileSamples.toArray(new FileInfoSample[0]);
-        Arrays.sort(this.fileInfoSamples, new Comparator<FileInfoSample>() {
-            @Override
-            public int compare(FileInfoSample fs1, FileInfoSample fs2) {
-                return fs1.idx - fs2.idx;
-            }
-        });
+        Arrays.sort(this.fileInfoSamples, (fs1, fs2) -> fs1.idx - fs2.idx);
 
         this.fileIdxToSamplings = new Int2ObjectRBTreeMap();
         for (FileInfoSample fileSample : this.fileInfoSamples) {

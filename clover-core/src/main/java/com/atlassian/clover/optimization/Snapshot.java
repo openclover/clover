@@ -221,15 +221,12 @@ public class Snapshot implements Serializable {
    private void calcHits(final CloverDatabase db) {
         final long started = System.currentTimeMillis();
 
-        db.getFullModel().visitFiles(new FileInfoVisitor() {
-            @Override
-            public void visitFileInfo(BaseFileInfo file) {
-                final String packagePath = file.getPackagePath();
-                final SourceState sourceState = new SourceState(file.getChecksum(), file.getFilesize());
-                final Set<TestMethodCall> testsForFile = testsFor(db.getFullModel(), db.getTestHits((CoverageDataRange) file));
-                for (TestMethodCall test : testsForFile) {
-                    addToStates(test, packagePath, sourceState);
-                }
+        db.getFullModel().visitFiles(fileInfo -> {
+            final String packagePath = fileInfo.getPackagePath();
+            final SourceState sourceState = new SourceState(fileInfo.getChecksum(), fileInfo.getFilesize());
+            final Set<TestMethodCall> testsForFile = testsFor(db.getFullModel(), db.getTestHits((CoverageDataRange) fileInfo));
+            for (TestMethodCall test : testsForFile) {
+                addToStates(test, packagePath, sourceState);
             }
         });
 

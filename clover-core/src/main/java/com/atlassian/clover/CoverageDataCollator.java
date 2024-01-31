@@ -104,13 +104,10 @@ public class CoverageDataCollator {
         //that no longer exist.
         final MutableLong maxVersion = new MutableLong(0L);
         final MutableLong minVersion = new MutableLong(Long.MAX_VALUE);
-        registry.getProject().visitFiles(new FileInfoVisitor() {
-            @Override
-            public void visitFileInfo(BaseFileInfo f) {
-                FullFileInfo file = (FullFileInfo)f;
-                maxVersion.setValue(Math.max(maxVersion.longValue(), file.getMaxVersion()));
-                minVersion.setValue(Math.min(minVersion.longValue(), file.getMinVersion()));
-            }
+        registry.getProject().visitFiles(fileInfo -> {
+            FullFileInfo file = (FullFileInfo)fileInfo;
+            maxVersion.setValue(Math.max(maxVersion.longValue(), file.getMaxVersion()));
+            minVersion.setValue(Math.min(minVersion.longValue(), file.getMinVersion()));
         });
 
         logSourceFileTimeStamps(minVersion.longValue(), maxVersion.longValue());
