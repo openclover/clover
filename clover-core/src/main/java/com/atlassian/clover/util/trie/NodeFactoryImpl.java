@@ -14,7 +14,7 @@ public abstract class NodeFactoryImpl implements NodeFactory {
     public static final NodeFactory HASH_MAP_BACKED = new NodeFactory() {
         @Override
         public <K, V> Node<K, V> createNode(@NotNull K key, @Nullable V value) {
-            return new NodeImpl<>(key, value, new HashMap<K, Node<K, V>>());
+            return new NodeImpl<>(key, value, new HashMap<>());
         }
 
         @Override
@@ -26,7 +26,7 @@ public abstract class NodeFactoryImpl implements NodeFactory {
     public static final NodeFactory TREE_MAP_BACKED = new NodeFactory() {
         @Override
         public <K, V> Node<K, V> createNode(@NotNull K key, @Nullable V value) {
-            return new NodeImpl<>(key, value, new TreeMap<K, Node<K, V>>());
+            return new NodeImpl<>(key, value, new TreeMap<>());
         }
 
         @Override

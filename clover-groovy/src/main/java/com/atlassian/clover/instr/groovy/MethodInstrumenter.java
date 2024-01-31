@@ -126,7 +126,7 @@ public class MethodInstrumenter {
             if (maybeBlockStatement instanceof BlockStatement) {
 
                 final BlockStatement methodStatements = (BlockStatement) maybeBlockStatement;
-                final BlockStatement methodReplacement = new BlockStatement(new LinkedList<Statement>(), method.getVariableScope());
+                final BlockStatement methodReplacement = new BlockStatement(new LinkedList<>(), method.getVariableScope());
 
                 if (isTest) {
                     methodReplacement.addStatement(

@@ -63,7 +63,7 @@ public class Clover2Registry implements InstrumentationTarget {
         this(
                 new FreshRegFile(regFile, accessMode, name),
                 new FullProjectInfo(name),
-                new ArrayList<InstrumentationInfo>(),
+                new ArrayList<>(),
                 new ContextStore());
     }
 

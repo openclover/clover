@@ -65,7 +65,7 @@ public class CoverageAnnotationModel implements IAnnotationModel, IDocumentListe
     private static final CoverageEdgeComparator EDGE_COMPARATOR = new CoverageEdgeComparator();
     private static final Pattern WHITESPACE_PATTERN = Pattern.compile("^(\\s)+$");
     private static final List<CoverageAnnotation> ANNOTATIONS_OFF =
-        Collections.unmodifiableList(new LinkedList<CoverageAnnotation>());
+        Collections.unmodifiableList(new LinkedList<>());
 
     private final ITextEditor editor;
     private final IDocument document;
@@ -80,7 +80,7 @@ public class CoverageAnnotationModel implements IAnnotationModel, IDocumentListe
         this.editor = editor;
         this.document = document;
         this.synchronizer = synchronizer;
-        this.listeners = Collections.synchronizedList(new LinkedList<IAnnotationModelListener>());
+        this.listeners = Collections.synchronizedList(new LinkedList<>());
         this.annotations = Collections.emptyList();
         this.updateRule = new AnnotationUpdateRule();
     }

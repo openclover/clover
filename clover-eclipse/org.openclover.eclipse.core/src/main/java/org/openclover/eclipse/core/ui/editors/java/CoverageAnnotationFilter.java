@@ -144,7 +144,7 @@ public class CoverageAnnotationFilter {
         private Set<String> testClassNames;
 
         public TestFilter() {
-            this(new HashSet<Integer>(), new HashSet<String>());
+            this(new HashSet<>(), new HashSet<>());
         }
 
         public TestFilter(Set<Integer> ids, Set<String> testClassNames) {
