@@ -435,12 +435,12 @@ tokens {
         return flag;
     }
 
-    private CloverToken instrInlineAfter(CloverToken instr, CloverToken start, CloverToken end) {
+    private CloverToken instrInlineAfter(CloverToken instr, CloverToken start, CloverToken end, int complexity) {
         if (cfg.isStatementInstrEnabled()) {
             instr.addPostEmitter(
                     new StatementInstrEmitter(
                             getCurrentContext(), start.getLine(), start.getColumn(), end.getLine(),
-                            end.getColumn() + end.getText().length()));
+                            end.getColumn() + end.getText().length(), complexity));
             instr.addPostEmitter(new DirectedFlushEmitter());
             fileInfo.addStatementMarker(start, end);
         }
@@ -448,14 +448,14 @@ tokens {
     }
 
     // same as above, but protected by a flag check
-    private CloverToken instrInlineAfter(CloverToken tok, CloverToken start, CloverToken end, FlagDeclEmitter flag) {
+    private CloverToken instrInlineAfter(CloverToken tok, CloverToken start, CloverToken end, FlagDeclEmitter flag, int complexity) {
         if (cfg.isStatementInstrEnabled()) {
             tok.addPostEmitter(
                     new FlaggedInstrEmitter(
                         flag,
                         new StatementInstrEmitter(
                                 getCurrentContext(), start.getLine(), start.getColumn(),
-                                end.getLine(), end.getColumn() + end.getText().length())));
+                                end.getLine(), end.getColumn() + end.getText().length(), complexity)));
             fileInfo.addStatementMarker(start, end);
         }
         return tok;
@@ -1694,6 +1694,7 @@ enumConstant
     boolean topLevelSave = topLevelClass;
     CloverToken endOfBlock = null;
     AnnotationImpl ann = null;
+    int argListComplexity = 0; // ignored for enum constant
 }
     :
         {
@@ -1701,7 +1702,7 @@ enumConstant
            topLevelClass = false;
         }
         (ann=annotation)*
-        IDENT ( LPAREN argList RPAREN )?
+        IDENT ( LPAREN argListComplexity=argList RPAREN )?
         (
             endOfBlock = classBlock[null]
         )?
@@ -1963,8 +1964,9 @@ constructorBody[MethodSignature signature, CloverToken start, CloverToken endSig
 
 explicitConstructorInvocation returns [CloverToken t]
 {
-    t = null;
     ContextSetAndComplexity cc = null;
+    int argListComplexity = 0;
+    t = null;
 }
     :
         (
@@ -1977,24 +1979,24 @@ explicitConstructorInvocation returns [CloverToken t]
                 generateAmbigWarnings=false;
             }:
 
-            pos1:THIS! LPAREN argList RPAREN! t1:SEMI!
+            pos1:THIS! LPAREN argListComplexity=argList RPAREN! t1:SEMI!
             {
-                t=instrInlineAfter(ct(t1), ct(pos1), ct(t1));
+                t=instrInlineAfter(ct(t1), ct(pos1), ct(t1), argListComplexity);
             }
 
         |
-            pos2:SUPER! lp2:LPAREN^ argList RPAREN! t2:SEMI!
+            pos2:SUPER! lp2:LPAREN^ argListComplexity=argList RPAREN! t2:SEMI!
             {
-                t=instrInlineAfter(ct(t2), ct(pos2), ct(t2));
+                t=instrInlineAfter(ct(t2), ct(pos2), ct(t2), argListComplexity);
             }
 
         |
             // (new Outer()).super()  (create enclosing instance)
             cc=primaryExpressionPart
             (DOT! THIS)? // HACK see CCD-264 - explicit ctor invocation can have form ClassName.this.super(..)
-            DOT! pos3:SUPER! lp3:LPAREN^ argList RPAREN! t3:SEMI!
+            DOT! pos3:SUPER! lp3:LPAREN^ argListComplexity=argList RPAREN! t3:SEMI!
             {
-                t=instrInlineAfter(ct(t3), ct(pos3), ct(t3));
+                t=instrInlineAfter(ct(t3), ct(pos3), ct(t3), argListComplexity);
             }
         )
     ;
@@ -2666,10 +2668,11 @@ colonCase[FlagDeclEmitter flag] returns [int complexity]
         )
         t:COLON!
         {
+            // 0 cyclomatic complexity here as we pass it up to the switch statement
             if (flag != null) {
-                instrInlineAfter(ct(t), ct(pos), ct(t), flag);
+                instrInlineAfter(ct(t), ct(pos), ct(t), flag, 0);
             } else {
-                instrInlineAfter(ct(t), ct(pos), ct(t));
+                instrInlineAfter(ct(t), ct(pos), ct(t), 0);
             }
             fileInfo.setSuppressFallthroughWarnings(true);
         }
@@ -3669,7 +3672,9 @@ patternMatch
  */
 supplementaryExpressionPart[CloverToken classCastStart, CloverToken classCastEnd, CloverToken startMethodReference] returns [int complexity]
 {
-    int tmpComplexity = 0;
+    int argListComplexity = 0;
+    int exprComplexity = 0;
+    int newComplexity = 0;
     complexity = 0;
 }
     :
@@ -3687,9 +3692,9 @@ supplementaryExpressionPart[CloverToken classCastStart, CloverToken classCastEnd
             |
                 CLASS
             |
-                tmpComplexity=newExpression
+                newComplexity=newExpression
                 {
-                    complexity += tmpComplexity;
+                    complexity += newComplexity;
                 }
             |
                 SUPER // ClassName.super.field
@@ -3717,9 +3722,9 @@ supplementaryExpressionPart[CloverToken classCastStart, CloverToken classCastEnd
             )
         |
             // an array indexing operation
-            LBRACK tmpComplexity=expression RBRACK!
+            LBRACK exprComplexity=expression RBRACK!
             {
-                complexity += tmpComplexity;
+                complexity += exprComplexity;
             }
         |
             // method invocation
@@ -3730,7 +3735,10 @@ supplementaryExpressionPart[CloverToken classCastStart, CloverToken classCastEnd
             // It also allows ctor invocation like super(3) which is now
             // handled by the explicit constructor rule, but it would
             // be hard to syntactically prevent ctor calls here
-            LPAREN argList RPAREN!
+            LPAREN argListComplexity=argList RPAREN!
+            {
+                complexity += argListComplexity;
+            }
         )*
     ;
 
@@ -3815,12 +3823,18 @@ newExpression returns [int complexity]
 {
     CloverToken endOfBlock = null;
     String typeParam = null;
-    int declComplexity = 0, initComplexity = 0;
+    int argListComplexity = 0;
+    int declComplexity = 0;
+    int initComplexity = 0;
     complexity = 0;
 }
     :
         NEW (typeParam=typeParameters)? type
-        (   LPAREN! argList RPAREN! (endOfBlock=classBlock[null])?
+        (
+            LPAREN! argListComplexity=argList RPAREN! (endOfBlock=classBlock[null])?
+            {
+                complexity = argListComplexity;
+            }
 
             //java 1.1
             // Note: This will allow bad constructs like
