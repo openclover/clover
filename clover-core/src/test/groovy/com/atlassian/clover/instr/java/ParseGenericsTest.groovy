@@ -103,7 +103,7 @@ class ParseGenericsTest {
         final JavaInstrumentationConfig cfg = new JavaInstrumentationConfig()
         cfg.setInitstring(initString)
         cfg.setProjectName(testName.methodName)
-        cfg.setSourceLevel(SourceLevel.JAVA_7)
+        cfg.setSourceLevel(SourceLevel.JAVA_8)
         final StringWriter out = new StringWriter()
         final Instrumenter instr = new Instrumenter(cfg)
         instr.startInstrumentation()

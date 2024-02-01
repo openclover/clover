@@ -18,7 +18,6 @@ import static org.openclover.util.Sets.newHashSet;
  * Java language level of sources being instrumented.
  */
 public enum SourceLevel {
-    JAVA_7("1.7", newHashSet("1.7", "7"), Collections.<LanguageFeature>emptySet()),
     JAVA_8("1.8", newHashSet("1.8", "8"), Collections.singleton(LAMBDA)),
     JAVA_9("9", newHashSet("1.9", "9"), newHashSet(LAMBDA, MODULES)),
     JAVA_10("10", newHashSet("1.10", "10"), newHashSet(LAMBDA, MODULES)),
@@ -31,7 +30,7 @@ public enum SourceLevel {
     JAVA_17("17", newHashSet("17"), newHashSet(LAMBDA, MODULES, SWITCH_EXPRESSIONS, TEXT_BLOCKS, RECORDS));
 
     private static final Set<String> unsupportedSourceLevels =
-            newHashSet("1.0", "1.1", "1.2", "1.3", "1.4", "1.5", "5", "1.6", "6");
+            newHashSet("1.0", "1.1", "1.2", "1.3", "1.4", "1.5", "5", "1.6", "6", "1.7", "7");
     private final String primaryVersionString;
     private final HashSet<String> versionStrings;
     private final Set<LanguageFeature> languageFeatures;
@@ -78,10 +77,7 @@ public enum SourceLevel {
         if (JAVA_9.matchesVersion(source)) {
             return JAVA_9;
         }
-        if (JAVA_8.matchesVersion(source)) {
-            return JAVA_8;
-        }
-        return JAVA_7;
+        return JAVA_8;
     }
 
     /**
@@ -104,7 +100,7 @@ public enum SourceLevel {
 
     public static String getUnsupportedMessage(@NotNull String source) {
         return String.format("Source level '%s' is unsupported, assuming '%s'.",
-                source, JAVA_7.asString());
+                source, JAVA_8.asString());
     }
 
     public boolean supportsFeature(LanguageFeature feature) {

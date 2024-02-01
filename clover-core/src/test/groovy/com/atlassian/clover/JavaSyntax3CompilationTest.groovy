@@ -26,7 +26,7 @@ class JavaSyntax3CompilationTest extends JavaSyntaxCompilationTestBase {
     @Test
     void testCompilation_13() {
         final File srcDir = new File(mTestcasesSrcDir, "javasyntax1.3")
-        compileSources(srcDir, JavaEnvUtils.JAVA_1_7)
+        compileSources(srcDir, JavaEnvUtils.JAVA_1_8)
     }
 
     /**
@@ -36,7 +36,7 @@ class JavaSyntax3CompilationTest extends JavaSyntaxCompilationTestBase {
     @Test
     void testInstrumentationAndCompilation_13() throws Exception {
         final File srcDir = new File(mTestcasesSrcDir, "javasyntax1.3")
-        instrumentAndCompileSources(srcDir, JavaEnvUtils.JAVA_1_7)
+        instrumentAndCompileSources(srcDir, JavaEnvUtils.JAVA_1_8)
 
         // execute instrumented code
         String[] testCaseMainClasses = [ "simple.ALittleOfEverything" ]
@@ -51,7 +51,7 @@ class JavaSyntax3CompilationTest extends JavaSyntaxCompilationTestBase {
     @Test
     void testColumnAlignment() throws Exception {
         final File srcDir = new File(mTestcasesSrcDir, "javasyntax1.3")
-        instrumentAndCompileSources(srcDir, JavaEnvUtils.JAVA_1_7)
+        instrumentAndCompileSources(srcDir, JavaEnvUtils.JAVA_1_8)
 
         String[] testCaseMainClasses = [ "simple.ColumnAlignment" ]
         executeMainClasses(testCaseMainClasses)

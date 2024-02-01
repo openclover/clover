@@ -25,7 +25,7 @@ class JavaSyntax4CompilationTest extends JavaSyntaxCompilationTestBase {
     void testInstrumentationAndCompilation_14() throws Exception {
         final File srcDir = new File(mTestcasesSrcDir, "javasyntax1.4")
         resetAntOutput()
-        instrumentAndCompileSources(srcDir, JavaEnvUtils.JAVA_1_7)
+        instrumentAndCompileSources(srcDir, JavaEnvUtils.JAVA_1_8)
 
         // verify that instrumentation was made
         // input : assert i > 0

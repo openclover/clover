@@ -542,11 +542,11 @@ public class CloverCompiler implements JavaSourceTransformingCompiler {
             Collections.unmodifiableMap(new HashMap<LanguageLevel, SourceLevel>() {{
                 put(LanguageLevel.JDK_1_9, SourceLevel.JAVA_9);
                 put(LanguageLevel.JDK_1_8, SourceLevel.JAVA_8);
-                put(LanguageLevel.JDK_1_7, SourceLevel.JAVA_7);
-                put(LanguageLevel.JDK_1_6, SourceLevel.JAVA_7);
-                put(LanguageLevel.JDK_1_5, SourceLevel.JAVA_7);
-                put(LanguageLevel.JDK_1_4, SourceLevel.JAVA_7);
-                put(LanguageLevel.JDK_1_3, SourceLevel.JAVA_7);
+                put(LanguageLevel.JDK_1_7, SourceLevel.JAVA_8);
+                put(LanguageLevel.JDK_1_6, SourceLevel.JAVA_8);
+                put(LanguageLevel.JDK_1_5, SourceLevel.JAVA_8);
+                put(LanguageLevel.JDK_1_4, SourceLevel.JAVA_8);
+                put(LanguageLevel.JDK_1_3, SourceLevel.JAVA_8);
             }});
 
     /**

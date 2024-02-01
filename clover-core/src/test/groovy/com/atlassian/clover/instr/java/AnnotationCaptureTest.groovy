@@ -34,7 +34,7 @@ class AnnotationCaptureTest {
         workingDir.deleteOnExit()
 
         config = new JavaInstrumentationConfig()
-        config.setSourceLevel(SourceLevel.JAVA_7)
+        config.setSourceLevel(SourceLevel.JAVA_8)
         config.setInitstring(workingDir.getAbsolutePath() + File.separatorChar + "coverage.db")
     }
 

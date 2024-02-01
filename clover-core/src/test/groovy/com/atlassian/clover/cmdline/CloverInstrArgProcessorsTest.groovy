@@ -195,10 +195,10 @@ class CloverInstrArgProcessorsTest {
 
     @Test
     void processSourceLevel() {
-        assertConfig(["--source", "1.7"],
+        assertConfig(["--source", "1.8"],
                 CloverInstrArgProcessors.SourceLevelArg,
                 { JavaInstrumentationConfig config -> config.getSourceLevel() },
-                equalTo(SourceLevel.JAVA_7))
+                equalTo(SourceLevel.JAVA_8))
     }
 
     @Test
