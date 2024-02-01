@@ -19,7 +19,7 @@ apply plugin: "clover"
 
 version = "0.7"
 description = "Spock Framework - Example Project"
-sourceCompatibility = 1.7
+sourceCompatibility = 1.8
 buildDir = "${projectDir}/target"
 
 repositories {
