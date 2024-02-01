@@ -341,32 +341,29 @@ public class CloverWorkingSet {
     }
 
     private void addChangeListener() {
-        workingSetManager.addPropertyChangeListener(new IPropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent event) {
-                boolean refresh = false;
-                String property= event.getProperty();
-                if (IWorkingSetManager.CHANGE_WORKING_SET_CONTENT_CHANGE.equals(property)) {
-                    IWorkingSet ws = (IWorkingSet) event.getNewValue();
-                    if (ws.getName().equals(CLOVER_WORKING_SET_NAME)) {
-                        refresh = true;
-                    }
-                } else if (IWorkingSetManager.CHANGE_WORKING_SET_NAME_CHANGE.equals(property)) {
+        workingSetManager.addPropertyChangeListener(event -> {
+            boolean refresh = false;
+            String property= event.getProperty();
+            if (IWorkingSetManager.CHANGE_WORKING_SET_CONTENT_CHANGE.equals(property)) {
+                IWorkingSet ws = (IWorkingSet) event.getNewValue();
+                if (ws.getName().equals(CLOVER_WORKING_SET_NAME)) {
                     refresh = true;
-                } else if (IWorkingSetManager.CHANGE_WORKING_SET_REMOVE.equals(property)) {
-                    IWorkingSet ws = (IWorkingSet) event.getOldValue();
-                    if (ws.getName().equals(CLOVER_WORKING_SET_NAME)) {
-                        refresh = true;
-                    }
                 }
-                if (refresh) {
-                    clearCache();
+            } else if (IWorkingSetManager.CHANGE_WORKING_SET_NAME_CHANGE.equals(property)) {
+                refresh = true;
+            } else if (IWorkingSetManager.CHANGE_WORKING_SET_REMOVE.equals(property)) {
+                IWorkingSet ws = (IWorkingSet) event.getOldValue();
+                if (ws.getName().equals(CLOVER_WORKING_SET_NAME)) {
+                    refresh = true;
+                }
+            }
+            if (refresh) {
+                clearCache();
 
-                    if (CloverPlugin.getInstance().isInWorkingSetMode()) {
-                        //Fire coverage change so all views change their filters
-                        //accordingly
-                        CloverProject.refreshAllModels(true, true);
-                    }
+                if (CloverPlugin.getInstance().isInWorkingSetMode()) {
+                    //Fire coverage change so all views change their filters
+                    //accordingly
+                    CloverProject.refreshAllModels(true, true);
                 }
             }
         });

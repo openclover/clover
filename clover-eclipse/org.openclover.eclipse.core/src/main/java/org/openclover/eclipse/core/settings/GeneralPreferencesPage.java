@@ -238,15 +238,12 @@ public class GeneralPreferencesPage
                     BooleanFieldEditor.DEFAULT,
                     (Composite)SwtUtils.setHorizontalSpan(new Composite(miscGroup, SWT.NONE), 2));
 
-            preserveInstrSourcesEditor.setPropertyChangeListener(new IPropertyChangeListener() {
-                @Override
-                public void propertyChange(PropertyChangeEvent event) {
-                    // automatically switch to "INFO" logging level if user enables source preserving
-                    // otherwise user would not see where sources were stored in Error Log view
-                    if ( (loggingLevelFiedEditor != null) && (event.getSource() instanceof BooleanFieldEditor) ) {
-                        if (((BooleanFieldEditor) event.getSource()).getBooleanValue()) {
-                            loggingLevelFiedEditor.doSelect(LoggingLevelFieldEditor.LoggingLevelCombo.Info);
-                        }
+            preserveInstrSourcesEditor.setPropertyChangeListener(event -> {
+                // automatically switch to "INFO" logging level if user enables source preserving
+                // otherwise user would not see where sources were stored in Error Log view
+                if ( (loggingLevelFiedEditor != null) && (event.getSource() instanceof BooleanFieldEditor) ) {
+                    if (((BooleanFieldEditor) event.getSource()).getBooleanValue()) {
+                        loggingLevelFiedEditor.doSelect(LoggingLevelFieldEditor.LoggingLevelCombo.Info);
                     }
                 }
             });

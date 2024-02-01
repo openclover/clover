@@ -184,7 +184,7 @@ public class PackageFragment implements HasMetricsNode {
     private void buildOrderedChildList() {
         orderedKids = newArrayList(children.values());
         if (orderby != null) {
-            Collections.sort(orderedKids, orderby);
+            orderedKids.sort(orderby);
         }
     }
 

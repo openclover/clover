@@ -21,12 +21,8 @@ public class TaggedIO {
     static {
         boolean shouldDebug = false;
         try {
-            shouldDebug = Logger.isDebug() && AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
-                @Override
-                public Boolean run() {
-                    return Boolean.getBoolean(CloverNames.PROP_LOGGING_TAGGED_IO);
-                }
-            });
+            shouldDebug = Logger.isDebug() && AccessController.doPrivileged((PrivilegedAction<Boolean>) () ->
+                    Boolean.getBoolean(CloverNames.PROP_LOGGING_TAGGED_IO));
         } catch (Exception e) {
             Logger.getInstance().warn("Unable to query if tagged IO should be logged", e);
         }

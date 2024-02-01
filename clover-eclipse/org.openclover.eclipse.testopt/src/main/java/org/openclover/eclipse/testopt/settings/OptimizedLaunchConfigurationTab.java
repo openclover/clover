@@ -65,28 +65,20 @@ public class OptimizedLaunchConfigurationTab extends AbstractLaunchConfiguration
 
         Button copyDefaults = new Button(defaultsComposite, SWT.PUSH);
         copyDefaults.setText(TestOptimizationPluginMessages.getString("launch.optimized.prefs.copydefaults"));
-        copyDefaults.addListener(SWT.Selection, new Listener() {
-            @Override
-            public void handleEvent(Event event) {
-                control.loadDefaults();
-            }
-        });
+        copyDefaults.addListener(SWT.Selection, event -> control.loadDefaults());
 
         control = new TestOptimizationPreferencesControl(container, null, preferenceStore);
         control.setLayoutData(new GridData(GridData.FILL, GridData.BEGINNING, true, false));
-        control.setPropertyChangeListener(new IPropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent event) {
-                if (FieldEditor.IS_VALID.equals(event.getProperty())) {
-                    if (Boolean.TRUE.equals(event.getNewValue())) {
-                        setErrorMessage(null);
-                    } else {
-                        final StringFieldEditor fieldEditor = (StringFieldEditor) event.getSource();
-                        setErrorMessage(fieldEditor.getErrorMessage());
-                    }
+        control.setPropertyChangeListener(event -> {
+            if (FieldEditor.IS_VALID.equals(event.getProperty())) {
+                if (Boolean.TRUE.equals(event.getNewValue())) {
+                    setErrorMessage(null);
+                } else {
+                    final StringFieldEditor fieldEditor = (StringFieldEditor) event.getSource();
+                    setErrorMessage(fieldEditor.getErrorMessage());
                 }
-                updateLaunchConfigurationDialog();
             }
+            updateLaunchConfigurationDialog();
         });
         setControl(container);
     }

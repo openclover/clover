@@ -54,19 +54,11 @@ public class CloudEditor
     private Button aggregateCheckbox;
     private Button refreshButton;
 
-    private DatabaseChangeListener coverageListener = new DatabaseChangeListener() {
-    @Override
-    public void databaseChanged(DatabaseChangeEvent event) {
+    private DatabaseChangeListener coverageListener = event -> {
         if (event.isApplicableTo(((CloverProjectInput) getEditorInput()).getProject())
             && event.isSubstantiveProjectChange()) {
-            Display.getDefault().asyncExec(new Runnable() {
-                @Override
-                public void run() {
-                    CloudEditor.this.onCoverageChanged();
-                }
-            });
+            Display.getDefault().asyncExec(CloudEditor.this::onCoverageChanged);
         }
-    }
     };
 
     public CloudEditor() {
@@ -162,7 +154,7 @@ public class CloudEditor
         addCloudMap(perPackageCloudMappings, getProjectCloudName(), outputDir, false);
 
         final List<? extends PackageInfo> packages = project.getAllPackages();
-        Collections.sort(packages, HasMetricsSupport.CMP_LEX);
+        packages.sort(HasMetricsSupport.CMP_LEX);
 
         for (final PackageInfo pkg : packages) {
             addCloudMap(perPackageCloudMappings, pkg.getName(), new File(outputDir, pkg.getPath()),
@@ -264,9 +256,7 @@ public class CloudEditor
 
     public void refresh(final boolean regenerate) {
         Display.getDefault().asyncExec(
-            new Runnable() {
-                @Override
-                public void run() {
+                () -> {
                     if (regenerate) {
                         updatePerPackageCloudMapping();
                         populateFocusDropDown();
@@ -288,8 +278,7 @@ public class CloudEditor
                                 ? CloverEclipsePluginMessages.PROJECT_RISKS()
                                 : CloverEclipsePluginMessages.PACKAGE_RISKS());
                     }
-                }
-            });
+                });
     }
 
     private static final class PackageCloudStructure {

@@ -50,13 +50,10 @@ public class RenderFileAction implements Callable {
     protected static ThreadLocal<List<Column>> columnsTL;
     protected static ThreadLocal<ContextSet> contextSetTL;
 
-    private final static Comparator TEST_METRICS_COMPARATOR = new Comparator() {
-        @Override
-        public int compare(Object object, Object object1) {
-            BlockMetrics m = (BlockMetrics) ((Map.Entry) object).getValue();
-            BlockMetrics m1 = (BlockMetrics) ((Map.Entry) object1).getValue();
-            return (int) (1000 * (m1.getPcCoveredElements() - m.getPcCoveredElements()));
-        }
+    private final static Comparator TEST_METRICS_COMPARATOR = (object, object1) -> {
+        BlockMetrics m = (BlockMetrics) ((Map.Entry) object).getValue();
+        BlockMetrics m1 = (BlockMetrics) ((Map.Entry) object1).getValue();
+        return (int) (1000 * (m1.getPcCoveredElements() - m.getPcCoveredElements()));
     };
 
     protected final FullFileInfo fileInfo; // shared: call made to setDataProvider on local copy
@@ -266,7 +263,7 @@ public class RenderFileAction implements Callable {
                 new LinkedHashMap<>(testMetrics.size());
         final List<Map.Entry<TestCaseInfo, BlockMetrics>> testMetricList =
                 newLinkedList(testMetrics.entrySet());
-        Collections.sort(testMetricList, TEST_METRICS_COMPARATOR);
+        testMetricList.sort(TEST_METRICS_COMPARATOR);
 
         final List<Map.Entry<TestCaseInfo, BlockMetrics>> sublist;
         if (reportConfig.getMaxTestsPerFile() >= 0 && // ensure a value has been set

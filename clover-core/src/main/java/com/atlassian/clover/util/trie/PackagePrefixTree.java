@@ -51,22 +51,19 @@ public class PackagePrefixTree extends PrefixTree<String, PackageInfoExt> {
      *     parent.key + "." + child.key
      */
     public void compressTree() {
-        final NodeVisitor<String, PackageInfoExt> nodeCompressor = new NodeVisitor<String, PackageInfoExt>() {
-            @Override
-            public Node<String, PackageInfoExt> visit(@NotNull Node<String, PackageInfoExt> currentNode, int depth) {
-                // can we merge nodes?
-                if (currentNode.children().size() == 1 && currentNode.getValue() == null) {
-                    // yes, merge nodes, keep child's value and children of a child node
-                    final Node<String, PackageInfoExt> childNode = currentNode.children().values().iterator().next();
-                    // don't put a dot if package name is empty (e.g. in a root node)
-                    final String mergedKey = (currentNode.getKey().isEmpty() ? "" : currentNode.getKey() + ".") + childNode.getKey();
-                    final Node<String, PackageInfoExt> mergedNode = nodeFactory.createNode(mergedKey, childNode.getValue());
-                    mergedNode.children().putAll(childNode.children());
-                    return mergedNode;
-                } else {
-                    // nothing to do
-                    return currentNode;
-                }
+        final NodeVisitor<String, PackageInfoExt> nodeCompressor = (currentNode, depth) -> {
+            // can we merge nodes?
+            if (currentNode.children().size() == 1 && currentNode.getValue() == null) {
+                // yes, merge nodes, keep child's value and children of a child node
+                final Node<String, PackageInfoExt> childNode = currentNode.children().values().iterator().next();
+                // don't put a dot if package name is empty (e.g. in a root node)
+                final String mergedKey = (currentNode.getKey().isEmpty() ? "" : currentNode.getKey() + ".") + childNode.getKey();
+                final Node<String, PackageInfoExt> mergedNode = nodeFactory.createNode(mergedKey, childNode.getValue());
+                mergedNode.children().putAll(childNode.children());
+                return mergedNode;
+            } else {
+                // nothing to do
+                return currentNode;
             }
         };
 

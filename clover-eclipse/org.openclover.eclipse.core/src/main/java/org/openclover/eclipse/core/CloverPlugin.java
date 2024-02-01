@@ -159,25 +159,22 @@ public class CloverPlugin extends AbstractUIPlugin {
         //as there is a real danger of classloader deadlock in Equinox when the bundle state changes
         //or so it appears. See CEP-313. This may be a case of shadow boxing. Unclear ATM.
         final long thisBundleId = context.getBundle().getBundleId();
-        startListener = new BundleListener() {
-            @Override
-            public void bundleChanged(BundleEvent bundleEvent) {
-                if (bundleEvent.getBundle().getBundleId() == thisBundleId
-                    && bundleEvent.getType() == BundleEvent.STARTED) {
-                    new SystemJob("Clover background processing starter") {
-                        @Override
-                        protected IStatus run(IProgressMonitor progressMonitor) {
-                            try {
-                                startMonitorEditors();
-                                startMonitoringCoverage();
-                                listenForSettingsChanges();
-                            } catch (Exception e) {
-                                CloverPlugin.logError("Failed to start background processing", e);
-                            }
-                            return Status.OK_STATUS;
+        startListener = bundleEvent -> {
+            if (bundleEvent.getBundle().getBundleId() == thisBundleId
+                && bundleEvent.getType() == BundleEvent.STARTED) {
+                new SystemJob("Clover background processing starter") {
+                    @Override
+                    protected IStatus run(IProgressMonitor progressMonitor) {
+                        try {
+                            startMonitorEditors();
+                            startMonitoringCoverage();
+                            listenForSettingsChanges();
+                        } catch (Exception e) {
+                            CloverPlugin.logError("Failed to start background processing", e);
                         }
-                    }.schedule(STARTUP_BACKOFF_DELAY);
-                }
+                        return Status.OK_STATUS;
+                    }
+                }.schedule(STARTUP_BACKOFF_DELAY);
             }
         };
         context.addBundleListener(startListener);
@@ -198,9 +195,7 @@ public class CloverPlugin extends AbstractUIPlugin {
 
     private void listenForSettingsChanges() {
         installationSettings.addListener(
-            new IEclipsePreferences.IPreferenceChangeListener() {
-                @Override
-                public void preferenceChange(IEclipsePreferences.PreferenceChangeEvent event) {
+                event -> {
                     final String propertyName = event.getKey();
 
                     if (InstallationSettings.Keys.LOGGING_LEVEL.equals(propertyName)) {
@@ -218,7 +213,6 @@ public class CloverPlugin extends AbstractUIPlugin {
                         ExclusionLabelDecorator.decorationChanged();
                     }
                 }
-            }
         );
     }
 

@@ -9,16 +9,13 @@ public class ApplicationTestHelper {
     }
 
     public static void runWriteAction(final Action task) throws Exception {
-        final Exception e = ApplicationManager.getApplication().runWriteAction(new Computable<Exception>() {
-            @Override
-            public Exception compute() {
-                try {
-                    task.run();
-                } catch (Exception ex) {
-                    return ex;
-                }
-                return null;
+        final Exception e = ApplicationManager.getApplication().runWriteAction((Computable<Exception>) () -> {
+            try {
+                task.run();
+            } catch (Exception ex) {
+                return ex;
             }
+            return null;
         });
         if (e != null) {
             throw e;

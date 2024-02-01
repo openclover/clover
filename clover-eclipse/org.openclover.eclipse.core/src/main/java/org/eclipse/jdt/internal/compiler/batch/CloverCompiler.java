@@ -61,10 +61,7 @@ public class CloverCompiler extends Main {
 
     
     private static interface ReleaseInvoker {
-        static ReleaseInvoker UNAVAILABLE = new ReleaseInvoker() {
-            @Override
-            public void release(CloverCompiler compiler, ClassFile classFile) {}
-        };
+        static ReleaseInvoker UNAVAILABLE = (compiler, classFile) -> {};
 
         public void release(CloverCompiler compiler, ClassFile classFile);
     }
@@ -223,27 +220,24 @@ public class CloverCompiler extends Main {
         for (Map.Entry<IContainer, Set<String>> entry : dirsToRecorderClassNames.entrySet()) {
             final IContainer container = entry.getKey();
             final Set<String> newRecorderClasses = entry.getValue();
-            container.accept(new IResourceProxyVisitor() {
-                @Override
-                public boolean visit(IResourceProxy proxy) throws CoreException {
-                    if ((proxy.getType() == IResource.FOLDER || proxy.getType() == IResource.PROJECT) && proxy.getName().equals(container.getName())) {
-                        return true;
-                    } else if (proxy.getType() == IResource.FILE) {
-                        final String name = proxy.getName();
-                        if (name.indexOf(RECORDER_CLASS_INTERFIX) > 0 && !newRecorderClasses.contains(name)) {
-                            Set<String> recorderBaseClasses = dirsToRecorderClassBaseNames.get(container);
-                            if (recorderBaseClasses != null) {
-                                for (String recorderBaseClass : recorderBaseClasses) {
-                                    if (name.indexOf(recorderBaseClass) == 0) {
-                                        proxy.requestResource().delete(true, null);
-                                        break;
-                                    }
+            container.accept(proxy -> {
+                if ((proxy.getType() == IResource.FOLDER || proxy.getType() == IResource.PROJECT) && proxy.getName().equals(container.getName())) {
+                    return true;
+                } else if (proxy.getType() == IResource.FILE) {
+                    final String name = proxy.getName();
+                    if (name.indexOf(RECORDER_CLASS_INTERFIX) > 0 && !newRecorderClasses.contains(name)) {
+                        Set<String> recorderBaseClasses = dirsToRecorderClassBaseNames.get(container);
+                        if (recorderBaseClasses != null) {
+                            for (String recorderBaseClass : recorderBaseClasses) {
+                                if (name.indexOf(recorderBaseClass) == 0) {
+                                    proxy.requestResource().delete(true, null);
+                                    break;
                                 }
                             }
                         }
                     }
-                    return false;
                 }
+                return false;
             }, IResource.DEPTH_ONE);
         }
     }
@@ -316,11 +310,7 @@ public class CloverCompiler extends Main {
     }
 
     private void registerRecorderBaseNames(IFile file) {
-        Set<String> recorderBaseNames = dirsToRecorderClassBaseNames.get(file.getParent());
-        if (recorderBaseNames == null) {
-            recorderBaseNames = newHashSet();
-            dirsToRecorderClassBaseNames.put(file.getParent(), recorderBaseNames);
-        }
+        Set<String> recorderBaseNames = dirsToRecorderClassBaseNames.computeIfAbsent(file.getParent(), k -> newHashSet());
         recorderBaseNames.add(
             file.getName().substring(
                 0,
@@ -328,11 +318,7 @@ public class CloverCompiler extends Main {
     }
 
     private void registerRecorderName(IFile file) {
-        Set<String> recorderNames = dirsToRecorderClassNames.get(file.getParent());
-        if (recorderNames == null) {
-            recorderNames = newHashSet();
-            dirsToRecorderClassNames.put(file.getParent(), recorderNames);
-        }
+        Set<String> recorderNames = dirsToRecorderClassNames.computeIfAbsent(file.getParent(), k -> newHashSet());
         recorderNames.add(file.getName());
     }
 

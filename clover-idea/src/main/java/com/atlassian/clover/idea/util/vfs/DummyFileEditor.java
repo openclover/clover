@@ -21,12 +21,7 @@ public abstract class DummyFileEditor extends UserDataHolderBase implements File
     @Override
     @NotNull
     public FileEditorState getState(@NotNull FileEditorStateLevel fileEditorStateLevel) {
-        return new FileEditorState() {
-            @Override
-            public boolean canBeMergedWith(FileEditorState fileEditorState, FileEditorStateLevel fileEditorStateLevel) {
-                return false;
-            }
-        };
+        return (fileEditorState, fileEditorStateLevel1) -> false;
     }
 
     @Override

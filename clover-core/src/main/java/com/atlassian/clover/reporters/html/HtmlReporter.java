@@ -157,16 +157,13 @@ public class HtmlReporter extends CloverReporter {
     protected static final String TAB_RESULTS = "Results";
 
     private static final Comparator TEST_SORT_ORDER = HasMetricsSupport.newTestListComparator();
-    private static final Comparator<TestCaseInfo> TEST_CASE_COMPARATOR = new Comparator<TestCaseInfo>() {
-        @Override
-        public int compare(TestCaseInfo lhs, TestCaseInfo rhs) {
-            if (rhs.isSuccess() & lhs.isSuccess()) {
-                return 0;
-            } else if (!rhs.isSuccess()) {
-                return 1;
-            } else {
-                return -1;
-            }
+    private static final Comparator<TestCaseInfo> TEST_CASE_COMPARATOR = (lhs, rhs) -> {
+        if (rhs.isSuccess() & lhs.isSuccess()) {
+            return 0;
+        } else if (!rhs.isSuccess()) {
+            return 1;
+        } else {
+            return -1;
         }
     };
 
@@ -729,7 +726,7 @@ public class HtmlReporter extends CloverReporter {
         FullPackageInfo pkgAppInfo = (FullPackageInfo) getConfiguredModel().getNamedPackage(pkg.getName());
         FullPackageInfo pkgTestInfo = (FullPackageInfo) getTestModel().getNamedPackage(pkg.getName());
 
-        List<? extends ClassInfo> testClasses = pkgTestInfo != null ? pkgTestInfo.getClasses() : new LinkedList<ClassInfo>();
+        List<? extends ClassInfo> testClasses = pkgTestInfo != null ? pkgTestInfo.getClasses() : new LinkedList<>();
 
         if (pkgAppInfo != null) {
             renderPkgSummaryPage(pkgAppInfo, appSrcTree, true, pkgTestInfo != null, true, queue);
@@ -811,7 +808,7 @@ public class HtmlReporter extends CloverReporter {
         }
 
         final List<PackageFragment> kids = newArrayList(aggregatePkgs.values());
-        Collections.sort(kids, detailComparator);
+        kids.sort(detailComparator);
         context.put("packageFragments", kids);
         context.put("tree", tree);
         HtmlReportUtil.addColumnsToContext(context, reportConfig.getColumns().getPkgColumns(), model, kids);
@@ -843,10 +840,7 @@ public class HtmlReporter extends CloverReporter {
      */
     private String getHomepageValue() {
         final String homepageKey = reportConfig.getHomepage() != null ? reportConfig.getHomepage() : HTML_HOMEPAGE_DEFAULT;
-        return
-                HTML_HOMEPAGE_VALUES.containsKey(homepageKey)
-                        ? HTML_HOMEPAGE_VALUES.get(homepageKey)
-                        : homepageKey;
+        return HTML_HOMEPAGE_VALUES.getOrDefault(homepageKey, homepageKey);
     }
 
     private void renderPackagesSummaryPage(String name, String templateName, VelocityContext context,
@@ -857,7 +851,7 @@ public class HtmlReporter extends CloverReporter {
 
         List<? extends PackageInfo> packages = model.getAllPackages();
 
-        Collections.sort(packages, detailComparator);
+        packages.sort(detailComparator);
 
         insertCommonPropsForCurrent(context, "");
         context.put("linkToClouds", linkToClouds);
@@ -886,16 +880,12 @@ public class HtmlReporter extends CloverReporter {
         final VelocityContext context = new VelocityContext();
 
         final FullProjectInfo projectInfo = getFullModel().copy(
-                new HasMetricsFilter() {
-                    @Override
-                    public boolean accept(HasMetrics hm) {
-                        return !(hm instanceof BaseClassInfo) || ((BaseClassInfo) hm).isTestClass();
-                    }
-                }
+                hasMetrics ->
+                        !(hasMetrics instanceof BaseClassInfo) || ((BaseClassInfo) hasMetrics).isTestClass()
         );
         List packages = projectInfo.getAllPackages();
 
-        Collections.sort(packages, TEST_SORT_ORDER);
+        packages.sort(TEST_SORT_ORDER);
 
         context.put("currentPageURL", outfile.getName());
         insertCommonPropsForCurrent(context, "");
@@ -917,7 +907,7 @@ public class HtmlReporter extends CloverReporter {
             boolean isTests) throws Exception {
 
         File outdir = pkg != null ? CloverUtils.createOutDir(pkg, basePath) : basePath;
-        Collections.sort(classes, listComparator);
+        classes.sort(listComparator);
 
         final File outfile = new File(outdir, outfileName);
         context.put("currentPageURL", outfileName);
@@ -998,7 +988,7 @@ public class HtmlReporter extends CloverReporter {
             FullClassInfo testClassInfo = fullClassInfo.copy((FullFileInfo) fullClassInfo.getContainingFile(), filter);
             renderTestClassSummaryPage(testClassInfo);
         }
-        Collections.sort(classes, TEST_SORT_ORDER);
+        classes.sort(TEST_SORT_ORDER);
 
         final File outfile = new File(outdir, "test-pkg-summary.html");
         final VelocityContext context = new VelocityContext();
@@ -1023,7 +1013,7 @@ public class HtmlReporter extends CloverReporter {
 
         final List<TestCaseInfo> tests = newArrayList(classInfo.getTestCases());
 
-        Collections.sort(tests, TEST_CASE_COMPARATOR);
+        tests.sort(TEST_CASE_COMPARATOR);
 
         final VelocityContext context = new VelocityContext();
 

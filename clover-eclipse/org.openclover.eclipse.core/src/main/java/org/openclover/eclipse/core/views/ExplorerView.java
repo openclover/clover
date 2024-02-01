@@ -105,12 +105,7 @@ public abstract class ExplorerView extends CloverViewPart {
 
     private ExplorerView.ActivationPartListener thisPartActivationListener;
 
-    protected ColumnController treeColumnController = new ColumnController() {
-        @Override
-        public void syncSorting() {
-            buildTreeSorter();
-        }
-    };
+    protected ColumnController treeColumnController = this::buildTreeSorter;
     private TreeColumnManager treeColumnManager = new TreeColumnManager();
     private Map<TreeColumn, TreeColumnControlListener> columnListeners = newHashMap();
 
@@ -197,15 +192,12 @@ public abstract class ExplorerView extends CloverViewPart {
         treeViewer.setAutoExpandLevel(getAutoExpandLevel());
         treeViewer.setInput(ResourcesPlugin.getWorkspace());
         treeViewer.setLabelProvider(labelprovider);
-        treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-            @Override
-            public void selectionChanged(SelectionChangedEvent event) {
-                for (SelectionDispatchAction action : actions) {
-                    action.selectionChanged((IStructuredSelection) event.getSelection());
-                    for (ActionGroup actionGroup : actionGroups) {
-                        actionGroup.setContext(
-                                new ActionContext(event.getSelection()));
-                    }
+        treeViewer.addSelectionChangedListener(event -> {
+            for (SelectionDispatchAction action : actions) {
+                action.selectionChanged((IStructuredSelection) event.getSelection());
+                for (ActionGroup actionGroup : actionGroups) {
+                    actionGroup.setContext(
+                            new ActionContext(event.getSelection()));
                 }
             }
         });
@@ -311,24 +303,14 @@ public abstract class ExplorerView extends CloverViewPart {
     protected MenuManager newContextMenuManager() {
         MenuManager manager = new MenuManager("#PopupMenu");
         manager.setRemoveAllWhenShown(true);
-        manager.addMenuListener(new IMenuListener() {
-            @Override
-            public void menuAboutToShow(IMenuManager manager) {
-                fillContextMenu(manager);
-            }
-        });
+        manager.addMenuListener(this::fillContextMenu);
         return manager;
     }
 
     public void refresh(final boolean preserveAutoExpansion, final Object[] elements) {
         if (elements.length > 0) {
-            Display.getDefault().asyncExec(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        doRefreshWorkFor(preserveAutoExpansion, elements);
-                    }
-                }
+            Display.getDefault().asyncExec(() ->
+                    doRefreshWorkFor(preserveAutoExpansion, elements)
             );
         }
     }
@@ -538,16 +520,13 @@ public abstract class ExplorerView extends CloverViewPart {
 
         @Override
         public void update(final CustomColumnDefinition[] custom, final ColumnDefinition[] visible) {
-            Display.getDefault().syncExec(new Runnable() {
-                @Override
-                public void run() {
-                    settings.getTreeColumnSettings().update(custom, visible);
-                    rebuildTreeColumns();
+            Display.getDefault().syncExec(() -> {
+                settings.getTreeColumnSettings().update(custom, visible);
+                rebuildTreeColumns();
 
-                    //We need to refresh the tree after columns are moved or elase
-                    //values start displaying in the wrong columns
-                    treeViewer.refresh();
-                }
+                //We need to refresh the tree after columns are moved or elase
+                //values start displaying in the wrong columns
+                treeViewer.refresh();
             });
         }
     }

@@ -35,11 +35,8 @@ public class ProjToLeafPkgFragRelationship extends NodeRelationship {
                                     && ((IPackageFragment) packageFragment).getCompilationUnits().length > 0) {
 
                                 Set<IPackageFragment> fragments =
-                                        pkgNamesToFragments.get(packageFragment.getElementName());
-                                if (fragments == null) {
-                                    fragments = new LinkedHashSet<>();
-                                    pkgNamesToFragments.put(packageFragment.getElementName(), fragments);
-                                }
+                                        pkgNamesToFragments.computeIfAbsent(packageFragment.getElementName(),
+                                                k -> new LinkedHashSet<>());
                                 fragments.add((IPackageFragment) packageFragment);
                             }
                         }

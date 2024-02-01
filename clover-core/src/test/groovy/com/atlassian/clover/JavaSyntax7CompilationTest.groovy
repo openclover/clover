@@ -25,7 +25,7 @@ class JavaSyntax7CompilationTest extends JavaSyntaxCompilationTestBase {
     void testInstrumentationAndCompilation_17() throws Exception {
         final File srcDir = new File(mTestcasesSrcDir, "javasyntax1.7")
         resetAntOutput()
-        instrumentAndCompileSources(srcDir, JavaEnvUtils.JAVA_1_7)
+        instrumentAndCompileSources(srcDir, JavaEnvUtils.JAVA_1_8)
 
         // StringInSwitch
         assertFileMatches("StringInSwitch.java", ".*case.*Saturday.*__CLR.*", false)
@@ -54,16 +54,16 @@ class JavaSyntax7CompilationTest extends JavaSyntaxCompilationTestBase {
         // Note: we must use -Xlint or -Xlint:unchecked compiler option
 
         // NonReifiableTypesHeapPollution
-        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, "NonReifiableTypesHeapPollution.java", JavaEnvUtils.JAVA_1_7)
+        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, "NonReifiableTypesHeapPollution.java", JavaEnvUtils.JAVA_1_8)
         assertAntOutputContains(".*\\[unchecked\\] Possible heap pollution from parameterized vararg type T.*", false)
         assertAntOutputContains(".*\\[unchecked\\] unchecked generic array creation for varargs parameter of type List<String>\\[\\].*", false)
 
         // NonReifiableTypesSafeVarargs
-        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, "NonReifiableTypesSafeVarargs.java", JavaEnvUtils.JAVA_1_7)
+        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, "NonReifiableTypesSafeVarargs.java", JavaEnvUtils.JAVA_1_8)
         assertAntOutputContains(".*\\[unchecked\\].*", true); // i.e. no warnings
 
         // NonReifiableTypesSuppressWarnings
-        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, "NonReifiableTypesSuppressWarnings.java", JavaEnvUtils.JAVA_1_7)
+        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, "NonReifiableTypesSuppressWarnings.java", JavaEnvUtils.JAVA_1_8)
         assertAntOutputContains(".*\\[unchecked\\] unchecked generic array creation for varargs parameter of type List<String>\\[\\].*", false)
     }
 
@@ -72,7 +72,7 @@ class JavaSyntax7CompilationTest extends JavaSyntaxCompilationTestBase {
         final File srcDir = new File(mTestcasesSrcDir, "javasyntax1.7")
         final String fileName = "RecordIsNotReservedKeyword.java"
 
-        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_1_7)
+        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_1_8)
         assertFileMatches(fileName, R_INC + "System.out.println\\(record\\);", false)
     }
 

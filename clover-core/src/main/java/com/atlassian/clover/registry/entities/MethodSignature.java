@@ -63,7 +63,7 @@ public class MethodSignature implements TaggedPersistent, MethodSignatureInfo {
 
     public MethodSignature(CloverToken firstToken, CloverToken nameToken, CloverToken lastToken, String name,
                            String typeParams, String returnType, Parameter[] parameters, String[] throwsTypes) {
-        this(firstToken, nameToken, lastToken, new HashMap<String, List<String>>(),
+        this(firstToken, nameToken, lastToken, new HashMap<>(),
                 new Modifiers(), name, typeParams, returnType, parameters, throwsTypes);
     }
 

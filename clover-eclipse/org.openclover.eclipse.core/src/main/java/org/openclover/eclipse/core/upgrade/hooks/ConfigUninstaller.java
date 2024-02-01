@@ -33,10 +33,10 @@ public class ConfigUninstaller {
     private static final String ALREADY_UNINSTALLED_HOOK_THIS_SESSION_PROPERTY = "clover.eclipse.hook.already.uninstalled.this.session";
     private static final String MESSAGEBOX_TITLE = "Clover JDT Hooks Uninstaller";
     private static final String PERMISSION_TEXT =
-        "Clover must update the config.ini configuration file of your Eclipse installation.\n\n" +
-        "Click Proceed to allow Clover to perform this action or click Skip if you wish to\n" +
-        "perform this yourself. Instructions on how to do this are provided within the \n" +
-        "online Clover Eclipse documentation.";
+            "Clover must update the config.ini configuration file of your Eclipse installation.\n\n" +
+                    "Click Proceed to allow Clover to perform this action or click Skip if you wish to\n" +
+                    "perform this yourself. Instructions on how to do this are provided within the \n" +
+                    "online Clover Eclipse documentation.";
 
     private void patchConfigIni(File configIni, File configIniBackup) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(configIni));
@@ -61,7 +61,7 @@ public class ConfigUninstaller {
         }
 
         swapConfigFile(configIni, configIniBackup, oldLines, lines);
-        
+
         System.setProperty(ALREADY_UNINSTALLED_HOOK_THIS_SESSION_PROPERTY, Boolean.TRUE.toString());
     }
 
@@ -89,7 +89,9 @@ public class ConfigUninstaller {
         return new File(configArea, CONFIG_INI + ".uninstall.clover.bak");
     }
 
-    /** @return if succeed in uninstalling the hook */
+    /**
+     * @return if succeed in uninstalling the hook
+     */
     public boolean run() {
         if (permissionGrantedByUser()) {
             URL configAreaUrl;
@@ -98,81 +100,70 @@ public class ConfigUninstaller {
                     configAreaUrl = new URL(System.getProperty(OSGI_CONFIG_AREA_PROPERTY));
                 } catch (MalformedURLException e) {
                     throw new ConfigUpdateAbortedException(
-                        "Clover was unable to locate your Eclipse configuration directory.\n" +
-                        "No configuration updates were performed. Please contact support - " + CloverVersionInfo.ATLASSIAN_COM_SUPPORT_RESOURCES,
-                        e);
+                            "Clover was unable to locate your Eclipse configuration directory.\n" +
+                                    "No configuration updates were performed. Please contact support - " + CloverVersionInfo.ATLASSIAN_COM_SUPPORT_RESOURCES,
+                            e);
                 }
 
                 File configArea = new File(configAreaUrl.getFile());
                 if (configArea == null || !configArea.exists() || !configArea.isDirectory() || !configArea.canWrite()) {
                     throw new ConfigUpdateAbortedException(
-                        "Clover is unable to write to your Eclipse configuration directory.\n" +
-                        "No configuration updates were performed. Please contact support - " + CloverVersionInfo.ATLASSIAN_COM_SUPPORT_RESOURCES);
+                            "Clover is unable to write to your Eclipse configuration directory.\n" +
+                                    "No configuration updates were performed. Please contact support - " + CloverVersionInfo.ATLASSIAN_COM_SUPPORT_RESOURCES);
                 }
 
                 File configIni = new File(configArea, CONFIG_INI);
                 File configIniBackup = getBackupConfigIni(configArea);
 
                 if (!configIni.exists()
-                    || !configIni.isFile()
-                    || !configIni.canWrite()) {
+                        || !configIni.isFile()
+                        || !configIni.canWrite()) {
                     throw new ConfigUpdateAbortedException(
-                        "Clover is unable to write to your Eclipse configuration file \"config.ini\".\n" +
-                        "No configuration updates were performed. Please contact support - " + CloverVersionInfo.ATLASSIAN_COM_SUPPORT_RESOURCES);
+                            "Clover is unable to write to your Eclipse configuration file \"config.ini\".\n" +
+                                    "No configuration updates were performed. Please contact support - " + CloverVersionInfo.ATLASSIAN_COM_SUPPORT_RESOURCES);
                 }
 
                 try {
                     patchConfigIni(configIni, configIniBackup);
                 } catch (Exception e) {
                     throw new ConfigUpdateFailedException(
-                        "Clover encountered an error while updating Eclipse's conifg.ini.\n" +
-                        "Please contact support - " + CloverVersionInfo.ATLASSIAN_COM_SUPPORT_RESOURCES,
-                        e);
+                            "Clover encountered an error while updating Eclipse's conifg.ini.\n" +
+                                    "Please contact support - " + CloverVersionInfo.ATLASSIAN_COM_SUPPORT_RESOURCES,
+                            e);
                 }
 
-                Display.getDefault().syncExec(new Runnable() {
-                    @Override
-                    public void run() {
+                Display.getDefault().syncExec(() ->
                         MessageDialog.openInformation(
-                            Display.getDefault().getActiveShell(),
-                            MESSAGEBOX_TITLE,
-                            "Clover successfully updated your config.ini file.\n" +
-                            "Please restart Eclipse for this change to take effect.");
-                    }
-                });
+                                Display.getDefault().getActiveShell(),
+                                MESSAGEBOX_TITLE,
+                                "Clover successfully updated your config.ini file.\n" +
+                                        "Please restart Eclipse for this change to take effect."));
                 return true;
             } catch (final ConfigUpdateException e) {
-                Display.getDefault().syncExec(new Runnable() {
-                    @Override
-                    public void run() {
+                Display.getDefault().syncExec(() ->
                         MessageDialog.openError(
-                            Display.getDefault().getActiveShell(),
-                            MESSAGEBOX_TITLE,
-                            e.getMessage());
-                    }
-                });
+                                Display.getDefault().getActiveShell(),
+                                MESSAGEBOX_TITLE,
+                                e.getMessage()));
             }
         }
         return false;
     }
 
     public boolean permissionGrantedByUser() {
-        final boolean[] permissionGranted = new boolean[] {false};
+        final boolean[] permissionGranted = new boolean[]{false};
 
-        Display.getDefault().syncExec(new Runnable() {
-            @Override
-            public void run() {
-                MessageDialog dialog = new MessageDialog(
+        Display.getDefault().syncExec(() -> {
+            MessageDialog dialog = new MessageDialog(
                     Display.getDefault().getActiveShell(),
                     MESSAGEBOX_TITLE,
                     null, // accept the default window icon
                     PERMISSION_TEXT,
                     MessageDialog.QUESTION,
                     new String[]{IDialogConstants.PROCEED_LABEL, IDialogConstants.CANCEL_LABEL}, 0);
-                int dialogResult = dialog.open();
+            int dialogResult = dialog.open();
 
-                permissionGranted[0] = (dialogResult == IDialogConstants.OK_ID);
-            }
+            permissionGranted[0] = (dialogResult == IDialogConstants.OK_ID);
         });
 
         return permissionGranted[0];
@@ -214,31 +205,31 @@ public class ConfigUninstaller {
             File configArea = new File(configAreaUrl.getFile());
             if (!configArea.exists() || !configArea.isDirectory() || !configArea.canWrite()) {
                 CloverPlugin.logVerbose(
-                    "Clover is unable to write to your Eclipse confiuration directory.\n" +
-                    "No configuration updates were performed.");
+                        "Clover is unable to write to your Eclipse confiuration directory.\n" +
+                                "No configuration updates were performed.");
             } else {
                 File configIni = new File(configArea, CONFIG_INI);
                 if (!configIni.exists()
-                    || !configIni.isFile()
-                    || !configIni.canWrite()) {
+                        || !configIni.isFile()
+                        || !configIni.canWrite()) {
                     CloverPlugin.logVerbose(
-                        "Clover is unable to write to your Eclipse configuration file \"config.ini\".\n" +
-                        "No configuration updates were performed.");
+                            "Clover is unable to write to your Eclipse configuration file \"config.ini\".\n" +
+                                    "No configuration updates were performed.");
                 } else {
                     try {
                         return isHookInstalled(configIni);
                     } catch (Exception e) {
                         CloverPlugin.logError(
-                            "Clover encountered an error while reading Eclipse's conifg.ini.\n" +
-                            e);
+                                "Clover encountered an error while reading Eclipse's conifg.ini.\n" +
+                                        e);
                     }
                 }
             }
         } catch (MalformedURLException e) {
             CloverPlugin.logVerbose(
-                "Clover was unable to locate your Eclipse confiuration directory.\n" +
-                "No configuration updates were performed.",
-                e);
+                    "Clover was unable to locate your Eclipse confiuration directory.\n" +
+                            "No configuration updates were performed.",
+                    e);
         }
         return false;
     }
@@ -256,8 +247,8 @@ public class ConfigUninstaller {
                 Matcher matcher = extensionsPattern.matcher(line);
                 if (matcher.matches()) {
                     return
-                        matcher.group(4) != null
-                        && matcher.group(4).contains(HOOK_ID);
+                            matcher.group(4) != null
+                                    && matcher.group(4).contains(HOOK_ID);
                 }
             }
         }

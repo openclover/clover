@@ -62,12 +62,7 @@ public class BasePackageInfo implements PackageInfo, CachingInfo {
      */
     @Override
     public EntityContainer getParent() {
-        return new EntityContainer() {
-            @Override
-            public void visit(EntityVisitor entityVisitor) {
-                entityVisitor.visitProject(containingProject);
-            }
-        };
+        return entityVisitor -> entityVisitor.visitProject(containingProject);
     }
 
     /**

@@ -533,11 +533,7 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
             failStackInfos = newTreeMap();
         }
         final Integer lineKey = lineNum;
-        List<StackTraceInfo.TraceEntry> tracesForLine = failStackInfos.get(lineKey);
-        if (tracesForLine == null) {
-            tracesForLine = newArrayList();
-            failStackInfos.put(lineKey, tracesForLine);
-        }
+        List<StackTraceInfo.TraceEntry> tracesForLine = failStackInfos.computeIfAbsent(lineKey, k -> newArrayList());
         tracesForLine.add(traceEntry);
     }
 
@@ -565,9 +561,9 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
     private void buildOrderedClassList() {
         List<FullClassInfo> tmpOrderedClasses = newArrayList(classes.values());
         if (orderby != null) {
-            Collections.sort(tmpOrderedClasses, orderby);
+            tmpOrderedClasses.sort(orderby);
         } else {
-            Collections.sort(tmpOrderedClasses, FixedSourceRegion.SOURCE_ORDER_COMP);
+            tmpOrderedClasses.sort(FixedSourceRegion.SOURCE_ORDER_COMP);
         }
         orderedClasses = tmpOrderedClasses;
     }

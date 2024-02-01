@@ -150,12 +150,7 @@ public class CloverToolWindow extends JPanel implements ConfigChangeListener, No
                     getWarningBox().setMessage("Coverage data for " + fileInfo.getPhysicalFile().getName() + " is out of date.");
                     getWarningBox().setVisible(true);
                     // ensure that the currently selected path is still visible.
-                    SwingUtilities.invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            getCoveragePane().ensureSelectionVisible();
-                        }
-                    });
+                    SwingUtilities.invokeLater(() -> getCoveragePane().ensureSelectionVisible());
                 } else {
                     getWarningBox().setVisible(false);
                 }

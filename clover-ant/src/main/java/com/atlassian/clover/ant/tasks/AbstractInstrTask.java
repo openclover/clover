@@ -28,7 +28,7 @@ public abstract class AbstractInstrTask extends AbstractCloverTask {
     /**
      * set the default source level to process files at
      *
-     * @param source the src level - e.g. "1.7", "9"
+     * @param source the src level - e.g. "8", "11", "17"
      */
     public void setSource(String source) {
         if (SourceLevel.isUnsupported(source)) {

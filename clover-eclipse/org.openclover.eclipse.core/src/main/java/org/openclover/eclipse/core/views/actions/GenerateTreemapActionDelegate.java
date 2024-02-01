@@ -13,17 +13,14 @@ public class GenerateTreemapActionDelegate extends GenerateReportletActionDelega
     @Override
     public void run(IAction action) {
         final IProject project = (IProject) projects.iterator().next();
-        Display.getDefault().syncExec(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    IDE.openEditor(
-                        getPage(),
-                        new TreemapInput(CloverProject.getFor(project)),
-                        TreemapEditor.ID);
-                } catch (Throwable t) {
-                    CloverPlugin.logError("Unable to open treemap editor", t);
-                }
+        Display.getDefault().syncExec(() -> {
+            try {
+                IDE.openEditor(
+                    getPage(),
+                    new TreemapInput(CloverProject.getFor(project)),
+                    TreemapEditor.ID);
+            } catch (Throwable t) {
+                CloverPlugin.logError("Unable to open treemap editor", t);
             }
         });
     }

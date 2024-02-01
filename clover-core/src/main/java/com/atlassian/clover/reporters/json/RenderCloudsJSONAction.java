@@ -70,7 +70,7 @@ public abstract class RenderCloudsJSONAction implements Callable {
     }
 
     protected List sort(List classes) {
-        Collections.sort(classes, HasMetricsSupport.CMP_LEX);
+        classes.sort(HasMetricsSupport.CMP_LEX);
         return classes;
     }
 

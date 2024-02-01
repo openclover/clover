@@ -41,7 +41,7 @@ public class RenderProjectCoverageCloudsAction extends RenderCoverageCloudAction
 
     private static List sortedAppClassesFor(FullProjectInfo model) {
         final List classes = model.getClasses(new TestClassFilter());
-        Collections.sort(classes, HasMetricsSupport.CMP_LEX);
+        classes.sort(HasMetricsSupport.CMP_LEX);
         return classes;
     }
 

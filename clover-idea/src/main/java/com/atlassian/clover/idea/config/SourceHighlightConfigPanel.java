@@ -166,16 +166,13 @@ public class SourceHighlightConfigPanel extends ConfigPanel {
             addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    SwingUtilities.invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            Color initialColour = self.getSelectedColour() != null ?
-                                    self.getSelectedColour() : getBackground();
-                            Color newColor = JColorChooser.showDialog(self, colorSelectionTxt, initialColour);
-                            if (newColor != null) {
-                                // colour selection has been made
-                                setSelectedColour(newColor);
-                            }
+                    SwingUtilities.invokeLater(() -> {
+                        Color initialColour = self.getSelectedColour() != null ?
+                                self.getSelectedColour() : getBackground();
+                        Color newColor = JColorChooser.showDialog(self, colorSelectionTxt, initialColour);
+                        if (newColor != null) {
+                            // colour selection has been made
+                            setSelectedColour(newColor);
                         }
                     });
                 }

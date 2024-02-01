@@ -20,18 +20,15 @@ public class CloverUtilExcludeFromProjectIdeaTest extends IdeaTestCase {
         dir1 = getVirtualFile(createTempDirectory());
         dir2 = getVirtualFile(createTempDirectory());
 
-        ApplicationTestHelper.runWriteAction(new ApplicationTestHelper.Action() {
-            @Override
-            public void run() throws Exception {
-                subdir1 = dir1.createChildDirectory(null, "subdir1");
-                subdir2 = dir1.createChildDirectory(null, "subdir2");
+        ApplicationTestHelper.runWriteAction(() -> {
+            subdir1 = dir1.createChildDirectory(null, "subdir1");
+            subdir2 = dir1.createChildDirectory(null, "subdir2");
 
-                final ModuleRootManager rManager = ModuleRootManager.getInstance(getModule());
-                final ModifiableRootModel rootModel = rManager.getModifiableModel();
-                rootModel.addContentEntry(dir1);
-                rootModel.addContentEntry(dir2);
-                rootModel.commit();
-            }
+            final ModuleRootManager rManager = ModuleRootManager.getInstance(getModule());
+            final ModifiableRootModel rootModel = rManager.getModifiableModel();
+            rootModel.addContentEntry(dir1);
+            rootModel.addContentEntry(dir2);
+            rootModel.commit();
         });
     }
 
@@ -44,19 +41,16 @@ public class CloverUtilExcludeFromProjectIdeaTest extends IdeaTestCase {
     }
 
     protected void assertFolderExcluded(final VirtualFile dir) throws Exception {
-        ApplicationTestHelper.runWriteAction(new ApplicationTestHelper.Action() {
-            @Override
-            public void run() throws Exception {
-                //precondition
-                assertEquals(0, ModuleRootManager.getInstance(getModule()).getExcludeRoots().length);
+        ApplicationTestHelper.runWriteAction(() -> {
+            //precondition
+            assertEquals(0, ModuleRootManager.getInstance(getModule()).getExcludeRoots().length);
 
-                boolean changed = ProjectUtil.excludeFromProject(getProject(), dir);
-                assertTrue(changed);
+            boolean changed = ProjectUtil.excludeFromProject(getProject(), dir);
+            assertTrue(changed);
 
-                final VirtualFile[] excludes = ModuleRootManager.getInstance(getModule()).getExcludeRoots();
-                assertEquals(1, excludes.length);
-                assertEquals(dir, excludes[0]);
-            }
+            final VirtualFile[] excludes = ModuleRootManager.getInstance(getModule()).getExcludeRoots();
+            assertEquals(1, excludes.length);
+            assertEquals(dir, excludes[0]);
         });
     }
     public void testUnrelatedDir() throws IOException {
@@ -72,24 +66,21 @@ public class CloverUtilExcludeFromProjectIdeaTest extends IdeaTestCase {
     }
     
     public void testAlreadyExcluded() throws Exception {
-        ApplicationTestHelper.runWriteAction(new ApplicationTestHelper.Action() {
-            @Override
-            public void run() throws Exception {
-                //precondition
-                assertEquals(0, ModuleRootManager.getInstance(getModule()).getExcludeRoots().length);
-                ProjectUtil.excludeFromProject(getProject(), subdir1);
-                final VirtualFile[] excludesPrecondition = ModuleRootManager.getInstance(getModule()).getExcludeRoots();
-                assertEquals(1, excludesPrecondition.length);
-                assertEquals(subdir1, excludesPrecondition[0]);
+        ApplicationTestHelper.runWriteAction(() -> {
+            //precondition
+            assertEquals(0, ModuleRootManager.getInstance(getModule()).getExcludeRoots().length);
+            ProjectUtil.excludeFromProject(getProject(), subdir1);
+            final VirtualFile[] excludesPrecondition = ModuleRootManager.getInstance(getModule()).getExcludeRoots();
+            assertEquals(1, excludesPrecondition.length);
+            assertEquals(subdir1, excludesPrecondition[0]);
 
-                // exclude the same dir again
-                boolean changed = ProjectUtil.excludeFromProject(getProject(), subdir1);
-                assertFalse(changed);
+            // exclude the same dir again
+            boolean changed = ProjectUtil.excludeFromProject(getProject(), subdir1);
+            assertFalse(changed);
 
-                final VirtualFile[] excludes = ModuleRootManager.getInstance(getModule()).getExcludeRoots();
-                assertEquals(1, excludes.length);
-                assertEquals(subdir1, excludes[0]);
-            }
+            final VirtualFile[] excludes = ModuleRootManager.getInstance(getModule()).getExcludeRoots();
+            assertEquals(1, excludes.length);
+            assertEquals(subdir1, excludes[0]);
         });
     }
 

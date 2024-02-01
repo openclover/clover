@@ -133,7 +133,7 @@ public class FullPackageInfo extends BasePackageInfo implements HasMetricsNode, 
     protected void gatherClassesFromPackage() {
         super.gatherClassesFromPackage();
         if (orderby != null) {
-            Collections.sort(classes, orderby);
+            classes.sort(orderby);
         }
     }
 

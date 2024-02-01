@@ -31,12 +31,10 @@ public class FileFilter implements HasMetricsFilter {
             if (vf == null) {
                 return false;
             }
-            return ApplicationManager.getApplication().runReadAction(new Computable<InclusionDetector>() {
-                @Override
-                public InclusionDetector compute() {
-                    return ProjectInclusionDetector.processFile(project, vf);
-                }
-            }).isIncluded();
+            return ApplicationManager.getApplication()
+                    .runReadAction((Computable<InclusionDetector>) () ->
+                            ProjectInclusionDetector.processFile(project, vf))
+                    .isIncluded();
         }
         return true;
     }

@@ -68,14 +68,11 @@ public class TreeMapEditor extends DummyFileEditor implements CoverageListener {
 
         // need final variable for inner Runnable class
         final TreeMapNode newRoot = tmpRoot;
-        ApplicationManager.getApplication().invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                treeMap.setRoot(newRoot);
-                treeMap.setActiveLeaf(null);
-                treeMap.setColorProvider(new IdeaCoverageColorProvider());
-                treeMap.repaint();
-            }
+        ApplicationManager.getApplication().invokeLater(() -> {
+            treeMap.setRoot(newRoot);
+            treeMap.setActiveLeaf(null);
+            treeMap.setColorProvider(new IdeaCoverageColorProvider());
+            treeMap.repaint();
         });
     }
 

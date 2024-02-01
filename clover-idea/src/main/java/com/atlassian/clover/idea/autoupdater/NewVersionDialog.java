@@ -43,21 +43,15 @@ public class NewVersionDialog extends DialogWrapper {
         releaseNotes.setText(version.getReleaseNotes());
         releaseNotes.setCaretPosition(0);
         releaseNotes.setEditable(false);
-        releaseNotes.addHyperlinkListener(new HyperlinkListener() {
-            @Override
-            public void hyperlinkUpdate(HyperlinkEvent e) {
-                if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-                    BrowserUtil.browse(e.getURL());
-                }
+        releaseNotes.addHyperlinkListener(event -> {
+            if (event.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+                BrowserUtil.browse(event.getURL());
             }
         });
 
-        releaseNotesLink.addHyperlinkListener(new HyperlinkListener() {
-            @Override
-            public void hyperlinkUpdate(HyperlinkEvent e) {
-                if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-                    BrowserUtil.browse(version.getReleaseNotesUrl());
-                }
+        releaseNotesLink.addHyperlinkListener(event -> {
+            if (event.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+                BrowserUtil.browse(version.getReleaseNotesUrl());
             }
         });
 

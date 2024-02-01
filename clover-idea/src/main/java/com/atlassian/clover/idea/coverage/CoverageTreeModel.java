@@ -457,12 +457,8 @@ public class CoverageTreeModel {
         }
     }
 
-    private static final Comparator<HasMetrics> HASMETRICS_COMPARATOR = new Comparator<HasMetrics>() {
-        @Override
-        public int compare(HasMetrics o1, HasMetrics o2) {
-            return o1.getName().compareToIgnoreCase(o2.getName());
-        }
-    };
+    private static final Comparator<HasMetrics> HASMETRICS_COMPARATOR = (o1, o2) ->
+            o1.getName().compareToIgnoreCase(o2.getName());
 
 
     /**
@@ -536,7 +532,7 @@ public class CoverageTreeModel {
                             classInfo));
             fragmentNode.add(classNode);
             List<? extends MethodInfo> methods = classInfo.getMethods();
-            Collections.sort(methods, HASMETRICS_COMPARATOR);
+            methods.sort(HASMETRICS_COMPARATOR);
 
             for (MethodInfo method : methods) {
                 // do not show lambda functions, do not show inner functions too (no recursion here)

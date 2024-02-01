@@ -57,9 +57,8 @@ public class CloudGenerator {
     }
 
     protected final List<BaseClassInfo> sort(List<BaseClassInfo> classes) {
-        Collections.sort(classes, HasMetricsSupport.CMP_LEX);
+        classes.sort(HasMetricsSupport.CMP_LEX);
         return classes;
     }
-
 
 }

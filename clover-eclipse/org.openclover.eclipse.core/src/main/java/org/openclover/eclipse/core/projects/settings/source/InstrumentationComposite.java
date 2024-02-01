@@ -298,16 +298,13 @@ public class InstrumentationComposite extends Composite {
                                 CloverEclipsePluginMessages.OUTPUT_FOLDER_DIALOG_CAPTION());
 
                 dialog.showClosedProjects(false);
-                dialog.setValidator(new ISelectionValidator() {
-                    @Override
-                    public String isValid(Object o) {
-                        final IResource container = ResourcesPlugin.getWorkspace().getRoot().findMember((IPath)o);
-                        final IProject project = container.getProject();
-                        if ( (project != container) && (project == cloverProject.getProject())) {
-                            return null;
-                        } else {
-                            return CloverEclipsePluginMessages.ERROR_SELECT_WITHIN_PROJECT();
-                        }
+                dialog.setValidator(o -> {
+                    final IResource container = ResourcesPlugin.getWorkspace().getRoot().findMember((IPath)o);
+                    final IProject project = container.getProject();
+                    if ( (project != container) && (project == cloverProject.getProject())) {
+                        return null;
+                    } else {
+                        return CloverEclipsePluginMessages.ERROR_SELECT_WITHIN_PROJECT();
                     }
                 });
                 if (dialog.open() == IDialogConstants.OK_ID) {

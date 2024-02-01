@@ -31,14 +31,9 @@ public class ModelSorter {
         }
 
         Comparator<TreeNode> actualComparator = sortingType == SORT_ASCENDING ?
-                columnComparator : new Comparator<TreeNode>() {
-            @Override
-            public int compare(TreeNode o1, TreeNode o2) {
-                return columnComparator.compare(o2, o1);
-            }
-        };
+                columnComparator : (o1, o2) -> columnComparator.compare(o2, o1);
 
-        Collections.sort(nodes, actualComparator);
+        nodes.sort(actualComparator);
     }
 
     public int getSortingType() {

@@ -186,7 +186,7 @@ abstract class AggregatedMetricsTestBase {
         cfg.setDefaultBaseDir(workingDir)
         cfg.setInitstring(initString)
         cfg.setRelative(relativeInitString)
-        cfg.setSourceLevel(SourceLevel.JAVA_7)
+        cfg.setSourceLevel(SourceLevel.JAVA_8)
         cfg.setEncoding("ISO-88591")
         cfg.setInstrumentLambda(LambdaInstrumentation.ALL)
         return cfg

@@ -25,7 +25,7 @@ public class CoverageModelsMonitor {
     private final List<DatabaseChangeListener> listeners;
 
     public CoverageModelsMonitor() {
-        this.listeners = Collections.synchronizedList(new ArrayList<DatabaseChangeListener>(2));
+        this.listeners = Collections.synchronizedList(new ArrayList<>(2));
     }
 
     public void start() {

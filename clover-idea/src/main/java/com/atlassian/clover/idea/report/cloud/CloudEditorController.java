@@ -121,12 +121,7 @@ public class CloudEditorController implements CoverageListener, HasMetricsListen
     private void update(final CloverDatabase db, final HasMetrics selectedElement) {
         cacheElement(db, selectedElement);
         if (db == null) {
-            ApplicationManager.getApplication().invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    cloudView.clean();
-                }
-            });
+            ApplicationManager.getApplication().invokeLater(cloudView::clean);
             return;
         }
         final String packagePrefix = packagePrefix(selectedElement);
@@ -136,15 +131,12 @@ public class CloudEditorController implements CoverageListener, HasMetricsListen
         final List<? extends BaseClassInfo> allClasses = projectInfo.getClasses(aggregate);
         final String riskContent = generateRiskHtml(allClasses);
         final String winsContent = generateWinHtml(allClasses);
-        ApplicationManager.getApplication().invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                setPackagePrefixInfo(packagePrefix);
-                cloudView.setRisksHtml(riskContent);
-                cloudView.setWinsHtml(winsContent);
-                final HasMetrics element = selectedElement != null ? selectedElement : projectInfo;
-                cloudView.setSummaryNode(element, new BaseCoverageNodeViewer.TestPassInfo(db.getFullModel().getMetrics()));
-            }
+        ApplicationManager.getApplication().invokeLater(() -> {
+            setPackagePrefixInfo(packagePrefix);
+            cloudView.setRisksHtml(riskContent);
+            cloudView.setWinsHtml(winsContent);
+            final HasMetrics element = selectedElement != null ? selectedElement : projectInfo;
+            cloudView.setSummaryNode(element, new BaseCoverageNodeViewer.TestPassInfo(db.getFullModel().getMetrics()));
         });
     }
 

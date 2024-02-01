@@ -82,47 +82,26 @@ public class RegexContextFilterModificationWidget extends Composite {
         gd.horizontalAlignment = GridData.FILL;
 
         // initialise the listeners.
-        addFilter.addListener(SWT.Selection, new Listener() {
-            @Override
-            public void handleEvent(Event event) {
-                try {
-                    doAdd();
-                } catch (Exception e) {
-                    CloverPlugin.logError("Error adding new regex", e);
-                    logRegexError(e);
-                }
+        addFilter.addListener(SWT.Selection, event -> {
+            try {
+                doAdd();
+            } catch (Exception e) {
+                CloverPlugin.logError("Error adding new regex", e);
+                logRegexError(e);
             }
         });
-        removeFilter.addListener(SWT.Selection, new Listener() {
-            @Override
-            public void handleEvent(Event event) {
-                doRemove();
+        removeFilter.addListener(SWT.Selection, event -> doRemove());
+        copyFilter.addListener(SWT.Selection, event -> {
+            try {
+                doCopy();
+            } catch (Exception e) {
+                CloverPlugin.logError("Error duplicating regex", e);
+                logRegexError(e);
             }
         });
-        copyFilter.addListener(SWT.Selection, new Listener() {
-            @Override
-            public void handleEvent(Event event) {
-                try {
-                    doCopy();
-                } catch (Exception e) {
-                    CloverPlugin.logError("Error duplicating regex", e);
-                    logRegexError(e);
-                }
-            }
-        });
-        editFilter.addListener(SWT.Selection, new Listener() {
-            @Override
-            public void handleEvent(Event event) {
-                doEdit();
-            }
-        });
+        editFilter.addListener(SWT.Selection, event -> doEdit());
 
-        filterList.addListener(SWT.Selection, new Listener() {
-            @Override
-            public void handleEvent(Event event) {
-                doSelection();
-            }
-        });
+        filterList.addListener(SWT.Selection, event -> doSelection());
 
         loadFrom(properties);
     }

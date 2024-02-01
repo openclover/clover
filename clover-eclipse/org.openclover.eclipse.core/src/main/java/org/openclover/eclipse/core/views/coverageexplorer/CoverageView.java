@@ -117,14 +117,11 @@ public class CoverageView extends ExplorerView implements IShowInTarget {
             }
         };
     
-    public static final Comparator COL_ELEMENT_COMPARATOR = new Comparator() {
-        @Override
-        public int compare(Object object1, Object object2) {
-            if (object1.getClass() == object2.getClass()) {
-                return ExplorerViewComparator.compareName(object1, object2);
-            } else {
-                return ExplorerViewComparator.compareType(object1, object2);
-            }
+    public static final Comparator COL_ELEMENT_COMPARATOR = (object1, object2) -> {
+        if (object1.getClass() == object2.getClass()) {
+            return ExplorerViewComparator.compareName(object1, object2);
+        } else {
+            return ExplorerViewComparator.compareType(object1, object2);
         }
     };
     public static final ColumnDefinition COL_COVERAGE =
@@ -404,38 +401,32 @@ public class CoverageView extends ExplorerView implements IShowInTarget {
 
         super.buildTree();
 
-        tree.addMouseMoveListener(new MouseMoveListener() {
-            @Override
-            public void mouseMove(MouseEvent event) {
-                final Point mousePoint = new Point(event.x, event.y);
-                final TreeItem item = tree.getItem(mousePoint);
-                if (item != null) {
-                    if (item.getData() instanceof IProject
-                        && item.getBounds(0).contains(mousePoint)
-                        && textBoundsFor(item, 0).contains(mousePoint)) {
+        tree.addMouseMoveListener(mouseEvent -> {
+            final Point mousePoint = new Point(mouseEvent.x, mouseEvent.y);
+            final TreeItem item = tree.getItem(mousePoint);
+            if (item != null) {
+                if (item.getData() instanceof IProject
+                    && item.getBounds(0).contains(mousePoint)
+                    && textBoundsFor(item, 0).contains(mousePoint)) {
 
-                        tree.setCursor(tree.getDisplay().getSystemCursor(SWT.CURSOR_HAND));
-                        return;
-                    }
+                    tree.setCursor(tree.getDisplay().getSystemCursor(SWT.CURSOR_HAND));
+                    return;
                 }
-                tree.setCursor(null);
             }
+            tree.setCursor(null);
         });
         tree.setLayoutData(new GridData(GridData.FILL_BOTH));
         SwtUtils.setHorizontalSpan(tree, 3);
 
-        tree.addListener(SWT.MouseDown, new Listener() {
-            @Override
-            public void handleEvent (Event event) {
-                if (event.button == 1) {
-                    final Point point = new Point(event.x, event.y);
-                    final TreeItem item = tree.getItem (point);
-                    final CloverProject cloverProject = getCloverProjectElementAtSelected(point, item);
-                    if (cloverProject != null) {
-                        Rectangle textBounds = textBoundsFor(item, 0);
-                        if (textBounds.contains(point)) {
-                            showProjectSettingsPopup(cloverProject, textBounds);
-                        }
+        tree.addListener(SWT.MouseDown, event -> {
+            if (event.button == 1) {
+                final Point point = new Point(event.x, event.y);
+                final TreeItem item = tree.getItem (point);
+                final CloverProject cloverProject = getCloverProjectElementAtSelected(point, item);
+                if (cloverProject != null) {
+                    Rectangle textBounds = textBoundsFor(item, 0);
+                    if (textBounds.contains(point)) {
+                        showProjectSettingsPopup(cloverProject, textBounds);
                     }
                 }
             }

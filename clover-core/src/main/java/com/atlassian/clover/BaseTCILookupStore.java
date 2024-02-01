@@ -7,7 +7,7 @@ public abstract class BaseTCILookupStore implements TCILookupStore {
     private final ConcurrentMap<String, TestCaseInfoLookup> tciLookups;
 
     public BaseTCILookupStore() {
-        this(new ConcurrentHashMap<String, TestCaseInfoLookup>());
+        this(new ConcurrentHashMap<>());
     }
     
     public BaseTCILookupStore(ConcurrentMap<String, TestCaseInfoLookup> tciLookups) {

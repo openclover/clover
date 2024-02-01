@@ -11,16 +11,13 @@ public class CoverageFilesUtils {
 
         if (coverageDbFolder.exists()) {
             monitor.subTask("Removing Clover recording files");
-            FileFilter deleteFilter = new FileFilter() {
-                @Override
-                public boolean accept(File pathname) {
-                    if (pathname.toString().indexOf(coverageDbFile.getPath()) == 0) {
-                        return
-                            (deleteDbToo && (pathname.toString().length() == coverageDbFile.getPath().length()))
-                            || (pathname.toString().length() != coverageDbFile.getPath().length());
-                    }
-                    return false;
+            FileFilter deleteFilter = pathname -> {
+                if (pathname.toString().indexOf(coverageDbFile.getPath()) == 0) {
+                    return
+                        (deleteDbToo && (pathname.toString().length() == coverageDbFile.getPath().length()))
+                        || (pathname.toString().length() != coverageDbFile.getPath().length());
                 }
+                return false;
             };
             File[] filesToDelete = coverageDbFolder.listFiles(deleteFilter);
             for (File toDelete : filesToDelete) {

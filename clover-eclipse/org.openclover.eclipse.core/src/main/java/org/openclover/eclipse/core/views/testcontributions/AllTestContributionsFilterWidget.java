@@ -54,29 +54,26 @@ public class AllTestContributionsFilterWidget
                 @Override
                 public void done(IJobChangeEvent event) {
                     if (event.getResult().getSeverity() != Status.CANCEL) {
-                        Display.getDefault().syncExec(new Runnable() {
-                            @Override
-                            public void run() {
-                                //Content provider may be null when shutting down
-                                //So do no work in that case (as it will fail anyway)
-                                if (getTestsViewer().getContentProvider() != null) {
-                                    if (!viewPart.getViewSite().getPage().isPartVisible(viewPart)) {
-                                        testContributionsComputation.prime(null);
-                                    } else {
-                                        if (testContributionsComputation.isInputChanged()) {
-                                            getTestsViewer().setInput(testContributionsComputation);
+                        Display.getDefault().syncExec(() -> {
+                            //Content provider may be null when shutting down
+                            //So do no work in that case (as it will fail anyway)
+                            if (getTestsViewer().getContentProvider() != null) {
+                                if (!viewPart.getViewSite().getPage().isPartVisible(viewPart)) {
+                                    testContributionsComputation.prime(null);
+                                } else {
+                                    if (testContributionsComputation.isInputChanged()) {
+                                        getTestsViewer().setInput(testContributionsComputation);
 
-                                            Set checkedElements = testContributionsComputation.getCheckedTestCasesAndClasses();
-                                            if (checkedElements.size() == 1
-                                                && checkedElements.iterator().next() == AllTestCaseInfoProvider.ALL_TEST_CASES) {
-                                                getTestsViewer().setGrayChecked(AllTestCaseInfoProvider.ALL_TEST_CASES, true);
-                                            } else {
-                                                getTestsViewer().setGrayChecked(AllTestCaseInfoProvider.ALL_TEST_CASES, false);
-                                                getTestsViewer().setCheckedElements(checkedElements.toArray());
-                                            }
+                                        Set checkedElements = testContributionsComputation.getCheckedTestCasesAndClasses();
+                                        if (checkedElements.size() == 1
+                                            && checkedElements.iterator().next() == AllTestCaseInfoProvider.ALL_TEST_CASES) {
+                                            getTestsViewer().setGrayChecked(AllTestCaseInfoProvider.ALL_TEST_CASES, true);
+                                        } else {
+                                            getTestsViewer().setGrayChecked(AllTestCaseInfoProvider.ALL_TEST_CASES, false);
+                                            getTestsViewer().setCheckedElements(checkedElements.toArray());
                                         }
-                                        testContributionsComputation.prime(editor);
                                     }
+                                    testContributionsComputation.prime(editor);
                                 }
                             }
                         });

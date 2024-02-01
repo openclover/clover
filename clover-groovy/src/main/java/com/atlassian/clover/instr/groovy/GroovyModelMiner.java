@@ -25,7 +25,7 @@ import java.util.Set;
 
 public class GroovyModelMiner {
     public static MethodSignature extractMethodSignature(MethodNode method) {
-        return extractMethodSignature(method, new HashMap<String, ClassNode>());
+        return extractMethodSignature(method, new HashMap<>());
     }
 
     public static MethodSignature extractMethodSignature(MethodNode method, Map<String, ClassNode> annotationClassNodes) {
@@ -124,11 +124,11 @@ public class GroovyModelMiner {
     }
 
     public static Modifiers extractModifiers(ClassNode classNode) {
-        return extractModifiers(classNode, new HashMap<String, ClassNode>());
+        return extractModifiers(classNode, new HashMap<>());
     }
 
     public static Modifiers extractModifiers(MethodNode methodNode) {
-        return extractModifiers(methodNode, new HashMap<String, ClassNode>());
+        return extractModifiers(methodNode, new HashMap<>());
     }
 
     /** Extracts modifiers from anything that supports the modfiers property and extends AnnotationNode  */
@@ -161,7 +161,7 @@ public class GroovyModelMiner {
     }
 
     public static AnnotationImpl[] extractAnnotations(AnnotatedNode annotated) {
-        return extractAnnotations(annotated, new HashMap<String, ClassNode>());
+        return extractAnnotations(annotated, new HashMap<>());
     }
 
     public static AnnotationImpl[] extractAnnotations(AnnotatedNode annotated, Map<String, ClassNode> classNodes) {
@@ -174,7 +174,7 @@ public class GroovyModelMiner {
     }
 
     public static AnnotationImpl extractAnnotation(AnnotationNode annotationNode) {
-        return extractAnnotation(annotationNode, new HashMap<String, ClassNode>());
+        return extractAnnotation(annotationNode, new HashMap<>());
     }
 
     public static AnnotationImpl extractAnnotation(AnnotationNode annotationNode, Map<String, ClassNode> classNodes) {
@@ -191,7 +191,7 @@ public class GroovyModelMiner {
     }
 
     public static PersistentAnnotationValue extractAnnotationValue(Expression e) {
-        return extractAnnotationValue(e, new HashMap<String, ClassNode>());
+        return extractAnnotationValue(e, new HashMap<>());
     }
 
     public static PersistentAnnotationValue extractAnnotationValue(Expression e, Map<String, ClassNode> classNodes) {

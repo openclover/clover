@@ -29,19 +29,9 @@ import java.util.Set;
 import static org.openclover.util.Lists.newLinkedList;
 
 public class Nodes {
-    public static final TestCaseConverter TO_TESTCASEINFO = new TestCaseConverter() {
-        @Override
-        public Object convert(TestCaseInfo tci, IMethod method) {
-            return tci;
-        }
-    };
+    public static final TestCaseConverter TO_TESTCASEINFO = (tci, method) -> tci;
 
-    public static final TestCaseConverter TO_IMETHOD = new TestCaseConverter() {
-        @Override
-        public Object convert(TestCaseInfo tci, IMethod method) {
-            return method;
-        }
-    };
+    public static final TestCaseConverter TO_IMETHOD = (tci, method) -> method;
 
     public static class ToTestCaseNodeCoverter implements TestCaseConverter {
         private TestCaseNodeFactory tcnFactory;

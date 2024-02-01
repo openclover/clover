@@ -28,12 +28,7 @@ public abstract class AbstractEditorProvider implements ApplicationComponent, Fi
     @Override
     @NotNull
     public FileEditorState readState(@NotNull Element element, @NotNull Project project, @NotNull VirtualFile virtualFile) {
-        return new FileEditorState() {
-            @Override
-            public boolean canBeMergedWith(FileEditorState otherState, FileEditorStateLevel level) {
-                return false;
-            }
-        };
+        return (otherState, level) -> false;
     }
 
     @Override

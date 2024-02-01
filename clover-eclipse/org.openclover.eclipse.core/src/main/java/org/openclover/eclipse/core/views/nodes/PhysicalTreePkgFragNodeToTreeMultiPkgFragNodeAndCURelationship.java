@@ -45,11 +45,8 @@ public class PhysicalTreePkgFragNodeToTreeMultiPkgFragNodeAndCURelationship exte
                                     && siblingPkg.getElementName().indexOf(pkgFragmentForRoot.getElementName() + ".") == 0
                                     && siblingPkg.getElementName().split("\\.").length == subPkgCount + 1) {
 
-                                Set<IPackageFragment> pkgFragmentsForName = pkgNamesToFragments.get(siblingPkg.getElementName());
-                                if (pkgFragmentsForName == null) {
-                                    pkgFragmentsForName = newHashSet();
-                                    pkgNamesToFragments.put(siblingPkg.getElementName(), pkgFragmentsForName);
-                                }
+                                Set<IPackageFragment> pkgFragmentsForName = pkgNamesToFragments.computeIfAbsent(
+                                        siblingPkg.getElementName(), k -> newHashSet());
                                 pkgFragmentsForName.add(new PackageFragmentAdapter((IPackageFragment) siblingPkg) {
                                     @Override
                                     public String getElementName() {

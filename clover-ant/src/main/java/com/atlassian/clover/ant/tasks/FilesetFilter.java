@@ -34,11 +34,7 @@ public class FilesetFilter implements HasMetricsFilter {
                 final File file = new File(baseDir, includedFile);
                 Logger.getInstance().verbose("Adding to fileset filter: " + file.getPath());
 
-                Set<String> paths = fileNamesToPaths.get(file.getName());
-                if (paths == null) {
-                    paths = newHashSet();
-                    fileNamesToPaths.put(file.getName(), paths);
-                }
+                Set<String> paths = fileNamesToPaths.computeIfAbsent(file.getName(), k -> newHashSet());
                 paths.add(file.getAbsolutePath());
 
                 files.add(file);

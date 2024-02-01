@@ -67,14 +67,11 @@ public class CoverageViewMetricsPane extends Composite {
 
         createSource();
 
-        projectTreeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-            @Override
-            public void selectionChanged(SelectionChangedEvent selectionChangedEvent) {
-                if (selectionChangedEvent.getSelection() instanceof IStructuredSelection) {
-                    update((IStructuredSelection)selectionChangedEvent.getSelection());
-                } else {
-                    clear();
-                }
+        projectTreeViewer.addSelectionChangedListener(selectionChangedEvent -> {
+            if (selectionChangedEvent.getSelection() instanceof IStructuredSelection) {
+                update((IStructuredSelection)selectionChangedEvent.getSelection());
+            } else {
+                clear();
             }
         });
     }

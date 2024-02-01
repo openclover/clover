@@ -54,12 +54,7 @@ public class JDOMUtil {
 
     private static SAXBuilder getBuilder() {
         SAXBuilder saxbuilder = new SAXBuilder();
-        saxbuilder.setEntityResolver(new EntityResolver() {
-            @Override
-            public InputSource resolveEntity(String s, String s1) {
-                return new InputSource(new CharArrayReader(new char[0]));
-            }
-        });
+        saxbuilder.setEntityResolver((s, s1) -> new InputSource(new CharArrayReader(new char[0])));
         return saxbuilder;
     }
 

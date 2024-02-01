@@ -218,37 +218,34 @@ public class RecordingTranscripts {
             final Map<String, FileRef> newRecordingFiles = newHashMap();
             final Map<String, FileRef> newPerTestFiles = newHashMap();
 
-            dir.list(new FilenameFilter() {
-                @Override
-                public boolean accept(File d, String name) {
-                    FileRef recfile = fromFile(d, name, basename);
-                    if (recfile != null) {
-                        final String path = recfile.getDatafile().getAbsolutePath();
-                        if (recfile.getTimestamp() >= from && recfile.getTimestamp() <= to) {
-                            if (recfile.isTestRecording()) {
-                                if (loadPerTestData && !origPerTestFiles.containsKey(path)) {
-                                    perTestFiles.put(path, recfile);
-                                    newPerTestFiles.put(path, recfile);
-                                }
-                            } else {
-                                // a normal recording file
-                                if (!origRecordingFiles.containsKey(path)) {
-                                    recordingFiles.put(path, recfile);
-                                    newRecordingFiles.put(path, recfile);
-                                }
+            dir.list((dir, name) -> {
+                FileRef recfile = fromFile(dir, name, basename);
+                if (recfile != null) {
+                    final String path = recfile.getDatafile().getAbsolutePath();
+                    if (recfile.getTimestamp() >= from && recfile.getTimestamp() <= to) {
+                        if (recfile.isTestRecording()) {
+                            if (loadPerTestData && !origPerTestFiles.containsKey(path)) {
+                                perTestFiles.put(path, recfile);
+                                newPerTestFiles.put(path, recfile);
                             }
-                            return true;
                         } else {
-                            Logger.getInstance().debug(
-                                (deleteExcluded ? "deleting" : "ignoring") + " out of date coverage recording file: " + name + ", timestamp " +
-                                (to < Long.MAX_VALUE ? "not in range " + from + "-" + to : "< " + from));
-                            if (deleteExcluded) {
-                                recfile.getDatafile().delete();
+                            // a normal recording file
+                            if (!origRecordingFiles.containsKey(path)) {
+                                recordingFiles.put(path, recfile);
+                                newRecordingFiles.put(path, recfile);
                             }
                         }
+                        return true;
+                    } else {
+                        Logger.getInstance().debug(
+                            (deleteExcluded ? "deleting" : "ignoring") + " out of date coverage recording file: " + name + ", timestamp " +
+                            (to < Long.MAX_VALUE ? "not in range " + from + "-" + to : "< " + from));
+                        if (deleteExcluded) {
+                            recfile.getDatafile().delete();
+                        }
                     }
-                    return false;
                 }
+                return false;
             });
             recordingFiles.putAll(origRecordingFiles);
             perTestFiles.putAll(origPerTestFiles);

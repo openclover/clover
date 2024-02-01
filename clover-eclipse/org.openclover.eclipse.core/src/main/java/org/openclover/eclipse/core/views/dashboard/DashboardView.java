@@ -151,16 +151,12 @@ public class DashboardView extends ViewPart implements ISelectionListener, Datab
     
     @Override
     public void databaseChanged(final DatabaseChangeEvent event) {
-        browser.getDisplay().asyncExec(new Runnable() {
-            
-            @Override
-            public void run() {
-                if ((event.isApplicableTo(lastSelectedProject) && event.isSubstantiveProjectChange()) || event.isForWorkspace()) {
-                    try {
-                        generateReport(null, lastSelectedProject);
-                    } catch (Exception e) {
-                        CloverPlugin.logWarning("Problem generating Dashboard report", e);
-                    }
+        browser.getDisplay().asyncExec(() -> {
+            if ((event.isApplicableTo(lastSelectedProject) && event.isSubstantiveProjectChange()) || event.isForWorkspace()) {
+                try {
+                    generateReport(null, lastSelectedProject);
+                } catch (Exception e) {
+                    CloverPlugin.logWarning("Problem generating Dashboard report", e);
                 }
             }
         });

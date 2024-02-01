@@ -64,89 +64,84 @@ public class RegistryDumper {
         for (Object o : reg.getInstrHistory()) {
             Logger.getInstance().info(o.toString());
         }
-        reg.getProject().visitFiles(new FileInfoVisitor() {
-            @Override
-            public void visitFileInfo(BaseFileInfo file) {
-                Logger.getInstance().info("File " + file.getPackagePath());
+
+        reg.getProject().visitFiles(fileInfo -> {
+            Logger.getInstance().info("File " + fileInfo.getPackagePath());
+            indent++;
+            Logger.getInstance().info(indent("Physical file:" + ((FullFileInfo)fileInfo).getPhysicalFile().getAbsolutePath()));
+            Logger.getInstance().info(indent("Encoding: " + fileInfo.getEncoding()));
+            Logger.getInstance().info(indent("Checksum: " + fileInfo.getChecksum()));
+            Logger.getInstance().info(indent("File Size: " + fileInfo.getFilesize()));
+            Logger.getInstance().info(indent("Line Count: " + fileInfo.getLineCount()));
+            Logger.getInstance().info(indent("NC Line Count: " + fileInfo.getNcLineCount()));
+            Logger.getInstance().info(indent("Timestamp: " + DateFormat.getDateTimeInstance().format(fileInfo.getTimestamp())));
+            Logger.getInstance().info(indent("Slot Index: " + fileInfo.getDataIndex()));
+            Logger.getInstance().info(indent("Slot Length: " + fileInfo.getDataLength()));
+            Logger.getInstance().info(indent("Class count: " + classCount(fileInfo)));
+            Logger.getInstance().info(indent("Method count: " + methodCount(fileInfo)));
+            Logger.getInstance().info(indent("Test count: " + testCount(fileInfo)));
+            Logger.getInstance().info(indent("Statement count: " + statementCount(fileInfo)));
+            Logger.getInstance().info(indent("Branch count: " + branchCount(fileInfo)));
+            Logger.getInstance().info(indent("Max version supported: " + ((FullFileInfo) fileInfo).getMaxVersion()));
+            Logger.getInstance().info(indent("Min version supported: " + ((FullFileInfo) fileInfo).getMinVersion()));
+            Logger.getInstance().info(indent("Classes:"));
+            indent++;
+            for (ClassInfo classInfo : fileInfo.getClasses()) {
+                Logger.getInstance().info(indent("Class " + classInfo.getQualifiedName()));
+                Logger.getInstance().info(indent("Statement count: " + statementCount(classInfo)));
+                Logger.getInstance().info(indent("Branch count: " + branchCount(classInfo)));
+
                 indent++;
-                Logger.getInstance().info(indent("Physical file:" + ((FullFileInfo)file).getPhysicalFile().getAbsolutePath()));
-                Logger.getInstance().info(indent("Encoding: " + file.getEncoding()));
-                Logger.getInstance().info(indent("Checksum: " + file.getChecksum()));
-                Logger.getInstance().info(indent("File Size: " + file.getFilesize()));
-                Logger.getInstance().info(indent("Line Count: " + file.getLineCount()));
-                Logger.getInstance().info(indent("NC Line Count: " + file.getNcLineCount()));
-                Logger.getInstance().info(indent("Timestamp: " + DateFormat.getDateTimeInstance().format(file.getTimestamp())));
-                Logger.getInstance().info(indent("Slot Index: " + file.getDataIndex()));
-                Logger.getInstance().info(indent("Slot Length: " + file.getDataLength()));
-                Logger.getInstance().info(indent("Class count: " + classCount(file)));
-                Logger.getInstance().info(indent("Method count: " + methodCount(file)));
-                Logger.getInstance().info(indent("Test count: " + testCount(file)));
-                Logger.getInstance().info(indent("Statement count: " + statementCount(file)));
-                Logger.getInstance().info(indent("Branch count: " + branchCount(file)));
-                Logger.getInstance().info(indent("Max version supported: " + ((FullFileInfo) file).getMaxVersion()));
-                Logger.getInstance().info(indent("Min version supported: " + ((FullFileInfo) file).getMinVersion()));
-                Logger.getInstance().info(indent("Classes:"));
-                indent++;
-                for (ClassInfo classInfo : file.getClasses()) {
-                    Logger.getInstance().info(indent("Class " + classInfo.getQualifiedName()));
-                    Logger.getInstance().info(indent("Statement count: " + statementCount(classInfo)));
-                    Logger.getInstance().info(indent("Branch count: " + branchCount(classInfo)));
-
-                    indent++;
-                    for (final MethodInfo methodInfo : classInfo.getMethods()) {
-                        if (full) {
-                            Logger.getInstance().info(indent(methodInfo.getName()));
-                            indent++;
-                            Logger.getInstance().info(indent(methodInfo.toString()));
-                            if (methodInfo.isTest()) {
-                                TestCaseInfo testCase = ((FullClassInfo) classInfo).getTestCase(methodInfo.getQualifiedName());
-                                if (testCase != null) {
-                                    Logger.getInstance().info(indent(indent(testCase.toString())));
-                                }
+                for (final MethodInfo methodInfo : classInfo.getMethods()) {
+                    if (full) {
+                        Logger.getInstance().info(indent(methodInfo.getName()));
+                        indent++;
+                        Logger.getInstance().info(indent(methodInfo.toString()));
+                        if (methodInfo.isTest()) {
+                            TestCaseInfo testCase = ((FullClassInfo) classInfo).getTestCase(methodInfo.getQualifiedName());
+                            if (testCase != null) {
+                                Logger.getInstance().info(indent(indent(testCase.toString())));
                             }
-                            Logger.getInstance().info(indent("Statement count: " + methodInfo.getStatements().size()));
-                            Logger.getInstance().info(indent("Branch count: " + methodInfo.getBranches().size()));
+                        }
+                        Logger.getInstance().info(indent("Statement count: " + methodInfo.getStatements().size()));
+                        Logger.getInstance().info(indent("Branch count: " + methodInfo.getBranches().size()));
 
-                            final List<SourceInfo> stmtsAndBranches = newArrayList();
-                            stmtsAndBranches.addAll(methodInfo.getBranches());
-                            stmtsAndBranches.addAll(methodInfo.getStatements());
+                        final List<SourceInfo> stmtsAndBranches = newArrayList();
+                        stmtsAndBranches.addAll(methodInfo.getBranches());
+                        stmtsAndBranches.addAll(methodInfo.getStatements());
 
-                            Collections.sort(stmtsAndBranches, new Comparator<SourceInfo>() {
-                                @Override
-                                public int compare(SourceInfo o1, SourceInfo o2) {
-                                    final int startLine1 = o1.getStartLine();
-                                    final int startCol1 = o1.getStartColumn();
-                                    final int startLine2 = o2.getStartLine();
-                                    final int startCol2 = o2.getStartColumn();
+                        stmtsAndBranches.sort((sourceInfo1, sourceInfo2) -> {
+                            final int startLine1 = sourceInfo1.getStartLine();
+                            final int startCol1 = sourceInfo1.getStartColumn();
+                            final int startLine2 = sourceInfo2.getStartLine();
+                            final int startCol2 = sourceInfo2.getStartColumn();
 
-                                    if (startLine1 < startLine2) {
-                                        return -1;
-                                    } else if (startLine1 > startLine2) {
-                                        return 1;
-                                    } else {
-                                        return Integer.compare(startCol1, startCol2);
-                                    }
-                                }
-                            });
-
-                            indent++;
-                            for (SourceInfo stmtOrBranch : stmtsAndBranches) {
-                                String line = stmtOrBranch instanceof StatementInfo ?
-                                        describeStatement((StatementInfo) stmtOrBranch) :
-                                        describeBranch((BranchInfo) stmtOrBranch);
-                                Logger.getInstance().info(indent(line));
+                            if (startLine1 < startLine2) {
+                                return -1;
+                            } else if (startLine1 > startLine2) {
+                                return 1;
+                            } else {
+                                return Integer.compare(startCol1, startCol2);
                             }
-                            indent--;
-                        } else {
-                            Logger.getInstance().info(indent(methodInfo.toString()));
+                        });
+
+                        indent++;
+                        for (SourceInfo stmtOrBranch : stmtsAndBranches) {
+                            String line = stmtOrBranch instanceof StatementInfo ?
+                                    describeStatement((StatementInfo) stmtOrBranch) :
+                                    describeBranch((BranchInfo) stmtOrBranch);
+                            Logger.getInstance().info(indent(line));
                         }
                         indent--;
+                    } else {
+                        Logger.getInstance().info(indent(methodInfo.toString()));
                     }
                     indent--;
                 }
                 indent--;
-                indent--;
             }
+            indent--;
+            indent--;
         });
     }
 
@@ -231,24 +226,20 @@ public class RegistryDumper {
             reg.getVersion() + "," +
             reg.getDataLength() + "\n");
         Logger.getInstance().info("File,Encoding,Checksum,File Size,Line Count,NC Line Count,Timestamp,Slot Index,Slot Length,Class Count, Method Count, Statement Count,Branch Count");
-        reg.getProject().visitFiles(new FileInfoVisitor() {
-            @Override
-            public void visitFileInfo(BaseFileInfo file) {
-                Logger.getInstance().info(
-                    file.getPackagePath() + "," +
-                    file.getEncoding() + "," +
-                    file.getChecksum() + "," +
-                    file.getFilesize() + "," +
-                    file.getLineCount() + "," +
-                    file.getNcLineCount() + "," +
-                    DateFormat.getDateTimeInstance().format(file.getTimestamp()) + "," +
-                    file.getDataIndex() + "," +
-                    file.getDataLength() + "," +
-                    classCount(file) + "," +
-                    methodCount(file) + "," +
-                    statementCount(file) + "," +
-                    branchCount(file) + ",");
-            }
-        });
+
+        reg.getProject().visitFiles(fileInfo -> Logger.getInstance().info(
+            fileInfo.getPackagePath() + "," +
+            fileInfo.getEncoding() + "," +
+            fileInfo.getChecksum() + "," +
+            fileInfo.getFilesize() + "," +
+            fileInfo.getLineCount() + "," +
+            fileInfo.getNcLineCount() + "," +
+            DateFormat.getDateTimeInstance().format(fileInfo.getTimestamp()) + "," +
+            fileInfo.getDataIndex() + "," +
+            fileInfo.getDataLength() + "," +
+            classCount(fileInfo) + "," +
+            methodCount(fileInfo) + "," +
+            statementCount(fileInfo) + "," +
+            branchCount(fileInfo) + ","));
     }
 }

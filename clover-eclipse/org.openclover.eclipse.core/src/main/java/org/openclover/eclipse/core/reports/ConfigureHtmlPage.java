@@ -29,17 +29,14 @@ public class ConfigureHtmlPage extends ConfigureReportPage {
 
     @Override
     protected Listener newOutputPathListener() {
-        return new Listener() {
-            @Override
-            public void handleEvent(Event event) {
-                Shell shell =((GenerateReportWizard)getWizard()).workbench.getActiveWorkbenchWindow().getShell();
-                DirectoryDialog chooser = new DirectoryDialog(shell, SWT.PRIMARY_MODAL);
-                chooser.setText("Choose a directory");
-                chooser.setFilterPath(outputPath.getText());
-                String result = chooser.open();
-                if (result != null) {
-                    setOutputPath(result);
-                }
+        return event -> {
+            Shell shell =((GenerateReportWizard)getWizard()).workbench.getActiveWorkbenchWindow().getShell();
+            DirectoryDialog chooser = new DirectoryDialog(shell, SWT.PRIMARY_MODAL);
+            chooser.setText("Choose a directory");
+            chooser.setFilterPath(outputPath.getText());
+            String result = chooser.open();
+            if (result != null) {
+                setOutputPath(result);
             }
         };
     }

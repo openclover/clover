@@ -35,12 +35,7 @@ public class RegContents {
     }
 
     public Iterable<InstrSessionSegment> getSessions() {
-        return new Iterable<InstrSessionSegment>() {
-            @Override
-            public Iterator<InstrSessionSegment> iterator() {
-                return sessionSegments;
-            }
-        };
+        return () -> sessionSegments;
     }
 
     public void close() throws IOException {

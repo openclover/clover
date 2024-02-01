@@ -34,20 +34,17 @@ public class ConfigureXmlPage extends ConfigureReportPage {
 
     @Override
     protected Listener newOutputPathListener() {
-        return new Listener() {
-            @Override
-            public void handleEvent(Event event) {
-                Shell shell =((GenerateReportWizard)getWizard()).workbench.getActiveWorkbenchWindow().getShell();
-                FileDialog chooser = new FileDialog(shell, SWT.PRIMARY_MODAL);
-                chooser.setText("Choose a file");
-                File enclosingDir = getOutput().getParentFile();
-                if (enclosingDir != null) {
-                    chooser.setFilterPath(enclosingDir.getAbsolutePath());
-                }
-                String result = chooser.open();
-                if (result != null) {
-                    setOutputPath(result);
-                }
+        return event -> {
+            Shell shell =((GenerateReportWizard)getWizard()).workbench.getActiveWorkbenchWindow().getShell();
+            FileDialog chooser = new FileDialog(shell, SWT.PRIMARY_MODAL);
+            chooser.setText("Choose a file");
+            File enclosingDir = getOutput().getParentFile();
+            if (enclosingDir != null) {
+                chooser.setFilterPath(enclosingDir.getAbsolutePath());
+            }
+            String result = chooser.open();
+            if (result != null) {
+                setOutputPath(result);
             }
         };
     }

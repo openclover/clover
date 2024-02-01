@@ -460,7 +460,7 @@ public final class Clover {
         public InitialisedRuntime() {
             RecorderLogging.init();
             typeID = Math.abs((int) (System.currentTimeMillis() + Clover.class.hashCode()));
-            typeIDs = Collections.synchronizedMap(new HashMap<String, Integer>());
+            typeIDs = Collections.synchronizedMap(new HashMap<>());
         }
 
         /**

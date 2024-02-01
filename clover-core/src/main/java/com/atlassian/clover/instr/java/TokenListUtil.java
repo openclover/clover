@@ -172,11 +172,7 @@ public class TokenListUtil {
     }
 
     private static void addTag(Map<String, List<String>> tags, String tagName, String tagContents) {
-        List<String> tagValues = tags.get(tagName);
-        if (tagValues == null) {
-            tagValues = newLinkedList();
-            tags.put(tagName, tagValues);
-        }
+        List<String> tagValues = tags.computeIfAbsent(tagName, k -> newLinkedList());
         tagValues.add(tagContents);
     }
 }

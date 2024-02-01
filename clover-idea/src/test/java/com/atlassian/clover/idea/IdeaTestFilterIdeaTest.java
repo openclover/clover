@@ -25,26 +25,23 @@ public class IdeaTestFilterIdeaTest extends IdeaTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        ApplicationTestHelper.runWriteAction(new ApplicationTestHelper.Action() {
-            @Override
-            public void run() throws Exception {
-                final Module module = createModule("test module");
-                final ModifiableRootModel model = ModuleRootManager.getInstance(module).getModifiableModel();
+        ApplicationTestHelper.runWriteAction(() -> {
+            final Module module = createModule("test module");
+            final ModifiableRootModel model = ModuleRootManager.getInstance(module).getModifiableModel();
 
-                final ContentEntry contentEntry;
-                try {
-                    contentEntry = model.addContentEntry(module.getModuleFile().getParent().createChildDirectory(null, "root"));
-                    src = contentEntry.getFile().createChildDirectory(null, "src");
-                    test = contentEntry.getFile().createChildDirectory(null, "test");
-                } catch (IOException e) {
-                    model.dispose();
-                    throw e;
-                }
-
-                contentEntry.addSourceFolder(src, false);
-                contentEntry.addSourceFolder(test, true);
-                model.commit();
+            final ContentEntry contentEntry;
+            try {
+                contentEntry = model.addContentEntry(module.getModuleFile().getParent().createChildDirectory(null, "root"));
+                src = contentEntry.getFile().createChildDirectory(null, "src");
+                test = contentEntry.getFile().createChildDirectory(null, "test");
+            } catch (IOException e) {
+                model.dispose();
+                throw e;
             }
+
+            contentEntry.addSourceFolder(src, false);
+            contentEntry.addSourceFolder(test, true);
+            model.commit();
         });
     }
 
@@ -56,54 +53,48 @@ public class IdeaTestFilterIdeaTest extends IdeaTestCase {
     }
 
     public void testIsInTestSource() throws Exception {
-        ApplicationTestHelper.runWriteAction(new ApplicationTestHelper.Action() {
-            @Override
-            public void run() throws Exception {
-                final VirtualFile srcFile = src.createChildData(null, "File1.java");
-                final VirtualFile testFile = test.createChildData(null, "File2.java");
+        ApplicationTestHelper.runWriteAction(() -> {
+            final VirtualFile srcFile = src.createChildData(null, "File1.java");
+            final VirtualFile testFile = test.createChildData(null, "File2.java");
 
-                IdeaTestFilter filter = new IdeaTestFilter(getProject());
+            IdeaTestFilter filter = new IdeaTestFilter(getProject());
 
-                assertFalse(filter.isInTestFolder(VfsUtil.virtualToIoFile(srcFile)));
-                assertTrue(filter.isInTestFolder(VfsUtil.virtualToIoFile(testFile)));
-            }
+            assertFalse(filter.isInTestFolder(VfsUtil.virtualToIoFile(srcFile)));
+            assertTrue(filter.isInTestFolder(VfsUtil.virtualToIoFile(testFile)));
         });
     }
 
     public void testAccept() throws Exception {
-        ApplicationTestHelper.runWriteAction(new ApplicationTestHelper.Action() {
-            @Override
-            public void run() throws Exception {
-                final VirtualFile srcFile = src.createChildData(null, "File1.java");
-                final VirtualFile testFile = test.createChildData(null, "File2.java");
-                final VirtualFile testInSrcFile = src.createChildData(null, "FileTest.java");
+        ApplicationTestHelper.runWriteAction(() -> {
+            final VirtualFile srcFile = src.createChildData(null, "File1.java");
+            final VirtualFile testFile = test.createChildData(null, "File2.java");
+            final VirtualFile testInSrcFile = src.createChildData(null, "FileTest.java");
 
-                IdeaTestFilter filter = new IdeaTestFilter(getProject());
+            IdeaTestFilter filter = new IdeaTestFilter(getProject());
 
-                HasMetrics methodInfo = Mockito.mock(FullMethodInfo.class);
-                HasMetrics packageInfo = Mockito.mock(FullPackageInfo.class);
+            HasMetrics methodInfo = Mockito.mock(FullMethodInfo.class);
+            HasMetrics packageInfo = Mockito.mock(FullPackageInfo.class);
 
-                ClassInfo classInSrc = createClassInfo(srcFile, false);
-                ClassInfo classInTest = createClassInfo(testFile, false);
-                ClassInfo testClassInSrc = createClassInfo(testInSrcFile, true);
+            ClassInfo classInSrc = createClassInfo(srcFile, false);
+            ClassInfo classInTest = createClassInfo(testFile, false);
+            ClassInfo testClassInSrc = createClassInfo(testInSrcFile, true);
 
 
-                assertTrue(filter.accept(methodInfo));
-                assertTrue(filter.accept(packageInfo));
+            assertTrue(filter.accept(methodInfo));
+            assertTrue(filter.accept(packageInfo));
 
-                assertTrue(filter.accept(classInTest));
-                assertTrue(filter.accept(testClassInSrc));
-                assertFalse(filter.accept(classInSrc));
+            assertTrue(filter.accept(classInTest));
+            assertTrue(filter.accept(testClassInSrc));
+            assertFalse(filter.accept(classInSrc));
 
-                filter = filter.invert();
+            filter = filter.invert();
 
-                assertTrue(filter.accept(methodInfo));
-                assertTrue(filter.accept(packageInfo));
+            assertTrue(filter.accept(methodInfo));
+            assertTrue(filter.accept(packageInfo));
 
-                assertFalse(filter.accept(classInTest));
-                assertFalse(filter.accept(testClassInSrc));
-                assertTrue(filter.accept(classInSrc));
-            }
+            assertFalse(filter.accept(classInTest));
+            assertFalse(filter.accept(testClassInSrc));
+            assertTrue(filter.accept(classInSrc));
         });
     }
 

@@ -130,7 +130,7 @@ public class FullProjectInfo extends BaseProjectInfo implements HasMetricsNode, 
         }
         
         if (orderby != null) {
-            Collections.sort(tmpOrderedPkgRoots, orderby);
+            tmpOrderedPkgRoots.sort(orderby);
         }
         orderedPkgRoots = tmpOrderedPkgRoots;
         roots = tmpRoots;
@@ -139,7 +139,7 @@ public class FullProjectInfo extends BaseProjectInfo implements HasMetricsNode, 
     private void buildOrderedPackageList() {
         List tmpOrderedPkgs = newArrayList(packages.values());
         if (orderby != null) {
-            Collections.sort(tmpOrderedPkgs, orderby);
+            tmpOrderedPkgs.sort(orderby);
         }
         orderedPkgs = tmpOrderedPkgs;
     }
@@ -181,12 +181,7 @@ public class FullProjectInfo extends BaseProjectInfo implements HasMetricsNode, 
     }
 
     public void resolve(final Path sourcePath) {
-        visitFiles(new FileInfoVisitor() {
-            @Override
-            public void visitFileInfo(BaseFileInfo file) {
-                 ((FullFileInfo)file).resolve(sourcePath);
-            }
-        });
+        visitFiles(file -> ((FullFileInfo)file).resolve(sourcePath));
     }
 
     @Override
@@ -300,12 +295,7 @@ public class FullProjectInfo extends BaseProjectInfo implements HasMetricsNode, 
     @Override
     public void setVersion(final long version) {
         super.setVersion(version);
-        visitFiles(new FileInfoVisitor() {
-            @Override
-            public void visitFileInfo(BaseFileInfo file) {
-                 ((FullFileInfo)file).addVersion(version);
-            }
-        });
+        visitFiles(file -> ((FullFileInfo)file).addVersion(version));
     }
 
     @Override

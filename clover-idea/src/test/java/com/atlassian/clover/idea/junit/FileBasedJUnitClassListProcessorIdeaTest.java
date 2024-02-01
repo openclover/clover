@@ -44,11 +44,7 @@ public class FileBasedJUnitClassListProcessorIdeaTest extends LightIdeaTestCase 
             {"", "", "com.atlassian.clover.Test1", "com.atlassian.clover.Test2"},
     };
 
-    private static final SavingsReporter DUMMY_SAVINGS_REPORTER = new SavingsReporter() {
-        @Override
-        public void reportSavings(@Nullable Project project, @Nullable OptimizationSession optimizationSession) {
-        }
-    };
+    private static final SavingsReporter DUMMY_SAVINGS_REPORTER = (project, optimizationSession) -> { };
 
     public void testProcessExisting() throws Exception {
         for (String[] testCase : TEST_CASES) {
