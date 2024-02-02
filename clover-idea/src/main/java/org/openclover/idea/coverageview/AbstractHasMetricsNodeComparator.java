@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.coverageview;
+package org.openclover.idea.coverageview;
 
 import com.atlassian.clover.api.registry.HasMetrics;
 

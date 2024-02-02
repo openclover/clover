@@ -1,7 +1,7 @@
-package com.atlassian.clover.idea.coverageview.table;
+package org.openclover.idea.coverageview.table;
 
-import com.atlassian.clover.idea.coverage.PercentBarColors;
-import com.atlassian.clover.idea.testexplorer.PercentBarTableCellRenderer;
+import org.openclover.idea.coverage.PercentBarColors;
+import org.openclover.idea.testexplorer.PercentBarTableCellRenderer;
 import com.atlassian.clover.api.registry.HasMetrics;
 
 public class CoverageColumnInfo extends AbstractHasMetricsColumnInfo<Float> {

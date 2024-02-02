@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.build;
+package org.openclover.idea.build;
 
 import com.atlassian.clover.cfg.instr.java.SourceLevel;
 import com.intellij.pom.java.LanguageLevel;

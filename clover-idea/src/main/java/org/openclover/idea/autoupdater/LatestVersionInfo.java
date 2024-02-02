@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.autoupdater;
+package org.openclover.idea.autoupdater;
 
 public class LatestVersionInfo {
     private final String number;

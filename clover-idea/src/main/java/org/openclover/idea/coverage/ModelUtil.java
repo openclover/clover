@@ -1,9 +1,9 @@
-package com.atlassian.clover.idea.coverage;
+package org.openclover.idea.coverage;
 
 import com.atlassian.clover.CloverDatabase;
 import com.atlassian.clover.CoverageData;
 import com.atlassian.clover.registry.entities.FullProjectInfo;
-import com.atlassian.clover.idea.util.ModelScope;
+import org.openclover.idea.util.ModelScope;
 import com.atlassian.clover.registry.CoverageDataProvider;
 
 public final class ModelUtil {

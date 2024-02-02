@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.config;
+package org.openclover.idea.config;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;

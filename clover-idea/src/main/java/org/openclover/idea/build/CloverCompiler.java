@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.build;
+package org.openclover.idea.build;
 
 import com.atlassian.clover.CloverDatabase;
 import com.atlassian.clover.Logger;
@@ -9,18 +9,18 @@ import com.atlassian.clover.context.ContextStore;
 import com.atlassian.clover.context.MethodRegexpContext;
 import com.atlassian.clover.context.RegexpContext;
 import com.atlassian.clover.context.StatementRegexpContext;
-import com.atlassian.clover.idea.CloverToolWindowId;
-import com.atlassian.clover.idea.ProjectPlugin;
-import com.atlassian.clover.idea.config.IdeaCloverConfig;
-import com.atlassian.clover.idea.config.regexp.Regexp;
-import com.atlassian.clover.idea.coverage.CoverageManager;
-import com.atlassian.clover.idea.coverage.EventListenerInstallator;
-import com.atlassian.clover.idea.util.CharsetUtil;
-import com.atlassian.clover.idea.util.MiscUtils;
-import com.atlassian.clover.idea.util.ProjectUtil;
-import com.atlassian.clover.idea.util.tmp.TmpPathResolver;
-import com.atlassian.clover.idea.util.ui.ExceptionDialog;
-import com.atlassian.clover.idea.util.vfs.VfsUtil;
+import org.openclover.idea.CloverToolWindowId;
+import org.openclover.idea.ProjectPlugin;
+import org.openclover.idea.config.IdeaCloverConfig;
+import org.openclover.idea.config.regexp.Regexp;
+import org.openclover.idea.coverage.CoverageManager;
+import org.openclover.idea.coverage.EventListenerInstallator;
+import org.openclover.idea.util.CharsetUtil;
+import org.openclover.idea.util.MiscUtils;
+import org.openclover.idea.util.ProjectUtil;
+import org.openclover.idea.util.tmp.TmpPathResolver;
+import org.openclover.idea.util.ui.ExceptionDialog;
+import org.openclover.idea.util.vfs.VfsUtil;
 import com.atlassian.clover.instr.InstrumentationSessionImpl;
 import com.atlassian.clover.instr.java.InstrumentationSource;
 import com.atlassian.clover.instr.java.Instrumenter;
@@ -75,8 +75,8 @@ import java.util.Map;
  * for updates from it.
  *
  * @see com.intellij.openapi.compiler.JavaSourceTransformingCompiler
- * @see com.atlassian.clover.idea.build.jps.CloverJavaBuilder
- * @see com.atlassian.clover.idea.build.jps.CloverJavaSourceTransformer
+ * @see org.openclover.idea.build.jps.CloverJavaBuilder
+ * @see org.openclover.idea.build.jps.CloverJavaSourceTransformer
  */
 public class CloverCompiler implements JavaSourceTransformingCompiler {
 
@@ -146,7 +146,7 @@ public class CloverCompiler implements JavaSourceTransformingCompiler {
          * @param warnings (unused)
          * @param compileContext (unused)
          *
-         * @see com.atlassian.clover.idea.build.CloverCompiler.InternalCompilationStatusListener#closeInstrumentationSession()
+         * @see org.openclover.idea.build.CloverCompiler.InternalCompilationStatusListener#closeInstrumentationSession()
          */
         @Override
         public void compilationFinished(boolean aborted, int errors, int warnings, CompileContext compileContext) {
@@ -536,7 +536,7 @@ public class CloverCompiler implements JavaSourceTransformingCompiler {
         return LanguageLevel.values()[Math.min(LanguageLevel.values().length, jdk19Index)];
     }
 
-    // Note: it's similar to com.atlassian.clover.idea.build.jps.CloverJavaSourceTransformer.LANGUAGE_LEVEL_TO_SOURCE_LEVEL
+    // Note: it's similar to org.openclover.idea.build.jps.CloverJavaSourceTransformer.LANGUAGE_LEVEL_TO_SOURCE_LEVEL
     // but converts com.intellij.pom.java.LanguageLevel
     private static final Map<LanguageLevel, SourceLevel> LANGUAGE_LEVEL_TO_SOURCE_LEVEL =
             Collections.unmodifiableMap(new HashMap<LanguageLevel, SourceLevel>() {{

@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.util;
+package org.openclover.idea.util;
 
 import com.atlassian.clover.Logger;
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;

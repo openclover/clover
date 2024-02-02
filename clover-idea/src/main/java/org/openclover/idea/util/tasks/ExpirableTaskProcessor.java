@@ -1,8 +1,8 @@
-package com.atlassian.clover.idea.util.tasks;
+package org.openclover.idea.util.tasks;
 
 import clover.org.apache.commons.collections.list.SetUniqueList;
 import com.atlassian.clover.Logger;
-import com.atlassian.clover.idea.util.MiscUtils;
+import org.openclover.idea.util.MiscUtils;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.progress.ProcessCanceledException;

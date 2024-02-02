@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.config;
+package org.openclover.idea.config;
 
 /**
  * Constants describing element or attribute names used in IDEA configuration files by the Clover-for-IDEA plugin

@@ -1,13 +1,13 @@
-package com.atlassian.clover.idea.junit;
+package org.openclover.idea.junit;
 
 import com.atlassian.clover.api.optimization.Optimizable;
 import com.atlassian.clover.api.optimization.OptimizationOptions;
 import com.atlassian.clover.CloverDatabase;
 import com.atlassian.clover.Logger;
-import com.atlassian.clover.idea.CloverToolWindowId;
-import com.atlassian.clover.idea.ProjectPluginViaReflection;
-import com.atlassian.clover.idea.coverage.SnapshotFileMutex;
-import com.atlassian.clover.idea.junit.config.OptimizedConfigurationSettings;
+import org.openclover.idea.CloverToolWindowId;
+import org.openclover.idea.ProjectPluginViaReflection;
+import org.openclover.idea.coverage.SnapshotFileMutex;
+import org.openclover.idea.junit.config.OptimizedConfigurationSettings;
 import com.atlassian.clover.optimization.LocalSnapshotOptimizer;
 import com.atlassian.clover.optimization.OptimizationSession;
 import com.atlassian.clover.optimization.Snapshot;

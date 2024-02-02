@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.coverage;
+package org.openclover.idea.coverage;
 
 import com.atlassian.clover.api.CloverException;
 import com.atlassian.clover.CloverDatabase;
@@ -6,7 +6,7 @@ import com.atlassian.clover.CoverageData;
 import com.atlassian.clover.CoverageDataSpec;
 import com.atlassian.clover.Logger;
 import com.atlassian.clover.MaskedBitSetCoverageProvider;
-import com.atlassian.clover.idea.util.ModelScope;
+import org.openclover.idea.util.ModelScope;
 import com.atlassian.clover.recorder.PerTestCoverageStrategy;
 import com.atlassian.clover.ProgressListener;
 import com.atlassian.clover.cfg.StorageSize;

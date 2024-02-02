@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.util.jdom;
+package org.openclover.idea.util.jdom;
 
 import clover.org.apache.commons.lang3.StringUtils;
 import com.atlassian.clover.util.collections.Pair;

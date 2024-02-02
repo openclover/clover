@@ -1,11 +1,11 @@
-package com.atlassian.clover.idea.junit;
+package org.openclover.idea.junit;
 
 import com.atlassian.clover.Logger;
-import com.atlassian.clover.idea.CloverToolWindowId;
-import com.atlassian.clover.idea.junit.config.OptimizedConfigurationSettings;
-import com.atlassian.clover.idea.util.l10n.CloverIdeaPluginMessages;
-import com.atlassian.clover.idea.util.ui.CloverIcons;
-import com.atlassian.clover.idea.util.ui.MessageDialogs;
+import org.openclover.idea.CloverToolWindowId;
+import org.openclover.idea.junit.config.OptimizedConfigurationSettings;
+import org.openclover.idea.util.l10n.CloverIdeaPluginMessages;
+import org.openclover.idea.util.ui.CloverIcons;
+import org.openclover.idea.util.ui.MessageDialogs;
 import com.atlassian.clover.optimization.OptimizationSession;
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.ExecutorRegistry;

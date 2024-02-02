@@ -1,9 +1,9 @@
-package com.atlassian.clover.idea.report.cloud;
+package org.openclover.idea.report.cloud;
 
 import com.atlassian.clover.api.registry.HasMetrics;
-import com.atlassian.clover.idea.coverage.BaseCoverageNodeViewer;
-import com.atlassian.clover.idea.coverage.CoverageNodeViewer;
-import com.atlassian.clover.idea.util.vfs.DummyFileEditor;
+import org.openclover.idea.coverage.BaseCoverageNodeViewer;
+import org.openclover.idea.coverage.CoverageNodeViewer;
+import org.openclover.idea.util.vfs.DummyFileEditor;
 import com.intellij.openapi.actionSystem.ActionGroup;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.ActionToolbar;

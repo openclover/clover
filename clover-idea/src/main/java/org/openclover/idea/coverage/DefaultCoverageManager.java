@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.coverage;
+package org.openclover.idea.coverage;
 
 import com.atlassian.clover.CloverDatabase;
 import com.atlassian.clover.Logger;
@@ -6,17 +6,17 @@ import com.atlassian.clover.context.ContextSet;
 import com.atlassian.clover.context.ContextStore;
 import com.atlassian.clover.context.NamedContext;
 import com.atlassian.clover.registry.entities.FullProjectInfo;
-import com.atlassian.clover.idea.IdeaTestFilter;
-import com.atlassian.clover.idea.ProjectPlugin;
-import com.atlassian.clover.idea.config.ConfigChangeEvent;
-import com.atlassian.clover.idea.config.ConfigChangeListener;
-import com.atlassian.clover.idea.config.IdeaCloverConfig;
-import com.atlassian.clover.idea.util.ModelScope;
-import com.atlassian.clover.idea.config.regexp.Regexp;
-import com.atlassian.clover.idea.report.jfc.FileFilter;
-import com.atlassian.clover.idea.util.tasks.AbstractCancellableTaskDelegate;
-import com.atlassian.clover.idea.util.tasks.CancellableTaskDelegate;
-import com.atlassian.clover.idea.util.tasks.ProgressIndicatorAdapter;
+import org.openclover.idea.IdeaTestFilter;
+import org.openclover.idea.ProjectPlugin;
+import org.openclover.idea.config.ConfigChangeEvent;
+import org.openclover.idea.config.ConfigChangeListener;
+import org.openclover.idea.config.IdeaCloverConfig;
+import org.openclover.idea.util.ModelScope;
+import org.openclover.idea.config.regexp.Regexp;
+import org.openclover.idea.report.jfc.FileFilter;
+import org.openclover.idea.util.tasks.AbstractCancellableTaskDelegate;
+import org.openclover.idea.util.tasks.CancellableTaskDelegate;
+import org.openclover.idea.util.tasks.ProgressIndicatorAdapter;
 import com.atlassian.clover.registry.Clover2Registry;
 import com.atlassian.clover.registry.metrics.HasMetricsFilter;
 import com.atlassian.clover.util.CloverUtils;
@@ -437,7 +437,7 @@ public class DefaultCoverageManager implements CoverageManager, AcceptsCoverageT
      * Returns a Full, AppOnly or TestOnly model depending on selected scope.
      *
      * @return FullProjectInfo for selected scope
-     * @see com.atlassian.clover.idea.config.IdeaCloverConfig#getModelScope()
+     * @see org.openclover.idea.config.IdeaCloverConfig#getModelScope()
      */
     @Nullable
     public FullProjectInfo getSelectedScopeModel() {

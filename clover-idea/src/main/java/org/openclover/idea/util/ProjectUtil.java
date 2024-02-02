@@ -1,6 +1,6 @@
-package com.atlassian.clover.idea.util;
+package org.openclover.idea.util;
 
-import com.atlassian.clover.idea.util.vfs.VfsUtil;
+import org.openclover.idea.util.vfs.VfsUtil;
 import com.intellij.openapi.application.Application;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.module.Module;

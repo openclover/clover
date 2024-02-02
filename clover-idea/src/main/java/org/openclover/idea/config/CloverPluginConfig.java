@@ -1,7 +1,7 @@
-package com.atlassian.clover.idea.config;
+package org.openclover.idea.config;
 
 import com.atlassian.clover.cfg.instr.java.LambdaInstrumentation;
-import com.atlassian.clover.idea.config.regexp.Regexp;
+import org.openclover.idea.config.regexp.Regexp;
 
 import java.awt.Color;
 import java.util.List;

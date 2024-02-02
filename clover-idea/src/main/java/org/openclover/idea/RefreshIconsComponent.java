@@ -1,9 +1,9 @@
-package com.atlassian.clover.idea;
+package org.openclover.idea;
 
-import com.atlassian.clover.idea.IProjectPlugin;
-import com.atlassian.clover.idea.config.ConfigChangeEvent;
-import com.atlassian.clover.idea.config.ConfigChangeListener;
-import com.atlassian.clover.idea.config.IdeaCloverConfig;
+import org.openclover.idea.IProjectPlugin;
+import org.openclover.idea.config.ConfigChangeEvent;
+import org.openclover.idea.config.ConfigChangeListener;
+import org.openclover.idea.config.IdeaCloverConfig;
 import com.intellij.ide.projectView.ProjectView;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ProjectComponent;

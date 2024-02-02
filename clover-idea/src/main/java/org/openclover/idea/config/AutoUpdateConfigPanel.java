@@ -1,10 +1,10 @@
-package com.atlassian.clover.idea.config;
+package org.openclover.idea.config;
 
-import com.atlassian.clover.idea.autoupdater.AutoUpdateConfiguration;
-import com.atlassian.clover.idea.autoupdater.NewVersionNotifier;
-import com.atlassian.clover.idea.autoupdater.AutoUpdateComponent;
-import com.atlassian.clover.idea.util.ui.CloverIcons;
-import com.atlassian.clover.idea.util.l10n.CloverIdeaPluginMessages;
+import org.openclover.idea.autoupdater.AutoUpdateConfiguration;
+import org.openclover.idea.autoupdater.NewVersionNotifier;
+import org.openclover.idea.autoupdater.AutoUpdateComponent;
+import org.openclover.idea.util.ui.CloverIcons;
+import org.openclover.idea.util.l10n.CloverIdeaPluginMessages;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
 import com.intellij.openapi.ui.Messages;

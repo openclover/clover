@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.util.tasks;
+package org.openclover.idea.util.tasks;
 
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.Progressive;

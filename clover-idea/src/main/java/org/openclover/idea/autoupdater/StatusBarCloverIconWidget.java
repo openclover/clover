@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.autoupdater;
+package org.openclover.idea.autoupdater;
 
 import com.intellij.openapi.wm.StatusBar;
 import com.intellij.openapi.wm.StatusBarWidget;

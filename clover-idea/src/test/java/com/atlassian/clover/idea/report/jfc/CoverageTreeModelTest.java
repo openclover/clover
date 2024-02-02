@@ -1,8 +1,8 @@
-package com.atlassian.clover.idea.report.jfc;
+package org.openclover.idea.report.jfc;
 
-import com.atlassian.clover.idea.util.ModelScope;
+import org.openclover.idea.util.ModelScope;
 import com.atlassian.clover.ProgressListener;
-import com.atlassian.clover.idea.coverage.CoverageTreeModel;
+import org.openclover.idea.coverage.CoverageTreeModel;
 import com.intellij.testFramework.LightIdeaTestCase;
 
 import javax.swing.tree.DefaultMutableTreeNode;

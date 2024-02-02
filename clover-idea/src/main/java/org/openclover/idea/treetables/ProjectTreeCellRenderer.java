@@ -1,10 +1,10 @@
-package com.atlassian.clover.idea.treetables;
+package org.openclover.idea.treetables;
 
 import com.atlassian.clover.api.registry.MethodInfo;
 import com.atlassian.clover.registry.entities.BaseClassInfo;
-import com.atlassian.clover.idea.util.ui.CloverIcons;
-import com.atlassian.clover.idea.coverage.CoverageTreeModel;
-import com.atlassian.clover.idea.testexplorer.SourceFolderDescription;
+import org.openclover.idea.util.ui.CloverIcons;
+import org.openclover.idea.coverage.CoverageTreeModel;
+import org.openclover.idea.testexplorer.SourceFolderDescription;
 import com.atlassian.clover.api.registry.HasMetrics;
 import com.atlassian.clover.registry.entities.PackageFragment;
 import com.atlassian.clover.registry.entities.FullPackageInfo;

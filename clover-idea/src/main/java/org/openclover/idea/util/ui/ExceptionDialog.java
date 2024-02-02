@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.util.ui;
+package org.openclover.idea.util.ui;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;

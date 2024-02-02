@@ -1,17 +1,17 @@
-package com.atlassian.clover.idea;
+package org.openclover.idea;
 
-import com.atlassian.clover.idea.CloverToolWindowId;
-import com.atlassian.clover.idea.util.ui.CloverIcons;
+import org.openclover.idea.CloverToolWindowId;
+import org.openclover.idea.util.ui.CloverIcons;
 import com.atlassian.clover.registry.entities.FullClassInfo;
-import com.atlassian.clover.idea.config.ConfigChangeEvent;
-import com.atlassian.clover.idea.config.ConfigChangeListener;
-import com.atlassian.clover.idea.config.IdeaCloverConfig;
-import com.atlassian.clover.idea.util.ModelScope;
-import com.atlassian.clover.idea.coverageview.CoverageViewPanel;
-import com.atlassian.clover.idea.coverage.CoverageNodeViewer;
-import com.atlassian.clover.idea.coverage.CoverageTreeModel;
-import com.atlassian.clover.idea.report.jfc.WarningBox;
-import com.atlassian.clover.idea.util.ui.BorderLayoutConverter;
+import org.openclover.idea.config.ConfigChangeEvent;
+import org.openclover.idea.config.ConfigChangeListener;
+import org.openclover.idea.config.IdeaCloverConfig;
+import org.openclover.idea.util.ModelScope;
+import org.openclover.idea.coverageview.CoverageViewPanel;
+import org.openclover.idea.coverage.CoverageNodeViewer;
+import org.openclover.idea.coverage.CoverageTreeModel;
+import org.openclover.idea.report.jfc.WarningBox;
+import org.openclover.idea.util.ui.BorderLayoutConverter;
 import com.atlassian.clover.registry.entities.FullFileInfo;
 import com.atlassian.clover.api.registry.HasMetrics;
 import com.intellij.openapi.actionSystem.ActionGroup;
@@ -72,7 +72,7 @@ public class CloverToolWindow extends JPanel implements ConfigChangeListener, No
     //---( Implementation of the ConfigChangeListener interface )---
 
     /**
-     * @see com.atlassian.clover.idea.config.ConfigChangeListener#configChange(com.atlassian.clover.idea.config.ConfigChangeEvent)
+     * @see org.openclover.idea.config.ConfigChangeListener#configChange(org.openclover.idea.config.ConfigChangeEvent)
      */
     @Override
     public void configChange(ConfigChangeEvent evt) {

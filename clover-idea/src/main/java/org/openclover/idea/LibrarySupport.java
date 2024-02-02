@@ -1,6 +1,6 @@
-package com.atlassian.clover.idea;
+package org.openclover.idea;
 
-import com.atlassian.clover.idea.util.MiscUtils;
+import org.openclover.idea.util.MiscUtils;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.roots.LibraryOrderEntry;

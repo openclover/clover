@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.util.vfs;
+package org.openclover.idea.util.vfs;
 
 import com.intellij.codeHighlighting.BackgroundEditorHighlighter;
 import com.intellij.ide.structureView.StructureViewBuilder;

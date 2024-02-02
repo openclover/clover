@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.util.tmp;
+package org.openclover.idea.util.tmp;
 
 import com.intellij.openapi.vfs.VirtualFile;
 

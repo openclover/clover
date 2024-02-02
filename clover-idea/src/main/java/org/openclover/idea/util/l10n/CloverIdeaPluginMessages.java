@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.util.l10n;
+package org.openclover.idea.util.l10n;
 
 import java.text.MessageFormat;
 import java.util.MissingResourceException;

@@ -1,6 +1,6 @@
-package com.atlassian.clover.idea.config;
+package org.openclover.idea.config;
 
-import com.atlassian.clover.idea.util.ui.RichLabel;
+import org.openclover.idea.util.ui.RichLabel;
 import com.intellij.openapi.ui.VerticalFlowLayout;
 
 import javax.swing.ButtonGroup;

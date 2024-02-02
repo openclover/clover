@@ -1,9 +1,9 @@
-package com.atlassian.clover.idea.coverage;
+package org.openclover.idea.coverage;
 
 import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.idea.ProjectPlugin;
-import com.atlassian.clover.idea.config.IdeaCloverConfig;
-import com.atlassian.clover.idea.util.ModelScope;
+import org.openclover.idea.ProjectPlugin;
+import org.openclover.idea.config.IdeaCloverConfig;
+import org.openclover.idea.util.ModelScope;
 import com.atlassian.clover.api.registry.BlockMetrics;
 import com.atlassian.clover.registry.metrics.HasMetricsFilter;
 import com.atlassian.clover.reporters.filters.DefaultTestFilter;

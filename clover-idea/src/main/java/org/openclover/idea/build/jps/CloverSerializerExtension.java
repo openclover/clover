@@ -1,8 +1,8 @@
-package com.atlassian.clover.idea.build.jps;
+package org.openclover.idea.build.jps;
 
 import com.atlassian.clover.Logger;
-import com.atlassian.clover.idea.config.IdeaXmlConfigConstants;
-import com.atlassian.clover.idea.config.CloverModuleConfig;
+import org.openclover.idea.config.IdeaXmlConfigConstants;
+import org.openclover.idea.config.CloverModuleConfig;
 import com.intellij.openapi.util.JDOMExternalizerUtil;
 import org.jdom.Element;
 import org.jetbrains.annotations.NotNull;

@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.util.ui;
+package org.openclover.idea.util.ui;
 
 import com.atlassian.clover.registry.entities.FullFileInfo;
 import com.atlassian.clover.registry.FileInfoRegion;

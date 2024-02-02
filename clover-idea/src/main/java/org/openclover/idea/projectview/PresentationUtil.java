@@ -1,10 +1,10 @@
-package com.atlassian.clover.idea.projectview;
+package org.openclover.idea.projectview;
 
-import com.atlassian.clover.idea.IProjectPlugin;
-import com.atlassian.clover.idea.util.ui.CloverIcons;
-import com.atlassian.clover.idea.ProjectPlugin;
-import com.atlassian.clover.idea.actions.excludes.ExclusionUtil;
-import com.atlassian.clover.idea.config.IdeaCloverConfig;
+import org.openclover.idea.IProjectPlugin;
+import org.openclover.idea.util.ui.CloverIcons;
+import org.openclover.idea.ProjectPlugin;
+import org.openclover.idea.actions.excludes.ExclusionUtil;
+import org.openclover.idea.config.IdeaCloverConfig;
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.psi.PsiElement;
 import com.intellij.ui.LayeredIcon;

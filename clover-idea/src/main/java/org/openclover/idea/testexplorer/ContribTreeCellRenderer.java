@@ -1,6 +1,6 @@
-package com.atlassian.clover.idea.testexplorer;
+package org.openclover.idea.testexplorer;
 
-import com.atlassian.clover.idea.report.jfc.HasMetricsTreeCellRenderer;
+import org.openclover.idea.report.jfc.HasMetricsTreeCellRenderer;
 import com.atlassian.clover.api.registry.HasMetrics;
 
 import javax.swing.JTree;

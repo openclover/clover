@@ -1,6 +1,6 @@
-package com.atlassian.clover.idea.treetables;
+package org.openclover.idea.treetables;
 
-import com.atlassian.clover.idea.util.ComparatorUtil;
+import org.openclover.idea.util.ComparatorUtil;
 import com.intellij.util.ui.ColumnInfo;
 
 import javax.swing.JLabel;

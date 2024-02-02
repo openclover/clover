@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.feature;
+package org.openclover.idea.feature;
 
 public interface FeatureListener {
 

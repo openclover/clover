@@ -1,6 +1,6 @@
-package com.atlassian.clover.idea.actions.testexplorer;
+package org.openclover.idea.actions.testexplorer;
 
-import com.atlassian.clover.idea.config.TestCaseLayout;
+import org.openclover.idea.config.TestCaseLayout;
 
 public class TestPackagesLayoutAction extends AbstractTestLayoutAction {
     @Override

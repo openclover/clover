@@ -1,11 +1,11 @@
-package com.atlassian.clover.idea.config;
+package org.openclover.idea.config;
 
 import com.atlassian.clover.context.ContextSet;
 import com.atlassian.clover.context.ContextStore;
 import com.atlassian.clover.context.NamedContext;
-import com.atlassian.clover.idea.util.ui.UIUtils;
-import com.atlassian.clover.idea.util.l10n.CloverIdeaPluginMessages;
-import com.atlassian.clover.idea.util.ui.RichLabel;
+import org.openclover.idea.util.ui.UIUtils;
+import org.openclover.idea.util.l10n.CloverIdeaPluginMessages;
+import org.openclover.idea.util.ui.RichLabel;
 
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;

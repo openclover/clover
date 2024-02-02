@@ -1,11 +1,11 @@
-package com.atlassian.clover.idea.build;
+package org.openclover.idea.build;
 
-import com.atlassian.clover.idea.LibrarySupport;
-import com.atlassian.clover.idea.ProjectPlugin;
-import com.atlassian.clover.idea.config.ConfigChangeEvent;
-import com.atlassian.clover.idea.config.ConfigChangeListener;
-import com.atlassian.clover.idea.config.IdeaCloverConfig;
-import com.atlassian.clover.idea.util.MiscUtils;
+import org.openclover.idea.LibrarySupport;
+import org.openclover.idea.ProjectPlugin;
+import org.openclover.idea.config.ConfigChangeEvent;
+import org.openclover.idea.config.ConfigChangeListener;
+import org.openclover.idea.config.IdeaCloverConfig;
+import org.openclover.idea.util.MiscUtils;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleManager;

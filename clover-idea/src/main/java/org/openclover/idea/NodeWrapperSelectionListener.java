@@ -1,6 +1,6 @@
-package com.atlassian.clover.idea;
+package org.openclover.idea;
 
-import com.atlassian.clover.idea.coverage.CoverageTreeModel;
+import org.openclover.idea.coverage.CoverageTreeModel;
 
 public interface NodeWrapperSelectionListener {
     void elementSelected(CoverageTreeModel.NodeWrapper nodeWrapper);

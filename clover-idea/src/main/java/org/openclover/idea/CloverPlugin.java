@@ -1,10 +1,10 @@
-package com.atlassian.clover.idea;
+package org.openclover.idea;
 
 import com.atlassian.clover.CloverStartup;
 import com.atlassian.clover.Logger;
-import com.atlassian.clover.idea.config.CloverGlobalConfig;
-import com.atlassian.clover.idea.config.IdeaXmlConfigConstants;
-import com.atlassian.clover.idea.config.IdeaCloverConfig;
+import org.openclover.idea.config.CloverGlobalConfig;
+import org.openclover.idea.config.IdeaXmlConfigConstants;
+import org.openclover.idea.config.IdeaCloverConfig;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.Constraints;

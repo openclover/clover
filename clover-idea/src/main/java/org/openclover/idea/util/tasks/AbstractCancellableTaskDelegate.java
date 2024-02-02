@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.util.tasks;
+package org.openclover.idea.util.tasks;
 
 /**
  * A task delegate which can be cancelled and has it's own title. This abstract class provides

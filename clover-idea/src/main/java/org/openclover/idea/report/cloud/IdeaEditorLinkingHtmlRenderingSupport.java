@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.report.cloud;
+package org.openclover.idea.report.cloud;
 
 import com.atlassian.clover.api.registry.ClassInfo;
 import com.atlassian.clover.reporters.html.HtmlRenderingSupportImpl;

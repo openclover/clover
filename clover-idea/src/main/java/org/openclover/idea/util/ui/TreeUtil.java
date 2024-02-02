@@ -1,6 +1,6 @@
-package com.atlassian.clover.idea.util.ui;
+package org.openclover.idea.util.ui;
 
-import com.atlassian.clover.idea.treetables.SortableListTreeTableModelOnColumns;
+import org.openclover.idea.treetables.SortableListTreeTableModelOnColumns;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;

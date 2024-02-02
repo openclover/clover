@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.report.treemap;
+package org.openclover.idea.report.treemap;
 
 import com.atlassian.clover.registry.entities.FullClassInfo;
 import clover.net.sf.jtreemap.swing.ValuePercent;

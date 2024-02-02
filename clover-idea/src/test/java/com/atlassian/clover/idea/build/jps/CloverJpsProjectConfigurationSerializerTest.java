@@ -1,8 +1,8 @@
-package com.atlassian.clover.idea.build.jps;
+package org.openclover.idea.build.jps;
 
-import com.atlassian.clover.idea.config.CloverPluginConfig;
-import com.atlassian.clover.idea.config.ProjectRebuild;
-import com.atlassian.clover.idea.config.regexp.Regexp;
+import org.openclover.idea.config.CloverPluginConfig;
+import org.openclover.idea.config.ProjectRebuild;
+import org.openclover.idea.config.regexp.Regexp;
 import org.jdom.Element;
 import org.jetbrains.jps.model.JpsProject;
 import org.jetbrains.jps.model.JpsSimpleElement;
@@ -85,9 +85,9 @@ public class CloverJpsProjectConfigurationSerializerTest {
     /**
      * Returns sample data:
      * <pre>
-     *   <component name="CloverPlugin" class="com.atlassian.clover.idea.config.IdeaCloverConfig">
+     *   <component name="CloverPlugin" class="org.openclover.idea.config.IdeaCloverConfig">
      *     <loadPerTestData>true</loadPerTestData>
-     *     <projectRebuild class="com.atlassian.clover.idea.config.ProjectRebuild">ALWAYS</projectRebuild>
+     *     <projectRebuild class="org.openclover.idea.config.ProjectRebuild">ALWAYS</projectRebuild>
      *     ...
      *   </component>
      * </pre>
@@ -95,10 +95,10 @@ public class CloverJpsProjectConfigurationSerializerTest {
      * @return Element
      */
     private Element createSampleData() {
-        final Element root = new Element("component").setAttribute("name", "CloverPlugin").setAttribute("class", "com.atlassian.clover.idea.config.IdeaCloverConfig");
+        final Element root = new Element("component").setAttribute("name", "CloverPlugin").setAttribute("class", "org.openclover.idea.config.IdeaCloverConfig");
 
         root.addContent(new Element("loadPerTestData").addContent("true"));
-        root.addContent(new Element("projectRebuild").setAttribute("class", "com.atlassian.clover.idea.config.ProjectRebuild").addContent("ALWAYS"));
+        root.addContent(new Element("projectRebuild").setAttribute("class", "org.openclover.idea.config.ProjectRebuild").addContent("ALWAYS"));
         root.addContent(new Element("filteredHighlight").addContent("-16751002"));
         root.addContent(new Element("relativeInitString").addContent("false"));
         root.addContent(new Element("buildWithClover").addContent("true"));
@@ -128,8 +128,8 @@ public class CloverJpsProjectConfigurationSerializerTest {
         root.addContent(new Element("cloudReportIncludeSubpkgs").addContent("true"));
         root.addContent(new Element("includes").setAttribute("null", "true"));
         root.addContent(new Element("includePassedTestCoverageOnly").addContent("true"));
-        root.addContent(new Element("testViewScope").setAttribute("class", "com.atlassian.clover.idea.config.TestViewScope").addContent("GLOBAL"));
-        root.addContent(new Element("testCaseLayout").setAttribute("class", "com.atlassian.clover.idea.config.TestCaseLayout").addContent("PACKAGES"));
+        root.addContent(new Element("testViewScope").setAttribute("class", "org.openclover.idea.config.TestViewScope").addContent("GLOBAL"));
+        root.addContent(new Element("testCaseLayout").setAttribute("class", "org.openclover.idea.config.TestCaseLayout").addContent("PACKAGES"));
         root.addContent(new Element("viewCoverage").addContent("true"));
         root.addContent(new Element("contextFilterSpec"));
         root.addContent(new Element("coveredStripe").addContent("-16711936"));
@@ -140,7 +140,7 @@ public class CloverJpsProjectConfigurationSerializerTest {
         root.addContent(new Element("failedCoveredStripe").addContent("-14336"));
 
         // <regexpContexts class="java.util.ArrayList">
-        //    <item class="com.atlassian.clover.idea.config.regexp.Regexp">
+        //    <item class="org.openclover.idea.config.regexp.Regexp">
         //        <type>0</type>
         //        <validationMessage null="true" />
         //        <regex>.*appendMoney.*</regex>
@@ -148,7 +148,7 @@ public class CloverJpsProjectConfigurationSerializerTest {
         //        <name>method_appendMoney</name>
         //        <changed>true</changed>
         //    </item>
-        //    <item class="com.atlassian.clover.idea.config.regexp.Regexp">
+        //    <item class="org.openclover.idea.config.regexp.Regexp">
         //        <type>1</type>
         //        <validationMessage null="true" />
         //        <regex>if.*</regex>
@@ -159,14 +159,14 @@ public class CloverJpsProjectConfigurationSerializerTest {
         // </regexpContexts>
         root.addContent(
                 new Element("regexpContexts").setAttribute("class", "java.util.ArrayList")
-                        .addContent(new Element("item").setAttribute("class", "com.atlassian.clover.idea.config.regexp.Regexp")
+                        .addContent(new Element("item").setAttribute("class", "org.openclover.idea.config.regexp.Regexp")
                                 .addContent(new Element("type").addContent("0"))
                                 .addContent(new Element("validationMessage").setAttribute("null", "true"))
                                 .addContent(new Element("regex").addContent(".*appendMoney.*"))
                                 .addContent(new Element("enabled").addContent("true"))
                                 .addContent(new Element("name").addContent("method_appendMoney"))
                                 .addContent(new Element("changed").addContent("true")))
-                        .addContent(new Element("item").setAttribute("class", "com.atlassian.clover.idea.config.regexp.Regexp")
+                        .addContent(new Element("item").setAttribute("class", "org.openclover.idea.config.regexp.Regexp")
                                 .addContent(new Element("type").addContent("1"))
                                 .addContent(new Element("validationMessage").setAttribute("null", "true"))
                                 .addContent(new Element("regex").addContent("if.*"))
@@ -182,7 +182,7 @@ public class CloverJpsProjectConfigurationSerializerTest {
         root.addContent(new Element("showSummaryInToolbar").addContent("true"));
         root.addContent(new Element("span").addContent("0 days"));
         root.addContent(new Element("generatedInitString").addContent(".clover\\coverage.db"));
-        root.addContent(new Element("modelScope").setAttribute("class", "com.atlassian.clover.idea.config.ModelScope").addContent("ALL_CLASSES"));
+        root.addContent(new Element("modelScope").setAttribute("class", "org.openclover.idea.config.ModelScope").addContent("ALL_CLASSES"));
         root.addContent(new Element("outOfDateStripe").addContent("-256"));
         root.addContent(new Element("failedCoveredHighlight").addContent("-13261"));
         root.addContent(new Element("highlightCovered").addContent("true"));

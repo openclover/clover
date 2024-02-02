@@ -1,6 +1,6 @@
-package com.atlassian.clover.idea.util;
+package org.openclover.idea.util;
 
-import com.atlassian.clover.idea.PluginVersionInfo;
+import org.openclover.idea.PluginVersionInfo;
 import com.intellij.ide.BrowserUtil;
 import com.intellij.openapi.application.ApplicationInfo;
 import com.intellij.openapi.diagnostic.ErrorReportSubmitter;

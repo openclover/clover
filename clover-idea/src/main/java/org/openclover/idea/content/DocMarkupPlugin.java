@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.content;
+package org.openclover.idea.content;
 
 import com.atlassian.clover.CloverDatabase;
 import com.atlassian.clover.api.registry.BranchInfo;
@@ -10,15 +10,15 @@ import com.atlassian.clover.registry.entities.FullFileInfo;
 import com.atlassian.clover.registry.entities.FullPackageInfo;
 import com.atlassian.clover.registry.metrics.HasMetricsFilter;
 import com.atlassian.clover.util.MetricsFormatUtils;
-import com.atlassian.clover.idea.ProjectPlugin;
-import com.atlassian.clover.idea.config.ConfigChangeEvent;
-import com.atlassian.clover.idea.config.ConfigChangeListener;
-import com.atlassian.clover.idea.config.IdeaCloverConfig;
-import com.atlassian.clover.idea.feature.CloverFeatures;
-import com.atlassian.clover.idea.feature.FeatureEvent;
-import com.atlassian.clover.idea.feature.FeatureListener;
-import com.atlassian.clover.idea.feature.FeatureManager;
-import com.atlassian.clover.idea.coverage.ModelUtil;
+import org.openclover.idea.ProjectPlugin;
+import org.openclover.idea.config.ConfigChangeEvent;
+import org.openclover.idea.config.ConfigChangeListener;
+import org.openclover.idea.config.IdeaCloverConfig;
+import org.openclover.idea.feature.CloverFeatures;
+import org.openclover.idea.feature.FeatureEvent;
+import org.openclover.idea.feature.FeatureListener;
+import org.openclover.idea.feature.FeatureManager;
+import org.openclover.idea.coverage.ModelUtil;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.markup.EffectType;
@@ -38,11 +38,11 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.atlassian.clover.idea.content.DocMarkupPlugin.CoverageBlock.Style.BAD;
-import static com.atlassian.clover.idea.content.DocMarkupPlugin.CoverageBlock.Style.FAILED_ONLY;
-import static com.atlassian.clover.idea.content.DocMarkupPlugin.CoverageBlock.Style.FILTERED;
-import static com.atlassian.clover.idea.content.DocMarkupPlugin.CoverageBlock.Style.GOOD;
-import static com.atlassian.clover.idea.content.DocMarkupPlugin.CoverageBlock.Style.OLD;
+import static org.openclover.idea.content.DocMarkupPlugin.CoverageBlock.Style.BAD;
+import static org.openclover.idea.content.DocMarkupPlugin.CoverageBlock.Style.FAILED_ONLY;
+import static org.openclover.idea.content.DocMarkupPlugin.CoverageBlock.Style.FILTERED;
+import static org.openclover.idea.content.DocMarkupPlugin.CoverageBlock.Style.GOOD;
+import static org.openclover.idea.content.DocMarkupPlugin.CoverageBlock.Style.OLD;
 import static org.openclover.util.Lists.newArrayList;
 
 public class DocMarkupPlugin extends ContentPlugin implements FeatureListener, ConfigChangeListener {
@@ -102,7 +102,7 @@ public class DocMarkupPlugin extends ContentPlugin implements FeatureListener, C
     }
 
     /**
-     * @see com.atlassian.clover.idea.feature.FeatureListener#featureStateChanged(com.atlassian.clover.idea.feature.FeatureEvent)
+     * @see org.openclover.idea.feature.FeatureListener#featureStateChanged(org.openclover.idea.feature.FeatureEvent)
      */
     @Override
     public void featureStateChanged(FeatureEvent evt) {

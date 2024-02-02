@@ -1,9 +1,9 @@
-package com.atlassian.clover.idea.actions.excludes;
+package org.openclover.idea.actions.excludes;
 
-import com.atlassian.clover.idea.IProjectPlugin;
-import com.atlassian.clover.idea.config.CloverModuleConfig;
-import com.atlassian.clover.idea.CloverModuleComponent;
-import com.atlassian.clover.idea.ProjectPlugin;
+import org.openclover.idea.IProjectPlugin;
+import org.openclover.idea.config.CloverModuleConfig;
+import org.openclover.idea.CloverModuleComponent;
+import org.openclover.idea.ProjectPlugin;
 import com.intellij.ide.projectView.ProjectView;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;

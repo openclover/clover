@@ -1,11 +1,11 @@
-package com.atlassian.clover.idea.testexplorer;
+package org.openclover.idea.testexplorer;
 
 import com.atlassian.clover.CloverDatabase;
 import com.atlassian.clover.CoverageDataSpec;
-import com.atlassian.clover.idea.config.TestCaseLayout;
-import com.atlassian.clover.idea.treetables.SortableListTreeTableModelOnColumns;
-import com.atlassian.clover.idea.treetables.TreeTableModelFactory;
-import com.atlassian.clover.idea.util.ui.TreeUtil;
+import org.openclover.idea.config.TestCaseLayout;
+import org.openclover.idea.treetables.SortableListTreeTableModelOnColumns;
+import org.openclover.idea.treetables.TreeTableModelFactory;
+import org.openclover.idea.util.ui.TreeUtil;
 import com.atlassian.clover.api.registry.HasMetrics;
 import com.atlassian.clover.registry.entities.TestCaseInfo;
 import com.atlassian.clover.reporters.filters.DefaultTestFilter;

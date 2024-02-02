@@ -1,7 +1,7 @@
-package com.atlassian.clover.idea.coverageview.table;
+package org.openclover.idea.coverageview.table;
 
-import com.atlassian.clover.idea.coverage.CoverageTreeModel;
-import com.atlassian.clover.idea.treetables.AbstractColumnInfo;
+import org.openclover.idea.coverage.CoverageTreeModel;
+import org.openclover.idea.treetables.AbstractColumnInfo;
 import com.atlassian.clover.api.registry.HasMetrics;
 
 import javax.swing.table.TableCellRenderer;

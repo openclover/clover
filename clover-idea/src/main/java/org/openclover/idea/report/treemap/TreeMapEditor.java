@@ -1,9 +1,9 @@
-package com.atlassian.clover.idea.report.treemap;
+package org.openclover.idea.report.treemap;
 
 import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.idea.coverage.CoverageListener;
-import com.atlassian.clover.idea.coverage.CoverageManager;
-import com.atlassian.clover.idea.util.vfs.DummyFileEditor;
+import org.openclover.idea.coverage.CoverageListener;
+import org.openclover.idea.coverage.CoverageManager;
+import org.openclover.idea.util.vfs.DummyFileEditor;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
 import clover.net.sf.jtreemap.swing.DefaultToolTip;

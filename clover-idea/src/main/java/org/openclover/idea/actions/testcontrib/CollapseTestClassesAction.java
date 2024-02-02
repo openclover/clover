@@ -1,7 +1,7 @@
-package com.atlassian.clover.idea.actions.testcontrib;
+package org.openclover.idea.actions.testcontrib;
 
-import com.atlassian.clover.idea.ProjectPlugin;
-import com.atlassian.clover.idea.config.IdeaCloverConfig;
+import org.openclover.idea.ProjectPlugin;
+import org.openclover.idea.config.IdeaCloverConfig;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.actionSystem.ToggleAction;

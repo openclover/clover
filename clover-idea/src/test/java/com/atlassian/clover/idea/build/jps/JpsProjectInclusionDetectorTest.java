@@ -1,9 +1,9 @@
-package com.atlassian.clover.idea.build.jps;
+package org.openclover.idea.build.jps;
 
-import com.atlassian.clover.idea.build.InclusionDetector;
-import com.atlassian.clover.idea.config.CloverModuleConfig;
-import com.atlassian.clover.idea.config.CloverPluginConfig;
-import com.atlassian.clover.idea.config.MappedCloverPluginConfig;
+import org.openclover.idea.build.InclusionDetector;
+import org.openclover.idea.config.CloverModuleConfig;
+import org.openclover.idea.config.CloverPluginConfig;
+import org.openclover.idea.config.MappedCloverPluginConfig;
 import org.jetbrains.jps.devkit.model.JpsPluginModuleProperties;
 import org.jetbrains.jps.devkit.model.JpsPluginModuleType;
 import org.jetbrains.jps.model.JpsElementFactory;

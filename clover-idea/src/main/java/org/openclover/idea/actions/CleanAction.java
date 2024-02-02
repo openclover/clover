@@ -1,8 +1,8 @@
-package com.atlassian.clover.idea.actions;
+package org.openclover.idea.actions;
 
-import com.atlassian.clover.idea.CloverToolWindowId;
-import com.atlassian.clover.idea.IProjectPlugin;
-import com.atlassian.clover.idea.ProjectPlugin;
+import org.openclover.idea.CloverToolWindowId;
+import org.openclover.idea.IProjectPlugin;
+import org.openclover.idea.ProjectPlugin;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;

@@ -1,8 +1,8 @@
-package com.atlassian.clover.idea.util.tmp;
+package org.openclover.idea.util.tmp;
 
-import com.atlassian.clover.idea.util.tmp.TmpPathResolver;
-import com.atlassian.clover.idea.util.tmp.TmpPathResolverImpl;
-import com.atlassian.clover.idea.util.vfs.DummyVirtualFile;
+import org.openclover.idea.util.tmp.TmpPathResolver;
+import org.openclover.idea.util.tmp.TmpPathResolverImpl;
+import org.openclover.idea.util.vfs.DummyVirtualFile;
 import com.intellij.openapi.vfs.VirtualFile;
 import junit.framework.TestCase;
 

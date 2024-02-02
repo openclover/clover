@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea;
+package org.openclover.idea;
 
 import com.intellij.openapi.application.ApplicationInfo;
 import com.intellij.testFramework.LightIdeaTestCase;

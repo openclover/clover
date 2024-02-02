@@ -1,11 +1,11 @@
-package com.atlassian.clover.idea.build.jps;
+package org.openclover.idea.build.jps;
 
 import clover.antlr.RecognitionException;
 import clover.antlr.TokenStreamException;
 import com.atlassian.clover.api.CloverException;
 import com.atlassian.clover.cfg.instr.java.SourceLevel;
 import com.atlassian.clover.instr.java.Instrumenter;
-import com.atlassian.clover.idea.build.InclusionDetector;
+import org.openclover.idea.build.InclusionDetector;
 import com.atlassian.clover.util.trie.Node;
 import com.intellij.openapi.diagnostic.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -28,7 +28,7 @@ import java.util.Map;
  * Implementation of the IDEA's JavaSourceTransformer interface which add Clover instrumentation code. Instrumentation
  * is performed in memory.
  *
- * @see com.atlassian.clover.idea.build.CloverCompiler
+ * @see org.openclover.idea.build.CloverCompiler
  */
 public class CloverJavaSourceTransformer extends JavaSourceTransformer {
 
@@ -130,7 +130,7 @@ public class CloverJavaSourceTransformer extends JavaSourceTransformer {
         return (closestSourceRoot.getValue() != null ? closestSourceRoot.getValue() : LanguageLevel.JDK_1_9);
     }
 
-    // Note: it's similar to com.atlassian.clover.idea.build.CloverCompiler.LANGUAGE_LEVEL_TO_SOURCE_LEVEL
+    // Note: it's similar to org.openclover.idea.build.CloverCompiler.LANGUAGE_LEVEL_TO_SOURCE_LEVEL
     // but converts org.jetbrains.jps.model.java.LanguageLevel
     protected static final Map<LanguageLevel, SourceLevel> LANGUAGE_LEVEL_TO_SOURCE_LEVEL
             = new HashMap<LanguageLevel, SourceLevel>() {{

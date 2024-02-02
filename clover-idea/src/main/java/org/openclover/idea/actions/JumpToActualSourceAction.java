@@ -1,6 +1,6 @@
-package com.atlassian.clover.idea.actions;
+package org.openclover.idea.actions;
 
-import com.atlassian.clover.idea.util.tmp.TmpPathResolver;
+import org.openclover.idea.util.tmp.TmpPathResolver;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;

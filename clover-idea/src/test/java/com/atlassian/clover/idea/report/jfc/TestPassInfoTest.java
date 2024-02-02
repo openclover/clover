@@ -1,7 +1,7 @@
-package com.atlassian.clover.idea.report.jfc;
+package org.openclover.idea.report.jfc;
 
 import com.atlassian.clover.context.ContextSet;
-import com.atlassian.clover.idea.coverage.BaseCoverageNodeViewer;
+import org.openclover.idea.coverage.BaseCoverageNodeViewer;
 import com.atlassian.clover.registry.FixedSourceRegion;
 import com.atlassian.clover.registry.entities.BasicMethodInfo;
 import com.atlassian.clover.registry.entities.FullClassInfo;

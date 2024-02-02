@@ -1,9 +1,9 @@
-package com.atlassian.clover.idea.util.ui;
+package org.openclover.idea.util.ui;
 
 import com.intellij.ide.BrowserUtil;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.util.ui.UIUtil;
-import com.atlassian.clover.idea.util.ui.CloverIcons;
+import org.openclover.idea.util.ui.CloverIcons;
 
 import javax.swing.Action;
 import javax.swing.JComponent;

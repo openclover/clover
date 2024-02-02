@@ -1,7 +1,7 @@
-package com.atlassian.clover.idea.actions.excludes;
+package org.openclover.idea.actions.excludes;
 
-import com.atlassian.clover.idea.ApplicationTestHelper;
-import com.atlassian.clover.idea.util.psi.PsiUtil;
+import org.openclover.idea.ApplicationTestHelper;
+import org.openclover.idea.util.psi.PsiUtil;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;

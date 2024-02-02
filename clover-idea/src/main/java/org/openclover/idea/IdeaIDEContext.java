@@ -1,7 +1,7 @@
-package com.atlassian.clover.idea;
+package org.openclover.idea;
 
-import com.atlassian.clover.idea.util.ProjectUtil;
-import com.atlassian.clover.idea.util.ui.CloverIcons;
+import org.openclover.idea.util.ProjectUtil;
+import org.openclover.idea.util.ui.CloverIcons;
 import com.intellij.openapi.project.Project;
 
 import javax.swing.Icon;

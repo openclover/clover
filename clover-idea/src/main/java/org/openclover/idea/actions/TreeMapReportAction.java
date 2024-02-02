@@ -1,6 +1,6 @@
-package com.atlassian.clover.idea.actions;
+package org.openclover.idea.actions;
 
-import com.atlassian.clover.idea.report.treemap.TreeMapVirtualFile;
+import org.openclover.idea.report.treemap.TreeMapVirtualFile;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.fileEditor.FileEditorManager;

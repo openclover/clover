@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.util.jdom;
+package org.openclover.idea.util.jdom;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

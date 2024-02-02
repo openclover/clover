@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.util.psi;
+package org.openclover.idea.util.psi;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.JavaDirectoryService;

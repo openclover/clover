@@ -1,11 +1,11 @@
-package com.atlassian.clover.idea.config.regexp;
+package org.openclover.idea.config.regexp;
 
 import com.atlassian.clover.context.ContextStore;
 import com.atlassian.clover.context.NamedContext;
-import com.atlassian.clover.idea.config.regexp.Regexp;
-import com.atlassian.clover.idea.config.regexp.RegexpValidator;
-import com.atlassian.clover.idea.util.ComparatorUtil;
-import com.atlassian.clover.idea.config.CloverPluginConfig;
+import org.openclover.idea.config.regexp.Regexp;
+import org.openclover.idea.config.regexp.RegexpValidator;
+import org.openclover.idea.util.ComparatorUtil;
+import org.openclover.idea.config.CloverPluginConfig;
 
 import java.util.ArrayList;
 import java.util.List;

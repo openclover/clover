@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.junit.config;
+package org.openclover.idea.junit.config;
 
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.options.SettingsEditor;

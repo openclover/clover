@@ -1,6 +1,6 @@
-package com.atlassian.clover.idea.build.jps;
+package org.openclover.idea.build.jps;
 
-import com.atlassian.clover.idea.config.CloverGlobalConfig;
+import org.openclover.idea.config.CloverGlobalConfig;
 import org.jdom.Element;
 import org.jetbrains.jps.model.JpsElement;
 import org.jetbrains.jps.model.JpsModel;

@@ -1,7 +1,7 @@
-package com.atlassian.clover.idea.actions;
+package org.openclover.idea.actions;
 
-import com.atlassian.clover.idea.AboutDialog;
-import com.atlassian.clover.idea.util.ui.CloverIcons;
+import org.openclover.idea.AboutDialog;
+import org.openclover.idea.util.ui.CloverIcons;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;

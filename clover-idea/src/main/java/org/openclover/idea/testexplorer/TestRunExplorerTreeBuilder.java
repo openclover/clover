@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.testexplorer;
+package org.openclover.idea.testexplorer;
 
 import com.atlassian.clover.BitSetCoverageProvider;
 import com.atlassian.clover.CloverDatabase;
@@ -9,10 +9,10 @@ import com.atlassian.clover.registry.entities.FullFileInfo;
 import com.atlassian.clover.registry.entities.FullMethodInfo;
 import com.atlassian.clover.registry.entities.FullPackageInfo;
 import com.atlassian.clover.registry.entities.FullProjectInfo;
-import com.atlassian.clover.idea.config.TestCaseLayout;
-import com.atlassian.clover.idea.treetables.SortableListTreeTableModelOnColumns;
-import com.atlassian.clover.idea.coverage.CoverageManager;
-import com.atlassian.clover.idea.ProjectPlugin;
+import org.openclover.idea.config.TestCaseLayout;
+import org.openclover.idea.treetables.SortableListTreeTableModelOnColumns;
+import org.openclover.idea.coverage.CoverageManager;
+import org.openclover.idea.ProjectPlugin;
 import com.atlassian.clover.registry.CoverageDataProvider;
 import com.atlassian.clover.registry.CoverageDataReceptor;
 import com.atlassian.clover.api.registry.HasMetrics;
@@ -110,7 +110,7 @@ public class TestRunExplorerTreeBuilder {
             }
 
             final SourceFolderDescription sourceFolderDescription = new SourceFolderDescription(
-                    com.atlassian.clover.idea.util.vfs.VfsUtil.calcRelativeToProjectPath(sourceVirtualFile, project),
+                    org.openclover.idea.util.vfs.VfsUtil.calcRelativeToProjectPath(sourceVirtualFile, project),
                     sourceFolder.isTestSource());
             final Collection<TestCaseInfo> perFolder = newArrayList();
             final File rootDir = VfsUtil.virtualToIoFile(sourceVirtualFile);

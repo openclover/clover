@@ -1,12 +1,12 @@
-package com.atlassian.clover.idea.autoupdater;
+package org.openclover.idea.autoupdater;
 
 import com.atlassian.clover.versions.LibraryVersion;
 import com.atlassian.clover.Logger;
-import com.atlassian.clover.idea.PluginVersionInfo;
-import com.atlassian.clover.idea.util.l10n.CloverIdeaPluginMessages;
-import com.atlassian.clover.idea.config.AutoUpdateConfigPanel;
-import com.atlassian.clover.idea.util.ui.ExceptionDialog;
-import com.atlassian.clover.idea.util.NetUtil;
+import org.openclover.idea.PluginVersionInfo;
+import org.openclover.idea.util.l10n.CloverIdeaPluginMessages;
+import org.openclover.idea.config.AutoUpdateConfigPanel;
+import org.openclover.idea.util.ui.ExceptionDialog;
+import org.openclover.idea.util.NetUtil;
 import com.intellij.concurrency.JobScheduler;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ApplicationComponent;

@@ -1,14 +1,14 @@
-package com.atlassian.clover.idea.config;
+package org.openclover.idea.config;
 
 import com.atlassian.clover.context.ContextStore;
-import com.atlassian.clover.idea.util.ui.CloverIcons;
-import com.atlassian.clover.idea.config.regexp.EditRegexpPanel;
-import com.atlassian.clover.idea.config.regexp.Regexp;
-import com.atlassian.clover.idea.config.regexp.RegexpConfigModel;
-import com.atlassian.clover.idea.config.regexp.RegexpListPanel;
-import com.atlassian.clover.idea.util.l10n.CloverIdeaPluginMessages;
-import com.atlassian.clover.idea.util.ui.MessageDialogs;
-import com.atlassian.clover.idea.util.ui.RichLabel;
+import org.openclover.idea.util.ui.CloverIcons;
+import org.openclover.idea.config.regexp.EditRegexpPanel;
+import org.openclover.idea.config.regexp.Regexp;
+import org.openclover.idea.config.regexp.RegexpConfigModel;
+import org.openclover.idea.config.regexp.RegexpListPanel;
+import org.openclover.idea.util.l10n.CloverIdeaPluginMessages;
+import org.openclover.idea.util.ui.MessageDialogs;
+import org.openclover.idea.util.ui.RichLabel;
 import com.intellij.openapi.actionSystem.ActionGroup;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.project.Project;

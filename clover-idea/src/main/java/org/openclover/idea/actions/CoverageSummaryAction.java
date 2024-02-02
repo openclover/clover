@@ -1,8 +1,8 @@
-package com.atlassian.clover.idea.actions;
+package org.openclover.idea.actions;
 
-import com.atlassian.clover.idea.IProjectPlugin;
-import com.atlassian.clover.idea.ProjectPlugin;
-import com.atlassian.clover.idea.report.jfc.PercentBarIcon;
+import org.openclover.idea.IProjectPlugin;
+import org.openclover.idea.ProjectPlugin;
+import org.openclover.idea.report.jfc.PercentBarIcon;
 import com.atlassian.clover.util.Formatting;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;

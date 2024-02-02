@@ -1,7 +1,7 @@
-package com.atlassian.clover.idea.testexplorer;
+package org.openclover.idea.testexplorer;
 
-import com.atlassian.clover.idea.coverage.PercentBarColors;
-import com.atlassian.clover.idea.coverage.PercentBarPanel;
+import org.openclover.idea.coverage.PercentBarColors;
+import org.openclover.idea.coverage.PercentBarPanel;
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;

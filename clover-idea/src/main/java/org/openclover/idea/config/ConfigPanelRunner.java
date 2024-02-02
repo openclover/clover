@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.config;
+package org.openclover.idea.config;
 
 import javax.swing.JFrame;
 import java.awt.BorderLayout;

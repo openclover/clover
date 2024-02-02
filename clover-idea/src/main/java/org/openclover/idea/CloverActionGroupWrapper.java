@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea;
+package org.openclover.idea;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;

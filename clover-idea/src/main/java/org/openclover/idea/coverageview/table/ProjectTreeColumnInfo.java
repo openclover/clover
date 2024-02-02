@@ -1,8 +1,8 @@
-package com.atlassian.clover.idea.coverageview.table;
+package org.openclover.idea.coverageview.table;
 
-import com.atlassian.clover.idea.coverageview.AbstractHasMetricsNodeComparator;
-import com.atlassian.clover.idea.treetables.MyTreeColumnInfo;
-import com.atlassian.clover.idea.util.ComparatorUtil;
+import org.openclover.idea.coverageview.AbstractHasMetricsNodeComparator;
+import org.openclover.idea.treetables.MyTreeColumnInfo;
+import org.openclover.idea.util.ComparatorUtil;
 import com.atlassian.clover.api.registry.HasMetrics;
 
 import javax.swing.tree.DefaultMutableTreeNode;

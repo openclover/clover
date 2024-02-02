@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.treetables;
+package org.openclover.idea.treetables;
 
 import com.intellij.ui.treeStructure.treetable.TreeTableModel;
 import com.intellij.util.ui.ColumnInfo;

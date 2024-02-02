@@ -1,7 +1,7 @@
-package com.atlassian.clover.idea.testexplorer;
+package org.openclover.idea.testexplorer;
 
-import com.atlassian.clover.idea.treetables.MyTreeColumnInfo;
-import com.atlassian.clover.idea.util.ComparatorUtil;
+import org.openclover.idea.treetables.MyTreeColumnInfo;
+import org.openclover.idea.util.ComparatorUtil;
 import com.atlassian.clover.registry.entities.TestCaseInfo;
 
 import javax.swing.tree.DefaultMutableTreeNode;

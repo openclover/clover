@@ -1,8 +1,8 @@
-package com.atlassian.clover.idea.build;
+package org.openclover.idea.build;
 
 import com.atlassian.clover.Logger;
-import com.atlassian.clover.idea.ProjectPlugin;
-import com.atlassian.clover.idea.util.MiscUtils;
+import org.openclover.idea.ProjectPlugin;
+import org.openclover.idea.util.MiscUtils;
 import com.intellij.compiler.CompilerWorkspaceConfiguration;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.compiler.CompileContext;

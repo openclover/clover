@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.build.jps;
+package org.openclover.idea.build.jps;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.jps.incremental.BuilderService;

@@ -1,12 +1,12 @@
-package com.atlassian.clover.idea.build;
+package org.openclover.idea.build;
 
-import com.atlassian.clover.idea.IProjectPlugin;
-import com.atlassian.clover.idea.build.InclusionDetector;
-import com.atlassian.clover.idea.util.InclusionUtil;
-import com.atlassian.clover.idea.CloverModuleComponent;
-import com.atlassian.clover.idea.ProjectPlugin;
-import com.atlassian.clover.idea.config.IdeaCloverConfig;
-import com.atlassian.clover.idea.util.vfs.VfsUtil;
+import org.openclover.idea.IProjectPlugin;
+import org.openclover.idea.build.InclusionDetector;
+import org.openclover.idea.util.InclusionUtil;
+import org.openclover.idea.CloverModuleComponent;
+import org.openclover.idea.ProjectPlugin;
+import org.openclover.idea.config.IdeaCloverConfig;
+import org.openclover.idea.util.vfs.VfsUtil;
 import com.intellij.openapi.fileTypes.FileTypeManager;
 import com.intellij.openapi.fileTypes.StdFileTypes;
 import com.intellij.openapi.module.Module;

@@ -1,9 +1,9 @@
-package com.atlassian.clover.idea.config;
+package org.openclover.idea.config;
 
-import com.atlassian.clover.idea.util.ui.CloverIcons;
-import com.atlassian.clover.idea.CloverPlugin;
-import com.atlassian.clover.idea.autoupdater.AutoUpdateComponent;
-import com.atlassian.clover.idea.junit.config.TestOptimizationGlobalSettings;
+import org.openclover.idea.util.ui.CloverIcons;
+import org.openclover.idea.CloverPlugin;
+import org.openclover.idea.autoupdater.AutoUpdateComponent;
+import org.openclover.idea.junit.config.TestOptimizationGlobalSettings;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurableGroup;
 import com.intellij.openapi.options.UnnamedConfigurableGroup;

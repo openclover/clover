@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.testexplorer;
+package org.openclover.idea.testexplorer;
 
 import com.atlassian.clover.BitSetCoverageProvider;
 import com.atlassian.clover.CloverDatabase;
@@ -7,9 +7,9 @@ import com.atlassian.clover.registry.entities.FullClassInfo;
 import com.atlassian.clover.registry.entities.FullFileInfo;
 import com.atlassian.clover.registry.entities.FullPackageInfo;
 import com.atlassian.clover.registry.entities.FullProjectInfo;
-import com.atlassian.clover.idea.util.tasks.AbstractExpirableTaskDelegate;
-import com.atlassian.clover.idea.util.tasks.ExpirableTaskProcessor;
-import com.atlassian.clover.idea.coverage.CoverageManager;
+import org.openclover.idea.util.tasks.AbstractExpirableTaskDelegate;
+import org.openclover.idea.util.tasks.ExpirableTaskProcessor;
+import org.openclover.idea.coverage.CoverageManager;
 import com.atlassian.clover.registry.CoverageDataProvider;
 import com.atlassian.clover.registry.CoverageDataReceptor;
 import com.atlassian.clover.api.registry.HasMetrics;

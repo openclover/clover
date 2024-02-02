@@ -1,6 +1,6 @@
-package com.atlassian.clover.idea;
+package org.openclover.idea;
 
-import com.atlassian.clover.idea.coverage.EventListenerInstallator;
+import org.openclover.idea.coverage.EventListenerInstallator;
 import com.intellij.execution.ExecutionListener;
 import com.intellij.execution.ExecutionManager;
 import com.intellij.execution.process.ProcessHandler;

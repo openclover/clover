@@ -1,11 +1,11 @@
-package com.atlassian.clover.idea.util.ui;
+package org.openclover.idea.util.ui;
 
-import com.atlassian.clover.idea.ProjectPlugin;
-import com.atlassian.clover.idea.config.ConfigChangeEvent;
-import com.atlassian.clover.idea.config.ConfigChangeListener;
-import com.atlassian.clover.idea.config.IdeaCloverConfig;
-import com.atlassian.clover.idea.testexplorer.CoverageDataHolder;
-import com.atlassian.clover.idea.treetables.TreeTableModelFactory;
+import org.openclover.idea.ProjectPlugin;
+import org.openclover.idea.config.ConfigChangeEvent;
+import org.openclover.idea.config.ConfigChangeListener;
+import org.openclover.idea.config.IdeaCloverConfig;
+import org.openclover.idea.testexplorer.CoverageDataHolder;
+import org.openclover.idea.treetables.TreeTableModelFactory;
 import com.atlassian.clover.registry.FileInfoRegion;
 import com.atlassian.clover.api.registry.HasMetrics;
 import com.atlassian.clover.registry.entities.TestCaseInfo;

@@ -1,6 +1,6 @@
-package com.atlassian.clover.idea.junit.config;
+package org.openclover.idea.junit.config;
 
-import com.atlassian.clover.idea.config.GBC;
+import org.openclover.idea.config.GBC;
 import com.intellij.ui.components.panels.HorizontalBox;
 import com.intellij.ui.components.panels.VerticalBox;
 import com.atlassian.clover.api.optimization.OptimizationOptions;

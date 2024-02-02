@@ -1,8 +1,8 @@
-package com.atlassian.clover.idea.actions.cloudreport;
+package org.openclover.idea.actions.cloudreport;
 
 import com.atlassian.clover.registry.entities.FullPackageInfo;
-import com.atlassian.clover.idea.actions.Constants;
-import com.atlassian.clover.idea.report.cloud.CloudVirtualFile;
+import org.openclover.idea.actions.Constants;
+import org.openclover.idea.report.cloud.CloudVirtualFile;
 import com.atlassian.clover.api.registry.HasMetrics;
 import com.atlassian.clover.registry.entities.PackageFragment;
 import com.intellij.openapi.actionSystem.AnAction;

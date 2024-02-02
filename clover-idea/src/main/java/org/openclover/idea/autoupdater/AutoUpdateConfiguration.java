@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.autoupdater;
+package org.openclover.idea.autoupdater;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.coverage;
+package org.openclover.idea.coverage;
 
 import com.atlassian.clover.api.registry.HasMetrics;
 import com.jgoodies.forms.layout.CellConstraints;

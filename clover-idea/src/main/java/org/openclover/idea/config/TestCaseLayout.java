@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.config;
+package org.openclover.idea.config;
 
 public enum TestCaseLayout {
     TEST_CASES,

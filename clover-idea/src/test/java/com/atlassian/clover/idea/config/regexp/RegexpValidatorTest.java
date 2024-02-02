@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.config.regexp;
+package org.openclover.idea.config.regexp;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

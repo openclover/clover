@@ -1,6 +1,6 @@
-package com.atlassian.clover.idea.config.regexp;
+package org.openclover.idea.config.regexp;
 
-import com.atlassian.clover.idea.config.ContextFilterRegexpType;
+import org.openclover.idea.config.ContextFilterRegexpType;
 import com.atlassian.clover.context.MethodRegexpContext;
 import com.atlassian.clover.context.StatementRegexpContext;
 import junit.framework.TestCase;

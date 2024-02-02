@@ -1,6 +1,6 @@
-package com.atlassian.clover.idea.actions.cloudreport;
+package org.openclover.idea.actions.cloudreport;
 
-import com.atlassian.clover.idea.report.cloud.CloudVirtualFile;
+import org.openclover.idea.report.cloud.CloudVirtualFile;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.actionSystem.DefaultActionGroup;

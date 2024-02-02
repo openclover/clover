@@ -1,12 +1,12 @@
-package com.atlassian.clover.idea.content;
+package org.openclover.idea.content;
 
 import com.atlassian.clover.CloverDatabase;
 import com.atlassian.clover.Logger;
-import com.atlassian.clover.idea.IProjectPlugin;
-import com.atlassian.clover.idea.ProjectPlugin;
-import com.atlassian.clover.idea.util.vfs.VfsUtil;
-import com.atlassian.clover.idea.coverage.CoverageTreeListener;
-import com.atlassian.clover.idea.coverage.CoverageTreeModel;
+import org.openclover.idea.IProjectPlugin;
+import org.openclover.idea.ProjectPlugin;
+import org.openclover.idea.util.vfs.VfsUtil;
+import org.openclover.idea.coverage.CoverageTreeListener;
+import org.openclover.idea.coverage.CoverageTreeModel;
 import com.atlassian.clover.registry.entities.FullFileInfo;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.event.DocumentEvent;

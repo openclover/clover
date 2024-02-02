@@ -1,11 +1,11 @@
-package com.atlassian.clover.idea;
+package org.openclover.idea;
 
-import com.atlassian.clover.idea.IProjectPlugin;
-import com.atlassian.clover.idea.config.CloverModuleConfig;
-import com.atlassian.clover.idea.config.IdeaXmlConfigConstants;
-import com.atlassian.clover.idea.util.ui.CloverIcons;
-import com.atlassian.clover.idea.build.ProjectRebuilder;
-import com.atlassian.clover.idea.config.CloverModuleConfigPanel;
+import org.openclover.idea.IProjectPlugin;
+import org.openclover.idea.config.CloverModuleConfig;
+import org.openclover.idea.config.IdeaXmlConfigConstants;
+import org.openclover.idea.util.ui.CloverIcons;
+import org.openclover.idea.build.ProjectRebuilder;
+import org.openclover.idea.config.CloverModuleConfigPanel;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;

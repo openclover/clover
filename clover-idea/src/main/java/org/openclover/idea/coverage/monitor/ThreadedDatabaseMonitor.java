@@ -1,11 +1,11 @@
-package com.atlassian.clover.idea.coverage.monitor;
+package org.openclover.idea.coverage.monitor;
 
 import com.atlassian.clover.Logger;
-import com.atlassian.clover.idea.config.ConfigChangeEvent;
-import com.atlassian.clover.idea.config.ConfigChangeListener;
-import com.atlassian.clover.idea.config.MappedCloverPluginConfig;
-import com.atlassian.clover.idea.feature.FeatureEvent;
-import com.atlassian.clover.idea.feature.FeatureListener;
+import org.openclover.idea.config.ConfigChangeEvent;
+import org.openclover.idea.config.ConfigChangeListener;
+import org.openclover.idea.config.MappedCloverPluginConfig;
+import org.openclover.idea.feature.FeatureEvent;
+import org.openclover.idea.feature.FeatureListener;
 import com.intellij.openapi.application.ApplicationManager;
 
 import java.beans.PropertyChangeEvent;

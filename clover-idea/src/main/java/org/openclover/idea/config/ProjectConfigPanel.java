@@ -1,7 +1,7 @@
-package com.atlassian.clover.idea.config;
+package org.openclover.idea.config;
 
-import com.atlassian.clover.idea.util.ui.CloverIcons;
-import com.atlassian.clover.idea.IdeaIDEContext;
+import org.openclover.idea.util.ui.CloverIcons;
+import org.openclover.idea.IdeaIDEContext;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 

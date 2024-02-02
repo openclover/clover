@@ -1,8 +1,8 @@
-package com.atlassian.clover.idea.build;
+package org.openclover.idea.build;
 
 import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig;
-import com.atlassian.clover.idea.ApplicationTestHelper;
-import com.atlassian.clover.idea.util.vfs.VfsUtil;
+import org.openclover.idea.ApplicationTestHelper;
+import org.openclover.idea.util.vfs.VfsUtil;
 import com.atlassian.clover.instr.java.FileStructureInfo;
 import com.atlassian.clover.instr.java.InstrumentationState;
 import com.atlassian.clover.instr.java.JavaMethodContext;

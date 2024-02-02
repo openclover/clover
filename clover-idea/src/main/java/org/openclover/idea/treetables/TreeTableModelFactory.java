@@ -1,18 +1,18 @@
-package com.atlassian.clover.idea.treetables;
+package org.openclover.idea.treetables;
 
-import com.atlassian.clover.idea.coverageview.table.ComplexityColumnInfo;
-import com.atlassian.clover.idea.coverageview.table.CoverageColumnInfo;
-import com.atlassian.clover.idea.coverageview.table.LOCColumnInfo;
-import com.atlassian.clover.idea.coverageview.table.ProjectTreeColumnInfo;
-import com.atlassian.clover.idea.coverageview.table.UncoveredColumnInfo;
-import com.atlassian.clover.idea.testexplorer.ClassTreeColumnInfo;
-import com.atlassian.clover.idea.testexplorer.ContribCoverageColumnInfo;
-import com.atlassian.clover.idea.testexplorer.TestExecutionTimeColumnInfo;
-import com.atlassian.clover.idea.testexplorer.TestMessageColumnInfo;
-import com.atlassian.clover.idea.testexplorer.TestStartedColumnInfo;
-import com.atlassian.clover.idea.testexplorer.TestStatusColumnInfo;
-import com.atlassian.clover.idea.testexplorer.TestTreeColumnInfo;
-import com.atlassian.clover.idea.testexplorer.UniqueCoverageColumnInfo;
+import org.openclover.idea.coverageview.table.ComplexityColumnInfo;
+import org.openclover.idea.coverageview.table.CoverageColumnInfo;
+import org.openclover.idea.coverageview.table.LOCColumnInfo;
+import org.openclover.idea.coverageview.table.ProjectTreeColumnInfo;
+import org.openclover.idea.coverageview.table.UncoveredColumnInfo;
+import org.openclover.idea.testexplorer.ClassTreeColumnInfo;
+import org.openclover.idea.testexplorer.ContribCoverageColumnInfo;
+import org.openclover.idea.testexplorer.TestExecutionTimeColumnInfo;
+import org.openclover.idea.testexplorer.TestMessageColumnInfo;
+import org.openclover.idea.testexplorer.TestStartedColumnInfo;
+import org.openclover.idea.testexplorer.TestStatusColumnInfo;
+import org.openclover.idea.testexplorer.TestTreeColumnInfo;
+import org.openclover.idea.testexplorer.UniqueCoverageColumnInfo;
 import com.intellij.util.ui.ColumnInfo;
 
 import javax.swing.JTree;

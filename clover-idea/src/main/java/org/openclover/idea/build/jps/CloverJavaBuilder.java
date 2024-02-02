@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.build.jps;
+package org.openclover.idea.build.jps;
 
 import com.atlassian.clover.api.CloverException;
 import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig;
@@ -9,8 +9,8 @@ import com.atlassian.clover.context.ContextStore;
 import com.atlassian.clover.context.MethodRegexpContext;
 import com.atlassian.clover.context.RegexpContext;
 import com.atlassian.clover.context.StatementRegexpContext;
-import com.atlassian.clover.idea.config.CloverPluginConfig;
-import com.atlassian.clover.idea.config.regexp.Regexp;
+import org.openclover.idea.config.CloverPluginConfig;
+import org.openclover.idea.config.regexp.Regexp;
 import com.atlassian.clover.util.trie.FilePathPrefixTree;
 import com.atlassian.clover.registry.Clover2Registry;
 import com.intellij.openapi.diagnostic.Logger;

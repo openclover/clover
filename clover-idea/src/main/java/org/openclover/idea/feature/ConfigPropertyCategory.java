@@ -1,8 +1,8 @@
-package com.atlassian.clover.idea.feature;
+package org.openclover.idea.feature;
 
-import com.atlassian.clover.idea.config.CloverPluginConfig;
-import com.atlassian.clover.idea.config.ConfigChangeEvent;
-import com.atlassian.clover.idea.config.ConfigChangeListener;
+import org.openclover.idea.config.CloverPluginConfig;
+import org.openclover.idea.config.ConfigChangeEvent;
+import org.openclover.idea.config.ConfigChangeListener;
 
 import java.beans.PropertyChangeEvent;
 import java.lang.reflect.Method;

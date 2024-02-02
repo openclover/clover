@@ -1,10 +1,10 @@
-package com.atlassian.clover.idea.projectview;
+package org.openclover.idea.projectview;
 
-import com.atlassian.clover.idea.IProjectPlugin;
-import com.atlassian.clover.idea.build.InclusionDetector;
-import com.atlassian.clover.idea.build.ProjectInclusionDetector;
-import com.atlassian.clover.idea.ProjectPlugin;
-import com.atlassian.clover.idea.feature.CloverFeatures;
+import org.openclover.idea.IProjectPlugin;
+import org.openclover.idea.build.InclusionDetector;
+import org.openclover.idea.build.ProjectInclusionDetector;
+import org.openclover.idea.ProjectPlugin;
+import org.openclover.idea.feature.CloverFeatures;
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ide.projectView.impl.nodes.ClassTreeNode;
 import com.intellij.ide.util.treeView.AbstractTreeNode;

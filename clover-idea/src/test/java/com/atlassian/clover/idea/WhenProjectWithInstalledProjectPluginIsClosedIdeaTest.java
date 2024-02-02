@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea;
+package org.openclover.idea;
 
 import com.intellij.ide.startup.impl.StartupManagerImpl;
 import com.intellij.openapi.startup.StartupManager;

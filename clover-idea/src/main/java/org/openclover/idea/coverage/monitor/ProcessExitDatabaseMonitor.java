@@ -1,8 +1,8 @@
-package com.atlassian.clover.idea.coverage.monitor;
+package org.openclover.idea.coverage.monitor;
 
-import com.atlassian.clover.idea.config.IdeaCloverConfig;
-import com.atlassian.clover.idea.coverage.CoverageManager;
-import com.atlassian.clover.idea.junit.JUnitOptimizingProgramRunnerBase;
+import org.openclover.idea.config.IdeaCloverConfig;
+import org.openclover.idea.coverage.CoverageManager;
+import org.openclover.idea.junit.JUnitOptimizingProgramRunnerBase;
 import com.intellij.execution.ExecutionAdapter;
 import com.intellij.execution.configurations.RunProfile;
 import com.intellij.execution.process.ProcessHandler;

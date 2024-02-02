@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.report;
+package org.openclover.idea.report;
 
 import com.atlassian.clover.reporters.ShowLambdaFunctions;
 import com.intellij.openapi.components.PersistentStateComponent;

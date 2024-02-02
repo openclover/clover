@@ -1,7 +1,7 @@
-package com.atlassian.clover.idea.config;
+package org.openclover.idea.config;
 
 import com.atlassian.clover.cfg.Interval;
-import com.atlassian.clover.idea.util.ui.UIUtils;
+import org.openclover.idea.util.ui.UIUtils;
 
 import javax.swing.JLabel;
 import javax.swing.JTextArea;

@@ -1,14 +1,14 @@
-package com.atlassian.clover.idea.content;
+package org.openclover.idea.content;
 
-import com.atlassian.clover.idea.ProjectPlugin;
-import com.atlassian.clover.idea.config.ConfigChangeEvent;
-import com.atlassian.clover.idea.config.ConfigChangeListener;
-import com.atlassian.clover.idea.coverage.EventListenerInstallator;
-import com.atlassian.clover.idea.feature.CloverFeatures;
-import com.atlassian.clover.idea.feature.FeatureEvent;
-import com.atlassian.clover.idea.feature.FeatureListener;
-import com.atlassian.clover.idea.feature.FeatureManager;
-import com.atlassian.clover.idea.util.vfs.VfsUtil;
+import org.openclover.idea.ProjectPlugin;
+import org.openclover.idea.config.ConfigChangeEvent;
+import org.openclover.idea.config.ConfigChangeListener;
+import org.openclover.idea.coverage.EventListenerInstallator;
+import org.openclover.idea.feature.CloverFeatures;
+import org.openclover.idea.feature.FeatureEvent;
+import org.openclover.idea.feature.FeatureListener;
+import org.openclover.idea.feature.FeatureManager;
+import org.openclover.idea.util.vfs.VfsUtil;
 import com.intellij.lang.java.JavaLanguage;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.fileEditor.FileEditor;
@@ -173,7 +173,7 @@ public class ContentManager implements FileEditorManagerListener, ConfigChangeLi
     //---( Implementation of the ConfigChangeListener interface )---
 
     /**
-     * @see ConfigChangeListener#configChange(com.atlassian.clover.idea.config.ConfigChangeEvent)
+     * @see ConfigChangeListener#configChange(org.openclover.idea.config.ConfigChangeEvent)
      */
     @Override
     public void configChange(ConfigChangeEvent evt) {

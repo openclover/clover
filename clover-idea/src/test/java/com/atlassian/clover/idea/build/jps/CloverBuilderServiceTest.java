@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.build.jps;
+package org.openclover.idea.build.jps;
 
 import org.jetbrains.jps.incremental.ModuleLevelBuilder;
 import org.junit.Test;
@@ -13,7 +13,7 @@ import static org.junit.Assert.assertTrue;
 public class CloverBuilderServiceTest {
 
     /**
-     * @see com.atlassian.clover.idea.build.jps.CloverBuilderService#createModuleLevelBuilders()
+     * @see org.openclover.idea.build.jps.CloverBuilderService#createModuleLevelBuilders()
      */
     @Test
     public void testCreateModuleLevelBuilders() {

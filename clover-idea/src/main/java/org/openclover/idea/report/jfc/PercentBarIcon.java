@@ -1,6 +1,6 @@
-package com.atlassian.clover.idea.report.jfc;
+package org.openclover.idea.report.jfc;
 
-import com.atlassian.clover.idea.coverage.PercentBarRenderer;
+import org.openclover.idea.coverage.PercentBarRenderer;
 
 import javax.swing.Icon;
 import java.awt.Component;

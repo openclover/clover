@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.report.treemap;
+package org.openclover.idea.report.treemap;
 
 import clover.net.sf.jtreemap.swing.ColorProvider;
 import clover.net.sf.jtreemap.swing.Value;

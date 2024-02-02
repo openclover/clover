@@ -1,6 +1,6 @@
-package com.atlassian.clover.idea.junit;
+package org.openclover.idea.junit;
 
-import com.atlassian.clover.idea.util.ui.CloverIcons;
+import org.openclover.idea.util.ui.CloverIcons;
 import com.intellij.execution.executors.DefaultRunExecutor;
 import org.jetbrains.annotations.NotNull;
 

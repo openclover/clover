@@ -1,6 +1,6 @@
-package com.atlassian.clover.idea.actions.testviewscope;
+package org.openclover.idea.actions.testviewscope;
 
-import com.atlassian.clover.idea.config.TestViewScope;
+import org.openclover.idea.config.TestViewScope;
 
 public class StatementScopeAction extends AbstractTestViewScopeAction {
     @Override

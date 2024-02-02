@@ -1,8 +1,8 @@
-package com.atlassian.clover.idea.build;
+package org.openclover.idea.build;
 
 import com.atlassian.clover.instr.tests.TestDetector;
 import com.atlassian.clover.instr.tests.DefaultTestDetector;
-import com.atlassian.clover.idea.IdeaTestFilter;
+import org.openclover.idea.IdeaTestFilter;
 import com.intellij.openapi.project.Project;
 
 public class IdeaTestDetector extends IdeaTestFilter implements TestDetector {

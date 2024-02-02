@@ -1,7 +1,7 @@
-package com.atlassian.clover.idea.build.jps;
+package org.openclover.idea.build.jps;
 
-import com.atlassian.clover.idea.config.IdeaXmlConfigConstants;
-import com.atlassian.clover.idea.config.CloverGlobalConfig;
+import org.openclover.idea.config.IdeaXmlConfigConstants;
+import org.openclover.idea.config.CloverGlobalConfig;
 import org.jdom.Element;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.jps.model.JpsElement;
@@ -13,7 +13,7 @@ import org.jetbrains.jps.model.serialization.JpsGlobalExtensionSerializer;
 
 /**
  * Serialization of settings from global configuration files (i.e. stored per IDEA installation).
- * See "@State" annotation in com.atlassian.clover.idea.CloverPlugin
+ * See "@State" annotation in org.openclover.idea.CloverPlugin
  */
 public class CloverJpsGlobalConfigurationSerializer extends JpsGlobalExtensionSerializer {
 

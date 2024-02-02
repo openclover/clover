@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.testexplorer;
+package org.openclover.idea.testexplorer;
 
 import com.atlassian.clover.registry.entities.TestCaseInfo;
 

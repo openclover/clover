@@ -1,9 +1,9 @@
-package com.atlassian.clover.idea.report.cloud;
+package org.openclover.idea.report.cloud;
 
-import com.atlassian.clover.idea.HasMetricsListener;
-import com.atlassian.clover.idea.ProjectPlugin;
-import com.atlassian.clover.idea.coverage.CoverageManager;
-import com.atlassian.clover.idea.util.vfs.DummyVirtualFile;
+import org.openclover.idea.HasMetricsListener;
+import org.openclover.idea.ProjectPlugin;
+import org.openclover.idea.coverage.CoverageManager;
+import org.openclover.idea.util.vfs.DummyVirtualFile;
 import com.atlassian.clover.api.registry.HasMetrics;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Key;

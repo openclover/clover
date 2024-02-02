@@ -1,1 +1,1 @@
-com.atlassian.clover.idea.build.jps.CloverSerializerExtension
+org.openclover.idea.build.jps.CloverSerializerExtension

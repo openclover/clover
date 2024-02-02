@@ -1,7 +1,7 @@
-package com.atlassian.clover.idea.report;
+package org.openclover.idea.report;
 
-import com.atlassian.clover.idea.config.GBC;
-import com.atlassian.clover.idea.util.ui.UIUtils;
+import org.openclover.idea.config.GBC;
+import org.openclover.idea.util.ui.UIUtils;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFileChooser;

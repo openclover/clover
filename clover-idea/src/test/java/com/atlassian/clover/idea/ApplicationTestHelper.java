@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea;
+package org.openclover.idea;
 
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.util.Computable;

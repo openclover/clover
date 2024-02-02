@@ -1,8 +1,8 @@
-package com.atlassian.clover.idea;
+package org.openclover.idea;
 
 /**
- * See {@link  repkg.com.atlassian.clover.idea.SampleEnum} :  These should stay in sync.
- * @see repkg.com.atlassian.clover.idea.SampleEnum
+ * See {@link  repkg.org.openclover.idea.SampleEnum} :  These should stay in sync.
+ * @see repkg.org.openclover.idea.SampleEnum
  */
 public enum SampleEnum {
     VALUE1, VALUE2

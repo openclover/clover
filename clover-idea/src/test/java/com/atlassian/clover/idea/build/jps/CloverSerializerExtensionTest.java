@@ -1,6 +1,6 @@
-package com.atlassian.clover.idea.build.jps;
+package org.openclover.idea.build.jps;
 
-import com.atlassian.clover.idea.config.CloverModuleConfig;
+import org.openclover.idea.config.CloverModuleConfig;
 import org.jdom.Element;
 import org.jetbrains.jps.devkit.model.JpsPluginModuleProperties;
 import org.jetbrains.jps.devkit.model.JpsPluginModuleType;
@@ -25,7 +25,7 @@ import java.util.List;
 public class CloverSerializerExtensionTest {
 
     /**
-     * @see com.atlassian.clover.idea.build.jps.CloverSerializerExtension#getGlobalExtensionSerializers()
+     * @see org.openclover.idea.build.jps.CloverSerializerExtension#getGlobalExtensionSerializers()
      */
     @Test
     public void testGetGlobalExtensionSerializers() {
@@ -36,7 +36,7 @@ public class CloverSerializerExtensionTest {
     }
 
     /**
-     * @see com.atlassian.clover.idea.build.jps.CloverSerializerExtension#getModulePropertiesSerializers()
+     * @see org.openclover.idea.build.jps.CloverSerializerExtension#getModulePropertiesSerializers()
      */
     @Test
     public void testGetModulePropertiesSerializers() {
@@ -46,7 +46,7 @@ public class CloverSerializerExtensionTest {
     }
 
     /**
-     * @see com.atlassian.clover.idea.build.jps.CloverSerializerExtension#getProjectExtensionSerializers()
+     * @see org.openclover.idea.build.jps.CloverSerializerExtension#getProjectExtensionSerializers()
      */
     @Test
     public void testGetProjectExtensionSerializers() {

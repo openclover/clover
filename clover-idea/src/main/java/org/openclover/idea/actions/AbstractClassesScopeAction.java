@@ -1,10 +1,10 @@
-package com.atlassian.clover.idea.actions;
+package org.openclover.idea.actions;
 
-import com.atlassian.clover.idea.IProjectPlugin;
-import com.atlassian.clover.idea.util.ui.CloverIcons;
-import com.atlassian.clover.idea.ProjectPlugin;
-import com.atlassian.clover.idea.config.IdeaCloverConfig;
-import com.atlassian.clover.idea.util.ModelScope;
+import org.openclover.idea.IProjectPlugin;
+import org.openclover.idea.util.ui.CloverIcons;
+import org.openclover.idea.ProjectPlugin;
+import org.openclover.idea.config.IdeaCloverConfig;
+import org.openclover.idea.util.ModelScope;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.Presentation;

@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea;
+package org.openclover.idea;
 
 import com.atlassian.clover.registry.entities.FullClassInfo;
 import com.atlassian.clover.registry.entities.FullFileInfo;

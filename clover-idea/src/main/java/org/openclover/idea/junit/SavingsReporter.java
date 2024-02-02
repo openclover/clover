@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.junit;
+package org.openclover.idea.junit;
 
 import com.atlassian.clover.optimization.OptimizationSession;
 import com.intellij.openapi.project.Project;

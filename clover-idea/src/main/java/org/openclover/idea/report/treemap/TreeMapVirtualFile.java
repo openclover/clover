@@ -1,8 +1,8 @@
-package com.atlassian.clover.idea.report.treemap;
+package org.openclover.idea.report.treemap;
 
-import com.atlassian.clover.idea.coverage.CoverageManager;
-import com.atlassian.clover.idea.ProjectPlugin;
-import com.atlassian.clover.idea.util.vfs.DummyVirtualFile;
+import org.openclover.idea.coverage.CoverageManager;
+import org.openclover.idea.ProjectPlugin;
+import org.openclover.idea.util.vfs.DummyVirtualFile;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Key;
 

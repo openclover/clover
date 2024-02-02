@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.build;
+package org.openclover.idea.build;
 
 import com.intellij.openapi.compiler.FileProcessingCompiler;
 import com.intellij.openapi.compiler.ValidityState;

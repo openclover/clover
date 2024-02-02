@@ -1,16 +1,16 @@
-package com.atlassian.clover.idea.build;
+package org.openclover.idea.build;
 
 import com.atlassian.clover.CloverDatabase;
 import com.atlassian.clover.context.ContextStore;
 import com.atlassian.clover.context.NamedContext;
-import com.atlassian.clover.idea.ProjectPlugin;
-import com.atlassian.clover.idea.config.ConfigChangeEvent;
-import com.atlassian.clover.idea.config.ConfigChangeListener;
-import com.atlassian.clover.idea.config.IdeaCloverConfig;
-import com.atlassian.clover.idea.config.ProjectRebuild;
-import com.atlassian.clover.idea.config.regexp.Regexp;
-import com.atlassian.clover.idea.feature.FeatureEvent;
-import com.atlassian.clover.idea.feature.FeatureListener;
+import org.openclover.idea.ProjectPlugin;
+import org.openclover.idea.config.ConfigChangeEvent;
+import org.openclover.idea.config.ConfigChangeListener;
+import org.openclover.idea.config.IdeaCloverConfig;
+import org.openclover.idea.config.ProjectRebuild;
+import org.openclover.idea.config.regexp.Regexp;
+import org.openclover.idea.feature.FeatureEvent;
+import org.openclover.idea.feature.FeatureListener;
 import com.intellij.openapi.compiler.CompilerManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Key;

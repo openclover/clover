@@ -1,9 +1,9 @@
-package com.atlassian.clover.idea.util.ui;
+package org.openclover.idea.util.ui;
 
 import com.atlassian.clover.registry.entities.FullPackageInfo;
-import com.atlassian.clover.idea.coverage.CoverageTreeModel;
-import com.atlassian.clover.idea.testexplorer.DecoratedTestCaseInfo;
-import com.atlassian.clover.idea.testexplorer.SimplePackageFragment;
+import org.openclover.idea.coverage.CoverageTreeModel;
+import org.openclover.idea.testexplorer.DecoratedTestCaseInfo;
+import org.openclover.idea.testexplorer.SimplePackageFragment;
 import com.atlassian.clover.registry.entities.PackageFragment;
 
 import javax.swing.JTree;

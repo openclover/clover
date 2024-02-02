@@ -1,10 +1,10 @@
-package com.atlassian.clover.idea.testexplorer;
+package org.openclover.idea.testexplorer;
 
 import com.atlassian.clover.CloverDatabase;
 import com.atlassian.clover.CoverageDataSpec;
 import com.atlassian.clover.api.CloverException;
 import com.atlassian.clover.registry.entities.FullClassInfo;
-import com.atlassian.clover.idea.coverage.CoverageManager;
+import org.openclover.idea.coverage.CoverageManager;
 import com.atlassian.clover.registry.entities.FullProjectInfo;
 import com.atlassian.clover.reporters.filters.DefaultTestFilter;
 import com.intellij.testFramework.LightIdeaTestCase;

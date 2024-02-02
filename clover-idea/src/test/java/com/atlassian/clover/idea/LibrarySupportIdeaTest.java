@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea;
+package org.openclover.idea;
 
 import com.atlassian.clover.util.FileUtils;
 import com.intellij.openapi.application.ApplicationInfo;

@@ -1,10 +1,10 @@
-package com.atlassian.clover.idea.config.regexp;
+package org.openclover.idea.config.regexp;
 
-import com.atlassian.clover.idea.config.ContextFilterRegexpType;
-import com.atlassian.clover.idea.config.GBC;
-import com.atlassian.clover.idea.util.ComparatorUtil;
-import com.atlassian.clover.idea.util.l10n.CloverIdeaPluginMessages;
-import com.atlassian.clover.idea.util.ui.CloverIcons;
+import org.openclover.idea.config.ContextFilterRegexpType;
+import org.openclover.idea.config.GBC;
+import org.openclover.idea.util.ComparatorUtil;
+import org.openclover.idea.util.l10n.CloverIdeaPluginMessages;
+import org.openclover.idea.util.ui.CloverIcons;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.ui.DocumentAdapter;
 

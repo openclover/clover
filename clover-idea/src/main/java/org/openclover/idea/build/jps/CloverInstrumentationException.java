@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.build.jps;
+package org.openclover.idea.build.jps;
 
 import org.jetbrains.jps.builders.java.JavaSourceTransformer;
 

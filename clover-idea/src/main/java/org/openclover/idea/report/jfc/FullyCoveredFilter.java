@@ -1,8 +1,8 @@
-package com.atlassian.clover.idea.report.jfc;
+package org.openclover.idea.report.jfc;
 
 import com.atlassian.clover.api.registry.HasMetrics;
-import com.atlassian.clover.idea.coverage.CoverageTreeFilter;
-import com.atlassian.clover.idea.coverage.CoverageTreeModel;
+import org.openclover.idea.coverage.CoverageTreeFilter;
+import org.openclover.idea.coverage.CoverageTreeModel;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 

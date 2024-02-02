@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.build.jps;
+package org.openclover.idea.build.jps;
 
 import com.atlassian.clover.instr.java.JavaMethodContext;
 import com.atlassian.clover.instr.java.JavaTypeContext;

@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.build.jps;
+package org.openclover.idea.build.jps;
 
 import com.atlassian.clover.util.trie.FilePathPrefixTree;
 import org.jetbrains.jps.model.JpsProject;

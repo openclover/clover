@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.junit;
+package org.openclover.idea.junit;
 
 import junit.framework.TestCase;
 

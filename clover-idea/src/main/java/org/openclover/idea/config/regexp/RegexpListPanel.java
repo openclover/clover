@@ -1,8 +1,8 @@
-package com.atlassian.clover.idea.config.regexp;
+package org.openclover.idea.config.regexp;
 
-import com.atlassian.clover.idea.config.ContextFilterRegexpType;
-import com.atlassian.clover.idea.config.GBC;
-import com.atlassian.clover.idea.util.ui.CloverIcons;
+import org.openclover.idea.config.ContextFilterRegexpType;
+import org.openclover.idea.config.GBC;
+import org.openclover.idea.util.ui.CloverIcons;
 import com.intellij.ui.LayeredIcon;
 
 import javax.swing.DefaultListModel;

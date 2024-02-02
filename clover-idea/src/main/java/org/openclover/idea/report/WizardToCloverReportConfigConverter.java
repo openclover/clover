@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.report;
+package org.openclover.idea.report;
 
 import com.atlassian.clover.reporters.CloverReportConfig;
 import com.atlassian.clover.reporters.Current;

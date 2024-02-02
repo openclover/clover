@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.util.ui;
+package org.openclover.idea.util.ui;
 
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.util.IconLoader;

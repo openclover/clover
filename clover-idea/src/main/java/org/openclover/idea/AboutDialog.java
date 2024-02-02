@@ -1,8 +1,8 @@
-package com.atlassian.clover.idea;
+package org.openclover.idea;
 
-import com.atlassian.clover.idea.config.IdeaCloverConfig;
-import com.atlassian.clover.idea.util.ui.CloverIcons;
-import com.atlassian.clover.idea.util.l10n.CloverIdeaPluginMessages;
+import org.openclover.idea.config.IdeaCloverConfig;
+import org.openclover.idea.util.ui.CloverIcons;
+import org.openclover.idea.util.l10n.CloverIdeaPluginMessages;
 import com.intellij.ide.BrowserUtil;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;

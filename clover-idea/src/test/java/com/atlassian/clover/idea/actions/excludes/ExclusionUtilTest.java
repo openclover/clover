@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.actions.excludes;
+package org.openclover.idea.actions.excludes;
 
 import junit.framework.TestCase;
 

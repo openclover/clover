@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.report;
+package org.openclover.idea.report;
 
 import javax.swing.JPanel;
 

@@ -1,6 +1,6 @@
-package com.atlassian.clover.idea.actions;
+package org.openclover.idea.actions;
 
-import com.atlassian.clover.idea.util.ModelScope;
+import org.openclover.idea.util.ModelScope;
 
 public class ShowApplicationClassesOnlyAction extends AbstractClassesScopeAction {
     @Override

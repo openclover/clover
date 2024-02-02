@@ -1,11 +1,11 @@
-package com.atlassian.clover.idea.report;
+package org.openclover.idea.report;
 
 import com.atlassian.clover.Logger;
 import com.atlassian.clover.api.CloverException;
-import com.atlassian.clover.idea.IDEContext;
-import com.atlassian.clover.idea.ProjectPlugin;
-import com.atlassian.clover.idea.config.CloverPluginConfig;
-import com.atlassian.clover.idea.util.ui.MessageDialogs;
+import org.openclover.idea.IDEContext;
+import org.openclover.idea.ProjectPlugin;
+import org.openclover.idea.config.CloverPluginConfig;
+import org.openclover.idea.util.ui.MessageDialogs;
 import com.atlassian.clover.reporters.CloverReportConfig;
 import com.atlassian.clover.reporters.CloverReporter;
 import com.intellij.openapi.progress.ProgressIndicator;

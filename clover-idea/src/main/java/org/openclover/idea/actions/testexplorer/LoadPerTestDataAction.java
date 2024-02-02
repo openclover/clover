@@ -1,8 +1,8 @@
-package com.atlassian.clover.idea.actions.testexplorer;
+package org.openclover.idea.actions.testexplorer;
 
-import com.atlassian.clover.idea.IProjectPlugin;
-import com.atlassian.clover.idea.ProjectPlugin;
-import com.atlassian.clover.idea.util.ui.CloverIcons;
+import org.openclover.idea.IProjectPlugin;
+import org.openclover.idea.ProjectPlugin;
+import org.openclover.idea.util.ui.CloverIcons;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 

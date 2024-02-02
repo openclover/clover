@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.content;
+package org.openclover.idea.content;
 
 import com.atlassian.clover.api.registry.BranchInfo;
 import com.atlassian.clover.api.registry.ClassInfo;

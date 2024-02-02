@@ -1,11 +1,11 @@
-package com.atlassian.clover.idea.actions;
+package org.openclover.idea.actions;
 
-import com.atlassian.clover.idea.CloverToolWindowId;
-import com.atlassian.clover.idea.IProjectPlugin;
-import com.atlassian.clover.idea.coverage.CoverageManager;
-import com.atlassian.clover.idea.ProjectPlugin;
-import com.atlassian.clover.idea.build.ProjectRebuilder;
-import com.atlassian.clover.idea.feature.CloverFeatures;
+import org.openclover.idea.CloverToolWindowId;
+import org.openclover.idea.IProjectPlugin;
+import org.openclover.idea.coverage.CoverageManager;
+import org.openclover.idea.ProjectPlugin;
+import org.openclover.idea.build.ProjectRebuilder;
+import org.openclover.idea.feature.CloverFeatures;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;

@@ -1,11 +1,11 @@
-package com.atlassian.clover.idea.build.jps;
+package org.openclover.idea.build.jps;
 
 import com.atlassian.clover.spi.lang.Language;
 import com.atlassian.clover.util.FileUtils;
-import com.atlassian.clover.idea.util.InclusionUtil;
-import com.atlassian.clover.idea.build.InclusionDetector;
-import com.atlassian.clover.idea.config.CloverModuleConfig;
-import com.atlassian.clover.idea.config.CloverPluginConfig;
+import org.openclover.idea.util.InclusionUtil;
+import org.openclover.idea.build.InclusionDetector;
+import org.openclover.idea.config.CloverModuleConfig;
+import org.openclover.idea.config.CloverPluginConfig;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.jps.model.JpsProject;
@@ -19,7 +19,7 @@ import java.io.File;
 /**
  * Inclusion detector which works on the JpsProject model.
  *
- * @see com.atlassian.clover.idea.build.ProjectInclusionDetector
+ * @see org.openclover.idea.build.ProjectInclusionDetector
  */
 public class JpsProjectInclusionDetector implements InclusionDetector {
 

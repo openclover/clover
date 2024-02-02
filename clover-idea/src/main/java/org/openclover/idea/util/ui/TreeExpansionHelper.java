@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.util.ui;
+package org.openclover.idea.util.ui;
 
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;

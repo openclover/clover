@@ -1,8 +1,8 @@
-package com.atlassian.clover.idea.junit;
+package org.openclover.idea.junit;
 
-import com.atlassian.clover.idea.CloverToolWindowId;
-import com.atlassian.clover.idea.junit.config.TestOptimizationGlobalSettings;
-import com.atlassian.clover.idea.util.l10n.CloverIdeaPluginMessages;
+import org.openclover.idea.CloverToolWindowId;
+import org.openclover.idea.junit.config.TestOptimizationGlobalSettings;
+import org.openclover.idea.util.l10n.CloverIdeaPluginMessages;
 import com.intellij.ide.DataManager;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.actionSystem.DataKeys;

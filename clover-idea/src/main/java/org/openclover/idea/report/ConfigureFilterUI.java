@@ -1,8 +1,8 @@
-package com.atlassian.clover.idea.report;
+package org.openclover.idea.report;
 
 import com.atlassian.clover.Logger;
 import com.atlassian.clover.context.ContextStore;
-import com.atlassian.clover.idea.config.ContextPane;
+import org.openclover.idea.config.ContextPane;
 
 import java.awt.BorderLayout;
 

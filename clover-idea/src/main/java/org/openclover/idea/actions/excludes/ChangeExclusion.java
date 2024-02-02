@@ -1,7 +1,7 @@
-package com.atlassian.clover.idea.actions.excludes;
+package org.openclover.idea.actions.excludes;
 
-import com.atlassian.clover.idea.IProjectPlugin;
-import com.atlassian.clover.idea.ProjectPlugin;
+import org.openclover.idea.IProjectPlugin;
+import org.openclover.idea.ProjectPlugin;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.actionSystem.DefaultActionGroup;

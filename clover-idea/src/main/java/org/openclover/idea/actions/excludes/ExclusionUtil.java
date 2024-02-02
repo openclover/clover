@@ -1,7 +1,7 @@
-package com.atlassian.clover.idea.actions.excludes;
+package org.openclover.idea.actions.excludes;
 
-import com.atlassian.clover.idea.util.vfs.VfsUtil;
-import com.atlassian.clover.idea.util.InclusionUtil;
+import org.openclover.idea.util.vfs.VfsUtil;
+import org.openclover.idea.util.InclusionUtil;
 import com.intellij.openapi.fileTypes.FileTypeManager;
 import com.intellij.openapi.fileTypes.StdFileTypes;
 import com.intellij.openapi.module.ModuleUtil;

@@ -1,6 +1,6 @@
-package com.atlassian.clover.idea.autoupdater;
+package org.openclover.idea.autoupdater;
 
-import com.atlassian.clover.idea.util.ui.CloverIcons;
+import org.openclover.idea.util.ui.CloverIcons;
 import com.intellij.openapi.wm.StatusBarWidget;
 import com.intellij.util.Consumer;
 import org.jetbrains.annotations.NotNull;

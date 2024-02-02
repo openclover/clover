@@ -1,11 +1,11 @@
-package com.atlassian.clover.idea.testexplorer;
+package org.openclover.idea.testexplorer;
 
 import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.idea.config.TestCaseLayout;
-import com.atlassian.clover.idea.treetables.TreeTableModelFactory;
-import com.atlassian.clover.idea.treetables.TreeTablePanel;
-import com.atlassian.clover.idea.util.ui.TreeExpansionHelper;
-import com.atlassian.clover.idea.util.ui.TreeSelectionHelper;
+import org.openclover.idea.config.TestCaseLayout;
+import org.openclover.idea.treetables.TreeTableModelFactory;
+import org.openclover.idea.treetables.TreeTablePanel;
+import org.openclover.idea.util.ui.TreeExpansionHelper;
+import org.openclover.idea.util.ui.TreeSelectionHelper;
 import com.atlassian.clover.registry.CoverageDataReceptor;
 import com.atlassian.clover.registry.entities.TestCaseInfo;
 import com.intellij.openapi.project.Project;

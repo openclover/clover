@@ -1,8 +1,8 @@
-package com.atlassian.clover.idea.report.jfc;
+package org.openclover.idea.report.jfc;
 
 import com.atlassian.clover.api.registry.MethodInfo;
-import com.atlassian.clover.idea.util.ui.CloverIcons;
-import com.atlassian.clover.idea.treetables.CellRendererUtil;
+import org.openclover.idea.util.ui.CloverIcons;
+import org.openclover.idea.treetables.CellRendererUtil;
 import com.atlassian.clover.registry.entities.BaseClassInfo;
 import com.atlassian.clover.api.registry.HasMetrics;
 import com.atlassian.clover.registry.entities.FullProjectInfo;

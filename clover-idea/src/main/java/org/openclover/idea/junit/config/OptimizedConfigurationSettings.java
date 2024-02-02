@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.junit.config;
+package org.openclover.idea.junit.config;
 
 import com.atlassian.clover.api.optimization.OptimizationOptions;
 import com.intellij.execution.configurations.RunnerSettings;

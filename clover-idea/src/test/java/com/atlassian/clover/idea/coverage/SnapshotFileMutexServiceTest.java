@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.coverage;
+package org.openclover.idea.coverage;
 
 import com.intellij.openapi.util.io.FileUtil;
 import junit.framework.TestCase;

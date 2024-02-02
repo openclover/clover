@@ -1,9 +1,9 @@
-package com.atlassian.clover.idea.util.jdom;
+package org.openclover.idea.util.jdom;
 
-import com.atlassian.clover.idea.SampleEnum;
+import org.openclover.idea.SampleEnum;
 import com.atlassian.clover.util.collections.Pair;
 import org.junit.Test;
-import repkg.com.atlassian.clover.idea.RpkgOnlyEnum;
+import repkg.org.openclover.idea.RpkgOnlyEnum;
 
 import java.awt.Color;
 
@@ -94,12 +94,12 @@ public class JDOMExternUtilTest {
         assertEquals(2, JDOMExternUtil.readFromString("<root class=\"java.lang.Integer\">  \n    2\n  </root>"));
         assertEquals(2l, JDOMExternUtil.readFromString("<root class=\"java.lang.Long\">  \n    2\n  </root>"));
         assertTrue((Boolean)JDOMExternUtil.readFromString("<root class=\"java.lang.Boolean\">  \n    True\n  </root>"));
-        assertEquals(SampleEnum.VALUE1, JDOMExternUtil.readFromString("<root class=\"com.atlassian.clover.idea.SampleEnum\">  \n    VALUE1\n  </root>"));
+        assertEquals(SampleEnum.VALUE1, JDOMExternUtil.readFromString("<root class=\"org.openclover.idea.SampleEnum\">  \n    VALUE1\n  </root>"));
     }
 
     @Test
     public void testRepkg() throws Exception {
-        repkg.com.atlassian.clover.idea.SampleEnum rpkgval1 = repkg.com.atlassian.clover.idea.SampleEnum.VALUE1;
+        repkg.org.openclover.idea.SampleEnum rpkgval1 = repkg.org.openclover.idea.SampleEnum.VALUE1;
 
         String s1 = JDOMExternUtil.writeToString(rpkgval1);
         assertFalse(s1.contains("repkg."));

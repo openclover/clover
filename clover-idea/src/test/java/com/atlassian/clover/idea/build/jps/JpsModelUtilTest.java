@@ -1,8 +1,8 @@
-package com.atlassian.clover.idea.build.jps;
+package org.openclover.idea.build.jps;
 
 import com.atlassian.clover.util.FileUtils;
-import com.atlassian.clover.idea.config.CloverPluginConfig;
-import com.atlassian.clover.idea.config.MappedCloverPluginConfig;
+import org.openclover.idea.config.CloverPluginConfig;
+import org.openclover.idea.config.MappedCloverPluginConfig;
 import org.jetbrains.jps.model.JpsElementFactory;
 import org.jetbrains.jps.model.JpsProject;
 import org.jetbrains.jps.model.impl.JpsModelImpl;

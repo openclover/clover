@@ -1,7 +1,7 @@
-package com.atlassian.clover.idea.report.jfc;
+package org.openclover.idea.report.jfc;
 
 
-import com.atlassian.clover.idea.coverage.CoverageTreeModel;
+import org.openclover.idea.coverage.CoverageTreeModel;
 
 import javax.swing.JLabel;
 import javax.swing.JTree;

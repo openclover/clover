@@ -1,8 +1,8 @@
-package com.atlassian.clover.idea.config;
+package org.openclover.idea.config;
 
 import com.atlassian.clover.CloverDatabase;
 import com.atlassian.clover.context.ContextStore;
-import com.atlassian.clover.idea.ProjectPlugin;
+import org.openclover.idea.ProjectPlugin;
 import com.intellij.openapi.project.Project;
 
 import javax.swing.JPanel;

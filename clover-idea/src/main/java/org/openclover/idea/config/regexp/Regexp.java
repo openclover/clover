@@ -1,7 +1,7 @@
-package com.atlassian.clover.idea.config.regexp;
+package org.openclover.idea.config.regexp;
 
-import com.atlassian.clover.idea.util.ComparatorUtil;
-import com.atlassian.clover.idea.config.ContextFilterRegexpType;
+import org.openclover.idea.util.ComparatorUtil;
+import org.openclover.idea.config.ContextFilterRegexpType;
 import com.atlassian.clover.context.MethodRegexpContext;
 import com.atlassian.clover.context.NamedContext;
 import com.atlassian.clover.context.RegexpContext;

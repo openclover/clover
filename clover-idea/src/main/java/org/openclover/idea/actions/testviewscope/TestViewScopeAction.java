@@ -1,8 +1,8 @@
-package com.atlassian.clover.idea.actions.testviewscope;
+package org.openclover.idea.actions.testviewscope;
 
-import com.atlassian.clover.idea.IProjectPlugin;
-import com.atlassian.clover.idea.ProjectPlugin;
-import com.atlassian.clover.idea.config.TestViewScope;
+import org.openclover.idea.IProjectPlugin;
+import org.openclover.idea.ProjectPlugin;
+import org.openclover.idea.config.TestViewScope;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;

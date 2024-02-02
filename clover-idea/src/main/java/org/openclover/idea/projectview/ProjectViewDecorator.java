@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.projectview;
+package org.openclover.idea.projectview;
 
 import com.intellij.ide.projectView.TreeStructureProvider;
 import com.intellij.ide.projectView.ViewSettings;

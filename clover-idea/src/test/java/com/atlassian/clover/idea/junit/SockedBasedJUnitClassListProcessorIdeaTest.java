@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.junit;
+package org.openclover.idea.junit;
 
 import com.intellij.testFramework.LightIdeaTestCase;
 import org.jetbrains.annotations.NotNull;

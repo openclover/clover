@@ -1,6 +1,6 @@
-package com.atlassian.clover.idea.report.treemap;
+package org.openclover.idea.report.treemap;
 
-import com.atlassian.clover.idea.util.ui.ScrollUtil;
+import org.openclover.idea.util.ui.ScrollUtil;
 import com.atlassian.clover.api.registry.BlockMetrics;
 import com.atlassian.clover.registry.entities.FullClassInfo;
 import com.intellij.openapi.project.Project;

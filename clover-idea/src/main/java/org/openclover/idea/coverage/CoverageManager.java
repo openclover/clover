@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.coverage;
+package org.openclover.idea.coverage;
 
 import com.atlassian.clover.CloverDatabase;
 import com.atlassian.clover.registry.Clover2Registry;

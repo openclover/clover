@@ -1,8 +1,8 @@
-package com.atlassian.clover.idea.build;
+package org.openclover.idea.build;
 
 import com.atlassian.clover.instr.java.InstrumentationSource;
-import com.atlassian.clover.idea.util.CharsetUtil;
-import com.atlassian.clover.idea.util.vfs.VfsUtil;
+import org.openclover.idea.util.CharsetUtil;
+import org.openclover.idea.util.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 
 import java.io.File;

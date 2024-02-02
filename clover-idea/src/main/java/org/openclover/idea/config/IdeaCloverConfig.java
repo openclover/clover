@@ -1,7 +1,7 @@
-package com.atlassian.clover.idea.config;
+package org.openclover.idea.config;
 
-import com.atlassian.clover.idea.util.ModelScope;
-import com.atlassian.clover.idea.util.ProjectUtil;
+import org.openclover.idea.util.ModelScope;
+import org.openclover.idea.util.ProjectUtil;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
 

@@ -1,6 +1,6 @@
-package com.atlassian.clover.idea.util.vfs;
+package org.openclover.idea.util.vfs;
 
-import com.atlassian.clover.idea.util.psi.PsiUtil;
+import org.openclover.idea.util.psi.PsiUtil;
 import com.intellij.openapi.application.Application;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;

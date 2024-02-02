@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.coverage;
+package org.openclover.idea.coverage;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.util.messages.MessageBus;

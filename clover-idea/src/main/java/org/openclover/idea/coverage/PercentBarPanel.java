@@ -1,6 +1,6 @@
-package com.atlassian.clover.idea.coverage;
+package org.openclover.idea.coverage;
 
-import com.atlassian.clover.idea.coverage.PercentBarColors;
+import org.openclover.idea.coverage.PercentBarColors;
 
 import javax.swing.JPanel;
 import javax.swing.JTable;

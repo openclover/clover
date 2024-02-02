@@ -1,6 +1,6 @@
-package com.atlassian.clover.idea.util.psi;
+package org.openclover.idea.util.psi;
 
-import com.atlassian.clover.idea.util.psi.PsiUtil;
+import org.openclover.idea.util.psi.PsiUtil;
 import com.intellij.psi.JavaDirectoryService;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiDirectory;

@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.build.jps;
+package org.openclover.idea.build.jps;
 
 import com.atlassian.clover.instr.tests.DefaultTestDetector;
 import com.atlassian.clover.instr.tests.TestDetector;
@@ -16,9 +16,9 @@ import java.io.File;
  * algorithm, it returns <code>true</code> for every source file which is located under a folder marked as a 'test
  * source root' in IDEA's project settings.
  *
- * See similar {@link com.atlassian.clover.idea.build.IdeaTestDetector} for internal build.
+ * See similar {@link org.openclover.idea.build.IdeaTestDetector} for internal build.
  *
- * @see com.atlassian.clover.idea.build.IdeaTestDetector
+ * @see org.openclover.idea.build.IdeaTestDetector
  */
 public class JpsProjectTestDetector implements TestDetector {
 

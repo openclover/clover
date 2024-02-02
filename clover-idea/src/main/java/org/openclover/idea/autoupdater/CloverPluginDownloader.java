@@ -1,8 +1,8 @@
-package com.atlassian.clover.idea.autoupdater;
+package org.openclover.idea.autoupdater;
 
 import com.atlassian.clover.Logger;
-import com.atlassian.clover.idea.util.l10n.CloverIdeaPluginMessages;
-import com.atlassian.clover.idea.util.NetUtil;
+import org.openclover.idea.util.l10n.CloverIdeaPluginMessages;
+import org.openclover.idea.util.NetUtil;
 import org.openclover.util.ClassPathUtil;
 import com.atlassian.clover.util.IOStreamUtils;
 import com.intellij.ide.startup.StartupActionScriptManager;

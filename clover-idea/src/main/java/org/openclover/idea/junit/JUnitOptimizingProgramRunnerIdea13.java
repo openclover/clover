@@ -1,8 +1,8 @@
-package com.atlassian.clover.idea.junit;
+package org.openclover.idea.junit;
 
-import com.atlassian.clover.idea.ProjectPluginViaReflection;
-import com.atlassian.clover.idea.junit.config.OptimizedConfigurationSettings;
-import com.atlassian.clover.idea.junit.config.OptimizedConfigurationSettingsEditor;
+import org.openclover.idea.ProjectPluginViaReflection;
+import org.openclover.idea.junit.config.OptimizedConfigurationSettings;
+import org.openclover.idea.junit.config.OptimizedConfigurationSettingsEditor;
 import com.atlassian.clover.optimization.OptimizationSession;
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.ExecutionResult;

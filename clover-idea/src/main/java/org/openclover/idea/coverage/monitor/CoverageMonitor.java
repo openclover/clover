@@ -1,6 +1,6 @@
-package com.atlassian.clover.idea.coverage.monitor;
+package org.openclover.idea.coverage.monitor;
 
-import com.atlassian.clover.idea.coverage.CoverageManager;
+import org.openclover.idea.coverage.CoverageManager;
 
 public interface CoverageMonitor {
 

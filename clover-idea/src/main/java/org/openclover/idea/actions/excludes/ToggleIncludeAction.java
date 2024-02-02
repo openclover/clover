@@ -1,6 +1,6 @@
-package com.atlassian.clover.idea.actions.excludes;
+package org.openclover.idea.actions.excludes;
 
-import com.atlassian.clover.idea.config.IdeaCloverConfig;
+import org.openclover.idea.config.IdeaCloverConfig;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;
 import org.jetbrains.annotations.NotNull;

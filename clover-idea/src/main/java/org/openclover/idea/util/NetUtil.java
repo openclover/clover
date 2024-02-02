@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.util;
+package org.openclover.idea.util;
 
 import com.intellij.util.net.HttpConfigurable;
 import org.jetbrains.annotations.NotNull;

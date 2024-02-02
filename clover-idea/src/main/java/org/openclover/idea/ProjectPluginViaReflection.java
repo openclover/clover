@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea;
+package org.openclover.idea;
 
 import com.intellij.openapi.project.Project;
 
@@ -12,7 +12,7 @@ public class ProjectPluginViaReflection {
     public static IProjectPlugin getPlugin(Project project) {
         try {
             // return ProjectPlugin.getPlugin(project);
-            Class<?> projectPlugin = Class.forName("com.atlassian.clover.idea.ProjectPlugin");
+            Class<?> projectPlugin = Class.forName("org.openclover.idea.ProjectPlugin");
             Method getPlugin = projectPlugin.getMethod("getPlugin", Project.class);
             return (IProjectPlugin)getPlugin.invoke(null, project);
         } catch (ClassNotFoundException | ClassCastException | IllegalAccessException | NoSuchMethodException |

@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.junit;
+package org.openclover.idea.junit;
 
 import com.atlassian.clover.api.optimization.Optimizable;
 import org.junit.After;

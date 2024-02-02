@@ -1,6 +1,6 @@
-package com.atlassian.clover.idea.config;
+package org.openclover.idea.config;
 
-import com.atlassian.clover.idea.config.CloverModuleConfig;
+import org.openclover.idea.config.CloverModuleConfig;
 
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;

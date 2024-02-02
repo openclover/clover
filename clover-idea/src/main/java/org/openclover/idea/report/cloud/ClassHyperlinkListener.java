@@ -1,7 +1,7 @@
-package com.atlassian.clover.idea.report.cloud;
+package org.openclover.idea.report.cloud;
 
 
-import com.atlassian.clover.idea.util.psi.PsiUtil;
+import org.openclover.idea.util.psi.PsiUtil;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiClass;
 

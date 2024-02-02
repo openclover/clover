@@ -1,12 +1,12 @@
-package com.atlassian.clover.idea;
+package org.openclover.idea;
 
 import com.atlassian.clover.CloverDatabase;
 import com.atlassian.clover.recorder.PerTestCoverage;
 import com.atlassian.clover.ProgressListener;
 import com.atlassian.clover.registry.entities.FullProjectInfo;
-import com.atlassian.clover.idea.util.ModelScope;
-import com.atlassian.clover.idea.coverage.CoverageTreeModel;
-import com.atlassian.clover.idea.testexplorer.DecoratedTestCaseInfo;
+import org.openclover.idea.util.ModelScope;
+import org.openclover.idea.coverage.CoverageTreeModel;
+import org.openclover.idea.testexplorer.DecoratedTestCaseInfo;
 import com.intellij.openapi.application.ModalityState;
 import com.intellij.openapi.progress.ProcessCanceledException;
 import com.intellij.openapi.progress.ProgressIndicator;

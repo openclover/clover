@@ -1,7 +1,7 @@
-package com.atlassian.clover.idea.config;
+package org.openclover.idea.config;
 
-import com.atlassian.clover.idea.IDEContext;
-import com.atlassian.clover.idea.util.ui.UIUtils;
+import org.openclover.idea.IDEContext;
+import org.openclover.idea.util.ui.UIUtils;
 import com.atlassian.clover.util.FileUtils;
 
 import javax.swing.ButtonGroup;

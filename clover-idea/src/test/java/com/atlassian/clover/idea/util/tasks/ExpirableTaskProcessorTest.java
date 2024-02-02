@@ -1,6 +1,6 @@
-package com.atlassian.clover.idea.util.tasks;
+package org.openclover.idea.util.tasks;
 
-import com.atlassian.clover.idea.util.MiscUtils;
+import org.openclover.idea.util.MiscUtils;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.util.Computable;
 import com.intellij.testFramework.LightIdeaTestCase;

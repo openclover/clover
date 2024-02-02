@@ -1,4 +1,4 @@
-package com.atlassian.clover.idea.report.jfc;
+package org.openclover.idea.report.jfc;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;

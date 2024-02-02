@@ -1,9 +1,9 @@
-package com.atlassian.clover.idea.build.jps;
+package org.openclover.idea.build.jps;
 
-import com.atlassian.clover.idea.config.IdeaXmlConfigConstants;
-import com.atlassian.clover.idea.util.jdom.JDOMExternUtil;
-import com.atlassian.clover.idea.config.CloverPluginConfig;
-import com.atlassian.clover.idea.config.MappedCloverPluginConfig;
+import org.openclover.idea.config.IdeaXmlConfigConstants;
+import org.openclover.idea.util.jdom.JDOMExternUtil;
+import org.openclover.idea.config.CloverPluginConfig;
+import org.openclover.idea.config.MappedCloverPluginConfig;
 import com.intellij.openapi.diagnostic.Logger;
 import org.jdom.Element;
 import org.jetbrains.annotations.NotNull;
@@ -39,9 +39,9 @@ public class CloverJpsProjectConfigurationSerializer extends JpsProjectExtension
     /**
      * Parse configuration like:
      * <pre>
-     * &lt;component name="CloverPlugin" class="com.atlassian.clover.idea.config.IdeaCloverConfig">
+     * &lt;component name="CloverPlugin" class="org.openclover.idea.config.IdeaCloverConfig">
      *   &lt;loadPerTestData>true&lt;/loadPerTestData>
-     *   &lt;projectRebuild class="com.atlassian.clover.idea.config.ProjectRebuild">ASK&lt;/projectRebuild>
+     *   &lt;projectRebuild class="org.openclover.idea.config.ProjectRebuild">ASK&lt;/projectRebuild>
      *   ...
      *   &lt;highlightCovered>true&lt;/highlightCovered>
      * &lt;component>

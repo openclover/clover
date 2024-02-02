@@ -1,7 +1,7 @@
-package com.atlassian.clover.idea.treetables;
+package org.openclover.idea.treetables;
 
 import com.atlassian.clover.api.registry.MethodInfo;
-import com.atlassian.clover.idea.util.ui.CloverIcons;
+import org.openclover.idea.util.ui.CloverIcons;
 import com.atlassian.clover.registry.entities.BaseClassInfo;
 import com.atlassian.clover.registry.entities.TestCaseInfo;
 

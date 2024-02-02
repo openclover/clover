@@ -1,7 +1,7 @@
-package com.atlassian.clover.idea.report.jfc;
+package org.openclover.idea.report.jfc;
 
-import com.atlassian.clover.idea.build.InclusionDetector;
-import com.atlassian.clover.idea.build.ProjectInclusionDetector;
+import org.openclover.idea.build.InclusionDetector;
+import org.openclover.idea.build.ProjectInclusionDetector;
 import com.atlassian.clover.registry.entities.FullFileInfo;
 import com.atlassian.clover.api.registry.HasMetrics;
 import com.atlassian.clover.registry.metrics.HasMetricsFilter;

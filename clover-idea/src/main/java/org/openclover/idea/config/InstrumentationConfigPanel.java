@@ -1,7 +1,7 @@
-package com.atlassian.clover.idea.config;
+package org.openclover.idea.config;
 
 import com.atlassian.clover.cfg.instr.java.LambdaInstrumentation;
-import com.atlassian.clover.idea.util.ui.UIUtils;
+import org.openclover.idea.util.ui.UIUtils;
 import com.atlassian.clover.util.ArrayUtil;
 import com.intellij.openapi.ui.ComboBox;
 import com.intellij.util.ui.UIUtil;

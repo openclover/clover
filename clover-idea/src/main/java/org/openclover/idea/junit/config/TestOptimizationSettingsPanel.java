@@ -1,7 +1,7 @@
-package com.atlassian.clover.idea.junit.config;
+package org.openclover.idea.junit.config;
 
 import com.intellij.ui.components.panels.VerticalBox;
-import com.atlassian.clover.idea.config.GBC;
+import org.openclover.idea.config.GBC;
 
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;

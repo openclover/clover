@@ -1,9 +1,9 @@
-package com.atlassian.clover.idea.coverage;
+package org.openclover.idea.coverage;
 
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
-import com.atlassian.clover.idea.util.tasks.CancellableTaskDelegate;
-import com.atlassian.clover.idea.util.tasks.CancellableTask;
+import org.openclover.idea.util.tasks.CancellableTaskDelegate;
+import org.openclover.idea.util.tasks.CancellableTask;
 import org.jetbrains.annotations.NotNull;
 
 public class UpdateTaskScheduler {
