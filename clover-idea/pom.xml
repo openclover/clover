@@ -146,7 +146,9 @@
                                     <not><available file="${testproject.db}" /></not>
                                     <then>
                                         <!-- instrument -->
-                                        <java classname="com.atlassian.clover.CloverInstr" classpath="${org.openclover:clover:jar}">
+                                        <java classname="com.atlassian.clover.CloverInstr"
+                                              classpath="${org.openclover:clover:jar}"
+                                              fork="true">
                                             <arg value="-s" />
                                             <arg value="${testproject.base}" />
                                             <arg value="-d" />
@@ -176,7 +178,9 @@
                                             </batchtest>
                                         </junit>
                                         <!-- generate reports -->
-                                        <java classname="com.atlassian.clover.reporters.html.HtmlReporter" classpath="${org.openclover:clover:jar}" fork="true">
+                                        <java classname="com.atlassian.clover.reporters.html.HtmlReporter"
+                                              classpath="${org.openclover:clover:jar}"
+                                              fork="true">
                                             <arg value="-i" />
                                             <arg value="${testproject.db}" />
                                             <arg value="-o" />
@@ -195,7 +199,7 @@
                     <dependency>
                         <groupId>org.apache.ant</groupId>
                         <artifactId>ant-junit</artifactId>
-                        <version>1.10.13</version>
+                        <version>1.10.14</version>
                     </dependency>
                     <dependency>
                         <groupId>ant-contrib</groupId>
