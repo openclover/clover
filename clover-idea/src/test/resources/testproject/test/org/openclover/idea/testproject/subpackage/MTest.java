@@ -1,7 +1,7 @@
 package org.openclover.idea.testproject.subpackage;
 
 import junit.framework.TestCase;
-import com.cenqua.clovertest.A;
+import org.openclover.idea.testproject.A;
 
 public class MTest extends TestCase {
 

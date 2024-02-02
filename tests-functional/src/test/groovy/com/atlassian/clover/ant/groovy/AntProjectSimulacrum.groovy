@@ -1,6 +1,6 @@
 package com.atlassian.clover.ant.groovy
 
-import com.atlassian.clover.test.junit.JavaExecutorMixin
+import org.openclover.groovy.test.junit.JavaExecutorMixin
 import groovy.transform.CompileStatic
 import junit.framework.Test
 

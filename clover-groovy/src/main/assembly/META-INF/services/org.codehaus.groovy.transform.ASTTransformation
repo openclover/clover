@@ -1,1 +1,1 @@
-com.atlassian.clover.instr.groovy.Grover
+org.openclover.groovy.instr.Grover

@@ -3,9 +3,9 @@ package com.atlassian.clover.ant.groovy
 import com.atlassian.clover.test.junit.AntVersions
 import com.atlassian.clover.test.junit.DynamicallyNamedTestBase
 import com.atlassian.clover.test.junit.GroovyVersions
-import com.atlassian.clover.test.junit.JavaExecutorMixin
-import com.atlassian.clover.test.junit.TestPropertyMixin
-import com.atlassian.clover.test.junit.WorkingDirMixin
+import org.openclover.groovy.test.junit.JavaExecutorMixin
+import org.openclover.groovy.test.junit.TestPropertyMixin
+import org.openclover.groovy.test.junit.WorkingDirMixin
 import com.atlassian.clover.CloverNames
 import groovy.transform.CompileStatic
 

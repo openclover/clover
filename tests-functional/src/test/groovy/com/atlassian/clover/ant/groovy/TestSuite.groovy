@@ -1,18 +1,18 @@
 package com.atlassian.clover.ant.groovy
 
-import com.atlassian.clover.test.junit.AntCombinatorMixin
+import org.openclover.groovy.test.junit.AntCombinatorMixin
 import com.atlassian.clover.test.junit.DefaultTestSelector
-import com.atlassian.clover.test.junit.GroovyCombinatorMixin
-import com.atlassian.clover.test.junit.JavaVersionMixin
-import com.atlassian.clover.test.junit.TestPropertyMixin
-import com.atlassian.clover.test.junit.WorkingDirMixin
+import org.openclover.groovy.test.junit.GroovyCombinatorMixin
+import org.openclover.groovy.test.junit.JavaVersionMixin
+import org.openclover.groovy.test.junit.TestPropertyMixin
+import org.openclover.groovy.test.junit.WorkingDirMixin
 import groovy.transform.CompileStatic
 import junit.framework.TestCase
 
 import java.lang.reflect.Constructor
 import java.lang.reflect.Method
 
-import com.atlassian.clover.test.junit.IncludeExcludeMixin
+import org.openclover.groovy.test.junit.IncludeExcludeMixin
 import com.atlassian.clover.test.junit.GroovyVersions
 import com.atlassian.clover.test.junit.AntVersions
 import com.atlassian.clover.test.junit.GroovyVersionStart
