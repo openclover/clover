@@ -8,7 +8,6 @@ public class JavaEnvUtils {
     /** Version of currently running VM. */
     private static String javaVersion;
 
-    public static final String JAVA_7 = "7";
     public static final String JAVA_8 = "8";
     public static final String JAVA_9 = "9";
     public static final String JAVA_10 = "10";
@@ -22,8 +21,6 @@ public class JavaEnvUtils {
 
     static {
         try {
-            javaVersion = JAVA_7;
-            Class.forName("java.lang.reflect.Executable");
             javaVersion = JAVA_8;
             Class.forName("java.lang.StackWalker");
             javaVersion = JAVA_9;

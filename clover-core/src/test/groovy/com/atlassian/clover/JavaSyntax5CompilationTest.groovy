@@ -19,7 +19,7 @@ class JavaSyntax5CompilationTest extends JavaSyntaxCompilationTestBase {
     @Test
     void testCompilation_15() throws Exception {
         final File srcDir = new File(mTestcasesSrcDir, "javasyntax1.5")
-        compileSources(srcDir, JavaEnvUtils.JAVA_7)
+        compileSources(srcDir, JavaEnvUtils.JAVA_8)
     }
 
     /**
@@ -30,7 +30,7 @@ class JavaSyntax5CompilationTest extends JavaSyntaxCompilationTestBase {
     @Test
     void testInstrumentationAndCompilation_15() throws Exception {
         final File srcDir = new File(mTestcasesSrcDir, "javasyntax1.5")
-        instrumentAndCompileSources(srcDir, JavaEnvUtils.JAVA_7)
+        instrumentAndCompileSources(srcDir, JavaEnvUtils.JAVA_8)
 
         String[] testCaseMainClasses = [
                 "coverage.enums.EnumTests",
