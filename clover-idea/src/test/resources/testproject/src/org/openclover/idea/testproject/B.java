@@ -1,4 +1,4 @@
-package com.cenqua.clovertest;
+package org.openclover.idea.testproject;
 
 public class B {
     int a;

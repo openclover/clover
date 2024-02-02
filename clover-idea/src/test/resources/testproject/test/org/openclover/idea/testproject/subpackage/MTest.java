@@ -1,4 +1,4 @@
-package com.cenqua.clovertest.subpackage;
+package org.openclover.idea.testproject.subpackage;
 
 import junit.framework.TestCase;
 import com.cenqua.clovertest.A;
