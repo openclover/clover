@@ -8,6 +8,7 @@ public class Java16InstanceOfPatternMatching {
 
     public static void main(String[] args) {
         instanceOfCasting();
+        instanceOfCastingWithFinal();
         instanceOfInExpressions();
         instanceOfCastingVisibilityLimitations();
         detectionOfInstanceOfWithCasting();
@@ -19,6 +20,15 @@ public class Java16InstanceOfPatternMatching {
             System.out.println("obj is String = " + str);
         } else {
             System.out.println("obj is Object = " + obj);
+        }
+    }
+
+    private static void instanceOfCastingWithFinal() {
+        Object obj = "a final string";
+        if (obj instanceof final String str) {
+            System.out.println("obj is final String = " + str);
+        } else {
+            System.out.println("obj is final Object = " + obj);
         }
     }
 

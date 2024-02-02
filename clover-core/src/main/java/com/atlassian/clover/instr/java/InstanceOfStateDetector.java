@@ -5,6 +5,7 @@ package com.atlassian.clover.instr.java;
  * <pre>
  *   obj instanceof String
  *   obj instanceof String str
+ *   obj instanceof final String str
  * </pre>
  */
 public class InstanceOfStateDetector implements CloverTokenConsumer {

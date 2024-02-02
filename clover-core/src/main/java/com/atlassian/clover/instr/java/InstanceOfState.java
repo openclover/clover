@@ -6,9 +6,9 @@ package com.atlassian.clover.instr.java;
  * (i.e. instanceof pattern matching), which cannot be branch-instrumented.
  *
  * <pre>
- * NOTHING -> INSTANCEOF -> TYPE -> COMPLEX_TYPE -> VARIABLE
- *                             |                     ^
- *                             +---------------------+
+ * NOTHING -> INSTANCEOF --------------> TYPE -> COMPLEX_TYPE -> VARIABLE
+ *                       |              ^  |                     ^
+ *                       +- FINAL ------+  +---------------------+
  * </pre>
  */
 public enum InstanceOfState {
@@ -25,7 +25,21 @@ public enum InstanceOfState {
     INSTANCEOF() {
         @Override
         InstanceOfState nextToken(CloverToken token) {
+            // "o instanceof final"
+            if (token.getType() == JavaTokenTypes.FINAL) {
+                return FINAL;
+            }
             // "o instanceof A"
+            return token.getType() == JavaTokenTypes.IDENT
+                    ? FULL_TYPE
+                    : NOTHING;
+        }
+    },
+
+    FINAL() {
+        @Override
+        InstanceOfState nextToken(CloverToken token) {
+            // "o instanceof final A"
             return token.getType() == JavaTokenTypes.IDENT
                     ? FULL_TYPE
                     : NOTHING;
@@ -37,10 +51,10 @@ public enum InstanceOfState {
         InstanceOfState nextToken(CloverToken token) {
             if (token.getType() == JavaTokenTypes.DOT
                     || token.getType() == JavaTokenTypes.LBRACK) {
-                // "o instanceof A." or "o instanceof A[" etc
+                // "o instanceof (final) A." or "o instanceof (final) A[" etc
                 return PARTIAL_TYPE;
             } else if (token.getType() == JavaTokenTypes.IDENT) {
-                // "o instanceof A a"
+                // "o instanceof (final) A a"
                 return VARIABLE;
             } else {
                 return NOTHING;
@@ -52,10 +66,10 @@ public enum InstanceOfState {
         @Override
         InstanceOfState nextToken(CloverToken token) {
             if (token.getType() == JavaTokenTypes.RBRACK) {
-                // "o instanceof A[]"
+                // "o instanceof (final) A[]"
                 return FULL_TYPE;
             } else if (token.getType() == JavaTokenTypes.IDENT) {
-                // "o instanceof A.B" or "o instanceof A.B.C" etc
+                // "o instanceof (final) A.B" or "o instanceof (final) A.B.C" etc
                 return FULL_TYPE;
             } else {
                 return NOTHING;

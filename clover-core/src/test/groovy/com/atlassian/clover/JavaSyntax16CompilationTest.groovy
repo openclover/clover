@@ -67,9 +67,11 @@ class JavaSyntax16CompilationTest extends JavaSyntaxCompilationTestBase {
         final String fileName = "Java16InstanceOfPatternMatching.java"
         instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_16)
         assertFileMatches(fileName, R_INC + "System\\.out\\.println\\(\"obj is String", false)
+        assertFileMatches(fileName, R_INC + "System\\.out\\.println\\(\"obj is final String", false)
 
         executeMainClasses("Java16InstanceOfPatternMatching")
         assertExecOutputContains("obj is String = a string", false)
+        assertExecOutputContains("obj is final String = a final string", false)
         assertExecOutputContains("obj is not null and is an Object and not String or Integer", false)
     }
 
