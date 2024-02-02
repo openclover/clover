@@ -31,12 +31,7 @@ public class VfsUtil extends com.intellij.openapi.vfs.VfsUtil {
             return null;
         }
         Application app = ApplicationManager.getApplication();
-        return (URL) app.runReadAction(new Computable() {
-            @Override
-            public Object compute() {
-                return convertToURL(file.getUrl());
-            }
-        });
+        return (URL) app.runReadAction((Computable) () -> convertToURL(file.getUrl()));
     }
 
     /**

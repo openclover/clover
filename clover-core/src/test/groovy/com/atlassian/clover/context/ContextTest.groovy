@@ -304,7 +304,7 @@ class ContextTest {
         cfg.setDefaultBaseDir(workingDir)
         cfg.setProjectName(testName.methodName)
         cfg.setClassInstrStragegy(false)
-        cfg.setSourceLevel(SourceLevel.JAVA_7)
+        cfg.setSourceLevel(SourceLevel.JAVA_8)
         cfg.setReportInitErrors(false)
         return cfg
     }

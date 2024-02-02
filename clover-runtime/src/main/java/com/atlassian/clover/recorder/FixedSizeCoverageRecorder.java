@@ -15,8 +15,8 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 
 public final class FixedSizeCoverageRecorder extends BaseCoverageRecorder {
-    private static final Set<String> TRUNC_WARNING_DBS = Collections.synchronizedSet(new HashSet<String>());
-    private static final Set<String> MERGE_WARNING_DBS = Collections.synchronizedSet(new HashSet<String>());
+    private static final Set<String> TRUNC_WARNING_DBS = Collections.synchronizedSet(new HashSet<>());
+    private static final Set<String> MERGE_WARNING_DBS = Collections.synchronizedSet(new HashSet<>());
 
     private final int[] elements;
 

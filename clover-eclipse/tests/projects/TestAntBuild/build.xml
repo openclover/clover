@@ -22,12 +22,12 @@
 
      <target name="code.compile" description="Creates ${app.build} directory and compiles sources from ${app.build}">
             <mkdir dir="${app.build}"/>
-            <javac srcdir="${src}" destdir="${app.build}" classpathref="build.classpath" source="1.7"/>
+            <javac srcdir="${src}" destdir="${app.build}" classpathref="build.classpath" source="1.8"/>
      </target>
 
      <target name="test.compile"  depends="code.compile" description="Creates ${test.build} directory and compiles sources from ${test.src} to ${test.build}">
 	       <mkdir dir="${test.build}"/>
-	       <javac srcdir="${test.src}" destdir="${test.build}"  classpathref="testbuild.classpath" source="1.7"/>
+	       <javac srcdir="${test.src}" destdir="${test.build}"  classpathref="testbuild.classpath" source="1.8"/>
      </target>
 
      <target name="test.run" depends="test.compile" description="Runs the tests">

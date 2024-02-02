@@ -67,16 +67,13 @@ public class CloverUtils {
         if (cloverDbDir != null && cloverDbDir.exists() && cloverDbDir.isDirectory()) {
             final String baseName = cloverDb.getName();
             final String testSnapshotName = Snapshot.fileNameForInitString(baseName);
-            final String[] fileNames = cloverDbDir.list(new FilenameFilter() {
-                @Override
-                public boolean accept(File dir, String name) {
-                    if (baseName.equals(name)) {
-                        return deleteDatabase;
-                    } else if (testSnapshotName.equals(name)) {
-                        return deleteSnapshot;
-                    } else {
-                        return name.startsWith(baseName);
-                    }
+            final String[] fileNames = cloverDbDir.list((dir, name) -> {
+                if (baseName.equals(name)) {
+                    return deleteDatabase;
+                } else if (testSnapshotName.equals(name)) {
+                    return deleteSnapshot;
+                } else {
+                    return name.startsWith(baseName);
                 }
             });
 

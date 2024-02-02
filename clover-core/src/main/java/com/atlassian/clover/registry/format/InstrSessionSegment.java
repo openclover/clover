@@ -34,87 +34,23 @@ import static org.openclover.util.Lists.newLinkedList;
 public class InstrSessionSegment {
     static final long NONE_IDX = -1L;
     static final Tags TAGS =
-        new Tags().registerTag(FullFileInfo.class.getName(), Tags.NEXT_TAG + 0, new ObjectReader<FullFileInfo>() {
-            @Override
-            public FullFileInfo read(TaggedDataInput in) throws IOException {
-                return FullFileInfo.read(in);
-            }
-        }).registerTag(FullClassInfo.class.getName(), Tags.NEXT_TAG + 1, new ObjectReader<FullClassInfo>() {
-            @Override
-            public FullClassInfo read(TaggedDataInput in) throws IOException {
-                return FullClassInfo.read(in);
-            }
-        }).registerTag(FullMethodInfo.class.getName(), Tags.NEXT_TAG + 2, new ObjectReader<FullMethodInfo>() {
-            @Override
-            public FullMethodInfo read(TaggedDataInput in) throws IOException {
-                return FullMethodInfo.read(in);
-            }
-        }).registerTag(FullStatementInfo.class.getName(), Tags.NEXT_TAG + 3, new ObjectReader<FullStatementInfo>() {
-            @Override
-            public FullStatementInfo read(TaggedDataInput in) throws IOException {
-                return FullStatementInfo.read(in);
-            }
-        }).registerTag(FullBranchInfo.class.getName(), Tags.NEXT_TAG + 4, new ObjectReader<FullBranchInfo>() {
-            @Override
-            public FullBranchInfo read(TaggedDataInput in) throws IOException {
-                return FullBranchInfo.read(in);
-            }
-        }).registerTag(ContextSet.class.getName(), Tags.NEXT_TAG + 5, new ObjectReader<ContextSet>() {
-            @Override
-            public ContextSet read(TaggedDataInput in) throws IOException {
-                return ContextSet.read(in);
-            }
-        }).registerTag(FixedSourceRegion.class.getName(), Tags.NEXT_TAG + 6, new ObjectReader<FixedSourceRegion>() {
-            @Override
-            public FixedSourceRegion read(TaggedDataInput in) throws IOException {
-                return FixedSourceRegion.read(in);
-            }
-        }).registerTag(MethodSignature.class.getName(), Tags.NEXT_TAG + 7, new ObjectReader<MethodSignature>() {
-            @Override
-            public MethodSignature read(TaggedDataInput in) throws IOException {
-                return MethodSignature.read(in);
-            }
-        }).registerTag(Modifiers.class.getName(), Tags.NEXT_TAG + 8, new ObjectReader<Modifiers>() {
-            @Override
-            public Modifiers read(TaggedDataInput in) throws IOException {
-                return Modifiers.read(in);
-            }
-        }).registerTag(Parameter.class.getName(), Tags.NEXT_TAG + 9, new ObjectReader<Parameter>() {
-            @Override
-            public Parameter read(TaggedDataInput in) throws IOException {
-                return Parameter.read(in);
-            }
-        }).registerTag(AnnotationImpl.class.getName(), Tags.NEXT_TAG + 10, new ObjectReader<AnnotationImpl>() {
-            @Override
-            public AnnotationImpl read(TaggedDataInput in) throws IOException {
-                return AnnotationImpl.read(in);
-            }
-        }).registerTag(ArrayAnnotationValue.class.getName(), Tags.NEXT_TAG + 11, new ObjectReader<ArrayAnnotationValue>() {
-            @Override
-            public ArrayAnnotationValue read(TaggedDataInput in) throws IOException {
-                return ArrayAnnotationValue.read(in);
-            }
-        }).registerTag(StringifiedAnnotationValue.class.getName(), Tags.NEXT_TAG + 12, new ObjectReader<StringifiedAnnotationValue>() {
-            @Override
-            public StringifiedAnnotationValue read(TaggedDataInput in) throws IOException {
-                return StringifiedAnnotationValue.read(in);
-            }
-        }).registerTag(ContextStore.class.getName(), (byte)(Tags.NEXT_TAG + 13), new ObjectReader<ContextStore>() {
-            @Override
-            public ContextStore read(TaggedDataInput in) throws IOException {
-                return ContextStore.read(in);
-            }
-        }).registerTag(StatementRegexpContext.class.getName(), (byte)(Tags.NEXT_TAG + 14), new ObjectReader<StatementRegexpContext>() {
-            @Override
-            public StatementRegexpContext read(TaggedDataInput in) throws IOException {
-                return StatementRegexpContext.read(in);
-            }
-        }).registerTag(MethodRegexpContext.class.getName(), (byte)(Tags.NEXT_TAG + 15), new ObjectReader<MethodRegexpContext>() {
-            @Override
-            public MethodRegexpContext read(TaggedDataInput in) throws IOException {
-                return MethodRegexpContext.read(in);
-            }
-        });
+        new Tags()
+                .registerTag(FullFileInfo.class.getName(), Tags.NEXT_TAG + 0, (ObjectReader<FullFileInfo>) FullFileInfo::read)
+                .registerTag(FullClassInfo.class.getName(), Tags.NEXT_TAG + 1, (ObjectReader<FullClassInfo>) FullClassInfo::read)
+                .registerTag(FullMethodInfo.class.getName(), Tags.NEXT_TAG + 2, (ObjectReader<FullMethodInfo>) FullMethodInfo::read)
+                .registerTag(FullStatementInfo.class.getName(), Tags.NEXT_TAG + 3, (ObjectReader<FullStatementInfo>) FullStatementInfo::read)
+                .registerTag(FullBranchInfo.class.getName(), Tags.NEXT_TAG + 4, (ObjectReader<FullBranchInfo>) FullBranchInfo::read)
+                .registerTag(ContextSet.class.getName(), Tags.NEXT_TAG + 5, (ObjectReader<ContextSet>) ContextSet::read)
+                .registerTag(FixedSourceRegion.class.getName(), Tags.NEXT_TAG + 6, (ObjectReader<FixedSourceRegion>) FixedSourceRegion::read)
+                .registerTag(MethodSignature.class.getName(), Tags.NEXT_TAG + 7, (ObjectReader<MethodSignature>) MethodSignature::read)
+                .registerTag(Modifiers.class.getName(), Tags.NEXT_TAG + 8, (ObjectReader<Modifiers>) Modifiers::read)
+                .registerTag(Parameter.class.getName(), Tags.NEXT_TAG + 9, (ObjectReader<Parameter>) Parameter::read)
+                .registerTag(AnnotationImpl.class.getName(), Tags.NEXT_TAG + 10, (ObjectReader<AnnotationImpl>) AnnotationImpl::read)
+                .registerTag(ArrayAnnotationValue.class.getName(), Tags.NEXT_TAG + 11, (ObjectReader<ArrayAnnotationValue>) ArrayAnnotationValue::read)
+                .registerTag(StringifiedAnnotationValue.class.getName(), Tags.NEXT_TAG + 12, (ObjectReader<StringifiedAnnotationValue>) StringifiedAnnotationValue::read)
+                .registerTag(ContextStore.class.getName(), (byte)(Tags.NEXT_TAG + 13), (ObjectReader<ContextStore>) ContextStore::read)
+                .registerTag(StatementRegexpContext.class.getName(), (byte)(Tags.NEXT_TAG + 14), (ObjectReader<StatementRegexpContext>) StatementRegexpContext::read)
+                .registerTag(MethodRegexpContext.class.getName(), (byte)(Tags.NEXT_TAG + 15), (ObjectReader<MethodRegexpContext>) MethodRegexpContext::read);
 
     private final long version;
     private final long startTs;

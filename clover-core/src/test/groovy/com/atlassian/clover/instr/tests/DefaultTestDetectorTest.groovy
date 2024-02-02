@@ -60,7 +60,7 @@ class DefaultTestDetectorTest {
     void testJUnit38() {
         DefaultTestDetector detector = new DefaultTestDetector()
         testJUnit3(detector)
-        state.getCfg().setSourceLevel(SourceLevel.JAVA_7)
+        state.getCfg().setSourceLevel(SourceLevel.JAVA_8)
         assertTrue(detector.isTypeMatch(state, new JavaTypeContext(null, null, "", "SimpleTest", "foo")))
     }
 
@@ -70,7 +70,7 @@ class DefaultTestDetectorTest {
         testJUnit3(detector)
         testMethodAnnotations(detector, TestAnnotationNames.ORG_JUNIT_NAME)
 
-        state.getCfg().setSourceLevel(SourceLevel.JAVA_7)
+        state.getCfg().setSourceLevel(SourceLevel.JAVA_8)
         MethodSignature method = new MethodSignature(null, null, null, "checkFoo", null, "void", null, null)
         method.setModifiers(Modifier.PUBLIC)
         method.getModifiers().addAnnotation(new AnnotationImpl(TestAnnotationNames.TEST_ANNO_NAME))
@@ -88,7 +88,7 @@ class DefaultTestDetectorTest {
         testJUnit3(detector)
         testMethodAnnotations(detector, TestAnnotationNames.ORG_JUNIT5_NAME)
 
-        state.getCfg().setSourceLevel(SourceLevel.JAVA_7)
+        state.getCfg().setSourceLevel(SourceLevel.JAVA_8)
         MethodSignature method = new MethodSignature(null, null, null, "checkFoo", null, "void", null, null)
         // No visibility modifier is provided to be package private.
         method.getModifiers().addAnnotation(new AnnotationImpl(TestAnnotationNames.TEST_ANNO_NAME))
@@ -104,7 +104,7 @@ class DefaultTestDetectorTest {
     void testTestNG() {
         DefaultTestDetector detector = new DefaultTestDetector()
         testMethodAnnotations(detector, "org.testng.annotations")
-        state.getCfg().setSourceLevel(SourceLevel.JAVA_7)
+        state.getCfg().setSourceLevel(SourceLevel.JAVA_8)
 
         Map tags = newHashMap()
         tags.put("test", Collections.singletonList(""))
@@ -174,7 +174,7 @@ class DefaultTestDetectorTest {
 
     @Test
     void testJDK14NoExpectedAnnotations() {
-        state.getCfg().setSourceLevel(SourceLevel.JAVA_7)
+        state.getCfg().setSourceLevel(SourceLevel.JAVA_8)
 
         //No expected annotations
         MethodSignature method = new MethodSignature(null, null, null, "testFoo", null, "void", null, null)
@@ -186,7 +186,7 @@ class DefaultTestDetectorTest {
 
     @Test
     void testJDK15NoExpectedAnnotations() {
-        state.getCfg().setSourceLevel(SourceLevel.JAVA_7)
+        state.getCfg().setSourceLevel(SourceLevel.JAVA_8)
 
         //No expected annotations
         MethodSignature method = new MethodSignature(null, null, null, "checkFoo", null, "void", null, null)
@@ -216,7 +216,7 @@ class DefaultTestDetectorTest {
 
     @Test
     void testSingleExpectedAnnotations() {
-        state.getCfg().setSourceLevel(SourceLevel.JAVA_7)
+        state.getCfg().setSourceLevel(SourceLevel.JAVA_8)
 
         //@org.testng.annotations.Test(expectedExceptions=Foo.class)
         MethodSignature method = new MethodSignature(null, null, null, "checkFoo", null, "void", null, null)
@@ -374,7 +374,7 @@ class DefaultTestDetectorTest {
 
     @Test
     void testMultipleExpectedAnnotations() {
-        state.getCfg().setSourceLevel(SourceLevel.JAVA_7)
+        state.getCfg().setSourceLevel(SourceLevel.JAVA_8)
 
         //@org.testng.annotations.Test(expectedExceptions={org.bar.Foo.class,Bar.class})
         MethodSignature method = new MethodSignature(null, null, null, "checkFoo", null, "void", null, null)
@@ -496,7 +496,7 @@ class DefaultTestDetectorTest {
 
     @Test
     void testWeirdExpectedAnnotationStructure() {
-        state.getCfg().setSourceLevel(SourceLevel.JAVA_7)
+        state.getCfg().setSourceLevel(SourceLevel.JAVA_8)
 
         //@org.testng.annotations.Test(expectedExceptions={"foo","Bar.class"})
         MethodSignature method = new MethodSignature(null, null, null, "checkFoo", null, "void", null, null)
@@ -543,7 +543,7 @@ class DefaultTestDetectorTest {
         MethodSignature method = new MethodSignature(null, null, null, "checkFoo", null, "void", null, null)
         method.getModifiers().addAnnotation(new AnnotationImpl(TestAnnotationNames.TEST_ANNO_NAME))
         method.setModifiers(Modifier.PUBLIC)
-        state.getCfg().setSourceLevel(SourceLevel.JAVA_7)
+        state.getCfg().setSourceLevel(SourceLevel.JAVA_8)
         assertTrue(detector.isMethodMatch(state, JavaMethodContext.createFor(method)))
 
         method.setModifiers(Modifier.PRIVATE)
@@ -560,7 +560,7 @@ class DefaultTestDetectorTest {
     }
 
     private void testJUnit3(TestDetector detector) {
-        state.getCfg().setSourceLevel(SourceLevel.JAVA_7)
+        state.getCfg().setSourceLevel(SourceLevel.JAVA_8)
         assertTrue(detector.isTypeMatch(state, new JavaTypeContext(null, null, "", "SimpleTest", "TestCase")))
         assertTrue(detector.isTypeMatch(state, new JavaTypeContext(null, null, "", "TestSimple", "TestCase")))
         assertTrue(detector.isTypeMatch(state, new JavaTypeContext(null, null, "", "SimpleTest", "junit.framework.TestCase")))

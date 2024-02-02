@@ -16,17 +16,15 @@ public class ToggleSingleCloverProjectNatureActionDelegate
     @Override
     public void run(IAction action) {
         boolean showCloverViews = false;
-        for (Iterator iter = projects.iterator(); iter.hasNext();) {
-            final IProject project = (IProject) iter.next();
-
+        for (final IProject project : projects) {
             IJavaProject javaProject = JavaCore.create(project);
 
             // Cannot modify closed or non-existant projects.
             if (javaProject != null && project.exists() && project.isOpen()) {
                 //show Clover views if any one project was made Clover-enabled
                 showCloverViews |=
-                    !isCloverEnabled(project)
-                    & CloverProject.toggleWithUserFeedback(getShell(), javaProject);
+                        !isCloverEnabled(project)
+                                & CloverProject.toggleWithUserFeedback(getShell(), javaProject);
             }
         }
 

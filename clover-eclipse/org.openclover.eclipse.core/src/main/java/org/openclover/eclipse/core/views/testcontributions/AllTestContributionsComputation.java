@@ -167,10 +167,10 @@ public class AllTestContributionsComputation extends TestContributionsComputatio
         }
 
         //Check and classes with less than 100% of their tests checked
-        for (Iterator iterator = checkedTestClassToTestCases.entrySet().iterator(); iterator.hasNext();) {
-            Map.Entry entry = (Map.Entry) iterator.next();
+        for (Object o : checkedTestClassToTestCases.entrySet()) {
+            Map.Entry entry = (Map.Entry) o;
             if (((Collection) entry.getValue()).size()
-                == ((Collection) allTestClassToTestCases.get(entry.getKey())).size()) {
+                    == ((Collection) allTestClassToTestCases.get(entry.getKey())).size()) {
                 checkedTestCasesAndClasses.add(entry.getKey());
             }
         }

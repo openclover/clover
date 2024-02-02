@@ -97,12 +97,9 @@ public class ViewAlertContainer extends Composite implements DatabaseChangeListe
     }
 
     private void updateLinks(boolean onInit) {
-        run(new Runnable() {
-            @Override
-            public void run() {
-                updateHookUninstallAlert();
-                updateContainerVisibility();
-            }
+        run(() -> {
+            updateHookUninstallAlert();
+            updateContainerVisibility();
         }, onInit);
     }
 

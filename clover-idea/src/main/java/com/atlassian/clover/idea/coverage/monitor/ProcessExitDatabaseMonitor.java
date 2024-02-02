@@ -25,13 +25,10 @@ public class ProcessExitDatabaseMonitor extends ExecutionAdapter {
     }
 
     private void reloadCoverage(final boolean forceCoverageLoad) {
-        ApplicationManager.getApplication().invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                if ((forceCoverageLoad || config.isAutoRefresh())) {
-                    if (coverageManager.canLoadCoverageData()) {
-                        coverageManager.loadCoverageData(forceCoverageLoad);
-                    }
+        ApplicationManager.getApplication().invokeLater(() -> {
+            if ((forceCoverageLoad || config.isAutoRefresh())) {
+                if (coverageManager.canLoadCoverageData()) {
+                    coverageManager.loadCoverageData(forceCoverageLoad);
                 }
             }
         });

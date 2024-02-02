@@ -28,26 +28,23 @@ public class IdeaTestDetectorIdeaTest extends IdeaTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        ApplicationTestHelper.runWriteAction(new ApplicationTestHelper.Action() {
-            @Override
-            public void run() throws Exception {
-                final Module module = createModule("test module");
-                final ModifiableRootModel model = ModuleRootManager.getInstance(module).getModifiableModel();
+        ApplicationTestHelper.runWriteAction(() -> {
+            final Module module = createModule("test module");
+            final ModifiableRootModel model = ModuleRootManager.getInstance(module).getModifiableModel();
 
-                final ContentEntry contentEntry;
-                try {
-                    contentEntry = model.addContentEntry(module.getModuleFile().getParent().createChildDirectory(null, "root"));
-                    src = contentEntry.getFile().createChildDirectory(null, "src");
-                    test = contentEntry.getFile().createChildDirectory(null, "test");
-                } catch (IOException e){
-                    model.dispose();
-                    throw e;
-                }
-
-                contentEntry.addSourceFolder(src, false);
-                contentEntry.addSourceFolder(test, true);
-                model.commit();
+            final ContentEntry contentEntry;
+            try {
+                contentEntry = model.addContentEntry(module.getModuleFile().getParent().createChildDirectory(null, "root"));
+                src = contentEntry.getFile().createChildDirectory(null, "src");
+                test = contentEntry.getFile().createChildDirectory(null, "test");
+            } catch (IOException e){
+                model.dispose();
+                throw e;
             }
+
+            contentEntry.addSourceFolder(src, false);
+            contentEntry.addSourceFolder(test, true);
+            model.commit();
         });
     }
 
@@ -60,56 +57,50 @@ public class IdeaTestDetectorIdeaTest extends IdeaTestCase {
 
 
     public void testIsClassMatch() throws Exception {
-        ApplicationTestHelper.runWriteAction(new ApplicationTestHelper.Action() {
-            @Override
-            public void run() throws Exception {
-                final VirtualFile srcFile = src.createChildData(null, "File1.java");
-                final VirtualFile testFile = test.createChildData(null, "File2.java");
+        ApplicationTestHelper.runWriteAction(() -> {
+            final VirtualFile srcFile = src.createChildData(null, "File1.java");
+            final VirtualFile testFile = test.createChildData(null, "File2.java");
 
-                IdeaTestDetector detector = new IdeaTestDetector(getProject());
-                DefaultTestDetector defaultDetector = new DefaultTestDetector();
+            IdeaTestDetector detector = new IdeaTestDetector(getProject());
+            DefaultTestDetector defaultDetector = new DefaultTestDetector();
 
-                InstrumentationState state = newInstrState(srcFile, null);
-                // check preconditions
-                assertTrue(defaultDetector.isTypeMatch(state, new JavaTypeContext(null, null, null, "File1", "TestCase")));
-                assertFalse(defaultDetector.isTypeMatch(state, new JavaTypeContext(null, null, null, "File1", "NotTestCase")));
-                assertTrue(defaultDetector.isTypeMatch(state, new JavaTypeContext(null, null, null, "File2", "TestCase")));
-                assertFalse(defaultDetector.isTypeMatch(state, new JavaTypeContext(null, null, null, "File2", "NotTestCase")));
+            InstrumentationState state = newInstrState(srcFile, null);
+            // check preconditions
+            assertTrue(defaultDetector.isTypeMatch(state, new JavaTypeContext(null, null, null, "File1", "TestCase")));
+            assertFalse(defaultDetector.isTypeMatch(state, new JavaTypeContext(null, null, null, "File1", "NotTestCase")));
+            assertTrue(defaultDetector.isTypeMatch(state, new JavaTypeContext(null, null, null, "File2", "TestCase")));
+            assertFalse(defaultDetector.isTypeMatch(state, new JavaTypeContext(null, null, null, "File2", "NotTestCase")));
 
-                FullFileInfo fileInfo1 = new FullFileInfo(null, VfsUtil.convertToFile(srcFile), null, 0, 0, 0, 0, 0, 0, 0);
-                FullFileInfo fileInfo2 = new FullFileInfo(null, VfsUtil.convertToFile(testFile), null, 0, 0, 0, 0, 0, 0, 0);
-                // actual check
-                state = newInstrState(srcFile, fileInfo1);
-                assertTrue(detector.isTypeMatch(state, new JavaTypeContext(null, null, null, "File1", "TestCase")));
-                assertFalse(detector.isTypeMatch(state, new JavaTypeContext(null, null, null, "File1", "NotTestCase")));
+            FullFileInfo fileInfo1 = new FullFileInfo(null, VfsUtil.convertToFile(srcFile), null, 0, 0, 0, 0, 0, 0, 0);
+            FullFileInfo fileInfo2 = new FullFileInfo(null, VfsUtil.convertToFile(testFile), null, 0, 0, 0, 0, 0, 0, 0);
+            // actual check
+            state = newInstrState(srcFile, fileInfo1);
+            assertTrue(detector.isTypeMatch(state, new JavaTypeContext(null, null, null, "File1", "TestCase")));
+            assertFalse(detector.isTypeMatch(state, new JavaTypeContext(null, null, null, "File1", "NotTestCase")));
 
-                state = newInstrState(srcFile, fileInfo2);
-                assertTrue(detector.isTypeMatch(state, new JavaTypeContext(null, null, null, "File2", "TestCase")));
-                assertTrue(detector.isTypeMatch(state, new JavaTypeContext(null, null, null, "File2", "NotTestCase")));
-            }
+            state = newInstrState(srcFile, fileInfo2);
+            assertTrue(detector.isTypeMatch(state, new JavaTypeContext(null, null, null, "File2", "TestCase")));
+            assertTrue(detector.isTypeMatch(state, new JavaTypeContext(null, null, null, "File2", "NotTestCase")));
         });
     }
 
     public void testIsMethodMatch() throws Exception {
-        ApplicationTestHelper.runWriteAction(new ApplicationTestHelper.Action() {
-            @Override
-            public void run() throws Exception {
-                final VirtualFile testFile = test.createChildData(null, "File2.java");
-                IdeaTestDetector detector = new IdeaTestDetector(getProject());
-                FullFileInfo fileInfo = new FullFileInfo(null, VfsUtil.convertToFile(testFile), null, 0, 0, 0, 0, 0, 0, 0);
-                InstrumentationState state = newInstrState(testFile, fileInfo);
+        ApplicationTestHelper.runWriteAction(() -> {
+            final VirtualFile testFile = test.createChildData(null, "File2.java");
+            IdeaTestDetector detector = new IdeaTestDetector(getProject());
+            FullFileInfo fileInfo = new FullFileInfo(null, VfsUtil.convertToFile(testFile), null, 0, 0, 0, 0, 0, 0, 0);
+            InstrumentationState state = newInstrState(testFile, fileInfo);
 
-                assertTrue(detector.isTypeMatch(state, new JavaTypeContext(null, null, null, "File2", "NotTestCase"))); // Idea-specific matcher triggered
+            assertTrue(detector.isTypeMatch(state, new JavaTypeContext(null, null, null, "File2", "NotTestCase"))); // Idea-specific matcher triggered
 
-                final MethodSignature constructor = new MethodSignature(null, null, null, "Constructor", null, "", null, null);
-                constructor.getModifiers().setMask(Modifier.PUBLIC);
+            final MethodSignature constructor = new MethodSignature(null, null, null, "Constructor", null, "", null, null);
+            constructor.getModifiers().setMask(Modifier.PUBLIC);
 
-                final MethodSignature method = new MethodSignature(null, null, null, "testMethod", null, "void", null, null);
-                method.getModifiers().setMask(Modifier.PUBLIC);
+            final MethodSignature method = new MethodSignature(null, null, null, "testMethod", null, "void", null, null);
+            method.getModifiers().setMask(Modifier.PUBLIC);
 
-                assertFalse(detector.isMethodMatch(state, JavaMethodContext.createFor(constructor)));
-                assertTrue(detector.isMethodMatch(state, JavaMethodContext.createFor(method)));
-            }
+            assertFalse(detector.isMethodMatch(state, JavaMethodContext.createFor(constructor)));
+            assertTrue(detector.isMethodMatch(state, JavaMethodContext.createFor(method)));
         });
     }
 

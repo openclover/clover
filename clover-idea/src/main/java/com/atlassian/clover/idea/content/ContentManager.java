@@ -63,14 +63,11 @@ public class ContentManager implements FileEditorManagerListener, ConfigChangeLi
     public void init() {
         // init listeners etc as appropriate.
         final FeatureManager fManager = ProjectPlugin.getPlugin(project).getFeatureManager();
-        fManager.addFeatureListener(CloverFeatures.CLOVER, new FeatureListener() {
-            @Override
-            public void featureStateChanged(FeatureEvent evt) {
-                if (evt.isEnabled()) {
-                    install();
-                } else {
-                    uninstall();
-                }
+        fManager.addFeatureListener(CloverFeatures.CLOVER, evt -> {
+            if (evt.isEnabled()) {
+                install();
+            } else {
+                uninstall();
             }
         });
 

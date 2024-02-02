@@ -118,16 +118,13 @@ public class JavaHtmlSourceRenderer extends PlaintextHtmlSourceRenderer implemen
      */
     public boolean isTestOnlyPackage(final PackageInfo pkg) {
         // use a map to cache previously searched packages
-        Map<String, Boolean> lazyMap = LazyMap.decorate(areTestOnlyPackages, new Factory() {
-            @Override
-            public Object create() {
-                for (ClassInfo classInfo : pkg.getAllClasses()) {
-                    if (!classInfo.isTestClass()) {
-                        return Boolean.FALSE;
-                    }
+        Map<String, Boolean> lazyMap = LazyMap.decorate(areTestOnlyPackages, () -> {
+            for (ClassInfo classInfo : pkg.getAllClasses()) {
+                if (!classInfo.isTestClass()) {
+                    return Boolean.FALSE;
                 }
-                return Boolean.TRUE;
             }
+            return Boolean.TRUE;
         });
 
         return lazyMap.get(pkg.getName());

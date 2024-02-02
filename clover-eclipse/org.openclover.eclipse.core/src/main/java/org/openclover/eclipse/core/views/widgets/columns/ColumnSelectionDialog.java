@@ -119,12 +119,7 @@ public class ColumnSelectionDialog extends Dialog {
             }
         });
         allBuiltinColumnsTableViewer.setInput(model);
-        allBuiltinColumnsTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-            @Override
-            public void selectionChanged(SelectionChangedEvent event) {
-                updateButtonStates();
-            }
-        });
+        allBuiltinColumnsTableViewer.addSelectionChangedListener(event -> updateButtonStates());
         builtinRightButton = new Button(availableColumns, SWT.NONE);
         builtinRightButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.VERTICAL_ALIGN_BEGINNING));
         SwtUtils.gridDataFor(builtinRightButton).widthHint = BUTTON_WIDTH_HINT;
@@ -168,12 +163,7 @@ public class ColumnSelectionDialog extends Dialog {
             }
         });
         allCustomColumnsTableViewer.setInput(model);
-        allCustomColumnsTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-            @Override
-            public void selectionChanged(SelectionChangedEvent event) {
-                updateButtonStates();
-            }
-        });
+        allCustomColumnsTableViewer.addSelectionChangedListener(event -> updateButtonStates());
 
         customRightButton = new Button(availableColumns, SWT.NONE);
         customRightButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.VERTICAL_ALIGN_END));
@@ -283,12 +273,7 @@ public class ColumnSelectionDialog extends Dialog {
             }
         });
         selectedColumnsTableViewer.setInput(model);
-        selectedColumnsTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-            @Override
-            public void selectionChanged(SelectionChangedEvent event) {
-                updateButtonStates();
-            }
-        });
+        selectedColumnsTableViewer.addSelectionChangedListener(event -> updateButtonStates());
 
         upButton = new Button(assignedColumns, SWT.NONE);
         upButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.VERTICAL_ALIGN_BEGINNING));
@@ -344,14 +329,11 @@ public class ColumnSelectionDialog extends Dialog {
             }
         });
 
-        model.addListener(new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                selectedColumnsTableViewer.refresh();
-                allBuiltinColumnsTableViewer.refresh();
-                allCustomColumnsTableViewer.refresh();
-                updateButtonStates();
-            }
+        model.addListener(evt -> {
+            selectedColumnsTableViewer.refresh();
+            allBuiltinColumnsTableViewer.refresh();
+            allCustomColumnsTableViewer.refresh();
+            updateButtonStates();
         });
 
         return composite;

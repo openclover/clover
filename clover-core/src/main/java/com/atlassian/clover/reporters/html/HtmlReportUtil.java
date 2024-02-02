@@ -19,12 +19,7 @@ import java.nio.file.Files;
 import java.util.List;
 
 public class HtmlReportUtil {
-    private static ThreadLocal ve = new ThreadLocal() {
-        @Override
-        protected Object initialValue() {
-            return newVelocityEngine();
-        }
-    };
+    private static ThreadLocal ve = ThreadLocal.withInitial(HtmlReportUtil::newVelocityEngine);
 
     public static VelocityEngine getVelocityEngine() {
         return (VelocityEngine) ve.get();

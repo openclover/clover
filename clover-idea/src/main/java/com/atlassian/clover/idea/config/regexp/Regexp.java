@@ -9,6 +9,7 @@ import com.atlassian.clover.context.StatementRegexpContext;
 
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.Objects;
 import java.util.Observable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -238,8 +239,8 @@ public class Regexp extends Observable {
 
         if (enabled != regexp.enabled) return false;
         if (type != regexp.type) return false;
-        if (name != null ? !name.equals(regexp.name) : regexp.name != null) return false;
-        return !(regex != null ? !regex.equals(regexp.regex) : regexp.regex != null);
+        if (!Objects.equals(name, regexp.name)) return false;
+        return !(!Objects.equals(regex, regexp.regex));
 
     }
 

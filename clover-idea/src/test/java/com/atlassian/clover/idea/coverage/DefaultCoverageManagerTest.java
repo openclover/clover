@@ -66,12 +66,9 @@ public class DefaultCoverageManagerTest extends LightIdeaTestCase {
 
     private static void loadDCM(final DefaultCoverageManager dcm) throws InterruptedException {
         final CountDownLatch loadLatch = new CountDownLatch(1);
-        dcm.reload(new AcceptsCoverageTreeModel() {
-            @Override
-            public void setCoverageTree(CoverageTreeModel newModel) {
-                dcm.setCoverageTree(newModel);
-                loadLatch.countDown();
-            }
+        dcm.reload(newModel -> {
+            dcm.setCoverageTree(newModel);
+            loadLatch.countDown();
         });
         UIUtil.dispatchAllInvocationEvents(); // force to call onSuccess() post-task action
 

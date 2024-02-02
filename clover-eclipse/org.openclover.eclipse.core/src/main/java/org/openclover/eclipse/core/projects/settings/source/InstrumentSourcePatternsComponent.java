@@ -38,13 +38,10 @@ public class InstrumentSourcePatternsComponent extends Composite {
 
         foldersListViewer = CheckboxTableViewer.newCheckList(this, SWT.BORDER | SWT.V_SCROLL);
         foldersListViewer.setLabelProvider(new FolderWithPatternLabelProvider());
-        foldersListViewer.addCheckStateListener(new ICheckStateListener() {
-            @Override
-            public void checkStateChanged(CheckStateChangedEvent event) {
-                final SourceRootWithPattern element = (SourceRootWithPattern) event.getElement();
-                element.getPattern().setEnabled(event.getChecked());
-                contentProvider.notifyElementChange(element);
-            }
+        foldersListViewer.addCheckStateListener(event -> {
+            final SourceRootWithPattern element = (SourceRootWithPattern) event.getElement();
+            element.getPattern().setEnabled(event.getChecked());
+            contentProvider.notifyElementChange(element);
         });
 
         foldersListViewer.setContentProvider(contentProvider);
@@ -70,12 +67,7 @@ public class InstrumentSourcePatternsComponent extends Composite {
 
         new Label(this, SWT.NONE);
 
-        foldersListViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-            @Override
-            public void selectionChanged(SelectionChangedEvent event) {
-                updateButtonStateAndUpdateListeners();
-            }
-        });
+        foldersListViewer.addSelectionChangedListener(event -> updateButtonStateAndUpdateListeners());
     }
 
     private void updateButtonStateAndUpdateListeners() {

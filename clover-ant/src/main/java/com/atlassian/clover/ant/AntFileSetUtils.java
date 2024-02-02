@@ -54,12 +54,7 @@ public class AntFileSetUtils {
     }
 
 
-    protected static final Predicate<String> isTrimmed = new Predicate<String>() {
-        @Override
-        public boolean test(@Nullable final String s) {
-            return s != null && s.trim().equals(s);
-        }
-    };
+    protected static final Predicate<String> isTrimmed = s -> s != null && s.trim().equals(s);
 
     @NotNull
     protected static List<String> getNonTrimmedPatterns(@Nullable final String[] includePatterns,
@@ -75,12 +70,7 @@ public class AntFileSetUtils {
         }
     }
 
-    protected static final Function<String, String> wrapInBrackets = new Function<String, String>() {
-        @Override
-        public String apply(@Nullable final String s) {
-            return "<" + s + ">";
-        }
-    };
+    protected static final Function<String, String> wrapInBrackets = s -> "<" + s + ">";
 
     @NotNull
     protected static String createNonTrimmedPatternsMessage(@NotNull final Collection<String> patterns,

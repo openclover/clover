@@ -98,12 +98,7 @@ public class CloverMergeTask extends AbstractCloverTask {
 
 
         try {
-            CloverDatabase.merge(cloverDbs, initString, update, updateSpan, new ProgressListener() {
-                @Override
-                public void handleProgress(String desc, float pc) {
-                    log(desc);
-                }
-            });
+            CloverDatabase.merge(cloverDbs, initString, update, updateSpan, (desc, pc) -> log(desc));
         }
         catch (Exception e) {
             throw new BuildException("Error writing new clover db at \"" + initString + "\": " + e.getMessage(), e);

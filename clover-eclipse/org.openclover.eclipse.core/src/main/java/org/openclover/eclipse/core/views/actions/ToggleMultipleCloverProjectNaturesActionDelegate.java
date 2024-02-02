@@ -38,26 +38,23 @@ public class ToggleMultipleCloverProjectNaturesActionDelegate
         final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
         final ToggleCloverProjectsDialog dialog = new ToggleCloverProjectsDialog(shell);
 
-        Display.getDefault().asyncExec(new Runnable() {
-            @Override
-            public void run() {
-                if (dialog.open() == Dialog.OK) {
-                    final Set toToggle = dialog.getProjectsToToggle();
-                    for (Iterator iterator = toToggle.iterator(); iterator.hasNext();) {
-                        CloverProject.toggleWithUserFeedback(
+        Display.getDefault().asyncExec(() -> {
+            if (dialog.open() == Dialog.OK) {
+                final Set toToggle = dialog.getProjectsToToggle();
+                for (Object o : toToggle) {
+                    CloverProject.toggleWithUserFeedback(
                             shell,
-                            (IProject)iterator.next());
+                            (IProject) o);
+                }
+                try {
+                    // Automatically show Clover views if at least one project will have Clover enabled
+                    // and "Auto open clover views" toggle in Preferences in enabled
+                    if ( CloverPlugin.getInstance().getInstallationSettings().isAutoOpenCloverViews()
+                            && (toToggle.size() > 0) ) {
+                        CloverPlugin.getInstance().showViews(getPage());
                     }
-                    try {
-                        // Automatically show Clover views if at least one project will have Clover enabled
-                        // and "Auto open clover views" toggle in Preferences in enabled
-                        if ( CloverPlugin.getInstance().getInstallationSettings().isAutoOpenCloverViews()
-                                && (toToggle.size() > 0) ) {
-                            CloverPlugin.getInstance().showViews(getPage());
-                        }
-                    } catch (CoreException e) {
-                        CloverPlugin.logError("Unable to show views after toggling Clover on " + toToggle.size() + " projects", e);
-                    }
+                } catch (CoreException e) {
+                    CloverPlugin.logError("Unable to show views after toggling Clover on " + toToggle.size() + " projects", e);
                 }
             }
         });

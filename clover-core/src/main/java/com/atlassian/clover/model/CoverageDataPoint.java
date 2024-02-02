@@ -16,23 +16,20 @@ public class CoverageDataPoint {
     private BaseProjectInfo project;
     private File dataFile;
 
-    public static final Comparator<CoverageDataPoint> CHRONOLOGICAL_CMP = new Comparator<CoverageDataPoint>() {
-        @Override
-        public int compare(CoverageDataPoint obj1, CoverageDataPoint obj2) {
-            if (obj1 == null && obj2 == null) {
+    public static final Comparator<CoverageDataPoint> CHRONOLOGICAL_CMP = (dataPoint1, dataPoint2) -> {
+        if (dataPoint1 == null && dataPoint2 == null) {
+            return 0;
+        } else if (dataPoint1 == null) {
+            return -1;
+        } else if (dataPoint2 == null) {
+            return 1;
+        } else {
+            try {
+                Long ts1 = dataPoint1.getProject().getVersion();
+                Long ts2 = dataPoint2.getProject().getVersion();
+                return ts1.compareTo(ts2);
+            } catch (ClassCastException e) {
                 return 0;
-            } else if (obj1 == null) {
-                return -1;
-            } else if (obj2 == null) {
-                return 1;
-            } else {
-                try {
-                    Long ts1 = obj1.getProject().getVersion();
-                    Long ts2 = obj2.getProject().getVersion();
-                    return ts1.compareTo(ts2);
-                } catch (ClassCastException e) {
-                    return 0;
-                }
             }
         }
     };

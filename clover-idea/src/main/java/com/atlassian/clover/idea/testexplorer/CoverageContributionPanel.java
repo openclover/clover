@@ -221,54 +221,51 @@ class CoverageContributionTreeBuilder {
         final CoverageDataProvider uniqueTestDataProvider = new BitSetCoverageProvider(currentDatabase.getCoverageData().getUniqueHitsFor(testCaseInfo), data);
         final Map<FullPackageInfo, DefaultMutableTreeNode> packageMapping = newHashMap();
 
-        appOnlyProject.getClasses(new HasMetricsFilter() {
-            @Override
-            public boolean accept(HasMetrics hm) {
-                final FullClassInfo classInfo = (FullClassInfo) hm;
-                FullClassInfo classInfoCopy = classInfo.copy((FullFileInfo) classInfo.getContainingFile(), HasMetricsFilter.ACCEPT_ALL);
-                classInfoCopy.setDataProvider(testDataProvider);
+        appOnlyProject.getClasses(hasMetrics -> {
+            final FullClassInfo classInfo = (FullClassInfo) hasMetrics;
+            FullClassInfo classInfoCopy = classInfo.copy((FullFileInfo) classInfo.getContainingFile(), HasMetricsFilter.ACCEPT_ALL);
+            classInfoCopy.setDataProvider(testDataProvider);
 
-                if (classInfoCopy.getMetrics().getNumCoveredElements() > 0) {
-                    FullPackageInfo packageInfo = (FullPackageInfo) classInfo.getPackage();
-                    DefaultMutableTreeNode pkgNode = packageMapping.get(packageInfo);
-                    if (pkgNode == null) {
-                        pkgNode = new DefaultMutableTreeNode(packageInfo);
-                        packageMapping.put(packageInfo, pkgNode);
-                    }
-                    CoverageDataHolder classCoverage = new CoverageDataHolder(classInfo);
-                    DefaultMutableTreeNode classNode = new DefaultMutableTreeNode(classCoverage);
-                    pkgNode.add(classNode);
-                    List<DefaultMutableTreeNode> methodNodes = newArrayList();
-                    classCoverage.setCoverage(classInfoCopy.getMetrics().getPcCoveredElements());
-
-                    for (MethodInfo info : classInfoCopy.getMethods()) {
-                        FullMethodInfo methodInfo = (FullMethodInfo)info;
-
-                        if (methodInfo.getHitCount() > 0) {
-                            final float methodCoverage =
-                                    methodInfo.isEmpty() ? -1f : methodInfo.getMetrics().getPcCoveredElements();
-
-                            methodInfo.setDataProvider(uniqueTestDataProvider);
-                            final float methodUniqueCoverage = methodInfo.getMetrics().getPcCoveredElements();
-                            methodInfo.setDataProvider(null); // clean up BitSet references
-
-                            final CoverageDataHolder methodCoverageData =
-                                    new CoverageDataHolder(methodInfo, methodCoverage, methodUniqueCoverage);
-
-                            methodNodes.add(new DefaultMutableTreeNode(methodCoverageData));
-                        }
-                    }
-
-                    tableModel.sortNodes(methodNodes);
-                    for (DefaultMutableTreeNode methodNode : methodNodes) {
-                        classNode.add(methodNode);
-                    }
-
-                    classInfoCopy.setDataProvider(uniqueTestDataProvider);
-                    classCoverage.setUniqueCoverage(classInfoCopy.getMetrics().getPcCoveredElements());
+            if (classInfoCopy.getMetrics().getNumCoveredElements() > 0) {
+                FullPackageInfo packageInfo = (FullPackageInfo) classInfo.getPackage();
+                DefaultMutableTreeNode pkgNode = packageMapping.get(packageInfo);
+                if (pkgNode == null) {
+                    pkgNode = new DefaultMutableTreeNode(packageInfo);
+                    packageMapping.put(packageInfo, pkgNode);
                 }
-                return false;
+                CoverageDataHolder classCoverage = new CoverageDataHolder(classInfo);
+                DefaultMutableTreeNode classNode = new DefaultMutableTreeNode(classCoverage);
+                pkgNode.add(classNode);
+                List<DefaultMutableTreeNode> methodNodes = newArrayList();
+                classCoverage.setCoverage(classInfoCopy.getMetrics().getPcCoveredElements());
+
+                for (MethodInfo info : classInfoCopy.getMethods()) {
+                    FullMethodInfo methodInfo = (FullMethodInfo)info;
+
+                    if (methodInfo.getHitCount() > 0) {
+                        final float methodCoverage =
+                                methodInfo.isEmpty() ? -1f : methodInfo.getMetrics().getPcCoveredElements();
+
+                        methodInfo.setDataProvider(uniqueTestDataProvider);
+                        final float methodUniqueCoverage = methodInfo.getMetrics().getPcCoveredElements();
+                        methodInfo.setDataProvider(null); // clean up BitSet references
+
+                        final CoverageDataHolder methodCoverageData =
+                                new CoverageDataHolder(methodInfo, methodCoverage, methodUniqueCoverage);
+
+                        methodNodes.add(new DefaultMutableTreeNode(methodCoverageData));
+                    }
+                }
+
+                tableModel.sortNodes(methodNodes);
+                for (DefaultMutableTreeNode methodNode : methodNodes) {
+                    classNode.add(methodNode);
+                }
+
+                classInfoCopy.setDataProvider(uniqueTestDataProvider);
+                classCoverage.setUniqueCoverage(classInfoCopy.getMetrics().getPcCoveredElements());
             }
+            return false;
         });
 
         if (flattenPackages) {

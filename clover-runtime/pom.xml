@@ -156,33 +156,18 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- compile sources with 1.7 level by default, except JUnit5 test listener which requires 1.8 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>build-for-jdk17</id>
                         <configuration>
                             <source>1.8</source>
                             <target>1.8</target>
                             <excludes>
                                 <!-- No non-runtime generated source -->
                                 <exclude>**/package-info.java</exclude>
-                                <!-- JUnit5 requires JDK8 or higher -->
-                                <exclude>**/CloverJUnit5TestExecutionListener.java</exclude>
                             </excludes>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>build-for-jdk18</id>
-                        <configuration>
-                            <source>1.8</source>
-                            <target>1.8</target>
-                            <includes>
-                                <!-- For JUnit5 -->
-                                <include>**/CloverJUnit5TestExecutionListener.java</include>
-                            </includes>
                         </configuration>
                     </execution>
                 </executions>

@@ -13,12 +13,7 @@ public class DecorationPreferenceChangeListener implements IPreferenceChangeList
                 || ProjectSettings.Keys.INCLUDE_FILTER.equals(key)
                 || ProjectSettings.Keys.INSTRUMENT_SELECTED_SOURCE_FOLDERS.equals(key)
                 || key.startsWith(ProjectSettings.Keys.INSTRUMENTED_FOLDER_PATTERNS)) {
-            Display.getDefault().asyncExec(new Runnable() {
-                @Override
-                public void run() {
-                    ExclusionLabelDecorator.decorationChanged();
-                }
-            });
+            Display.getDefault().asyncExec(ExclusionLabelDecorator::decorationChanged);
         }
     }
 

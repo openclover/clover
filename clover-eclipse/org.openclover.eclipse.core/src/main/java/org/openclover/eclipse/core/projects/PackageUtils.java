@@ -53,12 +53,8 @@ public class PackageUtils {
         IProject targetProject) throws CoreException {
 
         Collection<IProject> dynamicReferences = newArrayList(sourceProjectDescription.getReferencedProjects()); // copy
-        for (Iterator<IProject> iterator = dynamicReferences.iterator(); iterator.hasNext();) {
-            IProject project = iterator.next();
-            if (targetProject.equals(project)) {
-                iterator.remove();
-            }
-        }
+        dynamicReferences.removeIf(targetProject::equals);
+
         sourceProjectDescription.setDynamicReferences(
             dynamicReferences.toArray(new IProject[dynamicReferences.size()]));
     }

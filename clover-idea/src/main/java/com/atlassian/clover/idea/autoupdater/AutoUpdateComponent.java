@@ -226,12 +226,7 @@ public class AutoUpdateComponent implements ApplicationComponent, Runnable, Pers
         try {
             final LatestVersionInfo latestVersion = checkLatestVersion();
             if (latestVersion != null) {
-                ApplicationManager.getApplication().invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        handleVersion(latestVersion);
-                    }
-                });
+                ApplicationManager.getApplication().invokeLater(() -> handleVersion(latestVersion));
             } else {
                 LOG.info("Cannot retrieve latest version info (null)");
             }

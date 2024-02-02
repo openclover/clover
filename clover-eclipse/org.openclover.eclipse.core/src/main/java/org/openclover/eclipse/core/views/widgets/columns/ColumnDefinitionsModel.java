@@ -50,11 +50,7 @@ class ColumnDefinitionsModel {
 
     private static Set<ColumnDefinition> getColumns(Set<ColumnDefinition> columns, boolean customColumns) {
         Set<ColumnDefinition> clippedColumns = new LinkedHashSet<>(columns);
-        for (Iterator<ColumnDefinition> iter = clippedColumns.iterator(); iter.hasNext();) {
-            if (customColumns ^ iter.next().isCustom()) {
-                iter.remove();
-            }
-        }
+        clippedColumns.removeIf(columnDefinition -> customColumns ^ columnDefinition.isCustom());
         return clippedColumns;
     }
 
@@ -81,11 +77,8 @@ class ColumnDefinitionsModel {
 
     public boolean deassignAll() {
         Set<ColumnDefinition> toBeDeassigned = newHashSet(assigned);
-        for (Iterator<ColumnDefinition> iter = toBeDeassigned.iterator(); iter.hasNext();) {
-            if ((iter.next()).isLocked()) {
-                iter.remove();
-            }
-        }
+        toBeDeassigned.removeIf(ColumnDefinition::isLocked);
+
         boolean allDeassigned = toBeDeassigned.size() == assigned.size();
         assigned.removeAll(toBeDeassigned);
         remaining.addAll(toBeDeassigned);

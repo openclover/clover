@@ -111,17 +111,12 @@ public class ProjectPropertyPage extends BaseSettingsPage implements IWorkbenchP
             if (lastIdx instanceof Integer) {
                 tabFolder.setSelection((Integer) lastIdx);
             }
-            tabFolder.addListener(SWT.Selection, new Listener() {
-
-                @Override
-                public void handleEvent(Event event) {
-                    try {
-                        project.getProject().setSessionProperty(LAST_SELECTED_TAB_KEY, new Integer(tabFolder.getSelectionIndex()));
-                    } catch (CoreException e1) {
-                        // ignore
-                    }
+            tabFolder.addListener(SWT.Selection, event -> {
+                try {
+                    project.getProject().setSessionProperty(LAST_SELECTED_TAB_KEY, new Integer(tabFolder.getSelectionIndex()));
+                } catch (CoreException e1) {
+                    // ignore
                 }
-                
             });
             
             enableButton.addSelectionListener(new SelectionAdapter() {

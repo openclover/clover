@@ -59,7 +59,7 @@ public class RenderPackageTreeJsonAction implements Callable {
      */
     protected List<PackageInfoExt> collectAllPackagesByName() {
         final List<? extends PackageInfo> packages = fullProjectInfo.getAllPackages();
-        Collections.sort(packages, HasMetricsSupport.LEX_COMP);
+        packages.sort(HasMetricsSupport.LEX_COMP);
 
         final List<PackageInfoExt> packagesExt = new ArrayList<>(packages.size());
         for (PackageInfo packageInfo : packages) {

@@ -55,12 +55,8 @@ public class FileUtils {
      * @throws java.lang.RuntimeException if java.io.tmpdir is not set
      */
     public static File getJavaTempDir() {
-        final String property = AccessController.doPrivileged(new PrivilegedAction<String>() {
-            @Override
-            public String run() {
-                return System.getProperty(JAVA_IO_TMPDIR);
-            }
-        });
+        final String property = AccessController.doPrivileged((PrivilegedAction<String>) () ->
+                System.getProperty(JAVA_IO_TMPDIR));
         if (property == null) {
             throw new RuntimeException("The " + JAVA_IO_TMPDIR +
                     " system property is not set. Please ensure this property is set before executing Clover.");
@@ -462,12 +458,7 @@ public class FileUtils {
      * @throws java.io.IOException if the dir cannot be read
      */
     public static File[] listMatchingFilesForDir(File dir, final String regex) throws IOException {
-        File [] files = dir.listFiles(new FileFilter() {
-            @Override
-            public boolean accept(File file) {
-                return file.isFile() && file.getName().matches(regex);
-            }
-        });
+        File [] files = dir.listFiles(file -> file.isFile() && file.getName().matches(regex));
 
         if (files == null) {
             throw new IOException("Unable to read directory " + dir);

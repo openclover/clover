@@ -209,11 +209,7 @@ public class Snapshot implements Serializable {
     }
 
     private void addToStates(TestMethodCall test, String path, SourceState state) {
-        Map<String, SourceState> perTestMap = perTestSourceStates.get(test);
-        if (perTestMap == null) {
-            perTestMap = newHashMap();
-            perTestSourceStates.put(test, perTestMap);
-        }
+        Map<String, SourceState> perTestMap = perTestSourceStates.computeIfAbsent(test, k -> newHashMap());
         perTestMap.put(path, state);
     }
 
@@ -221,15 +217,12 @@ public class Snapshot implements Serializable {
    private void calcHits(final CloverDatabase db) {
         final long started = System.currentTimeMillis();
 
-        db.getFullModel().visitFiles(new FileInfoVisitor() {
-            @Override
-            public void visitFileInfo(BaseFileInfo file) {
-                final String packagePath = file.getPackagePath();
-                final SourceState sourceState = new SourceState(file.getChecksum(), file.getFilesize());
-                final Set<TestMethodCall> testsForFile = testsFor(db.getFullModel(), db.getTestHits((CoverageDataRange) file));
-                for (TestMethodCall test : testsForFile) {
-                    addToStates(test, packagePath, sourceState);
-                }
+        db.getFullModel().visitFiles(fileInfo -> {
+            final String packagePath = fileInfo.getPackagePath();
+            final SourceState sourceState = new SourceState(fileInfo.getChecksum(), fileInfo.getFilesize());
+            final Set<TestMethodCall> testsForFile = testsFor(db.getFullModel(), db.getTestHits((CoverageDataRange) fileInfo));
+            for (TestMethodCall test : testsForFile) {
+                addToStates(test, packagePath, sourceState);
             }
         });
 
@@ -502,11 +495,7 @@ public class Snapshot implements Serializable {
             final TestMethodCall test = mapEntry.getKey();
             final Map<String, SourceState> value = mapEntry.getValue();
             for (String filePath : value.keySet()) {
-                Collection<TestMethodCall> tests = result.get(filePath);
-                if (tests == null) {
-                    tests = newHashSet();
-                    result.put(filePath, tests);
-                }
+                Collection<TestMethodCall> tests = result.computeIfAbsent(filePath, k -> newHashSet());
                 tests.add(test);
             }
         }

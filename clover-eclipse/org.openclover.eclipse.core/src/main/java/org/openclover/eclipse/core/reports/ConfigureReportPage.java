@@ -49,12 +49,9 @@ public abstract class ConfigureReportPage extends WizardPage {
     }
 
     protected Listener newValidationListener() {
-        return new Listener() {
-            @Override
-            public void handleEvent(Event event) {
-                validate();
-                getWizard().getContainer().updateButtons();
-            }
+        return event -> {
+            validate();
+            getWizard().getContainer().updateButtons();
         };
     }
 

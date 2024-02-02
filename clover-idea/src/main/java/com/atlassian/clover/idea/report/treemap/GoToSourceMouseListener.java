@@ -67,12 +67,7 @@ public class GoToSourceMouseListener extends MouseAdapter {
             menu.addSeparator();
 
             JMenuItem menuItem = menu.add("Jump to source");
-            menuItem.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    ScrollUtil.scrollToSourceRegion(project, classInfo);
-                }
-            });
+            menuItem.addActionListener(e1 -> ScrollUtil.scrollToSourceRegion(project, classInfo));
 
             menu.show(e.getComponent(), e.getX(), e.getY());
         }

@@ -203,11 +203,11 @@ public class HistoricalReportDescriptor {
 
             // ensure we have the top n and bottom n classes in this list
             if (moverClasses.size() <= range) { // if we have less added than range, return them all.
-                Collections.sort(moverClasses, MetricsDiffSummary.INVERSE_DIFF_COMP);
+                moverClasses.sort(MetricsDiffSummary.INVERSE_DIFF_COMP);
                 return removeAllEmpty(moverClasses);
             } else { // otherwise, get the top and bottom N.
                 final List<MetricsDiffSummary> topN = getPositiveMoversInner(moverClasses, lastMover, range, true);
-                Collections.sort(topN, MetricsDiffSummary.INVERSE_DIFF_COMP);
+                topN.sort(MetricsDiffSummary.INVERSE_DIFF_COMP);
                 final List<MetricsDiffSummary> bottomN = getBottomMovers(moverClasses, range);
                 final List<MetricsDiffSummary> result = new ArrayList<>(topN.size() + bottomN.size());
                 result.addAll(topN);

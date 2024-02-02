@@ -377,10 +377,9 @@ public class FullClassInfo extends BaseClassInfo implements HasMetricsNode, Cove
     @Override
     public void setComparator(Comparator cmp) {
         if (cmp != null) {
-            Collections.sort(methods, cmp);
-        }
-        else {
-            Collections.sort(methods, FixedSourceRegion.SOURCE_ORDER_COMP);
+            methods.sort(cmp);
+        } else {
+            methods.sort(FixedSourceRegion.SOURCE_ORDER_COMP);
         }
     }
 

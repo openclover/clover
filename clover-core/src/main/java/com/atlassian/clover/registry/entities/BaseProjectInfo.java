@@ -156,13 +156,10 @@ public class BaseProjectInfo implements ProjectInfo, CachingInfo {
 
     private void buildClassLookupMap() {
         final Map<String, BaseClassInfo> tmpClassLookup = new LinkedHashMap<>();
-        visitFiles(new FileInfoVisitor() {
-            @Override
-            public void visitFileInfo(BaseFileInfo file) {
-                for (ClassInfo aClass : file.getClasses()) {
-                    BaseClassInfo info = (BaseClassInfo) aClass;
-                    tmpClassLookup.put(info.getQualifiedName(), info);
-                }
+        visitFiles(file -> {
+            for (ClassInfo aClass : file.getClasses()) {
+                BaseClassInfo info = (BaseClassInfo) aClass;
+                tmpClassLookup.put(info.getQualifiedName(), info);
             }
         });
         classLookup = tmpClassLookup;
@@ -170,12 +167,7 @@ public class BaseProjectInfo implements ProjectInfo, CachingInfo {
 
     private void buildFileLookupMap() {
         final Map<String, BaseFileInfo> tmpFileLookup = new LinkedHashMap<>();
-        visitFiles(new FileInfoVisitor() {
-            @Override
-            public void visitFileInfo(BaseFileInfo file) {
-                tmpFileLookup.put(file.getPackagePath(), file);
-            }
-        });
+        visitFiles(file -> tmpFileLookup.put(file.getPackagePath(), file));
         fileLookup = tmpFileLookup;
     }
 

@@ -51,12 +51,7 @@ public class OptimizedConfigurationSettingsPanel extends JPanel {
 
         add(new JPanel(),  new GBC(0, GBC.RELATIVE).setWeight(1, 1));
 
-        discardSnapshot.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                discardInterval.setEnabled(discardSnapshot.isSelected());
-            }
-        });
+        discardSnapshot.addActionListener(actionEvent -> discardInterval.setEnabled(discardSnapshot.isSelected()));
         discardInterval.setValue(0);
     }
 

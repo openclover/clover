@@ -290,7 +290,7 @@ public class PDFReporter extends CloverReporter {
         document.add(RenderingSupport.createCoverageDataTable(currentConfig, parentTitle, Collections.singletonList(parent), colours));
         document.add(RenderingSupport.getSpacerRow());
 
-        Collections.sort(children, HasMetricsSupport.getHasMetricsComparator(currentConfig.getFormat().getOrderby()));
+        children.sort(HasMetricsSupport.getHasMetricsComparator(currentConfig.getFormat().getOrderby()));
 
         document.add(RenderingSupport.createCoverageDataTable(currentConfig, childrenTitle, (List<HasMetrics>)(List)children, colours));
         document.newPage();

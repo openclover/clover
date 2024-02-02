@@ -27,14 +27,8 @@ public abstract class AbstractCloverPluginConfig implements CloverPluginConfig {
         synchronized void addEvent(PropertyChangeEvent event) {
             // is there an existing instance of this property being changed? if
             // so, remove it.
-            final Iterator<PropertyChangeEvent> i = propertyChanges.iterator();
-            while (i.hasNext()) {
-                PropertyChangeEvent evt = i.next();
-                if (evt.getPropertyName().equals(event.getPropertyName())) {
-                    i.remove();
-                    // actually, the event.oldValue should be updated with this value.
-                }
-            }
+            // actually, the event.oldValue should be updated with this value.
+            propertyChanges.removeIf(evt -> evt.getPropertyName().equals(event.getPropertyName()));
 
             // a property change event should be generated.
             propertyChanges.add(event);

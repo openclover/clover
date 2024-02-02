@@ -59,35 +59,32 @@ public abstract class BaseToggleActionDelegate extends BaseActionDelegate {
 
     private void touch(final ICloverExcludable selectedElement) {
         
-        IWorkspaceRunnable runnable = new IWorkspaceRunnable() {
-            @Override
-            public void run(final IProgressMonitor progressMonitor) throws CoreException {
-                IJavaElement javaElement = selectedElement.getJavaElement();
-                CloverPlugin.logVerbose("Requesting rebuild of " + javaElement.getElementName());
-                if (selectedElement.isLeaf()) {
-                    javaElement.getResource().touch(progressMonitor);
-                } else {
-                    final String rootName = javaElement instanceof IPackageFragmentRoot ? "" : javaElement.getElementName();
-                    final String rootPrefix = rootName.length() == 0 ? "" : rootName + '.';
-                    final Collection<IPackageFragmentRoot> roots = isSourceRootBased() ?
-                            Collections.singleton(selectedElement.getPackageFragmentRoot())
-                            : Arrays.asList(javaElement.getJavaProject().getAllPackageFragmentRoots());
-                    for (IPackageFragmentRoot srcRoot : roots) {
-                        if (srcRoot.getKind() != IPackageFragmentRoot.K_SOURCE) continue;
-                        final IJavaElement[] packageFragments = srcRoot.getChildren();
-                        for (IJavaElement fragment: packageFragments) {
-                            final String name = fragment.getElementName();
-                            if (rootName.length() == 0 || name.equals(rootName) || name.startsWith(rootPrefix)) {
-                                for (ICompilationUnit cu : ((IPackageFragment)fragment).getCompilationUnits()) {
-                                    cu.getResource().touch(progressMonitor);
-                                }
+        IWorkspaceRunnable runnable = progressMonitor -> {
+            IJavaElement javaElement = selectedElement.getJavaElement();
+            CloverPlugin.logVerbose("Requesting rebuild of " + javaElement.getElementName());
+            if (selectedElement.isLeaf()) {
+                javaElement.getResource().touch(progressMonitor);
+            } else {
+                final String rootName = javaElement instanceof IPackageFragmentRoot ? "" : javaElement.getElementName();
+                final String rootPrefix = rootName.length() == 0 ? "" : rootName + '.';
+                final Collection<IPackageFragmentRoot> roots = isSourceRootBased() ?
+                        Collections.singleton(selectedElement.getPackageFragmentRoot())
+                        : Arrays.asList(javaElement.getJavaProject().getAllPackageFragmentRoots());
+                for (IPackageFragmentRoot srcRoot : roots) {
+                    if (srcRoot.getKind() != IPackageFragmentRoot.K_SOURCE) continue;
+                    final IJavaElement[] packageFragments = srcRoot.getChildren();
+                    for (IJavaElement fragment: packageFragments) {
+                        final String name = fragment.getElementName();
+                        if (rootName.length() == 0 || name.equals(rootName) || name.startsWith(rootPrefix)) {
+                            for (ICompilationUnit cu : ((IPackageFragment)fragment).getCompilationUnits()) {
+                                cu.getResource().touch(progressMonitor);
                             }
                         }
-                        
                     }
+
                 }
-                new ScheduleRebuildJob(selectedElement.getProject(), IncrementalProjectBuilder.AUTO_BUILD).schedule();
             }
+            new ScheduleRebuildJob(selectedElement.getProject(), IncrementalProjectBuilder.AUTO_BUILD).schedule();
         };
         
         try {

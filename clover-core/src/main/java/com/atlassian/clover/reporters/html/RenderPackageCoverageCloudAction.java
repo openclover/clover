@@ -35,7 +35,7 @@ public class RenderPackageCoverageCloudAction extends RenderCoverageCloudAction 
 
     private static List sortClasses(List classes, Comparator comparator) {
         if (classes != null) {
-            Collections.sort(classes, comparator);
+            classes.sort(comparator);
         }
         return classes;
     }

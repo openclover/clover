@@ -18,12 +18,7 @@ public class UpdateTaskScheduler {
 
     public void scheduleReloadTask(final CancellableTaskDelegate taskDelegate) {
         if (!ApplicationManager.getApplication().isDispatchThread()) {
-            ApplicationManager.getApplication().invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    scheduleReloadTask(taskDelegate);
-                }
-            });
+            ApplicationManager.getApplication().invokeLater(() -> scheduleReloadTask(taskDelegate));
         }
 
         //reload task takes precedence and makes currently running and pending ones obsolete
@@ -38,12 +33,7 @@ public class UpdateTaskScheduler {
 
     public void scheduleCoverageLoadTask(final CancellableTaskDelegate taskDelegate) {
         if (!ApplicationManager.getApplication().isDispatchThread()) {
-            ApplicationManager.getApplication().invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    scheduleCoverageLoadTask(taskDelegate);
-                }
-            });
+            ApplicationManager.getApplication().invokeLater(() -> scheduleCoverageLoadTask(taskDelegate));
         }
         if (currentTask == null) {
             pendingCoverageLoadTask = null;

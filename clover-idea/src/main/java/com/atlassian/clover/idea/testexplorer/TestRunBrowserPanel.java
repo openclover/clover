@@ -34,12 +34,9 @@ public class TestRunBrowserPanel extends TreeTablePanel {
         super(project, TreeTableModelFactory.getTestCasesTreeTableModel(null));
         treeBuilder = new TestRunExplorerTreeBuilder(project, tableModel, rootNode);
 
-        treeTableView.getTree().addTreeSelectionListener(new TreeSelectionListener() {
-            @Override
-            public void valueChanged(TreeSelectionEvent e) {
-                final DefaultMutableTreeNode node = (DefaultMutableTreeNode) e.getPath().getLastPathComponent();
-                updateTestCaseSelectionListeners(node);
-            }
+        treeTableView.getTree().addTreeSelectionListener(treeSelectionEvent -> {
+            final DefaultMutableTreeNode node = (DefaultMutableTreeNode) treeSelectionEvent.getPath().getLastPathComponent();
+            updateTestCaseSelectionListeners(node);
         });
 
         add(new JScrollPane(treeTableView), BorderLayout.CENTER);

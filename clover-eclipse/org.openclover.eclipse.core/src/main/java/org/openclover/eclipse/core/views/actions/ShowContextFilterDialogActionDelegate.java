@@ -28,20 +28,17 @@ public class ShowContextFilterDialogActionDelegate extends SingleCloverProjectAc
                 new ContextChooserDialog(getShell(), props);
 
             final CloverProject projectAsFinal = project;
-            Display.getDefault().asyncExec(new Runnable() {
-                @Override
-                public void run() {
-                    int result = dialog.open();
+            Display.getDefault().asyncExec(() -> {
+                int result = dialog.open();
 
-                    switch (result) {
-                        case IDialogConstants.OK_ID:
-                            projectAsFinal.refreshModel(true, false);
-                            break;
-                        case IDialogConstants.CANCEL_ID:
-                            break;
-                        default:
-                            CloverPlugin.logError("Unknown dialog response code when setting block contexts: " + result);
-                    }
+                switch (result) {
+                    case IDialogConstants.OK_ID:
+                        projectAsFinal.refreshModel(true, false);
+                        break;
+                    case IDialogConstants.CANCEL_ID:
+                        break;
+                    default:
+                        CloverPlugin.logError("Unknown dialog response code when setting block contexts: " + result);
                 }
             });
         }

@@ -21,17 +21,14 @@ public class OpenCloudActionDelegate extends GenerateCloudActionDelegate {
             protected IStatus activateEditor() {
                 final IStatus[] openEditorStatus = new IStatus[] {Status.OK_STATUS};
 
-                Display.getDefault().syncExec(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            IDE.openEditor(
-                                getPage(),
-                            new CloudProjectInput(CloverProject.getFor(project)),
-                                CloudEditor.ID);
-                        } catch (Throwable t) {
-                            openEditorStatus[0] = new Status(Status.ERROR, CloverPlugin.ID, 0, CloverEclipsePluginMessages.FAILED_TO_OPEN_CLOUD_EDITOR(), t);
-                        }
+                Display.getDefault().syncExec(() -> {
+                    try {
+                        IDE.openEditor(
+                            getPage(),
+                        new CloudProjectInput(CloverProject.getFor(project)),
+                            CloudEditor.ID);
+                    } catch (Throwable t) {
+                        openEditorStatus[0] = new Status(Status.ERROR, CloverPlugin.ID, 0, CloverEclipsePluginMessages.FAILED_TO_OPEN_CLOUD_EDITOR(), t);
                     }
                 });
                 return openEditorStatus[0];

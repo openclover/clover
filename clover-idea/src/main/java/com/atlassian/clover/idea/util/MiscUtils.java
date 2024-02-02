@@ -16,12 +16,8 @@ public class MiscUtils {
         }
 
         final AtomicReference<T> holder = new AtomicReference<>();
-        ApplicationManager.getApplication().invokeAndWait(new Runnable() {
-            @Override
-            public void run() {
-                holder.set(computable.compute());
-            }
-        }, ModalityState.defaultModalityState());
+        ApplicationManager.getApplication().invokeAndWait(() ->
+                holder.set(computable.compute()), ModalityState.defaultModalityState());
         return holder.get();
     }
 
@@ -34,11 +30,7 @@ public class MiscUtils {
      * @param runnable code to run
      */
     public static void invokeWriteActionAndWait(final Runnable runnable) {
-        ApplicationManager.getApplication().invokeAndWait(new Runnable() {
-            @Override
-            public void run() {
-                ApplicationManager.getApplication().runWriteAction(runnable);
-            }
-        }, ModalityState.defaultModalityState());
+        ApplicationManager.getApplication().invokeAndWait(() ->
+                ApplicationManager.getApplication().runWriteAction(runnable), ModalityState.defaultModalityState());
     }
 }

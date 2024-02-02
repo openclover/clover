@@ -81,14 +81,11 @@ public class AntIntegrator implements Integrator {
     }
 
     private static boolean isWindows() {
-        final String osName = AccessController.doPrivileged(new PrivilegedAction<String>() {
-            @Override
-            public String run() {
-                try {
-                    return System.getProperty("os.name");
-                } catch (SecurityException ex) {
-                    return null;
-                }
+        final String osName = AccessController.doPrivileged((PrivilegedAction<String>) () -> {
+            try {
+                return System.getProperty("os.name");
+            } catch (SecurityException ex) {
+                return null;
             }
         });
         return osName != null && osName.toLowerCase().indexOf("windows") == 0;

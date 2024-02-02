@@ -46,36 +46,31 @@ public abstract class MemoryDebugReporter {
             long warningThreshold = (long) (maxMemory * PERCENTAGE_MEM_THRESHOLD);
             tenuredGenPool.setUsageThreshold(warningThreshold);
 
-            emitter.addNotificationListener(new NotificationListener() {
-                @Override
-                public void handleNotification(Notification notification, Object hb) {
-                    if (notification.getType().equals(MemoryNotificationInfo.MEMORY_THRESHOLD_EXCEEDED)) {
-                        long maxMemory = tenuredGenPool.getUsage().getMax();
-                        long usedMemory = tenuredGenPool.getUsage().getUsed();
-                        System.out.println(
-                            "LOW MEMORY WARNING - " + tenuredMemoryDescription(usedMemory, maxMemory));
-                        System.out.println("Stack traces for running threads:");
-                        for (Map.Entry<Thread, StackTraceElement[]> entry : Thread.getAllStackTraces().entrySet()) {
-                            Thread thread = entry.getKey();
-                            System.out.println(thread);
-                            StackTraceElement[] elements = entry.getValue();
-                            for (StackTraceElement element : elements) {
-                                System.out.println("at " + element);
-                            }
-                            System.out.println();
+            emitter.addNotificationListener((notification, handBack) -> {
+                if (notification.getType().equals(MemoryNotificationInfo.MEMORY_THRESHOLD_EXCEEDED)) {
+                    long maxMemory1 = tenuredGenPool.getUsage().getMax();
+                    long usedMemory = tenuredGenPool.getUsage().getUsed();
+                    System.out.println(
+                        "LOW MEMORY WARNING - " + tenuredMemoryDescription(usedMemory, maxMemory1));
+                    System.out.println("Stack traces for running threads:");
+                    for (Map.Entry<Thread, StackTraceElement[]> entry : Thread.getAllStackTraces().entrySet()) {
+                        Thread thread = entry.getKey();
+                        System.out.println(thread);
+                        StackTraceElement[] elements = entry.getValue();
+                        for (StackTraceElement element : elements) {
+                            System.out.println("at " + element);
                         }
+                        System.out.println();
                     }
                 }
             }, null, null);
 
             reporterService = Executors.newSingleThreadScheduledExecutor(Executors.defaultThreadFactory());
-            reporterService.scheduleWithFixedDelay(new Runnable() {
-                @Override
-                public void run() {
-                    long maxMemory = tenuredGenPool.getUsage().getMax();
-                    long usedMemory = tenuredGenPool.getUsage().getUsed();
-                    System.out.println(tenuredMemoryDescription(usedMemory, maxMemory));
-            }}, 5, 5, TimeUnit.SECONDS);
+            reporterService.scheduleWithFixedDelay(() -> {
+                long maxMemory12 = tenuredGenPool.getUsage().getMax();
+                long usedMemory = tenuredGenPool.getUsage().getUsed();
+                System.out.println(tenuredMemoryDescription(usedMemory, maxMemory12));
+        }, 5, 5, TimeUnit.SECONDS);
         } else {
             System.err.println("Unable to find memory MX bean or memory pool MX bean or both");
         }

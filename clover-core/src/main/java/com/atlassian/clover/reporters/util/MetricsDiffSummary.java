@@ -9,36 +9,29 @@ import java.util.Comparator;
 
 public class MetricsDiffSummary {
 
-    public final static Comparator<MetricsDiffSummary> DIFF_COMP = new Comparator<MetricsDiffSummary>() {
-        @Override
-        public int compare(MetricsDiffSummary aObj1, MetricsDiffSummary aObj2) {
-            if (aObj1 == null && aObj2 == null) {
-                return 0;
-            } else if (aObj1 == null) {
-                return -1;
-            } else if (aObj2 == null) {
+    public final static Comparator<MetricsDiffSummary> DIFF_COMP = (metricsDiff1, metricsDiff2) -> {
+        if (metricsDiff1 == null && metricsDiff2 == null) {
+            return 0;
+        } else if (metricsDiff1 == null) {
+            return -1;
+        } else if (metricsDiff2 == null) {
+            return 1;
+        } else {
+            float d1 = metricsDiff1.getPcDiff();
+            float d2 = metricsDiff2.getPcDiff();
+            if (d1 == d2) {
+                // secondary lexigraphical sort
+                return metricsDiff1.getName().compareTo(metricsDiff2.getName());
+            } else if (d1 > d2) {
                 return 1;
             } else {
-                float d1 = aObj1.getPcDiff();
-                float d2 = aObj2.getPcDiff();
-                if (d1 == d2) {
-                    // secondary lexigraphical sort
-                    return aObj1.getName().compareTo(aObj2.getName());
-                } else if (d1 > d2) {
-                    return 1;
-                } else {
-                    return -1;
-                }
+                return -1;
             }
         }
     };
 
-    public final static Comparator<MetricsDiffSummary> INVERSE_DIFF_COMP = new Comparator<MetricsDiffSummary>() {
-        @Override
-        public int compare(MetricsDiffSummary o1, MetricsDiffSummary o2) {
-            return DIFF_COMP.compare(o2, o1);
-        }
-    };
+    public final static Comparator<MetricsDiffSummary> INVERSE_DIFF_COMP = (metricsDiff1, metricsDiff2) ->
+            DIFF_COMP.compare(metricsDiff2, metricsDiff1);
 
     private ClassInfo classThen;
     private ClassInfo classNow;

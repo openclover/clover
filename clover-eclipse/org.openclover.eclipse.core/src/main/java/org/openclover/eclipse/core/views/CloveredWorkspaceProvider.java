@@ -88,7 +88,7 @@ public abstract class CloveredWorkspaceProvider
     }
 
     private Set<IJavaProject> processDelta(IJavaElementDelta delta) throws BreakDeltaProcessing {
-        return processDelta(new HashSet<IJavaProject>(), delta);
+        return processDelta(new HashSet<>(), delta);
     }
 
     private Set<IJavaProject> processDelta(Set<IJavaProject> changes, IJavaElementDelta delta) throws BreakDeltaProcessing {

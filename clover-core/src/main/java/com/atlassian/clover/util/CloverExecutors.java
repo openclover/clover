@@ -36,17 +36,11 @@ public class CloverExecutors {
         public CloverExecutorService(int numThreads, final String threadPrefix) {
             final CloverExceptionHandler handler = new CloverExceptionHandler();
             if (numThreads > 0) {
-                this.service = Executors.newFixedThreadPool(numThreads, new ThreadFactory() {
-
-                    @Override
-                    public Thread newThread(Runnable r) {
-                        
-                        Thread thread = new Thread(r);
-                        thread.setUncaughtExceptionHandler(handler);
-                        thread.setName(threadPrefix + "-" + thread.getName());
-                        return thread;
-                    }
-
+                this.service = Executors.newFixedThreadPool(numThreads, r -> {
+                    Thread thread = new Thread(r);
+                    thread.setUncaughtExceptionHandler(handler);
+                    thread.setName(threadPrefix + "-" + thread.getName());
+                    return thread;
                 });
             } else {
                 service = null;

@@ -43,15 +43,12 @@ public class UIUtils {
         JPanel pane = new JPanel(new BorderLayout());
         pane.add(aTextField, BorderLayout.CENTER);
         pane.add(dotDotDot, BorderLayout.EAST);
-        dotDotDot.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JFileChooser chooser = new JFileChooser(aTextField.getText());
-                chooser.setFileSelectionMode(aFileSelectionMode);
-                int choice = chooser.showDialog(aParent, "Select");
-                if (choice == JFileChooser.APPROVE_OPTION) {
-                    aTextField.setText(chooser.getSelectedFile().getAbsolutePath());
-                }
+        dotDotDot.addActionListener(actionEvent -> {
+            JFileChooser chooser = new JFileChooser(aTextField.getText());
+            chooser.setFileSelectionMode(aFileSelectionMode);
+            int choice = chooser.showDialog(aParent, "Select");
+            if (choice == JFileChooser.APPROVE_OPTION) {
+                aTextField.setText(chooser.getSelectedFile().getAbsolutePath());
             }
         });
         return pane;

@@ -21,23 +21,14 @@ public class RefreshIconsComponent implements ProjectComponent {
     public void projectOpened() {
         final IProjectPlugin plugin = ProjectPlugin.getPlugin(project);
         if (plugin != null) {
-            plugin.getConfig().addConfigChangeListener(new ConfigChangeListener() {
-                @Override
-                public void configChange(ConfigChangeEvent evt) {
-                    if (evt.hasPropertyChange(IdeaCloverConfig.VIEW_INCLUDE_ANNOTATION)
-                            || evt.hasPropertyChange(IdeaCloverConfig.ENABLED)
-                            || evt.hasPropertyChange(IdeaCloverConfig.INCLUDES)
-                            || evt.hasPropertyChange(IdeaCloverConfig.EXCLUDES)
-                            || evt.hasPropertyChange(IdeaCloverConfig.INSTRUMENT_TESTS)) {
+            plugin.getConfig().addConfigChangeListener(evt -> {
+                if (evt.hasPropertyChange(IdeaCloverConfig.VIEW_INCLUDE_ANNOTATION)
+                        || evt.hasPropertyChange(IdeaCloverConfig.ENABLED)
+                        || evt.hasPropertyChange(IdeaCloverConfig.INCLUDES)
+                        || evt.hasPropertyChange(IdeaCloverConfig.EXCLUDES)
+                        || evt.hasPropertyChange(IdeaCloverConfig.INSTRUMENT_TESTS)) {
 
-                        ApplicationManager.getApplication().runWriteAction(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                ProjectView.getInstance(project).refresh();
-                            }
-                        });
-                    }
+                    ApplicationManager.getApplication().runWriteAction(() -> ProjectView.getInstance(project).refresh());
                 }
             });
         }
