@@ -3277,6 +3277,9 @@ relationalExpression returns [int complexity]
                 }
             )*
         |
+            (INSTANCEOF FINAL type=typeSpec IDENT) =>
+            INSTANCEOF FINAL type=typeSpec IDENT
+        |
             (INSTANCEOF type=typeSpec IDENT) =>
             INSTANCEOF type=typeSpec IDENT
         |
