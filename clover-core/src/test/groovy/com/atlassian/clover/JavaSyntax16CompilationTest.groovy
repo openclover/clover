@@ -73,6 +73,9 @@ class JavaSyntax16CompilationTest extends JavaSyntaxCompilationTestBase {
         assertExecOutputContains("obj is String = a string", false)
         assertExecOutputContains("obj is final String = a final string", false)
         assertExecOutputContains("obj is not null and is an Object and not String or Integer", false)
+        assertExecOutputContains("obj is String\\[\\] = \\[Ljava.lang.String", false)
+        assertExecOutputContains("obj is HashMap<\\?, \\?> = \\{\\}", false)
+        assertExecOutputContains("obj is List<\\?> = \\[\\]", false)
     }
 
     @Test
