@@ -4,7 +4,7 @@ import com.atlassian.clover.CloverDatabase
 import com.atlassian.clover.CoverageData
 import org.openclover.runtime.api.CloverException
 import com.atlassian.clover.registry.entities.TestCaseInfo
-import com.atlassian.clover.testutils.IOHelper
+import org.openclover.buildutil.testutils.IOHelper
 import groovy.transform.CompileStatic
 
 import static org.openclover.util.Maps.newHashMap

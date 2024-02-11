@@ -1,9 +1,9 @@
 package org.openclover.groovy.instr
 
-import com.atlassian.clover.test.junit.DefaultTestSelector
+import org.openclover.buildutil.test.junit.DefaultTestSelector
 import org.openclover.groovy.test.junit.GroovyCombinatorMixin
-import com.atlassian.clover.test.junit.GroovyVersionStart
-import com.atlassian.clover.test.junit.GroovyVersions
+import org.openclover.buildutil.test.junit.GroovyVersionStart
+import org.openclover.buildutil.test.junit.GroovyVersions
 import org.openclover.groovy.test.junit.IncludeExcludeMixin
 import org.openclover.groovy.test.junit.JavaVersionMixin
 import org.openclover.groovy.test.junit.SpockCombinatorMixin

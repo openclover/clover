@@ -1,7 +1,7 @@
 package com.atlassian.clover.util
 
 import com.atlassian.clover.TestUtils
-import com.atlassian.clover.testutils.IOHelper
+import org.openclover.buildutil.testutils.IOHelper
 import junit.framework.TestCase
 
 import static org.openclover.util.Sets.newHashSet

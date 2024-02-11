@@ -1,4 +1,4 @@
-package com.atlassian.clover.testutils
+package org.openclover.buildutil.testutils
 
 class IOHelper {
 

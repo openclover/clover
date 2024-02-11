@@ -1,13 +1,13 @@
 package com.atlassian.clover.ant.tasks
 
-import com.atlassian.clover.testutils.IOHelper
+import org.openclover.buildutil.testutils.IOHelper
 import groovy.transform.CompileStatic
 import org.apache.tools.ant.util.FileUtils
 import org.hamcrest.CoreMatchers
 
 import java.text.DecimalFormat
 
-import static com.atlassian.clover.testutils.AssertionUtils.assertStringContains
+import static org.openclover.buildutil.testutils.AssertionUtils.assertStringContains
 import static org.hamcrest.MatcherAssert.assertThat
 
 @CompileStatic

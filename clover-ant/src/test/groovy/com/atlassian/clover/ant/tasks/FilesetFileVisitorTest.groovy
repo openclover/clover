@@ -5,7 +5,7 @@ import org.apache.tools.ant.Project
 import org.apache.tools.ant.types.FileSet
 import org.apache.tools.ant.types.Reference
 import com.atlassian.clover.reporters.Current
-import com.atlassian.clover.testutils.IOHelper
+import org.openclover.buildutil.testutils.IOHelper
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

@@ -9,10 +9,10 @@ import org.apache.tools.ant.Target
 import org.apache.tools.ant.Task
 import org.junit.Test
 
-import static com.atlassian.clover.testutils.AssertionUtils.assertFileContains
-import static com.atlassian.clover.testutils.AssertionUtils.assertFileMatches
-import static com.atlassian.clover.testutils.AssertionUtils.assertStringContains
-import static com.atlassian.clover.testutils.AssertionUtils.assertStringMatches
+import static org.openclover.buildutil.testutils.AssertionUtils.assertFileContains
+import static org.openclover.buildutil.testutils.AssertionUtils.assertFileMatches
+import static org.openclover.buildutil.testutils.AssertionUtils.assertStringContains
+import static org.openclover.buildutil.testutils.AssertionUtils.assertStringMatches
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertNotNull
 import static org.junit.Assert.assertTrue

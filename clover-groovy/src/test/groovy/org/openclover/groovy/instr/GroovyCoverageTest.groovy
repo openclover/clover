@@ -13,7 +13,7 @@ import com.atlassian.clover.CodeType
 import com.atlassian.clover.registry.entities.FullProjectInfo
 import groovy.transform.CompileStatic
 
-import static com.atlassian.clover.testutils.AssertionUtils.assertStringContains
+import static org.openclover.buildutil.testutils.AssertionUtils.assertStringContains
 
 /**
  * Integration tests that detect if the correct coverage is recorded for given Groovy code.

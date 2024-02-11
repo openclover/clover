@@ -1,4 +1,4 @@
-package com.atlassian.clover.test.junit
+package org.openclover.buildutil.test.junit
 
 class AntVersions {
     static String DEFAULT_VERSION = "1.10.13"

@@ -1,8 +1,8 @@
 package com.atlassian.clover.ant.groovy
 
-import com.atlassian.clover.test.junit.AntVersions
-import com.atlassian.clover.test.junit.DynamicallyNamedTestBase
-import com.atlassian.clover.test.junit.GroovyVersions
+import org.openclover.buildutil.test.junit.AntVersions
+import org.openclover.buildutil.test.junit.DynamicallyNamedTestBase
+import org.openclover.buildutil.test.junit.GroovyVersions
 import org.openclover.groovy.test.junit.JavaExecutorMixin
 import org.openclover.groovy.test.junit.TestPropertyMixin
 import org.openclover.groovy.test.junit.WorkingDirMixin

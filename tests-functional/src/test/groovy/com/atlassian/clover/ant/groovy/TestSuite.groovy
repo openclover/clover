@@ -1,7 +1,7 @@
 package com.atlassian.clover.ant.groovy
 
 import org.openclover.groovy.test.junit.AntCombinatorMixin
-import com.atlassian.clover.test.junit.DefaultTestSelector
+import org.openclover.buildutil.test.junit.DefaultTestSelector
 import org.openclover.groovy.test.junit.GroovyCombinatorMixin
 import org.openclover.groovy.test.junit.JavaVersionMixin
 import org.openclover.groovy.test.junit.TestPropertyMixin
@@ -13,9 +13,9 @@ import java.lang.reflect.Constructor
 import java.lang.reflect.Method
 
 import org.openclover.groovy.test.junit.IncludeExcludeMixin
-import com.atlassian.clover.test.junit.GroovyVersions
-import com.atlassian.clover.test.junit.AntVersions
-import com.atlassian.clover.test.junit.GroovyVersionStart
+import org.openclover.buildutil.test.junit.GroovyVersions
+import org.openclover.buildutil.test.junit.AntVersions
+import org.openclover.buildutil.test.junit.GroovyVersionStart
 import com.atlassian.clover.versions.LibraryVersion
 
 @CompileStatic

@@ -54,7 +54,7 @@
 
 package org.apache.tools.ant
 
-import com.atlassian.clover.testutils.IOHelper
+import org.openclover.buildutil.testutils.IOHelper
 import groovy.transform.CompileStatic
 import junit.framework.TestCase
 

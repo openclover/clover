@@ -2,8 +2,8 @@ package org.openclover.groovy.instr
 
 import com.atlassian.clover.cfg.instr.InstrumentationConfig
 import org.openclover.groovy.test.junit.CloverDbTestMixin
-import com.atlassian.clover.test.junit.DynamicallyNamedTestBase
-import com.atlassian.clover.test.junit.GroovyVersions
+import org.openclover.buildutil.test.junit.DynamicallyNamedTestBase
+import org.openclover.buildutil.test.junit.GroovyVersions
 import org.openclover.groovy.test.junit.JavaExecutorMixin
 import org.openclover.groovy.test.junit.Result
 import org.openclover.groovy.test.junit.TestPropertyMixin

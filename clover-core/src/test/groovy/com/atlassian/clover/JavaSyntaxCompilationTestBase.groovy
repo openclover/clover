@@ -8,8 +8,8 @@ import com.atlassian.clover.registry.entities.FullFileInfo
 import com.atlassian.clover.registry.entities.FullProjectInfo
 import com.atlassian.clover.registry.entities.FullStatementInfo
 import com.atlassian.clover.registry.entities.LineInfo
-import com.atlassian.clover.testutils.AssertionUtils
-import com.atlassian.clover.testutils.IOHelper
+import org.openclover.buildutil.testutils.AssertionUtils
+import org.openclover.buildutil.testutils.IOHelper
 import com.atlassian.clover.util.FileUtils
 import com.atlassian.clover.util.SourceScanner
 import org.apache.tools.ant.BuildEvent

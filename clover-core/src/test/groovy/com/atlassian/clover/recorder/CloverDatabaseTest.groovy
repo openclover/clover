@@ -25,7 +25,7 @@ import org.openclover.runtime.recorder.FileBasedPerTestRecording
 import org.openclover.runtime.registry.format.RegAccessMode
 import org.openclover.runtime.registry.format.RegHeader
 import com.atlassian.clover.registry.metrics.ProjectMetrics
-import com.atlassian.clover.testutils.IOHelper
+import org.openclover.buildutil.testutils.IOHelper
 import org.openclover.runtime.util.CloverBitSet
 import com.atlassian.clover.util.SimpleCoverageRange
 import org_openclover_runtime.Clover

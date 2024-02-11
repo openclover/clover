@@ -6,7 +6,7 @@ import com.atlassian.clover.registry.Clover2Registry
 import com.atlassian.clover.registry.entities.FullClassInfo
 import com.atlassian.clover.registry.entities.FullFileInfo
 import com.atlassian.clover.registry.entities.FullPackageInfo
-import com.atlassian.clover.test.junit.GroovyVersionStart
+import org.openclover.buildutil.test.junit.GroovyVersionStart
 import org.openclover.groovy.test.junit.Result
 import groovy.transform.CompileStatic
 

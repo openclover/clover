@@ -1,4 +1,4 @@
-package com.atlassian.clover.test.junit
+package org.openclover.buildutil.test.junit
 
 class GroovyVersions {
     static String DEFAULT_VERSION = "4.0.15"

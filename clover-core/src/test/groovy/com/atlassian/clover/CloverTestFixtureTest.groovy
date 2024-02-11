@@ -5,7 +5,7 @@ import com.atlassian.clover.CloverTestFixture.Coverage
 import com.atlassian.clover.registry.entities.FullPackageInfo
 import com.atlassian.clover.registry.metrics.PackageMetrics
 import com.atlassian.clover.registry.metrics.ProjectMetrics
-import com.atlassian.clover.testutils.IOHelper
+import org.openclover.buildutil.testutils.IOHelper
 import org.junit.After
 import org.junit.Before
 import org.junit.Test

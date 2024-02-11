@@ -1,4 +1,4 @@
-package com.atlassian.clover.test.junit
+package org.openclover.buildutil.test.junit
 
 @Singleton
 class DefaultTestSelector {

@@ -8,7 +8,7 @@ import com.atlassian.clover.registry.FixedSourceRegion
 import com.atlassian.clover.registry.entities.FullMethodInfo
 import com.atlassian.clover.registry.entities.MethodSignature
 import com.atlassian.clover.registry.entities.Modifiers
-import com.atlassian.clover.testutils.IOHelper
+import org.openclover.buildutil.testutils.IOHelper
 import com.atlassian.clover.util.FileUtils
 import org_openclover_runtime.Clover
 import org_openclover_runtime.CoverageRecorder

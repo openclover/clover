@@ -1,4 +1,4 @@
-package com.atlassian.clover.test.junit
+package org.openclover.buildutil.test.junit
 
 import groovy.transform.CompileStatic
 import junit.framework.TestCase

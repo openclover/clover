@@ -1,7 +1,7 @@
 package com.atlassian.clover.recorder
 
 import org.openclover.runtime.RuntimeType
-import com.atlassian.clover.testutils.IOHelper
+import org.openclover.buildutil.testutils.IOHelper
 import org.openclover.runtime.recorder.FileBasedPerTestRecording
 import org.openclover.runtime.util.CloverBitSet
 import com.atlassian.clover.util.collections.Pair

@@ -17,7 +17,7 @@ import com.atlassian.clover.registry.format.RegFile
 import com.atlassian.clover.api.registry.HasMetrics
 import com.atlassian.clover.registry.metrics.HasMetricsFilter
 import com.atlassian.clover.registry.metrics.ProjectMetrics
-import com.atlassian.clover.testutils.IOHelper
+import org.openclover.buildutil.testutils.IOHelper
 import com.atlassian.clover.util.FileUtils
 import org.junit.After
 import org.junit.Before

@@ -1,7 +1,7 @@
 package com.atlassian.clover.ant.tasks
 
 import com.atlassian.clover.ant.testutils.CloverTestFixture
-import com.atlassian.clover.testutils.IOHelper
+import org.openclover.buildutil.testutils.IOHelper
 import groovy.transform.CompileStatic
 
 import static org.openclover.util.Lists.newArrayList

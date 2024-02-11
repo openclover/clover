@@ -5,8 +5,8 @@ import com.atlassian.clover.cfg.instr.InstrumentationConfig
 import groovy.transform.CompileStatic
 import org.junit.Test
 
-import static com.atlassian.clover.testutils.AssertionUtils.assertStringContains
-import static com.atlassian.clover.testutils.AssertionUtils.assertStringMatches
+import static org.openclover.buildutil.testutils.AssertionUtils.assertStringContains
+import static org.openclover.buildutil.testutils.AssertionUtils.assertStringMatches
 import org_openclover_runtime.CloverProfile
 import org.openclover.runtime.remote.DistributedConfig
 
