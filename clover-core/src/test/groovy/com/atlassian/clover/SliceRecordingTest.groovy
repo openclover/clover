@@ -1,6 +1,7 @@
 package com.atlassian.clover
 
 import org.openclover.runtime.ErrorInfo
+import org.openclover.runtime.Logger
 import org.openclover.runtime.RuntimeType
 import org.openclover.runtime.recorder.FileBasedPerTestRecording
 import org.openclover.runtime.recorder.PerTestRecording

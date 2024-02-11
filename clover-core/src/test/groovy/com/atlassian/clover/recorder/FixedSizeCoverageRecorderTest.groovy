@@ -5,6 +5,7 @@ import com.atlassian.clover.CoverageDataSpec
 import com.atlassian.clover.registry.Clover2Registry
 import com.atlassian.clover.util.FileUtils
 import org.openclover.runtime.recorder.FixedSizeCoverageRecorder
+import org.openclover.runtime.recorder.NullRecorder
 import org.openclover.runtime.registry.format.RegAccessMode
 
 import org_openclover_runtime.CoverageRecorder

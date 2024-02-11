@@ -3,6 +3,8 @@ package com.atlassian.clover.recorder
 import com.atlassian.clover.CoverageDataSpec
 import org.openclover.runtime.Logger
 import com.atlassian.clover.util.FileUtils
+import org.openclover.runtime.recorder.FileBasedGlobalCoverageRecording
+import org.openclover.runtime.recorder.GlobalCoverageRecording
 import org.openclover.runtime.util.IOStreamUtils
 import org_openclover_runtime.Clover
 import org.junit.After

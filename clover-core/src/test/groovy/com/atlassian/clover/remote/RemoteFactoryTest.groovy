@@ -8,6 +8,7 @@ import org.openclover.runtime.remote.Config
 import org.openclover.runtime.remote.DistributedConfig
 import org.openclover.runtime.remote.RecorderListener
 import org.openclover.runtime.remote.RecorderService
+import org.openclover.runtime.remote.RemoteFactory
 
 import static org.junit.Assert.*
 

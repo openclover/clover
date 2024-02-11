@@ -5,6 +5,7 @@ import org.openclover.runtime.Logger
 import org.junit.Test
 import org.openclover.runtime.remote.CajoTcpRecorderListener
 import org.openclover.runtime.remote.DistributedConfig
+import org.openclover.runtime.remote.RemoteFactory
 
 class CajoTcpRecorderListenerTest {
 

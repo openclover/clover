@@ -21,7 +21,7 @@ public class RemoteFactory implements RemoteServiceProvider {
 
     @Override
     public RecorderService createService(Config config) {
-        final String className = "com.atlassian.clover.remote.CajoTcpRecorderService";
+        final String className = "org.openclover.runtime.remote.CajoTcpRecorderService";
         
         Logger.getInstance().verbose("Creating service " + className + " for config: " + config.getName());
         final RecorderService service = (RecorderService) instantiate(className);

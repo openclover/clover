@@ -15,6 +15,7 @@ import com.atlassian.clover.registry.entities.MethodSignature
 import com.atlassian.clover.registry.metrics.PackageMetrics
 import com.atlassian.clover.registry.entities.FullProjectInfo
 import com.atlassian.clover.util.FileUtils
+import org.openclover.runtime.CloverProperties
 import org_openclover_runtime.Clover
 import junit.framework.TestCase
 

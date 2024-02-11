@@ -8,9 +8,9 @@ import org.junit.Test
  * Concurrent test for {@link com.atlassian.clover.recorder.ThreadVisibilityStrategy.Synchronized}
  * against different coverage recorders:
  * <ul>
- *   <li>{@link com.atlassian.clover.recorder.FixedSizeCoverageRecorder}</li>
- *   <li>{@link com.atlassian.clover.recorder.GrowableCoverageRecorder}</li>
- *   <li>{@link com.atlassian.clover.recorder.SharedCoverageRecorder}</li>
+ *   <li>{@link org.openclover.runtime.recorder.FixedSizeCoverageRecorder}</li>
+ *   <li>{@link org.openclover.runtime.recorder.GrowableCoverageRecorder}</li>
+ *   <li>{@link org.openclover.runtime.recorder.SharedCoverageRecorder}</li>
  * </ul>
  */
 class ThreadVisibilityStrategySynchronizedConcurrentTest extends ThreadVisibilityStrategyConcurrentTestBase {
