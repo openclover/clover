@@ -1,6 +1,5 @@
 package org.openclover.core.instr.java
 
-import com.atlassian.clover.instr.java.CloverTokenStreamFilter
 import org.openclover.runtime.api.CloverException
 import org.junit.Test
 

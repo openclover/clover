@@ -1,12 +1,10 @@
 package org.openclover.core.optimization
 
-import com.atlassian.clover.CloverDatabase
-import com.atlassian.clover.CoverageDataSpec
-import com.atlassian.clover.context.ContextSet
-import com.atlassian.clover.instr.InstrumentationSessionImpl
-import com.atlassian.clover.optimization.Snapshot
-import com.atlassian.clover.optimization.TestMethodCall
-import com.atlassian.clover.registry.entities.FullMethodInfo
+import org.openclover.core.CloverDatabase
+import org.openclover.core.CoverageDataSpec
+import org.openclover.core.context.ContextSet
+import org.openclover.core.instr.InstrumentationSessionImpl
+import org.openclover.core.registry.entities.FullMethodInfo
 import org.openclover.core.TestUtils
 import org_openclover_runtime.CloverVersionInfo
 import org.junit.After

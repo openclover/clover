@@ -1,7 +1,6 @@
 package org.openclover.core.registry.entities
 
-import com.atlassian.clover.registry.entities.FullFileInfo
-import com.atlassian.clover.spi.lang.Language
+import org.openclover.core.spi.lang.Language
 import org.junit.Test
 
 import static org.junit.Assert.assertNull

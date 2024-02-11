@@ -1,14 +1,12 @@
 package org.openclover.core.model
 
-import com.atlassian.clover.model.CoverageDataPoint
-import com.atlassian.clover.model.XmlConverter
-import com.atlassian.clover.reporters.util.HistoricalSupport
-import com.atlassian.clover.registry.entities.BaseProjectInfo
-import com.atlassian.clover.registry.entities.BasePackageInfo
-import com.atlassian.clover.registry.entities.BaseClassInfo
-import com.atlassian.clover.registry.entities.BaseFileInfo
-import com.atlassian.clover.registry.metrics.HasMetricsFilter
-import com.atlassian.clover.api.registry.HasMetrics
+import org.openclover.core.reporters.util.HistoricalSupport
+import org.openclover.core.registry.entities.BaseProjectInfo
+import org.openclover.core.registry.entities.BasePackageInfo
+import org.openclover.core.registry.entities.BaseClassInfo
+import org.openclover.core.registry.entities.BaseFileInfo
+import org.openclover.core.registry.metrics.HasMetricsFilter
+import org.openclover.core.api.registry.HasMetrics
 import org.junit.Before
 import org.junit.Test
 

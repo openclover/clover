@@ -1,15 +1,14 @@
 package org.openclover.core.cmdline
 
-import com.atlassian.clover.api.command.ArgProcessor
-import com.atlassian.clover.cfg.instr.InstrumentationConfig
-import com.atlassian.clover.cfg.instr.InstrumentationLevel
-import com.atlassian.clover.cfg.instr.MethodContextDef
-import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig
-import com.atlassian.clover.cfg.instr.java.LambdaInstrumentation
-import com.atlassian.clover.cfg.instr.java.SourceLevel
-import com.atlassian.clover.cmdline.CloverInstrArgProcessors
-import com.atlassian.clover.instr.java.JavaTypeContext
-import com.atlassian.clover.instr.tests.TestDetector
+import org.openclover.core.api.command.ArgProcessor
+import org.openclover.core.cfg.instr.InstrumentationConfig
+import org.openclover.core.cfg.instr.InstrumentationLevel
+import org.openclover.core.cfg.instr.MethodContextDef
+import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig
+import org.openclover.core.cfg.instr.java.LambdaInstrumentation
+import org.openclover.core.cfg.instr.java.SourceLevel
+import org.openclover.core.instr.java.JavaTypeContext
+import org.openclover.core.instr.tests.TestDetector
 import org.hamcrest.Matcher
 import org.junit.Test
 

@@ -1,10 +1,7 @@
 package org.openclover.core.instr.java
 
-import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig
-import com.atlassian.clover.cfg.instr.java.SourceLevel
-import com.atlassian.clover.instr.java.InstrumentationSource
-import com.atlassian.clover.instr.java.Instrumenter
-import com.atlassian.clover.instr.java.StringInstrumentationSource
+import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig
+import org.openclover.core.cfg.instr.java.SourceLevel
 import org.openclover.buildutil.testutils.IOHelper
 import org.junit.Before
 import org.junit.Rule

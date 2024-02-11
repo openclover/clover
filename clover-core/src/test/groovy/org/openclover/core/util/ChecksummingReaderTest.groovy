@@ -1,6 +1,5 @@
 package org.openclover.core.util
 
-import com.atlassian.clover.util.ChecksummingReader
 import org.junit.Test
 
 import static org.junit.Assert.assertEquals

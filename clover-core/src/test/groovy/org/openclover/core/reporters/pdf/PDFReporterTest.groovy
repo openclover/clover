@@ -1,12 +1,12 @@
 package org.openclover.core.reporters.pdf
 
-import com.atlassian.clover.reporters.pdf.PDFReporter
+import org.openclover.core.registry.metrics.HasMetricsTestFixture
 import org.openclover.runtime.api.CloverException
-import com.atlassian.clover.CloverStartup
+import org.openclover.core.CloverStartup
 import org.openclover.runtime.Logger
-import com.atlassian.clover.reporters.Current
-import com.atlassian.clover.reporters.Format
-import com.atlassian.clover.reporters.Historical
+import org.openclover.core.reporters.Current
+import org.openclover.core.reporters.Format
+import org.openclover.core.reporters.Historical
 import org.openclover.runtime.api.registry.CloverRegistryException
 import junit.framework.TestCase
 

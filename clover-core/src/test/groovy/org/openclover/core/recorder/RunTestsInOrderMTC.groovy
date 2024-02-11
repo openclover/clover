@@ -1,10 +1,7 @@
 package org.openclover.core.recorder
 
-import com.atlassian.clover.recorder.GlobalCoverageRecordingTranscript
-import com.atlassian.clover.recorder.PerTestRecordingTranscript
-import com.atlassian.clover.recorder.RecordingTranscripts;
 import org.openclover.runtime.util.CloverBitSet;
-import com.atlassian.clover.CoverageDataSpec;
+import org.openclover.core.CoverageDataSpec;
 import org_openclover_runtime.CoverageRecorder;
 
 /**

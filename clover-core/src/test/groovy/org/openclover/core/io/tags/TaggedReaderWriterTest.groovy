@@ -1,12 +1,5 @@
 package org.openclover.core.io.tags
 
-import com.atlassian.clover.io.tags.ObjectReader
-import com.atlassian.clover.io.tags.TaggedDataInput
-import com.atlassian.clover.io.tags.TaggedDataOutput
-import com.atlassian.clover.io.tags.TaggedInputReader
-import com.atlassian.clover.io.tags.TaggedOutputWriter
-import com.atlassian.clover.io.tags.TaggedPersistent
-import com.atlassian.clover.io.tags.Tags
 import org.junit.Test
 
 import static org.junit.Assert.assertEquals

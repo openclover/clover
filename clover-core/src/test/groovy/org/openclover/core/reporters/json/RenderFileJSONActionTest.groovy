@@ -1,19 +1,16 @@
 package org.openclover.core.reporters.json
 
 import clover.org.apache.velocity.VelocityContext
-import com.atlassian.clover.CloverDatabase
-import com.atlassian.clover.reporters.json.JSONObject
-import com.atlassian.clover.reporters.json.JSONReporter
-import com.atlassian.clover.reporters.json.RenderFileJSONAction
-import com.atlassian.clover.reporters.json.RenderMetricsJSONAction
+import org.openclover.core.CloverDatabase
+import org.openclover.core.registry.metrics.HasMetricsTestFixture
 import org.openclover.runtime.api.CloverException
-import com.atlassian.clover.registry.Clover2Registry
-import com.atlassian.clover.registry.entities.FullFileInfo
-import com.atlassian.clover.registry.entities.FullPackageInfo
-import com.atlassian.clover.registry.metrics.PackageMetrics
-import com.atlassian.clover.reporters.Current
-import com.atlassian.clover.reporters.html.HtmlRenderingSupportImpl
-import com.atlassian.clover.util.CloverUtils
+import org.openclover.core.registry.Clover2Registry
+import org.openclover.core.registry.entities.FullFileInfo
+import org.openclover.core.registry.entities.FullPackageInfo
+import org.openclover.core.registry.metrics.PackageMetrics
+import org.openclover.core.reporters.Current
+import org.openclover.core.reporters.html.HtmlRenderingSupportImpl
+import org.openclover.core.util.CloverUtils
 import junit.framework.TestCase
 
 class RenderFileJSONActionTest extends TestCase {

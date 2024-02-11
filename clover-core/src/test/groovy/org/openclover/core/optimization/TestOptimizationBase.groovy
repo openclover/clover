@@ -1,10 +1,10 @@
 package org.openclover.core.optimization
 
-import com.atlassian.clover.instr.InstrumentationSessionImpl
+import org.openclover.core.instr.InstrumentationSessionImpl
 import org.openclover.runtime.ErrorInfo
-import com.atlassian.clover.context.ContextSet
-import com.atlassian.clover.registry.Clover2Registry
-import com.atlassian.clover.registry.entities.FullMethodInfo
+import org.openclover.core.context.ContextSet
+import org.openclover.core.registry.Clover2Registry
+import org.openclover.core.registry.entities.FullMethodInfo
 import org.openclover.buildutil.testutils.IOHelper
 import org_openclover_runtime.CoverageRecorder
 import org.junit.Rule

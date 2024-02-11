@@ -1,21 +1,18 @@
 package org.openclover.core.reporters.json
 
 import clover.org.apache.velocity.VelocityContext
-import com.atlassian.clover.api.registry.ClassInfo
-import com.atlassian.clover.api.registry.HasMetrics
-import com.atlassian.clover.registry.entities.FullClassInfo
-import com.atlassian.clover.registry.entities.FullPackageInfo
-import com.atlassian.clover.registry.entities.FullProjectInfo
-import com.atlassian.clover.registry.metrics.BlockMetrics
-import com.atlassian.clover.registry.metrics.HasMetricsFilter
-import com.atlassian.clover.registry.metrics.PackageMetrics
-import com.atlassian.clover.registry.metrics.ProjectMetrics
-import com.atlassian.clover.reporters.CloverReportConfig
-import com.atlassian.clover.reporters.Current
-import com.atlassian.clover.reporters.Format
-import com.atlassian.clover.reporters.json.JSONArray
-import com.atlassian.clover.reporters.json.JSONObject
-import com.atlassian.clover.reporters.json.RenderTreeMapAction
+import org.openclover.core.api.registry.ClassInfo
+import org.openclover.core.api.registry.HasMetrics
+import org.openclover.core.registry.entities.FullClassInfo
+import org.openclover.core.registry.entities.FullPackageInfo
+import org.openclover.core.registry.entities.FullProjectInfo
+import org.openclover.core.registry.metrics.BlockMetrics
+import org.openclover.core.registry.metrics.HasMetricsFilter
+import org.openclover.core.registry.metrics.PackageMetrics
+import org.openclover.core.registry.metrics.ProjectMetrics
+import org.openclover.core.reporters.CloverReportConfig
+import org.openclover.core.reporters.Current
+import org.openclover.core.reporters.Format
 import org.openclover.core.TestUtils
 import org.junit.Before
 import org.junit.Test
@@ -26,7 +23,7 @@ import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertNotNull
 import static org.mockito.Mockito.mock
 import static org.mockito.Mockito.when
-import static org.openclover.util.Lists.newLinkedList
+import static org.openclover.core.util.Lists.newLinkedList
 
 class RenderTreeMapActionTest {
 

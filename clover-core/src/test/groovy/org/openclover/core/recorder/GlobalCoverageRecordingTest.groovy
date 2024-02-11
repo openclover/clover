@@ -1,10 +1,8 @@
 package org.openclover.core.recorder
 
-import com.atlassian.clover.CoverageDataSpec
-import com.atlassian.clover.recorder.GlobalCoverageRecordingTranscript
-import com.atlassian.clover.recorder.RecordingTranscripts
+import org.openclover.core.CoverageDataSpec
 import org.openclover.runtime.Logger
-import com.atlassian.clover.util.FileUtils
+import org.openclover.core.util.FileUtils
 import org.openclover.runtime.recorder.BaseCoverageRecording
 import org.openclover.runtime.recorder.FileBasedGlobalCoverageRecording
 import org.openclover.runtime.recorder.GlobalCoverageRecording

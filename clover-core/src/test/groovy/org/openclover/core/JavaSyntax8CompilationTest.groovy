@@ -1,12 +1,12 @@
 package org.openclover.core
 
-import com.atlassian.clover.api.registry.Annotation
-import com.atlassian.clover.api.registry.AnnotationValue
-import com.atlassian.clover.api.registry.ClassInfo
-import com.atlassian.clover.api.registry.MethodInfo
-import com.atlassian.clover.registry.entities.FullProjectInfo
-import com.atlassian.clover.registry.entities.StringifiedAnnotationValue
-import com.atlassian.clover.util.JavaEnvUtils
+import org.openclover.core.api.registry.Annotation
+import org.openclover.core.api.registry.AnnotationValue
+import org.openclover.core.api.registry.ClassInfo
+import org.openclover.core.api.registry.MethodInfo
+import org.openclover.core.registry.entities.FullProjectInfo
+import org.openclover.core.registry.entities.StringifiedAnnotationValue
+import org.openclover.core.util.JavaEnvUtils
 import org_openclover_runtime.CoverageRecorder
 import org.junit.Before
 import org.junit.Test
@@ -17,7 +17,7 @@ import static org.hamcrest.MatcherAssert.assertThat
 import static org.junit.Assert.assertEquals
 import static org.junit.Assume.assumeThat
 import static org.junit.Assume.assumeTrue
-import static org.openclover.util.Lists.newArrayList
+import static org.openclover.core.util.Lists.newArrayList
 
 /**
  * The purpose of this test is to

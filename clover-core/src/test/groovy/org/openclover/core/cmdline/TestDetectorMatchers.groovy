@@ -1,14 +1,14 @@
 package org.openclover.core.cmdline
 
-import com.atlassian.clover.instr.java.JavaMethodContext
-import com.atlassian.clover.instr.java.JavaTypeContext
-import com.atlassian.clover.instr.tests.TestDetector
-import com.atlassian.clover.instr.tests.TestDetector.SourceContext
-import com.atlassian.clover.instr.tests.TestDetector.TypeContext
-import com.atlassian.clover.registry.entities.AnnotationImpl
-import com.atlassian.clover.registry.entities.MethodSignature
-import com.atlassian.clover.registry.entities.Modifiers
-import com.atlassian.clover.spi.lang.Language
+import org.openclover.core.instr.java.JavaMethodContext
+import org.openclover.core.instr.java.JavaTypeContext
+import org.openclover.core.instr.tests.TestDetector
+import org.openclover.core.instr.tests.TestDetector.SourceContext
+import org.openclover.core.instr.tests.TestDetector.TypeContext
+import org.openclover.core.registry.entities.AnnotationImpl
+import org.openclover.core.registry.entities.MethodSignature
+import org.openclover.core.registry.entities.Modifiers
+import org.openclover.core.spi.lang.Language
 import org.hamcrest.Description
 import org.hamcrest.Factory
 import org.hamcrest.Matcher

@@ -1,8 +1,9 @@
 package org.openclover.core.instr.java
 
-import com.atlassian.clover.api.registry.ClassInfo
-import com.atlassian.clover.registry.Clover2Registry
-import com.atlassian.clover.registry.entities.FullProjectInfo
+import org.openclover.core.api.registry.ClassInfo
+import org.openclover.core.registry.Clover2Registry
+import org.openclover.core.api.registry.StatementInfo
+import org.openclover.core.registry.entities.FullProjectInfo
 import org_openclover_runtime.CloverVersionInfo
 import org.junit.Test
 
@@ -80,7 +81,7 @@ class InstrumentationSwitchStatementsTest extends InstrumentationTestBase {
         FullProjectInfo proj = registry.getProject()
         ClassInfo c = proj.findClass("A")
 
-        for (com.atlassian.clover.api.registry.StatementInfo info : c.getMethods().get(0).getStatements()) {
+        for (StatementInfo info : c.getMethods().get(0).getStatements()) {
             assertTrue(info.getStartLine() <= info.getEndLine())
             assertTrue(info.getStartColumn() < info.getEndColumn())
         }

@@ -1,13 +1,12 @@
 package org.openclover.core.util
 
-import com.atlassian.clover.util.ArrayUtil
 import org.junit.Test
-import org.openclover.util.function.Function
+import org.openclover.core.util.function.Function
 
 import static org.junit.Assert.assertArrayEquals
 
 /**
- * Test for {@link com.atlassian.clover.util.ArrayUtil}
+ * Test for {@link ArrayUtil}
  */
 class ArrayUtilTest {
     static enum MyEnum {

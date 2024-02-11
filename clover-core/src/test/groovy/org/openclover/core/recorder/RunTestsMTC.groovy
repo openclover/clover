@@ -1,7 +1,5 @@
 package org.openclover.core.recorder
 
-import com.atlassian.clover.recorder.GlobalCoverageRecordingTranscript
-import com.atlassian.clover.recorder.RecordingTranscripts;
 import org.openclover.runtime.util.CloverBitSet;
 import edu.umd.cs.mtc.MultithreadedTestCase
 

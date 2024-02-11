@@ -1,12 +1,12 @@
 package com.atlassian.clover.samples;
 
-import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.CoverageDataSpec;
-import com.atlassian.clover.api.registry.ClassInfo;
-import com.atlassian.clover.api.registry.FileInfo;
-import com.atlassian.clover.api.registry.MethodInfo;
-import com.atlassian.clover.api.registry.PackageInfo;
-import com.atlassian.clover.api.registry.ProjectInfo;
+import org.openclover.core.CloverDatabase;
+import org.openclover.core.CoverageDataSpec;
+import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.FileInfo;
+import org.openclover.core.api.registry.MethodInfo;
+import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.core.api.registry.ProjectInfo;
 
 import java.io.PrintStream;
 

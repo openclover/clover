@@ -1,6 +1,5 @@
 package org.openclover.core.cfg.instr
 
-import com.atlassian.clover.cfg.instr.InstrumentationConfig
 import org.openclover.runtime.remote.DistributedConfig
 import org.junit.Test
 

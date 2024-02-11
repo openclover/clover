@@ -1,8 +1,8 @@
 package org.openclover.core.registry.format
 
-import com.atlassian.clover.context.ContextStore
-import com.atlassian.clover.registry.RegistryUpdate
-import com.atlassian.clover.registry.entities.FullFileInfo
+import org.openclover.core.context.ContextStore
+import org.openclover.core.registry.RegistryUpdate
+import org.openclover.core.registry.entities.FullFileInfo
 
 class IncrementalRegUpdate implements RegistryUpdate {
     final long version

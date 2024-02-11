@@ -1,15 +1,12 @@
 package org.openclover.core.registry.metrics
 
-import com.atlassian.clover.api.registry.BranchInfo
-import com.atlassian.clover.context.ContextSet
-import com.atlassian.clover.context.ContextStore
-import com.atlassian.clover.registry.entities.FullClassInfo
-import com.atlassian.clover.registry.entities.FullFileInfo
-import com.atlassian.clover.registry.entities.FullMethodInfo
-import com.atlassian.clover.registry.entities.FullStatementInfo
-import com.atlassian.clover.registry.metrics.BlockMetrics
-import com.atlassian.clover.registry.metrics.ClassMetrics
-import com.atlassian.clover.registry.metrics.FileMetrics
+import org.openclover.core.api.registry.BranchInfo
+import org.openclover.core.context.ContextSet
+import org.openclover.core.context.ContextStore
+import org.openclover.core.registry.entities.FullClassInfo
+import org.openclover.core.registry.entities.FullFileInfo
+import org.openclover.core.registry.entities.FullMethodInfo
+import org.openclover.core.registry.entities.FullStatementInfo
 import org.junit.Before
 import org.junit.Test
 

@@ -1,17 +1,13 @@
 package org.openclover.core.instr.java
 
-import com.atlassian.clover.instr.java.CloverTokenStreamFilter
-import com.atlassian.clover.instr.java.InstrumentationSource
-import com.atlassian.clover.instr.java.Instrumenter
-import com.atlassian.clover.instr.java.StringInstrumentationSource
 import org.openclover.runtime.CloverNames
-import com.atlassian.clover.cfg.instr.InstrumentationLevel
-import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig
-import com.atlassian.clover.cfg.instr.java.LambdaInstrumentation
-import com.atlassian.clover.cfg.instr.java.SourceLevel
-import com.atlassian.clover.registry.Clover2Registry
-import com.atlassian.clover.registry.metrics.ProjectMetrics
-import com.atlassian.clover.util.FileUtils
+import org.openclover.core.cfg.instr.InstrumentationLevel
+import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig
+import org.openclover.core.cfg.instr.java.LambdaInstrumentation
+import org.openclover.core.cfg.instr.java.SourceLevel
+import org.openclover.core.registry.Clover2Registry
+import org.openclover.core.registry.metrics.ProjectMetrics
+import org.openclover.core.util.FileUtils
 import org_openclover_runtime.CoverageRecorder
 import org_openclover_runtime.TestNameSniffer
 import org.junit.After

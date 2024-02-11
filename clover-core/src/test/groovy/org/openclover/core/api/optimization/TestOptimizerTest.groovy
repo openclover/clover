@@ -1,22 +1,19 @@
 package org.openclover.core.api.optimization
 
-import com.atlassian.clover.api.optimization.Optimizable
-import com.atlassian.clover.api.optimization.StringOptimizable
-import com.atlassian.clover.api.optimization.TestOptimizer
-import com.atlassian.clover.instr.InstrumentationSessionImpl
-import com.atlassian.clover.CloverDatabase
+import org.openclover.core.instr.InstrumentationSessionImpl
+import org.openclover.core.CloverDatabase
 import org.openclover.runtime.api.CloverException
-import com.atlassian.clover.CoverageDataSpec
-import com.atlassian.clover.context.ContextSet
-import com.atlassian.clover.registry.entities.FullFileInfo
-import com.atlassian.clover.optimization.Snapshot
+import org.openclover.core.CoverageDataSpec
+import org.openclover.core.context.ContextSet
+import org.openclover.core.registry.entities.FullFileInfo
+import org.openclover.core.optimization.Snapshot
 import org.openclover.core.optimization.TestOptimizationBase
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
 import static org.junit.Assert.assertEquals
-import static org.openclover.util.Lists.newLinkedList
+import static org.openclover.core.util.Lists.newLinkedList
 
 class TestOptimizerTest extends TestOptimizationBase {
 

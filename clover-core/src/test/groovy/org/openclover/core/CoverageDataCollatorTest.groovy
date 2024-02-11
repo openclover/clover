@@ -1,16 +1,12 @@
 package org.openclover.core
 
-import com.atlassian.clover.CoverageData
-import com.atlassian.clover.CoverageDataCollator
-import com.atlassian.clover.CoverageDataSpec
-import com.atlassian.clover.ProgressListener
-import com.atlassian.clover.instr.InstrumentationSessionImpl
-import com.atlassian.clover.recorder.PerTestCoverageStrategy
-import com.atlassian.clover.context.ContextSet
-import com.atlassian.clover.registry.Clover2Registry
-import com.atlassian.clover.registry.entities.FullMethodInfo
-import com.atlassian.clover.registry.metrics.HasMetricsFilter
-import com.atlassian.clover.util.SimpleCoverageRange
+import org.openclover.core.instr.InstrumentationSessionImpl
+import org.openclover.core.recorder.PerTestCoverageStrategy
+import org.openclover.core.context.ContextSet
+import org.openclover.core.registry.Clover2Registry
+import org.openclover.core.registry.entities.FullMethodInfo
+import org.openclover.core.registry.metrics.HasMetricsFilter
+import org.openclover.core.util.SimpleCoverageRange
 import org_openclover_runtime.CoverageRecorder
 import junit.framework.TestCase
 

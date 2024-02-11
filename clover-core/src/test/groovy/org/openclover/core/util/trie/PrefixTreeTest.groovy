@@ -1,20 +1,15 @@
 package org.openclover.core.util.trie
 
-import com.atlassian.clover.util.trie.KeySequence
-import com.atlassian.clover.util.trie.Node
-import com.atlassian.clover.util.trie.NodeFactoryImpl
-import com.atlassian.clover.util.trie.NodeVisitor
-import com.atlassian.clover.util.trie.PrefixTree
-import org.openclover.util.Lists
+import org.openclover.core.util.Lists
 import org.jetbrains.annotations.NotNull
 import org.junit.Test
 
 import static org.hamcrest.CoreMatchers.*
 import static org.junit.Assert.*
-import static org.openclover.util.Lists.newArrayList
+import static org.openclover.core.util.Lists.newArrayList
 
 /**
- * Test for {@link com.atlassian.clover.util.trie.PrefixTree}
+ * Test for {@link PrefixTree}
  */
 class PrefixTreeTest {
 
@@ -47,8 +42,8 @@ class PrefixTreeTest {
     /**
      * Test empty tree behaviour.
      *
-     * @see com.atlassian.clover.util.trie.PrefixTree#add(KeySequence, Object)
-     * @see com.atlassian.clover.util.trie.PrefixTree#find(KeySequence)
+     * @see PrefixTree#add(KeySequence, Object)
+     * @see PrefixTree#find(KeySequence)
      */
     @Test
     void testAddFindRootNode() {

@@ -1,6 +1,5 @@
 package org.openclover.core.cfg.instr
 
-import com.atlassian.clover.cfg.instr.MethodContextDef
 import org.openclover.runtime.api.CloverException
 import org.junit.Rule
 import org.junit.Test

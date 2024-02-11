@@ -1,7 +1,6 @@
 package org.openclover.core.instr.java
 
-import com.atlassian.clover.cfg.instr.InstrumentationConfig
-import com.atlassian.clover.instr.java.RecorderInstrEmitter
+import org.openclover.core.cfg.instr.InstrumentationConfig
 import org.junit.Test
 
 import static org.junit.Assert.assertTrue

@@ -1,19 +1,17 @@
 package org.openclover.core.reporters.html
 
 import clover.org.apache.velocity.VelocityContext
-import com.atlassian.clover.CloverDatabase
-import com.atlassian.clover.reporters.html.HtmlRenderingSupportImpl
-import com.atlassian.clover.reporters.html.HtmlReporter
-import com.atlassian.clover.reporters.html.RenderFileAction
+import org.openclover.core.CloverDatabase
+import org.openclover.core.registry.metrics.HasMetricsTestFixture
 import org.openclover.runtime.api.CloverException
-import com.atlassian.clover.registry.Clover2Registry
-import com.atlassian.clover.registry.entities.FullFileInfo
-import com.atlassian.clover.registry.entities.FullPackageInfo
-import com.atlassian.clover.reporters.Current
-import com.atlassian.clover.spi.reporters.html.source.LineRenderInfo
+import org.openclover.core.registry.Clover2Registry
+import org.openclover.core.registry.entities.FullFileInfo
+import org.openclover.core.registry.entities.FullPackageInfo
+import org.openclover.core.reporters.Current
+import org.openclover.core.spi.reporters.html.source.LineRenderInfo
 import junit.framework.TestCase
 
-import static org.openclover.util.Maps.newHashMap
+import static org.openclover.core.util.Maps.newHashMap
 
 class RenderFileActionTest extends TestCase {
 

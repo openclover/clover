@@ -1,23 +1,22 @@
 package org.openclover.core.reporters.html
 
-import com.atlassian.clover.context.ContextSet
-import com.atlassian.clover.registry.entities.BasicMethodInfo
-import com.atlassian.clover.registry.entities.FullClassInfo
-import com.atlassian.clover.registry.entities.FullFileInfo
-import com.atlassian.clover.registry.FixedSourceRegion
-import com.atlassian.clover.registry.entities.FullMethodInfo
-import com.atlassian.clover.registry.entities.MethodSignature
-import com.atlassian.clover.registry.entities.Modifiers
-import com.atlassian.clover.registry.entities.TestCaseInfo
-import com.atlassian.clover.reporters.html.JSONObjectFactory
-import com.atlassian.clover.spi.reporters.html.source.LineRenderInfo
-import com.atlassian.clover.reporters.json.JSONException
-import com.atlassian.clover.reporters.json.JSONObject
+import org.openclover.core.context.ContextSet
+import org.openclover.core.registry.entities.BasicMethodInfo
+import org.openclover.core.registry.entities.FullClassInfo
+import org.openclover.core.registry.entities.FullFileInfo
+import org.openclover.core.registry.FixedSourceRegion
+import org.openclover.core.registry.entities.FullMethodInfo
+import org.openclover.core.registry.entities.MethodSignature
+import org.openclover.core.registry.entities.Modifiers
+import org.openclover.core.registry.entities.TestCaseInfo
+import org.openclover.core.spi.reporters.html.source.LineRenderInfo
+import org.openclover.core.reporters.json.JSONException
+import org.openclover.core.reporters.json.JSONObject
 import junit.framework.TestCase
 import org.openclover.core.registry.metrics.HasMetricsTestFixture
 
-import static org.openclover.util.Lists.newArrayList
-import static org.openclover.util.Maps.newHashMap
+import static org.openclover.core.util.Lists.newArrayList
+import static org.openclover.core.util.Maps.newHashMap
 
 class JSONObjectFactoryTest extends TestCase {
 

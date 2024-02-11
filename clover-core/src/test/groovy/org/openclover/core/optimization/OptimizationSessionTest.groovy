@@ -1,9 +1,8 @@
 package org.openclover.core.optimization
 
-import com.atlassian.clover.optimization.OptimizationSession
 import org.openclover.core.util.RecordingLogger
 import org.openclover.runtime.Logger
-import com.atlassian.clover.api.optimization.OptimizationOptions
+import org.openclover.core.api.optimization.OptimizationOptions
 import org.junit.After
 import org.junit.Before
 import org.junit.Test

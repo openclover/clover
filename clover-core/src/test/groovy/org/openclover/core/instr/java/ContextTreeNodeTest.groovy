@@ -1,8 +1,7 @@
 package org.openclover.core.instr.java
 
-import com.atlassian.clover.context.ContextSet
-import com.atlassian.clover.context.ContextStore
-import com.atlassian.clover.instr.java.ContextTreeNode
+import org.openclover.core.context.ContextSet
+import org.openclover.core.context.ContextStore
 import org.junit.Test
 
 import static org.junit.Assert.assertFalse

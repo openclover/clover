@@ -1,8 +1,7 @@
 package org.openclover.core.reporters.util
 
-import com.atlassian.clover.reporters.util.HistoricalReportDescriptor
 import org.openclover.runtime.api.CloverException
-import com.atlassian.clover.reporters.Historical
+import org.openclover.core.reporters.Historical
 import org.junit.Test
 
 import static org.junit.Assert.assertEquals

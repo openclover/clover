@@ -1,18 +1,17 @@
 package org.openclover.core.util
 
-import com.atlassian.clover.CloverDatabase
-import com.atlassian.clover.util.CloverUtils
-import com.atlassian.clover.util.ReflectionUtils
+import org.openclover.core.CloverDatabase
+import org.openclover.core.CloverTestFixture
 import org.openclover.runtime.CloverNames
-import com.atlassian.clover.CoverageDataSpec
+import org.openclover.core.CoverageDataSpec
 import org.openclover.runtime.api.CloverException
-import com.atlassian.clover.optimization.Snapshot
+import org.openclover.core.optimization.Snapshot
 import org.openclover.buildutil.testutils.IOHelper
 import junit.framework.TestCase
 
 import java.lang.reflect.InvocationTargetException
 
-import static org.openclover.util.Lists.newArrayList
+import static Lists.newArrayList
 
 class CloverUtilsTest extends TestCase {
 

@@ -1,6 +1,5 @@
 package org.openclover.core.util
 
-import com.atlassian.clover.util.Color
 import junit.framework.TestCase
 import org.junit.After
 import org.junit.Before

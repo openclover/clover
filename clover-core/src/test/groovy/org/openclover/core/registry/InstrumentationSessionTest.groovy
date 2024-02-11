@@ -1,8 +1,7 @@
 package org.openclover.core.registry
 
-import com.atlassian.clover.api.instrumentation.ConcurrentInstrumentationException
-import com.atlassian.clover.api.instrumentation.InstrumentationSession
-import com.atlassian.clover.registry.Clover2Registry
+import org.openclover.core.api.instrumentation.ConcurrentInstrumentationException
+import org.openclover.core.api.instrumentation.InstrumentationSession
 import org.openclover.runtime.api.CloverException
 import org.junit.Rule
 import org.junit.Test

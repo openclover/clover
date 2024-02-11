@@ -1,19 +1,17 @@
 package org.openclover.core
 
-import com.atlassian.clover.CloverDatabase
 import org.openclover.core.CloverTestFixture.Clazz
 import org.openclover.core.CloverTestFixture.Coverage
-import com.atlassian.clover.CodeType
-import com.atlassian.clover.registry.entities.FullPackageInfo
-import com.atlassian.clover.registry.metrics.PackageMetrics
-import com.atlassian.clover.registry.metrics.ProjectMetrics
+import org.openclover.core.registry.entities.FullPackageInfo
+import org.openclover.core.registry.metrics.PackageMetrics
+import org.openclover.core.registry.metrics.ProjectMetrics
 import org.openclover.buildutil.testutils.IOHelper
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
 import static org.junit.Assert.assertEquals
-import static org.openclover.util.Lists.newArrayList
+import static org.openclover.core.util.Lists.newArrayList
 
 class CloverTestFixtureTest {
 

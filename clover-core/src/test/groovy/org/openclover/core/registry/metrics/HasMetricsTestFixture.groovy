@@ -1,25 +1,24 @@
 package org.openclover.core.registry.metrics
 
-
 import org.openclover.runtime.api.registry.CloverRegistryException
-import com.atlassian.clover.api.registry.SourceInfo
-import com.atlassian.clover.context.ContextSet
-import com.atlassian.clover.context.ContextStore
-import com.atlassian.clover.registry.Clover2Registry
-import com.atlassian.clover.registry.CoverageDataProvider
-import com.atlassian.clover.registry.FixedSourceRegion
-import com.atlassian.clover.registry.entities.BasicElementInfo
-import com.atlassian.clover.registry.entities.BasicMethodInfo
-import com.atlassian.clover.registry.entities.FullBranchInfo
-import com.atlassian.clover.registry.entities.FullClassInfo
-import com.atlassian.clover.registry.entities.FullFileInfo
-import com.atlassian.clover.registry.entities.FullMethodInfo
-import com.atlassian.clover.registry.entities.FullPackageInfo
-import com.atlassian.clover.registry.entities.FullProjectInfo
-import com.atlassian.clover.registry.entities.FullStatementInfo
-import com.atlassian.clover.registry.entities.MethodSignature
-import com.atlassian.clover.registry.entities.Modifiers
-import com.atlassian.clover.spi.lang.LanguageConstruct
+import org.openclover.core.api.registry.SourceInfo
+import org.openclover.core.context.ContextSet
+import org.openclover.core.context.ContextStore
+import org.openclover.core.registry.Clover2Registry
+import org.openclover.core.registry.CoverageDataProvider
+import org.openclover.core.registry.FixedSourceRegion
+import org.openclover.core.registry.entities.BasicElementInfo
+import org.openclover.core.registry.entities.BasicMethodInfo
+import org.openclover.core.registry.entities.FullBranchInfo
+import org.openclover.core.registry.entities.FullClassInfo
+import org.openclover.core.registry.entities.FullFileInfo
+import org.openclover.core.registry.entities.FullMethodInfo
+import org.openclover.core.registry.entities.FullPackageInfo
+import org.openclover.core.registry.entities.FullProjectInfo
+import org.openclover.core.registry.entities.FullStatementInfo
+import org.openclover.core.registry.entities.MethodSignature
+import org.openclover.core.registry.entities.Modifiers
+import org.openclover.core.spi.lang.LanguageConstruct
 
 class HasMetricsTestFixture {
     FullProjectInfo projectInfo

@@ -1,11 +1,5 @@
 package org.openclover.core.registry.metrics
 
-import com.atlassian.clover.registry.metrics.BlockMetrics
-import com.atlassian.clover.registry.metrics.ClassMetrics
-import com.atlassian.clover.registry.metrics.FileMetrics
-import com.atlassian.clover.registry.metrics.HasMetricsNode
-import com.atlassian.clover.registry.metrics.PackageMetrics
-import com.atlassian.clover.registry.metrics.ProjectMetrics
 import org.junit.Test
 
 import static org.junit.Assert.assertEquals
@@ -17,15 +11,15 @@ class MetricsTest {
             return null
         }
 
-        com.atlassian.clover.api.registry.BlockMetrics getMetrics() {
+        org.openclover.core.api.registry.BlockMetrics getMetrics() {
             return null
         }
 
-        com.atlassian.clover.api.registry.BlockMetrics getRawMetrics() {
+        org.openclover.core.api.registry.BlockMetrics getRawMetrics() {
             return null
         }
 
-        void setMetrics(com.atlassian.clover.api.registry.BlockMetrics metrics) {
+        void setMetrics(org.openclover.core.api.registry.BlockMetrics metrics) {
             
         }
 

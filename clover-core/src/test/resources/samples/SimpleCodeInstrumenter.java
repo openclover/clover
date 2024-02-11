@@ -1,15 +1,15 @@
 package com.atlassian.clover.samples;
 
 import org.openclover.runtime.api.CloverException;
-import com.atlassian.clover.api.instrumentation.InstrumentationSession;
-import com.atlassian.clover.api.registry.FileInfo;
-import com.atlassian.clover.context.ContextSet;
-import com.atlassian.clover.registry.Clover2Registry;
-import com.atlassian.clover.registry.FixedSourceRegion;
-import com.atlassian.clover.registry.entities.MethodSignature;
-import com.atlassian.clover.registry.entities.Modifiers;
-import com.atlassian.clover.registry.entities.Parameter;
-import com.atlassian.clover.spi.lang.LanguageConstruct;
+import org.openclover.core.api.instrumentation.InstrumentationSession;
+import org.openclover.core.api.registry.FileInfo;
+import org.openclover.core.context.ContextSet;
+import org.openclover.core.registry.Clover2Registry;
+import org.openclover.core.registry.FixedSourceRegion;
+import org.openclover.core.registry.entities.MethodSignature;
+import org.openclover.core.registry.entities.Modifiers;
+import org.openclover.core.registry.entities.Parameter;
+import org.openclover.core.spi.lang.LanguageConstruct;
 
 import java.lang.reflect.Modifier;
 import java.io.File;

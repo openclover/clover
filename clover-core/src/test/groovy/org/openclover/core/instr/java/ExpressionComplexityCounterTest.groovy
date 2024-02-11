@@ -1,21 +1,19 @@
 package org.openclover.core.instr.java
 
-import com.atlassian.clover.instr.java.CloverToken
-import com.atlassian.clover.instr.java.ExpressionComplexityCounter
 import org.junit.Test
 
-import static com.atlassian.clover.instr.java.JavaTokenTypes.BOR
-import static com.atlassian.clover.instr.java.JavaTokenTypes.COLON
-import static com.atlassian.clover.instr.java.JavaTokenTypes.EQUAL
-import static com.atlassian.clover.instr.java.JavaTokenTypes.IDENT
-import static com.atlassian.clover.instr.java.JavaTokenTypes.INT_LITERAL
-import static com.atlassian.clover.instr.java.JavaTokenTypes.LAND
-import static com.atlassian.clover.instr.java.JavaTokenTypes.LOR
-import static com.atlassian.clover.instr.java.JavaTokenTypes.LT
-import static com.atlassian.clover.instr.java.JavaTokenTypes.LPAREN
-import static com.atlassian.clover.instr.java.JavaTokenTypes.MINUS
-import static com.atlassian.clover.instr.java.JavaTokenTypes.QUESTION
-import static com.atlassian.clover.instr.java.JavaTokenTypes.RPAREN
+import static org.openclover.core.instr.java.JavaTokenTypes.BOR
+import static org.openclover.core.instr.java.JavaTokenTypes.COLON
+import static org.openclover.core.instr.java.JavaTokenTypes.EQUAL
+import static org.openclover.core.instr.java.JavaTokenTypes.IDENT
+import static org.openclover.core.instr.java.JavaTokenTypes.INT_LITERAL
+import static org.openclover.core.instr.java.JavaTokenTypes.LAND
+import static org.openclover.core.instr.java.JavaTokenTypes.LOR
+import static org.openclover.core.instr.java.JavaTokenTypes.LT
+import static org.openclover.core.instr.java.JavaTokenTypes.LPAREN
+import static org.openclover.core.instr.java.JavaTokenTypes.MINUS
+import static org.openclover.core.instr.java.JavaTokenTypes.QUESTION
+import static org.openclover.core.instr.java.JavaTokenTypes.RPAREN
 import static org.junit.Assert.assertEquals
 
 class ExpressionComplexityCounterTest {

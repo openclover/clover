@@ -1,7 +1,6 @@
 package org.openclover.core.registry.format
 
-import com.atlassian.clover.registry.entities.FullFileInfo
-import com.atlassian.clover.registry.format.FileInfoRecord
+import org.openclover.core.registry.entities.FullFileInfo
 import org.openclover.core.registry.ModelBuilder
 import org.junit.Test
 

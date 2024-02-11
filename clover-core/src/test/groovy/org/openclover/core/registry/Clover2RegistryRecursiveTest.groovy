@@ -1,16 +1,15 @@
 package org.openclover.core.registry
 
-import com.atlassian.clover.registry.Clover2Registry
 import org.openclover.runtime.api.CloverException
-import com.atlassian.clover.api.registry.ClassInfo
-import com.atlassian.clover.api.registry.MethodInfo
-import com.atlassian.clover.api.registry.PackageInfo
-import com.atlassian.clover.context.ContextStore
-import com.atlassian.clover.registry.entities.FullClassInfo
-import com.atlassian.clover.registry.entities.FullFileInfo
-import com.atlassian.clover.registry.entities.FullMethodInfo
-import com.atlassian.clover.registry.entities.FullProjectInfo
-import com.atlassian.clover.registry.format.FreshRegFile
+import org.openclover.core.api.registry.ClassInfo
+import org.openclover.core.api.registry.MethodInfo
+import org.openclover.core.api.registry.PackageInfo
+import org.openclover.core.context.ContextStore
+import org.openclover.core.registry.entities.FullClassInfo
+import org.openclover.core.registry.entities.FullFileInfo
+import org.openclover.core.registry.entities.FullMethodInfo
+import org.openclover.core.registry.entities.FullProjectInfo
+import org.openclover.core.registry.format.FreshRegFile
 import org.openclover.runtime.registry.format.RegAccessMode
 import org.junit.BeforeClass
 import org.junit.Test

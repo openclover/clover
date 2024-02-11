@@ -1,6 +1,5 @@
 package org.openclover.core.util.trie
 
-import com.atlassian.clover.util.trie.FilePathPrefixTree
 import org.junit.Test
 
 import static org.hamcrest.CoreMatchers.anyOf
@@ -11,13 +10,13 @@ import static org.junit.Assert.assertNull
 import static org.junit.Assert.assertEquals
 
 /**
- * Test for {@link com.atlassian.clover.util.trie.FilePathPrefixTree}
+ * Test for {@link FilePathPrefixTree}
  */
 class FilePathPrefixTreeTest {
 
     /**
-     * @see com.atlassian.clover.util.trie.FilePathPrefixTree#add(java.io.File, Object)
-     * @see com.atlassian.clover.util.trie.FilePathPrefixTree#find(java.io.File)
+     * @see FilePathPrefixTree#add(java.io.File, Object)
+     * @see FilePathPrefixTree#find(java.io.File)
      */
     @Test
     void testAddFindOnFilePaths() {

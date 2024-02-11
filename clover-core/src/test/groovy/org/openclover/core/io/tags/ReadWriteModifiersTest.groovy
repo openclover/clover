@@ -1,14 +1,9 @@
 package org.openclover.core.io.tags
 
-import com.atlassian.clover.io.tags.ObjectReader
-import com.atlassian.clover.io.tags.TaggedDataInput
-import com.atlassian.clover.io.tags.TaggedInputReader
-import com.atlassian.clover.io.tags.TaggedOutputWriter
-import com.atlassian.clover.io.tags.Tags
-import com.atlassian.clover.registry.entities.AnnotationImpl
-import com.atlassian.clover.registry.entities.ArrayAnnotationValue
-import com.atlassian.clover.registry.entities.Modifiers
-import com.atlassian.clover.registry.entities.StringifiedAnnotationValue
+import org.openclover.core.registry.entities.AnnotationImpl
+import org.openclover.core.registry.entities.ArrayAnnotationValue
+import org.openclover.core.registry.entities.Modifiers
+import org.openclover.core.registry.entities.StringifiedAnnotationValue
 import org.junit.Test
 
 import java.lang.reflect.Modifier

@@ -1,11 +1,10 @@
 package org.openclover.core.reporters.xml
 
-import com.atlassian.clover.reporters.xml.XMLWriter
 import org.junit.Test
 
 import static org.junit.Assert.assertEquals
-import static org.openclover.util.Maps.newHashMap
-import static org.openclover.util.Maps.newTreeMap
+import static org.openclover.core.util.Maps.newHashMap
+import static org.openclover.core.util.Maps.newTreeMap
 
 class XMLWriterTest {
 

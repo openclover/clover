@@ -1,6 +1,5 @@
 package org.openclover.core.cfg
 
-import com.atlassian.clover.cfg.StorageSize
 import org.junit.Test
 
 import static org.junit.Assert.assertEquals

@@ -1,12 +1,12 @@
 package org.openclover.core.registry.metrics
 
-import com.atlassian.clover.context.ContextSet
-import com.atlassian.clover.context.ContextStore
-import com.atlassian.clover.registry.entities.FullClassInfo
-import com.atlassian.clover.registry.entities.FullMethodInfo
-import com.atlassian.clover.registry.entities.FullProjectInfo
-import com.atlassian.clover.registry.entities.FullStatementInfo
-import com.atlassian.clover.registry.metrics.ProjectMetrics
+import org.openclover.core.context.ContextSet
+import org.openclover.core.context.ContextStore
+import org.openclover.core.api.registry.BlockMetrics
+import org.openclover.core.registry.entities.FullClassInfo
+import org.openclover.core.registry.entities.FullMethodInfo
+import org.openclover.core.registry.entities.FullProjectInfo
+import org.openclover.core.registry.entities.FullStatementInfo
 import org.junit.Before
 import org.junit.Test
 
@@ -48,8 +48,8 @@ public class FilteredMetricsTest {
     void testEmptyFilter() throws IOException {
         FullProjectInfo projectInfo = fixture.getProject()
         projectInfo.setContextFilter(new ContextSet())
-        com.atlassian.clover.api.registry.BlockMetrics metrics = projectInfo.getRawMetrics()
-        com.atlassian.clover.api.registry.BlockMetrics filteredMetrics = projectInfo.getMetrics()
+        BlockMetrics metrics = projectInfo.getRawMetrics()
+        BlockMetrics filteredMetrics = projectInfo.getMetrics()
         assertMetricsEquals(metrics, filteredMetrics)
     }
 

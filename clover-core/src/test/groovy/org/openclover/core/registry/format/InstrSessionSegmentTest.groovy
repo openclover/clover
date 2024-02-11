@@ -1,9 +1,7 @@
 package org.openclover.core.registry.format
 
-import com.atlassian.clover.context.ContextStore
-import com.atlassian.clover.registry.entities.FullFileInfo
-import com.atlassian.clover.registry.format.FileInfoRecord
-import com.atlassian.clover.registry.format.InstrSessionSegment
+import org.openclover.core.context.ContextStore
+import org.openclover.core.registry.entities.FullFileInfo
 import org.openclover.core.registry.ModelBuilder
 import org.junit.Test
 

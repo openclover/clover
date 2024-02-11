@@ -1,6 +1,5 @@
 package org.openclover.core.instr.java
 
-import com.atlassian.clover.instr.java.RewriteLambdaToBlockMatcher
 import spock.lang.Specification
 import spock.lang.Unroll
 

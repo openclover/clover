@@ -1,22 +1,20 @@
 package org.openclover.core.reporters.html
 
-import com.atlassian.clover.api.registry.BranchInfo
-import com.atlassian.clover.registry.entities.FullStatementInfo
-import com.atlassian.clover.reporters.CloverReportConfig
-import com.atlassian.clover.reporters.Current
-import com.atlassian.clover.reporters.html.HtmlReporter
-import com.atlassian.clover.reporters.html.RenderProjectCoverageCloudsAction
+import org.openclover.core.api.registry.BranchInfo
+import org.openclover.core.registry.entities.FullStatementInfo
+import org.openclover.core.reporters.CloverReportConfig
+import org.openclover.core.reporters.Current
 import junit.framework.TestCase
 import clover.org.apache.velocity.VelocityContext
 
-import com.atlassian.clover.registry.entities.FullProjectInfo
-import com.atlassian.clover.registry.entities.FullClassInfo
-import com.atlassian.clover.registry.entities.FullMethodInfo
-import com.atlassian.clover.context.ContextSet
-import com.atlassian.clover.context.ContextStore
+import org.openclover.core.registry.entities.FullProjectInfo
+import org.openclover.core.registry.entities.FullClassInfo
+import org.openclover.core.registry.entities.FullMethodInfo
+import org.openclover.core.context.ContextSet
+import org.openclover.core.context.ContextStore
 import org.openclover.core.registry.metrics.HasMetricsTestFixture
 
-import static org.openclover.util.Lists.newArrayList
+import static org.openclover.core.util.Lists.newArrayList
 
 /**
  */

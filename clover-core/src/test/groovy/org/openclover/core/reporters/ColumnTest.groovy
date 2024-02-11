@@ -1,13 +1,10 @@
 package org.openclover.core.reporters
 
-import com.atlassian.clover.reporters.Column
-import com.atlassian.clover.reporters.ColumnFormat
-import com.atlassian.clover.reporters.Columns
 import org.openclover.runtime.Logger
 import org.openclover.runtime.api.CloverException
-import com.atlassian.clover.registry.metrics.BlockMetrics
-import com.atlassian.clover.registry.metrics.ClassMetrics
-import com.atlassian.clover.reporters.html.HtmlReporter
+import org.openclover.core.registry.metrics.BlockMetrics
+import org.openclover.core.registry.metrics.ClassMetrics
+import org.openclover.core.reporters.html.HtmlReporter
 import org.openclover.runtime.util.Formatting
 import org.junit.Test
 

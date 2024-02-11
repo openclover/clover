@@ -1,6 +1,5 @@
 package org.openclover.core.util.format
 
-import com.atlassian.clover.util.format.HtmlFormatter
 import org.junit.Test
 
 import static org.junit.Assert.assertEquals

@@ -1,20 +1,18 @@
 package org.openclover.core.context
 
-import com.atlassian.clover.api.registry.ClassInfo
-import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig
-import com.atlassian.clover.cfg.instr.java.LambdaInstrumentation
-import com.atlassian.clover.cfg.instr.java.SourceLevel
-import com.atlassian.clover.context.ContextStore
-import com.atlassian.clover.context.MethodRegexpContext
-import com.atlassian.clover.instr.java.InstrumentationSource
-import com.atlassian.clover.instr.java.Instrumenter
-import com.atlassian.clover.instr.java.StringInstrumentationSource
-import com.atlassian.clover.registry.entities.FullMethodInfo
-import com.atlassian.clover.registry.entities.FullProjectInfo
-import com.atlassian.clover.util.FileUtils
-import com.atlassian.clover.api.registry.MethodInfo
-import com.atlassian.clover.registry.entities.BasePackageInfo
-import com.atlassian.clover.registry.Clover2Registry
+import org.openclover.core.api.registry.ClassInfo
+import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig
+import org.openclover.core.cfg.instr.java.LambdaInstrumentation
+import org.openclover.core.cfg.instr.java.SourceLevel
+import org.openclover.core.instr.java.InstrumentationSource
+import org.openclover.core.instr.java.Instrumenter
+import org.openclover.core.instr.java.StringInstrumentationSource
+import org.openclover.core.registry.entities.FullMethodInfo
+import org.openclover.core.registry.entities.FullProjectInfo
+import org.openclover.core.util.FileUtils
+import org.openclover.core.api.registry.MethodInfo
+import org.openclover.core.registry.entities.BasePackageInfo
+import org.openclover.core.registry.Clover2Registry
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -26,7 +24,7 @@ import java.util.regex.Pattern
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertFalse
 import static org.junit.Assert.assertTrue
-import static org.openclover.util.Maps.newHashMap
+import static org.openclover.core.util.Maps.newHashMap
 
 class ContextTest {
 

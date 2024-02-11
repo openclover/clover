@@ -1,16 +1,11 @@
 package org.openclover.core.reporters.html
 
 import clover.org.apache.velocity.VelocityContext
-import com.atlassian.clover.registry.metrics.BlockMetrics
-import com.atlassian.clover.registry.entities.FullProjectInfo
-import com.atlassian.clover.reporters.Column
-import com.atlassian.clover.reporters.Current
-import com.atlassian.clover.reporters.html.HtmlReporter
-import com.atlassian.clover.reporters.html.RenderDashboardAction
-import com.atlassian.clover.reporters.html.RenderProjectCoverageCloudsAction
-import com.atlassian.clover.reporters.html.StatisticsClassInfoVisitor
-import com.atlassian.clover.reporters.html.TabInfo
-import com.atlassian.clover.reporters.util.CloverChartFactory
+import org.openclover.core.registry.metrics.BlockMetrics
+import org.openclover.core.registry.entities.FullProjectInfo
+import org.openclover.core.reporters.Column
+import org.openclover.core.reporters.Current
+import org.openclover.core.reporters.util.CloverChartFactory
 import junit.framework.TestCase
 import org.openclover.core.TestUtils
 import org.openclover.core.registry.metrics.HasMetricsTestFixture

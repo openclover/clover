@@ -1,9 +1,9 @@
 package org.openclover.core.instr.java
 
-import com.atlassian.clover.api.registry.StatementInfo
-import com.atlassian.clover.registry.Clover2Registry
-import com.atlassian.clover.registry.FixedSourceRegion
-import com.atlassian.clover.registry.entities.FullMethodInfo
+import org.openclover.core.api.registry.StatementInfo
+import org.openclover.core.registry.Clover2Registry
+import org.openclover.core.registry.FixedSourceRegion
+import org.openclover.core.registry.entities.FullMethodInfo
 import org.junit.Test
 
 import static org.junit.Assert.assertEquals

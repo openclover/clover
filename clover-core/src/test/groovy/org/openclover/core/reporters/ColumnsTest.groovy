@@ -1,6 +1,5 @@
 package org.openclover.core.reporters
 
-import com.atlassian.clover.reporters.Columns
 import org.junit.Test
 
 import static org.junit.Assert.assertFalse

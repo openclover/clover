@@ -1,20 +1,17 @@
 package org.openclover.core
 
 import clover.org.apache.commons.lang3.ArrayUtils
-import com.atlassian.clover.CloverDatabase
-import com.atlassian.clover.CloverInstr
-import com.atlassian.clover.CodeType
-import com.atlassian.clover.api.registry.MethodInfo
-import com.atlassian.clover.cfg.instr.java.LambdaInstrumentation
-import com.atlassian.clover.registry.entities.FullClassInfo
-import com.atlassian.clover.registry.entities.FullFileInfo
-import com.atlassian.clover.registry.entities.FullProjectInfo
-import com.atlassian.clover.registry.entities.FullStatementInfo
-import com.atlassian.clover.registry.entities.LineInfo
+import org.openclover.core.api.registry.MethodInfo
+import org.openclover.core.cfg.instr.java.LambdaInstrumentation
+import org.openclover.core.registry.entities.FullClassInfo
+import org.openclover.core.registry.entities.FullFileInfo
+import org.openclover.core.registry.entities.FullProjectInfo
+import org.openclover.core.registry.entities.FullStatementInfo
+import org.openclover.core.registry.entities.LineInfo
 import org.openclover.buildutil.testutils.AssertionUtils
 import org.openclover.buildutil.testutils.IOHelper
-import com.atlassian.clover.util.FileUtils
-import com.atlassian.clover.util.SourceScanner
+import org.openclover.core.util.FileUtils
+import org.openclover.core.util.SourceScanner
 import org.apache.tools.ant.BuildEvent
 import org.apache.tools.ant.BuildListener
 import org.apache.tools.ant.Project
@@ -37,7 +34,7 @@ import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertFalse
 import static org.junit.Assert.assertNotNull
 import static org.junit.Assert.assertTrue
-import static org.openclover.util.Lists.newArrayList
+import static org.openclover.core.util.Lists.newArrayList
 
 /**
  * This is a base class for test cases testing compilation and instrumentation under different JDK versions

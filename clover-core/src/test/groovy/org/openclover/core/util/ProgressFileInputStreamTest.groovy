@@ -1,7 +1,6 @@
 package org.openclover.core.util
 
-import com.atlassian.clover.ProgressListener
-import com.atlassian.clover.util.ProgressInputStream
+import org.openclover.core.ProgressListener
 import junit.framework.TestCase
 import org.openclover.core.TestUtils
 

@@ -2,15 +2,14 @@ package org.openclover.core.util
 
 import clover.antlr.Token
 import clover.antlr.TokenStreamException
-import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig
-import com.atlassian.clover.cfg.instr.java.SourceLevel
-import com.atlassian.clover.instr.java.JavaLexer
-import com.atlassian.clover.instr.java.JavaTokenTypes
-import com.atlassian.clover.util.UnicodeDecodingReader
+import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig
+import org.openclover.core.cfg.instr.java.SourceLevel
+import org.openclover.core.instr.java.JavaLexer
+import org.openclover.core.instr.java.JavaTokenTypes
 import org.junit.Test
 
 import static org.junit.Assert.*
-import static org.openclover.util.Lists.newArrayList
+import static Lists.newArrayList
 
 /**
  * Test of {@link com.atlassian.clover.instr.java.JavaLexer} against unicode characters

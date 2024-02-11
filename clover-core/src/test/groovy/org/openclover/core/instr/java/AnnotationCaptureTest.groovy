@@ -1,18 +1,14 @@
 package org.openclover.core.instr.java
 
-import com.atlassian.clover.api.registry.Annotation
-import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig
-import com.atlassian.clover.cfg.instr.java.SourceLevel
-import com.atlassian.clover.instr.java.InstrumentationSource
-import com.atlassian.clover.instr.java.InstrumentationState
-import com.atlassian.clover.instr.java.Instrumenter
-import com.atlassian.clover.instr.java.StringInstrumentationSource
-import com.atlassian.clover.instr.tests.TestDetector
-import com.atlassian.clover.registry.entities.AnnotationImpl
-import com.atlassian.clover.util.FileUtils
-import com.atlassian.clover.registry.entities.ArrayAnnotationValue
-import com.atlassian.clover.registry.entities.MethodSignature
-import com.atlassian.clover.registry.entities.StringifiedAnnotationValue
+import org.openclover.core.api.registry.Annotation
+import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig
+import org.openclover.core.cfg.instr.java.SourceLevel
+import org.openclover.core.instr.tests.TestDetector
+import org.openclover.core.registry.entities.AnnotationImpl
+import org.openclover.core.util.FileUtils
+import org.openclover.core.registry.entities.ArrayAnnotationValue
+import org.openclover.core.registry.entities.MethodSignature
+import org.openclover.core.registry.entities.StringifiedAnnotationValue
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule

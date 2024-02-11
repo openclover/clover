@@ -1,12 +1,11 @@
 package org.openclover.core.context
 
-import com.atlassian.clover.context.ContextSet
 import org.junit.Test
 
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertFalse
 import static org.junit.Assert.assertTrue
-import static org.openclover.util.Maps.newHashMap
+import static org.openclover.core.util.Maps.newHashMap
 
 class ContextSetTest {
 

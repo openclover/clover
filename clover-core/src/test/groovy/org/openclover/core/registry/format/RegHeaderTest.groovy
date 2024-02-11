@@ -1,7 +1,5 @@
 package org.openclover.core.registry.format
 
-import com.atlassian.clover.registry.format.CoverageSegment
-import com.atlassian.clover.registry.format.InstrSessionSegment
 import org.openclover.runtime.registry.CorruptedRegistryException
 import org.openclover.runtime.registry.IncompatibleRegistryFormatException
 import org.junit.Rule

@@ -1,7 +1,5 @@
 package org.openclover.core
 
-import com.atlassian.clover.Contract
-import com.atlassian.clover.ContractFailedException
 import junit.framework.TestCase
 
 class ContractTest extends TestCase {

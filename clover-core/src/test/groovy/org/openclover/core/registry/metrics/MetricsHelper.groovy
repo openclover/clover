@@ -1,11 +1,5 @@
 package org.openclover.core.registry.metrics
 
-import com.atlassian.clover.registry.metrics.BlockMetrics
-import com.atlassian.clover.registry.metrics.ClassMetrics
-import com.atlassian.clover.registry.metrics.FileMetrics
-import com.atlassian.clover.registry.metrics.PackageMetrics
-import com.atlassian.clover.registry.metrics.ProjectMetrics
-
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertTrue
 
@@ -22,13 +16,13 @@ class MetricsHelper {
 
     static void assertMetricsEquals(ClassMetrics expectedMetrics, ClassMetrics actualMetrics) {
         assertMetricsEquals(expectedMetrics,
-                (com.atlassian.clover.api.registry.BlockMetrics)actualMetrics)
+                (org.openclover.core.api.registry.BlockMetrics)actualMetrics)
         assertEquals("getNumMethods", expectedMetrics.getNumMethods(), actualMetrics.getNumMethods())
         assertEquals("getNumMethods", expectedMetrics.getNumTestMethods(), actualMetrics.getNumTestMethods())
         assertEquals("getNumCoveredMethods", expectedMetrics.getNumCoveredMethods(), actualMetrics.getNumCoveredMethods())
     }
 
-    static void assertMetricsEquals(com.atlassian.clover.api.registry.BlockMetrics metrics, com.atlassian.clover.api.registry.BlockMetrics filteredMetrics) {
+    static void assertMetricsEquals(org.openclover.core.api.registry.BlockMetrics metrics, org.openclover.core.api.registry.BlockMetrics filteredMetrics) {
         assertEquals("getNumBranches", metrics.getNumBranches(), filteredMetrics.getNumBranches())
         assertEquals("getNumStatements", metrics.getNumStatements(), filteredMetrics.getNumStatements())
         assertEquals("getNumElements", metrics.getNumElements(), filteredMetrics.getNumElements())

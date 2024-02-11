@@ -1,18 +1,17 @@
 package org.openclover.core
 
-import com.atlassian.clover.CoverageDataSpec
 import org.openclover.runtime.ErrorInfo
 import org.openclover.runtime.Logger
 import org.openclover.runtime.RuntimeType
 import org.openclover.runtime.recorder.FileBasedPerTestRecording
 import org.openclover.runtime.recorder.PerTestRecording
-import com.atlassian.clover.recorder.PerTestRecordingTranscript
-import com.atlassian.clover.recorder.RecordingTranscripts
+import org.openclover.core.recorder.PerTestRecordingTranscript
+import org.openclover.core.recorder.RecordingTranscripts
 import junit.framework.TestCase
 import org_openclover_runtime.Clover
 
-import com.atlassian.clover.util.CloverUtils
-import com.atlassian.clover.util.FileUtils
+import org.openclover.core.util.CloverUtils
+import org.openclover.core.util.FileUtils
 import org.openclover.runtime.util.CloverBitSet
 
 class SliceRecordingTest extends TestCase {

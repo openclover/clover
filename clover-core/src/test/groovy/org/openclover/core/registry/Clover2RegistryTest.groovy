@@ -1,28 +1,24 @@
 package org.openclover.core.registry
 
-import com.atlassian.clover.registry.Clover2Registry
-import com.atlassian.clover.registry.CoverageDataProvider
-import com.atlassian.clover.registry.FixedSourceRegion
-import com.atlassian.clover.registry.RegistryUpdate
 import org.openclover.runtime.api.CloverException
 import org.openclover.runtime.api.registry.CloverRegistryException
-import com.atlassian.clover.api.registry.SourceInfo
-import com.atlassian.clover.context.ContextSet
-import com.atlassian.clover.context.ContextStore
-import com.atlassian.clover.instr.InstrumentationSessionImpl
-import com.atlassian.clover.registry.entities.BasePackageInfo
-import com.atlassian.clover.registry.entities.FullFileInfo
-import com.atlassian.clover.registry.entities.FullProjectInfo
-import com.atlassian.clover.registry.entities.FullMethodInfo
-import com.atlassian.clover.registry.entities.MethodSignature
-import com.atlassian.clover.registry.entities.Modifiers
-import com.atlassian.clover.registry.format.InaccessibleRegFileException
-import com.atlassian.clover.registry.format.RegFile
-import com.atlassian.clover.api.registry.HasMetrics
-import com.atlassian.clover.registry.metrics.HasMetricsFilter
-import com.atlassian.clover.registry.metrics.ProjectMetrics
+import org.openclover.core.api.registry.SourceInfo
+import org.openclover.core.context.ContextSet
+import org.openclover.core.context.ContextStore
+import org.openclover.core.instr.InstrumentationSessionImpl
+import org.openclover.core.registry.entities.BasePackageInfo
+import org.openclover.core.registry.entities.FullFileInfo
+import org.openclover.core.registry.entities.FullProjectInfo
+import org.openclover.core.registry.entities.FullMethodInfo
+import org.openclover.core.registry.entities.MethodSignature
+import org.openclover.core.registry.entities.Modifiers
+import org.openclover.core.registry.format.InaccessibleRegFileException
+import org.openclover.core.registry.format.RegFile
+import org.openclover.core.api.registry.HasMetrics
+import org.openclover.core.registry.metrics.HasMetricsFilter
+import org.openclover.core.registry.metrics.ProjectMetrics
 import org.openclover.buildutil.testutils.IOHelper
-import com.atlassian.clover.util.FileUtils
+import org.openclover.core.util.FileUtils
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -31,7 +27,7 @@ import org.junit.rules.TestName
 import org.openclover.runtime.registry.CorruptedRegistryException
 
 import static org.junit.Assert.*
-import static org.openclover.util.Lists.newArrayList
+import static org.openclover.core.util.Lists.newArrayList
 
 public class Clover2RegistryTest {
     private File tmpDir

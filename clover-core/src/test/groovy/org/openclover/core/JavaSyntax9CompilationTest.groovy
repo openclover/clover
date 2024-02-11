@@ -1,7 +1,7 @@
 package org.openclover.core
 
-import com.atlassian.clover.util.FileUtils
-import com.atlassian.clover.util.JavaEnvUtils
+import org.openclover.core.util.FileUtils
+import org.openclover.core.util.JavaEnvUtils
 import org.junit.Before
 import org.junit.Test
 

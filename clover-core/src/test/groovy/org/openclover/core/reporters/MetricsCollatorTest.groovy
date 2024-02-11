@@ -1,19 +1,18 @@
 package org.openclover.core.reporters
 
-import com.atlassian.clover.api.registry.MethodInfo
-import com.atlassian.clover.context.ContextSet
-import com.atlassian.clover.registry.FixedSourceRegion
-import com.atlassian.clover.registry.entities.BasicMethodInfo
-import com.atlassian.clover.registry.entities.FullClassInfo
-import com.atlassian.clover.registry.entities.FullMethodInfo
-import com.atlassian.clover.registry.entities.MethodSignature
-import com.atlassian.clover.registry.metrics.BlockMetrics
-import com.atlassian.clover.reporters.MetricsCollator
+import org.openclover.core.api.registry.MethodInfo
+import org.openclover.core.context.ContextSet
+import org.openclover.core.registry.FixedSourceRegion
+import org.openclover.core.registry.entities.BasicMethodInfo
+import org.openclover.core.registry.entities.FullClassInfo
+import org.openclover.core.registry.entities.FullMethodInfo
+import org.openclover.core.registry.entities.MethodSignature
+import org.openclover.core.registry.metrics.BlockMetrics
 import junit.framework.TestCase
 import org.openclover.core.registry.metrics.HasMetricsTestFixture
 import org.openclover.core.registry.metrics.MetricsHelper
 
-import static org.openclover.util.Lists.newArrayList
+import static org.openclover.core.util.Lists.newArrayList
 
 class MetricsCollatorTest extends TestCase {
     List<FullClassInfo> classes = newArrayList()
@@ -144,7 +143,7 @@ class MetricsCollatorTest extends TestCase {
         assertEquals("foo()", methods.get(3).getName())
     }
 
-    com.atlassian.clover.api.registry.BlockMetrics methodAt(List<MethodInfo> methods, int index) {
+    org.openclover.core.api.registry.BlockMetrics methodAt(List<MethodInfo> methods, int index) {
         return methods.get(index).getMetrics()
     }
 

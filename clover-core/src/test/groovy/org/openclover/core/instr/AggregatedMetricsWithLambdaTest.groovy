@@ -4,10 +4,10 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestName
 
-import static org.openclover.util.Maps.newHashMap
+import static org.openclover.core.util.Maps.newHashMap
 
 /**
- * Test for {@link com.atlassian.clover.instr.InstrumentationSessionImpl} checking how aggregated metrics
+ * Test for {@link org.openclover.core.instr.InstrumentationSessionImpl} checking how aggregated metrics
  * are calculated for classes and methods with Java8 lambdas.
  */
 class AggregatedMetricsWithLambdaTest extends AggregatedMetricsTestBase {

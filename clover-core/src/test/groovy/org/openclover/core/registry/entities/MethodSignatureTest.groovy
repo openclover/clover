@@ -1,8 +1,5 @@
 package org.openclover.core.registry.entities
 
-import com.atlassian.clover.registry.entities.MethodSignature
-import com.atlassian.clover.registry.entities.Modifiers
-import com.atlassian.clover.registry.entities.Parameter
 import org.junit.Test
 
 import java.lang.reflect.Modifier

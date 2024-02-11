@@ -1,7 +1,6 @@
 package org.openclover.core.instr.java
 
-import com.atlassian.clover.instr.java.LambdaUtil
-import com.atlassian.clover.registry.entities.Parameter
+import org.openclover.core.registry.entities.Parameter
 import org.junit.Test
 
 import static org.junit.Assert.assertEquals

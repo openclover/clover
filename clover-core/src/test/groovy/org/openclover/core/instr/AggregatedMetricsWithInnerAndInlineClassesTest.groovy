@@ -5,7 +5,7 @@ import org.junit.Test
 import org.junit.rules.TestName
 
 import static org.junit.Assert.assertEquals
-import static org.openclover.util.Maps.newHashMap
+import static org.openclover.core.util.Maps.newHashMap
 
 /**
  * Test for {@link InstrumentationSessionImpl} checking how aggregated metrics are calculated for top-level, inner and

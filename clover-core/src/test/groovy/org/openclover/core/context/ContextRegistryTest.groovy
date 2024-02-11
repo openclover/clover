@@ -1,10 +1,5 @@
 package org.openclover.core.context
 
-import com.atlassian.clover.context.ContextSet
-import com.atlassian.clover.context.ContextStore
-import com.atlassian.clover.context.MethodRegexpContext
-import com.atlassian.clover.context.NamedContext
-import com.atlassian.clover.context.StatementRegexpContext
 import org.openclover.runtime.api.CloverException
 import org.junit.Test
 

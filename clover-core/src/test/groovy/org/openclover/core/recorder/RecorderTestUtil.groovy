@@ -1,8 +1,7 @@
 package org.openclover.core.recorder
 
-import com.atlassian.clover.recorder.GlobalCoverageRecordingTranscript
 import org.openclover.runtime.util.CloverBitSet
-import com.atlassian.clover.registry.CoverageDataProvider
+import org.openclover.core.registry.CoverageDataProvider
 
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertTrue

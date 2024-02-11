@@ -1,7 +1,5 @@
 package org.openclover.core.util.format
 
-import com.atlassian.clover.util.format.MessageFormatException
-import com.atlassian.clover.util.format.MessageTokenizer
 import org.junit.Test
 
 import static org.junit.Assert.*

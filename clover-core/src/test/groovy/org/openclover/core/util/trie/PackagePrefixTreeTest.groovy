@@ -1,9 +1,8 @@
 package org.openclover.core.util.trie
 
-import com.atlassian.clover.registry.entities.BasePackageInfo
-import com.atlassian.clover.reporters.html.PackageInfoExt
-import com.atlassian.clover.util.collections.Pair
-import com.atlassian.clover.util.trie.PackagePrefixTree
+import org.openclover.core.registry.entities.BasePackageInfo
+import org.openclover.core.reporters.html.PackageInfoExt
+import org.openclover.core.util.collections.Pair
 import org.junit.Test
 
 class PackagePrefixTreeTest extends PrefixTreeTest {

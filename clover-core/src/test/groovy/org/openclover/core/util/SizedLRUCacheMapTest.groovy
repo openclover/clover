@@ -1,6 +1,5 @@
 package org.openclover.core.util
 
-import com.atlassian.clover.util.SizedLRUCacheMap
 import org.junit.Test
 import org.openclover.runtime.util.ByteSized
 

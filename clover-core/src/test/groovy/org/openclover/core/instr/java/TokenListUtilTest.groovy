@@ -1,11 +1,10 @@
 package org.openclover.core.instr.java
 
-import com.atlassian.clover.instr.java.TokenListUtil
 import org.junit.Test
 
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertTrue
-import static org.openclover.util.Maps.newHashMap
+import static org.openclover.core.util.Maps.newHashMap
 
 public class TokenListUtilTest {
 

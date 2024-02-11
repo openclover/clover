@@ -1,6 +1,5 @@
 package org.openclover.core.instr.java
 
-import com.atlassian.clover.instr.java.RecorderInstrEmitter
 import org.openclover.runtime.recorder.pertest.SnifferType
 import org.openclover.runtime.remote.DistributedConfig
 import org_openclover_runtime.CloverProfile
@@ -10,7 +9,7 @@ import static org.hamcrest.CoreMatchers.containsString
 import static org.hamcrest.text.MatchesPattern.matchesPattern
 import static org.junit.Assert.assertEquals
 import static org.hamcrest.MatcherAssert.assertThat
-import static org.openclover.util.Lists.newArrayList
+import static org.openclover.core.util.Lists.newArrayList
 
 /**
  * Test for {@link RecorderInstrEmitter}
@@ -28,7 +27,7 @@ class RecorderInstrEmitterTest {
     String distributedConfigStrSorted = "host=myhost;name=my-config;numClients=10;port=1111;retryPeriod=111;timeout=555"
 
     /**
-     * Test for {@link com.atlassian.clover.instr.java.RecorderInstrEmitter#asUnicodeString(String)}
+     * Test for {@link RecorderInstrEmitter#asUnicodeString(String)}
      * @throws Exception
      */
     @Test

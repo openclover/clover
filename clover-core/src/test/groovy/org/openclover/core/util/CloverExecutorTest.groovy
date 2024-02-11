@@ -1,7 +1,5 @@
 package org.openclover.core.util
 
-import com.atlassian.clover.util.CloverExecutor
-import com.atlassian.clover.util.CloverExecutors
 import org.junit.Test
 
 import java.util.concurrent.Callable

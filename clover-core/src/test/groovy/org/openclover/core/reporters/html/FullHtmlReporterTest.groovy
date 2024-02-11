@@ -1,9 +1,8 @@
 package org.openclover.core.reporters.html
 
 import clover.org.apache.velocity.VelocityContext
-import com.atlassian.clover.CloverLicenseInfo
-import com.atlassian.clover.CloverStartup
-import com.atlassian.clover.reporters.html.HtmlReporter
+import org.openclover.core.CloverLicenseInfo
+import org.openclover.core.CloverStartup
 import org.openclover.runtime.Logger
 import org.junit.After
 import org.junit.Before

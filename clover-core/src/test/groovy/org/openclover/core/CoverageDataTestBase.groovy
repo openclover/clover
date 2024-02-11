@@ -1,26 +1,23 @@
 package org.openclover.core
 
-import com.atlassian.clover.BitSetCoverageProvider
-import com.atlassian.clover.CoverageData
-import com.atlassian.clover.CoverageDataSpec
 import org.openclover.runtime.ErrorInfo
 import org.openclover.runtime.RuntimeType
 import org.openclover.runtime.api.CloverException
-import com.atlassian.clover.instr.InstrumentationSessionImpl
+import org.openclover.core.instr.InstrumentationSessionImpl
 import org.openclover.runtime.recorder.FileBasedPerTestRecording
-import com.atlassian.clover.recorder.PerTestCoverage
+import org.openclover.core.recorder.PerTestCoverage
 import org.openclover.runtime.recorder.PerTestRecorder
-import com.atlassian.clover.recorder.PerTestRecordingTranscript
-import com.atlassian.clover.context.ContextSet
-import com.atlassian.clover.registry.Clover2Registry
-import com.atlassian.clover.registry.CoverageDataProvider
-import com.atlassian.clover.registry.entities.FullFileInfo
-import com.atlassian.clover.registry.FixedSourceRegion
-import com.atlassian.clover.registry.entities.MethodSignature
-import com.atlassian.clover.registry.entities.Modifiers
-import com.atlassian.clover.registry.entities.TestCaseInfo
+import org.openclover.core.recorder.PerTestRecordingTranscript
+import org.openclover.core.context.ContextSet
+import org.openclover.core.registry.Clover2Registry
+import org.openclover.core.registry.CoverageDataProvider
+import org.openclover.core.registry.entities.FullFileInfo
+import org.openclover.core.registry.FixedSourceRegion
+import org.openclover.core.registry.entities.MethodSignature
+import org.openclover.core.registry.entities.Modifiers
+import org.openclover.core.registry.entities.TestCaseInfo
 import org.openclover.runtime.util.CloverBitSet
-import com.atlassian.clover.util.SimpleCoverageRange
+import org.openclover.core.util.SimpleCoverageRange
 import junit.framework.TestCase
 
 abstract class CoverageDataTestBase extends TestCase {

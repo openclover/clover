@@ -1,11 +1,10 @@
 package org.openclover.core.reporters.console
 
-import com.atlassian.clover.reporters.console.ConsoleReporter
-import com.atlassian.clover.reporters.console.ConsoleReporterConfig
+import org.openclover.core.registry.metrics.HasMetricsTestFixture
 import org.openclover.runtime.api.CloverException
-import com.atlassian.clover.api.registry.ClassInfo
+import org.openclover.core.api.registry.ClassInfo
 import org.openclover.runtime.util.Formatting
-import com.atlassian.clover.registry.metrics.ClassMetrics
+import org.openclover.core.registry.metrics.ClassMetrics
 import junit.framework.TestCase
 
 class ConsoleReporterTest extends TestCase {

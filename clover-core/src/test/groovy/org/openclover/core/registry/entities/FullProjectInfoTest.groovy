@@ -1,11 +1,6 @@
 package org.openclover.core.registry.entities
 
-import com.atlassian.clover.registry.FixedSourceRegion
-import com.atlassian.clover.registry.entities.FullClassInfo
-import com.atlassian.clover.registry.entities.FullFileInfo
-import com.atlassian.clover.registry.entities.FullPackageInfo
-import com.atlassian.clover.registry.entities.FullProjectInfo
-import com.atlassian.clover.registry.entities.Modifiers
+import org.openclover.core.registry.FixedSourceRegion
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestName

@@ -1,6 +1,5 @@
 package org.openclover.core.recorder
 
-import com.atlassian.clover.recorder.RecordingTranscripts
 import org.openclover.runtime.CloverNames
 import org_openclover_runtime.CloverProfile
 import org_openclover_runtime.CoverageRecorder

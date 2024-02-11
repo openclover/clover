@@ -1,6 +1,6 @@
 package org.openclover.core
 
-import com.atlassian.clover.api.registry.SourceInfo
+import org.openclover.core.api.registry.SourceInfo
 
 class MutableSourceRegion implements SourceInfo {
     protected int startLine

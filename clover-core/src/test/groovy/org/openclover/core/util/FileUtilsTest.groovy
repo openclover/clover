@@ -1,11 +1,10 @@
 package org.openclover.core.util
 
-import com.atlassian.clover.util.FileUtils
 import org.openclover.core.TestUtils
 import org.openclover.buildutil.testutils.IOHelper
 import junit.framework.TestCase
 
-import static org.openclover.util.Sets.newHashSet
+import static Sets.newHashSet
 
 class FileUtilsTest extends TestCase {
 

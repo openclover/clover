@@ -1,22 +1,18 @@
 package org.openclover.core.instr.tests
 
-import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig
-import com.atlassian.clover.cfg.instr.java.SourceLevel
-import com.atlassian.clover.instr.java.FileStructureInfo
-import com.atlassian.clover.instr.java.InstrumentationState
-import com.atlassian.clover.instr.java.JavaMethodContext
-import com.atlassian.clover.instr.java.JavaTypeContext
-import com.atlassian.clover.instr.tests.DefaultTestDetector
-import com.atlassian.clover.instr.tests.ExpectedExceptionMiner
-import com.atlassian.clover.instr.tests.TestAnnotationNames
-import com.atlassian.clover.instr.tests.TestDetector
-import com.atlassian.clover.registry.PersistentAnnotationValue
-import com.atlassian.clover.registry.entities.AnnotationImpl
-import com.atlassian.clover.registry.entities.ArrayAnnotationValue
-import com.atlassian.clover.registry.entities.MethodSignature
-import com.atlassian.clover.registry.entities.Modifiers
-import com.atlassian.clover.registry.entities.Parameter
-import com.atlassian.clover.registry.entities.StringifiedAnnotationValue
+import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig
+import org.openclover.core.cfg.instr.java.SourceLevel
+import org.openclover.core.instr.java.FileStructureInfo
+import org.openclover.core.instr.java.InstrumentationState
+import org.openclover.core.instr.java.JavaMethodContext
+import org.openclover.core.instr.java.JavaTypeContext
+import org.openclover.core.registry.PersistentAnnotationValue
+import org.openclover.core.registry.entities.AnnotationImpl
+import org.openclover.core.registry.entities.ArrayAnnotationValue
+import org.openclover.core.registry.entities.MethodSignature
+import org.openclover.core.registry.entities.Modifiers
+import org.openclover.core.registry.entities.Parameter
+import org.openclover.core.registry.entities.StringifiedAnnotationValue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -27,7 +23,7 @@ import java.lang.reflect.Modifier
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertFalse
 import static org.junit.Assert.assertTrue
-import static org.openclover.util.Maps.newHashMap
+import static org.openclover.core.util.Maps.newHashMap
 
 class DefaultTestDetectorTest {
     private InstrumentationState state

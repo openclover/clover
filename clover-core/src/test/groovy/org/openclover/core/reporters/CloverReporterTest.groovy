@@ -1,14 +1,12 @@
 package org.openclover.core.reporters
 
-import com.atlassian.clover.CloverLicenseDecoder
-import com.atlassian.clover.reporters.CloverReporter
-import com.atlassian.clover.reporters.Current
+import org.openclover.core.CloverLicenseDecoder
 import org.openclover.runtime.api.CloverException
-import com.atlassian.clover.CloverLicense
+import org.openclover.core.CloverLicense
 import org.openclover.runtime.CloverNames
-import com.atlassian.clover.CloverStartup
+import org.openclover.core.CloverStartup
 import org.openclover.runtime.Logger
-import com.atlassian.clover.registry.Clover2Registry
+import org.openclover.core.registry.Clover2Registry
 import junit.framework.TestCase
 
 import org_openclover_runtime.Clover

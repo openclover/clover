@@ -1,15 +1,15 @@
 package org.openclover.core
 
-import com.atlassian.clover.api.registry.SourceInfo
-import com.atlassian.clover.context.ContextSet
-import com.atlassian.clover.instr.InstrumentationSessionImpl
-import com.atlassian.clover.registry.Clover2Registry
-import com.atlassian.clover.registry.FixedSourceRegion
-import com.atlassian.clover.registry.entities.FullMethodInfo
-import com.atlassian.clover.registry.entities.MethodSignature
-import com.atlassian.clover.registry.entities.Modifiers
+import org.openclover.core.api.registry.SourceInfo
+import org.openclover.core.context.ContextSet
+import org.openclover.core.instr.InstrumentationSessionImpl
+import org.openclover.core.registry.Clover2Registry
+import org.openclover.core.registry.FixedSourceRegion
+import org.openclover.core.registry.entities.FullMethodInfo
+import org.openclover.core.registry.entities.MethodSignature
+import org.openclover.core.registry.entities.Modifiers
 import org.openclover.buildutil.testutils.IOHelper
-import com.atlassian.clover.util.FileUtils
+import org.openclover.core.util.FileUtils
 import org_openclover_runtime.Clover
 import org_openclover_runtime.CoverageRecorder
 import org.openclover.runtime.ErrorInfo

@@ -1,8 +1,6 @@
 package org.openclover.core.reporters
 
-import com.atlassian.clover.registry.metrics.BlockMetrics
-import com.atlassian.clover.reporters.Columns
-import com.atlassian.clover.reporters.ExpressionEvaluator
+import org.openclover.core.registry.metrics.BlockMetrics
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

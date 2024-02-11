@@ -1,6 +1,5 @@
 package org.openclover.core.instr.java
 
-import com.atlassian.clover.instr.java.SimpleEmitter
 import org.junit.Test
 
 import static org.junit.Assert.assertTrue

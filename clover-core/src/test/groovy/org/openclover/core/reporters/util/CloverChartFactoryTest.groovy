@@ -8,27 +8,26 @@ import clover.org.jfree.chart.axis.LogarithmicAxis
 import clover.org.jfree.chart.axis.NumberAxis
 import clover.org.jfree.chart.plot.XYPlot
 import clover.org.jfree.data.xy.XYDataset
-import com.atlassian.clover.api.registry.BlockMetrics
-import com.atlassian.clover.api.registry.HasMetrics
-import com.atlassian.clover.registry.FixedSourceRegion
-import com.atlassian.clover.registry.entities.BaseClassInfo
-import com.atlassian.clover.registry.entities.BaseFileInfo
-import com.atlassian.clover.registry.entities.BasePackageInfo
-import com.atlassian.clover.registry.entities.Modifiers
-import com.atlassian.clover.registry.metrics.ProjectMetrics
-import com.atlassian.clover.reporters.Columns
-import com.atlassian.clover.reporters.Historical
-import com.atlassian.clover.reporters.util.CloverChartFactory
+import org.openclover.core.api.registry.BlockMetrics
+import org.openclover.core.api.registry.HasMetrics
+import org.openclover.core.registry.FixedSourceRegion
+import org.openclover.core.registry.entities.BaseClassInfo
+import org.openclover.core.registry.entities.BaseFileInfo
+import org.openclover.core.registry.entities.BasePackageInfo
+import org.openclover.core.registry.entities.Modifiers
+import org.openclover.core.registry.metrics.ProjectMetrics
+import org.openclover.core.reporters.Columns
+import org.openclover.core.reporters.Historical
 import org.openclover.core.registry.metrics.HasMetricsTestFixture
 import org.openclover.buildutil.testutils.IOHelper
-import com.atlassian.clover.util.CloverUtils
+import org.openclover.core.util.CloverUtils
 import junit.framework.TestCase
 
 import javax.swing.JFrame
 import java.awt.Window
 
-import static org.openclover.util.Lists.newArrayList
-import static org.openclover.util.Maps.newHashMap
+import static org.openclover.core.util.Lists.newArrayList
+import static org.openclover.core.util.Maps.newHashMap
 
 class CloverChartFactoryTest extends TestCase {
 

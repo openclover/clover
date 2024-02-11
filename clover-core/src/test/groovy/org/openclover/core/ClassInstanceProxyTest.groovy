@@ -1,6 +1,5 @@
 package org.openclover.core
 
-import com.atlassian.clover.ClassInstanceProxy
 import org.junit.Test
 
 import java.lang.reflect.Field

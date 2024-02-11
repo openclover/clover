@@ -1,6 +1,5 @@
 package org.openclover.core.reporters.util
 
-import com.atlassian.clover.reporters.util.ReportColors
 import org.junit.Test
 
 import java.awt.*

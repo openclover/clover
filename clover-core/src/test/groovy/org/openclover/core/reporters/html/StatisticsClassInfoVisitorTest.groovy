@@ -1,14 +1,12 @@
 package org.openclover.core.reporters.html
 
-import com.atlassian.clover.registry.entities.BaseClassInfo
-import com.atlassian.clover.registry.metrics.BlockMetrics
-import com.atlassian.clover.registry.entities.FullFileInfo
-import com.atlassian.clover.reporters.html.ClassInfoStatsCalculator
-import com.atlassian.clover.reporters.html.StatisticsClassInfoVisitor
+import org.openclover.core.registry.entities.BaseClassInfo
+import org.openclover.core.registry.metrics.BlockMetrics
+import org.openclover.core.registry.entities.FullFileInfo
 import junit.framework.TestCase
 import org.openclover.core.registry.metrics.HasMetricsTestFixture
 
-import static org.openclover.util.Lists.newArrayList
+import static org.openclover.core.util.Lists.newArrayList
 
 class StatisticsClassInfoVisitorTest extends TestCase {
 

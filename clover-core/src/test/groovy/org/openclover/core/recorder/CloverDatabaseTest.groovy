@@ -1,35 +1,34 @@
 package org.openclover.core.recorder
 
-import com.atlassian.clover.CloverDatabase
-import com.atlassian.clover.CloverDatabaseSpec
-import com.atlassian.clover.CodeType
-import com.atlassian.clover.CoverageDataSpec
-import com.atlassian.clover.ProgressListener
-import com.atlassian.clover.recorder.PerTestCoverageStrategy
+import org.openclover.core.CloverDatabase
+import org.openclover.core.CloverDatabaseSpec
+import org.openclover.core.CodeType
+import org.openclover.core.CoverageDataSpec
+import org.openclover.core.ProgressListener
 import org.openclover.runtime.RuntimeType
 import org.openclover.runtime.api.CloverException
-import com.atlassian.clover.api.registry.BlockMetrics
-import com.atlassian.clover.api.registry.ClassInfo
-import com.atlassian.clover.api.registry.SourceInfo
-import com.atlassian.clover.cfg.Interval
-import com.atlassian.clover.context.ContextSet
-import com.atlassian.clover.context.ContextStore
-import com.atlassian.clover.context.MethodRegexpContext
-import com.atlassian.clover.context.StatementRegexpContext
-import com.atlassian.clover.instr.InstrumentationSessionImpl
-import com.atlassian.clover.registry.Clover2Registry
-import com.atlassian.clover.registry.FixedSourceRegion
-import com.atlassian.clover.registry.entities.MethodSignature
-import com.atlassian.clover.registry.entities.Modifiers
-import com.atlassian.clover.registry.entities.TestCaseInfo
+import org.openclover.core.api.registry.BlockMetrics
+import org.openclover.core.api.registry.ClassInfo
+import org.openclover.core.api.registry.SourceInfo
+import org.openclover.core.cfg.Interval
+import org.openclover.core.context.ContextSet
+import org.openclover.core.context.ContextStore
+import org.openclover.core.context.MethodRegexpContext
+import org.openclover.core.context.StatementRegexpContext
+import org.openclover.core.instr.InstrumentationSessionImpl
+import org.openclover.core.registry.Clover2Registry
+import org.openclover.core.registry.FixedSourceRegion
+import org.openclover.core.registry.entities.MethodSignature
+import org.openclover.core.registry.entities.Modifiers
+import org.openclover.core.registry.entities.TestCaseInfo
 import org.openclover.runtime.recorder.FileBasedPerTestRecording
 import org.openclover.runtime.registry.format.RegAccessMode
 import org.openclover.runtime.registry.format.RegHeader
-import com.atlassian.clover.registry.metrics.ProjectMetrics
+import org.openclover.core.registry.metrics.ProjectMetrics
 import org.openclover.buildutil.testutils.IOHelper
 import org.openclover.runtime.recorder.FileBasedGlobalCoverageRecording
 import org.openclover.runtime.util.CloverBitSet
-import com.atlassian.clover.util.SimpleCoverageRange
+import org.openclover.core.util.SimpleCoverageRange
 import org_openclover_runtime.Clover
 import org.junit.After
 import org.junit.Before
@@ -40,7 +39,7 @@ import org.junit.rules.TestName
 import java.util.regex.Pattern
 
 import static org.junit.Assert.*
-import static org.openclover.util.Lists.newArrayList
+import static org.openclover.core.util.Lists.newArrayList
 
 class CloverDatabaseTest {
 

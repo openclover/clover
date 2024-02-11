@@ -1,7 +1,5 @@
 package org.openclover.core.context
 
-import com.atlassian.clover.context.MethodRegexpContext
-import com.atlassian.clover.context.RegexpContext
 import org.junit.Test
 
 import java.util.regex.Pattern

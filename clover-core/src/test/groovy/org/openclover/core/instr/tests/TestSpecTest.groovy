@@ -1,11 +1,10 @@
 package org.openclover.core.instr.tests
 
-import com.atlassian.clover.instr.java.JavaMethodContext
-import com.atlassian.clover.instr.java.JavaTypeContext
-import com.atlassian.clover.instr.tests.TestSpec
-import com.atlassian.clover.registry.entities.AnnotationImpl
-import com.atlassian.clover.registry.entities.MethodSignature
-import com.atlassian.clover.registry.entities.Modifiers
+import org.openclover.core.instr.java.JavaMethodContext
+import org.openclover.core.instr.java.JavaTypeContext
+import org.openclover.core.registry.entities.AnnotationImpl
+import org.openclover.core.registry.entities.MethodSignature
+import org.openclover.core.registry.entities.Modifiers
 import org.junit.Before
 import org.junit.Test
 
@@ -13,8 +12,8 @@ import java.util.regex.Pattern
 
 import static org.junit.Assert.assertFalse
 import static org.junit.Assert.assertTrue
-import static org.openclover.util.Lists.newArrayList
-import static org.openclover.util.Maps.newHashMap
+import static org.openclover.core.util.Lists.newArrayList
+import static org.openclover.core.util.Maps.newHashMap
 
 class TestSpecTest {
 

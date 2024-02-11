@@ -1,7 +1,5 @@
 package org.openclover.core
 
-import com.atlassian.clover.CloverLicense
-import com.atlassian.clover.CloverLicenseDecoder
 import org.junit.Test
 
 import static org.junit.Assert.assertEquals

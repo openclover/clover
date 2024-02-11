@@ -1,28 +1,28 @@
 package org.openclover.core.instr
 
-import com.atlassian.clover.api.registry.ClassInfo
-import com.atlassian.clover.api.registry.FileInfo
-import com.atlassian.clover.api.registry.MethodInfo
-import com.atlassian.clover.api.registry.PackageInfo
-import com.atlassian.clover.api.registry.StatementInfo
-import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig
-import com.atlassian.clover.cfg.instr.java.LambdaInstrumentation
-import com.atlassian.clover.cfg.instr.java.SourceLevel
-import com.atlassian.clover.instr.java.InstrumentationSource
-import com.atlassian.clover.instr.java.Instrumenter
-import com.atlassian.clover.registry.Clover2Registry
-import com.atlassian.clover.registry.entities.BaseFileInfo
-import com.atlassian.clover.registry.entities.FullMethodInfo
-import com.atlassian.clover.registry.entities.FullProjectInfo
+import org.openclover.core.api.registry.ClassInfo
+import org.openclover.core.api.registry.FileInfo
+import org.openclover.core.api.registry.MethodInfo
+import org.openclover.core.api.registry.PackageInfo
+import org.openclover.core.api.registry.StatementInfo
+import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig
+import org.openclover.core.cfg.instr.java.LambdaInstrumentation
+import org.openclover.core.cfg.instr.java.SourceLevel
+import org.openclover.core.instr.java.InstrumentationSource
+import org.openclover.core.instr.java.Instrumenter
+import org.openclover.core.registry.Clover2Registry
+import org.openclover.core.registry.entities.BaseFileInfo
+import org.openclover.core.registry.entities.FullMethodInfo
+import org.openclover.core.registry.entities.FullProjectInfo
 import org.openclover.core.TestUtils
 import org.junit.Before
 
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.fail
-import static org.openclover.util.Lists.newLinkedList
+import static org.openclover.core.util.Lists.newLinkedList
 
 /**
- * Test base for {@link com.atlassian.clover.instr.InstrumentationSessionImpl}
+ * Test base for {@link org.openclover.core.instr.InstrumentationSessionImpl}
  */
 abstract class AggregatedMetricsTestBase {
     protected File workingDir

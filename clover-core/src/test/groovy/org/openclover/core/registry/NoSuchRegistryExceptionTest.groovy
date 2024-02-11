@@ -1,6 +1,5 @@
 package org.openclover.core.registry
 
-import com.atlassian.clover.registry.NoSuchRegistryException
 import org.junit.Test
 
 import static org.hamcrest.CoreMatchers.containsString

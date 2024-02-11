@@ -2,11 +2,11 @@ package org.openclover.core
 
 import org.openclover.runtime.CloverProperties
 import junit.framework.TestCase
-import com.atlassian.clover.util.FileUtils
+import org.openclover.core.util.FileUtils
 import org.openclover.runtime.recorder.NullRecorder
 import org.openclover.runtime.CloverNames
 import org.openclover.runtime.recorder.FixedSizeCoverageRecorder
-import com.atlassian.clover.registry.Clover2Registry
+import org.openclover.core.registry.Clover2Registry
 import org.openclover.runtime.api.registry.CloverRegistryException
 import org.openclover.runtime.registry.format.RegAccessMode
 import org.junit.Test

@@ -1,19 +1,19 @@
 package org.openclover.core
 
 import org.openclover.runtime.api.CloverException
-import com.atlassian.clover.instr.InstrumentationSessionImpl
+import org.openclover.core.instr.InstrumentationSessionImpl
 import org.openclover.runtime.recorder.FixedSizeCoverageRecorder
-import com.atlassian.clover.context.ContextSet
-import com.atlassian.clover.registry.Clover2Registry
-import com.atlassian.clover.registry.entities.FullBranchInfo
-import com.atlassian.clover.registry.entities.FullMethodInfo
-import com.atlassian.clover.registry.entities.FullStatementInfo
-import com.atlassian.clover.registry.entities.MethodSignature
-import com.atlassian.clover.registry.entities.Modifiers
+import org.openclover.core.context.ContextSet
+import org.openclover.core.registry.Clover2Registry
+import org.openclover.core.registry.entities.FullBranchInfo
+import org.openclover.core.registry.entities.FullMethodInfo
+import org.openclover.core.registry.entities.FullStatementInfo
+import org.openclover.core.registry.entities.MethodSignature
+import org.openclover.core.registry.entities.Modifiers
 import org_openclover_runtime.Clover
 
-import static org.openclover.util.Lists.newArrayList
-import static org.openclover.util.Maps.newHashMap
+import static org.openclover.core.util.Lists.newArrayList
+import static org.openclover.core.util.Maps.newHashMap
 
 class CloverTestFixture {
 

@@ -1,9 +1,7 @@
 package org.openclover.core.reporters.html.source.java
 
 import clover.antlr.TokenStreamException
-import com.atlassian.clover.reporters.html.source.java.JavaSourceListener
-import com.atlassian.clover.reporters.html.source.java.JavaTokenTraverser
-import com.atlassian.clover.util.UnicodeDecodingReader
+import org.openclover.core.util.UnicodeDecodingReader
 import org.junit.Test
 
 import static org.hamcrest.CoreMatchers.anyOf

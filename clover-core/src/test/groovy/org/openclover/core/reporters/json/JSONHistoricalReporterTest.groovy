@@ -1,14 +1,11 @@
 package org.openclover.core.reporters.json
 
-import com.atlassian.clover.reporters.json.JSONArray
-import com.atlassian.clover.reporters.json.JSONHistoricalReporter
-import com.atlassian.clover.reporters.json.JSONObject
 import junit.framework.TestCase
-import com.atlassian.clover.reporters.Columns
+import org.openclover.core.reporters.Columns
 import org.openclover.core.TestUtils
 import org.openclover.core.registry.metrics.HasMetricsTestFixture
 
-import static org.openclover.util.Maps.newHashMap
+import static org.openclover.core.util.Maps.newHashMap
 
 class JSONHistoricalReporterTest extends TestCase {
 

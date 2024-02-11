@@ -1,8 +1,8 @@
 package org.openclover.core.instr.java
 
-import com.atlassian.clover.cfg.instr.InstrumentationConfig
-import com.atlassian.clover.cfg.instr.InstrumentationLevel
-import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig
+import org.openclover.core.cfg.instr.InstrumentationConfig
+import org.openclover.core.cfg.instr.InstrumentationLevel
+import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig
 import org.junit.Test
 
 class InstrumentationMethodLevelTest extends InstrumentationTestBase {

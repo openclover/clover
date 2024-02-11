@@ -1,21 +1,21 @@
 package org.openclover.core.registry
 
-import com.atlassian.clover.api.registry.PackageInfo
-import com.atlassian.clover.context.ContextSet
-import com.atlassian.clover.registry.FixedSourceRegion
-import com.atlassian.clover.registry.entities.BasicElementInfo
-import com.atlassian.clover.registry.entities.BasicMethodInfo
-import com.atlassian.clover.registry.entities.FullClassInfo
-import com.atlassian.clover.registry.entities.FullFileInfo
-import com.atlassian.clover.registry.entities.FullMethodInfo
-import com.atlassian.clover.registry.entities.FullPackageInfo
-import com.atlassian.clover.registry.entities.FullProjectInfo
-import com.atlassian.clover.registry.entities.FullStatementInfo
-import com.atlassian.clover.registry.entities.MethodSignature
-import com.atlassian.clover.registry.entities.Modifiers
-import com.atlassian.clover.spi.lang.LanguageConstruct
+import org.openclover.core.api.registry.ClassInfo
+import org.openclover.core.api.registry.PackageInfo
+import org.openclover.core.context.ContextSet
+import org.openclover.core.registry.entities.BasicElementInfo
+import org.openclover.core.registry.entities.BasicMethodInfo
+import org.openclover.core.registry.entities.FullClassInfo
+import org.openclover.core.registry.entities.FullFileInfo
+import org.openclover.core.registry.entities.FullMethodInfo
+import org.openclover.core.registry.entities.FullPackageInfo
+import org.openclover.core.registry.entities.FullProjectInfo
+import org.openclover.core.registry.entities.FullStatementInfo
+import org.openclover.core.registry.entities.MethodSignature
+import org.openclover.core.registry.entities.Modifiers
+import org.openclover.core.spi.lang.LanguageConstruct
 
-import static org.openclover.util.Maps.newHashMap
+import static org.openclover.core.util.Maps.newHashMap
 
 /**
  * A helper class to build a hierarchical structure of a project, packages, classes, methods and statements
@@ -91,8 +91,8 @@ class ModelBuilder {
 
         /** Declare a class inside a file */
         ClassInfoWrapper clazz(String name) {
-            final List<? extends com.atlassian.clover.api.registry.ClassInfo> classes = getElement().getClasses()
-            for (com.atlassian.clover.api.registry.ClassInfo classInfo : classes) {
+            final List<? extends ClassInfo> classes = getElement().getClasses()
+            for (ClassInfo classInfo : classes) {
                 if (classInfo.getName().equals(name)) {
                     return new ClassInfoWrapper((FullClassInfo)classInfo)
                 }

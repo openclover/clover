@@ -1,8 +1,6 @@
 package org.openclover.core.reporters
 
-import com.atlassian.clover.reporters.Current
-import com.atlassian.clover.reporters.TestSelectionHelper
-import com.atlassian.clover.reporters.filters.AntPatternTestFilter
+import org.openclover.core.reporters.filters.AntPatternTestFilter
 import org.hamcrest.Description
 import org.junit.Before
 import org.junit.Test

@@ -1,21 +1,18 @@
 package org.openclover.core
 
-import com.atlassian.clover.CloverDatabase
-import com.atlassian.clover.CoverageDataSpec
-import com.atlassian.clover.TestResultProcessor
 import org.openclover.runtime.api.CloverException
-import com.atlassian.clover.api.registry.ClassInfo
-import com.atlassian.clover.registry.entities.FullClassInfo
-import com.atlassian.clover.registry.metrics.HasMetricsFilter
-import com.atlassian.clover.registry.entities.FullProjectInfo
-import com.atlassian.clover.registry.entities.TestCaseInfo
+import org.openclover.core.api.registry.ClassInfo
+import org.openclover.core.registry.entities.FullClassInfo
+import org.openclover.core.registry.metrics.HasMetricsFilter
+import org.openclover.core.registry.entities.FullProjectInfo
+import org.openclover.core.registry.entities.TestCaseInfo
 import org.openclover.buildutil.testutils.IOHelper
-import com.atlassian.clover.util.FileUtils
+import org.openclover.core.util.FileUtils
 import junit.framework.TestCase
 
-import static org.openclover.util.Lists.newArrayList;
-import static org.openclover.util.Lists.newLinkedList;
-import static org.openclover.util.Sets.newHashSet
+import static org.openclover.core.util.Lists.newArrayList;
+import static org.openclover.core.util.Lists.newLinkedList;
+import static org.openclover.core.util.Sets.newHashSet
 
 /**
  * This tests parsing TEST xml files.

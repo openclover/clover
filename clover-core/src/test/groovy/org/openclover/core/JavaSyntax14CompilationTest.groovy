@@ -1,6 +1,6 @@
 package org.openclover.core
 
-import com.atlassian.clover.util.JavaEnvUtils
+import org.openclover.core.util.JavaEnvUtils
 import org.apache.tools.ant.BuildException
 import org.junit.Before
 import org.junit.Test

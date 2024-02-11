@@ -1,12 +1,9 @@
 package org.openclover.core.registry.entities
 
-import com.atlassian.clover.registry.entities.FullClassInfo
-import com.atlassian.clover.registry.entities.FullMethodInfo
-import com.atlassian.clover.registry.entities.FullStatementInfo
 import org.openclover.runtime.api.CloverException
-import com.atlassian.clover.context.ContextSet
-import com.atlassian.clover.context.ContextStore
-import com.atlassian.clover.context.StatementRegexpContext
+import org.openclover.core.context.ContextSet
+import org.openclover.core.context.ContextStore
+import org.openclover.core.context.StatementRegexpContext
 import org.openclover.core.registry.metrics.HasMetricsTestFixture
 import junit.framework.TestCase
 
