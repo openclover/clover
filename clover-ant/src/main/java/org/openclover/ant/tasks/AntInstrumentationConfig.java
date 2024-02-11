@@ -2,12 +2,12 @@ package org.openclover.ant.tasks;
 
 import org.openclover.runtime.CloverNames;
 import org.openclover.runtime.api.CloverException;
-import com.atlassian.clover.cfg.instr.InstrumentationConfig;
-import com.atlassian.clover.cfg.instr.InstrumentationPlacement;
-import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig;
-import com.atlassian.clover.cfg.instr.InstrumentationLevel;
-import com.atlassian.clover.cfg.instr.java.LambdaInstrumentation;
-import com.atlassian.clover.util.ArrayUtil;
+import org.openclover.core.cfg.instr.InstrumentationConfig;
+import org.openclover.core.cfg.instr.InstrumentationPlacement;
+import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig;
+import org.openclover.core.cfg.instr.InstrumentationLevel;
+import org.openclover.core.cfg.instr.java.LambdaInstrumentation;
+import org.openclover.core.util.ArrayUtil;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.EnumeratedAttribute;
@@ -21,8 +21,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 
-import static org.openclover.util.Lists.newArrayList;
-import static org.openclover.util.Sets.newHashSet;
+import static org.openclover.core.util.Lists.newArrayList;
+import static org.openclover.core.util.Sets.newHashSet;
 
 public class AntInstrumentationConfig extends JavaInstrumentationConfig {
     private final transient Project project;

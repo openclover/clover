@@ -1,20 +1,20 @@
 package org.openclover.groovy.test.junit
 
-import com.atlassian.clover.CloverDatabase
-import com.atlassian.clover.api.registry.BranchInfo
-import com.atlassian.clover.api.registry.ClassInfo
-import com.atlassian.clover.api.registry.ElementInfo
-import com.atlassian.clover.api.registry.FileInfo
-import com.atlassian.clover.api.registry.HasMetrics
-import com.atlassian.clover.api.registry.InstrumentationInfo
-import com.atlassian.clover.api.registry.MethodInfo
-import com.atlassian.clover.api.registry.PackageInfo
-import com.atlassian.clover.api.registry.SourceInfo
-import com.atlassian.clover.api.registry.StatementInfo
-import com.atlassian.clover.registry.entities.BaseProjectInfo
-import com.atlassian.clover.registry.entities.FullClassInfo
-import com.atlassian.clover.registry.entities.TestCaseInfo
-import com.atlassian.clover.registry.metrics.HasMetricsFilter
+import org.openclover.core.CloverDatabase
+import org.openclover.core.api.registry.BranchInfo
+import org.openclover.core.api.registry.ClassInfo
+import org.openclover.core.api.registry.ElementInfo
+import org.openclover.core.api.registry.FileInfo
+import org.openclover.core.api.registry.HasMetrics
+import org.openclover.core.api.registry.InstrumentationInfo
+import org.openclover.core.api.registry.MethodInfo
+import org.openclover.core.api.registry.PackageInfo
+import org.openclover.core.api.registry.SourceInfo
+import org.openclover.core.api.registry.StatementInfo
+import org.openclover.core.registry.entities.BaseProjectInfo
+import org.openclover.core.registry.entities.FullClassInfo
+import org.openclover.core.registry.entities.TestCaseInfo
+import org.openclover.core.registry.metrics.HasMetricsFilter
 import groovy.transform.CompileStatic
 
 import static org.junit.Assert.assertFalse

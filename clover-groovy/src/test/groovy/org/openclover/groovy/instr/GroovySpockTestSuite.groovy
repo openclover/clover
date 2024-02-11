@@ -8,7 +8,7 @@ import org.openclover.groovy.test.junit.IncludeExcludeMixin
 import org.openclover.groovy.test.junit.JavaVersionMixin
 import org.openclover.groovy.test.junit.SpockCombinatorMixin
 import org.openclover.groovy.test.junit.TestPropertyMixin
-import com.atlassian.clover.versions.LibraryVersion
+import org.openclover.core.versions.LibraryVersion
 
 import java.lang.reflect.Method
 

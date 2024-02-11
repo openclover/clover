@@ -1,9 +1,9 @@
 package org.openclover.functest.ant.tasks
 
-import com.atlassian.clover.CloverDatabase
-import com.atlassian.clover.CoverageDataSpec
+import org.openclover.core.CloverDatabase
+import org.openclover.core.CoverageDataSpec
 import org.openclover.runtime.api.CloverException
-import com.atlassian.clover.optimization.Snapshot
+import org.openclover.core.optimization.Snapshot
 import groovy.transform.CompileStatic
 
 @CompileStatic

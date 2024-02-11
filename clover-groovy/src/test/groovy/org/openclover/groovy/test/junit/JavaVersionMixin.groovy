@@ -1,12 +1,12 @@
 package org.openclover.groovy.test.junit
 
-import com.atlassian.clover.util.JavaEnvUtils
-import com.atlassian.clover.util.collections.Pair
+import org.openclover.core.util.JavaEnvUtils
+import org.openclover.core.util.collections.Pair
 import groovy.transform.CompileStatic
 
-import static com.atlassian.clover.util.JavaEnvUtils.JAVA_11
-import static com.atlassian.clover.util.JavaEnvUtils.JAVA_17
-import static com.atlassian.clover.util.JavaEnvUtils.JAVA_8
+import static org.openclover.core.util.JavaEnvUtils.JAVA_11
+import static org.openclover.core.util.JavaEnvUtils.JAVA_17
+import static org.openclover.core.util.JavaEnvUtils.JAVA_8
 
 @CompileStatic
 trait JavaVersionMixin {

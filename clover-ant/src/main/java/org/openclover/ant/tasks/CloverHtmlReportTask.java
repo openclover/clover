@@ -1,7 +1,7 @@
 package org.openclover.ant.tasks;
 
-import com.atlassian.clover.reporters.Columns;
-import com.atlassian.clover.reporters.Format;
+import org.openclover.core.reporters.Columns;
+import org.openclover.core.reporters.Format;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.types.FileSet;
 

@@ -3,14 +3,14 @@ package org.openclover.ant.tasks;
 import org.openclover.runtime.api.CloverException;
 import org.openclover.runtime.CloverNames;
 import org.openclover.runtime.Logger;
-import com.atlassian.clover.CoverageData;
-import com.atlassian.clover.cfg.StorageSize;
-import com.atlassian.clover.reporters.CloverReportConfig;
-import com.atlassian.clover.reporters.Current;
-import com.atlassian.clover.reporters.Format;
-import com.atlassian.clover.reporters.Historical;
-import com.atlassian.clover.reporters.Type;
-import com.atlassian.clover.reporters.CloverReporter;
+import org.openclover.core.CoverageData;
+import org.openclover.core.cfg.StorageSize;
+import org.openclover.core.reporters.CloverReportConfig;
+import org.openclover.core.reporters.Current;
+import org.openclover.core.reporters.Format;
+import org.openclover.core.reporters.Historical;
+import org.openclover.core.reporters.Type;
+import org.openclover.core.reporters.CloverReporter;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DirectoryScanner;
 import org.apache.tools.ant.Project;
@@ -22,9 +22,9 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
-import static org.openclover.util.Lists.newArrayList;
-import static org.openclover.util.Maps.newHashMap;
-import static org.openclover.util.Maps.newTreeMap;
+import static org.openclover.core.util.Lists.newArrayList;
+import static org.openclover.core.util.Maps.newHashMap;
+import static org.openclover.core.util.Maps.newTreeMap;
 
 /**
  * The Clover report task serves as a driver for the various different

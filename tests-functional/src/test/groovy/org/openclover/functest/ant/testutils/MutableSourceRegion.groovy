@@ -1,6 +1,6 @@
 package org.openclover.functest.ant.testutils
 
-import com.atlassian.clover.api.registry.SourceInfo
+import org.openclover.core.api.registry.SourceInfo
 import groovy.transform.CompileStatic
 
 @CompileStatic

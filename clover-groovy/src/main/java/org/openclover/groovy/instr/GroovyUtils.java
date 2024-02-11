@@ -1,6 +1,6 @@
 package org.openclover.groovy.instr;
 
-import com.atlassian.clover.registry.FixedSourceRegion;
+import org.openclover.core.registry.FixedSourceRegion;
 import org.codehaus.groovy.ast.ASTNode;
 import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.ast.ClassHelper;

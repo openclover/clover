@@ -1,6 +1,6 @@
 package org.openclover.ci;
 
-import org.openclover.util.function.Predicate;
+import org.openclover.core.util.function.Predicate;
 
 /**
  * Search for properties in a form:

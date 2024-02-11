@@ -1,10 +1,10 @@
 package org.openclover.groovy.instr;
 
 import org.openclover.runtime.CloverNames;
-import com.atlassian.clover.instr.tests.ExpectedExceptionMiner;
+import org.openclover.core.instr.tests.ExpectedExceptionMiner;
 import org.openclover.runtime.recorder.PerTestRecorder;
-import com.atlassian.clover.registry.entities.FullMethodInfo;
-import com.atlassian.clover.util.collections.Pair;
+import org.openclover.core.registry.entities.FullMethodInfo;
+import org.openclover.core.util.collections.Pair;
 import org_openclover_runtime.CoverageRecorder;
 import org_openclover_runtime.TestNameSniffer;
 import groovyjarjarasm.asm.Opcodes;
@@ -39,8 +39,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import static org.openclover.util.Lists.newArrayList;
-import static org.openclover.util.Lists.newLinkedList;
+import static org.openclover.core.util.Lists.newArrayList;
+import static org.openclover.core.util.Lists.newLinkedList;
 
 /**
  * Wrapping test methods into a try-catch block.

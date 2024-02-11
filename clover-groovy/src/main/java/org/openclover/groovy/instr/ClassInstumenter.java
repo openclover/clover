@@ -1,7 +1,7 @@
 package org.openclover.groovy.instr;
 
-import com.atlassian.clover.api.instrumentation.InstrumentationSession;
-import com.atlassian.clover.api.registry.SourceInfo;
+import org.openclover.core.api.instrumentation.InstrumentationSession;
+import org.openclover.core.api.registry.SourceInfo;
 import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.ast.expr.Expression;
 import org.jetbrains.annotations.NotNull;

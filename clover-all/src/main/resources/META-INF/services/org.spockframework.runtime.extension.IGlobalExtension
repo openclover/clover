@@ -1,1 +1,1 @@
-com.atlassian.clover.recorder.spock.CloverSpockGlobalExtension
+org.openclover.core.recorder.spock.CloverSpockGlobalExtension

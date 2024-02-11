@@ -1,13 +1,13 @@
 package org.openclover.ci;
 
-import org.openclover.util.function.Streams;
+import org.openclover.core.util.function.Streams;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static org.openclover.util.Lists.newArrayList;
-import static org.openclover.util.Sets.newHashSet;
+import static org.openclover.core.util.Lists.newArrayList;
+import static org.openclover.core.util.Sets.newHashSet;
 
 /**
  * A utility class that contains methods to assist in integrating clover into a CI server for Maven2 builds.

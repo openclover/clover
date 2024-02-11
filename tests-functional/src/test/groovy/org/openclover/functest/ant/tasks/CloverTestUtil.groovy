@@ -4,8 +4,8 @@ import org.openclover.functest.ant.testutils.CloverTestFixture
 import org.openclover.buildutil.testutils.IOHelper
 import groovy.transform.CompileStatic
 
-import static org.openclover.util.Lists.newArrayList
-import static org.openclover.util.Maps.newHashMap
+import static org.openclover.core.util.Lists.newArrayList
+import static org.openclover.core.util.Maps.newHashMap
 
 @CompileStatic
 class CloverTestUtil {

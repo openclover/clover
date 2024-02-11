@@ -1,7 +1,7 @@
 package org.openclover.ant.tasks;
 
-import com.atlassian.clover.instr.java.Instrumenter;
-import com.atlassian.clover.instr.tests.FileMappedTestDetector;
+import org.openclover.core.instr.java.Instrumenter;
+import org.openclover.core.instr.tests.FileMappedTestDetector;
 import org.openclover.runtime.Logger;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DirectoryScanner;
@@ -10,7 +10,7 @@ import org.apache.tools.ant.types.FileSet;
 import java.io.File;
 import java.util.Set;
 
-import static org.openclover.util.Sets.newHashSet;
+import static org.openclover.core.util.Sets.newHashSet;
 
 /**
  *   &lt;clover-instr srcdir="" destdir="" initstring="" &gt;

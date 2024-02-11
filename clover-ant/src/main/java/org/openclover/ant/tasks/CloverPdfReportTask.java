@@ -1,9 +1,9 @@
 package org.openclover.ant.tasks;
 
-import com.atlassian.clover.reporters.Format;
-import com.atlassian.clover.reporters.Columns;
-import com.atlassian.clover.reporters.CloverReportConfig;
-import com.atlassian.clover.reporters.pdf.PDFReporter;
+import org.openclover.core.reporters.Format;
+import org.openclover.core.reporters.Columns;
+import org.openclover.core.reporters.CloverReportConfig;
+import org.openclover.core.reporters.pdf.PDFReporter;
 import org.openclover.runtime.api.CloverException;
 
 import java.io.File;
@@ -12,8 +12,8 @@ import java.util.ArrayList;
 
 import org.apache.tools.ant.BuildException;
 
-import static org.openclover.util.Lists.newArrayList;
-import static org.openclover.util.Maps.newTreeMap;
+import static org.openclover.core.util.Lists.newArrayList;
+import static org.openclover.core.util.Maps.newTreeMap;
 
 public class CloverPdfReportTask extends CloverReportTask {
     private String title = "";

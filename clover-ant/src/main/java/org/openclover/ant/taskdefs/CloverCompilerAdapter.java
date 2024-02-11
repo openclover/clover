@@ -2,18 +2,18 @@ package org.openclover.ant.taskdefs;
 
 import clover.org.apache.commons.lang3.reflect.FieldUtils;
 import org.openclover.ant.AntInstrUtils;
-import com.atlassian.clover.cfg.instr.java.SourceLevel;
-import com.atlassian.clover.instr.java.Instrumenter;
-import com.atlassian.clover.instr.tests.FileMappedTestDetector;
-import com.atlassian.clover.instr.tests.TestDetector;
+import org.openclover.core.cfg.instr.java.SourceLevel;
+import org.openclover.core.instr.java.Instrumenter;
+import org.openclover.core.instr.tests.FileMappedTestDetector;
+import org.openclover.core.instr.tests.TestDetector;
 import org.openclover.ant.tasks.AntInstrumentationConfig;
 import org.openclover.ant.tasks.TestSourceSet;
 import org.openclover.runtime.api.CloverException;
-import com.atlassian.clover.CloverStartup;
-import com.atlassian.clover.Contract;
+import org.openclover.core.CloverStartup;
+import org.openclover.core.Contract;
 import org.openclover.runtime.Logger;
 import org.openclover.ant.AntLogger;
-import org.openclover.util.ClassPathUtil;
+import org.openclover.core.util.ClassPathUtil;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Javac;
@@ -29,7 +29,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import static org.openclover.util.Sets.newHashSet;
+import static org.openclover.core.util.Sets.newHashSet;
 
 /**
  * error handling in this class sux - but it is forced on us by Ant, or more

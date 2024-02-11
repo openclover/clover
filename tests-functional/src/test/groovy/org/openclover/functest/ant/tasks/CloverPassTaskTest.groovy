@@ -3,14 +3,14 @@ package org.openclover.functest.ant.tasks
 import org.openclover.ant.tasks.CloverPassTask
 import org.openclover.ant.tasks.HistoryPointTask
 import org.openclover.functest.ant.testutils.CloverTestFixture
-import com.atlassian.clover.cfg.Percentage
-import com.atlassian.clover.registry.metrics.BlockMetrics
+import org.openclover.core.cfg.Percentage
+import org.openclover.core.registry.metrics.BlockMetrics
 import groovy.transform.CompileStatic
 import org.apache.tools.ant.Project
 
 import java.text.DecimalFormat
 
-import static org.openclover.util.Lists.newArrayList
+import static org.openclover.core.util.Lists.newArrayList
 
 @CompileStatic
 class CloverPassTaskTest extends CloverBuildFileTestBase {

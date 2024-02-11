@@ -2,7 +2,7 @@ package org.openclover.ant;
 
 import java.util.List;
 
-import static org.openclover.util.Lists.newLinkedList;
+import static org.openclover.core.util.Lists.newLinkedList;
 
 /**
  * Handles the following declaration

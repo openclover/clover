@@ -1,6 +1,6 @@
 package org.openclover.ant.tasks;
 
-import com.atlassian.clover.reporters.Columns;
+import org.openclover.core.reporters.Columns;
 import org.apache.tools.ant.types.Reference;
 import org.apache.tools.ant.BuildException;
 

@@ -1,6 +1,6 @@
 package org.openclover.functest.ant.tasks
 
-import com.atlassian.clover.util.FileUtils
+import org.openclover.core.util.FileUtils
 import groovy.transform.CompileStatic
 import org.apache.tools.ant.BuildFileTestBase
 

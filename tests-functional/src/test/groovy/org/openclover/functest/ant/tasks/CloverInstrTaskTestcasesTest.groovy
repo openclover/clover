@@ -1,13 +1,13 @@
 package org.openclover.functest.ant.tasks
 
-import com.atlassian.clover.CloverDatabase
-import com.atlassian.clover.CoverageData
+import org.openclover.core.CloverDatabase
+import org.openclover.core.CoverageData
 import org.openclover.runtime.api.CloverException
-import com.atlassian.clover.registry.entities.TestCaseInfo
+import org.openclover.core.registry.entities.TestCaseInfo
 import org.openclover.buildutil.testutils.IOHelper
 import groovy.transform.CompileStatic
 
-import static org.openclover.util.Maps.newHashMap
+import static org.openclover.core.util.Maps.newHashMap
 
 @CompileStatic
 class CloverInstrTaskTestcasesTest extends CloverBuildFileTestBase {

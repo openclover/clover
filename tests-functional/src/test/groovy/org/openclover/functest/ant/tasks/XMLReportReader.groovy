@@ -8,7 +8,7 @@ import groovy.transform.CompileStatic
 import org.xml.sax.EntityResolver
 import org.xml.sax.InputSource
 
-import static org.openclover.util.Lists.newArrayList
+import static org.openclover.core.util.Lists.newArrayList
 
 /**
  * Parses a Clover XML report file. This is a helper class for unit tests.

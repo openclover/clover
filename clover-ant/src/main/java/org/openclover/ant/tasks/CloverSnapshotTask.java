@@ -1,19 +1,19 @@
 package org.openclover.ant.tasks;
 
-import com.atlassian.clover.CloverDatabase;
+import org.openclover.core.CloverDatabase;
 import org.openclover.runtime.CloverNames;
-import com.atlassian.clover.CoverageDataSpec;
+import org.openclover.core.CoverageDataSpec;
 import org.openclover.runtime.Logger;
-import com.atlassian.clover.cfg.Interval;
-import com.atlassian.clover.optimization.Snapshot;
-import com.atlassian.clover.optimization.SnapshotPrinter;
-import com.atlassian.clover.recorder.PerTestCoverageStrategy;
+import org.openclover.core.cfg.Interval;
+import org.openclover.core.optimization.Snapshot;
+import org.openclover.core.optimization.SnapshotPrinter;
+import org.openclover.core.recorder.PerTestCoverageStrategy;
 import org.apache.tools.ant.BuildException;
 
 import java.io.File;
 import java.util.LinkedList;
 
-import static org.openclover.util.Lists.newLinkedList;
+import static org.openclover.core.util.Lists.newLinkedList;
 
 public class CloverSnapshotTask extends AbstractCloverTask {
     private Interval initialSpan = Interval.DEFAULT_SPAN;

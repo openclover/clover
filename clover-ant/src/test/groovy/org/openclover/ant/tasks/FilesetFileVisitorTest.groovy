@@ -1,10 +1,9 @@
 package org.openclover.ant.tasks
 
-
 import org.apache.tools.ant.Project
 import org.apache.tools.ant.types.FileSet
 import org.apache.tools.ant.types.Reference
-import com.atlassian.clover.reporters.Current
+import org.openclover.core.reporters.Current
 import org.openclover.buildutil.testutils.IOHelper
 import org.junit.Before
 import org.junit.Rule
@@ -12,7 +11,7 @@ import org.junit.Test
 import org.junit.rules.TestName
 
 import static org.junit.Assert.assertEquals
-import static org.openclover.util.Lists.newArrayList
+import static org.openclover.core.util.Lists.newArrayList
 
 class FilesetFileVisitorTest {
 

@@ -1,7 +1,7 @@
 package org.openclover.ci;
 
 import org.openclover.runtime.Logger;
-import org.openclover.util.ClassPathUtil;
+import org.openclover.core.util.ClassPathUtil;
 import org.openclover.runtime.CloverNames;
 
 import java.security.AccessController;

@@ -1,8 +1,9 @@
 package org.openclover.groovy.instr;
 
-import com.atlassian.clover.api.instrumentation.InstrumentationSession;
-import com.atlassian.clover.registry.FixedSourceRegion;
-import com.atlassian.clover.spi.lang.LanguageConstruct;
+import org.openclover.core.api.instrumentation.InstrumentationSession;
+import org.openclover.core.context.ContextSet;
+import org.openclover.core.registry.FixedSourceRegion;
+import org.openclover.core.spi.lang.LanguageConstruct;
 import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.ast.VariableScope;
 import org.codehaus.groovy.ast.expr.ConstructorCallExpression;
@@ -15,8 +16,8 @@ import org.codehaus.groovy.ast.stmt.TryCatchStatement;
 
 import java.util.List;
 
-import static org.openclover.util.Lists.newArrayList;
-import static org.openclover.util.Lists.newLinkedList;
+import static org.openclover.core.util.Lists.newArrayList;
+import static org.openclover.core.util.Lists.newLinkedList;
 
 /**
  * Instrumenting statements.
@@ -154,7 +155,7 @@ public class StatementInstrumenter extends ClassInstumenter {
         return Grover.recorderInc(
                 classRef,
                 session.addStatement(
-                        new com.atlassian.clover.context.ContextSet(),
+                        new ContextSet(),
                         srcRegion, complexity, LanguageConstruct.Builtin.STATEMENT), statement);
     }
 }

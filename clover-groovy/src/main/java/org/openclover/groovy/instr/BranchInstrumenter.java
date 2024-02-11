@@ -1,10 +1,10 @@
 package org.openclover.groovy.instr;
 
-import com.atlassian.clover.api.instrumentation.InstrumentationSession;
-import com.atlassian.clover.api.registry.BranchInfo;
-import com.atlassian.clover.api.registry.ContextSet;
-import com.atlassian.clover.api.registry.SourceInfo;
-import com.atlassian.clover.spi.lang.LanguageConstruct;
+import org.openclover.core.api.instrumentation.InstrumentationSession;
+import org.openclover.core.api.registry.BranchInfo;
+import org.openclover.core.api.registry.ContextSet;
+import org.openclover.core.api.registry.SourceInfo;
+import org.openclover.core.spi.lang.LanguageConstruct;
 import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.ast.expr.ArgumentListExpression;
 import org.codehaus.groovy.ast.expr.BinaryExpression;

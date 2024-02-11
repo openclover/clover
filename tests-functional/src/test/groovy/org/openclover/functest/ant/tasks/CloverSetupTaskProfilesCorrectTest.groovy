@@ -1,7 +1,7 @@
 package org.openclover.functest.ant.tasks
 
 import org.openclover.ant.tasks.CloverSetupTask
-import com.atlassian.clover.instr.java.RecorderInstrEmitter
+import org.openclover.core.instr.java.RecorderInstrEmitter
 import org.openclover.runtime.CloverNames
 import org_openclover_runtime.CloverProfile
 import groovy.transform.CompileStatic

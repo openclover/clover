@@ -1,13 +1,13 @@
 package org.openclover.ant.tasks;
 
-import com.atlassian.clover.instr.tests.TestDetector;
-import com.atlassian.clover.instr.tests.TestSourceMatcher;
-import com.atlassian.clover.instr.tests.NoTestDetector;
+import org.openclover.core.instr.tests.TestDetector;
+import org.openclover.core.instr.tests.TestSourceMatcher;
+import org.openclover.core.instr.tests.NoTestDetector;
 import org.openclover.runtime.api.CloverException;
-import com.atlassian.clover.spec.instr.test.AndSpec;
-import com.atlassian.clover.spec.instr.test.BooleanSpec;
-import com.atlassian.clover.spec.instr.test.OrSpec;
-import com.atlassian.clover.spec.instr.test.TestClassSpec;
+import org.openclover.core.spec.instr.test.AndSpec;
+import org.openclover.core.spec.instr.test.BooleanSpec;
+import org.openclover.core.spec.instr.test.OrSpec;
+import org.openclover.core.spec.instr.test.TestClassSpec;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DirectoryScanner;
 import org.apache.tools.ant.types.FileSet;
@@ -16,8 +16,8 @@ import java.io.File;
 import java.util.List;
 import java.util.Set;
 
-import static org.openclover.util.Lists.newArrayList;
-import static org.openclover.util.Sets.newHashSet;
+import static org.openclover.core.util.Lists.newArrayList;
+import static org.openclover.core.util.Sets.newHashSet;
 
 public class TestSourceSet extends FileSet implements TestSourceMatcher {
     private boolean enabled = true;

@@ -2,7 +2,7 @@ package org.openclover.functest.ant.tasks
 
 import groovy.transform.CompileStatic
 
-import static org.openclover.util.Maps.newHashMap
+import static org.openclover.core.util.Maps.newHashMap
 
 @CompileStatic
 abstract class CloverOptimizeTestBase extends CloverBuildFileTestBase {

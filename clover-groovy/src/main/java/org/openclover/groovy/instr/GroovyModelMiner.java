@@ -1,11 +1,11 @@
 package org.openclover.groovy.instr;
 
-import com.atlassian.clover.registry.PersistentAnnotationValue;
-import com.atlassian.clover.registry.entities.AnnotationImpl;
-import com.atlassian.clover.registry.entities.ArrayAnnotationValue;
-import com.atlassian.clover.registry.entities.MethodSignature;
-import com.atlassian.clover.registry.entities.Modifiers;
-import com.atlassian.clover.registry.entities.StringifiedAnnotationValue;
+import org.openclover.core.registry.PersistentAnnotationValue;
+import org.openclover.core.registry.entities.AnnotationImpl;
+import org.openclover.core.registry.entities.ArrayAnnotationValue;
+import org.openclover.core.registry.entities.MethodSignature;
+import org.openclover.core.registry.entities.Modifiers;
+import org.openclover.core.registry.entities.StringifiedAnnotationValue;
 import org.codehaus.groovy.ast.AnnotatedNode;
 import org.codehaus.groovy.ast.AnnotationNode;
 import org.codehaus.groovy.ast.ClassNode;
@@ -150,14 +150,14 @@ public class GroovyModelMiner {
     }
 
     //FQ class name required here so Groovy uses the right Parameter class
-    public static com.atlassian.clover.registry.entities.Parameter[] extractParameters(MethodNode method) {
+    public static org.openclover.core.registry.entities.Parameter[] extractParameters(MethodNode method) {
         final Parameter[] parameters = method.getParameters();
-        final List<com.atlassian.clover.registry.entities.Parameter> clovParams = new ArrayList<>(parameters.length);
+        final List<org.openclover.core.registry.entities.Parameter> clovParams = new ArrayList<>(parameters.length);
 
         for (Parameter p : parameters) {
-            clovParams.add(new com.atlassian.clover.registry.entities.Parameter(extractVerbatimType(p.getType(), p.isDynamicTyped()), p.getName()));
+            clovParams.add(new org.openclover.core.registry.entities.Parameter(extractVerbatimType(p.getType(), p.isDynamicTyped()), p.getName()));
         }
-        return clovParams.toArray(new com.atlassian.clover.registry.entities.Parameter[0]);
+        return clovParams.toArray(new org.openclover.core.registry.entities.Parameter[0]);
     }
 
     public static AnnotationImpl[] extractAnnotations(AnnotatedNode annotated) {

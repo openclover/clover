@@ -3,21 +3,21 @@ package org.openclover.groovy.instr;
 import org.openclover.runtime.CloverNames;
 import org.openclover.runtime.Logger;
 import org.openclover.runtime.api.CloverException;
-import com.atlassian.clover.api.instrumentation.InstrumentationSession;
-import com.atlassian.clover.cfg.instr.InstrumentationConfig;
+import org.openclover.core.api.instrumentation.InstrumentationSession;
+import org.openclover.core.cfg.instr.InstrumentationConfig;
 import org.openclover.groovy.instr.bytecode.RecorderGetterBytecodeInstructionGroovy2;
-import com.atlassian.clover.instr.tests.TestDetector;
-import com.atlassian.clover.instr.tests.naming.JUnitParameterizedTestExtractor;
-import com.atlassian.clover.instr.tests.naming.SpockFeatureNameExtractor;
+import org.openclover.core.instr.tests.TestDetector;
+import org.openclover.core.instr.tests.naming.JUnitParameterizedTestExtractor;
+import org.openclover.core.instr.tests.naming.SpockFeatureNameExtractor;
 import org.openclover.runtime.recorder.PerTestRecorder;
 import org.openclover.runtime.recorder.pertest.SnifferType;
-import com.atlassian.clover.registry.Clover2Registry;
-import com.atlassian.clover.registry.entities.FullElementInfo;
-import com.atlassian.clover.registry.entities.FullFileInfo;
-import com.atlassian.clover.registry.entities.Modifiers;
-import com.atlassian.clover.spi.lang.Language;
-import com.atlassian.clover.util.ChecksummingReader;
-import com.atlassian.clover.util.CloverUtils;
+import org.openclover.core.registry.Clover2Registry;
+import org.openclover.core.registry.entities.FullElementInfo;
+import org.openclover.core.registry.entities.FullFileInfo;
+import org.openclover.core.registry.entities.Modifiers;
+import org.openclover.core.spi.lang.Language;
+import org.openclover.core.util.ChecksummingReader;
+import org.openclover.core.util.CloverUtils;
 import org_openclover_runtime.CloverProfile;
 import org_openclover_runtime.CoverageRecorder;
 import org_openclover_runtime.TestNameSniffer;
@@ -77,7 +77,7 @@ import static groovyjarjarasm.asm.Opcodes.ACC_PRIVATE;
 import static groovyjarjarasm.asm.Opcodes.ACC_PUBLIC;
 import static groovyjarjarasm.asm.Opcodes.ACC_STATIC;
 import static groovyjarjarasm.asm.Opcodes.ACC_SYNTHETIC;
-import static org.openclover.util.Maps.newHashMap;
+import static org.openclover.core.util.Maps.newHashMap;
 
 /**
  * Shizzler of the nizzle. This is where it all starts, baby.
@@ -114,7 +114,7 @@ public class Grover implements ASTTransformation {
         /**
          * Clover registry version
          *
-         * @see com.atlassian.clover.api.instrumentation.InstrumentationSession#getVersion()
+         * @see InstrumentationSession#getVersion()
          */
         final long registryVersion;
 
@@ -128,8 +128,8 @@ public class Grover implements ASTTransformation {
         /**
          * Required capacity of the coverage recorder (for the {@link com.atlassian.clover.recorder.FixedSizeCoverageRecorder})
          *
-         * @see com.atlassian.clover.registry.entities.FullFileInfo#getDataIndex()
-         * @see com.atlassian.clover.registry.entities.FullFileInfo#getDataLength()
+         * @see FullFileInfo#getDataIndex()
+         * @see FullFileInfo#getDataLength()
          */
         final int maxElements;
 

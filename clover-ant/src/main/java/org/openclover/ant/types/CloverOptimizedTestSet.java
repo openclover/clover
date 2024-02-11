@@ -1,11 +1,11 @@
 package org.openclover.ant.types;
 
-import com.atlassian.clover.optimization.Messages;
-import com.atlassian.clover.optimization.Optimizer;
+import org.openclover.core.optimization.Messages;
+import org.openclover.core.optimization.Optimizer;
 
-import com.atlassian.clover.api.optimization.OptimizationOptions;
-import com.atlassian.clover.optimization.Snapshot;
-import com.atlassian.clover.optimization.LocalSnapshotOptimizer;
+import org.openclover.core.api.optimization.OptimizationOptions;
+import org.openclover.core.optimization.Snapshot;
+import org.openclover.core.optimization.LocalSnapshotOptimizer;
 import org.openclover.ant.tasks.AntInstrumentationConfig;
 import org.openclover.runtime.Logger;
 import org.apache.tools.ant.types.Resource;
@@ -17,7 +17,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Collections;
 
-import static org.openclover.util.Lists.newLinkedList;
+import static org.openclover.core.util.Lists.newLinkedList;
 
 public class CloverOptimizedTestSet extends BaseCloverOptimizedType implements ResourceCollection {
     private List<ResourceCollection> resourceCollections;

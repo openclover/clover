@@ -1,6 +1,6 @@
 package org.openclover.ant.tasks;
 
-import com.atlassian.clover.util.Path;
+import org.openclover.core.util.Path;
 
 
 public class AntPath extends Path

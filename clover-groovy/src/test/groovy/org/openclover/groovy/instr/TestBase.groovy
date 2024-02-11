@@ -1,6 +1,6 @@
 package org.openclover.groovy.instr
 
-import com.atlassian.clover.cfg.instr.InstrumentationConfig
+import org.openclover.core.cfg.instr.InstrumentationConfig
 import org.openclover.groovy.test.junit.CloverDbTestMixin
 import org.openclover.buildutil.test.junit.DynamicallyNamedTestBase
 import org.openclover.buildutil.test.junit.GroovyVersions
@@ -9,7 +9,7 @@ import org.openclover.groovy.test.junit.Result
 import org.openclover.groovy.test.junit.TestPropertyMixin
 import org.openclover.groovy.test.junit.WorkingDirMixin
 import org.openclover.runtime.CloverNames
-import com.atlassian.clover.context.ContextStore
+import org.openclover.core.context.ContextStore
 import groovy.transform.CompileStatic
 
 @CompileStatic

@@ -1,7 +1,7 @@
 package org.openclover.groovy.instr;
 
-import com.atlassian.clover.api.registry.SourceInfo;
-import com.atlassian.clover.registry.FixedSourceRegion;
+import org.openclover.core.api.registry.SourceInfo;
+import org.openclover.core.registry.FixedSourceRegion;
 import org.codehaus.groovy.ast.CodeVisitorSupport;
 import org.codehaus.groovy.ast.expr.ArgumentListExpression;
 import org.codehaus.groovy.ast.expr.ArrayExpression;

@@ -1,12 +1,12 @@
 package org.openclover.ant.tasks.testng;
 
 import org.openclover.runtime.CloverNames;
-import com.atlassian.clover.api.optimization.Optimizable;
-import com.atlassian.clover.api.optimization.OptimizationOptions;
-import com.atlassian.clover.optimization.Optimizer;
-import com.atlassian.clover.optimization.OptimizationSession;
-import com.atlassian.clover.optimization.LocalSnapshotOptimizer;
-import com.atlassian.clover.optimization.Snapshot;
+import org.openclover.core.api.optimization.Optimizable;
+import org.openclover.core.api.optimization.OptimizationOptions;
+import org.openclover.core.optimization.Optimizer;
+import org.openclover.core.optimization.OptimizationSession;
+import org.openclover.core.optimization.LocalSnapshotOptimizer;
+import org.openclover.core.optimization.Snapshot;
 import org.testng.IAnnotationTransformer2;
 import org.testng.annotations.IConfigurationAnnotation;
 import org.testng.annotations.IDataProviderAnnotation;
@@ -20,7 +20,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.io.File;
 
-import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.core.util.Lists.newArrayList;
 
 public class CloverOptimizedTestNGSelector implements IAnnotationTransformer, IAnnotationTransformer2 {
     private Optimizer optimizer;

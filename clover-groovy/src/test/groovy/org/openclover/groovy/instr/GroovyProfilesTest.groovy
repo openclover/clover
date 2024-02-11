@@ -1,7 +1,7 @@
 package org.openclover.groovy.instr
 
 import org.openclover.runtime.CloverNames
-import com.atlassian.clover.cfg.instr.InstrumentationConfig
+import org.openclover.core.cfg.instr.InstrumentationConfig
 import groovy.transform.CompileStatic
 import org.junit.Test
 

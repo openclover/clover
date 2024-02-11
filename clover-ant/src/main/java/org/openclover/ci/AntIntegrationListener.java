@@ -2,11 +2,11 @@ package org.openclover.ci;
 
 import org.openclover.ant.tasks.AntInstrumentationConfig;
 import org.openclover.ant.tasks.CloverEnvTask;
-import org.openclover.util.ClassPathUtil;
-import com.atlassian.clover.api.optimization.Optimizable;
-import com.atlassian.clover.optimization.LocalSnapshotOptimizer;
-import com.atlassian.clover.optimization.Snapshot;
-import com.atlassian.clover.api.optimization.OptimizationOptions;
+import org.openclover.core.util.ClassPathUtil;
+import org.openclover.core.api.optimization.Optimizable;
+import org.openclover.core.optimization.LocalSnapshotOptimizer;
+import org.openclover.core.optimization.Snapshot;
+import org.openclover.core.api.optimization.OptimizationOptions;
 import org.openclover.runtime.Logger;
 import org.openclover.runtime.api.CloverException;
 import org.openclover.runtime.CloverNames;
@@ -34,7 +34,7 @@ import org.apache.tools.ant.taskdefs.optional.junit.JUnitTask;
 import org.apache.tools.ant.taskdefs.optional.junit.BatchTest;
 import org.apache.tools.ant.taskdefs.optional.junit.JUnitTest;
 
-import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.core.util.Lists.newArrayList;
 
 public class AntIntegrationListener implements BuildListener {
     private OptimizationOptions optimizationOptions;

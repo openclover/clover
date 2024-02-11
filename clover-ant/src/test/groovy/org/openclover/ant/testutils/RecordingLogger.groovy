@@ -3,7 +3,7 @@ package org.openclover.ant.testutils
 import org.openclover.runtime.Logger
 import org.hamcrest.Description
 import org.hamcrest.TypeSafeMatcher
-import org.openclover.util.Lists
+import org.openclover.core.util.Lists
 
 /**
  * A Logger that will record what got logged.

@@ -1,6 +1,6 @@
 package org.openclover.ant
 
-import com.atlassian.clover.util.FileUtils
+import org.openclover.core.util.FileUtils
 import org.openclover.ant.testutils.RecordingLogger
 import org.apache.tools.ant.Project
 import org.apache.tools.ant.types.FileSet

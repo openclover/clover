@@ -3,7 +3,7 @@ package org.openclover.ant.tasks;
 import org.openclover.ant.groovy.GroovycSupport;
 import org.openclover.runtime.CloverNames;
 import org.openclover.runtime.Logger;
-import org.openclover.util.ClassPathUtil;
+import org.openclover.core.util.ClassPathUtil;
 import org.apache.tools.ant.BuildException;
 import org.openclover.ant.taskdefs.CloverCompilerAdapter;
 import org.apache.tools.ant.types.PatternSet;

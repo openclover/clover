@@ -2,20 +2,20 @@ package org.openclover.groovy.instr;
 
 import org.openclover.runtime.CloverNames;
 import org.openclover.runtime.Logger;
-import com.atlassian.clover.api.instrumentation.InstrumentationSession;
-import com.atlassian.clover.api.registry.ContextSet;
-import com.atlassian.clover.api.registry.SourceInfo;
-import com.atlassian.clover.cfg.instr.InstrumentationConfig;
-import com.atlassian.clover.context.MethodRegexpContext;
-import com.atlassian.clover.instr.java.JavaMethodContext;
-import com.atlassian.clover.instr.tests.TestDetector;
-import com.atlassian.clover.instr.tests.naming.DefaultTestNameExtractor;
-import com.atlassian.clover.registry.Clover2Registry;
-import com.atlassian.clover.registry.FixedSourceRegion;
-import com.atlassian.clover.registry.entities.FullMethodInfo;
-import com.atlassian.clover.registry.entities.MethodSignature;
-import com.atlassian.clover.spi.lang.LanguageConstruct;
-import com.atlassian.clover.util.collections.Pair;
+import org.openclover.core.api.instrumentation.InstrumentationSession;
+import org.openclover.core.api.registry.ContextSet;
+import org.openclover.core.api.registry.SourceInfo;
+import org.openclover.core.cfg.instr.InstrumentationConfig;
+import org.openclover.core.context.MethodRegexpContext;
+import org.openclover.core.instr.java.JavaMethodContext;
+import org.openclover.core.instr.tests.TestDetector;
+import org.openclover.core.instr.tests.naming.DefaultTestNameExtractor;
+import org.openclover.core.registry.Clover2Registry;
+import org.openclover.core.registry.FixedSourceRegion;
+import org.openclover.core.registry.entities.FullMethodInfo;
+import org.openclover.core.registry.entities.MethodSignature;
+import org.openclover.core.spi.lang.LanguageConstruct;
+import org.openclover.core.util.collections.Pair;
 import org.codehaus.groovy.ast.AnnotatedNode;
 import org.codehaus.groovy.ast.ClassCodeExpressionTransformer;
 import org.codehaus.groovy.ast.ClassHelper;
@@ -61,8 +61,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import static org.openclover.util.Lists.newLinkedList;
-import static org.openclover.util.Maps.newHashMap;
+import static org.openclover.core.util.Lists.newLinkedList;
+import static org.openclover.core.util.Maps.newHashMap;
 
 /**
  * Note: do...while is not implemented in Groovy so DoWhileStatements are ignored
@@ -70,7 +70,7 @@ import static org.openclover.util.Maps.newHashMap;
 public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
     private static final Logger LOG = Logger.getInstance();
     private static final Field CLOSURE_CODE_FIELD;
-    private static final ContextSet EMPTY_CONTEXT = new com.atlassian.clover.context.ContextSet();
+    private static final ContextSet EMPTY_CONTEXT = new org.openclover.core.context.ContextSet();
 
     static {
         Field closureField;

@@ -7,14 +7,14 @@ import org.openclover.runtime.CloverNames;
 import org.openclover.runtime.Logger;
 import org.openclover.ant.AntInstrUtils;
 import org.openclover.runtime.api.CloverException;
-import com.atlassian.clover.cfg.instr.InstrumentationConfig;
-import com.atlassian.clover.instr.java.Instrumenter;
-import com.atlassian.clover.instr.tests.DefaultTestDetector;
-import com.atlassian.clover.instr.tests.FileMappedTestDetector;
-import com.atlassian.clover.instr.tests.NoTestDetector;
-import com.atlassian.clover.instr.tests.TestDetector;
-import com.atlassian.clover.util.FileUtils;
-import com.atlassian.clover.util.ReflectionUtils;
+import org.openclover.core.cfg.instr.InstrumentationConfig;
+import org.openclover.core.instr.java.Instrumenter;
+import org.openclover.core.instr.tests.DefaultTestDetector;
+import org.openclover.core.instr.tests.FileMappedTestDetector;
+import org.openclover.core.instr.tests.NoTestDetector;
+import org.openclover.core.instr.tests.TestDetector;
+import org.openclover.core.util.FileUtils;
+import org.openclover.core.util.ReflectionUtils;
 import org_openclover_runtime.CloverVersionInfo;
 import org.apache.tools.ant.BuildEvent;
 import org.apache.tools.ant.BuildListener;
@@ -29,7 +29,7 @@ import org.apache.tools.ant.util.GlobPatternMapper;
 import org.apache.tools.ant.util.SourceFileScanner;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.openclover.util.ClassPathUtil;
+import org.openclover.core.util.ClassPathUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,9 +43,9 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.Set;
 
-import static org.openclover.util.Maps.newHashMap;
-import static org.openclover.util.Sets.newHashSet;
-import static org.openclover.util.Sets.newLinkedHashSet;
+import static org.openclover.core.util.Maps.newHashMap;
+import static org.openclover.core.util.Sets.newHashSet;
+import static org.openclover.core.util.Sets.newLinkedHashSet;
 
 public class GroovycSupport implements BuildListener {
     private static final Collection<String> COMPILERS = newHashSet(

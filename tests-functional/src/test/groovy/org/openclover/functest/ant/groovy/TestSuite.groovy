@@ -16,7 +16,7 @@ import org.openclover.groovy.test.junit.IncludeExcludeMixin
 import org.openclover.buildutil.test.junit.GroovyVersions
 import org.openclover.buildutil.test.junit.AntVersions
 import org.openclover.buildutil.test.junit.GroovyVersionStart
-import com.atlassian.clover.versions.LibraryVersion
+import org.openclover.core.versions.LibraryVersion
 
 @CompileStatic
 class TestSuite extends junit.framework.TestSuite

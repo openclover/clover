@@ -1,15 +1,15 @@
 package org.openclover.ant.tasks;
 
-import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.CloverDatabaseSpec;
-import com.atlassian.clover.cfg.Interval;
+import org.openclover.core.CloverDatabase;
+import org.openclover.core.CloverDatabaseSpec;
+import org.openclover.core.cfg.Interval;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.types.FileSet;
 
 import java.util.List;
 
-import static org.openclover.util.Lists.newArrayList;
-import static org.openclover.util.Lists.newLinkedList;
+import static org.openclover.core.util.Lists.newArrayList;
+import static org.openclover.core.util.Lists.newLinkedList;
 
 public class CloverMergeTask extends AbstractCloverTask {
 

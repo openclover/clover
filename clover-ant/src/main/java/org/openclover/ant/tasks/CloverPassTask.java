@@ -1,21 +1,21 @@
 package org.openclover.ant.tasks;
 
-import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.CodeType;
+import org.openclover.core.CloverDatabase;
+import org.openclover.core.CodeType;
 import org.openclover.runtime.Logger;
 import org.openclover.runtime.api.CloverException;
-import com.atlassian.clover.api.registry.HasMetrics;
-import com.atlassian.clover.api.registry.PackageInfo;
-import com.atlassian.clover.cfg.Interval;
-import com.atlassian.clover.cfg.Percentage;
-import com.atlassian.clover.registry.entities.FullProjectInfo;
-import com.atlassian.clover.registry.metrics.BlockMetrics;
-import com.atlassian.clover.registry.metrics.PackageMetrics;
-import com.atlassian.clover.registry.metrics.ProjectMetrics;
-import com.atlassian.clover.reporters.Current;
-import com.atlassian.clover.reporters.Format;
-import com.atlassian.clover.reporters.util.HistoricalSupport;
-import com.atlassian.clover.reporters.util.MetricsDiffSummary;
+import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.core.cfg.Interval;
+import org.openclover.core.cfg.Percentage;
+import org.openclover.core.registry.entities.FullProjectInfo;
+import org.openclover.core.registry.metrics.BlockMetrics;
+import org.openclover.core.registry.metrics.PackageMetrics;
+import org.openclover.core.registry.metrics.ProjectMetrics;
+import org.openclover.core.reporters.Current;
+import org.openclover.core.reporters.Format;
+import org.openclover.core.reporters.util.HistoricalSupport;
+import org.openclover.core.reporters.util.MetricsDiffSummary;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.FileSet;
@@ -30,7 +30,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.regex.PatternSyntaxException;
 
-import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.core.util.Lists.newArrayList;
 
 /**
  * Clover Ant Task to report pass/fail status of a test run against

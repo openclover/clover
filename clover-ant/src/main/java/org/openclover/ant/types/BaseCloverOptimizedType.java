@@ -2,7 +2,7 @@ package org.openclover.ant.types;
 
 import org.openclover.ant.AbstractAntLogger;
 import org.openclover.runtime.Logger;
-import com.atlassian.clover.api.optimization.OptimizationOptions;
+import org.openclover.core.api.optimization.OptimizationOptions;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;

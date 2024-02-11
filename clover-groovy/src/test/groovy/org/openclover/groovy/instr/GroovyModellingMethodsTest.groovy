@@ -1,16 +1,24 @@
 package org.openclover.groovy.instr
 
-import com.atlassian.clover.api.registry.Annotation
-import com.atlassian.clover.api.registry.ClassInfo
-import com.atlassian.clover.api.registry.MethodInfo
-import com.atlassian.clover.cfg.instr.InstrumentationConfig
-import com.atlassian.clover.cfg.instr.MethodContextDef
-import com.atlassian.clover.context.ContextSet
-import com.atlassian.clover.context.ContextStore
-import com.atlassian.clover.context.MethodRegexpContext
-import com.atlassian.clover.registry.Clover2Registry
-import com.atlassian.clover.registry.entities.*
+import org.openclover.core.api.registry.Annotation
+import org.openclover.core.api.registry.ClassInfo
+import org.openclover.core.api.registry.MethodInfo
+import org.openclover.core.cfg.instr.InstrumentationConfig
+import org.openclover.core.cfg.instr.MethodContextDef
+import org.openclover.core.context.ContextSet
+import org.openclover.core.context.ContextStore
+import org.openclover.core.context.MethodRegexpContext
+import org.openclover.core.registry.Clover2Registry
 import groovy.transform.CompileStatic
+import org.openclover.core.registry.entities.AnnotationImpl
+import org.openclover.core.registry.entities.ArrayAnnotationValue
+import org.openclover.core.registry.entities.BaseClassInfo
+import org.openclover.core.registry.entities.FullClassInfo
+import org.openclover.core.registry.entities.FullFileInfo
+import org.openclover.core.registry.entities.FullMethodInfo
+import org.openclover.core.registry.entities.FullPackageInfo
+import org.openclover.core.registry.entities.Parameter
+import org.openclover.core.registry.entities.StringifiedAnnotationValue
 
 import java.lang.reflect.Modifier
 import java.util.regex.Pattern

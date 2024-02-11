@@ -65,7 +65,7 @@
     </target>
 
     <target name="consoleReport">
-        <java fork="true" classname="com.atlassian.clover.reporters.console.ConsoleReporter" outputproperty="report.output">
+        <java fork="true" classname="org.openclover.core.reporters.console.ConsoleReporter" outputproperty="report.output">
             <arg line="-i ${initstring}"/>
             <classpath refid="test.path"/>
         </java>

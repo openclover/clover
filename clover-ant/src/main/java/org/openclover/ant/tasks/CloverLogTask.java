@@ -1,15 +1,15 @@
 package org.openclover.ant.tasks;
 
-import com.atlassian.clover.CloverDatabase;
+import org.openclover.core.CloverDatabase;
 import org.openclover.runtime.api.CloverException;
-import com.atlassian.clover.CodeType;
-import com.atlassian.clover.CoverageDataSpec;
-import com.atlassian.clover.recorder.PerTestCoverageStrategy;
-import com.atlassian.clover.registry.metrics.HasMetricsFilter;
-import com.atlassian.clover.cfg.Interval;
-import com.atlassian.clover.reporters.console.ConsoleReporter;
-import com.atlassian.clover.reporters.console.ConsoleReporterConfig;
-import com.atlassian.clover.reporters.filters.FileSetFilter;
+import org.openclover.core.CodeType;
+import org.openclover.core.CoverageDataSpec;
+import org.openclover.core.recorder.PerTestCoverageStrategy;
+import org.openclover.core.registry.metrics.HasMetricsFilter;
+import org.openclover.core.cfg.Interval;
+import org.openclover.core.reporters.console.ConsoleReporter;
+import org.openclover.core.reporters.console.ConsoleReporterConfig;
+import org.openclover.core.reporters.filters.FileSetFilter;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.LogOutputStream;
@@ -27,8 +27,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-import static org.openclover.util.Lists.newArrayList;
-import static org.openclover.util.Sets.newHashSet;
+import static org.openclover.core.util.Lists.newArrayList;
+import static org.openclover.core.util.Sets.newHashSet;
 
 /**
  * Clover Ant task to print the coverage to the Ant log or Ant property.

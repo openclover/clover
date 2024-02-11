@@ -1,7 +1,11 @@
 package org.openclover.functest.ant.testutils
 
-import com.atlassian.clover.registry.metrics.*
 import groovy.transform.CompileStatic
+import org.openclover.core.registry.metrics.BlockMetrics
+import org.openclover.core.registry.metrics.ClassMetrics
+import org.openclover.core.registry.metrics.FileMetrics
+import org.openclover.core.registry.metrics.PackageMetrics
+import org.openclover.core.registry.metrics.ProjectMetrics
 
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertTrue
@@ -20,13 +24,13 @@ class MetricsHelper {
 
     static void assertMetricsEquals(ClassMetrics expectedMetrics, ClassMetrics actualMetrics) {
         assertMetricsEquals(expectedMetrics,
-                (com.atlassian.clover.api.registry.BlockMetrics)actualMetrics)
+                (org.openclover.core.api.registry.BlockMetrics)actualMetrics)
         assertEquals("getNumMethods", expectedMetrics.getNumMethods(), actualMetrics.getNumMethods())
         assertEquals("getNumMethods", expectedMetrics.getNumTestMethods(), actualMetrics.getNumTestMethods())
         assertEquals("getNumCoveredMethods", expectedMetrics.getNumCoveredMethods(), actualMetrics.getNumCoveredMethods())
     }
 
-    static void assertMetricsEquals(com.atlassian.clover.api.registry.BlockMetrics metrics, com.atlassian.clover.api.registry.BlockMetrics filteredMetrics) {
+    static void assertMetricsEquals(org.openclover.core.api.registry.BlockMetrics metrics, org.openclover.core.api.registry.BlockMetrics filteredMetrics) {
         assertEquals("getNumBranches", metrics.getNumBranches(), filteredMetrics.getNumBranches())
         assertEquals("getNumStatements", metrics.getNumStatements(), filteredMetrics.getNumStatements())
         assertEquals("getNumElements", metrics.getNumElements(), filteredMetrics.getNumElements())
@@ -40,11 +44,11 @@ class MetricsHelper {
         assertTrue("getComplexityDensity", metrics.getComplexityDensity() == filteredMetrics.getComplexityDensity())
     }
 
-    static BlockMetrics setBlockMetrics(BlockMetrics metrics,
-                                        int statements, int coveredStatements,
-                                        int branches, int coveredBranches, int complexity,
-                                        int tests, int testPasses, int testErrors, int testFailures,
-                                        float testTime) {
+    static org.openclover.core.registry.metrics.BlockMetrics setBlockMetrics(BlockMetrics metrics,
+                                                                             int statements, int coveredStatements,
+                                                                             int branches, int coveredBranches, int complexity,
+                                                                             int tests, int testPasses, int testErrors, int testFailures,
+                                                                             float testTime) {
         metrics.setNumStatements(statements)
         metrics.setNumCoveredStatements(coveredStatements)
         metrics.setNumBranches(branches)

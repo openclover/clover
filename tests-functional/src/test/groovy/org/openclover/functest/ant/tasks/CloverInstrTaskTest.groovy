@@ -1,6 +1,6 @@
 package org.openclover.functest.ant.tasks
 
-import com.atlassian.clover.instr.java.RecorderInstrEmitter
+import org.openclover.core.instr.java.RecorderInstrEmitter
 import org.openclover.runtime.api.CloverException
 import org.openclover.runtime.remote.DistributedConfig
 import groovy.transform.CompileStatic

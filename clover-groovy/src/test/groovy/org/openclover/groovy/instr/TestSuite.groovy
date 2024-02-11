@@ -8,7 +8,7 @@ import java.lang.reflect.Method
 
 import org.openclover.groovy.test.junit.IncludeExcludeMixin
 import org.openclover.buildutil.test.junit.GroovyVersions
-import com.atlassian.clover.versions.LibraryVersion
+import org.openclover.core.versions.LibraryVersion
 import org.openclover.buildutil.test.junit.GroovyVersionStart
 
 class TestSuite

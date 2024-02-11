@@ -2,15 +2,15 @@ package org.openclover.functest.ant.tasks
 
 import org.openclover.runtime.CloverNames
 import org.openclover.runtime.api.CloverException
-import com.atlassian.clover.api.registry.ClassInfo
-import com.atlassian.clover.api.registry.FileInfo
-import com.atlassian.clover.api.registry.PackageInfo
-import com.atlassian.clover.model.CoverageDataPoint
-import com.atlassian.clover.model.XmlConverter
-import com.atlassian.clover.registry.entities.BasePackageInfo
-import com.atlassian.clover.registry.entities.FullFileInfo
-import com.atlassian.clover.registry.entities.FullProjectInfo
-import com.atlassian.clover.registry.metrics.ProjectMetrics
+import org.openclover.core.api.registry.ClassInfo
+import org.openclover.core.api.registry.FileInfo
+import org.openclover.core.api.registry.PackageInfo
+import org.openclover.core.model.CoverageDataPoint
+import org.openclover.core.model.XmlConverter
+import org.openclover.core.registry.entities.BasePackageInfo
+import org.openclover.core.registry.entities.FullFileInfo
+import org.openclover.core.registry.entities.FullProjectInfo
+import org.openclover.core.registry.metrics.ProjectMetrics
 import groovy.transform.CompileStatic
 
 import static org.openclover.functest.ant.testutils.MetricsHelper.assertMetricsEquals

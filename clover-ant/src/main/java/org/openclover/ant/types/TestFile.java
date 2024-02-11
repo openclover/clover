@@ -1,6 +1,6 @@
 package org.openclover.ant.types;
 
-import com.atlassian.clover.api.optimization.Optimizable;
+import org.openclover.core.api.optimization.Optimizable;
 
 import java.io.File;
 

@@ -1,6 +1,6 @@
 package org.openclover.functest.ant.tasks
 
-import com.atlassian.clover.cfg.instr.InstrumentationLevel
+import org.openclover.core.cfg.instr.InstrumentationLevel
 import groovy.transform.CompileStatic
 
 @CompileStatic

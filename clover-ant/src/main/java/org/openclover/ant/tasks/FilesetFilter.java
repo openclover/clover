@@ -2,10 +2,10 @@ package org.openclover.ant.tasks;
 
 import org.openclover.runtime.Logger;
 import org.openclover.ant.AntFileSetUtils;
-import com.atlassian.clover.registry.entities.FullFileInfo;
-import com.atlassian.clover.api.registry.HasMetrics;
-import com.atlassian.clover.registry.metrics.HasMetricsFilter;
-import com.atlassian.clover.util.FileUtils;
+import org.openclover.core.registry.entities.FullFileInfo;
+import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.registry.metrics.HasMetricsFilter;
+import org.openclover.core.util.FileUtils;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.FileSet;
 
@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.Map;
 
-import static org.openclover.util.Maps.newHashMap;
-import static org.openclover.util.Sets.newHashSet;
+import static org.openclover.core.util.Maps.newHashMap;
+import static org.openclover.core.util.Sets.newHashSet;
 
 public class FilesetFilter implements HasMetricsFilter {
     private final Set<File> files = newHashSet();

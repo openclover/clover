@@ -1,12 +1,12 @@
 package org.openclover.groovy.instr;
 
 import org.openclover.runtime.CloverNames;
-import com.atlassian.clover.api.instrumentation.InstrumentationSession;
-import com.atlassian.clover.api.registry.BranchInfo;
-import com.atlassian.clover.api.registry.ContextSet;
-import com.atlassian.clover.api.registry.SourceInfo;
-import com.atlassian.clover.spi.lang.LanguageConstruct;
-import com.atlassian.clover.util.collections.Pair;
+import org.openclover.core.api.instrumentation.InstrumentationSession;
+import org.openclover.core.api.registry.BranchInfo;
+import org.openclover.core.api.registry.ContextSet;
+import org.openclover.core.api.registry.SourceInfo;
+import org.openclover.core.spi.lang.LanguageConstruct;
+import org.openclover.core.util.collections.Pair;
 import org.codehaus.groovy.ast.ClassHelper;
 import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.ast.MethodNode;
@@ -38,8 +38,8 @@ import java.util.Map;
 
 import static groovyjarjarasm.asm.Opcodes.ACC_PUBLIC;
 import static groovyjarjarasm.asm.Opcodes.ACC_STATIC;
-import static org.openclover.util.Lists.newArrayList;
-import static org.openclover.util.Maps.newHashMap;
+import static org.openclover.core.util.Lists.newArrayList;
+import static org.openclover.core.util.Maps.newHashMap;
 
 /**
  * Instruments Groovy operators like:

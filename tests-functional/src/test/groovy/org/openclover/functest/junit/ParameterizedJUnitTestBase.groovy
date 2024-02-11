@@ -2,7 +2,7 @@ package org.openclover.functest.junit
 
 import org.openclover.functest.ant.tasks.CloverBuildFileTestBase
 import org.openclover.functest.ant.tasks.CloverTestUtil
-import com.atlassian.clover.util.FileUtils
+import org.openclover.core.util.FileUtils
 import groovy.transform.CompileStatic
 
 

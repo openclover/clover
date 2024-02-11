@@ -1,21 +1,21 @@
 package org.openclover.ant.tasks
 
-import com.atlassian.clover.instr.java.JavaMethodContext
-import com.atlassian.clover.instr.java.JavaTypeContext
-import com.atlassian.clover.instr.tests.DefaultTestDetector
-import com.atlassian.clover.instr.tests.NoTestDetector
-import com.atlassian.clover.instr.tests.TestDetector
-import com.atlassian.clover.registry.entities.AnnotationImpl
-import com.atlassian.clover.registry.entities.MethodSignature
-import com.atlassian.clover.registry.entities.Modifiers
-import com.atlassian.clover.spec.instr.test.AndSpec
-import com.atlassian.clover.spec.instr.test.OrSpec
-import com.atlassian.clover.spec.instr.test.TestClassSpec
-import com.atlassian.clover.spec.instr.test.TestMethodSpec
+import org.openclover.core.instr.java.JavaMethodContext
+import org.openclover.core.instr.java.JavaTypeContext
+import org.openclover.core.instr.tests.DefaultTestDetector
+import org.openclover.core.instr.tests.NoTestDetector
+import org.openclover.core.instr.tests.TestDetector
+import org.openclover.core.registry.entities.AnnotationImpl
+import org.openclover.core.registry.entities.MethodSignature
+import org.openclover.core.registry.entities.Modifiers
+import org.openclover.core.spec.instr.test.AndSpec
+import org.openclover.core.spec.instr.test.OrSpec
+import org.openclover.core.spec.instr.test.TestClassSpec
+import org.openclover.core.spec.instr.test.TestMethodSpec
 import junit.framework.TestCase
 
-import static org.openclover.util.Lists.newArrayList
-import static org.openclover.util.Maps.newHashMap
+import static org.openclover.core.util.Lists.newArrayList
+import static org.openclover.core.util.Maps.newHashMap
 
 class TestSourceSetTest extends TestCase {
     public Modifiers mods

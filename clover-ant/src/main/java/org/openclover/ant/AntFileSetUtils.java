@@ -8,16 +8,16 @@ import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.PatternSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.openclover.util.function.Function;
-import org.openclover.util.function.Predicate;
-import org.openclover.util.function.Predicates;
-import org.openclover.util.function.Streams;
+import org.openclover.core.util.function.Function;
+import org.openclover.core.util.function.Predicate;
+import org.openclover.core.util.function.Predicates;
+import org.openclover.core.util.function.Streams;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.core.util.Lists.newArrayList;
 
 /**
  * Helper class to validate Ant's FileSet and PatternSet classes

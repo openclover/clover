@@ -2,9 +2,9 @@ package org.openclover.ant.tasks;
 
 import org.openclover.ant.AntLogger;
 import org.openclover.runtime.CloverNames;
-import com.atlassian.clover.CloverStartup;
+import org.openclover.core.CloverStartup;
 import org.openclover.runtime.Logger;
-import com.atlassian.clover.PrematureLibraryLoader;
+import org.openclover.core.PrematureLibraryLoader;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 
