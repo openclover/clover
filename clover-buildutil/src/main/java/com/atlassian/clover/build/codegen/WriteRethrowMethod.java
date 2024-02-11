@@ -13,7 +13,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 
 /**
- * Rewrites the method com_atlassian_clover.CoverageRecorder.rethrow(Throwable) to
+ * Rewrites the method org_openclover_runtime.CoverageRecorder.rethrow(Throwable) to
  * rethrow the supplied Throwable instead of just returning from the method.
  * This is required as test method rewriting needs to catch Throwable for the purposes
  * of determining test failure but must be able to rethrow the Throwable without changing

@@ -7,7 +7,7 @@ import com.atlassian.clover.api.registry.MethodInfo
 import com.atlassian.clover.registry.entities.FullProjectInfo
 import com.atlassian.clover.registry.entities.StringifiedAnnotationValue
 import com.atlassian.clover.util.JavaEnvUtils
-import com_atlassian_clover.CoverageRecorder
+import org_openclover_runtime.CoverageRecorder
 import org.junit.Before
 import org.junit.Test
 

@@ -7,7 +7,7 @@ import com.atlassian.clover.registry.Clover2Registry
 import com.atlassian.clover.registry.entities.FullMethodInfo
 import com.atlassian.clover.registry.metrics.HasMetricsFilter
 import com.atlassian.clover.util.SimpleCoverageRange
-import com_atlassian_clover.CoverageRecorder
+import org_openclover_runtime.CoverageRecorder
 import junit.framework.TestCase
 
 import java.lang.reflect.Field

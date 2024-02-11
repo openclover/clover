@@ -5,8 +5,8 @@ import org.openclover.runtime.Logger;
 import org.openclover.runtime.RuntimeType;
 import org.openclover.runtime.util.CloverBitSet;
 import org.openclover.runtime.util.IOStreamUtils;
-import com_atlassian_clover.Clover;
-import com_atlassian_clover.CoverageRecorder;
+import org_openclover_runtime.Clover;
+import org_openclover_runtime.CoverageRecorder;
 
 import java.io.DataOutputStream;
 import java.io.File;

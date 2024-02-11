@@ -2,7 +2,7 @@ package org.openclover.runtime.recorder;
 
 import org.openclover.runtime.ErrorInfo;
 import org.openclover.runtime.util.CloverBitSet;
-import com_atlassian_clover.CoverageRecorder;
+import org_openclover_runtime.CoverageRecorder;
 
 import java.io.IOException;
 

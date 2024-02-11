@@ -3,8 +3,8 @@ package org.openclover.runtime.recorder;
 import org.openclover.runtime.CloverNames;
 import org.openclover.runtime.ErrorInfo;
 import org.openclover.runtime.Logger;
-import com_atlassian_clover.Clover;
-import com_atlassian_clover.CoverageRecorder;
+import org_openclover_runtime.Clover;
+import org_openclover_runtime.CoverageRecorder;
 
 import java.io.IOException;
 import java.io.File;

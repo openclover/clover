@@ -4,7 +4,7 @@ import clover.org.apache.velocity.VelocityContext;
 import com.atlassian.clover.reporters.CloverReportConfig;
 
 import com.atlassian.clover.reporters.html.HtmlReportUtil;
-import com_atlassian_clover.CloverVersionInfo;
+import org_openclover_runtime.CloverVersionInfo;
 
 import java.io.File;
 import java.text.SimpleDateFormat;

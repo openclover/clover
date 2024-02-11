@@ -7,7 +7,7 @@ import org.openclover.runtime.recorder.PerTestRecording
 import com.atlassian.clover.recorder.PerTestRecordingTranscript
 import com.atlassian.clover.recorder.RecordingTranscripts
 import junit.framework.TestCase
-import com_atlassian_clover.Clover
+import org_openclover_runtime.Clover
 
 import com.atlassian.clover.util.CloverUtils
 import com.atlassian.clover.util.FileUtils

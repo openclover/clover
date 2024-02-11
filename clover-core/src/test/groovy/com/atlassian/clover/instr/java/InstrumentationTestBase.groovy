@@ -8,8 +8,8 @@ import com.atlassian.clover.cfg.instr.java.SourceLevel
 import com.atlassian.clover.registry.Clover2Registry
 import com.atlassian.clover.registry.metrics.ProjectMetrics
 import com.atlassian.clover.util.FileUtils
-import com_atlassian_clover.CoverageRecorder
-import com_atlassian_clover.TestNameSniffer
+import org_openclover_runtime.CoverageRecorder
+import org_openclover_runtime.TestNameSniffer
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule

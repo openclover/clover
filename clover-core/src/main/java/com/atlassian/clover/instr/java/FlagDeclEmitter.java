@@ -1,6 +1,6 @@
 package com.atlassian.clover.instr.java;
 
-import com_atlassian_clover.CloverVersionInfo;
+import org_openclover_runtime.CloverVersionInfo;
 
 
 public class FlagDeclEmitter extends Emitter {

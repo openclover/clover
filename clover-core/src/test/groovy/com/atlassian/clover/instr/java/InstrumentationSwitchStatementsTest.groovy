@@ -3,7 +3,7 @@ package com.atlassian.clover.instr.java
 import com.atlassian.clover.api.registry.ClassInfo
 import com.atlassian.clover.registry.Clover2Registry
 import com.atlassian.clover.registry.entities.FullProjectInfo
-import com_atlassian_clover.CloverVersionInfo
+import org_openclover_runtime.CloverVersionInfo
 import org.junit.Test
 
 import static org.junit.Assert.assertTrue

@@ -1,8 +1,8 @@
 package com.atlassian.clover.recorder
 
 import org.openclover.runtime.ErrorInfo
-import com_atlassian_clover.Clover
-import com_atlassian_clover.CoverageRecorder
+import org_openclover_runtime.Clover
+import org_openclover_runtime.CoverageRecorder
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestName

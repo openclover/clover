@@ -2,7 +2,7 @@ package org.openclover.runtime.recorder.junit;
 
 import org.openclover.runtime.Logger;
 import org.openclover.runtime.recorder.TestNameSnifferHelper;
-import com_atlassian_clover.TestNameSniffer;
+import org_openclover_runtime.TestNameSniffer;
 import org.junit.platform.engine.TestExecutionResult;
 import org.junit.platform.engine.TestSource;
 import org.junit.platform.engine.support.descriptor.ClassSource;

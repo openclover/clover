@@ -13,7 +13,7 @@ import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig;
 import com.atlassian.clover.context.ContextStore;
 import com.atlassian.clover.registry.entities.FullFileInfo;
 import com.atlassian.clover.registry.entities.FullMethodInfo;
-import com_atlassian_clover.CloverVersionInfo;
+import org_openclover_runtime.CloverVersionInfo;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;

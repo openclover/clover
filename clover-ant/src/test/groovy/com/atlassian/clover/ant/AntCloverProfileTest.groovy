@@ -1,6 +1,6 @@
 package com.atlassian.clover.ant
 
-import com_atlassian_clover.CloverProfile
+import org_openclover_runtime.CloverProfile
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException

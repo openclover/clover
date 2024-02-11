@@ -1,6 +1,6 @@
 package org.openclover.eclipse.core.upgrade.hooks;
 
-import com_atlassian_clover.CloverVersionInfo;
+import org_openclover_runtime.CloverVersionInfo;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.IDialogConstants;

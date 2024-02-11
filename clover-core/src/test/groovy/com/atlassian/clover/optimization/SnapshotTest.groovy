@@ -6,7 +6,7 @@ import com.atlassian.clover.TestUtils
 import com.atlassian.clover.context.ContextSet
 import com.atlassian.clover.instr.InstrumentationSessionImpl
 import com.atlassian.clover.registry.entities.FullMethodInfo
-import com_atlassian_clover.CloverVersionInfo
+import org_openclover_runtime.CloverVersionInfo
 import org.junit.After
 import org.junit.Before
 import org.junit.Test

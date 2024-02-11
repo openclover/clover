@@ -1,7 +1,7 @@
 package com.atlassian.clover.recorder
 
-import com_atlassian_clover.CloverProfile
-import com_atlassian_clover.CoverageRecorder
+import org_openclover_runtime.CloverProfile
+import org_openclover_runtime.CoverageRecorder
 import org.junit.Ignore
 import org.junit.Test
 

@@ -28,7 +28,7 @@ import com.atlassian.clover.registry.metrics.ProjectMetrics
 import com.atlassian.clover.testutils.IOHelper
 import org.openclover.runtime.util.CloverBitSet
 import com.atlassian.clover.util.SimpleCoverageRange
-import com_atlassian_clover.Clover
+import org_openclover_runtime.Clover
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule

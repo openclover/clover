@@ -3,7 +3,7 @@ package org.openclover.runtime.recorder;
 import org.openclover.runtime.ErrorInfo;
 import org.openclover.runtime.Logger;
 import org.openclover.runtime.util.CloverBitSet;
-import com_atlassian_clover.CoverageRecorder;
+import org_openclover_runtime.CoverageRecorder;
 
 public final class NullRecorder extends CoverageRecorder {
     public static final NullRecorder INSTANCE = new NullRecorder();

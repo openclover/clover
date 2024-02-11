@@ -7,7 +7,7 @@ import com.intellij.openapi.diagnostic.ErrorReportSubmitter;
 import com.intellij.openapi.diagnostic.IdeaLoggingEvent;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.diagnostic.SubmittedReportInfo;
-import com_atlassian_clover.CloverVersionInfo;
+import org_openclover_runtime.CloverVersionInfo;
 
 import java.awt.Component;
 import java.io.UnsupportedEncodingException;

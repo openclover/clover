@@ -1,4 +1,4 @@
-package com_atlassian_clover;
+package org_openclover_runtime;
 
 import com.atlassian.clover.instr.ForInstrumentation;
 import org.openclover.runtime.recorder.CoverageSnapshot;

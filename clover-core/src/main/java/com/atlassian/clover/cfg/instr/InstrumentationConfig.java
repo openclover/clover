@@ -3,10 +3,10 @@ package com.atlassian.clover.cfg.instr;
 import com.atlassian.clover.instr.tests.DefaultTestDetector;
 import com.atlassian.clover.instr.tests.TestDetector;
 import org.openclover.runtime.api.CloverException;
-import com_atlassian_clover.CloverProfile;
+import org_openclover_runtime.CloverProfile;
 import org.openclover.runtime.Logger;
 import org.openclover.runtime.remote.DistributedConfig;
-import com_atlassian_clover.CloverVersionInfo;
+import org_openclover_runtime.CloverVersionInfo;
 
 import java.io.File;
 import java.io.FileOutputStream;

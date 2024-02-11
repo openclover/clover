@@ -108,8 +108,8 @@ public class LibrarySupportIdeaTest extends IdeaTestCase {
                 assertEquals(1, virtualFiles.length);
 
                 // check that the library path has matches the location of the CoverageRecorder.class, i.e.:
-                // recorderClassUrl=file:/{virtualFiles[0].getPath()}/com_atlassian_clover/CoverageRecorder.class
-                final Class recorderClass = com_atlassian_clover.CoverageRecorder.class;
+                // recorderClassUrl=file:/{virtualFiles[0].getPath()}/org_openclover_runtime/CoverageRecorder.class
+                final Class recorderClass = org_openclover_runtime.CoverageRecorder.class;
                 final String path = "/" + recorderClass.getName().replace('.', '/') + ".class";
                 final URL recorderClassUrl = recorderClass.getResource(path);
                 assertTrue(recorderClassUrl.toString().contains(virtualFiles[0].getPath()));

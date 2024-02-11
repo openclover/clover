@@ -18,9 +18,9 @@ import com.atlassian.clover.registry.entities.Modifiers;
 import com.atlassian.clover.spi.lang.Language;
 import com.atlassian.clover.util.ChecksummingReader;
 import com.atlassian.clover.util.CloverUtils;
-import com_atlassian_clover.CloverProfile;
-import com_atlassian_clover.CoverageRecorder;
-import com_atlassian_clover.TestNameSniffer;
+import org_openclover_runtime.CloverProfile;
+import org_openclover_runtime.CoverageRecorder;
+import org_openclover_runtime.TestNameSniffer;
 import org.codehaus.groovy.ast.ASTNode;
 import org.codehaus.groovy.ast.ClassHelper;
 import org.codehaus.groovy.ast.ClassNode;
@@ -511,13 +511,13 @@ public class Grover implements ASTTransformation {
         // add field
         FieldNode recorderField =
                 clazz.addField(recorderFieldName, ACC_STATIC | ACC_PRIVATE | ACC_SYNTHETIC,
-                        ClassHelper.make(com_atlassian_clover.CoverageRecorder.class),
+                        ClassHelper.make(org_openclover_runtime.CoverageRecorder.class),
                         ConstantExpression.NULL);
 
         // add method (no code yet)
         MethodNode recorderGetter =
                 clazz.addMethod(recorderGetterName, ACC_STATIC | ACC_PRIVATE | ACC_SYNTHETIC,
-                        ClassHelper.make(com_atlassian_clover.CoverageRecorder.class),
+                        ClassHelper.make(org_openclover_runtime.CoverageRecorder.class),
                         new Parameter[]{}, new ClassNode[]{},
                         new BlockStatement());
 
@@ -604,7 +604,7 @@ public class Grover implements ASTTransformation {
         // public static final __CLRx_y_z_TEST_NAME_SNIFFER = ...
         clazz.addField( CloverNames.CLOVER_TEST_NAME_SNIFFER,
                 ACC_STATIC | ACC_PUBLIC | ACC_SYNTHETIC | ACC_FINAL,
-                        ClassHelper.make(com_atlassian_clover.TestNameSniffer.class),
+                        ClassHelper.make(org_openclover_runtime.TestNameSniffer.class),
                         fieldInitializationExpr);
         return clazz;
     }

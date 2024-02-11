@@ -4,9 +4,9 @@ import com.atlassian.clover.instr.ForInstrumentation;
 import org.openclover.runtime.ErrorInfo;
 import org.openclover.runtime.Logger;
 import org.openclover.runtime.util.CloverBitSet;
-import com_atlassian_clover.Clover;
-import com_atlassian_clover.CloverProfile;
-import com_atlassian_clover.CoverageRecorder;
+import org_openclover_runtime.Clover;
+import org_openclover_runtime.CloverProfile;
+import org_openclover_runtime.CoverageRecorder;
 
 /**
  * Coverage recorder where it is initially inactive and not recording any coverage but later switches on

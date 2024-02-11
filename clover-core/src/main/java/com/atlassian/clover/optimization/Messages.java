@@ -1,7 +1,7 @@
 package com.atlassian.clover.optimization;
 
 import com.atlassian.clover.util.Color;
-import com_atlassian_clover.CloverVersionInfo;
+import org_openclover_runtime.CloverVersionInfo;
 
 public class Messages {
     public static String noOptimizationBecauseNoRegistryFound(String initString) {

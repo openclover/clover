@@ -7,7 +7,7 @@ import com.atlassian.clover.util.FileUtils
 import org.openclover.runtime.recorder.FixedSizeCoverageRecorder
 import org.openclover.runtime.registry.format.RegAccessMode
 
-import com_atlassian_clover.CoverageRecorder
+import org_openclover_runtime.CoverageRecorder
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule

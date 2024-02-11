@@ -2,7 +2,7 @@ package org.openclover.runtime.recorder;
 
 import org.openclover.runtime.CloverNames;
 import org.openclover.runtime.Logger;
-import com_atlassian_clover.TestNameSniffer;
+import org_openclover_runtime.TestNameSniffer;
 
 import java.lang.reflect.Field;
 

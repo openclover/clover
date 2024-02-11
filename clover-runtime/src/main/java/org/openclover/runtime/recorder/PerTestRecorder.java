@@ -3,7 +3,7 @@ package org.openclover.runtime.recorder;
 import org.openclover.runtime.util.CloverBitSet;
 import org.openclover.runtime.ErrorInfo;
 import org.openclover.runtime.RuntimeType;
-import com_atlassian_clover.CoverageRecorder;
+import org_openclover_runtime.CoverageRecorder;
 
 /**
  * A recorder for per-test coverage. There may be more than one recorder active at a time although this is to be

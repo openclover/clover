@@ -3,7 +3,7 @@ package com.atlassian.clover;
 import org.openclover.runtime.Logger;
 import org.openclover.util.ClassPathUtil;
 import com.atlassian.clover.util.format.ConsoleFormatter;
-import com_atlassian_clover.CloverVersionInfo;
+import org_openclover_runtime.CloverVersionInfo;
 
 public class CloverStartup {
 

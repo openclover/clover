@@ -1,7 +1,7 @@
 package org.openclover.runtime.recorder;
 
 import org.openclover.runtime.ErrorInfo;
-import com_atlassian_clover.CoverageRecorder;
+import org_openclover_runtime.CoverageRecorder;
 
 /**
  * Any number of active per-test recorders

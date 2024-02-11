@@ -116,9 +116,9 @@ class InstrumentPlugin(val global: Global) extends Plugin {
                           ValDef(
                             Modifiers(0),
                             newTermName("R"),
-                            Select(Ident("com_atlassian_clover"), newTypeName("CoverageRecorder")),
+                            Select(Ident("org_openclover_runtime"), newTypeName("CoverageRecorder")),
                             Apply(
-                              Select(Select(Ident("com_atlassian_clover"), newTermName("Clover")), newTermName("getRecorder")),
+                              Select(Select(Ident("org_openclover_runtime"), newTermName("Clover")), newTermName("getRecorder")),
                               List(Literal(session.getRegistry.getInitstring()), Literal(session.getVersion()), Literal(0L), Literal(session.getCurrentFileMaxIndex))))),
                         NoPosition))))
             }

@@ -5,7 +5,7 @@ import org.openclover.runtime.registry.format.RegAccessMode;
 import org.openclover.runtime.registry.format.RegHeader;
 import org.openclover.runtime.Logger;
 import org.openclover.runtime.util.CloverBitSet;
-import com_atlassian_clover.CoverageRecorder;
+import org_openclover_runtime.CoverageRecorder;
 
 import java.io.File;
 import java.io.IOException;

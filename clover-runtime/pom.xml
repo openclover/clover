@@ -139,8 +139,8 @@
                                     </filterchain>
                                 </loadresource>
 
-                                <mkdir dir="${project.build.directory}/generated-sources/com_atlassian_clover" />
-                                <copy file="src/main/java/com_atlassian_clover/CloverVersionInfo.in" tofile="${project.build.directory}/generated-sources/com_atlassian_clover/CloverVersionInfo.java" overwrite="false">
+                                <mkdir dir="${project.build.directory}/generated-sources/org_openclover_runtime" />
+                                <copy file="src/main/java/org_openclover_runtime/CloverVersionInfo.in" tofile="${project.build.directory}/generated-sources/org_openclover_runtime/CloverVersionInfo.java" overwrite="false">
                                     <filterset>
                                         <filter token="CLOVER_URL" value="${project.organization.url}" />
                                         <filter token="CLOVER_LICENSE_AGREEMENT_URL" value="https://www.apache.org/licenses/LICENSE-2.0" />
@@ -193,7 +193,7 @@
                         <configuration>
                             <mainClass>com.atlassian.clover.build.codegen.WriteRethrowMethod</mainClass>
                             <commandlineArgs>
-                                ${project.build.outputDirectory}/com_atlassian_clover/CoverageRecorder.class
+                                ${project.build.outputDirectory}/org_openclover_runtime/CoverageRecorder.class
                             </commandlineArgs>
                         </configuration>
                     </execution>

@@ -12,7 +12,7 @@ import com.atlassian.clover.cfg.instr.java.LambdaInstrumentation;
 import com.atlassian.clover.cfg.instr.java.SourceLevel;
 import com.atlassian.clover.context.ContextStore;
 import org.openclover.runtime.remote.DistributedConfig;
-import com_atlassian_clover.CloverProfile;
+import org_openclover_runtime.CloverProfile;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.types.FileSet;
 

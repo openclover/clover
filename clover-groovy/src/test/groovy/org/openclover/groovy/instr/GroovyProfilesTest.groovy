@@ -7,7 +7,7 @@ import org.junit.Test
 
 import static com.atlassian.clover.testutils.AssertionUtils.assertStringContains
 import static com.atlassian.clover.testutils.AssertionUtils.assertStringMatches
-import com_atlassian_clover.CloverProfile
+import org_openclover_runtime.CloverProfile
 import org.openclover.runtime.remote.DistributedConfig
 
 /**

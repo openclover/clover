@@ -1,7 +1,7 @@
 package com.atlassian.clover.reporters.pdf;
 
 import com.atlassian.clover.CloverLicenseInfo;
-import com_atlassian_clover.CloverVersionInfo;
+import org_openclover_runtime.CloverVersionInfo;
 import org.openclover.runtime.util.Formatting;
 import com.atlassian.clover.util.format.PDFFormatter;
 import clover.com.lowagie.text.Chunk;

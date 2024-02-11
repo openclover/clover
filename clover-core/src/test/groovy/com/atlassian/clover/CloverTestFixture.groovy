@@ -10,7 +10,7 @@ import com.atlassian.clover.registry.entities.FullMethodInfo
 import com.atlassian.clover.registry.entities.FullStatementInfo
 import com.atlassian.clover.registry.entities.MethodSignature
 import com.atlassian.clover.registry.entities.Modifiers
-import com_atlassian_clover.Clover
+import org_openclover_runtime.Clover
 
 import static org.openclover.util.Lists.newArrayList
 import static org.openclover.util.Maps.newHashMap

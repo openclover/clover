@@ -44,7 +44,7 @@ import com.atlassian.clover.util.CloverExecutors;
 import com.atlassian.clover.util.CloverUtils;
 import com.atlassian.clover.util.FileUtils;
 import com.atlassian.clover.util.format.HtmlFormatter;
-import com_atlassian_clover.CloverVersionInfo;
+import org_openclover_runtime.CloverVersionInfo;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedWriter;

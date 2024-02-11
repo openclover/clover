@@ -6,10 +6,9 @@ import com.atlassian.clover.api.registry.MethodInfo;
 import com.atlassian.clover.api.registry.PackageInfo;
 import com.atlassian.clover.registry.entities.FullFileInfo;
 import com.atlassian.clover.optimization.Snapshot;
-import com_atlassian_clover.CloverVersionInfo;
+import org_openclover_runtime.CloverVersionInfo;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.io.StringReader;

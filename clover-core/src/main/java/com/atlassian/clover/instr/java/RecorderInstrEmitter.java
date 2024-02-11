@@ -11,11 +11,11 @@ import org.openclover.runtime.CloverNames;
 import com.atlassian.clover.cfg.instr.InstrumentationConfig;
 import com.atlassian.clover.cfg.instr.java.LanguageFeature;
 import org.openclover.runtime.recorder.pertest.SnifferType;
-import com_atlassian_clover.TestNameSniffer;
-import com_atlassian_clover.CloverProfile;
-import com_atlassian_clover.Clover;
-import com_atlassian_clover.CloverVersionInfo;
-import com_atlassian_clover.CoverageRecorder;
+import org_openclover_runtime.TestNameSniffer;
+import org_openclover_runtime.CloverProfile;
+import org_openclover_runtime.Clover;
+import org_openclover_runtime.CloverVersionInfo;
+import org_openclover_runtime.CoverageRecorder;
 
 import java.util.Iterator;
 import java.util.List;
@@ -121,7 +121,7 @@ public class RecorderInstrEmitter extends Emitter {
 
             // public static class __CLR3_1_600hckkb3w8 {
             instrString = (testClass ? "" : "public ") + "static class " + recorderBase + "{";
-            // public static com_atlassian_clover.CoverageRecorder R;
+            // public static org_openclover_runtime.CoverageRecorder R;
             instrString += "public static " + CoverageRecorder.class.getName() + " " + recorderSuffix + ";";
 
             // add a field with a static array containing list of profiles
@@ -233,7 +233,7 @@ public class RecorderInstrEmitter extends Emitter {
             case JUNIT:
             case SPOCK:
                 // ... = new TestNameSniffer.Simple();
-                return snifferField + "=new com_atlassian_clover.TestNameSniffer.Simple();";
+                return snifferField + "=new org_openclover_runtime.TestNameSniffer.Simple();";
             case NULL:
             default:
                 // ... = TestNameSniffer.NULL_INSTANCE;

@@ -1,7 +1,7 @@
 package com.atlassian.clover.recorder
 
 import org.openclover.runtime.RuntimeType
-import com_atlassian_clover.CoverageRecorder
+import org_openclover_runtime.CoverageRecorder
 import org.junit.Test
 import org.openclover.runtime.recorder.ActivePerTestRecorderOne
 import org.openclover.runtime.recorder.GrowableCoverageRecorder

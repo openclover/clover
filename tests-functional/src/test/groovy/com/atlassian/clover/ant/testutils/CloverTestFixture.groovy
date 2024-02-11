@@ -6,7 +6,7 @@ import com.atlassian.clover.instr.InstrumentationSessionImpl
 import org.openclover.runtime.recorder.FixedSizeCoverageRecorder
 import com.atlassian.clover.registry.Clover2Registry
 import com.atlassian.clover.registry.entities.*
-import com_atlassian_clover.Clover
+import org_openclover_runtime.Clover
 import groovy.transform.CompileStatic
 import org.openclover.util.Lists
 import org.openclover.util.Maps

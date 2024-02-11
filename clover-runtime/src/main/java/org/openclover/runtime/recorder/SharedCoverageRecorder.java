@@ -1,6 +1,6 @@
 package org.openclover.runtime.recorder;
 
-import com_atlassian_clover.CoverageRecorder;
+import org_openclover_runtime.CoverageRecorder;
 
 import java.util.HashMap;
 import java.util.Map;

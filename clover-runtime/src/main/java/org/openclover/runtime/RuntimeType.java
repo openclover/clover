@@ -1,6 +1,6 @@
 package org.openclover.runtime;
 
-import com_atlassian_clover.Clover;
+import org_openclover_runtime.Clover;
 
 public final class RuntimeType {
     public final String name;

@@ -5,7 +5,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com_atlassian_clover.Clover;
+import org_openclover_runtime.Clover;
 import org.openclover.runtime.Logger;
 import org.openclover.runtime.ErrorInfo;
 import clover.gnu.cajo.invoke.Remote;

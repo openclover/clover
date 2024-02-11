@@ -1,4 +1,4 @@
-package com_atlassian_clover
+package org_openclover_runtime
 
 import org.openclover.runtime.CloverProperties
 import com.atlassian.clover.TestUtils

@@ -7,7 +7,7 @@ import com.atlassian.clover.context.ContextSet
 import com.atlassian.clover.registry.Clover2Registry
 import com.atlassian.clover.registry.entities.FullMethodInfo
 import com.atlassian.clover.testutils.IOHelper
-import com_atlassian_clover.CoverageRecorder
+import org_openclover_runtime.CoverageRecorder
 import org.junit.Rule
 import org.junit.rules.TestName
 

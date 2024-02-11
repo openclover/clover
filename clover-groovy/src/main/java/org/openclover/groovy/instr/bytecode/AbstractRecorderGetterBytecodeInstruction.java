@@ -1,6 +1,6 @@
 package org.openclover.groovy.instr.bytecode;
 
-import com_atlassian_clover.CloverProfile;
+import org_openclover_runtime.CloverProfile;
 import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.classgen.BytecodeInstruction;
 

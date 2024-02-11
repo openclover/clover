@@ -3,7 +3,7 @@ package org.openclover.runtime.recorder;
 import org.openclover.runtime.ErrorInfo;
 import org.openclover.runtime.Logger;
 import org.openclover.runtime.RuntimeType;
-import com_atlassian_clover.CoverageRecorder;
+import org_openclover_runtime.CoverageRecorder;
 
 import java.util.ArrayList;
 import java.util.Arrays;

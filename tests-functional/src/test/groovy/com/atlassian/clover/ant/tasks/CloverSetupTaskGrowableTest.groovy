@@ -10,7 +10,7 @@ import static org.junit.Assert.assertTrue
 
 /**
  * Test for:
- * {@link com_atlassian_clover.Clover#getRecorder(String, long, long, int, com_atlassian_clover.CloverProfile[], String[])}
+ * {@link org_openclover_runtime.Clover#getRecorder(String, long, long, int, org_openclover_runtime.CloverProfile[], String[])}
  * using the &lt;clover-setup/&gt; with the &lt;profile&gt; using the
  * {@link com.atlassian.clover.recorder.GrowableCoverageRecorder}
  * with and without {@link com.atlassian.clover.remote.DistributedConfig}

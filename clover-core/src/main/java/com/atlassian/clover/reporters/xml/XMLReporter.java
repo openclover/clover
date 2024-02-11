@@ -29,7 +29,7 @@ import com.atlassian.clover.reporters.CloverReporter;
 import com.atlassian.clover.reporters.CommandLineArgProcessors;
 import com.atlassian.clover.reporters.Current;
 import com.atlassian.clover.reporters.Format;
-import com_atlassian_clover.CloverVersionInfo;
+import org_openclover_runtime.CloverVersionInfo;
 
 import java.io.BufferedOutputStream;
 import java.io.File;

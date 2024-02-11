@@ -12,9 +12,9 @@ class CloverRuntimeFailTest extends CloverBuildFileTestBase {
 /*
         executeTarget("testCloverClassesMissing")
         //Occurs in the static initializer of the recorder class
-        assertAntOutputContains("[CLOVER] FATAL ERROR: Clover could not be initialised. Are you sure you have Clover in the runtime classpath? (class java.lang.NoClassDefFoundError:com_atlassian_clover/CloverVersionInfo)")
+        assertAntOutputContains("[CLOVER] FATAL ERROR: Clover could not be initialised. Are you sure you have Clover in the runtime classpath? (class java.lang.NoClassDefFoundError:org_openclover_runtime/CloverVersionInfo)")
         //Occurs on the first call to Main$__CLR2_5_0XYZ.R.inc(0) in instrumented code
-        assertAntOutputContains("Exception in thread \"main\" java.lang.NoClassDefFoundError: com_atlassian_clover/CoverageRecorder")
+        assertAntOutputContains("Exception in thread \"main\" java.lang.NoClassDefFoundError: org_openclover_runtime/CoverageRecorder")
 */
     }
 

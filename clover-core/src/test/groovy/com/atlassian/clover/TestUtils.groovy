@@ -10,8 +10,8 @@ import com.atlassian.clover.registry.entities.MethodSignature
 import com.atlassian.clover.registry.entities.Modifiers
 import com.atlassian.clover.testutils.IOHelper
 import com.atlassian.clover.util.FileUtils
-import com_atlassian_clover.Clover
-import com_atlassian_clover.CoverageRecorder
+import org_openclover_runtime.Clover
+import org_openclover_runtime.CoverageRecorder
 import org.openclover.runtime.ErrorInfo
 
 import static org.junit.Assert.assertTrue

@@ -15,7 +15,7 @@ import com.atlassian.clover.instr.tests.NoTestDetector;
 import com.atlassian.clover.instr.tests.TestDetector;
 import com.atlassian.clover.util.FileUtils;
 import com.atlassian.clover.util.ReflectionUtils;
-import com_atlassian_clover.CloverVersionInfo;
+import org_openclover_runtime.CloverVersionInfo;
 import org.apache.tools.ant.BuildEvent;
 import org.apache.tools.ant.BuildListener;
 import org.apache.tools.ant.DirectoryScanner;

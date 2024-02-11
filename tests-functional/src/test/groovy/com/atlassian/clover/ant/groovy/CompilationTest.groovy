@@ -427,7 +427,7 @@ class CompilationTest extends DynamicallyNamedTestBase
 
             assertTrue(
                     "No instrumenter classes were found nor did javap output indicate that the class was instrumented.\nJavap output:\n${result.stdOut}\n\nClass files found:\n${classFiles.findAll {it =~ /\.class/ }.join("\n")}",
-                    result.stdOut.contains("private static com_atlassian_clover.CoverageRecorder \$CLV_R\$"))
+                    result.stdOut.contains("private static org_openclover_runtime.CoverageRecorder \$CLV_R\$"))
         }
     }
 
@@ -446,7 +446,7 @@ class CompilationTest extends DynamicallyNamedTestBase
 
         assertFalse(
                 "Javap output indicates that class was instrumented:\n\n${result.stdOut}",
-                result.stdOut.contains("public static com_atlassian_clover.CoverageRecorder R"))
+                result.stdOut.contains("public static org_openclover_runtime.CoverageRecorder R"))
     }
 
     private static String defineGroovyClass(String pkg, String className, String optionalBody = "") {

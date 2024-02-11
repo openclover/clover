@@ -2,7 +2,7 @@ package com.atlassian.clover.recorder;
 
 import org.openclover.runtime.util.CloverBitSet;
 import com.atlassian.clover.CoverageDataSpec;
-import com_atlassian_clover.CoverageRecorder;
+import org_openclover_runtime.CoverageRecorder;
 
 /**
  * Test case which runs three threads. Each thread runs a single test case (i.e. test start/end detected by Clover).

@@ -126,7 +126,7 @@ public class LibrarySupport {
         try {
             // trick: find a path to the CoverageRecorder class using getResource() method
             @SuppressWarnings({"UnnecessaryFullyQualifiedName"}) // I want this one here
-            final Class recorderClass = com_atlassian_clover.CoverageRecorder.class;
+            final Class recorderClass = org_openclover_runtime.CoverageRecorder.class;
             final String path = "/" + recorderClass.getName().replace('.', '/') + ".class";
             final URL recorderClassUrl = recorderClass.getResource(path);
             // now crop the package path part - we'll end up with a root directory or a JAR archive

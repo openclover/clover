@@ -2,7 +2,7 @@ package com.atlassian.clover.instr.java
 
 import org.openclover.runtime.recorder.pertest.SnifferType
 import org.openclover.runtime.remote.DistributedConfig
-import com_atlassian_clover.CloverProfile
+import org_openclover_runtime.CloverProfile
 import org.junit.Test
 
 import static org.hamcrest.CoreMatchers.containsString
@@ -139,8 +139,8 @@ class RecorderInstrEmitterTest {
 
     /**
      * Test whether a TestNameSniffer field is added and initialized to
-     * {@link com_atlassian_clover.TestNameSniffer#NULL_INSTANCE} or
-     * {@link com_atlassian_clover.TestNameSniffer.Simple} or
+     * {@link org_openclover_runtime.TestNameSniffer#NULL_INSTANCE} or
+     * {@link org_openclover_runtime.TestNameSniffer.Simple} or
      */
     @Test
     void testGenerateTestSnifferField() {

@@ -2,8 +2,8 @@ package com.atlassian.clover.recorder
 
 import org.openclover.runtime.CloverNames
 import com.atlassian.clover.TestUtils
-import com_atlassian_clover.CloverProfile
-import com_atlassian_clover.CoverageRecorder
+import org_openclover_runtime.CloverProfile
+import org_openclover_runtime.CoverageRecorder
 import edu.umd.cs.mtc.TestFramework
 import org.junit.Before
 import org.junit.Rule

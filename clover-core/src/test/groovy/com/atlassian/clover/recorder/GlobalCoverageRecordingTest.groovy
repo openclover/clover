@@ -4,7 +4,7 @@ import com.atlassian.clover.CoverageDataSpec
 import org.openclover.runtime.Logger
 import com.atlassian.clover.util.FileUtils
 import org.openclover.runtime.util.IOStreamUtils
-import com_atlassian_clover.Clover
+import org_openclover_runtime.Clover
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule

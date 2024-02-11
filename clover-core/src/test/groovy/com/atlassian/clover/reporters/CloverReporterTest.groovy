@@ -10,7 +10,7 @@ import com.atlassian.clover.TestUtils
 import com.atlassian.clover.registry.Clover2Registry
 import junit.framework.TestCase
 
-import com_atlassian_clover.Clover
+import org_openclover_runtime.Clover
 
 class CloverReporterTest extends TestCase {
     void setUp() {

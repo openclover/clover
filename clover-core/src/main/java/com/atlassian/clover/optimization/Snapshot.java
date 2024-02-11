@@ -8,14 +8,12 @@ import org.openclover.runtime.CloverNames;
 import com.atlassian.clover.CoverageDataSpec;
 import org.openclover.runtime.Logger;
 import com.atlassian.clover.api.registry.FileInfo;
-import com.atlassian.clover.registry.entities.BaseFileInfo;
 import com.atlassian.clover.registry.Clover2Registry;
 import com.atlassian.clover.registry.CoverageDataRange;
 import com.atlassian.clover.registry.entities.FullFileInfo;
-import com.atlassian.clover.registry.FileInfoVisitor;
 import com.atlassian.clover.registry.entities.FullProjectInfo;
 import com.atlassian.clover.registry.entities.TestCaseInfo;
-import com_atlassian_clover.CloverVersionInfo;
+import org_openclover_runtime.CloverVersionInfo;
 import org.openclover.util.Sets;
 
 import java.io.File;

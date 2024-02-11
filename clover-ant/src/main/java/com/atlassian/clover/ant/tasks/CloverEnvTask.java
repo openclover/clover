@@ -1,7 +1,7 @@
 package com.atlassian.clover.ant.tasks;
 
 import com.atlassian.clover.PrematureLibraryLoader;
-import com_atlassian_clover.CloverVersionInfo;
+import org_openclover_runtime.CloverVersionInfo;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Diagnostics;
 import org.apache.tools.ant.ProjectHelper;

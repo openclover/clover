@@ -1,6 +1,6 @@
 package org.openclover.runtime;
 
-import com_atlassian_clover.CloverVersionInfo;
+import org_openclover_runtime.CloverVersionInfo;
 
 /**
  * List of system properties as well as some predefined names for created files etc.

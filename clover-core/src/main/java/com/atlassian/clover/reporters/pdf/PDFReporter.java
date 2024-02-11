@@ -22,7 +22,7 @@ import com.atlassian.clover.reporters.Current;
 import com.atlassian.clover.reporters.Format;
 import com.atlassian.clover.reporters.Historical;
 import com.atlassian.clover.reporters.util.HistoricalReportDescriptor;
-import com_atlassian_clover.CloverVersionInfo;
+import org_openclover_runtime.CloverVersionInfo;
 
 import java.nio.file.Files;
 import java.util.Collections;

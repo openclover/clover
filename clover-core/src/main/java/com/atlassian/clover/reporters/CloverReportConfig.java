@@ -11,7 +11,7 @@ import com.atlassian.clover.cfg.StorageSize;
 import com.atlassian.clover.recorder.PerTestCoverageStrategy;
 import com.atlassian.clover.registry.metrics.HasMetricsFilter;
 import com.atlassian.clover.util.Path;
-import com_atlassian_clover.Clover;
+import org_openclover_runtime.Clover;
 
 import java.io.File;
 import java.util.Date;

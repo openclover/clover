@@ -2,7 +2,7 @@ package com.atlassian.clover.ant.tasks
 
 import com.atlassian.clover.instr.java.RecorderInstrEmitter
 import org.openclover.runtime.CloverNames
-import com_atlassian_clover.CloverProfile
+import org_openclover_runtime.CloverProfile
 import groovy.transform.CompileStatic
 import org.apache.tools.ant.RuntimeConfigurable
 import org.apache.tools.ant.Target
@@ -19,7 +19,7 @@ import static org.junit.Assert.assertTrue
 
 /**
  * Test for:
- * {@link com_atlassian_clover.Clover#getRecorder(String, long, long, int, com_atlassian_clover.CloverProfile[], String[])}
+ * {@link org_openclover_runtime.Clover#getRecorder(String, long, long, int, org_openclover_runtime.CloverProfile[], String[])}
  * as well as &lt;clover-setup/&gt; and &lt;clover-instr/&gt;.
  */
 @CompileStatic
