@@ -1,6 +1,6 @@
 package org.openclover.eclipse.core;
 
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.Status;

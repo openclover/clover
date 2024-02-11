@@ -1,6 +1,6 @@
 package com.atlassian.clover.model;
 
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.api.CloverException;
 import com.atlassian.clover.registry.entities.BaseClassInfo;
 import com.atlassian.clover.registry.entities.BaseFileInfo;
 import com.atlassian.clover.registry.entities.BasePackageInfo;

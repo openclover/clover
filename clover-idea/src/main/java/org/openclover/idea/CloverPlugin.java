@@ -1,7 +1,7 @@
 package org.openclover.idea;
 
 import com.atlassian.clover.CloverStartup;
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 import org.openclover.idea.config.CloverGlobalConfig;
 import org.openclover.idea.config.IdeaXmlConfigConstants;
 import org.openclover.idea.config.IdeaCloverConfig;

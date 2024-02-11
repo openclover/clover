@@ -5,8 +5,8 @@ import com.atlassian.clover.CloverDatabaseSpec
 import com.atlassian.clover.CodeType
 import com.atlassian.clover.CoverageDataSpec
 import com.atlassian.clover.ProgressListener
-import com.atlassian.clover.RuntimeType
-import com.atlassian.clover.api.CloverException
+import org.openclover.runtime.RuntimeType
+import org.openclover.runtime.api.CloverException
 import com.atlassian.clover.api.registry.BlockMetrics
 import com.atlassian.clover.api.registry.ClassInfo
 import com.atlassian.clover.api.registry.SourceInfo
@@ -21,11 +21,12 @@ import com.atlassian.clover.registry.FixedSourceRegion
 import com.atlassian.clover.registry.entities.MethodSignature
 import com.atlassian.clover.registry.entities.Modifiers
 import com.atlassian.clover.registry.entities.TestCaseInfo
-import com.atlassian.clover.registry.format.RegAccessMode
-import com.atlassian.clover.registry.format.RegHeader
+import org.openclover.runtime.recorder.FileBasedPerTestRecording
+import org.openclover.runtime.registry.format.RegAccessMode
+import org.openclover.runtime.registry.format.RegHeader
 import com.atlassian.clover.registry.metrics.ProjectMetrics
 import com.atlassian.clover.testutils.IOHelper
-import com.atlassian.clover.util.CloverBitSet
+import org.openclover.runtime.util.CloverBitSet
 import com.atlassian.clover.util.SimpleCoverageRange
 import com_atlassian_clover.Clover
 import org.junit.After

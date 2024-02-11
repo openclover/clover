@@ -1,7 +1,7 @@
 package com.atlassian.clover.recorder.spock;
 
-import com.atlassian.clover.Logger;
-import com.atlassian.clover.recorder.TestNameSnifferHelper;
+import org.openclover.runtime.Logger;
+import org.openclover.runtime.recorder.TestNameSnifferHelper;
 import com_atlassian_clover.TestNameSniffer;
 import org.spockframework.runtime.extension.IMethodInterceptor;
 import org.spockframework.runtime.extension.IMethodInvocation;

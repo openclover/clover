@@ -2,7 +2,7 @@ package com.atlassian.clover.ant.tasks
 
 import com.atlassian.clover.CloverDatabase
 import com.atlassian.clover.CoverageData
-import com.atlassian.clover.api.CloverException
+import org.openclover.runtime.api.CloverException
 import com.atlassian.clover.registry.entities.TestCaseInfo
 import com.atlassian.clover.testutils.IOHelper
 import groovy.transform.CompileStatic

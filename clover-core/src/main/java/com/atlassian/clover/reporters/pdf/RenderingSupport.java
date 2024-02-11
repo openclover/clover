@@ -1,7 +1,7 @@
 package com.atlassian.clover.reporters.pdf;
 
 import com.atlassian.clover.CloverLicenseInfo;
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.api.CloverException;
 import com.atlassian.clover.api.registry.BlockMetrics;
 import com.atlassian.clover.api.registry.HasMetrics;
 import com.atlassian.clover.cfg.Percentage;
@@ -17,7 +17,7 @@ import com.atlassian.clover.reporters.Historical;
 import com.atlassian.clover.reporters.util.CloverChartFactory;
 import com.atlassian.clover.reporters.util.HistoricalReportDescriptor;
 import com.atlassian.clover.reporters.util.MetricsDiffSummary;
-import com.atlassian.clover.util.Formatting;
+import org.openclover.runtime.util.Formatting;
 import com.atlassian.clover.util.format.PDFFormatter;
 import clover.com.lowagie.text.Chunk;
 import clover.com.lowagie.text.DocumentException;

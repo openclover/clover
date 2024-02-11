@@ -8,7 +8,7 @@ import java.lang.management.MemoryUsage;
 import java.io.File;
 
 import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.api.CloverException;
 import com.atlassian.clover.recorder.PerTestCoverageStrategy;
 import com.atlassian.clover.cfg.StorageSize;
 

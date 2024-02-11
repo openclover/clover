@@ -1,6 +1,7 @@
 package com.atlassian.clover;
 
 import com.atlassian.clover.cfg.Interval;
+import org.openclover.runtime.Logger;
 
 import java.util.List;
 import java.util.Map;

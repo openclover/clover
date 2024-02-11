@@ -1,6 +1,6 @@
 package com.atlassian.clover.reporters;
 
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 
 /**
  * An average column displays float data.

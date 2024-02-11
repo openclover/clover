@@ -40,10 +40,10 @@ public class InstrumentationBindingAPF extends AbstractProcessor {
         }
         if (mine != null) {
             try {
-                JavaFileObject classFile = processingEnv.getFiler().createSourceFile("com.atlassian.clover.instr.Bindings");
+                JavaFileObject classFile = processingEnv.getFiler().createSourceFile("org.openclover.runtime.instr.Bindings");
                 PrintWriter writer = new PrintWriter(classFile.openWriter());
 
-                writer.println("package com.atlassian.clover.instr;");
+                writer.println("package org.openclover.runtime.instr;");
                 writer.println("public class Bindings {");
 
                 final Map<String, String> fqClassNames = new HashMap<>();

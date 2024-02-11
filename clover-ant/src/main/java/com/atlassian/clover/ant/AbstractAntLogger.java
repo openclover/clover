@@ -3,7 +3,7 @@ package com.atlassian.clover.ant;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
 
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 
 public abstract class AbstractAntLogger extends Logger {
     private static final int[] ANT_LOG_LEVELS = {

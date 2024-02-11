@@ -1,6 +1,6 @@
 package org.openclover.eclipse.core;
 
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 import org.openclover.eclipse.core.ui.editors.java.EditorCoverageSynchronizer;
 import org.openclover.eclipse.core.exclusion.ExclusionLabelDecorator;
 import org.openclover.eclipse.core.projects.model.CoverageModelsMonitor;

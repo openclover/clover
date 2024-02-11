@@ -16,7 +16,7 @@ import com.atlassian.clover.reporters.html.source.SourceRenderHelper;
 import com.atlassian.clover.BitSetCoverageProvider;
 import com.atlassian.clover.CloverDatabase;
 import com.atlassian.clover.CoverageData;
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 import com.atlassian.clover.context.ContextSet;
 import com.atlassian.clover.api.registry.ElementInfo;
 import com.atlassian.clover.registry.FileElementVisitor;

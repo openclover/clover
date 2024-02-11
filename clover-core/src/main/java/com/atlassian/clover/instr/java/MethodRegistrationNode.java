@@ -7,8 +7,8 @@ import com.atlassian.clover.instr.tests.naming.DefaultTestNameExtractor;
 import com.atlassian.clover.instr.tests.naming.JUnitParameterizedTestExtractor;
 import com.atlassian.clover.registry.entities.FullMethodInfo;
 import com.atlassian.clover.spi.lang.LanguageConstruct;
-import com.atlassian.clover.CloverNames;
-import com.atlassian.clover.recorder.PerTestRecorder;
+import org.openclover.runtime.CloverNames;
+import org.openclover.runtime.recorder.PerTestRecorder;
 import com.atlassian.clover.context.ContextSet;
 import com.atlassian.clover.context.MethodRegexpContext;
 import com.atlassian.clover.context.NamedContext;
@@ -21,9 +21,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import static com.atlassian.clover.instr.Bindings.$CoverageRecorder$globalSliceEnd;
-import static com.atlassian.clover.instr.Bindings.$CoverageRecorder$globalSliceStart;
-import static com.atlassian.clover.instr.Bindings.$CoverageRecorder$rethrow;
+import static org.openclover.runtime.instr.Bindings.$CoverageRecorder$globalSliceEnd;
+import static org.openclover.runtime.instr.Bindings.$CoverageRecorder$globalSliceStart;
+import static org.openclover.runtime.instr.Bindings.$CoverageRecorder$rethrow;
 import static org.openclover.util.Lists.newArrayList;
 import static org.openclover.util.Maps.newHashMap;
 

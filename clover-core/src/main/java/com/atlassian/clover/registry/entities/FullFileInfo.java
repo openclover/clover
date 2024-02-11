@@ -1,6 +1,6 @@
 package com.atlassian.clover.registry.entities;
 
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 import com.atlassian.clover.api.registry.BlockMetrics;
 import com.atlassian.clover.api.registry.BranchInfo;
 import com.atlassian.clover.api.registry.ClassInfo;

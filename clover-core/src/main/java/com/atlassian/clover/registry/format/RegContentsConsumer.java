@@ -1,6 +1,6 @@
 package com.atlassian.clover.registry.format;
 
-import com.atlassian.clover.api.registry.CloverRegistryException;
+import org.openclover.runtime.api.registry.CloverRegistryException;
 
 import java.io.IOException;
 

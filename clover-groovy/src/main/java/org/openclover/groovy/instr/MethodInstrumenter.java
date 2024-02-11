@@ -1,8 +1,8 @@
 package org.openclover.groovy.instr;
 
-import com.atlassian.clover.CloverNames;
+import org.openclover.runtime.CloverNames;
 import com.atlassian.clover.instr.tests.ExpectedExceptionMiner;
-import com.atlassian.clover.recorder.PerTestRecorder;
+import org.openclover.runtime.recorder.PerTestRecorder;
 import com.atlassian.clover.registry.entities.FullMethodInfo;
 import com.atlassian.clover.util.collections.Pair;
 import com_atlassian_clover.CoverageRecorder;

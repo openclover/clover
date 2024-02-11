@@ -1,6 +1,6 @@
 package org.openclover.idea.build.jps;
 
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 import org.openclover.idea.config.IdeaXmlConfigConstants;
 import org.openclover.idea.config.CloverModuleConfig;
 import com.intellij.openapi.util.JDOMExternalizerUtil;

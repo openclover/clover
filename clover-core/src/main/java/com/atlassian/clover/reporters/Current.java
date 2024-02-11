@@ -1,9 +1,9 @@
 package com.atlassian.clover.reporters;
 
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.api.CloverException;
 import com.atlassian.clover.CloverDatabase;
 import com.atlassian.clover.CoverageData;
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 import com.atlassian.clover.MaskedBitSetCoverageProvider;
 import com.atlassian.clover.TestResultProcessor;
 import com.atlassian.clover.cfg.Interval;

@@ -7,7 +7,7 @@ import com.atlassian.clover.registry.metrics.FileMetrics;
 import com.atlassian.clover.registry.metrics.PackageMetrics;
 import com.atlassian.clover.registry.metrics.ProjectMetrics;
 import com.atlassian.clover.registry.entities.TestCaseInfo;
-import com.atlassian.clover.util.Formatting;
+import org.openclover.runtime.util.Formatting;
 
 import java.util.Collection;
 

@@ -1,7 +1,8 @@
 package com.atlassian.clover;
 
 import clover.org.apache.commons.lang3.mutable.MutableLong;
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.Logger;
+import org.openclover.runtime.api.CloverException;
 import com.atlassian.clover.recorder.GlobalCoverageRecordingTranscript;
 import com.atlassian.clover.recorder.PerTestRecordingTranscript;
 import com.atlassian.clover.recorder.RecordingTranscripts;

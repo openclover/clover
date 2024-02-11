@@ -6,7 +6,7 @@ import clover.it.unimi.dsi.fastutil.ints.Int2ObjectRBTreeMap;
 import clover.it.unimi.dsi.fastutil.ints.Int2ObjectSortedMap;
 import clover.it.unimi.dsi.fastutil.ints.IntArrayList;
 import com.atlassian.clover.CoverageDataSpec;
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 import com.atlassian.clover.api.registry.ClassInfo;
 import com.atlassian.clover.api.registry.MethodInfo;
 import com.atlassian.clover.registry.entities.BaseFileInfo;
@@ -15,7 +15,7 @@ import com.atlassian.clover.registry.CoverageDataRange;
 import com.atlassian.clover.registry.entities.FullFileInfo;
 import com.atlassian.clover.registry.FileInfoVisitor;
 import com.atlassian.clover.registry.entities.TestCaseInfo;
-import com.atlassian.clover.util.CloverBitSet;
+import org.openclover.runtime.util.CloverBitSet;
 import com.atlassian.clover.util.SizedLRUCacheMap;
 
 import java.io.File;

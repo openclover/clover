@@ -1,6 +1,6 @@
 package com.atlassian.clover.instr.java;
 
-import com.atlassian.clover.instr.Bindings;
+import org.openclover.runtime.instr.Bindings;
 
 /**
  * Code emitter for lambda expressions declared as an expression to be translated into curly braces. Emits code for the

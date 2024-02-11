@@ -8,8 +8,8 @@ import java.util.Date;
 import java.io.File;
 import java.text.SimpleDateFormat;
 
-import com.atlassian.clover.Logger;
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.Logger;
+import org.openclover.runtime.api.CloverException;
 import com.atlassian.clover.api.registry.HasMetrics;
 import com.atlassian.clover.reporters.html.HtmlReportUtil;
 import com.atlassian.clover.reporters.Columns;

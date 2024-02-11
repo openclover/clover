@@ -1,7 +1,7 @@
 package org.openclover.idea.coverage;
 
 import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 import com.atlassian.clover.context.ContextSet;
 import com.atlassian.clover.context.ContextStore;
 import com.atlassian.clover.context.NamedContext;

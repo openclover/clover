@@ -1,7 +1,7 @@
 package com.atlassian.clover.optimization;
 
-import com.atlassian.clover.api.CloverException;
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.api.CloverException;
+import org.openclover.runtime.Logger;
 import com.atlassian.clover.api.optimization.Optimizable;
 import com.atlassian.clover.api.optimization.OptimizationOptions;
 import com.atlassian.clover.registry.Clover2Registry;

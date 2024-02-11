@@ -1,6 +1,6 @@
 package com.atlassian.clover.registry.format;
 
-import com.atlassian.clover.registry.RegistryFormatException;
+import org.openclover.runtime.registry.RegistryFormatException;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;

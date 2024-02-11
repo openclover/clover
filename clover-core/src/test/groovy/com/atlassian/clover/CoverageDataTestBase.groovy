@@ -1,10 +1,12 @@
 package com.atlassian.clover
 
-import com.atlassian.clover.api.CloverException
+import org.openclover.runtime.ErrorInfo
+import org.openclover.runtime.RuntimeType
+import org.openclover.runtime.api.CloverException
 import com.atlassian.clover.instr.InstrumentationSessionImpl
-import com.atlassian.clover.recorder.FileBasedPerTestRecording
+import org.openclover.runtime.recorder.FileBasedPerTestRecording
 import com.atlassian.clover.recorder.PerTestCoverage
-import com.atlassian.clover.recorder.PerTestRecorder
+import org.openclover.runtime.recorder.PerTestRecorder
 import com.atlassian.clover.recorder.PerTestRecordingTranscript
 import com.atlassian.clover.context.ContextSet
 import com.atlassian.clover.registry.Clover2Registry
@@ -14,7 +16,7 @@ import com.atlassian.clover.registry.FixedSourceRegion
 import com.atlassian.clover.registry.entities.MethodSignature
 import com.atlassian.clover.registry.entities.Modifiers
 import com.atlassian.clover.registry.entities.TestCaseInfo
-import com.atlassian.clover.util.CloverBitSet
+import org.openclover.runtime.util.CloverBitSet
 import com.atlassian.clover.util.SimpleCoverageRange
 import junit.framework.TestCase
 

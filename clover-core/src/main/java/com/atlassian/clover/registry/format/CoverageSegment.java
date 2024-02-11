@@ -1,11 +1,12 @@
 package com.atlassian.clover.registry.format;
 
-import com.atlassian.clover.registry.CorruptedRegistryException;
-import com.atlassian.clover.registry.RegistryFormatException;
+import org.openclover.runtime.registry.CorruptedRegistryException;
+import org.openclover.runtime.registry.RegistryFormatException;
 import com.atlassian.clover.CoverageData;
 import com.atlassian.clover.recorder.InMemPerTestCoverage;
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 import com.atlassian.clover.recorder.PerTestCoverage;
+import org.openclover.runtime.registry.format.BufferUtils;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;

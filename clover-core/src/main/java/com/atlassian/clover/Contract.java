@@ -1,6 +1,8 @@
 package com.atlassian.clover;
 
 
+import org.openclover.runtime.Logger;
+
 public class Contract {
     /** use to log messages **/
     private static final Logger LOG = Logger.getInstance();

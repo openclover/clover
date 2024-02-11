@@ -1,7 +1,7 @@
 package com.atlassian.clover.ant.types;
 
 import com.atlassian.clover.ant.AbstractAntLogger;
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 import com.atlassian.clover.api.optimization.OptimizationOptions;
 
 import org.apache.tools.ant.Project;

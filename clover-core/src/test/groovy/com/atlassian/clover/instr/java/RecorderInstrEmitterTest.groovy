@@ -1,7 +1,7 @@
 package com.atlassian.clover.instr.java
 
-import com.atlassian.clover.recorder.pertest.SnifferType
-import com.atlassian.clover.remote.DistributedConfig
+import org.openclover.runtime.recorder.pertest.SnifferType
+import org.openclover.runtime.remote.DistributedConfig
 import com_atlassian_clover.CloverProfile
 import org.junit.Test
 

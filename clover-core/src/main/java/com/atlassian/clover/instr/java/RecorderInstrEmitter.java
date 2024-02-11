@@ -1,16 +1,16 @@
 package com.atlassian.clover.instr.java;
 
-import static com.atlassian.clover.instr.Bindings.$Clover$getNullRecorder;
-import static com.atlassian.clover.instr.Bindings.$Clover$getRecorder;
-import static com.atlassian.clover.instr.Bindings.$Clover$l;
-import static com.atlassian.clover.instr.Bindings.$CloverVersionInfo$getBuildStamp;
-import static com.atlassian.clover.instr.Bindings.$CloverVersionInfo$getReleaseNum;
-import static com.atlassian.clover.instr.Bindings.$CloverVersionInfo$oldVersionInClasspath;
+import static org.openclover.runtime.instr.Bindings.$Clover$getNullRecorder;
+import static org.openclover.runtime.instr.Bindings.$Clover$getRecorder;
+import static org.openclover.runtime.instr.Bindings.$Clover$l;
+import static org.openclover.runtime.instr.Bindings.$CloverVersionInfo$getBuildStamp;
+import static org.openclover.runtime.instr.Bindings.$CloverVersionInfo$getReleaseNum;
+import static org.openclover.runtime.instr.Bindings.$CloverVersionInfo$oldVersionInClasspath;
 
-import com.atlassian.clover.CloverNames;
+import org.openclover.runtime.CloverNames;
 import com.atlassian.clover.cfg.instr.InstrumentationConfig;
 import com.atlassian.clover.cfg.instr.java.LanguageFeature;
-import com.atlassian.clover.recorder.pertest.SnifferType;
+import org.openclover.runtime.recorder.pertest.SnifferType;
 import com_atlassian_clover.TestNameSniffer;
 import com_atlassian_clover.CloverProfile;
 import com_atlassian_clover.Clover;

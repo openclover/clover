@@ -1,7 +1,7 @@
 package com.atlassian.clover.reporters;
 
-import com.atlassian.clover.Logger;
-import com.atlassian.clover.util.Formatting;
+import org.openclover.runtime.Logger;
+import org.openclover.runtime.util.Formatting;
 import com.atlassian.clover.reporters.html.HtmlReporter;
 
 import java.util.Map;

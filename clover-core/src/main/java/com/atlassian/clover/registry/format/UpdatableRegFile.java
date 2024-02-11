@@ -1,11 +1,13 @@
 package com.atlassian.clover.registry.format;
 
 import com.atlassian.clover.api.instrumentation.ConcurrentInstrumentationException;
-import com.atlassian.clover.api.registry.CloverRegistryException;
+import org.openclover.runtime.api.registry.CloverRegistryException;
 import com.atlassian.clover.registry.NoSuchRegistryException;
 import com.atlassian.clover.registry.RegistryUpdate;
 import com.atlassian.clover.registry.ReadOnlyRegistryException;
-import com.atlassian.clover.registry.RegistryFormatException;
+import org.openclover.runtime.registry.RegistryFormatException;
+import org.openclover.runtime.registry.format.RegAccessMode;
+import org.openclover.runtime.registry.format.RegHeader;
 
 import java.io.File;
 import java.io.IOException;

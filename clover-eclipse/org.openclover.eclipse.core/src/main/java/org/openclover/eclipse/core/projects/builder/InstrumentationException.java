@@ -1,6 +1,6 @@
 package org.openclover.eclipse.core.projects.builder;
 
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.api.CloverException;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Status;

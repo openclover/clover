@@ -1,7 +1,7 @@
 package com.atlassian.clover.ant;
 
 import com_atlassian_clover.CloverProfile;
-import com.atlassian.clover.remote.DistributedConfig;
+import org.openclover.runtime.remote.DistributedConfig;
 
 import java.util.Arrays;
 import java.util.Locale;

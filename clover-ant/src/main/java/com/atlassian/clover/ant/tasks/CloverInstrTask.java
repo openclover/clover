@@ -2,7 +2,7 @@ package com.atlassian.clover.ant.tasks;
 
 import com.atlassian.clover.instr.java.Instrumenter;
 import com.atlassian.clover.instr.tests.FileMappedTestDetector;
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DirectoryScanner;
 import org.apache.tools.ant.types.FileSet;

@@ -7,7 +7,7 @@ import org.apache.tools.ant.Project;
 import java.io.File;
 import java.util.List;
 
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 
 public interface FilesetFileVisitor {
 

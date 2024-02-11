@@ -1,11 +1,21 @@
 package com.atlassian.clover.recorder
 
-import com.atlassian.clover.ErrorInfo
+import org.openclover.runtime.ErrorInfo
 import com_atlassian_clover.Clover
 import com_atlassian_clover.CoverageRecorder
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestName
+import org.openclover.runtime.recorder.ActivePerTestRecorderAny
+import org.openclover.runtime.recorder.ActivePerTestRecorderMany
+import org.openclover.runtime.recorder.ActivePerTestRecorderNone
+import org.openclover.runtime.recorder.ActivePerTestRecorderOne
+import org.openclover.runtime.recorder.BaseCoverageRecorder
+import org.openclover.runtime.recorder.FileBasedPerTestRecording
+import org.openclover.runtime.recorder.FixedSizeCoverageRecorder
+import org.openclover.runtime.recorder.LivePerTestRecording
+import org.openclover.runtime.recorder.PerTestRecorder
+import org.openclover.runtime.recorder.RecordingResult
 
 import java.lang.reflect.Field
 

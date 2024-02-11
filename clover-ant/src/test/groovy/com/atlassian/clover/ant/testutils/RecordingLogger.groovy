@@ -1,6 +1,6 @@
 package com.atlassian.clover.ant.testutils
 
-import com.atlassian.clover.Logger
+import org.openclover.runtime.Logger
 import org.hamcrest.Description
 import org.hamcrest.TypeSafeMatcher
 import org.openclover.util.Lists

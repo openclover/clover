@@ -1,6 +1,6 @@
 package com.atlassian.clover.instr.java
 
-import com.atlassian.clover.CloverNames
+import org.openclover.runtime.CloverNames
 import com.atlassian.clover.cfg.instr.InstrumentationLevel
 import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig
 import com.atlassian.clover.cfg.instr.java.LambdaInstrumentation

@@ -1,7 +1,7 @@
 package com.atlassian.clover.ant.tasks;
 
-import com.atlassian.clover.CloverNames;
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.CloverNames;
+import org.openclover.runtime.api.CloverException;
 import com.atlassian.clover.cfg.instr.InstrumentationConfig;
 import com.atlassian.clover.cfg.instr.InstrumentationPlacement;
 import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig;

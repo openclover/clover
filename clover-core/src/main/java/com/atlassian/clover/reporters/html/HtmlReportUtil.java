@@ -3,10 +3,10 @@ package com.atlassian.clover.reporters.html;
 import clover.org.apache.velocity.VelocityContext;
 import clover.org.apache.velocity.app.Velocity;
 import clover.org.apache.velocity.app.VelocityEngine;
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 import com.atlassian.clover.reporters.Column;
 import com.atlassian.clover.reporters.ColumnFormat;
-import com.atlassian.clover.util.Formatting;
+import org.openclover.runtime.util.Formatting;
 import com.atlassian.clover.api.registry.HasMetrics;
 
 import java.io.BufferedWriter;

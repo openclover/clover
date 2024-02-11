@@ -1,6 +1,9 @@
 package com.atlassian.clover.recorder
 
-import com.atlassian.clover.util.CloverBitSet
+import org.openclover.runtime.recorder.CoverageSnapshot
+import org.openclover.runtime.recorder.GlobalRecordingWriteStrategy
+import org.openclover.runtime.recorder.GrowableCoverageRecorder
+import org.openclover.runtime.util.CloverBitSet
 import com_atlassian_clover.CoverageRecorder
 import org.junit.Rule
 import org.junit.Test

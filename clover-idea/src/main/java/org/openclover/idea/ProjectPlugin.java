@@ -1,6 +1,6 @@
 package org.openclover.idea;
 
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 import com.atlassian.clover.cfg.Interval;
 import org.openclover.idea.build.CloverCompiler;
 import org.openclover.idea.build.CloverLibraryInjector;

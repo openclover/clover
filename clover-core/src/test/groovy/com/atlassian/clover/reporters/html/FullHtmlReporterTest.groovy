@@ -3,7 +3,7 @@ package com.atlassian.clover.reporters.html
 import clover.org.apache.velocity.VelocityContext
 import com.atlassian.clover.CloverLicenseInfo
 import com.atlassian.clover.CloverStartup
-import com.atlassian.clover.Logger
+import org.openclover.runtime.Logger
 import org.junit.After
 import org.junit.Before
 import org.junit.Test

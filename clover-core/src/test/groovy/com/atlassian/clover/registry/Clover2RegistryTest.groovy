@@ -1,7 +1,7 @@
 package com.atlassian.clover.registry
 
-import com.atlassian.clover.api.CloverException
-import com.atlassian.clover.api.registry.CloverRegistryException
+import org.openclover.runtime.api.CloverException
+import org.openclover.runtime.api.registry.CloverRegistryException
 import com.atlassian.clover.api.registry.SourceInfo
 import com.atlassian.clover.context.ContextSet
 import com.atlassian.clover.context.ContextStore
@@ -24,6 +24,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestName
+import org.openclover.runtime.registry.CorruptedRegistryException
 
 import static org.junit.Assert.*
 import static org.openclover.util.Lists.newArrayList

@@ -1,10 +1,10 @@
 package org.openclover.idea.coverage;
 
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.api.CloverException;
 import com.atlassian.clover.CloverDatabase;
 import com.atlassian.clover.CoverageData;
 import com.atlassian.clover.CoverageDataSpec;
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 import com.atlassian.clover.MaskedBitSetCoverageProvider;
 import org.openclover.idea.util.ModelScope;
 import com.atlassian.clover.recorder.PerTestCoverageStrategy;
@@ -27,7 +27,7 @@ import com.atlassian.clover.registry.entities.PackageFragment;
 import com.atlassian.clover.registry.entities.TestCaseInfo;
 import com.atlassian.clover.reporters.filters.DefaultTestFilter;
 import com.atlassian.clover.optimization.Snapshot;
-import com.atlassian.clover.util.Formatting;
+import org.openclover.runtime.util.Formatting;
 import com.atlassian.clover.util.Path;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.progress.ProcessCanceledException;

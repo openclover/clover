@@ -1,6 +1,6 @@
 package com.atlassian.clover.cfg.instr.java;
 
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.api.CloverException;
 import com.atlassian.clover.cfg.instr.InstrumentationConfig;
 
 import java.io.File;

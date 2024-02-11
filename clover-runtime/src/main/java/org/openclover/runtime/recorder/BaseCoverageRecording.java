@@ -56,7 +56,7 @@ public abstract class BaseCoverageRecording implements CoverageRecording {
         protected long writeTimeStamp;
         protected int format;
 
-        Header(DataInputStream in) throws IOException {
+        public Header(DataInputStream in) throws IOException {
             read(in);
         }
 

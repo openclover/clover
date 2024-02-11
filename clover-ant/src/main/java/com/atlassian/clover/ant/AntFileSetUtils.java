@@ -2,7 +2,7 @@ package com.atlassian.clover.ant;
 
 import clover.org.apache.commons.lang3.ArrayUtils;
 import clover.org.apache.commons.lang3.StringUtils;
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.PatternSet;

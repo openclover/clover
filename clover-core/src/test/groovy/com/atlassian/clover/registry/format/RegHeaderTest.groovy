@@ -1,10 +1,11 @@
 package com.atlassian.clover.registry.format
 
-import com.atlassian.clover.registry.CorruptedRegistryException
-import com.atlassian.clover.registry.IncompatibleRegistryFormatException
+import org.openclover.runtime.registry.CorruptedRegistryException
+import org.openclover.runtime.registry.IncompatibleRegistryFormatException
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestName
+import org.openclover.runtime.registry.format.RegHeader
 
 import java.nio.ByteBuffer
 import java.nio.channels.FileChannel

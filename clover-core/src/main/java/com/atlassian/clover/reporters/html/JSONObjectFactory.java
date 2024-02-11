@@ -8,7 +8,7 @@ import com.atlassian.clover.reporters.json.JSONException;
 import com.atlassian.clover.registry.entities.TestCaseInfo;
 import com.atlassian.clover.registry.entities.FullFileInfo;
 import com.atlassian.clover.registry.entities.FullClassInfo;
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 
 import java.util.Map;
 import java.util.BitSet;

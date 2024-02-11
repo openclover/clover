@@ -3,7 +3,7 @@ package com.atlassian.clover.context;
 import com.atlassian.clover.io.tags.TaggedDataInput;
 import com.atlassian.clover.io.tags.TaggedDataOutput;
 import com.atlassian.clover.io.tags.TaggedPersistent;
-import com.atlassian.clover.util.CloverBitSet;
+import org.openclover.runtime.util.CloverBitSet;
 
 import java.io.IOException;
 import java.util.Map;

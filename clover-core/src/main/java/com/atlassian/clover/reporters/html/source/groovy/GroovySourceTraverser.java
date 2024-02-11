@@ -4,7 +4,7 @@ import clover.org.codehaus.groovy.antlr.GroovySourceToken;
 import clover.org.codehaus.groovy.antlr.parser.GroovyLexer;
 import clover.org.codehaus.groovy.antlr.parser.GroovyTokenTypes;
 import clover.antlr.TokenStream;
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 import com.atlassian.clover.registry.entities.FullFileInfo;
 import com.atlassian.clover.reporters.html.source.SourceListener;
 import com.atlassian.clover.reporters.html.source.SourceRenderHelper;

@@ -1,7 +1,7 @@
 package com.atlassian.clover.optimization
 
 import com.atlassian.clover.instr.InstrumentationSessionImpl
-import com.atlassian.clover.ErrorInfo
+import org.openclover.runtime.ErrorInfo
 import com.atlassian.clover.TestUtils
 import com.atlassian.clover.context.ContextSet
 import com.atlassian.clover.registry.Clover2Registry

@@ -1,6 +1,7 @@
 package com.atlassian.clover;
 
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.Logger;
+import org.openclover.runtime.api.CloverException;
 import com.atlassian.clover.context.ContextSet;
 import com.atlassian.clover.registry.FixedSourceRegion;
 import com.atlassian.clover.registry.entities.BasicMethodInfo;

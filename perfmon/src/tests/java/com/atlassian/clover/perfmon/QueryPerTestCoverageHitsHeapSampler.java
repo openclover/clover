@@ -5,7 +5,7 @@ import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
 import java.io.File;
 
 import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.api.CloverException;
 import com.atlassian.clover.recorder.PerTestCoverageStrategy;
 import com.atlassian.clover.registry.entities.TestCaseInfo;
 import com.atlassian.clover.cfg.StorageSize;

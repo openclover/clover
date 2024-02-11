@@ -1,6 +1,6 @@
 package org.openclover.ci
 
-import com.atlassian.clover.CloverNames
+import org.openclover.runtime.CloverNames
 import com.atlassian.clover.ant.tasks.AntInstrumentationConfig
 import org.apache.tools.ant.BuildEvent
 import org.apache.tools.ant.Project

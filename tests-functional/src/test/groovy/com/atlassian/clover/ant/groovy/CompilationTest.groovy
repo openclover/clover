@@ -6,7 +6,7 @@ import com.atlassian.clover.test.junit.GroovyVersions
 import org.openclover.groovy.test.junit.JavaExecutorMixin
 import org.openclover.groovy.test.junit.TestPropertyMixin
 import org.openclover.groovy.test.junit.WorkingDirMixin
-import com.atlassian.clover.CloverNames
+import org.openclover.runtime.CloverNames
 import groovy.transform.CompileStatic
 
 @CompileStatic

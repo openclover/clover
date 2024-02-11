@@ -2,7 +2,7 @@ package org.openclover.idea.build.jps;
 
 import clover.antlr.RecognitionException;
 import clover.antlr.TokenStreamException;
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.api.CloverException;
 import com.atlassian.clover.cfg.instr.java.SourceLevel;
 import com.atlassian.clover.instr.java.Instrumenter;
 import org.openclover.idea.build.InclusionDetector;

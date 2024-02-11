@@ -6,7 +6,7 @@ import com.atlassian.clover.optimization.Optimizer;
 import com.atlassian.clover.api.optimization.OptimizationOptions;
 import com.atlassian.clover.optimization.Snapshot;
 import com.atlassian.clover.optimization.LocalSnapshotOptimizer;
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 import com.atlassian.clover.ant.tasks.AntInstrumentationConfig;
 import org.apache.tools.ant.types.Resource;
 import org.apache.tools.ant.types.ResourceCollection;

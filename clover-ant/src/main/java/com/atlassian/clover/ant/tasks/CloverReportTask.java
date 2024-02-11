@@ -1,8 +1,8 @@
 package com.atlassian.clover.ant.tasks;
 
-import com.atlassian.clover.api.CloverException;
-import com.atlassian.clover.CloverNames;
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.api.CloverException;
+import org.openclover.runtime.CloverNames;
+import org.openclover.runtime.Logger;
 import com.atlassian.clover.CoverageData;
 import com.atlassian.clover.cfg.StorageSize;
 import com.atlassian.clover.reporters.CloverReportConfig;

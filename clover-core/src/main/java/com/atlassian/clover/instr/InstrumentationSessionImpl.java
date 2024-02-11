@@ -1,6 +1,6 @@
 package com.atlassian.clover.instr;
 
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 import com.atlassian.clover.api.instrumentation.InstrumentationSession;
 import com.atlassian.clover.api.instrumentation.ConcurrentInstrumentationException;
 import com.atlassian.clover.api.registry.ClassInfo;
@@ -21,7 +21,7 @@ import com.atlassian.clover.registry.entities.FullPackageInfo;
 import com.atlassian.clover.registry.entities.Modifiers;
 import com.atlassian.clover.spi.lang.LanguageConstruct;
 import com.atlassian.clover.registry.ReadOnlyRegistryException;
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.api.CloverException;
 import com.atlassian.clover.context.ContextStore;
 import com.atlassian.clover.registry.entities.BaseFileInfo;
 import com.atlassian.clover.registry.Clover2Registry;

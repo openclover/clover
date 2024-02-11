@@ -1,6 +1,6 @@
 package com.atlassian.clover.cfg.instr
 
-import com.atlassian.clover.remote.DistributedConfig
+import org.openclover.runtime.remote.DistributedConfig
 import org.junit.Test
 
 class InstrumentationConfigSerializationTest {

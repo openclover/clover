@@ -1,6 +1,6 @@
 package org.openclover.eclipse.core.views.widgets.columns;
 
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.api.CloverException;
 import org.openclover.eclipse.core.ui.SwtUtils;
 import org.openclover.eclipse.core.views.BuiltinMetricsColumnDefinition;
 import org.openclover.eclipse.core.views.BuiltinPcMetricsColumnDefinition;

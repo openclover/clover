@@ -1,8 +1,8 @@
 package org.openclover.idea.build;
 
 import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.Logger;
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.Logger;
+import org.openclover.runtime.api.CloverException;
 import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig;
 import com.atlassian.clover.cfg.instr.java.SourceLevel;
 import com.atlassian.clover.context.ContextStore;
@@ -25,7 +25,7 @@ import com.atlassian.clover.instr.InstrumentationSessionImpl;
 import com.atlassian.clover.instr.java.InstrumentationSource;
 import com.atlassian.clover.instr.java.Instrumenter;
 import com.atlassian.clover.registry.Clover2Registry;
-import com.atlassian.clover.registry.RegistryFormatException;
+import org.openclover.runtime.registry.RegistryFormatException;
 import com.intellij.openapi.application.Application;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.ModalityState;

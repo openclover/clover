@@ -1,8 +1,8 @@
 package com.atlassian.clover
 
-import com.atlassian.clover.api.CloverException
+import org.openclover.runtime.api.CloverException
 import com.atlassian.clover.instr.InstrumentationSessionImpl
-import com.atlassian.clover.recorder.FixedSizeCoverageRecorder
+import org.openclover.runtime.recorder.FixedSizeCoverageRecorder
 import com.atlassian.clover.context.ContextSet
 import com.atlassian.clover.registry.Clover2Registry
 import com.atlassian.clover.registry.entities.FullBranchInfo

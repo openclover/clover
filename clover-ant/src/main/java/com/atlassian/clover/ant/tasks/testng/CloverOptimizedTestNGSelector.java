@@ -1,6 +1,6 @@
 package com.atlassian.clover.ant.tasks.testng;
 
-import com.atlassian.clover.CloverNames;
+import org.openclover.runtime.CloverNames;
 import com.atlassian.clover.api.optimization.Optimizable;
 import com.atlassian.clover.api.optimization.OptimizationOptions;
 import com.atlassian.clover.optimization.Optimizer;

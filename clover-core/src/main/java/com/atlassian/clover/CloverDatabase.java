@@ -1,16 +1,18 @@
 package com.atlassian.clover;
 
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.CloverNames;
+import org.openclover.runtime.Logger;
+import org.openclover.runtime.api.CloverException;
 import com.atlassian.clover.recorder.InMemPerTestCoverage;
 import com.atlassian.clover.recorder.PerTestCoverage;
 import com.atlassian.clover.recorder.PerTestCoverageStrategy;
-import com.atlassian.clover.registry.CorruptedRegistryException;
+import org.openclover.runtime.registry.CorruptedRegistryException;
 import com.atlassian.clover.registry.NoSuchRegistryException;
 import com.atlassian.clover.registry.entities.FullFileInfo;
 import com.atlassian.clover.registry.entities.FullPackageInfo;
 import com.atlassian.clover.registry.entities.FullProjectInfo;
-import com.atlassian.clover.registry.format.RegAccessMode;
-import com.atlassian.clover.registry.format.RegHeader;
+import org.openclover.runtime.registry.format.RegAccessMode;
+import org.openclover.runtime.registry.format.RegHeader;
 import com.atlassian.clover.cfg.Interval;
 import com.atlassian.clover.context.ContextSet;
 import com.atlassian.clover.context.ContextStore;
@@ -22,7 +24,7 @@ import com.atlassian.clover.registry.ProjectView;
 import com.atlassian.clover.registry.entities.TestCaseInfo;
 import com.atlassian.clover.util.CloverUtils;
 import com.atlassian.clover.util.FileUtils;
-import com.atlassian.clover.util.Formatting;
+import org.openclover.runtime.util.Formatting;
 import com.atlassian.clover.util.Path;
 
 import java.io.File;

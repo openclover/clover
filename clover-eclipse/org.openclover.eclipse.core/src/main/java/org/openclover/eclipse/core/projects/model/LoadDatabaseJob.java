@@ -1,7 +1,7 @@
 package org.openclover.eclipse.core.projects.model;
 
 import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.api.CloverException;
 import com.atlassian.clover.context.ContextSet;
 import org.openclover.eclipse.core.CloverEclipsePluginMessages;
 import org.openclover.eclipse.core.CloverPlugin;

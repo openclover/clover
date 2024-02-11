@@ -1,6 +1,6 @@
 package com.atlassian.clover.context
 
-import com.atlassian.clover.api.CloverException
+import org.openclover.runtime.api.CloverException
 import org.junit.Test
 
 import java.util.regex.Pattern

@@ -3,7 +3,7 @@ package org.openclover.idea.testexplorer;
 import org.openclover.idea.treetables.AbstractColumnInfo;
 import org.openclover.idea.util.ComparatorUtil;
 import com.atlassian.clover.registry.entities.TestCaseInfo;
-import com.atlassian.clover.util.Formatting;
+import org.openclover.runtime.util.Formatting;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.util.Comparator;

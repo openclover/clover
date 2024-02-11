@@ -1,9 +1,9 @@
 package com.atlassian.clover.recorder
 
 import com.atlassian.clover.CoverageDataSpec
-import com.atlassian.clover.Logger
+import org.openclover.runtime.Logger
 import com.atlassian.clover.util.FileUtils
-import com.atlassian.clover.util.IOStreamUtils
+import org.openclover.runtime.util.IOStreamUtils
 import com_atlassian_clover.Clover
 import org.junit.After
 import org.junit.Before

@@ -132,7 +132,7 @@ public class GrowableCoverageRecorder extends BaseCoverageRecorder {
      * Immutable coverage matrix which allows for growth of coverage recorded by sharing coverage 'sections'
      * (ie int[]) with enlarged versions of itself.
      **/
-    static class CoverageMatrix {
+    public static class CoverageMatrix {
         static final int WIDTH_EXPONENT = 20;
         static final int WIDTH = 1 << WIDTH_EXPONENT; //1,048,576
         static final int WIDTH_MOD_MASK = WIDTH - 1; //x mod y where y is power of two -> x & (y - 1)
@@ -140,12 +140,12 @@ public class GrowableCoverageRecorder extends BaseCoverageRecorder {
         private final int[][] elements;
         private final int numElements;
 
-        CoverageMatrix(int numElements) {
+        public CoverageMatrix(int numElements) {
             this.elements = new int[heightFor(null, numElements)][WIDTH];
             this.numElements = numElements;
         }
 
-        CoverageMatrix(CoverageMatrix previous, int numElements) {
+        public CoverageMatrix(CoverageMatrix previous, int numElements) {
             this.elements = new int[heightFor(previous, numElements)][];
             System.arraycopy(previous.elements, 0, this.elements, 0, previous.elements.length);
             for (int i = previous.elements.length; i < this.elements.length; i++) {

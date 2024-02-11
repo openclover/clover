@@ -1,6 +1,6 @@
 package com.atlassian.clover.instr.java;
 
-import com.atlassian.clover.CloverNames;
+import org.openclover.runtime.CloverNames;
 import com.atlassian.clover.context.ContextSet;
 import com.atlassian.clover.instr.tests.naming.JUnitParameterizedTestExtractor;
 import com.atlassian.clover.instr.tests.naming.SpockFeatureNameExtractor;

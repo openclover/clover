@@ -1,6 +1,6 @@
 package com.atlassian.clover.reporters;
 
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 import com.atlassian.clover.registry.metrics.HasMetricsSupport;
 
 import java.util.Locale;

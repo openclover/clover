@@ -1,6 +1,6 @@
 package com.atlassian.clover.ant.tasks;
 
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 import com.atlassian.clover.ant.AntFileSetUtils;
 import com.atlassian.clover.registry.entities.FullFileInfo;
 import com.atlassian.clover.api.registry.HasMetrics;

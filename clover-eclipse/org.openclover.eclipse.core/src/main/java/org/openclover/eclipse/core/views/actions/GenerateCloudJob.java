@@ -1,6 +1,6 @@
 package org.openclover.eclipse.core.views.actions;
 
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.api.CloverException;
 import org.openclover.eclipse.core.CloverEclipsePluginMessages;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.ui.editors.cloud.EclipseCloudGenerator;

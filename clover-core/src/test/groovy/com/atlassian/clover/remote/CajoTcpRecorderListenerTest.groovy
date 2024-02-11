@@ -1,8 +1,10 @@
 package com.atlassian.clover.remote
 
 import com.atlassian.clover.util.RecordingLogger
-import com.atlassian.clover.Logger
+import org.openclover.runtime.Logger
 import org.junit.Test
+import org.openclover.runtime.remote.CajoTcpRecorderListener
+import org.openclover.runtime.remote.DistributedConfig
 
 class CajoTcpRecorderListenerTest {
 

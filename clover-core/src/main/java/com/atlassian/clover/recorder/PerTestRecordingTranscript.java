@@ -1,9 +1,13 @@
 package com.atlassian.clover.recorder;
 
 import com.atlassian.clover.CoverageDataSpec;
-import com.atlassian.clover.ErrorInfo;
-import com.atlassian.clover.RuntimeType;
-import com.atlassian.clover.util.CloverBitSet;
+import org.openclover.runtime.ErrorInfo;
+import org.openclover.runtime.RuntimeType;
+import org.openclover.runtime.RuntimeType;
+import org.openclover.runtime.recorder.BaseCoverageRecording;
+import org.openclover.runtime.recorder.PerTestRecorder;
+import org.openclover.runtime.recorder.PerTestRecording;
+import org.openclover.runtime.util.CloverBitSet;
 import com.atlassian.clover.util.CloverUtils;
 import com.atlassian.clover.util.FileUtils;
 
@@ -31,7 +35,7 @@ public class PerTestRecordingTranscript extends BaseCoverageRecording implements
                                       String testMethodName, String runtimeTestName,
                                       long start, long end, double duration, RuntimeType testType,
                                       int slice, int testRunId, int exitStatus, ErrorInfo errorInfo) {
-        super(new Header(dbVersion, end, FORMAT), fileOnDisk);
+        super(new BaseCoverageRecording.Header(dbVersion, end, FORMAT), fileOnDisk);
         this.coverage = coverage;
         this.testMethodName = testMethodName;
         this.runtimeTestName = runtimeTestName;

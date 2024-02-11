@@ -1,6 +1,7 @@
 package com.atlassian.clover.util
 
 import org.junit.Test
+import org.openclover.runtime.util.ByteSized
 
 import static org.junit.Assert.*
 

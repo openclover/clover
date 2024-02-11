@@ -1,9 +1,12 @@
 package com.atlassian.clover.recorder;
 
 import com.atlassian.clover.CoverageDataSpec;
-import com.atlassian.clover.Logger;
-import com.atlassian.clover.util.IOStreamUtils;
+import org.openclover.runtime.Logger;
+import org.openclover.runtime.recorder.BaseCoverageRecording;
+import org.openclover.runtime.recorder.GlobalCoverageRecording;
+import org.openclover.runtime.util.IOStreamUtils;
 import com.atlassian.clover.util.collections.Pair;
+import org.openclover.runtime.recorder.CoverageRecording;
 
 import java.io.DataInputStream;
 import java.io.File;

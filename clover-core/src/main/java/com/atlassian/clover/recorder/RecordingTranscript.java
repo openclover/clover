@@ -1,6 +1,7 @@
 package com.atlassian.clover.recorder;
 
 import com.atlassian.clover.CoverageDataSpec;
+import org.openclover.runtime.recorder.CoverageRecording;
 
 import java.io.DataInputStream;
 import java.io.IOException;

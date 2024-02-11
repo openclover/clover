@@ -1,17 +1,17 @@
 package com.atlassian.clover.ant.tasks;
 
 import clover.org.apache.commons.lang3.StringUtils;
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 import com.atlassian.clover.ant.AntCloverProfile;
 import com.atlassian.clover.ant.AntCloverProfiles;
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.api.CloverException;
 import com.atlassian.clover.cfg.instr.InstrumentationLevel;
 import com.atlassian.clover.cfg.instr.MethodContextDef;
 import com.atlassian.clover.cfg.instr.StatementContextDef;
 import com.atlassian.clover.cfg.instr.java.LambdaInstrumentation;
 import com.atlassian.clover.cfg.instr.java.SourceLevel;
 import com.atlassian.clover.context.ContextStore;
-import com.atlassian.clover.remote.DistributedConfig;
+import org.openclover.runtime.remote.DistributedConfig;
 import com_atlassian_clover.CloverProfile;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.types.FileSet;

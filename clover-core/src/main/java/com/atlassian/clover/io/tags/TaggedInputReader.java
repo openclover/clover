@@ -1,6 +1,6 @@
 package com.atlassian.clover.io.tags;
 
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 
 import java.io.DataInput;
 import java.io.IOException;

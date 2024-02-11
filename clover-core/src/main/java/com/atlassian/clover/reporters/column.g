@@ -104,7 +104,7 @@ expr [BlockMetrics m] returns [double r]
                         r = Math.max(0d, r);
                     }
 
-                } catch (com.atlassian.clover.api.CloverException e) {
+                } catch (org.openclover.runtime.api.CloverException e) {
                     throw new SemanticException(e.getMessage());
                 }
             }	

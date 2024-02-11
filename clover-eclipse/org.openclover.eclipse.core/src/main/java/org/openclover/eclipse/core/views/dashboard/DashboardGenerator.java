@@ -9,7 +9,7 @@ import clover.org.apache.velocity.app.Velocity;
 import clover.org.apache.velocity.app.VelocityEngine;
 
 import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 import com.atlassian.clover.reporters.Current;
 import com.atlassian.clover.reporters.html.HtmlReportUtil;
 import com.atlassian.clover.reporters.html.VelocityLogAdapter;

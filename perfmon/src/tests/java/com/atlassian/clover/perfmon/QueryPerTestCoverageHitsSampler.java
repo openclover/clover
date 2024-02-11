@@ -2,7 +2,7 @@ package com.atlassian.clover.perfmon;
 
 import org.apache.jmeter.samplers.SampleResult;
 import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.api.CloverException;
 import com.atlassian.clover.CloverDatabase;
 import com.atlassian.clover.CoverageData;
 import com.atlassian.clover.registry.entities.TestCaseInfo;

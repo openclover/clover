@@ -1,6 +1,6 @@
 package com.atlassian.clover
 
-import com.atlassian.clover.api.CloverException
+import org.openclover.runtime.api.CloverException
 import com.atlassian.clover.api.registry.ClassInfo
 import com.atlassian.clover.registry.entities.FullClassInfo
 import com.atlassian.clover.registry.metrics.HasMetricsFilter

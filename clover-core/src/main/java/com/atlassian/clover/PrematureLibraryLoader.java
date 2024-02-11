@@ -5,6 +5,7 @@ import clover.org.jfree.chart.ChartUtilities;
 import clover.org.jfree.chart.JFreeChart;
 import clover.org.jfree.chart.plot.PlotOrientation;
 import clover.org.jfree.data.xy.XYSeriesCollection;
+import org.openclover.runtime.Logger;
 
 import java.security.AccessController;
 import java.security.PrivilegedAction;

@@ -1,6 +1,6 @@
 package org.openclover.eclipse.core.views.actions;
 
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.eclipse.core.internal.runtime.InternalPlatform;

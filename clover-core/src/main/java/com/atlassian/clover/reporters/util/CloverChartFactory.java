@@ -32,9 +32,9 @@ import com.atlassian.clover.api.registry.HasMetrics;
 import com.atlassian.clover.registry.entities.BaseClassInfo;
 import com.atlassian.clover.registry.entities.FullFileInfo;
 import com.atlassian.clover.reporters.Columns;
-import com.atlassian.clover.Logger;
-import com.atlassian.clover.api.CloverException;
-import com.atlassian.clover.util.Formatting;
+import org.openclover.runtime.Logger;
+import org.openclover.runtime.api.CloverException;
+import org.openclover.runtime.util.Formatting;
 
 import java.awt.BasicStroke;
 import java.awt.Color;

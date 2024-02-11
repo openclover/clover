@@ -2,7 +2,7 @@ package org.openclover.eclipse.core.views;
 
 import clover.antlr.collections.AST;
 import clover.antlr.RecognitionException;
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.api.CloverException;
 import com.atlassian.clover.util.MetricsFormatUtils;
 import org.openclover.eclipse.core.projects.model.MetricsScope;
 import org.openclover.eclipse.core.views.widgets.ListeningRenderer;

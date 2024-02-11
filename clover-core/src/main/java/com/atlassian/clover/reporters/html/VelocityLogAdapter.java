@@ -2,7 +2,7 @@ package com.atlassian.clover.reporters.html;
 
 import clover.org.apache.velocity.runtime.RuntimeServices;
 import clover.org.apache.velocity.runtime.log.LogChute;
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 
 
 public class VelocityLogAdapter implements LogChute {

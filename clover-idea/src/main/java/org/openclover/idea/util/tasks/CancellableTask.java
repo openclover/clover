@@ -1,6 +1,6 @@
 package org.openclover.idea.util.tasks;
 
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 import org.openclover.idea.util.MiscUtils;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.progress.ProcessCanceledException;

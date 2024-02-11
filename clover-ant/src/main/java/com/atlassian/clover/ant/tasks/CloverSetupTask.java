@@ -1,8 +1,8 @@
 package com.atlassian.clover.ant.tasks;
 
 import com.atlassian.clover.ant.groovy.GroovycSupport;
-import com.atlassian.clover.CloverNames;
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.CloverNames;
+import org.openclover.runtime.Logger;
 import org.openclover.util.ClassPathUtil;
 import org.apache.tools.ant.BuildException;
 import com.atlassian.clover.ant.taskdefs.CloverCompilerAdapter;

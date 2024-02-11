@@ -1,6 +1,7 @@
 package com.atlassian.clover
 
 import junit.framework.TestCase
+import org.openclover.runtime.RuntimeType
 
 class RuntimeTypeTest extends TestCase {
     void testIdentityEquals() {

@@ -11,7 +11,7 @@ import java.util.Map;
 import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig;
 import com.atlassian.clover.cfg.instr.java.LambdaInstrumentation;
 import com.atlassian.clover.Contract;
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 import com.atlassian.clover.context.ContextStore;
 import com.atlassian.clover.context.ContextSet;
 import com.atlassian.clover.registry.*;

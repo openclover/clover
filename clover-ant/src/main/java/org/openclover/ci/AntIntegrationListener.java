@@ -7,9 +7,9 @@ import com.atlassian.clover.api.optimization.Optimizable;
 import com.atlassian.clover.optimization.LocalSnapshotOptimizer;
 import com.atlassian.clover.optimization.Snapshot;
 import com.atlassian.clover.api.optimization.OptimizationOptions;
-import com.atlassian.clover.Logger;
-import com.atlassian.clover.api.CloverException;
-import com.atlassian.clover.CloverNames;
+import org.openclover.runtime.Logger;
+import org.openclover.runtime.api.CloverException;
+import org.openclover.runtime.CloverNames;
 
 import java.util.Vector;
 import java.util.List;

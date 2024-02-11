@@ -1,6 +1,6 @@
 package com.atlassian.clover.reporters.util;
 
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.api.CloverException;
 import com.atlassian.clover.api.registry.ClassInfo;
 import com.atlassian.clover.reporters.Column;
 

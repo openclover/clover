@@ -1,6 +1,6 @@
 package org.openclover.idea.report;
 
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 import com.atlassian.clover.context.ContextStore;
 import org.openclover.idea.config.ContextPane;
 

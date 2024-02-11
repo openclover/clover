@@ -6,7 +6,7 @@ import com.atlassian.clover.services.ServiceLocator;
 import com.atlassian.clover.services.ServiceNotAvailableException;
 import com.atlassian.clover.spi.lang.Language;
 import com.atlassian.clover.spi.reporters.html.source.SourceRenderer;
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 
 import java.util.Collections;
 import java.util.HashMap;

@@ -1,7 +1,7 @@
 package com.atlassian.clover.ant.tasks
 
 import com.atlassian.clover.instr.java.RecorderInstrEmitter
-import com.atlassian.clover.CloverNames
+import org.openclover.runtime.CloverNames
 import com_atlassian_clover.CloverProfile
 import groovy.transform.CompileStatic
 import org.apache.tools.ant.RuntimeConfigurable

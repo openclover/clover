@@ -2,7 +2,12 @@ package com.atlassian.clover.recorder;
 
 import com_atlassian_clover.CloverProfile;
 import com_atlassian_clover.CoverageRecorder;
-import org.junit.Test;
+import org.junit.Test
+import org.openclover.runtime.recorder.FileBasedPerTestRecording
+import org.openclover.runtime.recorder.FixedSizeCoverageRecorder
+import org.openclover.runtime.recorder.GrowableCoverageRecorder
+import org.openclover.runtime.recorder.SharedCoverageRecorder
+import org.openclover.runtime.recorder.ThreadVisibilityStrategy;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

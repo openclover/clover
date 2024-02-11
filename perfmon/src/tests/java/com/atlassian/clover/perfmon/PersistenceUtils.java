@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.IOException;
 
 import com.atlassian.clover.registry.Clover2Registry;
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.api.CloverException;
 import com.atlassian.clover.CloverDatabase;
 import com.atlassian.clover.CoverageDataSpec;
 import com.atlassian.clover.recorder.PerTestCoverageStrategy;

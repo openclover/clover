@@ -5,7 +5,7 @@ import com.atlassian.clover.registry.FixedSourceRegion;
 import com.atlassian.clover.registry.entities.FullStatementInfo;
 import com.atlassian.clover.spi.lang.LanguageConstruct;
 
-import static com.atlassian.clover.instr.Bindings.$CoverageRecorder$inc;
+import static org.openclover.runtime.instr.Bindings.$CoverageRecorder$inc;
 
 /**
  * A code emitter for lambda case expressions with the {@code throw} keyword.

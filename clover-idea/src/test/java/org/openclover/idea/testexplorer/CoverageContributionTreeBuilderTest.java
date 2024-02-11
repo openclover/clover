@@ -1,7 +1,7 @@
 package org.openclover.idea.testexplorer;
 
 import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.api.CloverException;
 import com.atlassian.clover.CoverageDataSpec;
 import org.openclover.idea.treetables.SortableListTreeTableModelOnColumns;
 import org.openclover.idea.treetables.TreeTableModelFactory;

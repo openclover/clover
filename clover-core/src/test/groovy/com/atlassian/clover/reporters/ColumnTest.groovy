@@ -1,11 +1,11 @@
 package com.atlassian.clover.reporters
 
-import com.atlassian.clover.Logger
-import com.atlassian.clover.api.CloverException
+import org.openclover.runtime.Logger
+import org.openclover.runtime.api.CloverException
 import com.atlassian.clover.registry.metrics.BlockMetrics
 import com.atlassian.clover.registry.metrics.ClassMetrics
 import com.atlassian.clover.reporters.html.HtmlReporter
-import com.atlassian.clover.util.Formatting
+import org.openclover.runtime.util.Formatting
 import org.junit.Test
 
 import static org.junit.Assert.assertEquals

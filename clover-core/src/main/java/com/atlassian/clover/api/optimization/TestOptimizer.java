@@ -2,8 +2,8 @@ package com.atlassian.clover.api.optimization;
 
 import com.atlassian.clover.optimization.LocalSnapshotOptimizer;
 import com.atlassian.clover.optimization.ClassOptimizable;
-import com.atlassian.clover.api.CloverException;
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.api.CloverException;
+import org.openclover.runtime.Logger;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;

@@ -11,7 +11,7 @@ import com.atlassian.clover.registry.entities.FullFileInfo;
 import com.atlassian.clover.spi.reporters.html.source.LineRenderInfo;
 import com.atlassian.clover.spi.reporters.html.source.SourceRenderer;
 import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 import com.atlassian.clover.registry.CoverageDataProvider;
 import com.atlassian.clover.registry.entities.LineInfo;
 import com.atlassian.clover.registry.entities.TestCaseInfo;
@@ -19,7 +19,7 @@ import com.atlassian.clover.reporters.Current;
 import com.atlassian.clover.reporters.html.HtmlRenderingSupportImpl;
 import com.atlassian.clover.reporters.html.JSONObjectFactory;
 import com.atlassian.clover.util.ChecksummingReader;
-import com.atlassian.clover.util.IOStreamUtils;
+import org.openclover.runtime.util.IOStreamUtils;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

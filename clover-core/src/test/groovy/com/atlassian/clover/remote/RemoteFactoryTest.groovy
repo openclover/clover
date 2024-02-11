@@ -2,6 +2,12 @@ package com.atlassian.clover.remote
 
 import org.junit.Before
 import org.junit.Test
+import org.openclover.runtime.remote.CajoTcpRecorderListener
+import org.openclover.runtime.remote.CajoTcpRecorderService
+import org.openclover.runtime.remote.Config
+import org.openclover.runtime.remote.DistributedConfig
+import org.openclover.runtime.remote.RecorderListener
+import org.openclover.runtime.remote.RecorderService
 
 import static org.junit.Assert.*
 

@@ -1,6 +1,6 @@
 package com.atlassian.clover.registry
 
-import com.atlassian.clover.api.CloverException
+import org.openclover.runtime.api.CloverException
 import com.atlassian.clover.api.registry.ClassInfo
 import com.atlassian.clover.api.registry.MethodInfo
 import com.atlassian.clover.api.registry.PackageInfo
@@ -10,7 +10,7 @@ import com.atlassian.clover.registry.entities.FullFileInfo
 import com.atlassian.clover.registry.entities.FullMethodInfo
 import com.atlassian.clover.registry.entities.FullProjectInfo
 import com.atlassian.clover.registry.format.FreshRegFile
-import com.atlassian.clover.registry.format.RegAccessMode
+import org.openclover.runtime.registry.format.RegAccessMode
 import org.junit.BeforeClass
 import org.junit.Test
 

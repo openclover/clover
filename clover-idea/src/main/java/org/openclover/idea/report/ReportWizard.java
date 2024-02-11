@@ -1,7 +1,7 @@
 package org.openclover.idea.report;
 
-import com.atlassian.clover.Logger;
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.Logger;
+import org.openclover.runtime.api.CloverException;
 import org.openclover.idea.IDEContext;
 import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.config.CloverPluginConfig;

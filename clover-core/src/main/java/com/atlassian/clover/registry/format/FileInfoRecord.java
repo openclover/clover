@@ -1,7 +1,7 @@
 package com.atlassian.clover.registry.format;
 
 import com.atlassian.clover.io.tags.TaggedIO;
-import com.atlassian.clover.registry.RegistryFormatException;
+import org.openclover.runtime.registry.RegistryFormatException;
 import com.atlassian.clover.registry.entities.FullFileInfo;
 
 import java.io.BufferedOutputStream;

@@ -1,7 +1,7 @@
 package com.atlassian.clover.reporters;
 
 import com.atlassian.clover.api.registry.BlockMetrics;
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.api.CloverException;
 
 /**
  * A holder of column information.

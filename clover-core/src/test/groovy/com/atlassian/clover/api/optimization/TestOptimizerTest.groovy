@@ -2,7 +2,7 @@ package com.atlassian.clover.api.optimization
 
 import com.atlassian.clover.instr.InstrumentationSessionImpl
 import com.atlassian.clover.CloverDatabase
-import com.atlassian.clover.api.CloverException
+import org.openclover.runtime.api.CloverException
 import com.atlassian.clover.CoverageDataSpec
 import com.atlassian.clover.context.ContextSet
 import com.atlassian.clover.registry.entities.FullFileInfo

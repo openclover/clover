@@ -3,7 +3,7 @@ package org.openclover.idea.junit;
 import com.atlassian.clover.api.optimization.Optimizable;
 import org.openclover.idea.junit.config.OptimizedConfigurationSettings;
 import com.atlassian.clover.optimization.OptimizationSession;
-import com.atlassian.clover.util.IOStreamUtils;
+import org.openclover.runtime.util.IOStreamUtils;
 import com.intellij.openapi.project.Project;
 import com.intellij.testFramework.LightIdeaTestCase;
 import org.jetbrains.annotations.NotNull;

@@ -1,6 +1,6 @@
 package com.atlassian.clover.reporters.util
 
-import com.atlassian.clover.api.CloverException
+import org.openclover.runtime.api.CloverException
 import com.atlassian.clover.api.registry.SourceInfo
 import com.atlassian.clover.cfg.Percentage
 import com.atlassian.clover.registry.FixedSourceRegion

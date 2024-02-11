@@ -2,7 +2,7 @@ package com.atlassian.clover.registry
 
 import com.atlassian.clover.api.instrumentation.ConcurrentInstrumentationException
 import com.atlassian.clover.api.instrumentation.InstrumentationSession
-import com.atlassian.clover.api.CloverException
+import org.openclover.runtime.api.CloverException
 import com.atlassian.clover.TestUtils
 import org.junit.Rule
 import org.junit.Test

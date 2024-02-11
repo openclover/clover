@@ -1,6 +1,6 @@
 package org.openclover.eclipse.core.projects.builder;
 
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.api.CloverException;
 
 public class InstrumentationInitialisationException extends InstrumentationException {
     public InstrumentationInitialisationException(CloverException e) {

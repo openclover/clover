@@ -2,7 +2,7 @@ package com.atlassian.clover.reporters.html
 
 import clover.org.apache.velocity.VelocityContext
 import com.atlassian.clover.CloverDatabase
-import com.atlassian.clover.api.CloverException
+import org.openclover.runtime.api.CloverException
 import com.atlassian.clover.registry.Clover2Registry
 import com.atlassian.clover.registry.entities.FullFileInfo
 import com.atlassian.clover.registry.entities.FullPackageInfo

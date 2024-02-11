@@ -1,7 +1,7 @@
 package com.atlassian.clover.util;
 
-import com.atlassian.clover.CloverNames;
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.CloverNames;
+import org.openclover.runtime.Logger;
 import com.atlassian.clover.api.registry.MethodInfo;
 import com.atlassian.clover.api.registry.PackageInfo;
 import com.atlassian.clover.registry.entities.FullFileInfo;

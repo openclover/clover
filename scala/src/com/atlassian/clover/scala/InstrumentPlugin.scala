@@ -4,7 +4,7 @@ import com.atlassian.clover.api.instrumentation.InstrumentationSession
 import com.atlassian.clover.api.registry.ContextSet
 import com.atlassian.clover.registry.{FixedSourceRegion, Clover2Registry}
 import com.atlassian.clover.registry.entities.MethodSignature
-import com.atlassian.clover.CloverNames
+import org.openclover.runtime.CloverNames
 
 import java.io.File
 import tools.nsc.plugins.{PluginComponent, Plugin}

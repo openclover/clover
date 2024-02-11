@@ -1,6 +1,6 @@
 package com.atlassian.clover.instr.java;
 
-import static com.atlassian.clover.instr.Bindings.$CoverageRecorder$inc;
+import static org.openclover.runtime.instr.Bindings.$CoverageRecorder$inc;
 
 import com.atlassian.clover.registry.entities.FullStatementInfo;
 import com.atlassian.clover.spi.lang.LanguageConstruct;

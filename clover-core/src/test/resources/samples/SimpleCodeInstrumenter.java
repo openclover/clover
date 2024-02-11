@@ -1,6 +1,6 @@
 package com.atlassian.clover.samples;
 
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.api.CloverException;
 import com.atlassian.clover.api.instrumentation.InstrumentationSession;
 import com.atlassian.clover.api.registry.FileInfo;
 import com.atlassian.clover.context.ContextSet;

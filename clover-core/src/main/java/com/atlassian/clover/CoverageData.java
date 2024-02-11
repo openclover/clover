@@ -8,7 +8,8 @@ import com.atlassian.clover.registry.Clover2Registry;
 import com.atlassian.clover.registry.CoverageDataRange;
 import com.atlassian.clover.registry.entities.FullFileInfo;
 import com.atlassian.clover.registry.entities.TestCaseInfo;
-import com.atlassian.clover.util.CloverBitSet;
+import org.openclover.runtime.Logger;
+import org.openclover.runtime.util.CloverBitSet;
 
 import java.util.BitSet;
 import java.util.Map;

@@ -7,14 +7,14 @@ import java.io.IOException;
 import java.util.zip.Adler32;
 
 /** General ByteBuffer utility methods */
-class BufferUtils {
-    static void writeFully(FileChannel channel, ByteBuffer fileInfosBuffer) throws IOException {
+public class BufferUtils {
+    public static void writeFully(FileChannel channel, ByteBuffer fileInfosBuffer) throws IOException {
         while (fileInfosBuffer.hasRemaining()) {
             channel.write(fileInfosBuffer);
         }
     }
 
-    static ByteBuffer readFully(FileChannel channel, ByteBuffer buffer) throws IOException {
+    public static ByteBuffer readFully(FileChannel channel, ByteBuffer buffer) throws IOException {
         int read = 0;
         while (buffer.hasRemaining() && read != -1) {
             read = channel.read(buffer);

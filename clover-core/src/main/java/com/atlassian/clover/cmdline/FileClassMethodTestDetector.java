@@ -1,6 +1,6 @@
 package com.atlassian.clover.cmdline;
 
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.api.CloverException;
 import com.atlassian.clover.instr.tests.AggregateTestDetector;
 import com.atlassian.clover.instr.tests.AndStrategy;
 import com.atlassian.clover.instr.tests.AntPatternTestDetectorFilter;

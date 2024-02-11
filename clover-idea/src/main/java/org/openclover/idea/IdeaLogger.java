@@ -1,6 +1,6 @@
 package org.openclover.idea;
 
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 
 public class IdeaLogger extends Logger {
 

@@ -1,8 +1,8 @@
 package com.atlassian.clover.reporters.console;
 
 import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.Logger;
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.Logger;
+import org.openclover.runtime.api.CloverException;
 import com.atlassian.clover.api.command.ArgProcessor;
 import com.atlassian.clover.api.command.HelpBuilder;
 import com.atlassian.clover.api.registry.BranchInfo;
@@ -20,7 +20,7 @@ import com.atlassian.clover.reporters.CloverReporter;
 import com.atlassian.clover.reporters.Current;
 import com.atlassian.clover.reporters.Format;
 import com.atlassian.clover.util.Color;
-import com.atlassian.clover.util.Formatting;
+import org.openclover.runtime.util.Formatting;
 
 import java.io.PrintWriter;
 import java.util.Collections;

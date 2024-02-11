@@ -1,10 +1,10 @@
 package com.atlassian.clover.util
 
 import com.atlassian.clover.CloverDatabase
-import com.atlassian.clover.CloverNames
+import org.openclover.runtime.CloverNames
 import com.atlassian.clover.CloverTestFixture
 import com.atlassian.clover.CoverageDataSpec
-import com.atlassian.clover.api.CloverException
+import org.openclover.runtime.api.CloverException
 import com.atlassian.clover.optimization.Snapshot
 import com.atlassian.clover.testutils.IOHelper
 import junit.framework.TestCase

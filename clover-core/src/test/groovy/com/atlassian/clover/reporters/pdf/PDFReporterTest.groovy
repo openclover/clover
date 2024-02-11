@@ -1,14 +1,14 @@
 package com.atlassian.clover.reporters.pdf
 
-import com.atlassian.clover.api.CloverException
+import org.openclover.runtime.api.CloverException
 import com.atlassian.clover.CloverStartup
-import com.atlassian.clover.Logger
+import org.openclover.runtime.Logger
 import com.atlassian.clover.TestUtils
 import com.atlassian.clover.registry.metrics.HasMetricsTestFixture
 import com.atlassian.clover.reporters.Current
 import com.atlassian.clover.reporters.Format
 import com.atlassian.clover.reporters.Historical
-import com.atlassian.clover.api.registry.CloverRegistryException
+import org.openclover.runtime.api.registry.CloverRegistryException
 import junit.framework.TestCase
 
 class PDFReporterTest extends TestCase {

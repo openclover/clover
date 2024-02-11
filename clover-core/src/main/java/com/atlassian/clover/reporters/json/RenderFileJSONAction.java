@@ -2,7 +2,7 @@ package com.atlassian.clover.reporters.json;
 
 import clover.org.apache.velocity.VelocityContext;
 import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 import com.atlassian.clover.registry.entities.FullFileInfo;
 import com.atlassian.clover.registry.entities.FullPackageInfo;
 import com.atlassian.clover.registry.entities.FullProjectInfo;

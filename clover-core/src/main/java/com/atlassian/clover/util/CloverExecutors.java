@@ -1,6 +1,6 @@
 package com.atlassian.clover.util;
 
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

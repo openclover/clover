@@ -1,7 +1,7 @@
 package org.openclover.idea.content;
 
 import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 import org.openclover.idea.IProjectPlugin;
 import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.util.vfs.VfsUtil;

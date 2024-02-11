@@ -1,7 +1,7 @@
 package org.openclover.eclipse.core.views.dashboard
 
 import com.atlassian.clover.CloverDatabase
-import com.atlassian.clover.api.registry.CloverRegistryException
+import org.openclover.runtime.api.registry.CloverRegistryException
 import com.atlassian.clover.registry.Clover2Registry
 import com.atlassian.clover.util.FileUtils
 import org.hamcrest.CoreMatchers

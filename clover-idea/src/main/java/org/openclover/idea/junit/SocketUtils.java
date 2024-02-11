@@ -1,6 +1,6 @@
 package org.openclover.idea.junit;
 
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 
 import java.io.IOException;
 import java.net.ServerSocket;

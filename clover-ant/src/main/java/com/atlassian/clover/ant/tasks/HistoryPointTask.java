@@ -2,9 +2,9 @@ package com.atlassian.clover.ant.tasks;
 
 import com.atlassian.clover.ant.AntLogger;
 import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.api.CloverException;
-import com.atlassian.clover.Logger;
-import com.atlassian.clover.CloverNames;
+import org.openclover.runtime.api.CloverException;
+import org.openclover.runtime.Logger;
+import org.openclover.runtime.CloverNames;
 import com.atlassian.clover.cfg.Interval;
 import com.atlassian.clover.reporters.Format;
 import com.atlassian.clover.reporters.xml.XMLReporter;

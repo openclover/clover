@@ -1,6 +1,7 @@
 package com.atlassian.clover.recorder
 
 import org.junit.Test
+import org.openclover.runtime.recorder.GrowableCoverageRecorder
 
 import static org.junit.Assert.*
 

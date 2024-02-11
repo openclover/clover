@@ -1,8 +1,8 @@
 package com.atlassian.clover.ant.tasks
 
 import com.atlassian.clover.instr.java.RecorderInstrEmitter
-import com.atlassian.clover.api.CloverException
-import com.atlassian.clover.remote.DistributedConfig
+import org.openclover.runtime.api.CloverException
+import org.openclover.runtime.remote.DistributedConfig
 import groovy.transform.CompileStatic
 
 @CompileStatic

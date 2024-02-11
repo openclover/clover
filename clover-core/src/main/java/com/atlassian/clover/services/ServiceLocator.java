@@ -1,6 +1,6 @@
 package com.atlassian.clover.services;
 
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 
 import java.io.BufferedReader;
 import java.io.IOException;

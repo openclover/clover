@@ -1,6 +1,6 @@
 package org.openclover.eclipse.core.settings;
 
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.api.CloverException;
 import com.atlassian.clover.cfg.Interval;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.PluginVersionInfo;

@@ -12,6 +12,7 @@ import com.atlassian.clover.testutils.IOHelper
 import com.atlassian.clover.util.FileUtils
 import com_atlassian_clover.Clover
 import com_atlassian_clover.CoverageRecorder
+import org.openclover.runtime.ErrorInfo
 
 import static org.junit.Assert.assertTrue
 
@@ -71,11 +72,13 @@ class TestUtils {
         method
     }
 
-    static void runTestMethod(CoverageRecorder recorder, String className, int testId, FullMethodInfo testMethod, FullMethodInfo[] coveredAppMethods, long start, long end) {
+    static void runTestMethod(CoverageRecorder recorder, String className, int testId, FullMethodInfo testMethod,
+                              FullMethodInfo[] coveredAppMethods, long start, long end) {
         runTestMethod(recorder, className, testId, testMethod, coveredAppMethods, start, end, null)
     }
 
-    static void runTestMethod(CoverageRecorder recorder, String className, int testId, FullMethodInfo testMethod, FullMethodInfo[] coveredAppMethods, long start, long end, ErrorInfo errorInfo) {
+    static void runTestMethod(CoverageRecorder recorder, String className, int testId, FullMethodInfo testMethod,
+                              FullMethodInfo[] coveredAppMethods, long start, long end, ErrorInfo errorInfo) {
         recorder.sliceStart(className, start, testMethod.getDataIndex(), testId)
         //Recorder test method invocation + coverage of its only statement
         recorder.inc(testMethod.getDataIndex())

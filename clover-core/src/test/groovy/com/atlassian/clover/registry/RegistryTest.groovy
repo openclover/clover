@@ -16,7 +16,7 @@ import com.atlassian.clover.registry.entities.PackageFragment
 import com.atlassian.clover.registry.entities.FullProjectInfo
 import com.atlassian.clover.registry.entities.FullStatementInfo
 import com.atlassian.clover.registry.format.FreshRegFile
-import com.atlassian.clover.registry.format.RegAccessMode
+import org.openclover.runtime.registry.format.RegAccessMode
 import com.atlassian.clover.api.registry.HasMetrics
 import com.atlassian.clover.registry.metrics.HasMetricsFilter
 import com.atlassian.clover.registry.metrics.ProjectMetrics

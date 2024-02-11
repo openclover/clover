@@ -2,7 +2,7 @@ package com.atlassian.clover.reporters.html;
 
 import com.atlassian.clover.registry.entities.BaseClassInfo;
 import com.atlassian.clover.registry.metrics.ClassMetrics;
-import com.atlassian.clover.util.Formatting;
+import org.openclover.runtime.util.Formatting;
 
 public abstract class ClassInfoStatsCalculator {
     public abstract String getName();

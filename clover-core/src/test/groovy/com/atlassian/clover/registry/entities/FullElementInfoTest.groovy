@@ -1,6 +1,6 @@
 package com.atlassian.clover.registry.entities
 
-import com.atlassian.clover.api.CloverException
+import org.openclover.runtime.api.CloverException
 import com.atlassian.clover.context.ContextSet
 import com.atlassian.clover.context.ContextStore
 import com.atlassian.clover.context.StatementRegexpContext

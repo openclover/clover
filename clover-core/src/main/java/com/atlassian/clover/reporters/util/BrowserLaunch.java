@@ -12,7 +12,7 @@ package com.atlassian.clover.reporters.util;
 //  Public Domain Software -- Free to Use as You Like  //
 /////////////////////////////////////////////////////////
 
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 
 import java.util.Arrays;
 

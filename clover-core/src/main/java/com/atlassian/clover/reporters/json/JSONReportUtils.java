@@ -6,7 +6,7 @@ import com.atlassian.clover.reporters.Columns;
 import com.atlassian.clover.reporters.html.HtmlRenderingSupportImpl;
 import com.atlassian.clover.api.registry.BlockMetrics;
 import com.atlassian.clover.api.registry.HasMetrics;
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.api.CloverException;
 
 import java.util.Map;
 import java.util.List;

@@ -1,6 +1,7 @@
 package com.atlassian.clover.util;
 
 import org.jetbrains.annotations.NotNull;
+import org.openclover.runtime.util.IOStreamUtils;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;

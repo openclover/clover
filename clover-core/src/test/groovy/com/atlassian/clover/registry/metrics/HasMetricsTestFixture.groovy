@@ -1,6 +1,6 @@
 package com.atlassian.clover.registry.metrics
 
-import com.atlassian.clover.api.registry.CloverRegistryException
+import org.openclover.runtime.api.registry.CloverRegistryException
 import com.atlassian.clover.api.registry.SourceInfo
 import com.atlassian.clover.TestUtils
 import com.atlassian.clover.context.ContextSet

@@ -1,7 +1,7 @@
 package org.openclover.idea.coverage;
 
 import org.openclover.idea.coverage.PercentBarColors;
-import com.atlassian.clover.util.Formatting;
+import org.openclover.runtime.util.Formatting;
 
 import java.awt.Color;
 import java.awt.Component;

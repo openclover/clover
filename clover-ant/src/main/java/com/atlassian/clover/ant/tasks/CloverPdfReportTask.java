@@ -4,7 +4,7 @@ import com.atlassian.clover.reporters.Format;
 import com.atlassian.clover.reporters.Columns;
 import com.atlassian.clover.reporters.CloverReportConfig;
 import com.atlassian.clover.reporters.pdf.PDFReporter;
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.api.CloverException;
 
 import java.io.File;
 import java.util.Map;

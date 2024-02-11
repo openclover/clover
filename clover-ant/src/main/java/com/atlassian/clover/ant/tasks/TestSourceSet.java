@@ -3,7 +3,7 @@ package com.atlassian.clover.ant.tasks;
 import com.atlassian.clover.instr.tests.TestDetector;
 import com.atlassian.clover.instr.tests.TestSourceMatcher;
 import com.atlassian.clover.instr.tests.NoTestDetector;
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.api.CloverException;
 import com.atlassian.clover.spec.instr.test.AndSpec;
 import com.atlassian.clover.spec.instr.test.BooleanSpec;
 import com.atlassian.clover.spec.instr.test.OrSpec;

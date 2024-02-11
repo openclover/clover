@@ -1,6 +1,6 @@
 package org.openclover.idea.junit;
 
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 import org.openclover.idea.CloverToolWindowId;
 import org.openclover.idea.junit.config.OptimizedConfigurationSettings;
 import org.openclover.idea.util.l10n.CloverIdeaPluginMessages;

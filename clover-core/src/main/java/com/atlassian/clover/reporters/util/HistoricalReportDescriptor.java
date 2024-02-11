@@ -1,8 +1,8 @@
 package com.atlassian.clover.reporters.util;
 
-import com.atlassian.clover.CloverNames;
-import com.atlassian.clover.Logger;
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.CloverNames;
+import org.openclover.runtime.Logger;
+import org.openclover.runtime.api.CloverException;
 import com.atlassian.clover.api.registry.HasMetrics;
 import com.atlassian.clover.cfg.Interval;
 import com.atlassian.clover.cfg.Percentage;

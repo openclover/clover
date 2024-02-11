@@ -1,15 +1,15 @@
 package com_atlassian_clover
 
-import com.atlassian.clover.CloverProperties
+import org.openclover.runtime.CloverProperties
 import com.atlassian.clover.TestUtils
 import junit.framework.TestCase
 import com.atlassian.clover.util.FileUtils
-import com.atlassian.clover.recorder.NullRecorder
-import com.atlassian.clover.CloverNames
-import com.atlassian.clover.recorder.FixedSizeCoverageRecorder
+import org.openclover.runtime.recorder.NullRecorder
+import org.openclover.runtime.CloverNames
+import org.openclover.runtime.recorder.FixedSizeCoverageRecorder
 import com.atlassian.clover.registry.Clover2Registry
-import com.atlassian.clover.api.registry.CloverRegistryException
-import com.atlassian.clover.registry.format.RegAccessMode
+import org.openclover.runtime.api.registry.CloverRegistryException
+import org.openclover.runtime.registry.format.RegAccessMode
 import org.junit.Test
 
 /**

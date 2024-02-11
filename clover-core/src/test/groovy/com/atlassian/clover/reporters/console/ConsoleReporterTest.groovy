@@ -1,8 +1,8 @@
 package com.atlassian.clover.reporters.console
 
-import com.atlassian.clover.api.CloverException
+import org.openclover.runtime.api.CloverException
 import com.atlassian.clover.api.registry.ClassInfo
-import com.atlassian.clover.util.Formatting
+import org.openclover.runtime.util.Formatting
 import com.atlassian.clover.TestUtils
 import com.atlassian.clover.registry.metrics.ClassMetrics
 import com.atlassian.clover.registry.metrics.HasMetricsTestFixture

@@ -1,6 +1,6 @@
 package org.eclipse.jdt.internal.compiler.batch;
 
-import com.atlassian.clover.CloverNames;
+import org.openclover.runtime.CloverNames;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.builder.BaseInstrumenter;
 import org.openclover.eclipse.core.projects.builder.InstrumentationProjectPathMap;

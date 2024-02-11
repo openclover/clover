@@ -1,11 +1,11 @@
 package com.atlassian.clover.ant;
 
 import clover.org.apache.commons.lang3.StringUtils;
-import com.atlassian.clover.CloverNames;
+import org.openclover.runtime.CloverNames;
 import com.atlassian.clover.Contract;
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 import com.atlassian.clover.ant.tasks.AntInstrumentationConfig;
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.api.CloverException;
 import com.atlassian.clover.util.FileUtils;
 import org.apache.tools.ant.DirectoryScanner;
 import org.apache.tools.ant.Project;

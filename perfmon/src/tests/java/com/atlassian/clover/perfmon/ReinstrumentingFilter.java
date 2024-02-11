@@ -1,8 +1,8 @@
 package com.atlassian.clover.perfmon;
 
 import com.atlassian.clover.instr.java.Instrumenter;
-import com.atlassian.clover.api.CloverException;
-import com.atlassian.clover.util.IOStreamUtils;
+import org.openclover.runtime.api.CloverException;
+import org.openclover.runtime.util.IOStreamUtils;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

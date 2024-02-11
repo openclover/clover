@@ -7,8 +7,8 @@ import clover.antlr.TokenStreamException;
 import java.io.InputStream;
 import java.io.ByteArrayInputStream;
 
-import com.atlassian.clover.Logger;
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.Logger;
+import org.openclover.runtime.api.CloverException;
 import com.atlassian.clover.api.registry.BlockMetrics;
 
 /**

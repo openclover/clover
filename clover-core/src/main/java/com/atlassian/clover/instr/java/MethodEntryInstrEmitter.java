@@ -1,7 +1,7 @@
 package com.atlassian.clover.instr.java;
 
-import static com.atlassian.clover.instr.Bindings.$CoverageRecorder$globalSliceStart;
-import static com.atlassian.clover.instr.Bindings.$CoverageRecorder$inc;
+import static org.openclover.runtime.instr.Bindings.$CoverageRecorder$globalSliceStart;
+import static org.openclover.runtime.instr.Bindings.$CoverageRecorder$inc;
 
 import com.atlassian.clover.api.registry.MethodInfo;
 import com.atlassian.clover.context.MethodRegexpContext;

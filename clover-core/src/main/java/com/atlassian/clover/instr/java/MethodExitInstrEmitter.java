@@ -1,11 +1,11 @@
 package com.atlassian.clover.instr.java;
 
-import com.atlassian.clover.CloverNames;
+import org.openclover.runtime.CloverNames;
 import com.atlassian.clover.cfg.instr.InstrumentationConfig;
 
-import static com.atlassian.clover.instr.Bindings.$CoverageRecorder$flushNeeded;
-import static com.atlassian.clover.instr.Bindings.$CoverageRecorder$globalSliceEnd;
-import static com.atlassian.clover.instr.Bindings.$CoverageRecorder$maybeFlush;
+import static org.openclover.runtime.instr.Bindings.$CoverageRecorder$flushNeeded;
+import static org.openclover.runtime.instr.Bindings.$CoverageRecorder$globalSliceEnd;
+import static org.openclover.runtime.instr.Bindings.$CoverageRecorder$maybeFlush;
 
 import java.lang.reflect.Modifier;
 

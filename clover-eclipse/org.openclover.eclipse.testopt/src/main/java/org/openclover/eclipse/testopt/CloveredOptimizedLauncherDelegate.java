@@ -1,6 +1,6 @@
 package org.openclover.eclipse.testopt;
 
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.api.CloverException;
 import org.openclover.eclipse.core.projects.CloverProject;
 import com.atlassian.clover.registry.Clover2Registry;
 import com.atlassian.clover.optimization.LocalSnapshotOptimizer;

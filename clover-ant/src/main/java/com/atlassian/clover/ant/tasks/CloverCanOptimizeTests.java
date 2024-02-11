@@ -1,7 +1,7 @@
 package com.atlassian.clover.ant.tasks;
 
 import com.atlassian.clover.optimization.Snapshot;
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 import org.apache.tools.ant.BuildException;
 
 import java.io.File;

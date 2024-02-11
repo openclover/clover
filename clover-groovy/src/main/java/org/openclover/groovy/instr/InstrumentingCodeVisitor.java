@@ -1,7 +1,7 @@
 package org.openclover.groovy.instr;
 
-import com.atlassian.clover.CloverNames;
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.CloverNames;
+import org.openclover.runtime.Logger;
 import com.atlassian.clover.api.instrumentation.InstrumentationSession;
 import com.atlassian.clover.api.registry.ContextSet;
 import com.atlassian.clover.api.registry.SourceInfo;

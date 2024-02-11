@@ -1,6 +1,6 @@
 package com.atlassian.clover.instr.java;
 
-import com.atlassian.clover.instr.Bindings;
+import org.openclover.runtime.instr.Bindings;
 import com.atlassian.clover.registry.FixedSourceRegion;
 import com.atlassian.clover.registry.entities.FullMethodInfo;
 import com.atlassian.clover.registry.entities.MethodSignature;

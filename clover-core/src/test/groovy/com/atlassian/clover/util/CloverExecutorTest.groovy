@@ -5,7 +5,7 @@ import org.junit.Test
 import java.util.concurrent.Callable
 import java.util.concurrent.TimeUnit
 
-import com.atlassian.clover.Logger
+import org.openclover.runtime.Logger
 
 import static org.junit.Assert.*
 

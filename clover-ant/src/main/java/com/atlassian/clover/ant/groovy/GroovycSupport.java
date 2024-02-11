@@ -1,12 +1,12 @@
 package com.atlassian.clover.ant.groovy;
 
-import com.atlassian.clover.CloverNames;
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.CloverNames;
+import org.openclover.runtime.Logger;
 import com.atlassian.clover.ant.AntInstrUtils;
 import com.atlassian.clover.ant.tasks.AntInstrumentationConfig;
 import com.atlassian.clover.ant.tasks.CloverSetupTask;
 import com.atlassian.clover.ant.tasks.TestSourceSet;
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.api.CloverException;
 import com.atlassian.clover.cfg.instr.InstrumentationConfig;
 import com.atlassian.clover.instr.java.Instrumenter;
 import com.atlassian.clover.instr.tests.DefaultTestDetector;

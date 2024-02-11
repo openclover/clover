@@ -1,13 +1,13 @@
 package com.atlassian.clover.instr.java;
 
 import com.atlassian.clover.spi.lang.LanguageConstruct;
-import com.atlassian.clover.CloverNames;
+import org.openclover.runtime.CloverNames;
 import com.atlassian.clover.context.ContextSet;
 import com.atlassian.clover.context.NamedContext;
 import com.atlassian.clover.registry.FixedSourceRegion;
 import com.atlassian.clover.registry.entities.FullStatementInfo;
 
-import static com.atlassian.clover.instr.Bindings.$CoverageRecorder$inc;
+import static org.openclover.runtime.instr.Bindings.$CoverageRecorder$inc;
 
 public class ArmInstrEmitter extends Emitter {
     private int endLine;

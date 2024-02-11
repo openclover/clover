@@ -1,6 +1,6 @@
 package org.openclover.ci
 
-import com.atlassian.clover.CloverNames
+import org.openclover.runtime.CloverNames
 import com.atlassian.clover.api.ci.CIOptions
 import com.atlassian.clover.api.ci.Integrator
 import org.junit.Before

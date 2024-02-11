@@ -13,7 +13,7 @@ import com.atlassian.clover.registry.entities.FullProjectInfo;
 import com.atlassian.clover.registry.entities.TestCaseInfo;
 import com.atlassian.clover.registry.entities.BaseClassInfo;
 import com.atlassian.clover.reporters.Current;
-import com.atlassian.clover.util.Formatting;
+import org.openclover.runtime.util.Formatting;
 import com.atlassian.clover.util.CloverUtils;
 
 import java.io.File;

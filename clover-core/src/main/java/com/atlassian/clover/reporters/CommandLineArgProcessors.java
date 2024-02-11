@@ -1,6 +1,6 @@
 package com.atlassian.clover.reporters;
 
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 import com.atlassian.clover.api.command.ArgProcessor;
 import com.atlassian.clover.cfg.Interval;
 import com.atlassian.clover.util.Path;

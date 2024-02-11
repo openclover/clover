@@ -1,6 +1,6 @@
 package com.atlassian.clover.api.optimization;
 
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 import com.atlassian.clover.optimization.Snapshot;
 
 import java.io.File;

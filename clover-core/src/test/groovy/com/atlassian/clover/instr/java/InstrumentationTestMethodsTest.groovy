@@ -1,6 +1,6 @@
 package com.atlassian.clover.instr.java
 
-import com.atlassian.clover.CloverNames
+import org.openclover.runtime.CloverNames
 import org.junit.Test
 
 class InstrumentationTestMethodsTest extends InstrumentationTestBase {

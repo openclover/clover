@@ -1,6 +1,6 @@
 package com.atlassian.clover.util;
 
-import com.atlassian.clover.util.ByteSized;
+import org.openclover.runtime.util.ByteSized;
 
 import java.util.Map;
 import java.util.LinkedHashMap;

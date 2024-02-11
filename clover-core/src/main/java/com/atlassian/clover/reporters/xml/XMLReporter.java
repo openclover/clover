@@ -1,8 +1,8 @@
 package com.atlassian.clover.reporters.xml;
 
 import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.Logger;
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.Logger;
+import org.openclover.runtime.api.CloverException;
 import com.atlassian.clover.api.command.ArgProcessor;
 import com.atlassian.clover.api.command.HelpBuilder;
 import com.atlassian.clover.api.registry.BlockMetrics;

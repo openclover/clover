@@ -39,7 +39,7 @@ public class RegHeader {
     /** Name of the registry */
     private final String name;
 
-    RegHeader(RegAccessMode accessMode, long version, int slotCount, long coverageLocation, long lastSessionLocation, String name) {
+    public RegHeader(RegAccessMode accessMode, long version, int slotCount, long coverageLocation, long lastSessionLocation, String name) {
         this.accessMode = accessMode;
         this.version = version;
         this.slotCount = slotCount;

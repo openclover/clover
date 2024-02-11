@@ -1,6 +1,6 @@
 package com.atlassian.clover.cfg.instr;
 
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.api.CloverException;
 
 
 public class MethodContextDef extends StatementContextDef {

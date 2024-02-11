@@ -1,15 +1,15 @@
 package com.atlassian.clover.cmdline;
 
 import clover.org.apache.commons.lang3.StringUtils;
-import com.atlassian.clover.Logger;
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.Logger;
+import org.openclover.runtime.api.CloverException;
 import com.atlassian.clover.api.command.ArgProcessor;
 import com.atlassian.clover.cfg.instr.MethodContextDef;
 import com.atlassian.clover.cfg.instr.StatementContextDef;
 import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig;
 import com.atlassian.clover.cfg.instr.java.LambdaInstrumentation;
 import com.atlassian.clover.cfg.instr.java.SourceLevel;
-import com.atlassian.clover.remote.DistributedConfig;
+import org.openclover.runtime.remote.DistributedConfig;
 import com.atlassian.clover.spec.instr.test.TestClassSpec;
 import com.atlassian.clover.spec.instr.test.TestMethodSpec;
 

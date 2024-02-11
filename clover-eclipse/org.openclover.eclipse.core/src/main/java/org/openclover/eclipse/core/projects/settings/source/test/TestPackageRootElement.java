@@ -3,7 +3,7 @@ package org.openclover.eclipse.core.projects.settings.source.test;
 import com.atlassian.clover.instr.tests.TestDetector;
 import com.atlassian.clover.instr.tests.TestSourceMatcher;
 import com.atlassian.clover.instr.tests.DefaultTestDetector;
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.api.CloverException;
 import com.atlassian.clover.spec.instr.test.BooleanSpec;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.eclipse.core.runtime.IPath;

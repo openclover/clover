@@ -1,6 +1,7 @@
 package com.atlassian.clover.remote
 
 import org.junit.Test
+import org.openclover.runtime.remote.DistributedConfig
 
 import static org.junit.Assert.*
 

@@ -11,10 +11,10 @@ import com.atlassian.clover.CoverageData
 import com.atlassian.clover.recorder.PerTestCoverage
 import com.atlassian.clover.recorder.InMemPerTestCoverage
 import com.atlassian.clover.recorder.PerTestRecordingTranscript
-import com.atlassian.clover.RuntimeType
-import com.atlassian.clover.util.CloverBitSet
+import org.openclover.runtime.RuntimeType
+import org.openclover.runtime.util.CloverBitSet
 import com.atlassian.clover.registry.ModelBuilder
-import com.atlassian.clover.api.registry.CloverRegistryException
+import org.openclover.runtime.api.registry.CloverRegistryException
 import org.junit.After
 import org.junit.Test
 

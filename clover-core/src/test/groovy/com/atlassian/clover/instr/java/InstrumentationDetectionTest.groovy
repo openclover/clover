@@ -1,6 +1,6 @@
 package com.atlassian.clover.instr.java
 
-import com.atlassian.clover.api.CloverException
+import org.openclover.runtime.api.CloverException
 import org.junit.Test
 
 import static org.junit.Assert.fail

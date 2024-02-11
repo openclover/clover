@@ -1,6 +1,6 @@
 package org.openclover.groovy.instr
 
-import com.atlassian.clover.CloverNames
+import org.openclover.runtime.CloverNames
 import com.atlassian.clover.cfg.instr.InstrumentationConfig
 import groovy.transform.CompileStatic
 import org.junit.Test
@@ -8,7 +8,7 @@ import org.junit.Test
 import static com.atlassian.clover.testutils.AssertionUtils.assertStringContains
 import static com.atlassian.clover.testutils.AssertionUtils.assertStringMatches
 import com_atlassian_clover.CloverProfile
-import com.atlassian.clover.remote.DistributedConfig
+import org.openclover.runtime.remote.DistributedConfig
 
 /**
  * Integration tests that detect if the correct list of CloverProfile's is being embedded

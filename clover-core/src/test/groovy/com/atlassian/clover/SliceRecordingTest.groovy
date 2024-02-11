@@ -1,7 +1,9 @@
 package com.atlassian.clover
 
-import com.atlassian.clover.recorder.FileBasedPerTestRecording
-import com.atlassian.clover.recorder.PerTestRecording
+import org.openclover.runtime.ErrorInfo
+import org.openclover.runtime.RuntimeType
+import org.openclover.runtime.recorder.FileBasedPerTestRecording
+import org.openclover.runtime.recorder.PerTestRecording
 import com.atlassian.clover.recorder.PerTestRecordingTranscript
 import com.atlassian.clover.recorder.RecordingTranscripts
 import junit.framework.TestCase
@@ -9,7 +11,7 @@ import com_atlassian_clover.Clover
 
 import com.atlassian.clover.util.CloverUtils
 import com.atlassian.clover.util.FileUtils
-import com.atlassian.clover.util.CloverBitSet
+import org.openclover.runtime.util.CloverBitSet
 
 class SliceRecordingTest extends TestCase {
     private File recDir

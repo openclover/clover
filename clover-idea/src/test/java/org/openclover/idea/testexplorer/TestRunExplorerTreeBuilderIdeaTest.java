@@ -2,7 +2,7 @@ package org.openclover.idea.testexplorer;
 
 import com.atlassian.clover.CloverDatabase;
 import com.atlassian.clover.CoverageDataSpec;
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.api.CloverException;
 import com.atlassian.clover.registry.entities.FullClassInfo;
 import org.openclover.idea.coverage.CoverageManager;
 import com.atlassian.clover.registry.entities.FullProjectInfo;

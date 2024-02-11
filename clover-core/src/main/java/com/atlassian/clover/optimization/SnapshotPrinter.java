@@ -1,6 +1,6 @@
 package com.atlassian.clover.optimization;
 
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 import com.atlassian.clover.cfg.Interval;
 import com.atlassian.clover.reporters.json.JSONArray;
 import com.atlassian.clover.reporters.json.JSONException;

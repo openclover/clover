@@ -1,10 +1,10 @@
 package com.atlassian.clover.optimization;
 
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 import com.atlassian.clover.api.optimization.OptimizationOptions;
 import com.atlassian.clover.cfg.Interval;
 import com.atlassian.clover.util.Color;
-import com.atlassian.clover.util.Formatting;
+import org.openclover.runtime.util.Formatting;
 
 import java.util.Set;
 import java.util.Collections;

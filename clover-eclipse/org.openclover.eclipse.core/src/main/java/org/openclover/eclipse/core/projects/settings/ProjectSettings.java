@@ -3,7 +3,7 @@ package org.openclover.eclipse.core.projects.settings;
 import com.atlassian.clover.cfg.instr.InstrumentationConfig;
 import com.atlassian.clover.cfg.instr.InstrumentationLevel;
 import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 import com.atlassian.clover.cfg.Interval;
 import com.atlassian.clover.cfg.instr.java.LambdaInstrumentation;
 import com.atlassian.clover.context.ContextSet;

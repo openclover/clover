@@ -1,6 +1,6 @@
 package com.atlassian.clover.instr.java;
 
-import com.atlassian.clover.CloverNames;
+import org.openclover.runtime.CloverNames;
 
 /**
  * Emits an AutoCloseable subclass declaration immediately before a try ARM block.

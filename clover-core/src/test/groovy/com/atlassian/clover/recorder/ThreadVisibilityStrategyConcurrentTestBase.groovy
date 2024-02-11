@@ -1,6 +1,6 @@
 package com.atlassian.clover.recorder
 
-import com.atlassian.clover.CloverNames
+import org.openclover.runtime.CloverNames
 import com.atlassian.clover.TestUtils
 import com_atlassian_clover.CloverProfile
 import com_atlassian_clover.CoverageRecorder
@@ -8,6 +8,7 @@ import edu.umd.cs.mtc.TestFramework
 import org.junit.Before
 import org.junit.Rule
 import org.junit.rules.TestName
+import org.openclover.runtime.recorder.FixedSizeCoverageRecorder
 
 import static org.junit.Assert.assertEquals
 

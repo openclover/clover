@@ -1,6 +1,6 @@
 package com.atlassian.clover.recorder;
 
-import com.atlassian.clover.util.CloverBitSet;
+import org.openclover.runtime.util.CloverBitSet;
 import edu.umd.cs.mtc.MultithreadedTestCase;
 
 import java.io.IOException;

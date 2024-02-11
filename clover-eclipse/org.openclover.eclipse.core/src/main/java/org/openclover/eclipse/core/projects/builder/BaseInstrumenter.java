@@ -4,7 +4,7 @@ import com.atlassian.clover.api.instrumentation.ConcurrentInstrumentationExcepti
 import com.atlassian.clover.api.instrumentation.InstrumentationSession;
 import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig;
 import com.atlassian.clover.instr.java.Instrumenter;
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.api.CloverException;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.exclusion.ExclusionFilter;
 import org.openclover.eclipse.core.projects.CloverProject;

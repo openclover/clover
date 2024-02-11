@@ -1,12 +1,15 @@
 package com.atlassian.clover.remote
 
-import com.atlassian.clover.CloverProperties
-import com.atlassian.clover.CloverNames
-import com.atlassian.clover.Logger
+import org.openclover.runtime.CloverProperties
+import org.openclover.runtime.CloverNames
+import org.openclover.runtime.Logger
 import com.atlassian.clover.util.RecordingLogger
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import org.openclover.runtime.remote.DistributedClover
+import org.openclover.runtime.remote.DistributedConfig
+import org.openclover.runtime.remote.RpcMessage
 
 import static org.junit.Assert.*
 

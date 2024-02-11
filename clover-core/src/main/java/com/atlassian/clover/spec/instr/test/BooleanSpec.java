@@ -6,7 +6,7 @@ import com.atlassian.clover.instr.tests.DefaultTestDetector;
 import com.atlassian.clover.instr.tests.OrStrategy;
 import com.atlassian.clover.instr.tests.TestDetector;
 import com.atlassian.clover.instr.tests.TestSpec;
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.api.CloverException;
 
 import java.io.Serializable;
 import java.util.List;

@@ -1,16 +1,16 @@
 package org.openclover.groovy.instr;
 
-import com.atlassian.clover.CloverNames;
-import com.atlassian.clover.Logger;
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.CloverNames;
+import org.openclover.runtime.Logger;
+import org.openclover.runtime.api.CloverException;
 import com.atlassian.clover.api.instrumentation.InstrumentationSession;
 import com.atlassian.clover.cfg.instr.InstrumentationConfig;
 import org.openclover.groovy.instr.bytecode.RecorderGetterBytecodeInstructionGroovy2;
 import com.atlassian.clover.instr.tests.TestDetector;
 import com.atlassian.clover.instr.tests.naming.JUnitParameterizedTestExtractor;
 import com.atlassian.clover.instr.tests.naming.SpockFeatureNameExtractor;
-import com.atlassian.clover.recorder.PerTestRecorder;
-import com.atlassian.clover.recorder.pertest.SnifferType;
+import org.openclover.runtime.recorder.PerTestRecorder;
+import org.openclover.runtime.recorder.pertest.SnifferType;
 import com.atlassian.clover.registry.Clover2Registry;
 import com.atlassian.clover.registry.entities.FullElementInfo;
 import com.atlassian.clover.registry.entities.FullFileInfo;

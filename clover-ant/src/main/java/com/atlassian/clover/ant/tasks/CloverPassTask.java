@@ -2,8 +2,8 @@ package com.atlassian.clover.ant.tasks;
 
 import com.atlassian.clover.CloverDatabase;
 import com.atlassian.clover.CodeType;
-import com.atlassian.clover.Logger;
-import com.atlassian.clover.api.CloverException;
+import org.openclover.runtime.Logger;
+import org.openclover.runtime.api.CloverException;
 import com.atlassian.clover.api.registry.HasMetrics;
 import com.atlassian.clover.api.registry.PackageInfo;
 import com.atlassian.clover.cfg.Interval;

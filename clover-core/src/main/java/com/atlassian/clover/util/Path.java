@@ -1,6 +1,6 @@
 package com.atlassian.clover.util;
 
-import com.atlassian.clover.Logger;
+import org.openclover.runtime.Logger;
 
 import java.io.File;
 import java.util.Arrays;

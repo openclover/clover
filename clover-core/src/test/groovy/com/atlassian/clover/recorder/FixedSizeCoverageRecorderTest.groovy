@@ -1,10 +1,11 @@
 package com.atlassian.clover.recorder
 
-import com.atlassian.clover.api.CloverException
+import org.openclover.runtime.api.CloverException
 import com.atlassian.clover.CoverageDataSpec
 import com.atlassian.clover.registry.Clover2Registry
 import com.atlassian.clover.util.FileUtils
-import com.atlassian.clover.registry.format.RegAccessMode
+import org.openclover.runtime.recorder.FixedSizeCoverageRecorder
+import org.openclover.runtime.registry.format.RegAccessMode
 
 import com_atlassian_clover.CoverageRecorder
 import org.junit.After
