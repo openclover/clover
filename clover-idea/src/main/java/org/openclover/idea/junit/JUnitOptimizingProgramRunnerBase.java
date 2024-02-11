@@ -6,7 +6,7 @@ import org.openclover.idea.junit.config.OptimizedConfigurationSettings;
 import org.openclover.idea.util.l10n.CloverIdeaPluginMessages;
 import org.openclover.idea.util.ui.CloverIcons;
 import org.openclover.idea.util.ui.MessageDialogs;
-import com.atlassian.clover.optimization.OptimizationSession;
+import org.openclover.core.optimization.OptimizationSession;
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.ExecutorRegistry;
 import com.intellij.execution.configurations.JavaParameters;

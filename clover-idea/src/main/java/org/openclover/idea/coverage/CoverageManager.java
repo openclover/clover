@@ -1,8 +1,8 @@
 package org.openclover.idea.coverage;
 
-import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.registry.Clover2Registry;
-import com.atlassian.clover.util.Path;
+import org.openclover.core.CloverDatabase;
+import org.openclover.core.registry.Clover2Registry;
+import org.openclover.core.util.Path;
 import org.jetbrains.annotations.Nullable;
 
 import java.net.URL;

@@ -1,13 +1,13 @@
 package org.openclover.idea.build.jps;
 
-import com.atlassian.clover.instr.java.JavaMethodContext;
-import com.atlassian.clover.instr.java.JavaTypeContext;
-import com.atlassian.clover.instr.tests.DefaultTestDetector;
-import com.atlassian.clover.instr.tests.TestDetector;
-import com.atlassian.clover.spi.lang.Language;
-import com.atlassian.clover.util.FileUtils;
-import com.atlassian.clover.registry.entities.MethodSignature;
-import com.atlassian.clover.registry.entities.Modifiers;
+import org.openclover.core.instr.java.JavaMethodContext;
+import org.openclover.core.instr.java.JavaTypeContext;
+import org.openclover.core.instr.tests.DefaultTestDetector;
+import org.openclover.core.instr.tests.TestDetector;
+import org.openclover.core.spi.lang.Language;
+import org.openclover.core.util.FileUtils;
+import org.openclover.core.registry.entities.MethodSignature;
+import org.openclover.core.registry.entities.Modifiers;
 import org.jetbrains.jps.devkit.model.JpsPluginModuleProperties;
 import org.jetbrains.jps.devkit.model.JpsPluginModuleType;
 import org.jetbrains.jps.model.JpsElementFactory;
@@ -22,7 +22,6 @@ import org.junit.Test;
 import java.io.File;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -41,8 +40,8 @@ public class JpsProjectTestDetectorTest {
     }
 
     /**
-     * @see JpsProjectTestDetector#isTypeMatch(com.atlassian.clover.instr.tests.TestDetector.SourceContext,
-     *      com.atlassian.clover.instr.tests.TestDetector.TypeContext)
+     * @see JpsProjectTestDetector#isTypeMatch(TestDetector.SourceContext,
+     *      TestDetector.TypeContext)
      */
     @Test
     public void testIsTypeMatch() {
@@ -68,8 +67,8 @@ public class JpsProjectTestDetectorTest {
     }
 
     /**
-     * @see JpsProjectTestDetector#isMethodMatch(com.atlassian.clover.instr.tests.TestDetector.SourceContext,
-     *      com.atlassian.clover.instr.tests.TestDetector.MethodContext)
+     * @see JpsProjectTestDetector#isMethodMatch(TestDetector.SourceContext,
+     *      TestDetector.MethodContext)
      */
     @Test
     public void testIsMethodMatch() {

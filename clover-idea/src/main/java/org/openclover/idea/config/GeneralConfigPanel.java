@@ -1,10 +1,9 @@
 package org.openclover.idea.config;
 
-import javax.swing.JCheckBox;
 import javax.swing.JTextArea;
 import java.util.List;
 
-import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.core.util.Lists.newArrayList;
 
 public class GeneralConfigPanel extends AbstractInlineConfigPanel {
 

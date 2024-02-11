@@ -1,7 +1,7 @@
 package org.openclover.idea.report.cloud;
 
 import org.openclover.idea.coverage.BaseCoverageNodeViewer;
-import com.atlassian.clover.api.registry.HasMetrics;
+import org.openclover.core.api.registry.HasMetrics;
 
 import javax.swing.Icon;
 

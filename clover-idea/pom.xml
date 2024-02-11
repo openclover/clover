@@ -146,7 +146,7 @@
                                     <not><available file="${testproject.db}" /></not>
                                     <then>
                                         <!-- instrument -->
-                                        <java classname="com.atlassian.clover.CloverInstr"
+                                        <java classname="org.openclover.core.CloverInstr"
                                               classpath="${org.openclover:clover:jar}"
                                               fork="true">
                                             <arg value="-s" />
@@ -178,7 +178,7 @@
                                             </batchtest>
                                         </junit>
                                         <!-- generate reports -->
-                                        <java classname="com.atlassian.clover.reporters.html.HtmlReporter"
+                                        <java classname="org.openclover.core.reporters.html.HtmlReporter"
                                               classpath="${org.openclover:clover:jar}"
                                               fork="true">
                                             <arg value="-i" />

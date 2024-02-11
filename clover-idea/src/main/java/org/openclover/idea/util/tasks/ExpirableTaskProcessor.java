@@ -15,7 +15,7 @@ import org.jetbrains.annotations.TestOnly;
 import java.util.Iterator;
 import java.util.List;
 
-import static org.openclover.util.Lists.newLinkedList;
+import static org.openclover.core.util.Lists.newLinkedList;
 
 public class ExpirableTaskProcessor {
     @SuppressWarnings({"unchecked"})

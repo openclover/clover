@@ -3,7 +3,7 @@ package org.openclover.idea.autoupdater;
 import org.openclover.runtime.Logger;
 import org.openclover.idea.util.l10n.CloverIdeaPluginMessages;
 import org.openclover.idea.util.NetUtil;
-import org.openclover.util.ClassPathUtil;
+import org.openclover.core.util.ClassPathUtil;
 import org.openclover.runtime.util.IOStreamUtils;
 import com.intellij.ide.startup.StartupActionScriptManager;
 import com.intellij.openapi.application.ApplicationManager;

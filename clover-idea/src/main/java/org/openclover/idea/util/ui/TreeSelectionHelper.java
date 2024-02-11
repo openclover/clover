@@ -1,10 +1,10 @@
 package org.openclover.idea.util.ui;
 
-import com.atlassian.clover.registry.entities.FullPackageInfo;
+import org.openclover.core.registry.entities.FullPackageInfo;
 import org.openclover.idea.coverage.CoverageTreeModel;
 import org.openclover.idea.testexplorer.DecoratedTestCaseInfo;
 import org.openclover.idea.testexplorer.SimplePackageFragment;
-import com.atlassian.clover.registry.entities.PackageFragment;
+import org.openclover.core.registry.entities.PackageFragment;
 
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;

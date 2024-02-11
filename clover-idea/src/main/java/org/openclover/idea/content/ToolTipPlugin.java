@@ -1,16 +1,16 @@
 package org.openclover.idea.content;
 
-import com.atlassian.clover.api.registry.BranchInfo;
-import com.atlassian.clover.api.registry.ClassInfo;
-import com.atlassian.clover.api.registry.MethodInfo;
-import com.atlassian.clover.api.registry.StatementInfo;
+import org.openclover.core.api.registry.BranchInfo;
+import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.MethodInfo;
+import org.openclover.core.api.registry.StatementInfo;
 import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.feature.CloverFeatures;
 import org.openclover.idea.feature.FeatureEvent;
 import org.openclover.idea.feature.FeatureListener;
 import org.openclover.idea.feature.FeatureManager;
-import com.atlassian.clover.api.registry.ElementInfo;
-import com.atlassian.clover.registry.FileElementVisitor;
+import org.openclover.core.api.registry.ElementInfo;
+import org.openclover.core.registry.FileElementVisitor;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.LogicalPosition;
 import com.intellij.openapi.editor.event.EditorMouseEvent;

@@ -1,8 +1,7 @@
 package org.openclover.idea;
 
-import org.openclover.idea.CloverToolWindowId;
 import org.openclover.idea.util.ui.CloverIcons;
-import com.atlassian.clover.registry.entities.FullClassInfo;
+import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.idea.config.ConfigChangeEvent;
 import org.openclover.idea.config.ConfigChangeListener;
 import org.openclover.idea.config.IdeaCloverConfig;
@@ -12,8 +11,8 @@ import org.openclover.idea.coverage.CoverageNodeViewer;
 import org.openclover.idea.coverage.CoverageTreeModel;
 import org.openclover.idea.report.jfc.WarningBox;
 import org.openclover.idea.util.ui.BorderLayoutConverter;
-import com.atlassian.clover.registry.entities.FullFileInfo;
-import com.atlassian.clover.api.registry.HasMetrics;
+import org.openclover.core.registry.entities.FullFileInfo;
+import org.openclover.core.api.registry.HasMetrics;
 import com.intellij.openapi.actionSystem.ActionGroup;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.ActionToolbar;

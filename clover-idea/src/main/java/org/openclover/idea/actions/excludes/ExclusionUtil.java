@@ -17,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Iterator;
 import java.util.List;
 
-import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.core.util.Lists.newArrayList;
 
 public abstract class ExclusionUtil {
     static VirtualFile getVirtualFile(@Nullable PsiElement element) {

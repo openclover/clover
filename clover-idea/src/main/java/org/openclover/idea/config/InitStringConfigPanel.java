@@ -2,7 +2,7 @@ package org.openclover.idea.config;
 
 import org.openclover.idea.IDEContext;
 import org.openclover.idea.util.ui.UIUtils;
-import com.atlassian.clover.util.FileUtils;
+import org.openclover.core.util.FileUtils;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;

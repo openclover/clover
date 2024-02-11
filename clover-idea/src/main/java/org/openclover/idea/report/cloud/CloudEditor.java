@@ -1,6 +1,6 @@
 package org.openclover.idea.report.cloud;
 
-import com.atlassian.clover.api.registry.HasMetrics;
+import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.idea.coverage.BaseCoverageNodeViewer;
 import org.openclover.idea.coverage.CoverageNodeViewer;
 import org.openclover.idea.util.vfs.DummyFileEditor;

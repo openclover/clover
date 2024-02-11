@@ -1,7 +1,7 @@
 package org.openclover.idea.util.ui;
 
-import com.atlassian.clover.registry.entities.FullFileInfo;
-import com.atlassian.clover.registry.FileInfoRegion;
+import org.openclover.core.registry.entities.FullFileInfo;
+import org.openclover.core.registry.FileInfoRegion;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.fileEditor.OpenFileDescriptor;
 import com.intellij.openapi.project.Project;

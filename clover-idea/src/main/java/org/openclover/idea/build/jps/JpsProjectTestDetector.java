@@ -1,8 +1,8 @@
 package org.openclover.idea.build.jps;
 
-import com.atlassian.clover.instr.tests.DefaultTestDetector;
-import com.atlassian.clover.instr.tests.TestDetector;
-import com.atlassian.clover.util.trie.FilePathPrefixTree;
+import org.openclover.core.instr.tests.DefaultTestDetector;
+import org.openclover.core.instr.tests.TestDetector;
+import org.openclover.core.util.trie.FilePathPrefixTree;
 import org.jetbrains.jps.model.JpsProject;
 import org.jetbrains.jps.model.java.JavaSourceRootType;
 import org.jetbrains.jps.model.module.JpsModule;

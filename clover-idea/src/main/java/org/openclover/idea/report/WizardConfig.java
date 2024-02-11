@@ -1,6 +1,6 @@
 package org.openclover.idea.report;
 
-import com.atlassian.clover.reporters.ShowLambdaFunctions;
+import org.openclover.core.reporters.ShowLambdaFunctions;
 import org.openclover.idea.IDEContext;
 
 import java.io.File;

@@ -1,13 +1,13 @@
 package org.openclover.idea.report.jfc;
 
-import com.atlassian.clover.context.ContextSet;
+import org.openclover.core.context.ContextSet;
 import org.openclover.idea.coverage.BaseCoverageNodeViewer;
-import com.atlassian.clover.registry.FixedSourceRegion;
-import com.atlassian.clover.registry.entities.BasicMethodInfo;
-import com.atlassian.clover.registry.entities.FullClassInfo;
-import com.atlassian.clover.registry.entities.FullMethodInfo;
-import com.atlassian.clover.registry.entities.MethodSignature;
-import com.atlassian.clover.registry.entities.TestCaseInfo;
+import org.openclover.core.registry.FixedSourceRegion;
+import org.openclover.core.registry.entities.BasicMethodInfo;
+import org.openclover.core.registry.entities.FullClassInfo;
+import org.openclover.core.registry.entities.FullMethodInfo;
+import org.openclover.core.registry.entities.MethodSignature;
+import org.openclover.core.registry.entities.TestCaseInfo;
 import org.junit.Test;
 
 import java.util.Arrays;

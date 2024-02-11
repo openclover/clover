@@ -1,7 +1,7 @@
 package org.openclover.idea.junit;
 
-import com.atlassian.clover.api.optimization.Optimizable;
-import com.atlassian.clover.api.optimization.StringOptimizable;
+import org.openclover.core.api.optimization.Optimizable;
+import org.openclover.core.api.optimization.StringOptimizable;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.core.util.Lists.newArrayList;
 import static org.junit.Assert.*;
 
 public class WhenJUnitClassListProcessorTestWritesManifestFile {

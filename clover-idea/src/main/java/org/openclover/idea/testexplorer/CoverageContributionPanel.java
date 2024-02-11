@@ -1,13 +1,13 @@
 package org.openclover.idea.testexplorer;
 
-import com.atlassian.clover.BitSetCoverageProvider;
-import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.CoverageData;
-import com.atlassian.clover.api.registry.MethodInfo;
+import org.openclover.core.BitSetCoverageProvider;
+import org.openclover.core.CloverDatabase;
+import org.openclover.core.CoverageData;
+import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.idea.IProjectPlugin;
-import com.atlassian.clover.registry.entities.FullClassInfo;
-import com.atlassian.clover.registry.entities.FullPackageInfo;
-import com.atlassian.clover.registry.entities.FullProjectInfo;
+import org.openclover.core.registry.entities.FullClassInfo;
+import org.openclover.core.registry.entities.FullPackageInfo;
+import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.idea.coverage.CoverageListener;
 import org.openclover.idea.coverage.CoverageManager;
 import org.openclover.idea.ProjectPlugin;
@@ -19,12 +19,11 @@ import org.openclover.idea.treetables.TreeTableModelFactory;
 import org.openclover.idea.util.ui.ScrollToSourceMouseAdapter;
 import org.openclover.idea.util.ui.TreeExpansionHelper;
 import org.openclover.idea.util.ui.TreeUtil;
-import com.atlassian.clover.registry.CoverageDataProvider;
-import com.atlassian.clover.registry.entities.FullFileInfo;
-import com.atlassian.clover.api.registry.HasMetrics;
-import com.atlassian.clover.registry.metrics.HasMetricsFilter;
-import com.atlassian.clover.registry.entities.FullMethodInfo;
-import com.atlassian.clover.registry.entities.TestCaseInfo;
+import org.openclover.core.registry.CoverageDataProvider;
+import org.openclover.core.registry.entities.FullFileInfo;
+import org.openclover.core.registry.metrics.HasMetricsFilter;
+import org.openclover.core.registry.entities.FullMethodInfo;
+import org.openclover.core.registry.entities.TestCaseInfo;
 import com.intellij.openapi.project.Project;
 import com.intellij.ui.dualView.TreeTableView;
 
@@ -45,8 +44,8 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 
-import static org.openclover.util.Lists.newArrayList;
-import static org.openclover.util.Maps.newHashMap;
+import static org.openclover.core.util.Lists.newArrayList;
+import static org.openclover.core.util.Maps.newHashMap;
 
 public class CoverageContributionPanel extends JPanel implements TestRunExplorerToolWindow.TestCaseSelectionListener,
         CoverageListener, ConfigChangeListener {

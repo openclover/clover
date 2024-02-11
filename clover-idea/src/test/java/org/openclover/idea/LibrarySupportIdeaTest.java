@@ -1,6 +1,6 @@
 package org.openclover.idea;
 
-import com.atlassian.clover.util.FileUtils;
+import org.openclover.core.util.FileUtils;
 import com.intellij.openapi.application.ApplicationInfo;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.module.Module;

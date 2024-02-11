@@ -1,17 +1,17 @@
 package org.openclover.idea.content;
 
-import com.atlassian.clover.api.registry.BranchInfo;
-import com.atlassian.clover.api.registry.ClassInfo;
-import com.atlassian.clover.api.registry.MethodInfo;
-import com.atlassian.clover.api.registry.SourceInfo;
-import com.atlassian.clover.api.registry.StatementInfo;
-import com.atlassian.clover.registry.CoverageDataReceptor;
-import com.atlassian.clover.registry.FileElementVisitor;
+import org.openclover.core.api.registry.BranchInfo;
+import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.MethodInfo;
+import org.openclover.core.api.registry.SourceInfo;
+import org.openclover.core.api.registry.StatementInfo;
+import org.openclover.core.registry.CoverageDataReceptor;
+import org.openclover.core.registry.FileElementVisitor;
 import com.intellij.openapi.editor.LogicalPosition;
 
 import java.util.Collection;
 
-import static org.openclover.util.Lists.newLinkedList;
+import static org.openclover.core.util.Lists.newLinkedList;
 
 public class StatementsAggregatingVisitor implements FileElementVisitor {
 

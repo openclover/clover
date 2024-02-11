@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 import java.util.Locale;
 import java.util.Map;
 
-import static org.openclover.util.Maps.newHashMap;
+import static org.openclover.core.util.Maps.newHashMap;
 
 public class PropertyUtil {
 

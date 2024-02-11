@@ -21,7 +21,7 @@ import org.jetbrains.jps.model.serialization.module.JpsModulePropertiesSerialize
 import java.util.Collections;
 import java.util.List;
 
-import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.core.util.Lists.newArrayList;
 
 /**
  * Serializer extension service which returns three serializers:

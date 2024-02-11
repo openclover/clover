@@ -1,6 +1,6 @@
 package org.openclover.idea.testexplorer;
 
-import com.atlassian.clover.CloverDatabase;
+import org.openclover.core.CloverDatabase;
 import org.openclover.idea.IProjectPlugin;
 import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.SelectInCloverTarget;
@@ -15,10 +15,10 @@ import org.openclover.idea.coverage.CoverageListener;
 import org.openclover.idea.coverage.EventListenerInstallator;
 import org.openclover.idea.util.ui.CloverIcons;
 import org.openclover.idea.util.vfs.VfsUtil;
-import com.atlassian.clover.registry.CoverageDataReceptor;
-import com.atlassian.clover.registry.entities.FullFileInfo;
-import com.atlassian.clover.registry.entities.FullProjectInfo;
-import com.atlassian.clover.registry.entities.TestCaseInfo;
+import org.openclover.core.registry.CoverageDataReceptor;
+import org.openclover.core.registry.entities.FullFileInfo;
+import org.openclover.core.registry.entities.FullProjectInfo;
+import org.openclover.core.registry.entities.TestCaseInfo;
 import com.intellij.ide.SelectInContext;
 import com.intellij.openapi.actionSystem.ActionGroup;
 import com.intellij.openapi.actionSystem.ActionManager;

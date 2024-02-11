@@ -1,6 +1,6 @@
 package org.openclover.idea.config;
 
-import com.atlassian.clover.cfg.Interval;
+import org.openclover.core.cfg.Interval;
 import org.openclover.idea.util.ui.UIUtils;
 
 import javax.swing.JLabel;

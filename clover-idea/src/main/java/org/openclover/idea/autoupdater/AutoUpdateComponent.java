@@ -1,6 +1,6 @@
 package org.openclover.idea.autoupdater;
 
-import com.atlassian.clover.versions.LibraryVersion;
+import org.openclover.core.versions.LibraryVersion;
 import org.openclover.runtime.Logger;
 import org.openclover.idea.PluginVersionInfo;
 import org.openclover.idea.util.l10n.CloverIdeaPluginMessages;

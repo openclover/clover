@@ -2,7 +2,7 @@ package org.openclover.idea.report;
 
 import org.openclover.idea.config.GBC;
 import org.openclover.idea.util.ui.UIUtils;
-import com.atlassian.clover.reporters.ShowLambdaFunctions;
+import org.openclover.core.reporters.ShowLambdaFunctions;
 
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
@@ -13,8 +13,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import java.awt.Font;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 
 public class ConfigureXmlUI extends AbstractConfigureUI {

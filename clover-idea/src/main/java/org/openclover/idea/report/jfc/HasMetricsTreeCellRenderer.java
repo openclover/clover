@@ -1,11 +1,11 @@
 package org.openclover.idea.report.jfc;
 
-import com.atlassian.clover.api.registry.MethodInfo;
+import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.idea.util.ui.CloverIcons;
 import org.openclover.idea.treetables.CellRendererUtil;
-import com.atlassian.clover.registry.entities.BaseClassInfo;
-import com.atlassian.clover.api.registry.HasMetrics;
-import com.atlassian.clover.registry.entities.FullProjectInfo;
+import org.openclover.core.registry.entities.BaseClassInfo;
+import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.registry.entities.FullProjectInfo;
 
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;

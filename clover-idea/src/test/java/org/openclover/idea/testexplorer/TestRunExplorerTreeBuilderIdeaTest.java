@@ -1,12 +1,12 @@
 package org.openclover.idea.testexplorer;
 
-import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.CoverageDataSpec;
+import org.openclover.core.CloverDatabase;
+import org.openclover.core.CoverageDataSpec;
 import org.openclover.runtime.api.CloverException;
-import com.atlassian.clover.registry.entities.FullClassInfo;
+import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.idea.coverage.CoverageManager;
-import com.atlassian.clover.registry.entities.FullProjectInfo;
-import com.atlassian.clover.reporters.filters.DefaultTestFilter;
+import org.openclover.core.registry.entities.FullProjectInfo;
+import org.openclover.core.reporters.filters.DefaultTestFilter;
 import com.intellij.testFramework.LightIdeaTestCase;
 import org.mockito.Mockito;
 

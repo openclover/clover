@@ -1,17 +1,17 @@
 package org.openclover.idea.junit;
 
-import com.atlassian.clover.api.optimization.Optimizable;
-import com.atlassian.clover.api.optimization.OptimizationOptions;
-import com.atlassian.clover.CloverDatabase;
+import org.openclover.core.api.optimization.Optimizable;
+import org.openclover.core.api.optimization.OptimizationOptions;
+import org.openclover.core.CloverDatabase;
 import org.openclover.runtime.Logger;
 import org.openclover.idea.CloverToolWindowId;
 import org.openclover.idea.ProjectPluginViaReflection;
 import org.openclover.idea.coverage.SnapshotFileMutex;
 import org.openclover.idea.junit.config.OptimizedConfigurationSettings;
-import com.atlassian.clover.optimization.LocalSnapshotOptimizer;
-import com.atlassian.clover.optimization.OptimizationSession;
-import com.atlassian.clover.optimization.Snapshot;
-import com.atlassian.clover.api.optimization.StringOptimizable;
+import org.openclover.core.optimization.LocalSnapshotOptimizer;
+import org.openclover.core.optimization.OptimizationSession;
+import org.openclover.core.optimization.Snapshot;
+import org.openclover.core.api.optimization.StringOptimizable;
 import org.openclover.runtime.util.IOStreamUtils;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ServiceManager;
@@ -30,7 +30,7 @@ import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.List;
 
-import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.core.util.Lists.newArrayList;
 
 public class JUnitClassListProcessor {
     protected final File ideaGeneratedFile;

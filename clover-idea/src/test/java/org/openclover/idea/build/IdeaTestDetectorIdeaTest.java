@@ -1,15 +1,15 @@
 package org.openclover.idea.build;
 
-import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig;
+import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig;
 import org.openclover.idea.ApplicationTestHelper;
 import org.openclover.idea.util.vfs.VfsUtil;
-import com.atlassian.clover.instr.java.FileStructureInfo;
-import com.atlassian.clover.instr.java.InstrumentationState;
-import com.atlassian.clover.instr.java.JavaMethodContext;
-import com.atlassian.clover.instr.java.JavaTypeContext;
-import com.atlassian.clover.instr.tests.DefaultTestDetector;
-import com.atlassian.clover.registry.entities.FullFileInfo;
-import com.atlassian.clover.registry.entities.MethodSignature;
+import org.openclover.core.instr.java.FileStructureInfo;
+import org.openclover.core.instr.java.InstrumentationState;
+import org.openclover.core.instr.java.JavaMethodContext;
+import org.openclover.core.instr.java.JavaTypeContext;
+import org.openclover.core.instr.tests.DefaultTestDetector;
+import org.openclover.core.registry.entities.FullFileInfo;
+import org.openclover.core.registry.entities.MethodSignature;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.roots.ContentEntry;
 import com.intellij.openapi.roots.ModifiableRootModel;

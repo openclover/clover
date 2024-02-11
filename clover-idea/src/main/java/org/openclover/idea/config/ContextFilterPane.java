@@ -1,7 +1,7 @@
 package org.openclover.idea.config;
 
-import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.context.ContextStore;
+import org.openclover.core.CloverDatabase;
+import org.openclover.core.context.ContextStore;
 import org.openclover.idea.ProjectPlugin;
 import com.intellij.openapi.project.Project;
 

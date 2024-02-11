@@ -1,9 +1,12 @@
 package org.openclover.idea.report.cloud;
 
-import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.api.registry.ClassInfo;
-import com.atlassian.clover.api.registry.HasMetrics;
-import com.atlassian.clover.api.registry.PackageInfo;
+import org.openclover.core.CloverDatabase;
+import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.core.reporters.html.HtmlReporter;
+import org.openclover.core.reporters.html.RenderCoverageCloudAction;
+import org.openclover.core.reporters.html.TabInfo;
 import org.openclover.idea.HasMetricsListener;
 import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.actions.Constants;
@@ -16,14 +19,14 @@ import org.openclover.idea.coverage.CoverageManager;
 import org.openclover.idea.coverage.ModelUtil;
 import org.openclover.idea.util.ModelScope;
 import org.openclover.idea.util.ui.CloverIcons;
-import com.atlassian.clover.registry.entities.BaseClassInfo;
-import com.atlassian.clover.registry.entities.FullProjectInfo;
-import com.atlassian.clover.registry.entities.PackageFragment;
-import com.atlassian.clover.registry.metrics.ClassMetrics;
-import com.atlassian.clover.registry.metrics.HasMetricsFilter;
-import com.atlassian.clover.reporters.CloudGenerator;
-import com.atlassian.clover.reporters.html.ClassInfoStatsCalculator;
-import com.atlassian.clover.reporters.html.HtmlRenderingSupportImpl;
+import org.openclover.core.registry.entities.BaseClassInfo;
+import org.openclover.core.registry.entities.FullProjectInfo;
+import org.openclover.core.registry.entities.PackageFragment;
+import org.openclover.core.registry.metrics.ClassMetrics;
+import org.openclover.core.registry.metrics.HasMetricsFilter;
+import org.openclover.core.reporters.CloudGenerator;
+import org.openclover.core.reporters.html.ClassInfoStatsCalculator;
+import org.openclover.core.reporters.html.HtmlRenderingSupportImpl;
 import com.intellij.openapi.actionSystem.DataProvider;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
@@ -65,7 +68,7 @@ public class CloudEditorController implements CoverageListener, HasMetricsListen
      *
      * @param classes   list of classes
      * @return html
-     * @see com.atlassian.clover.reporters.html.RenderCoverageCloudAction#renderProjectRisks(java.io.File, java.util.List, com.atlassian.clover.reporters.html.TabInfo, com.atlassian.clover.reporters.html.HtmlReporter.TreeInfo)
+     * @see RenderCoverageCloudAction#renderProjectRisks(java.io.File, java.util.List, TabInfo, HtmlReporter.TreeInfo)
      */
     private String generateRiskHtml(List<? extends ClassInfo> classes) {
         final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -87,7 +90,7 @@ public class CloudEditorController implements CoverageListener, HasMetricsListen
      *
      * @param classes   list of classes
      * @return html
-     * @see com.atlassian.clover.reporters.html.RenderCoverageCloudAction#renderQuickWins(java.io.File, java.util.List, com.atlassian.clover.reporters.html.TabInfo, com.atlassian.clover.reporters.html.HtmlReporter.TreeInfo)
+     * @see RenderCoverageCloudAction#renderQuickWins(java.io.File, java.util.List, TabInfo, HtmlReporter.TreeInfo)
      */
     private String generateWinHtml(List<? extends ClassInfo> classes) {
         final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -242,7 +245,7 @@ class AggregatingFilter implements HasMetricsFilter {
 
     public AggregatingFilter(final String packagePrefix, boolean includeSubpkgs) {
         this.includeSubpkgs = includeSubpkgs;
-        this.packagePrefix = packagePrefix == null || packagePrefix.length() == 0 || com.atlassian.clover.api.registry.PackageInfo.DEFAULT_PACKAGE_NAME.equals(packagePrefix) ?
+        this.packagePrefix = packagePrefix == null || packagePrefix.length() == 0 || PackageInfo.DEFAULT_PACKAGE_NAME.equals(packagePrefix) ?
                 null : packagePrefix + ".";
         this.packagePrefixLen = this.packagePrefix == null ? 0 : this.packagePrefix.length();
     }

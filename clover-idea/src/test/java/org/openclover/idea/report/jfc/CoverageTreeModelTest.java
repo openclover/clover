@@ -1,7 +1,7 @@
 package org.openclover.idea.report.jfc;
 
 import org.openclover.idea.util.ModelScope;
-import com.atlassian.clover.ProgressListener;
+import org.openclover.core.ProgressListener;
 import org.openclover.idea.coverage.CoverageTreeModel;
 import com.intellij.testFramework.LightIdeaTestCase;
 

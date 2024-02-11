@@ -1,7 +1,7 @@
 package org.openclover.idea.build;
 
-import com.atlassian.clover.instr.tests.TestDetector;
-import com.atlassian.clover.instr.tests.DefaultTestDetector;
+import org.openclover.core.instr.tests.TestDetector;
+import org.openclover.core.instr.tests.DefaultTestDetector;
 import org.openclover.idea.IdeaTestFilter;
 import com.intellij.openapi.project.Project;
 

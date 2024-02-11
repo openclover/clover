@@ -6,7 +6,7 @@ import org.jetbrains.jps.incremental.ModuleLevelBuilder;
 
 import java.util.List;
 
-import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.core.util.Lists.newArrayList;
 
 /**
  * Service which returns an instance of CloverJavaBuilder as an additional builder for a module.

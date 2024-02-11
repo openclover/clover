@@ -1,6 +1,6 @@
 package org.openclover.idea.report.treemap;
 
-import com.atlassian.clover.CloverDatabase;
+import org.openclover.core.CloverDatabase;
 import org.openclover.idea.coverage.CoverageListener;
 import org.openclover.idea.coverage.CoverageManager;
 import org.openclover.idea.util.vfs.DummyFileEditor;

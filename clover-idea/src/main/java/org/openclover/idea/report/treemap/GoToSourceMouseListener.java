@@ -1,8 +1,8 @@
 package org.openclover.idea.report.treemap;
 
 import org.openclover.idea.util.ui.ScrollUtil;
-import com.atlassian.clover.api.registry.BlockMetrics;
-import com.atlassian.clover.registry.entities.FullClassInfo;
+import org.openclover.core.api.registry.BlockMetrics;
+import org.openclover.core.registry.entities.FullClassInfo;
 import com.intellij.openapi.project.Project;
 import clover.net.sf.jtreemap.swing.JTreeMap;
 import clover.net.sf.jtreemap.swing.TreeMapNode;
@@ -11,8 +11,6 @@ import clover.net.sf.jtreemap.swing.Value;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 

@@ -1,14 +1,14 @@
 package org.openclover.idea.treetables;
 
-import com.atlassian.clover.api.registry.MethodInfo;
-import com.atlassian.clover.registry.entities.BaseClassInfo;
+import org.openclover.core.api.registry.MethodInfo;
+import org.openclover.core.registry.entities.BaseClassInfo;
 import org.openclover.idea.util.ui.CloverIcons;
 import org.openclover.idea.coverage.CoverageTreeModel;
 import org.openclover.idea.testexplorer.SourceFolderDescription;
-import com.atlassian.clover.api.registry.HasMetrics;
-import com.atlassian.clover.registry.entities.PackageFragment;
-import com.atlassian.clover.registry.entities.FullPackageInfo;
-import com.atlassian.clover.registry.entities.TestCaseInfo;
+import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.registry.entities.PackageFragment;
+import org.openclover.core.registry.entities.FullPackageInfo;
+import org.openclover.core.registry.entities.TestCaseInfo;
 
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;

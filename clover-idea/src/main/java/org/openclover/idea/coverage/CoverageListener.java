@@ -1,6 +1,6 @@
 package org.openclover.idea.coverage;
 
-import com.atlassian.clover.CloverDatabase;
+import org.openclover.core.CloverDatabase;
 import org.jetbrains.annotations.Nullable;
 
 /**

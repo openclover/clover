@@ -2,7 +2,7 @@ package org.openclover.idea.actions;
 
 import org.openclover.idea.IProjectPlugin;
 import org.openclover.idea.ProjectPlugin;
-import com.atlassian.clover.optimization.Snapshot;
+import org.openclover.core.optimization.Snapshot;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 

@@ -1,7 +1,7 @@
 package org.openclover.idea.coverage.monitor;
 
 import org.openclover.runtime.Logger;
-import com.atlassian.clover.cfg.Interval;
+import org.openclover.core.cfg.Interval;
 import org.openclover.idea.config.CloverPluginConfig;
 import org.openclover.idea.config.ConfigChangeEvent;
 import org.openclover.idea.config.ConfigChangeListener;

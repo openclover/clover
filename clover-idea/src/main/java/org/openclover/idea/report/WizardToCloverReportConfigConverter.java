@@ -1,9 +1,9 @@
 package org.openclover.idea.report;
 
-import com.atlassian.clover.reporters.CloverReportConfig;
-import com.atlassian.clover.reporters.Current;
-import com.atlassian.clover.reporters.Format;
-import com.atlassian.clover.reporters.ShowLambdaFunctions;
+import org.openclover.core.reporters.CloverReportConfig;
+import org.openclover.core.reporters.Current;
+import org.openclover.core.reporters.Format;
+import org.openclover.core.reporters.ShowLambdaFunctions;
 
 /**
  * Converts WizardConfig to CloverReportConfig.

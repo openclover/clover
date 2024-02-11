@@ -2,9 +2,9 @@ package org.openclover.idea.report.jfc;
 
 import org.openclover.idea.build.InclusionDetector;
 import org.openclover.idea.build.ProjectInclusionDetector;
-import com.atlassian.clover.registry.entities.FullFileInfo;
-import com.atlassian.clover.api.registry.HasMetrics;
-import com.atlassian.clover.registry.metrics.HasMetricsFilter;
+import org.openclover.core.registry.entities.FullFileInfo;
+import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.registry.metrics.HasMetricsFilter;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;

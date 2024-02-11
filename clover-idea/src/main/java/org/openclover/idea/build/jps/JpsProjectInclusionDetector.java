@@ -1,7 +1,7 @@
 package org.openclover.idea.build.jps;
 
-import com.atlassian.clover.spi.lang.Language;
-import com.atlassian.clover.util.FileUtils;
+import org.openclover.core.spi.lang.Language;
+import org.openclover.core.util.FileUtils;
 import org.openclover.idea.util.InclusionUtil;
 import org.openclover.idea.build.InclusionDetector;
 import org.openclover.idea.config.CloverModuleConfig;

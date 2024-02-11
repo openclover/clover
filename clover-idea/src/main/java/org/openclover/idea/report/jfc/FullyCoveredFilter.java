@@ -1,6 +1,6 @@
 package org.openclover.idea.report.jfc;
 
-import com.atlassian.clover.api.registry.HasMetrics;
+import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.idea.coverage.CoverageTreeFilter;
 import org.openclover.idea.coverage.CoverageTreeModel;
 

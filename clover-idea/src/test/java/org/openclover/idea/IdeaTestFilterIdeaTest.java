@@ -1,11 +1,11 @@
 package org.openclover.idea;
 
-import com.atlassian.clover.api.registry.ClassInfo;
-import com.atlassian.clover.registry.entities.FullClassInfo;
-import com.atlassian.clover.registry.entities.FullFileInfo;
-import com.atlassian.clover.api.registry.HasMetrics;
-import com.atlassian.clover.registry.entities.FullMethodInfo;
-import com.atlassian.clover.registry.entities.FullPackageInfo;
+import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.registry.entities.FullClassInfo;
+import org.openclover.core.registry.entities.FullFileInfo;
+import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.registry.entities.FullMethodInfo;
+import org.openclover.core.registry.entities.FullPackageInfo;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.roots.ContentEntry;
 import com.intellij.openapi.roots.ModifiableRootModel;

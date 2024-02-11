@@ -1,7 +1,7 @@
 package org.openclover.idea.build;
 
-import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig;
-import com.atlassian.clover.cfg.instr.java.SourceLevel;
+import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig;
+import org.openclover.core.cfg.instr.java.SourceLevel;
 import org.openclover.idea.config.CloverPluginConfig;
 import com.intellij.openapi.project.Project;
 

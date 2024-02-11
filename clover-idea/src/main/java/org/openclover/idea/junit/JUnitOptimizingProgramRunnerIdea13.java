@@ -3,7 +3,7 @@ package org.openclover.idea.junit;
 import org.openclover.idea.ProjectPluginViaReflection;
 import org.openclover.idea.junit.config.OptimizedConfigurationSettings;
 import org.openclover.idea.junit.config.OptimizedConfigurationSettingsEditor;
-import com.atlassian.clover.optimization.OptimizationSession;
+import org.openclover.core.optimization.OptimizationSession;
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.ExecutionResult;
 import com.intellij.execution.Executor;

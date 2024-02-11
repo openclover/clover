@@ -1,8 +1,8 @@
 package org.openclover.idea.config;
 
-import com.atlassian.clover.context.ContextSet;
-import com.atlassian.clover.context.ContextStore;
-import com.atlassian.clover.context.NamedContext;
+import org.openclover.core.context.ContextSet;
+import org.openclover.core.context.ContextStore;
+import org.openclover.core.context.NamedContext;
 import org.openclover.idea.util.ui.UIUtils;
 import org.openclover.idea.util.l10n.CloverIdeaPluginMessages;
 import org.openclover.idea.util.ui.RichLabel;
@@ -15,7 +15,7 @@ import java.awt.GridLayout;
 import java.util.List;
 import java.util.Map;
 
-import static org.openclover.util.Maps.newHashMap;
+import static org.openclover.core.util.Maps.newHashMap;
 
 /**
  * Simple JPanel that displays a checkbox for each context.

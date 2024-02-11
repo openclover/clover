@@ -1,6 +1,6 @@
 package org.openclover.idea.config;
 
-import com.atlassian.clover.context.ContextStore;
+import org.openclover.core.context.ContextStore;
 import org.openclover.idea.util.ui.CloverIcons;
 import org.openclover.idea.config.regexp.EditRegexpPanel;
 import org.openclover.idea.config.regexp.Regexp;
@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.core.util.Lists.newArrayList;
 
 public class IdeaRegexpConfigPanel extends ConfigPanel implements Observer {
 

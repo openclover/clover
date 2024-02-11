@@ -1,6 +1,6 @@
 package org.openclover.idea;
 
-import com.atlassian.clover.CloverStartup;
+import org.openclover.core.CloverStartup;
 import org.openclover.runtime.Logger;
 import org.openclover.idea.config.CloverGlobalConfig;
 import org.openclover.idea.config.IdeaXmlConfigConstants;

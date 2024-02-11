@@ -1,7 +1,7 @@
 package org.openclover.idea.report.cloud;
 
-import com.atlassian.clover.api.registry.ClassInfo;
-import com.atlassian.clover.reporters.html.HtmlRenderingSupportImpl;
+import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.reporters.html.HtmlRenderingSupportImpl;
 
 public class IdeaEditorLinkingHtmlRenderingSupport extends HtmlRenderingSupportImpl {
 

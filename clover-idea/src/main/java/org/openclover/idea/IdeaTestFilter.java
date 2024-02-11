@@ -1,9 +1,9 @@
 package org.openclover.idea;
 
-import com.atlassian.clover.registry.entities.FullClassInfo;
-import com.atlassian.clover.registry.entities.FullFileInfo;
-import com.atlassian.clover.api.registry.HasMetrics;
-import com.atlassian.clover.reporters.filters.DefaultTestFilter;
+import org.openclover.core.registry.entities.FullClassInfo;
+import org.openclover.core.registry.entities.FullFileInfo;
+import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.reporters.filters.DefaultTestFilter;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.vfs.VfsUtil;

@@ -1,6 +1,6 @@
 package org.openclover.idea.build;
 
-import com.atlassian.clover.instr.java.InstrumentationSource;
+import org.openclover.core.instr.java.InstrumentationSource;
 import org.openclover.idea.util.CharsetUtil;
 import org.openclover.idea.util.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;

@@ -1,6 +1,6 @@
 package org.openclover.idea.util.tasks;
 
-import com.atlassian.clover.ProgressListener;
+import org.openclover.core.ProgressListener;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.progress.ProgressIndicator;
 

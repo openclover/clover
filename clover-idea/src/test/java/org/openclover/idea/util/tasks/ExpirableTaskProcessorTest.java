@@ -2,7 +2,6 @@ package org.openclover.idea.util.tasks;
 
 import org.openclover.idea.util.MiscUtils;
 import com.intellij.openapi.progress.ProgressIndicator;
-import com.intellij.openapi.util.Computable;
 import com.intellij.testFramework.LightIdeaTestCase;
 import org.jetbrains.annotations.NotNull;
 
@@ -11,7 +10,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.core.util.Lists.newArrayList;
 
 public class ExpirableTaskProcessorTest extends LightIdeaTestCase {
 

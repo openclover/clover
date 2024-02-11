@@ -1,6 +1,6 @@
 package org.openclover.idea.autoupdater;
 
-import com.atlassian.clover.versions.LibraryVersion;
+import org.openclover.core.versions.LibraryVersion;
 import org.openclover.idea.PluginVersionInfo;
 import org.openclover.idea.util.ui.CloverIcons;
 import org.openclover.idea.util.l10n.CloverIdeaPluginMessages;
@@ -11,11 +11,9 @@ import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.wm.StatusBar;
 import com.intellij.openapi.wm.StatusBarWidget;
 import com.intellij.openapi.wm.WindowManager;
-import com.intellij.util.Consumer;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.JFrame;
-import java.awt.event.MouseEvent;
 
 public class NewVersionNotifier implements ProjectComponent {
     private final Project project;

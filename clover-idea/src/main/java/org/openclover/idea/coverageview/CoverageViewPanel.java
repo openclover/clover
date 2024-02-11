@@ -1,11 +1,11 @@
 package org.openclover.idea.coverageview;
 
-import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.api.registry.ClassInfo;
-import com.atlassian.clover.api.registry.HasMetrics;
-import com.atlassian.clover.api.registry.MethodInfo;
-import com.atlassian.clover.api.registry.MethodSignatureInfo;
-import com.atlassian.clover.api.registry.ParameterInfo;
+import org.openclover.core.CloverDatabase;
+import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.api.registry.MethodInfo;
+import org.openclover.core.api.registry.MethodSignatureInfo;
+import org.openclover.core.api.registry.ParameterInfo;
 import org.openclover.idea.NodeWrapperSelectionListener;
 import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.SelectInCloverTarget;
@@ -27,10 +27,10 @@ import org.openclover.idea.treetables.TreeTablePanel;
 import org.openclover.idea.util.ModelScope;
 import org.openclover.idea.util.ui.TreeExpansionHelper;
 import org.openclover.idea.util.vfs.VfsUtil;
-import com.atlassian.clover.registry.FileInfoRegion;
-import com.atlassian.clover.registry.entities.FullFileInfo;
-import com.atlassian.clover.registry.entities.FullPackageInfo;
-import com.atlassian.clover.registry.entities.PackageFragment;
+import org.openclover.core.registry.FileInfoRegion;
+import org.openclover.core.registry.entities.FullFileInfo;
+import org.openclover.core.registry.entities.FullPackageInfo;
+import org.openclover.core.registry.entities.PackageFragment;
 import com.intellij.ide.DataManager;
 import com.intellij.ide.SelectInContext;
 import com.intellij.openapi.actionSystem.DataContext;
@@ -72,7 +72,7 @@ import java.beans.PropertyChangeEvent;
 import java.io.File;
 import java.util.Collection;
 
-import static org.openclover.util.Sets.newHashSet;
+import static org.openclover.core.util.Sets.newHashSet;
 
 public class CoverageViewPanel extends TreeTablePanel implements ConfigChangeListener, CoverageTreeListener,
         DataProvider {

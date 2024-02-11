@@ -1,6 +1,6 @@
 package org.openclover.idea.config;
 
-import com.atlassian.clover.cfg.instr.java.LambdaInstrumentation;
+import org.openclover.core.cfg.instr.java.LambdaInstrumentation;
 import org.openclover.idea.config.regexp.Regexp;
 
 import java.awt.Color;

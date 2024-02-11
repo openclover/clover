@@ -1,15 +1,15 @@
 package org.openclover.idea.content;
 
-import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.api.registry.BranchInfo;
-import com.atlassian.clover.api.registry.ContextSet;
-import com.atlassian.clover.api.registry.SourceInfo;
-import com.atlassian.clover.registry.CoverageDataProvider;
-import com.atlassian.clover.registry.entities.FullElementInfo;
-import com.atlassian.clover.registry.entities.FullFileInfo;
-import com.atlassian.clover.registry.entities.FullPackageInfo;
-import com.atlassian.clover.registry.metrics.HasMetricsFilter;
-import com.atlassian.clover.util.MetricsFormatUtils;
+import org.openclover.core.CloverDatabase;
+import org.openclover.core.api.registry.BranchInfo;
+import org.openclover.core.api.registry.ContextSet;
+import org.openclover.core.api.registry.SourceInfo;
+import org.openclover.core.registry.CoverageDataProvider;
+import org.openclover.core.registry.entities.FullElementInfo;
+import org.openclover.core.registry.entities.FullFileInfo;
+import org.openclover.core.registry.entities.FullPackageInfo;
+import org.openclover.core.registry.metrics.HasMetricsFilter;
+import org.openclover.core.util.MetricsFormatUtils;
 import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.config.ConfigChangeEvent;
 import org.openclover.idea.config.ConfigChangeListener;
@@ -43,7 +43,7 @@ import static org.openclover.idea.content.DocMarkupPlugin.CoverageBlock.Style.FA
 import static org.openclover.idea.content.DocMarkupPlugin.CoverageBlock.Style.FILTERED;
 import static org.openclover.idea.content.DocMarkupPlugin.CoverageBlock.Style.GOOD;
 import static org.openclover.idea.content.DocMarkupPlugin.CoverageBlock.Style.OLD;
-import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.core.util.Lists.newArrayList;
 
 public class DocMarkupPlugin extends ContentPlugin implements FeatureListener, ConfigChangeListener {
 

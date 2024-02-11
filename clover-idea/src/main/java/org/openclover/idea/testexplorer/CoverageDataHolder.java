@@ -1,6 +1,6 @@
 package org.openclover.idea.testexplorer;
 
-import com.atlassian.clover.api.registry.HasMetrics;
+import org.openclover.core.api.registry.HasMetrics;
 
 public class CoverageDataHolder implements HasCoverageInfo {
     private final HasMetrics element;

@@ -1,13 +1,13 @@
 package org.openclover.idea.testexplorer;
 
-import com.atlassian.clover.api.registry.BlockMetrics;
-import com.atlassian.clover.api.registry.HasMetrics;
-import com.atlassian.clover.registry.entities.FullPackageInfo;
+import org.openclover.core.api.registry.BlockMetrics;
+import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.registry.entities.FullPackageInfo;
 
 import java.util.Collection;
 import java.util.Map;
 
-import static org.openclover.util.Maps.newHashMap;
+import static org.openclover.core.util.Maps.newHashMap;
 
 public class SimplePackageFragment implements HasMetrics {
     private final String name;

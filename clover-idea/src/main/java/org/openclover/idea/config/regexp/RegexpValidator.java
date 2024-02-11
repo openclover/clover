@@ -1,6 +1,6 @@
 package org.openclover.idea.config.regexp;
 
-import com.atlassian.clover.context.ContextStore;
+import org.openclover.core.context.ContextStore;
 
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;

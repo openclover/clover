@@ -1,6 +1,6 @@
 package org.openclover.idea.build;
 
-import com.atlassian.clover.cfg.instr.java.SourceLevel;
+import org.openclover.core.cfg.instr.java.SourceLevel;
 import com.intellij.pom.java.LanguageLevel;
 import org.junit.Test;
 

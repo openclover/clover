@@ -1,12 +1,12 @@
 package org.openclover.idea.coverage;
 
-import com.atlassian.clover.api.registry.BlockMetrics;
-import com.atlassian.clover.api.registry.HasMetrics;
-import com.atlassian.clover.registry.metrics.ClassMetrics;
-import com.atlassian.clover.registry.metrics.FileMetrics;
-import com.atlassian.clover.registry.metrics.PackageMetrics;
-import com.atlassian.clover.registry.metrics.ProjectMetrics;
-import com.atlassian.clover.registry.entities.TestCaseInfo;
+import org.openclover.core.api.registry.BlockMetrics;
+import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.registry.metrics.ClassMetrics;
+import org.openclover.core.registry.metrics.FileMetrics;
+import org.openclover.core.registry.metrics.PackageMetrics;
+import org.openclover.core.registry.metrics.ProjectMetrics;
+import org.openclover.core.registry.entities.TestCaseInfo;
 import org.openclover.runtime.util.Formatting;
 
 import java.util.Collection;

@@ -1,8 +1,8 @@
 package org.openclover.idea.report.cloud;
 
-import com.atlassian.clover.api.registry.PackageInfo;
-import com.atlassian.clover.registry.entities.FullClassInfo;
-import com.atlassian.clover.registry.metrics.ClassMetrics;
+import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.core.registry.entities.FullClassInfo;
+import org.openclover.core.registry.metrics.ClassMetrics;
 import junit.framework.TestCase;
 import org.mockito.Mockito;
 

@@ -1,8 +1,8 @@
 package org.openclover.idea.config;
 
-import com.atlassian.clover.cfg.instr.java.LambdaInstrumentation;
+import org.openclover.core.cfg.instr.java.LambdaInstrumentation;
 import org.openclover.idea.config.regexp.Regexp;
-import com.atlassian.clover.util.collections.Pair;
+import org.openclover.core.util.collections.Pair;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.UIManager;
@@ -10,8 +10,8 @@ import java.awt.Color;
 import java.util.List;
 import java.util.Map;
 
-import static org.openclover.util.Lists.newArrayList;
-import static org.openclover.util.Maps.newHashMap;
+import static org.openclover.core.util.Lists.newArrayList;
+import static org.openclover.core.util.Maps.newHashMap;
 
 /**
  * Simple implementation of the CloverPluginConfig interface, using a in memory Map

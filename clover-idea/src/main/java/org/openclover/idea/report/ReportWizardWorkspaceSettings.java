@@ -1,6 +1,6 @@
 package org.openclover.idea.report;
 
-import com.atlassian.clover.reporters.ShowLambdaFunctions;
+import org.openclover.core.reporters.ShowLambdaFunctions;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.components.State;

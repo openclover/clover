@@ -1,10 +1,10 @@
 package org.openclover.idea.report.treemap;
 
-import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.api.registry.ClassInfo;
-import com.atlassian.clover.api.registry.PackageInfo;
-import com.atlassian.clover.registry.entities.FullClassInfo;
-import com.atlassian.clover.registry.entities.FullProjectInfo;
+import org.openclover.core.CloverDatabase;
+import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.core.registry.entities.FullClassInfo;
+import org.openclover.core.registry.entities.FullProjectInfo;
 import clover.net.sf.jtreemap.swing.TreeMapNode;
 import clover.net.sf.jtreemap.swing.TreeMapNodeBuilder;
 import clover.net.sf.jtreemap.swing.Value;

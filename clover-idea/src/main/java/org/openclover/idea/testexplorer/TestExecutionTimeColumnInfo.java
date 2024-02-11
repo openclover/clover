@@ -1,7 +1,7 @@
 package org.openclover.idea.testexplorer;
 
 import org.openclover.idea.treetables.AbstractColumnInfo;
-import com.atlassian.clover.registry.entities.TestCaseInfo;
+import org.openclover.core.registry.entities.TestCaseInfo;
 import org.openclover.runtime.util.Formatting;
 
 import javax.swing.tree.DefaultMutableTreeNode;

@@ -1,9 +1,7 @@
 package org.openclover.idea.config.regexp;
 
-import com.atlassian.clover.context.ContextStore;
-import com.atlassian.clover.context.NamedContext;
-import org.openclover.idea.config.regexp.Regexp;
-import org.openclover.idea.config.regexp.RegexpValidator;
+import org.openclover.core.context.ContextStore;
+import org.openclover.core.context.NamedContext;
 import org.openclover.idea.util.ComparatorUtil;
 import org.openclover.idea.config.CloverPluginConfig;
 
@@ -13,8 +11,8 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
-import static org.openclover.util.Lists.newArrayList;
-import static org.openclover.util.Maps.newHashMap;
+import static org.openclover.core.util.Lists.newArrayList;
+import static org.openclover.core.util.Maps.newHashMap;
 
 public class RegexpConfigModel extends Observable implements Observer {
 

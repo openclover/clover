@@ -1,6 +1,6 @@
 package org.openclover.idea.coverageview.table;
 
-import com.atlassian.clover.api.registry.HasMetrics;
+import org.openclover.core.api.registry.HasMetrics;
 
 public class ComplexityColumnInfo extends AbstractHasMetricsColumnInfo<Integer> {
     private static final String COLUMN_NAME = "Cplx";

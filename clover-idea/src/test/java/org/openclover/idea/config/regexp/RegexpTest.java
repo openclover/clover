@@ -1,8 +1,8 @@
 package org.openclover.idea.config.regexp;
 
 import org.openclover.idea.config.ContextFilterRegexpType;
-import com.atlassian.clover.context.MethodRegexpContext;
-import com.atlassian.clover.context.StatementRegexpContext;
+import org.openclover.core.context.MethodRegexpContext;
+import org.openclover.core.context.StatementRegexpContext;
 import junit.framework.TestCase;
 
 import java.util.regex.Pattern;

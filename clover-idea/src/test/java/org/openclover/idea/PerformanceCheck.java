@@ -1,9 +1,9 @@
 package org.openclover.idea;
 
-import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.recorder.PerTestCoverage;
-import com.atlassian.clover.ProgressListener;
-import com.atlassian.clover.registry.entities.FullProjectInfo;
+import org.openclover.core.CloverDatabase;
+import org.openclover.core.recorder.PerTestCoverage;
+import org.openclover.core.ProgressListener;
+import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.idea.util.ModelScope;
 import org.openclover.idea.coverage.CoverageTreeModel;
 import org.openclover.idea.testexplorer.DecoratedTestCaseInfo;

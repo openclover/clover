@@ -2,7 +2,7 @@ package org.openclover.idea.junit.config;
 
 import junit.framework.TestCase;
 import org.jdom.Element;
-import com.atlassian.clover.api.optimization.OptimizationOptions;
+import org.openclover.core.api.optimization.OptimizationOptions;
 
 
 public class OptimizedConfigurationSettingsTest extends TestCase {

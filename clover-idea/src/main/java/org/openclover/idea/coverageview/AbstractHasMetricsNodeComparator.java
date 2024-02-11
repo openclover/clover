@@ -1,6 +1,6 @@
 package org.openclover.idea.coverageview;
 
-import com.atlassian.clover.api.registry.HasMetrics;
+import org.openclover.core.api.registry.HasMetrics;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.util.Comparator;

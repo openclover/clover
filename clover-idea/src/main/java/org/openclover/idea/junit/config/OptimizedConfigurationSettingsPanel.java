@@ -3,7 +3,7 @@ package org.openclover.idea.junit.config;
 import org.openclover.idea.config.GBC;
 import com.intellij.ui.components.panels.HorizontalBox;
 import com.intellij.ui.components.panels.VerticalBox;
-import com.atlassian.clover.api.optimization.OptimizationOptions;
+import org.openclover.core.api.optimization.OptimizationOptions;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -13,8 +13,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class OptimizedConfigurationSettingsPanel extends JPanel {
     private final JCheckBox discardSnapshot = new JCheckBox("Discard snapshot every ");

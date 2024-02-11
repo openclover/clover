@@ -1,13 +1,12 @@
 package org.openclover.idea.junit;
 
-import com.atlassian.clover.api.optimization.Optimizable;
+import org.openclover.core.api.optimization.Optimizable;
 import org.openclover.idea.junit.config.OptimizedConfigurationSettings;
-import com.atlassian.clover.optimization.OptimizationSession;
+import org.openclover.core.optimization.OptimizationSession;
 import org.openclover.runtime.util.IOStreamUtils;
 import com.intellij.openapi.project.Project;
 import com.intellij.testFramework.LightIdeaTestCase;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -19,7 +18,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.core.util.Lists.newArrayList;
 
 public class FileBasedJUnitClassListProcessorIdeaTest extends LightIdeaTestCase {
     static final String[][] TEST_CASES = {

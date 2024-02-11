@@ -1,8 +1,8 @@
 package org.openclover.idea.build.jps;
 
 import org.openclover.idea.config.CloverPluginConfig;
-import com.atlassian.clover.util.trie.FilePathPrefixTree;
-import com.atlassian.clover.util.trie.Node;
+import org.openclover.core.util.trie.FilePathPrefixTree;
+import org.openclover.core.util.trie.Node;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.jps.model.JpsProject;

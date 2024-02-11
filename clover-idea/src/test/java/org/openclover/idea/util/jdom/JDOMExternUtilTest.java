@@ -1,7 +1,7 @@
 package org.openclover.idea.util.jdom;
 
 import org.openclover.idea.SampleEnum;
-import com.atlassian.clover.util.collections.Pair;
+import org.openclover.core.util.collections.Pair;
 import org.junit.Test;
 import repkg.org.openclover.idea.RpkgOnlyEnum;
 

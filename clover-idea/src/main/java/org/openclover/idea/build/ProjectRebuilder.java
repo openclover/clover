@@ -1,8 +1,8 @@
 package org.openclover.idea.build;
 
-import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.context.ContextStore;
-import com.atlassian.clover.context.NamedContext;
+import org.openclover.core.CloverDatabase;
+import org.openclover.core.context.ContextStore;
+import org.openclover.core.context.NamedContext;
 import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.config.ConfigChangeEvent;
 import org.openclover.idea.config.ConfigChangeListener;

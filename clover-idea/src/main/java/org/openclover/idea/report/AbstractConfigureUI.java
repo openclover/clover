@@ -1,6 +1,6 @@
 package org.openclover.idea.report;
 
-import com.atlassian.clover.reporters.ShowLambdaFunctions;
+import org.openclover.core.reporters.ShowLambdaFunctions;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;

@@ -2,7 +2,7 @@ package org.openclover.idea.feature;
 
 import java.util.List;
 
-import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.core.util.Lists.newArrayList;
 
 public abstract class AbstractCategory implements Category {
 

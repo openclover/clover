@@ -1,6 +1,6 @@
 package org.openclover.idea.util;
 
-import com.atlassian.clover.util.FilterUtils;
+import org.openclover.core.util.FilterUtils;
 
 import java.util.StringTokenizer;
 

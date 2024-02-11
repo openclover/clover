@@ -1,14 +1,14 @@
 package org.openclover.idea.testexplorer;
 
-import com.atlassian.clover.CloverDatabase;
+import org.openclover.core.CloverDatabase;
 import org.openclover.runtime.api.CloverException;
-import com.atlassian.clover.CoverageDataSpec;
+import org.openclover.core.CoverageDataSpec;
 import org.openclover.idea.treetables.SortableListTreeTableModelOnColumns;
 import org.openclover.idea.treetables.TreeTableModelFactory;
 import org.openclover.idea.util.ui.TreeUtil;
-import com.atlassian.clover.registry.entities.FullPackageInfo;
-import com.atlassian.clover.registry.entities.TestCaseInfo;
-import com.atlassian.clover.reporters.filters.DefaultTestFilter;
+import org.openclover.core.registry.entities.FullPackageInfo;
+import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.core.reporters.filters.DefaultTestFilter;
 import junit.framework.TestCase;
 
 import javax.swing.tree.DefaultMutableTreeNode;

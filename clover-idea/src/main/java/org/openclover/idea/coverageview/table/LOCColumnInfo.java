@@ -1,9 +1,9 @@
 package org.openclover.idea.coverageview.table;
 
-import com.atlassian.clover.api.registry.BlockMetrics;
-import com.atlassian.clover.api.registry.HasMetrics;
-import com.atlassian.clover.api.registry.SourceInfo;
-import com.atlassian.clover.registry.metrics.FileMetrics;
+import org.openclover.core.api.registry.BlockMetrics;
+import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.api.registry.SourceInfo;
+import org.openclover.core.registry.metrics.FileMetrics;
 
 import java.text.DecimalFormat;
 

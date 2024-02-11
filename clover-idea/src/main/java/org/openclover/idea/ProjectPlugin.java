@@ -1,7 +1,7 @@
 package org.openclover.idea;
 
 import org.openclover.runtime.Logger;
-import com.atlassian.clover.cfg.Interval;
+import org.openclover.core.cfg.Interval;
 import org.openclover.idea.build.CloverCompiler;
 import org.openclover.idea.build.CloverLibraryInjector;
 import org.openclover.idea.build.ProjectRebuilder;
@@ -23,7 +23,7 @@ import org.openclover.idea.feature.FeatureTreeNode;
 import org.openclover.idea.testexplorer.TestRunExplorerToolWindow;
 import org.openclover.idea.util.ProjectUtil;
 import org.openclover.idea.util.jdom.JDOMExternUtil;
-import com.atlassian.clover.util.Path;
+import org.openclover.core.util.Path;
 import com.intellij.ProjectTopics;
 import com.intellij.execution.ExecutionManager;
 import com.intellij.openapi.actionSystem.AnActionEvent;

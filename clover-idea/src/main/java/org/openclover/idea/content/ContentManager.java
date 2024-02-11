@@ -5,8 +5,6 @@ import org.openclover.idea.config.ConfigChangeEvent;
 import org.openclover.idea.config.ConfigChangeListener;
 import org.openclover.idea.coverage.EventListenerInstallator;
 import org.openclover.idea.feature.CloverFeatures;
-import org.openclover.idea.feature.FeatureEvent;
-import org.openclover.idea.feature.FeatureListener;
 import org.openclover.idea.feature.FeatureManager;
 import org.openclover.idea.util.vfs.VfsUtil;
 import com.intellij.lang.java.JavaLanguage;
@@ -26,8 +24,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Map;
 
-import static org.openclover.util.Lists.newLinkedList;
-import static org.openclover.util.Maps.newHashMap;
+import static org.openclover.core.util.Lists.newLinkedList;
+import static org.openclover.core.util.Maps.newHashMap;
 
 /**
  * The ContentManager is responsible for managing the plugin functionality

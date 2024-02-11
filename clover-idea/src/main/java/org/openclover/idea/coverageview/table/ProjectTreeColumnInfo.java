@@ -3,7 +3,7 @@ package org.openclover.idea.coverageview.table;
 import org.openclover.idea.coverageview.AbstractHasMetricsNodeComparator;
 import org.openclover.idea.treetables.MyTreeColumnInfo;
 import org.openclover.idea.util.ComparatorUtil;
-import com.atlassian.clover.api.registry.HasMetrics;
+import org.openclover.core.api.registry.HasMetrics;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.util.Comparator;

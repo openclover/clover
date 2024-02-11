@@ -4,13 +4,13 @@ import org.openclover.idea.HasMetricsListener;
 import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.coverage.CoverageManager;
 import org.openclover.idea.util.vfs.DummyVirtualFile;
-import com.atlassian.clover.api.registry.HasMetrics;
+import org.openclover.core.api.registry.HasMetrics;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Key;
 
 import java.util.Collection;
 
-import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.core.util.Lists.newArrayList;
 
 public class CloudVirtualFile extends DummyVirtualFile {
     private static final Key<CloudVirtualFile> FILE_KEY = Key.create(CloudVirtualFile.class.getName());

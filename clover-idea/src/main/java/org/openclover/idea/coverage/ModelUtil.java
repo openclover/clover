@@ -1,10 +1,10 @@
 package org.openclover.idea.coverage;
 
-import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.CoverageData;
-import com.atlassian.clover.registry.entities.FullProjectInfo;
+import org.openclover.core.CloverDatabase;
+import org.openclover.core.CoverageData;
+import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.idea.util.ModelScope;
-import com.atlassian.clover.registry.CoverageDataProvider;
+import org.openclover.core.registry.CoverageDataProvider;
 
 public final class ModelUtil {
 

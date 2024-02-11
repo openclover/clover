@@ -1,7 +1,7 @@
 package org.openclover.idea.report;
 
 import org.openclover.runtime.Logger;
-import com.atlassian.clover.context.ContextStore;
+import org.openclover.core.context.ContextStore;
 import org.openclover.idea.config.ContextPane;
 
 import java.awt.BorderLayout;

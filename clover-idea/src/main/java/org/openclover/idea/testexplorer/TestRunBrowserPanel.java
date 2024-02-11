@@ -1,20 +1,18 @@
 package org.openclover.idea.testexplorer;
 
-import com.atlassian.clover.CloverDatabase;
+import org.openclover.core.CloverDatabase;
 import org.openclover.idea.config.TestCaseLayout;
 import org.openclover.idea.treetables.TreeTableModelFactory;
 import org.openclover.idea.treetables.TreeTablePanel;
 import org.openclover.idea.util.ui.TreeExpansionHelper;
 import org.openclover.idea.util.ui.TreeSelectionHelper;
-import com.atlassian.clover.registry.CoverageDataReceptor;
-import com.atlassian.clover.registry.entities.TestCaseInfo;
+import org.openclover.core.registry.CoverageDataReceptor;
+import org.openclover.core.registry.entities.TestCaseInfo;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Pair;
 import com.intellij.util.ui.ColumnInfo;
 
 import javax.swing.JScrollPane;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -23,7 +21,7 @@ import java.awt.BorderLayout;
 import java.util.Collection;
 import java.util.List;
 
-import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.core.util.Lists.newArrayList;
 
 public class TestRunBrowserPanel extends TreeTablePanel {
 
