@@ -1,0 +1,36 @@
+package org.openclover.core
+
+import org.apache.tools.ant.util.JavaEnvUtils
+import org.junit.Before
+import org.junit.Test
+
+/**
+ * The purpose of this test is to
+ * <li>make sure the code compiles under JDK1.4 or later</li>
+ * <li>make sure that when that code is instrumented, it still compiles</li>
+ */
+class JavaSyntax4CompilationTest extends JavaSyntaxCompilationTestBase {
+
+    @Before
+    void setUp() {
+        setUpProject()
+    }
+
+    /**
+     * Test java 1.4 language features and how clover handles them.
+     *
+     * @throws Exception
+     */
+    @Test
+    void testInstrumentationAndCompilation_14() throws Exception {
+        final File srcDir = new File(mTestcasesSrcDir, "javasyntax1.4")
+        resetAntOutput()
+        instrumentAndCompileSources(srcDir, JavaEnvUtils.JAVA_1_8)
+
+        // verify that instrumentation was made
+        // input : assert i > 0
+        // output: assert (((i > 0)&&(__CLR3_1_600h31bv6gv.R.iget(1)!=0|true))||(__CLR3_1_600h31bv6gv.R.iget(2)==0&false))
+        assertFileMatches("Assertion.java", ".*assert.*i \\> 0.*__CLR.*", false)
+    }
+
+}
