@@ -1,6 +1,6 @@
 package org_openclover_runtime;
 
-import com.atlassian.clover.instr.ForInstrumentation;
+import org.openclover.buildutil.instr.ForInstrumentation;
 import org.openclover.runtime.CloverNames;
 import org.openclover.runtime.CloverProperties;
 import org.openclover.runtime.recorder.DelayedRecorder;

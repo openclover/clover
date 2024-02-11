@@ -1,6 +1,6 @@
 package org.openclover.runtime.recorder;
 
-import com.atlassian.clover.instr.ForInstrumentation;
+import org.openclover.buildutil.instr.ForInstrumentation;
 import org.openclover.runtime.ErrorInfo;
 import org.openclover.runtime.Logger;
 import org.openclover.runtime.util.CloverBitSet;

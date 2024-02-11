@@ -1,4 +1,6 @@
-package com.atlassian.clover.instr;
+package org.openclover.buildutil.instr;
+
+import org.openclover.buildutil.codegen.InstrumentationBindingAPF;
 
 import java.lang.annotation.Target;
 import java.lang.annotation.Retention;
@@ -7,7 +9,7 @@ import static java.lang.annotation.RetentionPolicy.SOURCE;
 
 /**
  * Annotation used to mark methods which shall be processed by the
- * {@link com.atlassian.clover.build.codegen.InstrumentationBindingAPF} build tool.
+ * {@link InstrumentationBindingAPF} build tool.
  *
  * For example, by annotating a method as follows:
  * <pre>

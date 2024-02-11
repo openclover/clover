@@ -1,6 +1,6 @@
-package com.atlassian.clover.build.codegen;
+package org.openclover.buildutil.codegen;
 
-import com.atlassian.clover.instr.ForInstrumentation;
+import org.openclover.buildutil.instr.ForInstrumentation;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.RoundEnvironment;
@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.Set;
 
 @SupportedSourceVersion(SourceVersion.RELEASE_7)
-@SupportedAnnotationTypes("com.atlassian.clover.instr.ForInstrumentation")
+@SupportedAnnotationTypes("org.openclover.buildutil.instr.ForInstrumentation")
 public class InstrumentationBindingAPF extends AbstractProcessor {
 
     @Override

@@ -191,7 +191,7 @@
                             <goal>java</goal>
                         </goals>
                         <configuration>
-                            <mainClass>com.atlassian.clover.build.codegen.WriteRethrowMethod</mainClass>
+                            <mainClass>org.openclover.buildutil.codegen.WriteRethrowMethod</mainClass>
                             <commandlineArgs>
                                 ${project.build.outputDirectory}/org_openclover_runtime/CoverageRecorder.class
                             </commandlineArgs>

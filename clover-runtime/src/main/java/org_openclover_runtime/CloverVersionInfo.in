@@ -1,6 +1,6 @@
 package org_openclover_runtime;
 
-import com.atlassian.clover.instr.ForInstrumentation;
+import org.openclover.buildutil.instr.ForInstrumentation;
 
 public class CloverVersionInfo {
     public static final String RELEASE_NUM = "@CORE_RELEASE_NUM@";

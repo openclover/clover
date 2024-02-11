@@ -1,4 +1,4 @@
-package com.atlassian.clover.build.codegen;
+package org.openclover.buildutil.codegen;
 
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.ClassVisitor;
