@@ -1,23 +1,23 @@
 <?xml version="1.0"?>
 <antlib>
-    <taskdef name="clover-env" classname="com.atlassian.clover.ant.tasks.CloverEnvTask"/>
+    <taskdef name="clover-env" classname="org.openclover.ant.tasks.CloverEnvTask"/>
 
-    <taskdef name="clover-log" classname="com.atlassian.clover.ant.tasks.CloverLogTask"/>
-    <taskdef name="clover-check" classname="com.atlassian.clover.ant.tasks.CloverPassTask"/>
-    <taskdef name="clover-setup" classname="com.atlassian.clover.ant.tasks.CloverSetupTask"/>
-    <taskdef name="clover-clean" classname="com.atlassian.clover.ant.tasks.CloverCleanTask"/>
-    <taskdef name="clover-historypoint" classname="com.atlassian.clover.ant.tasks.HistoryPointTask"/>
-    <taskdef name="clover-report" classname="com.atlassian.clover.ant.tasks.CloverReportTask"/>
-    <taskdef name="clover-html-report" classname="com.atlassian.clover.ant.tasks.CloverHtmlReportTask"/>
-    <taskdef name="clover-pdf-report" classname="com.atlassian.clover.ant.tasks.CloverPdfReportTask"/>
-    <taskdef name="clover-instr" classname="com.atlassian.clover.ant.tasks.CloverInstrTask"/>
-    <taskdef name="clover-instrument" classname="com.atlassian.clover.ant.tasks.CloverInstrumentTask"/>
-    <taskdef name="clover-merge" classname="com.atlassian.clover.ant.tasks.CloverMergeTask"/>
-    <taskdef name="clover-snapshot" classname="com.atlassian.clover.ant.tasks.CloverSnapshotTask"/>
-    <taskdef name="clover-can-optimize" classname="com.atlassian.clover.ant.tasks.CloverCanOptimizeTests"/>
+    <taskdef name="clover-log" classname="org.openclover.ant.tasks.CloverLogTask"/>
+    <taskdef name="clover-check" classname="org.openclover.ant.tasks.CloverPassTask"/>
+    <taskdef name="clover-setup" classname="org.openclover.ant.tasks.CloverSetupTask"/>
+    <taskdef name="clover-clean" classname="org.openclover.ant.tasks.CloverCleanTask"/>
+    <taskdef name="clover-historypoint" classname="org.openclover.ant.tasks.HistoryPointTask"/>
+    <taskdef name="clover-report" classname="org.openclover.ant.tasks.CloverReportTask"/>
+    <taskdef name="clover-html-report" classname="org.openclover.ant.tasks.CloverHtmlReportTask"/>
+    <taskdef name="clover-pdf-report" classname="org.openclover.ant.tasks.CloverPdfReportTask"/>
+    <taskdef name="clover-instr" classname="org.openclover.ant.tasks.CloverInstrTask"/>
+    <taskdef name="clover-instrument" classname="org.openclover.ant.tasks.CloverInstrumentTask"/>
+    <taskdef name="clover-merge" classname="org.openclover.ant.tasks.CloverMergeTask"/>
+    <taskdef name="clover-snapshot" classname="org.openclover.ant.tasks.CloverSnapshotTask"/>
+    <taskdef name="clover-can-optimize" classname="org.openclover.ant.tasks.CloverCanOptimizeTests"/>
 
-    <typedef name="clover-optimized-testset" classname="com.atlassian.clover.ant.types.CloverOptimizedTestSet"/>
-    <typedef name="always-run" classname="com.atlassian.clover.ant.types.CloverAlwaysRunTestSet"/>
-    <typedef name="clover-format" classname="com.atlassian.clover.ant.tasks.CloverFormatType"/>
-    <typedef name="clover-columns" classname="com.atlassian.clover.ant.tasks.ColumnsEx"/>
+    <typedef name="clover-optimized-testset" classname="org.openclover.ant.types.CloverOptimizedTestSet"/>
+    <typedef name="always-run" classname="org.openclover.ant.types.CloverAlwaysRunTestSet"/>
+    <typedef name="clover-format" classname="org.openclover.ant.tasks.CloverFormatType"/>
+    <typedef name="clover-columns" classname="org.openclover.ant.tasks.ColumnsEx"/>
 </antlib>

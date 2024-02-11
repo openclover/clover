@@ -1,10 +1,10 @@
 <project basedir="" default="" name="">
-    <taskdef name="clover-clean" classname="com.atlassian.clover.ant.tasks.CloverCleanTask"/>
-    <taskdef name="clover-setup" classname="com.atlassian.clover.ant.tasks.CloverSetupTask"/>
-    <taskdef name="clover-instr" classname="com.atlassian.clover.ant.tasks.CloverInstrTask"/>
-    <taskdef name="clover-snapshot" classname="com.atlassian.clover.ant.tasks.CloverSnapshotTask"/>
-    <typedef name="clover-optimized-testset" classname="com.atlassian.clover.ant.types.CloverOptimizedTestSet"/>
-    <typedef name="always-run" classname="com.atlassian.clover.ant.types.CloverAlwaysRunTestSet"/>
+    <taskdef name="clover-clean" classname="org.openclover.ant.tasks.CloverCleanTask"/>
+    <taskdef name="clover-setup" classname="org.openclover.ant.tasks.CloverSetupTask"/>
+    <taskdef name="clover-instr" classname="org.openclover.ant.tasks.CloverInstrTask"/>
+    <taskdef name="clover-snapshot" classname="org.openclover.ant.tasks.CloverSnapshotTask"/>
+    <typedef name="clover-optimized-testset" classname="org.openclover.ant.types.CloverOptimizedTestSet"/>
+    <typedef name="always-run" classname="org.openclover.ant.types.CloverAlwaysRunTestSet"/>
 
     <property name="clover.jar" location="${project.dir}/clover-all/target/clover-${clover-ant.test.clover.ver}.jar"/>
     <property name="jcommander.jar" location="${project.dir}/tests-functional/target/test-dependencies/jcommander-${clover-ant.test.jcommander.ver}.jar"/>
@@ -210,7 +210,7 @@
             outputdir="${outdir}/${testresultsprefix}"
 		    haltOnFailure="false"
             verbose="2"
-            listeners="com.atlassian.clover.ant.tasks.testng.CloverOptimizedTestNGSelector"
+            listeners="org.openclover.ant.tasks.testng.CloverOptimizedTestNGSelector"
             groups="clover-optimized">
             <sysproperty key="clover.initstring" value="${clover.initstring}"/>
             <classpath refid="unittestpath"/>

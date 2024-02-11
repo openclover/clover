@@ -1,7 +1,7 @@
 package org.openclover.ci;
 
-import com.atlassian.clover.ant.tasks.AntInstrumentationConfig;
-import com.atlassian.clover.ant.tasks.CloverEnvTask;
+import org.openclover.ant.tasks.AntInstrumentationConfig;
+import org.openclover.ant.tasks.CloverEnvTask;
 import org.openclover.util.ClassPathUtil;
 import com.atlassian.clover.api.optimization.Optimizable;
 import com.atlassian.clover.optimization.LocalSnapshotOptimizer;
@@ -19,7 +19,7 @@ import java.util.Arrays;
 import java.lang.reflect.Field;
 import java.io.IOException;
 
-import com.atlassian.clover.ant.taskdefs.CloverCompilerAdapter;
+import org.openclover.ant.taskdefs.CloverCompilerAdapter;
 
 import org.apache.tools.ant.BuildListener;
 import org.apache.tools.ant.BuildEvent;

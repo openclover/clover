@@ -1,6 +1,6 @@
 package org.openclover.functest.ant.tasks
 
-import com.atlassian.clover.ant.tasks.HistoryPointTask
+import org.openclover.ant.tasks.HistoryPointTask
 import org.openclover.buildutil.testutils.IOHelper
 import groovy.transform.CompileStatic
 import org.apache.tools.ant.util.FileUtils

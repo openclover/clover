@@ -1,6 +1,6 @@
 <project basedir="" default="" name="">
 
-    <taskdef name="clover-setup" classname="com.atlassian.clover.ant.tasks.CloverSetupTask"/>
+    <taskdef name="clover-setup" classname="org.openclover.ant.tasks.CloverSetupTask"/>
 
     <target name="enable">
         <clover-setup/>

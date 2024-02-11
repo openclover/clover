@@ -1,7 +1,7 @@
 <project basedir="" default="" name="">
 
-    <taskdef name="clover-setup" classname="com.atlassian.clover.ant.tasks.CloverSetupTask"/>
-    <taskdef name="clover-historypoint" classname="com.atlassian.clover.ant.tasks.HistoryPointTask"/>
+    <taskdef name="clover-setup" classname="org.openclover.ant.tasks.CloverSetupTask"/>
+    <taskdef name="clover-historypoint" classname="org.openclover.ant.tasks.HistoryPointTask"/>
     <property name="testdir" location="${outdir}"/>
 
     <target name="setUp">

@@ -1,8 +1,8 @@
 <project basedir="." name="">
     <!-- The ${project.dir} and ${repkg.clover.jar} property must be provided -->
 
-    <taskdef name="clover-instr" classname="com.atlassian.clover.ant.tasks.CloverInstrTask"/>
-    <taskdef name="clover-report" classname="com.atlassian.clover.ant.tasks.CloverReportTask"/>
+    <taskdef name="clover-instr" classname="org.openclover.ant.tasks.CloverInstrTask"/>
+    <taskdef name="clover-report" classname="org.openclover.ant.tasks.CloverReportTask"/>
 
     <!-- Properties common for all test cases -->
     <property name="build.dir" location="${project.dir}/tests-functional/target/it/clover-setup-growable"/>

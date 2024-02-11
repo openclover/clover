@@ -1,7 +1,5 @@
 package org.openclover.ci;
 
-import com.atlassian.clover.api.ci.CIOptions;
-import com.atlassian.clover.api.ci.Integrator;
 import org.openclover.util.function.Streams;
 
 import java.util.ArrayList;

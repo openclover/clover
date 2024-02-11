@@ -1,7 +1,7 @@
 package org.openclover.functest.ant.tasks
 
-import com.atlassian.clover.ant.tasks.CloverPassTask
-import com.atlassian.clover.ant.tasks.HistoryPointTask
+import org.openclover.ant.tasks.CloverPassTask
+import org.openclover.ant.tasks.HistoryPointTask
 import org.openclover.functest.ant.testutils.CloverTestFixture
 import com.atlassian.clover.cfg.Percentage
 import com.atlassian.clover.registry.metrics.BlockMetrics

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project basedir="" default="" name="clover-report">
 
-    <taskdef name="clover-clean" classname="com.atlassian.clover.ant.tasks.CloverCleanTask"/>
-    <taskdef name="clover-setup" classname="com.atlassian.clover.ant.tasks.CloverSetupTask"/>
-    <taskdef name="clover-report" classname="com.atlassian.clover.ant.tasks.CloverReportTask"/>
-    <taskdef name="clover-html-report" classname="com.atlassian.clover.ant.tasks.CloverHtmlReportTask"/>
-    <taskdef name="clover-pdf-report" classname="com.atlassian.clover.ant.tasks.CloverPdfReportTask"/>
-    <taskdef name="clover-historypoint" classname="com.atlassian.clover.ant.tasks.HistoryPointTask"/>
-    <taskdef name="clover-check" classname="com.atlassian.clover.ant.tasks.CloverPassTask"/>
+    <taskdef name="clover-clean" classname="org.openclover.ant.tasks.CloverCleanTask"/>
+    <taskdef name="clover-setup" classname="org.openclover.ant.tasks.CloverSetupTask"/>
+    <taskdef name="clover-report" classname="org.openclover.ant.tasks.CloverReportTask"/>
+    <taskdef name="clover-html-report" classname="org.openclover.ant.tasks.CloverHtmlReportTask"/>
+    <taskdef name="clover-pdf-report" classname="org.openclover.ant.tasks.CloverPdfReportTask"/>
+    <taskdef name="clover-historypoint" classname="org.openclover.ant.tasks.HistoryPointTask"/>
+    <taskdef name="clover-check" classname="org.openclover.ant.tasks.CloverPassTask"/>
 
     <target name="with.clover">
         <clover-setup initstring="${clover-initstring}"/>

@@ -1,7 +1,5 @@
 package org.openclover.ci
 
-import com.atlassian.clover.api.ci.CIOptions
-import com.atlassian.clover.api.ci.Integrator
 import spock.lang.Specification
 import spock.lang.Unroll
 

@@ -3,9 +3,9 @@
 
     <property file="expected-testcases.properties"/>
 
-    <taskdef name="clover-instrument" classname="com.atlassian.clover.ant.tasks.CloverInstrumentTask"/>
-    <taskdef name="clover-report" classname="com.atlassian.clover.ant.tasks.CloverReportTask"/>
-    <taskdef name="clover-setup" classname="com.atlassian.clover.ant.tasks.CloverSetupTask"/>
+    <taskdef name="clover-instrument" classname="org.openclover.ant.tasks.CloverInstrumentTask"/>
+    <taskdef name="clover-report" classname="org.openclover.ant.tasks.CloverReportTask"/>
+    <taskdef name="clover-setup" classname="org.openclover.ant.tasks.CloverSetupTask"/>
 
     <property name="clover.jar" value="${project.dir}/clover-all/target/clover-${clover-ant.test.clover.ver}.jar"/>
     <property name="junit.jar" value="${project.dir}/tests-functional/target/test-dependencies/junit-${clover-ant.test.junit.ver}.jar"/>

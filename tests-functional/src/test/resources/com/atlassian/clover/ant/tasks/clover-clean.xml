@@ -1,7 +1,7 @@
 <project basedir="" default="" name="">
 
-    <taskdef name="clover-clean" classname="com.atlassian.clover.ant.tasks.CloverCleanTask"/>
-    <taskdef name="clover-setup" classname="com.atlassian.clover.ant.tasks.CloverSetupTask"/>
+    <taskdef name="clover-clean" classname="org.openclover.ant.tasks.CloverCleanTask"/>
+    <taskdef name="clover-setup" classname="org.openclover.ant.tasks.CloverSetupTask"/>
 
     <target name="with.clover">
         <clover-setup initstring="${clover-initstring}"/>

@@ -1,7 +1,7 @@
 package org.openclover.ci
 
 import org.openclover.runtime.CloverNames
-import com.atlassian.clover.ant.tasks.AntInstrumentationConfig
+import org.openclover.ant.tasks.AntInstrumentationConfig
 import org.apache.tools.ant.BuildEvent
 import org.apache.tools.ant.Project
 import org.junit.Test

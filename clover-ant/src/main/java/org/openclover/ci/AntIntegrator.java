@@ -3,8 +3,6 @@ package org.openclover.ci;
 import org.openclover.runtime.Logger;
 import org.openclover.util.ClassPathUtil;
 import org.openclover.runtime.CloverNames;
-import com.atlassian.clover.api.ci.Integrator;
-import com.atlassian.clover.api.ci.CIOptions;
 
 import java.security.AccessController;
 import java.security.PrivilegedAction;

@@ -1,6 +1,6 @@
 package org.openclover.functest.ant.tasks
 
-import com.atlassian.clover.ant.tasks.CloverSetupTask
+import org.openclover.ant.tasks.CloverSetupTask
 import groovy.transform.CompileStatic
 import org.junit.Test
 

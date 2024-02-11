@@ -2,9 +2,9 @@
     <!-- The following properties must be declared from command line:
     project.dir
     -->
-    <taskdef name="clover-instr" classname="com.atlassian.clover.ant.tasks.CloverInstrTask"/>
-    <taskdef name="clover-setup" classname="com.atlassian.clover.ant.tasks.CloverSetupTask"/>
-    <taskdef name="clover-report" classname="com.atlassian.clover.ant.tasks.CloverReportTask"/>
+    <taskdef name="clover-instr" classname="org.openclover.ant.tasks.CloverInstrTask"/>
+    <taskdef name="clover-setup" classname="org.openclover.ant.tasks.CloverSetupTask"/>
+    <taskdef name="clover-report" classname="org.openclover.ant.tasks.CloverReportTask"/>
 
     <property name="src.location" value="${project.dir}/clover-core/src/test/resources/interleaved"/>
     <property name="initstring" value="${outdir}/coverage.db"/>
