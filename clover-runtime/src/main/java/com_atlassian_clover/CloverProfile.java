@@ -1,6 +1,6 @@
 package com_atlassian_clover;
 
-import com.atlassian.clover.remote.DistributedConfig;
+import org.openclover.runtime.remote.DistributedConfig;
 
 import java.io.Serializable;
 

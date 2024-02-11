@@ -1,9 +1,9 @@
 package com_atlassian_clover;
 
 import com.atlassian.clover.instr.ForInstrumentation;
-import com.atlassian.clover.recorder.CoverageSnapshot;
-import com.atlassian.clover.ErrorInfo;
-import com.atlassian.clover.util.CloverBitSet;
+import org.openclover.runtime.recorder.CoverageSnapshot;
+import org.openclover.runtime.ErrorInfo;
+import org.openclover.runtime.util.CloverBitSet;
 
 /**
  * Mostly abstract base class for coverage recorders.

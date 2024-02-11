@@ -1,19 +1,19 @@
 package com_atlassian_clover;
 
 import com.atlassian.clover.instr.ForInstrumentation;
-import com.atlassian.clover.CloverNames;
-import com.atlassian.clover.CloverProperties;
-import com.atlassian.clover.recorder.DelayedRecorder;
-import com.atlassian.clover.Environment;
-import com.atlassian.clover.ErrorInfo;
-import com.atlassian.clover.recorder.FixedSizeCoverageRecorder;
-import com.atlassian.clover.recorder.GrowableCoverageRecorder;
-import com.atlassian.clover.Logger;
-import com.atlassian.clover.recorder.NullRecorder;
-import com.atlassian.clover.RecorderLogging;
-import com.atlassian.clover.recorder.SharedCoverageRecorder;
-import com.atlassian.clover.remote.DistributedClover;
-import com.atlassian.clover.remote.RpcMessage;
+import org.openclover.runtime.CloverNames;
+import org.openclover.runtime.CloverProperties;
+import org.openclover.runtime.recorder.DelayedRecorder;
+import org.openclover.runtime.Environment;
+import org.openclover.runtime.ErrorInfo;
+import org.openclover.runtime.recorder.FixedSizeCoverageRecorder;
+import org.openclover.runtime.recorder.GrowableCoverageRecorder;
+import org.openclover.runtime.Logger;
+import org.openclover.runtime.recorder.NullRecorder;
+import org.openclover.runtime.RecorderLogging;
+import org.openclover.runtime.recorder.SharedCoverageRecorder;
+import org.openclover.runtime.remote.DistributedClover;
+import org.openclover.runtime.remote.RpcMessage;
 
 import java.io.File;
 import java.io.PrintWriter;
