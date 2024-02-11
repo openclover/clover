@@ -8,7 +8,7 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IAdaptable;
 import org.openclover.eclipse.core.projects.model.MetricsScope;
-import com.atlassian.clover.registry.metrics.BlockMetrics;
+import org.openclover.core.registry.metrics.BlockMetrics;
 import org.eclipse.jface.viewers.ViewerComparator;
 
 public abstract class ExplorerViewComparator extends ViewerComparator {

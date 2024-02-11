@@ -1,16 +1,16 @@
 package org.openclover.eclipse.core.projects.model;
 
-import com.atlassian.clover.registry.entities.FullClassInfo;
-import com.atlassian.clover.registry.entities.FullFileInfo;
+import org.openclover.core.registry.entities.FullClassInfo;
+import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.projects.settings.ProjectSettings;
-import com.atlassian.clover.registry.BaseInvertableFilter;
-import com.atlassian.clover.api.registry.HasMetrics;
-import com.atlassian.clover.registry.metrics.HasMetricsFilter;
-import com.atlassian.clover.reporters.filters.AntPatternTestFilter;
-import com.atlassian.clover.reporters.filters.DefaultTestFilter;
-import com.atlassian.clover.reporters.filters.EmptyTestFilter;
-import com.atlassian.clover.util.FileUtils;
+import org.openclover.core.registry.BaseInvertableFilter;
+import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.registry.metrics.HasMetricsFilter;
+import org.openclover.core.reporters.filters.AntPatternTestFilter;
+import org.openclover.core.reporters.filters.DefaultTestFilter;
+import org.openclover.core.reporters.filters.EmptyTestFilter;
+import org.openclover.core.util.FileUtils;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 

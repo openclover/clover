@@ -13,14 +13,12 @@ import org.openclover.eclipse.core.views.ExplorerViewSettings;
 import org.openclover.eclipse.core.views.TreeColumnControlListener;
 import org.openclover.eclipse.core.views.testrunexplorer.nodes.CoverageContributionNode;
 import org.openclover.eclipse.core.views.testrunexplorer.nodes.TestCaseNode;
-import org.openclover.eclipse.core.views.testrunexplorer.nodes.TestCaseNodeFactory;
 import org.openclover.eclipse.core.views.testrunexplorer.widgets.TestStatusRenderer;
 import org.openclover.eclipse.core.views.testrunexplorer.widgets.CoverageContributionCellRenderer;
 import org.openclover.eclipse.core.views.widgets.ColumnController;
 import org.openclover.eclipse.core.views.widgets.ListeningRenderer;
 import org.openclover.eclipse.core.views.widgets.SelectionAwareCellRenderer;
-import com.atlassian.clover.registry.entities.TestCaseInfo;
-import com.atlassian.clover.util.MetricsFormatUtils;
+import org.openclover.core.util.MetricsFormatUtils;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jface.action.IMenuManager;
@@ -54,8 +52,8 @@ import java.util.Date;
 import java.util.Map;
 import java.util.WeakHashMap;
 
-import static org.openclover.util.Maps.newHashMap;
-import static org.openclover.util.Maps.newLinkedHashMap;
+import static org.openclover.core.util.Maps.newHashMap;
+import static org.openclover.core.util.Maps.newLinkedHashMap;
 
 
 public class TestRunExplorerView extends ExplorerView {

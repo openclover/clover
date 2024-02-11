@@ -1,8 +1,8 @@
 package org.openclover.eclipse.core.ui.widgets;
 
-import com.atlassian.clover.context.ContextSet;
-import com.atlassian.clover.context.ContextStore;
-import com.atlassian.clover.context.NamedContext;
+import org.openclover.core.context.ContextSet;
+import org.openclover.core.context.ContextStore;
+import org.openclover.core.context.NamedContext;
 import org.openclover.eclipse.core.CloverEclipsePluginMessages;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.ui.SwtUtils;
@@ -15,16 +15,14 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
-import org.eclipse.swt.widgets.Listener;
 
 import java.text.MessageFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.core.util.Lists.newArrayList;
 
 public class RegexContextFilterModificationWidget extends Composite {
     private Button addFilter;

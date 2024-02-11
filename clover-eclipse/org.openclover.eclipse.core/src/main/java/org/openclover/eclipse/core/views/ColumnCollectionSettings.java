@@ -12,11 +12,11 @@ import java.util.LinkedHashSet;
 
 import org.openclover.eclipse.core.CloverPlugin;
 
-import static org.openclover.util.Lists.newArrayList;
-import static org.openclover.util.Lists.newLinkedList;
-import static org.openclover.util.Maps.newHashMap;
-import static org.openclover.util.Maps.newLinkedHashMap;
-import static org.openclover.util.Sets.newLinkedHashSet;
+import static org.openclover.core.util.Lists.newArrayList;
+import static org.openclover.core.util.Lists.newLinkedList;
+import static org.openclover.core.util.Maps.newHashMap;
+import static org.openclover.core.util.Maps.newLinkedHashMap;
+import static org.openclover.core.util.Sets.newLinkedHashSet;
 
 public class ColumnCollectionSettings
     implements IPersistable {

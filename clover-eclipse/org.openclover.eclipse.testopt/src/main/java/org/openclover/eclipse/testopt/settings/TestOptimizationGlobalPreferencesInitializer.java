@@ -1,6 +1,6 @@
 package org.openclover.eclipse.testopt.settings;
 
-import com.atlassian.clover.api.optimization.OptimizationOptions;
+import org.openclover.core.api.optimization.OptimizationOptions;
 import org.openclover.eclipse.testopt.TestOptimizationPlugin;
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.core.runtime.preferences.DefaultScope;

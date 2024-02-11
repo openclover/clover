@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static org.openclover.util.Lists.newArrayList;
-import static org.openclover.util.Maps.newHashMap;
-import static org.openclover.util.Sets.newLinkedHashSet;
+import static org.openclover.core.util.Lists.newArrayList;
+import static org.openclover.core.util.Maps.newHashMap;
+import static org.openclover.core.util.Sets.newLinkedHashSet;
 
 public class ProjectPathMap {
     protected IPath projectLocation;

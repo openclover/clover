@@ -6,7 +6,7 @@ import org.openclover.eclipse.core.views.BuiltinMetricsColumnDefinition;
 import org.openclover.eclipse.core.views.BuiltinPcMetricsColumnDefinition;
 import org.openclover.eclipse.core.views.ColumnDefinition;
 import org.openclover.eclipse.core.views.CustomColumnDefinition;
-import com.atlassian.clover.reporters.ExpressionEvaluator;
+import org.openclover.core.reporters.ExpressionEvaluator;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.dialogs.IMessageProvider;

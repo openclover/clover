@@ -1,13 +1,12 @@
 package org.openclover.eclipse.core.reports;
 
-import com.atlassian.clover.reporters.ShowLambdaFunctions;
+import org.openclover.core.reporters.ShowLambdaFunctions;
 import org.openclover.eclipse.core.ui.GLH;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Combo;

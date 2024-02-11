@@ -1,7 +1,7 @@
 package org.openclover.eclipse.core.views;
 
-import com.atlassian.clover.reporters.Column;
-import com.atlassian.clover.util.MetricsFormatUtils;
+import org.openclover.core.reporters.Column;
+import org.openclover.core.util.MetricsFormatUtils;
 
 public class BuiltinIntegralMetricsColumnDefinition extends BuiltinMetricsColumnDefinition {
     public BuiltinIntegralMetricsColumnDefinition(Column prototype, String abbreviatedTitle, int requiredIndex, int style) {

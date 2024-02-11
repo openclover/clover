@@ -1,6 +1,6 @@
 package org.openclover.eclipse.core.ui.editors.treemap;
 
-import com.atlassian.clover.api.registry.PackageInfo;
+import org.openclover.core.api.registry.PackageInfo;
 import net.sf.jtreemap.ktreemap.KTreeMap;
 import net.sf.jtreemap.ktreemap.TreeMapNode;
 import org.eclipse.swt.widgets.Display;
@@ -21,7 +21,7 @@ import java.util.List;
 
 import org.openclover.eclipse.core.views.actions.OpenJavaEditorAction;
 import org.openclover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.api.registry.HasMetrics;
+import org.openclover.core.api.registry.HasMetrics;
 
 public class CloverTreeMap extends KTreeMap {
     private OpenJavaEditorAction openEditorAction;

@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static org.openclover.util.Sets.newHashSet;
+import static org.openclover.core.util.Sets.newHashSet;
 
 public class TestSourceFilteringComposite extends Composite {
     private final Button testFoldersAllButton;

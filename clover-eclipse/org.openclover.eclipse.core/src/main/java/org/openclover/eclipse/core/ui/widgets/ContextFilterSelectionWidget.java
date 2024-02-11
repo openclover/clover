@@ -6,14 +6,14 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
-import com.atlassian.clover.context.ContextStore;
-import com.atlassian.clover.context.ContextSet;
-import com.atlassian.clover.context.NamedContext;
+import org.openclover.core.context.ContextStore;
+import org.openclover.core.context.ContextSet;
+import org.openclover.core.context.NamedContext;
 
 import java.util.List;
 import java.util.HashMap;
 
-import static org.openclover.util.Maps.newHashMap;
+import static org.openclover.core.util.Maps.newHashMap;
 
 public class ContextFilterSelectionWidget extends BuiltinContextFilterSelectionWidget {
     protected HashMap<String, Button> customCheckboxes;

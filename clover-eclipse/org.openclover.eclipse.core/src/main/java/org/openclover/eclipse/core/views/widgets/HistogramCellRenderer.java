@@ -1,6 +1,6 @@
 package org.openclover.eclipse.core.views.widgets;
 
-import com.atlassian.clover.util.MetricsFormatUtils;
+import org.openclover.core.util.MetricsFormatUtils;
 import org.openclover.eclipse.core.views.ColumnCollectionSettings;
 import org.openclover.eclipse.core.views.ColumnDefinition;
 import org.eclipse.swt.SWT;

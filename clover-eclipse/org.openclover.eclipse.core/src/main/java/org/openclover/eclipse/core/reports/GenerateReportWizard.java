@@ -1,14 +1,14 @@
 package org.openclover.eclipse.core.reports;
 
-import com.atlassian.clover.cfg.Interval;
+import org.openclover.core.cfg.Interval;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.projects.model.InMemoryCurrentReportConfig;
 import org.openclover.eclipse.core.settings.InstallationSettings;
 import org.openclover.eclipse.core.ui.CloverPluginIcons;
-import com.atlassian.clover.reporters.Current;
-import com.atlassian.clover.reporters.Format;
-import com.atlassian.clover.reporters.ShowLambdaFunctions;
+import org.openclover.core.reporters.Current;
+import org.openclover.core.reporters.Format;
+import org.openclover.core.reporters.ShowLambdaFunctions;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;

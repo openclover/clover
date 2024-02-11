@@ -11,7 +11,7 @@ import org.openclover.eclipse.core.views.coverageexplorer.nodes.PackageRootsTree
 
 import java.util.List;
 
-import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.core.util.Lists.newArrayList;
 
 public class CoverageViewSettings
     extends ExplorerViewSettings {

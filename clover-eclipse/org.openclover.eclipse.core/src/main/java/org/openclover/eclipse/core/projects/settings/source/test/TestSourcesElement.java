@@ -2,7 +2,7 @@ package org.openclover.eclipse.core.projects.settings.source.test;
 
 import java.util.List;
 
-import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.core.util.Lists.newArrayList;
 
 public class TestSourcesElement implements TreeElement {
     private List<TestPackageRootElement> testPackageRoots = newArrayList();

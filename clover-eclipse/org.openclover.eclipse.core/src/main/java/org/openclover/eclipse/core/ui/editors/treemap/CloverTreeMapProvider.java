@@ -1,7 +1,7 @@
 package org.openclover.eclipse.core.ui.editors.treemap;
 
-import com.atlassian.clover.api.registry.HasMetrics;
-import com.atlassian.clover.registry.metrics.BlockMetrics;
+import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.registry.metrics.BlockMetrics;
 import net.sf.jtreemap.ktreemap.ITreeMapProvider;
 import net.sf.jtreemap.ktreemap.TreeMapNode;
 

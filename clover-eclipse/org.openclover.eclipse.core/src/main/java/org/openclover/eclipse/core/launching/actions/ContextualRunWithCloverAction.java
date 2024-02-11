@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.MenuItem;
 
 import java.util.Map;
 
-import static org.openclover.util.Maps.newHashMap;
+import static org.openclover.core.util.Maps.newHashMap;
 
 public class ContextualRunWithCloverAction extends ContextualLaunchAction {
     private ResourceManager imageManager;

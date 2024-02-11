@@ -2,7 +2,7 @@ package org.openclover.eclipse.core.views.actions;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
-import com.atlassian.clover.api.registry.HasMetrics;
+import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.eclipse.core.projects.model.MetricsScope;
 
 /**

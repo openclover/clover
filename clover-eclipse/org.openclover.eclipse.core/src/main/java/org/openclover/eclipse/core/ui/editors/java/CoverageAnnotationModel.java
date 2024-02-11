@@ -1,13 +1,13 @@
 package org.openclover.eclipse.core.ui.editors.java;
 
-import com.atlassian.clover.api.registry.BranchInfo;
-import com.atlassian.clover.api.registry.ClassInfo;
-import com.atlassian.clover.api.registry.MethodInfo;
-import com.atlassian.clover.api.registry.SourceInfo;
-import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.api.registry.StatementInfo;
-import com.atlassian.clover.context.ContextSet;
-import com.atlassian.clover.registry.entities.FullFileInfo;
+import org.openclover.core.api.registry.BranchInfo;
+import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.MethodInfo;
+import org.openclover.core.api.registry.SourceInfo;
+import org.openclover.core.CloverDatabase;
+import org.openclover.core.api.registry.StatementInfo;
+import org.openclover.core.context.ContextSet;
+import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.PluginOptionKeys;
 import org.openclover.eclipse.core.ui.editors.java.annotations.strategies.CoverageAnnotationBuilder;
@@ -17,9 +17,8 @@ import org.openclover.eclipse.core.ui.projects.DatabaseChangeEvent;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.projects.model.MetricsScope;
 import org.openclover.eclipse.core.settings.InstallationSettings;
-import com.atlassian.clover.registry.entities.LineInfo;
-import com.atlassian.clover.registry.entities.TestCaseInfo;
-import org.openclover.util.function.Function;
+import org.openclover.core.registry.entities.LineInfo;
+import org.openclover.core.registry.entities.TestCaseInfo;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -43,10 +42,9 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.swt.widgets.Display;
-import org.openclover.util.function.TransformingIterator;
+import org.openclover.core.util.function.TransformingIterator;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -56,9 +54,9 @@ import java.util.BitSet;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import static org.openclover.util.Lists.newLinkedList;
-import static org.openclover.util.Sets.newHashSet;
-import static org.openclover.util.Sets.newTreeSet;
+import static org.openclover.core.util.Lists.newLinkedList;
+import static org.openclover.core.util.Sets.newHashSet;
+import static org.openclover.core.util.Sets.newTreeSet;
 
 public class CoverageAnnotationModel implements IAnnotationModel, IDocumentListener, DatabaseChangeListener, AnnotationDisplayListener, ISchedulingRule {
     private static final Object MODEL_KEY = new Object();

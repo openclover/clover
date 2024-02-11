@@ -1,10 +1,8 @@
 package org.openclover.eclipse.core.reports.reporters;
 
-import com.atlassian.clover.reporters.html.HtmlReporter;
+import org.openclover.core.reporters.html.HtmlReporter;
 
 import javax.management.NotificationEmitter;
-import javax.management.NotificationListener;
-import javax.management.Notification;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -100,7 +98,7 @@ public abstract class MemoryDebugReporter {
     public final static class XMLReporter extends MemoryDebugReporter {
         @Override
         public void runReport(String[] args) {
-            com.atlassian.clover.reporters.xml.XMLReporter.main(args);
+            org.openclover.core.reporters.xml.XMLReporter.main(args);
         }
 
         public static void main(String[] args) {
@@ -111,7 +109,7 @@ public abstract class MemoryDebugReporter {
     public final static class PDFReporter extends MemoryDebugReporter {
         @Override
         public void runReport(String[] args) {
-            com.atlassian.clover.reporters.pdf.PDFReporter.main(args);
+            org.openclover.core.reporters.pdf.PDFReporter.main(args);
         }
 
         public static void main(String[] args) {

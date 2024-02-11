@@ -1,14 +1,14 @@
 package org.openclover.eclipse.core.views.testcontributions;
 
-import com.atlassian.clover.CloverDatabase;
+import org.openclover.core.CloverDatabase;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotationFilter;
 import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotationModel;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.projects.model.DatabaseModel;
 import org.openclover.eclipse.core.projects.model.MetricsScope;
-import com.atlassian.clover.registry.entities.FullFileInfo;
-import com.atlassian.clover.registry.entities.TestCaseInfo;
+import org.openclover.core.registry.entities.FullFileInfo;
+import org.openclover.core.registry.entities.TestCaseInfo;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.QualifiedName;
@@ -25,8 +25,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import static org.openclover.util.Maps.newHashMap;
-import static org.openclover.util.Sets.newHashSet;
+import static org.openclover.core.util.Maps.newHashMap;
+import static org.openclover.core.util.Sets.newHashSet;
 
 public class AllTestContributionsComputation extends TestContributionsComputation {
     private static final QualifiedName COMPILATION_UNIT = new QualifiedName(CloverPlugin.ID, "TestContributionsCompilationUnit");

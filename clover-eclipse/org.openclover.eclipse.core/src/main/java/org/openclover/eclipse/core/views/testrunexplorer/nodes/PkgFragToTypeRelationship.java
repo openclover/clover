@@ -7,8 +7,6 @@ import org.openclover.eclipse.core.CloverPlugin;
 
 import java.util.List;
 import java.util.Set;
-import java.util.LinkedHashSet;
-import java.util.Iterator;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Collection;
@@ -18,8 +16,8 @@ import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 
-import static org.openclover.util.Lists.newLinkedList;
-import static org.openclover.util.Sets.newLinkedHashSet;
+import static org.openclover.core.util.Lists.newLinkedList;
+import static org.openclover.core.util.Sets.newLinkedHashSet;
 
 public class PkgFragToTypeRelationship extends NodeRelationship {
     @Override

@@ -1,9 +1,9 @@
 package org.openclover.eclipse.core.projects.settings.source;
 
-import com.atlassian.clover.cfg.instr.InstrumentationLevel;
-import com.atlassian.clover.cfg.instr.InstrumentationConfig;
-import com.atlassian.clover.cfg.instr.java.LambdaInstrumentation;
-import com.atlassian.clover.util.ArrayUtil;
+import org.openclover.core.cfg.instr.InstrumentationLevel;
+import org.openclover.core.cfg.instr.InstrumentationConfig;
+import org.openclover.core.cfg.instr.java.LambdaInstrumentation;
+import org.openclover.core.util.ArrayUtil;
 import org.openclover.eclipse.core.CloverEclipsePluginMessages;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.projects.settings.ProjectSettings;
@@ -29,7 +29,6 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.ContainerSelectionDialog;
-import org.eclipse.ui.dialogs.ISelectionValidator;
 
 /**
  * Creates a panel with various instrumentation options, which can be set by user, like:

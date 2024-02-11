@@ -1,10 +1,10 @@
 package org.openclover.eclipse.core.projects.settings.source.test;
 
-import com.atlassian.clover.spec.instr.test.TestMethodSpec;
+import org.openclover.core.spec.instr.test.TestMethodSpec;
 
 import java.util.List;
 
-import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.core.util.Lists.newArrayList;
 
 public class TestMethodElement implements TreeElement {
     private TestMethodsElement parent;

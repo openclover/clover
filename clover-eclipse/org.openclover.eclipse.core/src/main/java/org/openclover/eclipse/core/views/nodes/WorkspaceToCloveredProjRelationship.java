@@ -8,7 +8,7 @@ import org.eclipse.core.resources.IProject;
 import java.util.List;
 import java.util.Iterator;
 
-import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.core.util.Lists.newArrayList;
 
 /**
  * Collectes the children of IWorkspace nodes as IProject nodes

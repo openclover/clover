@@ -1,13 +1,13 @@
 package org.openclover.eclipse.core.projects.model;
 
-import com.atlassian.clover.CloverDatabase;
+import org.openclover.core.CloverDatabase;
 import org.openclover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.registry.entities.BaseClassInfo;
-import com.atlassian.clover.registry.entities.BaseFileInfo;
-import com.atlassian.clover.api.registry.HasMetrics;
-import com.atlassian.clover.registry.entities.FullMethodInfo;
-import com.atlassian.clover.registry.entities.FullProjectInfo;
-import com.atlassian.clover.registry.entities.TestCaseInfo;
+import org.openclover.core.registry.entities.BaseClassInfo;
+import org.openclover.core.registry.entities.BaseFileInfo;
+import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.registry.entities.FullMethodInfo;
+import org.openclover.core.registry.entities.FullProjectInfo;
+import org.openclover.core.registry.entities.TestCaseInfo;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.Job;

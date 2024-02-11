@@ -1,6 +1,6 @@
 package org.openclover.eclipse.core.views;
 
-import com.atlassian.clover.reporters.Column;
+import org.openclover.core.reporters.Column;
 
 public abstract class BuiltinColumnDefinition extends ColumnDefinition {
     private Column columnPrototype;

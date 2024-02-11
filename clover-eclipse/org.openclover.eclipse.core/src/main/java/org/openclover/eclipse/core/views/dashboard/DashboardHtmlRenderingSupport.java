@@ -3,10 +3,10 @@ package org.openclover.eclipse.core.views.dashboard;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import com.atlassian.clover.api.registry.ClassInfo;
+import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.registry.entities.FullMethodInfo;
-import com.atlassian.clover.reporters.html.HtmlRenderingSupportImpl;
+import org.openclover.core.registry.entities.FullMethodInfo;
+import org.openclover.core.reporters.html.HtmlRenderingSupportImpl;
 
 public class DashboardHtmlRenderingSupport extends HtmlRenderingSupportImpl {
     public static final String JAVA_METHOD_SCHEME = "javamethod";

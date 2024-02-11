@@ -1,11 +1,11 @@
 package org.openclover.eclipse.core.ui.editors.treemap;
 
-import com.atlassian.clover.api.registry.ClassInfo;
-import com.atlassian.clover.api.registry.HasMetrics;
-import com.atlassian.clover.api.registry.PackageInfo;
-import com.atlassian.clover.registry.entities.BaseClassInfo;
-import com.atlassian.clover.registry.entities.BasePackageInfo;
-import com.atlassian.clover.registry.entities.FullProjectInfo;
+import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.core.registry.entities.BaseClassInfo;
+import org.openclover.core.registry.entities.BasePackageInfo;
+import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.projects.model.MetricsScope;
 import net.sf.jtreemap.ktreemap.TreeMapNode;

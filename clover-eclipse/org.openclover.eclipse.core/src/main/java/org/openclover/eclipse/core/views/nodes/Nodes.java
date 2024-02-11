@@ -1,7 +1,7 @@
 package org.openclover.eclipse.core.views.nodes;
 
-import com.atlassian.clover.registry.entities.FullClassInfo;
-import com.atlassian.clover.registry.entities.FullProjectInfo;
+import org.openclover.core.registry.entities.FullClassInfo;
+import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.ui.CloverPluginIcons;
 import org.openclover.eclipse.core.projects.CloverProject;
@@ -9,9 +9,9 @@ import org.openclover.eclipse.core.projects.model.JavaElementAdapter;
 import org.openclover.eclipse.core.projects.model.MetricsScope;
 import org.openclover.eclipse.core.views.testrunexplorer.nodes.TestCaseNode;
 import org.openclover.eclipse.core.views.testrunexplorer.nodes.TestCaseNodeFactory;
-import com.atlassian.clover.registry.entities.TestCaseInfo;
-import com.atlassian.clover.api.registry.HasMetrics;
-import com.atlassian.clover.registry.metrics.HasMetricsNode;
+import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.registry.metrics.HasMetricsNode;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.ICompilationUnit;
@@ -26,7 +26,7 @@ import org.eclipse.swt.graphics.Image;
 import java.util.List;
 import java.util.Set;
 
-import static org.openclover.util.Lists.newLinkedList;
+import static org.openclover.core.util.Lists.newLinkedList;
 
 public class Nodes {
     public static final TestCaseConverter TO_TESTCASEINFO = (tci, method) -> tci;

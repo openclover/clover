@@ -18,7 +18,7 @@ import org.eclipse.swt.widgets.Tree;
 
 import java.util.List;
 
-import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.core.util.Lists.newArrayList;
 
 public class TestFilesFilterWidget extends Composite {
     private Tree sourceDirsTree;

@@ -1,6 +1,6 @@
 package org.openclover.eclipse.core.ui.editors.java.annotations.strategies;
 
-import com.atlassian.clover.api.registry.SourceInfo;
+import org.openclover.core.api.registry.SourceInfo;
 import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotation;
 import org.eclipse.jface.text.BadLocationException;
 

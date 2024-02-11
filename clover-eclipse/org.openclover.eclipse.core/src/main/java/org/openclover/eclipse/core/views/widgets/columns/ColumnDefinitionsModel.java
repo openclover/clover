@@ -5,7 +5,6 @@ import org.openclover.eclipse.core.views.CustomColumnDefinition;
 
 import java.util.LinkedHashSet;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Set;
@@ -13,8 +12,8 @@ import java.util.Collections;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 
-import static org.openclover.util.Lists.newLinkedList;
-import static org.openclover.util.Sets.newHashSet;
+import static org.openclover.core.util.Lists.newLinkedList;
+import static org.openclover.core.util.Sets.newHashSet;
 
 class ColumnDefinitionsModel {
     private LinkedHashSet<ColumnDefinition> remaining;

@@ -1,10 +1,10 @@
 package org.openclover.eclipse.core.views.testcontributions;
 
-import com.atlassian.clover.api.registry.ClassInfo;
-import com.atlassian.clover.registry.entities.FullClassInfo;
+import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.registry.entities.FullClassInfo;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
-import com.atlassian.clover.registry.entities.TestCaseInfo;
+import org.openclover.core.registry.entities.TestCaseInfo;
 
 import java.util.Set;
 import java.util.HashSet;

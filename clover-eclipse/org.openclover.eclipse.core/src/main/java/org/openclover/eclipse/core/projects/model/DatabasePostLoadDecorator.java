@@ -1,6 +1,6 @@
 package org.openclover.eclipse.core.projects.model;
 
-import com.atlassian.clover.CloverDatabase;
+import org.openclover.core.CloverDatabase;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.eclipse.core.runtime.IProgressMonitor;
 

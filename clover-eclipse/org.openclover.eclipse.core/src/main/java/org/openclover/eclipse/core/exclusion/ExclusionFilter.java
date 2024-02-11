@@ -8,7 +8,7 @@ import org.eclipse.core.resources.IFile;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.settings.ProjectSettings;
 import org.openclover.eclipse.core.projects.settings.source.SourceFolderPattern;
-import com.atlassian.clover.util.FilterUtils;
+import org.openclover.core.util.FilterUtils;
 
 public class ExclusionFilter {
     protected final String[] includeFilter;

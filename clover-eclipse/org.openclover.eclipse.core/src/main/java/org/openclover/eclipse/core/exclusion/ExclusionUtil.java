@@ -3,13 +3,13 @@ package org.openclover.eclipse.core.exclusion;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.projects.settings.ProjectSettings;
 import org.openclover.eclipse.core.projects.settings.source.SourceFolderPattern;
-import com.atlassian.clover.util.FilterUtils;
+import org.openclover.core.util.FilterUtils;
 import org.eclipse.core.runtime.CoreException;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.core.util.Lists.newArrayList;
 
 public class ExclusionUtil {
     private ExclusionUtil() {

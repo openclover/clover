@@ -1,13 +1,13 @@
 package org.openclover.eclipse.core.views;
 
-import com.atlassian.clover.reporters.Column;
-import com.atlassian.clover.registry.metrics.BlockMetrics;
-import com.atlassian.clover.registry.metrics.ClassMetrics;
+import org.openclover.core.reporters.Column;
+import org.openclover.core.registry.metrics.BlockMetrics;
+import org.openclover.core.registry.metrics.ClassMetrics;
 import org.openclover.eclipse.core.projects.model.MetricsScope;
 import org.openclover.eclipse.core.views.coverageexplorer.CoverageViewSettings;
 import org.openclover.eclipse.core.views.coverageexplorer.MetricsRawCellRenderer;
 import org.openclover.eclipse.core.views.widgets.ListeningRenderer;
-import com.atlassian.clover.util.MetricsFormatUtils;
+import org.openclover.core.util.MetricsFormatUtils;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;

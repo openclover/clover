@@ -1,6 +1,6 @@
 package org.openclover.eclipse.testopt.settings;
 
-import com.atlassian.clover.api.optimization.OptimizationOptions;
+import org.openclover.core.api.optimization.OptimizationOptions;
 import org.openclover.eclipse.core.ui.GLH;
 import org.openclover.eclipse.testopt.TestOptimizationPlugin;
 import org.openclover.eclipse.testopt.TestOptimizationPluginMessages;
@@ -21,8 +21,8 @@ import org.eclipse.swt.widgets.Label;
 import java.util.Collection;
 import java.util.Map;
 
-import static org.openclover.util.Lists.newArrayList;
-import static org.openclover.util.Maps.newHashMap;
+import static org.openclover.core.util.Lists.newArrayList;
+import static org.openclover.core.util.Maps.newHashMap;
 
 public class TestOptimizationPreferencesControl extends Composite {
     private final BooleanFieldEditor showNoTestsEditor;

@@ -1,11 +1,11 @@
 package org.openclover.eclipse.core.views.testcontributions;
 
-import com.atlassian.clover.api.registry.ClassInfo;
+import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.model.ModelUtils;
 import org.openclover.eclipse.core.views.actions.OpenJavaEditorAction;
-import com.atlassian.clover.registry.FixedSourceRegion;
-import com.atlassian.clover.registry.entities.TestCaseInfo;
+import org.openclover.core.registry.FixedSourceRegion;
+import org.openclover.core.registry.entities.TestCaseInfo;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaModelException;

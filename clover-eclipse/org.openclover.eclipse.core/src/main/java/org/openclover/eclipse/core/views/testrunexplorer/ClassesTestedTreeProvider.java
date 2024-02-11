@@ -1,11 +1,11 @@
 package org.openclover.eclipse.core.views.testrunexplorer;
 
-import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.BitSetCoverageProvider;
-import com.atlassian.clover.CoverageData;
-import com.atlassian.clover.api.registry.MethodInfo;
-import com.atlassian.clover.registry.entities.FullClassInfo;
-import com.atlassian.clover.registry.entities.FullMethodInfo;
+import org.openclover.core.CloverDatabase;
+import org.openclover.core.BitSetCoverageProvider;
+import org.openclover.core.CoverageData;
+import org.openclover.core.api.registry.MethodInfo;
+import org.openclover.core.registry.entities.FullClassInfo;
+import org.openclover.core.registry.entities.FullMethodInfo;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.projects.model.MetricsScope;
@@ -14,13 +14,13 @@ import org.openclover.eclipse.core.views.testrunexplorer.nodes.TestCaseNode;
 import org.openclover.eclipse.core.views.testrunexplorer.nodes.ClassCoverageContributionNode;
 import org.openclover.eclipse.core.views.testrunexplorer.nodes.CoverageContributionNode;
 import org.openclover.eclipse.core.views.testrunexplorer.nodes.MethodCoverageContributionNode;
-import com.atlassian.clover.registry.CoverageDataProvider;
-import com.atlassian.clover.registry.entities.FullFileInfo;
-import com.atlassian.clover.api.registry.HasMetrics;
-import com.atlassian.clover.registry.metrics.HasMetricsFilter;
-import com.atlassian.clover.registry.entities.FullProjectInfo;
-import com.atlassian.clover.registry.entities.TestCaseInfo;
-import com.atlassian.clover.registry.CoverageDataReceptor;
+import org.openclover.core.registry.CoverageDataProvider;
+import org.openclover.core.registry.entities.FullFileInfo;
+import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.registry.metrics.HasMetricsFilter;
+import org.openclover.core.registry.entities.FullProjectInfo;
+import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.core.registry.CoverageDataReceptor;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -36,15 +36,14 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.model.WorkbenchContentProvider;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Collections;
 
-import static org.openclover.util.Lists.newArrayList;
-import static org.openclover.util.Lists.newLinkedList;
-import static org.openclover.util.Maps.newHashMap;
-import static org.openclover.util.Sets.newHashSet;
+import static org.openclover.core.util.Lists.newArrayList;
+import static org.openclover.core.util.Lists.newLinkedList;
+import static org.openclover.core.util.Maps.newHashMap;
+import static org.openclover.core.util.Sets.newHashSet;
 
 public class ClassesTestedTreeProvider
     extends WorkbenchContentProvider

@@ -1,7 +1,7 @@
 package org.openclover.eclipse.core.reports;
 
 import org.eclipse.core.runtime.jobs.Job;
-import com.atlassian.clover.reporters.Current;
+import org.openclover.core.reporters.Current;
 
 /**
  *

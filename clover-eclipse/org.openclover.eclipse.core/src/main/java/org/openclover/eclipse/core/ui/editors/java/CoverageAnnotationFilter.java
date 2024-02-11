@@ -1,12 +1,12 @@
 package org.openclover.eclipse.core.ui.editors.java;
 
-import com.atlassian.clover.api.registry.BranchInfo;
-import com.atlassian.clover.api.registry.ClassInfo;
-import com.atlassian.clover.api.registry.ElementInfo;
-import com.atlassian.clover.api.registry.SourceInfo;
-import com.atlassian.clover.registry.entities.FullElementInfo;
-import com.atlassian.clover.registry.entities.FullFileInfo;
-import com.atlassian.clover.registry.entities.FullProjectInfo;
+import org.openclover.core.api.registry.BranchInfo;
+import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.ElementInfo;
+import org.openclover.core.api.registry.SourceInfo;
+import org.openclover.core.registry.entities.FullElementInfo;
+import org.openclover.core.registry.entities.FullFileInfo;
+import org.openclover.core.registry.entities.FullProjectInfo;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.QualifiedName;
@@ -18,13 +18,13 @@ import java.util.BitSet;
 import java.util.Map;
 
 import org.openclover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.registry.entities.TestCaseInfo;
-import com.atlassian.clover.registry.CoverageDataRange;
-import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.CoverageData;
-import com.atlassian.clover.context.ContextSet;
+import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.core.registry.CoverageDataRange;
+import org.openclover.core.CloverDatabase;
+import org.openclover.core.CoverageData;
+import org.openclover.core.context.ContextSet;
 
-import static org.openclover.util.Sets.newHashSet;
+import static org.openclover.core.util.Sets.newHashSet;
 
 public class CoverageAnnotationFilter {
     public static final QualifiedName EXCLUDED_TEST_NAMES = new QualifiedName(CloverPlugin.ID, "CoverageAnnotationExcludedTestNames");

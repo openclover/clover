@@ -1107,17 +1107,17 @@
 			class="org.openclover.eclipse.core.projects.model.MetricsAdapterFactory"
 			adaptableType="org.openclover.eclipse.core.projects.model.MetricsScope$Qualification">
 
-			<adapter type="com.atlassian.clover.api.registry.HasMetrics"/>
-			<adapter type="com.atlassian.clover.registry.entities.FullProjectInfo"/>
-			<adapter type="com.atlassian.clover.registry.entities.FullClassInfo"/>
-            <adapter type="com.atlassian.clover.registry.entities.TestCaseInfo"/>
+			<adapter type="org.openclover.core.api.registry.HasMetrics"/>
+			<adapter type="org.openclover.core.registry.entities.FullProjectInfo"/>
+			<adapter type="org.openclover.core.registry.entities.FullClassInfo"/>
+            <adapter type="org.openclover.core.registry.entities.TestCaseInfo"/>
             <adapter type="[Lcom.atlassian.clover.registry.entities.TestCaseInfo;"/>
-			<adapter type="com.atlassian.clover.registry.entities.FullMethodInfo"/>
-			<adapter type="com.atlassian.clover.registry.entities.FullFileInfo"/>
+			<adapter type="org.openclover.core.registry.entities.FullMethodInfo"/>
+			<adapter type="org.openclover.core.registry.entities.FullFileInfo"/>
 
-			<adapter type="com.atlassian.clover.registry.metrics.BlockMetrics"/>
-			<adapter type="com.atlassian.clover.registry.metrics.ProjectMetrics"/>
-			<adapter type="com.atlassian.clover.registry.metrics.ClassMetrics"/>
+			<adapter type="org.openclover.core.registry.metrics.BlockMetrics"/>
+			<adapter type="org.openclover.core.registry.metrics.ProjectMetrics"/>
+			<adapter type="org.openclover.core.registry.metrics.ClassMetrics"/>
 		</factory>
 		<factory
 			class="org.openclover.eclipse.core.projects.CloverProjectAdapterFactory"

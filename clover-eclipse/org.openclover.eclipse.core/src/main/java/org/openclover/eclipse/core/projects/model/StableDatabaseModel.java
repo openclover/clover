@@ -1,7 +1,7 @@
 package org.openclover.eclipse.core.projects.model;
 
 import org.openclover.eclipse.core.projects.CloverProject;
-import com.atlassian.clover.CloverDatabase;
+import org.openclover.core.CloverDatabase;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 public abstract class StableDatabaseModel extends DatabaseModel {

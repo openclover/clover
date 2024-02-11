@@ -2,14 +2,14 @@ package org.openclover.eclipse.testopt;
 
 import org.openclover.runtime.api.CloverException;
 import org.openclover.eclipse.core.projects.CloverProject;
-import com.atlassian.clover.registry.Clover2Registry;
-import com.atlassian.clover.optimization.LocalSnapshotOptimizer;
-import com.atlassian.clover.optimization.Messages;
-import com.atlassian.clover.api.optimization.Optimizable;
-import com.atlassian.clover.optimization.OptimizationSession;
+import org.openclover.core.registry.Clover2Registry;
+import org.openclover.core.optimization.LocalSnapshotOptimizer;
+import org.openclover.core.optimization.Messages;
+import org.openclover.core.api.optimization.Optimizable;
+import org.openclover.core.optimization.OptimizationSession;
 
-import com.atlassian.clover.api.optimization.OptimizationOptions;
-import com.atlassian.clover.optimization.Snapshot;
+import org.openclover.core.api.optimization.OptimizationOptions;
+import org.openclover.core.optimization.Snapshot;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;

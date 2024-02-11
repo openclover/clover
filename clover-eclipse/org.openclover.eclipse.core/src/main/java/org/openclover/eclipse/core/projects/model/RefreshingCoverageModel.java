@@ -1,6 +1,6 @@
 package org.openclover.eclipse.core.projects.model;
 
-import com.atlassian.clover.CloverDatabase;
+import org.openclover.core.CloverDatabase;
 
 public class RefreshingCoverageModel extends LoadingDatabaseModel {
     private final CloverDatabase database;

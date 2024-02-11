@@ -8,9 +8,6 @@ import org.openclover.eclipse.core.ui.projects.DatabaseChangeEvent;
 import org.openclover.eclipse.core.ui.projects.DatabaseChangeListener;
 import org.openclover.eclipse.core.upgrade.hooks.ConfigUninstaller;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.QualifiedName;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.dialogs.PopupDialog;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.resource.LocalResourceManager;
@@ -38,7 +35,7 @@ import org.eclipse.swt.widgets.Control;
 
 import java.util.Set;
 
-import static org.openclover.util.Sets.newHashSet;
+import static org.openclover.core.util.Sets.newHashSet;
 
 public class ViewAlertContainer extends Composite implements DatabaseChangeListener {
 

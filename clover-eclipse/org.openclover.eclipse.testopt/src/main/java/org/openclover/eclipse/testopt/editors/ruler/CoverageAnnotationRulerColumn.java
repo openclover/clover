@@ -1,13 +1,13 @@
 package org.openclover.eclipse.testopt.editors.ruler;
 
-import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.api.registry.ElementInfo;
-import com.atlassian.clover.registry.entities.FullElementInfo;
+import org.openclover.core.CloverDatabase;
+import org.openclover.core.api.registry.ElementInfo;
+import org.openclover.core.registry.entities.FullElementInfo;
 import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotation;
 import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotationModel;
 import org.openclover.eclipse.core.ui.editors.java.ILineCoverageModel;
 import org.openclover.eclipse.core.ui.editors.java.ILineCoverageModel.Entry;
-import com.atlassian.clover.registry.entities.TestCaseInfo;
+import org.openclover.core.registry.entities.TestCaseInfo;
 import org.eclipse.jface.text.source.AbstractRulerColumn;
 import org.eclipse.jface.text.source.IAnnotationModel;
 import org.eclipse.jface.text.source.IAnnotationModelListener;

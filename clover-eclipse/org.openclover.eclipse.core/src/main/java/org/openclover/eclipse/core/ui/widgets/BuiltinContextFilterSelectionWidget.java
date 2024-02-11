@@ -1,9 +1,9 @@
 package org.openclover.eclipse.core.ui.widgets;
 
-import com.atlassian.clover.context.ContextStore;
-import com.atlassian.clover.context.ContextSet;
-import com.atlassian.clover.context.MethodRegexpContext;
-import com.atlassian.clover.context.NamedContext;
+import org.openclover.core.context.ContextStore;
+import org.openclover.core.context.ContextSet;
+import org.openclover.core.context.MethodRegexpContext;
+import org.openclover.core.context.NamedContext;
 import org.openclover.eclipse.core.CloverEclipsePluginMessages;
 import org.openclover.eclipse.core.projects.settings.ProjectSettings;
 import org.eclipse.swt.SWT;
@@ -16,7 +16,7 @@ import org.eclipse.swt.widgets.Label;
 import java.util.HashMap;
 import java.util.List;
 
-import static org.openclover.util.Maps.newHashMap;
+import static org.openclover.core.util.Maps.newHashMap;
 
 public class BuiltinContextFilterSelectionWidget extends Composite {
     protected static final int CONTEXTS_PER_LINE = 3;

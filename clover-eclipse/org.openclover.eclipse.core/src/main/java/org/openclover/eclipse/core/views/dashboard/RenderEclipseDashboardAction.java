@@ -4,10 +4,10 @@ import java.io.File;
 
 import clover.org.apache.velocity.VelocityContext;
 
-import com.atlassian.clover.registry.entities.FullProjectInfo;
-import com.atlassian.clover.reporters.Current;
-import com.atlassian.clover.reporters.html.RenderDashboardAction;
-import com.atlassian.clover.reporters.util.CloverChartFactory.ChartInfo;
+import org.openclover.core.registry.entities.FullProjectInfo;
+import org.openclover.core.reporters.Current;
+import org.openclover.core.reporters.html.RenderDashboardAction;
+import org.openclover.core.reporters.util.CloverChartFactory.ChartInfo;
 
 public class RenderEclipseDashboardAction extends RenderDashboardAction {
 

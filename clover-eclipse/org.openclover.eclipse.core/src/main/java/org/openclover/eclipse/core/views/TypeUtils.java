@@ -4,8 +4,8 @@ import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.core.resources.IProject;
-import com.atlassian.clover.registry.metrics.BlockMetrics;
-import com.atlassian.clover.registry.metrics.ClassMetrics;
+import org.openclover.core.registry.metrics.BlockMetrics;
+import org.openclover.core.registry.metrics.ClassMetrics;
 
 public class TypeUtils {
     public static boolean isPackageFragmentRoot(Object element) {

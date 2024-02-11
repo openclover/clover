@@ -11,7 +11,7 @@ import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.LineRange;
 
 import org.openclover.eclipse.core.ui.editors.java.ILineCoverageModel.Entry;
-import com.atlassian.clover.registry.entities.TestCaseInfo;
+import org.openclover.core.registry.entities.TestCaseInfo;
 
 public class CoverageAnnotationRulerHover implements IAnnotationHover,
         IAnnotationHoverExtension, IAnnotationHoverExtension2 {

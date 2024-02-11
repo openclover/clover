@@ -11,8 +11,6 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IResourceProxyVisitor;
-import org.eclipse.core.resources.IResourceProxy;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
@@ -38,8 +36,8 @@ import java.lang.reflect.Method;
 import java.util.Set;
 import java.util.Map;
 
-import static org.openclover.util.Maps.newHashMap;
-import static org.openclover.util.Sets.newHashSet;
+import static org.openclover.core.util.Maps.newHashMap;
+import static org.openclover.core.util.Sets.newHashSet;
 
 /**
  * This lives in org.eclipse.jdt.internal.compiler.batch to allow package-protected access

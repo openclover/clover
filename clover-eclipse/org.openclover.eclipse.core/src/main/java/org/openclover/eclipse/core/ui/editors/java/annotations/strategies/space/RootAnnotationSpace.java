@@ -1,7 +1,7 @@
 package org.openclover.eclipse.core.ui.editors.java.annotations.strategies.space;
 
-import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.registry.entities.TestCaseInfo;
+import org.openclover.core.CloverDatabase;
+import org.openclover.core.registry.entities.TestCaseInfo;
 import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotation;
 
 import java.util.SortedSet;

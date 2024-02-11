@@ -7,16 +7,15 @@ import org.openclover.eclipse.core.projects.model.LoadedDatabaseModel;
 import org.openclover.eclipse.core.projects.model.CoverageModelChangeEvent;
 import org.openclover.eclipse.core.projects.model.DuringFullBuildDatabaseModel;
 import org.openclover.eclipse.core.ui.widgets.MessageDialogWithCheckbox;
-import com.atlassian.clover.util.FileUtils;
-import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.registry.Clover2Registry;
+import org.openclover.core.util.FileUtils;
+import org.openclover.core.CloverDatabase;
+import org.openclover.core.registry.Clover2Registry;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
@@ -44,8 +43,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import static org.openclover.util.Lists.newArrayList;
-import static org.openclover.util.Lists.newLinkedList;
+import static org.openclover.core.util.Lists.newArrayList;
+import static org.openclover.core.util.Lists.newLinkedList;
 
 public class BuildCoordinator {
     private static final int TOTAL_COMPILATION_PROGRESS = 1000;

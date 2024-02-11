@@ -1,16 +1,16 @@
 package org.openclover.eclipse.core.ui.editors.cloud;
 
 import clover.org.apache.velocity.VelocityContext;
-import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.api.registry.PackageInfo;
+import org.openclover.core.CloverDatabase;
+import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.eclipse.core.CloverEclipsePluginMessages;
-import com.atlassian.clover.registry.entities.BasePackageInfo;
-import com.atlassian.clover.registry.entities.FullProjectInfo;
-import com.atlassian.clover.reporters.CloudGenerator;
-import com.atlassian.clover.reporters.html.ClassInfoStatsCalculator;
-import com.atlassian.clover.reporters.html.HtmlReportUtil;
-import com.atlassian.clover.reporters.html.TestClassFilter;
-import com.atlassian.clover.util.CloverUtils;
+import org.openclover.core.registry.entities.BasePackageInfo;
+import org.openclover.core.registry.entities.FullProjectInfo;
+import org.openclover.core.reporters.CloudGenerator;
+import org.openclover.core.reporters.html.ClassInfoStatsCalculator;
+import org.openclover.core.reporters.html.HtmlReportUtil;
+import org.openclover.core.reporters.html.TestClassFilter;
+import org.openclover.core.util.CloverUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;

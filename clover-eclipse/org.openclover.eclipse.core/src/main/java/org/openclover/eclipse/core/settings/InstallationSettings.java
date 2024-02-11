@@ -1,9 +1,8 @@
 package org.openclover.eclipse.core.settings;
 
 import org.openclover.runtime.api.CloverException;
-import com.atlassian.clover.cfg.Interval;
+import org.openclover.core.cfg.Interval;
 import org.openclover.eclipse.core.CloverPlugin;
-import org.openclover.eclipse.core.PluginVersionInfo;
 import org.openclover.eclipse.core.views.CustomColumnDefinition;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.preferences.ConfigurationScope;
@@ -12,7 +11,7 @@ import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import java.util.Collections;
 import java.util.List;
 
-import static org.openclover.util.Lists.newLinkedList;
+import static org.openclover.core.util.Lists.newLinkedList;
 
 public class InstallationSettings extends Settings {
     public static class Keys {

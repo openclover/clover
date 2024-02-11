@@ -1,17 +1,16 @@
 package org.openclover.eclipse.core.ui.editors.cloud;
 
-import com.atlassian.clover.api.registry.PackageInfo;
-import com.atlassian.clover.registry.entities.FullProjectInfo;
+import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.eclipse.core.CloverEclipsePluginMessages;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.ui.CloverPluginIcons;
 import org.openclover.eclipse.core.ui.editors.CloverProjectInput;
-import org.openclover.eclipse.core.ui.projects.DatabaseChangeEvent;
 import org.openclover.eclipse.core.ui.projects.DatabaseChangeListener;
 import org.openclover.eclipse.core.projects.model.MetricsScope;
 import org.openclover.eclipse.core.views.actions.OpenJavaEditorAction;
-import com.atlassian.clover.registry.metrics.BlockMetrics;
-import com.atlassian.clover.registry.metrics.HasMetricsSupport;
+import org.openclover.core.registry.metrics.BlockMetrics;
+import org.openclover.core.registry.metrics.HasMetricsSupport;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
@@ -33,7 +32,6 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.MultiPageEditorPart;
 
 import java.util.List;
-import java.util.Collections;
 import java.util.Map;
 import java.util.LinkedHashMap;
 import java.io.File;

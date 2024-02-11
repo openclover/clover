@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.core.util.Lists.newArrayList;
 
 public class SourceRootsWithPatternTreeContentProvider implements ITreeContentProvider {
     private final IJavaProject project;

@@ -6,9 +6,9 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-import com.atlassian.clover.cfg.Interval;
-import com.atlassian.clover.reporters.Current;
-import com.atlassian.clover.reporters.Type;
+import org.openclover.core.cfg.Interval;
+import org.openclover.core.reporters.Current;
+import org.openclover.core.reporters.Type;
 
 public class ReportHistoryEntry {
     private String path = "";

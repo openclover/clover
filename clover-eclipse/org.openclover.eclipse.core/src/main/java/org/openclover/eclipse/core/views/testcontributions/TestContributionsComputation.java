@@ -1,6 +1,6 @@
 package org.openclover.eclipse.core.views.testcontributions;
 
-import com.atlassian.clover.registry.entities.TestCaseInfo;
+import org.openclover.core.registry.entities.TestCaseInfo;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.ui.texteditor.ITextEditor;

@@ -31,7 +31,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import static org.openclover.util.Sets.newHashSet;
+import static org.openclover.core.util.Sets.newHashSet;
 
 public class GenerateReportAction
     extends Action

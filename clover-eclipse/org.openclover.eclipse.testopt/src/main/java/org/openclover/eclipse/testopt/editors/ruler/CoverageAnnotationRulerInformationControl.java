@@ -17,8 +17,6 @@ import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.text.IInformationControl;
 import org.eclipse.jface.text.IInformationControlExtension;
 import org.eclipse.jface.text.IInformationControlExtension2;
-import org.eclipse.jface.viewers.DoubleClickEvent;
-import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ITreeSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreePath;
@@ -30,8 +28,6 @@ import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.FocusListener;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseMoveListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
@@ -46,7 +42,7 @@ import org.eclipse.ui.editors.text.EditorsUI;
 import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotation;
 import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotation.Kind;
 import org.openclover.eclipse.core.ui.editors.java.ILineCoverageModel.Entry;
-import com.atlassian.clover.registry.entities.TestCaseInfo;
+import org.openclover.core.registry.entities.TestCaseInfo;
 
 public class CoverageAnnotationRulerInformationControl extends
         PopupDialog implements IInformationControl,

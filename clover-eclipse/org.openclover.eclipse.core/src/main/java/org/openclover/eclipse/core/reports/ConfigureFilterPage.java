@@ -9,8 +9,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.openclover.eclipse.core.ui.widgets.BuiltinContextFilterSelectionWidget;
 import org.openclover.eclipse.core.ui.widgets.ContextFilterSelectionWidget;
 import org.openclover.eclipse.core.projects.CloverProject;
-import com.atlassian.clover.context.ContextSet;
-import com.atlassian.clover.context.ContextStore;
+import org.openclover.core.context.ContextSet;
+import org.openclover.core.context.ContextStore;
 
 public class ConfigureFilterPage extends WizardPage {
     private BuiltinContextFilterSelectionWidget contextWidget;

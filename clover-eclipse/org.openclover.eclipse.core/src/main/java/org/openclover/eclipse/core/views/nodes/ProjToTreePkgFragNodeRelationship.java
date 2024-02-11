@@ -15,8 +15,8 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.LinkedHashSet;
 
-import static org.openclover.util.Lists.newLinkedList;
-import static org.openclover.util.Maps.newHashMap;
+import static org.openclover.core.util.Lists.newLinkedList;
+import static org.openclover.core.util.Maps.newHashMap;
 
 public class ProjToTreePkgFragNodeRelationship extends NodeRelationship {
     @Override

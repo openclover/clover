@@ -1,7 +1,7 @@
 package org.openclover.eclipse.core.views.testcontributions;
 
-import com.atlassian.clover.api.registry.ClassInfo;
-import com.atlassian.clover.registry.entities.TestCaseInfo;
+import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.registry.entities.TestCaseInfo;
 
 public class AllTestCaseInfoProvider extends TestCaseInfoProvider {
     public static final Object ALL_TEST_CASES = new Object();

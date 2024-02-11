@@ -1,10 +1,10 @@
 package org.openclover.eclipse.core.views.testcontributions;
 
-import com.atlassian.clover.api.registry.ClassInfo;
+import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotationModel;
 import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotationFilter;
-import com.atlassian.clover.registry.entities.TestCaseInfo;
+import org.openclover.core.registry.entities.TestCaseInfo;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
@@ -22,7 +22,7 @@ import org.eclipse.ui.IMemento;
 
 import java.util.Set;
 
-import static org.openclover.util.Sets.newHashSet;
+import static org.openclover.core.util.Sets.newHashSet;
 
 public class AllTestContributionsFilterWidget
     extends TestContributionsWidget

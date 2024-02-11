@@ -1,6 +1,6 @@
 package org.openclover.eclipse.core.views.coverageexplorer.widgets;
 
-import com.atlassian.clover.cfg.instr.InstrumentationLevel;
+import org.openclover.core.cfg.instr.InstrumentationLevel;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.ui.SwtUtils;

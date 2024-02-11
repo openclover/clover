@@ -2,7 +2,7 @@ package org.openclover.eclipse.core.projects.model;
 
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.CloverPlugin;
-import com.atlassian.clover.CloverDatabase;
+import org.openclover.core.CloverDatabase;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Status;

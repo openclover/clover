@@ -1,7 +1,7 @@
 package org.openclover.eclipse.core.projects.settings.source.test;
 
-import com.atlassian.clover.spec.instr.test.BooleanSpec;
-import com.atlassian.clover.spec.instr.test.OrSpec;
+import org.openclover.core.spec.instr.test.BooleanSpec;
+import org.openclover.core.spec.instr.test.OrSpec;
 
 public class OrExpressionElement extends ExpressionElement {
     public OrExpressionElement(TreeElement parent) {

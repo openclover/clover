@@ -1,7 +1,7 @@
 package org.openclover.eclipse.core.reports;
 
-import com.atlassian.clover.reporters.Current;
-import com.atlassian.clover.reporters.TestSelectionHelper;
+import org.openclover.core.reporters.Current;
+import org.openclover.core.reporters.TestSelectionHelper;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.projects.settings.ProjectSettings;
@@ -32,7 +32,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
 
-import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.core.util.Lists.newArrayList;
 
 public abstract class ForkingReportJob extends ReportJob {
     private static final long POLL_INTERVAL = 1000;

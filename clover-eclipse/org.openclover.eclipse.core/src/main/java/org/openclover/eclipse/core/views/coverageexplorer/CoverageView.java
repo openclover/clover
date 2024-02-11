@@ -19,7 +19,7 @@ import org.openclover.eclipse.core.views.widgets.ListeningRenderer;
 import org.openclover.eclipse.core.views.coverageexplorer.widgets.InstallationSettingsDialog;
 import org.openclover.eclipse.core.views.coverageexplorer.widgets.ProjectSettingsDialog;
 import org.openclover.eclipse.core.views.nodes.PackageFragmentNode;
-import com.atlassian.clover.reporters.Columns;
+import org.openclover.core.reporters.Columns;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.CoreException;
@@ -43,8 +43,6 @@ import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseMoveListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.graphics.Point;
@@ -56,8 +54,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.TreeItem;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.PartInitException;
@@ -69,7 +65,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
-import static org.openclover.util.Lists.newLinkedList;
+import static org.openclover.core.util.Lists.newLinkedList;
 
 
 public class CoverageView extends ExplorerView implements IShowInTarget {

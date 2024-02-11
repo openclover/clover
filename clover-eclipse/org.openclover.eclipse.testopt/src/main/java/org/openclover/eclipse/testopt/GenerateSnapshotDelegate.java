@@ -2,7 +2,7 @@ package org.openclover.eclipse.testopt;
 
 import org.openclover.runtime.api.CloverException;
 import org.openclover.eclipse.core.projects.CloverProject;
-import com.atlassian.clover.optimization.Snapshot;
+import org.openclover.core.optimization.Snapshot;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.debug.core.ILaunch;

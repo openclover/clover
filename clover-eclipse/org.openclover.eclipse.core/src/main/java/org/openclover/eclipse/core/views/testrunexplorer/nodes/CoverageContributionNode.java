@@ -1,7 +1,7 @@
 package org.openclover.eclipse.core.views.testrunexplorer.nodes;
 
 import org.eclipse.jdt.core.IJavaElement;
-import com.atlassian.clover.registry.CoverageDataProvider;
+import org.openclover.core.registry.CoverageDataProvider;
 import org.openclover.eclipse.core.views.nodes.JavaElementNode;
 
 public abstract class CoverageContributionNode extends JavaElementNode {

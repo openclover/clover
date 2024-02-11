@@ -1,20 +1,20 @@
 package org.openclover.eclipse.core.projects.settings;
 
-import com.atlassian.clover.cfg.instr.InstrumentationConfig;
-import com.atlassian.clover.cfg.instr.InstrumentationLevel;
-import com.atlassian.clover.CloverDatabase;
+import org.openclover.core.cfg.instr.InstrumentationConfig;
+import org.openclover.core.cfg.instr.InstrumentationLevel;
+import org.openclover.core.CloverDatabase;
 import org.openclover.runtime.Logger;
-import com.atlassian.clover.cfg.Interval;
-import com.atlassian.clover.cfg.instr.java.LambdaInstrumentation;
-import com.atlassian.clover.context.ContextSet;
-import com.atlassian.clover.context.ContextStore;
-import com.atlassian.clover.context.MethodRegexpContext;
-import com.atlassian.clover.context.StatementRegexpContext;
+import org.openclover.core.cfg.Interval;
+import org.openclover.core.cfg.instr.java.LambdaInstrumentation;
+import org.openclover.core.context.ContextSet;
+import org.openclover.core.context.ContextStore;
+import org.openclover.core.context.MethodRegexpContext;
+import org.openclover.core.context.StatementRegexpContext;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.projects.settings.source.SourceFolderPattern;
 import org.openclover.eclipse.core.settings.Settings;
-import com.atlassian.clover.util.FilterUtils;
+import org.openclover.core.util.FilterUtils;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.runtime.CoreException;
@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import static org.openclover.util.Sets.newHashSet;
+import static org.openclover.core.util.Sets.newHashSet;
 
 public class ProjectSettings extends Settings {
     public static final String DEFAULT_INCLUDE_PATTERN = "**/*.java";

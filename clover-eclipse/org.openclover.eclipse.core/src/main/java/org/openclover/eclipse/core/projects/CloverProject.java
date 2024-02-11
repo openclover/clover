@@ -1,15 +1,15 @@
 package org.openclover.eclipse.core.projects;
 
-import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig;
-import com.atlassian.clover.cfg.instr.java.SourceLevel;
-import com.atlassian.clover.instr.tests.AggregateTestDetector;
-import com.atlassian.clover.instr.tests.AndStrategy;
-import com.atlassian.clover.instr.tests.AntPatternTestDetectorFilter;
-import com.atlassian.clover.instr.tests.TestDetector;
-import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.CoverageDataSpec;
-import com.atlassian.clover.recorder.PerTestCoverageStrategy;
-import com.atlassian.clover.context.ContextSet;
+import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig;
+import org.openclover.core.cfg.instr.java.SourceLevel;
+import org.openclover.core.instr.tests.AggregateTestDetector;
+import org.openclover.core.instr.tests.AndStrategy;
+import org.openclover.core.instr.tests.AntPatternTestDetectorFilter;
+import org.openclover.core.instr.tests.TestDetector;
+import org.openclover.core.CloverDatabase;
+import org.openclover.core.CoverageDataSpec;
+import org.openclover.core.recorder.PerTestCoverageStrategy;
+import org.openclover.core.context.ContextSet;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.PluginVersionInfo;
 import org.openclover.eclipse.core.exclusion.DecorationPreferenceChangeListener;
@@ -32,7 +32,7 @@ import org.openclover.eclipse.core.projects.model.ModelOperation;
 import org.openclover.eclipse.core.projects.model.UnloadedDatabaseModel;
 import org.openclover.eclipse.core.projects.model.WorkingSetHasMetricsFilter;
 import org.openclover.eclipse.core.projects.settings.ProjectSettings;
-import com.atlassian.clover.registry.metrics.HasMetricsFilter;
+import org.openclover.core.registry.metrics.HasMetricsFilter;
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -40,7 +40,6 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
-import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IResourceRuleFactory;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -67,7 +66,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import static org.openclover.util.Lists.newArrayList;
+import static org.openclover.core.util.Lists.newArrayList;
 
 public class CloverProject extends BaseNature {
     public static final String ID = CloverPlugin.ID + ".clovernature";

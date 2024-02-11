@@ -1,10 +1,10 @@
 package org.openclover.eclipse.core.projects.model;
 
-import com.atlassian.clover.api.registry.PackageInfo;
-import com.atlassian.clover.registry.entities.FullFileInfo;
-import com.atlassian.clover.registry.entities.FullProjectInfo;
-import com.atlassian.clover.registry.metrics.HasMetricsFilter;
-import com.atlassian.clover.api.registry.HasMetrics;
+import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.core.registry.entities.FullFileInfo;
+import org.openclover.core.registry.entities.FullProjectInfo;
+import org.openclover.core.registry.metrics.HasMetricsFilter;
+import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.eclipse.core.runtime.IAdaptable;

@@ -25,16 +25,13 @@ import org.eclipse.jdt.ui.actions.NavigateActionGroup;
 import org.eclipse.jdt.ui.actions.ProjectActionGroup;
 import org.eclipse.jdt.ui.actions.RefactorActionGroup;
 import org.eclipse.jdt.ui.actions.SelectionDispatchAction;
-import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -57,8 +54,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static org.openclover.util.Maps.newHashMap;
-import static org.openclover.util.Maps.newLinkedHashMap;
+import static org.openclover.core.util.Maps.newHashMap;
+import static org.openclover.core.util.Maps.newLinkedHashMap;
 
 public abstract class ExplorerView extends CloverViewPart {
     public static final int ACTION_OPEN = 0;

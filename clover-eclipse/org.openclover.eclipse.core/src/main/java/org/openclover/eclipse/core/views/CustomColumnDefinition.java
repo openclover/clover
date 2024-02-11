@@ -3,13 +3,13 @@ package org.openclover.eclipse.core.views;
 import clover.antlr.collections.AST;
 import clover.antlr.RecognitionException;
 import org.openclover.runtime.api.CloverException;
-import com.atlassian.clover.util.MetricsFormatUtils;
+import org.openclover.core.util.MetricsFormatUtils;
 import org.openclover.eclipse.core.projects.model.MetricsScope;
 import org.openclover.eclipse.core.views.widgets.ListeningRenderer;
 import org.openclover.eclipse.core.views.coverageexplorer.MetricsPcCellRenderer;
 import org.openclover.eclipse.core.views.coverageexplorer.MetricsRawCellRenderer;
-import com.atlassian.clover.registry.metrics.BlockMetrics;
-import com.atlassian.clover.reporters.ExpressionEvaluator;
+import org.openclover.core.registry.metrics.BlockMetrics;
+import org.openclover.core.reporters.ExpressionEvaluator;
 import com.atlassian.clover.reporters.CalcTreeWalker;
 
 import java.util.Comparator;

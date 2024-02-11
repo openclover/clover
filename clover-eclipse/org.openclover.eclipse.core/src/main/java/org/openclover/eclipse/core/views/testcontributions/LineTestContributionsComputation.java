@@ -1,6 +1,6 @@
 package org.openclover.eclipse.core.views.testcontributions;
 
-import com.atlassian.clover.registry.entities.FullElementInfo;
+import org.openclover.core.registry.entities.FullElementInfo;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.QualifiedName;
@@ -19,8 +19,8 @@ import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotationModel;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.model.DatabaseModel;
 import org.openclover.eclipse.core.projects.model.MetricsScope;
-import com.atlassian.clover.registry.entities.TestCaseInfo;
-import com.atlassian.clover.CloverDatabase;
+import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.core.CloverDatabase;
 
 public class LineTestContributionsComputation extends TestContributionsComputation {
     private static final QualifiedName CURSOR_POSITION =

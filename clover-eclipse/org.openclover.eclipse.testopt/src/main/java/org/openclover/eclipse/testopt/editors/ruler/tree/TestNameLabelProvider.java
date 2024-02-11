@@ -6,7 +6,7 @@ import org.eclipse.swt.graphics.Image;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.ui.CloverPluginIcons;
 import org.openclover.eclipse.core.views.nodes.Nodes;
-import com.atlassian.clover.registry.entities.TestCaseInfo;
+import org.openclover.core.registry.entities.TestCaseInfo;
 
 public class TestNameLabelProvider extends ColumnLabelProvider {
 

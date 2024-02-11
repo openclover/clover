@@ -3,7 +3,7 @@ package org.openclover.eclipse.core.views.dashboard;
 import java.io.File;
 import java.io.IOException;
 
-import com.atlassian.clover.CloverDatabase;
+import org.openclover.core.CloverDatabase;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;

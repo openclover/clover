@@ -1,13 +1,11 @@
 package org.openclover.eclipse.core.views.coverageexplorer;
 
 import org.openclover.eclipse.core.projects.CloveredProjectLabelProvider;
-import com.atlassian.clover.registry.metrics.BlockMetrics;
-import com.atlassian.clover.util.MetricsFormatUtils;
+import org.openclover.core.registry.metrics.BlockMetrics;
+import org.openclover.core.util.MetricsFormatUtils;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jdt.core.IJavaElement;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;

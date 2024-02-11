@@ -1,8 +1,8 @@
 package org.openclover.eclipse.core.projects.model;
 
-import com.atlassian.clover.instr.tests.TestDetector;
+import org.openclover.core.instr.tests.TestDetector;
 import org.openclover.eclipse.core.projects.CloverProject;
-import com.atlassian.clover.util.FileUtils;
+import org.openclover.core.util.FileUtils;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 

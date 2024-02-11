@@ -8,12 +8,12 @@ import clover.org.apache.velocity.VelocityContext;
 import clover.org.apache.velocity.app.Velocity;
 import clover.org.apache.velocity.app.VelocityEngine;
 
-import com.atlassian.clover.CloverDatabase;
+import org.openclover.core.CloverDatabase;
 import org.openclover.runtime.Logger;
-import com.atlassian.clover.reporters.Current;
-import com.atlassian.clover.reporters.html.HtmlReportUtil;
-import com.atlassian.clover.reporters.html.VelocityLogAdapter;
-import com.atlassian.clover.util.FileUtils;
+import org.openclover.core.reporters.Current;
+import org.openclover.core.reporters.html.HtmlReportUtil;
+import org.openclover.core.reporters.html.VelocityLogAdapter;
+import org.openclover.core.util.FileUtils;
 
 public class DashboardGenerator {
     private static final String DASHBOARD_FILE = "dashboard-eclipse.html";

@@ -3,7 +3,7 @@ package org.openclover.eclipse.testopt.views.actions;
 import org.openclover.eclipse.testopt.OptimizedLaunchingConstants;
 import org.openclover.eclipse.testopt.OptimizationSessionListener;
 import org.openclover.eclipse.testopt.TestOptimizationPlugin;
-import com.atlassian.clover.optimization.OptimizationSession;
+import org.openclover.core.optimization.OptimizationSession;
 
 import org.eclipse.jdt.internal.junit.model.TestRunSession;
 import org.eclipse.jdt.junit.JUnitCore;

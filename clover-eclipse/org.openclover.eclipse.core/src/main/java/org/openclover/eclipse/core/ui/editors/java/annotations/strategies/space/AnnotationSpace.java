@@ -1,8 +1,8 @@
 package org.openclover.eclipse.core.ui.editors.java.annotations.strategies.space;
 
-import com.atlassian.clover.api.registry.SourceInfo;
-import com.atlassian.clover.registry.entities.TestCaseInfo;
-import com.atlassian.clover.CloverDatabase;
+import org.openclover.core.api.registry.SourceInfo;
+import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.core.CloverDatabase;
 import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotation;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.Map;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 
-import static org.openclover.util.Lists.newLinkedList;
+import static org.openclover.core.util.Lists.newLinkedList;
 
 public abstract class AnnotationSpace {
     protected CloverDatabase database;

@@ -1,11 +1,11 @@
 package org.openclover.eclipse.core.reports;
 
 import org.openclover.eclipse.core.projects.CloverProject;
-import com.atlassian.clover.reporters.Current;
-import com.atlassian.clover.reporters.CloverReporter;
-import com.atlassian.clover.reporters.html.HtmlReporter;
-import com.atlassian.clover.reporters.pdf.PDFReporter;
-import com.atlassian.clover.reporters.xml.XMLReporter;
+import org.openclover.core.reporters.Current;
+import org.openclover.core.reporters.CloverReporter;
+import org.openclover.core.reporters.html.HtmlReporter;
+import org.openclover.core.reporters.pdf.PDFReporter;
+import org.openclover.core.reporters.xml.XMLReporter;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;

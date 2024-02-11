@@ -1,6 +1,6 @@
 package org.openclover.eclipse.core.views.testrunexplorer.widgets;
 
-import com.atlassian.clover.util.MetricsFormatUtils;
+import org.openclover.core.util.MetricsFormatUtils;
 import org.openclover.eclipse.core.views.testrunexplorer.nodes.CoverageContributionNode;
 import org.openclover.eclipse.core.views.widgets.HistogramCellRenderer;
 import org.openclover.eclipse.core.views.ColumnCollectionSettings;

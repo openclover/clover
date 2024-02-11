@@ -10,7 +10,7 @@ import java.util.Collections;
 
 import org.openclover.eclipse.core.CloverPlugin;
 
-import static org.openclover.util.Lists.newLinkedList;
+import static org.openclover.core.util.Lists.newLinkedList;
 
 public class LogicalTreePkgFragNodeToTreeMultiPkgFragNodeAndCURelationship extends NodeRelationship {
     @Override

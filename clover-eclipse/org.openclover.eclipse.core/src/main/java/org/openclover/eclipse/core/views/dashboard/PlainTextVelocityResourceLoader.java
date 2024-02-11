@@ -7,7 +7,7 @@ import java.util.zip.InflaterInputStream;
 import clover.org.apache.velocity.exception.ResourceNotFoundException;
 import clover.org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 
-import static org.openclover.util.Sets.newHashSet;
+import static org.openclover.core.util.Sets.newHashSet;
 
 public class PlainTextVelocityResourceLoader extends ClasspathResourceLoader {
     private static final Set<String> PLAIN_TEXT = newHashSet();

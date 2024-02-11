@@ -11,7 +11,7 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import java.util.Set;
 
-import static org.openclover.util.Sets.newHashSet;
+import static org.openclover.core.util.Sets.newHashSet;
 
 public abstract class CloverProjectActionDelegate
     extends CloverViewActionDelegate

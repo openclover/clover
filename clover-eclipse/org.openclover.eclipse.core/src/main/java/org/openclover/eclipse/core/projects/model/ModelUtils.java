@@ -1,7 +1,7 @@
 package org.openclover.eclipse.core.projects.model;
 
-import com.atlassian.clover.api.registry.ClassInfo;
-import com.atlassian.clover.api.registry.MethodInfo;
+import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.MethodInfo;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaModelException;
@@ -10,7 +10,7 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.resources.IProject;
-import com.atlassian.clover.registry.entities.TestCaseInfo;
+import org.openclover.core.registry.entities.TestCaseInfo;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.CloverPlugin;
 

@@ -14,7 +14,7 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
-import com.atlassian.clover.context.ContextStore;
+import org.openclover.core.context.ContextStore;
 import org.openclover.eclipse.core.ui.SwtUtils;
 import org.openclover.eclipse.core.projects.settings.RegexpEntry;
 

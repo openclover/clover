@@ -7,7 +7,7 @@ import org.openclover.eclipse.core.views.WorkingSetNodeFilter;
 import org.openclover.eclipse.core.views.nodes.NodeRelationshipFilter;
 import org.openclover.eclipse.core.projects.model.MetricsScope;
 import org.openclover.eclipse.core.projects.CloverProject;
-import com.atlassian.clover.registry.metrics.BlockMetrics;
+import org.openclover.core.registry.metrics.BlockMetrics;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jdt.core.IType;

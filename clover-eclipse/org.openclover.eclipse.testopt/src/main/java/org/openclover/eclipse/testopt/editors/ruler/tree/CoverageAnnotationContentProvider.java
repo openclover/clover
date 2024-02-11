@@ -7,9 +7,9 @@ import org.openclover.eclipse.testopt.editors.ruler.CoverageAnnotationRulerHover
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
-import com.atlassian.clover.registry.entities.TestCaseInfo;
+import org.openclover.core.registry.entities.TestCaseInfo;
 
-import static org.openclover.util.Maps.newHashMap;
+import static org.openclover.core.util.Maps.newHashMap;
 
 public class CoverageAnnotationContentProvider implements ITreeContentProvider {
 
