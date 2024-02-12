@@ -1,6 +1,7 @@
 package org.openclover.core.registry;
 
 import org.openclover.core.context.ContextStore;
+import org.openclover.core.registry.entities.BaseFileInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.registry.metrics.HasMetricsFilter;
@@ -43,7 +44,7 @@ public class FullProjectUpdate implements RegistryUpdate {
     @Override
     @SuppressWarnings("unchecked")
     public List<FullFileInfo> getFileInfos() {
-        return proj.getFiles(HasMetricsFilter.ACCEPT_ALL);
+        return (List) proj.getFiles(HasMetricsFilter.ACCEPT_ALL);
     }
 
     @Override

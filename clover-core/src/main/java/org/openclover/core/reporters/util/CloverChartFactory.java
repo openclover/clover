@@ -306,7 +306,7 @@ public class CloverChartFactory {
      * @param data a map containing Long timestamp, HasMetrics
      * @return a jfreechart
      */
-    public static JFreeChart createJFreeChart(final Historical.Chart chartCfg, final Map<Long, HasMetrics> data) {
+    public static JFreeChart createJFreeChart(final Historical.Chart chartCfg, final Map<Long, ? extends HasMetrics> data) {
         ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
 
         ValueAxis xAxis = new DateAxis(chartCfg.getXLabel());
@@ -340,7 +340,7 @@ public class CloverChartFactory {
             renderer.setSeriesStroke(j, new BasicStroke(2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER));
 
             j++;
-            for (final Map.Entry<Long, HasMetrics> entry : data.entrySet()) {
+            for (final Map.Entry<Long, ? extends HasMetrics> entry : data.entrySet()) {
                 final HasMetrics hasMetrics = entry.getValue();
                 final Long timestamp = entry.getKey();
 

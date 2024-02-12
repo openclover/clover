@@ -130,7 +130,7 @@ public class BaseProjectInfo implements ProjectInfo, CachingInfo {
      * @param filter filter to apply
      * @return list of files that match filter
      */
-    public List<? super BaseFileInfo> getFiles(HasMetricsFilter filter) {
+    public List<BaseFileInfo> getFiles(HasMetricsFilter filter) {
         if (fileLookup == null) {
             buildFileLookupMap();
         }

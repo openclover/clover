@@ -407,7 +407,7 @@ public class CloverDatabase {
             }
 
             // get all files from mergingProject
-            List<FullFileInfo> mergingFiles = (List<FullFileInfo>)mergingProject.getFiles(HasMetricsFilter.ACCEPT_ALL);
+            List<FullFileInfo> mergingFiles = (List)mergingProject.getFiles(HasMetricsFilter.ACCEPT_ALL);
 
             for (FullFileInfo mergeFI : mergingFiles) {
                 FullFileInfo baseFI = null;
@@ -469,7 +469,7 @@ public class CloverDatabase {
         int [] compactedCoverage = new int[slotsUsed];
         InMemPerTestCoverage compactedSliceHits = new InMemPerTestCoverage(slotsUsed);
         int insertPoint = 0;
-        List<FullFileInfo> mergedFiles = (List<FullFileInfo>)baseProject.getFiles(HasMetricsFilter.ACCEPT_ALL);
+        List<FullFileInfo> mergedFiles = (List)baseProject.getFiles(HasMetricsFilter.ACCEPT_ALL);
 
         for (FullFileInfo fileInfo : mergedFiles) {
             System.arraycopy(mergedCoverage, fileInfo.getDataIndex(), compactedCoverage, insertPoint, fileInfo.getDataLength());

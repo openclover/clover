@@ -8,6 +8,7 @@ import org.openclover.core.api.registry.ContextSet;
 import org.openclover.core.api.registry.ElementInfo;
 import org.openclover.core.api.registry.SourceInfo;
 import org.openclover.core.registry.CoverageDataProvider;
+import org.openclover.core.registry.entities.BasicElementInfo;
 import org.openclover.core.registry.entities.FullElementInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.LineInfo;
@@ -158,7 +159,7 @@ public class SourceRenderHelper {
 
             finishLine: {
                 if (linfo != null) {
-                    final List<FullElementInfo> lineElements = linfo.getColumnOrderedElementInfos();
+                    final List<FullElementInfo<? extends BasicElementInfo>> lineElements = linfo.getColumnOrderedElementInfos();
 
                     //Initial scan to just detect if:
                     //* the line is filtered

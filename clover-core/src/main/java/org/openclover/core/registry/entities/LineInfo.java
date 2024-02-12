@@ -43,7 +43,7 @@ public class LineInfo {
     }
 
     @NotNull
-    public List<? super FullElementInfo<? extends BasicElementInfo>> getColumnOrderedElementInfos() {
+    public List<FullElementInfo<? extends BasicElementInfo>> getColumnOrderedElementInfos() {
         List<FullElementInfo<? extends BasicElementInfo>> elements = newArrayList();
         if (methodStarts != null) {
             elements.addAll(methodStarts);

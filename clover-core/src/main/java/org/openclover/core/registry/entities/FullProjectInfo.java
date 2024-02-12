@@ -138,7 +138,7 @@ public class FullProjectInfo extends BaseProjectInfo implements HasMetricsNode, 
     }
 
     private void buildOrderedPackageList() {
-        List<FullPackageInfo> tmpOrderedPkgs = newArrayList(packages.values());
+        List tmpOrderedPkgs = newArrayList(packages.values());
         if (orderby != null) {
             tmpOrderedPkgs.sort(orderby);
         }
