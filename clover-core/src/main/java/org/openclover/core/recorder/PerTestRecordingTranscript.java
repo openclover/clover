@@ -6,6 +6,7 @@ import org.openclover.core.util.FileUtils;
 import org.openclover.runtime.ErrorInfo;
 import org.openclover.runtime.RuntimeType;
 import org.openclover.runtime.recorder.BaseCoverageRecording;
+import org.openclover.runtime.recorder.FileBasedPerTestRecording;
 import org.openclover.runtime.recorder.PerTestRecorder;
 import org.openclover.runtime.recorder.PerTestRecording;
 import org.openclover.runtime.util.CloverBitSet;
@@ -47,7 +48,7 @@ public class PerTestRecordingTranscript extends BaseCoverageRecording implements
     }
 
     /**
-     * @see com.atlassian.clover.recorder.FileBasedPerTestRecording#transcribe()
+     * @see FileBasedPerTestRecording#transcribe()
      */
     @Override
     public void read(DataInputStream in, CoverageDataSpec spec) throws IOException {

@@ -1,8 +1,8 @@
 package org.openclover.runtime.recorder.pertest;
 
 /**
- * Helper enum for <code>com.atlassian.clover.instr.java.RecorderInstrEmitter</code> and
- * <code>com.atlassian.clover.instr.groovy.Grover</code>.
+ * Helper enum for <code>org.openclover.core.instr.java.RecorderInstrEmitter</code> and
+ * <code>org.openclover.groovy.instr.Grover</code>.
  */
 public enum SnifferType {
     NULL,

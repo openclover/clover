@@ -32,7 +32,7 @@ public class CajoTcpRecorderListener implements RecorderListener {
 
     /**
      * A wrapper method for the same method on the Clover class to add extra logging.
-     * Remebmer to update {@link com.atlassian.clover.remote.RpcMessage#METHODS} if you change method's signature.
+     * Remebmer to update {@link RpcMessage#METHODS} if you change method's signature.
      * @see Clover#allRecordersSliceStart(String, int, long)
      */
     public void allRecordersSliceStart(String type, Integer slice, Long startTime) {
@@ -41,9 +41,9 @@ public class CajoTcpRecorderListener implements RecorderListener {
 
     /**
      * A wrapper method for the same method on the Clover class to allow for extra logging.
-     * Remebmer to update {@link com.atlassian.clover.remote.RpcMessage#METHODS} if you change method signature.
+     * Remebmer to update {@link RpcMessage#METHODS} if you change method signature.
      *
-     * @see Clover#allRecordersSliceEnd(String, String, String, int, int, com.atlassian.clover.ErrorInfo)
+     * @see Clover#allRecordersSliceEnd(String, String, String, int, int, ErrorInfo)
      */
     public void allRecordersSliceEnd(String type, String method, String runtimeTestName,
                                      Integer slice, Integer i, ErrorInfo ei) {

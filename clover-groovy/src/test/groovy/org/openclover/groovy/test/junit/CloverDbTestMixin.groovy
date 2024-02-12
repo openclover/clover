@@ -35,7 +35,7 @@ trait CloverDbTestMixin {
     }
 
     boolean assertRegistry(File db, Closure<Boolean> assertion = { true }) {
-        def reg = Class.forName("com.atlassian.clover.registry.Clover2Registry")
+        def reg = Class.forName("org.openclover.core.registry.Clover2Registry")
                 .getMethod("fromFile", [File.class] as Class[])
                 .invoke(null, [db] as Object[])
         if (reg) {

@@ -12,8 +12,8 @@ import static org.junit.Assert.assertTrue
  * Test for:
  * {@link org_openclover_runtime.Clover#getRecorder(String, long, long, int, org_openclover_runtime.CloverProfile[], String[])}
  * using the &lt;clover-setup/&gt; with the &lt;profile&gt; using the
- * {@link com.atlassian.clover.recorder.GrowableCoverageRecorder}
- * with and without {@link com.atlassian.clover.remote.DistributedConfig}
+ * {@link org.openclover.runtime.recorder.GrowableCoverageRecorder}
+ * with and without {@link org.openclover.runtime.remote.DistributedConfig}
  */
 @CompileStatic
 class CloverSetupTaskGrowableTest extends CloverSetupTaskTestBase {

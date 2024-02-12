@@ -3,8 +3,8 @@ package org.openclover.core.reporters.html.source.java;
 import clover.antlr.Token;
 import clover.antlr.TokenStreamException;
 import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig;
-import com.atlassian.clover.instr.java.JavaLexer;
-import com.atlassian.clover.instr.java.JavaTokenTypes;
+import org.openclover.core.instr.java.JavaLexer;
+import org.openclover.core.instr.java.JavaTokenTypes;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.reporters.html.source.SourceTraverser;
 

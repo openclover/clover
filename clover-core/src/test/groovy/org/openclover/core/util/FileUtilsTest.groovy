@@ -4,7 +4,7 @@ import org.openclover.core.TestUtils
 import org.openclover.buildutil.testutils.IOHelper
 import junit.framework.TestCase
 
-import static Sets.newHashSet
+import static org.openclover.core.util.Sets.newHashSet
 
 class FileUtilsTest extends TestCase {
 

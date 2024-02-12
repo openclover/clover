@@ -2,6 +2,7 @@ package org.openclover.groovy.instr
 
 import groovy.transform.CompileStatic
 import groovy.xml.XmlParser
+import org.openclover.core.reporters.html.HtmlReporter
 
 @CompileStatic
 class GroovyReportTest extends TestBase {
@@ -134,7 +135,7 @@ class GroovyReportTest extends TestBase {
                 -Djava.io.tmpdir=${System.getProperty("java.io.tmpdir")}
                 -Djava.awt.headless=true
                 -classpath ${calcReportClasspath([workingDir, calcRepkgJar()].findAll { it != null }.toList())}
-                com.atlassian.clover.reporters.html.HtmlReporter -i ${db.absolutePath} -o ${reportDir.with { it.getParentFile(); it }.absolutePath}
+                ${HtmlReporter.class.name} -i ${db.absolutePath} -o ${reportDir.with { it.getParentFile(); it }.absolutePath}
             """)
         assertEquals "exit code=${result.getExitCode()}", 0, result.getExitCode()
         def stdErr = filterOutTimesWarning(result.getStdErr())

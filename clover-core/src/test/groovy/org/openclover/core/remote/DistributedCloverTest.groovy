@@ -1,5 +1,6 @@
 package org.openclover.core.remote
 
+import org.openclover.core.util.RecordingLogger
 import org.openclover.runtime.CloverProperties
 import org.openclover.runtime.CloverNames
 import org.openclover.runtime.Logger

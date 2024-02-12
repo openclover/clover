@@ -129,14 +129,14 @@ public final class Clover {
     }
 
     /**
-     * Remebmer to update {@link com.atlassian.clover.remote.RpcMessage#METHODS} if you change method's signature.
+     * Remebmer to update {@link RpcMessage#METHODS} if you change method's signature.
      */
     public static void allRecordersSliceStart(final String type, final int slice, final long startTime) {
         ensureInitialised().allRecordersSliceStart(type, slice, startTime);
     }
 
     /**
-     * Remebmer to update {@link com.atlassian.clover.remote.RpcMessage#METHODS} if you change method signature.
+     * Remebmer to update {@link RpcMessage#METHODS} if you change method signature.
      */
     public static void allRecordersSliceEnd(final String type, final String method, final String runtimeTestName,
                                             final int slice, final int p, final ErrorInfo ei) {
@@ -180,7 +180,7 @@ public final class Clover {
 
     /**
      * Generate a unique file name for recording snapshot.
-     * See <code>com.atlassian.clover.recorder.RecordingTranscripts#STD_REC_SUFFIX</code> - regexp for recording name
+     * See <code>org.openclover.core.recorder.RecordingTranscripts#STD_REC_SUFFIX</code> - regexp for recording name
      *
      * @param hash   unique hash identifying the coverage recorder
      * @param dbname base name of the clover database (used as prefix)
@@ -197,7 +197,7 @@ public final class Clover {
 
     /**
      * Generate a unique file name for test slice recording snapshot.
-     * See <code>com.atlassian.clover.recorder.RecordingTranscripts#SLICE_SUFFIX</code> - regexp for slice recording name
+     * See <code>org.openclover.core.recorder.RecordingTranscripts#SLICE_SUFFIX</code> - regexp for slice recording name
      * @param typeid    the runtime type id of the slice
      * @param methodID  test method identified
      * @param runID     number of test run of the method
@@ -313,12 +313,12 @@ public final class Clover {
         void allRecordersFlush();
 
         /**
-         * Remebmer to update {@link com.atlassian.clover.remote.RpcMessage#METHODS} if you change method's signature.
+         * Remebmer to update {@link RpcMessage#METHODS} if you change method's signature.
          */
         void allRecordersSliceStart(String type, int slice, long startTime);
 
         /**
-         * Remebmer to update {@link com.atlassian.clover.remote.RpcMessage#METHODS} if you change method's signature.
+         * Remebmer to update {@link RpcMessage#METHODS} if you change method's signature.
          */
         void allRecordersSliceEnd(String type, String method, String runtimeTestName, int slice, int p, ErrorInfo ei);
 
@@ -337,7 +337,7 @@ public final class Clover {
     /**
      * The unititialised Clover runtime. Most methods will fail with an IllegalStateException.
      * Notable exceptions are getRecorder(...) methods which will return a
-     * {@link com.atlassian.clover.recorder.DelayedRecorder}
+     * {@link DelayedRecorder}
      * instance which will start collecting coverage once Clover is initialised
      */
     private static class UninitialisedRuntime implements Runtime {
@@ -417,7 +417,7 @@ public final class Clover {
         }
 
         /**
-         * Remebmer to update {@link com.atlassian.clover.remote.RpcMessage#METHODS} if you change method signature.
+         * Remebmer to update {@link RpcMessage#METHODS} if you change method signature.
          */
         @Override
         public void allRecordersSliceEnd(String type, String method, String runtimeTestName,

@@ -12,7 +12,7 @@ import org.openclover.runtime.remote.RpcMessage
 import static org.junit.Assert.*
 
 /**
- * Test for {@link com.atlassian.clover.remote.CajoTcpRecorderService}
+ * Test for {@link org.openclover.runtime.remote.CajoTcpRecorderService}
  */
 @Ignore
 class CajoTcpRecorderServiceTest {

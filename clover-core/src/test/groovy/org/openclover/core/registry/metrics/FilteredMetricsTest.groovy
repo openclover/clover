@@ -10,7 +10,7 @@ import org.openclover.core.registry.entities.FullStatementInfo
 import org.junit.Before
 import org.junit.Test
 
-import static MetricsHelper.assertMetricsEquals
+import static org.openclover.core.registry.metrics.MetricsHelper.assertMetricsEquals
 import static org.junit.Assert.assertEquals
 
 public class FilteredMetricsTest {

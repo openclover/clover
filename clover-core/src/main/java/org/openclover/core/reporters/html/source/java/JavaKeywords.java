@@ -1,6 +1,6 @@
 package org.openclover.core.reporters.html.source.java;
 
-import com.atlassian.clover.instr.java.JavaTokenTypes;
+import org.openclover.core.instr.java.JavaTokenTypes;
 
 import java.util.Set;
 import java.util.Collections;

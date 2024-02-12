@@ -14,7 +14,7 @@ import org.openclover.runtime.remote.DistributedConfig
  * Integration tests that detect if the correct list of CloverProfile's is being embedded
  * during compilation and selected at runtime.
  *
- * @see com.atlassian.clover.ant.tasks.CloverSetupTaskProfilesCorrectTest
+ * @see org.openclover.functest.ant.tasks.CloverSetupTaskProfilesCorrectTest
  */
 @CompileStatic
 class GroovyProfilesTest extends TestBase {

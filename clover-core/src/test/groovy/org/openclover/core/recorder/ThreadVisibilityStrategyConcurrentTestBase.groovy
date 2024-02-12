@@ -16,9 +16,9 @@ import static org.junit.Assert.assertEquals
 /**
  * Common stuff for true concurrent testing of different thread visibility strategies:
  * <ul>
- *   <li>{@link com.atlassian.clover.recorder.ThreadVisibilityStrategy.Volatile}</li>
- *   <li>{@link com.atlassian.clover.recorder.ThreadVisibilityStrategy.Synchronized}</li>
- *   <li>{@link com.atlassian.clover.recorder.ThreadVisibilityStrategy.SingleThreaded}</li>
+ *   <li>{@link org.openclover.runtime.recorder.ThreadVisibilityStrategy.Volatile}</li>
+ *   <li>{@link org.openclover.runtime.recorder.ThreadVisibilityStrategy.Synchronized}</li>
+ *   <li>{@link org.openclover.runtime.recorder.ThreadVisibilityStrategy.SingleThreaded}</li>
  * </ul>
  * against different coverage recorders:
  * <ul>

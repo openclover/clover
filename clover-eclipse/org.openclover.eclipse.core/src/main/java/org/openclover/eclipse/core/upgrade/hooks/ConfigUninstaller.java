@@ -28,7 +28,7 @@ public class ConfigUninstaller {
     private static final String CONFIG_INI = "config.ini";
     private static final String EXTENSION_LINE_START = "osgi.framework.extensions=";
     private static final String CSV_TRIMMED_SEP = "(\\s)*,(\\s)*";
-    private static final String HOOK_ID = "com.atlassian.clover.hooks";
+    private static final String HOOK_ID = "org.openclover.eclipse.hooks";
     private static final String MESSAGEBOX_UNINSTALL_TITLE = "Clover JDT Hooks Uninstallation";
     private static final String ALREADY_UNINSTALLED_HOOK_THIS_SESSION_PROPERTY = "clover.eclipse.hook.already.uninstalled.this.session";
     private static final String MESSAGEBOX_TITLE = "Clover JDT Hooks Uninstaller";

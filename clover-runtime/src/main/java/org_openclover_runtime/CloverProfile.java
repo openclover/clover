@@ -1,12 +1,13 @@
 package org_openclover_runtime;
 
+import org.openclover.runtime.CloverNames;
 import org.openclover.runtime.remote.DistributedConfig;
 
 import java.io.Serializable;
 
 /**
  * Contains information about the clover profile which was defined during instrumentation
- * and can be selected at runtime via {@link com.atlassian.clover.CloverNames#PROP_CLOVER_PROFILE} system property.
+ * and can be selected at runtime via {@link CloverNames#PROP_CLOVER_PROFILE} system property.
  * Profiles allow to change Clover configuration at runtime without recompiling the sources.
  */
 public class CloverProfile implements Serializable {
@@ -42,7 +43,7 @@ public class CloverProfile implements Serializable {
     }
 
     /**
-     * Constructor with primitive strings. Used by <code>com.atlassian.clover.instr.java.RecorderInstrEmitter</code>.
+     * Constructor with primitive strings. Used by <code>org.openclover.core.instr.java.RecorderInstrEmitter</code>.
      */
     public CloverProfile(String name, String coverageRecorder, /*@Nullable*/ String distributedCoverage) {
         this.name = name;

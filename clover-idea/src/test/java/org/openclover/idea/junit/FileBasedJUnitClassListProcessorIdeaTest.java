@@ -116,7 +116,7 @@ public class FileBasedJUnitClassListProcessorIdeaTest extends LightIdeaTestCase 
 //                    final String[] data = new String[1];
 //                    for (int i = 0; i < OPTIMIZABLE_COUNT; i++) {
 //                        Thread.sleep(10);
-//                        data[0] = "com.atlassian.clover.Class" + i;
+//                        data[0] = "org.openclover.idea.test.Class" + i;
 //                        fillTmpFile(origFile, data, true);
 //                    }
 //

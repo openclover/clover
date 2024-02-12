@@ -9,7 +9,7 @@ import org.openclover.runtime.recorder.GrowableCoverageRecorder
 import static org.junit.Assert.*
 
 /**
- * Test for {@link com.atlassian.clover.recorder.ActivePerTestRecorderOne}
+ * Test for {@link org.openclover.runtime.recorder.ActivePerTestRecorderOne}
  */
 class PerTestRecorderOneTest {
 

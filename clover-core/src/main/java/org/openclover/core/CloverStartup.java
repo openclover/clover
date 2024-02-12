@@ -76,8 +76,8 @@ public class CloverStartup {
      * be used by the loadLicense methods to retrieve the license information
      * and configure the systems license information.
      *
-     * @see CloverStartup#loadLicense(com.atlassian.clover.Logger)
-     * @see CloverStartup#loadLicense(com.atlassian.clover.Logger, boolean)
+     * @see CloverStartup#loadLicense(Logger)
+     * @see CloverStartup#loadLicense(Logger, boolean)
      */
     public static void setLicenseLoader(LicenseLoader loader) {
         if (loader == null) {

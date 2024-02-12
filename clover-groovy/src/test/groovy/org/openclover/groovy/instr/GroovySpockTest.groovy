@@ -12,6 +12,7 @@ import org.openclover.core.registry.entities.FullMethodInfo
 import org.openclover.core.registry.entities.FullPackageInfo
 import org.openclover.core.registry.entities.FullProjectInfo
 import org.openclover.core.registry.entities.TestCaseInfo
+import org.openclover.core.reporters.html.HtmlReporter
 import org.openclover.groovy.test.junit.Result
 import groovy.transform.CompileStatic
 
@@ -104,7 +105,7 @@ class GroovySpockTest extends TestBase {
             java -classpath
             ${calcCompilationClasspath([groovyAllJar, calcRepkgJar()] + additionalGroovyJars)}
             ${remoteDebug}
-            com.atlassian.clover.reporters.html.HtmlReporter -i ${db.absolutePath} -o ${htmlReportDir} -a -e
+            ${HtmlReporter.class.name} -i ${db.absolutePath} -o ${htmlReportDir} -a -e
         """)
     }
 

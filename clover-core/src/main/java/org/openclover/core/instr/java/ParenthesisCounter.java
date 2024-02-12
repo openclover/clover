@@ -1,6 +1,6 @@
 package org.openclover.core.instr.java;
 
-import com.atlassian.clover.instr.java.JavaTokenTypes;
+import org.openclover.core.instr.java.JavaTokenTypes;
 
 /**
  * Reads subsequent tokens and counts opening and closing parenthesis.

@@ -7,7 +7,7 @@ import java.io.DataInputStream;
 import java.io.IOException;
 
 /**
- * {@link RecordingTranscript} - interface used for {@link com.atlassian.clover.recorder.CoverageRecording}s
+ * {@link RecordingTranscript} - interface used for {@link CoverageRecording}s
  * loaded at report-time
  */
 public interface RecordingTranscript extends CoverageRecording {

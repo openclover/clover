@@ -48,7 +48,7 @@ public class UpdatableRegFilePrinter {
 
     private static void printUsage() {
         System.out.println("Usage:");
-        System.out.println("java -cp clover.jar com.atlassian.clover.registry.format.UpdatableRegFilePrinter <clover.db>");
+        System.out.println("java -cp clover.jar " + UpdatableRegFilePrinter.class.getName() + " <clover.db>");
     }
 
 }

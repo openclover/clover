@@ -1,8 +1,8 @@
 include Java
 
-import 'com.atlassian.clover.CloverDatabase'
-import 'com.atlassian.clover.CoverageDataSpec'
-import 'com.atlassian.clover.ProgressListener'
+import 'org.openclover.core.CloverDatabase'
+import 'org.openclover.core.CoverageDataSpec'
+import 'org.openclover.core.ProgressListener'
 
 class CloverDatabase
   def self.tick(msg)

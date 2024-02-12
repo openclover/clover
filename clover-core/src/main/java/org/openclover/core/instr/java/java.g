@@ -8,14 +8,14 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 
-import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig;
-import com.atlassian.clover.cfg.instr.java.LambdaInstrumentation;
-import com.atlassian.clover.Contract;
+import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig;
+import org.openclover.core.cfg.instr.java.LambdaInstrumentation;
+import org.openclover.core.Contract;
 import org.openclover.runtime.Logger;
-import com.atlassian.clover.context.ContextStore;
-import com.atlassian.clover.context.ContextSet;
-import com.atlassian.clover.registry.*;
-import com.atlassian.clover.registry.entities.*;
+import org.openclover.core.context.ContextStore;
+import org.openclover.core.context.ContextSet;
+import org.openclover.core.registry.*;
+import org.openclover.core.registry.entities.*;
 
 }
 
@@ -1168,13 +1168,13 @@ classOrInterfaceModifier returns [long m]
         // a workaround, because otherwise it would see "non-sealed" as IDENT-MINUS-IDENT
         NON_SEALED
         {
-            m = com.atlassian.clover.registry.entities.ModifierExt.NON_SEALED;
+            m = org.openclover.core.registry.entities.ModifierExt.NON_SEALED;
         }
     |
         // sealed is treated like an identifier
         { isNextKeyword("sealed") }? IDENT
         {
-            m = com.atlassian.clover.registry.entities.ModifierExt.SEALED;
+            m = org.openclover.core.registry.entities.ModifierExt.SEALED;
         }
     |
         // although "record" it's not a class or interface modifier, but marks the record class (so it's
@@ -1182,7 +1182,7 @@ classOrInterfaceModifier returns [long m]
         // we must process it in this rule, together with "sealed" to distinguish them in the token stream
         { isNextKeyword("record") }? IDENT
         {
-            m = com.atlassian.clover.registry.entities.ModifierExt.RECORD;
+            m = org.openclover.core.registry.entities.ModifierExt.RECORD;
         }
     ;
 
@@ -1405,7 +1405,7 @@ methodModifier returns [long m]
         SYNCHRONIZED  { m=java.lang.reflect.Modifier.SYNCHRONIZED; }
     |
         // not a true modifier, used only to mark virtual extension method in an interface, we keep information about it
-        DEFAULT       { m=com.atlassian.clover.registry.entities.ModifierExt.DEFAULT; }
+        DEFAULT       { m=org.openclover.core.registry.entities.ModifierExt.DEFAULT; }
     ;
 
 // Definition of a Java class
@@ -1466,7 +1466,7 @@ recordDefinition! [Modifiers mods] returns [String recordName]
 }
     :
         // the "record" IDENT has been already matched in the classOrInterfaceModifier rule
-        { (mods.getMask() & com.atlassian.clover.registry.entities.ModifierExt.RECORD) != 0 }?
+        { (mods.getMask() & org.openclover.core.registry.entities.ModifierExt.RECORD) != 0 }?
         {
             tags = TokenListUtil.getJDocTagsAndValuesOnBlock(first);
             deprecated = maybeEnterDeprecated(first);
@@ -1807,7 +1807,7 @@ permitsClause [Modifiers mods]
     :
         (
             {
-                (mods.getMask() & com.atlassian.clover.registry.entities.ModifierExt.SEALED) != 0
+                (mods.getMask() & org.openclover.core.registry.entities.ModifierExt.SEALED) != 0
                     && isNextKeyword("permits")
             }?
             IDENT!

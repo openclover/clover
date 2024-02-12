@@ -1,5 +1,5 @@
 import org.junit.runner.JUnitCore;
-import com.atlassian.clover.recorder.junit.JUnitTestRunnerInterceptor;
+import org.openclover.runtime.recorder.junit.JUnitTestRunnerInterceptor;
 
 /**
  * Execute JUnit runner with Clover's test listener.

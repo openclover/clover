@@ -2,7 +2,7 @@ header {
 
 package org.openclover.core.reporters;
 
-import com.atlassian.clover.api.registry.BlockMetrics;
+import org.openclover.core.api.registry.BlockMetrics;
 
 }
 

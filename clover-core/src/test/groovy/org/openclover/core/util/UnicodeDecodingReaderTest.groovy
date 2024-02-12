@@ -9,10 +9,10 @@ import org.openclover.core.instr.java.JavaTokenTypes
 import org.junit.Test
 
 import static org.junit.Assert.*
-import static Lists.newArrayList
+import static org.openclover.core.util.Lists.newArrayList
 
 /**
- * Test of {@link com.atlassian.clover.instr.java.JavaLexer} against unicode characters
+ * Test of {@link org.openclover.core.instr.java.JavaLexer} against unicode characters
  */
 class UnicodeDecodingReaderTest {
 

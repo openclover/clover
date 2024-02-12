@@ -20,15 +20,15 @@ public class JDOMExternUtilTest {
     private static final String CYAN_XML_NL = "<highlight class=\"java.awt.Color\">  \n    -16711681\n  </highlight>";
 
 
-    private static final String NULL_XML = "<highlight class=\"com.atlassian.clover.util.collections.Pair\" null=\"true\"></highlight>";
-    private static final String NULL_NULL_XML = "<highlight class=\"com.atlassian.clover.util.collections.Pair\"></highlight>";
-    private static final String CYAN_NULL_XML = "<highlight class=\"com.atlassian.clover.util.collections.Pair\">-16711681 \n\t</highlight>";
-    private static final String CYAN_RED_XML = "<highlight class=\"com.atlassian.clover.util.collections.Pair\">-16711681 \n\t-65536</highlight>";
+    private static final String NULL_XML = "<highlight class=\"org.openclover.core.util.collections.Pair\" null=\"true\"></highlight>";
+    private static final String NULL_NULL_XML = "<highlight class=\"org.openclover.core.util.collections.Pair\"></highlight>";
+    private static final String CYAN_NULL_XML = "<highlight class=\"org.openclover.core.util.collections.Pair\">-16711681 \n\t</highlight>";
+    private static final String CYAN_RED_XML = "<highlight class=\"org.openclover.core.util.collections.Pair\">-16711681 \n\t-65536</highlight>";
 
     private static final String HIGHLIGHT_NULL = "<highlight null=\"true\" />";
-    private static final String HIGHLIGHT_CLASS_NULL = "<highlight class=\"com.atlassian.clover.util.collections.Pair\" null=\"true\" />";
-    private static final String HIGHLIGHT_CLASS_CYAN = "<highlight class=\"com.atlassian.clover.util.collections.Pair\">-16711681</highlight>";
-    private static final String HIGHLIGHT_CLASS_CYAN_RED = "<highlight class=\"com.atlassian.clover.util.collections.Pair\">-16711681 -65536</highlight>";
+    private static final String HIGHLIGHT_CLASS_NULL = "<highlight class=\"org.openclover.core.util.collections.Pair\" null=\"true\" />";
+    private static final String HIGHLIGHT_CLASS_CYAN = "<highlight class=\"org.openclover.core.util.collections.Pair\">-16711681</highlight>";
+    private static final String HIGHLIGHT_CLASS_CYAN_RED = "<highlight class=\"org.openclover.core.util.collections.Pair\">-16711681 -65536</highlight>";
 
     @Test
     public void testColorWithNewlines() throws Exception {

@@ -1,5 +1,6 @@
 package org.openclover.core.registry.format
 
+import org.openclover.core.registry.ModelBuilder
 import org.openclover.core.registry.entities.FullClassInfo
 import org.openclover.core.registry.entities.FullFileInfo
 import org.openclover.core.registry.FullProjectUpdate

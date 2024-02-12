@@ -1,6 +1,6 @@
 package org.openclover.core.instr.java;
 
-import com.atlassian.clover.instr.java.JavaTokenTypes;
+import org.openclover.core.instr.java.JavaTokenTypes;
 
 /**
  * A state machine for analysis of instanceof expressions.

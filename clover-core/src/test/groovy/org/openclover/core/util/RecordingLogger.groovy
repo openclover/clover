@@ -4,7 +4,7 @@ import org.openclover.runtime.Logger
 import org.hamcrest.Description
 import org.hamcrest.TypeSafeMatcher
 
-import static Lists.newArrayList
+import static org.openclover.core.util.Lists.newArrayList
 
 /**
  * A Logger that will record what got logged.

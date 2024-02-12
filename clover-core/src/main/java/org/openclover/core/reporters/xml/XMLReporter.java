@@ -58,7 +58,7 @@ public class XMLReporter extends CloverReporter {
             DebugLogging,
             Filter,
             IncludeFailedTestCoverage,
-            CommandLineArgProcessors.LineInfo,
+            LineInfo,
             Span,
             ShowInnerFunctions,
             ShowLambdaFunctions,

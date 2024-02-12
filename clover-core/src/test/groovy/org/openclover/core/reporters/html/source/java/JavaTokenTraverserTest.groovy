@@ -81,7 +81,6 @@ class JavaTokenTraverserTest {
         checkRenderingAgainstChunkList(chunks)
     }
 
-    @SuppressWarnings("unchecked") // for AnyOf.anyOf()
     @Test
     void testThatNewLineInvalidatesStartOfStringLiteral() {
         List<Chunk> chunks = [
@@ -99,7 +98,6 @@ class JavaTokenTraverserTest {
         }
     }
 
-    @SuppressWarnings("unchecked") // for AnyOf.anyOf()
     @Test
     void testThatNewLineInvalidatesStartOfCharacterLiteral() {
         List<Chunk> chunks = [

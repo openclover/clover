@@ -1,7 +1,7 @@
 package org.openclover.core.instr.java;
 
 import clover.antlr.CommonHiddenStreamToken;
-import com.atlassian.clover.instr.java.JavaTokenTypes;
+import org.openclover.core.instr.java.JavaTokenTypes;
 
 import java.util.Collections;
 import java.util.List;

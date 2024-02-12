@@ -1,1 +1,1 @@
-com.atlassian.clover.recorder.junit.CloverJUnit5TestExecutionListener
+org.openclover.runtime.recorder.junit.CloverJUnit5TestExecutionListener

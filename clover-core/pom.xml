@@ -186,8 +186,8 @@
                             <mainClass>antlr.Tool</mainClass>
                             <arguments>
                                 <argument>-o</argument>
-                                <argument>${project.build.directory}/src-generated/com/atlassian/clover/instr/java</argument>
-                                <argument>${project.basedir}/src/main/java/com/atlassian/clover/instr/java/java-lexer.g</argument>
+                                <argument>${project.build.directory}/src-generated/org/openclover/core/instr/java</argument>
+                                <argument>${project.basedir}/src/main/java/org/openclover/core/instr/java/java-lexer.g</argument>
                             </arguments>
                         </configuration>
                     </execution>
@@ -201,8 +201,8 @@
                             <mainClass>antlr.Tool</mainClass>
                             <arguments>
                                 <argument>-o</argument>
-                                <argument>${project.build.directory}/src-generated/com/atlassian/clover/instr/java</argument>
-                                <argument>${project.basedir}/src/main/java/com/atlassian/clover/instr/java/java.g</argument>
+                                <argument>${project.build.directory}/src-generated/org/openclover/core/instr/java</argument>
+                                <argument>${project.basedir}/src/main/java/org/openclover/core/instr/java/java.g</argument>
                             </arguments>
                         </configuration>
                     </execution>
@@ -216,8 +216,8 @@
                             <mainClass>antlr.Tool</mainClass>
                             <arguments>
                                 <argument>-o</argument>
-                                <argument>${project.build.directory}/src-generated/com/atlassian/clover/reporters</argument>
-                                <argument>${project.basedir}/src/main/java/com/atlassian/clover/reporters/column.g</argument>
+                                <argument>${project.build.directory}/src-generated/org/openclover/core/reporters</argument>
+                                <argument>${project.basedir}/src/main/java/org/openclover/core/reporters/column.g</argument>
                             </arguments>
                         </configuration>
                     </execution>

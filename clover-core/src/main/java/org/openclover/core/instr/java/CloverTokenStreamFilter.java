@@ -6,7 +6,7 @@ import clover.antlr.Token;
 import clover.antlr.TokenStreamException;
 import clover.antlr.TokenStreamHiddenTokenFilter;
 import org.openclover.core.api.instrumentation.InstrumentationSession;
-import com.atlassian.clover.instr.java.JavaTokenTypes;
+import org.openclover.core.instr.java.JavaTokenTypes;
 import org.openclover.core.Contract;
 import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig;
 import org.openclover.runtime.api.CloverException;

@@ -1,5 +1,3 @@
-package com.atlassian.clover.samples;
-
 import org.openclover.runtime.api.CloverException;
 import org.openclover.core.api.instrumentation.InstrumentationSession;
 import org.openclover.core.api.registry.FileInfo;

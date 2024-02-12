@@ -5,7 +5,7 @@ import org_openclover_runtime.CoverageRecorder
 import org.junit.Test
 
 /**
- * Concurrent test for {@link com.atlassian.clover.recorder.ThreadVisibilityStrategy.Synchronized}
+ * Concurrent test for {@link org.openclover.runtime.recorder.ThreadVisibilityStrategy.Synchronized}
  * against different coverage recorders:
  * <ul>
  *   <li>{@link org.openclover.runtime.recorder.FixedSizeCoverageRecorder}</li>

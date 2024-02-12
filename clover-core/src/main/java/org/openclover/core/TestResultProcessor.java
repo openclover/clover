@@ -30,7 +30,7 @@ public class TestResultProcessor {
     /**
      * @param model the model to add the test results to
      * @param files the TEST result XML files
-     * @throws com.atlassian.clover.api.CloverException if an error occurs parsing the XML
+     * @throws org.openclover.runtime.api.CloverException if an error occurs parsing the XML
      */
     public static void addTestResultsToModel(FullProjectInfo model, List<File> files) throws CloverException {
         TestResultProcessor processor = new TestResultProcessor(model, files);

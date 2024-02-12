@@ -1,5 +1,3 @@
-package com.atlassian.clover.samples;
-
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.CoverageDataSpec;
 import org.openclover.core.api.registry.ClassInfo;

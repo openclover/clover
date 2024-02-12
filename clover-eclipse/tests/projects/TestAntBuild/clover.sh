@@ -17,7 +17,7 @@ INSTRDIR=build/cli/instr/
 REPORT=build/cli/report
 
 #1
-java -cp $CLOVER com.atlassian.clover.CloverInstr -i $INITSTR -s src -d $INSTRDIR
+java -cp $CLOVER org.openclover.core.CloverInstr -i $INITSTR -s src -d $INSTRDIR
 
 #2
 mkdir $CLASSES
@@ -27,7 +27,7 @@ javac -classpath $CLOVER:$JUNIT  -d $CLASSES $INSTRDIR/com/cenqua/samples/money/
 java -cp $CLOVER:$JUNIT:$CLASSES com.cenqua.samples.money.MoneyTest
 
 #4
-java -cp $CLOVER com.atlassian.clover.reporters.html.HtmlReporter -i $INITSTR -o $REPORT
-java -cp $CLOVER com.atlassian.clover.reporters.xml.XMLReporter   -i $INITSTR -o $REPORT/clover.xml
-java -cp $CLOVER com.atlassian.clover.reporters.pdf.PDFReporter   -i $INITSTR -o $REPORT/clover.pdf
-java -cp $CLOVER com.atlassian.clover.reporters.console.ConsoleReporter -i $INITSTR -t "Money Bags Console Report"
+java -cp $CLOVER org.openclover.core.reporters.html.HtmlReporter -i $INITSTR -o $REPORT
+java -cp $CLOVER org.openclover.core.reporters.xml.XMLReporter   -i $INITSTR -o $REPORT/clover.xml
+java -cp $CLOVER org.openclover.core.reporters.pdf.PDFReporter   -i $INITSTR -o $REPORT/clover.pdf
+java -cp $CLOVER org.openclover.core.reporters.console.ConsoleReporter -i $INITSTR -t "Money Bags Console Report"

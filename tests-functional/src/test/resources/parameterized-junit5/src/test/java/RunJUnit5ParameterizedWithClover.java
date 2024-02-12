@@ -1,4 +1,4 @@
-import com.atlassian.clover.recorder.junit.CloverJUnit5TestExecutionListener;
+import org.openclover.runtime.recorder.junit.CloverJUnit5TestExecutionListener;
 import org.junit.platform.engine.discovery.DiscoverySelectors;
 import org.junit.platform.launcher.Launcher;
 import org.junit.platform.launcher.LauncherDiscoveryRequest;

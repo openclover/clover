@@ -9,6 +9,7 @@ import org.openclover.groovy.instr.bytecode.RecorderGetterBytecodeInstructionGro
 import org.openclover.core.instr.tests.TestDetector;
 import org.openclover.core.instr.tests.naming.JUnitParameterizedTestExtractor;
 import org.openclover.core.instr.tests.naming.SpockFeatureNameExtractor;
+import org.openclover.runtime.recorder.FixedSizeCoverageRecorder;
 import org.openclover.runtime.recorder.PerTestRecorder;
 import org.openclover.runtime.recorder.pertest.SnifferType;
 import org.openclover.core.registry.Clover2Registry;
@@ -18,6 +19,7 @@ import org.openclover.core.registry.entities.Modifiers;
 import org.openclover.core.spi.lang.Language;
 import org.openclover.core.util.ChecksummingReader;
 import org.openclover.core.util.CloverUtils;
+import org.openclover.runtime.remote.DistributedConfig;
 import org_openclover_runtime.CloverProfile;
 import org_openclover_runtime.CoverageRecorder;
 import org_openclover_runtime.TestNameSniffer;
@@ -107,7 +109,7 @@ public class Grover implements ASTTransformation {
         /**
          * Distributed Coverage configuration encoded as string
          *
-         * @see com.atlassian.clover.remote.DistributedConfig#getConfigString()
+         * @see DistributedConfig#getConfigString()
          */
         final String distConfig;
 
@@ -126,7 +128,7 @@ public class Grover implements ASTTransformation {
         final long recorderConfig;
 
         /**
-         * Required capacity of the coverage recorder (for the {@link com.atlassian.clover.recorder.FixedSizeCoverageRecorder})
+         * Required capacity of the coverage recorder (for the {@link FixedSizeCoverageRecorder})
          *
          * @see FullFileInfo#getDataIndex()
          * @see FullFileInfo#getDataLength()

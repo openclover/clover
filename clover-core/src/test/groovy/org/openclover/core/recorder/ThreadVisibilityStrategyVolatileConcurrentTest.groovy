@@ -6,12 +6,12 @@ import org.junit.Ignore
 import org.junit.Test
 
 /**
- * Concurrent test for {@link com.atlassian.clover.recorder.ThreadVisibilityStrategy.Volatile}
+ * Concurrent test for {@link org.openclover.runtime.recorder.ThreadVisibilityStrategy.Volatile}
  * against different coverage recorders:
  * <ul>
- *   <li>{@link com.atlassian.clover.recorder.FixedSizeCoverageRecorder}</li>
- *   <li>{@link com.atlassian.clover.recorder.GrowableCoverageRecorder}</li>
- *   <li>{@link com.atlassian.clover.recorder.SharedCoverageRecorder}</li>
+ *   <li>{@link org.openclover.runtime.recorder.FixedSizeCoverageRecorder}</li>
+ *   <li>{@link org.openclover.runtime.recorder.GrowableCoverageRecorder}</li>
+ *   <li>{@link org.openclover.runtime.recorder.SharedCoverageRecorder}</li>
  * </ul>
  */
 @Ignore // TODO enable this test when CloverBitSet#set() is tread safe (CLOV-1253)

@@ -65,7 +65,7 @@ public abstract class Logger {
     }
 
     public static Logger getInstance() {
-        return getInstance("com.atlassian.clover.eclipse.core_v" + org_openclover_runtime.CloverVersionInfo.RELEASE_NUM);
+        return getInstance("org.openclover.eclipse.core_v" + org_openclover_runtime.CloverVersionInfo.RELEASE_NUM);
     }
 
     public static void setFactory(Factory factory) {

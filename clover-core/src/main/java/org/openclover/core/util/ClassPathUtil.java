@@ -27,12 +27,12 @@ public class ClassPathUtil {
             String path = url.toString();
             try {
                 String uri = null;
-                // jar:file:!/path/to/clover.jar/com/atlassian/clover/util/ClassPathUtil.class
+                // jar:file:!/path/to/clover.jar/org/openclover/core/util/ClassPathUtil.class
                 if (path.startsWith("jar:file:")) {
                     int bang = path.indexOf("!");
                     uri = path.substring(4, bang);
                 }
-                // file:/path/to/classes/directory/com/atlassian/clover/util/ClassPathUtil.class
+                // file:/path/to/classes/directory/org/openclover/core/util/ClassPathUtil.class
                 else if (path.startsWith("file:")) {
                     int tail = path.indexOf(pathToClass);
                     uri = path.substring(0, tail);

@@ -10,7 +10,7 @@ import org.openclover.eclipse.core.views.coverageexplorer.MetricsPcCellRenderer;
 import org.openclover.eclipse.core.views.coverageexplorer.MetricsRawCellRenderer;
 import org.openclover.core.registry.metrics.BlockMetrics;
 import org.openclover.core.reporters.ExpressionEvaluator;
-import com.atlassian.clover.reporters.CalcTreeWalker;
+import org.openclover.core.reporters.CalcTreeWalker;
 
 import java.util.Comparator;
 

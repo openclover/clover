@@ -11,7 +11,7 @@ import junit.framework.TestCase
 
 import java.lang.reflect.InvocationTargetException
 
-import static Lists.newArrayList
+import static org.openclover.core.util.Lists.newArrayList
 
 class CloverUtilsTest extends TestCase {
 

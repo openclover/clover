@@ -7,9 +7,9 @@ import clover.antlr.TokenStreamException;
 import java.io.InputStream;
 import java.io.ByteArrayInputStream;
 
-import com.atlassian.clover.reporters.CalcLexer;
-import com.atlassian.clover.reporters.CalcParser;
-import com.atlassian.clover.reporters.CalcTreeWalker;
+import org.openclover.core.reporters.CalcLexer;
+import org.openclover.core.reporters.CalcParser;
+import org.openclover.core.reporters.CalcTreeWalker;
 import org.openclover.core.api.registry.BlockMetrics;
 import org.openclover.runtime.Logger;
 import org.openclover.runtime.api.CloverException;

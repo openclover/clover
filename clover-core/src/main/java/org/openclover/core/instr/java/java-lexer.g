@@ -1,7 +1,7 @@
 header {
     package org.openclover.core.instr.java;
 
-    import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig;
+    import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig;
 }
 
 //----------------------------------------------------------------------------
