@@ -541,9 +541,9 @@ public class GroovycSupport implements BuildListener {
     }
 
     private boolean isJointCompilation(@NotNull final Task groovyc) {
-        final Enumeration kids = groovyc.getRuntimeConfigurableWrapper().getChildren();
+        final Enumeration<RuntimeConfigurable> kids = groovyc.getRuntimeConfigurableWrapper().getChildren();
         while (kids.hasMoreElements()) {
-            RuntimeConfigurable child = (RuntimeConfigurable) kids.nextElement();
+            RuntimeConfigurable child = kids.nextElement();
             if (child.getElementTag().equals("javac")) {
                 return true;
             }
@@ -573,14 +573,14 @@ public class GroovycSupport implements BuildListener {
 
     @SuppressWarnings("unchecked")
     protected void initGroovycTaskNames(@NotNull final Project project) {
-        final Hashtable taskDefs = project.getTaskDefinitions();
+        final Hashtable<String, Class<?>> taskDefs = project.getTaskDefinitions();
         if (taskDefs.size() > numTaskDefsLastSeen) {
             groovycTaskNames = newHashSet();
-            for (Map.Entry entry : (Set<Map.Entry>) taskDefs.entrySet()) {
-                final Object value = entry.getValue();
-                if (value instanceof Class && COMPILERS.contains(((Class) value).getName())) {
+            for (Map.Entry<String, Class<?>> entry : taskDefs.entrySet()) {
+                final Class<?> value = entry.getValue();
+                if (value instanceof Class && COMPILERS.contains(value.getName())) {
                     groovycTaskNames.add((String) entry.getKey());
-                    Logger.getInstance().info("Detected groovyc compiler " + entry.getKey() + "=" + ((Class) value).getCanonicalName());
+                    Logger.getInstance().info("Detected groovyc compiler " + entry.getKey() + "=" + value.getCanonicalName());
                 }
             }
             numTaskDefsLastSeen = taskDefs.size();

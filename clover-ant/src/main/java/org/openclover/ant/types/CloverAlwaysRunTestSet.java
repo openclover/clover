@@ -42,7 +42,7 @@ public class CloverAlwaysRunTestSet extends DataType {
         }
     }
 
-    public List getGatheredResources() {
+    public List<Resource> getGatheredResources() {
         if (gatheredResources == null) {
             gatheredResources = gatherResources();
         }

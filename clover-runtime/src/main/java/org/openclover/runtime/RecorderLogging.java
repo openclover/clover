@@ -52,7 +52,7 @@ public class RecorderLogging {
         String errorMsg = "Unable to initialise Logger class '" + classname + "'. ";
         boolean successful = false;
         try {
-            Class loggerFactoryClass = Class.forName(classname);
+            Class<?> loggerFactoryClass = Class.forName(classname);
             if (Logger.Factory.class.isAssignableFrom(loggerFactoryClass)) {
                 Logger.Factory factory = (Logger.Factory) loggerFactoryClass.getDeclaredConstructor().newInstance();
                 Logger.setFactory(factory);

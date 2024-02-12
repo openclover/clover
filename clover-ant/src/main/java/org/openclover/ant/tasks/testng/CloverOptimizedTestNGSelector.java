@@ -75,8 +75,8 @@ public class CloverOptimizedTestNGSelector implements IAnnotationTransformer, IA
         annotation.setGroups(groups);
     }
 
-    private Optimizable testableFor(Class clazz, Constructor constructor, Method method) {
-        Class daRealClazz =
+    private Optimizable testableFor(Class<?> clazz, Constructor<?> constructor, Method method) {
+        Class<?> daRealClazz =
             clazz == null
                 ? method == null
                     ? constructor == null

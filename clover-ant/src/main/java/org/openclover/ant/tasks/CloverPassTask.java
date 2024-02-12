@@ -49,7 +49,7 @@ public class CloverPassTask extends AbstractCloverTask {
 
     private HistoricalSupport.HasMetricsWrapper model;
 
-    private Map models;
+    private Map<Long, HasMetrics> models;
 
     /** Overall percentage coverage required */
     private Percentage targetPC = null;
@@ -75,12 +75,12 @@ public class CloverPassTask extends AbstractCloverTask {
     /**
      * A list of filesets holding all the test sources *
      */
-    private List testResults = newArrayList();
+    private List<FileSet> testResults = newArrayList();
 
     /**
      * The list of filesets of test sources;
      */
-    private List testSources = newArrayList();
+    private List<FileSet> testSources = newArrayList();
 
     /**
      * The type of code to log - application, test or all code.
@@ -275,7 +275,7 @@ public class CloverPassTask extends AbstractCloverTask {
         testSources.add(fileset);
     }
 
-    public List getTestSources() {
+    public List<FileSet> getTestSources() {
         return testSources;
     }
 

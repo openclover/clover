@@ -19,7 +19,7 @@ import static org.openclover.core.util.Maps.newHashMap;
 
 public class ContextualRunOptimizedAction extends ContextualLaunchAction {
     private ResourceManager imageManager;
-    private Map images;
+    private Map<String, Image> images;
 
     public ContextualRunOptimizedAction() {
         super(OptimizedLaunchingConstants.OPTIMIZED_MODE);
@@ -64,7 +64,7 @@ public class ContextualRunOptimizedAction extends ContextualLaunchAction {
             if (item.getData() instanceof ActionContributionItem) {
                 String commandId = ((ActionContributionItem) item.getData()).getAction().getActionDefinitionId();
                 if (images.containsKey(commandId)) {
-                    item.setImage((Image) images.get(commandId));
+                    item.setImage(images.get(commandId));
                 }
             }
         }

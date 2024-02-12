@@ -49,7 +49,7 @@ public class CloverOptimizedTestSet extends BaseCloverOptimizedType implements R
     }
 
     @Override
-    public Iterator iterator() {
+    public Iterator<Resource> iterator() {
         if (isReference()) {
             return getRef().iterator();
         } else {
@@ -93,7 +93,7 @@ public class CloverOptimizedTestSet extends BaseCloverOptimizedType implements R
     }
 
     private List<Resource> toResources(final List<TestResource> testables) {
-        return new LinkedList() {{
+        return new LinkedList<Resource>() {{
             for (TestResource testResource : testables) {
                 add(testResource.getResource());
             }
@@ -101,7 +101,7 @@ public class CloverOptimizedTestSet extends BaseCloverOptimizedType implements R
     }
 
     private List<TestResource> toTestables(final List<Resource> testables) {
-        return new LinkedList() {{
+        return new LinkedList<TestResource>() {{
             for (Resource resource : testables) {
                 add(new TestResource(resource));
             }

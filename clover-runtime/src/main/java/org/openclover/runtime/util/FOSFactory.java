@@ -18,7 +18,7 @@ import java.security.PrivilegedAction;
  */
 public class FOSFactory {
     private static final boolean USE_SYNCHRONOUS_IO;
-    public static final Class[] REQUIRED_CLASSES = {
+    public static final Class<?>[] REQUIRED_CLASSES = {
         SyncingFileOutputStream.class
     };
 

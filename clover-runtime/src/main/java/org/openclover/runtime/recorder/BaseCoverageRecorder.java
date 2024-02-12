@@ -13,7 +13,7 @@ public abstract class BaseCoverageRecorder extends CoverageRecorder {
     private static final int MIN_INTERVAL = 200;
 
     // force dependent classes to load early.
-    private static final Class[] FORCE_THESE_TO_LOAD = {
+    private static final Class<?>[] FORCE_THESE_TO_LOAD = {
             LiveGlobalCoverageRecording.class,
             FileBasedGlobalCoverageRecording.class,
             FileBasedGlobalCoverageRecording.REQUIRED_CLASSES.getClass() // force loading dependencies

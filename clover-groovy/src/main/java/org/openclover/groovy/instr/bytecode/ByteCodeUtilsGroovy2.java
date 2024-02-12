@@ -14,7 +14,7 @@ public class ByteCodeUtilsGroovy2 {
         return getClassInternalName(t.getTypeClass());
     }
 
-    public static String getClassInternalName(Class t) {
+    public static String getClassInternalName(Class<?> t) {
         return org.objectweb.asm.Type.getInternalName(t);
     }
 

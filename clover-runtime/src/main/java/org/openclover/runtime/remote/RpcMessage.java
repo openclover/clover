@@ -56,9 +56,9 @@ public class RpcMessage implements Serializable {
 
     static class MethodDescriptor {
         final String name;
-        final Class[] argTypes;
+        final Class<?>[] argTypes;
 
-        MethodDescriptor(String name, Class... argTypes) {
+        MethodDescriptor(String name, Class<?>... argTypes) {
             this.name = name;
             this.argTypes = argTypes;
         }

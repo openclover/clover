@@ -21,6 +21,7 @@ import org.openclover.eclipse.core.settings.InstallationSettings;
 import org.openclover.eclipse.core.settings.WorkspaceSettings;
 import org.openclover.eclipse.core.ui.editors.java.EditorCoverageSynchronizer;
 import org.openclover.eclipse.core.ui.workingset.CloverWorkingSet;
+import org.openclover.eclipse.core.views.CustomColumnDefinition;
 import org.openclover.eclipse.core.views.coverageexplorer.CoverageView;
 import org.openclover.eclipse.core.views.dashboard.DashboardView;
 import org.openclover.eclipse.core.views.testcontributions.TestContributionsView;
@@ -65,7 +66,7 @@ public class CloverPlugin extends AbstractUIPlugin {
     private CoverageModelsMonitor coverageMonitor;
     private EditorCoverageSynchronizer editorSynchronizer;
     private CloverWorkingSet workingSet;
-    private List customColumns;
+    private List<CustomColumnDefinition> customColumns;
     private InstallationSettings installationSettings;
     private WorkspaceSettings workspaceSettings;
 

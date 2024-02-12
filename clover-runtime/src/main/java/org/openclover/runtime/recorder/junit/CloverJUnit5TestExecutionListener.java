@@ -38,7 +38,7 @@ public class CloverJUnit5TestExecutionListener implements TestExecutionListener 
             final String testName = testIdentifier.getDisplayName(); // always non-null and non-empty as per API
 
             // find Clover's field in a test class and pass test information
-            final Class testClass = findTestMethodClass(this.testPlan, testIdentifier);
+            final Class<?> testClass = findTestMethodClass(this.testPlan, testIdentifier);
 
             if (testClass != null) {
                 final TestNameSniffer junitSniffer = TestNameSnifferHelper.lookupTestSnifferField(testClass);
@@ -54,7 +54,7 @@ public class CloverJUnit5TestExecutionListener implements TestExecutionListener 
         Logger.getInstance().debug("CloverJUnit5TestExecutionListener: JUnit test ended: \"" + testIdentifier.getDisplayName() + "\"");
 
         if (testIdentifier.isTest()) {
-            final Class testClass = findTestMethodClass(this.testPlan, testIdentifier);
+            final Class<?> testClass = findTestMethodClass(this.testPlan, testIdentifier);
 
             if (testClass != null) {
                 final TestNameSniffer junitSniffer = TestNameSnifferHelper.lookupTestSnifferField(testClass);
@@ -71,9 +71,9 @@ public class CloverJUnit5TestExecutionListener implements TestExecutionListener 
      * work-around suggested  at the following link. <a href="https://github.com/junit-team/junit5/issues/737">issue 737</a>
      */
     /*@Nullable*/
-    private static Class findTestMethodClass(TestPlan testPlan, TestIdentifier identifier) {
+    private static Class<?> findTestMethodClass(TestPlan testPlan, TestIdentifier identifier) {
         // method source
-        Class javaClass = fromMethodSource(identifier);
+        Class<?> javaClass = fromMethodSource(identifier);
         if (javaClass != null) {
             return javaClass;
         }
@@ -99,7 +99,7 @@ public class CloverJUnit5TestExecutionListener implements TestExecutionListener 
     }
 
     /*@Nullable*/
-    private static Class fromMethodSource(final TestIdentifier identifier) {
+    private static Class<?> fromMethodSource(final TestIdentifier identifier) {
         final Optional<TestSource> source = identifier.getSource();
         if (source.isPresent() && source.get() instanceof MethodSource) {
             try {
@@ -112,7 +112,7 @@ public class CloverJUnit5TestExecutionListener implements TestExecutionListener 
     }
 
     /*@Nullable*/
-    private static Class fromClassSource(final TestIdentifier identifier) {
+    private static Class<?> fromClassSource(final TestIdentifier identifier) {
         final Optional<TestSource> source = identifier.getSource();
         if (source.isPresent() && source.get() instanceof ClassSource) {
             try {

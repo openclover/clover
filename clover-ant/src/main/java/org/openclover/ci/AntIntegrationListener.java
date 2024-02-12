@@ -227,10 +227,10 @@ public class AntIntegrationListener implements BuildListener {
         try {
             Field tagsField = javadoc.getClass().getDeclaredField("tagsField");
             tagsField.setAccessible(true);
-            final Vector tags = (Vector) tagsField.get(javadoc);
+            final Vector<Javadoc.ExtensionInfo> tags = (Vector<Javadoc.ExtensionInfo>) tagsField.get(javadoc);
             if (tags != null && tags.size() > 0) {
                 for (int i = 0; i < tags.size(); i++) {
-                    Javadoc.ExtensionInfo tagInfo  = (Javadoc.ExtensionInfo) tags.elementAt(i);
+                    Javadoc.ExtensionInfo tagInfo  = tags.elementAt(i);
                     addCloverToPath(javadoc, tagInfo);
                 }
             }
@@ -322,8 +322,8 @@ public class AntIntegrationListener implements BuildListener {
     private List<OptimizableJUnitTest> getIndividualWrappedTests(Vector<BatchTest> batchTests, Vector<JUnitTest> individualTests) {
         final List<OptimizableJUnitTest> wrappedTests = newArrayList();
         for (final BatchTest batchTest : batchTests) {
-            for (final Enumeration test = batchTest.elements(); test.hasMoreElements(); ) {
-                wrappedTests.add(new OptimizableJUnitTest((JUnitTest) test.nextElement()));
+            for (final Enumeration<JUnitTest> test = batchTest.elements(); test.hasMoreElements(); ) {
+                wrappedTests.add(new OptimizableJUnitTest(test.nextElement()));
             }
         }
         for (final JUnitTest test : individualTests) {

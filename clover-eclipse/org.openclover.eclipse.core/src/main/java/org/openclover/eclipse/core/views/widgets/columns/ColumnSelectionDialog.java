@@ -336,11 +336,11 @@ public class ColumnSelectionDialog extends Dialog {
         return composite;
     }
 
-    public Set getCustomColumns() {
+    public Set<ColumnDefinition> getCustomColumns() {
         return model.getCustomColumns();
     }
 
-    public List getVisibleColumns() {
+    public List<ColumnDefinition> getVisibleColumns() {
         return model.getAssigned();
     }
 

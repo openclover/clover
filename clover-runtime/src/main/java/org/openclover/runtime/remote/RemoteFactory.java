@@ -44,9 +44,8 @@ public class RemoteFactory implements RemoteServiceProvider {
     }
 
     private static Object instantiate(String className) {
-   
         try {
-            final Class clazz = Class.forName(className);
+            final Class<?> clazz = Class.forName(className);
             return instantiate(clazz);
         } catch (ClassNotFoundException e) {
             Logger.getInstance().error("Could not load class: " + className, e);
@@ -54,8 +53,7 @@ public class RemoteFactory implements RemoteServiceProvider {
         return null;
     }
 
-    private static Object instantiate(Class clazz) {
-
+    private static Object instantiate(Class<?> clazz) {
         if (clazz == null) {
             throw new IllegalArgumentException("Can not instantiate a null class.");
         }

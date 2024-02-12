@@ -15,7 +15,7 @@ public class TestNameSnifferHelper {
      * @return TestNameSniffer instance or <code>null</code>
      */
     /*@Nullable*/
-    public static TestNameSniffer lookupTestSnifferField(Class currentTestClass) {
+    public static TestNameSniffer lookupTestSnifferField(Class<?> currentTestClass) {
         try {
             Field sniffer = currentTestClass.getField(CloverNames.CLOVER_TEST_NAME_SNIFFER);
             if (sniffer.getType().isAssignableFrom(TestNameSniffer.class)) {

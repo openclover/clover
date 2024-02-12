@@ -22,7 +22,7 @@ public class FileBasedGlobalCoverageRecording extends BaseCoverageRecording impl
      * so they aren't lazily loaded in the shutdown hook, which can cause
      * problems (namely for Tomcat).
      */
-    static final Class[] REQUIRED_CLASSES = {
+    static final Class<?>[] REQUIRED_CLASSES = {
         IOException.class, DataOutputStream.class, OutputStream.class,
         FileNotFoundException.class, BufferedOutputStream.class,
         FileOutputStream.class, Deflater.class, DeflaterOutputStream.class, FOSFactory.class,

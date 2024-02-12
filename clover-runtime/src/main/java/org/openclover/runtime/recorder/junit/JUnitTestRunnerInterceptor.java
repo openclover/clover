@@ -20,7 +20,7 @@ public class JUnitTestRunnerInterceptor extends RunListener implements TestRunLi
                 + description.getDisplayName() + "\"");
 
         // find Clover's field in a test class and pass test information
-        final Class testClass = description.getTestClass();
+        final Class<?> testClass = description.getTestClass();
         if (testClass != null) {
             final TestNameSniffer junitSniffer = TestNameSnifferHelper.lookupTestSnifferField(testClass);
             if (junitSniffer != null) {
@@ -35,7 +35,7 @@ public class JUnitTestRunnerInterceptor extends RunListener implements TestRunLi
                 + description.getDisplayName() + "\"");
 
         // find Clover's field in a test class and pass test information
-        final Class testClass = description.getTestClass();
+        final Class<?> testClass = description.getTestClass();
         if (testClass != null) {
             final TestNameSniffer junitSniffer = TestNameSnifferHelper.lookupTestSnifferField(testClass);
             if (junitSniffer != null) {
@@ -52,7 +52,7 @@ public class JUnitTestRunnerInterceptor extends RunListener implements TestRunLi
                 + testName + "\"");
 
         // find Clover's field in a test class and pass test information
-        final Class testClass = getTestClass(testName);
+        final Class<?> testClass = getTestClass(testName);
         if (testClass != null) {
             final TestNameSniffer junitSniffer = TestNameSnifferHelper.lookupTestSnifferField(testClass);
             if (junitSniffer != null) {
@@ -67,7 +67,7 @@ public class JUnitTestRunnerInterceptor extends RunListener implements TestRunLi
                 + testName + "\"");
 
         // find Clover's field in a test class and pass test information
-        final Class testClass = getTestClass(testName);
+        final Class<?> testClass = getTestClass(testName);
         if (testClass != null) {
             final TestNameSniffer junitSniffer = TestNameSnifferHelper.lookupTestSnifferField(testClass);
             if (junitSniffer != null) {
@@ -79,7 +79,7 @@ public class JUnitTestRunnerInterceptor extends RunListener implements TestRunLi
     // helper methods
 
     /*@Nullable*/
-    protected Class getTestClass(/*@NotNull*/ String testName) {
+    protected Class<?> getTestClass(/*@NotNull*/ String testName) {
         // find test class from a test name
         int classNameEnd = testName.lastIndexOf(".");
         if (classNameEnd > 0) {   // at least one character for a class name

@@ -16,6 +16,7 @@ import org.eclipse.ui.model.WorkbenchContentProvider;
 import org.openclover.core.BitSetCoverageProvider;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.CoverageData;
+import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.registry.CoverageDataProvider;
@@ -52,7 +53,7 @@ public class ClassesTestedTreeProvider
     private TreeViewer treeViewer;
     private Object input;
     private List classes;
-    private final Map methods = newHashMap();
+    private final Map<ClassInfo, List<CoverageContributionNode>> methods = newHashMap();
     private boolean includeCoverageFromFailedTests = true;
 
     public ClassesTestedTreeProvider(TreeViewer treeViewer) {
@@ -71,7 +72,7 @@ public class ClassesTestedTreeProvider
     public Object[] getElements(Object parent) {
         try {
             if (classes == null) {
-                final List testCases =
+                final List<TestCaseInfo> testCases =
                     removeFailed(
                         !includeCoverageFromFailedTests,
                         Nodes.collectTestCases(parent, Nodes.TO_TESTCASEINFO));
@@ -90,7 +91,7 @@ public class ClassesTestedTreeProvider
         return new Object[] {};
     }
 
-    private List collectTestedClassesFor(final List testedClassInfos, final List testCases, final CloverProject project) throws CoreException {
+    private List<CoverageContributionNode> collectTestedClassesFor(final List<CoverageContributionNode> testedClassInfos, final List<TestCaseInfo> testCases, final CloverProject project) throws CoreException {
         final CloverProject[] dependencies = project.getDependencies();
         for (CloverProject dependency : dependencies) {
             collectTestedClassesFor(testedClassInfos, testCases, dependency);
@@ -101,7 +102,7 @@ public class ClassesTestedTreeProvider
         final FullProjectInfo fullProject = database == null ? null : database.getFullModel();
 
         if (database != null && appOnlyProject != null) {
-            final HashSet testCasesSet = newHashSet(testCases);
+            final HashSet<TestCaseInfo> testCasesSet = newHashSet(testCases);
             final CoverageData data = database.getCoverageData();
             final CoverageDataProvider testHits = new BitSetCoverageProvider(data.getHitsFor(testCasesSet), data);
             final CoverageDataProvider uniqueTestHits = new BitSetCoverageProvider(data.getUniqueHitsFor(testCasesSet), data);
@@ -131,12 +132,12 @@ public class ClassesTestedTreeProvider
         return testedClassInfos;
     }
 
-    private List collectTestedMethodsFor(IType javaType, final CoverageDataProvider testHits, final CoverageDataProvider uniqueTestHits) throws CoreException {
+    private List<CoverageContributionNode> collectTestedMethodsFor(IType javaType, final CoverageDataProvider testHits, final CoverageDataProvider uniqueTestHits) throws CoreException {
         FullClassInfo classInfo = (FullClassInfo)MetricsScope.APP_ONLY.getHasMetricsFor(javaType, FullClassInfo.class);
 
-        List testedMethodInfos = Collections.emptyList();
+        List<CoverageContributionNode> testedMethodInfos = Collections.emptyList();
         if (classInfo != null) {
-            testedMethodInfos = (List)methods.get(classInfo);
+            testedMethodInfos = methods.get(classInfo);
             if (testedMethodInfos == null) {
                 testedMethodInfos = newArrayList();
                 methods.put(classInfo, testedMethodInfos);
@@ -161,7 +162,10 @@ public class ClassesTestedTreeProvider
         return testedMethodInfos;
     }
 
-    private void maybeAddCoverageContributionNode(NodeBuilder builder, HasMetrics hasMetrics, IJavaElement element, HasMetrics hasMetricsCopy, CoverageDataProvider testHits, CoverageDataProvider uniqueTestHits, List testedClassInfos) {
+    private void maybeAddCoverageContributionNode(NodeBuilder builder, HasMetrics hasMetrics, IJavaElement element,
+                                                  HasMetrics hasMetricsCopy, CoverageDataProvider testHits,
+                                                  CoverageDataProvider uniqueTestHits,
+                                                  List<CoverageContributionNode> testedClassInfos) {
         float elementCoverage = calculateCoverage(hasMetricsCopy, testHits);
 
         if (elementCoverage > 0f) {
