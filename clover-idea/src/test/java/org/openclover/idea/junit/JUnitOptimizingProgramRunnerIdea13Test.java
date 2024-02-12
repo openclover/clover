@@ -1,10 +1,10 @@
 package org.openclover.idea.junit;
 
-import org.openclover.idea.junit.config.OptimizedConfigurationSettings;
 import com.intellij.execution.configurations.JavaParameters;
 import com.intellij.execution.configurations.ParametersList;
 import com.intellij.execution.configurations.RunnerSettings;
 import com.intellij.testFramework.LightIdeaTestCase;
+import org.openclover.idea.junit.config.OptimizedConfigurationSettings;
 
 import java.io.File;
 

@@ -1,7 +1,7 @@
 package org.openclover.core.cfg.instr.java;
 
-import org.openclover.core.util.JavaEnvUtils;
 import org.jetbrains.annotations.NotNull;
+import org.openclover.core.util.JavaEnvUtils;
 
 import java.util.Collections;
 import java.util.HashSet;

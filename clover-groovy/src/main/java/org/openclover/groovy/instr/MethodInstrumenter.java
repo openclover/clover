@@ -1,12 +1,5 @@
 package org.openclover.groovy.instr;
 
-import org.openclover.runtime.CloverNames;
-import org.openclover.core.instr.tests.ExpectedExceptionMiner;
-import org.openclover.runtime.recorder.PerTestRecorder;
-import org.openclover.core.registry.entities.FullMethodInfo;
-import org.openclover.core.util.collections.Pair;
-import org_openclover_runtime.CoverageRecorder;
-import org_openclover_runtime.TestNameSniffer;
 import groovyjarjarasm.asm.Opcodes;
 import org.codehaus.groovy.ast.ClassHelper;
 import org.codehaus.groovy.ast.ClassNode;
@@ -34,6 +27,13 @@ import org.codehaus.groovy.ast.stmt.TryCatchStatement;
 import org.codehaus.groovy.syntax.Token;
 import org.codehaus.groovy.syntax.Types;
 import org.jetbrains.annotations.NotNull;
+import org.openclover.core.instr.tests.ExpectedExceptionMiner;
+import org.openclover.core.registry.entities.FullMethodInfo;
+import org.openclover.core.util.collections.Pair;
+import org.openclover.runtime.CloverNames;
+import org.openclover.runtime.recorder.PerTestRecorder;
+import org_openclover_runtime.CoverageRecorder;
+import org_openclover_runtime.TestNameSniffer;
 
 import java.util.LinkedList;
 import java.util.List;

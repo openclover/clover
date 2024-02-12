@@ -1,8 +1,8 @@
 package org.openclover.idea.report;
 
+import org.openclover.core.reporters.ShowLambdaFunctions;
 import org.openclover.idea.config.GBC;
 import org.openclover.idea.util.ui.UIUtils;
-import org.openclover.core.reporters.ShowLambdaFunctions;
 
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;

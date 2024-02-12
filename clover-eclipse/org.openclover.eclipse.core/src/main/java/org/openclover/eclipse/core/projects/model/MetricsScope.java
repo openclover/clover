@@ -1,16 +1,16 @@
 package org.openclover.eclipse.core.projects.model;
 
-import org.openclover.core.registry.entities.FullProjectInfo;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jdt.core.IMethod;
-import org.openclover.core.registry.metrics.BlockMetrics;
+import org.openclover.core.CloverDatabase;
 import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.core.registry.metrics.BlockMetrics;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.views.nodes.Nodes;
-import org.openclover.core.CloverDatabase;
 
 public abstract class MetricsScope {
     public static final MetricsScope APP_ONLY = new MetricsScope() {

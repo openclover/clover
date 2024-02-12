@@ -2,10 +2,10 @@ package org.openclover.core.cfg.instr;
 
 import org.openclover.core.instr.tests.DefaultTestDetector;
 import org.openclover.core.instr.tests.TestDetector;
-import org.openclover.runtime.api.CloverException;
-import org_openclover_runtime.CloverProfile;
 import org.openclover.runtime.Logger;
+import org.openclover.runtime.api.CloverException;
 import org.openclover.runtime.remote.DistributedConfig;
+import org_openclover_runtime.CloverProfile;
 import org_openclover_runtime.CloverVersionInfo;
 
 import java.io.File;

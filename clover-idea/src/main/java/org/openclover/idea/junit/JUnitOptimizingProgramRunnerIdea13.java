@@ -1,9 +1,5 @@
 package org.openclover.idea.junit;
 
-import org.openclover.idea.ProjectPluginViaReflection;
-import org.openclover.idea.junit.config.OptimizedConfigurationSettings;
-import org.openclover.idea.junit.config.OptimizedConfigurationSettingsEditor;
-import org.openclover.core.optimization.OptimizationSession;
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.ExecutionResult;
 import com.intellij.execution.Executor;
@@ -18,6 +14,10 @@ import com.intellij.openapi.options.SettingsEditor;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.openclover.core.optimization.OptimizationSession;
+import org.openclover.idea.ProjectPluginViaReflection;
+import org.openclover.idea.junit.config.OptimizedConfigurationSettings;
+import org.openclover.idea.junit.config.OptimizedConfigurationSettingsEditor;
 
 import java.io.File;
 

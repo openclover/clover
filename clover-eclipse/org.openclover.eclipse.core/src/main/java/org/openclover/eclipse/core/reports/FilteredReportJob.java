@@ -1,14 +1,14 @@
 package org.openclover.eclipse.core.reports;
 
-import org.openclover.eclipse.core.projects.CloverProject;
-import org.openclover.core.reporters.Current;
-import org.openclover.core.reporters.CloverReporter;
-import org.openclover.core.reporters.html.HtmlReporter;
-import org.openclover.core.reporters.pdf.PDFReporter;
-import org.openclover.core.reporters.xml.XMLReporter;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.openclover.core.reporters.CloverReporter;
+import org.openclover.core.reporters.Current;
+import org.openclover.core.reporters.html.HtmlReporter;
+import org.openclover.core.reporters.pdf.PDFReporter;
+import org.openclover.core.reporters.xml.XMLReporter;
+import org.openclover.eclipse.core.projects.CloverProject;
 
 public class FilteredReportJob extends ForkingReportJob {
     private final CloverProject cloverProject;

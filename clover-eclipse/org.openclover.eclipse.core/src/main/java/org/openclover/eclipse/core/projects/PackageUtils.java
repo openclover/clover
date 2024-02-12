@@ -1,7 +1,7 @@
 package org.openclover.eclipse.core.projects;
 
-import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.runtime.CoreException;
 
 import java.util.Collection;

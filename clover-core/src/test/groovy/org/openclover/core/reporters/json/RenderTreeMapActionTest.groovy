@@ -1,6 +1,9 @@
 package org.openclover.core.reporters.json
 
 import clover.org.apache.velocity.VelocityContext
+import org.junit.Before
+import org.junit.Test
+import org.openclover.core.TestUtils
 import org.openclover.core.api.registry.ClassInfo
 import org.openclover.core.api.registry.HasMetrics
 import org.openclover.core.registry.entities.FullClassInfo
@@ -13,9 +16,6 @@ import org.openclover.core.registry.metrics.ProjectMetrics
 import org.openclover.core.reporters.CloverReportConfig
 import org.openclover.core.reporters.Current
 import org.openclover.core.reporters.Format
-import org.openclover.core.TestUtils
-import org.junit.Before
-import org.junit.Test
 
 import java.util.concurrent.Callable
 

@@ -1,6 +1,5 @@
 package org.openclover.idea.util.vfs;
 
-import org.openclover.idea.util.psi.PsiUtil;
 import com.intellij.openapi.application.Application;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
@@ -10,6 +9,7 @@ import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
 import com.intellij.psi.PsiPackage;
+import org.openclover.idea.util.psi.PsiUtil;
 
 import java.io.File;
 import java.net.URL;

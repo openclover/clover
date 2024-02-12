@@ -1,11 +1,11 @@
 package org.openclover.core.registry.entities
 
-import org.openclover.runtime.api.CloverException
+import junit.framework.TestCase
 import org.openclover.core.context.ContextSet
 import org.openclover.core.context.ContextStore
 import org.openclover.core.context.StatementRegexpContext
 import org.openclover.core.registry.metrics.HasMetricsTestFixture
-import junit.framework.TestCase
+import org.openclover.runtime.api.CloverException
 
 import java.util.regex.Pattern
 

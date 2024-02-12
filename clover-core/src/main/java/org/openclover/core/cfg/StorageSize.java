@@ -1,8 +1,8 @@
 package org.openclover.core.cfg;
 
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.openclover.core.util.Maps.newHashMap;
 

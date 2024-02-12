@@ -1,12 +1,16 @@
 package org.openclover.core.recorder
 
+import org.junit.After
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
+import org.junit.rules.TestName
+import org.openclover.buildutil.testutils.IOHelper
 import org.openclover.core.CloverDatabase
 import org.openclover.core.CloverDatabaseSpec
 import org.openclover.core.CodeType
 import org.openclover.core.CoverageDataSpec
 import org.openclover.core.ProgressListener
-import org.openclover.runtime.RuntimeType
-import org.openclover.runtime.api.CloverException
 import org.openclover.core.api.registry.BlockMetrics
 import org.openclover.core.api.registry.ClassInfo
 import org.openclover.core.api.registry.SourceInfo
@@ -21,24 +25,22 @@ import org.openclover.core.registry.FixedSourceRegion
 import org.openclover.core.registry.entities.MethodSignature
 import org.openclover.core.registry.entities.Modifiers
 import org.openclover.core.registry.entities.TestCaseInfo
+import org.openclover.core.registry.metrics.ProjectMetrics
+import org.openclover.core.util.SimpleCoverageRange
+import org.openclover.runtime.RuntimeType
+import org.openclover.runtime.api.CloverException
+import org.openclover.runtime.recorder.FileBasedGlobalCoverageRecording
 import org.openclover.runtime.recorder.FileBasedPerTestRecording
 import org.openclover.runtime.registry.format.RegAccessMode
 import org.openclover.runtime.registry.format.RegHeader
-import org.openclover.core.registry.metrics.ProjectMetrics
-import org.openclover.buildutil.testutils.IOHelper
-import org.openclover.runtime.recorder.FileBasedGlobalCoverageRecording
 import org.openclover.runtime.util.CloverBitSet
-import org.openclover.core.util.SimpleCoverageRange
 import org_openclover_runtime.Clover
-import org.junit.After
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
-import org.junit.rules.TestName
 
 import java.util.regex.Pattern
 
-import static org.junit.Assert.*
+import static org.junit.Assert.assertEquals
+import static org.junit.Assert.assertSame
+import static org.junit.Assert.assertTrue
 import static org.openclover.core.util.Lists.newArrayList
 
 class CloverDatabaseTest {

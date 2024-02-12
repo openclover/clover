@@ -1,10 +1,5 @@
 package org.openclover.idea.projectview;
 
-import org.openclover.idea.IProjectPlugin;
-import org.openclover.idea.build.InclusionDetector;
-import org.openclover.idea.build.ProjectInclusionDetector;
-import org.openclover.idea.ProjectPlugin;
-import org.openclover.idea.feature.CloverFeatures;
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ide.projectView.impl.nodes.ClassTreeNode;
 import com.intellij.ide.util.treeView.AbstractTreeNode;
@@ -12,6 +7,11 @@ import com.intellij.openapi.module.ModuleUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiFile;
+import org.openclover.idea.IProjectPlugin;
+import org.openclover.idea.ProjectPlugin;
+import org.openclover.idea.build.InclusionDetector;
+import org.openclover.idea.build.ProjectInclusionDetector;
+import org.openclover.idea.feature.CloverFeatures;
 
 class ClassTreeNodeWrapper extends ClassTreeNode {
     ClassTreeNodeWrapper(ClassTreeNode orig) {

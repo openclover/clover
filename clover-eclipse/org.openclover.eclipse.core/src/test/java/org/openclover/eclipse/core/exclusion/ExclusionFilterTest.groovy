@@ -1,7 +1,7 @@
 package org.openclover.eclipse.core.exclusion
 
-import org.openclover.eclipse.core.projects.settings.source.SourceFolderPattern
 import org.junit.Test
+import org.openclover.eclipse.core.projects.settings.source.SourceFolderPattern
 
 import static org.junit.Assert.assertEquals
 

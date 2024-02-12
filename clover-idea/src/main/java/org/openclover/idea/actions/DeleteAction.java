@@ -1,17 +1,17 @@
 package org.openclover.idea.actions;
 
-import org.openclover.idea.CloverToolWindowId;
-import org.openclover.idea.IProjectPlugin;
-import org.openclover.idea.coverage.CoverageManager;
-import org.openclover.idea.ProjectPlugin;
-import org.openclover.idea.build.ProjectRebuilder;
-import org.openclover.idea.feature.CloverFeatures;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.MessageType;
 import com.intellij.openapi.wm.ToolWindowManager;
+import org.openclover.idea.CloverToolWindowId;
+import org.openclover.idea.IProjectPlugin;
+import org.openclover.idea.ProjectPlugin;
+import org.openclover.idea.build.ProjectRebuilder;
+import org.openclover.idea.coverage.CoverageManager;
+import org.openclover.idea.feature.CloverFeatures;
 
 import java.io.File;
 import java.net.URISyntaxException;

@@ -1,7 +1,7 @@
 package org.openclover.core.util;
 
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
 
 
 /**

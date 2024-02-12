@@ -1,11 +1,11 @@
 package org.openclover.groovy.instr;
 
-import org.openclover.core.api.instrumentation.InstrumentationSession;
-import org.openclover.core.api.registry.SourceInfo;
 import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.ast.expr.Expression;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.openclover.core.api.instrumentation.InstrumentationSession;
+import org.openclover.core.api.registry.SourceInfo;
 
 /**
  * Base class for more specific instrumenters.

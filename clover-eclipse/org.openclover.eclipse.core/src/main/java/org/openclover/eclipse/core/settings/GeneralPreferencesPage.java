@@ -1,9 +1,5 @@
 package org.openclover.eclipse.core.settings;
 
-import org.openclover.eclipse.core.CloverEclipsePluginMessages;
-import org.openclover.eclipse.core.CloverPlugin;
-import org.openclover.eclipse.core.ui.GLH;
-import org.openclover.eclipse.core.ui.SwtUtils;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.preferences.ConfigurationScope;
 import org.eclipse.jface.preference.BooleanFieldEditor;
@@ -11,8 +7,6 @@ import org.eclipse.jface.preference.FieldEditor;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.RadioGroupFieldEditor;
 import org.eclipse.jface.preference.StringFieldEditor;
-import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -21,6 +15,10 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.preferences.ScopedPreferenceStore;
+import org.openclover.eclipse.core.CloverEclipsePluginMessages;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.ui.GLH;
+import org.openclover.eclipse.core.ui.SwtUtils;
 
 import java.io.IOException;
 

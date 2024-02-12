@@ -1,5 +1,6 @@
 package org.openclover.groovy.instr
 
+import groovy.transform.CompileStatic
 import org.openclover.core.api.registry.MethodInfo
 import org.openclover.core.cfg.instr.InstrumentationConfig
 import org.openclover.core.registry.Clover2Registry
@@ -7,7 +8,6 @@ import org.openclover.core.registry.entities.FullClassInfo
 import org.openclover.core.registry.entities.FullFileInfo
 import org.openclover.core.registry.entities.FullPackageInfo
 import org.openclover.core.util.ChecksummingReader
-import groovy.transform.CompileStatic
 
 /**
  * Integration tests that detect if the correct Clover model is generated for given Groovy code.

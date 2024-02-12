@@ -3,7 +3,8 @@ package org.openclover.core.remote
 import org.junit.Test
 import org.openclover.runtime.remote.InitStringData
 
-import static org.junit.Assert.*
+import static org.junit.Assert.assertEquals
+import static org.junit.Assert.fail
 
 class InitStringDataTest {
 

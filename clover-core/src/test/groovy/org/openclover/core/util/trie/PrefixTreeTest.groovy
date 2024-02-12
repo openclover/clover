@@ -1,11 +1,16 @@
 package org.openclover.core.util.trie
 
-import org.openclover.core.util.Lists
 import org.jetbrains.annotations.NotNull
 import org.junit.Test
+import org.openclover.core.util.Lists
 
-import static org.hamcrest.CoreMatchers.*
-import static org.junit.Assert.*
+import static org.hamcrest.CoreMatchers.anyOf
+import static org.hamcrest.CoreMatchers.equalTo
+import static org.hamcrest.CoreMatchers.nullValue
+import static org.junit.Assert.assertEquals
+import static org.junit.Assert.assertNotNull
+import static org.junit.Assert.assertNull
+import static org.junit.Assert.assertThat
 import static org.openclover.core.util.Lists.newArrayList
 
 /**

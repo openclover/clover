@@ -1,9 +1,9 @@
 package org.openclover.eclipse.core.projects;
 
-import org.openclover.eclipse.core.CloverPlugin;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.jdt.core.IJavaElement;
+import org.openclover.eclipse.core.CloverPlugin;
 
 public class CloverProjectAdapterFactory implements IAdapterFactory {
     /**

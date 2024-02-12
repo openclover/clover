@@ -1,10 +1,10 @@
 package org.openclover.eclipse.core.views.nodes;
 
-import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.ui.model.IWorkbenchAdapter;
 import org.eclipse.ui.views.tasklist.ITaskListResourceAdapter;
-import org.eclipse.jdt.core.IJavaElement;
 
 public abstract class JavaElementNode implements IAdaptable {
     @Override

@@ -1,10 +1,10 @@
 package org.openclover.ant.tasks;
 
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.types.FileSet;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.CloverDatabaseSpec;
 import org.openclover.core.cfg.Interval;
-import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.types.FileSet;
 
 import java.util.List;
 

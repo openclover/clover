@@ -1,8 +1,8 @@
 package org.openclover.core.reporters;
 
+import org.openclover.core.reporters.filters.AntPatternTestFilter;
 import org.openclover.core.util.FilterUtils;
 import org.openclover.runtime.Logger;
-import org.openclover.core.reporters.filters.AntPatternTestFilter;
 
 public class TestSelectionHelper {
     public static final String TESTS_INCLUDE_PATTERN_PARAM = "--testsIncludePattern";

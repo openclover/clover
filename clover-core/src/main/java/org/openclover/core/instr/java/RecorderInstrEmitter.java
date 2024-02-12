@@ -1,25 +1,25 @@
 package org.openclover.core.instr.java;
 
+import org.openclover.core.cfg.instr.InstrumentationConfig;
+import org.openclover.core.cfg.instr.java.LanguageFeature;
+import org.openclover.runtime.CloverNames;
+import org.openclover.runtime.recorder.pertest.SnifferType;
+import org_openclover_runtime.Clover;
+import org_openclover_runtime.CloverProfile;
+import org_openclover_runtime.CloverVersionInfo;
+import org_openclover_runtime.CoverageRecorder;
+import org_openclover_runtime.TestNameSniffer;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+
 import static org.openclover.runtime.instr.Bindings.$Clover$getNullRecorder;
 import static org.openclover.runtime.instr.Bindings.$Clover$getRecorder;
 import static org.openclover.runtime.instr.Bindings.$Clover$l;
 import static org.openclover.runtime.instr.Bindings.$CloverVersionInfo$getBuildStamp;
 import static org.openclover.runtime.instr.Bindings.$CloverVersionInfo$getReleaseNum;
 import static org.openclover.runtime.instr.Bindings.$CloverVersionInfo$oldVersionInClasspath;
-
-import org.openclover.core.cfg.instr.InstrumentationConfig;
-import org.openclover.core.cfg.instr.java.LanguageFeature;
-import org.openclover.runtime.CloverNames;
-import org.openclover.runtime.recorder.pertest.SnifferType;
-import org_openclover_runtime.TestNameSniffer;
-import org_openclover_runtime.CloverProfile;
-import org_openclover_runtime.Clover;
-import org_openclover_runtime.CloverVersionInfo;
-import org_openclover_runtime.CoverageRecorder;
-
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
 
 public class RecorderInstrEmitter extends Emitter {
 

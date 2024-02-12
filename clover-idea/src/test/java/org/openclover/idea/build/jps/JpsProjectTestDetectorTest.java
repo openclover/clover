@@ -1,13 +1,5 @@
 package org.openclover.idea.build.jps;
 
-import org.openclover.core.instr.java.JavaMethodContext;
-import org.openclover.core.instr.java.JavaTypeContext;
-import org.openclover.core.instr.tests.DefaultTestDetector;
-import org.openclover.core.instr.tests.TestDetector;
-import org.openclover.core.spi.lang.Language;
-import org.openclover.core.util.FileUtils;
-import org.openclover.core.registry.entities.MethodSignature;
-import org.openclover.core.registry.entities.Modifiers;
 import org.jetbrains.jps.devkit.model.JpsPluginModuleProperties;
 import org.jetbrains.jps.devkit.model.JpsPluginModuleType;
 import org.jetbrains.jps.model.JpsElementFactory;
@@ -18,6 +10,14 @@ import org.jetbrains.jps.model.java.JpsJavaModuleType;
 import org.jetbrains.jps.model.module.JpsModule;
 import org.junit.Before;
 import org.junit.Test;
+import org.openclover.core.instr.java.JavaMethodContext;
+import org.openclover.core.instr.java.JavaTypeContext;
+import org.openclover.core.instr.tests.DefaultTestDetector;
+import org.openclover.core.instr.tests.TestDetector;
+import org.openclover.core.registry.entities.MethodSignature;
+import org.openclover.core.registry.entities.Modifiers;
+import org.openclover.core.spi.lang.Language;
+import org.openclover.core.util.FileUtils;
 
 import java.io.File;
 import java.lang.reflect.Modifier;

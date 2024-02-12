@@ -1,15 +1,16 @@
 package org.openclover.core.remote
 
-import org.openclover.core.util.RecordingLogger
-import org.openclover.runtime.Logger
 import org.junit.Ignore
 import org.junit.Test
+import org.openclover.core.util.RecordingLogger
+import org.openclover.runtime.Logger
 import org.openclover.runtime.remote.CajoTcpRecorderListener
 import org.openclover.runtime.remote.CajoTcpRecorderService
 import org.openclover.runtime.remote.DistributedConfig
 import org.openclover.runtime.remote.RpcMessage
 
-import static org.junit.Assert.*
+import static org.junit.Assert.assertEquals
+import static org.junit.Assert.assertTrue
 
 /**
  * Test for {@link org.openclover.runtime.remote.CajoTcpRecorderService}

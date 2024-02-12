@@ -1,8 +1,8 @@
 package org.openclover.eclipse.core.projects.model;
 
-import org.openclover.eclipse.core.projects.CloverProject;
-import org.openclover.core.CloverDatabase;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.openclover.core.CloverDatabase;
+import org.openclover.eclipse.core.projects.CloverProject;
 
 public abstract class StableDatabaseModel extends DatabaseModel {
     protected StableDatabaseModel(CloverProject project, CoverageModelChangeEvent changeEvent) {

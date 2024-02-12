@@ -1,11 +1,13 @@
 package org.openclover.core.registry.entities
 
-import org.openclover.core.registry.FixedSourceRegion
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestName
+import org.openclover.core.registry.FixedSourceRegion
 
-import static org.junit.Assert.*
+import static org.junit.Assert.assertEquals
+import static org.junit.Assert.assertNull
+import static org.junit.Assert.assertSame
 
 class FullPackageInfoTest {
 

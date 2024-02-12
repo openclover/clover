@@ -1,5 +1,6 @@
 package org.openclover.core.reporters.html.source.java;
 
+import clover.org.apache.commons.collections.map.LazyMap;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
@@ -9,13 +10,14 @@ import org.openclover.core.reporters.html.source.PlaintextHtmlSourceRenderer;
 import org.openclover.core.spi.reporters.html.source.HtmlRenderingSupport;
 import org.openclover.core.spi.reporters.html.source.LineRenderInfo;
 
-import java.util.Set;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
-import clover.org.apache.commons.collections.map.LazyMap;
-
-import static org.openclover.core.spi.reporters.html.source.SourceReportCss.*;
+import static org.openclover.core.spi.reporters.html.source.SourceReportCss.COMMENT_CLASS;
+import static org.openclover.core.spi.reporters.html.source.SourceReportCss.JAVADOC_CLASS;
+import static org.openclover.core.spi.reporters.html.source.SourceReportCss.KEYWORD_CLASS;
+import static org.openclover.core.spi.reporters.html.source.SourceReportCss.STRING_CLASS;
 import static org.openclover.core.util.Maps.newHashMap;
 import static org.openclover.core.util.Sets.newHashSet;
 

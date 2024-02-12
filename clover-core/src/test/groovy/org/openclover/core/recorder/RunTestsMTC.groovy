@@ -1,7 +1,7 @@
 package org.openclover.core.recorder
 
-import org.openclover.runtime.util.CloverBitSet;
 import edu.umd.cs.mtc.MultithreadedTestCase
+import org.openclover.runtime.util.CloverBitSet
 
 /**
  * Base class for multi-threaded test cases

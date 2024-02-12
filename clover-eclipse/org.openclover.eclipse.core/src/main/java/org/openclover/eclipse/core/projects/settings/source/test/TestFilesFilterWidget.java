@@ -1,6 +1,5 @@
 package org.openclover.eclipse.core.projects.settings.source.test;
 
-import org.openclover.eclipse.core.projects.settings.ProjectSettings;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -15,6 +14,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
+import org.openclover.eclipse.core.projects.settings.ProjectSettings;
 
 import java.util.List;
 

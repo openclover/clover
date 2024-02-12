@@ -1,8 +1,8 @@
 package org.openclover.core.recorder
 
-import org.openclover.runtime.util.CloverBitSet;
-import org.openclover.core.CoverageDataSpec;
-import org_openclover_runtime.CoverageRecorder;
+import org.openclover.core.CoverageDataSpec
+import org.openclover.runtime.util.CloverBitSet
+import org_openclover_runtime.CoverageRecorder
 
 /**
  * Test case which runs three threads. Each thread runs a single test case (i.e. test start/end detected by Clover).

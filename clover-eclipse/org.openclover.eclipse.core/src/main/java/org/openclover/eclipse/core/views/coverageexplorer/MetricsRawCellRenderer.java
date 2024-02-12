@@ -1,15 +1,15 @@
 package org.openclover.eclipse.core.views.coverageexplorer;
 
-import org.openclover.eclipse.core.views.widgets.SelectionAwareCellRenderer;
-import org.openclover.eclipse.core.views.ExplorerViewSettings;
-import org.openclover.eclipse.core.views.ColumnCollectionSettings;
-import org.openclover.eclipse.core.views.NumericColumnDefinition;
-import org.openclover.eclipse.core.views.ColumnDefinition;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.Widget;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.graphics.GC;
+import org.openclover.eclipse.core.views.ColumnCollectionSettings;
+import org.openclover.eclipse.core.views.ColumnDefinition;
+import org.openclover.eclipse.core.views.ExplorerViewSettings;
+import org.openclover.eclipse.core.views.NumericColumnDefinition;
+import org.openclover.eclipse.core.views.widgets.SelectionAwareCellRenderer;
 
 public abstract class MetricsRawCellRenderer extends SelectionAwareCellRenderer {
     protected ExplorerViewSettings viewSettings;

@@ -1,22 +1,21 @@
 package org.openclover.functest.ant.groovy
 
-import org.openclover.groovy.test.junit.AntCombinatorMixin
+import groovy.transform.CompileStatic
+import junit.framework.TestCase
+import org.openclover.buildutil.test.junit.AntVersions
 import org.openclover.buildutil.test.junit.DefaultTestSelector
+import org.openclover.buildutil.test.junit.GroovyVersionStart
+import org.openclover.buildutil.test.junit.GroovyVersions
+import org.openclover.core.versions.LibraryVersion
+import org.openclover.groovy.test.junit.AntCombinatorMixin
 import org.openclover.groovy.test.junit.GroovyCombinatorMixin
+import org.openclover.groovy.test.junit.IncludeExcludeMixin
 import org.openclover.groovy.test.junit.JavaVersionMixin
 import org.openclover.groovy.test.junit.TestPropertyMixin
 import org.openclover.groovy.test.junit.WorkingDirMixin
-import groovy.transform.CompileStatic
-import junit.framework.TestCase
 
 import java.lang.reflect.Constructor
 import java.lang.reflect.Method
-
-import org.openclover.groovy.test.junit.IncludeExcludeMixin
-import org.openclover.buildutil.test.junit.GroovyVersions
-import org.openclover.buildutil.test.junit.AntVersions
-import org.openclover.buildutil.test.junit.GroovyVersionStart
-import org.openclover.core.versions.LibraryVersion
 
 @CompileStatic
 class TestSuite extends junit.framework.TestSuite

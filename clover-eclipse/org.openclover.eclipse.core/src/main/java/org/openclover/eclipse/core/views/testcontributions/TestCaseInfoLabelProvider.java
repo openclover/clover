@@ -1,9 +1,9 @@
 package org.openclover.eclipse.core.views.testcontributions;
 
-import org.openclover.core.api.registry.ClassInfo;
-import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
+import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
+import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.registry.entities.TestCaseInfo;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.ui.CloverPluginIcons;

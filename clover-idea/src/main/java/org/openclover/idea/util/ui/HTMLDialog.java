@@ -3,20 +3,19 @@ package org.openclover.idea.util.ui;
 import com.intellij.ide.BrowserUtil;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.util.ui.UIUtil;
-import org.openclover.idea.util.ui.CloverIcons;
 
 import javax.swing.Action;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextPane;
 import javax.swing.UIManager;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.text.html.HTMLDocument;
-import java.awt.Font;
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.Font;
 
 public class HTMLDialog extends DialogWrapper {
     private final String text;

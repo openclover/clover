@@ -1,15 +1,15 @@
 package org.openclover.core.api.optimization;
 
-import org.openclover.core.optimization.LocalSnapshotOptimizer;
 import org.openclover.core.optimization.ClassOptimizable;
-import org.openclover.runtime.api.CloverException;
+import org.openclover.core.optimization.LocalSnapshotOptimizer;
 import org.openclover.runtime.Logger;
+import org.openclover.runtime.api.CloverException;
 
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.ArrayList;
-import java.io.File;
 
 /**
  * A TestOptimizer allows you to optimize a Collection of classes (that are Tests) programatically.

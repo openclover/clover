@@ -1,7 +1,5 @@
 package org.openclover.eclipse.testopt.settings;
 
-import org.openclover.eclipse.testopt.TestOptimizationPlugin;
-import org.openclover.eclipse.testopt.TestOptimizationPluginMessages;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
@@ -10,18 +8,16 @@ import org.eclipse.jface.preference.FieldEditor;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferenceStore;
 import org.eclipse.jface.preference.StringFieldEditor;
-import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Event;
+import org.openclover.eclipse.testopt.TestOptimizationPlugin;
+import org.openclover.eclipse.testopt.TestOptimizationPluginMessages;
 
 public class OptimizedLaunchConfigurationTab extends AbstractLaunchConfigurationTab {
     private final IPreferenceStore preferenceStore = new PreferenceStore();

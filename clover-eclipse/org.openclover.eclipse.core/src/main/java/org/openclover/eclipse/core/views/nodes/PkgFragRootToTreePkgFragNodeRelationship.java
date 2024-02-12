@@ -1,14 +1,14 @@
 package org.openclover.eclipse.core.views.nodes;
 
-import org.openclover.eclipse.core.CloverPlugin;
-import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IPackageFragment;
+import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaModelException;
+import org.openclover.eclipse.core.CloverPlugin;
 
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class PkgFragRootToTreePkgFragNodeRelationship extends NodeRelationship {
     @Override

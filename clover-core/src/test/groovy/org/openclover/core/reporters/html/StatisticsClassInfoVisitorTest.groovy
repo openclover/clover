@@ -1,9 +1,9 @@
 package org.openclover.core.reporters.html
 
-import org.openclover.core.registry.entities.BaseClassInfo
-import org.openclover.core.registry.metrics.BlockMetrics
-import org.openclover.core.registry.entities.FullFileInfo
 import junit.framework.TestCase
+import org.openclover.core.registry.entities.BaseClassInfo
+import org.openclover.core.registry.entities.FullFileInfo
+import org.openclover.core.registry.metrics.BlockMetrics
 import org.openclover.core.registry.metrics.HasMetricsTestFixture
 
 import static org.openclover.core.util.Lists.newArrayList

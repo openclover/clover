@@ -1,7 +1,5 @@
 package org.openclover.core.instr.java;
 
-import org.openclover.core.instr.java.JavaTokenTypes;
-
 /**
  * Reads subsequent tokens from an expression and counts cyclomatic complexity for it.
  * Every "||" or "&amp;&amp;" adds 1 to complexity.

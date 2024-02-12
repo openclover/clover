@@ -1,8 +1,8 @@
 package org.openclover.core.instr.java
 
+import org.junit.Test
 import org.openclover.core.context.ContextSet
 import org.openclover.core.context.ContextStore
-import org.junit.Test
 
 import static org.junit.Assert.assertFalse
 import static org.junit.Assert.assertSame

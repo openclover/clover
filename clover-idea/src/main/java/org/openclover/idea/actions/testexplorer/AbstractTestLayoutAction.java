@@ -1,11 +1,11 @@
 package org.openclover.idea.actions.testexplorer;
 
+import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.ToggleAction;
 import org.openclover.idea.IProjectPlugin;
 import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.config.IdeaCloverConfig;
 import org.openclover.idea.config.TestCaseLayout;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.ToggleAction;
 
 public abstract class AbstractTestLayoutAction extends ToggleAction {
 

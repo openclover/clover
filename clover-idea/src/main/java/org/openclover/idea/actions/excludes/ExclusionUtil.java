@@ -1,7 +1,5 @@
 package org.openclover.idea.actions.excludes;
 
-import org.openclover.idea.util.vfs.VfsUtil;
-import org.openclover.idea.util.InclusionUtil;
 import com.intellij.openapi.fileTypes.FileTypeManager;
 import com.intellij.openapi.fileTypes.StdFileTypes;
 import com.intellij.openapi.module.ModuleUtil;
@@ -13,6 +11,8 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiPackage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.openclover.idea.util.InclusionUtil;
+import org.openclover.idea.util.vfs.VfsUtil;
 
 import java.util.Iterator;
 import java.util.List;

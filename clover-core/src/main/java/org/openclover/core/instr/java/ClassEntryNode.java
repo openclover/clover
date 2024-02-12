@@ -1,12 +1,12 @@
 package org.openclover.core.instr.java;
 
-import org.openclover.runtime.CloverNames;
 import org.openclover.core.context.ContextSet;
 import org.openclover.core.instr.tests.naming.JUnitParameterizedTestExtractor;
 import org.openclover.core.instr.tests.naming.SpockFeatureNameExtractor;
-import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.FixedSourceRegion;
+import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.Modifiers;
+import org.openclover.runtime.CloverNames;
 
 import java.util.List;
 import java.util.Map;

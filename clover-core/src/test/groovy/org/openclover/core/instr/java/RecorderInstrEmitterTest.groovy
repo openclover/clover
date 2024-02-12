@@ -1,14 +1,14 @@
 package org.openclover.core.instr.java
 
+import org.junit.Test
 import org.openclover.runtime.recorder.pertest.SnifferType
 import org.openclover.runtime.remote.DistributedConfig
 import org_openclover_runtime.CloverProfile
-import org.junit.Test
 
 import static org.hamcrest.CoreMatchers.containsString
+import static org.hamcrest.MatcherAssert.assertThat
 import static org.hamcrest.text.MatchesPattern.matchesPattern
 import static org.junit.Assert.assertEquals
-import static org.hamcrest.MatcherAssert.assertThat
 import static org.openclover.core.util.Lists.newArrayList
 
 /**

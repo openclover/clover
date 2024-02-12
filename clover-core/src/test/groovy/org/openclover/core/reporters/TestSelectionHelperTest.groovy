@@ -1,6 +1,5 @@
 package org.openclover.core.reporters
 
-import org.openclover.core.reporters.filters.AntPatternTestFilter
 import org.hamcrest.Description
 import org.junit.Before
 import org.junit.Test
@@ -8,6 +7,7 @@ import org.mockito.ArgumentMatcher
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
+import org.openclover.core.reporters.filters.AntPatternTestFilter
 
 import static org.mockito.Mockito.verifyZeroInteractions
 

@@ -2,9 +2,9 @@ package org.openclover.eclipse.core.ui.projects;
 
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.projects.model.DatabaseModel;
-import org.openclover.eclipse.core.projects.model.StableDatabaseModel;
-import org.openclover.eclipse.core.projects.model.LoadingDatabaseModel;
 import org.openclover.eclipse.core.projects.model.LoadedDatabaseModel;
+import org.openclover.eclipse.core.projects.model.LoadingDatabaseModel;
+import org.openclover.eclipse.core.projects.model.StableDatabaseModel;
 
 public class DatabaseChangeEvent {
     private final CloverProject project;

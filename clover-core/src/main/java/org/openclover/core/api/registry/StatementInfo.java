@@ -1,7 +1,7 @@
 package org.openclover.core.api.registry;
 
-import org.openclover.core.spi.lang.LanguageConstruct;
 import org.jetbrains.annotations.NotNull;
+import org.openclover.core.spi.lang.LanguageConstruct;
 
 /**
  * Represents a single statement.

@@ -1,16 +1,16 @@
 package org.openclover.eclipse.core.views.testcontributions;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.texteditor.ITextEditor;
-import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.IMemento;
+import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.PartInitException;
-import org.openclover.eclipse.core.views.widgets.ViewAlertContainer;
-import org.openclover.eclipse.core.views.CloverViewPart;
+import org.eclipse.ui.texteditor.ITextEditor;
 import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.views.CloverViewPart;
+import org.openclover.eclipse.core.views.widgets.ViewAlertContainer;
 
 public class TestContributionsView extends CloverViewPart {
     public static final String ID = CloverPlugin.ID + ".views.testcontributions";

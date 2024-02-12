@@ -1,10 +1,5 @@
 package org.openclover.eclipse.core.reports;
 
-import org.openclover.core.reporters.Current;
-import org.openclover.core.reporters.TestSelectionHelper;
-import org.openclover.eclipse.core.CloverPlugin;
-import org.openclover.eclipse.core.projects.CloverProject;
-import org.openclover.eclipse.core.projects.settings.ProjectSettings;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
@@ -25,12 +20,17 @@ import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 import org.eclipse.jdt.launching.IRuntimeClasspathEntry;
 import org.eclipse.jdt.launching.IVMInstall;
 import org.eclipse.jdt.launching.JavaRuntime;
+import org.openclover.core.reporters.Current;
+import org.openclover.core.reporters.TestSelectionHelper;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.projects.settings.ProjectSettings;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.ArrayList;
 
 import static org.openclover.core.util.Lists.newArrayList;
 

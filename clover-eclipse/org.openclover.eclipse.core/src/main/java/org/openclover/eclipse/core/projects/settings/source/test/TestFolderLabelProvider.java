@@ -1,10 +1,5 @@
 package org.openclover.eclipse.core.projects.settings.source.test;
 
-import org.openclover.eclipse.core.CloverPlugin;
-import org.openclover.eclipse.core.ui.CloverPluginIcons;
-import org.openclover.eclipse.core.projects.settings.source.InstrumentedSourceFoldersListener;
-import org.openclover.eclipse.core.projects.settings.source.SourceFolderPattern;
-import org.openclover.eclipse.core.projects.settings.source.SourceRootWithPattern;
 import org.eclipse.core.commands.common.EventManager;
 import org.eclipse.jface.resource.CompositeImageDescriptor;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -21,6 +16,11 @@ import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.settings.source.InstrumentedSourceFoldersListener;
+import org.openclover.eclipse.core.projects.settings.source.SourceFolderPattern;
+import org.openclover.eclipse.core.projects.settings.source.SourceRootWithPattern;
+import org.openclover.eclipse.core.ui.CloverPluginIcons;
 
 public class TestFolderLabelProvider extends EventManager implements ILabelProvider, IColorProvider, InstrumentedSourceFoldersListener {
     private final ImageRegistry imageRegistry;

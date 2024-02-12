@@ -7,10 +7,9 @@ import org.eclipse.jface.viewers.IDecoration;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ILightweightLabelDecorator;
 import org.eclipse.ui.PlatformUI;
-
 import org.openclover.eclipse.core.CloverPlugin;
-import org.openclover.eclipse.core.ui.CloverPluginIcons;
 import org.openclover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.ui.CloverPluginIcons;
 
 public class ExclusionLabelDecorator implements ILightweightLabelDecorator {
 

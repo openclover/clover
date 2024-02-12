@@ -1,9 +1,9 @@
 package org.openclover.core.registry;
 
+import org.openclover.core.context.ContextStore;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.registry.metrics.HasMetricsFilter;
-import org.openclover.core.context.ContextStore;
 
 import java.util.List;
 

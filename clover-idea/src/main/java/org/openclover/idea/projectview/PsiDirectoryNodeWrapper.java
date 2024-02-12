@@ -1,11 +1,11 @@
 package org.openclover.idea.projectview;
 
-import org.openclover.idea.IProjectPlugin;
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode;
 import com.intellij.ide.util.treeView.AbstractTreeNode;
 import com.intellij.openapi.module.ModuleUtil;
 import com.intellij.psi.PsiDirectory;
+import org.openclover.idea.IProjectPlugin;
 import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.feature.CloverFeatures;
 

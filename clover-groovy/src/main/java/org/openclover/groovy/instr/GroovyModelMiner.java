@@ -1,11 +1,5 @@
 package org.openclover.groovy.instr;
 
-import org.openclover.core.registry.PersistentAnnotationValue;
-import org.openclover.core.registry.entities.AnnotationImpl;
-import org.openclover.core.registry.entities.ArrayAnnotationValue;
-import org.openclover.core.registry.entities.MethodSignature;
-import org.openclover.core.registry.entities.Modifiers;
-import org.openclover.core.registry.entities.StringifiedAnnotationValue;
 import org.codehaus.groovy.ast.AnnotatedNode;
 import org.codehaus.groovy.ast.AnnotationNode;
 import org.codehaus.groovy.ast.ClassNode;
@@ -16,6 +10,12 @@ import org.codehaus.groovy.ast.expr.ClassExpression;
 import org.codehaus.groovy.ast.expr.ConstantExpression;
 import org.codehaus.groovy.ast.expr.Expression;
 import org.codehaus.groovy.ast.expr.ListExpression;
+import org.openclover.core.registry.PersistentAnnotationValue;
+import org.openclover.core.registry.entities.AnnotationImpl;
+import org.openclover.core.registry.entities.ArrayAnnotationValue;
+import org.openclover.core.registry.entities.MethodSignature;
+import org.openclover.core.registry.entities.Modifiers;
+import org.openclover.core.registry.entities.StringifiedAnnotationValue;
 
 import java.util.ArrayList;
 import java.util.HashMap;

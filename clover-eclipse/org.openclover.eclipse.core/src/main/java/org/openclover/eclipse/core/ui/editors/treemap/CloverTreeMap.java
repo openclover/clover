@@ -1,27 +1,26 @@
 package org.openclover.eclipse.core.ui.editors.treemap;
 
-import org.openclover.core.api.registry.PackageInfo;
 import net.sf.jtreemap.ktreemap.KTreeMap;
 import net.sf.jtreemap.ktreemap.TreeMapNode;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.graphics.GC;
-import org.eclipse.swt.graphics.FontMetrics;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IType;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.graphics.FontMetrics;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchPartSite;
-import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.jface.viewers.StructuredSelection;
+import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.views.actions.OpenJavaEditorAction;
 
 import java.util.List;
-
-import org.openclover.eclipse.core.views.actions.OpenJavaEditorAction;
-import org.openclover.eclipse.core.CloverPlugin;
-import org.openclover.core.api.registry.HasMetrics;
 
 public class CloverTreeMap extends KTreeMap {
     private OpenJavaEditorAction openEditorAction;

@@ -3,8 +3,8 @@ package org.openclover.runtime.remote;
 import org.openclover.runtime.Logger;
 
 import java.io.Serializable;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.SortedSet;
 import java.util.StringTokenizer;
 import java.util.TreeSet;

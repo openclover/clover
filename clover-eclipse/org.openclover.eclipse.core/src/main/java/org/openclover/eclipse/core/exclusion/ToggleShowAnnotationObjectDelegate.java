@@ -2,7 +2,6 @@ package org.openclover.eclipse.core.exclusion;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
-
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.settings.InstallationSettings;
 

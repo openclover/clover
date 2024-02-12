@@ -1,20 +1,20 @@
 package org.openclover.core.util;
 
+import org.openclover.core.CloverDatabase;
+import org.openclover.core.CoverageDataSpec;
 import org.openclover.core.api.registry.BranchInfo;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.SourceInfo;
-import org.openclover.core.CloverDatabase;
-import org.openclover.core.CoverageDataSpec;
 import org.openclover.core.api.registry.StatementInfo;
 import org.openclover.core.cfg.Interval;
-import org.openclover.runtime.Logger;
-import org.openclover.runtime.RecorderLogging;
-import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.Clover2Registry;
+import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.runtime.Logger;
+import org.openclover.runtime.RecorderLogging;
 
 import java.text.DateFormat;
 import java.util.List;

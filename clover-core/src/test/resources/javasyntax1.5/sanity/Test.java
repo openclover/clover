@@ -1,9 +1,10 @@
 package sanity;
 
-import java.util.LinkedList;
 import java.util.Collections;
+import java.util.LinkedList;
 
-import static java.lang.Math.*;
+import static java.lang.Math.PI;
+import static java.lang.Math.sin;
 
 class Test {
 

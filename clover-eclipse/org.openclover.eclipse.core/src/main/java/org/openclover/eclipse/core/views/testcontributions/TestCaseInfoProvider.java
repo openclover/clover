@@ -1,14 +1,14 @@
 package org.openclover.eclipse.core.views.testcontributions;
 
-import org.openclover.core.api.registry.ClassInfo;
-import org.openclover.core.registry.entities.FullClassInfo;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
+import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.TestCaseInfo;
 
-import java.util.Set;
-import java.util.HashSet;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 public class TestCaseInfoProvider implements ITreeContentProvider {
     protected Set<TestCaseInfo> testCases = Collections.emptySet();

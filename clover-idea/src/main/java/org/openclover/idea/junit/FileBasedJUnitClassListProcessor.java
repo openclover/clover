@@ -1,12 +1,12 @@
 package org.openclover.idea.junit;
 
-import org.openclover.runtime.Logger;
-import org.openclover.idea.junit.config.OptimizedConfigurationSettings;
 import com.intellij.openapi.progress.ProcessCanceledException;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
+import org.openclover.idea.junit.config.OptimizedConfigurationSettings;
+import org.openclover.runtime.Logger;
 
 import java.io.File;
 import java.io.IOException;

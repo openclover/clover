@@ -1,5 +1,7 @@
 package org.openclover.core.instr.tests.naming;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.openclover.core.api.registry.Annotation;
 import org.openclover.core.api.registry.AnnotationValue;
 import org.openclover.core.api.registry.ClassInfo;
@@ -8,8 +10,6 @@ import org.openclover.core.api.registry.ModifiersInfo;
 import org.openclover.core.instr.tests.TestAnnotationNames;
 import org.openclover.core.registry.entities.MethodSignature;
 import org.openclover.core.registry.entities.StringifiedAnnotationValue;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Modifier;
 import java.util.Collection;

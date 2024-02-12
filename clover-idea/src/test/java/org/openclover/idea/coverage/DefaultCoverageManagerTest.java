@@ -1,14 +1,14 @@
 package org.openclover.idea.coverage;
 
+import com.intellij.testFramework.LightIdeaTestCase;
+import com.intellij.util.ui.UIUtil;
 import org.openclover.core.CloverDatabase;
-import org.openclover.idea.ProjectPlugin;
-import org.openclover.idea.config.IdeaCloverConfig;
-import org.openclover.idea.util.ModelScope;
 import org.openclover.core.api.registry.BlockMetrics;
 import org.openclover.core.registry.metrics.HasMetricsFilter;
 import org.openclover.core.reporters.filters.DefaultTestFilter;
-import com.intellij.testFramework.LightIdeaTestCase;
-import com.intellij.util.ui.UIUtil;
+import org.openclover.idea.ProjectPlugin;
+import org.openclover.idea.config.IdeaCloverConfig;
+import org.openclover.idea.util.ModelScope;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.util.concurrent.CountDownLatch;

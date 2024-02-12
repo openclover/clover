@@ -1,11 +1,11 @@
 package org.openclover.eclipse.testopt.settings;
 
-import org.openclover.eclipse.testopt.TestOptimizationPlugin;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
+import org.openclover.eclipse.testopt.TestOptimizationPlugin;
 
 public class TestOptimizationGlobalPreferencesPage extends PreferencePage implements IWorkbenchPreferencePage {
     private TestOptimizationPreferencesControl control;

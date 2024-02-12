@@ -1,7 +1,7 @@
 package org.openclover.core.registry.entities;
 
-import org.openclover.core.recorder.PerTestRecordingTranscript;
 import org.jetbrains.annotations.Nullable;
+import org.openclover.core.recorder.PerTestRecordingTranscript;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

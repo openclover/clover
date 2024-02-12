@@ -1,9 +1,9 @@
 package org.openclover.eclipse.core;
 
-import org.openclover.runtime.Logger;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.ILog;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.openclover.runtime.Logger;
 
 /**
  * Adapts the Eclipse platform logging to a Clover logger

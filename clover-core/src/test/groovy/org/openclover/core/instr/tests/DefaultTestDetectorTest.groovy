@@ -1,5 +1,9 @@
 package org.openclover.core.instr.tests
 
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
+import org.junit.rules.TestName
 import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig
 import org.openclover.core.cfg.instr.java.SourceLevel
 import org.openclover.core.instr.java.FileStructureInfo
@@ -13,10 +17,6 @@ import org.openclover.core.registry.entities.MethodSignature
 import org.openclover.core.registry.entities.Modifiers
 import org.openclover.core.registry.entities.Parameter
 import org.openclover.core.registry.entities.StringifiedAnnotationValue
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
-import org.junit.rules.TestName
 
 import java.lang.reflect.Modifier
 

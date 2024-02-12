@@ -4,9 +4,9 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IPackageFragment;
 
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
-import java.util.LinkedHashSet;
 
 public abstract class PackageFragmentNode extends JavaElementNode {
     protected String name;

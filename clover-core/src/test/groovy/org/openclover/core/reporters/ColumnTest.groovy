@@ -1,12 +1,12 @@
 package org.openclover.core.reporters
 
-import org.openclover.runtime.Logger
-import org.openclover.runtime.api.CloverException
+import org.junit.Test
 import org.openclover.core.registry.metrics.BlockMetrics
 import org.openclover.core.registry.metrics.ClassMetrics
 import org.openclover.core.reporters.html.HtmlReporter
+import org.openclover.runtime.Logger
+import org.openclover.runtime.api.CloverException
 import org.openclover.runtime.util.Formatting
-import org.junit.Test
 
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertFalse

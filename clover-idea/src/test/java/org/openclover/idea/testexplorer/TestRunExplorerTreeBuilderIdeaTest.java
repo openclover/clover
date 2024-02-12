@@ -1,14 +1,14 @@
 package org.openclover.idea.testexplorer;
 
-import org.openclover.core.CloverDatabase;
-import org.openclover.core.CoverageDataSpec;
-import org.openclover.runtime.api.CloverException;
-import org.openclover.core.registry.entities.FullClassInfo;
-import org.openclover.idea.coverage.CoverageManager;
-import org.openclover.core.registry.entities.FullProjectInfo;
-import org.openclover.core.reporters.filters.DefaultTestFilter;
 import com.intellij.testFramework.LightIdeaTestCase;
 import org.mockito.Mockito;
+import org.openclover.core.CloverDatabase;
+import org.openclover.core.CoverageDataSpec;
+import org.openclover.core.registry.entities.FullClassInfo;
+import org.openclover.core.registry.entities.FullProjectInfo;
+import org.openclover.core.reporters.filters.DefaultTestFilter;
+import org.openclover.idea.coverage.CoverageManager;
+import org.openclover.runtime.api.CloverException;
 
 import java.util.Collection;
 

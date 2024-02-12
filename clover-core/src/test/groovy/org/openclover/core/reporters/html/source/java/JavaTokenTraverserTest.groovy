@@ -1,8 +1,8 @@
 package org.openclover.core.reporters.html.source.java
 
 import clover.antlr.TokenStreamException
-import org.openclover.core.util.UnicodeDecodingReader
 import org.junit.Test
+import org.openclover.core.util.UnicodeDecodingReader
 
 import static org.hamcrest.CoreMatchers.anyOf
 import static org.hamcrest.CoreMatchers.equalTo

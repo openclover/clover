@@ -1,16 +1,16 @@
-package org.openclover.core.recorder;
+package org.openclover.core.recorder
 
-import org_openclover_runtime.CloverProfile;
-import org_openclover_runtime.CoverageRecorder;
 import org.junit.Test
 import org.openclover.runtime.recorder.FileBasedPerTestRecording
 import org.openclover.runtime.recorder.FixedSizeCoverageRecorder
 import org.openclover.runtime.recorder.GrowableCoverageRecorder
 import org.openclover.runtime.recorder.SharedCoverageRecorder
-import org.openclover.runtime.recorder.ThreadVisibilityStrategy;
+import org.openclover.runtime.recorder.ThreadVisibilityStrategy
+import org_openclover_runtime.CloverProfile
+import org_openclover_runtime.CoverageRecorder
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse
+import static org.junit.Assert.assertTrue
 
 /**
  * Very basic tests for different thread visibility strategies:

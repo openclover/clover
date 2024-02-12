@@ -1,7 +1,10 @@
 package com.cenqua.clover.testcases.testoptimization;
 
 import junit.framework.TestCase;
-import java.io.*;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 
 public class AlwaysFailingTest extends TestCase {
     public AlwaysFailingTest(String name) {

@@ -1,7 +1,7 @@
 package org.openclover.functest.ant.testutils
 
-import org.openclover.core.api.registry.SourceInfo
 import groovy.transform.CompileStatic
+import org.openclover.core.api.registry.SourceInfo
 
 @CompileStatic
 class MutableSourceRegion implements SourceInfo {

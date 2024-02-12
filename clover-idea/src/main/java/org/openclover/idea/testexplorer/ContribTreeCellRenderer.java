@@ -1,7 +1,7 @@
 package org.openclover.idea.testexplorer;
 
-import org.openclover.idea.report.jfc.HasMetricsTreeCellRenderer;
 import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.idea.report.jfc.HasMetricsTreeCellRenderer;
 
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;

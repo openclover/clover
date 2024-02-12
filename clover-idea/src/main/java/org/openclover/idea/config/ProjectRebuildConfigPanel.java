@@ -1,7 +1,7 @@
 package org.openclover.idea.config;
 
-import org.openclover.idea.util.ui.RichLabel;
 import com.intellij.openapi.ui.VerticalFlowLayout;
+import org.openclover.idea.util.ui.RichLabel;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JLabel;

@@ -1,10 +1,9 @@
 package org.openclover.core
 
 import org.junit.Test
+import org.openclover.core.util.PrecannedClassLoader
 
 import java.lang.reflect.Field
-
-import org.openclover.core.util.PrecannedClassLoader
 
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertFalse

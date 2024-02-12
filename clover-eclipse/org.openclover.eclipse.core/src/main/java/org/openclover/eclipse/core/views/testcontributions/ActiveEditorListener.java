@@ -1,12 +1,12 @@
 package org.openclover.eclipse.core.views.testcontributions;
 
-import org.eclipse.ui.IWindowListener;
 import org.eclipse.ui.IPartListener2;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.IWorkbenchPartReference;
+import org.eclipse.ui.IWindowListener;
 import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.texteditor.ITextEditor;
+import org.eclipse.ui.IWorkbenchPartReference;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.services.IDisposable;
+import org.eclipse.ui.texteditor.ITextEditor;
 
 public class ActiveEditorListener implements IWindowListener, IPartListener2, IDisposable {
     private final IWorkbench workbench;

@@ -1,12 +1,12 @@
 package org.openclover.eclipse.core.views;
 
-import org.openclover.core.reporters.Column;
-import org.openclover.core.util.MetricsFormatUtils;
-import org.openclover.eclipse.core.views.widgets.ListeningRenderer;
-import org.openclover.eclipse.core.views.coverageexplorer.MetricsPcCellRenderer;
-import org.openclover.eclipse.core.projects.model.MetricsScope;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
+import org.openclover.core.reporters.Column;
+import org.openclover.core.util.MetricsFormatUtils;
+import org.openclover.eclipse.core.projects.model.MetricsScope;
+import org.openclover.eclipse.core.views.coverageexplorer.MetricsPcCellRenderer;
+import org.openclover.eclipse.core.views.widgets.ListeningRenderer;
 
 public class BuiltinPcMetricsColumnDefinition extends BuiltinMetricsColumnDefinition {
     public BuiltinPcMetricsColumnDefinition(Column prototype, String abbreviatedTitle, int requiredIndex, int style) {

@@ -1,7 +1,5 @@
 package org.openclover.idea.build.jps;
 
-import org.openclover.idea.config.IdeaXmlConfigConstants;
-import org.openclover.idea.config.CloverGlobalConfig;
 import org.jdom.Element;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.jps.model.JpsElement;
@@ -10,6 +8,8 @@ import org.jetbrains.jps.model.JpsElementFactory;
 import org.jetbrains.jps.model.JpsGlobal;
 import org.jetbrains.jps.model.JpsSimpleElement;
 import org.jetbrains.jps.model.serialization.JpsGlobalExtensionSerializer;
+import org.openclover.idea.config.CloverGlobalConfig;
+import org.openclover.idea.config.IdeaXmlConfigConstants;
 
 /**
  * Serialization of settings from global configuration files (i.e. stored per IDEA installation).

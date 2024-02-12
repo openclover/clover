@@ -1,9 +1,9 @@
 package org.openclover.idea.util.tasks;
 
-import org.openclover.idea.util.MiscUtils;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.testFramework.LightIdeaTestCase;
 import org.jetbrains.annotations.NotNull;
+import org.openclover.idea.util.MiscUtils;
 
 import java.util.Collections;
 import java.util.List;

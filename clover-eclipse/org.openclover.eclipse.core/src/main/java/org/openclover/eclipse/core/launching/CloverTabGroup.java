@@ -1,6 +1,5 @@
 package org.openclover.eclipse.core.launching;
 
-import org.openclover.eclipse.core.CloverPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExecutableExtension;
@@ -12,6 +11,7 @@ import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.ui.ILaunchConfigurationDialog;
 import org.eclipse.debug.ui.ILaunchConfigurationTab;
 import org.eclipse.debug.ui.ILaunchConfigurationTabGroup;
+import org.openclover.eclipse.core.CloverPlugin;
 
 public class CloverTabGroup implements ILaunchConfigurationTabGroup, IExecutableExtension {
     private static final String LAUNCH_TABGROUPS_EXTENSION = "org.eclipse.debug.ui.launchConfigurationTabGroups";

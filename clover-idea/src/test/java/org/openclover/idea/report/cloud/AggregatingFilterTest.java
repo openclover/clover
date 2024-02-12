@@ -1,10 +1,10 @@
 package org.openclover.idea.report.cloud;
 
+import junit.framework.TestCase;
+import org.mockito.Mockito;
 import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.metrics.ClassMetrics;
-import junit.framework.TestCase;
-import org.mockito.Mockito;
 
 import java.util.HashMap;
 import java.util.Map;

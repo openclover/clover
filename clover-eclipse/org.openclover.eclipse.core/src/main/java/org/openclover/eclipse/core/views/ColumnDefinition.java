@@ -1,16 +1,15 @@
 package org.openclover.eclipse.core.views;
 
-import org.eclipse.swt.widgets.Composite;
+import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.jface.viewers.ILabelProvider;
-
-import java.util.WeakHashMap;
-import java.util.Comparator;
-
+import org.eclipse.swt.widgets.Composite;
+import org.openclover.eclipse.core.projects.model.MetricsScope;
 import org.openclover.eclipse.core.views.widgets.ListeningRenderer;
 import org.openclover.eclipse.core.views.widgets.SelectionAwareCellRenderer;
-import org.openclover.eclipse.core.projects.model.MetricsScope;
+
+import java.util.Comparator;
+import java.util.WeakHashMap;
 
 public abstract class ColumnDefinition {
     public static final int ANY_COLUMN = -1;

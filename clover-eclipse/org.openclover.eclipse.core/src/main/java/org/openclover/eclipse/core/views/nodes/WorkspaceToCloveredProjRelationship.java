@@ -1,12 +1,12 @@
 package org.openclover.eclipse.core.views.nodes;
 
-import org.openclover.eclipse.core.projects.CloverProject;
-import org.openclover.eclipse.core.CloverPlugin;
-import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspace;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.CloverProject;
 
-import java.util.List;
 import java.util.Iterator;
+import java.util.List;
 
 import static org.openclover.core.util.Lists.newArrayList;
 

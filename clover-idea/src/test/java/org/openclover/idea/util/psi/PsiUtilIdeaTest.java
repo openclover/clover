@@ -1,6 +1,5 @@
 package org.openclover.idea.util.psi;
 
-import org.openclover.idea.util.psi.PsiUtil;
 import com.intellij.psi.JavaDirectoryService;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiDirectory;

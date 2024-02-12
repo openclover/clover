@@ -1,7 +1,5 @@
 package org.openclover.idea.util.tasks;
 
-import org.openclover.runtime.Logger;
-import org.openclover.idea.util.MiscUtils;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.progress.ProcessCanceledException;
 import com.intellij.openapi.progress.ProgressIndicator;
@@ -9,6 +7,8 @@ import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.openclover.idea.util.MiscUtils;
+import org.openclover.runtime.Logger;
 
 public class CancellableTask extends Task.Backgroundable {
     private final CancellableTaskDelegate delegate;

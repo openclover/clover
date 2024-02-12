@@ -1,20 +1,20 @@
 package org.openclover.ant.tasks;
 
 import clover.org.apache.commons.lang3.StringUtils;
-import org.openclover.runtime.Logger;
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.types.FileSet;
 import org.openclover.ant.AntCloverProfile;
 import org.openclover.ant.AntCloverProfiles;
-import org.openclover.runtime.api.CloverException;
 import org.openclover.core.cfg.instr.InstrumentationLevel;
 import org.openclover.core.cfg.instr.MethodContextDef;
 import org.openclover.core.cfg.instr.StatementContextDef;
 import org.openclover.core.cfg.instr.java.LambdaInstrumentation;
 import org.openclover.core.cfg.instr.java.SourceLevel;
 import org.openclover.core.context.ContextStore;
+import org.openclover.runtime.Logger;
+import org.openclover.runtime.api.CloverException;
 import org.openclover.runtime.remote.DistributedConfig;
 import org_openclover_runtime.CloverProfile;
-import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.types.FileSet;
 
 
 public abstract class AbstractInstrTask extends AbstractCloverTask {

@@ -1,12 +1,12 @@
 package org.openclover.idea.config.regexp;
 
+import com.intellij.openapi.ui.Messages;
+import com.intellij.ui.DocumentAdapter;
 import org.openclover.idea.config.ContextFilterRegexpType;
 import org.openclover.idea.config.GBC;
 import org.openclover.idea.util.ComparatorUtil;
 import org.openclover.idea.util.l10n.CloverIdeaPluginMessages;
 import org.openclover.idea.util.ui.CloverIcons;
-import com.intellij.openapi.ui.Messages;
-import com.intellij.ui.DocumentAdapter;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -15,10 +15,8 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Observable;

@@ -1,15 +1,15 @@
 package org.openclover.idea.actions.cloudreport;
 
-import org.openclover.core.registry.entities.FullPackageInfo;
-import org.openclover.idea.actions.Constants;
-import org.openclover.idea.report.cloud.CloudVirtualFile;
-import org.openclover.core.api.registry.HasMetrics;
-import org.openclover.core.registry.entities.PackageFragment;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
+import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.registry.entities.FullPackageInfo;
+import org.openclover.core.registry.entities.PackageFragment;
+import org.openclover.idea.actions.Constants;
+import org.openclover.idea.report.cloud.CloudVirtualFile;
 
 public class CloudPackageReportAction extends AnAction {
     @Override

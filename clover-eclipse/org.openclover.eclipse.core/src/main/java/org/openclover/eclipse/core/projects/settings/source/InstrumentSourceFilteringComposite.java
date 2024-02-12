@@ -1,13 +1,5 @@
 package org.openclover.eclipse.core.projects.settings.source;
 
-import org.openclover.eclipse.core.CloverEclipsePluginMessages;
-import org.openclover.eclipse.core.CloverPlugin;
-import org.openclover.eclipse.core.ui.GLH;
-import org.openclover.eclipse.core.ui.SwtUtils;
-import org.openclover.eclipse.core.projects.settings.ProjectPropertyPage;
-import org.openclover.eclipse.core.projects.settings.ProjectSettings;
-import org.openclover.eclipse.core.settings.InstallationSettings;
-import org.openclover.eclipse.core.ui.widgets.MessageDialogWithCheckbox;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -18,6 +10,14 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.openclover.eclipse.core.CloverEclipsePluginMessages;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.settings.ProjectPropertyPage;
+import org.openclover.eclipse.core.projects.settings.ProjectSettings;
+import org.openclover.eclipse.core.settings.InstallationSettings;
+import org.openclover.eclipse.core.ui.GLH;
+import org.openclover.eclipse.core.ui.SwtUtils;
+import org.openclover.eclipse.core.ui.widgets.MessageDialogWithCheckbox;
 
 public class InstrumentSourceFilteringComposite extends Composite {
     private final Button filterFoldersAllButton;

@@ -1,8 +1,5 @@
 package org.openclover.runtime.recorder.junit;
 
-import org.openclover.runtime.Logger;
-import org.openclover.runtime.recorder.TestNameSnifferHelper;
-import org_openclover_runtime.TestNameSniffer;
 import org.junit.platform.engine.TestExecutionResult;
 import org.junit.platform.engine.TestSource;
 import org.junit.platform.engine.support.descriptor.ClassSource;
@@ -10,6 +7,9 @@ import org.junit.platform.engine.support.descriptor.MethodSource;
 import org.junit.platform.launcher.TestExecutionListener;
 import org.junit.platform.launcher.TestIdentifier;
 import org.junit.platform.launcher.TestPlan;
+import org.openclover.runtime.Logger;
+import org.openclover.runtime.recorder.TestNameSnifferHelper;
+import org_openclover_runtime.TestNameSniffer;
 
 import java.util.Optional;
 

@@ -1,10 +1,10 @@
 package org.openclover.functest.ant.tasks
 
+import groovy.transform.CompileStatic
 import org.openclover.core.CloverDatabase
 import org.openclover.core.CoverageDataSpec
-import org.openclover.runtime.api.CloverException
 import org.openclover.core.optimization.Snapshot
-import groovy.transform.CompileStatic
+import org.openclover.runtime.api.CloverException
 
 @CompileStatic
 class CloverCleanTaskTest extends CloverBuildFileTestBase {

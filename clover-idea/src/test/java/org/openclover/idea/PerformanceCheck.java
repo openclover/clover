@@ -1,15 +1,15 @@
 package org.openclover.idea;
 
-import org.openclover.core.CloverDatabase;
-import org.openclover.core.recorder.PerTestCoverage;
-import org.openclover.core.ProgressListener;
-import org.openclover.core.registry.entities.FullProjectInfo;
-import org.openclover.idea.util.ModelScope;
-import org.openclover.idea.coverage.CoverageTreeModel;
-import org.openclover.idea.testexplorer.DecoratedTestCaseInfo;
 import com.intellij.openapi.application.ModalityState;
 import com.intellij.openapi.progress.ProcessCanceledException;
 import com.intellij.openapi.progress.ProgressIndicator;
+import org.openclover.core.CloverDatabase;
+import org.openclover.core.ProgressListener;
+import org.openclover.core.recorder.PerTestCoverage;
+import org.openclover.core.registry.entities.FullProjectInfo;
+import org.openclover.idea.coverage.CoverageTreeModel;
+import org.openclover.idea.testexplorer.DecoratedTestCaseInfo;
+import org.openclover.idea.util.ModelScope;
 
 import java.text.DecimalFormat;
 import java.util.BitSet;

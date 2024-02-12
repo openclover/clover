@@ -1,8 +1,8 @@
 package org.openclover.eclipse.core.projects;
 
-import org.eclipse.ui.model.WorkbenchLabelProvider;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.ui.model.WorkbenchLabelProvider;
 
 public class CloveredProjectLabelProvider extends WorkbenchLabelProvider {
     @Override

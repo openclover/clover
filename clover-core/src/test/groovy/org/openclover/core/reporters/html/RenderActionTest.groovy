@@ -1,14 +1,14 @@
 package org.openclover.core.reporters.html
 
 import clover.org.apache.velocity.VelocityContext
-import org.openclover.core.registry.metrics.BlockMetrics
+import junit.framework.TestCase
+import org.openclover.core.TestUtils
 import org.openclover.core.registry.entities.FullProjectInfo
+import org.openclover.core.registry.metrics.BlockMetrics
+import org.openclover.core.registry.metrics.HasMetricsTestFixture
 import org.openclover.core.reporters.Column
 import org.openclover.core.reporters.Current
 import org.openclover.core.reporters.util.CloverChartFactory
-import junit.framework.TestCase
-import org.openclover.core.TestUtils
-import org.openclover.core.registry.metrics.HasMetricsTestFixture
 
 class RenderActionTest extends TestCase {
 

@@ -4,8 +4,8 @@ import org.openclover.core.api.optimization.Optimizable;
 import org.openclover.core.api.optimization.OptimizationOptions;
 import org.openclover.core.registry.Clover2Registry;
 import org.openclover.core.util.collections.Pair;
-import org.openclover.runtime.api.CloverException;
 import org.openclover.runtime.Logger;
+import org.openclover.runtime.api.CloverException;
 
 import java.io.File;
 import java.util.ArrayList;

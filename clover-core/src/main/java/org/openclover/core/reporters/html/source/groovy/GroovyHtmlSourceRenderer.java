@@ -1,10 +1,10 @@
 package org.openclover.core.reporters.html.source.groovy;
 
 import org.openclover.core.registry.entities.FullFileInfo;
+import org.openclover.core.reporters.html.source.java.JavaHtmlSourceRenderer;
 import org.openclover.core.spi.reporters.html.source.HtmlRenderingSupport;
 import org.openclover.core.spi.reporters.html.source.LineRenderInfo;
 import org.openclover.core.spi.reporters.html.source.SourceReportCss;
-import org.openclover.core.reporters.html.source.java.JavaHtmlSourceRenderer;
 
 import java.util.List;
 

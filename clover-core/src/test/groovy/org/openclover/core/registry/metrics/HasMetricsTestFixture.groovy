@@ -1,6 +1,6 @@
 package org.openclover.core.registry.metrics
 
-import org.openclover.runtime.api.registry.CloverRegistryException
+import org.openclover.core.TestUtils
 import org.openclover.core.api.registry.SourceInfo
 import org.openclover.core.context.ContextSet
 import org.openclover.core.context.ContextStore
@@ -19,7 +19,7 @@ import org.openclover.core.registry.entities.FullStatementInfo
 import org.openclover.core.registry.entities.MethodSignature
 import org.openclover.core.registry.entities.Modifiers
 import org.openclover.core.spi.lang.LanguageConstruct
-import org.openclover.core.TestUtils
+import org.openclover.runtime.api.registry.CloverRegistryException
 
 class HasMetricsTestFixture {
     FullProjectInfo projectInfo

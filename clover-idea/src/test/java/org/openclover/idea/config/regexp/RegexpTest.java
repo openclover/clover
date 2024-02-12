@@ -1,9 +1,9 @@
 package org.openclover.idea.config.regexp;
 
-import org.openclover.idea.config.ContextFilterRegexpType;
+import junit.framework.TestCase;
 import org.openclover.core.context.MethodRegexpContext;
 import org.openclover.core.context.StatementRegexpContext;
-import junit.framework.TestCase;
+import org.openclover.idea.config.ContextFilterRegexpType;
 
 import java.util.regex.Pattern;
 

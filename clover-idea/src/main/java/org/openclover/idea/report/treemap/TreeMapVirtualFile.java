@@ -1,10 +1,10 @@
 package org.openclover.idea.report.treemap;
 
-import org.openclover.idea.coverage.CoverageManager;
-import org.openclover.idea.ProjectPlugin;
-import org.openclover.idea.util.vfs.DummyVirtualFile;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Key;
+import org.openclover.idea.ProjectPlugin;
+import org.openclover.idea.coverage.CoverageManager;
+import org.openclover.idea.util.vfs.DummyVirtualFile;
 
 public class TreeMapVirtualFile extends DummyVirtualFile {
     private static final Key<TreeMapVirtualFile> FILE_KEY = Key.create(TreeMapVirtualFile.class.getName());

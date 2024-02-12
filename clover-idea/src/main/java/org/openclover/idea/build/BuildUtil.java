@@ -1,9 +1,9 @@
 package org.openclover.idea.build;
 
+import com.intellij.openapi.project.Project;
 import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig;
 import org.openclover.core.cfg.instr.java.SourceLevel;
 import org.openclover.idea.config.CloverPluginConfig;
-import com.intellij.openapi.project.Project;
 
 import java.io.File;
 

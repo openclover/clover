@@ -3,10 +3,6 @@
  */
 package org.openclover.eclipse.core.views.dashboard;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
-import org.openclover.eclipse.core.CloverEclipsePluginMessages;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
@@ -32,7 +28,7 @@ import org.eclipse.ui.part.IShowInSource;
 import org.eclipse.ui.part.IShowInTarget;
 import org.eclipse.ui.part.ShowInContext;
 import org.eclipse.ui.texteditor.ITextEditor;
-
+import org.openclover.eclipse.core.CloverEclipsePluginMessages;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.ui.editors.cloud.CloudEditor;
@@ -40,6 +36,9 @@ import org.openclover.eclipse.core.ui.editors.cloud.CloudProjectInput;
 import org.openclover.eclipse.core.views.actions.GenerateCloudJob;
 import org.openclover.eclipse.core.views.coverageexplorer.CoverageView;
 import org.openclover.eclipse.core.views.testrunexplorer.TestRunExplorerView;
+
+import java.net.URI;
+import java.net.URISyntaxException;
 
 final class DashboardLocationListener extends LocationAdapter {
     /**

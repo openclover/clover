@@ -2,11 +2,6 @@ package org.openclover.idea.build.jps;
 
 import clover.antlr.RecognitionException;
 import clover.antlr.TokenStreamException;
-import org.openclover.runtime.api.CloverException;
-import org.openclover.core.cfg.instr.java.SourceLevel;
-import org.openclover.core.instr.java.Instrumenter;
-import org.openclover.idea.build.InclusionDetector;
-import org.openclover.core.util.trie.Node;
 import com.intellij.openapi.diagnostic.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.jps.builders.java.JavaSourceTransformer;
@@ -15,6 +10,11 @@ import org.jetbrains.jps.model.JpsEncodingConfigurationService;
 import org.jetbrains.jps.model.JpsEncodingProjectConfiguration;
 import org.jetbrains.jps.model.JpsProject;
 import org.jetbrains.jps.model.java.LanguageLevel;
+import org.openclover.core.cfg.instr.java.SourceLevel;
+import org.openclover.core.instr.java.Instrumenter;
+import org.openclover.core.util.trie.Node;
+import org.openclover.idea.build.InclusionDetector;
+import org.openclover.runtime.api.CloverException;
 
 import java.io.File;
 import java.io.FileOutputStream;

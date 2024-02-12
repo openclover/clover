@@ -1,19 +1,18 @@
 package org.openclover.eclipse.core.views.dashboard;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-
 import clover.org.apache.velocity.VelocityContext;
 import clover.org.apache.velocity.app.Velocity;
 import clover.org.apache.velocity.app.VelocityEngine;
-
 import org.openclover.core.CloverDatabase;
-import org.openclover.runtime.Logger;
 import org.openclover.core.reporters.Current;
 import org.openclover.core.reporters.html.HtmlReportUtil;
 import org.openclover.core.reporters.html.VelocityLogAdapter;
 import org.openclover.core.util.FileUtils;
+import org.openclover.runtime.Logger;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
 
 public class DashboardGenerator {
     private static final String DASHBOARD_FILE = "dashboard-eclipse.html";

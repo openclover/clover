@@ -1,10 +1,5 @@
 package org.openclover.eclipse.core.views.testcontributions;
 
-import org.openclover.core.api.registry.ClassInfo;
-import org.openclover.eclipse.core.CloverPlugin;
-import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotationModel;
-import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotationFilter;
-import org.openclover.core.registry.entities.TestCaseInfo;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
@@ -17,8 +12,13 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
-import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.IMemento;
+import org.eclipse.ui.part.ViewPart;
+import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotationFilter;
+import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotationModel;
 
 import java.util.Set;
 

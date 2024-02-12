@@ -1,5 +1,6 @@
 package org.openclover.functest.ant.groovy
 
+import groovy.transform.CompileStatic
 import org.openclover.buildutil.test.junit.AntVersions
 import org.openclover.buildutil.test.junit.DynamicallyNamedTestBase
 import org.openclover.buildutil.test.junit.GroovyVersions
@@ -7,7 +8,6 @@ import org.openclover.groovy.test.junit.JavaExecutorMixin
 import org.openclover.groovy.test.junit.TestPropertyMixin
 import org.openclover.groovy.test.junit.WorkingDirMixin
 import org.openclover.runtime.CloverNames
-import groovy.transform.CompileStatic
 
 @CompileStatic
 class CompilationTest extends DynamicallyNamedTestBase

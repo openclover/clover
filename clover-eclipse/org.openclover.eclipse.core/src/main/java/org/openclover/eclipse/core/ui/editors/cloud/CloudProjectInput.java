@@ -1,7 +1,7 @@
 package org.openclover.eclipse.core.ui.editors.cloud;
 
-import org.openclover.eclipse.core.ui.editors.CloverProjectInput;
 import org.openclover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.ui.editors.CloverProjectInput;
 
 /**
  * We subclass CloverProjectInput in this trivial fashion to

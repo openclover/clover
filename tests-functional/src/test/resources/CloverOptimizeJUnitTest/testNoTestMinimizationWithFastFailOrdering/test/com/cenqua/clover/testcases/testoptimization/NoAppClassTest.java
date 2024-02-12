@@ -1,7 +1,10 @@
 package com.cenqua.clover.testcases.testoptimization;
 
 import junit.framework.TestCase;
-import java.io.*;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 
 public class NoAppClassTest extends TestCase {
     public NoAppClassTest(String name) {

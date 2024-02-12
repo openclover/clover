@@ -1,11 +1,11 @@
 package org.openclover.core.instr.java
 
+import org.junit.Test
 import org.openclover.core.api.registry.ClassInfo
-import org.openclover.core.registry.Clover2Registry
 import org.openclover.core.api.registry.StatementInfo
+import org.openclover.core.registry.Clover2Registry
 import org.openclover.core.registry.entities.FullProjectInfo
 import org_openclover_runtime.CloverVersionInfo
-import org.junit.Test
 
 import static org.junit.Assert.assertTrue
 

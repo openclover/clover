@@ -1,13 +1,13 @@
 package org.openclover.eclipse.core.views.actions;
 
-import org.openclover.runtime.Logger;
-import org.openclover.eclipse.core.CloverPlugin;
-import org.openclover.eclipse.core.projects.CloverProject;
 import org.eclipse.core.internal.runtime.InternalPlatform;
 import org.eclipse.core.internal.runtime.Messages;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.CloverProject;
+import org.openclover.runtime.Logger;
 import org.osgi.service.prefs.BackingStoreException;
 
 public class ToggleWorkingSetModeActionDelegate extends UntargetedViewActionDelegate {

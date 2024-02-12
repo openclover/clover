@@ -2,8 +2,8 @@ package org.openclover.core.reporters.html.source.java;
 
 import org.openclover.core.instr.java.JavaTokenTypes;
 
-import java.util.Set;
 import java.util.Collections;
+import java.util.Set;
 
 import static org.openclover.core.util.Sets.newHashSet;
 

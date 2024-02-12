@@ -1,5 +1,6 @@
 package org.openclover.idea.treetables;
 
+import com.intellij.util.ui.ColumnInfo;
 import org.openclover.idea.coverageview.table.ComplexityColumnInfo;
 import org.openclover.idea.coverageview.table.CoverageColumnInfo;
 import org.openclover.idea.coverageview.table.LOCColumnInfo;
@@ -13,7 +14,6 @@ import org.openclover.idea.testexplorer.TestStartedColumnInfo;
 import org.openclover.idea.testexplorer.TestStatusColumnInfo;
 import org.openclover.idea.testexplorer.TestTreeColumnInfo;
 import org.openclover.idea.testexplorer.UniqueCoverageColumnInfo;
-import com.intellij.util.ui.ColumnInfo;
 
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;

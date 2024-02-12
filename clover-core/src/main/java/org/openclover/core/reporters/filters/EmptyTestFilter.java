@@ -1,7 +1,7 @@
 package org.openclover.core.reporters.filters;
 
-import org.openclover.core.registry.BaseInvertableFilter;
 import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.registry.BaseInvertableFilter;
 
 public class EmptyTestFilter extends BaseInvertableFilter {
     public EmptyTestFilter() {

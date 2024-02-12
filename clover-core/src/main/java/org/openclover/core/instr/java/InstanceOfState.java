@@ -1,7 +1,5 @@
 package org.openclover.core.instr.java;
 
-import org.openclover.core.instr.java.JavaTokenTypes;
-
 /**
  * A state machine for analysis of instanceof expressions.
  * Can be used to determine if the instanceof expression contains variable declaration

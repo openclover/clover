@@ -1,8 +1,8 @@
 package org.openclover.runtime.remote;
 
+import org.openclover.runtime.CloverNames;
 import org.openclover.runtime.CloverProperties;
 import org.openclover.runtime.Logger;
-import org.openclover.runtime.CloverNames;
 import org_openclover_runtime.CloverProfile;
 
 import java.util.Arrays;

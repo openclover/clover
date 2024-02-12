@@ -1,10 +1,10 @@
 package org.openclover.core.registry.format
 
-import org.openclover.runtime.registry.CorruptedRegistryException
-import org.openclover.runtime.registry.IncompatibleRegistryFormatException
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestName
+import org.openclover.runtime.registry.CorruptedRegistryException
+import org.openclover.runtime.registry.IncompatibleRegistryFormatException
 import org.openclover.runtime.registry.format.BufferUtils
 import org.openclover.runtime.registry.format.RegAccessMode
 import org.openclover.runtime.registry.format.RegHeader

@@ -1,12 +1,12 @@
 package org.openclover.eclipse.core.projects.settings.source;
 
-import org.openclover.eclipse.core.projects.settings.ProjectSettings;
-import org.openclover.eclipse.core.CloverPlugin;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.settings.ProjectSettings;
 
 import java.util.ArrayList;
 import java.util.Collection;

@@ -1,14 +1,11 @@
 package org.openclover.idea;
 
-import org.openclover.idea.IProjectPlugin;
-import org.openclover.idea.config.ConfigChangeEvent;
-import org.openclover.idea.config.ConfigChangeListener;
-import org.openclover.idea.config.IdeaCloverConfig;
 import com.intellij.ide.projectView.ProjectView;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ProjectComponent;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
+import org.openclover.idea.config.IdeaCloverConfig;
 
 public class RefreshIconsComponent implements ProjectComponent {
     private final Project project;

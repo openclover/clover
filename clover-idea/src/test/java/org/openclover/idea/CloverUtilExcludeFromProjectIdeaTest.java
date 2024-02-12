@@ -1,10 +1,10 @@
 package org.openclover.idea;
 
-import org.openclover.idea.util.ProjectUtil;
 import com.intellij.openapi.roots.ModifiableRootModel;
 import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.testFramework.IdeaTestCase;
+import org.openclover.idea.util.ProjectUtil;
 
 import java.io.IOException;
 

@@ -1,6 +1,6 @@
 package org.openclover.core.reporters.util;
 
-import java.awt.*;
+import java.awt.Color;
 
 public abstract class ReportColors {
 

@@ -1,8 +1,8 @@
 package org.openclover.core;
 
-import org.openclover.runtime.Logger;
 import org.openclover.core.util.ClassPathUtil;
 import org.openclover.core.util.format.ConsoleFormatter;
+import org.openclover.runtime.Logger;
 import org_openclover_runtime.CloverVersionInfo;
 
 public class CloverStartup {

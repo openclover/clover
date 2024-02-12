@@ -1,17 +1,17 @@
 package org.openclover.eclipse.core.views.widgets.columns;
 
-import org.eclipse.jface.viewers.ITableLabelProvider;
-import org.eclipse.jface.viewers.ILabelProviderListener;
-import org.eclipse.jface.resource.ResourceManager;
-import org.eclipse.jface.resource.LocalResourceManager;
-import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.resource.CompositeImageDescriptor;
+import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.jface.resource.LocalResourceManager;
+import org.eclipse.jface.resource.ResourceManager;
+import org.eclipse.jface.viewers.ILabelProviderListener;
+import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.ui.services.IDisposable;
-import org.openclover.eclipse.core.views.ColumnDefinition;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.ui.CloverPluginIcons;
+import org.openclover.eclipse.core.views.ColumnDefinition;
 
 public class ColumnDefinitionLabelProvider implements ITableLabelProvider, IDisposable {
     private ResourceManager imageManager;

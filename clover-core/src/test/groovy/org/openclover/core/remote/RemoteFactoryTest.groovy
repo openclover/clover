@@ -10,7 +10,8 @@ import org.openclover.runtime.remote.RecorderListener
 import org.openclover.runtime.remote.RecorderService
 import org.openclover.runtime.remote.RemoteFactory
 
-import static org.junit.Assert.*
+import static org.junit.Assert.assertEquals
+import static org.junit.Assert.assertTrue
 
 class RemoteFactoryTest {
 

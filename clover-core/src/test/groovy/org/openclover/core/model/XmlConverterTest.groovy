@@ -1,14 +1,14 @@
 package org.openclover.core.model
 
-import org.openclover.core.reporters.util.HistoricalSupport
-import org.openclover.core.registry.entities.BaseProjectInfo
-import org.openclover.core.registry.entities.BasePackageInfo
-import org.openclover.core.registry.entities.BaseClassInfo
-import org.openclover.core.registry.entities.BaseFileInfo
-import org.openclover.core.registry.metrics.HasMetricsFilter
-import org.openclover.core.api.registry.HasMetrics
 import org.junit.Before
 import org.junit.Test
+import org.openclover.core.api.registry.HasMetrics
+import org.openclover.core.registry.entities.BaseClassInfo
+import org.openclover.core.registry.entities.BaseFileInfo
+import org.openclover.core.registry.entities.BasePackageInfo
+import org.openclover.core.registry.entities.BaseProjectInfo
+import org.openclover.core.registry.metrics.HasMetricsFilter
+import org.openclover.core.reporters.util.HistoricalSupport
 
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertTrue

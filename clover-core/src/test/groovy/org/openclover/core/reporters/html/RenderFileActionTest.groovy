@@ -1,15 +1,15 @@
 package org.openclover.core.reporters.html
 
 import clover.org.apache.velocity.VelocityContext
+import junit.framework.TestCase
 import org.openclover.core.CloverDatabase
-import org.openclover.core.registry.metrics.HasMetricsTestFixture
-import org.openclover.runtime.api.CloverException
 import org.openclover.core.registry.Clover2Registry
 import org.openclover.core.registry.entities.FullFileInfo
 import org.openclover.core.registry.entities.FullPackageInfo
+import org.openclover.core.registry.metrics.HasMetricsTestFixture
 import org.openclover.core.reporters.Current
 import org.openclover.core.spi.reporters.html.source.LineRenderInfo
-import junit.framework.TestCase
+import org.openclover.runtime.api.CloverException
 
 import static org.openclover.core.util.Maps.newHashMap
 

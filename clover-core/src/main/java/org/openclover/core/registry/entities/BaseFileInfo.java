@@ -1,5 +1,6 @@
 package org.openclover.core.registry.entities;
 
+import org.jetbrains.annotations.NotNull;
 import org.openclover.core.api.registry.BlockMetrics;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.ContextSet;
@@ -9,7 +10,6 @@ import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.api.registry.StatementInfo;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 

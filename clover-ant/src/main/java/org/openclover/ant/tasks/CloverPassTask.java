@@ -1,9 +1,11 @@
 package org.openclover.ant.tasks;
 
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.types.FileSet;
+import org.apache.tools.ant.util.StringUtils;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.CodeType;
-import org.openclover.runtime.Logger;
-import org.openclover.runtime.api.CloverException;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.cfg.Interval;
@@ -16,10 +18,8 @@ import org.openclover.core.reporters.Current;
 import org.openclover.core.reporters.Format;
 import org.openclover.core.reporters.util.HistoricalSupport;
 import org.openclover.core.reporters.util.MetricsDiffSummary;
-import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.Project;
-import org.apache.tools.ant.types.FileSet;
-import org.apache.tools.ant.util.StringUtils;
+import org.openclover.runtime.Logger;
+import org.openclover.runtime.api.CloverException;
 
 import java.io.File;
 import java.io.IOException;

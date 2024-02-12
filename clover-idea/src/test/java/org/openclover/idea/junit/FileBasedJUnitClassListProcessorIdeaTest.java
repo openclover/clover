@@ -1,12 +1,12 @@
 package org.openclover.idea.junit;
 
-import org.openclover.core.api.optimization.Optimizable;
-import org.openclover.idea.junit.config.OptimizedConfigurationSettings;
-import org.openclover.core.optimization.OptimizationSession;
-import org.openclover.runtime.util.IOStreamUtils;
 import com.intellij.openapi.project.Project;
 import com.intellij.testFramework.LightIdeaTestCase;
 import org.jetbrains.annotations.NotNull;
+import org.openclover.core.api.optimization.Optimizable;
+import org.openclover.core.optimization.OptimizationSession;
+import org.openclover.idea.junit.config.OptimizedConfigurationSettings;
+import org.openclover.runtime.util.IOStreamUtils;
 
 import java.io.BufferedReader;
 import java.io.File;

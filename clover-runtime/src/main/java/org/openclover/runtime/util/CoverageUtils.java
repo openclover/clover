@@ -2,9 +2,9 @@ package org.openclover.runtime.util;
 
 import org.openclover.runtime.Logger;
 
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.DataInputStream;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicLong;
 

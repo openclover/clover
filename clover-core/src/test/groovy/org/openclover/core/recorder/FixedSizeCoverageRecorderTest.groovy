@@ -1,21 +1,21 @@
 package org.openclover.core.recorder
 
-import org.openclover.runtime.api.CloverException
-import org.openclover.core.CoverageDataSpec
-import org.openclover.core.registry.Clover2Registry
-import org.openclover.core.util.FileUtils
-import org.openclover.runtime.recorder.FixedSizeCoverageRecorder
-import org.openclover.runtime.recorder.NullRecorder
-import org.openclover.runtime.registry.format.RegAccessMode
-
-import org_openclover_runtime.CoverageRecorder
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestName
+import org.openclover.core.CoverageDataSpec
+import org.openclover.core.registry.Clover2Registry
+import org.openclover.core.util.FileUtils
+import org.openclover.runtime.api.CloverException
+import org.openclover.runtime.recorder.FixedSizeCoverageRecorder
+import org.openclover.runtime.recorder.NullRecorder
+import org.openclover.runtime.registry.format.RegAccessMode
+import org_openclover_runtime.CoverageRecorder
 
-import static org.junit.Assert.*
+import static org.junit.Assert.assertEquals
+import static org.junit.Assert.assertSame
 
 class FixedSizeCoverageRecorderTest {
     File recDir

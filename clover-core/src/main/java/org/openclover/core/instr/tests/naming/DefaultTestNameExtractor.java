@@ -1,8 +1,8 @@
 package org.openclover.core.instr.tests.naming;
 
-import org.openclover.core.api.registry.MethodInfo;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.openclover.core.api.registry.MethodInfo;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package org.openclover.eclipse.core.projects.model;
 
-import org.openclover.eclipse.core.projects.CloverProject;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.openclover.eclipse.core.projects.CloverProject;
 
 public interface DatabasePreLoadDecorator extends CoverageLoadDecorator {
     public static final DatabasePreLoadDecorator[] NONE = new DatabasePreLoadDecorator[] {};

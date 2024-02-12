@@ -1,5 +1,6 @@
 package org.openclover.idea.content;
 
+import com.intellij.openapi.editor.LogicalPosition;
 import org.openclover.core.api.registry.BranchInfo;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.MethodInfo;
@@ -7,7 +8,6 @@ import org.openclover.core.api.registry.SourceInfo;
 import org.openclover.core.api.registry.StatementInfo;
 import org.openclover.core.registry.CoverageDataReceptor;
 import org.openclover.core.registry.FileElementVisitor;
-import com.intellij.openapi.editor.LogicalPosition;
 
 import java.util.Collection;
 

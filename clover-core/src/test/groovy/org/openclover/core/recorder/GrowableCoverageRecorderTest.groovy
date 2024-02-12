@@ -1,15 +1,19 @@
 package org.openclover.core.recorder
 
+import org.junit.Rule
+import org.junit.Test
+import org.junit.rules.TestName
 import org.openclover.runtime.recorder.CoverageSnapshot
 import org.openclover.runtime.recorder.GlobalRecordingWriteStrategy
 import org.openclover.runtime.recorder.GrowableCoverageRecorder
 import org.openclover.runtime.util.CloverBitSet
 import org_openclover_runtime.CoverageRecorder
-import org.junit.Rule
-import org.junit.Test
-import org.junit.rules.TestName
 
-import static org.junit.Assert.*
+import static org.junit.Assert.assertEquals
+import static org.junit.Assert.assertFalse
+import static org.junit.Assert.assertSame
+import static org.junit.Assert.assertTrue
+import static org.junit.Assert.fail
 
 class GrowableCoverageRecorderTest {
 

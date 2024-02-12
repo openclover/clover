@@ -3,10 +3,10 @@ package org.openclover.functest.ant.tasks
 import groovy.transform.CompileStatic
 import org.junit.Test
 
-import static org.openclover.buildutil.testutils.AssertionUtils.assertFileContains
-import static org.openclover.buildutil.testutils.AssertionUtils.assertStringContains
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertTrue
+import static org.openclover.buildutil.testutils.AssertionUtils.assertFileContains
+import static org.openclover.buildutil.testutils.AssertionUtils.assertStringContains
 
 /**
  * Test for:

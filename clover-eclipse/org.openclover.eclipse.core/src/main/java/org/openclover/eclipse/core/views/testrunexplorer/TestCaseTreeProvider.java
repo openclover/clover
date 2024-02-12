@@ -1,11 +1,11 @@
 package org.openclover.eclipse.core.views.testrunexplorer;
 
+import org.eclipse.core.runtime.CoreException;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.views.CloveredWorkspaceProvider;
 import org.openclover.eclipse.core.views.WorkingSetNodeFilter;
 import org.openclover.eclipse.core.views.nodes.NodeRelationshipFilter;
 import org.openclover.eclipse.core.views.nodes.Nodes;
-import org.eclipse.core.runtime.CoreException;
 
 public class TestCaseTreeProvider
     extends CloveredWorkspaceProvider {

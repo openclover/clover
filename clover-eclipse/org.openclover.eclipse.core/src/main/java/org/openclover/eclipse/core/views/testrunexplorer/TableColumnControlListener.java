@@ -1,11 +1,11 @@
 package org.openclover.eclipse.core.views.testrunexplorer;
 
-import org.openclover.eclipse.core.views.ColumnControlListener;
-import org.openclover.eclipse.core.views.ColumnCollectionSettings;
-import org.openclover.eclipse.core.views.ColumnDefinition;
-import org.openclover.eclipse.core.views.widgets.ColumnController;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.widgets.TableColumn;
+import org.openclover.eclipse.core.views.ColumnCollectionSettings;
+import org.openclover.eclipse.core.views.ColumnControlListener;
+import org.openclover.eclipse.core.views.ColumnDefinition;
+import org.openclover.eclipse.core.views.widgets.ColumnController;
 
 public class TableColumnControlListener extends ColumnControlListener {
     private TableColumn column;

@@ -1,14 +1,13 @@
 package org.openclover.eclipse.core.views.testrunexplorer;
 
-import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.jface.viewers.Viewer;
-
-import org.openclover.eclipse.core.views.testrunexplorer.nodes.CoverageContributionNode;
+import org.eclipse.jface.viewers.ViewerComparator;
+import org.openclover.eclipse.core.projects.model.MetricsScope;
 import org.openclover.eclipse.core.views.ColumnCollectionSettings;
-import org.openclover.eclipse.core.views.ExplorerViewComparator;
 import org.openclover.eclipse.core.views.ColumnDefinition;
 import org.openclover.eclipse.core.views.CustomColumnDefinition;
-import org.openclover.eclipse.core.projects.model.MetricsScope;
+import org.openclover.eclipse.core.views.ExplorerViewComparator;
+import org.openclover.eclipse.core.views.testrunexplorer.nodes.CoverageContributionNode;
 
 public abstract class ClassesTestedTreeComparator extends ExplorerViewComparator {
     public static ViewerComparator getFor(final ColumnCollectionSettings settings) {

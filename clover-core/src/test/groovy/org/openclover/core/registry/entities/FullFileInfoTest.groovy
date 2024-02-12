@@ -1,7 +1,7 @@
 package org.openclover.core.registry.entities
 
-import org.openclover.core.spi.lang.Language
 import org.junit.Test
+import org.openclover.core.spi.lang.Language
 
 import static org.junit.Assert.assertNull
 import static org.junit.Assert.assertSame

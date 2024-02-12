@@ -1,14 +1,13 @@
 package org.openclover.core.optimization;
 
-import junit.framework.TestSuite;
 import junit.framework.Test;
+import junit.framework.TestSuite;
+import org.openclover.core.api.optimization.Optimizable;
+import org.openclover.core.api.optimization.OptimizationOptions;
+import org.openclover.core.api.optimization.TestOptimizer;
 
 import java.util.Enumeration;
 import java.util.List;
-
-import org.openclover.core.api.optimization.Optimizable;
-import org.openclover.core.api.optimization.TestOptimizer;
-import org.openclover.core.api.optimization.OptimizationOptions;
 
 import static org.openclover.core.util.Lists.newLinkedList;
 

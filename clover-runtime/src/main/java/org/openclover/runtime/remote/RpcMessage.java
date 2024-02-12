@@ -4,8 +4,8 @@ package org.openclover.runtime.remote;
 import org.openclover.runtime.ErrorInfo;
 
 import java.io.Serializable;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 public class RpcMessage implements Serializable {
 

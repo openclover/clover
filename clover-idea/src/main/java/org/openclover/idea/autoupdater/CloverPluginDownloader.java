@@ -1,10 +1,5 @@
 package org.openclover.idea.autoupdater;
 
-import org.openclover.runtime.Logger;
-import org.openclover.idea.util.l10n.CloverIdeaPluginMessages;
-import org.openclover.idea.util.NetUtil;
-import org.openclover.core.util.ClassPathUtil;
-import org.openclover.runtime.util.IOStreamUtils;
 import com.intellij.ide.startup.StartupActionScriptManager;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.progress.ProcessCanceledException;
@@ -12,6 +7,11 @@ import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.util.io.FileUtil;
 import org.jetbrains.annotations.NotNull;
+import org.openclover.core.util.ClassPathUtil;
+import org.openclover.idea.util.NetUtil;
+import org.openclover.idea.util.l10n.CloverIdeaPluginMessages;
+import org.openclover.runtime.Logger;
+import org.openclover.runtime.util.IOStreamUtils;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;

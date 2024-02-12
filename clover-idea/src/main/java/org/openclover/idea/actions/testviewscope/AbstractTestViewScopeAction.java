@@ -1,11 +1,11 @@
 package org.openclover.idea.actions.testviewscope;
 
+import com.intellij.openapi.actionSystem.AnAction;
+import com.intellij.openapi.actionSystem.AnActionEvent;
 import org.openclover.idea.IProjectPlugin;
 import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.config.IdeaCloverConfig;
 import org.openclover.idea.config.TestViewScope;
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
 
 public abstract class AbstractTestViewScopeAction extends AnAction {
     protected abstract TestViewScope getActionType();

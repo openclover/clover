@@ -1,14 +1,14 @@
 package org.openclover.eclipse.core.views.testrunexplorer.widgets;
 
-import org.openclover.core.util.MetricsFormatUtils;
-import org.openclover.eclipse.core.views.testrunexplorer.nodes.CoverageContributionNode;
-import org.openclover.eclipse.core.views.widgets.HistogramCellRenderer;
-import org.openclover.eclipse.core.views.ColumnCollectionSettings;
-import org.openclover.eclipse.core.views.ColumnDefinition;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Tree;
+import org.openclover.core.util.MetricsFormatUtils;
+import org.openclover.eclipse.core.views.ColumnCollectionSettings;
+import org.openclover.eclipse.core.views.ColumnDefinition;
+import org.openclover.eclipse.core.views.testrunexplorer.nodes.CoverageContributionNode;
+import org.openclover.eclipse.core.views.widgets.HistogramCellRenderer;
 
 public class CoverageContributionCellRenderer extends HistogramCellRenderer {
     public CoverageContributionCellRenderer(Tree tree, ColumnCollectionSettings settings, ColumnDefinition column) {

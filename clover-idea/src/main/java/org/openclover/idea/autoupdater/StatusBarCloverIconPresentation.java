@@ -1,10 +1,10 @@
 package org.openclover.idea.autoupdater;
 
-import org.openclover.idea.util.ui.CloverIcons;
 import com.intellij.openapi.wm.StatusBarWidget;
 import com.intellij.util.Consumer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.openclover.idea.util.ui.CloverIcons;
 
 import javax.swing.Icon;
 import java.awt.event.MouseEvent;

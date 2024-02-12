@@ -1,11 +1,11 @@
 package org.openclover.eclipse.core.views.testrunexplorer.nodes;
 
-import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IMethod;
 import org.eclipse.swt.graphics.Image;
 import org.openclover.core.registry.entities.TestCaseInfo;
-import org.openclover.eclipse.core.views.nodes.Nodes;
 import org.openclover.eclipse.core.views.nodes.JavaElementNode;
+import org.openclover.eclipse.core.views.nodes.Nodes;
 
 import java.util.Objects;
 

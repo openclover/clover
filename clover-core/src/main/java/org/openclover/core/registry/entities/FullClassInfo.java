@@ -1,5 +1,7 @@
 package org.openclover.core.registry.entities;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.openclover.core.TCILookupStore;
 import org.openclover.core.TestCaseInfoLookup;
 import org.openclover.core.api.registry.BlockMetrics;
@@ -17,13 +19,10 @@ import org.openclover.core.io.tags.TaggedPersistent;
 import org.openclover.core.registry.CoverageDataProvider;
 import org.openclover.core.registry.CoverageDataReceptor;
 import org.openclover.core.registry.FileElementVisitor;
+import org.openclover.core.registry.FixedSourceRegion;
+import org.openclover.core.registry.metrics.ClassMetrics;
 import org.openclover.core.registry.metrics.HasMetricsFilter;
 import org.openclover.core.registry.metrics.HasMetricsNode;
-import org.openclover.core.registry.metrics.ClassMetrics;
-import org.openclover.core.registry.FixedSourceRegion;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.openclover.core.util.Lists;
 
 import java.io.IOException;
 import java.util.Collection;

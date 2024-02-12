@@ -1,4 +1,5 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Tests how usage of vargargs method with template parameters will result in compiler warnings.

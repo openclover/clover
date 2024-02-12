@@ -6,9 +6,9 @@ import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.StatementInfo;
 import org.openclover.core.registry.metrics.BlockMetrics;
 import org.openclover.core.registry.metrics.ClassMetrics;
-import org.openclover.core.registry.metrics.ProjectMetrics;
-import org.openclover.core.registry.metrics.PackageMetrics;
 import org.openclover.core.registry.metrics.FileMetrics;
+import org.openclover.core.registry.metrics.PackageMetrics;
+import org.openclover.core.registry.metrics.ProjectMetrics;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;

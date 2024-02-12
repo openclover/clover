@@ -8,7 +8,6 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaModelException;
-
 import org.openclover.eclipse.core.projects.CloverProject;
 
 public class CloverExcludableAdapterFactory implements IAdapterFactory {

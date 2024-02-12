@@ -1,9 +1,9 @@
 package org.openclover.eclipse.core.ui.editors;
 
-import org.openclover.eclipse.core.projects.CloverProject;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IPersistableElement;
+import org.openclover.eclipse.core.projects.CloverProject;
 
 public abstract class CloverProjectInput implements IEditorInput {
 

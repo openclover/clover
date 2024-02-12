@@ -1,5 +1,7 @@
 package org.openclover.core.registry.entities;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.openclover.core.api.registry.BlockMetrics;
 import org.openclover.core.api.registry.BranchInfo;
 import org.openclover.core.api.registry.ClassInfo;
@@ -10,19 +12,16 @@ import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.HasAggregatedMetrics;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.SourceInfo;
+import org.openclover.core.api.registry.StatementInfo;
 import org.openclover.core.io.tags.TaggedDataInput;
 import org.openclover.core.io.tags.TaggedDataOutput;
 import org.openclover.core.io.tags.TaggedPersistent;
 import org.openclover.core.lang.Languages;
 import org.openclover.core.registry.CoverageDataProvider;
 import org.openclover.core.registry.FileElementVisitor;
+import org.openclover.core.registry.FixedSourceRegion;
 import org.openclover.core.registry.metrics.HasMetricsNode;
 import org.openclover.core.spi.lang.LanguageConstruct;
-import org.openclover.core.registry.FixedSourceRegion;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.openclover.core.api.registry.StatementInfo;
-import org.openclover.core.util.Lists;
 
 import java.io.IOException;
 import java.lang.reflect.Modifier;

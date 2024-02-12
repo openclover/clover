@@ -1,12 +1,5 @@
 package org.openclover.idea.build;
 
-import org.openclover.idea.IProjectPlugin;
-import org.openclover.idea.build.InclusionDetector;
-import org.openclover.idea.util.InclusionUtil;
-import org.openclover.idea.CloverModuleComponent;
-import org.openclover.idea.ProjectPlugin;
-import org.openclover.idea.config.IdeaCloverConfig;
-import org.openclover.idea.util.vfs.VfsUtil;
 import com.intellij.openapi.fileTypes.FileTypeManager;
 import com.intellij.openapi.fileTypes.StdFileTypes;
 import com.intellij.openapi.module.Module;
@@ -15,6 +8,12 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.NotNull;
+import org.openclover.idea.CloverModuleComponent;
+import org.openclover.idea.IProjectPlugin;
+import org.openclover.idea.ProjectPlugin;
+import org.openclover.idea.config.IdeaCloverConfig;
+import org.openclover.idea.util.InclusionUtil;
+import org.openclover.idea.util.vfs.VfsUtil;
 
 public class ProjectInclusionDetector implements InclusionDetector {
     private boolean isIncluded;

@@ -1,7 +1,7 @@
 package org.openclover.eclipse.core.ui.editors.java.annotations.strategies.space;
 
-import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.BadLocationException;
+import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 
 public class DocumentUtils {

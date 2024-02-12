@@ -1,8 +1,6 @@
 package org.openclover.core;
 
 import clover.org.apache.commons.lang3.mutable.MutableLong;
-import org.openclover.runtime.Logger;
-import org.openclover.runtime.api.CloverException;
 import org.openclover.core.recorder.GlobalCoverageRecordingTranscript;
 import org.openclover.core.recorder.PerTestRecordingTranscript;
 import org.openclover.core.recorder.RecordingTranscripts;
@@ -11,11 +9,13 @@ import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.TestCaseInfo;
 import org.openclover.core.util.FileUtils;
 import org.openclover.core.util.collections.Pair;
+import org.openclover.runtime.Logger;
+import org.openclover.runtime.api.CloverException;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
-import java.util.Collection;
 
 
 public class CoverageDataCollator {

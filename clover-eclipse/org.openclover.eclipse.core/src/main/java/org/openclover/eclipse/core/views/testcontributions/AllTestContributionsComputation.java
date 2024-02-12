@@ -1,14 +1,5 @@
 package org.openclover.eclipse.core.views.testcontributions;
 
-import org.openclover.core.CloverDatabase;
-import org.openclover.eclipse.core.CloverPlugin;
-import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotationFilter;
-import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotationModel;
-import org.openclover.eclipse.core.projects.CloverProject;
-import org.openclover.eclipse.core.projects.model.DatabaseModel;
-import org.openclover.eclipse.core.projects.model.MetricsScope;
-import org.openclover.core.registry.entities.FullFileInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.QualifiedName;
@@ -17,6 +8,15 @@ import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.ui.JavaUI;
 import org.eclipse.ui.texteditor.ITextEditor;
+import org.openclover.core.CloverDatabase;
+import org.openclover.core.registry.entities.FullFileInfo;
+import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.projects.model.DatabaseModel;
+import org.openclover.eclipse.core.projects.model.MetricsScope;
+import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotationFilter;
+import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotationModel;
 
 import java.util.Collection;
 import java.util.Collections;

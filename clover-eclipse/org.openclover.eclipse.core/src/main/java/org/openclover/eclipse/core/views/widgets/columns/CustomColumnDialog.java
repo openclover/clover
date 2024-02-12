@@ -1,12 +1,5 @@
 package org.openclover.eclipse.core.views.widgets.columns;
 
-import org.openclover.runtime.api.CloverException;
-import org.openclover.eclipse.core.ui.SwtUtils;
-import org.openclover.eclipse.core.views.BuiltinMetricsColumnDefinition;
-import org.openclover.eclipse.core.views.BuiltinPcMetricsColumnDefinition;
-import org.openclover.eclipse.core.views.ColumnDefinition;
-import org.openclover.eclipse.core.views.CustomColumnDefinition;
-import org.openclover.core.reporters.ExpressionEvaluator;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.dialogs.IMessageProvider;
@@ -27,6 +20,13 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.openclover.core.reporters.ExpressionEvaluator;
+import org.openclover.eclipse.core.ui.SwtUtils;
+import org.openclover.eclipse.core.views.BuiltinMetricsColumnDefinition;
+import org.openclover.eclipse.core.views.BuiltinPcMetricsColumnDefinition;
+import org.openclover.eclipse.core.views.ColumnDefinition;
+import org.openclover.eclipse.core.views.CustomColumnDefinition;
+import org.openclover.runtime.api.CloverException;
 
 import java.util.Set;
 

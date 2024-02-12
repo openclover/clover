@@ -1,11 +1,11 @@
 package org.openclover.eclipse.core.views;
 
-import org.openclover.eclipse.core.projects.CloveredProjectLabelProvider;
-import org.openclover.eclipse.core.projects.model.MetricsScope;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.swt.graphics.Image;
+import org.openclover.eclipse.core.projects.CloveredProjectLabelProvider;
+import org.openclover.eclipse.core.projects.model.MetricsScope;
 
 /**
  * Provides images and text for coverage table in CoverageView.

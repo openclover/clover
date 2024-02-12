@@ -1,7 +1,5 @@
 package org.openclover.core.instr.java;
 
-import org.openclover.core.instr.java.JavaTokenTypes;
-
 /**
  * Reads subsequent tokens and counts opening and closing parenthesis.
  * Used to figure out depth of () nesting and if we reached the last one.

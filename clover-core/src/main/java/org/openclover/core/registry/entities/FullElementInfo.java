@@ -1,15 +1,14 @@
 package org.openclover.core.registry.entities;
 
-
+import org.jetbrains.annotations.NotNull;
 import org.openclover.core.api.registry.ContextSet;
 import org.openclover.core.api.registry.ElementInfo;
+import org.openclover.core.context.ContextStore;
+import org.openclover.core.context.NamedContext;
 import org.openclover.core.registry.CoverageDataProvider;
 import org.openclover.core.registry.CoverageDataReceptor;
 import org.openclover.core.registry.FileInfoRegion;
 import org.openclover.core.spi.lang.LanguageConstruct;
-import org.openclover.core.context.NamedContext;
-import org.jetbrains.annotations.NotNull;
-import org.openclover.core.context.ContextStore;
 
 public abstract class FullElementInfo<T extends BasicElementInfo> implements CoverageDataReceptor, FileInfoRegion, ElementInfo {
     protected final T sharedInfo;

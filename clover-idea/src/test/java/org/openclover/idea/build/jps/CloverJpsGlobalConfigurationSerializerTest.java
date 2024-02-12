@@ -1,12 +1,12 @@
 package org.openclover.idea.build.jps;
 
-import org.openclover.idea.config.CloverGlobalConfig;
 import org.jdom.Element;
 import org.jetbrains.jps.model.JpsElement;
 import org.jetbrains.jps.model.JpsModel;
 import org.jetbrains.jps.model.JpsSimpleElement;
 import org.jetbrains.jps.model.impl.JpsModelImpl;
 import org.junit.Test;
+import org.openclover.idea.config.CloverGlobalConfig;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;

@@ -1,5 +1,16 @@
 package org.openclover.idea.content;
 
+import com.intellij.openapi.editor.Document;
+import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.editor.markup.EffectType;
+import com.intellij.openapi.editor.markup.HighlighterLayer;
+import com.intellij.openapi.editor.markup.HighlighterTargetArea;
+import com.intellij.openapi.editor.markup.LineMarkerRenderer;
+import com.intellij.openapi.editor.markup.MarkupModel;
+import com.intellij.openapi.editor.markup.RangeHighlighter;
+import com.intellij.openapi.editor.markup.TextAttributes;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vfs.VirtualFile;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.api.registry.BranchInfo;
 import org.openclover.core.api.registry.ContextSet;
@@ -14,22 +25,11 @@ import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.config.ConfigChangeEvent;
 import org.openclover.idea.config.ConfigChangeListener;
 import org.openclover.idea.config.IdeaCloverConfig;
+import org.openclover.idea.coverage.ModelUtil;
 import org.openclover.idea.feature.CloverFeatures;
 import org.openclover.idea.feature.FeatureEvent;
 import org.openclover.idea.feature.FeatureListener;
 import org.openclover.idea.feature.FeatureManager;
-import org.openclover.idea.coverage.ModelUtil;
-import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.editor.markup.EffectType;
-import com.intellij.openapi.editor.markup.HighlighterLayer;
-import com.intellij.openapi.editor.markup.HighlighterTargetArea;
-import com.intellij.openapi.editor.markup.LineMarkerRenderer;
-import com.intellij.openapi.editor.markup.MarkupModel;
-import com.intellij.openapi.editor.markup.RangeHighlighter;
-import com.intellij.openapi.editor.markup.TextAttributes;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -38,12 +38,12 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.openclover.core.util.Lists.newArrayList;
 import static org.openclover.idea.content.DocMarkupPlugin.CoverageBlock.Style.BAD;
 import static org.openclover.idea.content.DocMarkupPlugin.CoverageBlock.Style.FAILED_ONLY;
 import static org.openclover.idea.content.DocMarkupPlugin.CoverageBlock.Style.FILTERED;
 import static org.openclover.idea.content.DocMarkupPlugin.CoverageBlock.Style.GOOD;
 import static org.openclover.idea.content.DocMarkupPlugin.CoverageBlock.Style.OLD;
-import static org.openclover.core.util.Lists.newArrayList;
 
 public class DocMarkupPlugin extends ContentPlugin implements FeatureListener, ConfigChangeListener {
 

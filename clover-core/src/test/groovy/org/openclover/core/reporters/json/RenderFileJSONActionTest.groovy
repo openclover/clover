@@ -1,17 +1,17 @@
 package org.openclover.core.reporters.json
 
 import clover.org.apache.velocity.VelocityContext
+import junit.framework.TestCase
 import org.openclover.core.CloverDatabase
-import org.openclover.core.registry.metrics.HasMetricsTestFixture
-import org.openclover.runtime.api.CloverException
 import org.openclover.core.registry.Clover2Registry
 import org.openclover.core.registry.entities.FullFileInfo
 import org.openclover.core.registry.entities.FullPackageInfo
+import org.openclover.core.registry.metrics.HasMetricsTestFixture
 import org.openclover.core.registry.metrics.PackageMetrics
 import org.openclover.core.reporters.Current
 import org.openclover.core.reporters.html.HtmlRenderingSupportImpl
 import org.openclover.core.util.CloverUtils
-import junit.framework.TestCase
+import org.openclover.runtime.api.CloverException
 
 class RenderFileJSONActionTest extends TestCase {
     private HasMetricsTestFixture fixture

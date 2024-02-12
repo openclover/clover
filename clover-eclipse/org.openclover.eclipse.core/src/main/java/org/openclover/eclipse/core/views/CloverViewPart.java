@@ -1,6 +1,5 @@
 package org.openclover.eclipse.core.views;
 
-import org.openclover.eclipse.core.views.widgets.ViewAlertContainer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.ControlAdapter;
@@ -8,6 +7,7 @@ import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
+import org.openclover.eclipse.core.views.widgets.ViewAlertContainer;
 
 public abstract class CloverViewPart extends ViewPart {
     /**

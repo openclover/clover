@@ -1,9 +1,5 @@
 package org.openclover.groovy.instr;
 
-import org.openclover.core.api.instrumentation.InstrumentationSession;
-import org.openclover.core.context.ContextSet;
-import org.openclover.core.registry.FixedSourceRegion;
-import org.openclover.core.spi.lang.LanguageConstruct;
 import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.ast.VariableScope;
 import org.codehaus.groovy.ast.expr.ConstructorCallExpression;
@@ -13,6 +9,10 @@ import org.codehaus.groovy.ast.stmt.ExpressionStatement;
 import org.codehaus.groovy.ast.stmt.Statement;
 import org.codehaus.groovy.ast.stmt.SwitchStatement;
 import org.codehaus.groovy.ast.stmt.TryCatchStatement;
+import org.openclover.core.api.instrumentation.InstrumentationSession;
+import org.openclover.core.context.ContextSet;
+import org.openclover.core.registry.FixedSourceRegion;
+import org.openclover.core.spi.lang.LanguageConstruct;
 
 import java.util.List;
 

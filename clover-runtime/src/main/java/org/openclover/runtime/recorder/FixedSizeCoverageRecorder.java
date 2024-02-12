@@ -1,9 +1,9 @@
 package org.openclover.runtime.recorder;
 
+import org.openclover.runtime.Logger;
 import org.openclover.runtime.registry.RegistryFormatException;
 import org.openclover.runtime.registry.format.RegAccessMode;
 import org.openclover.runtime.registry.format.RegHeader;
-import org.openclover.runtime.Logger;
 import org.openclover.runtime.util.CloverBitSet;
 import org_openclover_runtime.CoverageRecorder;
 

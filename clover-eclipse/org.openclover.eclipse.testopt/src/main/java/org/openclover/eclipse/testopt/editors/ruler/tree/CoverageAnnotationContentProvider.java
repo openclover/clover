@@ -1,13 +1,12 @@
 package org.openclover.eclipse.testopt.editors.ruler.tree;
 
-import java.util.Collection;
-import java.util.Map;
-
-import org.openclover.eclipse.testopt.editors.ruler.CoverageAnnotationRulerHover;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
-
 import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.eclipse.testopt.editors.ruler.CoverageAnnotationRulerHover;
+
+import java.util.Collection;
+import java.util.Map;
 
 import static org.openclover.core.util.Maps.newHashMap;
 

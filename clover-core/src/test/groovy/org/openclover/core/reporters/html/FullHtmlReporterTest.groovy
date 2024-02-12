@@ -1,17 +1,16 @@
 package org.openclover.core.reporters.html
 
 import clover.org.apache.velocity.VelocityContext
-import org.openclover.core.CloverLicenseInfo
-import org.openclover.core.CloverStartup
-import org.openclover.runtime.Logger
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import org.openclover.core.CloverLicenseInfo
+import org.openclover.core.CloverStartup
+import org.openclover.runtime.Logger
 
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertNotNull
 import static org.junit.Assert.assertNull
-
 
 class FullHtmlReporterTest {
 

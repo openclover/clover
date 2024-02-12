@@ -1,16 +1,16 @@
 package org.openclover.idea.testexplorer;
 
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.Pair;
+import com.intellij.util.ui.ColumnInfo;
 import org.openclover.core.CloverDatabase;
+import org.openclover.core.registry.CoverageDataReceptor;
+import org.openclover.core.registry.entities.TestCaseInfo;
 import org.openclover.idea.config.TestCaseLayout;
 import org.openclover.idea.treetables.TreeTableModelFactory;
 import org.openclover.idea.treetables.TreeTablePanel;
 import org.openclover.idea.util.ui.TreeExpansionHelper;
 import org.openclover.idea.util.ui.TreeSelectionHelper;
-import org.openclover.core.registry.CoverageDataReceptor;
-import org.openclover.core.registry.entities.TestCaseInfo;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Pair;
-import com.intellij.util.ui.ColumnInfo;
 
 import javax.swing.JScrollPane;
 import javax.swing.table.TableColumn;

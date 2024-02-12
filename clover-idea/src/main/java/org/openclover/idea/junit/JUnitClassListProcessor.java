@@ -1,18 +1,5 @@
 package org.openclover.idea.junit;
 
-import org.openclover.core.api.optimization.Optimizable;
-import org.openclover.core.api.optimization.OptimizationOptions;
-import org.openclover.core.CloverDatabase;
-import org.openclover.runtime.Logger;
-import org.openclover.idea.CloverToolWindowId;
-import org.openclover.idea.ProjectPluginViaReflection;
-import org.openclover.idea.coverage.SnapshotFileMutex;
-import org.openclover.idea.junit.config.OptimizedConfigurationSettings;
-import org.openclover.core.optimization.LocalSnapshotOptimizer;
-import org.openclover.core.optimization.OptimizationSession;
-import org.openclover.core.optimization.Snapshot;
-import org.openclover.core.api.optimization.StringOptimizable;
-import org.openclover.runtime.util.IOStreamUtils;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;
@@ -21,6 +8,19 @@ import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.wm.ToolWindowManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.openclover.core.CloverDatabase;
+import org.openclover.core.api.optimization.Optimizable;
+import org.openclover.core.api.optimization.OptimizationOptions;
+import org.openclover.core.api.optimization.StringOptimizable;
+import org.openclover.core.optimization.LocalSnapshotOptimizer;
+import org.openclover.core.optimization.OptimizationSession;
+import org.openclover.core.optimization.Snapshot;
+import org.openclover.idea.CloverToolWindowId;
+import org.openclover.idea.ProjectPluginViaReflection;
+import org.openclover.idea.coverage.SnapshotFileMutex;
+import org.openclover.idea.junit.config.OptimizedConfigurationSettings;
+import org.openclover.runtime.Logger;
+import org.openclover.runtime.util.IOStreamUtils;
 
 import java.io.BufferedReader;
 import java.io.File;

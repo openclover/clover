@@ -1,8 +1,8 @@
 package org.openclover.core.registry.entities;
 
+import org.jetbrains.annotations.NotNull;
 import org.openclover.core.api.registry.ElementInfo;
 import org.openclover.core.api.registry.SourceInfo;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Comparator;
 import java.util.List;

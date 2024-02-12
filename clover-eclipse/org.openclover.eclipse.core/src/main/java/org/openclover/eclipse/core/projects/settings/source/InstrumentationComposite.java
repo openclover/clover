@@ -1,15 +1,5 @@
 package org.openclover.eclipse.core.projects.settings.source;
 
-import org.openclover.core.cfg.instr.InstrumentationLevel;
-import org.openclover.core.cfg.instr.InstrumentationConfig;
-import org.openclover.core.cfg.instr.java.LambdaInstrumentation;
-import org.openclover.core.util.ArrayUtil;
-import org.openclover.eclipse.core.CloverEclipsePluginMessages;
-import org.openclover.eclipse.core.projects.CloverProject;
-import org.openclover.eclipse.core.projects.settings.ProjectSettings;
-import org.openclover.eclipse.core.ui.CharDimensionConverter;
-import org.openclover.eclipse.core.ui.GLH;
-import org.openclover.eclipse.core.ui.SwtUtils;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -29,6 +19,16 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.ContainerSelectionDialog;
+import org.openclover.core.cfg.instr.InstrumentationConfig;
+import org.openclover.core.cfg.instr.InstrumentationLevel;
+import org.openclover.core.cfg.instr.java.LambdaInstrumentation;
+import org.openclover.core.util.ArrayUtil;
+import org.openclover.eclipse.core.CloverEclipsePluginMessages;
+import org.openclover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.projects.settings.ProjectSettings;
+import org.openclover.eclipse.core.ui.CharDimensionConverter;
+import org.openclover.eclipse.core.ui.GLH;
+import org.openclover.eclipse.core.ui.SwtUtils;
 
 /**
  * Creates a panel with various instrumentation options, which can be set by user, like:

@@ -1,12 +1,8 @@
 package org.openclover.eclipse.core.reports;
 
-import org.openclover.eclipse.core.CloverEclipsePluginMessages;
-import org.openclover.eclipse.core.CloverPlugin;
-import org.openclover.eclipse.core.reports.model.ReportHistoryEntry;
-import org.openclover.core.reporters.Type;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.debug.core.sourcelookup.containers.LocalFileStorage;
 import org.eclipse.jdt.internal.debug.ui.StorageEditorInput;
 import org.eclipse.ui.IEditorDescriptor;
@@ -18,6 +14,10 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.browser.IWebBrowser;
 import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
 import org.eclipse.ui.ide.IDE;
+import org.openclover.core.reporters.Type;
+import org.openclover.eclipse.core.CloverEclipsePluginMessages;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.reports.model.ReportHistoryEntry;
 
 import java.io.File;
 import java.util.List;

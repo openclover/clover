@@ -1,7 +1,5 @@
 package org.openclover.idea.coverage;
 
-import org.openclover.idea.coverage.PercentBarColors;
-
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;

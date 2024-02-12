@@ -1,9 +1,9 @@
 package org.openclover.ant.tasks;
 
-import org.openclover.core.reporters.Format;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.Reference;
+import org.openclover.core.reporters.Format;
 
 public class CloverFormatType extends Format {
     Reference ref;

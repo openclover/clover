@@ -1,19 +1,19 @@
 package org.openclover.eclipse.core.views.nodes;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IPackageFragment;
+import org.eclipse.jdt.core.IPackageFragmentRoot;
+import org.eclipse.jdt.core.JavaModelException;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
-import org.eclipse.jdt.core.IPackageFragmentRoot;
-import org.eclipse.jdt.core.IJavaElement;
-import org.eclipse.jdt.core.IPackageFragment;
-import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.core.resources.IProject;
 
+import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Arrays;
 import java.util.Set;
-import java.util.LinkedHashSet;
 
 import static org.openclover.core.util.Lists.newLinkedList;
 import static org.openclover.core.util.Maps.newHashMap;

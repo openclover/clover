@@ -2,22 +2,20 @@ package org.openclover.ant;
 
 import clover.org.apache.commons.lang3.ArrayUtils;
 import clover.org.apache.commons.lang3.StringUtils;
-import org.openclover.runtime.Logger;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.PatternSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.openclover.runtime.Logger;
 
 import java.util.Arrays;
-import java.util.function.Function;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-
-import static org.openclover.core.util.Lists.newArrayList;
 
 /**
  * Helper class to validate Ant's FileSet and PatternSet classes

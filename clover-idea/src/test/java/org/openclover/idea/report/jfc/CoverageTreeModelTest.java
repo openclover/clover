@@ -1,9 +1,9 @@
 package org.openclover.idea.report.jfc;
 
-import org.openclover.idea.util.ModelScope;
+import com.intellij.testFramework.LightIdeaTestCase;
 import org.openclover.core.ProgressListener;
 import org.openclover.idea.coverage.CoverageTreeModel;
-import com.intellij.testFramework.LightIdeaTestCase;
+import org.openclover.idea.util.ModelScope;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 

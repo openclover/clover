@@ -2,17 +2,17 @@ package org.openclover.core.reporters.html;
 
 import clover.org.apache.commons.lang3.StringUtils;
 import clover.org.apache.velocity.VelocityContext;
-import org.openclover.core.CloverDatabase;
 import org.openclover.core.BitSetCoverageProvider;
+import org.openclover.core.CloverDatabase;
 import org.openclover.core.CoverageData;
 import org.openclover.core.api.registry.ClassInfo;
-import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.registry.entities.BaseClassInfo;
+import org.openclover.core.registry.entities.FullClassInfo;
+import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.registry.entities.TestCaseInfo;
-import org.openclover.core.registry.entities.BaseClassInfo;
 import org.openclover.core.reporters.Current;
-import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.util.CloverUtils;
 import org.openclover.runtime.util.Formatting;
 

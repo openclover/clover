@@ -1,8 +1,8 @@
 package org.openclover.core.util
 
-import org.openclover.core.TestUtils
-import org.openclover.buildutil.testutils.IOHelper
 import junit.framework.TestCase
+import org.openclover.buildutil.testutils.IOHelper
+import org.openclover.core.TestUtils
 
 import static org.openclover.core.util.Sets.newHashSet
 

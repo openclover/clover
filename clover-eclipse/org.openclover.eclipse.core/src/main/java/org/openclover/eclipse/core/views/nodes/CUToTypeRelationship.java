@@ -1,7 +1,7 @@
 package org.openclover.eclipse.core.views.nodes;
 
-import org.openclover.eclipse.core.CloverPlugin;
 import org.eclipse.jdt.core.ICompilationUnit;
+import org.openclover.eclipse.core.CloverPlugin;
 
 import static org.openclover.core.util.Lists.newArrayList;
 

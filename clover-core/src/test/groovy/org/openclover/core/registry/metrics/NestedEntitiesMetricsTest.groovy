@@ -1,5 +1,7 @@
 package org.openclover.core.registry.metrics
 
+import org.junit.Before
+import org.junit.Test
 import org.openclover.core.api.registry.BranchInfo
 import org.openclover.core.context.ContextSet
 import org.openclover.core.context.ContextStore
@@ -7,11 +9,9 @@ import org.openclover.core.registry.entities.FullClassInfo
 import org.openclover.core.registry.entities.FullFileInfo
 import org.openclover.core.registry.entities.FullMethodInfo
 import org.openclover.core.registry.entities.FullStatementInfo
-import org.junit.Before
-import org.junit.Test
 
-import static org.openclover.core.registry.metrics.MetricsHelper.assertMetricsEquals
 import static org.junit.Assert.assertEquals
+import static org.openclover.core.registry.metrics.MetricsHelper.assertMetricsEquals
 
 /**
  * Test of metrics for entities nested in each other

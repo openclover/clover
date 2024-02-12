@@ -1,28 +1,27 @@
 package org.openclover.eclipse.core.ui.editors.java;
 
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.QualifiedName;
+import org.openclover.core.CloverDatabase;
+import org.openclover.core.CoverageData;
 import org.openclover.core.api.registry.BranchInfo;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.ElementInfo;
 import org.openclover.core.api.registry.SourceInfo;
+import org.openclover.core.context.ContextSet;
+import org.openclover.core.registry.CoverageDataRange;
 import org.openclover.core.registry.entities.FullElementInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.QualifiedName;
+import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.eclipse.core.CloverPlugin;
 
-import java.util.Set;
+import java.util.BitSet;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.BitSet;
 import java.util.Map;
-
-import org.openclover.eclipse.core.CloverPlugin;
-import org.openclover.core.registry.entities.TestCaseInfo;
-import org.openclover.core.registry.CoverageDataRange;
-import org.openclover.core.CloverDatabase;
-import org.openclover.core.CoverageData;
-import org.openclover.core.context.ContextSet;
+import java.util.Set;
 
 import static org.openclover.core.util.Sets.newHashSet;
 

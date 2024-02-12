@@ -1,8 +1,8 @@
 package org.openclover.ant.tasks;
 
-import org.openclover.core.reporters.Columns;
-import org.apache.tools.ant.types.Reference;
 import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.types.Reference;
+import org.openclover.core.reporters.Columns;
 
 /**
  * A helper class to resolve refids in Ant build files.

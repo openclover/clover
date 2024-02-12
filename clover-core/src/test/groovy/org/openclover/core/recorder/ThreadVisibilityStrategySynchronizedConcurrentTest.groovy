@@ -1,8 +1,8 @@
 package org.openclover.core.recorder
 
+import org.junit.Test
 import org_openclover_runtime.CloverProfile
 import org_openclover_runtime.CoverageRecorder
-import org.junit.Test
 
 /**
  * Concurrent test for {@link org.openclover.runtime.recorder.ThreadVisibilityStrategy.Synchronized}

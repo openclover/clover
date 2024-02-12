@@ -1,8 +1,8 @@
 package org.openclover.idea.util.tasks;
 
-import org.openclover.core.ProgressListener;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.progress.ProgressIndicator;
+import org.openclover.core.ProgressListener;
 
 public class ProgressIndicatorAdapter implements ProgressListener {
     private static final Logger LOG = Logger.getInstance("CloverProgressIndicator");

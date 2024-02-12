@@ -1,8 +1,8 @@
 package org.openclover.eclipse.core.ui.editors.java;
 
+import org.eclipse.jface.text.BadLocationException;
 import org.openclover.core.api.registry.SourceInfo;
 import org.openclover.eclipse.core.ui.editors.java.annotations.strategies.CoverageAnnotationBuilder;
-import org.eclipse.jface.text.BadLocationException;
 
 abstract class CoverageEdge {
     private SourceInfo info;

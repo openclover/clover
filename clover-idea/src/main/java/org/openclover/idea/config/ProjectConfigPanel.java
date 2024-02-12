@@ -1,9 +1,9 @@
 package org.openclover.idea.config;
 
-import org.openclover.idea.util.ui.CloverIcons;
-import org.openclover.idea.IdeaIDEContext;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
+import org.openclover.idea.IdeaIDEContext;
+import org.openclover.idea.util.ui.CloverIcons;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;

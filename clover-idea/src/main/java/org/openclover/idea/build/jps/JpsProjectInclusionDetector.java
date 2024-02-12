@@ -1,11 +1,5 @@
 package org.openclover.idea.build.jps;
 
-import org.openclover.core.spi.lang.Language;
-import org.openclover.core.util.FileUtils;
-import org.openclover.idea.util.InclusionUtil;
-import org.openclover.idea.build.InclusionDetector;
-import org.openclover.idea.config.CloverModuleConfig;
-import org.openclover.idea.config.CloverPluginConfig;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.jps.model.JpsProject;
@@ -13,6 +7,12 @@ import org.jetbrains.jps.model.JpsSimpleElement;
 import org.jetbrains.jps.model.java.JavaSourceRootType;
 import org.jetbrains.jps.model.module.JpsModule;
 import org.jetbrains.jps.model.module.JpsModuleSourceRoot;
+import org.openclover.core.spi.lang.Language;
+import org.openclover.core.util.FileUtils;
+import org.openclover.idea.build.InclusionDetector;
+import org.openclover.idea.config.CloverModuleConfig;
+import org.openclover.idea.config.CloverPluginConfig;
+import org.openclover.idea.util.InclusionUtil;
 
 import java.io.File;
 

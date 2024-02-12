@@ -1,12 +1,12 @@
 package org.openclover.ant.tasks;
 
-import org.openclover.core.PrematureLibraryLoader;
-import org_openclover_runtime.CloverVersionInfo;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Diagnostics;
 import org.apache.tools.ant.ProjectHelper;
 import org.apache.tools.ant.Task;
+import org.openclover.core.PrematureLibraryLoader;
 import org.openclover.core.util.ClassPathUtil;
+import org_openclover_runtime.CloverVersionInfo;
 
 import java.net.URL;
 

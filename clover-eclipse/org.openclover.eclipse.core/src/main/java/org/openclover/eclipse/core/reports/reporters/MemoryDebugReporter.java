@@ -3,14 +3,14 @@ package org.openclover.eclipse.core.reports.reporters;
 import org.openclover.core.reporters.html.HtmlReporter;
 
 import javax.management.NotificationEmitter;
-import java.util.Map;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryNotificationInfo;
 import java.lang.management.MemoryPoolMXBean;
 import java.lang.management.MemoryType;
+import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public abstract class MemoryDebugReporter {
     private static final double PERCENTAGE_MEM_THRESHOLD = 0.95d;

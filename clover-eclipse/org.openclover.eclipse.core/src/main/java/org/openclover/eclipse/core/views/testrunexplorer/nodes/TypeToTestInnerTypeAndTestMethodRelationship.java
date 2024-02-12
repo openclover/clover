@@ -1,16 +1,16 @@
 package org.openclover.eclipse.core.views.testrunexplorer.nodes;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jdt.core.IMethod;
+import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaModelException;
 import org.openclover.core.registry.entities.FullClassInfo;
+import org.openclover.core.registry.entities.TestCaseInfo;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.model.MetricsScope;
 import org.openclover.eclipse.core.views.nodes.NodeRelationship;
 import org.openclover.eclipse.core.views.nodes.NodeRelationshipFilter;
 import org.openclover.eclipse.core.views.nodes.Nodes;
-import org.openclover.core.registry.entities.TestCaseInfo;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.jdt.core.IMethod;
-import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.core.JavaModelException;
 
 import java.util.List;
 

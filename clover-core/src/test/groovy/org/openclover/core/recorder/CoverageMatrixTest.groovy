@@ -3,7 +3,7 @@ package org.openclover.core.recorder
 import org.junit.Test
 import org.openclover.runtime.recorder.GrowableCoverageRecorder
 
-import static org.junit.Assert.*
+import static org.junit.Assert.assertEquals
 
 class CoverageMatrixTest {
     @Test

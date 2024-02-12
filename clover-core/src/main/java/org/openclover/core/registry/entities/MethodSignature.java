@@ -1,5 +1,6 @@
 package org.openclover.core.registry.entities;
 
+import org.jetbrains.annotations.NotNull;
 import org.openclover.core.api.registry.Annotation;
 import org.openclover.core.api.registry.MethodSignatureInfo;
 import org.openclover.core.instr.java.CloverToken;
@@ -7,7 +8,6 @@ import org.openclover.core.instr.java.TokenListUtil;
 import org.openclover.core.io.tags.TaggedDataInput;
 import org.openclover.core.io.tags.TaggedDataOutput;
 import org.openclover.core.io.tags.TaggedPersistent;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.DataOutput;
 import java.io.IOException;

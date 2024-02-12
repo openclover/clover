@@ -1,7 +1,7 @@
 package org.openclover.eclipse.core.views;
 
-import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeColumn;
 
 public class ColumnBuilder {
     public static TreeColumn buildTreeColumn(ColumnDefinition definition, Tree tree, TreeColumnLabeler labeler) {

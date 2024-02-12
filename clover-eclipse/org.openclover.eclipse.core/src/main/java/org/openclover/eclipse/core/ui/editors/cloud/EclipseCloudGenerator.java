@@ -3,7 +3,6 @@ package org.openclover.eclipse.core.ui.editors.cloud;
 import clover.org.apache.velocity.VelocityContext;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.api.registry.PackageInfo;
-import org.openclover.eclipse.core.CloverEclipsePluginMessages;
 import org.openclover.core.registry.entities.BasePackageInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.reporters.CloudGenerator;
@@ -11,6 +10,7 @@ import org.openclover.core.reporters.html.ClassInfoStatsCalculator;
 import org.openclover.core.reporters.html.HtmlReportUtil;
 import org.openclover.core.reporters.html.TestClassFilter;
 import org.openclover.core.util.CloverUtils;
+import org.openclover.eclipse.core.CloverEclipsePluginMessages;
 
 import java.io.File;
 import java.io.FileOutputStream;

@@ -1,12 +1,12 @@
 package org.openclover.idea.autoupdater;
 
-import org.openclover.idea.util.ui.CloverIcons;
-import org.openclover.idea.PluginVersionInfo;
-import org.openclover.idea.util.l10n.CloverIdeaPluginMessages;
 import com.intellij.ide.BrowserUtil;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.ui.HyperlinkLabel;
 import com.intellij.ui.components.panels.VerticalBox;
+import org.openclover.idea.PluginVersionInfo;
+import org.openclover.idea.util.l10n.CloverIdeaPluginMessages;
+import org.openclover.idea.util.ui.CloverIcons;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -17,9 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.event.HyperlinkEvent;
-import javax.swing.event.HyperlinkListener;
-import java.awt.Dimension;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 
 public class NewVersionDialog extends DialogWrapper {

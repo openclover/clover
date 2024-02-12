@@ -1,13 +1,13 @@
 package org.openclover.idea.projectview;
 
-import org.openclover.idea.IProjectPlugin;
-import org.openclover.idea.util.ui.CloverIcons;
-import org.openclover.idea.ProjectPlugin;
-import org.openclover.idea.actions.excludes.ExclusionUtil;
-import org.openclover.idea.config.IdeaCloverConfig;
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.psi.PsiElement;
 import com.intellij.ui.LayeredIcon;
+import org.openclover.idea.IProjectPlugin;
+import org.openclover.idea.ProjectPlugin;
+import org.openclover.idea.actions.excludes.ExclusionUtil;
+import org.openclover.idea.config.IdeaCloverConfig;
+import org.openclover.idea.util.ui.CloverIcons;
 
 import javax.swing.Icon;
 

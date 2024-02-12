@@ -1,12 +1,12 @@
 package org.openclover.eclipse.core.views.dashboard;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
 import org.openclover.core.api.registry.ClassInfo;
-import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.core.registry.entities.FullMethodInfo;
 import org.openclover.core.reporters.html.HtmlRenderingSupportImpl;
+import org.openclover.eclipse.core.CloverPlugin;
+
+import java.net.URI;
+import java.net.URISyntaxException;
 
 public class DashboardHtmlRenderingSupport extends HtmlRenderingSupportImpl {
     public static final String JAVA_METHOD_SCHEME = "javamethod";

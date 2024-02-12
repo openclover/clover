@@ -1,10 +1,10 @@
 package org.openclover.core.instr.java;
 
+import org.jetbrains.annotations.NotNull;
 import org.openclover.core.registry.FixedSourceRegion;
 import org.openclover.core.registry.entities.FullMethodInfo;
 import org.openclover.core.registry.entities.MethodSignature;
 import org.openclover.core.spi.lang.LanguageConstruct;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * Code emitter for lambdas declared as an expression. It wraps such expression into a method argument.

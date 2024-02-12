@@ -1,7 +1,7 @@
 package org.openclover.core.util
 
-import org.openclover.core.ProgressListener
 import junit.framework.TestCase
+import org.openclover.core.ProgressListener
 import org.openclover.core.TestUtils
 
 class ProgressFileInputStreamTest extends TestCase {

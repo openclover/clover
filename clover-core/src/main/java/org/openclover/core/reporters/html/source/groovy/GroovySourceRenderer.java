@@ -3,8 +3,8 @@ package org.openclover.core.reporters.html.source.groovy;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.spi.lang.Language;
 import org.openclover.core.spi.reporters.html.source.HtmlRenderingSupport;
-import org.openclover.core.spi.reporters.html.source.SourceRenderer;
 import org.openclover.core.spi.reporters.html.source.LineRenderInfo;
+import org.openclover.core.spi.reporters.html.source.SourceRenderer;
 
 import java.io.Reader;
 import java.util.List;

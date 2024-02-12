@@ -1,11 +1,11 @@
 package org.openclover.core.instr.tests
 
+import org.junit.Before
+import org.junit.Test
 import org.openclover.core.instr.java.JavaMethodContext
 import org.openclover.core.instr.java.JavaTypeContext
 import org.openclover.core.registry.entities.MethodSignature
 import org.openclover.core.registry.entities.Modifiers
-import org.junit.Before
-import org.junit.Test
 
 import java.util.regex.Pattern
 

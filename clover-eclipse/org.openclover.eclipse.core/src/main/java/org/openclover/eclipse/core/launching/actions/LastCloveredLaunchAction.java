@@ -1,8 +1,8 @@
 package org.openclover.eclipse.core.launching.actions;
 
+import org.eclipse.debug.ui.actions.RelaunchLastAction;
 import org.openclover.eclipse.core.CloverEclipsePluginMessages;
 import org.openclover.eclipse.core.launching.LaunchingConstants;
-import org.eclipse.debug.ui.actions.RelaunchLastAction;
 
 public class LastCloveredLaunchAction extends RelaunchLastAction {
     @Override

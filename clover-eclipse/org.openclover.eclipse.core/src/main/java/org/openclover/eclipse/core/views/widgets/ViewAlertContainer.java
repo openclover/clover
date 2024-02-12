@@ -1,12 +1,5 @@
 package org.openclover.eclipse.core.views.widgets;
 
-import org.openclover.eclipse.core.ui.CloverPluginIcons;
-import org.openclover.eclipse.core.ui.GLH;
-import org.openclover.eclipse.core.ui.SwtUtils;
-import org.openclover.eclipse.core.CloverPlugin;
-import org.openclover.eclipse.core.ui.projects.DatabaseChangeEvent;
-import org.openclover.eclipse.core.ui.projects.DatabaseChangeListener;
-import org.openclover.eclipse.core.upgrade.hooks.ConfigUninstaller;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.dialogs.PopupDialog;
 import org.eclipse.jface.resource.JFaceResources;
@@ -14,24 +7,31 @@ import org.eclipse.jface.resource.LocalResourceManager;
 import org.eclipse.jface.resource.ResourceManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.events.MouseAdapter;
-import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Control;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.ui.CloverPluginIcons;
+import org.openclover.eclipse.core.ui.GLH;
+import org.openclover.eclipse.core.ui.SwtUtils;
+import org.openclover.eclipse.core.ui.projects.DatabaseChangeEvent;
+import org.openclover.eclipse.core.ui.projects.DatabaseChangeListener;
+import org.openclover.eclipse.core.upgrade.hooks.ConfigUninstaller;
 
 import java.util.Set;
 

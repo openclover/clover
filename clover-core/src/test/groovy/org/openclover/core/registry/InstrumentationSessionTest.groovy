@@ -1,14 +1,16 @@
 package org.openclover.core.registry
 
+import org.junit.Rule
+import org.junit.Test
+import org.junit.rules.TestName
 import org.openclover.core.TestUtils
 import org.openclover.core.api.instrumentation.ConcurrentInstrumentationException
 import org.openclover.core.api.instrumentation.InstrumentationSession
 import org.openclover.runtime.api.CloverException
-import org.junit.Rule
-import org.junit.Test
-import org.junit.rules.TestName
 
-import static org.junit.Assert.*
+import static org.junit.Assert.assertEquals
+import static org.junit.Assert.assertTrue
+import static org.junit.Assert.fail
 
 class InstrumentationSessionTest {
 

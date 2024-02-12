@@ -1,14 +1,14 @@
 package org.openclover.core.instr.java;
 
-import static org.openclover.runtime.instr.Bindings.$CoverageRecorder$globalSliceStart;
-import static org.openclover.runtime.instr.Bindings.$CoverageRecorder$inc;
-
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.context.MethodRegexpContext;
 import org.openclover.core.context.NamedContext;
 import org.openclover.core.registry.entities.MethodSignature;
 
 import java.lang.reflect.Modifier;
+
+import static org.openclover.runtime.instr.Bindings.$CoverageRecorder$globalSliceStart;
+import static org.openclover.runtime.instr.Bindings.$CoverageRecorder$inc;
 
 public class MethodEntryInstrEmitter extends Emitter {
     private MethodRegistrationNode methodNode;

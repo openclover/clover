@@ -1,7 +1,7 @@
 package org.openclover.idea.treetables;
 
-import org.openclover.idea.util.ComparatorUtil;
 import com.intellij.util.ui.ColumnInfo;
+import org.openclover.idea.util.ComparatorUtil;
 
 import javax.swing.JLabel;
 import javax.swing.JTable;

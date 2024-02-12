@@ -1,12 +1,12 @@
 package org.openclover.idea.actions.testexplorer;
 
+import com.intellij.openapi.actionSystem.ActionManager;
+import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.Presentation;
 import org.openclover.idea.IProjectPlugin;
 import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.actions.view.FlattenPackageToggleAction;
 import org.openclover.idea.config.TestCaseLayout;
-import com.intellij.openapi.actionSystem.ActionManager;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.Presentation;
 
 public class FlattenTestPackageToggleAction extends FlattenPackageToggleAction {
     private final String disabledToolTipText;

@@ -1,6 +1,5 @@
 package org.openclover.idea;
 
-import org.openclover.idea.coverage.EventListenerInstallator;
 import com.intellij.execution.ExecutionListener;
 import com.intellij.execution.ExecutionManager;
 import com.intellij.execution.process.ProcessHandler;
@@ -8,9 +7,10 @@ import com.intellij.execution.runners.ExecutionEnvironment;
 import com.intellij.openapi.project.Project;
 import com.intellij.testFramework.IdeaTestCase;
 import com.intellij.util.messages.MessageBus;
+import org.openclover.idea.coverage.EventListenerInstallator;
 
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.RETURNS_MOCKS;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;

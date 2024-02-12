@@ -2,9 +2,9 @@ package org.openclover.idea.coverage;
 
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
-import org.openclover.idea.util.tasks.CancellableTaskDelegate;
-import org.openclover.idea.util.tasks.CancellableTask;
 import org.jetbrains.annotations.NotNull;
+import org.openclover.idea.util.tasks.CancellableTask;
+import org.openclover.idea.util.tasks.CancellableTaskDelegate;
 
 public class UpdateTaskScheduler {
     private final Project project;

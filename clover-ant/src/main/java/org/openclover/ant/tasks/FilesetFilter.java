@@ -1,18 +1,18 @@
 package org.openclover.ant.tasks;
 
-import org.openclover.runtime.Logger;
-import org.openclover.ant.AntFileSetUtils;
-import org.openclover.core.registry.entities.FullFileInfo;
-import org.openclover.core.api.registry.HasMetrics;
-import org.openclover.core.registry.metrics.HasMetricsFilter;
-import org.openclover.core.util.FileUtils;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.FileSet;
+import org.openclover.ant.AntFileSetUtils;
+import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.registry.entities.FullFileInfo;
+import org.openclover.core.registry.metrics.HasMetricsFilter;
+import org.openclover.core.util.FileUtils;
+import org.openclover.runtime.Logger;
 
 import java.io.File;
 import java.util.List;
-import java.util.Set;
 import java.util.Map;
+import java.util.Set;
 
 import static org.openclover.core.util.Maps.newHashMap;
 import static org.openclover.core.util.Sets.newHashSet;

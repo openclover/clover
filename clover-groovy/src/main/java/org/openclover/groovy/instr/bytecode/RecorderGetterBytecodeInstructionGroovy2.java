@@ -1,10 +1,10 @@
 package org.openclover.groovy.instr.bytecode;
 
+import org.codehaus.groovy.ast.ClassNode;
 import org.openclover.runtime.CloverNames;
 import org_openclover_runtime.Clover;
 import org_openclover_runtime.CloverProfile;
 import org_openclover_runtime.CoverageRecorder;
-import org.codehaus.groovy.ast.ClassNode;
 
 import java.util.List;
 

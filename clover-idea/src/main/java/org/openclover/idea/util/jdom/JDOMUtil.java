@@ -6,7 +6,6 @@ import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
-import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 
 import java.io.BufferedOutputStream;

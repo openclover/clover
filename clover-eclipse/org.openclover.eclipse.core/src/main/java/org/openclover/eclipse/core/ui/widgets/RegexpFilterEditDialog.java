@@ -1,22 +1,22 @@
 package org.openclover.eclipse.core.ui.widgets;
 
-import org.openclover.eclipse.core.CloverEclipsePluginMessages;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.widgets.Combo;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
 import org.openclover.core.context.ContextStore;
-import org.openclover.eclipse.core.ui.SwtUtils;
+import org.openclover.eclipse.core.CloverEclipsePluginMessages;
 import org.openclover.eclipse.core.projects.settings.RegexpEntry;
+import org.openclover.eclipse.core.ui.SwtUtils;
 
 import java.util.regex.Pattern;
 

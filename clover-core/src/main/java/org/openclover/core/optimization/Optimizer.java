@@ -2,8 +2,8 @@ package org.openclover.core.optimization;
 
 import org.openclover.core.api.optimization.Optimizable;
 
-import java.util.List;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Interface for implementations that can optimize a collection of {@link Optimizable}

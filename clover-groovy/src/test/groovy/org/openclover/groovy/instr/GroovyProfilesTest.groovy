@@ -1,14 +1,14 @@
 package org.openclover.groovy.instr
 
-import org.openclover.runtime.CloverNames
-import org.openclover.core.cfg.instr.InstrumentationConfig
 import groovy.transform.CompileStatic
 import org.junit.Test
+import org.openclover.core.cfg.instr.InstrumentationConfig
+import org.openclover.runtime.CloverNames
+import org.openclover.runtime.remote.DistributedConfig
+import org_openclover_runtime.CloverProfile
 
 import static org.openclover.buildutil.testutils.AssertionUtils.assertStringContains
 import static org.openclover.buildutil.testutils.AssertionUtils.assertStringMatches
-import org_openclover_runtime.CloverProfile
-import org.openclover.runtime.remote.DistributedConfig
 
 /**
  * Integration tests that detect if the correct list of CloverProfile's is being embedded

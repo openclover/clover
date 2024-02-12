@@ -1,22 +1,22 @@
 package org.openclover.idea.content;
 
-import org.openclover.core.api.registry.BranchInfo;
-import org.openclover.core.api.registry.ClassInfo;
-import org.openclover.core.api.registry.MethodInfo;
-import org.openclover.core.api.registry.StatementInfo;
-import org.openclover.idea.ProjectPlugin;
-import org.openclover.idea.feature.CloverFeatures;
-import org.openclover.idea.feature.FeatureEvent;
-import org.openclover.idea.feature.FeatureListener;
-import org.openclover.idea.feature.FeatureManager;
-import org.openclover.core.api.registry.ElementInfo;
-import org.openclover.core.registry.FileElementVisitor;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.LogicalPosition;
 import com.intellij.openapi.editor.event.EditorMouseEvent;
 import com.intellij.openapi.editor.event.EditorMouseMotionListener;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
+import org.openclover.core.api.registry.BranchInfo;
+import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.ElementInfo;
+import org.openclover.core.api.registry.MethodInfo;
+import org.openclover.core.api.registry.StatementInfo;
+import org.openclover.core.registry.FileElementVisitor;
+import org.openclover.idea.ProjectPlugin;
+import org.openclover.idea.feature.CloverFeatures;
+import org.openclover.idea.feature.FeatureEvent;
+import org.openclover.idea.feature.FeatureListener;
+import org.openclover.idea.feature.FeatureManager;
 
 import java.awt.Point;
 

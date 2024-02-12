@@ -1,8 +1,6 @@
 package org.openclover.idea.util.tasks;
 
 import clover.org.apache.commons.collections.list.SetUniqueList;
-import org.openclover.runtime.Logger;
-import org.openclover.idea.util.MiscUtils;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.progress.ProcessCanceledException;
@@ -11,6 +9,8 @@ import com.intellij.openapi.progress.Task;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.TestOnly;
+import org.openclover.idea.util.MiscUtils;
+import org.openclover.runtime.Logger;
 
 import java.util.Iterator;
 import java.util.List;

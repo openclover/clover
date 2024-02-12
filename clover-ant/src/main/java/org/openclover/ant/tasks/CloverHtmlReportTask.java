@@ -1,9 +1,9 @@
 package org.openclover.ant.tasks;
 
-import org.openclover.core.reporters.Columns;
-import org.openclover.core.reporters.Format;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.types.FileSet;
+import org.openclover.core.reporters.Columns;
+import org.openclover.core.reporters.Format;
 
 import java.io.File;
 

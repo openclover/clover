@@ -1,12 +1,12 @@
 package org.openclover.idea.util;
 
-import org.openclover.idea.PluginVersionInfo;
 import com.intellij.ide.BrowserUtil;
 import com.intellij.openapi.application.ApplicationInfo;
 import com.intellij.openapi.diagnostic.ErrorReportSubmitter;
 import com.intellij.openapi.diagnostic.IdeaLoggingEvent;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.diagnostic.SubmittedReportInfo;
+import org.openclover.idea.PluginVersionInfo;
 import org_openclover_runtime.CloverVersionInfo;
 
 import java.awt.Component;

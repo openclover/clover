@@ -1,7 +1,5 @@
 package org.openclover.core.instr.java;
 
-import org.openclover.core.instr.java.JavaTokenTypes;
-
 import java.util.BitSet;
 
 /**

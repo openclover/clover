@@ -1,7 +1,7 @@
 package org.openclover.eclipse.core.views;
 
-import org.openclover.core.util.MetricsFormatUtils;
 import org.openclover.core.reporters.Column;
+import org.openclover.core.util.MetricsFormatUtils;
 
 public class BuiltinDecimalMetricsColumnDefinition extends BuiltinMetricsColumnDefinition {
     public BuiltinDecimalMetricsColumnDefinition(Column prototype, String abbreviatedTitle, int requiredIndex, int style) {

@@ -1,12 +1,12 @@
 package org.openclover.core.registry.entities;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.EntityContainer;
 import org.openclover.core.api.registry.EntityVisitor;
 import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.MethodInfo;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Helper class holding a reference to a parent of one of the following code entities:

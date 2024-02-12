@@ -1,5 +1,7 @@
 package org.openclover.core.instr
 
+import org.junit.Before
+import org.openclover.core.TestUtils
 import org.openclover.core.api.registry.ClassInfo
 import org.openclover.core.api.registry.FileInfo
 import org.openclover.core.api.registry.MethodInfo
@@ -14,8 +16,6 @@ import org.openclover.core.registry.Clover2Registry
 import org.openclover.core.registry.entities.BaseFileInfo
 import org.openclover.core.registry.entities.FullMethodInfo
 import org.openclover.core.registry.entities.FullProjectInfo
-import org.openclover.core.TestUtils
-import org.junit.Before
 
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.fail

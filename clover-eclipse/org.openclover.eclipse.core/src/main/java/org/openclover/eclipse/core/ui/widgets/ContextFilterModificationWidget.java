@@ -1,12 +1,12 @@
 package org.openclover.eclipse.core.ui.widgets;
 
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.openclover.eclipse.core.projects.settings.ProjectSettings;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Group;
 import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.settings.ProjectSettings;
 import org.openclover.eclipse.core.settings.InstallationSettings;
 
 public class ContextFilterModificationWidget extends Composite {

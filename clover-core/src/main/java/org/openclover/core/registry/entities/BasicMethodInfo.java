@@ -1,8 +1,8 @@
 package org.openclover.core.registry.entities;
 
+import org.jetbrains.annotations.Nullable;
 import org.openclover.core.api.registry.SourceInfo;
 import org.openclover.core.spi.lang.LanguageConstruct;
-import org.jetbrains.annotations.Nullable;
 
 public class BasicMethodInfo extends BasicElementInfo {
 

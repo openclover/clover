@@ -1,9 +1,9 @@
 package org.openclover.eclipse.testopt.actions;
 
+import org.eclipse.debug.ui.actions.RelaunchLastAction;
 import org.openclover.eclipse.core.CloverEclipsePluginMessages;
 import org.openclover.eclipse.testopt.OptimizedLaunchingConstants;
 import org.openclover.eclipse.testopt.TestOptimizationPluginMessages;
-import org.eclipse.debug.ui.actions.RelaunchLastAction;
 
 public class LastOptimizedLaunchAction extends RelaunchLastAction {
     @Override

@@ -1,23 +1,23 @@
 package org.openclover.core.context
 
+import org.junit.After
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
+import org.junit.rules.TestName
 import org.openclover.core.api.registry.ClassInfo
+import org.openclover.core.api.registry.MethodInfo
 import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig
 import org.openclover.core.cfg.instr.java.LambdaInstrumentation
 import org.openclover.core.cfg.instr.java.SourceLevel
 import org.openclover.core.instr.java.InstrumentationSource
 import org.openclover.core.instr.java.Instrumenter
 import org.openclover.core.instr.java.StringInstrumentationSource
+import org.openclover.core.registry.Clover2Registry
+import org.openclover.core.registry.entities.BasePackageInfo
 import org.openclover.core.registry.entities.FullMethodInfo
 import org.openclover.core.registry.entities.FullProjectInfo
 import org.openclover.core.util.FileUtils
-import org.openclover.core.api.registry.MethodInfo
-import org.openclover.core.registry.entities.BasePackageInfo
-import org.openclover.core.registry.Clover2Registry
-import org.junit.After
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
-import org.junit.rules.TestName
 
 import java.util.regex.Pattern
 

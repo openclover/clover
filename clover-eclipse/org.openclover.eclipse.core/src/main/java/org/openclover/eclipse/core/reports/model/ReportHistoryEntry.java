@@ -1,14 +1,13 @@
 package org.openclover.eclipse.core.reports.model;
 
+import org.openclover.core.cfg.Interval;
+import org.openclover.core.reporters.Current;
+import org.openclover.core.reporters.Type;
 import org.osgi.service.prefs.Preferences;
 
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.Objects;
-
-import org.openclover.core.cfg.Interval;
-import org.openclover.core.reporters.Current;
-import org.openclover.core.reporters.Type;
 
 public class ReportHistoryEntry {
     private String path = "";

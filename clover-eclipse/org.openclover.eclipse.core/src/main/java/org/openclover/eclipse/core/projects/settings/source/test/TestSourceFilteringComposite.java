@@ -1,13 +1,5 @@
 package org.openclover.eclipse.core.projects.settings.source.test;
 
-import org.openclover.eclipse.core.CloverEclipsePluginMessages;
-import org.openclover.eclipse.core.projects.settings.source.LayoutUtils;
-import org.openclover.eclipse.core.ui.GLH;
-import org.openclover.eclipse.core.ui.SwtUtils;
-import org.openclover.eclipse.core.projects.settings.ProjectPropertyPage;
-import org.openclover.eclipse.core.projects.settings.ProjectSettings;
-import org.openclover.eclipse.core.projects.settings.source.SourceRootWithPattern;
-import org.openclover.eclipse.core.projects.settings.source.SourceRootsWithPatternTreeContentProvider;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
@@ -21,6 +13,14 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.openclover.eclipse.core.CloverEclipsePluginMessages;
+import org.openclover.eclipse.core.projects.settings.ProjectPropertyPage;
+import org.openclover.eclipse.core.projects.settings.ProjectSettings;
+import org.openclover.eclipse.core.projects.settings.source.LayoutUtils;
+import org.openclover.eclipse.core.projects.settings.source.SourceRootWithPattern;
+import org.openclover.eclipse.core.projects.settings.source.SourceRootsWithPatternTreeContentProvider;
+import org.openclover.eclipse.core.ui.GLH;
+import org.openclover.eclipse.core.ui.SwtUtils;
 
 import java.util.ArrayList;
 import java.util.List;

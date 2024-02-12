@@ -1,11 +1,11 @@
 package typeannotation.fielddeclarationgenerics;
 
-import static java.lang.annotation.RetentionPolicy.*;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.util.HashMap;
+
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /* Testcase for singleTypeArgument */
 public class TypeAnnotationInFieldDeclarationGenerics<T> {

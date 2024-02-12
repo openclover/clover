@@ -1,11 +1,5 @@
 package org.openclover.idea;
 
-import org.openclover.idea.IProjectPlugin;
-import org.openclover.idea.config.CloverModuleConfig;
-import org.openclover.idea.config.IdeaXmlConfigConstants;
-import org.openclover.idea.util.ui.CloverIcons;
-import org.openclover.idea.build.ProjectRebuilder;
-import org.openclover.idea.config.CloverModuleConfigPanel;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
@@ -18,11 +12,14 @@ import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.openclover.idea.build.ProjectRebuilder;
+import org.openclover.idea.config.CloverModuleConfig;
+import org.openclover.idea.config.CloverModuleConfigPanel;
+import org.openclover.idea.config.IdeaXmlConfigConstants;
 
-import javax.swing.Icon;
+import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.BorderFactory;
 
 @State(name = IdeaXmlConfigConstants.MODULE_FILE_COMPONENT_NAME, storages = {@Storage(id = "module", file = "$MODULE_FILE$")})
 public class CloverModuleComponent implements ModuleComponent, Configurable,

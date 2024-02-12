@@ -1,13 +1,13 @@
 package org.openclover.idea.coverage.monitor;
 
-import org.openclover.idea.config.IdeaCloverConfig;
-import org.openclover.idea.coverage.CoverageManager;
-import org.openclover.idea.junit.JUnitOptimizingProgramRunnerBase;
 import com.intellij.execution.ExecutionAdapter;
 import com.intellij.execution.configurations.RunProfile;
 import com.intellij.execution.process.ProcessHandler;
 import com.intellij.openapi.application.ApplicationManager;
 import org.jetbrains.annotations.NotNull;
+import org.openclover.idea.config.IdeaCloverConfig;
+import org.openclover.idea.coverage.CoverageManager;
+import org.openclover.idea.junit.JUnitOptimizingProgramRunnerBase;
 
 public class ProcessExitDatabaseMonitor extends ExecutionAdapter {
     private final CoverageManager coverageManager;

@@ -1,9 +1,9 @@
 package org.openclover.eclipse.core.projects.model;
 
-import org.openclover.eclipse.core.projects.CloverProject;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.openclover.eclipse.core.projects.CloverProject;
 
 import java.io.File;
 

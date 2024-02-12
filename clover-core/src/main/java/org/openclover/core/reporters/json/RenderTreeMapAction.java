@@ -2,6 +2,7 @@ package org.openclover.core.reporters.json;
 
 import clover.com.google.gson.Gson;
 import clover.com.google.gson.GsonBuilder;
+import clover.org.apache.velocity.VelocityContext;
 import org.openclover.core.api.registry.BlockMetrics;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.registry.entities.FullClassInfo;
@@ -12,15 +13,13 @@ import org.openclover.core.reporters.CloverReportConfig;
 import org.openclover.core.reporters.html.HtmlRenderingSupportImpl;
 import org.openclover.core.reporters.html.HtmlReportUtil;
 
-import java.util.concurrent.Callable;
-import java.util.List;
-import java.util.Iterator;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Collection;
 import java.io.File;
-
-import clover.org.apache.velocity.VelocityContext;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.Callable;
 
 public class RenderTreeMapAction implements Callable {
 

@@ -1,17 +1,17 @@
 package org.openclover.core
 
-import org.openclover.runtime.api.CloverException
+import junit.framework.TestCase
+import org.openclover.buildutil.testutils.IOHelper
 import org.openclover.core.api.registry.ClassInfo
 import org.openclover.core.registry.entities.FullClassInfo
-import org.openclover.core.registry.metrics.HasMetricsFilter
 import org.openclover.core.registry.entities.FullProjectInfo
 import org.openclover.core.registry.entities.TestCaseInfo
-import org.openclover.buildutil.testutils.IOHelper
+import org.openclover.core.registry.metrics.HasMetricsFilter
 import org.openclover.core.util.FileUtils
-import junit.framework.TestCase
+import org.openclover.runtime.api.CloverException
 
-import static org.openclover.core.util.Lists.newArrayList;
-import static org.openclover.core.util.Lists.newLinkedList;
+import static org.openclover.core.util.Lists.newArrayList
+import static org.openclover.core.util.Lists.newLinkedList
 import static org.openclover.core.util.Sets.newHashSet
 
 /**

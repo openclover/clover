@@ -1,9 +1,9 @@
 package org.openclover.core;
 
+import org.openclover.core.cfg.StorageSize;
 import org.openclover.core.recorder.GlobalCoverageRecordingTranscript;
 import org.openclover.core.recorder.PerTestCoverage;
 import org.openclover.core.recorder.PerTestRecordingTranscript;
-import org.openclover.core.cfg.StorageSize;
 import org.openclover.core.registry.Clover2Registry;
 import org.openclover.core.registry.CoverageDataRange;
 import org.openclover.core.registry.entities.FullFileInfo;

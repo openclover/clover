@@ -1,7 +1,7 @@
 package org.openclover.eclipse.core.views.coverageexplorer.actions;
 
-import org.openclover.eclipse.core.views.coverageexplorer.CoverageViewSettings;
 import org.openclover.eclipse.core.views.actions.SelectHierarchyStyleActionDelegate;
+import org.openclover.eclipse.core.views.coverageexplorer.CoverageViewSettings;
 
 public class SelectNoPackageRootsAction extends SelectHierarchyStyleActionDelegate {
     public SelectNoPackageRootsAction() {

@@ -1,16 +1,16 @@
 package org.openclover.core.recorder
 
-import org.openclover.runtime.CloverNames
-import org_openclover_runtime.CloverProfile
-import org_openclover_runtime.CoverageRecorder
 import edu.umd.cs.mtc.TestFramework
 import org.junit.Before
 import org.junit.Rule
 import org.junit.rules.TestName
 import org.openclover.core.TestUtils
-import org.openclover.runtime.recorder.GrowableCoverageRecorder
+import org.openclover.runtime.CloverNames
 import org.openclover.runtime.recorder.FixedSizeCoverageRecorder
+import org.openclover.runtime.recorder.GrowableCoverageRecorder
 import org.openclover.runtime.recorder.SharedCoverageRecorder
+import org_openclover_runtime.CloverProfile
+import org_openclover_runtime.CoverageRecorder
 
 import static org.junit.Assert.assertEquals
 

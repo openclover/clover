@@ -1,11 +1,11 @@
 package org.openclover.eclipse.core.views.dashboard
 
-import org.openclover.core.CloverDatabase
-import org.openclover.runtime.api.registry.CloverRegistryException
-import org.openclover.core.registry.Clover2Registry
-import org.openclover.core.util.FileUtils
 import org.hamcrest.CoreMatchers
 import org.junit.Test
+import org.openclover.core.CloverDatabase
+import org.openclover.core.registry.Clover2Registry
+import org.openclover.core.util.FileUtils
+import org.openclover.runtime.api.registry.CloverRegistryException
 
 import static org.hamcrest.MatcherAssert.assertThat
 import static org.junit.Assert.assertTrue

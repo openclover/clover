@@ -1,18 +1,18 @@
 package org.openclover.eclipse.core.projects;
 
-import org.eclipse.core.resources.IProjectNature;
-import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IProjectDescription;
+import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.core.IClasspathEntry;
 import org.openclover.eclipse.core.CloverPlugin;
 
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import static org.openclover.core.util.Lists.newArrayList;
 

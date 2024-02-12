@@ -1,12 +1,12 @@
 package org.openclover.ant.tasks;
 
-import org.openclover.ant.AntLogger;
-import org.openclover.runtime.CloverNames;
-import org.openclover.core.CloverStartup;
-import org.openclover.runtime.Logger;
-import org.openclover.core.PrematureLibraryLoader;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
+import org.openclover.ant.AntLogger;
+import org.openclover.core.CloverStartup;
+import org.openclover.core.PrematureLibraryLoader;
+import org.openclover.runtime.CloverNames;
+import org.openclover.runtime.Logger;
 
 import java.io.File;
 

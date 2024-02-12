@@ -1,13 +1,13 @@
 package org.openclover.core.util
 
+import junit.framework.TestCase
+import org.openclover.buildutil.testutils.IOHelper
 import org.openclover.core.CloverDatabase
 import org.openclover.core.CloverTestFixture
-import org.openclover.runtime.CloverNames
 import org.openclover.core.CoverageDataSpec
-import org.openclover.runtime.api.CloverException
 import org.openclover.core.optimization.Snapshot
-import org.openclover.buildutil.testutils.IOHelper
-import junit.framework.TestCase
+import org.openclover.runtime.CloverNames
+import org.openclover.runtime.api.CloverException
 
 import java.lang.reflect.InvocationTargetException
 

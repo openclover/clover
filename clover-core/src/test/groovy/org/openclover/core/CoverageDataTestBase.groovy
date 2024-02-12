@@ -1,24 +1,24 @@
 package org.openclover.core
 
-import org.openclover.runtime.ErrorInfo
-import org.openclover.runtime.RuntimeType
-import org.openclover.runtime.api.CloverException
-import org.openclover.core.instr.InstrumentationSessionImpl
-import org.openclover.runtime.recorder.FileBasedPerTestRecording
-import org.openclover.core.recorder.PerTestCoverage
-import org.openclover.runtime.recorder.PerTestRecorder
-import org.openclover.core.recorder.PerTestRecordingTranscript
+import junit.framework.TestCase
 import org.openclover.core.context.ContextSet
+import org.openclover.core.instr.InstrumentationSessionImpl
+import org.openclover.core.recorder.PerTestCoverage
+import org.openclover.core.recorder.PerTestRecordingTranscript
 import org.openclover.core.registry.Clover2Registry
 import org.openclover.core.registry.CoverageDataProvider
-import org.openclover.core.registry.entities.FullFileInfo
 import org.openclover.core.registry.FixedSourceRegion
+import org.openclover.core.registry.entities.FullFileInfo
 import org.openclover.core.registry.entities.MethodSignature
 import org.openclover.core.registry.entities.Modifiers
 import org.openclover.core.registry.entities.TestCaseInfo
-import org.openclover.runtime.util.CloverBitSet
 import org.openclover.core.util.SimpleCoverageRange
-import junit.framework.TestCase
+import org.openclover.runtime.ErrorInfo
+import org.openclover.runtime.RuntimeType
+import org.openclover.runtime.api.CloverException
+import org.openclover.runtime.recorder.FileBasedPerTestRecording
+import org.openclover.runtime.recorder.PerTestRecorder
+import org.openclover.runtime.util.CloverBitSet
 
 abstract class CoverageDataTestBase extends TestCase {
     private File tempDir

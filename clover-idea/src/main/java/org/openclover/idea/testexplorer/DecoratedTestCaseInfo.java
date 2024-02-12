@@ -1,25 +1,25 @@
 package org.openclover.idea.testexplorer;
 
-import org.openclover.core.BitSetCoverageProvider;
-import org.openclover.core.CloverDatabase;
-import org.openclover.core.CoverageData;
-import org.openclover.core.registry.entities.FullClassInfo;
-import org.openclover.core.registry.entities.FullFileInfo;
-import org.openclover.core.registry.entities.FullPackageInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
-import org.openclover.idea.util.tasks.AbstractExpirableTaskDelegate;
-import org.openclover.idea.util.tasks.ExpirableTaskProcessor;
-import org.openclover.idea.coverage.CoverageManager;
-import org.openclover.core.registry.CoverageDataProvider;
-import org.openclover.core.registry.CoverageDataReceptor;
-import org.openclover.core.api.registry.HasMetrics;
-import org.openclover.core.registry.metrics.HasMetricsFilter;
-import org.openclover.core.registry.entities.FullMethodInfo;
-import org.openclover.core.registry.entities.StackTraceInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
 import com.intellij.openapi.progress.ProgressIndicator;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.openclover.core.BitSetCoverageProvider;
+import org.openclover.core.CloverDatabase;
+import org.openclover.core.CoverageData;
+import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.registry.CoverageDataProvider;
+import org.openclover.core.registry.CoverageDataReceptor;
+import org.openclover.core.registry.entities.FullClassInfo;
+import org.openclover.core.registry.entities.FullFileInfo;
+import org.openclover.core.registry.entities.FullMethodInfo;
+import org.openclover.core.registry.entities.FullPackageInfo;
+import org.openclover.core.registry.entities.FullProjectInfo;
+import org.openclover.core.registry.entities.StackTraceInfo;
+import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.core.registry.metrics.HasMetricsFilter;
+import org.openclover.idea.coverage.CoverageManager;
+import org.openclover.idea.util.tasks.AbstractExpirableTaskDelegate;
+import org.openclover.idea.util.tasks.ExpirableTaskProcessor;
 
 import java.util.BitSet;
 

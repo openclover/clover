@@ -1,14 +1,14 @@
 package org.openclover.eclipse.core.ui.editors.cloud;
 
-import org.openclover.eclipse.core.CloverPlugin;
-import org.openclover.eclipse.core.projects.CloverProject;
-import org.openclover.eclipse.core.views.actions.OpenJavaEditorAction;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.browser.LocationEvent;
 import org.eclipse.swt.browser.LocationListener;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.views.actions.OpenJavaEditorAction;
 
 public class EditorLinkingLocationListener implements LocationListener {
     public static final String JAVAEDITOR_HREF_PREFIX = "#javaeditor:";

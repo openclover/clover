@@ -1,6 +1,5 @@
 package org.openclover.eclipse.core.projects.settings.source;
 
-import org.openclover.eclipse.core.CloverEclipsePluginMessages;
 import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -9,6 +8,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.openclover.eclipse.core.CloverEclipsePluginMessages;
 
 public class EditSourceFolderPatternDialog extends TrayDialog {
 

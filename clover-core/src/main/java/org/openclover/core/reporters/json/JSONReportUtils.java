@@ -1,16 +1,16 @@
 package org.openclover.core.reporters.json;
 
+import org.openclover.core.api.registry.BlockMetrics;
+import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.reporters.CloverReportConfig;
 import org.openclover.core.reporters.Column;
 import org.openclover.core.reporters.Columns;
 import org.openclover.core.reporters.html.HtmlRenderingSupportImpl;
-import org.openclover.core.api.registry.BlockMetrics;
-import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.runtime.api.CloverException;
 
-import java.util.Map;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class JSONReportUtils {
     public static Map<String, Number> collectColumnValuesFor(

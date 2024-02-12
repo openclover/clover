@@ -1,13 +1,13 @@
 package org.openclover.core.instr.tests.naming;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.openclover.core.api.registry.Annotation;
 import org.openclover.core.api.registry.AnnotationValue;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.instr.tests.TestAnnotationNames;
 import org.openclover.core.registry.entities.Modifiers;
 import org.openclover.core.registry.entities.StringifiedAnnotationValue;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 

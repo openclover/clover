@@ -1,13 +1,13 @@
 package org.openclover.eclipse.core.projects.builder;
 
-import org.openclover.runtime.api.CloverException;
-import org.openclover.core.instr.java.FileInstrumentationSource;
-import org.openclover.core.instr.java.InstrumentationSource;
-import org.openclover.eclipse.core.projects.CloverProject;
-import org.openclover.core.registry.Clover2Registry;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.openclover.core.instr.java.FileInstrumentationSource;
+import org.openclover.core.instr.java.InstrumentationSource;
+import org.openclover.core.registry.Clover2Registry;
+import org.openclover.eclipse.core.projects.CloverProject;
+import org.openclover.runtime.api.CloverException;
 
 import java.io.CharArrayWriter;
 import java.util.Iterator;

@@ -1,38 +1,36 @@
 package org.openclover.ci;
 
-import org.openclover.ant.tasks.AntInstrumentationConfig;
-import org.openclover.ant.tasks.CloverEnvTask;
-import org.openclover.core.util.ClassPathUtil;
-import org.openclover.core.api.optimization.Optimizable;
-import org.openclover.core.optimization.LocalSnapshotOptimizer;
-import org.openclover.core.optimization.Snapshot;
-import org.openclover.core.api.optimization.OptimizationOptions;
-import org.openclover.runtime.Logger;
-import org.openclover.runtime.api.CloverException;
-import org.openclover.runtime.CloverNames;
-
-import java.util.Vector;
-import java.util.List;
-import java.util.Enumeration;
-import java.util.Map;
-import java.util.Arrays;
-import java.lang.reflect.Field;
-import java.io.IOException;
-
-import org.openclover.ant.taskdefs.CloverCompilerAdapter;
-
-import org.apache.tools.ant.BuildListener;
 import org.apache.tools.ant.BuildEvent;
-import org.apache.tools.ant.UnknownElement;
+import org.apache.tools.ant.BuildListener;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
-import org.apache.tools.ant.types.Path;
-import org.apache.tools.ant.taskdefs.Javac;
+import org.apache.tools.ant.UnknownElement;
 import org.apache.tools.ant.taskdefs.Java;
+import org.apache.tools.ant.taskdefs.Javac;
 import org.apache.tools.ant.taskdefs.Javadoc;
-import org.apache.tools.ant.taskdefs.optional.junit.JUnitTask;
 import org.apache.tools.ant.taskdefs.optional.junit.BatchTest;
+import org.apache.tools.ant.taskdefs.optional.junit.JUnitTask;
 import org.apache.tools.ant.taskdefs.optional.junit.JUnitTest;
+import org.apache.tools.ant.types.Path;
+import org.openclover.ant.taskdefs.CloverCompilerAdapter;
+import org.openclover.ant.tasks.AntInstrumentationConfig;
+import org.openclover.ant.tasks.CloverEnvTask;
+import org.openclover.core.api.optimization.Optimizable;
+import org.openclover.core.api.optimization.OptimizationOptions;
+import org.openclover.core.optimization.LocalSnapshotOptimizer;
+import org.openclover.core.optimization.Snapshot;
+import org.openclover.core.util.ClassPathUtil;
+import org.openclover.runtime.CloverNames;
+import org.openclover.runtime.Logger;
+import org.openclover.runtime.api.CloverException;
+
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.Map;
+import java.util.Vector;
 
 import static org.openclover.core.util.Lists.newArrayList;
 

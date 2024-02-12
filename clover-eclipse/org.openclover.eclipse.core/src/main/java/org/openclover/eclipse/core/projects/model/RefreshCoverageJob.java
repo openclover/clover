@@ -1,11 +1,11 @@
 package org.openclover.eclipse.core.projects.model;
 
-import org.openclover.eclipse.core.projects.CloverProject;
-import org.openclover.eclipse.core.CloverPlugin;
-import org.openclover.core.CloverDatabase;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.openclover.core.CloverDatabase;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.CloverProject;
 
 public class RefreshCoverageJob extends LoadDatabaseJob {
     private final CloverDatabase database;

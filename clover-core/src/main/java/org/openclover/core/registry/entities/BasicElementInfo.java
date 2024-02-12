@@ -3,8 +3,8 @@ package org.openclover.core.registry.entities;
 import org.openclover.core.api.registry.ContextSet;
 import org.openclover.core.api.registry.ElementInfo;
 import org.openclover.core.api.registry.SourceInfo;
-import org.openclover.core.spi.lang.LanguageConstruct;
 import org.openclover.core.registry.FixedSourceRegion;
+import org.openclover.core.spi.lang.LanguageConstruct;
 
 public class BasicElementInfo implements ElementInfo {
     private FixedSourceRegion region; //May change during instrumentation

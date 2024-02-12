@@ -1,5 +1,6 @@
 package org.openclover.core.context;
 
+import org.openclover.core.CloverDatabase;
 import org.openclover.core.api.registry.BranchInfo;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.MethodInfo;
@@ -10,16 +11,15 @@ import org.openclover.core.cfg.instr.StatementContextDef;
 import org.openclover.core.io.tags.TaggedDataInput;
 import org.openclover.core.io.tags.TaggedDataOutput;
 import org.openclover.core.io.tags.TaggedPersistent;
-import org.openclover.core.CloverDatabase;
-import org.openclover.runtime.api.CloverException;
-import org.openclover.runtime.Logger;
-import org.openclover.core.registry.entities.FullBranchInfo;
 import org.openclover.core.registry.Clover2Registry;
 import org.openclover.core.registry.FileElementVisitor;
+import org.openclover.core.registry.entities.FullBranchInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullMethodInfo;
 import org.openclover.core.registry.entities.FullStatementInfo;
 import org.openclover.core.util.Lists;
+import org.openclover.runtime.Logger;
+import org.openclover.runtime.api.CloverException;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

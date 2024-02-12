@@ -1,6 +1,5 @@
 package org.openclover.idea;
 
-import org.openclover.idea.util.MiscUtils;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.roots.LibraryOrderEntry;
@@ -16,6 +15,7 @@ import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileManager;
 import org.jetbrains.annotations.Nullable;
+import org.openclover.idea.util.MiscUtils;
 
 import java.net.MalformedURLException;
 import java.net.URL;

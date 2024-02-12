@@ -1,8 +1,8 @@
 package org.openclover.idea.junit;
 
-import org.openclover.idea.util.ui.CloverIcons;
 import com.intellij.execution.executors.DefaultRunExecutor;
 import org.jetbrains.annotations.NotNull;
+import org.openclover.idea.util.ui.CloverIcons;
 
 import javax.swing.Icon;
 

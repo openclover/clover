@@ -1,9 +1,9 @@
 package org.openclover.ant
 
-import org_openclover_runtime.CloverProfile
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException
+import org_openclover_runtime.CloverProfile
 
 import static org.hamcrest.CoreMatchers.containsString
 import static org.junit.Assert.assertEquals

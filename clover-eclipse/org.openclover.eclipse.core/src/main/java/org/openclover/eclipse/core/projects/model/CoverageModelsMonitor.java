@@ -1,16 +1,16 @@
 package org.openclover.eclipse.core.projects.model;
 
-import org.openclover.eclipse.core.CloverPlugin;
-import org.openclover.eclipse.core.ui.projects.DatabaseChangeListener;
-import org.openclover.eclipse.core.ui.projects.DatabaseChangeEvent;
-import org.openclover.eclipse.core.settings.InstallationSettings;
-import org.openclover.eclipse.core.projects.CloverProject;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.settings.InstallationSettings;
+import org.openclover.eclipse.core.ui.projects.DatabaseChangeEvent;
+import org.openclover.eclipse.core.ui.projects.DatabaseChangeListener;
 
 import java.util.ArrayList;
 import java.util.Collection;

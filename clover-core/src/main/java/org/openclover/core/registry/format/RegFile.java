@@ -1,8 +1,8 @@
 package org.openclover.core.registry.format;
 
 import org.openclover.core.registry.RegistryUpdate;
-import org.openclover.runtime.api.registry.CloverRegistryException;
 import org.openclover.core.registry.entities.FullFileInfo;
+import org.openclover.runtime.api.registry.CloverRegistryException;
 import org.openclover.runtime.registry.format.RegAccessMode;
 
 import java.io.File;

@@ -1,6 +1,5 @@
 package org.openclover.idea.util;
 
-import org.openclover.idea.util.vfs.VfsUtil;
 import com.intellij.openapi.application.Application;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.module.Module;
@@ -13,6 +12,7 @@ import com.intellij.openapi.util.Computable;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.NotNull;
+import org.openclover.idea.util.vfs.VfsUtil;
 
 import java.io.File;
 import java.util.Arrays;

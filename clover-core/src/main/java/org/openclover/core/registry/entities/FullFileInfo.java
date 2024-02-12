@@ -1,5 +1,6 @@
 package org.openclover.core.registry.entities;
 
+import org.jetbrains.annotations.NotNull;
 import org.openclover.core.api.registry.BlockMetrics;
 import org.openclover.core.api.registry.BranchInfo;
 import org.openclover.core.api.registry.ClassInfo;
@@ -23,8 +24,6 @@ import org.openclover.core.spi.lang.Language;
 import org.openclover.core.util.FileUtils;
 import org.openclover.core.util.Path;
 import org.openclover.runtime.Logger;
-import org.jetbrains.annotations.NotNull;
-import org.openclover.core.util.Lists;
 
 import java.io.File;
 import java.io.FileReader;

@@ -1,11 +1,11 @@
 package org.openclover.idea.actions;
 
-import org.openclover.idea.report.treemap.TreeMapVirtualFile;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
+import org.openclover.idea.report.treemap.TreeMapVirtualFile;
 
 public class TreeMapReportAction extends AbstractReportAction {
     @Override

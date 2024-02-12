@@ -1,13 +1,5 @@
 package org.openclover.idea.content;
 
-import org.openclover.core.CloverDatabase;
-import org.openclover.runtime.Logger;
-import org.openclover.idea.IProjectPlugin;
-import org.openclover.idea.ProjectPlugin;
-import org.openclover.idea.util.vfs.VfsUtil;
-import org.openclover.idea.coverage.CoverageTreeListener;
-import org.openclover.idea.coverage.CoverageTreeModel;
-import org.openclover.core.registry.entities.FullFileInfo;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.event.DocumentEvent;
 import com.intellij.openapi.editor.event.DocumentListener;
@@ -18,6 +10,14 @@ import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
+import org.openclover.core.CloverDatabase;
+import org.openclover.core.registry.entities.FullFileInfo;
+import org.openclover.idea.IProjectPlugin;
+import org.openclover.idea.ProjectPlugin;
+import org.openclover.idea.coverage.CoverageTreeListener;
+import org.openclover.idea.coverage.CoverageTreeModel;
+import org.openclover.idea.util.vfs.VfsUtil;
+import org.openclover.runtime.Logger;
 
 import javax.swing.SwingUtilities;
 

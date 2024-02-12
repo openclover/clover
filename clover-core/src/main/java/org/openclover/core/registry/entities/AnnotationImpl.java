@@ -1,13 +1,13 @@
 package org.openclover.core.registry.entities;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.openclover.core.api.registry.Annotation;
 import org.openclover.core.api.registry.AnnotationValue;
 import org.openclover.core.io.tags.TaggedDataInput;
 import org.openclover.core.io.tags.TaggedDataOutput;
 import org.openclover.core.registry.AnnotationValueCollection;
 import org.openclover.core.registry.PersistentAnnotationValue;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.util.Collections;

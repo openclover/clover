@@ -1,9 +1,5 @@
 package org.openclover.eclipse.testopt.settings;
 
-import org.openclover.core.api.optimization.OptimizationOptions;
-import org.openclover.eclipse.core.ui.GLH;
-import org.openclover.eclipse.testopt.TestOptimizationPlugin;
-import org.openclover.eclipse.testopt.TestOptimizationPluginMessages;
 import org.eclipse.jface.dialogs.DialogPage;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditor;
@@ -17,6 +13,10 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.openclover.core.api.optimization.OptimizationOptions;
+import org.openclover.eclipse.core.ui.GLH;
+import org.openclover.eclipse.testopt.TestOptimizationPlugin;
+import org.openclover.eclipse.testopt.TestOptimizationPluginMessages;
 
 import java.util.Collection;
 import java.util.Map;

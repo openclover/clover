@@ -1,6 +1,5 @@
 package org.openclover.idea.actions;
 
-import org.openclover.idea.util.tmp.TmpPathResolver;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;
@@ -9,6 +8,7 @@ import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.fileEditor.OpenFileDescriptor;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.pom.Navigatable;
+import org.openclover.idea.util.tmp.TmpPathResolver;
 
 public class JumpToActualSourceAction extends AnAction {
 

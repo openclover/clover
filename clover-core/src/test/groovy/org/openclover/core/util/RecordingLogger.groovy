@@ -1,8 +1,8 @@
 package org.openclover.core.util
 
-import org.openclover.runtime.Logger
 import org.hamcrest.Description
 import org.hamcrest.TypeSafeMatcher
+import org.openclover.runtime.Logger
 
 import static org.openclover.core.util.Lists.newArrayList
 

@@ -1,9 +1,9 @@
 package org.openclover.core
 
-import org.openclover.core.util.JavaEnvUtils
 import org.apache.tools.ant.BuildException
 import org.junit.Before
 import org.junit.Test
+import org.openclover.core.util.JavaEnvUtils
 
 import static java.util.regex.Pattern.quote
 import static org.hamcrest.MatcherAssert.assertThat

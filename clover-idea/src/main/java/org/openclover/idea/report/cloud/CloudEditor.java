@@ -1,9 +1,5 @@
 package org.openclover.idea.report.cloud;
 
-import org.openclover.core.api.registry.HasMetrics;
-import org.openclover.idea.coverage.BaseCoverageNodeViewer;
-import org.openclover.idea.coverage.CoverageNodeViewer;
-import org.openclover.idea.util.vfs.DummyFileEditor;
 import com.intellij.openapi.actionSystem.ActionGroup;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.ActionToolbar;
@@ -13,9 +9,20 @@ import com.intellij.ui.components.panels.VerticalBox;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.idea.coverage.BaseCoverageNodeViewer;
+import org.openclover.idea.coverage.CoverageNodeViewer;
+import org.openclover.idea.util.vfs.DummyFileEditor;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.JComponent;
+import javax.swing.JEditorPane;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import java.awt.BorderLayout;
 
 
 public class CloudEditor extends DummyFileEditor implements CloudReportView, DataProvider {

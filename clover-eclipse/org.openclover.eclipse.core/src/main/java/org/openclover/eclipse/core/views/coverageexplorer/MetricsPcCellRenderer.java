@@ -1,14 +1,14 @@
 package org.openclover.eclipse.core.views.coverageexplorer;
 
-import org.openclover.eclipse.core.views.ColumnCollectionSettings;
-import org.openclover.eclipse.core.views.ExplorerViewSettings;
-import org.openclover.eclipse.core.views.ColumnDefinition;
-import org.openclover.eclipse.core.views.NumericColumnDefinition;
-import org.openclover.eclipse.core.views.widgets.HistogramCellRenderer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Tree;
+import org.openclover.eclipse.core.views.ColumnCollectionSettings;
+import org.openclover.eclipse.core.views.ColumnDefinition;
+import org.openclover.eclipse.core.views.ExplorerViewSettings;
+import org.openclover.eclipse.core.views.NumericColumnDefinition;
+import org.openclover.eclipse.core.views.widgets.HistogramCellRenderer;
 
 /**
  * Renders the coverage cell in the {@link CoverageView}. Will draw a nice green/red or grey

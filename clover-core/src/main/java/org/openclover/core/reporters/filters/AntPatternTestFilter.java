@@ -1,9 +1,9 @@
 package org.openclover.core.reporters.filters;
 
+import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.registry.BaseInvertableFilter;
 import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
-import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.util.FilterUtils;
 
 import java.io.File;

@@ -1,19 +1,19 @@
 package org.openclover.functest.ant.testutils
 
+import groovy.transform.CompileStatic
+import org.openclover.core.context.ContextSet
+import org.openclover.core.instr.InstrumentationSessionImpl
+import org.openclover.core.registry.Clover2Registry
 import org.openclover.core.registry.entities.FullBranchInfo
 import org.openclover.core.registry.entities.FullMethodInfo
 import org.openclover.core.registry.entities.FullStatementInfo
 import org.openclover.core.registry.entities.MethodSignature
 import org.openclover.core.registry.entities.Modifiers
-import org.openclover.runtime.api.CloverException
-import org.openclover.core.context.ContextSet
-import org.openclover.core.instr.InstrumentationSessionImpl
-import org.openclover.runtime.recorder.FixedSizeCoverageRecorder
-import org.openclover.core.registry.Clover2Registry
-import org_openclover_runtime.Clover
-import groovy.transform.CompileStatic
 import org.openclover.core.util.Lists
 import org.openclover.core.util.Maps
+import org.openclover.runtime.api.CloverException
+import org.openclover.runtime.recorder.FixedSizeCoverageRecorder
+import org_openclover_runtime.Clover
 
 @CompileStatic
 class CloverTestFixture {

@@ -1,6 +1,5 @@
 package org.openclover.core.instr.java
 
-import org.openclover.core.instr.java.JavaTokenTypes
 import org.junit.Test
 
 import static org.junit.Assert.assertFalse

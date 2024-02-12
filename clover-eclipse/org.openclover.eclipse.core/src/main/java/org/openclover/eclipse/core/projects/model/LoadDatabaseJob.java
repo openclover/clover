@@ -1,12 +1,5 @@
 package org.openclover.eclipse.core.projects.model;
 
-import org.openclover.core.CloverDatabase;
-import org.openclover.runtime.api.CloverException;
-import org.openclover.core.context.ContextSet;
-import org.openclover.eclipse.core.CloverEclipsePluginMessages;
-import org.openclover.eclipse.core.CloverPlugin;
-import org.openclover.eclipse.core.projects.CloverProject;
-import org.openclover.eclipse.core.projects.settings.ProjectSettings;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.QualifiedName;
@@ -14,6 +7,13 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.MultiRule;
+import org.openclover.core.CloverDatabase;
+import org.openclover.core.context.ContextSet;
+import org.openclover.eclipse.core.CloverEclipsePluginMessages;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.projects.settings.ProjectSettings;
+import org.openclover.runtime.api.CloverException;
 
 import java.io.File;
 import java.io.IOException;

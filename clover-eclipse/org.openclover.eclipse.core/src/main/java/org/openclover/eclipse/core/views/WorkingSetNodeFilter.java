@@ -1,12 +1,10 @@
 package org.openclover.eclipse.core.views;
 
-import org.openclover.eclipse.core.views.nodes.NodeRelationshipFilter;
+import org.eclipse.core.runtime.IAdaptable;
 import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.views.nodes.NodeRelationshipFilter;
 
 import java.util.Collection;
-import java.util.Iterator;
-
-import org.eclipse.core.runtime.IAdaptable;
 
 public class WorkingSetNodeFilter implements NodeRelationshipFilter {
     private boolean inWorkingSetMode = CloverPlugin.getInstance().isInWorkingSetMode();

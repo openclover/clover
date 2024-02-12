@@ -1,14 +1,14 @@
 package org.openclover.ant.tasks;
 
+import org.apache.tools.ant.BuildException;
 import org.openclover.core.CloverDatabase;
-import org.openclover.runtime.CloverNames;
 import org.openclover.core.CoverageDataSpec;
-import org.openclover.runtime.Logger;
 import org.openclover.core.cfg.Interval;
 import org.openclover.core.optimization.Snapshot;
 import org.openclover.core.optimization.SnapshotPrinter;
 import org.openclover.core.recorder.PerTestCoverageStrategy;
-import org.apache.tools.ant.BuildException;
+import org.openclover.runtime.CloverNames;
+import org.openclover.runtime.Logger;
 
 import java.io.File;
 import java.util.LinkedList;

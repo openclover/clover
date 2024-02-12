@@ -1,14 +1,14 @@
 package org.openclover.idea.build;
 
-import org.openclover.idea.ApplicationTestHelper;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiFile;
 import com.intellij.testFramework.PsiTestCase;
 import com.intellij.testFramework.PsiTestUtil;
-import org.openclover.idea.config.IdeaCloverConfig;
 import org.mockito.Mockito;
+import org.openclover.idea.ApplicationTestHelper;
+import org.openclover.idea.config.IdeaCloverConfig;
 
 public class InclusionDetectorIdeaTest extends PsiTestCase {
     private VirtualFile atlassian;

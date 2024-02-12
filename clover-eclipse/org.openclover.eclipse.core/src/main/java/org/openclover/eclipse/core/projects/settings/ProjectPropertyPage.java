@@ -1,16 +1,5 @@
 package org.openclover.eclipse.core.projects.settings;
 
-import org.openclover.core.cfg.instr.InstrumentationConfig;
-import org.openclover.eclipse.core.CloverEclipsePluginMessages;
-import org.openclover.eclipse.core.CloverPlugin;
-import org.openclover.eclipse.core.projects.CloverProject;
-import org.openclover.eclipse.core.projects.settings.source.InstrumentSourceFilteringComposite;
-import org.openclover.eclipse.core.projects.settings.source.InstrumentationComposite;
-import org.openclover.eclipse.core.projects.settings.source.SourceFolderPattern;
-import org.openclover.eclipse.core.projects.settings.source.SourceRootsWithPatternTreeContentProvider;
-import org.openclover.eclipse.core.projects.settings.source.test.TestSourceFilteringComposite;
-import org.openclover.eclipse.core.ui.GLH;
-import org.openclover.eclipse.core.ui.widgets.ContextFilterModificationWidget;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
@@ -34,6 +23,17 @@ import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.ui.IWorkbenchPropertyPage;
 import org.eclipse.ui.dialogs.PropertyPage;
+import org.openclover.core.cfg.instr.InstrumentationConfig;
+import org.openclover.eclipse.core.CloverEclipsePluginMessages;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.projects.settings.source.InstrumentSourceFilteringComposite;
+import org.openclover.eclipse.core.projects.settings.source.InstrumentationComposite;
+import org.openclover.eclipse.core.projects.settings.source.SourceFolderPattern;
+import org.openclover.eclipse.core.projects.settings.source.SourceRootsWithPatternTreeContentProvider;
+import org.openclover.eclipse.core.projects.settings.source.test.TestSourceFilteringComposite;
+import org.openclover.eclipse.core.ui.GLH;
+import org.openclover.eclipse.core.ui.widgets.ContextFilterModificationWidget;
 
 import java.util.List;
 

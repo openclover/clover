@@ -1,10 +1,10 @@
-import org.openclover.runtime.recorder.junit.CloverJUnit5TestExecutionListener;
 import org.junit.platform.engine.discovery.DiscoverySelectors;
 import org.junit.platform.launcher.Launcher;
 import org.junit.platform.launcher.LauncherDiscoveryRequest;
 import org.junit.platform.launcher.TestPlan;
 import org.junit.platform.launcher.core.LauncherDiscoveryRequestBuilder;
 import org.junit.platform.launcher.core.LauncherFactory;
+import org.openclover.runtime.recorder.junit.CloverJUnit5TestExecutionListener;
 
 /**
  * Execute JUnit runner with Clover's test listener. Thanks to this, Clover can read the exact name of the test at

@@ -1,5 +1,7 @@
 package org.openclover.core.api.instrumentation;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.ContextSet;
 import org.openclover.core.api.registry.FileInfo;
@@ -11,8 +13,6 @@ import org.openclover.core.registry.entities.FullBranchInfo;
 import org.openclover.core.registry.entities.FullStatementInfo;
 import org.openclover.core.registry.entities.MethodSignature;
 import org.openclover.core.spi.lang.LanguageConstruct;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 

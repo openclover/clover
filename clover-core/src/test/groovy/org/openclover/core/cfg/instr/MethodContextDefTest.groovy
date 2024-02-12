@@ -1,9 +1,9 @@
 package org.openclover.core.cfg.instr
 
-import org.openclover.runtime.api.CloverException
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException
+import org.openclover.runtime.api.CloverException
 
 import static org.hamcrest.CoreMatchers.containsString
 import static org.junit.Assert.assertEquals

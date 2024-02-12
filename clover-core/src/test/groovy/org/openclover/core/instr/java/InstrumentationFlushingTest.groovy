@@ -1,8 +1,8 @@
 package org.openclover.core.instr.java
 
+import org.junit.Test
 import org.openclover.core.cfg.instr.InstrumentationConfig
 import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig
-import org.junit.Test
 
 class InstrumentationFlushingTest extends InstrumentationTestBase {
 

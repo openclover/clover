@@ -1,5 +1,6 @@
 package org.openclover.groovy.instr
 
+import groovy.transform.CompileStatic
 import org.openclover.core.api.registry.Annotation
 import org.openclover.core.api.registry.ClassInfo
 import org.openclover.core.api.registry.MethodInfo
@@ -9,7 +10,6 @@ import org.openclover.core.context.ContextSet
 import org.openclover.core.context.ContextStore
 import org.openclover.core.context.MethodRegexpContext
 import org.openclover.core.registry.Clover2Registry
-import groovy.transform.CompileStatic
 import org.openclover.core.registry.entities.AnnotationImpl
 import org.openclover.core.registry.entities.ArrayAnnotationValue
 import org.openclover.core.registry.entities.BaseClassInfo

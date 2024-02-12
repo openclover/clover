@@ -1,9 +1,9 @@
 package org.openclover.eclipse.core.views.testrunexplorer;
 
-import org.openclover.eclipse.core.views.ExplorerViewComparator;
-import org.openclover.eclipse.core.views.ColumnDefinition;
-import org.openclover.eclipse.core.views.testrunexplorer.nodes.TestCaseNode;
 import org.eclipse.jface.viewers.Viewer;
+import org.openclover.eclipse.core.views.ColumnDefinition;
+import org.openclover.eclipse.core.views.ExplorerViewComparator;
+import org.openclover.eclipse.core.views.testrunexplorer.nodes.TestCaseNode;
 
 public abstract class TestRunExplorerTreeComparator extends ExplorerViewComparator {
     protected static final Long ZERO_LONG = 0L;

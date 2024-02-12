@@ -1,32 +1,37 @@
 package org.openclover.core.registry
 
-import org.openclover.runtime.api.CloverException
-import org.openclover.runtime.api.registry.CloverRegistryException
+import org.junit.After
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
+import org.junit.rules.TestName
+import org.openclover.buildutil.testutils.IOHelper
+import org.openclover.core.api.registry.HasMetrics
 import org.openclover.core.api.registry.SourceInfo
 import org.openclover.core.context.ContextSet
 import org.openclover.core.context.ContextStore
 import org.openclover.core.instr.InstrumentationSessionImpl
 import org.openclover.core.registry.entities.BasePackageInfo
 import org.openclover.core.registry.entities.FullFileInfo
-import org.openclover.core.registry.entities.FullProjectInfo
 import org.openclover.core.registry.entities.FullMethodInfo
+import org.openclover.core.registry.entities.FullProjectInfo
 import org.openclover.core.registry.entities.MethodSignature
 import org.openclover.core.registry.entities.Modifiers
 import org.openclover.core.registry.format.InaccessibleRegFileException
 import org.openclover.core.registry.format.RegFile
-import org.openclover.core.api.registry.HasMetrics
 import org.openclover.core.registry.metrics.HasMetricsFilter
 import org.openclover.core.registry.metrics.ProjectMetrics
-import org.openclover.buildutil.testutils.IOHelper
 import org.openclover.core.util.FileUtils
-import org.junit.After
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
-import org.junit.rules.TestName
+import org.openclover.runtime.api.CloverException
+import org.openclover.runtime.api.registry.CloverRegistryException
 import org.openclover.runtime.registry.CorruptedRegistryException
 
-import static org.junit.Assert.*
+import static org.junit.Assert.assertEquals
+import static org.junit.Assert.assertFalse
+import static org.junit.Assert.assertNotNull
+import static org.junit.Assert.assertNull
+import static org.junit.Assert.assertTrue
+import static org.junit.Assert.fail
 import static org.openclover.core.util.Lists.newArrayList
 
 public class Clover2RegistryTest {

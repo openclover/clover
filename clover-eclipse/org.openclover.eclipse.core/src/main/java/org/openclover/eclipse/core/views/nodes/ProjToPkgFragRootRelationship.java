@@ -1,13 +1,13 @@
 package org.openclover.eclipse.core.views.nodes;
 
-import org.openclover.eclipse.core.projects.CloverProject;
-import org.openclover.eclipse.core.CloverPlugin;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.CloverProject;
 
-import java.util.Collection;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 
 public class ProjToPkgFragRootRelationship extends NodeRelationship {
     @Override

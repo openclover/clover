@@ -1,7 +1,5 @@
 package org.openclover.eclipse.core.launching.actions;
 
-import org.openclover.eclipse.core.launching.LaunchingConstants;
-import org.openclover.eclipse.core.ui.CloverPluginIcons;
 import org.eclipse.debug.ui.actions.ContextualLaunchAction;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.resource.JFaceResources;
@@ -10,6 +8,8 @@ import org.eclipse.jface.resource.ResourceManager;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
+import org.openclover.eclipse.core.launching.LaunchingConstants;
+import org.openclover.eclipse.core.ui.CloverPluginIcons;
 
 import java.util.Map;
 

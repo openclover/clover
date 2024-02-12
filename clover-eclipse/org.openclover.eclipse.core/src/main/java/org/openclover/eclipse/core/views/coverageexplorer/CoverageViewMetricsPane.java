@@ -1,8 +1,5 @@
 package org.openclover.eclipse.core.views.coverageexplorer;
 
-import org.openclover.eclipse.core.projects.CloveredProjectLabelProvider;
-import org.openclover.core.registry.metrics.BlockMetrics;
-import org.openclover.core.util.MetricsFormatUtils;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -15,6 +12,9 @@ import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
+import org.openclover.core.registry.metrics.BlockMetrics;
+import org.openclover.core.util.MetricsFormatUtils;
+import org.openclover.eclipse.core.projects.CloveredProjectLabelProvider;
 
 public class CoverageViewMetricsPane extends Composite {
     private TreeViewer projectTreeViewer;

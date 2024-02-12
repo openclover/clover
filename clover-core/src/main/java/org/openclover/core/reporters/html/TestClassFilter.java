@@ -1,8 +1,8 @@
 package org.openclover.core.reporters.html;
 
-import org.openclover.core.registry.metrics.HasMetricsFilter;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.registry.entities.BaseClassInfo;
+import org.openclover.core.registry.metrics.HasMetricsFilter;
 
 /**
  * Filters all test classes

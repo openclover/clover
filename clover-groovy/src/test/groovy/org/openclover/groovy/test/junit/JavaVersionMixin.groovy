@@ -1,8 +1,8 @@
 package org.openclover.groovy.test.junit
 
+import groovy.transform.CompileStatic
 import org.openclover.core.util.JavaEnvUtils
 import org.openclover.core.util.collections.Pair
-import groovy.transform.CompileStatic
 
 import static org.openclover.core.util.JavaEnvUtils.JAVA_11
 import static org.openclover.core.util.JavaEnvUtils.JAVA_17

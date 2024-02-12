@@ -1,19 +1,19 @@
 package org.openclover.core.reporters.html
 
+import junit.framework.TestCase
 import org.openclover.core.context.ContextSet
+import org.openclover.core.registry.FixedSourceRegion
 import org.openclover.core.registry.entities.BasicMethodInfo
 import org.openclover.core.registry.entities.FullClassInfo
 import org.openclover.core.registry.entities.FullFileInfo
-import org.openclover.core.registry.FixedSourceRegion
 import org.openclover.core.registry.entities.FullMethodInfo
 import org.openclover.core.registry.entities.MethodSignature
 import org.openclover.core.registry.entities.Modifiers
 import org.openclover.core.registry.entities.TestCaseInfo
-import org.openclover.core.spi.reporters.html.source.LineRenderInfo
+import org.openclover.core.registry.metrics.HasMetricsTestFixture
 import org.openclover.core.reporters.json.JSONException
 import org.openclover.core.reporters.json.JSONObject
-import junit.framework.TestCase
-import org.openclover.core.registry.metrics.HasMetricsTestFixture
+import org.openclover.core.spi.reporters.html.source.LineRenderInfo
 
 import static org.openclover.core.util.Lists.newArrayList
 import static org.openclover.core.util.Maps.newHashMap

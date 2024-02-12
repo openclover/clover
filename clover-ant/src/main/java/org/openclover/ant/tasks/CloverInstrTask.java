@@ -1,11 +1,11 @@
 package org.openclover.ant.tasks;
 
-import org.openclover.core.instr.java.Instrumenter;
-import org.openclover.core.instr.tests.FileMappedTestDetector;
-import org.openclover.runtime.Logger;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DirectoryScanner;
 import org.apache.tools.ant.types.FileSet;
+import org.openclover.core.instr.java.Instrumenter;
+import org.openclover.core.instr.tests.FileMappedTestDetector;
+import org.openclover.runtime.Logger;
 
 import java.io.File;
 import java.util.Set;

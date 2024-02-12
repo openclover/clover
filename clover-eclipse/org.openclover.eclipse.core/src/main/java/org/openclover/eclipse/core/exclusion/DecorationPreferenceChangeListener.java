@@ -1,9 +1,9 @@
 package org.openclover.eclipse.core.exclusion;
 
-import org.openclover.eclipse.core.projects.settings.ProjectSettings;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences.IPreferenceChangeListener;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences.PreferenceChangeEvent;
 import org.eclipse.swt.widgets.Display;
+import org.openclover.eclipse.core.projects.settings.ProjectSettings;
 
 public class DecorationPreferenceChangeListener implements IPreferenceChangeListener {
     @Override

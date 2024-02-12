@@ -1,13 +1,14 @@
 package org.openclover.core.util
 
 import org.junit.Test
+import org.openclover.runtime.Logger
 
 import java.util.concurrent.Callable
 import java.util.concurrent.TimeUnit
 
-import org.openclover.runtime.Logger
-
-import static org.junit.Assert.*
+import static org.junit.Assert.assertEquals
+import static org.junit.Assert.assertTrue
+import static org.junit.Assert.fail
 
 public class CloverExecutorTest {
 

@@ -1,5 +1,7 @@
 package org.openclover.core
 
+import org.junit.Before
+import org.junit.Test
 import org.openclover.core.api.registry.Annotation
 import org.openclover.core.api.registry.AnnotationValue
 import org.openclover.core.api.registry.ClassInfo
@@ -8,8 +10,6 @@ import org.openclover.core.registry.entities.FullProjectInfo
 import org.openclover.core.registry.entities.StringifiedAnnotationValue
 import org.openclover.core.util.JavaEnvUtils
 import org_openclover_runtime.CoverageRecorder
-import org.junit.Before
-import org.junit.Test
 
 import static org.hamcrest.CoreMatchers.equalTo
 import static org.hamcrest.CoreMatchers.hasItems

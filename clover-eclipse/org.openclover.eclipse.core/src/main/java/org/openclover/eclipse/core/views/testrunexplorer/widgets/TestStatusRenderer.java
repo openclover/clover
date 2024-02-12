@@ -1,14 +1,14 @@
 package org.openclover.eclipse.core.views.testrunexplorer.widgets;
 
-import org.openclover.eclipse.core.ui.SwtUtils;
-import org.openclover.eclipse.core.views.ColumnDefinition;
-import org.openclover.eclipse.core.views.testrunexplorer.nodes.TestCaseNode;
-import org.openclover.eclipse.core.views.testrunexplorer.TestRunExplorerViewSettings;
-import org.openclover.eclipse.core.views.widgets.BaseListeningRenderer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
+import org.openclover.eclipse.core.ui.SwtUtils;
+import org.openclover.eclipse.core.views.ColumnDefinition;
+import org.openclover.eclipse.core.views.testrunexplorer.TestRunExplorerViewSettings;
+import org.openclover.eclipse.core.views.testrunexplorer.nodes.TestCaseNode;
+import org.openclover.eclipse.core.views.widgets.BaseListeningRenderer;
 
 public class TestStatusRenderer extends BaseListeningRenderer {
     @Override

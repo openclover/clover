@@ -1,24 +1,23 @@
 package org.openclover.eclipse.core.upgrade.hooks;
 
-import org_openclover_runtime.CloverVersionInfo;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Display;
+import org.openclover.eclipse.core.CloverPlugin;
+import org_openclover_runtime.CloverVersionInfo;
 
-import java.io.File;
-import java.io.IOException;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.BufferedWriter;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
-import java.net.URL;
+import java.io.IOException;
 import java.net.MalformedURLException;
-
-import org.openclover.eclipse.core.CloverPlugin;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.openclover.core.util.Lists.newArrayList;
 

@@ -1,6 +1,5 @@
 package org.openclover.eclipse.core.projects.settings.source.test;
 
-import org.openclover.eclipse.core.ui.SwtUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -13,6 +12,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.dialogs.SelectionDialog;
+import org.openclover.eclipse.core.ui.SwtUtils;
 
 public class TestPackageRootDialog extends SelectionDialog {
     protected TestPackageRootDialog(Shell shell) {

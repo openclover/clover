@@ -1,6 +1,5 @@
 package org.openclover.idea.build.jps;
 
-import org.openclover.idea.config.CloverModuleConfig;
 import org.jdom.Element;
 import org.jetbrains.jps.devkit.model.JpsPluginModuleProperties;
 import org.jetbrains.jps.devkit.model.JpsPluginModuleType;
@@ -12,12 +11,14 @@ import org.jetbrains.jps.model.serialization.JpsGlobalExtensionSerializer;
 import org.jetbrains.jps.model.serialization.JpsProjectExtensionSerializer;
 import org.jetbrains.jps.model.serialization.module.JpsModulePropertiesSerializer;
 import org.junit.Test;
+import org.openclover.idea.config.CloverModuleConfig;
+
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-
-import java.util.List;
 
 /**
  * Test for {@link CloverSerializerExtension}

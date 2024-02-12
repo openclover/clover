@@ -1,13 +1,12 @@
 package org.openclover.ant.tasks;
 
-import org.openclover.ant.AntFileSetUtils;
-import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.Project;
+import org.apache.tools.ant.types.FileSet;
+import org.openclover.ant.AntFileSetUtils;
+import org.openclover.runtime.Logger;
 
 import java.io.File;
 import java.util.List;
-
-import org.openclover.runtime.Logger;
 
 public interface FilesetFileVisitor {
 

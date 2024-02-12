@@ -1,7 +1,7 @@
 package org.openclover.core.instr.java
 
-import org.openclover.runtime.api.CloverException
 import org.junit.Test
+import org.openclover.runtime.api.CloverException
 
 import static org.junit.Assert.fail
 

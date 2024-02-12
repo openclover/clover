@@ -1,11 +1,11 @@
 package org.openclover.idea.config.regexp;
 
-import org.openclover.idea.util.ComparatorUtil;
-import org.openclover.idea.config.ContextFilterRegexpType;
 import org.openclover.core.context.MethodRegexpContext;
 import org.openclover.core.context.NamedContext;
 import org.openclover.core.context.RegexpContext;
 import org.openclover.core.context.StatementRegexpContext;
+import org.openclover.idea.config.ContextFilterRegexpType;
+import org.openclover.idea.util.ComparatorUtil;
 
 import java.text.MessageFormat;
 import java.util.List;

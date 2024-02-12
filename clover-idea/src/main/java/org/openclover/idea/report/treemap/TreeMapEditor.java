@@ -1,11 +1,5 @@
 package org.openclover.idea.report.treemap;
 
-import org.openclover.core.CloverDatabase;
-import org.openclover.idea.coverage.CoverageListener;
-import org.openclover.idea.coverage.CoverageManager;
-import org.openclover.idea.util.vfs.DummyFileEditor;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.project.Project;
 import clover.net.sf.jtreemap.swing.DefaultToolTip;
 import clover.net.sf.jtreemap.swing.DefaultValue;
 import clover.net.sf.jtreemap.swing.IToolTipBuilder;
@@ -15,13 +9,19 @@ import clover.net.sf.jtreemap.swing.TreeMapNodeBuilder;
 import clover.net.sf.jtreemap.swing.Value;
 import clover.net.sf.jtreemap.swing.ValuePercent;
 import clover.net.sf.jtreemap.swing.provider.HSBTreeMapColorProvider;
-
-import static clover.net.sf.jtreemap.swing.provider.HSBTreeMapColorProvider.ColorDistributionTypes.SquareRoot;
+import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
+import org.openclover.core.CloverDatabase;
+import org.openclover.idea.coverage.CoverageListener;
+import org.openclover.idea.coverage.CoverageManager;
+import org.openclover.idea.util.vfs.DummyFileEditor;
 
 import javax.swing.JComponent;
 import javax.swing.JToolTip;
 import java.awt.Color;
+
+import static clover.net.sf.jtreemap.swing.provider.HSBTreeMapColorProvider.ColorDistributionTypes.SquareRoot;
 
 public class TreeMapEditor extends DummyFileEditor implements CoverageListener {
     private final JTreeMap treeMap;

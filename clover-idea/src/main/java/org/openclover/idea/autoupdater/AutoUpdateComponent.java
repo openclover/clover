@@ -1,12 +1,5 @@
 package org.openclover.idea.autoupdater;
 
-import org.openclover.core.versions.LibraryVersion;
-import org.openclover.runtime.Logger;
-import org.openclover.idea.PluginVersionInfo;
-import org.openclover.idea.util.l10n.CloverIdeaPluginMessages;
-import org.openclover.idea.config.AutoUpdateConfigPanel;
-import org.openclover.idea.util.ui.ExceptionDialog;
-import org.openclover.idea.util.NetUtil;
 import com.intellij.concurrency.JobScheduler;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ApplicationComponent;
@@ -27,12 +20,19 @@ import org.jdom.input.SAXBuilder;
 import org.jdom.xpath.XPath;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.openclover.core.versions.LibraryVersion;
+import org.openclover.idea.PluginVersionInfo;
+import org.openclover.idea.config.AutoUpdateConfigPanel;
+import org.openclover.idea.util.NetUtil;
+import org.openclover.idea.util.l10n.CloverIdeaPluginMessages;
+import org.openclover.idea.util.ui.ExceptionDialog;
+import org.openclover.runtime.Logger;
 
 import javax.swing.JComponent;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-import java.io.IOException;
 
 @State(name = "CloverAutoUpdate", storages = {@Storage(id = "other", file = "$APP_CONFIG$/other.xml")})
 public class AutoUpdateComponent implements ApplicationComponent, Runnable, PersistentStateComponent<AutoUpdateConfiguration> {

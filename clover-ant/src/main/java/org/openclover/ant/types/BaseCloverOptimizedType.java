@@ -1,12 +1,11 @@
 package org.openclover.ant.types;
 
-import org.openclover.ant.AbstractAntLogger;
-import org.openclover.runtime.Logger;
-import org.openclover.core.api.optimization.OptimizationOptions;
-
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.types.DataType;
+import org.openclover.ant.AbstractAntLogger;
+import org.openclover.core.api.optimization.OptimizationOptions;
+import org.openclover.runtime.Logger;
 
 import java.io.File;
 

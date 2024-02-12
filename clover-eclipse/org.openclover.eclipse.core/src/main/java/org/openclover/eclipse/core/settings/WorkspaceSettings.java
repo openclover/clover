@@ -1,9 +1,9 @@
 package org.openclover.eclipse.core.settings;
 
-import org.openclover.eclipse.core.CloverPlugin;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.InstanceScope;
+import org.openclover.eclipse.core.CloverPlugin;
 
 public class WorkspaceSettings extends Settings {
     public static class Keys {

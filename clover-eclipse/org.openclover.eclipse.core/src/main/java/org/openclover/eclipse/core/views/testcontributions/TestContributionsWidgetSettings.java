@@ -1,7 +1,7 @@
 package org.openclover.eclipse.core.views.testcontributions;
 
-import org.eclipse.ui.IPersistable;
 import org.eclipse.ui.IMemento;
+import org.eclipse.ui.IPersistable;
 
 public abstract class TestContributionsWidgetSettings
     implements IPersistable

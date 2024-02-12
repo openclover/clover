@@ -1,26 +1,26 @@
 package org.openclover.core.registry.format;
 
-import org.openclover.core.io.tags.ObjectReader;
-import org.openclover.core.io.tags.TaggedIO;
-import org.openclover.core.io.tags.Tags;
 import org.openclover.core.context.ContextSet;
 import org.openclover.core.context.ContextStore;
 import org.openclover.core.context.MethodRegexpContext;
 import org.openclover.core.context.StatementRegexpContext;
+import org.openclover.core.io.tags.ObjectReader;
+import org.openclover.core.io.tags.TaggedIO;
+import org.openclover.core.io.tags.Tags;
 import org.openclover.core.registry.FixedSourceRegion;
-import org.openclover.runtime.Logger;
-import org.openclover.runtime.registry.format.BufferUtils;
 import org.openclover.core.registry.entities.AnnotationImpl;
 import org.openclover.core.registry.entities.ArrayAnnotationValue;
 import org.openclover.core.registry.entities.FullBranchInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullMethodInfo;
+import org.openclover.core.registry.entities.FullStatementInfo;
 import org.openclover.core.registry.entities.MethodSignature;
 import org.openclover.core.registry.entities.Modifiers;
 import org.openclover.core.registry.entities.Parameter;
-import org.openclover.core.registry.entities.FullStatementInfo;
 import org.openclover.core.registry.entities.StringifiedAnnotationValue;
+import org.openclover.runtime.Logger;
+import org.openclover.runtime.registry.format.BufferUtils;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;

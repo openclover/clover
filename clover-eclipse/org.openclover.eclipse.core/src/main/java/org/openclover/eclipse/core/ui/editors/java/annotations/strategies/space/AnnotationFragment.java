@@ -1,21 +1,21 @@
 package org.openclover.eclipse.core.ui.editors.java.annotations.strategies.space;
 
-import org.openclover.core.api.registry.ElementInfo;
-import org.openclover.core.api.registry.SourceInfo;
-import org.openclover.core.registry.entities.FullElementInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
-import org.openclover.core.registry.CoverageDataRange;
-import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotation;
+import org.eclipse.jface.text.BadLocationException;
+import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.Position;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.CoverageData;
-import org.eclipse.jface.text.BadLocationException;
-import org.eclipse.jface.text.Position;
-import org.eclipse.jface.text.IDocument;
+import org.openclover.core.api.registry.ElementInfo;
+import org.openclover.core.api.registry.SourceInfo;
+import org.openclover.core.registry.CoverageDataRange;
+import org.openclover.core.registry.entities.FullElementInfo;
+import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotation;
 
-import java.util.Set;
-import java.util.Collections;
 import java.util.BitSet;
+import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
 
 abstract class AnnotationFragment {
     private final CloverDatabase database;

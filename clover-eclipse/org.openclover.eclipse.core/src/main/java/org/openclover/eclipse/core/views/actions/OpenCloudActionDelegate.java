@@ -1,15 +1,15 @@
 package org.openclover.eclipse.core.views.actions;
 
-import org.openclover.eclipse.core.CloverEclipsePluginMessages;
-import org.openclover.eclipse.core.CloverPlugin;
-import org.openclover.eclipse.core.ui.editors.cloud.CloudEditor;
-import org.openclover.eclipse.core.ui.editors.cloud.CloudProjectInput;
-import org.openclover.eclipse.core.projects.CloverProject;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.ide.IDE;
+import org.openclover.eclipse.core.CloverEclipsePluginMessages;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.ui.editors.cloud.CloudEditor;
+import org.openclover.eclipse.core.ui.editors.cloud.CloudProjectInput;
 
 public class OpenCloudActionDelegate extends GenerateCloudActionDelegate {
 

@@ -1,5 +1,9 @@
 package org.openclover.core.cmdline
 
+import org.hamcrest.Description
+import org.hamcrest.Factory
+import org.hamcrest.Matcher
+import org.hamcrest.TypeSafeMatcher
 import org.openclover.core.instr.java.JavaMethodContext
 import org.openclover.core.instr.java.JavaTypeContext
 import org.openclover.core.instr.tests.TestDetector
@@ -9,10 +13,6 @@ import org.openclover.core.registry.entities.AnnotationImpl
 import org.openclover.core.registry.entities.MethodSignature
 import org.openclover.core.registry.entities.Modifiers
 import org.openclover.core.spi.lang.Language
-import org.hamcrest.Description
-import org.hamcrest.Factory
-import org.hamcrest.Matcher
-import org.hamcrest.TypeSafeMatcher
 
 class TestDetectorMatchers {
 

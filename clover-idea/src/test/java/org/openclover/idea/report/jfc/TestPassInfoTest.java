@@ -1,14 +1,14 @@
 package org.openclover.idea.report.jfc;
 
+import org.junit.Test;
 import org.openclover.core.context.ContextSet;
-import org.openclover.idea.coverage.BaseCoverageNodeViewer;
 import org.openclover.core.registry.FixedSourceRegion;
 import org.openclover.core.registry.entities.BasicMethodInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.FullMethodInfo;
 import org.openclover.core.registry.entities.MethodSignature;
 import org.openclover.core.registry.entities.TestCaseInfo;
-import org.junit.Test;
+import org.openclover.idea.coverage.BaseCoverageNodeViewer;
 
 import java.util.Arrays;
 import java.util.Collections;

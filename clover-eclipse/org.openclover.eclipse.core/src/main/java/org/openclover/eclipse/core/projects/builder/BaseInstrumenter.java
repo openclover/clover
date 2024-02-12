@@ -1,20 +1,20 @@
 package org.openclover.eclipse.core.projects.builder;
 
-import org.openclover.core.api.instrumentation.ConcurrentInstrumentationException;
-import org.openclover.core.api.instrumentation.InstrumentationSession;
-import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig;
-import org.openclover.core.instr.java.Instrumenter;
-import org.openclover.runtime.api.CloverException;
-import org.openclover.eclipse.core.CloverPlugin;
-import org.openclover.eclipse.core.exclusion.ExclusionFilter;
-import org.openclover.eclipse.core.projects.CloverProject;
-import org.openclover.core.registry.Clover2Registry;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.widgets.Display;
+import org.openclover.core.api.instrumentation.ConcurrentInstrumentationException;
+import org.openclover.core.api.instrumentation.InstrumentationSession;
+import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig;
+import org.openclover.core.instr.java.Instrumenter;
+import org.openclover.core.registry.Clover2Registry;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.exclusion.ExclusionFilter;
+import org.openclover.eclipse.core.projects.CloverProject;
+import org.openclover.runtime.api.CloverException;
 
 import java.io.IOException;
 import java.util.Arrays;

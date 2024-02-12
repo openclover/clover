@@ -1,10 +1,10 @@
 package org.openclover.ci
 
-import org.openclover.runtime.CloverNames
-import org.openclover.ant.tasks.AntInstrumentationConfig
 import org.apache.tools.ant.BuildEvent
 import org.apache.tools.ant.Project
 import org.junit.Test
+import org.openclover.ant.tasks.AntInstrumentationConfig
+import org.openclover.runtime.CloverNames
 
 /**
  * Test for @{link AntIntegrationListener}

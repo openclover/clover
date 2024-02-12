@@ -1,8 +1,8 @@
 package org.openclover.idea.config;
 
-import org.openclover.idea.util.ui.UIUtils;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
+import org.openclover.idea.util.ui.UIUtils;
 
 import javax.swing.BorderFactory;
 import javax.swing.JColorChooser;

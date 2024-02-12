@@ -3,8 +3,8 @@ package org.openclover.core.registry;
 import org.openclover.core.context.ContextStore;
 import org.openclover.core.registry.entities.FullFileInfo;
 
-import java.util.List;
 import java.util.Collections;
+import java.util.List;
 
 public class EmptyProjectUpdate implements RegistryUpdate {
     private final long version;

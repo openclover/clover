@@ -1,18 +1,17 @@
 package org.openclover.eclipse.core.views.testcontributions;
 
-import org.openclover.core.registry.entities.TestCaseInfo;
-import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.QualifiedName;
-import org.eclipse.ui.texteditor.ITextEditor;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.ui.JavaUI;
+import org.eclipse.ui.texteditor.ITextEditor;
+import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.projects.model.DatabaseModel;
+import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotationModel;
 
 import java.util.Set;
-
-import org.openclover.eclipse.core.CloverPlugin;
-import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotationModel;
-import org.openclover.eclipse.core.projects.model.DatabaseModel;
-import org.openclover.eclipse.core.projects.CloverProject;
 
 public abstract class TestContributionsComputation extends Job {
     private static final QualifiedName CONTRIBUTIONS =

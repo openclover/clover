@@ -1,16 +1,16 @@
 package org.openclover.core.reporters.html.source.groovy;
 
+import clover.antlr.TokenStream;
 import clover.org.codehaus.groovy.antlr.GroovySourceToken;
 import clover.org.codehaus.groovy.antlr.parser.GroovyLexer;
 import clover.org.codehaus.groovy.antlr.parser.GroovyTokenTypes;
-import clover.antlr.TokenStream;
 import org.openclover.core.registry.entities.FullFileInfo;
+import org.openclover.core.reporters.html.source.SourceListener;
 import org.openclover.core.reporters.html.source.SourceRenderHelper;
 import org.openclover.core.reporters.html.source.SourceTraverser;
+import org.openclover.core.reporters.html.source.java.JavaSourceListener;
 import org.openclover.core.reporters.html.source.java.JavaTokenTraverser;
 import org.openclover.runtime.Logger;
-import org.openclover.core.reporters.html.source.SourceListener;
-import org.openclover.core.reporters.html.source.java.JavaSourceListener;
 
 import java.io.Reader;
 import java.util.ArrayList;

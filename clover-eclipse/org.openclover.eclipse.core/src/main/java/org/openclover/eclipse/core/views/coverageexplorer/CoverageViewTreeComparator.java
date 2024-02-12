@@ -1,8 +1,8 @@
 package org.openclover.eclipse.core.views.coverageexplorer;
 
-import org.openclover.eclipse.core.views.ExplorerViewComparator;
-import org.openclover.eclipse.core.views.ColumnDefinition;
 import org.eclipse.jface.viewers.Viewer;
+import org.openclover.eclipse.core.views.ColumnDefinition;
+import org.openclover.eclipse.core.views.ExplorerViewComparator;
 
 public class CoverageViewTreeComparator extends ExplorerViewComparator {
     public static CoverageViewTreeComparator createFor(final CoverageViewSettings settings) {

@@ -1,11 +1,5 @@
 package org.openclover.eclipse.core.views.testcontributions;
 
-import org.openclover.core.api.registry.ClassInfo;
-import org.openclover.eclipse.core.CloverPlugin;
-import org.openclover.eclipse.core.projects.model.ModelUtils;
-import org.openclover.eclipse.core.views.actions.OpenJavaEditorAction;
-import org.openclover.core.registry.FixedSourceRegion;
-import org.openclover.core.registry.entities.TestCaseInfo;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaModelException;
@@ -31,6 +25,12 @@ import org.eclipse.ui.IMemento;
 import org.eclipse.ui.IPersistable;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.texteditor.ITextEditor;
+import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.registry.FixedSourceRegion;
+import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.model.ModelUtils;
+import org.openclover.eclipse.core.views.actions.OpenJavaEditorAction;
 
 public abstract class TestContributionsWidget
     extends Composite

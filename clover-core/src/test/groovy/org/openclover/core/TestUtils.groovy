@@ -1,5 +1,6 @@
 package org.openclover.core
 
+import org.openclover.buildutil.testutils.IOHelper
 import org.openclover.core.api.registry.SourceInfo
 import org.openclover.core.context.ContextSet
 import org.openclover.core.instr.InstrumentationSessionImpl
@@ -8,11 +9,10 @@ import org.openclover.core.registry.FixedSourceRegion
 import org.openclover.core.registry.entities.FullMethodInfo
 import org.openclover.core.registry.entities.MethodSignature
 import org.openclover.core.registry.entities.Modifiers
-import org.openclover.buildutil.testutils.IOHelper
 import org.openclover.core.util.FileUtils
+import org.openclover.runtime.ErrorInfo
 import org_openclover_runtime.Clover
 import org_openclover_runtime.CoverageRecorder
-import org.openclover.runtime.ErrorInfo
 
 import static org.junit.Assert.assertTrue
 

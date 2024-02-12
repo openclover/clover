@@ -1,7 +1,7 @@
 package org.openclover.idea.testexplorer;
 
-import org.openclover.idea.treetables.AbstractColumnInfo;
 import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.idea.treetables.AbstractColumnInfo;
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;

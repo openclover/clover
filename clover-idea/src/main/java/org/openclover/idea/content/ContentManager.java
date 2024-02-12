@@ -1,12 +1,5 @@
 package org.openclover.idea.content;
 
-import org.openclover.idea.ProjectPlugin;
-import org.openclover.idea.config.ConfigChangeEvent;
-import org.openclover.idea.config.ConfigChangeListener;
-import org.openclover.idea.coverage.EventListenerInstallator;
-import org.openclover.idea.feature.CloverFeatures;
-import org.openclover.idea.feature.FeatureManager;
-import org.openclover.idea.util.vfs.VfsUtil;
 import com.intellij.lang.java.JavaLanguage;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.fileEditor.FileEditor;
@@ -20,6 +13,13 @@ import com.intellij.openapi.fileTypes.LanguageFileType;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.NotNull;
+import org.openclover.idea.ProjectPlugin;
+import org.openclover.idea.config.ConfigChangeEvent;
+import org.openclover.idea.config.ConfigChangeListener;
+import org.openclover.idea.coverage.EventListenerInstallator;
+import org.openclover.idea.feature.CloverFeatures;
+import org.openclover.idea.feature.FeatureManager;
+import org.openclover.idea.util.vfs.VfsUtil;
 
 import java.util.List;
 import java.util.Map;

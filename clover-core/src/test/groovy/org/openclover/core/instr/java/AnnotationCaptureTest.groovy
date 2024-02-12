@@ -1,23 +1,23 @@
 package org.openclover.core.instr.java
 
-import org.openclover.core.api.registry.Annotation
-import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig
-import org.openclover.core.cfg.instr.java.SourceLevel
-import org.openclover.core.instr.tests.TestDetector
-import org.openclover.core.registry.entities.AnnotationImpl
-import org.openclover.core.util.FileUtils
-import org.openclover.core.registry.entities.ArrayAnnotationValue
-import org.openclover.core.registry.entities.MethodSignature
-import org.openclover.core.registry.entities.StringifiedAnnotationValue
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestName
+import org.openclover.core.api.registry.Annotation
+import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig
+import org.openclover.core.cfg.instr.java.SourceLevel
+import org.openclover.core.instr.tests.TestDetector
+import org.openclover.core.registry.entities.AnnotationImpl
+import org.openclover.core.registry.entities.ArrayAnnotationValue
+import org.openclover.core.registry.entities.MethodSignature
+import org.openclover.core.registry.entities.StringifiedAnnotationValue
+import org.openclover.core.util.FileUtils
 
-import static org.junit.Assert.assertTrue
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertSame
+import static org.junit.Assert.assertTrue
 
 class AnnotationCaptureTest {
     private JavaInstrumentationConfig config

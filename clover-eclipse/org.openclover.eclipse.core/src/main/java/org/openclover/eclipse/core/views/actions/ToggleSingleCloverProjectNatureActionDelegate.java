@@ -1,14 +1,12 @@
 package org.openclover.eclipse.core.views.actions;
 
-import org.openclover.eclipse.core.projects.CloverProject;
-import org.openclover.eclipse.core.CloverPlugin;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.action.IAction;
-
-import java.util.Iterator;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.CloverProject;
 
 public class ToggleSingleCloverProjectNatureActionDelegate
     extends SingleCloverProjectActionDelegate {

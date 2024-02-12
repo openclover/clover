@@ -1,16 +1,15 @@
 package org.openclover.core.reporters.html;
 
 import clover.org.apache.velocity.VelocityContext;
-
-import java.util.List;
-import java.util.Comparator;
-import java.io.File;
-import java.io.IOException;
-
 import org.openclover.core.registry.entities.FullPackageInfo;
 import org.openclover.core.registry.metrics.HasMetricsSupport;
 import org.openclover.core.reporters.CloverReportConfig;
 import org.openclover.core.util.CloverUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Comparator;
+import java.util.List;
 
 public class RenderPackageCoverageCloudAction extends RenderCoverageCloudAction {
     private List childAndDescendantClasses;

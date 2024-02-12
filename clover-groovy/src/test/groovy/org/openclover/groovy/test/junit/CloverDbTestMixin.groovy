@@ -1,5 +1,6 @@
 package org.openclover.groovy.test.junit
 
+import groovy.transform.CompileStatic
 import org.openclover.core.CloverDatabase
 import org.openclover.core.api.registry.BranchInfo
 import org.openclover.core.api.registry.ClassInfo
@@ -15,7 +16,6 @@ import org.openclover.core.registry.entities.BaseProjectInfo
 import org.openclover.core.registry.entities.FullClassInfo
 import org.openclover.core.registry.entities.TestCaseInfo
 import org.openclover.core.registry.metrics.HasMetricsFilter
-import groovy.transform.CompileStatic
 
 import static org.junit.Assert.assertFalse
 import static org.junit.Assert.assertTrue

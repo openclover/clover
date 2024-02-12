@@ -1,11 +1,11 @@
 package org.openclover.core.optimization
 
-import org.openclover.core.util.RecordingLogger
-import org.openclover.runtime.Logger
-import org.openclover.core.api.optimization.OptimizationOptions
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import org.openclover.core.api.optimization.OptimizationOptions
+import org.openclover.core.util.RecordingLogger
+import org.openclover.runtime.Logger
 
 import static org.junit.Assert.assertTrue
 

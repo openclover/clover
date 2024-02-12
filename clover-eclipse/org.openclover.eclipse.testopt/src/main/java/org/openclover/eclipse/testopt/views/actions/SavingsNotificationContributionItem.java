@@ -1,10 +1,5 @@
 package org.openclover.eclipse.testopt.views.actions;
 
-import org.openclover.eclipse.testopt.OptimizedLaunchingConstants;
-import org.openclover.eclipse.testopt.OptimizationSessionListener;
-import org.openclover.eclipse.testopt.TestOptimizationPlugin;
-import org.openclover.core.optimization.OptimizationSession;
-
 import org.eclipse.jdt.internal.junit.model.TestRunSession;
 import org.eclipse.jdt.junit.JUnitCore;
 import org.eclipse.jdt.junit.TestRunListener;
@@ -17,6 +12,10 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.menus.WorkbenchWindowControlContribution;
+import org.openclover.core.optimization.OptimizationSession;
+import org.openclover.eclipse.testopt.OptimizationSessionListener;
+import org.openclover.eclipse.testopt.OptimizedLaunchingConstants;
+import org.openclover.eclipse.testopt.TestOptimizationPlugin;
 
 public class SavingsNotificationContributionItem extends WorkbenchWindowControlContribution implements OptimizationSessionListener {
     private OptimizationSession lastOptimizationSession;

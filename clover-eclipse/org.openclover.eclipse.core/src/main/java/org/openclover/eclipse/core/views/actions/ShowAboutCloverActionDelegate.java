@@ -1,11 +1,5 @@
 package org.openclover.eclipse.core.views.actions;
 
-import org.openclover.eclipse.core.CloverEclipsePluginMessages;
-import org.openclover.eclipse.core.CloverPlugin;
-import org.openclover.eclipse.core.PluginVersionInfo;
-import org.openclover.eclipse.core.ui.BrowserUtils;
-import org.openclover.eclipse.core.ui.CloverPluginIcons;
-import org.openclover.eclipse.core.ui.SwtUtils;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
@@ -24,6 +18,12 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
+import org.openclover.eclipse.core.CloverEclipsePluginMessages;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.PluginVersionInfo;
+import org.openclover.eclipse.core.ui.BrowserUtils;
+import org.openclover.eclipse.core.ui.CloverPluginIcons;
+import org.openclover.eclipse.core.ui.SwtUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;

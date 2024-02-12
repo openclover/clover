@@ -1,21 +1,21 @@
 package org.openclover.ant.tasks;
 
-import org.openclover.core.CloverDatabase;
-import org.openclover.runtime.api.CloverException;
-import org.openclover.core.CodeType;
-import org.openclover.core.CoverageDataSpec;
-import org.openclover.core.recorder.PerTestCoverageStrategy;
-import org.openclover.core.registry.metrics.HasMetricsFilter;
-import org.openclover.core.cfg.Interval;
-import org.openclover.core.reporters.console.ConsoleReporter;
-import org.openclover.core.reporters.console.ConsoleReporterConfig;
-import org.openclover.core.reporters.filters.FileSetFilter;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.LogOutputStream;
 import org.apache.tools.ant.types.EnumeratedAttribute;
-import org.apache.tools.ant.types.Path;
 import org.apache.tools.ant.types.FileSet;
+import org.apache.tools.ant.types.Path;
+import org.openclover.core.CloverDatabase;
+import org.openclover.core.CodeType;
+import org.openclover.core.CoverageDataSpec;
+import org.openclover.core.cfg.Interval;
+import org.openclover.core.recorder.PerTestCoverageStrategy;
+import org.openclover.core.registry.metrics.HasMetricsFilter;
+import org.openclover.core.reporters.console.ConsoleReporter;
+import org.openclover.core.reporters.console.ConsoleReporterConfig;
+import org.openclover.core.reporters.filters.FileSetFilter;
+import org.openclover.runtime.api.CloverException;
 
 import java.io.File;
 import java.io.IOException;

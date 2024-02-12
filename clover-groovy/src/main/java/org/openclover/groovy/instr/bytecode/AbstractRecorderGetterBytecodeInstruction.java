@@ -1,8 +1,8 @@
 package org.openclover.groovy.instr.bytecode;
 
-import org_openclover_runtime.CloverProfile;
 import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.classgen.BytecodeInstruction;
+import org_openclover_runtime.CloverProfile;
 
 import java.util.List;
 

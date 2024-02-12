@@ -1,9 +1,5 @@
 package org.openclover.eclipse.core.ui.editors.cloud;
 
-import org.openclover.eclipse.core.CloverEclipsePluginMessages;
-import org.openclover.eclipse.core.CloverPlugin;
-import org.openclover.eclipse.core.ui.CloverPluginIcons;
-import org.openclover.eclipse.core.ui.editors.CloverProjectInput;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
@@ -11,6 +7,10 @@ import org.eclipse.jface.action.Separator;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.part.MultiPageEditorActionBarContributor;
+import org.openclover.eclipse.core.CloverEclipsePluginMessages;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.ui.CloverPluginIcons;
+import org.openclover.eclipse.core.ui.editors.CloverProjectInput;
 
 /**
  * Manages the installation/deinstallation of global actions for the cloud editors.

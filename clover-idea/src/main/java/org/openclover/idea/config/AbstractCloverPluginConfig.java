@@ -1,8 +1,8 @@
 package org.openclover.idea.config;
 
-import org.openclover.idea.util.ComparatorUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.openclover.idea.util.ComparatorUtil;
 
 import java.beans.PropertyChangeEvent;
 import java.util.Collection;

@@ -11,7 +11,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Shell;
-
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.ui.BrowserUtils;
 import org.openclover.eclipse.core.ui.CloverPluginIcons;

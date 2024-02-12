@@ -1,7 +1,7 @@
-package com.atlassian.samples.groovy;
+package com.atlassian.samples.groovy
 
-import com.atlassian.samples.money.IMoney;
-import com.atlassian.samples.money.Money;
+import com.atlassian.samples.money.IMoney
+import com.atlassian.samples.money.Money
 
 class HipPocket {
 

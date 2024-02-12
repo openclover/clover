@@ -2,15 +2,15 @@ package org.openclover.core.cmdline;
 
 import org.openclover.core.instr.tests.AggregateTestDetector;
 import org.openclover.core.instr.tests.AndStrategy;
+import org.openclover.core.instr.tests.AntPatternTestDetectorFilter;
 import org.openclover.core.instr.tests.DefaultTestDetector;
 import org.openclover.core.instr.tests.OrStrategy;
 import org.openclover.core.instr.tests.TestDetector;
 import org.openclover.core.spec.instr.test.BooleanSpec;
 import org.openclover.core.spec.instr.test.TestClassSpec;
 import org.openclover.core.spec.instr.test.TestMethodSpec;
-import org.openclover.runtime.api.CloverException;
-import org.openclover.core.instr.tests.AntPatternTestDetectorFilter;
 import org.openclover.core.util.Objects;
+import org.openclover.runtime.api.CloverException;
 
 import java.io.File;
 import java.util.ArrayList;

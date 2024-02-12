@@ -1,8 +1,8 @@
 package org.openclover.ant.tasks;
 
+import org.apache.tools.ant.BuildException;
 import org.openclover.core.optimization.Snapshot;
 import org.openclover.runtime.Logger;
-import org.apache.tools.ant.BuildException;
 
 import java.io.File;
 

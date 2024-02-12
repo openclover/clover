@@ -1,18 +1,17 @@
 package org.openclover.core.reporters.html
 
-import org.openclover.core.api.registry.BranchInfo
-import org.openclover.core.registry.entities.FullStatementInfo
-import org.openclover.core.reporters.CloverReportConfig
-import org.openclover.core.reporters.Current
-import junit.framework.TestCase
 import clover.org.apache.velocity.VelocityContext
-
-import org.openclover.core.registry.entities.FullProjectInfo
-import org.openclover.core.registry.entities.FullClassInfo
-import org.openclover.core.registry.entities.FullMethodInfo
+import junit.framework.TestCase
+import org.openclover.core.api.registry.BranchInfo
 import org.openclover.core.context.ContextSet
 import org.openclover.core.context.ContextStore
+import org.openclover.core.registry.entities.FullClassInfo
+import org.openclover.core.registry.entities.FullMethodInfo
+import org.openclover.core.registry.entities.FullProjectInfo
+import org.openclover.core.registry.entities.FullStatementInfo
 import org.openclover.core.registry.metrics.HasMetricsTestFixture
+import org.openclover.core.reporters.CloverReportConfig
+import org.openclover.core.reporters.Current
 
 import static org.openclover.core.util.Lists.newArrayList
 

@@ -1,16 +1,16 @@
 package org.openclover.eclipse.core.views;
 
-import org.openclover.core.reporters.Column;
+import org.eclipse.jface.viewers.ILabelProvider;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Tree;
 import org.openclover.core.registry.metrics.BlockMetrics;
 import org.openclover.core.registry.metrics.ClassMetrics;
+import org.openclover.core.reporters.Column;
+import org.openclover.core.util.MetricsFormatUtils;
 import org.openclover.eclipse.core.projects.model.MetricsScope;
 import org.openclover.eclipse.core.views.coverageexplorer.CoverageViewSettings;
 import org.openclover.eclipse.core.views.coverageexplorer.MetricsRawCellRenderer;
 import org.openclover.eclipse.core.views.widgets.ListeningRenderer;
-import org.openclover.core.util.MetricsFormatUtils;
-import org.eclipse.jface.viewers.ILabelProvider;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Tree;
 
 import java.util.Comparator;
 

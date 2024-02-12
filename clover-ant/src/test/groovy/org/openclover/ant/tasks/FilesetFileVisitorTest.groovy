@@ -3,12 +3,12 @@ package org.openclover.ant.tasks
 import org.apache.tools.ant.Project
 import org.apache.tools.ant.types.FileSet
 import org.apache.tools.ant.types.Reference
-import org.openclover.core.reporters.Current
-import org.openclover.buildutil.testutils.IOHelper
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestName
+import org.openclover.buildutil.testutils.IOHelper
+import org.openclover.core.reporters.Current
 
 import static org.junit.Assert.assertEquals
 import static org.openclover.core.util.Lists.newArrayList

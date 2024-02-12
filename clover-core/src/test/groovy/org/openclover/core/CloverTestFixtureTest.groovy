@@ -1,14 +1,14 @@
 package org.openclover.core
 
+import org.junit.After
+import org.junit.Before
+import org.junit.Test
+import org.openclover.buildutil.testutils.IOHelper
 import org.openclover.core.CloverTestFixture.Clazz
 import org.openclover.core.CloverTestFixture.Coverage
 import org.openclover.core.registry.entities.FullPackageInfo
 import org.openclover.core.registry.metrics.PackageMetrics
 import org.openclover.core.registry.metrics.ProjectMetrics
-import org.openclover.buildutil.testutils.IOHelper
-import org.junit.After
-import org.junit.Before
-import org.junit.Test
 
 import static org.junit.Assert.assertEquals
 import static org.openclover.core.util.Lists.newArrayList

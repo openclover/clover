@@ -1,7 +1,7 @@
 package org.openclover.core.instr.java
 
-import org.openclover.core.registry.entities.Parameter
 import org.junit.Test
+import org.openclover.core.registry.entities.Parameter
 
 import static org.junit.Assert.assertEquals
 

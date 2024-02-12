@@ -1,8 +1,8 @@
 package org.openclover.core.recorder
 
 import org.openclover.core.CoverageDataSpec
-import org.openclover.core.registry.Clover2Registry
 import org.openclover.core.CoverageDataTestBase
+import org.openclover.core.registry.Clover2Registry
 
 class InMemPerTestCoverageTest extends CoverageDataTestBase {
     protected CoverageDataSpec newCoverageDataSpec() {

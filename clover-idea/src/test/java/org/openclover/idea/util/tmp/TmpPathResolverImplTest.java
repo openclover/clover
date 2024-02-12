@@ -1,10 +1,8 @@
 package org.openclover.idea.util.tmp;
 
-import org.openclover.idea.util.tmp.TmpPathResolver;
-import org.openclover.idea.util.tmp.TmpPathResolverImpl;
-import org.openclover.idea.util.vfs.DummyVirtualFile;
 import com.intellij.openapi.vfs.VirtualFile;
 import junit.framework.TestCase;
+import org.openclover.idea.util.vfs.DummyVirtualFile;
 
 public class TmpPathResolverImplTest extends TestCase {
     public void testWeakness() {

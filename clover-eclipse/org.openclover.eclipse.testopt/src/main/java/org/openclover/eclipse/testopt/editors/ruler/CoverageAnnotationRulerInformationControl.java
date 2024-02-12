@@ -1,7 +1,5 @@
 package org.openclover.eclipse.testopt.editors.ruler;
 
-import org.openclover.eclipse.testopt.editors.ruler.tree.CoverageAnnotationContentProvider;
-import org.openclover.eclipse.testopt.editors.ruler.tree.TestNameLabelProvider;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.search.IJavaSearchConstants;
@@ -38,11 +36,12 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.editors.text.EditorsUI;
-
+import org.openclover.core.registry.entities.TestCaseInfo;
 import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotation;
 import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotation.Kind;
 import org.openclover.eclipse.core.ui.editors.java.ILineCoverageModel.Entry;
-import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.eclipse.testopt.editors.ruler.tree.CoverageAnnotationContentProvider;
+import org.openclover.eclipse.testopt.editors.ruler.tree.TestNameLabelProvider;
 
 public class CoverageAnnotationRulerInformationControl extends
         PopupDialog implements IInformationControl,

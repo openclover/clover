@@ -1,7 +1,7 @@
 package org.openclover.core.instr.java
 
-import org.openclover.core.cfg.instr.InstrumentationConfig
 import org.junit.Test
+import org.openclover.core.cfg.instr.InstrumentationConfig
 
 import static org.junit.Assert.assertTrue
 

@@ -1,25 +1,29 @@
 package org.openclover.core.registry.format
 
+import org.junit.After
+import org.junit.Test
+import org.openclover.core.CoverageData
+import org.openclover.core.context.ContextStore
+import org.openclover.core.recorder.InMemPerTestCoverage
+import org.openclover.core.recorder.PerTestCoverage
+import org.openclover.core.recorder.PerTestRecordingTranscript
+import org.openclover.core.registry.FullProjectUpdate
 import org.openclover.core.registry.ModelBuilder
 import org.openclover.core.registry.entities.FullClassInfo
 import org.openclover.core.registry.entities.FullFileInfo
-import org.openclover.core.registry.FullProjectUpdate
+import org.openclover.core.registry.entities.FullMethodInfo
 import org.openclover.core.registry.entities.FullProjectInfo
 import org.openclover.core.registry.entities.TestCaseInfo
-import org.openclover.core.registry.entities.FullMethodInfo
-import org.openclover.core.context.ContextStore
-import org.openclover.core.CoverageData
-import org.openclover.core.recorder.PerTestCoverage
-import org.openclover.core.recorder.InMemPerTestCoverage
-import org.openclover.core.recorder.PerTestRecordingTranscript
 import org.openclover.runtime.RuntimeType
+import org.openclover.runtime.api.registry.CloverRegistryException
 import org.openclover.runtime.registry.format.RegAccessMode
 import org.openclover.runtime.util.CloverBitSet
-import org.openclover.runtime.api.registry.CloverRegistryException
-import org.junit.After
-import org.junit.Test
 
-import static org.junit.Assert.*
+import static org.junit.Assert.assertEquals
+import static org.junit.Assert.assertFalse
+import static org.junit.Assert.assertNotNull
+import static org.junit.Assert.assertSame
+import static org.junit.Assert.assertTrue
 
 class RegFileFormatTest {
     private static int TCI_ID = 0

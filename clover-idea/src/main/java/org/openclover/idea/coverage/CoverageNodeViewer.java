@@ -1,9 +1,9 @@
 package org.openclover.idea.coverage;
 
-import org.openclover.core.api.registry.HasMetrics;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
+import org.openclover.core.api.registry.HasMetrics;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;

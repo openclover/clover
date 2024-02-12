@@ -3,10 +3,10 @@ package org.openclover.core.reporters.html;
 import clover.org.apache.velocity.VelocityContext;
 import org.openclover.core.reporters.CloverReportConfig;
 
-import java.util.List;
-import java.util.concurrent.Callable;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.Callable;
 
 import static org.openclover.core.util.Lists.newArrayList;
 

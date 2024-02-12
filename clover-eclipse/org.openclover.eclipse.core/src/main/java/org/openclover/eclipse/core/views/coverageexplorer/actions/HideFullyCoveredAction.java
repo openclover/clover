@@ -2,8 +2,8 @@ package org.openclover.eclipse.core.views.coverageexplorer.actions;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
-import org.openclover.eclipse.core.views.coverageexplorer.CoverageView;
 import org.openclover.eclipse.core.views.actions.UntargetedViewActionDelegate;
+import org.openclover.eclipse.core.views.coverageexplorer.CoverageView;
 
 public class HideFullyCoveredAction extends UntargetedViewActionDelegate {
     @Override

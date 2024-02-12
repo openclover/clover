@@ -1,10 +1,10 @@
 package org.openclover.idea.config;
 
-import org.openclover.core.cfg.instr.java.LambdaInstrumentation;
-import org.openclover.idea.util.ui.UIUtils;
-import org.openclover.core.util.ArrayUtil;
 import com.intellij.openapi.ui.ComboBox;
 import com.intellij.util.ui.UIUtil;
+import org.openclover.core.cfg.instr.java.LambdaInstrumentation;
+import org.openclover.core.util.ArrayUtil;
+import org.openclover.idea.util.ui.UIUtils;
 
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;

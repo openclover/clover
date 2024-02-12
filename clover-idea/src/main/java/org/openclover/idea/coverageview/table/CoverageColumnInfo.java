@@ -1,8 +1,8 @@
 package org.openclover.idea.coverageview.table;
 
+import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.idea.coverage.PercentBarColors;
 import org.openclover.idea.testexplorer.PercentBarTableCellRenderer;
-import org.openclover.core.api.registry.HasMetrics;
 
 public class CoverageColumnInfo extends AbstractHasMetricsColumnInfo<Float> {
     private static final String COLUMN_NAME = "Coverage";

@@ -1,17 +1,17 @@
 package org.openclover.eclipse.core.views.widgets.context;
 
-import org.openclover.eclipse.core.projects.settings.ProjectSettings;
-import org.openclover.eclipse.core.ui.widgets.ContextFilterModificationWidget;
-import org.openclover.eclipse.core.CloverPlugin;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.core.resources.IncrementalProjectBuilder;
-import org.eclipse.core.runtime.CoreException;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.settings.ProjectSettings;
+import org.openclover.eclipse.core.ui.widgets.ContextFilterModificationWidget;
 
 public class ContextChooserDialog extends Dialog {
 

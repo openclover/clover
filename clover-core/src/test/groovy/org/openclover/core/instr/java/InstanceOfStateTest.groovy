@@ -2,12 +2,12 @@ package org.openclover.core.instr.java
 
 import org.junit.Test
 
+import static org.junit.Assert.assertEquals
 import static org.openclover.core.instr.java.JavaTokenTypes.DOT
 import static org.openclover.core.instr.java.JavaTokenTypes.IDENT
 import static org.openclover.core.instr.java.JavaTokenTypes.INSTANCEOF
 import static org.openclover.core.instr.java.JavaTokenTypes.LBRACK
 import static org.openclover.core.instr.java.JavaTokenTypes.RBRACK
-import static org.junit.Assert.assertEquals
 
 class InstanceOfStateTest {
     @Test

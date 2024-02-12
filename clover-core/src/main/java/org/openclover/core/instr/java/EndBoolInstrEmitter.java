@@ -1,12 +1,12 @@
 package org.openclover.core.instr.java;
 
-import static org.openclover.runtime.instr.Bindings.$CoverageRecorder$iget;
-
-import org.openclover.core.registry.entities.FullBranchInfo;
-import org.openclover.core.spi.lang.LanguageConstruct;
 import org.openclover.core.context.ContextSet;
 import org.openclover.core.context.NamedContext;
 import org.openclover.core.registry.FixedSourceRegion;
+import org.openclover.core.registry.entities.FullBranchInfo;
+import org.openclover.core.spi.lang.LanguageConstruct;
+
+import static org.openclover.runtime.instr.Bindings.$CoverageRecorder$iget;
 
 
 public class EndBoolInstrEmitter extends Emitter {

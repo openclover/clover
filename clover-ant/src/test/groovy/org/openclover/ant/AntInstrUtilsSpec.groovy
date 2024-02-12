@@ -1,11 +1,11 @@
 package org.openclover.ant
 
-import org.openclover.core.util.FileUtils
-import org.openclover.ant.testutils.RecordingLogger
 import org.apache.tools.ant.Project
 import org.apache.tools.ant.types.FileSet
 import org.apache.tools.ant.types.Path
 import org.apache.tools.ant.types.PatternSet
+import org.openclover.ant.testutils.RecordingLogger
+import org.openclover.core.util.FileUtils
 import spock.lang.Specification
 import spock.lang.Unroll
 

@@ -1,9 +1,9 @@
 package org.openclover.idea.junit.config;
 
-import org.openclover.idea.config.GBC;
 import com.intellij.ui.components.panels.HorizontalBox;
 import com.intellij.ui.components.panels.VerticalBox;
 import org.openclover.core.api.optimization.OptimizationOptions;
+import org.openclover.idea.config.GBC;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;

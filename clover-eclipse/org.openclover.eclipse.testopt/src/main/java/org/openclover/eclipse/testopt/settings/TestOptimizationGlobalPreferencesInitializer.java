@@ -1,9 +1,9 @@
 package org.openclover.eclipse.testopt.settings;
 
-import org.openclover.core.api.optimization.OptimizationOptions;
-import org.openclover.eclipse.testopt.TestOptimizationPlugin;
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.core.runtime.preferences.DefaultScope;
+import org.openclover.core.api.optimization.OptimizationOptions;
+import org.openclover.eclipse.testopt.TestOptimizationPlugin;
 import org.osgi.service.prefs.BackingStoreException;
 import org.osgi.service.prefs.Preferences;
 

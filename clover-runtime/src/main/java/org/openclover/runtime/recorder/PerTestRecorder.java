@@ -1,8 +1,8 @@
 package org.openclover.runtime.recorder;
 
-import org.openclover.runtime.util.CloverBitSet;
 import org.openclover.runtime.ErrorInfo;
 import org.openclover.runtime.RuntimeType;
+import org.openclover.runtime.util.CloverBitSet;
 import org_openclover_runtime.CoverageRecorder;
 
 /**

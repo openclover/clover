@@ -1,7 +1,5 @@
 package org.openclover.core;
 
-import org.openclover.runtime.Logger;
-import org.openclover.runtime.api.CloverException;
 import org.openclover.core.api.command.ArgProcessor;
 import org.openclover.core.api.command.HelpBuilder;
 import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig;
@@ -10,6 +8,8 @@ import org.openclover.core.context.ContextStore;
 import org.openclover.core.instr.java.Instrumenter;
 import org.openclover.core.util.FileUtils;
 import org.openclover.core.util.SourceScanner;
+import org.openclover.runtime.Logger;
+import org.openclover.runtime.api.CloverException;
 
 import java.io.File;
 import java.io.IOException;

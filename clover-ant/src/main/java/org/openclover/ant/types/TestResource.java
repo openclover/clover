@@ -1,7 +1,7 @@
 package org.openclover.ant.types;
 
-import org.openclover.core.api.optimization.Optimizable;
 import org.apache.tools.ant.types.Resource;
+import org.openclover.core.api.optimization.Optimizable;
 
 class TestResource implements Optimizable {
     private final Resource resource;

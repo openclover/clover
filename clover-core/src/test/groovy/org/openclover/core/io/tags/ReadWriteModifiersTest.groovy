@@ -1,10 +1,10 @@
 package org.openclover.core.io.tags
 
+import org.junit.Test
 import org.openclover.core.registry.entities.AnnotationImpl
 import org.openclover.core.registry.entities.ArrayAnnotationValue
 import org.openclover.core.registry.entities.Modifiers
 import org.openclover.core.registry.entities.StringifiedAnnotationValue
-import org.junit.Test
 
 import java.lang.reflect.Modifier
 

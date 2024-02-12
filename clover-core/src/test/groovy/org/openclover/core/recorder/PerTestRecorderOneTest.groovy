@@ -1,12 +1,13 @@
 package org.openclover.core.recorder
 
-import org.openclover.runtime.RuntimeType
-import org_openclover_runtime.CoverageRecorder
 import org.junit.Test
+import org.openclover.runtime.RuntimeType
 import org.openclover.runtime.recorder.ActivePerTestRecorderOne
 import org.openclover.runtime.recorder.GrowableCoverageRecorder
+import org_openclover_runtime.CoverageRecorder
 
-import static org.junit.Assert.*
+import static org.junit.Assert.assertFalse
+import static org.junit.Assert.assertTrue
 
 /**
  * Test for {@link org.openclover.runtime.recorder.ActivePerTestRecorderOne}

@@ -1,26 +1,25 @@
 package org.openclover.eclipse.core.views.testcontributions;
 
-import org.openclover.core.registry.entities.FullElementInfo;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.ui.texteditor.ITextEditor;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.ITextSelection;
-
-import java.util.Set;
-import java.util.Collections;
-import java.util.Iterator;
-
-import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotation;
-import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotationModel;
+import org.eclipse.jface.text.Position;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.ui.texteditor.ITextEditor;
+import org.openclover.core.CloverDatabase;
+import org.openclover.core.registry.entities.FullElementInfo;
+import org.openclover.core.registry.entities.TestCaseInfo;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.model.DatabaseModel;
 import org.openclover.eclipse.core.projects.model.MetricsScope;
-import org.openclover.core.registry.entities.TestCaseInfo;
-import org.openclover.core.CloverDatabase;
+import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotation;
+import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotationModel;
+
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.Set;
 
 public class LineTestContributionsComputation extends TestContributionsComputation {
     private static final QualifiedName CURSOR_POSITION =

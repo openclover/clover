@@ -1,17 +1,17 @@
 package org.openclover.groovy.instr
 
+import groovy.transform.CompileStatic
+import org.openclover.core.CloverDatabase
+import org.openclover.core.CodeType
 import org.openclover.core.CoverageDataSpec
 import org.openclover.core.api.registry.MethodInfo
-import org.openclover.core.registry.entities.FullPackageInfo
-import org.openclover.core.registry.entities.FullFileInfo
+import org.openclover.core.cfg.instr.InstrumentationConfig
 import org.openclover.core.registry.entities.FullClassInfo
-import org.openclover.core.CloverDatabase
+import org.openclover.core.registry.entities.FullFileInfo
+import org.openclover.core.registry.entities.FullPackageInfo
+import org.openclover.core.registry.entities.FullProjectInfo
 import org.openclover.core.registry.entities.TestCaseInfo
 import org.openclover.groovy.test.junit.Result
-import org.openclover.core.cfg.instr.InstrumentationConfig
-import org.openclover.core.CodeType
-import org.openclover.core.registry.entities.FullProjectInfo
-import groovy.transform.CompileStatic
 
 import static org.openclover.buildutil.testutils.AssertionUtils.assertStringContains
 

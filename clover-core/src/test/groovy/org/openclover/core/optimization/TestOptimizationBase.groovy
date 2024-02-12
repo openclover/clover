@@ -1,15 +1,15 @@
 package org.openclover.core.optimization
 
-import org.openclover.core.instr.InstrumentationSessionImpl
-import org.openclover.runtime.ErrorInfo
-import org.openclover.core.context.ContextSet
-import org.openclover.core.registry.Clover2Registry
-import org.openclover.core.registry.entities.FullMethodInfo
-import org.openclover.core.TestUtils
-import org.openclover.buildutil.testutils.IOHelper
-import org_openclover_runtime.CoverageRecorder
 import org.junit.Rule
 import org.junit.rules.TestName
+import org.openclover.buildutil.testutils.IOHelper
+import org.openclover.core.TestUtils
+import org.openclover.core.context.ContextSet
+import org.openclover.core.instr.InstrumentationSessionImpl
+import org.openclover.core.registry.Clover2Registry
+import org.openclover.core.registry.entities.FullMethodInfo
+import org.openclover.runtime.ErrorInfo
+import org_openclover_runtime.CoverageRecorder
 
 abstract class TestOptimizationBase {
     protected static final String THIS_PACKAGE = "com.acme"

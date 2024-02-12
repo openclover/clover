@@ -3,10 +3,10 @@ package org.openclover.runtime.util;
 import org.openclover.runtime.CloverNames;
 import org.openclover.runtime.Logger;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.FileNotFoundException;
-import java.io.File;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 

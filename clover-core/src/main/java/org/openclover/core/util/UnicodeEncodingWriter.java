@@ -1,8 +1,8 @@
 package org.openclover.core.util;
 
 import java.io.FilterWriter;
-import java.io.Writer;
 import java.io.IOException;
+import java.io.Writer;
 
 public class UnicodeEncodingWriter extends FilterWriter {
 

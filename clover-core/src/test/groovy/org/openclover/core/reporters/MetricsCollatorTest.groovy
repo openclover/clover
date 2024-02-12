@@ -1,5 +1,6 @@
 package org.openclover.core.reporters
 
+import junit.framework.TestCase
 import org.openclover.core.api.registry.MethodInfo
 import org.openclover.core.context.ContextSet
 import org.openclover.core.registry.FixedSourceRegion
@@ -8,7 +9,6 @@ import org.openclover.core.registry.entities.FullClassInfo
 import org.openclover.core.registry.entities.FullMethodInfo
 import org.openclover.core.registry.entities.MethodSignature
 import org.openclover.core.registry.metrics.BlockMetrics
-import junit.framework.TestCase
 import org.openclover.core.registry.metrics.HasMetricsTestFixture
 import org.openclover.core.registry.metrics.MetricsHelper
 

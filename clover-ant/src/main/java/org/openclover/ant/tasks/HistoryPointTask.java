@@ -1,15 +1,15 @@
 package org.openclover.ant.tasks;
 
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.types.FileSet;
 import org.openclover.ant.AntLogger;
 import org.openclover.core.CloverDatabase;
-import org.openclover.runtime.api.CloverException;
-import org.openclover.runtime.Logger;
-import org.openclover.runtime.CloverNames;
 import org.openclover.core.cfg.Interval;
 import org.openclover.core.reporters.Format;
 import org.openclover.core.reporters.xml.XMLReporter;
-import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.types.FileSet;
+import org.openclover.runtime.CloverNames;
+import org.openclover.runtime.Logger;
+import org.openclover.runtime.api.CloverException;
 
 import java.io.File;
 import java.text.ParseException;

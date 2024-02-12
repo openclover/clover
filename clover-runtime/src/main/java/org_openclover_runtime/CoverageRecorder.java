@@ -1,8 +1,8 @@
 package org_openclover_runtime;
 
 import org.openclover.buildutil.instr.ForInstrumentation;
-import org.openclover.runtime.recorder.CoverageSnapshot;
 import org.openclover.runtime.ErrorInfo;
+import org.openclover.runtime.recorder.CoverageSnapshot;
 import org.openclover.runtime.util.CloverBitSet;
 
 /**

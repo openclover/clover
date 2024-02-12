@@ -1,12 +1,5 @@
 package org.openclover.groovy.instr;
 
-import org.openclover.runtime.CloverNames;
-import org.openclover.core.api.instrumentation.InstrumentationSession;
-import org.openclover.core.api.registry.BranchInfo;
-import org.openclover.core.api.registry.ContextSet;
-import org.openclover.core.api.registry.SourceInfo;
-import org.openclover.core.spi.lang.LanguageConstruct;
-import org.openclover.core.util.collections.Pair;
 import org.codehaus.groovy.ast.ClassHelper;
 import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.ast.MethodNode;
@@ -33,6 +26,13 @@ import org.codehaus.groovy.ast.stmt.Statement;
 import org.codehaus.groovy.syntax.Token;
 import org.codehaus.groovy.syntax.Types;
 import org.jetbrains.annotations.NotNull;
+import org.openclover.core.api.instrumentation.InstrumentationSession;
+import org.openclover.core.api.registry.BranchInfo;
+import org.openclover.core.api.registry.ContextSet;
+import org.openclover.core.api.registry.SourceInfo;
+import org.openclover.core.spi.lang.LanguageConstruct;
+import org.openclover.core.util.collections.Pair;
+import org.openclover.runtime.CloverNames;
 
 import java.util.Map;
 

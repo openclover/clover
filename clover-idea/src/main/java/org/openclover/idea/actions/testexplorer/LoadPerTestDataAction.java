@@ -1,10 +1,10 @@
 package org.openclover.idea.actions.testexplorer;
 
+import com.intellij.openapi.actionSystem.AnAction;
+import com.intellij.openapi.actionSystem.AnActionEvent;
 import org.openclover.idea.IProjectPlugin;
 import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.util.ui.CloverIcons;
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
 
 public class LoadPerTestDataAction extends AnAction {
     public LoadPerTestDataAction() {

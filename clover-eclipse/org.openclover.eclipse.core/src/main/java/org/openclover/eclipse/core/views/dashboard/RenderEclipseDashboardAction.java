@@ -1,13 +1,12 @@
 package org.openclover.eclipse.core.views.dashboard;
 
-import java.io.File;
-
 import clover.org.apache.velocity.VelocityContext;
-
 import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.reporters.Current;
 import org.openclover.core.reporters.html.RenderDashboardAction;
 import org.openclover.core.reporters.util.CloverChartFactory.ChartInfo;
+
+import java.io.File;
 
 public class RenderEclipseDashboardAction extends RenderDashboardAction {
 

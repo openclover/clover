@@ -1,19 +1,19 @@
 package org.openclover.idea.build.jps;
 
-import org.openclover.idea.config.CloverPluginConfig;
-import org.openclover.idea.config.ProjectRebuild;
-import org.openclover.idea.config.regexp.Regexp;
+import org.hamcrest.core.IsCollectionContaining;
 import org.jdom.Element;
 import org.jetbrains.jps.model.JpsProject;
 import org.jetbrains.jps.model.JpsSimpleElement;
 import org.jetbrains.jps.model.impl.JpsModelImpl;
 import org.jetbrains.jps.model.impl.JpsProjectImpl;
 import org.junit.Test;
-import org.hamcrest.core.IsCollectionContaining;
+import org.openclover.idea.config.CloverPluginConfig;
+import org.openclover.idea.config.ProjectRebuild;
+import org.openclover.idea.config.regexp.Regexp;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * Test for {@link CloverJpsProjectConfigurationSerializer}

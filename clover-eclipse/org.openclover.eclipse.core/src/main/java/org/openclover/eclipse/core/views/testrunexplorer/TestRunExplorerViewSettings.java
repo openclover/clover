@@ -1,17 +1,17 @@
 package org.openclover.eclipse.core.views.testrunexplorer;
 
 import org.eclipse.ui.IMemento;
-import org.openclover.eclipse.core.views.ExplorerViewSettings;
+import org.openclover.eclipse.core.projects.model.MetricsScope;
 import org.openclover.eclipse.core.views.ColumnCollectionSettings;
+import org.openclover.eclipse.core.views.ExplorerViewSettings;
+import org.openclover.eclipse.core.views.nodes.NodeHierarchyBuilder;
+import org.openclover.eclipse.core.views.testrunexplorer.nodes.FlatTestCasesHierarchyBuilder;
 import org.openclover.eclipse.core.views.testrunexplorer.nodes.PackageRootsHierarchyBuilder;
 import org.openclover.eclipse.core.views.testrunexplorer.nodes.PackagesHierarchyBuilder;
-import org.openclover.eclipse.core.views.testrunexplorer.nodes.FlatTestCasesHierarchyBuilder;
 import org.openclover.eclipse.core.views.testrunexplorer.nodes.TestCaseNodeFactory;
-import org.openclover.eclipse.core.views.nodes.NodeHierarchyBuilder;
-import org.openclover.eclipse.core.projects.model.MetricsScope;
 
-import java.util.List;
 import java.util.Arrays;
+import java.util.List;
 
 public class TestRunExplorerViewSettings
     extends ExplorerViewSettings {

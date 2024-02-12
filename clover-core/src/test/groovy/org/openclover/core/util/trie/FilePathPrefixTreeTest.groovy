@@ -6,8 +6,8 @@ import static org.hamcrest.CoreMatchers.anyOf
 import static org.hamcrest.CoreMatchers.equalTo
 import static org.hamcrest.CoreMatchers.nullValue
 import static org.hamcrest.MatcherAssert.assertThat
-import static org.junit.Assert.assertNull
 import static org.junit.Assert.assertEquals
+import static org.junit.Assert.assertNull
 
 /**
  * Test for {@link FilePathPrefixTree}

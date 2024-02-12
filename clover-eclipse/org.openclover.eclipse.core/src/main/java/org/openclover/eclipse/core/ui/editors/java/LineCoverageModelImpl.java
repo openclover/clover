@@ -1,8 +1,5 @@
 package org.openclover.eclipse.core.ui.editors.java;
 
-import java.util.Arrays;
-import java.util.Set;
-
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.api.registry.BranchInfo;
 import org.openclover.core.registry.entities.FullElementInfo;
@@ -11,6 +8,9 @@ import org.openclover.core.registry.entities.FullMethodInfo;
 import org.openclover.core.registry.entities.FullStatementInfo;
 import org.openclover.core.registry.entities.LineInfo;
 import org.openclover.core.registry.entities.TestCaseInfo;
+
+import java.util.Arrays;
+import java.util.Set;
 
 public class LineCoverageModelImpl implements ILineCoverageModel {
 

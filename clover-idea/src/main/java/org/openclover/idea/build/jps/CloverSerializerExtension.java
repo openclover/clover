@@ -1,8 +1,5 @@
 package org.openclover.idea.build.jps;
 
-import org.openclover.runtime.Logger;
-import org.openclover.idea.config.IdeaXmlConfigConstants;
-import org.openclover.idea.config.CloverModuleConfig;
 import com.intellij.openapi.util.JDOMExternalizerUtil;
 import org.jdom.Element;
 import org.jetbrains.annotations.NotNull;
@@ -17,6 +14,9 @@ import org.jetbrains.jps.model.serialization.JpsGlobalExtensionSerializer;
 import org.jetbrains.jps.model.serialization.JpsModelSerializerExtension;
 import org.jetbrains.jps.model.serialization.JpsProjectExtensionSerializer;
 import org.jetbrains.jps.model.serialization.module.JpsModulePropertiesSerializer;
+import org.openclover.idea.config.CloverModuleConfig;
+import org.openclover.idea.config.IdeaXmlConfigConstants;
+import org.openclover.runtime.Logger;
 
 import java.util.Collections;
 import java.util.List;

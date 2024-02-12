@@ -1,18 +1,18 @@
 package org.openclover.eclipse.core.views.coverageexplorer;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jdt.core.IMethod;
+import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaModelException;
+import org.openclover.core.registry.metrics.BlockMetrics;
 import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.projects.model.MetricsScope;
 import org.openclover.eclipse.core.views.CloveredWorkspaceProvider;
 import org.openclover.eclipse.core.views.TypeUtils;
 import org.openclover.eclipse.core.views.WorkingSetNodeFilter;
 import org.openclover.eclipse.core.views.nodes.NodeRelationshipFilter;
-import org.openclover.eclipse.core.projects.model.MetricsScope;
-import org.openclover.eclipse.core.projects.CloverProject;
-import org.openclover.core.registry.metrics.BlockMetrics;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jdt.core.IMethod;
 
 public class CoverageProvider
     extends CloveredWorkspaceProvider {

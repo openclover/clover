@@ -1,13 +1,5 @@
 package org.openclover.ant.tasks;
 
-import org.openclover.runtime.CloverNames;
-import org.openclover.runtime.api.CloverException;
-import org.openclover.core.cfg.instr.InstrumentationConfig;
-import org.openclover.core.cfg.instr.InstrumentationPlacement;
-import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig;
-import org.openclover.core.cfg.instr.InstrumentationLevel;
-import org.openclover.core.cfg.instr.java.LambdaInstrumentation;
-import org.openclover.core.util.ArrayUtil;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.EnumeratedAttribute;
@@ -15,6 +7,14 @@ import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.PatternSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.openclover.core.cfg.instr.InstrumentationConfig;
+import org.openclover.core.cfg.instr.InstrumentationLevel;
+import org.openclover.core.cfg.instr.InstrumentationPlacement;
+import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig;
+import org.openclover.core.cfg.instr.java.LambdaInstrumentation;
+import org.openclover.core.util.ArrayUtil;
+import org.openclover.runtime.CloverNames;
+import org.openclover.runtime.api.CloverException;
 
 import java.io.File;
 import java.util.Collection;

@@ -1,11 +1,5 @@
 package org.openclover.idea;
 
-import org.openclover.core.api.registry.ClassInfo;
-import org.openclover.core.registry.entities.FullClassInfo;
-import org.openclover.core.registry.entities.FullFileInfo;
-import org.openclover.core.api.registry.HasMetrics;
-import org.openclover.core.registry.entities.FullMethodInfo;
-import org.openclover.core.registry.entities.FullPackageInfo;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.roots.ContentEntry;
 import com.intellij.openapi.roots.ModifiableRootModel;
@@ -14,6 +8,12 @@ import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.testFramework.IdeaTestCase;
 import org.mockito.Mockito;
+import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.registry.entities.FullClassInfo;
+import org.openclover.core.registry.entities.FullFileInfo;
+import org.openclover.core.registry.entities.FullMethodInfo;
+import org.openclover.core.registry.entities.FullPackageInfo;
 
 import java.io.File;
 import java.io.IOException;

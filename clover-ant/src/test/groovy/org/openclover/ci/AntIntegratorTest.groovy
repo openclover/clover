@@ -1,8 +1,8 @@
 package org.openclover.ci
 
-import org.openclover.runtime.CloverNames
 import org.junit.Before
 import org.junit.Test
+import org.openclover.runtime.CloverNames
 
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertFalse

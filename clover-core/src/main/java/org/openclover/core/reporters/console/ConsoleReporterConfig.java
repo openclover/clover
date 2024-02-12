@@ -1,10 +1,10 @@
 package org.openclover.core.reporters.console;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.openclover.core.CodeType;
 import org.openclover.core.reporters.Current;
 import org.openclover.core.reporters.Format;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Locale;
 import java.util.Set;

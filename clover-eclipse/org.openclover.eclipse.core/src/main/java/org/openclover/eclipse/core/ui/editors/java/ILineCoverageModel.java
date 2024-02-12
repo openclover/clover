@@ -1,9 +1,9 @@
 package org.openclover.eclipse.core.ui.editors.java;
 
-import java.util.Set;
-
 import org.openclover.core.registry.entities.FullElementInfo;
 import org.openclover.core.registry.entities.TestCaseInfo;
+
+import java.util.Set;
 
 /**
  * Please note that values returned by hasMissesInLine() vs hasHitsInLine() and

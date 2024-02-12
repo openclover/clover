@@ -1,16 +1,15 @@
 package org.openclover.ant.tasks;
 
-import org.openclover.core.reporters.Format;
-import org.openclover.core.reporters.Columns;
+import org.apache.tools.ant.BuildException;
 import org.openclover.core.reporters.CloverReportConfig;
+import org.openclover.core.reporters.Columns;
+import org.openclover.core.reporters.Format;
 import org.openclover.core.reporters.pdf.PDFReporter;
 import org.openclover.runtime.api.CloverException;
 
 import java.io.File;
-import java.util.Map;
 import java.util.ArrayList;
-
-import org.apache.tools.ant.BuildException;
+import java.util.Map;
 
 import static org.openclover.core.util.Lists.newArrayList;
 import static org.openclover.core.util.Maps.newTreeMap;

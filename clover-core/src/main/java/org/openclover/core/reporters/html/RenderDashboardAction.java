@@ -4,13 +4,13 @@ import clover.org.apache.velocity.VelocityContext;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.registry.entities.BaseClassInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
+import org.openclover.core.registry.metrics.HasMetricsSupport;
 import org.openclover.core.reporters.Column;
 import org.openclover.core.reporters.Columns;
 import org.openclover.core.reporters.Current;
 import org.openclover.core.reporters.MetricsCollator;
 import org.openclover.core.reporters.json.RenderTreeMapAction;
 import org.openclover.core.reporters.util.CloverChartFactory;
-import org.openclover.core.registry.metrics.HasMetricsSupport;
 
 import java.io.File;
 import java.util.List;

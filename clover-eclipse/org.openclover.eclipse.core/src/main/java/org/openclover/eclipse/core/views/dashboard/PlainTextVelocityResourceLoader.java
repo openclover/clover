@@ -1,11 +1,11 @@
 package org.openclover.eclipse.core.views.dashboard;
 
+import clover.org.apache.velocity.exception.ResourceNotFoundException;
+import clover.org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
+
 import java.io.InputStream;
 import java.util.Set;
 import java.util.zip.InflaterInputStream;
-
-import clover.org.apache.velocity.exception.ResourceNotFoundException;
-import clover.org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 
 import static org.openclover.core.util.Sets.newHashSet;
 

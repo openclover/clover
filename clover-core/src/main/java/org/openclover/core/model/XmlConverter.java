@@ -1,7 +1,7 @@
 package org.openclover.core.model;
 
 import org.openclover.core.api.registry.HasMetrics;
-import org.openclover.runtime.api.CloverException;
+import org.openclover.core.registry.FixedSourceRegion;
 import org.openclover.core.registry.entities.BaseClassInfo;
 import org.openclover.core.registry.entities.BaseFileInfo;
 import org.openclover.core.registry.entities.BasePackageInfo;
@@ -11,8 +11,8 @@ import org.openclover.core.registry.entities.FullPackageInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.registry.entities.Modifiers;
 import org.openclover.core.registry.metrics.BlockMetrics;
-import org.openclover.core.registry.FixedSourceRegion;
 import org.openclover.core.registry.metrics.ProjectMetrics;
+import org.openclover.runtime.api.CloverException;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;

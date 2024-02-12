@@ -1,10 +1,10 @@
 package org.openclover.idea.actions;
 
-import org.openclover.idea.IProjectPlugin;
-import org.openclover.idea.ProjectPlugin;
-import org.openclover.core.optimization.Snapshot;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import org.openclover.core.optimization.Snapshot;
+import org.openclover.idea.IProjectPlugin;
+import org.openclover.idea.ProjectPlugin;
 
 import java.io.File;
 

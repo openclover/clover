@@ -1,9 +1,5 @@
 package org.openclover.core.reporters.pdf;
 
-import org.openclover.core.CloverLicenseInfo;
-import org.openclover.core.util.format.PDFFormatter;
-import org_openclover_runtime.CloverVersionInfo;
-import org.openclover.runtime.util.Formatting;
 import clover.com.lowagie.text.Chunk;
 import clover.com.lowagie.text.Document;
 import clover.com.lowagie.text.DocumentException;
@@ -18,6 +14,10 @@ import clover.com.lowagie.text.pdf.PdfPTable;
 import clover.com.lowagie.text.pdf.PdfPageEventHelper;
 import clover.com.lowagie.text.pdf.PdfTemplate;
 import clover.com.lowagie.text.pdf.PdfWriter;
+import org.openclover.core.CloverLicenseInfo;
+import org.openclover.core.util.format.PDFFormatter;
+import org.openclover.runtime.util.Formatting;
+import org_openclover_runtime.CloverVersionInfo;
 
 import java.io.IOException;
 import java.util.Date;

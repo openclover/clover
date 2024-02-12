@@ -1,5 +1,6 @@
 package org.openclover.core.registry.entities;
 
+import org.jetbrains.annotations.NotNull;
 import org.openclover.core.api.registry.BlockMetrics;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.EntityVisitor;
@@ -10,8 +11,6 @@ import org.openclover.core.context.ContextSet;
 import org.openclover.core.registry.CachingInfo;
 import org.openclover.core.registry.FileInfoVisitor;
 import org.openclover.core.registry.metrics.HasMetricsFilter;
-import org.jetbrains.annotations.NotNull;
-import org.openclover.core.util.Lists;
 
 import java.util.LinkedHashMap;
 import java.util.List;

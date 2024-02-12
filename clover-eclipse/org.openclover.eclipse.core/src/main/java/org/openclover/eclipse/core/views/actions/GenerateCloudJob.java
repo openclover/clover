@@ -1,11 +1,5 @@
 package org.openclover.eclipse.core.views.actions;
 
-import org.openclover.runtime.api.CloverException;
-import org.openclover.eclipse.core.CloverEclipsePluginMessages;
-import org.openclover.eclipse.core.CloverPlugin;
-import org.openclover.eclipse.core.ui.editors.cloud.EclipseCloudGenerator;
-import org.openclover.eclipse.core.projects.CloverProject;
-import org.openclover.eclipse.core.projects.builder.PathUtils;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
@@ -13,6 +7,12 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.openclover.eclipse.core.CloverEclipsePluginMessages;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.projects.builder.PathUtils;
+import org.openclover.eclipse.core.ui.editors.cloud.EclipseCloudGenerator;
+import org.openclover.runtime.api.CloverException;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,15 +1,15 @@
 package org.openclover.functest.ant.tasks
 
-import org.openclover.ant.tasks.HistoryPointTask
-import org.openclover.buildutil.testutils.IOHelper
 import groovy.transform.CompileStatic
 import org.apache.tools.ant.util.FileUtils
 import org.hamcrest.CoreMatchers
+import org.openclover.ant.tasks.HistoryPointTask
+import org.openclover.buildutil.testutils.IOHelper
 
 import java.text.DecimalFormat
 
-import static org.openclover.buildutil.testutils.AssertionUtils.assertStringContains
 import static org.hamcrest.MatcherAssert.assertThat
+import static org.openclover.buildutil.testutils.AssertionUtils.assertStringContains
 
 @CompileStatic
 class CloverReportTaskTest extends CloverBuildFileTestBase {

@@ -1,11 +1,11 @@
 package org.openclover.core.instr.java;
 
-import org.openclover.core.spi.lang.LanguageConstruct;
-import org.openclover.runtime.CloverNames;
 import org.openclover.core.context.ContextSet;
 import org.openclover.core.context.NamedContext;
 import org.openclover.core.registry.FixedSourceRegion;
 import org.openclover.core.registry.entities.FullStatementInfo;
+import org.openclover.core.spi.lang.LanguageConstruct;
+import org.openclover.runtime.CloverNames;
 
 import static org.openclover.runtime.instr.Bindings.$CoverageRecorder$inc;
 

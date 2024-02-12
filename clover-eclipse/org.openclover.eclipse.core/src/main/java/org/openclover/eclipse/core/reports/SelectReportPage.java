@@ -1,7 +1,5 @@
 package org.openclover.eclipse.core.reports;
 
-import org.openclover.eclipse.core.projects.CloverProject;
-import org.openclover.eclipse.core.ui.GLH;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -9,6 +7,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.openclover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.ui.GLH;
 
 public class SelectReportPage extends WizardPage {
 

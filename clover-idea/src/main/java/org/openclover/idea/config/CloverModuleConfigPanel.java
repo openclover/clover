@@ -1,7 +1,5 @@
 package org.openclover.idea.config;
 
-import org.openclover.idea.config.CloverModuleConfig;
-
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 

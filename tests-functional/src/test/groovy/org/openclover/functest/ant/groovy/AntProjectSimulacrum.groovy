@@ -1,8 +1,8 @@
 package org.openclover.functest.ant.groovy
 
-import org.openclover.groovy.test.junit.JavaExecutorMixin
 import groovy.transform.CompileStatic
 import junit.framework.Test
+import org.openclover.groovy.test.junit.JavaExecutorMixin
 
 @CompileStatic
 class AntProjectSimulacrum implements JavaExecutorMixin {

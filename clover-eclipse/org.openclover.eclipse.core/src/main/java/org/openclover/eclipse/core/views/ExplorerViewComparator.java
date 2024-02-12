@@ -1,15 +1,15 @@
 package org.openclover.eclipse.core.views;
 
-import org.eclipse.jdt.core.IJavaElement;
-import org.eclipse.jdt.core.IPackageFragmentRoot;
-import org.eclipse.jdt.core.IPackageFragment;
-import org.eclipse.jdt.core.ICompilationUnit;
-import org.eclipse.jdt.core.IType;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IAdaptable;
-import org.openclover.eclipse.core.projects.model.MetricsScope;
-import org.openclover.core.registry.metrics.BlockMetrics;
+import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IPackageFragment;
+import org.eclipse.jdt.core.IPackageFragmentRoot;
+import org.eclipse.jdt.core.IType;
 import org.eclipse.jface.viewers.ViewerComparator;
+import org.openclover.core.registry.metrics.BlockMetrics;
+import org.openclover.eclipse.core.projects.model.MetricsScope;
 
 public abstract class ExplorerViewComparator extends ViewerComparator {
     protected static final Double NOT_AVAILABLE_DOUBLE = -1.0;

@@ -1,8 +1,5 @@
 package org.openclover.eclipse.core.ui.editors.java.actions;
 
-import org.openclover.eclipse.core.CloverPlugin;
-import org.openclover.eclipse.core.views.testcontributions.TestCaseInfoLabelProvider;
-import org.openclover.eclipse.core.views.testcontributions.TestCaseInfoProvider;
 import org.eclipse.jdt.internal.ui.text.AbstractInformationControl;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -11,6 +8,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.views.testcontributions.TestCaseInfoLabelProvider;
+import org.openclover.eclipse.core.views.testcontributions.TestCaseInfoProvider;
 
 public class QuickCoverageFilter extends AbstractInformationControl {
 

@@ -1,19 +1,19 @@
 package org.openclover.idea.config;
 
-import org.openclover.core.context.ContextStore;
-import org.openclover.idea.util.ui.CloverIcons;
-import org.openclover.idea.config.regexp.EditRegexpPanel;
-import org.openclover.idea.config.regexp.Regexp;
-import org.openclover.idea.config.regexp.RegexpConfigModel;
-import org.openclover.idea.config.regexp.RegexpListPanel;
-import org.openclover.idea.util.l10n.CloverIdeaPluginMessages;
-import org.openclover.idea.util.ui.MessageDialogs;
-import org.openclover.idea.util.ui.RichLabel;
 import com.intellij.openapi.actionSystem.ActionGroup;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Splitter;
 import com.intellij.openapi.util.Key;
+import org.openclover.core.context.ContextStore;
+import org.openclover.idea.config.regexp.EditRegexpPanel;
+import org.openclover.idea.config.regexp.Regexp;
+import org.openclover.idea.config.regexp.RegexpConfigModel;
+import org.openclover.idea.config.regexp.RegexpListPanel;
+import org.openclover.idea.util.l10n.CloverIdeaPluginMessages;
+import org.openclover.idea.util.ui.CloverIcons;
+import org.openclover.idea.util.ui.MessageDialogs;
+import org.openclover.idea.util.ui.RichLabel;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;

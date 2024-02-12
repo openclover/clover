@@ -1,13 +1,13 @@
 package org.openclover.idea.actions;
 
-import org.openclover.idea.AboutDialog;
-import org.openclover.idea.util.ui.CloverIcons;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.actionSystem.Presentation;
+import org.openclover.idea.AboutDialog;
+import org.openclover.idea.util.ui.CloverIcons;
 
-import javax.swing.*;
+import javax.swing.Icon;
 
 public class AboutAction extends AnAction {
     @Override

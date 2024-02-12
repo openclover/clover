@@ -2,30 +2,30 @@ package org.openclover.core.instr.java;
 
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig;
+import org.openclover.core.context.ContextSet;
+import org.openclover.core.context.MethodRegexpContext;
+import org.openclover.core.context.NamedContext;
 import org.openclover.core.instr.tests.ExpectedExceptionMiner;
 import org.openclover.core.instr.tests.naming.DefaultTestNameExtractor;
 import org.openclover.core.instr.tests.naming.JUnitParameterizedTestExtractor;
+import org.openclover.core.registry.FixedSourceRegion;
 import org.openclover.core.registry.entities.FullMethodInfo;
+import org.openclover.core.registry.entities.MethodSignature;
 import org.openclover.core.spi.lang.LanguageConstruct;
 import org.openclover.core.util.CloverUtils;
 import org.openclover.runtime.CloverNames;
 import org.openclover.runtime.recorder.PerTestRecorder;
-import org.openclover.core.context.ContextSet;
-import org.openclover.core.context.MethodRegexpContext;
-import org.openclover.core.context.NamedContext;
-import org.openclover.core.registry.FixedSourceRegion;
-import org.openclover.core.registry.entities.MethodSignature;
 
 import java.lang.reflect.Modifier;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import static org.openclover.core.util.Lists.newArrayList;
+import static org.openclover.core.util.Maps.newHashMap;
 import static org.openclover.runtime.instr.Bindings.$CoverageRecorder$globalSliceEnd;
 import static org.openclover.runtime.instr.Bindings.$CoverageRecorder$globalSliceStart;
 import static org.openclover.runtime.instr.Bindings.$CoverageRecorder$rethrow;
-import static org.openclover.core.util.Lists.newArrayList;
-import static org.openclover.core.util.Maps.newHashMap;
 
 /**
 

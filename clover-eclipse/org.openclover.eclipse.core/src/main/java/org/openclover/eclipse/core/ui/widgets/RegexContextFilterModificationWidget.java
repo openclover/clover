@@ -1,13 +1,5 @@
 package org.openclover.eclipse.core.ui.widgets;
 
-import org.openclover.core.context.ContextSet;
-import org.openclover.core.context.ContextStore;
-import org.openclover.core.context.NamedContext;
-import org.openclover.eclipse.core.CloverEclipsePluginMessages;
-import org.openclover.eclipse.core.CloverPlugin;
-import org.openclover.eclipse.core.ui.SwtUtils;
-import org.openclover.eclipse.core.projects.settings.ProjectSettings;
-import org.openclover.eclipse.core.projects.settings.RegexpEntry;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
@@ -17,6 +9,14 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
+import org.openclover.core.context.ContextSet;
+import org.openclover.core.context.ContextStore;
+import org.openclover.core.context.NamedContext;
+import org.openclover.eclipse.core.CloverEclipsePluginMessages;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.settings.ProjectSettings;
+import org.openclover.eclipse.core.projects.settings.RegexpEntry;
+import org.openclover.eclipse.core.ui.SwtUtils;
 
 import java.text.MessageFormat;
 import java.util.regex.Matcher;

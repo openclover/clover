@@ -1,13 +1,13 @@
 package org.openclover.eclipse.core.ui.editors.java;
 
+import org.eclipse.jface.text.Position;
+import org.eclipse.jface.text.source.Annotation;
 import org.openclover.core.api.registry.BranchInfo;
 import org.openclover.core.api.registry.ElementInfo;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.StatementInfo;
 import org.openclover.core.registry.entities.FullElementInfo;
 import org.openclover.core.registry.entities.TestCaseInfo;
-import org.eclipse.jface.text.Position;
-import org.eclipse.jface.text.source.Annotation;
 
 import java.lang.ref.WeakReference;
 import java.util.Set;

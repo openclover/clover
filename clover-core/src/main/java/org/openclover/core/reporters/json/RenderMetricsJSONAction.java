@@ -2,14 +2,14 @@ package org.openclover.core.reporters.json;
 
 import clover.org.apache.velocity.VelocityContext;
 import org.openclover.core.api.registry.FileInfo;
+import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.registry.entities.FullPackageInfo;
+import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.reporters.CloverReportConfig;
 import org.openclover.core.reporters.Columns;
 import org.openclover.core.reporters.html.HtmlRenderingSupportImpl;
 import org.openclover.core.reporters.html.HtmlReportUtil;
-import org.openclover.core.api.registry.HasMetrics;
-import org.openclover.core.registry.entities.FullProjectInfo;
 
 import java.io.File;
 import java.util.List;

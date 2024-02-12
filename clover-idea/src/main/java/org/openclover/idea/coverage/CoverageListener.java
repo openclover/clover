@@ -1,7 +1,7 @@
 package org.openclover.idea.coverage;
 
-import org.openclover.core.CloverDatabase;
 import org.jetbrains.annotations.Nullable;
+import org.openclover.core.CloverDatabase;
 
 /**
  * The CoverageListener interface provides a callback for when a CloverDatabase

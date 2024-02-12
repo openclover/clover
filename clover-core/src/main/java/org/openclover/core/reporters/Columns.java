@@ -11,11 +11,10 @@ import org.openclover.core.registry.metrics.ClassMetrics;
 import org.openclover.core.registry.metrics.FileMetrics;
 import org.openclover.core.registry.metrics.PackageMetrics;
 import org.openclover.core.registry.metrics.ProjectMetrics;
-import org.openclover.runtime.api.CloverException;
-import org.openclover.runtime.Logger;
 import org.openclover.core.reporters.html.HtmlRenderingSupportImpl;
 import org.openclover.core.reporters.html.HtmlReportUtil;
-import org.openclover.core.util.Sets;
+import org.openclover.runtime.Logger;
+import org.openclover.runtime.api.CloverException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;

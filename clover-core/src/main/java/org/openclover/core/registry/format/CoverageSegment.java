@@ -3,9 +3,9 @@ package org.openclover.core.registry.format;
 import org.openclover.core.CoverageData;
 import org.openclover.core.recorder.InMemPerTestCoverage;
 import org.openclover.core.recorder.PerTestCoverage;
+import org.openclover.runtime.Logger;
 import org.openclover.runtime.registry.CorruptedRegistryException;
 import org.openclover.runtime.registry.RegistryFormatException;
-import org.openclover.runtime.Logger;
 import org.openclover.runtime.registry.format.BufferUtils;
 
 import java.io.BufferedInputStream;

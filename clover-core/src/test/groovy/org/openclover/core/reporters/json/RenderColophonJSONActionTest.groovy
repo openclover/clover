@@ -1,12 +1,12 @@
 package org.openclover.core.reporters.json
 
-import org.openclover.core.reporters.Current
-import org.openclover.core.reporters.Format
-import org.openclover.core.util.FileUtils
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestName
+import org.openclover.core.reporters.Current
+import org.openclover.core.reporters.Format
+import org.openclover.core.util.FileUtils
 
 class RenderColophonJSONActionTest {
     Current cfg

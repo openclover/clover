@@ -1,9 +1,5 @@
 package org.openclover.eclipse.core.views.coverageexplorer.widgets;
 
-import org.openclover.core.cfg.instr.InstrumentationLevel;
-import org.openclover.eclipse.core.CloverPlugin;
-import org.openclover.eclipse.core.projects.CloverProject;
-import org.openclover.eclipse.core.ui.SwtUtils;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.PopupDialog;
@@ -19,6 +15,10 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
+import org.openclover.core.cfg.instr.InstrumentationLevel;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.ui.SwtUtils;
 
 public class ProjectSettingsDialog extends PopupDialog {
     private final CloverProject project;

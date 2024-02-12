@@ -1,8 +1,8 @@
 package org.openclover.idea.build;
 
-import org.openclover.core.cfg.instr.java.SourceLevel;
 import com.intellij.pom.java.LanguageLevel;
 import org.junit.Test;
+import org.openclover.core.cfg.instr.java.SourceLevel;
 
 import static org.junit.Assert.assertEquals;
 

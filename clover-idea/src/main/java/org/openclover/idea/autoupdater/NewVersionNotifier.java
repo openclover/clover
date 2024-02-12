@@ -1,10 +1,5 @@
 package org.openclover.idea.autoupdater;
 
-import org.openclover.core.versions.LibraryVersion;
-import org.openclover.idea.PluginVersionInfo;
-import org.openclover.idea.util.ui.CloverIcons;
-import org.openclover.idea.util.l10n.CloverIdeaPluginMessages;
-import org.openclover.idea.util.ui.ExceptionDialog;
 import com.intellij.openapi.components.ProjectComponent;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
@@ -12,6 +7,11 @@ import com.intellij.openapi.wm.StatusBar;
 import com.intellij.openapi.wm.StatusBarWidget;
 import com.intellij.openapi.wm.WindowManager;
 import org.jetbrains.annotations.NotNull;
+import org.openclover.core.versions.LibraryVersion;
+import org.openclover.idea.PluginVersionInfo;
+import org.openclover.idea.util.l10n.CloverIdeaPluginMessages;
+import org.openclover.idea.util.ui.CloverIcons;
+import org.openclover.idea.util.ui.ExceptionDialog;
 
 import javax.swing.JFrame;
 

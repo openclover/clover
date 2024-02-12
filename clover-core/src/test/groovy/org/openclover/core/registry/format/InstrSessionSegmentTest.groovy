@@ -1,9 +1,9 @@
 package org.openclover.core.registry.format
 
-import org.openclover.core.context.ContextStore
-import org.openclover.core.registry.entities.FullFileInfo
-import org.openclover.core.registry.ModelBuilder
 import org.junit.Test
+import org.openclover.core.context.ContextStore
+import org.openclover.core.registry.ModelBuilder
+import org.openclover.core.registry.entities.FullFileInfo
 
 import java.nio.channels.FileChannel
 

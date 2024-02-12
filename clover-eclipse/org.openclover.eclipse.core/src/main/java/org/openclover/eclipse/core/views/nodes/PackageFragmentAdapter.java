@@ -1,19 +1,19 @@
 package org.openclover.eclipse.core.views.nodes;
 
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.jobs.ISchedulingRule;
+import org.eclipse.jdt.core.IBuffer;
+import org.eclipse.jdt.core.IClassFile;
+import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
-import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.IJavaModel;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IOpenable;
 import org.eclipse.jdt.core.IPackageFragment;
-import org.eclipse.jdt.core.ICompilationUnit;
-import org.eclipse.jdt.core.IClassFile;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.WorkingCopyOwner;
-import org.eclipse.jdt.core.IBuffer;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.jobs.ISchedulingRule;
-import org.eclipse.core.resources.IResource;
 import org.openclover.eclipse.core.projects.model.JavaElementAdapter;
 
 public class PackageFragmentAdapter

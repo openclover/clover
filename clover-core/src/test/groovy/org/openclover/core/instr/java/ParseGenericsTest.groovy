@@ -1,12 +1,12 @@
 package org.openclover.core.instr.java
 
-import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig
-import org.openclover.core.cfg.instr.java.SourceLevel
-import org.openclover.buildutil.testutils.IOHelper
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestName
+import org.openclover.buildutil.testutils.IOHelper
+import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig
+import org.openclover.core.cfg.instr.java.SourceLevel
 
 import static org.junit.Assert.assertTrue
 

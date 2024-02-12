@@ -1,15 +1,14 @@
 package org.openclover.eclipse.core.reports;
 
-import org.openclover.eclipse.core.ui.SwtUtils;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.FileDialog;
-import org.eclipse.core.resources.IProject;
+import org.openclover.eclipse.core.ui.SwtUtils;
 
 import java.io.File;
 

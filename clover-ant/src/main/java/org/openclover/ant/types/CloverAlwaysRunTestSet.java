@@ -1,8 +1,8 @@
 package org.openclover.ant.types;
 
 import org.apache.tools.ant.types.DataType;
-import org.apache.tools.ant.types.ResourceCollection;
 import org.apache.tools.ant.types.Resource;
+import org.apache.tools.ant.types.ResourceCollection;
 
 import java.util.List;
 

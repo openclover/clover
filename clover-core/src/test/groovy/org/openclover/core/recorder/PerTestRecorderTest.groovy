@@ -1,11 +1,9 @@
 package org.openclover.core.recorder
 
-import org.openclover.runtime.ErrorInfo
-import org_openclover_runtime.Clover
-import org_openclover_runtime.CoverageRecorder
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestName
+import org.openclover.runtime.ErrorInfo
 import org.openclover.runtime.recorder.ActivePerTestRecorderAny
 import org.openclover.runtime.recorder.ActivePerTestRecorderMany
 import org.openclover.runtime.recorder.ActivePerTestRecorderNone
@@ -16,10 +14,15 @@ import org.openclover.runtime.recorder.FixedSizeCoverageRecorder
 import org.openclover.runtime.recorder.LivePerTestRecording
 import org.openclover.runtime.recorder.PerTestRecorder
 import org.openclover.runtime.recorder.RecordingResult
+import org_openclover_runtime.Clover
+import org_openclover_runtime.CoverageRecorder
 
 import java.lang.reflect.Field
 
-import static org.junit.Assert.*
+import static org.junit.Assert.assertEquals
+import static org.junit.Assert.assertFalse
+import static org.junit.Assert.assertSame
+import static org.junit.Assert.assertTrue
 
 /**
  * Test for {@link PerTestRecorder}

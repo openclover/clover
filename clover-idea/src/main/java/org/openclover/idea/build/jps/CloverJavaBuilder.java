@@ -1,18 +1,5 @@
 package org.openclover.idea.build.jps;
 
-import org.openclover.runtime.api.CloverException;
-import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig;
-import org.openclover.core.cfg.instr.java.SourceLevel;
-import org.openclover.core.instr.java.Instrumenter;
-import org.openclover.core.spi.lang.Language;
-import org.openclover.core.context.ContextStore;
-import org.openclover.core.context.MethodRegexpContext;
-import org.openclover.core.context.RegexpContext;
-import org.openclover.core.context.StatementRegexpContext;
-import org.openclover.idea.config.CloverPluginConfig;
-import org.openclover.idea.config.regexp.Regexp;
-import org.openclover.core.util.trie.FilePathPrefixTree;
-import org.openclover.core.registry.Clover2Registry;
 import com.intellij.openapi.diagnostic.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.jps.ModuleChunk;
@@ -28,6 +15,19 @@ import org.jetbrains.jps.incremental.messages.CompilerMessage;
 import org.jetbrains.jps.model.JpsProject;
 import org.jetbrains.jps.model.java.LanguageLevel;
 import org.jetbrains.jps.model.module.JpsModule;
+import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig;
+import org.openclover.core.cfg.instr.java.SourceLevel;
+import org.openclover.core.context.ContextStore;
+import org.openclover.core.context.MethodRegexpContext;
+import org.openclover.core.context.RegexpContext;
+import org.openclover.core.context.StatementRegexpContext;
+import org.openclover.core.instr.java.Instrumenter;
+import org.openclover.core.registry.Clover2Registry;
+import org.openclover.core.spi.lang.Language;
+import org.openclover.core.util.trie.FilePathPrefixTree;
+import org.openclover.idea.config.CloverPluginConfig;
+import org.openclover.idea.config.regexp.Regexp;
+import org.openclover.runtime.api.CloverException;
 
 import java.io.File;
 import java.io.IOException;

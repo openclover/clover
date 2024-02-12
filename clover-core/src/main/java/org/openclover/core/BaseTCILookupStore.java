@@ -1,7 +1,7 @@
 package org.openclover.core;
 
-import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 public abstract class BaseTCILookupStore implements TCILookupStore {
     private final ConcurrentMap<String, TestCaseInfoLookup> tciLookups;

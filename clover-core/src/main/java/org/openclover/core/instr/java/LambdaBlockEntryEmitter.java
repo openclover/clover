@@ -1,10 +1,10 @@
 package org.openclover.core.instr.java;
 
-import org.openclover.core.spi.lang.LanguageConstruct;
-import org.openclover.runtime.instr.Bindings;
 import org.openclover.core.registry.FixedSourceRegion;
 import org.openclover.core.registry.entities.FullMethodInfo;
 import org.openclover.core.registry.entities.MethodSignature;
+import org.openclover.core.spi.lang.LanguageConstruct;
+import org.openclover.runtime.instr.Bindings;
 
 /**
  * Code emitter for lambda expressions declared as a code block in curly braces.

@@ -1,19 +1,19 @@
 package org.openclover.idea.util.jdom;
 
-import org.openclover.idea.SampleEnum;
-import org.openclover.core.util.collections.Pair;
 import org.junit.Test;
+import org.openclover.core.util.collections.Pair;
+import org.openclover.idea.SampleEnum;
 import repkg.org.openclover.idea.RpkgOnlyEnum;
 
 import java.awt.Color;
 
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 public class JDOMExternUtilTest {
     private static final String CYAN_XML = "<highlight class=\"java.awt.Color\">-16711681</highlight>";

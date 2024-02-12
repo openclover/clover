@@ -1,17 +1,17 @@
 package org.openclover.eclipse.core.ui.widgets;
 
-import org.openclover.core.context.ContextStore;
-import org.openclover.core.context.ContextSet;
-import org.openclover.core.context.MethodRegexpContext;
-import org.openclover.core.context.NamedContext;
-import org.openclover.eclipse.core.CloverEclipsePluginMessages;
-import org.openclover.eclipse.core.projects.settings.ProjectSettings;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.openclover.core.context.ContextSet;
+import org.openclover.core.context.ContextStore;
+import org.openclover.core.context.MethodRegexpContext;
+import org.openclover.core.context.NamedContext;
+import org.openclover.eclipse.core.CloverEclipsePluginMessages;
+import org.openclover.eclipse.core.projects.settings.ProjectSettings;
 
 import java.util.HashMap;
 import java.util.List;

@@ -1,9 +1,9 @@
 package org.openclover.idea.config;
 
-import org.openclover.core.cfg.instr.java.LambdaInstrumentation;
-import org.openclover.idea.config.regexp.Regexp;
-import org.openclover.core.util.collections.Pair;
 import org.jetbrains.annotations.Nullable;
+import org.openclover.core.cfg.instr.java.LambdaInstrumentation;
+import org.openclover.core.util.collections.Pair;
+import org.openclover.idea.config.regexp.Regexp;
 
 import javax.swing.UIManager;
 import java.awt.Color;

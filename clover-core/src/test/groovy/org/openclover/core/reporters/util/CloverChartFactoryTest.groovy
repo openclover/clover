@@ -8,6 +8,8 @@ import clover.org.jfree.chart.axis.LogarithmicAxis
 import clover.org.jfree.chart.axis.NumberAxis
 import clover.org.jfree.chart.plot.XYPlot
 import clover.org.jfree.data.xy.XYDataset
+import junit.framework.TestCase
+import org.openclover.buildutil.testutils.IOHelper
 import org.openclover.core.api.registry.BlockMetrics
 import org.openclover.core.api.registry.HasMetrics
 import org.openclover.core.registry.FixedSourceRegion
@@ -15,16 +17,15 @@ import org.openclover.core.registry.entities.BaseClassInfo
 import org.openclover.core.registry.entities.BaseFileInfo
 import org.openclover.core.registry.entities.BasePackageInfo
 import org.openclover.core.registry.entities.Modifiers
+import org.openclover.core.registry.metrics.HasMetricsTestFixture
 import org.openclover.core.registry.metrics.ProjectMetrics
 import org.openclover.core.reporters.Columns
 import org.openclover.core.reporters.Historical
-import org.openclover.core.registry.metrics.HasMetricsTestFixture
-import org.openclover.buildutil.testutils.IOHelper
 import org.openclover.core.util.CloverUtils
-import junit.framework.TestCase
 
-import javax.swing.JFrame
-import java.awt.Window
+import javax.swing.*
+import java.awt.*
+import java.util.List
 
 import static org.openclover.core.util.Lists.newArrayList
 import static org.openclover.core.util.Maps.newHashMap

@@ -10,11 +10,11 @@ import org.openclover.core.registry.CoverageDataRange;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.registry.entities.TestCaseInfo;
-import org.openclover.runtime.api.CloverException;
+import org.openclover.core.util.Sets;
 import org.openclover.runtime.CloverNames;
 import org.openclover.runtime.Logger;
+import org.openclover.runtime.api.CloverException;
 import org_openclover_runtime.CloverVersionInfo;
-import org.openclover.core.util.Sets;
 
 import java.io.File;
 import java.io.IOException;

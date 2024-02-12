@@ -1,12 +1,12 @@
 package org.openclover.idea.report.treemap;
 
-import org.openclover.idea.util.ui.ScrollUtil;
-import org.openclover.core.api.registry.BlockMetrics;
-import org.openclover.core.registry.entities.FullClassInfo;
-import com.intellij.openapi.project.Project;
 import clover.net.sf.jtreemap.swing.JTreeMap;
 import clover.net.sf.jtreemap.swing.TreeMapNode;
 import clover.net.sf.jtreemap.swing.Value;
+import com.intellij.openapi.project.Project;
+import org.openclover.core.api.registry.BlockMetrics;
+import org.openclover.core.registry.entities.FullClassInfo;
+import org.openclover.idea.util.ui.ScrollUtil;
 
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;

@@ -1,12 +1,12 @@
 package org.openclover.idea.coverage.monitor;
 
-import org.openclover.runtime.Logger;
+import com.intellij.openapi.application.ApplicationManager;
 import org.openclover.idea.config.ConfigChangeEvent;
 import org.openclover.idea.config.ConfigChangeListener;
 import org.openclover.idea.config.MappedCloverPluginConfig;
 import org.openclover.idea.feature.FeatureEvent;
 import org.openclover.idea.feature.FeatureListener;
-import com.intellij.openapi.application.ApplicationManager;
+import org.openclover.runtime.Logger;
 
 import java.beans.PropertyChangeEvent;
 

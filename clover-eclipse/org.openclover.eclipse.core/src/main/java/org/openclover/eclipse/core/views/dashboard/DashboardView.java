@@ -1,9 +1,5 @@
 package org.openclover.eclipse.core.views.dashboard;
 
-import java.io.File;
-import java.io.IOException;
-
-import org.openclover.core.CloverDatabase;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -25,13 +21,16 @@ import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.ViewPart;
-
-import org.openclover.runtime.api.CloverException;
+import org.openclover.core.CloverDatabase;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.projects.builder.PathUtils;
 import org.openclover.eclipse.core.ui.projects.DatabaseChangeEvent;
 import org.openclover.eclipse.core.ui.projects.DatabaseChangeListener;
+import org.openclover.runtime.api.CloverException;
+
+import java.io.File;
+import java.io.IOException;
 
 public class DashboardView extends ViewPart implements ISelectionListener, DatabaseChangeListener {
 

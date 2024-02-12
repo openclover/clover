@@ -1,9 +1,9 @@
 package org.openclover.idea.coverage;
 
+import org.jetbrains.annotations.Nullable;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.registry.Clover2Registry;
 import org.openclover.core.util.Path;
-import org.jetbrains.annotations.Nullable;
 
 import java.net.URL;
 

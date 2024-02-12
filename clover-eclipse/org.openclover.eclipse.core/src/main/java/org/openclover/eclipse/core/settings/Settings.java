@@ -1,12 +1,12 @@
 package org.openclover.eclipse.core.settings;
 
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IPreferencesService;
 import org.eclipse.core.runtime.preferences.IScopeContext;
-import org.eclipse.core.runtime.Platform;
-import org.osgi.service.prefs.Preferences;
-import org.osgi.service.prefs.BackingStoreException;
 import org.openclover.eclipse.core.CloverPlugin;
+import org.osgi.service.prefs.BackingStoreException;
+import org.osgi.service.prefs.Preferences;
 
 
 public abstract class Settings {

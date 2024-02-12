@@ -1,13 +1,13 @@
 package org.openclover.eclipse.core.views.testcontributions;
 
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.IJobChangeEvent;
+import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.core.runtime.jobs.JobChangeAdapter;
-import org.eclipse.core.runtime.jobs.IJobChangeEvent;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.IMemento;
+import org.eclipse.ui.part.ViewPart;
 import org.openclover.eclipse.core.CloverPlugin;
 
 public class LineTestContributionsWidget extends TestContributionsWidget {

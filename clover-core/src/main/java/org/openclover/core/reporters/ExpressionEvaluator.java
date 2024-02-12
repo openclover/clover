@@ -3,16 +3,12 @@ package org.openclover.core.reporters;
 import clover.antlr.CommonAST;
 import clover.antlr.RecognitionException;
 import clover.antlr.TokenStreamException;
-
-import java.io.InputStream;
-import java.io.ByteArrayInputStream;
-
-import org.openclover.core.reporters.CalcLexer;
-import org.openclover.core.reporters.CalcParser;
-import org.openclover.core.reporters.CalcTreeWalker;
 import org.openclover.core.api.registry.BlockMetrics;
 import org.openclover.runtime.Logger;
 import org.openclover.runtime.api.CloverException;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 
 /**
  */

@@ -1,13 +1,13 @@
 package org.openclover.idea.actions.excludes;
 
-import org.openclover.idea.IProjectPlugin;
-import org.openclover.idea.ProjectPlugin;
-import org.openclover.idea.config.IdeaCloverConfig;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.actionSystem.ToggleAction;
 import com.intellij.psi.PsiElement;
 import org.jetbrains.annotations.Nullable;
+import org.openclover.idea.IProjectPlugin;
+import org.openclover.idea.ProjectPlugin;
+import org.openclover.idea.config.IdeaCloverConfig;
 
 public abstract class AbstractToggleInclusionAction extends ToggleAction {
 

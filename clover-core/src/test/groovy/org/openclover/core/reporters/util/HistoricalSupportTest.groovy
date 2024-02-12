@@ -1,6 +1,8 @@
 package org.openclover.core.reporters.util
 
-import org.openclover.runtime.api.CloverException
+import org.junit.Rule
+import org.junit.Test
+import org.junit.rules.TestName
 import org.openclover.core.api.registry.SourceInfo
 import org.openclover.core.cfg.Percentage
 import org.openclover.core.registry.FixedSourceRegion
@@ -15,9 +17,7 @@ import org.openclover.core.registry.entities.Modifiers
 import org.openclover.core.registry.metrics.BlockMetrics
 import org.openclover.core.reporters.Column
 import org.openclover.core.reporters.Columns
-import org.junit.Rule
-import org.junit.Test
-import org.junit.rules.TestName
+import org.openclover.runtime.api.CloverException
 
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertTrue

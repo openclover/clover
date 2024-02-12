@@ -1,20 +1,21 @@
 package org.openclover.core.recorder
 
-import org.openclover.core.CoverageDataSpec
-import org.openclover.runtime.Logger
-import org.openclover.core.util.FileUtils
-import org.openclover.runtime.recorder.BaseCoverageRecording
-import org.openclover.runtime.recorder.FileBasedGlobalCoverageRecording
-import org.openclover.runtime.recorder.GlobalCoverageRecording
-import org.openclover.runtime.util.IOStreamUtils
-import org_openclover_runtime.Clover
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestName
+import org.openclover.core.CoverageDataSpec
+import org.openclover.core.util.FileUtils
+import org.openclover.runtime.Logger
+import org.openclover.runtime.recorder.BaseCoverageRecording
+import org.openclover.runtime.recorder.FileBasedGlobalCoverageRecording
+import org.openclover.runtime.recorder.GlobalCoverageRecording
+import org.openclover.runtime.util.IOStreamUtils
+import org_openclover_runtime.Clover
 
-import static org.junit.Assert.*
+import static org.junit.Assert.assertEquals
+import static org.junit.Assert.fail
 
 class GlobalCoverageRecordingTest {
     private File recDir

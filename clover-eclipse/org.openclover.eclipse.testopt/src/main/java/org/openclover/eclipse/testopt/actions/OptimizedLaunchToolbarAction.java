@@ -1,8 +1,5 @@
 package org.openclover.eclipse.testopt.actions;
 
-import org.openclover.eclipse.testopt.OptimizedLaunchingConstants;
-import org.openclover.eclipse.testopt.TestOptimizationPlugin;
-import org.openclover.eclipse.testopt.TestOptimizationPluginMessages;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.internal.ui.DebugUIPlugin;
 import org.eclipse.debug.ui.DebugUITools;
@@ -10,6 +7,9 @@ import org.eclipse.debug.ui.actions.AbstractLaunchToolbarAction;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.openclover.eclipse.testopt.OptimizedLaunchingConstants;
+import org.openclover.eclipse.testopt.TestOptimizationPlugin;
+import org.openclover.eclipse.testopt.TestOptimizationPluginMessages;
 
 import java.util.List;
 

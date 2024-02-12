@@ -1,14 +1,14 @@
 package org.openclover.groovy.instr
 
 import org.openclover.buildutil.test.junit.DefaultTestSelector
-import org.openclover.groovy.test.junit.GroovyCombinatorMixin
 import org.openclover.buildutil.test.junit.GroovyVersionStart
 import org.openclover.buildutil.test.junit.GroovyVersions
+import org.openclover.core.versions.LibraryVersion
+import org.openclover.groovy.test.junit.GroovyCombinatorMixin
 import org.openclover.groovy.test.junit.IncludeExcludeMixin
 import org.openclover.groovy.test.junit.JavaVersionMixin
 import org.openclover.groovy.test.junit.SpockCombinatorMixin
 import org.openclover.groovy.test.junit.TestPropertyMixin
-import org.openclover.core.versions.LibraryVersion
 
 import java.lang.reflect.Method
 

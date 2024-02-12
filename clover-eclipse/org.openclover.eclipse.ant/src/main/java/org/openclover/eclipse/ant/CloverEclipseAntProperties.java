@@ -4,7 +4,6 @@ import org.eclipse.ant.core.IAntPropertyValueProvider;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.Status;
 import org.osgi.framework.Bundle;
 
 import java.io.IOException;

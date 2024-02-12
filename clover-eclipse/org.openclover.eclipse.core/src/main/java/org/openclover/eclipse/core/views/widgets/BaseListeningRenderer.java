@@ -1,13 +1,13 @@
 package org.openclover.eclipse.core.views.widgets;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Tree;
-import org.eclipse.swt.SWT;
-import org.openclover.eclipse.core.views.ColumnDefinition;
+import org.eclipse.swt.widgets.TreeItem;
 import org.openclover.eclipse.core.views.ColumnCollectionSettings;
+import org.openclover.eclipse.core.views.ColumnDefinition;
 
 public abstract class BaseListeningRenderer implements ListeningRenderer {
     /** 4 pixes each side for margin */

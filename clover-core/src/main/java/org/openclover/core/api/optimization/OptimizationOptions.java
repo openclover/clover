@@ -1,7 +1,7 @@
 package org.openclover.core.api.optimization;
 
-import org.openclover.runtime.Logger;
 import org.openclover.core.optimization.Snapshot;
+import org.openclover.runtime.Logger;
 
 import java.io.File;
 

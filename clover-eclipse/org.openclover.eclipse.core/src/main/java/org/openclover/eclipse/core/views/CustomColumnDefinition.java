@@ -1,22 +1,21 @@
 package org.openclover.eclipse.core.views;
 
-import clover.antlr.collections.AST;
 import clover.antlr.RecognitionException;
-import org.openclover.runtime.api.CloverException;
-import org.openclover.core.util.MetricsFormatUtils;
-import org.openclover.eclipse.core.projects.model.MetricsScope;
-import org.openclover.eclipse.core.views.widgets.ListeningRenderer;
-import org.openclover.eclipse.core.views.coverageexplorer.MetricsPcCellRenderer;
-import org.openclover.eclipse.core.views.coverageexplorer.MetricsRawCellRenderer;
-import org.openclover.core.registry.metrics.BlockMetrics;
-import org.openclover.core.reporters.ExpressionEvaluator;
-import org.openclover.core.reporters.CalcTreeWalker;
-
-import java.util.Comparator;
-
+import clover.antlr.collections.AST;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
+import org.openclover.core.registry.metrics.BlockMetrics;
+import org.openclover.core.reporters.CalcTreeWalker;
+import org.openclover.core.reporters.ExpressionEvaluator;
+import org.openclover.core.util.MetricsFormatUtils;
+import org.openclover.eclipse.core.projects.model.MetricsScope;
+import org.openclover.eclipse.core.views.coverageexplorer.MetricsPcCellRenderer;
+import org.openclover.eclipse.core.views.coverageexplorer.MetricsRawCellRenderer;
+import org.openclover.eclipse.core.views.widgets.ListeningRenderer;
+import org.openclover.runtime.api.CloverException;
+
+import java.util.Comparator;
 
 public class CustomColumnDefinition
     extends ColumnDefinition

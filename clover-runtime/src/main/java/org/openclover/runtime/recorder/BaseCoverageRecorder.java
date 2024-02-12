@@ -6,8 +6,8 @@ import org.openclover.runtime.Logger;
 import org_openclover_runtime.Clover;
 import org_openclover_runtime.CoverageRecorder;
 
-import java.io.IOException;
 import java.io.File;
+import java.io.IOException;
 
 public abstract class BaseCoverageRecorder extends CoverageRecorder {
     private static final int MIN_INTERVAL = 200;

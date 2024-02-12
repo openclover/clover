@@ -39,10 +39,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.zip.GZIPOutputStream;
 
-import static org.openclover.core.reporters.CommandLineArgProcessors.*;
+import static org.openclover.core.reporters.CommandLineArgProcessors.AlwaysReport;
+import static org.openclover.core.reporters.CommandLineArgProcessors.DebugLogging;
+import static org.openclover.core.reporters.CommandLineArgProcessors.Filter;
+import static org.openclover.core.reporters.CommandLineArgProcessors.IncludeFailedTestCoverage;
+import static org.openclover.core.reporters.CommandLineArgProcessors.InitString;
+import static org.openclover.core.reporters.CommandLineArgProcessors.LineInfo;
+import static org.openclover.core.reporters.CommandLineArgProcessors.OutputFile;
+import static org.openclover.core.reporters.CommandLineArgProcessors.ShowInnerFunctions;
+import static org.openclover.core.reporters.CommandLineArgProcessors.ShowLambdaFunctions;
+import static org.openclover.core.reporters.CommandLineArgProcessors.Span;
+import static org.openclover.core.reporters.CommandLineArgProcessors.ThreadCount;
+import static org.openclover.core.reporters.CommandLineArgProcessors.Title;
+import static org.openclover.core.reporters.CommandLineArgProcessors.VerboseLogging;
 import static org.openclover.core.util.Lists.join;
-import static org.openclover.core.util.Maps.newHashMap;
 import static org.openclover.core.util.Lists.newArrayList;
+import static org.openclover.core.util.Maps.newHashMap;
 
 public class XMLReporter extends CloverReporter {
 

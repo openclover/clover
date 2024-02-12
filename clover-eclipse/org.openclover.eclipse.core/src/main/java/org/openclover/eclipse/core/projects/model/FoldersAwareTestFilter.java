@@ -1,18 +1,18 @@
 package org.openclover.eclipse.core.projects.model;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.registry.BaseInvertableFilter;
 import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
-import org.openclover.eclipse.core.projects.CloverProject;
-import org.openclover.eclipse.core.projects.settings.ProjectSettings;
-import org.openclover.core.registry.BaseInvertableFilter;
-import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.registry.metrics.HasMetricsFilter;
 import org.openclover.core.reporters.filters.AntPatternTestFilter;
 import org.openclover.core.reporters.filters.DefaultTestFilter;
 import org.openclover.core.reporters.filters.EmptyTestFilter;
 import org.openclover.core.util.FileUtils;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
+import org.openclover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.projects.settings.ProjectSettings;
 
 import java.io.File;
 import java.util.ArrayList;

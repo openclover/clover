@@ -1,8 +1,8 @@
 package org.openclover.core.registry;
 
+import org.jetbrains.annotations.Nullable;
 import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.SourceInfo;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * A source region associated with a file info

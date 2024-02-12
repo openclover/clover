@@ -1,6 +1,5 @@
 package org.openclover.eclipse.core.views.actions;
 
-import org.openclover.eclipse.core.views.SelectionUtils;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
@@ -8,6 +7,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
+import org.openclover.eclipse.core.views.SelectionUtils;
 
 import java.util.Set;
 

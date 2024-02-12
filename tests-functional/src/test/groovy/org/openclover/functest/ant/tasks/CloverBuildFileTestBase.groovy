@@ -1,8 +1,8 @@
 package org.openclover.functest.ant.tasks
 
-import org.openclover.core.util.FileUtils
 import groovy.transform.CompileStatic
 import org.apache.tools.ant.BuildFileTestBase
+import org.openclover.core.util.FileUtils
 
 /**
  * Declare the following properties to run this test:

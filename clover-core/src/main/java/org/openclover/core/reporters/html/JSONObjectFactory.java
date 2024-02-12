@@ -2,17 +2,17 @@ package org.openclover.core.reporters.html;
 
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.MethodInfo;
-import org.openclover.core.spi.reporters.html.source.LineRenderInfo;
-import org.openclover.core.reporters.json.JSONObject;
-import org.openclover.core.reporters.json.JSONException;
-import org.openclover.core.registry.entities.TestCaseInfo;
-import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
+import org.openclover.core.registry.entities.FullFileInfo;
+import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.core.reporters.json.JSONException;
+import org.openclover.core.reporters.json.JSONObject;
+import org.openclover.core.spi.reporters.html.source.LineRenderInfo;
 import org.openclover.runtime.Logger;
 
-import java.util.Map;
 import java.util.BitSet;
 import java.util.List;
+import java.util.Map;
 
 import static org.openclover.core.util.Lists.newArrayList;
 import static org.openclover.core.util.Maps.newHashMap;

@@ -1,22 +1,22 @@
 package org.openclover.eclipse.core.ui.editors.java;
 
-import org.eclipse.ui.IWindowListener;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IPartListener2;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.IWorkbenchPartReference;
+import org.eclipse.ui.IWindowListener;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchPartReference;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.services.IDisposable;
 import org.eclipse.ui.texteditor.ITextEditor;
-import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.Status;
-import org.openclover.eclipse.core.settings.InstallationSettings;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.SystemJob;
+import org.openclover.eclipse.core.settings.InstallationSettings;
 
 import java.util.List;
 

@@ -1,20 +1,20 @@
 package org.openclover.eclipse.core.reports;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubMonitor;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.CloverDatabaseSpec;
 import org.openclover.core.ProgressListener;
 import org.openclover.core.cfg.Interval;
-import org.openclover.eclipse.core.CloverPlugin;
-import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.core.reporters.CloverReporter;
 import org.openclover.core.reporters.Current;
 import org.openclover.core.reporters.html.HtmlReporter;
 import org.openclover.core.reporters.pdf.PDFReporter;
 import org.openclover.core.reporters.xml.XMLReporter;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.SubMonitor;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.CloverProject;
 
 import java.util.ArrayList;
 import java.util.List;

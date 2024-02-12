@@ -1,18 +1,18 @@
 package org.openclover.eclipse.core.projects.model;
 
-import org.openclover.core.CloverDatabase;
-import org.openclover.core.registry.entities.FullProjectInfo;
-import org.openclover.eclipse.core.projects.CloverProject;
-import org.openclover.core.registry.entities.BaseClassInfo;
-import org.openclover.core.registry.entities.BaseFileInfo;
-import org.openclover.core.api.registry.HasMetrics;
-import org.openclover.core.registry.entities.FullMethodInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IType;
-import org.eclipse.core.runtime.IProgressMonitor;
+import org.openclover.core.CloverDatabase;
+import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.registry.entities.BaseClassInfo;
+import org.openclover.core.registry.entities.BaseFileInfo;
+import org.openclover.core.registry.entities.FullMethodInfo;
+import org.openclover.core.registry.entities.FullProjectInfo;
+import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.eclipse.core.projects.CloverProject;
 
 public abstract class DatabaseModel {
     protected final CloverProject project;

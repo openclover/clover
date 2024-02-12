@@ -1,10 +1,5 @@
 package org.openclover.groovy.instr;
 
-import org.openclover.core.api.instrumentation.InstrumentationSession;
-import org.openclover.core.api.registry.BranchInfo;
-import org.openclover.core.api.registry.ContextSet;
-import org.openclover.core.api.registry.SourceInfo;
-import org.openclover.core.spi.lang.LanguageConstruct;
 import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.ast.expr.ArgumentListExpression;
 import org.codehaus.groovy.ast.expr.BinaryExpression;
@@ -15,6 +10,11 @@ import org.codehaus.groovy.syntax.Token;
 import org.codehaus.groovy.syntax.Types;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.openclover.core.api.instrumentation.InstrumentationSession;
+import org.openclover.core.api.registry.BranchInfo;
+import org.openclover.core.api.registry.ContextSet;
+import org.openclover.core.api.registry.SourceInfo;
+import org.openclover.core.spi.lang.LanguageConstruct;
 
 /**
  * Instrumenting code branches. Instantiate this class per every Groovy class instrumented.

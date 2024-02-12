@@ -1,4 +1,3 @@
-import org.openclover.runtime.api.CloverException;
 import org.openclover.core.api.instrumentation.InstrumentationSession;
 import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.context.ContextSet;
@@ -8,10 +7,11 @@ import org.openclover.core.registry.entities.MethodSignature;
 import org.openclover.core.registry.entities.Modifiers;
 import org.openclover.core.registry.entities.Parameter;
 import org.openclover.core.spi.lang.LanguageConstruct;
+import org.openclover.runtime.api.CloverException;
 
-import java.lang.reflect.Modifier;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Modifier;
 
 public class SimpleCodeInstrumenter {
     private Clover2Registry registry;

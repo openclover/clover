@@ -7,12 +7,12 @@ import clover.org.jfree.chart.plot.PlotOrientation;
 import clover.org.jfree.data.xy.XYSeriesCollection;
 import org.openclover.runtime.Logger;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.io.File;
-import java.io.RandomAccessFile;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.RandomAccessFile;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**

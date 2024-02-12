@@ -1,11 +1,11 @@
 package org.openclover.idea.treetables;
 
+import com.intellij.openapi.project.Project;
+import com.intellij.ui.dualView.TreeTableView;
 import org.openclover.idea.util.ui.ScrollToSourceMouseAdapter;
 import org.openclover.idea.util.ui.TreeExpansionHelper;
 import org.openclover.idea.util.ui.TreeSelectionHelper;
 import org.openclover.idea.util.ui.TreeUtil;
-import com.intellij.openapi.project.Project;
-import com.intellij.ui.dualView.TreeTableView;
 
 import javax.swing.JPanel;
 import javax.swing.JTable;

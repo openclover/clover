@@ -1,5 +1,6 @@
 package org.openclover.ant.tasks
 
+import junit.framework.TestCase
 import org.openclover.core.instr.java.JavaMethodContext
 import org.openclover.core.instr.java.JavaTypeContext
 import org.openclover.core.instr.tests.DefaultTestDetector
@@ -12,7 +13,6 @@ import org.openclover.core.spec.instr.test.AndSpec
 import org.openclover.core.spec.instr.test.OrSpec
 import org.openclover.core.spec.instr.test.TestClassSpec
 import org.openclover.core.spec.instr.test.TestMethodSpec
-import junit.framework.TestCase
 
 import static org.openclover.core.util.Lists.newArrayList
 import static org.openclover.core.util.Maps.newHashMap

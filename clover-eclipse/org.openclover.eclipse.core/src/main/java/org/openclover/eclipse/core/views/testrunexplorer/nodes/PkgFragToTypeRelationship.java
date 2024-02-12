@@ -1,20 +1,19 @@
 package org.openclover.eclipse.core.views.testrunexplorer.nodes;
 
+import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.IPackageFragment;
+import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaModelException;
+import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.views.nodes.NodeRelationship;
 import org.openclover.eclipse.core.views.nodes.NodeRelationshipFilter;
 import org.openclover.eclipse.core.views.nodes.PackageFragmentNode;
-import org.openclover.eclipse.core.CloverPlugin;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Collection;
-
-import org.eclipse.jdt.core.IPackageFragment;
-import org.eclipse.jdt.core.ICompilationUnit;
-import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.core.JavaModelException;
 
 import static org.openclover.core.util.Lists.newLinkedList;
 import static org.openclover.core.util.Sets.newLinkedHashSet;

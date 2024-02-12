@@ -1,8 +1,5 @@
 package org.openclover.idea.junit;
 
-import org.openclover.idea.CloverToolWindowId;
-import org.openclover.idea.junit.config.TestOptimizationGlobalSettings;
-import org.openclover.idea.util.l10n.CloverIdeaPluginMessages;
 import com.intellij.ide.DataManager;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.actionSystem.DataKeys;
@@ -15,6 +12,9 @@ import com.intellij.openapi.util.AsyncResult;
 import com.intellij.openapi.wm.ToolWindowManager;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
+import org.openclover.idea.CloverToolWindowId;
+import org.openclover.idea.junit.config.TestOptimizationGlobalSettings;
+import org.openclover.idea.util.l10n.CloverIdeaPluginMessages;
 
 import javax.swing.Action;
 import javax.swing.JCheckBox;

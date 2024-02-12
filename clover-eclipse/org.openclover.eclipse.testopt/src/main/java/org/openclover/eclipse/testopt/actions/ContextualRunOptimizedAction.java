@@ -1,7 +1,5 @@
 package org.openclover.eclipse.testopt.actions;
 
-import org.openclover.eclipse.core.ui.CloverPluginIcons;
-import org.openclover.eclipse.testopt.OptimizedLaunchingConstants;
 import org.eclipse.debug.ui.actions.ContextualLaunchAction;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
@@ -12,6 +10,8 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
+import org.openclover.eclipse.core.ui.CloverPluginIcons;
+import org.openclover.eclipse.testopt.OptimizedLaunchingConstants;
 
 import java.util.Map;
 

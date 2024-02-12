@@ -1,8 +1,8 @@
 package org.openclover.core.remote
 
+import org.junit.Test
 import org.openclover.core.util.RecordingLogger
 import org.openclover.runtime.Logger
-import org.junit.Test
 import org.openclover.runtime.remote.CajoTcpRecorderListener
 import org.openclover.runtime.remote.DistributedConfig
 import org.openclover.runtime.remote.RemoteFactory

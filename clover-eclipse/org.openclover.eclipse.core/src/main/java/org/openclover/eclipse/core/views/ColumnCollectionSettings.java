@@ -1,16 +1,15 @@
 package org.openclover.eclipse.core.views;
 
-import org.eclipse.ui.IPersistable;
 import org.eclipse.ui.IMemento;
+import org.eclipse.ui.IPersistable;
+import org.openclover.eclipse.core.CloverPlugin;
 
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.LinkedHashMap;
-import java.util.Arrays;
 import java.util.Set;
-import java.util.LinkedHashSet;
-
-import org.openclover.eclipse.core.CloverPlugin;
 
 import static org.openclover.core.util.Lists.newArrayList;
 import static org.openclover.core.util.Lists.newLinkedList;

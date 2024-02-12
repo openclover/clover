@@ -1,8 +1,8 @@
 package org.openclover.core.recorder;
 
 import org.openclover.core.CoverageDataSpec;
-import org.openclover.runtime.util.CoverageUtils;
 import org.openclover.runtime.recorder.BaseCoverageRecording;
+import org.openclover.runtime.util.CoverageUtils;
 
 import java.io.DataInputStream;
 import java.io.File;

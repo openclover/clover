@@ -1,10 +1,10 @@
 package org.openclover.eclipse.core.projects.model;
 
-import org.openclover.core.instr.tests.TestDetector;
-import org.openclover.eclipse.core.projects.CloverProject;
-import org.openclover.core.util.FileUtils;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.openclover.core.instr.tests.TestDetector;
+import org.openclover.core.util.FileUtils;
+import org.openclover.eclipse.core.projects.CloverProject;
 
 import java.io.File;
 import java.util.ArrayList;

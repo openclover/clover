@@ -4,9 +4,9 @@ import org.openclover.core.CoverageDataSpec;
 import org.openclover.core.util.collections.Pair;
 import org.openclover.runtime.Logger;
 import org.openclover.runtime.recorder.BaseCoverageRecording;
+import org.openclover.runtime.recorder.CoverageRecording;
 import org.openclover.runtime.recorder.GlobalCoverageRecording;
 import org.openclover.runtime.util.IOStreamUtils;
-import org.openclover.runtime.recorder.CoverageRecording;
 
 import java.io.DataInputStream;
 import java.io.File;

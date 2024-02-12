@@ -1,15 +1,15 @@
 package org.openclover.eclipse.testopt;
 
-import org.openclover.core.CloverDatabase;
-import org.openclover.runtime.api.CloverException;
-import org.openclover.core.CoverageDataSpec;
-import org.openclover.eclipse.core.projects.CloverProject;
-import org.openclover.core.optimization.Snapshot;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.internal.junit.model.TestRunSession;
 import org.eclipse.jdt.junit.TestRunListener;
 import org.eclipse.jdt.junit.model.ITestRunSession;
+import org.openclover.core.CloverDatabase;
+import org.openclover.core.CoverageDataSpec;
+import org.openclover.core.optimization.Snapshot;
+import org.openclover.eclipse.core.projects.CloverProject;
+import org.openclover.runtime.api.CloverException;
 
 import java.io.IOException;
 

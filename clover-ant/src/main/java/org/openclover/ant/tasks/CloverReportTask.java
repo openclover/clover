@@ -1,22 +1,22 @@
 package org.openclover.ant.tasks;
 
-import org.openclover.runtime.api.CloverException;
-import org.openclover.runtime.CloverNames;
-import org.openclover.runtime.Logger;
-import org.openclover.core.CoverageData;
-import org.openclover.core.cfg.StorageSize;
-import org.openclover.core.reporters.CloverReportConfig;
-import org.openclover.core.reporters.Current;
-import org.openclover.core.reporters.Format;
-import org.openclover.core.reporters.Historical;
-import org.openclover.core.reporters.Type;
-import org.openclover.core.reporters.CloverReporter;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DirectoryScanner;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 import org.apache.tools.ant.types.PatternSet;
+import org.openclover.core.CoverageData;
+import org.openclover.core.cfg.StorageSize;
+import org.openclover.core.reporters.CloverReportConfig;
+import org.openclover.core.reporters.CloverReporter;
+import org.openclover.core.reporters.Current;
+import org.openclover.core.reporters.Format;
+import org.openclover.core.reporters.Historical;
+import org.openclover.core.reporters.Type;
+import org.openclover.runtime.CloverNames;
+import org.openclover.runtime.Logger;
+import org.openclover.runtime.api.CloverException;
 
 import java.io.File;
 import java.util.List;

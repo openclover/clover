@@ -1,7 +1,5 @@
 package org.openclover.eclipse.testopt.editors.ruler;
 
-import java.util.Collection;
-
 import org.eclipse.jface.text.IInformationControlCreator;
 import org.eclipse.jface.text.source.IAnnotationHover;
 import org.eclipse.jface.text.source.IAnnotationHoverExtension;
@@ -9,9 +7,10 @@ import org.eclipse.jface.text.source.IAnnotationHoverExtension2;
 import org.eclipse.jface.text.source.ILineRange;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.LineRange;
-
-import org.openclover.eclipse.core.ui.editors.java.ILineCoverageModel.Entry;
 import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.eclipse.core.ui.editors.java.ILineCoverageModel.Entry;
+
+import java.util.Collection;
 
 public class CoverageAnnotationRulerHover implements IAnnotationHover,
         IAnnotationHoverExtension, IAnnotationHoverExtension2 {

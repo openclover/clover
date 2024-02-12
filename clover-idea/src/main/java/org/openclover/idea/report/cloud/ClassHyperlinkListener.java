@@ -1,9 +1,9 @@
 package org.openclover.idea.report.cloud;
 
 
-import org.openclover.idea.util.psi.PsiUtil;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiClass;
+import org.openclover.idea.util.psi.PsiUtil;
 
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;

@@ -1,6 +1,5 @@
 package org.openclover.idea;
 
-import org.openclover.core.util.FileUtils;
 import com.intellij.openapi.application.ApplicationInfo;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.module.Module;
@@ -14,6 +13,7 @@ import com.intellij.openapi.roots.libraries.LibraryTablesRegistrar;
 import com.intellij.openapi.util.Computable;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.testFramework.IdeaTestCase;
+import org.openclover.core.util.FileUtils;
 
 import java.net.URL;
 import java.util.Arrays;

@@ -1,7 +1,7 @@
 package org.openclover.idea.actions;
 
-import org.openclover.core.api.registry.HasMetrics;
 import com.intellij.openapi.actionSystem.DataKey;
+import org.openclover.core.api.registry.HasMetrics;
 
 public final class Constants {
     private Constants() {

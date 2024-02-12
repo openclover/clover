@@ -1,9 +1,9 @@
 package org.openclover.functest.ant.tasks
 
+import groovy.transform.CompileStatic
 import org.openclover.core.instr.java.RecorderInstrEmitter
 import org.openclover.runtime.api.CloverException
 import org.openclover.runtime.remote.DistributedConfig
-import groovy.transform.CompileStatic
 
 @CompileStatic
 class CloverInstrTaskTest extends CloverBuildFileTestBase {

@@ -1,12 +1,5 @@
 package org.openclover.idea.junit;
 
-import org.openclover.runtime.Logger;
-import org.openclover.idea.CloverToolWindowId;
-import org.openclover.idea.junit.config.OptimizedConfigurationSettings;
-import org.openclover.idea.util.l10n.CloverIdeaPluginMessages;
-import org.openclover.idea.util.ui.CloverIcons;
-import org.openclover.idea.util.ui.MessageDialogs;
-import org.openclover.core.optimization.OptimizationSession;
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.ExecutorRegistry;
 import com.intellij.execution.configurations.JavaParameters;
@@ -22,6 +15,13 @@ import com.intellij.openapi.util.Key;
 import com.intellij.openapi.wm.ToolWindowManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.openclover.core.optimization.OptimizationSession;
+import org.openclover.idea.CloverToolWindowId;
+import org.openclover.idea.junit.config.OptimizedConfigurationSettings;
+import org.openclover.idea.util.l10n.CloverIdeaPluginMessages;
+import org.openclover.idea.util.ui.CloverIcons;
+import org.openclover.idea.util.ui.MessageDialogs;
+import org.openclover.runtime.Logger;
 
 import java.io.File;
 import java.util.regex.Matcher;

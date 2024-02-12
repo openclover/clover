@@ -1,9 +1,9 @@
 package org.openclover.eclipse.core.ui.editors.treemap;
 
-import org.openclover.core.api.registry.HasMetrics;
-import org.openclover.core.registry.metrics.BlockMetrics;
 import net.sf.jtreemap.ktreemap.ITreeMapProvider;
 import net.sf.jtreemap.ktreemap.TreeMapNode;
+import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.registry.metrics.BlockMetrics;
 
 import java.text.DecimalFormat;
 

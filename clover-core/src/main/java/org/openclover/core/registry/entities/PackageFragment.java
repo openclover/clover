@@ -10,8 +10,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-import static org.openclover.core.util.Maps.newTreeMap;
 import static org.openclover.core.util.Lists.newArrayList;
+import static org.openclover.core.util.Maps.newTreeMap;
 
 public class PackageFragment implements HasMetricsNode {
 

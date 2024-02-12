@@ -1,12 +1,6 @@
 package org.openclover.ant;
 
 import clover.org.apache.commons.lang3.StringUtils;
-import org.openclover.ant.tasks.AntInstrumentationConfig;
-import org.openclover.runtime.CloverNames;
-import org.openclover.core.Contract;
-import org.openclover.runtime.Logger;
-import org.openclover.runtime.api.CloverException;
-import org.openclover.core.util.FileUtils;
 import org.apache.tools.ant.DirectoryScanner;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.FileSet;
@@ -14,6 +8,12 @@ import org.apache.tools.ant.types.Path;
 import org.apache.tools.ant.types.PatternSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.openclover.ant.tasks.AntInstrumentationConfig;
+import org.openclover.core.Contract;
+import org.openclover.core.util.FileUtils;
+import org.openclover.runtime.CloverNames;
+import org.openclover.runtime.Logger;
+import org.openclover.runtime.api.CloverException;
 
 import java.io.File;
 import java.io.IOException;

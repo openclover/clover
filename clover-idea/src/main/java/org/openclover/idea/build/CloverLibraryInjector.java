@@ -1,16 +1,16 @@
 package org.openclover.idea.build;
 
+import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.module.Module;
+import com.intellij.openapi.module.ModuleManager;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.roots.libraries.Library;
 import org.openclover.idea.LibrarySupport;
 import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.config.ConfigChangeEvent;
 import org.openclover.idea.config.ConfigChangeListener;
 import org.openclover.idea.config.IdeaCloverConfig;
 import org.openclover.idea.util.MiscUtils;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleManager;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.roots.libraries.Library;
 
 /**
  * Adds or removes the "Clover IDEA Library" from project's modules depending on whether Clover is enabled or not.

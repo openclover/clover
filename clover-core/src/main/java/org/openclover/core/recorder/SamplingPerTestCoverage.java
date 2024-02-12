@@ -8,24 +8,24 @@ import clover.it.unimi.dsi.fastutil.ints.IntArrayList;
 import org.openclover.core.CoverageDataSpec;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.MethodInfo;
-import org.openclover.core.util.SizedLRUCacheMap;
-import org.openclover.runtime.Logger;
 import org.openclover.core.registry.Clover2Registry;
 import org.openclover.core.registry.CoverageDataRange;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.core.util.SizedLRUCacheMap;
+import org.openclover.runtime.Logger;
 import org.openclover.runtime.util.CloverBitSet;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.BitSet;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Collection;
 
 import static org.openclover.core.util.Lists.newLinkedList;
 import static org.openclover.core.util.Maps.newHashMap;

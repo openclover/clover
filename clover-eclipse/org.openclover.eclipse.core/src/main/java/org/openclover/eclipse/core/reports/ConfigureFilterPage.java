@@ -6,11 +6,11 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.openclover.eclipse.core.ui.widgets.BuiltinContextFilterSelectionWidget;
-import org.openclover.eclipse.core.ui.widgets.ContextFilterSelectionWidget;
-import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.core.context.ContextSet;
 import org.openclover.core.context.ContextStore;
+import org.openclover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.ui.widgets.BuiltinContextFilterSelectionWidget;
+import org.openclover.eclipse.core.ui.widgets.ContextFilterSelectionWidget;
 
 public class ConfigureFilterPage extends WizardPage {
     private BuiltinContextFilterSelectionWidget contextWidget;

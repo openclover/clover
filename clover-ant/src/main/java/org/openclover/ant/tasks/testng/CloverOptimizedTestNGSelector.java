@@ -1,24 +1,24 @@
 package org.openclover.ant.tasks.testng;
 
-import org.openclover.runtime.CloverNames;
 import org.openclover.core.api.optimization.Optimizable;
 import org.openclover.core.api.optimization.OptimizationOptions;
-import org.openclover.core.optimization.Optimizer;
-import org.openclover.core.optimization.OptimizationSession;
 import org.openclover.core.optimization.LocalSnapshotOptimizer;
+import org.openclover.core.optimization.OptimizationSession;
+import org.openclover.core.optimization.Optimizer;
 import org.openclover.core.optimization.Snapshot;
+import org.openclover.runtime.CloverNames;
+import org.testng.IAnnotationTransformer;
 import org.testng.IAnnotationTransformer2;
 import org.testng.annotations.IConfigurationAnnotation;
 import org.testng.annotations.IDataProviderAnnotation;
 import org.testng.annotations.IFactoryAnnotation;
 import org.testng.annotations.ITestAnnotation;
-import org.testng.IAnnotationTransformer;
 import org.testng.annotations.ITestOrConfiguration;
 
+import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.List;
-import java.io.File;
 
 import static org.openclover.core.util.Lists.newArrayList;
 

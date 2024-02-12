@@ -1,7 +1,7 @@
 package org.openclover.core.recorder
 
-import org.openclover.runtime.util.CloverBitSet
 import org.openclover.core.registry.CoverageDataProvider
+import org.openclover.runtime.util.CloverBitSet
 
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertTrue

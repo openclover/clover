@@ -1,17 +1,18 @@
 package org.openclover.core.remote
 
-import org.openclover.core.util.RecordingLogger
-import org.openclover.runtime.CloverProperties
-import org.openclover.runtime.CloverNames
-import org.openclover.runtime.Logger
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import org.openclover.core.util.RecordingLogger
+import org.openclover.runtime.CloverNames
+import org.openclover.runtime.CloverProperties
+import org.openclover.runtime.Logger
 import org.openclover.runtime.remote.DistributedClover
 import org.openclover.runtime.remote.DistributedConfig
 import org.openclover.runtime.remote.RpcMessage
 
-import static org.junit.Assert.*
+import static org.junit.Assert.assertFalse
+import static org.junit.Assert.assertTrue
 
 /**
  * Test for {@link DistributedClover}

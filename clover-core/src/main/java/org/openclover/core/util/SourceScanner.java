@@ -1,10 +1,10 @@
 package org.openclover.core.util;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.FilenameFilter;
-import java.util.Set;
+import java.io.IOException;
 import java.util.Collections;
+import java.util.Set;
 
 import static org.openclover.core.util.Sets.newHashSet;
 

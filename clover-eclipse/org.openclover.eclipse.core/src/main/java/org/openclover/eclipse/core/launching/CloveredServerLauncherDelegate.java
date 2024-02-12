@@ -1,7 +1,7 @@
 package org.openclover.eclipse.core.launching;
 
-import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 
 public class CloveredServerLauncherDelegate extends CloveredLauncherDelegate {

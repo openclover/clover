@@ -1,13 +1,13 @@
 package org.openclover.core.instr.java
 
-import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig
-import org.openclover.core.util.FileUtils
-import org.openclover.core.registry.entities.FullProjectInfo
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestName
+import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig
+import org.openclover.core.registry.entities.FullProjectInfo
+import org.openclover.core.util.FileUtils
 
 import static org.junit.Assert.assertFalse
 import static org.junit.Assert.assertTrue

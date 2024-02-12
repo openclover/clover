@@ -1,12 +1,12 @@
 package org.openclover.core.registry.entities;
 
-import java.util.List;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
+import java.io.IOException;
 import java.io.LineNumberReader;
 import java.io.StringReader;
-import java.io.IOException;
 import java.lang.ref.WeakReference;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.openclover.core.util.Lists.newArrayList;
 

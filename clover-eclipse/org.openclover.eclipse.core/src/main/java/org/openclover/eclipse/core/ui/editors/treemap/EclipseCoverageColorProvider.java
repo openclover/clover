@@ -1,11 +1,11 @@
 package org.openclover.eclipse.core.ui.editors.treemap;
 
-import org.openclover.core.reporters.util.ReportColors;
 import net.sf.jtreemap.ktreemap.ITreeMapColorProvider;
 import net.sf.jtreemap.ktreemap.ITreeMapProvider;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.openclover.core.reporters.util.ReportColors;
 
 public class EclipseCoverageColorProvider implements ITreeMapColorProvider {
 

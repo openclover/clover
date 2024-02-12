@@ -2,13 +2,13 @@ package org.openclover.core.util
 
 import clover.antlr.Token
 import clover.antlr.TokenStreamException
+import org.junit.Test
 import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig
 import org.openclover.core.cfg.instr.java.SourceLevel
 import org.openclover.core.instr.java.JavaLexer
 import org.openclover.core.instr.java.JavaTokenTypes
-import org.junit.Test
 
-import static org.junit.Assert.*
+import static org.junit.Assert.assertEquals
 import static org.openclover.core.util.Lists.newArrayList
 
 /**

@@ -3,7 +3,9 @@ package org.openclover.core.util
 import org.junit.Test
 import org.openclover.runtime.util.ByteSized
 
-import static org.junit.Assert.*
+import static org.junit.Assert.assertEquals
+import static org.junit.Assert.assertFalse
+import static org.junit.Assert.assertTrue
 
 class SizedLRUCacheMapTest {
     static class CacheObject implements ByteSized {

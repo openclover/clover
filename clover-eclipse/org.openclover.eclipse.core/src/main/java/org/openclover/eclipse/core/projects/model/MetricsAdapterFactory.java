@@ -1,24 +1,24 @@
 package org.openclover.eclipse.core.projects.model;
 
-import org.openclover.core.registry.entities.FullFileInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
-import org.openclover.eclipse.core.CloverPlugin;
-import org.openclover.eclipse.core.projects.CloverProject;
-import org.openclover.core.registry.metrics.BlockMetrics;
-import org.openclover.core.registry.entities.FullClassInfo;
-import org.openclover.core.registry.metrics.ClassMetrics;
-import org.openclover.core.registry.metrics.FileMetrics;
-import org.openclover.core.api.registry.HasMetrics;
-import org.openclover.core.registry.entities.FullMethodInfo;
-import org.openclover.core.registry.metrics.PackageMetrics;
-import org.openclover.core.registry.metrics.ProjectMetrics;
-import org.openclover.core.registry.entities.TestCaseInfo;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMethod;
+import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.registry.entities.FullClassInfo;
+import org.openclover.core.registry.entities.FullFileInfo;
+import org.openclover.core.registry.entities.FullMethodInfo;
+import org.openclover.core.registry.entities.FullProjectInfo;
+import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.core.registry.metrics.BlockMetrics;
+import org.openclover.core.registry.metrics.ClassMetrics;
+import org.openclover.core.registry.metrics.FileMetrics;
+import org.openclover.core.registry.metrics.PackageMetrics;
+import org.openclover.core.registry.metrics.ProjectMetrics;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.CloverProject;
 
 /**
  * Adapts IProject, IPackageFragment, ICompilationUnit and IType

@@ -1,8 +1,8 @@
 package org.openclover.idea;
 
+import com.intellij.openapi.project.Project;
 import org.openclover.idea.util.ProjectUtil;
 import org.openclover.idea.util.ui.CloverIcons;
-import com.intellij.openapi.project.Project;
 
 import javax.swing.Icon;
 import java.io.File;

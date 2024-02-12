@@ -1,10 +1,10 @@
 package org.openclover.eclipse.core.projects.model;
 
 import org.openclover.core.CloverDatabase;
-import org.openclover.runtime.api.CloverException;
-import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.core.registry.metrics.HasMetricsFilter;
 import org.openclover.core.reporters.Current;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.runtime.api.CloverException;
 
 public class InMemoryCurrentReportConfig extends Current {
     private DatabaseModel inMemoryModel;

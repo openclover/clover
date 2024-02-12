@@ -1,8 +1,8 @@
 package org.openclover.core.instr.tests.naming;
 
-import org.openclover.core.api.registry.MethodInfo;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.openclover.core.api.registry.MethodInfo;
 
 /**
  * Returns a name of the test exactly the same as a name of the method implementing it.

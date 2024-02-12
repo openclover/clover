@@ -1,19 +1,21 @@
 package org.openclover.core.recorder
 
-import org.openclover.runtime.RuntimeType
-import org.openclover.buildutil.testutils.IOHelper
-import org.openclover.runtime.recorder.FileBasedPerTestRecording
-import org.openclover.runtime.recorder.FileBasedGlobalCoverageRecording
-import org.openclover.runtime.util.CloverBitSet
-import org.openclover.core.util.collections.Pair
-import org_openclover_runtime.Clover
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestName
+import org.openclover.buildutil.testutils.IOHelper
+import org.openclover.core.util.collections.Pair
+import org.openclover.runtime.RuntimeType
+import org.openclover.runtime.recorder.FileBasedGlobalCoverageRecording
+import org.openclover.runtime.recorder.FileBasedPerTestRecording
+import org.openclover.runtime.util.CloverBitSet
+import org_openclover_runtime.Clover
 
-import static org.junit.Assert.*
+import static org.junit.Assert.assertEquals
+import static org.junit.Assert.assertFalse
+import static org.junit.Assert.assertTrue
 
 class RecordingTranscriptsTest {
     private File tmpDir

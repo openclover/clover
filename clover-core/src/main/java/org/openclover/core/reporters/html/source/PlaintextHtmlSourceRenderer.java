@@ -1,7 +1,7 @@
 package org.openclover.core.reporters.html.source;
 
-import org.openclover.core.spi.reporters.html.source.LineRenderInfo;
 import org.openclover.core.spi.reporters.html.source.HtmlRenderingSupport;
+import org.openclover.core.spi.reporters.html.source.LineRenderInfo;
 
 import java.util.List;
 

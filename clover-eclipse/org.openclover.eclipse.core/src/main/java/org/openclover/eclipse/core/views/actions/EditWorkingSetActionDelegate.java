@@ -1,13 +1,13 @@
 package org.openclover.eclipse.core.views.actions;
 
-import org.openclover.eclipse.core.CloverPlugin;
-import org.openclover.eclipse.core.ui.workingset.CloverWorkingSet;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.IWorkingSet;
 import org.eclipse.ui.IWorkingSetManager;
 import org.eclipse.ui.dialogs.IWorkingSetEditWizard;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.ui.workingset.CloverWorkingSet;
 
 public class EditWorkingSetActionDelegate extends UntargetedViewActionDelegate {
 

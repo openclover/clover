@@ -1,10 +1,9 @@
 package org.openclover.functest.junit
 
+import groovy.transform.CompileStatic
+import org.openclover.core.util.FileUtils
 import org.openclover.functest.ant.tasks.CloverBuildFileTestBase
 import org.openclover.functest.ant.tasks.CloverTestUtil
-import org.openclover.core.util.FileUtils
-import groovy.transform.CompileStatic
-
 
 /**
  * Tests how Clover integrates with JUnit4 in order to intercept test names at runtime.

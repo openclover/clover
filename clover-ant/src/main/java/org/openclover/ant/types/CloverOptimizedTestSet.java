@@ -1,21 +1,20 @@
 package org.openclover.ant.types;
 
-import org.openclover.core.optimization.Messages;
-import org.openclover.core.optimization.Optimizer;
-
-import org.openclover.core.api.optimization.OptimizationOptions;
-import org.openclover.core.optimization.Snapshot;
-import org.openclover.core.optimization.LocalSnapshotOptimizer;
-import org.openclover.ant.tasks.AntInstrumentationConfig;
-import org.openclover.runtime.Logger;
+import org.apache.tools.ant.types.EnumeratedAttribute;
 import org.apache.tools.ant.types.Resource;
 import org.apache.tools.ant.types.ResourceCollection;
-import org.apache.tools.ant.types.EnumeratedAttribute;
+import org.openclover.ant.tasks.AntInstrumentationConfig;
+import org.openclover.core.api.optimization.OptimizationOptions;
+import org.openclover.core.optimization.LocalSnapshotOptimizer;
+import org.openclover.core.optimization.Messages;
+import org.openclover.core.optimization.Optimizer;
+import org.openclover.core.optimization.Snapshot;
+import org.openclover.runtime.Logger;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Collections;
 
 import static org.openclover.core.util.Lists.newLinkedList;
 

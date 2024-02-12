@@ -1,14 +1,14 @@
 package org.openclover.eclipse.core.views.widgets;
 
-import org.openclover.eclipse.core.ui.SwtUtils;
-import org.openclover.eclipse.core.views.ColumnCollectionSettings;
-import org.openclover.eclipse.core.views.ColumnDefinition;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
+import org.openclover.eclipse.core.ui.SwtUtils;
+import org.openclover.eclipse.core.views.ColumnCollectionSettings;
+import org.openclover.eclipse.core.views.ColumnDefinition;
 
 public abstract class SelectionAwareCellRenderer extends BaseListeningRenderer {
     public SelectionAwareCellRenderer(ColumnCollectionSettings columnSettings, ColumnDefinition column, Composite rendered) {

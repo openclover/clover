@@ -54,9 +54,9 @@
 
 package org.apache.tools.ant
 
-import org.openclover.buildutil.testutils.IOHelper
 import groovy.transform.CompileStatic
 import junit.framework.TestCase
+import org.openclover.buildutil.testutils.IOHelper
 
 /**
  * A BuildFileTest is a TestCase which executes targets from an Ant buildfile 

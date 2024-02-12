@@ -1,12 +1,12 @@
 package org.openclover.idea.util.ui;
 
-import org.openclover.core.registry.entities.FullFileInfo;
-import org.openclover.core.registry.FileInfoRegion;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.fileEditor.OpenFileDescriptor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
+import org.openclover.core.registry.FileInfoRegion;
+import org.openclover.core.registry.entities.FullFileInfo;
 
 import java.io.File;
 

@@ -2,11 +2,11 @@ package org.openclover.idea.coverage;
 
 import org.openclover.core.api.registry.BlockMetrics;
 import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.registry.entities.TestCaseInfo;
 import org.openclover.core.registry.metrics.ClassMetrics;
 import org.openclover.core.registry.metrics.FileMetrics;
 import org.openclover.core.registry.metrics.PackageMetrics;
 import org.openclover.core.registry.metrics.ProjectMetrics;
-import org.openclover.core.registry.entities.TestCaseInfo;
 import org.openclover.runtime.util.Formatting;
 
 import java.util.Collection;

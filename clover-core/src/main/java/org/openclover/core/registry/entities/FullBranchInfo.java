@@ -1,5 +1,6 @@
 package org.openclover.core.registry.entities;
 
+import org.jetbrains.annotations.Nullable;
 import org.openclover.core.api.registry.BranchInfo;
 import org.openclover.core.api.registry.ContextSet;
 import org.openclover.core.api.registry.EntityContainer;
@@ -10,9 +11,8 @@ import org.openclover.core.io.tags.TaggedDataOutput;
 import org.openclover.core.io.tags.TaggedPersistent;
 import org.openclover.core.lang.Languages;
 import org.openclover.core.registry.CoverageDataProvider;
-import org.openclover.core.spi.lang.LanguageConstruct;
 import org.openclover.core.registry.FixedSourceRegion;
-import org.jetbrains.annotations.Nullable;
+import org.openclover.core.spi.lang.LanguageConstruct;
 
 import java.io.IOException;
 

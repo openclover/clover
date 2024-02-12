@@ -1,15 +1,14 @@
 package org.openclover.core.reporters
 
-import org.openclover.core.CloverLicenseDecoder
-import org.openclover.runtime.api.CloverException
+import junit.framework.TestCase
 import org.openclover.core.CloverLicense
-import org.openclover.runtime.CloverNames
+import org.openclover.core.CloverLicenseDecoder
 import org.openclover.core.CloverStartup
-import org.openclover.runtime.Logger
 import org.openclover.core.TestUtils
 import org.openclover.core.registry.Clover2Registry
-import junit.framework.TestCase
-
+import org.openclover.runtime.CloverNames
+import org.openclover.runtime.Logger
+import org.openclover.runtime.api.CloverException
 import org_openclover_runtime.Clover
 
 class CloverReporterTest extends TestCase {

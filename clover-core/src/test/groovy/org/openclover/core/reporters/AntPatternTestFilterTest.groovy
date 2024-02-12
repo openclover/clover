@@ -1,5 +1,6 @@
 package org.openclover.core.reporters
 
+import org.junit.Test
 import org.openclover.core.instr.java.InstrumentationState
 import org.openclover.core.instr.java.JavaTypeContext
 import org.openclover.core.instr.tests.AntPatternTestDetectorFilter
@@ -7,7 +8,6 @@ import org.openclover.core.registry.entities.FullClassInfo
 import org.openclover.core.registry.entities.FullFileInfo
 import org.openclover.core.reporters.filters.AntPatternTestFilter
 import org.openclover.core.util.FilterUtils
-import org.junit.Test
 
 import static org.junit.Assert.assertFalse
 import static org.junit.Assert.assertTrue

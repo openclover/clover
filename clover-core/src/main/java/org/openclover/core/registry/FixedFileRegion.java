@@ -1,9 +1,9 @@
 package org.openclover.core.registry;
 
+import org.jetbrains.annotations.Nullable;
 import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.SourceInfo;
 import org.openclover.core.registry.entities.BaseFileInfo;
-import org.jetbrains.annotations.Nullable;
 
 public class FixedFileRegion implements FileInfoRegion {
     protected BaseFileInfo containingFile;

@@ -1,12 +1,12 @@
 package org.openclover.idea.build.jps;
 
-import org.openclover.core.util.trie.FilePathPrefixTree;
 import org.jetbrains.jps.model.JpsProject;
 import org.jetbrains.jps.model.java.JpsJavaExtensionService;
 import org.jetbrains.jps.model.java.LanguageLevel;
 import org.jetbrains.jps.model.module.JpsModule;
 import org.jetbrains.jps.model.module.JpsModuleSourceRoot;
 import org.jetbrains.jps.model.module.JpsModuleSourceRootType;
+import org.openclover.core.util.trie.FilePathPrefixTree;
 
 import java.io.File;
 

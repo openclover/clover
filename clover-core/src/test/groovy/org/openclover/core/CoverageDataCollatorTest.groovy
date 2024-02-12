@@ -1,14 +1,14 @@
 package org.openclover.core
 
+import junit.framework.TestCase
+import org.openclover.core.context.ContextSet
 import org.openclover.core.instr.InstrumentationSessionImpl
 import org.openclover.core.recorder.PerTestCoverageStrategy
-import org.openclover.core.context.ContextSet
 import org.openclover.core.registry.Clover2Registry
 import org.openclover.core.registry.entities.FullMethodInfo
 import org.openclover.core.registry.metrics.HasMetricsFilter
 import org.openclover.core.util.SimpleCoverageRange
 import org_openclover_runtime.CoverageRecorder
-import junit.framework.TestCase
 
 import java.lang.reflect.Field
 

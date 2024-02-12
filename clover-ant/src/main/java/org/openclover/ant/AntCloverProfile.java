@@ -1,7 +1,7 @@
 package org.openclover.ant;
 
-import org_openclover_runtime.CloverProfile;
 import org.openclover.runtime.remote.DistributedConfig;
+import org_openclover_runtime.CloverProfile;
 
 import java.util.Arrays;
 import java.util.Locale;

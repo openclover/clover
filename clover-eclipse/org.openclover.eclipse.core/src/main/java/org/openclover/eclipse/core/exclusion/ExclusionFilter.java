@@ -1,14 +1,13 @@
 package org.openclover.eclipse.core.exclusion;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.core.resources.IFile;
-
+import org.openclover.core.util.FilterUtils;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.settings.ProjectSettings;
 import org.openclover.eclipse.core.projects.settings.source.SourceFolderPattern;
-import org.openclover.core.util.FilterUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ExclusionFilter {
     protected final String[] includeFilter;

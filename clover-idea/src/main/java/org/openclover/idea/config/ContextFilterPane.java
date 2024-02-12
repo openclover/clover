@@ -1,9 +1,9 @@
 package org.openclover.idea.config;
 
+import com.intellij.openapi.project.Project;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.context.ContextStore;
 import org.openclover.idea.ProjectPlugin;
-import com.intellij.openapi.project.Project;
 
 import javax.swing.JPanel;
 import java.awt.GridBagLayout;

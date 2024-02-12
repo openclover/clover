@@ -1,8 +1,8 @@
 package org.openclover.core.util.trie;
 
-import org.openclover.core.reporters.html.PackageInfoExt;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.openclover.core.reporters.html.PackageInfoExt;
 
 import java.util.List;
 import java.util.StringTokenizer;

@@ -1,7 +1,5 @@
 package org.openclover.core.instr.java;
 
-import org.openclover.core.instr.java.JavaTokenTypes;
-
 /**
  * Reads subsequent tokens from the expression and searches for the "=" assignment operator.
  */

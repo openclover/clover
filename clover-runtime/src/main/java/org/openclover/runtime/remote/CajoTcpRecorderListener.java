@@ -1,16 +1,16 @@
 package org.openclover.runtime.remote;
 
-import java.rmi.ConnectException;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import org_openclover_runtime.Clover;
-import org.openclover.runtime.Logger;
-import org.openclover.runtime.ErrorInfo;
 import clover.gnu.cajo.invoke.Remote;
 import clover.gnu.cajo.invoke.RemoteInvoke;
 import clover.gnu.cajo.utils.extra.ItemProxy;
+import org.openclover.runtime.ErrorInfo;
+import org.openclover.runtime.Logger;
+import org_openclover_runtime.Clover;
+
+import java.rmi.ConnectException;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * A client to a remote registry.

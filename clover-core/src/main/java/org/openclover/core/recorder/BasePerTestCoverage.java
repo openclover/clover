@@ -2,9 +2,9 @@ package org.openclover.core.recorder;
 
 import org.openclover.core.registry.entities.TestCaseInfo;
 
+import java.io.Serializable;
 import java.util.BitSet;
 import java.util.Set;
-import java.io.Serializable;
 
 import static org.openclover.core.util.Sets.newHashSet;
 

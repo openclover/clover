@@ -1,6 +1,5 @@
 package org.openclover.eclipse.core.projects.builder;
 
-import org.openclover.eclipse.core.CloverPlugin;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IResource;
@@ -8,6 +7,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
+import org.openclover.eclipse.core.CloverPlugin;
 
 public class PathUtils {
     public static boolean isAncestorOrDescendantOfContainer(IContainer container, IResource resource) {

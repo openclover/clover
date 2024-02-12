@@ -1,8 +1,5 @@
 package org.openclover.idea;
 
-import org.openclover.idea.config.IdeaCloverConfig;
-import org.openclover.idea.util.ui.CloverIcons;
-import org.openclover.idea.util.l10n.CloverIdeaPluginMessages;
 import com.intellij.ide.BrowserUtil;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
@@ -10,6 +7,9 @@ import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.util.SystemInfo;
 import com.intellij.ui.IdeBorderFactory;
 import org.jetbrains.annotations.Nullable;
+import org.openclover.idea.config.IdeaCloverConfig;
+import org.openclover.idea.util.l10n.CloverIdeaPluginMessages;
+import org.openclover.idea.util.ui.CloverIcons;
 
 import javax.swing.Action;
 import javax.swing.BorderFactory;

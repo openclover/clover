@@ -11,9 +11,7 @@ import org.jetbrains.annotations.Nullable;
 import java.nio.charset.Charset;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assume.assumeThat;
 
 /**
  * Encodings we have:

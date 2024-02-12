@@ -1,10 +1,10 @@
 package org.openclover.idea.util;
 
-import org.openclover.runtime.Logger;
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.Nullable;
+import org.openclover.runtime.Logger;
 
 import java.awt.Component;
 import java.lang.reflect.InvocationTargetException;

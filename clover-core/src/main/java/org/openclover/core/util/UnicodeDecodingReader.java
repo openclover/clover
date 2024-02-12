@@ -2,10 +2,10 @@ package org.openclover.core.util;
 
 import org.openclover.runtime.Logger;
 
-import java.io.Reader;
-import java.io.IOException;
-import java.io.FilterReader;
 import java.io.CharArrayWriter;
+import java.io.FilterReader;
+import java.io.IOException;
+import java.io.Reader;
 
 public class UnicodeDecodingReader extends FilterReader {
 

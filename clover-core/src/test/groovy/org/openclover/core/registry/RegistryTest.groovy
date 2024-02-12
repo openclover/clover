@@ -1,6 +1,14 @@
 package org.openclover.core.registry
 
+import org.junit.After
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
+import org.junit.rules.TestName
+import org.openclover.buildutil.testutils.IOHelper
+import org.openclover.core.TestUtils
 import org.openclover.core.api.registry.ClassInfo
+import org.openclover.core.api.registry.HasMetrics
 import org.openclover.core.api.registry.SourceInfo
 import org.openclover.core.context.ContextSet
 import org.openclover.core.context.ContextStore
@@ -9,25 +17,18 @@ import org.openclover.core.registry.entities.FullClassInfo
 import org.openclover.core.registry.entities.FullFileInfo
 import org.openclover.core.registry.entities.FullMethodInfo
 import org.openclover.core.registry.entities.FullPackageInfo
+import org.openclover.core.registry.entities.FullProjectInfo
+import org.openclover.core.registry.entities.FullStatementInfo
 import org.openclover.core.registry.entities.MethodSignature
 import org.openclover.core.registry.entities.Modifiers
 import org.openclover.core.registry.entities.PackageFragment
-import org.openclover.core.registry.entities.FullProjectInfo
-import org.openclover.core.registry.entities.FullStatementInfo
 import org.openclover.core.registry.format.FreshRegFile
-import org.openclover.core.TestUtils
-import org.openclover.runtime.registry.format.RegAccessMode
-import org.openclover.core.api.registry.HasMetrics
 import org.openclover.core.registry.metrics.HasMetricsFilter
 import org.openclover.core.registry.metrics.ProjectMetrics
-import org.openclover.buildutil.testutils.IOHelper
-import org.junit.After
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
-import org.junit.rules.TestName
+import org.openclover.runtime.registry.format.RegAccessMode
 
-import static org.junit.Assert.*
+import static org.junit.Assert.assertEquals
+import static org.junit.Assert.assertTrue
 
 
 class RegistryTest {

@@ -1,7 +1,7 @@
 package org.openclover.idea.config;
 
-import org.openclover.idea.util.ui.UIUtils;
 import com.intellij.util.ui.UIUtil;
+import org.openclover.idea.util.ui.UIUtils;
 
 import javax.swing.JPanel;
 import javax.swing.border.Border;

@@ -1,15 +1,15 @@
 package org.openclover.core.optimization
 
-import org.openclover.core.CloverDatabase
-import org.openclover.core.CoverageDataSpec
-import org.openclover.core.context.ContextSet
-import org.openclover.core.instr.InstrumentationSessionImpl
-import org.openclover.core.registry.entities.FullMethodInfo
-import org.openclover.core.TestUtils
-import org_openclover_runtime.CloverVersionInfo
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import org.openclover.core.CloverDatabase
+import org.openclover.core.CoverageDataSpec
+import org.openclover.core.TestUtils
+import org.openclover.core.context.ContextSet
+import org.openclover.core.instr.InstrumentationSessionImpl
+import org.openclover.core.registry.entities.FullMethodInfo
+import org_openclover_runtime.CloverVersionInfo
 
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertFalse

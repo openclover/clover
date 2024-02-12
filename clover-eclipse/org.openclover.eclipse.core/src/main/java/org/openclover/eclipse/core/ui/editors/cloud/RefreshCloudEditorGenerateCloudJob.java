@@ -1,10 +1,10 @@
 package org.openclover.eclipse.core.ui.editors.cloud;
 
-import org.openclover.eclipse.core.CloverPlugin;
-import org.openclover.eclipse.core.views.actions.GenerateCloudJob;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.views.actions.GenerateCloudJob;
 
 class RefreshCloudEditorGenerateCloudJob extends GenerateCloudJob {
     private CloudEditor cloudEditor;

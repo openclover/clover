@@ -1,18 +1,19 @@
 package org.openclover.idea.junit;
 
-import org.openclover.core.api.optimization.Optimizable;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.openclover.core.api.optimization.Optimizable;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
-import static org.openclover.core.util.Lists.newArrayList;
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.openclover.core.util.Lists.newArrayList;
 
 public class WhenJUnitClassListProcessorReadsOptimizablesTest {
     private File tmpFile;

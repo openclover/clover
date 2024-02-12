@@ -1,10 +1,10 @@
 package org.openclover.idea.actions;
 
-import org.openclover.idea.IProjectPlugin;
-import org.openclover.idea.ProjectPlugin;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.Presentation;
+import org.openclover.idea.IProjectPlugin;
+import org.openclover.idea.ProjectPlugin;
 
 public abstract class AbstractReportAction extends AnAction {
     @Override

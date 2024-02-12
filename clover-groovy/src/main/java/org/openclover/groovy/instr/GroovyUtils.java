@@ -1,9 +1,9 @@
 package org.openclover.groovy.instr;
 
-import org.openclover.core.registry.FixedSourceRegion;
 import org.codehaus.groovy.ast.ASTNode;
-import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.ast.ClassHelper;
+import org.codehaus.groovy.ast.ClassNode;
+import org.openclover.core.registry.FixedSourceRegion;
 
 public class GroovyUtils {
     public static FixedSourceRegion newRegionFor(ASTNode statement) {

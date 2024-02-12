@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-import spock.lang.*
+import spock.lang.Specification
+import spock.lang.Unroll
 
 @Unroll
 class UnrollWithSeqNumber extends Specification {

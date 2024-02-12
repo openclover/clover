@@ -3,8 +3,8 @@ package org.openclover.core.reporters.html;
 import org.openclover.core.registry.entities.BaseClassInfo;
 
 import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 
 import static org.openclover.core.util.Lists.newArrayList;
 

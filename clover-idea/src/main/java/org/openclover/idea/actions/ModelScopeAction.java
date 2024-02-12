@@ -1,14 +1,14 @@
 package org.openclover.idea.actions;
 
-import org.openclover.idea.IProjectPlugin;
-import org.openclover.idea.ProjectPlugin;
-import org.openclover.idea.util.ModelScope;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DefaultActionGroup;
 import com.intellij.openapi.actionSystem.Presentation;
 import com.intellij.openapi.actionSystem.ex.ComboBoxAction;
 import org.jetbrains.annotations.NotNull;
+import org.openclover.idea.IProjectPlugin;
+import org.openclover.idea.ProjectPlugin;
+import org.openclover.idea.util.ModelScope;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;

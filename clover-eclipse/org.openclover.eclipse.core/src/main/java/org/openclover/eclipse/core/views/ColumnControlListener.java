@@ -1,7 +1,7 @@
 package org.openclover.eclipse.core.views;
 
-import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.ControlListener;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.openclover.eclipse.core.views.widgets.ColumnController;
 

@@ -1,9 +1,9 @@
 package org.openclover.idea.config.regexp;
 
+import com.intellij.ui.LayeredIcon;
 import org.openclover.idea.config.ContextFilterRegexpType;
 import org.openclover.idea.config.GBC;
 import org.openclover.idea.util.ui.CloverIcons;
-import com.intellij.ui.LayeredIcon;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JCheckBox;

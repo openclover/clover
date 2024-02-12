@@ -1,17 +1,5 @@
 package org.openclover.eclipse.core.views.actions;
 
-import org.openclover.eclipse.core.CloverEclipsePluginMessages;
-import org.openclover.eclipse.core.CloverPlugin;
-import org.openclover.eclipse.core.projects.CloverProject;
-import org.openclover.eclipse.core.reports.GenerateReportWizard;
-import org.openclover.eclipse.core.reports.OpenReportDialog;
-import org.openclover.eclipse.core.reports.OpenReportOperation;
-import org.openclover.eclipse.core.reports.model.ReportHistoryEntry;
-import org.openclover.eclipse.core.ui.CloverPluginIcons;
-import org.openclover.eclipse.core.ui.projects.DatabaseChangeEvent;
-import org.openclover.eclipse.core.ui.projects.DatabaseChangeListener;
-import org.openclover.eclipse.core.views.ExplorerView;
-import org.openclover.eclipse.core.views.SelectionUtils;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -26,6 +14,18 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
+import org.openclover.eclipse.core.CloverEclipsePluginMessages;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.reports.GenerateReportWizard;
+import org.openclover.eclipse.core.reports.OpenReportDialog;
+import org.openclover.eclipse.core.reports.OpenReportOperation;
+import org.openclover.eclipse.core.reports.model.ReportHistoryEntry;
+import org.openclover.eclipse.core.ui.CloverPluginIcons;
+import org.openclover.eclipse.core.ui.projects.DatabaseChangeEvent;
+import org.openclover.eclipse.core.ui.projects.DatabaseChangeListener;
+import org.openclover.eclipse.core.views.ExplorerView;
+import org.openclover.eclipse.core.views.SelectionUtils;
 
 import java.util.Collections;
 import java.util.List;

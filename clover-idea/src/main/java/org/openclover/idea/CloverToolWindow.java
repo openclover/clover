@@ -1,18 +1,5 @@
 package org.openclover.idea;
 
-import org.openclover.idea.util.ui.CloverIcons;
-import org.openclover.core.registry.entities.FullClassInfo;
-import org.openclover.idea.config.ConfigChangeEvent;
-import org.openclover.idea.config.ConfigChangeListener;
-import org.openclover.idea.config.IdeaCloverConfig;
-import org.openclover.idea.util.ModelScope;
-import org.openclover.idea.coverageview.CoverageViewPanel;
-import org.openclover.idea.coverage.CoverageNodeViewer;
-import org.openclover.idea.coverage.CoverageTreeModel;
-import org.openclover.idea.report.jfc.WarningBox;
-import org.openclover.idea.util.ui.BorderLayoutConverter;
-import org.openclover.core.registry.entities.FullFileInfo;
-import org.openclover.core.api.registry.HasMetrics;
 import com.intellij.openapi.actionSystem.ActionGroup;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.ActionToolbar;
@@ -24,6 +11,19 @@ import com.intellij.openapi.wm.ToolWindowAnchor;
 import com.intellij.openapi.wm.ToolWindowManager;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentManager;
+import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.registry.entities.FullClassInfo;
+import org.openclover.core.registry.entities.FullFileInfo;
+import org.openclover.idea.config.ConfigChangeEvent;
+import org.openclover.idea.config.ConfigChangeListener;
+import org.openclover.idea.config.IdeaCloverConfig;
+import org.openclover.idea.coverage.CoverageNodeViewer;
+import org.openclover.idea.coverage.CoverageTreeModel;
+import org.openclover.idea.coverageview.CoverageViewPanel;
+import org.openclover.idea.report.jfc.WarningBox;
+import org.openclover.idea.util.ModelScope;
+import org.openclover.idea.util.ui.BorderLayoutConverter;
+import org.openclover.idea.util.ui.CloverIcons;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;

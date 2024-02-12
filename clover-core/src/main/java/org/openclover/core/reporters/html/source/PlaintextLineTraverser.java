@@ -2,9 +2,9 @@ package org.openclover.core.reporters.html.source;
 
 import org.openclover.core.registry.entities.FullFileInfo;
 
-import java.io.Reader;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.Reader;
 
 public class PlaintextLineTraverser<L extends SourceListener> implements SourceTraverser<L> {
     @Override

@@ -1,16 +1,16 @@
 package org.openclover.idea.report;
 
-import org.openclover.runtime.Logger;
-import org.openclover.runtime.api.CloverException;
+import com.intellij.openapi.progress.ProgressIndicator;
+import com.intellij.openapi.progress.Task;
+import com.intellij.openapi.project.Project;
+import org.openclover.core.reporters.CloverReportConfig;
+import org.openclover.core.reporters.CloverReporter;
 import org.openclover.idea.IDEContext;
 import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.config.CloverPluginConfig;
 import org.openclover.idea.util.ui.MessageDialogs;
-import org.openclover.core.reporters.CloverReportConfig;
-import org.openclover.core.reporters.CloverReporter;
-import com.intellij.openapi.progress.ProgressIndicator;
-import com.intellij.openapi.progress.Task;
-import com.intellij.openapi.project.Project;
+import org.openclover.runtime.Logger;
+import org.openclover.runtime.api.CloverException;
 
 import javax.swing.Icon;
 import javax.swing.JOptionPane;

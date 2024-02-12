@@ -1,8 +1,8 @@
 package org.openclover.eclipse.core.views;
 
-import org.eclipse.swt.widgets.TreeColumn;
-import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.widgets.TreeColumn;
 import org.openclover.eclipse.core.views.widgets.ColumnController;
 
 /**

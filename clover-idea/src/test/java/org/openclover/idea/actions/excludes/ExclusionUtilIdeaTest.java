@@ -1,7 +1,5 @@
 package org.openclover.idea.actions.excludes;
 
-import org.openclover.idea.ApplicationTestHelper;
-import org.openclover.idea.util.psi.PsiUtil;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -11,6 +9,8 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiPackage;
 import com.intellij.testFramework.PsiTestCase;
 import com.intellij.testFramework.PsiTestUtil;
+import org.openclover.idea.ApplicationTestHelper;
+import org.openclover.idea.util.psi.PsiUtil;
 
 public class ExclusionUtilIdeaTest extends PsiTestCase {
     private VirtualFile atlassian;

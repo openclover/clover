@@ -1,21 +1,21 @@
 package org.openclover.eclipse.core.views;
 
+import org.eclipse.jdt.core.ElementChangedEvent;
+import org.eclipse.jdt.core.IElementChangedListener;
+import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IJavaElementDelta;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.ui.model.WorkbenchContentProvider;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.ui.projects.DatabaseChangeEvent;
 import org.openclover.eclipse.core.ui.projects.DatabaseChangeListener;
 import org.openclover.eclipse.core.views.nodes.NodeHierarchyBuilder;
 import org.openclover.eclipse.core.views.nodes.NodeRelationshipFilter;
-import org.eclipse.jdt.core.ElementChangedEvent;
-import org.eclipse.jdt.core.IElementChangedListener;
-import org.eclipse.jdt.core.IJavaElement;
-import org.eclipse.jdt.core.IJavaElementDelta;
-import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.ui.model.WorkbenchContentProvider;
 
-import java.util.Set;
 import java.util.HashSet;
+import java.util.Set;
 
 public abstract class CloveredWorkspaceProvider
     extends WorkbenchContentProvider

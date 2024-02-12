@@ -25,7 +25,15 @@ import java.io.File;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static org.openclover.core.reporters.CommandLineArgProcessors.*;
+import static org.openclover.core.reporters.CommandLineArgProcessors.AlwaysReport;
+import static org.openclover.core.reporters.CommandLineArgProcessors.DebugLogging;
+import static org.openclover.core.reporters.CommandLineArgProcessors.IncludeFailedTestCoverage;
+import static org.openclover.core.reporters.CommandLineArgProcessors.InitString;
+import static org.openclover.core.reporters.CommandLineArgProcessors.OutputDirJson;
+import static org.openclover.core.reporters.CommandLineArgProcessors.ShowInnerFunctions;
+import static org.openclover.core.reporters.CommandLineArgProcessors.ShowLambdaFunctions;
+import static org.openclover.core.reporters.CommandLineArgProcessors.ThreadCount;
+import static org.openclover.core.reporters.CommandLineArgProcessors.VerboseLogging;
 import static org.openclover.core.util.Lists.join;
 import static org.openclover.core.util.Lists.newArrayList;
 

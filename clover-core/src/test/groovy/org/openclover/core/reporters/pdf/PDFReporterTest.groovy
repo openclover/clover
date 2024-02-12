@@ -1,15 +1,15 @@
 package org.openclover.core.reporters.pdf
 
-import org.openclover.core.registry.metrics.HasMetricsTestFixture
-import org.openclover.runtime.api.CloverException
+import junit.framework.TestCase
 import org.openclover.core.CloverStartup
-import org.openclover.runtime.Logger
 import org.openclover.core.TestUtils
+import org.openclover.core.registry.metrics.HasMetricsTestFixture
 import org.openclover.core.reporters.Current
 import org.openclover.core.reporters.Format
 import org.openclover.core.reporters.Historical
+import org.openclover.runtime.Logger
+import org.openclover.runtime.api.CloverException
 import org.openclover.runtime.api.registry.CloverRegistryException
-import junit.framework.TestCase
 
 class PDFReporterTest extends TestCase {
     HasMetricsTestFixture fixture

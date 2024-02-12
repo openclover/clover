@@ -1,9 +1,9 @@
 package org.openclover.idea.config;
 
-import org.openclover.idea.util.ModelScope;
-import org.openclover.idea.util.ProjectUtil;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
+import org.openclover.idea.util.ModelScope;
+import org.openclover.idea.util.ProjectUtil;
 
 import java.io.File;
 import java.util.Map;

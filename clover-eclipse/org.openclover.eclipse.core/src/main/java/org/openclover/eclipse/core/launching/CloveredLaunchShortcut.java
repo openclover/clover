@@ -1,6 +1,5 @@
 package org.openclover.eclipse.core.launching;
 
-import org.openclover.eclipse.core.CloverPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExecutableExtension;
@@ -10,6 +9,7 @@ import org.eclipse.debug.ui.IDebugUIConstants;
 import org.eclipse.debug.ui.ILaunchShortcut;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IEditorPart;
+import org.openclover.eclipse.core.CloverPlugin;
 
 public class CloveredLaunchShortcut implements ILaunchShortcut, IExecutableExtension {
     private static ILaunchShortcut EMPTY_SHORTCUT_DELEGATE = new ILaunchShortcut() {

@@ -1,8 +1,8 @@
 package org.openclover.idea.coverageview.table;
 
+import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.idea.coverage.CoverageTreeModel;
 import org.openclover.idea.treetables.AbstractColumnInfo;
-import org.openclover.core.api.registry.HasMetrics;
 
 import javax.swing.table.TableCellRenderer;
 import javax.swing.tree.DefaultMutableTreeNode;

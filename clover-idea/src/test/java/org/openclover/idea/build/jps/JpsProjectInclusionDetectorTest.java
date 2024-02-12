@@ -1,9 +1,5 @@
 package org.openclover.idea.build.jps;
 
-import org.openclover.idea.build.InclusionDetector;
-import org.openclover.idea.config.CloverModuleConfig;
-import org.openclover.idea.config.CloverPluginConfig;
-import org.openclover.idea.config.MappedCloverPluginConfig;
 import org.jetbrains.jps.devkit.model.JpsPluginModuleProperties;
 import org.jetbrains.jps.devkit.model.JpsPluginModuleType;
 import org.jetbrains.jps.model.JpsElementFactory;
@@ -16,6 +12,10 @@ import org.jetbrains.jps.model.java.JpsJavaModuleType;
 import org.jetbrains.jps.model.module.JpsModule;
 import org.junit.Before;
 import org.junit.Test;
+import org.openclover.idea.build.InclusionDetector;
+import org.openclover.idea.config.CloverModuleConfig;
+import org.openclover.idea.config.CloverPluginConfig;
+import org.openclover.idea.config.MappedCloverPluginConfig;
 
 import java.io.File;
 

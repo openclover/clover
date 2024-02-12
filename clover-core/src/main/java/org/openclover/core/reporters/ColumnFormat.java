@@ -1,8 +1,8 @@
 package org.openclover.core.reporters;
 
+import org.openclover.core.reporters.html.HtmlReporter;
 import org.openclover.runtime.Logger;
 import org.openclover.runtime.util.Formatting;
-import org.openclover.core.reporters.html.HtmlReporter;
 
 import java.util.Map;
 

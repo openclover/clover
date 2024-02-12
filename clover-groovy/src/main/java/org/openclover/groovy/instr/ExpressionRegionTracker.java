@@ -1,7 +1,5 @@
 package org.openclover.groovy.instr;
 
-import org.openclover.core.api.registry.SourceInfo;
-import org.openclover.core.registry.FixedSourceRegion;
 import org.codehaus.groovy.ast.CodeVisitorSupport;
 import org.codehaus.groovy.ast.expr.ArgumentListExpression;
 import org.codehaus.groovy.ast.expr.ArrayExpression;
@@ -41,6 +39,8 @@ import org.codehaus.groovy.ast.expr.VariableExpression;
 import org.codehaus.groovy.classgen.BytecodeExpression;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.openclover.core.api.registry.SourceInfo;
+import org.openclover.core.registry.FixedSourceRegion;
 
 public class ExpressionRegionTracker extends CodeVisitorSupport {
     private int line = Integer.MAX_VALUE;

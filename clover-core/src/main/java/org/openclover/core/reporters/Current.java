@@ -8,10 +8,10 @@ import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.cfg.Interval;
 import org.openclover.core.registry.CoverageDataProvider;
 import org.openclover.core.registry.metrics.HasMetricsFilter;
-import org.openclover.runtime.api.CloverException;
-import org.openclover.runtime.Logger;
 import org.openclover.core.reporters.filters.DefaultTestFilter;
 import org.openclover.core.reporters.filters.FileSetFilter;
+import org.openclover.runtime.Logger;
+import org.openclover.runtime.api.CloverException;
 
 import java.io.File;
 import java.util.Collections;

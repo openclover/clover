@@ -1,10 +1,10 @@
 package org.openclover.idea.actions.cloudreport;
 
-import org.openclover.idea.report.cloud.CloudVirtualFile;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.actionSystem.DefaultActionGroup;
 import com.intellij.openapi.project.Project;
+import org.openclover.idea.report.cloud.CloudVirtualFile;
 
 public class CloudReportPackageGroup extends DefaultActionGroup {
     @Override

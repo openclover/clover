@@ -1,7 +1,6 @@
 package org.openclover.functest.ant.tasks
 
-import org.openclover.runtime.CloverNames
-import org.openclover.runtime.api.CloverException
+import groovy.transform.CompileStatic
 import org.openclover.core.api.registry.ClassInfo
 import org.openclover.core.api.registry.FileInfo
 import org.openclover.core.api.registry.PackageInfo
@@ -11,7 +10,8 @@ import org.openclover.core.registry.entities.BasePackageInfo
 import org.openclover.core.registry.entities.FullFileInfo
 import org.openclover.core.registry.entities.FullProjectInfo
 import org.openclover.core.registry.metrics.ProjectMetrics
-import groovy.transform.CompileStatic
+import org.openclover.runtime.CloverNames
+import org.openclover.runtime.api.CloverException
 
 import static org.openclover.functest.ant.testutils.MetricsHelper.assertMetricsEquals
 

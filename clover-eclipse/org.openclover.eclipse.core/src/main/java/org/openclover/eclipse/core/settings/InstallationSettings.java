@@ -1,12 +1,12 @@
 package org.openclover.eclipse.core.settings;
 
-import org.openclover.runtime.api.CloverException;
-import org.openclover.core.cfg.Interval;
-import org.openclover.eclipse.core.CloverPlugin;
-import org.openclover.eclipse.core.views.CustomColumnDefinition;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.preferences.ConfigurationScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.openclover.core.cfg.Interval;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.views.CustomColumnDefinition;
+import org.openclover.runtime.api.CloverException;
 
 import java.util.Collections;
 import java.util.List;

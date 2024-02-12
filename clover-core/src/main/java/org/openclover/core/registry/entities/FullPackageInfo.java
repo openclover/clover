@@ -3,14 +3,14 @@ package org.openclover.core.registry.entities;
 import org.openclover.core.api.registry.BlockMetrics;
 import org.openclover.core.api.registry.EntityVisitor;
 import org.openclover.core.api.registry.FileInfo;
+import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.registry.CoverageDataProvider;
 import org.openclover.core.registry.CoverageDataReceptor;
+import org.openclover.core.registry.metrics.FileMetrics;
 import org.openclover.core.registry.metrics.HasMetricsFilter;
 import org.openclover.core.registry.metrics.HasMetricsNode;
-import org.openclover.core.registry.metrics.FileMetrics;
 import org.openclover.core.registry.metrics.PackageMetrics;
-import org.openclover.core.api.registry.PackageInfo;
 
 import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicReference;

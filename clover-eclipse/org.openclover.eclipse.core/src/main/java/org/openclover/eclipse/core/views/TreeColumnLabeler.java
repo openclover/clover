@@ -1,7 +1,7 @@
 package org.openclover.eclipse.core.views;
 
-import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.widgets.TreeColumn;
 
 public class TreeColumnLabeler {
     private static final float MARGIN_GUESTIMATE = 5.0f;

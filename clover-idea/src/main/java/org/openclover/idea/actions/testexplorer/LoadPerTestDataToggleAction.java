@@ -1,11 +1,11 @@
 package org.openclover.idea.actions.testexplorer;
 
-import org.openclover.idea.IProjectPlugin;
-import org.openclover.idea.util.ui.CloverIcons;
-import org.openclover.idea.ProjectPlugin;
-import org.openclover.idea.config.IdeaCloverConfig;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.ToggleAction;
+import org.openclover.idea.IProjectPlugin;
+import org.openclover.idea.ProjectPlugin;
+import org.openclover.idea.config.IdeaCloverConfig;
+import org.openclover.idea.util.ui.CloverIcons;
 
 public class LoadPerTestDataToggleAction extends ToggleAction {
     public LoadPerTestDataToggleAction() {

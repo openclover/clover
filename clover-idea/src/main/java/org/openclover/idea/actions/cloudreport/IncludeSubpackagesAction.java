@@ -1,9 +1,9 @@
 package org.openclover.idea.actions.cloudreport;
 
-import org.openclover.idea.IProjectPlugin;
-import org.openclover.idea.ProjectPlugin;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.ex.CheckboxAction;
+import org.openclover.idea.IProjectPlugin;
+import org.openclover.idea.ProjectPlugin;
 
 public class IncludeSubpackagesAction extends CheckboxAction {
     @Override

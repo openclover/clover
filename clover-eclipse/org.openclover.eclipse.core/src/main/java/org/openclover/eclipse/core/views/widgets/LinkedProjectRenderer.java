@@ -1,7 +1,5 @@
 package org.openclover.eclipse.core.views.widgets;
 
-import org.openclover.eclipse.core.views.ColumnCollectionSettings;
-import org.openclover.eclipse.core.views.ColumnDefinition;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
@@ -9,6 +7,8 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.TreeItem;
+import org.openclover.eclipse.core.views.ColumnCollectionSettings;
+import org.openclover.eclipse.core.views.ColumnDefinition;
 
 public class LinkedProjectRenderer extends SelectionAwareCellRenderer {
     public LinkedProjectRenderer(Composite rendered, ColumnCollectionSettings settings, ColumnDefinition column) {

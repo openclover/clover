@@ -1,8 +1,5 @@
 package org.openclover.eclipse.core.views.actions;
 
-import org.openclover.eclipse.core.CloverPlugin;
-import org.openclover.eclipse.core.projects.CloverProject;
-import org.openclover.eclipse.core.ui.projects.widgets.ToggleCloverProjectsDialog;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.action.IAction;
@@ -13,8 +10,10 @@ import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.ui.projects.widgets.ToggleCloverProjectsDialog;
 
-import java.util.Iterator;
 import java.util.Set;
 
 public class ToggleMultipleCloverProjectNaturesActionDelegate

@@ -1,12 +1,12 @@
 package org.openclover.core
 
-import org.openclover.core.registry.entities.FullClassInfo
-import org.openclover.core.registry.entities.FullFileInfo
-import org.openclover.core.registry.entities.LineInfo
-import org.openclover.core.registry.entities.FullProjectInfo
 import org.apache.tools.ant.util.JavaEnvUtils
 import org.junit.Before
 import org.junit.Test
+import org.openclover.core.registry.entities.FullClassInfo
+import org.openclover.core.registry.entities.FullFileInfo
+import org.openclover.core.registry.entities.FullProjectInfo
+import org.openclover.core.registry.entities.LineInfo
 
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertNotNull

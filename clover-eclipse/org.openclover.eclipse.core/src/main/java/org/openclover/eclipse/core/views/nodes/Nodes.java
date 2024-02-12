@@ -1,17 +1,5 @@
 package org.openclover.eclipse.core.views.nodes;
 
-import org.openclover.core.registry.entities.FullClassInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
-import org.openclover.eclipse.core.CloverPlugin;
-import org.openclover.eclipse.core.ui.CloverPluginIcons;
-import org.openclover.eclipse.core.projects.CloverProject;
-import org.openclover.eclipse.core.projects.model.JavaElementAdapter;
-import org.openclover.eclipse.core.projects.model.MetricsScope;
-import org.openclover.eclipse.core.views.testrunexplorer.nodes.TestCaseNode;
-import org.openclover.eclipse.core.views.testrunexplorer.nodes.TestCaseNodeFactory;
-import org.openclover.core.registry.entities.TestCaseInfo;
-import org.openclover.core.api.registry.HasMetrics;
-import org.openclover.core.registry.metrics.HasMetricsNode;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.ICompilationUnit;
@@ -22,6 +10,18 @@ import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.swt.graphics.Image;
+import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.registry.entities.FullClassInfo;
+import org.openclover.core.registry.entities.FullProjectInfo;
+import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.core.registry.metrics.HasMetricsNode;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.projects.CloverProject;
+import org.openclover.eclipse.core.projects.model.JavaElementAdapter;
+import org.openclover.eclipse.core.projects.model.MetricsScope;
+import org.openclover.eclipse.core.ui.CloverPluginIcons;
+import org.openclover.eclipse.core.views.testrunexplorer.nodes.TestCaseNode;
+import org.openclover.eclipse.core.views.testrunexplorer.nodes.TestCaseNodeFactory;
 
 import java.util.List;
 import java.util.Set;

@@ -1,10 +1,5 @@
 package org.openclover.idea;
 
-import org.openclover.core.CloverStartup;
-import org.openclover.runtime.Logger;
-import org.openclover.idea.config.CloverGlobalConfig;
-import org.openclover.idea.config.IdeaXmlConfigConstants;
-import org.openclover.idea.config.IdeaCloverConfig;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.Constraints;
@@ -18,6 +13,11 @@ import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
 import org.jetbrains.annotations.NotNull;
+import org.openclover.core.CloverStartup;
+import org.openclover.idea.config.CloverGlobalConfig;
+import org.openclover.idea.config.IdeaCloverConfig;
+import org.openclover.idea.config.IdeaXmlConfigConstants;
+import org.openclover.runtime.Logger;
 
 
 @State(name = IdeaXmlConfigConstants.OTHER_XML_FILE_COMPONENT_NAME, storages = {@Storage(id = "other", file = "$APP_CONFIG$/other.xml")})

@@ -1,10 +1,10 @@
 package org.openclover.eclipse.core.exclusion;
 
+import org.eclipse.core.runtime.CoreException;
+import org.openclover.core.util.FilterUtils;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.projects.settings.ProjectSettings;
 import org.openclover.eclipse.core.projects.settings.source.SourceFolderPattern;
-import org.openclover.core.util.FilterUtils;
-import org.eclipse.core.runtime.CoreException;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,23 +1,23 @@
 package org.openclover.core
 
+import junit.framework.TestCase
 import org.openclover.core.api.registry.ClassInfo
 import org.openclover.core.api.registry.SourceInfo
-import org.openclover.core.instr.InstrumentationSessionImpl
-import org.openclover.runtime.recorder.FixedSizeCoverageRecorder
 import org.openclover.core.context.ContextSet
-import org.openclover.core.registry.entities.BasePackageInfo
-import org.openclover.core.registry.entities.FullFileInfo
-import org.openclover.core.registry.entities.Modifiers
-import org.openclover.core.registry.metrics.ClassMetrics
+import org.openclover.core.instr.InstrumentationSessionImpl
 import org.openclover.core.registry.Clover2Registry
 import org.openclover.core.registry.FixedSourceRegion
-import org.openclover.core.registry.entities.MethodSignature
-import org.openclover.core.registry.metrics.PackageMetrics
+import org.openclover.core.registry.entities.BasePackageInfo
+import org.openclover.core.registry.entities.FullFileInfo
 import org.openclover.core.registry.entities.FullProjectInfo
+import org.openclover.core.registry.entities.MethodSignature
+import org.openclover.core.registry.entities.Modifiers
+import org.openclover.core.registry.metrics.ClassMetrics
+import org.openclover.core.registry.metrics.PackageMetrics
 import org.openclover.core.util.FileUtils
 import org.openclover.runtime.CloverProperties
+import org.openclover.runtime.recorder.FixedSizeCoverageRecorder
 import org_openclover_runtime.Clover
-import junit.framework.TestCase
 
 /**
  * Tests combinations of instrumentation, compilation, multi-compilation,

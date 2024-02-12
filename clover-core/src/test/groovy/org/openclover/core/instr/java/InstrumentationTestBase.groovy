@@ -1,6 +1,9 @@
 package org.openclover.core.instr.java
 
-import org.openclover.runtime.CloverNames
+import org.junit.After
+import org.junit.Before
+import org.junit.Rule
+import org.junit.rules.TestName
 import org.openclover.core.cfg.instr.InstrumentationLevel
 import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig
 import org.openclover.core.cfg.instr.java.LambdaInstrumentation
@@ -8,12 +11,9 @@ import org.openclover.core.cfg.instr.java.SourceLevel
 import org.openclover.core.registry.Clover2Registry
 import org.openclover.core.registry.metrics.ProjectMetrics
 import org.openclover.core.util.FileUtils
+import org.openclover.runtime.CloverNames
 import org_openclover_runtime.CoverageRecorder
 import org_openclover_runtime.TestNameSniffer
-import org.junit.After
-import org.junit.Before
-import org.junit.Rule
-import org.junit.rules.TestName
 
 import static org.hamcrest.CoreMatchers.equalTo
 import static org.hamcrest.MatcherAssert.assertThat

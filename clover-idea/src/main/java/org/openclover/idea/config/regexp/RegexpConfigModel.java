@@ -2,8 +2,8 @@ package org.openclover.idea.config.regexp;
 
 import org.openclover.core.context.ContextStore;
 import org.openclover.core.context.NamedContext;
-import org.openclover.idea.util.ComparatorUtil;
 import org.openclover.idea.config.CloverPluginConfig;
+import org.openclover.idea.util.ComparatorUtil;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,8 +1,8 @@
 package org.openclover.core.reporters.html;
 
-import org.openclover.core.api.registry.PackageInfo;
 import org.jetbrains.annotations.NotNull;
 import org.openclover.core.CloverDatabase;
+import org.openclover.core.api.registry.PackageInfo;
 
 /**
  * Helper class holding {@link PackageInfo} and boolean whether it's a

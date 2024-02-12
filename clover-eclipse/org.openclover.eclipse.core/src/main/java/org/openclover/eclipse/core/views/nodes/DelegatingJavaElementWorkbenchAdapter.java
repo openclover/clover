@@ -1,8 +1,8 @@
 package org.openclover.eclipse.core.views.nodes;
 
-import org.eclipse.ui.model.IWorkbenchAdapter;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.ui.model.IWorkbenchAdapter;
 
 /**
  * Allows Eclipse to display instances of JavaElementNode using the nice icons

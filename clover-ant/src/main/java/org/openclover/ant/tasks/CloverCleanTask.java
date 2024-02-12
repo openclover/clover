@@ -1,7 +1,7 @@
 package org.openclover.ant.tasks;
 
-import org.openclover.core.util.CloverUtils;
 import org.apache.tools.ant.BuildException;
+import org.openclover.core.util.CloverUtils;
 
 public class CloverCleanTask extends AbstractCloverTask {
 

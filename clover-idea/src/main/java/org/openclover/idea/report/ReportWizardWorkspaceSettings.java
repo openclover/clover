@@ -1,10 +1,10 @@
 package org.openclover.idea.report;
 
-import org.openclover.core.reporters.ShowLambdaFunctions;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
+import org.openclover.core.reporters.ShowLambdaFunctions;
 
 @State(name = "CloverReportSettings", storages = {@Storage(id = "other", file = "$APP_CONFIG$/other.xml")})
 public class ReportWizardWorkspaceSettings implements PersistentStateComponent<ReportWizardWorkspaceSettings> {

@@ -2,10 +2,10 @@ package org.openclover.core.util;
 
 import org.openclover.runtime.Logger;
 
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.Callable;
 
 /**
  * Factory methods for creating Clover specific ExecutorServices.

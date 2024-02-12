@@ -1,9 +1,9 @@
 package org.openclover.idea.actions.excludes;
 
-import org.openclover.idea.config.IdeaCloverConfig;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;
 import org.jetbrains.annotations.NotNull;
+import org.openclover.idea.config.IdeaCloverConfig;
 
 public class ToggleExcludeAction extends AbstractToggleInclusionAction {
     @Override

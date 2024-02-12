@@ -1,5 +1,7 @@
 package org.openclover.eclipse.core.ui.editors.treemap;
 
+import net.sf.jtreemap.ktreemap.TreeMapNode;
+import net.sf.jtreemap.ktreemap.TreeMapNodeBuilder;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.PackageInfo;
@@ -8,8 +10,6 @@ import org.openclover.core.registry.entities.BasePackageInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.projects.model.MetricsScope;
-import net.sf.jtreemap.ktreemap.TreeMapNode;
-import net.sf.jtreemap.ktreemap.TreeMapNodeBuilder;
 
 import java.util.List;
 

@@ -1,17 +1,17 @@
 package org.openclover.core;
 
-import org.openclover.runtime.Logger;
-import org.openclover.runtime.api.CloverException;
+import org.jetbrains.annotations.Nullable;
 import org.openclover.core.context.ContextSet;
 import org.openclover.core.registry.FixedSourceRegion;
 import org.openclover.core.registry.entities.BasicMethodInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.registry.entities.FullMethodInfo;
+import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.registry.entities.MethodSignature;
 import org.openclover.core.registry.entities.TestCaseInfo;
 import org.openclover.core.util.CloverUtils;
-import org.jetbrains.annotations.Nullable;
+import org.openclover.runtime.Logger;
+import org.openclover.runtime.api.CloverException;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;

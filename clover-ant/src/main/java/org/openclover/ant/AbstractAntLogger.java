@@ -2,7 +2,6 @@ package org.openclover.ant;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
-
 import org.openclover.runtime.Logger;
 
 public abstract class AbstractAntLogger extends Logger {

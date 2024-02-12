@@ -1,14 +1,14 @@
 package org.openclover.eclipse.testopt;
 
-import org.openclover.runtime.api.CloverException;
-import org.openclover.eclipse.core.projects.CloverProject;
-import org.openclover.core.optimization.Snapshot;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.launching.AbstractJavaLaunchConfigurationDelegate;
+import org.openclover.core.optimization.Snapshot;
+import org.openclover.eclipse.core.projects.CloverProject;
+import org.openclover.runtime.api.CloverException;
 
 import java.io.IOException;
 

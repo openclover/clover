@@ -1,7 +1,7 @@
 package org.openclover.core.reporters.html.source.java;
 
-import java.util.Set;
 import java.util.Collections;
+import java.util.Set;
 
 import static org.openclover.core.util.Sets.newHashSet;
 

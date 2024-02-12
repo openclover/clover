@@ -1,23 +1,21 @@
 package org.openclover.idea.config;
 
-import org.openclover.idea.autoupdater.AutoUpdateConfiguration;
-import org.openclover.idea.autoupdater.NewVersionNotifier;
-import org.openclover.idea.autoupdater.AutoUpdateComponent;
-import org.openclover.idea.util.ui.CloverIcons;
-import org.openclover.idea.util.l10n.CloverIdeaPluginMessages;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.ui.components.panels.HorizontalBox;
 import com.intellij.ui.components.panels.VerticalBox;
+import org.openclover.idea.autoupdater.AutoUpdateComponent;
+import org.openclover.idea.autoupdater.AutoUpdateConfiguration;
+import org.openclover.idea.autoupdater.NewVersionNotifier;
+import org.openclover.idea.util.l10n.CloverIdeaPluginMessages;
+import org.openclover.idea.util.ui.CloverIcons;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class AutoUpdateConfigPanel extends JPanel {
     private final JCheckBox autoUpdate = new JCheckBox(CloverIdeaPluginMessages.getString("autoupdate.auto"));

@@ -1,15 +1,5 @@
 package org.openclover.eclipse.testopt;
 
-import org.openclover.runtime.api.CloverException;
-import org.openclover.eclipse.core.projects.CloverProject;
-import org.openclover.core.registry.Clover2Registry;
-import org.openclover.core.optimization.LocalSnapshotOptimizer;
-import org.openclover.core.optimization.Messages;
-import org.openclover.core.api.optimization.Optimizable;
-import org.openclover.core.optimization.OptimizationSession;
-
-import org.openclover.core.api.optimization.OptimizationOptions;
-import org.openclover.core.optimization.Snapshot;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -24,6 +14,15 @@ import org.eclipse.jdt.launching.IVMRunner;
 import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.widgets.Display;
+import org.openclover.core.api.optimization.Optimizable;
+import org.openclover.core.api.optimization.OptimizationOptions;
+import org.openclover.core.optimization.LocalSnapshotOptimizer;
+import org.openclover.core.optimization.Messages;
+import org.openclover.core.optimization.OptimizationSession;
+import org.openclover.core.optimization.Snapshot;
+import org.openclover.core.registry.Clover2Registry;
+import org.openclover.eclipse.core.projects.CloverProject;
+import org.openclover.runtime.api.CloverException;
 
 import java.io.File;
 import java.util.ArrayList;

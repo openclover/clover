@@ -1,22 +1,22 @@
 package org.openclover.functest.ant.tasks
 
-import org.openclover.ant.tasks.CloverSetupTask
-import org.openclover.core.instr.java.RecorderInstrEmitter
-import org.openclover.runtime.CloverNames
-import org_openclover_runtime.CloverProfile
 import groovy.transform.CompileStatic
 import org.apache.tools.ant.RuntimeConfigurable
 import org.apache.tools.ant.Target
 import org.apache.tools.ant.Task
 import org.junit.Test
+import org.openclover.ant.tasks.CloverSetupTask
+import org.openclover.core.instr.java.RecorderInstrEmitter
+import org.openclover.runtime.CloverNames
+import org_openclover_runtime.CloverProfile
 
+import static org.junit.Assert.assertEquals
+import static org.junit.Assert.assertNotNull
+import static org.junit.Assert.assertTrue
 import static org.openclover.buildutil.testutils.AssertionUtils.assertFileContains
 import static org.openclover.buildutil.testutils.AssertionUtils.assertFileMatches
 import static org.openclover.buildutil.testutils.AssertionUtils.assertStringContains
 import static org.openclover.buildutil.testutils.AssertionUtils.assertStringMatches
-import static org.junit.Assert.assertEquals
-import static org.junit.Assert.assertNotNull
-import static org.junit.Assert.assertTrue
 
 /**
  * Test for:

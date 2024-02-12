@@ -2,10 +2,10 @@ package org.openclover.core.util;
 
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.core.optimization.Snapshot;
+import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.runtime.CloverNames;
 import org.openclover.runtime.Logger;
-import org.openclover.core.registry.entities.FullFileInfo;
-import org.openclover.core.optimization.Snapshot;
 import org_openclover_runtime.CloverVersionInfo;
 
 import java.io.File;

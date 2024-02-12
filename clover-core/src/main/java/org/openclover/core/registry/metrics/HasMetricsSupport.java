@@ -1,7 +1,7 @@
 package org.openclover.core.registry.metrics;
 
-import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.BlockMetrics;
+import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.util.NamedComparator;
 
 import java.util.Arrays;

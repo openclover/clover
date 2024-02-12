@@ -1,10 +1,10 @@
 package org.openclover.idea.report.cloud;
 
-import org.openclover.idea.util.vfs.AbstractEditorProvider;
 import com.intellij.openapi.fileEditor.FileEditor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.NotNull;
+import org.openclover.idea.util.vfs.AbstractEditorProvider;
 
 public class CloudEditorProvider extends AbstractEditorProvider {
 

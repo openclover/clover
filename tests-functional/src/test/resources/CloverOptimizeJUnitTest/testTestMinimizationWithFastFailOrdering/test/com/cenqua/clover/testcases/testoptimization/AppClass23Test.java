@@ -1,7 +1,10 @@
 package com.cenqua.clover.testcases.testoptimization;
 
 import junit.framework.TestCase;
-import java.io.*;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 
 public class AppClass23Test extends TestCase {
     public AppClass23Test(String name) {

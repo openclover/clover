@@ -1,5 +1,6 @@
 package org.openclover.groovy.instr
 
+import groovy.transform.CompileStatic
 import org.openclover.core.CloverDatabase
 import org.openclover.core.CoverageDataSpec
 import org.openclover.core.api.registry.ClassInfo
@@ -14,9 +15,8 @@ import org.openclover.core.registry.entities.FullProjectInfo
 import org.openclover.core.registry.entities.TestCaseInfo
 import org.openclover.core.reporters.html.HtmlReporter
 import org.openclover.groovy.test.junit.Result
-import groovy.transform.CompileStatic
 
-import static org.openclover.groovy.utils.TestUtils.*
+import static org.openclover.groovy.utils.TestUtils.assertFileContains
 
 /**
  * Integration test that checks how Clover handles the Spock test framework. Specific issues for this framework are:

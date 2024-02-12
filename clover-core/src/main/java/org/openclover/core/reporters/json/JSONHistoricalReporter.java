@@ -1,19 +1,18 @@
 package org.openclover.core.reporters.json;
 
 import clover.org.apache.velocity.VelocityContext;
-
-import java.util.Map;
-import java.util.List;
-import java.util.Date;
-import java.io.File;
-import java.text.SimpleDateFormat;
-
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.reporters.Column;
 import org.openclover.core.reporters.Columns;
 import org.openclover.core.reporters.html.HtmlReportUtil;
 import org.openclover.runtime.Logger;
 import org.openclover.runtime.api.CloverException;
+
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import static org.openclover.core.util.Lists.newLinkedList;
 import static org.openclover.core.util.Maps.newHashMap;

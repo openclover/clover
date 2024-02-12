@@ -1,16 +1,16 @@
 package org.openclover.core.api.optimization
 
-import org.openclover.core.instr.InstrumentationSessionImpl
-import org.openclover.core.CloverDatabase
-import org.openclover.runtime.api.CloverException
-import org.openclover.core.CoverageDataSpec
-import org.openclover.core.context.ContextSet
-import org.openclover.core.registry.entities.FullFileInfo
-import org.openclover.core.optimization.Snapshot
-import org.openclover.core.optimization.TestOptimizationBase
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import org.openclover.core.CloverDatabase
+import org.openclover.core.CoverageDataSpec
+import org.openclover.core.context.ContextSet
+import org.openclover.core.instr.InstrumentationSessionImpl
+import org.openclover.core.optimization.Snapshot
+import org.openclover.core.optimization.TestOptimizationBase
+import org.openclover.core.registry.entities.FullFileInfo
+import org.openclover.runtime.api.CloverException
 
 import static org.junit.Assert.assertEquals
 import static org.openclover.core.util.Lists.newLinkedList

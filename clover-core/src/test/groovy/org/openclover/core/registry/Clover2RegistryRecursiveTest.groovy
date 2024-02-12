@@ -1,6 +1,7 @@
 package org.openclover.core.registry
 
-import org.openclover.runtime.api.CloverException
+import org.junit.BeforeClass
+import org.junit.Test
 import org.openclover.core.api.registry.ClassInfo
 import org.openclover.core.api.registry.MethodInfo
 import org.openclover.core.api.registry.PackageInfo
@@ -10,11 +11,12 @@ import org.openclover.core.registry.entities.FullFileInfo
 import org.openclover.core.registry.entities.FullMethodInfo
 import org.openclover.core.registry.entities.FullProjectInfo
 import org.openclover.core.registry.format.FreshRegFile
+import org.openclover.runtime.api.CloverException
 import org.openclover.runtime.registry.format.RegAccessMode
-import org.junit.BeforeClass
-import org.junit.Test
 
-import static org.junit.Assert.*
+import static org.junit.Assert.assertEquals
+import static org.junit.Assert.assertNotNull
+import static org.junit.Assert.assertNull
 
 /**
  * Tests whether a project containing recursively nested classes, methods, statements is being properly

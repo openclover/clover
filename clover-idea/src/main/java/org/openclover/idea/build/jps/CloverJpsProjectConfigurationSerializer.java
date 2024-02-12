@@ -1,9 +1,5 @@
 package org.openclover.idea.build.jps;
 
-import org.openclover.idea.config.IdeaXmlConfigConstants;
-import org.openclover.idea.util.jdom.JDOMExternUtil;
-import org.openclover.idea.config.CloverPluginConfig;
-import org.openclover.idea.config.MappedCloverPluginConfig;
 import com.intellij.openapi.diagnostic.Logger;
 import org.jdom.Element;
 import org.jetbrains.annotations.NotNull;
@@ -12,6 +8,10 @@ import org.jetbrains.jps.model.JpsElementFactory;
 import org.jetbrains.jps.model.JpsProject;
 import org.jetbrains.jps.model.JpsSimpleElement;
 import org.jetbrains.jps.model.serialization.JpsProjectExtensionSerializer;
+import org.openclover.idea.config.CloverPluginConfig;
+import org.openclover.idea.config.IdeaXmlConfigConstants;
+import org.openclover.idea.config.MappedCloverPluginConfig;
+import org.openclover.idea.util.jdom.JDOMExternUtil;
 
 /**
  * Serialization of project settings. Clover stores them in project's workspace file (*.iws).

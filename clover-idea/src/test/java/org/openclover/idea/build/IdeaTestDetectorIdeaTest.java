@@ -1,8 +1,12 @@
 package org.openclover.idea.build;
 
+import com.intellij.openapi.module.Module;
+import com.intellij.openapi.roots.ContentEntry;
+import com.intellij.openapi.roots.ModifiableRootModel;
+import com.intellij.openapi.roots.ModuleRootManager;
+import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.testFramework.IdeaTestCase;
 import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig;
-import org.openclover.idea.ApplicationTestHelper;
-import org.openclover.idea.util.vfs.VfsUtil;
 import org.openclover.core.instr.java.FileStructureInfo;
 import org.openclover.core.instr.java.InstrumentationState;
 import org.openclover.core.instr.java.JavaMethodContext;
@@ -10,12 +14,8 @@ import org.openclover.core.instr.java.JavaTypeContext;
 import org.openclover.core.instr.tests.DefaultTestDetector;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.MethodSignature;
-import com.intellij.openapi.module.Module;
-import com.intellij.openapi.roots.ContentEntry;
-import com.intellij.openapi.roots.ModifiableRootModel;
-import com.intellij.openapi.roots.ModuleRootManager;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.testFramework.IdeaTestCase;
+import org.openclover.idea.ApplicationTestHelper;
+import org.openclover.idea.util.vfs.VfsUtil;
 
 import java.io.File;
 import java.io.IOException;

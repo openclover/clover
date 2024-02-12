@@ -1,14 +1,14 @@
 package org.openclover.groovy.instr
 
+import groovy.transform.CompileStatic
+import org.openclover.buildutil.test.junit.GroovyVersionStart
 import org.openclover.core.api.registry.ClassInfo
 import org.openclover.core.api.registry.MethodInfo
 import org.openclover.core.registry.Clover2Registry
 import org.openclover.core.registry.entities.FullClassInfo
 import org.openclover.core.registry.entities.FullFileInfo
 import org.openclover.core.registry.entities.FullPackageInfo
-import org.openclover.buildutil.test.junit.GroovyVersionStart
 import org.openclover.groovy.test.junit.Result
-import groovy.transform.CompileStatic
 
 /**
  * Integration tests that detect if the correct Clover model is generated for given Groovy code.

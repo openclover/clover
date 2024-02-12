@@ -1,7 +1,7 @@
 package org.openclover.runtime.remote;
 
-import org.openclover.runtime.Logger;
 import org.openclover.runtime.CloverNames;
+import org.openclover.runtime.Logger;
 
 import java.io.Serializable;
 

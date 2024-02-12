@@ -1,10 +1,10 @@
 package org.openclover.idea.actions;
 
-import org.openclover.idea.IProjectPlugin;
-import org.openclover.idea.util.ui.CloverIcons;
-import org.openclover.idea.ProjectPlugin;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DefaultActionGroup;
+import org.openclover.idea.IProjectPlugin;
+import org.openclover.idea.ProjectPlugin;
+import org.openclover.idea.util.ui.CloverIcons;
 
 import javax.swing.Icon;
 

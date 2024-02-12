@@ -1,9 +1,9 @@
 package org.openclover.core.reporters.json
 
 import junit.framework.TestCase
-import org.openclover.core.reporters.Columns
 import org.openclover.core.TestUtils
 import org.openclover.core.registry.metrics.HasMetricsTestFixture
+import org.openclover.core.reporters.Columns
 
 import static org.openclover.core.util.Maps.newHashMap
 

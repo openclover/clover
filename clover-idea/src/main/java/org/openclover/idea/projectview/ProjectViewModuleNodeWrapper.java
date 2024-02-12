@@ -1,13 +1,13 @@
 package org.openclover.idea.projectview;
 
-import org.openclover.idea.IProjectPlugin;
-import org.openclover.idea.CloverModuleComponent;
-import org.openclover.idea.ProjectPlugin;
-import org.openclover.idea.feature.CloverFeatures;
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ide.projectView.impl.nodes.AbstractModuleNode;
 import com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode;
 import com.intellij.ide.util.treeView.AbstractTreeNode;
+import org.openclover.idea.CloverModuleComponent;
+import org.openclover.idea.IProjectPlugin;
+import org.openclover.idea.ProjectPlugin;
+import org.openclover.idea.feature.CloverFeatures;
 
 public class ProjectViewModuleNodeWrapper extends ProjectViewModuleNode {
     public ProjectViewModuleNodeWrapper(ProjectViewModuleNode orig) {

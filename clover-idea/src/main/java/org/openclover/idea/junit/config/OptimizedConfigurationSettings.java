@@ -1,11 +1,11 @@
 package org.openclover.idea.junit.config;
 
-import org.openclover.core.api.optimization.OptimizationOptions;
 import com.intellij.execution.configurations.RunnerSettings;
 import com.intellij.openapi.util.InvalidDataException;
 import com.intellij.openapi.util.JDOMExternalizerUtil;
 import com.intellij.openapi.util.WriteExternalException;
 import org.jdom.Element;
+import org.openclover.core.api.optimization.OptimizationOptions;
 
 public class OptimizedConfigurationSettings implements RunnerSettings {
     private static final OptimizationOptions.TestSortOrder REORDER_DEFAULT = OptimizationOptions.TestSortOrder.FAILFAST;

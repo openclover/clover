@@ -2,7 +2,6 @@ package org.openclover.groovy.instr
 
 import junit.framework.TestCase
 import org.codehaus.groovy.ast.ASTNode
-import org.openclover.groovy.instr.GroovyUtils
 
 /**
  * Test for {@link org.openclover.groovy.instr.GroovyUtils}.

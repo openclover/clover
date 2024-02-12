@@ -3,9 +3,9 @@ package org.openclover.runtime.recorder;
 import org.openclover.runtime.registry.format.RegHeader;
 
 import java.io.DataInputStream;
-import java.io.IOException;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.IOException;
 
 /**
  * {@link BaseCoverageRecording} is a {@link CoverageRecording} with a {@link Header}

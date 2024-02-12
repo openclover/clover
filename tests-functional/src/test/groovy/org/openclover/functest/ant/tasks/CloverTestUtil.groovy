@@ -1,8 +1,8 @@
 package org.openclover.functest.ant.tasks
 
-import org.openclover.functest.ant.testutils.CloverTestFixture
-import org.openclover.buildutil.testutils.IOHelper
 import groovy.transform.CompileStatic
+import org.openclover.buildutil.testutils.IOHelper
+import org.openclover.functest.ant.testutils.CloverTestFixture
 
 import static org.openclover.core.util.Lists.newArrayList
 import static org.openclover.core.util.Maps.newHashMap

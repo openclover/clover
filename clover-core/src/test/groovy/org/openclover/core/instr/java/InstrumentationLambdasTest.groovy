@@ -1,7 +1,7 @@
 package org.openclover.core.instr.java
 
-import org.openclover.runtime.CloverNames
 import org.junit.Test
+import org.openclover.runtime.CloverNames
 
 class InstrumentationLambdasTest extends InstrumentationTestBase {
 

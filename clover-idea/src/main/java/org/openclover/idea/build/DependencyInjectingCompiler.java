@@ -1,8 +1,5 @@
 package org.openclover.idea.build;
 
-import org.openclover.runtime.Logger;
-import org.openclover.idea.ProjectPlugin;
-import org.openclover.idea.util.MiscUtils;
 import com.intellij.compiler.CompilerWorkspaceConfiguration;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.compiler.CompileContext;
@@ -18,6 +15,9 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiJavaFile;
 import com.intellij.psi.PsiManager;
 import org.jetbrains.annotations.NotNull;
+import org.openclover.idea.ProjectPlugin;
+import org.openclover.idea.util.MiscUtils;
+import org.openclover.runtime.Logger;
 
 import java.io.DataInput;
 import java.io.IOException;

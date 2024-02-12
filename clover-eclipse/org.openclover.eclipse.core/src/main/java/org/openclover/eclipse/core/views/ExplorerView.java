@@ -1,10 +1,5 @@
 package org.openclover.eclipse.core.views;
 
-import org.openclover.eclipse.core.CloverPlugin;
-import org.openclover.eclipse.core.views.actions.GenerateReportAction;
-import org.openclover.eclipse.core.views.actions.OpenJavaEditorAction;
-import org.openclover.eclipse.core.views.widgets.ColumnController;
-import org.openclover.eclipse.core.views.widgets.ViewAlertContainer;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IAdaptable;
@@ -37,8 +32,8 @@ import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
@@ -49,6 +44,11 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.actions.ActionContext;
 import org.eclipse.ui.actions.ActionGroup;
+import org.openclover.eclipse.core.CloverPlugin;
+import org.openclover.eclipse.core.views.actions.GenerateReportAction;
+import org.openclover.eclipse.core.views.actions.OpenJavaEditorAction;
+import org.openclover.eclipse.core.views.widgets.ColumnController;
+import org.openclover.eclipse.core.views.widgets.ViewAlertContainer;
 
 import java.util.List;
 import java.util.Map;

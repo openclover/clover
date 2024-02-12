@@ -1,8 +1,8 @@
 package org.openclover.core
 
-import org.openclover.core.util.JavaEnvUtils
 import org.junit.Before
 import org.junit.Test
+import org.openclover.core.util.JavaEnvUtils
 
 /**
  * The purpose of this test is to

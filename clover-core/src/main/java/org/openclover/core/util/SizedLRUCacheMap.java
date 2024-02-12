@@ -2,8 +2,8 @@ package org.openclover.core.util;
 
 import org.openclover.runtime.util.ByteSized;
 
-import java.util.Map;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class SizedLRUCacheMap<K, V extends ByteSized> extends LinkedHashMap<K, V> {
     private long maxLength;

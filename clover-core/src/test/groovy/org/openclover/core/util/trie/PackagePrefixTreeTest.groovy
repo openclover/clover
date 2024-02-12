@@ -1,9 +1,9 @@
 package org.openclover.core.util.trie
 
+import org.junit.Test
 import org.openclover.core.registry.entities.BasePackageInfo
 import org.openclover.core.reporters.html.PackageInfoExt
 import org.openclover.core.util.collections.Pair
-import org.junit.Test
 
 class PackagePrefixTreeTest extends PrefixTreeTest {
 

@@ -1,7 +1,7 @@
 package org.openclover.functest.ant.tasks
 
-import org.openclover.core.cfg.instr.InstrumentationLevel
 import groovy.transform.CompileStatic
+import org.openclover.core.cfg.instr.InstrumentationLevel
 
 @CompileStatic
 abstract class CloverOptimizeJUnitTestBase extends CloverOptimizeTestBase {

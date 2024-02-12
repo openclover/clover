@@ -3,11 +3,11 @@ package org.openclover.core.instr.java;
 import org.openclover.core.cfg.instr.InstrumentationConfig;
 import org.openclover.runtime.CloverNames;
 
+import java.lang.reflect.Modifier;
+
 import static org.openclover.runtime.instr.Bindings.$CoverageRecorder$flushNeeded;
 import static org.openclover.runtime.instr.Bindings.$CoverageRecorder$globalSliceEnd;
 import static org.openclover.runtime.instr.Bindings.$CoverageRecorder$maybeFlush;
-
-import java.lang.reflect.Modifier;
 
 /**
 

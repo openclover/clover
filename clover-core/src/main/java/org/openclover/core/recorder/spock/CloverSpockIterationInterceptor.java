@@ -2,10 +2,10 @@ package org.openclover.core.recorder.spock;
 
 import org.openclover.runtime.Logger;
 import org.openclover.runtime.recorder.TestNameSnifferHelper;
-import org_openclover_runtime.TestNameSniffer;
 import org.spockframework.runtime.extension.IMethodInterceptor;
 import org.spockframework.runtime.extension.IMethodInvocation;
 import org.spockframework.runtime.model.IterationInfo;
+import org_openclover_runtime.TestNameSniffer;
 
 /**
  * Feature iteration interceptor which look up for a sniffer field declared in currently

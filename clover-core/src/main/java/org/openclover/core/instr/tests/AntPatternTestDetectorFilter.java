@@ -1,7 +1,7 @@
 package org.openclover.core.instr.tests;
 
-import org.openclover.core.util.FilterUtils;
 import org.jetbrains.annotations.Nullable;
+import org.openclover.core.util.FilterUtils;
 import org.openclover.core.util.Objects;
 
 import java.io.File;

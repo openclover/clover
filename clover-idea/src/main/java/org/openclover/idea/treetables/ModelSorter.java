@@ -3,7 +3,6 @@ package org.openclover.idea.treetables;
 import com.intellij.util.ui.ColumnInfo;
 
 import javax.swing.tree.TreeNode;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 

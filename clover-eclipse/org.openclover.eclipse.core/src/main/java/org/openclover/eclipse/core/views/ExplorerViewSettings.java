@@ -1,7 +1,7 @@
 package org.openclover.eclipse.core.views;
 
-import org.eclipse.ui.IPersistable;
 import org.eclipse.ui.IMemento;
+import org.eclipse.ui.IPersistable;
 import org.openclover.eclipse.core.projects.model.MetricsScope;
 import org.openclover.eclipse.core.views.nodes.NodeHierarchyBuilder;
 

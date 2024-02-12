@@ -1,5 +1,8 @@
 package org.openclover.idea.build;
 
+import com.intellij.openapi.compiler.CompilerManager;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.Key;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.context.ContextStore;
 import org.openclover.core.context.NamedContext;
@@ -11,9 +14,6 @@ import org.openclover.idea.config.ProjectRebuild;
 import org.openclover.idea.config.regexp.Regexp;
 import org.openclover.idea.feature.FeatureEvent;
 import org.openclover.idea.feature.FeatureListener;
-import com.intellij.openapi.compiler.CompilerManager;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Key;
 
 import java.beans.PropertyChangeEvent;
 import java.util.List;

@@ -2,23 +2,23 @@ package org.openclover.core.reporters.html.source;
 
 import clover.org.apache.commons.lang3.StringUtils;
 import clover.org.apache.velocity.VelocityContext;
+import org.openclover.core.CloverDatabase;
 import org.openclover.core.api.registry.BranchInfo;
 import org.openclover.core.api.registry.ContextSet;
 import org.openclover.core.api.registry.ElementInfo;
 import org.openclover.core.api.registry.SourceInfo;
+import org.openclover.core.registry.CoverageDataProvider;
 import org.openclover.core.registry.entities.FullElementInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
-import org.openclover.core.spi.reporters.html.source.LineRenderInfo;
-import org.openclover.core.spi.reporters.html.source.SourceRenderer;
-import org.openclover.core.CloverDatabase;
-import org.openclover.core.registry.CoverageDataProvider;
 import org.openclover.core.registry.entities.LineInfo;
 import org.openclover.core.registry.entities.TestCaseInfo;
 import org.openclover.core.reporters.Current;
+import org.openclover.core.reporters.html.HtmlRenderingSupportImpl;
 import org.openclover.core.reporters.html.JSONObjectFactory;
+import org.openclover.core.spi.reporters.html.source.LineRenderInfo;
+import org.openclover.core.spi.reporters.html.source.SourceRenderer;
 import org.openclover.core.util.ChecksummingReader;
 import org.openclover.runtime.Logger;
-import org.openclover.core.reporters.html.HtmlRenderingSupportImpl;
 import org.openclover.runtime.util.IOStreamUtils;
 
 import java.io.BufferedReader;
@@ -29,7 +29,19 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-import static org.openclover.core.spi.reporters.html.source.SourceReportCss.*;
+import static org.openclover.core.spi.reporters.html.source.SourceReportCss.BAD_CLASS;
+import static org.openclover.core.spi.reporters.html.source.SourceReportCss.COVERAGE_COUNT_CLASS;
+import static org.openclover.core.spi.reporters.html.source.SourceReportCss.FILTERED_CLASS;
+import static org.openclover.core.spi.reporters.html.source.SourceReportCss.GOOD_CLASS;
+import static org.openclover.core.spi.reporters.html.source.SourceReportCss.HIT_BY_FAILED_TEST_CLASS;
+import static org.openclover.core.spi.reporters.html.source.SourceReportCss.HIT_BY_TEST_CLASS;
+import static org.openclover.core.spi.reporters.html.source.SourceReportCss.LINE_COUNT_CLASS;
+import static org.openclover.core.spi.reporters.html.source.SourceReportCss.LINE_WARNING_CLASS;
+import static org.openclover.core.spi.reporters.html.source.SourceReportCss.MISSED_BY_TEST_CLASS;
+import static org.openclover.core.spi.reporters.html.source.SourceReportCss.NO_HILIGHT_CLASS;
+import static org.openclover.core.spi.reporters.html.source.SourceReportCss.SRC_LINE_CLASS;
+import static org.openclover.core.spi.reporters.html.source.SourceReportCss.SRC_LINE_FILTERED_CLASS;
+import static org.openclover.core.spi.reporters.html.source.SourceReportCss.SRC_LINE_HILIGHT_CLASS;
 import static org.openclover.core.util.Lists.newArrayList;
 
 public class SourceRenderHelper {

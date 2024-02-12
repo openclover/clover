@@ -1,5 +1,7 @@
 package org.openclover.core.cmdline
 
+import org.hamcrest.Matcher
+import org.junit.Test
 import org.openclover.core.api.command.ArgProcessor
 import org.openclover.core.cfg.instr.InstrumentationConfig
 import org.openclover.core.cfg.instr.InstrumentationLevel
@@ -9,10 +11,11 @@ import org.openclover.core.cfg.instr.java.LambdaInstrumentation
 import org.openclover.core.cfg.instr.java.SourceLevel
 import org.openclover.core.instr.java.JavaTypeContext
 import org.openclover.core.instr.tests.TestDetector
-import org.hamcrest.Matcher
-import org.junit.Test
 
-import static org.hamcrest.CoreMatchers.*
+import static org.hamcrest.CoreMatchers.allOf
+import static org.hamcrest.CoreMatchers.containsString
+import static org.hamcrest.CoreMatchers.equalTo
+import static org.hamcrest.CoreMatchers.not
 import static org.hamcrest.MatcherAssert.assertThat
 import static org.junit.Assert.assertTrue
 

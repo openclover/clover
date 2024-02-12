@@ -3,8 +3,8 @@ package org.openclover.core.util;
 import java.io.FilterReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.zip.Checksum;
 import java.util.zip.Adler32;
+import java.util.zip.Checksum;
 
 
 public class ChecksummingReader extends FilterReader {

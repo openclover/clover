@@ -1,8 +1,5 @@
 package org.openclover.idea.build.jps;
 
-import org.openclover.idea.config.CloverPluginConfig;
-import org.openclover.core.util.trie.FilePathPrefixTree;
-import org.openclover.core.util.trie.Node;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.jps.model.JpsProject;
@@ -11,6 +8,9 @@ import org.jetbrains.jps.model.JpsUrlList;
 import org.jetbrains.jps.model.module.JpsModule;
 import org.jetbrains.jps.model.module.JpsModuleSourceRoot;
 import org.jetbrains.jps.util.JpsPathUtil;
+import org.openclover.core.util.trie.FilePathPrefixTree;
+import org.openclover.core.util.trie.Node;
+import org.openclover.idea.config.CloverPluginConfig;
 
 import java.io.File;
 import java.util.HashSet;

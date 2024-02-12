@@ -3,9 +3,9 @@ package org.openclover.idea.config;
 import org.openclover.core.context.ContextSet;
 import org.openclover.core.context.ContextStore;
 import org.openclover.core.context.NamedContext;
-import org.openclover.idea.util.ui.UIUtils;
 import org.openclover.idea.util.l10n.CloverIdeaPluginMessages;
 import org.openclover.idea.util.ui.RichLabel;
+import org.openclover.idea.util.ui.UIUtils;
 
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;

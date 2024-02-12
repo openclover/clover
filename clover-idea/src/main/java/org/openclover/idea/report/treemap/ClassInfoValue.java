@@ -1,7 +1,7 @@
 package org.openclover.idea.report.treemap;
 
-import org.openclover.core.registry.entities.FullClassInfo;
 import clover.net.sf.jtreemap.swing.ValuePercent;
+import org.openclover.core.registry.entities.FullClassInfo;
 
 public class ClassInfoValue extends ValuePercent {
     private final FullClassInfo classInfo;

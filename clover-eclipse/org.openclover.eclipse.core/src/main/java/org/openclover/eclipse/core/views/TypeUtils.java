@@ -1,9 +1,9 @@
 package org.openclover.eclipse.core.views;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.core.ICompilationUnit;
-import org.eclipse.core.resources.IProject;
 import org.openclover.core.registry.metrics.BlockMetrics;
 import org.openclover.core.registry.metrics.ClassMetrics;
 

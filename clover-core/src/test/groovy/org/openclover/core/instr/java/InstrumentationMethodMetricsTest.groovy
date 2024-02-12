@@ -1,10 +1,10 @@
 package org.openclover.core.instr.java
 
+import org.junit.Test
 import org.openclover.core.api.registry.StatementInfo
 import org.openclover.core.registry.Clover2Registry
 import org.openclover.core.registry.FixedSourceRegion
 import org.openclover.core.registry.entities.FullMethodInfo
-import org.junit.Test
 
 import static org.junit.Assert.assertEquals
 

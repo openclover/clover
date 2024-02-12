@@ -1,7 +1,7 @@
 package org.openclover.core.context
 
-import org.openclover.runtime.api.CloverException
 import org.junit.Test
+import org.openclover.runtime.api.CloverException
 
 import java.util.regex.Pattern
 

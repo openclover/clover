@@ -1,7 +1,7 @@
 package org.openclover.core.cfg.instr
 
-import org.openclover.runtime.remote.DistributedConfig
 import org.junit.Test
+import org.openclover.runtime.remote.DistributedConfig
 
 class InstrumentationConfigSerializationTest {
 

@@ -1,8 +1,6 @@
 package org.openclover.idea.build.jps;
 
-import org.openclover.core.util.FileUtils;
-import org.openclover.idea.config.CloverPluginConfig;
-import org.openclover.idea.config.MappedCloverPluginConfig;
+import org.hamcrest.core.IsCollectionContaining;
 import org.jetbrains.jps.model.JpsElementFactory;
 import org.jetbrains.jps.model.JpsProject;
 import org.jetbrains.jps.model.impl.JpsModelImpl;
@@ -14,7 +12,9 @@ import org.jetbrains.jps.model.module.JpsModule;
 import org.jetbrains.jps.model.module.JpsModuleSourceRoot;
 import org.junit.Before;
 import org.junit.Test;
-import org.hamcrest.core.IsCollectionContaining;
+import org.openclover.core.util.FileUtils;
+import org.openclover.idea.config.CloverPluginConfig;
+import org.openclover.idea.config.MappedCloverPluginConfig;
 
 import java.io.File;
 import java.util.Set;

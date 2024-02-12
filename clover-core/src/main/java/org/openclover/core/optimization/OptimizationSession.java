@@ -6,8 +6,8 @@ import org.openclover.core.util.Color;
 import org.openclover.runtime.Logger;
 import org.openclover.runtime.util.Formatting;
 
-import java.util.Set;
 import java.util.Collections;
+import java.util.Set;
 
 import static org.openclover.core.util.Sets.newHashSet;
 

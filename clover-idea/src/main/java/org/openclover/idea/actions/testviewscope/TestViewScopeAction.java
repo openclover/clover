@@ -1,14 +1,14 @@
 package org.openclover.idea.actions.testviewscope;
 
-import org.openclover.idea.IProjectPlugin;
-import org.openclover.idea.ProjectPlugin;
-import org.openclover.idea.config.TestViewScope;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DefaultActionGroup;
 import com.intellij.openapi.actionSystem.ex.ComboBoxAction;
 import org.jetbrains.annotations.NotNull;
+import org.openclover.idea.IProjectPlugin;
+import org.openclover.idea.ProjectPlugin;
+import org.openclover.idea.config.TestViewScope;
 
 import javax.swing.JComponent;
 import java.util.EnumMap;
