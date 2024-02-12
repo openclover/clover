@@ -10,7 +10,7 @@ import static org.openclover.core.util.Maps.newHashMap
 @CompileStatic
 class CloverTestUtil {
     static String PROP_INITSTRING = "clover-initstring"
-    public static final String CLOVER_ANT_TEST_BUILD_FILES_DIR = "tests-functional/src/test/resources/com/atlassian/clover/ant/tasks"
+    public static final String CLOVER_ANT_TEST_BUILD_FILES_DIR = "tests-functional/src/test/resources/org/openclover/functest/ant/tasks"
     public static final String CLOVER_ANT_TEST_RUN_TMP_DIR = "tests-functional/target/testrun/tmp"
 
     /**

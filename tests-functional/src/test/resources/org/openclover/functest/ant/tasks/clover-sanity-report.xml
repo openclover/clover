@@ -13,7 +13,7 @@
     <property name="clover.jar" location="${project.dir}/clover-all/target/clover-${clover-ant.test.clover.ver}.jar"/>
     <property name="junit.jar" location="${project.dir}/tests-functional/target/test-dependencies/junit-${clover-ant.test.junit.ver}.jar"/>
     <property name="test.resources.dir" location="${project.dir}/tests-functional/src/test/resources"/>
-    <property name="test.resources.tasks.dir" location="${test.resources.dir}/com/atlassian/clover/ant/tasks"/>
+    <property name="test.resources.tasks.dir" location="${test.resources.dir}/org/openclover/functest/ant/tasks"/>
 
     <target name="setUp">
         <fail unless="project.dir" message="The 'project.dir' property is missing"/>
