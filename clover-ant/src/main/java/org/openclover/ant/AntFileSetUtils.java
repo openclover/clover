@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import static org.openclover.core.util.Lists.newArrayList;
 
@@ -60,7 +61,7 @@ public class AntFileSetUtils {
                                                         @Nullable final String[] excludePatterns) {
         final String[] allPatterns = ArrayUtils.addAll(includePatterns, excludePatterns);
         if (allPatterns != null) {
-            return Arrays.asList(allPatterns).stream().filter(isTrimmed.negate()).toList();
+            return Arrays.asList(allPatterns).stream().filter(isTrimmed.negate()).collect(Collectors.toList());
         } else {
             return Collections.emptyList();
         }
