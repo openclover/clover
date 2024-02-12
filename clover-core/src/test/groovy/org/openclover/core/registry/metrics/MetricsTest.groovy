@@ -1,6 +1,7 @@
 package org.openclover.core.registry.metrics
 
 import org.junit.Test
+import org.openclover.core.api.registry.HasMetrics
 
 import static org.junit.Assert.assertEquals
 
@@ -47,7 +48,7 @@ class MetricsTest {
             return false
         }
 
-        void setComparator(Comparator cmp) {
+        void setComparator(Comparator<HasMetrics> cmp) {
             
         }
     }

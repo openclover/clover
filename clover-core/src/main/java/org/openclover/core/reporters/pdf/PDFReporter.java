@@ -25,6 +25,7 @@ import org.openclover.runtime.api.CloverException;
 import org_openclover_runtime.CloverVersionInfo;
 
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -223,9 +224,9 @@ public class PDFReporter extends CloverReporter {
         }
         int chartsOnPage = 0;
 
-        List charts = historicalConfig.getCharts();
+        List<Historical.Chart> charts = historicalConfig.getCharts();
         
-        Map data = desc.getHistoricalModels();
+        Map<Long, HasMetrics> data = desc.getHistoricalModels();
 
         for (Object chart : charts) {
             if (chartsOnPage == 2) {
@@ -244,18 +245,18 @@ public class PDFReporter extends CloverReporter {
                 newPage();
                 chartsOnPage = 0;
             }
-            for (Iterator iter = desc.getAddedDescriptors().iterator(); iter.hasNext();) {
+            for (Iterator<HistoricalReportDescriptor.AddedDescriptor> iter =
+                 desc.getAddedDescriptors().iterator(); iter.hasNext();) {
                 document.add(
-                    RenderingSupport.createAddedTable(
-                        (HistoricalReportDescriptor.AddedDescriptor)iter.next(), colours));
+                    RenderingSupport.createAddedTable(iter.next(), colours));
                 if (iter.hasNext() || !desc.getMoversDescriptors().isEmpty()) {
                     document.add(RenderingSupport.getSpacerRow());
                 }
             }
-            for (Iterator iter = desc.getMoversDescriptors().iterator(); iter.hasNext();) {
+            for (Iterator<HistoricalReportDescriptor.MoversDescriptor> iter =
+                 desc.getMoversDescriptors().iterator(); iter.hasNext();) {
                 document.add(
-                    RenderingSupport.createMoversTable(
-                        (HistoricalReportDescriptor.MoversDescriptor)iter.next(), colours));
+                    RenderingSupport.createMoversTable(iter.next(), colours));
                 if (iter.hasNext()) {
                     document.add(RenderingSupport.getSpacerRow());
                 }
@@ -292,7 +293,7 @@ public class PDFReporter extends CloverReporter {
 
         children.sort(HasMetricsSupport.getHasMetricsComparator(currentConfig.getFormat().getOrderby()));
 
-        document.add(RenderingSupport.createCoverageDataTable(currentConfig, childrenTitle, (List<HasMetrics>)(List)children, colours));
+        document.add(RenderingSupport.createCoverageDataTable(currentConfig, childrenTitle, children, colours));
         document.newPage();
     }
 
@@ -321,7 +322,7 @@ public class PDFReporter extends CloverReporter {
             int i = 0;
 
             while (i < args.length) {
-                for (ArgProcessor argProcessor : allArgProcessors) {
+                for (ArgProcessor<Current> argProcessor : allArgProcessors) {
                     if (argProcessor.matches(args, i)) {
                         i = argProcessor.process(args, i, config);
                     }

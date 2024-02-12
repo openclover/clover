@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * An interface exposing only methods used by Clover from the ExecutorService interface of util.concurrent.
  */
-public interface CloverExecutor {
+public interface CloverExecutor<T> {
 
 
     /**
@@ -24,6 +24,6 @@ public interface CloverExecutor {
     /**
      * @see java.util.concurrent.ExecutorService#submit(Runnable) 
      */
-    void  submit(Callable task) throws Exception;
+    void  submit(Callable<T> task) throws Exception;
 
 }

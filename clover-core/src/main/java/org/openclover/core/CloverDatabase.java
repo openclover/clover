@@ -382,12 +382,13 @@ public class CloverDatabase {
 
         TestCaseInfo.Factory.reset();
 
-        Iterator speccedDbEntries = speccedDbs.entrySet().iterator();
+        Iterator<Map.Entry<CloverDatabaseSpec, CloverDatabase>> speccedDbEntries =
+                speccedDbs.entrySet().iterator();
 
         for (int i = 0; speccedDbEntries.hasNext(); i++) {
-            Map.Entry entry = (Map.Entry) speccedDbEntries.next();
-            CloverDatabaseSpec spec = (CloverDatabaseSpec)entry.getKey();
-            CloverDatabase mergingDb =(CloverDatabase)entry.getValue();
+            Map.Entry<CloverDatabaseSpec, CloverDatabase> entry = speccedDbEntries.next();
+            CloverDatabaseSpec spec =  entry.getKey();
+            CloverDatabase mergingDb = entry.getValue();
             listener.handleProgress(
                 "Merging database " + (i + 1) + " of " + dbspecs.size() + ": " + mergingDb.getInitstring(),
                 progress);

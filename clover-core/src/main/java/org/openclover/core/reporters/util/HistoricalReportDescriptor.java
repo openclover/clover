@@ -153,7 +153,7 @@ public class HistoricalReportDescriptor {
         return lastTS;
     }
 
-    public SortedMap getHistoricalModels() {
+    public SortedMap<Long, HasMetrics> getHistoricalModels() {
         return models;
     }
 

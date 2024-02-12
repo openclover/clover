@@ -29,7 +29,7 @@ public class ReflectionUtils {
     public static <T> T invokeVirtualImplicit(String methodName, Object onObj, Object... withArgs) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         final Object[] argTypesAndNames = classAndNamesFor(withArgs);
 
-        Class clazz = onObj.getClass();
+        Class<?> clazz = onObj.getClass();
         while (clazz != null) {
             for (Method method : clazz.getDeclaredMethods()) {
                 if (matches(method, methodName, withArgs)) {
@@ -42,8 +42,8 @@ public class ReflectionUtils {
         throw new NoSuchMethodException("No method found called " + methodName + " accomodating arguments " + Arrays.toString((String[])argTypesAndNames[1]) + " on " + onObj.getClass() + " or its base classes");
     }
 
-    public static <T> T invokeVirtual(String methodName, Object onObj, Class[] declaredArgTypes, Object... withArgs) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        Class clazz = onObj.getClass();
+    public static <T> T invokeVirtual(String methodName, Object onObj, Class<?>[] declaredArgTypes, Object... withArgs) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        Class<?> clazz = onObj.getClass();
         while (clazz != null) {
             final Method method = clazz.getDeclaredMethod(methodName, declaredArgTypes);
             if (method != null) {
@@ -76,7 +76,7 @@ public class ReflectionUtils {
     }
 
     private static Object[][] classAndNamesFor(Object[] args) {
-        Class[] argTypes = new Class[args.length];
+        Class<?>[] argTypes = new Class<?>[args.length];
         String[] argNames = new String[args.length];
         for (int i = 0; i < args.length; i++) {
             Object withArg = args[i];

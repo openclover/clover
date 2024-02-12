@@ -1,5 +1,6 @@
 package org.openclover.core.reporters.html;
 
+import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.registry.entities.BaseClassInfo;
 
 import java.util.LinkedHashMap;
@@ -11,14 +12,14 @@ import static org.openclover.core.util.Lists.newArrayList;
 public class StatisticsClassInfoVisitor {
     private long min = Long.MAX_VALUE;
     private long max = Long.MIN_VALUE;
-    private final Map<BaseClassInfo, String> classes = new LinkedHashMap<>();
+    private final Map<ClassInfo, String> classes = new LinkedHashMap<>();
     private final ClassInfoStatsCalculator calculator;
 
     public StatisticsClassInfoVisitor(ClassInfoStatsCalculator calculator) {
         this.calculator = calculator;
     }
 
-    public void visitClassInfo(BaseClassInfo classInfo) {
+    public void visitClassInfo(ClassInfo classInfo) {
         if (!calculator.ignore(classInfo)) {
             int count = calculator.getScaledValue(classInfo);
 
@@ -45,7 +46,7 @@ public class StatisticsClassInfoVisitor {
         return max - min;
     }
 
-    public List<BaseClassInfo> getClasses() {
+    public List<ClassInfo> getClasses() {
         return newArrayList(classes.keySet());
     }
 
@@ -57,9 +58,9 @@ public class StatisticsClassInfoVisitor {
         return calculator;
     }
 
-    public static StatisticsClassInfoVisitor visit(List<BaseClassInfo> classes, ClassInfoStatsCalculator statsCalculator) {
+    public static StatisticsClassInfoVisitor visit(List<? extends ClassInfo> classes, ClassInfoStatsCalculator statsCalculator) {
         final StatisticsClassInfoVisitor visitor = new StatisticsClassInfoVisitor(statsCalculator);
-        for (BaseClassInfo cls : classes) {
+        for (ClassInfo cls : classes) {
             visitor.visitClassInfo(cls);
         }
         return visitor;

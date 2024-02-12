@@ -48,7 +48,7 @@ public class Columns {
                             Columns.class.getName() + "$" +
                             columnType.substring(0, 1).toUpperCase(Locale.ENGLISH) +
                             columnType.substring(1);
-            Class colClass = Class.forName(name);
+            Class<?> colClass = Class.forName(name);
             return (Column) colClass.getDeclaredConstructor().newInstance();
         } catch (ClassNotFoundException | InvocationTargetException | InstantiationException | IllegalAccessException |
                  NoSuchMethodException e) {
@@ -1322,8 +1322,8 @@ public class Columns {
 
     public static List<Column> getAllColumns() {
         final List<Column> allColumns = newLinkedList();
-        final Class[] classes = Columns.class.getClasses();
-        for (Class aClass : classes) {
+        final Class<?>[] classes = Columns.class.getClasses();
+        for (Class<?> aClass : classes) {
             if (Column.class.isAssignableFrom(aClass) &&
                     !Expression.class.isAssignableFrom(aClass)) { // don't add expressions
                 try {

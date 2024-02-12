@@ -4,16 +4,17 @@ import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.registry.BaseInvertableFilter;
 import org.openclover.core.registry.entities.FullFileInfo;
 
+import java.io.File;
 import java.util.List;
 
 public class FileSetFilter extends BaseInvertableFilter {
-    private List sourceFiles;
+    private List<File> sourceFiles;
 
-    public FileSetFilter(List sourceFiles) {
+    public FileSetFilter(List<File> sourceFiles) {
         this(sourceFiles, false);
     }
 
-    FileSetFilter(List sourceFiles, boolean inverted) {
+    FileSetFilter(List<File> sourceFiles, boolean inverted) {
         super(inverted);
         this.sourceFiles = sourceFiles;
     }

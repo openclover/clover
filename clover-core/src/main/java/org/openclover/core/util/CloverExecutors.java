@@ -24,11 +24,11 @@ public class CloverExecutors {
      * @return a {@link CloverExecutorService}, that supports both threaded (if numThreads > 0) and non-threaded
      * (numThreads == 0) execution of tasks
      */
-    public static CloverExecutor newCloverExecutor(int numThreads, final String threadPrefix) {
-        return new CloverExecutorService(numThreads, threadPrefix);
+    public static <T> CloverExecutor<T> newCloverExecutor(int numThreads, final String threadPrefix) {
+        return new CloverExecutorService<T>(numThreads, threadPrefix);
     }
 
-    private static class CloverExecutorService implements CloverExecutor {
+    private static class CloverExecutorService<T> implements CloverExecutor<T> {
 
         private final ExecutorService service;
 
@@ -59,10 +59,10 @@ public class CloverExecutors {
         }
 
         @Override
-        public void submit(Callable task) throws Exception {
+        public void submit(Callable<T> task) throws Exception {
 
             if (service != null) {
-                service.submit(new LoggingCallable(task));
+                service.submit(new LoggingCallable<T>(task));
             } else {
                 task.call();
             }
@@ -72,14 +72,14 @@ public class CloverExecutors {
     /**
      * A Callable which will log any exceptions thrown during execution.
      */
-    private static class LoggingCallable implements Callable {
-        private final Callable task;
-        public LoggingCallable(Callable callable) {
+    private static class LoggingCallable<T> implements Callable<T> {
+        private final Callable<T> task;
+        public LoggingCallable(Callable<T> callable) {
             task = callable;
         }
 
         @Override
-        public Object call() throws Exception {
+        public T call() throws Exception {
             try {
                  return task.call();
             } catch (Throwable e) {

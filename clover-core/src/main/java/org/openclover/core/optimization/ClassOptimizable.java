@@ -8,8 +8,9 @@ import org.openclover.core.api.optimization.Optimizable;
  */
 public class ClassOptimizable implements Optimizable {
 
-    private final Class mClass;
-    public ClassOptimizable(Class clazz) {
+    private final Class<?> mClass;
+
+    public ClassOptimizable(Class<?> clazz) {
         mClass = clazz;
     }
 
@@ -18,7 +19,7 @@ public class ClassOptimizable implements Optimizable {
         return mClass.getName();
     }
 
-    public Class getMyClass() {
+    public Class<?> getMyClass() {
         return mClass;
     }
 }

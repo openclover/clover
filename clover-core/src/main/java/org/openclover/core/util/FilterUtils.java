@@ -131,8 +131,8 @@ public final class FilterUtils {
             return false;
         }
 
-        Vector patDirs = tokenizePath (pattern);
-        Vector strDirs = tokenizePath (str);
+        Vector<String> patDirs = tokenizePath(pattern);
+        Vector<String> strDirs = tokenizePath(str);
 
         int patIdxStart = 0;
         int patIdxEnd   = patDirs.size()-1;
@@ -418,8 +418,8 @@ strLoop:
      *
      * @return a Vector of path elements from the tokenized path
      */
-    private static Vector tokenizePath (String path) {
-        Vector ret = new Vector();
+    private static Vector<String> tokenizePath(String path) {
+        Vector<String> ret = new Vector<>();
         StringTokenizer st = new StringTokenizer(path,"\\/");
         while (st.hasMoreTokens()) {
             ret.addElement(st.nextToken());

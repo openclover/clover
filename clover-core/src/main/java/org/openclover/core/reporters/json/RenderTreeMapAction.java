@@ -4,6 +4,7 @@ import clover.com.google.gson.Gson;
 import clover.com.google.gson.GsonBuilder;
 import clover.org.apache.velocity.VelocityContext;
 import org.openclover.core.api.registry.BlockMetrics;
+import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.FullPackageInfo;
@@ -21,7 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-public class RenderTreeMapAction implements Callable {
+public class RenderTreeMapAction implements Callable<Object> {
 
     private final FullProjectInfo project;
     private final File outdir;

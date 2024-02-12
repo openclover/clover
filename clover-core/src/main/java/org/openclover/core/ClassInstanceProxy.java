@@ -6,7 +6,7 @@ public final class ClassInstanceProxy {
     private final int classloaderHashCode;
     private final int hashCode;
 
-    public ClassInstanceProxy(Class classInstance) {
+    public ClassInstanceProxy(Class<?> classInstance) {
         name = classInstance.getName();
         classHashCode = classInstance.hashCode();
         classloaderHashCode = classInstance.getClassLoader() == null ? 0 : System.identityHashCode(classInstance.getClassLoader());

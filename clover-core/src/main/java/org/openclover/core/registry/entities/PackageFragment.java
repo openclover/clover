@@ -2,6 +2,7 @@ package org.openclover.core.registry.entities;
 
 import org.openclover.core.api.registry.BlockMetrics;
 import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.registry.metrics.HasMetricsNode;
 import org.openclover.core.registry.metrics.PackageMetrics;
 import org.openclover.core.registry.metrics.ProjectMetrics;
@@ -17,14 +18,14 @@ public class PackageFragment implements HasMetricsNode {
 
     private FullProjectInfo containingProject;
     private PackageFragment parent;
-    private List orderedKids;
+    private List<PackageFragment> orderedKids;
     private Map<String, PackageFragment> children;
     private BlockMetrics rawMetrics;
     private BlockMetrics metrics;
     private FullPackageInfo concretePackage;
     private String qualifiedName;
     private String name;
-    private Comparator orderby;
+    private Comparator<HasMetrics> orderby;
 
 
     public PackageFragment(PackageFragment parent, FullProjectInfo containingProject,
@@ -175,7 +176,7 @@ public class PackageFragment implements HasMetricsNode {
     }
 
     @Override
-    public void setComparator(Comparator cmp) {
+    public void setComparator(Comparator<HasMetrics> cmp) {
         orderby = cmp;
         orderedKids = null;
     }

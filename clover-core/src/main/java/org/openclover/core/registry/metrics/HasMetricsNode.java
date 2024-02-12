@@ -18,6 +18,6 @@ public interface HasMetricsNode extends HasMetrics {
 
     boolean isLeaf();
 
-    void setComparator(Comparator cmp);
+    void setComparator(Comparator<HasMetrics> cmp);
 
 }

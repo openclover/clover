@@ -39,7 +39,7 @@ public class TestOptimizer {
      * @param testClasses classes to be optimized
      * @return an optimized list of Classes
      */
-    public Collection<Class> optimizeTestClasses(final Collection<Class> testClasses) {
+    public Collection<Class<?>> optimizeTestClasses(final Collection<Class<?>> testClasses) {
 
         final List<Optimizable> optimizableClasses= convertClassesToOptimizables(testClasses);
         final List<? extends Optimizable> optimizedClasses = optimize(optimizableClasses);
@@ -82,7 +82,7 @@ public class TestOptimizer {
      * @throws java.lang.reflect.InvocationTargetException if getName() call fails
      * @throws java.lang.IllegalAccessException if getName() call fails
      */
-    public List<Optimizable> optimizeObjects(final List objectList) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    public List<Optimizable> optimizeObjects(final List<?> objectList) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         final List<Optimizable> list = new ArrayList<>(objectList.size());
         for (final Object obj : objectList) {
             // name = obj.getName();
@@ -95,9 +95,9 @@ public class TestOptimizer {
     }
 
 
-    private Collection<Class> convertClassList(final List<? extends Optimizable> optimizables) {
+    private Collection<Class<?>> convertClassList(final List<? extends Optimizable> optimizables) {
         // create the list of culled and re-ordered classes.
-        final Collection<Class> optimizedClasses = new ArrayList<>(optimizables.size());
+        final Collection<Class<?>> optimizedClasses = new ArrayList<>(optimizables.size());
         for (final Optimizable optimizable : optimizables) {
             // lookup the class for each optimizable
             final ClassOptimizable optClass = (ClassOptimizable) optimizable;
@@ -112,10 +112,10 @@ public class TestOptimizer {
      * @param testClasses the list of classes to convert
      * @return a map of classes, keyed on Optimizable.
      */
-    private List<Optimizable> convertClassesToOptimizables(final Collection<Class> testClasses) {
+    private List<Optimizable> convertClassesToOptimizables(final Collection<Class<?>> testClasses) {
 
         final List<Optimizable> optimizables = new ArrayList<>(testClasses.size());
-        for (final Class aClass : testClasses) {
+        for (final Class<?> aClass : testClasses) {
             optimizables.add(new ClassOptimizable(aClass));
         }
         return optimizables;

@@ -89,7 +89,7 @@ public class RenderingSupport {
     }
 
     public static PdfPTable createCoverageDataTable(final CloverReportConfig cfg, final String col0Title,
-                                                    final List<HasMetrics> items, final PDFColours colours)
+                                                    final List<? extends HasMetrics> items, final PDFColours colours)
             throws DocumentException {
 
         final PdfPTable stats = createCoverageDataHeader(cfg, col0Title, colours);
@@ -172,7 +172,7 @@ public class RenderingSupport {
         return value;
     }
 
-    public static PdfPTable createChart(Historical.Chart chartCfg, Map data, PDFColours colours) {
+    public static PdfPTable createChart(Historical.Chart chartCfg, Map<Long, ? extends HasMetrics> data, PDFColours colours) {
         final PdfPTable coverage = new PdfPTable(1);
         coverage.setWidthPercentage(100);
         coverage.getDefaultCell().setBorderColor(colours.COL_TABLE_BORDER);

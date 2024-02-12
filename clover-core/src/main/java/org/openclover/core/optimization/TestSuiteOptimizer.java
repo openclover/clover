@@ -64,11 +64,11 @@ public class TestSuiteOptimizer {
     }
 
 
-    private List<Optimizable> createOptimizables(Enumeration tests) {
+    private List<Optimizable> createOptimizables(Enumeration<Test> tests) {
         final List<Optimizable> optimizableTests = newLinkedList();
         
         while (tests.hasMoreElements()) {
-            final Test test = (Test) tests.nextElement();
+            final Test test = tests.nextElement();
             if (test instanceof TestSuite) { // a TestCase added via addTestSuite() is a TestSuite
                 optimizableTests.add(new TestOptimizable((TestSuite) test));
             }

@@ -194,11 +194,11 @@ public class Historical extends CloverReportConfig {
 
         @SuppressWarnings("unused") // Ant parameter
         public void addConfiguredColumns(Columns cols) throws CloverException {
-            Set columns = cols.getProjectColumns();
+            Set<Column> columns = cols.getProjectColumns();
             if (columns.size() != 1) {
                 throw new CloverException("Movers only accepts columns containing 1 column element.");
             }
-            this.column = (Column) columns.iterator().next();
+            this.column = columns.iterator().next();
         }
 
         public void setMaxWidth(int maxWidth) {
@@ -312,7 +312,7 @@ public class Historical extends CloverReportConfig {
         return overview;
     }
 
-    public List getCharts() {
+    public List<Chart> getCharts() {
         return charts;
     }
 

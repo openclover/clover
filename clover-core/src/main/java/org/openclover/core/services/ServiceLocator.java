@@ -82,6 +82,6 @@ public class ServiceLocator<S> implements Iterable<S> {
             Logger.getInstance().warn("Failed to load service resources " + serviceResource, e);
         }
 
-        return new ServiceLocator(spi, providers);
+        return new ServiceLocator<S>(spi, providers);
     }
 }

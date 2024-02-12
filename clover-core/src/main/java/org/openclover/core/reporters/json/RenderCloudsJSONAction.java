@@ -1,6 +1,7 @@
 package org.openclover.core.reporters.json;
 
 import clover.org.apache.velocity.VelocityContext;
+import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.registry.entities.BaseClassInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.FullPackageInfo;
@@ -55,7 +56,7 @@ public abstract class RenderCloudsJSONAction implements Callable {
                 .put("x", new JSONObject().put("title", axis1.getName()).put("min", v1.getMin()).put("max", v1.getMax()))
                 .put("y", new JSONObject().put("title", axis2.getName()).put("min", v2.getMin()).put("max", v2.getMax())));
         final JSONArray jsonClasses = new JSONArray();
-        for (BaseClassInfo baseClassInfo : v1.getClasses()) {
+        for (ClassInfo baseClassInfo : v1.getClasses()) {
             final FullClassInfo classInfo = (FullClassInfo) baseClassInfo;
             final String path = classInfo.getContainingFile().getPackagePath();
             jsonClasses.put(

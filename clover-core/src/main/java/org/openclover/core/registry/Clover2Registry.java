@@ -382,7 +382,7 @@ public class Clover2Registry implements InstrumentationTarget {
         return model.getProject();
     }
 
-    public List getInstrHistory() {
+    public List<InstrumentationInfo> getInstrHistory() {
         return instrumentationHistory;
     }
 

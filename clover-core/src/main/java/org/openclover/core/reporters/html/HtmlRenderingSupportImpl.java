@@ -478,13 +478,13 @@ public class HtmlRenderingSupportImpl implements HtmlRenderingSupport {
     /**
      * ArrayList does not have removeLast() method; and we need it in one velocity template.
      */
-    public void listRemoveLast(@NotNull ArrayList list) {
+    public void listRemoveLast(@NotNull ArrayList<?> list) {
         if (list.size() > 0) {
             list.remove(list.size() - 1);
         }
     }
 
-    public int contains(Set set, int key) {
+    public int contains(Set<?> set, int key) {
         return set.contains(key) ? 1: 0;
     }
 

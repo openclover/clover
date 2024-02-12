@@ -144,8 +144,8 @@ public class ContextStore implements TaggedPersistent {
         return index;
     }
 
-    private int removeExistingContext(NamedContext context, Map contexts, int index) {
-        NamedContext existingContext = (NamedContext)contexts.get(context.getName());
+    private int removeExistingContext(NamedContext context, Map<String, ? extends NamedContext> contexts, int index) {
+        NamedContext existingContext = contexts.get(context.getName());
         if (existingContext != null) {
             index = existingContext.getIndex();
             contexts.remove(context.getName());

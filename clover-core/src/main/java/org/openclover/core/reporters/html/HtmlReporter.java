@@ -177,7 +177,7 @@ public class HtmlReporter extends CloverReporter {
     private final String pageTitleAnchor;
     private final String pageTitleTarget;
     private Date coverageTS;
-    private Comparator detailComparator;
+    private Comparator<HasMetrics> detailComparator;
 
     public HtmlReporter(CloverReportConfig config) throws CloverException {
         super(config);
@@ -269,7 +269,7 @@ public class HtmlReporter extends CloverReporter {
                 final Map<Integer, CloverChartFactory.ChartInfo> srcFileCharts =
                         CloverChartFactory.generateSrcFileCharts(targetFiles, baseImagePath);
 
-                final CloverExecutor service = CloverExecutors.newCloverExecutor(reportAsCurrent().getNumThreads(), "Clover");
+                final CloverExecutor<Object> service = CloverExecutors.newCloverExecutor(reportAsCurrent().getNumThreads(), "Clover");
                 RenderFileAction.initThreadLocals();
                 RenderMetricsJSONAction.initThreadLocals();
                 for (PackageInfo pkg1 : allPackages) {
@@ -366,7 +366,7 @@ public class HtmlReporter extends CloverReporter {
         final File imgDir = createChartImageDir(); // create 'img' dir for charts
 
         final Historical historical = (Historical) reportConfig;
-        final List charts = historical.getCharts();
+        final List<Historical.Chart> charts = historical.getCharts();
 
         final Map<Long, HasMetrics> data = descriptor.getHistoricalModels();
         final List<String> chartNames = newArrayList();
@@ -408,7 +408,7 @@ public class HtmlReporter extends CloverReporter {
         try {
             int i = 0;
             while (i < args.length) {
-                for (ArgProcessor argProcessor : allArgProcessors) {
+                for (ArgProcessor<Current> argProcessor : allArgProcessors) {
                     if (argProcessor.matches(args, i)) {
                         i = argProcessor.process(args, i, cfg);
                     }
@@ -527,13 +527,13 @@ public class HtmlReporter extends CloverReporter {
         context.put("footerMsg", HtmlFormatter.format(footerMsg));
     }
 
-    private void renderProjectCoverageCloudPage(TreeInfo appCloudTree, CloverExecutor service) throws Exception {
+    private void renderProjectCoverageCloudPage(TreeInfo appCloudTree, CloverExecutor<Object> service) throws Exception {
         VelocityContext cloudsContext = new VelocityContext();
         insertCommonPropsForCurrent(cloudsContext, "");
         service.submit(new RenderProjectCoverageCloudsAction(cloudsContext, reportConfig, basePath, appCloudTree, getConfiguredModel()));
     }
 
-    private void renderProjectTreeMapPage(CloverExecutor service) throws Exception {
+    private void renderProjectTreeMapPage(CloverExecutor<Object> service) throws Exception {
         VelocityContext context = new VelocityContext();
         insertCommonPropsForCurrent(context, "");
         service.submit(new RenderTreeMapAction(context, reportConfig, basePath, getConfiguredModel()));
@@ -551,7 +551,7 @@ public class HtmlReporter extends CloverReporter {
         return database.getTestOnlyModel();
     }
 
-    private void renderPackageNodesTree(CloverExecutor queue) throws Exception {
+    private void renderPackageNodesTree(CloverExecutor<Object> queue) throws Exception {
         VelocityContext ctx = new VelocityContext();
         insertCommonPropsForCurrent(ctx, "");
         RenderPackageTreeJsonAction action = new RenderPackageTreeJsonAction(ctx, basePath,
@@ -559,7 +559,7 @@ public class HtmlReporter extends CloverReporter {
         queue.submit(action);
     }
 
-    private void renderDashboard(CloverExecutor queue, CloverChartFactory.ChartInfo histogram, CloverChartFactory.ChartInfo scatter) throws Exception {
+    private void renderDashboard(CloverExecutor<Object> queue, CloverChartFactory.ChartInfo histogram, CloverChartFactory.ChartInfo scatter) throws Exception {
         VelocityContext ctx = new VelocityContext();
         insertCommonPropsForCurrent(ctx, "");
         final FullProjectInfo configuredProject = getConfiguredModel();

@@ -3,6 +3,7 @@ package org.openclover.core.registry.entities;
 import org.openclover.core.api.registry.BlockMetrics;
 import org.openclover.core.api.registry.EntityVisitor;
 import org.openclover.core.api.registry.FileInfo;
+import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.registry.CoverageDataProvider;
@@ -20,7 +21,7 @@ public class FullPackageInfo extends BasePackageInfo implements HasMetricsNode, 
     private int dataIndex;
     private int dataLength;
 
-    private Comparator orderby;
+    private Comparator<HasMetrics> orderby;
     private CoverageDataProvider data;
 
     public FullPackageInfo(FullProjectInfo containingProject, String pkg, int dataIndex) {
@@ -103,7 +104,7 @@ public class FullPackageInfo extends BasePackageInfo implements HasMetricsNode, 
     }
 
     @Override
-    public void setComparator(final Comparator cmp) {
+    public void setComparator(final Comparator<HasMetrics> cmp) {
         orderby = cmp;
         classes = null;
         for (final FileInfo fileInfo : files.values()) {

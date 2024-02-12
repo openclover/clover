@@ -10,6 +10,7 @@ import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.ContextSet;
 import org.openclover.core.api.registry.EntityContainer;
 import org.openclover.core.api.registry.FileInfo;
+import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.SourceInfo;
 import org.openclover.core.api.registry.StatementInfo;
@@ -375,7 +376,7 @@ public class FullClassInfo extends BaseClassInfo implements HasMetricsNode, Cove
     }
 
     @Override
-    public void setComparator(Comparator cmp) {
+    public void setComparator(Comparator<HasMetrics> cmp) {
         if (cmp != null) {
             methods.sort(cmp);
         } else {

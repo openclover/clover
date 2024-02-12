@@ -1,6 +1,7 @@
 package org.openclover.core.reporters;
 
 import clover.org.apache.velocity.VelocityContext;
+import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.registry.entities.BaseClassInfo;
 import org.openclover.core.registry.metrics.HasMetricsSupport;
 import org.openclover.core.reporters.html.ClassInfoStatsCalculator;
@@ -37,7 +38,7 @@ public class CloudGenerator {
         this.velocityContext = velocityContext;
     }
 
-    public final void createReport(List classes,
+    public final void createReport(List<? extends ClassInfo> classes,
                                    ClassInfoStatsCalculator calcAxis1,
                                    ClassInfoStatsCalculator calcAxis2) throws IOException {
         applyAxis(classes, calcAxis1, calcAxis2, velocityContext);
@@ -47,7 +48,10 @@ public class CloudGenerator {
                 template);
     }
 
-    protected final void applyAxis(List classes, ClassInfoStatsCalculator axis1, ClassInfoStatsCalculator axis2, VelocityContext context) {
+    protected final void applyAxis(List<? extends ClassInfo> classes,
+                                   ClassInfoStatsCalculator axis1,
+                                   ClassInfoStatsCalculator axis2,
+                                   VelocityContext context) {
         StatisticsClassInfoVisitor v2 = StatisticsClassInfoVisitor.visit(sort(classes), axis2);
         StatisticsClassInfoVisitor v1 = StatisticsClassInfoVisitor.visit(v2.getClasses(), axis1);
         context.put(DEEPAXIS, Boolean.TRUE);
@@ -55,7 +59,7 @@ public class CloudGenerator {
         context.put(DEEPAXIS_2, v2);
     }
 
-    protected final List<BaseClassInfo> sort(List<BaseClassInfo> classes) {
+    protected final <T extends ClassInfo> List<T> sort(List<T> classes) {
         classes.sort(HasMetricsSupport.CMP_LEX);
         return classes;
     }

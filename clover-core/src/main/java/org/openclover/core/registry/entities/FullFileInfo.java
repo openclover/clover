@@ -5,6 +5,7 @@ import org.openclover.core.api.registry.BlockMetrics;
 import org.openclover.core.api.registry.BranchInfo;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.FileInfo;
+import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.SourceInfo;
 import org.openclover.core.api.registry.StatementInfo;
@@ -64,9 +65,9 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
     private long minVersion;
     private long maxVersion;
 
-    private transient List orderedClasses;
+    private transient List<FullClassInfo> orderedClasses;
     private transient LineInfo[] lineInfo;
-    private transient Comparator orderby;
+    private transient Comparator<HasMetrics> orderby;
     private transient CoverageDataProvider data;
     private transient Map<Integer, List<StackTraceInfo.TraceEntry>> failStackInfos;
 
@@ -260,7 +261,7 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
     }
 
     @Override
-    public void setComparator(Comparator cmp) {
+    public void setComparator(Comparator<HasMetrics> cmp) {
         orderby = cmp;
         orderedClasses = null;
         for (FullClassInfo classInfo : classes.values()) {

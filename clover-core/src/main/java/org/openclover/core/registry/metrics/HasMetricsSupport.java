@@ -359,7 +359,7 @@ public class HasMetricsSupport {
         private String name;
         private String description;
 
-        public HasMetricsComparatorChain(List chain) {
+        public HasMetricsComparatorChain(List<HasMetricsComparator> chain) {
             this((HasMetricsComparator[]) chain.toArray(new HasMetricsComparator[0]), null, null);
         }
 
@@ -406,7 +406,6 @@ public class HasMetricsSupport {
     }
 
 
-
     static abstract class MetricsComparator extends HasMetricsComparator {
         public abstract int compare(BlockMetrics m, BlockMetrics m1);
 
@@ -416,7 +415,7 @@ public class HasMetricsSupport {
         }
     }
 
-    public static final Comparator CMP_PC_TESTS_PASS = new MetricsComparator() {
+    public static final HasMetricsComparator CMP_PC_TESTS_PASS = new MetricsComparator() {
         @Override
         public int compare(BlockMetrics m, BlockMetrics m1) {
             return (int) (1000 * (m.getPcTestPasses() - m1.getPcTestPasses()));
@@ -427,7 +426,7 @@ public class HasMetricsSupport {
         public String getDescription() { return "% of tests that passed";}
     };
 
-    public static final Comparator CMP_TESTS_FAIL = new MetricsComparator() {
+    public static final HasMetricsComparator CMP_TESTS_FAIL = new MetricsComparator() {
         @Override
         public int compare(BlockMetrics m, BlockMetrics m1) {
             return m.getNumTestFailures() - m1.getNumTestFailures();
@@ -439,7 +438,7 @@ public class HasMetricsSupport {
 
     };
 
-    public static final Comparator CMP_TESTS_ERROR = new MetricsComparator() {
+    public static final HasMetricsComparator CMP_TESTS_ERROR = new MetricsComparator() {
         @Override
         public int compare(BlockMetrics m, BlockMetrics m1) {
             return m.getNumTestErrors() - m1.getNumTestErrors();
@@ -450,9 +449,11 @@ public class HasMetricsSupport {
         public String getDescription() { return "Number of tests that had errors";}
     };
 
-    static final Comparator[] TEST_COMPARATORS = new Comparator[] {CMP_PC_TESTS_PASS, CMP_TESTS_FAIL, CMP_TESTS_ERROR};
+    static final HasMetricsComparator[] TEST_COMPARATORS = new HasMetricsComparator[] {
+            CMP_PC_TESTS_PASS, CMP_TESTS_FAIL, CMP_TESTS_ERROR
+    };
 
-    public static Comparator newTestListComparator() {
+    public static Comparator<HasMetrics> newTestListComparator() {
         return new HasMetricsComparatorChain(Arrays.asList(TEST_COMPARATORS));
     }
 

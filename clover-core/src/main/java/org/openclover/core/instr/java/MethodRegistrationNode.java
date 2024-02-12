@@ -27,11 +27,8 @@ import static org.openclover.runtime.instr.Bindings.$CoverageRecorder$globalSlic
 import static org.openclover.runtime.instr.Bindings.$CoverageRecorder$globalSliceStart;
 import static org.openclover.runtime.instr.Bindings.$CoverageRecorder$rethrow;
 
-/**
-
- */
 public class MethodRegistrationNode extends Emitter {
-    private static final Map DEFAULT_RETURN_VALUES;
+    private static final Map<String, String> DEFAULT_RETURN_VALUES;
 
     static {
         Map<String, String> values = newHashMap();
@@ -121,7 +118,7 @@ public class MethodRegistrationNode extends Emitter {
             }
             */
 
-            final List expectedExceptions =
+            final List<String> expectedExceptions =
                     state.isDetectTests() ?
                             newArrayList(ExpectedExceptionMiner.extractExpectedExceptionsFor(signature, true))
                             : Collections.emptyList();

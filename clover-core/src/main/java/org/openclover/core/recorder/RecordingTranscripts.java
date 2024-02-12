@@ -298,7 +298,7 @@ public class RecordingTranscripts {
         }
     }
 
-    public final static class FileRef implements Comparable {
+    public final static class FileRef implements Comparable<FileRef> {
         private boolean testRecording;
         private long typedTestId = -1;
         private long runId;
@@ -333,7 +333,7 @@ public class RecordingTranscripts {
 
 
         @Override
-        public int compareTo(Object object) {
+        public int compareTo(FileRef object) {
             if (this == object) return 0;
             if (object == null || getClass() != object.getClass()) return 1;
 

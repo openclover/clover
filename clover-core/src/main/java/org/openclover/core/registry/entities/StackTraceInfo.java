@@ -53,7 +53,7 @@ public class StackTraceInfo {
         }
     }
 
-    public List getEntries() {
+    public List<TraceEntry> getEntries() {
         return entries; 
     }
 

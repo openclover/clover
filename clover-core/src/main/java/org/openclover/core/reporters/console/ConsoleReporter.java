@@ -268,7 +268,7 @@ public class ConsoleReporter extends CloverReporter {
             int i = 0;
 
             while (i < args.length) {
-                for (ArgProcessor argProcessor : allArgProcessors) {
+                for (ArgProcessor<Current> argProcessor : allArgProcessors) {
                     if (argProcessor.matches(args, i)) {
                         i = argProcessor.process(args, i, cfg);
                     }

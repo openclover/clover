@@ -1,6 +1,7 @@
 package org.openclover.core.reporters;
 
 import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.registry.metrics.HasMetricsFilter;
 import org.openclover.core.registry.metrics.HasMetricsSupport;
@@ -64,11 +65,11 @@ public class MetricsCollator {
     }
 
 
-    public List getTopRisks(Map<Integer, List<ClassInfo>> classMap, int risksCount) {
+    public <T extends ClassInfo> List<T> getTopRisks(Map<Integer, List<T>> classMap, int risksCount) {
         int count = 0;
-        final List topRisks = new ArrayList(risksCount);
+        final List<T> topRisks = new ArrayList<>(risksCount);
         for (Integer key : classMap.keySet()) {
-            List list = classMap.get(key);
+            List<T> list = classMap.get(key);
 
             final int size = list.size();
             if ((count + size) < risksCount) {
@@ -92,7 +93,8 @@ public class MetricsCollator {
      * @param amcOrder a list of ClassInfos ordered by average method complexity
      * @return an ordered map keyed on Integer (risk value), value List of ClassInfo.
      */
-    public Map<Integer, List<ClassInfo>> rankProjectRisks(List<? extends ClassInfo> pceOrder, List amcOrder) {
+    public Map<Integer, List<ClassInfo>> rankProjectRisks(List<? extends ClassInfo> pceOrder,
+                                                          List<? extends ClassInfo> amcOrder) {
         final Map<Integer, List<ClassInfo>> classMap = newTreeMap();
         int i = 0;
         for (ClassInfo info : pceOrder) {
@@ -110,7 +112,7 @@ public class MetricsCollator {
         return classMap;
     }
 
-    public List getTopOfList(List infos, int topNCount, HasMetricsSupport.HasMetricsComparator cmp) {
+    public <T extends HasMetrics> List<T> getTopOfList(List<T> infos, int topNCount, HasMetricsSupport.HasMetricsComparator cmp) {
         infos.sort(cmp);
         Collections.reverse(infos);
         int last = infos.size() >= topNCount ? topNCount : infos.size();

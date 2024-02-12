@@ -55,7 +55,7 @@ public class OptimizationSession {
         modifiedFiles.add(path);
     }
 
-    public Set getOptimizedPaths() {
+    public Set<String> getOptimizedPaths() {
         return Collections.unmodifiableSet(modifiedFiles);
     }
 

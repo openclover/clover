@@ -1,6 +1,8 @@
 package org.openclover.core.registry.entities;
 
 import org.openclover.core.api.registry.BlockMetrics;
+import org.openclover.core.api.registry.FileInfo;
+import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.context.ContextSet;
@@ -17,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import static org.openclover.core.util.Lists.newArrayList;
 import static org.openclover.core.util.Maps.newTreeMap;
@@ -63,11 +66,11 @@ public class FullProjectInfo extends BaseProjectInfo implements HasMetricsNode, 
     private int dataIndex = 0;
     private int dataLength;
 
-    private List orderedPkgs;
-    private List orderedPkgRoots;
-    private Map roots;
+    private List<FullPackageInfo> orderedPkgs;
+    private List<PackageFragment> orderedPkgRoots;
+    private Map<String, PackageFragment> roots;
     private boolean fragmented;
-    private Comparator orderby;
+    private Comparator<HasMetrics> orderby;
     private CoverageDataProvider data;
     private boolean hasTestResults; // true if the model has at least one test result
 
@@ -120,8 +123,8 @@ public class FullProjectInfo extends BaseProjectInfo implements HasMetricsNode, 
     }
 
     private void buildPackageTrees() {
-        TreeMap tmpRoots = newTreeMap(); // natural ordering
-        List tmpOrderedPkgRoots = newArrayList();
+        TreeMap<String, PackageFragment> tmpRoots = newTreeMap(); // natural ordering
+        List<PackageFragment> tmpOrderedPkgRoots = newArrayList();
         for (BasePackageInfo basePackageInfo : packages.values()) {
             FullPackageInfo packageInfo = (FullPackageInfo) basePackageInfo;
             addPackageToTree(packageInfo, tmpRoots, tmpOrderedPkgRoots);
@@ -135,14 +138,14 @@ public class FullProjectInfo extends BaseProjectInfo implements HasMetricsNode, 
     }
 
     private void buildOrderedPackageList() {
-        List tmpOrderedPkgs = newArrayList(packages.values());
+        List<FullPackageInfo> tmpOrderedPkgs = newArrayList(packages.values());
         if (orderby != null) {
             tmpOrderedPkgs.sort(orderby);
         }
         orderedPkgs = tmpOrderedPkgs;
     }
 
-    private void addPackageToTree(FullPackageInfo pkg, final Map roots, final List orderedPkgRoots) {
+    private void addPackageToTree(FullPackageInfo pkg, final Map<String, PackageFragment> roots, final List<PackageFragment> orderedPkgRoots) {
         StringTokenizer pkgfragments = new StringTokenizer(pkg.getName(), ".");
         String qname = "";
         String sep = "";
@@ -278,7 +281,7 @@ public class FullProjectInfo extends BaseProjectInfo implements HasMetricsNode, 
     }
 
     @Override
-    public void setComparator(Comparator cmp) {
+    public void setComparator(Comparator<HasMetrics> cmp) {
         orderby = cmp;
         roots = null;
         orderedPkgs = null;
