@@ -3,7 +3,8 @@ package org.openclover.core.registry.metrics
 import org.junit.Before
 import org.junit.Test
 import org.openclover.core.api.registry.BlockMetrics
-import org.openclover.core.context.ContextSet
+import org.openclover.core.api.registry.ContextSet
+import org.openclover.core.context.ContextSetImpl
 import org.openclover.core.context.ContextStore
 import org.openclover.core.registry.entities.FullClassInfo
 import org.openclover.core.registry.entities.FullMethodInfo
@@ -39,15 +40,15 @@ public class FilteredMetricsTest {
         methodInfo = fixture.newMethod(classInfo, "method1", 2)
         // statement on line3, cmp = 1, hitcoutnt = 0
         stmtInfo = fixture.addStatement(methodInfo, 1, 3, 0)
-        stmtInfo.setContext(new ContextSet().set(ContextStore.CONTEXT_ASSERT))
+        stmtInfo.setContext(new ContextSetImpl().set(ContextStore.CONTEXT_ASSERT))
         // branch on line4,
-        fixture.addBranch(methodInfo, new ContextSet().set(ContextStore.CONTEXT_IF), 4, 1)
+        fixture.addBranch(methodInfo, new ContextSetImpl().set(ContextStore.CONTEXT_IF), 4, 1)
     }
 
     @Test
     void testEmptyFilter() throws IOException {
         FullProjectInfo projectInfo = fixture.getProject()
-        projectInfo.setContextFilter(new ContextSet())
+        projectInfo.setContextFilter(new ContextSetImpl())
         BlockMetrics metrics = projectInfo.getRawMetrics()
         BlockMetrics filteredMetrics = projectInfo.getMetrics()
         assertMetricsEquals(metrics, filteredMetrics)

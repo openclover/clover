@@ -6,7 +6,7 @@ import org.junit.Test
 import org.openclover.core.CloverDatabase
 import org.openclover.core.CoverageDataSpec
 import org.openclover.core.TestUtils
-import org.openclover.core.context.ContextSet
+import org.openclover.core.context.ContextSetImpl
 import org.openclover.core.instr.InstrumentationSessionImpl
 import org.openclover.core.registry.entities.FullMethodInfo
 import org_openclover_runtime.CloverVersionInfo
@@ -167,7 +167,7 @@ class SnapshotTest extends TestOptimizationBase {
 
         long startVersion = registry.getVersion()
         final InstrumentationSessionImpl session = (InstrumentationSessionImpl) registry.startInstr()
-        addClassWithSingleMethod(session, new ContextSet(), THIS_PACKAGE, "AppClass2", "main", false)
+        addClassWithSingleMethod(session, new ContextSetImpl(), THIS_PACKAGE, "AppClass2", "main", false)
         session.finishAndApply()
         registry.saveAndOverwriteFile()
 
@@ -274,7 +274,7 @@ class SnapshotTest extends TestOptimizationBase {
                 new CoverageDataSpec(registry.getVersion()))).store()
 
         final InstrumentationSessionImpl session = (InstrumentationSessionImpl) registry.startInstr()
-        FullMethodInfo addedTest_testMain = addClassWithSingleMethod(session, new ContextSet(), THIS_PACKAGE, "AddedTest", "testMain", true)
+        FullMethodInfo addedTest_testMain = addClassWithSingleMethod(session, new ContextSetImpl(), THIS_PACKAGE, "AddedTest", "testMain", true)
         session.finishAndApply()
         registry.saveAndOverwriteFile()
         recorder = TestUtils.newRecorder(registry)

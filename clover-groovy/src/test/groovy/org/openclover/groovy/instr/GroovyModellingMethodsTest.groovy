@@ -3,10 +3,10 @@ package org.openclover.groovy.instr
 import groovy.transform.CompileStatic
 import org.openclover.core.api.registry.Annotation
 import org.openclover.core.api.registry.ClassInfo
+import org.openclover.core.api.registry.ContextSet
 import org.openclover.core.api.registry.MethodInfo
 import org.openclover.core.cfg.instr.InstrumentationConfig
 import org.openclover.core.cfg.instr.MethodContextDef
-import org.openclover.core.context.ContextSet
 import org.openclover.core.context.ContextStore
 import org.openclover.core.context.MethodRegexpContext
 import org.openclover.core.registry.Clover2Registry

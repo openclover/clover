@@ -8,9 +8,10 @@ import org.junit.rules.TestName
 import org.openclover.buildutil.testutils.IOHelper
 import org.openclover.core.TestUtils
 import org.openclover.core.api.registry.ClassInfo
+import org.openclover.core.api.registry.ContextSet
 import org.openclover.core.api.registry.HasMetrics
 import org.openclover.core.api.registry.SourceInfo
-import org.openclover.core.context.ContextSet
+import org.openclover.core.context.ContextSetImpl
 import org.openclover.core.context.ContextStore
 import org.openclover.core.registry.entities.FullBranchInfo
 import org.openclover.core.registry.entities.FullClassInfo
@@ -53,7 +54,7 @@ class RegistryTest {
     @Test
     void testFullHierarchyAdd() throws Exception {
         SourceInfo region = new FixedSourceRegion(0, 0, 0, 0)
-        ContextSet context = new ContextSet()
+        ContextSet context = new ContextSetImpl()
         FullProjectInfo proj = new FullProjectInfo(testName.methodName)
         FullPackageInfo pkg = new FullPackageInfo(proj, "com.acme.test", 0)
         proj.addPackage(pkg)
@@ -152,7 +153,7 @@ class RegistryTest {
         FullPackageInfo pkg = new FullPackageInfo(proj, "a", 0)
         proj.addPackage(pkg)
         SourceInfo region = new FixedSourceRegion(0, 0, 0, 0)
-        ContextSet context = new ContextSet()
+        ContextSet context = new ContextSetImpl()
 
         FullFileInfo file  = new FullFileInfo(pkg, new File("test.java"), null, 0, 0, 0, 0, 0, 0, 0)
         pkg.addFile(file)

@@ -1,6 +1,7 @@
 package org.openclover.idea.config;
 
-import org.openclover.core.context.ContextSet;
+import org.openclover.core.api.registry.ContextSet;
+import org.openclover.core.context.ContextSetImpl;
 import org.openclover.core.context.ContextStore;
 import org.openclover.core.context.NamedContext;
 import org.openclover.idea.util.l10n.CloverIdeaPluginMessages;
@@ -74,7 +75,7 @@ public class ContextPane extends ConfigPanel {
      * @return ContextSet
      */
     private ContextSet updateFilterState() {
-        ContextSet newFilter = new ContextSet(filter.size());
+        ContextSet newFilter = new ContextSetImpl(filter.size());
 
         for (Map.Entry<String, JCheckBox> cbEntry : checkboxes.entrySet()) {
             final boolean enabled = cbEntry.getValue().isSelected();

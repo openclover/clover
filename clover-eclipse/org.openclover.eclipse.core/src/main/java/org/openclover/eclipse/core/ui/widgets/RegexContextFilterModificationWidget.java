@@ -9,7 +9,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
-import org.openclover.core.context.ContextSet;
+import org.openclover.core.api.registry.ContextSet;
 import org.openclover.core.context.ContextStore;
 import org.openclover.core.context.NamedContext;
 import org.openclover.eclipse.core.CloverEclipsePluginMessages;

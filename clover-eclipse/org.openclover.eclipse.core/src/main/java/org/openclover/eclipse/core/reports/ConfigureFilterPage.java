@@ -6,7 +6,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.openclover.core.context.ContextSet;
+import org.openclover.core.api.registry.ContextSet;
+import org.openclover.core.context.ContextSetImpl;
 import org.openclover.core.context.ContextStore;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.ui.widgets.BuiltinContextFilterSelectionWidget;
@@ -45,7 +46,7 @@ public class ConfigureFilterPage extends WizardPage {
                 filter = selectedProjects[0].getSettings().getContextFilter();
             } else {
                 contextRegistry = new ContextStore();
-                filter = new ContextSet();
+                filter = new ContextSetImpl();
             }
 
             contextWidget =
@@ -67,7 +68,7 @@ public class ConfigureFilterPage extends WizardPage {
     }
 
     public ContextSet getBlockContextFilter() {
-        return contextWidget == null ? new ContextSet() : contextWidget.getFilterFromSelection();
+        return contextWidget == null ? new ContextSetImpl() : contextWidget.getFilterFromSelection();
     }
 
     public ContextStore getContextRegistry() {

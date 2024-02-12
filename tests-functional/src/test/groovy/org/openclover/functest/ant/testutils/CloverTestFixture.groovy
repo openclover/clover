@@ -1,7 +1,8 @@
 package org.openclover.functest.ant.testutils
 
 import groovy.transform.CompileStatic
-import org.openclover.core.context.ContextSet
+import org.openclover.core.api.registry.ContextSet
+import org.openclover.core.context.ContextSetImpl
 import org.openclover.core.instr.InstrumentationSessionImpl
 import org.openclover.core.registry.Clover2Registry
 import org.openclover.core.registry.entities.FullBranchInfo
@@ -74,7 +75,7 @@ class CloverTestFixture {
         Clover2Registry registry = getRegistry(initString)
         final InstrumentationSessionImpl session = (InstrumentationSessionImpl) registry.startInstr()
         for (Clazz clzz : classList) {
-            register(session, clzz, new ContextSet())
+            register(session, clzz, new ContextSetImpl())
         }
         session.finishAndApply()
         registry.saveAndOverwriteFile()

@@ -7,6 +7,12 @@ package org.openclover.core.api.registry;
 public interface ContextSet {
     ContextSet set(int index);
 
+    ContextSet set(int bitIndex, boolean value);
+
+    ContextSet flip(int startIdx, int endIdx);
+
+    ContextSet clear(int bitIndex);
+
     boolean get(int index);
 
     int nextSetBit(int i);
@@ -14,5 +20,11 @@ public interface ContextSet {
     boolean intersects(ContextSet other);
 
     ContextSet and(ContextSet other);
+
+    ContextSet or(ContextSet other);
+
+    ContextSet copyOf();
+
+    int size();
 
 }

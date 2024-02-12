@@ -1,6 +1,6 @@
 package org.openclover.core.registry.format;
 
-import org.openclover.core.context.ContextSet;
+import org.openclover.core.context.ContextSetImpl;
 import org.openclover.core.context.ContextStore;
 import org.openclover.core.context.MethodRegexpContext;
 import org.openclover.core.context.StatementRegexpContext;
@@ -40,7 +40,7 @@ public class InstrSessionSegment {
                 .registerTag(FullMethodInfo.class.getName(), Tags.NEXT_TAG + 2, (ObjectReader<FullMethodInfo>) FullMethodInfo::read)
                 .registerTag(FullStatementInfo.class.getName(), Tags.NEXT_TAG + 3, (ObjectReader<FullStatementInfo>) FullStatementInfo::read)
                 .registerTag(FullBranchInfo.class.getName(), Tags.NEXT_TAG + 4, (ObjectReader<FullBranchInfo>) FullBranchInfo::read)
-                .registerTag(ContextSet.class.getName(), Tags.NEXT_TAG + 5, (ObjectReader<ContextSet>) ContextSet::read)
+                .registerTag(ContextSetImpl.class.getName(), Tags.NEXT_TAG + 5, (ObjectReader<ContextSetImpl>) ContextSetImpl::read)
                 .registerTag(FixedSourceRegion.class.getName(), Tags.NEXT_TAG + 6, (ObjectReader<FixedSourceRegion>) FixedSourceRegion::read)
                 .registerTag(MethodSignature.class.getName(), Tags.NEXT_TAG + 7, (ObjectReader<MethodSignature>) MethodSignature::read)
                 .registerTag(Modifiers.class.getName(), Tags.NEXT_TAG + 8, (ObjectReader<Modifiers>) Modifiers::read)

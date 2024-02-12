@@ -2,8 +2,9 @@ package org.openclover.core
 
 import junit.framework.TestCase
 import org.openclover.core.api.registry.ClassInfo
+import org.openclover.core.api.registry.ContextSet
 import org.openclover.core.api.registry.SourceInfo
-import org.openclover.core.context.ContextSet
+import org.openclover.core.context.ContextSetImpl
 import org.openclover.core.instr.InstrumentationSessionImpl
 import org.openclover.core.registry.Clover2Registry
 import org.openclover.core.registry.FixedSourceRegion
@@ -209,7 +210,7 @@ class CompilationCombinationTest extends TestCase {
         Clover2Registry registry = Clover2Registry.fromInitString(mInitString, getName())
         LocationIds ids = new LocationIds()
         ids.file = aFile
-        ContextSet con = new ContextSet()
+        ContextSet con = new ContextSetImpl()
         SourceInfo reg = new FixedSourceRegion(0, 0)
         final InstrumentationSessionImpl session = (InstrumentationSessionImpl) registry.startInstr()
         session.enterFile(PKGNAME, aFile, 1, 1,  0L, 0L, 0L)

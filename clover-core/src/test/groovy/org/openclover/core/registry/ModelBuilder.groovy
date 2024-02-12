@@ -2,7 +2,7 @@ package org.openclover.core.registry
 
 import org.openclover.core.api.registry.ClassInfo
 import org.openclover.core.api.registry.PackageInfo
-import org.openclover.core.context.ContextSet
+import org.openclover.core.context.ContextSetImpl
 import org.openclover.core.registry.entities.BasicElementInfo
 import org.openclover.core.registry.entities.BasicMethodInfo
 import org.openclover.core.registry.entities.FullClassInfo
@@ -111,7 +111,7 @@ class ModelBuilder {
         MethodInfoWrapper method(String name, boolean isTest) {
             final FullMethodInfo method = new FullMethodInfo(
                     getElement(),
-                    new ContextSet(),
+                    new ContextSetImpl(),
                     new BasicMethodInfo(new FixedSourceRegion(0, 0), 0,
                             FullMethodInfo.DEFAULT_METHOD_COMPLEXITY, new MethodSignature(name),
                             isTest, null, false))
@@ -121,7 +121,7 @@ class ModelBuilder {
 
         /** Declare a statement inside a file */
         StatementInfoWrapper stmt(int index) {
-            final FullStatementInfo stmt = new FullStatementInfo(getElement(), new ContextSet(),
+            final FullStatementInfo stmt = new FullStatementInfo(getElement(), new ContextSetImpl(),
                     new BasicElementInfo(new FixedSourceRegion(0, 0), index, 1, LanguageConstruct.Builtin.STATEMENT))
             getElement().addStatement(stmt)
             return new StatementInfoWrapper(stmt)
@@ -163,7 +163,7 @@ class ModelBuilder {
 
         /** Declare statement inside a class */
         StatementInfoWrapper stmt(int index) {
-            final FullStatementInfo stmt = new FullStatementInfo(getElement(), new ContextSet(),
+            final FullStatementInfo stmt = new FullStatementInfo(getElement(), new ContextSetImpl(),
                     new BasicElementInfo(new FixedSourceRegion(0, 0), index, 1, LanguageConstruct.Builtin.STATEMENT))
             getElement().addStatement(stmt)
             return new StatementInfoWrapper(stmt)
@@ -189,7 +189,7 @@ class ModelBuilder {
         }
 
         MethodInfoWrapper method(String name, boolean isTest) {
-            final FullMethodInfo method = new FullMethodInfo(getElement(), 0, new ContextSet(),
+            final FullMethodInfo method = new FullMethodInfo(getElement(), 0, new ContextSetImpl(),
                     new FixedSourceRegion(0, 0), new MethodSignature(name),
                     isTest, null, false, FullMethodInfo.DEFAULT_METHOD_COMPLEXITY)
             getElement().addMethod(method)
@@ -213,7 +213,7 @@ class ModelBuilder {
         MethodInfoWrapper method(String name, boolean isTest) {
             final FullMethodInfo method = new FullMethodInfo(
                     getElement(),
-                    new ContextSet(),
+                    new ContextSetImpl(),
                     new BasicMethodInfo(new FixedSourceRegion(0, 0), 0,
                             FullMethodInfo.DEFAULT_METHOD_COMPLEXITY, new MethodSignature(name),
                             isTest, null, false))
@@ -223,7 +223,7 @@ class ModelBuilder {
 
         /** Declare a statement inside a method */
         StatementInfoWrapper stmt(int index) {
-            final FullStatementInfo stmt = new FullStatementInfo(getElement(), new ContextSet(),
+            final FullStatementInfo stmt = new FullStatementInfo(getElement(), new ContextSetImpl(),
                     new BasicElementInfo(new FixedSourceRegion(0, 0), index, 1, LanguageConstruct.Builtin.STATEMENT))
             getElement().addStatement(stmt)
             return new StatementInfoWrapper(stmt)

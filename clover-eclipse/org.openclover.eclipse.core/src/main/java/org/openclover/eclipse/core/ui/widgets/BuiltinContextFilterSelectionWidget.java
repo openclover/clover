@@ -6,7 +6,8 @@ import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
-import org.openclover.core.context.ContextSet;
+import org.openclover.core.api.registry.ContextSet;
+import org.openclover.core.context.ContextSetImpl;
 import org.openclover.core.context.ContextStore;
 import org.openclover.core.context.MethodRegexpContext;
 import org.openclover.core.context.NamedContext;
@@ -105,7 +106,7 @@ public class BuiltinContextFilterSelectionWidget extends Composite {
     }
 
     public ContextSet getFilterFromSelection() {
-        return getFilterFromSelection(new ContextSet());
+        return getFilterFromSelection(new ContextSetImpl());
     }
 
     public ContextSet getFilterFromSelection(ContextSet filter) {

@@ -1,6 +1,6 @@
 import org.openclover.core.api.instrumentation.InstrumentationSession;
 import org.openclover.core.api.registry.FileInfo;
-import org.openclover.core.context.ContextSet;
+import org.openclover.core.context.ContextSetImpl;
 import org.openclover.core.registry.Clover2Registry;
 import org.openclover.core.registry.FixedSourceRegion;
 import org.openclover.core.registry.entities.MethodSignature;
@@ -72,11 +72,11 @@ public class SimpleCodeInstrumenter {
                 new Parameter[] { new Parameter("String", "name") },               // formal parameters
                 null,                                                              // throws
                 Modifiers.createFrom(Modifier.PROTECTED | Modifier.STATIC, null)); // modifiers
-        session.enterMethod(new ContextSet(), new FixedSourceRegion(12, 1),          // start row:column
+        session.enterMethod(new ContextSetImpl(), new FixedSourceRegion(12, 1),          // start row:column
                 methodSignature, false, false, 5, LanguageConstruct.Builtin.METHOD); // other attributes
 
         // example: add a statement in the helloWorld method
-        session.addStatement(new ContextSet(), new FixedSourceRegion(13, 1, 13, 44),
+        session.addStatement(new ContextSetImpl(), new FixedSourceRegion(13, 1, 13, 44),
                 3, LanguageConstruct.Builtin.STATEMENT);
 
         // end method, class and a file

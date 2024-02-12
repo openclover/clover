@@ -1,6 +1,7 @@
 package org.openclover.core.instr.java;
 
-import org.openclover.core.context.ContextSet;
+import org.openclover.core.api.registry.ContextSet;
+import org.openclover.core.context.ContextSetImpl;
 import org.openclover.core.context.NamedContext;
 
 import java.io.IOException;
@@ -14,7 +15,7 @@ import static org.openclover.core.util.Lists.newLinkedList;
  */
 public abstract class Emitter {
 
-    private ContextSet context = new ContextSet();
+    private ContextSet context = new ContextSetImpl();
     private int line;
     private int column;
     private String instr = "";
@@ -24,7 +25,7 @@ public abstract class Emitter {
     protected Emitter() {}   
 
     protected Emitter(int line, int column) {
-        this(new ContextSet(), line, column);
+        this(new ContextSetImpl(), line, column);
     }
 
     protected Emitter(ContextSet context, int line, int column) {

@@ -1,6 +1,6 @@
 package org.openclover.core.instr.java;
 
-import org.openclover.core.context.ContextSet;
+import org.openclover.core.api.registry.ContextSet;
 
 /**
  * A helper class used in java.g

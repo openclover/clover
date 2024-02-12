@@ -1,8 +1,9 @@
 package org.openclover.core.registry.metrics
 
 import org.openclover.core.TestUtils
+import org.openclover.core.api.registry.ContextSet
 import org.openclover.core.api.registry.SourceInfo
-import org.openclover.core.context.ContextSet
+import org.openclover.core.context.ContextSetImpl
 import org.openclover.core.context.ContextStore
 import org.openclover.core.registry.Clover2Registry
 import org.openclover.core.registry.CoverageDataProvider
@@ -87,7 +88,7 @@ class HasMetricsTestFixture {
     FullMethodInfo newMethod(FullClassInfo classInfo, String name, int startLine) {
         SourceInfo srcRegion = new FixedSourceRegion(startLine, 1)
         MethodSignature sig = new MethodSignature(name)
-        ContextSet ctx = new ContextSet().set(ContextStore.CONTEXT_METHOD)
+        ContextSet ctx = new ContextSetImpl().set(ContextStore.CONTEXT_METHOD)
         FullMethodInfo method = new FullMethodInfo(classInfo, index++, ctx, srcRegion, sig,
                 false, null, false, FullMethodInfo.DEFAULT_METHOD_COMPLEXITY)
         classInfo.addMethod(method)
@@ -97,7 +98,7 @@ class HasMetricsTestFixture {
     FullMethodInfo newMethod(FullFileInfo fileInfo, String name, int startLine) {
         SourceInfo srcRegion = new FixedSourceRegion(startLine, 1)
         MethodSignature sig = new MethodSignature(name)
-        ContextSet ctx = new ContextSet().set(ContextStore.CONTEXT_METHOD)
+        ContextSet ctx = new ContextSetImpl().set(ContextStore.CONTEXT_METHOD)
         FullMethodInfo method = new FullMethodInfo(fileInfo, ctx,
                 new BasicMethodInfo(srcRegion, index++, FullMethodInfo.DEFAULT_METHOD_COMPLEXITY, sig, false, null, false))
         fileInfo.addMethod(method)
@@ -108,7 +109,7 @@ class HasMetricsTestFixture {
     FullMethodInfo newMethod(FullMethodInfo methodInfo, String name, int startLine) {
         SourceInfo srcRegion = new FixedSourceRegion(startLine, 1)
         MethodSignature sig = new MethodSignature(name)
-        ContextSet ctx = new ContextSet().set(ContextStore.CONTEXT_METHOD)
+        ContextSet ctx = new ContextSetImpl().set(ContextStore.CONTEXT_METHOD)
         FullMethodInfo method = new FullMethodInfo(methodInfo, ctx,
                 new BasicMethodInfo(srcRegion, index++, 5, sig, false, null, false, LanguageConstruct.Builtin.METHOD))
         methodInfo.addMethod(method)
@@ -127,7 +128,7 @@ class HasMetricsTestFixture {
 
     FullStatementInfo addStatement(FullMethodInfo method, int complexity, int startLine, final int hitCount) {
         FixedSourceRegion src = new FixedSourceRegion(startLine, 1)
-        FullStatementInfo stmt = new FullStatementInfo(method, index, new ContextSet(), src, complexity)
+        FullStatementInfo stmt = new FullStatementInfo(method, index, new ContextSetImpl(), src, complexity)
         newMockCoverageDataProvider(index++, hitCount)
         method.setDataProvider(dataProvider)
         method.addStatement(stmt)
@@ -136,7 +137,7 @@ class HasMetricsTestFixture {
 
     FullStatementInfo addStatement(FullClassInfo containingClass, int complexity, int startLine, final int hitCount) {
         FixedSourceRegion src = new FixedSourceRegion(startLine, 1)
-        FullStatementInfo stmt = new FullStatementInfo(containingClass, new ContextSet(),
+        FullStatementInfo stmt = new FullStatementInfo(containingClass, new ContextSetImpl(),
                 new BasicElementInfo(src, index, complexity, LanguageConstruct.Builtin.STATEMENT))
         newMockCoverageDataProvider(index++, hitCount)
         containingClass.setDataProvider(dataProvider)
@@ -146,7 +147,7 @@ class HasMetricsTestFixture {
 
     FullStatementInfo addStatement(FullFileInfo containingFile, int complexity, int startLine, final int hitCount) {
         FixedSourceRegion src = new FixedSourceRegion(startLine, 1)
-        FullStatementInfo stmt = new FullStatementInfo(containingFile, new ContextSet(),
+        FullStatementInfo stmt = new FullStatementInfo(containingFile, new ContextSetImpl(),
                 new BasicElementInfo(src, index, complexity, LanguageConstruct.Builtin.STATEMENT))
         newMockCoverageDataProvider(index++, hitCount)
         containingFile.setDataProvider(dataProvider)

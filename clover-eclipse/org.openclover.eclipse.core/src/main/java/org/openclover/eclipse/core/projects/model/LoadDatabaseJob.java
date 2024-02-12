@@ -8,7 +8,7 @@ import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.MultiRule;
 import org.openclover.core.CloverDatabase;
-import org.openclover.core.context.ContextSet;
+import org.openclover.core.api.registry.ContextSet;
 import org.openclover.eclipse.core.CloverEclipsePluginMessages;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;

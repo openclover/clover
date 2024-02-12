@@ -1,7 +1,7 @@
 package org.openclover.core;
 
 import org.jetbrains.annotations.Nullable;
-import org.openclover.core.context.ContextSet;
+import org.openclover.core.context.ContextSetImpl;
 import org.openclover.core.registry.FixedSourceRegion;
 import org.openclover.core.registry.entities.BasicMethodInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
@@ -171,7 +171,7 @@ public class TestResultProcessor {
                                     currentTestClass, methodDecl, methodDecl.getSimpleName());
                         } else {
                             // generate negative slice id from a test name using fake method
-                            FullMethodInfo fakeTestMethod = new FullMethodInfo(currentTestClass, new ContextSet(),
+                            FullMethodInfo fakeTestMethod = new FullMethodInfo(currentTestClass, new ContextSetImpl(),
                                     new BasicMethodInfo(new FixedSourceRegion(0, 0), 0, 0,
                                             new MethodSignature(testname), true, testname, false));
                             currentTestCaseInfo = new TestCaseInfo(-Math.abs(testname.hashCode()),

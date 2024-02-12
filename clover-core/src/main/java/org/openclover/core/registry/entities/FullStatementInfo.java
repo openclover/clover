@@ -9,6 +9,7 @@ import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.SourceInfo;
 import org.openclover.core.api.registry.StatementInfo;
+import org.openclover.core.context.ContextSetImpl;
 import org.openclover.core.io.tags.TaggedDataInput;
 import org.openclover.core.io.tags.TaggedDataOutput;
 import org.openclover.core.io.tags.TaggedPersistent;
@@ -171,7 +172,7 @@ public class FullStatementInfo extends FullElementInfo<BasicElementInfo> impleme
     @Override
     public void write(TaggedDataOutput out) throws IOException {
         // write statement metadata
-        out.write(org.openclover.core.context.ContextSet.class, (org.openclover.core.context.ContextSet)context);
+        out.write(ContextSetImpl.class, (ContextSetImpl)context);
         out.writeInt(sharedInfo.getRelativeDataIndex());
         out.writeInt(getComplexity());
         out.writeUTF(sharedInfo.getConstruct().getId());
@@ -184,7 +185,7 @@ public class FullStatementInfo extends FullElementInfo<BasicElementInfo> impleme
      */
     public static FullStatementInfo read(TaggedDataInput in) throws IOException {
         // read statement metadata
-        final ContextSet context = in.read(org.openclover.core.context.ContextSet.class);
+        final ContextSet context = in.read(ContextSetImpl.class);
         final int relativeDataIndex = in.readInt();
         final int complexity = in.readInt();
         final LanguageConstruct construct = Languages.lookupConstruct(in.readUTF());

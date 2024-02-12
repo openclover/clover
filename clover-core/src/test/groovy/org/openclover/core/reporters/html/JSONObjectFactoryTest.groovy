@@ -1,7 +1,7 @@
 package org.openclover.core.reporters.html
 
 import junit.framework.TestCase
-import org.openclover.core.context.ContextSet
+import org.openclover.core.context.ContextSetImpl
 import org.openclover.core.registry.FixedSourceRegion
 import org.openclover.core.registry.entities.BasicMethodInfo
 import org.openclover.core.registry.entities.FullClassInfo
@@ -221,7 +221,7 @@ class JSONObjectFactoryTest extends TestCase {
         FullFileInfo parentFile = new FullFileInfo(null, new File("FakeFile.java"), null, 0, 0, 0, 0, 0, 0, 0)
         FullClassInfo parentClass = new FullClassInfo(null, parentFile, 0, null, new FixedSourceRegion(0,0), new Modifiers(), false, false, false)
         return new FullMethodInfo(parentClass,
-                new ContextSet(),
+                new ContextSetImpl(),
                 new BasicMethodInfo(new FixedSourceRegion(0, 0), 0, 0, new MethodSignature(name), true, null, false) )
     }
     

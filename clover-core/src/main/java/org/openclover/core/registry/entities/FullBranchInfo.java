@@ -6,6 +6,7 @@ import org.openclover.core.api.registry.ContextSet;
 import org.openclover.core.api.registry.EntityContainer;
 import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.SourceInfo;
+import org.openclover.core.context.ContextSetImpl;
 import org.openclover.core.io.tags.TaggedDataInput;
 import org.openclover.core.io.tags.TaggedDataOutput;
 import org.openclover.core.io.tags.TaggedPersistent;
@@ -103,7 +104,7 @@ public class FullBranchInfo extends FullElementInfo<BasicBranchInfo> implements 
 
     @Override
     public void write(TaggedDataOutput out) throws IOException {
-        out.write(org.openclover.core.context.ContextSet.class, (org.openclover.core.context.ContextSet)context);
+        out.write(ContextSetImpl.class, (ContextSetImpl)context);
         out.writeInt(sharedInfo.getRelativeDataIndex());
         out.writeInt(getComplexity());
         out.writeUTF(sharedInfo.getConstruct().getId());
@@ -112,7 +113,7 @@ public class FullBranchInfo extends FullElementInfo<BasicBranchInfo> implements 
     }
 
     public static FullBranchInfo read(TaggedDataInput in) throws IOException {
-        final ContextSet context = in.read(org.openclover.core.context.ContextSet.class);
+        final ContextSet context = in.read(ContextSetImpl.class);
         final int relativeDataIndex = in.readInt();
         final int complexity = in.readInt();
         final LanguageConstruct construct = Languages.lookupConstruct(in.readUTF());

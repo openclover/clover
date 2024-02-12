@@ -1,11 +1,10 @@
 package org.openclover.core.registry.entities;
 
 import org.openclover.core.api.registry.BlockMetrics;
-import org.openclover.core.api.registry.FileInfo;
+import org.openclover.core.api.registry.ContextSet;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.api.registry.ProjectInfo;
-import org.openclover.core.context.ContextSet;
 import org.openclover.core.registry.CoverageDataProvider;
 import org.openclover.core.registry.CoverageDataReceptor;
 import org.openclover.core.registry.metrics.HasMetricsFilter;
@@ -19,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
 
 import static org.openclover.core.util.Lists.newArrayList;
 import static org.openclover.core.util.Maps.newTreeMap;

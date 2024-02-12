@@ -1,7 +1,8 @@
 package org.openclover.core
 
 import junit.framework.TestCase
-import org.openclover.core.context.ContextSet
+import org.openclover.core.api.registry.ContextSet
+import org.openclover.core.context.ContextSetImpl
 import org.openclover.core.instr.InstrumentationSessionImpl
 import org.openclover.core.recorder.PerTestCoverage
 import org.openclover.core.recorder.PerTestRecordingTranscript
@@ -543,9 +544,9 @@ abstract class CoverageDataTestBase extends TestCase {
         final InstrumentationSessionImpl session = (InstrumentationSessionImpl) reg.startInstr()
         session.enterFile("", File.createTempFile("clover", "java"), 0, 0, 0, 0, 0)
         session.enterClass(className, new FixedSourceRegion(0, 0), new Modifiers(), false, false, false)
-        session.enterMethod(new ContextSet(), new FixedSourceRegion(0, 0), new MethodSignature(methodSignature), false)
+        session.enterMethod(new ContextSetImpl(), new FixedSourceRegion(0, 0), new MethodSignature(methodSignature), false)
         for (int i = 0; i < elementCount - 1; i++) {
-            session.addStatement(new ContextSet(), new FixedSourceRegion(0, 0), 1)
+            session.addStatement(new ContextSetImpl(), new FixedSourceRegion(0, 0), 1)
         }
         session.exitMethod(0, 0)
         session.exitClass(0, 0)
@@ -593,7 +594,7 @@ abstract class CoverageDataTestBase extends TestCase {
 
     private Clover2Registry newPrefabReg(int slotCount) throws IOException, CloverException {
         final Clover2Registry reg = new Clover2Registry(newTempFile(".db"), "Registry")
-        final ContextSet context = new ContextSet()
+        final ContextSet context = new ContextSetImpl()
 
         final InstrumentationSessionImpl session = (InstrumentationSessionImpl) reg.startInstr()
         session.enterFile("com.foo", new File("Foo.java"), 0, 0, 0, 0, 0)

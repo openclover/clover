@@ -2,7 +2,7 @@ package org.openclover.core.reporters
 
 import junit.framework.TestCase
 import org.openclover.core.api.registry.MethodInfo
-import org.openclover.core.context.ContextSet
+import org.openclover.core.context.ContextSetImpl
 import org.openclover.core.registry.FixedSourceRegion
 import org.openclover.core.registry.entities.BasicMethodInfo
 import org.openclover.core.registry.entities.FullClassInfo
@@ -43,7 +43,7 @@ class MetricsCollatorTest extends TestCase {
         // normal method
         final FullMethodInfo fooMethod = new FullMethodInfo(
                 info2,
-                new ContextSet(),
+                new ContextSetImpl(),
                 new BasicMethodInfo(new FixedSourceRegion(2, 1), 0, 10, new MethodSignature("foo"), false, null, false)
         )
         fooMethod.setMetrics(MetricsHelper.setBlockMetrics(new BlockMetrics(fooMethod), 10, 9, 0, 0, 2, 0, 0, 0, 0, 0.0f))
@@ -51,7 +51,7 @@ class MetricsCollatorTest extends TestCase {
         // lambda method
         final FullMethodInfo lam1Method = new FullMethodInfo(
                 info2,
-                new ContextSet(),
+                new ContextSetImpl(),
                 new BasicMethodInfo(new FixedSourceRegion(3, 1), 0, 10, new MethodSignature('$lam#1'), false, null, true)
         )
         lam1Method.setMetrics(MetricsHelper.setBlockMetrics(new BlockMetrics(lam1Method), 10, 8, 0, 0, 2, 0, 0, 0, 0, 0.0f))
@@ -59,7 +59,7 @@ class MetricsCollatorTest extends TestCase {
         // inner method
         final FullMethodInfo innerMethod = new FullMethodInfo(
                 fooMethod,
-                new ContextSet(),
+                new ContextSetImpl(),
                 new BasicMethodInfo(new FixedSourceRegion(4, 1), 0, 10, new MethodSignature("inner"), false, null, false)
         )
         innerMethod.setMetrics(MetricsHelper.setBlockMetrics(new BlockMetrics(innerMethod), 10, 7, 0, 0, 2, 0, 0, 0, 0, 0.0f))
@@ -67,7 +67,7 @@ class MetricsCollatorTest extends TestCase {
         // inner lambda method
         final FullMethodInfo lam2Method = new FullMethodInfo(
                 fooMethod,
-                new ContextSet(),
+                new ContextSetImpl(),
                 new BasicMethodInfo(new FixedSourceRegion(5, 1), 0, 10, new MethodSignature('$lam#2'), false, null, true)
         )
         lam2Method.setMetrics(MetricsHelper.setBlockMetrics(new BlockMetrics(lam2Method), 10, 6, 0, 0, 2, 0, 0, 0, 0, 0.0f))

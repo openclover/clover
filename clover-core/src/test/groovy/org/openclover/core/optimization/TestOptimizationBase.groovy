@@ -4,7 +4,8 @@ import org.junit.Rule
 import org.junit.rules.TestName
 import org.openclover.buildutil.testutils.IOHelper
 import org.openclover.core.TestUtils
-import org.openclover.core.context.ContextSet
+import org.openclover.core.api.registry.ContextSet
+import org.openclover.core.context.ContextSetImpl
 import org.openclover.core.instr.InstrumentationSessionImpl
 import org.openclover.core.registry.Clover2Registry
 import org.openclover.core.registry.entities.FullMethodInfo
@@ -38,7 +39,7 @@ abstract class TestOptimizationBase {
         File registryFile = File.createTempFile("registry", ".cdb", tmpDir)
 
         registry = new Clover2Registry(registryFile, testName.getMethodName())
-        ContextSet context = new ContextSet()
+        ContextSet context = new ContextSetImpl()
         final InstrumentationSessionImpl session = (InstrumentationSessionImpl) registry.startInstr()
 
         fileSize = 100

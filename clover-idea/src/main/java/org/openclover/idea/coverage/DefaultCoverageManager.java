@@ -6,7 +6,7 @@ import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.openclover.core.CloverDatabase;
-import org.openclover.core.context.ContextSet;
+import org.openclover.core.api.registry.ContextSet;
 import org.openclover.core.context.ContextStore;
 import org.openclover.core.context.NamedContext;
 import org.openclover.core.registry.Clover2Registry;

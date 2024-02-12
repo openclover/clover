@@ -1,8 +1,8 @@
 package org.openclover.core
 
 import org.openclover.buildutil.testutils.IOHelper
+import org.openclover.core.api.registry.ContextSet
 import org.openclover.core.api.registry.SourceInfo
-import org.openclover.core.context.ContextSet
 import org.openclover.core.instr.InstrumentationSessionImpl
 import org.openclover.core.registry.Clover2Registry
 import org.openclover.core.registry.FixedSourceRegion

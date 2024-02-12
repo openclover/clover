@@ -26,10 +26,11 @@ import org.eclipse.ui.texteditor.ITextEditor;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.api.registry.BranchInfo;
 import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.ContextSet;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.SourceInfo;
 import org.openclover.core.api.registry.StatementInfo;
-import org.openclover.core.context.ContextSet;
+import org.openclover.core.context.ContextSetImpl;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.LineInfo;
 import org.openclover.core.registry.entities.TestCaseInfo;
@@ -222,7 +223,7 @@ public class CoverageAnnotationModel implements IAnnotationModel, IDocumentListe
     public ContextSet blockFilterForEditorInput() {
         CloverProject project = cloverProjectForEditorInput();
 
-        return project == null ? new ContextSet() : project.getSettings().getContextFilter();
+        return project == null ? new ContextSetImpl() : project.getSettings().getContextFilter();
     }
 
     private AnnotationModelEvent createAnnotations() throws BadLocationException {

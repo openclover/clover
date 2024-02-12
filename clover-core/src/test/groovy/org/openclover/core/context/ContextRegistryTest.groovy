@@ -1,6 +1,7 @@
 package org.openclover.core.context
 
 import org.junit.Test
+import org.openclover.core.api.registry.ContextSet
 import org.openclover.runtime.api.CloverException
 
 import java.util.regex.Pattern
@@ -73,19 +74,19 @@ class ContextRegistryTest {
     @Test
     void testGetContexts() throws Exception {
         ContextStore ctxReg = new ContextStore()
-        ContextSet emptySet = new ContextSet()
+        ContextSet emptySet = new ContextSetImpl()
         // test empty
         NamedContext[] noContexts = ctxReg.getContexts(emptySet)
         assertEquals(0, noContexts.length)
 
-        ContextSet soloSet = new ContextSet()
+        ContextSet soloSet = new ContextSetImpl()
         soloSet = soloSet.set(ContextStore.CONTEXT_ASSERT)
         NamedContext[] singleContext = ctxReg.getContexts(soloSet)
         // test single
         assertEquals(1, singleContext.length)
         assertEquals("assert", singleContext[0].getName())
 
-        ContextSet multiSet = new ContextSet()
+        ContextSet multiSet = new ContextSetImpl()
         multiSet = multiSet.set(ContextStore.CONTEXT_ASSERT)
         multiSet = multiSet.set(ContextStore.CONTEXT_CATCH)
         // test >1 entry.
@@ -99,7 +100,7 @@ class ContextRegistryTest {
     void testGetNamedContextsFor() throws Exception {
         ContextStore registry = new ContextStore()
 
-        ContextSet ctxSet = new ContextSet()
+        ContextSet ctxSet = new ContextSetImpl()
         String contextString = registry.getContextsAsString(ctxSet)
         assertEquals("", contextString)
 
@@ -114,7 +115,7 @@ class ContextRegistryTest {
     }
 
     private static ContextSet createSetFor(int contextIndex) {
-        new ContextSet()
+        new ContextSetImpl()
                 .set(contextIndex)
                 .set(ContextStore.CONTEXT_CLOVER_OFF)
     }

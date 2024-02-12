@@ -10,7 +10,7 @@ import org.codehaus.groovy.ast.stmt.Statement;
 import org.codehaus.groovy.ast.stmt.SwitchStatement;
 import org.codehaus.groovy.ast.stmt.TryCatchStatement;
 import org.openclover.core.api.instrumentation.InstrumentationSession;
-import org.openclover.core.context.ContextSet;
+import org.openclover.core.context.ContextSetImpl;
 import org.openclover.core.registry.FixedSourceRegion;
 import org.openclover.core.spi.lang.LanguageConstruct;
 
@@ -155,7 +155,7 @@ public class StatementInstrumenter extends ClassInstumenter {
         return Grover.recorderInc(
                 classRef,
                 session.addStatement(
-                        new ContextSet(),
+                        new ContextSetImpl(),
                         srcRegion, complexity, LanguageConstruct.Builtin.STATEMENT), statement);
     }
 }

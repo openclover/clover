@@ -1,7 +1,7 @@
 package org.openclover.core
 
 import junit.framework.TestCase
-import org.openclover.core.context.ContextSet
+import org.openclover.core.context.ContextSetImpl
 import org.openclover.core.instr.InstrumentationSessionImpl
 import org.openclover.core.recorder.PerTestCoverageStrategy
 import org.openclover.core.registry.Clover2Registry
@@ -33,8 +33,8 @@ class CoverageDataCollatorTest extends TestCase {
         final Clover2Registry reg = new Clover2Registry(regFile, getName())
 
         InstrumentationSessionImpl session = (InstrumentationSessionImpl) reg.startInstr()
-        final FullMethodInfo bar_it = TestUtils.addClassWithSingleMethod(session, new ContextSet(), "com.foo", System.currentTimeMillis(), 0l, "Bar", "void it()", false)
-        final FullMethodInfo barTest_testIt = TestUtils.addClassWithSingleMethod(session, new ContextSet(), "com.foo", System.currentTimeMillis(), 0l, "BarTest", "void testIt()", true)
+        final FullMethodInfo bar_it = TestUtils.addClassWithSingleMethod(session, new ContextSetImpl(), "com.foo", System.currentTimeMillis(), 0l, "Bar", "void it()", false)
+        final FullMethodInfo barTest_testIt = TestUtils.addClassWithSingleMethod(session, new ContextSetImpl(), "com.foo", System.currentTimeMillis(), 0l, "BarTest", "void testIt()", true)
         session.finishAndApply()
         reg.saveAndOverwriteFile()
 
@@ -46,7 +46,7 @@ class CoverageDataCollatorTest extends TestCase {
         elapse200ms()
 
         session = (InstrumentationSessionImpl) reg.startInstr()
-        TestUtils.addClassWithSingleMethod(session, new ContextSet(), "com.foo", System.currentTimeMillis(), 0l, "Baz", "void it()", false)
+        TestUtils.addClassWithSingleMethod(session, new ContextSetImpl(), "com.foo", System.currentTimeMillis(), 0l, "Baz", "void it()", false)
         session.finishAndApply()
         reg.saveAndOverwriteFile()
 
@@ -81,8 +81,8 @@ class CoverageDataCollatorTest extends TestCase {
         final Clover2Registry reg = new Clover2Registry(regFile, getName())
 
         final InstrumentationSessionImpl session = (InstrumentationSessionImpl) reg.startInstr()
-        final FullMethodInfo bar_it = TestUtils.addClassWithSingleMethod(session, new ContextSet(), "com.foo", System.currentTimeMillis(), 0l, "Bar", "void it()", false)
-        final FullMethodInfo barTest_testIt = TestUtils.addClassWithSingleMethod(session, new ContextSet(), "com.foo", System.currentTimeMillis(), 0l, "BarTest", "void testIt()", true)
+        final FullMethodInfo bar_it = TestUtils.addClassWithSingleMethod(session, new ContextSetImpl(), "com.foo", System.currentTimeMillis(), 0l, "Bar", "void it()", false)
+        final FullMethodInfo barTest_testIt = TestUtils.addClassWithSingleMethod(session, new ContextSetImpl(), "com.foo", System.currentTimeMillis(), 0l, "BarTest", "void testIt()", true)
         session.finishAndApply()
         reg.saveAndOverwriteFile()
 
@@ -123,9 +123,9 @@ class CoverageDataCollatorTest extends TestCase {
         final Clover2Registry reg = new Clover2Registry(regFile, getName())
 
         final InstrumentationSessionImpl session = (InstrumentationSessionImpl) reg.startInstr()
-        TestUtils.addClassWithSingleMethod(session, new ContextSet(), "com.foo", System.currentTimeMillis(), 0l, "Bar", "void it()", false)
-        TestUtils.addClassWithSingleMethod(session, new ContextSet(), "com.foo", System.currentTimeMillis(), 0l, "Baz", "void it()", false)
-        TestUtils.addClassWithSingleMethod(session, new ContextSet(), "com.foo", System.currentTimeMillis(), 0l, "Bat", "void it()", false)
+        TestUtils.addClassWithSingleMethod(session, new ContextSetImpl(), "com.foo", System.currentTimeMillis(), 0l, "Bar", "void it()", false)
+        TestUtils.addClassWithSingleMethod(session, new ContextSetImpl(), "com.foo", System.currentTimeMillis(), 0l, "Baz", "void it()", false)
+        TestUtils.addClassWithSingleMethod(session, new ContextSetImpl(), "com.foo", System.currentTimeMillis(), 0l, "Bat", "void it()", false)
         session.finishAndApply()
         reg.saveAndOverwriteFile()
 

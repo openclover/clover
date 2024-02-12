@@ -1,8 +1,8 @@
 package org.openclover.core.instr.java;
 
+import org.openclover.core.api.registry.ContextSet;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig;
-import org.openclover.core.context.ContextSet;
 import org.openclover.core.context.MethodRegexpContext;
 import org.openclover.core.context.NamedContext;
 import org.openclover.core.instr.tests.ExpectedExceptionMiner;

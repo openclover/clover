@@ -1,6 +1,7 @@
 package org.openclover.core.instr.java;
 
-import org.openclover.core.context.ContextSet;
+import org.openclover.core.api.registry.ContextSet;
+import org.openclover.core.context.ContextSetImpl;
 
 /** Used to track and minimise context sets created  during instrumentation */
 public class ContextTreeNode {
@@ -27,7 +28,7 @@ public class ContextTreeNode {
         }
         ContextTreeNode child = children[index];
         if (child == null) {
-            ContextSet context = new ContextSet(this.context);
+            ContextSet context = this.context.copyOf();
             context = context.set(index);
             child = new ContextTreeNode(this, context);
             children[index] = child;

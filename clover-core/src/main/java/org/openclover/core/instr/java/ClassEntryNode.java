@@ -1,6 +1,6 @@
 package org.openclover.core.instr.java;
 
-import org.openclover.core.context.ContextSet;
+import org.openclover.core.api.registry.ContextSet;
 import org.openclover.core.instr.tests.naming.JUnitParameterizedTestExtractor;
 import org.openclover.core.instr.tests.naming.SpockFeatureNameExtractor;
 import org.openclover.core.registry.FixedSourceRegion;

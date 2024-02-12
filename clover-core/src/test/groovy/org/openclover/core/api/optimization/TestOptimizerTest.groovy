@@ -5,7 +5,7 @@ import org.junit.Before
 import org.junit.Test
 import org.openclover.core.CloverDatabase
 import org.openclover.core.CoverageDataSpec
-import org.openclover.core.context.ContextSet
+import org.openclover.core.context.ContextSetImpl
 import org.openclover.core.instr.InstrumentationSessionImpl
 import org.openclover.core.optimization.Snapshot
 import org.openclover.core.optimization.TestOptimizationBase
@@ -55,7 +55,7 @@ class TestOptimizerTest extends TestOptimizationBase {
 
 
         final InstrumentationSessionImpl session = (InstrumentationSessionImpl) registry.startInstr()
-        addClassWithSingleMethod(session, new ContextSet(), THIS_PACKAGE, "AppClass2345Test", "testMain", true) // add a new test.
+        addClassWithSingleMethod(session, new ContextSetImpl(), THIS_PACKAGE, "AppClass2345Test", "testMain", true) // add a new test.
         final FullFileInfo fInfo = (FullFileInfo) appClass4_main.getContainingFile()
 
         session.enterFile(fInfo.getContainingPackage().getName(), fInfo.getPhysicalFile(), 10, 8, System.currentTimeMillis(), 100, 42)

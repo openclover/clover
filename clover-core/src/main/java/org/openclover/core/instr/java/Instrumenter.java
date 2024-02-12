@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nullable;
 import org.openclover.core.api.instrumentation.ConcurrentInstrumentationException;
 import org.openclover.core.api.instrumentation.InstrumentationSession;
 import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig;
-import org.openclover.core.context.ContextSet;
+import org.openclover.core.context.ContextSetImpl;
 import org.openclover.core.context.ContextStore;
 import org.openclover.core.context.MethodRegexpContext;
 import org.openclover.core.context.NamedContext;
@@ -87,7 +87,7 @@ public class Instrumenter {
 
         registry = reg;
         session = registry.startInstr(config.getEncoding());
-        contextTreeRoot = new ContextTreeNode(reg.getContextStore().size(), new ContextSet());
+        contextTreeRoot = new ContextTreeNode(reg.getContextStore().size(), new ContextSetImpl());
 
         log.info("Processing files at " + config.getSourceLevel() + " source level.");
     }

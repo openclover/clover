@@ -1,7 +1,7 @@
 package org.openclover.core;
 
+import org.openclover.core.api.registry.ContextSet;
 import org.openclover.core.cfg.Interval;
-import org.openclover.core.context.ContextSet;
 import org.openclover.core.context.ContextStore;
 import org.openclover.core.recorder.InMemPerTestCoverage;
 import org.openclover.core.recorder.PerTestCoverage;

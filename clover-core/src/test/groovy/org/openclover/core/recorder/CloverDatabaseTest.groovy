@@ -13,9 +13,10 @@ import org.openclover.core.CoverageDataSpec
 import org.openclover.core.ProgressListener
 import org.openclover.core.api.registry.BlockMetrics
 import org.openclover.core.api.registry.ClassInfo
+import org.openclover.core.api.registry.ContextSet
 import org.openclover.core.api.registry.SourceInfo
 import org.openclover.core.cfg.Interval
-import org.openclover.core.context.ContextSet
+import org.openclover.core.context.ContextSetImpl
 import org.openclover.core.context.ContextStore
 import org.openclover.core.context.MethodRegexpContext
 import org.openclover.core.context.StatementRegexpContext
@@ -389,7 +390,7 @@ class CloverDatabaseTest {
 
         Clover2Registry registry = new Clover2Registry(registryFile, testName.methodName)
         SourceInfo region = new FixedSourceRegion(1, 2, 3, 4)
-        ContextSet context = new ContextSet()
+        ContextSet context = new ContextSetImpl()
         final InstrumentationSessionImpl session = (InstrumentationSessionImpl) registry.startInstr()
 
         session.enterFile(pkg, new File(pkg.replace('.', '/') + (pkg.length() > 0 ? "/" : "") + cn + ".java"), 0, 0, timestamp, filesize, checksum)
@@ -440,7 +441,7 @@ class CloverDatabaseTest {
     private int instrumentSampleFile(Clover2Registry registry, int fileVersion) throws CloverException {
         final InstrumentationSessionImpl session = (InstrumentationSessionImpl) registry.startInstr()
         SourceInfo region = new FixedSourceRegion(1, 2, 3, 4)
-        ContextSet context = new ContextSet()
+        ContextSet context = new ContextSetImpl()
 
         session.enterFile("", new File("Foo.java"), 10, 20, 30 + fileVersion, 40 + fileVersion, 50 + fileVersion)
         session.enterClass("Foo", region, new Modifiers(), false, false, false)

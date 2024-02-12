@@ -14,6 +14,7 @@ import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.SourceInfo;
 import org.openclover.core.api.registry.StatementInfo;
+import org.openclover.core.context.ContextSetImpl;
 import org.openclover.core.io.tags.TaggedDataInput;
 import org.openclover.core.io.tags.TaggedDataOutput;
 import org.openclover.core.io.tags.TaggedPersistent;
@@ -603,7 +604,7 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo> implements 
         out.writeUTF(getStaticTestName());
         out.writeBoolean(isTest());
         out.writeBoolean(isLambda());
-        out.write(org.openclover.core.context.ContextSet.class, (org.openclover.core.context.ContextSet) context);
+        out.write(ContextSetImpl.class, (ContextSetImpl) context);
         out.writeInt(sharedInfo.getRelativeDataIndex());
         out.writeInt(getDataLength());
         out.writeInt(getComplexity());
@@ -625,7 +626,7 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo> implements 
         final String staticTestName = in.readUTF();
         final boolean isTest = in.readBoolean();
         final boolean isLambda = in.readBoolean();
-        final ContextSet context = in.read(org.openclover.core.context.ContextSet.class);
+        final ContextSet context = in.read(ContextSetImpl.class);
         final int index = in.readInt();
         final int length = in.readInt();
         final int complexity = in.readInt();

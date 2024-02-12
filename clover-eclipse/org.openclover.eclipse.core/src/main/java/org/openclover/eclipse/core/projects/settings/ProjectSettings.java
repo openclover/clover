@@ -8,11 +8,12 @@ import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.openclover.core.CloverDatabase;
+import org.openclover.core.api.registry.ContextSet;
 import org.openclover.core.cfg.Interval;
 import org.openclover.core.cfg.instr.InstrumentationConfig;
 import org.openclover.core.cfg.instr.InstrumentationLevel;
 import org.openclover.core.cfg.instr.java.LambdaInstrumentation;
-import org.openclover.core.context.ContextSet;
+import org.openclover.core.context.ContextSetImpl;
 import org.openclover.core.context.ContextStore;
 import org.openclover.core.context.MethodRegexpContext;
 import org.openclover.core.context.StatementRegexpContext;
@@ -274,7 +275,7 @@ public class ProjectSettings extends Settings {
         String blockFilterString = getString(Keys.BLOCK_FILTERS);
         return
             blockFilterString == null
-                ? new ContextSet()
+                ? new ContextSetImpl()
                 : getContextRegistry().createContextSetFilter(blockFilterString, false);
     }
 

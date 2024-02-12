@@ -8,7 +8,7 @@ import org.junit.rules.TestName
 import org.openclover.buildutil.testutils.IOHelper
 import org.openclover.core.api.registry.HasMetrics
 import org.openclover.core.api.registry.SourceInfo
-import org.openclover.core.context.ContextSet
+import org.openclover.core.context.ContextSetImpl
 import org.openclover.core.context.ContextStore
 import org.openclover.core.instr.InstrumentationSessionImpl
 import org.openclover.core.registry.entities.BasePackageInfo
@@ -85,21 +85,21 @@ public class Clover2RegistryTest {
 
         session.enterClass("Foo", region, new Modifiers(), false, false, false)
 
-        session.enterMethod(new ContextSet(), region, new MethodSignature("aMethod"), false)
+        session.enterMethod(new ContextSetImpl(), region, new MethodSignature("aMethod"), false)
 
-        session.addStatement(new ContextSet(), region, 0)
-        session.addStatement(new ContextSet(), region, 0)
-        session.addStatement(new ContextSet(), region, 0)
+        session.addStatement(new ContextSetImpl(), region, 0)
+        session.addStatement(new ContextSetImpl(), region, 0)
+        session.addStatement(new ContextSetImpl(), region, 0)
 
         session.exitMethod(0,0)
 
         session.enterClass("Foo.Inner", region, new Modifiers(), false, false, false)
 
-        session.enterMethod(new ContextSet(), region, new MethodSignature("anotherMethod"), false)
+        session.enterMethod(new ContextSetImpl(), region, new MethodSignature("anotherMethod"), false)
 
-        session.addStatement(new ContextSet(), region, 0)
-        session.addStatement(new ContextSet(), region, 0)
-        session.addStatement(new ContextSet(), region, 0)
+        session.addStatement(new ContextSetImpl(), region, 0)
+        session.addStatement(new ContextSetImpl(), region, 0)
+        session.addStatement(new ContextSetImpl(), region, 0)
 
         session.exitMethod(0,0)
 
@@ -110,11 +110,11 @@ public class Clover2RegistryTest {
 
         session.enterClass("Bar", region, new Modifiers(), false, false, false)
 
-        session.enterMethod(new ContextSet(), region, new MethodSignature("aMethod"), false)
+        session.enterMethod(new ContextSetImpl(), region, new MethodSignature("aMethod"), false)
 
-        session.addStatement(new ContextSet(), region, 0)
-        session.addStatement(new ContextSet(), region, 0)
-        session.addStatement(new ContextSet(), region, 0)
+        session.addStatement(new ContextSetImpl(), region, 0)
+        session.addStatement(new ContextSetImpl(), region, 0)
+        session.addStatement(new ContextSetImpl(), region, 0)
 
         session.exitMethod(0,0)
         session.exitClass(0,0)
@@ -353,7 +353,7 @@ public class Clover2RegistryTest {
     private void addFileClassAndMethodInfo(InstrumentationSessionImpl session, String className, String methodSig, long checksum) {
         session.enterFile("", new File(className), 0, 0, 0, 0, checksum)
         session.enterClass(className, new FixedSourceRegion(0, 0), new Modifiers(), false, false, false)
-        session.enterMethod(new ContextSet(), new FixedSourceRegion(0, 0), new MethodSignature(methodSig), false, FullMethodInfo.DEFAULT_METHOD_COMPLEXITY)
+        session.enterMethod(new ContextSetImpl(), new FixedSourceRegion(0, 0), new MethodSignature(methodSig), false, FullMethodInfo.DEFAULT_METHOD_COMPLEXITY)
         session.exitMethod(0, 0)
         session.exitClass(0, 0)
         session.exitFile()
@@ -484,16 +484,16 @@ public class Clover2RegistryTest {
         final InstrumentationSessionImpl session = (InstrumentationSessionImpl) registry.startInstr()
         FullFileInfo foo = session.enterFile("", new File("Foo.java"), 10, 20, 30, 40, 50)
         session.enterClass("Foo", region, new Modifiers(), false, false, false)
-        session.enterMethod(new ContextSet(), region, new MethodSignature("aMethod"), false)
-        session.addStatement(new ContextSet(), region, 0)
-        session.addStatement(new ContextSet(), region, 0)
-        session.addStatement(new ContextSet(), region, 0)
+        session.enterMethod(new ContextSetImpl(), region, new MethodSignature("aMethod"), false)
+        session.addStatement(new ContextSetImpl(), region, 0)
+        session.addStatement(new ContextSetImpl(), region, 0)
+        session.addStatement(new ContextSetImpl(), region, 0)
         session.exitMethod(0,0)
         session.enterClass("Foo.Inner", region, new Modifiers(), false, false, false)
-        session.enterMethod(new ContextSet(), region, new MethodSignature("anotherMethod"), false)
-        session.addStatement(new ContextSet(), region, 0)
-        session.addStatement(new ContextSet(), region, 0)
-        session.addStatement(new ContextSet(), region, 0)
+        session.enterMethod(new ContextSetImpl(), region, new MethodSignature("anotherMethod"), false)
+        session.addStatement(new ContextSetImpl(), region, 0)
+        session.addStatement(new ContextSetImpl(), region, 0)
+        session.addStatement(new ContextSetImpl(), region, 0)
         session.exitMethod(0,0)
         session.exitClass(0,0)
         session.exitClass(0,0)
@@ -590,21 +590,21 @@ public class Clover2RegistryTest {
 
         session.enterClass("Foo", region, new Modifiers(), false, false, false)
 
-        session.enterMethod(new ContextSet(), region, new MethodSignature("aMethod"), false)
+        session.enterMethod(new ContextSetImpl(), region, new MethodSignature("aMethod"), false)
 
-        session.addStatement(new ContextSet(), region, 0)
-        session.addStatement(new ContextSet(), region, 0)
-        session.addStatement(new ContextSet(), region, 0)
+        session.addStatement(new ContextSetImpl(), region, 0)
+        session.addStatement(new ContextSetImpl(), region, 0)
+        session.addStatement(new ContextSetImpl(), region, 0)
 
         session.exitMethod(0,0)
 
         session.enterClass("Foo.Inner", region, new Modifiers(), false, false, false)
 
-        session.enterMethod(new ContextSet(), region, new MethodSignature("anotherMethod"), false)
+        session.enterMethod(new ContextSetImpl(), region, new MethodSignature("anotherMethod"), false)
 
-        session.addStatement(new ContextSet(), region, 0)
-        session.addStatement(new ContextSet(), region, 0)
-        session.addStatement(new ContextSet(), region, 0)
+        session.addStatement(new ContextSetImpl(), region, 0)
+        session.addStatement(new ContextSetImpl(), region, 0)
+        session.addStatement(new ContextSetImpl(), region, 0)
 
         session.exitMethod(0,0)
 

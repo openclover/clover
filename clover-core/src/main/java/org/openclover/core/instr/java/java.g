@@ -8,14 +8,14 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 
+import org.openclover.core.Contract;
+import org.openclover.core.api.registry.ContextSet;
 import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig;
 import org.openclover.core.cfg.instr.java.LambdaInstrumentation;
-import org.openclover.core.Contract;
-import org.openclover.runtime.Logger;
 import org.openclover.core.context.ContextStore;
-import org.openclover.core.context.ContextSet;
 import org.openclover.core.registry.*;
 import org.openclover.core.registry.entities.*;
+import org.openclover.runtime.Logger;
 
 }
 

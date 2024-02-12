@@ -3,6 +3,7 @@ package org.openclover.core.context;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.api.registry.BranchInfo;
 import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.ContextSet;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.StatementInfo;
 import org.openclover.core.cfg.instr.InstrumentationConfig;
@@ -213,7 +214,7 @@ public class ContextStore implements TaggedPersistent {
      * @param invert whether to invert the mask
      */
     public ContextSet createContextSetFilter(String spec, boolean invert) {
-        ContextSet result = new ContextSet(nextIndex);
+        ContextSet result = new ContextSetImpl(nextIndex);
 
         StringTokenizer toks = new StringTokenizer(spec, ", ");
 
@@ -374,17 +375,17 @@ public class ContextStore implements TaggedPersistent {
 
                 @Override
                 public void visitMethod(MethodInfo info) {
-                    ((FullMethodInfo)info).setContext(ContextSet.remap((ContextSet)info.getContext(), mapping));
+                    ((FullMethodInfo)info).setContext(ContextSetImpl.remap((ContextSetImpl)info.getContext(), mapping));
                 }
 
                 @Override
                 public void visitStatement(StatementInfo info) {
-                    ((FullStatementInfo)info).setContext(ContextSet.remap((ContextSet)info.getContext(), mapping));
+                    ((FullStatementInfo)info).setContext(ContextSetImpl.remap((ContextSetImpl)info.getContext(), mapping));
                 }
 
                 @Override
                 public void visitBranch(BranchInfo info) {
-                    ((FullBranchInfo)info).setContext(ContextSet.remap((ContextSet)info.getContext(), mapping));
+                    ((FullBranchInfo)info).setContext(ContextSetImpl.remap((ContextSetImpl)info.getContext(), mapping));
                 }
             });
 

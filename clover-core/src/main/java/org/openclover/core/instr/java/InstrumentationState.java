@@ -1,8 +1,9 @@
 package org.openclover.core.instr.java;
 
 import org.openclover.core.api.instrumentation.InstrumentationSession;
+import org.openclover.core.api.registry.ContextSet;
 import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig;
-import org.openclover.core.context.ContextSet;
+import org.openclover.core.context.ContextSetImpl;
 import org.openclover.core.instr.tests.TestDetector;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.spi.lang.Language;
@@ -26,7 +27,7 @@ public class InstrumentationState implements TestDetector.SourceContext {
     private boolean spockTestClass = false;
     private boolean parameterizedJUnitTestClass = false;
     private boolean parameterizedJUnit5TestClass = false;
-    private ContextSet instrContext = new ContextSet();
+    private ContextSet instrContext = new ContextSetImpl();
     private boolean hasInstrumented = false;
     private int autoCloseableClassCount = 0;
     private int autoCloseableInstanceCount = 0;

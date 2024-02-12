@@ -1,7 +1,7 @@
 package org.openclover.idea.report.jfc;
 
 import org.junit.Test;
-import org.openclover.core.context.ContextSet;
+import org.openclover.core.context.ContextSetImpl;
 import org.openclover.core.registry.FixedSourceRegion;
 import org.openclover.core.registry.entities.BasicMethodInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
@@ -102,7 +102,7 @@ public class TestPassInfoTest {
     }
 
     private static FullMethodInfo fixtureMethod(String name) {
-        return new FullMethodInfo((FullClassInfo)null, new ContextSet(),
+        return new FullMethodInfo((FullClassInfo)null, new ContextSetImpl(),
                 new BasicMethodInfo(new FixedSourceRegion(0, 0), 0, 0, new MethodSignature(name), true, null, false) );
     }
 }

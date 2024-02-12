@@ -43,6 +43,7 @@ import org.openclover.core.api.instrumentation.InstrumentationSession;
 import org.openclover.core.api.registry.ContextSet;
 import org.openclover.core.api.registry.SourceInfo;
 import org.openclover.core.cfg.instr.InstrumentationConfig;
+import org.openclover.core.context.ContextSetImpl;
 import org.openclover.core.context.MethodRegexpContext;
 import org.openclover.core.instr.java.JavaMethodContext;
 import org.openclover.core.instr.tests.TestDetector;
@@ -70,7 +71,7 @@ import static org.openclover.core.util.Maps.newHashMap;
 public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
     private static final Logger LOG = Logger.getInstance();
     private static final Field CLOSURE_CODE_FIELD;
-    private static final ContextSet EMPTY_CONTEXT = new org.openclover.core.context.ContextSet();
+    private static final ContextSet EMPTY_CONTEXT = new ContextSetImpl();
 
     static {
         Field closureField;

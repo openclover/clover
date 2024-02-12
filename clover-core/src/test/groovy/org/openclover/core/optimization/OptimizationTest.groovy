@@ -8,7 +8,7 @@ import org.openclover.core.CoverageDataSpec
 import org.openclover.core.TestUtils
 import org.openclover.core.api.optimization.Optimizable
 import org.openclover.core.api.optimization.OptimizationOptions
-import org.openclover.core.context.ContextSet
+import org.openclover.core.context.ContextSetImpl
 import org.openclover.core.instr.InstrumentationSessionImpl
 import org.openclover.core.util.CloverUtils
 
@@ -81,7 +81,7 @@ class OptimizationTest extends TestOptimizationBase {
                 new CoverageDataSpec())).store()
 
         final InstrumentationSessionImpl session = (InstrumentationSessionImpl) registry.startInstr()
-        addClassWithSingleMethod(session, new ContextSet(), THIS_PACKAGE, "AppClass4", "testMain", true)
+        addClassWithSingleMethod(session, new ContextSetImpl(), THIS_PACKAGE, "AppClass4", "testMain", true)
         session.finishAndApply()
         registry.saveAndOverwriteFile()
 
@@ -130,7 +130,7 @@ class OptimizationTest extends TestOptimizationBase {
                 new CoverageDataSpec())).store()
 
         final InstrumentationSessionImpl session = (InstrumentationSessionImpl) registry.startInstr()
-        addClassWithSingleMethod(session, new ContextSet(), THIS_PACKAGE, "AddedTest", "testMain", true)
+        addClassWithSingleMethod(session, new ContextSetImpl(), THIS_PACKAGE, "AddedTest", "testMain", true)
         session.finishAndApply()
         registry.saveAndOverwriteFile()
 
