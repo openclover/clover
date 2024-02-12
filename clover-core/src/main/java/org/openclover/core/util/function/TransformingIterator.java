@@ -1,6 +1,7 @@
 package org.openclover.core.util.function;
 
 import java.util.Iterator;
+import java.util.function.Function;
 
 public class TransformingIterator<S, T, F extends Function<S, T>> implements Iterator<T> {
 

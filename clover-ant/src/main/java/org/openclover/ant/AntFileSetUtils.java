@@ -8,14 +8,13 @@ import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.PatternSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.openclover.core.util.function.Function;
-import org.openclover.core.util.function.Predicate;
-import org.openclover.core.util.function.Predicates;
-import org.openclover.core.util.function.Streams;
 
+import java.util.Arrays;
+import java.util.function.Function;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Predicate;
 
 import static org.openclover.core.util.Lists.newArrayList;
 
@@ -61,10 +60,7 @@ public class AntFileSetUtils {
                                                         @Nullable final String[] excludePatterns) {
         final String[] allPatterns = ArrayUtils.addAll(includePatterns, excludePatterns);
         if (allPatterns != null) {
-            return newArrayList(
-                    Streams.filter(
-                            newArrayList(allPatterns),
-                            Predicates.negate(isTrimmed)));
+            return Arrays.asList(allPatterns).stream().filter(isTrimmed.negate()).toList();
         } else {
             return Collections.emptyList();
         }
@@ -78,7 +74,7 @@ public class AntFileSetUtils {
         return "Attention: found inclusion/exclusion patterns for '"
                 + sourceDirectory
                 + "' containing leading/trailing whitespaces:\n"
-                + StringUtils.join(Streams.map(patterns, wrapInBrackets), "\n");
+                + StringUtils.join(patterns.stream().map(wrapInBrackets), "\n");
     }
 
 }

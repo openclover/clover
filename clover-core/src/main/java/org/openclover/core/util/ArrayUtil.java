@@ -1,9 +1,8 @@
 package org.openclover.core.util;
 
-import org.openclover.core.util.function.Function;
-
 import java.lang.reflect.Array;
 import java.util.Locale;
+import java.util.function.Function;
 
 /**
  * Helper class to transform raw arrays.

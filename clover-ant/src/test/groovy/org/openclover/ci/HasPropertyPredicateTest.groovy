@@ -1,7 +1,8 @@
 package org.openclover.ci
 
 import org.junit.Test
-import org.openclover.core.util.function.Predicate
+
+import java.util.function.Predicate
 
 import static org.junit.Assert.assertFalse
 import static org.junit.Assert.assertTrue

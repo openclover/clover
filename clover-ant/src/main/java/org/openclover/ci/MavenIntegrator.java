@@ -1,7 +1,5 @@
 package org.openclover.ci;
 
-import org.openclover.core.util.function.Streams;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -166,7 +164,7 @@ public class MavenIntegrator implements Integrator {
     }
 
     private boolean containsArg(List<String> args, String property) {
-        return Streams.matchesAny(args, new HasPropertyPredicate(property));
+        return args.stream().anyMatch(new HasPropertyPredicate(property));
     }
 
     /**

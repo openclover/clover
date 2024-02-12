@@ -1,7 +1,8 @@
 package org.openclover.core.util
 
 import org.junit.Test
-import org.openclover.core.util.function.Function
+
+import java.util.function.Function
 
 import static org.junit.Assert.assertArrayEquals
 
