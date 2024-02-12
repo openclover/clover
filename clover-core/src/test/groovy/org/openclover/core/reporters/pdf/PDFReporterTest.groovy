@@ -4,6 +4,7 @@ import org.openclover.core.registry.metrics.HasMetricsTestFixture
 import org.openclover.runtime.api.CloverException
 import org.openclover.core.CloverStartup
 import org.openclover.runtime.Logger
+import org.openclover.core.TestUtils
 import org.openclover.core.reporters.Current
 import org.openclover.core.reporters.Format
 import org.openclover.core.reporters.Historical

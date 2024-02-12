@@ -4,6 +4,7 @@ import org.openclover.core.registry.metrics.HasMetricsTestFixture
 import org.openclover.runtime.api.CloverException
 import org.openclover.core.api.registry.ClassInfo
 import org.openclover.runtime.util.Formatting
+import org.openclover.core.TestUtils
 import org.openclover.core.registry.metrics.ClassMetrics
 import junit.framework.TestCase
 

@@ -19,6 +19,7 @@ import org.openclover.core.registry.entities.FullStatementInfo
 import org.openclover.core.registry.entities.MethodSignature
 import org.openclover.core.registry.entities.Modifiers
 import org.openclover.core.spi.lang.LanguageConstruct
+import org.openclover.core.TestUtils
 
 class HasMetricsTestFixture {
     FullProjectInfo projectInfo

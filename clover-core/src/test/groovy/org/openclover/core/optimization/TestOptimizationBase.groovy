@@ -5,6 +5,7 @@ import org.openclover.runtime.ErrorInfo
 import org.openclover.core.context.ContextSet
 import org.openclover.core.registry.Clover2Registry
 import org.openclover.core.registry.entities.FullMethodInfo
+import org.openclover.core.TestUtils
 import org.openclover.buildutil.testutils.IOHelper
 import org_openclover_runtime.CoverageRecorder
 import org.junit.Rule

@@ -6,6 +6,7 @@ import org.openclover.core.CloverLicense
 import org.openclover.runtime.CloverNames
 import org.openclover.core.CloverStartup
 import org.openclover.runtime.Logger
+import org.openclover.core.TestUtils
 import org.openclover.core.registry.Clover2Registry
 import junit.framework.TestCase
 

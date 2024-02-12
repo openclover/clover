@@ -7,6 +7,7 @@ import edu.umd.cs.mtc.TestFramework
 import org.junit.Before
 import org.junit.Rule
 import org.junit.rules.TestName
+import org.openclover.core.TestUtils
 import org.openclover.runtime.recorder.GrowableCoverageRecorder
 import org.openclover.runtime.recorder.FixedSizeCoverageRecorder
 import org.openclover.runtime.recorder.SharedCoverageRecorder

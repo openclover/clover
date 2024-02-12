@@ -1,5 +1,6 @@
 package org.openclover.core.registry
 
+import org.openclover.core.TestUtils
 import org.openclover.core.api.instrumentation.ConcurrentInstrumentationException
 import org.openclover.core.api.instrumentation.InstrumentationSession
 import org.openclover.runtime.api.CloverException
