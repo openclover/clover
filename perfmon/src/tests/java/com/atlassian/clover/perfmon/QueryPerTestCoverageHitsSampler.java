@@ -1,12 +1,12 @@
-package com.atlassian.clover.perfmon;
+package org.openclover.perfmon;
 
 import org.apache.jmeter.samplers.SampleResult;
 import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
 import org.openclover.runtime.api.CloverException;
-import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.CoverageData;
-import com.atlassian.clover.registry.entities.TestCaseInfo;
-import com.atlassian.clover.util.collections.Pair;
+import org.openclover.core.CloverDatabase;
+import org.openclover.core.CoverageData;
+import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.core.util.collections.Pair;
 
 public class QueryPerTestCoverageHitsSampler extends LoadDbSampler {
     @Override

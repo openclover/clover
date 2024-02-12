@@ -1,4 +1,4 @@
-package com.atlassian.clover.perfmon;
+package org.openclover.perfmon;
 
 import java.io.File;
 import java.io.IOException;

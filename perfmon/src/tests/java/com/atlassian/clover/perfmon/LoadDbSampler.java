@@ -1,4 +1,4 @@
-package com.atlassian.clover.perfmon;
+package org.openclover.perfmon;
 
 import org.apache.jmeter.samplers.SampleResult;
 import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
@@ -6,10 +6,10 @@ import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
 import java.io.File;
 
 import org.openclover.runtime.api.CloverException;
-import com.atlassian.clover.recorder.PerTestCoverageStrategy;
-import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.util.collections.Pair;
-import com.atlassian.clover.cfg.StorageSize;
+import org.openclover.core.recorder.PerTestCoverageStrategy;
+import org.openclover.core.CloverDatabase;
+import org.openclover.core.util.collections.Pair;
+import org.openclover.core.cfg.StorageSize;
 
 public class LoadDbSampler extends AbstractLoadDbSampler {
     public SampleResult runTest(JavaSamplerContext context) {

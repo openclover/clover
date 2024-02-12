@@ -1,18 +1,18 @@
-package com.atlassian.clover.perfmon;
+package org.openclover.perfmon;
 
-import com.atlassian.clover.reporters.filters.DefaultTestFilter;
+import org.openclover.core.reporters.filters.DefaultTestFilter;
 import org.apache.jmeter.samplers.SampleResult;
 
 import java.io.File;
 import java.io.IOException;
 
-import com.atlassian.clover.registry.Clover2Registry;
+import org.openclover.core.registry.Clover2Registry;
 import org.openclover.runtime.api.CloverException;
-import com.atlassian.clover.CloverDatabase;
-import com.atlassian.clover.CoverageDataSpec;
-import com.atlassian.clover.recorder.PerTestCoverageStrategy;
-import com.atlassian.clover.util.collections.Pair;
-import com.atlassian.clover.cfg.StorageSize;
+import org.openclover.core.CloverDatabase;
+import org.openclover.core.CoverageDataSpec;
+import org.openclover.core.recorder.PerTestCoverageStrategy;
+import org.openclover.core.util.collections.Pair;
+import org.openclover.core.cfg.StorageSize;
 
 public class PersistenceUtils {
     public static Pair<SampleResult, CloverDatabase> sampleLoad(

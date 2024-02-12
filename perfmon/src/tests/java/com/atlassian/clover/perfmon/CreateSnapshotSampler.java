@@ -1,12 +1,12 @@
-package com.atlassian.clover.perfmon;
+package org.openclover.perfmon;
 
 import org.apache.jmeter.samplers.SampleResult;
 import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
 
 import java.io.File;
 
-import com.atlassian.clover.optimization.Snapshot;
-import com.atlassian.clover.CoverageDataSpec;
+import org.openclover.core.optimization.Snapshot;
+import org.openclover.core.CoverageDataSpec;
 
 public class CreateSnapshotSampler extends AbstractJIRASamplerClient {
     public SampleResult runTest(JavaSamplerContext context) {

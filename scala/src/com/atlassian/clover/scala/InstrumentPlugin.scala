@@ -1,9 +1,9 @@
-package com.atlassian.clover.scala
+package org.openclover.scala
 
-import com.atlassian.clover.api.instrumentation.InstrumentationSession
-import com.atlassian.clover.api.registry.ContextSet
-import com.atlassian.clover.registry.{FixedSourceRegion, Clover2Registry}
-import com.atlassian.clover.registry.entities.MethodSignature
+import org.openclover.core.api.instrumentation.InstrumentationSession
+import org.openclover.core.api.registry.ContextSet
+import org.openclover.core.registry.{FixedSourceRegion, Clover2Registry}
+import org.openclover.core.registry.entities.MethodSignature
 import org.openclover.runtime.CloverNames
 
 import java.io.File
@@ -25,7 +25,7 @@ class InstrumentPlugin(val global: Global) extends Plugin {
     for (option: String <- options) {
       val nvp: List[String] = List.fromString(option, '=')
       nvp(0) match {
-        case com.atlassian.clover.CloverNames.PROP_INITSTRING =>
+        case org.openclover.runtime.CloverNames.PROP_INITSTRING =>
           initString = nvp(1)
         case "clover.project.name" =>
           projectName = nvp(1)

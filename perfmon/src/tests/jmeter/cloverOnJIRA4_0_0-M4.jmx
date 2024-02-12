@@ -116,7 +116,7 @@
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="classname">com.atlassian.clover.perfmon.InstrumentJIRASampler</stringProp>
+            <stringProp name="classname">org.openclover.perfmon.InstrumentJIRASampler</stringProp>
           </JavaSampler>
           <hashTree/>
           <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapese(ms): Instr app src" enabled="true">
@@ -169,7 +169,7 @@
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="classname">com.atlassian.clover.perfmon.InstrumentJIRASampler</stringProp>
+            <stringProp name="classname">org.openclover.perfmon.InstrumentJIRASampler</stringProp>
           </JavaSampler>
           <hashTree/>
           <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapsed(ms): Instr all src and store db" enabled="true">
@@ -222,7 +222,7 @@
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="classname">com.atlassian.clover.perfmon.InstrumentJIRASampler</stringProp>
+            <stringProp name="classname">org.openclover.perfmon.InstrumentJIRASampler</stringProp>
           </JavaSampler>
           <hashTree/>
           <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapsed(ms): Instr all src at method level and store db" enabled="true">
@@ -275,7 +275,7 @@
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="classname">com.atlassian.clover.perfmon.InstrumentJIRASampler</stringProp>
+            <stringProp name="classname">org.openclover.perfmon.InstrumentJIRASampler</stringProp>
           </JavaSampler>
           <hashTree/>
           <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapsed(ms): Reinstr 1 src" enabled="true">
@@ -323,7 +323,7 @@
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="classname">com.atlassian.clover.perfmon.ReinstrumentJIRASampler</stringProp>
+            <stringProp name="classname">org.openclover.perfmon.ReinstrumentJIRASampler</stringProp>
           </JavaSampler>
           <hashTree/>
           <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapsed(ms): Reinstr all src" enabled="true">
@@ -371,7 +371,7 @@
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="classname">com.atlassian.clover.perfmon.ReinstrumentJIRASampler</stringProp>
+            <stringProp name="classname">org.openclover.perfmon.ReinstrumentJIRASampler</stringProp>
           </JavaSampler>
           <hashTree/>
           <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapsed(ms): clover:on java:compile test:compile" enabled="true">
@@ -419,7 +419,7 @@
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="classname">com.atlassian.clover.perfmon.RunMavenOnJIRA</stringProp>
+            <stringProp name="classname">org.openclover.perfmon.RunMavenOnJIRA</stringProp>
           </JavaSampler>
           <hashTree/>
           <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapsed(ms): Load Full Model" enabled="true">
@@ -453,7 +453,7 @@
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="classname">com.atlassian.clover.perfmon.LoadDbSampler</stringProp>
+            <stringProp name="classname">org.openclover.perfmon.LoadDbSampler</stringProp>
           </JavaSampler>
           <hashTree/>
           <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapsed(ms): Load Full + App + Test Model" enabled="true">
@@ -487,7 +487,7 @@
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="classname">com.atlassian.clover.perfmon.LoadDbSampler</stringProp>
+            <stringProp name="classname">org.openclover.perfmon.LoadDbSampler</stringProp>
           </JavaSampler>
           <hashTree/>
           <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Heap(b): Load Full Model" enabled="true">
@@ -521,7 +521,7 @@
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="classname">com.atlassian.clover.perfmon.LoadDbHeapSampler</stringProp>
+            <stringProp name="classname">org.openclover.perfmon.LoadDbHeapSampler</stringProp>
           </JavaSampler>
           <hashTree/>
           <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Heap(b): Load Full + App + Test Model" enabled="true">
@@ -555,7 +555,7 @@
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="classname">com.atlassian.clover.perfmon.LoadDbHeapSampler</stringProp>
+            <stringProp name="classname">org.openclover.perfmon.LoadDbHeapSampler</stringProp>
           </JavaSampler>
           <hashTree/>
           <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapsed(ms): Save Reg" enabled="true">
@@ -568,7 +568,7 @@
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="classname">com.atlassian.clover.perfmon.StoreDbSampler</stringProp>
+            <stringProp name="classname">org.openclover.perfmon.StoreDbSampler</stringProp>
           </JavaSampler>
           <hashTree/>
           <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapsed(ms): clover:on test" enabled="true">
@@ -616,7 +616,7 @@
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="classname">com.atlassian.clover.perfmon.RunMavenOnJIRA</stringProp>
+            <stringProp name="classname">org.openclover.perfmon.RunMavenOnJIRA</stringProp>
           </JavaSampler>
           <hashTree/>
           <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapsed(ms): Create Snapshot After Run" enabled="true">
@@ -629,7 +629,7 @@
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="classname">com.atlassian.clover.perfmon.CreateSnapshotSampler</stringProp>
+            <stringProp name="classname">org.openclover.perfmon.CreateSnapshotSampler</stringProp>
           </JavaSampler>
           <hashTree/>
           <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Heap(b): Load Model+Cov(InMem)" enabled="true">
@@ -663,7 +663,7 @@
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="classname">com.atlassian.clover.perfmon.LoadDbHeapSampler</stringProp>
+            <stringProp name="classname">org.openclover.perfmon.LoadDbHeapSampler</stringProp>
           </JavaSampler>
           <hashTree/>
           <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Heap(b): Load Model+Cov(Sampling+128m Cache)" enabled="true">
@@ -697,7 +697,7 @@
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="classname">com.atlassian.clover.perfmon.LoadDbHeapSampler</stringProp>
+            <stringProp name="classname">org.openclover.perfmon.LoadDbHeapSampler</stringProp>
           </JavaSampler>
           <hashTree/>
           <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Heap(b): Load Model+Cov(Sampling+256m Cache)" enabled="true">
@@ -731,7 +731,7 @@
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="classname">com.atlassian.clover.perfmon.LoadDbHeapSampler</stringProp>
+            <stringProp name="classname">org.openclover.perfmon.LoadDbHeapSampler</stringProp>
           </JavaSampler>
           <hashTree/>
           <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Heap(b): Load Model+Cov(Sampling+512m Cache)" enabled="true">
@@ -765,7 +765,7 @@
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="classname">com.atlassian.clover.perfmon.LoadDbHeapSampler</stringProp>
+            <stringProp name="classname">org.openclover.perfmon.LoadDbHeapSampler</stringProp>
           </JavaSampler>
           <hashTree/>
           <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Heap(b): Query TCI Coverage of Model+Cov(InMem)" enabled="true">
@@ -799,7 +799,7 @@
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="classname">com.atlassian.clover.perfmon.QueryPerTestCoverageHitsHeapSampler</stringProp>
+            <stringProp name="classname">org.openclover.perfmon.QueryPerTestCoverageHitsHeapSampler</stringProp>
           </JavaSampler>
           <hashTree/>
           <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Heap(b): Query TCI Coverage of Model+Cov(Sampling+128m Cache)" enabled="true">
@@ -833,7 +833,7 @@
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="classname">com.atlassian.clover.perfmon.QueryPerTestCoverageHitsHeapSampler</stringProp>
+            <stringProp name="classname">org.openclover.perfmon.QueryPerTestCoverageHitsHeapSampler</stringProp>
           </JavaSampler>
           <hashTree/>
           <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Heap(b): Query TCI Coverage of Model+Cov(Sampling+256m Cache)" enabled="true">
@@ -867,7 +867,7 @@
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="classname">com.atlassian.clover.perfmon.QueryPerTestCoverageHitsHeapSampler</stringProp>
+            <stringProp name="classname">org.openclover.perfmon.QueryPerTestCoverageHitsHeapSampler</stringProp>
           </JavaSampler>
           <hashTree/>
           <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Heap(b): Query TCI Coverage of Model+Cov(Sampling+512m Cache)" enabled="true">
@@ -901,7 +901,7 @@
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="classname">com.atlassian.clover.perfmon.QueryPerTestCoverageHitsHeapSampler</stringProp>
+            <stringProp name="classname">org.openclover.perfmon.QueryPerTestCoverageHitsHeapSampler</stringProp>
           </JavaSampler>
           <hashTree/>
           <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapsed(ms): Load Model+Cov(InMem)" enabled="true">
@@ -934,7 +934,7 @@
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="classname">com.atlassian.clover.perfmon.LoadDbSampler</stringProp>
+            <stringProp name="classname">org.openclover.perfmon.LoadDbSampler</stringProp>
           </JavaSampler>
           <hashTree/>
           <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapsed(ms): Load Model+Cov(Sampling+128m Cache)" enabled="true">
@@ -967,7 +967,7 @@
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="classname">com.atlassian.clover.perfmon.LoadDbSampler</stringProp>
+            <stringProp name="classname">org.openclover.perfmon.LoadDbSampler</stringProp>
           </JavaSampler>
           <hashTree/>
           <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapsed(ms): Load Model+Cov(Sampling+256m Cache)" enabled="true">
@@ -1000,7 +1000,7 @@
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="classname">com.atlassian.clover.perfmon.LoadDbSampler</stringProp>
+            <stringProp name="classname">org.openclover.perfmon.LoadDbSampler</stringProp>
           </JavaSampler>
           <hashTree/>
           <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapsed(ms): Load Model+Cov(Sampling+512m Cache)" enabled="true">
@@ -1033,7 +1033,7 @@
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="classname">com.atlassian.clover.perfmon.LoadDbSampler</stringProp>
+            <stringProp name="classname">org.openclover.perfmon.LoadDbSampler</stringProp>
           </JavaSampler>
           <hashTree/>
           <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapsed(ms): Query TCI Coverage(InMem)" enabled="true">
@@ -1067,7 +1067,7 @@
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="classname">com.atlassian.clover.perfmon.QueryPerTestCoverageHitsSampler</stringProp>
+            <stringProp name="classname">org.openclover.perfmon.QueryPerTestCoverageHitsSampler</stringProp>
           </JavaSampler>
           <hashTree/>
           <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapsed(ms): Query TCI Coverage(Sampling+128m Cache)" enabled="true">
@@ -1101,7 +1101,7 @@
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="classname">com.atlassian.clover.perfmon.QueryPerTestCoverageHitsSampler</stringProp>
+            <stringProp name="classname">org.openclover.perfmon.QueryPerTestCoverageHitsSampler</stringProp>
           </JavaSampler>
           <hashTree/>
           <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapsed(ms): Query TCI Coverage(Sampling+256m Cache)" enabled="true">
@@ -1135,7 +1135,7 @@
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="classname">com.atlassian.clover.perfmon.QueryPerTestCoverageHitsSampler</stringProp>
+            <stringProp name="classname">org.openclover.perfmon.QueryPerTestCoverageHitsSampler</stringProp>
           </JavaSampler>
           <hashTree/>
           <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapsed(ms): Query TCI Coverage(Sampling+512m Cache)" enabled="true">
@@ -1169,7 +1169,7 @@
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="classname">com.atlassian.clover.perfmon.QueryPerTestCoverageHitsSampler</stringProp>
+            <stringProp name="classname">org.openclover.perfmon.QueryPerTestCoverageHitsSampler</stringProp>
           </JavaSampler>
           <hashTree/>
           <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapsed(ms): clover:report XML" enabled="true">
@@ -1217,7 +1217,7 @@
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="classname">com.atlassian.clover.perfmon.RunMavenOnJIRA</stringProp>
+            <stringProp name="classname">org.openclover.perfmon.RunMavenOnJIRA</stringProp>
           </JavaSampler>
           <hashTree/>
           <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapsed(ms): clover:report HTML" enabled="true">
@@ -1265,7 +1265,7 @@
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="classname">com.atlassian.clover.perfmon.RunMavenOnJIRA</stringProp>
+            <stringProp name="classname">org.openclover.perfmon.RunMavenOnJIRA</stringProp>
           </JavaSampler>
           <hashTree/>
           <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="JIRA: Elapsed(ms): clover:report PDF" enabled="true">
@@ -1313,7 +1313,7 @@
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="classname">com.atlassian.clover.perfmon.RunMavenOnJIRA</stringProp>
+            <stringProp name="classname">org.openclover.perfmon.RunMavenOnJIRA</stringProp>
           </JavaSampler>
           <hashTree/>
         </hashTree>

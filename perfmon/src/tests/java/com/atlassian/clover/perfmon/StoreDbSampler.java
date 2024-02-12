@@ -1,4 +1,4 @@
-package com.atlassian.clover.perfmon;
+package org.openclover.perfmon;
 
 import org.apache.jmeter.samplers.SampleResult;
 import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;

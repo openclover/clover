@@ -1,7 +1,7 @@
-package com.atlassian.clover.perfmon;
+package org.openclover.perfmon;
 
-import com.atlassian.clover.cfg.instr.java.JavaInstrumentationConfig;
-import com.atlassian.clover.instr.java.Instrumenter;
+import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig;
+import org.openclover.core.instr.java.Instrumenter;
 import org.openclover.runtime.api.CloverException;
 import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;

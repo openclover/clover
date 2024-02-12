@@ -1,14 +1,14 @@
-package com.atlassian.clover.perfmon;
+package org.openclover.perfmon;
 
 import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
 
 import java.io.File;
 
-import com.atlassian.clover.CloverDatabase;
+import org.openclover.core.CloverDatabase;
 import org.openclover.runtime.api.CloverException;
-import com.atlassian.clover.recorder.PerTestCoverageStrategy;
-import com.atlassian.clover.registry.entities.TestCaseInfo;
-import com.atlassian.clover.cfg.StorageSize;
+import org.openclover.core.recorder.PerTestCoverageStrategy;
+import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.core.cfg.StorageSize;
 
 public class QueryPerTestCoverageHitsHeapSampler extends LoadDbHeapSampler {
     @Override

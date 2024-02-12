@@ -1,4 +1,4 @@
 <plugin>
   <name>cloverInstrumenter</name>
-  <classname>com.atlassian.clover.scala.InstrumentPlugin</classname>
+  <classname>org.openclover.scala.InstrumentPlugin</classname>
 </plugin>

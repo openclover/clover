@@ -1,6 +1,6 @@
-package com.atlassian.clover.perfmon;
+package org.openclover.perfmon;
 
-import com.atlassian.clover.instr.java.Instrumenter;
+import org.openclover.core.instr.java.Instrumenter;
 
 import java.io.File;
 import java.io.FilenameFilter;

@@ -1,7 +1,7 @@
-package com.atlassian.clover.perfmon;
+package org.openclover.perfmon;
 
 import org.apache.jmeter.config.Arguments;
-import com.atlassian.clover.recorder.PerTestCoverageStrategy;
+import org.openclover.core.recorder.PerTestCoverageStrategy ;
 
 public abstract class AbstractLoadDbSampler extends AbstractDbPersistenceSampler {
     protected static final String LOAD_REG_ONLY = "load.reg.only";
