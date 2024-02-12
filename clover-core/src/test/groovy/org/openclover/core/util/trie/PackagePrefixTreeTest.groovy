@@ -11,18 +11,18 @@ class PackagePrefixTreeTest extends PrefixTreeTest {
     void testAdd() throws Exception {
         // note: input package does not have to be sorted alphabetically
         List<Pair<String, PackageInfoExt>> inputPackages = [
-            // test: com.atlassian.clover.instr is a prefix of *.java and *.groovy, has no value -> shall compact
-            Pair.of("com.atlassian.clover.instr",
+            // test: a.b.c.d is a prefix of *.java and *.groovy, has no value -> shall compact
+            Pair.of("a.b.c.d",
                     (PackageInfoExt)null),
-            Pair.of("com.atlassian.clover.instr.java",
-                    new PackageInfoExt(new BasePackageInfo(null, "com.atlassian.clover.instr.java"), false) ),
-            Pair.of("com.atlassian.clover.instr.groovy",
-                    new PackageInfoExt(new BasePackageInfo(null, "com.atlassian.clover.instr.groovy"), false) ),
+            Pair.of("a.b.c.d.java",
+                    new PackageInfoExt(new BasePackageInfo(null, "a.b.c.d.java"), false) ),
+            Pair.of("a.b.c.d.groovy",
+                    new PackageInfoExt(new BasePackageInfo(null, "a.b.c.d.groovy"), false) ),
 
-            // test: com.atlassian has value, com.atlassian.clover not -> shall not compact
-            Pair.of("com.atlassian",
-                    new PackageInfoExt(new BasePackageInfo(null, "com.atlassian"), false) ),
-            Pair.of("com.atlassian.clover",
+            // test: a.b has value, a.b.c not -> shall not compact
+            Pair.of("a.b",
+                    new PackageInfoExt(new BasePackageInfo(null, "a.b"), false) ),
+            Pair.of("a.b.c",
                     (PackageInfoExt)null),
 
             // test: java.util not alphabetically - shall sort it
@@ -30,14 +30,14 @@ class PackagePrefixTreeTest extends PrefixTreeTest {
                     new PackageInfoExt(new BasePackageInfo(null, "java.util"), false) ),
 
             // test: test-only package
-            Pair.of("com.atlassian.clover.html",
-                    new PackageInfoExt(new BasePackageInfo(null, "com.atlassian.clover.html"), true) ),
+            Pair.of("a.b.c.html",
+                    new PackageInfoExt(new BasePackageInfo(null, "a.b.c.html"), true) ),
 
             // test: add longer package before shorter one
-            Pair.of("com.cenqua.clover.util",
-                    new PackageInfoExt(new BasePackageInfo(null, "com.cenqua.clover.util"), false) ),
-            Pair.of("com.cenqua.clover",
-                    new PackageInfoExt(new BasePackageInfo(null, "com.cenqua.clover"), false) )
+            Pair.of("a.c.e.util",
+                    new PackageInfoExt(new BasePackageInfo(null, "a.c.e.util"), false) ),
+            Pair.of("a.c.e",
+                    new PackageInfoExt(new BasePackageInfo(null, "a.c.e"), false) )
         ]
 
         // build a tree
@@ -49,16 +49,16 @@ class PackagePrefixTreeTest extends PrefixTreeTest {
         // check how it looks uncompressed
         String expectedTree =
                 "+\n" +
-                "  +com\n" +
-                "    +atlassian (com.atlassian false)\n" +
-                "      +clover\n" +
-                "        +html (com.atlassian.clover.html true)\n" +
-                "        +instr\n" +
-                "          +groovy (com.atlassian.clover.instr.groovy false)\n" +
-                "          +java (com.atlassian.clover.instr.java false)\n" +
-                "    +cenqua\n" +
-                "      +clover (com.cenqua.clover false)\n" +
-                "        +util (com.cenqua.clover.util false)\n" +
+                "  +a\n" +
+                "    +b (a.b false)\n" +
+                "      +c\n" +
+                "        +d\n" +
+                "          +groovy (a.b.c.d.groovy false)\n" +
+                "          +java (a.b.c.d.java false)\n" +
+                "        +html (a.b.c.html true)\n" +
+                "    +c\n" +
+                "      +e (a.c.e false)\n" +
+                "        +util (a.c.e.util false)\n" +
                 "  +java\n" +
                 "    +util (java.util false)\n"
         assertPrintTreeEquals(expectedTree, tree)
@@ -66,15 +66,15 @@ class PackagePrefixTreeTest extends PrefixTreeTest {
         // check how it looks after compression
         String expectedTreeCompressed =
                 "+\n" +
-                "  +com\n" +
-                "    +atlassian (com.atlassian false)\n" +
-                "      +clover\n" +
-                "        +html (com.atlassian.clover.html true)\n" +
-                "        +instr\n" +
-                "          +groovy (com.atlassian.clover.instr.groovy false)\n" +
-                "          +java (com.atlassian.clover.instr.java false)\n" +
-                "    +cenqua.clover (com.cenqua.clover false)\n" +
-                "      +util (com.cenqua.clover.util false)\n" +
+                "  +a\n" +
+                "    +b (a.b false)\n" +
+                "      +c\n" +
+                "        +d\n" +
+                "          +groovy (a.b.c.d.groovy false)\n" +
+                "          +java (a.b.c.d.java false)\n" +
+                "        +html (a.b.c.html true)\n" +
+                "    +c.e (a.c.e false)\n" +
+                "      +util (a.c.e.util false)\n" +
                 "  +java.util (java.util false)\n"
         tree.compressTree()
         assertPrintTreeEquals(expectedTreeCompressed, tree)
@@ -84,9 +84,9 @@ class PackagePrefixTreeTest extends PrefixTreeTest {
     void testCompressTreeOneNode() throws Exception {
         // note: input package does not have to be sorted alphabetically
         List<Pair<String, PackageInfoExt>> inputPackages = [
-            // test: com.atlassian.clover.instr is a prefix of *.java and *.groovy, has no value -> shall compact
-            Pair.of("com.atlassian.clover.instr.java",
-                    new PackageInfoExt(new BasePackageInfo(null, "com.atlassian.clover.instr.java"), false))
+            // test: a.b.c.d is a prefix of *.java and *.groovy, has no value -> shall compact
+            Pair.of("a.b.c.d.java",
+                    new PackageInfoExt(new BasePackageInfo(null, "a.b.c.d.java"), false))
         ]
 
         // build a tree
@@ -98,16 +98,16 @@ class PackagePrefixTreeTest extends PrefixTreeTest {
         // check how it looks uncompressed
         String expectedTree =
                 "+\n" +
-                "  +com\n" +
-                "    +atlassian\n" +
-                "      +clover\n" +
-                "        +instr\n" +
-                "          +java (com.atlassian.clover.instr.java false)\n"
+                "  +a\n" +
+                "    +b\n" +
+                "      +c\n" +
+                "        +d\n" +
+                "          +java (a.b.c.d.java false)\n"
         assertPrintTreeEquals(expectedTree, tree)
 
         // check how it looks after compression
         String expectedTreeCompressed =
-                "+com.atlassian.clover.instr.java (com.atlassian.clover.instr.java false)\n"
+                "+a.b.c.d.java (a.b.c.d.java false)\n"
         tree.compressTree()
         assertPrintTreeEquals(expectedTreeCompressed, tree)
     }

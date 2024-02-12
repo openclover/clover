@@ -24,23 +24,23 @@ public class FileBasedJUnitClassListProcessorIdeaTest extends LightIdeaTestCase 
     static final String[][] TEST_CASES = {
             {"-junit3", ""},
             {"-junit3", "package.name1"},
-            {"-junit3", "", "com.atlassian.clover.Test1"},
-            {"-junit3", "", "com.atlassian.clover.Test1", "com.atlassian.clover.Test2"},
-            {"-junit3", "package.name", "com.atlassian.clover.Test1", "com.atlassian.clover.Test2"},
+            {"-junit3", "", "a.b.c.Test1"},
+            {"-junit3", "", "a.b.c.Test1", "a.b.c.Test2"},
+            {"-junit3", "package.name", "a.b.c.Test1", "a.b.c.Test2"},
     };
 
     static final String[][] TEST_CASES_IDEA_11_TO_13 = {
             {""},
             {"package.name1"},
-            {"", "com.atlassian.clover.Test1"},
-            {"", "com.atlassian.clover.Test1", "com.atlassian.clover.Test2"},
-            {"package.name", "com.atlassian.clover.Test1", "com.atlassian.clover.Test2"},
+            {"", "a.b.c.Test1"},
+            {"", "a.b.c.Test1", "a.b.c.Test2"},
+            {"package.name", "a.b.c.Test1", "a.b.c.Test2"},
     };
 
     static final String[][] TEST_CASES_IDEA_14_AND_ABOVE = {
             {"", ""},
-            {"", "", "com.atlassian.clover.Test1"},
-            {"", "", "com.atlassian.clover.Test1", "com.atlassian.clover.Test2"},
+            {"", "", "a.b.c.Test1"},
+            {"", "", "a.b.c.Test1", "a.b.c.Test2"},
     };
 
     private static final SavingsReporter DUMMY_SAVINGS_REPORTER = (project, optimizationSession) -> { };
