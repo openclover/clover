@@ -10,14 +10,13 @@ import org.openclover.core.CloverDatabase;
 import org.openclover.core.CoverageData;
 import org.openclover.core.MaskedBitSetCoverageProvider;
 import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.MethodSignatureInfo;
+import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.api.registry.ParameterInfo;
-import org.openclover.core.registry.CoverageDataProvider;
-import org.openclover.core.registry.entities.BaseClassInfo;
-import org.openclover.core.registry.entities.BaseFileInfo;
-import org.openclover.core.registry.entities.BasePackageInfo;
+import org.openclover.core.api.registry.CoverageDataProvider;
 import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.FullMethodInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
@@ -103,15 +102,15 @@ public class LoadedDatabaseModel extends StableDatabaseModel {
     }
 
     @Override
-    public BaseFileInfo getSourceFileInfo(ICompilationUnit cu, MetricsScope scope) {
-        BasePackageInfo packageInfo = scope.getProjectInfoFor(project).getNamedPackage(cu.getParent().getElementName());
+    public FileInfo getSourceFileInfo(ICompilationUnit cu, MetricsScope scope) {
+        PackageInfo packageInfo = scope.getProjectInfoFor(project).getNamedPackage(cu.getParent().getElementName());
         return packageInfo == null ? null : packageInfo.getFileInPackage(cu.getElementName());
     }
 
     @Override
-    public BaseClassInfo getTypeInfo(IType type, MetricsScope scope) {
+    public ClassInfo getTypeInfo(IType type, MetricsScope scope) {
         //Here we make sure we get back Inner.Classes rather than Inner$Classes which confuses Clover
-        return (BaseClassInfo)scope.getProjectInfoFor(project).findClass(type.getFullyQualifiedName('.'));
+        return scope.getProjectInfoFor(project).findClass(type.getFullyQualifiedName('.'));
     }
 
     @Override

@@ -67,7 +67,7 @@ public abstract class FullElementInfo<T extends BasicElementInfo> implements Cov
 
     @Override
     public int getDataIndex() {
-        return ((FullFileInfo)getContainingFile()).dataIndex + sharedInfo.getRelativeDataIndex();
+        return getContainingFile().getDataIndex() + sharedInfo.getRelativeDataIndex();
     }
 
     @Override

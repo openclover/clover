@@ -35,7 +35,9 @@ import java.util.concurrent.atomic.AtomicReference;
 import static org.openclover.core.util.Lists.newArrayList;
 
 
-public class FullMethodInfo extends FullElementInfo<BasicMethodInfo> implements HasAggregatedMetrics, HasMetricsNode, TaggedPersistent, MethodInfo {
+public class FullMethodInfo extends FullElementInfo<BasicMethodInfo>
+        implements HasAggregatedMetrics, HasMetricsNode, TaggedPersistent, MethodInfo {
+
     public static final int DEFAULT_METHOD_COMPLEXITY = 1;
 
     private List<FullStatementInfo> statements = newArrayList();

@@ -6,8 +6,6 @@ import org.openclover.core.api.registry.FileInfo
 import org.openclover.core.api.registry.PackageInfo
 import org.openclover.core.model.CoverageDataPoint
 import org.openclover.core.model.XmlConverter
-import org.openclover.core.registry.entities.BasePackageInfo
-import org.openclover.core.registry.entities.FullFileInfo
 import org.openclover.core.registry.entities.FullProjectInfo
 import org.openclover.core.registry.metrics.ProjectMetrics
 import org.openclover.runtime.CloverNames
@@ -111,18 +109,18 @@ class CloverReportTaskSanityTest extends CloverBuildFileTestBase{
 
         assertMetricsEquals(expectedMetrics, actualMetrics)
 
-        final List<? extends PackageInfo> expectedPackages = expectedProject.getAllPackages()
+        final List<PackageInfo> expectedPackages = expectedProject.getAllPackages()
         for (PackageInfo expectedPackage : expectedPackages) {
-            BasePackageInfo packageInfo = (BasePackageInfo) expectedPackage
-            BasePackageInfo actualPkgInfo = actualProject.getNamedPackage(packageInfo.getName())
+            PackageInfo packageInfo = expectedPackage
+            PackageInfo actualPkgInfo = actualProject.getNamedPackage(packageInfo.getName())
             assertMetricsEquals(packageInfo.getMetrics(), actualPkgInfo.getMetrics())
 
-            final List<? extends FileInfo> expectedFiles = packageInfo.getFiles()
+            final List<FileInfo> expectedFiles = packageInfo.getFiles()
             for (FileInfo expectedFile : expectedFiles) {
-                FullFileInfo actualFileInfo = (FullFileInfo)actualPkgInfo.getFile(expectedFile.getPackagePath())
+                FileInfo actualFileInfo = actualPkgInfo.getFile(expectedFile.getPackagePath())
                 assertNotNull(actualFileInfo)
 
-                final List<? extends ClassInfo> expectedClasses = expectedFile.getClasses()
+                final List<ClassInfo> expectedClasses = expectedFile.getClasses()
                 for (ClassInfo expectedClass : expectedClasses) {
                     ClassInfo actualClassInfo = actualFileInfo.getNamedClass(expectedClass.getName())
                     assertMetricsEquals(expectedClass.getMetrics(), actualClassInfo.getMetrics())

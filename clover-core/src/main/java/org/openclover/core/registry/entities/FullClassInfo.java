@@ -24,6 +24,7 @@ import org.openclover.core.io.tags.TaggedPersistent;
 import org.openclover.core.api.registry.CoverageDataProvider;
 import org.openclover.core.api.registry.CoverageDataReceptor;
 import org.openclover.core.registry.FileElementVisitor;
+import org.openclover.core.registry.FixedFileRegion;
 import org.openclover.core.registry.FixedSourceRegion;
 import org.openclover.core.registry.metrics.ClassMetrics;
 import org.openclover.core.api.registry.HasMetricsFilter;
@@ -39,7 +40,12 @@ import java.util.Set;
 import static org.openclover.core.util.Lists.newArrayList;
 
 
-public class FullClassInfo extends BaseClassInfo implements HasMetricsNode, CoverageDataReceptor, TaggedPersistent, ClassInfo {
+public class FullClassInfo
+        implements HasMetricsNode, CoverageDataReceptor, TaggedPersistent, ClassInfo {
+
+    private final FullClassMetadata classMetadata;
+    private SourceInfo region;
+    private FileInfo containingFile;
 
     /**
      * List of methods declared in the class
@@ -73,40 +79,41 @@ public class FullClassInfo extends BaseClassInfo implements HasMetricsNode, Cove
     private transient ParentEntity parent;
 
 
-    public FullClassInfo(final FullPackageInfo packageInfo, final FullClassInfo parentClass,
+    public FullClassInfo(final PackageInfo packageInfo, final FullClassInfo parentClass,
                          final int dataIndex, final String name, final SourceInfo region, final Modifiers modifiers,
                          final boolean typeInterface, final boolean typeEnum, final boolean typeAnnotation) {
-        this(new ParentEntity(parentClass), packageInfo,
-                dataIndex, name, region, modifiers,
+        this.parent = new ParentEntity(parentClass);
+        this.classMetadata = new FullClassMetadata(packageInfo, name, modifiers,
                 typeInterface, typeEnum, typeAnnotation);
+        this.region = region;
+        this.containingFile = parentClass.getContainingFile();
     }
 
-    public FullClassInfo(final FullPackageInfo packageInfo, final FullMethodInfo parentMethod,
+    public FullClassInfo(final PackageInfo packageInfo, final MethodInfo parentMethod,
                          final int dataIndex, final String name, final SourceInfo region, final Modifiers modifiers,
                          final boolean typeInterface, final boolean typeEnum, final boolean typeAnnotation) {
-        this(new ParentEntity(parentMethod), packageInfo,
-                dataIndex, name, region, modifiers,
-                typeInterface, typeEnum, typeAnnotation);
-    }
-
-    public FullClassInfo(final FullPackageInfo packageInfo, final FullFileInfo parentFile,
-                         final int dataIndex, final String name, final SourceInfo region, final Modifiers modifiers,
-                         final boolean typeInterface, final boolean typeEnum, final boolean typeAnnotation) {
-
-        this(new ParentEntity(parentFile), packageInfo,
-                dataIndex, name, region, modifiers,
-                typeInterface, typeEnum, typeAnnotation);
-    }
-
-    private FullClassInfo(final ParentEntity parent, final FullPackageInfo packageInfo,
-                          final int dataIndex, final String name, final SourceInfo region, final Modifiers modifiers,
-                          final boolean typeInterface, final boolean typeEnum, final boolean typeAnnotation) {
-
-        super(packageInfo, (BaseFileInfo)parent.getContainingFile(),
+        this(new ParentEntity(parentMethod), packageInfo, dataIndex,
                 name, region, modifiers,
                 typeInterface, typeEnum, typeAnnotation);
-        this.relativeDataIndex = dataIndex;
+    }
+
+    public FullClassInfo(final PackageInfo packageInfo, final FileInfo parentFile,
+                         final int dataIndex, final String name, final SourceInfo region, final Modifiers modifiers,
+                         final boolean typeInterface, final boolean typeEnum, final boolean typeAnnotation) {
+        this(new ParentEntity(parentFile), packageInfo, dataIndex,
+                name, region, modifiers,
+                typeInterface, typeEnum, typeAnnotation);
+    }
+
+    private FullClassInfo(final ParentEntity parent, final PackageInfo packageInfo,
+                          final int dataIndex, final String name, final SourceInfo region, final Modifiers modifiers,
+                          final boolean typeInterface, final boolean typeEnum, final boolean typeAnnotation) {
         this.parent = parent;
+        this.classMetadata = new FullClassMetadata(packageInfo, name, modifiers,
+                typeInterface, typeEnum, typeAnnotation);
+        this.region = region;
+        this.containingFile = parent.getContainingFile();
+        this.relativeDataIndex = dataIndex;
     }
 
     /**
@@ -120,7 +127,8 @@ public class FullClassInfo extends BaseClassInfo implements HasMetricsNode, Cove
                           final List<FullMethodInfo> methods,
                           final List<FullClassInfo> classes,
                           final List<FullStatementInfo> statements) {
-        super(name, qualifiedName, region, modifiers, typeInterface, typeEnum, typeAnnotation, testClass);
+        this.classMetadata = new FullClassMetadata(name, qualifiedName, modifiers, typeInterface, typeEnum, typeAnnotation, testClass);
+        this.region = region;
         this.relativeDataIndex = dataIndex;
         this.dataLength = dataLength;
         this.methods = methods;
@@ -128,20 +136,77 @@ public class FullClassInfo extends BaseClassInfo implements HasMetricsNode, Cove
         this.statements = statements;
     }
 
+    // ClassInfo
+
     @Override
-    public boolean isEmpty() {
-        return methods.size() == 0;
+    public String getQualifiedName() {
+        return classMetadata.getQualifiedName();
     }
 
     @Override
+    public ModifiersInfo getModifiers() {
+        return classMetadata.getModifiers();
+    }
+
+    @Override
+    public boolean isInterface() {
+        return classMetadata.isInterface();
+    }
+
+    @Override
+    public boolean isEnum() {
+        return classMetadata.isEnum();
+    }
+
+    @Override
+    public boolean isAnnotationType() {
+        return classMetadata.isAnnotationType();
+    }
+
+    @Override
+    public boolean isTestClass() {
+        return classMetadata.isTestClass();
+    }
+
+    @Override
+    public PackageInfo getPackage() {
+        return classMetadata.getPackage();
+    }
+
+    // CoverageDataRecorder
+
+    @Override
+    public void setDataProvider(final CoverageDataProvider data) {
+        this.data = data;
+        this.tciLookup =
+                data instanceof TCILookupStore ? ((TCILookupStore)data).namedTCILookupFor(calcTCILookupName()) : null;
+        for (FullMethodInfo methodInfo : methods) {
+            methodInfo.setDataProvider(data);
+        }
+        for (FullClassInfo classInfo : classes) {
+            classInfo.setDataProvider(data);
+        }
+        // note: don't call setDataProvider on 'statements' because FullStatementInfo takes provider form its parent
+        classMetadata.rawMetrics = null;
+        classMetadata.metrics = null;
+    }
+
+    @Override
+    public CoverageDataProvider getDataProvider() {
+        return data;
+    }
+
+    // HasClasses
+
+    @Override
     @NotNull
-    public List<? extends ClassInfo> getClasses() {
+    public List<ClassInfo> getClasses() {
         return newArrayList(classes); // copy
     }
 
     @Override
     @NotNull
-    public List<? extends ClassInfo> getAllClasses() {
+    public List<ClassInfo> getAllClasses() {
         final List<ClassInfo> allClasses = newArrayList();
         // in-order
         for (FullClassInfo classInfo : classes) {
@@ -154,15 +219,17 @@ public class FullClassInfo extends BaseClassInfo implements HasMetricsNode, Cove
         return allClasses;
     }
 
+    // HasMethods
+
     @Override
     @NotNull
-    public List<? extends MethodInfo> getMethods() {
+    public List<MethodInfo> getMethods() {
         return newArrayList(methods); // copy
     }
 
     @Override
     @NotNull
-    public List<? extends MethodInfo> getAllMethods() {
+    public List<MethodInfo> getAllMethods() {
         final List<MethodInfo> allMethods = newArrayList();
         // in-order
         for (FullMethodInfo methodInfo : methods) {
@@ -175,11 +242,98 @@ public class FullClassInfo extends BaseClassInfo implements HasMetricsNode, Cove
         return allMethods;
     }
 
+    // HasMetrics
+
+    @Override
+    public String getName() {
+        return classMetadata.getName();
+    }
+
+    @Override
+    public BlockMetrics getMetrics() {
+        // TODO getPackage() or parent.getParentEntity() ?
+        if (classMetadata.metrics == null  || getPackage().getContextFilter() != classMetadata.contextFilter) {
+            classMetadata.contextFilter = getContainingFile().getContextFilter();
+            classMetadata.metrics = calcMetrics(classMetadata.contextFilter, true);
+        }
+        return classMetadata.metrics;
+    }
+
+    @Override
+    public BlockMetrics getRawMetrics() {
+        if (classMetadata.rawMetrics == null) {
+            classMetadata.rawMetrics = calcMetrics(null, false);
+        }
+        return classMetadata.rawMetrics;
+    }
+
+    @Override
+    public void setMetrics(BlockMetrics metrics) {
+        classMetadata.setMetrics(metrics);
+    }
+
+    // HasMetricsNode
+
+    @Override
+    public boolean isEmpty() {
+        return methods.size() == 0;
+    }
+
+    @Override
+    public int getNumChildren() {
+        return methods.size();
+    }
+
+    @Override
+    public HasMetricsNode getChild(int i) {
+        return methods.get(i);
+    }
+
+    @Override
+    public int getIndexOfChild(HasMetricsNode child) {
+        return methods.indexOf(child);
+    }
+
+    @Override
+    public boolean isLeaf() {
+        return false;
+    }
+
+
+    // HasStatements
+
     @Override
     @NotNull
     public List<StatementInfo> getStatements() {
         return newArrayList(statements); // copy
     }
+
+    // TaggedPersistent
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public void write(TaggedDataOutput out) throws IOException {
+        // write class metadata
+        out.writeUTF(classMetadata.name);
+        out.writeUTF(classMetadata.qualifiedName);
+        out.writeInt(relativeDataIndex);
+        out.writeInt(dataLength);
+        out.writeInt(aggregatedComplexity);
+        out.writeInt(aggregatedStatementCount);
+        out.writeBoolean(classMetadata.typeAnnotation);
+        out.writeBoolean(classMetadata.typeEnum);
+        out.writeBoolean(classMetadata.typeInterface);
+        out.writeBoolean(classMetadata.testClass);
+        FixedSourceRegion.writeRaw(this, out);
+        out.write(Modifiers.class, classMetadata.modifiers);
+
+        // write methods and statements
+        out.writeList(FullClassInfo.class, classes);
+        out.writeList(FullMethodInfo.class, methods);
+        out.writeList(FullStatementInfo.class, statements);
+    }
+
+    // OTHER
 
     public void addClass(FullClassInfo classInfo) {
         classes.add(classInfo);
@@ -187,7 +341,7 @@ public class FullClassInfo extends BaseClassInfo implements HasMetricsNode, Cove
 
     public void addMethod(FullMethodInfo meth) {
         methods.add(meth);
-        testClass |= meth.isTest();
+        classMetadata.testClass |= meth.isTest();
     }
 
     public void addStatement(FullStatementInfo statement) {
@@ -199,12 +353,9 @@ public class FullClassInfo extends BaseClassInfo implements HasMetricsNode, Cove
         if (lookup != null) {
             lookup.add(tci);
         }
-        testClass = true;
+        classMetadata.testClass = true;
     }
 
-    private String calcTCILookupName() {
-        return "class@" + getDataIndex() + ":" + getQualifiedName();
-    }
 
     public Collection<TestCaseInfo> getTestCases() {
         final TestCaseInfoLookup lookup = tciLookup;
@@ -240,30 +391,10 @@ public class FullClassInfo extends BaseClassInfo implements HasMetricsNode, Cove
         return null;
     }
 
-    @Override
-    public void setDataProvider(final CoverageDataProvider data) {
-        this.data = data;
-        this.tciLookup =
-            data instanceof TCILookupStore ? ((TCILookupStore)data).namedTCILookupFor(calcTCILookupName()) : null;
-        for (FullMethodInfo methodInfo : methods) {
-            methodInfo.setDataProvider(data);
-        }
-        for (FullClassInfo classInfo : classes) {
-            classInfo.setDataProvider(data);
-        }
-        // note: don't call setDataProvider on 'statements' because FullStatementInfo takes provider form its parent
-        rawMetrics = null;
-        metrics = null;
-    }
-
-    @Override
-    public CoverageDataProvider getDataProvider() {
-        return data;
-    }
 
     @Override
     public int getDataIndex() {
-        return ((FullFileInfo)containingFile).dataIndex + relativeDataIndex;
+        return containingFile.getDataIndex() + relativeDataIndex;
     }
 
     public int getRelativeDataIndex() {
@@ -359,25 +490,8 @@ public class FullClassInfo extends BaseClassInfo implements HasMetricsNode, Cove
         return "method";
     }
 
-    @Override
-    public int getNumChildren() {
-        return methods.size();
-    }
 
-    @Override
-    public HasMetricsNode getChild(int i) {
-        return methods.get(i);
-    }
 
-    @Override
-    public int getIndexOfChild(HasMetricsNode child) {
-        return methods.indexOf(child);
-    }
-
-    @Override
-    public boolean isLeaf() {
-        return false;
-    }
 
     @Override
     public void setComparator(Comparator<HasMetrics> cmp) {
@@ -388,23 +502,9 @@ public class FullClassInfo extends BaseClassInfo implements HasMetricsNode, Cove
         }
     }
 
-    @Override
-    public BlockMetrics getMetrics() {
-        // TODO getPackage() or parent.getParentEntity() ?
-        if (metrics == null  || getPackage().getContextFilter() != contextFilter) {
-            contextFilter = getContainingFile().getContextFilter();
-            metrics = calcMetrics(contextFilter, true);
-        }
-        return metrics;
-    }
 
-    @Override
-    public BlockMetrics getRawMetrics() {
-        if (rawMetrics == null) {
-            rawMetrics = calcMetrics(null, false);
-        }
-        return rawMetrics;
-
+    private String calcTCILookupName() {
+        return "class@" + getDataIndex() + ":" + getQualifiedName();
     }
 
     private ClassMetrics calcMetrics(ContextSet filter, boolean isFiltered) {
@@ -546,9 +646,9 @@ public class FullClassInfo extends BaseClassInfo implements HasMetricsNode, Cove
 
     public FullClassInfo copy(FullFileInfo newParent, HasMetricsFilter filter) {
         final FullClassInfo newClass = new FullClassInfo(
-                (FullPackageInfo)newParent.getContainingPackage(), newParent,
-                relativeDataIndex, name, this, modifiers,
-                typeInterface, typeEnum, typeAnnotation);
+                newParent.getContainingPackage(), newParent,
+                relativeDataIndex, classMetadata.name, this, classMetadata.modifiers,
+                classMetadata.typeInterface, classMetadata.typeEnum, classMetadata.typeAnnotation);
         newClass.setDataProvider(getDataProvider());
         newClass.setDataLength(getDataLength());
 
@@ -612,28 +712,6 @@ public class FullClassInfo extends BaseClassInfo implements HasMetricsNode, Cove
         }
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public void write(TaggedDataOutput out) throws IOException {
-        // write class metadata
-        out.writeUTF(name);
-        out.writeUTF(qualifiedName);
-        out.writeInt(relativeDataIndex);
-        out.writeInt(dataLength);
-        out.writeInt(aggregatedComplexity);
-        out.writeInt(aggregatedStatementCount);
-        out.writeBoolean(typeAnnotation);
-        out.writeBoolean(typeEnum);
-        out.writeBoolean(typeInterface);
-        out.writeBoolean(testClass);
-        FixedSourceRegion.writeRaw(this, out);
-        out.write(Modifiers.class, modifiers);
-
-        // write methods and statements
-        out.writeList(FullClassInfo.class, classes);
-        out.writeList(FullMethodInfo.class, methods);
-        out.writeList(FullStatementInfo.class, statements);
-    }
 
     public static FullClassInfo read(TaggedDataInput in) throws IOException {
         // read class metadata
@@ -673,4 +751,38 @@ public class FullClassInfo extends BaseClassInfo implements HasMetricsNode, Cove
         return classInfo;
     }
 
+    @Override
+    public void visit(EntityVisitor entityVisitor) {
+        entityVisitor.visitClass(this);
+    }
+
+    @Override
+    public ContextSet getContextFilter() {
+        return containingFile.getContextFilter();
+    }
+
+    @Override
+    public int getStartLine() {
+        return region.getStartLine();
+    }
+
+    @Override
+    public int getStartColumn() {
+        return region.getStartColumn();
+    }
+
+    @Override
+    public int getEndLine() {
+        return region.getEndLine();
+    }
+
+    @Override
+    public int getEndColumn() {
+        return region.getEndColumn();
+    }
+
+    @Override
+    public ClassMetadata getClassMetadata() {
+        return classMetadata;
+    }
 }

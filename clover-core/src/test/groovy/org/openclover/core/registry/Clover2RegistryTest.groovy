@@ -13,7 +13,6 @@ import org.openclover.core.api.registry.SourceInfo
 import org.openclover.core.context.ContextSetImpl
 import org.openclover.core.context.ContextStore
 import org.openclover.core.instr.InstrumentationSessionImpl
-import org.openclover.core.registry.entities.BasePackageInfo
 import org.openclover.core.registry.entities.FullFileInfo
 import org.openclover.core.registry.entities.FullMethodInfo
 import org.openclover.core.registry.entities.FullProjectInfo
@@ -184,7 +183,7 @@ public class Clover2RegistryTest {
         Clover2Registry.InstrumentationInfo instr = (Clover2Registry.InstrumentationInfo)instrHistory.get(0)
         assertTrue("has non-negative elapsed time", instr.getEndTS() >= instr.getStartTS())
 
-        BasePackageInfo pkg = registry.getProject().getDefaultPackage()
+        PackageInfo pkg = registry.getProject().getDefaultPackage()
 
         FullFileInfo fa = (FullFileInfo)pkg.getFile("A")
         FullFileInfo fb = (FullFileInfo)pkg.getFile("B")

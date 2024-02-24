@@ -7,7 +7,7 @@ import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.registry.entities.FullFileInfo;
-import org.openclover.core.registry.metrics.HasMetricsFilter;
+import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.idea.build.InclusionDetector;
 import org.openclover.idea.build.ProjectInclusionDetector;
 

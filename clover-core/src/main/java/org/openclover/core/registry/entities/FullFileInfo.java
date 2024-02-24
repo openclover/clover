@@ -48,8 +48,22 @@ import static org.openclover.core.util.Maps.newTreeMap;
 import static org.openclover.core.util.Sets.newHashSet;
 import static org.openclover.core.util.Sets.newTreeSet;
 
-public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, FileInfo, HasMetricsNode, TaggedPersistent {
-    public static final long NO_VERSION = -1L;
+public class FullFileInfo
+        implements CoverageDataReceptor, FileInfo, HasMetricsNode, TaggedPersistent {
+
+    protected String name;
+    protected String encoding;
+    protected int lineCount;
+    protected int ncLineCount;
+
+    protected long timestamp;
+    protected long filesize;
+    protected long checksum;
+
+    protected transient PackageInfo containingPackage;
+    protected transient BlockMetrics rawMetrics;
+    protected transient BlockMetrics metrics;
+    protected transient ContextSet contextFilter;
 
     /** classes declared inside the file */
     protected Map<String, FullClassInfo> classes = new LinkedHashMap<>();
@@ -82,10 +96,17 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
             int dataIndex, int lineCount, int ncLineCount, long timestamp, long filesize,
             long checksum, long minVersion) {
 
-        super(containingPackage, actualFile.getName(), encoding, lineCount, ncLineCount, timestamp, filesize, checksum);
+        this.containingPackage = containingPackage;
+        this.name = actualFile.getName();
+        this.encoding = encoding;
+        this.lineCount = lineCount;
+        this.ncLineCount = ncLineCount;
+        this.timestamp = timestamp;
+        this.filesize = filesize;
+        this.checksum = checksum;
+
         this.actualFile = actualFile;
         this.dataIndex = dataIndex;
-        this.lineCount = lineCount;
         this.minVersion = this.maxVersion = minVersion;
     }
 
@@ -97,11 +118,19 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
                          final Map<String, FullClassInfo> classes,
                          final List<FullMethodInfo> methods,
                          final List<FullStatementInfo> statements) {
-        super(null, actualFile.getName(), encoding, lineCount, ncLineCount, timestamp, filesize, checksum);
+
+        this.containingPackage = null;
+        this.name = actualFile.getName();
+        this.encoding = encoding;
+        this.lineCount = lineCount;
+        this.ncLineCount = ncLineCount;
+        this.timestamp = timestamp;
+        this.filesize = filesize;
+        this.checksum = checksum;
+
         this.actualFile = actualFile;
         this.dataIndex = dataIndex;
         this.dataLength = dataLength;
-        this.lineCount = lineCount;
         this.minVersion = minVersion;
         this.maxVersion = maxVersion;
         this.classes.putAll(classes);
@@ -110,6 +139,136 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
+
+    // FileInfo
+
+    @Override
+    public ClassInfo getNamedClass(String name) {
+        return classes.get(name);
+    }
+
+    @Override
+    public String getEncoding() {
+        return encoding;
+    }
+
+    @Override
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    @Override
+    public long getFilesize() {
+        return filesize;
+    }
+
+    @Override
+    public long getChecksum() {
+        return checksum;
+    }
+
+    @Override
+    public String getPackagePath() {
+        if (containingPackage == null) {
+            throw new IllegalStateException("This FileInfo has no PackageInfo set on it yet");
+        }
+        return containingPackage.getPath() + getName();
+    }
+
+    @Override
+    public PackageInfo getContainingPackage() {
+        return containingPackage;
+    }
+
+    @Override
+    public void setContainingPackage(PackageInfo containingPackage) {
+        this.containingPackage = containingPackage;
+        for (ClassInfo classInfo : getClasses()) {
+            classInfo.getClassMetadata().setPackage(containingPackage);
+        }
+    }
+
+    @Override
+    public int getLineCount() {
+        return lineCount;
+    }
+
+    @Override
+    public int getNcLineCount() {
+        return ncLineCount;
+    }
+
+    @Override
+    public boolean isTestFile() {
+        for (ClassInfo classInfo : getClasses()) {
+            if (classInfo.isTestClass()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public File getPhysicalFile() {
+        return actualFile;
+    }
+
+    @Override
+    public Reader getSourceReader() throws IOException {
+        if (getEncoding() == null) {
+            return new FileReader(getPhysicalFile());
+        } else {
+            return new InputStreamReader(Files.newInputStream(getPhysicalFile().toPath()), getEncoding());
+        }
+    }
+
+    // HasContextFilter
+
+    @Override
+    public ContextSet getContextFilter() {
+        return getContainingPackage().getContextFilter();
+    }
+
+    // HasParent
+
+    @Override
+    public EntityContainer getParent() {
+        return entityVisitor -> entityVisitor.visitPackage(containingPackage);
+    }
+
+    // SourceInfo
+
+    @Override
+    public int getStartLine() {
+        return 1;
+    }
+
+    @Override
+    public int getStartColumn() {
+        return 1;
+    }
+
+    @Override
+    public int getEndLine() {
+        return lineCount;
+    }
+
+    @Override
+    public int getEndColumn() {
+        return 1;  // TODO hack, not a true end
+    }
+
+    // EntityContainer
+
+    /**
+     * Visit yourself
+     *
+     * @param entityVisitor callback
+     */
+    @Override
+    public void visit(EntityVisitor entityVisitor) {
+        entityVisitor.visitFile(this);
+    }
 
     // CoverageDataReceptor
 
@@ -132,7 +291,7 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
         metrics = null;
     }
 
-    // FileInfo -> InstrumentationInfo
+    // InstrumentationInfo
 
     @Override
     public int getDataIndex() {
@@ -144,9 +303,7 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
         return dataLength;
     }
 
-    // FileInfo -> SourceInfo - see BaseFileInfo
-
-    // FileInfo -> HasClasses
+    // HasClasses
 
     @Override
     @NotNull
@@ -171,7 +328,7 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
         return allClasses;
     }
 
-    // FileInfo -> HasMethods
+    // HasMethods
 
     @Override
     @NotNull
@@ -196,7 +353,7 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
         return allMethods;
     }
 
-    // FileInfo -> HasStatements
+    // HasStatements
 
     @Override
     @NotNull
@@ -204,9 +361,12 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
         return newArrayList(statements); // copy of the list
     }
 
-    // FileInfo -> HasContextFilter - see BaseFile Info
+    // HasMetrics
 
-    // FileInfo -> HasMetrics
+    @Override
+    public String getName() {
+        return name;
+    }
 
     @Override
     public BlockMetrics getMetrics() {
@@ -223,6 +383,11 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
             rawMetrics = calcMetrics(false);
         }
         return rawMetrics;
+    }
+
+    @Override
+    public void setMetrics(BlockMetrics metrics) {
+        this.metrics = metrics;
     }
 
     // HasMetricsNode
@@ -273,11 +438,29 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
         }
     }
 
+    // HasVersionRanges
+
+    @Override
+    public void addVersion(long version) {
+        if (minVersion == NO_VERSION) {
+            minVersion = version;
+        }
+        maxVersion = Math.max(version, maxVersion);
+    }
+
+    @Override
+    public void addVersions(long minVersion, long maxVersion) {
+        if (this.minVersion == NO_VERSION) {
+            this.minVersion = minVersion;
+            this.maxVersion = maxVersion;
+        } else {
+            this.minVersion = Math.min(this.minVersion, minVersion);
+            this.maxVersion = Math.max(this.maxVersion, maxVersion);
+        }
+    }
+
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
-    public File getPhysicalFile() {
-        return actualFile;
-    }
 
     public boolean validatePhysicalFile() {
         if (actualFile.exists()) {
@@ -424,24 +607,6 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
         dataLength = length;
     }
 
-    public void addVersion(long version) {
-        if (minVersion == NO_VERSION) {
-            minVersion = version;
-        }
-        maxVersion = Math.max(version, maxVersion);
-    }
-
-    public void addVersions(long minVersion, long maxVersion) {
-        if (this.minVersion == NO_VERSION) {
-            this.minVersion = minVersion;
-            this.maxVersion = maxVersion;
-        }
-        else {
-            this.minVersion = Math.min(this.minVersion, minVersion);
-            this.maxVersion = Math.max(this.maxVersion, maxVersion);
-        }
-    }
-
     // NO_VERSION should be checked here, but in the lifecycle of a FullFileInfo, it will never be NO_VERSION and have
     // this method called.
     public boolean supportsVersion(long version) {
@@ -476,9 +641,7 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
         statements.add(statementInfo);
     }
 
-    public ClassInfo getNamedClass(String name) {
-        return classes.get(name);
-    }
+
 
     public FullFileInfo copy(FullPackageInfo pkg, HasMetricsFilter filter) {
         FullFileInfo file = new FullFileInfo(pkg, actualFile, encoding, dataIndex, lineCount, ncLineCount, timestamp, filesize, checksum, minVersion);
@@ -541,13 +704,6 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
         tracesForLine.add(traceEntry);
     }
 
-    public Reader getSourceReader() throws IOException {
-        if (getEncoding() == null) {
-            return new FileReader(getPhysicalFile());
-        } else {
-            return new InputStreamReader(Files.newInputStream(getPhysicalFile().toPath()), getEncoding());
-        }
-    }
 
     public Language getLanguage() {
         if (actualFile != null) {
@@ -730,6 +886,17 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
             classes.put(classInfo.getName(), classInfo);
         }
         return classes;
+    }
+
+    public int hashCode() {
+        return getPackagePath().hashCode();
+    }
+
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        final FullFileInfo that = (FullFileInfo) o;
+        return this.getPackagePath().equals(that.getPackagePath());
     }
 
 }

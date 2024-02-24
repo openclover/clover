@@ -2,12 +2,13 @@ package org.openclover.core.model
 
 import org.junit.Before
 import org.junit.Test
+import org.openclover.core.api.registry.ClassInfo
+import org.openclover.core.api.registry.FileInfo
 import org.openclover.core.api.registry.HasMetrics
-import org.openclover.core.registry.entities.BaseClassInfo
-import org.openclover.core.registry.entities.BaseFileInfo
-import org.openclover.core.registry.entities.BasePackageInfo
-import org.openclover.core.registry.entities.BaseProjectInfo
-import org.openclover.core.registry.metrics.HasMetricsFilter
+import org.openclover.core.api.registry.PackageInfo
+import org.openclover.core.api.registry.ProjectInfo
+import org.openclover.core.registry.entities.FullProjectInfo
+import org.openclover.core.api.registry.HasMetricsFilter
 import org.openclover.core.reporters.util.HistoricalSupport
 
 import static org.junit.Assert.assertEquals
@@ -30,9 +31,9 @@ class XmlConverterTest {
 
     @Test
     void testProjectLevel() throws Exception {
-        HistoricalSupport.HasMetricsWrapper wrapper = new HistoricalSupport.HasMetricsWrapper(new BaseProjectInfo(""), xmlFile)
+        HistoricalSupport.HasMetricsWrapper wrapper = new HistoricalSupport.HasMetricsWrapper(new FullProjectInfo(""), xmlFile)
         CoverageDataPoint model = XmlConverter.getFromXmlFile(wrapper.getDataFile(), XmlConverter.PROJECT_LEVEL)
-        BaseProjectInfo project = model.getProject()
+        FullProjectInfo project = model.getProject()
 
         assertEquals(EXPECTED_PROJECT, project.getMetrics().getPcCoveredElements(), 0.0001)
         assertTrue(project.getAllPackages().isEmpty())
@@ -40,9 +41,9 @@ class XmlConverterTest {
 
     @Test
     void testPackageLevel() throws Exception {
-        HistoricalSupport.HasMetricsWrapper wrapper = new HistoricalSupport.HasMetricsWrapper(new BaseProjectInfo(""), xmlFile)
+        HistoricalSupport.HasMetricsWrapper wrapper = new HistoricalSupport.HasMetricsWrapper(new FullProjectInfo(""), xmlFile)
         CoverageDataPoint model = XmlConverter.getFromXmlFile(wrapper.getDataFile(), XmlConverter.PACKAGE_LEVEL)
-        BaseProjectInfo project = model.getProject()
+        ProjectInfo project = model.getProject()
 
         assertEquals(EXPECTED_PROJECT, project.getMetrics().getPcCoveredElements(), 0.0001)
         assertTrue(project.getFiles(HasMetricsFilter.ACCEPT_ALL).isEmpty())
@@ -65,9 +66,9 @@ class XmlConverterTest {
 
     @Test
     void testFileLevel() throws Exception {
-        HistoricalSupport.HasMetricsWrapper wrapper = new HistoricalSupport.HasMetricsWrapper(new BaseProjectInfo(""), xmlFile)
+        HistoricalSupport.HasMetricsWrapper wrapper = new HistoricalSupport.HasMetricsWrapper(new FullProjectInfo(""), xmlFile)
         CoverageDataPoint model = XmlConverter.getFromXmlFile(wrapper.getDataFile(), XmlConverter.FILE_LEVEL)
-        BaseProjectInfo project = model.getProject()
+        ProjectInfo project = model.getProject()
 
         assertEquals(EXPECTED_PROJECT, project.getMetrics().getPcCoveredElements(), 0.0001)
         assertTrue(project.getClasses(HasMetricsFilter.ACCEPT_ALL).isEmpty())
@@ -81,19 +82,19 @@ class XmlConverterTest {
         int fileIndex = getInfoIndex(project.getFiles(HasMetricsFilter.ACCEPT_ALL), EXPECTED_FILE_NAME)
         assertTrue(fileIndex != -1)
         assertEquals(7, project.getFiles(HasMetricsFilter.ACCEPT_ALL).size())
-        assertEquals(1, ((BaseFileInfo)project.getFiles(HasMetricsFilter.ACCEPT_ALL).get(fileIndex)).getMetrics().getPcCoveredElements(), 0)
+        assertEquals(1, project.getFiles(HasMetricsFilter.ACCEPT_ALL).get(fileIndex).getMetrics().getPcCoveredElements(), 0)
     }
 
     @Test
     void testInnerClassMetrics() throws Exception {
-        HistoricalSupport.HasMetricsWrapper wrapper = new HistoricalSupport.HasMetricsWrapper(new BaseProjectInfo(""), xmlSample)
+        HistoricalSupport.HasMetricsWrapper wrapper = new HistoricalSupport.HasMetricsWrapper(new FullProjectInfo(""), xmlSample)
         CoverageDataPoint model = XmlConverter.getFromXmlFile(wrapper.getDataFile(), XmlConverter.CLASS_LEVEL)
-        BaseProjectInfo project = model.getProject()
-        BasePackageInfo pkg = project.getNamedPackage("org.apache.tools.ant.taskdefs")
+        ProjectInfo project = model.getProject()
+        PackageInfo pkg = project.getNamedPackage("org.apache.tools.ant.taskdefs")
 
-        BaseFileInfo file = (BaseFileInfo) pkg.getFiles().get(0)
-        BaseClassInfo class0 = (BaseClassInfo) file.getClasses().get(0)
-        BaseClassInfo class1 = (BaseClassInfo) file.getClasses().get(1)
+        FileInfo file = pkg.getFiles().get(0)
+        ClassInfo class0 = file.getClasses().get(0)
+        ClassInfo class1 = file.getClasses().get(1)
 
         assertEquals(123, class0.getMetrics().getNumCoveredElements())
         assertEquals(279, class0.getMetrics().getNumElements())

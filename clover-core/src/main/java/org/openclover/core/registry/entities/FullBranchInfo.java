@@ -18,7 +18,9 @@ import org.openclover.core.spi.lang.LanguageConstruct;
 import java.io.IOException;
 
 
-public class FullBranchInfo extends FullElementInfo<BasicBranchInfo> implements TaggedPersistent, BranchInfo {
+public class FullBranchInfo extends FullElementInfo<BasicBranchInfo>
+        implements TaggedPersistent, BranchInfo {
+
     private transient FullMethodInfo containingMethod;
 
     public FullBranchInfo(
@@ -39,6 +41,8 @@ public class FullBranchInfo extends FullElementInfo<BasicBranchInfo> implements 
         this.containingMethod = containingMethod;
     }
 
+    // BranchInfo
+
     @Override
     public int getTrueHitCount() {
         return super.getHitCount();
@@ -54,18 +58,18 @@ public class FullBranchInfo extends FullElementInfo<BasicBranchInfo> implements 
     }
 
     @Override
-    public EntityContainer getParent() {
-        return containingMethod;
-    }
-
-    @Override
     public boolean isInstrumented() {
         return sharedInfo.isInstrumented();
     }
 
-    public FullBranchInfo copy(FullMethodInfo method) {
-        return new FullBranchInfo(method, context, sharedInfo);
+    // HasParent
+
+    @Override
+    public EntityContainer getParent() {
+        return containingMethod;
     }
+
+    // CoverageDataReceptor
 
     @Override
     public void setDataProvider(CoverageDataProvider data) {
@@ -82,14 +86,22 @@ public class FullBranchInfo extends FullElementInfo<BasicBranchInfo> implements 
         return 2;
     }
 
-    void setContainingMethod(FullMethodInfo methodInfo) {
-        this.containingMethod = methodInfo;
-    }
+    // FileInfoRegion
 
     @Override
     @Nullable
     public FileInfo getContainingFile() {
         return containingMethod.getContainingFile();
+    }
+
+    // OTHER
+
+    public FullBranchInfo copy(FullMethodInfo method) {
+        return new FullBranchInfo(method, context, sharedInfo);
+    }
+
+    void setContainingMethod(FullMethodInfo methodInfo) {
+        this.containingMethod = methodInfo;
     }
 
     ///CLOVER:OFF

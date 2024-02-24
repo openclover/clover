@@ -23,7 +23,7 @@ public class PackageFragment implements HasMetricsNode {
     private Map<String, PackageFragment> children;
     private BlockMetrics rawMetrics;
     private BlockMetrics metrics;
-    private FullPackageInfo concretePackage;
+    private PackageInfo concretePackage;
     private String qualifiedName;
     private String name;
     private Comparator<HasMetrics> orderby;
@@ -51,12 +51,11 @@ public class PackageFragment implements HasMetricsNode {
         return new PackageFragment[0];
     }
 
-
-    public FullPackageInfo getConcretePackage() {
+    public PackageInfo getConcretePackage() {
         return concretePackage;
     }
 
-    public void setConcretePackage(FullPackageInfo concretePackage) {
+    public void setConcretePackage(PackageInfo concretePackage) {
         this.concretePackage = concretePackage;
     }
 

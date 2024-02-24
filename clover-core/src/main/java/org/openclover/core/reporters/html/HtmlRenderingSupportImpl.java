@@ -9,10 +9,8 @@ import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.MethodInfo;
-import org.openclover.core.registry.CoverageDataRange;
-import org.openclover.core.registry.entities.BaseClassInfo;
-import org.openclover.core.registry.entities.BaseFileInfo;
-import org.openclover.core.registry.entities.BasePackageInfo;
+import org.openclover.core.api.registry.CoverageDataRange;
+import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullMethodInfo;
@@ -250,7 +248,7 @@ public class HtmlRenderingSupportImpl implements HtmlRenderingSupport {
         return link;
     }
 
-    public StringBuffer getSrcFileLink(boolean toplevel, BaseClassInfo cls, long idParam) {
+    public StringBuffer getSrcFileLink(boolean toplevel, ClassInfo cls, long idParam) {
         final String cname = cls.getName();
         final FileInfo fileInfo = cls.getContainingFile();
         final String file = fileInfo != null ? fileInfo.getName() : "";
@@ -274,14 +272,13 @@ public class HtmlRenderingSupportImpl implements HtmlRenderingSupport {
         return retVal;
     }
 
-
-    public StringBuffer getFileLink(boolean toplevel, BaseFileInfo fileInfo) {
+    public StringBuffer getFileLink(boolean toplevel, FileInfo fileInfo) {
         final String file = fileInfo.getName();
         final String pkgName = fileInfo.getContainingPackage().getName();
         return getSrcFileLink(toplevel, false, file, file, pkgName);
     }
 
-    public StringBuffer getSrcFileLink(boolean toplevel, boolean withAnchor, BaseClassInfo cls, BasePackageInfo pkgInContext) {
+    public StringBuffer getSrcFileLink(boolean toplevel, boolean withAnchor, ClassInfo cls, PackageInfo pkgInContext) {
         final String cname = cls.getName();
         final FileInfo fileInfo = cls.getContainingFile();
         final String file = fileInfo != null ? fileInfo.getName() : "";
@@ -357,7 +354,7 @@ public class HtmlRenderingSupportImpl implements HtmlRenderingSupport {
         link.append(basename).append(".html");
     }
 
-    public String getBaseFileName(BaseClassInfo classInfo) {
+    public String getBaseFileName(ClassInfo classInfo) {
         StringBuffer buf = new StringBuffer();
         appendBaseDirectoryName(buf, true, classInfo.getPackage().getName());
 
@@ -611,14 +608,14 @@ public class HtmlRenderingSupportImpl implements HtmlRenderingSupport {
         return  min + (int)(input * diff);
     }
 
-    public int getFontSize(StatisticsClassInfoVisitor stats, BaseClassInfo classInfo, int min, int max) {
+    public int getFontSize(StatisticsClassInfoVisitor stats, ClassInfo classInfo, int min, int max) {
         int result = stats.getCalculator().getScaledValue(classInfo);
         float pcResult = getFraction(result, stats.getMax());
         return constrain(pcResult, min, max);
     }
 
     @SuppressWarnings("unused") // cloud-body.vm, dashboard.vm
-    public String getColor(StatisticsClassInfoVisitor stats, BaseClassInfo classInfo) {
+    public String getColor(StatisticsClassInfoVisitor stats, ClassInfo classInfo) {
         int result = stats.getCalculator().getScaledValue(classInfo);
         return ReportColors.ADG_COLORS.getStringColor(getFraction(result, stats.getMax()));
     }

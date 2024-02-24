@@ -31,7 +31,7 @@ import com.intellij.ui.content.ContentManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.openclover.core.CloverDatabase;
-import org.openclover.core.registry.CoverageDataReceptor;
+import org.openclover.core.api.registry.CoverageDataReceptor;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.registry.entities.TestCaseInfo;

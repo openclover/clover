@@ -9,9 +9,6 @@ import org.openclover.core.api.registry.PackageInfo
 import org.openclover.core.api.registry.SourceInfo
 import org.openclover.core.cfg.Percentage
 import org.openclover.core.registry.FixedSourceRegion
-import org.openclover.core.registry.entities.BaseClassInfo
-import org.openclover.core.registry.entities.BaseFileInfo
-import org.openclover.core.registry.entities.BasePackageInfo
 import org.openclover.core.registry.entities.FullClassInfo
 import org.openclover.core.registry.entities.FullFileInfo
 import org.openclover.core.registry.entities.FullPackageInfo
@@ -90,14 +87,14 @@ class HistoricalSupportTest {
 
     @Test
     void testGetClassMetricsDiff() throws CloverException {
-        BasePackageInfo pkgInfo = new BasePackageInfo(null, "TestPackage")
-        BaseFileInfo fileInfo = new BaseFileInfo(pkgInfo, testName.methodName, "", 0, 0, 0, 0, 0)
+        PackageInfo pkgInfo = new FullPackageInfo(null, "TestPackage")
+        FileInfo fileInfo = new FullFileInfo(pkgInfo, testName.methodName, "", 0, 0, 0, 0, 0)
         SourceInfo sourceRegion = new FixedSourceRegion(0,0,0,0)
 
-        BaseClassInfo cThen = new BaseClassInfo(pkgInfo, fileInfo,
+        ClassInfo cThen = new FullClassInfo(pkgInfo, fileInfo,
                 "then", sourceRegion, new Modifiers(),
                 false, false, false)
-        BaseClassInfo cNow = new BaseClassInfo(pkgInfo, fileInfo,
+        ClassInfo cNow = new FullClassInfo(pkgInfo, fileInfo,
                 "now", sourceRegion, new Modifiers(),
                 false, false, false)
         Percentage threshold = new Percentage("0%")
@@ -127,7 +124,7 @@ class HistoricalSupportTest {
     }
 
     private void setClassMetrics(
-        BaseClassInfo c, int complexity, int numBranches, int numStatements, int numCoveredBranches, int numCoveredStatements) {
+        ClassInfo c, int complexity, int numBranches, int numStatements, int numCoveredBranches, int numCoveredStatements) {
 
         BlockMetrics metrics = new BlockMetrics(c)
         metrics.setComplexity(complexity)

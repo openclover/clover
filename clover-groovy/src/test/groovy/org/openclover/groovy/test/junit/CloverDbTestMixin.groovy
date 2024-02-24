@@ -13,7 +13,6 @@ import org.openclover.core.api.registry.PackageInfo
 import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.api.registry.SourceInfo
 import org.openclover.core.api.registry.StatementInfo
-import org.openclover.core.registry.entities.BaseProjectInfo
 import org.openclover.core.registry.entities.FullClassInfo
 import org.openclover.core.registry.entities.TestCaseInfo
 import org.openclover.core.api.registry.HasMetricsFilter
@@ -47,7 +46,7 @@ trait CloverDbTestMixin {
         return true
     }
 
-    boolean assertPackage(BaseProjectInfo p, Closure<Boolean> selection, Closure<Boolean> assertion = { true }) {
+    boolean assertPackage(ProjectInfo p, Closure<Boolean> selection, Closure<Boolean> assertion = { true }) {
         PackageInfo found = p.allPackages.find(selection)
         if (found) {
             assertTrue("Assertion on package failed: ${found}", assertion.call(found))

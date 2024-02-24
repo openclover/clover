@@ -67,9 +67,21 @@ import static org.openclover.core.util.Maps.newTreeMap;
  *  compatibility with existing registry files.</strong></p>
  *
  */
-public class FullProjectInfo extends BaseProjectInfo implements HasMetricsNode, CoverageDataReceptor, ProjectInfo {
+public class FullProjectInfo
+        implements ProjectInfo, HasMetricsNode, CoverageDataReceptor, CachingInfo {
+
     private int dataIndex = 0;
     private int dataLength;
+
+    protected String name;
+    protected Map<String, PackageInfo> packages;
+    protected long version;
+
+    protected Map<String, ClassInfo> classLookup;
+    protected Map<String, FileInfo> fileLookup;
+    protected BlockMetrics rawMetrics;
+    protected BlockMetrics metrics;
+    protected ContextSet contextFilter;
 
     private List<FullPackageInfo> orderedPkgs;
     private List<PackageFragment> orderedPkgRoots;
@@ -80,11 +92,296 @@ public class FullProjectInfo extends BaseProjectInfo implements HasMetricsNode, 
     private boolean hasTestResults; // true if the model has at least one test result
 
     public FullProjectInfo(String name, long version) {
-        super(name, version);
+        this.name = name;
+        this.version = version;
+        this.packages = new LinkedHashMap<>();
     }
 
     public FullProjectInfo(String name) {
-        super(name);
+        this(name, System.currentTimeMillis());
+    }
+
+    // ProjectInfo
+
+
+    /**
+     * convenience method to find a class in a project using its fully qualified name. Initialized lazily, so
+     * the first call may be slow
+     * @param fqcn a fully qualified class name
+     * @return corresponding BaseClassInfo or null if not found
+     */
+    @Override
+    public ClassInfo findClass(String fqcn) {
+        if (classLookup == null) {
+            buildClassLookupMap();
+        }
+        return classLookup.get(fqcn);
+    }
+
+    /**
+     * convenience method to find a file in a project using its package path.  Initialized lazily, so
+     * the first call may be slow
+     * @param pkgPath - path of the file to look for
+     * @return corresponding BaseFileInfo or null if not found
+     */
+    @Override
+    public FileInfo findFile(String pkgPath) {
+        if (fileLookup == null) {
+            buildFileLookupMap();
+        }
+        return fileLookup.get(pkgPath);
+    }
+
+    @Override
+    @NotNull
+    public List<PackageInfo> getAllPackages() {
+        return newArrayList(packages.values());
+    }
+
+    @Override
+    public PackageInfo findPackage(String name) {
+        return getNamedPackage(name);
+    }
+
+    // CachingInfo
+
+    @Override
+    public void invalidateCaches() {
+        classLookup = null;
+        fileLookup = null;
+        rawMetrics = null;
+        metrics = null;
+        orderedPkgs = null;
+        orderedPkgRoots = null;
+        roots = null;
+    }
+
+    // EntityContainer
+
+    /**
+     * Visit yourself
+     *
+     * @param entityVisitor callback
+     */
+    @Override
+    public void visit(EntityVisitor entityVisitor) {
+        entityVisitor.visitProject(this);
+    }
+
+    // HasContextFilter
+
+    @Override
+    public ContextSet getContextFilter() {
+        return contextFilter;
+    }
+
+    // HasMetricsNode
+
+    @Override
+    public String getChildType() {
+        return "package";
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return packages.isEmpty();
+    }
+
+    @Override
+    public int getNumChildren() {
+        if (fragmented) {
+            ensureRootsBuilt();
+            return roots.size();
+        }
+
+        if (orderedPkgs == null) {
+            buildOrderedPackageList();
+        }
+
+        return orderedPkgs.size();
+    }
+
+    @Override
+    public HasMetricsNode getChild(int i) {
+        if (fragmented) {
+            ensureRootsBuilt();
+            return (HasMetricsNode)orderedPkgRoots.get(i);
+        }
+
+        if (orderedPkgs == null) {
+            buildOrderedPackageList();
+        }
+        // todo - bounds checking?
+        return (HasMetricsNode)orderedPkgs.get(i);
+    }
+
+    @Override
+    public int getIndexOfChild(HasMetricsNode child) {
+        if (fragmented) {
+            ensureRootsBuilt();
+            return orderedPkgs.indexOf(child.getName());
+        }
+        if (orderedPkgs == null) {
+            buildOrderedPackageList();
+        }
+        return orderedPkgs.indexOf(child.getName());
+    }
+
+    @Override
+    public boolean isLeaf() {
+        return false;
+    }
+
+    @Override
+    public void setComparator(Comparator<HasMetrics> cmp) {
+        orderby = cmp;
+        roots = null;
+        orderedPkgs = null;
+        orderedPkgRoots = null;
+        for (PackageInfo packageInfo : packages.values()) {
+            packageInfo.setComparator(cmp);
+        }
+
+    }
+
+    // HasMetrics
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public BlockMetrics getMetrics() {
+        if (metrics == null) {
+            metrics = calcMetrics(true);
+        }
+        return metrics;
+    }
+
+    @Override
+    public BlockMetrics getRawMetrics() {
+        if (rawMetrics == null) {
+            rawMetrics = calcMetrics(false);
+        }
+        return rawMetrics;
+    }
+
+    @Override
+    public void setMetrics(BlockMetrics metrics) {
+        this.metrics = metrics;
+    }
+
+    // HasVersions
+
+    @Override
+    public long getVersion() {
+        return version;
+    }
+
+    @Override
+    public void setVersion(final long version) {
+        this.version = version;
+        visitFiles(file -> ((FullFileInfo)file).addVersion(version));
+    }
+
+
+    // OTHER
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void addPackage(PackageInfo pkg) {
+        packages.put(pkg.getName(), pkg);
+    }
+
+    public PackageInfo getDefaultPackage() {
+        return packages.get(PackageInfo.DEFAULT_PACKAGE_NAME);
+    }
+
+    @Override
+    public PackageInfo getNamedPackage(String name) {
+        if (name == null || name.length() == 0 || PackageInfo.DEFAULT_PACKAGE_NAME.equals(name)) {
+            return getDefaultPackage();
+        }
+        return packages.get(name);
+    }
+
+    /**
+     * convenience method to get all classes in a project that meet some criteria
+     * @param filter filter to apply
+     * @return list of classes that match filter
+     */
+    @Override
+    public List<ClassInfo> getClasses(HasMetricsFilter filter) {
+        if (classLookup == null) {
+            buildClassLookupMap();
+        }
+
+        List<ClassInfo> result = newArrayList();
+        for (ClassInfo classInfo : classLookup.values()) {
+            if (filter.accept(classInfo)) {
+                result.add(classInfo);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * convenience method to get all filees in a project that meet some criteria
+     * @param filter filter to apply
+     * @return list of files that match filter
+     */
+    public List<FileInfo> getFiles(HasMetricsFilter filter) {
+        if (fileLookup == null) {
+            buildFileLookupMap();
+        }
+        List<FileInfo> result = newArrayList();
+        for (FileInfo fileInfo : fileLookup.values()) {
+            if (filter.accept(fileInfo)) {
+                result.add(fileInfo);
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public List<PackageInfo> getPackages(HasMetricsFilter filter) {
+        List<PackageInfo> result = newArrayList();
+        for (PackageInfo packageInfo : packages.values()) {
+            if (filter.accept(packageInfo)) {
+                result.add(packageInfo);
+            }
+        }
+        return result;
+    }
+
+    private void buildClassLookupMap() {
+        final Map<String, ClassInfo> tmpClassLookup = new LinkedHashMap<>();
+        visitFiles(file -> {
+            for (ClassInfo info : file.getClasses()) {
+                tmpClassLookup.put(info.getQualifiedName(), info);
+            }
+        });
+        classLookup = tmpClassLookup;
+    }
+
+    private void buildFileLookupMap() {
+        final Map<String, FileInfo> tmpFileLookup = new LinkedHashMap<>();
+        visitFiles(file -> tmpFileLookup.put(file.getPackagePath(), file));
+        fileLookup = tmpFileLookup;
+    }
+
+    public void setContextFilter(ContextSet filter) {
+        contextFilter = filter;
+        metrics = null;
+    }
+
+    public void visitFiles(FileInfoVisitor visitor) {
+        for (PackageInfo pkgInfo : packages.values()) {
+            pkgInfo.visitFiles(visitor);
+        }
     }
 
     public PackageFragment[] getPackageRoots() {
@@ -113,7 +410,7 @@ public class FullProjectInfo extends BaseProjectInfo implements HasMetricsNode, 
         proj.setContextFilter(contextFilter);
         proj.setDataProvider(getDataProvider());
         proj.setVersion(getVersion());
-        for (BasePackageInfo basePackageInfo : packages.values()) {
+        for (PackageInfo basePackageInfo : packages.values()) {
             FullPackageInfo pkgInfo = (FullPackageInfo) basePackageInfo;
             if (filter.accept(pkgInfo)) {
                 FullPackageInfo info = pkgInfo.copy(proj, filter);
@@ -130,8 +427,7 @@ public class FullProjectInfo extends BaseProjectInfo implements HasMetricsNode, 
     private void buildPackageTrees() {
         TreeMap<String, PackageFragment> tmpRoots = newTreeMap(); // natural ordering
         List<PackageFragment> tmpOrderedPkgRoots = newArrayList();
-        for (BasePackageInfo basePackageInfo : packages.values()) {
-            FullPackageInfo packageInfo = (FullPackageInfo) basePackageInfo;
+        for (PackageInfo packageInfo : packages.values()) {
             addPackageToTree(packageInfo, tmpRoots, tmpOrderedPkgRoots);
         }
         
@@ -150,7 +446,7 @@ public class FullProjectInfo extends BaseProjectInfo implements HasMetricsNode, 
         orderedPkgs = tmpOrderedPkgs;
     }
 
-    private void addPackageToTree(FullPackageInfo pkg, final Map<String, PackageFragment> roots, final List<PackageFragment> orderedPkgRoots) {
+    private void addPackageToTree(PackageInfo pkg, final Map<String, PackageFragment> roots, final List<PackageFragment> orderedPkgRoots) {
         StringTokenizer pkgfragments = new StringTokenizer(pkg.getName(), ".");
         String qname = "";
         String sep = "";
@@ -193,9 +489,9 @@ public class FullProjectInfo extends BaseProjectInfo implements HasMetricsNode, 
     @Override
     public void setDataProvider(CoverageDataProvider data) {
         this.data = data;
-        for (BasePackageInfo basePackageInfo : packages.values()) {
-            FullPackageInfo pkgInfo = (FullPackageInfo) basePackageInfo;
-            pkgInfo.setDataProvider(data);
+        for (PackageInfo packageInfo : packages.values()) {
+            FullPackageInfo fullPackageInfo = (FullPackageInfo) packageInfo;
+            fullPackageInfo.setDataProvider(data);
         }
         rawMetrics = null;
         metrics = null;
@@ -233,93 +529,7 @@ public class FullProjectInfo extends BaseProjectInfo implements HasMetricsNode, 
         this.fragmented = fragmented;
     }
 
-    @Override
-    public String getChildType() {
-        return "package";
-    }
 
-    @Override
-    public int getNumChildren() {
-
-        if (fragmented) {
-            ensureRootsBuilt();
-            return roots.size();
-        }
-
-        if (orderedPkgs == null) {
-            buildOrderedPackageList();
-        }
-
-        return orderedPkgs.size();
-    }
-
-    @Override
-    public HasMetricsNode getChild(int i) {
-
-        if (fragmented) {
-            ensureRootsBuilt();
-            return (HasMetricsNode)orderedPkgRoots.get(i);
-        }
-
-        if (orderedPkgs == null) {
-            buildOrderedPackageList();
-        }
-        // todo - bounds checking?
-        return (HasMetricsNode)orderedPkgs.get(i);
-    }
-
-    @Override
-    public int getIndexOfChild(HasMetricsNode child) {
-        if (fragmented) {
-            ensureRootsBuilt();
-            return orderedPkgs.indexOf(child.getName());
-        }
-        if (orderedPkgs == null) {
-            buildOrderedPackageList();
-        }
-        return orderedPkgs.indexOf(child.getName());
-    }
-
-    @Override
-    public boolean isLeaf() {
-        return false;
-    }
-
-    @Override
-    public void setComparator(Comparator<HasMetrics> cmp) {
-        orderby = cmp;
-        roots = null;
-        orderedPkgs = null;
-        orderedPkgRoots = null;
-        for (BasePackageInfo basePackageInfo : packages.values()) {
-            FullPackageInfo packageInfo = (FullPackageInfo) basePackageInfo;
-            packageInfo.setComparator(cmp);
-        }
-
-    }
-
-    @Override
-    public void setVersion(final long version) {
-        super.setVersion(version);
-        visitFiles(file -> ((FullFileInfo)file).addVersion(version));
-    }
-
-    @Override
-    public BlockMetrics getMetrics() {
-        if (metrics == null) {
-            metrics = calcMetrics(true);
-        }
-        return metrics;
-    }
-    
-    @Override
-    public BlockMetrics getRawMetrics() {
-        if (rawMetrics == null) {
-            rawMetrics = calcMetrics(false);
-        }
-        return rawMetrics;
-
-    }
 
     public boolean hasTestResults() {
         return hasTestResults;
@@ -332,8 +542,7 @@ public class FullProjectInfo extends BaseProjectInfo implements HasMetricsNode, 
     private ProjectMetrics calcMetrics(boolean filter) {
         ProjectMetrics projectMetrics = new ProjectMetrics(this);
         int numPackages = 0;
-        for (BasePackageInfo basePackageInfo : packages.values()) {
-            FullPackageInfo packageInfo = (FullPackageInfo) basePackageInfo;
+        for (PackageInfo packageInfo : packages.values()) {
             if (!filter) {
                 projectMetrics.add((PackageMetrics) packageInfo.getRawMetrics());
             } else {
@@ -371,19 +580,6 @@ public class FullProjectInfo extends BaseProjectInfo implements HasMetricsNode, 
             }
         }
         return result;
-    }
-
-    @Override
-    public void invalidateCaches() {
-        super.invalidateCaches();
-        orderedPkgs = null;
-        orderedPkgRoots = null;
-        roots = null ;
-    }
-
-    @Override
-    public PackageInfo findPackage(String name) {
-        return getNamedPackage(name);
     }
 
 }

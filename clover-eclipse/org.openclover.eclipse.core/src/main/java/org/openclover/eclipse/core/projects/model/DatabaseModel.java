@@ -6,9 +6,9 @@ import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IType;
 import org.openclover.core.CloverDatabase;
+import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.HasMetrics;
-import org.openclover.core.registry.entities.BaseClassInfo;
-import org.openclover.core.registry.entities.BaseFileInfo;
 import org.openclover.core.registry.entities.FullMethodInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.registry.entities.TestCaseInfo;
@@ -51,8 +51,8 @@ public abstract class DatabaseModel {
     public abstract FullProjectInfo getAppOnlyProjectInfo();
 
     public abstract HasMetrics getPackageInfoOrFragment(IPackageFragment pack, MetricsScope scope);
-    public abstract BaseFileInfo getSourceFileInfo(ICompilationUnit cu, MetricsScope scope);
-    public abstract BaseClassInfo getTypeInfo(IType type, MetricsScope scope);
+    public abstract FileInfo getSourceFileInfo(ICompilationUnit cu, MetricsScope scope);
+    public abstract ClassInfo getTypeInfo(IType type, MetricsScope scope);
     public abstract FullMethodInfo getMethodInfo(IMethod method, MetricsScope scope);
     public abstract TestCaseInfo getTestCaseInfo(IMethod method, MetricsScope scope);
     public abstract TestCaseInfo[] getTestCaseInfos(IMethod method, MetricsScope scope);

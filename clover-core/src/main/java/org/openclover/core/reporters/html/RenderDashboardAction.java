@@ -2,7 +2,7 @@ package org.openclover.core.reporters.html;
 
 import clover.org.apache.velocity.VelocityContext;
 import org.openclover.core.api.registry.ClassInfo;
-import org.openclover.core.registry.entities.BaseClassInfo;
+import org.openclover.core.api.registry.ClassMetadata;
 import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.registry.metrics.HasMetricsSupport;
 import org.openclover.core.reporters.Column;

@@ -4,7 +4,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Pair;
 import com.intellij.util.ui.ColumnInfo;
 import org.openclover.core.CloverDatabase;
-import org.openclover.core.registry.CoverageDataReceptor;
+import org.openclover.core.api.registry.CoverageDataReceptor;
 import org.openclover.core.registry.entities.TestCaseInfo;
 import org.openclover.idea.config.TestCaseLayout;
 import org.openclover.idea.treetables.TreeTableModelFactory;

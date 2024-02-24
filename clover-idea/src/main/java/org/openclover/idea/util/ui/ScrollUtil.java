@@ -16,7 +16,7 @@ public class ScrollUtil {
     }
 
     public static void scrollToSourceRegion(Project project, FileInfoRegion region) {
-        File srcFile = ((FullFileInfo) region.getContainingFile()).getPhysicalFile();
+        File srcFile = region.getContainingFile().getPhysicalFile();
         VirtualFile vf = LocalFileSystem.getInstance().findFileByIoFile(srcFile);
 
 

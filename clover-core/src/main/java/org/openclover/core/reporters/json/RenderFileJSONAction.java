@@ -35,7 +35,7 @@ public class RenderFileJSONAction extends RenderFileAction {
                 JSONReportUtils.collectColumnValuesFor(columnsTL.get(), fileInfo, renderingHelper);
 
             final SourceRenderHelper srh = new SourceRenderHelper(database, reportConfig, renderingHelper);
-            final FullFileInfo fcopy = fileInfo.copy((FullPackageInfo)fileInfo.getContainingPackage(), HasMetricsFilter.ACCEPT_ALL);
+            final FullFileInfo fcopy = ((FullFileInfo) fileInfo).copy((FullPackageInfo)fileInfo.getContainingPackage(), HasMetricsFilter.ACCEPT_ALL);
             final LineRenderInfo[] lineInfos = srh.gatherSrcRenderInfo(velocity, fcopy, getContextSet(), "", testLineInfo);
 
             // the json file used for exporting coverage data - not used by src-file.vm

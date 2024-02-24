@@ -2,8 +2,9 @@ package org.openclover.eclipse.core.ui.editors.cloud;
 
 import clover.org.apache.velocity.VelocityContext;
 import org.openclover.core.CloverDatabase;
+import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.PackageInfo;
-import org.openclover.core.registry.entities.BasePackageInfo;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.reporters.CloudGenerator;
 import org.openclover.core.reporters.html.ClassInfoStatsCalculator;
@@ -35,9 +36,9 @@ public class EclipseCloudGenerator {
     public void execute() throws Exception {
         createResources();
 
-        FullProjectInfo appOnlyModel = database.getAppOnlyModel();
+        ProjectInfo appOnlyModel = database.getAppOnlyModel();
 
-        List allClasses = appOnlyModel.getClasses(new TestClassFilter());
+        List<ClassInfo> allClasses = appOnlyModel.getClasses(new TestClassFilter());
         createDeepReport(
                 "",
                 basePath,
@@ -56,40 +57,39 @@ public class EclipseCloudGenerator {
                 new ClassInfoStatsCalculator.ElementCountCalculator(),
                 new ClassInfoStatsCalculator.CoveredElementsCalculator());
 
-        List<? extends PackageInfo> allPackages = appOnlyModel.getAllPackages();
+        List<PackageInfo> allPackages = appOnlyModel.getAllPackages();
         for (PackageInfo packageInfo : allPackages) {
-            BasePackageInfo pkg = (BasePackageInfo) packageInfo;
             createDeepReport(
-                    pkg.getName().replace('.', '/') + "/",
-                    CloverUtils.createOutDir(pkg, basePath),
+                    packageInfo.getName().replace('.', '/') + "/",
+                    CloverUtils.createOutDir(packageInfo, basePath),
                     PROJECT_RISKS_FILE_NAME,
                     CloverEclipsePluginMessages.PACKAGE_RISKS(),
-                    pkg.getClassesIncludingSubPackages(),
+                    packageInfo.getClassesIncludingSubPackages(),
                     new ClassInfoStatsCalculator.AvgMethodComplexityCalculator(),
                     new ClassInfoStatsCalculator.PcCoveredElementsCalculator());
             createShallowReport(
-                    pkg.getName().replace('.', '/') + "/",
-                    CloverUtils.createOutDir(pkg, basePath),
+                    packageInfo.getName().replace('.', '/') + "/",
+                    CloverUtils.createOutDir(packageInfo, basePath),
                     PROJECT_RISKS_FILE_NAME,
                     CloverEclipsePluginMessages.PACKAGE_RISKS(),
-                    pkg.getClasses(),
+                    packageInfo.getClasses(),
                     new ClassInfoStatsCalculator.AvgMethodComplexityCalculator(),
                     new ClassInfoStatsCalculator.PcCoveredElementsCalculator());
 
             createDeepReport(
-                    pkg.getName().replace('.', '/') + "/",
-                    CloverUtils.createOutDir(pkg, basePath),
+                    packageInfo.getName().replace('.', '/') + "/",
+                    CloverUtils.createOutDir(packageInfo, basePath),
                     QUICK_WINS_FILE_NAME,
                     CloverEclipsePluginMessages.QUICK_WINS(),
-                    pkg.getClassesIncludingSubPackages(),
+                    packageInfo.getClassesIncludingSubPackages(),
                     new ClassInfoStatsCalculator.ElementCountCalculator(),
                     new ClassInfoStatsCalculator.CoveredElementsCalculator());
             createShallowReport(
-                    pkg.getName().replace('.', '/') + "/",
-                    CloverUtils.createOutDir(pkg, basePath),
+                    packageInfo.getName().replace('.', '/') + "/",
+                    CloverUtils.createOutDir(packageInfo, basePath),
                     QUICK_WINS_FILE_NAME,
                     CloverEclipsePluginMessages.QUICK_WINS(),
-                    pkg.getClasses(),
+                    packageInfo.getClasses(),
                     new ClassInfoStatsCalculator.ElementCountCalculator(),
                     new ClassInfoStatsCalculator.CoveredElementsCalculator());
         }
@@ -105,7 +105,7 @@ public class EclipseCloudGenerator {
             File dir,
             String fileName,
             String pageTitle,
-            List classes,
+            List<ClassInfo> classes,
             ClassInfoStatsCalculator calcAxis1,
             ClassInfoStatsCalculator calcAxis2) throws IOException {
 
@@ -121,7 +121,7 @@ public class EclipseCloudGenerator {
             File dir,
             String fileName,
             String pageTitle,
-            List classes,
+            List<ClassInfo> classes,
             ClassInfoStatsCalculator calcAxis1,
             ClassInfoStatsCalculator calcAxis2) throws IOException {
 

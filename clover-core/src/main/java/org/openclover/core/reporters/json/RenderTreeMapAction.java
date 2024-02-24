@@ -4,11 +4,9 @@ import clover.com.google.gson.Gson;
 import clover.com.google.gson.GsonBuilder;
 import clover.org.apache.velocity.VelocityContext;
 import org.openclover.core.api.registry.BlockMetrics;
-import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
-import org.openclover.core.registry.entities.FullPackageInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.core.reporters.CloverReportConfig;
@@ -75,13 +73,13 @@ public class RenderTreeMapAction implements Callable<Object> {
     String generateJson(boolean classLevel) {
         final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-        final List<FullPackageInfo> pkgInfos = (List<FullPackageInfo>)project.getAllPackages();
+        final List<PackageInfo> pkgInfos = project.getAllPackages();
 
         final List<Node> pkgNodes = new ArrayList<>(pkgInfos.size());
 
         final Node projectNode = createNode(project.getDataIndex(), "", project, pkgNodes);
 
-        for (final FullPackageInfo packageInfo : pkgInfos) {
+        for (final PackageInfo packageInfo : pkgInfos) {
             final List classes = packageInfo.getClasses(HasMetricsFilter.ACCEPT_ALL);
             // create a package node.
             final List<Node> classesList = new ArrayList<>(classes.size());

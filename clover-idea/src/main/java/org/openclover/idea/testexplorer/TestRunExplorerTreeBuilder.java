@@ -19,8 +19,8 @@ import org.openclover.core.CloverDatabase;
 import org.openclover.core.CoverageData;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.PackageInfo;
-import org.openclover.core.registry.CoverageDataProvider;
-import org.openclover.core.registry.CoverageDataReceptor;
+import org.openclover.core.api.registry.CoverageDataProvider;
+import org.openclover.core.api.registry.CoverageDataReceptor;
 import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullMethodInfo;
@@ -28,7 +28,7 @@ import org.openclover.core.registry.entities.FullPackageInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.registry.entities.PackageFragment;
 import org.openclover.core.registry.entities.TestCaseInfo;
-import org.openclover.core.registry.metrics.HasMetricsFilter;
+import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.config.TestCaseLayout;
 import org.openclover.idea.coverage.CoverageManager;
@@ -186,7 +186,7 @@ public class TestRunExplorerTreeBuilder {
             }
         }
         if (packageFragment.isConcrete()) {
-            FullPackageInfo concrete = packageFragment.getConcretePackage();
+            PackageInfo concrete = packageFragment.getConcretePackage();
             Map<FullClassInfo, Collection<TestCaseInfo>> classes = index.get(concrete);
             if (classes != null) {
                 if (node == null) {

@@ -63,9 +63,9 @@ public abstract class RegFile<CDR extends RegFile> {
         return file;
     }
 
-    protected List<FileInfoRecord> toRecords(Iterable<FullFileInfo> fileInfos) {
+    protected List<FileInfoRecord> toRecords(Iterable<FileInfo> fileInfos) {
         List<FileInfoRecord> recs = newLinkedList();
-        for (FullFileInfo fileInfo : fileInfos) {
+        for (FileInfo fileInfo : fileInfos) {
             recs.add(new FileInfoRecord(fileInfo));
         }
         return recs;

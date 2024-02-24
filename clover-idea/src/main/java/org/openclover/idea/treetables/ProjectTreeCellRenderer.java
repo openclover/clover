@@ -1,8 +1,8 @@
 package org.openclover.idea.treetables;
 
+import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.MethodInfo;
-import org.openclover.core.registry.entities.BaseClassInfo;
 import org.openclover.core.registry.entities.FullPackageInfo;
 import org.openclover.core.registry.entities.PackageFragment;
 import org.openclover.core.registry.entities.TestCaseInfo;
@@ -37,8 +37,8 @@ public class ProjectTreeCellRenderer extends javax.swing.tree.DefaultTreeCellRen
             final String mangledName = new StringBuilder(packageInfo.getName()).append('\u202e').reverse().toString();
             setText(mangledName);
 
-        } else if (userObject instanceof BaseClassInfo) {
-            final BaseClassInfo classInfo = (BaseClassInfo) userObject;
+        } else if (userObject instanceof ClassInfo) {
+            final ClassInfo classInfo = (ClassInfo) userObject;
             setIcon(CellRendererUtil.getIconForClassInfo(classInfo));
             setText(classInfo.getName());
         } else if (userObject instanceof SourceFolderDescription) {

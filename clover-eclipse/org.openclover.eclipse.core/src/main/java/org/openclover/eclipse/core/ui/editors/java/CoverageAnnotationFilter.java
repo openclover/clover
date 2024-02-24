@@ -10,7 +10,7 @@ import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.ContextSet;
 import org.openclover.core.api.registry.ElementInfo;
 import org.openclover.core.api.registry.SourceInfo;
-import org.openclover.core.registry.CoverageDataRange;
+import org.openclover.core.api.registry.CoverageDataRange;
 import org.openclover.core.registry.entities.FullElementInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;

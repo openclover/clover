@@ -4,7 +4,7 @@ import com.intellij.testFramework.LightIdeaTestCase;
 import com.intellij.util.ui.UIUtil;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.api.registry.BlockMetrics;
-import org.openclover.core.registry.metrics.HasMetricsFilter;
+import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.core.reporters.filters.DefaultTestFilter;
 import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.config.IdeaCloverConfig;

@@ -106,7 +106,7 @@ public class CloverUtils {
         return className == null ? className : className.replace('$', '.').replaceAll("\\.[0-9]+", "");
     }
 
-    public static File createOutFile(FullFileInfo finfo, String outname, File baseDir) throws IOException {
+    public static File createOutFile(FileInfo finfo, String outname, File baseDir) throws IOException {
         PackageInfo pkg = finfo.getContainingPackage();
         File outdir = createOutDir(pkg, baseDir);
         return new File(outdir, outname);

@@ -15,7 +15,6 @@ import org.openclover.core.instr.java.InstrumentationSource
 import org.openclover.core.instr.java.Instrumenter
 import org.openclover.core.instr.java.StringInstrumentationSource
 import org.openclover.core.registry.Clover2Registry
-import org.openclover.core.registry.entities.BasePackageInfo
 import org.openclover.core.registry.entities.FullMethodInfo
 import org.openclover.core.registry.entities.FullProjectInfo
 import org.openclover.core.util.FileUtils
@@ -55,7 +54,7 @@ class ContextTest {
     void testReservedContexts() throws Exception {
 
         FullProjectInfo model = getModelForInstr("package A; class B { public void notAMatch() {hashcode();} private B() {hashcode();} public int getProperty() {return 42;}}")
-        BasePackageInfo pkgA = model.getNamedPackage("A")
+        PackageInfo pkgA = model.getNamedPackage("A")
 
         ClassInfo classB = (ClassInfo)pkgA.getClasses().get(0)
         assertEquals(classB.getName(), "B")
@@ -91,7 +90,7 @@ class ContextTest {
                     private String getPrivate() {}
                     public String setPrivate(int notASetter) {}
                 }""")
-        BasePackageInfo pkgA = model.getNamedPackage("A")
+        PackageInfo pkgA = model.getNamedPackage("A")
 
         ClassInfo classB = (ClassInfo)pkgA.getClasses().get(0)
         assertEquals(classB.getName(), "B")
@@ -146,7 +145,7 @@ class ContextTest {
                 }"""
         )
 
-        BasePackageInfo pkgA = model.getNamedPackage("A")
+        PackageInfo pkgA = model.getNamedPackage("A")
         ClassInfo classB = (ClassInfo)pkgA.getClasses().get(0)
         assertEquals(classB.getName(), "B")
 
@@ -199,7 +198,7 @@ class ContextTest {
     void testCloverOnOff() throws Exception {
         FullProjectInfo model = getModelForInstr("/**/ package A; class B { public B() {int p = 0;///CLOVER:OFF\nint i = 0;///CLOVER:ON\nint j = 0;}}")
 
-        BasePackageInfo pkgA = model.getNamedPackage("A")
+        PackageInfo pkgA = model.getNamedPackage("A")
 
         ClassInfo classB = (ClassInfo)pkgA.getClasses().get(0)
         assertEquals(classB.getName(), "B")
@@ -229,7 +228,7 @@ class ContextTest {
             return null;
         };}}""")
 
-        BasePackageInfo pkgA = model.getNamedPackage("A")
+        PackageInfo pkgA = model.getNamedPackage("A")
         ClassInfo classB = (ClassInfo)pkgA.classes.get(0)
         FullMethodInfo ctor = classB.methods.get(0)
 
@@ -269,7 +268,7 @@ class ContextTest {
         Effect<String> some = (a) -> /*CLOVER:VOID*/ System.out.println(a.toString());
         };}""")
 
-        BasePackageInfo pkgA = model.getNamedPackage("A")
+        PackageInfo pkgA = model.getNamedPackage("A")
         ClassInfo classB = (ClassInfo) pkgA.getClasses().get(0)
         FullMethodInfo ctor = classB.getMethods().get(0)
 

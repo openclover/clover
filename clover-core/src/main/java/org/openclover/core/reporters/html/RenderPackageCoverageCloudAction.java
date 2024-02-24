@@ -14,14 +14,14 @@ import java.util.Comparator;
 import java.util.List;
 
 public class RenderPackageCoverageCloudAction extends RenderCoverageCloudAction {
-    private List childAndDescendantClasses;
-    private FullPackageInfo pkg;
+    private List<ClassInfo> childAndDescendantClasses;
+    private PackageInfo pkg;
     private final boolean appPagePresent;
     private final boolean testPagePresent;
 
     public RenderPackageCoverageCloudAction(VelocityContext context, CloverReportConfig reportConfig,
                                             File basePath, HtmlReporter.TreeInfo tree,
-                                            FullPackageInfo pkg, boolean appPagePresent, boolean testPagePresent) {
+                                            PackageInfo pkg, boolean appPagePresent, boolean testPagePresent) {
         super(context, reportConfig, tree, sortedClassesFor(pkg), basePath);
         this.pkg = pkg;
         this.childAndDescendantClasses = sortedChildrenAndDescendantClassesFor(pkg);
@@ -29,18 +29,18 @@ public class RenderPackageCoverageCloudAction extends RenderCoverageCloudAction 
         this.testPagePresent = testPagePresent;
     }
 
-    private List sortedChildrenAndDescendantClassesFor(FullPackageInfo pkg) {
+    private List<ClassInfo> sortedChildrenAndDescendantClassesFor(PackageInfo pkg) {
         return sortClasses(pkg.getClassesIncludingSubPackages(), HasMetricsSupport.CMP_LEX);
     }
 
-    private static List sortClasses(List classes, Comparator comparator) {
+    private static List<ClassInfo> sortClasses(List<ClassInfo> classes, Comparator<HasMetrics> comparator) {
         if (classes != null) {
             classes.sort(comparator);
         }
         return classes;
     }
 
-    private static List sortedClassesFor(FullPackageInfo pkg) {
+    private static List<ClassInfo> sortedClassesFor(PackageInfo pkg) {
         return sortClasses(pkg.getClasses(), HasMetricsSupport.CMP_LEX);
     }
 

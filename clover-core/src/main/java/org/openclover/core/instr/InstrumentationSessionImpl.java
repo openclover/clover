@@ -8,14 +8,15 @@ import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.ContextSet;
 import org.openclover.core.api.registry.EntityContainer;
 import org.openclover.core.api.registry.EntityVisitor;
+import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.ModifiersInfo;
+import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.api.registry.SourceInfo;
 import org.openclover.core.context.ContextStore;
 import org.openclover.core.registry.Clover2Registry;
 import org.openclover.core.registry.ReadOnlyRegistryException;
 import org.openclover.core.registry.RegistryUpdate;
-import org.openclover.core.registry.entities.BaseFileInfo;
 import org.openclover.core.registry.entities.BasicElementInfo;
 import org.openclover.core.registry.entities.BasicMethodInfo;
 import org.openclover.core.registry.entities.FullBranchInfo;
@@ -135,8 +136,8 @@ public class InstrumentationSessionImpl implements InstrumentationSession {
                 reg.getContextStore());
     }
 
-    private Collection<FullPackageInfo> toPackages(Collection<SessionPackageInfo> shadowPackageInfos) {
-        List<FullPackageInfo> pkgInfos = newLinkedList();
+    private Collection<PackageInfo> toPackages(Collection<SessionPackageInfo> shadowPackageInfos) {
+        List<PackageInfo> pkgInfos = newLinkedList();
         for (SessionPackageInfo shadowPackageInfo : shadowPackageInfos) {
             pkgInfos.add(shadowPackageInfo.getSessionPkg());
         }
@@ -547,11 +548,11 @@ public class InstrumentationSessionImpl implements InstrumentationSession {
         private final long startTS;
         private final long endTS;
         private final int slotCount;
-        private final Collection<FullPackageInfo> changedPkgInfos;
+        private final Collection<PackageInfo> changedPkgInfos;
         private final ContextStore ctxStore;
-        private final List<FullFileInfo> fileInfos;
+        private final List<FileInfo> fileInfos;
 
-        public Update(long version, long startTS, long endTS, int slotCount, Collection<FullPackageInfo> changedPkgInfos, ContextStore ctxStore) {
+        public Update(long version, long startTS, long endTS, int slotCount, Collection<PackageInfo> changedPkgInfos, ContextStore ctxStore) {
             this.version = version;
             this.startTS = startTS;
             this.endTS = endTS;
@@ -562,10 +563,10 @@ public class InstrumentationSessionImpl implements InstrumentationSession {
         }
 
         @SuppressWarnings("unchecked")
-        private List<FullFileInfo> collectFileInfos() {
-            List<FullFileInfo> fileInfos = newLinkedList();
-            for (FullPackageInfo newPkgInfo : changedPkgInfos) {
-                fileInfos.addAll((List<FullFileInfo>) newPkgInfo.getFiles());
+        private List<FileInfo> collectFileInfos() {
+            List<FileInfo> fileInfos = newLinkedList();
+            for (PackageInfo newPkgInfo : changedPkgInfos) {
+                fileInfos.addAll(newPkgInfo.getFiles());
             }
             return fileInfos;
         }
@@ -591,11 +592,11 @@ public class InstrumentationSessionImpl implements InstrumentationSession {
         }
 
         @Override
-        public List<FullFileInfo> getFileInfos() {
+        public List<FileInfo> getFileInfos() {
             return fileInfos;
         }
 
-        public Collection<FullPackageInfo> getChangedPkgInfos() {
+        public Collection<PackageInfo> getChangedPkgInfos() {
             return changedPkgInfos;
         }
 
@@ -615,8 +616,8 @@ public class InstrumentationSessionImpl implements InstrumentationSession {
             this.sessionPkg = sessionPkg;
         }
 
-        public BaseFileInfo getFileInPackage(String name) {
-            BaseFileInfo fileInfo = sessionPkg.getFileInPackage(name);
+        public FileInfo getFileInPackage(String name) {
+            FileInfo fileInfo = sessionPkg.getFileInPackage(name);
             if (fileInfo == null) {
                 fileInfo = modelPkg == null ? null : modelPkg.getFileInPackage(name);
             }

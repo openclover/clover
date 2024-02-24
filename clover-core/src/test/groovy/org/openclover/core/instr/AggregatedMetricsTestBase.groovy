@@ -13,7 +13,6 @@ import org.openclover.core.cfg.instr.java.SourceLevel
 import org.openclover.core.instr.java.InstrumentationSource
 import org.openclover.core.instr.java.Instrumenter
 import org.openclover.core.registry.Clover2Registry
-import org.openclover.core.registry.entities.BaseFileInfo
 import org.openclover.core.registry.entities.FullMethodInfo
 import org.openclover.core.registry.entities.FullProjectInfo
 
@@ -239,23 +238,22 @@ abstract class AggregatedMetricsTestBase {
 
             level++
             for (FileInfo fileInfo : packageInfo.getFiles()) {
-                BaseFileInfo baseFileInfo = (BaseFileInfo)fileInfo
-                printIndent(out, level, "<file name=\"" + baseFileInfo.getName() + "\" timestamp=\"" + baseFileInfo.getTimestamp() + "\">")
+                printIndent(out, level, "<file name=\"" + fileInfo.getName() + "\" timestamp=\"" + fileInfo.getTimestamp() + "\">")
 
                 level++
 
                 // statements
-                for (StatementInfo stmt : baseFileInfo.getStatements()) {
+                for (StatementInfo stmt : fileInfo.getStatements()) {
                     printStatement(out, level, stmt)
                 }
 
                 // methods
-                for (MethodInfo methodInfo : baseFileInfo.getMethods()) {
+                for (MethodInfo methodInfo : fileInfo.getMethods()) {
                     printMethod(out, level, methodInfo)
                 }
 
                 // classes
-                for (ClassInfo classInfo : baseFileInfo.getClasses()) {
+                for (ClassInfo classInfo : fileInfo.getClasses()) {
                     printClass(out, level, classInfo)
                 }
                 level--

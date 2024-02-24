@@ -41,7 +41,7 @@ public class EmptyProjectUpdate implements RegistryUpdate {
     }
 
     @Override
-    public List<FullFileInfo> getFileInfos() {
+    public List<FileInfo> getFileInfos() {
         return Collections.emptyList();
     }
 

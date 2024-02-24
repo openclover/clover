@@ -12,7 +12,6 @@ import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.core.util.Path;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 import static org.openclover.core.util.Lists.newLinkedList;
@@ -62,16 +61,16 @@ public interface ProjectView extends InstrumentationTarget {
 
             final CoverageDataProvider dataProvider = project.getDataProvider();
             int projLen = project.getDataLength();
-            for (FullPackageInfo updatedPkgInfo : update.getChangedPkgInfos()) {
+            for (PackageInfo updatedPkgInfo : update.getChangedPkgInfos()) {
                 //Look up an existing package in the model, if one exists
                 final FullPackageInfo pkgInfo = (FullPackageInfo)project.getNamedPackage(updatedPkgInfo.getName());
                 if (pkgInfo == null) {
                     updatedPkgInfo.setDataProvider(dataProvider);
                     project.addPackage(updatedPkgInfo);
                 } else {
-                    for (FullFileInfo fileInfo : (List<FullFileInfo>)updatedPkgInfo.getFiles()) {
+                    for (FileInfo fileInfo : updatedPkgInfo.getFiles()) {
                         fileInfo.setContainingPackage(pkgInfo);
-                        fileInfo.setDataProvider(dataProvider);
+                        ((FullFileInfo) fileInfo).setDataProvider(dataProvider);
                         pkgInfo.addFile(fileInfo);
                     }
                     //Extend the length of the package if instrumentation added files to this package
@@ -136,11 +135,11 @@ public interface ProjectView extends InstrumentationTarget {
 
             final CoverageDataProvider dataProvider = project.getDataProvider();
             int projLen = project.getDataLength();
-            for (FullPackageInfo updatedPkgInfo : update.getChangedPkgInfos()) {
+            for (PackageInfo updatedPkgInfo : update.getChangedPkgInfos()) {
                 //Look up an existing package in the model, if one exists
-                FullPackageInfo pkgInfo = (FullPackageInfo)project.getNamedPackage(updatedPkgInfo.getName());
+                PackageInfo pkgInfo = (FullPackageInfo)project.getNamedPackage(updatedPkgInfo.getName());
 
-                for (FullFileInfo fileInfo : (List<FullFileInfo>)updatedPkgInfo.getFiles()) {
+                for (FileInfo fileInfo : updatedPkgInfo.getFiles()) {
                     if (filter.accept(fileInfo)) {
                         //Create a new filtered packageInfo but only on demand
                         if (pkgInfo == null) {
@@ -149,7 +148,7 @@ public interface ProjectView extends InstrumentationTarget {
                             project.addPackage(pkgInfo);
                         }
 
-                        FullFileInfo fileInfoCopy = fileInfo.copy(pkgInfo, filter);
+                        FullFileInfo fileInfoCopy = ((FullFileInfo) fileInfo).copy((FullPackageInfo) pkgInfo, filter);
                         fileInfoCopy.setDataProvider(dataProvider);
                         fileInfoCopy.setContainingPackage(pkgInfo);
                         pkgInfo.addFile(fileInfoCopy);

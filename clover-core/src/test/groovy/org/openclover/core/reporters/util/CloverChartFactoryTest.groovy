@@ -16,9 +16,9 @@ import org.openclover.core.api.registry.FileInfo
 import org.openclover.core.api.registry.HasMetrics
 import org.openclover.core.api.registry.PackageInfo
 import org.openclover.core.registry.FixedSourceRegion
-import org.openclover.core.registry.entities.BaseClassInfo
-import org.openclover.core.registry.entities.BaseFileInfo
-import org.openclover.core.registry.entities.BasePackageInfo
+import org.openclover.core.registry.entities.FullClassInfo
+import org.openclover.core.registry.entities.FullFileInfo
+import org.openclover.core.registry.entities.FullPackageInfo
 import org.openclover.core.registry.entities.Modifiers
 import org.openclover.core.registry.metrics.HasMetricsTestFixture
 import org.openclover.core.registry.metrics.ProjectMetrics
@@ -71,7 +71,7 @@ class CloverChartFactoryTest extends TestCase {
     }
 
     void testCreateScatterPlot() throws IOException, InterruptedException {
-        List<BaseClassInfo> data =  getTestMetrics()
+        List<ClassInfo> data =  getTestMetrics()
 
         assertEquals(6, data.size())
 
@@ -100,7 +100,7 @@ class CloverChartFactoryTest extends TestCase {
     }
 
     void testGenerateReportCharts() throws IOException {
-        List<BaseClassInfo> data = getTestMetrics()
+        List<ClassInfo> data = getTestMetrics()
         File baseImgPath = new File(IOHelper.createTmpDir(getName()), "img")
         CloverUtils.createDir(baseImgPath)
         CloverChartFactory.ChartInfo histogram = CloverChartFactory.generateHistogramChart(data, baseImgPath)
@@ -122,7 +122,7 @@ class CloverChartFactoryTest extends TestCase {
 
     void testCreateHistogram() throws IOException, InterruptedException {
 
-        List<BaseClassInfo> data = getTestMetrics()
+        List<ClassInfo> data = getTestMetrics()
 
         JFreeChart chart = CloverChartFactory.createClassCoverageChart("Coverage", "# Classes", data, "class", true)
 
@@ -138,7 +138,7 @@ class CloverChartFactoryTest extends TestCase {
     }
 
     void testGenerateClassCoverageData() throws IOException {
-        List<BaseClassInfo> hasMetricsList = getTestMetrics()
+        List<ClassInfo> hasMetricsList = getTestMetrics()
         int buckets = 11
 
         int[] data = CloverChartFactory.generateClassCoverageData(hasMetricsList)
@@ -151,26 +151,25 @@ class CloverChartFactoryTest extends TestCase {
         assertEquals(1, data[10])
     }
 
-    private BaseClassInfo createClassInfo(String name, int nCovSts, int nSts, int cmplx) throws IOException {
+    private ClassInfo createClassInfo(String name, int nCovSts, int nSts, int cmplx) throws IOException {
         HasMetricsTestFixture fixture = new HasMetricsTestFixture("Test")
-        BasePackageInfo pkgInfo = new BasePackageInfo(null, "PackageName")
-        BaseFileInfo fileInfo = new BaseFileInfo(pkgInfo, "FileName.extension", null, 0, 0, 0, 0, 0)
+        PackageInfo pkgInfo = new FullPackageInfo(null, "PackageName")
+        FileInfo fileInfo = new FullFileInfo(pkgInfo, "FileName.extension", null, 0, 0, 0, 0, 0)
 
         ProjectMetrics metrics = new ProjectMetrics(fixture.getProject())
         metrics.setNumCoveredStatements(nCovSts)
         metrics.setNumStatements(nSts)
         metrics.setComplexity(cmplx)
 
-        BaseClassInfo classInfo = new BaseClassInfo(pkgInfo, fileInfo,
+        ClassInfo classInfo = new FullClassInfo(pkgInfo, fileInfo,
                 name, new FixedSourceRegion(0,0,0,0), new Modifiers(),
                 false, false, false)
         classInfo.setMetrics(metrics)
         return classInfo
     }
 
-    private List<BaseClassInfo> getTestMetrics() throws IOException {
-
-        java.util.List<BaseClassInfo> data = newArrayList()
+    private List<ClassInfo> getTestMetrics() throws IOException {
+        List<ClassInfo> data = newArrayList()
         data.add(createClassInfo("blah1", 7, 10, 2))
         data.add(createClassInfo("blah2", 4, 10, 1))
         data.add(createClassInfo("blah3", 1, 10, 0))

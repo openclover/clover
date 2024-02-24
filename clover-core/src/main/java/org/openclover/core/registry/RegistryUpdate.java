@@ -11,6 +11,6 @@ public interface RegistryUpdate {
     long getStartTs();
     long getEndTs();
     int getSlotCount();
-    List<FullFileInfo> getFileInfos();
+    List<FileInfo> getFileInfos();
     ContextStore getContextStore();
 }

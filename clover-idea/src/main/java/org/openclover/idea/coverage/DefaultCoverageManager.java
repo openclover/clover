@@ -11,7 +11,7 @@ import org.openclover.core.context.ContextStore;
 import org.openclover.core.context.NamedContext;
 import org.openclover.core.registry.Clover2Registry;
 import org.openclover.core.registry.entities.FullProjectInfo;
-import org.openclover.core.registry.metrics.HasMetricsFilter;
+import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.core.util.CloverUtils;
 import org.openclover.core.util.Path;
 import org.openclover.idea.IdeaTestFilter;

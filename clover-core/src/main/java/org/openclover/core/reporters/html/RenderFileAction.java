@@ -20,7 +20,7 @@ import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullPackageInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.registry.entities.TestCaseInfo;
-import org.openclover.core.registry.metrics.HasMetricsFilter;
+import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.core.registry.util.EntityVisitorUtils;
 import org.openclover.core.reporters.Column;
 import org.openclover.core.reporters.Current;
@@ -57,22 +57,22 @@ public class RenderFileAction implements Callable {
         return (int) (1000 * (m1.getPcCoveredElements() - m.getPcCoveredElements()));
     };
 
-    protected final FullFileInfo fileInfo; // shared: call made to setDataProvider on local copy
+    protected final FileInfo fileInfo; // shared: call made to setDataProvider on local copy
     protected final HtmlRenderingSupportImpl renderingHelper; // shared - has static Pattern(thread safe) objects.
     protected final Current reportConfig; // shared - read only
     protected final VelocityContext velocity; // not shared
     protected final CloverDatabase database; /// shared - read + write to cache in mDb.getRegistry().getContextsAsString - synchronized cache there.
-    protected final FullProjectInfo fullModel; // shared - call buildCaches first!
+    protected final ProjectInfo fullModel; // shared - call buildCaches first!
     protected final Map<Integer, CloverChartFactory.ChartInfo> charts;
     protected List<TestCaseInfo>[] testLineInfo;
 
     public RenderFileAction(
-        FullFileInfo fileInfo,
+        FileInfo fileInfo,
         HtmlRenderingSupportImpl renderingHelper,
         Current report,
         VelocityContext velocity,
         CloverDatabase database,
-        FullProjectInfo fullModel,
+        ProjectInfo fullModel,
         Map<Integer, CloverChartFactory.ChartInfo> charts) {
         
         this.fileInfo = fileInfo;
@@ -158,7 +158,7 @@ public class RenderFileAction implements Callable {
         velocity.put("headerMetrics", fileInfo.getMetrics());
         velocity.put("headerMetricsRaw", fileInfo.getRawMetrics());
         velocity.put("fileInfo", fileInfo);
-        final FullProjectInfo projInfo = fullModel;
+        final ProjectInfo projInfo = fullModel;
         velocity.put("projInfo", projInfo);
         velocity.put("cloverDb", database);
 
@@ -183,7 +183,7 @@ public class RenderFileAction implements Callable {
         final Map<TestCaseInfo, BitSet> targetElements = newHashMap(); // contains testid -> statements & branches
         final Map<TestCaseInfo, BlockMetrics> testMetrics = newHashMap(); // testid -> metrics
         Set<TestCaseInfo> testHits = database.getTestHits(fileInfo);
-        FullFileInfo fcopy = fileInfo.copy((FullPackageInfo) fileInfo.getContainingPackage(), HasMetricsFilter.ACCEPT_ALL);
+        FullFileInfo fcopy = ((FullFileInfo) fileInfo).copy((FullPackageInfo) fileInfo.getContainingPackage(), HasMetricsFilter.ACCEPT_ALL);
         Set<TestCaseInfo> testSet = newHashSet();
 
         final List<TestCaseInfo>[] testLineInfo = (List<TestCaseInfo>[])new ArrayList[fcopy.getLineCount() + 1];

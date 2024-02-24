@@ -58,7 +58,7 @@ public class JSONObjectFactory {
     }
 
     // JSON: {classes : [{name, id, sl, el, methods : [{sl, el}, ...]}, ...]}
-    public static JSONObject getJSONPageData(final FullFileInfo fileInfo) throws JSONException {
+    public static JSONObject getJSONPageData(final FileInfo fileInfo) throws JSONException {
         final JSONObject jsonPageData = new JSONObject();
 
         final List<Map<String, Object>> classList = newArrayList();

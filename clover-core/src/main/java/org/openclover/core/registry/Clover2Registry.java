@@ -9,7 +9,7 @@ import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.context.ContextStore;
 import org.openclover.core.instr.InstrumentationSessionImpl;
-import org.openclover.core.registry.entities.BasePackageInfo;
+import org.openclover.core.registry.entities.DummyPackageInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullPackageInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
@@ -39,6 +39,7 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import static org.openclover.core.registry.entities.FullPackageInfo.isDefaultName;
 import static org.openclover.core.util.Lists.newLinkedList;
 import static org.openclover.core.util.Maps.newHashMap;
 
@@ -100,7 +101,7 @@ public class Clover2Registry implements InstrumentationTarget {
             final UpdatableRegFile regFile = new UpdatableRegFile(registryFile);
             final List<InstrumentationInfo> instrHistory = newLinkedList();
             final FullProjectInfo projInfo = new FullProjectInfo(regFile.getName(), regFile.getVersion());
-            final Map<String, FullFileInfo> fileInfos = newHashMap();
+            final Map<String, FileInfo> fileInfos = newHashMap();
             final long version = regFile.getVersion();
 
             final Clover2Registry[] resultReg = new Clover2Registry[1];
@@ -148,13 +149,11 @@ public class Clover2Registry implements InstrumentationTarget {
         }
     }
 
-    private static void buildModel(long version, HasMetricsFilter filter, final FullProjectInfo projInfo, Map<String, FullFileInfo> fileInfos, InstrSessionSegment sessionSegment, Collection<FileInfoRecord> fileInfoRecs) {
-        class FosterPackageInfo extends BasePackageInfo {
+    private static void buildModel(long version, HasMetricsFilter filter, final FullProjectInfo projInfo,
+                                   Map<String, FileInfo> fileInfos, InstrSessionSegment sessionSegment,
+                                   Collection<FileInfoRecord> fileInfoRecs) {
+        class FosterPackageInfo extends DummyPackageInfo {
             public String fosterName;
-
-            FosterPackageInfo() {
-                super(projInfo, "");
-            }
 
             @Override
             public String getName() {
@@ -171,7 +170,7 @@ public class Clover2Registry implements InstrumentationTarget {
                 return isDefaultName(fosterName);
             }
 
-            public FullFileInfo adopt(String fosterName, FullFileInfo fileInfo) {
+            public FileInfo adopt(String fosterName, FileInfo fileInfo) {
                 this.fosterName = fosterName;
                 fileInfo.setContainingPackage(this);
                 return fileInfo;
@@ -186,14 +185,14 @@ public class Clover2Registry implements InstrumentationTarget {
             //If FileInfo not loaded from a previous instrumentation session...
             if (!fileInfos.containsKey(filePath)) {
                 //Temporarily adopt the FileInfo so things like getPackagePath() work while filtering
-                final FullFileInfo fileInfo = surrogatePackage.adopt(pkgName, fileInfoRec.getFileInfo());
+                final FileInfo fileInfo = surrogatePackage.adopt(pkgName, fileInfoRec.getFileInfo());
 
                 //If not filtered out
                 if (filter == null || filter.accept(fileInfo)) {
                     fileInfos.put(filePath, fileInfo);
                     //Make the FileInfo support the very latest model version
                     fileInfo.addVersion(version);
-                    FullPackageInfo pkgInfo = (FullPackageInfo)projInfo.getNamedPackage(pkgName);
+                    PackageInfo pkgInfo = projInfo.getNamedPackage(pkgName);
                     if (pkgInfo == null) {
                         pkgInfo = new FullPackageInfo(projInfo, pkgName, Integer.MAX_VALUE);
                         projInfo.addPackage(pkgInfo);
@@ -210,10 +209,10 @@ public class Clover2Registry implements InstrumentationTarget {
     @SuppressWarnings("unchecked")
     private static void recreateDataIndicesAndLengths(UpdatableRegFile regFile, FullProjectInfo projInfo) {
         int projLen = Integer.MIN_VALUE;
-        for (FullPackageInfo pkgInfo : (List<FullPackageInfo>)projInfo.getAllPackages()) {
+        for (PackageInfo pkgInfo : projInfo.getAllPackages()) {
             int pkgStartIdx = Integer.MAX_VALUE;
             int pkgEndIdx = Integer.MIN_VALUE;
-            for (FullFileInfo fileInfo : (List<FullFileInfo>)pkgInfo.getFiles()) {
+            for (FileInfo fileInfo : pkgInfo.getFiles()) {
                 pkgStartIdx = Math.min(pkgStartIdx, fileInfo.getDataIndex());
                 pkgEndIdx = Math.max(pkgEndIdx, fileInfo.getDataIndex() + fileInfo.getDataLength());
             }

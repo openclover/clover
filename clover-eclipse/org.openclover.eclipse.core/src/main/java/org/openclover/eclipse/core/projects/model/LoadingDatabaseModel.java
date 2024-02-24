@@ -9,9 +9,9 @@ import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IType;
 import org.openclover.core.CloverDatabase;
+import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.HasMetrics;
-import org.openclover.core.registry.entities.BaseClassInfo;
-import org.openclover.core.registry.entities.BaseFileInfo;
 import org.openclover.core.registry.entities.FullMethodInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.registry.entities.TestCaseInfo;
@@ -149,12 +149,12 @@ public class LoadingDatabaseModel
     }
 
     @Override
-    public BaseFileInfo getSourceFileInfo(ICompilationUnit cu, MetricsScope scope) {
+    public FileInfo getSourceFileInfo(ICompilationUnit cu, MetricsScope scope) {
         return currentModel.getSourceFileInfo(cu, scope);
     }
 
     @Override
-    public BaseClassInfo getTypeInfo(IType type, MetricsScope scope) {
+    public ClassInfo getTypeInfo(IType type, MetricsScope scope) {
         return currentModel.getTypeInfo(type, scope);
     }
 

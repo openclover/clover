@@ -12,7 +12,6 @@ import org.openclover.core.context.MethodRegexpContext
 import org.openclover.core.registry.Clover2Registry
 import org.openclover.core.registry.entities.AnnotationImpl
 import org.openclover.core.registry.entities.ArrayAnnotationValue
-import org.openclover.core.registry.entities.BaseClassInfo
 import org.openclover.core.registry.entities.FullClassInfo
 import org.openclover.core.registry.entities.FullFileInfo
 import org.openclover.core.registry.entities.FullMethodInfo
@@ -111,7 +110,7 @@ class GroovyModellingMethodsTest extends TestBase {
                     isDefaultPackage,
                     { FullPackageInfo p ->
                         assertFile p, named("Foo.groovy"), { FullFileInfo f ->
-                            assertClass f, { BaseClassInfo it -> it.name == "Foo" && it.isInterface() && it.methods.size() == 0 }
+                            assertClass f, { ClassInfo it -> it.name == "Foo" && it.isInterface() && it.methods.size() == 0 }
                         }
                     })
         })
@@ -131,7 +130,7 @@ class GroovyModellingMethodsTest extends TestBase {
                     isDefaultPackage,
                     { FullPackageInfo p ->
                         assertFile p, named("Foo.groovy"), { FullFileInfo f ->
-                            assertClass f, { BaseClassInfo it -> it.name == "Foo" && it.isAnnotationType() && it.methods.size() == 0 }
+                            assertClass f, { ClassInfo it -> it.name == "Foo" && it.isAnnotationType() && it.methods.size() == 0 }
                         }
                     })
         })
@@ -156,7 +155,7 @@ class GroovyModellingMethodsTest extends TestBase {
                                 named("Foo.groovy"),
                                 { FullFileInfo f ->
                                     assertClass(f,
-                                            { BaseClassInfo it -> it.name == "Foo" && it.isEnum() },
+                                            { ClassInfo it -> it.name == "Foo" && it.isEnum() },
                                             { FullClassInfo c ->
                                                 assertMethod c, and(simplyNamed("bar"),
                                                         at(5, 21, 5, 42),

@@ -15,21 +15,21 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-public class RenderPackageSummaryAction implements Callable {
+public class RenderPackageSummaryAction implements Callable<Object> {
     private final VelocityContext context;
     private final File basePath;
-    private final FullPackageInfo pkg;
+    private final PackageInfo pkg;
     private final boolean appPagePresent;
     private final boolean testPagePresent;
     private final boolean linkToClouds;
-    private final List<? extends ClassInfo> childClasses;
+    private final List<ClassInfo> childClasses;
     private final HtmlReporter.TreeInfo tree;
-    private final Comparator detailComparator;
+    private final Comparator<HasMetrics> detailComparator;
     private final List<Column> columns;
     private final HtmlRenderingSupport helper;
     
-    public RenderPackageSummaryAction(VelocityContext context, File basePath, CloverReportConfig cfg, FullPackageInfo pkg,
-                                      Comparator detailComparator, HtmlReporter.TreeInfo tree, HtmlRenderingSupport helper,
+    public RenderPackageSummaryAction(VelocityContext context, File basePath, CloverReportConfig cfg, PackageInfo pkg,
+                                      Comparator<HasMetrics> detailComparator, HtmlReporter.TreeInfo tree, HtmlRenderingSupport helper,
                                       boolean appPagePresent, boolean testPagePresent, boolean linkToClouds) {
         this.context = context;
         this.basePath = basePath;
@@ -72,7 +72,7 @@ public class RenderPackageSummaryAction implements Callable {
         return null;
     }
 
-    private void sortClasses(List classes, Comparator comparator) {
+    private void sortClasses(List<ClassInfo> classes, Comparator<HasMetrics> comparator) {
         if (classes != null) {
             classes.sort(comparator);
         }

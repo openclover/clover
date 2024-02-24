@@ -6,7 +6,7 @@ import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.SourceInfo;
 import org.openclover.core.api.registry.StatementInfo;
-import org.openclover.core.registry.CoverageDataReceptor;
+import org.openclover.core.api.registry.CoverageDataReceptor;
 import org.openclover.core.registry.FileElementVisitor;
 
 import java.util.Collection;

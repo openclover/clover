@@ -9,7 +9,6 @@ import org.openclover.core.context.ContextSetImpl
 import org.openclover.core.instr.InstrumentationSessionImpl
 import org.openclover.core.registry.Clover2Registry
 import org.openclover.core.registry.FixedSourceRegion
-import org.openclover.core.registry.entities.BasePackageInfo
 import org.openclover.core.registry.entities.FullFileInfo
 import org.openclover.core.registry.entities.FullProjectInfo
 import org.openclover.core.registry.entities.MethodSignature
@@ -152,7 +151,7 @@ class CompilationCombinationTest extends TestCase {
         FullProjectInfo model = db.getModel(CodeType.APPLICATION)
         assertNotNull(model)
 
-        BasePackageInfo pkg = model.getNamedPackage(PKGNAME)
+        PackageInfo pkg = model.getNamedPackage(PKGNAME)
 
         assertNotNull(pkg)
         assertEquals(aFiles.length, ((PackageMetrics)pkg.getMetrics()).getNumFiles())

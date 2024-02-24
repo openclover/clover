@@ -1,7 +1,7 @@
 package org.openclover.core.reporters.html;
 
 import org.openclover.core.api.registry.ClassInfo;
-import org.openclover.core.registry.entities.BaseClassInfo;
+import org.openclover.core.api.registry.ClassMetadata;
 import org.openclover.core.registry.metrics.ClassMetrics;
 import org.openclover.runtime.util.Formatting;
 
