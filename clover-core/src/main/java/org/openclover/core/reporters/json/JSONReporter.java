@@ -78,7 +78,7 @@ public class JSONReporter extends CloverReporter {
 
         final FullProjectInfo projectInfo = database.getAppOnlyModel();
         projectInfo.buildCaches();
-        final List<? extends PackageInfo> allPackages = projectInfo.getAllPackages();
+        final List<PackageInfo> allPackages = projectInfo.getAllPackages();
 
         try {
             CloverUtils.createDir(basePath);
@@ -153,7 +153,7 @@ public class JSONReporter extends CloverReporter {
     }
 
     private void processPackage(FullPackageInfo pkg, CloverExecutor service) throws Exception {
-        final List<? extends FileInfo> files = pkg.getFiles();
+        final List<FileInfo> files = pkg.getFiles();
 
         final FullProjectInfo projectInfo = database.getFullModel();
         projectInfo.buildCaches();

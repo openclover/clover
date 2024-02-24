@@ -79,12 +79,12 @@ public class RenderMetricsJSONAction implements Callable {
         final List<String> children = newArrayList();
         if (mInfo instanceof FullProjectInfo) {// TODO: children should be passed into the constructor
             final FullProjectInfo projectInfo = (FullProjectInfo)mInfo;
-            final List<? extends PackageInfo> pkgs = projectInfo.getAllPackages();
+            final List<PackageInfo> pkgs = projectInfo.getAllPackages();
             for (PackageInfo pkg : pkgs) {
                 children.add(pkg.getPath());
             }
         } else if (mInfo instanceof FullPackageInfo) {
-            final List<? extends FileInfo> files = ((FullPackageInfo)mInfo).getFiles();
+            final List<FileInfo> files = ((FullPackageInfo)mInfo).getFiles();
             for (final FileInfo file : files) {
                 children.add(file.getName());
             }

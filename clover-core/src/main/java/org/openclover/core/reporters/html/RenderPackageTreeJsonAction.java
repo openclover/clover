@@ -57,7 +57,7 @@ public class RenderPackageTreeJsonAction implements Callable {
      * wheteher package exists only in test model (for proper page linking)
      */
     protected List<PackageInfoExt> collectAllPackagesByName() {
-        final List<? extends PackageInfo> packages = fullProjectInfo.getAllPackages();
+        final List<PackageInfo> packages = fullProjectInfo.getAllPackages();
         packages.sort(HasMetricsSupport.LEX_COMP);
 
         final List<PackageInfoExt> packagesExt = new ArrayList<>(packages.size());

@@ -159,7 +159,7 @@ public class XMLReporter extends CloverReporter {
         out.writeElementStart(enclosingTag, attribs);
         writeMetrics(out, proj.getMetrics());
 
-        List<? extends PackageInfo> packages = proj.getAllPackages();
+        List<PackageInfo> packages = proj.getAllPackages();
         if (packages.size() > 0) {
             boolean summaryReport = false;
             if (reportConfig instanceof Current) {
@@ -248,7 +248,7 @@ public class XMLReporter extends CloverReporter {
 
     private void writeFilesForPkg(XMLWriter out, FullPackageInfo pkg) throws IOException {
         //get the files contained within the package.
-        final List<? extends FileInfo> files = pkg.getFiles();
+        final List<FileInfo> files = pkg.getFiles();
 
         for (FileInfo fileInfo : files) {
             final FullFileInfo file = (FullFileInfo) fileInfo;
@@ -267,7 +267,7 @@ public class XMLReporter extends CloverReporter {
         }
     }
 
-    private void writeClassesForFile(XMLWriter out, List<? extends ClassInfo> classes) throws IOException {
+    private void writeClassesForFile(XMLWriter out, List<ClassInfo> classes) throws IOException {
         for (ClassInfo aClass : classes) {
             final FullClassInfo info = (FullClassInfo) aClass;
             final Map<String, String> attribs = newHashMap();

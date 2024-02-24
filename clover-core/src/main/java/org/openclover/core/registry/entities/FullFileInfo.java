@@ -146,13 +146,13 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
 
     @Override
     @NotNull
-    public List<? extends ClassInfo> getClasses() {
+    public List<ClassInfo> getClasses() {
         return newArrayList(classes.values());
     }
 
     @NotNull
     @Override
-    public List<? extends ClassInfo> getAllClasses() {
+    public List<ClassInfo> getAllClasses() {
         final List<ClassInfo> allClasses = newArrayList();
         // in-order
         // get file-level classes and classes declared inside them
@@ -171,13 +171,13 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
 
     @Override
     @NotNull
-    public List<? extends MethodInfo> getMethods() {
+    public List<MethodInfo> getMethods() {
         return newArrayList(methods); // copy of the list
     }
 
     @NotNull
     @Override
-    public List<? extends MethodInfo> getAllMethods() {
+    public List<MethodInfo> getAllMethods() {
         final List<MethodInfo> allMethods = newArrayList();
         // in-order
         // get file-level classes and methods declared inside them
@@ -196,7 +196,7 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
 
     @Override
     @NotNull
-    public List<? extends StatementInfo> getStatements() {
+    public List<StatementInfo> getStatements() {
         return newArrayList(statements); // copy of the list
     }
 

@@ -84,7 +84,7 @@ public class AnnotationImpl implements Annotation, PersistentAnnotationValue, An
 
     @Override
     @NotNull
-    public List<? extends AnnotationValue> toList() {
+    public List<AnnotationValue> toList() {
         return Collections.singletonList(this);
     }
 

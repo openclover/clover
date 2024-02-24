@@ -33,4 +33,9 @@ public interface ProjectInfo extends EntityContainer, HasPackages, HasContextFil
      */
     FileInfo findFile(String pkgPath);
 
+    PackageInfo getNamedPackage(String name);
+
+    List<ClassInfo> getClasses(HasMetricsFilter filter);
+
+    List<PackageInfo> getPackages(HasMetricsFilter filter);
 }

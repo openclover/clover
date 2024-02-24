@@ -274,7 +274,7 @@ public class PDFReporter extends CloverReporter {
         Logger.getInstance().debug("creating project summary report");
         parent = project;
 
-        List<? extends PackageInfo> children = project.getAllPackages();
+        List<PackageInfo> children = project.getAllPackages();
         Logger.getInstance().debug("num packages = " + children.size());
         parentTitle = "";
         childrenTitle = "Packages";

@@ -2,6 +2,9 @@ package org.openclover.core.api.registry;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.Reader;
 import java.util.List;
 
 /**
@@ -31,11 +34,13 @@ public interface FileInfo extends
      *  <li>Scala - classes, objects, traits</li>
      * </ul>
      *
-     * @return List&lt;? extends ClassInfo&gt; - list of classes or empty list if none
+     * @return List&lt;ClassInfo&gt; - list of classes or empty list if none
      */
     @Override
     @NotNull
-    List<? extends ClassInfo> getClasses();
+    List<ClassInfo> getClasses();
+
+    ClassInfo getNamedClass(String name);
 
     /**
      * Returns list of methods which are declared on a top-level of this source file. Exact content may depend on the
@@ -46,11 +51,11 @@ public interface FileInfo extends
      *     <li>Scala - functions declared outside a class</li>
      * </ul>
      *
-     * @return List&lt;? extends MethodInfo&gt; - list of methods or empty list if none
+     * @return List&lt;MethodInfo&gt; - list of methods or empty list if none
      */
     @Override
     @NotNull
-    List<? extends MethodInfo> getMethods();
+    List<MethodInfo> getMethods();
 
     /**
      * Returns list of statements which are declared on a top-level of this source file. Exact content may depend on the
@@ -61,11 +66,11 @@ public interface FileInfo extends
      *     <li>Scala - functions declared outside a class</li>
      * </ul>
      *
-     * @return List&lt;? extends MethodInfo&gt; - list of methods or empty list if none
+     * @return List&lt;StatementInfo&gt; - list of methods or empty list if none
      */
     @Override
     @NotNull
-    List<? extends StatementInfo> getStatements();
+    List<StatementInfo> getStatements();
 
     /**
      * Returns source file name
@@ -113,6 +118,8 @@ public interface FileInfo extends
      */
     PackageInfo getContainingPackage();
 
+    void setContainingPackage(PackageInfo containingPackage);
+
     /**
      * Returns number of source lines in a file
      *
@@ -140,5 +147,10 @@ public interface FileInfo extends
      * @return boolean - true if it's a test file, false otherwise
      */
     boolean isTestFile();
+
+    File getPhysicalFile();
+
+    Reader getSourceReader() throws IOException;
+
 
 }

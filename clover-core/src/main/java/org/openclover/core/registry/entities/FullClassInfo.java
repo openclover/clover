@@ -173,7 +173,7 @@ public class FullClassInfo extends BaseClassInfo implements HasMetricsNode, Cove
 
     @Override
     @NotNull
-    public List<? extends StatementInfo> getStatements() {
+    public List<StatementInfo> getStatements() {
         return newArrayList(statements); // copy
     }
 

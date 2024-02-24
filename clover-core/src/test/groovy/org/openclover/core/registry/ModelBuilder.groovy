@@ -91,7 +91,7 @@ class ModelBuilder {
 
         /** Declare a class inside a file */
         ClassInfoWrapper clazz(String name) {
-            final List<? extends ClassInfo> classes = getElement().getClasses()
+            final List<ClassInfo> classes = getElement().getClasses()
             for (ClassInfo classInfo : classes) {
                 if (classInfo.getName().equals(name)) {
                     return new ClassInfoWrapper((FullClassInfo)classInfo)

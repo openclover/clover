@@ -66,11 +66,11 @@ public interface ClassInfo extends
      *     <li>Scala - t.b.d. </li>
      * </ul>
      *
-     * @return List&lt;? extends ClassInfo&gt; - list of classes or empty list if none
+     * @return List&lt;ClassInfo&gt; - list of classes or empty list if none
      */
     @Override
     @NotNull
-    List<? extends ClassInfo> getClasses();
+    List<ClassInfo> getClasses();
 
     /**
      * Returns list of methods declared on the top level of the class. It does not return methods declared in nested
@@ -82,11 +82,11 @@ public interface ClassInfo extends
      *     <li>Scala - t.b.d. </li>
      * </ul>
      *
-     * @return List&lt;? extends MethodInfo&gt; - list of methods or empty list if none
+     * @return List&lt;MethodInfo&gt; - list of methods or empty list if none
      */
     @Override
     @NotNull
-    List<? extends MethodInfo> getMethods();
+    List<MethodInfo> getMethods();
 
     /**
      * Returns list of statements declared on the to level of the class, i.e. outside methods. It does not apply to all
@@ -97,11 +97,11 @@ public interface ClassInfo extends
      *     <li>Scala - t.b.d.</li>
      * </ul>
      *
-     * @return List&lt;? extends StatementInfo&gt; - list of statements or empty list if none
+     * @return List&lt;StatementInfo&gt; - list of statements or empty list if none
      */
     @Override
     @NotNull
-    List<? extends StatementInfo> getStatements();
+    List<StatementInfo> getStatements();
 
     /**
      * Returns true if this class does not contain any nested entities (method or inner classes)

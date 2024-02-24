@@ -211,7 +211,7 @@ public class CloverChartFactory {
     }
 
     protected static JFreeChart createComplexityCoverageChart(final String xLabel, final String yLabel,
-                                                              final List<? extends BaseClassInfo> appClasses,
+                                                              final List<ClassInfo> appClasses,
                                                               final String toolTip) {
         ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
         XYSeriesCollection seriesCollection = new XYSeriesCollection();

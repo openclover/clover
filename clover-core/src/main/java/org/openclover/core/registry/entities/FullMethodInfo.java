@@ -216,17 +216,17 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo> implements 
     /**
      * {@inheritDoc}
      *
-     * @return List&lt;? extends ClassInfo&gt; - a cloned list
+     * @return List&lt;ClassInfo&gt; - a cloned list
      */
     @Override
     @NotNull
-    public List<? extends ClassInfo> getClasses() {
+    public List<ClassInfo> getClasses() {
         return newArrayList(innerClasses); // copy
     }
 
     @Override
     @NotNull
-    public List<? extends ClassInfo> getAllClasses() {
+    public List<ClassInfo> getAllClasses() {
         final List<ClassInfo> allClasses = newArrayList();
         // in-order
         for (FullClassInfo classInfo : innerClasses) {
@@ -242,17 +242,17 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo> implements 
     /**
      * {@inheritDoc}
      *
-     * @return List&lt;? extends MethodInfo&gt; - a cloned list
+     * @return List&lt;MethodInfo&gt; - a cloned list
      */
     @Override
     @NotNull
-    public List<? extends MethodInfo> getMethods() {
+    public List<MethodInfo> getMethods() {
         return newArrayList(innerMethods); // copy
     }
 
     @Override
     @NotNull
-    public List<? extends MethodInfo> getAllMethods() {
+    public List<MethodInfo> getAllMethods() {
         final List<MethodInfo> allMethods = newArrayList();
         // in-order
         for (FullMethodInfo methodInfo : innerMethods) {
@@ -277,13 +277,13 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo> implements 
 
     @Override
     @NotNull
-    public List<? extends StatementInfo> getStatements() {
+    public List<StatementInfo> getStatements() {
         return newArrayList(statements); // clone
     }
     
     @Override
     @NotNull
-    public List<? extends BranchInfo> getBranches() {
+    public List<BranchInfo> getBranches() {
         return newArrayList(branches); // copy
     }
 

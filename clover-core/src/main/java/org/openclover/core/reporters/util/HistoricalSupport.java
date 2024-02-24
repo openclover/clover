@@ -208,7 +208,7 @@ public class HistoricalSupport {
         List<MetricsDiffSummary> diffs = newLinkedList();
 
         if (onlyDiffs) {
-            final List<? extends ClassInfo> classList = then.getClasses();
+            final List<ClassInfo> classList = then.getClasses();
             for (final ClassInfo c1 : classList) {
                 final ClassInfo c2 = now.getContainingProject().findClass(c1.getQualifiedName());
                 final MetricsDiffSummary diff = getClassMetricsDiff(c1, c2, threshold, column);
@@ -218,7 +218,7 @@ public class HistoricalSupport {
             }
         }
         else {
-            final List<? extends ClassInfo> classList = now.getClasses();
+            final List<ClassInfo> classList = now.getClasses();
             for (final ClassInfo c2 : classList) {
                 final ClassInfo c1 = then.getContainingProject().findClass(c2.getQualifiedName());
                 final MetricsDiffSummary diff = getNewClassMetrics(c1, c2, column);

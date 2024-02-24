@@ -12,14 +12,14 @@ import java.util.concurrent.Callable;
 import static org.openclover.core.util.Lists.newArrayList;
 
 public abstract class RenderCoverageCloudAction implements Callable<Object> {
-    protected final List<? extends ClassInfo> classes;
+    protected final List<ClassInfo> classes;
     protected final File basePath;
     protected final VelocityContext context;
     protected final CloverReportConfig reportConfig;
     protected final HtmlReporter.TreeInfo tree;
 
     public RenderCoverageCloudAction(VelocityContext context, CloverReportConfig reportConfig,
-                                     HtmlReporter.TreeInfo tree, List<? extends ClassInfo> classes, File basePath) {
+                                     HtmlReporter.TreeInfo tree, List<ClassInfo> classes, File basePath) {
         this.context = context;
         this.reportConfig = reportConfig;
         this.tree = tree;
@@ -95,7 +95,7 @@ public abstract class RenderCoverageCloudAction implements Callable<Object> {
                 context, "cloud-page.vm");
     }
 
-    protected void applyAxis(String prefix, ClassInfoStatsCalculator axis1, ClassInfoStatsCalculator axis2, List<? extends ClassInfo> classes) {
+    protected void applyAxis(String prefix, ClassInfoStatsCalculator axis1, ClassInfoStatsCalculator axis2, List<ClassInfo> classes) {
         StatisticsClassInfoVisitor v2 = StatisticsClassInfoVisitor.visit(classes, axis2);
         StatisticsClassInfoVisitor v1 = StatisticsClassInfoVisitor.visit(v2.getClasses(), axis1);
         context.put(prefix + "axis", Boolean.TRUE);

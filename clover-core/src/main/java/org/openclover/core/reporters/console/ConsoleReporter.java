@@ -82,7 +82,7 @@ public class ConsoleReporter extends CloverReporter {
         out.println("Coverage Timestamp: " + new Date(db.getRecordingTimestamp()));
         out.println("Report for code   : " + cfg.getCodeType());
 
-        List<? extends PackageInfo> packages = db.getModel(cfg.getCodeType()).getAllPackages();
+        List<PackageInfo> packages = db.getModel(cfg.getCodeType()).getAllPackages();
         if (cfg.getLevel().isShowPackages()) {
             out.println();
             out.println("Package Summary - ");
@@ -98,7 +98,7 @@ public class ConsoleReporter extends CloverReporter {
                 out.println(pkg.getName() + ": " + Formatting.getPercentStr(pkg.getMetrics().getPcCoveredElements()));
             }
 
-            final List<? extends FileInfo> fileInfos = pkg.getFiles();
+            final List<FileInfo> fileInfos = pkg.getFiles();
             for (FileInfo fileInfo : fileInfos) {
                 final FullFileInfo fInfo = (FullFileInfo) fileInfo;
 
@@ -106,7 +106,7 @@ public class ConsoleReporter extends CloverReporter {
                     out.println("---------------------------------------");
                     out.println("File: " + fInfo.getPackagePath());
 
-                    final List<? extends ClassInfo> classes = fInfo.getClasses();
+                    final List<ClassInfo> classes = fInfo.getClasses();
                     for (ClassInfo cInfo : classes) {
                         final ClassMetrics metrics = (ClassMetrics) cInfo.getMetrics();
                         out.println("Package: " + cInfo.getPackage().getName());

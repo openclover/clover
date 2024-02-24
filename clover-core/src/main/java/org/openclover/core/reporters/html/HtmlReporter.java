@@ -254,7 +254,7 @@ public class HtmlReporter extends CloverReporter {
 
             final long currentStartTime = System.currentTimeMillis();
 
-            List<? extends PackageInfo> allPackages = getFullModel().getAllPackages();
+            List<PackageInfo> allPackages = getFullModel().getAllPackages();
             getFullModel().buildCaches();
 
             TreeInfo appSrcTree = new TreeInfo("", "App");
@@ -262,9 +262,9 @@ public class HtmlReporter extends CloverReporter {
             TreeInfo testSrcTree = new TreeInfo("testsrc-", "Test");
 
             try {
-                List<? extends BaseClassInfo> targetClasses = getConfiguredModel().getClasses(HasMetricsFilter.ACCEPT_ALL);
-                List<? extends BaseClassInfo> testClasses = getTestModel().getClasses(HasMetricsFilter.ACCEPT_ALL);
-                List<BaseFileInfo> targetFiles = getFullModel().getFiles(new SourceFileFilter());
+                List<ClassInfo> targetClasses = getConfiguredModel().getClasses(HasMetricsFilter.ACCEPT_ALL);
+                List<ClassInfo> testClasses = getTestModel().getClasses(HasMetricsFilter.ACCEPT_ALL);
+                List<FileInfo> targetFiles = getFullModel().getFiles(new SourceFileFilter());
 
                 final Map<Integer, CloverChartFactory.ChartInfo> srcFileCharts =
                         CloverChartFactory.generateSrcFileCharts(targetFiles, baseImagePath);
@@ -726,7 +726,7 @@ public class HtmlReporter extends CloverReporter {
         FullPackageInfo pkgAppInfo = (FullPackageInfo) getConfiguredModel().getNamedPackage(pkg.getName());
         FullPackageInfo pkgTestInfo = (FullPackageInfo) getTestModel().getNamedPackage(pkg.getName());
 
-        List<? extends ClassInfo> testClasses = pkgTestInfo != null ? pkgTestInfo.getClasses() : new LinkedList<>();
+        List<ClassInfo> testClasses = pkgTestInfo != null ? pkgTestInfo.getClasses() : new LinkedList<>();
 
         if (pkgAppInfo != null) {
             renderPkgSummaryPage(pkgAppInfo, appSrcTree, true, pkgTestInfo != null, true, queue);
@@ -849,7 +849,7 @@ public class HtmlReporter extends CloverReporter {
         final File outfile = new File(basePath, filename);
         context.put("currentPageURL", filename);
 
-        List<? extends PackageInfo> packages = model.getAllPackages();
+        List<PackageInfo> packages = model.getAllPackages();
 
         packages.sort(detailComparator);
 

@@ -7,7 +7,6 @@ import org.openclover.core.CloverDatabase;
 import org.openclover.core.CoverageData;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.HasMetrics;
-import org.openclover.core.registry.entities.BaseClassInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
@@ -23,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
-public class RenderTestResultAction implements Callable {
+public class RenderTestResultAction implements Callable<Object> {
     private static final ThreadLocal<FullProjectInfo> REUSABLE_MODEL = new ThreadLocal<>();
     private static final ThreadLocal<FullProjectInfo> CONFIGURABLE_MODEL = new ThreadLocal<>();
 
@@ -77,7 +76,7 @@ public class RenderTestResultAction implements Callable {
         final CoverageData data = database.getCoverageData();
         projectInfo.setDataProvider(new BitSetCoverageProvider(data.getHitsFor(testCaseInfo), data)); // read only
 
-        List<? extends BaseClassInfo> classes = getCoverageByTest(projectInfo);
+        List<ClassInfo> classes = getCoverageByTest(projectInfo);
 
         if (reportConfig.isShowUniqueCoverage()) {
             gatherUniquenessVariables(classes);
@@ -101,7 +100,7 @@ public class RenderTestResultAction implements Callable {
         return null;
     }
 
-    private void gatherUniquenessVariables(List<? extends BaseClassInfo> classes) {
+    private void gatherUniquenessVariables(List<ClassInfo> classes) {
         final Map<String, ClassInfo> uniqueCoverageMap = new LinkedHashMap<>();
         float uniqueElementsHit = buildUniqueCoverageMap(testCaseInfo, uniqueCoverageMap);
 
@@ -127,11 +126,11 @@ public class RenderTestResultAction implements Callable {
      */
     private int buildUniqueCoverageMap(TestCaseInfo tci, Map<String, ClassInfo> uniqueCoverageMap) {
         final FullProjectInfo projectInfo = createUniqueCoverageModel(tci);
-        final List<? extends BaseClassInfo> uniqueClassesCovered = getCoverageByTest(projectInfo);
+        final List<ClassInfo> uniqueClassesCovered = getCoverageByTest(projectInfo);
         uniqueClassesCovered.sort(TARGET_CLASS_COMPARATOR);
 
         int uniqueElementsHit = 0;
-        for (BaseClassInfo info : uniqueClassesCovered) {
+        for (ClassInfo info : uniqueClassesCovered) {
             uniqueCoverageMap.put(info.getQualifiedName(), info);
             uniqueElementsHit += info.getMetrics().getNumCoveredElements();
         }
@@ -145,7 +144,7 @@ public class RenderTestResultAction implements Callable {
         return projectInfo;
     }
 
-    private List<? extends BaseClassInfo> getCoverageByTest(FullProjectInfo projectInfo) {
+    private List<ClassInfo> getCoverageByTest(FullProjectInfo projectInfo) {
         return projectInfo.getClasses(hasMetrics ->
                 ((!((ClassInfo) hasMetrics).isTestClass()) &&
                         (hasMetrics.getMetrics().getNumCoveredElements() > 0)));

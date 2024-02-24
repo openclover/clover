@@ -294,17 +294,17 @@ class Clover2RegistryRecursiveTest {
         // package level
         final PackageInfo comAcmePackage = projectInfo.findPackage("com.acme")
         assertNotNull(comAcmePackage)
-        final List<? extends ClassInfo> allClassesInPackage = comAcmePackage.getAllClasses()
+        final List<ClassInfo> allClassesInPackage = comAcmePackage.getAllClasses()
         assertEquals(6, allClassesInPackage.size())
 
         // file level
-        final List<? extends ClassInfo> allClassesInFile = fileInfo.getAllClasses()
+        final List<ClassInfo> allClassesInFile = fileInfo.getAllClasses()
         assertEquals(6, allClassesInFile.size())
 
         // class level, check "classInFile"
         final ClassInfo classInFile = fileInfo.getClasses().get(0)
         assertEquals("classInFile", classInFile.getName())
-        final List<? extends ClassInfo> allClassesInClass = classInFile.getAllClasses()
+        final List<ClassInfo> allClassesInClass = classInFile.getAllClasses()
         assertEquals(2, allClassesInClass.size())
         assertEquals("classInClassInFile", allClassesInClass.get(0).getName())
         assertEquals("classInMethodEtc", allClassesInClass.get(1).getName())
@@ -312,7 +312,7 @@ class Clover2RegistryRecursiveTest {
         // method level, check "topGoo"
         final MethodInfo topGoo = fileInfo.getMethods().get(1)
         assertEquals("topGoo", topGoo.getSimpleName())
-        final List<? extends ClassInfo> allClassesInMethod = topGoo.getAllClasses()
+        final List<ClassInfo> allClassesInMethod = topGoo.getAllClasses()
         assertEquals(2, allClassesInMethod.size())
         assertEquals("ClassInMethod", allClassesInMethod.get(0).getName())
         assertEquals("ClassInClassMethod", allClassesInMethod.get(1).getName())
@@ -323,13 +323,13 @@ class Clover2RegistryRecursiveTest {
         final FullFileInfo fileInfo = (FullFileInfo)projectInfo.findFile("com/acme/File.java")
 
         // file level
-        final List<? extends MethodInfo> allMethodsInFile = fileInfo.getAllMethods()
+        final List<MethodInfo> allMethodsInFile = fileInfo.getAllMethods()
         assertEquals(7, allMethodsInFile.size())
 
         // class level, check "classInFile"
         final ClassInfo classInFile = fileInfo.getClasses().get(0)
         assertEquals("classInFile", classInFile.getName())
-        final List<? extends MethodInfo> allMethodsInClass = classInFile.getAllMethods()
+        final List<MethodInfo> allMethodsInClass = classInFile.getAllMethods()
         assertEquals(2, allMethodsInClass.size())
         assertEquals("methodInClassInFile", allMethodsInClass.get(0).getSimpleName())
         assertEquals("methodInInnerClassInFile", allMethodsInClass.get(1).getSimpleName())
@@ -337,7 +337,7 @@ class Clover2RegistryRecursiveTest {
         // method level, check "topGoo"
         final MethodInfo topGoo = fileInfo.getMethods().get(1)
         assertEquals("topGoo", topGoo.getSimpleName())
-        final List<? extends MethodInfo> allClassesInMethod = topGoo.getAllMethods()
+        final List<MethodInfo> allClassesInMethod = topGoo.getAllMethods()
         assertEquals(3, allClassesInMethod.size())
         assertEquals("topGooGoo", allClassesInMethod.get(0).getSimpleName())
         assertEquals("topGooGooGoo", allClassesInMethod.get(1).getSimpleName())

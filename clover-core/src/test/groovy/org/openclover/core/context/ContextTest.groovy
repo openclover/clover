@@ -7,6 +7,7 @@ import org.junit.Test
 import org.junit.rules.TestName
 import org.openclover.core.api.registry.ClassInfo
 import org.openclover.core.api.registry.MethodInfo
+import org.openclover.core.api.registry.PackageInfo
 import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig
 import org.openclover.core.cfg.instr.java.LambdaInstrumentation
 import org.openclover.core.cfg.instr.java.SourceLevel
@@ -59,7 +60,7 @@ class ContextTest {
         ClassInfo classB = (ClassInfo)pkgA.getClasses().get(0)
         assertEquals(classB.getName(), "B")
 
-        List<? extends MethodInfo> methods = classB.getMethods()
+        List<MethodInfo> methods = classB.getMethods()
 
         assertFalse(methods.get(0).getContext().get(ContextStore.CONTEXT_PROPERTY_ACCESSOR))
         assertFalse(methods.get(0).getContext().get(ContextStore.CONTEXT_PRIVATE_METHOD))
@@ -95,7 +96,7 @@ class ContextTest {
         ClassInfo classB = (ClassInfo)pkgA.getClasses().get(0)
         assertEquals(classB.getName(), "B")
 
-        List<? extends MethodInfo> methods = classB.getMethods()
+        List<MethodInfo> methods = classB.getMethods()
 
         assertFalse(methods.get(0).getContext().get(ContextStore.CONTEXT_PROPERTY_ACCESSOR))
         assertFalse(methods.get(1).getContext().get(ContextStore.CONTEXT_PROPERTY_ACCESSOR))
@@ -149,7 +150,7 @@ class ContextTest {
         ClassInfo classB = (ClassInfo)pkgA.getClasses().get(0)
         assertEquals(classB.getName(), "B")
 
-        List<? extends MethodInfo> methods = classB.getMethods()
+        List<MethodInfo> methods = classB.getMethods()
 
         assertTrue(Pattern.matches(".*notComplex.*","public void notComplex()"))
 

@@ -59,17 +59,17 @@ public class RenderDashboardAction implements Callable {
             final RenderTreeMapAction tree = new RenderTreeMapAction(new VelocityContext(), reportConfig, mBasePath, mConfiguredInfo);
             tree.renderTreeMapJson("treemap-dash-json.js", "processTreeMapDashJson", false);
         }
-        final List<? extends BaseClassInfo> classes = mConfiguredInfo.getClasses(new TestClassCoverageThresholdFilter());
+        final List<ClassInfo> classes = mConfiguredInfo.getClasses(new TestClassCoverageThresholdFilter());
 
         final ClassInfoStatsCalculator avgMethodCmpCalculator = new ClassInfoStatsCalculator.AvgMethodComplexityCalculator();
         final ClassInfoStatsCalculator pcCoveredEleCalculator = new ClassInfoStatsCalculator.PcCoveredElementsCalculator();
         final ClassInfoStatsCalculator eleCountCalculator = new ClassInfoStatsCalculator.ElementCountCalculator();
 
-        final List<BaseClassInfo> amcOrder = newArrayList(classes);
+        final List<ClassInfo> amcOrder = newArrayList(classes);
         amcOrder.sort(new OrderedCalculatorComparator(
                 new ClassInfoStatsCalculator[]{avgMethodCmpCalculator, pcCoveredEleCalculator, eleCountCalculator}));
 
-        final List<BaseClassInfo> pceOrder = newArrayList(classes);
+        final List<ClassInfo> pceOrder = newArrayList(classes);
         pceOrder.sort(new OrderedCalculatorComparator(
                 new ClassInfoStatsCalculator[]{pcCoveredEleCalculator, avgMethodCmpCalculator, eleCountCalculator}));
 
