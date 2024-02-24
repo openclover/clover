@@ -180,8 +180,8 @@ public class FullClassInfo
         this.data = data;
         this.tciLookup =
                 data instanceof TCILookupStore ? ((TCILookupStore)data).namedTCILookupFor(calcTCILookupName()) : null;
-        for (FullMethodInfo methodInfo : methods) {
-            methodInfo.setDataProvider(data);
+        for (MethodInfo methodInfo : methods) {
+            ((FullMethodInfo) methodInfo).setDataProvider(data);
         }
         for (FullClassInfo classInfo : classes) {
             classInfo.setDataProvider(data);
@@ -213,7 +213,7 @@ public class FullClassInfo
             allClasses.add(classInfo);
             allClasses.addAll(classInfo.getAllClasses());
         }
-        for (FullMethodInfo methodInfo : methods) {
+        for (MethodInfo methodInfo : methods) {
             allClasses.addAll(methodInfo.getAllClasses());
         }
         return allClasses;
@@ -232,7 +232,7 @@ public class FullClassInfo
     public List<MethodInfo> getAllMethods() {
         final List<MethodInfo> allMethods = newArrayList();
         // in-order
-        for (FullMethodInfo methodInfo : methods) {
+        for (MethodInfo methodInfo : methods) {
             allMethods.add(methodInfo);
             allMethods.addAll(methodInfo.getAllMethods());
         }
@@ -286,7 +286,7 @@ public class FullClassInfo
 
     @Override
     public HasMetricsNode getChild(int i) {
-        return methods.get(i);
+        return (FullMethodInfo) methods.get(i);
     }
 
     @Override

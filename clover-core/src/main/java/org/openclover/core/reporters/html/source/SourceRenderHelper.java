@@ -160,12 +160,12 @@ public class SourceRenderHelper {
 
             finishLine: {
                 if (linfo != null) {
-                    final List<FullElementInfo<? extends BasicElementInfo>> lineElements = linfo.getColumnOrderedElementInfos();
+                    final List<ElementInfo> lineElements = linfo.getColumnOrderedElementInfos();
 
                     //Initial scan to just detect if:
                     //* the line is filtered
                     //* the line has *any* coverage
-                    for (FullElementInfo lineElement : lineElements) {
+                    for (ElementInfo lineElement : lineElements) {
                         if (filteredCtx != null || lineElement.isFiltered(contextSet)) {
                             filteredCtx = lineElement.getContext();
                             //Game over - filtered out
@@ -183,7 +183,7 @@ public class SourceRenderHelper {
                     // * Element with full coverage
                     //
                     // We stop at the first uncovered element or last covered element - whichever comes first
-                    for (FullElementInfo lineElement : lineElements) {
+                    for (ElementInfo lineElement : lineElements) {
                         if (noHits(lineElement)) {
                             //First zero-hit element
                             String[] messages = calcCoverageMsg(lineElement, emptyCoverageChar);
@@ -289,7 +289,7 @@ public class SourceRenderHelper {
         return renderedLines.toArray(new LineRenderInfo[0]);
     }
 
-    private String[] calcCoverageMsg(FullElementInfo lineElement, String emptyCoverageChar) {
+    private String[] calcCoverageMsg(ElementInfo lineElement, String emptyCoverageChar) {
         if (lineElement instanceof BranchInfo && !((BranchInfo) lineElement).isInstrumented()) {
             return new String[] { getRegionStartStr(lineElement) + "coverage not measured due to assignment in expression.", "?" };
         } else {

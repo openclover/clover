@@ -194,7 +194,7 @@ class Clover2RegistryRecursiveTest {
         final FullFileInfo fileInfo = (FullFileInfo)projectInfo.findFile("com/acme/File.java")
 
         // grab first method and check its properties
-        final FullClassInfo classInfo =(FullClassInfo)fileInfo.getClasses().get(0)
+        final ClassInfo classInfo = fileInfo.getClasses().get(0)
         assertEquals("classInFile", classInfo.getName())
 
         // check what parent we have
@@ -249,8 +249,8 @@ class Clover2RegistryRecursiveTest {
         assertNull(methodInfo3rdLevel.getContainingClass())
         assertEquals(fileInfo, methodInfo3rdLevel.getContainingFile())
 
-        final FullClassInfo classInfo2ndLevel = (FullClassInfo) methodInfo.getClasses().get(0)
-        final FullClassInfo classInfo3rdLevel = (FullClassInfo) classInfo2ndLevel.getClasses().get(0)
+        final ClassInfo classInfo2ndLevel = methodInfo.getClasses().get(0)
+        final ClassInfo classInfo3rdLevel = classInfo2ndLevel.getClasses().get(0)
         assertNull(classInfo3rdLevel.getContainingMethod())
         assertEquals(classInfo2ndLevel, classInfo3rdLevel.getContainingClass())
         assertEquals(fileInfo, methodInfo3rdLevel.getContainingFile())
@@ -265,11 +265,11 @@ class Clover2RegistryRecursiveTest {
         final FullFileInfo fileInfo = (FullFileInfo)projectInfo.findFile("com/acme/File.java")
 
         // grab class and check its properties
-        final FullClassInfo classInfo =(FullClassInfo)fileInfo.getClasses().get(0)
+        final ClassInfo classInfo = fileInfo.getClasses().get(0)
         assertEquals("classInFile", classInfo.getName())
 
         // look for class-in-class, check the parent
-        final FullClassInfo classInfo2ndLevel = (FullClassInfo) classInfo.getClasses().get(0)
+        final ClassInfo classInfo2ndLevel = classInfo.getClasses().get(0)
         assertEquals("classInClassInFile", classInfo2ndLevel.getName())
         assertNull(classInfo2ndLevel.getContainingMethod())
         assertEquals(classInfo, classInfo2ndLevel.getContainingClass())
@@ -280,7 +280,7 @@ class Clover2RegistryRecursiveTest {
 
         // look for class-in-method-in-class, check the parent
         final FullMethodInfo methodInInnerClass = (FullMethodInfo) classInfo.getClasses().get(0).getMethods().get(0)
-        final FullClassInfo classInfo3rdLevel = (FullClassInfo) methodInInnerClass.getClasses().get(0)
+        final ClassInfo classInfo3rdLevel = methodInInnerClass.getClasses().get(0)
         assertEquals("classInMethodEtc", classInfo3rdLevel.getName())
         assertEquals(methodInInnerClass, classInfo3rdLevel.getContainingMethod())
         assertNull(classInfo3rdLevel.getContainingClass())

@@ -55,6 +55,8 @@ public interface MethodInfo extends
     @Nullable
     MethodInfo getContainingMethod();
 
+    String getVisibility();
+
     /**
      * Returns a file in which this method is declared. Note that some programming languages allows to define a
      * function outside a class (or other function).
@@ -123,4 +125,7 @@ public interface MethodInfo extends
      * @return boolean <code>true</code> for lambda function, false otherwise
      */
     boolean isLambda();
+
+    boolean isFiltered(ContextSet filter);
+
 }

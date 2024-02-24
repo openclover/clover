@@ -26,7 +26,7 @@ public class ProjectHeapMapBuilder extends TreeMapNodeBuilder {
             final List<ClassInfo> classes = packageInfo.getClasses();
             for (final ClassInfo classInfo : classes) {
                 final double weight = classInfo.getMetrics().getNumElements();
-                final Value value = new ClassInfoValue((FullClassInfo)classInfo);
+                final Value value = new ClassInfoValue(classInfo);
                 buildLeaf(classInfo.getName(), weight, value, branch);
             }
         }

@@ -1,5 +1,6 @@
 package org.openclover.core.spi.reporters.html.source;
 
+import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.StackTraceInfo;
@@ -11,7 +12,7 @@ import java.util.List;
 public class LineRenderInfo {
     private boolean hilight;
 
-    private FullClassInfo classStart;
+    private ClassInfo classStart;
     private MethodInfo methodStart;
     private boolean filtered = false;
     private StackTraceInfo.TraceEntry[] failedStackEntries;
@@ -38,7 +39,7 @@ public class LineRenderInfo {
         this.hilight = hilight;
     }
 
-    public void setClassStart(FullClassInfo classStart) {
+    public void setClassStart(ClassInfo classStart) {
         this.classStart = classStart;
     }
 
@@ -98,7 +99,7 @@ public class LineRenderInfo {
         return msg;
     }
 
-    public FullClassInfo getClassStart() {
+    public ClassInfo getClassStart() {
         return classStart;
     }
 

@@ -520,7 +520,7 @@ public class FullFileInfo
                 public void visitClass(ClassInfo info) {
                     final LineInfo lineInfo = getOrCreateLineInfo(info);
                     if (lineInfo != null) {
-                        lineInfo.addClassStart((FullClassInfo)info);
+                        lineInfo.addClassStart(info);
                     }
                 }
 
@@ -560,7 +560,7 @@ public class FullFileInfo
                                 || ( (showLambdaFunctions || !entityUtils.isParentALambdaMethod(info))  // branch inside a lambda
                                         && (showInnerFunctions || !entityUtils.isParentAnInnerMethod(info)) ) // branch inside an inner method
                                 ) {
-                            lineInfo.addBranch((FullBranchInfo)info);
+                            lineInfo.addBranch(info);
                         }
                     }
                 }

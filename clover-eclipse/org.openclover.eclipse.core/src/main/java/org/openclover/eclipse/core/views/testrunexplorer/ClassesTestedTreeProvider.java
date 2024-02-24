@@ -107,7 +107,7 @@ public class ClassesTestedTreeProvider
             final CoverageDataProvider testHits = new BitSetCoverageProvider(data.getHitsFor(testCasesSet), data);
             final CoverageDataProvider uniqueTestHits = new BitSetCoverageProvider(data.getUniqueHitsFor(testCasesSet), data);
             appOnlyProject.getClasses(hm -> {
-                 final FullClassInfo classInfo = (FullClassInfo) hm;
+                final FullClassInfo classInfo = (FullClassInfo) hm;
                 try {
                     final IType clazz = project.getJavaProject().findType(classInfo.getQualifiedName(), (IProgressMonitor)null);
                     if (clazz != null) {

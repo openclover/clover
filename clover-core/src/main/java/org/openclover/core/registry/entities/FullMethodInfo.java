@@ -536,6 +536,7 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo>
      * convenience method
      * @return return either "public", "package", "protected" or "private"
      */
+    @Override
     public String getVisibility() {
         return sharedInfo.getSignature().getModifiers().getVisibility();
     }

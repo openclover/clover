@@ -8,7 +8,9 @@ import org.openclover.core.api.registry.BranchInfo;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.ContextSet;
 import org.openclover.core.api.registry.FileInfo;
+import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.core.api.registry.StatementInfo;
 import org.openclover.core.model.XmlNames;
 import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
@@ -268,8 +270,7 @@ public class XMLReporter extends CloverReporter {
     }
 
     private void writeClassesForFile(XMLWriter out, List<ClassInfo> classes) throws IOException {
-        for (ClassInfo aClass : classes) {
-            final FullClassInfo info = (FullClassInfo) aClass;
+        for (ClassInfo info : classes) {
             final Map<String, String> attribs = newHashMap();
             attribs.put(XmlNames.A_NAME, info.getName());
             out.writeElementStart(XmlNames.E_CLASS, attribs);
@@ -287,9 +288,9 @@ public class XMLReporter extends CloverReporter {
             LineInfo info = linfo[i];
             if (linfo[i] != null) {
 
-                final FullMethodInfo[] starts = info.getMethodStarts();
+                final MethodInfo[] starts = info.getMethodStarts();
                 if (starts.length > 0) {
-                    for (FullMethodInfo start : starts) {
+                    for (MethodInfo start : starts) {
                         if (start.isFiltered(contextSet)) {
                             continue;
                         }
@@ -313,9 +314,9 @@ public class XMLReporter extends CloverReporter {
                     }
                 }
 
-                final FullStatementInfo[] stmts = info.getStatements();
+                final StatementInfo[] stmts = info.getStatements();
                 if (stmts.length > 0) {
-                    for (FullStatementInfo stmt : stmts) {
+                    for (StatementInfo stmt : stmts) {
                         if (stmt.isFiltered(contextSet)) {
                             continue;
                         }

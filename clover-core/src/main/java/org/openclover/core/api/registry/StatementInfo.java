@@ -16,4 +16,6 @@ public interface StatementInfo extends ElementInfo, InstrumentationInfo, HasPare
     @NotNull
     LanguageConstruct getConstruct();
 
+    boolean isFiltered(ContextSet filter);
+
 }

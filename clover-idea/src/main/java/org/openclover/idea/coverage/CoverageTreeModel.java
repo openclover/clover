@@ -13,6 +13,7 @@ import org.openclover.core.MaskedBitSetCoverageProvider;
 import org.openclover.core.ProgressListener;
 import org.openclover.core.api.registry.BlockMetrics;
 import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.PackageInfo;
@@ -325,8 +326,8 @@ public class CoverageTreeModel {
                 if (userObject instanceof NodeWrapper) {
                     NodeWrapper wrapper = (NodeWrapper) userObject;
                     HasMetrics hasMetrics = wrapper.getHasMetrics();
-                    if (hasMetrics instanceof FullClassInfo) {
-                        FullFileInfo fileInfo = (FullFileInfo) ((FullClassInfo) hasMetrics).getContainingFile();
+                    if (hasMetrics instanceof ClassInfo) {
+                        FileInfo fileInfo = ((ClassInfo) hasMetrics).getContainingFile();
                         if (file.equals(fileInfo.getPhysicalFile())) {
                             return new TreePath(node.getPath());
                         }

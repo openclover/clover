@@ -1,5 +1,6 @@
 package org.openclover.eclipse.core.ui.editors.java;
 
+import org.openclover.core.api.registry.ElementInfo;
 import org.openclover.core.registry.entities.FullElementInfo;
 import org.openclover.core.registry.entities.TestCaseInfo;
 
@@ -63,7 +64,7 @@ public interface ILineCoverageModel {
     public boolean isFilteredInLine(int lineNumber);
 
     interface Entry {
-        FullElementInfo getElementInfo();
+        ElementInfo getElementInfo();
         Set<TestCaseInfo> getTestCaseInfos();
     }
 }

@@ -11,6 +11,7 @@ import com.intellij.openapi.wm.ToolWindowAnchor;
 import com.intellij.openapi.wm.ToolWindowManager;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentManager;
+import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
@@ -139,8 +140,8 @@ public class CloverToolWindow extends JPanel implements ConfigChangeListener, No
             // determine whether the file represented by this node is out of date.
             try {
                 FullFileInfo fileInfo = null;
-                if (hasMetrics instanceof FullClassInfo) {
-                    fileInfo = (FullFileInfo) ((FullClassInfo) hasMetrics).getContainingFile();
+                if (hasMetrics instanceof ClassInfo) {
+                    fileInfo = (FullFileInfo) ((ClassInfo) hasMetrics).getContainingFile();
                 } else if (hasMetrics instanceof FullFileInfo) {
                     fileInfo = (FullFileInfo) hasMetrics;
                 }

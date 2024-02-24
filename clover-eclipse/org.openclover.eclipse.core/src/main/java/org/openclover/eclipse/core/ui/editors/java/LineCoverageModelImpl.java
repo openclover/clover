@@ -2,6 +2,9 @@ package org.openclover.eclipse.core.ui.editors.java;
 
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.api.registry.BranchInfo;
+import org.openclover.core.api.registry.ElementInfo;
+import org.openclover.core.api.registry.MethodInfo;
+import org.openclover.core.api.registry.StatementInfo;
 import org.openclover.core.registry.entities.FullElementInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullMethodInfo;
@@ -55,12 +58,12 @@ public class LineCoverageModelImpl implements ILineCoverageModel {
             }
 
             // check if signature of any method starts at given line, if yes fetch information for first method
-            final FullMethodInfo[] methodStarts = lineInfo.getMethodStarts();
+            final MethodInfo[] methodStarts = lineInfo.getMethodStarts();
 
             if (methodStarts != null && methodStarts.length > 0) {
                 // take only first method as it's unusual to see multiple methods in one line
-                final FullMethodInfo methodInfo = methodStarts[0];
-                final Set<TestCaseInfo> testCaseInfos = cloverDatabase.getTestHits(methodInfo);
+                final MethodInfo methodInfo = methodStarts[0];
+                final Set<TestCaseInfo> testCaseInfos = cloverDatabase.getTestHits((FullMethodInfo) methodInfo);
                 final Entry entry = new EntryImpl(methodInfo, testCaseInfos);
 
                 // check if at least one test case has passed or failed for given method
@@ -92,12 +95,12 @@ public class LineCoverageModelImpl implements ILineCoverageModel {
             }
 
             // get all statements present in given source line
-            final FullStatementInfo[] statements = lineInfo.getStatements();
+            final StatementInfo[] statements = lineInfo.getStatements();
 
             // calculate filter for line; if at least one statement is not filtered, then the whole line is not filtered
             boolean isLineWithStatementsFiltered = true;
             if (statements != null && statements.length > 0) {
-                for (FullStatementInfo statementInfo : statements) {
+                for (StatementInfo statementInfo : statements) {
                     // check if the whole statement is not filtered-out (e.g. by statement regexp context or by block context)
                     if ( !statementInfo.isFiltered(fileInfo.getContextFilter()) ) {
                         isLineWithStatementsFiltered = false;
@@ -107,8 +110,8 @@ public class LineCoverageModelImpl implements ILineCoverageModel {
             }
 
             if (statements != null && statements.length > 0) {
-                for (FullStatementInfo statementInfo : statements) {
-                    final Set<TestCaseInfo> testCaseInfos = cloverDatabase.getTestHits(statementInfo);
+                for (StatementInfo statementInfo : statements) {
+                    final Set<TestCaseInfo> testCaseInfos = cloverDatabase.getTestHits((FullStatementInfo) statementInfo);
                     final Entry entry = new EntryImpl(statementInfo, testCaseInfos);
 
                     // check if at least one test case has passed or failed for given statement
@@ -216,16 +219,16 @@ public class LineCoverageModelImpl implements ILineCoverageModel {
     }
 
     static class EntryImpl implements Entry {
-        private final FullElementInfo elementInfo;
+        private final ElementInfo elementInfo;
         private final Set<TestCaseInfo> testCaseInfos;
 
-        public EntryImpl(FullElementInfo elementInfo, Set<TestCaseInfo> testCaseInfos) {
+        public EntryImpl(ElementInfo elementInfo, Set<TestCaseInfo> testCaseInfos) {
             this.elementInfo = elementInfo;
             this.testCaseInfos = testCaseInfos;
         }
 
         @Override
-        public FullElementInfo getElementInfo() {
+        public ElementInfo getElementInfo() {
             return elementInfo;
         }
 

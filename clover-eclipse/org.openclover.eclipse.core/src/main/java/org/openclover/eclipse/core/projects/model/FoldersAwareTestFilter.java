@@ -2,6 +2,7 @@ package org.openclover.eclipse.core.projects.model;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.registry.BaseInvertableFilter;
 import org.openclover.core.registry.entities.FullClassInfo;
@@ -44,9 +45,9 @@ public class FoldersAwareTestFilter extends BaseInvertableFilter {
 
     @Override
     public boolean accept(HasMetrics hm) {
-        if (hm instanceof FullClassInfo) {
-            final FullClassInfo ci = (FullClassInfo) hm;
-            final File file = ((FullFileInfo)ci.getContainingFile()).getPhysicalFile();
+        if (hm instanceof ClassInfo) {
+            final ClassInfo ci = (ClassInfo) hm;
+            final File file = ci.getContainingFile().getPhysicalFile();
             boolean matched = false;
             for (File src : srcFolders) {
                 if (FileUtils.isAncestorOf(src, file)) {

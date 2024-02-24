@@ -4,6 +4,7 @@ import clover.com.google.gson.Gson;
 import clover.com.google.gson.GsonBuilder;
 import clover.org.apache.velocity.VelocityContext;
 import org.openclover.core.api.registry.BlockMetrics;
+import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
@@ -80,12 +81,12 @@ public class RenderTreeMapAction implements Callable<Object> {
         final Node projectNode = createNode(project.getDataIndex(), "", project, pkgNodes);
 
         for (final PackageInfo packageInfo : pkgInfos) {
-            final List classes = packageInfo.getClasses(HasMetricsFilter.ACCEPT_ALL);
+            final List<ClassInfo> classes = packageInfo.getClasses(HasMetricsFilter.ACCEPT_ALL);
             // create a package node.
             final List<Node> classesList = new ArrayList<>(classes.size());
             pkgNodes.add(createNode(packageInfo.getDataIndex(), packageInfo.getName(), packageInfo, classesList));
 
-            for (Iterator iterator = classes.iterator(); classLevel && iterator.hasNext(); ) {
+            for (Iterator<ClassInfo> iterator = classes.iterator(); classLevel && iterator.hasNext(); ) {
                 final FullClassInfo classInfo = (FullClassInfo) iterator.next();
                 // create a leaf node and add to the package's children list
                 final String path = classInfo.getContainingFile() != null ?

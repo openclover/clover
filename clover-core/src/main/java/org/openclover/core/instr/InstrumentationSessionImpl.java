@@ -231,7 +231,7 @@ public class InstrumentationSessionImpl implements InstrumentationSession {
     }
 
     @Override
-    public FullClassInfo exitClass(int endLine, int endCol) {
+    public ClassInfo exitClass(int endLine, int endCol) {
         FullClassInfo clazz = popCurrentClass();
         clazz.setRegionEnd(endLine, endCol);
         clazz.setDataLength(currentOffsetFromFile - clazz.getRelativeDataIndex());
@@ -454,7 +454,7 @@ public class InstrumentationSessionImpl implements InstrumentationSession {
         return classFound.get();
     }
 
-    public void pushCurrentClass(FullClassInfo clazz) {
+    public void pushCurrentClass(ClassInfo clazz) {
         parentStack.add(clazz);
     }
 

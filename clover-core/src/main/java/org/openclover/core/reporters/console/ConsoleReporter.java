@@ -6,7 +6,9 @@ import org.openclover.core.api.command.HelpBuilder;
 import org.openclover.core.api.registry.BranchInfo;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.FileInfo;
+import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.core.api.registry.StatementInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullMethodInfo;
 import org.openclover.core.registry.entities.FullPackageInfo;
@@ -139,9 +141,9 @@ public class ConsoleReporter extends CloverReporter {
     }
 
     protected void reportMethodsForLine(final PrintWriter out, final FullFileInfo fInfo, final LineInfo info) {
-        final FullMethodInfo[] starts = info.getMethodStarts();
+        final MethodInfo[] starts = info.getMethodStarts();
         if (starts.length > 0) {
-            for (FullMethodInfo start : starts) {
+            for (MethodInfo start : starts) {
                 if (start.getHitCount() == 0) {
                     out.println(fInfo.getPhysicalFile().getAbsolutePath()
                             + ":" + start.getStartLine() + ":" + start.getStartColumn()
@@ -153,9 +155,9 @@ public class ConsoleReporter extends CloverReporter {
     }
 
     protected void reportStatementsForLine(final PrintWriter out, final FullFileInfo fInfo, final LineInfo info) {
-        final FullStatementInfo[] stmts = info.getStatements();
+        final StatementInfo[] stmts = info.getStatements();
         if (stmts.length > 0) {
-            for (FullStatementInfo stmt : stmts) {
+            for (StatementInfo stmt : stmts) {
                 if (stmt.getHitCount() == 0) {
                     out.println(fInfo.getPhysicalFile().getAbsolutePath() + ":" + stmt.getStartLine() + ":"
                             + stmt.getStartColumn() + ": statement not executed.");

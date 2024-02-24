@@ -1,6 +1,7 @@
 package org.openclover.core;
 
 import org.jetbrains.annotations.Nullable;
+import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.context.ContextSetImpl;
 import org.openclover.core.registry.FixedSourceRegion;
 import org.openclover.core.registry.entities.BasicMethodInfo;
@@ -85,8 +86,8 @@ public class TestResultProcessor {
 
     static class TestXMLHandler extends DefaultHandler {
         private FullProjectInfo model;
-        private FullClassInfo currentTestClassFromTestSuite;
-        private FullClassInfo currentTestClassFromTestCase;
+        private ClassInfo currentTestClassFromTestSuite;
+        private ClassInfo currentTestClassFromTestCase;
         private TestCaseInfo currentTestCaseInfo;
         private StringBuffer message;
         private int testCaseCount;
@@ -107,7 +108,7 @@ public class TestResultProcessor {
                 // NOTE: testsuite also has the following attributes, currently unused by clover:
                 // errors="0" failures="0" hostname="nixx" tests="32" time="0.401" timestamp="2007-02-05T00:40:18"
                 String classnameAttr = atts.getValue("name");
-                FullClassInfo classInfo = null;
+                ClassInfo classInfo = null;
 
                 if (classnameAttr != null) { // handles the case the nameAttr is fully qualified classname. e.g. from a TEST-pkg.Test.xml
                     classInfo = findClass(classnameAttr);
@@ -149,19 +150,19 @@ public class TestResultProcessor {
                     }
                 }
 
-                FullClassInfo currentTestClass = currentTestClassFromTestCase == null ? currentTestClassFromTestSuite : currentTestClassFromTestCase;
+                FullClassInfo currentTestClass = (FullClassInfo) (currentTestClassFromTestCase == null ? currentTestClassFromTestSuite : currentTestClassFromTestCase);
                 if (currentTestClass != null) {
-                    currentTestCaseInfo = currentTestClass.getTestCase(currentTestClass.getQualifiedName() + "." + testname);
+                    currentTestCaseInfo = ((FullClassInfo) currentTestClass).getTestCase(currentTestClass.getQualifiedName() + "." + testname);
                     if (currentTestCaseInfo == null) {
                         Logger.getInstance().verbose(
                             "Didn't find pre-existing test case for class from JUnit results: " + currentTestClass.getQualifiedName() + "." + testname);
                         // look for the method declaration for this testcase
-                        FullMethodInfo methodDecl = currentTestClass.getTestMethodDeclaration(testname);
+                        FullMethodInfo methodDecl = ((FullClassInfo) currentTestClass).getTestMethodDeclaration(testname);
                         // look on the testsuite class if not found on the testcase
                         if (methodDecl == null && (currentTestClass == currentTestClassFromTestCase) && (currentTestClassFromTestSuite != null)) {
-                            methodDecl = currentTestClassFromTestSuite.getTestMethodDeclaration(testname);
+                            methodDecl = ((FullClassInfo) currentTestClassFromTestSuite).getTestMethodDeclaration(testname);
                             if (methodDecl != null) {
-                                currentTestClass = currentTestClassFromTestSuite;
+                                currentTestClass = (FullClassInfo) currentTestClassFromTestSuite;
                             }
                         }
 
@@ -215,9 +216,9 @@ public class TestResultProcessor {
          * @return class found in the model or null
          */
         @Nullable
-        private FullClassInfo findClass(String rawName) {
+        private ClassInfo findClass(String rawName) {
             final String classname = CloverUtils.cloverizeClassName(rawName); // hack - see CCD-294, CCD-307
-            final FullClassInfo info = (FullClassInfo)model.findClass(classname);
+            final ClassInfo info = model.findClass(classname);
             Logger.getInstance().debug("Found class: " + info + " using name " + rawName);
             return info;
         }

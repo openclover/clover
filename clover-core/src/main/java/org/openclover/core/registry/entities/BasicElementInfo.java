@@ -70,8 +70,14 @@ public class BasicElementInfo implements ElementInfo {
         this.region = FixedSourceRegion.of(region);
     }
 
+    @Override
     public LanguageConstruct getConstruct() {
         return construct;
+    }
+
+    @Override
+    public boolean isFiltered(ContextSet filter) {
+        throw new UnsupportedOperationException("not implemented");
     }
 
     public void setConstruct(LanguageConstruct construct) {

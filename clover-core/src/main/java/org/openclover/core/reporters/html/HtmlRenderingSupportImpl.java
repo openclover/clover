@@ -543,7 +543,7 @@ public class HtmlRenderingSupportImpl implements HtmlRenderingSupport {
 
         while (matcher.find()) {
             String fqcn = matcher.group(2).replace('$','.');
-            FullClassInfo clazz = (FullClassInfo)proj.findClass(fqcn);
+            ClassInfo clazz = proj.findClass(fqcn);
 
             Logger.getInstance().debug(fqcn + " ... " + ((clazz != null) ? "found" : "CLASS NOT FOUND"));
             if (clazz != null) {

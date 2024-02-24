@@ -14,6 +14,7 @@ import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.texteditor.rulers.IContributedRulerColumn;
 import org.eclipse.ui.texteditor.rulers.RulerColumnDescriptor;
 import org.openclover.core.CloverDatabase;
+import org.openclover.core.api.registry.CoverageDataRange;
 import org.openclover.core.api.registry.ElementInfo;
 import org.openclover.core.registry.entities.FullElementInfo;
 import org.openclover.core.registry.entities.TestCaseInfo;
@@ -128,8 +129,8 @@ public class CoverageAnnotationRulerColumn extends AbstractRulerColumn
     
     Set<TestCaseInfo> getPerTestInfo(Entry annotation) {
         CloverDatabase db = coverageAnnotationModel == null ? null : coverageAnnotationModel.cloverDatabaseForEditorInput();
-        FullElementInfo info = getInfo(annotation);
-        return db == null || info == null ? Collections.<TestCaseInfo>emptySet() : db.getTestHits(info);
+        ElementInfo info = getInfo(annotation);
+        return db == null || info == null ? Collections.<TestCaseInfo>emptySet() : db.getTestHits((CoverageDataRange) info);
     }
 
     @Override
@@ -183,7 +184,7 @@ public class CoverageAnnotationRulerColumn extends AbstractRulerColumn
         return info == null ? null : String.valueOf(info.getHitCount());
     }
     
-    FullElementInfo getInfo(Entry annotation) {
+    ElementInfo getInfo(Entry annotation) {
         return annotation == null ? null : annotation.getElementInfo();
     }
     

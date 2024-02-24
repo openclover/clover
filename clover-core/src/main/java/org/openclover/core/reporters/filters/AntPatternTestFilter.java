@@ -1,5 +1,6 @@
 package org.openclover.core.reporters.filters;
 
+import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.registry.BaseInvertableFilter;
 import org.openclover.core.registry.entities.FullClassInfo;
@@ -36,9 +37,9 @@ public class AntPatternTestFilter extends BaseInvertableFilter {
 
     @Override
     public boolean accept(HasMetrics hm) {
-        if (hm instanceof FullClassInfo) {
-            final FullClassInfo ci = (FullClassInfo) hm;
-            final File file = ((FullFileInfo)ci.getContainingFile()).getPhysicalFile();
+        if (hm instanceof ClassInfo) {
+            final ClassInfo ci = (ClassInfo) hm;
+            final File file = ci.getContainingFile().getPhysicalFile();
             final String path = file.getPath();
             final String relative = root != null && path.startsWith(root) ? path.substring(root.length()) : path;
             return isInverted() ^ FilterUtils.isIncluded(relative, excludeFilter, includeFilter, false);

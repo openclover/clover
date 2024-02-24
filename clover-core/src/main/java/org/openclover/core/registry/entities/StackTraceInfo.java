@@ -1,5 +1,7 @@
 package org.openclover.core.registry.entities;
 
+import org.openclover.core.api.registry.ClassInfo;
+
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.io.StringReader;
@@ -135,7 +137,7 @@ public class StackTraceInfo {
                 linePrefix = line.substring(0,matcher.start());
                 linkableLineSegment = line.substring(matcher.start());
                 String fqcn = matcher.group(2).replace('$','.');
-                FullClassInfo clazz = (FullClassInfo)proj.findClass(fqcn);
+                ClassInfo clazz = proj.findClass(fqcn);
 
                 if (clazz != null) {
                     final FullFileInfo fileInfo = (FullFileInfo)clazz.getContainingFile();
