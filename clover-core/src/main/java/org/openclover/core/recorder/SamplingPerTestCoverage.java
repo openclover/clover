@@ -9,7 +9,7 @@ import org.openclover.core.CoverageDataSpec;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.registry.Clover2Registry;
-import org.openclover.core.registry.CoverageDataRange;
+import org.openclover.core.api.registry.CoverageDataRange;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.TestCaseInfo;
 import org.openclover.core.util.SizedLRUCacheMap;

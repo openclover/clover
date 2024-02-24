@@ -1,6 +1,6 @@
 package org.openclover.core.recorder;
 
-import org.openclover.core.registry.CoverageDataRange;
+import org.openclover.core.api.registry.CoverageDataRange;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.TestCaseInfo;
 

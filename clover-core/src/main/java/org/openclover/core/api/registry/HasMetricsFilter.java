@@ -1,6 +1,4 @@
-package org.openclover.core.registry.metrics;
-
-import org.openclover.core.api.registry.HasMetrics;
+package org.openclover.core.api.registry;
 
 public interface HasMetricsFilter {
     /**

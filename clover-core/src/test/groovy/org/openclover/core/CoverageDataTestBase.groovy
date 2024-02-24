@@ -7,7 +7,7 @@ import org.openclover.core.instr.InstrumentationSessionImpl
 import org.openclover.core.recorder.PerTestCoverage
 import org.openclover.core.recorder.PerTestRecordingTranscript
 import org.openclover.core.registry.Clover2Registry
-import org.openclover.core.registry.CoverageDataProvider
+import org.openclover.core.api.registry.CoverageDataProvider
 import org.openclover.core.registry.FixedSourceRegion
 import org.openclover.core.registry.entities.FullFileInfo
 import org.openclover.core.registry.entities.MethodSignature

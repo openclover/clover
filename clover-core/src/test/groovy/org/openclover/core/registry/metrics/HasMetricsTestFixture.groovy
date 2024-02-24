@@ -6,7 +6,7 @@ import org.openclover.core.api.registry.SourceInfo
 import org.openclover.core.context.ContextSetImpl
 import org.openclover.core.context.ContextStore
 import org.openclover.core.registry.Clover2Registry
-import org.openclover.core.registry.CoverageDataProvider
+import org.openclover.core.api.registry.CoverageDataProvider
 import org.openclover.core.registry.FixedSourceRegion
 import org.openclover.core.registry.entities.BasicElementInfo
 import org.openclover.core.registry.entities.BasicMethodInfo

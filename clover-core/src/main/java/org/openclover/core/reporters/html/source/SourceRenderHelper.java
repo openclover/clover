@@ -6,8 +6,9 @@ import org.openclover.core.CloverDatabase;
 import org.openclover.core.api.registry.BranchInfo;
 import org.openclover.core.api.registry.ContextSet;
 import org.openclover.core.api.registry.ElementInfo;
+import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.SourceInfo;
-import org.openclover.core.registry.CoverageDataProvider;
+import org.openclover.core.api.registry.CoverageDataProvider;
 import org.openclover.core.registry.entities.BasicElementInfo;
 import org.openclover.core.registry.entities.FullElementInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
@@ -337,7 +338,7 @@ public class SourceRenderHelper {
         return path.substring(Math.max(0, path.lastIndexOf('.')), path.length());
     }
 
-    public static List<String> getSrcLines(FullFileInfo finfo) throws IOException {
+    public static List<String> getSrcLines(FileInfo finfo) throws IOException {
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(finfo.getSourceReader());

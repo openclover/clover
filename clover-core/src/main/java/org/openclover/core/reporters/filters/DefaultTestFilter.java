@@ -1,5 +1,6 @@
 package org.openclover.core.reporters.filters;
 
+import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.registry.BaseInvertableFilter;
 import org.openclover.core.registry.entities.BaseClassInfo;

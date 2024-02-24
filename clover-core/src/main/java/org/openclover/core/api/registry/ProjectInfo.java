@@ -1,6 +1,10 @@
 package org.openclover.core.api.registry;
 
-public interface ProjectInfo extends EntityContainer, HasPackages, HasContextFilter, HasMetrics {
+import java.util.List;
+
+public interface ProjectInfo
+        extends EntityContainer, HasPackages, HasContextFilter, HasMetrics,
+        HasVersions {
 
     /**
      * Returns name of the project

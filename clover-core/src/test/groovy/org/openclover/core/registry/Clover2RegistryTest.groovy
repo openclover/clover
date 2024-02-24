@@ -6,7 +6,9 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestName
 import org.openclover.buildutil.testutils.IOHelper
+import org.openclover.core.api.registry.CoverageDataProvider
 import org.openclover.core.api.registry.HasMetrics
+import org.openclover.core.api.registry.PackageInfo
 import org.openclover.core.api.registry.SourceInfo
 import org.openclover.core.context.ContextSetImpl
 import org.openclover.core.context.ContextStore
@@ -19,7 +21,7 @@ import org.openclover.core.registry.entities.MethodSignature
 import org.openclover.core.registry.entities.Modifiers
 import org.openclover.core.registry.format.InaccessibleRegFileException
 import org.openclover.core.registry.format.RegFile
-import org.openclover.core.registry.metrics.HasMetricsFilter
+import org.openclover.core.api.registry.HasMetricsFilter
 import org.openclover.core.registry.metrics.ProjectMetrics
 import org.openclover.core.util.FileUtils
 import org.openclover.runtime.api.CloverException

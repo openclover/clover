@@ -10,12 +10,13 @@ import org.openclover.core.api.registry.HasMetrics
 import org.openclover.core.api.registry.InstrumentationInfo
 import org.openclover.core.api.registry.MethodInfo
 import org.openclover.core.api.registry.PackageInfo
+import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.api.registry.SourceInfo
 import org.openclover.core.api.registry.StatementInfo
 import org.openclover.core.registry.entities.BaseProjectInfo
 import org.openclover.core.registry.entities.FullClassInfo
 import org.openclover.core.registry.entities.TestCaseInfo
-import org.openclover.core.registry.metrics.HasMetricsFilter
+import org.openclover.core.api.registry.HasMetricsFilter
 
 import static org.junit.Assert.assertFalse
 import static org.junit.Assert.assertTrue

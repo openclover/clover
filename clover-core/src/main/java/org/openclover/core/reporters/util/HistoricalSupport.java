@@ -4,6 +4,7 @@ import org.openclover.core.api.registry.BlockMetrics;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.cfg.Percentage;
 import org.openclover.core.model.CoverageDataPoint;
 import org.openclover.core.model.XmlConverter;

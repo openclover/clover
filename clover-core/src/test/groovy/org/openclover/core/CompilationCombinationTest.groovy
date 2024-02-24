@@ -3,6 +3,7 @@ package org.openclover.core
 import junit.framework.TestCase
 import org.openclover.core.api.registry.ClassInfo
 import org.openclover.core.api.registry.ContextSet
+import org.openclover.core.api.registry.PackageInfo
 import org.openclover.core.api.registry.SourceInfo
 import org.openclover.core.context.ContextSetImpl
 import org.openclover.core.instr.InstrumentationSessionImpl

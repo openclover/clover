@@ -1,5 +1,6 @@
 package org.openclover.core.registry.format;
 
+import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.registry.RegistryUpdate;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.runtime.api.registry.CloverRegistryException;

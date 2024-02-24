@@ -1,5 +1,6 @@
 package org.openclover.core.registry;
 
+import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.context.ContextStore;
 import org.openclover.core.registry.entities.FullFileInfo;
 

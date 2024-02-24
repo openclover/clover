@@ -24,7 +24,9 @@ import java.util.List;
 public interface FileInfo extends
         InstrumentationInfo, SourceInfo, EntityContainer,
         HasClasses, HasMethods, HasStatements,
-        HasContextFilter, HasMetrics, HasParent {
+        HasContextFilter, HasMetrics, HasParent, HasVersionRanges,
+        CoverageDataRange {
+
 
     /**
      * Returns list of classes which are declared on a top-level of this source file  (i.e. it does not return inner

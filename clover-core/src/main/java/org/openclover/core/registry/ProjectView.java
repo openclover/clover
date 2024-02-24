@@ -1,11 +1,14 @@
 package org.openclover.core.registry;
 
 import org.openclover.core.api.instrumentation.ConcurrentInstrumentationException;
+import org.openclover.core.api.registry.CoverageDataProvider;
+import org.openclover.core.api.registry.FileInfo;
+import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.instr.InstrumentationSessionImpl;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullPackageInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
-import org.openclover.core.registry.metrics.HasMetricsFilter;
+import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.core.util.Path;
 
 import java.util.Collection;

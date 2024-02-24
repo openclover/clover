@@ -1,19 +1,26 @@
 package org.openclover.core.registry.entities;
 
+import org.jetbrains.annotations.NotNull;
 import org.openclover.core.api.registry.BlockMetrics;
+import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.ContextSet;
+import org.openclover.core.api.registry.EntityVisitor;
+import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.api.registry.ProjectInfo;
-import org.openclover.core.registry.CoverageDataProvider;
-import org.openclover.core.registry.CoverageDataReceptor;
-import org.openclover.core.registry.metrics.HasMetricsFilter;
+import org.openclover.core.registry.CachingInfo;
+import org.openclover.core.api.registry.CoverageDataProvider;
+import org.openclover.core.api.registry.CoverageDataReceptor;
+import org.openclover.core.api.registry.FileInfoVisitor;
+import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.core.registry.metrics.HasMetricsNode;
 import org.openclover.core.registry.metrics.PackageMetrics;
 import org.openclover.core.registry.metrics.ProjectMetrics;
 import org.openclover.core.util.Path;
 
 import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;

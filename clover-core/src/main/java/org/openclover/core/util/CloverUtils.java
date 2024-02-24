@@ -1,5 +1,6 @@
 package org.openclover.core.util;
 
+import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.optimization.Snapshot;

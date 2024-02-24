@@ -5,7 +5,7 @@ import org.apache.tools.ant.types.FileSet;
 import org.openclover.ant.AntFileSetUtils;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.registry.entities.FullFileInfo;
-import org.openclover.core.registry.metrics.HasMetricsFilter;
+import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.core.util.FileUtils;
 import org.openclover.runtime.Logger;
 

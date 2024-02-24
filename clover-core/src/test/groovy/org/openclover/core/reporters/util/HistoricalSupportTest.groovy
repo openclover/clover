@@ -3,6 +3,9 @@ package org.openclover.core.reporters.util
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestName
+import org.openclover.core.api.registry.ClassInfo
+import org.openclover.core.api.registry.FileInfo
+import org.openclover.core.api.registry.PackageInfo
 import org.openclover.core.api.registry.SourceInfo
 import org.openclover.core.cfg.Percentage
 import org.openclover.core.registry.FixedSourceRegion

@@ -3,7 +3,7 @@ package org.openclover.core.reporters;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.MethodInfo;
-import org.openclover.core.registry.metrics.HasMetricsFilter;
+import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.core.registry.metrics.HasMetricsSupport;
 import org.openclover.core.registry.util.EntityVisitorUtils;
 

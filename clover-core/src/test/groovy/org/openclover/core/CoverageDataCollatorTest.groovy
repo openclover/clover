@@ -6,7 +6,7 @@ import org.openclover.core.instr.InstrumentationSessionImpl
 import org.openclover.core.recorder.PerTestCoverageStrategy
 import org.openclover.core.registry.Clover2Registry
 import org.openclover.core.registry.entities.FullMethodInfo
-import org.openclover.core.registry.metrics.HasMetricsFilter
+import org.openclover.core.api.registry.HasMetricsFilter
 import org.openclover.core.util.SimpleCoverageRange
 import org_openclover_runtime.CoverageRecorder
 

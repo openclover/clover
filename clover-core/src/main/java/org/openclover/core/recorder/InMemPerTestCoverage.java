@@ -3,7 +3,7 @@ package org.openclover.core.recorder;
 import clover.it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import clover.it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import org.openclover.core.registry.Clover2Registry;
-import org.openclover.core.registry.CoverageDataRange;
+import org.openclover.core.api.registry.CoverageDataRange;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.TestCaseInfo;
 

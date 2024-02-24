@@ -11,7 +11,10 @@ import clover.org.jfree.data.xy.XYDataset
 import junit.framework.TestCase
 import org.openclover.buildutil.testutils.IOHelper
 import org.openclover.core.api.registry.BlockMetrics
+import org.openclover.core.api.registry.ClassInfo
+import org.openclover.core.api.registry.FileInfo
 import org.openclover.core.api.registry.HasMetrics
+import org.openclover.core.api.registry.PackageInfo
 import org.openclover.core.registry.FixedSourceRegion
 import org.openclover.core.registry.entities.BaseClassInfo
 import org.openclover.core.registry.entities.BaseFileInfo

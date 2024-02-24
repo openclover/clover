@@ -1,10 +1,11 @@
 package org.openclover.core.registry.metrics;
 
 import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.api.registry.IsMetricsComparable;
 
 import java.util.Comparator;
 
-public interface HasMetricsNode extends HasMetrics {
+public interface HasMetricsNode extends HasMetrics, IsMetricsComparable {
 
     String getChildType();
 
@@ -17,7 +18,5 @@ public interface HasMetricsNode extends HasMetrics {
     int getIndexOfChild(HasMetricsNode child);
 
     boolean isLeaf();
-
-    void setComparator(Comparator<HasMetrics> cmp);
 
 }

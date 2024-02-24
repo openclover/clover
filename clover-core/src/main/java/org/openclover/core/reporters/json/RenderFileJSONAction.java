@@ -5,7 +5,7 @@ import org.openclover.core.CloverDatabase;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullPackageInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
-import org.openclover.core.registry.metrics.HasMetricsFilter;
+import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.core.reporters.Current;
 import org.openclover.core.reporters.html.HtmlRenderingSupportImpl;
 import org.openclover.core.reporters.html.HtmlReportUtil;
@@ -21,8 +21,6 @@ import java.util.Map;
 
 import static org.openclover.core.util.Lists.newArrayList;
 
-/**
- */
 public class RenderFileJSONAction extends RenderFileAction {
     public RenderFileJSONAction(FullFileInfo fileInfo, HtmlRenderingSupportImpl renderingHelper, Current report, VelocityContext velocity, CloverDatabase database, FullProjectInfo fullModel) {
         super(fileInfo, renderingHelper, report, velocity, database, fullModel, null);

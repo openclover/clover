@@ -25,6 +25,8 @@ import clover.org.jfree.data.xy.XYDataset;
 import clover.org.jfree.data.xy.XYSeries;
 import clover.org.jfree.data.xy.XYSeriesCollection;
 import clover.org.jfree.ui.RectangleInsets;
+import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.registry.entities.BaseClassInfo;
 import org.openclover.core.registry.entities.FullFileInfo;

@@ -24,7 +24,7 @@ import org.openclover.core.registry.entities.MethodSignature
 import org.openclover.core.registry.entities.Modifiers
 import org.openclover.core.registry.entities.PackageFragment
 import org.openclover.core.registry.format.FreshRegFile
-import org.openclover.core.registry.metrics.HasMetricsFilter
+import org.openclover.core.api.registry.HasMetricsFilter
 import org.openclover.core.registry.metrics.ProjectMetrics
 import org.openclover.runtime.registry.format.RegAccessMode
 

@@ -2,7 +2,7 @@ package org.openclover.core;
 
 import org.openclover.core.cfg.StorageSize;
 import org.openclover.core.recorder.PerTestCoverageStrategy;
-import org.openclover.core.registry.metrics.HasMetricsFilter;
+import org.openclover.core.api.registry.HasMetricsFilter;
 
 public class CoverageDataSpec {
     private long span = 0;

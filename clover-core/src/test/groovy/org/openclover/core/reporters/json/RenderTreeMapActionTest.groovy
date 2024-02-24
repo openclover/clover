@@ -10,7 +10,7 @@ import org.openclover.core.registry.entities.FullClassInfo
 import org.openclover.core.registry.entities.FullPackageInfo
 import org.openclover.core.registry.entities.FullProjectInfo
 import org.openclover.core.registry.metrics.BlockMetrics
-import org.openclover.core.registry.metrics.HasMetricsFilter
+import org.openclover.core.api.registry.HasMetricsFilter
 import org.openclover.core.registry.metrics.PackageMetrics
 import org.openclover.core.registry.metrics.ProjectMetrics
 import org.openclover.core.reporters.CloverReportConfig

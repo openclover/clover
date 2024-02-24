@@ -2,6 +2,7 @@ package org.openclover.core.api.registry;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.openclover.core.registry.FileInfoRegion;
 
 import java.util.List;
 
@@ -19,9 +20,9 @@ import java.util.List;
  * </ul>
  */
 public interface ClassInfo extends
-        SourceInfo, EntityContainer,
+        SourceInfo, EntityContainer, HasClassMetadata,
         HasClasses, HasMethods, HasStatements,
-        HasContextFilter, HasMetrics, HasAggregatedMetrics, HasParent {
+        HasContextFilter, HasMetrics, HasAggregatedMetrics, HasParent, FileInfoRegion {
 
     @Override
     String getName();
@@ -54,6 +55,12 @@ public interface ClassInfo extends
      */
     @Nullable
     FileInfo getContainingFile();
+
+    boolean isInterface();
+
+    boolean isEnum();
+
+    boolean isAnnotationType();
 
     boolean isTestClass();
 
