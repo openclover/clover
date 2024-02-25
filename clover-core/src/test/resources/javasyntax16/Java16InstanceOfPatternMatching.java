@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class Java16InstanceOfPatternMatching {
     static class A {
@@ -9,6 +12,9 @@ public class Java16InstanceOfPatternMatching {
     public static void main(String[] args) {
         instanceOfCasting();
         instanceOfCastingWithFinal();
+        instanceOfCastingWithArray();
+        instanceOfCastingWithGenerics();
+        instanceOfCastingWithGenericsWildcard();
         instanceOfInExpressions();
         instanceOfCastingVisibilityLimitations();
         detectionOfInstanceOfWithCasting();
@@ -29,6 +35,34 @@ public class Java16InstanceOfPatternMatching {
             System.out.println("obj is final String = " + str);
         } else {
             System.out.println("obj is final Object = " + obj);
+        }
+    }
+
+    private static void instanceOfCastingWithArray() {
+        Object obj = new String[] { "a string array" };
+        if (obj instanceof String[] str) {
+            System.out.println("obj is String[] = " + str);
+        } else {
+            System.out.println("obj is Object = " + obj);
+        }
+    }
+
+    private static void instanceOfCastingWithGenerics() {
+        // one closing '>' is treated as GT token
+        Object obj = new HashMap<String, Long[]>();
+        if (obj instanceof HashMap<?, ?> map) {
+            System.out.println("obj is HashMap<?, ?> = " + map);
+        } else {
+            System.out.println("obj is Object = " + obj);
+        }
+    }
+
+    private static void instanceOfCastingWithGenericsWildcard() {
+        Object obj = new ArrayList<Object>();
+        if (obj instanceof java.util.List<?> map) {
+            System.out.println("obj is List<?> = " + map);
+        } else {
+            System.out.println("obj is Object = " + obj);
         }
     }
 
