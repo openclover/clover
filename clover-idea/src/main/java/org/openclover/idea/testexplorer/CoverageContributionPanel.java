@@ -7,6 +7,7 @@ import org.openclover.core.CloverDatabase;
 import org.openclover.core.CoverageData;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.CoverageDataProvider;
+import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullMethodInfo;
@@ -35,6 +36,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.TableColumnModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.MutableTreeNode;
+import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
@@ -146,7 +148,7 @@ public class CoverageContributionPanel extends JPanel implements TestRunExplorer
         if (alwaysCollapseTestClasses != alwaysExpandTestClasses) {
             final JTree treeTableTree = treeTableView.getTree();
 
-            Enumeration children = rootNode.postorderEnumeration();
+            Enumeration<TreeNode> children = rootNode.postorderEnumeration();
             while (children.hasMoreElements()) {
                 DefaultMutableTreeNode child = (DefaultMutableTreeNode) children.nextElement();
                 if (rootNode != child && !child.isLeaf()) {
@@ -218,7 +220,7 @@ class CoverageContributionTreeBuilder {
         final CoverageData data = currentDatabase.getCoverageData();
         final CoverageDataProvider testDataProvider = new BitSetCoverageProvider(data.getHitsFor(testCaseInfo), data);
         final CoverageDataProvider uniqueTestDataProvider = new BitSetCoverageProvider(currentDatabase.getCoverageData().getUniqueHitsFor(testCaseInfo), data);
-        final Map<FullPackageInfo, DefaultMutableTreeNode> packageMapping = newHashMap();
+        final Map<PackageInfo, DefaultMutableTreeNode> packageMapping = newHashMap();
 
         appOnlyProject.getClasses(hasMetrics -> {
             final FullClassInfo classInfo = (FullClassInfo) hasMetrics;
@@ -226,7 +228,7 @@ class CoverageContributionTreeBuilder {
             classInfoCopy.setDataProvider(testDataProvider);
 
             if (classInfoCopy.getMetrics().getNumCoveredElements() > 0) {
-                FullPackageInfo packageInfo = (FullPackageInfo) classInfo.getPackage();
+                PackageInfo packageInfo = classInfo.getPackage();
                 DefaultMutableTreeNode pkgNode = packageMapping.get(packageInfo);
                 if (pkgNode == null) {
                     pkgNode = new DefaultMutableTreeNode(packageInfo);
@@ -280,19 +282,19 @@ class CoverageContributionTreeBuilder {
     private static class PackageTreeBuilder {
 
         private final SimplePackageFragment root = new SimplePackageFragment("");
-        private final Map<FullPackageInfo, DefaultMutableTreeNode> flatTree;
+        private final Map<PackageInfo, DefaultMutableTreeNode> flatTree;
 
-        PackageTreeBuilder(Map<FullPackageInfo, DefaultMutableTreeNode> flatTree) {
+        PackageTreeBuilder(Map<PackageInfo, DefaultMutableTreeNode> flatTree) {
             //noinspection AssignmentToCollectionOrArrayFieldFromParameter
             this.flatTree = flatTree;
 
             for (DefaultMutableTreeNode pkgNode : flatTree.values()) {
-                FullPackageInfo packageInfo = (FullPackageInfo) pkgNode.getUserObject();
+                PackageInfo packageInfo = (PackageInfo) pkgNode.getUserObject();
                 addPackageToTree(packageInfo);
             }
         }
 
-        private void addPackageToTree(FullPackageInfo packageInfo) {
+        private void addPackageToTree(PackageInfo packageInfo) {
             String pkgFQName = packageInfo.getName();
             String[] nameParts = pkgFQName.split("\\.");
             SimplePackageFragment parent = root;
@@ -317,7 +319,7 @@ class CoverageContributionTreeBuilder {
                 copy(pkgNode, fragment);
                 toNode.add(pkgNode);
             }
-            final FullPackageInfo packageInfo = fromNode.getConcretePackage();
+            final PackageInfo packageInfo = fromNode.getConcretePackage();
             if (packageInfo != null) {
                 // concrete package - copy Class nodes
                 DefaultMutableTreeNode origNode = flatTree.get(packageInfo);

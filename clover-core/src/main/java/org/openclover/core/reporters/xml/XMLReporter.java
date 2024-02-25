@@ -168,8 +168,7 @@ public class XMLReporter extends CloverReporter {
                 summaryReport = ((Current)reportConfig).getSummary();
             }
 
-            for (PackageInfo packageInfo : packages) {
-                FullPackageInfo pkg = (FullPackageInfo) packageInfo;
+            for (PackageInfo pkg : packages) {
 
                 attribs = newHashMap();
                 attribs.put(XmlNames.A_NAME, pkg.getName());
@@ -248,7 +247,7 @@ public class XMLReporter extends CloverReporter {
         out.writeElement(XmlNames.E_METRICS, attribs);
     }
 
-    private void writeFilesForPkg(XMLWriter out, FullPackageInfo pkg) throws IOException {
+    private void writeFilesForPkg(XMLWriter out, PackageInfo pkg) throws IOException {
         //get the files contained within the package.
         final List<FileInfo> files = pkg.getFiles();
 

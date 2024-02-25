@@ -1,6 +1,8 @@
 package org.openclover.core;
 
 import org.openclover.core.api.registry.ContextSet;
+import org.openclover.core.api.registry.FileInfo;
+import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.cfg.Interval;
 import org.openclover.core.context.ContextStore;
 import org.openclover.core.recorder.InMemPerTestCoverage;
@@ -407,15 +409,15 @@ public class CloverDatabase {
             }
 
             // get all files from mergingProject
-            List<FullFileInfo> mergingFiles = (List)mergingProject.getFiles(HasMetricsFilter.ACCEPT_ALL);
+            List<FileInfo> mergingFiles = mergingProject.getFiles(HasMetricsFilter.ACCEPT_ALL);
 
-            for (FullFileInfo mergeFI : mergingFiles) {
-                FullFileInfo baseFI = null;
+            for (FileInfo mergeFI : mergingFiles) {
+                FileInfo baseFI = null;
                 String mergePkgName = mergeFI.getContainingPackage().getName();
 
-                FullPackageInfo basePkg = (FullPackageInfo) baseProject.getNamedPackage(mergePkgName);
+                PackageInfo basePkg = baseProject.getNamedPackage(mergePkgName);
                 if (basePkg != null) {
-                    baseFI = (FullFileInfo) basePkg.getFile(mergeFI.getPackagePath());
+                    baseFI = basePkg.getFile(mergeFI.getPackagePath());
                 }
                 // default new location is append at the end
                 int newDataIndex = baseProject.getDataLength();
@@ -434,8 +436,8 @@ public class CloverDatabase {
                     // baseProject doesn't have this file, or mergingProject has a newer record and different checksum
                     // - add file record (and possibly the containing package as well) to baseProject
 
-                    mergeFI.setDataIndex(newDataIndex);
-                    mergeFI.resetVersions(baseProject.getVersion());
+                    ((FullFileInfo) mergeFI).setDataIndex(newDataIndex);
+                    ((FullFileInfo) mergeFI).resetVersions(baseProject.getVersion());
 
                     if (basePkg == null) {
                         basePkg = new FullPackageInfo(baseProject, mergePkgName, newDataIndex);
@@ -469,9 +471,9 @@ public class CloverDatabase {
         int [] compactedCoverage = new int[slotsUsed];
         InMemPerTestCoverage compactedSliceHits = new InMemPerTestCoverage(slotsUsed);
         int insertPoint = 0;
-        List<FullFileInfo> mergedFiles = (List)baseProject.getFiles(HasMetricsFilter.ACCEPT_ALL);
+        List<FileInfo> mergedFiles = baseProject.getFiles(HasMetricsFilter.ACCEPT_ALL);
 
-        for (FullFileInfo fileInfo : mergedFiles) {
+        for (FileInfo fileInfo : mergedFiles) {
             System.arraycopy(mergedCoverage, fileInfo.getDataIndex(), compactedCoverage, insertPoint, fileInfo.getDataLength());
 
             for (TestCaseInfo tci : mergedSliceHits.getTests()) {
@@ -481,7 +483,7 @@ public class CloverDatabase {
                     compactedSlice.set(insertPoint + i, mergedSlice.get(fileInfo.getDataIndex() + i));
                 }
             }
-            fileInfo.setDataIndex(insertPoint);
+            ((FullFileInfo) fileInfo).setDataIndex(insertPoint);
             insertPoint += fileInfo.getDataLength();
         }
         baseProject.setDataLength(slotsUsed);

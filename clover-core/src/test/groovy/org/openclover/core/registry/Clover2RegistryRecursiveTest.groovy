@@ -165,7 +165,7 @@ class Clover2RegistryRecursiveTest {
         final FullFileInfo fileInfo = (FullFileInfo)projectInfo.findFile("com/acme/File.java")
 
         // grab first method and check its properties
-        final FullMethodInfo methodInfo =(FullMethodInfo)fileInfo.getMethods().get(0)
+        final MethodInfo methodInfo = fileInfo.getMethods().get(0)
         assertEquals("methodInFile", methodInfo.getSimpleName())
         assertEquals(" methodInFile()", methodInfo.getSignature().getNormalizedSignature())
 
@@ -224,7 +224,7 @@ class Clover2RegistryRecursiveTest {
         final FullFileInfo fileInfo = (FullFileInfo)projectInfo.findFile("com/acme/File.java")
 
         // grab second method and check its properties
-        final FullMethodInfo methodInfo =(FullMethodInfo)fileInfo.getMethods().get(1)
+        final MethodInfo methodInfo = fileInfo.getMethods().get(1)
         assertEquals("topGoo", methodInfo.getSimpleName())
 
         // look for deeply nested methods
@@ -243,8 +243,8 @@ class Clover2RegistryRecursiveTest {
 
         // check that for such deeply nested entities parents are correctly set (i.e. that do not point to any lop-level
         // entity, like FileInfo, but to the exact parent)
-        final FullMethodInfo methodInfo2ndLevel = (FullMethodInfo) methodInfo.getMethods().get(0)
-        final FullMethodInfo methodInfo3rdLevel = (FullMethodInfo) methodInfo2ndLevel.getMethods().get(0)
+        final MethodInfo methodInfo2ndLevel = methodInfo.getMethods().get(0)
+        final MethodInfo methodInfo3rdLevel = methodInfo2ndLevel.getMethods().get(0)
         assertEquals(methodInfo2ndLevel, methodInfo3rdLevel.getContainingMethod())
         assertNull(methodInfo3rdLevel.getContainingClass())
         assertEquals(fileInfo, methodInfo3rdLevel.getContainingFile())
@@ -279,7 +279,7 @@ class Clover2RegistryRecursiveTest {
                 0, classInfo2ndLevel.getClasses().size())
 
         // look for class-in-method-in-class, check the parent
-        final FullMethodInfo methodInInnerClass = (FullMethodInfo) classInfo.getClasses().get(0).getMethods().get(0)
+        final MethodInfo methodInInnerClass = classInfo.getClasses().get(0).getMethods().get(0)
         final ClassInfo classInfo3rdLevel = methodInInnerClass.getClasses().get(0)
         assertEquals("classInMethodEtc", classInfo3rdLevel.getName())
         assertEquals(methodInInnerClass, classInfo3rdLevel.getContainingMethod())

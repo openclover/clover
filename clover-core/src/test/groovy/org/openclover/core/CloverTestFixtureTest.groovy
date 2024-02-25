@@ -53,7 +53,7 @@ class CloverTestFixtureTest {
         List packages = db.getModel(CodeType.APPLICATION).getAllPackages()
         assertEquals(1, packages.size())
 
-        PackageMetrics metrics = (PackageMetrics)((FullPackageInfo)packages.get(0)).getMetrics()
+        PackageMetrics metrics = (PackageMetrics) packages.get(0).getMetrics()
 
         assertEquals(0.80f, metrics.getPcCoveredBranches(), 0.001f)
         assertEquals(0.85f, metrics.getPcCoveredMethods(), 0.001f)

@@ -83,8 +83,8 @@ public class RenderMetricsJSONAction implements Callable {
             for (PackageInfo pkg : pkgs) {
                 children.add(pkg.getPath());
             }
-        } else if (mInfo instanceof FullPackageInfo) {
-            final List<FileInfo> files = ((FullPackageInfo)mInfo).getFiles();
+        } else if (mInfo instanceof PackageInfo) {
+            final List<FileInfo> files = ((PackageInfo) mInfo).getFiles();
             for (final FileInfo file : files) {
                 children.add(file.getName());
             }

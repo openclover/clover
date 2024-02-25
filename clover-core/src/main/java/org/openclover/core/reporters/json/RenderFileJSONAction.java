@@ -2,6 +2,7 @@ package org.openclover.core.reporters.json;
 
 import clover.org.apache.velocity.VelocityContext;
 import org.openclover.core.CloverDatabase;
+import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullPackageInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
@@ -22,7 +23,7 @@ import java.util.Map;
 import static org.openclover.core.util.Lists.newArrayList;
 
 public class RenderFileJSONAction extends RenderFileAction {
-    public RenderFileJSONAction(FullFileInfo fileInfo, HtmlRenderingSupportImpl renderingHelper, Current report, VelocityContext velocity, CloverDatabase database, FullProjectInfo fullModel) {
+    public RenderFileJSONAction(FileInfo fileInfo, HtmlRenderingSupportImpl renderingHelper, Current report, VelocityContext velocity, CloverDatabase database, FullProjectInfo fullModel) {
         super(fileInfo, renderingHelper, report, velocity, database, fullModel, null);
     }
 

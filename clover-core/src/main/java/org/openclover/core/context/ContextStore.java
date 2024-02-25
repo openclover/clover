@@ -4,6 +4,7 @@ import org.openclover.core.CloverDatabase;
 import org.openclover.core.api.registry.BranchInfo;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.ContextSet;
+import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.StatementInfo;
 import org.openclover.core.cfg.instr.InstrumentationConfig;
@@ -362,7 +363,7 @@ public class ContextStore implements TaggedPersistent {
             this.mappings = mappings;
         }
 
-        public void applyContextMapping(CloverDatabase db, FullFileInfo finfo) {
+        public void applyContextMapping(CloverDatabase db, FileInfo finfo) {
             final Map<Integer, Integer> mapping = mappings.get(db);
             if (mapping == null) {
                 return;

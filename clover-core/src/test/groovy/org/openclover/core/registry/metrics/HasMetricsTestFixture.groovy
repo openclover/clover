@@ -69,7 +69,7 @@ class HasMetricsTestFixture {
 
     FullClassInfo newClass(FullFileInfo finfo, String name, int startLine) {
         final SourceInfo srcRegion = new FixedSourceRegion(startLine, 1)
-        final FullClassInfo classInfo = new FullClassInfo((FullPackageInfo)finfo.getContainingPackage(), finfo,
+        final FullClassInfo classInfo = new FullClassInfo((FullPackageInfo) finfo.getContainingPackage(), finfo,
                 index, name, srcRegion, new Modifiers(),
                 false, false, false)
         finfo.addClass(classInfo)

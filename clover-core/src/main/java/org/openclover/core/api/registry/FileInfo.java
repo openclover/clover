@@ -1,6 +1,7 @@
 package org.openclover.core.api.registry;
 
 import org.jetbrains.annotations.NotNull;
+import org.openclover.core.registry.FileElementVisitor;
 
 import java.io.File;
 import java.io.IOException;
@@ -154,5 +155,5 @@ public interface FileInfo extends
 
     Reader getSourceReader() throws IOException;
 
-
+    void visitElements(FileElementVisitor visitor);
 }

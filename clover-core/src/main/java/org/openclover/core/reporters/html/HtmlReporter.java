@@ -155,7 +155,8 @@ public class HtmlReporter extends CloverReporter {
     protected static final String TAB_TESTS = "Tests";
     protected static final String TAB_RESULTS = "Results";
 
-    private static final Comparator TEST_SORT_ORDER = HasMetricsSupport.newTestListComparator();
+    private static final Comparator<HasMetrics> TEST_SORT_ORDER = HasMetricsSupport.newTestListComparator();
+
     private static final Comparator<TestCaseInfo> TEST_CASE_COMPARATOR = (lhs, rhs) -> {
         if (rhs.isSuccess() & lhs.isSuccess()) {
             return 0;
@@ -171,7 +172,7 @@ public class HtmlReporter extends CloverReporter {
     private final File baseImagePath;
     private final HtmlRenderingSupportImpl rederingHelper;
     private final String reportTimeStamp;
-    private final Comparator listComparator;
+    private final Comparator<HasMetrics> listComparator;
     private final String pageTitle;
     private final String pageTitleAnchor;
     private final String pageTitleTarget;
@@ -271,8 +272,7 @@ public class HtmlReporter extends CloverReporter {
                 final CloverExecutor<Object> service = CloverExecutors.newCloverExecutor(reportAsCurrent().getNumThreads(), "Clover");
                 RenderFileAction.initThreadLocals();
                 RenderMetricsJSONAction.initThreadLocals();
-                for (PackageInfo pkg1 : allPackages) {
-                    final FullPackageInfo pkg = (FullPackageInfo) pkg1;
+                for (PackageInfo pkg : allPackages) {
 
                     Logger.getInstance().verbose("Processing package " + pkg.getName());
                     long start = System.currentTimeMillis();
@@ -711,8 +711,8 @@ public class HtmlReporter extends CloverReporter {
         FileUtils.resourceToFile(getClass().getClassLoader(), aLoadPath + "/" + aName, outfile);
     }
 
-    private void processPackage(final FullPackageInfo pkg, final TreeInfo appSrcTree, final TreeInfo appCloudTree,
-                                final TreeInfo testSrcTree, final CloverExecutor queue,
+    private void processPackage(final PackageInfo pkg, final TreeInfo appSrcTree, final TreeInfo appCloudTree,
+                                final TreeInfo testSrcTree, final CloverExecutor<Object> queue,
                                 final Map<Integer, CloverChartFactory.ChartInfo> charts) throws Exception {
         final FullProjectInfo projectInfo = getFullModel();
 
@@ -738,7 +738,7 @@ public class HtmlReporter extends CloverReporter {
         renderTestResultsPkgSummaryPages(pkg, testClasses);
     }
 
-    private void renderSourceFilePage(final CloverExecutor queue,
+    private void renderSourceFilePage(final CloverExecutor<Object> queue,
                                       final Map<Integer, CloverChartFactory.ChartInfo> charts,
                                       final ProjectInfo projectInfo, FileInfo file) throws Exception {
         if (reportConfig.getFormat().getSrcLevel()) {
@@ -881,7 +881,7 @@ public class HtmlReporter extends CloverReporter {
                 hasMetrics ->
                         !(hasMetrics instanceof ClassInfo) || ((ClassInfo) hasMetrics).isTestClass()
         );
-        List packages = projectInfo.getAllPackages();
+        List<PackageInfo> packages = projectInfo.getAllPackages();
 
         packages.sort(TEST_SORT_ORDER);
 
@@ -899,7 +899,7 @@ public class HtmlReporter extends CloverReporter {
             String outfileName,
             String templateName,
             FullPackageInfo pkg,
-            List classes,
+            List<ClassInfo> classes,
             VelocityContext context,
             String currentTabName,
             boolean isTests) throws Exception {
@@ -949,7 +949,8 @@ public class HtmlReporter extends CloverReporter {
     }
 
     private void renderPkgSummaryPage(PackageInfo pkg, TreeInfo tree,
-                                      boolean appPagePresent, boolean testPagePresent, boolean linkToClouds, CloverExecutor queue) throws Exception {
+                                      boolean appPagePresent, boolean testPagePresent, boolean linkToClouds,
+                                      CloverExecutor<Object> queue) throws Exception {
         VelocityContext context = new VelocityContext();
         insertCommonPropsForCurrent(context, pkg.getName());
 
@@ -959,7 +960,8 @@ public class HtmlReporter extends CloverReporter {
     }
 
     private void renderPkgCloudPages(PackageInfo pkg, TreeInfo tree,
-                                     boolean appPagePresent, boolean testPagePresent, CloverExecutor queue) throws Exception {
+                                     boolean appPagePresent, boolean testPagePresent,
+                                     CloverExecutor<Object> queue) throws Exception {
         VelocityContext context = new VelocityContext();
         insertCommonPropsForCurrent(context, pkg.getName());
 
@@ -972,7 +974,7 @@ public class HtmlReporter extends CloverReporter {
      *
      * @see #renderProjectTreeMapPage(CloverExecutor)
      */
-    private void renderPkgTreeMapPage(PackageInfo pkg, CloverExecutor queue) {
+    private void renderPkgTreeMapPage(PackageInfo pkg, CloverExecutor<Object> queue) {
         // TODO not implemented
     }
 
@@ -1030,7 +1032,7 @@ public class HtmlReporter extends CloverReporter {
 
     private void insertCommonTestProps(
             VelocityContext context,
-            List entities,
+            List<?> entities,
             String childEntityType,
             PackageInfo pkg,
             HasMetrics entity,

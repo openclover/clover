@@ -90,8 +90,7 @@ public class ConsoleReporter extends CloverReporter {
             out.println("Package Summary - ");
         }
 
-        for (PackageInfo aPackage : packages) {
-            FullPackageInfo pkg = (FullPackageInfo) aPackage;
+        for (PackageInfo pkg : packages) {
             if (cfg.getPackageSet() != null
                     && !cfg.getPackageSet().contains(pkg.getName())) {
                 continue;

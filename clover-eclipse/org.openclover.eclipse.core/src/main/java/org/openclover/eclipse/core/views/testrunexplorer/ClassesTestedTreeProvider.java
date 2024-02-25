@@ -184,7 +184,7 @@ public class ClassesTestedTreeProvider
         ((CoverageDataReceptor)hasMetricsCopy).setDataProvider(testHits);
         if (totalElements == 0) {
             if (hasMetricsCopy instanceof MethodInfo) {
-                FullMethodInfo method = (FullMethodInfo)hasMetricsCopy;
+                MethodInfo method = (MethodInfo) hasMetricsCopy;
                 return method.getHitCount() == 0 ? 0f : 1.0f;
             } else {
                 return 0f;

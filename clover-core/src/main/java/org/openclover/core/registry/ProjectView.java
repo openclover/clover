@@ -63,7 +63,7 @@ public interface ProjectView extends InstrumentationTarget {
             int projLen = project.getDataLength();
             for (PackageInfo updatedPkgInfo : update.getChangedPkgInfos()) {
                 //Look up an existing package in the model, if one exists
-                final FullPackageInfo pkgInfo = (FullPackageInfo)project.getNamedPackage(updatedPkgInfo.getName());
+                final PackageInfo pkgInfo = project.getNamedPackage(updatedPkgInfo.getName());
                 if (pkgInfo == null) {
                     updatedPkgInfo.setDataProvider(dataProvider);
                     project.addPackage(updatedPkgInfo);
@@ -137,7 +137,7 @@ public interface ProjectView extends InstrumentationTarget {
             int projLen = project.getDataLength();
             for (PackageInfo updatedPkgInfo : update.getChangedPkgInfos()) {
                 //Look up an existing package in the model, if one exists
-                PackageInfo pkgInfo = (FullPackageInfo)project.getNamedPackage(updatedPkgInfo.getName());
+                PackageInfo pkgInfo = project.getNamedPackage(updatedPkgInfo.getName());
 
                 for (FileInfo fileInfo : updatedPkgInfo.getFiles()) {
                     if (filter.accept(fileInfo)) {

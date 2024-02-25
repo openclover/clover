@@ -1,14 +1,11 @@
 package org.openclover.core.reporters.json;
 
-
 import clover.org.apache.velocity.VelocityContext;
 import org.openclover.core.api.command.ArgProcessor;
 import org.openclover.core.api.command.HelpBuilder;
 import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.cfg.Interval;
-import org.openclover.core.registry.entities.FullFileInfo;
-import org.openclover.core.registry.entities.FullPackageInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.reporters.CloverReportConfig;
 import org.openclover.core.reporters.CloverReporter;
@@ -113,8 +110,7 @@ public class JSONReporter extends CloverReporter {
                     getConfigAsCurrent(),
                     getConfigAsCurrent().getOutFile()));
 
-            for (PackageInfo packageInfo : allPackages) {
-                final FullPackageInfo pkg = (FullPackageInfo) packageInfo;
+            for (PackageInfo pkg : allPackages) {
 
                 Logger.getInstance().verbose("Processing package " + pkg.getName());
                 final long start = System.currentTimeMillis();
@@ -152,7 +148,7 @@ public class JSONReporter extends CloverReporter {
         return 0;
     }
 
-    private void processPackage(FullPackageInfo pkg, CloverExecutor service) throws Exception {
+    private void processPackage(PackageInfo pkg, CloverExecutor service) throws Exception {
         final List<FileInfo> files = pkg.getFiles();
 
         final FullProjectInfo projectInfo = database.getFullModel();
@@ -168,8 +164,9 @@ public class JSONReporter extends CloverReporter {
         service.submit(new RenderCloudsJSONAction.ForPackages.OfTheirQuickWins(new VelocityContext(), pkg, getConfigAsCurrent(), basedir, false));
 
         for (FileInfo file : files) {
-            service.submit(new RenderFileJSONAction(
-                    (FullFileInfo) file, renderingHelper, getConfigAsCurrent(), new VelocityContext(), database, projectInfo));
+            service.submit(
+                    new RenderFileJSONAction(
+                            file, renderingHelper, getConfigAsCurrent(), new VelocityContext(), database, projectInfo));
         }
     }
 

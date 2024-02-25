@@ -2,6 +2,7 @@ package org.openclover.core.reporters.json;
 
 import clover.org.apache.velocity.VelocityContext;
 import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.registry.entities.FullPackageInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.api.registry.HasMetricsFilter;
@@ -112,15 +113,15 @@ public abstract class RenderCloudsJSONAction implements Callable {
     }
 
     public abstract static class ForPackages extends RenderCloudsJSONAction {
-        protected final FullPackageInfo pkg;
+        protected final PackageInfo pkg;
 
-        protected ForPackages(VelocityContext ctx, FullPackageInfo pkg, CloverReportConfig cfg, File dir, boolean aggregate) {
+        protected ForPackages(VelocityContext ctx, PackageInfo pkg, CloverReportConfig cfg, File dir, boolean aggregate) {
             super(ctx, cfg, dir, aggregate);
             this.pkg = pkg;
         }
 
         public static class OfTheirRisks extends ForPackages {
-            public OfTheirRisks(VelocityContext ctx, FullPackageInfo pkg, CloverReportConfig cfg, File dir, boolean aggregate) {
+            public OfTheirRisks(VelocityContext ctx, PackageInfo pkg, CloverReportConfig cfg, File dir, boolean aggregate) {
                 super(ctx, pkg, cfg, dir, aggregate);
             }
 
@@ -136,7 +137,7 @@ public abstract class RenderCloudsJSONAction implements Callable {
         }
 
         public static class OfTheirQuickWins extends ForPackages {
-            public OfTheirQuickWins(VelocityContext ctx, FullPackageInfo pkg, CloverReportConfig cfg, File dir, boolean aggregate) {
+            public OfTheirQuickWins(VelocityContext ctx, PackageInfo pkg, CloverReportConfig cfg, File dir, boolean aggregate) {
                 super(ctx, pkg, cfg, dir, aggregate);
             }
 

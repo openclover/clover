@@ -74,7 +74,7 @@ abstract class AggregatedMetricsTestBase {
                 expectedMetric.aggregatedComplexity, actualClass.getAggregatedComplexity())
     }
 
-    protected void assertMethodMetrics(String message, MetricValue expectedMetric, FullMethodInfo actualMethod) {
+    protected void assertMethodMetrics(String message, MetricValue expectedMetric, MethodInfo actualMethod) {
         assertEquals(message + " statements",
                 expectedMetric.statements, actualMethod.getRawMetrics().getNumStatements())
         assertEquals(message + " aggregated statements",
@@ -139,12 +139,12 @@ abstract class AggregatedMetricsTestBase {
      * @param key
      * @return MethodInfo or throws assertion failure
      */
-    FullMethodInfo findMethod(PackageInfo packageInfo, RegistryKey key) {
+    MethodInfo findMethod(PackageInfo packageInfo, RegistryKey key) {
         for (ClassInfo classInfo : packageInfo.getClasses()) {
             if (classInfo.getName().equals(key.className)) {
                 for (MethodInfo methodInfo : classInfo.getAllMethods()) {
                     if (methodInfo.getSimpleName().equals(key.methodName)) {
-                        return (FullMethodInfo)methodInfo
+                        return methodInfo
                     }
                 }
             }
@@ -160,13 +160,13 @@ abstract class AggregatedMetricsTestBase {
      * @param key
      * @return List&lt;MethodInfo&gt
      */
-    List<FullMethodInfo> findAllMethods(PackageInfo packageInfo, RegistryKey key) {
-        List<FullMethodInfo> ret = newLinkedList()
+    List<MethodInfo> findAllMethods(PackageInfo packageInfo, RegistryKey key) {
+        List<MethodInfo> ret = newLinkedList()
         for (ClassInfo classInfo : packageInfo.getClasses()) {
             if (classInfo.getName().equals(key.className)) {
                 for (MethodInfo methodInfo : classInfo.getMethods()) {
                     if (methodInfo.getSimpleName().equals(key.methodName)) {
-                        ret.add((FullMethodInfo)methodInfo)
+                        ret.add(methodInfo)
                     }
                 }
             }

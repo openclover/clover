@@ -410,10 +410,9 @@ public class FullProjectInfo
         proj.setContextFilter(contextFilter);
         proj.setDataProvider(getDataProvider());
         proj.setVersion(getVersion());
-        for (PackageInfo basePackageInfo : packages.values()) {
-            FullPackageInfo pkgInfo = (FullPackageInfo) basePackageInfo;
+        for (PackageInfo pkgInfo : packages.values()) {
             if (filter.accept(pkgInfo)) {
-                FullPackageInfo info = pkgInfo.copy(proj, filter);
+                PackageInfo info = ((FullPackageInfo) pkgInfo).copy(proj, filter);
                 if (!info.isEmpty()) {
                     proj.addPackage(info);
                 }
@@ -490,8 +489,7 @@ public class FullProjectInfo
     public void setDataProvider(CoverageDataProvider data) {
         this.data = data;
         for (PackageInfo packageInfo : packages.values()) {
-            FullPackageInfo fullPackageInfo = (FullPackageInfo) packageInfo;
-            fullPackageInfo.setDataProvider(data);
+            ((FullPackageInfo) packageInfo).setDataProvider(data);
         }
         rawMetrics = null;
         metrics = null;

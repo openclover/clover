@@ -532,7 +532,7 @@ public class FullFileInfo
                         // if it's an inner method and we're not showing them
                         if ( (showLambdaFunctions || !info.isLambda())
                                 && (showInnerFunctions || !entityUtils.isInnerMethod(info)) ) {
-                            lineInfo.addMethodStart((FullMethodInfo)info);
+                            lineInfo.addMethodStart(info);
                         }
                     }
                 }
@@ -546,7 +546,7 @@ public class FullFileInfo
                                 || ( (showLambdaFunctions || !entityUtils.isParentALambdaMethod(info))  // inside a lambda
                                         && (showInnerFunctions || !entityUtils.isParentAnInnerMethod(info)) ) // inside an inner method
                                 ) {
-                            lineInfo.addStatement((FullStatementInfo)info);
+                            lineInfo.addStatement(info);
                         }
                     }
                 }
@@ -586,6 +586,7 @@ public class FullFileInfo
         return lineInfo;
     }
 
+    @Override
     public void visitElements(FileElementVisitor visitor) {
         for (FullClassInfo classInfo : classes.values()) {
             classInfo.visitElements(visitor);
