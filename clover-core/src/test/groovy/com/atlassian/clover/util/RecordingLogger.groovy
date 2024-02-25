@@ -120,8 +120,10 @@ class RecordingLogger extends Logger {
         return find(new MessageContainsMatcher(fragment))
     }
 
-    List<? extends Object> getBuffer() {
-        return buffer
+    String getBufferAsString() {
+        synchronized (buffer) {
+            return buffer.toString()
+        }
     }
 
 }

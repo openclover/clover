@@ -81,7 +81,7 @@ class OptimizationSessionTest {
 
     private void assertLogged(String... fragments) {
         for(String fragment : fragments) {
-            assertTrue("Log did not contain line \"" + fragment + "\":\n" + bufferLogger.getBuffer(), bufferLogger.containsFragment(fragment))
+            assertTrue("Log did not contain line \"" + fragment + "\":\n" + bufferLogger.getBufferAsString(), bufferLogger.containsFragment(fragment))
         }
     }
 }

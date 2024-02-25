@@ -45,14 +45,14 @@ class DistributedCloverTest {
         DistributedConfig conf = new DistributedConfig()
         conf.setHost("127.0.0.1")
         assertFalse(dClover.isServiceMode())
-        assertTrue(logger.getBuffer().toString(), logger.contains("Distributed coverage is enabled with: " + conf))
+        assertTrue(logger.getBufferAsString(), logger.contains("Distributed coverage is enabled with: " + conf))
     }
 
     @Test
     void testEnableViaConfigON() {
         dClover = new DistributedClover(new CloverProperties(CloverNames.PROP_DISTRIBUTED_CONFIG, "ON"), null)
         assertFalse(dClover.isServiceMode())
-        assertTrue(logger.getBuffer().toString(),
+        assertTrue(logger.getBufferAsString(),
                 logger.contains("Distributed coverage is enabled with: " + new DistributedConfig()))
     }
 
