@@ -4,7 +4,7 @@ import groovy.transform.CompileStatic
 import org.openclover.buildutil.testutils.IOHelper
 import org.openclover.core.CloverDatabase
 import org.openclover.core.CoverageData
-import org.openclover.core.registry.entities.TestCaseInfo
+import org.openclover.core.api.registry.TestCaseInfo
 import org.openclover.runtime.api.CloverException
 
 import static org.openclover.core.util.Maps.newHashMap

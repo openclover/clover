@@ -15,11 +15,11 @@ import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.api.registry.SourceInfo;
 import org.openclover.core.api.registry.StatementInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.FileElementVisitor;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullPackageInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
+
 import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.core.registry.util.EntityVisitorUtils;
 import org.openclover.core.reporters.Column;

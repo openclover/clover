@@ -3,6 +3,7 @@ package org.openclover.core;
 import org.openclover.core.api.registry.ContextSet;
 import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.cfg.Interval;
 import org.openclover.core.context.ContextStore;
 import org.openclover.core.recorder.InMemPerTestCoverage;
@@ -16,8 +17,8 @@ import org.openclover.core.registry.ProjectView;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullPackageInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
 import org.openclover.core.api.registry.HasMetricsFilter;
+import org.openclover.core.registry.entities.FullTestCaseInfo;
 import org.openclover.core.util.CloverUtils;
 import org.openclover.core.util.FileUtils;
 import org.openclover.core.util.Path;
@@ -182,7 +183,7 @@ public class CloverDatabase {
 
         if (!spec.isPreserveTestCaseCache()) {
             // unless requested, delete the testcaseinfo cache.
-            TestCaseInfo.Factory.reset();
+            FullTestCaseInfo.Factory.reset();
         }
 
         if (spec.getTestFilter() != null) {
@@ -382,7 +383,7 @@ public class CloverDatabase {
         float progressInc = 0.8f / dbspecs.size();
         int slotsUsed = 0;
 
-        TestCaseInfo.Factory.reset();
+        FullTestCaseInfo.Factory.reset();
 
         Iterator<Map.Entry<CloverDatabaseSpec, CloverDatabase>> speccedDbEntries =
                 speccedDbs.entrySet().iterator();
@@ -497,7 +498,7 @@ public class CloverDatabase {
                 compactedSliceHits));
         
         destReg.saveAndOverwriteFile();
-        TestCaseInfo.Factory.reset();
+        FullTestCaseInfo.Factory.reset();
 
         if (update) {
             // delete the original

@@ -2,9 +2,8 @@ package org.openclover.core.spi.reporters.html.source;
 
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.MethodInfo;
-import org.openclover.core.registry.entities.FullClassInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.entities.StackTraceInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
 
 import java.util.Collections;
 import java.util.List;

@@ -1,13 +1,15 @@
 package org.openclover.idea.report.jfc;
 
 import org.junit.Test;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.context.ContextSetImpl;
 import org.openclover.core.registry.FixedSourceRegion;
 import org.openclover.core.registry.entities.BasicMethodInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.FullMethodInfo;
+import org.openclover.core.registry.entities.FullTestCaseInfo;
 import org.openclover.core.registry.entities.MethodSignature;
-import org.openclover.core.registry.entities.TestCaseInfo;
+
 import org.openclover.idea.coverage.BaseCoverageNodeViewer;
 
 import java.util.Arrays;
@@ -27,7 +29,7 @@ public class TestPassInfoTest {
         verifyTPI(tpi, 0, 0, 0);
 
         TestCaseInfo[] tcis1 = {
-                new TestCaseInfo(1, null, fixtureMethod("test1"), "test1-runtime"),
+                new FullTestCaseInfo(1, null, fixtureMethod("test1"), "test1-runtime"),
         };
         tpi = new BaseCoverageNodeViewer.TestPassInfo(Arrays.asList(tcis1));
         verifyTPI(tpi, 0, 0, 0);
@@ -66,7 +68,7 @@ public class TestPassInfoTest {
         assertEquals(runs != 0, tpi.hasResults());
     }
 
-    private static class TestCaseInfoMock extends TestCaseInfo {
+    private static class TestCaseInfoMock extends FullTestCaseInfo {
         private static int nextId;
 
         static enum Type {

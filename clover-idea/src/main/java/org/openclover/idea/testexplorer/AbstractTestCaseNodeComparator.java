@@ -1,6 +1,6 @@
 package org.openclover.idea.testexplorer;
 
-import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.util.Comparator;

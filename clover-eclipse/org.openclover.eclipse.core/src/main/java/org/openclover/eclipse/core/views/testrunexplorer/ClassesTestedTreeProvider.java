@@ -21,11 +21,11 @@ import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.CoverageDataProvider;
 import org.openclover.core.api.registry.CoverageDataReceptor;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullMethodInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
 import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
@@ -91,7 +91,8 @@ public class ClassesTestedTreeProvider
         return new Object[] {};
     }
 
-    private List<CoverageContributionNode> collectTestedClassesFor(final List<CoverageContributionNode> testedClassInfos, final List<TestCaseInfo> testCases, final CloverProject project) throws CoreException {
+    private List<CoverageContributionNode> collectTestedClassesFor(final List<CoverageContributionNode> testedClassInfos,
+                                                                   final List<TestCaseInfo> testCases, final CloverProject project) throws CoreException {
         final CloverProject[] dependencies = project.getDependencies();
         for (CloverProject dependency : dependencies) {
             collectTestedClassesFor(testedClassInfos, testCases, dependency);

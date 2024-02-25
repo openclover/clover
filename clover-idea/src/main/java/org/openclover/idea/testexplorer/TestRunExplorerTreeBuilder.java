@@ -21,13 +21,14 @@ import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.api.registry.CoverageDataProvider;
 import org.openclover.core.api.registry.CoverageDataReceptor;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullMethodInfo;
 import org.openclover.core.registry.entities.FullPackageInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.registry.entities.PackageFragment;
-import org.openclover.core.registry.entities.TestCaseInfo;
+
 import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.config.TestCaseLayout;
@@ -245,7 +246,8 @@ public class TestRunExplorerTreeBuilder {
         }
     }
 
-    void populate(CloverDatabase currentDatabase, Collection<? extends TestCaseInfo> testCases, TestCaseLayout layout, boolean flatten) {
+    void populate(CloverDatabase currentDatabase, Collection<? extends TestCaseInfo> testCases,
+                  TestCaseLayout layout, boolean flatten) {
 
         switch (layout) {
             case TEST_CASES:

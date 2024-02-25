@@ -9,11 +9,10 @@ import org.openclover.core.api.registry.ElementInfo;
 import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.SourceInfo;
 import org.openclover.core.api.registry.CoverageDataProvider;
-import org.openclover.core.registry.entities.BasicElementInfo;
-import org.openclover.core.registry.entities.FullElementInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.LineInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
+
 import org.openclover.core.reporters.Current;
 import org.openclover.core.reporters.html.HtmlRenderingSupportImpl;
 import org.openclover.core.reporters.html.JSONObjectFactory;

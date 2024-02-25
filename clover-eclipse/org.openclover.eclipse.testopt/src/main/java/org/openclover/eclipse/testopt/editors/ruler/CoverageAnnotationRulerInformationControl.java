@@ -36,7 +36,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.editors.text.EditorsUI;
-import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotation;
 import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotation.Kind;
 import org.openclover.eclipse.core.ui.editors.java.ILineCoverageModel.Entry;

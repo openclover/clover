@@ -4,7 +4,7 @@ import junit.framework.TestCase
 import org.openclover.buildutil.testutils.IOHelper
 import org.openclover.core.api.registry.ClassInfo
 import org.openclover.core.registry.entities.FullProjectInfo
-import org.openclover.core.registry.entities.TestCaseInfo
+import org.openclover.core.registry.entities.FullTestCaseInfo
 import org.openclover.core.api.registry.HasMetricsFilter
 import org.openclover.core.util.FileUtils
 import org.openclover.runtime.api.CloverException
@@ -72,11 +72,11 @@ class TestResultProcessorTest extends TestCase {
         assertTestResults(testModel)
         ClassInfo t3 = testModel.findClass("Test3")
 
-        TestCaseInfo failedTest = t3.getTestCase("Test3.methodFailure")
+        FullTestCaseInfo failedTest = t3.getTestCase("Test3.methodFailure")
         assertTrue(failedTest.isFailure())
         assertEquals("This test failed.", failedTest.getFailMessage())
 
-        TestCaseInfo errorTest = t3.getTestCase("Test3.methodError")
+        FullTestCaseInfo errorTest = t3.getTestCase("Test3.methodError")
         assertTrue(errorTest.isError());        
         assertEquals("This test had an error.", errorTest.getFailMessage())
 
@@ -119,7 +119,7 @@ class TestResultProcessorTest extends TestCase {
         for (ClassInfo classInfo : [ test1, test2, t3, test4 ]) {
             for (Integer testNum : testMethods.get(classInfo)) {
                 String methodName = "method" + testNum
-                TestCaseInfo tci = classInfo.getTestCase("${classInfo.qualifiedName}.${methodName}".toString())
+                FullTestCaseInfo tci = classInfo.getTestCase("${classInfo.qualifiedName}.${methodName}".toString())
                 assertNotNull("No test case called ${classInfo.qualifiedName}.${methodName}".toString(), tci)
                 assertEquals(tci.getTestName(), "method" + testNum)
                 assertEquals(tci.getDuration(), testTimes.get(classInfo), 1.0)

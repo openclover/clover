@@ -13,7 +13,7 @@ import org.openclover.core.registry.entities.FullClassInfo
 import org.openclover.core.registry.entities.FullFileInfo
 import org.openclover.core.registry.entities.FullMethodInfo
 import org.openclover.core.registry.entities.FullProjectInfo
-import org.openclover.core.registry.entities.TestCaseInfo
+import org.openclover.core.registry.entities.FullTestCaseInfo
 import org.openclover.runtime.RuntimeType
 import org.openclover.runtime.api.registry.CloverRegistryException
 import org.openclover.runtime.registry.format.RegAccessMode
@@ -32,7 +32,7 @@ class RegFileFormatTest {
 
     @After
     void tearDown() throws Exception {
-        TestCaseInfo.Factory.reset()
+        FullTestCaseInfo.Factory.reset()
     }
 
     @Test
@@ -168,7 +168,7 @@ class RegFileFormatTest {
             final long now = System.currentTimeMillis()
             final long then = now + 1
             perTestCoverage.addCoverage(
-                new TestCaseInfo(
+                new FullTestCaseInfo(
                         Integer.valueOf(incTCIId()),
                         (FullClassInfo)modelBuilder.get(fileClassMethod[1]),
                         (FullMethodInfo)modelBuilder.get(fileClassMethod[2]),

@@ -1,6 +1,7 @@
 package org.openclover.core.registry.entities;
 
 import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.ProjectInfo;
 
 import java.io.IOException;
 import java.io.LineNumberReader;
@@ -16,9 +17,9 @@ public class StackTraceInfo {
 
 
     private List<TraceEntry> entries = newArrayList();
-    private TestCaseInfo originatingTest;
+    private FullTestCaseInfo originatingTest;
 
-    public StackTraceInfo(TestCaseInfo originatingTest, String fullTrace) {
+    public StackTraceInfo(FullTestCaseInfo originatingTest, String fullTrace) {
 
         this.originatingTest = originatingTest;
 
@@ -41,15 +42,15 @@ public class StackTraceInfo {
         }
     }
 
-    public TestCaseInfo getOriginatingTest() {
+    public FullTestCaseInfo getOriginatingTest() {
         return originatingTest;
     }
 
-    public void setOriginatingTest(TestCaseInfo originatingTest) {
+    public void setOriginatingTest(FullTestCaseInfo originatingTest) {
         this.originatingTest = originatingTest;
     }
 
-    public void resolve(FullProjectInfo proj) {
+    public void resolve(ProjectInfo proj) {
         for (TraceEntry traceEntry : entries) {
             traceEntry.resolve(proj);
         }
@@ -130,7 +131,7 @@ public class StackTraceInfo {
             return containingFile.get() != null;
         }
 
-        public boolean resolve(FullProjectInfo proj) {
+        public boolean resolve(ProjectInfo proj) {
             Matcher matcher = TRACE_LINE_PATTERN.matcher(line);
             boolean resolved = false;
             if (matcher.find()) {

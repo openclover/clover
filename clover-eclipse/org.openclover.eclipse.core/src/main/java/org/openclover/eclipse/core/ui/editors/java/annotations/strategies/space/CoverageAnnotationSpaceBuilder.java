@@ -4,11 +4,11 @@ import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.api.registry.BranchInfo;
+import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.SourceInfo;
 import org.openclover.core.api.registry.StatementInfo;
-import org.openclover.core.registry.entities.BaseClassInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotation;
 import org.openclover.eclipse.core.ui.editors.java.annotations.strategies.CoverageAnnotationBuilder;
@@ -119,7 +119,7 @@ public class CoverageAnnotationSpaceBuilder implements CoverageAnnotationBuilder
     }
 
     private String kind(SourceInfo region) {
-        if (region instanceof BaseClassInfo) {
+        if (region instanceof ClassInfo) {
             return "CLASS";
         } else if (region instanceof MethodInfo) {
             return "METHOD";

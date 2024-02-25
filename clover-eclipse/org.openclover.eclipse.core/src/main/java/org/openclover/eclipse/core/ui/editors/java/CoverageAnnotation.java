@@ -6,8 +6,8 @@ import org.openclover.core.api.registry.BranchInfo;
 import org.openclover.core.api.registry.ElementInfo;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.StatementInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.entities.FullElementInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
 
 import java.lang.ref.WeakReference;
 import java.util.Set;

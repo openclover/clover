@@ -1,8 +1,7 @@
 package org.openclover.eclipse.core.ui.editors.java;
 
 import org.openclover.core.api.registry.ElementInfo;
-import org.openclover.core.registry.entities.FullElementInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
 
 import java.util.Set;
 

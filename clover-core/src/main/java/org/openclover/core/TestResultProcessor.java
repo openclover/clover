@@ -2,14 +2,16 @@ package org.openclover.core;
 
 import org.jetbrains.annotations.Nullable;
 import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.context.ContextSetImpl;
 import org.openclover.core.registry.FixedSourceRegion;
 import org.openclover.core.registry.entities.BasicMethodInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.FullMethodInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
+import org.openclover.core.registry.entities.FullTestCaseInfo;
 import org.openclover.core.registry.entities.MethodSignature;
-import org.openclover.core.registry.entities.TestCaseInfo;
+
 import org.openclover.core.util.CloverUtils;
 import org.openclover.runtime.Logger;
 import org.openclover.runtime.api.CloverException;
@@ -88,7 +90,7 @@ public class TestResultProcessor {
         private FullProjectInfo model;
         private ClassInfo currentTestClassFromTestSuite;
         private ClassInfo currentTestClassFromTestCase;
-        private TestCaseInfo currentTestCaseInfo;
+        private FullTestCaseInfo currentTestCaseInfo;
         private StringBuffer message;
         private int testCaseCount;
 
@@ -152,7 +154,7 @@ public class TestResultProcessor {
 
                 FullClassInfo currentTestClass = (FullClassInfo) (currentTestClassFromTestCase == null ? currentTestClassFromTestSuite : currentTestClassFromTestCase);
                 if (currentTestClass != null) {
-                    currentTestCaseInfo = ((FullClassInfo) currentTestClass).getTestCase(currentTestClass.getQualifiedName() + "." + testname);
+                    currentTestCaseInfo = (FullTestCaseInfo) currentTestClass.getTestCase(currentTestClass.getQualifiedName() + "." + testname);
                     if (currentTestCaseInfo == null) {
                         Logger.getInstance().verbose(
                             "Didn't find pre-existing test case for class from JUnit results: " + currentTestClass.getQualifiedName() + "." + testname);
@@ -168,14 +170,14 @@ public class TestResultProcessor {
 
                         if (methodDecl != null) {
                             // generate negative slice id from a qualified method name
-                            currentTestCaseInfo = new TestCaseInfo(-Math.abs(methodDecl.getQualifiedName().hashCode()),
+                            currentTestCaseInfo = new FullTestCaseInfo(-Math.abs(methodDecl.getQualifiedName().hashCode()),
                                     currentTestClass, methodDecl, methodDecl.getSimpleName());
                         } else {
                             // generate negative slice id from a test name using fake method
                             FullMethodInfo fakeTestMethod = new FullMethodInfo(currentTestClass, new ContextSetImpl(),
                                     new BasicMethodInfo(new FixedSourceRegion(0, 0), 0, 0,
                                             new MethodSignature(testname), true, testname, false));
-                            currentTestCaseInfo = new TestCaseInfo(-Math.abs(testname.hashCode()),
+                            currentTestCaseInfo = new FullTestCaseInfo(-Math.abs(testname.hashCode()),
                                     currentTestClass, fakeTestMethod, testname);
                         }
                         currentTestClass.addTestCase(currentTestCaseInfo);

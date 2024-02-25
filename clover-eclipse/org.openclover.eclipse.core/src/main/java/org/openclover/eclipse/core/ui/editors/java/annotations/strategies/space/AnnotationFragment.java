@@ -8,8 +8,8 @@ import org.openclover.core.CoverageData;
 import org.openclover.core.api.registry.ElementInfo;
 import org.openclover.core.api.registry.SourceInfo;
 import org.openclover.core.api.registry.CoverageDataRange;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.entities.FullElementInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
 import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotation;
 
 import java.util.BitSet;

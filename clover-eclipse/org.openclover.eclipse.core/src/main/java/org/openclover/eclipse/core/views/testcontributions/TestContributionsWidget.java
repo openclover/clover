@@ -26,8 +26,9 @@ import org.eclipse.ui.IPersistable;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.FixedSourceRegion;
-import org.openclover.core.registry.entities.TestCaseInfo;
+
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.model.ModelUtils;
 import org.openclover.eclipse.core.views.actions.OpenJavaEditorAction;

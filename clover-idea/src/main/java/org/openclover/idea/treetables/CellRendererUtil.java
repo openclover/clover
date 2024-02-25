@@ -1,9 +1,8 @@
 package org.openclover.idea.treetables;
 
 import org.openclover.core.api.registry.ClassInfo;
-import org.openclover.core.api.registry.ClassMetadata;
 import org.openclover.core.api.registry.MethodInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.idea.util.ui.CloverIcons;
 
 import javax.swing.Icon;

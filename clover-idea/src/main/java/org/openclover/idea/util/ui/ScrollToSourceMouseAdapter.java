@@ -3,8 +3,9 @@ package org.openclover.idea.util.ui;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Key;
 import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.FileInfoRegion;
-import org.openclover.core.registry.entities.TestCaseInfo;
+
 import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.config.ConfigChangeEvent;
 import org.openclover.idea.config.ConfigChangeListener;

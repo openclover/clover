@@ -5,12 +5,11 @@ import org.openclover.core.api.registry.BranchInfo;
 import org.openclover.core.api.registry.ElementInfo;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.StatementInfo;
-import org.openclover.core.registry.entities.FullElementInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullMethodInfo;
 import org.openclover.core.registry.entities.FullStatementInfo;
 import org.openclover.core.registry.entities.LineInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
 
 import java.util.Arrays;
 import java.util.Set;

@@ -17,11 +17,11 @@ import org.openclover.core.api.registry.MethodSignatureInfo;
 import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.api.registry.ParameterInfo;
 import org.openclover.core.api.registry.CoverageDataProvider;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.FullMethodInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.registry.entities.MethodSignature;
-import org.openclover.core.registry.entities.TestCaseInfo;
 import org.openclover.eclipse.core.projects.CloverProject;
 
 import java.util.Arrays;

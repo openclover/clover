@@ -2,7 +2,7 @@ package org.openclover.eclipse.testopt.editors.ruler.tree;
 
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
-import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.eclipse.testopt.editors.ruler.CoverageAnnotationRulerHover;
 
 import java.util.Collection;
@@ -23,7 +23,7 @@ public class CoverageAnnotationContentProvider implements ITreeContentProvider {
     @Override
     public Object getParent(Object element) {
         if (element instanceof TestCaseInfo) {
-            return ((TestCaseInfo)element).getRuntimeTypeName();
+            return ((TestCaseInfo) element).getRuntimeTypeName();
         } else {
             return null;
         }

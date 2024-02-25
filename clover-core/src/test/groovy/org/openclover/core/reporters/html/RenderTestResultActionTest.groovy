@@ -8,7 +8,7 @@ import org.openclover.core.registry.entities.FullClassInfo
 import org.openclover.core.registry.entities.FullFileInfo
 import org.openclover.core.registry.entities.FullMethodInfo
 import org.openclover.core.registry.entities.FullPackageInfo
-import org.openclover.core.registry.entities.TestCaseInfo
+import org.openclover.core.registry.entities.FullTestCaseInfo
 import org.openclover.core.registry.metrics.HasMetricsTestFixture
 import org.openclover.core.reporters.Current
 import org.openclover.runtime.api.CloverException
@@ -46,7 +46,7 @@ class RenderTestResultActionTest extends TestCase {
         FullClassInfo classInfo = fixture.newClass(finfo, "TestClass", 2)
         FullMethodInfo methodInfo = fixture.newMethod(classInfo, "testing", 3)
         methodInfo.setStaticTestName("testing-static")
-        TestCaseInfo test = new TestCaseInfo(new Integer(1), classInfo, methodInfo, "testing-runtime")
+        FullTestCaseInfo test = new FullTestCaseInfo(new Integer(1), classInfo, methodInfo, "testing-runtime")
 
         RenderTestResultAction action = new RenderTestResultAction(test, helper, config, fixture.getProject(), ctx, fixture.getProject(), cloverDatabase)
         action.call()
@@ -73,7 +73,7 @@ class RenderTestResultActionTest extends TestCase {
         FullClassInfo classInfo = fixture.newClass(finfo, "TestClass", 2)
         FullMethodInfo methodInfo = fixture.newMethod(classInfo, "testing", 3)
         methodInfo.setStaticTestName("testing-static")
-        TestCaseInfo test = new TestCaseInfo(new Integer(1), classInfo, methodInfo, "testing-runtime")
+        FullTestCaseInfo test = new FullTestCaseInfo(new Integer(1), classInfo, methodInfo, "testing-runtime")
 
         RenderTestResultAction action = new RenderTestResultAction(test, helper, config, fixture.getProject(), ctx, fixture.getProject(), cloverDatabase)
         action.call()

@@ -9,13 +9,15 @@ import org.openclover.core.CoverageData;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.CoverageDataProvider;
 import org.openclover.core.api.registry.CoverageDataReceptor;
+import org.openclover.core.api.registry.ProjectInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullMethodInfo;
 import org.openclover.core.registry.entities.FullPackageInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
+import org.openclover.core.registry.entities.FullTestCaseInfo;
 import org.openclover.core.registry.entities.StackTraceInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
 import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.idea.coverage.CoverageManager;
 import org.openclover.idea.util.tasks.AbstractExpirableTaskDelegate;
@@ -29,7 +31,7 @@ interface HasCoverageInfo {
     float getUniqueCoverage();
 }
 
-public class DecoratedTestCaseInfo extends TestCaseInfo implements HasCoverageInfo {
+public class DecoratedTestCaseInfo extends FullTestCaseInfo implements HasCoverageInfo {
     @NotNull
     private final TestCaseInfo decorated;
     private float coverage = -1f;
@@ -279,7 +281,7 @@ public class DecoratedTestCaseInfo extends TestCaseInfo implements HasCoverageIn
     }
 
     @Override
-    public boolean resolve(FullProjectInfo project) {
+    public boolean resolve(ProjectInfo project) {
         throw new UnsupportedOperationException();
     }
 

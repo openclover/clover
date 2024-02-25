@@ -1,7 +1,7 @@
 package org.openclover.core.optimization;
 
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
 
 import java.io.Serializable;
 import java.util.Objects;

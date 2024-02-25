@@ -3,8 +3,9 @@ package org.openclover.eclipse.core.views.testcontributions;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
+
 
 import java.util.Collections;
 import java.util.HashSet;
