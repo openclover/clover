@@ -10,6 +10,7 @@ import org.openclover.core.TestUtils
 import org.openclover.core.api.registry.ClassInfo
 import org.openclover.core.api.registry.ContextSet
 import org.openclover.core.api.registry.HasMetrics
+import org.openclover.core.api.registry.PackageInfo
 import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.api.registry.SourceInfo
 import org.openclover.core.context.ContextSetImpl
@@ -57,7 +58,7 @@ class RegistryTest {
         SourceInfo region = new FixedSourceRegion(0, 0, 0, 0)
         ContextSet context = new ContextSetImpl()
         ProjectInfo proj = new FullProjectInfo(testName.methodName)
-        FullPackageInfo pkg = new FullPackageInfo(proj, "com.acme.test", 0)
+        PackageInfo pkg = new FullPackageInfo(proj, "com.acme.test", 0)
         proj.addPackage(pkg)
 
         FullFileInfo file  = new FullFileInfo(pkg, new File("test.java"), null, 0, 0, 0, 0, 0, 0, 0)
@@ -99,21 +100,21 @@ class RegistryTest {
     @Test
     void testPackageFragmentation() throws Exception {
         ProjectInfo proj = new FullProjectInfo(testName.methodName)
-        FullPackageInfo pkg1 = new FullPackageInfo(proj, "a.b.c.d", 0)
+        PackageInfo pkg1 = new FullPackageInfo(proj, "a.b.c.d", 0)
         pkg1.addFile(new FullFileInfo(pkg1, new File("test.java"), null, 0, 0, 0, 0, 0, 0, 0))
-        FullPackageInfo pkg2 = new FullPackageInfo(proj, "a.b.e.f", 0)
+        PackageInfo pkg2 = new FullPackageInfo(proj, "a.b.e.f", 0)
         pkg2.addFile(new FullFileInfo(pkg2, new File("test.java"), null, 0, 0, 0, 0, 0, 0, 0))
-        FullPackageInfo pkg3 = new FullPackageInfo(proj, "p.q", 0)
+        PackageInfo pkg3 = new FullPackageInfo(proj, "p.q", 0)
         pkg3.addFile(new FullFileInfo(pkg3, new File("test.java"), null, 0, 0, 0, 0, 0, 0, 0))
-        FullPackageInfo pkg4 = new FullPackageInfo(proj, "p.r", 0)
+        PackageInfo pkg4 = new FullPackageInfo(proj, "p.r", 0)
         pkg4.addFile(new FullFileInfo(pkg4, new File("test.java"), null, 0, 0, 0, 0, 0, 0, 0))
-        FullPackageInfo pkg5 = new FullPackageInfo(proj, "p.s", 0)
+        PackageInfo pkg5 = new FullPackageInfo(proj, "p.s", 0)
         pkg5.addFile(new FullFileInfo(pkg5, new File("test.java"), null, 0, 0, 0, 0, 0, 0, 0))
-        FullPackageInfo pkg6 = new FullPackageInfo(proj, "i", 0)
+        PackageInfo pkg6 = new FullPackageInfo(proj, "i", 0)
         pkg6.addFile(new FullFileInfo(pkg6, new File("test.java"), null, 0, 0, 0, 0, 0, 0, 0))
-        FullPackageInfo pkg7 = new FullPackageInfo(proj, "i.j", 0)
+        PackageInfo pkg7 = new FullPackageInfo(proj, "i.j", 0)
         pkg7.addFile(new FullFileInfo(pkg7, new File("test.java"), null, 0, 0, 0, 0, 0, 0, 0))
-        FullPackageInfo pkg8 = new FullPackageInfo(proj, "i.k", 0)
+        PackageInfo pkg8 = new FullPackageInfo(proj, "i.k", 0)
         pkg8.addFile(new FullFileInfo(pkg8, new File("test.java"), null, 0, 0, 0, 0, 0, 0, 0))
 
         proj.addPackage(pkg1)
@@ -151,7 +152,7 @@ class RegistryTest {
         ProjectInfo proj = new FullProjectInfo(testName.methodName)
         proj.setVersion(System.currentTimeMillis())
 
-        FullPackageInfo pkg = new FullPackageInfo(proj, "a", 0)
+        PackageInfo pkg = new FullPackageInfo(proj, "a", 0)
         proj.addPackage(pkg)
         SourceInfo region = new FixedSourceRegion(0, 0, 0, 0)
         ContextSet context = new ContextSetImpl()

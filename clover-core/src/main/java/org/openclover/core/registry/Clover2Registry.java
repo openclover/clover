@@ -40,7 +40,7 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static org.openclover.core.registry.entities.FullPackageInfo.isDefaultName;
+import static org.openclover.core.api.registry.PackageInfo.isDefaultName;
 import static org.openclover.core.util.Lists.newLinkedList;
 import static org.openclover.core.util.Maps.newHashMap;
 

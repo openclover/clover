@@ -6,7 +6,6 @@ import org.junit.Test
 import org.openclover.buildutil.testutils.IOHelper
 import org.openclover.core.CloverTestFixture.Clazz
 import org.openclover.core.CloverTestFixture.Coverage
-import org.openclover.core.registry.entities.FullPackageInfo
 import org.openclover.core.registry.metrics.PackageMetrics
 import org.openclover.core.registry.metrics.ProjectMetrics
 

@@ -12,7 +12,6 @@ import org.openclover.core.registry.Clover2Registry
 import org.openclover.core.registry.entities.FullClassInfo
 import org.openclover.core.registry.entities.FullFileInfo
 import org.openclover.core.registry.entities.FullMethodInfo
-import org.openclover.core.registry.entities.FullPackageInfo
 import org.openclover.core.reporters.html.HtmlReporter
 import org.openclover.groovy.test.junit.Result
 
@@ -117,7 +116,7 @@ class GroovySpockTest extends TestBase {
         runSpockRunner("HelloSpock")
 
         assertRegistry db, { Clover2Registry reg ->
-            assertPackage reg.model.project, { PackageInfo it -> it.isDefault() }, {FullPackageInfo p ->
+            assertPackage reg.model.project, { PackageInfo it -> it.isDefault() }, { PackageInfo p ->
                 assertFile p, named("HelloSpock.groovy"), {FullFileInfo f ->
                     assertClass f, { ClassInfo it -> it.name == "HelloSpock" }, {FullClassInfo c ->
 
@@ -152,7 +151,7 @@ class GroovySpockTest extends TestBase {
 
         ProjectInfo projectInfo = CloverDatabase.loadWithCoverage(db.absolutePath, new CoverageDataSpec()).getFullModel()
 
-        assertPackage projectInfo, { PackageInfo it -> it.isDefault() }, { FullPackageInfo p ->
+        assertPackage projectInfo, { PackageInfo it -> it.isDefault() }, { PackageInfo p ->
             assertFile p, named(FILE_NAME), { FullFileInfo f ->
                 assertClass f, { ClassInfo it -> it.name == CLASS_NAME }, { FullClassInfo classInfo ->
 
@@ -204,7 +203,7 @@ class GroovySpockTest extends TestBase {
 
         ProjectInfo projectInfo = CloverDatabase.loadWithCoverage(db.absolutePath, new CoverageDataSpec()).getFullModel()
 
-        assertPackage projectInfo, { PackageInfo it -> it.isDefault() }, { FullPackageInfo p ->
+        assertPackage projectInfo, { PackageInfo it -> it.isDefault() }, { PackageInfo p ->
             assertFile p, named(FILE_NAME), { FullFileInfo f ->
                 assertClass f, { ClassInfo it -> it.name == CLASS_NAME }, { FullClassInfo classInfo ->
 
@@ -253,7 +252,7 @@ class GroovySpockTest extends TestBase {
 
         ProjectInfo projectInfo = CloverDatabase.loadWithCoverage(db.absolutePath, new CoverageDataSpec()).getFullModel()
 
-        assertPackage projectInfo, { PackageInfo it -> it.isDefault() }, { FullPackageInfo p ->
+        assertPackage projectInfo, { PackageInfo it -> it.isDefault() }, { PackageInfo p ->
             assertFile p, named(FILE_NAME), { FullFileInfo f ->
                 assertClass f, { ClassInfo it -> it.name == CLASS_NAME }, { FullClassInfo classInfo ->
 

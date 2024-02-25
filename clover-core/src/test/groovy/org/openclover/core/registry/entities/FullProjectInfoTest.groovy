@@ -3,6 +3,7 @@ package org.openclover.core.registry.entities
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestName
+import org.openclover.core.api.registry.PackageInfo
 import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.registry.FixedSourceRegion
 
@@ -42,7 +43,7 @@ class FullProjectInfoTest {
         assertNull(project.findClass("com.foo.Foo"))
         assertNull(project.findFile("com/foo/Foo.java"))
 
-        final FullPackageInfo pkg = new FullPackageInfo(project, "com.foo", 0)
+        final PackageInfo pkg = new FullPackageInfo(project, "com.foo", 0)
         project.addPackage(pkg)
 
         final FullFileInfo file = new FullFileInfo(pkg, new File("Foo.java"), "UTF-8", 0, 0, 0, 0L, 0L, 0L, 0L)

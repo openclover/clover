@@ -10,6 +10,7 @@ import com.intellij.testFramework.IdeaTestCase;
 import org.mockito.Mockito;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullMethodInfo;
@@ -73,7 +74,7 @@ public class IdeaTestFilterIdeaTest extends IdeaTestCase {
             IdeaTestFilter filter = new IdeaTestFilter(getProject());
 
             HasMetrics methodInfo = Mockito.mock(FullMethodInfo.class);
-            HasMetrics packageInfo = Mockito.mock(FullPackageInfo.class);
+            HasMetrics packageInfo = Mockito.mock(PackageInfo.class);
 
             ClassInfo classInSrc = createClassInfo(srcFile, false);
             ClassInfo classInTest = createClassInfo(testFile, false);

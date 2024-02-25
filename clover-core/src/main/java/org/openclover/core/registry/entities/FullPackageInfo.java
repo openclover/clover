@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
+import static org.openclover.core.api.registry.PackageInfo.isDefaultName;
 import static org.openclover.core.util.Lists.newArrayList;
 import static org.openclover.core.util.Lists.newLinkedList;
 
@@ -63,10 +64,6 @@ public class FullPackageInfo
 
     public static PackageInfo createEmptyFromTemplate(PackageInfo info) {
         return new FullPackageInfo(null, info.getName(), 0);
-    }
-
-    public static boolean isDefaultName(String name) {
-        return (name.length() == 0 || name.equals(PackageInfo.DEFAULT_PACKAGE_NAME));
     }
 
     public FullPackageInfo(ProjectInfo containingProject, String pkg, int dataIndex) {
@@ -440,6 +437,7 @@ public class FullPackageInfo
         return pkg;
     }
 
+    @Override
     public boolean isNamed(String name) {
         return (isDefault() && isDefaultName(name))
                 || this.name.equals(name);

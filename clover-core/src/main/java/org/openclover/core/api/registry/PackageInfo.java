@@ -25,6 +25,10 @@ public interface PackageInfo
 
     String DEFAULT_PACKAGE_NAME = "default-pkg";
 
+    static boolean isDefaultName(String name) {
+        return (name.length() == 0 || name.equals(PackageInfo.DEFAULT_PACKAGE_NAME));
+    }
+
     /**
      * Returns a project containing this package {@link EntityVisitor#visitProject(ProjectInfo)}.
      * @return parent
@@ -121,4 +125,6 @@ public interface PackageInfo
     FileInfo getFile(String packagePath);
 
     PackageInfo copy(ProjectInfo proj, HasMetricsFilter filter);
+
+    boolean isNamed(String name);
 }

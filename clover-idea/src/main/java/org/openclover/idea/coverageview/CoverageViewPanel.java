@@ -30,6 +30,7 @@ import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.MethodSignatureInfo;
+import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.api.registry.ParameterInfo;
 import org.openclover.core.registry.FileInfoRegion;
 import org.openclover.core.registry.entities.FullFileInfo;
@@ -523,7 +524,7 @@ class PackageInCloudAutoSelector implements NodeWrapperSelectionListener {
     @Override
     public void elementSelected(CoverageTreeModel.NodeWrapper nodeWrapper) {
         final HasMetrics hasMetrics = nodeWrapper != null ? nodeWrapper.getHasMetrics() : null;
-        if (hasMetrics instanceof FullPackageInfo || hasMetrics instanceof PackageFragment) {
+        if (hasMetrics instanceof PackageInfo || hasMetrics instanceof PackageFragment) {
             if (project != null) {
                 final CloudVirtualFile vf = CloudVirtualFile.getInstance(project);
                 vf.setSelectedElement(hasMetrics);

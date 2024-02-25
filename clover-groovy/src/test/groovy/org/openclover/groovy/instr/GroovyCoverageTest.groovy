@@ -5,12 +5,12 @@ import org.openclover.core.CloverDatabase
 import org.openclover.core.CodeType
 import org.openclover.core.CoverageDataSpec
 import org.openclover.core.api.registry.MethodInfo
+import org.openclover.core.api.registry.PackageInfo
 import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.api.registry.TestCaseInfo
 import org.openclover.core.cfg.instr.InstrumentationConfig
 import org.openclover.core.registry.entities.FullClassInfo
 import org.openclover.core.registry.entities.FullFileInfo
-import org.openclover.core.registry.entities.FullPackageInfo
 import org.openclover.groovy.test.junit.Result
 
 import static org.openclover.buildutil.testutils.AssertionUtils.assertStringContains
@@ -49,7 +49,7 @@ class GroovyCoverageTest extends TestBase {
 
         assertPackage(CloverDatabase.loadWithCoverage(db.absolutePath, new CoverageDataSpec()).getModel(CodeType.APPLICATION),
                 isDefaultPackage,
-                { FullPackageInfo p ->
+                { PackageInfo p ->
                     assertFile p, named("Foo.groovy"), { FullFileInfo f ->
                         assertClass f, named("Foo"), { FullClassInfo c ->
                             assertMethod(c, simplyNamed("main"), hits(1)) &&
@@ -78,7 +78,7 @@ class GroovyCoverageTest extends TestBase {
 
         assertPackage(CloverDatabase.loadWithCoverage(db.absolutePath, new CoverageDataSpec()).getModel(CodeType.APPLICATION),
                 isDefaultPackage,
-                { FullPackageInfo p ->
+                { PackageInfo p ->
                     assertFile p, named("Foo.groovy"), { FullFileInfo f ->
                         assertClass f, named("Foo"), { FullClassInfo c ->
                             assertMethod(c, simplyNamed("main"), hits(1)) &&
@@ -126,7 +126,7 @@ class GroovyCoverageTest extends TestBase {
 
         assertPackage(CloverDatabase.loadWithCoverage(db.absolutePath, new CoverageDataSpec()).getModel(CodeType.APPLICATION),
                 isDefaultPackage,
-                { FullPackageInfo p ->
+                { PackageInfo p ->
                     assertFile(p, named("Foo.groovy"), { FullFileInfo f ->
                         assertClass(f, named("Foo"), { FullClassInfo c ->
                             assertMethod(c, simplyNamed("main"), hits(1)) &&
@@ -164,7 +164,7 @@ class GroovyCoverageTest extends TestBase {
 
         assertPackage(CloverDatabase.loadWithCoverage(db.absolutePath, new CoverageDataSpec()).getModel(CodeType.APPLICATION),
                 isDefaultPackage,
-                { FullPackageInfo p ->
+                { PackageInfo p ->
                     assertFile p, named("Foo.groovy"), { FullFileInfo f ->
                         assertClass f, named("Foo"), { FullClassInfo c ->
                             assertMethod c, simplyNamed("main"), hits(1)
@@ -200,7 +200,7 @@ class GroovyCoverageTest extends TestBase {
 
         assertPackage(CloverDatabase.loadWithCoverage(db.absolutePath, new CoverageDataSpec()).getModel(CodeType.APPLICATION),
                 isDefaultPackage,
-                { FullPackageInfo p ->
+                { PackageInfo p ->
                     assertFile p, named("FooTest.groovy"), { FullFileInfo f ->
                         assertClass f, named("FooTest"), { FullClassInfo c ->
                             assertMethod c, simplyNamed("main"), hits(1)
@@ -272,7 +272,7 @@ class GroovyCoverageTest extends TestBase {
 
         assertPackage(CloverDatabase.loadWithCoverage(db.absolutePath, new CoverageDataSpec()).getModel(CodeType.APPLICATION),
                 isDefaultPackage,
-                { FullPackageInfo p ->
+                { PackageInfo p ->
                     assertFile p, named("Foo.groovy"), { FullFileInfo f ->
                         assertClass f, named("Foo"), { FullClassInfo c ->
                             assertMethod c, simplyNamed("main"), { MethodInfo m ->
@@ -373,7 +373,7 @@ class GroovyCoverageTest extends TestBase {
 
         assertPackage(projectInfo,
                 isDefaultPackage,
-                { FullPackageInfo p ->
+                { PackageInfo p ->
                     assertFile p, named("Foo.groovy"), { FullFileInfo f ->
                         assertClass f, named("Foo"), { FullClassInfo c ->
                             assertMethod(c, simplyNamed("implicitReturns"), { MethodInfo m ->
@@ -421,7 +421,7 @@ class GroovyCoverageTest extends TestBase {
 
         assertPackage(CloverDatabase.loadWithCoverage(db.absolutePath, new CoverageDataSpec()).getModel(CodeType.APPLICATION),
                 isDefaultPackage,
-                { FullPackageInfo p ->
+                { PackageInfo p ->
                     assertFile p, named("Foo.groovy"), { FullFileInfo f ->
                         assertClass f, named("Foo"), { FullClassInfo c ->
                             assertMethod c, simplyNamed("field foo"), { MethodInfo m ->
@@ -493,7 +493,7 @@ class GroovyCoverageTest extends TestBase {
 
         assertPackage(CloverDatabase.loadWithCoverage(db.absolutePath, new CoverageDataSpec()).getModel(CodeType.APPLICATION),
                 isDefaultPackage,
-                { FullPackageInfo p ->
+                { PackageInfo p ->
                     assertFile p, named("Foo.groovy"), { FullFileInfo f ->
                         assertClass f, named("Foo"), { FullClassInfo c ->
                             assertMethod(c, simplyNamed("main"), { MethodInfo m ->
@@ -553,7 +553,7 @@ class GroovyCoverageTest extends TestBase {
 
         assertPackage(db.getModel(CodeType.APPLICATION),
                 isDefaultPackage,
-                { FullPackageInfo p ->
+                { PackageInfo p ->
                     assertFile p, named("FooTest.groovy"), { FullFileInfo f ->
                         assertClass(f, named("FooTest"), { FullClassInfo c ->
                             assertTestCase(c, { TestCaseInfo it -> it.qualifiedName == "FooTest.testBar1" }, { TestCaseInfo it -> it.isSuccess() }) &&
@@ -637,7 +637,7 @@ class GroovyCoverageTest extends TestBase {
         CloverDatabase db = CloverDatabase.loadWithCoverage(db.absolutePath, new CoverageDataSpec())
         assertPackage(db.getModel(CodeType.APPLICATION),
                 isDefaultPackage,
-                { FullPackageInfo p ->
+                { PackageInfo p ->
                     assertFile p, named("FooTest.groovy"), { FullFileInfo f ->
                         assertClass(f, named("FooTest"), { FullClassInfo c ->
                             assertTestCase(c, { TestCaseInfo it -> it.qualifiedName == "FooTest.testNoException" }, { TestCaseInfo it -> it.isSuccess() }) &&
@@ -671,7 +671,7 @@ class GroovyCoverageTest extends TestBase {
 
         assertPackage(CloverDatabase.loadWithCoverage(db.absolutePath, new CoverageDataSpec()).getModel(CodeType.APPLICATION),
                 isDefaultPackage,
-                { FullPackageInfo p ->
+                { PackageInfo p ->
                     assertFile p, named("Foo.groovy"), { FullFileInfo f ->
                         assertClass f, named("Foo"), { FullClassInfo c ->
                             assertMethod(c, simplyNamed("field bar"), and(hits(1), at(3, 19, 5, 20), { MethodInfo m ->
@@ -713,7 +713,7 @@ class GroovyCoverageTest extends TestBase {
 
         assertPackage(CloverDatabase.loadWithCoverage(db.absolutePath, new CoverageDataSpec()).getModel(CodeType.APPLICATION),
                 isDefaultPackage,
-                { FullPackageInfo p ->
+                { PackageInfo p ->
                     assertFile p, named("Foo.groovy"), { FullFileInfo f ->
                         assertClass f, named("Foo"), { FullClassInfo c ->
                             assertMethod(c, and(simplyNamed("field foo"), at(3, 19, 3, 110)), and(hits(1), { MethodInfo m ->
@@ -760,7 +760,7 @@ class GroovyCoverageTest extends TestBase {
 
         assertPackage(CloverDatabase.loadWithCoverage(db.absolutePath, new CoverageDataSpec()).getModel(CodeType.APPLICATION),
                 isDefaultPackage,
-                { FullPackageInfo p ->
+                { PackageInfo p ->
                     assertFile p, named("FooTest.groovy"), { FullFileInfo f ->
                         assertClass f, named("FooTest"), { FullClassInfo c ->
                             assertMethod(c, simplyNamed("main"), and(hits(1), { MethodInfo m ->
@@ -793,7 +793,7 @@ class GroovyCoverageTest extends TestBase {
 
         assertPackage(CloverDatabase.loadWithCoverage(db.absolutePath, new CoverageDataSpec()).getModel(CodeType.APPLICATION),
                 isDefaultPackage,
-                { FullPackageInfo p ->
+                { PackageInfo p ->
                     assertFile p, named("FooTest.groovy"), { FullFileInfo f ->
                         assertClass f, named("FooTest"), { FullClassInfo c ->
                             assertMethod(c, simplyNamed("main"), and(hits(1), { MethodInfo m ->

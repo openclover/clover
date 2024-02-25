@@ -32,7 +32,6 @@ import org.openclover.core.registry.entities.FullMethodInfo;
 import org.openclover.core.registry.entities.FullPackageInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.registry.entities.PackageFragment;
-
 import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.config.TestCaseLayout;

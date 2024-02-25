@@ -5,6 +5,7 @@ import org.openclover.core.api.registry.Annotation
 import org.openclover.core.api.registry.ClassInfo
 import org.openclover.core.api.registry.ContextSet
 import org.openclover.core.api.registry.MethodInfo
+import org.openclover.core.api.registry.PackageInfo
 import org.openclover.core.cfg.instr.InstrumentationConfig
 import org.openclover.core.cfg.instr.MethodContextDef
 import org.openclover.core.context.ContextStore
@@ -15,7 +16,6 @@ import org.openclover.core.registry.entities.ArrayAnnotationValue
 import org.openclover.core.registry.entities.FullClassInfo
 import org.openclover.core.registry.entities.FullFileInfo
 import org.openclover.core.registry.entities.FullMethodInfo
-import org.openclover.core.registry.entities.FullPackageInfo
 import org.openclover.core.registry.entities.Parameter
 import org.openclover.core.registry.entities.StringifiedAnnotationValue
 
@@ -81,7 +81,7 @@ class GroovyModellingMethodsTest extends TestBase {
         ContextSet set = store.createContextSetFilter(context.name)
         set = set.or(store.createContextSetFilter(groovyContext.name))
         assertRegistry(db, { Clover2Registry reg ->
-            assertPackage reg.model.project, isDefaultPackage, { FullPackageInfo p ->
+            assertPackage reg.model.project, isDefaultPackage, { PackageInfo p ->
                 assertFile p, named("Foo.groovy"), { FullFileInfo f ->
                     assertClass f, { ClassInfo it -> it.name == "Foo" && it.methods.size() == 4 }, { FullClassInfo c ->
                         assertMethod(c, and(simplyNamed("barVoid")), { FullMethodInfo it -> it.isFiltered(set) }) &&
@@ -108,7 +108,7 @@ class GroovyModellingMethodsTest extends TestBase {
         assertRegistry(db, { Clover2Registry reg ->
             assertPackage(Clover2Registry.fromFile(db).model.project,
                     isDefaultPackage,
-                    { FullPackageInfo p ->
+                    { PackageInfo p ->
                         assertFile p, named("Foo.groovy"), { FullFileInfo f ->
                             assertClass f, { ClassInfo it -> it.name == "Foo" && it.isInterface() && it.methods.size() == 0 }
                         }
@@ -128,7 +128,7 @@ class GroovyModellingMethodsTest extends TestBase {
         assertRegistry(db, { Clover2Registry reg ->
             assertPackage(reg.model.project,
                     isDefaultPackage,
-                    { FullPackageInfo p ->
+                    { PackageInfo p ->
                         assertFile p, named("Foo.groovy"), { FullFileInfo f ->
                             assertClass f, { ClassInfo it -> it.name == "Foo" && it.isAnnotationType() && it.methods.size() == 0 }
                         }
@@ -150,7 +150,7 @@ class GroovyModellingMethodsTest extends TestBase {
         assertRegistry(db, { Clover2Registry reg ->
             assertPackage(reg.model.project,
                     isDefaultPackage,
-                    { FullPackageInfo p ->
+                    { PackageInfo p ->
                         assertFile(p,
                                 named("Foo.groovy"),
                                 { FullFileInfo f ->
@@ -177,7 +177,7 @@ class GroovyModellingMethodsTest extends TestBase {
             """])
 
         assertRegistry db, { Clover2Registry reg ->
-            assertPackage reg.model.project, isDefaultPackage, { FullPackageInfo p ->
+            assertPackage reg.model.project, isDefaultPackage, { PackageInfo p ->
                 assertFile p, named("Foo.groovy"), { FullFileInfo f ->
                     assertClass f, named("Foo"), { ClassInfo it -> it.methods.size() == 0 }
                 }
@@ -213,7 +213,7 @@ class GroovyModellingMethodsTest extends TestBase {
            """])
 
         assertRegistry db, { Clover2Registry reg ->
-            assertPackage reg.model.project, isDefaultPackage, { FullPackageInfo p ->
+            assertPackage reg.model.project, isDefaultPackage, { PackageInfo p ->
                 assertFile p, named("Foo.groovy"), { FullFileInfo f ->
                     assertClass f, named("Foo"), { FullClassInfo c ->
                         assertMethod(c, simplyNamed("barVoid"), { FullMethodInfo m ->
@@ -335,7 +335,7 @@ class GroovyModellingMethodsTest extends TestBase {
             """])
 
         assertRegistry db, { Clover2Registry reg ->
-            assertPackage reg.model.project, isDefaultPackage, { FullPackageInfo p ->
+            assertPackage reg.model.project, isDefaultPackage, { PackageInfo p ->
                 assertFile p, named("Foo.groovy"), { FullFileInfo f ->
                     assertClass f, named("Foo"), { FullClassInfo c ->
                         c.methods.size() == 1 &&
@@ -364,7 +364,7 @@ class GroovyModellingMethodsTest extends TestBase {
             """])
 
         assertRegistry db, { Clover2Registry reg ->
-            assertPackage Clover2Registry.fromFile(db).model.project, isDefaultPackage, { FullPackageInfo p ->
+            assertPackage Clover2Registry.fromFile(db).model.project, isDefaultPackage, { PackageInfo p ->
                 assertFile(p, named("Foo1Test.groovy")) { FullFileInfo f ->
                     assertClass f, { ClassInfo it -> it.name == "Foo1Test" && it.isTestClass() }, { FullClassInfo c ->
                         assertMethod c, {

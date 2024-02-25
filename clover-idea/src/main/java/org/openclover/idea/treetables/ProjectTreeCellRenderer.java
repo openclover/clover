@@ -3,10 +3,10 @@ package org.openclover.idea.treetables;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.MethodInfo;
+import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.entities.FullPackageInfo;
 import org.openclover.core.registry.entities.PackageFragment;
-
 import org.openclover.idea.coverage.CoverageTreeModel;
 import org.openclover.idea.testexplorer.SourceFolderDescription;
 import org.openclover.idea.util.ui.CloverIcons;
@@ -31,7 +31,7 @@ public class ProjectTreeCellRenderer extends javax.swing.tree.DefaultTreeCellRen
             final TestCaseInfo tci = (TestCaseInfo) userObject;
             setIcon(CellRendererUtil.getIconForTestCaseInfo(tci));
             setText(tci.getTestName());
-        } else if (userObject instanceof PackageFragment || userObject instanceof FullPackageInfo) {
+        } else if (userObject instanceof PackageFragment || userObject instanceof PackageInfo) {
             final HasMetrics packageInfo = (HasMetrics) userObject;
             setIcon(expanded ? CloverIcons.PACKAGE_OPEN : CloverIcons.PACKAGE_CLOSED);
             //LeftToRightOverride - fool JLabel to put ellipsis on the left hand side of text

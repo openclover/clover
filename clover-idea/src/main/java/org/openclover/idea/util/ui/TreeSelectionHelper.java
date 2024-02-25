@@ -51,8 +51,8 @@ public class TreeSelectionHelper {
             return getWrapperObject(((CoverageTreeModel.NodeWrapper) o).getHasMetrics());
         } else if (o instanceof PackageFragment) {
             return new PackageWrapper((PackageFragment) o);
-        } else if (o instanceof FullPackageInfo) {
-            return new PackageWrapper((FullPackageInfo) o);
+        } else if (o instanceof PackageInfo) {
+            return new PackageWrapper((PackageInfo) o);
         } else if (o instanceof SimplePackageFragment) {
             return new PackageWrapper((SimplePackageFragment) o);
         } else if (o instanceof DecoratedTestCaseInfo) {
@@ -69,7 +69,7 @@ public class TreeSelectionHelper {
             this.packageName = packageFragment.getQualifiedName();
         }
 
-        private PackageWrapper(FullPackageInfo packageInfo) {
+        private PackageWrapper(PackageInfo packageInfo) {
             this.packageName = packageInfo.getName();
         }
 

@@ -6,9 +6,9 @@ import org.junit.Test
 import org.openclover.core.TestUtils
 import org.openclover.core.api.registry.ClassInfo
 import org.openclover.core.api.registry.HasMetrics
+import org.openclover.core.api.registry.PackageInfo
 import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.registry.entities.FullClassInfo
-import org.openclover.core.registry.entities.FullPackageInfo
 import org.openclover.core.registry.metrics.BlockMetrics
 import org.openclover.core.api.registry.HasMetricsFilter
 import org.openclover.core.registry.metrics.PackageMetrics
@@ -88,7 +88,7 @@ class RenderTreeMapActionTest {
         when(project.getName()).thenReturn("")
 
         // mock a package
-        final FullPackageInfo pkgInfo = mock(FullPackageInfo.class)
+        final PackageInfo pkgInfo = mock(PackageInfo.class)
         when(pkgInfo.getName()).thenReturn("com.test.pkg")
         PackageMetrics pkgMetrics = new PackageMetrics(pkgInfo)
 

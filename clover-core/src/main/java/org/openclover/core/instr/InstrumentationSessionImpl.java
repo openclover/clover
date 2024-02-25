@@ -397,7 +397,7 @@ public class InstrumentationSessionImpl implements InstrumentationSession {
     }
 
     @Override
-    public FullPackageInfo enterPackage(String name) {
+    public PackageInfo enterPackage(String name) {
         if (currentPackage != null) {
             if (currentPackage.isNamed(name)) {
                 // aready in this package
@@ -410,7 +410,7 @@ public class InstrumentationSessionImpl implements InstrumentationSession {
         SessionPackageInfo pkg = changedPackages.get(name);
         if (pkg == null) {
             //It's the first time we've seen it this session
-            final FullPackageInfo modelPkg = (FullPackageInfo)reg.getProject().getNamedPackage(name);
+            final PackageInfo modelPkg = reg.getProject().getNamedPackage(name);
             pkg = new SessionPackageInfo(
                 modelPkg,
                 new FullPackageInfo(
@@ -435,7 +435,7 @@ public class InstrumentationSessionImpl implements InstrumentationSession {
     }
 
     @Override
-    public FullPackageInfo getCurrentPackage() {
+    public PackageInfo getCurrentPackage() {
         return currentPackage.getSessionPkg();
     }
 
@@ -608,10 +608,10 @@ public class InstrumentationSessionImpl implements InstrumentationSession {
 
     /** Tracks packages created in the current session and their counterparts in the model, if one exists */
     public static class SessionPackageInfo {
-        private FullPackageInfo modelPkg;
-        private FullPackageInfo sessionPkg;
+        private PackageInfo modelPkg;
+        private PackageInfo sessionPkg;
 
-        public SessionPackageInfo(FullPackageInfo modelPkg, FullPackageInfo sessionPkg) {
+        public SessionPackageInfo(PackageInfo modelPkg, PackageInfo sessionPkg) {
             this.modelPkg = modelPkg;
             this.sessionPkg = sessionPkg;
         }
@@ -624,11 +624,11 @@ public class InstrumentationSessionImpl implements InstrumentationSession {
             return fileInfo;
         }
 
-        public FullPackageInfo getModelPkg() {
+        public PackageInfo getModelPkg() {
             return modelPkg;
         }
 
-        public FullPackageInfo getSessionPkg() {
+        public PackageInfo getSessionPkg() {
             return sessionPkg;
         }
 

@@ -898,7 +898,7 @@ public class HtmlReporter extends CloverReporter {
     private void renderPkgClassesPage(
             String outfileName,
             String templateName,
-            FullPackageInfo pkg,
+            PackageInfo pkg,
             List<ClassInfo> classes,
             VelocityContext context,
             String currentTabName,

@@ -45,10 +45,10 @@ class ModelBuilder {
         PackageInfoWrapper pkg(String name) {
             for (PackageInfo pkgInfo : getElement().getAllPackages()) {
                 if (name.equals(pkgInfo.getName())) {
-                    return new PackageInfoWrapper((FullPackageInfo)pkgInfo)
+                    return new PackageInfoWrapper(pkgInfo)
                 }
             }
-            final FullPackageInfo pkgInfo = new FullPackageInfo(getElement(), name, 0)
+            final PackageInfo pkgInfo = new FullPackageInfo(getElement(), name, 0)
             getElement().addPackage(pkgInfo)
             return new PackageInfoWrapper(pkgInfo)
         }
@@ -62,8 +62,8 @@ class ModelBuilder {
         }
     }
 
-    class PackageInfoWrapper extends Wrapper<PackageInfoWrapper, FullPackageInfo>{
-        PackageInfoWrapper(FullPackageInfo pkgInfo) {
+    class PackageInfoWrapper extends Wrapper<PackageInfoWrapper, PackageInfo>{
+        PackageInfoWrapper(PackageInfo pkgInfo) {
             super(pkgInfo)
         }
 
@@ -99,7 +99,7 @@ class ModelBuilder {
                 }
             }
             final FullClassInfo newClassInfo = new FullClassInfo(
-                    (FullPackageInfo)getElement().getContainingPackage(), getElement(),
+                    getElement().getContainingPackage(), getElement(),
                     0, name, new FixedSourceRegion(0, 0), new Modifiers(),
                     false, false, false)
 
@@ -129,7 +129,7 @@ class ModelBuilder {
         }
 
         PackageInfoWrapper end() {
-            return new PackageInfoWrapper((FullPackageInfo)getElement().getContainingPackage())
+            return new PackageInfoWrapper(getElement().getContainingPackage())
         }
 
         protected FileInfoWrapper getThis() {
@@ -145,7 +145,7 @@ class ModelBuilder {
         /** Declare class inside a class */
         ClassInfoWrapper clazz(String name) {
             final FullClassInfo newClassInfo = new FullClassInfo(
-                    (FullPackageInfo) getElement().getPackage(), getElement(),
+                    getElement().getPackage(), getElement(),
                     0, name, new FixedSourceRegion(0, 0), new Modifiers(),
                     false, false, false)
             getElement().addClass(newClassInfo)
@@ -202,7 +202,7 @@ class ModelBuilder {
         /** Declare a class inside a method */
         ClassInfoWrapper clazz(String name) {
             final FullClassInfo newClassInfo = new FullClassInfo(
-                    (FullPackageInfo) getElement().getContainingFile().getContainingPackage(),
+                    getElement().getContainingFile().getContainingPackage(),
                     getElement(),
                     0, name, new FixedSourceRegion(0, 0), new Modifiers(),
                     false, false, false)

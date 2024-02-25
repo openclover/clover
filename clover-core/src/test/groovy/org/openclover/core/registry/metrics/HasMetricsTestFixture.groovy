@@ -2,6 +2,7 @@ package org.openclover.core.registry.metrics
 
 import org.openclover.core.TestUtils
 import org.openclover.core.api.registry.ContextSet
+import org.openclover.core.api.registry.PackageInfo
 import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.api.registry.SourceInfo
 import org.openclover.core.context.ContextSetImpl
@@ -48,13 +49,13 @@ class HasMetricsTestFixture {
         this.projectInfo = projectInfo
     }
 
-    FullPackageInfo newPackage(String name) {
-        FullPackageInfo packageInfo = new FullPackageInfo(projectInfo, name, index)
+    PackageInfo newPackage(String name) {
+        PackageInfo packageInfo = new FullPackageInfo(projectInfo, name, index)
         projectInfo.addPackage(packageInfo)
         return packageInfo
     }
 
-    FullFileInfo newFile(FullPackageInfo packageInfo, String fileName) throws IOException {
+    FullFileInfo newFile(PackageInfo packageInfo, String fileName) throws IOException {
         FullFileInfo fileInfo =
             new FullFileInfo(packageInfo,
                 File.createTempFile(fileName, ".java"), "UTF-8", index, 100, 50,
@@ -70,7 +71,7 @@ class HasMetricsTestFixture {
 
     FullClassInfo newClass(FullFileInfo finfo, String name, int startLine) {
         final SourceInfo srcRegion = new FixedSourceRegion(startLine, 1)
-        final FullClassInfo classInfo = new FullClassInfo((FullPackageInfo) finfo.getContainingPackage(), finfo,
+        final FullClassInfo classInfo = new FullClassInfo(finfo.getContainingPackage(), finfo,
                 index, name, srcRegion, new Modifiers(),
                 false, false, false)
         finfo.addClass(classInfo)
@@ -79,7 +80,7 @@ class HasMetricsTestFixture {
 
     FullClassInfo newClass(FullClassInfo parentClass, String name, int startLine) {
         final SourceInfo srcRegion = new FixedSourceRegion(startLine, 1)
-        final FullClassInfo classInfo = new FullClassInfo((FullPackageInfo) parentClass.getPackage(), parentClass,
+        final FullClassInfo classInfo = new FullClassInfo(parentClass.getPackage(), parentClass,
                 index, name, srcRegion, new Modifiers(),
                 false, false, false)
         parentClass.addClass(classInfo)

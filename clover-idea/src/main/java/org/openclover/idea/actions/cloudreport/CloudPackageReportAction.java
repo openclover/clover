@@ -6,6 +6,7 @@ import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
 import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.registry.entities.FullPackageInfo;
 import org.openclover.core.registry.entities.PackageFragment;
 import org.openclover.idea.actions.Constants;
@@ -15,7 +16,7 @@ public class CloudPackageReportAction extends AnAction {
     @Override
     public void actionPerformed(AnActionEvent e) {
         final HasMetrics hasMetrics = Constants.SELECTED_HAS_METRICS.getData(e.getDataContext());
-        if (hasMetrics instanceof FullPackageInfo || hasMetrics instanceof PackageFragment) {
+        if (hasMetrics instanceof PackageInfo || hasMetrics instanceof PackageFragment) {
             final Project project = DataKeys.PROJECT.getData(e.getDataContext());
             if (project != null) {
                 final CloudVirtualFile vf = CloudVirtualFile.getInstance(project);
@@ -29,6 +30,6 @@ public class CloudPackageReportAction extends AnAction {
     @Override
     public void update(AnActionEvent e) {
         final HasMetrics hasMetrics = Constants.SELECTED_HAS_METRICS.getData(e.getDataContext());
-        e.getPresentation().setEnabled(hasMetrics instanceof FullPackageInfo || hasMetrics instanceof PackageFragment);
+        e.getPresentation().setEnabled(hasMetrics instanceof PackageInfo || hasMetrics instanceof PackageFragment);
     }
 }

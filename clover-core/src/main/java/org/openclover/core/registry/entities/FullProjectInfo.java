@@ -499,7 +499,7 @@ public class FullProjectInfo
     public void setDataProvider(CoverageDataProvider data) {
         this.data = data;
         for (PackageInfo packageInfo : packages.values()) {
-            ((FullPackageInfo) packageInfo).setDataProvider(data);
+            packageInfo.setDataProvider(data);
         }
         rawMetrics = null;
         metrics = null;

@@ -34,15 +34,15 @@ class HistoricalSupportTest {
         return new FullProjectInfo(projectName, 0)
     }
 
-    protected FullPackageInfo pkg(ProjectInfo parentProject, String packageName) {
+    protected PackageInfo pkg(ProjectInfo parentProject, String packageName) {
         return new FullPackageInfo(parentProject, packageName, 0)
     }
 
-    protected FullFileInfo file(FullPackageInfo parentPackage, String fileName) {
+    protected FullFileInfo file(PackageInfo parentPackage, String fileName) {
         return new FullFileInfo(parentPackage, new File(fileName), "UTF-8", 0, 0, 0, 0, 0, 0, 0)
     }
 
-    protected FullClassInfo cls(FullPackageInfo parentPackage, FullFileInfo parentFile, String className) {
+    protected FullClassInfo cls(PackageInfo parentPackage, FullFileInfo parentFile, String className) {
         return new FullClassInfo(
                 parentPackage, parentFile, 0, className,
                 new FixedSourceRegion(0, 0, 0, 0), new Modifiers(),
@@ -52,7 +52,7 @@ class HistoricalSupportTest {
     @Test
     void testGetProjectMetricsDiff() throws CloverException {
         ProjectInfo thenProj = project("TestProject")
-        FullPackageInfo thenPkg1 = pkg(thenProj, "pkg1")
+        PackageInfo thenPkg1 = pkg(thenProj, "pkg1")
         FullFileInfo thenFile1 = file(thenPkg1, "File1")
         FullClassInfo thenClass1 = cls(thenPkg1, thenFile1, "class1")
 
@@ -61,11 +61,11 @@ class HistoricalSupportTest {
         thenFile1.addClass(thenClass1)
 
         ProjectInfo nowProj = project("TestProject")
-        FullPackageInfo nowPkg1 = pkg(nowProj, "pkg1")
+        PackageInfo nowPkg1 = pkg(nowProj, "pkg1")
         FullFileInfo nowFile1 = file(nowPkg1, "File1")
         FullClassInfo nowClass1 = cls(nowPkg1, nowFile1, "class1")
 
-        FullPackageInfo nowPkg2 = pkg(nowProj, "pkg2")
+        PackageInfo nowPkg2 = pkg(nowProj, "pkg2")
         FullFileInfo nowFile2 = file(nowPkg2, "File2")
         FullClassInfo nowClass2 = cls(nowPkg2, nowFile2, "class2")
 

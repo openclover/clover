@@ -206,6 +206,11 @@ public class DummyPackageInfo implements PackageInfo {
     }
 
     @Override
+    public boolean isNamed(String name) {
+        return false;
+    }
+
+    @Override
     public void invalidateCaches() {
 
     }
