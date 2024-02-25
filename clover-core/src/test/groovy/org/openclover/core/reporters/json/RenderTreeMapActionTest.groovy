@@ -6,9 +6,9 @@ import org.junit.Test
 import org.openclover.core.TestUtils
 import org.openclover.core.api.registry.ClassInfo
 import org.openclover.core.api.registry.HasMetrics
+import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.registry.entities.FullClassInfo
 import org.openclover.core.registry.entities.FullPackageInfo
-import org.openclover.core.registry.entities.FullProjectInfo
 import org.openclover.core.registry.metrics.BlockMetrics
 import org.openclover.core.api.registry.HasMetricsFilter
 import org.openclover.core.registry.metrics.PackageMetrics
@@ -36,7 +36,7 @@ class RenderTreeMapActionTest {
 
     @Test
     void testCall() throws Exception {
-        final FullProjectInfo project = createMockProject()
+        final ProjectInfo project = createMockProject()
 
         final VelocityContext context = new VelocityContext()
         final CloverReportConfig reportConfig = new Current()
@@ -60,7 +60,7 @@ class RenderTreeMapActionTest {
 
     @Test
     void testGenerateJson() throws Exception {
-        final FullProjectInfo project = createMockProject()
+        final ProjectInfo project = createMockProject()
 
         final VelocityContext context = new VelocityContext()
         final CloverReportConfig reportConfig = new Current()
@@ -77,9 +77,9 @@ class RenderTreeMapActionTest {
 
     }
     
-    private FullProjectInfo createMockProject() {
+    private ProjectInfo createMockProject() {
         // mock a Project
-        final FullProjectInfo project = mock(FullProjectInfo.class)
+        final ProjectInfo project = mock(ProjectInfo.class)
         ProjectMetrics projMetrics = new ProjectMetrics(project)
         projMetrics.setNumStatements(20)
         projMetrics.setNumCoveredStatements(16)

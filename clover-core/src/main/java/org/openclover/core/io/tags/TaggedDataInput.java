@@ -24,5 +24,5 @@ public interface TaggedDataInput {
 
     <T extends TaggedPersistent> T read(Class<T> t) throws IOException;
 
-    <T extends TaggedPersistent> List<T> readList(Class<T> type) throws IOException;
+    <T extends TaggedPersistent, I> List<I> readList(Class<T> type) throws IOException;
 }

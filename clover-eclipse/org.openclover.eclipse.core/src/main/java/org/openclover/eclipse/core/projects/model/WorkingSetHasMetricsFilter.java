@@ -1,8 +1,10 @@
 package org.openclover.eclipse.core.projects.model;
 
 import org.eclipse.core.runtime.IAdaptable;
+import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.api.registry.HasMetricsFilter;
@@ -24,12 +26,12 @@ public class WorkingSetHasMetricsFilter implements HasMetricsFilter {
     public boolean accept(HasMetrics metrics) {
         IAdaptable resource = null;
 
-        if (metrics instanceof FullProjectInfo) {
+        if (metrics instanceof ProjectInfo) {
             return CloverPlugin.getInstance().getCloverWorkingSet().includesJavaProject(project.getProject());
-        } else if (metrics instanceof FullFileInfo) {
+        } else if (metrics instanceof FileInfo) {
             return
                 CloverPlugin.getInstance().getCloverWorkingSet().includesFile(
-                    ((FullFileInfo)metrics).getPhysicalFile());
+                    ((FileInfo)metrics).getPhysicalFile());
         } else {
             return true;
         }

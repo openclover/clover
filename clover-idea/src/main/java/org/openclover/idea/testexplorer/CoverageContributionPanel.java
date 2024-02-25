@@ -5,9 +5,11 @@ import com.intellij.ui.dualView.TreeTableView;
 import org.openclover.core.BitSetCoverageProvider;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.CoverageData;
+import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.CoverageDataProvider;
 import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
@@ -215,15 +217,15 @@ class CoverageContributionTreeBuilder {
             return;
         }
 
-        final FullProjectInfo appOnlyProject = currentDatabase.getAppOnlyModel();
+        final ProjectInfo appOnlyProject = currentDatabase.getAppOnlyModel();
         final CoverageData data = currentDatabase.getCoverageData();
         final CoverageDataProvider testDataProvider = new BitSetCoverageProvider(data.getHitsFor(testCaseInfo), data);
         final CoverageDataProvider uniqueTestDataProvider = new BitSetCoverageProvider(currentDatabase.getCoverageData().getUniqueHitsFor(testCaseInfo), data);
         final Map<PackageInfo, DefaultMutableTreeNode> packageMapping = newHashMap();
 
         appOnlyProject.getClasses(hasMetrics -> {
-            final FullClassInfo classInfo = (FullClassInfo) hasMetrics;
-            FullClassInfo classInfoCopy = classInfo.copy((FullFileInfo) classInfo.getContainingFile(), HasMetricsFilter.ACCEPT_ALL);
+            final ClassInfo classInfo = (ClassInfo) hasMetrics;
+            ClassInfo classInfoCopy = classInfo.copy((FullFileInfo) classInfo.getContainingFile(), HasMetricsFilter.ACCEPT_ALL);
             classInfoCopy.setDataProvider(testDataProvider);
 
             if (classInfoCopy.getMetrics().getNumCoveredElements() > 0) {

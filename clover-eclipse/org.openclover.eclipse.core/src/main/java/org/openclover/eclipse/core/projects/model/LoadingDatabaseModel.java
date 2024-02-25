@@ -12,6 +12,7 @@ import org.openclover.core.CloverDatabase;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.entities.FullMethodInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
@@ -129,17 +130,17 @@ public class LoadingDatabaseModel
     }
 
     @Override
-    public FullProjectInfo getFullProjectInfo() {
+    public ProjectInfo getFullProjectInfo() {
         return currentModel.getFullProjectInfo();
     }
 
     @Override
-    public FullProjectInfo getTestOnlyProjectInfo() {
+    public ProjectInfo getTestOnlyProjectInfo() {
         return currentModel.getTestOnlyProjectInfo();
     }
 
     @Override
-    public FullProjectInfo getAppOnlyProjectInfo() {
+    public ProjectInfo getAppOnlyProjectInfo() {
         return currentModel.getAppOnlyProjectInfo();
     }
 

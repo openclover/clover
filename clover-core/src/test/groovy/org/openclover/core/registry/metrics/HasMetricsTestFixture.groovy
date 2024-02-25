@@ -2,6 +2,7 @@ package org.openclover.core.registry.metrics
 
 import org.openclover.core.TestUtils
 import org.openclover.core.api.registry.ContextSet
+import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.api.registry.SourceInfo
 import org.openclover.core.context.ContextSetImpl
 import org.openclover.core.context.ContextStore
@@ -23,7 +24,7 @@ import org.openclover.core.spi.lang.LanguageConstruct
 import org.openclover.runtime.api.registry.CloverRegistryException
 
 class HasMetricsTestFixture {
-    FullProjectInfo projectInfo
+    ProjectInfo projectInfo
     final FullFileInfo defaultFileInfo
     File tmpDir
     String initStr
@@ -39,11 +40,11 @@ class HasMetricsTestFixture {
         return defaultFileInfo
     }
 
-    FullProjectInfo getProject() {
+    ProjectInfo getProject() {
         return projectInfo
     }
 
-    void setProject(FullProjectInfo projectInfo) {
+    void setProject(ProjectInfo projectInfo) {
         this.projectInfo = projectInfo
     }
 

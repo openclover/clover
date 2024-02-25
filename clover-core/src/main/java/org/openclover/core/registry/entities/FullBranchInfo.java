@@ -5,6 +5,7 @@ import org.openclover.core.api.registry.BranchInfo;
 import org.openclover.core.api.registry.ContextSet;
 import org.openclover.core.api.registry.EntityContainer;
 import org.openclover.core.api.registry.FileInfo;
+import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.SourceInfo;
 import org.openclover.core.context.ContextSetImpl;
 import org.openclover.core.io.tags.TaggedDataInput;
@@ -21,22 +22,22 @@ import java.io.IOException;
 public class FullBranchInfo extends FullElementInfo<BasicBranchInfo>
         implements TaggedPersistent, BranchInfo {
 
-    private transient FullMethodInfo containingMethod;
+    private transient MethodInfo containingMethod;
 
     public FullBranchInfo(
-            FullMethodInfo containingMethod, int relativeDataIndex, ContextSet context,
+            MethodInfo containingMethod, int relativeDataIndex, ContextSet context,
             SourceInfo region, int complexity, boolean instrumented) {
         this(containingMethod, relativeDataIndex, context, region, complexity, instrumented, LanguageConstruct.Builtin.BRANCH);
     }
 
     public FullBranchInfo(
-            FullMethodInfo containingMethod, int relativeDataIndex, ContextSet context,
+            MethodInfo containingMethod, int relativeDataIndex, ContextSet context,
             SourceInfo region, int complexity, boolean instrumented, LanguageConstruct construct) {
         this(containingMethod, context, new BasicBranchInfo(region, relativeDataIndex, complexity, instrumented, construct));
     }
 
     private FullBranchInfo(
-            FullMethodInfo containingMethod, ContextSet context, BasicBranchInfo sharedInfo) {
+            MethodInfo containingMethod, ContextSet context, BasicBranchInfo sharedInfo) {
         super(context, sharedInfo);
         this.containingMethod = containingMethod;
     }
@@ -96,11 +97,13 @@ public class FullBranchInfo extends FullElementInfo<BasicBranchInfo>
 
     // OTHER
 
-    public FullBranchInfo copy(FullMethodInfo method) {
+    @Override
+    public BranchInfo copy(MethodInfo method) {
         return new FullBranchInfo(method, context, sharedInfo);
     }
 
-    void setContainingMethod(FullMethodInfo methodInfo) {
+    @Override
+    public void setContainingMethod(MethodInfo methodInfo) {
         this.containingMethod = methodInfo;
     }
 

@@ -2,6 +2,7 @@ package org.openclover.core.reporters.html;
 
 import clover.org.apache.velocity.VelocityContext;
 import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.registry.metrics.HasMetricsSupport;
 import org.openclover.core.reporters.CloverReportConfig;
@@ -9,18 +10,16 @@ import org.openclover.core.reporters.CloverReportConfig;
 import java.io.File;
 import java.util.List;
 
-/**
- */
 public class RenderProjectCoverageCloudsAction extends RenderCoverageCloudAction {
-    protected FullProjectInfo projectInfo;
+    protected ProjectInfo projectInfo;
 
     public RenderProjectCoverageCloudsAction(VelocityContext context, CloverReportConfig reportConfig,
-                                             File basePath, HtmlReporter.TreeInfo tree, FullProjectInfo projectInfo) {
+                                             File basePath, HtmlReporter.TreeInfo tree, ProjectInfo projectInfo) {
         this(context, reportConfig, basePath, tree, projectInfo, sortedAppClassesFor(projectInfo));
     }
 
     public RenderProjectCoverageCloudsAction(VelocityContext context, CloverReportConfig reportConfig,
-                                             File basePath, HtmlReporter.TreeInfo tree, FullProjectInfo projectInfo,
+                                             File basePath, HtmlReporter.TreeInfo tree, ProjectInfo projectInfo,
                                              List<ClassInfo> classes) {
         super(context, reportConfig, tree, classes, basePath);
         this.projectInfo = projectInfo;
@@ -38,8 +37,8 @@ public class RenderProjectCoverageCloudsAction extends RenderCoverageCloudAction
                 "help_pkg_risks");
     }
 
-    private static List sortedAppClassesFor(FullProjectInfo model) {
-        final List classes = model.getClasses(new TestClassFilter());
+    private static List<ClassInfo> sortedAppClassesFor(ProjectInfo model) {
+        final List<ClassInfo> classes = model.getClasses(new TestClassFilter());
         classes.sort(HasMetricsSupport.CMP_LEX);
         return classes;
     }

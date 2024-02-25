@@ -7,6 +7,7 @@ import org.openclover.core.CloverDatabase;
 import org.openclover.core.CoverageData;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
@@ -24,28 +25,28 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 
 public class RenderTestResultAction implements Callable<Object> {
-    private static final ThreadLocal<FullProjectInfo> REUSABLE_MODEL = new ThreadLocal<>();
-    private static final ThreadLocal<FullProjectInfo> CONFIGURABLE_MODEL = new ThreadLocal<>();
+    private static final ThreadLocal<ProjectInfo> REUSABLE_MODEL = new ThreadLocal<>();
+    private static final ThreadLocal<ProjectInfo> CONFIGURABLE_MODEL = new ThreadLocal<>();
 
     private static final Comparator<HasMetrics> TARGET_CLASS_COMPARATOR = (hasMetrics1, hasMetrics2) ->
             Float.compare(hasMetrics2.getMetrics().getPcCoveredElements(), hasMetrics1.getMetrics().getPcCoveredElements());
 
     private final HtmlRenderingSupportImpl renderingHelper; // read only
     private final Current reportConfig; // read only
-    private final FullProjectInfo fullModel; // read only - put into velocity context for rendering
+    private final ProjectInfo fullModel; // read only - put into velocity context for rendering
     private final TestCaseInfo testCaseInfo; // read only
     private final VelocityContext velocity; // write only
 
     private final CloverDatabase database; // shared but read only
-    private final FullProjectInfo readOnlyModel; // gets copied in thread locals
+    private final ProjectInfo readOnlyModel; // gets copied in thread locals
 
     public RenderTestResultAction(
             TestCaseInfo testCaseInfo,
             HtmlRenderingSupportImpl renderingHelper,
             Current reportConfig,
-            FullProjectInfo readOnlyModel,
+            ProjectInfo readOnlyModel,
             VelocityContext velocity,
-            FullProjectInfo fullModel,
+            ProjectInfo fullModel,
             CloverDatabase database) {
 
         this.renderingHelper = renderingHelper;
@@ -72,7 +73,7 @@ public class RenderTestResultAction implements Callable<Object> {
         final StringBuffer outname = renderingHelper.getTestFileName(testCaseInfo);
         final File outfile = CloverUtils.createOutFile(finfo, outname.toString(), reportConfig.getOutFile());
 
-        FullProjectInfo projectInfo = CONFIGURABLE_MODEL.get();
+        ProjectInfo projectInfo = CONFIGURABLE_MODEL.get();
 
         final CoverageData data = database.getCoverageData();
         projectInfo.setDataProvider(new BitSetCoverageProvider(data.getHitsFor(testCaseInfo), data)); // read only
@@ -126,7 +127,7 @@ public class RenderTestResultAction implements Callable<Object> {
      * @return the number of unique elements that were hit by the tests
      */
     private int buildUniqueCoverageMap(TestCaseInfo tci, Map<String, ClassInfo> uniqueCoverageMap) {
-        final FullProjectInfo projectInfo = createUniqueCoverageModel(tci);
+        final ProjectInfo projectInfo = createUniqueCoverageModel(tci);
         final List<ClassInfo> uniqueClassesCovered = getCoverageByTest(projectInfo);
         uniqueClassesCovered.sort(TARGET_CLASS_COMPARATOR);
 
@@ -138,14 +139,14 @@ public class RenderTestResultAction implements Callable<Object> {
         return uniqueElementsHit;
     }
 
-    private FullProjectInfo createUniqueCoverageModel(TestCaseInfo tci) {
-        FullProjectInfo projectInfo = REUSABLE_MODEL.get();
+    private ProjectInfo createUniqueCoverageModel(TestCaseInfo tci) {
+        final ProjectInfo projectInfo = REUSABLE_MODEL.get();
         final CoverageData data = database.getCoverageData();
         projectInfo.setDataProvider(new BitSetCoverageProvider(data.getUniqueHitsFor(tci), data)); // all read only
         return projectInfo;
     }
 
-    private List<ClassInfo> getCoverageByTest(FullProjectInfo projectInfo) {
+    private List<ClassInfo> getCoverageByTest(ProjectInfo projectInfo) {
         return projectInfo.getClasses(hasMetrics ->
                 ((!((ClassInfo) hasMetrics).isTestClass()) &&
                         (hasMetrics.getMetrics().getNumCoveredElements() > 0)));

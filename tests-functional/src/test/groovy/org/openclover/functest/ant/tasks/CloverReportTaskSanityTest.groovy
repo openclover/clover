@@ -4,9 +4,9 @@ import groovy.transform.CompileStatic
 import org.openclover.core.api.registry.ClassInfo
 import org.openclover.core.api.registry.FileInfo
 import org.openclover.core.api.registry.PackageInfo
+import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.model.CoverageDataPoint
 import org.openclover.core.model.XmlConverter
-import org.openclover.core.registry.entities.FullProjectInfo
 import org.openclover.core.registry.metrics.ProjectMetrics
 import org.openclover.runtime.CloverNames
 import org.openclover.runtime.api.CloverException
@@ -101,8 +101,8 @@ class CloverReportTaskSanityTest extends CloverBuildFileTestBase{
     private void asssertModelsFromXmlSame(String expectedXmlProp, String actualXmlProp)
             throws IOException, CloverException {
         // to check XML equal, load expected and generated into a model first.
-        FullProjectInfo expectedProject = loadModelFromProperty(expectedXmlProp)
-        FullProjectInfo actualProject = loadModelFromProperty(actualXmlProp)
+        ProjectInfo expectedProject = loadModelFromProperty(expectedXmlProp)
+        ProjectInfo actualProject = loadModelFromProperty(actualXmlProp)
 
         ProjectMetrics expectedMetrics = (ProjectMetrics) expectedProject.getMetrics()
         ProjectMetrics actualMetrics = (ProjectMetrics) actualProject.getMetrics()
@@ -130,9 +130,9 @@ class CloverReportTaskSanityTest extends CloverBuildFileTestBase{
         }
     }
 
-    private FullProjectInfo loadModelFromProperty(String prop) throws IOException, CloverException {
+    private ProjectInfo loadModelFromProperty(String prop) throws IOException, CloverException {
         CoverageDataPoint data = XmlConverter.getFromXmlFile(new File(getProject().getProperty(prop)), XmlConverter.LINE_LEVEL)
-        return (FullProjectInfo)data.getProject()
+        return data.getProject()
     }
 
     private void checkPropContainsExpected(String prop) throws Exception {

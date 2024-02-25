@@ -11,6 +11,7 @@ import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.CoverageDataRange;
 import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullMethodInfo;
@@ -103,7 +104,7 @@ public class HtmlRenderingSupportImpl implements HtmlRenderingSupport {
         return aPkg.replace('.', '/') + "/" + aFile;
     }
     
-    public String getFileIdentifier(FullFileInfo aFile) {
+    public String getFileIdentifier(FileInfo aFile) {
         return aFile.getPackagePath().replace('/', '_').replace('.', '_');
     }
     
@@ -536,7 +537,7 @@ public class HtmlRenderingSupportImpl implements HtmlRenderingSupport {
      * renders a stack trace by inserting hyperlinking for class/filenames where found.
      * @return stack trace with hyperlinked class links
      */
-    public String linkifyStackTrace(String rootRelPath, FullProjectInfo proj, String trace) {
+    public String linkifyStackTrace(String rootRelPath, ProjectInfo proj, String trace) {
         StringBuffer buff = new StringBuffer();
         Matcher matcher = TRACE_LINE_PATTERN.matcher(htmlEscapeStr(trace, " ", " "));
 

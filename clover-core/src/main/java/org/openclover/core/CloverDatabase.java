@@ -3,6 +3,7 @@ package org.openclover.core;
 import org.openclover.core.api.registry.ContextSet;
 import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.cfg.Interval;
 import org.openclover.core.context.ContextStore;
@@ -203,7 +204,7 @@ public class CloverDatabase {
         return registry.getProject().getName();
     }
 
-    public FullProjectInfo getModel(CodeType codeType) {
+    public ProjectInfo getModel(CodeType codeType) {
         switch(codeType) {
             case APPLICATION:
                 return getAppOnlyModel();
@@ -216,15 +217,15 @@ public class CloverDatabase {
         }
     }
 
-    public FullProjectInfo getTestOnlyModel() {
+    public ProjectInfo getTestOnlyModel() {
         return testOnlyModel.getProject();
     }
 
-    public FullProjectInfo getAppOnlyModel() {
+    public ProjectInfo getAppOnlyModel() {
         return appOnlyModel == ProjectView.NONE ? registry.getProject() : appOnlyModel.getProject();
     }
 
-    public FullProjectInfo getFullModel() {
+    public ProjectInfo getFullModel() {
         return registry.getProject();
     }
 
@@ -355,7 +356,7 @@ public class CloverDatabase {
         Clover2Registry destReg = new Clover2Registry(new File(initString), RegAccessMode.READONLY, "Merged Project"); // todo - pass in a name
 
         destReg.setVersion(System.currentTimeMillis());
-        final FullProjectInfo baseProject = destReg.getProject();
+        final ProjectInfo baseProject = destReg.getProject();
 
         // todo - sort here to process the biggest first - might be significant speed improvement
         Map<CloverDatabaseSpec, CloverDatabase> speccedDbs = new LinkedHashMap<>();
@@ -402,7 +403,7 @@ public class CloverDatabase {
                     new CoverageDataSpec(null, spec.getSpan().getValueInMillis(), false, false, true, true, PerTestCoverageStrategy.IN_MEMORY));
 
 
-            final FullProjectInfo mergingProject = mergingDb.getFullModel();
+            final ProjectInfo mergingProject = mergingDb.getFullModel();
 
             if (mergedCoverage == null) {
                 mergedCoverage = new int [mergingProject.getDataLength()];

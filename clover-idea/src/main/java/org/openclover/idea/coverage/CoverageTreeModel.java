@@ -17,6 +17,7 @@ import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.cfg.StorageSize;
 import org.openclover.core.optimization.Snapshot;
@@ -567,7 +568,7 @@ public class CoverageTreeModel {
         if (db == null) {
             mTree = new DefaultMutableTreeNode(mRootName, false);
         } else {
-            final FullProjectInfo projectInfo = ModelUtil.getModel(db, modelScope);
+            final ProjectInfo projectInfo = ModelUtil.getModel(db, modelScope);
             mTree = new DefaultMutableTreeNode(
                     new NodeWrapper(mRootName, projectInfo,
                                     new BaseCoverageNodeViewer.TestPassInfo(db.getFullModel().getMetrics())));

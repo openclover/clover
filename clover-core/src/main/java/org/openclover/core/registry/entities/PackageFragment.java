@@ -4,6 +4,7 @@ import org.openclover.core.api.registry.BlockMetrics;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.registry.metrics.HasMetricsNode;
 import org.openclover.core.registry.metrics.PackageMetrics;
 import org.openclover.core.registry.metrics.ProjectMetrics;
@@ -17,7 +18,7 @@ import static org.openclover.core.util.Maps.newTreeMap;
 
 public class PackageFragment implements HasMetricsNode {
 
-    private FullProjectInfo containingProject;
+    private ProjectInfo containingProject;
     private PackageFragment parent;
     private List<PackageFragment> orderedKids;
     private Map<String, PackageFragment> children;
@@ -29,7 +30,7 @@ public class PackageFragment implements HasMetricsNode {
     private Comparator<HasMetrics> orderby;
 
 
-    public PackageFragment(PackageFragment parent, FullProjectInfo containingProject,
+    public PackageFragment(PackageFragment parent, ProjectInfo containingProject,
                            String fqn, String name) {
         this.parent = parent;
         this.containingProject = containingProject;
@@ -67,7 +68,7 @@ public class PackageFragment implements HasMetricsNode {
         return parent;
     }
 
-    public FullProjectInfo getContainingProject() {
+    public ProjectInfo getContainingProject() {
         return containingProject;
     }
 

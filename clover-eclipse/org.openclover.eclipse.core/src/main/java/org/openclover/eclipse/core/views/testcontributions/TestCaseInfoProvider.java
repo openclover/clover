@@ -6,7 +6,6 @@ import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
 
-
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -57,8 +56,8 @@ public class TestCaseInfoProvider implements ITreeContentProvider {
         return testCases;
     }
     
-    public Set<FullClassInfo> getAllTestClasses() {
-        Set<FullClassInfo> testClasses = new HashSet<>(testCases.size());
+    public Set<ClassInfo> getAllTestClasses() {
+        Set<ClassInfo> testClasses = new HashSet<>(testCases.size());
         for (TestCaseInfo testCase : testCases) {
             if (testCase.isResolved()) {
                 testClasses.add(testCase.getRuntimeType());

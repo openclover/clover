@@ -51,13 +51,17 @@ public class FullPackageInfo
     private Comparator<HasMetrics> orderby;
     private CoverageDataProvider data;
 
-    /** Top-level classes in this package */
+    /**
+     * Top-level classes in this package
+     */
     private List<ClassInfo> classes;
 
-    /** All classes in this package */
+    /**
+     * All classes in this package
+     */
     private List<ClassInfo> allClasses;
 
-    public static FullPackageInfo createEmptyFromTemplate(FullPackageInfo info) {
+    public static PackageInfo createEmptyFromTemplate(PackageInfo info) {
         return new FullPackageInfo(null, info.getName(), 0);
     }
 
@@ -65,8 +69,7 @@ public class FullPackageInfo
         return (name.length() == 0 || name.equals(PackageInfo.DEFAULT_PACKAGE_NAME));
     }
 
-
-    public FullPackageInfo(FullProjectInfo containingProject, String pkg, int dataIndex) {
+    public FullPackageInfo(ProjectInfo containingProject, String pkg, int dataIndex) {
         this(containingProject, pkg);
         this.dataIndex = dataIndex;
     }
@@ -76,14 +79,11 @@ public class FullPackageInfo
         this.defaultPkg = isDefaultName(name);
         if (this.defaultPkg) {
             this.name = PackageInfo.DEFAULT_PACKAGE_NAME;
-        }
-        else {
+        } else {
             this.name = name;
         }
         this.path = CloverUtils.packageNameToPath(name, defaultPkg);
     }
-
-
 
     // PackageInfo
 
@@ -241,8 +241,7 @@ public class FullPackageInfo
     public void setDataProvider(final CoverageDataProvider data) {
         this.data = data;
         for (final FileInfo file : files.values()) {
-            FullFileInfo fullFileInfo = (FullFileInfo) file;
-            fullFileInfo.setDataProvider(data);
+            file.setDataProvider(data);
         }
         rawMetrics = null;
         metrics = null;
@@ -349,7 +348,7 @@ public class FullPackageInfo
         if (classes == null) {
             gatherClassesFromPackage();
         }
-        return (HasMetricsNode)classes.get(i);
+        return (HasMetricsNode) classes.get(i);
     }
 
     @Override
@@ -384,8 +383,7 @@ public class FullPackageInfo
         orderby = cmp;
         classes = null;
         for (final FileInfo fileInfo : files.values()) {
-            final FullFileInfo fullFileInfo = (FullFileInfo) fileInfo;
-            fullFileInfo.setComparator(cmp); // note - comparator is passed to classes via containing files
+            fileInfo.setComparator(cmp); // note - comparator is passed to classes via containing files
         }
     }
 
@@ -395,9 +393,6 @@ public class FullPackageInfo
     public FileInfo getFile(String packagePath) {
         return files.get(packagePath);
     }
-
-
-
 
 
     // note - these methods skip the "file" level of the hierarchy
@@ -418,11 +413,10 @@ public class FullPackageInfo
         PackageMetrics packageMetrics = new PackageMetrics(this);
         int numFiles = 0;
         for (FileInfo fileInfo : files.values()) {
-            FullFileInfo fullFileInfo = (FullFileInfo) fileInfo;
             if (!filter) {
-                packageMetrics.add((FileMetrics) fullFileInfo.getRawMetrics());
+                packageMetrics.add((FileMetrics) fileInfo.getRawMetrics());
             } else {
-                packageMetrics.add((FileMetrics) fullFileInfo.getMetrics());
+                packageMetrics.add((FileMetrics) fileInfo.getMetrics());
             }
             numFiles++;
         }
@@ -430,13 +424,13 @@ public class FullPackageInfo
         return packageMetrics;
     }
 
-    public FullPackageInfo copy(FullProjectInfo proj, HasMetricsFilter filter) {
-        FullPackageInfo pkg = new FullPackageInfo(proj, name, dataIndex);
+    @Override
+    public PackageInfo copy(ProjectInfo proj, HasMetricsFilter filter) {
+        PackageInfo pkg = new FullPackageInfo(proj, name, dataIndex);
         pkg.setDataProvider(getDataProvider());
         for (FileInfo fileInfo : files.values()) {
-            FullFileInfo fullFileInfo = (FullFileInfo) fileInfo;
-            if (filter.accept(fullFileInfo)) {
-                FullFileInfo info = fullFileInfo.copy(pkg, filter);
+            if (filter.accept(fileInfo)) {
+                FileInfo info = fileInfo.copy(pkg, filter);
                 if (!info.isEmpty()) {
                     pkg.addFile(info);
                 }
@@ -446,16 +440,10 @@ public class FullPackageInfo
         return pkg;
     }
 
-
-
-
-
     public boolean isNamed(String name) {
-        return
-                (isDefault() && isDefaultName(name))
-                        || this.name.equals(name);
+        return (isDefault() && isDefaultName(name))
+                || this.name.equals(name);
     }
-
 
     protected void gatherAllClassesFromPackage() {
         final List<ClassInfo> tmpClasses = newArrayList();

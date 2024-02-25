@@ -21,6 +21,7 @@ import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.CoverageDataProvider;
 import org.openclover.core.api.registry.CoverageDataReceptor;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
@@ -99,8 +100,8 @@ public class ClassesTestedTreeProvider
         }
 
         final CloverDatabase database = project.getModel().getDatabase();
-        final FullProjectInfo appOnlyProject = database == null ? null : database.getAppOnlyModel();
-        final FullProjectInfo fullProject = database == null ? null : database.getFullModel();
+        final ProjectInfo appOnlyProject = database == null ? null : database.getAppOnlyModel();
+        final ProjectInfo fullProject = database == null ? null : database.getFullModel();
 
         if (database != null && appOnlyProject != null) {
             final HashSet<TestCaseInfo> testCasesSet = newHashSet(testCases);

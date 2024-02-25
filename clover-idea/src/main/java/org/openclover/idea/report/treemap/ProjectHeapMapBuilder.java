@@ -6,6 +6,7 @@ import clover.net.sf.jtreemap.swing.Value;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
 
@@ -16,7 +17,7 @@ import java.util.List;
  */
 public class ProjectHeapMapBuilder extends TreeMapNodeBuilder {
     public TreeMapNode buildTree(CloverDatabase cloverDatabase) {
-        final FullProjectInfo projectInfo = cloverDatabase.getAppOnlyModel();
+        final ProjectInfo projectInfo = cloverDatabase.getAppOnlyModel();
         final TreeMapNode root = buildBranch("", null);
 
         final List<PackageInfo> packages = projectInfo.getAllPackages();

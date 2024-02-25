@@ -17,6 +17,7 @@ import org.openclover.core.api.registry.MethodSignatureInfo;
 import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.api.registry.ParameterInfo;
 import org.openclover.core.api.registry.CoverageDataProvider;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.FullMethodInfo;
@@ -77,17 +78,17 @@ public class LoadedDatabaseModel extends StableDatabaseModel {
     }
 
     @Override
-    public FullProjectInfo getFullProjectInfo() {
+    public ProjectInfo getFullProjectInfo() {
         return database.getFullModel();
     }
 
     @Override
-    public FullProjectInfo getTestOnlyProjectInfo() {
+    public ProjectInfo getTestOnlyProjectInfo() {
         return database.getTestOnlyModel();
     }
 
     @Override
-    public FullProjectInfo getAppOnlyProjectInfo() {
+    public ProjectInfo getAppOnlyProjectInfo() {
         return database.getAppOnlyModel();
     }
 
@@ -137,9 +138,9 @@ public class LoadedDatabaseModel extends StableDatabaseModel {
         if (classInfo instanceof FullClassInfo) {
             Collection<TestCaseInfo> testCases = ((FullClassInfo)classInfo).getTestCases();
             for (TestCaseInfo testCase : testCases) {
-                FullMethodInfo methodInfo = testCase.getSourceMethod();
+                MethodInfo methodInfo = testCase.getSourceMethod();
                 if (methodInfo != null) {
-                    MethodSignature sig = methodInfo.getSignature();
+                    MethodSignatureInfo sig = methodInfo.getSignature();
                     if (sig != null && sig.getName().equals(method.getElementName())) {
                         String[] paramTypes1 = toEclipseSignatures(sig.getParameters());
                         String[] paramTypes2 = method.getParameterTypes();
@@ -160,9 +161,9 @@ public class LoadedDatabaseModel extends StableDatabaseModel {
             Collection<TestCaseInfo> testCases = ((FullClassInfo)classInfo).getTestCases();
             for (Iterator<TestCaseInfo> iter = testCases.iterator(); iter.hasNext();) {
                 TestCaseInfo testCase = iter.next();
-                FullMethodInfo methodInfo = testCase.getSourceMethod();
+                MethodInfo methodInfo = testCase.getSourceMethod();
                 if (methodInfo != null) {
-                    MethodSignature sig = methodInfo.getSignature();
+                    MethodSignatureInfo sig = methodInfo.getSignature();
                     if (sig == null || !sig.getName().equals(method.getElementName())
                         || !Arrays.equals(method.getParameterTypes(), toEclipseSignatures(sig.getParameters()))) {
                         iter.remove();

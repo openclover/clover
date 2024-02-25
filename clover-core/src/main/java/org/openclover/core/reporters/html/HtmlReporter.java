@@ -538,15 +538,15 @@ public class HtmlReporter extends CloverReporter {
         service.submit(new RenderTreeMapAction(context, reportConfig, basePath, getConfiguredModel()));
     }
 
-    protected FullProjectInfo getConfiguredModel() {
+    protected ProjectInfo getConfiguredModel() {
         return database.getAppOnlyModel();
     }
 
-    protected FullProjectInfo getFullModel() {
+    protected ProjectInfo getFullModel() {
         return database.getFullModel();
     }
 
-    protected FullProjectInfo getTestModel() {
+    protected ProjectInfo getTestModel() {
         return database.getTestOnlyModel();
     }
 
@@ -561,7 +561,7 @@ public class HtmlReporter extends CloverReporter {
     private void renderDashboard(CloverExecutor<Object> queue, CloverChartFactory.ChartInfo histogram, CloverChartFactory.ChartInfo scatter) throws Exception {
         VelocityContext ctx = new VelocityContext();
         insertCommonPropsForCurrent(ctx, "");
-        final FullProjectInfo configuredProject = getConfiguredModel();
+        final ProjectInfo configuredProject = getConfiguredModel();
         RenderDashboardAction action = new RenderDashboardAction(ctx, basePath, configuredProject, getFullModel(),
                 histogram, scatter, reportAsCurrent());
         queue.submit(action);
@@ -714,7 +714,7 @@ public class HtmlReporter extends CloverReporter {
     private void processPackage(final PackageInfo pkg, final TreeInfo appSrcTree, final TreeInfo appCloudTree,
                                 final TreeInfo testSrcTree, final CloverExecutor<Object> queue,
                                 final Map<Integer, CloverChartFactory.ChartInfo> charts) throws Exception {
-        final FullProjectInfo projectInfo = getFullModel();
+        final ProjectInfo projectInfo = getFullModel();
 
         for (FileInfo fileInfo : pkg.getFiles()) {
             renderSourceFilePage(queue, charts, projectInfo, fileInfo);
@@ -783,7 +783,7 @@ public class HtmlReporter extends CloverReporter {
         }
     }
 
-    private void renderAggregatePkgPage(FullProjectInfo model, TreeInfo tree, boolean linkToClouds) throws Exception {
+    private void renderAggregatePkgPage(ProjectInfo model, TreeInfo tree, boolean linkToClouds) throws Exception {
         final String filename = tree.getPathPrefix() + "agg-pkgs.html";
 
         final File outfile = new File(basePath, filename);
@@ -842,7 +842,7 @@ public class HtmlReporter extends CloverReporter {
     }
 
     private void renderPackagesSummaryPage(String name, String templateName, VelocityContext context,
-                                           FullProjectInfo model, TreeInfo tree, boolean linkToClouds) throws Exception {
+                                           ProjectInfo model, TreeInfo tree, boolean linkToClouds) throws Exception {
         final String filename = tree.getPathPrefix() + name;
         final File outfile = new File(basePath, filename);
         context.put("currentPageURL", filename);
@@ -867,7 +867,7 @@ public class HtmlReporter extends CloverReporter {
         HtmlReportUtil.mergeTemplateToFile(outfile, context, templateName);
     }
 
-    private void renderPackagesSummaryPage(FullProjectInfo model, TreeInfo tree, boolean linkToClouds) throws Exception {
+    private void renderPackagesSummaryPage(ProjectInfo model, TreeInfo tree, boolean linkToClouds) throws Exception {
         renderPackagesSummaryPage("pkg-summary.html",
                 "pkgs-summary.vm",
                 new VelocityContext(), model, tree, linkToClouds);
@@ -877,7 +877,7 @@ public class HtmlReporter extends CloverReporter {
         final File outfile = new File(basePath, "test-pkg-summary.html");
         final VelocityContext context = new VelocityContext();
 
-        final FullProjectInfo projectInfo = getFullModel().copy(
+        final ProjectInfo projectInfo = getFullModel().copy(
                 hasMetrics ->
                         !(hasMetrics instanceof ClassInfo) || ((ClassInfo) hasMetrics).isTestClass()
         );
@@ -984,8 +984,8 @@ public class HtmlReporter extends CloverReporter {
 
         final HasMetricsFilter filter = new TestMethodFilter();
         for (ClassInfo classInfo : classes) {
-            FullClassInfo fullClassInfo = (FullClassInfo) classInfo;
-            FullClassInfo testClassInfo = fullClassInfo.copy((FullFileInfo) fullClassInfo.getContainingFile(), filter);
+            ClassInfo fullClassInfo = (FullClassInfo) classInfo;
+            ClassInfo testClassInfo = fullClassInfo.copy((FullFileInfo) fullClassInfo.getContainingFile(), filter);
             renderTestClassSummaryPage(testClassInfo);
         }
         classes.sort(TEST_SORT_ORDER);
@@ -1006,7 +1006,7 @@ public class HtmlReporter extends CloverReporter {
                 "test-pkg-summary.vm");
     }
 
-    private void renderTestClassSummaryPage(@NotNull FullClassInfo classInfo) throws Exception {
+    private void renderTestClassSummaryPage(@NotNull ClassInfo classInfo) throws Exception {
 
         String outname = rederingHelper.getTestClassLink(false, classInfo);
         File outfile = CloverUtils.createOutFile((FullFileInfo) classInfo.getContainingFile(), outname, basePath);

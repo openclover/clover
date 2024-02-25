@@ -9,6 +9,7 @@ import org.openclover.buildutil.testutils.IOHelper
 import org.openclover.core.api.registry.CoverageDataProvider
 import org.openclover.core.api.registry.HasMetrics
 import org.openclover.core.api.registry.PackageInfo
+import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.api.registry.SourceInfo
 import org.openclover.core.context.ContextSetImpl
 import org.openclover.core.context.ContextStore
@@ -61,7 +62,7 @@ public class Clover2RegistryTest {
 
         Clover2Registry read = Clover2Registry.fromFile(registryFile)
 
-        FullProjectInfo model = read.getProject()
+        ProjectInfo model = read.getProject()
 
         ProjectMetrics metrics = (ProjectMetrics)model.getMetrics()
         assertEquals("numPackages", 1, metrics.getNumPackages())
@@ -127,7 +128,7 @@ public class Clover2RegistryTest {
 
         Clover2Registry read = Clover2Registry.fromFile(registryFile)
 
-        FullProjectInfo model = read.getProject()
+        ProjectInfo model = read.getProject()
         ProjectMetrics metrics = (ProjectMetrics)model.getMetrics()
         assertEquals("numPackages", 1, metrics.getNumPackages())
         assertEquals("numFiles", 2, metrics.getNumFiles())
@@ -471,7 +472,7 @@ public class Clover2RegistryTest {
         }
 
         public RegFile saveAndOverwriteFile() throws IOException, CloverRegistryException {
-            final FullProjectInfo emptyProject = new FullProjectInfo(getProject().getName())
+            final ProjectInfo emptyProject = new FullProjectInfo(getProject().getName())
             emptyProject.setDataLength(getDataLength())
             return saveAndOverwriteFile(emptyProject, newArrayList(), new ContextStore(), null)
         }

@@ -4,6 +4,7 @@ import org.openclover.core.api.instrumentation.ConcurrentInstrumentationExceptio
 import org.openclover.core.api.registry.CoverageDataProvider;
 import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.instr.InstrumentationSessionImpl;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullPackageInfo;
@@ -19,29 +20,29 @@ import static org.openclover.core.util.Lists.newLinkedList;
 public interface ProjectView extends InstrumentationTarget {
     ProjectView NONE = new ProjectView() {
         @Override
-        public FullProjectInfo getProject() { return null; }
+        public ProjectInfo getProject() { return null; }
         @Override
         public RegistryUpdate applyUpdate(long expectedVersion, InstrumentationSessionImpl.Update update) { return null; }
         @Override
         public void resolve(Path sourcePath) {}
     };
 
-    FullProjectInfo getProject();
+    ProjectInfo getProject();
     void resolve(Path sourcePath);
 
     class Original implements ProjectView {
         private final AtomicLong version;
-        private final FullProjectInfo project;
+        private final ProjectInfo project;
         private final Collection<Filtered> filteredViews;
 
-        public Original(FullProjectInfo project) {
+        public Original(ProjectInfo project) {
             this.version = new AtomicLong(project.getVersion());
             this.project = project;
             this.filteredViews = newLinkedList();
         }
 
         @Override
-        public FullProjectInfo getProject() {
+        public ProjectInfo getProject() {
             return project;
         }
 
@@ -116,15 +117,15 @@ public interface ProjectView extends InstrumentationTarget {
 
     class Filtered implements ProjectView {
         private final HasMetricsFilter.Invertable filter;
-        private final FullProjectInfo project;
+        private final ProjectInfo project;
 
-        public Filtered(HasMetricsFilter.Invertable filter, FullProjectInfo orig) {
+        public Filtered(HasMetricsFilter.Invertable filter, ProjectInfo orig) {
             this.filter = filter;
             this.project = orig.copy(filter);
         }
 
         @Override
-        public FullProjectInfo getProject() {
+        public ProjectInfo getProject() {
             return project;
         }
 
@@ -148,7 +149,7 @@ public interface ProjectView extends InstrumentationTarget {
                             project.addPackage(pkgInfo);
                         }
 
-                        FullFileInfo fileInfoCopy = ((FullFileInfo) fileInfo).copy((FullPackageInfo) pkgInfo, filter);
+                        FileInfo fileInfoCopy = fileInfo.copy(pkgInfo, filter);
                         fileInfoCopy.setDataProvider(dataProvider);
                         fileInfoCopy.setContainingPackage(pkgInfo);
                         pkgInfo.addFile(fileInfoCopy);

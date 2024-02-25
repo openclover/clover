@@ -67,15 +67,15 @@ public class FullFileInfo
     protected transient ContextSet contextFilter;
 
     /** classes declared inside the file */
-    protected Map<String, FullClassInfo> classes = new LinkedHashMap<>();
+    protected Map<String, ClassInfo> classes = new LinkedHashMap<>();
     /**
      * statements declared inside the file on the top-level (e.g in scripts)
      */
-    protected List<FullStatementInfo> statements = newArrayList();
+    protected List<StatementInfo> statements = newArrayList();
     /**
      * methods (functions) declared on the top-level of the file (e.g. outside classes
      */
-    protected List<FullMethodInfo> methods = newArrayList();
+    protected List<MethodInfo> methods = newArrayList();
 
     private File actualFile;
     protected int dataIndex;
@@ -84,7 +84,7 @@ public class FullFileInfo
     private long minVersion;
     private long maxVersion;
 
-    private transient List<FullClassInfo> orderedClasses;
+    private transient List<ClassInfo> orderedClasses;
     private transient LineInfo[] lineInfo;
     private transient Comparator<HasMetrics> orderby;
     private transient CoverageDataProvider data;
@@ -93,7 +93,7 @@ public class FullFileInfo
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
     public FullFileInfo(
-            FullPackageInfo containingPackage, File actualFile, String encoding,
+            PackageInfo containingPackage, File actualFile, String encoding,
             int dataIndex, int lineCount, int ncLineCount, long timestamp, long filesize,
             long checksum, long minVersion) {
 
@@ -116,9 +116,9 @@ public class FullFileInfo
                          final int lineCount, final int ncLineCount,
                          final long timestamp, final long checksum, final long filesize,
                          final long minVersion, final long maxVersion,
-                         final Map<String, FullClassInfo> classes,
-                         final List<FullMethodInfo> methods,
-                         final List<FullStatementInfo> statements) {
+                         final Map<String, ClassInfo> classes,
+                         final List<MethodInfo> methods,
+                         final List<StatementInfo> statements) {
 
         this.containingPackage = null;
         this.name = actualFile.getName();
@@ -281,10 +281,10 @@ public class FullFileInfo
     @Override
     public void setDataProvider(final CoverageDataProvider data) {
         this.data = data;
-        for (FullClassInfo classInfo : classes.values()) {
+        for (ClassInfo classInfo : classes.values()) {
             classInfo.setDataProvider(data);
         }
-        for (FullMethodInfo methodInfo : methods) {
+        for (MethodInfo methodInfo : methods) {
             methodInfo.setDataProvider(data);
         }
         // note: don't call setDataProvider on 'statements' because FullStatementInfo takes provider form its parent
@@ -318,12 +318,12 @@ public class FullFileInfo
         final List<ClassInfo> allClasses = newArrayList();
         // in-order
         // get file-level classes and classes declared inside them
-        for (FullClassInfo classInfo : classes.values()) {
+        for (ClassInfo classInfo : classes.values()) {
             allClasses.add(classInfo);
             allClasses.addAll(classInfo.getAllClasses());
         }
         // get file-level functions and classes declared inside them
-        for (FullMethodInfo methodInfo : methods) {
+        for (MethodInfo methodInfo : methods) {
             allClasses.addAll(methodInfo.getAllClasses());
         }
         return allClasses;
@@ -343,11 +343,11 @@ public class FullFileInfo
         final List<MethodInfo> allMethods = newArrayList();
         // in-order
         // get file-level classes and methods declared inside them
-        for (FullClassInfo classInfo : classes.values()) {
+        for (ClassInfo classInfo : classes.values()) {
             allMethods.addAll(classInfo.getAllMethods());
         }
         // get file-level functions and functions declared inside them
-        for (FullMethodInfo methodInfo : methods) {
+        for (MethodInfo methodInfo : methods) {
             allMethods.add(methodInfo);
             allMethods.addAll(methodInfo.getAllMethods());
         }
@@ -434,7 +434,7 @@ public class FullFileInfo
     public void setComparator(Comparator<HasMetrics> cmp) {
         orderby = cmp;
         orderedClasses = null;
-        for (FullClassInfo classInfo : classes.values()) {
+        for (ClassInfo classInfo : classes.values()) {
             classInfo.setComparator(cmp);
         }
     }
@@ -478,6 +478,7 @@ public class FullFileInfo
     /**
      * @return a set of source regions for this file, sorted by start position and length.
      */
+    @Override
     public Set<SourceInfo> getSourceRegions() {
         final Set<SourceInfo> regions = newTreeSet(FixedSourceRegion.SOURCE_ORDER_COMP);
         for (ClassInfo classInfo : classes.values()) {
@@ -492,11 +493,13 @@ public class FullFileInfo
         return regions;
     }
 
+    @Override
     public LineInfo[] getLineInfo(boolean showLambdaFunctions, boolean showInnerFunctions) {
         // not using the 0th array slot so line numbers index naturally
         return getLineInfo(getLineCount() + 1, showLambdaFunctions, showInnerFunctions);
     }
 
+    @Override
     public LineInfo[] getLineInfo(int ensureLineCountAtLeast, final boolean showLambdaFunctions,
                                   final boolean showInnerFunctions) {
         if (lineInfo == null) {
@@ -589,7 +592,7 @@ public class FullFileInfo
 
     @Override
     public void visitElements(FileElementVisitor visitor) {
-        for (FullClassInfo classInfo : classes.values()) {
+        for (ClassInfo classInfo : classes.values()) {
             classInfo.visitElements(visitor);
         }
     }
@@ -605,6 +608,7 @@ public class FullFileInfo
         this.dataIndex = dataIndex;
     }
 
+    @Override
     public void setDataLength(int length) {
         dataLength = length;
     }
@@ -631,36 +635,38 @@ public class FullFileInfo
         return getChecksum() != checksum || getFilesize() != filesize;
     }
 
-    public void addClass(FullClassInfo classInfo) {
+    @Override
+    public void addClass(ClassInfo classInfo) {
         classes.put(classInfo.getName(), classInfo);
     }
 
-    public void addMethod(FullMethodInfo methodInfo) {
+    @Override
+    public void addMethod(MethodInfo methodInfo) {
         methods.add(methodInfo);
     }
 
-    public void addStatement(FullStatementInfo statementInfo) {
+    @Override
+    public void addStatement(StatementInfo statementInfo) {
         statements.add(statementInfo);
     }
 
-
-
-    public FullFileInfo copy(FullPackageInfo pkg, HasMetricsFilter filter) {
-        FullFileInfo file = new FullFileInfo(pkg, actualFile, encoding, dataIndex, lineCount, ncLineCount, timestamp, filesize, checksum, minVersion);
+    @Override
+    public FileInfo copy(PackageInfo pkg, HasMetricsFilter filter) {
+        FileInfo file = new FullFileInfo(pkg, actualFile, encoding, dataIndex, lineCount, ncLineCount, timestamp, filesize, checksum, minVersion);
         file.addVersion(maxVersion);
         file.setDataProvider(getDataProvider());
 
-        for (FullClassInfo classInfo : classes.values()) {
+        for (ClassInfo classInfo : classes.values()) {
             if (filter.accept(classInfo)) {
                 file.addClass(classInfo.copy(file, filter));
             }
         }
-        for (FullMethodInfo methodInfo : methods) {
+        for (MethodInfo methodInfo : methods) {
             if (filter.accept(methodInfo)) {
                 file.addMethod(methodInfo.copy(file));
             }
         }
-        for (FullStatementInfo statementInfo : statements) {
+        for (StatementInfo statementInfo : statements) {
             file.addStatement(statementInfo); // TODO what about metric filtering for statements ?
         }
 
@@ -693,6 +699,7 @@ public class FullFileInfo
         return failStackInfos;
     }
 
+    @Override
     public void setFailStackEntries(final Map<Integer, List<StackTraceInfo.TraceEntry>> entries) {
         failStackInfos = new TreeMap<>(entries);
     }
@@ -721,7 +728,7 @@ public class FullFileInfo
     }
 
     private void buildOrderedClassList() {
-        List<FullClassInfo> tmpOrderedClasses = newArrayList(classes.values());
+        List<ClassInfo> tmpOrderedClasses = newArrayList(classes.values());
         if (orderby != null) {
             tmpOrderedClasses.sort(orderby);
         } else {
@@ -747,7 +754,7 @@ public class FullFileInfo
      */
     private void calcAndAddClassMetrics(FileMetrics fileMetrics, boolean filtered) {
         int numClasses = 0;
-        for (FullClassInfo classInfo : classes.values()) {
+        for (ClassInfo classInfo : classes.values()) {
             if (!filtered) {
                 fileMetrics.add((ClassMetrics) classInfo.getRawMetrics());
             } else {
@@ -766,7 +773,7 @@ public class FullFileInfo
         int numMethods = 0;
         int numTestMethods = 0;
 
-        for (FullMethodInfo methodInfo : methods) {
+        for (MethodInfo methodInfo : methods) {
             if (methodInfo.isFiltered(contextFilter)) {
                 continue;
             }
@@ -798,7 +805,7 @@ public class FullFileInfo
         int complexity = 0;
 
         // sum metrics from statements declared in a file
-        for (FullStatementInfo statementInfo : statements) {
+        for (StatementInfo statementInfo : statements) {
             if (statementInfo.isFiltered(contextFilter)) {
                 continue;
             }
@@ -855,9 +862,9 @@ public class FullFileInfo
         final int ncLineCount = in.readInt();
 
         // read classes, functions and statements
-        final Map<String, FullClassInfo> classes = readClasses(in);
-        final List<FullMethodInfo> methods = in.readList(FullMethodInfo.class);
-        final List<FullStatementInfo> statements = in.readList(FullStatementInfo.class);
+        final Map<String, ClassInfo> classes = readClasses(in);
+        final List<MethodInfo> methods = in.readList(FullMethodInfo.class);
+        final List<StatementInfo> statements = in.readList(FullStatementInfo.class);
 
         // construct file object and attach nested sub-elements
         final FullFileInfo fileInfo = new FullFileInfo(actualFile, encoding,
@@ -866,25 +873,25 @@ public class FullFileInfo
                 timestamp, checksum, filesize,
                 minVersion, maxVersion,
                 classes, methods, statements);
-        for (FullClassInfo classInfo : classes.values()) {
+        for (ClassInfo classInfo : classes.values()) {
             classInfo.setContainingFile(fileInfo);
         }
-        for (FullMethodInfo methodInfo : methods) {
+        for (MethodInfo methodInfo : methods) {
             methodInfo.setContainingFile(fileInfo);
         }
-        for (FullStatementInfo statementInfo : statements) {
+        for (StatementInfo statementInfo : statements) {
             statementInfo.setContainingFile(fileInfo);
         }
 
         return fileInfo;
     }
 
-    private static Map<String, FullClassInfo> readClasses(TaggedDataInput in) throws IOException {
+    private static Map<String, ClassInfo> readClasses(TaggedDataInput in) throws IOException {
         // read list
-        final List<FullClassInfo> classInfos = in.readList(FullClassInfo.class);
+        final List<ClassInfo> classInfos = in.readList(FullClassInfo.class);
         // and rewrite to map
-        final Map<String, FullClassInfo> classes = new LinkedHashMap<>(classInfos.size() * 2);
-        for(FullClassInfo classInfo : classInfos) {
+        final Map<String, ClassInfo> classes = new LinkedHashMap<>(classInfos.size() * 2);
+        for (ClassInfo classInfo : classInfos) {
             classes.put(classInfo.getName(), classInfo);
         }
         return classes;

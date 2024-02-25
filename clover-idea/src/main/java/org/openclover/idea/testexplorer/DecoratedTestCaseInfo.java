@@ -6,16 +6,17 @@ import org.jetbrains.annotations.Nullable;
 import org.openclover.core.BitSetCoverageProvider;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.CoverageData;
+import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.CoverageDataProvider;
 import org.openclover.core.api.registry.CoverageDataReceptor;
+import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullMethodInfo;
-import org.openclover.core.registry.entities.FullPackageInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.registry.entities.FullTestCaseInfo;
 import org.openclover.core.registry.entities.StackTraceInfo;
 import org.openclover.core.api.registry.HasMetricsFilter;
@@ -105,22 +106,22 @@ public class DecoratedTestCaseInfo extends FullTestCaseInfo implements HasCovera
     }
 
     private static CoverageDataReceptor copyReceptor(CoverageDataReceptor receptor) {
-            if (receptor instanceof FullProjectInfo) {
-                return ((FullProjectInfo) receptor).copy();
-            } else if (receptor instanceof FullFileInfo) {
-                final FullFileInfo fileInfo = (FullFileInfo) receptor;
-                return fileInfo.copy((FullPackageInfo) fileInfo.getContainingPackage(), HasMetricsFilter.ACCEPT_ALL);
-            } else if (receptor instanceof FullClassInfo) {
-                final FullClassInfo classInfo = (FullClassInfo) receptor;
-                return classInfo.copy((FullFileInfo) classInfo.getContainingFile(), HasMetricsFilter.ACCEPT_ALL);
-            } else if (receptor instanceof FullMethodInfo) {
-                final FullMethodInfo methodInfo = (FullMethodInfo) receptor;
+            if (receptor instanceof ProjectInfo) {
+                return ((ProjectInfo) receptor).copy();
+            } else if (receptor instanceof FileInfo) {
+                final FileInfo fileInfo = (FileInfo) receptor;
+                return (FullFileInfo) fileInfo.copy(fileInfo.getContainingPackage(), HasMetricsFilter.ACCEPT_ALL);
+            } else if (receptor instanceof ClassInfo) {
+                final ClassInfo classInfo = (ClassInfo) receptor;
+                return (FullClassInfo) classInfo.copy(classInfo.getContainingFile(), HasMetricsFilter.ACCEPT_ALL);
+            } else if (receptor instanceof MethodInfo) {
+                final MethodInfo methodInfo = (MethodInfo) receptor;
                 if (methodInfo.getContainingClass() != null) {
-                    return methodInfo.copy((FullClassInfo) methodInfo.getContainingClass());
+                    return (FullMethodInfo) methodInfo.copy(methodInfo.getContainingClass());
                 } else if (methodInfo.getContainingMethod() != null) {
-                    return methodInfo.copy((FullMethodInfo) methodInfo.getContainingMethod());
+                    return (FullMethodInfo) methodInfo.copy(methodInfo.getContainingMethod());
                 } else {
-                    return methodInfo.copy((FullFileInfo) methodInfo.getContainingFile());
+                    return (FullMethodInfo) methodInfo.copy(methodInfo.getContainingFile());
                 }
             } else {
                 return null;
@@ -236,13 +237,13 @@ public class DecoratedTestCaseInfo extends FullTestCaseInfo implements HasCovera
 
     @Nullable
     @Override
-    public FullClassInfo getRuntimeType() {
+    public ClassInfo getRuntimeType() {
         return decorated.getRuntimeType();
     }
 
     @Nullable
     @Override
-    public FullMethodInfo getSourceMethod() {
+    public MethodInfo getSourceMethod() {
         return decorated.getSourceMethod();
     }
 

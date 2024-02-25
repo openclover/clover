@@ -3,7 +3,7 @@ package org.openclover.core
 import junit.framework.TestCase
 import org.openclover.buildutil.testutils.IOHelper
 import org.openclover.core.api.registry.ClassInfo
-import org.openclover.core.registry.entities.FullProjectInfo
+import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.registry.entities.FullTestCaseInfo
 import org.openclover.core.api.registry.HasMetricsFilter
 import org.openclover.core.util.FileUtils
@@ -67,7 +67,7 @@ class TestResultProcessorTest extends TestCase {
 
 
     void testParseTestSuiteXML() throws Exception {
-        final FullProjectInfo testModel = db.getTestOnlyModel()
+        final ProjectInfo testModel = db.getTestOnlyModel()
         TestResultProcessor.addTestResultsToModel(testModel, testSuiteFiles)
         assertTestResults(testModel)
         ClassInfo t3 = testModel.findClass("Test3")
@@ -83,12 +83,12 @@ class TestResultProcessorTest extends TestCase {
     }
 
     void testParseTestFiles() throws Exception {
-        final FullProjectInfo testModel = db.getTestOnlyModel()
+        final ProjectInfo testModel = db.getTestOnlyModel()
         TestResultProcessor.addTestResultsToModel(testModel, testResultFiles)
         assertTestResults(testModel)
     }
 
-    private void assertTestResults(FullProjectInfo testModel) {
+    private void assertTestResults(ProjectInfo testModel) {
         final ClassInfo test1 = testModel.findClass("com.cenqua.test.Test1")
         final ClassInfo test2 = testModel.findClass("com.cenqua.test.Test2")
         final ClassInfo test4 = testModel.findClass("com.cenqua.test.Test4")

@@ -20,9 +20,9 @@ import org.openclover.buildutil.testutils.IOHelper
 import org.openclover.core.api.registry.ClassInfo
 import org.openclover.core.api.registry.FileInfo
 import org.openclover.core.api.registry.MethodInfo
+import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.api.registry.StatementInfo
 import org.openclover.core.cfg.instr.java.LambdaInstrumentation
-import org.openclover.core.registry.entities.FullProjectInfo
 import org.openclover.core.registry.entities.LineInfo
 import org.openclover.core.util.FileUtils
 import org.openclover.core.util.SourceScanner
@@ -75,7 +75,7 @@ abstract class JavaSyntaxCompilationTestBase {
     private String mInitString
     private File mProjDir
     private Project mAntProj
-    private FullProjectInfo mModel
+    private ProjectInfo mModel
     /** Keeps ant console output */
     private ByteArrayOutputStream mAntOutput
     private ByteArrayOutputStream execOutErrStream
@@ -263,7 +263,7 @@ abstract class JavaSyntaxCompilationTestBase {
     }
 
     protected void assertMethodCoverage(String classname, int lineno, int expected) throws Exception {
-        FullProjectInfo model = getModel()
+        ProjectInfo model = getModel()
 
         ClassInfo c = model.findClass(classname)
         assertNotNull("no such class $classname".toString(), classname)
@@ -281,7 +281,7 @@ abstract class JavaSyntaxCompilationTestBase {
     }
 
     void assertNoStatement(String classname, int lineno) throws Exception {
-        FullProjectInfo model = getModel()
+        ProjectInfo model = getModel()
         ClassInfo c = model.findClass(classname)
         assertNotNull("no such class $classname".toString(), classname)
 
@@ -292,7 +292,7 @@ abstract class JavaSyntaxCompilationTestBase {
     }
 
     protected void assertStatementCoverage(String classname, int lineno, int[] expected) throws Exception {
-        FullProjectInfo model = getModel()
+        ProjectInfo model = getModel()
         ClassInfo c = model.findClass(classname)
         assertNotNull("no such class $classname".toString(), classname)
 
@@ -303,7 +303,7 @@ abstract class JavaSyntaxCompilationTestBase {
     }
 
     protected void assertStatementCoverage(String classname, int lineno, int expected) throws Exception {
-        FullProjectInfo model = getModel()
+        ProjectInfo model = getModel()
         ClassInfo c = model.findClass(classname)
         assertNotNull("no such class $classname".toString(), classname)
 
@@ -389,7 +389,7 @@ abstract class JavaSyntaxCompilationTestBase {
         AssertionUtils.assertFileContains(subString, instrumentedFile, negate)
     }
 
-    protected FullProjectInfo getModel() throws Exception {
+    protected ProjectInfo getModel() throws Exception {
         if (mModel == null) {
             final CloverDatabase db = new CloverDatabase(mInitString)
             db.loadCoverageData()

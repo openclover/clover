@@ -32,4 +32,8 @@ public interface BranchInfo extends ElementInfo, InstrumentationInfo, SourceInfo
      * @return boolean - true if instrumented, false otherwise
      */
     boolean isInstrumented();
+
+    BranchInfo copy(MethodInfo method);
+
+    void setContainingMethod(MethodInfo methodInfo);
 }

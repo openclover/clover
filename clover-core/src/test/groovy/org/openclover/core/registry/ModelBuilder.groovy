@@ -2,6 +2,7 @@ package org.openclover.core.registry
 
 import org.openclover.core.api.registry.ClassInfo
 import org.openclover.core.api.registry.PackageInfo
+import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.context.ContextSetImpl
 import org.openclover.core.registry.entities.BasicElementInfo
 import org.openclover.core.registry.entities.BasicMethodInfo
@@ -36,8 +37,8 @@ class ModelBuilder {
         return elements.get(key)
     }
 
-    class ProjectWrapper extends Wrapper<ProjectWrapper, FullProjectInfo> {
-        ProjectWrapper(FullProjectInfo projectInfo) {
+    class ProjectWrapper extends Wrapper<ProjectWrapper, ProjectInfo> {
+        ProjectWrapper(ProjectInfo projectInfo) {
             super(projectInfo)
         }
 
@@ -67,7 +68,7 @@ class ModelBuilder {
         }
 
         ProjectWrapper end() {
-            return new ProjectWrapper((FullProjectInfo)getElement().getContainingProject())
+            return new ProjectWrapper(getElement().getContainingProject())
         }
 
         FileInfoWrapper file(String name) {

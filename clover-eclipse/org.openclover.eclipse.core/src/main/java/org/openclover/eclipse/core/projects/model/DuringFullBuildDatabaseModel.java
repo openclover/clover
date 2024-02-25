@@ -8,6 +8,7 @@ import org.openclover.core.CloverDatabase;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.entities.FullMethodInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
@@ -31,11 +32,11 @@ public class DuringFullBuildDatabaseModel extends StableDatabaseModel {
     public boolean isRegistryOfDate() { return false; }
 
     @Override
-    public FullProjectInfo getFullProjectInfo() { return null; }
+    public ProjectInfo getFullProjectInfo() { return null; }
     @Override
-    public FullProjectInfo getTestOnlyProjectInfo() { return null; }
+    public ProjectInfo getTestOnlyProjectInfo() { return null; }
     @Override
-    public FullProjectInfo getAppOnlyProjectInfo() { return null; }
+    public ProjectInfo getAppOnlyProjectInfo() { return null; }
     @Override
     public HasMetrics getPackageInfoOrFragment(IPackageFragment pack, MetricsScope scope) { return null; }
     @Override

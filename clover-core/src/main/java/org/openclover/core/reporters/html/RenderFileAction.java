@@ -154,7 +154,7 @@ public class RenderFileAction implements Callable {
     }
 
     @SuppressWarnings("unchecked")
-    public FullFileInfo insertSrcFileProperties() throws JSONException {
+    public FileInfo insertSrcFileProperties() throws JSONException {
         velocity.put("headerMetrics", fileInfo.getMetrics());
         velocity.put("headerMetricsRaw", fileInfo.getRawMetrics());
         velocity.put("fileInfo", fileInfo);
@@ -183,7 +183,7 @@ public class RenderFileAction implements Callable {
         final Map<TestCaseInfo, BitSet> targetElements = newHashMap(); // contains testid -> statements & branches
         final Map<TestCaseInfo, BlockMetrics> testMetrics = newHashMap(); // testid -> metrics
         Set<TestCaseInfo> testHits = database.getTestHits(fileInfo);
-        FullFileInfo fcopy = ((FullFileInfo) fileInfo).copy((FullPackageInfo) fileInfo.getContainingPackage(), HasMetricsFilter.ACCEPT_ALL);
+        FileInfo fcopy = fileInfo.copy(fileInfo.getContainingPackage(), HasMetricsFilter.ACCEPT_ALL);
         Set<TestCaseInfo> testSet = newHashSet();
 
         final List<TestCaseInfo>[] testLineInfo = (List<TestCaseInfo>[])new ArrayList[fcopy.getLineCount() + 1];
@@ -292,7 +292,7 @@ public class RenderFileAction implements Callable {
         return fcopy;
     }
 
-    private void insertLineInfos(FullFileInfo fcopy, List[] testLineInfo) throws TokenStreamException {
+    private void insertLineInfos(FileInfo fcopy, List[] testLineInfo) throws TokenStreamException {
         new SourceRenderHelper(database, reportConfig, renderingHelper)
             .insertLineInfosForFile(fcopy, velocity, getContextSet(), "&#160;", testLineInfo);
     }

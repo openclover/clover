@@ -10,6 +10,7 @@ import org.openclover.core.api.registry.ContextSet;
 import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.api.registry.StatementInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.model.XmlNames;
@@ -140,9 +141,8 @@ public class XMLReporter extends CloverReporter {
 
     /**
      * Get the package elements for this project.
-     *
      */
-    private void writeProject(XMLWriter out, String enclosingTag, FullProjectInfo proj) throws IOException {
+    private void writeProject(XMLWriter out, String enclosingTag, ProjectInfo proj) throws IOException {
         Map<String, String> attribs = newHashMap();
         if (reportConfig.getTitle() != null) {
             attribs.put(XmlNames.A_NAME, reportConfig.getTitle());

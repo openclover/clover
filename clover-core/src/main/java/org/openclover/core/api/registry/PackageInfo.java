@@ -119,4 +119,6 @@ public interface PackageInfo
     FileInfo getFileInPackage(String name);
 
     FileInfo getFile(String packagePath);
+
+    PackageInfo copy(ProjectInfo proj, HasMetricsFilter filter);
 }

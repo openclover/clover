@@ -14,11 +14,10 @@ import com.intellij.openapi.vfs.VirtualFile;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.api.registry.BranchInfo;
 import org.openclover.core.api.registry.ContextSet;
+import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.SourceInfo;
 import org.openclover.core.api.registry.CoverageDataProvider;
 import org.openclover.core.registry.entities.FullElementInfo;
-import org.openclover.core.registry.entities.FullFileInfo;
-import org.openclover.core.registry.entities.FullPackageInfo;
 import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.core.util.MetricsFormatUtils;
 import org.openclover.idea.ProjectPlugin;
@@ -129,11 +128,11 @@ public class DocMarkupPlugin extends ContentPlugin implements FeatureListener, C
         }
 
         if (isCoverageUpToDate()) {
-            final FullFileInfo fileInfo;
+            final FileInfo fileInfo;
             final CloverDatabase cloverDatabase = currentCoverageModel != null ? currentCoverageModel.getCloverDatabase() : null;
 
             if (cloverDatabase != null && ModelUtil.isPassedTestsCoverageOnly(cloverDatabase)) {
-                fileInfo = coverageInfo.copy((FullPackageInfo) coverageInfo.getContainingPackage(), HasMetricsFilter.ACCEPT_ALL);
+                fileInfo = coverageInfo.copy(coverageInfo.getContainingPackage(), HasMetricsFilter.ACCEPT_ALL);
             } else {
                 fileInfo = coverageInfo;
             }
@@ -213,7 +212,7 @@ public class DocMarkupPlugin extends ContentPlugin implements FeatureListener, C
          * Process document markups (background coloring, gutter lines) for given file.
          * @param coverageInfo       coverage information for one source file
          */
-        void process(final FullFileInfo coverageInfo) {
+        void process(final FileInfo coverageInfo) {
             filter = coverageInfo.getContextFilter();
             if (showHighlight || showError || showGutter) {
                 for (SourceInfo o : coverageInfo.getSourceRegions()) {

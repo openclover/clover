@@ -2,9 +2,13 @@ package org.openclover.core.api.registry;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.openclover.core.registry.FileElementVisitor;
 import org.openclover.core.registry.FileInfoRegion;
 
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Represents a single class or it's equivalent (an interface, trait etc).
@@ -38,6 +42,8 @@ public interface ClassInfo extends
      */
     @Nullable
     ClassInfo getContainingClass();
+
+    Collection<TestCaseInfo> getTestCases();
 
     /**
      * Returns a method in which this class (an anonymous inline class for instance) is declared or <code>null</code>
@@ -118,4 +124,20 @@ public interface ClassInfo extends
     boolean isEmpty();
 
     PackageInfo getPackage();
+
+    void gatherSourceRegions(Set<SourceInfo> regions);
+
+    void visitElements(FileElementVisitor visitor);
+
+    ClassInfo copy(FileInfo newParent, HasMetricsFilter filter);
+
+    void setDataProvider(final CoverageDataProvider data);
+
+    void setContainingMethod(MethodInfo containingMethod);
+
+    void setContainingClass(ClassInfo containingClass);
+
+    void setContainingFile(FileInfo fileInfo);
+
+    void setComparator(Comparator<HasMetrics> cmp);
 }

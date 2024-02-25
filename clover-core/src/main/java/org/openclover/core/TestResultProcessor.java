@@ -2,6 +2,8 @@ package org.openclover.core;
 
 import org.jetbrains.annotations.Nullable;
 import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.MethodInfo;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.context.ContextSetImpl;
 import org.openclover.core.registry.FixedSourceRegion;
@@ -35,17 +37,17 @@ public class TestResultProcessor {
      * @param files the TEST result XML files
      * @throws org.openclover.runtime.api.CloverException if an error occurs parsing the XML
      */
-    public static void addTestResultsToModel(FullProjectInfo model, List<File> files) throws CloverException {
+    public static void addTestResultsToModel(ProjectInfo model, List<File> files) throws CloverException {
         TestResultProcessor processor = new TestResultProcessor(model, files);
         int numTestResults = processor.scan();
         model.setHasTestResults(numTestResults > 0);
     }
 
-    private FullProjectInfo model;
+    private ProjectInfo model;
     private List<File> files;
 
 
-    public TestResultProcessor(FullProjectInfo model, List<File> files) {
+    public TestResultProcessor(ProjectInfo model, List<File> files) {
         this.model = model;
         this.files = files;
     }
@@ -87,14 +89,14 @@ public class TestResultProcessor {
 
 
     static class TestXMLHandler extends DefaultHandler {
-        private FullProjectInfo model;
+        private ProjectInfo model;
         private ClassInfo currentTestClassFromTestSuite;
         private ClassInfo currentTestClassFromTestCase;
         private FullTestCaseInfo currentTestCaseInfo;
         private StringBuffer message;
         private int testCaseCount;
 
-        public TestXMLHandler(FullProjectInfo model) {
+        public TestXMLHandler(ProjectInfo model) {
             this.model = model;
         }
 
@@ -159,7 +161,7 @@ public class TestResultProcessor {
                         Logger.getInstance().verbose(
                             "Didn't find pre-existing test case for class from JUnit results: " + currentTestClass.getQualifiedName() + "." + testname);
                         // look for the method declaration for this testcase
-                        FullMethodInfo methodDecl = ((FullClassInfo) currentTestClass).getTestMethodDeclaration(testname);
+                        MethodInfo methodDecl = ((FullClassInfo) currentTestClass).getTestMethodDeclaration(testname);
                         // look on the testsuite class if not found on the testcase
                         if (methodDecl == null && (currentTestClass == currentTestClassFromTestCase) && (currentTestClassFromTestSuite != null)) {
                             methodDecl = ((FullClassInfo) currentTestClassFromTestSuite).getTestMethodDeclaration(testname);

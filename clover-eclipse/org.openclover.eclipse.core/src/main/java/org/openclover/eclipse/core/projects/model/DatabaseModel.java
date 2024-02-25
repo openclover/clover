@@ -9,6 +9,7 @@ import org.openclover.core.CloverDatabase;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.entities.FullMethodInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
@@ -46,9 +47,9 @@ public abstract class DatabaseModel {
     public void onActivation(DatabaseModel predecessor) { /*no-op*/ }
     public void onDeactication(DatabaseModel successor) { /*no-op*/ }
 
-    public abstract FullProjectInfo getFullProjectInfo();
-    public abstract FullProjectInfo getTestOnlyProjectInfo();
-    public abstract FullProjectInfo getAppOnlyProjectInfo();
+    public abstract ProjectInfo getFullProjectInfo();
+    public abstract ProjectInfo getTestOnlyProjectInfo();
+    public abstract ProjectInfo getAppOnlyProjectInfo();
 
     public abstract HasMetrics getPackageInfoOrFragment(IPackageFragment pack, MetricsScope scope);
     public abstract FileInfo getSourceFileInfo(ICompilationUnit cu, MetricsScope scope);

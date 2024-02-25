@@ -6,6 +6,7 @@ import org.openclover.core.api.registry.ClassInfo
 import org.openclover.core.api.registry.FileInfo
 import org.openclover.core.api.registry.MethodInfo
 import org.openclover.core.api.registry.PackageInfo
+import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.api.registry.StatementInfo
 import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig
 import org.openclover.core.cfg.instr.java.LambdaInstrumentation
@@ -13,8 +14,6 @@ import org.openclover.core.cfg.instr.java.SourceLevel
 import org.openclover.core.instr.java.InstrumentationSource
 import org.openclover.core.instr.java.Instrumenter
 import org.openclover.core.registry.Clover2Registry
-import org.openclover.core.registry.entities.FullMethodInfo
-import org.openclover.core.registry.entities.FullProjectInfo
 
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.fail
@@ -228,7 +227,7 @@ abstract class AggregatedMetricsTestBase {
      * @param projectInfo
      * @param out
      */
-    protected void printProjectTree(FullProjectInfo projectInfo, PrintStream out) {
+    protected void printProjectTree(ProjectInfo projectInfo, PrintStream out) {
         int level = 0
         printIndent(out, level, "<project name=\"" + projectInfo.getName() + "\" version=\"" + projectInfo.getVersion() + "\">")
 

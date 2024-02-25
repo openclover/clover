@@ -40,10 +40,10 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo>
 
     public static final int DEFAULT_METHOD_COMPLEXITY = 1;
 
-    private List<FullStatementInfo> statements = newArrayList();
-    private List<FullBranchInfo> branches = newArrayList();
-    private List<FullClassInfo> innerClasses = newArrayList();
-    private List<FullMethodInfo> innerMethods = newArrayList();
+    private List<StatementInfo> statements = newArrayList();
+    private List<BranchInfo> branches = newArrayList();
+    private List<ClassInfo> innerClasses = newArrayList();
+    private List<MethodInfo> innerMethods = newArrayList();
 
     private int aggregatedStatementCount;  // calculated during instrumentation
     private int aggregatedComplexity;  // calculated during instrumentation
@@ -56,14 +56,14 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo>
     private transient ParentEntity parent;
 
     public FullMethodInfo(
-            FullClassInfo containingClass, int relativeDataIndex, ContextSet context, SourceInfo region,
+            ClassInfo containingClass, int relativeDataIndex, ContextSet context, SourceInfo region,
             MethodSignature signature, boolean isTest, String staticTestName, boolean isLambda, int complexity) {
         this(containingClass, relativeDataIndex, context, region,
                 signature, isTest, staticTestName, isLambda, complexity, LanguageConstruct.Builtin.METHOD);
     }
 
     public FullMethodInfo(
-            FullClassInfo containingClass, int relativeDataIndex, ContextSet context, SourceInfo region,
+            ClassInfo containingClass, int relativeDataIndex, ContextSet context, SourceInfo region,
             MethodSignature signature, boolean isTest, String staticTestName, boolean isLambda, int complexity, LanguageConstruct construct) {
 
         this(containingClass, context,
@@ -73,7 +73,7 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo>
     /**
      * For method-in-class
      */
-    public FullMethodInfo(FullClassInfo containingClass, ContextSet context, BasicMethodInfo methodInfo) {
+    public FullMethodInfo(ClassInfo containingClass, ContextSet context, BasicMethodInfo methodInfo) {
         super(context, methodInfo);
         parent = new ParentEntity(containingClass);
     }
@@ -81,7 +81,7 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo>
     /**
      * For method-in-method
      */
-    public FullMethodInfo(FullMethodInfo containingMethod, ContextSet context, BasicMethodInfo methodInfo) {
+    public FullMethodInfo(MethodInfo containingMethod, ContextSet context, BasicMethodInfo methodInfo) {
         super(context, methodInfo);
         parent = new ParentEntity(containingMethod);
     }
@@ -89,7 +89,7 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo>
     /**
      * For method-in-file
      */
-    public FullMethodInfo(FullFileInfo containingFile, ContextSet context, BasicMethodInfo methodInfo) {
+    public FullMethodInfo(FileInfo containingFile, ContextSet context, BasicMethodInfo methodInfo) {
         super(context, methodInfo);
         parent = new ParentEntity(containingFile);
     }
@@ -101,8 +101,8 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo>
                            int relativeDataIndex, int dataLength,
                            int complexity, LanguageConstruct construct, SourceInfo region,
                            boolean isTest, String staticTestName, boolean isLambda,
-                           List<FullStatementInfo> statements, List<FullBranchInfo> branches,
-                           List<FullClassInfo> classes, List<FullMethodInfo> methods) {
+                           List<StatementInfo> statements, List<BranchInfo> branches,
+                           List<ClassInfo> classes, List<MethodInfo> methods) {
         super(context,
                 new BasicMethodInfo(region, relativeDataIndex, dataLength, complexity, signature,
                                     isTest, staticTestName, isLambda, construct));
@@ -207,11 +207,13 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo>
 
     // inner classes and functions
 
-    public void addClass(FullClassInfo classInfo) {
+    @Override
+    public void addClass(ClassInfo classInfo) {
         innerClasses.add(classInfo);
     }
 
-    public void addMethod(FullMethodInfo methodInfo) {
+    @Override
+    public void addMethod(MethodInfo methodInfo) {
         innerMethods.add(methodInfo);
     }
 
@@ -231,11 +233,11 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo>
     public List<ClassInfo> getAllClasses() {
         final List<ClassInfo> allClasses = newArrayList();
         // in-order
-        for (FullClassInfo classInfo : innerClasses) {
+        for (ClassInfo classInfo : innerClasses) {
             allClasses.add(classInfo);
             allClasses.addAll(classInfo.getAllClasses());
         }
-        for (FullMethodInfo methodInfo : innerMethods) {
+        for (MethodInfo methodInfo : innerMethods) {
             allClasses.addAll(methodInfo.getAllClasses());
         }
         return allClasses;
@@ -257,11 +259,11 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo>
     public List<MethodInfo> getAllMethods() {
         final List<MethodInfo> allMethods = newArrayList();
         // in-order
-        for (FullMethodInfo methodInfo : innerMethods) {
+        for (MethodInfo methodInfo : innerMethods) {
             allMethods.add(methodInfo);
             allMethods.addAll(methodInfo.getAllMethods());
         }
-        for (FullClassInfo classInfo : innerClasses) {
+        for (ClassInfo classInfo : innerClasses) {
             allMethods.addAll(classInfo.getAllMethods());
         }
         return allMethods;
@@ -269,11 +271,13 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo>
 
     // statements and branches
 
-    public void addStatement(FullStatementInfo stmt) {
+    @Override
+    public void addStatement(StatementInfo stmt) {
         statements.add(stmt);
     }
 
-    public void addBranch(FullBranchInfo branch) {
+    @Override
+    public void addBranch(BranchInfo branch) {
         branches.add(branch);
     }
 
@@ -344,10 +348,10 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo>
     @Override
     public void setDataProvider(final CoverageDataProvider data) {
         this.data = data;
-        for (FullMethodInfo methodInfo : innerMethods) {
+        for (MethodInfo methodInfo : innerMethods) {
             methodInfo.setDataProvider(data);
         }
-        for (FullClassInfo classInfo : innerClasses) {
+        for (ClassInfo classInfo : innerClasses) {
             classInfo.setDataProvider(data);
         }
         // note: don't call setDataProvider on 'statements' because FullStatementInfo takes provider form its parent
@@ -355,17 +359,18 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo>
         metrics = null;
     }
 
+    @Override
     public void gatherSourceRegions(Set<SourceInfo> regions) {
         // this method and its code
         regions.add(this);
         regions.addAll(statements);
         regions.addAll(branches);
         // inline classes
-        for (FullClassInfo classInfo : innerClasses) {
+        for (ClassInfo classInfo : innerClasses) {
             classInfo.gatherSourceRegions(regions);
         }
         // inner functions
-        for (FullMethodInfo methodInfo : innerMethods) {
+        for (MethodInfo methodInfo : innerMethods) {
             methodInfo.gatherSourceRegions(regions);
         }
     }
@@ -380,22 +385,23 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo>
         entityVisitor.visitMethod(this);
     }
 
+    @Override
     public void visit(FileElementVisitor visitor) {
         // this method
         visitor.visitMethod(this);
         // this method's statements and branches
-        for (FullStatementInfo statementInfo : statements) {
+        for (StatementInfo statementInfo : statements) {
             visitor.visitStatement(statementInfo);
         }
         for (BranchInfo branchInfo : branches) {
             visitor.visitBranch(branchInfo);
         }
         // inline classes
-        for (FullClassInfo classInfo : innerClasses) {
+        for (ClassInfo classInfo : innerClasses) {
             classInfo.visitElements(visitor);
         }
         // inner functions
-        for (FullMethodInfo methodInfo : innerMethods) {
+        for (MethodInfo methodInfo : innerMethods) {
             methodInfo.visit(visitor);
         }
     }
@@ -441,17 +447,17 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo>
         int complexity = 1; // empty methods have a complexity of 1
 
         // sum metrics from inner classes
-        for (FullClassInfo classInfo : innerClasses) {
+        for (ClassInfo classInfo : innerClasses) {
             blockMetrics.add(classInfo.getMetrics());
         }
 
         // sum metrics from inner methods
-        for (FullMethodInfo methodInfo : innerMethods) {
+        for (MethodInfo methodInfo : innerMethods) {
             blockMetrics.add(methodInfo.getMetrics());
         }
 
         // sum metrics from statements declared in a method body
-        for (FullStatementInfo statementInfo : statements) {
+        for (StatementInfo statementInfo : statements) {
             if (statementInfo.isFiltered(contextSet)) {
                 continue;
             }
@@ -489,37 +495,40 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo>
         return blockMetrics;
     }
 
-    private void copyMethodInternals(FullMethodInfo targetMethod) {
+    private void copyMethodInternals(MethodInfo targetMethod) {
         targetMethod.setDataProvider(getDataProvider());
-        for (FullStatementInfo statementInfo : statements) {
+        for (StatementInfo statementInfo : statements) {
             targetMethod.addStatement(statementInfo.copy(targetMethod));
         }
-        for (FullBranchInfo branchInfo : branches) {
+        for (BranchInfo branchInfo : branches) {
             targetMethod.addBranch(branchInfo.copy(targetMethod));
         }
-        for (FullClassInfo classInfo : innerClasses) {
+        for (ClassInfo classInfo : innerClasses) {
             targetMethod.addClass(classInfo);
         }
-        for (FullMethodInfo methodInfo : innerMethods) {
+        for (MethodInfo methodInfo : innerMethods) {
             targetMethod.addMethod(methodInfo);
         }
         targetMethod.setDataLength(getDataLength());
     }
 
-    public FullMethodInfo copy(FullClassInfo classAsParent) {
-        FullMethodInfo method = new FullMethodInfo(classAsParent, getContext(), sharedInfo);
+    @Override
+    public MethodInfo copy(ClassInfo classAsParent) {
+        MethodInfo method = new FullMethodInfo(classAsParent, getContext(), sharedInfo);
         copyMethodInternals(method);
         return method;
     }
 
-    public FullMethodInfo copy(FullMethodInfo methodAsParent) {
-        FullMethodInfo method = new FullMethodInfo(methodAsParent, getContext(), sharedInfo);
+    @Override
+    public MethodInfo copy(MethodInfo methodAsParent) {
+        MethodInfo method = new FullMethodInfo(methodAsParent, getContext(), sharedInfo);
         copyMethodInternals(method);
         return method;
     }
 
-    public FullMethodInfo copy(FullFileInfo fileAsParent) {
-        FullMethodInfo method = new FullMethodInfo(fileAsParent, getContext(), sharedInfo);
+    @Override
+    public MethodInfo copy(FileInfo fileAsParent) {
+        MethodInfo method = new FullMethodInfo(fileAsParent, getContext(), sharedInfo);
         copyMethodInternals(method);
         return method;
     }
@@ -528,6 +537,7 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo>
      * convenience method
      * @return true if public, false otherwise
      */
+    @Override
     public boolean isPublic() {
         return Modifier.isPublic(sharedInfo.getSignature().getBaseModifiersMask());
     }
@@ -551,19 +561,23 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo>
         return sharedInfo.getDataLength();
     }
 
+    @Override
     public void setDataLength(int length) {
         sharedInfo.setDataLength(length);
     }
 
-    protected void setContainingClass(FullClassInfo classInfo) {
+    @Override
+    public void setContainingClass(ClassInfo classInfo) {
         parent = new ParentEntity(classInfo);
     }
 
-    protected void setContainingMethod(FullMethodInfo methodInfo) {
+    @Override
+    public void setContainingMethod(MethodInfo methodInfo) {
         parent = new ParentEntity(methodInfo);
     }
 
-    protected void setContainingFile(FullFileInfo fileInfo) {
+    @Override
+    public void setContainingFile(FileInfo fileInfo) {
         if (parent == null) {
             parent = new ParentEntity(fileInfo);
         } else {
@@ -639,10 +653,10 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo>
         final FixedSourceRegion region = FixedSourceRegion.read(in);
 
         // read statements, branches, inner classes and inner methods
-        final List<FullStatementInfo> statements = in.readList(FullStatementInfo.class);
-        final List<FullBranchInfo> branches = in.readList(FullBranchInfo.class);
-        final List<FullClassInfo> innerClasses = in.readList(FullClassInfo.class);
-        final List<FullMethodInfo> innerMethods = in.readList(FullMethodInfo.class);
+        final List<StatementInfo> statements = in.readList(FullStatementInfo.class);
+        final List<BranchInfo> branches = in.readList(FullBranchInfo.class);
+        final List<ClassInfo> innerClasses = in.readList(FullClassInfo.class);
+        final List<MethodInfo> innerMethods = in.readList(FullMethodInfo.class);
 
         // construct method object and attach sub-elements
         final FullMethodInfo methodInfo = new FullMethodInfo(
@@ -651,16 +665,16 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo>
                 statements, branches, innerClasses, innerMethods);
         methodInfo.setAggregatedComplexity(aggregatedComplexity);
         methodInfo.setAggregatedStatementCount(aggregatedStatements);
-        for (FullStatementInfo statement : statements) {
+        for (StatementInfo statement : statements) {
             statement.setContainingMethod(methodInfo);
         }
-        for (FullBranchInfo branch : branches) {
+        for (BranchInfo branch : branches) {
             branch.setContainingMethod(methodInfo);
         }
-        for (FullClassInfo innerClass : innerClasses) {
+        for (ClassInfo innerClass : innerClasses) {
             innerClass.setContainingMethod(methodInfo);
         }
-        for (FullMethodInfo innerMethod : innerMethods) {
+        for (MethodInfo innerMethod : innerMethods) {
             innerMethod.setContainingMethod(methodInfo);
         }
 

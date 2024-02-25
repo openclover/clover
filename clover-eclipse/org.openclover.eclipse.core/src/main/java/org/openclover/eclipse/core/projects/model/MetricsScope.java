@@ -6,6 +6,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.jdt.core.IMethod;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.registry.metrics.BlockMetrics;
@@ -15,8 +16,8 @@ import org.openclover.eclipse.core.views.nodes.Nodes;
 public abstract class MetricsScope {
     public static final MetricsScope APP_ONLY = new MetricsScope() {
         @Override
-        public FullProjectInfo getProjectInfoFor(CloverProject project) {
-            FullProjectInfo projectInfo = project.getModel().getAppOnlyProjectInfo();
+        public ProjectInfo getProjectInfoFor(CloverProject project) {
+            ProjectInfo projectInfo = project.getModel().getAppOnlyProjectInfo();
             if (projectInfo == null) {
                 projectInfo = FULL.getProjectInfoFor(project);
             }
@@ -24,8 +25,8 @@ public abstract class MetricsScope {
         }
 
         @Override
-        public FullProjectInfo getProjectInfoFor(CloverDatabase database) {
-            FullProjectInfo projectInfo = database.getAppOnlyModel();
+        public ProjectInfo getProjectInfoFor(CloverDatabase database) {
+            ProjectInfo projectInfo = database.getAppOnlyModel();
             if (projectInfo == null) {
                 projectInfo = FULL.getProjectInfoFor(database);
             }
@@ -44,8 +45,8 @@ public abstract class MetricsScope {
     };
     public static final MetricsScope TEST_ONLY = new MetricsScope() {
         @Override
-        public FullProjectInfo getProjectInfoFor(CloverProject project) {
-            FullProjectInfo projectInfo = project.getModel().getTestOnlyProjectInfo();
+        public ProjectInfo getProjectInfoFor(CloverProject project) {
+            ProjectInfo projectInfo = project.getModel().getTestOnlyProjectInfo();
             if (projectInfo == null) {
                 projectInfo = FULL.getProjectInfoFor(project);
             }
@@ -53,8 +54,8 @@ public abstract class MetricsScope {
         }
 
         @Override
-        public FullProjectInfo getProjectInfoFor(CloverDatabase database) {
-            FullProjectInfo projectInfo = database.getTestOnlyModel();
+        public ProjectInfo getProjectInfoFor(CloverDatabase database) {
+            ProjectInfo projectInfo = database.getTestOnlyModel();
             if (projectInfo == null) {
                 projectInfo = FULL.getProjectInfoFor(database);
             }
@@ -73,12 +74,12 @@ public abstract class MetricsScope {
     };
     public static final MetricsScope FULL = new MetricsScope() {
         @Override
-        public FullProjectInfo getProjectInfoFor(CloverProject project) {
+        public ProjectInfo getProjectInfoFor(CloverProject project) {
             return project.getModel().getFullProjectInfo();
         }
 
         @Override
-        public FullProjectInfo getProjectInfoFor(CloverDatabase database) {
+        public ProjectInfo getProjectInfoFor(CloverDatabase database) {
             return database.getFullModel();
         }
 
@@ -114,8 +115,8 @@ public abstract class MetricsScope {
         return (TestCaseInfo[])Platform.getAdapterManager().getAdapter(new Qualification(method, this), TestCaseInfo[].class);
     }
 
-    public abstract FullProjectInfo getProjectInfoFor(CloverProject project);
-    public abstract FullProjectInfo getProjectInfoFor(CloverDatabase database);
+    public abstract ProjectInfo getProjectInfoFor(CloverProject project);
+    public abstract ProjectInfo getProjectInfoFor(CloverDatabase database);
     public abstract boolean isProjectInfoAvailable(CloverProject project);
     public abstract boolean isScopeClassContainer(Object element) throws CoreException;
 

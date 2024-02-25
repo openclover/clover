@@ -40,10 +40,10 @@ public interface TestCaseInfo {
     StackTraceInfo getStackTrace();
 
     @Nullable
-    FullClassInfo getRuntimeType();
+    ClassInfo getRuntimeType();
 
     @Nullable
-    FullMethodInfo getSourceMethod();
+    MethodInfo getSourceMethod();
 
     @Nullable
     String getQualifiedName();

@@ -74,7 +74,7 @@ public class CoverageAnnotationFilter {
         for (Iterator<TestCaseInfo> iterator = includedTests.iterator(); iterator.hasNext();) {
             TestCaseInfo testCase = iterator.next();
             if (testCase != null) {
-                if (testCase.isResolved() || testCase.resolve((FullProjectInfo)fileInfo.getContainingPackage().getContainingProject())) {
+                if (testCase.isResolved() || testCase.resolve(fileInfo.getContainingPackage().getContainingProject())) {
                     if (testNames.matches(testCase)) {
                         iterator.remove();
                     }

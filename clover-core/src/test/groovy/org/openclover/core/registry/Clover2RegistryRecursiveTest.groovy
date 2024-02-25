@@ -5,11 +5,9 @@ import org.junit.Test
 import org.openclover.core.api.registry.ClassInfo
 import org.openclover.core.api.registry.MethodInfo
 import org.openclover.core.api.registry.PackageInfo
+import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.context.ContextStore
-import org.openclover.core.registry.entities.FullClassInfo
 import org.openclover.core.registry.entities.FullFileInfo
-import org.openclover.core.registry.entities.FullMethodInfo
-import org.openclover.core.registry.entities.FullProjectInfo
 import org.openclover.core.registry.format.FreshRegFile
 import org.openclover.runtime.api.CloverException
 import org.openclover.runtime.registry.format.RegAccessMode
@@ -26,7 +24,7 @@ import static org.junit.Assert.assertNull
 class Clover2RegistryRecursiveTest {
 
     protected static File registryFile
-    protected static FullProjectInfo projectInfo
+    protected static ProjectInfo projectInfo
 
     /**
      * Test a following model structure (yes, it's more than pure java)
@@ -60,7 +58,7 @@ class Clover2RegistryRecursiveTest {
      *
      * @todo add test for BranchInfo
      */
-    protected static FullProjectInfo buildSampleProject() {
+    protected static ProjectInfo buildSampleProject() {
         final ModelBuilder modelBuilder = new ModelBuilder()
 
         return modelBuilder

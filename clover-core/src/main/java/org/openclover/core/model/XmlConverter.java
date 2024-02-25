@@ -4,6 +4,7 @@ import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.registry.FixedSourceRegion;
 import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
@@ -41,9 +42,9 @@ public class XmlConverter {
     public static class CoverageXMLHandler extends DefaultHandler {
 
         private CoverageDataPoint model;
-        private FullProjectInfo project;
-        private FullPackageInfo pkg;
-        private FullFileInfo file;
+        private ProjectInfo project;
+        private PackageInfo pkg;
+        private FileInfo file;
         private HasMetrics currentEntity;
 
         private int currentLevel = TOP_LEVEL;

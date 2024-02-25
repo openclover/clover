@@ -1,6 +1,7 @@
 package org.openclover.core.registry;
 
 import org.openclover.core.api.registry.FileInfo;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.context.ContextStore;
 import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.api.registry.HasMetricsFilter;
@@ -8,12 +9,12 @@ import org.openclover.core.api.registry.HasMetricsFilter;
 import java.util.List;
 
 public class FullProjectUpdate implements RegistryUpdate {
-    private final FullProjectInfo proj;
+    private final ProjectInfo proj;
     private final ContextStore ctxStore;
     private final long startTs;
     private final long endTs;
 
-    public FullProjectUpdate(FullProjectInfo proj, ContextStore ctxStore, long startTs, long endTs) {
+    public FullProjectUpdate(ProjectInfo proj, ContextStore ctxStore, long startTs, long endTs) {
         this.proj = proj;
         this.ctxStore = ctxStore;
         this.startTs = startTs;

@@ -83,7 +83,7 @@ public class FullProjectInfo
     protected BlockMetrics metrics;
     protected ContextSet contextFilter;
 
-    private List<FullPackageInfo> orderedPkgs;
+    private List<PackageInfo> orderedPkgs;
     private List<PackageFragment> orderedPkgRoots;
     private Map<String, PackageFragment> roots;
     private boolean fragmented;
@@ -288,10 +288,12 @@ public class FullProjectInfo
 
     // OTHER
 
+    @Override
     public void setName(String name) {
         this.name = name;
     }
 
+    @Override
     public void addPackage(PackageInfo pkg) {
         packages.put(pkg.getName(), pkg);
     }
@@ -333,6 +335,7 @@ public class FullProjectInfo
      * @param filter filter to apply
      * @return list of files that match filter
      */
+    @Override
     public List<FileInfo> getFiles(HasMetricsFilter filter) {
         if (fileLookup == null) {
             buildFileLookupMap();
@@ -373,23 +376,27 @@ public class FullProjectInfo
         fileLookup = tmpFileLookup;
     }
 
+    @Override
     public void setContextFilter(ContextSet filter) {
         contextFilter = filter;
         metrics = null;
     }
 
+    @Override
     public void visitFiles(FileInfoVisitor visitor) {
         for (PackageInfo pkgInfo : packages.values()) {
             pkgInfo.visitFiles(visitor);
         }
     }
 
+    @Override
     public PackageFragment[] getPackageRoots() {
         ensureRootsBuilt();
         return (PackageFragment[]) roots.values().toArray(new PackageFragment[0]);
     }
 
-    public FullProjectInfo copy() {
+    @Override
+    public ProjectInfo copy() {
         return copy(HasMetricsFilter.ACCEPT_ALL);
     }
 
@@ -397,7 +404,8 @@ public class FullProjectInfo
      * create a deep copy of this project tree, applying the filter to all levels
      * @return  filtered copy of the projectinfo
      */
-    public FullProjectInfo copy(HasMetricsFilter filter) {
+    @Override
+    public ProjectInfo copy(HasMetricsFilter filter) {
         return copy(filter, getContextFilter());
     }
 
@@ -405,14 +413,15 @@ public class FullProjectInfo
      * create a deep copy of this project tree, applying the filter and context set to all levels
      * @return  filtered copy of the projectinfo
      */
-    public FullProjectInfo copy(HasMetricsFilter filter, ContextSet contextFilter) {
-        FullProjectInfo proj = new FullProjectInfo(name);
+    @Override
+    public ProjectInfo copy(HasMetricsFilter filter, ContextSet contextFilter) {
+        ProjectInfo proj = new FullProjectInfo(name);
         proj.setContextFilter(contextFilter);
         proj.setDataProvider(getDataProvider());
         proj.setVersion(getVersion());
         for (PackageInfo pkgInfo : packages.values()) {
             if (filter.accept(pkgInfo)) {
-                PackageInfo info = ((FullPackageInfo) pkgInfo).copy(proj, filter);
+                PackageInfo info = pkgInfo.copy(proj, filter);
                 if (!info.isEmpty()) {
                     proj.addPackage(info);
                 }
@@ -438,7 +447,7 @@ public class FullProjectInfo
     }
 
     private void buildOrderedPackageList() {
-        List tmpOrderedPkgs = newArrayList(packages.values());
+        List<PackageInfo> tmpOrderedPkgs = newArrayList(packages.values());
         if (orderby != null) {
             tmpOrderedPkgs.sort(orderby);
         }
@@ -481,6 +490,7 @@ public class FullProjectInfo
         }
     }
 
+    @Override
     public void resolve(final Path sourcePath) {
         visitFiles(file -> ((FullFileInfo)file).resolve(sourcePath));
     }
@@ -510,10 +520,12 @@ public class FullProjectInfo
         return dataLength;
     }
 
+    @Override
     public void setDataLength(int length) {
         dataLength = length;
     }
 
+    @Override
     public void buildCaches() {
         buildOrderedPackageList();
         buildPackageTrees();
@@ -527,12 +539,12 @@ public class FullProjectInfo
         this.fragmented = fragmented;
     }
 
-
-
+    @Override
     public boolean hasTestResults() {
         return hasTestResults;
     }
 
+    @Override
     public void setHasTestResults(boolean hasTestResults) {
         this.hasTestResults = hasTestResults;
     }
@@ -558,6 +570,7 @@ public class FullProjectInfo
         }
     }
 
+    @Override
     public PackageFragment findPackageFragment(String packageName) {
         final String[] names = packageName.split("\\.");
         PackageFragment[] fragments = getPackageRoots();

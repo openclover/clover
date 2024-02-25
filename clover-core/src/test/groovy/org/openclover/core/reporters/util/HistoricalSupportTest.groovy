@@ -6,6 +6,7 @@ import org.junit.rules.TestName
 import org.openclover.core.api.registry.ClassInfo
 import org.openclover.core.api.registry.FileInfo
 import org.openclover.core.api.registry.PackageInfo
+import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.api.registry.SourceInfo
 import org.openclover.core.cfg.Percentage
 import org.openclover.core.registry.FixedSourceRegion
@@ -29,11 +30,11 @@ class HistoricalSupportTest {
     @Rule
     public TestName testName = new TestName()
 
-    protected FullProjectInfo project(String projectName) {
+    protected ProjectInfo project(String projectName) {
         return new FullProjectInfo(projectName, 0)
     }
 
-    protected FullPackageInfo pkg(FullProjectInfo parentProject, String packageName) {
+    protected FullPackageInfo pkg(ProjectInfo parentProject, String packageName) {
         return new FullPackageInfo(parentProject, packageName, 0)
     }
 
@@ -50,7 +51,7 @@ class HistoricalSupportTest {
 
     @Test
     void testGetProjectMetricsDiff() throws CloverException {
-        FullProjectInfo thenProj = project("TestProject")
+        ProjectInfo thenProj = project("TestProject")
         FullPackageInfo thenPkg1 = pkg(thenProj, "pkg1")
         FullFileInfo thenFile1 = file(thenPkg1, "File1")
         FullClassInfo thenClass1 = cls(thenPkg1, thenFile1, "class1")
@@ -59,7 +60,7 @@ class HistoricalSupportTest {
         thenPkg1.addFile(thenFile1)
         thenFile1.addClass(thenClass1)
 
-        FullProjectInfo nowProj = project("TestProject")
+        ProjectInfo nowProj = project("TestProject")
         FullPackageInfo nowPkg1 = pkg(nowProj, "pkg1")
         FullFileInfo nowFile1 = file(nowPkg1, "File1")
         FullClassInfo nowClass1 = cls(nowPkg1, nowFile1, "class1")

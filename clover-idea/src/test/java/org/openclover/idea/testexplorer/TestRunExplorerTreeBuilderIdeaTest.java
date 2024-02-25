@@ -5,6 +5,7 @@ import org.mockito.Mockito;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.CoverageDataSpec;
 import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.reporters.filters.DefaultTestFilter;
@@ -26,7 +27,7 @@ public class TestRunExplorerTreeBuilderIdeaTest extends LightIdeaTestCase {
     }
 
     public void testUniqueCoverage() {
-        FullProjectInfo projectInfo = cloverDb.getFullModel();
+        ProjectInfo projectInfo = cloverDb.getFullModel();
 
         ClassInfo aClass = projectInfo.findClass("com.cenqua.clovertest.A");
         assertNotNull(aClass);

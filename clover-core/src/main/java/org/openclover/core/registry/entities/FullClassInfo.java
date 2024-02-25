@@ -50,24 +50,24 @@ public class FullClassInfo
     /**
      * List of methods declared in the class
      */
-    private List<FullMethodInfo> methods = newArrayList();
+    private List<MethodInfo> methods = newArrayList();
 
     /**
      * List of classes declared inside the class. Unused currently. Could be used for inner or inline classes; inline
      * classes could be either inside a method or assigned to a class' field.
      */
-    private List<FullClassInfo> classes = newArrayList();
+    private List<ClassInfo> classes = newArrayList();
 
     /**
      * List of statements declared in the class - could used for initializer blocks for instance (unused currently)
      */
-    private List<FullStatementInfo> statements = newArrayList();
+    private List<StatementInfo> statements = newArrayList();
 
     /**
      * List of branches declared in the class - could used for initializer blocks for instance (unused currently)
      */
     // TODO handle it in: copying, metrics, read, write, add, get
-    private List<FullBranchInfo> branches = newArrayList();
+    private List<BranchInfo> branches = newArrayList();
 
     private int relativeDataIndex;
     private int dataLength;
@@ -124,9 +124,9 @@ public class FullClassInfo
                           final boolean typeInterface, final boolean typeEnum, final boolean typeAnnotation, boolean testClass,
                           final SourceInfo region,
                           final Modifiers modifiers,
-                          final List<FullMethodInfo> methods,
-                          final List<FullClassInfo> classes,
-                          final List<FullStatementInfo> statements) {
+                          final List<MethodInfo> methods,
+                          final List<ClassInfo> classes,
+                          final List<StatementInfo> statements) {
         this.classMetadata = new FullClassMetadata(name, qualifiedName, modifiers, typeInterface, typeEnum, typeAnnotation, testClass);
         this.region = region;
         this.relativeDataIndex = dataIndex;
@@ -181,9 +181,9 @@ public class FullClassInfo
         this.tciLookup =
                 data instanceof TCILookupStore ? ((TCILookupStore)data).namedTCILookupFor(calcTCILookupName()) : null;
         for (MethodInfo methodInfo : methods) {
-            ((FullMethodInfo) methodInfo).setDataProvider(data);
+            methodInfo.setDataProvider(data);
         }
-        for (FullClassInfo classInfo : classes) {
+        for (ClassInfo classInfo : classes) {
             classInfo.setDataProvider(data);
         }
         // note: don't call setDataProvider on 'statements' because FullStatementInfo takes provider form its parent
@@ -209,7 +209,7 @@ public class FullClassInfo
     public List<ClassInfo> getAllClasses() {
         final List<ClassInfo> allClasses = newArrayList();
         // in-order
-        for (FullClassInfo classInfo : classes) {
+        for (ClassInfo classInfo : classes) {
             allClasses.add(classInfo);
             allClasses.addAll(classInfo.getAllClasses());
         }
@@ -236,7 +236,7 @@ public class FullClassInfo
             allMethods.add(methodInfo);
             allMethods.addAll(methodInfo.getAllMethods());
         }
-        for (FullClassInfo classInfo : classes) {
+        for (ClassInfo classInfo : classes) {
             allMethods.addAll(classInfo.getAllMethods());
         }
         return allMethods;
@@ -335,16 +335,16 @@ public class FullClassInfo
 
     // OTHER
 
-    public void addClass(FullClassInfo classInfo) {
+    public void addClass(ClassInfo classInfo) {
         classes.add(classInfo);
     }
 
-    public void addMethod(FullMethodInfo meth) {
+    public void addMethod(MethodInfo meth) {
         methods.add(meth);
         classMetadata.testClass |= meth.isTest();
     }
 
-    public void addStatement(FullStatementInfo statement) {
+    public void addStatement(StatementInfo statement) {
         statements.add(statement);
     }
 
@@ -356,7 +356,7 @@ public class FullClassInfo
         classMetadata.testClass = true;
     }
 
-
+    @Override
     public Collection<TestCaseInfo> getTestCases() {
         final TestCaseInfoLookup lookup = tciLookup;
         if (lookup != null) {
@@ -461,26 +461,28 @@ public class FullClassInfo
         return parent.getParentEntity();
     }
 
+    @Override
     public void gatherSourceRegions(Set<SourceInfo> regions) {
         regions.add(this);
-        for (FullMethodInfo methodInfo : methods) {
+        for (MethodInfo methodInfo : methods) {
             methodInfo.gatherSourceRegions(regions);
         }
     }
 
+    @Override
     public void visitElements(FileElementVisitor visitor) {
         // this class
         visitor.visitClass(this);
         // inner classes
-        for (FullClassInfo classInfo : classes) {
+        for (ClassInfo classInfo : classes) {
             classInfo.visitElements(visitor);
         }
         // this class methods
-        for (FullMethodInfo methodInfo : methods) {
+        for (MethodInfo methodInfo : methods) {
             methodInfo.visit(visitor);
         }
         // this class statements
-        for (FullStatementInfo statementInfo : statements) {
+        for (StatementInfo statementInfo : statements) {
             visitor.visitStatement(statementInfo);
         }
     }
@@ -489,9 +491,6 @@ public class FullClassInfo
     public String getChildType() {
         return "method";
     }
-
-
-
 
     @Override
     public void setComparator(Comparator<HasMetrics> cmp) {
@@ -523,7 +522,7 @@ public class FullClassInfo
         int covered = 0;
         int numMethods = 0;
         int numTestMethods = 0;
-        for (FullMethodInfo methodInfo : methods) {
+        for (MethodInfo methodInfo : methods) {
             if (methodInfo.isFiltered(filter)) {
                 continue;
             }
@@ -558,7 +557,7 @@ public class FullClassInfo
 
     private void calcAndAddClassMetrics(ClassMetrics classMetrics, boolean isFiltered) {
         // sum metrics from inner classes
-        for (FullClassInfo classInfo : classes) {
+        for (ClassInfo classInfo : classes) {
             if (!isFiltered) {
                 classMetrics.add(classInfo.getRawMetrics());
             } else {
@@ -598,7 +597,7 @@ public class FullClassInfo
         int complexity = 0;
 
         // sum metrics from statements declared in a class body
-        for (FullStatementInfo statementInfo : statements) {
+        for (StatementInfo statementInfo : statements) {
             if (statementInfo.isFiltered(contextSet)) {
                 continue;
             }
@@ -644,7 +643,8 @@ public class FullClassInfo
         }
     }
 
-    public FullClassInfo copy(FullFileInfo newParent, HasMetricsFilter filter) {
+    @Override
+    public ClassInfo copy(FileInfo newParent, HasMetricsFilter filter) {
         final FullClassInfo newClass = new FullClassInfo(
                 newParent.getContainingPackage(), newParent,
                 relativeDataIndex, classMetadata.name, this, classMetadata.modifiers,
@@ -652,17 +652,17 @@ public class FullClassInfo
         newClass.setDataProvider(getDataProvider());
         newClass.setDataLength(getDataLength());
 
-        for (FullClassInfo classInfo : classes) {
+        for (ClassInfo classInfo : classes) {
             if (filter.accept(classInfo)) {
                 newClass.addClass(classInfo);
             }
         }
-        for (FullMethodInfo methodInfo : methods) {
+        for (MethodInfo methodInfo : methods) {
             if (filter.accept(methodInfo)) {
                 newClass.addMethod(methodInfo.copy(newClass));
             }
         }
-        for (FullStatementInfo statementInfo : statements) {
+        for (StatementInfo statementInfo : statements) {
             // note that statements are not filtered
             newClass.addStatement(statementInfo.copy(newClass));
         }
@@ -674,10 +674,10 @@ public class FullClassInfo
      * find a method decl from its name
      * at the moment this method just returns the first method that has the requested name, or null
      *
-     * @return  FullMethodInfo or null if not found
+     * @return MethodInfo or null if not found
      */
-    public FullMethodInfo getTestMethodDeclaration(String methodname) {
-        for (FullMethodInfo methodInfo : methods) {
+    public MethodInfo getTestMethodDeclaration(String methodname) {
+        for (MethodInfo methodInfo : methods) {
             if (methodInfo.getSimpleName().equals(methodname) && methodInfo.isPublic()) {
                 return methodInfo;
             }
@@ -694,15 +694,18 @@ public class FullClassInfo
         region = new FixedSourceRegion(region.getStartLine(), region.getStartColumn(), endLine, endCol);
     }
 
-    public void setContainingMethod(FullMethodInfo containingMethod) {
+    @Override
+    public void setContainingMethod(MethodInfo containingMethod) {
         parent = new ParentEntity(containingMethod);
     }
 
-    public void setContainingClass(FullClassInfo containingClass) {
+    @Override
+    public void setContainingClass(ClassInfo containingClass) {
         parent = new ParentEntity(containingClass);
     }
 
-    public void setContainingFile(FullFileInfo fileInfo) {
+    @Override
+    public void setContainingFile(FileInfo fileInfo) {
         // TODO yuck; double field; one is from FixedFileRegion
         this.containingFile = fileInfo;
         if (parent == null) {
@@ -711,7 +714,6 @@ public class FullClassInfo
             parent.setContainingFile(fileInfo);
         }
     }
-
 
     public static FullClassInfo read(TaggedDataInput in) throws IOException {
         // read class metadata
@@ -729,9 +731,9 @@ public class FullClassInfo
         final Modifiers modifiers = in.read(Modifiers.class);
 
         // read methods and statements
-        final List<FullClassInfo> classes = in.readList(FullClassInfo.class);
-        final List<FullMethodInfo> methods = in.readList(FullMethodInfo.class);
-        final List<FullStatementInfo> statements = in.readList(FullStatementInfo.class);
+        final List<ClassInfo> classes = in.readList(FullClassInfo.class);
+        final List<MethodInfo> methods = in.readList(FullMethodInfo.class);
+        final List<StatementInfo> statements = in.readList(FullStatementInfo.class);
 
         // instantiate object and attach methods and statements to it
         final FullClassInfo classInfo = new FullClassInfo(name, qualifiedName,
@@ -739,13 +741,13 @@ public class FullClassInfo
                 region, modifiers, methods, classes, statements);
         classInfo.setAggregatedStatementCount(aggregatedStatements);
         classInfo.setAggregatedComplexity(aggregatedComplexity);
-        for (FullClassInfo cls : classes) {
+        for (ClassInfo cls : classes) {
             cls.setContainingClass(classInfo);
         }
-        for (FullMethodInfo method : methods) {
+        for (MethodInfo method : methods) {
             method.setContainingClass(classInfo);
         }
-        for (FullStatementInfo statement : statements) {
+        for (StatementInfo statement : statements) {
             statement.setContainingClass(classInfo);
         }
         return classInfo;

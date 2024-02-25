@@ -2,11 +2,19 @@ package org.openclover.core.api.registry;
 
 import org.jetbrains.annotations.NotNull;
 import org.openclover.core.registry.FileElementVisitor;
+import org.openclover.core.registry.entities.FullClassInfo;
+import org.openclover.core.registry.entities.FullMethodInfo;
+import org.openclover.core.registry.entities.FullStatementInfo;
+import org.openclover.core.registry.entities.LineInfo;
+import org.openclover.core.registry.entities.StackTraceInfo;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Represents a single source file. A file is a part of a package - {@link #getContainingPackage()}
@@ -155,5 +163,28 @@ public interface FileInfo extends
 
     Reader getSourceReader() throws IOException;
 
+    Set<SourceInfo> getSourceRegions();
+
+    LineInfo[] getLineInfo(boolean showLambdaFunctions, boolean showInnerFunctions);
+
+    LineInfo[] getLineInfo(int ensureLineCountAtLeast, boolean showLambdaFunctions,
+                           boolean showInnerFunctions);
+
     void visitElements(FileElementVisitor visitor);
+
+    void setDataProvider(final CoverageDataProvider data);
+
+    void setComparator(Comparator<HasMetrics> cmp);
+
+    void setDataLength(int length);
+
+    void addClass(ClassInfo classInfo);
+
+    void addMethod(MethodInfo methodInfo);
+
+    void addStatement(StatementInfo statementInfo);
+
+    FileInfo copy(PackageInfo pkg, HasMetricsFilter filter);
+
+    void setFailStackEntries(Map<Integer, List<StackTraceInfo.TraceEntry>> entries);
 }

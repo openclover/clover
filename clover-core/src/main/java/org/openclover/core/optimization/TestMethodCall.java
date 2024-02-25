@@ -1,5 +1,6 @@
 package org.openclover.core.optimization;
 
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
 
@@ -22,7 +23,7 @@ class TestMethodCall implements Serializable {
         this.packagePath = packagePath;
     }
 
-    public static TestMethodCall createFor(FullProjectInfo project, TestCaseInfo tci) {
+    public static TestMethodCall createFor(ProjectInfo project, TestCaseInfo tci) {
         String packagePathName = packagePathNameFor(tci, project);
         if (packagePathName != null
             && tci.getRuntimeTypeName() != null
@@ -83,7 +84,7 @@ class TestMethodCall implements Serializable {
         return result;
     }
 
-    public static String packagePathNameFor(TestCaseInfo tci, FullProjectInfo project) {
+    public static String packagePathNameFor(TestCaseInfo tci, ProjectInfo project) {
         if (!tci.isResolved()) {
             tci.resolve(project);
         }
@@ -96,7 +97,7 @@ class TestMethodCall implements Serializable {
         }
     }
 
-    public static String getSourceMethodNameFor(TestCaseInfo tci, FullProjectInfo project) {
+    public static String getSourceMethodNameFor(TestCaseInfo tci, ProjectInfo project) {
         if (!tci.isResolved()) {
             tci.resolve(project);
         }

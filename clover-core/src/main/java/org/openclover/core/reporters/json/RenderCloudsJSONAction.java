@@ -3,6 +3,7 @@ package org.openclover.core.reporters.json;
 import clover.org.apache.velocity.VelocityContext;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.registry.entities.FullPackageInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.api.registry.HasMetricsFilter;
@@ -16,7 +17,7 @@ import java.io.File;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-public abstract class RenderCloudsJSONAction implements Callable {
+public abstract class RenderCloudsJSONAction implements Callable<Object> {
     public static final String AGGREGATE_PREFIX = "aggregate-";
     public static final String PROJECT_RISKS_FILE_NAME = "proj-risks.js";
     public static final String PACKAGE_RISKS_FILE_NAME = "pkg-risks.js";
@@ -73,15 +74,15 @@ public abstract class RenderCloudsJSONAction implements Callable {
     }
 
     public abstract static class ForProjects extends RenderCloudsJSONAction {
-        protected final FullProjectInfo project;
+        protected final ProjectInfo project;
 
-        protected ForProjects(FullProjectInfo project, VelocityContext ctx, CloverReportConfig cfg, File dir) {
+        protected ForProjects(ProjectInfo project, VelocityContext ctx, CloverReportConfig cfg, File dir) {
             super(ctx, cfg, dir, false);
             this.project = project;
         }
 
         public static class OfTheirRisks extends ForProjects {
-            public OfTheirRisks(FullProjectInfo project, VelocityContext ctx, CloverReportConfig cfg, File dir) {
+            public OfTheirRisks(ProjectInfo project, VelocityContext ctx, CloverReportConfig cfg, File dir) {
                 super(project, ctx, cfg, dir);
             }
 
@@ -96,7 +97,7 @@ public abstract class RenderCloudsJSONAction implements Callable {
             }
         }
         public static class OfTheirQuickWins extends ForProjects {
-            public OfTheirQuickWins(FullProjectInfo project, VelocityContext ctx, CloverReportConfig cfg, File dir) {
+            public OfTheirQuickWins(ProjectInfo project, VelocityContext ctx, CloverReportConfig cfg, File dir) {
                 super(project, ctx, cfg, dir);
             }
 

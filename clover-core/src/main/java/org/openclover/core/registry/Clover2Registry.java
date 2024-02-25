@@ -7,6 +7,7 @@ import org.openclover.core.api.instrumentation.InstrumentationSession;
 import org.openclover.core.api.registry.EntityContainer;
 import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.context.ContextStore;
 import org.openclover.core.instr.InstrumentationSessionImpl;
 import org.openclover.core.registry.entities.DummyPackageInfo;
@@ -70,7 +71,7 @@ public class Clover2Registry implements InstrumentationTarget {
                 new ContextStore());
     }
 
-    Clover2Registry(RegFile regFile, FullProjectInfo model, List<InstrumentationInfo> instrumentationHistory, ContextStore contexts) {
+    Clover2Registry(RegFile regFile, ProjectInfo model, List<InstrumentationInfo> instrumentationHistory, ContextStore contexts) {
         this.regFile = regFile;
         this.model = new ProjectView.Original(model);
         this.instrumentationHistory = newLinkedList(instrumentationHistory);
@@ -100,7 +101,7 @@ public class Clover2Registry implements InstrumentationTarget {
         try {
             final UpdatableRegFile regFile = new UpdatableRegFile(registryFile);
             final List<InstrumentationInfo> instrHistory = newLinkedList();
-            final FullProjectInfo projInfo = new FullProjectInfo(regFile.getName(), regFile.getVersion());
+            final ProjectInfo projInfo = new FullProjectInfo(regFile.getName(), regFile.getVersion());
             final Map<String, FileInfo> fileInfos = newHashMap();
             final long version = regFile.getVersion();
 
@@ -149,7 +150,7 @@ public class Clover2Registry implements InstrumentationTarget {
         }
     }
 
-    private static void buildModel(long version, HasMetricsFilter filter, final FullProjectInfo projInfo,
+    private static void buildModel(long version, HasMetricsFilter filter, final ProjectInfo projInfo,
                                    Map<String, FileInfo> fileInfos, InstrSessionSegment sessionSegment,
                                    Collection<FileInfoRecord> fileInfoRecs) {
         class FosterPackageInfo extends DummyPackageInfo {
@@ -207,7 +208,7 @@ public class Clover2Registry implements InstrumentationTarget {
     }
 
     @SuppressWarnings("unchecked")
-    private static void recreateDataIndicesAndLengths(UpdatableRegFile regFile, FullProjectInfo projInfo) {
+    private static void recreateDataIndicesAndLengths(UpdatableRegFile regFile, ProjectInfo projInfo) {
         int projLen = Integer.MIN_VALUE;
         for (PackageInfo pkgInfo : projInfo.getAllPackages()) {
             int pkgStartIdx = Integer.MAX_VALUE;
@@ -249,7 +250,7 @@ public class Clover2Registry implements InstrumentationTarget {
     }
 
     @SuppressWarnings("unchecked")
-    protected RegFile saveAndOverwriteFile(FullProjectInfo project, List<InstrumentationInfo> instrumentationHistory, ContextStore contexts, CoverageData coverageData) throws IOException, CloverRegistryException {
+    protected RegFile saveAndOverwriteFile(ProjectInfo project, List<InstrumentationInfo> instrumentationHistory, ContextStore contexts, CoverageData coverageData) throws IOException, CloverRegistryException {
         RegFile regFile = new FreshRegFile(this.regFile, coverageData);
 
         List<RegistryUpdate> updates = newLinkedList();
@@ -380,7 +381,7 @@ public class Clover2Registry implements InstrumentationTarget {
         return model.getProject().getDataLength();
     }
 
-    public FullProjectInfo getProject() {
+    public ProjectInfo getProject() {
         return model.getProject();
     }
 
@@ -403,8 +404,8 @@ public class Clover2Registry implements InstrumentationTarget {
     public long getPastInstrTimestamp(int numPastInstrs) {
         long msec = 0;
         if (!instrumentationHistory.isEmpty()) {
-            for (ListIterator history = instrumentationHistory.listIterator(instrumentationHistory.size() - 1); 0 < numPastInstrs-- && history.hasPrevious();) {
-                msec = ((InstrumentationInfo) history.previous()).getEndTS();
+            for (ListIterator<InstrumentationInfo> history = instrumentationHistory.listIterator(instrumentationHistory.size() - 1); 0 < numPastInstrs-- && history.hasPrevious();) {
+                msec = history.previous().getEndTS();
             }
         }
         return msec;

@@ -66,7 +66,7 @@ public class SourceRenderHelper {
         this.tabStr = StringUtils.repeat(spaceChar, report.getFormat().getTabWidth());
     }
 
-    public void insertLineInfosForFile(FullFileInfo fileInfo, VelocityContext context, ContextSet contextSet, String emptyChar, List[] testLineInfo) {
+    public void insertLineInfosForFile(FileInfo fileInfo, VelocityContext context, ContextSet contextSet, String emptyChar, List[] testLineInfo) {
         try {
             LineRenderInfo[] renderInfo = gatherSrcRenderInfo(context, fileInfo, contextSet, emptyChar, testLineInfo);
             context.put("renderInfo", renderInfo);
@@ -112,7 +112,7 @@ public class SourceRenderHelper {
      * @throws clover.antlr.TokenStreamException
      *                             if an error occurs reading the source file
      */
-    public LineRenderInfo[] gatherSrcRenderInfo(VelocityContext vc, FullFileInfo finfo, ContextSet contextSet,
+    public LineRenderInfo[] gatherSrcRenderInfo(VelocityContext vc, FileInfo finfo, ContextSet contextSet,
                                                 String emptyCoverageChar, List<TestCaseInfo>[] testLineInfo)
         throws Exception {
         // remove the failed test coverage filter at the file level...
@@ -320,7 +320,7 @@ public class SourceRenderHelper {
         }
     }
 
-    private ChecksummingReader render(final FullFileInfo finfo, final List<LineRenderInfo> renderedLines,
+    private ChecksummingReader render(final FileInfo finfo, final List<LineRenderInfo> renderedLines,
                                       final String emptyCoverageMsg, final SourceRenderer renderer) throws Exception {
         Logger.getInstance().debug("Rendering " + finfo.getName() + " with renderer " + renderer.getClass().getName());
         ChecksummingReader csr;
@@ -352,7 +352,7 @@ public class SourceRenderHelper {
         }
     }
 
-    private static ChecksummingReader getChecksummingReader(FullFileInfo finfo) throws IOException {
+    private static ChecksummingReader getChecksummingReader(FileInfo finfo) throws IOException {
         return new ChecksummingReader(finfo.getSourceReader());
     }
 

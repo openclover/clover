@@ -7,6 +7,7 @@ import org.openclover.core.api.registry.BlockMetrics;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.api.registry.HasMetricsFilter;
@@ -24,13 +25,13 @@ import java.util.concurrent.Callable;
 
 public class RenderTreeMapAction implements Callable<Object> {
 
-    private final FullProjectInfo project;
+    private final ProjectInfo project;
     private final File outdir;
     private final VelocityContext mContext;
     private final HtmlRenderingSupportImpl renderSupport = new HtmlRenderingSupportImpl();
     private CloverReportConfig reportConfig;
 
-    public RenderTreeMapAction(VelocityContext context, CloverReportConfig reportConfig, File outdir, FullProjectInfo project) {
+    public RenderTreeMapAction(VelocityContext context, CloverReportConfig reportConfig, File outdir, ProjectInfo project) {
         this.project = project;
         this.outdir = outdir;
         this.mContext = context;

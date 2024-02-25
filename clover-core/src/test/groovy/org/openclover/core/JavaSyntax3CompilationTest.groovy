@@ -4,8 +4,8 @@ import org.apache.tools.ant.util.JavaEnvUtils
 import org.junit.Before
 import org.junit.Test
 import org.openclover.core.api.registry.ClassInfo
+import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.registry.entities.FullFileInfo
-import org.openclover.core.registry.entities.FullProjectInfo
 import org.openclover.core.registry.entities.LineInfo
 
 import static org.junit.Assert.assertEquals
@@ -55,7 +55,7 @@ class JavaSyntax3CompilationTest extends JavaSyntaxCompilationTestBase {
 
         String[] testCaseMainClasses = [ "simple.ColumnAlignment" ]
         executeMainClasses(testCaseMainClasses)
-        FullProjectInfo model = getModel()
+        ProjectInfo model = getModel()
         ClassInfo c = model.findClass(testCaseMainClasses[0])
         assertNotNull("no such class " + testCaseMainClasses[0], testCaseMainClasses[0])
 

@@ -11,6 +11,7 @@ import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.swt.graphics.Image;
 import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
@@ -68,7 +69,7 @@ public class Nodes {
         @Override
         public Inference inferFor(IProject element) throws CoreException {
             final CloverProject cloverProject = CloverProject.getFor(element);
-            final FullProjectInfo project = cloverProject == null ? null : MetricsScope.TEST_ONLY.getProjectInfoFor(cloverProject);
+            final ProjectInfo project = cloverProject == null ? null : MetricsScope.TEST_ONLY.getProjectInfoFor(cloverProject);
             return (project == null || !project.hasTestResults()) ? Inference.FALSE : Inference.TRUE;
         }
     };
@@ -82,7 +83,7 @@ public class Nodes {
         @Override
         public Inference inferFor(IProject element) throws CoreException {
             final CloverProject cloverProject = CloverProject.getFor(element);
-            final FullProjectInfo project = cloverProject == null ? null : MetricsScope.TEST_ONLY.getProjectInfoFor(cloverProject);
+            final ProjectInfo project = cloverProject == null ? null : MetricsScope.TEST_ONLY.getProjectInfoFor(cloverProject);
             return (project == null || project.isEmpty()) ? Inference.FALSE : Inference.TRUE;
         }
 
@@ -104,7 +105,7 @@ public class Nodes {
         @Override
         public Inference inferFor(IProject element) throws CoreException {
             final CloverProject cloverProject = CloverProject.getFor(element);
-            final FullProjectInfo project = cloverProject == null ? null : MetricsScope.APP_ONLY.getProjectInfoFor(cloverProject);
+            final ProjectInfo project = cloverProject == null ? null : MetricsScope.APP_ONLY.getProjectInfoFor(cloverProject);
             return (project == null || project.isEmpty()) ? Inference.FALSE : Inference.TRUE;
         }
 
@@ -210,7 +211,7 @@ public class Nodes {
 
     public static List collectTestCases(IJavaProject project, List testCases, TestCaseConverter converter) throws CoreException {
         final CloverProject cloverProject = CloverProject.getFor(project);
-        final FullProjectInfo projectInfo = cloverProject.getModel().getTestOnlyProjectInfo();
+        final ProjectInfo projectInfo = cloverProject.getModel().getTestOnlyProjectInfo();
         if (projectInfo != null && projectInfo.hasTestResults()) {
             IPackageFragmentRoot[] roots = project.getPackageFragmentRoots();
 

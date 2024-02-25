@@ -8,6 +8,7 @@ import org.junit.rules.TestName
 import org.openclover.core.api.registry.ClassInfo
 import org.openclover.core.api.registry.MethodInfo
 import org.openclover.core.api.registry.PackageInfo
+import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig
 import org.openclover.core.cfg.instr.java.LambdaInstrumentation
 import org.openclover.core.cfg.instr.java.SourceLevel
@@ -16,7 +17,6 @@ import org.openclover.core.instr.java.Instrumenter
 import org.openclover.core.instr.java.StringInstrumentationSource
 import org.openclover.core.registry.Clover2Registry
 import org.openclover.core.registry.entities.FullMethodInfo
-import org.openclover.core.registry.entities.FullProjectInfo
 import org.openclover.core.util.FileUtils
 
 import java.util.regex.Pattern
@@ -53,7 +53,7 @@ class ContextTest {
     @Test
     void testReservedContexts() throws Exception {
 
-        FullProjectInfo model = getModelForInstr("package A; class B { public void notAMatch() {hashcode();} private B() {hashcode();} public int getProperty() {return 42;}}")
+        ProjectInfo model = getModelForInstr("package A; class B { public void notAMatch() {hashcode();} private B() {hashcode();} public int getProperty() {return 42;}}")
         PackageInfo pkgA = model.getNamedPackage("A")
 
         ClassInfo classB = (ClassInfo)pkgA.getClasses().get(0)
@@ -80,7 +80,7 @@ class ContextTest {
     @Test
     void testReservedPropertyContext() throws Exception {
 
-        FullProjectInfo model = getModelForInstr("""package A; class B
+        ProjectInfo model = getModelForInstr("""package A; class B
                 {
                     public void getFakie(String s) {}
                     public int setFakie() {}
@@ -134,7 +134,7 @@ class ContextTest {
         assertEquals(ctx4, hashTest.get(ctx4.getName()))
         assertEquals(ctx5, hashTest.get(ctx5.getName()))
 
-        FullProjectInfo model = getModelForInstr(registry, null, """package A; class B {
+        ProjectInfo model = getModelForInstr(registry, null, """package A; class B {
                 public void notComplex() {hashcode();}
                 public void complexity1() {hashcode();}
                 public void complexity2() {if (hashcode() == 0L) {}}
@@ -196,7 +196,7 @@ class ContextTest {
 
     @Test
     void testCloverOnOff() throws Exception {
-        FullProjectInfo model = getModelForInstr("/**/ package A; class B { public B() {int p = 0;///CLOVER:OFF\nint i = 0;///CLOVER:ON\nint j = 0;}}")
+        ProjectInfo model = getModelForInstr("/**/ package A; class B { public B() {int p = 0;///CLOVER:OFF\nint i = 0;///CLOVER:ON\nint j = 0;}}")
 
         PackageInfo pkgA = model.getNamedPackage("A")
 
@@ -217,7 +217,7 @@ class ContextTest {
         cfg.setSourceLevel(SourceLevel.JAVA_8)
         cfg.setInstrumentLambda(LambdaInstrumentation.ALL)
 
-        FullProjectInfo model = getModelForInstr(null, cfg, """/**/ package A; class B { public B() {/*CLOVER:VOID*/
+        ProjectInfo model = getModelForInstr(null, cfg, """/**/ package A; class B { public B() {/*CLOVER:VOID*/
             Function<String, Void> some = (a) -> {/*CLOVER:VOID*/
             Runnable object = () -> {/*CLOVER:VOID*/
                 Callable<Object> callable = () -> {
@@ -260,7 +260,8 @@ class ContextTest {
         JavaInstrumentationConfig cfg = createDefaultInstrConfig(getCoverageDbFile())
         cfg.setSourceLevel(SourceLevel.JAVA_8)
         cfg.setInstrumentLambda(LambdaInstrumentation.ALL)
-        FullProjectInfo model = getModelForInstr(null, cfg, """/**/ package A; class B { public B() {
+
+        ProjectInfo model = getModelForInstr(null, cfg, """/**/ package A; class B { public B() {
         stream.map(e -> e.toUpperCase());
         /*CLOVER:VOID*/
         mapClass.map(() -> /*CLOVER:VOID*/ internalMap.put("some", "some"));
@@ -294,7 +295,7 @@ class ContextTest {
         assertTrue methods[2].voidReturnType
     }
 
-    private FullProjectInfo getModelForInstr(String input) throws Exception {
+    private ProjectInfo getModelForInstr(String input) throws Exception {
         return getModelForInstr(null, null, input)
     }
 
@@ -309,7 +310,7 @@ class ContextTest {
         return cfg
     }
 
-    private FullProjectInfo getModelForInstr(final Clover2Registry reg, final JavaInstrumentationConfig config, final String input) throws Exception {
+    private ProjectInfo getModelForInstr(final Clover2Registry reg, final JavaInstrumentationConfig config, final String input) throws Exception {
         // generate temporary file name for the database
         final File coverageDbFile
         final JavaInstrumentationConfig cfg
@@ -338,7 +339,7 @@ class ContextTest {
 
         // instrument the source and get the project structure
         instr.instrument(ins, out, null)
-        FullProjectInfo project = instr.endInstrumentation().getProject()
+        ProjectInfo project = instr.endInstrumentation().getProject()
 
         // cleanup stuff
         tempSourceFile.delete()

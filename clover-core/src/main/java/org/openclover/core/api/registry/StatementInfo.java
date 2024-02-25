@@ -18,4 +18,15 @@ public interface StatementInfo extends ElementInfo, InstrumentationInfo, HasPare
 
     boolean isFiltered(ContextSet filter);
 
+    StatementInfo copy(MethodInfo parentMethod);
+
+    StatementInfo copy(ClassInfo parentClass);
+
+    StatementInfo copy(FileInfo parentFile);
+
+    void setContainingClass(ClassInfo containingClass);
+
+    void setContainingMethod(MethodInfo methodInfo);
+
+    void setContainingFile(FileInfo containingFile);
 }

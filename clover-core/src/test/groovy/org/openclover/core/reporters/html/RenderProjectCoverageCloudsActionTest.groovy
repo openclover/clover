@@ -4,11 +4,11 @@ import clover.org.apache.velocity.VelocityContext
 import junit.framework.TestCase
 import org.openclover.core.api.registry.BranchInfo
 import org.openclover.core.api.registry.ContextSet
+import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.context.ContextSetImpl
 import org.openclover.core.context.ContextStore
 import org.openclover.core.registry.entities.FullClassInfo
 import org.openclover.core.registry.entities.FullMethodInfo
-import org.openclover.core.registry.entities.FullProjectInfo
 import org.openclover.core.registry.entities.FullStatementInfo
 import org.openclover.core.registry.metrics.HasMetricsTestFixture
 import org.openclover.core.reporters.CloverReportConfig
@@ -24,7 +24,7 @@ class RenderProjectCoverageCloudsActionTest extends TestCase {
     private HtmlReporter.TreeInfo tree
     private List classes
     private File basePath
-    private FullProjectInfo projInfo
+    private ProjectInfo projInfo
     private HasMetricsTestFixture fixture
 
     private BranchInfo branchInfo

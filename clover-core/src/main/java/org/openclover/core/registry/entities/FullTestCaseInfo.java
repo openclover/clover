@@ -1,6 +1,8 @@
 package org.openclover.core.registry.entities;
 
 import org.jetbrains.annotations.Nullable;
+import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.recorder.PerTestRecordingTranscript;
@@ -22,8 +24,8 @@ public class FullTestCaseInfo implements TestCaseInfo, Serializable {
 
     public static final int DEFAULT_SLICE_ID_OFFSET = 0;
 
-    private transient WeakReference<FullMethodInfo> sourceMethod;
-    private transient WeakReference<FullClassInfo> runtimeType;
+    private transient WeakReference<MethodInfo> sourceMethod;
+    private transient WeakReference<ClassInfo> runtimeType;
     private transient Integer id;
 
     private String runtimeTypeName;
@@ -112,7 +114,7 @@ public class FullTestCaseInfo implements TestCaseInfo, Serializable {
         this.runtimeTestName = runtimeTestName;
     }
 
-    public FullTestCaseInfo(Integer id, FullClassInfo runtimeType, FullMethodInfo sourceMethod,
+    public FullTestCaseInfo(Integer id, ClassInfo runtimeType, MethodInfo sourceMethod,
                             @Nullable String runtimeTestName) {
         this.id = id;
         this.runtimeType = new WeakReference<>(runtimeType);
@@ -156,7 +158,7 @@ public class FullTestCaseInfo implements TestCaseInfo, Serializable {
             final String srcClassname = sourceMethodName.substring(0, lastDot);
             final FullClassInfo srcClass = (rtClassname.equals(srcClassname))
                     ? runtimeType : (FullClassInfo)project.findClass(srcClassname);
-            FullMethodInfo testMethodFound = null;
+            MethodInfo testMethodFound = null;
 
             // if found then find proper method in this class as well
             if (srcClass != null) {
@@ -211,7 +213,7 @@ public class FullTestCaseInfo implements TestCaseInfo, Serializable {
 
     @Override
     public String getClassName() {
-        final FullClassInfo runtimeType = this.runtimeType.get();
+        final ClassInfo runtimeType = this.runtimeType.get();
         return runtimeType == null ? null : runtimeType.getName();
     }
 
@@ -320,20 +322,20 @@ public class FullTestCaseInfo implements TestCaseInfo, Serializable {
 
     @Nullable
     @Override
-    public FullClassInfo getRuntimeType() {
+    public ClassInfo getRuntimeType() {
         return runtimeType == null ? null : runtimeType.get();
     }
 
     @Nullable
     @Override
-    public FullMethodInfo getSourceMethod() {
+    public MethodInfo getSourceMethod() {
         return sourceMethod == null ? null : sourceMethod.get();
     }
 
     @Nullable
     @Override
     public String getQualifiedName() {
-        final FullClassInfo runtimeType = getRuntimeType();
+        final ClassInfo runtimeType = getRuntimeType();
         return runtimeType == null ? null : runtimeType.getQualifiedName() + "." + getTestName();
     }
 

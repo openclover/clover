@@ -5,6 +5,7 @@ import clover.it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.CoverageDataSpec;
 import org.openclover.core.api.registry.FileInfo;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.Clover2Registry;
 import org.openclover.core.api.registry.CoverageDataRange;
@@ -243,7 +244,7 @@ public class Snapshot implements Serializable {
         return duration;
     }
 
-    private Set<TestMethodCall> testsFor(FullProjectInfo project, Collection<TestCaseInfo> tcis) {
+    private Set<TestMethodCall> testsFor(ProjectInfo project, Collection<TestCaseInfo> tcis) {
         Set<TestMethodCall> tests = newHashSet();
         for (final TestCaseInfo tci : tcis) {
             String testName = TestMethodCall.getSourceMethodNameFor(tci, project);

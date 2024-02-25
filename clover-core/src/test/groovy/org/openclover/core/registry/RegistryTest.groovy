@@ -10,6 +10,7 @@ import org.openclover.core.TestUtils
 import org.openclover.core.api.registry.ClassInfo
 import org.openclover.core.api.registry.ContextSet
 import org.openclover.core.api.registry.HasMetrics
+import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.api.registry.SourceInfo
 import org.openclover.core.context.ContextSetImpl
 import org.openclover.core.context.ContextStore
@@ -55,7 +56,7 @@ class RegistryTest {
     void testFullHierarchyAdd() throws Exception {
         SourceInfo region = new FixedSourceRegion(0, 0, 0, 0)
         ContextSet context = new ContextSetImpl()
-        FullProjectInfo proj = new FullProjectInfo(testName.methodName)
+        ProjectInfo proj = new FullProjectInfo(testName.methodName)
         FullPackageInfo pkg = new FullPackageInfo(proj, "com.acme.test", 0)
         proj.addPackage(pkg)
 
@@ -97,7 +98,7 @@ class RegistryTest {
 
     @Test
     void testPackageFragmentation() throws Exception {
-        FullProjectInfo proj = new FullProjectInfo(testName.methodName)
+        ProjectInfo proj = new FullProjectInfo(testName.methodName)
         FullPackageInfo pkg1 = new FullPackageInfo(proj, "a.b.c.d", 0)
         pkg1.addFile(new FullFileInfo(pkg1, new File("test.java"), null, 0, 0, 0, 0, 0, 0, 0))
         FullPackageInfo pkg2 = new FullPackageInfo(proj, "a.b.e.f", 0)
@@ -147,7 +148,7 @@ class RegistryTest {
 
     @Test
     void testCopy() throws Exception {
-        FullProjectInfo proj = new FullProjectInfo(testName.methodName)
+        ProjectInfo proj = new FullProjectInfo(testName.methodName)
         proj.setVersion(System.currentTimeMillis())
 
         FullPackageInfo pkg = new FullPackageInfo(proj, "a", 0)
@@ -178,7 +179,7 @@ class RegistryTest {
             }
         }
 
-        FullProjectInfo ident = launderModel(proj).copy()
+        ProjectInfo ident = launderModel(proj).copy()
 
         ProjectMetrics pm = (ProjectMetrics)ident.getMetrics()
 
@@ -191,7 +192,7 @@ class RegistryTest {
         assertEquals("NumStatements", 1000, pm.getNumStatements())
         assertEquals("NumBranches", 2000, pm.getNumBranches())
 
-        FullProjectInfo excludeTestClasses = launderModel(proj).copy(new HasMetricsFilter() {
+        ProjectInfo excludeTestClasses = launderModel(proj).copy(new HasMetricsFilter() {
             boolean accept(HasMetrics node) {
                 if (node instanceof ClassInfo) {
                     ClassInfo info = (ClassInfo)node
@@ -218,7 +219,7 @@ class RegistryTest {
      * @param info model to be laundered
      * @return the same model, having been thru a serialize-deserialize step.
      */
-    private FullProjectInfo launderModel(FullProjectInfo info) throws Exception {
+    private ProjectInfo launderModel(ProjectInfo info) throws Exception {
         final File regFile = File.createTempFile(testName.methodName, ".db")
         regFile.delete()
 

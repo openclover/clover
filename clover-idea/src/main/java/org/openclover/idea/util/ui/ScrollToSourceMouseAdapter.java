@@ -6,6 +6,7 @@ import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.FileInfoRegion;
 
+import org.openclover.core.registry.entities.FullMethodInfo;
 import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.config.ConfigChangeEvent;
 import org.openclover.idea.config.ConfigChangeListener;
@@ -61,7 +62,7 @@ public class ScrollToSourceMouseAdapter extends MouseAdapter implements ConfigCh
         if (object instanceof FileInfoRegion) {
             region = (FileInfoRegion) object;
         } else if (object instanceof TestCaseInfo) {
-            region = ((TestCaseInfo) object).getSourceMethod();
+            region = (FullMethodInfo) ((TestCaseInfo) object).getSourceMethod();
         } else if (object instanceof CoverageDataHolder) {
             final HasMetrics hasMetrics = ((CoverageDataHolder) object).getElement();
             if (hasMetrics instanceof FileInfoRegion) {

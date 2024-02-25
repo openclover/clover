@@ -1,10 +1,14 @@
 package org.openclover.core.api.registry;
 
+import org.openclover.core.registry.CachingInfo;
+import org.openclover.core.registry.entities.PackageFragment;
+import org.openclover.core.util.Path;
+
 import java.util.List;
 
 public interface ProjectInfo
         extends EntityContainer, HasPackages, HasContextFilter, HasMetrics,
-        HasVersions {
+        HasVersions, CoverageDataReceptor, CachingInfo {
 
     /**
      * Returns name of the project
@@ -37,9 +41,39 @@ public interface ProjectInfo
      */
     FileInfo findFile(String pkgPath);
 
+    void setName(String name);
+
+    void addPackage(PackageInfo pkg);
+
     PackageInfo getNamedPackage(String name);
 
     List<ClassInfo> getClasses(HasMetricsFilter filter);
 
+    List<FileInfo> getFiles(HasMetricsFilter filter);
+
     List<PackageInfo> getPackages(HasMetricsFilter filter);
+
+    void setContextFilter(ContextSet filter);
+
+    void visitFiles(FileInfoVisitor visitor);
+
+    PackageFragment[] getPackageRoots();
+
+    ProjectInfo copy();
+
+    ProjectInfo copy(HasMetricsFilter filter);
+
+    ProjectInfo copy(HasMetricsFilter filter, ContextSet contextFilter);
+
+    void resolve(Path sourcePath);
+
+    void setDataLength(int length);
+
+    void buildCaches();
+
+    boolean hasTestResults();
+
+    void setHasTestResults(boolean hasTestResults);
+
+    PackageFragment findPackageFragment(String packageName);
 }

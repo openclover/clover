@@ -201,6 +201,11 @@ public class DummyPackageInfo implements PackageInfo {
     }
 
     @Override
+    public PackageInfo copy(ProjectInfo proj, HasMetricsFilter filter) {
+        return null;
+    }
+
+    @Override
     public void invalidateCaches() {
 
     }

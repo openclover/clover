@@ -2,6 +2,11 @@ package org.openclover.core.api.registry;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.openclover.core.registry.FileElementVisitor;
+import org.openclover.core.registry.entities.FullBranchInfo;
+import org.openclover.core.registry.entities.FullStatementInfo;
+
+import java.util.Set;
 
 /**
  * Represents a method (or an equivalent, like function)
@@ -55,7 +60,27 @@ public interface MethodInfo extends
     @Nullable
     MethodInfo getContainingMethod();
 
+    void gatherSourceRegions(Set<SourceInfo> regions);
+
+    void visit(FileElementVisitor visitor);
+
+    MethodInfo copy(ClassInfo classAsParent);
+
+    MethodInfo copy(MethodInfo methodAsParent);
+
+    MethodInfo copy(FileInfo fileAsParent);
+
+    boolean isPublic();
+
     String getVisibility();
+
+    void setDataLength(int length);
+
+    void setContainingClass(ClassInfo classInfo);
+
+    void setContainingMethod(MethodInfo methodInfo);
+
+    void setContainingFile(FileInfo fileInfo);
 
     /**
      * Returns a file in which this method is declared. Note that some programming languages allows to define a
@@ -127,5 +152,17 @@ public interface MethodInfo extends
     boolean isLambda();
 
     boolean isFiltered(ContextSet filter);
+
+    void addClass(ClassInfo classInfo);
+
+    void addMethod(MethodInfo methodInfo);
+
+    void addStatement(StatementInfo stmt);
+
+    void addBranch(BranchInfo branch);
+
+    CoverageDataProvider getDataProvider();
+
+    void setDataProvider(CoverageDataProvider data);
 
 }

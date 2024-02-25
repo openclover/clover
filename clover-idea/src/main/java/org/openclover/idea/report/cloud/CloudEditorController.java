@@ -9,6 +9,7 @@ import org.openclover.core.CloverDatabase;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.registry.entities.PackageFragment;
 import org.openclover.core.registry.metrics.ClassMetrics;
@@ -129,7 +130,7 @@ public class CloudEditorController
         }
         final String packagePrefix = packagePrefix(selectedElement);
         final AggregatingFilter aggregate = new AggregatingFilter(packagePrefix, selectedElement == null || includeSubpkgs);
-        final FullProjectInfo projectInfo = ModelUtil.getModel(db, modelScope);
+        final ProjectInfo projectInfo = ModelUtil.getModel(db, modelScope);
 
         final List<ClassInfo> allClasses = projectInfo.getClasses(aggregate);
         final String riskContent = generateRiskHtml(allClasses);

@@ -27,13 +27,13 @@ public class FullStatementInfo extends FullElementInfo<BasicElementInfo> impleme
     /** Parent entity - method, class or file */
     private transient ParentEntity parent;
 
-    public FullStatementInfo(FullMethodInfo containingMethod, int relativeDataIndex, ContextSet context,
+    public FullStatementInfo(MethodInfo containingMethod, int relativeDataIndex, ContextSet context,
                              SourceInfo region, int complexity) {
 
         this(containingMethod, relativeDataIndex, context, region, complexity, LanguageConstruct.Builtin.STATEMENT);
     }
 
-    public FullStatementInfo(FullMethodInfo containingMethod, int relativeDataIndex, ContextSet context,
+    public FullStatementInfo(MethodInfo containingMethod, int relativeDataIndex, ContextSet context,
                             SourceInfo region, int complexity, LanguageConstruct construct) {
 
         this(containingMethod, context, new BasicStatementInfo(region, relativeDataIndex, complexity, construct));
@@ -51,21 +51,21 @@ public class FullStatementInfo extends FullElementInfo<BasicElementInfo> impleme
     /**
      * Constructor when method is a statement's parent
      */
-    public FullStatementInfo(FullMethodInfo containingMethod, ContextSet context, BasicElementInfo sharedInfo) {
+    public FullStatementInfo(MethodInfo containingMethod, ContextSet context, BasicElementInfo sharedInfo) {
         this(new ParentEntity(containingMethod), context, sharedInfo);
     }
 
     /**
      * Constructor when class is a statement's parent
      */
-    public FullStatementInfo(FullClassInfo containingClass, ContextSet context, BasicElementInfo sharedInfo) {
+    public FullStatementInfo(ClassInfo containingClass, ContextSet context, BasicElementInfo sharedInfo) {
         this(new ParentEntity(containingClass), context, sharedInfo);
     }
 
     /**
      * Constructor when file is a statement's parent
      */
-    public FullStatementInfo(FullFileInfo containingFile, ContextSet context, BasicElementInfo sharedInfo) {
+    public FullStatementInfo(FileInfo containingFile, ContextSet context, BasicElementInfo sharedInfo) {
         this(new ParentEntity(containingFile), context, sharedInfo);
     }
 
@@ -77,15 +77,18 @@ public class FullStatementInfo extends FullElementInfo<BasicElementInfo> impleme
         this.parent = parent;
     }
 
-    public FullStatementInfo copy(final FullMethodInfo parentMethod) {
+    @Override
+    public StatementInfo copy(final MethodInfo parentMethod) {
         return new FullStatementInfo(parentMethod, context, sharedInfo);
     }
 
-    public FullStatementInfo copy(final FullClassInfo parentClass) {
+    @Override
+    public StatementInfo copy(final ClassInfo parentClass) {
         return new FullStatementInfo(parentClass, context, sharedInfo);
     }
 
-    public FullStatementInfo copy(final FullFileInfo parentFile) {
+    @Override
+    public StatementInfo copy(final FileInfo parentFile) {
         return new FullStatementInfo(parentFile, context, sharedInfo);
     }
 
@@ -122,15 +125,18 @@ public class FullStatementInfo extends FullElementInfo<BasicElementInfo> impleme
         return 1;
     }
 
-    protected void setContainingClass(FullClassInfo containingClass) {
+    @Override
+    public void setContainingClass(ClassInfo containingClass) {
         parent = new ParentEntity(containingClass);
     }
 
-    protected void setContainingMethod(FullMethodInfo methodInfo) {
+    @Override
+    public void setContainingMethod(MethodInfo methodInfo) {
         parent = new ParentEntity(methodInfo);
     }
 
-    protected void setContainingFile(FullFileInfo containingFile) {
+    @Override
+    public void setContainingFile(FileInfo containingFile) {
         if (parent != null) {
             parent.setContainingFile(containingFile);
         } else {

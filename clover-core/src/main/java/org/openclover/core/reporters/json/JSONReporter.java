@@ -5,6 +5,7 @@ import org.openclover.core.api.command.ArgProcessor;
 import org.openclover.core.api.command.HelpBuilder;
 import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.cfg.Interval;
 import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.reporters.CloverReportConfig;
@@ -73,7 +74,7 @@ public class JSONReporter extends CloverReporter {
     public int executeImpl() throws CloverException {
         final long currentStartTime = System.currentTimeMillis();
 
-        final FullProjectInfo projectInfo = database.getAppOnlyModel();
+        final ProjectInfo projectInfo = database.getAppOnlyModel();
         projectInfo.buildCaches();
         final List<PackageInfo> allPackages = projectInfo.getAllPackages();
 
@@ -151,7 +152,7 @@ public class JSONReporter extends CloverReporter {
     private void processPackage(PackageInfo pkg, CloverExecutor service) throws Exception {
         final List<FileInfo> files = pkg.getFiles();
 
-        final FullProjectInfo projectInfo = database.getFullModel();
+        final ProjectInfo projectInfo = database.getFullModel();
         projectInfo.buildCaches();
 
         final File basedir = CloverUtils.createOutDir(pkg, getConfigAsCurrent().getOutFile());

@@ -33,7 +33,7 @@ class XmlConverterTest {
     void testProjectLevel() throws Exception {
         HistoricalSupport.HasMetricsWrapper wrapper = new HistoricalSupport.HasMetricsWrapper(new FullProjectInfo(""), xmlFile)
         CoverageDataPoint model = XmlConverter.getFromXmlFile(wrapper.getDataFile(), XmlConverter.PROJECT_LEVEL)
-        FullProjectInfo project = model.getProject()
+        ProjectInfo project = model.getProject()
 
         assertEquals(EXPECTED_PROJECT, project.getMetrics().getPcCoveredElements(), 0.0001)
         assertTrue(project.getAllPackages().isEmpty())

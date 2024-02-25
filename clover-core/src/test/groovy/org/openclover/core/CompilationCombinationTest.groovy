@@ -4,13 +4,13 @@ import junit.framework.TestCase
 import org.openclover.core.api.registry.ClassInfo
 import org.openclover.core.api.registry.ContextSet
 import org.openclover.core.api.registry.PackageInfo
+import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.api.registry.SourceInfo
 import org.openclover.core.context.ContextSetImpl
 import org.openclover.core.instr.InstrumentationSessionImpl
 import org.openclover.core.registry.Clover2Registry
 import org.openclover.core.registry.FixedSourceRegion
 import org.openclover.core.registry.entities.FullFileInfo
-import org.openclover.core.registry.entities.FullProjectInfo
 import org.openclover.core.registry.entities.MethodSignature
 import org.openclover.core.registry.entities.Modifiers
 import org.openclover.core.registry.metrics.ClassMetrics
@@ -148,7 +148,7 @@ class CompilationCombinationTest extends TestCase {
         CloverDatabase db = new CloverDatabase(mInitString)
         db.loadCoverageData(new CoverageDataSpec(span))
 
-        FullProjectInfo model = db.getModel(CodeType.APPLICATION)
+        ProjectInfo model = db.getModel(CodeType.APPLICATION)
         assertNotNull(model)
 
         PackageInfo pkg = model.getNamedPackage(PKGNAME)
