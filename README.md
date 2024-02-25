@@ -117,3 +117,4 @@ mvn test -pl clover-ant,clover-core,clover-groovy
 Copyright @ 2002 - 2017 Atlassian Pty Ltd
 
 Copyright @ 2017 - 2023 modifications by OpenClover.org
+
