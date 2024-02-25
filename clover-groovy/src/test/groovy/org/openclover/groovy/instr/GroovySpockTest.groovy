@@ -328,13 +328,13 @@ class GroovySpockTest extends TestBase {
         // ... and that we've got 3 test results
         assertTestResultPage([0] as String[],
                 "${CLASS_NAME}_maximum_of_two_numbers.*___0__.*\\.html",
-                "<a  href=\"../default-pkg/${CLASS_NAME}.html?line=22#src-22\" >maximum of two numbers [a: 3, b: 7, c: 7, #0]</a>")
+                "<a  href=\"../default-pkg/${CLASS_NAME}.html?line=23#src-23\" >maximum of two numbers [a: 3, b: 7, c: 7, #0]</a>")
         assertTestResultPage([1] as String[],
                 "${CLASS_NAME}_maximum_of_two_numbers.*___1__.*\\.html",
-                "<a  href=\"../default-pkg/${CLASS_NAME}.html?line=22#src-22\" >maximum of two numbers [a: 5, b: 4, c: 5, #1]</a>")
+                "<a  href=\"../default-pkg/${CLASS_NAME}.html?line=23#src-23\" >maximum of two numbers [a: 5, b: 4, c: 5, #1]</a>")
         assertTestResultPage([2] as String[],
                 "${CLASS_NAME}_maximum_of_two_numbers.*___2__.*\\.html",
-                "<a  href=\"../default-pkg/${CLASS_NAME}.html?line=22#src-22\" >maximum of two numbers [a: 9, b: 9, c: 9, #2]</a>")
+                "<a  href=\"../default-pkg/${CLASS_NAME}.html?line=23#src-23\" >maximum of two numbers [a: 9, b: 9, c: 9, #2]</a>")
     }
 
     /**
@@ -357,7 +357,7 @@ class GroovySpockTest extends TestBase {
         for (String[] row : rows) {
             assertTestResultPage(row,
                     "${CLASS_NAME}_minimum_of_${row[0]}_and_${row[1]}_is_${row[2]}_[0-9]+\\.html",
-                    "<a  href=\"../default-pkg/${CLASS_NAME}.html?line=22#src-22\" >minimum of ${row[0]} and ${row[1]} is ${row[2]}</a>")
+                    "<a  href=\"../default-pkg/${CLASS_NAME}.html?line=23#src-23\" >minimum of ${row[0]} and ${row[1]} is ${row[2]}</a>")
         }
     }
 
@@ -382,7 +382,7 @@ class GroovySpockTest extends TestBase {
         for (String[] row : rows) {
             assertTestResultPage(row,
                     "${CLASS_NAME}_${row[0]}_is_a_${row[1]}_person_[0-9]+\\.html",
-                    "<a  href=\"../default-pkg/${CLASS_NAME}.html?line=29#src-29\" >${row[0]} is a ${row[1]} person</a>")
+                    "<a  href=\"../default-pkg/${CLASS_NAME}.html?line=30#src-30\" >${row[0]} is a ${row[1]} person</a>")
         }
     }
 

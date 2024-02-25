@@ -1,3 +1,7 @@
+import java9.internal.Internal;
+import java9.internal.SpiImplOne;
+import java9.spi.SPI;
+
 // test: we must be able to parse expressions in annotations
 @SuppressWarnings("abc" + "def" + (2 * 23))
 module javasyntax {
