@@ -1,5 +1,6 @@
 package org.openclover.core.reporters.util
 
+import groovy.transform.CompileStatic
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestName
@@ -23,8 +24,7 @@ import org.openclover.runtime.api.CloverException
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertTrue
 
-/**
- */
+@CompileStatic
 class HistoricalSupportTest {
 
     @Rule
@@ -88,14 +88,15 @@ class HistoricalSupportTest {
 
     @Test
     void testGetClassMetricsDiff() throws CloverException {
-        PackageInfo pkgInfo = new FullPackageInfo(null, "TestPackage")
-        FileInfo fileInfo = new FullFileInfo(pkgInfo, testName.methodName, "", 0, 0, 0, 0, 0)
+        ProjectInfo projectInfo = new FullProjectInfo("project")
+        PackageInfo pkgInfo = new FullPackageInfo(projectInfo, "TestPackage")
+        FileInfo fileInfo = new FullFileInfo(pkgInfo, new File(testName.methodName), "", 0, 0, 0, 0, 0, 0, 0)
         SourceInfo sourceRegion = new FixedSourceRegion(0,0,0,0)
 
-        ClassInfo cThen = new FullClassInfo(pkgInfo, fileInfo,
+        ClassInfo cThen = new FullClassInfo(pkgInfo, fileInfo, 0,
                 "then", sourceRegion, new Modifiers(),
                 false, false, false)
-        ClassInfo cNow = new FullClassInfo(pkgInfo, fileInfo,
+        ClassInfo cNow = new FullClassInfo(pkgInfo, fileInfo, 0,
                 "now", sourceRegion, new Modifiers(),
                 false, false, false)
         Percentage threshold = new Percentage("0%")

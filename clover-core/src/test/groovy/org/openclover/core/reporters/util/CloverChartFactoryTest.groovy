@@ -8,6 +8,7 @@ import clover.org.jfree.chart.axis.LogarithmicAxis
 import clover.org.jfree.chart.axis.NumberAxis
 import clover.org.jfree.chart.plot.XYPlot
 import clover.org.jfree.data.xy.XYDataset
+import groovy.transform.CompileStatic
 import junit.framework.TestCase
 import org.openclover.buildutil.testutils.IOHelper
 import org.openclover.core.api.registry.BlockMetrics
@@ -15,10 +16,12 @@ import org.openclover.core.api.registry.ClassInfo
 import org.openclover.core.api.registry.FileInfo
 import org.openclover.core.api.registry.HasMetrics
 import org.openclover.core.api.registry.PackageInfo
+import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.registry.FixedSourceRegion
 import org.openclover.core.registry.entities.FullClassInfo
 import org.openclover.core.registry.entities.FullFileInfo
 import org.openclover.core.registry.entities.FullPackageInfo
+import org.openclover.core.registry.entities.FullProjectInfo
 import org.openclover.core.registry.entities.Modifiers
 import org.openclover.core.registry.metrics.HasMetricsTestFixture
 import org.openclover.core.registry.metrics.ProjectMetrics
@@ -33,6 +36,7 @@ import java.util.List
 import static org.openclover.core.util.Lists.newArrayList
 import static org.openclover.core.util.Maps.newHashMap
 
+@CompileStatic
 class CloverChartFactoryTest extends TestCase {
 
     static class MockHasMetrics implements HasMetrics {
@@ -60,14 +64,14 @@ class CloverChartFactoryTest extends TestCase {
     }
 
     void testGetDataIndex() throws IOException {
-        assertEquals(-1, CloverChartFactory.getDataIndex(-0.10))
-        assertEquals(-1, CloverChartFactory.getDataIndex(1.10))
-        assertEquals(0, CloverChartFactory.getDataIndex(0.00))
-        assertEquals(1, CloverChartFactory.getDataIndex(0.10))
-        assertEquals(2, CloverChartFactory.getDataIndex(0.111))
-        assertEquals(10, CloverChartFactory.getDataIndex(1.00))
-        assertEquals(10, CloverChartFactory.getDataIndex(0.91))
-        assertEquals(9, CloverChartFactory.getDataIndex(0.90))
+        assertEquals(-1, CloverChartFactory.getDataIndex(-0.10d))
+        assertEquals(-1, CloverChartFactory.getDataIndex(1.10d))
+        assertEquals(0, CloverChartFactory.getDataIndex(0.00d))
+        assertEquals(1, CloverChartFactory.getDataIndex(0.10d))
+        assertEquals(2, CloverChartFactory.getDataIndex(0.111d))
+        assertEquals(10, CloverChartFactory.getDataIndex(1.00d))
+        assertEquals(10, CloverChartFactory.getDataIndex(0.91d))
+        assertEquals(9, CloverChartFactory.getDataIndex(0.90d))
     }
 
     void testCreateScatterPlot() throws IOException, InterruptedException {
@@ -109,11 +113,11 @@ class CloverChartFactoryTest extends TestCase {
 
         assertEquals(CloverChartFactory.HISTOGRAM_NAME, histogram.getName())
         assertEquals(CloverChartFactory.SCATTER_NAME, scatter.getName())
-        assertExtraNumEquals(83, srcFileCharts, 0.0)
-        assertExtraNumEquals(50, srcFileCharts, 0.1)
-        assertExtraNumEquals(33, srcFileCharts, 0.5)
-        assertExtraNumEquals(16, srcFileCharts, 0.9)
-        assertExtraNumEquals(0, srcFileCharts, 1.0)
+        assertExtraNumEquals(83, srcFileCharts, 0.0d)
+        assertExtraNumEquals(50, srcFileCharts, 0.1d)
+        assertExtraNumEquals(33, srcFileCharts, 0.5d)
+        assertExtraNumEquals(16, srcFileCharts, 0.9d)
+        assertExtraNumEquals(0, srcFileCharts, 1.0d)
     }
 
     void assertExtraNumEquals(int expected, Map srcFileCharts, double covered) {
@@ -153,15 +157,16 @@ class CloverChartFactoryTest extends TestCase {
 
     private ClassInfo createClassInfo(String name, int nCovSts, int nSts, int cmplx) throws IOException {
         HasMetricsTestFixture fixture = new HasMetricsTestFixture("Test")
-        PackageInfo pkgInfo = new FullPackageInfo(null, "PackageName")
-        FileInfo fileInfo = new FullFileInfo(pkgInfo, "FileName.extension", null, 0, 0, 0, 0, 0)
+        ProjectInfo projectInfo = new FullProjectInfo("project")
+        PackageInfo pkgInfo = new FullPackageInfo(projectInfo, "PackageName")
+        FileInfo fileInfo = new FullFileInfo(pkgInfo, new File("FileName.extension"), null, 0, 0, 0, 0, 0, 0, 0)
 
         ProjectMetrics metrics = new ProjectMetrics(fixture.getProject())
         metrics.setNumCoveredStatements(nCovSts)
         metrics.setNumStatements(nSts)
         metrics.setComplexity(cmplx)
 
-        ClassInfo classInfo = new FullClassInfo(pkgInfo, fileInfo,
+        ClassInfo classInfo = new FullClassInfo(pkgInfo, fileInfo, 0,
                 name, new FixedSourceRegion(0,0,0,0), new Modifiers(),
                 false, false, false)
         classInfo.setMetrics(metrics)
