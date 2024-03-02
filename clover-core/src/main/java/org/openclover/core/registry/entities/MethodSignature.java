@@ -145,12 +145,6 @@ public class MethodSignature implements TaggedPersistent, MethodSignatureInfo {
         return parameters != null && parameters.length > 0;
     }
 
-    @Override
-    public int getParamCount() {
-        return parameters == null ? 0 : parameters.length;
-    }
-
-
     public String listParamTypes() {
         StringBuilder types = new StringBuilder();
         String sep = "";

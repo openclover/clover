@@ -40,8 +40,8 @@ public class FullStatementInfo extends FullElementInfo<BasicElementInfo> impleme
     }
 
     /**
-     * For deserialization only. It does not set the parent. Set it using {@link #setContainingClass(FullClassInfo)} /
-     * {@link #setContainingMethod(FullMethodInfo)} or {@link #setContainingFile(FullFileInfo)}
+     * For deserialization only. It does not set the parent. Set it using {@link #setContainingClass(ClassInfo)} /
+     * {@link #setContainingMethod(MethodInfo)} or {@link #setContainingFile(FileInfo)}
      */
     private FullStatementInfo(int relativeDataIndex, ContextSet context,
                               SourceInfo region, int complexity, LanguageConstruct construct) {

@@ -215,7 +215,7 @@ public class DocMarkupPlugin extends ContentPlugin implements FeatureListener, C
         void process(final FileInfo coverageInfo) {
             filter = coverageInfo.getContextFilter();
             if (showHighlight || showError || showGutter) {
-                for (SourceInfo o : coverageInfo.getSourceRegions()) {
+                for (SourceInfo o : coverageInfo.gatherSourceRegions()) {
                     if (o instanceof FullElementInfo) {
                         if (showHighlight || showError) {
                             highlightStatement((FullElementInfo) o);

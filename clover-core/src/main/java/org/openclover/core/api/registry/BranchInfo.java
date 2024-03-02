@@ -3,7 +3,7 @@ package org.openclover.core.api.registry;
 /**
  *
  */
-public interface BranchInfo extends ElementInfo, InstrumentationInfo, SourceInfo, HasParent {
+public interface BranchInfo extends ElementInfo, CoverageDataRange, SourceInfo, HasParent {
     /**
      *
      * @param filter the {@link ContextSet} whereby Contexts to be filtered out are set to 1,

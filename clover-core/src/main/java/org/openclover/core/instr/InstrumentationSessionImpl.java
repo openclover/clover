@@ -175,7 +175,7 @@ public class InstrumentationSessionImpl implements InstrumentationSession {
         long minVersion = FullFileInfo.NO_VERSION;
 
         if (finfo != null) {
-            if (finfo.getChecksum() == checksum && finfo.getFilesize() == filesize) {
+            if (finfo.getChecksum() == checksum && finfo.getFileSize() == filesize) {
 
                 // can reuse the slots
                 currentFileIndex = finfo.getDataIndex();

@@ -19,7 +19,7 @@ import org.openclover.core.io.tags.TaggedDataOutput;
 import org.openclover.core.io.tags.TaggedPersistent;
 import org.openclover.core.api.registry.CoverageDataProvider;
 import org.openclover.core.api.registry.CoverageDataReceptor;
-import org.openclover.core.registry.FileElementVisitor;
+import org.openclover.core.api.registry.ElementVisitor;
 import org.openclover.core.registry.FixedSourceRegion;
 import org.openclover.core.registry.metrics.ClassMetrics;
 import org.openclover.core.registry.metrics.FileMetrics;
@@ -159,7 +159,7 @@ public class FullFileInfo
     }
 
     @Override
-    public long getFilesize() {
+    public long getFileSize() {
         return filesize;
     }
 
@@ -479,15 +479,13 @@ public class FullFileInfo
      * @return a set of source regions for this file, sorted by start position and length.
      */
     @Override
-    public Set<SourceInfo> getSourceRegions() {
+    public Set<SourceInfo> gatherSourceRegions() {
         final Set<SourceInfo> regions = newTreeSet(FixedSourceRegion.SOURCE_ORDER_COMP);
         for (ClassInfo classInfo : classes.values()) {
-            FullClassInfo fullClassInfo = (FullClassInfo) classInfo;
-            fullClassInfo.gatherSourceRegions(regions);
+            classInfo.gatherSourceRegions(regions);
         }
         for (MethodInfo methodInfo : methods) {
-            FullMethodInfo fullMethodInfo = (FullMethodInfo) methodInfo;
-            fullMethodInfo.gatherSourceRegions(regions);
+            methodInfo.gatherSourceRegions(regions);
         }
         regions.addAll(statements);
         return regions;
@@ -504,7 +502,7 @@ public class FullFileInfo
                                   final boolean showInnerFunctions) {
         if (lineInfo == null) {
             final LineInfo[] tmpLineInfo = new LineInfo[Math.max(getLineCount() + 1, ensureLineCountAtLeast)];
-            visitElements(new FileElementVisitor() {
+            visitElements(new ElementVisitor() {
 
                 final EntityVisitorUtils entityUtils = new EntityVisitorUtils();
 
@@ -591,7 +589,7 @@ public class FullFileInfo
     }
 
     @Override
-    public void visitElements(FileElementVisitor visitor) {
+    public void visitElements(ElementVisitor visitor) {
         for (ClassInfo classInfo : classes.values()) {
             classInfo.visitElements(visitor);
         }
@@ -632,7 +630,7 @@ public class FullFileInfo
     }
 
     public boolean changedFrom(long checksum, long filesize) {
-        return getChecksum() != checksum || getFilesize() != filesize;
+        return getChecksum() != checksum || getFileSize() != filesize;
     }
 
     @Override

@@ -20,7 +20,7 @@ import org.openclover.core.io.tags.TaggedDataOutput;
 import org.openclover.core.io.tags.TaggedPersistent;
 import org.openclover.core.lang.Languages;
 import org.openclover.core.api.registry.CoverageDataProvider;
-import org.openclover.core.registry.FileElementVisitor;
+import org.openclover.core.api.registry.ElementVisitor;
 import org.openclover.core.registry.FixedSourceRegion;
 import org.openclover.core.registry.metrics.HasMetricsNode;
 import org.openclover.core.spi.lang.LanguageConstruct;
@@ -386,7 +386,7 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo>
     }
 
     @Override
-    public void visit(FileElementVisitor visitor) {
+    public void visitElements(ElementVisitor visitor) {
         // this method
         visitor.visitMethod(this);
         // this method's statements and branches
@@ -402,7 +402,7 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo>
         }
         // inner functions
         for (MethodInfo methodInfo : innerMethods) {
-            methodInfo.visit(visitor);
+            methodInfo.visitElements(visitor);
         }
     }
 
@@ -542,10 +542,6 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo>
         return Modifier.isPublic(sharedInfo.getSignature().getBaseModifiersMask());
     }
 
-     /**
-     * convenience method
-     * @return return either "public", "package", "protected" or "private"
-     */
     @Override
     public String getVisibility() {
         return sharedInfo.getSignature().getModifiers().getVisibility();

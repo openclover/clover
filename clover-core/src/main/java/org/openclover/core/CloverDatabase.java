@@ -17,7 +17,6 @@ import org.openclover.core.registry.NoSuchRegistryException;
 import org.openclover.core.registry.ProjectView;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullPackageInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.core.registry.entities.FullTestCaseInfo;
 import org.openclover.core.util.CloverUtils;
@@ -428,7 +427,7 @@ public class CloverDatabase {
 
                 // we check filesize here because checksum can theoretically have collisions
                 // which still is no guarantee, but hey.
-                if (baseFI != null && baseFI.getFilesize() == mergeFI.getFilesize() &&
+                if (baseFI != null && baseFI.getFileSize() == mergeFI.getFileSize() &&
                         baseFI.getChecksum() == mergeFI.getChecksum()) {
                     // baseProject has an entry for this file, and the file records are identical, so
                     // need to merge data only

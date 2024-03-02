@@ -10,7 +10,6 @@ import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.Clover2Registry;
 import org.openclover.core.api.registry.CoverageDataRange;
 import org.openclover.core.registry.entities.FullFileInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.util.Sets;
 import org.openclover.runtime.CloverNames;
 import org.openclover.runtime.Logger;
@@ -218,7 +217,7 @@ public class Snapshot implements Serializable {
 
         db.getFullModel().visitFiles(fileInfo -> {
             final String packagePath = fileInfo.getPackagePath();
-            final SourceState sourceState = new SourceState(fileInfo.getChecksum(), fileInfo.getFilesize());
+            final SourceState sourceState = new SourceState(fileInfo.getChecksum(), fileInfo.getFileSize());
             final Set<TestMethodCall> testsForFile = testsFor(db.getFullModel(), db.getTestHits((CoverageDataRange) fileInfo));
             for (TestMethodCall test : testsForFile) {
                 addToStates(test, packagePath, sourceState);
@@ -445,7 +444,7 @@ public class Snapshot implements Serializable {
                         Logger.getInstance().info(
                             "Source file " + fileState.getKey() + " covered by test " + testMethod
                             + " changed (was: " + fileState.getValue()
-                            + " now: " + new SourceState(fileInfo.getChecksum(), fileInfo.getFilesize()) + ")");
+                            + " now: " + new SourceState(fileInfo.getChecksum(), fileInfo.getFileSize()) + ")");
                     }
                 }
                 if (fileInfo != null) {

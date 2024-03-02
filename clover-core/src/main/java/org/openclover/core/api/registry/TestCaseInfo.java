@@ -1,40 +1,25 @@
 package org.openclover.core.api.registry;
 
 import org.jetbrains.annotations.Nullable;
-import org.openclover.core.registry.entities.FullClassInfo;
-import org.openclover.core.registry.entities.FullMethodInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.registry.entities.StackTraceInfo;
 
 public interface TestCaseInfo {
 
-    Integer getId();
-
-    boolean isResolved();
-
-    boolean resolve(ProjectInfo project);
-
-    String getKey();
-
     String getClassName();
-
-    String getTestName();
 
     double getDuration();
 
-    boolean isError();
-
-    boolean isHasResult();
-
-    boolean isFailure();
-
-    boolean isSuccess();
+    String getFailFullMessage();
 
     String getFailMessage();
 
     String getFailType();
 
-    String getFailFullMessage();
+    String getKey();
+
+    Integer getId();
+
+    String getTestName();
 
     @Nullable
     StackTraceInfo getStackTrace();
@@ -57,4 +42,16 @@ public interface TestCaseInfo {
     long getStartTime();
 
     long getEndTime();
+
+    boolean isError();
+
+    boolean isFailure();
+
+    boolean isHasResult();
+
+    boolean isResolved();
+
+    boolean isSuccess();
+
+    boolean resolve(ProjectInfo project);
 }

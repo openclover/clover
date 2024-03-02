@@ -4,14 +4,14 @@ import org.jetbrains.annotations.NotNull;
 import org.openclover.core.api.registry.BlockMetrics;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.ContextSet;
-import org.openclover.core.api.registry.EditableInstrumentationInfo;
+import org.openclover.core.api.registry.EditableCoverageDataRange;
 import org.openclover.core.api.registry.EntityContainer;
 import org.openclover.core.api.registry.EntityVisitor;
 import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.api.registry.ProjectInfo;
-import org.openclover.core.registry.CachingInfo;
+import org.openclover.core.api.registry.IsCacheable;
 import org.openclover.core.api.registry.CoverageDataProvider;
 import org.openclover.core.api.registry.CoverageDataReceptor;
 import org.openclover.core.api.registry.FileInfoVisitor;
@@ -33,8 +33,8 @@ import static org.openclover.core.util.Lists.newLinkedList;
 
 
 public class FullPackageInfo
-        implements PackageInfo, HasMetricsNode, CoverageDataReceptor, CachingInfo,
-                EditableInstrumentationInfo {
+        implements PackageInfo, HasMetricsNode, CoverageDataReceptor, IsCacheable,
+        EditableCoverageDataRange {
 
     private final String name;
     private final boolean defaultPkg;
@@ -212,6 +212,11 @@ public class FullPackageInfo
     }
 
     // CachingInfo
+
+    @Override
+    public void buildCaches() {
+        // no-op
+    }
 
     @Override
     public void invalidateCaches() {

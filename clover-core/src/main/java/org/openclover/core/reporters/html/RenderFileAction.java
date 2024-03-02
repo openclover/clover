@@ -16,9 +16,7 @@ import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.api.registry.SourceInfo;
 import org.openclover.core.api.registry.StatementInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
-import org.openclover.core.registry.FileElementVisitor;
-import org.openclover.core.registry.entities.FullFileInfo;
-import org.openclover.core.registry.entities.FullPackageInfo;
+import org.openclover.core.api.registry.ElementVisitor;
 import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.core.registry.util.EntityVisitorUtils;
 import org.openclover.core.reporters.Column;
@@ -196,7 +194,7 @@ public class RenderFileAction implements Callable {
 
             testMetrics.put(tci, fcopy.getMetrics());
 
-            fcopy.visitElements(new FileElementVisitor() {
+            fcopy.visitElements(new ElementVisitor() {
                 @Override
                 public void visitClass(ClassInfo info) {
 

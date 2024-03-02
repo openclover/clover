@@ -34,7 +34,7 @@ class FullClassMetadata implements ClassMetadata {
      */
     protected boolean typeAnnotation;
     /**
-     * Whether this object is a test class (according to custom or default test detector
+     * Whether this object is a test class (according to custom or default test detector)
      */
     protected boolean testClass;
 

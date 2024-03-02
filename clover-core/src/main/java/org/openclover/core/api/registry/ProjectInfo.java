@@ -1,6 +1,5 @@
 package org.openclover.core.api.registry;
 
-import org.openclover.core.registry.CachingInfo;
 import org.openclover.core.registry.entities.PackageFragment;
 import org.openclover.core.util.Path;
 
@@ -8,22 +7,15 @@ import java.util.List;
 
 public interface ProjectInfo
         extends EntityContainer, HasPackages, HasContextFilter, HasMetrics,
-        HasVersions, CoverageDataReceptor, CachingInfo {
+        HasVersions, CoverageDataReceptor, IsCacheable {
 
-    /**
-     * Returns name of the project
-     *
-     * @return String project name or <code>null</code>
-     */
-    @Override
-    String getName();
+    void addPackage(PackageInfo pkg);
 
-    /**
-     * Returns true if project is empty.
-     *
-     * @return boolean - true if getAllPackages() is empty
-     */
-    boolean isEmpty();
+    ProjectInfo copy();
+
+    ProjectInfo copy(HasMetricsFilter filter);
+
+    ProjectInfo copy(HasMetricsFilter filter, ContextSet contextFilter);
 
     /**
      * Searches and returns a class having the specified fully qualified name
@@ -41,39 +33,44 @@ public interface ProjectInfo
      */
     FileInfo findFile(String pkgPath);
 
-    void setName(String name);
-
-    void addPackage(PackageInfo pkg);
-
-    PackageInfo getNamedPackage(String name);
+    PackageFragment findPackageFragment(String packageName);
 
     List<ClassInfo> getClasses(HasMetricsFilter filter);
 
     List<FileInfo> getFiles(HasMetricsFilter filter);
 
+    /**
+     * Returns name of the project
+     *
+     * @return String project name or <code>null</code>
+     */
+    @Override
+    String getName();
+
+    PackageInfo getNamedPackage(String name);
+
     List<PackageInfo> getPackages(HasMetricsFilter filter);
-
-    void setContextFilter(ContextSet filter);
-
-    void visitFiles(FileInfoVisitor visitor);
 
     PackageFragment[] getPackageRoots();
 
-    ProjectInfo copy();
+    boolean hasTestResults();
 
-    ProjectInfo copy(HasMetricsFilter filter);
-
-    ProjectInfo copy(HasMetricsFilter filter, ContextSet contextFilter);
+    /**
+     * Returns true if project is empty.
+     *
+     * @return boolean - true if getAllPackages() is empty
+     */
+    boolean isEmpty();
 
     void resolve(Path sourcePath);
 
+    void setContextFilter(ContextSet filter);
+
     void setDataLength(int length);
-
-    void buildCaches();
-
-    boolean hasTestResults();
 
     void setHasTestResults(boolean hasTestResults);
 
-    PackageFragment findPackageFragment(String packageName);
+    void setName(String name);
+
+    void visitFiles(FileInfoVisitor visitor);
 }

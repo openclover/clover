@@ -14,9 +14,8 @@ import org.openclover.core.io.tags.TaggedDataInput;
 import org.openclover.core.io.tags.TaggedDataOutput;
 import org.openclover.core.io.tags.TaggedPersistent;
 import org.openclover.core.registry.Clover2Registry;
-import org.openclover.core.registry.FileElementVisitor;
+import org.openclover.core.api.registry.ElementVisitor;
 import org.openclover.core.registry.entities.FullBranchInfo;
-import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullMethodInfo;
 import org.openclover.core.registry.entities.FullStatementInfo;
 import org.openclover.core.util.Lists;
@@ -368,7 +367,7 @@ public class ContextStore implements TaggedPersistent {
             if (mapping == null) {
                 return;
             }
-            finfo.visitElements(new FileElementVisitor() {
+            finfo.visitElements(new ElementVisitor() {
                 @Override
                 public void visitClass(ClassInfo info) {
 

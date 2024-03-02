@@ -211,6 +211,11 @@ public class DummyPackageInfo implements PackageInfo {
     }
 
     @Override
+    public void buildCaches() {
+
+    }
+
+    @Override
     public void invalidateCaches() {
 
     }

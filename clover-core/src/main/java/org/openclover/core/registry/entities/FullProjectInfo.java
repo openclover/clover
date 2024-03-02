@@ -9,7 +9,7 @@ import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.api.registry.ProjectInfo;
-import org.openclover.core.registry.CachingInfo;
+import org.openclover.core.api.registry.IsCacheable;
 import org.openclover.core.api.registry.CoverageDataProvider;
 import org.openclover.core.api.registry.CoverageDataReceptor;
 import org.openclover.core.api.registry.FileInfoVisitor;
@@ -68,7 +68,7 @@ import static org.openclover.core.util.Maps.newTreeMap;
  *
  */
 public class FullProjectInfo
-        implements ProjectInfo, HasMetricsNode, CoverageDataReceptor, CachingInfo {
+        implements ProjectInfo, HasMetricsNode, CoverageDataReceptor, IsCacheable {
 
     private int dataIndex = 0;
     private int dataLength;

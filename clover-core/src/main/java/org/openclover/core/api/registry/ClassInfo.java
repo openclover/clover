@@ -1,8 +1,6 @@
 package org.openclover.core.api.registry;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.openclover.core.registry.FileElementVisitor;
 import org.openclover.core.registry.FileInfoRegion;
 
 import java.util.Collection;
@@ -24,9 +22,21 @@ import java.util.Set;
  * </ul>
  */
 public interface ClassInfo extends
-        SourceInfo, EntityContainer, HasClassMetadata,
+        SourceInfo, EntityContainer, EntityEnclosure, HasClassMetadata,
         HasClasses, HasMethods, HasStatements,
-        HasContextFilter, HasMetrics, HasAggregatedMetrics, HasParent, FileInfoRegion {
+        HasContextFilter, HasMetrics, HasAggregatedMetrics, HasParent, FileInfoRegion,
+        IsVisitable {
+
+    /**
+     * Create a copy of this class, setting a file as a parent.
+     */
+    ClassInfo copy(FileInfo newParent, HasMetricsFilter filter);
+
+    /**
+     * Collect all source regions inside this class - the class itself
+     * and all methods inside (recursively).
+     */
+    void gatherSourceRegions(Set<SourceInfo> regions);
 
     @Override
     String getName();
@@ -34,41 +44,6 @@ public interface ClassInfo extends
     String getQualifiedName();
 
     ModifiersInfo getModifiers();
-
-    /**
-     * Returns a class in which this class is declared (case for inner classes) or <code>null</code> otherwise.
-     *
-     * @return ClassInfo containing class or <code>null</code>
-     */
-    @Nullable
-    ClassInfo getContainingClass();
-
-    Collection<TestCaseInfo> getTestCases();
-
-    /**
-     * Returns a method in which this class (an anonymous inline class for instance) is declared or <code>null</code>
-     * otherwise.
-     *
-     * @return MethodInfo containing method or <code>null</code>
-     */
-    @Nullable
-    MethodInfo getContainingMethod();
-
-    /**
-     * Returns a file in which this class is declared.
-     *
-     * @return FileInfo file containing this class
-     */
-    @Nullable
-    FileInfo getContainingFile();
-
-    boolean isInterface();
-
-    boolean isEnum();
-
-    boolean isAnnotationType();
-
-    boolean isTestClass();
 
     /**
      * Returns list of inner classes declared on the top level of the class. It does not return classes declared inside
@@ -101,6 +76,8 @@ public interface ClassInfo extends
     @NotNull
     List<MethodInfo> getMethods();
 
+    PackageInfo getPackage();
+
     /**
      * Returns list of statements declared on the to level of the class, i.e. outside methods. It does not apply to all
      * programming languages:
@@ -117,27 +94,36 @@ public interface ClassInfo extends
     List<StatementInfo> getStatements();
 
     /**
+     * Returns test cases found for this class.
+     */
+    Collection<TestCaseInfo> getTestCases();
+
+    boolean isAnnotationType();
+
+    /**
      * Returns true if this class does not contain any nested entities (method or inner classes)
      *
      * @return boolean - true if getMethods() is empty and getClasses() is empty
      */
     boolean isEmpty();
 
-    PackageInfo getPackage();
+    /**
+     * Returns true if the class is an interface.
+     */
+    boolean isInterface();
 
-    void gatherSourceRegions(Set<SourceInfo> regions);
+    /**
+     * Returns true if the class in an enum.
+     */
+    boolean isEnum();
 
-    void visitElements(FileElementVisitor visitor);
+    /**
+     * Whether this is a test class (according to custom or default test detector).
+     */
+    boolean isTestClass();
 
-    ClassInfo copy(FileInfo newParent, HasMetricsFilter filter);
+    void setComparator(Comparator<HasMetrics> cmp);
 
     void setDataProvider(final CoverageDataProvider data);
 
-    void setContainingMethod(MethodInfo containingMethod);
-
-    void setContainingClass(ClassInfo containingClass);
-
-    void setContainingFile(FileInfo fileInfo);
-
-    void setComparator(Comparator<HasMetrics> cmp);
 }

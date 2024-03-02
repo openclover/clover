@@ -68,7 +68,7 @@ public class RegistryDumper {
             Logger.getInstance().info(indent("Physical file:" + ((FullFileInfo)fileInfo).getPhysicalFile().getAbsolutePath()));
             Logger.getInstance().info(indent("Encoding: " + fileInfo.getEncoding()));
             Logger.getInstance().info(indent("Checksum: " + fileInfo.getChecksum()));
-            Logger.getInstance().info(indent("File Size: " + fileInfo.getFilesize()));
+            Logger.getInstance().info(indent("File Size: " + fileInfo.getFileSize()));
             Logger.getInstance().info(indent("Line Count: " + fileInfo.getLineCount()));
             Logger.getInstance().info(indent("NC Line Count: " + fileInfo.getNcLineCount()));
             Logger.getInstance().info(indent("Timestamp: " + DateFormat.getDateTimeInstance().format(fileInfo.getTimestamp())));
@@ -228,7 +228,7 @@ public class RegistryDumper {
             fileInfo.getPackagePath() + "," +
             fileInfo.getEncoding() + "," +
             fileInfo.getChecksum() + "," +
-            fileInfo.getFilesize() + "," +
+            fileInfo.getFileSize() + "," +
             fileInfo.getLineCount() + "," +
             fileInfo.getNcLineCount() + "," +
             DateFormat.getDateTimeInstance().format(fileInfo.getTimestamp()) + "," +

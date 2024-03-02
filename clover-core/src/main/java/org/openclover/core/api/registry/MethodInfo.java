@@ -2,9 +2,6 @@ package org.openclover.core.api.registry;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.openclover.core.registry.FileElementVisitor;
-import org.openclover.core.registry.entities.FullBranchInfo;
-import org.openclover.core.registry.entities.FullStatementInfo;
 
 import java.util.Set;
 
@@ -31,65 +28,77 @@ import java.util.Set;
  * </ul>
  */
 public interface MethodInfo extends
-        ElementInfo, SourceInfo, InstrumentationInfo, EntityContainer,
+        CoverageDataRange, ElementInfo, EntityContainer, EntityEnclosure, SourceInfo,
         HasBranches, HasClasses, HasMethods, HasStatements,
-        HasContextFilter, HasMetrics, HasAggregatedMetrics, HasParent {
+        HasContextFilter, HasMetrics, HasAggregatedMetrics, HasParent,
+        IsVisitable {
 
+
+    /**
+     * Add a class inside the method. Useful for method-scope classes or anonymous inline classes.
+     */
+    void addClass(ClassInfo classInfo);
+
+    /**
+     * Add a method inside the method. Useful for nested functions or inline lambda functions.
+     */
+    void addMethod(MethodInfo methodInfo);
+
+    /**
+     * Add a statement inside the method.
+     */
+    void addStatement(StatementInfo stmt);
+
+    /**
+     * Add a branch inside the method.
+     */
+    void addBranch(BranchInfo branch);
+
+    /**
+     * Create a copy of this method, setting the class as a parent.
+     * Useful for methods declared inside clases.
+     */
+    MethodInfo copy(ClassInfo classAsParent);
+
+    /**
+     * Create a copy of this method, setting the method as a parent.
+     * Useful for functions declared inside other functions.
+     */
+    MethodInfo copy(MethodInfo methodAsParent);
+
+    /**
+     * Create a copy of this method, setting the file as a parent.
+     * Useful for top-level functions declared outside a class.
+     */
+    MethodInfo copy(FileInfo fileAsParent);
+
+    /**
+     * Collect all source regions inside this method - the method itself, all statements
+     * and branches as well as all inner clases and methods (recursively).
+     */
+    void gatherSourceRegions(Set<SourceInfo> regions);
+
+    /**
+     * Returns source of coverage data for the method.
+     */
+    CoverageDataProvider getDataProvider();
+
+    /**
+     * Return a full method name, including argument types and a return type.
+     */
     @Override
     String getName();
 
+    /**
+     * Return a base method name.
+     */
     String getSimpleName();
 
+    /**
+     * Return a qualified method name, i.e with an enclosing fully qualified class name or an
+     * enclosing fully qualified method name.
+     */
     String getQualifiedName();
-
-    /**
-     * Returns a class in which method is declared or <code>null</code> if method (actually it will be a function
-     * or procedure) is declared outside the class.
-     *
-     * @return ClassInfo containing class or <code>null</code>
-     */
-    @Nullable
-    ClassInfo getContainingClass();
-
-    /**
-     * Returns a method in which this method (an inner function actually) is declared or <code>null</code> if method
-     * is not nested inside other method.
-     *
-     * @return MethodInfo containing method or <code>null</code>
-     */
-    @Nullable
-    MethodInfo getContainingMethod();
-
-    void gatherSourceRegions(Set<SourceInfo> regions);
-
-    void visit(FileElementVisitor visitor);
-
-    MethodInfo copy(ClassInfo classAsParent);
-
-    MethodInfo copy(MethodInfo methodAsParent);
-
-    MethodInfo copy(FileInfo fileAsParent);
-
-    boolean isPublic();
-
-    String getVisibility();
-
-    void setDataLength(int length);
-
-    void setContainingClass(ClassInfo classInfo);
-
-    void setContainingMethod(MethodInfo methodInfo);
-
-    void setContainingFile(FileInfo fileInfo);
-
-    /**
-     * Returns a file in which this method is declared. Note that some programming languages allows to define a
-     * function outside a class (or other function).
-     *
-     * @return FileInfo file containing this method
-     */
-    @Nullable
-    FileInfo getContainingFile();
 
     /**
      * Returns an object which encloses this method. You can access it via:
@@ -106,6 +115,20 @@ public interface MethodInfo extends
     EntityContainer getParent();
 
     /**
+     * Returns method signature (annotations, keywords, type parameters, method name, parameters, return type, throws).
+     *
+     * @return MethodSignatureInfo
+     */
+    @NotNull
+    MethodSignatureInfo getSignature();
+
+    /**
+     * Returns method visibility. A shorthand for getSignature().getBaseModifiersMask().
+     * @return String - "public", "package", "protected" or "private"
+     */
+    String getVisibility();
+
+    /**
      * Returns whether method is empty, i.e. does not contain any executable code in it - no statements or branches.
      * Nested methods (functions) and classes defined inside the method body are treated separately, i.e. a method
      * having them can still be empty if it has no statements or branches.
@@ -115,12 +138,21 @@ public interface MethodInfo extends
     boolean isEmpty();
 
     /**
-     * Returns method signature (annotations, keywords, type parameters, method name, parameters, return type, throws).
-     *
-     * @return MethodSignatureInfo
+     * Returns <code>true</code> if this method is filtered out (i.e. excluded by the filter).
      */
-    @NotNull
-    MethodSignatureInfo getSignature();
+    boolean isFiltered(ContextSet filter);
+
+    /**
+     * Returns whether it's a lambda function or not.
+     *
+     * @return boolean <code>true</code> for lambda function, false otherwise
+     */
+    boolean isLambda();
+
+    /**
+     * Returns true if the method is public. A shorthand for getSignature().getBaseModifiersMask().
+     */
+    boolean isPublic();
 
     /**
      * Returns whether it's a test method or not. Classification as a test method depends on the test pattern
@@ -144,24 +176,7 @@ public interface MethodInfo extends
     @Nullable
     String getStaticTestName();
 
-    /**
-     * Returns whether it's a lambda function or not.
-     *
-     * @return boolean <code>true</code> for lambda function, false otherwise
-     */
-    boolean isLambda();
-
-    boolean isFiltered(ContextSet filter);
-
-    void addClass(ClassInfo classInfo);
-
-    void addMethod(MethodInfo methodInfo);
-
-    void addStatement(StatementInfo stmt);
-
-    void addBranch(BranchInfo branch);
-
-    CoverageDataProvider getDataProvider();
+    void setDataLength(int length);
 
     void setDataProvider(CoverageDataProvider data);
 

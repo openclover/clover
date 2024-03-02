@@ -1,6 +1,6 @@
 package org.openclover.core.api.registry;
 
-public interface EditableInstrumentationInfo {
+public interface EditableCoverageDataRange extends CoverageDataRange {
 
     void setDataIndex(int index);
 

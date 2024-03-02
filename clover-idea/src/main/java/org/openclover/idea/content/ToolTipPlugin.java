@@ -11,7 +11,7 @@ import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.ElementInfo;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.StatementInfo;
-import org.openclover.core.registry.FileElementVisitor;
+import org.openclover.core.api.registry.ElementVisitor;
 import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.feature.CloverFeatures;
 import org.openclover.idea.feature.FeatureEvent;
@@ -95,7 +95,7 @@ public class ToolTipPlugin extends ContentPlugin implements EditorMouseMotionLis
 
     }
 
-    private static class TooltipProducer implements FileElementVisitor {
+    private static class TooltipProducer implements ElementVisitor {
         // todo: utilise StatementsAggregatingVisitor when refactoring this class
         private final StringBuilder methodBuilder = new StringBuilder();
         private final StringBuilder branchBuilder = new StringBuilder();

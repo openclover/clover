@@ -1,17 +1,12 @@
 package org.openclover.core.api.registry;
 
 import org.jetbrains.annotations.NotNull;
-import org.openclover.core.registry.FileElementVisitor;
-import org.openclover.core.registry.entities.FullClassInfo;
-import org.openclover.core.registry.entities.FullMethodInfo;
-import org.openclover.core.registry.entities.FullStatementInfo;
 import org.openclover.core.registry.entities.LineInfo;
 import org.openclover.core.registry.entities.StackTraceInfo;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -31,11 +26,40 @@ import java.util.Set;
  * </ul>
  */
 public interface FileInfo extends
-        InstrumentationInfo, SourceInfo, EntityContainer,
+        CoverageDataRange, SourceInfo, EntityContainer,
         HasClasses, HasMethods, HasStatements,
         HasContextFilter, HasMetrics, HasParent, HasVersionRanges,
-        CoverageDataRange {
+        IsMetricsComparable, IsVisitable {
 
+    /**
+     * Add a class inside the file.
+     */
+    void addClass(ClassInfo classInfo);
+
+    /**
+     * Add a method inside the file.
+     */
+    void addMethod(MethodInfo methodInfo);
+
+    /**
+     * Add a statement inside the file.
+     */
+    void addStatement(StatementInfo statementInfo);
+
+    /**
+     * Create a copy of the file, setting a package as a parent.
+     */
+    FileInfo copy(PackageInfo pkg, HasMetricsFilter filter);
+
+    /**
+     * Return a list of all source regions present in this file (all classes, methods, statements).
+     */
+    Set<SourceInfo> gatherSourceRegions();
+
+    /**
+     * Returns file's checksum.
+     */
+    long getChecksum();
 
     /**
      * Returns list of classes which are declared on a top-level of this source file  (i.e. it does not return inner
@@ -51,7 +75,31 @@ public interface FileInfo extends
     @NotNull
     List<ClassInfo> getClasses();
 
-    ClassInfo getNamedClass(String name);
+    /**
+     * Returns a package for which this package belongs to (or the default package)
+     * Note: it supports only one package namespace per source file
+     *
+     * @return PackageInfo
+     */
+    PackageInfo getContainingPackage();
+
+    /**
+     * Returns file encoding, e.g. "UTF-8"
+     *
+     * @return String
+     */
+    String getEncoding();
+
+    /**
+     * Returns file size in bytes
+     * @return long size
+     */
+    long getFileSize();
+
+    LineInfo[] getLineInfo(boolean showLambdaFunctions, boolean showInnerFunctions);
+
+    LineInfo[] getLineInfo(int ensureLineCountAtLeast, boolean showLambdaFunctions,
+                           boolean showInnerFunctions);
 
     /**
      * Returns list of methods which are declared on a top-level of this source file. Exact content may depend on the
@@ -69,6 +117,28 @@ public interface FileInfo extends
     List<MethodInfo> getMethods();
 
     /**
+     * Returns source file name
+     *
+     * @return String
+     */
+    @Override
+    String getName();
+
+    ClassInfo getNamedClass(String name);
+
+    /**
+     * Returns a file name with a package path, e.g. "com/acme/Foo.java"
+     * Note: it supports only one package namespace per source file
+     *
+     * @return String package path
+     */
+    String getPackagePath();
+
+    File getPhysicalFile();
+
+    Reader getSourceReader() throws IOException;
+
+    /**
      * Returns list of statements which are declared on a top-level of this source file. Exact content may depend on the
      * programming language, e.g.:
      * <ul>
@@ -84,52 +154,11 @@ public interface FileInfo extends
     List<StatementInfo> getStatements();
 
     /**
-     * Returns source file name
-     *
-     * @return String
-     */
-    @Override
-    String getName();
-
-    /**
-     * Returns file encoding, e.g. "UTF-8"
-     *
-     * @return String
-     */
-    String getEncoding();
-
-    /**
      * Returns file modification time stamp as per File.lastModified()
      *
      * @return long time stamp
      */
     long getTimestamp();
-
-    /**
-     * Returns file size in bytes
-     * @return long size
-     */
-    long getFilesize();
-
-    long getChecksum();
-
-    /**
-     * Returns a file name with a package path, e.g. "com/acme/Foo.java"
-     * Note: it supports only one package namespace per source file
-     *
-     * @return String package path
-     */
-    String getPackagePath();
-
-    /**
-     * Returns a package for which this package belongs to (or the default package)
-     * Note: it supports only one package namespace per source file
-     *
-     * @return PackageInfo
-     */
-    PackageInfo getContainingPackage();
-
-    void setContainingPackage(PackageInfo containingPackage);
 
     /**
      * Returns number of source lines in a file
@@ -159,32 +188,12 @@ public interface FileInfo extends
      */
     boolean isTestFile();
 
-    File getPhysicalFile();
-
-    Reader getSourceReader() throws IOException;
-
-    Set<SourceInfo> getSourceRegions();
-
-    LineInfo[] getLineInfo(boolean showLambdaFunctions, boolean showInnerFunctions);
-
-    LineInfo[] getLineInfo(int ensureLineCountAtLeast, boolean showLambdaFunctions,
-                           boolean showInnerFunctions);
-
-    void visitElements(FileElementVisitor visitor);
-
-    void setDataProvider(final CoverageDataProvider data);
-
-    void setComparator(Comparator<HasMetrics> cmp);
+    void setContainingPackage(PackageInfo containingPackage);
 
     void setDataLength(int length);
 
-    void addClass(ClassInfo classInfo);
-
-    void addMethod(MethodInfo methodInfo);
-
-    void addStatement(StatementInfo statementInfo);
-
-    FileInfo copy(PackageInfo pkg, HasMetricsFilter filter);
+    void setDataProvider(final CoverageDataProvider data);
 
     void setFailStackEntries(Map<Integer, List<StackTraceInfo.TraceEntry>> entries);
+
 }

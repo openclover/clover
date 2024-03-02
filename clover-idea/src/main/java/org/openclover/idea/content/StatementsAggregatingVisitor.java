@@ -7,13 +7,13 @@ import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.SourceInfo;
 import org.openclover.core.api.registry.StatementInfo;
 import org.openclover.core.api.registry.CoverageDataReceptor;
-import org.openclover.core.registry.FileElementVisitor;
+import org.openclover.core.api.registry.ElementVisitor;
 
 import java.util.Collection;
 
 import static org.openclover.core.util.Lists.newLinkedList;
 
-public class StatementsAggregatingVisitor implements FileElementVisitor {
+public class StatementsAggregatingVisitor implements ElementVisitor {
 
     private final Collection<ClassInfo> classInfos = newLinkedList();
     private final Collection<MethodInfo> methodInfos = newLinkedList();

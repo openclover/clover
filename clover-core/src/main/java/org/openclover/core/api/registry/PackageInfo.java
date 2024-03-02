@@ -1,7 +1,6 @@
 package org.openclover.core.api.registry;
 
 import org.jetbrains.annotations.NotNull;
-import org.openclover.core.registry.CachingInfo;
 import org.openclover.core.registry.metrics.HasMetricsNode;
 
 import java.util.List;
@@ -20,8 +19,8 @@ import java.util.List;
  */
 public interface PackageInfo
         extends CoverageDataReceptor, EntityContainer, HasClasses, HasFiles, HasContextFilter, HasMetrics,
-                HasMetricsNode, HasParent, InstrumentationInfo, IsMetricsComparable,
-                EditableInstrumentationInfo, CachingInfo {
+                HasMetricsNode, HasParent, CoverageDataRange, IsMetricsComparable,
+                EditableCoverageDataRange, IsCacheable {
 
     String DEFAULT_PACKAGE_NAME = "default-pkg";
 

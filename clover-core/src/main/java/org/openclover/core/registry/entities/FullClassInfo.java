@@ -24,7 +24,7 @@ import org.openclover.core.io.tags.TaggedDataOutput;
 import org.openclover.core.io.tags.TaggedPersistent;
 import org.openclover.core.api.registry.CoverageDataProvider;
 import org.openclover.core.api.registry.CoverageDataReceptor;
-import org.openclover.core.registry.FileElementVisitor;
+import org.openclover.core.api.registry.ElementVisitor;
 import org.openclover.core.registry.FixedSourceRegion;
 import org.openclover.core.registry.metrics.ClassMetrics;
 import org.openclover.core.api.registry.HasMetricsFilter;
@@ -470,7 +470,7 @@ public class FullClassInfo
     }
 
     @Override
-    public void visitElements(FileElementVisitor visitor) {
+    public void visitElements(ElementVisitor visitor) {
         // this class
         visitor.visitClass(this);
         // inner classes
@@ -479,7 +479,7 @@ public class FullClassInfo
         }
         // this class methods
         for (MethodInfo methodInfo : methods) {
-            methodInfo.visit(visitor);
+            methodInfo.visitElements(visitor);
         }
         // this class statements
         for (StatementInfo statementInfo : statements) {

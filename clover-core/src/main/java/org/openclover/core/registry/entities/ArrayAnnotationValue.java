@@ -19,7 +19,7 @@ import static org.openclover.core.util.Lists.newArrayList;
  * An annotation value that is an ordered collection of annotation values.
  */
 public class ArrayAnnotationValue implements PersistentAnnotationValue, AnnotationValueCollection {
-    private List<PersistentAnnotationValue> values = newArrayList();
+    private final List<PersistentAnnotationValue> values = newArrayList();
 
     public ArrayAnnotationValue() {
     }
