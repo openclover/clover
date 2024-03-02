@@ -18,7 +18,7 @@ import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullMethodInfo;
 import org.openclover.core.registry.entities.FullTestCaseInfo;
-import org.openclover.core.registry.entities.StackTraceInfo;
+import org.openclover.core.api.registry.StackTraceInfo;
 import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.idea.coverage.CoverageManager;
 import org.openclover.idea.util.tasks.AbstractExpirableTaskDelegate;

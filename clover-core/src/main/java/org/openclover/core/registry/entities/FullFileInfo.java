@@ -12,6 +12,7 @@ import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.api.registry.SourceInfo;
+import org.openclover.core.api.registry.StackTraceEntry;
 import org.openclover.core.api.registry.StatementInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.io.tags.TaggedDataInput;
@@ -88,7 +89,7 @@ public class FullFileInfo
     private transient LineInfo[] lineInfo;
     private transient Comparator<HasMetrics> orderby;
     private transient CoverageDataProvider data;
-    private transient Map<Integer, List<StackTraceInfo.TraceEntry>> failStackInfos;
+    private transient Map<Integer, List<StackTraceEntry>> failStackInfos;
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -569,14 +570,14 @@ public class FullFileInfo
             });
 
             if (failStackInfos != null) {
-                for (final Map.Entry<Integer, List<StackTraceInfo.TraceEntry>> entry : failStackInfos.entrySet()) {
+                for (final Map.Entry<Integer, List<StackTraceEntry>> entry : failStackInfos.entrySet()) {
                     final int line = entry.getKey();
-                    final List<StackTraceInfo.TraceEntry> stackFrames = entry.getValue();
+                    final List<StackTraceEntry> stackFrames = entry.getValue();
                     if (line > 0 && line < tmpLineInfo.length) {
                         if (tmpLineInfo[line] == null) {
                             tmpLineInfo[line] = new LineInfo(line);
                         }
-                        tmpLineInfo[line].setFailStackEntries(stackFrames.toArray(new StackTraceInfo.TraceEntry[0]));
+                        tmpLineInfo[line].setFailStackEntries(stackFrames.toArray(new FullStackTraceInfo.StackTraceEntryImpl[0]));
                     }
 
                 }
@@ -683,32 +684,32 @@ public class FullFileInfo
 
         if (failStackInfos != null) {
             tests = newHashSet();
-            for (final Map.Entry<Integer, List<StackTraceInfo.TraceEntry>> entry : failStackInfos.entrySet()) {
-                final List<StackTraceInfo.TraceEntry> entries = entry.getValue();
-                for (StackTraceInfo.TraceEntry traceEntry : entries) {
-                    tests.add(traceEntry.getParentTrace().getOriginatingTest());
+            for (final Map.Entry<Integer, List<StackTraceEntry>> entry : failStackInfos.entrySet()) {
+                final List<StackTraceEntry> entries = entry.getValue();
+                for (StackTraceEntry stackTraceEntry : entries) {
+                    tests.add(stackTraceEntry.getParentTrace().getOriginatingTest());
                 }
             }
         }
         return tests;
     }
 
-    public Map<Integer, List<StackTraceInfo.TraceEntry>> getFailStackEntries() {
+    public Map<Integer, List<StackTraceEntry>> getFailStackEntries() {
         return failStackInfos;
     }
 
     @Override
-    public void setFailStackEntries(final Map<Integer, List<StackTraceInfo.TraceEntry>> entries) {
+    public void setFailStackEntries(final Map<Integer, List<StackTraceEntry>> entries) {
         failStackInfos = new TreeMap<>(entries);
     }
 
-    public void addFailStackEntry(final int lineNum, final StackTraceInfo.TraceEntry traceEntry) {
+    public void addFailStackEntry(final int lineNum, final StackTraceEntry stackTraceEntry) {
         if (failStackInfos == null) {
             failStackInfos = newTreeMap();
         }
         final Integer lineKey = lineNum;
-        List<StackTraceInfo.TraceEntry> tracesForLine = failStackInfos.computeIfAbsent(lineKey, k -> newArrayList());
-        tracesForLine.add(traceEntry);
+        List<StackTraceEntry> tracesForLine = failStackInfos.computeIfAbsent(lineKey, k -> newArrayList());
+        tracesForLine.add(stackTraceEntry);
     }
 
 

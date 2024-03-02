@@ -4,6 +4,7 @@ import org.jetbrains.annotations.Nullable;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.ProjectInfo;
+import org.openclover.core.api.registry.StackTraceInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.recorder.PerTestRecordingTranscript;
 
@@ -196,7 +197,7 @@ public class FullTestCaseInfo implements TestCaseInfo, Serializable {
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
         if (failFullMessage != null) {
-            stackTrace = new StackTraceInfo(this, failFullMessage);
+            stackTrace = new FullStackTraceInfo(this, failFullMessage);
         }
     }
 
@@ -310,7 +311,7 @@ public class FullTestCaseInfo implements TestCaseInfo, Serializable {
     public void setFailFullMessage(String failFullMessage) {
         this.failFullMessage = failFullMessage;
         if (failFullMessage != null) {
-            stackTrace = new StackTraceInfo(this, failFullMessage);
+            stackTrace = new FullStackTraceInfo(this, failFullMessage);
         }
     }
 

@@ -6,6 +6,7 @@ import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.ElementInfo;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.SourceInfo;
+import org.openclover.core.api.registry.StackTraceEntry;
 import org.openclover.core.api.registry.StatementInfo;
 
 import java.util.Comparator;
@@ -32,7 +33,7 @@ public class LineInfo {
     private List<MethodInfo> methodStarts;
     private List<StatementInfo> statements;
     private List<BranchInfo> branches;
-    private StackTraceInfo.TraceEntry[] failStackEntries;
+    private StackTraceEntry[] failStackEntries;
 
     public LineInfo(int line) {
         this.line = line;
@@ -98,7 +99,7 @@ public class LineInfo {
         }
     }
 
-    public StackTraceInfo.TraceEntry[] getFailStackEntries() {
+    public StackTraceEntry[] getFailStackEntries() {
         return failStackEntries;
     }
 
@@ -130,8 +131,8 @@ public class LineInfo {
         branches.add(branch);
     }
 
-    public void setFailStackEntries(StackTraceInfo.TraceEntry[] entries) {
-        this.failStackEntries = new StackTraceInfo.TraceEntry[entries.length];
+    public void setFailStackEntries(FullStackTraceInfo.StackTraceEntryImpl[] entries) {
+        this.failStackEntries = new FullStackTraceInfo.StackTraceEntryImpl[entries.length];
         System.arraycopy(entries,0, failStackEntries,0,entries.length);
     }
 

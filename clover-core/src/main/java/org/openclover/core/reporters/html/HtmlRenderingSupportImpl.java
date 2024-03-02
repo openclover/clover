@@ -13,10 +13,9 @@ import org.openclover.core.api.registry.CoverageDataRange;
 import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
-import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullMethodInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
-import org.openclover.core.registry.entities.StackTraceInfo;
+import org.openclover.core.api.registry.StackTraceInfo;
+import org.openclover.core.api.registry.StackTraceEntry;
 import org.openclover.core.registry.util.EntityVisitorUtils;
 import org.openclover.core.reporters.Column;
 import org.openclover.core.reporters.Format;
@@ -571,7 +570,7 @@ public class HtmlRenderingSupportImpl implements HtmlRenderingSupport {
     public String linkifyStackTrace(String rootRelPath, StackTraceInfo trace) {
         final StringBuilder buff = new StringBuilder();
         for (Object entryObj : trace.getEntries()) {
-            StackTraceInfo.TraceEntry entry = (StackTraceInfo.TraceEntry) entryObj;
+            StackTraceEntry entry = (StackTraceEntry) entryObj;
             buff.append("<div>");
             if (entry.isResolved()) {
                 buff.append(entry.getLinePrefix());

@@ -1,7 +1,6 @@
 package org.openclover.core.api.registry;
 
 import org.jetbrains.annotations.Nullable;
-import org.openclover.core.registry.entities.StackTraceInfo;
 
 public interface TestCaseInfo {
 

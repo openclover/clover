@@ -2,7 +2,6 @@ package org.openclover.core.api.registry;
 
 import org.jetbrains.annotations.NotNull;
 import org.openclover.core.registry.entities.LineInfo;
-import org.openclover.core.registry.entities.StackTraceInfo;
 
 import java.io.File;
 import java.io.IOException;
@@ -194,6 +193,6 @@ public interface FileInfo extends
 
     void setDataProvider(final CoverageDataProvider data);
 
-    void setFailStackEntries(Map<Integer, List<StackTraceInfo.TraceEntry>> entries);
+    void setFailStackEntries(Map<Integer, List<StackTraceEntry>> entries);
 
 }
