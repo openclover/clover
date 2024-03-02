@@ -2,6 +2,7 @@ package org.openclover.core.registry;
 
 import org.jetbrains.annotations.Nullable;
 import org.openclover.core.api.registry.FileInfo;
+import org.openclover.core.api.registry.FileInfoRegion;
 import org.openclover.core.api.registry.SourceInfo;
 
 public class FixedFileRegion implements FileInfoRegion {

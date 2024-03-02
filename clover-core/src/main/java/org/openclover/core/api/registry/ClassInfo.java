@@ -1,7 +1,6 @@
 package org.openclover.core.api.registry;
 
 import org.jetbrains.annotations.NotNull;
-import org.openclover.core.registry.FileInfoRegion;
 
 import java.util.Collection;
 import java.util.Comparator;

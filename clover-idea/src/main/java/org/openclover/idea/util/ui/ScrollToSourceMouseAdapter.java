@@ -4,7 +4,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Key;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.TestCaseInfo;
-import org.openclover.core.registry.FileInfoRegion;
+import org.openclover.core.api.registry.FileInfoRegion;
 
 import org.openclover.core.registry.entities.FullMethodInfo;
 import org.openclover.idea.ProjectPlugin;

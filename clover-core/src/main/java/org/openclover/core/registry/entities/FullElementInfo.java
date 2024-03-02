@@ -7,7 +7,7 @@ import org.openclover.core.context.ContextStore;
 import org.openclover.core.context.NamedContext;
 import org.openclover.core.api.registry.CoverageDataProvider;
 import org.openclover.core.api.registry.CoverageDataReceptor;
-import org.openclover.core.registry.FileInfoRegion;
+import org.openclover.core.api.registry.FileInfoRegion;
 import org.openclover.core.spi.lang.LanguageConstruct;
 
 public abstract class FullElementInfo<T extends BasicElementInfo> implements CoverageDataReceptor, FileInfoRegion, ElementInfo {

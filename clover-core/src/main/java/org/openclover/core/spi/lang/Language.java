@@ -29,8 +29,19 @@ public interface Language {
      * Languages supported by Clover out-of-the-box.
      */
     enum Builtin implements Language {
-        JAVA(".java", LanguageConstruct.Builtin.METHOD, LanguageConstruct.Builtin.BRANCH, LanguageConstruct.Builtin.STATEMENT),
-        GROOVY(".groovy", LanguageConstruct.Builtin.METHOD, LanguageConstruct.Builtin.BRANCH, LanguageConstruct.Builtin.STATEMENT, LanguageConstruct.Builtin.GROOVY_FIELD_EXPRESSION, LanguageConstruct.Builtin.GROOVY_SAFE_METHOD, LanguageConstruct.Builtin.GROOVY_SAFE_ATTRIBUTE, LanguageConstruct.Builtin.GROOVY_SAFE_PROPERTY);
+        JAVA(".java",
+                LanguageConstruct.Builtin.METHOD,
+                LanguageConstruct.Builtin.BRANCH,
+                LanguageConstruct.Builtin.STATEMENT),
+
+        GROOVY(".groovy",
+                LanguageConstruct.Builtin.METHOD,
+                LanguageConstruct.Builtin.BRANCH,
+                LanguageConstruct.Builtin.STATEMENT,
+                LanguageConstruct.Builtin.GROOVY_FIELD_EXPRESSION,
+                LanguageConstruct.Builtin.GROOVY_SAFE_METHOD,
+                LanguageConstruct.Builtin.GROOVY_SAFE_ATTRIBUTE,
+                LanguageConstruct.Builtin.GROOVY_SAFE_PROPERTY);
 
         private final Set<String> extensions;
         private final Set<LanguageConstruct> constructs;
