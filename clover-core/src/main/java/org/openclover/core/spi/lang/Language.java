@@ -26,7 +26,8 @@ public interface Language {
     Set<LanguageConstruct> getSupportedConstructs();
 
     /**
-     * Languages supported by Clover out-of-the-box.
+     * Languages supported by Clover out-of-the-box. Also, other JVM languages for future support
+     * or extensions.
      */
     enum Builtin implements Language {
         JAVA(".java",
@@ -41,7 +42,28 @@ public interface Language {
                 LanguageConstruct.Builtin.GROOVY_FIELD_EXPRESSION,
                 LanguageConstruct.Builtin.GROOVY_SAFE_METHOD,
                 LanguageConstruct.Builtin.GROOVY_SAFE_ATTRIBUTE,
-                LanguageConstruct.Builtin.GROOVY_SAFE_PROPERTY);
+                LanguageConstruct.Builtin.GROOVY_SAFE_PROPERTY),
+
+        // clover-aspectj-compiler
+        ASPECTJ(".aj",
+                LanguageConstruct.Builtin.METHOD,
+                LanguageConstruct.Builtin.STATEMENT),
+
+        // for future extensions
+        SCALA(".scala",
+                LanguageConstruct.Builtin.METHOD,
+                LanguageConstruct.Builtin.STATEMENT,
+                LanguageConstruct.Builtin.BRANCH),
+
+        KOTLIN(".kt",
+                LanguageConstruct.Builtin.METHOD,
+                LanguageConstruct.Builtin.STATEMENT,
+                LanguageConstruct.Builtin.BRANCH),
+
+        CLOSURE(".clj",
+                LanguageConstruct.Builtin.METHOD,
+                LanguageConstruct.Builtin.STATEMENT,
+                LanguageConstruct.Builtin.BRANCH);
 
         private final Set<String> extensions;
         private final Set<LanguageConstruct> constructs;
