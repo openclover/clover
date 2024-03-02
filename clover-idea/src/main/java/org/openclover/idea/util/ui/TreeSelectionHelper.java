@@ -1,8 +1,7 @@
 package org.openclover.idea.util.ui;
 
 import org.openclover.core.api.registry.PackageInfo;
-import org.openclover.core.registry.entities.FullPackageInfo;
-import org.openclover.core.registry.entities.PackageFragment;
+import org.openclover.core.api.registry.PackageFragment;
 import org.openclover.idea.coverage.CoverageTreeModel;
 import org.openclover.idea.testexplorer.DecoratedTestCaseInfo;
 import org.openclover.idea.testexplorer.SimplePackageFragment;

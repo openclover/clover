@@ -7,6 +7,7 @@ import org.openclover.core.api.registry.ContextSet;
 import org.openclover.core.api.registry.EntityVisitor;
 import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.api.registry.PackageFragment;
 import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.api.registry.IsCacheable;
@@ -466,9 +467,9 @@ public class FullProjectInfo
             sep = ".";
             if (currentFrag == null) {
                 // check root level
-                PackageFragment root = (PackageFragment)roots.get(frag);
+                PackageFragment root = roots.get(frag);
                 if (root == null) {
-                    root = new PackageFragment(null, this, frag, qname);
+                    root = new PackageFragmentImpl(null, this, frag, qname);
                     root.setComparator(orderby);
                     roots.put(frag, root);
                     orderedPkgRoots.add(root);
@@ -478,7 +479,7 @@ public class FullProjectInfo
             else {
                 PackageFragment node = currentFrag.getChild(frag);
                 if (node == null) {
-                    node = new PackageFragment(currentFrag, this, qname, frag);
+                    node = new PackageFragmentImpl(currentFrag, this, qname, frag);
                     node.setComparator(orderby);
                     currentFrag.addChild(node);
                 }

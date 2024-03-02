@@ -1,6 +1,5 @@
 package org.openclover.core.api.registry;
 
-import org.openclover.core.registry.entities.PackageFragment;
 import org.openclover.core.util.Path;
 
 import java.util.List;

@@ -3,6 +3,7 @@ package org.openclover.core.registry.entities;
 import org.openclover.core.api.registry.BlockMetrics;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.api.registry.PackageFragment;
 import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.api.registry.HasMetricsNode;
@@ -16,35 +17,37 @@ import java.util.Map;
 import static org.openclover.core.util.Lists.newArrayList;
 import static org.openclover.core.util.Maps.newTreeMap;
 
-public class PackageFragment implements HasMetricsNode {
+public class PackageFragmentImpl implements PackageFragment {
 
-    private ProjectInfo containingProject;
-    private PackageFragment parent;
+    private final ProjectInfo containingProject;
+    private final PackageFragment parent;
     private List<PackageFragment> orderedKids;
     private Map<String, PackageFragment> children;
     private BlockMetrics rawMetrics;
     private BlockMetrics metrics;
     private PackageInfo concretePackage;
-    private String qualifiedName;
-    private String name;
+    private final String qualifiedName;
+    private final String name;
     private Comparator<HasMetrics> orderby;
 
 
-    public PackageFragment(PackageFragment parent, ProjectInfo containingProject,
-                           String fqn, String name) {
+    public PackageFragmentImpl(PackageFragment parent, ProjectInfo containingProject,
+                               String fqn, String name) {
         this.parent = parent;
         this.containingProject = containingProject;
         this.qualifiedName = fqn;
         this.name = name;
     }
 
-    void addChild(PackageFragment pkg) {
+    @Override
+    public void addChild(PackageFragment pkg) {
         if (children == null) {
             children = newTreeMap(); // natural ordering used
         }
         children.put(pkg.getName(), pkg);
     }
 
+    @Override
     public PackageFragment[] getChildren() {
         if (children != null) {
             return children.values().toArray(new PackageFragment[0]);
@@ -52,26 +55,32 @@ public class PackageFragment implements HasMetricsNode {
         return new PackageFragment[0];
     }
 
+    @Override
     public PackageInfo getConcretePackage() {
         return concretePackage;
     }
 
+    @Override
     public void setConcretePackage(PackageInfo concretePackage) {
         this.concretePackage = concretePackage;
     }
 
+    @Override
     public boolean isConcrete() {
         return concretePackage != null;
     }
 
+    @Override
     public PackageFragment getParent() {
         return parent;
     }
 
+    @Override
     public ProjectInfo getContainingProject() {
         return containingProject;
     }
 
+    @Override
     public String getQualifiedName() {
         return isConcrete() ? concretePackage.getName() : qualifiedName;
     }
@@ -107,6 +116,7 @@ public class PackageFragment implements HasMetricsNode {
         this.metrics = metrics;
     }
 
+    @Override
     public PackageFragment getChild(String name) {
         if (children != null) {
             return children.get(name);

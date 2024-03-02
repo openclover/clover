@@ -10,6 +10,7 @@ import org.openclover.core.TestUtils
 import org.openclover.core.api.registry.ClassInfo
 import org.openclover.core.api.registry.ContextSet
 import org.openclover.core.api.registry.HasMetrics
+import org.openclover.core.api.registry.PackageFragment
 import org.openclover.core.api.registry.PackageInfo
 import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.api.registry.SourceInfo
@@ -24,7 +25,6 @@ import org.openclover.core.registry.entities.FullProjectInfo
 import org.openclover.core.registry.entities.FullStatementInfo
 import org.openclover.core.registry.entities.MethodSignature
 import org.openclover.core.registry.entities.Modifiers
-import org.openclover.core.registry.entities.PackageFragment
 import org.openclover.core.registry.format.FreshRegFile
 import org.openclover.core.api.registry.HasMetricsFilter
 import org.openclover.core.registry.metrics.ProjectMetrics

@@ -6,9 +6,8 @@ import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
 import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.api.registry.PackageFragment;
 import org.openclover.core.api.registry.PackageInfo;
-import org.openclover.core.registry.entities.FullPackageInfo;
-import org.openclover.core.registry.entities.PackageFragment;
 import org.openclover.idea.actions.Constants;
 import org.openclover.idea.report.cloud.CloudVirtualFile;
 
