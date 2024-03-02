@@ -1,7 +1,5 @@
 package org.openclover.core.api.registry;
 
-import org.openclover.core.registry.entities.FullFileInfo;
-
 public interface StackTraceEntry {
     StackTraceInfo getParentTrace();
 
@@ -19,7 +17,7 @@ public interface StackTraceEntry {
 
     void setDown(StackTraceEntry down);
 
-    FullFileInfo getContainingFile();
+    FileInfo getContainingFile();
 
     int getLineNum();
 

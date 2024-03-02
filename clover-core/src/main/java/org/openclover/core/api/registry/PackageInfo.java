@@ -1,7 +1,6 @@
 package org.openclover.core.api.registry;
 
 import org.jetbrains.annotations.NotNull;
-import org.openclover.core.registry.metrics.HasMetricsNode;
 
 import java.util.List;
 

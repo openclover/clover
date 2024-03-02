@@ -1,9 +1,4 @@
-package org.openclover.core.registry.metrics;
-
-import org.openclover.core.api.registry.HasMetrics;
-import org.openclover.core.api.registry.IsMetricsComparable;
-
-import java.util.Comparator;
+package org.openclover.core.api.registry;
 
 public interface HasMetricsNode extends HasMetrics, IsMetricsComparable {
 

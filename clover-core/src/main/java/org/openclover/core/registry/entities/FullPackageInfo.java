@@ -17,7 +17,7 @@ import org.openclover.core.api.registry.CoverageDataReceptor;
 import org.openclover.core.api.registry.FileInfoVisitor;
 import org.openclover.core.registry.metrics.FileMetrics;
 import org.openclover.core.api.registry.HasMetricsFilter;
-import org.openclover.core.registry.metrics.HasMetricsNode;
+import org.openclover.core.api.registry.HasMetricsNode;
 import org.openclover.core.registry.metrics.PackageMetrics;
 import org.openclover.core.util.CloverUtils;
 

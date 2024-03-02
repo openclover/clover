@@ -1,6 +1,7 @@
 package org.openclover.core.registry.entities;
 
 import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.api.registry.StackTraceEntry;
 import org.openclover.core.api.registry.StackTraceInfo;
@@ -134,7 +135,7 @@ public class FullStackTraceInfo implements StackTraceInfo {
         }
 
         @Override
-        public FullFileInfo getContainingFile() {
+        public FileInfo getContainingFile() {
             return containingFile.get();
         }
 

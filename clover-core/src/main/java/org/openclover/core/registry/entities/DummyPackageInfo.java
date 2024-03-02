@@ -13,7 +13,7 @@ import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.api.registry.ProjectInfo;
-import org.openclover.core.registry.metrics.HasMetricsNode;
+import org.openclover.core.api.registry.HasMetricsNode;
 
 import java.util.Collections;
 import java.util.Comparator;

@@ -28,7 +28,7 @@ import org.openclover.core.api.registry.ElementVisitor;
 import org.openclover.core.registry.FixedSourceRegion;
 import org.openclover.core.registry.metrics.ClassMetrics;
 import org.openclover.core.api.registry.HasMetricsFilter;
-import org.openclover.core.registry.metrics.HasMetricsNode;
+import org.openclover.core.api.registry.HasMetricsNode;
 
 import java.io.IOException;
 import java.util.Collection;

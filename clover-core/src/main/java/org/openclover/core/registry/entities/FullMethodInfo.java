@@ -22,7 +22,7 @@ import org.openclover.core.lang.Languages;
 import org.openclover.core.api.registry.CoverageDataProvider;
 import org.openclover.core.api.registry.ElementVisitor;
 import org.openclover.core.registry.FixedSourceRegion;
-import org.openclover.core.registry.metrics.HasMetricsNode;
+import org.openclover.core.api.registry.HasMetricsNode;
 import org.openclover.core.spi.lang.LanguageConstruct;
 
 import java.io.IOException;

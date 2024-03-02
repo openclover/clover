@@ -25,7 +25,7 @@ import org.openclover.core.registry.FixedSourceRegion;
 import org.openclover.core.registry.metrics.ClassMetrics;
 import org.openclover.core.registry.metrics.FileMetrics;
 import org.openclover.core.api.registry.HasMetricsFilter;
-import org.openclover.core.registry.metrics.HasMetricsNode;
+import org.openclover.core.api.registry.HasMetricsNode;
 import org.openclover.core.registry.util.EntityVisitorUtils;
 import org.openclover.core.spi.lang.Language;
 import org.openclover.core.util.FileUtils;
