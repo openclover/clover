@@ -5,7 +5,6 @@ import org.openclover.core.api.registry.PackageInfo
 import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.context.ContextSetImpl
 import org.openclover.core.registry.entities.BasicElementInfo
-import org.openclover.core.registry.entities.BasicMethodInfo
 import org.openclover.core.registry.entities.FullClassInfo
 import org.openclover.core.registry.entities.FullFileInfo
 import org.openclover.core.registry.entities.FullMethodInfo
@@ -16,6 +15,8 @@ import org.openclover.core.registry.entities.MethodSignature
 import org.openclover.core.registry.entities.Modifiers
 import org.openclover.core.spi.lang.LanguageConstruct
 
+import static org.openclover.core.registry.entities.FullMethodInfo.DEFAULT_METHOD_COMPLEXITY
+import static org.openclover.core.spi.lang.LanguageConstruct.Builtin.METHOD
 import static org.openclover.core.util.Maps.newHashMap
 
 /**
@@ -44,7 +45,7 @@ class ModelBuilder {
 
         PackageInfoWrapper pkg(String name) {
             for (PackageInfo pkgInfo : getElement().getAllPackages()) {
-                if (name.equals(pkgInfo.getName())) {
+                if (name == pkgInfo.getName()) {
                     return new PackageInfoWrapper(pkgInfo)
                 }
             }
@@ -94,7 +95,7 @@ class ModelBuilder {
         ClassInfoWrapper clazz(String name) {
             final List<ClassInfo> classes = getElement().getClasses()
             for (ClassInfo classInfo : classes) {
-                if (classInfo.getName().equals(name)) {
+                if (classInfo.getName() == name) {
                     return new ClassInfoWrapper((FullClassInfo)classInfo)
                 }
             }
@@ -112,10 +113,10 @@ class ModelBuilder {
         MethodInfoWrapper method(String name, boolean isTest) {
             final FullMethodInfo method = new FullMethodInfo(
                     getElement(),
+                    new MethodSignature(name),
                     new ContextSetImpl(),
-                    new BasicMethodInfo(new FixedSourceRegion(0, 0), 0,
-                            FullMethodInfo.DEFAULT_METHOD_COMPLEXITY, new MethodSignature(name),
-                            isTest, null, false))
+                    new BasicElementInfo(new FixedSourceRegion(0, 0), 0, DEFAULT_METHOD_COMPLEXITY, METHOD),
+                    isTest, null, false)
             getElement().addMethod(method)
             return new MethodInfoWrapper(method)
         }
@@ -192,7 +193,8 @@ class ModelBuilder {
         MethodInfoWrapper method(String name, boolean isTest) {
             final FullMethodInfo method = new FullMethodInfo(getElement(), 0, new ContextSetImpl(),
                     new FixedSourceRegion(0, 0), new MethodSignature(name),
-                    isTest, null, false, FullMethodInfo.DEFAULT_METHOD_COMPLEXITY)
+                    isTest, null, false, DEFAULT_METHOD_COMPLEXITY,
+                    METHOD)
             getElement().addMethod(method)
             return new MethodInfoWrapper(method)
         }
@@ -214,10 +216,10 @@ class ModelBuilder {
         MethodInfoWrapper method(String name, boolean isTest) {
             final FullMethodInfo method = new FullMethodInfo(
                     getElement(),
+                    new MethodSignature(name),
                     new ContextSetImpl(),
-                    new BasicMethodInfo(new FixedSourceRegion(0, 0), 0,
-                            FullMethodInfo.DEFAULT_METHOD_COMPLEXITY, new MethodSignature(name),
-                            isTest, null, false))
+                    new BasicElementInfo(new FixedSourceRegion(0, 0), 0, DEFAULT_METHOD_COMPLEXITY, METHOD),
+                    isTest, null, false)
             getElement().addMethod(method)
             return new MethodInfoWrapper(method)
         }

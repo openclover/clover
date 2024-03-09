@@ -4,13 +4,11 @@ import org.jetbrains.annotations.Nullable;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.ProjectInfo;
-import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.context.ContextSetImpl;
 import org.openclover.core.registry.FixedSourceRegion;
-import org.openclover.core.registry.entities.BasicMethodInfo;
+import org.openclover.core.registry.entities.BasicElementInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.FullMethodInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.registry.entities.FullTestCaseInfo;
 import org.openclover.core.registry.entities.MethodSignature;
 
@@ -29,6 +27,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
+
+import static org.openclover.core.spi.lang.LanguageConstruct.Builtin.METHOD;
 
 public class TestResultProcessor {
 
@@ -176,9 +176,12 @@ public class TestResultProcessor {
                                     currentTestClass, methodDecl, methodDecl.getSimpleName());
                         } else {
                             // generate negative slice id from a test name using fake method
-                            FullMethodInfo fakeTestMethod = new FullMethodInfo(currentTestClass, new ContextSetImpl(),
-                                    new BasicMethodInfo(new FixedSourceRegion(0, 0), 0, 0,
-                                            new MethodSignature(testname), true, testname, false));
+                            FullMethodInfo fakeTestMethod = new FullMethodInfo(
+                                    currentTestClass,
+                                    new MethodSignature(testname),
+                                    new ContextSetImpl(),
+                                    new BasicElementInfo(new FixedSourceRegion(0, 0), 0, 0, METHOD),
+                                    true, testname, false);
                             currentTestCaseInfo = new FullTestCaseInfo(-Math.abs(testname.hashCode()),
                                     currentTestClass, fakeTestMethod, testname);
                         }

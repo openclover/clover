@@ -36,7 +36,7 @@ public class FullStatementInfo extends FullElementInfo<BasicElementInfo> impleme
     public FullStatementInfo(MethodInfo containingMethod, int relativeDataIndex, ContextSet context,
                             SourceInfo region, int complexity, LanguageConstruct construct) {
 
-        this(containingMethod, context, new BasicStatementInfo(region, relativeDataIndex, complexity, construct));
+        this(containingMethod, context, new BasicElementInfo(region, relativeDataIndex, complexity, construct));
     }
 
     /**
@@ -45,7 +45,7 @@ public class FullStatementInfo extends FullElementInfo<BasicElementInfo> impleme
      */
     private FullStatementInfo(int relativeDataIndex, ContextSet context,
                               SourceInfo region, int complexity, LanguageConstruct construct) {
-        this((ParentEntity)null, context, new BasicStatementInfo(region, relativeDataIndex, complexity, construct));
+        this((ParentEntity)null, context, new BasicElementInfo(region, relativeDataIndex, complexity, construct));
     }
 
     /**

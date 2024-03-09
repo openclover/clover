@@ -1,22 +1,22 @@
 package org.openclover.idea.report.jfc;
 
 import org.junit.Test;
+import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.context.ContextSetImpl;
 import org.openclover.core.registry.FixedSourceRegion;
-import org.openclover.core.registry.entities.BasicMethodInfo;
-import org.openclover.core.registry.entities.FullClassInfo;
+import org.openclover.core.registry.entities.BasicElementInfo;
 import org.openclover.core.registry.entities.FullMethodInfo;
 import org.openclover.core.registry.entities.FullTestCaseInfo;
 import org.openclover.core.registry.entities.MethodSignature;
-
 import org.openclover.idea.coverage.BaseCoverageNodeViewer;
 
 import java.util.Arrays;
-import java.util.Collections;
 
+import static java.util.Collections.emptyList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.openclover.core.spi.lang.LanguageConstruct.Builtin.METHOD;
 
 /**
  * BaseCoverageNodeViewer Tester.
@@ -25,7 +25,7 @@ public class TestPassInfoTest {
 
     @Test
     public void testTestPassInfo() {
-        BaseCoverageNodeViewer.TestPassInfo tpi = new BaseCoverageNodeViewer.TestPassInfo(Collections.<TestCaseInfo>emptyList());
+        BaseCoverageNodeViewer.TestPassInfo tpi = new BaseCoverageNodeViewer.TestPassInfo(emptyList());
         verifyTPI(tpi, 0, 0, 0);
 
         TestCaseInfo[] tcis1 = {
@@ -71,7 +71,7 @@ public class TestPassInfoTest {
     private static class TestCaseInfoMock extends FullTestCaseInfo {
         private static int nextId;
 
-        static enum Type {
+        enum Type {
             PASS, FAIL, ERROR, NORESULT
         }
 
@@ -104,7 +104,10 @@ public class TestPassInfoTest {
     }
 
     private static FullMethodInfo fixtureMethod(String name) {
-        return new FullMethodInfo((FullClassInfo)null, new ContextSetImpl(),
-                new BasicMethodInfo(new FixedSourceRegion(0, 0), 0, 0, new MethodSignature(name), true, null, false) );
+        return new FullMethodInfo((ClassInfo)null,
+                new MethodSignature(name),
+                new ContextSetImpl(),
+                new BasicElementInfo(new FixedSourceRegion(0, 0), 0, 0, METHOD),
+                true, null, false);
     }
 }

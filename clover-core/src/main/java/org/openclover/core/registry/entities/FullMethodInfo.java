@@ -35,7 +35,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import static org.openclover.core.util.Lists.newArrayList;
 
 
-public class FullMethodInfo extends FullElementInfo<BasicMethodInfo>
+public class FullMethodInfo extends FullElementInfo<BasicElementInfo>
         implements HasAggregatedMetrics, HasMetricsNode, TaggedPersistent, MethodInfo {
 
     public static final int DEFAULT_METHOD_COMPLEXITY = 1;
@@ -48,6 +48,14 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo>
     private int aggregatedStatementCount;  // calculated during instrumentation
     private int aggregatedComplexity;  // calculated during instrumentation
     private boolean voidReturnType;
+    private int dataLength;
+
+    private final MethodSignature signature;
+    private final boolean isTest;
+    private final boolean isLambda;
+
+    /** Name of the method */
+    private transient String name;
 
     private transient BlockMetrics rawMetrics;
     private transient BlockMetrics metrics;
@@ -55,43 +63,64 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo>
     private transient CoverageDataProvider data;
     private transient ParentEntity parent;
 
+    /**
+     * Name of the test associated with a method. Some test frameworks can declare a name of the test using annotations,
+     * so that JUnit or other frameworks will use the test name and not the original method name in reporting.
+     */
+    @Nullable
+    private String staticTestName;
+
+    /**
+     * For method-in-class
+     */
     public FullMethodInfo(
             ClassInfo containingClass, int relativeDataIndex, ContextSet context, SourceInfo region,
-            MethodSignature signature, boolean isTest, String staticTestName, boolean isLambda, int complexity) {
-        this(containingClass, relativeDataIndex, context, region,
-                signature, isTest, staticTestName, isLambda, complexity, LanguageConstruct.Builtin.METHOD);
-    }
+            MethodSignature signature, boolean isTest, @Nullable String staticTestName,
+            boolean isLambda, int complexity, LanguageConstruct construct) {
 
-    public FullMethodInfo(
-            ClassInfo containingClass, int relativeDataIndex, ContextSet context, SourceInfo region,
-            MethodSignature signature, boolean isTest, String staticTestName, boolean isLambda, int complexity, LanguageConstruct construct) {
-
-        this(containingClass, context,
-                new BasicMethodInfo(region, relativeDataIndex, complexity, signature, isTest, staticTestName, isLambda, construct));
+        this(containingClass, signature, context,
+                new BasicElementInfo(region, relativeDataIndex, complexity, construct),
+                isTest, staticTestName, isLambda);
     }
 
     /**
      * For method-in-class
      */
-    public FullMethodInfo(ClassInfo containingClass, ContextSet context, BasicMethodInfo methodInfo) {
-        super(context, methodInfo);
-        parent = new ParentEntity(containingClass);
+    public FullMethodInfo(ClassInfo containingClass, MethodSignature signature, ContextSet context,
+                          BasicElementInfo methodInfo, boolean isTest, @Nullable String staticTestName,
+                          boolean isLambda) {
+        this(signature, context, methodInfo, isTest, staticTestName, isLambda);
+        this.parent = new ParentEntity(containingClass);
     }
 
     /**
      * For method-in-method
      */
-    public FullMethodInfo(MethodInfo containingMethod, ContextSet context, BasicMethodInfo methodInfo) {
-        super(context, methodInfo);
-        parent = new ParentEntity(containingMethod);
+    public FullMethodInfo(MethodInfo containingMethod, MethodSignature signature, ContextSet context,
+                          BasicElementInfo methodInfo, boolean isTest, @Nullable String staticTestName,
+                          boolean isLambda) {
+        this(signature, context, methodInfo, isTest, staticTestName, isLambda);
+        this.parent = new ParentEntity(containingMethod);
     }
 
     /**
      * For method-in-file
      */
-    public FullMethodInfo(FileInfo containingFile, ContextSet context, BasicMethodInfo methodInfo) {
-        super(context, methodInfo);
-        parent = new ParentEntity(containingFile);
+    public FullMethodInfo(FileInfo containingFile, MethodSignature signature, ContextSet context,
+                          BasicElementInfo methodInfo, boolean isTest, @Nullable String staticTestName,
+                          boolean isLambda) {
+        this(signature, context, methodInfo, isTest, staticTestName, isLambda);
+        this.parent = new ParentEntity(containingFile);
+    }
+
+    private FullMethodInfo(MethodSignature signature, ContextSet context, BasicElementInfo elementInfo,
+                           boolean isTest, @Nullable String staticTestName, boolean isLambda) {
+        super(context, elementInfo);
+        this.name = getNameFor(signature);
+        this.signature = signature;
+        this.isTest = isTest;
+        this.staticTestName = staticTestName;
+        this.isLambda = isLambda;
     }
 
     /**
@@ -100,12 +129,13 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo>
     private FullMethodInfo(MethodSignature signature, ContextSet context,
                            int relativeDataIndex, int dataLength,
                            int complexity, LanguageConstruct construct, SourceInfo region,
-                           boolean isTest, String staticTestName, boolean isLambda,
+                           boolean isTest, @Nullable String staticTestName, boolean isLambda,
                            List<StatementInfo> statements, List<BranchInfo> branches,
                            List<ClassInfo> classes, List<MethodInfo> methods) {
-        super(context,
-                new BasicMethodInfo(region, relativeDataIndex, dataLength, complexity, signature,
-                                    isTest, staticTestName, isLambda, construct));
+        this(signature, context,
+                new BasicElementInfo(region, relativeDataIndex, complexity, construct),
+                isTest, staticTestName, isLambda);
+        this.dataLength = dataLength;
         this.statements = statements;
         this.branches = branches;
         this.innerClasses = classes;
@@ -114,18 +144,18 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo>
 
     @Override
     public String getName() {
-        return sharedInfo.getName();
+        return name;
     }
 
     @Override
     public String getSimpleName() {
-        return sharedInfo.getSignature().getName();
+        return signature.getName();
     }
 
     @Override
     @NotNull
     public MethodSignature getSignature() {
-        return sharedInfo.getSignature();
+        return signature;
     }
 
     @Override
@@ -134,7 +164,7 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo>
                 (parent.getContainingClass() != null ? parent.getContainingClass().getQualifiedName()
                         : (parent.getContainingMethod() != null ? parent.getContainingMethod().getQualifiedName()
                                 : ""));
-        return prefix + "." + sharedInfo.getSignature().getName();
+        return prefix + "." + signature.getName();
     }
 
     @Override
@@ -151,18 +181,18 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo>
 
     @Override
     public boolean isTest() {
-       return sharedInfo.isTest();
+       return isTest;
     }
 
     @Override
     @Nullable
     public String getStaticTestName() {
-        return sharedInfo.getStaticTestName();
+        return staticTestName;
     }
 
     @Override
     public boolean isLambda() {
-        return sharedInfo.isLambda();
+        return isLambda;
     }
 
     @Override
@@ -291,10 +321,6 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo>
     @NotNull
     public List<BranchInfo> getBranches() {
         return newArrayList(branches); // copy
-    }
-
-    public int getBranchCount() {
-        return branches.size();
     }
 
     private ContextSet getParentContextFilter() {
@@ -514,21 +540,24 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo>
 
     @Override
     public MethodInfo copy(ClassInfo classAsParent) {
-        MethodInfo method = new FullMethodInfo(classAsParent, getContext(), sharedInfo);
+        MethodInfo method = new FullMethodInfo(classAsParent, signature, getContext(), sharedInfo,
+                isTest, staticTestName, isLambda);
         copyMethodInternals(method);
         return method;
     }
 
     @Override
     public MethodInfo copy(MethodInfo methodAsParent) {
-        MethodInfo method = new FullMethodInfo(methodAsParent, getContext(), sharedInfo);
+        MethodInfo method = new FullMethodInfo(methodAsParent, signature, getContext(), sharedInfo,
+                isTest, staticTestName, isLambda);
         copyMethodInternals(method);
         return method;
     }
 
     @Override
     public MethodInfo copy(FileInfo fileAsParent) {
-        MethodInfo method = new FullMethodInfo(fileAsParent, getContext(), sharedInfo);
+        MethodInfo method = new FullMethodInfo(fileAsParent, signature, getContext(), sharedInfo,
+                isTest, staticTestName, isLambda);
         copyMethodInternals(method);
         return method;
     }
@@ -539,12 +568,12 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo>
      */
     @Override
     public boolean isPublic() {
-        return Modifier.isPublic(sharedInfo.getSignature().getBaseModifiersMask());
+        return Modifier.isPublic(signature.getBaseModifiersMask());
     }
 
     @Override
     public String getVisibility() {
-        return sharedInfo.getSignature().getModifiers().getVisibility();
+        return signature.getModifiers().getVisibility();
     }
 
     @Override
@@ -554,12 +583,12 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo>
 
     @Override
     public int getDataLength() {
-        return sharedInfo.getDataLength();
+        return dataLength;
     }
 
     @Override
     public void setDataLength(int length) {
-        sharedInfo.setDataLength(length);
+        this.dataLength = length;
     }
 
     @Override
@@ -598,8 +627,8 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo>
         sharedInfo.setRegion(new FixedSourceRegion(region.getStartLine(), region.getStartColumn(), endLine, endCol));
     }
 
-    public void setStaticTestName(String staticTestName) {
-        sharedInfo.setStaticTestName(staticTestName);
+    public void setStaticTestName(@Nullable String testName) {
+        this.staticTestName = testName;
     }
 
     public boolean isVoidReturnType() {
@@ -611,9 +640,8 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo>
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public void write(TaggedDataOutput out) throws IOException {
-        out.write(MethodSignature.class, sharedInfo.getSignature());
+        out.write(MethodSignature.class, signature);
         out.writeUTF(getStaticTestName());
         out.writeBoolean(isTest());
         out.writeBoolean(isLambda());
@@ -684,6 +712,11 @@ public class FullMethodInfo extends FullElementInfo<BasicMethodInfo>
                 + " aggregatedComplexity=" + aggregatedComplexity
                 + " aggregatedStatementCount=" + aggregatedStatementCount
                 + "} ";
+    }
+
+    private static String getNameFor(MethodSignature signature) {
+        return signature.getName() + "("+signature.listParamTypes()+")" +
+                ((signature.getReturnType() != null && signature.getReturnType().length() > 0) ? " : " + signature.getReturnType() : "");
     }
 
 }

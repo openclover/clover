@@ -18,7 +18,6 @@ import org.openclover.core.registry.Clover2Registry;
 import org.openclover.core.registry.ReadOnlyRegistryException;
 import org.openclover.core.registry.RegistryUpdate;
 import org.openclover.core.registry.entities.BasicElementInfo;
-import org.openclover.core.registry.entities.BasicMethodInfo;
 import org.openclover.core.registry.entities.FullBranchInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
@@ -260,21 +259,20 @@ public class InstrumentationSessionImpl implements InstrumentationSession {
                                       boolean isTest, @Nullable String staticTestName,
                                       boolean isLambda, int complexity, @NotNull LanguageConstruct construct) {
 
-        final BasicMethodInfo basicMethodInfo = new BasicMethodInfo(region, currentOffsetFromFile, complexity,
-                signature, isTest, staticTestName, isLambda, construct);
+        final BasicElementInfo basicElementInfo = new BasicElementInfo(region, currentOffsetFromFile, complexity, construct);
         final AtomicReference<FullMethodInfo> method = new AtomicReference<>();
 
         getCurrentContainer().visit(new EntityVisitor() {
             @Override
             public void visitClass(ClassInfo parentClass) {
                 // create method with a class as parent (standard methods)
-                method.set(new FullMethodInfo((FullClassInfo) parentClass, context, basicMethodInfo));
+                method.set(new FullMethodInfo(parentClass, signature, context, basicElementInfo, isTest, staticTestName, isLambda));
             }
 
             @Override
             public void visitMethod(MethodInfo parentMethod) {
                 // create method with a method as parent (inner functions)
-                method.set(new FullMethodInfo((FullMethodInfo) parentMethod, context, basicMethodInfo));
+                method.set(new FullMethodInfo(parentMethod, signature, context, basicElementInfo, isTest, staticTestName, isLambda));
             }
         });
 

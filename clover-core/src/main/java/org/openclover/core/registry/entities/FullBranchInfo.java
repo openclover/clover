@@ -18,28 +18,27 @@ import org.openclover.core.spi.lang.LanguageConstruct;
 
 import java.io.IOException;
 
+import static org.openclover.core.spi.lang.LanguageConstruct.Builtin.BRANCH;
 
-public class FullBranchInfo extends FullElementInfo<BasicBranchInfo>
+
+public class FullBranchInfo extends FullElementInfo<BasicElementInfo>
         implements TaggedPersistent, BranchInfo {
 
     private transient MethodInfo containingMethod;
+    private final boolean isInstrumented;
 
     public FullBranchInfo(
             MethodInfo containingMethod, int relativeDataIndex, ContextSet context,
-            SourceInfo region, int complexity, boolean instrumented) {
-        this(containingMethod, relativeDataIndex, context, region, complexity, instrumented, LanguageConstruct.Builtin.BRANCH);
+            SourceInfo region, int complexity, boolean isInstrumented) {
+        this(containingMethod, relativeDataIndex, context, region, complexity, isInstrumented, BRANCH);
     }
 
     public FullBranchInfo(
             MethodInfo containingMethod, int relativeDataIndex, ContextSet context,
-            SourceInfo region, int complexity, boolean instrumented, LanguageConstruct construct) {
-        this(containingMethod, context, new BasicBranchInfo(region, relativeDataIndex, complexity, instrumented, construct));
-    }
-
-    private FullBranchInfo(
-            MethodInfo containingMethod, ContextSet context, BasicBranchInfo sharedInfo) {
-        super(context, sharedInfo);
+            SourceInfo region, int complexity, boolean isInstrumented, LanguageConstruct construct) {
+        super(context, new BasicElementInfo(region, relativeDataIndex, complexity, construct));
         this.containingMethod = containingMethod;
+        this.isInstrumented = isInstrumented;
     }
 
     // BranchInfo
@@ -60,7 +59,7 @@ public class FullBranchInfo extends FullElementInfo<BasicBranchInfo>
 
     @Override
     public boolean isInstrumented() {
-        return sharedInfo.isInstrumented();
+        return isInstrumented;
     }
 
     // HasParent
@@ -99,7 +98,8 @@ public class FullBranchInfo extends FullElementInfo<BasicBranchInfo>
 
     @Override
     public BranchInfo copy(MethodInfo method) {
-        return new FullBranchInfo(method, context, sharedInfo);
+        return new FullBranchInfo(method, sharedInfo.getRelativeDataIndex(), context,
+                sharedInfo.getRegion(), sharedInfo.getComplexity(), isInstrumented);
     }
 
     @Override
@@ -123,7 +123,7 @@ public class FullBranchInfo extends FullElementInfo<BasicBranchInfo>
         out.writeInt(sharedInfo.getRelativeDataIndex());
         out.writeInt(getComplexity());
         out.writeUTF(sharedInfo.getConstruct().getId());
-        out.writeBoolean(sharedInfo.isInstrumented());
+        out.writeBoolean(isInstrumented);
         FixedSourceRegion.writeRaw(this, out);
     }
 

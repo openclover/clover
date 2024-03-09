@@ -28,10 +28,13 @@ import org.openclover.core.registry.entities.Modifiers
 import org.openclover.core.registry.format.FreshRegFile
 import org.openclover.core.api.registry.HasMetricsFilter
 import org.openclover.core.registry.metrics.ProjectMetrics
+import org.openclover.core.spi.lang.LanguageConstruct
 import org.openclover.runtime.registry.format.RegAccessMode
 
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertTrue
+import static org.openclover.core.registry.entities.FullMethodInfo.DEFAULT_METHOD_COMPLEXITY
+import static org.openclover.core.spi.lang.LanguageConstruct.Builtin.METHOD
 
 
 class RegistryTest {
@@ -72,7 +75,7 @@ class RegistryTest {
             for (int j = 0; j < 10; j++) {
                 FullMethodInfo method = new FullMethodInfo(cls, 0, context, region,
                         new MethodSignature("method" + j),
-                        false, null, false, FullMethodInfo.DEFAULT_METHOD_COMPLEXITY)
+                        false, null, false, DEFAULT_METHOD_COMPLEXITY, METHOD)
                 cls.addMethod(method)
                 for (int k = 0; k < 10; k++) {
                     FullStatementInfo stmt = new FullStatementInfo(method, 0,  context, region, 0)
@@ -167,7 +170,7 @@ class RegistryTest {
             for (int j = 0; j < 10; j++) {
                 FullMethodInfo method = new FullMethodInfo(cls, 0, context, region,
                         new MethodSignature("method" + j),
-                        i < 5, null, false, FullMethodInfo.DEFAULT_METHOD_COMPLEXITY)
+                        i < 5, null, false, DEFAULT_METHOD_COMPLEXITY, METHOD)
                 cls.addMethod(method)
                 for (int k = 0; k < 10; k++) {
                     FullStatementInfo stmt = new FullStatementInfo(method, 0,  context, region, 0)
