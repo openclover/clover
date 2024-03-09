@@ -39,10 +39,21 @@ public class Java14SwitchExpressionCaseAndDefaultWithLambdas {
         }
     }
 
+    static void switchExpressionWithCaseReferencingNonFinalVariable() {
+        for (int i = 0; i < 3; i++) {
+            switch (i) {
+                case 0 -> System.out.println("zero:" + i);
+                case 1 -> System.out.println("one:" + i);
+                default -> System.out.println("other:" + i);
+            }
+        }
+    }
+
     public static void main(String[] args) {
         switchExpressionWithCasesOnly(Colors.G);
         switchExpressionWithCasesReturningVoidOnly(Colors.B);
         switchExpressionWithCaseAndDefault(2);
         switchExpressionWithCaseAndDefaultReturningVoid(0);
+        switchExpressionWithCaseReferencingNonFinalVariable();
     }
 }

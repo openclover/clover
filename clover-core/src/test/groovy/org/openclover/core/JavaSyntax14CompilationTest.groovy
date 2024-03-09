@@ -144,6 +144,22 @@ class JavaSyntax14CompilationTest extends JavaSyntaxCompilationTestBase {
     }
 
     @Test
+    void switchExpressionWithCaseReferencingNonFinalVariableCompiles() {
+        assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_14))
+
+        final String fileName = "Java14SwitchExpressionCaseAndDefaultWithLambdas.java"
+        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_14)
+
+        // switch expression with void lambdas
+        assertFileMatches(fileName, quote("case 0 ->") + R_CASE_EXPRESSION_LEFT +
+                quote(" System.out.println(\"zero:\" + i)") + R_CASE_EXPRESSION_RIGHT)
+        assertFileMatches(fileName, quote("case 1 ->") + R_CASE_EXPRESSION_LEFT +
+                quote(" System.out.println(\"one:\" + i)") + R_CASE_EXPRESSION_RIGHT)
+        assertFileMatches(fileName, quote("default ->") + R_CASE_EXPRESSION_LEFT +
+                quote(" System.out.println(\"other:\" + i)") + R_CASE_EXPRESSION_RIGHT)
+    }
+
+    @Test
     void switchExpressionWithCaseAndDefaultCanThrowExceptions() {
         assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_14))
 
