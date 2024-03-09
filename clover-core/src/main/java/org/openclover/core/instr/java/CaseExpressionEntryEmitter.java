@@ -14,8 +14,8 @@ import org.openclover.core.spi.lang.LanguageConstruct;
  * </pre>
  * into:
  * <pre>
- *    case 0 -> caseInc(123, () -> "abc";
- *              ~~~~~~~~~~~~~~~~~~ ^    ^
+ *    case 0 -> caseInc(123, "abc";
+ *              ~~~~~~~~~~~~ ^    ^
  * </pre>
  * <p>
  * {@link CaseExpressionExitEmitter}
@@ -64,7 +64,7 @@ public class CaseExpressionEntryEmitter extends Emitter {
 
             boolean classInstrStrategy = state.getCfg().isClassInstrStrategy();
             if (classInstrStrategy) {
-                // emit text like [__CLRxxxxxxxx.caseInc(123,()->]
+                // emit text like [__CLRxxxxxxxx.caseInc(123,]
                 final String recorderBase = state.getRecorderPrefix().substring(0, state.getRecorderPrefix().lastIndexOf('.'));
                 final StringBuilder instr = new StringBuilder();
                 instr.append(recorderBase);
@@ -72,8 +72,8 @@ public class CaseExpressionEntryEmitter extends Emitter {
                 instr.append(RecorderInstrEmitter.CASE_INC_METHOD);
                 instr.append("(");
                 instr.append(stmtInfo.getDataIndex());
-                // add a comma and lambda call, because we'll have original case expression wrapped in a lambda as a second argument
-                instr.append(",()->");
+                // add a comma, because we'll have original case expression as a second argument
+                instr.append(",");
                 setInstr(instr.toString());
             }
         }

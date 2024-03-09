@@ -387,7 +387,7 @@ tokens {
     }
 
     private CaseExpressionEntryEmitter instrEnterCaseExpression(CloverToken insertionPoint, CloverToken endToken, ContextSet context, int complexity) {
-        // we add "caseInc(123,()->" AFTER the "->"
+        // we add "caseInc(123," AFTER the "->"
         final CaseExpressionEntryEmitter entryEmitter = new CaseExpressionEntryEmitter(
                 context,
                 insertionPoint.getLine(),

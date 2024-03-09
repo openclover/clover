@@ -134,8 +134,7 @@ public class RecorderInstrEmitter extends Emitter {
 
             // add caseInc() wrappers for switch case written as expressions
             if (areSwitchExpressionsSupported) {
-                instrString += generateCaseIncValueMethod(recorderSuffix);
-                instrString += generateCaseIncVoidMethod(recorderSuffix);
+                instrString += generateCaseIncMethod(recorderSuffix);
             }
 
             // static initialization block
@@ -310,33 +309,17 @@ public class RecorderInstrEmitter extends Emitter {
     /**
      * Generates caseInc helper method to wrap case expressions returning values.
      * <pre>
-     *     public static <T> T caseInc(int i, java.util.function.Supplier<T> s) {
+     *     public static <T> T caseInc(int i, T s) {
      *         inc(i);
-     *         return s.get();
+     *         return s;
      *     }
      * </pre>
      * @param recorderSuffix name of the coverage recorder field
      * @return String code of the method
      */
-    private String generateCaseIncValueMethod(String recorderSuffix) {
-        return "public static <T> T caseInc(int i,java.util.function.Supplier<T> s){" +
-                recorderSuffix + ".inc(i);return s.get();}";
-    }
-
-    /**
-     * Generates caseInc helper method to wrap case expressions returning values.
-     * <pre>
-     *     public static void caseInc(int i, Runnable r) {
-     *         inc(i);
-     *         r.run();
-     *     }
-     * </pre>
-     * @param recorderSuffix name of the coverage recorder field
-     * @return String code of the method
-     */
-    private String generateCaseIncVoidMethod(String recorderSuffix) {
-        return "public static void caseInc(int i,Runnable r){" +
-                recorderSuffix + ".inc(i);r.run();}";
+    private String generateCaseIncMethod(String recorderSuffix) {
+        return "public static <T> T caseInc(int i,T s){" +
+                recorderSuffix + ".inc(i);return s;}";
     }
 
     /**
