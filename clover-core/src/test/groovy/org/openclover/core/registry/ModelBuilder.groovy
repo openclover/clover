@@ -191,10 +191,12 @@ class ModelBuilder {
         }
 
         MethodInfoWrapper method(String name, boolean isTest) {
-            final FullMethodInfo method = new FullMethodInfo(getElement(), 0, new ContextSetImpl(),
-                    new FixedSourceRegion(0, 0), new MethodSignature(name),
-                    isTest, null, false, DEFAULT_METHOD_COMPLEXITY,
-                    METHOD)
+            final FullMethodInfo method = new FullMethodInfo(
+                    getElement(),
+                    new MethodSignature(name),
+                    new ContextSetImpl(),
+                    new BasicElementInfo(new FixedSourceRegion(0, 0), 0, DEFAULT_METHOD_COMPLEXITY, METHOD),
+                    isTest, null, false)
             getElement().addMethod(method)
             return new MethodInfoWrapper(method)
         }

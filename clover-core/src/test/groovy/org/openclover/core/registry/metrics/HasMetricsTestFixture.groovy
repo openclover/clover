@@ -93,9 +93,10 @@ class HasMetricsTestFixture {
         SourceInfo srcRegion = new FixedSourceRegion(startLine, 1)
         MethodSignature sig = new MethodSignature(name)
         ContextSet ctx = new ContextSetImpl().set(ContextStore.CONTEXT_METHOD)
-        FullMethodInfo method = new FullMethodInfo(classInfo, index++, ctx, srcRegion, sig,
-                false, null, false, DEFAULT_METHOD_COMPLEXITY,
-                METHOD)
+        FullMethodInfo method = new FullMethodInfo(
+                classInfo, sig, ctx,
+                new BasicElementInfo(srcRegion, index++, DEFAULT_METHOD_COMPLEXITY, METHOD),
+                false, null, false)
         classInfo.addMethod(method)
         return method
     }

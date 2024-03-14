@@ -16,6 +16,7 @@ import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.api.registry.SourceInfo
 import org.openclover.core.context.ContextSetImpl
 import org.openclover.core.context.ContextStore
+import org.openclover.core.registry.entities.BasicElementInfo
 import org.openclover.core.registry.entities.FullBranchInfo
 import org.openclover.core.registry.entities.FullClassInfo
 import org.openclover.core.registry.entities.FullFileInfo
@@ -73,9 +74,10 @@ class RegistryTest {
                     false, false, false)
             file.addClass(cls)
             for (int j = 0; j < 10; j++) {
-                FullMethodInfo method = new FullMethodInfo(cls, 0, context, region,
-                        new MethodSignature("method" + j),
-                        false, null, false, DEFAULT_METHOD_COMPLEXITY, METHOD)
+                FullMethodInfo method = new FullMethodInfo(
+                        cls, new MethodSignature("method" + j), context,
+                        new BasicElementInfo(region, 0, DEFAULT_METHOD_COMPLEXITY, METHOD),
+                        false, null, false)
                 cls.addMethod(method)
                 for (int k = 0; k < 10; k++) {
                     FullStatementInfo stmt = new FullStatementInfo(method, 0,  context, region, 0)
@@ -168,9 +170,10 @@ class RegistryTest {
                     false, false, false)
             file.addClass(cls)
             for (int j = 0; j < 10; j++) {
-                FullMethodInfo method = new FullMethodInfo(cls, 0, context, region,
-                        new MethodSignature("method" + j),
-                        i < 5, null, false, DEFAULT_METHOD_COMPLEXITY, METHOD)
+                FullMethodInfo method = new FullMethodInfo(
+                        cls, new MethodSignature("method" + j), context,
+                        new BasicElementInfo(region, 0, DEFAULT_METHOD_COMPLEXITY, METHOD),
+                        i < 5, null, false)
                 cls.addMethod(method)
                 for (int k = 0; k < 10; k++) {
                     FullStatementInfo stmt = new FullStatementInfo(method, 0,  context, region, 0)

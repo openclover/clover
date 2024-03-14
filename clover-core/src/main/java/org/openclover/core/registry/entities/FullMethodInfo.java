@@ -40,10 +40,10 @@ public class FullMethodInfo extends FullElementInfo<BasicElementInfo>
 
     public static final int DEFAULT_METHOD_COMPLEXITY = 1;
 
-    private List<StatementInfo> statements = newArrayList();
-    private List<BranchInfo> branches = newArrayList();
-    private List<ClassInfo> innerClasses = newArrayList();
-    private List<MethodInfo> innerMethods = newArrayList();
+    private final List<StatementInfo> statements = newArrayList();
+    private final List<BranchInfo> branches = newArrayList();
+    private final List<ClassInfo> innerClasses = newArrayList();
+    private final List<MethodInfo> innerMethods = newArrayList();
 
     private int aggregatedStatementCount;  // calculated during instrumentation
     private int aggregatedComplexity;  // calculated during instrumentation
@@ -55,7 +55,7 @@ public class FullMethodInfo extends FullElementInfo<BasicElementInfo>
     private final boolean isLambda;
 
     /** Name of the method */
-    private transient String name;
+    private final String name;
 
     private transient BlockMetrics rawMetrics;
     private transient BlockMetrics metrics;
@@ -69,19 +69,6 @@ public class FullMethodInfo extends FullElementInfo<BasicElementInfo>
      */
     @Nullable
     private String staticTestName;
-
-    /**
-     * For method-in-class
-     */
-    public FullMethodInfo(
-            ClassInfo containingClass, int relativeDataIndex, ContextSet context, SourceInfo region,
-            MethodSignature signature, boolean isTest, @Nullable String staticTestName,
-            boolean isLambda, int complexity, LanguageConstruct construct) {
-
-        this(containingClass, signature, context,
-                new BasicElementInfo(region, relativeDataIndex, complexity, construct),
-                isTest, staticTestName, isLambda);
-    }
 
     /**
      * For method-in-class
@@ -116,6 +103,7 @@ public class FullMethodInfo extends FullElementInfo<BasicElementInfo>
     private FullMethodInfo(MethodSignature signature, ContextSet context, BasicElementInfo elementInfo,
                            boolean isTest, @Nullable String staticTestName, boolean isLambda) {
         super(context, elementInfo);
+        this.dataLength = 1;        // a method entry hit counter
         this.name = getNameFor(signature);
         this.signature = signature;
         this.isTest = isTest;
@@ -136,10 +124,10 @@ public class FullMethodInfo extends FullElementInfo<BasicElementInfo>
                 new BasicElementInfo(region, relativeDataIndex, complexity, construct),
                 isTest, staticTestName, isLambda);
         this.dataLength = dataLength;
-        this.statements = statements;
-        this.branches = branches;
-        this.innerClasses = classes;
-        this.innerMethods = methods;
+        this.statements.addAll(statements);
+        this.branches.addAll(branches);
+        this.innerClasses.addAll(classes);
+        this.innerMethods.addAll(methods);
     }
 
     @Override
