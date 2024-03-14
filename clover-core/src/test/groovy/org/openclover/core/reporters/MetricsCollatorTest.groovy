@@ -4,7 +4,7 @@ import junit.framework.TestCase
 import org.openclover.core.api.registry.MethodInfo
 import org.openclover.core.context.ContextSetImpl
 import org.openclover.core.registry.FixedSourceRegion
-import org.openclover.core.registry.entities.BasicMethodInfo
+import org.openclover.core.registry.entities.BasicElementInfo
 import org.openclover.core.registry.entities.FullClassInfo
 import org.openclover.core.registry.entities.FullMethodInfo
 import org.openclover.core.registry.entities.MethodSignature
@@ -12,6 +12,7 @@ import org.openclover.core.registry.metrics.BlockMetrics
 import org.openclover.core.registry.metrics.HasMetricsTestFixture
 import org.openclover.core.registry.metrics.MetricsHelper
 
+import static org.openclover.core.spi.lang.LanguageConstruct.Builtin.METHOD
 import static org.openclover.core.util.Lists.newArrayList
 
 class MetricsCollatorTest extends TestCase {
@@ -43,33 +44,37 @@ class MetricsCollatorTest extends TestCase {
         // normal method
         final FullMethodInfo fooMethod = new FullMethodInfo(
                 info2,
+                new MethodSignature("foo"),
                 new ContextSetImpl(),
-                new BasicMethodInfo(new FixedSourceRegion(2, 1), 0, 10, new MethodSignature("foo"), false, null, false)
-        )
+                new BasicElementInfo(new FixedSourceRegion(2, 1), 0, 10, METHOD),
+                false, null, false)
         fooMethod.setMetrics(MetricsHelper.setBlockMetrics(new BlockMetrics(fooMethod), 10, 9, 0, 0, 2, 0, 0, 0, 0, 0.0f))
 
         // lambda method
         final FullMethodInfo lam1Method = new FullMethodInfo(
                 info2,
+                new MethodSignature('$lam#1'),
                 new ContextSetImpl(),
-                new BasicMethodInfo(new FixedSourceRegion(3, 1), 0, 10, new MethodSignature('$lam#1'), false, null, true)
-        )
+                new BasicElementInfo(new FixedSourceRegion(3, 1), 0, 10, METHOD),
+                false, null, true)
         lam1Method.setMetrics(MetricsHelper.setBlockMetrics(new BlockMetrics(lam1Method), 10, 8, 0, 0, 2, 0, 0, 0, 0, 0.0f))
 
         // inner method
         final FullMethodInfo innerMethod = new FullMethodInfo(
                 fooMethod,
+                new MethodSignature("inner"),
                 new ContextSetImpl(),
-                new BasicMethodInfo(new FixedSourceRegion(4, 1), 0, 10, new MethodSignature("inner"), false, null, false)
-        )
+                new BasicElementInfo(new FixedSourceRegion(4, 1), 0, 10, METHOD),
+                false, null, false)
         innerMethod.setMetrics(MetricsHelper.setBlockMetrics(new BlockMetrics(innerMethod), 10, 7, 0, 0, 2, 0, 0, 0, 0, 0.0f))
 
         // inner lambda method
         final FullMethodInfo lam2Method = new FullMethodInfo(
                 fooMethod,
+                new MethodSignature('$lam#2'),
                 new ContextSetImpl(),
-                new BasicMethodInfo(new FixedSourceRegion(5, 1), 0, 10, new MethodSignature('$lam#2'), false, null, true)
-        )
+                new BasicElementInfo(new FixedSourceRegion(5, 1), 0, 10, METHOD),
+                false, null, true)
         lam2Method.setMetrics(MetricsHelper.setBlockMetrics(new BlockMetrics(lam2Method), 10, 6, 0, 0, 2, 0, 0, 0, 0, 0.0f))
 
         info2.addMethod(fooMethod)

@@ -11,7 +11,6 @@ import org.openclover.core.registry.Clover2Registry
 import org.openclover.core.api.registry.CoverageDataProvider
 import org.openclover.core.registry.FixedSourceRegion
 import org.openclover.core.registry.entities.BasicElementInfo
-import org.openclover.core.registry.entities.BasicMethodInfo
 import org.openclover.core.registry.entities.FullBranchInfo
 import org.openclover.core.registry.entities.FullClassInfo
 import org.openclover.core.registry.entities.FullFileInfo
@@ -23,6 +22,9 @@ import org.openclover.core.registry.entities.MethodSignature
 import org.openclover.core.registry.entities.Modifiers
 import org.openclover.core.spi.lang.LanguageConstruct
 import org.openclover.runtime.api.registry.CloverRegistryException
+
+import static org.openclover.core.registry.entities.FullMethodInfo.DEFAULT_METHOD_COMPLEXITY
+import static org.openclover.core.spi.lang.LanguageConstruct.Builtin.METHOD
 
 class HasMetricsTestFixture {
     ProjectInfo projectInfo
@@ -91,8 +93,10 @@ class HasMetricsTestFixture {
         SourceInfo srcRegion = new FixedSourceRegion(startLine, 1)
         MethodSignature sig = new MethodSignature(name)
         ContextSet ctx = new ContextSetImpl().set(ContextStore.CONTEXT_METHOD)
-        FullMethodInfo method = new FullMethodInfo(classInfo, index++, ctx, srcRegion, sig,
-                false, null, false, FullMethodInfo.DEFAULT_METHOD_COMPLEXITY)
+        FullMethodInfo method = new FullMethodInfo(
+                classInfo, sig, ctx,
+                new BasicElementInfo(srcRegion, index++, DEFAULT_METHOD_COMPLEXITY, METHOD),
+                false, null, false)
         classInfo.addMethod(method)
         return method
     }
@@ -101,8 +105,12 @@ class HasMetricsTestFixture {
         SourceInfo srcRegion = new FixedSourceRegion(startLine, 1)
         MethodSignature sig = new MethodSignature(name)
         ContextSet ctx = new ContextSetImpl().set(ContextStore.CONTEXT_METHOD)
-        FullMethodInfo method = new FullMethodInfo(fileInfo, ctx,
-                new BasicMethodInfo(srcRegion, index++, FullMethodInfo.DEFAULT_METHOD_COMPLEXITY, sig, false, null, false))
+        FullMethodInfo method = new FullMethodInfo(
+                fileInfo,
+                sig,
+                ctx,
+                new BasicElementInfo(srcRegion, index++, DEFAULT_METHOD_COMPLEXITY, METHOD),
+                false, null, false)
         fileInfo.addMethod(method)
         return method
     }
@@ -112,8 +120,12 @@ class HasMetricsTestFixture {
         SourceInfo srcRegion = new FixedSourceRegion(startLine, 1)
         MethodSignature sig = new MethodSignature(name)
         ContextSet ctx = new ContextSetImpl().set(ContextStore.CONTEXT_METHOD)
-        FullMethodInfo method = new FullMethodInfo(methodInfo, ctx,
-                new BasicMethodInfo(srcRegion, index++, 5, sig, false, null, false, LanguageConstruct.Builtin.METHOD))
+        FullMethodInfo method = new FullMethodInfo(
+                methodInfo,
+                sig,
+                ctx,
+                new BasicElementInfo(srcRegion, index++, 5, METHOD),
+                false, null, false)
         methodInfo.addMethod(method)
         return method
     }
