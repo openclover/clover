@@ -79,14 +79,14 @@ class MetricsCollatorTest extends TestCase {
         classes2.add(info2)
     }
 
-    private void addMethod(FullClassInfo info, int stmtComplexity, int numCoveredStmts, int numUncoveredStmts) {
+    private void addMethod(FullClassInfo info, int stmtComplexity, int numCoveredStatements, int numUncoveredStatements) {
 
         FullMethodInfo method = fixture.newMethod(info,
                                               "testMethod" + info.getMethods().size(),
                                               info.getMethods().size() + 1)
 
-        addStatements(numCoveredStmts, method, stmtComplexity, 1)
-        addStatements(numUncoveredStmts, method, stmtComplexity, 0)
+        addStatements(numCoveredStatements, method, stmtComplexity, 1)
+        addStatements(numUncoveredStatements, method, stmtComplexity, 0)
 
     }
 
