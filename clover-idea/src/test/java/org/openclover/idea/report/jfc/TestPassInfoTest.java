@@ -9,12 +9,11 @@ import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.FullMethodInfo;
 import org.openclover.core.registry.entities.FullTestCaseInfo;
 import org.openclover.core.registry.entities.MethodSignature;
-
 import org.openclover.idea.coverage.BaseCoverageNodeViewer;
 
 import java.util.Arrays;
-import java.util.Collections;
 
+import static java.util.Collections.emptyList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -25,7 +24,7 @@ public class TestPassInfoTest {
 
     @Test
     public void testTestPassInfo() {
-        BaseCoverageNodeViewer.TestPassInfo tpi = new BaseCoverageNodeViewer.TestPassInfo(Collections.<TestCaseInfo>emptyList());
+        BaseCoverageNodeViewer.TestPassInfo tpi = new BaseCoverageNodeViewer.TestPassInfo(emptyList());
         verifyTPI(tpi, 0, 0, 0);
 
         TestCaseInfo[] tcis1 = {
@@ -71,7 +70,7 @@ public class TestPassInfoTest {
     private static class TestCaseInfoMock extends FullTestCaseInfo {
         private static int nextId;
 
-        static enum Type {
+        enum Type {
             PASS, FAIL, ERROR, NORESULT
         }
 

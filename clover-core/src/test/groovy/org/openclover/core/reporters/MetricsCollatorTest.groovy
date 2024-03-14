@@ -25,12 +25,12 @@ class MetricsCollatorTest extends TestCase {
     void setUp() throws IOException {
         fixture = new HasMetricsTestFixture("test")
         FullClassInfo info = fixture.newClass("Test1", 1)
-        addMethod(info, 2, 2, 2); // 50% sixth testMethod0
-        addMethod(info, 2, 3, 3); // 50% fifth testMethod1
-        addMethod(info, 3, 3, 3); // 50% fourth testMethod0
-        addMethod(info, 2, 3, 6); // 33% third testMethod2
-        addMethod(info, 2, 3, 12); // 20% second testMethod3
-        addMethod(info, 3, 3, 12); // 20% first testMethod4
+        addMethod(info, 2, 2, 2) // 50% sixth testMethod0
+        addMethod(info, 2, 3, 3) // 50% fifth testMethod1
+        addMethod(info, 3, 3, 3) // 50% fourth testMethod0
+        addMethod(info, 2, 3, 6) // 33% third testMethod2
+        addMethod(info, 2, 3, 12) // 20% second testMethod3
+        addMethod(info, 3, 3, 12) // 20% first testMethod4
         classes.add(info)
 
         // class Test2
@@ -143,7 +143,7 @@ class MetricsCollatorTest extends TestCase {
         assertEquals("foo()", methods.get(3).getName())
     }
 
-    org.openclover.core.api.registry.BlockMetrics methodAt(List<MethodInfo> methods, int index) {
+    static org.openclover.core.api.registry.BlockMetrics methodAt(List<MethodInfo> methods, int index) {
         return methods.get(index).getMetrics()
     }
 

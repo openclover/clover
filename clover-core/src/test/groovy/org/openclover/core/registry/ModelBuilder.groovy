@@ -44,7 +44,7 @@ class ModelBuilder {
 
         PackageInfoWrapper pkg(String name) {
             for (PackageInfo pkgInfo : getElement().getAllPackages()) {
-                if (name.equals(pkgInfo.getName())) {
+                if (name == pkgInfo.getName()) {
                     return new PackageInfoWrapper(pkgInfo)
                 }
             }
@@ -94,7 +94,7 @@ class ModelBuilder {
         ClassInfoWrapper clazz(String name) {
             final List<ClassInfo> classes = getElement().getClasses()
             for (ClassInfo classInfo : classes) {
-                if (classInfo.getName().equals(name)) {
+                if (classInfo.getName() == name) {
                     return new ClassInfoWrapper((FullClassInfo)classInfo)
                 }
             }

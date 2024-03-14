@@ -30,7 +30,7 @@ class HasMetricsTestFixture {
     File tmpDir
     String initStr
     int index
-    CoverageDataProvider dataProvider; // a chain of mock data providers
+    CoverageDataProvider dataProvider // a chain of mock data providers
 
     HasMetricsTestFixture(String projectName) throws IOException {
         projectInfo = new FullProjectInfo(projectName)
@@ -69,12 +69,12 @@ class HasMetricsTestFixture {
         return newClass(defaultFileInfo, name, startLine)
     }
 
-    FullClassInfo newClass(FullFileInfo finfo, String name, int startLine) {
+    FullClassInfo newClass(FullFileInfo fileInfo, String name, int startLine) {
         final SourceInfo srcRegion = new FixedSourceRegion(startLine, 1)
-        final FullClassInfo classInfo = new FullClassInfo(finfo.getContainingPackage(), finfo,
+        final FullClassInfo classInfo = new FullClassInfo(fileInfo.getContainingPackage(), fileInfo,
                 index, name, srcRegion, new Modifiers(),
                 false, false, false)
-        finfo.addClass(classInfo)
+        fileInfo.addClass(classInfo)
         return classInfo
     }
 
@@ -124,7 +124,7 @@ class HasMetricsTestFixture {
         newMockCoverageDataProvider(index, hitCount)
         method.setDataProvider(dataProvider)
         method.addBranch(branch)
-        index += 2; //Branches have 2 slots
+        index += 2 //Branches have 2 slots
         return branch
     }
 
