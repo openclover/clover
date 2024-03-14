@@ -86,7 +86,7 @@ public class CloverNames {
      */
     public static String getRepkgPrefix() {
         final String[] pkgTokens = CloverNames.class.getName().split("\\.");
-        return pkgTokens[0].equals("com") ? "" : pkgTokens[0];
+        return pkgTokens[0].equals("org") ? "" : pkgTokens[0];
     }
 
     /*@NotNull*/
