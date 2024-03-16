@@ -32,22 +32,21 @@ class CloverReportTaskSanityTest extends CloverBuildFileTestBase{
     void testCloverMergeSanityTest() throws Exception {
         String db1 = util.getWorkDir().getAbsolutePath() + "/merge-db1/db/clover.db"
         getProject().setUserProperty(CloverNames.PROP_INITSTRING, db1)
-        getProject().setProperty("outdir", util.getWorkDir().getAbsolutePath() + "merge-db1")
+        getProject().setProperty("outdir", util.getWorkDir().getAbsolutePath() + "/merge-db1")
         getProject().executeTarget("cloverMoneyBags")
 
         String db2 = util.getWorkDir().getAbsolutePath() + "/merge-db2/db/clover.db"
         getProject().setUserProperty(CloverNames.PROP_INITSTRING, db2)
-        getProject().setProperty("outdir", util.getWorkDir().getAbsolutePath() + "merge-db2")
+        getProject().setProperty("outdir", util.getWorkDir().getAbsolutePath() + "/merge-db2")
         getProject().executeTarget("cloverMoneyBags")
 
-        getProject().setProperty("outdir", util.getWorkDir().getAbsolutePath() + "merge-db3")
+        getProject().setProperty("outdir", util.getWorkDir().getAbsolutePath() + "/merge-db3")
         getProject().setProperty("db1", db1)
         getProject().setProperty("db2", db2)
         getProject().executeTarget("testCloverMergeSanityTest")
 
         assertPropertySet("merged.db.available")
         assertPropertySet("merged.report.available")
-
     }
 
     void testCloverCheck() throws Exception {
@@ -71,8 +70,8 @@ class CloverReportTaskSanityTest extends CloverBuildFileTestBase{
         checkPropContainsExpected("linkified-stack-trace-src")
         assertPropertyEquals("excludes.success", "true")
 
-        assertTrue(getFullLog().contains("Method context match, line 131, id=simple"))
-        assertTrue(getFullLog().contains("Method context match, line 131, id=toString"))
+        assertTrue(getFullLog().contains("Method context match, line 132, id=simple"))
+        assertTrue(getFullLog().contains("Method context match, line 132, id=toString"))
         assertPropertyEquals("canned.success", "true")
         assertPropertyEquals("historical.success", "true")
     }
@@ -95,7 +94,6 @@ class CloverReportTaskSanityTest extends CloverBuildFileTestBase{
         asssertModelsFromXmlSame("expected-failed-coverage-included-historypoint", "filtered-xml-historypoint-failed-coverage-included")
 
         assertPropertySet("filtered-pdf-report-exists")
-
     }
 
     private void asssertModelsFromXmlSame(String expectedXmlProp, String actualXmlProp)
