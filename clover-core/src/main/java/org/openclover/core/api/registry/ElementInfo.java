@@ -18,6 +18,8 @@ public interface ElementInfo extends SourceInfo {
 
     LanguageConstruct getConstruct();
 
+    void setContext(ContextSet context);
+
     boolean isFiltered(ContextSet filter);
 }
 

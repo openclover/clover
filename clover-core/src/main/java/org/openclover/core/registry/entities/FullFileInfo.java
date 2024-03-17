@@ -703,6 +703,7 @@ public class FullFileInfo
         failStackInfos = new TreeMap<>(entries);
     }
 
+    @Override
     public void addFailStackEntry(final int lineNum, final StackTraceEntry stackTraceEntry) {
         if (failStackInfos == null) {
             failStackInfos = newTreeMap();

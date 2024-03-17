@@ -46,6 +46,8 @@ public interface ProjectInfo
     @Override
     String getName();
 
+    PackageInfo getDefaultPackage();
+
     PackageInfo getNamedPackage(String name);
 
     List<PackageInfo> getPackages(HasMetricsFilter filter);

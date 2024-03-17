@@ -3,23 +3,23 @@ package org.openclover.core.registry.metrics
 import org.junit.Before
 import org.junit.Test
 import org.openclover.core.api.registry.BlockMetrics
+import org.openclover.core.api.registry.ClassInfo
 import org.openclover.core.api.registry.ContextSet
+import org.openclover.core.api.registry.MethodInfo
 import org.openclover.core.api.registry.ProjectInfo
+import org.openclover.core.api.registry.StatementInfo
 import org.openclover.core.context.ContextSetImpl
 import org.openclover.core.context.ContextStore
-import org.openclover.core.registry.entities.FullClassInfo
-import org.openclover.core.registry.entities.FullMethodInfo
-import org.openclover.core.registry.entities.FullStatementInfo
 
 import static org.junit.Assert.assertEquals
 import static org.openclover.core.registry.metrics.MetricsHelper.assertMetricsEquals
 
-public class FilteredMetricsTest {
+class FilteredMetricsTest {
     private HasMetricsTestFixture fixture
 
-    private FullStatementInfo stmtInfo
-    private FullClassInfo classInfo
-    private FullMethodInfo methodInfo
+    private StatementInfo stmtInfo
+    private ClassInfo classInfo
+    private MethodInfo methodInfo
 
     /**
      * Sets up a FullProjectInfo model object containing the following:

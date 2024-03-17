@@ -12,6 +12,7 @@ import java.io.LineNumberReader;
 import java.io.StringReader;
 import java.lang.ref.WeakReference;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -75,14 +76,14 @@ public class FullStackTraceInfo implements StackTraceInfo {
         private static final Pattern LINE_NUMBER_PATTERN = Pattern.compile(FILE_REGEXP);
 
 
-        private StackTraceInfo parentTrace;
-        private int id; //local only to the parent trace
-        private String line;
-        private StackTraceEntry up;
+        private final StackTraceInfo parentTrace;
+        private final int id; //local only to the parent trace
+        private final String line;
+        private final StackTraceEntry up;
         private StackTraceEntry down;
 
         // these are possibly filled upon resolve(p)
-        private WeakReference<FullFileInfo> containingFile = new WeakReference<>(null);
+        private WeakReference<FileInfo> containingFile = new WeakReference<>(null);
         private int lineNum = -1;
         private String linePrefix;
         private String linkableLineSegment;
@@ -160,7 +161,7 @@ public class FullStackTraceInfo implements StackTraceInfo {
                 ClassInfo clazz = proj.findClass(fqcn);
 
                 if (clazz != null) {
-                    final FullFileInfo fileInfo = (FullFileInfo)clazz.getContainingFile();
+                    final FileInfo fileInfo = Objects.requireNonNull(clazz.getContainingFile());
                     containingFile = new WeakReference<>(fileInfo);
                     String lineStr = matcher.group(4);
                     if (LINE_NUMBER_PATTERN.matcher(lineStr).matches()) {
@@ -173,7 +174,5 @@ public class FullStackTraceInfo implements StackTraceInfo {
             return resolved;
         }
     }
-
-
 
 }

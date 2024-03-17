@@ -299,6 +299,7 @@ public class FullProjectInfo
         packages.put(pkg.getName(), pkg);
     }
 
+    @Override
     public PackageInfo getDefaultPackage() {
         return packages.get(PackageInfo.DEFAULT_PACKAGE_NAME);
     }

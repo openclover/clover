@@ -24,6 +24,7 @@ public abstract class FullElementInfo<T extends BasicElementInfo> implements Cov
         return context;
     }
 
+    @Override
     public void setContext(ContextSet context) {
         this.context = context;
     }

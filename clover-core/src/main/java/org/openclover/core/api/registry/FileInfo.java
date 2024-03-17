@@ -195,4 +195,5 @@ public interface FileInfo extends
 
     void setFailStackEntries(Map<Integer, List<StackTraceEntry>> entries);
 
+    void addFailStackEntry(int lineNum, StackTraceEntry stackTraceEntry);
 }

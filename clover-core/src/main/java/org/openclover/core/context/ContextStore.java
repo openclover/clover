@@ -375,17 +375,17 @@ public class ContextStore implements TaggedPersistent {
 
                 @Override
                 public void visitMethod(MethodInfo info) {
-                    ((FullMethodInfo)info).setContext(ContextSetImpl.remap((ContextSetImpl)info.getContext(), mapping));
+                    info.setContext(ContextSetImpl.remap((ContextSetImpl)info.getContext(), mapping));
                 }
 
                 @Override
                 public void visitStatement(StatementInfo info) {
-                    ((FullStatementInfo)info).setContext(ContextSetImpl.remap((ContextSetImpl)info.getContext(), mapping));
+                    info.setContext(ContextSetImpl.remap((ContextSetImpl)info.getContext(), mapping));
                 }
 
                 @Override
                 public void visitBranch(BranchInfo info) {
-                    ((FullBranchInfo)info).setContext(ContextSetImpl.remap((ContextSetImpl)info.getContext(), mapping));
+                    info.setContext(ContextSetImpl.remap((ContextSetImpl)info.getContext(), mapping));
                 }
             });
 

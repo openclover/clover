@@ -76,6 +76,11 @@ public class BasicElementInfo implements ElementInfo {
     }
 
     @Override
+    public void setContext(ContextSet context) {
+        throw new UnsupportedOperationException("Use FullElementInfo instead");
+    }
+
+    @Override
     public boolean isFiltered(ContextSet filter) {
         throw new UnsupportedOperationException("not implemented");
     }
