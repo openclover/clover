@@ -206,14 +206,14 @@ public class FullProjectInfo
     public HasMetricsNode getChild(int i) {
         if (fragmented) {
             ensureRootsBuilt();
-            return (HasMetricsNode)orderedPkgRoots.get(i);
+            return orderedPkgRoots.get(i);
         }
 
         if (orderedPkgs == null) {
             buildOrderedPackageList();
         }
         // todo - bounds checking?
-        return (HasMetricsNode)orderedPkgs.get(i);
+        return orderedPkgs.get(i);
     }
 
     @Override
@@ -283,7 +283,7 @@ public class FullProjectInfo
     @Override
     public void setVersion(final long version) {
         this.version = version;
-        visitFiles(file -> ((FullFileInfo)file).addVersion(version));
+        visitFiles(file -> file.addVersion(version));
     }
 
 
@@ -393,7 +393,7 @@ public class FullProjectInfo
     @Override
     public PackageFragment[] getPackageRoots() {
         ensureRootsBuilt();
-        return (PackageFragment[]) roots.values().toArray(new PackageFragment[0]);
+        return roots.values().toArray(new PackageFragment[0]);
     }
 
     @Override

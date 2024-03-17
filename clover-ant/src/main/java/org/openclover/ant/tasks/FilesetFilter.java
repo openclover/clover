@@ -3,8 +3,8 @@ package org.openclover.ant.tasks;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.FileSet;
 import org.openclover.ant.AntFileSetUtils;
+import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.HasMetrics;
-import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.core.util.FileUtils;
 import org.openclover.runtime.Logger;
@@ -44,8 +44,8 @@ public class FilesetFilter implements HasMetricsFilter {
 
     @Override
     public boolean accept(HasMetrics hm) {
-        if (hm instanceof FullFileInfo) {
-            final FullFileInfo fileInfo = (FullFileInfo)hm;
+        if (hm instanceof FileInfo) {
+            final FileInfo fileInfo = (FileInfo)hm;
             if (exactMatch(fileInfo) || fuzzyMatch(fileInfo)) {
                 Logger.getInstance().verbose("Including file " + fileInfo.getPhysicalFile().getPath());
                 return true;
@@ -57,13 +57,13 @@ public class FilesetFilter implements HasMetricsFilter {
         return true;  // only filter at the file level
     }
 
-    private boolean exactMatch(FullFileInfo fileInfo) {
+    private boolean exactMatch(FileInfo fileInfo) {
         boolean matches = files.contains(fileInfo.getPhysicalFile());
         Logger.getInstance().debug("Exact filter matching on " + fileInfo.getPhysicalFile().getPath() + ": " + matches);
         return matches;
     }
 
-    private boolean fuzzyMatch(FullFileInfo fileInfo) {
+    private boolean fuzzyMatch(FileInfo fileInfo) {
         Logger.getInstance().debug("Fuzzy: trying to matching " + fileInfo.getPhysicalFile().getPath() + " with fuzzy matching");
         final Set<String> paths = fileNamesToPaths.get(fileInfo.getName());
         if (paths != null) {

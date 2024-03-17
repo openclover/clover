@@ -3,11 +3,11 @@ package org.openclover.core.registry
 import org.junit.BeforeClass
 import org.junit.Test
 import org.openclover.core.api.registry.ClassInfo
+import org.openclover.core.api.registry.FileInfo
 import org.openclover.core.api.registry.MethodInfo
 import org.openclover.core.api.registry.PackageInfo
 import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.context.ContextStore
-import org.openclover.core.registry.entities.FullFileInfo
 import org.openclover.core.registry.format.FreshRegFile
 import org.openclover.runtime.api.CloverException
 import org.openclover.runtime.registry.format.RegAccessMode
@@ -122,7 +122,7 @@ class Clover2RegistryRecursiveTest {
      */
     @Test
     void testFileEntities() throws Exception {
-        final FullFileInfo fileInfo = (FullFileInfo)projectInfo.findFile("com/acme/File.java")
+        final FileInfo fileInfo = projectInfo.findFile("com/acme/File.java")
 
         assertEquals("File.java", fileInfo.getName())
         assertEquals("com.acme", fileInfo.getContainingPackage().getName())
@@ -160,7 +160,7 @@ class Clover2RegistryRecursiveTest {
      */
     @Test
     void testMethodEntities() throws Exception {
-        final FullFileInfo fileInfo = (FullFileInfo)projectInfo.findFile("com/acme/File.java")
+        final FileInfo fileInfo = projectInfo.findFile("com/acme/File.java")
 
         // grab first method and check its properties
         final MethodInfo methodInfo = fileInfo.getMethods().get(0)
@@ -189,7 +189,7 @@ class Clover2RegistryRecursiveTest {
      */
     @Test
     void testClassEntities() throws Exception {
-        final FullFileInfo fileInfo = (FullFileInfo)projectInfo.findFile("com/acme/File.java")
+        final FileInfo fileInfo = projectInfo.findFile("com/acme/File.java")
 
         // grab first method and check its properties
         final ClassInfo classInfo = fileInfo.getClasses().get(0)
@@ -219,7 +219,7 @@ class Clover2RegistryRecursiveTest {
      */
     @Test
     void testNestedMethods() throws Exception {
-        final FullFileInfo fileInfo = (FullFileInfo)projectInfo.findFile("com/acme/File.java")
+        final FileInfo fileInfo = projectInfo.findFile("com/acme/File.java")
 
         // grab second method and check its properties
         final MethodInfo methodInfo = fileInfo.getMethods().get(1)
@@ -260,7 +260,7 @@ class Clover2RegistryRecursiveTest {
      */
     @Test
     void testNestedClasses() throws Exception {
-        final FullFileInfo fileInfo = (FullFileInfo)projectInfo.findFile("com/acme/File.java")
+        final FileInfo fileInfo = projectInfo.findFile("com/acme/File.java")
 
         // grab class and check its properties
         final ClassInfo classInfo = fileInfo.getClasses().get(0)
@@ -287,7 +287,7 @@ class Clover2RegistryRecursiveTest {
 
     @Test
     void testGetAllClasses() {
-        final FullFileInfo fileInfo = (FullFileInfo)projectInfo.findFile("com/acme/File.java")
+        final FileInfo fileInfo = projectInfo.findFile("com/acme/File.java")
 
         // package level
         final PackageInfo comAcmePackage = projectInfo.findPackage("com.acme")
@@ -318,7 +318,7 @@ class Clover2RegistryRecursiveTest {
 
     @Test
     void testGetAllMethods() {
-        final FullFileInfo fileInfo = (FullFileInfo)projectInfo.findFile("com/acme/File.java")
+        final FileInfo fileInfo = projectInfo.findFile("com/acme/File.java")
 
         // file level
         final List<MethodInfo> allMethodsInFile = fileInfo.getAllMethods()

@@ -3,13 +3,11 @@ package org.openclover.core.registry;
 import org.openclover.core.api.instrumentation.ConcurrentInstrumentationException;
 import org.openclover.core.api.registry.CoverageDataProvider;
 import org.openclover.core.api.registry.FileInfo;
+import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.instr.InstrumentationSessionImpl;
-import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullPackageInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
-import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.core.util.Path;
 
 import java.util.Collection;
@@ -53,7 +51,6 @@ public interface ProjectView extends InstrumentationTarget {
         }
 
         @Override
-        @SuppressWarnings("unchecked")
         public RegistryUpdate applyUpdate(long expectedVersion, InstrumentationSessionImpl.Update update) throws ConcurrentInstrumentationException {
             if (!version.compareAndSet(expectedVersion, update.getVersion())) {
                 throw new ConcurrentInstrumentationException("Expected registry version: " + version.get() + ". Actual registry version: " + update.getVersion());
@@ -71,7 +68,7 @@ public interface ProjectView extends InstrumentationTarget {
                 } else {
                     for (FileInfo fileInfo : updatedPkgInfo.getFiles()) {
                         fileInfo.setContainingPackage(pkgInfo);
-                        ((FullFileInfo) fileInfo).setDataProvider(dataProvider);
+                        fileInfo.setDataProvider(dataProvider);
                         pkgInfo.addFile(fileInfo);
                     }
                     //Extend the length of the package if instrumentation added files to this package
@@ -80,11 +77,7 @@ public interface ProjectView extends InstrumentationTarget {
                     pkgInfo.invalidateCaches();
                 }
                 //Extend the length of the project as necessary
-                projLen =
-//                    Math.max(
-//                        projLen,
-//                        updatedPkgInfo.getDataIndex() + updatedPkgInfo.getDataLength());
-                    Math.max(projLen, update.getSlotCount());
+                projLen = Math.max(projLen, update.getSlotCount());
             }
 
             project.setDataLength(projLen);
@@ -130,7 +123,6 @@ public interface ProjectView extends InstrumentationTarget {
         }
 
         @Override
-        @SuppressWarnings("unchecked")
         public RegistryUpdate applyUpdate(long expectedVersion, InstrumentationSessionImpl.Update update) {
             project.setVersion(update.getVersion());
 
@@ -164,11 +156,7 @@ public interface ProjectView extends InstrumentationTarget {
                 }
 
                 //Extend the length of the project, even if the package was filtered away
-                projLen =
-//                    Math.max(
-//                        projLen,
-//                        updatedPkgInfo.getDataIndex() + updatedPkgInfo.getDataLength());
-                    Math.max(projLen, update.getSlotCount());
+                projLen = Math.max(projLen, update.getSlotCount());
             }
 
             project.setDataLength(projLen);

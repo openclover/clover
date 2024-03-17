@@ -6,13 +6,11 @@ import org.openclover.core.BitSetCoverageProvider;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.CoverageData;
 import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
-import org.openclover.core.registry.entities.FullFileInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
-
 import org.openclover.core.reporters.Current;
 import org.openclover.core.util.CloverUtils;
 import org.openclover.runtime.util.Formatting;
@@ -22,6 +20,7 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.Callable;
 
 public class RenderTestResultAction implements Callable<Object> {
@@ -69,9 +68,9 @@ public class RenderTestResultAction implements Callable<Object> {
             CONFIGURABLE_MODEL.set(readOnlyModel.copy());
         }
 
-        final FullFileInfo finfo = (FullFileInfo) testCaseInfo.getRuntimeType().getContainingFile();
-        final StringBuffer outname = renderingHelper.getTestFileName(testCaseInfo);
-        final File outfile = CloverUtils.createOutFile(finfo, outname.toString(), reportConfig.getOutFile());
+        final FileInfo fileInfo = Objects.requireNonNull(testCaseInfo.getRuntimeType().getContainingFile());
+        final StringBuffer outName = renderingHelper.getTestFileName(testCaseInfo);
+        final File outfile = CloverUtils.createOutFile(fileInfo, outName.toString(), reportConfig.getOutFile());
 
         ProjectInfo projectInfo = CONFIGURABLE_MODEL.get();
 
@@ -86,7 +85,7 @@ public class RenderTestResultAction implements Callable<Object> {
             velocity.put("showUnique", Boolean.FALSE);
         }
 
-        velocity.put("currentPageURL", outname);
+        velocity.put("currentPageURL", outName);
 
         classes.sort(TARGET_CLASS_COMPARATOR);
         velocity.put("targetClasses", classes);

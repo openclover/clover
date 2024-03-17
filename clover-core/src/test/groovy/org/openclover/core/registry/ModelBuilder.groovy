@@ -1,6 +1,7 @@
 package org.openclover.core.registry
 
 import org.openclover.core.api.registry.ClassInfo
+import org.openclover.core.api.registry.FileInfo
 import org.openclover.core.api.registry.PackageInfo
 import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.context.ContextSetImpl
@@ -73,7 +74,7 @@ class ModelBuilder {
         }
 
         FileInfoWrapper file(String name) {
-            FullFileInfo fileInfo = (FullFileInfo)getElement().getFile(getElement().getPath() + "/" + name)
+            FileInfo fileInfo = getElement().getFile(getElement().getPath() + "/" + name)
             if (fileInfo == null) {
                 fileInfo = new FullFileInfo(getElement(), new File(name), "UTF-8", 0, 0, 0, 0, 0, 0, 0)
                 getElement().addFile(fileInfo)
@@ -86,8 +87,8 @@ class ModelBuilder {
         }
     }
 
-    class FileInfoWrapper extends Wrapper<FileInfoWrapper, FullFileInfo> {
-        FileInfoWrapper(FullFileInfo fileInfo) {
+    class FileInfoWrapper extends Wrapper<FileInfoWrapper, FileInfo> {
+        FileInfoWrapper(FileInfo fileInfo) {
             super(fileInfo)
         }
 
@@ -178,7 +179,7 @@ class ModelBuilder {
 
         /** Close class wrapper declared inside a file */
         FileInfoWrapper endInFile() {
-            return new FileInfoWrapper((FullFileInfo)getElement().getContainingFile())
+            return new FileInfoWrapper(getElement().getContainingFile())
         }
 
         /** Close class wrapper declared inside a method */
@@ -246,7 +247,7 @@ class ModelBuilder {
 
         /** Close method wrapper declared inside a file */
         FileInfoWrapper endInFile() {
-            return new FileInfoWrapper((FullFileInfo) getElement().getContainingFile())
+            return new FileInfoWrapper(getElement().getContainingFile())
         }
 
         protected MethodInfoWrapper(FullMethodInfo element) {
@@ -271,7 +272,7 @@ class ModelBuilder {
 
         /** Close statement wrapper declared inside a file */
         FileInfoWrapper endInFile() {
-            return new FileInfoWrapper((FullFileInfo) getElement().getContainingFile())
+            return new FileInfoWrapper(getElement().getContainingFile())
         }
 
         protected StatementInfoWrapper(FullStatementInfo element) {

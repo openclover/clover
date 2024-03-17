@@ -12,15 +12,14 @@ import org.openclover.core.api.command.HelpBuilder;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.core.api.registry.MethodInfo;
+import org.openclover.core.api.registry.PackageFragment;
 import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.cfg.Interval;
 import org.openclover.core.registry.entities.FullClassInfo;
-import org.openclover.core.registry.entities.FullFileInfo;
-import org.openclover.core.api.registry.PackageFragment;
-import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.core.registry.metrics.HasMetricsSupport;
 import org.openclover.core.reporters.CloverReportConfig;
 import org.openclover.core.reporters.CloverReporter;
@@ -60,6 +59,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
@@ -91,13 +91,11 @@ import static org.openclover.core.util.Maps.newLinkedHashMap;
 
 public class HtmlReporter extends CloverReporter {
 
-    @SuppressWarnings("unchecked")
     private static final List<ArgProcessor<Current>> mandatoryArgProcessors = newArrayList(
             InitString,
             OutputDirHtml
     );
 
-    @SuppressWarnings("unchecked")
     private static final List<ArgProcessor<Current>> optionalArgProcessors = newArrayList(
             AlwaysReport,
             HideBars,
@@ -372,7 +370,7 @@ public class HtmlReporter extends CloverReporter {
         for (int i = 0; i < charts.size(); ++i) {
             String chartName = "chart" + i + ".jpg";
             chartNames.add(chartName);
-            Historical.Chart chart = (Historical.Chart) charts.get(i);
+            Historical.Chart chart = charts.get(i);
 
             final JFreeChart jFreeChart = CloverChartFactory.createJFreeChart(chart, data);
             final ChartRenderingInfo renderingInfo = new ChartRenderingInfo();
@@ -982,8 +980,7 @@ public class HtmlReporter extends CloverReporter {
 
         final HasMetricsFilter filter = new TestMethodFilter();
         for (ClassInfo classInfo : classes) {
-            ClassInfo fullClassInfo = (FullClassInfo) classInfo;
-            ClassInfo testClassInfo = fullClassInfo.copy((FullFileInfo) fullClassInfo.getContainingFile(), filter);
+            ClassInfo testClassInfo = classInfo.copy(classInfo.getContainingFile(), filter);
             renderTestClassSummaryPage(testClassInfo);
         }
         classes.sort(TEST_SORT_ORDER);
@@ -1006,8 +1003,8 @@ public class HtmlReporter extends CloverReporter {
 
     private void renderTestClassSummaryPage(@NotNull ClassInfo classInfo) throws Exception {
 
-        String outname = rederingHelper.getTestClassLink(false, classInfo);
-        File outfile = CloverUtils.createOutFile((FullFileInfo) classInfo.getContainingFile(), outname, basePath);
+        String outName = rederingHelper.getTestClassLink(false, classInfo);
+        File outFile = CloverUtils.createOutFile(Objects.requireNonNull(classInfo.getContainingFile()), outName, basePath);
 
         final List<TestCaseInfo> tests = newArrayList(classInfo.getTestCases());
 
@@ -1015,7 +1012,7 @@ public class HtmlReporter extends CloverReporter {
 
         final VelocityContext context = new VelocityContext();
 
-        context.put("currentPageURL", outname);
+        context.put("currentPageURL", outName);
 
         insertCommonPropsForCurrent(context, classInfo.getPackage().getName());
         context.put("projectInfo", getFullModel());
@@ -1024,7 +1021,7 @@ public class HtmlReporter extends CloverReporter {
         insertCommonTestProps(context, tests, "test", classInfo.getPackage(),
                 classInfo, link, "Class", "Tests");
 
-        HtmlReportUtil.mergeTemplateToFile(outfile, context,
+        HtmlReportUtil.mergeTemplateToFile(outFile, context,
                 "test-class-summary.vm");
     }
 
@@ -1071,8 +1068,8 @@ public class HtmlReporter extends CloverReporter {
      * a container class that describes what file hierarchy a particluar page is being rendered into
      */
     public static class TreeInfo {
-        private String pathPrefix;
-        private String name;
+        private final String pathPrefix;
+        private final String name;
 
         public TreeInfo(String pathPrefix, String name) {
             this.pathPrefix = pathPrefix;

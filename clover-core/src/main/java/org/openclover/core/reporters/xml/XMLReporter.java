@@ -15,10 +15,7 @@ import org.openclover.core.api.registry.StatementInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.model.XmlNames;
 import org.openclover.core.registry.entities.FullClassInfo;
-import org.openclover.core.registry.entities.FullFileInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.registry.entities.LineInfo;
-
 import org.openclover.core.registry.metrics.ClassMetrics;
 import org.openclover.core.registry.metrics.FileMetrics;
 import org.openclover.core.registry.metrics.PackageMetrics;
@@ -59,13 +56,11 @@ import static org.openclover.core.util.Maps.newHashMap;
 
 public class XMLReporter extends CloverReporter {
 
-    @SuppressWarnings("unchecked")
     private static final List<ArgProcessor<Current>> mandatoryArgProcessors = newArrayList(
             InitString,
             OutputFile
     );
 
-    @SuppressWarnings("unchecked")
     private static final List<ArgProcessor<Current>> optionalArgProcessors = newArrayList(
             AlwaysReport,
             DebugLogging,
@@ -83,7 +78,7 @@ public class XMLReporter extends CloverReporter {
     private static final List<ArgProcessor<Current>> allArgProcessors =
             join(mandatoryArgProcessors, optionalArgProcessors);
 
-    private ContextSet contextSet;
+    private final ContextSet contextSet;
 
     public XMLReporter(CloverReportConfig config) throws CloverException {
         this(config.getCoverageDatabase(), config);
@@ -143,9 +138,9 @@ public class XMLReporter extends CloverReporter {
      * Get the package elements for this project.
      */
     private void writeProject(XMLWriter out, String enclosingTag, ProjectInfo proj) throws IOException {
-        Map<String, String> attribs = newHashMap();
+        Map<String, String> attributes = newHashMap();
         if (reportConfig.getTitle() != null) {
-            attribs.put(XmlNames.A_NAME, reportConfig.getTitle());
+            attributes.put(XmlNames.A_NAME, reportConfig.getTitle());
         }
 
         long ts = database.getRecordingTimestamp();
@@ -155,8 +150,8 @@ public class XMLReporter extends CloverReporter {
             ts = reportConfig.getEffectiveDate().getTime();
         }
 
-        attribs.put(XmlNames.A_TIMESTAMP, String.valueOf(ts));
-        out.writeElementStart(enclosingTag, attribs);
+        attributes.put(XmlNames.A_TIMESTAMP, String.valueOf(ts));
+        out.writeElementStart(enclosingTag, attributes);
         writeMetrics(out, proj.getMetrics());
 
         List<PackageInfo> packages = proj.getAllPackages();
@@ -168,10 +163,10 @@ public class XMLReporter extends CloverReporter {
 
             for (PackageInfo pkg : packages) {
 
-                attribs = newHashMap();
-                attribs.put(XmlNames.A_NAME, pkg.getName());
+                attributes = newHashMap();
+                attributes.put(XmlNames.A_NAME, pkg.getName());
 
-                out.writeElementStart(XmlNames.E_PACKAGE, attribs);
+                out.writeElementStart(XmlNames.E_PACKAGE, attributes);
 
                 writeMetrics(out, pkg.getMetrics());
 
@@ -250,17 +245,16 @@ public class XMLReporter extends CloverReporter {
         final List<FileInfo> files = pkg.getFiles();
 
         for (FileInfo fileInfo : files) {
-            final FullFileInfo file = (FullFileInfo) fileInfo;
             final Map<String, String> attribs = newHashMap();
 
-            attribs.put(XmlNames.A_NAME, file.getName());
-            attribs.put(XmlNames.A_PATH, file.getPhysicalFile().getAbsolutePath());
+            attribs.put(XmlNames.A_NAME, fileInfo.getName());
+            attribs.put(XmlNames.A_PATH, fileInfo.getPhysicalFile().getAbsolutePath());
             out.writeElementStart(XmlNames.E_FILE, attribs);
-            writeMetrics(out, file.getMetrics());
-            writeClassesForFile(out, file.getClasses());
+            writeMetrics(out, fileInfo.getMetrics());
+            writeClassesForFile(out, fileInfo.getClasses());
 
             if (reportConfig.getFormat().getSrcLevel()) {
-                writeLineInfo(out, file);
+                writeLineInfo(out, fileInfo);
             }
             out.writeElementEnd(XmlNames.E_FILE);
         }
@@ -276,7 +270,7 @@ public class XMLReporter extends CloverReporter {
         }
     }
 
-    private void writeLineInfo(XMLWriter out, FullFileInfo finfo) throws IOException {
+    private void writeLineInfo(XMLWriter out, FileInfo finfo) throws IOException {
         final int linecount = finfo.getLineCount();
         final LineInfo[] linfo = finfo.getLineInfo( ((Current)reportConfig).isShowLambdaFunctions(),
                 ((Current)reportConfig).isShowInnerFunctions() );

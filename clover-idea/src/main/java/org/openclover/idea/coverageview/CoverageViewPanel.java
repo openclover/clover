@@ -34,7 +34,6 @@ import org.openclover.core.api.registry.PackageFragment;
 import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.api.registry.ParameterInfo;
 import org.openclover.core.api.registry.FileInfoRegion;
-import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.idea.NodeWrapperSelectionListener;
 import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.SelectInCloverTarget;
@@ -238,7 +237,7 @@ public class CoverageViewPanel extends TreeTablePanel implements ConfigChangeLis
         }
         final FileInfoRegion region = (FileInfoRegion) node.getHasMetrics();
 
-        final File srcFile = ((FullFileInfo) region.getContainingFile()).getPhysicalFile();
+        final File srcFile = region.getContainingFile().getPhysicalFile();
         final VirtualFile vf = LocalFileSystem.getInstance().findFileByIoFile(srcFile);
         if (vf == null) {
             return;

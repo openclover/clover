@@ -1,14 +1,14 @@
 package org.openclover.core.reporters.filters;
 
+import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.registry.BaseInvertableFilter;
-import org.openclover.core.registry.entities.FullFileInfo;
 
 import java.io.File;
 import java.util.List;
 
 public class FileSetFilter extends BaseInvertableFilter {
-    private List<File> sourceFiles;
+    private final List<File> sourceFiles;
 
     public FileSetFilter(List<File> sourceFiles) {
         this(sourceFiles, false);
@@ -26,8 +26,8 @@ public class FileSetFilter extends BaseInvertableFilter {
 
     @Override
     public boolean accept(HasMetrics hm) {
-        if (hm instanceof FullFileInfo) {
-            FullFileInfo fileInfo = (FullFileInfo) hm;
+        if (hm instanceof FileInfo) {
+            FileInfo fileInfo = (FileInfo) hm;
             return isInverted() ^ sourceFiles.contains(fileInfo.getPhysicalFile());
         }
 

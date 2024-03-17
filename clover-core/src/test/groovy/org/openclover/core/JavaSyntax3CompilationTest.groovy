@@ -4,13 +4,12 @@ import org.apache.tools.ant.util.JavaEnvUtils
 import org.junit.Before
 import org.junit.Test
 import org.openclover.core.api.registry.ClassInfo
+import org.openclover.core.api.registry.FileInfo
 import org.openclover.core.api.registry.ProjectInfo
-import org.openclover.core.registry.entities.FullFileInfo
 import org.openclover.core.registry.entities.LineInfo
 
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertNotNull
-
 /**
  * The purpose of this test is to
  * a) make sure the code compiles under JDK1.3 or later
@@ -62,7 +61,7 @@ class JavaSyntax3CompilationTest extends JavaSyntaxCompilationTestBase {
         //Some of these start/ends are rather unexpected - documenting this as a starting point
         //for future modifications
 
-        FullFileInfo fi = (FullFileInfo)c.getContainingFile()
+        FileInfo fi = c.getContainingFile()
         LineInfo[] li = fi.getLineInfo(false, false)
         //                 A..............
         //6: ^class ColumnAlignment$

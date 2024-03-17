@@ -118,7 +118,7 @@ public class ClassesTestedTreeProvider
                             NodeBuilder.FOR_CLASSES,
                             classInfo,
                             clazz,
-                            classInfo.copy((FullFileInfo)classInfo.getContainingFile(), HasMetricsFilter.ACCEPT_ALL),
+                            classInfo.copy(classInfo.getContainingFile(), HasMetricsFilter.ACCEPT_ALL),
                             testHits,
                             uniqueTestHits,
                             testedClassInfos);

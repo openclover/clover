@@ -65,7 +65,7 @@ public class RegistryDumper {
         reg.getProject().visitFiles(fileInfo -> {
             Logger.getInstance().info("File " + fileInfo.getPackagePath());
             indent++;
-            Logger.getInstance().info(indent("Physical file:" + ((FullFileInfo)fileInfo).getPhysicalFile().getAbsolutePath()));
+            Logger.getInstance().info(indent("Physical file:" + fileInfo.getPhysicalFile().getAbsolutePath()));
             Logger.getInstance().info(indent("Encoding: " + fileInfo.getEncoding()));
             Logger.getInstance().info(indent("Checksum: " + fileInfo.getChecksum()));
             Logger.getInstance().info(indent("File Size: " + fileInfo.getFileSize()));

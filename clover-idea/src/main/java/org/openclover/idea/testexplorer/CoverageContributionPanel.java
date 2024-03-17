@@ -6,16 +6,13 @@ import org.openclover.core.BitSetCoverageProvider;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.CoverageData;
 import org.openclover.core.api.registry.ClassInfo;
-import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.CoverageDataProvider;
+import org.openclover.core.api.registry.HasMetricsFilter;
+import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
-import org.openclover.core.registry.entities.FullClassInfo;
-import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullMethodInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
-import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.idea.IProjectPlugin;
 import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.config.ConfigChangeEvent;
@@ -225,7 +222,7 @@ class CoverageContributionTreeBuilder {
 
         appOnlyProject.getClasses(hasMetrics -> {
             final ClassInfo classInfo = (ClassInfo) hasMetrics;
-            ClassInfo classInfoCopy = classInfo.copy((FullFileInfo) classInfo.getContainingFile(), HasMetricsFilter.ACCEPT_ALL);
+            ClassInfo classInfoCopy = classInfo.copy(classInfo.getContainingFile(), HasMetricsFilter.ACCEPT_ALL);
             classInfoCopy.setDataProvider(testDataProvider);
 
             if (classInfoCopy.getMetrics().getNumCoveredElements() > 0) {

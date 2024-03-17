@@ -36,26 +36,26 @@ import static org.junit.Assert.assertTrue
 import static org.junit.Assert.fail
 import static org.openclover.core.util.Lists.newArrayList
 
-public class Clover2RegistryTest {
+class Clover2RegistryTest {
     private File tmpDir
 
     @Rule
     public TestName testName = new TestName()
 
     @Before
-    public void setUp() throws Exception {
+    void setUp() throws Exception {
         tmpDir = IOHelper.createTmpDir(this.getClass().getName())
     }
 
     @After
-    public void tearDown() throws Exception {
+    void tearDown() throws Exception {
         if (!IOHelper.delete(tmpDir)) {
             throw new RuntimeException("Unable to delete temporary test directory ${tmpDir.getAbsolutePath()}".toString())
         }
     }
 
     @Test
-    public void testReadWrite() throws Exception {
+    void testReadWrite() throws Exception {
         File registryFile = File.createTempFile("registry","cdb", tmpDir)
 
         prepareDatabaseFile(registryFile)
@@ -76,7 +76,7 @@ public class Clover2RegistryTest {
     }
 
     @Test
-    public void testFiltering() throws Exception {
+    void testFiltering() throws Exception {
         File registryFile = File.createTempFile("registry","cdb", tmpDir)
 
         Clover2Registry registry = new Clover2Registry(registryFile, testName.methodName)
@@ -140,7 +140,7 @@ public class Clover2RegistryTest {
         assertEquals("dataLength", dataLength, model.getDataLength()) 
 
         read = Clover2Registry.fromFile(registryFile, new HasMetricsFilter() {
-            public boolean accept(HasMetrics hm) {
+            boolean accept(HasMetrics hm) {
                  return !(hm instanceof FullFileInfo) || (!hm.getName().startsWith("B"))
             }
         }, null)
@@ -157,7 +157,7 @@ public class Clover2RegistryTest {
     }
 
     private static interface SaveAction {
-        public void run(InstrumentationSessionImpl session) throws Exception
+        void run(InstrumentationSessionImpl session) throws Exception
     }
 
     private void testFileInfoChanges(SaveAction saveAction) throws Exception {
@@ -241,12 +241,12 @@ public class Clover2RegistryTest {
         saveAction.run(session)
 
         assertEquals("checksum same", fa.getChecksum(), pkg.getFile("A").getChecksum())
-        assertEquals("data index same", fa.getDataIndex(), ((FullFileInfo)pkg.getFile("A")).getDataIndex())
-        assertEquals("data length same", fa.getDataLength(), ((FullFileInfo)pkg.getFile("A")).getDataLength())
+        assertEquals("data index same", fa.getDataIndex(), pkg.getFile("A").getDataIndex())
+        assertEquals("data length same", fa.getDataLength(), pkg.getFile("A").getDataLength())
 
         assertEquals("checksum same", fb.getChecksum(), pkg.getFile("B").getChecksum())
-        assertEquals("data index same", fb.getDataIndex(), ((FullFileInfo)pkg.getFile("B")).getDataIndex())
-        assertEquals("data length same", fb.getDataLength(), ((FullFileInfo)pkg.getFile("B")).getDataLength())
+        assertEquals("data index same", fb.getDataIndex(), pkg.getFile("B").getDataIndex())
+        assertEquals("data length same", fb.getDataLength(), pkg.getFile("B").getDataLength())
 
         registry = Clover2Registry.fromFile(registryFile)
 
@@ -259,12 +259,12 @@ public class Clover2RegistryTest {
         pkg = registry.getProject().getDefaultPackage()
 
         assertEquals("checksum same", fa.getChecksum(), pkg.getFile("A").getChecksum())
-        assertEquals("data index same", fa.getDataIndex(), ((FullFileInfo)pkg.getFile("A")).getDataIndex())
-        assertEquals("data length same", fa.getDataLength(), ((FullFileInfo)pkg.getFile("A")).getDataLength())
+        assertEquals("data index same", fa.getDataIndex(), pkg.getFile("A").getDataIndex())
+        assertEquals("data length same", fa.getDataLength(), pkg.getFile("A").getDataLength())
 
         assertEquals("checksum same", fb.getChecksum(), pkg.getFile("B").getChecksum())
-        assertEquals("data index same", fb.getDataIndex(), ((FullFileInfo)pkg.getFile("B")).getDataIndex())
-        assertEquals("data length same", fb.getDataLength(), ((FullFileInfo)pkg.getFile("B")).getDataLength())
+        assertEquals("data index same", fb.getDataIndex(), pkg.getFile("B").getDataIndex())
+        assertEquals("data length same", fb.getDataLength(), pkg.getFile("B").getDataLength())
 
         fa = (FullFileInfo)pkg.getFile("A")
         fb = (FullFileInfo)pkg.getFile("B")
@@ -295,8 +295,8 @@ public class Clover2RegistryTest {
         assertTrue("versions differ", v3 != v4)
 
         assertFalse("checksum same", fa.getChecksum() == pkg.getFile("A").getChecksum())
-        assertFalse("data index same", fa.getDataIndex() == ((FullFileInfo)pkg.getFile("A")).getDataIndex())
-        assertEquals("data length differs", fa.getDataLength(), ((FullFileInfo)pkg.getFile("A")).getDataLength())
+        assertFalse("data index same", fa.getDataIndex() == pkg.getFile("A").getDataIndex())
+        assertEquals("data length differs", fa.getDataLength(), pkg.getFile("A").getDataLength())
 
         registry = Clover2Registry.fromFile(registryFile)
 
@@ -309,8 +309,8 @@ public class Clover2RegistryTest {
         pkg = registry.getProject().getDefaultPackage()
 
         assertFalse("checksum same", fa.getChecksum() == pkg.getFile("A").getChecksum())
-        assertFalse("data index has not progressed", fa.getDataIndex() == ((FullFileInfo)pkg.getFile("A")).getDataIndex())
-        assertEquals("data length differs", fa.getDataLength(), ((FullFileInfo)pkg.getFile("A")).getDataLength())
+        assertFalse("data index has not progressed", fa.getDataIndex() == pkg.getFile("A").getDataIndex())
+        assertEquals("data length differs", fa.getDataLength(), pkg.getFile("A").getDataLength())
 
         fa = (FullFileInfo)pkg.getFile("A")
         fb = (FullFileInfo)pkg.getFile("B")
@@ -335,24 +335,24 @@ public class Clover2RegistryTest {
     }
 
     @Test
-    public void testFileInfoChangesOnRewrite() throws Exception {
+    void testFileInfoChangesOnRewrite() throws Exception {
         testFileInfoChanges(new SaveAction() {
-            public void run(InstrumentationSessionImpl session) throws Exception {
+            void run(InstrumentationSessionImpl session) throws Exception {
                 session.getRegistry().saveAndOverwriteFile()
             }
         })
     }
 
     @Test
-    public void testFileInfoChangesOnAppend() throws Exception {
+    void testFileInfoChangesOnAppend() throws Exception {
         testFileInfoChanges(new SaveAction() {
-            public void run(InstrumentationSessionImpl session) throws Exception {
+            void run(InstrumentationSessionImpl session) throws Exception {
                 session.getRegistry().saveAndAppendToFile()
             }
         })
     }
 
-    private void addFileClassAndMethodInfo(InstrumentationSessionImpl session, String className, String methodSig, long checksum) {
+    private static void addFileClassAndMethodInfo(InstrumentationSessionImpl session, String className, String methodSig, long checksum) {
         session.enterFile("", new File(className), 0, 0, 0, 0, checksum)
         session.enterClass(className, new FixedSourceRegion(0, 0), new Modifiers(), false, false, false)
         session.enterMethod(new ContextSetImpl(), new FixedSourceRegion(0, 0), new MethodSignature(methodSig), false, FullMethodInfo.DEFAULT_METHOD_COMPLEXITY)
@@ -362,7 +362,7 @@ public class Clover2RegistryTest {
     }
 
     @Test
-    public void testOutOfDate() throws Exception {
+    void testOutOfDate() throws Exception {
         File registryFile = File.createTempFile("registry","cdb", tmpDir)
 
         Clover2Registry registry1 = new Clover2Registry(registryFile, testName.methodName)
@@ -397,7 +397,7 @@ public class Clover2RegistryTest {
     }
 
     @Test
-    public void testReadErrors() throws Exception {
+    void testReadErrors() throws Exception {
         // invalid header
         File notReg = File.createTempFile("notregistry","cdb", tmpDir)
 
@@ -439,7 +439,7 @@ public class Clover2RegistryTest {
     }
 
     @Test
-    public void testNoHalfBakedRegistryElementsDuringInstr() throws Exception {
+    void testNoHalfBakedRegistryElementsDuringInstr() throws Exception {
         File registryFile = File.createTempFile("registry","cdb", tmpDir)
 
         Clover2Registry registry = new Clover2Registry(registryFile, testName.methodName)
@@ -467,11 +467,11 @@ public class Clover2RegistryTest {
     }
 
     static class MockableRegistry extends Clover2Registry {
-        public MockableRegistry(File registryFile, String name) throws InaccessibleRegFileException {
+        MockableRegistry(File registryFile, String name) throws InaccessibleRegFileException {
             super(registryFile, name)
         }
 
-        public RegFile saveAndOverwriteFile() throws IOException, CloverRegistryException {
+        RegFile saveAndOverwriteFile() throws IOException, CloverRegistryException {
             final ProjectInfo emptyProject = new FullProjectInfo(getProject().getName())
             emptyProject.setDataLength(getDataLength())
             return saveAndOverwriteFile(emptyProject, newArrayList(), new ContextStore(), null)
@@ -479,7 +479,7 @@ public class Clover2RegistryTest {
     }
 
     @Test
-    public void testStoringAsMockRegistry() throws Exception {
+    void testStoringAsMockRegistry() throws Exception {
         File registryFile = File.createTempFile("registry","cdb", tmpDir)
         MockableRegistry registry = new MockableRegistry(registryFile, testName.methodName)
         SourceInfo region = new FixedSourceRegion(1, 2, 3, 4)
@@ -512,7 +512,7 @@ public class Clover2RegistryTest {
     }
 
     @Test
-    public void testCanCheckRegistryFileDoesntExist() throws Exception {
+    void testCanCheckRegistryFileDoesntExist() throws Exception {
         File tempDir = FileUtils.createTempDir("registry")
         File registryFile = new File("registry.db")
 
@@ -522,7 +522,7 @@ public class Clover2RegistryTest {
     }
 
     @Test
-    public void testLazyLoadingRegistryExceptionTranslation() throws Exception {
+    void testLazyLoadingRegistryExceptionTranslation() throws Exception {
         final File registryFile = File.createTempFile("registry","cdb", tmpDir)
 
         prepareDatabaseFile(registryFile)
@@ -540,7 +540,7 @@ public class Clover2RegistryTest {
     }
 
     @Test
-    public void testBufferUnderflowExceptionTranslation() throws Exception {
+    void testBufferUnderflowExceptionTranslation() throws Exception {
         File registryFile = File.createTempFile("registry","cdb", tmpDir)
 
         prepareDatabaseFile(registryFile)
@@ -557,18 +557,18 @@ public class Clover2RegistryTest {
     }
 
     @Test
-    public void testCopyForBackgroundCoverageLoad() throws IOException, CloverException {
+    void testCopyForBackgroundCoverageLoad() throws IOException, CloverException {
         final File registryFile = File.createTempFile("registry","cdb", tmpDir)
         Clover2Registry reg1 = prepareDatabaseFile(registryFile)
         reg1.getProject().setDataProvider(new CoverageDataProvider() {
-            public int getHitCount(int index) {
+            int getHitCount(int index) {
                 return 0
             }
         })
 
         Clover2Registry reg2 = reg1.copyForBackgroundCoverageLoad()
         reg2.getProject().setDataProvider(new CoverageDataProvider() {
-            public int getHitCount(int index) {
+            int getHitCount(int index) {
                 return 1
             }
         })
