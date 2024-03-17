@@ -6,6 +6,8 @@ import org.eclipse.jface.action.IAction;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
 
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+
 public class RefreshCoverageActionDelegate extends SingleCloverProjectActionDelegate {
     @Override
     public void run(IAction action) {
@@ -17,7 +19,7 @@ public class RefreshCoverageActionDelegate extends SingleCloverProjectActionDele
                 cloverProject.refreshModel(false, true);
             }
         } catch (CoreException e) {
-            CloverPlugin.logError("Unable to reload coverage", e);
+            logError("Unable to reload coverage", e);
         }
     }
 }

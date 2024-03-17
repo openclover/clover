@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+
 public class ProjToPkgFragRootRelationship extends NodeRelationship {
     @Override
     public Object[] getChildren(Object object, NodeRelationshipFilter filter) {
@@ -38,7 +40,7 @@ public class ProjToPkgFragRootRelationship extends NodeRelationship {
                 return filter.perform(sourceRoots);
             }
         } catch (Exception e) {
-            CloverPlugin.logError("Unable to retrieve children for project " + object, e);
+            logError("Unable to retrieve children for project " + object, e);
         }
         return new Object[]{};
     }
@@ -67,7 +69,7 @@ public class ProjToPkgFragRootRelationship extends NodeRelationship {
                 }
             }
         } catch (Exception e) {
-            CloverPlugin.logError("Unable to retrieve children for project " + object, e);
+            logError("Unable to retrieve children for project " + object, e);
         }
         return false;
     }

@@ -11,6 +11,8 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IEditorPart;
 import org.openclover.eclipse.core.CloverPlugin;
 
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+
 public class CloveredLaunchShortcut implements ILaunchShortcut, IExecutableExtension {
     private static ILaunchShortcut EMPTY_SHORTCUT_DELEGATE = new ILaunchShortcut() {
         @Override
@@ -38,12 +40,12 @@ public class CloveredLaunchShortcut implements ILaunchShortcut, IExecutableExten
                 }
             }
         } catch (CoreException e) {
-            CloverPlugin.logError("Error creating launch delegate", e);
+            logError("Error creating launch delegate", e);
         }
         
         if (delegate == null) {
             delegate = EMPTY_SHORTCUT_DELEGATE;
-            CloverPlugin.logError("Launch shortcut not found for id: " + delegateId);
+            logError("Launch shortcut not found for id: " + delegateId);
         }
     }
 

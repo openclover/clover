@@ -3,9 +3,7 @@ package org.openclover.ant.tasks;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 import org.openclover.ant.AntLogger;
-import org.openclover.core.CloverStartup;
 import org.openclover.core.PrematureLibraryLoader;
-import org.openclover.runtime.CloverNames;
 import org.openclover.runtime.Logger;
 
 import java.io.File;
@@ -42,17 +40,10 @@ public abstract class AbstractCloverTask extends Task {
     @Override
     public final void execute() {
         if (config == null) {
-            throw new BuildException("Configuration is null. This Task not initialiased correctly. " +
+            throw new BuildException("Configuration is null. This Task not initialised correctly. " +
                                      "Please ensure init() is called before execute().");
         }
         
-        String antLicensePath = getProject().getProperty(CloverNames.PROP_LICENSE_PATH);
-        if (antLicensePath != null && antLicensePath.length() > 0) {
-            System.setProperty(CloverNames.PROP_LICENSE_PATH, antLicensePath);
-        }
-
-        CloverStartup.loadLicense(Logger.getInstance());
-
         if (validate()) {
             cloverExecute();
         }

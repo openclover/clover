@@ -13,6 +13,8 @@ import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.settings.ProjectSettings;
 import org.openclover.eclipse.core.ui.widgets.ContextFilterModificationWidget;
 
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+
 public class ContextChooserDialog extends Dialog {
 
     private ContextFilterModificationWidget contextControl;
@@ -48,7 +50,7 @@ public class ContextChooserDialog extends Dialog {
             try {
                 properties.getProject().build(IncrementalProjectBuilder.CLEAN_BUILD, null);
             } catch (CoreException e) {
-                CloverPlugin.logError("Unable to rebuild project", e);
+                logError("Unable to rebuild project", e);
             }
         }
     }

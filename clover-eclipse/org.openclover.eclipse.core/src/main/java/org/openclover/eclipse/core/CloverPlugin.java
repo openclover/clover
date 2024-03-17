@@ -27,11 +27,9 @@ import org.openclover.eclipse.core.views.dashboard.DashboardView;
 import org.openclover.eclipse.core.views.testcontributions.TestContributionsView;
 import org.openclover.eclipse.core.views.testrunexplorer.TestRunExplorerView;
 import org.openclover.runtime.Logger;
-import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleEvent;
 import org.osgi.framework.BundleListener;
-import org.osgi.framework.Version;
 import org.osgi.service.prefs.BackingStoreException;
 import org.osgi.service.prefs.Preferences;
 
@@ -134,7 +132,7 @@ public class CloverPlugin extends AbstractUIPlugin {
 
         instance = this;
 
-        logInfo("Clover plugin constructed");
+        logInfo("OpenClover plugin constructed");
     }
 
     /**
@@ -162,7 +160,7 @@ public class CloverPlugin extends AbstractUIPlugin {
         startListener = bundleEvent -> {
             if (bundleEvent.getBundle().getBundleId() == thisBundleId
                 && bundleEvent.getType() == BundleEvent.STARTED) {
-                new SystemJob("Clover background processing starter") {
+                new SystemJob("OpenClover background processing starter") {
                     @Override
                     protected IStatus run(IProgressMonitor progressMonitor) {
                         try {
@@ -170,7 +168,7 @@ public class CloverPlugin extends AbstractUIPlugin {
                             startMonitoringCoverage();
                             listenForSettingsChanges();
                         } catch (Exception e) {
-                            CloverPlugin.logError("Failed to start background processing", e);
+                            logError("Failed to start background processing", e);
                         }
                         return Status.OK_STATUS;
                     }
@@ -178,7 +176,7 @@ public class CloverPlugin extends AbstractUIPlugin {
             }
         };
         context.addBundleListener(startListener);
-        logInfo("Clover plugin started");
+        logInfo("OpenClover plugin started");
     }
 
     private void startMonitoringCoverage() {
@@ -243,12 +241,8 @@ public class CloverPlugin extends AbstractUIPlugin {
         }
         finally {
             super.stop(context);
-            cloverLogger.info("Clover plugin stopped");
+            cloverLogger.info("OpenClover plugin stopped");
         }
-    }
-
-    private String prefixed(String key) {
-        return CloverPlugin.ID + ".preferences." + key;
     }
 
     private void ensureInstallDateGenerated() {
@@ -299,10 +293,6 @@ public class CloverPlugin extends AbstractUIPlugin {
                 Platform.getDebugOption(
                     ID + (category == null ? "" : "/" + category)
                         + "/debug"));
-    }
-
-    public String getPluginOption(String option) {
-        return Platform.getDebugOption(ID + "/" + option);
     }
 
     public List<ReportHistoryEntry> getReportHistory() {
@@ -414,14 +404,4 @@ public class CloverPlugin extends AbstractUIPlugin {
         }
     }
 
-    public Version getJDTVersion() {
-        try {
-            Bundle jdtCore = Platform.getBundle("org.eclipse.jdt.core");
-            String versionString = jdtCore == null ? null : (String)jdtCore.getHeaders().get("Bundle-Version");
-            return versionString == null ? null : Version.parseVersion(versionString);
-        } catch (Exception e) {
-            CloverPlugin.logError("Unable to calculate JDT version", e);
-            return null;
-        }
-    }
 }

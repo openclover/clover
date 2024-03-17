@@ -17,6 +17,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+import static org.openclover.eclipse.core.CloverPlugin.logWarning;
+
 /**
  * Runs a job to detect coverage changes and propgate these to listeners.
  */
@@ -35,7 +38,7 @@ public class CoverageModelsMonitor {
             public void done(IJobChangeEvent event) {
                 if (event.getResult().isOK()) {
                 } else if (event.getResult().getSeverity() != IStatus.CANCEL) {
-                    CloverPlugin.logWarning("Job " + job.getName() + " failed: " + event.getResult(), event.getResult().getException());
+                    logWarning("Job " + job.getName() + " failed: " + event.getResult(), event.getResult().getException());
                 }
             }
         });
@@ -75,7 +78,7 @@ public class CoverageModelsMonitor {
                 listener.databaseChanged(event);
             }
             catch (Throwable t) {
-                CloverPlugin.logError("Error while notifying listener of coverage change", t);
+                logError("Error while notifying listener of coverage change", t);
             }
         }
     }
@@ -86,7 +89,7 @@ public class CoverageModelsMonitor {
 
     class MonitoringJob extends Job {
         public MonitoringJob() {
-            super("Clover Coverage Monitor");
+            super("OpenClover Coverage Monitor");
 
             //It's unclear at this stage which is most appropriate. LONG seemed reasonable.
             setPriority(Job.LONG);
@@ -116,7 +119,7 @@ public class CoverageModelsMonitor {
                     return Status.OK_STATUS;
                 }
             } catch (Exception e) {
-                CloverPlugin.logError("Failed to refresh coverage", e);
+                logError("Failed to refresh coverage", e);
                 //Try again, without getting in the user's face
                 return Status.OK_STATUS;
             } finally {

@@ -359,9 +359,9 @@ public class InstrumentationComposite extends Composite {
         compileWithCloverButton = new Button(instrumentationComposite, SWT.CHECK);
         compileWithCloverButton.setText("Instrument and compile at ");
         compileWithCloverButton.setToolTipText(
-                "Choose whether Clover should instrument and compile your source code and what coverage granularity.\n\n" +
-                        "This can be switched off if you wish to develop without tracking code coverage for a period of time or " +
-                        "if you have configured Clover-for-Ant or Clover-for-Maven to instrument and compile your source for you."
+                "Choose whether OpenClover should instrument and compile your source code and what coverage granularity.\n\n" +
+                "This can be switched off if you wish to develop without tracking code coverage for a period of time or " +
+                "if you have configured OpenClover Ant or Maven integration to instrument and compile your source for you."
         );
         compileWithCloverButton.setSelection(properties.isInstrumentationEnabled());
 
@@ -370,8 +370,8 @@ public class InstrumentationComposite extends Composite {
         instrumentationLevelCombo.select(properties.getInstrumentationLevel() == InstrumentationLevel.STATEMENT ? 0 : 1);
         instrumentationLevelCombo.setToolTipText(
                 "Statement level instrumentation is more accurate but has a runtime performance penalty." +
-                        "Method level instrumentation is less accurate but will run faster and Clover will be able to provide coverage feedback more switfly.\n\n" +
-                        "If you only use Clover for optimizing your test runs, method level instrumenation is the best option.");
+                "Method level instrumentation is less accurate but will run faster and OpenClover will be able to provide coverage feedback more swiftly.\n\n" +
+                "If you only use OpenClover for optimizing your test runs, method-level instrumentation is the best option.");
         instrumentationLevelCombo.setEnabled(properties.isInstrumentationEnabled());
 
         final SelectionListener onChangeEnableLevelCombo = new SelectionAdapter() {
@@ -397,7 +397,7 @@ public class InstrumentationComposite extends Composite {
         instrumentLambdaCombo.setItems(ArrayUtil.toLowerCaseStringArray(LambdaInstrumentation.values()));
         instrumentLambdaCombo.select(properties.getInstrumentLambda().ordinal());
         instrumentLambdaCombo.setToolTipText(
-                "Select whether lambda functions introduced in Java 8 shall be instrumented by Clover so that you can track \n" +
+                "Select whether lambda functions introduced in Java 8 shall be instrumented by OpenClover so that you can track \n" +
                 "code coverage for them and show them in reports similarly as normal methods. \n" +
                 "You can also limit instrumentation to certain form of lambda functions: \n" +
                 " * written as expressions, e.g. '(a + b) -> a + b' \n" +

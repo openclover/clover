@@ -10,6 +10,8 @@ import org.openclover.eclipse.core.projects.CloverProject;
 
 import java.util.Iterator;
 
+import static org.openclover.eclipse.core.CloverPlugin.logWarning;
+
 public class ActionUtils {
     private ActionUtils() {
     }
@@ -26,7 +28,7 @@ public class ActionUtils {
                             return true;
                         }
                     } catch (CoreException e) {
-                        CloverPlugin.logWarning("Unable to determine project nature", e);
+                        logWarning("Unable to determine project nature", e);
                     }
                 }
             }

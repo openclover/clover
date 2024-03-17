@@ -56,7 +56,7 @@ public class CloverInstrArgProcessors {
 
         @Override
         public String help() {
-            return "    -d, --destdir <dir>\t\t Directory where Clover should place the instrumented sources.";
+            return "    -d, --destdir <dir>\t\t Directory where OpenClover should place the instrumented sources.";
         }
     };
 
@@ -75,7 +75,7 @@ public class CloverInstrArgProcessors {
 
         @Override
         public String help() {
-            return "    -i, --initstring <file>\t Clover initstring. This is the path to the dbfile that\n"
+            return "    -i, --initstring <file>\t OpenClover initstring. This is the path to the database file that\n"
                     + "\t\t\t\t will be used to construct/update to store coverage data.";
         }
     };
@@ -139,7 +139,7 @@ public class CloverInstrArgProcessors {
 
         @Override
         public String help() {
-            return "   -p, --flushpolicy <policy>\t Set the flushpolicy Clover will use during coverage recording.\n"
+            return "   -p, --flushpolicy <policy>\t The flush policy OpenClover will use during coverage recording.\n"
                     + "\t\t\t\t legal values are \"directed\",\"interval\",\"threaded\". Default is \"directed\". If\n"
                     + "\t\t\t\t either \"interval\" or \"threaded\" policies is used, the flushinterval must also be set\n"
                     + "\t\t\t\t using the -f option.";
@@ -278,7 +278,7 @@ public class CloverInstrArgProcessors {
 
         @Override
         public String help() {
-            return "    --source <level>\t\t Set the language level for Clover to use when parsing files.";
+            return "    --source <level>\t\t Set the language level for OpenClover to use when parsing files.";
         }
     };
 
@@ -297,7 +297,7 @@ public class CloverInstrArgProcessors {
 
         @Override
         public String help() {
-            return "    --recordTestResults <true|false> \t If set to false, Clover will not record test results.";
+            return "    --recordTestResults <true|false> \t If set to false, OpenClover will not record test results.";
         }
     };
 

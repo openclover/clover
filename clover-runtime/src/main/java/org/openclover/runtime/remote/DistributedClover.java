@@ -50,7 +50,7 @@ public class DistributedClover {
                 client = createClient(config);
             }
         } catch (Exception e) {
-            Logger.getInstance().error("Could not initialise Distributed Coverage collection in Clover: " + e.getMessage(), e);
+            Logger.getInstance().error("Could not initialise Distributed Coverage collection in OpenClover: " + e.getMessage(), e);
         } finally {
             this.client = client;
             this.service = service;

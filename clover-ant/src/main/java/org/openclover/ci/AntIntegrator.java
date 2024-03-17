@@ -60,12 +60,6 @@ public class AntIntegrator implements Integrator {
         }
         args.add("-listener");
         args.add(AntIntegrationListener.class.getName());
-        if (options.getLicenseCert() != null && !options.getLicenseCert().trim().equals("")) {
-            args.add("-D" + CloverNames.PROP_LICENSE_CERT + "=" + addQuotesIfNecessary(options.getLicenseCert()));
-        }
-        if (options.getLicense() != null) {
-            args.add("-D" + CloverNames.PROP_LICENSE_PATH + "=" + addQuotesIfNecessary(options.getLicense().getAbsolutePath()));
-        }
     }
 
     /**

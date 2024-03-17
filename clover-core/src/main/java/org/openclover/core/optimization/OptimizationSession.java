@@ -69,27 +69,27 @@ public class OptimizationSession {
     public void summarize() {
         if (savingsInMs <= 0) {
             Logger.getInstance().info(
-                "Clover " + (autoSummarize ? "was" : "is") + " unable to save any time on this optimized test run.");
+                "OpenClover " + (autoSummarize ? "was" : "is") + " unable to save any time on this optimized test run.");
         } else {
 
             Logger.getInstance().info(Color.make(
-                    "Clover estimates " + (autoSummarize ? "having saved" : "saving") + " around "
+                    "OpenClover estimates " + (autoSummarize ? "having saved" : "saving") + " around "
                             + new Interval(Math.max(1000, savingsInMs) / 1000, Interval.UNIT_SECOND).toSensibleString()
                             + " on this optimized test run. ").b().green() + fullTestRunMsg());
         }
 
         final String pluralTestKind = Formatting.pluralizedWord(2, optimizationOptions.getOptimizableName());
         Logger.getInstance().info(
-        "Clover " + (autoSummarize ? "included " : "is including ")
+        "OpenClover " + (autoSummarize ? "included " : "is including ")
             + Color.make(
                 optimizedTestableCount + " test "
                 + Formatting.pluralizedWord(optimizedTestableCount, optimizationOptions.getOptimizableName())).b()
             + " in this run (total # test " + pluralTestKind + " : " + originalTestableCount + ")");
         Logger.getInstance().verbose(
-            "Clover matched " + foundTestableCount + " of your " + originalTestableCount + " test " + pluralTestKind +
+            "OpenClover matched " + foundTestableCount + " of your " + originalTestableCount + " test " + pluralTestKind +
             " with those in the snapshot (optimization heuristic was applied to them)." +
             ((foundTestableCount < originalTestableCount)
-                ? " Unmatched " + pluralTestKind + " either means Clover has a bug, your build is misconfigured for test optimization or you have not instrumented your test source with Clover."
+                ? " Unmatched " + pluralTestKind + " either means OpenClover has a bug, your build is misconfigured for test optimization or you have not instrumented your test source with OpenClover."
                 : ""));
     }
 
@@ -117,7 +117,7 @@ public class OptimizationSession {
 //        sb.append('\n');
 
         final String pluralTestKind = Formatting.pluralizedWord(2, optimizationOptions.getOptimizableName());
-        sb.append("Clover ")
+        sb.append("OpenClover ")
                 .append(autoSummarize ? "included " : "is including ")
                 .append(optimizedTestableCount)
                 .append(" test ")
@@ -130,7 +130,7 @@ public class OptimizationSession {
                 .append('\n');
 
         if (foundTestableCount < originalTestableCount) {
-            sb.append("Clover matched ")
+            sb.append("OpenClover matched ")
                     .append(foundTestableCount)
                     .append(" of your ")
                     .append(originalTestableCount)
@@ -139,7 +139,7 @@ public class OptimizationSession {
                     .append(" with those registered during previous test runs (optimization heuristic was applied to them).\n")
                     .append(" Unmatched ")
                     .append(pluralTestKind)
-                    .append(" may mean your build is misconfigured for test optimization or you have not instrumented your test source with Clover.");
+                    .append(" may mean your build is misconfigured for test optimization or you have not instrumented your test source with OpenClover.");
         }
         return sb.toString();
     }

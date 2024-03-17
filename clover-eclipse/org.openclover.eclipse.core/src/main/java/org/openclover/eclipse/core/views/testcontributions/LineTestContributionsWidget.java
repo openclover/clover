@@ -10,6 +10,8 @@ import org.eclipse.ui.IMemento;
 import org.eclipse.ui.part.ViewPart;
 import org.openclover.eclipse.core.CloverPlugin;
 
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+
 public class LineTestContributionsWidget extends TestContributionsWidget {
     private static final int SYNC_DELAY_MS = 1500;
 
@@ -41,7 +43,7 @@ public class LineTestContributionsWidget extends TestContributionsWidget {
                                     testContributionsComputation.prime(editor);
                                 }
                             } catch (Exception e) {
-                                CloverPlugin.logError("Unable to update line-based test contributions", e);
+                                logError("Unable to update line-based test contributions", e);
                             }
                         });
 
@@ -67,7 +69,7 @@ public class LineTestContributionsWidget extends TestContributionsWidget {
         try {
             testContributionsComputation.join();
         } catch (InterruptedException e) {
-            CloverPlugin.logError("Failed to stop cursor listing job");
+            logError("Failed to stop cursor listing job");
         }
     }
 

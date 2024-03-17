@@ -44,7 +44,7 @@ public class CloverCanOptimizeTests extends AbstractCloverTask implements org.ap
         
         if (snapshot == null) {
             Logger.getInstance().info(
-                "Clover can't optimize test runs for this build because the snapshot file " +
+                "OpenClover can't optimize test runs for this build because the snapshot file " +
                     (snapshotFile == null
                         ? Snapshot.fileNameForInitString(config.resolveInitString())
                         : snapshotFile.getAbsolutePath())
@@ -54,7 +54,7 @@ public class CloverCanOptimizeTests extends AbstractCloverTask implements org.ap
             result = !snapshot.isTooStale(fullRunEvery, reason);
             Logger.getInstance().info(
                 result
-                    ? "Clover can optimize test runs for this build."
+                    ? "OpenClover can optimize test runs for this build."
                     : reason.toString());
         }
         return result;

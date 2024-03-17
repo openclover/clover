@@ -21,6 +21,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Set;
 
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+
 public class LineTestContributionsComputation extends TestContributionsComputation {
     private static final QualifiedName CURSOR_POSITION =
         new QualifiedName(CloverPlugin.ID, "TestContributionsCursorLocation");
@@ -101,7 +103,7 @@ public class LineTestContributionsComputation extends TestContributionsComputati
                 }
             }
         } catch (Exception e) {
-            CloverPlugin.logError("Error while syning editor and contributing tests view", e);
+            logError("Error while syncing editor and contributing tests view", e);
         }
         return Status.OK_STATUS;
     }

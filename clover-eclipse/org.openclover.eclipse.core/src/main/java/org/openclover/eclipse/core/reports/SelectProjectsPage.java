@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import static org.openclover.core.util.Lists.newArrayList;
+import static org.openclover.eclipse.core.CloverPlugin.logError;
 
 /**
  *
@@ -48,7 +49,7 @@ public class SelectProjectsPage extends WizardPage {
         Composite composite = new Composite(parent, SWT.NONE);
         composite.setLayout(new GridLayout(1, false));
 
-        new Label(composite, SWT.NONE).setText("Clover-enabled projects:");
+        new Label(composite, SWT.NONE).setText("OpenClover-enabled projects:");
         projectsTable = new Table(composite, SWT.CHECK | SWT.BORDER);
         projectsTable.setLayoutData(new GridData(GridData.FILL_VERTICAL));
         projectsTable.addSelectionListener(new SelectionAdapter() {
@@ -106,7 +107,7 @@ public class SelectProjectsPage extends WizardPage {
                 try {
                     projects.add(CloverProject.getFor((IProject) item.getData()));
                 } catch (CoreException e) {
-                    CloverPlugin.logError("Unable to coerce project into Clover project", e);
+                    logError("Unable to coerce project into OpenClover project", e);
                 }
             }
         }

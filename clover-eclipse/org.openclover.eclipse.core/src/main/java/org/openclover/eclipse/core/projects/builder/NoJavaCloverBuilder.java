@@ -18,7 +18,8 @@ public class NoJavaCloverBuilder extends IncrementalProjectBuilder {
         Markers.createCloverBuilderProblemMarker(
             getProject(),
             "Coverage might not be tracked for this project as the standard Java Builder is not used to build it. " +
-            "If you build the project with Maven/Ant instead of the Eclipse Java Builder, integrate Clover-for-Maven or Clover-for-Ant and Clover-for-Eclispe will show your coverage.",
+            "If you build the project with Maven/Ant instead of the Eclipse Java Builder, " +
+            "integrate using OpenClover Maven or Ant integration and OpenClover Eclipse plugin will show your coverage.",
             IMarker.SEVERITY_WARNING
         );
         //Delete stale db marker as we may stil flag these errors

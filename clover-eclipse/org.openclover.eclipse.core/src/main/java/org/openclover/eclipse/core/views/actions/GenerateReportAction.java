@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Set;
 
 import static org.openclover.core.util.Sets.newHashSet;
+import static org.openclover.eclipse.core.CloverPlugin.logError;
 
 public class GenerateReportAction
     extends Action
@@ -74,7 +75,7 @@ public class GenerateReportAction
             try {
                 shouldShow |= CloverProject.isAppliedTo(project);
             } catch (CoreException e) {
-                CloverPlugin.logError("Error checking whether to enable report button", e);
+                logError("Error checking whether to enable report button", e);
             }
         }
         setEnabled(shouldShow);
@@ -98,7 +99,7 @@ public class GenerateReportAction
             dialog.create();
             dialog.open();
         } catch (Exception e) {
-            CloverPlugin.logError("Unable to launch report wizard", e);
+            logError("Unable to launch report wizard", e);
         }
     }
 

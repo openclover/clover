@@ -107,7 +107,7 @@ public class CloverDatabase {
 
 
         if (name == null) {
-            name = "Clover database " + Formatting.formatDate(new Date(registry.getVersion()));
+            name = "OpenClover database " + Formatting.formatDate(new Date(registry.getVersion()));
         }
 
         registry.getProject().setName(name);
@@ -125,7 +125,7 @@ public class CloverDatabase {
         registry =
             new Clover2Registry(
                 regFile, readOnly ? RegAccessMode.READONLY : RegAccessMode.READWRITE,
-                name == null ? ("Clover database " + Formatting.formatDate(new Date(registry.getVersion()))) : name);
+                name == null ? ("OpenClover database " + Formatting.formatDate(new Date(registry.getVersion()))) : name);
         data = new CoverageData(registry);
         collator = new CoverageDataCollator(registry, spec);
         registry.getProject().setDataProvider(data);
@@ -366,7 +366,8 @@ public class CloverDatabase {
             try {
                 mergingDb = new CloverDatabase(spec.getInitString());
             } catch (CorruptedRegistryException | NoSuchRegistryException e) {
-                Logger.getInstance().info(String.format("File %s doesn't seem to be Clover database, ignoring it.", spec.getInitString()));
+                Logger.getInstance().info(String.format("File %s doesn't seem to be OpenClover database, ignoring it.",
+                        spec.getInitString()));
             }
             speccedDbs.put(spec, mergingDb);
         }

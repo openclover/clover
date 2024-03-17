@@ -1,23 +1,17 @@
 package org.openclover.core.reporters;
 
 import org.openclover.core.CloverDatabase;
-import org.openclover.core.CloverStartup;
 import org.openclover.core.reporters.html.HtmlReportUtil;
 import org.openclover.core.reporters.html.HtmlReporter;
 import org.openclover.core.reporters.json.JSONReporter;
 import org.openclover.core.reporters.pdf.PDFReporter;
 import org.openclover.core.reporters.xml.XMLReporter;
-import org.openclover.runtime.Logger;
 import org.openclover.runtime.api.CloverException;
 
 /**
  * A class that allows production of all the "hardcopy" clover reports
  */
 public abstract class CloverReporter {
-
-    protected static void loadLicense() {
-        CloverStartup.loadLicense(Logger.getInstance());
-    }
 
     protected final CloverDatabase database;
     protected final CloverReportConfig reportConfig;

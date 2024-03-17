@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.Set;
 
 import static org.openclover.core.util.Sets.newHashSet;
+import static org.openclover.eclipse.core.CloverPlugin.logError;
 
 public class CoverageAnnotationFilter {
     public static final QualifiedName EXCLUDED_TEST_NAMES = new QualifiedName(CloverPlugin.ID, "CoverageAnnotationExcludedTestNames");
@@ -184,7 +185,7 @@ public class CoverageAnnotationFilter {
                         }
                     }
                 } catch (CoreException e) {
-                    CloverPlugin.logError("Unable to query filtered out test ids/classes for " + editedResource, e);
+                    logError("Unable to query filtered out test ids/classes for " + editedResource, e);
                 }
             }
             return new TestFilter(testIds, testClasses);
@@ -208,7 +209,7 @@ public class CoverageAnnotationFilter {
 
                 editedResource.setSessionProperty(propertyName, value.toString());
             } catch (CoreException e) {
-                CloverPlugin.logError("Unable to save test ids/classes for " + editedResource, e);
+                logError("Unable to save test ids/classes for " + editedResource, e);
             }
         }
 
@@ -216,7 +217,7 @@ public class CoverageAnnotationFilter {
             try{
                 resource.setSessionProperty(name, null);
             } catch (CoreException e) {
-                CloverPlugin.logError("Unable to remove test names for " + resource, e);
+                logError("Unable to remove test names for " + resource, e);
             }
         }
 

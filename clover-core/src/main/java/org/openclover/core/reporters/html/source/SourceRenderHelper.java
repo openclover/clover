@@ -79,7 +79,7 @@ public class SourceRenderHelper {
             }
         } catch (FileNotFoundException e) {
             Logger.getInstance().error(e);
-            putErrorMessage(context, "Clover could not read the source file \"" + fileInfo.getPhysicalFile().getAbsolutePath() + "\"");
+            putErrorMessage(context, "OpenClover could not read the source file \"" + fileInfo.getPhysicalFile().getAbsolutePath() + "\"");
         } catch (Exception e) {
             Logger.getInstance().error(e);
             putErrorMessage(context, RenderMessages.FAILED_RENDERING);

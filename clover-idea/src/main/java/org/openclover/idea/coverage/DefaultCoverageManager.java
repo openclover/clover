@@ -493,7 +493,7 @@ public class DefaultCoverageManager implements CoverageManager, AcceptsCoverageT
         private final AcceptsCoverageTreeModel recipient;
 
         public CancellableReloadTaskDelegate(CoverageTreeModel newModel, AcceptsCoverageTreeModel recipient) {
-            super("Loading Clover coverage database");
+            super("Loading OpenClover coverage database");
             this.newModel = newModel;
             this.recipient = recipient;
         }

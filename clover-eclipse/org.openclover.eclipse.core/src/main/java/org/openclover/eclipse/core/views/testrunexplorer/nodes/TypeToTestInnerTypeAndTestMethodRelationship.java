@@ -16,6 +16,7 @@ import org.openclover.eclipse.core.views.nodes.Nodes;
 import java.util.List;
 
 import static org.openclover.core.util.Lists.newLinkedList;
+import static org.openclover.eclipse.core.CloverPlugin.logError;
 
 public class TypeToTestInnerTypeAndTestMethodRelationship extends NodeRelationship {
 
@@ -44,7 +45,7 @@ public class TypeToTestInnerTypeAndTestMethodRelationship extends NodeRelationsh
                         children,
                         new Nodes.ToTestCaseNodeCoverter(tcnFactory)));
         } catch (CoreException e) {
-            CloverPlugin.logError("Unable to collect inner-types in type " + object, e);
+            logError("Unable to collect inner-types in type " + object, e);
             return new Object[] {};
         }
     }
@@ -73,7 +74,7 @@ public class TypeToTestInnerTypeAndTestMethodRelationship extends NodeRelationsh
             }
 
         } catch (JavaModelException e) {
-            CloverPlugin.logError("Unable to count inner-types in type " + object, e);
+            logError("Unable to count inner-types in type " + object, e);
         }
         return Boolean.FALSE;
     }

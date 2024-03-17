@@ -158,8 +158,8 @@ public class Snapshot implements Serializable {
         Logger.getInstance().verbose("Took " + (System.currentTimeMillis() - started) + "ms to process all test durations");
         if (testCount == 0) {
             Logger.getInstance().verbose(
-                "No test results found in the Clover database. Please ensure the source files containing test "
-                 + "classes have been instrumented by Clover and the tests have been run.");
+                "No test results found in the OpenClover database. Please ensure the source files containing test "
+                 + "classes have been instrumented by OpenClover and the tests have been run.");
         } else {
             Logger.getInstance().verbose(
                 "Number of test results found in the model: " + testCount);
@@ -307,7 +307,8 @@ public class Snapshot implements Serializable {
                 }
             } catch (InvalidClassException e) {
                 Logger.getInstance().debug("Failed to load snapshot file at " + file.getAbsolutePath(), e);
-                Logger.getInstance().warn("Failed to load snapshot file at " + file.getAbsolutePath() + " because it is no longer valid for this version of Clover");
+                Logger.getInstance().warn("Failed to load snapshot file at " + file.getAbsolutePath() +
+                        " because it is no longer valid for this version of OpenClover");
             } catch (Exception e) {
                 Logger.getInstance().debug("Failed to load snapshot file at " + file.getAbsolutePath(), e);
                 Logger.getInstance().warn("Failed to load snapshot file at " + file.getAbsolutePath());

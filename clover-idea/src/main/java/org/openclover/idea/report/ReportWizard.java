@@ -284,7 +284,7 @@ public class ReportWizard {
 
 
     private static void generateReport(Project project, final CloverReportConfig reportConfig) {
-        final String title = "Generating " + reportConfig.getFormat().getType() + " Clover report";
+        final String title = "Generating " + reportConfig.getFormat().getType() + " OpenClover report";
         final String description = title + " '" + reportConfig.getTitle() + "' to " + reportConfig.getOutFile();
 
 
@@ -309,13 +309,13 @@ public class ReportWizard {
             @Override
             public void onSuccess() {
                 if (reportGenerationException == null) {
-                    MessageDialogs.showInfoMessage(null, "Your Clover report has been generated and " +
+                    MessageDialogs.showInfoMessage(null, "Your OpenClover report has been generated and " +
                             "written to " + reportConfig.getOutFile().getAbsolutePath(),
                             "Generation confirmation.");
                 } else {
                     LOG.info(reportGenerationException);
-                    MessageDialogs.showErrorMessage(null, "The following error has occured while " +
-                            "generating the Clover report:\n" + reportGenerationException.getMessage(),
+                    MessageDialogs.showErrorMessage(null, "The following error has occurred while " +
+                            "generating the OpenClover report:\n" + reportGenerationException.getMessage(),
                             "Error generating report.");
                 }
 

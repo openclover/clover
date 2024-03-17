@@ -27,12 +27,11 @@ public class RecorderInstrEmitter extends Emitter {
     static final String CASE_INC_METHOD = "caseInc";
 
     private static final String INCOMPATIBLE_MSG =
-            "[CLOVER] WARNING: The Clover version used in instrumentation shall match the runtime version.";
+            "WARNING: The OpenClover version used in instrumentation shall match the runtime version.";
     private static final String DEFAULT_CLASSNOTFOUND_MSG =
-            "[CLOVER] FATAL ERROR: Clover could not be initialised. Are you " +
-                    "sure you have Clover in the runtime classpath?";
+            "ERROR: OpenClover could not be initialised. Are you sure you have OpenClover in the runtime classpath?";
     private static final String UNEXPECTED_MSG =
-            "[CLOVER] FATAL ERROR: Clover could not be initialised because of an unexpected error.";
+            "ERROR: OpenClover could not be initialised because of an unexpected error.";
 
     private boolean isEnum;
     private boolean reportInitErrors;
@@ -149,7 +148,7 @@ public class RecorderInstrEmitter extends Emitter {
                         + (shouldEmitWarningMethod ? ($CloverVersionInfo$oldVersionInClasspath() + ";") : "")
                         + "if(" + CloverVersionInfo.getBuildStamp() + "L!="
                         + $CloverVersionInfo$getBuildStamp() + ")" + "{" + $Clover$l("\"" + INCOMPATIBLE_MSG + "\"") + ";"
-                        + $Clover$l("\"[CLOVER] WARNING: Instr=" + CloverVersionInfo.getReleaseNum()
+                        + $Clover$l("\"WARNING: Instr=" + CloverVersionInfo.getReleaseNum()
                         + "#" + CloverVersionInfo.getBuildStamp() + ",Runtime=\"+"
                         + $CloverVersionInfo$getReleaseNum() + "+\"#\"+" + $CloverVersionInfo$getBuildStamp()) + ";}";
             }
@@ -300,7 +299,7 @@ public class RecorderInstrEmitter extends Emitter {
                 .append(recorderSuffix)
                 .append(".inc(si);")
                 .append("try{return m.invoke(l,a);}catch(java.lang.reflect.InvocationTargetException e){")
-                .append("throw e.getCause()!=null?e.getCause():new RuntimeException(\"Clover failed to invoke instrumented lambda\",e);")
+                .append("throw e.getCause()!=null?e.getCause():new RuntimeException(\"OpenClover failed to invoke instrumented lambda\",e);")
                 .append("}}};")
                 .append("return (I)java.lang.reflect.Proxy.newProxyInstance(l.getClass().getClassLoader(),l.getClass().getInterfaces(),h);")
                 .append("}");

@@ -45,6 +45,11 @@ import java.util.Set;
 
 import static org.openclover.core.util.Lists.newArrayList;
 import static org.openclover.core.util.Lists.newLinkedList;
+import static org.openclover.eclipse.core.CloverPlugin.logAndThrowError;
+import static org.openclover.eclipse.core.CloverPlugin.logDebug;
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+import static org.openclover.eclipse.core.CloverPlugin.logInfo;
+import static org.openclover.eclipse.core.CloverPlugin.logVerbose;
 
 public class BuildCoordinator {
     private static final int TOTAL_COMPILATION_PROGRESS = 1000;
@@ -74,17 +79,17 @@ public class BuildCoordinator {
 
     private boolean isPreserveInstrumentedSources() {
         boolean preserve = CloverPlugin.getInstance().getInstallationSettings().isPreserveInstrumentedSources();
-        CloverPlugin.logVerbose("Instrumented sources will " + (preserve ? "" : "not" ) + " be preserved in temporary directory.");
+        logVerbose("Instrumented sources will " + (preserve ? "" : "not" ) + " be preserved in temporary directory.");
         return preserve;
     }
 
     public void onEndOfBuild(final int buildKind, final IProgressMonitor monitor) throws CoreException {
         final Set dirtyFiles = project.getFilesNeedingCloverCompile();
 
-        monitor.beginTask("Compiling with Clover", TOTAL_COMPILATION_PROGRESS);
+        monitor.beginTask("Compiling with OpenClover", TOTAL_COMPILATION_PROGRESS);
         try {
             if (shouldBuild(dirtyFiles)) {
-                monitor.subTask("Waiting for Clover model to load");
+                monitor.subTask("Waiting for OpenClover model to load");
                 CloverDatabase database = project.joinOnLoad(monitor);
                 if (database != null) {
                     final Clover2Registry registry;
@@ -121,14 +126,14 @@ public class BuildCoordinator {
                                 File copyArea = createInstrSourcesCopyWorkArea();
                                 try {
                                     FileUtils.dirCopy(workArea, copyArea, false);
-                                    CloverPlugin.logInfo("CLOVER: Instrumented sources have been preserved in " + copyArea.getAbsolutePath());
+                                    logInfo("Instrumented sources have been preserved in " + copyArea.getAbsolutePath());
                                 } catch (IOException ex) {
-                                    CloverPlugin.logInfo("CLOVER: Failed to copy instrumented sources from "
+                                    logInfo("Failed to copy instrumented sources from "
                                             + workArea.getAbsolutePath() + " to "
                                             + copyArea.getAbsolutePath());
                                 }
                             } else {
-                                CloverPlugin.logDebug("Removing instrumented sources from " + workArea.getAbsolutePath());
+                                logDebug("Removing instrumented sources from " + workArea.getAbsolutePath());
                                 removeWorkArea(workArea, monitor1);
                             }
                         }
@@ -183,11 +188,11 @@ public class BuildCoordinator {
                                         Set<IFile> filesNeedingCompile,
                                         IProgressMonitor monitor,
                                         int buildKind) throws CoreException {
-        monitor.beginTask("Clover: Instrumenting project source", 10);
+        monitor.beginTask("OpenClover: Instrumenting project source", 10);
         try {
             if (filesNeedingCompile.size() > 0) {
                 boolean successful = true;
-                CloverPlugin.logVerbose("Starting instrumentation");
+                logVerbose("Starting instrumentation");
 
                 long start = System.currentTimeMillis();
 
@@ -208,7 +213,7 @@ public class BuildCoordinator {
                             //We don't do a big song and dance here as it could just be
                             //that one of the instrumented source files had a typo
                             //and Eclipse just shows problem markers
-                            CloverPlugin.logVerbose("Instrumenting file " + file + " failed, syntax error in original source?", e);
+                            logVerbose("Instrumenting file " + file + " failed, syntax error in original source?", e);
                             successful = false;
                         }
                     }
@@ -216,7 +221,7 @@ public class BuildCoordinator {
 
                 if (!monitor.isCanceled()) {
                     instrumenter.finish(successful);
-                    CloverPlugin.logVerbose("Ending instrumentation, took " + (System.currentTimeMillis() - start) + "ms");
+                    logVerbose("Ending instrumentation, took " + (System.currentTimeMillis() - start) + "ms");
                     return instrumenter;
                 }
             }
@@ -232,7 +237,7 @@ public class BuildCoordinator {
             File tempFolder = project.getWorkingPath().toFile();
             return FileUtils.createTempDir("CLOV", tempFolder);
         } catch (IOException e) {
-            throw CloverPlugin.logAndThrowError("Unable to create working folder", e);
+            throw logAndThrowError("Unable to create working folder", e);
         }
     }
 
@@ -250,8 +255,8 @@ public class BuildCoordinator {
 
     private void compile(InstrumentationProjectPathMap workAreaPathMap, BaseInstrumenter instrumenter, IProgressMonitor monitor) throws CoreException {
         if (instrumenter != null && !monitor.isCanceled()) {
-            monitor.subTask("Compiling Clover-instrumented source");
-            CloverPlugin.logVerbose("Starting instrumented compilation");
+            monitor.subTask("Compiling OpenClover-instrumented source");
+            logVerbose("Starting instrumented compilation");
             long start = System.currentTimeMillis();
 
             try {
@@ -276,7 +281,7 @@ public class BuildCoordinator {
                 addEncodingParam(command);
                 addSourceFilesToCompile(instrumenter, command);
 
-                CloverPlugin.logVerbose("Running compilation command: " + command);
+                logVerbose("Running compilation command: " + command);
                 final File outFile = File.createTempFile("cloverCompilationLog", ".out");
                 outFile.deleteOnExit();
                 final PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(outFile)));
@@ -285,21 +290,21 @@ public class BuildCoordinator {
                 final PrintWriter err = new PrintWriter(new BufferedWriter(new FileWriter(errFile)));
                 try {
                     if (!new CloverCompiler(out, err, instrumenter, workAreaPathMap, monitor)
-                            .compile(command.toArray(new String[command.size()]))) {
-                        CloverPlugin.logVerbose("Instrumented compilation returned false");
-                        CloverPlugin.logVerbose("Instrumented compilation out: " + outFile.getAbsolutePath());
-                        CloverPlugin.logVerbose("Instrumented compilation error: " + errFile.getAbsolutePath());
+                            .compile(command.toArray(new String[0]))) {
+                        logVerbose("Instrumented compilation returned false");
+                        logVerbose("Instrumented compilation out: " + outFile.getAbsolutePath());
+                        logVerbose("Instrumented compilation error: " + errFile.getAbsolutePath());
                     }
                 } finally {
                     out.close();
                     err.close();
                 }
             } catch (Exception e) {
-                CloverPlugin.logError("Error compiling instrumented source", e);
+                logError("Error compiling instrumented source", e);
             }
-            CloverPlugin.logVerbose("Ending instrumented compilation, took " + (System.currentTimeMillis() - start) + "ms");
+            logVerbose("Ending instrumented compilation, took " + (System.currentTimeMillis() - start) + "ms");
         } else {
-            CloverPlugin.logVerbose("Not performing instrumented compilation - nothing to do or compilation cancelled");
+            logVerbose("Not performing instrumented compilation - nothing to do or compilation cancelled");
         }
         monitor.worked(COMPILATION_PROGRESS);
     }
@@ -468,7 +473,7 @@ public class BuildCoordinator {
     }
 
     private void removeWorkArea(File lastCompilationDir, IProgressMonitor monitor) {
-        CloverPlugin.logDebug("Deleting class files in " + lastCompilationDir);
+        logDebug("Deleting class files in " + lastCompilationDir);
         lastCompilationDir.listFiles(new FileFilter() {
             @Override
             public boolean accept(File file) {
@@ -500,7 +505,7 @@ public class BuildCoordinator {
             final MessageDialogWithCheckbox.Result result = new MessageDialogWithCheckbox.Result();
             Display.getDefault().syncExec(() -> MessageDialogWithCheckbox.openQuestion(
                 null,
-                "Delete existing Clover coverage data?",
+                "Delete existing OpenClover coverage data?",
                 "You are doing a rebuild, do you want delete the old coverage data for project \"" + project.getName() + "\"?",
                 true,
                 "Display this prompt again?", true,
@@ -532,14 +537,14 @@ public class BuildCoordinator {
                         });
             }
         } catch (Exception e) {
-            CloverPlugin.logError("Unable to clean Clover output directory", e);
+            logError("Unable to clean OpenClover output directory", e);
         }
     }
 
     private void nukeCoverageData(boolean shouldClearCoverage, IProgressMonitor monitor) {
         //First nuke coverage data
         if (shouldClearCoverage) {
-            CloverPlugin.logVerbose("Clearing coverage information");
+            logVerbose("Clearing coverage information");
             CoverageFilesUtils.deleteCoverageFiles(project.getRegistryFile(), true, monitor);
         }
     }

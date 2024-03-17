@@ -10,6 +10,9 @@ import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.views.actions.OpenJavaEditorAction;
 
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+import static org.openclover.eclipse.core.CloverPlugin.logVerbose;
+
 public class EditorLinkingLocationListener implements LocationListener {
     public static final String JAVAEDITOR_HREF_PREFIX = "#javaeditor:";
 
@@ -30,7 +33,7 @@ public class EditorLinkingLocationListener implements LocationListener {
 
     @Override
     public void changing(LocationEvent locationEvent) {
-        CloverPlugin.logVerbose("Browser link click: " + locationEvent.location);
+        logVerbose("Browser link click: " + locationEvent.location);
         int pos = locationEvent.location.indexOf(JAVAEDITOR_HREF_PREFIX);
         if (pos != -1) {
             String className = locationEvent.location.substring(pos + JAVAEDITOR_HREF_PREFIX.length());
@@ -41,7 +44,7 @@ public class EditorLinkingLocationListener implements LocationListener {
                     action.run(new StructuredSelection(type));
                 }
             } catch (CoreException e) {
-                CloverPlugin.logError("Unable to open source for cloud link: " + locationEvent.location, e);
+                logError("Unable to open source for cloud link: " + locationEvent.location, e);
             }
         }
     }

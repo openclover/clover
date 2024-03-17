@@ -78,8 +78,8 @@ public class JUnitClassListProcessor {
     Collection<Optimizable> optimize(@NotNull final Project project, @NotNull OptimizedConfigurationSettings settings, @NotNull List<Optimizable> optimizables, OptimizationSession[] sessionHolder) {
         final CloverDatabase database = ProjectPluginViaReflection.getPlugin(project).getCoverageManager().getCoverage();
         if (database == null) {
-            final String msg = "Clover coverage database not found for project '" + project.getName() + "'\n\n"
-                    + "Have you enabled Build with Clover on this project?";
+            final String msg = "OpenClover coverage database not found for project '" + project.getName() + "'\n\n"
+                    + "Have you enabled Build with OpenClover on this project?";
             Logger.getInstance().info(msg);
             ApplicationManager.getApplication().invokeLater(() ->
                     ToolWindowManager

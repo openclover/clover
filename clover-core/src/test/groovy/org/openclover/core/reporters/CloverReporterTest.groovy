@@ -1,20 +1,15 @@
 package org.openclover.core.reporters
 
 import junit.framework.TestCase
-import org.openclover.core.CloverLicense
-import org.openclover.core.CloverLicenseDecoder
-import org.openclover.core.CloverStartup
 import org.openclover.core.TestUtils
 import org.openclover.core.registry.Clover2Registry
 import org.openclover.runtime.CloverNames
-import org.openclover.runtime.Logger
 import org.openclover.runtime.api.CloverException
 import org_openclover_runtime.Clover
 
 class CloverReporterTest extends TestCase {
     void setUp() {
         Clover.resetRecorders()
-        setUpLicense()
     }
 
     void testReportCompletesIfOutOfVmCoverageRecording() throws Exception {
@@ -66,19 +61,6 @@ class CloverReporterTest extends TestCase {
         outFile.delete()
         cfg.setOutFile(outFile)
         return cfg
-    }
-
-    private void setUpLicense() {
-        CloverStartup.setLicenseLoader(new CloverStartup.LicenseLoader() {
-            CloverLicense loadLicense(Logger log) {
-                try {
-                    return CloverLicenseDecoder.decode("")
-                } catch (Exception e) {
-                    return null
-                }
-            }
-        })
-        CloverStartup.loadLicense(Logger.getInstance(), true)
     }
 
     private void createNewRegistry(File dbFile) throws IOException, CloverException {

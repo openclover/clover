@@ -15,7 +15,7 @@ public class CoverageClearerModelDecorator implements DatabasePreLoadDecorator {
 
         CoverageFilesUtils.deleteCoverageFiles(coverageDbFile, false, monitor);
 
-        monitor.subTask("Refreshing Clover working directory");
+        monitor.subTask("Refreshing OpenClover working directory");
 
         IFile coverageDb = project.getCoverageDbIFile();
         if (coverageDb != null && coverageDb.getParent().exists()) {

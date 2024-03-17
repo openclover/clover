@@ -139,13 +139,14 @@ public class UpdatableRegFile extends RegFile<UpdatableRegFile> {
     private static File ensureFileAccessible(File file) throws NoSuchRegistryException, InaccessibleRegFileException {
         final File absFile = file.getAbsoluteFile();
         if (!absFile.exists()) {
-            throw new NoSuchRegistryException("Clover registry file: ${file} does not exist. Please ensure Clover has "
+            throw new NoSuchRegistryException("OpenClover database ${file} does not exist. Please ensure OpenClover has "
                     + "instrumented your source files. You may need to remove existing .class files for this to occur.",
                     absFile);
         } else if (!absFile.isFile()) {
-            throw new InaccessibleRegFileException("Clover registry file: " + absFile.getAbsolutePath() + " is not a file.");
+            throw new InaccessibleRegFileException("OpenClover database " + absFile.getAbsolutePath() + " is not a file.");
         } else if (!absFile.canRead()) {
-            throw new InaccessibleRegFileException("Clover registry file: " + absFile.getAbsolutePath() + " can not be read by Clover. Please ensure read/write access is granted to this file.");
+            throw new InaccessibleRegFileException("OpenClover database " + absFile.getAbsolutePath() +
+                    " can not be read. Please ensure read/write access is granted to this file.");
         }
         return absFile;
     }

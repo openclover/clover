@@ -283,10 +283,11 @@ public class Grover implements ASTTransformation {
                 Logger.getInstance().verbose("Loading config from " + configURL);
                 config = InstrumentationConfig.loadFromStream(configURL.openStream());
             } else {
-                Logger.getInstance().verbose("Clover-for-Groovy was unable to locate its configuration from resource " + configResourceName + ". Instrumentation and code coverage tracking will not occur for this build.");
+                Logger.getInstance().verbose("OpenClover Groovy integration was unable to locate its configuration from resource "
+                        + configResourceName + ". Instrumentation and code coverage tracking will not occur for this build.");
             }
         } catch (Throwable t) {
-            Logger.getInstance().error("Clover-for-Groovy encountered an error while loading config: ", t);
+            Logger.getInstance().error("OpenClover Groovy integration encountered an error while loading config: ", t);
         }
 
         return config;
@@ -333,7 +334,7 @@ public class Grover implements ASTTransformation {
                 }
             }
         } catch (Exception e) {
-            final RuntimeException re = new RuntimeException("Clover-for-Groovy failed to instrument Groovy source: " + getSourceUnitFile(sourceUnit), e);
+            final RuntimeException re = new RuntimeException("OpenClover Groovy integration failed to instrument Groovy source: " + getSourceUnitFile(sourceUnit), e);
             Logger.getInstance().error(re.getMessage(), re);
             throw re;
         }

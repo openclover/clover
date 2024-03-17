@@ -8,6 +8,8 @@ import org.eclipse.jface.action.IAction;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
 
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+
 public class ToggleSingleCloverProjectNatureActionDelegate
     extends SingleCloverProjectActionDelegate {
 
@@ -34,7 +36,7 @@ public class ToggleSingleCloverProjectNatureActionDelegate
                 CloverPlugin.getInstance().showViews(getPage());
             }
         } catch (CoreException e) {
-            CloverPlugin.logError("Unable to show views after toggling Clover", e);
+            logError("Unable to show views after toggling OpenClover", e);
         }
     }
 

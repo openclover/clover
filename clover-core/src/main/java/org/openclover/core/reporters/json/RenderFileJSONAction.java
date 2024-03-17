@@ -58,7 +58,7 @@ public class RenderFileJSONAction extends RenderFileAction {
             HtmlReportUtil.mergeTemplateToFile(apiJsonOutfile, velocity,
                     "api-json.vm");
         } catch (Exception e) {
-            Logger.getInstance().error("Invalid Java source found or Clover failed to parse it: " + fileInfo.getPhysicalFile().getAbsolutePath(), e);
+            Logger.getInstance().error("Invalid Java source found or OpenClover failed to parse it: " + fileInfo.getPhysicalFile().getAbsolutePath(), e);
         }
     }
 

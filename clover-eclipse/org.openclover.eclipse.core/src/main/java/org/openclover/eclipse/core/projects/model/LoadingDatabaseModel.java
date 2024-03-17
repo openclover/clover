@@ -17,6 +17,8 @@ import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.eclipse.core.CloverPlugin;
 
+import static org.openclover.eclipse.core.CloverPlugin.logVerbose;
+
 public class LoadingDatabaseModel
     extends VolatileDatabaseModel {
 
@@ -49,16 +51,16 @@ public class LoadingDatabaseModel
     public boolean isRegistryOfDate() { return false; }
 
     protected void onLoadOK(IJobChangeEvent event) {
-        CloverPlugin.logVerbose("Database load succeeded for project " + project.getName());
+        logVerbose("Database load succeeded for project " + project.getName());
 
-        CloverPlugin.logVerbose("Attempting to set coverage model to loaded for project " + project.getName());
+        logVerbose("Attempting to set coverage model to loaded for project " + project.getName());
         final boolean includeFailedCoverage = CloverPlugin.getInstance().getInstallationSettings().isIncludeFailedCoverage();
         project.compareAndSetModel(this,
                 new LoadedDatabaseModel(project, ((LoadDatabaseJob)event.getJob()).getDatabase(), changeEvent, includeFailedCoverage) );
     }
 
     protected void onLoadNotOK(IJobChangeEvent event) {
-        CloverPlugin.logVerbose("Database load failed: " + (event.getResult() == null ? "unknown reason" : event.getResult().getMessage()));
+        logVerbose("Database load failed: " + (event.getResult() == null ? "unknown reason" : event.getResult().getMessage()));
 
         final CloverDatabase database = ((LoadDatabaseJob)event.getJob()).getDatabase();
         final boolean includeFailedCoverage = CloverPlugin.getInstance().getInstallationSettings().isIncludeFailedCoverage();
@@ -88,7 +90,7 @@ public class LoadingDatabaseModel
                 }
             }
         );
-        CloverPlugin.logVerbose("Starting database load for " + this);
+        logVerbose("Starting database load for " + this);
         loadingJob.schedule();
     }
 
@@ -122,7 +124,7 @@ public class LoadingDatabaseModel
     public void onDeactication(DatabaseModel successor) {
         if (loadingJob != null) {
             if (loadingJob.getState() != Job.NONE) {
-                CloverPlugin.logVerbose("Cancelling database load for " + this);
+                logVerbose("Cancelling database load for " + this);
             }
             Job.getJobManager().cancel(loadingJob);
         }

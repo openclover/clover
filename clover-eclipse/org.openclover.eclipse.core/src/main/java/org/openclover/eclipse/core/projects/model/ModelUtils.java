@@ -14,6 +14,8 @@ import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
 
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+
 public class ModelUtils {
     public static final int SEARCH_SELF_AND_DEPENDENTS = -1;
     public static final int SEARCH_SELF = 0;
@@ -42,7 +44,7 @@ public class ModelUtils {
                     }
                 }
             } catch (CoreException e) {
-                CloverPlugin.logError("Unable to look up test case class", e);
+                logError("Unable to look up test case class", e);
             }
         }
         return type;

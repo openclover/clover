@@ -41,7 +41,7 @@ public abstract class Logger {
                 setVerbose(true);
             }
         } catch (SecurityException e) {
-            System.err.println("Security exception trying to initialise Clover logging: " + e.getMessage());
+            System.err.println("Security exception trying to initialise OpenClover logging: " + e.getMessage());
             e.printStackTrace();
         }
     }

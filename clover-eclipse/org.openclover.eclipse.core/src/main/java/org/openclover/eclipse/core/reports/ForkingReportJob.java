@@ -33,6 +33,7 @@ import java.util.Collection;
 import java.util.List;
 
 import static org.openclover.core.util.Lists.newArrayList;
+import static org.openclover.eclipse.core.CloverPlugin.logVerbose;
 
 public abstract class ForkingReportJob extends ReportJob {
     private static final long POLL_INTERVAL = 1000;
@@ -172,7 +173,7 @@ public abstract class ForkingReportJob extends ReportJob {
                 return Status.OK_STATUS;
             }
         } catch (Throwable e) {
-            return new Status(Status.ERROR, CloverPlugin.ID, 0, "Clover failed to generate the report", e);
+            return new Status(Status.ERROR, CloverPlugin.ID, 0, "OpenClover failed to generate the report", e);
         }
     }
 
@@ -192,7 +193,7 @@ public abstract class ForkingReportJob extends ReportJob {
     }
 
     protected ILaunch buildAndLaunchForkedReporter(IProgressMonitor monitor) throws Exception {
-        ILaunchConfigurationWorkingCopy launchConfigCopy = launchConfigFor("Clover Reports");
+        ILaunchConfigurationWorkingCopy launchConfigCopy = launchConfigFor("OpenClover Reports");
 
         bindCloverRequiredClasspath(launchConfigCopy);
         bindCloverRequiredJvm(launchConfigCopy);
@@ -200,7 +201,7 @@ public abstract class ForkingReportJob extends ReportJob {
         bindMainClassName(launchConfigCopy, ForkingReporter.class.getName());
         bindMainClassArguments(launchConfigCopy, calculateProgramArgs());
 
-        CloverPlugin.logVerbose(
+        logVerbose(
             "Launching report VM with args: " + launchConfigCopy.getAttributes().toString());
 
         launchConfigCopy.doSave();

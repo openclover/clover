@@ -23,7 +23,7 @@ public class GenerateSnapshotDelegate extends AbstractJavaLaunchConfigurationDel
         } catch (IOException e) {
             TestOptimizationPlugin.logWarning("Error storing created snapshot file", e);
         } catch (CloverException e) {
-            TestOptimizationPlugin.logWarning("Error loading Clover database", e);
+            TestOptimizationPlugin.logWarning("Error loading OpenClover database", e);
         }
     }
 }

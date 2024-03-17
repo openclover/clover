@@ -94,14 +94,8 @@ public class Format {
         this.pageSize = pageSize;
     }
 
-
     public void setType(String type) {
         this.type = Type.valueOf(type.toUpperCase(Locale.ENGLISH));
-    }
-
-    public void setReportStyle(String reportStyle) {
-        //TODO remove CLOV-1795
-        Logger.getInstance().warn("Since Clover 4.1.0 the report style attribute is deprecated and will be removed in a future major release.");
     }
 
     public void setBw(boolean bw) {

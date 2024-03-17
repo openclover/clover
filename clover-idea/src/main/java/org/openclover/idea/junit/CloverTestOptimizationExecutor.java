@@ -7,7 +7,7 @@ import org.openclover.idea.util.ui.CloverIcons;
 import javax.swing.Icon;
 
 public class CloverTestOptimizationExecutor extends DefaultRunExecutor {
-    public static final String EXECUTOR_ID = "Clover Test Optimization";
+    public static final String EXECUTOR_ID = "OpenClover Test Optimization";
 
     @NotNull
     @Override
@@ -40,7 +40,7 @@ public class CloverTestOptimizationExecutor extends DefaultRunExecutor {
 
     @Override
     public String getDescription() {
-        return "Run selected tests optimized with Clover";
+        return "Run selected tests optimized with OpenClover";
     }
 
     @Override

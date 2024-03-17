@@ -20,6 +20,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static org.openclover.core.util.Lists.newArrayList;
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+import static org.openclover.eclipse.core.CloverPlugin.logVerbose;
 
 public class ConfigUninstaller {
     private static final String EXTENSION_REGEX = "^(\\s)*osgi\\.framework\\.extensions(\\s)*=(\\s)*(.*)$";
@@ -28,14 +30,14 @@ public class ConfigUninstaller {
     private static final String EXTENSION_LINE_START = "osgi.framework.extensions=";
     private static final String CSV_TRIMMED_SEP = "(\\s)*,(\\s)*";
     private static final String HOOK_ID = "org.openclover.eclipse.hooks";
-    private static final String MESSAGEBOX_UNINSTALL_TITLE = "Clover JDT Hooks Uninstallation";
+    private static final String MESSAGEBOX_UNINSTALL_TITLE = "OpenClover JDT Hooks Uninstallation";
     private static final String ALREADY_UNINSTALLED_HOOK_THIS_SESSION_PROPERTY = "clover.eclipse.hook.already.uninstalled.this.session";
-    private static final String MESSAGEBOX_TITLE = "Clover JDT Hooks Uninstaller";
+    private static final String MESSAGEBOX_TITLE = "OpenClover JDT Hooks Uninstaller";
     private static final String PERMISSION_TEXT =
-            "Clover must update the config.ini configuration file of your Eclipse installation.\n\n" +
-                    "Click Proceed to allow Clover to perform this action or click Skip if you wish to\n" +
+            "OpenClover must update the config.ini configuration file of your Eclipse installation.\n\n" +
+                    "Click Proceed to allow OpenClover to perform this action or click Skip if you wish to\n" +
                     "perform this yourself. Instructions on how to do this are provided within the \n" +
-                    "online Clover Eclipse documentation.";
+                    "online OpenClover Eclipse documentation.";
 
     private void patchConfigIni(File configIni, File configIniBackup) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(configIni));
@@ -99,16 +101,16 @@ public class ConfigUninstaller {
                     configAreaUrl = new URL(System.getProperty(OSGI_CONFIG_AREA_PROPERTY));
                 } catch (MalformedURLException e) {
                     throw new ConfigUpdateAbortedException(
-                            "Clover was unable to locate your Eclipse configuration directory.\n" +
-                                    "No configuration updates were performed. Please contact support - " + CloverVersionInfo.ATLASSIAN_COM_SUPPORT_RESOURCES,
+                            "OpenClover was unable to locate your Eclipse configuration directory.\n" +
+                                    "No configuration updates were performed. Please contact support - " + CloverVersionInfo.OPENCLOVER_ORG_SUPPORT,
                             e);
                 }
 
                 File configArea = new File(configAreaUrl.getFile());
                 if (configArea == null || !configArea.exists() || !configArea.isDirectory() || !configArea.canWrite()) {
                     throw new ConfigUpdateAbortedException(
-                            "Clover is unable to write to your Eclipse configuration directory.\n" +
-                                    "No configuration updates were performed. Please contact support - " + CloverVersionInfo.ATLASSIAN_COM_SUPPORT_RESOURCES);
+                            "OpenClover is unable to write to your Eclipse configuration directory.\n" +
+                                    "No configuration updates were performed.");
                 }
 
                 File configIni = new File(configArea, CONFIG_INI);
@@ -118,16 +120,15 @@ public class ConfigUninstaller {
                         || !configIni.isFile()
                         || !configIni.canWrite()) {
                     throw new ConfigUpdateAbortedException(
-                            "Clover is unable to write to your Eclipse configuration file \"config.ini\".\n" +
-                                    "No configuration updates were performed. Please contact support - " + CloverVersionInfo.ATLASSIAN_COM_SUPPORT_RESOURCES);
+                            "OpenClover is unable to write to your Eclipse configuration file \"config.ini\".\n" +
+                                    "No configuration updates were performed.");
                 }
 
                 try {
                     patchConfigIni(configIni, configIniBackup);
                 } catch (Exception e) {
                     throw new ConfigUpdateFailedException(
-                            "Clover encountered an error while updating Eclipse's conifg.ini.\n" +
-                                    "Please contact support - " + CloverVersionInfo.ATLASSIAN_COM_SUPPORT_RESOURCES,
+                            "OpenClover encountered an error while updating Eclipse's conifg.ini.",
                             e);
                 }
 
@@ -135,7 +136,7 @@ public class ConfigUninstaller {
                         MessageDialog.openInformation(
                                 Display.getDefault().getActiveShell(),
                                 MESSAGEBOX_TITLE,
-                                "Clover successfully updated your config.ini file.\n" +
+                                "OpenClover successfully updated your config.ini file.\n" +
                                         "Please restart Eclipse for this change to take effect."));
                 return true;
             } catch (final ConfigUpdateException e) {
@@ -203,30 +204,30 @@ public class ConfigUninstaller {
 
             File configArea = new File(configAreaUrl.getFile());
             if (!configArea.exists() || !configArea.isDirectory() || !configArea.canWrite()) {
-                CloverPlugin.logVerbose(
-                        "Clover is unable to write to your Eclipse confiuration directory.\n" +
+                logVerbose(
+                        "OpenClover is unable to write to your Eclipse configuration directory.\n" +
                                 "No configuration updates were performed.");
             } else {
                 File configIni = new File(configArea, CONFIG_INI);
                 if (!configIni.exists()
                         || !configIni.isFile()
                         || !configIni.canWrite()) {
-                    CloverPlugin.logVerbose(
-                            "Clover is unable to write to your Eclipse configuration file \"config.ini\".\n" +
+                    logVerbose(
+                            "OpenClover is unable to write to your Eclipse configuration file \"config.ini\".\n" +
                                     "No configuration updates were performed.");
                 } else {
                     try {
                         return isHookInstalled(configIni);
                     } catch (Exception e) {
-                        CloverPlugin.logError(
-                                "Clover encountered an error while reading Eclipse's conifg.ini.\n" +
+                        logError(
+                                "OpenClover encountered an error while reading Eclipse's config.ini.\n" +
                                         e);
                     }
                 }
             }
         } catch (MalformedURLException e) {
-            CloverPlugin.logVerbose(
-                    "Clover was unable to locate your Eclipse confiuration directory.\n" +
+            logVerbose(
+                    "OpenClover was unable to locate your Eclipse configuration directory.\n" +
                             "No configuration updates were performed.",
                     e);
         }

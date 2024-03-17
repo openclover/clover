@@ -5,7 +5,6 @@ import org.junit.Test
 import org.openclover.runtime.CloverNames
 
 import static org.junit.Assert.assertEquals
-import static org.junit.Assert.assertFalse
 import static org.junit.Assert.assertTrue
 import static org.openclover.core.util.Lists.newArrayList
 
@@ -30,17 +29,6 @@ class AntIntegratorTest {
         assertTrue(args.contains(AntIntegrationListener.class.getName()))
         assertTrue(!args.contains("-Dclover.skip.current=true"))
         assertTrue(args.contains("-Dclover.skip.report=true"))
-        assertFalse(args.contains("-D${CloverNames.PROP_LICENSE_CERT}=${options.build().getLicenseCert()}"))
-    }
-
-    @Test
-    void testDecorateArgumentsWithLicense() {
-        CIOptions.Builder options = new CIOptions.Builder()
-
-        options.licenseCert("MYLICENSECERT")
-        Integrator ant = Integrator.Factory.newAntIntegrator(options.build())
-        ant.decorateArguments(args)
-        assertTrue(args.contains("-D${CloverNames.PROP_LICENSE_CERT}=${options.build().getLicenseCert()}".toString()))
     }
 
     @Test
@@ -74,27 +62,6 @@ class AntIntegratorTest {
 
         ant.decorateArguments(args)
         assertTrue(args.contains("-D${CloverNames.PROP_CLOVER_OPTIMIZATION_ENABLED}=${options.build().isOptimize()}".toString()))
-    }
-
-    @Test
-    void testDoNotPutValuesInDoubleQuotes() {
-        File licenseFile = new File("/path to/clover.license")
-        CIOptions options = new CIOptions.Builder().license(licenseFile).putValuesInQuotes(false).build()
-
-        assertArgument(options, "Linux", "-D${CloverNames.PROP_LICENSE_PATH}=${licenseFile.absolutePath}")
-        assertArgument(options, "Mac OS X", "-D${CloverNames.PROP_LICENSE_PATH}=${licenseFile.absolutePath}")
-        assertArgument(options, "windows 8.1", "-D${CloverNames.PROP_LICENSE_PATH}=${licenseFile.absolutePath}")
-    }
-
-    @Test
-    void testPutValuesInDoubleQuotes() {
-        File licenseFile = new File("/path to/clover.license")
-        CIOptions options = new CIOptions.Builder().license(licenseFile).putValuesInQuotes(true).build()
-
-        assertArgument(options, "Linux", "-D${CloverNames.PROP_LICENSE_PATH}=\"${licenseFile.absolutePath}\"")
-        assertArgument(options, "Mac OS X", "-D${CloverNames.PROP_LICENSE_PATH}=\"${licenseFile.absolutePath}\"")
-        // do not add on windows, even if set to true
-        assertArgument(options, "windows 8.1", "-D${CloverNames.PROP_LICENSE_PATH}=${licenseFile.absolutePath}")
     }
 
     private static void assertArgument(CIOptions options, String osName, String expectedArgument) {

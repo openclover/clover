@@ -4,6 +4,7 @@ import org.eclipse.jdt.core.ICompilationUnit;
 import org.openclover.eclipse.core.CloverPlugin;
 
 import static org.openclover.core.util.Lists.newArrayList;
+import static org.openclover.eclipse.core.CloverPlugin.logError;
 
 public class CUToTypeRelationship extends NodeRelationship {
     @Override
@@ -12,7 +13,7 @@ public class CUToTypeRelationship extends NodeRelationship {
             //Ignore all but type definitions (e.g. no imports, package statements)
             return filter.perform(newArrayList(((ICompilationUnit) object).getTypes())); // copy
         } catch (Exception e) {
-            CloverPlugin.logError("Unable to collect types in compilation unit " + object, e);
+            logError("Unable to collect types in compilation unit " + object, e);
             return new Object[]{};
         }
     }

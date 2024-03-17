@@ -11,6 +11,8 @@ import org.openclover.eclipse.core.views.actions.MultiCloverProjectActionDelegat
 
 import java.io.File;
 
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+
 public class ClearSnapshotActionDelegate extends MultiCloverProjectActionDelegate implements IStartup {
     @Override
     protected boolean enableFor(IProject project) throws CoreException {
@@ -33,7 +35,7 @@ public class ClearSnapshotActionDelegate extends MultiCloverProjectActionDelegat
                 }
             }
         } catch (Exception e) {
-            CloverPlugin.logError("Unable to remove snapshot file", e);
+            logError("Unable to remove snapshot file", e);
         }
         updateStateForSelection(action);
     }

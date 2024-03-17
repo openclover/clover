@@ -36,6 +36,7 @@ import org.openclover.eclipse.core.upgrade.hooks.ConfigUninstaller;
 import java.util.Set;
 
 import static org.openclover.core.util.Sets.newHashSet;
+import static org.openclover.eclipse.core.CloverPlugin.logError;
 
 public class ViewAlertContainer extends Composite implements DatabaseChangeListener {
 
@@ -56,9 +57,9 @@ public class ViewAlertContainer extends Composite implements DatabaseChangeListe
                 AlertStyle.WARNING,
                 alerts,
                 false,
-                "Clover has been upgraded but needs your attention.",
-                "You have upgraded from a previous version of Clover which required modification to Eclipse's config.ini file. " +
-                "These modifications are no longer required. <a>Clover can undo these changes for you</a>.");
+                "OpenClover has been upgraded but needs your attention.",
+                "You have upgraded from a previous version of OpenClover which required modification to Eclipse's config.ini file. " +
+                "These modifications are no longer required. <a>OpenClover can undo these changes for you</a>.");
         hookUninstallLink.addExplanationLinkListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent event) {
@@ -122,7 +123,7 @@ public class ViewAlertContainer extends Composite implements DatabaseChangeListe
                 try {
                     return resourceManager.createColor(new RGB(199, 235, 242));
                 } catch (Exception e) {
-                    CloverPlugin.logError("Unable to create info colour", e);
+                    logError("Unable to create info colour", e);
                     return device.getSystemColor(SWT.COLOR_INFO_BACKGROUND);
                 }
             }

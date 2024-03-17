@@ -42,8 +42,8 @@ public final class FixedSizeCoverageRecorder extends BaseCoverageRecorder {
             if (!MERGE_WARNING_DBS.contains(dbFile.getAbsolutePath())) {
                 MERGE_WARNING_DBS.add(dbFile.getAbsolutePath());
                 Logger.getInstance().warn(
-                        "CLOVER: Clover database: '" + dbFile.getAbsolutePath() + "' can only be used for reporting because it is the result of a merge.");
-                Logger.getInstance().warn("CLOVER: Coverage data for some classes will not be gathered.");
+                        "OpenClover database: '" + dbFile.getAbsolutePath() + "' can only be used for reporting because it is the result of a merge.");
+                Logger.getInstance().warn("Coverage data for some classes will not be gathered.");
             }
             return NullRecorder.INSTANCE;
         }
@@ -123,9 +123,9 @@ public final class FixedSizeCoverageRecorder extends BaseCoverageRecorder {
         if (!TRUNC_WARNING_DBS.contains(dbName)) {
             TRUNC_WARNING_DBS.add(dbName);
             Logger.getInstance().warn(
-                "CLOVER: Clover database: '" + dbName + "' is no longer valid. Min required size for currently loading class: " +
+                "OpenClover database: '" + dbName + "' is no longer valid. Min required size for currently loading class: " +
                 numRequiredElements + ", actual size: " + numAvailableElements);
-            Logger.getInstance().warn("CLOVER: Coverage data for some classes will not be gathered.");
+            Logger.getInstance().warn("Coverage data for some classes will not be gathered.");
         }
     }
 

@@ -24,6 +24,8 @@ import java.util.List;
 
 import static org.openclover.core.util.Lists.newArrayList;
 import static org.openclover.core.util.Lists.newLinkedList;
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+import static org.openclover.eclipse.core.CloverPlugin.logWarning;
 
 public abstract class OpenReportOperation {
 
@@ -33,7 +35,7 @@ public abstract class OpenReportOperation {
             try {
                 IDE.openEditor(getActivePage(), inputFor(entry.getPath()), IEditorRegistry.SYSTEM_EXTERNAL_EDITOR_ID);
             } catch (Exception e) {
-                CloverPlugin.logError("Unable to launch system reader for " + entry.getPath(), e);
+                logError("Unable to launch system reader for " + entry.getPath(), e);
             }
         }
     }
@@ -64,7 +66,7 @@ public abstract class OpenReportOperation {
             try {
                 IDE.openEditor(getActivePage(), inputFor(entry.getPath()), editorId);
             } catch (Exception e) {
-                CloverPlugin.logError("Unable to launch Eclipse editor " + editorId, e);
+                logError("Unable to launch Eclipse editor " + editorId, e);
             }
         }
     };
@@ -114,10 +116,10 @@ public abstract class OpenReportOperation {
                 if (browser != null) {
                     browser.openURL(new File(entry.getPath()).toURI().toURL());
                 } else {
-                    CloverPlugin.logWarning("No system HTML browser");
+                    logWarning("No system HTML browser");
                 }
             } catch (Exception e) {
-                CloverPlugin.logError("Unable to launch system HTML browser", e);
+                logError("Unable to launch system HTML browser", e);
             }
         }
     };
@@ -137,14 +139,14 @@ public abstract class OpenReportOperation {
         public void open(ReportHistoryEntry entry) {
             try {
                 IWorkbenchBrowserSupport browserSupport = PlatformUI.getWorkbench().getBrowserSupport();
-                IWebBrowser browser = browserSupport.createBrowser("Clover HTML Report Browser");
+                IWebBrowser browser = browserSupport.createBrowser("OpenClover HTML Report Browser");
                 if (browser != null) {
                     browser.openURL(new File(entry.getPath()).toURI().toURL());
                 } else {
-                    CloverPlugin.logWarning("No Eclipse HTML browser");
+                    logWarning("No Eclipse HTML browser");
                 }
             } catch (Exception e) {
-                CloverPlugin.logError("Unable to open Eclipse HTML browser", e);
+                logError("Unable to open Eclipse HTML browser", e);
             }
         }
     };
@@ -167,7 +169,7 @@ public abstract class OpenReportOperation {
             final Object editorRegistry = workbenchClass.getMethod("getEditorRegistry").invoke(workbenchInstance);
             return (IEditorRegistry)editorRegistry;
         } catch (Exception e) {
-            CloverPlugin.logError("Failed to retrieve editor registry", e);
+            logError("Failed to retrieve editor registry", e);
         }
         return null;
     }

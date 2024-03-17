@@ -22,6 +22,8 @@ import org.openclover.eclipse.core.ui.SwtUtils;
 
 import java.io.IOException;
 
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+
 public class GeneralPreferencesPage
     extends BasePreferencePage {
 
@@ -32,7 +34,7 @@ public class GeneralPreferencesPage
         try {
             return panel = new Panel(parent);
         } catch (CoreException e) {
-            CloverPlugin.logError("Error creating general preferences panel", e);
+            logError("Error creating general preferences panel", e);
             return null;
         }
     }
@@ -317,7 +319,7 @@ public class GeneralPreferencesPage
         try {
             panel.performApply();
         } catch (IOException e) {
-            CloverPlugin.logError("Unable to persist preferences", e);
+            logError("Unable to persist preferences", e);
         }
     }
 
@@ -332,7 +334,7 @@ public class GeneralPreferencesPage
         try {
             return panel.performOk();
         } catch (IOException e) {
-            CloverPlugin.logError("Unable to persist preferences", e);
+            logError("Unable to persist preferences", e);
             return true;
         }
     }

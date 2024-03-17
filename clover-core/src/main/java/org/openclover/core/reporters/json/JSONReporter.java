@@ -7,7 +7,6 @@ import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.cfg.Interval;
-import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.reporters.CloverReportConfig;
 import org.openclover.core.reporters.CloverReporter;
 import org.openclover.core.reporters.Current;
@@ -37,13 +36,11 @@ import static org.openclover.core.util.Lists.newArrayList;
 
 public class JSONReporter extends CloverReporter {
 
-    @SuppressWarnings("unchecked")
     private static final List<ArgProcessor<Current>> mandatoryArgProcessors = newArrayList(
             InitString,
             OutputDirJson
     );
 
-    @SuppressWarnings("unchecked")
     private static final List<ArgProcessor<Current>> optionalArgProcessors = newArrayList(
             AlwaysReport,
             DebugLogging,
@@ -81,7 +78,8 @@ public class JSONReporter extends CloverReporter {
         try {
             CloverUtils.createDir(basePath);
 
-            final CloverExecutor service = CloverExecutors.newCloverExecutor(getConfigAsCurrent().getNumThreads(), "Clover-JSON");
+            final CloverExecutor service = CloverExecutors.newCloverExecutor(getConfigAsCurrent().getNumThreads(),
+                    "OpenClover-JSON");
             Logger.getInstance().info("Generating JSON report to: " + getConfigAsCurrent().getOutFile().getAbsolutePath());
 
             RenderFileJSONAction.initThreadLocals();
@@ -172,7 +170,6 @@ public class JSONReporter extends CloverReporter {
     }
 
     public static void main(String[] args) {
-        loadLicense();
         System.exit(runReport(args));
     }
 

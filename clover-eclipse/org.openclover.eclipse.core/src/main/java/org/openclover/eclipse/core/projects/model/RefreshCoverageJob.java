@@ -7,6 +7,8 @@ import org.openclover.core.CloverDatabase;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
 
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+
 public class RefreshCoverageJob extends LoadDatabaseJob {
     private final CloverDatabase database;
 
@@ -22,7 +24,7 @@ public class RefreshCoverageJob extends LoadDatabaseJob {
                 database.loadCoverageData(project.newCoverageDataSpec(database));
                 status = Status.OK_STATUS;
             } catch (Throwable t) {
-                CloverPlugin.logError("Failed to load coverage data", t);
+                logError("Failed to load coverage data", t);
                 status = new Status(
                     Status.WARNING,
                     CloverPlugin.ID,

@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.openclover.core.util.Lists.newArrayList;
+import static org.openclover.eclipse.core.CloverPlugin.logError;
 
 public class SourceRootsWithPatternTreeContentProvider implements ITreeContentProvider {
     private final IJavaProject project;
@@ -46,13 +47,13 @@ public class SourceRootsWithPatternTreeContentProvider implements ITreeContentPr
                     }
                     list.add(new SourceRootWithPattern(pfRoot, sfp));
                 } catch (JavaModelException e) {
-                    CloverPlugin.logError("Unable to process package fragment [" + pfRoot.getElementName() + "], skipping." , e);
+                    logError("Unable to process package fragment [" + pfRoot.getElementName() + "], skipping." , e);
                 }
             }
         } catch (JavaModelException e) {
-            CloverPlugin.logError("Unable to retrieve package fragment roots." , e);
+            logError("Unable to retrieve package fragment roots." , e);
         }
-        children = list.toArray(new SourceRootWithPattern[list.size()]);
+        children = list.toArray(new SourceRootWithPattern[0]);
         this.project = project;
     }
 

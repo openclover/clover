@@ -7,6 +7,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.ui.IMarkerResolution;
 import org.openclover.eclipse.core.CloverPlugin;
 
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+
 class RebuildProjectMarkerResolution implements IMarkerResolution {
     @Override
     public String getLabel() {
@@ -19,7 +21,7 @@ class RebuildProjectMarkerResolution implements IMarkerResolution {
         try {
             project.build(IncrementalProjectBuilder.CLEAN_BUILD, null);
         } catch (CoreException e) {
-            CloverPlugin.logError("Unable to rebuild project", e);
+            logError("Unable to rebuild project", e);
         }
     }
 }

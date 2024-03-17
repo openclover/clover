@@ -5,6 +5,8 @@ import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.jdt.core.IJavaElement;
 import org.openclover.eclipse.core.CloverPlugin;
 
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+
 public class CloverProjectAdapterFactory implements IAdapterFactory {
     /**
      * We adapt other instances to these classes
@@ -29,7 +31,7 @@ public class CloverProjectAdapterFactory implements IAdapterFactory {
                 }
             }
         } catch (Exception e) {
-            CloverPlugin.logError("Error adapting " + adaptee + " to class " + clazz, e);
+            logError("Error adapting " + adaptee + " to class " + clazz, e);
         }
         return null;
     }

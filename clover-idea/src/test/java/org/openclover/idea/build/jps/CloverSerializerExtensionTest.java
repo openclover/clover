@@ -139,7 +139,7 @@ public class CloverSerializerExtensionTest {
     protected Element createSampleData(String moduleType, boolean isExcluded, boolean isCloverMissing) {
         final Element module = new Element("module").setAttribute("type", moduleType);
         if (!isCloverMissing) {
-            final Element component = new Element("component").setAttribute("name", "Clover");
+            final Element component = new Element("component").setAttribute("name", "OpenClover");
             component.addContent(new Element("option").setAttribute("name", "excluded")
                     .setAttribute("value", isExcluded ? "true" : "false"));
             module.addContent(component);

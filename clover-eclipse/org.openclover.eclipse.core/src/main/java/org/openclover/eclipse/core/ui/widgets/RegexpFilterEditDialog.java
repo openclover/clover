@@ -59,7 +59,7 @@ class RegexpFilterEditDialog extends Dialog {
             || nameField.getText().indexOf(',') != -1) {
             errorMessage = "Context names may not contain spaces or commas.";
         } else if (ContextStore.isReservedName(nameField.getText())) {
-            errorMessage = "This context name is reserved for use by Clover.";
+            errorMessage = "This context name is reserved for use by OpenClover.";
         } else {
             for (RegexpEntry regexpEntry : regexps) {
                 if (regexpEntry != data && regexpEntry.getName().equals(nameField.getText())) {

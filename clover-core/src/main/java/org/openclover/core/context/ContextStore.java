@@ -338,7 +338,7 @@ public class ContextStore implements TaggedPersistent {
                 registry = Clover2Registry.createOrLoad(config.getRegistryFile(), config.getProjectName());
             }
             catch (IOException e) {
-                throw new CloverException(e.getClass().getName() + " accessing Clover database: " + e.getMessage(), e);
+                throw new CloverException(e.getClass().getName() + " accessing OpenClover database: " + e.getMessage(), e);
             }
 
             // todo - check for registry equivalence here. if not equiv, contexts will need to be deleted from elements in the registry
@@ -348,7 +348,7 @@ public class ContextStore implements TaggedPersistent {
                 registry.saveAndOverwriteFile();
             }
             catch (IOException e) {
-                throw new CloverException(e.getClass().getName() + " writing Clover database: " + e.getMessage());
+                throw new CloverException(e.getClass().getName() + " writing OpenClover database: " + e.getMessage());
             }
         }
     }

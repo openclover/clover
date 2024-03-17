@@ -188,7 +188,7 @@ public class CoverageTreeModel {
                 db.resolve(sourcepath);
             }
         }
-        progressListener.handleProgress("Clover Database loaded", 0);
+        progressListener.handleProgress("OpenClover Database loaded", 0);
     }
 
     public void loadCoverageData(final boolean loadPerTestData, ProgressListener progressListener) {

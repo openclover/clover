@@ -5,6 +5,8 @@ import org.eclipse.jface.action.IAction;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
 
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+
 public class ClearCoverageActionDelegate extends SingleCloverProjectActionDelegate {
 
     @Override
@@ -17,7 +19,7 @@ public class ClearCoverageActionDelegate extends SingleCloverProjectActionDelega
                 cloverProject.clearCoverage();
             }
         } catch (Exception e) {
-            CloverPlugin.logError("Unable to clear coverage", e);
+            logError("Unable to clear coverage", e);
         }
     }
 }

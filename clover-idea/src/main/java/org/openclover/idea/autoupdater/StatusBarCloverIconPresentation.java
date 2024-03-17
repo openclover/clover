@@ -20,7 +20,7 @@ class StatusBarCloverIconPresentation implements StatusBarWidget.IconPresentatio
     @Nullable
     @Override
     public String getTooltipText() {
-        return "New Clover version is available";
+        return "New OpenClover version is available";
     }
 
     @Nullable

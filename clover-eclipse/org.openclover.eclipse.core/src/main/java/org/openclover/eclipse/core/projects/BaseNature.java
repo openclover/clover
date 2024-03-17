@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import static org.openclover.core.util.Lists.newArrayList;
+import static org.openclover.eclipse.core.CloverPlugin.logVerbose;
 
 public abstract class BaseNature implements IProjectNature {
     /** Eclipse project attached to this */
@@ -47,7 +48,7 @@ public abstract class BaseNature implements IProjectNature {
     }
 
     private static List<ICommand> ensureBuilderAdded(IProjectDescription description, List<ICommand> commands, boolean before, String primaryId, String subsequentId, String absentId) throws CoreException {
-        CloverPlugin.logVerbose("adding builder " + subsequentId);
+        logVerbose("adding builder " + subsequentId);
 
         boolean added = false;
 
@@ -116,7 +117,7 @@ public abstract class BaseNature implements IProjectNature {
 
         for (Iterator<ICommand> commandIter = updatedCommands.iterator(); commandIter.hasNext();) {
             if ((commandIter.next()).getBuilderName().equals(builderId)) {
-                CloverPlugin.logVerbose("removing builder " + builderId);
+                logVerbose("removing builder " + builderId);
                 commandIter.remove();
                 break;
             }

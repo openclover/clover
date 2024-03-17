@@ -8,6 +8,8 @@ import org.openclover.eclipse.core.CloverPlugin;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+
 public class PkgFragRootToPkgFragRelationship extends NodeRelationship {
     @Override
     public Object[] getChildren(Object object, NodeRelationshipFilter filter) {
@@ -23,7 +25,7 @@ public class PkgFragRootToPkgFragRelationship extends NodeRelationship {
             }
             return filter.perform(packageFragments);
         } catch (Exception e) {
-            CloverPlugin.logError("Unable to retrieve children for package fragment " + object, e);
+            logError("Unable to retrieve children for package fragment " + object, e);
         }
         return new Object[]{};
     }
@@ -42,7 +44,7 @@ public class PkgFragRootToPkgFragRelationship extends NodeRelationship {
                 }
             }
         } catch (Exception e) {
-            CloverPlugin.logError("Unable to retrieve children for package fragment " + object, e);
+            logError("Unable to retrieve children for package fragment " + object, e);
         }
         return false;
     }

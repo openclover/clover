@@ -22,6 +22,9 @@ import org.openclover.eclipse.core.views.actions.OpenJavaEditorAction;
 
 import java.util.List;
 
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+import static org.openclover.eclipse.core.CloverPlugin.logWarning;
+
 public class CloverTreeMap extends KTreeMap {
     private OpenJavaEditorAction openEditorAction;
 
@@ -47,10 +50,10 @@ public class CloverTreeMap extends KTreeMap {
                         if (type != null) {
                             openEditorAction.run(new StructuredSelection(type));
                         } else {
-                            CloverPlugin.logWarning("Unable to open editor for treemap leaf: " + activeMetricsLeaf.getName());
+                            logWarning("Unable to open editor for treemap leaf: " + activeMetricsLeaf.getName());
                         }
                     } catch (CoreException e) {
-                        CloverPlugin.logError("Unable to open editor for treemap leaf: " + activeMetricsLeaf.getName(), e);
+                        logError("Unable to open editor for treemap leaf: " + activeMetricsLeaf.getName(), e);
                     }
 
                 }

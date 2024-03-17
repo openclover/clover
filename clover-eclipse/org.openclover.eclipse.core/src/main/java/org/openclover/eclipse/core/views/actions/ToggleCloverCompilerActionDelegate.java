@@ -7,6 +7,8 @@ import org.eclipse.jface.action.IAction;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
 
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+
 public class ToggleCloverCompilerActionDelegate extends SingleCloverProjectActionDelegate {
     @Override
     protected void updateStateForSelection(IAction action) {
@@ -16,7 +18,7 @@ public class ToggleCloverCompilerActionDelegate extends SingleCloverProjectActio
                 CloverProject project = CloverProject.getFor((IProject)projects.iterator().next());
                 action.setChecked(project.getSettings().isInstrumentationEnabled());
             } catch (CoreException e) {
-                CloverPlugin.logError("Unable to check/uncheck " + getClass().getName(), e);
+                logError("Unable to check/uncheck " + getClass().getName(), e);
             }
         }
     }
@@ -34,7 +36,7 @@ public class ToggleCloverCompilerActionDelegate extends SingleCloverProjectActio
                 }
             }
         } catch (CoreException e) {
-            CloverPlugin.logError("Unable to toggle Clover compiler", e);
+            logError("Unable to toggle OpenClover compiler", e);
         }
     }
 }

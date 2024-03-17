@@ -32,6 +32,9 @@ import org.openclover.runtime.api.CloverException;
 import java.io.File;
 import java.io.IOException;
 
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+import static org.openclover.eclipse.core.CloverPlugin.logWarning;
+
 public class DashboardView extends ViewPart implements ISelectionListener, DatabaseChangeListener {
 
     public static final String ID = CloverPlugin.ID + ".views.dashboard";
@@ -66,7 +69,7 @@ public class DashboardView extends ViewPart implements ISelectionListener, Datab
             try {
                 lastSelectedProject = CloverProject.getFor(project);
             } catch (CoreException e) {
-                CloverPlugin.logWarning("Exception while restoring Dashboard view", e);
+                logWarning("Exception while restoring Dashboard view", e);
             }
         }
     }
@@ -133,7 +136,7 @@ public class DashboardView extends ViewPart implements ISelectionListener, Datab
                     try {
                         projectSelected(resource.getProject());
                     } catch (Exception e) {
-                        CloverPlugin.logError("Error creating the dashboard", e);
+                        logError("Error creating the dashboard", e);
                     }
                 } else {
                     final IJavaElement element = (IJavaElement) adaptable.getAdapter(IJavaElement.class);
@@ -141,7 +144,7 @@ public class DashboardView extends ViewPart implements ISelectionListener, Datab
                     try {
                         projectSelected(javaProject != null ? javaProject.getProject() : null);
                     } catch (Exception e) {
-                        CloverPlugin.logError("Error creating the dashboard", e);
+                        logError("Error creating the dashboard", e);
                     }
                 }
             }
@@ -155,7 +158,7 @@ public class DashboardView extends ViewPart implements ISelectionListener, Datab
                 try {
                     generateReport(null, lastSelectedProject);
                 } catch (Exception e) {
-                    CloverPlugin.logWarning("Problem generating Dashboard report", e);
+                    logWarning("Problem generating Dashboard report", e);
                 }
             }
         });

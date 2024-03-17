@@ -20,6 +20,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+
 public class GenerateReportWizard extends Wizard {
 
     SelectReportPage selectReportPage;
@@ -127,7 +129,7 @@ public class GenerateReportWizard extends Wizard {
             reportJob.addJobChangeListener(new ReportJobListener(shell));
             reportJob.schedule();
         } catch (IOException e) {
-            CloverPlugin.logError("Unable to generate report", e);
+            logError("Unable to generate report", e);
         }
 
         return true;
