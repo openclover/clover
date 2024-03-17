@@ -97,7 +97,7 @@ class ModelBuilder {
             final List<ClassInfo> classes = getElement().getClasses()
             for (ClassInfo classInfo : classes) {
                 if (classInfo.getName() == name) {
-                    return new ClassInfoWrapper((FullClassInfo)classInfo)
+                    return new ClassInfoWrapper(classInfo)
                 }
             }
             final FullClassInfo newClassInfo = new FullClassInfo(
@@ -139,14 +139,14 @@ class ModelBuilder {
         }
     }
 
-    class ClassInfoWrapper extends Wrapper<ClassInfoWrapper, FullClassInfo> {
-        ClassInfoWrapper(FullClassInfo classInfo) {
+    class ClassInfoWrapper extends Wrapper<ClassInfoWrapper, ClassInfo> {
+        ClassInfoWrapper(ClassInfo classInfo) {
             super(classInfo)
         }
 
         /** Declare class inside a class */
         ClassInfoWrapper clazz(String name) {
-            final FullClassInfo newClassInfo = new FullClassInfo(
+            final ClassInfo newClassInfo = new FullClassInfo(
                     getElement().getPackage(), getElement(),
                     0, name, new FixedSourceRegion(0, 0), new Modifiers(),
                     false, false, false)
@@ -174,7 +174,7 @@ class ModelBuilder {
 
         /** Close class wrapper declared inside a class */
         ClassInfoWrapper endInClass() {
-            return new ClassInfoWrapper((FullClassInfo)getElement().getContainingClass())
+            return new ClassInfoWrapper(getElement().getContainingClass())
         }
 
         /** Close class wrapper declared inside a file */
@@ -237,7 +237,7 @@ class ModelBuilder {
 
         /** Close method wrapper declared inside a class */
         ClassInfoWrapper endInClass() {
-            return new ClassInfoWrapper((FullClassInfo) getElement().getContainingClass())
+            return new ClassInfoWrapper(getElement().getContainingClass())
         }
 
         /** Close method wrapper declared inside a method */
@@ -262,7 +262,7 @@ class ModelBuilder {
     class StatementInfoWrapper extends Wrapper<StatementInfoWrapper, FullStatementInfo> {
         /** Close statement wrapper declared inside a class */
         ClassInfoWrapper endInClass() {
-            return new ClassInfoWrapper((FullClassInfo) getElement().getContainingClass())
+            return new ClassInfoWrapper(getElement().getContainingClass())
         }
 
         /** Close statement wrapper declared inside a method */

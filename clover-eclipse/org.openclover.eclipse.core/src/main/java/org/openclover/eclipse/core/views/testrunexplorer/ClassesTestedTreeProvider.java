@@ -17,17 +17,15 @@ import org.openclover.core.BitSetCoverageProvider;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.CoverageData;
 import org.openclover.core.api.registry.ClassInfo;
-import org.openclover.core.api.registry.HasMetrics;
-import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.CoverageDataProvider;
 import org.openclover.core.api.registry.CoverageDataReceptor;
+import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.api.registry.HasMetricsFilter;
+import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
-import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullMethodInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
-import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.projects.model.MetricsScope;
@@ -51,7 +49,7 @@ public class ClassesTestedTreeProvider
     extends WorkbenchContentProvider
     implements ISelectionChangedListener {
 
-    private TreeViewer treeViewer;
+    private final TreeViewer treeViewer;
     private Object input;
     private List classes;
     private final Map<ClassInfo, List<CoverageContributionNode>> methods = newHashMap();
@@ -109,7 +107,7 @@ public class ClassesTestedTreeProvider
             final CoverageDataProvider testHits = new BitSetCoverageProvider(data.getHitsFor(testCasesSet), data);
             final CoverageDataProvider uniqueTestHits = new BitSetCoverageProvider(data.getUniqueHitsFor(testCasesSet), data);
             appOnlyProject.getClasses(hm -> {
-                final FullClassInfo classInfo = (FullClassInfo) hm;
+                final ClassInfo classInfo = (ClassInfo) hm;
                 try {
                     final IType clazz = project.getJavaProject().findType(classInfo.getQualifiedName(), (IProgressMonitor)null);
                     if (clazz != null) {
@@ -135,7 +133,7 @@ public class ClassesTestedTreeProvider
     }
 
     private List<CoverageContributionNode> collectTestedMethodsFor(IType javaType, final CoverageDataProvider testHits, final CoverageDataProvider uniqueTestHits) throws CoreException {
-        FullClassInfo classInfo = (FullClassInfo)MetricsScope.APP_ONLY.getHasMetricsFor(javaType, FullClassInfo.class);
+        ClassInfo classInfo = (ClassInfo) MetricsScope.APP_ONLY.getHasMetricsFor(javaType, FullClassInfo.class);
 
         List<CoverageContributionNode> testedMethodInfos = Collections.emptyList();
         if (classInfo != null) {
@@ -262,8 +260,8 @@ public class ClassesTestedTreeProvider
     private interface NodeBuilder {
         CoverageContributionNode build(IJavaElement element, float testContribution, float uniqueTestContribution, CoverageDataProvider testHits, CoverageDataProvider uniqueTestHits);
 
-        public static NodeBuilder FOR_CLASSES = (element, testContribution, uniqueTestContribution, testHits, uniqueTestHits) -> new ClassCoverageContributionNode((IType)element, testContribution, uniqueTestContribution, testHits, uniqueTestHits);
+        NodeBuilder FOR_CLASSES = (element, testContribution, uniqueTestContribution, testHits, uniqueTestHits) -> new ClassCoverageContributionNode((IType)element, testContribution, uniqueTestContribution, testHits, uniqueTestHits);
 
-        public static NodeBuilder FOR_METHODS = (element, testContribution, uniqueTestContribution, testHits, uniqueTestHits) -> new MethodCoverageContributionNode((IMethod)element, testContribution, uniqueTestContribution, testHits, uniqueTestHits);
+        NodeBuilder FOR_METHODS = (element, testContribution, uniqueTestContribution, testHits, uniqueTestHits) -> new MethodCoverageContributionNode((IMethod)element, testContribution, uniqueTestContribution, testHits, uniqueTestHits);
     }
 }

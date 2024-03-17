@@ -6,11 +6,10 @@ import clover.org.apache.velocity.VelocityContext;
 import org.openclover.core.api.registry.BlockMetrics;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
-import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.core.reporters.CloverReportConfig;
 import org.openclover.core.reporters.html.HtmlRenderingSupportImpl;
 import org.openclover.core.reporters.html.HtmlReportUtil;
@@ -29,7 +28,7 @@ public class RenderTreeMapAction implements Callable<Object> {
     private final File outdir;
     private final VelocityContext mContext;
     private final HtmlRenderingSupportImpl renderSupport = new HtmlRenderingSupportImpl();
-    private CloverReportConfig reportConfig;
+    private final CloverReportConfig reportConfig;
 
     public RenderTreeMapAction(VelocityContext context, CloverReportConfig reportConfig, File outdir, ProjectInfo project) {
         this.project = project;
@@ -92,12 +91,11 @@ public class RenderTreeMapAction implements Callable<Object> {
                 // create a leaf node and add to the package's children list
                 final String path = classInfo.getContainingFile() != null ?
                         renderSupport.getSrcFileLink(true, true, classInfo).toString() : null;
-                classesList.add(createNode(classInfo.getDataIndex(), classInfo.getName(), classInfo, Collections.<Node>emptyList(), path)); // TreeMap requires the children:[] ele
+                classesList.add(createNode(classInfo.getDataIndex(), classInfo.getName(), classInfo, Collections.emptyList(), path)); // TreeMap requires the children:[] ele
             }
         }
 
-        final String jsonStr = gson.toJson(projectNode);
-        return jsonStr;
+        return gson.toJson(projectNode);
     }
 
     private Node createNode(int index, String nodeName, HasMetrics hasMetrics, List<Node> children) {
@@ -112,8 +110,7 @@ public class RenderTreeMapAction implements Callable<Object> {
                                             nodeName, metrics.getNumElements(), pcStr); 
         
         final Data data = new Data(metrics.getNumElements(), metrics.getPcCoveredElements() * 100f, path, title);
-        final Node node = new Node(hasMetrics.getName() + index , nodeName, data, children);
-        return node;
+        return new Node(hasMetrics.getName() + index , nodeName, data, children);
     }
 
 

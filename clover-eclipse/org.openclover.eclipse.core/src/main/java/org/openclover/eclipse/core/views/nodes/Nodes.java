@@ -10,6 +10,7 @@ import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.swt.graphics.Image;
+import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
@@ -49,7 +50,7 @@ public class Nodes {
     public static final TypeCondition CONTAINS_TEST_CASE = new TypeCondition() {
         @Override
         public boolean evaluate(IType type) throws CoreException {
-            FullClassInfo classInfo = (FullClassInfo) MetricsScope.TEST_ONLY.getHasMetricsFor(type, FullClassInfo.class);
+            ClassInfo classInfo = (ClassInfo) MetricsScope.TEST_ONLY.getHasMetricsFor(type, FullClassInfo.class);
             if (classInfo != null && classInfo.isTestClass()) {
                 if (classInfo.getTestCases().size() > 0) {
                     return true;
@@ -259,7 +260,7 @@ public class Nodes {
     }
 
     public static List collectTestCases(IType type, List testCases, TestCaseConverter converter) throws CoreException {
-        FullClassInfo classInfo = (FullClassInfo) MetricsScope.TEST_ONLY.getHasMetricsFor(type, FullClassInfo.class);
+        ClassInfo classInfo = (ClassInfo) MetricsScope.TEST_ONLY.getHasMetricsFor(type, FullClassInfo.class);
         if (classInfo != null && classInfo.isTestClass()) {
             IMethod[] methods = type.getMethods();
             for (IMethod method : methods) {

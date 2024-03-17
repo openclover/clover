@@ -43,8 +43,8 @@ public class TestResultProcessor {
         model.setHasTestResults(numTestResults > 0);
     }
 
-    private ProjectInfo model;
-    private List<File> files;
+    private final ProjectInfo model;
+    private final List<File> files;
 
 
     public TestResultProcessor(ProjectInfo model, List<File> files) {
@@ -89,7 +89,7 @@ public class TestResultProcessor {
 
 
     static class TestXMLHandler extends DefaultHandler {
-        private ProjectInfo model;
+        private final ProjectInfo model;
         private ClassInfo currentTestClassFromTestSuite;
         private ClassInfo currentTestClassFromTestCase;
         private FullTestCaseInfo currentTestCaseInfo;
@@ -140,7 +140,7 @@ public class TestResultProcessor {
 
                 if (classname != null) {
                     classname = CloverUtils.cloverizeClassName(classname); // hack - see CCD-294, CCD-307
-                    currentTestClassFromTestCase = (FullClassInfo) model.findClass(classname);
+                    currentTestClassFromTestCase = model.findClass(classname);
                 } else {
                     currentTestClassFromTestCase = currentTestClassFromTestSuite;
                     // the test name might be fully qualified (ie. with fq test classname preprended to method name)
@@ -148,7 +148,7 @@ public class TestResultProcessor {
                         int lastDot = testname.lastIndexOf(".");
                         if (lastDot >= 0) {
                             classname = CloverUtils.cloverizeClassName(testname.substring(0, lastDot)); // hack - see CCD-294, CCD-307
-                            currentTestClassFromTestCase = (FullClassInfo) model.findClass(classname);
+                            currentTestClassFromTestCase = model.findClass(classname);
                             testname = testname.substring(lastDot + 1);
                         }
                     }
@@ -161,7 +161,7 @@ public class TestResultProcessor {
                         Logger.getInstance().verbose(
                             "Didn't find pre-existing test case for class from JUnit results: " + currentTestClass.getQualifiedName() + "." + testname);
                         // look for the method declaration for this testcase
-                        MethodInfo methodDecl = ((FullClassInfo) currentTestClass).getTestMethodDeclaration(testname);
+                        MethodInfo methodDecl = currentTestClass.getTestMethodDeclaration(testname);
                         // look on the testsuite class if not found on the testcase
                         if (methodDecl == null && (currentTestClass == currentTestClassFromTestCase) && (currentTestClassFromTestSuite != null)) {
                             methodDecl = ((FullClassInfo) currentTestClassFromTestSuite).getTestMethodDeclaration(testname);

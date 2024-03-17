@@ -19,7 +19,6 @@ import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.cfg.Interval;
-import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.metrics.HasMetricsSupport;
 import org.openclover.core.reporters.CloverReportConfig;
 import org.openclover.core.reporters.CloverReporter;
@@ -753,12 +752,11 @@ public class HtmlReporter extends CloverReporter {
     private void renderTestPages(CloverExecutor<Object> queue, FileInfo fileInfo) throws Exception {
         List<ClassInfo> classes = fileInfo.getClasses();
         for (ClassInfo classInfo : classes) {
-            final FullClassInfo clazz = (FullClassInfo) classInfo;
 
-            if (!clazz.isTestClass()) {
+            if (!classInfo.isTestClass()) {
                 continue;
             }
-            for (TestCaseInfo test : clazz.getTestCases()) {
+            for (TestCaseInfo test : classInfo.getTestCases()) {
                 VelocityContext context = new VelocityContext();
                 insertCommonPropsForCurrent(context, fileInfo.getContainingPackage().getName());
                 Callable<Object> testResultRenderer =

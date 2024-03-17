@@ -79,7 +79,7 @@ public class FullClassInfo
     private transient ParentEntity parent;
 
 
-    public FullClassInfo(final PackageInfo packageInfo, final FullClassInfo parentClass,
+    public FullClassInfo(final PackageInfo packageInfo, final ClassInfo parentClass,
                          final int dataIndex, final String name, final SourceInfo region, final Modifiers modifiers,
                          final boolean typeInterface, final boolean typeEnum, final boolean typeAnnotation) {
         this.parent = new ParentEntity(parentClass);
@@ -335,6 +335,7 @@ public class FullClassInfo
 
     // OTHER
 
+    @Override
     public void addClass(ClassInfo classInfo) {
         classes.add(classInfo);
     }

@@ -7,7 +7,6 @@ import org.openclover.core.CoverageDataSpec;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.reporters.filters.DefaultTestFilter;
 import org.openclover.idea.coverage.CoverageManager;
 import org.openclover.runtime.api.CloverException;
@@ -35,7 +34,6 @@ public class TestRunExplorerTreeBuilderIdeaTest extends LightIdeaTestCase {
         final CoverageManager coverageManager = Mockito.mock(CoverageManager.class);
         Mockito.when(coverageManager.getCoverage()).thenReturn(cloverDb);
         
-        @SuppressWarnings("unchecked")
         Collection<DecoratedTestCaseInfo> testCases = TestRunExplorerTreeBuilder.wrap(
                 cloverDb.getCoverageData().getTests(), (FullClassInfo) aClass, cloverDb, coverageManager);
         int count = 0;
@@ -62,7 +60,6 @@ public class TestRunExplorerTreeBuilderIdeaTest extends LightIdeaTestCase {
         final CoverageManager coverageManager = Mockito.mock(CoverageManager.class);
         Mockito.when(coverageManager.getCoverage()).thenReturn(new CloverDatabase(path));
 
-        @SuppressWarnings("unchecked")
         Collection<DecoratedTestCaseInfo> testCases = TestRunExplorerTreeBuilder.wrap(
                 cloverDb.getCoverageData().getTests(), (FullClassInfo) aClass, cloverDb, coverageManager);
         assertFalse(testCases.isEmpty());

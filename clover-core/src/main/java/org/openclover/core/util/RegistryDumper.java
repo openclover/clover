@@ -167,7 +167,7 @@ public class RegistryDumper {
     private static int testCount(FileInfo fileInfo) {
         int testCount = 0;
         for (ClassInfo classInfo : fileInfo.getClasses()) {
-            testCount += ((FullClassInfo) classInfo).getTestCases().size();
+            testCount += classInfo.getTestCases().size();
         }
         return testCount;
     }

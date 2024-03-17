@@ -92,6 +92,8 @@ public interface ClassInfo extends
     @NotNull
     List<StatementInfo> getStatements();
 
+    void addClass(ClassInfo classInfo);
+
     /**
      * Returns test cases found for this class.
      */
