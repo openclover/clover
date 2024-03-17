@@ -1,7 +1,7 @@
 package org.openclover.core.util.trie
 
 import org.junit.Test
-import org.openclover.core.registry.entities.BasePackageInfo
+import org.openclover.core.registry.entities.FullPackageInfo
 import org.openclover.core.reporters.html.PackageInfoExt
 import org.openclover.core.util.collections.Pair
 
@@ -11,33 +11,33 @@ class PackagePrefixTreeTest extends PrefixTreeTest {
     void testAdd() throws Exception {
         // note: input package does not have to be sorted alphabetically
         List<Pair<String, PackageInfoExt>> inputPackages = [
-            // test: a.b.c.d is a prefix of *.java and *.groovy, has no value -> shall compact
-            Pair.of("a.b.c.d",
+                // test: a.b.c.d is a prefix of *.java and *.groovy, has no value -> shall compact
+                Pair.of("a.b.c.d",
                     (PackageInfoExt)null),
-            Pair.of("a.b.c.d.java",
-                    new PackageInfoExt(new BasePackageInfo(null, "a.b.c.d.java"), false) ),
-            Pair.of("a.b.c.d.groovy",
-                    new PackageInfoExt(new BasePackageInfo(null, "a.b.c.d.groovy"), false) ),
+                Pair.of("a.b.c.d.java",
+                    new PackageInfoExt(new FullPackageInfo(null, "a.b.c.d.java"), false) ),
+                Pair.of("a.b.c.d.groovy",
+                    new PackageInfoExt(new FullPackageInfo(null, "a.b.c.d.groovy"), false) ),
 
-            // test: a.b has value, a.b.c not -> shall not compact
-            Pair.of("a.b",
-                    new PackageInfoExt(new BasePackageInfo(null, "a.b"), false) ),
-            Pair.of("a.b.c",
+                // test: a.b has value, a.b.c not -> shall not compact
+                Pair.of("a.b",
+                    new PackageInfoExt(new FullPackageInfo(null, "a.b"), false) ),
+                Pair.of("a.b.c",
                     (PackageInfoExt)null),
 
-            // test: java.util not alphabetically - shall sort it
-            Pair.of("java.util",
-                    new PackageInfoExt(new BasePackageInfo(null, "java.util"), false) ),
+                // test: java.util not alphabetically - shall sort it
+                Pair.of("java.util",
+                    new PackageInfoExt(new FullPackageInfo(null, "java.util"), false) ),
 
-            // test: test-only package
-            Pair.of("a.b.c.html",
-                    new PackageInfoExt(new BasePackageInfo(null, "a.b.c.html"), true) ),
+                // test: test-only package
+                Pair.of("a.b.c.html",
+                    new PackageInfoExt(new FullPackageInfo(null, "a.b.c.html"), true) ),
 
-            // test: add longer package before shorter one
-            Pair.of("a.c.e.util",
-                    new PackageInfoExt(new BasePackageInfo(null, "a.c.e.util"), false) ),
-            Pair.of("a.c.e",
-                    new PackageInfoExt(new BasePackageInfo(null, "a.c.e"), false) )
+                // test: add longer package before shorter one
+                Pair.of("a.c.e.util",
+                    new PackageInfoExt(new FullPackageInfo(null, "a.c.e.util"), false) ),
+                Pair.of("a.c.e",
+                    new PackageInfoExt(new FullPackageInfo(null, "a.c.e"), false) )
         ]
 
         // build a tree
@@ -86,7 +86,7 @@ class PackagePrefixTreeTest extends PrefixTreeTest {
         List<Pair<String, PackageInfoExt>> inputPackages = [
             // test: a.b.c.d is a prefix of *.java and *.groovy, has no value -> shall compact
             Pair.of("a.b.c.d.java",
-                    new PackageInfoExt(new BasePackageInfo(null, "a.b.c.d.java"), false))
+                    new PackageInfoExt(new FullPackageInfo(null, "a.b.c.d.java"), false))
         ]
 
         // build a tree

@@ -1,10 +1,11 @@
 package org.openclover.core.model;
 
+import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.registry.FixedSourceRegion;
-import org.openclover.core.registry.entities.BaseClassInfo;
-import org.openclover.core.registry.entities.BaseFileInfo;
-import org.openclover.core.registry.entities.BasePackageInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullPackageInfo;
@@ -41,9 +42,9 @@ public class XmlConverter {
     public static class CoverageXMLHandler extends DefaultHandler {
 
         private CoverageDataPoint model;
-        private FullProjectInfo project;
-        private FullPackageInfo pkg;
-        private FullFileInfo file;
+        private ProjectInfo project;
+        private PackageInfo pkg;
+        private FileInfo file;
         private HasMetrics currentEntity;
 
         private int currentLevel = TOP_LEVEL;
@@ -134,20 +135,20 @@ public class XmlConverter {
                     break;
                 case XmlNames.E_PACKAGE:
                     currentLevel = PROJECT_LEVEL;
-                    if (currentEntity instanceof BasePackageInfo) {
-                        currentEntity = ((BasePackageInfo) currentEntity).getContainingProject();
+                    if (currentEntity instanceof PackageInfo) {
+                        currentEntity = ((PackageInfo) currentEntity).getContainingProject();
                     }
                     break;
                 case XmlNames.E_FILE:
                     currentLevel = PACKAGE_LEVEL;
-                    if (currentEntity instanceof BaseFileInfo) {
-                        currentEntity = ((BaseFileInfo) currentEntity).getContainingPackage();
+                    if (currentEntity instanceof FileInfo) {
+                        currentEntity = ((FileInfo) currentEntity).getContainingPackage();
                     }
                     break;
                 case XmlNames.E_CLASS:
                     currentLevel = FILE_LEVEL;
-                    if (currentEntity instanceof BaseClassInfo) {
-                        currentEntity = ((BaseClassInfo) currentEntity).getContainingFile();
+                    if (currentEntity instanceof ClassInfo) {
+                        currentEntity = ((ClassInfo) currentEntity).getContainingFile();
                     }
                     break;
             }

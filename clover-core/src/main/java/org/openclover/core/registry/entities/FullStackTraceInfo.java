@@ -1,32 +1,39 @@
 package org.openclover.core.registry.entities;
 
+import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.FileInfo;
+import org.openclover.core.api.registry.ProjectInfo;
+import org.openclover.core.api.registry.StackTraceEntry;
+import org.openclover.core.api.registry.StackTraceInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
+
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.io.StringReader;
 import java.lang.ref.WeakReference;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static org.openclover.core.util.Lists.newArrayList;
 
-public class StackTraceInfo {
+public class FullStackTraceInfo implements StackTraceInfo {
 
-
-    private List<TraceEntry> entries = newArrayList();
+    private final List<StackTraceEntry> entries = newArrayList();
     private TestCaseInfo originatingTest;
 
-    public StackTraceInfo(TestCaseInfo originatingTest, String fullTrace) {
+    public FullStackTraceInfo(TestCaseInfo originatingTest, String fullTrace) {
 
         this.originatingTest = originatingTest;
 
         LineNumberReader lineReader = new LineNumberReader(new StringReader(fullTrace));
         try {
             String line = lineReader.readLine();
-            TraceEntry prev = null;
+            StackTraceEntry prev = null;
             int id = 0;
             while (line != null) {
-                TraceEntry cur = new TraceEntry(this, id++, prev, line);
+                StackTraceEntry cur = new StackTraceEntryImpl(this, id++, prev, line);
                 entries.add(cur);
                 if (prev != null) {
                     prev.setDown(cur);
@@ -39,25 +46,29 @@ public class StackTraceInfo {
         }
     }
 
+    @Override
     public TestCaseInfo getOriginatingTest() {
         return originatingTest;
     }
 
+    @Override
     public void setOriginatingTest(TestCaseInfo originatingTest) {
         this.originatingTest = originatingTest;
     }
 
-    public void resolve(FullProjectInfo proj) {
-        for (TraceEntry traceEntry : entries) {
-            traceEntry.resolve(proj);
+    @Override
+    public void resolve(ProjectInfo proj) {
+        for (StackTraceEntry stackTraceEntry : entries) {
+            stackTraceEntry.resolve(proj);
         }
     }
 
-    public List<TraceEntry> getEntries() {
+    @Override
+    public List<StackTraceEntry> getEntries() {
         return entries; 
     }
 
-    public static class TraceEntry {
+    public static class StackTraceEntryImpl implements StackTraceEntry {
 
 
         private static final String FILE_REGEXP = "[\\p{Alpha}\\$_][\\p{Alnum}\\$_]*\\.java:([0-9]+)";
@@ -65,80 +76,92 @@ public class StackTraceInfo {
         private static final Pattern LINE_NUMBER_PATTERN = Pattern.compile(FILE_REGEXP);
 
 
-        private StackTraceInfo parentTrace;
-        private int id; //local only to the parent trace
-        private String line;
-        private TraceEntry up;
-        private TraceEntry down;
+        private final StackTraceInfo parentTrace;
+        private final int id; //local only to the parent trace
+        private final String line;
+        private final StackTraceEntry up;
+        private StackTraceEntry down;
 
         // these are possibly filled upon resolve(p)
-        private WeakReference<FullFileInfo> containingFile = new WeakReference<>(null);
+        private WeakReference<FileInfo> containingFile = new WeakReference<>(null);
         private int lineNum = -1;
         private String linePrefix;
         private String linkableLineSegment;
 
-        public TraceEntry(StackTraceInfo parentTrace, int id, TraceEntry up, String line) {
+        public StackTraceEntryImpl(StackTraceInfo parentTrace, int id, StackTraceEntry up, String line) {
             this.parentTrace = parentTrace;
             this.id = id;
             this.up = up;
             this.line = line;
         }
 
+        @Override
         public StackTraceInfo getParentTrace() {
             return parentTrace;
         }
 
+        @Override
         public int getId() {
             return id;
         }
 
+        @Override
         public String getLine() {
             return line;
         }
 
+        @Override
         public String getLinePrefix() {
             return linePrefix;
         }
 
+        @Override
         public String getLinkableLineSegment() {
             return linkableLineSegment;
         }
 
-        public TraceEntry getUp() {
+        @Override
+        public StackTraceEntry getUp() {
             return up;
         }
 
-        public TraceEntry getDown() {
+        @Override
+        public StackTraceEntry getDown() {
             return down;
         }
 
-        public void setDown(TraceEntry down) {
+        @Override
+        public void setDown(StackTraceEntry down) {
             this.down = down;
         }
 
-        public FullFileInfo getContainingFile() {
+        @Override
+        public FileInfo getContainingFile() {
             return containingFile.get();
         }
 
+        @Override
         public int getLineNum() {
             return lineNum;
         }
 
+        @Override
         public boolean isResolved() {
             return containingFile.get() != null;
         }
 
-        public boolean resolve(FullProjectInfo proj) {
+        @Override
+        public boolean resolve(ProjectInfo proj) {
             Matcher matcher = TRACE_LINE_PATTERN.matcher(line);
             boolean resolved = false;
             if (matcher.find()) {
                 linePrefix = line.substring(0,matcher.start());
                 linkableLineSegment = line.substring(matcher.start());
                 String fqcn = matcher.group(2).replace('$','.');
-                FullClassInfo clazz = (FullClassInfo)proj.findClass(fqcn);
+                ClassInfo clazz = proj.findClass(fqcn);
 
                 if (clazz != null) {
-                    final FullFileInfo fileInfo = (FullFileInfo)clazz.getContainingFile();
+                    final FileInfo fileInfo = Objects.requireNonNull(clazz.getContainingFile());
                     containingFile = new WeakReference<>(fileInfo);
                     String lineStr = matcher.group(4);
                     if (LINE_NUMBER_PATTERN.matcher(lineStr).matches()) {
@@ -151,7 +174,5 @@ public class StackTraceInfo {
             return resolved;
         }
     }
-
-
 
 }

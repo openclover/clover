@@ -1,5 +1,6 @@
 package org.openclover.core.reporters.html.source;
 
+import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
 
 import java.io.BufferedReader;
@@ -8,7 +9,7 @@ import java.io.Reader;
 
 public class PlaintextLineTraverser<L extends SourceListener> implements SourceTraverser<L> {
     @Override
-    public void traverse(Reader sourceReader, FullFileInfo fileInfo, L listener) throws IOException {
+    public void traverse(Reader sourceReader, FileInfo fileInfo, L listener) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(sourceReader);
         String line = bufferedReader.readLine();
 

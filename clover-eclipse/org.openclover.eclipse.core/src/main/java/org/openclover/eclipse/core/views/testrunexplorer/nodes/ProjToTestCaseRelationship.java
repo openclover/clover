@@ -1,6 +1,7 @@
 package org.openclover.eclipse.core.views.testrunexplorer.nodes;
 
 import org.eclipse.core.resources.IProject;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
@@ -21,7 +22,7 @@ public class ProjToTestCaseRelationship extends NodeRelationship {
     public Object[] getChildren(Object object, NodeRelationshipFilter filter) {
         try {
             final CloverProject cloverProject = CloverProject.getFor((IProject) object);
-            final FullProjectInfo testProjectInfo = cloverProject == null ? null : cloverProject.getModel().getTestOnlyProjectInfo();
+            final ProjectInfo testProjectInfo = cloverProject == null ? null : cloverProject.getModel().getTestOnlyProjectInfo();
             if (testProjectInfo != null && testProjectInfo.hasTestResults()) {
                 return filter.perform(
                     Nodes.collectTestCases(

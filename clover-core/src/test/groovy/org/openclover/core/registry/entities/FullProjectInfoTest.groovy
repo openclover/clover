@@ -3,6 +3,8 @@ package org.openclover.core.registry.entities
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestName
+import org.openclover.core.api.registry.PackageInfo
+import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.registry.FixedSourceRegion
 
 import static org.junit.Assert.assertEquals
@@ -16,7 +18,7 @@ class FullProjectInfoTest {
 
     @Test
     void testPackageLookup() {
-        FullProjectInfo project = new FullProjectInfo(testName.methodName)
+        ProjectInfo project = new FullProjectInfo(testName.methodName)
         project.addPackage(new FullPackageInfo(project, "com.foo", 0))
         project.addPackage(new FullPackageInfo(project, "com.foo.bar", 1))
         project.addPackage(new FullPackageInfo(project, "com.foo.baz", 2))
@@ -34,14 +36,14 @@ class FullProjectInfoTest {
 
     @Test
     void testPackageFileClassLookupAfterInvalidateCache() {
-        FullProjectInfo project = new FullProjectInfo(testName.methodName)
+        ProjectInfo project = new FullProjectInfo(testName.methodName)
 
         //Force cache construction prematurely
         assertNull(project.findPackageFragment("com"))
         assertNull(project.findClass("com.foo.Foo"))
         assertNull(project.findFile("com/foo/Foo.java"))
 
-        final FullPackageInfo pkg = new FullPackageInfo(project, "com.foo", 0)
+        final PackageInfo pkg = new FullPackageInfo(project, "com.foo", 0)
         project.addPackage(pkg)
 
         final FullFileInfo file = new FullFileInfo(pkg, new File("Foo.java"), "UTF-8", 0, 0, 0, 0L, 0L, 0L, 0L)

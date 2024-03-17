@@ -2,6 +2,7 @@ package org.openclover.core.reporters.html.source.java;
 
 import clover.antlr.Token;
 import clover.antlr.TokenStreamException;
+import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig;
 import org.openclover.core.instr.java.JavaLexer;
 import org.openclover.core.instr.java.JavaTokenTypes;
@@ -16,7 +17,7 @@ import java.io.Reader;
  */
 public final class JavaTokenTraverser implements SourceTraverser<JavaSourceListener> {
     @Override
-    public void traverse(Reader sourceReader, FullFileInfo fileInfo, JavaSourceListener listener) throws TokenStreamException {
+    public void traverse(Reader sourceReader, FileInfo fileInfo, JavaSourceListener listener) throws TokenStreamException {
         JavaLexer lexer = new JavaLexer(sourceReader, new JavaInstrumentationConfig());
 
         Token token = lexer.nextToken();

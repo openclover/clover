@@ -6,10 +6,10 @@ import clover.org.apache.velocity.VelocityContext;
 import org.openclover.core.api.registry.BlockMetrics;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.api.registry.HasMetricsFilter;
+import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
-import org.openclover.core.registry.entities.FullPackageInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
-import org.openclover.core.registry.metrics.HasMetricsFilter;
 import org.openclover.core.reporters.CloverReportConfig;
 import org.openclover.core.reporters.html.HtmlRenderingSupportImpl;
 import org.openclover.core.reporters.html.HtmlReportUtil;
@@ -24,13 +24,13 @@ import java.util.concurrent.Callable;
 
 public class RenderTreeMapAction implements Callable<Object> {
 
-    private final FullProjectInfo project;
+    private final ProjectInfo project;
     private final File outdir;
     private final VelocityContext mContext;
     private final HtmlRenderingSupportImpl renderSupport = new HtmlRenderingSupportImpl();
-    private CloverReportConfig reportConfig;
+    private final CloverReportConfig reportConfig;
 
-    public RenderTreeMapAction(VelocityContext context, CloverReportConfig reportConfig, File outdir, FullProjectInfo project) {
+    public RenderTreeMapAction(VelocityContext context, CloverReportConfig reportConfig, File outdir, ProjectInfo project) {
         this.project = project;
         this.outdir = outdir;
         this.mContext = context;
@@ -74,29 +74,28 @@ public class RenderTreeMapAction implements Callable<Object> {
     String generateJson(boolean classLevel) {
         final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-        final List<FullPackageInfo> pkgInfos = (List<FullPackageInfo>)project.getAllPackages();
+        final List<PackageInfo> pkgInfos = project.getAllPackages();
 
         final List<Node> pkgNodes = new ArrayList<>(pkgInfos.size());
 
         final Node projectNode = createNode(project.getDataIndex(), "", project, pkgNodes);
 
-        for (final FullPackageInfo packageInfo : pkgInfos) {
-            final List classes = packageInfo.getClasses(HasMetricsFilter.ACCEPT_ALL);
+        for (final PackageInfo packageInfo : pkgInfos) {
+            final List<ClassInfo> classes = packageInfo.getClasses(HasMetricsFilter.ACCEPT_ALL);
             // create a package node.
             final List<Node> classesList = new ArrayList<>(classes.size());
             pkgNodes.add(createNode(packageInfo.getDataIndex(), packageInfo.getName(), packageInfo, classesList));
 
-            for (Iterator iterator = classes.iterator(); classLevel && iterator.hasNext(); ) {
+            for (Iterator<ClassInfo> iterator = classes.iterator(); classLevel && iterator.hasNext(); ) {
                 final FullClassInfo classInfo = (FullClassInfo) iterator.next();
                 // create a leaf node and add to the package's children list
                 final String path = classInfo.getContainingFile() != null ?
                         renderSupport.getSrcFileLink(true, true, classInfo).toString() : null;
-                classesList.add(createNode(classInfo.getDataIndex(), classInfo.getName(), classInfo, Collections.<Node>emptyList(), path)); // TreeMap requires the children:[] ele
+                classesList.add(createNode(classInfo.getDataIndex(), classInfo.getName(), classInfo, Collections.emptyList(), path)); // TreeMap requires the children:[] ele
             }
         }
 
-        final String jsonStr = gson.toJson(projectNode);
-        return jsonStr;
+        return gson.toJson(projectNode);
     }
 
     private Node createNode(int index, String nodeName, HasMetrics hasMetrics, List<Node> children) {
@@ -111,8 +110,7 @@ public class RenderTreeMapAction implements Callable<Object> {
                                             nodeName, metrics.getNumElements(), pcStr); 
         
         final Data data = new Data(metrics.getNumElements(), metrics.getPcCoveredElements() * 100f, path, title);
-        final Node node = new Node(hasMetrics.getName() + index , nodeName, data, children);
-        return node;
+        return new Node(hasMetrics.getName() + index , nodeName, data, children);
     }
 
 

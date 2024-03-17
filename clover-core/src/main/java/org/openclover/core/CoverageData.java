@@ -1,13 +1,13 @@
 package org.openclover.core;
 
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.cfg.StorageSize;
 import org.openclover.core.recorder.GlobalCoverageRecordingTranscript;
 import org.openclover.core.recorder.PerTestCoverage;
 import org.openclover.core.recorder.PerTestRecordingTranscript;
 import org.openclover.core.registry.Clover2Registry;
-import org.openclover.core.registry.CoverageDataRange;
+import org.openclover.core.api.registry.CoverageDataRange;
 import org.openclover.core.registry.entities.FullFileInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
 import org.openclover.runtime.Logger;
 import org.openclover.runtime.util.CloverBitSet;
 

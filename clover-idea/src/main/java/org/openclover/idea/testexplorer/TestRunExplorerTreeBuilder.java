@@ -17,18 +17,20 @@ import org.jetbrains.annotations.NotNull;
 import org.openclover.core.BitSetCoverageProvider;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.CoverageData;
+import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.PackageInfo;
-import org.openclover.core.registry.CoverageDataProvider;
-import org.openclover.core.registry.CoverageDataReceptor;
+import org.openclover.core.api.registry.CoverageDataProvider;
+import org.openclover.core.api.registry.CoverageDataReceptor;
+import org.openclover.core.api.registry.ProjectInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullMethodInfo;
-import org.openclover.core.registry.entities.FullPackageInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
-import org.openclover.core.registry.entities.PackageFragment;
-import org.openclover.core.registry.entities.TestCaseInfo;
-import org.openclover.core.registry.metrics.HasMetricsFilter;
+import org.openclover.core.api.registry.PackageFragment;
+import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.config.TestCaseLayout;
 import org.openclover.idea.coverage.CoverageManager;
@@ -61,12 +63,12 @@ public class TestRunExplorerTreeBuilder {
         this.rootNode = rootNode;
     }
 
-    private Map<PackageInfo, Map<FullClassInfo, Collection<TestCaseInfo>>> indexPerPackage(Collection<? extends TestCaseInfo> testCases) {
+    private Map<PackageInfo, Map<ClassInfo, Collection<TestCaseInfo>>> indexPerPackage(Collection<? extends TestCaseInfo> testCases) {
 
-        final Map<PackageInfo, Map<FullClassInfo, Collection<TestCaseInfo>>> index =
+        final Map<PackageInfo, Map<ClassInfo, Collection<TestCaseInfo>>> index =
                 new IdentityHashMap<>();
         for (TestCaseInfo testCase : testCases) {
-            FullClassInfo classInfo = testCase.getRuntimeType();
+            ClassInfo classInfo = testCase.getRuntimeType();
             if (classInfo == null) {
                 // test case cannot be mapped to a test class - class has been renamed or removed
                 continue;
@@ -74,7 +76,7 @@ public class TestRunExplorerTreeBuilder {
             PackageInfo packageInfo = classInfo.getPackage();
 
             Collection<TestCaseInfo> tciList;
-            Map<FullClassInfo, Collection<TestCaseInfo>> clsMap = index.get(packageInfo);
+            Map<ClassInfo, Collection<TestCaseInfo>> clsMap = index.get(packageInfo);
             if (clsMap == null) {
                 clsMap = new IdentityHashMap<>();
                 index.put(packageInfo, clsMap);
@@ -116,7 +118,7 @@ public class TestRunExplorerTreeBuilder {
             final File rootDir = VfsUtil.virtualToIoFile(sourceVirtualFile);
 
             for (TestCaseInfo testCase : testCases) {
-                final File file = ((FullFileInfo) testCase.getRuntimeType().getContainingFile()).getPhysicalFile();
+                final File file = testCase.getRuntimeType().getContainingFile().getPhysicalFile();
                 if (VfsUtil.isAncestor(rootDir, file, false)) {
                     perFolder.add(testCase);
                 }
@@ -143,8 +145,8 @@ public class TestRunExplorerTreeBuilder {
     }
 
     private void addFlatPackages(DefaultMutableTreeNode rootNode, Collection<? extends TestCaseInfo> testCases) {
-        Map<PackageInfo, Map<FullClassInfo, Collection<TestCaseInfo>>> index = indexPerPackage(testCases);
-        for (Map.Entry<PackageInfo, Map<FullClassInfo, Collection<TestCaseInfo>>> entry : index.entrySet()) {
+        Map<PackageInfo, Map<ClassInfo, Collection<TestCaseInfo>>> index = indexPerPackage(testCases);
+        for (Map.Entry<PackageInfo, Map<ClassInfo, Collection<TestCaseInfo>>> entry : index.entrySet()) {
             PackageInfo packageInfo = entry.getKey();
             DefaultMutableTreeNode packageNode = new DefaultMutableTreeNode(packageInfo);
             rootNode.add(packageNode);
@@ -153,9 +155,9 @@ public class TestRunExplorerTreeBuilder {
 
     }
 
-    private void addClasses(Map<FullClassInfo, Collection<TestCaseInfo>> classes, DefaultMutableTreeNode packageNode) {
-        for (Map.Entry<FullClassInfo, Collection<TestCaseInfo>> entry : classes.entrySet()) {
-            FullClassInfo classInfo = entry.getKey();
+    private void addClasses(Map<ClassInfo, Collection<TestCaseInfo>> classes, DefaultMutableTreeNode packageNode) {
+        for (Map.Entry<ClassInfo, Collection<TestCaseInfo>> entry : classes.entrySet()) {
+            ClassInfo classInfo = entry.getKey();
             Collection<TestCaseInfo> classCases = entry.getValue();
             DefaultMutableTreeNode classNode = new DefaultMutableTreeNode(classInfo);
             packageNode.add(classNode);
@@ -164,7 +166,7 @@ public class TestRunExplorerTreeBuilder {
     }
 
     private void addPackageFragments(DefaultMutableTreeNode rootNode, Collection<? extends TestCaseInfo> testCases, CloverDatabase cloverDatabase) {
-        Map<PackageInfo, Map<FullClassInfo, Collection<TestCaseInfo>>> index = indexPerPackage(testCases);
+        Map<PackageInfo, Map<ClassInfo, Collection<TestCaseInfo>>> index = indexPerPackage(testCases);
         PackageFragment[] packageRoots = cloverDatabase.getFullModel().getPackageRoots();
         for (PackageFragment packageRoot : packageRoots) {
             DefaultMutableTreeNode childNode = getPackageFragmentNode(index, packageRoot);
@@ -174,7 +176,7 @@ public class TestRunExplorerTreeBuilder {
         }
     }
 
-    private DefaultMutableTreeNode getPackageFragmentNode(Map<PackageInfo, Map<FullClassInfo, Collection<TestCaseInfo>>> index, PackageFragment packageFragment) {
+    private DefaultMutableTreeNode getPackageFragmentNode(Map<PackageInfo, Map<ClassInfo, Collection<TestCaseInfo>>> index, PackageFragment packageFragment) {
         DefaultMutableTreeNode node = null;
         for (PackageFragment fragment : packageFragment.getChildren()) {
             DefaultMutableTreeNode childNode = getPackageFragmentNode(index, fragment);
@@ -186,8 +188,8 @@ public class TestRunExplorerTreeBuilder {
             }
         }
         if (packageFragment.isConcrete()) {
-            FullPackageInfo concrete = packageFragment.getConcretePackage();
-            Map<FullClassInfo, Collection<TestCaseInfo>> classes = index.get(concrete);
+            PackageInfo concrete = packageFragment.getConcretePackage();
+            Map<ClassInfo, Collection<TestCaseInfo>> classes = index.get(concrete);
             if (classes != null) {
                 if (node == null) {
                     node = new DefaultMutableTreeNode(packageFragment);
@@ -214,7 +216,7 @@ public class TestRunExplorerTreeBuilder {
 
     void populate(CloverDatabase currentDatabase, CoverageDataReceptor receptor, TestCaseLayout layout, boolean flatten, boolean addCoverage) {
         @SuppressWarnings("unchecked")
-        Collection<? extends TestCaseInfo> testCases = receptor instanceof FullProjectInfo ?
+        Collection<? extends TestCaseInfo> testCases = receptor instanceof ProjectInfo ?
                 currentDatabase.getCoverageData().getTests() :
                 currentDatabase.getTestHits(receptor);
 
@@ -245,7 +247,8 @@ public class TestRunExplorerTreeBuilder {
         }
     }
 
-    void populate(CloverDatabase currentDatabase, Collection<? extends TestCaseInfo> testCases, TestCaseLayout layout, boolean flatten) {
+    void populate(CloverDatabase currentDatabase, Collection<? extends TestCaseInfo> testCases,
+                  TestCaseLayout layout, boolean flatten) {
 
         switch (layout) {
             case TEST_CASES:
@@ -346,22 +349,22 @@ public class TestRunExplorerTreeBuilder {
         }
 
         private CoverageDataReceptor copyReceptor(CoverageDataReceptor receptor) {
-            if (receptor instanceof FullProjectInfo) {
-                return ((FullProjectInfo) receptor).copy();
-            } else if (receptor instanceof FullFileInfo) {
-                final FullFileInfo fileInfo = (FullFileInfo) receptor;
-                return fileInfo.copy((FullPackageInfo) fileInfo.getContainingPackage(), HasMetricsFilter.ACCEPT_ALL);
-            } else if (receptor instanceof FullClassInfo) {
-                final FullClassInfo classInfo = (FullClassInfo) receptor;
-                return classInfo.copy((FullFileInfo) classInfo.getContainingFile(), HasMetricsFilter.ACCEPT_ALL);
-            } else if (receptor instanceof FullMethodInfo) {
-                final FullMethodInfo methodInfo = (FullMethodInfo) receptor;
+            if (receptor instanceof ProjectInfo) {
+                return ((ProjectInfo) receptor).copy();
+            } else if (receptor instanceof FileInfo) {
+                final FileInfo fileInfo = (FileInfo) receptor;
+                return (FullFileInfo) fileInfo.copy(fileInfo.getContainingPackage(), HasMetricsFilter.ACCEPT_ALL);
+            } else if (receptor instanceof ClassInfo) {
+                final ClassInfo classInfo = (ClassInfo) receptor;
+                return (FullClassInfo) classInfo.copy(classInfo.getContainingFile(), HasMetricsFilter.ACCEPT_ALL);
+            } else if (receptor instanceof MethodInfo) {
+                final MethodInfo methodInfo = (MethodInfo) receptor;
                 if (methodInfo.getContainingClass() != null) {
-                    return methodInfo.copy((FullClassInfo) methodInfo.getContainingClass());
+                    return (FullMethodInfo) methodInfo.copy(methodInfo.getContainingClass());
                 } else if (methodInfo.getContainingMethod() != null) {
-                    return methodInfo.copy((FullMethodInfo) methodInfo.getContainingMethod());
+                    return (FullMethodInfo) methodInfo.copy(methodInfo.getContainingMethod());
                 } else {
-                    return methodInfo.copy((FullFileInfo) methodInfo.getContainingFile());
+                    return (FullMethodInfo) methodInfo.copy(methodInfo.getContainingFile());
                 }
             } else {
                 return null;

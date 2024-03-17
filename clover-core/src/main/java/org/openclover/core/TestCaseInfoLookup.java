@@ -1,6 +1,6 @@
 package org.openclover.core;
 
-import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
 
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;

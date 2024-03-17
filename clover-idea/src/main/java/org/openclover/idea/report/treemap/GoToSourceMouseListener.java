@@ -5,6 +5,7 @@ import clover.net.sf.jtreemap.swing.TreeMapNode;
 import clover.net.sf.jtreemap.swing.Value;
 import com.intellij.openapi.project.Project;
 import org.openclover.core.api.registry.BlockMetrics;
+import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.idea.util.ui.ScrollUtil;
 
@@ -55,7 +56,7 @@ public class GoToSourceMouseListener extends MouseAdapter {
         if (classInfoValue != null) {
             JPopupMenu menu = new JPopupMenu();
 
-            final FullClassInfo classInfo = classInfoValue.getClassInfo();
+            final ClassInfo classInfo = classInfoValue.getClassInfo();
             final BlockMetrics classMetrics = classInfo.getMetrics();
 
             final String info = "covered " + classMetrics.getNumCoveredElements() + " / "

@@ -24,5 +24,5 @@ public interface TaggedDataOutput {
 
     <T extends TaggedPersistent> void write(Class<? extends T> t, T p) throws IOException;
 
-    <T extends TaggedPersistent> void writeList(Class<T> type, List<T> list) throws IOException;
+    <T extends TaggedPersistent, I> void writeList(Class<T> type, List<I> list) throws IOException;
 }

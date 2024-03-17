@@ -25,8 +25,9 @@ import clover.org.jfree.data.xy.XYDataset;
 import clover.org.jfree.data.xy.XYSeries;
 import clover.org.jfree.data.xy.XYSeriesCollection;
 import clover.org.jfree.ui.RectangleInsets;
+import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.HasMetrics;
-import org.openclover.core.registry.entities.BaseClassInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.reporters.Column;
 import org.openclover.core.reporters.Columns;
@@ -140,7 +141,7 @@ public class CloverChartFactory {
         }
     }
 
-    public static ChartInfo getChartForFile(FullFileInfo fileInfo, Map<Integer, CloverChartFactory.ChartInfo> charts) {
+    public static ChartInfo getChartForFile(FileInfo fileInfo, Map<Integer, CloverChartFactory.ChartInfo> charts) {
         double coverage = fileInfo.getMetrics().getPcCoveredElements();
         if (coverage >= 0 && (!fileInfo.isTestFile())) {
             return charts.get(CloverChartFactory.getDataIndex(fileInfo.getMetrics().getPcCoveredElements()));
@@ -157,7 +158,7 @@ public class CloverChartFactory {
         return new ChartInfo(HISTOGRAM_NAME, ChartUtilities.getImageMap(HISTOGRAM_NAME, renderingInfo), 0, "", HISTOGRAM_TITLE);
     }
 
-    public static ChartInfo generateScatterChart(final List<? extends BaseClassInfo> appClasses, final File basePath)
+    public static ChartInfo generateScatterChart(final List<ClassInfo> appClasses, final File basePath)
             throws IOException {
         final JFreeChart chart = createComplexityCoverageChart("Coverage", "Complexity", appClasses, "Complexity: {2}; Coverage: {1}; Class: ");
 
@@ -211,7 +212,7 @@ public class CloverChartFactory {
     }
 
     protected static JFreeChart createComplexityCoverageChart(final String xLabel, final String yLabel,
-                                                              final List<? extends BaseClassInfo> appClasses,
+                                                              final List<ClassInfo> appClasses,
                                                               final String toolTip) {
         ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
         XYSeriesCollection seriesCollection = new XYSeriesCollection();
@@ -225,9 +226,9 @@ public class CloverChartFactory {
         //this map contains class info for each datapoint in the series
         //but it can only store info for 1 (x,y) value - if there are two
         //datapoints with the same values, the second overwrites the first
-        Map<XYDataItem, BaseClassInfo> classInfoMap = newHashMap();
+        Map<XYDataItem, ClassInfo> classInfoMap = newHashMap();
 
-        for (BaseClassInfo classInfo : appClasses) {
+        for (ClassInfo classInfo : appClasses) {
             int covered = (int) (classInfo.getMetrics().getPcCoveredElements() * 100);
             if (covered >= 0) {
                 XYDataItem item = new XYDataItem(covered, classInfo.getMetrics().getComplexity());
@@ -381,23 +382,23 @@ public class CloverChartFactory {
         return chart;
     }
 
-    private static XYURLGenerator getXYURLGenerator(final Map<XYDataItem, BaseClassInfo> classInfoMap) {
+    private static XYURLGenerator getXYURLGenerator(final Map<XYDataItem, ClassInfo> classInfoMap) {
         return (dataset, series, item) -> {
             XYDataItem key = new XYDataItem(dataset.getX(series, item), dataset.getY(series, item));
-            BaseClassInfo classInfo = classInfoMap.get(key);
+            ClassInfo classInfo = classInfoMap.get(key);
             return new String(HTML_HELPER.getSrcFileLink(true, true, classInfo));
         };
     }
 
     private static XYToolTipGenerator getXYToolTipGeneratorComplexityCoverage(
-            final Map<XYDataItem, BaseClassInfo> classInfoMap,
+            final Map<XYDataItem, ClassInfo> classInfoMap,
             final String format) {
          return new StandardXYToolTipGenerator(format, Formatting.getPcFormat(), NumberFormat.getInstance()) {
             @Override
             public String generateToolTip(XYDataset dataset, int series, int item) {
                 String toolTip = super.generateToolTip(dataset, series, item);
                 XYDataItem key = new XYDataItem(dataset.getX(series, item), dataset.getY(series, item));
-                BaseClassInfo classInfo = classInfoMap.get(key);
+                ClassInfo classInfo = classInfoMap.get(key);
                 return toolTip + classInfo.getName();
             }
         };

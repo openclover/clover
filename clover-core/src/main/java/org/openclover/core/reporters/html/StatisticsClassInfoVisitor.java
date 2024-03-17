@@ -1,7 +1,6 @@
 package org.openclover.core.reporters.html;
 
 import org.openclover.core.api.registry.ClassInfo;
-import org.openclover.core.registry.entities.BaseClassInfo;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -50,7 +49,7 @@ public class StatisticsClassInfoVisitor {
         return newArrayList(classes.keySet());
     }
 
-    public boolean hasClassInfo(BaseClassInfo info) {
+    public boolean hasClassInfo(ClassInfo info) {
         return classes.containsKey(info);
     }
 
@@ -58,7 +57,7 @@ public class StatisticsClassInfoVisitor {
         return calculator;
     }
 
-    public static StatisticsClassInfoVisitor visit(List<? extends ClassInfo> classes, ClassInfoStatsCalculator statsCalculator) {
+    public static StatisticsClassInfoVisitor visit(List<ClassInfo> classes, ClassInfoStatsCalculator statsCalculator) {
         final StatisticsClassInfoVisitor visitor = new StatisticsClassInfoVisitor(statsCalculator);
         for (ClassInfo cls : classes) {
             visitor.visitClassInfo(cls);

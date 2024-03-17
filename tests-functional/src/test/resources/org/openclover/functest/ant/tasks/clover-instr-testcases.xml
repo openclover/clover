@@ -16,7 +16,7 @@
     <property name="src.buildutil.location" value="${testdetection.dir}/buildutil"/>
     <property name="project.src.location1" value="${testdetection.dir}/version1"/>
     <property name="project.src.location2" value="${testdetection.dir}/version2"/>
-    <property name="testrun.dir" value="${project.dir}/tests-functional/target/testrun/tmp/com_atlassian_clover_ant_tasks_CloverInstrTaskTestcasesTest"/>
+    <property name="testrun.dir" value="${project.dir}/tests-functional/target/testrun/tmp/org_openclover_functest_ant_tasks_CloverInstrTaskTestcasesTest"/>
 
     <path id="test.path">
         <pathelement location="${clover.jar}"/> <!-- normal version -->

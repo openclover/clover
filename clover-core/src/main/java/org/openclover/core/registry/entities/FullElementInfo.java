@@ -5,9 +5,9 @@ import org.openclover.core.api.registry.ContextSet;
 import org.openclover.core.api.registry.ElementInfo;
 import org.openclover.core.context.ContextStore;
 import org.openclover.core.context.NamedContext;
-import org.openclover.core.registry.CoverageDataProvider;
-import org.openclover.core.registry.CoverageDataReceptor;
-import org.openclover.core.registry.FileInfoRegion;
+import org.openclover.core.api.registry.CoverageDataProvider;
+import org.openclover.core.api.registry.CoverageDataReceptor;
+import org.openclover.core.api.registry.FileInfoRegion;
 import org.openclover.core.spi.lang.LanguageConstruct;
 
 public abstract class FullElementInfo<T extends BasicElementInfo> implements CoverageDataReceptor, FileInfoRegion, ElementInfo {
@@ -24,6 +24,7 @@ public abstract class FullElementInfo<T extends BasicElementInfo> implements Cov
         return context;
     }
 
+    @Override
     public void setContext(ContextSet context) {
         this.context = context;
     }
@@ -67,7 +68,7 @@ public abstract class FullElementInfo<T extends BasicElementInfo> implements Cov
 
     @Override
     public int getDataIndex() {
-        return ((FullFileInfo)getContainingFile()).dataIndex + sharedInfo.getRelativeDataIndex();
+        return getContainingFile().getDataIndex() + sharedInfo.getRelativeDataIndex();
     }
 
     @Override

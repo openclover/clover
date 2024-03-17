@@ -10,11 +10,11 @@ import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.ContextSet;
 import org.openclover.core.api.registry.ElementInfo;
 import org.openclover.core.api.registry.SourceInfo;
-import org.openclover.core.registry.CoverageDataRange;
+import org.openclover.core.api.registry.CoverageDataRange;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.entities.FullElementInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
 import org.openclover.eclipse.core.CloverPlugin;
 
 import java.util.BitSet;
@@ -34,9 +34,9 @@ public class CoverageAnnotationFilter {
     };
 
     public static CoverageAnnotationFilter loadFor(
-        CloverDatabase database, FullFileInfo fileInfo,
-        Map<TestCaseInfo, BitSet> tcisAndHitsForFile, IResource editedResource,
-        boolean hideCovered, ContextSet blockFilter) {
+            CloverDatabase database, FullFileInfo fileInfo,
+            Map<TestCaseInfo, BitSet> tcisAndHitsForFile, IResource editedResource,
+            boolean hideCovered, ContextSet blockFilter) {
 
         return new CoverageAnnotationFilter(
             database,
@@ -52,7 +52,7 @@ public class CoverageAnnotationFilter {
     private TestFilter excludedTestNames;
     private boolean filterOutFullyCovered;
     private ContextSet blockFilter;
-    private Map<TestCaseInfo,BitSet> tcisAndCoverageForFile;
+    private Map<TestCaseInfo, BitSet> tcisAndCoverageForFile;
 
     private CoverageAnnotationFilter() {}
 
@@ -74,7 +74,7 @@ public class CoverageAnnotationFilter {
         for (Iterator<TestCaseInfo> iterator = includedTests.iterator(); iterator.hasNext();) {
             TestCaseInfo testCase = iterator.next();
             if (testCase != null) {
-                if (testCase.isResolved() || testCase.resolve((FullProjectInfo)fileInfo.getContainingPackage().getContainingProject())) {
+                if (testCase.isResolved() || testCase.resolve(fileInfo.getContainingPackage().getContainingProject())) {
                     if (testNames.matches(testCase)) {
                         iterator.remove();
                     }

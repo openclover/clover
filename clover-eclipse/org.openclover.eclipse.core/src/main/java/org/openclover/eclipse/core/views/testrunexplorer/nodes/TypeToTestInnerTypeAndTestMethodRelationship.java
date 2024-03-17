@@ -4,8 +4,9 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
-import org.openclover.core.registry.entities.FullClassInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.core.api.registry.ClassInfo;
+
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.model.MetricsScope;
 import org.openclover.eclipse.core.views.nodes.NodeRelationship;
@@ -58,7 +59,7 @@ public class TypeToTestInnerTypeAndTestMethodRelationship extends NodeRelationsh
             IMethod[] methods = ((IType) object).getMethods();
 
             for (IType type : types) {
-                FullClassInfo hasMetricsType = (FullClassInfo) MetricsScope.TEST_ONLY.getHasMetricsFor(type, FullClassInfo.class);
+                ClassInfo hasMetricsType = (ClassInfo) MetricsScope.TEST_ONLY.getHasMetricsFor(type, ClassInfo.class);
                 if (hasMetricsType != null && hasMetricsType.isTestClass()) {
                     return Boolean.TRUE;
                 }

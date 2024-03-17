@@ -3,17 +3,18 @@ package org.openclover.core.registry.format
 import org.junit.After
 import org.junit.Test
 import org.openclover.core.CoverageData
+import org.openclover.core.api.registry.ClassInfo
+import org.openclover.core.api.registry.MethodInfo
+import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.context.ContextStore
 import org.openclover.core.recorder.InMemPerTestCoverage
 import org.openclover.core.recorder.PerTestCoverage
 import org.openclover.core.recorder.PerTestRecordingTranscript
 import org.openclover.core.registry.FullProjectUpdate
 import org.openclover.core.registry.ModelBuilder
-import org.openclover.core.registry.entities.FullClassInfo
 import org.openclover.core.registry.entities.FullFileInfo
 import org.openclover.core.registry.entities.FullMethodInfo
-import org.openclover.core.registry.entities.FullProjectInfo
-import org.openclover.core.registry.entities.TestCaseInfo
+import org.openclover.core.registry.entities.FullTestCaseInfo
 import org.openclover.runtime.RuntimeType
 import org.openclover.runtime.api.registry.CloverRegistryException
 import org.openclover.runtime.registry.format.RegAccessMode
@@ -32,7 +33,7 @@ class RegFileFormatTest {
 
     @After
     void tearDown() throws Exception {
-        TestCaseInfo.Factory.reset()
+        FullTestCaseInfo.Factory.reset()
     }
 
     @Test
@@ -44,7 +45,7 @@ class RegFileFormatTest {
         final ModelBuilder modelBuilder = newTestModel()
 
         long now = System.currentTimeMillis()
-        final FullProjectInfo proj = (FullProjectInfo)modelBuilder.get("proj")
+        final ProjectInfo proj = (ProjectInfo)modelBuilder.get("proj")
         final ContextStore ctxStore = new ContextStore()
         final RegFile regFile =
             new FreshRegFile(temp, RegAccessMode.READWRITE, "Test Registry")
@@ -122,7 +123,7 @@ class RegFileFormatTest {
 
         final ModelBuilder modelBuilder = newTestModel()
         final ContextStore ctxStore = new ContextStore()
-        final FullProjectInfo proj = (FullProjectInfo)modelBuilder.get("proj")
+        final ProjectInfo proj = (ProjectInfo)modelBuilder.get("proj")
 
         long now = System.currentTimeMillis()
         final int[] testHits = [ 0, 1, 0, 1 ]
@@ -168,15 +169,15 @@ class RegFileFormatTest {
             final long now = System.currentTimeMillis()
             final long then = now + 1
             perTestCoverage.addCoverage(
-                new TestCaseInfo(
+                new FullTestCaseInfo(
                         Integer.valueOf(incTCIId()),
-                        (FullClassInfo)modelBuilder.get(fileClassMethod[1]),
-                        (FullMethodInfo)modelBuilder.get(fileClassMethod[2]),
+                        (ClassInfo) modelBuilder.get(fileClassMethod[1]),
+                        (MethodInfo) modelBuilder.get(fileClassMethod[2]),
                         null),
                 new PerTestRecordingTranscript(
                         CloverBitSet.forHits(coverage),
                         new File(fileClassMethod[0]),
-                        ((FullProjectInfo)modelBuilder.get("proj")).getVersion(),
+                        ((ProjectInfo) modelBuilder.get("proj")).getVersion(),
                         fileClassMethod[2],
                         null,
                         now, then, 0.001, new RuntimeType(fileClassMethod[1]),

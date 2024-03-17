@@ -3,7 +3,7 @@ package org.openclover.core.reporters.html
 import clover.org.apache.velocity.VelocityContext
 import junit.framework.TestCase
 import org.openclover.core.TestUtils
-import org.openclover.core.registry.entities.FullProjectInfo
+import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.registry.metrics.BlockMetrics
 import org.openclover.core.registry.metrics.HasMetricsTestFixture
 import org.openclover.core.reporters.Column
@@ -37,7 +37,7 @@ class RenderActionTest extends TestCase {
 
         assertTrue(context.get("tpcColumn") instanceof Column)
         assertTrue(context.get("hasResults") instanceof Boolean)
-        assertTrue(context.get("projectInfo") instanceof FullProjectInfo)
+        assertTrue(context.get("projectInfo") instanceof ProjectInfo)
         assertTrue(context.get("headerMetrics") instanceof BlockMetrics)
         assertTrue(context.get("headerMetricsRaw") instanceof BlockMetrics)
         assertTrue(context.get("complexPkgs") instanceof List)

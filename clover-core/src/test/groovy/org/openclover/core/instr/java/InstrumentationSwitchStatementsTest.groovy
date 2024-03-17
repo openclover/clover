@@ -2,9 +2,9 @@ package org.openclover.core.instr.java
 
 import org.junit.Test
 import org.openclover.core.api.registry.ClassInfo
+import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.api.registry.StatementInfo
 import org.openclover.core.registry.Clover2Registry
-import org.openclover.core.registry.entities.FullProjectInfo
 import org_openclover_runtime.CloverVersionInfo
 
 import static org.junit.Assert.assertTrue
@@ -78,7 +78,7 @@ class InstrumentationSwitchStatementsTest extends InstrumentationTestBase {
 
         Clover2Registry registry = performInstrumentation("class A { A() {/*1*/\nswitch(i) {/*2*/\ncase 1:return;/*3*/\ncase 2:return;/*4*/\ndefault:break;/*5*/\n}\n}}")
 
-        FullProjectInfo proj = registry.getProject()
+        ProjectInfo proj = registry.getProject()
         ClassInfo c = proj.findClass("A")
 
         for (StatementInfo info : c.getMethods().get(0).getStatements()) {

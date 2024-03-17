@@ -7,11 +7,12 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.api.registry.ContextSet;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.context.ContextStore;
 import org.openclover.core.context.NamedContext;
 import org.openclover.core.registry.Clover2Registry;
 import org.openclover.core.registry.entities.FullProjectInfo;
-import org.openclover.core.registry.metrics.HasMetricsFilter;
+import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.core.util.CloverUtils;
 import org.openclover.core.util.Path;
 import org.openclover.idea.IdeaTestFilter;
@@ -429,7 +430,7 @@ public class DefaultCoverageManager implements CoverageManager, AcceptsCoverageT
 
     @Override
     public float getCurrentCoverage() {
-        final FullProjectInfo projectInfo = getSelectedScopeModel();
+        final ProjectInfo projectInfo = getSelectedScopeModel();
         return projectInfo == null ? -1 : projectInfo.getMetrics().getPcCoveredElements();
     }
 
@@ -440,7 +441,7 @@ public class DefaultCoverageManager implements CoverageManager, AcceptsCoverageT
      * @see org.openclover.idea.config.IdeaCloverConfig#getModelScope()
      */
     @Nullable
-    public FullProjectInfo getSelectedScopeModel() {
+    public ProjectInfo getSelectedScopeModel() {
         final ModelScope scope = cloverConfig.getModelScope();
         final CloverDatabase model = getCoverage();
         return ModelUtil.getModel(model, scope);

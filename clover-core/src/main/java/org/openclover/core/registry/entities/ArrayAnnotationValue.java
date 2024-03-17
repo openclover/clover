@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.openclover.core.util.Lists.newArrayList;
 
@@ -18,7 +19,7 @@ import static org.openclover.core.util.Lists.newArrayList;
  * An annotation value that is an ordered collection of annotation values.
  */
 public class ArrayAnnotationValue implements PersistentAnnotationValue, AnnotationValueCollection {
-    private List<PersistentAnnotationValue> values = newArrayList();
+    private final List<PersistentAnnotationValue> values = newArrayList();
 
     public ArrayAnnotationValue() {
     }
@@ -43,8 +44,8 @@ public class ArrayAnnotationValue implements PersistentAnnotationValue, Annotati
 
     @Override
     @NotNull
-    public List<? extends AnnotationValue> toList() {
-        return getValues();
+    public List<AnnotationValue> toList() {
+        return Collections.unmodifiableList(values.stream().map(o -> o).collect(Collectors.toList()));
     }
 
     @Override

@@ -1,12 +1,13 @@
 package org.openclover.core;
 
 import clover.org.apache.commons.lang3.mutable.MutableLong;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.recorder.GlobalCoverageRecordingTranscript;
 import org.openclover.core.recorder.PerTestRecordingTranscript;
 import org.openclover.core.recorder.RecordingTranscripts;
 import org.openclover.core.registry.Clover2Registry;
 import org.openclover.core.registry.entities.FullFileInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.core.registry.entities.FullTestCaseInfo;
 import org.openclover.core.util.FileUtils;
 import org.openclover.core.util.collections.Pair;
 import org.openclover.runtime.Logger;
@@ -159,7 +160,7 @@ public class CoverageDataCollator {
 
             try {
                 final PerTestRecordingTranscript recording = (PerTestRecordingTranscript) recordingFile.read(spec);
-                final TestCaseInfo tci = TestCaseInfo.Factory.getInstanceForSlice(recording);
+                final TestCaseInfo tci = FullTestCaseInfo.Factory.getInstanceForSlice(recording);
                 coverageData.addCoverage(tci, recording);
             } catch (Exception e) {
                 Logger.getInstance().verbose("Failed to load per-test coverage recording " + recordingFile, e);

@@ -1,10 +1,11 @@
 package org.openclover.idea.report.treemap;
 
 import clover.net.sf.jtreemap.swing.ValuePercent;
+import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
 
 public class ClassInfoValue extends ValuePercent {
-    private final FullClassInfo classInfo;
+    private final ClassInfo classInfo;
 
     /**
      * Required for HSBTreeMapColorProvider.setValues(), which uses value.getClass().newInstance() to create a copy for
@@ -15,13 +16,13 @@ public class ClassInfoValue extends ValuePercent {
         classInfo = null;
     }
 
-    public ClassInfoValue(FullClassInfo classInfo) {
+    public ClassInfoValue(ClassInfo classInfo) {
         super(classInfo.getMetrics().getPcCoveredElements() * 100f);
 
         this.classInfo = classInfo;
     }
 
-    public FullClassInfo getClassInfo() {
+    public ClassInfo getClassInfo() {
         return classInfo;
     }
 }

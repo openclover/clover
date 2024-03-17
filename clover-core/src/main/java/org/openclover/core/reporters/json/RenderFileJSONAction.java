@@ -2,10 +2,12 @@ package org.openclover.core.reporters.json;
 
 import clover.org.apache.velocity.VelocityContext;
 import org.openclover.core.CloverDatabase;
+import org.openclover.core.api.registry.FileInfo;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullPackageInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
-import org.openclover.core.registry.metrics.HasMetricsFilter;
+import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.core.reporters.Current;
 import org.openclover.core.reporters.html.HtmlRenderingSupportImpl;
 import org.openclover.core.reporters.html.HtmlReportUtil;
@@ -21,10 +23,9 @@ import java.util.Map;
 
 import static org.openclover.core.util.Lists.newArrayList;
 
-/**
- */
 public class RenderFileJSONAction extends RenderFileAction {
-    public RenderFileJSONAction(FullFileInfo fileInfo, HtmlRenderingSupportImpl renderingHelper, Current report, VelocityContext velocity, CloverDatabase database, FullProjectInfo fullModel) {
+    public RenderFileJSONAction(FileInfo fileInfo, HtmlRenderingSupportImpl renderingHelper, Current report,
+                                VelocityContext velocity, CloverDatabase database, ProjectInfo fullModel) {
         super(fileInfo, renderingHelper, report, velocity, database, fullModel, null);
     }
 
@@ -37,7 +38,7 @@ public class RenderFileJSONAction extends RenderFileAction {
                 JSONReportUtils.collectColumnValuesFor(columnsTL.get(), fileInfo, renderingHelper);
 
             final SourceRenderHelper srh = new SourceRenderHelper(database, reportConfig, renderingHelper);
-            final FullFileInfo fcopy = fileInfo.copy((FullPackageInfo)fileInfo.getContainingPackage(), HasMetricsFilter.ACCEPT_ALL);
+            final FileInfo fcopy = fileInfo.copy(fileInfo.getContainingPackage(), HasMetricsFilter.ACCEPT_ALL);
             final LineRenderInfo[] lineInfos = srh.gatherSrcRenderInfo(velocity, fcopy, getContextSet(), "", testLineInfo);
 
             // the json file used for exporting coverage data - not used by src-file.vm

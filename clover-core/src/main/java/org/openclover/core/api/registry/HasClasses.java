@@ -11,15 +11,15 @@ public interface HasClasses {
     /**
      * Returns list of classes
      *
-     * @return List&lt;? extends ClassInfo&gt; - list of classes or empty list if none
+     * @return List&lt;ClassInfo&gt; - list of classes or empty list if none
      */
     @NotNull
-    List<? extends ClassInfo> getClasses();
+    List<ClassInfo> getClasses();
 
     /**
      * Returns list of all classes, including indirect descendants.
-     * @return List&lt;? extends ClassInfo&gt; - list of classes or empty list if none
+     * @return List&lt;ClassInfo&gt; - list of classes or empty list if none
      */
     @NotNull
-    List<? extends ClassInfo> getAllClasses();
+    List<ClassInfo> getAllClasses();
 }

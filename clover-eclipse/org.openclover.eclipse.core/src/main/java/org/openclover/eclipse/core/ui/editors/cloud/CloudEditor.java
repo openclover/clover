@@ -20,6 +20,7 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.registry.metrics.BlockMetrics;
 import org.openclover.core.registry.metrics.HasMetricsSupport;
@@ -146,12 +147,12 @@ public class CloudEditor
 
     private void updatePerPackageCloudMapping() {
         final Map<String, PackageCloudStructure> perPackageCloudMappings = new LinkedHashMap<>();
-        final FullProjectInfo project = ((CloudProjectInput) getEditorInput()).getProject().getModel().getAppOnlyProjectInfo();
+        final ProjectInfo project = ((CloudProjectInput) getEditorInput()).getProject().getModel().getAppOnlyProjectInfo();
         final File outputDir = getReportBaseFolder();
 
         addCloudMap(perPackageCloudMappings, getProjectCloudName(), outputDir, false);
 
-        final List<? extends PackageInfo> packages = project.getAllPackages();
+        final List<PackageInfo> packages = project.getAllPackages();
         packages.sort(HasMetricsSupport.CMP_LEX);
 
         for (final PackageInfo pkg : packages) {

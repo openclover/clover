@@ -202,7 +202,7 @@ public class ExpectedExceptionMiner {
     }
 
     private static void extractExpectedExceptions(SortedSet<String> exceptionNames, AnnotationValue expectedAttrValue) {
-        final List<? extends AnnotationValue> exceptionsNameValues = expectedAttrValue.toList();
+        final List<AnnotationValue> exceptionsNameValues = expectedAttrValue.toList();
 
         for (AnnotationValue exceptionName : exceptionsNameValues) {
             //At this point, ignore anything that's not an stringified annotation as it doesn't match our criteria

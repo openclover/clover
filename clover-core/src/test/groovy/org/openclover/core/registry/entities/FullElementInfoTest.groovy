@@ -2,6 +2,7 @@ package org.openclover.core.registry.entities
 
 import junit.framework.TestCase
 import org.openclover.core.api.registry.ContextSet
+import org.openclover.core.api.registry.StatementInfo
 import org.openclover.core.context.ContextSetImpl
 import org.openclover.core.context.ContextStore
 import org.openclover.core.context.StatementRegexpContext
@@ -15,7 +16,7 @@ class FullElementInfoTest extends TestCase {
 
     void testIsFilteredBuiltIns() throws Exception {
 
-        FullStatementInfo stmtInfo = createStmtInfo()
+        StatementInfo stmtInfo = createStmtInfo()
         stmtInfo.setContext(stmtInfo.getContext().set(ContextStore.CONTEXT_IF))
 
         ContextSet mask = new ContextStore().createContextSetFilter("private, static", false)
@@ -28,11 +29,11 @@ class FullElementInfoTest extends TestCase {
     }
 
     void testIsFilteredWithSingleCustomFilter() throws IOException, CloverException {
-        FullStatementInfo stmtInfo = createStmtInfo()
+        StatementInfo stmtInfo = createStmtInfo()
         ContextStore ctxReg = new ContextStore()
         final int filterIdx = addStatementContext(ctxReg, "filter", '^*filter*$')
 
-        stmtInfo.setContext(stmtInfo.getContext().set(filterIdx)); // set the current context to "filter"
+        stmtInfo.setContext(stmtInfo.getContext().set(filterIdx)) // set the current context to "filter"
         ContextSet mask = ctxReg.createContextSetFilter("filter", false)
         assertTrue(stmtInfo.isFiltered(mask))
 
@@ -41,8 +42,7 @@ class FullElementInfoTest extends TestCase {
     }
 
     void testIsFilteredWithCustomFilters() throws IOException, CloverException {
-
-        FullStatementInfo stmtInfo = createStmtInfo()
+        StatementInfo stmtInfo = createStmtInfo()
         ContextStore ctxReg = new ContextStore()
 
         final int filterIdx = addStatementContext(ctxReg, "filter", '^*filter*$')
@@ -70,15 +70,15 @@ class FullElementInfoTest extends TestCase {
 
     }
 
-    private int addStatementContext(ContextStore ctxReg, String name, String regExp) throws CloverException {
+    private static int addStatementContext(ContextStore ctxReg, String name, String regExp) throws CloverException {
         return ctxReg.addStatementContext(new StatementRegexpContext(name, Pattern.compile(regExp)))
     }
 
-    FullStatementInfo createStmtInfo() throws IOException {
+    static StatementInfo createStmtInfo() throws IOException {
         HasMetricsTestFixture fixture = new HasMetricsTestFixture("testIsFiltered")
         FullClassInfo classInfo = fixture.newClass("TestIsFiltered", 2)
         FullMethodInfo methInfo = fixture.newMethod(classInfo, "testIt", 3)
-        FullStatementInfo stmInfo = fixture.addStatement(methInfo, 3, 4, 10)
+        StatementInfo stmInfo = fixture.addStatement(methInfo, 3, 4, 10)
         stmInfo.setContext(new ContextSetImpl())
 
         return stmInfo

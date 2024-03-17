@@ -16,6 +16,8 @@ import clover.org.jfree.chart.JFreeChart;
 import org.openclover.core.CloverLicenseInfo;
 import org.openclover.core.api.registry.BlockMetrics;
 import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.cfg.Percentage;
 import org.openclover.core.registry.entities.FullPackageInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
@@ -78,12 +80,12 @@ public class RenderingSupport {
         return SPACER;
     }
 
-    public static PdfPTable createReportHeader(FullProjectInfo hasmetrics, long ts, String title, String titleAnchor, PDFColours colours)
+    public static PdfPTable createReportHeader(ProjectInfo hasmetrics, long ts, String title, String titleAnchor, PDFColours colours)
             throws DocumentException {
         return createReportHeader(hasmetrics, ts, title, titleAnchor, true, colours);
     }
 
-    public static PdfPTable createReportHeader(FullPackageInfo hasmetrics, long ts, String title, String titleAnchor, PDFColours colours)
+    public static PdfPTable createReportHeader(PackageInfo hasmetrics, long ts, String title, String titleAnchor, PDFColours colours)
             throws DocumentException {
         return createReportHeader(hasmetrics, ts, title, titleAnchor, false, colours);
     }

@@ -1,22 +1,20 @@
 package org.openclover.idea.treetables;
 
+import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.MethodInfo;
-import org.openclover.core.registry.entities.BaseClassInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.idea.util.ui.CloverIcons;
 
 import javax.swing.Icon;
 
-/**
- *
- */
+
 public class CellRendererUtil {
     /**
      * Returns an icon which best represents the object: test class, interface, annotation, enum or plain class.
      * @param classInfo
      * @return Icon icon representation
      */
-    public static Icon getIconForClassInfo(BaseClassInfo classInfo) {
+    public static Icon getIconForClassInfo(ClassInfo classInfo) {
         if (classInfo.isTestClass()) {
             return CloverIcons.JUNIT_TEST_CLASS_ICON;
         } else if (classInfo.isInterface()) {

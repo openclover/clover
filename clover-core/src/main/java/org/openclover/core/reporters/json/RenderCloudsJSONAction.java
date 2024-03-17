@@ -2,11 +2,11 @@ package org.openclover.core.reporters.json;
 
 import clover.org.apache.velocity.VelocityContext;
 import org.openclover.core.api.registry.ClassInfo;
-import org.openclover.core.registry.entities.BaseClassInfo;
-import org.openclover.core.registry.entities.FullClassInfo;
+import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.registry.entities.FullPackageInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
-import org.openclover.core.registry.metrics.HasMetricsFilter;
+import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.core.registry.metrics.HasMetricsSupport;
 import org.openclover.core.reporters.CloverReportConfig;
 import org.openclover.core.reporters.html.ClassInfoStatsCalculator;
@@ -17,7 +17,7 @@ import java.io.File;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-public abstract class RenderCloudsJSONAction implements Callable {
+public abstract class RenderCloudsJSONAction implements Callable<Object> {
     public static final String AGGREGATE_PREFIX = "aggregate-";
     public static final String PROJECT_RISKS_FILE_NAME = "proj-risks.js";
     public static final String PACKAGE_RISKS_FILE_NAME = "pkg-risks.js";
@@ -56,8 +56,7 @@ public abstract class RenderCloudsJSONAction implements Callable {
                 .put("x", new JSONObject().put("title", axis1.getName()).put("min", v1.getMin()).put("max", v1.getMax()))
                 .put("y", new JSONObject().put("title", axis2.getName()).put("min", v2.getMin()).put("max", v2.getMax())));
         final JSONArray jsonClasses = new JSONArray();
-        for (ClassInfo baseClassInfo : v1.getClasses()) {
-            final FullClassInfo classInfo = (FullClassInfo) baseClassInfo;
+        for (ClassInfo classInfo : v1.getClasses()) {
             final String path = classInfo.getContainingFile().getPackagePath();
             jsonClasses.put(
                     new JSONObject()
@@ -75,15 +74,15 @@ public abstract class RenderCloudsJSONAction implements Callable {
     }
 
     public abstract static class ForProjects extends RenderCloudsJSONAction {
-        protected final FullProjectInfo project;
+        protected final ProjectInfo project;
 
-        protected ForProjects(FullProjectInfo project, VelocityContext ctx, CloverReportConfig cfg, File dir) {
+        protected ForProjects(ProjectInfo project, VelocityContext ctx, CloverReportConfig cfg, File dir) {
             super(ctx, cfg, dir, false);
             this.project = project;
         }
 
         public static class OfTheirRisks extends ForProjects {
-            public OfTheirRisks(FullProjectInfo project, VelocityContext ctx, CloverReportConfig cfg, File dir) {
+            public OfTheirRisks(ProjectInfo project, VelocityContext ctx, CloverReportConfig cfg, File dir) {
                 super(project, ctx, cfg, dir);
             }
 
@@ -98,7 +97,7 @@ public abstract class RenderCloudsJSONAction implements Callable {
             }
         }
         public static class OfTheirQuickWins extends ForProjects {
-            public OfTheirQuickWins(FullProjectInfo project, VelocityContext ctx, CloverReportConfig cfg, File dir) {
+            public OfTheirQuickWins(ProjectInfo project, VelocityContext ctx, CloverReportConfig cfg, File dir) {
                 super(project, ctx, cfg, dir);
             }
 
@@ -115,15 +114,15 @@ public abstract class RenderCloudsJSONAction implements Callable {
     }
 
     public abstract static class ForPackages extends RenderCloudsJSONAction {
-        protected final FullPackageInfo pkg;
+        protected final PackageInfo pkg;
 
-        protected ForPackages(VelocityContext ctx, FullPackageInfo pkg, CloverReportConfig cfg, File dir, boolean aggregate) {
+        protected ForPackages(VelocityContext ctx, PackageInfo pkg, CloverReportConfig cfg, File dir, boolean aggregate) {
             super(ctx, cfg, dir, aggregate);
             this.pkg = pkg;
         }
 
         public static class OfTheirRisks extends ForPackages {
-            public OfTheirRisks(VelocityContext ctx, FullPackageInfo pkg, CloverReportConfig cfg, File dir, boolean aggregate) {
+            public OfTheirRisks(VelocityContext ctx, PackageInfo pkg, CloverReportConfig cfg, File dir, boolean aggregate) {
                 super(ctx, pkg, cfg, dir, aggregate);
             }
 
@@ -139,7 +138,7 @@ public abstract class RenderCloudsJSONAction implements Callable {
         }
 
         public static class OfTheirQuickWins extends ForPackages {
-            public OfTheirQuickWins(VelocityContext ctx, FullPackageInfo pkg, CloverReportConfig cfg, File dir, boolean aggregate) {
+            public OfTheirQuickWins(VelocityContext ctx, PackageInfo pkg, CloverReportConfig cfg, File dir, boolean aggregate) {
                 super(ctx, pkg, cfg, dir, aggregate);
             }
 

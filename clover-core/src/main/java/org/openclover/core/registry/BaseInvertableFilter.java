@@ -1,7 +1,7 @@
 package org.openclover.core.registry;
 
 import org.openclover.core.api.registry.HasMetrics;
-import org.openclover.core.registry.metrics.HasMetricsFilter;
+import org.openclover.core.api.registry.HasMetricsFilter;
 
 public abstract class BaseInvertableFilter implements HasMetricsFilter.Invertable {
     private final boolean inverted;

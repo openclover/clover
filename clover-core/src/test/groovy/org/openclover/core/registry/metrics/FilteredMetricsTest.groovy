@@ -3,23 +3,23 @@ package org.openclover.core.registry.metrics
 import org.junit.Before
 import org.junit.Test
 import org.openclover.core.api.registry.BlockMetrics
+import org.openclover.core.api.registry.ClassInfo
 import org.openclover.core.api.registry.ContextSet
+import org.openclover.core.api.registry.MethodInfo
+import org.openclover.core.api.registry.ProjectInfo
+import org.openclover.core.api.registry.StatementInfo
 import org.openclover.core.context.ContextSetImpl
 import org.openclover.core.context.ContextStore
-import org.openclover.core.registry.entities.FullClassInfo
-import org.openclover.core.registry.entities.FullMethodInfo
-import org.openclover.core.registry.entities.FullProjectInfo
-import org.openclover.core.registry.entities.FullStatementInfo
 
 import static org.junit.Assert.assertEquals
 import static org.openclover.core.registry.metrics.MetricsHelper.assertMetricsEquals
 
-public class FilteredMetricsTest {
+class FilteredMetricsTest {
     private HasMetricsTestFixture fixture
 
-    private FullStatementInfo stmtInfo
-    private FullClassInfo classInfo
-    private FullMethodInfo methodInfo
+    private StatementInfo stmtInfo
+    private ClassInfo classInfo
+    private MethodInfo methodInfo
 
     /**
      * Sets up a FullProjectInfo model object containing the following:
@@ -47,7 +47,7 @@ public class FilteredMetricsTest {
 
     @Test
     void testEmptyFilter() throws IOException {
-        FullProjectInfo projectInfo = fixture.getProject()
+        ProjectInfo projectInfo = fixture.getProject()
         projectInfo.setContextFilter(new ContextSetImpl())
         BlockMetrics metrics = projectInfo.getRawMetrics()
         BlockMetrics filteredMetrics = projectInfo.getMetrics()
@@ -60,7 +60,7 @@ public class FilteredMetricsTest {
      */
     @Test
     void testSingleStatementFilter() throws IOException {
-        FullProjectInfo projectInfo = fixture.getProject()
+        ProjectInfo projectInfo = fixture.getProject()
         ContextSet filter = new ContextStore().createContextSetFilter("assert")
         projectInfo.setContextFilter(filter)
 
@@ -83,7 +83,7 @@ public class FilteredMetricsTest {
     void testSingleBranchFilter() {
         // now set a brand new context filter for IFs and re-assert
         ContextSet ifContext = new ContextStore().createContextSetFilter("if")
-        FullProjectInfo projectInfo = fixture.getProject()
+        ProjectInfo projectInfo = fixture.getProject()
         projectInfo.setContextFilter(ifContext)
         ProjectMetrics filteredMetrics = (ProjectMetrics) projectInfo.getMetrics()
 
@@ -105,7 +105,7 @@ public class FilteredMetricsTest {
     void testFilterIfAndAssertElements() {
         // now set a brand new context filter for IFs and re-assert
         ContextSet ifAssertContext = new ContextStore().createContextSetFilter("if, assert")
-        FullProjectInfo projectInfo = fixture.getProject()
+        ProjectInfo projectInfo = fixture.getProject()
         projectInfo.setContextFilter(ifAssertContext)
         ProjectMetrics filteredMetrics = (ProjectMetrics) projectInfo.getMetrics()
 

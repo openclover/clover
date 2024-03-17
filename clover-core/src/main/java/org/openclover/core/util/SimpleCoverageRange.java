@@ -1,6 +1,6 @@
 package org.openclover.core.util;
 
-import org.openclover.core.registry.CoverageDataRange;
+import org.openclover.core.api.registry.CoverageDataRange;
 
 public class SimpleCoverageRange implements CoverageDataRange {
     private int dataIndex;

@@ -1,7 +1,7 @@
 package org.openclover.eclipse.core.projects.model;
 
 import org.openclover.core.CloverDatabase;
-import org.openclover.core.registry.metrics.HasMetricsFilter;
+import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.core.reporters.Current;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.runtime.api.CloverException;

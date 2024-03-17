@@ -1,10 +1,12 @@
 package org.openclover.core.registry
 
 import org.openclover.core.api.registry.ClassInfo
+import org.openclover.core.api.registry.FileInfo
+import org.openclover.core.api.registry.MethodInfo
 import org.openclover.core.api.registry.PackageInfo
+import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.context.ContextSetImpl
 import org.openclover.core.registry.entities.BasicElementInfo
-import org.openclover.core.registry.entities.BasicMethodInfo
 import org.openclover.core.registry.entities.FullClassInfo
 import org.openclover.core.registry.entities.FullFileInfo
 import org.openclover.core.registry.entities.FullMethodInfo
@@ -15,6 +17,8 @@ import org.openclover.core.registry.entities.MethodSignature
 import org.openclover.core.registry.entities.Modifiers
 import org.openclover.core.spi.lang.LanguageConstruct
 
+import static org.openclover.core.registry.entities.FullMethodInfo.DEFAULT_METHOD_COMPLEXITY
+import static org.openclover.core.spi.lang.LanguageConstruct.Builtin.METHOD
 import static org.openclover.core.util.Maps.newHashMap
 
 /**
@@ -36,18 +40,18 @@ class ModelBuilder {
         return elements.get(key)
     }
 
-    class ProjectWrapper extends Wrapper<ProjectWrapper, FullProjectInfo> {
-        ProjectWrapper(FullProjectInfo projectInfo) {
+    class ProjectWrapper extends Wrapper<ProjectWrapper, ProjectInfo> {
+        ProjectWrapper(ProjectInfo projectInfo) {
             super(projectInfo)
         }
 
         PackageInfoWrapper pkg(String name) {
             for (PackageInfo pkgInfo : getElement().getAllPackages()) {
-                if (name.equals(pkgInfo.getName())) {
-                    return new PackageInfoWrapper((FullPackageInfo)pkgInfo)
+                if (name == pkgInfo.getName()) {
+                    return new PackageInfoWrapper(pkgInfo)
                 }
             }
-            final FullPackageInfo pkgInfo = new FullPackageInfo(getElement(), name, 0)
+            final PackageInfo pkgInfo = new FullPackageInfo(getElement(), name, 0)
             getElement().addPackage(pkgInfo)
             return new PackageInfoWrapper(pkgInfo)
         }
@@ -61,17 +65,17 @@ class ModelBuilder {
         }
     }
 
-    class PackageInfoWrapper extends Wrapper<PackageInfoWrapper, FullPackageInfo>{
-        PackageInfoWrapper(FullPackageInfo pkgInfo) {
+    class PackageInfoWrapper extends Wrapper<PackageInfoWrapper, PackageInfo>{
+        PackageInfoWrapper(PackageInfo pkgInfo) {
             super(pkgInfo)
         }
 
         ProjectWrapper end() {
-            return new ProjectWrapper((FullProjectInfo)getElement().getContainingProject())
+            return new ProjectWrapper(getElement().getContainingProject())
         }
 
         FileInfoWrapper file(String name) {
-            FullFileInfo fileInfo = (FullFileInfo)getElement().getFile(getElement().getPath() + "/" + name)
+            FileInfo fileInfo = getElement().getFile(getElement().getPath() + "/" + name)
             if (fileInfo == null) {
                 fileInfo = new FullFileInfo(getElement(), new File(name), "UTF-8", 0, 0, 0, 0, 0, 0, 0)
                 getElement().addFile(fileInfo)
@@ -84,21 +88,21 @@ class ModelBuilder {
         }
     }
 
-    class FileInfoWrapper extends Wrapper<FileInfoWrapper, FullFileInfo> {
-        FileInfoWrapper(FullFileInfo fileInfo) {
+    class FileInfoWrapper extends Wrapper<FileInfoWrapper, FileInfo> {
+        FileInfoWrapper(FileInfo fileInfo) {
             super(fileInfo)
         }
 
         /** Declare a class inside a file */
         ClassInfoWrapper clazz(String name) {
-            final List<? extends ClassInfo> classes = getElement().getClasses()
+            final List<ClassInfo> classes = getElement().getClasses()
             for (ClassInfo classInfo : classes) {
-                if (classInfo.getName().equals(name)) {
-                    return new ClassInfoWrapper((FullClassInfo)classInfo)
+                if (classInfo.getName() == name) {
+                    return new ClassInfoWrapper(classInfo)
                 }
             }
             final FullClassInfo newClassInfo = new FullClassInfo(
-                    (FullPackageInfo)getElement().getContainingPackage(), getElement(),
+                    getElement().getContainingPackage(), getElement(),
                     0, name, new FixedSourceRegion(0, 0), new Modifiers(),
                     false, false, false)
 
@@ -111,10 +115,10 @@ class ModelBuilder {
         MethodInfoWrapper method(String name, boolean isTest) {
             final FullMethodInfo method = new FullMethodInfo(
                     getElement(),
+                    new MethodSignature(name),
                     new ContextSetImpl(),
-                    new BasicMethodInfo(new FixedSourceRegion(0, 0), 0,
-                            FullMethodInfo.DEFAULT_METHOD_COMPLEXITY, new MethodSignature(name),
-                            isTest, null, false))
+                    new BasicElementInfo(new FixedSourceRegion(0, 0), 0, DEFAULT_METHOD_COMPLEXITY, METHOD),
+                    isTest, null, false)
             getElement().addMethod(method)
             return new MethodInfoWrapper(method)
         }
@@ -128,7 +132,7 @@ class ModelBuilder {
         }
 
         PackageInfoWrapper end() {
-            return new PackageInfoWrapper((FullPackageInfo)getElement().getContainingPackage())
+            return new PackageInfoWrapper(getElement().getContainingPackage())
         }
 
         protected FileInfoWrapper getThis() {
@@ -136,15 +140,15 @@ class ModelBuilder {
         }
     }
 
-    class ClassInfoWrapper extends Wrapper<ClassInfoWrapper, FullClassInfo> {
-        ClassInfoWrapper(FullClassInfo classInfo) {
+    class ClassInfoWrapper extends Wrapper<ClassInfoWrapper, ClassInfo> {
+        ClassInfoWrapper(ClassInfo classInfo) {
             super(classInfo)
         }
 
         /** Declare class inside a class */
         ClassInfoWrapper clazz(String name) {
-            final FullClassInfo newClassInfo = new FullClassInfo(
-                    (FullPackageInfo) getElement().getPackage(), getElement(),
+            final ClassInfo newClassInfo = new FullClassInfo(
+                    getElement().getPackage(), getElement(),
                     0, name, new FixedSourceRegion(0, 0), new Modifiers(),
                     false, false, false)
             getElement().addClass(newClassInfo)
@@ -171,17 +175,17 @@ class ModelBuilder {
 
         /** Close class wrapper declared inside a class */
         ClassInfoWrapper endInClass() {
-            return new ClassInfoWrapper((FullClassInfo)getElement().getContainingClass())
+            return new ClassInfoWrapper(getElement().getContainingClass())
         }
 
         /** Close class wrapper declared inside a file */
         FileInfoWrapper endInFile() {
-            return new FileInfoWrapper((FullFileInfo)getElement().getContainingFile())
+            return new FileInfoWrapper(getElement().getContainingFile())
         }
 
         /** Close class wrapper declared inside a method */
         MethodInfoWrapper endInMethod() {
-            return new MethodInfoWrapper((FullMethodInfo)getElement().getContainingMethod())
+            return new MethodInfoWrapper(getElement().getContainingMethod())
         }
 
         protected ClassInfoWrapper getThis() {
@@ -189,19 +193,22 @@ class ModelBuilder {
         }
 
         MethodInfoWrapper method(String name, boolean isTest) {
-            final FullMethodInfo method = new FullMethodInfo(getElement(), 0, new ContextSetImpl(),
-                    new FixedSourceRegion(0, 0), new MethodSignature(name),
-                    isTest, null, false, FullMethodInfo.DEFAULT_METHOD_COMPLEXITY)
+            final FullMethodInfo method = new FullMethodInfo(
+                    getElement(),
+                    new MethodSignature(name),
+                    new ContextSetImpl(),
+                    new BasicElementInfo(new FixedSourceRegion(0, 0), 0, DEFAULT_METHOD_COMPLEXITY, METHOD),
+                    isTest, null, false)
             getElement().addMethod(method)
             return new MethodInfoWrapper(method)
         }
     }
 
-    class MethodInfoWrapper extends Wrapper<MethodInfoWrapper, FullMethodInfo> {
+    class MethodInfoWrapper extends Wrapper<MethodInfoWrapper, MethodInfo> {
         /** Declare a class inside a method */
         ClassInfoWrapper clazz(String name) {
             final FullClassInfo newClassInfo = new FullClassInfo(
-                    (FullPackageInfo) getElement().getContainingFile().getContainingPackage(),
+                    getElement().getContainingFile().getContainingPackage(),
                     getElement(),
                     0, name, new FixedSourceRegion(0, 0), new Modifiers(),
                     false, false, false)
@@ -213,10 +220,10 @@ class ModelBuilder {
         MethodInfoWrapper method(String name, boolean isTest) {
             final FullMethodInfo method = new FullMethodInfo(
                     getElement(),
+                    new MethodSignature(name),
                     new ContextSetImpl(),
-                    new BasicMethodInfo(new FixedSourceRegion(0, 0), 0,
-                            FullMethodInfo.DEFAULT_METHOD_COMPLEXITY, new MethodSignature(name),
-                            isTest, null, false))
+                    new BasicElementInfo(new FixedSourceRegion(0, 0), 0, DEFAULT_METHOD_COMPLEXITY, METHOD),
+                    isTest, null, false)
             getElement().addMethod(method)
             return new MethodInfoWrapper(method)
         }
@@ -231,20 +238,20 @@ class ModelBuilder {
 
         /** Close method wrapper declared inside a class */
         ClassInfoWrapper endInClass() {
-            return new ClassInfoWrapper((FullClassInfo) getElement().getContainingClass())
+            return new ClassInfoWrapper(getElement().getContainingClass())
         }
 
         /** Close method wrapper declared inside a method */
         MethodInfoWrapper endInMethod() {
-            return new MethodInfoWrapper((FullMethodInfo) getElement().getContainingMethod())
+            return new MethodInfoWrapper(getElement().getContainingMethod())
         }
 
         /** Close method wrapper declared inside a file */
         FileInfoWrapper endInFile() {
-            return new FileInfoWrapper((FullFileInfo) getElement().getContainingFile())
+            return new FileInfoWrapper(getElement().getContainingFile())
         }
 
-        protected MethodInfoWrapper(FullMethodInfo element) {
+        protected MethodInfoWrapper(MethodInfo element) {
             super(element)
         }
 
@@ -256,17 +263,17 @@ class ModelBuilder {
     class StatementInfoWrapper extends Wrapper<StatementInfoWrapper, FullStatementInfo> {
         /** Close statement wrapper declared inside a class */
         ClassInfoWrapper endInClass() {
-            return new ClassInfoWrapper((FullClassInfo) getElement().getContainingClass())
+            return new ClassInfoWrapper(getElement().getContainingClass())
         }
 
         /** Close statement wrapper declared inside a method */
         MethodInfoWrapper endInMethod() {
-            return new MethodInfoWrapper((FullMethodInfo) getElement().getContainingMethod())
+            return new MethodInfoWrapper(getElement().getContainingMethod())
         }
 
         /** Close statement wrapper declared inside a file */
         FileInfoWrapper endInFile() {
-            return new FileInfoWrapper((FullFileInfo) getElement().getContainingFile())
+            return new FileInfoWrapper(getElement().getContainingFile())
         }
 
         protected StatementInfoWrapper(FullStatementInfo element) {

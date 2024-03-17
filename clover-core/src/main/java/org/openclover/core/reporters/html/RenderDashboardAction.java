@@ -2,7 +2,8 @@ package org.openclover.core.reporters.html;
 
 import clover.org.apache.velocity.VelocityContext;
 import org.openclover.core.api.registry.ClassInfo;
-import org.openclover.core.registry.entities.BaseClassInfo;
+import org.openclover.core.api.registry.ClassMetadata;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.registry.metrics.HasMetricsSupport;
 import org.openclover.core.reporters.Column;
@@ -27,14 +28,14 @@ public class RenderDashboardAction implements Callable {
     private static final int DBRD_TOP_N_COUNT = 5;
 
     private final File mBasePath; // share - read only
-    private final FullProjectInfo mConfiguredInfo; // shared - read only
-    private final FullProjectInfo mProjectInfo; // shared - read only
+    private final ProjectInfo mConfiguredInfo; // shared - read only
+    private final ProjectInfo mProjectInfo; // shared - read only
     private final VelocityContext mContext; // not shared, read/write
     private final CloverChartFactory.ChartInfo mHistogram;
     private final CloverChartFactory.ChartInfo mScatter;
     private final Current reportConfig;
 
-    public RenderDashboardAction(VelocityContext ctx, File basePath, FullProjectInfo configured, FullProjectInfo full,
+    public RenderDashboardAction(VelocityContext ctx, File basePath, ProjectInfo configured, ProjectInfo full,
                                  CloverChartFactory.ChartInfo histogram, CloverChartFactory.ChartInfo scatter, Current reportConfig) {
         mBasePath = basePath;
         mConfiguredInfo = configured;
@@ -59,17 +60,17 @@ public class RenderDashboardAction implements Callable {
             final RenderTreeMapAction tree = new RenderTreeMapAction(new VelocityContext(), reportConfig, mBasePath, mConfiguredInfo);
             tree.renderTreeMapJson("treemap-dash-json.js", "processTreeMapDashJson", false);
         }
-        final List<? extends BaseClassInfo> classes = mConfiguredInfo.getClasses(new TestClassCoverageThresholdFilter());
+        final List<ClassInfo> classes = mConfiguredInfo.getClasses(new TestClassCoverageThresholdFilter());
 
         final ClassInfoStatsCalculator avgMethodCmpCalculator = new ClassInfoStatsCalculator.AvgMethodComplexityCalculator();
         final ClassInfoStatsCalculator pcCoveredEleCalculator = new ClassInfoStatsCalculator.PcCoveredElementsCalculator();
         final ClassInfoStatsCalculator eleCountCalculator = new ClassInfoStatsCalculator.ElementCountCalculator();
 
-        final List<BaseClassInfo> amcOrder = newArrayList(classes);
+        final List<ClassInfo> amcOrder = newArrayList(classes);
         amcOrder.sort(new OrderedCalculatorComparator(
                 new ClassInfoStatsCalculator[]{avgMethodCmpCalculator, pcCoveredEleCalculator, eleCountCalculator}));
 
-        final List<BaseClassInfo> pceOrder = newArrayList(classes);
+        final List<ClassInfo> pceOrder = newArrayList(classes);
         pceOrder.sort(new OrderedCalculatorComparator(
                 new ClassInfoStatsCalculator[]{pcCoveredEleCalculator, avgMethodCmpCalculator, eleCountCalculator}));
 

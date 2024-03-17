@@ -2,14 +2,15 @@ package org.openclover.core.registry.metrics
 
 import org.openclover.core.TestUtils
 import org.openclover.core.api.registry.ContextSet
+import org.openclover.core.api.registry.PackageInfo
+import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.api.registry.SourceInfo
 import org.openclover.core.context.ContextSetImpl
 import org.openclover.core.context.ContextStore
 import org.openclover.core.registry.Clover2Registry
-import org.openclover.core.registry.CoverageDataProvider
+import org.openclover.core.api.registry.CoverageDataProvider
 import org.openclover.core.registry.FixedSourceRegion
 import org.openclover.core.registry.entities.BasicElementInfo
-import org.openclover.core.registry.entities.BasicMethodInfo
 import org.openclover.core.registry.entities.FullBranchInfo
 import org.openclover.core.registry.entities.FullClassInfo
 import org.openclover.core.registry.entities.FullFileInfo
@@ -22,13 +23,16 @@ import org.openclover.core.registry.entities.Modifiers
 import org.openclover.core.spi.lang.LanguageConstruct
 import org.openclover.runtime.api.registry.CloverRegistryException
 
+import static org.openclover.core.registry.entities.FullMethodInfo.DEFAULT_METHOD_COMPLEXITY
+import static org.openclover.core.spi.lang.LanguageConstruct.Builtin.METHOD
+
 class HasMetricsTestFixture {
-    FullProjectInfo projectInfo
+    ProjectInfo projectInfo
     final FullFileInfo defaultFileInfo
     File tmpDir
     String initStr
     int index
-    CoverageDataProvider dataProvider; // a chain of mock data providers
+    CoverageDataProvider dataProvider // a chain of mock data providers
 
     HasMetricsTestFixture(String projectName) throws IOException {
         projectInfo = new FullProjectInfo(projectName)
@@ -39,21 +43,21 @@ class HasMetricsTestFixture {
         return defaultFileInfo
     }
 
-    FullProjectInfo getProject() {
+    ProjectInfo getProject() {
         return projectInfo
     }
 
-    void setProject(FullProjectInfo projectInfo) {
+    void setProject(ProjectInfo projectInfo) {
         this.projectInfo = projectInfo
     }
 
-    FullPackageInfo newPackage(String name) {
-        FullPackageInfo packageInfo = new FullPackageInfo(projectInfo, name, index)
+    PackageInfo newPackage(String name) {
+        PackageInfo packageInfo = new FullPackageInfo(projectInfo, name, index)
         projectInfo.addPackage(packageInfo)
         return packageInfo
     }
 
-    FullFileInfo newFile(FullPackageInfo packageInfo, String fileName) throws IOException {
+    FullFileInfo newFile(PackageInfo packageInfo, String fileName) throws IOException {
         FullFileInfo fileInfo =
             new FullFileInfo(packageInfo,
                 File.createTempFile(fileName, ".java"), "UTF-8", index, 100, 50,
@@ -67,18 +71,18 @@ class HasMetricsTestFixture {
         return newClass(defaultFileInfo, name, startLine)
     }
 
-    FullClassInfo newClass(FullFileInfo finfo, String name, int startLine) {
+    FullClassInfo newClass(FullFileInfo fileInfo, String name, int startLine) {
         final SourceInfo srcRegion = new FixedSourceRegion(startLine, 1)
-        final FullClassInfo classInfo = new FullClassInfo((FullPackageInfo)finfo.getContainingPackage(), finfo,
+        final FullClassInfo classInfo = new FullClassInfo(fileInfo.getContainingPackage(), fileInfo,
                 index, name, srcRegion, new Modifiers(),
                 false, false, false)
-        finfo.addClass(classInfo)
+        fileInfo.addClass(classInfo)
         return classInfo
     }
 
     FullClassInfo newClass(FullClassInfo parentClass, String name, int startLine) {
         final SourceInfo srcRegion = new FixedSourceRegion(startLine, 1)
-        final FullClassInfo classInfo = new FullClassInfo((FullPackageInfo) parentClass.getPackage(), parentClass,
+        final FullClassInfo classInfo = new FullClassInfo(parentClass.getPackage(), parentClass,
                 index, name, srcRegion, new Modifiers(),
                 false, false, false)
         parentClass.addClass(classInfo)
@@ -89,8 +93,10 @@ class HasMetricsTestFixture {
         SourceInfo srcRegion = new FixedSourceRegion(startLine, 1)
         MethodSignature sig = new MethodSignature(name)
         ContextSet ctx = new ContextSetImpl().set(ContextStore.CONTEXT_METHOD)
-        FullMethodInfo method = new FullMethodInfo(classInfo, index++, ctx, srcRegion, sig,
-                false, null, false, FullMethodInfo.DEFAULT_METHOD_COMPLEXITY)
+        FullMethodInfo method = new FullMethodInfo(
+                classInfo, sig, ctx,
+                new BasicElementInfo(srcRegion, index++, DEFAULT_METHOD_COMPLEXITY, METHOD),
+                false, null, false)
         classInfo.addMethod(method)
         return method
     }
@@ -99,8 +105,12 @@ class HasMetricsTestFixture {
         SourceInfo srcRegion = new FixedSourceRegion(startLine, 1)
         MethodSignature sig = new MethodSignature(name)
         ContextSet ctx = new ContextSetImpl().set(ContextStore.CONTEXT_METHOD)
-        FullMethodInfo method = new FullMethodInfo(fileInfo, ctx,
-                new BasicMethodInfo(srcRegion, index++, FullMethodInfo.DEFAULT_METHOD_COMPLEXITY, sig, false, null, false))
+        FullMethodInfo method = new FullMethodInfo(
+                fileInfo,
+                sig,
+                ctx,
+                new BasicElementInfo(srcRegion, index++, DEFAULT_METHOD_COMPLEXITY, METHOD),
+                false, null, false)
         fileInfo.addMethod(method)
         return method
     }
@@ -110,8 +120,12 @@ class HasMetricsTestFixture {
         SourceInfo srcRegion = new FixedSourceRegion(startLine, 1)
         MethodSignature sig = new MethodSignature(name)
         ContextSet ctx = new ContextSetImpl().set(ContextStore.CONTEXT_METHOD)
-        FullMethodInfo method = new FullMethodInfo(methodInfo, ctx,
-                new BasicMethodInfo(srcRegion, index++, 5, sig, false, null, false, LanguageConstruct.Builtin.METHOD))
+        FullMethodInfo method = new FullMethodInfo(
+                methodInfo,
+                sig,
+                ctx,
+                new BasicElementInfo(srcRegion, index++, 5, METHOD),
+                false, null, false)
         methodInfo.addMethod(method)
         return method
     }
@@ -122,7 +136,7 @@ class HasMetricsTestFixture {
         newMockCoverageDataProvider(index, hitCount)
         method.setDataProvider(dataProvider)
         method.addBranch(branch)
-        index += 2; //Branches have 2 slots
+        index += 2 //Branches have 2 slots
         return branch
     }
 

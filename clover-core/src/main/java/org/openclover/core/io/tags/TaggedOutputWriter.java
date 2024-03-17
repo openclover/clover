@@ -117,10 +117,10 @@ public class TaggedOutputWriter implements TaggedDataOutput {
      * @param elements list of objects
      */
     @Override
-    public <T extends TaggedPersistent> void writeList(Class<T> type, List<T> elements) throws IOException {
+    public <T extends TaggedPersistent, I> void writeList(Class<T> type, List<I> elements) throws IOException {
         writeInt(elements.size());
-        for (T element : elements) {
-            write(type, element);
+        for (I element : elements) {
+            write(type, (T) element);
         }
     }
 }

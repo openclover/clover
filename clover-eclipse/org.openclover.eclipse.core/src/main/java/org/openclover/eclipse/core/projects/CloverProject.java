@@ -35,7 +35,7 @@ import org.openclover.core.instr.tests.AndStrategy;
 import org.openclover.core.instr.tests.AntPatternTestDetectorFilter;
 import org.openclover.core.instr.tests.TestDetector;
 import org.openclover.core.recorder.PerTestCoverageStrategy;
-import org.openclover.core.registry.metrics.HasMetricsFilter;
+import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.PluginVersionInfo;
 import org.openclover.eclipse.core.exclusion.DecorationPreferenceChangeListener;

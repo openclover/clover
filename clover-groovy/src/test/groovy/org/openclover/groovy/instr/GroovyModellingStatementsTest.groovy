@@ -4,10 +4,10 @@ import groovy.transform.CompileStatic
 import org.openclover.buildutil.test.junit.GroovyVersionStart
 import org.openclover.core.api.registry.ClassInfo
 import org.openclover.core.api.registry.MethodInfo
+import org.openclover.core.api.registry.PackageInfo
 import org.openclover.core.registry.Clover2Registry
 import org.openclover.core.registry.entities.FullClassInfo
 import org.openclover.core.registry.entities.FullFileInfo
-import org.openclover.core.registry.entities.FullPackageInfo
 import org.openclover.groovy.test.junit.Result
 
 /**
@@ -37,7 +37,7 @@ class GroovyModellingStatementsTest extends TestBase {
            """])
 
         assertRegistry db, { Clover2Registry reg ->
-            assertPackage reg.model.project, isDefaultPackage, { FullPackageInfo p ->
+            assertPackage reg.model.project, isDefaultPackage, { PackageInfo p ->
                 assertFile p, named("Foo.groovy"), { FullFileInfo f ->
                     assertClass f, named("Foo"), { FullClassInfo c ->
                         assertMethod(c, { MethodInfo it -> it.simpleName == "field myfieldWithCalculationInit" }, { MethodInfo m ->
@@ -68,7 +68,7 @@ class GroovyModellingStatementsTest extends TestBase {
             """])
 
         assertRegistry db, { Clover2Registry reg ->
-            assertPackage reg.model.project, named("com.atlassian.foo.bar"), { FullPackageInfo p ->
+            assertPackage reg.model.project, named("com.atlassian.foo.bar"), { PackageInfo p ->
                 (p.path == "com/atlassian/foo/bar/") &&
                         assertFile(p, named("Foo.groovy")) { FullFileInfo f ->
                             (f.packagePath == "com/atlassian/foo/bar/Foo.groovy") &&
@@ -133,7 +133,7 @@ class GroovyModellingStatementsTest extends TestBase {
                 ])
 
         assertRegistry db, { Clover2Registry reg ->
-            assertPackage reg.model.project, isDefaultPackage, { FullPackageInfo p ->
+            assertPackage reg.model.project, isDefaultPackage, { PackageInfo p ->
                 assertFile p, named("C.groovy"), { FullFileInfo f ->
                     assertClass f, { ClassInfo it -> it.name == "C" }, { FullClassInfo c ->
                         assertMethod(c, and(simplyNamed("testSafeEvalWithField")), { MethodInfo m ->
@@ -273,7 +273,7 @@ class GroovyModellingStatementsTest extends TestBase {
            """])
 
         assertRegistry db, { Clover2Registry reg ->
-            assertPackage reg.model.project, isDefaultPackage, { FullPackageInfo p ->
+            assertPackage reg.model.project, isDefaultPackage, { PackageInfo p ->
                 assertFile p, named("Foo.groovy"), { FullFileInfo f ->
                     assertClass f, named("Foo"), { FullClassInfo c ->
                         assertMethod c, simplyNamed("main"), { MethodInfo m ->
@@ -333,7 +333,7 @@ class GroovyModellingStatementsTest extends TestBase {
             '''])
 
         assertRegistry db, { Clover2Registry reg ->
-            assertPackage reg.model.project, isDefaultPackage, { FullPackageInfo p ->
+            assertPackage reg.model.project, isDefaultPackage, { PackageInfo p ->
                 assertFile p, named("Statements.groovy"), { FullFileInfo f ->
 
                     assertClass (f, named("StatementsClass"), { FullClassInfo c ->
@@ -424,7 +424,7 @@ class GroovyModellingStatementsTest extends TestBase {
 }'''], "-Dclover.grover.ast.dump=true")
 
         assertRegistry db, { Clover2Registry reg ->
-            assertPackage reg.model.project, isDefaultPackage, { FullPackageInfo p ->
+            assertPackage reg.model.project, isDefaultPackage, { PackageInfo p ->
                 assertFile p, named("BlockNesting.groovy"), { FullFileInfo f ->
                     assertClass f, named("BlockNesting"), { FullClassInfo c ->
                         assertMethod c, simplyNamed("methodOne"), { MethodInfo m ->
@@ -460,7 +460,7 @@ class GroovyModellingStatementsTest extends TestBase {
                 }}'''])
 
         assertRegistry db, { Clover2Registry reg ->
-            assertPackage reg.model.project, isDefaultPackage, { FullPackageInfo p ->
+            assertPackage reg.model.project, isDefaultPackage, { PackageInfo p ->
                 assertFile p, named("TryFinally.groovy"), { FullFileInfo f ->
                     assertClass f, named("TryFinally"), { FullClassInfo c ->
                         assertMethod c, simplyNamed("one"), { MethodInfo m ->

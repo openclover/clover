@@ -1,8 +1,9 @@
 package org.openclover.idea.report.jfc;
 
+import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.MethodInfo;
-import org.openclover.core.registry.entities.BaseClassInfo;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.idea.treetables.CellRendererUtil;
 import org.openclover.idea.util.ui.CloverIcons;
@@ -24,15 +25,15 @@ public class HasMetricsTreeCellRenderer extends DefaultTreeCellRenderer {
             hasMetrics = (HasMetrics) value;
         }
 
-        if (hasMetrics instanceof FullProjectInfo) {
+        if (hasMetrics instanceof ProjectInfo) {
             setIcon(CloverIcons.IDEA_PROJECT);
             setText(hasMetrics.getName());
         } else if (hasMetrics instanceof MethodInfo) {
             MethodInfo methodInfo = (MethodInfo) hasMetrics;
             setIcon(CellRendererUtil.getIconForMethodInfo(methodInfo));
             setText(hasMetrics.getName());
-        } else if (hasMetrics instanceof BaseClassInfo) {
-            final BaseClassInfo classInfo = (BaseClassInfo) hasMetrics;
+        } else if (hasMetrics instanceof ClassInfo) {
+            final ClassInfo classInfo = (ClassInfo) hasMetrics;
             setIcon(CellRendererUtil.getIconForClassInfo(classInfo));
             setText(hasMetrics.getName());
         } else if (hasMetrics != null) {

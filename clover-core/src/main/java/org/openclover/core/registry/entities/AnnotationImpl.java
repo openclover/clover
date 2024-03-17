@@ -26,7 +26,7 @@ public class AnnotationImpl implements Annotation, PersistentAnnotationValue, An
     private String name = "";
 
     @NotNull
-    private Map<String, PersistentAnnotationValue> attributes = newHashMap();
+    private final Map<String, PersistentAnnotationValue> attributes = newHashMap();
 
     /**
      * Create an annotation with no name and no attributes. Helper constructor
@@ -84,7 +84,7 @@ public class AnnotationImpl implements Annotation, PersistentAnnotationValue, An
 
     @Override
     @NotNull
-    public List<? extends AnnotationValue> toList() {
+    public List<AnnotationValue> toList() {
         return Collections.singletonList(this);
     }
 

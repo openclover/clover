@@ -1,6 +1,11 @@
 package org.openclover.core.registry.entities;
 
 import org.jetbrains.annotations.Nullable;
+import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.MethodInfo;
+import org.openclover.core.api.registry.ProjectInfo;
+import org.openclover.core.api.registry.StackTraceInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.recorder.PerTestRecordingTranscript;
 
 import java.io.IOException;
@@ -15,13 +20,13 @@ import java.util.Set;
 import static org.openclover.core.util.Maps.newHashMap;
 import static org.openclover.core.util.Sets.newHashSet;
 
-public class TestCaseInfo implements Serializable {
+public class FullTestCaseInfo implements TestCaseInfo, Serializable {
     static final long serialVersionUID = 0L;
 
     public static final int DEFAULT_SLICE_ID_OFFSET = 0;
 
-    private transient WeakReference<FullMethodInfo> sourceMethod;
-    private transient WeakReference<FullClassInfo> runtimeType;
+    private transient WeakReference<MethodInfo> sourceMethod;
+    private transient WeakReference<ClassInfo> runtimeType;
     private transient Integer id;
 
     private String runtimeTypeName;
@@ -48,7 +53,7 @@ public class TestCaseInfo implements Serializable {
     private transient StackTraceInfo stackTrace;
 
     public static class Factory {
-        private static Map<String, TestCaseInfo> instanceCache = newHashMap();
+        private static Map<String, FullTestCaseInfo> instanceCache = newHashMap();
 
         private static int sliceOffset = DEFAULT_SLICE_ID_OFFSET;
 
@@ -57,8 +62,8 @@ public class TestCaseInfo implements Serializable {
             sliceOffset = DEFAULT_SLICE_ID_OFFSET;
         }
 
-        public static TestCaseInfo getInstance(TestCaseInfo tci) {
-            TestCaseInfo result = instanceCache.get(tci.getKey());
+        public static FullTestCaseInfo getInstance(FullTestCaseInfo tci) {
+            FullTestCaseInfo result = instanceCache.get(tci.getKey());
             if (result == null) {
                 result = tci;
                 tci.setId(sliceOffset++);
@@ -67,10 +72,10 @@ public class TestCaseInfo implements Serializable {
             return result;
         }
 
-        public static TestCaseInfo getInstanceForSlice(PerTestRecordingTranscript recording) {
-            TestCaseInfo tci = new TestCaseInfo(recording.getStart(), recording.getEnd(), recording.getDuration(),
+        public static FullTestCaseInfo getInstanceForSlice(PerTestRecordingTranscript recording) {
+            FullTestCaseInfo tci = new FullTestCaseInfo(recording.getStart(), recording.getEnd(), recording.getDuration(),
                     recording.getTestTypeName(), recording.getTestMethodName(), recording.getRuntimeTestName());
-            TestCaseInfo result = instanceCache.get(tci.getKey());
+            FullTestCaseInfo result = instanceCache.get(tci.getKey());
             if (result == null) {
                 result = tci;
                 String stackTrace = recording.getStackTrace();
@@ -88,7 +93,7 @@ public class TestCaseInfo implements Serializable {
             return result;
         }
 
-        public static Set<TestCaseInfo> getCacheValues() {
+        public static Set<FullTestCaseInfo> getCacheValues() {
             return newHashSet(instanceCache.values());
         }
     }
@@ -98,8 +103,8 @@ public class TestCaseInfo implements Serializable {
      * @param endTime    approximate time when test has finished (in miliseconds since epoch), use 0 if unknown
      * @param duration   how long test was running (in seconds)
      */
-    private TestCaseInfo(long startTime, long endTime, double duration,
-                         String runtimeTypeName, String sourceMethodName, @Nullable String runtimeTestName) {
+    private FullTestCaseInfo(long startTime, long endTime, double duration,
+                             String runtimeTypeName, String sourceMethodName, @Nullable String runtimeTestName) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.duration = duration;
@@ -110,8 +115,8 @@ public class TestCaseInfo implements Serializable {
         this.runtimeTestName = runtimeTestName;
     }
 
-    public TestCaseInfo(Integer id, FullClassInfo runtimeType, FullMethodInfo sourceMethod,
-                        @Nullable String runtimeTestName) {
+    public FullTestCaseInfo(Integer id, ClassInfo runtimeType, MethodInfo sourceMethod,
+                            @Nullable String runtimeTestName) {
         this.id = id;
         this.runtimeType = new WeakReference<>(runtimeType);
         this.sourceMethod = new WeakReference<>(sourceMethod);
@@ -122,6 +127,7 @@ public class TestCaseInfo implements Serializable {
         this.runtimeTestName = runtimeTestName;
     }
 
+    @Override
     public Integer getId() {
         return id;
     }
@@ -130,6 +136,7 @@ public class TestCaseInfo implements Serializable {
         this.id = id;
     }
 
+    @Override
     public boolean isResolved() {
         return getRuntimeType() != null && getSourceMethod() != null;
     }
@@ -140,7 +147,8 @@ public class TestCaseInfo implements Serializable {
      * @param project the project to resolve against
      * @return true if resolution was successful
      */
-    public boolean resolve(FullProjectInfo project) {
+    @Override
+    public boolean resolve(ProjectInfo project) {
         final String rtClassname = runtimeTypeName.replaceAll("\\.[0-9]+", ""); // hack - see CCD-294, CCD-307
         final FullClassInfo runtimeType = (FullClassInfo)project.findClass(rtClassname);
         this.runtimeType = new WeakReference<>(runtimeType);
@@ -151,7 +159,7 @@ public class TestCaseInfo implements Serializable {
             final String srcClassname = sourceMethodName.substring(0, lastDot);
             final FullClassInfo srcClass = (rtClassname.equals(srcClassname))
                     ? runtimeType : (FullClassInfo)project.findClass(srcClassname);
-            FullMethodInfo testMethodFound = null;
+            MethodInfo testMethodFound = null;
 
             // if found then find proper method in this class as well
             if (srcClass != null) {
@@ -177,7 +185,7 @@ public class TestCaseInfo implements Serializable {
     }
 
     public Object readResolve() throws ObjectStreamException {
-        TestCaseInfo info = Factory.getInstance(this);
+        FullTestCaseInfo info = Factory.getInstance(this);
         StackTraceInfo strace = info.getStackTrace();
         if (strace != null) {
             // make sure the correct parent reference is used
@@ -189,11 +197,11 @@ public class TestCaseInfo implements Serializable {
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
         if (failFullMessage != null) {
-            stackTrace = new StackTraceInfo(this, failFullMessage);
+            stackTrace = new FullStackTraceInfo(this, failFullMessage);
         }
     }
 
-
+    @Override
     public String getKey() {
         return makeKey(runtimeTypeName, sourceMethodName, runtimeTestName ,startTime);
     }
@@ -204,8 +212,9 @@ public class TestCaseInfo implements Serializable {
                 : runtimeTypeName + "/" + sourceMethodName + "/" + runtimeTestName + "/" + startTime;
     }
 
+    @Override
     public String getClassName() {
-        final FullClassInfo runtimeType = this.runtimeType.get();
+        final ClassInfo runtimeType = this.runtimeType.get();
         return runtimeType == null ? null : runtimeType.getName();
     }
 
@@ -222,6 +231,7 @@ public class TestCaseInfo implements Serializable {
      *
      * @return String name of the test
      */
+    @Override
     public String getTestName() {
         return runtimeTestName != null ? runtimeTestName : staticTestName;
     }
@@ -230,14 +240,17 @@ public class TestCaseInfo implements Serializable {
      * Return duration of the test in seconds
      * @return float test duration
      */
+    @Override
     public double getDuration() {
         return duration;
     }
 
+    @Override
     public boolean isError() {
         return hasResult && error;
     }
 
+    @Override
     public boolean isHasResult() {
         return hasResult;
     }
@@ -258,6 +271,7 @@ public class TestCaseInfo implements Serializable {
         this.error = error;
     }
 
+    @Override
     public boolean isFailure() {
         return hasResult && failure;
     }
@@ -266,10 +280,12 @@ public class TestCaseInfo implements Serializable {
         this.failure = failure;
     }
 
+    @Override
     public boolean isSuccess() {
         return hasResult && !isFailure() && !isError();
     }
 
+    @Override
     public String getFailMessage() {
         return failMessage;
     }
@@ -278,6 +294,7 @@ public class TestCaseInfo implements Serializable {
         this.failMessage = failMessage;
     }
 
+    @Override
     public String getFailType() {
         return failType;
     }
@@ -286,6 +303,7 @@ public class TestCaseInfo implements Serializable {
         this.failType = failType;
     }
 
+    @Override
     public String getFailFullMessage() {
         return failFullMessage;
     }
@@ -293,41 +311,48 @@ public class TestCaseInfo implements Serializable {
     public void setFailFullMessage(String failFullMessage) {
         this.failFullMessage = failFullMessage;
         if (failFullMessage != null) {
-            stackTrace = new StackTraceInfo(this, failFullMessage);
+            stackTrace = new FullStackTraceInfo(this, failFullMessage);
         }
     }
 
     @Nullable
+    @Override
     public StackTraceInfo getStackTrace() {
         return stackTrace;
     }
 
     @Nullable
-    public FullClassInfo getRuntimeType() {
+    @Override
+    public ClassInfo getRuntimeType() {
         return runtimeType == null ? null : runtimeType.get();
     }
 
     @Nullable
-    public FullMethodInfo getSourceMethod() {
+    @Override
+    public MethodInfo getSourceMethod() {
         return sourceMethod == null ? null : sourceMethod.get();
     }
 
     @Nullable
+    @Override
     public String getQualifiedName() {
-        final FullClassInfo runtimeType = getRuntimeType();
+        final ClassInfo runtimeType = getRuntimeType();
         return runtimeType == null ? null : runtimeType.getQualifiedName() + "." + getTestName();
     }
 
     @Nullable
+    @Override
     public String getRuntimeTypeName() {
         return runtimeTypeName;
     }
 
     @Nullable
+    @Override
     public String getSourceMethodName() {
         return sourceMethodName;
     }
 
+    @Override
     public long getStartTime() {
         return startTime;
     }
@@ -336,6 +361,7 @@ public class TestCaseInfo implements Serializable {
         this.startTime = startTime;
     }
 
+    @Override
     public long getEndTime() {
         return endTime;
     }
@@ -349,7 +375,7 @@ public class TestCaseInfo implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        TestCaseInfo that = (TestCaseInfo) o;
+        FullTestCaseInfo that = (FullTestCaseInfo) o;
 
         if (endTime != that.endTime) return false;
         if (error != that.error) return false;

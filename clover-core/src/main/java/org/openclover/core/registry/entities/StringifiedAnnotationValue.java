@@ -30,7 +30,7 @@ public class StringifiedAnnotationValue implements PersistentAnnotationValue {
 
     @Override
     @NotNull
-    public List<? extends AnnotationValue> toList() {
+    public List<AnnotationValue> toList() {
         return Collections.singletonList(this);
     }
 

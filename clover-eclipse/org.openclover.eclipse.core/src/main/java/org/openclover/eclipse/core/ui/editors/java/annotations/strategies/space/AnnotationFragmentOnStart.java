@@ -4,7 +4,7 @@ import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.api.registry.SourceInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
 
 import java.util.BitSet;
 import java.util.Map;

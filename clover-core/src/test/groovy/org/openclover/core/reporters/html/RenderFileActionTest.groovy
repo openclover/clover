@@ -3,9 +3,9 @@ package org.openclover.core.reporters.html
 import clover.org.apache.velocity.VelocityContext
 import junit.framework.TestCase
 import org.openclover.core.CloverDatabase
+import org.openclover.core.api.registry.PackageInfo
 import org.openclover.core.registry.Clover2Registry
 import org.openclover.core.registry.entities.FullFileInfo
-import org.openclover.core.registry.entities.FullPackageInfo
 import org.openclover.core.registry.metrics.HasMetricsTestFixture
 import org.openclover.core.reporters.Current
 import org.openclover.core.spi.reporters.html.source.LineRenderInfo
@@ -45,7 +45,7 @@ class RenderFileActionTest extends TestCase {
         HtmlRenderingSupportImpl helper = new HtmlRenderingSupportImpl()
         VelocityContext ctx = new VelocityContext()
 
-        FullPackageInfo pinfo = fixture.newPackage("com.clover.test")
+        PackageInfo pinfo = fixture.newPackage("com.clover.test")
         FullFileInfo finfo = fixture.newFile(pinfo, "TestFileInfo.java")
 
         RenderFileAction action = new RenderFileAction(finfo, helper, config, ctx,

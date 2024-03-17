@@ -1,7 +1,7 @@
 package org.openclover.core.reporters.html
 
 import junit.framework.TestCase
-import org.openclover.core.registry.entities.BaseClassInfo
+import org.openclover.core.api.registry.ClassInfo
 import org.openclover.core.registry.entities.FullFileInfo
 import org.openclover.core.registry.metrics.BlockMetrics
 import org.openclover.core.registry.metrics.HasMetricsTestFixture
@@ -10,7 +10,7 @@ import static org.openclover.core.util.Lists.newArrayList
 
 class StatisticsClassInfoVisitorTest extends TestCase {
 
-    List classes = newArrayList()
+    List<ClassInfo> classes = newArrayList()
     HasMetricsTestFixture fixture
     FullFileInfo fileInfo 
 
@@ -37,10 +37,10 @@ class StatisticsClassInfoVisitorTest extends TestCase {
     private void assertHashesUnique() {
         int[] prevHash = new int[classes.size()]
         int i = 0
-        for (Iterator iterator = classes.iterator(); iterator.hasNext();) {
-            BaseClassInfo baseClassInfo = (BaseClassInfo) iterator.next()
-            assertTrue(Arrays.binarySearch(prevHash, baseClassInfo.hashCode()) < 0)
-            prevHash[i++] = baseClassInfo.hashCode()
+        for (Iterator<ClassInfo> iterator = classes.iterator(); iterator.hasNext();) {
+            ClassInfo info = iterator.next()
+            assertTrue(Arrays.binarySearch(prevHash, info.hashCode()) < 0)
+            prevHash[i++] = info.hashCode()
             Arrays.sort(prevHash)
         }
     }
@@ -75,7 +75,7 @@ class StatisticsClassInfoVisitorTest extends TestCase {
         List v1Classes = totalEleStats.getClasses()
         Collections.sort(v1Classes, new ClassComparator(totalEleStats))
 
-        BaseClassInfo[] classInfos = (BaseClassInfo[]) v1Classes.toArray(new BaseClassInfo[3])
+        ClassInfo[] classInfos = v1Classes.toArray(new ClassInfo[3])
         //assertEquals(classInfos[1].getName()) //TODO assert order is correct.
 
     }
@@ -88,8 +88,8 @@ class StatisticsClassInfoVisitorTest extends TestCase {
         }
 
         int compare(Object object, Object object1) {
-            BaseClassInfo b1 = (BaseClassInfo) object
-            BaseClassInfo b2 = (BaseClassInfo) object1
+            ClassInfo b1 = (ClassInfo) object
+            ClassInfo b2 = (ClassInfo) object1
             return v1.getCalculator().getScaledValue(b1) - v1.getCalculator().getScaledValue(b2)
         }
     }

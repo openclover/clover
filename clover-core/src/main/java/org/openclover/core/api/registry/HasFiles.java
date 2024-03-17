@@ -11,9 +11,10 @@ public interface HasFiles {
     /**
      * Returns list of files
      *
-     * @return List&lt;? extends FileInfo&gt; - list of files or empty list if none
+     * @return List&lt;FileInfo&gt; - list of files or empty list if none
      */
     @NotNull
-    List<? extends FileInfo> getFiles();
+    List<FileInfo> getFiles();
 
+    void visitFiles(final FileInfoVisitor visitor);
 }

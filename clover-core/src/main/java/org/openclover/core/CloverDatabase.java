@@ -1,21 +1,24 @@
 package org.openclover.core;
 
 import org.openclover.core.api.registry.ContextSet;
+import org.openclover.core.api.registry.FileInfo;
+import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.core.api.registry.ProjectInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.cfg.Interval;
 import org.openclover.core.context.ContextStore;
 import org.openclover.core.recorder.InMemPerTestCoverage;
 import org.openclover.core.recorder.PerTestCoverage;
 import org.openclover.core.recorder.PerTestCoverageStrategy;
 import org.openclover.core.registry.Clover2Registry;
-import org.openclover.core.registry.CoverageDataProvider;
-import org.openclover.core.registry.CoverageDataRange;
+import org.openclover.core.api.registry.CoverageDataProvider;
+import org.openclover.core.api.registry.CoverageDataRange;
 import org.openclover.core.registry.NoSuchRegistryException;
 import org.openclover.core.registry.ProjectView;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullPackageInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
-import org.openclover.core.registry.metrics.HasMetricsFilter;
+import org.openclover.core.api.registry.HasMetricsFilter;
+import org.openclover.core.registry.entities.FullTestCaseInfo;
 import org.openclover.core.util.CloverUtils;
 import org.openclover.core.util.FileUtils;
 import org.openclover.core.util.Path;
@@ -180,7 +183,7 @@ public class CloverDatabase {
 
         if (!spec.isPreserveTestCaseCache()) {
             // unless requested, delete the testcaseinfo cache.
-            TestCaseInfo.Factory.reset();
+            FullTestCaseInfo.Factory.reset();
         }
 
         if (spec.getTestFilter() != null) {
@@ -200,7 +203,7 @@ public class CloverDatabase {
         return registry.getProject().getName();
     }
 
-    public FullProjectInfo getModel(CodeType codeType) {
+    public ProjectInfo getModel(CodeType codeType) {
         switch(codeType) {
             case APPLICATION:
                 return getAppOnlyModel();
@@ -213,15 +216,15 @@ public class CloverDatabase {
         }
     }
 
-    public FullProjectInfo getTestOnlyModel() {
+    public ProjectInfo getTestOnlyModel() {
         return testOnlyModel.getProject();
     }
 
-    public FullProjectInfo getAppOnlyModel() {
+    public ProjectInfo getAppOnlyModel() {
         return appOnlyModel == ProjectView.NONE ? registry.getProject() : appOnlyModel.getProject();
     }
 
-    public FullProjectInfo getFullModel() {
+    public ProjectInfo getFullModel() {
         return registry.getProject();
     }
 
@@ -352,7 +355,7 @@ public class CloverDatabase {
         Clover2Registry destReg = new Clover2Registry(new File(initString), RegAccessMode.READONLY, "Merged Project"); // todo - pass in a name
 
         destReg.setVersion(System.currentTimeMillis());
-        final FullProjectInfo baseProject = destReg.getProject();
+        final ProjectInfo baseProject = destReg.getProject();
 
         // todo - sort here to process the biggest first - might be significant speed improvement
         Map<CloverDatabaseSpec, CloverDatabase> speccedDbs = new LinkedHashMap<>();
@@ -380,7 +383,7 @@ public class CloverDatabase {
         float progressInc = 0.8f / dbspecs.size();
         int slotsUsed = 0;
 
-        TestCaseInfo.Factory.reset();
+        FullTestCaseInfo.Factory.reset();
 
         Iterator<Map.Entry<CloverDatabaseSpec, CloverDatabase>> speccedDbEntries =
                 speccedDbs.entrySet().iterator();
@@ -399,7 +402,7 @@ public class CloverDatabase {
                     new CoverageDataSpec(null, spec.getSpan().getValueInMillis(), false, false, true, true, PerTestCoverageStrategy.IN_MEMORY));
 
 
-            final FullProjectInfo mergingProject = mergingDb.getFullModel();
+            final ProjectInfo mergingProject = mergingDb.getFullModel();
 
             if (mergedCoverage == null) {
                 mergedCoverage = new int [mergingProject.getDataLength()];
@@ -407,15 +410,15 @@ public class CloverDatabase {
             }
 
             // get all files from mergingProject
-            List<FullFileInfo> mergingFiles = (List)mergingProject.getFiles(HasMetricsFilter.ACCEPT_ALL);
+            List<FileInfo> mergingFiles = mergingProject.getFiles(HasMetricsFilter.ACCEPT_ALL);
 
-            for (FullFileInfo mergeFI : mergingFiles) {
-                FullFileInfo baseFI = null;
+            for (FileInfo mergeFI : mergingFiles) {
+                FileInfo baseFI = null;
                 String mergePkgName = mergeFI.getContainingPackage().getName();
 
-                FullPackageInfo basePkg = (FullPackageInfo) baseProject.getNamedPackage(mergePkgName);
+                PackageInfo basePkg = baseProject.getNamedPackage(mergePkgName);
                 if (basePkg != null) {
-                    baseFI = (FullFileInfo) basePkg.getFile(mergeFI.getPackagePath());
+                    baseFI = basePkg.getFile(mergeFI.getPackagePath());
                 }
                 // default new location is append at the end
                 int newDataIndex = baseProject.getDataLength();
@@ -424,7 +427,7 @@ public class CloverDatabase {
 
                 // we check filesize here because checksum can theoretically have collisions
                 // which still is no guarantee, but hey.
-                if (baseFI != null && baseFI.getFilesize() == mergeFI.getFilesize() &&
+                if (baseFI != null && baseFI.getFileSize() == mergeFI.getFileSize() &&
                         baseFI.getChecksum() == mergeFI.getChecksum()) {
                     // baseProject has an entry for this file, and the file records are identical, so
                     // need to merge data only
@@ -434,8 +437,8 @@ public class CloverDatabase {
                     // baseProject doesn't have this file, or mergingProject has a newer record and different checksum
                     // - add file record (and possibly the containing package as well) to baseProject
 
-                    mergeFI.setDataIndex(newDataIndex);
-                    mergeFI.resetVersions(baseProject.getVersion());
+                    ((FullFileInfo) mergeFI).setDataIndex(newDataIndex);
+                    ((FullFileInfo) mergeFI).resetVersions(baseProject.getVersion());
 
                     if (basePkg == null) {
                         basePkg = new FullPackageInfo(baseProject, mergePkgName, newDataIndex);
@@ -469,9 +472,9 @@ public class CloverDatabase {
         int [] compactedCoverage = new int[slotsUsed];
         InMemPerTestCoverage compactedSliceHits = new InMemPerTestCoverage(slotsUsed);
         int insertPoint = 0;
-        List<FullFileInfo> mergedFiles = (List)baseProject.getFiles(HasMetricsFilter.ACCEPT_ALL);
+        List<FileInfo> mergedFiles = baseProject.getFiles(HasMetricsFilter.ACCEPT_ALL);
 
-        for (FullFileInfo fileInfo : mergedFiles) {
+        for (FileInfo fileInfo : mergedFiles) {
             System.arraycopy(mergedCoverage, fileInfo.getDataIndex(), compactedCoverage, insertPoint, fileInfo.getDataLength());
 
             for (TestCaseInfo tci : mergedSliceHits.getTests()) {
@@ -481,7 +484,7 @@ public class CloverDatabase {
                     compactedSlice.set(insertPoint + i, mergedSlice.get(fileInfo.getDataIndex() + i));
                 }
             }
-            fileInfo.setDataIndex(insertPoint);
+            ((FullFileInfo) fileInfo).setDataIndex(insertPoint);
             insertPoint += fileInfo.getDataLength();
         }
         baseProject.setDataLength(slotsUsed);
@@ -495,7 +498,7 @@ public class CloverDatabase {
                 compactedSliceHits));
         
         destReg.saveAndOverwriteFile();
-        TestCaseInfo.Factory.reset();
+        FullTestCaseInfo.Factory.reset();
 
         if (update) {
             // delete the original

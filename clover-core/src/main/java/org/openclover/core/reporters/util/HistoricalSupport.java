@@ -4,11 +4,10 @@ import org.openclover.core.api.registry.BlockMetrics;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.cfg.Percentage;
 import org.openclover.core.model.CoverageDataPoint;
 import org.openclover.core.model.XmlConverter;
-import org.openclover.core.registry.entities.BasePackageInfo;
-import org.openclover.core.registry.entities.BaseProjectInfo;
 import org.openclover.core.reporters.Column;
 import org.openclover.core.reporters.Columns;
 import org.openclover.runtime.Logger;
@@ -72,8 +71,8 @@ public class HistoricalSupport {
         SortedMap<Long, HasMetrics> result = newTreeMap();
 
         for (CoverageDataPoint model : modelList) {
-            BaseProjectInfo project = model.getProject();
-            BasePackageInfo pkg = project.getNamedPackage(pkgStr);
+            ProjectInfo project = model.getProject();
+            PackageInfo pkg = project.getNamedPackage(pkgStr);
             if (pkg != null) {
                 result.put(project.getVersion(), new HasMetricsWrapper(pkg, model.getDataFile()));
             } else {
@@ -93,7 +92,7 @@ public class HistoricalSupport {
                 HistoricalSupport.getModelsForRange(files, from, to, XmlConverter.PROJECT_LEVEL);
         final SortedMap<Long, HasMetrics> result = newTreeMap();
         for (final CoverageDataPoint model : modelList) {
-            final BaseProjectInfo project = model.getProject();
+            final ProjectInfo project = model.getProject();
             result.put(project.getVersion(), new HasMetricsWrapper(project, model.getDataFile()));
         }
         return result;
@@ -160,16 +159,16 @@ public class HistoricalSupport {
      * @throws CloverException Throws CloverException when a user defines an invalid expression column
      */
     public static List<MetricsDiffSummary> getClassesMetricsDifference(HasMetrics then, HasMetrics now, Percentage threshold, Column column, boolean onlyDiffs) throws CloverException {
-        if (then instanceof BasePackageInfo) {
-            return getPackageClassesMetricsDiff((BasePackageInfo)then, (BasePackageInfo)now, threshold, column, onlyDiffs);
+        if (then instanceof PackageInfo) {
+            return getPackageClassesMetricsDiff((PackageInfo)then, (PackageInfo)now, threshold, column, onlyDiffs);
         } else {
-            return getProjectClassesMetricsDiff((BaseProjectInfo)then, (BaseProjectInfo)now, threshold, column, onlyDiffs);
+            return getProjectClassesMetricsDiff((ProjectInfo)then, (ProjectInfo)now, threshold, column, onlyDiffs);
         }
     }
 
 
     public static List<MetricsDiffSummary> getProjectClassesMetricsDiff(
-            final BaseProjectInfo then, final BaseProjectInfo now,
+            final ProjectInfo then, final ProjectInfo now,
             final  Percentage threshold, final Column column, final boolean onlyDiffs) throws CloverException {
 
         final List<MetricsDiffSummary> diffs = newLinkedList();
@@ -200,7 +199,7 @@ public class HistoricalSupport {
         return diffs;
     }
 
-    public static List<MetricsDiffSummary> getPackageClassesMetricsDiff(BasePackageInfo then, BasePackageInfo now,
+    public static List<MetricsDiffSummary> getPackageClassesMetricsDiff(PackageInfo then, PackageInfo now,
                                                      Percentage threshold, Column column, boolean onlyDiffs) throws CloverException {
         if (!then.getName().equals(now.getName())) {
             throw new IllegalArgumentException("Can't compare different packages");
@@ -208,7 +207,7 @@ public class HistoricalSupport {
         List<MetricsDiffSummary> diffs = newLinkedList();
 
         if (onlyDiffs) {
-            final List<? extends ClassInfo> classList = then.getClasses();
+            final List<ClassInfo> classList = then.getClasses();
             for (final ClassInfo c1 : classList) {
                 final ClassInfo c2 = now.getContainingProject().findClass(c1.getQualifiedName());
                 final MetricsDiffSummary diff = getClassMetricsDiff(c1, c2, threshold, column);
@@ -218,7 +217,7 @@ public class HistoricalSupport {
             }
         }
         else {
-            final List<? extends ClassInfo> classList = now.getClasses();
+            final List<ClassInfo> classList = now.getClasses();
             for (final ClassInfo c2 : classList) {
                 final ClassInfo c1 = then.getContainingProject().findClass(c2.getQualifiedName());
                 final MetricsDiffSummary diff = getNewClassMetrics(c1, c2, column);

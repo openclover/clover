@@ -21,8 +21,6 @@ public interface MethodSignatureInfo {
 
     boolean hasParams();
 
-    int getParamCount();
-
     String[] getThrowsTypes();
 
     String getNormalizedSignature();

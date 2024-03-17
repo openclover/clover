@@ -12,23 +12,24 @@ import org.openclover.core.CoverageDataSpec;
 import org.openclover.core.MaskedBitSetCoverageProvider;
 import org.openclover.core.ProgressListener;
 import org.openclover.core.api.registry.BlockMetrics;
+import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.MethodInfo;
+import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.core.api.registry.ProjectInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.cfg.StorageSize;
 import org.openclover.core.optimization.Snapshot;
 import org.openclover.core.recorder.PerTestCoverageStrategy;
 import org.openclover.core.registry.Clover2Registry;
-import org.openclover.core.registry.CoverageDataProvider;
-import org.openclover.core.registry.CoverageDataReceptor;
+import org.openclover.core.api.registry.CoverageDataProvider;
+import org.openclover.core.api.registry.CoverageDataReceptor;
 import org.openclover.core.registry.entities.FullClassInfo;
-import org.openclover.core.registry.entities.FullFileInfo;
-import org.openclover.core.registry.entities.FullPackageInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
-import org.openclover.core.registry.entities.PackageFragment;
-import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.core.api.registry.PackageFragment;
 import org.openclover.core.registry.metrics.ClassMetrics;
 import org.openclover.core.registry.metrics.FileMetrics;
-import org.openclover.core.registry.metrics.HasMetricsFilter;
+import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.core.reporters.filters.DefaultTestFilter;
 import org.openclover.core.util.Path;
 import org.openclover.idea.util.ModelScope;
@@ -37,6 +38,7 @@ import org.openclover.runtime.api.CloverException;
 import org.openclover.runtime.util.Formatting;
 
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import java.io.File;
 import java.io.IOException;
@@ -293,7 +295,7 @@ public class CoverageTreeModel {
         try {
             DefaultMutableTreeNode last = (DefaultMutableTreeNode) path.getPathComponent(path.getPathCount() - 1);
             NodeWrapper target = (NodeWrapper) last.getUserObject();
-            for (Enumeration nodes = mTree.breadthFirstEnumeration(); nodes.hasMoreElements();) {
+            for (Enumeration<TreeNode> nodes = mTree.breadthFirstEnumeration(); nodes.hasMoreElements();) {
                 DefaultMutableTreeNode node = (DefaultMutableTreeNode) nodes.nextElement();
                 NodeWrapper wrapper = (NodeWrapper) node.getUserObject();
                 if (target.getId().equals(wrapper.getId())) {
@@ -316,14 +318,14 @@ public class CoverageTreeModel {
 
             // traverse the entire tree looking for a node with a
             // containing file that mateches the specified file.
-            for (Enumeration nodes = mTree.breadthFirstEnumeration(); nodes.hasMoreElements();) {
+            for (Enumeration<TreeNode> nodes = mTree.breadthFirstEnumeration(); nodes.hasMoreElements();) {
                 DefaultMutableTreeNode node = (DefaultMutableTreeNode) nodes.nextElement();
                 final Object userObject = node.getUserObject();
                 if (userObject instanceof NodeWrapper) {
                     NodeWrapper wrapper = (NodeWrapper) userObject;
                     HasMetrics hasMetrics = wrapper.getHasMetrics();
-                    if (hasMetrics instanceof FullClassInfo) {
-                        FullFileInfo fileInfo = (FullFileInfo) ((FullClassInfo) hasMetrics).getContainingFile();
+                    if (hasMetrics instanceof ClassInfo) {
+                        FileInfo fileInfo = ((ClassInfo) hasMetrics).getContainingFile();
                         if (file.equals(fileInfo.getPhysicalFile())) {
                             return new TreePath(node.getPath());
                         }
@@ -337,7 +339,7 @@ public class CoverageTreeModel {
     }
 
     public TreePath getPathForHasMetrics(HasMetrics hasMetrics) {
-        for (Enumeration nodes = mTree.breadthFirstEnumeration(); nodes.hasMoreElements();) {
+        for (Enumeration<TreeNode> nodes = mTree.breadthFirstEnumeration(); nodes.hasMoreElements();) {
             DefaultMutableTreeNode node = (DefaultMutableTreeNode) nodes.nextElement();
             final Object userObject = node.getUserObject();
             if (userObject instanceof NodeWrapper) {
@@ -503,7 +505,7 @@ public class CoverageTreeModel {
 
     private void addFlatPackageNode(PackageFragment fragmentInfo, DefaultMutableTreeNode parentNode) {
         if (fragmentInfo.isConcrete()) {
-            FullPackageInfo concretePackage = fragmentInfo.getConcretePackage();
+            PackageInfo concretePackage = fragmentInfo.getConcretePackage();
             DefaultMutableTreeNode fragmentNode = new DefaultMutableTreeNode(
                     new NodeWrapper(concretePackage.getName(), concretePackage, calculatePFTestPasses(fragmentInfo)));
             parentNode.add(fragmentNode);
@@ -519,7 +521,7 @@ public class CoverageTreeModel {
         }
     }
 
-    private void addClassNodes(List classes, DefaultMutableTreeNode fragmentNode) {
+    private void addClassNodes(List<ClassInfo> classes, DefaultMutableTreeNode fragmentNode) {
         FullClassInfo[] classesArray = new FullClassInfo[classes.size()];
         classes.toArray(classesArray);
         Arrays.sort(classesArray, HASMETRICS_COMPARATOR);
@@ -530,7 +532,7 @@ public class CoverageTreeModel {
                             classInfo.getContainingFile() + ":" + classInfo.getName(),
                             classInfo));
             fragmentNode.add(classNode);
-            List<? extends MethodInfo> methods = classInfo.getMethods();
+            List<MethodInfo> methods = classInfo.getMethods();
             methods.sort(HASMETRICS_COMPARATOR);
 
             for (MethodInfo method : methods) {
@@ -565,7 +567,7 @@ public class CoverageTreeModel {
         if (db == null) {
             mTree = new DefaultMutableTreeNode(mRootName, false);
         } else {
-            final FullProjectInfo projectInfo = ModelUtil.getModel(db, modelScope);
+            final ProjectInfo projectInfo = ModelUtil.getModel(db, modelScope);
             mTree = new DefaultMutableTreeNode(
                     new NodeWrapper(mRootName, projectInfo,
                                     new BaseCoverageNodeViewer.TestPassInfo(db.getFullModel().getMetrics())));

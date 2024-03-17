@@ -3,8 +3,9 @@ package org.openclover.idea.testexplorer;
 import junit.framework.TestCase;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.CoverageDataSpec;
+import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.entities.FullPackageInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
 import org.openclover.core.reporters.filters.DefaultTestFilter;
 import org.openclover.idea.treetables.SortableListTreeTableModelOnColumns;
 import org.openclover.idea.treetables.TreeTableModelFactory;
@@ -57,7 +58,7 @@ public class CoverageContributionTreeBuilderTest extends TestCase {
         assertEquals(1, rootNode.getChildCount());
 
         DefaultMutableTreeNode pkgNode = (DefaultMutableTreeNode) rootNode.getChildAt(0);
-        FullPackageInfo pkg = (FullPackageInfo) pkgNode.getUserObject();
+        PackageInfo pkg = (PackageInfo) pkgNode.getUserObject();
         assertEquals("com.cenqua.clovertest", pkg.getName());
         assertEquals(2, pkgNode.getChildCount());
 

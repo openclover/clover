@@ -5,11 +5,11 @@ import clover.it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.CoverageDataSpec;
 import org.openclover.core.api.registry.FileInfo;
+import org.openclover.core.api.registry.ProjectInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.Clover2Registry;
-import org.openclover.core.registry.CoverageDataRange;
+import org.openclover.core.api.registry.CoverageDataRange;
 import org.openclover.core.registry.entities.FullFileInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
 import org.openclover.core.util.Sets;
 import org.openclover.runtime.CloverNames;
 import org.openclover.runtime.Logger;
@@ -217,7 +217,7 @@ public class Snapshot implements Serializable {
 
         db.getFullModel().visitFiles(fileInfo -> {
             final String packagePath = fileInfo.getPackagePath();
-            final SourceState sourceState = new SourceState(fileInfo.getChecksum(), fileInfo.getFilesize());
+            final SourceState sourceState = new SourceState(fileInfo.getChecksum(), fileInfo.getFileSize());
             final Set<TestMethodCall> testsForFile = testsFor(db.getFullModel(), db.getTestHits((CoverageDataRange) fileInfo));
             for (TestMethodCall test : testsForFile) {
                 addToStates(test, packagePath, sourceState);
@@ -243,7 +243,7 @@ public class Snapshot implements Serializable {
         return duration;
     }
 
-    private Set<TestMethodCall> testsFor(FullProjectInfo project, Collection<TestCaseInfo> tcis) {
+    private Set<TestMethodCall> testsFor(ProjectInfo project, Collection<TestCaseInfo> tcis) {
         Set<TestMethodCall> tests = newHashSet();
         for (final TestCaseInfo tci : tcis) {
             String testName = TestMethodCall.getSourceMethodNameFor(tci, project);
@@ -444,7 +444,7 @@ public class Snapshot implements Serializable {
                         Logger.getInstance().info(
                             "Source file " + fileState.getKey() + " covered by test " + testMethod
                             + " changed (was: " + fileState.getValue()
-                            + " now: " + new SourceState(fileInfo.getChecksum(), fileInfo.getFilesize()) + ")");
+                            + " now: " + new SourceState(fileInfo.getChecksum(), fileInfo.getFileSize()) + ")");
                     }
                 }
                 if (fileInfo != null) {

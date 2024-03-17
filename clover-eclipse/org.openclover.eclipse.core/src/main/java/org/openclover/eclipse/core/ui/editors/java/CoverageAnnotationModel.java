@@ -30,10 +30,10 @@ import org.openclover.core.api.registry.ContextSet;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.SourceInfo;
 import org.openclover.core.api.registry.StatementInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.context.ContextSetImpl;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.LineInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
 import org.openclover.core.util.function.TransformingIterator;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.PluginOptionKeys;
@@ -105,7 +105,8 @@ public class CoverageAnnotationModel implements IAnnotationModel, IDocumentListe
         fireAnnotationsChanged(rebuildAnnotations(editor.isDirty()));
     }
 
-    private CoverageAnnotationFilter syncFilter(CloverDatabase database, FullFileInfo fileInfo, Map<TestCaseInfo, BitSet> tcisAndHitsForFile, ContextSet blockFilter) {
+    private CoverageAnnotationFilter syncFilter(CloverDatabase database, FullFileInfo fileInfo,
+                                                Map<TestCaseInfo, BitSet> tcisAndHitsForFile, ContextSet blockFilter) {
         IResource editedResource = (IResource) editor.getEditorInput().getAdapter(IResource.class);
         if (editedResource != null) {
             return CoverageAnnotationFilter.loadFor(
@@ -237,7 +238,7 @@ public class CoverageAnnotationModel implements IAnnotationModel, IDocumentListe
 
         if (database != null && fileInfo != null && fileInfo.validatePhysicalFile()) {
             //Test cases and their hits for this FileInfo - important to keep around as expensive to calculate often
-            Map<TestCaseInfo,BitSet> tcisAndHitsForFile = Collections.unmodifiableMap(database.mapTestsAndCoverageForFile(fileInfo));
+            Map<TestCaseInfo, BitSet> tcisAndHitsForFile = Collections.unmodifiableMap(database.mapTestsAndCoverageForFile(fileInfo));
 
             //Used to filter out uninteresting SourceRegions
             CoverageAnnotationFilter filter =

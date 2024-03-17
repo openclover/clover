@@ -1,10 +1,10 @@
 package org.openclover.core.reporters.html;
 
 import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.MethodInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
-import org.openclover.core.registry.entities.FullFileInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
 import org.openclover.core.reporters.json.JSONException;
 import org.openclover.core.reporters.json.JSONObject;
 import org.openclover.core.spi.reporters.html.source.LineRenderInfo;
@@ -57,7 +57,7 @@ public class JSONObjectFactory {
     }
 
     // JSON: {classes : [{name, id, sl, el, methods : [{sl, el}, ...]}, ...]}
-    public static JSONObject getJSONPageData(final FullFileInfo fileInfo) throws JSONException {
+    public static JSONObject getJSONPageData(final FileInfo fileInfo) throws JSONException {
         final JSONObject jsonPageData = new JSONObject();
 
         final List<Map<String, Object>> classList = newArrayList();

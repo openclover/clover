@@ -4,8 +4,9 @@ import com.intellij.testFramework.LightIdeaTestCase;
 import org.mockito.Mockito;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.CoverageDataSpec;
+import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.reporters.filters.DefaultTestFilter;
 import org.openclover.idea.coverage.CoverageManager;
 import org.openclover.runtime.api.CloverException;
@@ -25,17 +26,16 @@ public class TestRunExplorerTreeBuilderIdeaTest extends LightIdeaTestCase {
     }
 
     public void testUniqueCoverage() {
-        FullProjectInfo projectInfo = cloverDb.getFullModel();
+        ProjectInfo projectInfo = cloverDb.getFullModel();
 
-        FullClassInfo aClass = (FullClassInfo) projectInfo.findClass("com.cenqua.clovertest.A");
+        ClassInfo aClass = projectInfo.findClass("com.cenqua.clovertest.A");
         assertNotNull(aClass);
-
 
         final CoverageManager coverageManager = Mockito.mock(CoverageManager.class);
         Mockito.when(coverageManager.getCoverage()).thenReturn(cloverDb);
         
-        @SuppressWarnings("unchecked")
-        Collection<DecoratedTestCaseInfo> testCases = TestRunExplorerTreeBuilder.wrap(cloverDb.getCoverageData().getTests(), aClass, cloverDb, coverageManager);
+        Collection<DecoratedTestCaseInfo> testCases = TestRunExplorerTreeBuilder.wrap(
+                cloverDb.getCoverageData().getTests(), (FullClassInfo) aClass, cloverDb, coverageManager);
         int count = 0;
         for (DecoratedTestCaseInfo testCase : testCases) {
             if ("testMethod".equals(testCase.getTestName())) {
@@ -55,18 +55,18 @@ public class TestRunExplorerTreeBuilderIdeaTest extends LightIdeaTestCase {
     }
 
     public void testObsoleteCalculation() throws CloverException {
-        FullClassInfo aClass = (FullClassInfo) cloverDb.getFullModel().findClass("com.cenqua.clovertest.A");
+        ClassInfo aClass = cloverDb.getFullModel().findClass("com.cenqua.clovertest.A");
 
         final CoverageManager coverageManager = Mockito.mock(CoverageManager.class);
         Mockito.when(coverageManager.getCoverage()).thenReturn(new CloverDatabase(path));
 
-        @SuppressWarnings("unchecked")
-        Collection<DecoratedTestCaseInfo> testCases = TestRunExplorerTreeBuilder.wrap(cloverDb.getCoverageData().getTests(), aClass, cloverDb, coverageManager);
+        Collection<DecoratedTestCaseInfo> testCases = TestRunExplorerTreeBuilder.wrap(
+                cloverDb.getCoverageData().getTests(), (FullClassInfo) aClass, cloverDb, coverageManager);
         assertFalse(testCases.isEmpty());
+
         for (DecoratedTestCaseInfo testCase : testCases) {
             assertEquals(-1f, testCase.getCoverage(), 0.0001);
             assertEquals(-1f, testCase.getUniqueCoverage(), 0.0001);
         }
-        
     }
 }

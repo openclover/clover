@@ -12,6 +12,7 @@ import org.openclover.core.api.command.ArgProcessor;
 import org.openclover.core.api.command.HelpBuilder;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.registry.metrics.HasMetricsSupport;
 import org.openclover.core.reporters.CloverReportConfig;
@@ -266,7 +267,7 @@ public class PDFReporter extends CloverReporter {
     }
 
     private void generateCurrentReport(Current currentConfig) throws DocumentException {
-        final FullProjectInfo project = database.getModel(CodeType.APPLICATION);
+        final ProjectInfo project = database.getModel(CodeType.APPLICATION);
 
         HasMetrics parent;
         String parentTitle;
@@ -274,7 +275,7 @@ public class PDFReporter extends CloverReporter {
         Logger.getInstance().debug("creating project summary report");
         parent = project;
 
-        List<? extends PackageInfo> children = project.getAllPackages();
+        List<PackageInfo> children = project.getAllPackages();
         Logger.getInstance().debug("num packages = " + children.size());
         parentTitle = "";
         childrenTitle = "Packages";

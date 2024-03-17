@@ -3,6 +3,8 @@ package org.openclover.core.registry.entities
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestName
+import org.openclover.core.api.registry.PackageInfo
+import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.registry.FixedSourceRegion
 
 import static org.junit.Assert.assertEquals
@@ -16,9 +18,9 @@ class FullPackageInfoTest {
 
     @Test
     void testFileLookupAfterCacheInvalidated() {
-        FullProjectInfo project = new FullProjectInfo(testName.methodName)
+        ProjectInfo project = new FullProjectInfo(testName.methodName)
 
-        final FullPackageInfo pkg = new FullPackageInfo(project, "com.foo", 0)
+        final PackageInfo pkg = new FullPackageInfo(project, "com.foo", 0)
         project.addPackage(pkg)
 
         assertNull(pkg.getFileInPackage("Foo.java"))

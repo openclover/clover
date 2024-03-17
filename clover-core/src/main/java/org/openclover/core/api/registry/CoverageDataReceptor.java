@@ -1,6 +1,6 @@
-package org.openclover.core.registry;
+package org.openclover.core.api.registry;
 
 public interface CoverageDataReceptor extends CoverageDataRange {
-    void setDataProvider(CoverageDataProvider data);
     CoverageDataProvider getDataProvider();
+    void setDataProvider(CoverageDataProvider data);
 }

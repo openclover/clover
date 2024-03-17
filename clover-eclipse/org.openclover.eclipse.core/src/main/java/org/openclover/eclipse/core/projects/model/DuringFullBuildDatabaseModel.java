@@ -5,12 +5,12 @@ import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IType;
 import org.openclover.core.CloverDatabase;
+import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.HasMetrics;
-import org.openclover.core.registry.entities.BaseClassInfo;
-import org.openclover.core.registry.entities.BaseFileInfo;
-import org.openclover.core.registry.entities.FullMethodInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.core.api.registry.MethodInfo;
+import org.openclover.core.api.registry.ProjectInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.eclipse.core.projects.CloverProject;
 
 public class DuringFullBuildDatabaseModel extends StableDatabaseModel {
@@ -31,19 +31,19 @@ public class DuringFullBuildDatabaseModel extends StableDatabaseModel {
     public boolean isRegistryOfDate() { return false; }
 
     @Override
-    public FullProjectInfo getFullProjectInfo() { return null; }
+    public ProjectInfo getFullProjectInfo() { return null; }
     @Override
-    public FullProjectInfo getTestOnlyProjectInfo() { return null; }
+    public ProjectInfo getTestOnlyProjectInfo() { return null; }
     @Override
-    public FullProjectInfo getAppOnlyProjectInfo() { return null; }
+    public ProjectInfo getAppOnlyProjectInfo() { return null; }
     @Override
     public HasMetrics getPackageInfoOrFragment(IPackageFragment pack, MetricsScope scope) { return null; }
     @Override
-    public BaseFileInfo getSourceFileInfo(ICompilationUnit cu, MetricsScope scope) { return null; }
+    public FileInfo getSourceFileInfo(ICompilationUnit cu, MetricsScope scope) { return null; }
     @Override
-    public BaseClassInfo getTypeInfo(IType type, MetricsScope scope) { return null; }
+    public ClassInfo getTypeInfo(IType type, MetricsScope scope) { return null; }
     @Override
-    public FullMethodInfo getMethodInfo(IMethod method, MetricsScope scope) { return null; }
+    public MethodInfo getMethodInfo(IMethod method, MetricsScope scope) { return null; }
     @Override
     public TestCaseInfo getTestCaseInfo(IMethod method, MetricsScope scope) { return null; }
     @Override

@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.openclover.core.api.instrumentation.ConcurrentInstrumentationException;
 import org.openclover.core.api.instrumentation.InstrumentationSession;
+import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig;
 import org.openclover.core.context.ContextSetImpl;
 import org.openclover.core.context.ContextStore;
@@ -127,7 +128,7 @@ public class Instrumenter {
             // copy file into dest
             File destDir = destRoot;
             String pkgName = structInfo.getPackageName();
-            if (!FullPackageInfo.isDefaultName(pkgName)) {
+            if (!PackageInfo.isDefaultName(pkgName)) {
                 destDir = new File(destRoot, CloverUtils.packageNameToPath(pkgName, false));
             }
 

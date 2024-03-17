@@ -2,7 +2,6 @@ package org.openclover.core.reporters;
 
 import clover.org.apache.velocity.VelocityContext;
 import org.openclover.core.api.registry.ClassInfo;
-import org.openclover.core.registry.entities.BaseClassInfo;
 import org.openclover.core.registry.metrics.HasMetricsSupport;
 import org.openclover.core.reporters.html.ClassInfoStatsCalculator;
 import org.openclover.core.reporters.html.HtmlReportUtil;
@@ -38,7 +37,7 @@ public class CloudGenerator {
         this.velocityContext = velocityContext;
     }
 
-    public final void createReport(List<? extends ClassInfo> classes,
+    public final void createReport(List<ClassInfo> classes,
                                    ClassInfoStatsCalculator calcAxis1,
                                    ClassInfoStatsCalculator calcAxis2) throws IOException {
         applyAxis(classes, calcAxis1, calcAxis2, velocityContext);
@@ -48,7 +47,7 @@ public class CloudGenerator {
                 template);
     }
 
-    protected final void applyAxis(List<? extends ClassInfo> classes,
+    protected final void applyAxis(List<ClassInfo> classes,
                                    ClassInfoStatsCalculator axis1,
                                    ClassInfoStatsCalculator axis2,
                                    VelocityContext context) {

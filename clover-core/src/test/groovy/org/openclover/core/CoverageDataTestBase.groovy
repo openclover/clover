@@ -2,17 +2,18 @@ package org.openclover.core
 
 import junit.framework.TestCase
 import org.openclover.core.api.registry.ContextSet
+import org.openclover.core.api.registry.TestCaseInfo
 import org.openclover.core.context.ContextSetImpl
 import org.openclover.core.instr.InstrumentationSessionImpl
 import org.openclover.core.recorder.PerTestCoverage
 import org.openclover.core.recorder.PerTestRecordingTranscript
 import org.openclover.core.registry.Clover2Registry
-import org.openclover.core.registry.CoverageDataProvider
+import org.openclover.core.api.registry.CoverageDataProvider
 import org.openclover.core.registry.FixedSourceRegion
 import org.openclover.core.registry.entities.FullFileInfo
 import org.openclover.core.registry.entities.MethodSignature
 import org.openclover.core.registry.entities.Modifiers
-import org.openclover.core.registry.entities.TestCaseInfo
+import org.openclover.core.registry.entities.FullTestCaseInfo
 import org.openclover.core.util.SimpleCoverageRange
 import org.openclover.runtime.ErrorInfo
 import org.openclover.runtime.RuntimeType
@@ -33,7 +34,7 @@ abstract class CoverageDataTestBase extends TestCase {
 
     @Override
     void tearDown() {
-        TestCaseInfo.Factory.reset()
+        FullTestCaseInfo.Factory.reset()
     }
 
     void testGetForSliceWithDifferentRuntimeTestName() throws IOException, CloverException {
@@ -51,8 +52,8 @@ abstract class CoverageDataTestBase extends TestCase {
                         reg, new CloverBitSet(), "Foo", "Foo.testMethod", start, 1, 0, PerTestRecorder.NORMAL_EXIT, null)
         recordingTranscript2.runtimeTestName = "runtimeTest2"
 
-        TestCaseInfo tci1 = TestCaseInfo.Factory.getInstanceForSlice(recordingTranscript1)
-        TestCaseInfo tci2 = TestCaseInfo.Factory.getInstanceForSlice(recordingTranscript2)
+        TestCaseInfo tci1 = FullTestCaseInfo.Factory.getInstanceForSlice(recordingTranscript1)
+        TestCaseInfo tci2 = FullTestCaseInfo.Factory.getInstanceForSlice(recordingTranscript2)
 
         assertFalse("TestCaseInfo must not be equals to each other", tci1.equals(tci2))
     }
@@ -67,13 +68,13 @@ abstract class CoverageDataTestBase extends TestCase {
         PerTestRecordingTranscript recordingTranscript1 =
             newPerTestTranscript(
                 reg, new CloverBitSet(), "Foo", "Foo.testMethod", start, 0, 0, PerTestRecorder.NORMAL_EXIT, null)
-        TestCaseInfo tci1 = TestCaseInfo.Factory.getInstanceForSlice(recordingTranscript1)
+        TestCaseInfo tci1 = FullTestCaseInfo.Factory.getInstanceForSlice(recordingTranscript1)
         data.addCoverage(tci1, recordingTranscript1)
 
         PerTestRecordingTranscript recordingTranscript2 =
             newPerTestTranscript(
                 reg, new CloverBitSet(), "Foo", "Foo.testMethod2", start + 2, 1, 0, PerTestRecorder.NORMAL_EXIT, null)
-        TestCaseInfo tci2 = TestCaseInfo.Factory.getInstanceForSlice(recordingTranscript2)
+        TestCaseInfo tci2 = FullTestCaseInfo.Factory.getInstanceForSlice(recordingTranscript2)
         data.addCoverage(tci2, recordingTranscript2)
 
         assertSame(tci1, data.getTestById(tci1.getId()))
@@ -101,7 +102,7 @@ abstract class CoverageDataTestBase extends TestCase {
         PerTestRecordingTranscript recordingTranscript1 =
             newPerTestTranscript(
                 reg, perTestCoverage, "Foo", "Foo.testMethod", start, 0, 0, PerTestRecorder.NORMAL_EXIT, null)
-        TestCaseInfo tci1 = TestCaseInfo.Factory.getInstanceForSlice(recordingTranscript1)
+        TestCaseInfo tci1 = FullTestCaseInfo.Factory.getInstanceForSlice(recordingTranscript1)
         data.addCoverage(tci1, recordingTranscript1)
 
         // Foo.testMethod2: [0..63] => 0 hit, [64..127] => 1 hit, [128..191] => 1 hit
@@ -115,7 +116,7 @@ abstract class CoverageDataTestBase extends TestCase {
         PerTestRecordingTranscript recordingTranscript2 =
             newPerTestTranscript(
                 reg, perTestCoverage, "Foo", "Foo.testMethod2", start + 2, 1, 0, PerTestRecorder.NORMAL_EXIT, null)
-        TestCaseInfo tci2 = TestCaseInfo.Factory.getInstanceForSlice(recordingTranscript2)
+        TestCaseInfo tci2 = FullTestCaseInfo.Factory.getInstanceForSlice(recordingTranscript2)
         data.addCoverage(tci2, recordingTranscript2)
 
         //[0..63] => (Foo.testMethod)
@@ -171,7 +172,7 @@ abstract class CoverageDataTestBase extends TestCase {
         PerTestRecordingTranscript failedRecording =
             newPerTestTranscript(
                 reg, perTestCoverage, "Foo", "Foo.testMethod", start, 0, 0, PerTestRecorder.ABNORMAL_EXIT, new ErrorInfo("message", "stack trace"))
-        TestCaseInfo tci1 = TestCaseInfo.Factory.getInstanceForSlice(failedRecording)
+        TestCaseInfo tci1 = FullTestCaseInfo.Factory.getInstanceForSlice(failedRecording)
         data.addCoverage(tci1, failedRecording)
 
         //PASSING TEST
@@ -187,7 +188,7 @@ abstract class CoverageDataTestBase extends TestCase {
         PerTestRecordingTranscript passedRecording =
             newPerTestTranscript(
                 reg, perTestCoverage, "Foo", "Foo.testMethod2", start + 2, 1, 0, PerTestRecorder.NORMAL_EXIT, null)
-        TestCaseInfo tci2 = TestCaseInfo.Factory.getInstanceForSlice(passedRecording)
+        TestCaseInfo tci2 = FullTestCaseInfo.Factory.getInstanceForSlice(passedRecording)
         data.addCoverage(tci2, passedRecording)
 
         CoverageDataProvider passOnlyCoverage = new BitSetCoverageProvider(data.getPassOnlyHits(), data)
@@ -226,7 +227,7 @@ abstract class CoverageDataTestBase extends TestCase {
         PerTestRecordingTranscript passedRecording1 =
             newPerTestTranscript(
                 reg, perTestCoverage, "Foo", "Foo.testMethod", start, 0, 0, PerTestRecorder.NORMAL_EXIT, new ErrorInfo("message", "stack trace"))
-        TestCaseInfo tci1 = TestCaseInfo.Factory.getInstanceForSlice(passedRecording1)
+        TestCaseInfo tci1 = FullTestCaseInfo.Factory.getInstanceForSlice(passedRecording1)
         data.addCoverage(tci1, passedRecording1)
 
         //[0..63] [64..127]
@@ -238,7 +239,7 @@ abstract class CoverageDataTestBase extends TestCase {
         PerTestRecordingTranscript passedRecording2 =
             newPerTestTranscript(
                 reg, perTestCoverage, "Foo", "Foo.testMethod2", start + 2, 1, 0, PerTestRecorder.NORMAL_EXIT, null)
-        TestCaseInfo tci2 = TestCaseInfo.Factory.getInstanceForSlice(passedRecording2)
+        TestCaseInfo tci2 = FullTestCaseInfo.Factory.getInstanceForSlice(passedRecording2)
         data.addCoverage(tci2, passedRecording2)
 
         CoverageDataProvider allCoverage = new BitSetCoverageProvider(data.getAllHits(), data)
@@ -271,7 +272,7 @@ abstract class CoverageDataTestBase extends TestCase {
         PerTestRecordingTranscript failedRecording =
             newPerTestTranscript(
                 reg, perTestCoverage, "Foo", "Foo.testMethod", start, 0, 0, PerTestRecorder.ABNORMAL_EXIT, new ErrorInfo("message", "stack trace"))
-        TestCaseInfo tci1 = TestCaseInfo.Factory.getInstanceForSlice(failedRecording)
+        TestCaseInfo tci1 = FullTestCaseInfo.Factory.getInstanceForSlice(failedRecording)
         data.addCoverage(tci1, failedRecording)
 
         //[0..63] [64..127]
@@ -283,7 +284,7 @@ abstract class CoverageDataTestBase extends TestCase {
         PerTestRecordingTranscript passedRecording =
             newPerTestTranscript(
                 reg, perTestCoverage, "Foo", "Foo.testMethod2", start + 2, 1, 0, PerTestRecorder.NORMAL_EXIT, null)
-        TestCaseInfo tci2 = TestCaseInfo.Factory.getInstanceForSlice(passedRecording)
+        TestCaseInfo tci2 = FullTestCaseInfo.Factory.getInstanceForSlice(passedRecording)
         data.addCoverage(tci2, passedRecording)
 
         CoverageDataProvider allCoverage = new BitSetCoverageProvider(data.getAllHits(), data)
@@ -316,7 +317,7 @@ abstract class CoverageDataTestBase extends TestCase {
         PerTestRecordingTranscript failedRecording1 =
             newPerTestTranscript(
                 reg, perTestCoverage, "Foo", "Foo.testMethod", start, 0, 0, PerTestRecorder.ABNORMAL_EXIT, new ErrorInfo("message", "stack trace"))
-        TestCaseInfo tci1 = TestCaseInfo.Factory.getInstanceForSlice(failedRecording1)
+        TestCaseInfo tci1 = FullTestCaseInfo.Factory.getInstanceForSlice(failedRecording1)
         data.addCoverage(tci1, failedRecording1)
 
         //[0..63] [64..127]
@@ -328,7 +329,7 @@ abstract class CoverageDataTestBase extends TestCase {
         PerTestRecordingTranscript failedRecording2 =
             newPerTestTranscript(
                 reg, perTestCoverage, "Foo", "Foo.testMethod2", start + 2, 1, 0, PerTestRecorder.ABNORMAL_EXIT, null)
-        TestCaseInfo tci2 = TestCaseInfo.Factory.getInstanceForSlice(failedRecording2)
+        TestCaseInfo tci2 = FullTestCaseInfo.Factory.getInstanceForSlice(failedRecording2)
         data.addCoverage(tci2, failedRecording2)
 
         CoverageDataProvider allCoverage = new BitSetCoverageProvider(data.getAllHits(), data)
@@ -366,7 +367,7 @@ abstract class CoverageDataTestBase extends TestCase {
         PerTestRecordingTranscript passedRecording1 =
             newPerTestTranscript(
                 reg, perTestCoverage, "Foo", "Foo.testMethod", start, 0, 0, PerTestRecorder.NORMAL_EXIT, null)
-        TestCaseInfo tci1 = TestCaseInfo.Factory.getInstanceForSlice(passedRecording1)
+        TestCaseInfo tci1 = FullTestCaseInfo.Factory.getInstanceForSlice(passedRecording1)
         data.addCoverage(tci1, passedRecording1)
 
         //[0..63] [64..127]
@@ -378,10 +379,10 @@ abstract class CoverageDataTestBase extends TestCase {
         PerTestRecordingTranscript passedRecording2 =
             newPerTestTranscript(
                 reg, perTestCoverage, "Foo", "Foo.testMethod2", start + 2, 1, 0, PerTestRecorder.NORMAL_EXIT, null)
-        TestCaseInfo tci2 = TestCaseInfo.Factory.getInstanceForSlice(passedRecording2)
+        TestCaseInfo tci2 = FullTestCaseInfo.Factory.getInstanceForSlice(passedRecording2)
         data.addCoverage(tci2, passedRecording2)
 
-        Map<TestCaseInfo,BitSet> testsAndCoverage = data.mapTestsAndCoverageForFile(newFileInfo(0, 64))
+        Map<TestCaseInfo, BitSet> testsAndCoverage = data.mapTestsAndCoverageForFile(newFileInfo(0, 64))
         assertEquals(1, testsAndCoverage.size())
         assertTrue(testsAndCoverage.keySet().contains(tci1))
         CoverageDataProvider testCoverage =
@@ -435,7 +436,7 @@ abstract class CoverageDataTestBase extends TestCase {
         PerTestRecordingTranscript passedRecording1 =
             newPerTestTranscript(
                 reg, perTestCoverage, "Foo", "Foo.testMethod", start, 0, 0, PerTestRecorder.NORMAL_EXIT, null)
-        TestCaseInfo tci1 = TestCaseInfo.Factory.getInstanceForSlice(passedRecording1)
+        TestCaseInfo tci1 = FullTestCaseInfo.Factory.getInstanceForSlice(passedRecording1)
         data.addCoverage(tci1, passedRecording1)
 
         //[0..63] [64..127]
@@ -447,7 +448,7 @@ abstract class CoverageDataTestBase extends TestCase {
         PerTestRecordingTranscript passedRecording2 =
             newPerTestTranscript(
                 reg, perTestCoverage, "Foo", "Foo.testMethod2", start + 2, 1, 0, PerTestRecorder.NORMAL_EXIT, null)
-        TestCaseInfo tci2 = TestCaseInfo.Factory.getInstanceForSlice(passedRecording2)
+        TestCaseInfo tci2 = FullTestCaseInfo.Factory.getInstanceForSlice(passedRecording2)
         data.addCoverage(tci2, passedRecording2)
 
         Set<TestCaseInfo> tests = data.getTestsCovering(new SimpleCoverageRange(0, 64))
@@ -492,7 +493,7 @@ abstract class CoverageDataTestBase extends TestCase {
         PerTestRecordingTranscript passedRecording1 =
             newPerTestTranscript(
                 reg, perTestCoverage, "Foo", "Foo.testMethod", start, 0, 0, PerTestRecorder.NORMAL_EXIT, null)
-        TestCaseInfo tci1 = TestCaseInfo.Factory.getInstanceForSlice(passedRecording1)
+        TestCaseInfo tci1 = FullTestCaseInfo.Factory.getInstanceForSlice(passedRecording1)
         data.addCoverage(tci1, passedRecording1)
 
         //[0..63] [64..127]
@@ -504,7 +505,7 @@ abstract class CoverageDataTestBase extends TestCase {
         PerTestRecordingTranscript passedRecording2 =
             newPerTestTranscript(
                 reg, perTestCoverage, "Foo", "Foo.testMethod2", start + 2, 1, 0, PerTestRecorder.NORMAL_EXIT, null)
-        TestCaseInfo tci2 = TestCaseInfo.Factory.getInstanceForSlice(passedRecording2)
+        TestCaseInfo tci2 = FullTestCaseInfo.Factory.getInstanceForSlice(passedRecording2)
         data.addCoverage(tci2, passedRecording2)
 
         CoverageDataProvider testCoverage = new BitSetCoverageProvider(data.getHitsFor(tci1), data)
@@ -535,7 +536,7 @@ abstract class CoverageDataTestBase extends TestCase {
         PerTestRecordingTranscript recordingTranscript1 =
             newPerTestTranscript(
                 reg, new CloverBitSet(), "Foo", "Foo.testMethod", start, 0, 0, PerTestRecorder.NORMAL_EXIT, null)
-        TestCaseInfo tci1 = TestCaseInfo.Factory.getInstanceForSlice(recordingTranscript1)
+        TestCaseInfo tci1 = FullTestCaseInfo.Factory.getInstanceForSlice(recordingTranscript1)
         data.addCoverage(tci1, recordingTranscript1)
 
         assertTrue(data.hasPerTestData());         

@@ -1,6 +1,6 @@
 package org.openclover.core.recorder;
 
-import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
 
 import java.io.Serializable;
 import java.util.BitSet;

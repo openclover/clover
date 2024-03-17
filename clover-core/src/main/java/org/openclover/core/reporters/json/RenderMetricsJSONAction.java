@@ -4,6 +4,7 @@ import clover.org.apache.velocity.VelocityContext;
 import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.registry.entities.FullPackageInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.reporters.CloverReportConfig;
@@ -18,7 +19,7 @@ import java.util.concurrent.Callable;
 
 import static org.openclover.core.util.Lists.newArrayList;
 
-public class RenderMetricsJSONAction implements Callable {
+public class RenderMetricsJSONAction implements Callable<Object> {
     private static ThreadLocal columns;
 
     private final HasMetrics mInfo;
@@ -77,14 +78,14 @@ public class RenderMetricsJSONAction implements Callable {
 
         // put the list of package names in here too
         final List<String> children = newArrayList();
-        if (mInfo instanceof FullProjectInfo) {// TODO: children should be passed into the constructor
-            final FullProjectInfo projectInfo = (FullProjectInfo)mInfo;
-            final List<? extends PackageInfo> pkgs = projectInfo.getAllPackages();
+        if (mInfo instanceof ProjectInfo) {// TODO: children should be passed into the constructor
+            final ProjectInfo projectInfo = (ProjectInfo)mInfo;
+            final List<PackageInfo> pkgs = projectInfo.getAllPackages();
             for (PackageInfo pkg : pkgs) {
                 children.add(pkg.getPath());
             }
-        } else if (mInfo instanceof FullPackageInfo) {
-            final List<? extends FileInfo> files = ((FullPackageInfo)mInfo).getFiles();
+        } else if (mInfo instanceof PackageInfo) {
+            final List<FileInfo> files = ((PackageInfo) mInfo).getFiles();
             for (final FileInfo file : files) {
                 children.add(file.getName());
             }

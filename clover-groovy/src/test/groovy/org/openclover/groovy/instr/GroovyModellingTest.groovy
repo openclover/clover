@@ -2,11 +2,11 @@ package org.openclover.groovy.instr
 
 import groovy.transform.CompileStatic
 import org.openclover.core.api.registry.MethodInfo
+import org.openclover.core.api.registry.PackageInfo
 import org.openclover.core.cfg.instr.InstrumentationConfig
 import org.openclover.core.registry.Clover2Registry
 import org.openclover.core.registry.entities.FullClassInfo
 import org.openclover.core.registry.entities.FullFileInfo
-import org.openclover.core.registry.entities.FullPackageInfo
 import org.openclover.core.util.ChecksummingReader
 
 /**
@@ -46,7 +46,7 @@ class GroovyModellingTest extends TestBase {
 
         int checksum = (int) new ChecksummingReader(new StringReader(fooContents)).with { readLines(); getChecksum() }
         assertRegistry db, { Clover2Registry reg ->
-            assertPackage reg.model.project, isDefaultPackage, { FullPackageInfo p ->
+            assertPackage reg.model.project, isDefaultPackage, { PackageInfo p ->
                 assertFile p, named("Foo.groovy"), { FullFileInfo f ->
                     f.checksum == checksum
                 }
@@ -67,7 +67,7 @@ class GroovyModellingTest extends TestBase {
             """])
 
         assertRegistry db, { Clover2Registry reg ->
-            assertPackage reg.model.project, named("com.atlassian.foo.bar"), { FullPackageInfo p ->
+            assertPackage reg.model.project, named("com.atlassian.foo.bar"), { PackageInfo p ->
                 (p.path == "com/atlassian/foo/bar/") &&
                         assertFile(p, named("Foo.groovy")) { FullFileInfo f ->
                             (f.packagePath == "com/atlassian/foo/bar/Foo.groovy") &&
@@ -102,7 +102,7 @@ class GroovyModellingTest extends TestBase {
                 })
 
         assertRegistry db, { Clover2Registry reg ->
-            assertPackage reg.model.project, named("com.atlassian.foo.bar"), { FullPackageInfo p ->
+            assertPackage reg.model.project, named("com.atlassian.foo.bar"), { PackageInfo p ->
                 (p.path == "com/atlassian/foo/bar/") &&
                         assertFile(p, named("Foo.groovy")) { FullFileInfo f ->
                             (f.packagePath == "com/atlassian/foo/bar/Foo.groovy") &&

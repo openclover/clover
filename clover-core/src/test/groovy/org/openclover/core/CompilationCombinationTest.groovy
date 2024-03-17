@@ -3,14 +3,14 @@ package org.openclover.core
 import junit.framework.TestCase
 import org.openclover.core.api.registry.ClassInfo
 import org.openclover.core.api.registry.ContextSet
+import org.openclover.core.api.registry.FileInfo
+import org.openclover.core.api.registry.PackageInfo
+import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.api.registry.SourceInfo
 import org.openclover.core.context.ContextSetImpl
 import org.openclover.core.instr.InstrumentationSessionImpl
 import org.openclover.core.registry.Clover2Registry
 import org.openclover.core.registry.FixedSourceRegion
-import org.openclover.core.registry.entities.BasePackageInfo
-import org.openclover.core.registry.entities.FullFileInfo
-import org.openclover.core.registry.entities.FullProjectInfo
 import org.openclover.core.registry.entities.MethodSignature
 import org.openclover.core.registry.entities.Modifiers
 import org.openclover.core.registry.metrics.ClassMetrics
@@ -25,8 +25,8 @@ import org_openclover_runtime.Clover
  * and multi-execution
  */
 class CompilationCombinationTest extends TestCase {
-    private static final String PKGNAME = "com.test"
-    private static final String CLASSNAME = "TestClass"
+    private static final String PACKAGE_NAME = "com.test"
+    private static final String CLASS_NAME = "TestClass"
 
     private static class LocationIds {
         int classID
@@ -85,13 +85,12 @@ class CompilationCombinationTest extends TestCase {
 
 
     /**
-     * This tests the case where we have two seperate "javac"
-     * compliations over two disjoint file sets.
+     * This tests the case where we have two separate "javac" compilations over two disjoint file sets.
      * <p>
      * This high-lights a bug Cortrack-6457 (as at 6March2003)
      * that is causing jboss instrumentation to return 0% coverage.
      * <p>
-     * <b>THIS BUG IS INTERMITANT</b>
+     * <b>THIS BUG IS INTERMITTENT</b>
      * <p>
      * This causes two "database revisions".
      * <p>
@@ -148,25 +147,23 @@ class CompilationCombinationTest extends TestCase {
         CloverDatabase db = new CloverDatabase(mInitString)
         db.loadCoverageData(new CoverageDataSpec(span))
 
-        FullProjectInfo model = db.getModel(CodeType.APPLICATION)
+        ProjectInfo model = db.getModel(CodeType.APPLICATION)
         assertNotNull(model)
 
-        BasePackageInfo pkg = model.getNamedPackage(PKGNAME)
+        PackageInfo pkg = model.getNamedPackage(PACKAGE_NAME)
 
         assertNotNull(pkg)
         assertEquals(aFiles.length, ((PackageMetrics)pkg.getMetrics()).getNumFiles())
 
-        List files = pkg.getFiles()
+        List<FileInfo> files = pkg.getFiles()
 
-        for (Iterator it = files.iterator(); it.hasNext();) {
-            FullFileInfo fi = (FullFileInfo) it.next()
-
+        for (FileInfo fi : files) {
             // find the entry in aFiles that matches fi:
             LocationIds file = null
             int expectedHitsCount = -1
             for (int i = 0; i < aFiles.length; i++) {
                 LocationIds f = aFiles[i]
-                if (f.file.equals(fi.getPhysicalFile())) {
+                if (f.file == fi.getPhysicalFile()) {
                     file = f
                     expectedHitsCount = aExpectedHitsCounts[i]
                 }
@@ -176,17 +173,17 @@ class CompilationCombinationTest extends TestCase {
             assertNotNull(fi)
             assertEquals(file.file, fi.getPhysicalFile())
 
-            String fname = file.file.getName()
+            String fileName = file.file.getName()
 
-            final ClassInfo ci = fi.getNamedClass(CLASSNAME)
-            assertNotNull(fname, ci)
+            final ClassInfo ci = fi.getNamedClass(CLASS_NAME)
+            assertNotNull(fileName, ci)
             final ClassMetrics m = (ClassMetrics)ci.getMetrics()
-            assertEquals(fname, 1, m.getNumMethods())
-            assertEquals(fname, 1, m.getNumStatements())
+            assertEquals(fileName, 1, m.getNumMethods())
+            assertEquals(fileName, 1, m.getNumStatements())
 
             // both the method and statement should be hit the same
-            assertEquals(fname, expectedHitsCount, ci.getMethods().get(0).getHitCount())
-            assertEquals(fname, expectedHitsCount, ci.getMethods().get(0).getStatements().get(0).getHitCount())
+            assertEquals(fileName, expectedHitsCount, ci.getMethods().get(0).getHitCount())
+            assertEquals(fileName, expectedHitsCount, ci.getMethods().get(0).getStatements().get(0).getHitCount())
         }
     }
 
@@ -213,9 +210,9 @@ class CompilationCombinationTest extends TestCase {
         ContextSet con = new ContextSetImpl()
         SourceInfo reg = new FixedSourceRegion(0, 0)
         final InstrumentationSessionImpl session = (InstrumentationSessionImpl) registry.startInstr()
-        session.enterFile(PKGNAME, aFile, 1, 1,  0L, 0L, 0L)
+        session.enterFile(PACKAGE_NAME, aFile, 1, 1,  0L, 0L, 0L)
         // one class
-        ids.classID = session.enterClass(CLASSNAME, reg, new Modifiers(), false, false, false).getDataIndex()
+        ids.classID = session.enterClass(CLASS_NAME, reg, new Modifiers(), false, false, false).getDataIndex()
         // one method
         ids.methID = session.enterMethod(con, reg, new MethodSignature("foo"), false).getDataIndex()
         // one statement
