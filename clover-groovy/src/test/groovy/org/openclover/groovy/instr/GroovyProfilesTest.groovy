@@ -19,13 +19,13 @@ import static org.openclover.buildutil.testutils.AssertionUtils.assertStringMatc
 @CompileStatic
 class GroovyProfilesTest extends TestBase {
     public static final String PROPERTY_NOT_FOUND_MSG =
-        "CLOVER: System property '" + CloverNames.PROP_CLOVER_PROFILE + "' was not found. Assuming the 'default' profile."
+        "OpenClover: System property '" + CloverNames.PROP_CLOVER_PROFILE + "' was not found. Assuming the 'default' profile."
 
-    public static final String USING_PROFILE_MSG = "CLOVER: Using profile '%s' with settings [coverageRecorder=%s"
+    public static final String USING_PROFILE_MSG = "OpenClover: Using profile '%s' with settings [coverageRecorder=%s"
 
-    public static final String NO_PROFILES_DEFINED_MSG = "CLOVER: No profiles defined in instrumented classes. Using standard settings."
+    public static final String NO_PROFILES_DEFINED_MSG = "OpenClover: No profiles defined in instrumented classes. Using standard settings."
 
-    public static final String PROFILE_NOT_FOUND_MSG = "CLOVER: Profile '%s' not found in instrumented classes. Using standard settings."
+    public static final String PROFILE_NOT_FOUND_MSG = "OpenClover: Profile '%s' not found in instrumented classes. Using standard settings."
 
     public static final String fooGroovyContent = """
                 public class Foo {

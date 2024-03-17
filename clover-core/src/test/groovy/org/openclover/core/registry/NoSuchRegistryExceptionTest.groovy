@@ -14,7 +14,7 @@ class NoSuchRegistryExceptionTest {
     void testConstructorWithInitstring() {
         final NoSuchRegistryException exception = new NoSuchRegistryException("/path/to/clover.db")
         assertThat(exception.getMessage(),
-                containsString("OpenClover registry file \"/path/to/clover.db\" does not exist, cannot be read or is a directory."))
+                containsString("OpenClover database \"/path/to/clover.db\" does not exist, cannot be read or is a directory."))
     }
 
     @Test
