@@ -7,11 +7,11 @@
 	<description>
 		<![CDATA[<html>
 <b>Introduction</b><br/>
-Clover is an award-winning Java code coverage analysis tool. Clover instruments source code and then records precisely
+OpenClover is a Java and Groovy coverage analysis tool. OpenClover instruments source code and then records precisely
 what is executed when tests are run. The detailed test coverage reports help developers easily identify areas where the
-testing is weak, enabling them to write better tests faster. Clover fits into a developer's environment, be it Ant,
+testing is weak, enabling them to write better tests faster. OpenClover fits into a developer's environment, be it Ant,
 Maven, IDEA, Eclipse or the command line. Quality Assurance and Project Managers can access important quality metrics
-over time via html and pdf reports. Clover provides test analysis to thousands of companies and open source projects
+over time via html and pdf reports. OpenClover provides test analysis to thousands of companies and open source projects
 all over the world.
 <br/><br/>
 <b>Resources</b><br/>
@@ -19,7 +19,7 @@ Documentation is available online from
 <a href="https://openclover.org/documentation">https://openclover.org/documentation</a>.
 <br/>
 <b>License</b><br/>
-Clover is licensed under the Apache License 2.0.
+OpenClover is licensed under the Apache License 2.0.
 	</html>]]>
 	</description>
 
@@ -91,12 +91,12 @@ Learn about new features and bug-fixes in this release in the <a href="https://o
 		<!-- id since IDEA 12, groupId since IDEA 14, dynamic since IDEA 12 to call getConfigurables to get children -->
 		<applicationConfigurable instance="org.openclover.idea.config.GlobalSettingsGroup"
 								 id="org.openclover.idea.config.GlobalSettingsGroup"
-								 displayName="Clover (global settings)"
+								 displayName="OpenClover (global settings)"
 								 groupId="build"
 								 dynamic="true"/>
 		<projectConfigurable instance="org.openclover.idea.config.CloverProjectConfigurable"
 							 id="org.openclover.idea.ProjectPlugin"
-							 displayName="Clover (project settings)"
+							 displayName="OpenClover (project settings)"
 							 groupId="build"
 							 nonDefaultProject="true"/>
 		<treeStructureProvider implementation="org.openclover.idea.projectview.ProjectViewDecorator"/>
@@ -119,7 +119,7 @@ Learn about new features and bug-fixes in this release in the <a href="https://o
 		        text="Turn off coverage highlight" description="" icon="/icons/no_editor_coverage.gif"/>
 
 		<action id="CloverPlugin.ToggleInstrumentationAction"
-		        class="org.openclover.idea.actions.ToggleInstrumentationAction" text="Toggle Build with Clover"
+		        class="org.openclover.idea.actions.ToggleInstrumentationAction" text="Toggle Build with OpenClover"
 		        description="" icon="/icons/compile_with_clover.png"/>
 		<action id="CloverPlugin.CoverageSummaryAction" class="org.openclover.idea.actions.CoverageSummaryAction"
 		        text="Coverage Summary" description="Coverage Summary"/>
@@ -141,7 +141,7 @@ Learn about new features and bug-fixes in this release in the <a href="https://o
 
 		<action id="CloverPlugin.DeleteAction" class="org.openclover.idea.actions.DeleteAction"
 		        text="Delete Coverage Database"
-		        description="Delete the Clover Coverage Database" icon="/icons/delete.png"/>
+		        description="Delete the OpenClover Coverage Database" icon="/icons/delete.png"/>
 		<action id="CloverPlugin.CleanAction" class="org.openclover.idea.actions.CleanAction" text="Clean Coverage"
 		        description="Clean gathered coverage information" icon="/icons/general_reset.png"/>
 		<action id="CloverPlugin.CleanSnapshotAction" class="org.openclover.idea.actions.CleanSnapshotAction" text="Clean Snapshot"
@@ -155,7 +155,7 @@ Learn about new features and bug-fixes in this release in the <a href="https://o
 		        text="Copy Filter" description="Copy the selected filter" icon="/icons/general_copy.png"/>
 
 		<action id="CloverPlugin.ReportWizard" class="org.openclover.idea.actions.ShowReportWizardAction"
-		        text="Generate Clover Report" description="Generate a Clover Coverage Report" popup="true"
+		        text="Generate OpenClover Report" description="Generate an OpenClover Coverage Report" popup="true"
 		        icon="/icons/actions_export.png"/>
 		<action id="CloverPlugin.ExpandTestClasses"
 		        class="org.openclover.idea.actions.testcontrib.ExpandTestClassesAction" text="Always Expand"
@@ -292,9 +292,9 @@ Learn about new features and bug-fixes in this release in the <a href="https://o
 			<reference ref="CloverPlugin.RefreshAction"/>
 		</group>
 
-		<action class="org.openclover.idea.actions.AboutAction" text="About Clover"
+		<action class="org.openclover.idea.actions.AboutAction" text="About OpenClover"
 		        id="CloverPlugin.AboutAction" icon="/icons/about_clover.png"
-		        description="About Clover">
+		        description="About OpenClover">
 			<add-to-group group-id="MainToolBar" anchor="before" relative-to-action="ShowSettings"/>
 		</action>
 		<action class="org.openclover.idea.actions.ShowAllClassesAction"

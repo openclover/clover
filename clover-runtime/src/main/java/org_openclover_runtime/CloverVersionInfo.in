@@ -13,12 +13,6 @@ public class CloverVersionInfo {
     /** Main Support Resources page */
     public static final String OPENCLOVER_ORG_SUPPORT = "https://openclover.org/support";
 
-    /** Main Clover web site */
-    public static final String CLOVER_URL ="@CLOVER_URL@";
-
-    /** Help how to configure Clover license */
-    public static final String CLOVER_LICENSE_CONFIGURATION_HELP_URL ="@CLOVER_HELP_URL@";
-
     /** Servlet for creating new JIRA issue */
     public static final String CLOVER_CREATE_ISSUE_URL = "https://github.com/openclover/clover/issues";
 
@@ -26,17 +20,13 @@ public class CloverVersionInfo {
 
     public static final long BUILD_STAMP = @BUILD_STAMP@L;
 
-    /** @deprecated */
-    public static String TITLE_PREFIX = "";
-
-
-    /** method to allow external components to query what version of Clover they are running against **/
+    /** method to allow external components to query what version of OpenClover they are running against **/
     @ForInstrumentation
     public static String getReleaseNum() {
         return RELEASE_NUM;
     }
 
-    /** method to allow external components to query what version of Clover they are running against **/
+    /** method to allow external components to query what version of OpenClover they are running against **/
     @ForInstrumentation
     public static long getBuildStamp() {
         return BUILD_STAMP;
@@ -48,5 +38,5 @@ public class CloverVersionInfo {
     }
 
     @ForInstrumentation("oldVersionInClasspath")
-    public static void An_old_version_of_clover_is_on_your_compilation_classpath___Please_remove___Required_version_is___@CORE_RELEASE_BASE_IDENT@(){}
+    public static void An_old_version_of_OpenClover_is_on_compilation_classpath_Required_version_is_@CORE_RELEASE_BASE_IDENT@(){}
 }

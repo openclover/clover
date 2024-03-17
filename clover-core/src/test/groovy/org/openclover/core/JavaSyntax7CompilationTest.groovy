@@ -17,7 +17,7 @@ class JavaSyntax7CompilationTest extends JavaSyntaxCompilationTestBase {
     }
 
     /**
-     * Test java 1.7 language features and how Clover handles them.
+     * Test java 1.7 language features and how OpenClover handles them.
      *
      * @throws Exception
      */
@@ -42,7 +42,7 @@ class JavaSyntax7CompilationTest extends JavaSyntaxCompilationTestBase {
     }
 
     /**
-     * Test java 1.7 language features and how Clover handles them.
+     * Test java 1.7 language features and how OpenClover handles them.
      *
      * @throws Exception
      */

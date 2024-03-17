@@ -21,7 +21,7 @@
             <url>http://itextpdf.com</url>
         </license>
     </licenses>
-    <name>Clover iText Library</name>
+    <name>OpenClover iText Library</name>
     <!-- Repack, install and deploy only with the 'workspace-setup' profile -->
     <profiles>
         <profile>

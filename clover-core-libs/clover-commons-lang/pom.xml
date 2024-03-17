@@ -19,7 +19,7 @@
             <url>http://www.apache.org/licenses/LICENSE-2.0</url>
         </license>
     </licenses>
-    <name>Clover Commons Lang Library</name>
+    <name>OpenClover Commons Lang Library</name>
     <!-- Repack, install and deploy only with the 'workspace-setup' profile -->
     <profiles>
         <profile>

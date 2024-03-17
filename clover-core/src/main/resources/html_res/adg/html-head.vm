@@ -38,6 +38,6 @@
     #if ($pageTitle)
         <title>$pageTitle</title>
     #else
-        <title>Clover</title>
+        <title>OpenClover</title>
     #end
 </head>

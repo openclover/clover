@@ -438,7 +438,7 @@ class CompilationTest extends DynamicallyNamedTestBase
                 classFiles != null && classFiles.any { it == "${classFile.name}.class" })
 
         assertFalse(
-                "Matching Clover recorder found for ${className} in ${dir}. " + "Class files matched:\n${classFiles.findAll(recorderMatcher(classFile.name)).join("\n")}",
+                "Matching recorder found for ${className} in ${dir}. " + "Class files matched:\n${classFiles.findAll(recorderMatcher(classFile.name)).join("\n")}",
                 classFiles.any(recorderMatcher(classFile.name)))
 
         def result = launchJavap "-private -classpath ${new File(workingDir, dir)} ${className}"

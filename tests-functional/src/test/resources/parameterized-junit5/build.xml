@@ -34,7 +34,7 @@
             <path refid="junit.lib.path"/>
         </path>
 
-        <!-- Initialize Clover -->
+        <!-- Initialize OpenClover -->
         <taskdef resource="cloverlib.xml" classpathref="project.classpath"/>
         <clover-setup initstring="${target.clover.db}">
             <testsources dir="${src.test.dir}">

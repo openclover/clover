@@ -123,7 +123,7 @@ class RegHeaderTest {
             fail()
             ///CLOVER:ON
         } catch (IncompatibleRegistryFormatException e) {
-            assertTrue(e.getMessage().contains("Clover is no longer compatible with the registry file"))
+            assertTrue(e.getMessage().contains("OpenClover is no longer compatible with the registry file"))
         }
 
         //Read using DataInputStream
@@ -133,7 +133,7 @@ class RegHeaderTest {
             fail()
             ///CLOVER:ON
         } catch (IncompatibleRegistryFormatException e) {
-            assertTrue(e.getMessage().contains("Clover is no longer compatible with the registry file"))
+            assertTrue(e.getMessage().contains("OpenClover is no longer compatible with the registry file"))
         }
     }
 

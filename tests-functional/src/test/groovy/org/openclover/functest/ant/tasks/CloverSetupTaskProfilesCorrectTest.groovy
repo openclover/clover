@@ -63,7 +63,7 @@ class CloverSetupTaskProfilesCorrectTest extends CloverSetupTaskTestBase {
         final String targetName = "setup-with-profiles"
         // run target and check if clover-setup passed successfully
         testBase.setUp()
-        testBase.expectLogContaining(targetName, "Clover is enabled with initstring")
+        testBase.expectLogContaining(targetName, "OpenClover is enabled with initstring")
         // ... and the clover compiler adapter was set
         assertTrue(CloverSetupTask.CLOVER_ADAPTER.equals(testBase.getProject().getProperty("build.compiler")))
 
@@ -91,7 +91,7 @@ class CloverSetupTaskProfilesCorrectTest extends CloverSetupTaskTestBase {
      * Test input:
      * - no profiles compiled into code,
      * - no clover.profile system property
-     * Expected: when there are no profiles, Clover selects fixed coverage recorder.
+     * Expected: when there are no profiles, OpenClover selects fixed coverage recorder.
      *
      * @throws Exception
      */
@@ -116,7 +116,7 @@ class CloverSetupTaskProfilesCorrectTest extends CloverSetupTaskTestBase {
      * - no clover.profile system property
      * <p/>
      * Expected: when profiles are compiled-in, but no system property defined,
-     * Clover selects the "default" profile.
+     * OpenClover selects the "default" profile.
      *
      * @throws Exception
      */
@@ -143,7 +143,7 @@ class CloverSetupTaskProfilesCorrectTest extends CloverSetupTaskTestBase {
      * Test input:
      * - profiles "default", "other", "remote" compiled into code,
      * - clover.profile=other system property
-     * Expected: Clover selects coverage recorder from "other" profile
+     * Expected: OpenClover selects coverage recorder from "other" profile
      *
      * @throws Exception
      */
@@ -179,7 +179,7 @@ class CloverSetupTaskProfilesCorrectTest extends CloverSetupTaskTestBase {
      * Test input:
      * - two profiles - "default" and "one" compiled into code,
      * - clover.profile=two system property
-     * Expected: "two" profile not found, warning, Clover selects standard coverage recorder.
+     * Expected: "two" profile not found, warning, OpenClover selects standard coverage recorder.
      *
      * @throws Exception
      */

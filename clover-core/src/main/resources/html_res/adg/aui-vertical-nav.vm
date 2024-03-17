@@ -15,7 +15,7 @@
                 #if ($pageIcon)
                     <img src="${rootRelPath}img/${pageIcon}" alt="Project icon"/>
                 #else
-                    <img src="${rootRelPath}img/clover_logo_large.png" alt="Clover icon"/>
+                    <img src="${rootRelPath}img/clover_logo_large.png" alt="OpenClover icon"/>
                 #end
             </div>
         </div>

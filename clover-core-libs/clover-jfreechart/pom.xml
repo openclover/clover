@@ -20,7 +20,7 @@
             <url>http://www.gnu.org/licenses/lgpl.html</url>
         </license>
     </licenses>
-    <name>Clover JFreeChart Library</name>
+    <name>OpenClover JFreeChart Library</name>
     <!-- Repack, install and deploy only with the 'workspace-setup' profile -->
     <profiles>
         <profile>

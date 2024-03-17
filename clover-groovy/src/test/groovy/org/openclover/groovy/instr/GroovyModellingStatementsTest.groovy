@@ -11,7 +11,7 @@ import org.openclover.core.registry.entities.FullFileInfo
 import org.openclover.groovy.test.junit.Result
 
 /**
- * Integration tests that detect if the correct Clover model is generated for given Groovy code.
+ * Integration tests that detect if the correct OpenClover model is generated for given Groovy code.
  **/
 @CompileStatic
 class GroovyModellingStatementsTest extends TestBase {

@@ -17,25 +17,14 @@
 
 # About #
 
-This repository contains source code of OpenClover Core as well as its integrations: Clover-for-Ant, Clover-for-Eclipse
-and Clover-for-IDEA plugins. Sources are licensed under Apache 2.0 license.
+This repository contains source code of OpenClover Core as well as its integrations with Ant, Eclipse
+and IntelliJ IDEA. Sources are licensed under Apache 2.0 license.
 
 # Documentation #
 
-User documentation:
+User documentation, developer guides and support knowledge base:
 
 * https://openclover.org/documentation
-* https://confluence.atlassian.com/display/CLOVER/Clover+Documentation+Home
-
-Developer guides:
-
-* https://openclover.org/documentation
-* https://confluence.atlassian.com/display/CLOVER/Clover+Development+Hub
-
-Support Knowledge Base:
-
-* https://openclover.org/documentation
-* https://confluence.atlassian.com/display/CLOVERKB/Clover+Knowledge+Base+Home
 
 Q&A forums:
 
@@ -45,7 +34,6 @@ Q&A forums:
 Bug and feature tracker:
 
 * https://github.com/openclover/clover/issues
-* https://jira.atlassian.com/browse/CLOV
 
 Download page:
 
@@ -67,7 +55,7 @@ See also:
 
 # Quick setup for developing OpenClover
 
-### Install JDK 1.8, Ant 1.10+, Maven 3.8+, Git
+### Install JDK 17, Ant 1.10+, Maven 3.8+, Git
 
 ### Prepare repacked third party libraries
 

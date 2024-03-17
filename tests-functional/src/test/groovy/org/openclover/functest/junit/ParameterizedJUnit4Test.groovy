@@ -3,7 +3,7 @@ package org.openclover.functest.junit
 import groovy.transform.CompileStatic
 
 /**
- * Tests how Clover integrates with JUnit4 in order to intercept test names at runtime.
+ * Tests how OpenClover integrates with JUnit4 in order to intercept test names at runtime.
  * Test is using 'test/resources/parameterized-junit4' code sample.
  */
 @CompileStatic

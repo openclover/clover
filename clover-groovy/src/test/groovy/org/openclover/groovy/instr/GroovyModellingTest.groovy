@@ -10,7 +10,7 @@ import org.openclover.core.registry.entities.FullFileInfo
 import org.openclover.core.util.ChecksummingReader
 
 /**
- * Integration tests that detect if the correct Clover model is generated for given Groovy code.
+ * Integration tests that detect if the correct OpenClover model is generated for given Groovy code.
  **/
 @CompileStatic
 class GroovyModellingTest extends TestBase {

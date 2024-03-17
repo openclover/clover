@@ -48,7 +48,7 @@ class GroovyProfilesTest extends TestBase {
      *  - no profiles compiled into code,
      *  - no clover.profile system property
      * Expected:
-     *  - when there are no profiles, Clover selects fixed coverage recorder.
+     *  - when there are no profiles, OpenClover selects fixed coverage recorder.
      */
     void testExecuteNoProfiles() {
         instrumentAndCompileWithGrover(
@@ -66,7 +66,7 @@ class GroovyProfilesTest extends TestBase {
      * - one "default" profile compiled into code,
      * - no clover.profile system property
      * Expected:
-     *  - when profiles are compiled-in, but no system property defined, Clover selects the "default" profile.
+     *  - when profiles are compiled-in, but no system property defined, OpenClover selects the "default" profile.
      *
      * @throws Exception
      */
@@ -92,7 +92,7 @@ class GroovyProfilesTest extends TestBase {
      * - profiles "default", "other", "remote" compiled into code,
      * - clover.profile=other system property
      * Expected:
-     * - Clover selects coverage recorder from "other" profile
+     * - OpenClover selects coverage recorder from "other" profile
      */
     void testExecuteOtherProfile() {
         instrumentAndCompileWithGrover(
@@ -122,7 +122,7 @@ class GroovyProfilesTest extends TestBase {
      * - two profiles - "default" and "one" compiled into code,
      * - clover.profile=two system property
      * Expected:
-     *  - "two" profile not found, warning, Clover selects standard coverage recorder.
+     *  - "two" profile not found, warning, OpenClover selects standard coverage recorder.
      */
     void testExecuteNotFoundProfile() {
         instrumentAndCompileWithGrover(

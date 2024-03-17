@@ -83,7 +83,7 @@ public class PageFooterRenderer
             licText.add(new Chunk("OpenClover v" + CloverVersionInfo.RELEASE_NUM,
                     FontFactory.getFont(
                             FontFactory.HELVETICA, 8, Font.ITALIC,
-                            colours.COL_LINK_TEXT)).setAnchor(CloverVersionInfo.CLOVER_URL));
+                            colours.COL_LINK_TEXT)).setAnchor(CloverVersionInfo.OPENCLOVER_ORG));
             licText.add(new Phrase("\n" + timestamp,
                     FontFactory.getFont(FontFactory.HELVETICA, 8, Font.ITALIC)));
 

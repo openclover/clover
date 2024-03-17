@@ -11,14 +11,14 @@ import org.xml.sax.InputSource
 import static org.openclover.core.util.Lists.newArrayList
 
 /**
- * Parses a Clover XML report file. This is a helper class for unit tests.
+ * Parses a OpenClover XML report file. This is a helper class for unit tests.
  */
 @CompileStatic
 class XMLReportReader {
 
     /**
-     * Parse Clover XML file
-     * @param file Clover's XML report
+     * Parse OpenClover XML file
+     * @param file XML report
      * @return Document document tree
      * @throws JDOMException
      * @throws IOException

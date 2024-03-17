@@ -9,8 +9,8 @@
     <artifactId>clover-runtime</artifactId>
     <name>OpenClover Runtime</name>
     <description>
-        Clover's runtime library - required by code instrumented by Clover.
-        Clover is an award-winning code coverage and testing tool for Java and Groovy.
+        OpenClover's runtime library - required by code instrumented by OpenClover.
+        OpenClover is a code coverage and testing tool for Java and Groovy.
         It integrates easily with Maven, Ant, Grails, Eclipse and IntelliJ IDEA
         as well as with continuous integration servers such as Bamboo, Jenkins or Hudson.
     </description>
@@ -142,7 +142,6 @@
                                 <mkdir dir="${project.build.directory}/generated-sources/org_openclover_runtime" />
                                 <copy file="src/main/java/org_openclover_runtime/CloverVersionInfo.in" tofile="${project.build.directory}/generated-sources/org_openclover_runtime/CloverVersionInfo.java" overwrite="false">
                                     <filterset>
-                                        <filter token="CLOVER_URL" value="${project.organization.url}" />
                                         <filter token="CLOVER_LICENSE_AGREEMENT_URL" value="https://www.apache.org/licenses/LICENSE-2.0" />
                                         <filter token="CLOVER_HELP_URL" value="${project.organization.url}/documentation" />
                                         <filter token="BUILD_DATE" value="${maven.build.timestamp}" />
