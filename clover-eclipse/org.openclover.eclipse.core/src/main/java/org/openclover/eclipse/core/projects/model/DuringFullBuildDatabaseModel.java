@@ -8,10 +8,9 @@ import org.openclover.core.CloverDatabase;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
-import org.openclover.core.registry.entities.FullMethodInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.eclipse.core.projects.CloverProject;
 
 public class DuringFullBuildDatabaseModel extends StableDatabaseModel {
@@ -44,7 +43,7 @@ public class DuringFullBuildDatabaseModel extends StableDatabaseModel {
     @Override
     public ClassInfo getTypeInfo(IType type, MetricsScope scope) { return null; }
     @Override
-    public FullMethodInfo getMethodInfo(IMethod method, MetricsScope scope) { return null; }
+    public MethodInfo getMethodInfo(IMethod method, MetricsScope scope) { return null; }
     @Override
     public TestCaseInfo getTestCaseInfo(IMethod method, MetricsScope scope) { return null; }
     @Override

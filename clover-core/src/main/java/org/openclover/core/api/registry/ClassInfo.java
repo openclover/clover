@@ -94,6 +94,10 @@ public interface ClassInfo extends
 
     void addClass(ClassInfo classInfo);
 
+    void addMethod(MethodInfo meth);
+
+    void addStatement(StatementInfo statement);
+
     /**
      * Returns test cases found for this class.
      */

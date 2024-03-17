@@ -340,11 +340,13 @@ public class FullClassInfo
         classes.add(classInfo);
     }
 
+    @Override
     public void addMethod(MethodInfo meth) {
         methods.add(meth);
         classMetadata.testClass |= meth.isTest();
     }
 
+    @Override
     public void addStatement(StatementInfo statement) {
         statements.add(statement);
     }

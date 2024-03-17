@@ -43,28 +43,28 @@ import static org.openclover.core.util.Maps.newHashMap;
 public class InstrumentationSessionImpl implements InstrumentationSession {
 
     static class ClassEntityVisitor extends EntityVisitor {
-        private AtomicReference<FullClassInfo> classFound;
+        private final AtomicReference<ClassInfo> classFound;
 
-        ClassEntityVisitor(AtomicReference<FullClassInfo> storage) {
+        ClassEntityVisitor(AtomicReference<ClassInfo> storage) {
             classFound = storage;
         }
 
         @Override
         public void visitClass(final ClassInfo currentClass) {
-            classFound.set((FullClassInfo) currentClass);
+            classFound.set(currentClass);
         }
     }
 
     static class MethodEntityVisitor extends EntityVisitor {
-        private AtomicReference<FullMethodInfo> methodFound;
+        private final AtomicReference<MethodInfo> methodFound;
 
-        MethodEntityVisitor(AtomicReference<FullMethodInfo> storage) {
+        MethodEntityVisitor(AtomicReference<MethodInfo> storage) {
             methodFound = storage;
         }
 
         @Override
         public void visitMethod(final MethodInfo methodInfo) {
-            methodFound.set((FullMethodInfo) methodInfo);
+            methodFound.set(methodInfo);
         }
     }
 
@@ -231,7 +231,7 @@ public class InstrumentationSessionImpl implements InstrumentationSession {
 
     @Override
     public ClassInfo exitClass(int endLine, int endCol) {
-        FullClassInfo clazz = popCurrentClass();
+        FullClassInfo clazz = (FullClassInfo) popCurrentClass();
         clazz.setRegionEnd(endLine, endCol);
         clazz.setDataLength(currentOffsetFromFile - clazz.getRelativeDataIndex());
 
@@ -239,7 +239,7 @@ public class InstrumentationSessionImpl implements InstrumentationSession {
         // or do nothing (case for top-level classes)
         // note: anonymous inline classes do not have ClassInfo, so getCurrentMethod().increaseAggregatedStatementCount()
         // is not called - this case it already handled in exitMethod() code
-        FullClassInfo currentClass = getCurrentClass();
+        FullClassInfo currentClass = (FullClassInfo) getCurrentClass();
         if (currentClass != null) {
             currentClass.increaseAggregatedStatements(clazz.getAggregatedStatementCount());
             currentClass.increaseAggregatedComplexity(clazz.getAggregatedComplexity());
@@ -287,7 +287,7 @@ public class InstrumentationSessionImpl implements InstrumentationSession {
 
     @Override
     public void exitMethod(int endLine, int endCol) {
-        final FullMethodInfo method = popCurrentMethod();
+        final FullMethodInfo method = (FullMethodInfo) popCurrentMethod();
         method.setRegionEnd(endLine, endCol);
         method.setDataLength(currentOffsetFromFile - method.getRelativeDataIndex());
 
@@ -340,14 +340,14 @@ public class InstrumentationSessionImpl implements InstrumentationSession {
         final BasicElementInfo stmtBase = new BasicElementInfo(region, currentOffsetFromFile, complexity, construct);
 
         // Add a statement to the enclosing method, class or a file
-        final FullMethodInfo currentMethod = getCurrentMethod();
+        final FullMethodInfo currentMethod = (FullMethodInfo) getCurrentMethod();
         if (currentMethod == null) {
             // Print this warning because no language supported by Clover has statements outside methods
             // TODO Remove this (or set to verbose) as soon as we publish Service Provider Interface
             Logger.getInstance().warn("Trying to add a statement but current method is null. "
                     + "Did you put CLOVER:OFF before a method signature and CLOVER:ON inside a method body?");
 
-            final FullClassInfo currentClass = getCurrentClass();
+            final ClassInfo currentClass = getCurrentClass();
             if (currentClass == null) {
                 final FullFileInfo currentFile = getCurrentFile();
                 if (currentFile == null) {
@@ -378,7 +378,7 @@ public class InstrumentationSessionImpl implements InstrumentationSession {
     public FullBranchInfo addBranch(
         ContextSet context, SourceInfo region, boolean instrumented, int complexity, LanguageConstruct construct) {
 
-        FullMethodInfo currentMethod = getCurrentMethod();
+        MethodInfo currentMethod = getCurrentMethod();
         FullBranchInfo branch = null;
         // TODO add handling of branches in a class and in a file
         if (currentMethod != null) {  // HACK - see CCD-317. ternary operators can occur outside methods
@@ -439,8 +439,8 @@ public class InstrumentationSessionImpl implements InstrumentationSession {
 
     @Override
     @Nullable
-    public FullClassInfo getCurrentClass() {
-        final AtomicReference<FullClassInfo> classFound = new AtomicReference<>(null);
+    public ClassInfo getCurrentClass() {
+        final AtomicReference<ClassInfo> classFound = new AtomicReference<>(null);
         final EntityVisitor classVisitor = new ClassEntityVisitor(classFound);
 
         // look backwards, i.e. from top of the stack
@@ -456,14 +456,14 @@ public class InstrumentationSessionImpl implements InstrumentationSession {
         parentStack.add(clazz);
     }
 
-    public FullClassInfo popCurrentClass() throws IllegalStateException {
+    public ClassInfo popCurrentClass() throws IllegalStateException {
         // integrity check - ensure that stack is not empty
         if (parentStack.isEmpty()) {
             throw new IllegalStateException("Trying to pop FullClassInfo but the stack is empty");
         }
 
         // integrity check - ensure that we pop a class
-        final AtomicReference<FullClassInfo> classFound = new AtomicReference<>(null);
+        final AtomicReference<ClassInfo> classFound = new AtomicReference<>(null);
         final EntityVisitor classVisitor = new ClassEntityVisitor(classFound);
         int lastIndex = parentStack.size() - 1;
         parentStack.get(lastIndex).visit(classVisitor);
@@ -479,8 +479,8 @@ public class InstrumentationSessionImpl implements InstrumentationSession {
 
     @Override
     @Nullable
-    public FullMethodInfo getCurrentMethod() {
-        final AtomicReference<FullMethodInfo> methodFound = new AtomicReference<>(null);
+    public MethodInfo getCurrentMethod() {
+        final AtomicReference<MethodInfo> methodFound = new AtomicReference<>(null);
         final EntityVisitor methodVisitor = new MethodEntityVisitor(methodFound);
 
         // look backwards, i.e. from top of the stack
@@ -496,14 +496,14 @@ public class InstrumentationSessionImpl implements InstrumentationSession {
         parentStack.add(clazz);
     }
 
-    public FullMethodInfo popCurrentMethod() throws IllegalStateException {
+    public MethodInfo popCurrentMethod() throws IllegalStateException {
         // integrity check - ensure that stack is not empty
         if (parentStack.isEmpty()) {
             throw new IllegalStateException("Trying to pop FullMethodInfo but the stack is empty");
         }
 
         // integrity check - ensure that we pop a class
-        final AtomicReference<FullMethodInfo> methodFound = new AtomicReference<>(null);
+        final AtomicReference<MethodInfo> methodFound = new AtomicReference<>(null);
         final EntityVisitor methodVisitor = new MethodEntityVisitor(methodFound);
         int lastIndex = parentStack.size() - 1;
         parentStack.get(lastIndex).visit(methodVisitor);
@@ -560,7 +560,6 @@ public class InstrumentationSessionImpl implements InstrumentationSession {
             this.fileInfos = collectFileInfos();
         }
 
-        @SuppressWarnings("unchecked")
         private List<FileInfo> collectFileInfos() {
             List<FileInfo> fileInfos = newLinkedList();
             for (PackageInfo newPkgInfo : changedPkgInfos) {
@@ -606,8 +605,8 @@ public class InstrumentationSessionImpl implements InstrumentationSession {
 
     /** Tracks packages created in the current session and their counterparts in the model, if one exists */
     public static class SessionPackageInfo {
-        private PackageInfo modelPkg;
-        private PackageInfo sessionPkg;
+        private final PackageInfo modelPkg;
+        private final PackageInfo sessionPkg;
 
         public SessionPackageInfo(PackageInfo modelPkg, PackageInfo sessionPkg) {
             this.modelPkg = modelPkg;

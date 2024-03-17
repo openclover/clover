@@ -12,10 +12,9 @@ import org.openclover.core.CloverDatabase;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
-import org.openclover.core.registry.entities.FullMethodInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.eclipse.core.CloverPlugin;
 
 public class LoadingDatabaseModel
@@ -170,7 +169,7 @@ public class LoadingDatabaseModel
     }
 
     @Override
-    public FullMethodInfo getMethodInfo(IMethod method, MetricsScope scope) {
+    public MethodInfo getMethodInfo(IMethod method, MetricsScope scope) {
         return currentModel.getMethodInfo(method, scope);
     }
 

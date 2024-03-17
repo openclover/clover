@@ -9,10 +9,9 @@ import org.openclover.core.CloverDatabase;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
-import org.openclover.core.registry.entities.FullMethodInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.eclipse.core.projects.CloverProject;
 
 public abstract class DatabaseModel {
@@ -54,7 +53,7 @@ public abstract class DatabaseModel {
     public abstract HasMetrics getPackageInfoOrFragment(IPackageFragment pack, MetricsScope scope);
     public abstract FileInfo getSourceFileInfo(ICompilationUnit cu, MetricsScope scope);
     public abstract ClassInfo getTypeInfo(IType type, MetricsScope scope);
-    public abstract FullMethodInfo getMethodInfo(IMethod method, MetricsScope scope);
+    public abstract MethodInfo getMethodInfo(IMethod method, MetricsScope scope);
     public abstract TestCaseInfo getTestCaseInfo(IMethod method, MetricsScope scope);
     public abstract TestCaseInfo[] getTestCaseInfos(IMethod method, MetricsScope scope);
     public abstract HasMetrics metricsProviderFor(Object projectArtifact, MetricsScope scope);

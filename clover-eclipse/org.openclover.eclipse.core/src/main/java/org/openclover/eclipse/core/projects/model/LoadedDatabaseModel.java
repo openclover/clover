@@ -113,7 +113,7 @@ public class LoadedDatabaseModel extends StableDatabaseModel {
     }
 
     @Override
-    public FullMethodInfo getMethodInfo(IMethod method, MetricsScope scope) {
+    public MethodInfo getMethodInfo(IMethod method, MetricsScope scope) {
         ClassInfo classInfo = scope.getProjectInfoFor(project).findClass(method.getDeclaringType().getFullyQualifiedName('.'));
         if (classInfo instanceof FullClassInfo) {
             for (MethodInfo methodInfo : classInfo.getMethods()) {
@@ -122,7 +122,7 @@ public class LoadedDatabaseModel extends StableDatabaseModel {
                     String[] paramTypes1 = toEclipseSignatures(sig.getParameters());
                     String[] paramTypes2 = method.getParameterTypes();
                     if (Arrays.equals(paramTypes2, paramTypes1)) {
-                        return (FullMethodInfo)methodInfo; // TODO REMOVE THIS CAST
+                        return methodInfo;
                     }
                 }
             }

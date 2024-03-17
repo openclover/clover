@@ -12,7 +12,6 @@ import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
-import org.openclover.core.registry.entities.FullMethodInfo;
 import org.openclover.idea.IProjectPlugin;
 import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.config.ConfigChangeEvent;
@@ -238,9 +237,7 @@ class CoverageContributionTreeBuilder {
                 List<DefaultMutableTreeNode> methodNodes = newArrayList();
                 classCoverage.setCoverage(classInfoCopy.getMetrics().getPcCoveredElements());
 
-                for (MethodInfo info : classInfoCopy.getMethods()) {
-                    FullMethodInfo methodInfo = (FullMethodInfo)info;
-
+                for (MethodInfo methodInfo : classInfoCopy.getMethods()) {
                     if (methodInfo.getHitCount() > 0) {
                         final float methodCoverage =
                                 methodInfo.isEmpty() ? -1f : methodInfo.getMetrics().getPcCoveredElements();

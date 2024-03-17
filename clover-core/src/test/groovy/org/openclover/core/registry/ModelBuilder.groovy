@@ -2,6 +2,7 @@ package org.openclover.core.registry
 
 import org.openclover.core.api.registry.ClassInfo
 import org.openclover.core.api.registry.FileInfo
+import org.openclover.core.api.registry.MethodInfo
 import org.openclover.core.api.registry.PackageInfo
 import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.context.ContextSetImpl
@@ -184,7 +185,7 @@ class ModelBuilder {
 
         /** Close class wrapper declared inside a method */
         MethodInfoWrapper endInMethod() {
-            return new MethodInfoWrapper((FullMethodInfo)getElement().getContainingMethod())
+            return new MethodInfoWrapper(getElement().getContainingMethod())
         }
 
         protected ClassInfoWrapper getThis() {
@@ -203,7 +204,7 @@ class ModelBuilder {
         }
     }
 
-    class MethodInfoWrapper extends Wrapper<MethodInfoWrapper, FullMethodInfo> {
+    class MethodInfoWrapper extends Wrapper<MethodInfoWrapper, MethodInfo> {
         /** Declare a class inside a method */
         ClassInfoWrapper clazz(String name) {
             final FullClassInfo newClassInfo = new FullClassInfo(
@@ -242,7 +243,7 @@ class ModelBuilder {
 
         /** Close method wrapper declared inside a method */
         MethodInfoWrapper endInMethod() {
-            return new MethodInfoWrapper((FullMethodInfo) getElement().getContainingMethod())
+            return new MethodInfoWrapper(getElement().getContainingMethod())
         }
 
         /** Close method wrapper declared inside a file */
@@ -250,7 +251,7 @@ class ModelBuilder {
             return new FileInfoWrapper(getElement().getContainingFile())
         }
 
-        protected MethodInfoWrapper(FullMethodInfo element) {
+        protected MethodInfoWrapper(MethodInfo element) {
             super(element)
         }
 
@@ -267,7 +268,7 @@ class ModelBuilder {
 
         /** Close statement wrapper declared inside a method */
         MethodInfoWrapper endInMethod() {
-            return new MethodInfoWrapper((FullMethodInfo) getElement().getContainingMethod())
+            return new MethodInfoWrapper(getElement().getContainingMethod())
         }
 
         /** Close statement wrapper declared inside a file */

@@ -4,6 +4,7 @@ import org.junit.After
 import org.junit.Test
 import org.openclover.core.CoverageData
 import org.openclover.core.api.registry.ClassInfo
+import org.openclover.core.api.registry.MethodInfo
 import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.context.ContextStore
 import org.openclover.core.recorder.InMemPerTestCoverage
@@ -170,13 +171,13 @@ class RegFileFormatTest {
             perTestCoverage.addCoverage(
                 new FullTestCaseInfo(
                         Integer.valueOf(incTCIId()),
-                        (ClassInfo)modelBuilder.get(fileClassMethod[1]),
-                        (FullMethodInfo)modelBuilder.get(fileClassMethod[2]),
+                        (ClassInfo) modelBuilder.get(fileClassMethod[1]),
+                        (MethodInfo) modelBuilder.get(fileClassMethod[2]),
                         null),
                 new PerTestRecordingTranscript(
                         CloverBitSet.forHits(coverage),
                         new File(fileClassMethod[0]),
-                        ((ProjectInfo)modelBuilder.get("proj")).getVersion(),
+                        ((ProjectInfo) modelBuilder.get("proj")).getVersion(),
                         fileClassMethod[2],
                         null,
                         now, then, 0.001, new RuntimeType(fileClassMethod[1]),
