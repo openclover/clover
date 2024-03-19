@@ -57,9 +57,9 @@ class GroovyModellingTest extends TestBase {
 
     void testFullyQualifiedNames() {
         instrumentAndCompileWithGrover(
-                ["com/atlassian/foo/bar/Foo.groovy":
+                ["org/openclover/foo/bar/Foo.groovy":
                          """
-              package com.atlassian.foo.bar
+              package org.openclover.foo.bar
 
               public class Foo {
                 public void barVoid() {}
@@ -67,14 +67,14 @@ class GroovyModellingTest extends TestBase {
             """])
 
         assertRegistry db, { Clover2Registry reg ->
-            assertPackage reg.model.project, named("com.atlassian.foo.bar"), { PackageInfo p ->
-                (p.path == "com/atlassian/foo/bar/") &&
+            assertPackage reg.model.project, named("org.openclover.foo.bar"), { PackageInfo p ->
+                (p.path == "org/openclover/foo/bar/") &&
                         assertFile(p, named("Foo.groovy")) { FullFileInfo f ->
-                            (f.packagePath == "com/atlassian/foo/bar/Foo.groovy") &&
+                            (f.packagePath == "org/openclover/foo/bar/Foo.groovy") &&
                                     assertClass(f, named("Foo")) { FullClassInfo c ->
-                                        (c.qualifiedName == "com.atlassian.foo.bar.Foo") &&
+                                        (c.qualifiedName == "org.openclover.foo.bar.Foo") &&
                                                 assertMethod(c, simplyNamed("barVoid")) { MethodInfo m ->
-                                                    m.qualifiedName == "com.atlassian.foo.bar.Foo.barVoid"
+                                                    m.qualifiedName == "org.openclover.foo.bar.Foo.barVoid"
                                                 }
                                     }
                         }
@@ -85,9 +85,9 @@ class GroovyModellingTest extends TestBase {
 
     void testMethodLevelInstr() {
         instrumentAndCompileWithGrover(
-                ["com/atlassian/foo/bar/Foo.groovy":
+                ["org/openclover/foo/bar/Foo.groovy":
                          """
-              package com.atlassian.foo.bar
+              package org.openclover.foo.bar
 
               public class Foo {
                 public void barVoid() {
@@ -102,12 +102,12 @@ class GroovyModellingTest extends TestBase {
                 })
 
         assertRegistry db, { Clover2Registry reg ->
-            assertPackage reg.model.project, named("com.atlassian.foo.bar"), { PackageInfo p ->
-                (p.path == "com/atlassian/foo/bar/") &&
+            assertPackage reg.model.project, named("org.openclover.foo.bar"), { PackageInfo p ->
+                (p.path == "org/openclover/foo/bar/") &&
                         assertFile(p, named("Foo.groovy")) { FullFileInfo f ->
-                            (f.packagePath == "com/atlassian/foo/bar/Foo.groovy") &&
+                            (f.packagePath == "org/openclover/foo/bar/Foo.groovy") &&
                                     assertClass(f, named("Foo")) { FullClassInfo c ->
-                                        (c.qualifiedName == "com.atlassian.foo.bar.Foo") &&
+                                        (c.qualifiedName == "org.openclover.foo.bar.Foo") &&
                                                 assertMethod(c, simplyNamed("barVoid")) { MethodInfo m ->
                                                     assertEquals("there should be no statements", 0, m.statements.size())
                                                     assertEquals("there should be no branches", 0, m.branches.size())

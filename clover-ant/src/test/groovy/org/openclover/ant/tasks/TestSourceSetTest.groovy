@@ -29,7 +29,7 @@ class TestSourceSetTest extends TestCase {
         nameSetSpec = new TestClassSpec()
         nameSetSpec.setName(".*Test")
         pkgSetSpec = new TestClassSpec()
-        pkgSetSpec.setPackage("com.atlassian.test.*")
+        pkgSetSpec.setPackage("org.openclover.test.*")
         javaDocSpec = new TestClassSpec()
         javaDocSpec.setTag("testng\\.test")
     }
@@ -59,8 +59,8 @@ class TestSourceSetTest extends TestCase {
 
         final TestDetector testDetector = testSources.getDetector()
         assertNotNull(testDetector)
-        assertTrue(testDetector.isTypeMatch(null, new JavaTypeContext(null, mods, "com.atlassian.test", "MatchingTest", null)))
-        assertFalse(testDetector.isTypeMatch(null, new JavaTypeContext(null, mods, "com.atlassian.test", "TestMatching", null)))
+        assertTrue(testDetector.isTypeMatch(null, new JavaTypeContext(null, mods, "org.openclover.test", "MatchingTest", null)))
+        assertFalse(testDetector.isTypeMatch(null, new JavaTypeContext(null, mods, "org.openclover.test", "TestMatching", null)))
     }
 
     void testSingleJavaDocClass() {
@@ -79,10 +79,10 @@ class TestSourceSetTest extends TestCase {
 
         final TestDetector testDetector = testSources.getDetector()
         assertNotNull(testDetector)
-        assertFalse(testDetector.isTypeMatch(null, new JavaTypeContext(tags, mods, "com.atlassian.test", "MatchingTest", null)))
+        assertFalse(testDetector.isTypeMatch(null, new JavaTypeContext(tags, mods, "org.openclover.test", "MatchingTest", null)))
 
         tags.put("testng.test", values)
-        assertTrue(testDetector.isTypeMatch(null, new JavaTypeContext(tags, mods, "com.atlassian.test", "TestMatching", null)))
+        assertTrue(testDetector.isTypeMatch(null, new JavaTypeContext(tags, mods, "org.openclover.test", "TestMatching", null)))
     }
 
     void testSingleJavaDocMethod() {
@@ -117,7 +117,7 @@ class TestSourceSetTest extends TestCase {
     void testMultipleTestSources() {
         // <testsources>
         //      <testclass name=".*Test"></testclass>
-        //      <testclass package="com.atlassian.test.*"></testclass>
+        //      <testclass package="org.openclover.test.*"></testclass>
         // </testsources>
         TestSourceSet testSources = new TestSourceSet()
         testSources.addConfiguredTestClass(nameSetSpec)
@@ -130,7 +130,7 @@ class TestSourceSetTest extends TestCase {
         // <testsources>
         //      <or>
         //          <testclass name=".*Test"></testclass>
-        //          <testclass package="com.atlassian.test.*"></testclass>
+        //          <testclass package="org.openclover.test.*"></testclass>
         //      </or>
         // </testsources>
         TestSourceSet testSources = new TestSourceSet()
@@ -147,7 +147,7 @@ class TestSourceSetTest extends TestCase {
         // <testsources>
         //      <and>
         //          <testclass name=".*Test"></testclass>
-        //          <testclass package="com.atlassian.test.*"></testclass>
+        //          <testclass package="org.openclover.test.*"></testclass>
         //      </and>
         // </testsources>
         TestSourceSet testSources = new TestSourceSet()
@@ -167,7 +167,7 @@ class TestSourceSetTest extends TestCase {
         //          <testmethod name="^must.*"/>
         //          <testmethod annotation="Specification"/>
         //      </testclass>
-        //      <testclass package="com.atlassian.test.*"></testclass>
+        //      <testclass package="org.openclover.test.*"></testclass>
         // </testsources>
         TestSourceSet testSources = new TestSourceSet()
 
@@ -185,8 +185,8 @@ class TestSourceSetTest extends TestCase {
         testSources.validate()
 
         final TestDetector testDetector = testSources.getDetector()
-        assertTrue(testDetector.isTypeMatch(null, new JavaTypeContext(null, mods, "com.atlassian.test", "RealTest", null)))
-        assertFalse(testDetector.isTypeMatch(null, new JavaTypeContext(null, mods, "com.atlassian.test", "XXX", null)))
+        assertTrue(testDetector.isTypeMatch(null, new JavaTypeContext(null, mods, "org.openclover.test", "RealTest", null)))
+        assertFalse(testDetector.isTypeMatch(null, new JavaTypeContext(null, mods, "org.openclover.test", "XXX", null)))
 
         MethodSignature noMatch = new MethodSignature(null, null, null, "dontMatch", null, "void", null, null)
         MethodSignature should = new MethodSignature(null, null, null, "shouldMatch", null, "void", null, null)
@@ -203,24 +203,24 @@ class TestSourceSetTest extends TestCase {
 
     private void assertOr(TestSourceSet testSources) {
         // As the default boolean strategy is OR, this will match any class:
-        // in the com.atlassian.test.* package, OR any class ending in .*Test
+        // in the org.openclover.test.* package, OR any class ending in .*Test
         final TestDetector testDetector = testSources.getDetector()
         assertNotNull(testDetector)
-        assertTrue(testDetector.isTypeMatch(null, new JavaTypeContext(null, mods, "com.atlassian.test", "XXX", null)))
-        assertTrue(testDetector.isTypeMatch(null, new JavaTypeContext(null, mods, "com.atlassian.blah", "RealTest", null)))
-        assertFalse(testDetector.isTypeMatch(null, new JavaTypeContext(null, mods, "com.atlassian.blah", "XXX", null)))
-        assertTrue(testDetector.isTypeMatch(null, new JavaTypeContext(null, mods, "com.atlassian.test", "RealTest", null)))
+        assertTrue(testDetector.isTypeMatch(null, new JavaTypeContext(null, mods, "org.openclover.test", "XXX", null)))
+        assertTrue(testDetector.isTypeMatch(null, new JavaTypeContext(null, mods, "org.openclover.blah", "RealTest", null)))
+        assertFalse(testDetector.isTypeMatch(null, new JavaTypeContext(null, mods, "org.openclover.blah", "XXX", null)))
+        assertTrue(testDetector.isTypeMatch(null, new JavaTypeContext(null, mods, "org.openclover.test", "RealTest", null)))
     }
 
     private void assertAnd(TestSourceSet testSources) {
         // Match any class if it is:
-        // in the com.atlassian.test.* package, AND any ends in .*Test
+        // in the org.openclover.test.* package, AND any ends in .*Test
         final TestDetector testDetector = testSources.getDetector()
         assertNotNull(testDetector)
-        assertFalse(testDetector.isTypeMatch(null, new JavaTypeContext(null, mods, "com.atlassian.test", "XXX", null)))
-        assertFalse(testDetector.isTypeMatch(null, new JavaTypeContext(null, mods, "com.atlassian.blah", "RealTest", null)))
-        assertFalse(testDetector.isTypeMatch(null, new JavaTypeContext(null, mods, "com.atlassian.blah", "XXX", null)))
-        assertTrue(testDetector.isTypeMatch(null, new JavaTypeContext(null, mods, "com.atlassian.test", "RealTest", null)))
+        assertFalse(testDetector.isTypeMatch(null, new JavaTypeContext(null, mods, "org.openclover.test", "XXX", null)))
+        assertFalse(testDetector.isTypeMatch(null, new JavaTypeContext(null, mods, "org.openclover.blah", "RealTest", null)))
+        assertFalse(testDetector.isTypeMatch(null, new JavaTypeContext(null, mods, "org.openclover.blah", "XXX", null)))
+        assertTrue(testDetector.isTypeMatch(null, new JavaTypeContext(null, mods, "org.openclover.test", "RealTest", null)))
     }
 
 }
