@@ -9,24 +9,27 @@ import org.openclover.eclipse.core.projects.CloverProject;
 import java.util.Date;
 import java.util.Map;
 
+import static org.openclover.eclipse.core.CloverPlugin.logVerbose;
+import static org.openclover.eclipse.core.CloverPlugin.logWarning;
+
 public class PostJavaCloverBuilder extends BaseCloverBuilder {
     public static final String ID = CloverPlugin.ID + ".postjavabuilder";
 
     @Override
     protected IProject[] build(int kind, Map args, IProgressMonitor monitor) throws CoreException {
-        CloverPlugin.logVerbose("----CLOVER: POST JAVA BUILDER (" + kindToString(kind) + "): " + new Date() + "----");
+        logVerbose("----OPENCLOVER: POST JAVA BUILDER (" + kindToString(kind) + "): " + new Date() + "----");
         final CloverProject targetProject = CloverProject.getFor(getProject());
 
         if (targetProject != null) {
             if (!targetProject.getSettings().isInstrumentationEnabled()) {
-                CloverPlugin.logVerbose("PostJavaCloverBuilder: not building as Clover compilation not enabled");
+                logVerbose("PostJavaCloverBuilder: not building as OpenClover compilation not enabled");
             } else {
-                CloverPlugin.logVerbose("CLOVER: BUILD[" + kindToString(kind) + "] ENDING : " + new Date() + "----");
+                logVerbose("OPENCLOVER: BUILD[" + kindToString(kind) + "] ENDING : " + new Date() + "----");
                 targetProject.getBuildCoordinator().onEndOfBuild(kind, monitor);
-                CloverPlugin.logVerbose("CLOVER: BUILD[" + kindToString(kind) + "] COMPLETED : " + new Date() + "----");
+                logVerbose("OPENCLOVER: BUILD[" + kindToString(kind) + "] COMPLETED : " + new Date() + "----");
             }
         } else {
-            CloverPlugin.logWarning("PostJavaCloverBuilder: not building as user project no longer open");
+            logWarning("PostJavaCloverBuilder: not building as user project no longer open");
         }
         return new IProject[]{};
     }

@@ -20,7 +20,7 @@
             <url>http://fastutil.dsi.unimi.it/</url>
         </license>
     </licenses>
-    <name>Clover FastUtil Library</name>
+    <name>OpenClover FastUtil Library</name>
     <!-- Repack, install and deploy only with the 'workspace-setup' profile -->
     <profiles>
         <profile>

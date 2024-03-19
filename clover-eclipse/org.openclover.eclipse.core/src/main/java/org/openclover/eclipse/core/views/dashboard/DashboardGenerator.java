@@ -99,7 +99,6 @@ public class DashboardGenerator {
         copyStaticResource(templatePath, "aui/css/atlassian-icons.woff");
 
         copyStaticResource(templatePath, "aui/js/aui.min.js");
-        copyStaticResource(templatePath, "aui/js/aui-datepicker.min.js");
         copyStaticResource(templatePath, "aui/js/aui-experimental.min.js");
         copyStaticResource(templatePath, "aui/js/aui-soy.min.js");
 

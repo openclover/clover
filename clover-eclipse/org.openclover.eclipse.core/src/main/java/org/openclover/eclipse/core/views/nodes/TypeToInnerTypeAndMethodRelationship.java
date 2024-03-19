@@ -12,6 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import static org.openclover.core.util.Lists.newArrayList;
+import static org.openclover.eclipse.core.CloverPlugin.logError;
 
 public class TypeToInnerTypeAndMethodRelationship extends NodeRelationship {
     @Override
@@ -31,7 +32,7 @@ public class TypeToInnerTypeAndMethodRelationship extends NodeRelationship {
             children.addAll(Arrays.asList(methods));
             return filter.perform(children);
         } catch (CoreException e) {
-            CloverPlugin.logError("Unable to collect inner-types in type " + object, e);
+            logError("Unable to collect inner-types in type " + object, e);
             return new Object[]{};
         }
     }

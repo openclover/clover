@@ -17,6 +17,7 @@ import java.util.Set;
 
 import static org.openclover.core.util.Lists.newLinkedList;
 import static org.openclover.core.util.Maps.newHashMap;
+import static org.openclover.eclipse.core.CloverPlugin.logError;
 
 public class ProjToTreePkgFragNodeRelationship extends NodeRelationship {
     @Override
@@ -52,7 +53,7 @@ public class ProjToTreePkgFragNodeRelationship extends NodeRelationship {
                 return filter.perform(multis);
             }
         } catch (Exception e) {
-            CloverPlugin.logError("Unable to retrieve children for parent " + object, e);
+            logError("Unable to retrieve children for parent " + object, e);
         }
 
         return new Object[]{};
@@ -88,7 +89,7 @@ public class ProjToTreePkgFragNodeRelationship extends NodeRelationship {
                 }
             }
         } catch (Exception e) {
-            CloverPlugin.logError("Unable to retrieve children for parent " + object, e);
+            logError("Unable to retrieve children for parent " + object, e);
         }
 
         return false;

@@ -35,7 +35,7 @@ public class NoTestsFoundNotification extends DialogWrapper {
         this.settings = settings;
         $$$setupUI$$$();
 
-        setTitle("Clover Test Optimization");
+        setTitle("OpenClover Test Optimization");
         displayThisDialogCheckBox.setSelected(settings.isShowAllTestsOptimizedOutDialog());
         notifyByBalloonCheckBox.setSelected(settings.isShowAllTestsOptimizedOutBalloon());
 

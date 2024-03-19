@@ -9,6 +9,8 @@ import org.osgi.framework.Bundle;
 
 import java.net.URL;
 
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+
 public final class CloverPluginIcons {
     public static final String PROJECT_REFRESH_ICON = "icons/clcl16/project_refresh.gif";
     public static final String REPORT_WIZARD_ICON = "icons/wizban/report.gif";
@@ -41,7 +43,7 @@ public final class CloverPluginIcons {
                 try {
                     return imageManager.createImage(ImageDescriptor.createFromURL(resourceURL));
                 } catch (Exception e) {
-                    CloverPlugin.logError("Failed to create image '" + path + "' for bundle '" + bundleName + "'", e);
+                    logError("Failed to create image '" + path + "' for bundle '" + bundleName + "'", e);
                 }
             }
         }

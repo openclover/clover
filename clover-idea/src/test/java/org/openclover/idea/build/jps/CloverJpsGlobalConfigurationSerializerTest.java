@@ -47,7 +47,7 @@ public class CloverJpsGlobalConfigurationSerializerTest {
      * @return Element
      */
     protected Element createSampleData() {
-        final Element root = new Element("component").setAttribute("name", "Clover");
+        final Element root = new Element("component").setAttribute("name", "OpenClover");
         return root;
     }
 }

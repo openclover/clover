@@ -12,6 +12,8 @@ import org.openclover.runtime.api.CloverException;
 import java.io.File;
 import java.util.Collections;
 
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+
 public class TestPackageRootElement implements TreeElement {
     private TestSourcesElement parent;
     private IPath projectRelativePath;
@@ -69,7 +71,7 @@ public class TestPackageRootElement implements TreeElement {
                 try {
                     return BooleanSpec.buildTestDetectorFor(Collections.singletonList(expression.getSpec()));
                 } catch (CloverException e) {
-                    CloverPlugin.logError("Unable to build test detector", e);
+                    logError("Unable to build test detector", e);
                     return new DefaultTestDetector();
                 }
             }

@@ -13,6 +13,8 @@ import org.eclipse.debug.ui.ILaunchConfigurationTab;
 import org.eclipse.debug.ui.ILaunchConfigurationTabGroup;
 import org.openclover.eclipse.core.CloverPlugin;
 
+import static org.openclover.eclipse.core.CloverPlugin.logAndThrowError;
+
 public class CloverTabGroup implements ILaunchConfigurationTabGroup, IExecutableExtension {
     private static final String LAUNCH_TABGROUPS_EXTENSION = "org.eclipse.debug.ui.launchConfigurationTabGroups";
 
@@ -26,7 +28,7 @@ public class CloverTabGroup implements ILaunchConfigurationTabGroup, IExecutable
     protected ILaunchConfigurationTabGroup delegateTabGroupFor(String launchType) throws CoreException {
         IConfigurationElement element = findRunModeConfigurationFor(launchType);
         if (element == null) {
-            throw CloverPlugin.logAndThrowError("There are no tab groups registered to run for launch type of " + launchType);
+            throw logAndThrowError("There are no tab groups registered to run for launch type of " + launchType);
         } else {
             return (ILaunchConfigurationTabGroup) element.createExecutableExtension(LaunchingConstants.CLASS_EXTENSION);
         }

@@ -18,7 +18,7 @@ import org.openclover.groovy.test.junit.Result
 import static org.openclover.groovy.utils.TestUtils.assertFileContains
 
 /**
- * Integration test that checks how Clover handles the Spock test framework. Specific issues for this framework are:
+ * Integration test that checks how OpenClover handles the Spock test framework. Specific issues for this framework are:
  *  - test name does not match method name (e.g def "test a == b" can be translated to $spock_feature_0_1)
  *  - the same test can be executed multiple times using different inputs, this is fine but
  *  - test name can be "unrolled" which results in different name of the test for each iteration

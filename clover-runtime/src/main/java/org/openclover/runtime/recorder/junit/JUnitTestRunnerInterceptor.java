@@ -89,10 +89,10 @@ public class JUnitTestRunnerInterceptor extends RunListener implements TestRunLi
                 return Class.forName(className);
             } catch (ClassNotFoundException e) {
                 Logger.getInstance().debug("Unable to find class '" + className
-                        + "'. Clover cannot inject the current test name into coverage recorder.");
+                        + "'. OpenClover cannot inject the current test name into coverage recorder.");
             }
         } else {
-            Logger.getInstance().debug("Unknown class name for a test. Clover cannot inject the current test name into coverage recorder");
+            Logger.getInstance().debug("Unknown class name for a test. OpenClover cannot inject the current test name into coverage recorder");
         }
 
         return null;

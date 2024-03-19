@@ -23,6 +23,7 @@ import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotationModel;
 import java.util.Set;
 
 import static org.openclover.core.util.Sets.newHashSet;
+import static org.openclover.eclipse.core.CloverPlugin.logError;
 
 public class AllTestContributionsFilterWidget
     extends TestContributionsWidget
@@ -110,7 +111,7 @@ public class AllTestContributionsFilterWidget
         try {
             testContributionsComputation.join();
         } catch (InterruptedException e) {
-            CloverPlugin.logError("Failed to stop cursor listing job");
+            logError("Failed to stop cursor listing job");
         }
     }
 

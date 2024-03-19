@@ -33,8 +33,6 @@ public class CloverNames {
     public static final String PROP_COMPILER_DELEGATE = PROP_PREFIX + "compiler";
     public static final String PROP_INCLUDES_PATTERNSET = PROP_PREFIX + "includes";
     public static final String PROP_EXCLUDES_PATTERNSET = PROP_PREFIX + "excludes";
-    /** Clover license key */
-    public static final String PROP_LICENSE_CERT = PROP_PREFIX + "license.cert";
     /** Path to a file containing Clover license key */
     public static final String PROP_LICENSE_PATH = PROP_PREFIX + "license.path";
     public static final String PROP_CLOVER_JARPATH = PROP_PREFIX + "jarpath";

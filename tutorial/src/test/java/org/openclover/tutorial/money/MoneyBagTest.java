@@ -1,4 +1,4 @@
-package com.atlassian.samples.money;
+package org.openclover.tutorial.money;
 
 import org.junit.After;
 import org.junit.Before;

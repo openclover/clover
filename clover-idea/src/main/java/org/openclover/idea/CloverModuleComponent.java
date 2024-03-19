@@ -61,7 +61,7 @@ public class CloverModuleComponent implements ModuleComponent, Configurable,
     @NonNls
     @NotNull
     public String getComponentName() {
-        return "Clover";
+        return "OpenClover";
     }
 
     @Override
@@ -75,7 +75,7 @@ public class CloverModuleComponent implements ModuleComponent, Configurable,
     @Override
     @Nls
     public String getDisplayName() {
-        return "Clover";
+        return "OpenClover";
     }
 
     @Override
@@ -93,7 +93,7 @@ public class CloverModuleComponent implements ModuleComponent, Configurable,
             configComponent.setConfig(config);
             return configComponent;
         } else {
-            final JLabel msg =  new JLabel("Clover plugin is disabled for current project");
+            final JLabel msg =  new JLabel("OpenClover plugin is disabled for current project");
             msg.setHorizontalAlignment(JLabel.CENTER);
             msg.setVerticalAlignment(JLabel.TOP);
             msg.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));

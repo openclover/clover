@@ -1,7 +1,7 @@
-package com.atlassian.samples.groovy
+package org.openclover.tutorial.groovy
 
-import com.atlassian.samples.money.IMoney
-import com.atlassian.samples.money.Money
+import org.openclover.tutorial.money.IMoney
+import org.openclover.tutorial.money.Money
 
 class HipPocket {
 

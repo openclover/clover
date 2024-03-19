@@ -13,14 +13,11 @@ import clover.com.lowagie.text.pdf.PdfPTable;
 import clover.com.lowagie.text.pdf.PdfPTableEvent;
 import clover.com.lowagie.text.pdf.PdfTemplate;
 import clover.org.jfree.chart.JFreeChart;
-import org.openclover.core.CloverLicenseInfo;
 import org.openclover.core.api.registry.BlockMetrics;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.cfg.Percentage;
-import org.openclover.core.registry.entities.FullPackageInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.registry.metrics.ClassMetrics;
 import org.openclover.core.registry.metrics.PackageMetrics;
 import org.openclover.core.registry.metrics.ProjectMetrics;
@@ -31,7 +28,6 @@ import org.openclover.core.reporters.Historical;
 import org.openclover.core.reporters.util.CloverChartFactory;
 import org.openclover.core.reporters.util.HistoricalReportDescriptor;
 import org.openclover.core.reporters.util.MetricsDiffSummary;
-import org.openclover.core.util.format.PDFFormatter;
 import org.openclover.runtime.api.CloverException;
 import org.openclover.runtime.util.Formatting;
 
@@ -50,30 +46,6 @@ public class RenderingSupport {
         SPACER.getDefaultCell().setBorder(Rectangle.NO_BORDER);
         SPACER.setWidthPercentage(100f);
         SPACER.addCell(" ");
-    }
-
-
-    public static PdfPTable createLicenseWarningBar(String font, int points, PDFColours colours) {
-        PdfPTable warnTab = new PdfPTable(1);
-        warnTab.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-        warnTab.getDefaultCell().setPadding(5);
-        warnTab.setWidthPercentage(100f);
-
-        // The warning bar only contains details when the license is verbose.
-        
-        String stmt = CloverLicenseInfo.OWNER_STMT + " ";
-        if (!CloverLicenseInfo.EXPIRED) {
-            stmt = stmt + CloverLicenseInfo.PRE_EXPIRY_STMT;
-        } else {
-            stmt = stmt + CloverLicenseInfo.POST_EXPIRY_STMT +
-                    " " + CloverLicenseInfo.CONTACT_INFO_STMT;
-        }
-
-
-        Phrase warning = PDFFormatter.format(stmt, font, points, colours.COL_LINK_TEXT);
-
-        warnTab.addCell(warning);
-        return warnTab;
     }
 
     public static PdfPTable getSpacerRow() {
@@ -236,12 +208,6 @@ public class RenderingSupport {
         return projStats;
     }
 
-    public static PdfPTable createReportHeader(HasMetrics hasmetrics, long timestamp, String title,
-                                               boolean isProject, PDFColours colours) throws DocumentException {
-        return createReportHeader(hasmetrics, timestamp, title, null, isProject, colours);
-    }
-
-
     public static PdfPTable createReportHeader(HasMetrics hasmetrics, long timestamp, String title, String titleAnchor,
                                                boolean isProject, PDFColours colours)
             throws DocumentException {
@@ -255,7 +221,7 @@ public class RenderingSupport {
         titlebar.getDefaultCell().setPaddingLeft(2);
         titlebar.getDefaultCell().setLeading(2, 0.9f);
 
-        Phrase titlePhrase = new Phrase(14, "Clover Coverage Report",
+        Phrase titlePhrase = new Phrase(14, "OpenClover Coverage Report",
                 FontFactory.getFont(FontFactory.HELVETICA, 14, Font.BOLD));
 
         //checks title present and valid
@@ -279,10 +245,6 @@ public class RenderingSupport {
         titlebar.addCell(titlePhrase);
         titlebar.addCell(createHeaderStats((PackageMetrics)metrics, colours));
         return titlebar;
-    }
-
-    public static PdfPTable createHistoricalPageHeader(String title, PDFColours colours) throws DocumentException{
-        return createHistoricalPageHeader(title, null, colours);
     }
 
     public static PdfPTable createHistoricalPageHeader(String title, String titleAnchor, PDFColours colours)

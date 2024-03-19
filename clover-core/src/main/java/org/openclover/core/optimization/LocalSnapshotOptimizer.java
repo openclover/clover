@@ -194,12 +194,12 @@ public final class LocalSnapshotOptimizer implements Optimizer {
     private void logModifiedFiles(Set<String> modifiedFiles) {
         if (options.isDebug()) {
             if (!modifiedFiles.isEmpty()) {
-                Logger.getInstance().info("For the current test set, Clover detected the following source files were modified: ");
+                Logger.getInstance().info("For the current test set, OpenClover detected the following source files were modified: ");
                 for (String fileName : modifiedFiles) {
                     Logger.getInstance().info("\t" + fileName);
                 }
             } else {
-                Logger.getInstance().info("For the current test set, Clover detected no modified source files.");
+                Logger.getInstance().info("For the current test set, OpenClover detected no modified source files.");
             }
         }
     }
@@ -299,7 +299,7 @@ public final class LocalSnapshotOptimizer implements Optimizer {
             }
         } else {
             if (options.isDebug()) {
-                Logger.getInstance().info("Including '" + optimizable.getName() + "' in the test run because Clover cannot correlate it with previously executed test method.");
+                Logger.getInstance().info("Including '" + optimizable.getName() + "' in the test run because OpenClover cannot correlate it with previously executed test method.");
             }
             return true;
         }

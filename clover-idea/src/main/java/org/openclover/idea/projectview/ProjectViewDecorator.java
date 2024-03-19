@@ -59,7 +59,7 @@ public class ProjectViewDecorator implements TreeStructureProvider, ProjectCompo
     @Override
     @NotNull
     public String getComponentName() {
-        return "Clover Project View Decorator";
+        return "OpenClover Project View Decorator";
     }
 
     @Override

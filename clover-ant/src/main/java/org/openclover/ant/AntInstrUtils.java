@@ -194,7 +194,7 @@ public class AntInstrUtils {
         }
 
         if (toCompile.size() > 0) {
-            LOG.verbose(toCompile.size() + " file(s) in the compile list were neither included or excluded for Clover instrumentation. Adding to the exclude list:");
+            LOG.verbose(toCompile.size() + " file(s) in the compile list were neither included or excluded for OpenClover instrumentation. Adding to the exclude list:");
             for (final File file : toCompile) {
                 LOG.verbose(file.getAbsolutePath());
             }

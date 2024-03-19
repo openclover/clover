@@ -14,7 +14,7 @@ public class TestSelectionHelper {
 
     public static String getParamsUsage() {
         return  "         " + TESTS_INCLUDE_PATTERN_PARAM + " <string>\tAnt-style pattern of files containing test classes and utilities.\n"+
-                "\t\t\t\tIf unspecified Clover uses default test detection logic.\n\n"+
+                "\t\t\t\tIf unspecified OpenClover uses default test detection logic.\n\n"+
                 "         " + TESTS_EXCLUDE_PATTERN_PARAM + " <string>\tAnt-style pattern of files NOT containing test classes and utilities.\n\n"+
                 "         " + SOURCE_ROOT_PARAM + " <string>\tSource root path prefix that will be ignored when evaluating the test inclusion patterns.\n\n";
     }

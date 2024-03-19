@@ -92,8 +92,8 @@ public class InstrumentationConfigPanel extends ConfigPanel implements ActionLis
     private JTextArea getHelpText() {
         if (helpText == null) {
             helpText = UIUtils.getHelpTextArea("Fine tune which source " +
-                    "files you want instrumented by Clover. Specify Ant style " +
-                    "patternsets to include or exclude particular source files " +
+                    "files you want instrumented by OpenClover. Specify Ant style " +
+                    "pattern sets to include or exclude particular source files " +
                     "(comma or space separated).",
                                                getBackground(), getFont());
         }
@@ -149,7 +149,7 @@ public class InstrumentationConfigPanel extends ConfigPanel implements ActionLis
         if (instrumentLambdaCombo == null) {
             instrumentLambdaCombo = new ComboBox(ArrayUtil.toLowerCaseStringArray(LambdaInstrumentation.values()), 100);
             instrumentLambdaCombo.setToolTipText(
-                    "<html><body>Select whether lambda functions introduced in Java8 shall be instrumented by Clover so that you can track <br/>" +
+                    "<html><body>Select whether lambda functions introduced in Java8 shall be instrumented by OpenClover so that you can track <br/>" +
                     "code coverage for them and show them in reports similarly as normal methods. <br/>" +
                     "You can also limit instrumentation to certain forms of lambda functions: <br/>" +
                     " <li> written as expressions, e.g. '(a + b) -> a + b' </li>" +

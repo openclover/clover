@@ -9,6 +9,8 @@ import org.eclipse.swt.graphics.Point;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.ui.CloverPluginIcons;
 
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+
 public abstract class CloveredProjectImageDescriptor extends CompositeImageDescriptor {
     private final ImageDescriptor originalImage;
 
@@ -58,7 +60,7 @@ public abstract class CloveredProjectImageDescriptor extends CompositeImageDescr
                 }
             }
         } catch (CoreException e) {
-            CloverPlugin.logError("Error determining Clovered project icon", e);
+            logError("Error determining Clovered project icon", e);
         }
 
         return imageDescriptor;

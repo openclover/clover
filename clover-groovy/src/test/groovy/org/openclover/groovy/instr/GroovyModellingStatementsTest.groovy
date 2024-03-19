@@ -11,7 +11,7 @@ import org.openclover.core.registry.entities.FullFileInfo
 import org.openclover.groovy.test.junit.Result
 
 /**
- * Integration tests that detect if the correct Clover model is generated for given Groovy code.
+ * Integration tests that detect if the correct OpenClover model is generated for given Groovy code.
  **/
 @CompileStatic
 class GroovyModellingStatementsTest extends TestBase {
@@ -53,9 +53,9 @@ class GroovyModellingStatementsTest extends TestBase {
 
     void testAnonymousInnerClassInstr() {
         instrumentAndCompileWithGrover(
-                ["com/atlassian/foo/bar/Foo.groovy":
+                ["org/openclover/foo/bar/Foo.groovy":
                          """
-              package com.atlassian.foo.bar
+              package org.openclover.foo.bar
 
               new java.util.Timer().schedule(new java.util.TimerTask() {
                   def foo = Boolean.getBoolean('foo') ? new Object() : 2
@@ -68,12 +68,12 @@ class GroovyModellingStatementsTest extends TestBase {
             """])
 
         assertRegistry db, { Clover2Registry reg ->
-            assertPackage reg.model.project, named("com.atlassian.foo.bar"), { PackageInfo p ->
-                (p.path == "com/atlassian/foo/bar/") &&
+            assertPackage reg.model.project, named("org.openclover.foo.bar"), { PackageInfo p ->
+                (p.path == "org/openclover/foo/bar/") &&
                         assertFile(p, named("Foo.groovy")) { FullFileInfo f ->
-                            (f.packagePath == "com/atlassian/foo/bar/Foo.groovy") &&
+                            (f.packagePath == "org/openclover/foo/bar/Foo.groovy") &&
                                     assertClass(f, named("script@Foo.groovy")) { FullClassInfo c ->
-                                        (c.qualifiedName == "com.atlassian.foo.bar.script@Foo.groovy") &&
+                                        (c.qualifiedName == "org.openclover.foo.bar.script@Foo.groovy") &&
                                                 assertMethod(c, simplyNamed("script")) { MethodInfo m ->
                                                     assertEquals("there should be three statements including one in the inner class's method", 3, m.statements.size())
                                                     assertEquals("there should be one branch, the one in the field of the inner class", 1, m.branches.size())

@@ -17,31 +17,31 @@ class CloverInstrTaskTest extends CloverBuildFileTestBase {
     }
 
     void testSimpleFileset() {
-        expectLogContaining("simpleFileset", "Clover all over. Instrumented 5 files")
+        expectLogContaining("simpleFileset", "OpenClover instrumented 5 files")
     }
 
     void testSimpleSrc() {
-        expectLogContaining("simpleSrc", "Clover all over. Instrumented 5 files")
-        expectLogContaining("simpleSrcLongName", "Clover all over. Instrumented 5 files")
+        expectLogContaining("simpleSrc", "OpenClover instrumented 5 files")
+        expectLogContaining("simpleSrcLongName", "OpenClover instrumented 5 files")
     }
 
     void testSimpleTestSrc() {
-        expectLogContaining("simpleTestSrc", "Clover all over. Instrumented 5 files")
+        expectLogContaining("simpleTestSrc", "OpenClover instrumented 5 files")
         assertTrue(getFullLog().contains("26 test methods detected"))
     }
 
     void testIntersectingTestSrc() {
-        expectLogContaining("intersectingTestSrc", "Clover all over. Instrumented 5 files")
+        expectLogContaining("intersectingTestSrc", "OpenClover instrumented 5 files")
         assertTrue(getFullLog().contains("27 test methods detected"))
     }
 
     void testSimpleTestFileSet() {
-        expectLogContaining("simpleTestFileSet", "Clover all over. Instrumented 2 files")
+        expectLogContaining("simpleTestFileSet", "OpenClover instrumented 2 files")
         assertTrue(getFullLog().contains("27 test methods detected"))
     }
 
     void testCustomTestFileSet() {
-        expectLogContaining("customTestFileSet", "Clover all over. Instrumented 2 files")
+        expectLogContaining("customTestFileSet", "OpenClover instrumented 2 files")
         assertTrue(getFullLog().contains("9 test methods detected"))
     }
 
@@ -50,7 +50,7 @@ class CloverInstrTaskTest extends CloverBuildFileTestBase {
     }
     
     void testContextDefs() {
-        expectLogContaining("contextDefs", "Clover all over. Instrumented 5 files")
+        expectLogContaining("contextDefs", "OpenClover instrumented 5 files")
         assertTrue(getFullLog().contains("Method context match, line 53, id=property"))
         assertTrue(getFullLog().contains("Method context match, line 74, id=toString"))
         assertTrue(getFullLog().contains("Method context match, line 74, id=lowCmp"))

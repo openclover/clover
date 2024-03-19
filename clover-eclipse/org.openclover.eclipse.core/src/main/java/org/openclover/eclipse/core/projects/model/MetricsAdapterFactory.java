@@ -20,6 +20,8 @@ import org.openclover.core.registry.metrics.ProjectMetrics;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
 
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+
 /**
  * Adapts IProject, IPackageFragment, ICompilationUnit and IType
  * to HasMetrics and BlockMetrics classes.
@@ -76,7 +78,7 @@ import org.openclover.eclipse.core.projects.CloverProject;
                  return cloverProject == null ? null : cloverProject.getModel().getTestCaseInfos((IMethod)adaptee, scope);
              }
          } catch (Exception e) {
-             CloverPlugin.logError("Unable to adapt " + adaptee + " to " + clazz.getName(), e);
+             logError("Unable to adapt " + adaptee + " to " + clazz.getName(), e);
          }
          return null;
      }

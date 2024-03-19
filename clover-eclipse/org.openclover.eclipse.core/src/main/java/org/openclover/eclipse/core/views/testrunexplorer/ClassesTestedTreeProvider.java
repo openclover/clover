@@ -44,6 +44,7 @@ import static org.openclover.core.util.Lists.newArrayList;
 import static org.openclover.core.util.Lists.newLinkedList;
 import static org.openclover.core.util.Maps.newHashMap;
 import static org.openclover.core.util.Sets.newHashSet;
+import static org.openclover.eclipse.core.CloverPlugin.logError;
 
 public class ClassesTestedTreeProvider
     extends WorkbenchContentProvider
@@ -85,7 +86,7 @@ public class ClassesTestedTreeProvider
             }
             return classes.toArray();
         } catch (CoreException e) {
-            CloverPlugin.logError("Unable to find tested methods for " + parent, e);
+            logError("Unable to find tested methods for " + parent, e);
         }
         return new Object[] {};
     }
@@ -122,7 +123,7 @@ public class ClassesTestedTreeProvider
                             testedClassInfos);
                     }
                 } catch (Exception e) {
-                    CloverPlugin.logError("Unable to calculate classes tested", e);
+                    logError("Unable to calculate classes tested", e);
                 }
 
                 //We don't really want to collect, just visit
@@ -232,7 +233,7 @@ public class ClassesTestedTreeProvider
                 return collectTestedMethodsFor((IType)classContributionNode.getElement(), classContributionNode.getTestHits(), classContributionNode.getUniqueTestHits()).toArray();
             }
         } catch (CoreException e) {
-            CloverPlugin.logError("Unable to calculate methods tested", e);
+            logError("Unable to calculate methods tested", e);
         }
         return new Object[] {};
     }

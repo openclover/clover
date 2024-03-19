@@ -25,7 +25,7 @@ import java.net.URL;
  */
 public class LibrarySupport {
 
-    public static final String LIBRARY_NAME = "Clover IDEA Plugin";
+    public static final String LIBRARY_NAME = "OpenClover IDEA Plugin";
 
     private static final Logger LOG = Logger.getInstance(LibrarySupport.class.getName());
 
@@ -101,7 +101,7 @@ public class LibrarySupport {
                 // VirtualFileManager.refreshAndFindFileByUrl must run inside a write action
                 final VirtualFile[] vf = new VirtualFile[1];
                 MiscUtils.invokeWriteActionAndWait(() -> {
-                    LOG.debug("Clover: VfsUtil.findFileByURL(\"" + targetUrl + "\") returned null. Refreshing VFS.");
+                    LOG.debug("OpenClover: VfsUtil.findFileByURL(\"" + targetUrl + "\") returned null. Refreshing VFS.");
                     // VirtualFileManager expects "file:///path/to/clover.jar" and not "file:/path/to/clover.jar"
                     String targetUrlFix = targetUrl.toString().replace("file:/", "file:///");
                     vf[0] = VirtualFileManager.getInstance().refreshAndFindFileByUrl(targetUrlFix);
@@ -109,7 +109,7 @@ public class LibrarySupport {
                 targetVf = vf[0];
 
                 if (targetVf == null) {
-                    LOG.info("Failed to locate Clover JAR '" + targetUrl + "'.");
+                    LOG.info("Failed to locate OpenClover JAR '" + targetUrl + "'.");
                 }
             }
             return targetVf;

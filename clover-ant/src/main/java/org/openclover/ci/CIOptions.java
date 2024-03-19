@@ -12,8 +12,6 @@ public class CIOptions implements Serializable {
     private final boolean xml;
 
     private final boolean historical;
-    private final String licenseCert;
-    private final File license;
     private final File historyDir;
     private final boolean fullClean;
     private final boolean putValuesInQuotes;
@@ -23,8 +21,6 @@ public class CIOptions implements Serializable {
         this.html = builder.html;
         this.json = builder.json;
         this.historical = builder.historical;
-        this.licenseCert = builder.licenseCert;
-        this.license = builder.license;
         this.historyDir = builder.historyDir;
         this.fullClean = builder.fullClean;
         this.pdf = builder.pdf;
@@ -42,14 +38,6 @@ public class CIOptions implements Serializable {
 
     public boolean isJson() {
         return json;
-    }
-
-    public String getLicenseCert() {
-        return licenseCert;
-    }
-
-    public File getLicense() {
-        return license;
     }
 
     public File getHistoryDir() {
@@ -88,8 +76,6 @@ public class CIOptions implements Serializable {
         private boolean pdf = false;
         private boolean xml = true;
         private boolean historical = false;
-        private String licenseCert = null;
-        private File license = null;
         private File historyDir = null;
         private boolean fullClean = false;
         private boolean putValuesInQuotes = false;
@@ -136,29 +122,6 @@ public class CIOptions implements Serializable {
             this.historical = historical;
             return this;
         }
-
-        /**
-         * Use the given Clover license String for the build.
-         *
-         * @param licenseCert the license cert (including newline chars) to use
-         * @return Builder this
-         */
-        public Builder licenseCert(String licenseCert) {
-            this.licenseCert = licenseCert;
-            return this;
-        }
-
-        /**
-         * Use the given Clover license Path for the build.
-         *
-         * @param license a file representing the clover license
-         * @return Builder this
-         */
-        public Builder license(File license) {
-            this.license = license;
-            return this;
-        }
-
 
         /**
          * Use the given history directory to store Clover artifacts which are needed by Clover between builds.
@@ -224,14 +187,11 @@ public class CIOptions implements Serializable {
                     ", pdf=" + pdf +
                     ", xml=" + xml +
                     ", historical=" + historical +
-                    ", licenseCert='" + licenseCert + "'" +
-                    ", license='" + license + "'" +
                     ", historyDir='" + historyDir + "'" +
                     ", fullClean=" + fullClean +
                     ", putValuesInQuotes=" + putValuesInQuotes +
                     '}';
         }
     }
-
 
 }

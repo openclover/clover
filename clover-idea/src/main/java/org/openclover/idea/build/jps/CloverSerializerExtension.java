@@ -82,9 +82,9 @@ public class CloverSerializerExtension extends JpsModelSerializerExtension {
 
             // attach to module metadata
             module.getContainer().setChild(CloverModuleConfigurationRole.INSTANCE, simpleElement);
-            LOG.debug("Clover: attaching module settings (isExcluded=" + isExcluded + ") to module " + module.getName());
+            LOG.debug("OpenClover: attaching module settings (isExcluded=" + isExcluded + ") to module " + module.getName());
         } else {
-            LOG.debug("Clover: unsupported module type: " + module.getModuleType() + ", skipping.");
+            LOG.debug("OpenClover: unsupported module type: " + module.getModuleType() + ", skipping.");
         }
     }
 }

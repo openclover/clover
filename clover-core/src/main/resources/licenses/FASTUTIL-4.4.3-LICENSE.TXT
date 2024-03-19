@@ -3,7 +3,7 @@ Modified by Atlassian
 
 The binary file of the original library has been modified by Atlassian in such way that classes have changed
 their package names from 'it.unimi.dsi.fastutil' to 'clover.it.unimi.dsi.fastutil'. This was necessary to
-avoid potential name conflicts during instrumentation of a code using the original library when using Clover.
+avoid potential name conflicts during instrumentation of a code using the original library when using OpenClover.
 No source code of the original library was modified.
 ============================================================================================================
 

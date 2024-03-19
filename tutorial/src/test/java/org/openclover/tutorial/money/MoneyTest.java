@@ -1,4 +1,4 @@
-package com.atlassian.samples.money;
+package org.openclover.tutorial.money;
 
 import org.junit.Test;
 
@@ -15,7 +15,7 @@ public class MoneyTest {
         Money tenEuro = new Money(10, "EURO");
         assertEquals(10, tenEuro.amount());
         assertEquals("EURO", tenEuro.currency());
-        System.out.println("Tests taking too long? Try Clover's test optimization.");
+        System.out.println("Tests taking too long? Try OpenClover's test optimization.");
         Thread.sleep(1000);
     }
     

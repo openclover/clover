@@ -21,6 +21,7 @@ import org.openclover.eclipse.core.settings.InstallationSettings;
 import java.util.List;
 
 import static org.openclover.core.util.Lists.newArrayList;
+import static org.openclover.eclipse.core.CloverPlugin.logError;
 
 public class EditorCoverageSynchronizer implements IWindowListener, IPartListener2, IDisposable {
     private IWorkbench workbench;
@@ -91,7 +92,7 @@ public class EditorCoverageSynchronizer implements IWindowListener, IPartListene
         try {
             stopJob.join();
         } catch (InterruptedException e) {
-            CloverPlugin.logError("Failed to join on coverage synchronizer shutdown job", e);
+            logError("Failed to join on coverage synchronizer shutdown job", e);
         }
     }
 

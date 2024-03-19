@@ -59,7 +59,7 @@ public class FileUtils {
                 System.getProperty(JAVA_IO_TMPDIR));
         if (property == null) {
             throw new RuntimeException("The " + JAVA_IO_TMPDIR +
-                    " system property is not set. Please ensure this property is set before executing Clover.");
+                    " system property is not set. Please ensure this property is set before executing OpenClover.");
         } else {
             return new File(property);
         }

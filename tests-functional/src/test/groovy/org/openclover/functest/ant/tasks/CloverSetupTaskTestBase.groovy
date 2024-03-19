@@ -57,7 +57,7 @@ abstract class CloverSetupTaskTestBase {
     }
 
     /**
-     * Returns a path to directory containing Clover files (clover.db, coverage files, reports etc)
+     * Returns a path to directory containing OpenClover files (clover.db, coverage files, reports etc)
      * @return File
      */
     protected File getCloverDir() {

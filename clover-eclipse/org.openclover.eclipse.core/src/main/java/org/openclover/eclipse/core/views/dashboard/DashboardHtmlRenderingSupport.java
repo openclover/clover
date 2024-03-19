@@ -8,6 +8,8 @@ import org.openclover.eclipse.core.CloverPlugin;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+
 public class DashboardHtmlRenderingSupport extends HtmlRenderingSupportImpl {
     public static final String JAVA_METHOD_SCHEME = "javamethod";
     public static final String JAVA_CLASS_SCHEME = "javaclass";
@@ -35,7 +37,7 @@ public class DashboardHtmlRenderingSupport extends HtmlRenderingSupportImpl {
             final URI uri = new URI(scheme, null, "/" + path, String.valueOf(line) + '_' + column);
             return uri.toString();
         } catch (final URISyntaxException e) {
-            CloverPlugin.logError("Cannot create URI", e);
+            logError("Cannot create URI", e);
             return "";
         }
     }

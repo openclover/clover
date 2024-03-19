@@ -24,7 +24,7 @@
         <totalPercentageCovered format="longbar"/>
     </clover-columns>
 
-    <target name="with.clover" description="Enables Clover on this build">
+    <target name="with.clover" description="Enables OpenClover on this build">
         <clover-setup flushpolicy="${clover.flushpolicy}" flushinterval="${clover.flushinterval}"/>
     </target>
 

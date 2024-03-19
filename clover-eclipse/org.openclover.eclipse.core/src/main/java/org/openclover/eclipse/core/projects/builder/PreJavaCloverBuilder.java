@@ -10,12 +10,15 @@ import org.openclover.eclipse.core.projects.CloverProject;
 import java.util.Date;
 import java.util.Map;
 
+import static org.openclover.eclipse.core.CloverPlugin.logVerbose;
+import static org.openclover.eclipse.core.CloverPlugin.logWarning;
+
 public class PreJavaCloverBuilder extends BaseCloverBuilder {
     public static final String ID = CloverPlugin.ID + ".prejavabuilder";
 
     @Override
     protected IProject[] build(int kind, Map args, IProgressMonitor monitor) throws CoreException {
-        CloverPlugin.logVerbose("----CLOVER: PRE JAVA BUILDER (" + kindToString(kind) + "): " + new Date() + "----");
+        logVerbose("----OPENCLOVER: PRE JAVA BUILDER (" + kindToString(kind) + "): " + new Date() + "----");
         Markers.deleteCloverBuilderErrorMarkers(getProject());
 
         //If instrumentation is turned off (project driven by Maven/Ant, user turning Clover off for a while)
@@ -31,17 +34,17 @@ public class PreJavaCloverBuilder extends BaseCloverBuilder {
 
     @Override
     protected void clean(IProgressMonitor monitor) throws CoreException {
-        CloverPlugin.logVerbose("----CLOVER: PRE JAVA BUILDER CLEAN: " + new Date() + "----");
+        logVerbose("----OPENCLOVER: PRE JAVA BUILDER CLEAN: " + new Date() + "----");
         CloverProject targetProject = CloverProject.getFor(getProject());
 
         if (targetProject != null) {
             if (!targetProject.getSettings().isInstrumentationEnabled()) {
-                CloverPlugin.logVerbose("PreJavaCloverBuilder: not cleaning as Clover compilation not enabled");
+                logVerbose("PreJavaCloverBuilder: not cleaning as OpenClover compilation not enabled");
             } else {
                 targetProject.getBuildCoordinator().onClean(monitor);
             }
         } else {
-            CloverPlugin.logWarning("PreJavaCloverBuilder: not cleaning as user project no longer open");
+            logWarning("PreJavaCloverBuilder: not cleaning as user project no longer open");
         }
     }
 }

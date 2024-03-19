@@ -37,6 +37,9 @@ import org.openclover.eclipse.core.ui.widgets.ContextFilterModificationWidget;
 
 import java.util.List;
 
+import static org.openclover.eclipse.core.CloverPlugin.logDebug;
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+
 public class ProjectPropertyPage extends BaseSettingsPage implements IWorkbenchPropertyPage {
     public static final String ID = CloverPlugin.ID + ".properties.cloverProjectPropertyPage";
     private static final QualifiedName LAST_SELECTED_TAB_KEY = new QualifiedName(ID, "lastSelectedTab");
@@ -49,7 +52,7 @@ public class ProjectPropertyPage extends BaseSettingsPage implements IWorkbenchP
         try {
             return panel = new Panel(composite, this);
         } catch (CoreException e) {
-            CloverPlugin.logError("Error creating project properties panel", e);
+            logError("Error creating project properties panel", e);
             return null;
         }
     }
@@ -128,7 +131,7 @@ public class ProjectPropertyPage extends BaseSettingsPage implements IWorkbenchP
                 enableButton.setSelection(CloverProject.isAppliedTo(project));
                 tabFolder.setEnabled(enableButton.getSelection());
             } catch (CoreException e) {
-                CloverPlugin.logError("Error initialising project properties panel", e);
+                logError("Error initialising project properties panel", e);
                 throw e;
             }
         }
@@ -279,12 +282,12 @@ public class ProjectPropertyPage extends BaseSettingsPage implements IWorkbenchP
                         try {
                             properties.getProject().build(IncrementalProjectBuilder.CLEAN_BUILD, null);
                         } catch (CoreException e) {
-                            CloverPlugin.logError("Unable to rebuild project", e);
+                            logError("Unable to rebuild project", e);
                         }
                     }
 
                 } catch (CoreException e) {
-                    CloverPlugin.logError("Error applying properties", e);
+                    logError("Error applying properties", e);
                     setMessage(CloverEclipsePluginMessages.ERROR_UNEXPECTED_WHILE_APPLY_PROPERTIES());
                     return false;
                 }
@@ -343,12 +346,12 @@ public class ProjectPropertyPage extends BaseSettingsPage implements IWorkbenchP
                         path = Path.fromOSString(instrumentationComposite.getCustomOutputDir());
                         packageFragment = project.findPackageFragment(project.getPath().append(path));
                     } catch (JavaModelException ex) {
-                        CloverPlugin.logError("Error applying properties", ex);
+                        logError("Error applying properties", ex);
                         setMessage(CloverEclipsePluginMessages.ERROR_UNEXPECTED_WHILE_CUSTOM_OUTPUT_DIR());
                         return false;
                     }
                     if (packageFragment != null) {
-                        CloverPlugin.logDebug(CloverEclipsePluginMessages.ERROR_OUTPUT_FOLDER_HAS_SOURCES(path.toString(), packageFragment.getElementName()));
+                        logDebug(CloverEclipsePluginMessages.ERROR_OUTPUT_FOLDER_HAS_SOURCES(path.toString(), packageFragment.getElementName()));
                         setMessage(CloverEclipsePluginMessages.ERROR_OUTPUT_FOLDER_HAS_SOURCES(), IMessageProvider.ERROR);
                         break errorWithValue;
                     }

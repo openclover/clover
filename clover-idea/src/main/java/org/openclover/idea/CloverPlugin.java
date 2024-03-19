@@ -106,7 +106,7 @@ public class CloverPlugin implements ApplicationComponent, PersistentStateCompon
     @Override
     @NotNull
     public String getComponentName() {
-        return "Clover";
+        return "OpenClover";
     }
 
     /**

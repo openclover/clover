@@ -19,6 +19,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+import static org.openclover.eclipse.core.CloverPlugin.logVerbose;
+
 public abstract class BaseToggleActionDelegate extends BaseActionDelegate {
 
     @Override
@@ -60,7 +63,7 @@ public abstract class BaseToggleActionDelegate extends BaseActionDelegate {
         
         IWorkspaceRunnable runnable = progressMonitor -> {
             IJavaElement javaElement = selectedElement.getJavaElement();
-            CloverPlugin.logVerbose("Requesting rebuild of " + javaElement.getElementName());
+            logVerbose("Requesting rebuild of " + javaElement.getElementName());
             if (selectedElement.isLeaf()) {
                 javaElement.getResource().touch(progressMonitor);
             } else {
@@ -89,7 +92,7 @@ public abstract class BaseToggleActionDelegate extends BaseActionDelegate {
         try {
             ResourcesPlugin.getWorkspace().run(runnable, null);
         } catch (CoreException e) {
-            CloverPlugin.logError("Error touching resource " + selectedElement.getJavaElement().getElementName(), e);
+            logError("Error touching resource " + selectedElement.getJavaElement().getElementName(), e);
         }
 
     }

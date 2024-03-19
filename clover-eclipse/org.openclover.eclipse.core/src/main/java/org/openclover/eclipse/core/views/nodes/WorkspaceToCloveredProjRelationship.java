@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import static org.openclover.core.util.Lists.newArrayList;
+import static org.openclover.eclipse.core.CloverPlugin.logError;
 
 /**
  * Collectes the children of IWorkspace nodes as IProject nodes
@@ -29,7 +30,7 @@ public class WorkspaceToCloveredProjRelationship extends NodeRelationship {
             }
             return filter.perform(projects);
         } catch (Exception e) {
-            CloverPlugin.logError("Unable to retrieve children for parent " + object, e);
+            logError("Unable to retrieve children for parent " + object, e);
         }
         return new Object[] {};
     }

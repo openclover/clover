@@ -19,6 +19,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+import static org.openclover.eclipse.core.CloverPlugin.logVerbose;
+
 public class LoadDatabaseJob extends Job {
     private static final QualifiedName DATABASE_PROPERTY = new QualifiedName(CloverPlugin.ID, "database");
 
@@ -45,7 +48,7 @@ public class LoadDatabaseJob extends Job {
     protected final ContextSet contextFilter;
 
     public LoadDatabaseJob(CloverProject project, CoverageModelChangeEvent changeEvent) {
-        this("Loading Clover database for project " + project.getName(), project, changeEvent);
+        this("Loading OpenClover database for project " + project.getName(), project, changeEvent);
     }
 
     protected LoadDatabaseJob(String description, CloverProject project, CoverageModelChangeEvent changeEvent) {
@@ -87,7 +90,7 @@ public class LoadDatabaseJob extends Job {
 
     public IStatus doLoad(IProgressMonitor monitor) {
         if (hasRun.compareAndSet(false, true)) {
-            CloverPlugin.logVerbose("Loading coverage for project " + project.getName());
+            logVerbose("Loading coverage for project " + project.getName());
             ProjectSettings settings = project.getSettings();
             try {
                 File registryFile = project.getRegistryFile();
@@ -101,13 +104,13 @@ public class LoadDatabaseJob extends Job {
                 try {
                     setDatabase(loadCoverage(createNewDb(true, monitor), monitor));
                 } catch (Exception e) {
-                    CloverPlugin.logError("Failed to create a fresh database after failing to load", e);
+                    logError("Failed to create a fresh database after failing to load", e);
                 }
                 status = new Status(
                     Status.WARNING,
                     CloverPlugin.ID,
                     LOAD_FAILED,
-                    "Background job: failed to load Clover database for project " + project.getName(),
+                    "Background job: failed to load OpenClover database for project " + project.getName(),
                     t);
             }
         }
@@ -135,7 +138,7 @@ public class LoadDatabaseJob extends Job {
 
     protected CloverDatabase loadCoverage(CloverDatabase database, IProgressMonitor monitor) throws CloverException {
         database.loadCoverageData(project.newCoverageDataSpec(database));
-        CloverPlugin.logVerbose("Finished loading database for project " + project.getName());
+        logVerbose("Finished loading database for project " + project.getName());
         return database;
     }
 
@@ -165,12 +168,12 @@ public class LoadDatabaseJob extends Job {
 
     private void postLoadDectorators(IProgressMonitor monitor, CloverDatabase database) {
         if (postLoadDecorators.length > 0) {
-            CloverPlugin.logVerbose("Executing post-load decorators for project " + project.getName());
+            logVerbose("Executing post-load decorators for project " + project.getName());
             for (DatabasePostLoadDecorator postLoadDecorator : postLoadDecorators) {
                 try {
                     postLoadDecorator.decorate(project, database, monitor);
                 } catch (Exception e) {
-                    CloverPlugin.logError("Failed executing post-load decotrator " + postLoadDecorator);
+                    logError("Failed executing post-load decotrator " + postLoadDecorator);
                 }
             }
         }
@@ -178,12 +181,12 @@ public class LoadDatabaseJob extends Job {
 
     private void preLoadDecorators(IProgressMonitor monitor) {
         if (preLoadDecorators.length > 0) {
-            CloverPlugin.logVerbose("Executing pre-load decorators for project " + project.getName());
+            logVerbose("Executing pre-load decorators for project " + project.getName());
             for (DatabasePreLoadDecorator preLoadDecorator : preLoadDecorators) {
                 try {
                     preLoadDecorator.decorate(project, monitor);
                 } catch (Exception e) {
-                    CloverPlugin.logError("Failed executing pre-load decotrator " + preLoadDecorator);
+                    logError("Failed executing pre-load decotrator " + preLoadDecorator);
                 }
             }
         }

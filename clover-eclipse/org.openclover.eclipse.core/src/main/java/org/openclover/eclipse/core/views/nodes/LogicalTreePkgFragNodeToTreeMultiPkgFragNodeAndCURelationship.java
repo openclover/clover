@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.openclover.core.util.Lists.newLinkedList;
+import static org.openclover.eclipse.core.CloverPlugin.logError;
 
 public class LogicalTreePkgFragNodeToTreeMultiPkgFragNodeAndCURelationship extends NodeRelationship {
     @Override
@@ -50,7 +51,7 @@ public class LogicalTreePkgFragNodeToTreeMultiPkgFragNodeAndCURelationship exten
 
             return filter.perform(children);
         } catch (Exception e) {
-            CloverPlugin.logError("Unable to meta-collect compilation units of package fragment " + object, e);
+            logError("Unable to meta-collect compilation units of package fragment " + object, e);
             return new Object[] {};
         }
     }

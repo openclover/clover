@@ -31,6 +31,7 @@ import java.util.Set;
 
 import static org.openclover.core.util.Lists.newLinkedList;
 import static org.openclover.core.util.Sets.newHashSet;
+import static org.openclover.eclipse.core.CloverPlugin.logAndThrowError;
 
 public abstract class CloveredLauncherDelegate
     implements ILaunchConfigurationDelegate2, IExecutableExtension {
@@ -48,7 +49,7 @@ public abstract class CloveredLauncherDelegate
         ILaunchConfigurationType type = DebugPlugin.getDefault().getLaunchManager().getLaunchConfigurationType(launchType);
 
         if (type == null) {
-            throw CloverPlugin.logAndThrowError("Unknown launch type " + launchType);
+            throw logAndThrowError("Unknown launch type " + launchType);
         } else {
             // TODO: we may have multiple delegates, we're picking up a first one right now
             ILaunchDelegate[] delegates = type.getDelegates(newHashSet(ILaunchManager.RUN_MODE));

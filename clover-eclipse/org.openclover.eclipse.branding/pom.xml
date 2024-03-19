@@ -9,7 +9,7 @@
     <artifactId>org.openclover.eclipse.branding</artifactId>
     <name>OpenClover Eclipse Branding</name>
     <description>
-        This is one of the main *plugins* for Clover. It is essentially empty except
+        This is one of the main *plugins* for OpenClover. It is essentially empty except
         that it contains branding resources (about.*) so that the "OpenClover Core" feature is
         listed in Eclipse's about dialog box.
     </description>

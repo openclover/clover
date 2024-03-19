@@ -17,6 +17,7 @@ import java.util.Set;
 
 import static org.openclover.core.util.Lists.newLinkedList;
 import static org.openclover.core.util.Sets.newLinkedHashSet;
+import static org.openclover.eclipse.core.CloverPlugin.logError;
 
 public class PkgFragToTypeRelationship extends NodeRelationship {
     @Override
@@ -33,7 +34,7 @@ public class PkgFragToTypeRelationship extends NodeRelationship {
 
             return filter.perform(compilationUnits);
         } catch (Exception e) {
-            CloverPlugin.logError("Unable to meta-collect compilation units of package fragment " + object, e);
+            logError("Unable to meta-collect compilation units of package fragment " + object, e);
             return new Object[] {};
         }
     }

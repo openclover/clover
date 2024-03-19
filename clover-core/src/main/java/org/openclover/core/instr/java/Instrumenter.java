@@ -271,7 +271,7 @@ public class Instrumenter {
             double secs = (double)(session.getEndTS() - session.getStartTs())/1000;
 
             int pkgs = packages.size();
-            log.info("Clover all over. Instrumented "
+            log.info("OpenClover instrumented "
                     + numFiles + Formatting.pluralizedWord(numFiles, " file")
                     + " ("+ pkgs + Formatting.pluralizedWord(pkgs, " package")
                     + ").");

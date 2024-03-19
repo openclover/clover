@@ -100,11 +100,11 @@ public class CloverSetupTask extends AbstractInstrTask {
         try {
             final AntInstrumentationConfig existingCfg = AntInstrumentationConfig.getFrom(getProject());
             if (existingCfg != null) {
-                Logger.getInstance().debug("Existing Clover configuration found with initstring \"" + existingCfg.getInitString() + "\". Overriding.");
+                Logger.getInstance().debug("Existing OpenClover configuration found with initstring \"" + existingCfg.getInitString() + "\". Overriding.");
             }
         }
         catch (ClassCastException e) {
-            Logger.getInstance().warn("Clover error: Unknown type for reference " + CloverNames.PROP_CONFIG + ": ", e);
+            Logger.getInstance().warn("OpenClover error: Unknown type for reference " + CloverNames.PROP_CONFIG + ": ", e);
         }
 
         String existingBuildCompiler = getProject().getProperty(BUILD_COMPILER);
@@ -121,14 +121,14 @@ public class CloverSetupTask extends AbstractInstrTask {
         GroovycSupport.ensureAddedTo(getProject());
 
         if (!config.isEnabled()) {
-            getProject().log("Clover is disabled.");
+            getProject().log("OpenClover is disabled.");
             return;
         }
 
         // try to resolve the initstring
         String runtimeInitString = getRuntimeInitString();
 
-        Logger.getInstance().info("Clover is enabled with initstring '" + runtimeInitString + "'");
+        Logger.getInstance().info("OpenClover is enabled with initstring '" + runtimeInitString + "'");
 
         String buildCompiler = getProject().getProperty(BUILD_COMPILER);
 
@@ -140,7 +140,7 @@ public class CloverSetupTask extends AbstractInstrTask {
         getProject().setProperty(CloverNames.PROP_INITSTRING, runtimeInitString);
 
         if (config.getCompilerDelegate() != null && config.getCompilerDelegate().equals(CLOVER_ADAPTER)) {
-            throw new BuildException("You cannot set clovercompiler to be the Clover compiler adapter. Check the" +
+            throw new BuildException("You cannot set clovercompiler to be the OpenClover compiler adapter. Check the" +
                     " value you are passing to clovercompiler, or the value of the build.compiler Ant property");
         }
 

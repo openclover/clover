@@ -9,7 +9,7 @@ import javax.swing.JComponent;
 
 public class CloverProjectConfigurable implements Configurable {
 
-    public static final String DISPLAY_NAME = "Clover (project settings)";
+    public static final String DISPLAY_NAME = "OpenClover (project settings)";
     private final IdeaCloverConfig config;
     private final Project project;
     private ProjectConfigPanel configPanel;

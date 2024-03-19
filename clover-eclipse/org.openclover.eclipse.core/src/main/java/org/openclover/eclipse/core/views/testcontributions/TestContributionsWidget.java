@@ -33,6 +33,8 @@ import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.model.ModelUtils;
 import org.openclover.eclipse.core.views.actions.OpenJavaEditorAction;
 
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+
 public abstract class TestContributionsWidget
     extends Composite
     implements IDoubleClickListener, IPersistable {
@@ -145,7 +147,7 @@ public abstract class TestContributionsWidget
                 openAction.run(new StructuredSelection(javaElement));
             }
         } catch (JavaModelException e) {
-            CloverPlugin.logError("Unable to open test case class/method", e);
+            logError("Unable to open test case class/method", e);
         }
     }
 

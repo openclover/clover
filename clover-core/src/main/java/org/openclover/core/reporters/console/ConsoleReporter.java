@@ -70,7 +70,7 @@ public class ConsoleReporter extends CloverReporter {
     }
 
     public void report(PrintWriter out, CloverDatabase db) {
-        out.print("Clover Coverage Report");
+        out.print("OpenClover Coverage Report");
         if (cfg.getTitle() != null) {
             out.println(" - " + cfg.getTitle());
         } else {
@@ -240,7 +240,6 @@ public class ConsoleReporter extends CloverReporter {
     }
 
     public static void main(String[] args) {
-        loadLicense();
         System.exit(runReport(args));
     }
 

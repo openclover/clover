@@ -45,7 +45,7 @@ public class OptimizedTestRunListener extends TestRunListener {
             try {
                 db = CloverDatabase.loadWithCoverage(initStr, new CoverageDataSpec());
             } catch (CloverException e) {
-                TestOptimizationPlugin.logInfo("Cannot load Clover database at " + initStr, e);
+                TestOptimizationPlugin.logInfo("Cannot load OpenClover database at " + initStr, e);
                 return;
             }
             Snapshot snapshot = Snapshot.loadFor(initStr);

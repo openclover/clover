@@ -343,7 +343,7 @@ public class CloverPassTask extends AbstractCloverTask {
         try {
             db = currentConfig.getCoverageDatabase();
         } catch (CloverException e) {
-            throw new BuildException("Unable to read Clover coverage database", e);
+            throw new BuildException("Unable to read OpenClover coverage database", e);
         }
 
         final ProjectInfo projectInfo = db.getModel(codeType);
@@ -409,8 +409,7 @@ public class CloverPassTask extends AbstractCloverTask {
             }
 
             if (haltOnFailure) {
-                throw new BuildException("Build failed to meet Clover "
-                        + "coverage targets: " + failMessage);
+                throw new BuildException("Build failed to meet OpenClover coverage targets: " + failMessage);
             }
         } else {
             log("Coverage check PASSED");

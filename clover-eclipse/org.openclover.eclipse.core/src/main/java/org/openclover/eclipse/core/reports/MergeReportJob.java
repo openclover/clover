@@ -42,7 +42,7 @@ public class MergeReportJob extends ForkingReportJob {
                 specs[i] = new CloverDatabaseSpec(projects[i].deriveInitString());
             }
             SubMonitor subMonitor = SubMonitor.convert(monitor, 50);
-            subMonitor.beginTask("Merging Clover databases", 100);
+            subMonitor.beginTask("Merging OpenClover databases", 100);
             try {
                 CloverDatabase.merge(newArrayList(specs), config.getInitString(), new ProgressListener() {
                     private int lastWorked;
@@ -76,7 +76,7 @@ public class MergeReportJob extends ForkingReportJob {
                     Status.ERROR,
                     CloverPlugin.ID,
                     0,
-                    "Clover failed to merge the multiple Clover databases prior to report generation", e);
+                    "OpenClover failed to merge the multiple databases prior to report generation", e);
             }
         } finally {
             monitor.done();

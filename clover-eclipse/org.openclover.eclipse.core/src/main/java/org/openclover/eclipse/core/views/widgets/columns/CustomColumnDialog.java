@@ -59,7 +59,7 @@ public class CustomColumnDialog extends TitleAreaDialog {
 
     @Override
     protected Control createDialogArea(Composite parent) {
-        setTitle("Define a custom column using the Clover expression language");
+        setTitle("Define a custom column using the OpenClover expression language");
         setMessage("Enter the column name, alignment, format and expression.");
 
         Composite composite = new Composite(parent, SWT.NONE);

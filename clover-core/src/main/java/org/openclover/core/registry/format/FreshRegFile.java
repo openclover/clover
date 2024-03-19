@@ -41,9 +41,9 @@ public class FreshRegFile extends RegFile<UpdatableRegFile> {
     private static File ensureFileAccessible(File file) throws InaccessibleRegFileException {
         final File absFile = file.getAbsoluteFile();
         if (absFile.exists() && (!absFile.canWrite() || absFile.isDirectory())) {
-            throw new InaccessibleRegFileException("Clover registry file: " + absFile .getAbsolutePath() + " already exists but cannot be overwritten or is a directory.");
+            throw new InaccessibleRegFileException("OpenClover database " + absFile .getAbsolutePath() + " already exists but cannot be overwritten or is a directory.");
         } else if (!absFile.exists() && absFile.getParentFile() != null && absFile.getParentFile().exists() && !absFile.getParentFile().canWrite()) {
-            throw new InaccessibleRegFileException("Clover registry file: " + absFile.getAbsolutePath() + " cannot be written to (parent directory doesn't exist or can't be written to).");
+            throw new InaccessibleRegFileException("OpenClover database " + absFile.getAbsolutePath() + " cannot be written to (parent directory doesn't exist or can't be written to).");
         }
         return file;
     }

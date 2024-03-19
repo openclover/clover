@@ -30,12 +30,12 @@ class InstrumentPlugin(val global: Global) extends Plugin {
         case "clover.project.name" =>
           projectName = nvp(1)
         case _ =>
-          error("Invalid Clover option: " + option)
+          error("Invalid OpenClover option: " + option)
       }
     }
 
     if (initString == null)
-      error("Clover initstring not specicified: please specify via -P:" + name + ":clover.initstring=initstring")
+      error("OpenClover initstring not specicified: please specify via -P:" + name + ":clover.initstring=initstring")
 
     println("processOptions")
   }

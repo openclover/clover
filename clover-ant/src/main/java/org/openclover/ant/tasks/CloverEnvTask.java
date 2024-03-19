@@ -44,7 +44,7 @@ public class CloverEnvTask extends Task {
     private void logEnvironment() {
         if (isDebug()) {
             Diagnostics.doReport(System.out);
-            log("Clover loaded from: " + ClassPathUtil.getCloverJarPath());
+            log("OpenClover loaded from: " + ClassPathUtil.getCloverJarPath());
             log(CloverVersionInfo.formatVersionInfo());
         }
     }

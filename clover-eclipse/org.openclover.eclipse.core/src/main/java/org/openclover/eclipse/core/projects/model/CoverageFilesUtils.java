@@ -10,7 +10,7 @@ public class CoverageFilesUtils {
         final File coverageDbFolder = coverageDbFile.getParentFile();
 
         if (coverageDbFolder.exists()) {
-            monitor.subTask("Removing Clover recording files");
+            monitor.subTask("Removing OpenClover recording files");
             FileFilter deleteFilter = pathname -> {
                 if (pathname.toString().indexOf(coverageDbFile.getPath()) == 0) {
                     return

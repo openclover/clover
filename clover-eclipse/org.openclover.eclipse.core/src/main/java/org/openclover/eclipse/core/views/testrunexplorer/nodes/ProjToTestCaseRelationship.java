@@ -10,6 +10,7 @@ import org.openclover.eclipse.core.views.nodes.NodeRelationshipFilter;
 import org.openclover.eclipse.core.views.nodes.Nodes;
 
 import static org.openclover.core.util.Lists.newLinkedList;
+import static org.openclover.eclipse.core.CloverPlugin.logError;
 
 public class ProjToTestCaseRelationship extends NodeRelationship {
     private TestCaseNodeFactory tcnFactory;
@@ -31,7 +32,7 @@ public class ProjToTestCaseRelationship extends NodeRelationship {
                             new Nodes.ToTestCaseNodeCoverter(tcnFactory)));
             }
         } catch (Exception e) {
-            CloverPlugin.logError("Unable to retrieve children for project " + object, e);
+            logError("Unable to retrieve children for project " + object, e);
         }
         return new Object[]{};
     }

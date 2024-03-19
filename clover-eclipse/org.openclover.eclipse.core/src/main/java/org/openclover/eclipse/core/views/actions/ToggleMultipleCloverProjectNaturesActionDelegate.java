@@ -16,6 +16,8 @@ import org.openclover.eclipse.core.ui.projects.widgets.ToggleCloverProjectsDialo
 
 import java.util.Set;
 
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+
 public class ToggleMultipleCloverProjectNaturesActionDelegate
     extends CloverViewActionDelegate
     implements IObjectActionDelegate {
@@ -53,7 +55,7 @@ public class ToggleMultipleCloverProjectNaturesActionDelegate
                         CloverPlugin.getInstance().showViews(getPage());
                     }
                 } catch (CoreException e) {
-                    CloverPlugin.logError("Unable to show views after toggling Clover on " + toToggle.size() + " projects", e);
+                    logError("Unable to show views after toggling OpenClover on " + toToggle.size() + " projects", e);
                 }
             }
         });

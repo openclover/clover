@@ -34,6 +34,7 @@ import java.util.Set;
 
 import static org.openclover.core.util.Lists.newArrayList;
 import static org.openclover.core.util.Sets.newHashSet;
+import static org.openclover.eclipse.core.CloverPlugin.logError;
 
 public class ToggleCloverProjectsDialog extends Dialog {
     private static final int CLOVER_PROJ_WARN_THRESHOLD = 4;
@@ -53,7 +54,7 @@ public class ToggleCloverProjectsDialog extends Dialog {
     @Override
     protected void configureShell(Shell newShell) {
         super.configureShell(newShell);
-        newShell.setText("Enable/Disable Clover on Projects");
+        newShell.setText("Enable/disable OpenClover on projects");
     }
 
     @Override
@@ -91,8 +92,8 @@ public class ToggleCloverProjectsDialog extends Dialog {
 
         Label warningLabel = new Label(warningComposite, SWT.WRAP);
         warningLabel.setText(
-            "Enabling Clover on large projects or lots of medium size projects consumes additional memory. We recommend " +
-            "you incrementally enable Clover a few projects at a time until you have " +
+            "Enabling OpenClover on large projects or lots of medium size projects consumes additional memory. We recommend " +
+            "you incrementally enable OpenClover a few projects at a time until you have " +
             "determined the maximum number your current memory settings can handle.");
         warningLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         warningLabel.setBackground(getShell().getDisplay().getSystemColor(SWT.COLOR_INFO_BACKGROUND));
@@ -100,7 +101,7 @@ public class ToggleCloverProjectsDialog extends Dialog {
         prompt = new Label(body, SWT.NONE);
         prompt.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         SwtUtils.gridDataFor(prompt).horizontalSpan = 3;
-        prompt.setText("Select the projects Clover should track code coverage for:");
+        prompt.setText("Select the projects OpenClover should track code coverage for:");
 
         SwtUtils.gridDataFor(warningComposite).widthHint = (int)(prompt.computeSize(SWT.DEFAULT, SWT.DEFAULT).x * 1.5);
         
@@ -148,7 +149,7 @@ public class ToggleCloverProjectsDialog extends Dialog {
                     item.setChecked(true);
                 }
             } catch (CoreException e) {
-                CloverPlugin.logError("Error while checking Clover-enabled and disabled projects", e);
+                logError("Error while checking OpenClover-enabled and disabled projects", e);
             }
         }
 
@@ -200,7 +201,7 @@ public class ToggleCloverProjectsDialog extends Dialog {
                     projectsToToggle.add(project);
                 }
             } catch (CoreException e) {
-                CloverPlugin.logError("Error determing projects to enable/disable", e);
+                logError("Error determing projects to enable/disable", e);
             }
         }
         super.okPressed();

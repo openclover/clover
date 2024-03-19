@@ -20,7 +20,7 @@
             <url>http://www.jdom.org/docs/faq.html</url>
         </license>
     </licenses>
-    <name>Clover JDOM Library</name>
+    <name>OpenClover JDOM Library</name>
     <!-- Repack, install and deploy only with the 'workspace-setup' profile -->
     <profiles>
         <profile>

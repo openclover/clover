@@ -53,7 +53,7 @@ public class CloverMerge {
         System.err.println("  USAGE: " + CloverMerge.class.getName() + " [OPTIONS] PARAMS [DBFILES...]");
         System.err.println();
         System.err.println("  PARAMS:");
-        System.err.println("    -i, --initstring <file>\t Clover initstring. This is the path where the new merged");
+        System.err.println("    -i, --initstring <file>\t OpenClover initstring. This is the path where the new merged");
         System.err.println("\t\t\t\t database will be written.");
         System.err.println();
         System.err.println();

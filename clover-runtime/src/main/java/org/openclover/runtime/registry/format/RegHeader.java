@@ -87,7 +87,7 @@ public class RegHeader {
             return readFrom(new StreamInputSource(registryFile.getAbsolutePath(), stream));
         } catch (EOFException e) {
             throw new CorruptedRegistryException(
-                    "The Clover registry file \"" + registryFile.getAbsolutePath() + "\" is invalid (truncated header). Please regenerate.");
+                    "The OpenClover registry file \"" + registryFile.getAbsolutePath() + "\" is invalid (truncated header). Please regenerate.");
         }
     }
 
@@ -104,7 +104,7 @@ public class RegHeader {
             return readFrom(new BufferInputSource(name, BufferUtils.readFully(channel, ByteBuffer.allocate(SIZE))));
         } catch (BufferUnderflowException e) {
             throw new CorruptedRegistryException(
-                "The Clover registry file \"" + name + "\" is invalid (truncated header). Please regenerate.");
+                "The OpenClover registry file \"" + name + "\" is invalid (truncated header). Please regenerate.");
         }
     }
 
@@ -116,13 +116,13 @@ public class RegHeader {
         final long magic = dis.getLong();
         if (REG_MAGIC != magic) {
             throw new CorruptedRegistryException(
-                "File \"" + dis.getName() + "\" is not a valid Clover registry file (file magic number invalid - expected 0x" +
+                "File \"" + dis.getName() + "\" is not a valid OpenClover registry file (file magic number invalid - expected 0x" +
                 Integer.toHexString((int)REG_MAGIC) + " but was 0x" + Integer.toHexString((int)magic) + "). Please regenerate.");
         }
         final int regFormat = dis.getInt();
         if (REG_FORMAT_VERSION != regFormat) {
             throw new IncompatibleRegistryFormatException(
-                "Clover is no longer compatible with the registry file \"" + dis.getName() +
+                "OpenClover is no longer compatible with the registry file \"" + dis.getName() +
                 "\" (format version " + regFormat + ", supported " + REG_FORMAT_VERSION + "). Please regenerate.");
         }
 
@@ -140,7 +140,7 @@ public class RegHeader {
 
         if (dis.getLong() != checksum.getValue()) {
             throw new CorruptedRegistryException(
-                "Clover registry File \"" + dis.getName() + "\" may have been corrupted (header checksum incorrect). Please regenerate.");
+                "OpenClover registry File \"" + dis.getName() + "\" may have been corrupted (header checksum incorrect). Please regenerate.");
         }
 
         return new RegHeader(RegAccessMode.getFor(mode), version, slotCount, coverageLocation, lastSessionLocation, new String(name).trim());

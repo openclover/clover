@@ -31,6 +31,9 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import static org.openclover.core.util.Sets.newHashSet;
+import static org.openclover.eclipse.core.CloverPlugin.logDebug;
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+import static org.openclover.eclipse.core.CloverPlugin.logVerbose;
 
 public class ProjectSettings extends Settings {
     public static final String DEFAULT_INCLUDE_PATTERN = "**/*.java";
@@ -296,7 +299,7 @@ public class ProjectSettings extends Settings {
                     reg.addStatementContext(new StatementRegexpContext(entry.getName(), Pattern.compile(entry.getRegexp())));
                 }
             } catch (Exception e) {
-                CloverPlugin.logError("Unable to load regex entry " + entry.getName(), e);
+                logError("Unable to load regex entry " + entry.getName(), e);
             }
         }
         return reg;
@@ -452,7 +455,7 @@ public class ProjectSettings extends Settings {
                     project.getProject().setPersistentProperty(qualifiedName, null);
                 }
             } catch (CoreException e) {
-                CloverPlugin.logError("Unable to migrate project setting " + key, e);
+                logError("Unable to migrate project setting " + key, e);
             }
         }
 
@@ -468,7 +471,7 @@ public class ProjectSettings extends Settings {
                     project.getProject().setPersistentProperty(qualifiedName, null);
                 }
             } catch (CoreException e) {
-                CloverPlugin.logError("Unable to migrate project setting " + indexedKey, e);
+                logError("Unable to migrate project setting " + indexedKey, e);
             }
         } while (value != null);
 
@@ -501,7 +504,7 @@ public class ProjectSettings extends Settings {
             }
 
             String str = marshaller.marshall(list.get(i));
-            CloverPlugin.logVerbose("Storing project property data:'" + str + "'", null);
+            logVerbose("Storing project property data:'" + str + "'", null);
             setValue(indexedKey, str);
         }
     }
@@ -520,7 +523,7 @@ public class ProjectSettings extends Settings {
 
             final T ctx = marshaller.unmarshall(data);
 
-            CloverPlugin.logDebug("converted '" + data + "' to " + ctx, null);
+            logDebug("converted '" + data + "' to " + ctx, null);
             if (ctx != null) {
                 property.add(ctx);
             }

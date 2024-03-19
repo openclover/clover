@@ -26,7 +26,7 @@ public class DeleteAction extends AnAction {
                 ToolWindowManager.getInstance(project).notifyByBalloon(
                         CloverToolWindowId.TOOL_WINDOW_ID,
                         MessageType.WARNING,
-                        "Clover was unable to delete the coverage database. <br/>"
+                        "OpenClover was unable to delete the coverage database. <br/>"
                         + "See the IDEA log for more details.");
             }
             if (projectPlugin.getFeatureManager().isFeatureEnabled(CloverFeatures.CLOVER_BUILDING)) {

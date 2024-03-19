@@ -284,7 +284,7 @@ public class InstrumentationConfig implements Serializable {
 
         File cloverDir = new File(getDefaultBaseDir(), DEFAULT_DB_DIR);
         if ((cloverDir.exists() && !cloverDir.isDirectory()) || (!cloverDir.exists() && !cloverDir.mkdirs())) {
-            throw new CloverException("Failed to create default Clover database '" + cloverDir + "'.");
+            throw new CloverException("Failed to create default OpenClover database '" + cloverDir + "'.");
         }
         setInitstring((isRelative() ? cloverDir.getName() : cloverDir.getAbsolutePath()) + File.separatorChar + DEFAULT_DB_FILE);
         return getInitString();

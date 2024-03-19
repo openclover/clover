@@ -37,12 +37,12 @@ class OptimizationSessionTest {
 
     @Test
     void testSomeSavings() {
-        assertOptimizationLog("class", 1, 1, 1, 2000, "Clover estimates having saved around 2 seconds on this optimized test run")
+        assertOptimizationLog("class", 1, 1, 1, 2000, "OpenClover estimates having saved around 2 seconds on this optimized test run")
     }
 
     @Test
     void testNoSavings() {
-        assertOptimizationLog("class", 1, 1, 1, 0, "Clover was unable to save any time on this optimized test run")
+        assertOptimizationLog("class", 1, 1, 1, 0, "OpenClover was unable to save any time on this optimized test run")
     }
 
     @Test

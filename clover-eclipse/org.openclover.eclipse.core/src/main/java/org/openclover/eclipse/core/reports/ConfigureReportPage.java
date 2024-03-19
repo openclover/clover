@@ -25,6 +25,8 @@ import org.openclover.eclipse.core.ui.SwtUtils;
 
 import java.io.File;
 
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+
 public abstract class ConfigureReportPage extends WizardPage {
     protected Text reportTitle;
     protected boolean reportTitleCustomised;
@@ -279,7 +281,7 @@ public abstract class ConfigureReportPage extends WizardPage {
         try {
             return Integer.parseInt(threadCount.getText()) - 1;
         } catch (NumberFormatException e) {
-            CloverPlugin.logError("Unable to parse thread count: \"" + threadCount.getText() + "\", defaulting to 0", e);
+            logError("Unable to parse thread count: \"" + threadCount.getText() + "\", defaulting to 0", e);
             return 0;
         }
     }

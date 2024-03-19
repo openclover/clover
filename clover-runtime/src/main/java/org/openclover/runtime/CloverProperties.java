@@ -39,7 +39,7 @@ public class CloverProperties {
 
         if (nvpProperties != null) {
             if (nvpProperties.length % 2 != 0) {
-                throw new IllegalArgumentException("The number of Clover properties strings supplied should be a multiple of 2");
+                throw new IllegalArgumentException("The number of OpenClover properties strings supplied should be a multiple of 2");
             }
 
             for(int i = 0; i < nvpProperties.length; i += 2) {

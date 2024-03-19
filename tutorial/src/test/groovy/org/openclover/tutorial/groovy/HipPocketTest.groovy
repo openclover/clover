@@ -1,4 +1,4 @@
-package com.atlassian.samples.groovy;
+package org.openclover.tutorial.groovy;
 
 import org.junit.Test
 

@@ -101,7 +101,7 @@ public class CloverJavaSourceTransformer extends JavaSourceTransformer {
                 final String fileEncoding = projectEncodingConfiguration != null ? projectEncodingConfiguration.getEncoding(file) : null;
 
                 final CharSequence instrumentedCharSequence = instrumenter.instrument(file, charSequence, fileEncoding);
-                final String message = "Clover: instrumenting " + file.getName() + " with source level " + sourceLevel;
+                final String message = "OpenClover: instrumenting " + file.getName() + " with source level " + sourceLevel;
                 CloverJavaBuilder.getInstance().sendCompilerMessageToIDE(BuildMessage.Kind.PROGRESS, message);
                 debugTransform(file, charSequence, instrumentedCharSequence, level);
 

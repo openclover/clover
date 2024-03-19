@@ -6,7 +6,6 @@ import clover.org.jfree.chart.ChartRenderingInfo;
 import clover.org.jfree.chart.ChartUtilities;
 import clover.org.jfree.chart.JFreeChart;
 import org.jetbrains.annotations.NotNull;
-import org.openclover.core.CloverLicenseInfo;
 import org.openclover.core.api.command.ArgProcessor;
 import org.openclover.core.api.command.HelpBuilder;
 import org.openclover.core.api.registry.ClassInfo;
@@ -264,7 +263,8 @@ public class HtmlReporter extends CloverReporter {
                 final Map<Integer, CloverChartFactory.ChartInfo> srcFileCharts =
                         CloverChartFactory.generateSrcFileCharts(targetFiles, baseImagePath);
 
-                final CloverExecutor<Object> service = CloverExecutors.newCloverExecutor(reportAsCurrent().getNumThreads(), "Clover");
+                final CloverExecutor<Object> service = CloverExecutors.newCloverExecutor(
+                        reportAsCurrent().getNumThreads(), "OpenClover");
                 RenderFileAction.initThreadLocals();
                 RenderMetricsJSONAction.initThreadLocals();
                 for (PackageInfo pkg : allPackages) {
@@ -437,7 +437,6 @@ public class HtmlReporter extends CloverReporter {
     }
 
     public static void main(String[] args) {
-        loadLicense();
         System.exit(runReport(args));
     }
 
@@ -467,7 +466,7 @@ public class HtmlReporter extends CloverReporter {
 
         context.put("rootRelPath", rederingHelper.getRootRelPath(pkg));
         context.put("pageTitle", pageTitle);
-        String title = (pageTitle != null ? pageTitle : "Clover");
+        String title = (pageTitle != null ? pageTitle : "OpenClover");
         context.put("headerTitle", pkg.length() == 0 ? title : title + ": " + pkg);
         context.put("pageTitleIsLink",
                 pageTitleAnchor != null
@@ -477,7 +476,7 @@ public class HtmlReporter extends CloverReporter {
         context.put("renderUtil", rederingHelper);
         context.put("startTimestamp", dateFormat.format(coverageTS));
 
-        String cloverURL = CloverVersionInfo.CLOVER_URL;
+        String cloverURL = CloverVersionInfo.OPENCLOVER_ORG;
         context.put("cloverURL", cloverURL);
         context.put("cloverReleaseNum", CloverVersionInfo.RELEASE_NUM);
         context.put("reportTimestamp", reportTimeStamp);
@@ -485,7 +484,6 @@ public class HtmlReporter extends CloverReporter {
         context.put("showSrc", reportConfig.getFormat().getSrcLevel());
         context.put("showBars", reportConfig.getFormat().getShowBars());
         context.put("noCache", reportConfig.getFormat().getNoCache());
-        context.put("expired", CloverLicenseInfo.EXPIRED);
         context.put("charset", reportConfig.getCharset());
         context.put("skipCoverageTreeMap", reportConfig.isSkipCoverageTreeMap());
 
@@ -493,32 +491,7 @@ public class HtmlReporter extends CloverReporter {
         context.put("reportConfigLinkedReports", reportConfig.getLinkedReports());
         context.put("reportConfigOutFile", reportConfig.getOutFile());
 
-        insertLicenseMessages(context);
         return context;
-    }
-
-    static void insertLicenseMessages(VelocityContext context) {
-        String headerMsg = CloverLicenseInfo.OWNER_STMT + " ";
-        String footerMsg = CloverLicenseInfo.OWNER_STMT + " ";
-
-        if (CloverLicenseInfo.EXPIRED) {
-            headerMsg += CloverLicenseInfo.POST_EXPIRY_STMT + " " + CloverLicenseInfo.CONTACT_INFO_STMT;
-            footerMsg += CloverLicenseInfo.POST_EXPIRY_STMT;
-
-        } else {
-            headerMsg += CloverLicenseInfo.PRE_EXPIRY_STMT;
-            footerMsg += CloverLicenseInfo.PRE_EXPIRY_STMT;
-        }
-
-        if (CloverLicenseInfo.EXPIRES && !CloverLicenseInfo.EXPIRED) {
-            context.put("evalMsg", "This report was generated with an evaluation server license. " +
-                    " <a href=\"" + CloverVersionInfo.CLOVER_URL + "\">Purchase Clover</a> or " +
-                    "<a href=\"" + CloverVersionInfo.CLOVER_LICENSE_CONFIGURATION_HELP_URL + "\">" +
-                    "configure your license.</a>");
-        }
-
-        context.put("headerMsg", HtmlFormatter.format(headerMsg));
-        context.put("footerMsg", HtmlFormatter.format(footerMsg));
     }
 
     private void renderProjectCoverageCloudPage(TreeInfo appCloudTree, CloverExecutor<Object> service) throws Exception {
@@ -673,7 +646,6 @@ public class HtmlReporter extends CloverReporter {
         copyStaticResource(templatePath, "aui/css/wait.gif");
 
         copyStaticResource(templatePath, "aui/js/aui.min.js");
-        copyStaticResource(templatePath, "aui/js/aui-datepicker.min.js");
         copyStaticResource(templatePath, "aui/js/aui-experimental.min.js");
         copyStaticResource(templatePath, "aui/js/aui-soy.min.js");
 
@@ -689,13 +661,11 @@ public class HtmlReporter extends CloverReporter {
         copyStaticResource(templatePath, "img/ajax-loader.gif");
         copyStaticResource(templatePath, "img/back.gif");
         copyStaticResource(templatePath, "img/clover.ico");
-        copyStaticResource(templatePath, "img/clover_logo_large.png");
+        copyStaticResource(templatePath, "img/openclover_logo_white_40pt_alpha_with_icon.png");
         copyStaticResource(templatePath, "img/collapse.gif");
         copyStaticResource(templatePath, "img/expand.gif");
         copyStaticResource(templatePath, "img/failure_gutter.gif");
-        copyStaticResource(templatePath, "img/logo.gif");
         copyStaticResource(templatePath, "img/spacer.gif");
-        copyStaticResource(templatePath, "img/treemap.gif");
         copyStaticResource(templatePath, "cloud.js");
         copyStaticResource(templatePath, "clover.js");
         copyStaticResource(templatePath, "jit.js");

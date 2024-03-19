@@ -133,10 +133,10 @@ public class RenderFileAction implements Callable {
         try {
             insertLineInfos(insertSrcFileProperties(), testLineInfo);
         } catch (Exception e) {
-            Logger.getInstance().error("Invalid Java source found or Clover failed to parse it: " + fileInfo.getPhysicalFile().getAbsolutePath());
+            Logger.getInstance().error("Invalid Java source found or OpenClover failed to parse it: " + fileInfo.getPhysicalFile().getAbsolutePath());
             velocity.put("filename", fileInfo.getPhysicalFile().getAbsolutePath());
             velocity.put("message", e.getMessage());
-            List srclines = SourceRenderHelper.getSrcLines(fileInfo);
+            List<String> srclines = SourceRenderHelper.getSrcLines(fileInfo);
             velocity.put("srclines", srclines);
             HtmlReportUtil.mergeTemplateToFile(outfile, velocity, "src-file-error.vm");
             return;

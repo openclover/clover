@@ -32,10 +32,10 @@
 
     <target name="with.clover" unless="no.setup">
 
-        <echo message="****** Running Clover Clean"/>
+        <echo message="****** Running OpenClover Clean"/>
         <clover-clean/>
         
-        <echo message="****** Running Clover Setup - initstring is: ${clover.initstring}"/>
+        <echo message="****** Running OpenClover Setup - initstring is: ${clover.initstring}"/>
         <clover-setup>
             <methodContext name="simple" maxComplexity="3"/>
             <methodContext name="toString" regexp=".*toString.*"/>

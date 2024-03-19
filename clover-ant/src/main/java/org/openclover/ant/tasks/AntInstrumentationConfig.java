@@ -69,7 +69,7 @@ public class AntInstrumentationConfig extends JavaInstrumentationConfig {
                     try {
                         createDefaultInitStringDir(); // finally, just set the default location
                     } catch (CloverException e) {
-                        throw new BuildException(e.getMessage() + " Please use the \"initstring\" attribute to specify a Clover database location.");
+                        throw new BuildException(e.getMessage() + " Please use the \"initstring\" attribute to specify a OpenClover database location.");
                     }
                 } else {
                     setInitstring(initString);

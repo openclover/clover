@@ -9,8 +9,8 @@
     <artifactId>clover-runtime</artifactId>
     <name>OpenClover Runtime</name>
     <description>
-        Clover's runtime library - required by code instrumented by Clover.
-        Clover is an award-winning code coverage and testing tool for Java and Groovy.
+        OpenClover's runtime library - required by code instrumented by Clover.
+        OpenClover is a code coverage and testing tool for Java and Groovy.
         It integrates easily with Maven, Ant, Grails, Eclipse and IntelliJ IDEA
         as well as with continuous integration servers such as Bamboo, Jenkins or Hudson.
     </description>

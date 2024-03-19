@@ -29,7 +29,7 @@ class JavaSyntax3CompilationTest extends JavaSyntaxCompilationTestBase {
     }
 
     /**
-     * Test java 1.3 language features and how Clover handles them.
+     * Test java 1.3 language features and how OpenClover handles them.
      * @throws Exception
      */
     @Test

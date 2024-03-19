@@ -1,4 +1,4 @@
-package com.atlassian.samples.money;
+package org.openclover.tutorial.money;
 
 /**
  * The common interface for simple Monies and MoneyBags

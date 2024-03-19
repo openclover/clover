@@ -42,7 +42,7 @@ public class CajoTcpRecorderService implements RecorderService {
             Logger.getInstance().debug("Started coverage service: " + config.getName());
             // wait until all the clients connect
             if (config.getNumClients() > 0) {
-                Logger.getInstance().info("Clover waiting for " + config.getNumClients() +
+                Logger.getInstance().info("OpenClover waiting for " + config.getNumClients() +
                         " remote clients to attach to this remote testing session. ");
             }
 

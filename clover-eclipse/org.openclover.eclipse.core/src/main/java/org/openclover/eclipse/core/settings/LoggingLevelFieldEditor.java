@@ -80,7 +80,7 @@ public class LoggingLevelFieldEditor extends FieldEditor {
     public LoggingLevelFieldEditor(Composite parent) {
         super(
             InstallationSettings.Keys.LOGGING_LEVEL,
-            "Clover Plugin logging output level:",
+            "OpenClover plugin logging output level:",
             parent);
     }
 

@@ -12,5 +12,5 @@ class InstrHelloWorld {
 }
 
 object __CLR2_6_0 {
-  val R: _root_.com_cenqua_clover.CoverageRecorder = _root_.com_cenqua_clover.Clover.createRecorder("", 0L, 0L, 0)
+  val R: _root_.org_openclover_runtime.CoverageRecorder = _root_.org_openclover_runtime.Clover.createRecorder("", 0L, 0L, 0)
 }

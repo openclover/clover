@@ -131,8 +131,8 @@ class JavaTokenTraverserTest {
     }
 
     /**
-     * We're using a simplified approach here - is someone declares invalid unicode character, it will be catched
-     * by javac compiler. So Clover will just pass it further.
+     * We're using a simplified approach here - is someone declares invalid unicode character, it will be caught
+     * by javac compiler. So OpenClover will just pass it further.
      */
     @Test
     void testThatInvalidExtendedUnicodeCharactersAreIgnored() {

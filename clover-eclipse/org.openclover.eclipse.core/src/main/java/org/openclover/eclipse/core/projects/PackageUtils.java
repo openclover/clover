@@ -14,7 +14,7 @@ public class PackageUtils {
         IProjectDescription userProjectDescription = sourceProject.getProject().getDescription();
         IProjectDescription thisProjectDescription =
             sourceProject.getProject().getWorkspace().newProjectDescription(
-                "Clover internal instrumentation project for: \"" + targetProject.getName() + "\" (please don't modify this project)");
+                "OpenClover internal instrumentation project for: \"" + targetProject.getName() + "\" (please don't modify this project)");
 
         IProject[] userProjectDynamicReferences = userProjectDescription.getReferencedProjects();
         IProject[] thisProjectDynamicReferences = new IProject[userProjectDynamicReferences.length];

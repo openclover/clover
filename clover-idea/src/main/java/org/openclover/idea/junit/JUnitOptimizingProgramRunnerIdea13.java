@@ -23,7 +23,7 @@ import java.io.File;
 
 public class JUnitOptimizingProgramRunnerIdea13 extends DefaultJavaProgramRunner implements JUnitOptimizingProgramRunner, SavingsReporter {
 
-    private static final String RUNNER_ID = "Clover Optimizing Runner IDEA 13+";
+    private static final String RUNNER_ID = "OpenClover Optimizing Runner IDEA 13+";
 
     // using composition instead of inheritance because JUnitOptimizingProgramRunnerIdea13 must extend
     // DefaultJavaProgramRunner from a specific IDEA version (due to method signatures)

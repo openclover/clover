@@ -40,6 +40,9 @@ import org.openclover.eclipse.core.views.testrunexplorer.TestRunExplorerView;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import static org.openclover.eclipse.core.CloverPlugin.logVerbose;
+import static org.openclover.eclipse.core.CloverPlugin.logWarning;
+
 final class DashboardLocationListener extends LocationAdapter {
     /**
      *
@@ -55,13 +58,13 @@ final class DashboardLocationListener extends LocationAdapter {
 
     @Override
     public void changing(LocationEvent event) {
-        CloverPlugin.logVerbose("Changing: " + event.location);
+        logVerbose("Changing: " + event.location);
         URI uri;
         try {
             uri = new URI(event.location);
         } catch (final URISyntaxException e) {
             // event.location can be a file path (i.e. without 'file:/' prefix) when loading a dashboard (event sent by Browser)
-            CloverPlugin.logVerbose("Unexpected URI in the Dashboard view: " + event.location, e);
+            logVerbose("Unexpected URI in the Dashboard view: " + event.location, e);
             return;
         }
         final String scheme = uri.getScheme();
@@ -75,7 +78,7 @@ final class DashboardLocationListener extends LocationAdapter {
                 handleCloverView(event, uri);
             }
         } catch (final Exception e) {
-            CloverPlugin.logWarning("Error opening location " + event.location, e);
+            logWarning("Error opening location " + event.location, e);
         }
 
     }

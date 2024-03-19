@@ -168,7 +168,7 @@ public class CloverToolWindow extends JPanel implements ConfigChangeListener, No
     private JComponent getToolBar() {
         if (toolbar == null) {
             ActionGroup actionGroup = (ActionGroup) ActionManager.getInstance().getAction("CloverToolBar");
-            toolbar = ActionManager.getInstance().createActionToolbar("Clover", actionGroup, true);
+            toolbar = ActionManager.getInstance().createActionToolbar("OpenClover", actionGroup, true);
         }
         return toolbar.getComponent();
     }

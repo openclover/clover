@@ -25,12 +25,12 @@ public class EnabledConfigPanel extends ConfigPanel {
 
     @Override
     public String getTitle() {
-        return "Enable Clover";
+        return "Enable OpenClover";
     }
 
     public JCheckBox getEnabledInput() {
         if (enabledCheckbox == null) {
-            enabledCheckbox = new JCheckBox("Enable Clover");
+            enabledCheckbox = new JCheckBox("Enable OpenClover");
         }
         return enabledCheckbox;
     }

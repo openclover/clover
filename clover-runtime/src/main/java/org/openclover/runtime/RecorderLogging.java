@@ -27,7 +27,7 @@ public class RecorderLogging {
             }
         } catch (SecurityException e) {
             // can't do much if no perms
-            Logger.getInstance().info("Security exception trying to initialise Clover logging", e);
+            Logger.getInstance().info("Security exception trying to initialise OpenClover logging", e);
         }
     }
 
