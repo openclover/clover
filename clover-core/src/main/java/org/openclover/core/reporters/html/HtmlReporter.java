@@ -646,7 +646,6 @@ public class HtmlReporter extends CloverReporter {
         copyStaticResource(templatePath, "aui/css/wait.gif");
 
         copyStaticResource(templatePath, "aui/js/aui.min.js");
-        copyStaticResource(templatePath, "aui/js/aui-datepicker.min.js");
         copyStaticResource(templatePath, "aui/js/aui-experimental.min.js");
         copyStaticResource(templatePath, "aui/js/aui-soy.min.js");
 
@@ -662,13 +661,11 @@ public class HtmlReporter extends CloverReporter {
         copyStaticResource(templatePath, "img/ajax-loader.gif");
         copyStaticResource(templatePath, "img/back.gif");
         copyStaticResource(templatePath, "img/clover.ico");
-        copyStaticResource(templatePath, "img/clover_logo_large.png");
+        copyStaticResource(templatePath, "img/openclover_logo_white_40pt_alpha_with_icon.png");
         copyStaticResource(templatePath, "img/collapse.gif");
         copyStaticResource(templatePath, "img/expand.gif");
         copyStaticResource(templatePath, "img/failure_gutter.gif");
-        copyStaticResource(templatePath, "img/logo.gif");
         copyStaticResource(templatePath, "img/spacer.gif");
-        copyStaticResource(templatePath, "img/treemap.gif");
         copyStaticResource(templatePath, "cloud.js");
         copyStaticResource(templatePath, "clover.js");
         copyStaticResource(templatePath, "jit.js");
