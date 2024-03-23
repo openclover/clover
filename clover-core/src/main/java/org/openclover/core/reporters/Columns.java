@@ -1,12 +1,11 @@
 package org.openclover.core.reporters;
 
 import org.openclover.core.api.registry.BlockMetrics;
+import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.api.registry.ProjectInfo;
-import org.openclover.core.registry.FileInfoRegion;
-import org.openclover.core.registry.entities.BaseFileInfo;
-import org.openclover.core.registry.entities.BasePackageInfo;
-import org.openclover.core.registry.entities.BaseProjectInfo;
+import org.openclover.core.api.registry.FileInfoRegion;
 import org.openclover.core.registry.metrics.ClassMetrics;
 import org.openclover.core.registry.metrics.FileMetrics;
 import org.openclover.core.registry.metrics.PackageMetrics;
@@ -559,12 +558,12 @@ public class Columns {
     private static ProjectInfo getProjectFor(HasMetrics owner) {
         return owner instanceof FileInfoRegion
             ? ((FileInfoRegion)owner).getContainingFile().getContainingPackage().getContainingProject()
-            : owner instanceof BaseFileInfo
-                ? ((BaseFileInfo)owner).getContainingPackage().getContainingProject()
-                : owner instanceof BasePackageInfo
-                    ? ((BasePackageInfo)owner).getContainingProject()
-                    : owner instanceof BaseProjectInfo
-                        ? (BaseProjectInfo)owner
+            : owner instanceof FileInfo
+                ? ((FileInfo)owner).getContainingPackage().getContainingProject()
+                : owner instanceof PackageInfo
+                    ? ((PackageInfo)owner).getContainingProject()
+                    : owner instanceof ProjectInfo
+                        ? (ProjectInfo)owner
                         : null;
     }
 

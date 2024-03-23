@@ -22,7 +22,7 @@ public class DelayedRecorder extends CoverageRecorder {
             @Override
             public void syncWithCloverRuntime(DelayedRecorder delayedRecorder, RecorderDelegateConstructor constructor) {
                 if (Clover.isInitialised()) {
-                    Logger.getInstance().warn("Re-entrant Clover initialisation detected. Some coverage may not have been recorded before this point.");
+                    Logger.getInstance().warn("Re-entrant OpenClover initialisation detected. Some coverage may not have been recorded before this point.");
                     delayedRecorder.changeState(Running, constructor.create());
                 }
             }},

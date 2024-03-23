@@ -1,5 +1,6 @@
 package org.openclover.core.registry;
 
+import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.context.ContextStore;
 import org.openclover.core.registry.entities.FullFileInfo;
 
@@ -10,6 +11,6 @@ public interface RegistryUpdate {
     long getStartTs();
     long getEndTs();
     int getSlotCount();
-    List<FullFileInfo> getFileInfos();
+    List<FileInfo> getFileInfos();
     ContextStore getContextStore();
 }

@@ -2,6 +2,7 @@ package org.openclover.core.reporters.html;
 
 import clover.org.apache.velocity.VelocityContext;
 import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.registry.metrics.HasMetricsSupport;
 import org.openclover.core.reporters.Current;
@@ -16,17 +17,17 @@ import java.util.concurrent.Callable;
 /**
  * Generate tree of all packages available in the project with compressed empty packages in a JSON format.
  */
-public class RenderPackageTreeJsonAction implements Callable {
+public class RenderPackageTreeJsonAction implements Callable<Object> {
 
-    private final FullProjectInfo fullProjectInfo; // shared - read only
-    private final FullProjectInfo appProjectInfo;  // shared - read only
+    private final ProjectInfo fullProjectInfo; // shared - read only
+    private final ProjectInfo appProjectInfo;  // shared - read only
     private final VelocityContext context; // not shared, read/write
     private final Current reportConfig;
     private final File basePath;
 
 
     public RenderPackageTreeJsonAction(VelocityContext ctx, File basePath,
-                                       FullProjectInfo fullProjectInfo, FullProjectInfo appProjectInfo,
+                                       ProjectInfo fullProjectInfo, ProjectInfo appProjectInfo,
                                        Current reportConfig) {
         this.basePath = basePath;
         this.fullProjectInfo = fullProjectInfo;
@@ -43,7 +44,7 @@ public class RenderPackageTreeJsonAction implements Callable {
     }
 
     protected File insertPackageTreeProperties() {
-        final PrefixTree packageTree = createTreeFromList(collectAllPackagesByName());
+        final PrefixTree<String, PackageInfoExt> packageTree = createTreeFromList(collectAllPackagesByName());
 
         context.put("projectInfo", fullProjectInfo);
         context.put("packageTree", packageTree.getRootNode());
@@ -57,7 +58,7 @@ public class RenderPackageTreeJsonAction implements Callable {
      * wheteher package exists only in test model (for proper page linking)
      */
     protected List<PackageInfoExt> collectAllPackagesByName() {
-        final List<? extends PackageInfo> packages = fullProjectInfo.getAllPackages();
+        final List<PackageInfo> packages = fullProjectInfo.getAllPackages();
         packages.sort(HasMetricsSupport.LEX_COMP);
 
         final List<PackageInfoExt> packagesExt = new ArrayList<>(packages.size());

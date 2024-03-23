@@ -10,7 +10,7 @@ import javax.swing.JRadioButton;
 public class ProjectRebuildConfigPanel extends ConfigPanel {
     private static final String TITLE = "Rebuild policy";
     private static final String DESCRIPTION =
-            "<html>Clover requires that the project is rebuilt every time the <i>Build with Clover</i> is toggled or " +
+            "<html>OpenClover requires that the project is rebuilt every time the <i>Build with OpenClover</i> is toggled or " +
                     "coverage database is purged.";
     private final JLabel description = new RichLabel(DESCRIPTION);
 

@@ -14,6 +14,8 @@ import org.openclover.eclipse.core.views.TypeUtils;
 import org.openclover.eclipse.core.views.WorkingSetNodeFilter;
 import org.openclover.eclipse.core.views.nodes.NodeRelationshipFilter;
 
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+
 public class CoverageProvider
     extends CloveredWorkspaceProvider {
 
@@ -135,7 +137,7 @@ public class CoverageProvider
                 return TypeUtils.unavailableCoverage(metrics);
             }
         } catch (JavaModelException e) {
-            CloverPlugin.logError("Unable to determine inner classes", e);
+            logError("Unable to determine inner classes", e);
             //Show the element if there's an error
             return false;
         }

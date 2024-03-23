@@ -61,7 +61,7 @@ public class SelectInCloverTarget implements SelectInTarget {
 
     @Override
     public String toString() {
-        return "Clover";
+        return "OpenClover";
     }
 
     private static class Priority implements Comparable<Priority> {

@@ -10,9 +10,11 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.MethodInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
+
+import static org.openclover.eclipse.core.CloverPlugin.logError;
 
 public class ModelUtils {
     public static final int SEARCH_SELF_AND_DEPENDENTS = -1;
@@ -42,7 +44,7 @@ public class ModelUtils {
                     }
                 }
             } catch (CoreException e) {
-                CloverPlugin.logError("Unable to look up test case class", e);
+                logError("Unable to look up test case class", e);
             }
         }
         return type;

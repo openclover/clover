@@ -33,7 +33,7 @@ public class FOSFactory {
                     }
             });
         } catch (SecurityException e) {
-            Logger.getInstance().info("Unable to determine Clover IO mode", e);
+            Logger.getInstance().info("Unable to determine OpenClover IO mode", e);
         }
         USE_SYNCHRONOUS_IO = useSyncIO != null ? useSyncIO : false;
     }

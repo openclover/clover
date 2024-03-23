@@ -20,7 +20,7 @@
             <url>http://www.antlr2.org/license.html</url>
         </license>
     </licenses>
-    <name>Clover Antlr Library</name>
+    <name>OpenClover Antlr Library</name>
     <!-- Repack, install and deploy only with the 'workspace-setup' profile -->
     <profiles>
         <profile>

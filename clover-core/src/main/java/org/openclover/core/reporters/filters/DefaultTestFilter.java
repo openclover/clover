@@ -1,8 +1,8 @@
 package org.openclover.core.reporters.filters;
 
+import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.registry.BaseInvertableFilter;
-import org.openclover.core.registry.entities.BaseClassInfo;
 
 public class DefaultTestFilter extends BaseInvertableFilter {
     public DefaultTestFilter() {
@@ -20,8 +20,8 @@ public class DefaultTestFilter extends BaseInvertableFilter {
 
     @Override
     public boolean accept(HasMetrics hasMetrics) {
-        if (hasMetrics instanceof BaseClassInfo) {
-            BaseClassInfo classInfo = (BaseClassInfo) hasMetrics;
+        if (hasMetrics instanceof ClassInfo) {
+            ClassInfo classInfo = (ClassInfo) hasMetrics;
             return isInverted() ^ (classInfo.isTestClass() || classInfo.getContainingFile().isTestFile());
         }
 

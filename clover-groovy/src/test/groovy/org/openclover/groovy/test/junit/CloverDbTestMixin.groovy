@@ -4,18 +4,19 @@ import groovy.transform.CompileStatic
 import org.openclover.core.CloverDatabase
 import org.openclover.core.api.registry.BranchInfo
 import org.openclover.core.api.registry.ClassInfo
+import org.openclover.core.api.registry.CoverageDataRange
 import org.openclover.core.api.registry.ElementInfo
 import org.openclover.core.api.registry.FileInfo
 import org.openclover.core.api.registry.HasMetrics
-import org.openclover.core.api.registry.InstrumentationInfo
+
 import org.openclover.core.api.registry.MethodInfo
 import org.openclover.core.api.registry.PackageInfo
+import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.api.registry.SourceInfo
 import org.openclover.core.api.registry.StatementInfo
-import org.openclover.core.registry.entities.BaseProjectInfo
+import org.openclover.core.api.registry.TestCaseInfo
 import org.openclover.core.registry.entities.FullClassInfo
-import org.openclover.core.registry.entities.TestCaseInfo
-import org.openclover.core.registry.metrics.HasMetricsFilter
+import org.openclover.core.api.registry.HasMetricsFilter
 
 import static org.junit.Assert.assertFalse
 import static org.junit.Assert.assertTrue
@@ -46,7 +47,7 @@ trait CloverDbTestMixin {
         return true
     }
 
-    boolean assertPackage(BaseProjectInfo p, Closure<Boolean> selection, Closure<Boolean> assertion = { true }) {
+    boolean assertPackage(ProjectInfo p, Closure<Boolean> selection, Closure<Boolean> assertion = { true }) {
         PackageInfo found = p.allPackages.find(selection)
         if (found) {
             assertTrue("Assertion on package failed: ${found}", assertion.call(found))
@@ -130,13 +131,13 @@ trait CloverDbTestMixin {
         return true
     }
 
-    boolean assertHitByTest(InstrumentationInfo covered, CloverDatabase db, FullClassInfo c, String testName) {
+    boolean assertHitByTest(CoverageDataRange covered, CloverDatabase db, FullClassInfo c, String testName) {
         boolean result = hitByTest(db, c, testName).call(covered)
         assertTrue("${covered} was not hit by test ${testName}".toString(), result)
         return true
     }
 
-    boolean assertNotHitByTest(InstrumentationInfo covered, CloverDatabase db, FullClassInfo c, String testName) {
+    boolean assertNotHitByTest(CoverageDataRange covered, CloverDatabase db, FullClassInfo c, String testName) {
         boolean result = hitByTest(db, c, testName).call(covered)
         assertFalse("${covered} was hit by test ${testName}".toString(), result)
         return true
@@ -189,7 +190,7 @@ trait CloverDbTestMixin {
     }
 
     Closure<Boolean> hitByTest(CloverDatabase db, FullClassInfo c, String testName) {
-        return { InstrumentationInfo it ->
+        return { CoverageDataRange it ->
             db.getCoverageData()
                     .getHitsFor(c.getTestCase(testName))
                     .get(it.dataIndex)
@@ -197,7 +198,7 @@ trait CloverDbTestMixin {
     }
 
     Closure<Boolean> notHitByTest(CloverDatabase db, FullClassInfo c, String testName) {
-        return { InstrumentationInfo it ->
+        return { CoverageDataRange it ->
             !db.getCoverageData()
                     .getHitsFor(c.getTestCase(testName))
                     .get(it.dataIndex)

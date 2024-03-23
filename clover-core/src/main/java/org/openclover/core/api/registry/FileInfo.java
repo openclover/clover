@@ -1,8 +1,14 @@
 package org.openclover.core.api.registry;
 
 import org.jetbrains.annotations.NotNull;
+import org.openclover.core.registry.entities.LineInfo;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.Reader;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Represents a single source file. A file is a part of a package - {@link #getContainingPackage()}
@@ -19,9 +25,40 @@ import java.util.List;
  * </ul>
  */
 public interface FileInfo extends
-        InstrumentationInfo, SourceInfo, EntityContainer,
+        CoverageDataRange, SourceInfo, EntityContainer,
         HasClasses, HasMethods, HasStatements,
-        HasContextFilter, HasMetrics, HasParent {
+        HasContextFilter, HasMetrics, HasParent, HasVersionRanges,
+        IsMetricsComparable, IsVisitable {
+
+    /**
+     * Add a class inside the file.
+     */
+    void addClass(ClassInfo classInfo);
+
+    /**
+     * Add a method inside the file.
+     */
+    void addMethod(MethodInfo methodInfo);
+
+    /**
+     * Add a statement inside the file.
+     */
+    void addStatement(StatementInfo statementInfo);
+
+    /**
+     * Create a copy of the file, setting a package as a parent.
+     */
+    FileInfo copy(PackageInfo pkg, HasMetricsFilter filter);
+
+    /**
+     * Return a list of all source regions present in this file (all classes, methods, statements).
+     */
+    Set<SourceInfo> gatherSourceRegions();
+
+    /**
+     * Returns file's checksum.
+     */
+    long getChecksum();
 
     /**
      * Returns list of classes which are declared on a top-level of this source file  (i.e. it does not return inner
@@ -31,11 +68,37 @@ public interface FileInfo extends
      *  <li>Scala - classes, objects, traits</li>
      * </ul>
      *
-     * @return List&lt;? extends ClassInfo&gt; - list of classes or empty list if none
+     * @return List&lt;ClassInfo&gt; - list of classes or empty list if none
      */
     @Override
     @NotNull
-    List<? extends ClassInfo> getClasses();
+    List<ClassInfo> getClasses();
+
+    /**
+     * Returns a package for which this package belongs to (or the default package)
+     * Note: it supports only one package namespace per source file
+     *
+     * @return PackageInfo
+     */
+    PackageInfo getContainingPackage();
+
+    /**
+     * Returns file encoding, e.g. "UTF-8"
+     *
+     * @return String
+     */
+    String getEncoding();
+
+    /**
+     * Returns file size in bytes
+     * @return long size
+     */
+    long getFileSize();
+
+    LineInfo[] getLineInfo(boolean showLambdaFunctions, boolean showInnerFunctions);
+
+    LineInfo[] getLineInfo(int ensureLineCountAtLeast, boolean showLambdaFunctions,
+                           boolean showInnerFunctions);
 
     /**
      * Returns list of methods which are declared on a top-level of this source file. Exact content may depend on the
@@ -46,11 +109,33 @@ public interface FileInfo extends
      *     <li>Scala - functions declared outside a class</li>
      * </ul>
      *
-     * @return List&lt;? extends MethodInfo&gt; - list of methods or empty list if none
+     * @return List&lt;MethodInfo&gt; - list of methods or empty list if none
      */
     @Override
     @NotNull
-    List<? extends MethodInfo> getMethods();
+    List<MethodInfo> getMethods();
+
+    /**
+     * Returns source file name
+     *
+     * @return String
+     */
+    @Override
+    String getName();
+
+    ClassInfo getNamedClass(String name);
+
+    /**
+     * Returns a file name with a package path, e.g. "com/acme/Foo.java"
+     * Note: it supports only one package namespace per source file
+     *
+     * @return String package path
+     */
+    String getPackagePath();
+
+    File getPhysicalFile();
+
+    Reader getSourceReader() throws IOException;
 
     /**
      * Returns list of statements which are declared on a top-level of this source file. Exact content may depend on the
@@ -61,26 +146,11 @@ public interface FileInfo extends
      *     <li>Scala - functions declared outside a class</li>
      * </ul>
      *
-     * @return List&lt;? extends MethodInfo&gt; - list of methods or empty list if none
+     * @return List&lt;StatementInfo&gt; - list of methods or empty list if none
      */
     @Override
     @NotNull
-    List<? extends StatementInfo> getStatements();
-
-    /**
-     * Returns source file name
-     *
-     * @return String
-     */
-    @Override
-    String getName();
-
-    /**
-     * Returns file encoding, e.g. "UTF-8"
-     *
-     * @return String
-     */
-    String getEncoding();
+    List<StatementInfo> getStatements();
 
     /**
      * Returns file modification time stamp as per File.lastModified()
@@ -88,30 +158,6 @@ public interface FileInfo extends
      * @return long time stamp
      */
     long getTimestamp();
-
-    /**
-     * Returns file size in bytes
-     * @return long size
-     */
-    long getFilesize();
-
-    long getChecksum();
-
-    /**
-     * Returns a file name with a package path, e.g. "com/acme/Foo.java"
-     * Note: it supports only one package namespace per source file
-     *
-     * @return String package path
-     */
-    String getPackagePath();
-
-    /**
-     * Returns a package for which this package belongs to (or the default package)
-     * Note: it supports only one package namespace per source file
-     *
-     * @return PackageInfo
-     */
-    PackageInfo getContainingPackage();
 
     /**
      * Returns number of source lines in a file
@@ -141,4 +187,13 @@ public interface FileInfo extends
      */
     boolean isTestFile();
 
+    void setContainingPackage(PackageInfo containingPackage);
+
+    void setDataLength(int length);
+
+    void setDataProvider(final CoverageDataProvider data);
+
+    void setFailStackEntries(Map<Integer, List<StackTraceEntry>> entries);
+
+    void addFailStackEntry(int lineNum, StackTraceEntry stackTraceEntry);
 }

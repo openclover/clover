@@ -221,7 +221,7 @@ public class CloverJavaBuilder extends ModuleLevelBuilder {
             // fetch serialized configuration associated with current compilation context
             final CloverPluginConfig pluginConfig = JpsModelUtil.getCloverPluginConfig(compileContext.getProjectDescriptor().getProject());
             if (pluginConfig == null) {
-                sendErrorNotification("Clover was unable to find its configuration data associated with the current project");
+                sendErrorNotification("OpenClover was unable to find its configuration data associated with the current project");
                 return null;
             }
             final JavaInstrumentationConfig instrConfig = createInstrumentationConfig(pluginConfig,
@@ -233,7 +233,7 @@ public class CloverJavaBuilder extends ModuleLevelBuilder {
             try {
                 registry = Clover2Registry.createOrLoad(new File(instrConfig.getInitString()), instrConfig.getProjectName());
             } catch (IOException | CloverException ex) {
-                sendErrorNotification("Clover was unable to instrument your source because of the following error:"
+                sendErrorNotification("OpenClover was unable to instrument your source because of the following error:"
                         + ex + ". Please try to delete the coverage database run build again.");
                 return null;
             }
@@ -255,7 +255,7 @@ public class CloverJavaBuilder extends ModuleLevelBuilder {
                     }
                     registry.setContextStore(contextRegistry);
                 } catch (CloverException ex) {
-                    final String msg = "Clover was unable to process method or statement context regular expressions. See IDEA log for more details.";
+                    final String msg = "OpenClover was unable to process method or statement context regular expressions. See IDEA log for more details.";
                     sendCompilerMessageToIDE(BuildMessage.Kind.ERROR, msg);
                     LOG.error(msg, ex);
                     return null;
@@ -266,7 +266,7 @@ public class CloverJavaBuilder extends ModuleLevelBuilder {
             try {
                 instrumenter.startInstrumentation(registry); // may throw exception here
             } catch (CloverException ex) {
-                final String msg = "Clover was unable to start new instrumentation session. See IDEA log for more details.";
+                final String msg = "OpenClover was unable to start new instrumentation session. See IDEA log for more details.";
                 LOG.error(msg, ex);
                 sendCompilerMessageToIDE(BuildMessage.Kind.ERROR, msg);
                 return null;

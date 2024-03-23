@@ -9,11 +9,10 @@ import org.openclover.core.CloverDatabase;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.PackageInfo;
-import org.openclover.core.registry.entities.BaseClassInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
-import org.openclover.core.registry.entities.PackageFragment;
+import org.openclover.core.api.registry.ProjectInfo;
+import org.openclover.core.api.registry.PackageFragment;
 import org.openclover.core.registry.metrics.ClassMetrics;
-import org.openclover.core.registry.metrics.HasMetricsFilter;
+import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.core.reporters.CloudGenerator;
 import org.openclover.core.reporters.html.ClassInfoStatsCalculator;
 import org.openclover.core.reporters.html.HtmlRenderingSupportImpl;
@@ -38,7 +37,8 @@ import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
-public class CloudEditorController implements CoverageListener, HasMetricsListener, ConfigChangeListener, DataProvider {
+public class CloudEditorController
+        implements CoverageListener, HasMetricsListener, ConfigChangeListener, DataProvider {
     private final CoverageManager coverageManager;
     private final CloudVirtualFile cloudVirtualFile;
     private final CloudReportView cloudView;
@@ -70,7 +70,7 @@ public class CloudEditorController implements CoverageListener, HasMetricsListen
      * @return html
      * @see RenderCoverageCloudAction#renderProjectRisks(java.io.File, java.util.List, TabInfo, HtmlReporter.TreeInfo)
      */
-    private String generateRiskHtml(List<? extends ClassInfo> classes) {
+    private String generateRiskHtml(List<ClassInfo> classes) {
         final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         final HtmlRenderingSupportImpl htmlRenderingSupport = new IdeaEditorLinkingHtmlRenderingSupport();
 
@@ -92,7 +92,7 @@ public class CloudEditorController implements CoverageListener, HasMetricsListen
      * @return html
      * @see RenderCoverageCloudAction#renderQuickWins(java.io.File, java.util.List, TabInfo, HtmlReporter.TreeInfo)
      */
-    private String generateWinHtml(List<? extends ClassInfo> classes) {
+    private String generateWinHtml(List<ClassInfo> classes) {
         final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         final HtmlRenderingSupportImpl htmlRenderingSupport = new IdeaEditorLinkingHtmlRenderingSupport();
 
@@ -129,9 +129,9 @@ public class CloudEditorController implements CoverageListener, HasMetricsListen
         }
         final String packagePrefix = packagePrefix(selectedElement);
         final AggregatingFilter aggregate = new AggregatingFilter(packagePrefix, selectedElement == null || includeSubpkgs);
-        final FullProjectInfo projectInfo = ModelUtil.getModel(db, modelScope);
+        final ProjectInfo projectInfo = ModelUtil.getModel(db, modelScope);
 
-        final List<? extends BaseClassInfo> allClasses = projectInfo.getClasses(aggregate);
+        final List<ClassInfo> allClasses = projectInfo.getClasses(aggregate);
         final String riskContent = generateRiskHtml(allClasses);
         final String winsContent = generateWinHtml(allClasses);
         ApplicationManager.getApplication().invokeLater(() -> {

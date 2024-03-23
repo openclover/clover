@@ -1,8 +1,8 @@
 package org.openclover.core.reporters.html;
 
+import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.HasMetrics;
-import org.openclover.core.registry.entities.BaseClassInfo;
-import org.openclover.core.registry.metrics.HasMetricsFilter;
+import org.openclover.core.api.registry.HasMetricsFilter;
 
 /**
  * Filters all non-test classes
@@ -10,8 +10,8 @@ import org.openclover.core.registry.metrics.HasMetricsFilter;
 public class NonTestClassFilter implements HasMetricsFilter {
     @Override
     public boolean accept(HasMetrics hm) {
-        if (hm instanceof BaseClassInfo) {
-            final BaseClassInfo baseClassInfo = (BaseClassInfo) hm;
+        if (hm instanceof ClassInfo) {
+            final ClassInfo baseClassInfo = (ClassInfo) hm;
             return baseClassInfo.isTestClass();
         }
         return false;

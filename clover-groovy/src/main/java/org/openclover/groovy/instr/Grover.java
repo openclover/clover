@@ -37,6 +37,7 @@ import org.codehaus.groovy.syntax.Types;
 import org.codehaus.groovy.transform.ASTTransformation;
 import org.codehaus.groovy.transform.GroovyASTTransformation;
 import org.openclover.core.api.instrumentation.InstrumentationSession;
+import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.cfg.instr.InstrumentationConfig;
 import org.openclover.core.instr.tests.TestDetector;
 import org.openclover.core.instr.tests.naming.JUnitParameterizedTestExtractor;
@@ -91,9 +92,9 @@ public class Grover implements ASTTransformation {
     private static final String recorderFieldName = CloverNames.namespace("R");
     private static final String recorderGetterName = CloverNames.namespace("R");
 
-    private InstrumentationConfig config;
+    private final InstrumentationConfig config;
     private InstrumentationSession session;
-    private Clover2Registry registry;
+    private final Clover2Registry registry;
 
     /**
      * Helper class containing configuration data which is being written into instrumented groovy classes.
@@ -282,10 +283,11 @@ public class Grover implements ASTTransformation {
                 Logger.getInstance().verbose("Loading config from " + configURL);
                 config = InstrumentationConfig.loadFromStream(configURL.openStream());
             } else {
-                Logger.getInstance().verbose("Clover-for-Groovy was unable to locate its configuration from resource " + configResourceName + ". Instrumentation and code coverage tracking will not occur for this build.");
+                Logger.getInstance().verbose("OpenClover Groovy integration was unable to locate its configuration from resource "
+                        + configResourceName + ". Instrumentation and code coverage tracking will not occur for this build.");
             }
         } catch (Throwable t) {
-            Logger.getInstance().error("Clover-for-Groovy encountered an error while loading config: ", t);
+            Logger.getInstance().error("OpenClover Groovy integration encountered an error while loading config: ", t);
         }
 
         return config;
@@ -315,7 +317,7 @@ public class Grover implements ASTTransformation {
                     // first pass - add recorder.inc() stuff
                     Logger.getInstance().verbose("Processing \"" + getSourceUnitFile(sourceUnit) + "\", package - \"" + pkg + "\"");
                     session = registry.startInstr(config.getEncoding());
-                    final FullFileInfo fileInfo = (FullFileInfo) session.enterFile(
+                    final FileInfo fileInfo = session.enterFile(
                             pkg, srcFile, lastLineNumber, 0,
                             srcFile.lastModified(), srcFile.length(), calculateChecksum(srcFile)); // HACK - nclinecount
 
@@ -332,7 +334,7 @@ public class Grover implements ASTTransformation {
                 }
             }
         } catch (Exception e) {
-            final RuntimeException re = new RuntimeException("Clover-for-Groovy failed to instrument Groovy source: " + getSourceUnitFile(sourceUnit), e);
+            final RuntimeException re = new RuntimeException("OpenClover Groovy integration failed to instrument Groovy source: " + getSourceUnitFile(sourceUnit), e);
             Logger.getInstance().error(re.getMessage(), re);
             throw re;
         }
@@ -391,8 +393,8 @@ public class Grover implements ASTTransformation {
      *  <li>test result recording</li>
      * </ul>
      */
-    protected void addHelperFieldsAndMethods(final FullFileInfo fileInfo,
-                                             final Map<ClassNode, GroovyInstrumentationResult> flagsForInstrumentedClasses) throws Exception {
+    protected void addHelperFieldsAndMethods(final FileInfo fileInfo,
+                                             final Map<ClassNode, GroovyInstrumentationResult> flagsForInstrumentedClasses) {
         // check which classes have been instrumented and generate extra methods according to needs
         GroovyInstrumentationConfig sessionConfig = new GroovyInstrumentationConfig(
                 config.getInitString(),

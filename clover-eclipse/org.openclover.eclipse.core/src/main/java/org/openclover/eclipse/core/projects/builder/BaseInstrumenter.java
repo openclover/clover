@@ -20,6 +20,9 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Iterator;
 
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+import static org.openclover.eclipse.core.CloverPlugin.logVerbose;
+
 public abstract class BaseInstrumenter {
     protected static final String INSTRUMENTATION_PROBLEM_MARKER = CloverPlugin.ID + ".markers.instrumentation.problem";
     protected static final int LOAD_STORE_PROGRESS = 25;
@@ -78,9 +81,9 @@ public abstract class BaseInstrumenter {
         if (hasInstrumented) {
             try {
                 long start = System.currentTimeMillis();
-                CloverPlugin.logVerbose("Storing model after instrumentation");
+                logVerbose("Storing model after instrumentation");
                 instrumenter.endInstrumentation(true);
-                CloverPlugin.logVerbose("Storing model ended (" + (System.currentTimeMillis() - start) + " ms)");
+                logVerbose("Storing model ended (" + (System.currentTimeMillis() - start) + " ms)");
                 monitor.worked(LOAD_STORE_PROGRESS);
 
                 if (!isIncremental()) {
@@ -114,8 +117,8 @@ public abstract class BaseInstrumenter {
         boolean filteredOut = exclusionFilter.isFilteredOut(file);
 
         if (filteredOut && isDebugging) {
-            CloverPlugin.logError("Source file " + file.getProjectRelativePath().toPortableString()
-                    + " skipped owing to Clover workingset or project instrumentation filters: [include = "
+            logError("Source file " + file.getProjectRelativePath().toPortableString()
+                    + " skipped owing to OpenClover working set or project instrumentation filters: [include = "
                     + Arrays.toString(exclusionFilter.getIncludeFilter())
                     + "] [exclude = "
                     + Arrays.toString(exclusionFilter.getExcludeFilter())
@@ -143,9 +146,9 @@ public abstract class BaseInstrumenter {
 
     private void startInstrumentation() throws CloverException {
         long start = System.currentTimeMillis();
-        CloverPlugin.logVerbose("Starting instrumentation");
+        logVerbose("Starting instrumentation");
         instrumenter.startInstrumentation(registry);
-        CloverPlugin.logVerbose("Instrumentation started (" + (System.currentTimeMillis() - start) + " ms)");
+        logVerbose("Instrumentation started (" + (System.currentTimeMillis() - start) + " ms)");
     }
 
     private boolean isIncremental() {
@@ -161,18 +164,18 @@ public abstract class BaseInstrumenter {
                 Markers.deleteCloverStaleDbMarkers(project.getProject());
                 Markers.createCloverStaleDbMarker(
                     project.getProject(),
-                    "Clover could not create a fresh instrumentation database:\n\n" + e1.getMessage());
+                    "OpenClover could not create a fresh instrumentation database:\n\n" + e1.getMessage());
             } catch (CoreException e2) {
-                CloverPlugin.logError("Unable to create problem marker for database ", e2);
+                logError("Unable to create problem marker for database ", e2);
             }
-            throw new CloverException("Clover could not create a fresh instrumentation database", e1);
+            throw new CloverException("OpenClover could not create a fresh instrumentation database", e1);
         }
         return reg;
     }
 
     protected void addInstrumentationFailure(IFile originalFile, Exception e) throws CoreException {
         project.addInstrumentationFailure(originalFile);
-        CloverPlugin.logError("Clover instrumentation failed for file " + originalFile + " - code coverage will not be recorded for this file.", e);
+        logError("OpenClover instrumentation failed for file " + originalFile + " - code coverage will not be recorded for this file.", e);
     }
 
     public abstract Iterator fileNamesAsCompilerArg();

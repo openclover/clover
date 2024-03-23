@@ -6,6 +6,8 @@ import org.eclipse.jface.action.IAction;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
 
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+
 /**
  *
  */
@@ -27,7 +29,7 @@ public class MultiCloverProjectActionDelegate extends CloverProjectActionDelegat
                 action.setEnabled(false);
             }
         } catch (CoreException e) {
-            CloverPlugin.logError("Unable to enable/disable " + getClass().getName(), e);
+            logError("Unable to enable/disable " + getClass().getName(), e);
             action.setEnabled(false);
         }
     }

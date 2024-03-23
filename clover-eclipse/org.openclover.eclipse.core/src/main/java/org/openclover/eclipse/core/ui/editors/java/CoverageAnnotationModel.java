@@ -30,10 +30,10 @@ import org.openclover.core.api.registry.ContextSet;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.SourceInfo;
 import org.openclover.core.api.registry.StatementInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.context.ContextSetImpl;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.LineInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
 import org.openclover.core.util.function.TransformingIterator;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.PluginOptionKeys;
@@ -58,6 +58,8 @@ import java.util.regex.Pattern;
 import static org.openclover.core.util.Lists.newLinkedList;
 import static org.openclover.core.util.Sets.newHashSet;
 import static org.openclover.core.util.Sets.newTreeSet;
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+import static org.openclover.eclipse.core.CloverPlugin.logVerbose;
 
 public class CoverageAnnotationModel implements IAnnotationModel, IDocumentListener, DatabaseChangeListener, AnnotationDisplayListener, ISchedulingRule {
     private static final Object MODEL_KEY = new Object();
@@ -92,7 +94,7 @@ public class CoverageAnnotationModel implements IAnnotationModel, IDocumentListe
                     refreshSync();
                 } catch (Throwable t) {
                     //Catch anything here so as not to corrupt the editor
-                    CloverPlugin.logError("Error when rebuilding annotation model for changed document", t);
+                    logError("Error when rebuilding annotation model for changed document", t);
                 }
                 //Return OK status so as to not interrupt users with error message boxes
                 return Status.OK_STATUS;
@@ -101,11 +103,12 @@ public class CoverageAnnotationModel implements IAnnotationModel, IDocumentListe
     }
 
     private void refreshSync() throws BadLocationException {
-        CloverPlugin.logVerbose("Refreshing annotations for editor " + editor.getTitle());
+        logVerbose("Refreshing annotations for editor " + editor.getTitle());
         fireAnnotationsChanged(rebuildAnnotations(editor.isDirty()));
     }
 
-    private CoverageAnnotationFilter syncFilter(CloverDatabase database, FullFileInfo fileInfo, Map<TestCaseInfo, BitSet> tcisAndHitsForFile, ContextSet blockFilter) {
+    private CoverageAnnotationFilter syncFilter(CloverDatabase database, FullFileInfo fileInfo,
+                                                Map<TestCaseInfo, BitSet> tcisAndHitsForFile, ContextSet blockFilter) {
         IResource editedResource = (IResource) editor.getEditorInput().getAdapter(IResource.class);
         if (editedResource != null) {
             return CoverageAnnotationFilter.loadFor(
@@ -134,7 +137,7 @@ public class CoverageAnnotationModel implements IAnnotationModel, IDocumentListe
             }
         } catch (Throwable t) {
             //Catch anything here so as not to corrupt the editor
-            CloverPlugin.logError("Error when annotation model connects to source file", t);
+            logError("Error when annotation model connects to source file", t);
         }
     }
 
@@ -154,7 +157,7 @@ public class CoverageAnnotationModel implements IAnnotationModel, IDocumentListe
                                 fireAnnotationsChanged(turnAnnotationsOff());
                             } catch (Throwable t) {
                                 //Catch anything here so as not to corrupt the editor
-                                CloverPlugin.logError("Error when rebuilding annotation model for changed document", t);
+                                logError("Error when rebuilding annotation model for changed document", t);
                             }
                             //Return OK status so as to not interrupt users with error message boxes
                             return Status.OK_STATUS;
@@ -164,7 +167,7 @@ public class CoverageAnnotationModel implements IAnnotationModel, IDocumentListe
             }
         } catch (Throwable t) {
             //Catch anything here so as not to corrupt the editor
-            CloverPlugin.logError("Error when annotation model disconnects from source file", t);
+            logError("Error when annotation model disconnects from source file", t);
         }
     }
 
@@ -175,7 +178,7 @@ public class CoverageAnnotationModel implements IAnnotationModel, IDocumentListe
                 document.addPosition(annotation.getPosition());
             }
         } catch (BadLocationException e) {
-            CloverPlugin.logError("Unable to add position for coverage annotation", e);
+            logError("Unable to add position for coverage annotation", e);
         }
     }
 
@@ -237,7 +240,7 @@ public class CoverageAnnotationModel implements IAnnotationModel, IDocumentListe
 
         if (database != null && fileInfo != null && fileInfo.validatePhysicalFile()) {
             //Test cases and their hits for this FileInfo - important to keep around as expensive to calculate often
-            Map<TestCaseInfo,BitSet> tcisAndHitsForFile = Collections.unmodifiableMap(database.mapTestsAndCoverageForFile(fileInfo));
+            Map<TestCaseInfo, BitSet> tcisAndHitsForFile = Collections.unmodifiableMap(database.mapTestsAndCoverageForFile(fileInfo));
 
             //Used to filter out uninteresting SourceRegions
             CoverageAnnotationFilter filter =
@@ -342,7 +345,7 @@ public class CoverageAnnotationModel implements IAnnotationModel, IDocumentListe
                 this.annotations = Collections.unmodifiableList(newLinkedList(annotations));
 
             } catch (BadLocationException e) {
-                CloverPlugin.logError("Unable to annotate " + fileInfo.getName(), e);
+                logError("Unable to annotate " + fileInfo.getName(), e);
                 throw e;
             }
         }
@@ -383,7 +386,7 @@ public class CoverageAnnotationModel implements IAnnotationModel, IDocumentListe
                         } catch (BadLocationException e) {
                             endLine = "*unavailable*";
                         }
-                        CloverPlugin.logError(
+                        logError(
                                 "Bad coverage info dimension: ["
                                         + info.getStartLine() + "," + info.getStartColumn() + "]=>["
                                         + info.getEndLine() + "," + info.getEndColumn() + "] text on start line = \n"
@@ -465,12 +468,12 @@ public class CoverageAnnotationModel implements IAnnotationModel, IDocumentListe
 
     @Override
     public void addAnnotation(Annotation annotation, Position position) {
-        throw new UnsupportedOperationException("External addition of Clover annotations is not supported");
+        throw new UnsupportedOperationException("External addition of OpenClover annotations is not supported");
     }
 
     @Override
     public void removeAnnotation(Annotation annotation) {
-        throw new UnsupportedOperationException("External removal of Clover annotations is not supported");
+        throw new UnsupportedOperationException("External removal of OpenClover annotations is not supported");
     }
 
     @Override
@@ -499,7 +502,7 @@ public class CoverageAnnotationModel implements IAnnotationModel, IDocumentListe
                         try {
                             compositeModel.addAnnotationModel(MODEL_KEY, model[0]);
                         } catch (Throwable t) {
-                            CloverPlugin.logError("Unable to apply annotations to source file", t);
+                            logError("Unable to apply annotations to source file", t);
                         }
                         //Return OK status so as to not interrupt users with error message boxes
                         return Status.OK_STATUS;
@@ -524,7 +527,7 @@ public class CoverageAnnotationModel implements IAnnotationModel, IDocumentListe
                                 compositeModel.removeAnnotationModel(MODEL_KEY);
                             }
                         } catch (Throwable t) {
-                            CloverPlugin.logError("Unable to remove annotations from source file", t);
+                            logError("Unable to remove annotations from source file", t);
                         }
                         //Return OK status so as to not interrupt users with error message boxes
                         return Status.OK_STATUS;
@@ -548,7 +551,7 @@ public class CoverageAnnotationModel implements IAnnotationModel, IDocumentListe
                                 compositeModel.removeAnnotationModel(MODEL_KEY);
                             }
                         } catch (Throwable t) {
-                            CloverPlugin.logError("Unable to remove annotations from source file", t);
+                            logError("Unable to remove annotations from source file", t);
                         }
                         //Return OK status so as to not interrupt users with error message boxes
 //                        return Status.OK_STATUS;

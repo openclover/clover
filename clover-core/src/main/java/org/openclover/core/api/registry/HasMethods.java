@@ -10,15 +10,15 @@ import java.util.List;
 public interface HasMethods {
     /**
      * Returns list of methods
-     * @return List&lt;? extends MethodInfo&gt; - list of methods or empty list if none
+     * @return List&lt;MethodInfo&gt; - list of methods or empty list if none
      */
     @NotNull
-    List<? extends MethodInfo> getMethods();
+    List<MethodInfo> getMethods();
 
     /**
      * Returns list of all methods, including indirect descendants.
-     * @return List&lt;? extends MethodInfo&gt; - list of methods or empty list if none
+     * @return List&lt;MethodInfo&gt; - list of methods or empty list if none
      */
     @NotNull
-    List<? extends MethodInfo> getAllMethods();
+    List<MethodInfo> getAllMethods();
 }

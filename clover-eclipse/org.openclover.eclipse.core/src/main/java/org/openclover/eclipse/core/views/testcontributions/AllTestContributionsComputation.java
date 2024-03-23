@@ -9,8 +9,8 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.ui.JavaUI;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.openclover.core.CloverDatabase;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.projects.model.DatabaseModel;
@@ -27,6 +27,7 @@ import java.util.Set;
 
 import static org.openclover.core.util.Maps.newHashMap;
 import static org.openclover.core.util.Sets.newHashSet;
+import static org.openclover.eclipse.core.CloverPlugin.logError;
 
 public class AllTestContributionsComputation extends TestContributionsComputation {
     private static final QualifiedName COMPILATION_UNIT = new QualifiedName(CloverPlugin.ID, "TestContributionsCompilationUnit");
@@ -93,7 +94,7 @@ public class AllTestContributionsComputation extends TestContributionsComputatio
                 }
             }
         } catch (Exception e) {
-            CloverPlugin.logError("Unable to calculate file-based test contributions", e);
+            logError("Unable to calculate file-based test contributions", e);
         }
 
         return Status.OK_STATUS;

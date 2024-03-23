@@ -8,11 +8,12 @@ import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.SourceInfo;
 import org.openclover.core.api.registry.StatementInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.cfg.Interval;
 import org.openclover.core.registry.Clover2Registry;
 import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
+
 import org.openclover.runtime.Logger;
 import org.openclover.runtime.RecorderLogging;
 
@@ -64,10 +65,10 @@ public class RegistryDumper {
         reg.getProject().visitFiles(fileInfo -> {
             Logger.getInstance().info("File " + fileInfo.getPackagePath());
             indent++;
-            Logger.getInstance().info(indent("Physical file:" + ((FullFileInfo)fileInfo).getPhysicalFile().getAbsolutePath()));
+            Logger.getInstance().info(indent("Physical file:" + fileInfo.getPhysicalFile().getAbsolutePath()));
             Logger.getInstance().info(indent("Encoding: " + fileInfo.getEncoding()));
             Logger.getInstance().info(indent("Checksum: " + fileInfo.getChecksum()));
-            Logger.getInstance().info(indent("File Size: " + fileInfo.getFilesize()));
+            Logger.getInstance().info(indent("File Size: " + fileInfo.getFileSize()));
             Logger.getInstance().info(indent("Line Count: " + fileInfo.getLineCount()));
             Logger.getInstance().info(indent("NC Line Count: " + fileInfo.getNcLineCount()));
             Logger.getInstance().info(indent("Timestamp: " + DateFormat.getDateTimeInstance().format(fileInfo.getTimestamp())));
@@ -166,7 +167,7 @@ public class RegistryDumper {
     private static int testCount(FileInfo fileInfo) {
         int testCount = 0;
         for (ClassInfo classInfo : fileInfo.getClasses()) {
-            testCount += ((FullClassInfo) classInfo).getTestCases().size();
+            testCount += classInfo.getTestCases().size();
         }
         return testCount;
     }
@@ -227,7 +228,7 @@ public class RegistryDumper {
             fileInfo.getPackagePath() + "," +
             fileInfo.getEncoding() + "," +
             fileInfo.getChecksum() + "," +
-            fileInfo.getFilesize() + "," +
+            fileInfo.getFileSize() + "," +
             fileInfo.getLineCount() + "," +
             fileInfo.getNcLineCount() + "," +
             DateFormat.getDateTimeInstance().format(fileInfo.getTimestamp()) + "," +

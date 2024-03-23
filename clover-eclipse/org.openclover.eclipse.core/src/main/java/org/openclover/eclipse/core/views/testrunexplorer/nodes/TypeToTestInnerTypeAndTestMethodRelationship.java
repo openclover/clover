@@ -4,8 +4,9 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
-import org.openclover.core.registry.entities.FullClassInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.core.api.registry.ClassInfo;
+
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.model.MetricsScope;
 import org.openclover.eclipse.core.views.nodes.NodeRelationship;
@@ -15,6 +16,7 @@ import org.openclover.eclipse.core.views.nodes.Nodes;
 import java.util.List;
 
 import static org.openclover.core.util.Lists.newLinkedList;
+import static org.openclover.eclipse.core.CloverPlugin.logError;
 
 public class TypeToTestInnerTypeAndTestMethodRelationship extends NodeRelationship {
 
@@ -43,7 +45,7 @@ public class TypeToTestInnerTypeAndTestMethodRelationship extends NodeRelationsh
                         children,
                         new Nodes.ToTestCaseNodeCoverter(tcnFactory)));
         } catch (CoreException e) {
-            CloverPlugin.logError("Unable to collect inner-types in type " + object, e);
+            logError("Unable to collect inner-types in type " + object, e);
             return new Object[] {};
         }
     }
@@ -58,7 +60,7 @@ public class TypeToTestInnerTypeAndTestMethodRelationship extends NodeRelationsh
             IMethod[] methods = ((IType) object).getMethods();
 
             for (IType type : types) {
-                FullClassInfo hasMetricsType = (FullClassInfo) MetricsScope.TEST_ONLY.getHasMetricsFor(type, FullClassInfo.class);
+                ClassInfo hasMetricsType = (ClassInfo) MetricsScope.TEST_ONLY.getHasMetricsFor(type, ClassInfo.class);
                 if (hasMetricsType != null && hasMetricsType.isTestClass()) {
                     return Boolean.TRUE;
                 }
@@ -72,7 +74,7 @@ public class TypeToTestInnerTypeAndTestMethodRelationship extends NodeRelationsh
             }
 
         } catch (JavaModelException e) {
-            CloverPlugin.logError("Unable to count inner-types in type " + object, e);
+            logError("Unable to count inner-types in type " + object, e);
         }
         return Boolean.FALSE;
     }

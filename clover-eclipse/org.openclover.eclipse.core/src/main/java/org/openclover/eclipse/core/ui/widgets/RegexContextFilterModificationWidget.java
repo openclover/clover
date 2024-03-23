@@ -23,6 +23,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static org.openclover.core.util.Lists.newArrayList;
+import static org.openclover.eclipse.core.CloverPlugin.logError;
 
 public class RegexContextFilterModificationWidget extends Composite {
     private Button addFilter;
@@ -84,7 +85,7 @@ public class RegexContextFilterModificationWidget extends Composite {
             try {
                 doAdd();
             } catch (Exception e) {
-                CloverPlugin.logError("Error adding new regex", e);
+                logError("Error adding new regex", e);
                 logRegexError(e);
             }
         });
@@ -93,7 +94,7 @@ public class RegexContextFilterModificationWidget extends Composite {
             try {
                 doCopy();
             } catch (Exception e) {
-                CloverPlugin.logError("Error duplicating regex", e);
+                logError("Error duplicating regex", e);
                 logRegexError(e);
             }
         });

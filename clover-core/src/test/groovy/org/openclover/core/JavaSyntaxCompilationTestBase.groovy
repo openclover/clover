@@ -17,12 +17,12 @@ import org.junit.Rule
 import org.junit.rules.TestName
 import org.openclover.buildutil.testutils.AssertionUtils
 import org.openclover.buildutil.testutils.IOHelper
+import org.openclover.core.api.registry.ClassInfo
+import org.openclover.core.api.registry.FileInfo
 import org.openclover.core.api.registry.MethodInfo
+import org.openclover.core.api.registry.ProjectInfo
+import org.openclover.core.api.registry.StatementInfo
 import org.openclover.core.cfg.instr.java.LambdaInstrumentation
-import org.openclover.core.registry.entities.FullClassInfo
-import org.openclover.core.registry.entities.FullFileInfo
-import org.openclover.core.registry.entities.FullProjectInfo
-import org.openclover.core.registry.entities.FullStatementInfo
 import org.openclover.core.registry.entities.LineInfo
 import org.openclover.core.util.FileUtils
 import org.openclover.core.util.SourceScanner
@@ -75,7 +75,7 @@ abstract class JavaSyntaxCompilationTestBase {
     private String mInitString
     private File mProjDir
     private Project mAntProj
-    private FullProjectInfo mModel
+    private ProjectInfo mModel
     /** Keeps ant console output */
     private ByteArrayOutputStream mAntOutput
     private ByteArrayOutputStream execOutErrStream
@@ -263,12 +263,12 @@ abstract class JavaSyntaxCompilationTestBase {
     }
 
     protected void assertMethodCoverage(String classname, int lineno, int expected) throws Exception {
-        FullProjectInfo model = getModel()
+        ProjectInfo model = getModel()
 
-        FullClassInfo c = (FullClassInfo)model.findClass(classname)
+        ClassInfo c = model.findClass(classname)
         assertNotNull("no such class $classname".toString(), classname)
 
-        FullFileInfo fi = (FullFileInfo)c.getContainingFile()
+        FileInfo fi = c.getContainingFile()
         LineInfo li = fi.getLineInfo(false, false)[lineno]
         assertTrue("in $classname, no method at line $lineno".toString(), li.getMethodStarts().length > 0)
         final MethodInfo mi = li.getMethodStarts()[0]
@@ -281,33 +281,33 @@ abstract class JavaSyntaxCompilationTestBase {
     }
 
     void assertNoStatement(String classname, int lineno) throws Exception {
-        FullProjectInfo model = getModel()
-        FullClassInfo c = (FullClassInfo)model.findClass(classname)
+        ProjectInfo model = getModel()
+        ClassInfo c = model.findClass(classname)
         assertNotNull("no such class $classname".toString(), classname)
 
-        FullFileInfo fi = (FullFileInfo)c.getContainingFile()
+        FileInfo fi = c.getContainingFile()
         LineInfo lineInfo = fi.getLineInfo(false, false)[lineno]
         assertTrue("Expected no statement at line #$lineno but found something".toString(),
                 lineInfo == null || lineInfo.getStatements().length == 0)
     }
 
     protected void assertStatementCoverage(String classname, int lineno, int[] expected) throws Exception {
-        FullProjectInfo model = getModel()
-        FullClassInfo c = (FullClassInfo)model.findClass(classname)
+        ProjectInfo model = getModel()
+        ClassInfo c = model.findClass(classname)
         assertNotNull("no such class $classname".toString(), classname)
 
-        FullFileInfo fi = (FullFileInfo)c.getContainingFile()
+        FileInfo fi = c.getContainingFile()
         LineInfo lineInfo = fi.getLineInfo(false, false)[lineno]
 
         assertStatementCoverage(classname, lineno, lineInfo, expected)
     }
 
     protected void assertStatementCoverage(String classname, int lineno, int expected) throws Exception {
-        FullProjectInfo model = getModel()
-        FullClassInfo c = (FullClassInfo)model.findClass(classname)
+        ProjectInfo model = getModel()
+        ClassInfo c = model.findClass(classname)
         assertNotNull("no such class $classname".toString(), classname)
 
-        FullFileInfo fi = (FullFileInfo)c.getContainingFile()
+        FileInfo fi = c.getContainingFile()
         LineInfo lineInfo = fi.getLineInfo(false, false)[lineno]
         assertStatementCoverage(classname, lineno, lineInfo, [ expected ] as int[])
     }
@@ -321,7 +321,7 @@ abstract class JavaSyntaxCompilationTestBase {
                 lineInfo.getStatements().length == expected.length)
 
         for (int i = 0; i < expected.length; i++) {
-            final FullStatementInfo si = lineInfo.getStatements()[i]
+            final StatementInfo si = lineInfo.getStatements()[i]
             if (expected[i] == -1) {
                 assertTrue(
                         "in $classname at line #$lineInfo.line expected coverage but found no coverage".toString(),
@@ -389,7 +389,7 @@ abstract class JavaSyntaxCompilationTestBase {
         AssertionUtils.assertFileContains(subString, instrumentedFile, negate)
     }
 
-    protected FullProjectInfo getModel() throws Exception {
+    protected ProjectInfo getModel() throws Exception {
         if (mModel == null) {
             final CloverDatabase db = new CloverDatabase(mInitString)
             db.loadCoverageData()

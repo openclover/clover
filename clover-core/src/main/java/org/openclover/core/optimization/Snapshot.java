@@ -5,11 +5,11 @@ import clover.it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.CoverageDataSpec;
 import org.openclover.core.api.registry.FileInfo;
+import org.openclover.core.api.registry.ProjectInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.Clover2Registry;
-import org.openclover.core.registry.CoverageDataRange;
+import org.openclover.core.api.registry.CoverageDataRange;
 import org.openclover.core.registry.entities.FullFileInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
 import org.openclover.core.util.Sets;
 import org.openclover.runtime.CloverNames;
 import org.openclover.runtime.Logger;
@@ -158,8 +158,8 @@ public class Snapshot implements Serializable {
         Logger.getInstance().verbose("Took " + (System.currentTimeMillis() - started) + "ms to process all test durations");
         if (testCount == 0) {
             Logger.getInstance().verbose(
-                "No test results found in the Clover database. Please ensure the source files containing test "
-                 + "classes have been instrumented by Clover and the tests have been run.");
+                "No test results found in the OpenClover database. Please ensure the source files containing test "
+                 + "classes have been instrumented by OpenClover and the tests have been run.");
         } else {
             Logger.getInstance().verbose(
                 "Number of test results found in the model: " + testCount);
@@ -217,7 +217,7 @@ public class Snapshot implements Serializable {
 
         db.getFullModel().visitFiles(fileInfo -> {
             final String packagePath = fileInfo.getPackagePath();
-            final SourceState sourceState = new SourceState(fileInfo.getChecksum(), fileInfo.getFilesize());
+            final SourceState sourceState = new SourceState(fileInfo.getChecksum(), fileInfo.getFileSize());
             final Set<TestMethodCall> testsForFile = testsFor(db.getFullModel(), db.getTestHits((CoverageDataRange) fileInfo));
             for (TestMethodCall test : testsForFile) {
                 addToStates(test, packagePath, sourceState);
@@ -243,7 +243,7 @@ public class Snapshot implements Serializable {
         return duration;
     }
 
-    private Set<TestMethodCall> testsFor(FullProjectInfo project, Collection<TestCaseInfo> tcis) {
+    private Set<TestMethodCall> testsFor(ProjectInfo project, Collection<TestCaseInfo> tcis) {
         Set<TestMethodCall> tests = newHashSet();
         for (final TestCaseInfo tci : tcis) {
             String testName = TestMethodCall.getSourceMethodNameFor(tci, project);
@@ -307,7 +307,8 @@ public class Snapshot implements Serializable {
                 }
             } catch (InvalidClassException e) {
                 Logger.getInstance().debug("Failed to load snapshot file at " + file.getAbsolutePath(), e);
-                Logger.getInstance().warn("Failed to load snapshot file at " + file.getAbsolutePath() + " because it is no longer valid for this version of Clover");
+                Logger.getInstance().warn("Failed to load snapshot file at " + file.getAbsolutePath() +
+                        " because it is no longer valid for this version of OpenClover");
             } catch (Exception e) {
                 Logger.getInstance().debug("Failed to load snapshot file at " + file.getAbsolutePath(), e);
                 Logger.getInstance().warn("Failed to load snapshot file at " + file.getAbsolutePath());
@@ -444,7 +445,7 @@ public class Snapshot implements Serializable {
                         Logger.getInstance().info(
                             "Source file " + fileState.getKey() + " covered by test " + testMethod
                             + " changed (was: " + fileState.getValue()
-                            + " now: " + new SourceState(fileInfo.getChecksum(), fileInfo.getFilesize()) + ")");
+                            + " now: " + new SourceState(fileInfo.getChecksum(), fileInfo.getFileSize()) + ")");
                     }
                 }
                 if (fileInfo != null) {

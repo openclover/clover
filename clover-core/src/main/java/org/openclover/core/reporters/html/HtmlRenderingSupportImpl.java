@@ -9,16 +9,13 @@ import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.MethodInfo;
-import org.openclover.core.registry.CoverageDataRange;
-import org.openclover.core.registry.entities.BaseClassInfo;
-import org.openclover.core.registry.entities.BaseFileInfo;
-import org.openclover.core.registry.entities.BasePackageInfo;
-import org.openclover.core.registry.entities.FullClassInfo;
-import org.openclover.core.registry.entities.FullFileInfo;
+import org.openclover.core.api.registry.CoverageDataRange;
+import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.core.api.registry.ProjectInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.entities.FullMethodInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
-import org.openclover.core.registry.entities.StackTraceInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.core.api.registry.StackTraceInfo;
+import org.openclover.core.api.registry.StackTraceEntry;
 import org.openclover.core.registry.util.EntityVisitorUtils;
 import org.openclover.core.reporters.Column;
 import org.openclover.core.reporters.Format;
@@ -106,7 +103,7 @@ public class HtmlRenderingSupportImpl implements HtmlRenderingSupport {
         return aPkg.replace('.', '/') + "/" + aFile;
     }
     
-    public String getFileIdentifier(FullFileInfo aFile) {
+    public String getFileIdentifier(FileInfo aFile) {
         return aFile.getPackagePath().replace('/', '_').replace('.', '_');
     }
     
@@ -250,7 +247,7 @@ public class HtmlRenderingSupportImpl implements HtmlRenderingSupport {
         return link;
     }
 
-    public StringBuffer getSrcFileLink(boolean toplevel, BaseClassInfo cls, long idParam) {
+    public StringBuffer getSrcFileLink(boolean toplevel, ClassInfo cls, long idParam) {
         final String cname = cls.getName();
         final FileInfo fileInfo = cls.getContainingFile();
         final String file = fileInfo != null ? fileInfo.getName() : "";
@@ -274,14 +271,13 @@ public class HtmlRenderingSupportImpl implements HtmlRenderingSupport {
         return retVal;
     }
 
-
-    public StringBuffer getFileLink(boolean toplevel, BaseFileInfo fileInfo) {
+    public StringBuffer getFileLink(boolean toplevel, FileInfo fileInfo) {
         final String file = fileInfo.getName();
         final String pkgName = fileInfo.getContainingPackage().getName();
         return getSrcFileLink(toplevel, false, file, file, pkgName);
     }
 
-    public StringBuffer getSrcFileLink(boolean toplevel, boolean withAnchor, BaseClassInfo cls, BasePackageInfo pkgInContext) {
+    public StringBuffer getSrcFileLink(boolean toplevel, boolean withAnchor, ClassInfo cls, PackageInfo pkgInContext) {
         final String cname = cls.getName();
         final FileInfo fileInfo = cls.getContainingFile();
         final String file = fileInfo != null ? fileInfo.getName() : "";
@@ -357,7 +353,7 @@ public class HtmlRenderingSupportImpl implements HtmlRenderingSupport {
         link.append(basename).append(".html");
     }
 
-    public String getBaseFileName(BaseClassInfo classInfo) {
+    public String getBaseFileName(ClassInfo classInfo) {
         StringBuffer buf = new StringBuffer();
         appendBaseDirectoryName(buf, true, classInfo.getPackage().getName());
 
@@ -540,13 +536,13 @@ public class HtmlRenderingSupportImpl implements HtmlRenderingSupport {
      * renders a stack trace by inserting hyperlinking for class/filenames where found.
      * @return stack trace with hyperlinked class links
      */
-    public String linkifyStackTrace(String rootRelPath, FullProjectInfo proj, String trace) {
+    public String linkifyStackTrace(String rootRelPath, ProjectInfo proj, String trace) {
         StringBuffer buff = new StringBuffer();
         Matcher matcher = TRACE_LINE_PATTERN.matcher(htmlEscapeStr(trace, " ", " "));
 
         while (matcher.find()) {
             String fqcn = matcher.group(2).replace('$','.');
-            FullClassInfo clazz = (FullClassInfo)proj.findClass(fqcn);
+            ClassInfo clazz = proj.findClass(fqcn);
 
             Logger.getInstance().debug(fqcn + " ... " + ((clazz != null) ? "found" : "CLASS NOT FOUND"));
             if (clazz != null) {
@@ -574,7 +570,7 @@ public class HtmlRenderingSupportImpl implements HtmlRenderingSupport {
     public String linkifyStackTrace(String rootRelPath, StackTraceInfo trace) {
         final StringBuilder buff = new StringBuilder();
         for (Object entryObj : trace.getEntries()) {
-            StackTraceInfo.TraceEntry entry = (StackTraceInfo.TraceEntry) entryObj;
+            StackTraceEntry entry = (StackTraceEntry) entryObj;
             buff.append("<div>");
             if (entry.isResolved()) {
                 buff.append(entry.getLinePrefix());
@@ -611,14 +607,14 @@ public class HtmlRenderingSupportImpl implements HtmlRenderingSupport {
         return  min + (int)(input * diff);
     }
 
-    public int getFontSize(StatisticsClassInfoVisitor stats, BaseClassInfo classInfo, int min, int max) {
+    public int getFontSize(StatisticsClassInfoVisitor stats, ClassInfo classInfo, int min, int max) {
         int result = stats.getCalculator().getScaledValue(classInfo);
         float pcResult = getFraction(result, stats.getMax());
         return constrain(pcResult, min, max);
     }
 
     @SuppressWarnings("unused") // cloud-body.vm, dashboard.vm
-    public String getColor(StatisticsClassInfoVisitor stats, BaseClassInfo classInfo) {
+    public String getColor(StatisticsClassInfoVisitor stats, ClassInfo classInfo) {
         int result = stats.getCalculator().getScaledValue(classInfo);
         return ReportColors.ADG_COLORS.getStringColor(getFraction(result, stats.getMax()));
     }

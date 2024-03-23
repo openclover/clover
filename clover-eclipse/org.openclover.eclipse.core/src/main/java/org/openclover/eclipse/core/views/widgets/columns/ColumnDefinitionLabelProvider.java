@@ -13,6 +13,9 @@ import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.ui.CloverPluginIcons;
 import org.openclover.eclipse.core.views.ColumnDefinition;
 
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+import static org.openclover.eclipse.core.CloverPlugin.logWarning;
+
 public class ColumnDefinitionLabelProvider implements ITableLabelProvider, IDisposable {
     private ResourceManager imageManager;
     private Image customColumnImage;
@@ -30,17 +33,17 @@ public class ColumnDefinitionLabelProvider implements ITableLabelProvider, IDisp
                     "org.eclipse.ui.views",
                     "icons/full/eview16/prop_ps.gif");
             if (customColumnImage == null) {
-                CloverPlugin.logWarning("Unable to find column icon");
+                logWarning("Unable to find column icon");
             }
         } catch (Exception e) {
-            CloverPlugin.logError("Error loading column icon", e);
+            logError("Error loading column icon", e);
         }
 
         if (customColumnImage != null) {
             try {
                 builtinColumnOverlayImage = CloverPlugin.getImage(CloverPluginIcons.CLOVERED_OVERLAY_ICON);
                 if (builtinColumnOverlayImage == null) {
-                    CloverPlugin.logWarning("Unable to find builtin overlay icon");
+                    logWarning("Unable to find builtin overlay icon");
                 } else {
                     builtinColumnImage = imageManager.createImage(
                         new CompositeImageDescriptor() {
@@ -59,7 +62,7 @@ public class ColumnDefinitionLabelProvider implements ITableLabelProvider, IDisp
                         });
                 }
             } catch (Exception e) {
-                CloverPlugin.logError("Error loading builtin column icon", e);
+                logError("Error loading builtin column icon", e);
             }
 
             try {
@@ -83,7 +86,7 @@ public class ColumnDefinitionLabelProvider implements ITableLabelProvider, IDisp
                         });
                 }
             } catch (Exception e) {
-                CloverPlugin.logError("Error loading locked & builtin column icon", e);
+                logError("Error loading locked & builtin column icon", e);
             }
         }
     }

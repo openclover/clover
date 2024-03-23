@@ -3,10 +3,9 @@ package org.openclover.core
 import junit.framework.TestCase
 import org.openclover.buildutil.testutils.IOHelper
 import org.openclover.core.api.registry.ClassInfo
-import org.openclover.core.registry.entities.FullClassInfo
-import org.openclover.core.registry.entities.FullProjectInfo
-import org.openclover.core.registry.entities.TestCaseInfo
-import org.openclover.core.registry.metrics.HasMetricsFilter
+import org.openclover.core.api.registry.ProjectInfo
+import org.openclover.core.registry.entities.FullTestCaseInfo
+import org.openclover.core.api.registry.HasMetricsFilter
 import org.openclover.core.util.FileUtils
 import org.openclover.runtime.api.CloverException
 
@@ -68,40 +67,40 @@ class TestResultProcessorTest extends TestCase {
 
 
     void testParseTestSuiteXML() throws Exception {
-        final FullProjectInfo testModel = db.getTestOnlyModel()
+        final ProjectInfo testModel = db.getTestOnlyModel()
         TestResultProcessor.addTestResultsToModel(testModel, testSuiteFiles)
         assertTestResults(testModel)
-        FullClassInfo t3 = (FullClassInfo) testModel.findClass("Test3")
+        ClassInfo t3 = testModel.findClass("Test3")
 
-        TestCaseInfo failedTest = t3.getTestCase("Test3.methodFailure")
+        FullTestCaseInfo failedTest = t3.getTestCase("Test3.methodFailure")
         assertTrue(failedTest.isFailure())
         assertEquals("This test failed.", failedTest.getFailMessage())
 
-        TestCaseInfo errorTest = t3.getTestCase("Test3.methodError")
+        FullTestCaseInfo errorTest = t3.getTestCase("Test3.methodError")
         assertTrue(errorTest.isError());        
         assertEquals("This test had an error.", errorTest.getFailMessage())
 
     }
 
     void testParseTestFiles() throws Exception {
-        final FullProjectInfo testModel = db.getTestOnlyModel()
+        final ProjectInfo testModel = db.getTestOnlyModel()
         TestResultProcessor.addTestResultsToModel(testModel, testResultFiles)
         assertTestResults(testModel)
     }
 
-    private void assertTestResults(FullProjectInfo testModel) {
-        final FullClassInfo test1 = (FullClassInfo) testModel.findClass("com.cenqua.test.Test1")
-        final FullClassInfo test2 = (FullClassInfo) testModel.findClass("com.cenqua.test.Test2")
-        final FullClassInfo test4 = (FullClassInfo) testModel.findClass("com.cenqua.test.Test4")
-        final FullClassInfo test5 = (FullClassInfo) testModel.findClass("com.cenqua.test.Test5")
-        final FullClassInfo t3 = (FullClassInfo) testModel.findClass("Test3")
+    private void assertTestResults(ProjectInfo testModel) {
+        final ClassInfo test1 = testModel.findClass("com.cenqua.test.Test1")
+        final ClassInfo test2 = testModel.findClass("com.cenqua.test.Test2")
+        final ClassInfo test4 = testModel.findClass("com.cenqua.test.Test4")
+        final ClassInfo test5 = testModel.findClass("com.cenqua.test.Test5")
+        final ClassInfo t3 = testModel.findClass("Test3")
         assertTestClass(test1)
         assertTestClass(test2)
         assertTestClass(test4)
         assertTestClass(test5)
         assertTestClass(t3)
 
-        Map<FullClassInfo, Double> testTimes = new HashMap<FullClassInfo, Double>() {{
+        Map<ClassInfo, Double> testTimes = new HashMap<ClassInfo, Double>() {{
             put(test1, 10.0d)
             put(test2, 20.22d)
             put(t3, 200.2d)
@@ -109,7 +108,7 @@ class TestResultProcessorTest extends TestCase {
             put(test5, 30.333d)
         }}
         
-        Map<FullClassInfo, Set<Integer>> testMethods = new HashMap<FullClassInfo, Set<Integer>>() {{
+        Map<ClassInfo, Set<Integer>> testMethods = new HashMap<ClassInfo, Set<Integer>>() {{
             put(test1, newHashSet(0, 1, 2))
             put(test2, newHashSet(0, 1, 2))
             put(t3, newHashSet(0, 1, 2))
@@ -117,10 +116,10 @@ class TestResultProcessorTest extends TestCase {
             put(test5, newHashSet(2))
         }}
 
-        for (FullClassInfo classInfo : [ test1, test2, t3, test4 ]) {
+        for (ClassInfo classInfo : [ test1, test2, t3, test4 ]) {
             for (Integer testNum : testMethods.get(classInfo)) {
                 String methodName = "method" + testNum
-                TestCaseInfo tci = classInfo.getTestCase("${classInfo.qualifiedName}.${methodName}".toString())
+                FullTestCaseInfo tci = classInfo.getTestCase("${classInfo.qualifiedName}.${methodName}".toString())
                 assertNotNull("No test case called ${classInfo.qualifiedName}.${methodName}".toString(), tci)
                 assertEquals(tci.getTestName(), "method" + testNum)
                 assertEquals(tci.getDuration(), testTimes.get(classInfo), 1.0)

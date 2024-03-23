@@ -51,7 +51,7 @@ public class AntIntegrationListener implements BuildListener {
 
         final StringBuffer msg = new StringBuffer("[clover]");
         if (!instrumentationOccured && !executionOccured) {
-            msg.append(" No Clover reports written. ");
+            msg.append(" No OpenClover reports written. ");
             appendReason(msg);
             buildEvent.getProject().log(msg.toString());
             return;
@@ -65,7 +65,7 @@ public class AntIntegrationListener implements BuildListener {
             Vector<String> targets = new Vector<>(Arrays.asList("clover.current", "clover.json", "clover.report"));
             buildEvent.getProject().executeTargets(targets);
         } else {
-            msg.append(" Clover reports not being generated.");
+            msg.append(" OpenClover reports not being generated.");
             appendReason(msg);
             buildEvent.getProject().log(msg.toString());
         }
@@ -73,13 +73,13 @@ public class AntIntegrationListener implements BuildListener {
 
     private void appendReason(StringBuffer msg) {
         if (!instrumentationOccured) {
-            msg.append(" No Clover instrumentation was done.");
+            msg.append(" No OpenClover instrumentation was done.");
         }
         if (!executionOccured) {
             msg.append(" No tests were run.");
         }
         if (!importOccured) {
-            msg.append(" Clover targets could not be imported into this project.");
+            msg.append(" OpenClover targets could not be imported into this project.");
         }        
     }
 
@@ -235,7 +235,7 @@ public class AntIntegrationListener implements BuildListener {
                 }
             }
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            Logger.getInstance().debug("Could not inject Clover onto classpath of javadoc task", e);
+            Logger.getInstance().debug("Could not inject OpenClover onto classpath of javadoc task", e);
         }
     }
 
@@ -248,14 +248,14 @@ public class AntIntegrationListener implements BuildListener {
                 addCloverToPath(javadoc, doclet);
             }
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            Logger.getInstance().debug("Could not inject Clover onto classpath of javadoc task", e);
+            Logger.getInstance().debug("Could not inject OpenClover onto classpath of javadoc task", e);
         }
     }
 
     private void addCloverToPath(Javadoc javadoc, Javadoc.ExtensionInfo tagInfo) {
         Path cloverJarPath = tagInfo.createPath();
         cloverJarPath.add(new Path(javadoc.getProject(), ClassPathUtil.getCloverJarPath()));
-        javadoc.log("Injected Clover into javadoc doclet classpath: " + cloverJarPath);        
+        javadoc.log("Injected OpenClover into javadoc doclet classpath: " + cloverJarPath);
     }
 
     private void injectClover(JUnitTask junit, boolean optimize) {

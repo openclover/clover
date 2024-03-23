@@ -57,7 +57,8 @@ public class JUnitOptimizingProgramRunnerBase implements SavingsReporter {
                     return true;
             }
         }
-        MessageDialogs.showInfoMessage(null, CloverIdeaPluginMessages.getString("launch.optimized.junitonly"), "Clover Test Optimization");
+        MessageDialogs.showInfoMessage(null, CloverIdeaPluginMessages.getString("launch.optimized.junitonly"),
+                "OpenClover Test Optimization");
         return false;
     }
 
@@ -71,7 +72,7 @@ public class JUnitOptimizingProgramRunnerBase implements SavingsReporter {
             for (Project project : projects) {
                 ToolWindowManager.getInstance(project).notifyByBalloon(CloverToolWindowId.TOOL_WINDOW_ID, MessageType.ERROR,
                         "Cannot retrieve project for current run configuration");
-                reportSavings(project, "Cannot retrieve project for current run configuration. No Clover test optimization. ");
+                reportSavings(project, "Cannot retrieve project for current run configuration. No OpenClover test optimization. ");
             }
             return;
         }
@@ -80,7 +81,7 @@ public class JUnitOptimizingProgramRunnerBase implements SavingsReporter {
         if (!JUNIT_CONFIGURATION_ID.equals(configurationId) && !ANDROID_JUNIT_CONFIGURATION_ID.equals(configurationId)) {
             // 'Cannot happen' case
             Logger.getInstance().warn("Run profile is not a recognized JUnit or Android JUnit configuration");
-            reportSavings(currentProject, "Run profile is not a recognized JUnit or Android JUnit configuration. No Clover test optimization.");
+            reportSavings(currentProject, "Run profile is not a recognized JUnit or Android JUnit configuration. No OpenClover test optimization.");
             return;
         }
         final File tmpFile = retrieveTmpFile(javaParameters);

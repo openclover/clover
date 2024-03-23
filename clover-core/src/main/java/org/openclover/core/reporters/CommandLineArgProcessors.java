@@ -333,7 +333,7 @@ public class CommandLineArgProcessors {
 
         @Override
         public String help() {
-            return "    -p, --sourcepath\t\tThe sourcepath that Clover should search on for source files.\n\n";
+            return "    -p, --sourcepath\t\tThe sourcepath that OpenClover should search on for source files.\n\n";
         }
     };
 
@@ -357,7 +357,7 @@ public class CommandLineArgProcessors {
         @Override
         public String help() {
             return "    -s, --span <interval>\tSpecifies how far back in time to\n" +
-                    "\t\t\t\tinclude coverage recordings from since the last Clover build. In Interval\n" +
+                    "\t\t\t\tinclude coverage recordings from since the last OpenClover build. In Interval\n" +
                     "\t\t\t\tformat. \"60s\" = 60 seconds, \"1h\" = 1 hour, \"1d\" = 1 day etc.\n\n";
         }
     };

@@ -75,15 +75,10 @@ public class CloverInstr {
      * sames as "main", but returns 0 on success
      */
     public static int mainImpl(String[] args) {
-
-        CloverStartup.loadLicense(Logger.getInstance());
-
         CloverInstr instr = new CloverInstr();
-
         if (!instr.processArgs(args)) {
             return 1;
         }
-
         return instr.execute();
     }
 
@@ -102,7 +97,7 @@ public class CloverInstr {
                 ContextStore.saveCustomContexts(cfg);
                 instr.startInstrumentation();
             } catch (CloverException e) {
-                log.error("Could not initialise Clover: " + e.getMessage());
+                log.error("Could not initialise OpenClover: " + e.getMessage());
                 return 1;
             }
 

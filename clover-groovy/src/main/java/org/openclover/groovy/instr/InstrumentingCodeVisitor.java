@@ -41,6 +41,7 @@ import org.codehaus.groovy.ast.stmt.WhileStatement;
 import org.codehaus.groovy.control.SourceUnit;
 import org.openclover.core.api.instrumentation.InstrumentationSession;
 import org.openclover.core.api.registry.ContextSet;
+import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.SourceInfo;
 import org.openclover.core.cfg.instr.InstrumentationConfig;
 import org.openclover.core.context.ContextSetImpl;
@@ -176,7 +177,7 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
     }
 
     private ContextSet currentMethodContext() {
-        FullMethodInfo currentMethod = (FullMethodInfo) session.getCurrentMethod(); // use the current method's context
+        MethodInfo currentMethod = session.getCurrentMethod(); // use the current method's context
         return currentMethod != null ? currentMethod.getContext() : EMPTY_CONTEXT;
     }
 

@@ -17,16 +17,15 @@ import org.openclover.core.BitSetCoverageProvider;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.CoverageData;
 import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.CoverageDataProvider;
+import org.openclover.core.api.registry.CoverageDataReceptor;
 import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.core.api.registry.MethodInfo;
-import org.openclover.core.registry.CoverageDataProvider;
-import org.openclover.core.registry.CoverageDataReceptor;
+import org.openclover.core.api.registry.ProjectInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
-import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullMethodInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
-import org.openclover.core.registry.metrics.HasMetricsFilter;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.projects.model.MetricsScope;
@@ -45,12 +44,13 @@ import static org.openclover.core.util.Lists.newArrayList;
 import static org.openclover.core.util.Lists.newLinkedList;
 import static org.openclover.core.util.Maps.newHashMap;
 import static org.openclover.core.util.Sets.newHashSet;
+import static org.openclover.eclipse.core.CloverPlugin.logError;
 
 public class ClassesTestedTreeProvider
     extends WorkbenchContentProvider
     implements ISelectionChangedListener {
 
-    private TreeViewer treeViewer;
+    private final TreeViewer treeViewer;
     private Object input;
     private List classes;
     private final Map<ClassInfo, List<CoverageContributionNode>> methods = newHashMap();
@@ -86,20 +86,21 @@ public class ClassesTestedTreeProvider
             }
             return classes.toArray();
         } catch (CoreException e) {
-            CloverPlugin.logError("Unable to find tested methods for " + parent, e);
+            logError("Unable to find tested methods for " + parent, e);
         }
         return new Object[] {};
     }
 
-    private List<CoverageContributionNode> collectTestedClassesFor(final List<CoverageContributionNode> testedClassInfos, final List<TestCaseInfo> testCases, final CloverProject project) throws CoreException {
+    private List<CoverageContributionNode> collectTestedClassesFor(final List<CoverageContributionNode> testedClassInfos,
+                                                                   final List<TestCaseInfo> testCases, final CloverProject project) throws CoreException {
         final CloverProject[] dependencies = project.getDependencies();
         for (CloverProject dependency : dependencies) {
             collectTestedClassesFor(testedClassInfos, testCases, dependency);
         }
 
         final CloverDatabase database = project.getModel().getDatabase();
-        final FullProjectInfo appOnlyProject = database == null ? null : database.getAppOnlyModel();
-        final FullProjectInfo fullProject = database == null ? null : database.getFullModel();
+        final ProjectInfo appOnlyProject = database == null ? null : database.getAppOnlyModel();
+        final ProjectInfo fullProject = database == null ? null : database.getFullModel();
 
         if (database != null && appOnlyProject != null) {
             final HashSet<TestCaseInfo> testCasesSet = newHashSet(testCases);
@@ -107,7 +108,7 @@ public class ClassesTestedTreeProvider
             final CoverageDataProvider testHits = new BitSetCoverageProvider(data.getHitsFor(testCasesSet), data);
             final CoverageDataProvider uniqueTestHits = new BitSetCoverageProvider(data.getUniqueHitsFor(testCasesSet), data);
             appOnlyProject.getClasses(hm -> {
-                 final FullClassInfo classInfo = (FullClassInfo) hm;
+                final ClassInfo classInfo = (ClassInfo) hm;
                 try {
                     final IType clazz = project.getJavaProject().findType(classInfo.getQualifiedName(), (IProgressMonitor)null);
                     if (clazz != null) {
@@ -116,13 +117,13 @@ public class ClassesTestedTreeProvider
                             NodeBuilder.FOR_CLASSES,
                             classInfo,
                             clazz,
-                            classInfo.copy((FullFileInfo)classInfo.getContainingFile(), HasMetricsFilter.ACCEPT_ALL),
+                            classInfo.copy(classInfo.getContainingFile(), HasMetricsFilter.ACCEPT_ALL),
                             testHits,
                             uniqueTestHits,
                             testedClassInfos);
                     }
                 } catch (Exception e) {
-                    CloverPlugin.logError("Unable to calculate classes tested", e);
+                    logError("Unable to calculate classes tested", e);
                 }
 
                 //We don't really want to collect, just visit
@@ -133,7 +134,7 @@ public class ClassesTestedTreeProvider
     }
 
     private List<CoverageContributionNode> collectTestedMethodsFor(IType javaType, final CoverageDataProvider testHits, final CoverageDataProvider uniqueTestHits) throws CoreException {
-        FullClassInfo classInfo = (FullClassInfo)MetricsScope.APP_ONLY.getHasMetricsFor(javaType, FullClassInfo.class);
+        ClassInfo classInfo = (ClassInfo) MetricsScope.APP_ONLY.getHasMetricsFor(javaType, FullClassInfo.class);
 
         List<CoverageContributionNode> testedMethodInfos = Collections.emptyList();
         if (classInfo != null) {
@@ -184,7 +185,7 @@ public class ClassesTestedTreeProvider
         ((CoverageDataReceptor)hasMetricsCopy).setDataProvider(testHits);
         if (totalElements == 0) {
             if (hasMetricsCopy instanceof MethodInfo) {
-                FullMethodInfo method = (FullMethodInfo)hasMetricsCopy;
+                MethodInfo method = (MethodInfo) hasMetricsCopy;
                 return method.getHitCount() == 0 ? 0f : 1.0f;
             } else {
                 return 0f;
@@ -232,7 +233,7 @@ public class ClassesTestedTreeProvider
                 return collectTestedMethodsFor((IType)classContributionNode.getElement(), classContributionNode.getTestHits(), classContributionNode.getUniqueTestHits()).toArray();
             }
         } catch (CoreException e) {
-            CloverPlugin.logError("Unable to calculate methods tested", e);
+            logError("Unable to calculate methods tested", e);
         }
         return new Object[] {};
     }
@@ -260,8 +261,8 @@ public class ClassesTestedTreeProvider
     private interface NodeBuilder {
         CoverageContributionNode build(IJavaElement element, float testContribution, float uniqueTestContribution, CoverageDataProvider testHits, CoverageDataProvider uniqueTestHits);
 
-        public static NodeBuilder FOR_CLASSES = (element, testContribution, uniqueTestContribution, testHits, uniqueTestHits) -> new ClassCoverageContributionNode((IType)element, testContribution, uniqueTestContribution, testHits, uniqueTestHits);
+        NodeBuilder FOR_CLASSES = (element, testContribution, uniqueTestContribution, testHits, uniqueTestHits) -> new ClassCoverageContributionNode((IType)element, testContribution, uniqueTestContribution, testHits, uniqueTestHits);
 
-        public static NodeBuilder FOR_METHODS = (element, testContribution, uniqueTestContribution, testHits, uniqueTestHits) -> new MethodCoverageContributionNode((IMethod)element, testContribution, uniqueTestContribution, testHits, uniqueTestHits);
+        NodeBuilder FOR_METHODS = (element, testContribution, uniqueTestContribution, testHits, uniqueTestHits) -> new MethodCoverageContributionNode((IMethod)element, testContribution, uniqueTestContribution, testHits, uniqueTestHits);
     }
 }

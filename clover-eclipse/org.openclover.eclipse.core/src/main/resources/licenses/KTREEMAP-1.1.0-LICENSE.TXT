@@ -2,7 +2,7 @@
 Modified by Atlassian
 
 The source code of the original library has been modified by Atlassian. Modified code is available in
-Clover-for-Ant zip archive - you can download it from https://openclover.org/download
+OpenClover-for-Ant zip archive - you can download it from https://openclover.org/download
 ============================================================================================================
 
 

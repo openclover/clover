@@ -70,7 +70,7 @@ public class InitStringConfigPanel extends ConfigPanel implements ActionListener
         if (helpText == null) {
             helpText = UIUtils.getHelpTextArea("The Initstring specifies " +
                     "the name of the coverage database file. Select " +
-                    "'Automatic' to have Clover manage this location for you.",
+                    "'Automatic' to have OpenClover manage this location for you.",
                                                getBackground(), getFont());
         }
         return helpText;

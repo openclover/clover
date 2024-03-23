@@ -33,6 +33,8 @@ import org.openclover.eclipse.core.ui.CloverPluginIcons;
 import org.openclover.eclipse.core.ui.GLH;
 import org.openclover.eclipse.core.ui.editors.CloverProjectInput;
 
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+
 public class TreemapEditor extends EditorPart {
     public static final String ID = CloverPlugin.ID + ".editors.treemap";
 
@@ -138,7 +140,7 @@ public class TreemapEditor extends EditorPart {
         try {
             return ((CloverProjectInput)getEditorInput()).getProject().getJavaProject();
         } catch (CoreException e) {
-            CloverPlugin.logError("Unable to retrieve Java project for treemap editor", e);
+            logError("Unable to retrieve Java project for treemap editor", e);
             return null;
         }
     }

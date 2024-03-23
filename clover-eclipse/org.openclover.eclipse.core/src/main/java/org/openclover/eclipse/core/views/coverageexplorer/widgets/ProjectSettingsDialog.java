@@ -20,6 +20,8 @@ import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.ui.SwtUtils;
 
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+
 public class ProjectSettingsDialog extends PopupDialog {
     private final CloverProject project;
     private final Point location;
@@ -32,7 +34,7 @@ public class ProjectSettingsDialog extends PopupDialog {
 
     public ProjectSettingsDialog(Shell parent, CloverProject project, Point location) {
         super(parent, INFOPOPUP_SHELLSTYLE, true, false, false, false, false,
-                String.format("Clover settings for %s", project.getName()), null);
+                String.format("OpenClover settings for %s", project.getName()), null);
         this.project = project;
         this.location = location;
         this.initialCompileWithCloverSetting = project.getSettings().isInstrumentationEnabled();
@@ -54,9 +56,9 @@ public class ProjectSettingsDialog extends PopupDialog {
         compileWithClover = new Button(parent, SWT.CHECK);
         compileWithClover.setText("Instrument and compile at ");
         compileWithClover.setToolTipText(
-            "Choose whether Clover should instrument and compile your source code and what coverage granularity.\n\n" +
+            "Choose whether OpenClover should instrument and compile your source code and what coverage granularity.\n\n" +
             "This can be switched off if you wish to develop without tracking code coverage for a period of time or " +
-            "if you have configured Clover-for-Ant or Clover-for-Maven to instrument and compile your source for you."
+            "if you have configured OpenClover Ant or Maven integration to instrument and compile your source for you."
         );
         compileWithClover.setSelection(initialCompileWithCloverSetting);
         compileWithClover.addSelectionListener(onChangeEnableApply);
@@ -73,8 +75,8 @@ public class ProjectSettingsDialog extends PopupDialog {
         instrumentationLevel.select(initialInstrumentationlevel == InstrumentationLevel.STATEMENT ? 0 : 1);
         instrumentationLevel.setToolTipText(
             "Statement level instrumentation is more accurate but has a runtime performance penalty." +
-            "Method level instrumentation is less accurate but will run faster and Clover will be able to provide coverage feedback more switfly.\n\n" +
-            "If you only use Clover for optimizing your test runs, method level instrumenation is the best option.");
+            "Method level instrumentation is less accurate but will run faster and OpenClover will be able to provide coverage feedback more switfly.\n\n" +
+            "If you only use OpenClover for optimizing your test runs, method level instrumentation is the best option.");
         instrumentationLevel.addSelectionListener(onChangeEnableApply);
 
         apply = new Button(parent, SWT.NONE);
@@ -100,7 +102,7 @@ public class ProjectSettingsDialog extends PopupDialog {
                     try {
                         project.getProject().build(IncrementalProjectBuilder.CLEAN_BUILD, null);
                     } catch (CoreException e) {
-                        CloverPlugin.logError("Failed to rebuild project after changing 'compile with clover' state", e);
+                        logError("Failed to rebuild project after changing 'compile with clover' state", e);
                     }
                 }
             }

@@ -5,9 +5,9 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Computable;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
+import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.HasMetrics;
-import org.openclover.core.registry.entities.FullFileInfo;
-import org.openclover.core.registry.metrics.HasMetricsFilter;
+import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.idea.build.InclusionDetector;
 import org.openclover.idea.build.ProjectInclusionDetector;
 
@@ -22,8 +22,8 @@ public class FileFilter implements HasMetricsFilter {
 
     @Override
     public boolean accept(HasMetrics hm) {
-        if (hm instanceof FullFileInfo) {
-            final File ioFile = ((FullFileInfo)hm).getPhysicalFile();
+        if (hm instanceof FileInfo) {
+            final File ioFile = ((FileInfo) hm).getPhysicalFile();
             if (ioFile == null) {
                 return true;
             }

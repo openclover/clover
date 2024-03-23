@@ -29,7 +29,7 @@
             <pathelement location="${hamcrest.jar}"/>
         </path>
 
-        <!-- Initialize Clover -->
+        <!-- Initialize OpenClover -->
         <taskdef resource="cloverlib.xml" classpathref="project.classpath"/>
         <clover-setup initstring="${target.clover.db}">
             <!-- custom pattern to match an anonymous inline class in SnifferInInnerAndInline -->

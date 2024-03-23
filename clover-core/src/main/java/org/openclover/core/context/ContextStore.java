@@ -4,6 +4,7 @@ import org.openclover.core.CloverDatabase;
 import org.openclover.core.api.registry.BranchInfo;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.ContextSet;
+import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.StatementInfo;
 import org.openclover.core.cfg.instr.InstrumentationConfig;
@@ -13,9 +14,8 @@ import org.openclover.core.io.tags.TaggedDataInput;
 import org.openclover.core.io.tags.TaggedDataOutput;
 import org.openclover.core.io.tags.TaggedPersistent;
 import org.openclover.core.registry.Clover2Registry;
-import org.openclover.core.registry.FileElementVisitor;
+import org.openclover.core.api.registry.ElementVisitor;
 import org.openclover.core.registry.entities.FullBranchInfo;
-import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullMethodInfo;
 import org.openclover.core.registry.entities.FullStatementInfo;
 import org.openclover.core.util.Lists;
@@ -338,7 +338,7 @@ public class ContextStore implements TaggedPersistent {
                 registry = Clover2Registry.createOrLoad(config.getRegistryFile(), config.getProjectName());
             }
             catch (IOException e) {
-                throw new CloverException(e.getClass().getName() + " accessing Clover database: " + e.getMessage(), e);
+                throw new CloverException(e.getClass().getName() + " accessing OpenClover database: " + e.getMessage(), e);
             }
 
             // todo - check for registry equivalence here. if not equiv, contexts will need to be deleted from elements in the registry
@@ -348,7 +348,7 @@ public class ContextStore implements TaggedPersistent {
                 registry.saveAndOverwriteFile();
             }
             catch (IOException e) {
-                throw new CloverException(e.getClass().getName() + " writing Clover database: " + e.getMessage());
+                throw new CloverException(e.getClass().getName() + " writing OpenClover database: " + e.getMessage());
             }
         }
     }
@@ -362,12 +362,12 @@ public class ContextStore implements TaggedPersistent {
             this.mappings = mappings;
         }
 
-        public void applyContextMapping(CloverDatabase db, FullFileInfo finfo) {
+        public void applyContextMapping(CloverDatabase db, FileInfo finfo) {
             final Map<Integer, Integer> mapping = mappings.get(db);
             if (mapping == null) {
                 return;
             }
-            finfo.visitElements(new FileElementVisitor() {
+            finfo.visitElements(new ElementVisitor() {
                 @Override
                 public void visitClass(ClassInfo info) {
 
@@ -375,17 +375,17 @@ public class ContextStore implements TaggedPersistent {
 
                 @Override
                 public void visitMethod(MethodInfo info) {
-                    ((FullMethodInfo)info).setContext(ContextSetImpl.remap((ContextSetImpl)info.getContext(), mapping));
+                    info.setContext(ContextSetImpl.remap((ContextSetImpl)info.getContext(), mapping));
                 }
 
                 @Override
                 public void visitStatement(StatementInfo info) {
-                    ((FullStatementInfo)info).setContext(ContextSetImpl.remap((ContextSetImpl)info.getContext(), mapping));
+                    info.setContext(ContextSetImpl.remap((ContextSetImpl)info.getContext(), mapping));
                 }
 
                 @Override
                 public void visitBranch(BranchInfo info) {
-                    ((FullBranchInfo)info).setContext(ContextSetImpl.remap((ContextSetImpl)info.getContext(), mapping));
+                    info.setContext(ContextSetImpl.remap((ContextSetImpl)info.getContext(), mapping));
                 }
             });
 

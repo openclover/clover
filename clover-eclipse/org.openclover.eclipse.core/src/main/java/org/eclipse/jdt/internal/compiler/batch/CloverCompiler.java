@@ -38,6 +38,7 @@ import java.util.Set;
 
 import static org.openclover.core.util.Maps.newHashMap;
 import static org.openclover.core.util.Sets.newHashSet;
+import static org.openclover.eclipse.core.CloverPlugin.logError;
 
 /**
  * This lives in org.eclipse.jdt.internal.compiler.batch to allow package-protected access
@@ -52,7 +53,7 @@ public class CloverCompiler extends Main {
         try {
             invoker = new ReflectionReleaseInvoker();
         } catch (Throwable t) {
-            CloverPlugin.logError("Unable to release any classes from the pool during compilation", t);
+            logError("Unable to release any classes from the pool during compilation", t);
         }
         RELEASE_INVOKER = invoker;
     }
@@ -96,7 +97,7 @@ public class CloverCompiler extends Main {
                     ClassFilePool_release.invoke(classFilePool, new Object[]{classFile});
                 }
             } catch (Throwable e) {
-                CloverPlugin.logError("Unable to release class " + classFile + " from pool", e);
+                logError("Unable to release class " + classFile + " from pool", e);
             }
         }
     }
@@ -123,7 +124,7 @@ public class CloverCompiler extends Main {
         try {
             removeOldRecorderClasses();
         } catch (CoreException e) {
-            CloverPlugin.logError("Failed removing some old recorder classes", e);
+            logError("Failed removing some old recorder classes", e);
         }
         return result;
     }
@@ -150,11 +151,11 @@ public class CloverCompiler extends Main {
                                         classFile);
                                 RELEASE_INVOKER.release(this, classFile);
                             } catch (IOException e) {
-                                CloverPlugin.logError("Unable to write class for file " + classFileName, e);
+                                logError("Unable to write class for file " + classFileName, e);
                             }
                         }
                     } else {
-                        CloverPlugin.logError(
+                        logError(
                             "Unable to write class file as container "
                                 + (destinationPath == null
                                 ? ""
@@ -162,7 +163,7 @@ public class CloverCompiler extends Main {
                                 + "doesn't exist");
                     }
                 } catch (Exception e) {
-                    CloverPlugin.logError("Unable to write classes for source file " + new String(unitResult.getFileName()), e);
+                    logError("Unable to write classes for source file " + new String(unitResult.getFileName()), e);
                 }
             }
         }
@@ -186,7 +187,7 @@ public class CloverCompiler extends Main {
                 }
             }
         } catch (Exception ex) {
-            CloverPlugin.logError("Exception caught: "  + ex);
+            logError("Exception caught: "  + ex);
         }
         return result;
     }
@@ -201,11 +202,11 @@ public class CloverCompiler extends Main {
                 if (folder != null) {
                     return (IFolder)PathUtils.makeDerivedFoldersFor(folder);
                 } else {
-                    CloverPlugin.logError("Unable to create output folder " + workspaceRelativePath);
+                    logError("Unable to create output folder " + workspaceRelativePath);
                 }
             }
         } catch (Exception e) {
-            CloverPlugin.logError("Unable to create output folder " + workspaceRelativePath, e);
+            logError("Unable to create output folder " + workspaceRelativePath, e);
         }
         return null;
     }

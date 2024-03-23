@@ -17,10 +17,10 @@ import java.awt.event.ActionEvent;
 
 public class RebuildProjectDialog extends DialogWrapper {
     private static final String TITLE = "Project rebuild required";
-    private static final String TITLE_CLEAN = "Project rebuild with Clover database cleaned required";
+    private static final String TITLE_CLEAN = "Project rebuild with OpenClover database cleaned required";
 
-    private static final String DESCRIPTION = "<html>Clover settings change requires project rebuild.";
-    private static final String DESCRIPTION_CLEAN = "<html>Clover settings change requires Clover database cleanup and project rebuild.";
+    private static final String DESCRIPTION = "<html>OpenClover settings change requires project rebuild.";
+    private static final String DESCRIPTION_CLEAN = "<html>OpenClover settings change requires OpenClover database cleanup and project rebuild.";
 
     private final String description;
 

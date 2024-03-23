@@ -8,6 +8,8 @@ import org.openclover.eclipse.core.CloverPlugin;
 import org.osgi.service.prefs.BackingStoreException;
 import org.osgi.service.prefs.Preferences;
 
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+
 
 public abstract class Settings {
     protected IEclipsePreferences isolatedPreferences;
@@ -97,7 +99,7 @@ public abstract class Settings {
         try {
             getIsolatedPreferences().flush();
         } catch (BackingStoreException e) {
-            CloverPlugin.logError("Unable to save settings", e);
+            logError("Unable to save settings", e);
         }
     }
 
@@ -105,7 +107,7 @@ public abstract class Settings {
         try {
             isolatedPreferences.sync();
         } catch (BackingStoreException e) {
-            CloverPlugin.logError("Unable to load preferences", e);
+            logError("Unable to load preferences", e);
         }
     }
 }

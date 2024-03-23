@@ -1,14 +1,16 @@
 package org.openclover.core.reporters.util
 
+import groovy.transform.CompileStatic
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestName
+import org.openclover.core.api.registry.ClassInfo
+import org.openclover.core.api.registry.FileInfo
+import org.openclover.core.api.registry.PackageInfo
+import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.api.registry.SourceInfo
 import org.openclover.core.cfg.Percentage
 import org.openclover.core.registry.FixedSourceRegion
-import org.openclover.core.registry.entities.BaseClassInfo
-import org.openclover.core.registry.entities.BaseFileInfo
-import org.openclover.core.registry.entities.BasePackageInfo
 import org.openclover.core.registry.entities.FullClassInfo
 import org.openclover.core.registry.entities.FullFileInfo
 import org.openclover.core.registry.entities.FullPackageInfo
@@ -22,26 +24,25 @@ import org.openclover.runtime.api.CloverException
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertTrue
 
-/**
- */
+@CompileStatic
 class HistoricalSupportTest {
 
     @Rule
     public TestName testName = new TestName()
 
-    protected FullProjectInfo project(String projectName) {
+    protected ProjectInfo project(String projectName) {
         return new FullProjectInfo(projectName, 0)
     }
 
-    protected FullPackageInfo pkg(FullProjectInfo parentProject, String packageName) {
+    protected PackageInfo pkg(ProjectInfo parentProject, String packageName) {
         return new FullPackageInfo(parentProject, packageName, 0)
     }
 
-    protected FullFileInfo file(FullPackageInfo parentPackage, String fileName) {
+    protected FullFileInfo file(PackageInfo parentPackage, String fileName) {
         return new FullFileInfo(parentPackage, new File(fileName), "UTF-8", 0, 0, 0, 0, 0, 0, 0)
     }
 
-    protected FullClassInfo cls(FullPackageInfo parentPackage, FullFileInfo parentFile, String className) {
+    protected FullClassInfo cls(PackageInfo parentPackage, FullFileInfo parentFile, String className) {
         return new FullClassInfo(
                 parentPackage, parentFile, 0, className,
                 new FixedSourceRegion(0, 0, 0, 0), new Modifiers(),
@@ -50,8 +51,8 @@ class HistoricalSupportTest {
 
     @Test
     void testGetProjectMetricsDiff() throws CloverException {
-        FullProjectInfo thenProj = project("TestProject")
-        FullPackageInfo thenPkg1 = pkg(thenProj, "pkg1")
+        ProjectInfo thenProj = project("TestProject")
+        PackageInfo thenPkg1 = pkg(thenProj, "pkg1")
         FullFileInfo thenFile1 = file(thenPkg1, "File1")
         FullClassInfo thenClass1 = cls(thenPkg1, thenFile1, "class1")
 
@@ -59,12 +60,12 @@ class HistoricalSupportTest {
         thenPkg1.addFile(thenFile1)
         thenFile1.addClass(thenClass1)
 
-        FullProjectInfo nowProj = project("TestProject")
-        FullPackageInfo nowPkg1 = pkg(nowProj, "pkg1")
+        ProjectInfo nowProj = project("TestProject")
+        PackageInfo nowPkg1 = pkg(nowProj, "pkg1")
         FullFileInfo nowFile1 = file(nowPkg1, "File1")
         FullClassInfo nowClass1 = cls(nowPkg1, nowFile1, "class1")
 
-        FullPackageInfo nowPkg2 = pkg(nowProj, "pkg2")
+        PackageInfo nowPkg2 = pkg(nowProj, "pkg2")
         FullFileInfo nowFile2 = file(nowPkg2, "File2")
         FullClassInfo nowClass2 = cls(nowPkg2, nowFile2, "class2")
 
@@ -87,14 +88,15 @@ class HistoricalSupportTest {
 
     @Test
     void testGetClassMetricsDiff() throws CloverException {
-        BasePackageInfo pkgInfo = new BasePackageInfo(null, "TestPackage")
-        BaseFileInfo fileInfo = new BaseFileInfo(pkgInfo, testName.methodName, "", 0, 0, 0, 0, 0)
+        ProjectInfo projectInfo = new FullProjectInfo("project")
+        PackageInfo pkgInfo = new FullPackageInfo(projectInfo, "TestPackage")
+        FileInfo fileInfo = new FullFileInfo(pkgInfo, new File(testName.methodName), "", 0, 0, 0, 0, 0, 0, 0)
         SourceInfo sourceRegion = new FixedSourceRegion(0,0,0,0)
 
-        BaseClassInfo cThen = new BaseClassInfo(pkgInfo, fileInfo,
+        ClassInfo cThen = new FullClassInfo(pkgInfo, fileInfo, 0,
                 "then", sourceRegion, new Modifiers(),
                 false, false, false)
-        BaseClassInfo cNow = new BaseClassInfo(pkgInfo, fileInfo,
+        ClassInfo cNow = new FullClassInfo(pkgInfo, fileInfo, 0,
                 "now", sourceRegion, new Modifiers(),
                 false, false, false)
         Percentage threshold = new Percentage("0%")
@@ -124,7 +126,7 @@ class HistoricalSupportTest {
     }
 
     private void setClassMetrics(
-        BaseClassInfo c, int complexity, int numBranches, int numStatements, int numCoveredBranches, int numCoveredStatements) {
+        ClassInfo c, int complexity, int numBranches, int numStatements, int numCoveredBranches, int numCoveredStatements) {
 
         BlockMetrics metrics = new BlockMetrics(c)
         metrics.setComplexity(complexity)

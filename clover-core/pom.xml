@@ -9,7 +9,7 @@
     <artifactId>clover-core</artifactId>
     <name>OpenClover Core</name>
     <description>
-        Clover's core classes.
+        OpenClover's core classes.
     </description>
     <dependencies>
         <dependency>

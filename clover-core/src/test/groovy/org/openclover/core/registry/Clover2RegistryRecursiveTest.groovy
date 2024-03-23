@@ -3,13 +3,11 @@ package org.openclover.core.registry
 import org.junit.BeforeClass
 import org.junit.Test
 import org.openclover.core.api.registry.ClassInfo
+import org.openclover.core.api.registry.FileInfo
 import org.openclover.core.api.registry.MethodInfo
 import org.openclover.core.api.registry.PackageInfo
+import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.context.ContextStore
-import org.openclover.core.registry.entities.FullClassInfo
-import org.openclover.core.registry.entities.FullFileInfo
-import org.openclover.core.registry.entities.FullMethodInfo
-import org.openclover.core.registry.entities.FullProjectInfo
 import org.openclover.core.registry.format.FreshRegFile
 import org.openclover.runtime.api.CloverException
 import org.openclover.runtime.registry.format.RegAccessMode
@@ -26,7 +24,7 @@ import static org.junit.Assert.assertNull
 class Clover2RegistryRecursiveTest {
 
     protected static File registryFile
-    protected static FullProjectInfo projectInfo
+    protected static ProjectInfo projectInfo
 
     /**
      * Test a following model structure (yes, it's more than pure java)
@@ -60,7 +58,7 @@ class Clover2RegistryRecursiveTest {
      *
      * @todo add test for BranchInfo
      */
-    protected static FullProjectInfo buildSampleProject() {
+    protected static ProjectInfo buildSampleProject() {
         final ModelBuilder modelBuilder = new ModelBuilder()
 
         return modelBuilder
@@ -124,7 +122,7 @@ class Clover2RegistryRecursiveTest {
      */
     @Test
     void testFileEntities() throws Exception {
-        final FullFileInfo fileInfo = (FullFileInfo)projectInfo.findFile("com/acme/File.java")
+        final FileInfo fileInfo = projectInfo.findFile("com/acme/File.java")
 
         assertEquals("File.java", fileInfo.getName())
         assertEquals("com.acme", fileInfo.getContainingPackage().getName())
@@ -162,10 +160,10 @@ class Clover2RegistryRecursiveTest {
      */
     @Test
     void testMethodEntities() throws Exception {
-        final FullFileInfo fileInfo = (FullFileInfo)projectInfo.findFile("com/acme/File.java")
+        final FileInfo fileInfo = projectInfo.findFile("com/acme/File.java")
 
         // grab first method and check its properties
-        final FullMethodInfo methodInfo =(FullMethodInfo)fileInfo.getMethods().get(0)
+        final MethodInfo methodInfo = fileInfo.getMethods().get(0)
         assertEquals("methodInFile", methodInfo.getSimpleName())
         assertEquals(" methodInFile()", methodInfo.getSignature().getNormalizedSignature())
 
@@ -191,10 +189,10 @@ class Clover2RegistryRecursiveTest {
      */
     @Test
     void testClassEntities() throws Exception {
-        final FullFileInfo fileInfo = (FullFileInfo)projectInfo.findFile("com/acme/File.java")
+        final FileInfo fileInfo = projectInfo.findFile("com/acme/File.java")
 
         // grab first method and check its properties
-        final FullClassInfo classInfo =(FullClassInfo)fileInfo.getClasses().get(0)
+        final ClassInfo classInfo = fileInfo.getClasses().get(0)
         assertEquals("classInFile", classInfo.getName())
 
         // check what parent we have
@@ -221,10 +219,10 @@ class Clover2RegistryRecursiveTest {
      */
     @Test
     void testNestedMethods() throws Exception {
-        final FullFileInfo fileInfo = (FullFileInfo)projectInfo.findFile("com/acme/File.java")
+        final FileInfo fileInfo = projectInfo.findFile("com/acme/File.java")
 
         // grab second method and check its properties
-        final FullMethodInfo methodInfo =(FullMethodInfo)fileInfo.getMethods().get(1)
+        final MethodInfo methodInfo = fileInfo.getMethods().get(1)
         assertEquals("topGoo", methodInfo.getSimpleName())
 
         // look for deeply nested methods
@@ -243,14 +241,14 @@ class Clover2RegistryRecursiveTest {
 
         // check that for such deeply nested entities parents are correctly set (i.e. that do not point to any lop-level
         // entity, like FileInfo, but to the exact parent)
-        final FullMethodInfo methodInfo2ndLevel = (FullMethodInfo) methodInfo.getMethods().get(0)
-        final FullMethodInfo methodInfo3rdLevel = (FullMethodInfo) methodInfo2ndLevel.getMethods().get(0)
+        final MethodInfo methodInfo2ndLevel = methodInfo.getMethods().get(0)
+        final MethodInfo methodInfo3rdLevel = methodInfo2ndLevel.getMethods().get(0)
         assertEquals(methodInfo2ndLevel, methodInfo3rdLevel.getContainingMethod())
         assertNull(methodInfo3rdLevel.getContainingClass())
         assertEquals(fileInfo, methodInfo3rdLevel.getContainingFile())
 
-        final FullClassInfo classInfo2ndLevel = (FullClassInfo) methodInfo.getClasses().get(0)
-        final FullClassInfo classInfo3rdLevel = (FullClassInfo) classInfo2ndLevel.getClasses().get(0)
+        final ClassInfo classInfo2ndLevel = methodInfo.getClasses().get(0)
+        final ClassInfo classInfo3rdLevel = classInfo2ndLevel.getClasses().get(0)
         assertNull(classInfo3rdLevel.getContainingMethod())
         assertEquals(classInfo2ndLevel, classInfo3rdLevel.getContainingClass())
         assertEquals(fileInfo, methodInfo3rdLevel.getContainingFile())
@@ -262,14 +260,14 @@ class Clover2RegistryRecursiveTest {
      */
     @Test
     void testNestedClasses() throws Exception {
-        final FullFileInfo fileInfo = (FullFileInfo)projectInfo.findFile("com/acme/File.java")
+        final FileInfo fileInfo = projectInfo.findFile("com/acme/File.java")
 
         // grab class and check its properties
-        final FullClassInfo classInfo =(FullClassInfo)fileInfo.getClasses().get(0)
+        final ClassInfo classInfo = fileInfo.getClasses().get(0)
         assertEquals("classInFile", classInfo.getName())
 
         // look for class-in-class, check the parent
-        final FullClassInfo classInfo2ndLevel = (FullClassInfo) classInfo.getClasses().get(0)
+        final ClassInfo classInfo2ndLevel = classInfo.getClasses().get(0)
         assertEquals("classInClassInFile", classInfo2ndLevel.getName())
         assertNull(classInfo2ndLevel.getContainingMethod())
         assertEquals(classInfo, classInfo2ndLevel.getContainingClass())
@@ -279,8 +277,8 @@ class Clover2RegistryRecursiveTest {
                 0, classInfo2ndLevel.getClasses().size())
 
         // look for class-in-method-in-class, check the parent
-        final FullMethodInfo methodInInnerClass = (FullMethodInfo) classInfo.getClasses().get(0).getMethods().get(0)
-        final FullClassInfo classInfo3rdLevel = (FullClassInfo) methodInInnerClass.getClasses().get(0)
+        final MethodInfo methodInInnerClass = classInfo.getClasses().get(0).getMethods().get(0)
+        final ClassInfo classInfo3rdLevel = methodInInnerClass.getClasses().get(0)
         assertEquals("classInMethodEtc", classInfo3rdLevel.getName())
         assertEquals(methodInInnerClass, classInfo3rdLevel.getContainingMethod())
         assertNull(classInfo3rdLevel.getContainingClass())
@@ -289,22 +287,22 @@ class Clover2RegistryRecursiveTest {
 
     @Test
     void testGetAllClasses() {
-        final FullFileInfo fileInfo = (FullFileInfo)projectInfo.findFile("com/acme/File.java")
+        final FileInfo fileInfo = projectInfo.findFile("com/acme/File.java")
 
         // package level
         final PackageInfo comAcmePackage = projectInfo.findPackage("com.acme")
         assertNotNull(comAcmePackage)
-        final List<? extends ClassInfo> allClassesInPackage = comAcmePackage.getAllClasses()
+        final List<ClassInfo> allClassesInPackage = comAcmePackage.getAllClasses()
         assertEquals(6, allClassesInPackage.size())
 
         // file level
-        final List<? extends ClassInfo> allClassesInFile = fileInfo.getAllClasses()
+        final List<ClassInfo> allClassesInFile = fileInfo.getAllClasses()
         assertEquals(6, allClassesInFile.size())
 
         // class level, check "classInFile"
         final ClassInfo classInFile = fileInfo.getClasses().get(0)
         assertEquals("classInFile", classInFile.getName())
-        final List<? extends ClassInfo> allClassesInClass = classInFile.getAllClasses()
+        final List<ClassInfo> allClassesInClass = classInFile.getAllClasses()
         assertEquals(2, allClassesInClass.size())
         assertEquals("classInClassInFile", allClassesInClass.get(0).getName())
         assertEquals("classInMethodEtc", allClassesInClass.get(1).getName())
@@ -312,7 +310,7 @@ class Clover2RegistryRecursiveTest {
         // method level, check "topGoo"
         final MethodInfo topGoo = fileInfo.getMethods().get(1)
         assertEquals("topGoo", topGoo.getSimpleName())
-        final List<? extends ClassInfo> allClassesInMethod = topGoo.getAllClasses()
+        final List<ClassInfo> allClassesInMethod = topGoo.getAllClasses()
         assertEquals(2, allClassesInMethod.size())
         assertEquals("ClassInMethod", allClassesInMethod.get(0).getName())
         assertEquals("ClassInClassMethod", allClassesInMethod.get(1).getName())
@@ -320,16 +318,16 @@ class Clover2RegistryRecursiveTest {
 
     @Test
     void testGetAllMethods() {
-        final FullFileInfo fileInfo = (FullFileInfo)projectInfo.findFile("com/acme/File.java")
+        final FileInfo fileInfo = projectInfo.findFile("com/acme/File.java")
 
         // file level
-        final List<? extends MethodInfo> allMethodsInFile = fileInfo.getAllMethods()
+        final List<MethodInfo> allMethodsInFile = fileInfo.getAllMethods()
         assertEquals(7, allMethodsInFile.size())
 
         // class level, check "classInFile"
         final ClassInfo classInFile = fileInfo.getClasses().get(0)
         assertEquals("classInFile", classInFile.getName())
-        final List<? extends MethodInfo> allMethodsInClass = classInFile.getAllMethods()
+        final List<MethodInfo> allMethodsInClass = classInFile.getAllMethods()
         assertEquals(2, allMethodsInClass.size())
         assertEquals("methodInClassInFile", allMethodsInClass.get(0).getSimpleName())
         assertEquals("methodInInnerClassInFile", allMethodsInClass.get(1).getSimpleName())
@@ -337,7 +335,7 @@ class Clover2RegistryRecursiveTest {
         // method level, check "topGoo"
         final MethodInfo topGoo = fileInfo.getMethods().get(1)
         assertEquals("topGoo", topGoo.getSimpleName())
-        final List<? extends MethodInfo> allClassesInMethod = topGoo.getAllMethods()
+        final List<MethodInfo> allClassesInMethod = topGoo.getAllMethods()
         assertEquals(3, allClassesInMethod.size())
         assertEquals("topGooGoo", allClassesInMethod.get(0).getSimpleName())
         assertEquals("topGooGooGoo", allClassesInMethod.get(1).getSimpleName())

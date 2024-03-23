@@ -85,7 +85,7 @@ public class FlushPolicyConfigPanel extends ConfigPanel implements ActionListene
     private JTextArea getHelpText() {
         if (helpText == null) {
             helpText = UIUtils.getHelpTextArea("The Flush Policy controls " +
-                    "how Clover writes coverage data to disk at runtime.",
+                    "how OpenClover writes coverage data to disk at runtime.",
                                                getBackground(), getFont());
         }
         return helpText;

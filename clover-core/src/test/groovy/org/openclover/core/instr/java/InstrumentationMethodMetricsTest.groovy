@@ -1,10 +1,10 @@
 package org.openclover.core.instr.java
 
 import org.junit.Test
+import org.openclover.core.api.registry.MethodInfo
 import org.openclover.core.api.registry.StatementInfo
 import org.openclover.core.registry.Clover2Registry
 import org.openclover.core.registry.FixedSourceRegion
-import org.openclover.core.registry.entities.FullMethodInfo
 
 import static org.junit.Assert.assertEquals
 
@@ -345,8 +345,8 @@ class InstrumentationMethodMetricsTest extends InstrumentationTestBase {
                 src, numClasses, numMethods, numStatements, numBranches, totalComplexity)
     }
 
-    private static FullMethodInfo getLambda(Clover2Registry registry) {
-        return (FullMethodInfo) registry.getProject().findClass("A").getMethods().get(0).getMethods().get(0)
+    private static MethodInfo getLambda(Clover2Registry registry) {
+        return registry.getProject().findClass("A").getMethods().get(0).getMethods().get(0)
     }
 
     private static void assertSourceRegion(FixedSourceRegion fixedSourceRegion, StatementInfo statementInfo) {

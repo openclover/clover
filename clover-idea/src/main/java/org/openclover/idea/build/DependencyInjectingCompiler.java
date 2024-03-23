@@ -157,7 +157,7 @@ public class DependencyInjectingCompiler implements SourceInstrumentingCompiler 
     @Override
     @NotNull
     public String getDescription() {
-        return "Clover dependency injecting compiler";
+        return "OpenClover dependency injecting compiler";
     }
 
     @Override

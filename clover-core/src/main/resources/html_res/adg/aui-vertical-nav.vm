@@ -6,23 +6,6 @@
 #end
 
 <div class="aui-page-header-inner" style="margin-bottom: 20px;">
-    <div class="aui-page-header-image">
-        #if ($pageTitleIsLink)
-            <a href="${pageTitleAnchor}" target="${pageTitleTarget}">
-        #end
-        <div class="aui-avatar aui-avatar-large aui-avatar-project">
-            <div class="aui-avatar-inner">
-                #if ($pageIcon)
-                    <img src="${rootRelPath}img/${pageIcon}" alt="Project icon"/>
-                #else
-                    <img src="${rootRelPath}img/clover_logo_large.png" alt="Clover icon"/>
-                #end
-            </div>
-        </div>
-        #if ($pageTitleIsLink)
-            </a>
-        #end
-    </div>
     <div class="aui-page-header-main" >
         <h1>
             #if ($pageTitleIsLink)

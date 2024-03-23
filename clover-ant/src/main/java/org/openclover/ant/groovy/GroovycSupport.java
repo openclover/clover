@@ -129,7 +129,7 @@ public class GroovycSupport implements BuildListener {
     public void taskFinished(@NotNull final BuildEvent buildEvent) {
         if (workingDir != null) {
             if (workingDir.exists() && cleanupAfterBuild) {
-                Logger.getInstance().verbose("Cleaning up Clover directory " + workingDir.getAbsolutePath());
+                Logger.getInstance().verbose("Cleaning up OpenClover directory " + workingDir.getAbsolutePath());
                 FileUtils.deltree(workingDir);
             }
             workingDir = null;
@@ -158,9 +158,9 @@ public class GroovycSupport implements BuildListener {
                     if (config != null) {
                         if (config.isEnabled()) {
                             if (config.isSkipGroverJar()) {
-                                Logger.getInstance().warn("Clover is enabled but has skipGroverJar set to true. Groovy code will not be instrumented");
+                                Logger.getInstance().warn("OpenClover is enabled but has skipGroverJar set to true. Groovy code will not be instrumented");
                             } else {
-                                Logger.getInstance().verbose("Clover is enabled in config. Reconfiguring groovyc task " +
+                                Logger.getInstance().verbose("OpenClover is enabled in config. Reconfiguring groovyc task " +
                                         task.getTaskName());
 
                                 buildTestDetector(config);
@@ -172,13 +172,13 @@ public class GroovycSupport implements BuildListener {
                             }
                         }
                     } else {
-                        Logger.getInstance().info("Clover couldn't find its configuration in a project. Did you forget to call <ant> or <antcall> with inheritRefs=true?");
+                        Logger.getInstance().info("OpenClover couldn't find its configuration in a project. Did you forget to call <ant> or <antcall> with inheritRefs=true?");
                     }
                 } else {
                     Logger.getInstance().verbose("Real Groovyc task is null. Groovy code will not be instrumented");
                 }
             } catch (Exception ex) {
-                buildEvent.getProject().log("Clover failed to integrate with <" + task.getTaskName() + "/>", ex, 0);
+                buildEvent.getProject().log("OpenClover failed to integrate with <" + task.getTaskName() + "/>", ex, 0);
             }
         }
     }
@@ -371,7 +371,7 @@ public class GroovycSupport implements BuildListener {
         }
         if (jar == null) {
             Logger.getInstance().warn("Failed to extract and copy " + groverResourceName + " to a temporary file. "
-                    + "Clover instrumentation of Groovy source will not proceed.", whyFailed);
+                    + "OpenClover instrumentation of Groovy source will not proceed.", whyFailed);
         }
         return jar;
     }
@@ -381,7 +381,8 @@ public class GroovycSupport implements BuildListener {
         try {
             return FileUtils.createTempDir("grover", config.getTmpDir());
         } catch (Exception e) {
-            Logger.getInstance().warn("Failed to create Clover working directory in " + config.getTmpDir() + ". Clover instrumentation of Groovy source will not proceed.", e);
+            Logger.getInstance().warn("Failed to create OpenClover working directory in " + config.getTmpDir() +
+                    ". Instrumentation of Groovy source will not proceed.", e);
             return null;
         }
     }

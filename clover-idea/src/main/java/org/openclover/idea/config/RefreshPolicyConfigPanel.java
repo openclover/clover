@@ -80,7 +80,7 @@ public class RefreshPolicyConfigPanel extends ConfigPanel implements ActionListe
     private JTextArea getHelpText() {
         if (helpText == null) {
             helpText = UIUtils.getHelpTextArea("The Refresh Policy controls when and " +
-                    "how frequently Clover looks for a change in coverage data.",
+                    "how frequently OpenClover looks for a change in coverage data.",
                                                getBackground(), getFont());
         }
         return helpText;

@@ -10,9 +10,9 @@ import java.util.List;
 public interface HasStatements {
     /**
      * Returns list of statements
-     * @return List&lt;? extends StatementInfo&gt; - list of statements or empty list if none
+     * @return List&lt;StatementInfo&gt; - list of statements or empty list if none
      */
     @NotNull
-    List<? extends StatementInfo> getStatements();
+    List<StatementInfo> getStatements();
 
 }

@@ -128,8 +128,8 @@ public class SnapshotPrinter {
         if (snapshot != null) {
             writer.println("Loaded snapshot at: " + snapshot.getLocation());
             writer.println("Loaded snapshot for clover.db: " + snapshot.getInitString());
-            writer.println("Snapshot's Clover version: " + snapshot.getCloverVersionInfo());
-            writer.println("CLI's Clover version: " + snapshot.getCloverVersionInfo());
+            writer.println("Snapshot's OpenClover version: " + snapshot.getCloverVersionInfo());
+            writer.println("CLI's OpenClover version: " + snapshot.getCloverVersionInfo());
             writer.println("Versions: ");
             for (Long dbVersion : snapshot.getDbVersions()) {
                 indent++;

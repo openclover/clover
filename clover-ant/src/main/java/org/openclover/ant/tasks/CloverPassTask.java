@@ -8,6 +8,7 @@ import org.openclover.core.CloverDatabase;
 import org.openclover.core.CodeType;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.cfg.Interval;
 import org.openclover.core.cfg.Percentage;
 import org.openclover.core.registry.entities.FullProjectInfo;
@@ -342,10 +343,10 @@ public class CloverPassTask extends AbstractCloverTask {
         try {
             db = currentConfig.getCoverageDatabase();
         } catch (CloverException e) {
-            throw new BuildException("Unable to read Clover coverage database", e);
+            throw new BuildException("Unable to read OpenClover coverage database", e);
         }
 
-        final FullProjectInfo projectInfo = db.getModel(codeType);
+        final ProjectInfo projectInfo = db.getModel(codeType);
 
         ProjectMetrics metrics = (ProjectMetrics)projectInfo.getMetrics();
         Logger.getInstance().debug("coverage = " + metrics.getPcCoveredElements());
@@ -408,8 +409,7 @@ public class CloverPassTask extends AbstractCloverTask {
             }
 
             if (haltOnFailure) {
-                throw new BuildException("Build failed to meet Clover "
-                        + "coverage targets: " + failMessage);
+                throw new BuildException("Build failed to meet OpenClover coverage targets: " + failMessage);
             }
         } else {
             log("Coverage check PASSED");

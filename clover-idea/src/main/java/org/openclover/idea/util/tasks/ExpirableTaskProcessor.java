@@ -63,7 +63,7 @@ public class ExpirableTaskProcessor {
 
     private class WorkerTaskDelegate extends AbstractCancellableTaskDelegate {
         public WorkerTaskDelegate() {
-            super("Clover UI update");
+            super("OpenClover UI update");
         }
 
         @Nullable
@@ -88,14 +88,14 @@ public class ExpirableTaskProcessor {
                 final ExpirableTaskDelegate taskDelegate = td;
 
                 progressIndicator.checkCanceled();
-                progressIndicator.setText("Clover calculating test contribution coverage, about "
+                progressIndicator.setText("OpenClover calculating test contribution coverage, about "
                         + taskDelegateQueue.size() + " more items left.");
 
                 try {
                     taskDelegate.run(progressIndicator);
                 } catch (Exception e) {
                     if (!(e instanceof ProcessCanceledException)) {
-                        Logger.getInstance().warn("Clover UI update task threw an exception", e);
+                        Logger.getInstance().warn("OpenClover UI update task threw an exception", e);
                     }
                     // run task cancellation in the UI thread
                     MiscUtils.invokeLater(taskDelegate::onCancel);

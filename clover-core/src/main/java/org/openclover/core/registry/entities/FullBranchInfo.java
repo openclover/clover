@@ -5,39 +5,43 @@ import org.openclover.core.api.registry.BranchInfo;
 import org.openclover.core.api.registry.ContextSet;
 import org.openclover.core.api.registry.EntityContainer;
 import org.openclover.core.api.registry.FileInfo;
+import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.SourceInfo;
 import org.openclover.core.context.ContextSetImpl;
 import org.openclover.core.io.tags.TaggedDataInput;
 import org.openclover.core.io.tags.TaggedDataOutput;
 import org.openclover.core.io.tags.TaggedPersistent;
 import org.openclover.core.lang.Languages;
-import org.openclover.core.registry.CoverageDataProvider;
+import org.openclover.core.api.registry.CoverageDataProvider;
 import org.openclover.core.registry.FixedSourceRegion;
 import org.openclover.core.spi.lang.LanguageConstruct;
 
 import java.io.IOException;
 
+import static org.openclover.core.spi.lang.LanguageConstruct.Builtin.BRANCH;
 
-public class FullBranchInfo extends FullElementInfo<BasicBranchInfo> implements TaggedPersistent, BranchInfo {
-    private transient FullMethodInfo containingMethod;
+
+public class FullBranchInfo extends FullElementInfo<BasicElementInfo>
+        implements TaggedPersistent, BranchInfo {
+
+    private transient MethodInfo containingMethod;
+    private final boolean isInstrumented;
 
     public FullBranchInfo(
-            FullMethodInfo containingMethod, int relativeDataIndex, ContextSet context,
-            SourceInfo region, int complexity, boolean instrumented) {
-        this(containingMethod, relativeDataIndex, context, region, complexity, instrumented, LanguageConstruct.Builtin.BRANCH);
+            MethodInfo containingMethod, int relativeDataIndex, ContextSet context,
+            SourceInfo region, int complexity, boolean isInstrumented) {
+        this(containingMethod, relativeDataIndex, context, region, complexity, isInstrumented, BRANCH);
     }
 
     public FullBranchInfo(
-            FullMethodInfo containingMethod, int relativeDataIndex, ContextSet context,
-            SourceInfo region, int complexity, boolean instrumented, LanguageConstruct construct) {
-        this(containingMethod, context, new BasicBranchInfo(region, relativeDataIndex, complexity, instrumented, construct));
-    }
-
-    private FullBranchInfo(
-            FullMethodInfo containingMethod, ContextSet context, BasicBranchInfo sharedInfo) {
-        super(context, sharedInfo);
+            MethodInfo containingMethod, int relativeDataIndex, ContextSet context,
+            SourceInfo region, int complexity, boolean isInstrumented, LanguageConstruct construct) {
+        super(context, new BasicElementInfo(region, relativeDataIndex, complexity, construct));
         this.containingMethod = containingMethod;
+        this.isInstrumented = isInstrumented;
     }
+
+    // BranchInfo
 
     @Override
     public int getTrueHitCount() {
@@ -54,18 +58,18 @@ public class FullBranchInfo extends FullElementInfo<BasicBranchInfo> implements 
     }
 
     @Override
+    public boolean isInstrumented() {
+        return isInstrumented;
+    }
+
+    // HasParent
+
+    @Override
     public EntityContainer getParent() {
         return containingMethod;
     }
 
-    @Override
-    public boolean isInstrumented() {
-        return sharedInfo.isInstrumented();
-    }
-
-    public FullBranchInfo copy(FullMethodInfo method) {
-        return new FullBranchInfo(method, context, sharedInfo);
-    }
+    // CoverageDataReceptor
 
     @Override
     public void setDataProvider(CoverageDataProvider data) {
@@ -82,14 +86,25 @@ public class FullBranchInfo extends FullElementInfo<BasicBranchInfo> implements 
         return 2;
     }
 
-    void setContainingMethod(FullMethodInfo methodInfo) {
-        this.containingMethod = methodInfo;
-    }
+    // FileInfoRegion
 
     @Override
     @Nullable
     public FileInfo getContainingFile() {
         return containingMethod.getContainingFile();
+    }
+
+    // OTHER
+
+    @Override
+    public BranchInfo copy(MethodInfo method) {
+        return new FullBranchInfo(method, sharedInfo.getRelativeDataIndex(), context,
+                sharedInfo.getRegion(), sharedInfo.getComplexity(), isInstrumented);
+    }
+
+    @Override
+    public void setContainingMethod(MethodInfo methodInfo) {
+        this.containingMethod = methodInfo;
     }
 
     ///CLOVER:OFF
@@ -108,7 +123,7 @@ public class FullBranchInfo extends FullElementInfo<BasicBranchInfo> implements 
         out.writeInt(sharedInfo.getRelativeDataIndex());
         out.writeInt(getComplexity());
         out.writeUTF(sharedInfo.getConstruct().getId());
-        out.writeBoolean(sharedInfo.isInstrumented());
+        out.writeBoolean(isInstrumented);
         FixedSourceRegion.writeRaw(this, out);
     }
 

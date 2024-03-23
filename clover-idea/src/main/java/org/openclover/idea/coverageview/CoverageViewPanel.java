@@ -30,11 +30,10 @@ import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.MethodSignatureInfo;
+import org.openclover.core.api.registry.PackageFragment;
+import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.api.registry.ParameterInfo;
-import org.openclover.core.registry.FileInfoRegion;
-import org.openclover.core.registry.entities.FullFileInfo;
-import org.openclover.core.registry.entities.FullPackageInfo;
-import org.openclover.core.registry.entities.PackageFragment;
+import org.openclover.core.api.registry.FileInfoRegion;
 import org.openclover.idea.NodeWrapperSelectionListener;
 import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.SelectInCloverTarget;
@@ -238,7 +237,7 @@ public class CoverageViewPanel extends TreeTablePanel implements ConfigChangeLis
         }
         final FileInfoRegion region = (FileInfoRegion) node.getHasMetrics();
 
-        final File srcFile = ((FullFileInfo) region.getContainingFile()).getPhysicalFile();
+        final File srcFile = region.getContainingFile().getPhysicalFile();
         final VirtualFile vf = LocalFileSystem.getInstance().findFileByIoFile(srcFile);
         if (vf == null) {
             return;
@@ -523,7 +522,7 @@ class PackageInCloudAutoSelector implements NodeWrapperSelectionListener {
     @Override
     public void elementSelected(CoverageTreeModel.NodeWrapper nodeWrapper) {
         final HasMetrics hasMetrics = nodeWrapper != null ? nodeWrapper.getHasMetrics() : null;
-        if (hasMetrics instanceof FullPackageInfo || hasMetrics instanceof PackageFragment) {
+        if (hasMetrics instanceof PackageInfo || hasMetrics instanceof PackageFragment) {
             if (project != null) {
                 final CloudVirtualFile vf = CloudVirtualFile.getInstance(project);
                 vf.setSelectedElement(hasMetrics);

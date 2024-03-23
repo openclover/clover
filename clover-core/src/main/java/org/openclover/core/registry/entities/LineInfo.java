@@ -1,8 +1,13 @@
 package org.openclover.core.registry.entities;
 
 import org.jetbrains.annotations.NotNull;
+import org.openclover.core.api.registry.BranchInfo;
+import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.ElementInfo;
+import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.SourceInfo;
+import org.openclover.core.api.registry.StackTraceEntry;
+import org.openclover.core.api.registry.StatementInfo;
 
 import java.util.Comparator;
 import java.util.List;
@@ -19,16 +24,16 @@ public class LineInfo {
     
     private int line;
 
-    private static final FullClassInfo[] EMPTY_CLASS_INFOS = new FullClassInfo[] {};
-    private static final FullMethodInfo[] EMPTY_METHOD_INFOS = new FullMethodInfo[] {};
-    private static final FullStatementInfo[] EMPTY_STATEMENT_INFOS = new FullStatementInfo[] {};
-    private static final FullBranchInfo[] EMPTY_BRANCH_INFOS = new FullBranchInfo[] {};
+    private static final ClassInfo[] EMPTY_CLASS_INFOS = new ClassInfo[] {};
+    private static final MethodInfo[] EMPTY_METHOD_INFOS = new MethodInfo[] {};
+    private static final StatementInfo[] EMPTY_STATEMENT_INFOS = new StatementInfo[] {};
+    private static final BranchInfo[] EMPTY_BRANCH_INFOS = new BranchInfo[] {};
 
-    private List<FullClassInfo>classStarts;
-    private List<FullMethodInfo> methodStarts;
-    private List<FullStatementInfo> statements;
-    private List<FullBranchInfo> branches;
-    private StackTraceInfo.TraceEntry[] failStackEntries;
+    private List<ClassInfo> classStarts;
+    private List<MethodInfo> methodStarts;
+    private List<StatementInfo> statements;
+    private List<BranchInfo> branches;
+    private StackTraceEntry[] failStackEntries;
 
     public LineInfo(int line) {
         this.line = line;
@@ -43,8 +48,8 @@ public class LineInfo {
     }
 
     @NotNull
-    public List<FullElementInfo<? extends BasicElementInfo>> getColumnOrderedElementInfos() {
-        List<FullElementInfo<? extends BasicElementInfo>> elements = newArrayList();
+    public List<ElementInfo> getColumnOrderedElementInfos() {
+        List<ElementInfo> elements = newArrayList();
         if (methodStarts != null) {
             elements.addAll(methodStarts);
         }
@@ -59,75 +64,75 @@ public class LineInfo {
     }
 
     @NotNull
-    public FullClassInfo[] getClassStarts() {
+    public ClassInfo[] getClassStarts() {
         if (classStarts == null) {
             return EMPTY_CLASS_INFOS;
         } else {
-            return classStarts.toArray(new FullClassInfo[0]);
+            return classStarts.toArray(new ClassInfo[0]);
         }
     }
 
     @NotNull
-    public FullMethodInfo[] getMethodStarts() {
+    public MethodInfo[] getMethodStarts() {
         if (methodStarts == null) {
             return EMPTY_METHOD_INFOS;
         } else {
-            return methodStarts.toArray(new FullMethodInfo[0]);
+            return methodStarts.toArray(new MethodInfo[0]);
         }
     }
 
     @NotNull
-    public FullStatementInfo[] getStatements() {
+    public StatementInfo[] getStatements() {
         if (statements == null) {
             return EMPTY_STATEMENT_INFOS;
         } else {
-            return statements.toArray(new FullStatementInfo[0]);
+            return statements.toArray(new StatementInfo[0]);
         }
     }
 
     @NotNull
-    public FullBranchInfo[] getBranches() {
+    public BranchInfo[] getBranches() {
         if (branches == null) {
             return EMPTY_BRANCH_INFOS;
         } else {
-            return branches.toArray(new FullBranchInfo[0]);
+            return branches.toArray(new BranchInfo[0]);
         }
     }
 
-    public StackTraceInfo.TraceEntry[] getFailStackEntries() {
+    public StackTraceEntry[] getFailStackEntries() {
         return failStackEntries;
     }
 
-    void addClassStart(FullClassInfo clazz) {
+    void addClassStart(ClassInfo clazz) {
         if (classStarts == null) {
             classStarts = newArrayList();
         }
         classStarts.add(clazz);
     }
 
-    void addMethodStart(FullMethodInfo method) {
+    void addMethodStart(MethodInfo method) {
         if (methodStarts == null) {
             methodStarts = newArrayList();
         }
         methodStarts.add(method);
     }
 
-    void addStatement(FullStatementInfo stmt) {
+    void addStatement(StatementInfo stmt) {
         if (statements == null) {
             statements = newArrayList();
         }
         statements.add(stmt);
     }
 
-    void addBranch(FullBranchInfo branch) {
+    void addBranch(BranchInfo branch) {
         if (branches == null) {
             branches = newArrayList();
         }
         branches.add(branch);
     }
 
-    public void setFailStackEntries(StackTraceInfo.TraceEntry[] entries) {
-        this.failStackEntries = new StackTraceInfo.TraceEntry[entries.length];
+    public void setFailStackEntries(FullStackTraceInfo.StackTraceEntryImpl[] entries) {
+        this.failStackEntries = new FullStackTraceInfo.StackTraceEntryImpl[entries.length];
         System.arraycopy(entries,0, failStackEntries,0,entries.length);
     }
 

@@ -2,6 +2,7 @@ package org.openclover.core.registry.metrics
 
 import org.junit.Test
 import org.openclover.core.api.registry.HasMetrics
+import org.openclover.core.api.registry.HasMetricsNode
 
 import static org.junit.Assert.assertEquals
 

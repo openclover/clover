@@ -2,11 +2,11 @@ package org.openclover.core.registry;
 
 import org.jetbrains.annotations.Nullable;
 import org.openclover.core.api.registry.FileInfo;
+import org.openclover.core.api.registry.FileInfoRegion;
 import org.openclover.core.api.registry.SourceInfo;
-import org.openclover.core.registry.entities.BaseFileInfo;
 
 public class FixedFileRegion implements FileInfoRegion {
-    protected BaseFileInfo containingFile;
+    protected FileInfo containingFile;
     protected FixedSourceRegion region;
 
     public FixedFileRegion(int startLine, int startColumn) {
@@ -17,11 +17,11 @@ public class FixedFileRegion implements FileInfoRegion {
         this(null, startLine, startColumn, endLine, endColumn);
     }
 
-    public FixedFileRegion(BaseFileInfo containingFile, int startLine, int startColumn, int endLine, int endColumn) {
+    public FixedFileRegion(FileInfo containingFile, int startLine, int startColumn, int endLine, int endColumn) {
         this(containingFile, new FixedSourceRegion(startLine, startColumn, endLine, endColumn));
     }
 
-    public FixedFileRegion(BaseFileInfo containingFile, SourceInfo region) {
+    public FixedFileRegion(FileInfo containingFile, SourceInfo region) {
         this.containingFile = containingFile;
         this.region = FixedSourceRegion.of(region);
     }

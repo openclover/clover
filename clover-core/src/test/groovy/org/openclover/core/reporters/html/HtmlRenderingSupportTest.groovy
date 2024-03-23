@@ -3,8 +3,8 @@ package org.openclover.core.reporters.html
 import clover.org.apache.commons.lang3.StringUtils
 import org.junit.Before
 import org.junit.Test
+import org.openclover.core.api.registry.TestCaseInfo
 import org.openclover.core.registry.entities.FullClassInfo
-import org.openclover.core.registry.entities.TestCaseInfo
 import org.openclover.core.reporters.Format
 import org.openclover.core.util.Lists
 

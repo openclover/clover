@@ -1,5 +1,6 @@
 package org.openclover.core.registry;
 
+import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.context.ContextStore;
 import org.openclover.core.registry.entities.FullFileInfo;
 
@@ -40,7 +41,7 @@ public class EmptyProjectUpdate implements RegistryUpdate {
     }
 
     @Override
-    public List<FullFileInfo> getFileInfos() {
+    public List<FileInfo> getFileInfos() {
         return Collections.emptyList();
     }
 

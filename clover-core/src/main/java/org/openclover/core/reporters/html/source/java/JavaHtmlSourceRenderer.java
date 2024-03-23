@@ -2,10 +2,9 @@ package org.openclover.core.reporters.html.source.java;
 
 import clover.org.apache.commons.collections.map.LazyMap;
 import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.PackageInfo;
-import org.openclover.core.registry.entities.FullFileInfo;
-import org.openclover.core.registry.entities.FullPackageInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.reporters.html.source.PlaintextHtmlSourceRenderer;
 import org.openclover.core.spi.reporters.html.source.HtmlRenderingSupport;
 import org.openclover.core.spi.reporters.html.source.LineRenderInfo;
@@ -35,16 +34,17 @@ public class JavaHtmlSourceRenderer extends PlaintextHtmlSourceRenderer implemen
     protected static final String OPEN_COMMENT = "<span class=\"" + COMMENT_CLASS + "\">";
     protected static final String CLOSE_COMMENT = CLOSE_SPAN;
 
-    private final FullProjectInfo projectInfo;
-    private final FullPackageInfo packageInfo;
-    private final Set<FullPackageInfo> pkgsInScope = newHashSet();
+    private final ProjectInfo projectInfo;
+    private final PackageInfo packageInfo;
+    private final Set<PackageInfo> pkgsInScope = newHashSet();
     private final Map<String, ClassInfo> classesInScope = newHashMap();
     private final Map<String, Boolean> areTestOnlyPackages = newHashMap();
 
-    public JavaHtmlSourceRenderer(FullFileInfo fileInfo, List<LineRenderInfo> lineInfo, HtmlRenderingSupport renderingHelper, String emptyCoverageMsg, String tab, String space) {
+    public JavaHtmlSourceRenderer(FileInfo fileInfo, List<LineRenderInfo> lineInfo, HtmlRenderingSupport renderingHelper,
+                                  String emptyCoverageMsg, String tab, String space) {
         super(lineInfo, renderingHelper, emptyCoverageMsg, tab, space);
-        this.packageInfo = (FullPackageInfo) fileInfo.getContainingPackage();
-        this.projectInfo = (FullProjectInfo) packageInfo.getContainingProject();
+        this.packageInfo = fileInfo.getContainingPackage();
+        this.projectInfo = packageInfo.getContainingProject();
     }
 
     @Override
@@ -52,7 +52,7 @@ public class JavaHtmlSourceRenderer extends PlaintextHtmlSourceRenderer implemen
         if (imp.endsWith("*")) {
             // wild card import
             String pkg = imp.substring(0, imp.lastIndexOf('.'));
-            FullPackageInfo pkgInfo = (FullPackageInfo) projectInfo.getNamedPackage(pkg);
+            PackageInfo pkgInfo = projectInfo.getNamedPackage(pkg);
             if (pkgInfo != null) {
                 pkgsInScope.add(pkgInfo);
             }
@@ -74,7 +74,7 @@ public class JavaHtmlSourceRenderer extends PlaintextHtmlSourceRenderer implemen
             cInfo = projectInfo.findClass(packageInfo.getName() + "." + ident);
             if (cInfo == null) {
                 // search packages in scope
-                for (FullPackageInfo pkgInfo : pkgsInScope) {
+                for (PackageInfo pkgInfo : pkgsInScope) {
                     cInfo = projectInfo.findClass(pkgInfo.getName() + "." + ident);
                     if (cInfo != null) {
                         // cache the class

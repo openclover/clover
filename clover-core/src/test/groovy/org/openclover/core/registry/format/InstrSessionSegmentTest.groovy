@@ -1,9 +1,9 @@
 package org.openclover.core.registry.format
 
 import org.junit.Test
+import org.openclover.core.api.registry.FileInfo
 import org.openclover.core.context.ContextStore
 import org.openclover.core.registry.ModelBuilder
-import org.openclover.core.registry.entities.FullFileInfo
 
 import java.nio.channels.FileChannel
 
@@ -36,9 +36,9 @@ class InstrSessionSegmentTest {
             .end()
 
         final List<FileInfoRecord> fileInfos = [
-                new FileInfoRecord((FullFileInfo)modelBuilder.get("baz")),
-                new FileInfoRecord((FullFileInfo)modelBuilder.get("bar")),
-                new FileInfoRecord((FullFileInfo)modelBuilder.get("bing"))
+                new FileInfoRecord((FileInfo) modelBuilder.get("baz")),
+                new FileInfoRecord((FileInfo) modelBuilder.get("bar")),
+                new FileInfoRecord((FileInfo) modelBuilder.get("bing"))
         ]
 
         final FileChannel outChannel = new FileOutputStream(temp).getChannel()

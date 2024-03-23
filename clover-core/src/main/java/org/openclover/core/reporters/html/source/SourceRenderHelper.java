@@ -6,13 +6,13 @@ import org.openclover.core.CloverDatabase;
 import org.openclover.core.api.registry.BranchInfo;
 import org.openclover.core.api.registry.ContextSet;
 import org.openclover.core.api.registry.ElementInfo;
+import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.SourceInfo;
-import org.openclover.core.registry.CoverageDataProvider;
-import org.openclover.core.registry.entities.BasicElementInfo;
-import org.openclover.core.registry.entities.FullElementInfo;
+import org.openclover.core.api.registry.CoverageDataProvider;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.LineInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
+
 import org.openclover.core.reporters.Current;
 import org.openclover.core.reporters.html.HtmlRenderingSupportImpl;
 import org.openclover.core.reporters.html.JSONObjectFactory;
@@ -66,7 +66,7 @@ public class SourceRenderHelper {
         this.tabStr = StringUtils.repeat(spaceChar, report.getFormat().getTabWidth());
     }
 
-    public void insertLineInfosForFile(FullFileInfo fileInfo, VelocityContext context, ContextSet contextSet, String emptyChar, List[] testLineInfo) {
+    public void insertLineInfosForFile(FileInfo fileInfo, VelocityContext context, ContextSet contextSet, String emptyChar, List[] testLineInfo) {
         try {
             LineRenderInfo[] renderInfo = gatherSrcRenderInfo(context, fileInfo, contextSet, emptyChar, testLineInfo);
             context.put("renderInfo", renderInfo);
@@ -79,7 +79,7 @@ public class SourceRenderHelper {
             }
         } catch (FileNotFoundException e) {
             Logger.getInstance().error(e);
-            putErrorMessage(context, "Clover could not read the source file \"" + fileInfo.getPhysicalFile().getAbsolutePath() + "\"");
+            putErrorMessage(context, "OpenClover could not read the source file \"" + fileInfo.getPhysicalFile().getAbsolutePath() + "\"");
         } catch (Exception e) {
             Logger.getInstance().error(e);
             putErrorMessage(context, RenderMessages.FAILED_RENDERING);
@@ -112,7 +112,7 @@ public class SourceRenderHelper {
      * @throws clover.antlr.TokenStreamException
      *                             if an error occurs reading the source file
      */
-    public LineRenderInfo[] gatherSrcRenderInfo(VelocityContext vc, FullFileInfo finfo, ContextSet contextSet,
+    public LineRenderInfo[] gatherSrcRenderInfo(VelocityContext vc, FileInfo finfo, ContextSet contextSet,
                                                 String emptyCoverageChar, List<TestCaseInfo>[] testLineInfo)
         throws Exception {
         // remove the failed test coverage filter at the file level...
@@ -159,12 +159,12 @@ public class SourceRenderHelper {
 
             finishLine: {
                 if (linfo != null) {
-                    final List<FullElementInfo<? extends BasicElementInfo>> lineElements = linfo.getColumnOrderedElementInfos();
+                    final List<ElementInfo> lineElements = linfo.getColumnOrderedElementInfos();
 
                     //Initial scan to just detect if:
                     //* the line is filtered
                     //* the line has *any* coverage
-                    for (FullElementInfo lineElement : lineElements) {
+                    for (ElementInfo lineElement : lineElements) {
                         if (filteredCtx != null || lineElement.isFiltered(contextSet)) {
                             filteredCtx = lineElement.getContext();
                             //Game over - filtered out
@@ -182,7 +182,7 @@ public class SourceRenderHelper {
                     // * Element with full coverage
                     //
                     // We stop at the first uncovered element or last covered element - whichever comes first
-                    for (FullElementInfo lineElement : lineElements) {
+                    for (ElementInfo lineElement : lineElements) {
                         if (noHits(lineElement)) {
                             //First zero-hit element
                             String[] messages = calcCoverageMsg(lineElement, emptyCoverageChar);
@@ -288,7 +288,7 @@ public class SourceRenderHelper {
         return renderedLines.toArray(new LineRenderInfo[0]);
     }
 
-    private String[] calcCoverageMsg(FullElementInfo lineElement, String emptyCoverageChar) {
+    private String[] calcCoverageMsg(ElementInfo lineElement, String emptyCoverageChar) {
         if (lineElement instanceof BranchInfo && !((BranchInfo) lineElement).isInstrumented()) {
             return new String[] { getRegionStartStr(lineElement) + "coverage not measured due to assignment in expression.", "?" };
         } else {
@@ -320,7 +320,7 @@ public class SourceRenderHelper {
         }
     }
 
-    private ChecksummingReader render(final FullFileInfo finfo, final List<LineRenderInfo> renderedLines,
+    private ChecksummingReader render(final FileInfo finfo, final List<LineRenderInfo> renderedLines,
                                       final String emptyCoverageMsg, final SourceRenderer renderer) throws Exception {
         Logger.getInstance().debug("Rendering " + finfo.getName() + " with renderer " + renderer.getClass().getName());
         ChecksummingReader csr;
@@ -337,7 +337,7 @@ public class SourceRenderHelper {
         return path.substring(Math.max(0, path.lastIndexOf('.')), path.length());
     }
 
-    public static List<String> getSrcLines(FullFileInfo finfo) throws IOException {
+    public static List<String> getSrcLines(FileInfo finfo) throws IOException {
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(finfo.getSourceReader());
@@ -352,7 +352,7 @@ public class SourceRenderHelper {
         }
     }
 
-    private static ChecksummingReader getChecksummingReader(FullFileInfo finfo) throws IOException {
+    private static ChecksummingReader getChecksummingReader(FileInfo finfo) throws IOException {
         return new ChecksummingReader(finfo.getSourceReader());
     }
 

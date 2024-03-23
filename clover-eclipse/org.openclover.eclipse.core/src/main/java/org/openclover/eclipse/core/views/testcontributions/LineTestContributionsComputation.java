@@ -9,8 +9,8 @@ import org.eclipse.jface.text.Position;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.openclover.core.CloverDatabase;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.entities.FullElementInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.model.DatabaseModel;
 import org.openclover.eclipse.core.projects.model.MetricsScope;
@@ -20,6 +20,8 @@ import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotationModel;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Set;
+
+import static org.openclover.eclipse.core.CloverPlugin.logError;
 
 public class LineTestContributionsComputation extends TestContributionsComputation {
     private static final QualifiedName CURSOR_POSITION =
@@ -101,7 +103,7 @@ public class LineTestContributionsComputation extends TestContributionsComputati
                 }
             }
         } catch (Exception e) {
-            CloverPlugin.logError("Error while syning editor and contributing tests view", e);
+            logError("Error while syncing editor and contributing tests view", e);
         }
         return Status.OK_STATUS;
     }

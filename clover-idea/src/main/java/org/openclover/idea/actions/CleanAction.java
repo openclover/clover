@@ -21,7 +21,7 @@ public class CleanAction extends AnAction {
                 ToolWindowManager.getInstance(project).notifyByBalloon(
                         CloverToolWindowId.TOOL_WINDOW_ID,
                         MessageType.WARNING,
-                        "Clover was unable to clean the coverage data. <br/>"
+                        "OpenClover was unable to clean the coverage data. <br/>"
                         + "See the IDEA log for more details.");
             }
         }

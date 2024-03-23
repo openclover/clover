@@ -5,6 +5,7 @@ import com.intellij.openapi.progress.ProcessCanceledException;
 import com.intellij.openapi.progress.ProgressIndicator;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.ProgressListener;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.recorder.PerTestCoverage;
 import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.idea.coverage.CoverageTreeModel;
@@ -34,7 +35,7 @@ public class PerformanceCheck {
             System.out.println("Could not load the database");
             System.exit(0);
         }
-        FullProjectInfo projectInfo = currentDatabase.getFullModel();
+        ProjectInfo projectInfo = currentDatabase.getFullModel();
 //        @SuppressWarnings("unchecked")
 //        Collection<DecoratedTestCaseInfo> testCases = TestRunExplorerTreeBuilder.wrap(currentDatabase.getCoverageData().getTests());
 //

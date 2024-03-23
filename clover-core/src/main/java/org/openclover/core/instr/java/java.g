@@ -2913,7 +2913,7 @@ lambdaFunction returns [CloverToken last]
      * </pre>
      * The problem is that javac is unable to infer proper type of lambdaInc - it sees Object.
      *
-     * In such case when Clover finds a lambda with a class cast, it will memorize class cast start/end and copy
+     * In such case when OpenClover finds a lambda with a class cast, it will memorize class cast start/end and copy
      * it into a lambda wrapper:
      * <pre>
      *   Object o = (Runnable) lambdaInc(123, (Runnable)() -> System.out.println("lambda expression with class cast"));
@@ -3365,7 +3365,7 @@ unaryExpression returns [int complexity]
  *   Object o = (Produce<String>)lambdaInc(123, String::new);
  * </pre>
  * <p/>
- * The problem is that javac is unable to infer proper type of lambdaInc - it sees Object. In such case when Clover
+ * The problem is that javac is unable to infer proper type of lambdaInc - it sees Object. In such case when OpenClover
  * finds a method reference with a class cast, it will memorize class cast start/end and copy it into a lambda wrapper:
  * <pre>
  *   Object o = (Produce<String>)lambdaInc(123, (Produce<String>)String::new);

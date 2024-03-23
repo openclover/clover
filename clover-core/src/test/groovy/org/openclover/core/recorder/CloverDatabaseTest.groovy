@@ -15,6 +15,7 @@ import org.openclover.core.api.registry.BlockMetrics
 import org.openclover.core.api.registry.ClassInfo
 import org.openclover.core.api.registry.ContextSet
 import org.openclover.core.api.registry.SourceInfo
+import org.openclover.core.api.registry.TestCaseInfo
 import org.openclover.core.cfg.Interval
 import org.openclover.core.context.ContextSetImpl
 import org.openclover.core.context.ContextStore
@@ -25,7 +26,6 @@ import org.openclover.core.registry.Clover2Registry
 import org.openclover.core.registry.FixedSourceRegion
 import org.openclover.core.registry.entities.MethodSignature
 import org.openclover.core.registry.entities.Modifiers
-import org.openclover.core.registry.entities.TestCaseInfo
 import org.openclover.core.registry.metrics.ProjectMetrics
 import org.openclover.core.util.SimpleCoverageRange
 import org.openclover.runtime.RuntimeType

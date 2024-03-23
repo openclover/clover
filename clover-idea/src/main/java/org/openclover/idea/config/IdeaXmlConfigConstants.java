@@ -13,11 +13,11 @@ public class IdeaXmlConfigConstants {
     /**
      * Name of the component which will be used in other.xml
      */
-    public static final String OTHER_XML_FILE_COMPONENT_NAME = "Clover";
+    public static final String OTHER_XML_FILE_COMPONENT_NAME = "OpenClover";
 
 
     /**
      * Name of the component which will be used in configuration file for module(s).
      */
-    public static final String MODULE_FILE_COMPONENT_NAME = "Clover";
+    public static final String MODULE_FILE_COMPONENT_NAME = "OpenClover";
 }

@@ -5,7 +5,7 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.ui.JavaUI;
 import org.eclipse.ui.texteditor.ITextEditor;
-import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.projects.model.DatabaseModel;

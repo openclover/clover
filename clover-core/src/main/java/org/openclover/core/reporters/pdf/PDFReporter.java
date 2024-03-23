@@ -1,18 +1,15 @@
 package org.openclover.core.reporters.pdf;
 
-
 import clover.com.lowagie.text.Document;
 import clover.com.lowagie.text.DocumentException;
-import clover.com.lowagie.text.FontFactory;
 import clover.com.lowagie.text.Rectangle;
 import clover.com.lowagie.text.pdf.PdfWriter;
-import org.openclover.core.CloverLicenseInfo;
 import org.openclover.core.CodeType;
 import org.openclover.core.api.command.ArgProcessor;
 import org.openclover.core.api.command.HelpBuilder;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.PackageInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.registry.metrics.HasMetricsSupport;
 import org.openclover.core.reporters.CloverReportConfig;
 import org.openclover.core.reporters.CloverReporter;
@@ -25,7 +22,6 @@ import org.openclover.runtime.api.CloverException;
 import org_openclover_runtime.CloverVersionInfo;
 
 import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -53,13 +49,11 @@ import static org.openclover.core.util.Maps.newHashMap;
 
 public class PDFReporter extends CloverReporter {
 
-    @SuppressWarnings("unchecked")
     private static final List<ArgProcessor<Current>> mandatoryArgProcessors = newArrayList(
             InitString,
             OutputFile
     );
 
-    @SuppressWarnings("unchecked")
     private static final List<ArgProcessor<Current>> optionalArgProcessors = newArrayList(
             AlwaysReport,
             HideBars,
@@ -110,8 +104,8 @@ public class PDFReporter extends CloverReporter {
             this.docsize = getConfiguredPageSize(config);
             this.document = new Document(docsize, 25, 25, 25, 35); //##HACK - magic - bottom bigger for footer
 
-            this.document.addTitle("Clover Coverage Report");
-            this.document.addCreator("Clover " + CloverVersionInfo.RELEASE_NUM + " using iText v0.96");
+            this.document.addTitle("OpenClover Coverage Report");
+            this.document.addCreator("OpenClover " + CloverVersionInfo.RELEASE_NUM + " using iText v2.0.1");
             this.docWriter = PdfWriter.getInstance(document, Files.newOutputStream(config.getOutFile().toPath()));
             this.docWriter.setPageEvent(new PageFooterRenderer(docsize, System.currentTimeMillis(), colours));
         } catch (Exception e) {
@@ -197,11 +191,7 @@ public class PDFReporter extends CloverReporter {
     private void newPage() throws DocumentException {
         document.newPage();
         document.add(RenderingSupport.createHistoricalPageHeader(reportTitle, titleAnchor, colours));
-        if (CloverLicenseInfo.EXPIRED) {
-            document.add(RenderingSupport.createLicenseWarningBar(FontFactory.HELVETICA, 10, colours));
-        } else {
-            document.add(RenderingSupport.getSpacerRow());
-        }
+        document.add(RenderingSupport.getSpacerRow());
     }
 
     private void generateHistoricalReport(Historical historicalConfig, HistoricalReportDescriptor desc) throws DocumentException {
@@ -209,12 +199,7 @@ public class PDFReporter extends CloverReporter {
             RenderingSupport.createHistoricalReportHeader(
                 desc.getSubjectMetrics(), desc.getFirstTimestamp(), desc.getLastTimestamp(),
                 reportTitle, titleAnchor, !desc.isPackageLevel(), colours));
-
-        if (CloverLicenseInfo.EXPIRED) {
-            document.add(RenderingSupport.createLicenseWarningBar(FontFactory.HELVETICA, 10, colours));
-        } else {
-            document.add(RenderingSupport.getSpacerRow());
-        }
+        document.add(RenderingSupport.getSpacerRow());
 
         if (desc.showOverview()) {
             List<HasMetrics> parentItem = newLinkedList();
@@ -228,14 +213,13 @@ public class PDFReporter extends CloverReporter {
         
         Map<Long, HasMetrics> data = desc.getHistoricalModels();
 
-        for (Object chart : charts) {
+        for (Historical.Chart chart : charts) {
             if (chartsOnPage == 2) {
                 newPage();
                 chartsOnPage = 0;
             }
-            final Historical.Chart coverage = (Historical.Chart) chart;
-            coverage.setHeight((int) (0.33f * docsize.height()));
-            document.add(RenderingSupport.createChart(coverage, data, colours));
+            chart.setHeight((int) (0.33f * docsize.height()));
+            document.add(RenderingSupport.createChart(chart, data, colours));
             document.add(RenderingSupport.getSpacerRow());
             chartsOnPage++;
         }
@@ -266,7 +250,7 @@ public class PDFReporter extends CloverReporter {
     }
 
     private void generateCurrentReport(Current currentConfig) throws DocumentException {
-        final FullProjectInfo project = database.getModel(CodeType.APPLICATION);
+        final ProjectInfo project = database.getModel(CodeType.APPLICATION);
 
         HasMetrics parent;
         String parentTitle;
@@ -274,19 +258,14 @@ public class PDFReporter extends CloverReporter {
         Logger.getInstance().debug("creating project summary report");
         parent = project;
 
-        List<? extends PackageInfo> children = project.getAllPackages();
+        List<PackageInfo> children = project.getAllPackages();
         Logger.getInstance().debug("num packages = " + children.size());
         parentTitle = "";
         childrenTitle = "Packages";
         document.add(
             RenderingSupport.createReportHeader(
                 project, database.getRecordingTimestamp(), reportTitle, titleAnchor, colours));
-
-        if (CloverLicenseInfo.EXPIRED) {
-            document.add(RenderingSupport.createLicenseWarningBar(FontFactory.HELVETICA, 10, colours));
-        } else {
-            document.add(RenderingSupport.getSpacerRow());
-        }
+        document.add(RenderingSupport.getSpacerRow());
 
         document.add(RenderingSupport.createCoverageDataTable(currentConfig, parentTitle, Collections.singletonList(parent), colours));
         document.add(RenderingSupport.getSpacerRow());
@@ -298,7 +277,6 @@ public class PDFReporter extends CloverReporter {
     }
 
     public static void main(String[] args) {
-        loadLicense();
         System.exit(runReport(args));
     }
 

@@ -16,8 +16,16 @@ import java.util.List;
  *     <li>HasParent - parent project for this package</li>
  * </ul>
  */
-public interface PackageInfo extends EntityContainer, HasClasses, HasFiles, HasContextFilter, HasMetrics, HasParent {
+public interface PackageInfo
+        extends CoverageDataReceptor, EntityContainer, HasClasses, HasFiles, HasContextFilter, HasMetrics,
+                HasMetricsNode, HasParent, CoverageDataRange, IsMetricsComparable,
+                EditableCoverageDataRange, IsCacheable {
+
     String DEFAULT_PACKAGE_NAME = "default-pkg";
+
+    static boolean isDefaultName(String name) {
+        return (name.length() == 0 || name.equals(PackageInfo.DEFAULT_PACKAGE_NAME));
+    }
 
     /**
      * Returns a project containing this package {@link EntityVisitor#visitProject(ProjectInfo)}.
@@ -44,11 +52,11 @@ public interface PackageInfo extends EntityContainer, HasClasses, HasFiles, HasC
     /**
      * Returns list of source files belonging to this package namespace.
      *
-     * @return List&lt;? extends FileInfo&gt; list of files or empty list if none
+     * @return List&lt;FileInfo&gt; list of files or empty list if none
      */
     @Override
     @NotNull
-    List<? extends FileInfo> getFiles();
+    List<FileInfo> getFiles();
 
     /**
      * Returns a list of top-level classes (i.e. declared on a file's top-level, not as inner classes or inline ones)
@@ -57,11 +65,20 @@ public interface PackageInfo extends EntityContainer, HasClasses, HasFiles, HasC
      * Note that in many programming languages you can have more than one class in a source file. It can also happen
      * that some source file has no classes.
      *
-     * @return List&lt;? extends ClassInfo&gt; list of classes or empty list if none
+     * @return List&lt;ClassInfo&gt; list of classes or empty list if none
      */
     @Override
     @NotNull
-    List<? extends ClassInfo> getClasses();
+    List<ClassInfo> getClasses();
+
+
+    /**
+     * Return list of top-level classes declared in this package matching the filter
+     *
+     * @param filter metrics filter to be applied
+     * @return List&lt;ClassInfo&gt; list of classes found or empty list
+     */
+    List<ClassInfo> getClasses(HasMetricsFilter filter);
 
     /**
      * Returns a list of top-level classes (i.e. not inner or inline ones) declared in this package AND all
@@ -70,19 +87,19 @@ public interface PackageInfo extends EntityContainer, HasClasses, HasFiles, HasC
      * For example, if this package is named "com.acme" then it will return all top-level classes
      * from "com.acme" as well as from "com.acme.foo", "com.acme.foo.bar" but not "com.other".
      *
-     * @return List&lt;? extends ClassInfo&gt; list of classes or empty list if none
+     * @return List&lt;ClassInfo&gt; list of classes or empty list if none
      */
     @NotNull
-    List<? extends ClassInfo> getClassesIncludingSubPackages();
+    List<ClassInfo> getClassesIncludingSubPackages();
 
     /**
      * Returns list of all classes (including inner or inline classes) declared in this package.
      *
-     * @return List&lt;? extends ClassInfo&gt; - list of classes or empty list if none
+     * @return List&lt;ClassInfo&gt; - list of classes or empty list if none
      */
     @Override
     @NotNull
-    List<? extends ClassInfo> getAllClasses();
+    List<ClassInfo> getAllClasses();
 
     /**
      * Returns list of all classes (including inner or inline classes) declared in this package AND all sub-packages.
@@ -90,10 +107,22 @@ public interface PackageInfo extends EntityContainer, HasClasses, HasFiles, HasC
      * For example if this package is named "com.acme" then it will return all top-level and inner classes
      * from "com.acme" as well as from "com.acme.foo", "com.acme.foo.bar" but not from "com.other".
      *
-     * @return List&lt;? extends ClassInfo&gt; - list of classes or empty list if none
+     * @return List&lt;ClassInfo&gt; - list of classes or empty list if none
      */
     @NotNull
-    List<? extends ClassInfo> getAllClassesIncludingSubPackages();
+    List<ClassInfo> getAllClassesIncludingSubPackages();
 
     boolean isDescendantOf(PackageInfo other);
+
+    boolean isChildOrDescendantOf(final PackageInfo other);
+
+    void addFile(FileInfo file);
+
+    FileInfo getFileInPackage(String name);
+
+    FileInfo getFile(String packagePath);
+
+    PackageInfo copy(ProjectInfo proj, HasMetricsFilter filter);
+
+    boolean isNamed(String name);
 }

@@ -4,7 +4,8 @@ import junit.framework.TestCase;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.CoverageDataSpec;
 import org.openclover.core.api.registry.HasMetrics;
-import org.openclover.core.registry.entities.TestCaseInfo;
+
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.reporters.filters.DefaultTestFilter;
 import org.openclover.idea.config.TestCaseLayout;
 import org.openclover.idea.treetables.SortableListTreeTableModelOnColumns;

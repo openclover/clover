@@ -11,8 +11,8 @@ public class NoSuchRegistryException extends CloverRegistryException {
      */
     public NoSuchRegistryException(String filePath) {
         super(
-            "Clover registry file \"" + filePath + "\" does not exist, cannot be read or is a directory. " +
-            "\nPlease ensure Clover has instrumented your source files. " +
+            "OpenClover database \"" + filePath + "\" does not exist, cannot be read or is a directory. " +
+            "\nPlease ensure OpenClover has instrumented your source files. " +
             "\nYou may need to remove existing .class files for this to occur.");
     }
 

@@ -4,22 +4,28 @@ import org.jetbrains.annotations.NotNull;
 import org.openclover.core.api.registry.BlockMetrics;
 import org.openclover.core.api.registry.BranchInfo;
 import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.ContextSet;
+import org.openclover.core.api.registry.EntityContainer;
+import org.openclover.core.api.registry.EntityVisitor;
 import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.MethodInfo;
+import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.api.registry.SourceInfo;
+import org.openclover.core.api.registry.StackTraceEntry;
 import org.openclover.core.api.registry.StatementInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.io.tags.TaggedDataInput;
 import org.openclover.core.io.tags.TaggedDataOutput;
 import org.openclover.core.io.tags.TaggedPersistent;
-import org.openclover.core.registry.CoverageDataProvider;
-import org.openclover.core.registry.CoverageDataReceptor;
-import org.openclover.core.registry.FileElementVisitor;
+import org.openclover.core.api.registry.CoverageDataProvider;
+import org.openclover.core.api.registry.CoverageDataReceptor;
+import org.openclover.core.api.registry.ElementVisitor;
 import org.openclover.core.registry.FixedSourceRegion;
 import org.openclover.core.registry.metrics.ClassMetrics;
 import org.openclover.core.registry.metrics.FileMetrics;
-import org.openclover.core.registry.metrics.HasMetricsFilter;
-import org.openclover.core.registry.metrics.HasMetricsNode;
+import org.openclover.core.api.registry.HasMetricsFilter;
+import org.openclover.core.api.registry.HasMetricsNode;
 import org.openclover.core.registry.util.EntityVisitorUtils;
 import org.openclover.core.spi.lang.Language;
 import org.openclover.core.util.FileUtils;
@@ -44,19 +50,33 @@ import static org.openclover.core.util.Maps.newTreeMap;
 import static org.openclover.core.util.Sets.newHashSet;
 import static org.openclover.core.util.Sets.newTreeSet;
 
-public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, FileInfo, HasMetricsNode, TaggedPersistent {
-    public static final long NO_VERSION = -1L;
+public class FullFileInfo
+        implements CoverageDataReceptor, FileInfo, HasMetricsNode, TaggedPersistent {
+
+    protected String name;
+    protected String encoding;
+    protected int lineCount;
+    protected int ncLineCount;
+
+    protected long timestamp;
+    protected long filesize;
+    protected long checksum;
+
+    protected transient PackageInfo containingPackage;
+    protected transient BlockMetrics rawMetrics;
+    protected transient BlockMetrics metrics;
+    protected transient ContextSet contextFilter;
 
     /** classes declared inside the file */
-    protected Map<String, FullClassInfo> classes = new LinkedHashMap<>();
+    protected Map<String, ClassInfo> classes = new LinkedHashMap<>();
     /**
      * statements declared inside the file on the top-level (e.g in scripts)
      */
-    protected List<FullStatementInfo> statements = newArrayList();
+    protected List<StatementInfo> statements = newArrayList();
     /**
      * methods (functions) declared on the top-level of the file (e.g. outside classes
      */
-    protected List<FullMethodInfo> methods = newArrayList();
+    protected List<MethodInfo> methods = newArrayList();
 
     private File actualFile;
     protected int dataIndex;
@@ -65,23 +85,30 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
     private long minVersion;
     private long maxVersion;
 
-    private transient List<FullClassInfo> orderedClasses;
+    private transient List<ClassInfo> orderedClasses;
     private transient LineInfo[] lineInfo;
     private transient Comparator<HasMetrics> orderby;
     private transient CoverageDataProvider data;
-    private transient Map<Integer, List<StackTraceInfo.TraceEntry>> failStackInfos;
+    private transient Map<Integer, List<StackTraceEntry>> failStackInfos;
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
     public FullFileInfo(
-            FullPackageInfo containingPackage, File actualFile, String encoding,
+            PackageInfo containingPackage, File actualFile, String encoding,
             int dataIndex, int lineCount, int ncLineCount, long timestamp, long filesize,
             long checksum, long minVersion) {
 
-        super(containingPackage, actualFile.getName(), encoding, lineCount, ncLineCount, timestamp, filesize, checksum);
+        this.containingPackage = containingPackage;
+        this.name = actualFile.getName();
+        this.encoding = encoding;
+        this.lineCount = lineCount;
+        this.ncLineCount = ncLineCount;
+        this.timestamp = timestamp;
+        this.filesize = filesize;
+        this.checksum = checksum;
+
         this.actualFile = actualFile;
         this.dataIndex = dataIndex;
-        this.lineCount = lineCount;
         this.minVersion = this.maxVersion = minVersion;
     }
 
@@ -90,14 +117,22 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
                          final int lineCount, final int ncLineCount,
                          final long timestamp, final long checksum, final long filesize,
                          final long minVersion, final long maxVersion,
-                         final Map<String, FullClassInfo> classes,
-                         final List<FullMethodInfo> methods,
-                         final List<FullStatementInfo> statements) {
-        super(null, actualFile.getName(), encoding, lineCount, ncLineCount, timestamp, filesize, checksum);
+                         final Map<String, ClassInfo> classes,
+                         final List<MethodInfo> methods,
+                         final List<StatementInfo> statements) {
+
+        this.containingPackage = null;
+        this.name = actualFile.getName();
+        this.encoding = encoding;
+        this.lineCount = lineCount;
+        this.ncLineCount = ncLineCount;
+        this.timestamp = timestamp;
+        this.filesize = filesize;
+        this.checksum = checksum;
+
         this.actualFile = actualFile;
         this.dataIndex = dataIndex;
         this.dataLength = dataLength;
-        this.lineCount = lineCount;
         this.minVersion = minVersion;
         this.maxVersion = maxVersion;
         this.classes.putAll(classes);
@@ -106,6 +141,136 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
+
+    // FileInfo
+
+    @Override
+    public ClassInfo getNamedClass(String name) {
+        return classes.get(name);
+    }
+
+    @Override
+    public String getEncoding() {
+        return encoding;
+    }
+
+    @Override
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    @Override
+    public long getFileSize() {
+        return filesize;
+    }
+
+    @Override
+    public long getChecksum() {
+        return checksum;
+    }
+
+    @Override
+    public String getPackagePath() {
+        if (containingPackage == null) {
+            throw new IllegalStateException("This FileInfo has no PackageInfo set on it yet");
+        }
+        return containingPackage.getPath() + getName();
+    }
+
+    @Override
+    public PackageInfo getContainingPackage() {
+        return containingPackage;
+    }
+
+    @Override
+    public void setContainingPackage(PackageInfo containingPackage) {
+        this.containingPackage = containingPackage;
+        for (ClassInfo classInfo : getClasses()) {
+            classInfo.getClassMetadata().setPackage(containingPackage);
+        }
+    }
+
+    @Override
+    public int getLineCount() {
+        return lineCount;
+    }
+
+    @Override
+    public int getNcLineCount() {
+        return ncLineCount;
+    }
+
+    @Override
+    public boolean isTestFile() {
+        for (ClassInfo classInfo : getClasses()) {
+            if (classInfo.isTestClass()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public File getPhysicalFile() {
+        return actualFile;
+    }
+
+    @Override
+    public Reader getSourceReader() throws IOException {
+        if (getEncoding() == null) {
+            return new FileReader(getPhysicalFile());
+        } else {
+            return new InputStreamReader(Files.newInputStream(getPhysicalFile().toPath()), getEncoding());
+        }
+    }
+
+    // HasContextFilter
+
+    @Override
+    public ContextSet getContextFilter() {
+        return getContainingPackage().getContextFilter();
+    }
+
+    // HasParent
+
+    @Override
+    public EntityContainer getParent() {
+        return entityVisitor -> entityVisitor.visitPackage(containingPackage);
+    }
+
+    // SourceInfo
+
+    @Override
+    public int getStartLine() {
+        return 1;
+    }
+
+    @Override
+    public int getStartColumn() {
+        return 1;
+    }
+
+    @Override
+    public int getEndLine() {
+        return lineCount;
+    }
+
+    @Override
+    public int getEndColumn() {
+        return 1;  // TODO hack, not a true end
+    }
+
+    // EntityContainer
+
+    /**
+     * Visit yourself
+     *
+     * @param entityVisitor callback
+     */
+    @Override
+    public void visit(EntityVisitor entityVisitor) {
+        entityVisitor.visitFile(this);
+    }
 
     // CoverageDataReceptor
 
@@ -117,10 +282,10 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
     @Override
     public void setDataProvider(final CoverageDataProvider data) {
         this.data = data;
-        for (FullClassInfo classInfo : classes.values()) {
+        for (ClassInfo classInfo : classes.values()) {
             classInfo.setDataProvider(data);
         }
-        for (FullMethodInfo methodInfo : methods) {
+        for (MethodInfo methodInfo : methods) {
             methodInfo.setDataProvider(data);
         }
         // note: don't call setDataProvider on 'statements' because FullStatementInfo takes provider form its parent
@@ -128,7 +293,7 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
         metrics = null;
     }
 
-    // FileInfo -> InstrumentationInfo
+    // InstrumentationInfo
 
     @Override
     public int getDataIndex() {
@@ -140,69 +305,70 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
         return dataLength;
     }
 
-    // FileInfo -> SourceInfo - see BaseFileInfo
-
-    // FileInfo -> HasClasses
+    // HasClasses
 
     @Override
     @NotNull
-    public List<? extends ClassInfo> getClasses() {
+    public List<ClassInfo> getClasses() {
         return newArrayList(classes.values());
     }
 
     @NotNull
     @Override
-    public List<? extends ClassInfo> getAllClasses() {
+    public List<ClassInfo> getAllClasses() {
         final List<ClassInfo> allClasses = newArrayList();
         // in-order
         // get file-level classes and classes declared inside them
-        for (FullClassInfo classInfo : classes.values()) {
+        for (ClassInfo classInfo : classes.values()) {
             allClasses.add(classInfo);
             allClasses.addAll(classInfo.getAllClasses());
         }
         // get file-level functions and classes declared inside them
-        for (FullMethodInfo methodInfo : methods) {
+        for (MethodInfo methodInfo : methods) {
             allClasses.addAll(methodInfo.getAllClasses());
         }
         return allClasses;
     }
 
-    // FileInfo -> HasMethods
+    // HasMethods
 
     @Override
     @NotNull
-    public List<? extends MethodInfo> getMethods() {
+    public List<MethodInfo> getMethods() {
         return newArrayList(methods); // copy of the list
     }
 
     @NotNull
     @Override
-    public List<? extends MethodInfo> getAllMethods() {
+    public List<MethodInfo> getAllMethods() {
         final List<MethodInfo> allMethods = newArrayList();
         // in-order
         // get file-level classes and methods declared inside them
-        for (FullClassInfo classInfo : classes.values()) {
+        for (ClassInfo classInfo : classes.values()) {
             allMethods.addAll(classInfo.getAllMethods());
         }
         // get file-level functions and functions declared inside them
-        for (FullMethodInfo methodInfo : methods) {
+        for (MethodInfo methodInfo : methods) {
             allMethods.add(methodInfo);
             allMethods.addAll(methodInfo.getAllMethods());
         }
         return allMethods;
     }
 
-    // FileInfo -> HasStatements
+    // HasStatements
 
     @Override
     @NotNull
-    public List<? extends StatementInfo> getStatements() {
+    public List<StatementInfo> getStatements() {
         return newArrayList(statements); // copy of the list
     }
 
-    // FileInfo -> HasContextFilter - see BaseFile Info
+    // HasMetrics
 
-    // FileInfo -> HasMetrics
+    @Override
+    public String getName() {
+        return name;
+    }
 
     @Override
     public BlockMetrics getMetrics() {
@@ -219,6 +385,11 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
             rawMetrics = calcMetrics(false);
         }
         return rawMetrics;
+    }
+
+    @Override
+    public void setMetrics(BlockMetrics metrics) {
+        this.metrics = metrics;
     }
 
     // HasMetricsNode
@@ -264,16 +435,34 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
     public void setComparator(Comparator<HasMetrics> cmp) {
         orderby = cmp;
         orderedClasses = null;
-        for (FullClassInfo classInfo : classes.values()) {
+        for (ClassInfo classInfo : classes.values()) {
             classInfo.setComparator(cmp);
+        }
+    }
+
+    // HasVersionRanges
+
+    @Override
+    public void addVersion(long version) {
+        if (minVersion == NO_VERSION) {
+            minVersion = version;
+        }
+        maxVersion = Math.max(version, maxVersion);
+    }
+
+    @Override
+    public void addVersions(long minVersion, long maxVersion) {
+        if (this.minVersion == NO_VERSION) {
+            this.minVersion = minVersion;
+            this.maxVersion = maxVersion;
+        } else {
+            this.minVersion = Math.min(this.minVersion, minVersion);
+            this.maxVersion = Math.max(this.maxVersion, maxVersion);
         }
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
-    public File getPhysicalFile() {
-        return actualFile;
-    }
 
     public boolean validatePhysicalFile() {
         if (actualFile.exists()) {
@@ -290,30 +479,31 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
     /**
      * @return a set of source regions for this file, sorted by start position and length.
      */
-    public Set<SourceInfo> getSourceRegions() {
+    @Override
+    public Set<SourceInfo> gatherSourceRegions() {
         final Set<SourceInfo> regions = newTreeSet(FixedSourceRegion.SOURCE_ORDER_COMP);
         for (ClassInfo classInfo : classes.values()) {
-            FullClassInfo fullClassInfo = (FullClassInfo) classInfo;
-            fullClassInfo.gatherSourceRegions(regions);
+            classInfo.gatherSourceRegions(regions);
         }
         for (MethodInfo methodInfo : methods) {
-            FullMethodInfo fullMethodInfo = (FullMethodInfo) methodInfo;
-            fullMethodInfo.gatherSourceRegions(regions);
+            methodInfo.gatherSourceRegions(regions);
         }
         regions.addAll(statements);
         return regions;
     }
 
+    @Override
     public LineInfo[] getLineInfo(boolean showLambdaFunctions, boolean showInnerFunctions) {
         // not using the 0th array slot so line numbers index naturally
         return getLineInfo(getLineCount() + 1, showLambdaFunctions, showInnerFunctions);
     }
 
+    @Override
     public LineInfo[] getLineInfo(int ensureLineCountAtLeast, final boolean showLambdaFunctions,
                                   final boolean showInnerFunctions) {
         if (lineInfo == null) {
             final LineInfo[] tmpLineInfo = new LineInfo[Math.max(getLineCount() + 1, ensureLineCountAtLeast)];
-            visitElements(new FileElementVisitor() {
+            visitElements(new ElementVisitor() {
 
                 final EntityVisitorUtils entityUtils = new EntityVisitorUtils();
 
@@ -333,7 +523,7 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
                 public void visitClass(ClassInfo info) {
                     final LineInfo lineInfo = getOrCreateLineInfo(info);
                     if (lineInfo != null) {
-                        lineInfo.addClassStart((FullClassInfo)info);
+                        lineInfo.addClassStart(info);
                     }
                 }
 
@@ -345,7 +535,7 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
                         // if it's an inner method and we're not showing them
                         if ( (showLambdaFunctions || !info.isLambda())
                                 && (showInnerFunctions || !entityUtils.isInnerMethod(info)) ) {
-                            lineInfo.addMethodStart((FullMethodInfo)info);
+                            lineInfo.addMethodStart(info);
                         }
                     }
                 }
@@ -359,7 +549,7 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
                                 || ( (showLambdaFunctions || !entityUtils.isParentALambdaMethod(info))  // inside a lambda
                                         && (showInnerFunctions || !entityUtils.isParentAnInnerMethod(info)) ) // inside an inner method
                                 ) {
-                            lineInfo.addStatement((FullStatementInfo)info);
+                            lineInfo.addStatement(info);
                         }
                     }
                 }
@@ -373,21 +563,21 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
                                 || ( (showLambdaFunctions || !entityUtils.isParentALambdaMethod(info))  // branch inside a lambda
                                         && (showInnerFunctions || !entityUtils.isParentAnInnerMethod(info)) ) // branch inside an inner method
                                 ) {
-                            lineInfo.addBranch((FullBranchInfo)info);
+                            lineInfo.addBranch(info);
                         }
                     }
                 }
             });
 
             if (failStackInfos != null) {
-                for (final Map.Entry<Integer, List<StackTraceInfo.TraceEntry>> entry : failStackInfos.entrySet()) {
+                for (final Map.Entry<Integer, List<StackTraceEntry>> entry : failStackInfos.entrySet()) {
                     final int line = entry.getKey();
-                    final List<StackTraceInfo.TraceEntry> stackFrames = entry.getValue();
+                    final List<StackTraceEntry> stackFrames = entry.getValue();
                     if (line > 0 && line < tmpLineInfo.length) {
                         if (tmpLineInfo[line] == null) {
                             tmpLineInfo[line] = new LineInfo(line);
                         }
-                        tmpLineInfo[line].setFailStackEntries(stackFrames.toArray(new StackTraceInfo.TraceEntry[0]));
+                        tmpLineInfo[line].setFailStackEntries(stackFrames.toArray(new FullStackTraceInfo.StackTraceEntryImpl[0]));
                     }
 
                 }
@@ -399,8 +589,9 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
         return lineInfo;
     }
 
-    public void visitElements(FileElementVisitor visitor) {
-        for (FullClassInfo classInfo : classes.values()) {
+    @Override
+    public void visitElements(ElementVisitor visitor) {
+        for (ClassInfo classInfo : classes.values()) {
             classInfo.visitElements(visitor);
         }
     }
@@ -416,26 +607,9 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
         this.dataIndex = dataIndex;
     }
 
+    @Override
     public void setDataLength(int length) {
         dataLength = length;
-    }
-
-    public void addVersion(long version) {
-        if (minVersion == NO_VERSION) {
-            minVersion = version;
-        }
-        maxVersion = Math.max(version, maxVersion);
-    }
-
-    public void addVersions(long minVersion, long maxVersion) {
-        if (this.minVersion == NO_VERSION) {
-            this.minVersion = minVersion;
-            this.maxVersion = maxVersion;
-        }
-        else {
-            this.minVersion = Math.min(this.minVersion, minVersion);
-            this.maxVersion = Math.max(this.maxVersion, maxVersion);
-        }
     }
 
     // NO_VERSION should be checked here, but in the lifecycle of a FullFileInfo, it will never be NO_VERSION and have
@@ -457,41 +631,41 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
     }
 
     public boolean changedFrom(long checksum, long filesize) {
-        return getChecksum() != checksum || getFilesize() != filesize;
+        return getChecksum() != checksum || getFileSize() != filesize;
     }
 
-    public void addClass(FullClassInfo classInfo) {
+    @Override
+    public void addClass(ClassInfo classInfo) {
         classes.put(classInfo.getName(), classInfo);
     }
 
-    public void addMethod(FullMethodInfo methodInfo) {
+    @Override
+    public void addMethod(MethodInfo methodInfo) {
         methods.add(methodInfo);
     }
 
-    public void addStatement(FullStatementInfo statementInfo) {
+    @Override
+    public void addStatement(StatementInfo statementInfo) {
         statements.add(statementInfo);
     }
 
-    public ClassInfo getNamedClass(String name) {
-        return classes.get(name);
-    }
-
-    public FullFileInfo copy(FullPackageInfo pkg, HasMetricsFilter filter) {
-        FullFileInfo file = new FullFileInfo(pkg, actualFile, encoding, dataIndex, lineCount, ncLineCount, timestamp, filesize, checksum, minVersion);
+    @Override
+    public FileInfo copy(PackageInfo pkg, HasMetricsFilter filter) {
+        FileInfo file = new FullFileInfo(pkg, actualFile, encoding, dataIndex, lineCount, ncLineCount, timestamp, filesize, checksum, minVersion);
         file.addVersion(maxVersion);
         file.setDataProvider(getDataProvider());
 
-        for (FullClassInfo classInfo : classes.values()) {
+        for (ClassInfo classInfo : classes.values()) {
             if (filter.accept(classInfo)) {
                 file.addClass(classInfo.copy(file, filter));
             }
         }
-        for (FullMethodInfo methodInfo : methods) {
+        for (MethodInfo methodInfo : methods) {
             if (filter.accept(methodInfo)) {
                 file.addMethod(methodInfo.copy(file));
             }
         }
-        for (FullStatementInfo statementInfo : statements) {
+        for (StatementInfo statementInfo : statements) {
             file.addStatement(statementInfo); // TODO what about metric filtering for statements ?
         }
 
@@ -510,40 +684,35 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
 
         if (failStackInfos != null) {
             tests = newHashSet();
-            for (final Map.Entry<Integer, List<StackTraceInfo.TraceEntry>> entry : failStackInfos.entrySet()) {
-                final List<StackTraceInfo.TraceEntry> entries = entry.getValue();
-                for (StackTraceInfo.TraceEntry traceEntry : entries) {
-                    tests.add(traceEntry.getParentTrace().getOriginatingTest());
+            for (final Map.Entry<Integer, List<StackTraceEntry>> entry : failStackInfos.entrySet()) {
+                final List<StackTraceEntry> entries = entry.getValue();
+                for (StackTraceEntry stackTraceEntry : entries) {
+                    tests.add(stackTraceEntry.getParentTrace().getOriginatingTest());
                 }
             }
         }
         return tests;
     }
 
-    public Map<Integer, List<StackTraceInfo.TraceEntry>> getFailStackEntries() {
+    public Map<Integer, List<StackTraceEntry>> getFailStackEntries() {
         return failStackInfos;
     }
 
-    public void setFailStackEntries(final Map<Integer, List<StackTraceInfo.TraceEntry>> entries) {
+    @Override
+    public void setFailStackEntries(final Map<Integer, List<StackTraceEntry>> entries) {
         failStackInfos = new TreeMap<>(entries);
     }
 
-    public void addFailStackEntry(final int lineNum, final StackTraceInfo.TraceEntry traceEntry) {
+    @Override
+    public void addFailStackEntry(final int lineNum, final StackTraceEntry stackTraceEntry) {
         if (failStackInfos == null) {
             failStackInfos = newTreeMap();
         }
         final Integer lineKey = lineNum;
-        List<StackTraceInfo.TraceEntry> tracesForLine = failStackInfos.computeIfAbsent(lineKey, k -> newArrayList());
-        tracesForLine.add(traceEntry);
+        List<StackTraceEntry> tracesForLine = failStackInfos.computeIfAbsent(lineKey, k -> newArrayList());
+        tracesForLine.add(stackTraceEntry);
     }
 
-    public Reader getSourceReader() throws IOException {
-        if (getEncoding() == null) {
-            return new FileReader(getPhysicalFile());
-        } else {
-            return new InputStreamReader(Files.newInputStream(getPhysicalFile().toPath()), getEncoding());
-        }
-    }
 
     public Language getLanguage() {
         if (actualFile != null) {
@@ -559,7 +728,7 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
     }
 
     private void buildOrderedClassList() {
-        List<FullClassInfo> tmpOrderedClasses = newArrayList(classes.values());
+        List<ClassInfo> tmpOrderedClasses = newArrayList(classes.values());
         if (orderby != null) {
             tmpOrderedClasses.sort(orderby);
         } else {
@@ -585,7 +754,7 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
      */
     private void calcAndAddClassMetrics(FileMetrics fileMetrics, boolean filtered) {
         int numClasses = 0;
-        for (FullClassInfo classInfo : classes.values()) {
+        for (ClassInfo classInfo : classes.values()) {
             if (!filtered) {
                 fileMetrics.add((ClassMetrics) classInfo.getRawMetrics());
             } else {
@@ -604,7 +773,7 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
         int numMethods = 0;
         int numTestMethods = 0;
 
-        for (FullMethodInfo methodInfo : methods) {
+        for (MethodInfo methodInfo : methods) {
             if (methodInfo.isFiltered(contextFilter)) {
                 continue;
             }
@@ -636,7 +805,7 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
         int complexity = 0;
 
         // sum metrics from statements declared in a file
-        for (FullStatementInfo statementInfo : statements) {
+        for (StatementInfo statementInfo : statements) {
             if (statementInfo.isFiltered(contextFilter)) {
                 continue;
             }
@@ -693,9 +862,9 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
         final int ncLineCount = in.readInt();
 
         // read classes, functions and statements
-        final Map<String, FullClassInfo> classes = readClasses(in);
-        final List<FullMethodInfo> methods = in.readList(FullMethodInfo.class);
-        final List<FullStatementInfo> statements = in.readList(FullStatementInfo.class);
+        final Map<String, ClassInfo> classes = readClasses(in);
+        final List<MethodInfo> methods = in.readList(FullMethodInfo.class);
+        final List<StatementInfo> statements = in.readList(FullStatementInfo.class);
 
         // construct file object and attach nested sub-elements
         final FullFileInfo fileInfo = new FullFileInfo(actualFile, encoding,
@@ -704,28 +873,39 @@ public class FullFileInfo extends BaseFileInfo implements CoverageDataReceptor, 
                 timestamp, checksum, filesize,
                 minVersion, maxVersion,
                 classes, methods, statements);
-        for (FullClassInfo classInfo : classes.values()) {
+        for (ClassInfo classInfo : classes.values()) {
             classInfo.setContainingFile(fileInfo);
         }
-        for (FullMethodInfo methodInfo : methods) {
+        for (MethodInfo methodInfo : methods) {
             methodInfo.setContainingFile(fileInfo);
         }
-        for (FullStatementInfo statementInfo : statements) {
+        for (StatementInfo statementInfo : statements) {
             statementInfo.setContainingFile(fileInfo);
         }
 
         return fileInfo;
     }
 
-    private static Map<String, FullClassInfo> readClasses(TaggedDataInput in) throws IOException {
+    private static Map<String, ClassInfo> readClasses(TaggedDataInput in) throws IOException {
         // read list
-        final List<FullClassInfo> classInfos = in.readList(FullClassInfo.class);
+        final List<ClassInfo> classInfos = in.readList(FullClassInfo.class);
         // and rewrite to map
-        final Map<String, FullClassInfo> classes = new LinkedHashMap<>(classInfos.size() * 2);
-        for(FullClassInfo classInfo : classInfos) {
+        final Map<String, ClassInfo> classes = new LinkedHashMap<>(classInfos.size() * 2);
+        for (ClassInfo classInfo : classInfos) {
             classes.put(classInfo.getName(), classInfo);
         }
         return classes;
+    }
+
+    public int hashCode() {
+        return getPackagePath().hashCode();
+    }
+
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        final FullFileInfo that = (FullFileInfo) o;
+        return this.getPackagePath().equals(that.getPackagePath());
     }
 
 }

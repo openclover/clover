@@ -12,28 +12,28 @@ import java.util.List;
 import java.util.Map;
 
 public class ClassEntryNode extends Emitter {
-    private String className;
-    private String pkgname;
-    private String superclass;
-    private boolean isTopLevel;
-    private boolean isInterface;
-    private boolean isEnum;
-    private boolean isAnnotation;
-    private Map<String, List<String>> tags;
-    private Modifiers mods;
+    private final String className;
+    private final String pkgName;
+    private final String superclass;
+    private final boolean isTopLevel;
+    private final boolean isInterface;
+    private final boolean isEnum;
+    private final boolean isAnnotation;
+    private final Map<String, List<String>> tags;
+    private final Modifiers mods;
     private boolean outerDetectTests;
     private CloverToken recorderInsertPoint;
     private RecorderInstrEmitter recorderInstrEmitter;
 
     public ClassEntryNode(Map<String, List<String>> tags, Modifiers mods,
-                          String className, String pkgname, String superclass,
+                          String className, String pkgName, String superclass,
                           ContextSet context, int line, int col, boolean isTopLevel,
                           boolean isInterface, boolean isEnum, boolean isAnnotation) {
         super(context, line, col);
         this.tags = tags;
         this.mods = mods;
         this.className = className;
-        this.pkgname = pkgname;
+        this.pkgName = pkgName;
         this.superclass = superclass;
         this.isTopLevel = isTopLevel;
         this.isInterface = isInterface;
@@ -46,7 +46,7 @@ public class ClassEntryNode extends Emitter {
         outerDetectTests = state.isDetectTests();
 
         boolean testClass = state.getTestDetector() != null &&
-                state.getTestDetector().isTypeMatch(state, new JavaTypeContext(tags, mods, pkgname, className, superclass));
+                state.getTestDetector().isTypeMatch(state, new JavaTypeContext(tags, mods, pkgName, className, superclass));
         state.setDetectTests(testClass);
         // using 'testClass &&' as user could have custom test detector
         state.setSpockTestClass(testClass && SpockFeatureNameExtractor.isClassWithSpecAnnotations(mods));

@@ -10,9 +10,13 @@ import org.openclover.core.TestUtils
 import org.openclover.core.api.registry.ClassInfo
 import org.openclover.core.api.registry.ContextSet
 import org.openclover.core.api.registry.HasMetrics
+import org.openclover.core.api.registry.PackageFragment
+import org.openclover.core.api.registry.PackageInfo
+import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.api.registry.SourceInfo
 import org.openclover.core.context.ContextSetImpl
 import org.openclover.core.context.ContextStore
+import org.openclover.core.registry.entities.BasicElementInfo
 import org.openclover.core.registry.entities.FullBranchInfo
 import org.openclover.core.registry.entities.FullClassInfo
 import org.openclover.core.registry.entities.FullFileInfo
@@ -22,14 +26,16 @@ import org.openclover.core.registry.entities.FullProjectInfo
 import org.openclover.core.registry.entities.FullStatementInfo
 import org.openclover.core.registry.entities.MethodSignature
 import org.openclover.core.registry.entities.Modifiers
-import org.openclover.core.registry.entities.PackageFragment
 import org.openclover.core.registry.format.FreshRegFile
-import org.openclover.core.registry.metrics.HasMetricsFilter
+import org.openclover.core.api.registry.HasMetricsFilter
 import org.openclover.core.registry.metrics.ProjectMetrics
+import org.openclover.core.spi.lang.LanguageConstruct
 import org.openclover.runtime.registry.format.RegAccessMode
 
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertTrue
+import static org.openclover.core.registry.entities.FullMethodInfo.DEFAULT_METHOD_COMPLEXITY
+import static org.openclover.core.spi.lang.LanguageConstruct.Builtin.METHOD
 
 
 class RegistryTest {
@@ -55,8 +61,8 @@ class RegistryTest {
     void testFullHierarchyAdd() throws Exception {
         SourceInfo region = new FixedSourceRegion(0, 0, 0, 0)
         ContextSet context = new ContextSetImpl()
-        FullProjectInfo proj = new FullProjectInfo(testName.methodName)
-        FullPackageInfo pkg = new FullPackageInfo(proj, "com.acme.test", 0)
+        ProjectInfo proj = new FullProjectInfo(testName.methodName)
+        PackageInfo pkg = new FullPackageInfo(proj, "com.acme.test", 0)
         proj.addPackage(pkg)
 
         FullFileInfo file  = new FullFileInfo(pkg, new File("test.java"), null, 0, 0, 0, 0, 0, 0, 0)
@@ -68,9 +74,10 @@ class RegistryTest {
                     false, false, false)
             file.addClass(cls)
             for (int j = 0; j < 10; j++) {
-                FullMethodInfo method = new FullMethodInfo(cls, 0, context, region,
-                        new MethodSignature("method" + j),
-                        false, null, false, FullMethodInfo.DEFAULT_METHOD_COMPLEXITY)
+                FullMethodInfo method = new FullMethodInfo(
+                        cls, new MethodSignature("method" + j), context,
+                        new BasicElementInfo(region, 0, DEFAULT_METHOD_COMPLEXITY, METHOD),
+                        false, null, false)
                 cls.addMethod(method)
                 for (int k = 0; k < 10; k++) {
                     FullStatementInfo stmt = new FullStatementInfo(method, 0,  context, region, 0)
@@ -97,22 +104,22 @@ class RegistryTest {
 
     @Test
     void testPackageFragmentation() throws Exception {
-        FullProjectInfo proj = new FullProjectInfo(testName.methodName)
-        FullPackageInfo pkg1 = new FullPackageInfo(proj, "a.b.c.d", 0)
+        ProjectInfo proj = new FullProjectInfo(testName.methodName)
+        PackageInfo pkg1 = new FullPackageInfo(proj, "a.b.c.d", 0)
         pkg1.addFile(new FullFileInfo(pkg1, new File("test.java"), null, 0, 0, 0, 0, 0, 0, 0))
-        FullPackageInfo pkg2 = new FullPackageInfo(proj, "a.b.e.f", 0)
+        PackageInfo pkg2 = new FullPackageInfo(proj, "a.b.e.f", 0)
         pkg2.addFile(new FullFileInfo(pkg2, new File("test.java"), null, 0, 0, 0, 0, 0, 0, 0))
-        FullPackageInfo pkg3 = new FullPackageInfo(proj, "p.q", 0)
+        PackageInfo pkg3 = new FullPackageInfo(proj, "p.q", 0)
         pkg3.addFile(new FullFileInfo(pkg3, new File("test.java"), null, 0, 0, 0, 0, 0, 0, 0))
-        FullPackageInfo pkg4 = new FullPackageInfo(proj, "p.r", 0)
+        PackageInfo pkg4 = new FullPackageInfo(proj, "p.r", 0)
         pkg4.addFile(new FullFileInfo(pkg4, new File("test.java"), null, 0, 0, 0, 0, 0, 0, 0))
-        FullPackageInfo pkg5 = new FullPackageInfo(proj, "p.s", 0)
+        PackageInfo pkg5 = new FullPackageInfo(proj, "p.s", 0)
         pkg5.addFile(new FullFileInfo(pkg5, new File("test.java"), null, 0, 0, 0, 0, 0, 0, 0))
-        FullPackageInfo pkg6 = new FullPackageInfo(proj, "i", 0)
+        PackageInfo pkg6 = new FullPackageInfo(proj, "i", 0)
         pkg6.addFile(new FullFileInfo(pkg6, new File("test.java"), null, 0, 0, 0, 0, 0, 0, 0))
-        FullPackageInfo pkg7 = new FullPackageInfo(proj, "i.j", 0)
+        PackageInfo pkg7 = new FullPackageInfo(proj, "i.j", 0)
         pkg7.addFile(new FullFileInfo(pkg7, new File("test.java"), null, 0, 0, 0, 0, 0, 0, 0))
-        FullPackageInfo pkg8 = new FullPackageInfo(proj, "i.k", 0)
+        PackageInfo pkg8 = new FullPackageInfo(proj, "i.k", 0)
         pkg8.addFile(new FullFileInfo(pkg8, new File("test.java"), null, 0, 0, 0, 0, 0, 0, 0))
 
         proj.addPackage(pkg1)
@@ -147,10 +154,10 @@ class RegistryTest {
 
     @Test
     void testCopy() throws Exception {
-        FullProjectInfo proj = new FullProjectInfo(testName.methodName)
+        ProjectInfo proj = new FullProjectInfo(testName.methodName)
         proj.setVersion(System.currentTimeMillis())
 
-        FullPackageInfo pkg = new FullPackageInfo(proj, "a", 0)
+        PackageInfo pkg = new FullPackageInfo(proj, "a", 0)
         proj.addPackage(pkg)
         SourceInfo region = new FixedSourceRegion(0, 0, 0, 0)
         ContextSet context = new ContextSetImpl()
@@ -163,9 +170,10 @@ class RegistryTest {
                     false, false, false)
             file.addClass(cls)
             for (int j = 0; j < 10; j++) {
-                FullMethodInfo method = new FullMethodInfo(cls, 0, context, region,
-                        new MethodSignature("method" + j),
-                        i < 5, null, false, FullMethodInfo.DEFAULT_METHOD_COMPLEXITY)
+                FullMethodInfo method = new FullMethodInfo(
+                        cls, new MethodSignature("method" + j), context,
+                        new BasicElementInfo(region, 0, DEFAULT_METHOD_COMPLEXITY, METHOD),
+                        i < 5, null, false)
                 cls.addMethod(method)
                 for (int k = 0; k < 10; k++) {
                     FullStatementInfo stmt = new FullStatementInfo(method, 0,  context, region, 0)
@@ -178,7 +186,7 @@ class RegistryTest {
             }
         }
 
-        FullProjectInfo ident = launderModel(proj).copy()
+        ProjectInfo ident = launderModel(proj).copy()
 
         ProjectMetrics pm = (ProjectMetrics)ident.getMetrics()
 
@@ -191,7 +199,7 @@ class RegistryTest {
         assertEquals("NumStatements", 1000, pm.getNumStatements())
         assertEquals("NumBranches", 2000, pm.getNumBranches())
 
-        FullProjectInfo excludeTestClasses = launderModel(proj).copy(new HasMetricsFilter() {
+        ProjectInfo excludeTestClasses = launderModel(proj).copy(new HasMetricsFilter() {
             boolean accept(HasMetrics node) {
                 if (node instanceof ClassInfo) {
                     ClassInfo info = (ClassInfo)node
@@ -218,7 +226,7 @@ class RegistryTest {
      * @param info model to be laundered
      * @return the same model, having been thru a serialize-deserialize step.
      */
-    private FullProjectInfo launderModel(FullProjectInfo info) throws Exception {
+    private ProjectInfo launderModel(ProjectInfo info) throws Exception {
         final File regFile = File.createTempFile(testName.methodName, ".db")
         regFile.delete()
 

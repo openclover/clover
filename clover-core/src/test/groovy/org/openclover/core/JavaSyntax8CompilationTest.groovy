@@ -6,7 +6,7 @@ import org.openclover.core.api.registry.Annotation
 import org.openclover.core.api.registry.AnnotationValue
 import org.openclover.core.api.registry.ClassInfo
 import org.openclover.core.api.registry.MethodInfo
-import org.openclover.core.registry.entities.FullProjectInfo
+import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.registry.entities.StringifiedAnnotationValue
 import org.openclover.core.util.JavaEnvUtils
 import org_openclover_runtime.CoverageRecorder
@@ -369,7 +369,7 @@ class JavaSyntax8CompilationTest extends JavaSyntaxCompilationTestBase {
         instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_8)
 
         // find the RepeatingAnnotations.foo()
-        final FullProjectInfo model = getModel()
+        final ProjectInfo model = getModel()
         ClassInfo c = model.findClass("RepeatingAnnotations")
         assertEquals(1, c.getMethods().size())
         MethodInfo m = c.getMethods().get(0)

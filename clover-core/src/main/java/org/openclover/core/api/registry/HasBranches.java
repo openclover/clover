@@ -13,6 +13,6 @@ public interface HasBranches {
      * @return List&lt;? extends BranchInfo&gt; - list of branches or empty list if none
      */
     @NotNull
-    List<? extends BranchInfo> getBranches();
+    List<BranchInfo> getBranches();
 
 }

@@ -39,7 +39,7 @@ class CloverDatabase
         it.loadCoverageData(spec, progressListener)
       rescue ArgumentError => e
       rescue NameError => e
-        puts "This version of Clover does not support progress tracking - no progress will be displayed while loading coverage data"
+        puts "This version of OpenClover does not support progress tracking - no progress will be displayed while loading coverage data"
         it.loadCoverageData(CoverageDataSpec.new)
       end
       tick "Loaded coverage in #{Time.now - @last}s"

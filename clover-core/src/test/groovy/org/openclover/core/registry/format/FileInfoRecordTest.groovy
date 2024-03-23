@@ -1,8 +1,8 @@
 package org.openclover.core.registry.format
 
 import org.junit.Test
+import org.openclover.core.api.registry.FileInfo
 import org.openclover.core.registry.ModelBuilder
-import org.openclover.core.registry.entities.FullFileInfo
 
 import java.nio.channels.FileChannel
 
@@ -18,7 +18,7 @@ class FileInfoRecordTest {
         temp.deleteOnExit()
 
         final ModelBuilder modelBuilder = new ModelBuilder()
-        final FullFileInfo fileInfo = (FullFileInfo)modelBuilder
+        final FileInfo fileInfo = (FileInfo)modelBuilder
                     .proj("My Project")
                         .pkg("com.foo.bar")
                             .file("Baz.java").withId("myfile")

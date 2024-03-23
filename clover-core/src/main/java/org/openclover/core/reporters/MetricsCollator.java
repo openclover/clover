@@ -3,7 +3,7 @@ package org.openclover.core.reporters;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.MethodInfo;
-import org.openclover.core.registry.metrics.HasMetricsFilter;
+import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.core.registry.metrics.HasMetricsSupport;
 import org.openclover.core.registry.util.EntityVisitorUtils;
 
@@ -34,7 +34,7 @@ public class MetricsCollator {
      *
      * @return List&lt;MethodInfo&gt;
      */
-    public List<MethodInfo> getLeastTestedMethods(final List<? extends ClassInfo> classes,
+    public List<MethodInfo> getLeastTestedMethods(final List<ClassInfo> classes,
                                                   final boolean showLambdaFunctions,
                                                   final boolean showInnerFunctions) {
         // get the 10 most untested yet most complex methods
@@ -93,8 +93,8 @@ public class MetricsCollator {
      * @param amcOrder a list of ClassInfos ordered by average method complexity
      * @return an ordered map keyed on Integer (risk value), value List of ClassInfo.
      */
-    public Map<Integer, List<ClassInfo>> rankProjectRisks(List<? extends ClassInfo> pceOrder,
-                                                          List<? extends ClassInfo> amcOrder) {
+    public Map<Integer, List<ClassInfo>> rankProjectRisks(List<ClassInfo> pceOrder,
+                                                          List<ClassInfo> amcOrder) {
         final Map<Integer, List<ClassInfo>> classMap = newTreeMap();
         int i = 0;
         for (ClassInfo info : pceOrder) {

@@ -1,5 +1,6 @@
 package org.openclover.core.util;
 
+import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.optimization.Snapshot;
@@ -105,7 +106,7 @@ public class CloverUtils {
         return className == null ? className : className.replace('$', '.').replaceAll("\\.[0-9]+", "");
     }
 
-    public static File createOutFile(FullFileInfo finfo, String outname, File baseDir) throws IOException {
+    public static File createOutFile(FileInfo finfo, String outname, File baseDir) throws IOException {
         PackageInfo pkg = finfo.getContainingPackage();
         File outdir = createOutDir(pkg, baseDir);
         return new File(outdir, outname);

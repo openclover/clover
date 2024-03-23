@@ -9,6 +9,8 @@ import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.projects.settings.ProjectSettings;
 import org.openclover.eclipse.core.views.widgets.context.ContextChooserDialog;
 
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+
 public class ShowContextFilterDialogActionDelegate extends SingleCloverProjectActionDelegate {
 
     @Override
@@ -18,7 +20,7 @@ public class ShowContextFilterDialogActionDelegate extends SingleCloverProjectAc
         try {
             project = CloverProject.getFor(projects.iterator().next());
         } catch (CoreException e) {
-            CloverPlugin.logError("Unable to retreive block filter", e);
+            logError("Unable to retrieve block filter", e);
         }
 
         if (project != null) {
@@ -38,7 +40,7 @@ public class ShowContextFilterDialogActionDelegate extends SingleCloverProjectAc
                     case IDialogConstants.CANCEL_ID:
                         break;
                     default:
-                        CloverPlugin.logError("Unknown dialog response code when setting block contexts: " + result);
+                        logError("Unknown dialog response code when setting block contexts: " + result);
                 }
             });
         }

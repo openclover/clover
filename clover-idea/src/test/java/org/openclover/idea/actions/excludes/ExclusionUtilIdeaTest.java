@@ -13,11 +13,11 @@ import org.openclover.idea.ApplicationTestHelper;
 import org.openclover.idea.util.psi.PsiUtil;
 
 public class ExclusionUtilIdeaTest extends PsiTestCase {
-    private VirtualFile atlassian;
+    private VirtualFile orgOpenCloverDir;
     private PsiClass psiClass;
     private VirtualFile contentRoot;
     private VirtualFile foreignRoot;
-    private VirtualFile subdir;
+    private VirtualFile subDir;
     private PsiFile foreignFile;
     private PsiFile nonJava;
 
@@ -32,55 +32,54 @@ public class ExclusionUtilIdeaTest extends PsiTestCase {
                 contentRoot = getVirtualFile(createTempDirectory());
 
                 PsiTestUtil.addSourceRoot(m, contentRoot);
-                atlassian = contentRoot.createChildDirectory(this, "com").createChildDirectory(this, "atlassian");
+                orgOpenCloverDir = contentRoot.createChildDirectory(this, "org").createChildDirectory(this, "openclover");
 
-                final PsiFile psiFile = createFile(m, atlassian, "SomeClass.java", "package com.atlassian;\npublic class SomeClass {}");
+                final PsiFile psiFile = createFile(m, orgOpenCloverDir, "SomeClass.java", "package org.openclover;\npublic class SomeClass {}");
                 psiClass = (PsiClass) psiFile.getChildren()[3];
-                nonJava = createFile(getModule(), atlassian, "NonJava.txt", "non java file");
+                nonJava = createFile(getModule(), orgOpenCloverDir, "NonJava.txt", "non java file");
 
                 foreignRoot = getVirtualFile(createTempDirectory());
-                subdir = foreignRoot.createChildDirectory(this, "com").createChildDirectory(this, "atlassian");
-                foreignFile = createFile("ForeignFile.java", "package com.atlassian;\\npublic class ForeignFile {}");
-                foreignFile.getVirtualFile().move(this, subdir);
+                subDir = foreignRoot.createChildDirectory(this, "org").createChildDirectory(this, "openclover");
+                foreignFile = createFile("ForeignFile.java", "package org.openclover;\\npublic class ForeignFile {}");
+                foreignFile.getVirtualFile().move(this, subDir);
             }
         });
     }
 
-    public void testIsEnabled() throws Exception {
-        assertTrue(psiClass.getContainingFile().getVirtualFile().getPath().endsWith("com/atlassian/SomeClass.java"));
+    public void testIsEnabled() {
+        assertTrue(psiClass.getContainingFile().getVirtualFile().getPath().endsWith("org/openclover/SomeClass.java"));
 
         final Project project = getProject();
         assertTrue(ExclusionUtil.isEnabled(getPsiManager().findDirectory(contentRoot), project));
-        assertTrue(ExclusionUtil.isEnabled(getPsiManager().findDirectory(atlassian), project));
+        assertTrue(ExclusionUtil.isEnabled(getPsiManager().findDirectory(orgOpenCloverDir), project));
         assertTrue(ExclusionUtil.isEnabled(psiClass.getContainingFile(), project));
         PsiPackage pkg = PsiUtil.getPackage(psiClass.getContainingFile().getContainingDirectory());
         assertTrue(ExclusionUtil.isEnabled(pkg, project));
 
         assertFalse(ExclusionUtil.isEnabled(getPsiManager().findDirectory(foreignRoot), project));
-        assertFalse(ExclusionUtil.isEnabled(getPsiManager().findDirectory(subdir), project));
+        assertFalse(ExclusionUtil.isEnabled(getPsiManager().findDirectory(subDir), project));
         assertFalse(ExclusionUtil.isEnabled(nonJava, project));
         assertFalse(ExclusionUtil.isEnabled(foreignFile, project));
-
     }
 
-    public void testGetPattern() throws Exception {
-        assertEquals("com/atlassian/SomeClass.java", ExclusionUtil.getPattern(psiClass));
+    public void testGetPattern() {
+        assertEquals("org/openclover/SomeClass.java", ExclusionUtil.getPattern(psiClass));
         assertNull(ExclusionUtil.getRecursivePattern(psiClass));
 
-        final PsiDirectory pdAtlassian = getPsiManager().findDirectory(atlassian);
-        assertEquals("com/atlassian/*.java", ExclusionUtil.getPattern(pdAtlassian));
-        assertEquals("com/atlassian/**", ExclusionUtil.getRecursivePattern(pdAtlassian));
+        final PsiDirectory pdAtlassian = getPsiManager().findDirectory(orgOpenCloverDir);
+        assertEquals("org/openclover/*.java", ExclusionUtil.getPattern(pdAtlassian));
+        assertEquals("org/openclover/**", ExclusionUtil.getRecursivePattern(pdAtlassian));
 
         final PsiDirectory root = getPsiManager().findDirectory(contentRoot);
         assertEquals("*.java", ExclusionUtil.getPattern(root));
         assertEquals("**", ExclusionUtil.getRecursivePattern(root));
 
         PsiPackage pkg = PsiUtil.getPackage(psiClass.getContainingFile().getContainingDirectory());
-        assertEquals("com/atlassian/*.java", ExclusionUtil.getPattern(pkg));
-        assertEquals("com/atlassian/**", ExclusionUtil.getRecursivePattern(pkg));
+        assertEquals("org/openclover/*.java", ExclusionUtil.getPattern(pkg));
+        assertEquals("org/openclover/**", ExclusionUtil.getRecursivePattern(pkg));
 
-        assertNull(ExclusionUtil.getPattern(getPsiManager().findDirectory(subdir)));
-        assertNull(ExclusionUtil.getRecursivePattern(getPsiManager().findDirectory(subdir)));
+        assertNull(ExclusionUtil.getPattern(getPsiManager().findDirectory(subDir)));
+        assertNull(ExclusionUtil.getRecursivePattern(getPsiManager().findDirectory(subDir)));
         assertNull(ExclusionUtil.getPattern(getPsiManager().findDirectory(foreignRoot)));
         assertNull(ExclusionUtil.getRecursivePattern(getPsiManager().findDirectory(foreignRoot)));
         assertNull(ExclusionUtil.getPattern(nonJava));

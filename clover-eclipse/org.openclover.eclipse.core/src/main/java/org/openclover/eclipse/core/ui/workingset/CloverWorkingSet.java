@@ -26,6 +26,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.openclover.core.util.Lists.newArrayList;
+import static org.openclover.eclipse.core.CloverPlugin.logError;
 
 /**
  * A neat wrapper/manager around the Clover "large project" working set.
@@ -242,7 +243,7 @@ public class CloverWorkingSet {
                 return includesAnyPackageFragments(allSimilarPackages);
             }
         } catch (JavaModelException e) {
-            CloverPlugin.logError("Unable to query all package fragments", e);
+            logError("Unable to query all package fragments", e);
         }
         return false;
     }

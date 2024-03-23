@@ -1,20 +1,22 @@
 package org.openclover.core.reporters.html
 
 import junit.framework.TestCase
+import org.openclover.core.api.registry.TestCaseInfo
 import org.openclover.core.context.ContextSetImpl
 import org.openclover.core.registry.FixedSourceRegion
-import org.openclover.core.registry.entities.BasicMethodInfo
+import org.openclover.core.registry.entities.BasicElementInfo
 import org.openclover.core.registry.entities.FullClassInfo
 import org.openclover.core.registry.entities.FullFileInfo
 import org.openclover.core.registry.entities.FullMethodInfo
 import org.openclover.core.registry.entities.MethodSignature
 import org.openclover.core.registry.entities.Modifiers
-import org.openclover.core.registry.entities.TestCaseInfo
+import org.openclover.core.registry.entities.FullTestCaseInfo
 import org.openclover.core.registry.metrics.HasMetricsTestFixture
 import org.openclover.core.reporters.json.JSONException
 import org.openclover.core.reporters.json.JSONObject
 import org.openclover.core.spi.reporters.html.source.LineRenderInfo
 
+import static org.openclover.core.spi.lang.LanguageConstruct.Builtin.METHOD
 import static org.openclover.core.util.Lists.newArrayList
 import static org.openclover.core.util.Maps.newHashMap
 
@@ -157,12 +159,12 @@ class JSONObjectFactoryTest extends TestCase {
         renderInfo[0] = new LineRenderInfo()
         renderInfo[0].setTestHits(newArrayList(testList))
 
-        testList.add(new TestCaseInfo(new Integer(0), null, fixtureMethod("test0"), "test0-runtime"))
+        testList.add(new FullTestCaseInfo(new Integer(0), null, fixtureMethod("test0"), "test0-runtime"))
         renderInfo[1] = new LineRenderInfo()
         renderInfo[1].setTestHits(newArrayList(testList))
 
-        testList.add(new TestCaseInfo(new Integer(1), null, fixtureMethod("test1"), "test1-runtime"))
-        testList.add(new TestCaseInfo(new Integer(2), null, fixtureMethod("test2"), "test2-runtime"))
+        testList.add(new FullTestCaseInfo(new Integer(1), null, fixtureMethod("test1"), "test1-runtime"))
+        testList.add(new FullTestCaseInfo(new Integer(2), null, fixtureMethod("test2"), "test2-runtime"))
         renderInfo[2] = new LineRenderInfo()
         renderInfo[2].setTestHits(newArrayList(testList))
 
@@ -171,8 +173,8 @@ class JSONObjectFactoryTest extends TestCase {
     }
 
     void testGetJSONTestTargets() throws JSONException {
-        TestCaseInfo testcase0 = new TestCaseInfo(new Integer(0), null, fixtureMethod("test0"), "test0-runtime")
-        TestCaseInfo testcase1 = new TestCaseInfo(new Integer(1), null, fixtureMethod("test1"), "test1-runtime")
+        TestCaseInfo testcase0 = new FullTestCaseInfo(new Integer(0), null, fixtureMethod("test0"), "test0-runtime")
+        TestCaseInfo testcase1 = new FullTestCaseInfo(new Integer(1), null, fixtureMethod("test1"), "test1-runtime")
 
         BitSet mbs0 = new BitSet(2)
         mbs0.set(0, true)
@@ -203,7 +205,7 @@ class JSONObjectFactoryTest extends TestCase {
     }
 
     void testGetJSONTestTargetsWithEmptyElements() throws JSONException {
-        TestCaseInfo testcase0 = new TestCaseInfo(new Integer(0), null, fixtureMethod("test0"), "test0-runtime")
+        TestCaseInfo testcase0 = new FullTestCaseInfo(new Integer(0), null, fixtureMethod("test0"), "test0-runtime")
         Map targetMethods = newHashMap()
         Map targetElements = newHashMap()
 
@@ -217,12 +219,14 @@ class JSONObjectFactoryTest extends TestCase {
         assertEquals(getExpectedEmptyElementsTargets().toString(indentFactor), json.toString(indentFactor))
     }
 
-    private FullMethodInfo fixtureMethod(String name) {
+    private static FullMethodInfo fixtureMethod(String name) {
         FullFileInfo parentFile = new FullFileInfo(null, new File("FakeFile.java"), null, 0, 0, 0, 0, 0, 0, 0)
         FullClassInfo parentClass = new FullClassInfo(null, parentFile, 0, null, new FixedSourceRegion(0,0), new Modifiers(), false, false, false)
         return new FullMethodInfo(parentClass,
+                new MethodSignature(name),
                 new ContextSetImpl(),
-                new BasicMethodInfo(new FixedSourceRegion(0, 0), 0, 0, new MethodSignature(name), true, null, false) )
+                new BasicElementInfo(new FixedSourceRegion(0, 0), 0, 0, METHOD),
+                true, null, false)
     }
     
 }

@@ -1,9 +1,11 @@
 package org.openclover.core.api.registry;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Represents a single class or it's equivalent (an interface, trait etc).
@@ -19,9 +21,21 @@ import java.util.List;
  * </ul>
  */
 public interface ClassInfo extends
-        SourceInfo, EntityContainer,
+        SourceInfo, EntityContainer, EntityEnclosure, HasClassMetadata,
         HasClasses, HasMethods, HasStatements,
-        HasContextFilter, HasMetrics, HasAggregatedMetrics, HasParent {
+        HasContextFilter, HasMetrics, HasAggregatedMetrics, HasParent, FileInfoRegion,
+        IsVisitable {
+
+    /**
+     * Create a copy of this class, setting a file as a parent.
+     */
+    ClassInfo copy(FileInfo newParent, HasMetricsFilter filter);
+
+    /**
+     * Collect all source regions inside this class - the class itself
+     * and all methods inside (recursively).
+     */
+    void gatherSourceRegions(Set<SourceInfo> regions);
 
     @Override
     String getName();
@@ -29,33 +43,6 @@ public interface ClassInfo extends
     String getQualifiedName();
 
     ModifiersInfo getModifiers();
-
-    /**
-     * Returns a class in which this class is declared (case for inner classes) or <code>null</code> otherwise.
-     *
-     * @return ClassInfo containing class or <code>null</code>
-     */
-    @Nullable
-    ClassInfo getContainingClass();
-
-    /**
-     * Returns a method in which this class (an anonymous inline class for instance) is declared or <code>null</code>
-     * otherwise.
-     *
-     * @return MethodInfo containing method or <code>null</code>
-     */
-    @Nullable
-    MethodInfo getContainingMethod();
-
-    /**
-     * Returns a file in which this class is declared.
-     *
-     * @return FileInfo file containing this class
-     */
-    @Nullable
-    FileInfo getContainingFile();
-
-    boolean isTestClass();
 
     /**
      * Returns list of inner classes declared on the top level of the class. It does not return classes declared inside
@@ -66,11 +53,11 @@ public interface ClassInfo extends
      *     <li>Scala - t.b.d. </li>
      * </ul>
      *
-     * @return List&lt;? extends ClassInfo&gt; - list of classes or empty list if none
+     * @return List&lt;ClassInfo&gt; - list of classes or empty list if none
      */
     @Override
     @NotNull
-    List<? extends ClassInfo> getClasses();
+    List<ClassInfo> getClasses();
 
     /**
      * Returns list of methods declared on the top level of the class. It does not return methods declared in nested
@@ -82,11 +69,13 @@ public interface ClassInfo extends
      *     <li>Scala - t.b.d. </li>
      * </ul>
      *
-     * @return List&lt;? extends MethodInfo&gt; - list of methods or empty list if none
+     * @return List&lt;MethodInfo&gt; - list of methods or empty list if none
      */
     @Override
     @NotNull
-    List<? extends MethodInfo> getMethods();
+    List<MethodInfo> getMethods();
+
+    PackageInfo getPackage();
 
     /**
      * Returns list of statements declared on the to level of the class, i.e. outside methods. It does not apply to all
@@ -97,11 +86,24 @@ public interface ClassInfo extends
      *     <li>Scala - t.b.d.</li>
      * </ul>
      *
-     * @return List&lt;? extends StatementInfo&gt; - list of statements or empty list if none
+     * @return List&lt;StatementInfo&gt; - list of statements or empty list if none
      */
     @Override
     @NotNull
-    List<? extends StatementInfo> getStatements();
+    List<StatementInfo> getStatements();
+
+    void addClass(ClassInfo classInfo);
+
+    void addMethod(MethodInfo meth);
+
+    void addStatement(StatementInfo statement);
+
+    /**
+     * Returns test cases found for this class.
+     */
+    Collection<TestCaseInfo> getTestCases();
+
+    boolean isAnnotationType();
 
     /**
      * Returns true if this class does not contain any nested entities (method or inner classes)
@@ -110,5 +112,23 @@ public interface ClassInfo extends
      */
     boolean isEmpty();
 
-    PackageInfo getPackage();
+    /**
+     * Returns true if the class is an interface.
+     */
+    boolean isInterface();
+
+    /**
+     * Returns true if the class in an enum.
+     */
+    boolean isEnum();
+
+    /**
+     * Whether this is a test class (according to custom or default test detector).
+     */
+    boolean isTestClass();
+
+    void setComparator(Comparator<HasMetrics> cmp);
+
+    void setDataProvider(final CoverageDataProvider data);
+
 }

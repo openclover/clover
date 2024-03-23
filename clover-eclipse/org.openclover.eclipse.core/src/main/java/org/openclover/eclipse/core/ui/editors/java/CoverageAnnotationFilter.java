@@ -10,11 +10,11 @@ import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.ContextSet;
 import org.openclover.core.api.registry.ElementInfo;
 import org.openclover.core.api.registry.SourceInfo;
-import org.openclover.core.registry.CoverageDataRange;
+import org.openclover.core.api.registry.CoverageDataRange;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.entities.FullElementInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
 import org.openclover.eclipse.core.CloverPlugin;
 
 import java.util.BitSet;
@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.Set;
 
 import static org.openclover.core.util.Sets.newHashSet;
+import static org.openclover.eclipse.core.CloverPlugin.logError;
 
 public class CoverageAnnotationFilter {
     public static final QualifiedName EXCLUDED_TEST_NAMES = new QualifiedName(CloverPlugin.ID, "CoverageAnnotationExcludedTestNames");
@@ -34,9 +35,9 @@ public class CoverageAnnotationFilter {
     };
 
     public static CoverageAnnotationFilter loadFor(
-        CloverDatabase database, FullFileInfo fileInfo,
-        Map<TestCaseInfo, BitSet> tcisAndHitsForFile, IResource editedResource,
-        boolean hideCovered, ContextSet blockFilter) {
+            CloverDatabase database, FullFileInfo fileInfo,
+            Map<TestCaseInfo, BitSet> tcisAndHitsForFile, IResource editedResource,
+            boolean hideCovered, ContextSet blockFilter) {
 
         return new CoverageAnnotationFilter(
             database,
@@ -52,7 +53,7 @@ public class CoverageAnnotationFilter {
     private TestFilter excludedTestNames;
     private boolean filterOutFullyCovered;
     private ContextSet blockFilter;
-    private Map<TestCaseInfo,BitSet> tcisAndCoverageForFile;
+    private Map<TestCaseInfo, BitSet> tcisAndCoverageForFile;
 
     private CoverageAnnotationFilter() {}
 
@@ -74,7 +75,7 @@ public class CoverageAnnotationFilter {
         for (Iterator<TestCaseInfo> iterator = includedTests.iterator(); iterator.hasNext();) {
             TestCaseInfo testCase = iterator.next();
             if (testCase != null) {
-                if (testCase.isResolved() || testCase.resolve((FullProjectInfo)fileInfo.getContainingPackage().getContainingProject())) {
+                if (testCase.isResolved() || testCase.resolve(fileInfo.getContainingPackage().getContainingProject())) {
                     if (testNames.matches(testCase)) {
                         iterator.remove();
                     }
@@ -184,7 +185,7 @@ public class CoverageAnnotationFilter {
                         }
                     }
                 } catch (CoreException e) {
-                    CloverPlugin.logError("Unable to query filtered out test ids/classes for " + editedResource, e);
+                    logError("Unable to query filtered out test ids/classes for " + editedResource, e);
                 }
             }
             return new TestFilter(testIds, testClasses);
@@ -208,7 +209,7 @@ public class CoverageAnnotationFilter {
 
                 editedResource.setSessionProperty(propertyName, value.toString());
             } catch (CoreException e) {
-                CloverPlugin.logError("Unable to save test ids/classes for " + editedResource, e);
+                logError("Unable to save test ids/classes for " + editedResource, e);
             }
         }
 
@@ -216,7 +217,7 @@ public class CoverageAnnotationFilter {
             try{
                 resource.setSessionProperty(name, null);
             } catch (CoreException e) {
-                CloverPlugin.logError("Unable to remove test names for " + resource, e);
+                logError("Unable to remove test names for " + resource, e);
             }
         }
 

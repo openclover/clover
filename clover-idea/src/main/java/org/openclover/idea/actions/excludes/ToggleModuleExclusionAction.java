@@ -29,8 +29,8 @@ public class ToggleModuleExclusionAction extends AnAction {
         e.getPresentation().setVisible(component != null && plugin != null && plugin.isEnabled());
         if (component != null) {
             e.getPresentation().setText(component.getConfig().isExcluded() ?
-                    "Include module in Clover instrumentation" :
-                    "Exclude module from Clover instrumentation");
+                    "Include module in OpenClover instrumentation" :
+                    "Exclude module from OpenClover instrumentation");
         }
     }
 }

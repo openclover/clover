@@ -6,7 +6,7 @@ import org.openclover.core.CoverageDataSpec;
 import org.openclover.core.cfg.Interval;
 import org.openclover.core.cfg.StorageSize;
 import org.openclover.core.recorder.PerTestCoverageStrategy;
-import org.openclover.core.registry.metrics.HasMetricsFilter;
+import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.core.util.Path;
 import org.openclover.runtime.CloverNames;
 import org.openclover.runtime.Logger;
@@ -394,7 +394,7 @@ public abstract class CloverReportConfig {
             try {
                 final long reportDelay = getReportDelay();
                 Logger.getInstance().verbose(
-                        "Clover has detected that coverage recording may still be in progress. Delaying report generation by up to " + (int) (reportDelay / 1000) + " seconds.");
+                        "OpenClover has detected that coverage recording may still be in progress. Delaying report generation by up to " + (int) (reportDelay / 1000) + " seconds.");
                 for (int i = 0; i < reportDelay && liveRecFile.exists(); i += DELAY_INC_MILLIS) {
                     Thread.sleep(DELAY_INC_MILLIS);
                 }
@@ -405,7 +405,7 @@ public abstract class CloverReportConfig {
 
         if (liveRecFile.exists() && !liveRecFile.delete()) {
             Logger.getInstance().info(
-                    "Clover was unable to delete the file " + liveRecFile.getAbsolutePath() + " used to determine if coverage recording is in progress. " +
+                    "OpenClover was unable to delete the file " + liveRecFile.getAbsolutePath() + " used to determine if coverage recording is in progress. " +
                             "To speed up future report generation you may wish to delete this file manually.");
         }
     }

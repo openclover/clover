@@ -9,6 +9,8 @@ import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.ui.editors.treemap.TreemapEditor;
 import org.openclover.eclipse.core.ui.editors.treemap.TreemapInput;
 
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+
 public class GenerateTreemapActionDelegate extends GenerateReportletActionDelegate {
     @Override
     public void run(IAction action) {
@@ -20,7 +22,7 @@ public class GenerateTreemapActionDelegate extends GenerateReportletActionDelega
                     new TreemapInput(CloverProject.getFor(project)),
                     TreemapEditor.ID);
             } catch (Throwable t) {
-                CloverPlugin.logError("Unable to open treemap editor", t);
+                logError("Unable to open treemap editor", t);
             }
         });
     }

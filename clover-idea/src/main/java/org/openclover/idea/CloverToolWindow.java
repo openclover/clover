@@ -11,8 +11,8 @@ import com.intellij.openapi.wm.ToolWindowAnchor;
 import com.intellij.openapi.wm.ToolWindowManager;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentManager;
+import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.HasMetrics;
-import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.idea.config.ConfigChangeEvent;
 import org.openclover.idea.config.ConfigChangeListener;
@@ -139,8 +139,8 @@ public class CloverToolWindow extends JPanel implements ConfigChangeListener, No
             // determine whether the file represented by this node is out of date.
             try {
                 FullFileInfo fileInfo = null;
-                if (hasMetrics instanceof FullClassInfo) {
-                    fileInfo = (FullFileInfo) ((FullClassInfo) hasMetrics).getContainingFile();
+                if (hasMetrics instanceof ClassInfo) {
+                    fileInfo = (FullFileInfo) ((ClassInfo) hasMetrics).getContainingFile();
                 } else if (hasMetrics instanceof FullFileInfo) {
                     fileInfo = (FullFileInfo) hasMetrics;
                 }
@@ -168,7 +168,7 @@ public class CloverToolWindow extends JPanel implements ConfigChangeListener, No
     private JComponent getToolBar() {
         if (toolbar == null) {
             ActionGroup actionGroup = (ActionGroup) ActionManager.getInstance().getAction("CloverToolBar");
-            toolbar = ActionManager.getInstance().createActionToolbar("Clover", actionGroup, true);
+            toolbar = ActionManager.getInstance().createActionToolbar("OpenClover", actionGroup, true);
         }
         return toolbar.getComponent();
     }

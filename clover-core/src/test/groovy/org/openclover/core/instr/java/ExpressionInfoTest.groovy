@@ -5,8 +5,8 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestName
+import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig
-import org.openclover.core.registry.entities.FullProjectInfo
 import org.openclover.core.util.FileUtils
 
 import static org.junit.Assert.assertFalse
@@ -59,7 +59,7 @@ public class ExpressionInfoTest {
         final Instrumenter instr = new Instrumenter(getCfg())
         instr.startInstrumentation()
         instr.instrument(input, new StringWriter(), null);                       // ignore the output,
-        final FullProjectInfo model = instr.endInstrumentation().getProject(); // just take the model
+        final ProjectInfo model = instr.endInstrumentation().getProject(); // just take the model
 
         return model.getMetrics().getNumBranches() != 0
     }

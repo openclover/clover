@@ -225,7 +225,8 @@ public class ColumnSelectionDialog extends Dialog {
         removeCustomUnassignedButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent event) {
-                if (MessageDialog.openConfirm(getShell(), "Delete Custom Column", "Are you sure you wish to delete the custom column? It will be removed from any Clover views currently displaying it.")) {
+                if (MessageDialog.openConfirm(getShell(), "Delete Custom Column",
+                        "Are you sure you wish to delete the custom column? It will be removed from any OpenClover views currently displaying it.")) {
                     model.removeCustomColumn((CustomColumnDefinition) allCustomColumnsTable.getSelection()[0].getData());
                 }
             }

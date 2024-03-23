@@ -20,7 +20,7 @@
             <url>https://www.slf4j.org/license.html</url>
         </license>
     </licenses>
-    <name>Clover SLF4J Library</name>
+    <name>OpenClover SLF4J Library</name>
     <!-- Repack, install and deploy only with the 'workspace-setup' profile -->
     <profiles>
         <profile>

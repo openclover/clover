@@ -2,6 +2,7 @@ package org.openclover.idea.testexplorer;
 
 import org.openclover.core.api.registry.BlockMetrics;
 import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.registry.entities.FullPackageInfo;
 
 import java.util.Collection;
@@ -12,7 +13,7 @@ import static org.openclover.core.util.Maps.newHashMap;
 public class SimplePackageFragment implements HasMetrics {
     private final String name;
     private Map<String, SimplePackageFragment> children = newHashMap();
-    private FullPackageInfo concretePackage;
+    private PackageInfo concretePackage;
 
     SimplePackageFragment(String name) {
         this.name = name;
@@ -24,11 +25,11 @@ public class SimplePackageFragment implements HasMetrics {
         return packageFragment;
     }
 
-    public void setConcretePackage(FullPackageInfo concretePackage) {
+    public void setConcretePackage(PackageInfo concretePackage) {
         this.concretePackage = concretePackage;
     }
 
-    public FullPackageInfo getConcretePackage() {
+    public PackageInfo getConcretePackage() {
         return concretePackage;
     }
 

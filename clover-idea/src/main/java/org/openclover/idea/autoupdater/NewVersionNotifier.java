@@ -122,7 +122,7 @@ public class NewVersionNotifier implements ProjectComponent {
     @Override
     @NotNull
     public String getComponentName() {
-        return "Clover New Version Notifier";
+        return "OpenClover New Version Notifier";
     }
 
     @Override

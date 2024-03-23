@@ -6,11 +6,9 @@ import org.openclover.core.api.command.HelpBuilder;
 import org.openclover.core.api.registry.BranchInfo;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.FileInfo;
+import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.PackageInfo;
-import org.openclover.core.registry.entities.FullFileInfo;
-import org.openclover.core.registry.entities.FullMethodInfo;
-import org.openclover.core.registry.entities.FullPackageInfo;
-import org.openclover.core.registry.entities.FullStatementInfo;
+import org.openclover.core.api.registry.StatementInfo;
 import org.openclover.core.registry.entities.LineInfo;
 import org.openclover.core.registry.metrics.ClassMetrics;
 import org.openclover.core.registry.metrics.ProjectMetrics;
@@ -45,7 +43,6 @@ public class ConsoleReporter extends CloverReporter {
             InitString
     );
 
-    @SuppressWarnings("unchecked")
     private static final List<ArgProcessor<Current>> optionalArgProcessors = newArrayList(
             CodeTypes,
             Level,
@@ -73,7 +70,7 @@ public class ConsoleReporter extends CloverReporter {
     }
 
     public void report(PrintWriter out, CloverDatabase db) {
-        out.print("Clover Coverage Report");
+        out.print("OpenClover Coverage Report");
         if (cfg.getTitle() != null) {
             out.println(" - " + cfg.getTitle());
         } else {
@@ -82,14 +79,13 @@ public class ConsoleReporter extends CloverReporter {
         out.println("Coverage Timestamp: " + new Date(db.getRecordingTimestamp()));
         out.println("Report for code   : " + cfg.getCodeType());
 
-        List<? extends PackageInfo> packages = db.getModel(cfg.getCodeType()).getAllPackages();
+        List<PackageInfo> packages = db.getModel(cfg.getCodeType()).getAllPackages();
         if (cfg.getLevel().isShowPackages()) {
             out.println();
             out.println("Package Summary - ");
         }
 
-        for (PackageInfo aPackage : packages) {
-            FullPackageInfo pkg = (FullPackageInfo) aPackage;
+        for (PackageInfo pkg : packages) {
             if (cfg.getPackageSet() != null
                     && !cfg.getPackageSet().contains(pkg.getName())) {
                 continue;
@@ -98,15 +94,14 @@ public class ConsoleReporter extends CloverReporter {
                 out.println(pkg.getName() + ": " + Formatting.getPercentStr(pkg.getMetrics().getPcCoveredElements()));
             }
 
-            final List<? extends FileInfo> fileInfos = pkg.getFiles();
+            final List<FileInfo> fileInfos = pkg.getFiles();
             for (FileInfo fileInfo : fileInfos) {
-                final FullFileInfo fInfo = (FullFileInfo) fileInfo;
 
                 if (cfg.getLevel().isShowClasses()) {
                     out.println("---------------------------------------");
-                    out.println("File: " + fInfo.getPackagePath());
+                    out.println("File: " + fileInfo.getPackagePath());
 
-                    final List<? extends ClassInfo> classes = fInfo.getClasses();
+                    final List<ClassInfo> classes = fileInfo.getClasses();
                     for (ClassInfo cInfo : classes) {
                         final ClassMetrics metrics = (ClassMetrics) cInfo.getMetrics();
                         out.println("Package: " + cInfo.getPackage().getName());
@@ -115,15 +110,15 @@ public class ConsoleReporter extends CloverReporter {
                 }
 
                 if (cfg.getLevel().isShowMethods() || cfg.getLevel().isShowStatements()) {
-                    final LineInfo[] lines = fInfo.getLineInfo(cfg.isShowLambdaFunctions(), cfg.isShowInnerFunctions());
+                    final LineInfo[] lines = fileInfo.getLineInfo(cfg.isShowLambdaFunctions(), cfg.isShowInnerFunctions());
                     for (LineInfo info : lines) {
                         if (info != null) {
                             if (cfg.getLevel().isShowMethods()) {
-                                reportMethodsForLine(out, fInfo, info);
+                                reportMethodsForLine(out, fileInfo, info);
                             }
                             if (cfg.getLevel().isShowStatements()) { // in this case means both statements and branches
-                                reportStatementsForLine(out, fInfo, info);
-                                reportBranchesForLine(out, fInfo, info);
+                                reportStatementsForLine(out, fileInfo, info);
+                                reportBranchesForLine(out, fileInfo, info);
                             }
                         }
                     }
@@ -138,10 +133,10 @@ public class ConsoleReporter extends CloverReporter {
         out.flush();
     }
 
-    protected void reportMethodsForLine(final PrintWriter out, final FullFileInfo fInfo, final LineInfo info) {
-        final FullMethodInfo[] starts = info.getMethodStarts();
+    protected void reportMethodsForLine(final PrintWriter out, final FileInfo fInfo, final LineInfo info) {
+        final MethodInfo[] starts = info.getMethodStarts();
         if (starts.length > 0) {
-            for (FullMethodInfo start : starts) {
+            for (MethodInfo start : starts) {
                 if (start.getHitCount() == 0) {
                     out.println(fInfo.getPhysicalFile().getAbsolutePath()
                             + ":" + start.getStartLine() + ":" + start.getStartColumn()
@@ -152,10 +147,10 @@ public class ConsoleReporter extends CloverReporter {
         }
     }
 
-    protected void reportStatementsForLine(final PrintWriter out, final FullFileInfo fInfo, final LineInfo info) {
-        final FullStatementInfo[] stmts = info.getStatements();
+    protected void reportStatementsForLine(final PrintWriter out, final FileInfo fInfo, final LineInfo info) {
+        final StatementInfo[] stmts = info.getStatements();
         if (stmts.length > 0) {
-            for (FullStatementInfo stmt : stmts) {
+            for (StatementInfo stmt : stmts) {
                 if (stmt.getHitCount() == 0) {
                     out.println(fInfo.getPhysicalFile().getAbsolutePath() + ":" + stmt.getStartLine() + ":"
                             + stmt.getStartColumn() + ": statement not executed.");
@@ -164,7 +159,7 @@ public class ConsoleReporter extends CloverReporter {
         }
     }
 
-    protected void reportBranchesForLine(final PrintWriter out, final FullFileInfo fInfo, final LineInfo info) {
+    protected void reportBranchesForLine(final PrintWriter out, final FileInfo fInfo, final LineInfo info) {
         final BranchInfo[] branches = info.getBranches();
         if (branches.length > 0) {
             for (BranchInfo branch : branches) {
@@ -245,7 +240,6 @@ public class ConsoleReporter extends CloverReporter {
     }
 
     public static void main(String[] args) {
-        loadLicense();
         System.exit(runReport(args));
     }
 

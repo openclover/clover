@@ -150,12 +150,12 @@ public class CloverCompiler implements JavaSourceTransformingCompiler {
         @Override
         public void compilationFinished(boolean aborted, int errors, int warnings, CompileContext compileContext) {
             final Runnable updateRegistryTask = () -> {
-                LOG.info("CLOVER: COMPILATION IN EXTERNAL BUILD PROCESS HAS FINISHED");
+                LOG.info("OPENCLOVER: COMPILATION IN EXTERNAL BUILD PROCESS HAS FINISHED");
                 if (!isCloverInstrumentationEnabled()) {
                     return;
                 }
 
-                LOG.info("CLOVER: RELOADING DATABASE AND COVERAGE DATA");
+                LOG.info("OPENCLOVER: RELOADING DATABASE AND COVERAGE DATA");
                 final CoverageManager coverageManager = ProjectPlugin.getPlugin(project).getCoverageManager();
                 // we don't load registry from file and pass here as parameter, because CoverageManager will reload it
                 // note: in closeInstrumentationSession() we pass it as compilation is made in the same process
@@ -201,7 +201,7 @@ public class CloverCompiler implements JavaSourceTransformingCompiler {
 
             if (files.length == projectFiles.length) {
                 // heuristics to detect project recompile
-                context.addMessage(CompilerMessageCategory.INFORMATION, "Clover: deleting coverage data.", null, -1, -1);
+                context.addMessage(CompilerMessageCategory.INFORMATION, "OpenClover: deleting coverage data.", null, -1, -1);
                 instr = null; // need to recreate instrumenter after deleting the coverage db
                 ApplicationManager.getApplication().invokeAndWait(
                         () -> ProjectPlugin.getPlugin(project).getCoverageManager().delete(),
@@ -232,7 +232,7 @@ public class CloverCompiler implements JavaSourceTransformingCompiler {
             final IdeaCloverConfig config = ProjectPlugin.getPlugin(project).getConfig();
             String initStr = config.getInitString();
             if (initStr == null || initStr.length() == 0) {
-                Messages.showErrorDialog("Please specify a valid Clover initString property before continuing.", "Require Initialisation String.");
+                Messages.showErrorDialog("Please specify a valid OpenClover initString property before continuing.", "Require Initialisation String.");
                 return false;
             }
 
@@ -347,7 +347,7 @@ public class CloverCompiler implements JavaSourceTransformingCompiler {
     @Override
     @NotNull
     public String getDescription() {
-        return "Clover Compiler";
+        return "OpenClover Compiler";
     }
 
     /**
@@ -498,16 +498,16 @@ public class CloverCompiler implements JavaSourceTransformingCompiler {
         try {
             return getInstrumenter(config) != null;
         } catch (RegistryFormatException ex) {
-            final String msg = "Clover was unable to instrument your source because of an error. Deleting the existing coverage database and trying again.";
+            final String msg = "OpenClover was unable to instrument your source because of an error. Deleting the existing coverage database and trying again.";
             LOG.warn(msg, ex);
             notifyWarning(project, msg);
         } catch (CloverException ex) {
             if (ExceptionDialog.OK_EXIT_CODE != ExceptionDialog.showYesNoDialog(
                     project,
-                    "Clover was unable to instrument your source because of the following error:",
+                    "OpenClover was unable to instrument your source because of the following error:",
                     "Delete the existing coverage database and try again?",
                     ex,
-                    "Clover Instrumentation")) {
+                    "OpenClover Instrumentation")) {
                 return false;
             }
         }
@@ -516,9 +516,9 @@ public class CloverCompiler implements JavaSourceTransformingCompiler {
         try {
             return getInstrumenter(config) != null;
         } catch (Exception ex) {
-            final String msg = "Clover instrumenter failed to initialize (after deleting coverage database)";
+            final String msg = "OpenClover instrumenter failed to initialize (after deleting coverage database)";
             LOG.warn(msg, ex);
-            ExceptionDialog.showOKDialog(project, msg, "", ex, "Initializing Clover Compiler");
+            ExceptionDialog.showOKDialog(project, msg, "", ex, "Initializing OpenClover Compiler");
             return false;
         }
     }

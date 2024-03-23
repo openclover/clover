@@ -1,9 +1,9 @@
 package org.openclover.core.spi.reporters.html.source;
 
+import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.MethodInfo;
-import org.openclover.core.registry.entities.FullClassInfo;
-import org.openclover.core.registry.entities.StackTraceInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
+import org.openclover.core.api.registry.StackTraceEntry;
 
 import java.util.Collections;
 import java.util.List;
@@ -11,10 +11,10 @@ import java.util.List;
 public class LineRenderInfo {
     private boolean hilight;
 
-    private FullClassInfo classStart;
+    private ClassInfo classStart;
     private MethodInfo methodStart;
     private boolean filtered = false;
-    private StackTraceInfo.TraceEntry[] failedStackEntries;
+    private StackTraceEntry[] failedStackEntries;
     private List<TestCaseInfo> testHits = Collections.emptyList();
 
     private String coverageStr = "";
@@ -38,7 +38,7 @@ public class LineRenderInfo {
         this.hilight = hilight;
     }
 
-    public void setClassStart(FullClassInfo classStart) {
+    public void setClassStart(ClassInfo classStart) {
         this.classStart = classStart;
     }
 
@@ -50,7 +50,7 @@ public class LineRenderInfo {
         this.filtered = filtered;
     }
 
-    public void setFailedStackEntries(StackTraceInfo.TraceEntry[] failedStackEntries) {
+    public void setFailedStackEntries(StackTraceEntry[] failedStackEntries) {
         this.failedStackEntries = failedStackEntries;
     }
 
@@ -98,7 +98,7 @@ public class LineRenderInfo {
         return msg;
     }
 
-    public FullClassInfo getClassStart() {
+    public ClassInfo getClassStart() {
         return classStart;
     }
 
@@ -106,7 +106,7 @@ public class LineRenderInfo {
         return methodStart;
     }
 
-    public StackTraceInfo.TraceEntry[] getFailedStackEntries() {
+    public StackTraceEntry[] getFailedStackEntries() {
         return failedStackEntries;
     }
 

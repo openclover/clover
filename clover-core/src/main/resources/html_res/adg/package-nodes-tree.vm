@@ -54,7 +54,7 @@ var Packages = {
             #end
         #else
             ## e.g.:
-            ##   +com.atlassian
+            ##   +org.openclover
             ##       +clover
             ##       +bamboo
             ## show the root in such case

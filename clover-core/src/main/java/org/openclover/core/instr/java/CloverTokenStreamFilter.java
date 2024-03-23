@@ -35,7 +35,7 @@ public class CloverTokenStreamFilter extends TokenStreamHiddenTokenFilter {
 
     /** a marker to indicate add at the front when dumping
         token list to mark it as instrumented **/
-    public static final String MARKER_PREFIX =  "/* $$ This file has been instrumented by Clover ";
+    public static final String MARKER_PREFIX =  "/* $$ This file has been instrumented by OpenClover ";
     public static final String MARKER = MARKER_PREFIX + CloverVersionInfo.RELEASE_NUM +"#"+ CloverVersionInfo.BUILD_STAMP +" $$ */";
 
     private static final String DIRECTIVE_PREFIX = "CLOVER:";
@@ -65,7 +65,7 @@ public class CloverTokenStreamFilter extends TokenStreamHiddenTokenFilter {
             final String maybeMarker = new String(chars);
             if (maybeMarker.equals(CloverTokenStreamFilter.MARKER_PREFIX)) {
                 throw new CloverException("Double instrumentation detected: " + orig.getAbsolutePath() +
-                        " appears to have already been instrumented by Clover.");
+                        " appears to have already been instrumented by OpenClover.");
             }
         }
         bin.reset();
@@ -130,11 +130,11 @@ public class CloverTokenStreamFilter extends TokenStreamHiddenTokenFilter {
     private String processDirective(InstrumentationState state, String text, int startDirective, int curLine) {
         final String rest = text.substring(startDirective + DIRECTIVE_LENGTH);
         if (rest.startsWith(DIRECTIVE_ON)) {
-            Logger.getInstance().debug(filePath+":"+curLine+": switching Clover instrumentation ON as per directive");
+            Logger.getInstance().debug(filePath+":"+curLine+": switching OpenClover instrumentation ON as per directive");
             state.setInstrEnabled(true);
             state.setInstrContext(state.getInstrContext().clear(ContextStore.CONTEXT_CLOVER_OFF));
         } else if (rest.startsWith(DIRECTIVE_OFF)) {
-            Logger.getInstance().debug(filePath+":"+curLine+": switching Clover instrumentation OFF as per directive");
+            Logger.getInstance().debug(filePath+":"+curLine+": switching OpenClover instrumentation OFF as per directive");
             state.setInstrContext(state.getInstrContext().set(ContextStore.CONTEXT_CLOVER_OFF));
             state.setInstrEnabled(false);
         } else if (rest.startsWith(DIRECTIVE_FLUSH)) {
@@ -152,7 +152,7 @@ public class CloverTokenStreamFilter extends TokenStreamHiddenTokenFilter {
                 Logger.getInstance().debug(filePath + ":" + curLine + ": could not declare lambda expression as void since there's no method stack");
             }
         } else {
-            Logger.getInstance().warn(filePath+":"+curLine+": ignoring unknown Clover directive");
+            Logger.getInstance().warn(filePath+":"+curLine+": ignoring unknown OpenClover directive");
         }
         return rest;
     }

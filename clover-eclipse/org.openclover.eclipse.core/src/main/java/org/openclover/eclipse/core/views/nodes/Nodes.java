@@ -10,11 +10,12 @@ import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.swt.graphics.Image;
+import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.HasMetrics;
+import org.openclover.core.api.registry.ProjectInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
-import org.openclover.core.registry.metrics.HasMetricsNode;
+import org.openclover.core.api.registry.HasMetricsNode;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.projects.model.JavaElementAdapter;
@@ -49,7 +50,7 @@ public class Nodes {
     public static final TypeCondition CONTAINS_TEST_CASE = new TypeCondition() {
         @Override
         public boolean evaluate(IType type) throws CoreException {
-            FullClassInfo classInfo = (FullClassInfo) MetricsScope.TEST_ONLY.getHasMetricsFor(type, FullClassInfo.class);
+            ClassInfo classInfo = (ClassInfo) MetricsScope.TEST_ONLY.getHasMetricsFor(type, FullClassInfo.class);
             if (classInfo != null && classInfo.isTestClass()) {
                 if (classInfo.getTestCases().size() > 0) {
                     return true;
@@ -68,7 +69,7 @@ public class Nodes {
         @Override
         public Inference inferFor(IProject element) throws CoreException {
             final CloverProject cloverProject = CloverProject.getFor(element);
-            final FullProjectInfo project = cloverProject == null ? null : MetricsScope.TEST_ONLY.getProjectInfoFor(cloverProject);
+            final ProjectInfo project = cloverProject == null ? null : MetricsScope.TEST_ONLY.getProjectInfoFor(cloverProject);
             return (project == null || !project.hasTestResults()) ? Inference.FALSE : Inference.TRUE;
         }
     };
@@ -82,7 +83,7 @@ public class Nodes {
         @Override
         public Inference inferFor(IProject element) throws CoreException {
             final CloverProject cloverProject = CloverProject.getFor(element);
-            final FullProjectInfo project = cloverProject == null ? null : MetricsScope.TEST_ONLY.getProjectInfoFor(cloverProject);
+            final ProjectInfo project = cloverProject == null ? null : MetricsScope.TEST_ONLY.getProjectInfoFor(cloverProject);
             return (project == null || project.isEmpty()) ? Inference.FALSE : Inference.TRUE;
         }
 
@@ -104,7 +105,7 @@ public class Nodes {
         @Override
         public Inference inferFor(IProject element) throws CoreException {
             final CloverProject cloverProject = CloverProject.getFor(element);
-            final FullProjectInfo project = cloverProject == null ? null : MetricsScope.APP_ONLY.getProjectInfoFor(cloverProject);
+            final ProjectInfo project = cloverProject == null ? null : MetricsScope.APP_ONLY.getProjectInfoFor(cloverProject);
             return (project == null || project.isEmpty()) ? Inference.FALSE : Inference.TRUE;
         }
 
@@ -210,7 +211,7 @@ public class Nodes {
 
     public static List collectTestCases(IJavaProject project, List testCases, TestCaseConverter converter) throws CoreException {
         final CloverProject cloverProject = CloverProject.getFor(project);
-        final FullProjectInfo projectInfo = cloverProject.getModel().getTestOnlyProjectInfo();
+        final ProjectInfo projectInfo = cloverProject.getModel().getTestOnlyProjectInfo();
         if (projectInfo != null && projectInfo.hasTestResults()) {
             IPackageFragmentRoot[] roots = project.getPackageFragmentRoots();
 
@@ -259,7 +260,7 @@ public class Nodes {
     }
 
     public static List collectTestCases(IType type, List testCases, TestCaseConverter converter) throws CoreException {
-        FullClassInfo classInfo = (FullClassInfo) MetricsScope.TEST_ONLY.getHasMetricsFor(type, FullClassInfo.class);
+        ClassInfo classInfo = (ClassInfo) MetricsScope.TEST_ONLY.getHasMetricsFor(type, FullClassInfo.class);
         if (classInfo != null && classInfo.isTestClass()) {
             IMethod[] methods = type.getMethods();
             for (IMethod method : methods) {

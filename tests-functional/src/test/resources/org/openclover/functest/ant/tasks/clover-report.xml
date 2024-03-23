@@ -366,7 +366,7 @@
     </target>
 
     <target name="testCloverHtmlReport" depends="with.clover">
-        <clover-html-report outdir="${outdir}" historydir="${history.dir}" title="Clover One Liner!">
+        <clover-html-report outdir="${outdir}" historydir="${history.dir}" title="OpenClover One Liner!">
 
         </clover-html-report>
 
@@ -387,7 +387,7 @@
     </target>
 
     <target name="testConditionalDashboard" depends="with.clover">
-        <clover-html-report outdir="${outdir}" historydir="${history.dir}" title="Clover One Liner!">
+        <clover-html-report outdir="${outdir}" historydir="${history.dir}" title="OpenClover One Liner!">
 
         </clover-html-report>
 
@@ -428,7 +428,7 @@
     <target name="testCloverPdfReport" depends="with.clover">
         <clover-pdf-report outfile="${outdir}/report.pdf"
                            historydir="${history.dir}"
-                           title="Clover PDF One Liner!"/>
+                           title="OpenClover PDF One Liner!"/>
 
         <condition property="success">
             <and>

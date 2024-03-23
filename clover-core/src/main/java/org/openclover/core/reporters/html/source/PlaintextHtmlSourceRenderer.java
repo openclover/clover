@@ -13,7 +13,8 @@ public class PlaintextHtmlSourceRenderer implements SourceListener {
     protected final String space;
     protected final List<LineRenderInfo> lineInfo;
 
-    public PlaintextHtmlSourceRenderer(List<LineRenderInfo> lineInfo, HtmlRenderingSupport renderingHelper, String emptyCoverageMsg, String tab, String space) {
+    public PlaintextHtmlSourceRenderer(List<LineRenderInfo> lineInfo, HtmlRenderingSupport renderingHelper,
+                                       String emptyCoverageMsg, String tab, String space) {
         this.lineInfo = lineInfo;
         this.renderingHelper = renderingHelper;
         this.emptyCoverageMsg = emptyCoverageMsg;

@@ -14,10 +14,10 @@ public interface HasPackages {
      * Returns list of all packages defined in the project (including nested packages). It may also contain the default
      * package - see {@link PackageInfo#DEFAULT_PACKAGE_NAME}.
      *
-     * @return List&lt;? extends PackageInfo&gt; list of packages or empty list if none
+     * @return List&lt;PackageInfo&gt; list of packages or empty list if none
      */
     @NotNull
-    List<? extends PackageInfo> getAllPackages();
+    List<PackageInfo> getAllPackages();
 
     /**
      * Searches for a package with given name

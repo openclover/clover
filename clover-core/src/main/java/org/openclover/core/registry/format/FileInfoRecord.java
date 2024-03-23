@@ -1,5 +1,6 @@
 package org.openclover.core.registry.format;
 
+import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.io.tags.TaggedIO;
 import org.openclover.core.registry.entities.FullFileInfo;
 
@@ -15,9 +16,9 @@ public class FileInfoRecord {
 
     private final String name;
     private final String packageName;
-    private final LazyProxy<FullFileInfo> fileInfo;
+    private final LazyProxy<FileInfo> fileInfo;
 
-    public FileInfoRecord(FullFileInfo fileInfo) {
+    public FileInfoRecord(FileInfo fileInfo) {
         this.name = fileInfo.getName();
         this.packageName = fileInfo.getContainingPackage().getName();
         this.fileInfo = new LazyProxy.Preloaded<>(fileInfo);
@@ -35,7 +36,7 @@ public class FileInfoRecord {
         packageName = in.readUTF();
         final long endPos = (long)in.readInt() + channel.position();
 
-        fileInfo = new LazyLoader<FullFileInfo>(channel, channel.position()) {
+        fileInfo = new LazyLoader<FileInfo>(channel, channel.position()) {
             @Override
             protected FullFileInfo getImpl(FileChannel channel) throws IOException {
                 return TaggedIO.read(channel, InstrSessionSegment.TAGS, FullFileInfo.class);
@@ -53,7 +54,7 @@ public class FileInfoRecord {
         return packageName == null ? getFileInfo().getContainingPackage().getName() : packageName;
     }
 
-    public FullFileInfo getFileInfo() {
+    public FileInfo getFileInfo() {
         return fileInfo.get();
     }
 
@@ -68,7 +69,7 @@ public class FileInfoRecord {
         out.writeInt(-1);
         out.flush();
 
-        TaggedIO.write(channel, InstrSessionSegment.TAGS, FullFileInfo.class, fileInfo.get());
+        TaggedIO.write(channel, InstrSessionSegment.TAGS, FullFileInfo.class, (FullFileInfo)fileInfo.get());
         final long endPos = channel.position();
         final long fileInfoSize = endPos - lengthPos - 4;
 

@@ -425,7 +425,7 @@ public class FooTest {
         <echo message="repkg.clover.jar=${repkg.clover.jar}"/>
 
         <fail unless="project.dir"
-              message="The project.dir pointing to Clover workspace root directory must be provided."/>
+              message="The project.dir pointing to OpenClover workspace root directory must be provided."/>
         <mkdir dir="${build.dir}"/>
     </target>
 

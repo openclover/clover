@@ -5,6 +5,7 @@ import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.NotNull;
+import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
@@ -42,9 +43,9 @@ public class IdeaTestFilter extends DefaultTestFilter {
 
     @Override
     public boolean accept(HasMetrics hasMetrics) {
-        if (hasMetrics instanceof FullClassInfo) {
-            final FullClassInfo classInfo = (FullClassInfo) hasMetrics;
-            final File file = ((FullFileInfo) classInfo.getContainingFile()).getPhysicalFile();
+        if (hasMetrics instanceof ClassInfo) {
+            final ClassInfo classInfo = (ClassInfo) hasMetrics;
+            final File file = classInfo.getContainingFile().getPhysicalFile();
             if (isInTestFolder(file)) {
                 // file is in test folder - definitely test class
                 return !isInverted();

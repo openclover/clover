@@ -33,7 +33,7 @@ public class FileBasedJUnitClassListProcessor extends JUnitClassListProcessor {
             }
             processedFile.deleteOnExit();
 
-            final Task.Backgroundable task = new Task.Backgroundable(currentProject, "Clover Test Optimization Task" , false) {
+            final Task.Backgroundable task = new Task.Backgroundable(currentProject, "OpenClover Test Optimization Task" , false) {
                 @Override
                 public void run(@NotNull ProgressIndicator indicator) {
                     indicator.setIndeterminate(true);

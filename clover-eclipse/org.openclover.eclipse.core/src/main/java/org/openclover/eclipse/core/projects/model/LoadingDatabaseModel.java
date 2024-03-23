@@ -9,13 +9,15 @@ import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IType;
 import org.openclover.core.CloverDatabase;
+import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.HasMetrics;
-import org.openclover.core.registry.entities.BaseClassInfo;
-import org.openclover.core.registry.entities.BaseFileInfo;
-import org.openclover.core.registry.entities.FullMethodInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.core.api.registry.MethodInfo;
+import org.openclover.core.api.registry.ProjectInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.eclipse.core.CloverPlugin;
+
+import static org.openclover.eclipse.core.CloverPlugin.logVerbose;
 
 public class LoadingDatabaseModel
     extends VolatileDatabaseModel {
@@ -49,16 +51,16 @@ public class LoadingDatabaseModel
     public boolean isRegistryOfDate() { return false; }
 
     protected void onLoadOK(IJobChangeEvent event) {
-        CloverPlugin.logVerbose("Database load succeeded for project " + project.getName());
+        logVerbose("Database load succeeded for project " + project.getName());
 
-        CloverPlugin.logVerbose("Attempting to set coverage model to loaded for project " + project.getName());
+        logVerbose("Attempting to set coverage model to loaded for project " + project.getName());
         final boolean includeFailedCoverage = CloverPlugin.getInstance().getInstallationSettings().isIncludeFailedCoverage();
         project.compareAndSetModel(this,
                 new LoadedDatabaseModel(project, ((LoadDatabaseJob)event.getJob()).getDatabase(), changeEvent, includeFailedCoverage) );
     }
 
     protected void onLoadNotOK(IJobChangeEvent event) {
-        CloverPlugin.logVerbose("Database load failed: " + (event.getResult() == null ? "unknown reason" : event.getResult().getMessage()));
+        logVerbose("Database load failed: " + (event.getResult() == null ? "unknown reason" : event.getResult().getMessage()));
 
         final CloverDatabase database = ((LoadDatabaseJob)event.getJob()).getDatabase();
         final boolean includeFailedCoverage = CloverPlugin.getInstance().getInstallationSettings().isIncludeFailedCoverage();
@@ -88,7 +90,7 @@ public class LoadingDatabaseModel
                 }
             }
         );
-        CloverPlugin.logVerbose("Starting database load for " + this);
+        logVerbose("Starting database load for " + this);
         loadingJob.schedule();
     }
 
@@ -122,24 +124,24 @@ public class LoadingDatabaseModel
     public void onDeactication(DatabaseModel successor) {
         if (loadingJob != null) {
             if (loadingJob.getState() != Job.NONE) {
-                CloverPlugin.logVerbose("Cancelling database load for " + this);
+                logVerbose("Cancelling database load for " + this);
             }
             Job.getJobManager().cancel(loadingJob);
         }
     }
 
     @Override
-    public FullProjectInfo getFullProjectInfo() {
+    public ProjectInfo getFullProjectInfo() {
         return currentModel.getFullProjectInfo();
     }
 
     @Override
-    public FullProjectInfo getTestOnlyProjectInfo() {
+    public ProjectInfo getTestOnlyProjectInfo() {
         return currentModel.getTestOnlyProjectInfo();
     }
 
     @Override
-    public FullProjectInfo getAppOnlyProjectInfo() {
+    public ProjectInfo getAppOnlyProjectInfo() {
         return currentModel.getAppOnlyProjectInfo();
     }
 
@@ -149,12 +151,12 @@ public class LoadingDatabaseModel
     }
 
     @Override
-    public BaseFileInfo getSourceFileInfo(ICompilationUnit cu, MetricsScope scope) {
+    public FileInfo getSourceFileInfo(ICompilationUnit cu, MetricsScope scope) {
         return currentModel.getSourceFileInfo(cu, scope);
     }
 
     @Override
-    public BaseClassInfo getTypeInfo(IType type, MetricsScope scope) {
+    public ClassInfo getTypeInfo(IType type, MetricsScope scope) {
         return currentModel.getTypeInfo(type, scope);
     }
 
@@ -169,7 +171,7 @@ public class LoadingDatabaseModel
     }
 
     @Override
-    public FullMethodInfo getMethodInfo(IMethod method, MetricsScope scope) {
+    public MethodInfo getMethodInfo(IMethod method, MetricsScope scope) {
         return currentModel.getMethodInfo(method, scope);
     }
 

@@ -14,7 +14,7 @@
     <script src="aui/js/aui-soy.min.js" type="text/javascript"></script>
     <script src="clover.js" type="text/javascript"></script>
 
-    <title>Clover</title>
+    <title>OpenClover</title>
 </head>
 
 <body style="min-width: 200px;">

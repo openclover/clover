@@ -10,21 +10,21 @@ import static org.junit.Assert.assertEquals
 class BaseCloverOptimizedTypeTest {
     @Test
     void testFileNameNormalisation() {
-        assertNormalised("com/atlassian/clover/TestPath.java", "com/atlassian/clover/TestPath.java")
+        assertNormalised("org/openclover/TestPath.java", "org/openclover/TestPath.java")
     }
 
     @Test
     void testMatchingPathForWindowsPaths() {
-        assertNormalised("com\\atlassian\\clover\\WindowsTestPath.java", "com/atlassian/clover/WindowsTestPath.java")
+        assertNormalised("org\\openclover\\WindowsTestPath.java", "org/openclover/WindowsTestPath.java")
     }
 
     @Test
     void testClassFileNormalization() {
-        assertNormalised("com\\atlassian\\clover\\WindowsTestPath.class", "com/atlassian/clover/WindowsTestPath.java")
-        assertNormalised("com/atlassian/clover/WindowsTestPath.class", "com/atlassian/clover/WindowsTestPath.java")
+        assertNormalised("org\\openclover\\WindowsTestPath.class", "org/openclover/WindowsTestPath.java")
+        assertNormalised("org/openclover/WindowsTestPath.class", "org/openclover/WindowsTestPath.java")
     }
 
-    private void assertNormalised(String path, String expectedPath) {
+    private static void assertNormalised(String path, String expectedPath) {
         assertEquals(expectedPath, BaseCloverOptimizedType.normalizePath(path))
     }
 }

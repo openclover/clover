@@ -54,7 +54,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Issue #71: Package Private JUnit 5 Tests are not detected by Clover
+- Issue #71: Package Private JUnit 5 Tests are not detected by OpenClover
 - Issue #90: Do not read a license file in Maven plugin
 
 ### Removed

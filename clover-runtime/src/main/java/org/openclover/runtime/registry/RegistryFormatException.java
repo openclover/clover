@@ -8,6 +8,6 @@ public abstract class RegistryFormatException extends CloverRegistryException {
     }
 
     public RegistryFormatException(String pathToRegistry, String probableCauseMessage, Throwable cause) {
-        super("Clover encountered a problem reading the instrumentation registry \"" + pathToRegistry + "\". " + probableCauseMessage, cause);
+        super("OpenClover encountered a problem reading the instrumentation registry \"" + pathToRegistry + "\". " + probableCauseMessage, cause);
     }
 }

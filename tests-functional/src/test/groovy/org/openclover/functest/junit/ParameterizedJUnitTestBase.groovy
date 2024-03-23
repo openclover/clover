@@ -6,7 +6,7 @@ import org.openclover.functest.ant.tasks.CloverBuildFileTestBase
 import org.openclover.functest.ant.tasks.CloverTestUtil
 
 /**
- * Tests how Clover integrates with JUnit4 in order to intercept test names at runtime.
+ * Tests how OpenClover integrates with JUnit4 in order to intercept test names at runtime.
  * Test is using 'test/resources/parameterized-junit4' code sample.
  */
 @CompileStatic

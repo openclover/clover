@@ -10,19 +10,17 @@ import org.openclover.core.CloverDatabase;
 import org.openclover.core.CoverageData;
 import org.openclover.core.MaskedBitSetCoverageProvider;
 import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.CoverageDataProvider;
+import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.MethodSignatureInfo;
+import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.api.registry.ParameterInfo;
-import org.openclover.core.registry.CoverageDataProvider;
-import org.openclover.core.registry.entities.BaseClassInfo;
-import org.openclover.core.registry.entities.BaseFileInfo;
-import org.openclover.core.registry.entities.BasePackageInfo;
+import org.openclover.core.api.registry.ProjectInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.FullMethodInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
-import org.openclover.core.registry.entities.MethodSignature;
-import org.openclover.core.registry.entities.TestCaseInfo;
 import org.openclover.eclipse.core.projects.CloverProject;
 
 import java.util.Arrays;
@@ -78,17 +76,17 @@ public class LoadedDatabaseModel extends StableDatabaseModel {
     }
 
     @Override
-    public FullProjectInfo getFullProjectInfo() {
+    public ProjectInfo getFullProjectInfo() {
         return database.getFullModel();
     }
 
     @Override
-    public FullProjectInfo getTestOnlyProjectInfo() {
+    public ProjectInfo getTestOnlyProjectInfo() {
         return database.getTestOnlyModel();
     }
 
     @Override
-    public FullProjectInfo getAppOnlyProjectInfo() {
+    public ProjectInfo getAppOnlyProjectInfo() {
         return database.getAppOnlyModel();
     }
 
@@ -103,19 +101,19 @@ public class LoadedDatabaseModel extends StableDatabaseModel {
     }
 
     @Override
-    public BaseFileInfo getSourceFileInfo(ICompilationUnit cu, MetricsScope scope) {
-        BasePackageInfo packageInfo = scope.getProjectInfoFor(project).getNamedPackage(cu.getParent().getElementName());
+    public FileInfo getSourceFileInfo(ICompilationUnit cu, MetricsScope scope) {
+        PackageInfo packageInfo = scope.getProjectInfoFor(project).getNamedPackage(cu.getParent().getElementName());
         return packageInfo == null ? null : packageInfo.getFileInPackage(cu.getElementName());
     }
 
     @Override
-    public BaseClassInfo getTypeInfo(IType type, MetricsScope scope) {
+    public ClassInfo getTypeInfo(IType type, MetricsScope scope) {
         //Here we make sure we get back Inner.Classes rather than Inner$Classes which confuses Clover
-        return (BaseClassInfo)scope.getProjectInfoFor(project).findClass(type.getFullyQualifiedName('.'));
+        return scope.getProjectInfoFor(project).findClass(type.getFullyQualifiedName('.'));
     }
 
     @Override
-    public FullMethodInfo getMethodInfo(IMethod method, MetricsScope scope) {
+    public MethodInfo getMethodInfo(IMethod method, MetricsScope scope) {
         ClassInfo classInfo = scope.getProjectInfoFor(project).findClass(method.getDeclaringType().getFullyQualifiedName('.'));
         if (classInfo instanceof FullClassInfo) {
             for (MethodInfo methodInfo : classInfo.getMethods()) {
@@ -124,7 +122,7 @@ public class LoadedDatabaseModel extends StableDatabaseModel {
                     String[] paramTypes1 = toEclipseSignatures(sig.getParameters());
                     String[] paramTypes2 = method.getParameterTypes();
                     if (Arrays.equals(paramTypes2, paramTypes1)) {
-                        return (FullMethodInfo)methodInfo; // TODO REMOVE THIS CAST
+                        return methodInfo;
                     }
                 }
             }
@@ -136,12 +134,12 @@ public class LoadedDatabaseModel extends StableDatabaseModel {
     public TestCaseInfo getTestCaseInfo(IMethod method, MetricsScope scope) {
         ClassInfo classInfo = scope.getProjectInfoFor(project).findClass(method.getDeclaringType().getFullyQualifiedName('.'));
         if (classInfo instanceof FullClassInfo) {
-            Collection<TestCaseInfo> testCases = ((FullClassInfo)classInfo).getTestCases();
+            Collection<TestCaseInfo> testCases = classInfo.getTestCases();
             for (TestCaseInfo testCase : testCases) {
-                FullMethodInfo methodInfo = testCase.getSourceMethod();
+                MethodInfo methodInfo = testCase.getSourceMethod();
                 if (methodInfo != null) {
-                    MethodSignature sig = methodInfo.getSignature();
-                    if (sig != null && sig.getName().equals(method.getElementName())) {
+                    MethodSignatureInfo sig = methodInfo.getSignature();
+                    if (sig.getName().equals(method.getElementName())) {
                         String[] paramTypes1 = toEclipseSignatures(sig.getParameters());
                         String[] paramTypes2 = method.getParameterTypes();
                         if (Arrays.equals(paramTypes2, paramTypes1)) {
@@ -158,19 +156,19 @@ public class LoadedDatabaseModel extends StableDatabaseModel {
     public TestCaseInfo[] getTestCaseInfos(IMethod method, MetricsScope scope) {
         ClassInfo classInfo = scope.getProjectInfoFor(project).findClass(method.getDeclaringType().getFullyQualifiedName('.'));
         if (classInfo instanceof FullClassInfo) {
-            Collection<TestCaseInfo> testCases = ((FullClassInfo)classInfo).getTestCases();
+            Collection<TestCaseInfo> testCases = classInfo.getTestCases();
             for (Iterator<TestCaseInfo> iter = testCases.iterator(); iter.hasNext();) {
                 TestCaseInfo testCase = iter.next();
-                FullMethodInfo methodInfo = testCase.getSourceMethod();
+                MethodInfo methodInfo = testCase.getSourceMethod();
                 if (methodInfo != null) {
-                    MethodSignature sig = methodInfo.getSignature();
-                    if (sig == null || !sig.getName().equals(method.getElementName())
+                    MethodSignatureInfo sig = methodInfo.getSignature();
+                    if (!sig.getName().equals(method.getElementName())
                         || !Arrays.equals(method.getParameterTypes(), toEclipseSignatures(sig.getParameters()))) {
                         iter.remove();
                     }
                 }
             }
-            return testCases.toArray(new TestCaseInfo[testCases.size()]);
+            return testCases.toArray(new TestCaseInfo[0]);
         }
         return new TestCaseInfo[] {};
     }

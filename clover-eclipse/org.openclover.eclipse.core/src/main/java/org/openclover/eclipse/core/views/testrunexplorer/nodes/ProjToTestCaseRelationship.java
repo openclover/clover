@@ -1,6 +1,7 @@
 package org.openclover.eclipse.core.views.testrunexplorer.nodes;
 
 import org.eclipse.core.resources.IProject;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
@@ -9,6 +10,7 @@ import org.openclover.eclipse.core.views.nodes.NodeRelationshipFilter;
 import org.openclover.eclipse.core.views.nodes.Nodes;
 
 import static org.openclover.core.util.Lists.newLinkedList;
+import static org.openclover.eclipse.core.CloverPlugin.logError;
 
 public class ProjToTestCaseRelationship extends NodeRelationship {
     private TestCaseNodeFactory tcnFactory;
@@ -21,7 +23,7 @@ public class ProjToTestCaseRelationship extends NodeRelationship {
     public Object[] getChildren(Object object, NodeRelationshipFilter filter) {
         try {
             final CloverProject cloverProject = CloverProject.getFor((IProject) object);
-            final FullProjectInfo testProjectInfo = cloverProject == null ? null : cloverProject.getModel().getTestOnlyProjectInfo();
+            final ProjectInfo testProjectInfo = cloverProject == null ? null : cloverProject.getModel().getTestOnlyProjectInfo();
             if (testProjectInfo != null && testProjectInfo.hasTestResults()) {
                 return filter.perform(
                     Nodes.collectTestCases(
@@ -30,7 +32,7 @@ public class ProjToTestCaseRelationship extends NodeRelationship {
                             new Nodes.ToTestCaseNodeCoverter(tcnFactory)));
             }
         } catch (Exception e) {
-            CloverPlugin.logError("Unable to retrieve children for project " + object, e);
+            logError("Unable to retrieve children for project " + object, e);
         }
         return new Object[]{};
     }

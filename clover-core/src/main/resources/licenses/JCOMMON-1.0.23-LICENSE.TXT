@@ -4,7 +4,7 @@ Modified by Atlassian
 The binary file of the original library has been modified by Atlassian in such way that classes have changed
 their package names from 'com.keypoint/org.jfree' to 'clover.com.keypoint/clover.org.jfree'. This was
 necessary to avoid potential name conflicts during instrumentation of a code using the original library when
-using Clover. No source code of the original library was modified.
+using OpenClover. No source code of the original library was modified.
 ============================================================================================================
 
                    GNU LESSER GENERAL PUBLIC LICENSE

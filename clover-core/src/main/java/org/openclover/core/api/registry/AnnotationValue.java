@@ -13,5 +13,5 @@ public interface AnnotationValue {
      * represents an ordered collection of values an ordered list of those values is returned.
      */
     @NotNull
-    List<? extends AnnotationValue> toList();
+    List<AnnotationValue> toList();
 }

@@ -4,6 +4,8 @@ import java.text.MessageFormat;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import static org.openclover.eclipse.core.CloverPlugin.logWarning;
+
 public final class CloverEclipsePluginMessages {
 
     private static final String BUNDLE_NAME = "plugin";
@@ -17,7 +19,7 @@ public final class CloverEclipsePluginMessages {
         try {
             return RESOURCE_BUNDLE.getString(key);
         } catch (MissingResourceException e) {
-            CloverPlugin.logWarning("Missing string resource: " + key, e);
+            logWarning("Missing string resource: " + key, e);
             return "!" + key + "!";
         }
     }
@@ -27,7 +29,7 @@ public final class CloverEclipsePluginMessages {
         try {
             format = RESOURCE_BUNDLE.getString(key);
         } catch (MissingResourceException e) {
-            CloverPlugin.logWarning("Missing string resource: " + key, e);
+            logWarning("Missing string resource: " + key, e);
             return "!" + key + "!";
         }
         if (arg == null)

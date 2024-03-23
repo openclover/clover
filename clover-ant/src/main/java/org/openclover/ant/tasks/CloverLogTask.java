@@ -11,7 +11,7 @@ import org.openclover.core.CodeType;
 import org.openclover.core.CoverageDataSpec;
 import org.openclover.core.cfg.Interval;
 import org.openclover.core.recorder.PerTestCoverageStrategy;
-import org.openclover.core.registry.metrics.HasMetricsFilter;
+import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.core.reporters.console.ConsoleReporter;
 import org.openclover.core.reporters.console.ConsoleReporterConfig;
 import org.openclover.core.reporters.filters.FileSetFilter;

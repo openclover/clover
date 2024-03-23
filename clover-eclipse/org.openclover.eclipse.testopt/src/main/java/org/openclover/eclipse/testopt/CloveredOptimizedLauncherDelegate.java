@@ -133,7 +133,7 @@ public class CloveredOptimizedLauncherDelegate extends JUnitLaunchConfigurationD
         try {
             final CloverProject cloverProject = CloverProject.getFor(project);
             if (cloverProject == null) {
-                TestOptimizationPlugin.logWarning("Cannot optimize: Clover not enabled for project " + project.getElementName());
+                TestOptimizationPlugin.logWarning("Cannot optimize: OpenClover not enabled for project " + project.getElementName());
                 return allTests;
             }
 
@@ -144,7 +144,7 @@ public class CloveredOptimizedLauncherDelegate extends JUnitLaunchConfigurationD
                     .snapshot(Snapshot.fileForInitString(initString)).build();
 
         } catch (CoreException e) {
-            TestOptimizationPlugin.logWarning("Cannot optimize: unable to retrieve Clover settings for project " + project.getElementName(), e);
+            TestOptimizationPlugin.logWarning("Cannot optimize: unable to retrieve OpenClover settings for project " + project.getElementName(), e);
             return allTests;
         }
         TestOptimizationPlugin.logDebug("Optimizing with options: " + options);

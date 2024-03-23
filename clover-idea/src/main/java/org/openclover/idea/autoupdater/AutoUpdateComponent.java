@@ -52,7 +52,7 @@ public class AutoUpdateComponent implements ApplicationComponent, Runnable, Pers
     @Override
     @NotNull
     public String getComponentName() {
-        return "Clover Autoupdater";
+        return "OpenClover Autoupdater";
     }
 
     @Override
@@ -108,7 +108,7 @@ public class AutoUpdateComponent implements ApplicationComponent, Runnable, Pers
      private final SearchableConfigurable configurable =  new SearchableConfigurable() {
         @Override
         public String getId() {
-            return "Clover Auto Update";
+            return "OpenClover Auto Update";
         }
 
         @Override

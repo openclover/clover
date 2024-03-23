@@ -4,6 +4,7 @@ import clover.antlr.TokenStream;
 import clover.org.codehaus.groovy.antlr.GroovySourceToken;
 import clover.org.codehaus.groovy.antlr.parser.GroovyLexer;
 import clover.org.codehaus.groovy.antlr.parser.GroovyTokenTypes;
+import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.reporters.html.source.SourceListener;
 import org.openclover.core.reporters.html.source.SourceRenderHelper;
@@ -80,7 +81,7 @@ public class GroovySourceTraverser implements SourceTraverser {
      * Instead textual values are read from the original unadulterated source using the line and column values from the tokens.
      */
     @Override
-    public void traverse(Reader reader, FullFileInfo fileInfo, SourceListener sourceListener) throws Exception {
+    public void traverse(Reader reader, FileInfo fileInfo, SourceListener sourceListener) throws Exception {
         final GroovySourceListener listener = (GroovySourceListener)sourceListener;
         List<String> lines = SourceRenderHelper.getSrcLines(fileInfo);
         //Add a single trailing single space line - final lines with newlines cause the last token to

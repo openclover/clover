@@ -128,16 +128,15 @@ public class CloverCompilerAdapter implements CompilerAdapter {
         Logger.setInstance(new AntLogger(project, javac));
         log = Logger.getInstance();
         cloverLogging();
-        CloverStartup.loadLicense(log);
 
         if (javac.getDestdir() == null) {
-            error = new CloverException("When using Clover you need to set the destdir on <javac>");
+            error = new CloverException("When using OpenClover you need to set the destdir on <javac>");
             return;
         }
 
         AntInstrumentationConfig instrConfig = AntInstrumentationConfig.getFrom(project);
         if (instrConfig == null) {
-            log.warn("Clover configuration was not found (did you call <ant> or <antcall> without inheritRefs=true?)."
+            log.warn("OpenClover configuration was not found (did you call <ant> or <antcall> without inheritRefs=true?)."
                     + " Default settings for code instrumentation will be used.");
             instrConfig = new AntInstrumentationConfig(project);
         }
@@ -154,7 +153,7 @@ public class CloverCompilerAdapter implements CompilerAdapter {
         }
 
         if (compilerDelegate != null && compilerDelegate.equals(this.getClass().getName())) {
-            error = new CloverException("You cannot set clover.compiler to be the Clover Compiler Adapter. Check the value you are passing to clover.compiler");
+            error = new CloverException("You cannot set clover.compiler to be the OpenClover Compiler Adapter. Check the value you are passing to clover.compiler");
             return;
         }
 
@@ -190,7 +189,7 @@ public class CloverCompilerAdapter implements CompilerAdapter {
             // the compileset has the original list of files that were handed to javac to compile
             final File[] compileList = getJavacCompileList();
             if (compileList == null) {
-                error = new CloverException("The javac.compileList is null. Unable to integrate Clover with Javac.");
+                error = new CloverException("The javac.compileList is null. Unable to integrate OpenClover with Javac.");
                 return;
             }
             final Set<File> compileSet = newHashSet(compileList);
@@ -227,7 +226,7 @@ public class CloverCompilerAdapter implements CompilerAdapter {
 
                 instrumenter.endInstrumentation();
                 if ( !setJavacCompileList(replacementCompileSet.toArray(new File[0])) ) {
-                    error = new CloverException("Failed to write to javac.compileList field. Unable to integrate Clover with Javac.");
+                    error = new CloverException("Failed to write to javac.compileList field. Unable to integrate OpenClover with Javac.");
                     return;
                 }
             } catch (CloverException e) {
@@ -243,7 +242,7 @@ public class CloverCompilerAdapter implements CompilerAdapter {
                 javac.setClasspath(cloverPath);
             }
         } else {
-            log.info("** Clover is disabled. Delegating straight to the compiler.");
+            log.info("** OpenClover is disabled. Delegating straight to the compiler.");
         }
 
         compilerVersionFiddler.push();

@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.List;
 
 import static org.openclover.core.util.Lists.newLinkedList;
+import static org.openclover.eclipse.core.CloverPlugin.logWarning;
 
 public class InstrumentationProjectPathMap extends ProjectPathMap {
     private CloverProject project;
@@ -188,7 +189,7 @@ public class InstrumentationProjectPathMap extends ProjectPathMap {
     private static void resolveAndAddEntry(Collection<IClasspathEntry> classpathLibs, IJavaProject javaProject, IClasspathEntry entry)
         throws JavaModelException {
         if (entry == null) {
-            CloverPlugin.logWarning("Unresolved classpath entry");
+            logWarning("Unresolved classpath entry");
         } else {
             switch (entry.getEntryKind()) {
                 case IClasspathEntry.CPE_PROJECT:
@@ -210,7 +211,7 @@ public class InstrumentationProjectPathMap extends ProjectPathMap {
                                     containerEntry);
                         }
                     } else {
-                        CloverPlugin.logWarning("Unable to resolve classpath container entry: " + entry.getPath());
+                        logWarning("Unable to resolve classpath container entry: " + entry.getPath());
                     }
                     break;
 
@@ -223,7 +224,7 @@ public class InstrumentationProjectPathMap extends ProjectPathMap {
                             javaProject,
                             variableEntry);
                     } else {
-                        CloverPlugin.logWarning("Unable to resolve classpath variable entry: " + entry.getPath());
+                        logWarning("Unable to resolve classpath variable entry: " + entry.getPath());
                     }
                     break;
             }

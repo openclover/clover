@@ -7,10 +7,7 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.Map;
 
-/**
- */
 public class XMLWriter {
-
 
     private static final String NL = System.getProperty("line.separator");
     private static final String INDENT = "   ";

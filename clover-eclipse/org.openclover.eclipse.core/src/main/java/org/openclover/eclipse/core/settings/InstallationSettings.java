@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.openclover.core.util.Lists.newLinkedList;
+import static org.openclover.eclipse.core.CloverPlugin.logError;
 
 public class InstallationSettings extends Settings {
     public static class Keys {
@@ -261,7 +262,7 @@ public class InstallationSettings extends Settings {
                 try {
                     customColumns.add(new CustomColumnDefinition(title, abbreviatedTitle, expression, style, format));
                 } catch (CloverException e) {
-                    CloverPlugin.logError("Unable to define load custom column \"" + title + "\" : \"" + expression + "\" : \"" + e.getMessage() + "\" - ignoring", e);
+                    logError("Unable to define load custom column \"" + title + "\" : \"" + expression + "\" : \"" + e.getMessage() + "\" - ignoring", e);
                 }
             }
         }

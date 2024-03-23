@@ -1,14 +1,17 @@
 package org.openclover.core;
 
 import org.jetbrains.annotations.Nullable;
+import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.MethodInfo;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.context.ContextSetImpl;
 import org.openclover.core.registry.FixedSourceRegion;
-import org.openclover.core.registry.entities.BasicMethodInfo;
+import org.openclover.core.registry.entities.BasicElementInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.FullMethodInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
+import org.openclover.core.registry.entities.FullTestCaseInfo;
 import org.openclover.core.registry.entities.MethodSignature;
-import org.openclover.core.registry.entities.TestCaseInfo;
+
 import org.openclover.core.util.CloverUtils;
 import org.openclover.runtime.Logger;
 import org.openclover.runtime.api.CloverException;
@@ -25,6 +28,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 
+import static org.openclover.core.spi.lang.LanguageConstruct.Builtin.METHOD;
+
 public class TestResultProcessor {
 
     /**
@@ -32,17 +37,17 @@ public class TestResultProcessor {
      * @param files the TEST result XML files
      * @throws org.openclover.runtime.api.CloverException if an error occurs parsing the XML
      */
-    public static void addTestResultsToModel(FullProjectInfo model, List<File> files) throws CloverException {
+    public static void addTestResultsToModel(ProjectInfo model, List<File> files) throws CloverException {
         TestResultProcessor processor = new TestResultProcessor(model, files);
         int numTestResults = processor.scan();
         model.setHasTestResults(numTestResults > 0);
     }
 
-    private FullProjectInfo model;
-    private List<File> files;
+    private final ProjectInfo model;
+    private final List<File> files;
 
 
-    public TestResultProcessor(FullProjectInfo model, List<File> files) {
+    public TestResultProcessor(ProjectInfo model, List<File> files) {
         this.model = model;
         this.files = files;
     }
@@ -84,14 +89,14 @@ public class TestResultProcessor {
 
 
     static class TestXMLHandler extends DefaultHandler {
-        private FullProjectInfo model;
-        private FullClassInfo currentTestClassFromTestSuite;
-        private FullClassInfo currentTestClassFromTestCase;
-        private TestCaseInfo currentTestCaseInfo;
+        private final ProjectInfo model;
+        private ClassInfo currentTestClassFromTestSuite;
+        private ClassInfo currentTestClassFromTestCase;
+        private FullTestCaseInfo currentTestCaseInfo;
         private StringBuffer message;
         private int testCaseCount;
 
-        public TestXMLHandler(FullProjectInfo model) {
+        public TestXMLHandler(ProjectInfo model) {
             this.model = model;
         }
 
@@ -107,7 +112,7 @@ public class TestResultProcessor {
                 // NOTE: testsuite also has the following attributes, currently unused by clover:
                 // errors="0" failures="0" hostname="nixx" tests="32" time="0.401" timestamp="2007-02-05T00:40:18"
                 String classnameAttr = atts.getValue("name");
-                FullClassInfo classInfo = null;
+                ClassInfo classInfo = null;
 
                 if (classnameAttr != null) { // handles the case the nameAttr is fully qualified classname. e.g. from a TEST-pkg.Test.xml
                     classInfo = findClass(classnameAttr);
@@ -135,7 +140,7 @@ public class TestResultProcessor {
 
                 if (classname != null) {
                     classname = CloverUtils.cloverizeClassName(classname); // hack - see CCD-294, CCD-307
-                    currentTestClassFromTestCase = (FullClassInfo) model.findClass(classname);
+                    currentTestClassFromTestCase = model.findClass(classname);
                 } else {
                     currentTestClassFromTestCase = currentTestClassFromTestSuite;
                     // the test name might be fully qualified (ie. with fq test classname preprended to method name)
@@ -143,38 +148,41 @@ public class TestResultProcessor {
                         int lastDot = testname.lastIndexOf(".");
                         if (lastDot >= 0) {
                             classname = CloverUtils.cloverizeClassName(testname.substring(0, lastDot)); // hack - see CCD-294, CCD-307
-                            currentTestClassFromTestCase = (FullClassInfo) model.findClass(classname);
+                            currentTestClassFromTestCase = model.findClass(classname);
                             testname = testname.substring(lastDot + 1);
                         }
                     }
                 }
 
-                FullClassInfo currentTestClass = currentTestClassFromTestCase == null ? currentTestClassFromTestSuite : currentTestClassFromTestCase;
+                FullClassInfo currentTestClass = (FullClassInfo) (currentTestClassFromTestCase == null ? currentTestClassFromTestSuite : currentTestClassFromTestCase);
                 if (currentTestClass != null) {
-                    currentTestCaseInfo = currentTestClass.getTestCase(currentTestClass.getQualifiedName() + "." + testname);
+                    currentTestCaseInfo = (FullTestCaseInfo) currentTestClass.getTestCase(currentTestClass.getQualifiedName() + "." + testname);
                     if (currentTestCaseInfo == null) {
                         Logger.getInstance().verbose(
                             "Didn't find pre-existing test case for class from JUnit results: " + currentTestClass.getQualifiedName() + "." + testname);
                         // look for the method declaration for this testcase
-                        FullMethodInfo methodDecl = currentTestClass.getTestMethodDeclaration(testname);
+                        MethodInfo methodDecl = currentTestClass.getTestMethodDeclaration(testname);
                         // look on the testsuite class if not found on the testcase
                         if (methodDecl == null && (currentTestClass == currentTestClassFromTestCase) && (currentTestClassFromTestSuite != null)) {
-                            methodDecl = currentTestClassFromTestSuite.getTestMethodDeclaration(testname);
+                            methodDecl = ((FullClassInfo) currentTestClassFromTestSuite).getTestMethodDeclaration(testname);
                             if (methodDecl != null) {
-                                currentTestClass = currentTestClassFromTestSuite;
+                                currentTestClass = (FullClassInfo) currentTestClassFromTestSuite;
                             }
                         }
 
                         if (methodDecl != null) {
                             // generate negative slice id from a qualified method name
-                            currentTestCaseInfo = new TestCaseInfo(-Math.abs(methodDecl.getQualifiedName().hashCode()),
+                            currentTestCaseInfo = new FullTestCaseInfo(-Math.abs(methodDecl.getQualifiedName().hashCode()),
                                     currentTestClass, methodDecl, methodDecl.getSimpleName());
                         } else {
                             // generate negative slice id from a test name using fake method
-                            FullMethodInfo fakeTestMethod = new FullMethodInfo(currentTestClass, new ContextSetImpl(),
-                                    new BasicMethodInfo(new FixedSourceRegion(0, 0), 0, 0,
-                                            new MethodSignature(testname), true, testname, false));
-                            currentTestCaseInfo = new TestCaseInfo(-Math.abs(testname.hashCode()),
+                            FullMethodInfo fakeTestMethod = new FullMethodInfo(
+                                    currentTestClass,
+                                    new MethodSignature(testname),
+                                    new ContextSetImpl(),
+                                    new BasicElementInfo(new FixedSourceRegion(0, 0), 0, 0, METHOD),
+                                    true, testname, false);
+                            currentTestCaseInfo = new FullTestCaseInfo(-Math.abs(testname.hashCode()),
                                     currentTestClass, fakeTestMethod, testname);
                         }
                         currentTestClass.addTestCase(currentTestCaseInfo);
@@ -215,9 +223,9 @@ public class TestResultProcessor {
          * @return class found in the model or null
          */
         @Nullable
-        private FullClassInfo findClass(String rawName) {
+        private ClassInfo findClass(String rawName) {
             final String classname = CloverUtils.cloverizeClassName(rawName); // hack - see CCD-294, CCD-307
-            final FullClassInfo info = (FullClassInfo)model.findClass(classname);
+            final ClassInfo info = model.findClass(classname);
             Logger.getInstance().debug("Found class: " + info + " using name " + rawName);
             return info;
         }

@@ -10,15 +10,14 @@ import org.openclover.core.api.registry.BranchInfo;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.ContextSet;
 import org.openclover.core.api.registry.ElementInfo;
+import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.MethodInfo;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.api.registry.SourceInfo;
 import org.openclover.core.api.registry.StatementInfo;
-import org.openclover.core.registry.FileElementVisitor;
-import org.openclover.core.registry.entities.FullFileInfo;
-import org.openclover.core.registry.entities.FullPackageInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
-import org.openclover.core.registry.metrics.HasMetricsFilter;
+import org.openclover.core.api.registry.TestCaseInfo;
+import org.openclover.core.api.registry.ElementVisitor;
+import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.core.registry.util.EntityVisitorUtils;
 import org.openclover.core.reporters.Column;
 import org.openclover.core.reporters.Current;
@@ -55,22 +54,22 @@ public class RenderFileAction implements Callable {
         return (int) (1000 * (m1.getPcCoveredElements() - m.getPcCoveredElements()));
     };
 
-    protected final FullFileInfo fileInfo; // shared: call made to setDataProvider on local copy
+    protected final FileInfo fileInfo; // shared: call made to setDataProvider on local copy
     protected final HtmlRenderingSupportImpl renderingHelper; // shared - has static Pattern(thread safe) objects.
     protected final Current reportConfig; // shared - read only
     protected final VelocityContext velocity; // not shared
     protected final CloverDatabase database; /// shared - read + write to cache in mDb.getRegistry().getContextsAsString - synchronized cache there.
-    protected final FullProjectInfo fullModel; // shared - call buildCaches first!
+    protected final ProjectInfo fullModel; // shared - call buildCaches first!
     protected final Map<Integer, CloverChartFactory.ChartInfo> charts;
     protected List<TestCaseInfo>[] testLineInfo;
 
     public RenderFileAction(
-        FullFileInfo fileInfo,
+        FileInfo fileInfo,
         HtmlRenderingSupportImpl renderingHelper,
         Current report,
         VelocityContext velocity,
         CloverDatabase database,
-        FullProjectInfo fullModel,
+        ProjectInfo fullModel,
         Map<Integer, CloverChartFactory.ChartInfo> charts) {
         
         this.fileInfo = fileInfo;
@@ -134,10 +133,10 @@ public class RenderFileAction implements Callable {
         try {
             insertLineInfos(insertSrcFileProperties(), testLineInfo);
         } catch (Exception e) {
-            Logger.getInstance().error("Invalid Java source found or Clover failed to parse it: " + fileInfo.getPhysicalFile().getAbsolutePath());
+            Logger.getInstance().error("Invalid Java source found or OpenClover failed to parse it: " + fileInfo.getPhysicalFile().getAbsolutePath());
             velocity.put("filename", fileInfo.getPhysicalFile().getAbsolutePath());
             velocity.put("message", e.getMessage());
-            List srclines = SourceRenderHelper.getSrcLines(fileInfo);
+            List<String> srclines = SourceRenderHelper.getSrcLines(fileInfo);
             velocity.put("srclines", srclines);
             HtmlReportUtil.mergeTemplateToFile(outfile, velocity, "src-file-error.vm");
             return;
@@ -152,11 +151,11 @@ public class RenderFileAction implements Callable {
     }
 
     @SuppressWarnings("unchecked")
-    public FullFileInfo insertSrcFileProperties() throws JSONException {
+    public FileInfo insertSrcFileProperties() throws JSONException {
         velocity.put("headerMetrics", fileInfo.getMetrics());
         velocity.put("headerMetricsRaw", fileInfo.getRawMetrics());
         velocity.put("fileInfo", fileInfo);
-        final FullProjectInfo projInfo = fullModel;
+        final ProjectInfo projInfo = fullModel;
         velocity.put("projInfo", projInfo);
         velocity.put("cloverDb", database);
 
@@ -181,7 +180,7 @@ public class RenderFileAction implements Callable {
         final Map<TestCaseInfo, BitSet> targetElements = newHashMap(); // contains testid -> statements & branches
         final Map<TestCaseInfo, BlockMetrics> testMetrics = newHashMap(); // testid -> metrics
         Set<TestCaseInfo> testHits = database.getTestHits(fileInfo);
-        FullFileInfo fcopy = fileInfo.copy((FullPackageInfo) fileInfo.getContainingPackage(), HasMetricsFilter.ACCEPT_ALL);
+        FileInfo fcopy = fileInfo.copy(fileInfo.getContainingPackage(), HasMetricsFilter.ACCEPT_ALL);
         Set<TestCaseInfo> testSet = newHashSet();
 
         final List<TestCaseInfo>[] testLineInfo = (List<TestCaseInfo>[])new ArrayList[fcopy.getLineCount() + 1];
@@ -195,7 +194,7 @@ public class RenderFileAction implements Callable {
 
             testMetrics.put(tci, fcopy.getMetrics());
 
-            fcopy.visitElements(new FileElementVisitor() {
+            fcopy.visitElements(new ElementVisitor() {
                 @Override
                 public void visitClass(ClassInfo info) {
 
@@ -290,7 +289,7 @@ public class RenderFileAction implements Callable {
         return fcopy;
     }
 
-    private void insertLineInfos(FullFileInfo fcopy, List[] testLineInfo) throws TokenStreamException {
+    private void insertLineInfos(FileInfo fcopy, List[] testLineInfo) throws TokenStreamException {
         new SourceRenderHelper(database, reportConfig, renderingHelper)
             .insertLineInfosForFile(fcopy, velocity, getContextSet(), "&#160;", testLineInfo);
     }

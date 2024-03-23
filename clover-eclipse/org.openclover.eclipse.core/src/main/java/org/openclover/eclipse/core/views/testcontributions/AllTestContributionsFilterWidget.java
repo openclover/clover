@@ -15,7 +15,7 @@ import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.part.ViewPart;
 import org.openclover.core.api.registry.ClassInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotationFilter;
 import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotationModel;
@@ -23,6 +23,7 @@ import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotationModel;
 import java.util.Set;
 
 import static org.openclover.core.util.Sets.newHashSet;
+import static org.openclover.eclipse.core.CloverPlugin.logError;
 
 public class AllTestContributionsFilterWidget
     extends TestContributionsWidget
@@ -110,7 +111,7 @@ public class AllTestContributionsFilterWidget
         try {
             testContributionsComputation.join();
         } catch (InterruptedException e) {
-            CloverPlugin.logError("Failed to stop cursor listing job");
+            logError("Failed to stop cursor listing job");
         }
     }
 

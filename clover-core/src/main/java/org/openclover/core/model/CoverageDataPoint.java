@@ -1,6 +1,6 @@
 package org.openclover.core.model;
 
-import org.openclover.core.registry.entities.BaseProjectInfo;
+import org.openclover.core.api.registry.ProjectInfo;
 
 import java.io.File;
 import java.util.Comparator;
@@ -13,7 +13,7 @@ public class CoverageDataPoint {
 
     private String version;
     private long generated;
-    private BaseProjectInfo project;
+    private ProjectInfo project;
     private File dataFile;
 
     public static final Comparator<CoverageDataPoint> CHRONOLOGICAL_CMP = (dataPoint1, dataPoint2) -> {
@@ -50,11 +50,11 @@ public class CoverageDataPoint {
         this.generated = generated;
     }
 
-    public BaseProjectInfo getProject() {
+    public ProjectInfo getProject() {
         return project;
     }
 
-    public void setProject(BaseProjectInfo project) {
+    public void setProject(ProjectInfo project) {
         this.project = project;
     }
 

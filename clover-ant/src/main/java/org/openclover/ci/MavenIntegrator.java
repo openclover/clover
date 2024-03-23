@@ -47,8 +47,6 @@ public class MavenIntegrator implements Integrator {
             "verify", "install", "deploy"
     );
 
-    private static final String CLOVER_LICENSE = "maven.clover.license";
-    private static final String CLOVER_LICENSE_LOCATION = "maven.clover.licenseLocation";
     private static final String CLOVER_GENERATE_XML = "maven.clover.generateXml";
     private static final String CLOVER_GENERATE_PDF = "maven.clover.generatePdf";
     private static final String CLOVER_GENERATE_JSON = "maven.clover.generateJson";
@@ -99,7 +97,6 @@ public class MavenIntegrator implements Integrator {
         //additional build properties
         addHistoricalReportProperties(newArgs);
         addReportFormatsProperties(newArgs);
-        addLicenseProperties(newArgs);
 
         // copy to the output argument
         args.clear();
@@ -142,16 +139,6 @@ public class MavenIntegrator implements Integrator {
         }
         if (!containsArg(args, CLOVER_GENERATE_XML)) {
             addProperty(args, CLOVER_GENERATE_XML, options.isXml());
-        }
-    }
-
-    private void addLicenseProperties(List<String> args) {
-        // license key / file if defined
-        if (!containsArg(args, CLOVER_LICENSE) && options.getLicenseCert() != null && !options.getLicenseCert().trim().equals("")) {
-            addProperty(args, CLOVER_LICENSE, options.getLicenseCert());
-        }
-        if (!containsArg(args, CLOVER_LICENSE_LOCATION) && options.getLicense() != null) {
-            addProperty(args, CLOVER_LICENSE_LOCATION, options.getLicense().getAbsolutePath());
         }
     }
 

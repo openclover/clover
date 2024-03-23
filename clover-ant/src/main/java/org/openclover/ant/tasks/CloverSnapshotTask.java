@@ -70,8 +70,8 @@ public class CloverSnapshotTask extends AbstractCloverTask {
                         new CoverageDataSpec(null, span, false, true, true, true, perTestCoverageStrategy));
                 Logger.getInstance().verbose("Took " + (System.currentTimeMillis() - start) + "ms to load coverage data to update the snapshot");
 
-                Logger.getInstance().info(
-                    "Updating snapshot '" + snapshotLocation.getAbsolutePath() + "' against Clover database at '" +  db.getInitstring() + "'");
+                Logger.getInstance().info("Updating snapshot '" + snapshotLocation.getAbsolutePath() +
+                        "' against OpenClover database at '" +  db.getInitstring() + "'");
                 snapshot.updateFor(db);
             }
 

@@ -4,10 +4,13 @@ import org.openclover.core.CoverageData;
 import org.openclover.core.ProgressListener;
 import org.openclover.core.api.instrumentation.ConcurrentInstrumentationException;
 import org.openclover.core.api.instrumentation.InstrumentationSession;
+import org.openclover.core.api.registry.FileInfo;
+import org.openclover.core.api.registry.HasMetricsFilter;
+import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.context.ContextStore;
 import org.openclover.core.instr.InstrumentationSessionImpl;
-import org.openclover.core.registry.entities.BasePackageInfo;
-import org.openclover.core.registry.entities.FullFileInfo;
+import org.openclover.core.registry.entities.DummyPackageInfo;
 import org.openclover.core.registry.entities.FullPackageInfo;
 import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.registry.format.CoverageSegment;
@@ -16,7 +19,6 @@ import org.openclover.core.registry.format.FreshRegFile;
 import org.openclover.core.registry.format.InstrSessionSegment;
 import org.openclover.core.registry.format.RegFile;
 import org.openclover.core.registry.format.UpdatableRegFile;
-import org.openclover.core.registry.metrics.HasMetricsFilter;
 import org.openclover.core.util.CloverUtils;
 import org.openclover.core.util.FileUtils;
 import org.openclover.core.util.Path;
@@ -36,6 +38,7 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import static org.openclover.core.api.registry.PackageInfo.isDefaultName;
 import static org.openclover.core.util.Lists.newLinkedList;
 import static org.openclover.core.util.Maps.newHashMap;
 
@@ -66,7 +69,7 @@ public class Clover2Registry implements InstrumentationTarget {
                 new ContextStore());
     }
 
-    Clover2Registry(RegFile regFile, FullProjectInfo model, List<InstrumentationInfo> instrumentationHistory, ContextStore contexts) {
+    Clover2Registry(RegFile regFile, ProjectInfo model, List<InstrumentationInfo> instrumentationHistory, ContextStore contexts) {
         this.regFile = regFile;
         this.model = new ProjectView.Original(model);
         this.instrumentationHistory = newLinkedList(instrumentationHistory);
@@ -96,8 +99,8 @@ public class Clover2Registry implements InstrumentationTarget {
         try {
             final UpdatableRegFile regFile = new UpdatableRegFile(registryFile);
             final List<InstrumentationInfo> instrHistory = newLinkedList();
-            final FullProjectInfo projInfo = new FullProjectInfo(regFile.getName(), regFile.getVersion());
-            final Map<String, FullFileInfo> fileInfos = newHashMap();
+            final ProjectInfo projInfo = new FullProjectInfo(regFile.getName(), regFile.getVersion());
+            final Map<String, FileInfo> fileInfos = newHashMap();
             final long version = regFile.getVersion();
 
             final Clover2Registry[] resultReg = new Clover2Registry[1];
@@ -145,13 +148,11 @@ public class Clover2Registry implements InstrumentationTarget {
         }
     }
 
-    private static void buildModel(long version, HasMetricsFilter filter, final FullProjectInfo projInfo, Map<String, FullFileInfo> fileInfos, InstrSessionSegment sessionSegment, Collection<FileInfoRecord> fileInfoRecs) {
-        class FosterPackageInfo extends BasePackageInfo {
+    private static void buildModel(long version, HasMetricsFilter filter, final ProjectInfo projInfo,
+                                   Map<String, FileInfo> fileInfos, InstrSessionSegment sessionSegment,
+                                   Collection<FileInfoRecord> fileInfoRecs) {
+        class FosterPackageInfo extends DummyPackageInfo {
             public String fosterName;
-
-            FosterPackageInfo() {
-                super(projInfo, "");
-            }
 
             @Override
             public String getName() {
@@ -168,7 +169,7 @@ public class Clover2Registry implements InstrumentationTarget {
                 return isDefaultName(fosterName);
             }
 
-            public FullFileInfo adopt(String fosterName, FullFileInfo fileInfo) {
+            public FileInfo adopt(String fosterName, FileInfo fileInfo) {
                 this.fosterName = fosterName;
                 fileInfo.setContainingPackage(this);
                 return fileInfo;
@@ -183,14 +184,14 @@ public class Clover2Registry implements InstrumentationTarget {
             //If FileInfo not loaded from a previous instrumentation session...
             if (!fileInfos.containsKey(filePath)) {
                 //Temporarily adopt the FileInfo so things like getPackagePath() work while filtering
-                final FullFileInfo fileInfo = surrogatePackage.adopt(pkgName, fileInfoRec.getFileInfo());
+                final FileInfo fileInfo = surrogatePackage.adopt(pkgName, fileInfoRec.getFileInfo());
 
                 //If not filtered out
                 if (filter == null || filter.accept(fileInfo)) {
                     fileInfos.put(filePath, fileInfo);
                     //Make the FileInfo support the very latest model version
                     fileInfo.addVersion(version);
-                    FullPackageInfo pkgInfo = (FullPackageInfo)projInfo.getNamedPackage(pkgName);
+                    PackageInfo pkgInfo = projInfo.getNamedPackage(pkgName);
                     if (pkgInfo == null) {
                         pkgInfo = new FullPackageInfo(projInfo, pkgName, Integer.MAX_VALUE);
                         projInfo.addPackage(pkgInfo);
@@ -205,12 +206,12 @@ public class Clover2Registry implements InstrumentationTarget {
     }
 
     @SuppressWarnings("unchecked")
-    private static void recreateDataIndicesAndLengths(UpdatableRegFile regFile, FullProjectInfo projInfo) {
+    private static void recreateDataIndicesAndLengths(UpdatableRegFile regFile, ProjectInfo projInfo) {
         int projLen = Integer.MIN_VALUE;
-        for (FullPackageInfo pkgInfo : (List<FullPackageInfo>)projInfo.getAllPackages()) {
+        for (PackageInfo pkgInfo : projInfo.getAllPackages()) {
             int pkgStartIdx = Integer.MAX_VALUE;
             int pkgEndIdx = Integer.MIN_VALUE;
-            for (FullFileInfo fileInfo : (List<FullFileInfo>)pkgInfo.getFiles()) {
+            for (FileInfo fileInfo : pkgInfo.getFiles()) {
                 pkgStartIdx = Math.min(pkgStartIdx, fileInfo.getDataIndex());
                 pkgEndIdx = Math.max(pkgEndIdx, fileInfo.getDataIndex() + fileInfo.getDataLength());
             }
@@ -247,7 +248,7 @@ public class Clover2Registry implements InstrumentationTarget {
     }
 
     @SuppressWarnings("unchecked")
-    protected RegFile saveAndOverwriteFile(FullProjectInfo project, List<InstrumentationInfo> instrumentationHistory, ContextStore contexts, CoverageData coverageData) throws IOException, CloverRegistryException {
+    protected RegFile saveAndOverwriteFile(ProjectInfo project, List<InstrumentationInfo> instrumentationHistory, ContextStore contexts, CoverageData coverageData) throws IOException, CloverRegistryException {
         RegFile regFile = new FreshRegFile(this.regFile, coverageData);
 
         List<RegistryUpdate> updates = newLinkedList();
@@ -378,7 +379,7 @@ public class Clover2Registry implements InstrumentationTarget {
         return model.getProject().getDataLength();
     }
 
-    public FullProjectInfo getProject() {
+    public ProjectInfo getProject() {
         return model.getProject();
     }
 
@@ -401,8 +402,8 @@ public class Clover2Registry implements InstrumentationTarget {
     public long getPastInstrTimestamp(int numPastInstrs) {
         long msec = 0;
         if (!instrumentationHistory.isEmpty()) {
-            for (ListIterator history = instrumentationHistory.listIterator(instrumentationHistory.size() - 1); 0 < numPastInstrs-- && history.hasPrevious();) {
-                msec = ((InstrumentationInfo) history.previous()).getEndTS();
+            for (ListIterator<InstrumentationInfo> history = instrumentationHistory.listIterator(instrumentationHistory.size() - 1); 0 < numPastInstrs-- && history.hasPrevious();) {
+                msec = history.previous().getEndTS();
             }
         }
         return msec;

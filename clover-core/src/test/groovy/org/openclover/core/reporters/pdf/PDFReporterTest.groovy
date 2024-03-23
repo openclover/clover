@@ -15,7 +15,6 @@ class PDFReporterTest extends TestCase {
     HasMetricsTestFixture fixture
 
     void setUp() throws IOException, CloverRegistryException {
-        CloverStartup.loadLicense(Logger.getInstance())
         fixture = new HasMetricsTestFixture(PDFReporterTest.class.getName())
         fixture.createSampleRegistry()
     }

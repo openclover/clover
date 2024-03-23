@@ -7,7 +7,7 @@ import org.eclipse.jface.text.source.IAnnotationHoverExtension2;
 import org.eclipse.jface.text.source.ILineRange;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.LineRange;
-import org.openclover.core.registry.entities.TestCaseInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.eclipse.core.ui.editors.java.ILineCoverageModel.Entry;
 
 import java.util.Collection;

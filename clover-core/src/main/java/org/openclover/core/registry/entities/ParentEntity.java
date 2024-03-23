@@ -127,7 +127,7 @@ public class ParentEntity {
         return parentEntity;
     }
 
-    public void setContainingFile(@NotNull final FullFileInfo fileInfo) {
+    public void setContainingFile(@NotNull final FileInfo fileInfo) {
         this.containingFile = fileInfo;
     }
 

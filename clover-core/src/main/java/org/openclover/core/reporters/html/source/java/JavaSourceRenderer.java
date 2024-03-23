@@ -1,5 +1,6 @@
 package org.openclover.core.reporters.html.source.java;
 
+import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.spi.lang.Language;
 import org.openclover.core.spi.reporters.html.source.HtmlRenderingSupport;
@@ -16,7 +17,8 @@ public class JavaSourceRenderer implements SourceRenderer {
     }
 
     @Override
-    public void render(List<LineRenderInfo> linesToRender, Reader sourceReader, FullFileInfo finfo, HtmlRenderingSupport renderingHelper, String emptyCoverageMsg, String tabString, String spaceString) throws Exception {
+    public void render(List<LineRenderInfo> linesToRender, Reader sourceReader,
+                       FileInfo finfo, HtmlRenderingSupport renderingHelper, String emptyCoverageMsg, String tabString, String spaceString) throws Exception {
         new JavaTokenTraverser().traverse(
             sourceReader, finfo, new JavaHtmlSourceRenderer(finfo, linesToRender, renderingHelper, emptyCoverageMsg, tabString, spaceString));
     }

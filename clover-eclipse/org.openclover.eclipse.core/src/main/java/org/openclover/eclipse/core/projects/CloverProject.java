@@ -28,6 +28,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.CoverageDataSpec;
 import org.openclover.core.api.registry.ContextSet;
+import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig;
 import org.openclover.core.cfg.instr.java.SourceLevel;
 import org.openclover.core.instr.tests.AggregateTestDetector;
@@ -35,9 +36,7 @@ import org.openclover.core.instr.tests.AndStrategy;
 import org.openclover.core.instr.tests.AntPatternTestDetectorFilter;
 import org.openclover.core.instr.tests.TestDetector;
 import org.openclover.core.recorder.PerTestCoverageStrategy;
-import org.openclover.core.registry.metrics.HasMetricsFilter;
 import org.openclover.eclipse.core.CloverPlugin;
-import org.openclover.eclipse.core.PluginVersionInfo;
 import org.openclover.eclipse.core.exclusion.DecorationPreferenceChangeListener;
 import org.openclover.eclipse.core.projects.builder.BuildCoordinator;
 import org.openclover.eclipse.core.projects.builder.Markers;
@@ -61,18 +60,18 @@ import org.openclover.eclipse.core.projects.settings.ProjectSettings;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 import static org.openclover.core.util.Lists.newArrayList;
+import static org.openclover.eclipse.core.CloverPlugin.logDebug;
+import static org.openclover.eclipse.core.CloverPlugin.logError;
+import static org.openclover.eclipse.core.CloverPlugin.logVerbose;
 
 public class CloverProject extends BaseNature {
     public static final String ID = CloverPlugin.ID + ".clovernature";
     /* id of builder no longer in use */
 
-    private static final QualifiedName CLOVER_VERSION_PROPERTY = new QualifiedName(CloverPlugin.ID, "Version");
     private static final QualifiedName FILES_BEING_COMPILED = new QualifiedName(CloverPlugin.ID, "FilesBeingCompiled");
     private static final QualifiedName LAST_CLEAN_BUILD_STAMP = new QualifiedName(CloverPlugin.ID, "last_full_build_stamp");
 
@@ -80,8 +79,8 @@ public class CloverProject extends BaseNature {
     private static final String COVERAGE_DB_FILE = "coverage.db";
 
     private static final String CLOVER_JAR_MISSING_MSG =
-            "Your instrumented application could not find the Clover classes necessary to record coverage. " +
-                    "Please use the 'Run with Clover' option to correct this.";
+            "Your instrumented application could not find the OpenClover classes necessary to record coverage. " +
+                    "Please use the 'Run with OpenClover' option to correct this.";
 
     /**
      * Current coverage model - may be unloaded, loading, or loaded.
@@ -114,34 +113,13 @@ public class CloverProject extends BaseNature {
 
     public static void ensureBuildersPresent(IProject project) throws CoreException {
         IProjectDescription description = project.getDescription();
-        List commands = newArrayList(project.getDescription().getBuildSpec());
+        List<ICommand> commands = newArrayList(project.getDescription().getBuildSpec());
 
         commands = ensureBuilderAddedBefore(description, commands, JavaCore.BUILDER_ID, PreJavaCloverBuilder.ID, NoJavaCloverBuilder.ID);
         commands = ensureBuilderAddedAfter(description, commands, JavaCore.BUILDER_ID, PostJavaCloverBuilder.ID, NoJavaCloverBuilder.ID);
 
-        description.setBuildSpec((ICommand[]) commands.toArray(new ICommand[commands.size()]));
+        description.setBuildSpec(commands.toArray(new ICommand[0]));
         project.setDescription(description, null);
-    }
-
-    public static boolean buildersPresent(IProject project) throws CoreException {
-        List builders = newArrayList(project.getDescription().getBuildSpec());
-        return
-            (builderPresent(builders, PreJavaCloverBuilder.ID)
-            && builderPresent(builders, PostJavaCloverBuilder.ID))
-            || builderPresent(builders, NoJavaCloverBuilder.ID);
-    }
-
-    public static boolean builderPresent(IProject project, String builderId) throws CoreException {
-        return builderPresent(newArrayList(project.getDescription().getBuildSpec()), builderId);
-    }
-
-    private static boolean builderPresent(List builders, String builderId) {
-        for (Object builder : builders) {
-            if (((ICommand) builder).getBuilderName().equals(builderId)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     private void ensureLastBuildStamped() {
@@ -150,7 +128,7 @@ public class CloverProject extends BaseNature {
                 project.setPersistentProperty(LAST_CLEAN_BUILD_STAMP, Long.toString(System.currentTimeMillis()));
             }
         } catch (CoreException e) {
-            CloverPlugin.logError("Unable to set initial time stamp for project", e);
+            logError("Unable to set initial time stamp for project", e);
         }
     }
 
@@ -179,7 +157,7 @@ public class CloverProject extends BaseNature {
         ResourcesPlugin.getWorkspace().addResourceChangeListener(
                 event -> {
                     if (event.getResource().equals(project) && project.isOpen()) {
-                        CloverPlugin.logVerbose("A Clover project is closing");
+                        logVerbose("An OpenClover project is closing");
                         setModel(new ClosedDatabaseModel(CloverProject.this, CoverageModelChangeEvent.CLOSE(CloverProject.this)));
                     }
                 }, IResourceChangeEvent.PRE_CLOSE);
@@ -191,17 +169,13 @@ public class CloverProject extends BaseNature {
             try {
                 PathUtils.makeDerivedFoldersFor(workingDir);
             } catch (CoreException e) {
-                CloverPlugin.logError("Unable to create Clover working directory " + workingDir.getLocation(), e);
+                logError("Unable to create OpenClover working directory " + workingDir.getLocation(), e);
             }
         }
     }
 
     private IClasspathEntry getCloverJar() {
         return JavaCore.newVariableEntry(CloverPlugin.CLOVER_RUNTIME_VARIABLE, null, null);
-    }
-
-    public void refreshCloverWorkingDir(IProgressMonitor monitor) throws CoreException {
-        getCloverWorkingDir().refreshLocal(IResource.DEPTH_INFINITE, monitor);
     }
 
     /**
@@ -230,7 +204,7 @@ public class CloverProject extends BaseNature {
             description = project.getProject().getDescription();
         }
         catch (CoreException e) {
-            CloverPlugin.logError("Error getting description from project", e);
+            logError("Error getting description from project", e);
             throw e;
         }
 
@@ -238,21 +212,21 @@ public class CloverProject extends BaseNature {
         List<String> newIds = newArrayList(oldIds); // copy
 
         if (isApplied) {
-            CloverPlugin.logVerbose("Removing nature" + ID);
+            logVerbose("Removing nature" + ID);
             newIds.remove(ID);
         } else {
-            CloverPlugin.logVerbose("Adding nature " + ID);
+            logVerbose("Adding nature " + ID);
             newIds.add(ID);
         }
 
-        description.setNatureIds(newIds.toArray(new String[newIds.size()]));
+        description.setNatureIds(newIds.toArray(new String[0]));
 
         if (isApplied) {
             try {
                 getFor(project).closeCoverage();
             }
             catch (CoreException e) {
-                CloverPlugin.logError("Error closing coverage model", e);
+                logError("Error closing coverage model", e);
             }
         }
 
@@ -262,12 +236,12 @@ public class CloverProject extends BaseNature {
             CloverPlugin.getInstance().getCoverageMonitor().fireCoverageChange();
         }
         catch (CoreException e) {
-            CloverPlugin.logError("Error setting description for project, attempting to undo", e);
+            logError("Error setting description for project, attempting to undo", e);
             try {
                 description.setNatureIds(oldIds);
                 project.getProject().setDescription(description, null);
             } catch (CoreException e2) {
-                CloverPlugin.logError("Error undoing changes to description for project, most likely related to the previous error", e2);
+                logError("Error undoing changes to description for project, most likely related to the previous error", e2);
             }
             throw e;
         }
@@ -417,19 +391,19 @@ public class CloverProject extends BaseNature {
 
     private boolean maybeSetModel(DatabaseModel expected, DatabaseModel update) {
         if (model == expected) {
-            CloverPlugin.logVerbose("De-activating coverage model " + expected);
+            logVerbose("De-activating coverage model " + expected);
             try {
                 model.onDeactication(update);
             } catch (Throwable t) {
-                CloverPlugin.logError("Failed to deactivate model " + model, t);
+                logError("Failed to deactivate model " + model, t);
             }
-            CloverPlugin.logVerbose("Switching coverage model from " + expected + " to " + update);
+            logVerbose("Switching coverage model from " + expected + " to " + update);
             model = update;
-            CloverPlugin.logVerbose("Activating coverage model " + update);
+            logVerbose("Activating coverage model " + update);
             try {
                 model.onActivation(expected);
             } catch (Throwable t) {
-                CloverPlugin.logDebug("Failed to activate model " + model, t);
+                logDebug("Failed to activate model " + model, t);
             }
             CloverPlugin.getInstance().getCoverageMonitor().fireCoverageChange(this, expected, update);
             return true;
@@ -482,7 +456,7 @@ public class CloverProject extends BaseNature {
                     CloverProject.getFor(project).refreshModel(forceModelReload, forceCoverageReoload);
                 }
             } catch (CoreException e) {
-                CloverPlugin.logError("Error while refreshing coverage for project " + project.getName(), e);
+                logError("Error while refreshing coverage for project " + project.getName(), e);
             }
         }
     }
@@ -546,33 +520,17 @@ public class CloverProject extends BaseNature {
         }
     }
 
-    public ISchedulingRule getCloverWorkingDirSchedulingRule() {
-        return getCloverWorkingDir();
-    }
-
     public ProjectPathMap getPathMap() throws CoreException {
         return new ProjectPathMap(getJavaProject());
     }
 
     public void addInstrumentationFailure(IFile originalFile) throws CoreException {
-        List failures = (List)getProject().getSessionProperty(new QualifiedName(CloverPlugin.ID, "instrumentation.failures"));
+        List<IFile> failures = (List<IFile>)getProject().getSessionProperty(new QualifiedName(CloverPlugin.ID, "instrumentation.failures"));
         if (failures == null) {
             failures = newArrayList();
             getProject().setSessionProperty(new QualifiedName(CloverPlugin.ID, "instrumentation.failures"), failures);
         }
         failures.add(originalFile);
-    }
-
-    public void clearInstrumentationFailures() throws CoreException {
-        getProject().setSessionProperty(new QualifiedName(CloverPlugin.ID, "instrumentation.failures"), new ArrayList());
-    }
-
-    public List getInstrumentationFailures() throws CoreException {
-        List failures = (List)getProject().getSessionProperty(new QualifiedName(CloverPlugin.ID, "instrumentation.failures"));
-        if (failures == null) {
-            failures = Collections.emptyList();
-        }
-        return failures;
     }
 
     public BuildCoordinator getBuildCoordinator() throws CoreException {
@@ -581,22 +539,6 @@ public class CloverProject extends BaseNature {
 
     public ProjectSettings getSettings() {
         return settings;
-    }
-
-    public static Version getLastVersionStamp(IProject project) throws CoreException {
-        try {
-            String versionString = project.getPersistentProperty(CLOVER_VERSION_PROPERTY);
-            //alpha 1 had no concept of Clover version, so if property is null
-            //it's likely that we're looking at an alpha 1 or alpha 1_1 project
-            return versionString == null ? Version.V2_0_0_A1_1 : new Version(versionString);
-        } catch (CoreException e) {
-            CloverPlugin.logError("Unable to query Clover version last applied to project", e);
-            throw e;
-        }
-    }
-
-    public static void stampWithCurrentVersion(IProject project) throws CoreException {
-        project.setPersistentProperty(CLOVER_VERSION_PROPERTY, Version.CURRENT_VERSION.toString());
     }
 
     public static boolean toggleWithUserFeedback(Shell shell, IProject project) {
@@ -608,17 +550,17 @@ public class CloverProject extends BaseNature {
         try {
             isProjectCloverEnabled[0] = CloverProject.isAppliedTo(javaProject);
         } catch (CoreException e) {
-            CloverPlugin.logError("Unable to determine if project is Clover-enabled", e);
+            logError("Unable to determine if project is OpenClover-enabled", e);
         }
         try {
             CloverProject.toggle(javaProject);
             return true;
         } catch (Throwable t) {
-            CloverPlugin.logError("Error toggling Clover support", t);
+            logError("Error toggling OpenClover support", t);
             Display.getDefault().syncExec(() -> MessageDialog.openError(
                 shell,
-                "Unable to " + (isProjectCloverEnabled[0] ? "disable" : "enable") + " Clover",
-                "An error occurred while " + (isProjectCloverEnabled[0] ? "disabling" : "enabling") + " Clover on this project.\n" +
+                "Unable to " + (isProjectCloverEnabled[0] ? "disable" : "enable") + " OpenClover",
+                "An error occurred while " + (isProjectCloverEnabled[0] ? "disabling" : "enabling") + " OpenClover on this project.\n" +
                 "Please check that Eclipse has permission to write to the project directory, that\n" +
                 "any Team plugins you use allow Eclipse to save the project file and then try\n" +
                 "again."));
@@ -626,7 +568,7 @@ public class CloverProject extends BaseNature {
         }
     }
 
-    public IFolder getInstrumentationOutputRootDir() throws CoreException {
+    public IFolder getInstrumentationOutputRootDir() {
         if (!getSettings().isOutputRootSameAsProject()) {
             IPath path = project.getFullPath().append(getSettings().getOutputRoot());
             if (ResourcesPlugin.getWorkspace().validatePath(path.toString(), IResource.FOLDER).getCode() == IStatus.OK) {
@@ -644,11 +586,7 @@ public class CloverProject extends BaseNature {
                 projects.add(CloverProject.getFor(project));
             }
         }
-        return projects.toArray(new CloverProject[projects.size()]);
-    }
-
-    public long getLastCleanBuildStamp() {
-        return getLastCleanBuildStamp(project);
+        return projects.toArray(new CloverProject[0]);
     }
 
     public static long getLastCleanBuildStamp(IProject project) {
@@ -656,7 +594,7 @@ public class CloverProject extends BaseNature {
             String value = project.getPersistentProperty(LAST_CLEAN_BUILD_STAMP);
             return value == null ? 0L : Long.parseLong(value);
         } catch (CoreException e) {
-            CloverPlugin.logError("Invalid build stamp", e);
+            logError("Invalid build stamp", e);
             long now = System.currentTimeMillis();
             setLastCleanBuildStamp(project, now);
             return now;
@@ -671,7 +609,7 @@ public class CloverProject extends BaseNature {
         try {
             project.setPersistentProperty(LAST_CLEAN_BUILD_STAMP, Long.toString(timeStamp));
         } catch (CoreException e) {
-            CloverPlugin.logError("Unable to set build stamp for project", e);
+            logError("Unable to set build stamp for project", e);
         }
     }
 
@@ -695,8 +633,8 @@ public class CloverProject extends BaseNature {
     public boolean okayToRebuild(Shell shell) {
         return MessageDialog.openQuestion(
             shell,
-            "Clover compilation settings changed",
-            "Clover compilation settings have changed. To take effect you should rebuild your project.\n\nRebuild your project now?");
+            "OpenClover compilation settings changed",
+            "OpenClover compilation settings have changed. To take effect you should rebuild your project.\n\nRebuild your project now?");
     }
 
     public CloverDatabase newEmptyDatabase() {
@@ -742,49 +680,6 @@ public class CloverProject extends BaseNature {
         void call() throws Exception;
     }
 
-    public static class Version implements Comparable {
-        public static final Version V2_0_0_A1 = new Version("2_0_0_a1"); //released externally
-        public static final Version V2_0_0_A1_1 = new Version("2_0_0_a1_1"); //released externally
-        public static final Version V2_0_0_A2 = new Version("2_0_0_a2"); //never released externally
-        public static final Version V2_0_0_B1 = new Version("2_0_0_b1"); //released externally
-        public static final Version V2_0_0_B2 = new Version("2_0_0_b2"); //released externally
-        public static final Version CURRENT_VERSION = new Version(PluginVersionInfo.RELEASE_NUM.replace('.', '_'));
-
-        private String label;
-
-        public Version(String label) {
-            this.label = label;
-        }
-
-        public String toString() {
-            return label;
-        }
-
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-
-            Version version = (Version) o;
-
-            if (!Objects.equals(label, version.label)) return false;
-
-            return true;
-        }
-
-        public int hashCode() {
-            return (label != null ? label.hashCode() : 0);
-        }
-
-        @Override
-        public int compareTo(Object other) {
-            if (other instanceof Version) {
-                return label.compareTo(((Version)other).label);
-            } else {
-                return -1;
-            }
-        }
-    }
-
     public void flagStaleRegistryBecause(String message) {
         try {
             project.setPersistentProperty(Markers.STALEDB_PROPERTY_NAME, message);
@@ -793,7 +688,7 @@ public class CloverProject extends BaseNature {
                 Markers.createCloverStaleDbMarker(project.getProject(), message);
             }
         } catch (CoreException e) {
-            CloverPlugin.logError("Unable to set/unset stale registry message", e);
+            logError("Unable to set/unset stale registry message", e);
         }
     }
 }

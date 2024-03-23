@@ -33,8 +33,8 @@ import java.util.Map;
 public final class Clover {
     public static final int NO_SLICE = -1;
     public static final String SECURITY_EXCEPTION_MSG =
-            "[CLOVER] FATAL ERROR: Clover could not be initialised because it has insufficient security privileges. "
-            + "Please consult the Clover documentation on the security policy file changes required.";
+            "ERROR: OpenClover could not be initialised because it has insufficient security privileges. "
+            + "Please consult the OpenClover documentation on the security policy file changes required.";
 
     /**
      * Indicates if Clover has already initialised or in the process of initialisation.
@@ -279,7 +279,7 @@ public final class Clover {
             }
         } catch (SecurityException e) {
             ///CLOVER:OFF
-            Logger.getInstance().verbose("Failed to retrieve Clover properties " + CloverNames.PROP_INITSTRING + "*", e);
+            Logger.getInstance().verbose("Failed to retrieve OpenClover properties " + CloverNames.PROP_INITSTRING + "*", e);
             ///CLOVER:ON
             // ignore. can't do much if no perms, and don't want to complain about it because
             // the user most probably hasn't set any anyway.
@@ -342,7 +342,7 @@ public final class Clover {
      */
     private static class UninitialisedRuntime implements Runtime {
         private void throwNotInitialisedException() {
-            throw new IllegalStateException("Clover runtime not yet initialised.");
+            throw new IllegalStateException("OpenClover runtime not yet initialised.");
         }
 
         @Override
@@ -697,7 +697,7 @@ public final class Clover {
             try {
                 // return null recorder if user wants to disable Clover at runtime
                 if (isDisableClover()) {
-                    Logger.getInstance().verbose("CLOVER: The system property '" + CloverNames.PROP_ENABLE + "' is set to false. Coverage recording is disabled.");
+                    Logger.getInstance().verbose("OpenClover: The system property '" + CloverNames.PROP_ENABLE + "' is set to false. Coverage recording is disabled.");
                     return NullRecorder.INSTANCE;
                 }
 
@@ -737,7 +737,7 @@ public final class Clover {
                 // disable Clover only if user explicitly sets this property to false
                 return cloverEnable != null && (cloverEnable.equalsIgnoreCase("false") || cloverEnable.equalsIgnoreCase("no"));
             } catch (SecurityException ex) {
-                Logger.getInstance().verbose("Unable to read '" + CloverNames.PROP_ENABLE + "' property. Assuming that Clover is enabled.");
+                Logger.getInstance().verbose("Unable to read '" + CloverNames.PROP_ENABLE + "' property. Assuming that OpenClover is enabled.");
                 return false;
             }
         }
@@ -763,7 +763,7 @@ public final class Clover {
         private CloverProfile selectCloverProfile(final CloverProfile[] profiles) {
             // 1. profiles are empty?
             if (profiles == null || profiles.length == 0) {
-                Logger.getInstance().debug("CLOVER: No profiles defined in instrumented classes. Using standard settings.");
+                Logger.getInstance().debug("OpenClover: No profiles defined in instrumented classes. Using standard settings.");
                 return null;
             }
 
@@ -773,12 +773,12 @@ public final class Clover {
                     try {
                         cloverProfileName = System.getProperty(CloverNames.PROP_CLOVER_PROFILE);
                         if (cloverProfileName == null) {
-                            Logger.getInstance().debug("CLOVER: System property '" + CloverNames.PROP_CLOVER_PROFILE
+                            Logger.getInstance().debug("OpenClover: System property '" + CloverNames.PROP_CLOVER_PROFILE
                                     + "' was not found. Assuming the 'default' profile.");
                             cloverProfileName = CloverProfile.DEFAULT_NAME;
                         }
                     } catch (SecurityException ex) {
-                        Logger.getInstance().verbose("CLOVER: Unable to read '" + CloverNames.PROP_CLOVER_PROFILE +
+                        Logger.getInstance().verbose("OpenClover: Unable to read '" + CloverNames.PROP_CLOVER_PROFILE +
                                 "' system property. Assuming the 'default' profile.", ex);
                         cloverProfileName = CloverProfile.DEFAULT_NAME;
                     }
@@ -789,7 +789,7 @@ public final class Clover {
             for (CloverProfile profile : profiles) {
                 if (profile.getName().equals(cloverProfileName)) {
                     Logger.getInstance().verbose(
-                            "CLOVER: Using profile '" + cloverProfileName + "' with settings "
+                            "OpenClover: Using profile '" + cloverProfileName + "' with settings "
                                     + "[coverageRecorder=" + profile.getCoverageRecorder()
                                     + ( profile.getDistributedCoverage() != null
                                             ? " distributedCoverage=" + profile.getDistributedCoverage().getConfigString()
@@ -800,17 +800,17 @@ public final class Clover {
             }
 
             Logger.getInstance().verbose(
-                    "CLOVER: Profile '" + cloverProfileName + "' not found in instrumented classes. Using standard settings.");
+                    "OpenClover: Profile '" + cloverProfileName + "' not found in instrumented classes. Using standard settings.");
             return null;
         }
 
         private void logRecorderCreationFailure(File dbFile, Throwable t) {
-            Logger.getInstance().error("CLOVER: Unable to load the coverage database at \"" + dbFile.getAbsolutePath() + "\"");
-            Logger.getInstance().error("CLOVER: No coverage data will be gathered.");
+            Logger.getInstance().error("OpenClover: Unable to load the coverage database at \"" + dbFile.getAbsolutePath() + "\"");
+            Logger.getInstance().error("OpenClover: No coverage data will be gathered.");
             if (t != null) {
-                Logger.getInstance().error("CLOVER: " + t.getClass().getName());
+                Logger.getInstance().error("OpenClover: " + t.getClass().getName());
                 if (t.getMessage() != null) {
-                    Logger.getInstance().error("CLOVER: " + t.getMessage(), t);
+                    Logger.getInstance().error("OpenClover: " + t.getMessage(), t);
                 }
             }
         }

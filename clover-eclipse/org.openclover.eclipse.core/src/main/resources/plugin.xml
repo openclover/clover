@@ -202,7 +202,7 @@
 
 	<extension
 		id="prejavabuilder"
-		name="Clover Pre-Java Builder"
+		name="OpenClover Pre-Java Builder"
 		point="org.eclipse.core.resources.builders">
 		<builder hasNature="true">
 			<run class="org.openclover.eclipse.core.projects.builder.PreJavaCloverBuilder"/>
@@ -211,7 +211,7 @@
 
 	<extension
 		id="postjavabuilder"
-		name="Clover Post-Java Builder"
+		name="OpenClover Post-Java Builder"
 		point="org.eclipse.core.resources.builders">
 		<builder hasNature="true">
 			<run class="org.openclover.eclipse.core.projects.builder.PostJavaCloverBuilder"/>
@@ -220,7 +220,7 @@
 
 	<extension
 		id="nojavabuilder"
-		name="Clover No-Java Builder"
+		name="OpenClover No-Java Builder"
 		point="org.eclipse.core.resources.builders">
 		<builder hasNature="true">
 			<run class="org.openclover.eclipse.core.projects.builder.NoJavaCloverBuilder"/>
@@ -233,7 +233,7 @@
 		point="org.eclipse.core.resources.markers"/>
 	<extension
 		id="org.openclover.eclipse.core.markers.problem"
-		name="Clover Instrumentation Problems"
+		name="OpenClover Instrumentation Problems"
 		point="org.eclipse.core.resources.markers">
 		<super type="org.eclipse.core.resources.problemmarker"/>
 		<super type="org.openclover.eclipse.core.marker"/>
@@ -241,7 +241,7 @@
 	</extension>
 	<extension
 		id="org.openclover.eclipse.core.markers.problem.staledb"
-		name="Clover Coverage Problems"
+		name="OpenClover Coverage Problems"
 		point="org.eclipse.core.resources.markers">
 		<super type="org.eclipse.core.resources.problemmarker"/>
 		<super type="org.openclover.eclipse.core.marker"/>
@@ -258,12 +258,12 @@
 	</extension>
 
 	<!--
-	 Clover nature - marks Clover-enabled projects and acts as a point of control for Clover
+	 OpenClover nature - marks OpenClover-enabled projects and acts as a point of control for OpenClover
 	 components
 	 -->
 	<extension
 		id="clovernature"
-		name="Clover Project Nature"
+		name="OpenClover Project Nature"
 		point="org.eclipse.core.resources.natures">
 		<requires-nature id="org.eclipse.jdt.core.javanature"/>
 		<builder id="org.openclover.eclipse.core.prejavabuilder"/>
@@ -279,7 +279,7 @@
 	<!-- =============================================== -->
 	
 	<extension point="org.eclipse.ui.menus">
-	<!-- Let's mark Clover submenu with an icon when it's supported (Eclipse 3.3+) -->
+	<!-- Let's mark OpenClover submenu with an icon when it's supported (Eclipse 3.3+) -->
 	      <menuContribution
              locationURI="popup:org.eclipse.ui.popup.any">
              <menu
@@ -293,7 +293,7 @@
 	<extension
 		point="org.eclipse.ui.popupMenus">
 
-		<!-- Clover group -->
+		<!-- OpenClover group -->
 		<objectContribution
 			adaptable="true"
 			objectClass="org.eclipse.core.resources.IProject"
@@ -306,7 +306,7 @@
 			</menu>
 		</objectContribution>
 
-		<!-- "Clover->Enable for this project" menu item -->
+		<!-- "OpenClover->Enable for this project" menu item -->
 		<objectContribution
 			adaptable="true"
 			objectClass="org.eclipse.core.resources.IProject"
@@ -322,7 +322,7 @@
 					<objectState name="open" value="true"/>
 				</and>
 			</visibility>
-			<!-- toggles Clover nature on a project -->
+			<!-- toggles OpenClover nature on a project -->
 			<action
 				label="%project.addnature"
                 enablesFor="1"
@@ -331,7 +331,7 @@
 				id="org.openclover.eclipse.core.actions.addProjectNature"/>
 		</objectContribution>
 
-		<!-- "Clover->Disable for this project" menu item -->
+		<!-- "OpenClover->Disable for this project" menu item -->
 		<objectContribution
 			adaptable="true"
 			objectClass="org.eclipse.core.resources.IProject"
@@ -345,7 +345,7 @@
 					<objectState name="open" value="true"/>
 				</and>
 			</visibility>
-			<!-- toggles Clover nature on a project -->
+			<!-- toggles OpenClover nature on a project -->
 			<action
 				label="%project.removenature"
                 enablesFor="1"
@@ -354,14 +354,14 @@
 				id="org.openclover.eclipse.core.actions.removeProjectNature"/>
 		</objectContribution>
 
-        <!-- "Clover->Enable/disable for..." menu item -->
+        <!-- "OpenClover->Enable/disable for..." menu item -->
         <objectContribution
             adaptable="true"
             objectClass="org.eclipse.core.resources.IProject"
             nameFilter="*"
             id="org.openclover.eclipse.core.popup.togglenatures.contribution">
             <!-- only show menu if open and project is Java based -->
-            <!-- toggles Clover nature on a project -->
+            <!-- toggles OpenClover nature on a project -->
             <action
                 label="%project.togglenatures.short"
                 class="org.openclover.eclipse.core.views.actions.ToggleMultipleCloverProjectNaturesActionDelegate"
@@ -369,7 +369,7 @@
                 id="org.openclover.eclipse.core.actions.toggleProjectNatures"/>
         </objectContribution>
 
-		<!-- "Clover->Configure" menu item -->
+		<!-- "OpenClover->Configure" menu item -->
 		<objectContribution
 			adaptable="true"
 			objectClass="org.eclipse.core.resources.IProject"
@@ -977,7 +977,7 @@
 			icon="icons/clcl16/report_cloud.gif"
 			contributorClass="org.openclover.eclipse.core.ui.editors.cloud.CloudEditorContributor"
 			id="org.openclover.eclipse.core.editors.cloud"
-			name="Clover Coverage Cloud Report"/>
+			name="OpenClover Coverage Cloud Report"/>
 	</extension>
 
 	<!-- =============================================== -->
@@ -989,7 +989,7 @@
 			class="org.openclover.eclipse.core.ui.editors.treemap.TreemapEditor"
 			icon="icons/clcl16/report_treemap.gif"
 			id="org.openclover.eclipse.core.editors.treemap"
-			name="Clover Coverage Treemap Report"/>
+			name="OpenClover Coverage Treemap Report"/>
 	</extension>
 
 	<!-- ===================== -->
@@ -1072,7 +1072,7 @@
 	<extension point="org.eclipse.ui.decorators">
 		<decorator
 			id="org.openclover.eclipse.core.views.projectDecorator"
-			label="Clover Project Decorator"
+			label="OpenClover Project Decorator"
 			state="true"
 			lightweight="true"
 			adaptable="true"
@@ -1087,7 +1087,7 @@
 		</decorator>
 		<decorator
         	id="org.openclover.eclipse.core.exclusionDecorator"
-        	label="Clover Exclusion Decorator"
+        	label="OpenClover Exclusion Decorator"
         	lightweight="true"
         	adaptable="true"
         	state="true"
@@ -1190,9 +1190,9 @@
 
 	<!--
 	  Clovered launch group
-	  @image is used by the "Open Run with Clover..." toolbar entry
+	  @image is used by the "Open Run with OpenClover..." toolbar entry
 	  @bannerImage is used by the launch configuration dialog in the top right corner
-	  @mode is a key to bind together all Clover-enabled launch elements and delegates
+	  @mode is a key to bind together all OpenClover-enabled launch elements and delegates
 	  -->
 	<extension
 		point="org.eclipse.debug.ui.launchGroups">
@@ -1205,14 +1205,14 @@
 			bannerImage="icons/clover64.png"/>
 	</extension>
 
-	<!-- Contextual menu for view objects - adds "Run with Clover As" context menu -->
+	<!-- Contextual menu for view objects - adds "Run with OpenClover As" context menu -->
 	<extension
 		point="org.eclipse.ui.popupMenus">
 		<objectContribution
             adaptable="true"
             id="org.openclover.eclipse.core.launching.popup.menu"
             objectClass="org.eclipse.jdt.core.IJavaElement">
-			<!-- This action will flll the menu with appropriate Clover-enabled launch shortcuts -->
+			<!-- This action will flll the menu with appropriate OpenClover-enabled launch shortcuts -->
 			<action
 				label="%launch.popup.group.label"
 				style="pulldown"
@@ -1224,7 +1224,7 @@
 		</objectContribution>
 	</extension>
 
-	<!-- Launch shortcuts for Clover-enabled projects -->
+	<!-- Launch shortcuts for OpenClover-enabled projects -->
 	<extension
 		point="org.eclipse.debug.ui.launchShortcuts">
 		<shortcut
@@ -1485,7 +1485,7 @@
 		</actionSet>
 	</extension>
 
-	<!-- Launching commands for Clover-enabled projects -->
+	<!-- Launching commands for OpenClover-enabled projects -->
 	<extension
 		point="org.eclipse.ui.commands">
 		<command

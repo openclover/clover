@@ -6,6 +6,7 @@ import org.openclover.core.api.registry.ClassInfo
 import org.openclover.core.api.registry.FileInfo
 import org.openclover.core.api.registry.MethodInfo
 import org.openclover.core.api.registry.PackageInfo
+import org.openclover.core.api.registry.ProjectInfo
 import org.openclover.core.api.registry.StatementInfo
 import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig
 import org.openclover.core.cfg.instr.java.LambdaInstrumentation
@@ -13,9 +14,6 @@ import org.openclover.core.cfg.instr.java.SourceLevel
 import org.openclover.core.instr.java.InstrumentationSource
 import org.openclover.core.instr.java.Instrumenter
 import org.openclover.core.registry.Clover2Registry
-import org.openclover.core.registry.entities.BaseFileInfo
-import org.openclover.core.registry.entities.FullMethodInfo
-import org.openclover.core.registry.entities.FullProjectInfo
 
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.fail
@@ -75,7 +73,7 @@ abstract class AggregatedMetricsTestBase {
                 expectedMetric.aggregatedComplexity, actualClass.getAggregatedComplexity())
     }
 
-    protected void assertMethodMetrics(String message, MetricValue expectedMetric, FullMethodInfo actualMethod) {
+    protected void assertMethodMetrics(String message, MetricValue expectedMetric, MethodInfo actualMethod) {
         assertEquals(message + " statements",
                 expectedMetric.statements, actualMethod.getRawMetrics().getNumStatements())
         assertEquals(message + " aggregated statements",
@@ -140,12 +138,12 @@ abstract class AggregatedMetricsTestBase {
      * @param key
      * @return MethodInfo or throws assertion failure
      */
-    FullMethodInfo findMethod(PackageInfo packageInfo, RegistryKey key) {
+    MethodInfo findMethod(PackageInfo packageInfo, RegistryKey key) {
         for (ClassInfo classInfo : packageInfo.getClasses()) {
             if (classInfo.getName().equals(key.className)) {
                 for (MethodInfo methodInfo : classInfo.getAllMethods()) {
                     if (methodInfo.getSimpleName().equals(key.methodName)) {
-                        return (FullMethodInfo)methodInfo
+                        return methodInfo
                     }
                 }
             }
@@ -161,13 +159,13 @@ abstract class AggregatedMetricsTestBase {
      * @param key
      * @return List&lt;MethodInfo&gt
      */
-    List<FullMethodInfo> findAllMethods(PackageInfo packageInfo, RegistryKey key) {
-        List<FullMethodInfo> ret = newLinkedList()
+    List<MethodInfo> findAllMethods(PackageInfo packageInfo, RegistryKey key) {
+        List<MethodInfo> ret = newLinkedList()
         for (ClassInfo classInfo : packageInfo.getClasses()) {
             if (classInfo.getName().equals(key.className)) {
                 for (MethodInfo methodInfo : classInfo.getMethods()) {
                     if (methodInfo.getSimpleName().equals(key.methodName)) {
-                        ret.add((FullMethodInfo)methodInfo)
+                        ret.add(methodInfo)
                     }
                 }
             }
@@ -229,7 +227,7 @@ abstract class AggregatedMetricsTestBase {
      * @param projectInfo
      * @param out
      */
-    protected void printProjectTree(FullProjectInfo projectInfo, PrintStream out) {
+    protected void printProjectTree(ProjectInfo projectInfo, PrintStream out) {
         int level = 0
         printIndent(out, level, "<project name=\"" + projectInfo.getName() + "\" version=\"" + projectInfo.getVersion() + "\">")
 
@@ -239,23 +237,22 @@ abstract class AggregatedMetricsTestBase {
 
             level++
             for (FileInfo fileInfo : packageInfo.getFiles()) {
-                BaseFileInfo baseFileInfo = (BaseFileInfo)fileInfo
-                printIndent(out, level, "<file name=\"" + baseFileInfo.getName() + "\" timestamp=\"" + baseFileInfo.getTimestamp() + "\">")
+                printIndent(out, level, "<file name=\"" + fileInfo.getName() + "\" timestamp=\"" + fileInfo.getTimestamp() + "\">")
 
                 level++
 
                 // statements
-                for (StatementInfo stmt : baseFileInfo.getStatements()) {
+                for (StatementInfo stmt : fileInfo.getStatements()) {
                     printStatement(out, level, stmt)
                 }
 
                 // methods
-                for (MethodInfo methodInfo : baseFileInfo.getMethods()) {
+                for (MethodInfo methodInfo : fileInfo.getMethods()) {
                     printMethod(out, level, methodInfo)
                 }
 
                 // classes
-                for (ClassInfo classInfo : baseFileInfo.getClasses()) {
+                for (ClassInfo classInfo : fileInfo.getClasses()) {
                     printClass(out, level, classInfo)
                 }
                 level--

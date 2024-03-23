@@ -9,6 +9,8 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.openclover.eclipse.core.CloverPlugin;
 
+import static org.openclover.eclipse.core.CloverPlugin.logDebug;
+
 public class PathUtils {
     public static boolean isAncestorOrDescendantOfContainer(IContainer container, IResource resource) {
         return isDescendantOfContainer(container, resource) || isAncestorOfContainer(container, resource);
@@ -36,7 +38,7 @@ public class PathUtils {
             try {
                 resource.refreshLocal(IResource.DEPTH_ZERO, null);
             } catch (CoreException e) {
-                CloverPlugin.logDebug("Unable to refresh folder to see if it exists or not: " + resource.getLocation(), e);
+                logDebug("Unable to refresh folder to see if it exists or not: " + resource.getLocation(), e);
             }
             if (!resource.exists()) {
                 makeDerivedFolder((IFolder)resource);

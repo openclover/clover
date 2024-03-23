@@ -46,7 +46,7 @@ limitations under the License.
             <dependency groupId="org.ow2.asm" artifactId="asm" version="4.2"/>
             <!-- to have groovyc task -->
             <dependency groupId="org.codehaus.groovy" artifactId="groovy-all" version="2.3.9"/>
-            <!-- to have Clover instrumentation -->
+            <!-- to have OpenClover instrumentation -->
             <dependency groupId="org.openclover" artifactId="clover" version="4.4.1"/>
         </artifact:dependencies>
         <echo message="classpath.spock=${toString:classpath.spock}"/>
@@ -99,7 +99,7 @@ limitations under the License.
     </target>
 
     <target name="report-with-xml" depends="test"
-            description="Generate Clover HTML report with test results provided in an external XML">
+            description="Generate OpenClover HTML report with test results provided in an external XML">
         <clover-report initstring="${target.clover.db}">
             <current outfile="${target.clover.report}">
                 <format type="html" />

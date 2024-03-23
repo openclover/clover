@@ -1,6 +1,6 @@
 package org.openclover.core;
 
-import org.openclover.core.registry.CoverageDataProvider;
+import org.openclover.core.api.registry.CoverageDataProvider;
 
 import java.util.BitSet;
 

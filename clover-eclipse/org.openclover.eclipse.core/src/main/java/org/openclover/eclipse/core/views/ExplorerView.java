@@ -56,6 +56,7 @@ import java.util.Set;
 
 import static org.openclover.core.util.Maps.newHashMap;
 import static org.openclover.core.util.Maps.newLinkedHashMap;
+import static org.openclover.eclipse.core.CloverPlugin.logError;
 
 public abstract class ExplorerView extends CloverViewPart {
     public static final int ACTION_OPEN = 0;
@@ -341,7 +342,7 @@ public abstract class ExplorerView extends CloverViewPart {
             try {
                 actionGroup.fillContextMenu(manager);
             } catch (Exception e) {
-                CloverPlugin.logError("Failed to fully construct context menu", e);
+                logError("Failed to fully construct context menu", e);
             }
         }
     }
@@ -359,7 +360,7 @@ public abstract class ExplorerView extends CloverViewPart {
         try {
             treeViewer.setSelection(treeViewer.getSelection());
         } catch (Exception e) {
-            CloverPlugin.logError("Error nudging selection listeners", e);
+            logError("Error nudging selection listeners", e);
         }
     }
 

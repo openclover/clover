@@ -1,21 +1,20 @@
 package org.openclover.core.api.registry;
 
-public interface ProjectInfo extends EntityContainer, HasPackages, HasContextFilter, HasMetrics {
+import org.openclover.core.util.Path;
 
-    /**
-     * Returns name of the project
-     *
-     * @return String project name or <code>null</code>
-     */
-    @Override
-    String getName();
+import java.util.List;
 
-    /**
-     * Returns true if project is empty.
-     *
-     * @return boolean - true if getAllPackages() is empty
-     */
-    boolean isEmpty();
+public interface ProjectInfo
+        extends EntityContainer, HasPackages, HasContextFilter, HasMetrics,
+        HasVersions, CoverageDataReceptor, IsCacheable {
+
+    void addPackage(PackageInfo pkg);
+
+    ProjectInfo copy();
+
+    ProjectInfo copy(HasMetricsFilter filter);
+
+    ProjectInfo copy(HasMetricsFilter filter, ContextSet contextFilter);
 
     /**
      * Searches and returns a class having the specified fully qualified name
@@ -33,4 +32,46 @@ public interface ProjectInfo extends EntityContainer, HasPackages, HasContextFil
      */
     FileInfo findFile(String pkgPath);
 
+    PackageFragment findPackageFragment(String packageName);
+
+    List<ClassInfo> getClasses(HasMetricsFilter filter);
+
+    List<FileInfo> getFiles(HasMetricsFilter filter);
+
+    /**
+     * Returns name of the project
+     *
+     * @return String project name or <code>null</code>
+     */
+    @Override
+    String getName();
+
+    PackageInfo getDefaultPackage();
+
+    PackageInfo getNamedPackage(String name);
+
+    List<PackageInfo> getPackages(HasMetricsFilter filter);
+
+    PackageFragment[] getPackageRoots();
+
+    boolean hasTestResults();
+
+    /**
+     * Returns true if project is empty.
+     *
+     * @return boolean - true if getAllPackages() is empty
+     */
+    boolean isEmpty();
+
+    void resolve(Path sourcePath);
+
+    void setContextFilter(ContextSet filter);
+
+    void setDataLength(int length);
+
+    void setHasTestResults(boolean hasTestResults);
+
+    void setName(String name);
+
+    void visitFiles(FileInfoVisitor visitor);
 }

@@ -1,15 +1,12 @@
 package org.openclover.core.reporters.json;
 
-
 import clover.org.apache.velocity.VelocityContext;
 import org.openclover.core.api.command.ArgProcessor;
 import org.openclover.core.api.command.HelpBuilder;
 import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.PackageInfo;
+import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.cfg.Interval;
-import org.openclover.core.registry.entities.FullFileInfo;
-import org.openclover.core.registry.entities.FullPackageInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.reporters.CloverReportConfig;
 import org.openclover.core.reporters.CloverReporter;
 import org.openclover.core.reporters.Current;
@@ -39,13 +36,11 @@ import static org.openclover.core.util.Lists.newArrayList;
 
 public class JSONReporter extends CloverReporter {
 
-    @SuppressWarnings("unchecked")
     private static final List<ArgProcessor<Current>> mandatoryArgProcessors = newArrayList(
             InitString,
             OutputDirJson
     );
 
-    @SuppressWarnings("unchecked")
     private static final List<ArgProcessor<Current>> optionalArgProcessors = newArrayList(
             AlwaysReport,
             DebugLogging,
@@ -76,14 +71,15 @@ public class JSONReporter extends CloverReporter {
     public int executeImpl() throws CloverException {
         final long currentStartTime = System.currentTimeMillis();
 
-        final FullProjectInfo projectInfo = database.getAppOnlyModel();
+        final ProjectInfo projectInfo = database.getAppOnlyModel();
         projectInfo.buildCaches();
-        final List<? extends PackageInfo> allPackages = projectInfo.getAllPackages();
+        final List<PackageInfo> allPackages = projectInfo.getAllPackages();
 
         try {
             CloverUtils.createDir(basePath);
 
-            final CloverExecutor service = CloverExecutors.newCloverExecutor(getConfigAsCurrent().getNumThreads(), "Clover-JSON");
+            final CloverExecutor service = CloverExecutors.newCloverExecutor(getConfigAsCurrent().getNumThreads(),
+                    "OpenClover-JSON");
             Logger.getInstance().info("Generating JSON report to: " + getConfigAsCurrent().getOutFile().getAbsolutePath());
 
             RenderFileJSONAction.initThreadLocals();
@@ -113,8 +109,7 @@ public class JSONReporter extends CloverReporter {
                     getConfigAsCurrent(),
                     getConfigAsCurrent().getOutFile()));
 
-            for (PackageInfo packageInfo : allPackages) {
-                final FullPackageInfo pkg = (FullPackageInfo) packageInfo;
+            for (PackageInfo pkg : allPackages) {
 
                 Logger.getInstance().verbose("Processing package " + pkg.getName());
                 final long start = System.currentTimeMillis();
@@ -152,10 +147,10 @@ public class JSONReporter extends CloverReporter {
         return 0;
     }
 
-    private void processPackage(FullPackageInfo pkg, CloverExecutor service) throws Exception {
-        final List<? extends FileInfo> files = pkg.getFiles();
+    private void processPackage(PackageInfo pkg, CloverExecutor service) throws Exception {
+        final List<FileInfo> files = pkg.getFiles();
 
-        final FullProjectInfo projectInfo = database.getFullModel();
+        final ProjectInfo projectInfo = database.getFullModel();
         projectInfo.buildCaches();
 
         final File basedir = CloverUtils.createOutDir(pkg, getConfigAsCurrent().getOutFile());
@@ -168,13 +163,13 @@ public class JSONReporter extends CloverReporter {
         service.submit(new RenderCloudsJSONAction.ForPackages.OfTheirQuickWins(new VelocityContext(), pkg, getConfigAsCurrent(), basedir, false));
 
         for (FileInfo file : files) {
-            service.submit(new RenderFileJSONAction(
-                    (FullFileInfo) file, renderingHelper, getConfigAsCurrent(), new VelocityContext(), database, projectInfo));
+            service.submit(
+                    new RenderFileJSONAction(
+                            file, renderingHelper, getConfigAsCurrent(), new VelocityContext(), database, projectInfo));
         }
     }
 
     public static void main(String[] args) {
-        loadLicense();
         System.exit(runReport(args));
     }
 

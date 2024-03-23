@@ -2,12 +2,12 @@ package org.openclover.eclipse.core.ui.editors.java;
 
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.api.registry.BranchInfo;
-import org.openclover.core.registry.entities.FullElementInfo;
+import org.openclover.core.api.registry.ElementInfo;
+import org.openclover.core.api.registry.MethodInfo;
+import org.openclover.core.api.registry.StatementInfo;
+import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
-import org.openclover.core.registry.entities.FullMethodInfo;
-import org.openclover.core.registry.entities.FullStatementInfo;
 import org.openclover.core.registry.entities.LineInfo;
-import org.openclover.core.registry.entities.TestCaseInfo;
 
 import java.util.Arrays;
 import java.util.Set;
@@ -19,12 +19,12 @@ public class LineCoverageModelImpl implements ILineCoverageModel {
         public boolean failed;
     }
 
-    private Entry[] entries;
-    private boolean[] hasMisses;
-    private boolean[] hasHits;
-    private boolean[] hasPassedHits;
-    private boolean[] hasFailedHits;
-    private boolean[] isFiltered;
+    private final Entry[] entries;
+    private final boolean[] hasMisses;
+    private final boolean[] hasHits;
+    private final boolean[] hasPassedHits;
+    private final boolean[] hasFailedHits;
+    private final boolean[] isFiltered;
 
     public LineCoverageModelImpl(CloverDatabase cloverDatabase,
             FullFileInfo fileInfo) {
@@ -55,11 +55,11 @@ public class LineCoverageModelImpl implements ILineCoverageModel {
             }
 
             // check if signature of any method starts at given line, if yes fetch information for first method
-            final FullMethodInfo[] methodStarts = lineInfo.getMethodStarts();
+            final MethodInfo[] methodStarts = lineInfo.getMethodStarts();
 
-            if (methodStarts != null && methodStarts.length > 0) {
+            if (methodStarts.length > 0) {
                 // take only first method as it's unusual to see multiple methods in one line
-                final FullMethodInfo methodInfo = methodStarts[0];
+                final MethodInfo methodInfo = methodStarts[0];
                 final Set<TestCaseInfo> testCaseInfos = cloverDatabase.getTestHits(methodInfo);
                 final Entry entry = new EntryImpl(methodInfo, testCaseInfos);
 
@@ -92,12 +92,12 @@ public class LineCoverageModelImpl implements ILineCoverageModel {
             }
 
             // get all statements present in given source line
-            final FullStatementInfo[] statements = lineInfo.getStatements();
+            final StatementInfo[] statements = lineInfo.getStatements();
 
             // calculate filter for line; if at least one statement is not filtered, then the whole line is not filtered
             boolean isLineWithStatementsFiltered = true;
-            if (statements != null && statements.length > 0) {
-                for (FullStatementInfo statementInfo : statements) {
+            if (statements.length > 0) {
+                for (StatementInfo statementInfo : statements) {
                     // check if the whole statement is not filtered-out (e.g. by statement regexp context or by block context)
                     if ( !statementInfo.isFiltered(fileInfo.getContextFilter()) ) {
                         isLineWithStatementsFiltered = false;
@@ -106,8 +106,8 @@ public class LineCoverageModelImpl implements ILineCoverageModel {
                 }
             }
 
-            if (statements != null && statements.length > 0) {
-                for (FullStatementInfo statementInfo : statements) {
+            if (statements.length > 0) {
+                for (StatementInfo statementInfo : statements) {
                     final Set<TestCaseInfo> testCaseInfos = cloverDatabase.getTestHits(statementInfo);
                     final Entry entry = new EntryImpl(statementInfo, testCaseInfos);
 
@@ -137,7 +137,7 @@ public class LineCoverageModelImpl implements ILineCoverageModel {
 
             // get all branches present in given source line
             final BranchInfo[] branchInfos = lineInfo.getBranches();
-            if (branchInfos != null && branchInfos.length > 0) {
+            if (branchInfos.length > 0) {
                 for (BranchInfo branchInfo : branchInfos) {
                     // note: there is no need to check pass/fail hits for test cases, as the branch is always a part of
                     // a statement, so it's already calculated in the code block above;
@@ -157,31 +157,31 @@ public class LineCoverageModelImpl implements ILineCoverageModel {
     @Override
     public boolean hasMissesInLine(int lineNumber) {
         final int idx = lineNumber + 1;
-        return idx < hasMisses.length ? hasMisses[idx] : false;
+        return idx < hasMisses.length && hasMisses[idx];
     }
 
     @Override
     public boolean hasHitsInLine(int lineNumber) {
         final int idx = lineNumber + 1;
-        return idx < hasHits.length ? hasHits[idx] : false;
+        return idx < hasHits.length && hasHits[idx];
     }
 
     @Override
     public boolean hasPassedHitsInLine(int lineNumber) {
         final int idx = lineNumber + 1;
-        return idx < hasPassedHits.length ? hasPassedHits[idx] : false;
+        return idx < hasPassedHits.length && hasPassedHits[idx];
     }
 
     @Override
     public boolean hasFailedHitsInLine(int lineNumber) {
         final int idx = lineNumber + 1;
-        return idx < hasFailedHits.length ? hasFailedHits[idx] : false;
+        return idx < hasFailedHits.length && hasFailedHits[idx];
     }
 
     @Override
     public boolean isFilteredInLine(int lineNumber) {
         final int idx = lineNumber + 1;
-        return idx < isFiltered.length ? isFiltered[idx] : false;
+        return idx < isFiltered.length && isFiltered[idx];
     }
 
     @Override
@@ -216,16 +216,16 @@ public class LineCoverageModelImpl implements ILineCoverageModel {
     }
 
     static class EntryImpl implements Entry {
-        private final FullElementInfo elementInfo;
+        private final ElementInfo elementInfo;
         private final Set<TestCaseInfo> testCaseInfos;
 
-        public EntryImpl(FullElementInfo elementInfo, Set<TestCaseInfo> testCaseInfos) {
+        public EntryImpl(ElementInfo elementInfo, Set<TestCaseInfo> testCaseInfos) {
             this.elementInfo = elementInfo;
             this.testCaseInfos = testCaseInfos;
         }
 
         @Override
-        public FullElementInfo getElementInfo() {
+        public ElementInfo getElementInfo() {
             return elementInfo;
         }
 

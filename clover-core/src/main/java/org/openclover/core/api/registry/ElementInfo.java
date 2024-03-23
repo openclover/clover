@@ -1,5 +1,7 @@
 package org.openclover.core.api.registry;
 
+import org.openclover.core.spi.lang.LanguageConstruct;
+
 /**
  *
  */
@@ -13,5 +15,11 @@ public interface ElementInfo extends SourceInfo {
      * @return int complexity
      */
     int getComplexity();
+
+    LanguageConstruct getConstruct();
+
+    void setContext(ContextSet context);
+
+    boolean isFiltered(ContextSet filter);
 }
 
