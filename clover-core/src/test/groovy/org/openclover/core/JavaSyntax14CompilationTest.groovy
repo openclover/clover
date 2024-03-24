@@ -240,6 +240,10 @@ class JavaSyntax14CompilationTest extends JavaSyntaxCompilationTestBase {
 
         assertFileMatches(fileName, quote("case 0, 1, 2*3 ->") + R_CASE_EXPRESSION_WITH_YIELD_LEFT + quote(" 10;") + R_CASE_EXPRESSION_RIGHT)
         assertFileMatches(fileName, quote("case 0, 1, 2 ->") + R_CASE_EXPRESSION_WITH_YIELD_LEFT + quote(" 20;") + R_CASE_EXPRESSION_RIGHT)
+
+        assertFileMatches(fileName, quote("case 0, 1, 2*3:") + R_INC + " " + R_INC + quote("yield 10;"))
+        assertFileMatches(fileName, quote("default:") + R_INC + " " + R_INC + quote("yield 11;"))
+
 // TODO pattern matching since JDK21
 //        assertFileMatches(fileName, quote("case null -> ") + R_CASE_EXPRESSION_LEFT + quote("21;") + R_CASE_EXPRESSION_RIGHT)
 //        assertFileMatches(fileName, quote("case null, default -> ") + R_CASE_EXPRESSION_LEFT + quote("31;") + R_CASE_EXPRESSION_RIGHT)

@@ -8,6 +8,14 @@ public class Java14SwitchExpressionWithMultiValueCase {
         };
     }
 
+    static void switchExpressionWithMultipleCaseValues2(int i) {
+        int k;
+        k = switch (i) {
+            case 0, 1, 2*3: yield 10;
+            default: yield 11;
+        };
+    }
+
     static void switchExpressionWithNullAsCase(int i) {
         Integer j = Integer.valueOf(i);
         int k = switch (j) {

@@ -2643,6 +2643,17 @@ colonCase[FlagDeclEmitter flag] returns [int complexity]
                 pos = si1;
                 complexity++;
             }
+            (
+                COMMA
+                {
+                    constExpr = true;
+                }
+                constantExpression
+                {
+                    constExpr = false;
+                    complexity++;
+                }
+            )*
         |
             si2:DEFAULT
             {
@@ -3512,7 +3523,7 @@ primaryExpressionPart returns [ContextSetAndComplexity ret]
         ret = lambdaSwitchExpression[null, true]
     |
         // even the old one colon switch has been retrofitted
-        ( SWITCH LPAREN expression RPAREN LCURLY (CASE expression | DEFAULT) COLON) =>
+        ( SWITCH LPAREN expression RPAREN LCURLY (CASE constantExpression (COMMA constantExpression)* | DEFAULT) COLON) =>
         ret = colonSwitchExpression[null, true]
     ;
 
