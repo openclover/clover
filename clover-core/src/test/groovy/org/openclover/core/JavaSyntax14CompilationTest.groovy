@@ -167,12 +167,12 @@ class JavaSyntax14CompilationTest extends JavaSyntaxCompilationTestBase {
         instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_14)
 
         // switch as a statement but with non-void lambdas (aka switch value is ignored)
-        assertFileMatches(fileName, quote("case 1 ->") + R_CASE_EXPRESSION_WITH_YIELD_LEFT +
-                quote("/*CLOVER:YIELD*/ 1;") + R_CASE_EXPRESSION_RIGHT)
-        assertFileMatches(fileName, quote("case 2 ->") + R_CASE_EXPRESSION_WITH_YIELD_LEFT +
-                quote("/*CLOVER:YIELD*/ 2;") + R_CASE_EXPRESSION_RIGHT)
-        assertFileMatches(fileName, quote("default ->") + R_CASE_EXPRESSION_WITH_YIELD_LEFT +
-                quote("/*CLOVER:YIELD*/ 3;") + R_CASE_EXPRESSION_RIGHT)
+        assertFileMatches(fileName, quote("case 1 ->") + R_CASE_EXPRESSION_NO_YIELD_LEFT +
+                quote(" foo(1);") + R_CASE_EXPRESSION_RIGHT)
+        assertFileMatches(fileName, quote("case 2 ->") + R_CASE_EXPRESSION_NO_YIELD_LEFT +
+                quote(" foo(2);") + R_CASE_EXPRESSION_RIGHT)
+        assertFileMatches(fileName, quote("default ->") + R_CASE_EXPRESSION_NO_YIELD_LEFT +
+                quote(" foo(3);") + R_CASE_EXPRESSION_RIGHT)
     }
 
     @Test

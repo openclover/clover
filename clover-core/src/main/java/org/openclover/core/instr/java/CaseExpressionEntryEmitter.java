@@ -17,7 +17,7 @@ import static org.openclover.runtime.instr.Bindings.$CoverageRecorder$inc;
  * </pre>
  * into:
  * <pre>
- *    case 0 -> { R.inc(123); return "abc";
+ *    case 0 -> { R.inc(123); yield "abc";
  *              ~~~~~~~~~~~~~~~~~~~~ ^    ^
  * </pre>
  * <br/>
@@ -36,7 +36,7 @@ import static org.openclover.runtime.instr.Bindings.$CoverageRecorder$inc;
  * It's not possible to determine whether a given method returns a value or is void. Thus, we assume
  * that if the switch is used inside an expression (e.g. variable assignment, return value, method call argument),
  * then all case expressions must return a value too. This will not be true if a value of the switch statement
- * is ignored. In such case, a special code comment can be to guide the emitter.
+ * is ignored, luckily it should be enough to just call the original method;
  * <br/>
  * See also: {@link CaseExpressionExitEmitter}
  */
@@ -60,8 +60,7 @@ public class CaseExpressionEntryEmitter extends Emitter {
 
     /**
      * Whether the case expression is placed inside a switch statement being part of on expression.
-     * If yes, then it means that we must add the "return" keyword. Notice that presence of 'CLOVER:YIELD'
-     * will also add the "yield" keyword, even if isInsideExpression is false.
+     * If yes, then it means that we must add the "yield" keyword.
      */
     private final boolean isInsideExpression;
 
@@ -91,16 +90,9 @@ public class CaseExpressionEntryEmitter extends Emitter {
                     complexity,
                     LanguageConstruct.Builtin.STATEMENT);
 
-            // if inside expression or 'CLOVER:YIELD' present then add "yield"
-            boolean withYield = isInsideExpression;
-            if (state.needsYieldKeyword()) {
-                withYield = true;
-                state.setNeedsYieldKeyword(false); // the flag is used only once
-            }
-
             // emit text like [{__CLRxxxxxxxx.inc(123);yield ] or [{__CLRxxxxxxxx.inc(123);]
             final String instr;
-            if (withYield) {
+            if (isInsideExpression) {
                 instr = "{" + $CoverageRecorder$inc(state.getRecorderPrefix(), Integer.toString(stmtInfo.getDataIndex())) + ";yield ";
             } else {
                 instr = "{" + $CoverageRecorder$inc(state.getRecorderPrefix(), Integer.toString(stmtInfo.getDataIndex())) + ";";
