@@ -50,11 +50,11 @@ public class Java14SwitchExpressionCaseAndDefaultWithLambdas {
     }
 
     static void switchExpressionWithIgnoredValueNeedsCloverDirective(int i) {
-        // a non-standard case when value returned by switch is ignored, we must instruct openclover to add returns
+        // a non-standard case when value returned by switch is ignored, we must instruct openclover to add yield
         switch (i) {
-            case 1 -> /*CLOVER:RETURN*/ 1;
-            case 2 -> /*CLOVER:RETURN*/ 2;
-            default -> /*CLOVER:RETURN*/ 3;
+            case 1 -> /*CLOVER:YIELD*/ 1;
+            case 2 -> /*CLOVER:YIELD*/ 2;
+            default -> /*CLOVER:YIELD*/ 3;
         }
     }
 

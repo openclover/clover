@@ -45,7 +45,7 @@ public class CloverTokenStreamFilter extends TokenStreamHiddenTokenFilter {
     private static final String DIRECTIVE_OFF = "OFF";
     private static final String DIRECTIVE_FLUSH = "FLUSH";
     private static final String DIRECTIVE_LAMBDA_VOID = "VOID";
-    private static final String DIRECTIVE_CASE_RETURN = "RETURN";
+    private static final String DIRECTIVE_CASE_YIELD = "YIELD";
 
     private CloverToken last = null;
     private CloverToken first = null;
@@ -148,9 +148,9 @@ public class CloverTokenStreamFilter extends TokenStreamHiddenTokenFilter {
             } else {
                 Logger.getInstance().debug(filePath + ":" + curLine + ": could not declare lambda expression as void since there's no method stack");
             }
-        } else if (rest.startsWith(DIRECTIVE_CASE_RETURN)) {
+        } else if (rest.startsWith(DIRECTIVE_CASE_YIELD)) {
             Logger.getInstance().debug(filePath + ":" + curLine + ": inserting return as per directive");
-            state.setNeedsReturnKeyword(true);
+            state.setNeedsYieldKeyword(true);
         } else {
             Logger.getInstance().warn(filePath + ":" + curLine + ": ignoring unknown OpenClover directive");
         }

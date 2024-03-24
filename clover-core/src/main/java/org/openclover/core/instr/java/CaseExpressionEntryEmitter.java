@@ -60,8 +60,8 @@ public class CaseExpressionEntryEmitter extends Emitter {
 
     /**
      * Whether the case expression is placed inside a switch statement being part of on expression.
-     * If yes, then it means that we must add the "return" keyword. Notice that presence of 'CLOVER:RETURN'
-     * will also add the "return" keyword, even if isInsideExpression is false.
+     * If yes, then it means that we must add the "return" keyword. Notice that presence of 'CLOVER:YIELD'
+     * will also add the "yield" keyword, even if isInsideExpression is false.
      */
     private final boolean isInsideExpression;
 
@@ -91,17 +91,17 @@ public class CaseExpressionEntryEmitter extends Emitter {
                     complexity,
                     LanguageConstruct.Builtin.STATEMENT);
 
-            // if inside expression or 'CLOVER:RETURN' present then add "return"
-            boolean withReturn = isInsideExpression;
-            if (state.needsReturnKeyword()) {
-                withReturn = true;
-                state.setNeedsReturnKeyword(false); // the flag is used only once
+            // if inside expression or 'CLOVER:YIELD' present then add "yield"
+            boolean withYield = isInsideExpression;
+            if (state.needsYieldKeyword()) {
+                withYield = true;
+                state.setNeedsYieldKeyword(false); // the flag is used only once
             }
 
-            // emit text like [{__CLRxxxxxxxx.inc(123);return] or [{__CLRxxxxxxxx.inc(123);]
+            // emit text like [{__CLRxxxxxxxx.inc(123);yield ] or [{__CLRxxxxxxxx.inc(123);]
             final String instr;
-            if (withReturn) {
-                instr = "{" + $CoverageRecorder$inc(state.getRecorderPrefix(), Integer.toString(stmtInfo.getDataIndex())) + ";return ";
+            if (withYield) {
+                instr = "{" + $CoverageRecorder$inc(state.getRecorderPrefix(), Integer.toString(stmtInfo.getDataIndex())) + ";yield ";
             } else {
                 instr = "{" + $CoverageRecorder$inc(state.getRecorderPrefix(), Integer.toString(stmtInfo.getDataIndex())) + ";";
             }

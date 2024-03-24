@@ -62,8 +62,8 @@ abstract class JavaSyntaxCompilationTestBase {
     protected final String R_LAMBDA_INC_RIGHT = ",[0-9]+\\)"
 
     /** Regular expression for case expression returning value and returning void */
-    protected final String R_CASE_EXPRESSION_WITH_RETURN_LEFT = "\\{" + R_INC + "return "
-    protected final String R_CASE_EXPRESSION_NO_RETURN_LEFT = "\\{" + R_INC
+    protected final String R_CASE_EXPRESSION_WITH_YIELD_LEFT = "\\{" + R_INC + "yield "
+    protected final String R_CASE_EXPRESSION_NO_YIELD_LEFT = "\\{" + R_INC
     protected final String R_CASE_EXPRESSION_RIGHT = "\\}"
 
     protected File mTestcasesSrcDir

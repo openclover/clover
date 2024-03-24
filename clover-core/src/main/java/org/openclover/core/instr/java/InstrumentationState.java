@@ -21,7 +21,7 @@ public class InstrumentationState implements TestDetector.SourceContext {
     private int boolIndex;
     private String recorderPrefix;
     private boolean needsFlush = false;
-    private boolean needsReturn = false;
+    private boolean needsYield = false;
     private boolean dirty = false;
     private boolean instrEnabled = true;
     private boolean detectTests = false;
@@ -93,12 +93,12 @@ public class InstrumentationState implements TestDetector.SourceContext {
         this.needsFlush = needsFlush;
     }
 
-    public boolean needsReturnKeyword() {
-        return needsReturn;
+    public boolean needsYieldKeyword() {
+        return needsYield;
     }
 
-    public void setNeedsReturnKeyword(boolean needsReturn) {
-        this.needsReturn = needsReturn;
+    public void setNeedsYieldKeyword(boolean needsYield) {
+        this.needsYield = needsYield;
     }
 
     public void setInstrContext(ContextSet instrContext) {
