@@ -24,7 +24,6 @@ import static org.openclover.runtime.instr.Bindings.$CloverVersionInfo$oldVersio
 public class RecorderInstrEmitter extends Emitter {
 
     static final String LAMBDA_INC_METHOD = "lambdaInc";
-    static final String CASE_INC_METHOD = "caseInc";
 
     private static final String INCOMPATIBLE_MSG =
             "WARNING: The OpenClover version used in instrumentation shall match the runtime version.";
@@ -35,7 +34,6 @@ public class RecorderInstrEmitter extends Emitter {
 
     private boolean isEnum;
     private boolean reportInitErrors;
-    private boolean classInstrStrategy;
     private String recorderPrefix;
     private long recorderCfg;
     private String initString;
@@ -76,7 +74,6 @@ public class RecorderInstrEmitter extends Emitter {
     private boolean shouldEmitWarningMethod;
     private List<CloverProfile> profiles;
     private boolean areLambdasSupported;
-    private boolean areSwitchExpressionsSupported;
 
     public RecorderInstrEmitter(boolean isEnum) {
         super();
@@ -88,7 +85,6 @@ public class RecorderInstrEmitter extends Emitter {
         // save these configs as instance variables, in case state changes between now and exec().
         recorderCfg = getConfigBits(state.getCfg());
         recorderPrefix = state.getRecorderPrefix();
-        classInstrStrategy = state.getCfg().isClassInstrStrategy();
         reportInitErrors = state.getCfg().isReportInitErrors();
         initString = state.getCfg().getInitString();
         distributedConfig = state.getCfg().getDistributedConfigString();
@@ -96,7 +92,6 @@ public class RecorderInstrEmitter extends Emitter {
         registryVersion = state.getSession().getVersion();
         javaLangPrefix = state.getCfg().getJavaLangPrefix();
         areLambdasSupported = state.getCfg().getSourceLevel().supportsFeature(LanguageFeature.LAMBDA);
-        areSwitchExpressionsSupported = state.getCfg().getSourceLevel().supportsFeature(LanguageFeature.SWITCH_EXPRESSIONS);
         testClass = state.isDetectTests();
         isSpockTestClass = state.isSpockTestClass();
         isParameterizedJUnitTestClass = state.isParameterizedJUnitTestClass();
@@ -114,93 +109,74 @@ public class RecorderInstrEmitter extends Emitter {
     @Override
     public String getInstr() {
         String instrString;
-        if (classInstrStrategy || isEnum) {
-            String recorderBase = recorderPrefix.substring(0, recorderPrefix.lastIndexOf('.'));
-            String recorderSuffix = recorderPrefix.substring(recorderPrefix.lastIndexOf('.') + 1);
+        String recorderBase = recorderPrefix.substring(0, recorderPrefix.lastIndexOf('.'));
+        String recorderSuffix = recorderPrefix.substring(recorderPrefix.lastIndexOf('.') + 1);
 
-            // public static class __CLR3_1_600hckkb3w8 {
-            instrString = (testClass ? "" : "public ") + "static class " + recorderBase + "{";
-            // public static org_openclover_runtime.CoverageRecorder R;
-            instrString += "public static " + CoverageRecorder.class.getName() + " " + recorderSuffix + ";";
+        // public static class __CLR3_1_600hckkb3w8 {
+        instrString = (testClass ? "" : "public ") + "static class " + recorderBase + "{";
+        // public static org_openclover_runtime.CoverageRecorder R;
+        instrString += "public static " + CoverageRecorder.class.getName() + " " + recorderSuffix + ";";
 
-            // add a field with a static array containing list of profiles
-            instrString += generateCloverProfilesField(profiles);
+        // add a field with a static array containing list of profiles
+        instrString += generateCloverProfilesField(profiles);
 
-            // add a lambdaInc() wrapper method for lambdas - only for java8 or higher
-            if (areLambdasSupported) {
-                instrString += generateLambdaIncMethod(recorderSuffix);
-            }
-
-            // add caseInc() wrappers for switch case written as expressions
-            if (areSwitchExpressionsSupported) {
-                instrString += generateCaseIncValueMethod(recorderSuffix);
-                instrString += generateCaseIncVoidMethod(recorderSuffix);
-            }
-
-            // static initialization block
-            instrString += "static{";
-
-            //CoverageRecorder _REC = null;
-            instrString += CoverageRecorder.class.getName() + " _" + recorderSuffix + "=null;";
-
-            if (reportInitErrors) {
-                instrString += "try{"
-                        + (shouldEmitWarningMethod ? ($CloverVersionInfo$oldVersionInClasspath() + ";") : "")
-                        + "if(" + CloverVersionInfo.getBuildStamp() + "L!="
-                        + $CloverVersionInfo$getBuildStamp() + ")" + "{" + $Clover$l("\"" + INCOMPATIBLE_MSG + "\"") + ";"
-                        + $Clover$l("\"WARNING: Instr=" + CloverVersionInfo.getReleaseNum()
-                        + "#" + CloverVersionInfo.getBuildStamp() + ",Runtime=\"+"
-                        + $CloverVersionInfo$getReleaseNum() + "+\"#\"+" + $CloverVersionInfo$getBuildStamp()) + ";}";
-            }
-
-            //REC = Clover.getRecorder(....);
-            //We make this initial assignment first so that the class the instrumenting class is shadowing
-            //is re-entrant w.r.t. instrumentation.
-            //
-            //ie once TheirClass.__CLR.<clinit> has passed this point
-            //we will not NPE if somehow there is a call on TheirClass.__CLR.R.inc(int) etc
-            //The cost of this guard is that __CLR.R is no longer final.
-            instrString += recorderSuffix + "=" + $Clover$getNullRecorder() + ";";
-
-            //Assign local to the Clover.getNullRecorder() first, in case we fail to get the real recorder.
-            //A null reference for a recorder will cause NPEs in the instrumented code
-            //_REC = Clover.getNullRecorder();
-            instrString += "_" + recorderSuffix + "=" + $Clover$getNullRecorder() + ";";
-
-            //_REC = Clover.getRecorder(....);
-            instrString += "_" + recorderSuffix + "="
-                    + $Clover$getRecorder(
-                    asUnicodeString(initString),
-                    registryVersion + "L",
-                    recorderCfg + "L",
-                    Integer.toString(maxDataIndex),
-                    "profiles",
-                    "new " + javaLangPrefix + "String[]{\"" + CloverNames.PROP_DISTRIBUTED_CONFIG + "\"," + asUnicodeString(distributedConfig) + "}") + ";";
-
-            if (reportInitErrors) {
-                instrString += "}catch(" + javaLangPrefix + "SecurityException e){" + javaLangPrefix + "System.err.println(\"" + Clover.SECURITY_EXCEPTION_MSG
-                        + " (\"+e.getClass()+\":\"+e.getMessage()+\")\");";
-                instrString += "}catch(" + javaLangPrefix + "NoClassDefFoundError e){" + javaLangPrefix + "System.err.println(\"" + classNotFoundMsg
-                        + " (\"+e.getClass()+\":\"+e.getMessage()+\")\");";
-                instrString += "}catch(" + javaLangPrefix + "Throwable t){" + javaLangPrefix + "System.err.println(\"" + UNEXPECTED_MSG
-                        + " (\"+t.getClass()+\":\"+t.getMessage()+\")\");}";
-            }
-            //REC = _REC
-            instrString += recorderSuffix + "=" + "_" + recorderSuffix + ";";
-            instrString += "}}";
-
-        } else {
-            instrString = "public static "
-                    + CoverageRecorder.class.getName() + " "
-                    + recorderPrefix + "="
-                    + $Clover$getRecorder(
-                    asUnicodeString(initString),
-                    registryVersion + "L",
-                    recorderCfg + "L",
-                    Integer.toString(maxDataIndex),
-                    generateCloverProfilesInline(profiles),
-                    "new " + javaLangPrefix + "String[]{\"" + CloverNames.PROP_DISTRIBUTED_CONFIG + "\"," + asUnicodeString(distributedConfig) + "}") + ";";
+        // add a lambdaInc() wrapper method for lambdas - only for java8 or higher
+        if (areLambdasSupported) {
+            instrString += generateLambdaIncMethod(recorderSuffix);
         }
+
+        // static initialization block
+        instrString += "static{";
+
+        //CoverageRecorder _REC = null;
+        instrString += CoverageRecorder.class.getName() + " _" + recorderSuffix + "=null;";
+
+        if (reportInitErrors) {
+            instrString += "try{"
+                    + (shouldEmitWarningMethod ? ($CloverVersionInfo$oldVersionInClasspath() + ";") : "")
+                    + "if(" + CloverVersionInfo.getBuildStamp() + "L!="
+                    + $CloverVersionInfo$getBuildStamp() + ")" + "{" + $Clover$l("\"" + INCOMPATIBLE_MSG + "\"") + ";"
+                    + $Clover$l("\"WARNING: Instr=" + CloverVersionInfo.getReleaseNum()
+                    + "#" + CloverVersionInfo.getBuildStamp() + ",Runtime=\"+"
+                    + $CloverVersionInfo$getReleaseNum() + "+\"#\"+" + $CloverVersionInfo$getBuildStamp()) + ";}";
+        }
+
+        //REC = Clover.getRecorder(....);
+        //We make this initial assignment first so that the class the instrumenting class is shadowing
+        //is re-entrant w.r.t. instrumentation.
+        //
+        //ie once TheirClass.__CLR.<clinit> has passed this point
+        //we will not NPE if somehow there is a call on TheirClass.__CLR.R.inc(int) etc
+        //The cost of this guard is that __CLR.R is no longer final.
+        instrString += recorderSuffix + "=" + $Clover$getNullRecorder() + ";";
+
+        //Assign local to the Clover.getNullRecorder() first, in case we fail to get the real recorder.
+        //A null reference for a recorder will cause NPEs in the instrumented code
+        //_REC = Clover.getNullRecorder();
+        instrString += "_" + recorderSuffix + "=" + $Clover$getNullRecorder() + ";";
+
+        //_REC = Clover.getRecorder(....);
+        instrString += "_" + recorderSuffix + "="
+                + $Clover$getRecorder(
+                asUnicodeString(initString),
+                registryVersion + "L",
+                recorderCfg + "L",
+                Integer.toString(maxDataIndex),
+                "profiles",
+                "new " + javaLangPrefix + "String[]{\"" + CloverNames.PROP_DISTRIBUTED_CONFIG + "\"," + asUnicodeString(distributedConfig) + "}") + ";";
+
+        if (reportInitErrors) {
+            instrString += "}catch(" + javaLangPrefix + "SecurityException e){" + javaLangPrefix + "System.err.println(\"" + Clover.SECURITY_EXCEPTION_MSG
+                    + " (\"+e.getClass()+\":\"+e.getMessage()+\")\");";
+            instrString += "}catch(" + javaLangPrefix + "NoClassDefFoundError e){" + javaLangPrefix + "System.err.println(\"" + classNotFoundMsg
+                    + " (\"+e.getClass()+\":\"+e.getMessage()+\")\");";
+            instrString += "}catch(" + javaLangPrefix + "Throwable t){" + javaLangPrefix + "System.err.println(\"" + UNEXPECTED_MSG
+                    + " (\"+t.getClass()+\":\"+t.getMessage()+\")\");}";
+        }
+
+        //REC = _REC
+        instrString += recorderSuffix + "=" + "_" + recorderSuffix + ";";
+        instrString += "}}";
 
         // add extra test sniffer field (required by test classes), note that it's not inside static inner recorder
         // class and that it has less 'random' name (independent of a file/class index)
@@ -274,7 +250,7 @@ public class RecorderInstrEmitter extends Emitter {
      * [java.lang.IllegalAccessException: Class CoverageRecorder$1 can not access a member of
      * class Xyz with modifiers "public abstract"].
      * <p/>
-     * Therefore in order to wrap a lambda implementing non-public interface, our wrapper must be in the same scope.
+     * Therefore, in order to wrap a lambda implementing non-public interface, our wrapper must be in the same scope.
      *
      * @return String code for "lambdaInc"
      */
@@ -304,38 +280,6 @@ public class RecorderInstrEmitter extends Emitter {
                 .append("return (I)java.lang.reflect.Proxy.newProxyInstance(l.getClass().getClassLoader(),l.getClass().getInterfaces(),h);")
                 .append("}");
         return str.toString();
-    }
-
-    /**
-     * Generates caseInc helper method to wrap case expressions returning values.
-     * <pre>
-     *     public static <T> T caseInc(int i, java.util.function.Supplier<T> s) {
-     *         inc(i);
-     *         return s.get();
-     *     }
-     * </pre>
-     * @param recorderSuffix name of the coverage recorder field
-     * @return String code of the method
-     */
-    private String generateCaseIncValueMethod(String recorderSuffix) {
-        return "public static <T> T caseInc(int i,java.util.function.Supplier<T> s){" +
-                recorderSuffix + ".inc(i);return s.get();}";
-    }
-
-    /**
-     * Generates caseInc helper method to wrap case expressions returning values.
-     * <pre>
-     *     public static void caseInc(int i, Runnable r) {
-     *         inc(i);
-     *         r.run();
-     *     }
-     * </pre>
-     * @param recorderSuffix name of the coverage recorder field
-     * @return String code of the method
-     */
-    private String generateCaseIncVoidMethod(String recorderSuffix) {
-        return "public static void caseInc(int i,Runnable r){" +
-                recorderSuffix + ".inc(i);r.run();}";
     }
 
     /**

@@ -116,15 +116,6 @@ public abstract class AbstractInstrTask extends AbstractCloverTask {
         config.setFlushPolicy(flushPolicy.getIndex());
     }
 
-    /**
-     * Set the instrumentation strategy
-     *
-     * @param instrumentation strategy to use.
-     */
-    public void setInstrumentation(AntInstrumentationConfig.Instrumentation instrumentation) {
-        config.setInstrStrategy(instrumentation.getValue());
-    }
-
     public void setInstrumentationLevel(AntInstrumentationConfig.EnumInstrumentationLevel instrumentationLevel) {
         config.setInstrLevel(instrumentationLevel.getIndex());
     }

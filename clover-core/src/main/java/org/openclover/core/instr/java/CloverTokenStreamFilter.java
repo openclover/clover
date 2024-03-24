@@ -33,19 +33,18 @@ import java.io.Writer;
  */
 public class CloverTokenStreamFilter extends TokenStreamHiddenTokenFilter {
 
-    /** a marker to indicate add at the front when dumping
-        token list to mark it as instrumented **/
-    public static final String MARKER_PREFIX =  "/* $$ This file has been instrumented by OpenClover ";
-    public static final String MARKER = MARKER_PREFIX + CloverVersionInfo.RELEASE_NUM +"#"+ CloverVersionInfo.BUILD_STAMP +" $$ */";
+    /**
+     * a marker to indicate add at the front when dumping token list to mark it as instrumented
+     */
+    public static final String MARKER_PREFIX = "/* $$ This file has been instrumented by OpenClover ";
+    public static final String MARKER = MARKER_PREFIX + CloverVersionInfo.RELEASE_NUM + "#" + CloverVersionInfo.BUILD_STAMP + " $$ */";
 
     private static final String DIRECTIVE_PREFIX = "CLOVER:";
     private static final int DIRECTIVE_LENGTH = DIRECTIVE_PREFIX.length();
     private static final String DIRECTIVE_ON = "ON";
     private static final String DIRECTIVE_OFF = "OFF";
     private static final String DIRECTIVE_FLUSH = "FLUSH";
-    private static final String DIRECTIVE_CLASS = "USECLASS";
     private static final String DIRECTIVE_LAMBDA_VOID = "VOID";
-
 
     private CloverToken last = null;
     private CloverToken first = null;
@@ -53,13 +52,12 @@ public class CloverTokenStreamFilter extends TokenStreamHiddenTokenFilter {
     private String filePath;
 
 
-
     public static void guardAgainstDoubleInstrumentation(File orig, BufferedReader bin) throws IOException, CloverException {
         Contract.check(bin.markSupported(), "Must use a markSupporting Reader when instrumenting");
 
         final int markerLength = CloverTokenStreamFilter.MARKER_PREFIX.length();
         bin.mark(markerLength);
-        final char [] chars = new char[markerLength];
+        final char[] chars = new char[markerLength];
         final int charCount = bin.read(chars, 0, markerLength);
         if (charCount == markerLength) {
             final String maybeMarker = new String(chars);
@@ -76,11 +74,12 @@ public class CloverTokenStreamFilter extends TokenStreamHiddenTokenFilter {
      * A filtering token stream that hides java comments
      * and whitespace from the parser, and builds a list
      * of tokens that it has seen.
+     *
      * @param filePath path to original source, for reporting errors
-     * @param input the CharScanner to pull tokens from
+     * @param input    the CharScanner to pull tokens from
      * @see clover.antlr.TokenStreamHiddenTokenFilter
      */
-    public CloverTokenStreamFilter(String filePath,  CharScanner input) {
+    public CloverTokenStreamFilter(String filePath, CharScanner input) {
         super(input);
         this.filePath = filePath;
         input.setTokenObjectClass(CloverToken.class.getName());
@@ -93,14 +92,14 @@ public class CloverTokenStreamFilter extends TokenStreamHiddenTokenFilter {
     private int countNewLines(String s) {
         int res = 0;
 
-        for (int i = 0; i < s.length();) {
+        for (int i = 0; i < s.length(); ) {
             // check for dos newlines
-            if (i < s.length() - 1 && s.charAt(i) == '\r' && s.charAt(i+1) == '\n') {
+            if (i < s.length() - 1 && s.charAt(i) == '\r' && s.charAt(i + 1) == '\n') {
                 res++;
                 i++;
             }
             // check for unix & mac newlines
-            else if (s.charAt(i) =='\r' || s.charAt(i) == '\n') {
+            else if (s.charAt(i) == '\r' || s.charAt(i) == '\n') {
                 res++;
             }
             i++;
@@ -116,7 +115,7 @@ public class CloverTokenStreamFilter extends TokenStreamHiddenTokenFilter {
 
         int startDirective = text.indexOf(DIRECTIVE_PREFIX);
 
-        int curLine =  tok.getLine();
+        int curLine = tok.getLine();
         while (startDirective >= 0) {
             curLine += countNewLines(text.substring(0, startDirective));
             final String rest = processDirective(state, text, startDirective, curLine);
@@ -130,19 +129,16 @@ public class CloverTokenStreamFilter extends TokenStreamHiddenTokenFilter {
     private String processDirective(InstrumentationState state, String text, int startDirective, int curLine) {
         final String rest = text.substring(startDirective + DIRECTIVE_LENGTH);
         if (rest.startsWith(DIRECTIVE_ON)) {
-            Logger.getInstance().debug(filePath+":"+curLine+": switching OpenClover instrumentation ON as per directive");
+            Logger.getInstance().debug(filePath + ":" + curLine + ": switching OpenClover instrumentation ON as per directive");
             state.setInstrEnabled(true);
             state.setInstrContext(state.getInstrContext().clear(ContextStore.CONTEXT_CLOVER_OFF));
         } else if (rest.startsWith(DIRECTIVE_OFF)) {
-            Logger.getInstance().debug(filePath+":"+curLine+": switching OpenClover instrumentation OFF as per directive");
+            Logger.getInstance().debug(filePath + ":" + curLine + ": switching OpenClover instrumentation OFF as per directive");
             state.setInstrContext(state.getInstrContext().set(ContextStore.CONTEXT_CLOVER_OFF));
             state.setInstrEnabled(false);
         } else if (rest.startsWith(DIRECTIVE_FLUSH)) {
-            Logger.getInstance().debug(filePath+":"+curLine+": inserting flush as per directive");
+            Logger.getInstance().debug(filePath + ":" + curLine + ": inserting flush as per directive");
             state.setNeedsFlush(true);
-        } else if (rest.startsWith(DIRECTIVE_CLASS)) {
-            Logger.getInstance().debug(filePath + ":" + curLine + ": using static inner holder class for instrumentation var as per directive");
-            state.getCfg().setClassInstrStragegy(true);
         } else if (rest.startsWith(DIRECTIVE_LAMBDA_VOID)) {
             final FullMethodInfo methodInfo = (FullMethodInfo) state.getSession().getCurrentMethod();
             if (methodInfo != null && methodInfo.isLambda()) {
@@ -152,16 +148,18 @@ public class CloverTokenStreamFilter extends TokenStreamHiddenTokenFilter {
                 Logger.getInstance().debug(filePath + ":" + curLine + ": could not declare lambda expression as void since there's no method stack");
             }
         } else {
-            Logger.getInstance().warn(filePath+":"+curLine+": ignoring unknown OpenClover directive");
+            Logger.getInstance().warn(filePath + ":" + curLine + ": ignoring unknown OpenClover directive");
         }
         return rest;
     }
 
-    /** @see clover.antlr.TokenStream#nextToken **/
+    /**
+     * @see clover.antlr.TokenStream#nextToken
+     **/
     @Override
     public Token nextToken() throws TokenStreamException {
 
-        CloverToken next = (CloverToken)super.nextToken();
+        CloverToken next = (CloverToken) super.nextToken();
         next.setFilter(this);
 
         if (last != null) {
@@ -200,6 +198,7 @@ public class CloverTokenStreamFilter extends TokenStreamHiddenTokenFilter {
 
     /**
      * dump the token list, including hidden whitespace and comment tokens
+     *
      * @param outWriter a <code>Writer</code> to output the token list to
      */
     public void write(Writer outWriter) throws IOException {
@@ -227,10 +226,10 @@ public class CloverTokenStreamFilter extends TokenStreamHiddenTokenFilter {
         if (last != null) {
             // at the EOF now, go back one and search for any hidden whitespace after it
             CloverToken beforeEOF = last.getPrev();
-            if (beforeEOF != null && beforeEOF.getHiddenAfter() != null)  {
+            if (beforeEOF != null && beforeEOF.getHiddenAfter() != null) {
                 CommonHiddenStreamToken curr = beforeEOF.getHiddenAfter();
                 CommonHiddenStreamToken prev = curr;
-                while (curr != null)   {
+                while (curr != null) {
                     prev = curr;
                     curr = curr.getHiddenAfter();
                 }

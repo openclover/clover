@@ -53,21 +53,17 @@ public class LambdaExpressionEntryEmitter extends Emitter {
                     lambdaSignature, false, null, true,
                     FullMethodInfo.DEFAULT_METHOD_COMPLEXITY, LanguageConstruct.Builtin.METHOD);
 
-            // wrap lambda only in class instrumentation strategy (only then lambdaInc() is defined)
-            boolean classInstrStrategy = state.getCfg().isClassInstrStrategy();
-            if (classInstrStrategy) {
-                // emit text like [__CLRxxxxxxxx.lambdaInc(123, ]
-                final String recorderBase = state.getRecorderPrefix().substring(0, state.getRecorderPrefix().lastIndexOf('.'));
-                final StringBuilder instr = new StringBuilder();
-                instr.append(recorderBase);
-                instr.append(".");
-                instr.append(RecorderInstrEmitter.LAMBDA_INC_METHOD);
-                instr.append("(");
-                instr.append(method.getDataIndex());
-                instr.append(","); // add a comma because we'll have original lambda as a second argument of lambdaInc
-                instr.append(classCast); // add a class cast before lambda (optional)
-                setInstr(instr.toString());
-            }
+            // emit text like [__CLRxxxxxxxx.lambdaInc(123, ]
+            final String recorderBase = state.getRecorderPrefix().substring(0, state.getRecorderPrefix().lastIndexOf('.'));
+            final StringBuilder instr = new StringBuilder();
+            instr.append(recorderBase);
+            instr.append(".");
+            instr.append(RecorderInstrEmitter.LAMBDA_INC_METHOD);
+            instr.append("(");
+            instr.append(method.getDataIndex());
+            instr.append(","); // add a comma because we'll have original lambda as a second argument of lambdaInc
+            instr.append(classCast); // add a class cast before lambda (optional)
+            setInstr(instr.toString());
         }
     }
 

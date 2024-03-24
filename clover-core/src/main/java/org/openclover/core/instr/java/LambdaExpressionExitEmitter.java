@@ -31,13 +31,9 @@ public class LambdaExpressionExitEmitter extends Emitter {
             // close the method
             state.getSession().exitMethod(getLine(), getColumn());
 
-            // wrap lambda only in class instrumentation strategy
-            boolean classInstrStrategy = state.getCfg().isClassInstrStrategy();
-            if (classInstrStrategy) {
-                // append statement index after the lambda call and
-                // write closing brace for argument list of a lambdaInc wrapper
-                setInstr("," + statementInfo.getDataIndex() + ")");
-            }
+            // append statement index after the lambda call and
+            // write closing brace for argument list of a lambdaInc wrapper
+            setInstr("," + statementInfo.getDataIndex() + ")");
         }
     }
 }

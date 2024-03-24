@@ -386,42 +386,25 @@ tokens {
          }
     }
 
-    private CaseExpressionEntryEmitter instrEnterCaseExpression(CloverToken insertionPoint, CloverToken endToken, ContextSet context, int complexity) {
-        // we add "caseInc(123,()->" AFTER the "->"
+    private CaseExpressionEntryEmitter instrEnterCaseExpression(CloverToken insertionPoint, CloverToken endToken,
+            ContextSet context, int complexity, boolean insideExpression) {
+        // we add "{ R.inc(123);yield " or "{ R.inc(123);" AFTER the "->"
         final CaseExpressionEntryEmitter entryEmitter = new CaseExpressionEntryEmitter(
                 context,
                 insertionPoint.getLine(),
                 insertionPoint.getColumn(),
                 endToken.getLine(),
                 endToken.getColumn(),
-                complexity);
+                complexity,
+                insideExpression);
         insertionPoint.addPostEmitter(entryEmitter);
         return entryEmitter;
     }
 
     private void instrExitCaseExpression(CaseExpressionEntryEmitter entryEmitter, CloverToken insertionPoint) {
-        // we add closing ")" BEFORE the ";"
-        insertionPoint.addPreEmitter(
-                new CaseExpressionExitEmitter(entryEmitter));
-    }
-
-    private CaseThrowExpressionEntryEmitter instrEnterCaseThrowExpression(CloverToken insertionPoint, CloverToken endToken, ContextSet context, int complexity) {
-        // we add "{ R.inc();" AFTER the "->"
-        final CaseThrowExpressionEntryEmitter entryEmitter = new CaseThrowExpressionEntryEmitter(
-                context,
-                insertionPoint.getLine(),
-                insertionPoint.getColumn(),
-                endToken.getLine(),
-                endToken.getColumn(),
-                complexity);
-        insertionPoint.addPostEmitter(entryEmitter);
-        return entryEmitter;
-    }
-
-    private void instrExitCaseThrowExpression(CaseThrowExpressionEntryEmitter entryEmitter, CloverToken insertionPoint) {
         // we add closing "}" AFTER the ";"
         insertionPoint.addPostEmitter(
-                new CaseThrowExpressionExitEmitter(entryEmitter));
+                new CaseExpressionExitEmitter(entryEmitter));
     }
 
     private CloverToken maybeAddFlushInstr(CloverToken last) {
@@ -2559,7 +2542,7 @@ statement [CloverToken owningLabel] returns [CloverToken last]
     |
         // a new switch/case with lambdas
         ( SWITCH LPAREN expression RPAREN LCURLY (CASE patternMatch | DEFAULT) LAMBDA) =>
-        contextAndComplexity = lambdaSwitchExpression[owningLabel]
+        contextAndComplexity = lambdaSwitchExpression[owningLabel, false]
         {
             saveContext = contextAndComplexity.getContext();
             complexity += contextAndComplexity.getComplexity();
@@ -3526,7 +3509,7 @@ primaryExpressionPart returns [ContextSetAndComplexity ret]
     |
         // a new lambda switch can be a part of an expression
         ( SWITCH LPAREN expression RPAREN LCURLY (CASE patternMatch | DEFAULT) LAMBDA) =>
-        ret = lambdaSwitchExpression[null]
+        ret = lambdaSwitchExpression[null, true]
     |
         // even the old one colon switch has been retrofitted
         ( SWITCH LPAREN expression RPAREN LCURLY (CASE expression | DEFAULT) COLON) =>
@@ -3578,7 +3561,7 @@ colonSwitchExpression [CloverToken owningLabel, boolean isInsideExpression] retu
 /**
  * A switch statement or expression containing one or more "case ->" or "default ->" conditions.
  */
-lambdaSwitchExpression [CloverToken owningLabel] returns [ContextSetAndComplexity ret]
+lambdaSwitchExpression [CloverToken owningLabel, boolean insideExpression] returns [ContextSetAndComplexity ret]
 {
     // every switch must have at least one case/default branch, cyclomatic complexity is number of branches minus 1
     // every case/default increases it by one, cyclomatic complexity of only one branch is zero
@@ -3600,7 +3583,7 @@ lambdaSwitchExpression [CloverToken owningLabel] returns [ContextSetAndComplexit
             ret.addComplexity(exprComplexity);
         }
         (
-            caseComplexity = lambdaCase[saveContext]
+            caseComplexity = lambdaCase[saveContext, insideExpression]
             {
                 ret.addComplexity(caseComplexity);
             }
@@ -3614,12 +3597,12 @@ lambdaSwitchExpression [CloverToken owningLabel] returns [ContextSetAndComplexit
 /**
  * A single "case x ->" or "default ->" label, followed by an expression or a block statement.
  */
-lambdaCase[ContextSet context] returns [int complexity]
+lambdaCase[ContextSet context, boolean insideExpression] returns [int complexity]
 {
     CloverToken endTok = null;
     Token pos = null;
     CaseExpressionEntryEmitter expressionEntryEmitter = null;
-    CaseThrowExpressionEntryEmitter throwEntryEmitter = null;
+    CaseExpressionEntryEmitter throwEntryEmitter = null;
     int exprComplexity = 0;
     complexity = 1;
 }
@@ -3638,18 +3621,18 @@ lambdaCase[ContextSet context] returns [int complexity]
         )
         t:LAMBDA!
         (
-            // throwing an exception must be instrumented differently
+            // throwing an exception must be instrumented a bit differently, as we never add 'yield' before throws
             (THROW expression SEMI) =>
             THROW exprComplexity=expression SEMI
             {
-                throwEntryEmitter = instrEnterCaseThrowExpression(ct(t), lt(0), context, exprComplexity);
-                instrExitCaseThrowExpression(throwEntryEmitter, lt(0));
+                throwEntryEmitter = instrEnterCaseExpression(ct(t), lt(0), context, exprComplexity, false);
+                instrExitCaseExpression(throwEntryEmitter, lt(0));
             }
         |
             // void and value-returning expressions
             exprComplexity=expression SEMI
             {
-                expressionEntryEmitter = instrEnterCaseExpression(ct(t), lt(0), context, exprComplexity);
+                expressionEntryEmitter = instrEnterCaseExpression(ct(t), lt(0), context, exprComplexity, insideExpression);
                 instrExitCaseExpression(expressionEntryEmitter, lt(0));
             }
         |

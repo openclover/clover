@@ -9,13 +9,13 @@ class InstrumentationExpressionsTest extends InstrumentationTestBase {
             throws Exception {
         // just a simple assignment
         checkStatement("int i = arg == 2 ? 3 : 4;",
-                "RECORDER.inc(1);int i = (((arg == 2 )&&(RECORDER.iget(2)!=0|true))||(RECORDER.iget(3)==0&false))? 3 : 4;")
+                "RECORDER.R.inc(1);int i = (((arg == 2 )&&(RECORDER.R.iget(2)!=0|true))||(RECORDER.R.iget(3)==0&false))? 3 : 4;")
 
         // two ternary's embeded
         checkStatement("int i = arg == (b==2?1:2) ? 3 : 4;",
-                "RECORDER.inc(1);int i = (((arg == (" +
-                        "(((b==2)&&(RECORDER.iget(2)!=0|true))||(RECORDER.iget(3)==0&false))?1:2" +
-                        ") )&&(RECORDER.iget(4)!=0|true))||(RECORDER.iget(5)==0&false))? 3 : 4;")
+                "RECORDER.R.inc(1);int i = (((arg == (" +
+                        "(((b==2)&&(RECORDER.R.iget(2)!=0|true))||(RECORDER.R.iget(3)==0&false))?1:2" +
+                        ") )&&(RECORDER.R.iget(4)!=0|true))||(RECORDER.R.iget(5)==0&false))? 3 : 4;")
     }
 
     @Test
@@ -24,7 +24,7 @@ class InstrumentationExpressionsTest extends InstrumentationTestBase {
         // constant for loop
         checkStatement(
                 "for (;true;) {System.out.println(a[i]);}",
-                "RECORDER.inc(1);for (;true;) {{RECORDER.inc(2);System.out.println(a[i]);}}")
+                "RECORDER.R.inc(1);for (;true;) {{RECORDER.R.inc(2);System.out.println(a[i]);}}")
     }
 
 
@@ -33,7 +33,7 @@ class InstrumentationExpressionsTest extends InstrumentationTestBase {
         // Don't instrument a conditional containing an assignment since this breaks Definite Assignment rules in javac
         checkStatement(
                 "String line; while ((line = in.readLine()) != null) {System.out.println(line);}",
-                "RECORDER.inc(1);String line; RECORDER.inc(2);while ((line = in.readLine()) != null) {{RECORDER.inc(5);System.out.println(line);}}")
+                "RECORDER.R.inc(1);String line; RECORDER.R.inc(2);while ((line = in.readLine()) != null) {{RECORDER.R.inc(5);System.out.println(line);}}")
 
     }
 

@@ -38,7 +38,6 @@ public class CloverInstr {
             CloverInstrArgProcessors.FlushPolicy,
             CloverInstrArgProcessors.FlushInterval,
             CloverInstrArgProcessors.Encoding,
-            CloverInstrArgProcessors.InstrStrategy,
             CloverInstrArgProcessors.InstrLevel,
             CloverInstrArgProcessors.InstrLambda,
             CloverInstrArgProcessors.SourceLevelArg,

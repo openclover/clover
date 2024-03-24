@@ -10,8 +10,7 @@ class InstrumentationDetectionTest extends InstrumentationTestBase {
     // tests that "empty" classes don't get a recorder member when they don't need one
     @Test
     void testDirtyDetection() throws Exception {
-        final String recMember = "<REC_MEMBER>"
-        checkInstrumentation(recMember, [
+        checkInstrumentation([
                 ["class A {}", "class A {}"],
                 ["interface A {}", "interface A {}"],
                 ["@interface A {}", "@interface A {}"],
@@ -19,7 +18,7 @@ class InstrumentationDetectionTest extends InstrumentationTestBase {
                 ["enum A { apple,banana,pear }", "enum A { apple,banana,pear }"],
                 ["enum A { apple,banana,pear }", "enum A { apple,banana,pear }"],
                 // second top-level class.
-                ["class A {public A(){}} class B {}","class A {" + recMember + snifferField + "public A(){RECORDER.inc(0);}} class B {}"]
+                ["class A {public A(){}} class B {}","class A {$classField${snifferField}public A(){RECORDER.R.inc(0);}} class B {}"]
         ] as String[][], true)
     }
 
