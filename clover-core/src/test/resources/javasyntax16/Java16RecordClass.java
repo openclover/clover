@@ -36,6 +36,13 @@ record Record3(int x, int y, int z) {
     }
 }
 
+/** A generic record */
+record Record4<I extends Number>(I input) {
+    String product() {
+        return input.toString();
+    }
+}
+
 /** Despite introducing records in Java16, you can still use it for symbols, sic! */
 class RecordIsNotAReservedKeyword {
     int record = 0;
