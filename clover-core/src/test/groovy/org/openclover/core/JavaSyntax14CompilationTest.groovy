@@ -113,12 +113,12 @@ class JavaSyntax14CompilationTest extends JavaSyntaxCompilationTestBase {
         instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_14)
 
         // switch expression with value-returning lambdas
-        assertFileMatches(fileName, quote("case R ->") + R_CASE_EXPRESSION_WITH_RETURN_LEFT + quote(" \"red\"") + R_CASE_EXPRESSION_RIGHT)
-        assertFileMatches(fileName, quote("case G ->") + R_CASE_EXPRESSION_WITH_RETURN_LEFT + quote(" \"green\"") + R_CASE_EXPRESSION_RIGHT)
-        assertFileMatches(fileName, quote("case B ->") + R_CASE_EXPRESSION_WITH_RETURN_LEFT + quote(" \"blue\"") + R_CASE_EXPRESSION_RIGHT)
-        assertFileMatches(fileName, quote("case 0 ->") + R_CASE_EXPRESSION_WITH_RETURN_LEFT + quote(" EvenOrOdd.EVEN") + R_CASE_EXPRESSION_RIGHT)
-        assertFileMatches(fileName, quote("case 1 ->") + R_CASE_EXPRESSION_WITH_RETURN_LEFT + quote(" EvenOrOdd.ODD") + R_CASE_EXPRESSION_RIGHT)
-        assertFileMatches(fileName, quote("default ->") + R_CASE_EXPRESSION_WITH_RETURN_LEFT + quote(" EvenOrOdd.UNKNOWN") + R_CASE_EXPRESSION_RIGHT)
+        assertFileMatches(fileName, quote("case R ->") + R_CASE_EXPRESSION_WITH_RETURN_LEFT + quote(" \"red\";") + R_CASE_EXPRESSION_RIGHT)
+        assertFileMatches(fileName, quote("case G ->") + R_CASE_EXPRESSION_WITH_RETURN_LEFT + quote(" \"green\";") + R_CASE_EXPRESSION_RIGHT)
+        assertFileMatches(fileName, quote("case B ->") + R_CASE_EXPRESSION_WITH_RETURN_LEFT + quote(" \"blue\";") + R_CASE_EXPRESSION_RIGHT)
+        assertFileMatches(fileName, quote("case 0 ->") + R_CASE_EXPRESSION_WITH_RETURN_LEFT + quote(" EvenOrOdd.EVEN;") + R_CASE_EXPRESSION_RIGHT)
+        assertFileMatches(fileName, quote("case 1 ->") + R_CASE_EXPRESSION_WITH_RETURN_LEFT + quote(" EvenOrOdd.ODD;") + R_CASE_EXPRESSION_RIGHT)
+        assertFileMatches(fileName, quote("default ->") + R_CASE_EXPRESSION_WITH_RETURN_LEFT + quote(" EvenOrOdd.UNKNOWN;") + R_CASE_EXPRESSION_RIGHT)
     }
 
     @Test
@@ -130,17 +130,17 @@ class JavaSyntax14CompilationTest extends JavaSyntaxCompilationTestBase {
 
         // switch expression with void lambdas
         assertFileMatches(fileName, quote("case R ->") + R_CASE_EXPRESSION_NO_RETURN_LEFT +
-                quote(" System.out.println(\"red\")") + R_CASE_EXPRESSION_RIGHT)
+                quote(" System.out.println(\"red\");") + R_CASE_EXPRESSION_RIGHT)
         assertFileMatches(fileName, quote("case G ->") + R_CASE_EXPRESSION_NO_RETURN_LEFT +
-                quote(" System.out.println(\"green\")") + R_CASE_EXPRESSION_RIGHT)
+                quote(" System.out.println(\"green\");") + R_CASE_EXPRESSION_RIGHT)
         assertFileMatches(fileName, quote("case B ->") + R_CASE_EXPRESSION_NO_RETURN_LEFT +
-                quote(" System.out.println(\"blue\")") + R_CASE_EXPRESSION_RIGHT)
+                quote(" System.out.println(\"blue\");") + R_CASE_EXPRESSION_RIGHT)
         assertFileMatches(fileName, quote("case 0 ->") + R_CASE_EXPRESSION_NO_RETURN_LEFT +
-                quote(" System.out.println(EvenOrOdd.EVEN)") + R_CASE_EXPRESSION_RIGHT)
+                quote(" System.out.println(EvenOrOdd.EVEN);") + R_CASE_EXPRESSION_RIGHT)
         assertFileMatches(fileName, quote("case 1 ->") + R_CASE_EXPRESSION_NO_RETURN_LEFT +
-                quote(" System.out.println(EvenOrOdd.ODD)") + R_CASE_EXPRESSION_RIGHT)
+                quote(" System.out.println(EvenOrOdd.ODD);") + R_CASE_EXPRESSION_RIGHT)
         assertFileMatches(fileName, quote("default ->") + R_CASE_EXPRESSION_NO_RETURN_LEFT +
-                quote(" System.out.println(EvenOrOdd.UNKNOWN)") + R_CASE_EXPRESSION_RIGHT)
+                quote(" System.out.println(EvenOrOdd.UNKNOWN);") + R_CASE_EXPRESSION_RIGHT)
     }
 
     @Test
@@ -152,11 +152,11 @@ class JavaSyntax14CompilationTest extends JavaSyntaxCompilationTestBase {
 
         // switch expression with void lambdas
         assertFileMatches(fileName, quote("case 0 ->") + R_CASE_EXPRESSION_NO_RETURN_LEFT +
-                quote(" System.out.println(\"zero:\" + i)") + R_CASE_EXPRESSION_RIGHT)
+                quote(" System.out.println(\"zero:\" + i);") + R_CASE_EXPRESSION_RIGHT)
         assertFileMatches(fileName, quote("case 1 ->") + R_CASE_EXPRESSION_NO_RETURN_LEFT +
-                quote(" System.out.println(\"one:\" + i)") + R_CASE_EXPRESSION_RIGHT)
+                quote(" System.out.println(\"one:\" + i);") + R_CASE_EXPRESSION_RIGHT)
         assertFileMatches(fileName, quote("default ->") + R_CASE_EXPRESSION_NO_RETURN_LEFT +
-                quote(" System.out.println(\"other:\" + i)") + R_CASE_EXPRESSION_RIGHT)
+                quote(" System.out.println(\"other:\" + i);") + R_CASE_EXPRESSION_RIGHT)
     }
 
     @Test
@@ -166,17 +166,17 @@ class JavaSyntax14CompilationTest extends JavaSyntaxCompilationTestBase {
         final String fileName = "Java14SwitchExpressionCaseAndDefaultWithThrows.java"
         instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_14)
 
-        assertFileMatches(fileName, quote("case -1 ->") + R_CASE_THROW_EXPRESSION_LEFT +
-                quote(" throw new IllegalArgumentException(\"negative\");") + R_CASE_THROW_EXPRESSION_RIGHT)
+        assertFileMatches(fileName, quote("case -1 ->") + R_CASE_EXPRESSION_NO_RETURN_LEFT +
+                quote(" throw new IllegalArgumentException(\"negative\");") + R_CASE_EXPRESSION_RIGHT)
         assertFileMatches(fileName, quote("default ->") + R_CASE_EXPRESSION_WITH_RETURN_LEFT +
-                quote(" 0") + R_CASE_EXPRESSION_RIGHT)
+                quote(" 0;") + R_CASE_EXPRESSION_RIGHT)
 
-        assertFileMatches(fileName, quote("case -1 ->") + R_CASE_THROW_EXPRESSION_LEFT +
-                quote(" throw new IllegalArgumentException(\"negative\");") + R_CASE_THROW_EXPRESSION_RIGHT)
-        assertFileMatches(fileName, quote("case 0 ->") + R_CASE_THROW_EXPRESSION_LEFT +
-                quote(" throw new IllegalArgumentException(\"zero\");") + R_CASE_THROW_EXPRESSION_RIGHT)
-        assertFileMatches(fileName, quote("default ->") + R_CASE_THROW_EXPRESSION_LEFT +
-                quote(" throw new IllegalArgumentException(\"anything\");") + R_CASE_THROW_EXPRESSION_RIGHT)
+        assertFileMatches(fileName, quote("case -1 ->") + R_CASE_EXPRESSION_NO_RETURN_LEFT +
+                quote(" throw new IllegalArgumentException(\"negative\");") + R_CASE_EXPRESSION_RIGHT)
+        assertFileMatches(fileName, quote("case 0 ->") + R_CASE_EXPRESSION_NO_RETURN_LEFT +
+                quote(" throw new IllegalArgumentException(\"zero\");") + R_CASE_EXPRESSION_RIGHT)
+        assertFileMatches(fileName, quote("default ->") + R_CASE_EXPRESSION_NO_RETURN_LEFT +
+                quote(" throw new IllegalArgumentException(\"anything\");") + R_CASE_EXPRESSION_RIGHT)
     }
 
     @Test
@@ -222,8 +222,8 @@ class JavaSyntax14CompilationTest extends JavaSyntaxCompilationTestBase {
         final String fileName = "Java14SwitchExpressionWithMultiValueCase.java"
         instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_14)
 
-        assertFileMatches(fileName, quote("case 0, 1, 2*3 ->") + R_CASE_EXPRESSION_WITH_RETURN_LEFT + quote(" 10") + R_CASE_EXPRESSION_RIGHT)
-        assertFileMatches(fileName, quote("case 0, 1, 2 ->") + R_CASE_EXPRESSION_WITH_RETURN_LEFT + quote(" 20") + R_CASE_EXPRESSION_RIGHT)
+        assertFileMatches(fileName, quote("case 0, 1, 2*3 ->") + R_CASE_EXPRESSION_WITH_RETURN_LEFT + quote(" 10;") + R_CASE_EXPRESSION_RIGHT)
+        assertFileMatches(fileName, quote("case 0, 1, 2 ->") + R_CASE_EXPRESSION_WITH_RETURN_LEFT + quote(" 20;") + R_CASE_EXPRESSION_RIGHT)
 // TODO pattern matching since JDK21
 //        assertFileMatches(fileName, quote("case null -> ") + R_CASE_EXPRESSION_LEFT + quote("21;") + R_CASE_EXPRESSION_RIGHT)
 //        assertFileMatches(fileName, quote("case null, default -> ") + R_CASE_EXPRESSION_LEFT + quote("31;") + R_CASE_EXPRESSION_RIGHT)
@@ -241,15 +241,15 @@ class JavaSyntax14CompilationTest extends JavaSyntaxCompilationTestBase {
 
         // argument of a method call
         assertFileMatches(fileName, R_INC + quote("foo(switch (k) {")) // no R_INC before switch
-        assertFileMatches(fileName, quote("case 10 ->") + R_CASE_EXPRESSION_WITH_RETURN_LEFT + " 100" + R_CASE_EXPRESSION_RIGHT)
-        assertFileMatches(fileName, quote("default ->") + R_CASE_EXPRESSION_WITH_RETURN_LEFT + " 200" + R_CASE_EXPRESSION_RIGHT)
+        assertFileMatches(fileName, quote("case 10 ->") + R_CASE_EXPRESSION_WITH_RETURN_LEFT + " 100;" + R_CASE_EXPRESSION_RIGHT)
+        assertFileMatches(fileName, quote("default ->") + R_CASE_EXPRESSION_WITH_RETURN_LEFT + " 200;" + R_CASE_EXPRESSION_RIGHT)
 
         // part of an expression
         assertFileMatches(fileName,
                 // we have '((((' because of the branch evaluation
                 R_INC + quote("if ((((switch (j) {") + "\\s+" +
-                quote("case 0 ->") + R_CASE_EXPRESSION_WITH_RETURN_LEFT + quote(" 30") + R_CASE_EXPRESSION_RIGHT + "\\s+" +
-                quote("default ->") + R_CASE_EXPRESSION_WITH_RETURN_LEFT + quote(" 31") + R_CASE_EXPRESSION_RIGHT + "\\s+" +
+                quote("case 0 ->") + R_CASE_EXPRESSION_WITH_RETURN_LEFT + quote(" 30;") + R_CASE_EXPRESSION_RIGHT + "\\s+" +
+                quote("default ->") + R_CASE_EXPRESSION_WITH_RETURN_LEFT + quote(" 31;") + R_CASE_EXPRESSION_RIGHT + "\\s+" +
                 quote("} % 10 == 0)") +
                 quote("&&(") + R_IGET // part of the branch coverage expression
         )
@@ -265,13 +265,13 @@ class JavaSyntax14CompilationTest extends JavaSyntaxCompilationTestBase {
         // a standalone statement in method
         assertFileMatches(fileName, R_INC + quote("switch (kk) {") + "\\s+" +
                 quote("case 77 ->") + R_CASE_EXPRESSION_NO_RETURN_LEFT +
-                quote(" System.out.println(\"77\")") + R_CASE_EXPRESSION_RIGHT)
+                quote(" System.out.println(\"77\");") + R_CASE_EXPRESSION_RIGHT)
 
         // instance initializer block
         assertFileMatches(fileName,
                 R_INC + quote("switch (kkk) {") + "\\s+" +
-                quote("case 88 ->") + R_CASE_EXPRESSION_NO_RETURN_LEFT + quote(" System.out.println(\"88\")") + R_CASE_EXPRESSION_RIGHT + "\\s+" +
-                quote("default ->") + R_CASE_EXPRESSION_NO_RETURN_LEFT + quote(" System.out.println(\"not 88\")") + R_CASE_EXPRESSION_RIGHT)
+                quote("case 88 ->") + R_CASE_EXPRESSION_NO_RETURN_LEFT + quote(" System.out.println(\"88\");") + R_CASE_EXPRESSION_RIGHT + "\\s+" +
+                quote("default ->") + R_CASE_EXPRESSION_NO_RETURN_LEFT + quote(" System.out.println(\"not 88\");") + R_CASE_EXPRESSION_RIGHT)
     }
 
 }
