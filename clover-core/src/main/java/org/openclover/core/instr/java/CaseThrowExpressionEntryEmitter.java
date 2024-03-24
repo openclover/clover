@@ -60,13 +60,11 @@ public class CaseThrowExpressionEntryEmitter extends Emitter {
                             complexity,
                             LanguageConstruct.Builtin.STATEMENT);
 
-            if (state.getCfg().isClassInstrStrategy()) {
-                // emit text like [{__CLRxxxxxxxx.inc(123);]
-                final String instr = "{" +
-                        $CoverageRecorder$inc(state.getRecorderPrefix(), Integer.toString(stmtInfo.getDataIndex())) +
-                        ";";
-                setInstr(instr);
-            }
+            // emit text like [{__CLRxxxxxxxx.inc(123);]
+            final String instr = "{" +
+                    $CoverageRecorder$inc(state.getRecorderPrefix(), Integer.toString(stmtInfo.getDataIndex())) +
+                    ";";
+            setInstr(instr);
         }
     }
 

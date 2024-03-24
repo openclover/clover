@@ -43,7 +43,6 @@ public class CloverTokenStreamFilter extends TokenStreamHiddenTokenFilter {
     private static final String DIRECTIVE_ON = "ON";
     private static final String DIRECTIVE_OFF = "OFF";
     private static final String DIRECTIVE_FLUSH = "FLUSH";
-    private static final String DIRECTIVE_CLASS = "USECLASS";
     private static final String DIRECTIVE_LAMBDA_VOID = "VOID";
 
 
@@ -140,9 +139,6 @@ public class CloverTokenStreamFilter extends TokenStreamHiddenTokenFilter {
         } else if (rest.startsWith(DIRECTIVE_FLUSH)) {
             Logger.getInstance().debug(filePath+":"+curLine+": inserting flush as per directive");
             state.setNeedsFlush(true);
-        } else if (rest.startsWith(DIRECTIVE_CLASS)) {
-            Logger.getInstance().debug(filePath + ":" + curLine + ": using static inner holder class for instrumentation var as per directive");
-            state.getCfg().setClassInstrStragegy(true);
         } else if (rest.startsWith(DIRECTIVE_LAMBDA_VOID)) {
             final FullMethodInfo methodInfo = (FullMethodInfo) state.getSession().getCurrentMethod();
             if (methodInfo != null && methodInfo.isLambda()) {

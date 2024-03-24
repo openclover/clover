@@ -62,9 +62,7 @@ public class ClassEntryNode extends Emitter {
                     state.getFileInfo().getDataIndex(),
                     clazz.getDataIndex());
 
-            if (state.getCfg().isClassInstrStrategy() || isEnum) {
-                recorderPrefix += "." + CloverNames.RECORDER_FIELD_NAME;
-            }
+            recorderPrefix += "." + CloverNames.RECORDER_FIELD_NAME;
             state.setRecorderPrefix(recorderPrefix);
         }
     }

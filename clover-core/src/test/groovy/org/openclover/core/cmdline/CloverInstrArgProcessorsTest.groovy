@@ -153,19 +153,6 @@ class CloverInstrArgProcessorsTest {
     }
 
     @Test
-    void processInstrStrategy() {
-        assertConfig(["--instrumentation", "field"],
-                CloverInstrArgProcessors.InstrStrategy,
-                { JavaInstrumentationConfig config -> config.isClassInstrStrategy() },
-                equalTo(false))
-
-        assertConfig(["--instrumentation", "class"],
-                CloverInstrArgProcessors.InstrStrategy,
-                { JavaInstrumentationConfig config -> config.isClassInstrStrategy() },
-                equalTo(true))
-    }
-
-    @Test
     void processInstrLevel() {
         assertConfig(["--instrlevel", "statement"],
                 CloverInstrArgProcessors.InstrLevel,

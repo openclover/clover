@@ -27,7 +27,7 @@ public class CaseThrowExpressionExitEmitter extends Emitter {
     protected void init(InstrumentationState state) {
         // we must close the wrapped expression only if the start was wrapped, ignoring
         // any CLOVER:OFF inside (state.isInstrEnabled() check would be wrong)
-        if (entryEmitter.stmtInfo != null && state.getCfg().isClassInstrStrategy()) {
+        if (entryEmitter.stmtInfo != null) {
             setInstr("}");
         }
     }

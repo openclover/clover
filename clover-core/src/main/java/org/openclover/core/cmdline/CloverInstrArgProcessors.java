@@ -194,26 +194,6 @@ public class CloverInstrArgProcessors {
         }
     };
 
-    public static ArgProcessor<JavaInstrumentationConfig> InstrStrategy = new ArgProcessor<JavaInstrumentationConfig>() {
-        @Override
-        public boolean matches(String[] args, int i) {
-            return args[i].equals("--instrumentation");
-        }
-
-        @Override
-        public int process(String[] args, int i, JavaInstrumentationConfig cfg) {
-            i++;
-            cfg.setInstrStrategy(args[i]);
-            return i;
-        }
-
-        @Override
-        public String help() {
-            return "   --instrumentation <string>\t Set the instrumentation strategy. Valid values are \"field\" and\n"
-                    + "\t\t\t\t \"class\". Default is \"class\".";
-        }
-    };
-
     public static ArgProcessor<JavaInstrumentationConfig> InstrLevel = new ArgProcessor<JavaInstrumentationConfig>() {
         @Override
         public boolean matches(String[] args, int i) {

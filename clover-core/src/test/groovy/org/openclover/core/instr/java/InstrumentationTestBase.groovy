@@ -134,7 +134,6 @@ class InstrumentationTestBase {
         }
         cfg.setRelative(relativeIS)
         cfg.setProjectName(name.toString())
-        cfg.setClassInstrStragegy(classInstrStrategy)
         cfg.setSourceLevel(SourceLevel.JAVA_8)
         cfg.setReportInitErrors(false)
         cfg.setRecordTestResults(testRewriting)

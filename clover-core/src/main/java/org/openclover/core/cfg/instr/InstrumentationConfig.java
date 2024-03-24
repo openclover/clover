@@ -146,20 +146,6 @@ public class InstrumentationConfig implements Serializable {
         return FLUSH_VALUES[flushPolicy];
     }
 
-    public boolean isClassInstrStrategy() {
-        return classInstrStrategy;
-    }
-
-    public void setClassInstrStragegy(boolean useClass) {
-        this.classInstrStrategy = useClass;
-    }
-
-    public void setInstrStrategy(String value) {
-        if (value != null) {
-            classInstrStrategy = value.equals("class");
-        }
-    }
-
     /**
      * If the registry file is set, then return it, otherwise
      * a new File object will be created using the initString that
