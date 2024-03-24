@@ -3602,7 +3602,7 @@ lambdaCase[ContextSet context, boolean insideExpression] returns [int complexity
     CloverToken endTok = null;
     Token pos = null;
     CaseExpressionEntryEmitter expressionEntryEmitter = null;
-    CaseThrowExpressionEntryEmitter throwEntryEmitter = null;
+    CaseExpressionEntryEmitter throwEntryEmitter = null;
     int exprComplexity = 0;
     complexity = 1;
 }

@@ -15,11 +15,11 @@ class InstrumentationSwitchStatementsTest extends InstrumentationTestBase {
     void testSwitchStatement() throws Exception {
         String bp = "__CLB" + CloverVersionInfo.SANITIZED_RN
         String src = "{int i = 0;switch(i){case 0:break;case 1:case 2:break;case 3:hashCode();break;}}}"
-        String instr = "{RECORDER.inc(0);RECORDER.inc(1);int i = 0;boolean "+bp+"_bool0=false;RECORDER.inc(2);switch(i){case 0:if (!"+bp+"_bool0)" +
-                " {RECORDER.inc(3);"+bp+"_bool0=true;}RECORDER.inc(4);break;case 1:if (!"+bp+"_bool0) {RECORDER.inc(5);"+bp+"_bool0=true;}" +
-                "case 2:if (!"+bp+"_bool0) {RECORDER.inc(6);"+bp+"_bool0=true;}RECORDER.inc(7);break;case 3:if (!"+bp+"_bool0) {RECORDER.inc(8);"+
-                bp+"_bool0=true;}RECORDER.inc(9);hashCode();RECORDER.inc(10);break;}}}"
-        String instrWithSniffer = snifferField + instr
+        String instr = "{RECORDER.R.inc(0);RECORDER.R.inc(1);int i = 0;boolean "+bp+"_bool0=false;RECORDER.R.inc(2);switch(i){case 0:if (!"+bp+"_bool0)" +
+                " {RECORDER.R.inc(3);"+bp+"_bool0=true;}RECORDER.R.inc(4);break;case 1:if (!"+bp+"_bool0) {RECORDER.R.inc(5);"+bp+"_bool0=true;}" +
+                "case 2:if (!"+bp+"_bool0) {RECORDER.R.inc(6);"+bp+"_bool0=true;}RECORDER.R.inc(7);break;case 3:if (!"+bp+"_bool0) {RECORDER.R.inc(8);"+
+                bp+"_bool0=true;}RECORDER.R.inc(9);hashCode();RECORDER.R.inc(10);break;}}}"
+        String instrWithSniffer = classField + snifferField + instr
 
         // test suppress warnings injection
         checkInstrumentation([
@@ -65,11 +65,11 @@ class InstrumentationSwitchStatementsTest extends InstrumentationTestBase {
 
                 // no existing suppression, other annotations
                 [ "@MyAnnotation @MyOtherAnno class K { @YetMoreAnno public L() " + src,
-                  "@java.lang.SuppressWarnings({\"fallthrough\"}) @MyAnnotation @MyOtherAnno class K {" + snifferField + " @YetMoreAnno public L() " + instr],
+                  "@java.lang.SuppressWarnings({\"fallthrough\"}) @MyAnnotation @MyOtherAnno class K {$classField$snifferField @YetMoreAnno public L() " + instr],
 
                 // no existing suppression, other annotations
                 [ "@MyAnnotation @MyOtherAnno class M { @B @SuppressWarnings(\"fallthrough\") public N() " + src,
-                  "@java.lang.SuppressWarnings({\"fallthrough\"}) @MyAnnotation @MyOtherAnno class M {" + snifferField + " @B @SuppressWarnings(\"fallthrough\") public N() " + instr],
+                  "@java.lang.SuppressWarnings({\"fallthrough\"}) @MyAnnotation @MyOtherAnno class M {$classField$snifferField @B @SuppressWarnings(\"fallthrough\") public N() " + instr],
         ] as String[][])
     }
 

@@ -28,11 +28,11 @@ class InstrumentationCloverOnOffTest extends InstrumentationTestBase {
                 ["class B { ///CLOVER:OFF\nprivate B() {}\n///CLOVER:ON\n}",
                  "class B { ///CLOVER:OFF\nprivate B() {}\n///CLOVER:ON\n}"],
                 ["class B { private B() {///CLOVER:OFF\n}\n///CLOVER:ON\n}",
-                 "class B {" + snifferField + " private B() {RECORDER.inc(0);///CLOVER:OFF\n}\n///CLOVER:ON\n}"],
+                 "class B {$classField$snifferField private B() {RECORDER.R.inc(0);///CLOVER:OFF\n}\n///CLOVER:ON\n}"],
                 ["class B { private B() {///CLOVER:OFF\nint i = 0;///CLOVER:ON\n}}",
-                 "class B {" + snifferField + " private B() {RECORDER.inc(0);///CLOVER:OFF\nint i = 0;///CLOVER:ON\n}}"],
+                 "class B {$classField$snifferField private B() {RECORDER.R.inc(0);///CLOVER:OFF\nint i = 0;///CLOVER:ON\n}}"],
                 ["class B { private B() {///CLOVER:OFF\nhashCode();///CLOVER:ON\n}}",
-                 "class B {" + snifferField + " private B() {RECORDER.inc(0);///CLOVER:OFF\nhashCode();///CLOVER:ON\n}}"],
+                 "class B {$classField$snifferField private B() {RECORDER.R.inc(0);///CLOVER:OFF\nhashCode();///CLOVER:ON\n}}"],
 
         ] as String[][])
 

@@ -22,6 +22,10 @@ import static org.junit.Assert.assertEquals
 class InstrumentationTestBase {
     protected File workingDir
 
+    protected String classField = "public static class CLASS {}"
+
+    protected String testClassField = "static class CLASS {}"
+
     protected String snifferField = "public static final " + TestNameSniffer.class.getName() + " SNIFFER=" +
             TestNameSniffer.class.getName() + ".NULL_INSTANCE;"
 
@@ -42,12 +46,12 @@ class InstrumentationTestBase {
         FileUtils.deltree(workingDir)
     }
 
-    protected void checkStatement(String test, String expected, int instrumentationlevel) throws Exception {
+    protected void checkStatement(String test, String expected, int instrumentationLevel) throws Exception {
         JavaInstrumentationConfig config = getInstrConfig(newDbTempFile().getAbsolutePath(), false, true, false)
-        config.setInstrLevel(instrumentationlevel)
+        config.setInstrLevel(instrumentationLevel)
         checkInstrumentation([
-            ["class B { private void a(int arg) {" + test + "}}",
-             "class B {" + snifferField + " private void a(int arg) {RECORDER.inc(0);" + expected + "}}"]
+                ["class B { private void a(int arg) {" + test + "}}",
+                 "class B {$classField$snifferField private void a(int arg) {RECORDER.R.inc(0);" + expected + "}}"]
         ] as String[][], config)
     }
 
@@ -81,16 +85,20 @@ class InstrumentationTestBase {
         }
     }
 
+    private static final String STATIC_CLASS_REGEX = "public static class " + CloverNames.CLOVER_PREFIX + "[_A-Za-z0-9]+" + ".*R=_R;\\}\\}"
+    private static final String STATIC_TEST_CLASS_REGEX = "static class " + CloverNames.CLOVER_PREFIX + "[_A-Za-z0-9]+" + ".*R=_R;\\}\\}"
     private static final String SNIFFER_REGEX = CloverNames.CLOVER_PREFIX + "[_0-9]+_TEST_NAME_SNIFFER"
     private static final String RECORDER_REGEX = CloverNames.CLOVER_PREFIX + "[_A-Za-z0-9]+"
     private static final String CLR_REGEX = CloverNames.CLOVER_PREFIX
     private static final String RECORDER_INNER_MEMBER_REGEX = "public static " + CoverageRecorder.class.getName() + " " + RECORDER_REGEX + "=[^;]+;"
 
     private static void checkStringSuffix(String recorder, String s1, String s2) {
-        String t2 = s2.replaceAll(SNIFFER_REGEX, "SNIFFER")
-                      .replaceAll(RECORDER_INNER_MEMBER_REGEX, recorder)
-                      .replaceAll(RECORDER_REGEX, "RECORDER")
-                      .replaceAll(CLR_REGEX, "CLR")
+        String t2 = s2.replaceAll(STATIC_CLASS_REGEX, "public static class CLASS {}")
+                .replaceAll(STATIC_TEST_CLASS_REGEX, "static class CLASS {}")
+                .replaceAll(SNIFFER_REGEX, "SNIFFER")
+                .replaceAll(RECORDER_INNER_MEMBER_REGEX, recorder)
+                .replaceAll(RECORDER_REGEX, "RECORDER")
+                .replaceAll(CLR_REGEX, "CLR")
         assertThat(t2, equalTo(s1))
     }
 
@@ -148,8 +156,8 @@ class InstrumentationTestBase {
                 input, new StringWriter())
         final ProjectMetrics pm = (ProjectMetrics) registry.getProject().getMetrics()
 
-        assertEquals("num classes",numClasses, pm.getNumClasses())
-        assertEquals("num methods",numMethods, pm.getNumMethods())
+        assertEquals("num classes", numClasses, pm.getNumClasses())
+        assertEquals("num methods", numMethods, pm.getNumMethods())
         assertEquals("num statements", numStatements, pm.getNumStatements())
         assertEquals("num branches", numBranches, pm.getNumBranches())
         assertEquals("total complexity", totalComplexity, pm.getComplexity())

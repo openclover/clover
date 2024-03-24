@@ -18,7 +18,7 @@ class InstrumentationMethodLevelTest extends InstrumentationTestBase {
         config.setInstrLevel(InstrumentationLevel.METHOD.ordinal())
         checkInstrumentation([
                 ["class B { public B(int arg) {}}",
-                 "class B {" + snifferField + " public B(int arg) {try{RECORDER.inc(0);}finally{RECORDER.maybeFlush();}}}"]
+                 "class B {$classField$snifferField public B(int arg) {try{RECORDER.R.inc(0);}finally{RECORDER.R.maybeFlush();}}}"]
         ] as String[][],
                 config)
 
@@ -28,7 +28,7 @@ class InstrumentationMethodLevelTest extends InstrumentationTestBase {
 
         checkInstrumentation([
                 ["class B { public B(int arg) {int i = 0;}}",
-                 "class B {" + snifferField + " public B(int arg) {try{RECORDER.inc(0);int i = 0;}finally{RECORDER.maybeFlush();}}}"]
+                 "class B {$classField$snifferField public B(int arg) {try{RECORDER.R.inc(0);int i = 0;}finally{RECORDER.R.maybeFlush();}}}"]
         ] as String[][],
                 config)
 
@@ -38,7 +38,7 @@ class InstrumentationMethodLevelTest extends InstrumentationTestBase {
 
         checkInstrumentation([
                 ["class B { public B(int arg) {}}",
-                 "class B {" + snifferField + " public B(int arg) {try{RECORDER.inc(0);}finally{RECORDER.flushNeeded();}}}"]
+                 "class B {$classField$snifferField public B(int arg) {try{RECORDER.R.inc(0);}finally{RECORDER.R.flushNeeded();}}}"]
         ] as String[][],
                 config)
 
@@ -48,7 +48,7 @@ class InstrumentationMethodLevelTest extends InstrumentationTestBase {
 
         checkInstrumentation([
                 ["class B { public B(int arg) {int i = 0;}}",
-                 "class B {" + snifferField + " public B(int arg) {try{RECORDER.inc(0);int i = 0;}finally{RECORDER.flushNeeded();}}}"]
+                 "class B {$classField$snifferField public B(int arg) {try{RECORDER.R.inc(0);int i = 0;}finally{RECORDER.R.flushNeeded();}}}"]
         ] as String[][],
                 config)
     }
