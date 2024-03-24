@@ -160,7 +160,7 @@ class JavaSyntax14CompilationTest extends JavaSyntaxCompilationTestBase {
     }
 
     @Test
-    void switchExpressionWithIgnoredValueNeedsCloverDirective() {
+    void switchExpressionWithIgnoredValuesHaveNoYield() {
         assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_14))
 
         final String fileName = "Java14SwitchExpressionCaseAndDefaultWithLambdas.java"

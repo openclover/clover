@@ -388,7 +388,7 @@ tokens {
 
     private CaseExpressionEntryEmitter instrEnterCaseExpression(CloverToken insertionPoint, CloverToken endToken,
             ContextSet context, int complexity, boolean insideExpression) {
-        // we add "{ R.inc(123);return " or "{ R.inc(123);" AFTER the "->"
+        // we add "{ R.inc(123);yield " or "{ R.inc(123);" AFTER the "->"
         final CaseExpressionEntryEmitter entryEmitter = new CaseExpressionEntryEmitter(
                 context,
                 insertionPoint.getLine(),
@@ -3621,7 +3621,7 @@ lambdaCase[ContextSet context, boolean insideExpression] returns [int complexity
         )
         t:LAMBDA!
         (
-            // throwing an exception must be instrumented a bit differently, as we never add return before throws
+            // throwing an exception must be instrumented a bit differently, as we never add 'yield' before throws
             (THROW expression SEMI) =>
             THROW exprComplexity=expression SEMI
             {
