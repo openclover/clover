@@ -1455,6 +1455,11 @@ recordDefinition! [Modifiers mods] returns [String recordName]
             deprecated = maybeEnterDeprecated(first);
         }
         id:IDENT
+
+        // it might have type parameters
+        (typeParam=typeParameters)?
+
+        // it has a list of fields as parameter list
         LPAREN! parameters=parameterDeclarationList RPAREN!
 
         // it _might_ have a superclass...
