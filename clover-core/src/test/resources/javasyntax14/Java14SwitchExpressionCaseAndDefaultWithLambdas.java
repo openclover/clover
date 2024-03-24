@@ -49,11 +49,21 @@ public class Java14SwitchExpressionCaseAndDefaultWithLambdas {
         }
     }
 
+    static void switchExpressionWithIgnoredValueNeedsCloverDirective(int i) {
+        // a non-standard case when value returned by switch is ignored, we must instruct openclover to add returns
+        switch (i) {
+            case 1 -> /*CLOVER:RETURN*/ 1;
+            case 2 -> /*CLOVER:RETURN*/ 2;
+            default -> /*CLOVER:RETURN*/ 3;
+        }
+    }
+
     public static void main(String[] args) {
         switchExpressionWithCasesOnly(Colors.G);
         switchExpressionWithCasesReturningVoidOnly(Colors.B);
         switchExpressionWithCaseAndDefault(2);
         switchExpressionWithCaseAndDefaultReturningVoid(0);
         switchExpressionWithCaseReferencingNonFinalVariable();
+        switchExpressionWithIgnoredValueNeedsCloverDirective(1);
     }
 }

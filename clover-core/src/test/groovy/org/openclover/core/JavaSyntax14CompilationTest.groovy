@@ -160,6 +160,22 @@ class JavaSyntax14CompilationTest extends JavaSyntaxCompilationTestBase {
     }
 
     @Test
+    void switchExpressionWithIgnoredValueNeedsCloverDirective() {
+        assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_14))
+
+        final String fileName = "Java14SwitchExpressionCaseAndDefaultWithLambdas.java"
+        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_14)
+
+        // switch as a statement but with non-void lambdas (aka switch value is ignored)
+        assertFileMatches(fileName, quote("case 1 ->") + R_CASE_EXPRESSION_WITH_RETURN_LEFT +
+                quote("/*CLOVER:RETURN*/ 1;") + R_CASE_EXPRESSION_RIGHT)
+        assertFileMatches(fileName, quote("case 2 ->") + R_CASE_EXPRESSION_WITH_RETURN_LEFT +
+                quote("/*CLOVER:RETURN*/ 2;") + R_CASE_EXPRESSION_RIGHT)
+        assertFileMatches(fileName, quote("default ->") + R_CASE_EXPRESSION_WITH_RETURN_LEFT +
+                quote("/*CLOVER:RETURN*/ 3;") + R_CASE_EXPRESSION_RIGHT)
+    }
+
+    @Test
     void switchExpressionWithCaseAndDefaultCanThrowExceptions() {
         assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_14))
 
