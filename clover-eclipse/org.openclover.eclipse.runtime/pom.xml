@@ -19,7 +19,7 @@
         <dependency>
             <groupId>org.openclover.eclipse.libs</groupId>
             <artifactId>clover-eclipse-libs</artifactId>
-            <version>photon-R</version>
+            <version>2024-03-R</version>
             <type>pom</type>
         </dependency>
         <dependency>
