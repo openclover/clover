@@ -14,7 +14,6 @@ import org.openclover.ant.AntInstrUtils;
 import org.openclover.ant.AntLogger;
 import org.openclover.ant.tasks.AntInstrumentationConfig;
 import org.openclover.ant.tasks.TestSourceSet;
-import org.openclover.core.CloverStartup;
 import org.openclover.core.Contract;
 import org.openclover.core.cfg.instr.java.SourceLevel;
 import org.openclover.core.instr.java.Instrumenter;

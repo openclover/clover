@@ -17,7 +17,7 @@ import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.compiler.BuildContext;
-import org.eclipse.jdt.internal.compiler.batch.CloverCompiler;
+import org.openclover.eclipse.core.compiler.CloverCompiler;
 import org.eclipse.swt.widgets.Display;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.registry.Clover2Registry;

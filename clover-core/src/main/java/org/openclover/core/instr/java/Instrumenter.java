@@ -16,7 +16,6 @@ import org.openclover.core.context.NamedContext;
 import org.openclover.core.context.StatementRegexpContext;
 import org.openclover.core.registry.Clover2Registry;
 import org.openclover.core.registry.entities.FullFileInfo;
-import org.openclover.core.registry.entities.FullPackageInfo;
 import org.openclover.core.registry.metrics.FileMetrics;
 import org.openclover.core.util.ChecksummingReader;
 import org.openclover.core.util.CloverUtils;
