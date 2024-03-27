@@ -10,7 +10,7 @@
     </parent>
     <groupId>org.openclover.eclipse.libs</groupId>
     <artifactId>clover-eclipse-libs</artifactId>
-    <version>luna-sr2</version> <!-- matches Eclipse version -->
+    <version>photon-R</version> <!-- matches Eclipse version -->
     <packaging>pom</packaging>
     <description>
         This module contains a minimal subset of Eclipse's JAR files required to compile
@@ -615,36 +615,36 @@
     </profiles>
     <properties>
         <eclipse.download.site>https://archive.eclipse.org</eclipse.download.site>
-        <eclipse.download.path>technology/epp/downloads/release/luna/SR2</eclipse.download.path>
-        <eclipse.download.file>eclipse-java-luna-SR2-win32-x86_64.zip</eclipse.download.file>
+        <eclipse.download.path>technology/epp/downloads/release/photon/R</eclipse.download.path>
+        <eclipse.download.file>eclipse-java-photon-R-win32-x86_64.zip</eclipse.download.file>
         <!-- plugin versions -->
-        <org.eclipse.ant.core.version>3.3.1.v20150123-1553</org.eclipse.ant.core.version>
-        <org.eclipse.core.commands.version>3.6.100.v20140528-1422</org.eclipse.core.commands.version>
-        <org.eclipse.core.contenttype.version>3.4.200.v20140207-1251</org.eclipse.core.contenttype.version>
-        <org.eclipse.core.jobs.version>3.6.1.v20141014-1248</org.eclipse.core.jobs.version>
-        <org.eclipse.core.resources.version>3.9.1.v20140825-1431</org.eclipse.core.resources.version>
-        <org.eclipse.core.runtime.version>3.10.0.v20140318-2214</org.eclipse.core.runtime.version>
-        <org.eclipse.debug.core.version>3.9.1.v20140805-1629</org.eclipse.debug.core.version>
-        <org.eclipse.debug.ui.version>3.10.2.v20141014-1039</org.eclipse.debug.ui.version>
-        <org.eclipse.e4.ui.workbench.version>1.2.2.v20141212-1259</org.eclipse.e4.ui.workbench.version>
-        <org.eclipse.equinox.common.version>3.6.200.v20130402-1505</org.eclipse.equinox.common.version>
-        <org.eclipse.equinox.preferences.version>3.5.200.v20140224-1527</org.eclipse.equinox.preferences.version>
-        <org.eclipse.equinox.registry.version>3.5.400.v20140428-1507</org.eclipse.equinox.registry.version>
-        <org.eclipse.jdt.core.version>3.10.2.v20150120-1634</org.eclipse.jdt.core.version>
-        <org.eclipse.jdt.debug.ui.version>3.6.300.v20140512-1926</org.eclipse.jdt.debug.ui.version>
-        <org.eclipse.jdt.junit.core.version>3.7.300.v20140409-1618</org.eclipse.jdt.junit.core.version>
-        <org.eclipse.jdt.junit.version>3.7.300.v20140418-0836</org.eclipse.jdt.junit.version>
-        <org.eclipse.jdt.launching.version>3.7.102.v20141111-0953</org.eclipse.jdt.launching.version>
-        <org.eclipse.jdt.ui.version>3.10.2.v20141014-1419</org.eclipse.jdt.ui.version>
-        <org.eclipse.jface.text.version>3.9.2.v20141003-1326</org.eclipse.jface.text.version>
-        <org.eclipse.jface.version>3.10.2.v20141021-1035</org.eclipse.jface.version>
-        <org.eclipse.osgi.version>3.10.2.v20150203-1939</org.eclipse.osgi.version>
-        <org.eclipse.swt.win32.win32.x86_64.version>3.103.2.v20150203-1351</org.eclipse.swt.win32.win32.x86_64.version>
-        <org.eclipse.text.version>3.5.300.v20130515-1451</org.eclipse.text.version>
-        <org.eclipse.ui.editors.version>3.8.200.v20140401-1310</org.eclipse.ui.editors.version>
-        <org.eclipse.ui.forms.version>3.6.100.v20140422-1825</org.eclipse.ui.forms.version>
-        <org.eclipse.ui.ide.version>3.10.2.v20141118-1227</org.eclipse.ui.ide.version>
-        <org.eclipse.ui.workbench.texteditor.version>3.9.0.v20140411-1521</org.eclipse.ui.workbench.texteditor.version>
-        <org.eclipse.ui.workbench.version>3.106.2.v20150204-1030</org.eclipse.ui.workbench.version>
+        <org.eclipse.ant.core.version>3.5.100.v20180512-1141</org.eclipse.ant.core.version>
+        <org.eclipse.core.commands.version>3.9.100.v20180404-1234</org.eclipse.core.commands.version>
+        <org.eclipse.core.contenttype.version>3.7.0.v20180426-1644</org.eclipse.core.contenttype.version>
+        <org.eclipse.core.jobs.version>3.10.0.v20180427-1454</org.eclipse.core.jobs.version>
+        <org.eclipse.core.resources.version>3.13.0.v20180512-1138</org.eclipse.core.resources.version>
+        <org.eclipse.core.runtime.version>3.14.0.v20180417-0825</org.eclipse.core.runtime.version>
+        <org.eclipse.debug.core.version>3.12.0.v20180509-0959</org.eclipse.debug.core.version>
+        <org.eclipse.debug.ui.version>3.13.0.v20180514-0621</org.eclipse.debug.ui.version>
+        <org.eclipse.e4.ui.workbench.version>1.6.0.v20180516-2019</org.eclipse.e4.ui.workbench.version>
+        <org.eclipse.equinox.common.version>3.10.0.v20180412-1130</org.eclipse.equinox.common.version>
+        <org.eclipse.equinox.preferences.version>3.7.100.v20180510-1129</org.eclipse.equinox.preferences.version>
+        <org.eclipse.equinox.registry.version>3.8.0.v20180426-1327</org.eclipse.equinox.registry.version>
+        <org.eclipse.jdt.core.version>3.14.0.v20180528-0519</org.eclipse.jdt.core.version>
+        <org.eclipse.jdt.debug.ui.version>3.9.0.v20180606-1318</org.eclipse.jdt.debug.ui.version>
+        <org.eclipse.jdt.junit.core.version>3.10.0.v20180523-1405</org.eclipse.jdt.junit.core.version>
+        <org.eclipse.jdt.junit.version>3.11.0.v20180427-0704</org.eclipse.jdt.junit.version>
+        <org.eclipse.jdt.launching.version>3.10.0.v20180606-1318</org.eclipse.jdt.launching.version>
+        <org.eclipse.jdt.ui.version>3.14.0.v20180529-1023</org.eclipse.jdt.ui.version>
+        <org.eclipse.jface.text.version>3.13.0.v20180527-1819</org.eclipse.jface.text.version>
+        <org.eclipse.jface.version>3.14.0.v20180423-0714</org.eclipse.jface.version>
+        <org.eclipse.osgi.version>3.13.0.v20180409-1500</org.eclipse.osgi.version>
+        <org.eclipse.swt.win32.win32.x86_64.version>3.107.0.v20180611-0422</org.eclipse.swt.win32.win32.x86_64.version>
+        <org.eclipse.text.version>3.6.300.v20180430-1330</org.eclipse.text.version>
+        <org.eclipse.ui.editors.version>3.11.100.v20180512-1137</org.eclipse.ui.editors.version>
+        <org.eclipse.ui.forms.version>3.7.200.v20180512-1133</org.eclipse.ui.forms.version>
+        <org.eclipse.ui.ide.version>3.14.0.v20180517-1842</org.eclipse.ui.ide.version>
+        <org.eclipse.ui.workbench.texteditor.version>3.11.0.v20180419-2011</org.eclipse.ui.workbench.texteditor.version>
+        <org.eclipse.ui.workbench.version>3.111.0.v20180524-1156</org.eclipse.ui.workbench.version>
     </properties>
 </project>

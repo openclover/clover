@@ -15,7 +15,7 @@
         <dependency>
             <groupId>org.openclover.eclipse.libs</groupId>
             <artifactId>clover-eclipse-libs</artifactId>
-            <version>luna-sr2</version>
+            <version>photon-R</version>
             <type>pom</type>
         </dependency>
         <dependency>
