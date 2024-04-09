@@ -178,8 +178,8 @@
                                     <artifactId>clover-annotations</artifactId>
                                 </artifactItem>
                                 <artifactItem>
-                                    <groupId>org.openclover</groupId>
-                                    <artifactId>clover-antlr</artifactId>
+                                    <groupId>antlr</groupId>
+                                    <artifactId>antlr</artifactId>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.openclover</groupId>
@@ -218,8 +218,8 @@
                                     <artifactId>clover-velocity</artifactId>
                                 </artifactItem>
                                 <artifactItem>
-                                    <groupId>org.openclover</groupId>
-                                    <artifactId>clover-cajo</artifactId>
+                                    <groupId>gnu.cajo</groupId>
+                                    <artifactId>cajo</artifactId>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>

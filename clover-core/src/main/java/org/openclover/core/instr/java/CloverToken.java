@@ -10,7 +10,7 @@ import static org.openclover.core.util.Lists.newLinkedList;
 
 
 public class CloverToken
-    extends clover.antlr.CommonHiddenStreamToken
+    extends antlr.CommonHiddenStreamToken
 {
     private CloverToken next;
     private CloverToken prev;

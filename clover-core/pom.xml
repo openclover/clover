@@ -56,10 +56,6 @@
         </dependency>
         <dependency>
             <groupId>org.openclover</groupId>
-            <artifactId>clover-antlr</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.openclover</groupId>
             <artifactId>clover-commons-collections</artifactId>
         </dependency>
         <dependency>
@@ -93,11 +89,6 @@
         <dependency>
             <groupId>org.openclover</groupId>
             <artifactId>clover-velocity</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-cajo</artifactId>
-            <scope>test</scope>
         </dependency>
         <!-- other libraries -->
         <dependency>
@@ -228,7 +219,7 @@
                             <goal>java</goal>
                         </goals>
                         <configuration>
-                            <mainClass>clover.antlr.Tool</mainClass>
+                            <mainClass>antlr.Tool</mainClass>
                             <arguments>
                                 <argument>-o</argument>
                                 <argument>${project.build.directory}/src-generated/clover/org/codehaus/groovy/antlr/parser</argument>
@@ -253,12 +244,6 @@
                         </goals>
                         <configuration>
                             <target>
-                                <replace dir="${project.build.directory}/src-generated" token="import antlr" value="import clover.antlr">
-                                    <include name="**/*.java" />
-                                </replace>
-                                <replace dir="${project.build.directory}/src-generated" token="extends antlr" value="extends clover.antlr">
-                                    <include name="**/*.java" />
-                                </replace>
                                 <replace dir="${project.build.directory}/src-generated" token="public final void mIDENT" value="public void mIDENT">
                                     <include name="**/JavaLexer.java" />
                                 </replace>
@@ -328,6 +313,48 @@
                     </includes>
                 </configuration>
             </plugin>-->
+            <!-- pack main jar, including stripped and repacked third party libraries -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.4</version>
+                <executions>
+                    <execution>
+                        <id>package-jar</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <artifactSet>
+                                <includes>
+                                    <include>antlr:antlr</include>
+                                </includes>
+                            </artifactSet>
+                            <relocations>
+                                <relocation>
+                                    <pattern>antlr</pattern>
+                                    <shadedPattern>clover.antlr</shadedPattern>
+                                    <includes>
+                                        <include>antlr.**</include>
+                                    </includes>
+                                </relocation>
+                            </relocations>
+                            <!--<transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <manifestEntries>
+                                        <Specification-Title>OpenClover</Specification-Title>
+                                        <Specification-Version>${project.version}</Specification-Version>
+                                        <Specification-Vendor>OpenClover.org</Specification-Vendor>
+                                        <Implementation-Version>${project.version}</Implementation-Version>
+                                        <Implementation-Vendor>OpenClover.org</Implementation-Vendor>
+                                    </manifestEntries>
+                                </transformer>
+                            </transformers>-->
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <!-- generate sources jar -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

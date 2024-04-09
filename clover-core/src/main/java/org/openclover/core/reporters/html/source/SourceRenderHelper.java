@@ -109,7 +109,7 @@ public class SourceRenderHelper {
      * @param emptyCoverageChar the String to use when there is no coverage
      * @return each line with rendering info added
      * @throws java.io.IOException if an error occurs rendering this file page
-     * @throws clover.antlr.TokenStreamException
+     * @throws antlr.TokenStreamException
      *                             if an error occurs reading the source file
      */
     public LineRenderInfo[] gatherSrcRenderInfo(VelocityContext vc, FileInfo finfo, ContextSet contextSet,

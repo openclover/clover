@@ -1,8 +1,8 @@
 package org.openclover.core.reporters;
 
-import clover.antlr.CommonAST;
-import clover.antlr.RecognitionException;
-import clover.antlr.TokenStreamException;
+import antlr.CommonAST;
+import antlr.RecognitionException;
+import antlr.TokenStreamException;
 import org.openclover.core.api.registry.BlockMetrics;
 import org.openclover.runtime.Logger;
 import org.openclover.runtime.api.CloverException;

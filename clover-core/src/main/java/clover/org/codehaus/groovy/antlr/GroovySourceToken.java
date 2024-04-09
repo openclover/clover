@@ -1,6 +1,6 @@
 package clover.org.codehaus.groovy.antlr;
 
-import clover.antlr.Token;
+import antlr.Token;
 
 /*
  * Copyright 2003-2007 the original author or authors.

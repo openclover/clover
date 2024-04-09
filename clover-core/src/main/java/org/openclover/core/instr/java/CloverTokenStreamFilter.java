@@ -1,10 +1,10 @@
 package org.openclover.core.instr.java;
 
-import clover.antlr.CharScanner;
-import clover.antlr.CommonHiddenStreamToken;
-import clover.antlr.Token;
-import clover.antlr.TokenStreamException;
-import clover.antlr.TokenStreamHiddenTokenFilter;
+import antlr.CharScanner;
+import antlr.CommonHiddenStreamToken;
+import antlr.Token;
+import antlr.TokenStreamException;
+import antlr.TokenStreamHiddenTokenFilter;
 import org.jetbrains.annotations.NotNull;
 import org.openclover.core.Contract;
 import org.openclover.core.api.instrumentation.InstrumentationSession;
@@ -29,7 +29,7 @@ import java.io.Writer;
  * methods to insert instrumenting tokens into that list.
  *
  * @version 1.0
- * @see clover.antlr.TokenStreamHiddenTokenFilter
+ * @see antlr.TokenStreamHiddenTokenFilter
  */
 public class CloverTokenStreamFilter extends TokenStreamHiddenTokenFilter {
 
@@ -77,7 +77,7 @@ public class CloverTokenStreamFilter extends TokenStreamHiddenTokenFilter {
      *
      * @param filePath path to original source, for reporting errors
      * @param input    the CharScanner to pull tokens from
-     * @see clover.antlr.TokenStreamHiddenTokenFilter
+     * @see antlr.TokenStreamHiddenTokenFilter
      */
     public CloverTokenStreamFilter(String filePath, CharScanner input) {
         super(input);

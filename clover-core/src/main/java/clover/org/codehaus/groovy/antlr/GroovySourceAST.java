@@ -16,9 +16,9 @@
 
 package clover.org.codehaus.groovy.antlr;
 
-import clover.antlr.CommonAST;
-import clover.antlr.Token;
-import clover.antlr.collections.AST;
+import antlr.CommonAST;
+import antlr.Token;
+import antlr.collections.AST;
 
 import java.util.List;
 

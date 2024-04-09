@@ -5,7 +5,7 @@ import java.io.DataOutput;
 import java.io.IOException;
 import java.util.BitSet;
 
-public class CloverBitSet extends clover.antlr.collections.impl.BitSet implements ByteSized {
+public class CloverBitSet extends antlr.collections.impl.BitSet implements ByteSized {
     private final static int BITS_PER_UNIT = 1 << LOG_BITS;
     private final static int BIT_INDEX_MASK = BITS_PER_UNIT - 1;
     private final static byte[] END_ZERO_TABLE = {
@@ -29,7 +29,7 @@ public class CloverBitSet extends clover.antlr.collections.impl.BitSet implement
 
     /**
      * Keeps track if any modification of the bit set was <b>possibly</b> made via any of {@link #add(int)}, {@link #remove(int)},
-     * {@link #andInPlace(clover.antlr.collections.impl.BitSet)}, {@link #orInPlace(clover.antlr.collections.impl.BitSet)},
+     * {@link #andInPlace(antlr.collections.impl.BitSet)}, {@link #orInPlace(antlr.collections.impl.BitSet)},
      * {@link #notInPlace()}, {@link #notInPlace(int)}, {@link #notInPlace(int, int)} methods. Note it does not check
      * if content was really changed, but whether the method was called.
      */
@@ -205,7 +205,7 @@ public class CloverBitSet extends clover.antlr.collections.impl.BitSet implement
     }
 
     @Override
-    public void andInPlace(clover.antlr.collections.impl.BitSet bitSet) {
+    public void andInPlace(antlr.collections.impl.BitSet bitSet) {
         modified = true;
         super.andInPlace(bitSet);
     }
@@ -235,7 +235,7 @@ public class CloverBitSet extends clover.antlr.collections.impl.BitSet implement
     }
 
     @Override
-    public void orInPlace(clover.antlr.collections.impl.BitSet bitSet) {
+    public void orInPlace(antlr.collections.impl.BitSet bitSet) {
         modified = true;
         super.orInPlace(bitSet);
     }
@@ -247,7 +247,7 @@ public class CloverBitSet extends clover.antlr.collections.impl.BitSet implement
     }
 
     @Override
-    public void subtractInPlace(clover.antlr.collections.impl.BitSet bitSet) {
+    public void subtractInPlace(antlr.collections.impl.BitSet bitSet) {
         modified = true;
         super.subtractInPlace(bitSet);
     }
@@ -299,7 +299,7 @@ public class CloverBitSet extends clover.antlr.collections.impl.BitSet implement
 
     /**
      * Returns true if any modification of the bit set was <b>possibly</b> made via any of {@link #add(int)}, {@link #remove(int)},
-     * {@link #andInPlace(clover.antlr.collections.impl.BitSet)}, {@link #orInPlace(clover.antlr.collections.impl.BitSet)},
+     * {@link #andInPlace(antlr.collections.impl.BitSet)}, {@link #orInPlace(antlr.collections.impl.BitSet)},
      * {@link #notInPlace()}, {@link #notInPlace(int)}, {@link #notInPlace(int, int)} method calls. Note it does not check
      * if content was really changed, but whether the method was called.
      *

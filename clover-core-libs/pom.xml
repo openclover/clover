@@ -28,8 +28,7 @@
             <id>workspace-setup</id>
             <modules>
                 <module>clover-annotations</module>
-                <module>clover-antlr</module>
-                <module>clover-cajo</module>
+                <module>cajo</module>
                 <module>clover-commons-codec</module>
                 <module>clover-commons-collections</module>
                 <module>clover-commons-lang</module>
@@ -40,7 +39,6 @@
                 <module>clover-jcommon</module>
                 <module>clover-jdom</module>
                 <module>clover-jfreechart</module>
-                <module>clover-slf4j</module>
                 <module>clover-velocity</module>
             </modules>
             <build>

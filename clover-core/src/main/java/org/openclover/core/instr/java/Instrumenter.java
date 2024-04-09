@@ -1,8 +1,8 @@
 package org.openclover.core.instr.java;
 
-import clover.antlr.RecognitionException;
-import clover.antlr.TokenStreamException;
-import clover.antlr.TokenStreamRecognitionException;
+import antlr.RecognitionException;
+import antlr.TokenStreamException;
+import antlr.TokenStreamRecognitionException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.openclover.core.api.instrumentation.ConcurrentInstrumentationException;

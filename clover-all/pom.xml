@@ -65,12 +65,8 @@
             <artifactId>clover-annotations</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-antlr</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-cajo</artifactId>
+            <groupId>gnu.cajo</groupId>
+            <artifactId>cajo</artifactId>
         </dependency>
         <dependency>
             <groupId>org.openclover</groupId>
@@ -111,10 +107,6 @@
         <dependency>
             <groupId>org.openclover</groupId>
             <artifactId>clover-jfreechart</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-slf4j</artifactId>
         </dependency>
         <dependency>
             <groupId>org.openclover</groupId>
