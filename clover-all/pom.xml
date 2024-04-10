@@ -122,6 +122,17 @@
             </extension>
         </extensions>
         <plugins>
+            <!-- use assembly plugin instead of jar plugin to create an artifact -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>default-jar</id>
+                        <phase>none</phase>
+                    </execution>
+                </executions>
+            </plugin>
             <!-- generate clover.jar, a combination of clover-ant + clover-core + clover-runtime + clover+groovy +
                  repacked clover-* third-party libraries -->
             <plugin>
@@ -211,6 +222,16 @@
                                     <groupId>org.junit.platform</groupId>
                                     <artifactId>junit-platform-launcher</artifactId>
                                     <version>1.9.2</version>
+                                </additionalDependency>
+                                <additionalDependency>
+                                    <groupId>antlr</groupId>
+                                    <artifactId>antlr</artifactId>
+                                    <version>2.7.7</version>
+                                </additionalDependency>
+                                <additionalDependency>
+                                    <groupId>org.slf4j</groupId>
+                                    <artifactId>slf4j-api</artifactId>
+                                    <version>1.7.36</version>
                                 </additionalDependency>
                             </additionalDependencies>
                             <!-- clover-runtime contains a package in a folder different from package name, leading to warning -->
