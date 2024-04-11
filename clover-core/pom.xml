@@ -244,17 +244,23 @@
                         </goals>
                         <configuration>
                             <target>
-                                <replace dir="${project.build.directory}/src-generated" token="public final void mIDENT" value="public void mIDENT">
-                                    <include name="**/JavaLexer.java" />
+                                <replace dir="${project.build.directory}/src-generated" token="public final void mIDENT"
+                                         value="public void mIDENT">
+                                    <include name="**/JavaLexer.java"/>
                                 </replace>
-                                <replace dir="${project.build.directory}/src-generated" token="public final void mIDENT" value="public /*final*/ void mIDENT">
-                                    <include name="**/JavaLexer.java" />
+                                <replace dir="${project.build.directory}/src-generated" token="public final void mIDENT"
+                                         value="public /*final*/ void mIDENT">
+                                    <include name="**/JavaLexer.java"/>
                                 </replace>
-                                <replace dir="${project.build.directory}/src-generated" token="public final void mSTRING_LITERAL" value="public /*final*/ void mSTRING_LITERAL">
-                                    <include name="**/JavaLexer.java" />
+                                <replace dir="${project.build.directory}/src-generated"
+                                         token="public final void mSTRING_LITERAL"
+                                         value="public /*final*/ void mSTRING_LITERAL">
+                                    <include name="**/JavaLexer.java"/>
                                 </replace>
-                                <replace dir="${project.build.directory}/src-generated" token="public final void mCHAR_LITERAL" value="public /*final*/ void mCHAR_LITERAL">
-                                    <include name="**/JavaLexer.java" />
+                                <replace dir="${project.build.directory}/src-generated"
+                                         token="public final void mCHAR_LITERAL"
+                                         value="public /*final*/ void mCHAR_LITERAL">
+                                    <include name="**/JavaLexer.java"/>
                                 </replace>
                             </target>
                         </configuration>
@@ -329,8 +335,88 @@
                             <artifactSet>
                                 <includes>
                                     <include>antlr:antlr</include>
+                                    <include>org.openclover:clover-annotations</include>
+                                    <include>org.openclover:clover-commons-codec</include>
+                                    <include>org.openclover:clover-commons-collections</include>
+                                    <include>org.openclover:clover-commons-lang</include>
+                                    <include>org.openclover:clover-commons-lang3</include>
+                                    <include>org.openclover:clover-fastutil</include>
+                                    <include>org.openclover:clover-gson</include>
+                                    <include>org.openclover:clover-itext</include>
+                                    <include>org.openclover:clover-jcommon</include>
+                                    <include>org.openclover:clover-jdom</include>
+                                    <include>org.openclover:clover-jfreechart</include>
+                                    <include>org.openclover:clover-velocity</include>
                                 </includes>
                             </artifactSet>
+                            <filters>
+                                <filter>
+                                    <artifact>antlr:antlr</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                    </excludes>
+                                </filter>
+                                <filter>
+                                    <artifact>org.openclover:clover-commons-collections</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/LICENSE.txt</exclude>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                        <exclude>META-INF/NOTICE.txt</exclude>
+                                    </excludes>
+                                </filter>
+                                <filter>
+                                    <artifact>org.openclover:clover-commons-lang</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/LICENSE.txt</exclude>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                        <exclude>META-INF/NOTICE.txt</exclude>
+                                    </excludes>
+                                </filter>
+                                <filter>
+                                    <artifact>org.openclover:clover-commons-lang3</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/LICENSE.txt</exclude>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                        <exclude>META-INF/NOTICE.txt</exclude>
+                                    </excludes>
+                                </filter>
+                                <filter>
+                                    <artifact>org.openclover:clover-fastutil</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                    </excludes>
+                                </filter>
+                                <filter>
+                                    <artifact>org.openclover:clover-itext</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                    </excludes>
+                                </filter>
+                                <filter>
+                                    <artifact>org.openclover:clover-gson</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                    </excludes>
+                                </filter>
+                                <filter>
+                                    <artifact>org.openclover:clover-jcommon</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                    </excludes>
+                                </filter>
+                                <filter>
+                                    <artifact>org.openclover:clover-jfreechart</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                    </excludes>
+                                </filter>
+                                <filter>
+                                    <artifact>org.openclover:clover-velocity</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
                             <relocations>
                                 <relocation>
                                     <pattern>antlr</pattern>
@@ -340,17 +426,17 @@
                                     </includes>
                                 </relocation>
                             </relocations>
-                            <!--<transformers>
+                            <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <manifestEntries>
-                                        <Specification-Title>OpenClover</Specification-Title>
+                                        <Specification-Title>OpenClover Core</Specification-Title>
                                         <Specification-Version>${project.version}</Specification-Version>
                                         <Specification-Vendor>OpenClover.org</Specification-Vendor>
                                         <Implementation-Version>${project.version}</Implementation-Version>
                                         <Implementation-Vendor>OpenClover.org</Implementation-Vendor>
                                     </manifestEntries>
                                 </transformer>
-                            </transformers>-->
+                            </transformers>
                         </configuration>
                     </execution>
                 </executions>

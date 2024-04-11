@@ -228,6 +228,9 @@
                                         <include>antlr/collections/impl/Vector*</include>
                                         <include>antlr/collections/impl/VectorEnumerator*</include>
                                     </includes>
+                                    <excludes>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                    </excludes>
                                 </filter>
                                 <filter>
                                     <artifact>gnu.cajo:cajo</artifact>

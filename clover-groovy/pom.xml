@@ -172,55 +172,6 @@
                                     <artifactId>junit-jupiter-engine</artifactId>
                                     <version>5.9.3</version>
                                 </artifactItem>
-                                <!-- repacked libraries used by clover -->
-                                <artifactItem>
-                                    <groupId>org.openclover</groupId>
-                                    <artifactId>clover-annotations</artifactId>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>antlr</groupId>
-                                    <artifactId>antlr</artifactId>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.openclover</groupId>
-                                    <artifactId>clover-commons-collections</artifactId>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.openclover</groupId>
-                                    <artifactId>clover-commons-lang</artifactId>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.openclover</groupId>
-                                    <artifactId>clover-commons-lang3</artifactId>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.openclover</groupId>
-                                    <artifactId>clover-fastutil</artifactId>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.openclover</groupId>
-                                    <artifactId>clover-gson</artifactId>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.openclover</groupId>
-                                    <artifactId>clover-itext</artifactId>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.openclover</groupId>
-                                    <artifactId>clover-jcommon</artifactId>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.openclover</groupId>
-                                    <artifactId>clover-jfreechart</artifactId>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.openclover</groupId>
-                                    <artifactId>clover-velocity</artifactId>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>gnu.cajo</groupId>
-                                    <artifactId>cajo</artifactId>
-                                </artifactItem>
                             </artifactItems>
                         </configuration>
                     </execution>
@@ -278,6 +229,11 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <executions>
+                    <execution>
+                        <!-- the grover.jar is created by the assembly plugin -->
+                        <id>default-jar</id>
+                        <phase>none</phase>
+                    </execution>
                     <execution>
                         <id>create-tests-jar</id>
                         <goals>
