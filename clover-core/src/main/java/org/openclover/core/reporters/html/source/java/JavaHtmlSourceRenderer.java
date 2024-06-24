@@ -1,6 +1,6 @@
 package org.openclover.core.reporters.html.source.java;
 
-import clover.org.apache.commons.collections.map.LazyMap;
+import org.apache.commons.collections.map.LazyMap;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.PackageInfo;

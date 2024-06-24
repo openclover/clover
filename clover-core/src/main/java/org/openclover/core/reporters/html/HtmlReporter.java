@@ -1,10 +1,10 @@
 package org.openclover.core.reporters.html;
 
-import clover.org.apache.commons.lang3.StringUtils;
-import clover.org.apache.velocity.VelocityContext;
-import clover.org.jfree.chart.ChartRenderingInfo;
-import clover.org.jfree.chart.ChartUtilities;
-import clover.org.jfree.chart.JFreeChart;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.velocity.VelocityContext;
+import org.jfree.chart.ChartRenderingInfo;
+import org.jfree.chart.ChartUtilities;
+import org.jfree.chart.JFreeChart;
 import org.jetbrains.annotations.NotNull;
 import org.openclover.core.api.command.ArgProcessor;
 import org.openclover.core.api.command.HelpBuilder;

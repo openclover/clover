@@ -1,10 +1,10 @@
 package org.openclover.core;
 
-import clover.org.jfree.chart.ChartFactory;
-import clover.org.jfree.chart.ChartUtilities;
-import clover.org.jfree.chart.JFreeChart;
-import clover.org.jfree.chart.plot.PlotOrientation;
-import clover.org.jfree.data.xy.XYSeriesCollection;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartUtilities;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.xy.XYSeriesCollection;
 import org.openclover.runtime.Logger;
 
 import java.io.File;

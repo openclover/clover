@@ -48,8 +48,8 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-jdom</artifactId>
+            <groupId>jdom</groupId>
+            <artifactId>jdom</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

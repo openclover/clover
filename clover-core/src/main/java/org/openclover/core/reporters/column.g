@@ -3,6 +3,7 @@ header {
 package org.openclover.core.reporters;
 
 import org.openclover.core.api.registry.BlockMetrics;
+import org.openclover.runtime.api.CloverException;
 
 }
 
@@ -78,6 +79,26 @@ CLOVDATA
 class CalcTreeWalker extends TreeParser;
 options {
 	defaultErrorHandler=false;
+}
+
+{
+    // wrappers to hide AST class as it's being repacked
+
+    public void validate(CalcParser calcParser) throws CloverException {
+        try {
+            validate(calcParser.getAST());
+        } catch (RecognitionException ex) {
+            throw new CloverException(ex);
+        }
+    }
+
+    public double expr(CalcParser calcParser, BlockMetrics metrics) throws CloverException {
+        try {
+            return expr(calcParser.getAST(), metrics);
+        } catch (RecognitionException ex) {
+            throw new CloverException(ex);
+        }
+    }
 }
 
 expr [BlockMetrics m] returns [double r]

@@ -1,7 +1,7 @@
 package org.openclover.core.optimization;
 
-import clover.it.unimi.dsi.fastutil.objects.Object2LongMap;
-import clover.it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Object2LongMap;
+import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.CoverageDataSpec;
 import org.openclover.core.api.registry.FileInfo;

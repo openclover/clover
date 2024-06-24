@@ -27,40 +27,9 @@
         <profile>
             <id>workspace-setup</id>
             <modules>
-                <module>clover-annotations</module>
                 <module>cajo</module>
-                <module>clover-commons-codec</module>
-                <module>clover-commons-collections</module>
-                <module>clover-commons-lang</module>
-                <module>clover-commons-lang3</module>
-                <module>clover-fastutil</module>
-                <module>clover-gson</module>
-                <module>clover-itext</module>
-                <module>clover-jcommon</module>
-                <module>clover-jdom</module>
-                <module>clover-jfreechart</module>
-                <module>clover-velocity</module>
+                <module>fastutil</module>
             </modules>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-antrun-plugin</artifactId>
-                            <version>1.8</version>
-                            <dependencies>
-                                <dependency>
-                                    <!-- This is not available in Maven Central. You can run 'mvn install' in the
-                                    'jarjar' sub-module to have it locally. -->
-                                    <groupId>com.tonicsystems</groupId>
-                                    <artifactId>jarjar</artifactId>
-                                    <version>1.4</version>
-                                </dependency>
-                            </dependencies>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
         </profile>
     </profiles>
 </project>

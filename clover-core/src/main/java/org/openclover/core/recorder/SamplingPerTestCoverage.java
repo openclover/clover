@@ -1,10 +1,10 @@
 package org.openclover.core.recorder;
 
-import clover.it.unimi.dsi.fastutil.ints.Int2ObjectMap;
-import clover.it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
-import clover.it.unimi.dsi.fastutil.ints.Int2ObjectRBTreeMap;
-import clover.it.unimi.dsi.fastutil.ints.Int2ObjectSortedMap;
-import clover.it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectRBTreeMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectSortedMap;
+import it.unimi.dsi.fastutil.ints.IntArrayList;
 import org.openclover.core.CoverageDataSpec;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.MethodInfo;

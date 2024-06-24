@@ -1,6 +1,6 @@
 package org.openclover.core
 
-import clover.org.apache.commons.lang3.ArrayUtils
+import org.apache.commons.lang3.ArrayUtils
 import org.apache.tools.ant.BuildEvent
 import org.apache.tools.ant.BuildListener
 import org.apache.tools.ant.Project

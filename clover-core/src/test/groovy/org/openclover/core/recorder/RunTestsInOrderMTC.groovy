@@ -36,7 +36,7 @@ import org_openclover_runtime.CoverageRecorder
  *    TestC gets hits from time=3+5 = minimum C, maximum A+B+C
  * </pre>
  */
-public class RunTestsInOrderMTC extends RunTestsMTC {
+class RunTestsInOrderMTC extends RunTestsMTC {
 
     /** Expected values */
     public static boolean[] TEST_A_HITS = [
@@ -64,11 +64,11 @@ public class RunTestsInOrderMTC extends RunTestsMTC {
 
     private final CoverageRecorder coverageRecorder;
 
-    public RunTestsInOrderMTC(final CoverageRecorder coverageRecorder) {
+    RunTestsInOrderMTC(final CoverageRecorder coverageRecorder) {
         this.coverageRecorder = coverageRecorder;
     }
 
-    public void thread1() {
+    void thread1() {
         waitForTick(0);
         coverageRecorder.sliceStart("MyClass", 0L, TEST_A_ID, 0);
 
@@ -80,7 +80,7 @@ public class RunTestsInOrderMTC extends RunTestsMTC {
         coverageRecorder.sliceEnd("MyClass", "MyClass.testA", "MyClass testA runtime name", 0L, TEST_A_ID, 0, 0, null);
     }
 
-    public void thread2() {
+    void thread2() {
         waitForTick(1);
         coverageRecorder.sliceStart("MyClass", 0L, TEST_B_ID, 0);
 
@@ -96,7 +96,7 @@ public class RunTestsInOrderMTC extends RunTestsMTC {
         coverageRecorder.sliceEnd("MyClass", "MyClass.testB", "MyClass testB runtime name", 0L, TEST_B_ID, 0, 0, null);
     }
 
-    public void thread3() {
+    void thread3() {
         waitForTick(2);
         coverageRecorder.sliceStart("MyClass", 0L, TEST_C_ID, 0);
 
@@ -114,7 +114,7 @@ public class RunTestsInOrderMTC extends RunTestsMTC {
     }
 
     @Override
-    public void assertPerTestHitCounts(final int testCaseNumber, final CloverBitSet perTestCoverage, CoverageAssertionAccuracy accuracy) {
+    void assertPerTestHitCounts(final int testCaseNumber, final CloverBitSet perTestCoverage, CoverageAssertionAccuracy accuracy) {
         boolean[] minimumHitMask, maximumHitMask;
         switch (testCaseNumber) {
             case TEST_A_ID:
@@ -139,12 +139,12 @@ public class RunTestsInOrderMTC extends RunTestsMTC {
     }
 
     @Override
-    public void assertGlobalHitCounts(GlobalCoverageRecordingTranscript globalCoverage) {
+    void assertGlobalHitCounts(GlobalCoverageRecordingTranscript globalCoverage) {
         RecorderTestUtil.assertGlobalHitCounts("GLOBAL:", GLOBAL_HITS, globalCoverage);
     }
 
     @Override
-    public void assertGlobalAndPerTestRecordings(RecordingTranscripts.Filter filter) throws IOException {
+    void assertGlobalAndPerTestRecordings(RecordingTranscripts.Filter filter) throws IOException {
         for (RecordingTranscripts.FileRef file : filter.getCoverageRecordingFiles()) {
             final GlobalCoverageRecordingTranscript recording = (GlobalCoverageRecordingTranscript)file.read(new CoverageDataSpec());
             assertGlobalHitCounts(recording);
@@ -158,7 +158,7 @@ public class RunTestsInOrderMTC extends RunTestsMTC {
     }
 
     @Override
-    public void assertGlobalAndPerTestRecordingsInRange(RecordingTranscripts.Filter filter) throws IOException {
+    void assertGlobalAndPerTestRecordingsInRange(RecordingTranscripts.Filter filter) throws IOException {
         for (RecordingTranscripts.FileRef file : filter.getCoverageRecordingFiles()) {
             final GlobalCoverageRecordingTranscript recording = (GlobalCoverageRecordingTranscript)file.read(new CoverageDataSpec());
             assertGlobalHitCounts(recording);

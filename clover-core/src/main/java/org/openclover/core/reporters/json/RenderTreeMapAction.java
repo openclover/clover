@@ -1,8 +1,8 @@
 package org.openclover.core.reporters.json;
 
-import clover.com.google.gson.Gson;
-import clover.com.google.gson.GsonBuilder;
-import clover.org.apache.velocity.VelocityContext;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import org.apache.velocity.VelocityContext;
 import org.openclover.core.api.registry.BlockMetrics;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.HasMetrics;

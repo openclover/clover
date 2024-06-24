@@ -1,13 +1,13 @@
 package org.openclover.core.reporters.util
 
-import clover.org.jfree.chart.ChartFrame
-import clover.org.jfree.chart.ChartPanel
-import clover.org.jfree.chart.JFreeChart
-import clover.org.jfree.chart.axis.DateAxis
-import clover.org.jfree.chart.axis.LogarithmicAxis
-import clover.org.jfree.chart.axis.NumberAxis
-import clover.org.jfree.chart.plot.XYPlot
-import clover.org.jfree.data.xy.XYDataset
+import org.jfree.chart.ChartFrame
+import org.jfree.chart.ChartPanel
+import org.jfree.chart.JFreeChart
+import org.jfree.chart.axis.DateAxis
+import org.jfree.chart.axis.LogarithmicAxis
+import org.jfree.chart.axis.NumberAxis
+import org.jfree.chart.plot.XYPlot
+import org.jfree.data.xy.XYDataset
 import groovy.transform.CompileStatic
 import junit.framework.TestCase
 import org.openclover.buildutil.testutils.IOHelper

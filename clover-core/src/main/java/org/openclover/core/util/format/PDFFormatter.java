@@ -1,9 +1,9 @@
 package org.openclover.core.util.format;
 
-import clover.com.lowagie.text.Chunk;
-import clover.com.lowagie.text.Font;
-import clover.com.lowagie.text.FontFactory;
-import clover.com.lowagie.text.Phrase;
+import com.lowagie.text.Chunk;
+import com.lowagie.text.Font;
+import com.lowagie.text.FontFactory;
+import com.lowagie.text.Phrase;
 
 import java.awt.Color;
 

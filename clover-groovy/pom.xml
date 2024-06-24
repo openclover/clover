@@ -125,12 +125,7 @@
                                 <artifactItem>
                                     <groupId>org.ow2.asm</groupId>
                                     <artifactId>asm</artifactId>
-                                    <version>4.1</version>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>antlr</groupId>
-                                    <artifactId>antlr</artifactId>
-                                    <version>2.7.7</version>
+                                    <version>9.7</version>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.apache.groovy</groupId>

@@ -1,6 +1,6 @@
 package org.openclover.idea.util.jdom;
 
-import clover.org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import com.intellij.openapi.diagnostic.Logger;
 import org.jdom.Document;
 import org.jdom.Element;

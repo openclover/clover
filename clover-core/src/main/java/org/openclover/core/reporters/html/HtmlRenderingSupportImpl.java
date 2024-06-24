@@ -1,6 +1,6 @@
 package org.openclover.core.reporters.html;
 
-import clover.org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.openclover.core.CoverageData;

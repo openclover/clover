@@ -51,44 +51,48 @@
         </dependency>
         <!-- repacked libraries -->
         <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-annotations</artifactId>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-commons-collections</artifactId>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-commons-lang</artifactId>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-commons-lang3</artifactId>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-fastutil</artifactId>
+            <groupId>it.unimi.dsi</groupId>
+            <artifactId>fastutil</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-gson</artifactId>
+            <groupId>jdom</groupId>
+            <artifactId>jdom</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-itext</artifactId>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-jcommon</artifactId>
+            <groupId>com.lowagie</groupId>
+            <artifactId>itext</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-jfreechart</artifactId>
+            <groupId>org.jfree</groupId>
+            <artifactId>jcommon</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-velocity</artifactId>
+            <groupId>org.jfree</groupId>
+            <artifactId>jfreechart</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity</artifactId>
         </dependency>
         <!-- other libraries -->
         <dependency>
@@ -335,18 +339,18 @@
                             <artifactSet>
                                 <includes>
                                     <include>antlr:antlr</include>
-                                    <include>org.openclover:clover-annotations</include>
-                                    <include>org.openclover:clover-commons-codec</include>
-                                    <include>org.openclover:clover-commons-collections</include>
-                                    <include>org.openclover:clover-commons-lang</include>
-                                    <include>org.openclover:clover-commons-lang3</include>
-                                    <include>org.openclover:clover-fastutil</include>
-                                    <include>org.openclover:clover-gson</include>
-                                    <include>org.openclover:clover-itext</include>
-                                    <include>org.openclover:clover-jcommon</include>
-                                    <include>org.openclover:clover-jdom</include>
-                                    <include>org.openclover:clover-jfreechart</include>
-                                    <include>org.openclover:clover-velocity</include>
+                                    <include>org.jetbrains:annotations</include>
+                                    <include>commons-codec:commons-codec</include>
+                                    <include>commons-collections:commons-collections</include>
+                                    <include>commons-lang:commons-lang</include>
+                                    <include>org.apache.commons:commons-lang3</include>
+                                    <include>it.unimi.dsi:fastutil</include>
+                                    <include>com.google.code.gson:gson</include>
+                                    <include>com.lowagie:itext</include>
+                                    <include>org.jfree:jcommon</include>
+                                    <include>jdom:jdom</include>
+                                    <include>org.jfree:jfreechart</include>
+                                    <include>org.apache.velocity:velocity</include>
                                 </includes>
                             </artifactSet>
                             <filters>
@@ -357,7 +361,7 @@
                                     </excludes>
                                 </filter>
                                 <filter>
-                                    <artifact>org.openclover:clover-commons-collections</artifact>
+                                    <artifact>commons-collections:commons-collections</artifact>
                                     <excludes>
                                         <exclude>META-INF/LICENSE.txt</exclude>
                                         <exclude>META-INF/MANIFEST.MF</exclude>
@@ -365,7 +369,22 @@
                                     </excludes>
                                 </filter>
                                 <filter>
-                                    <artifact>org.openclover:clover-commons-lang</artifact>
+                                    <artifact>org.jetbrains:annotations</artifact>
+                                    <includes>
+                                        <include>org/jetbrains/annotations/**</include>
+                                    </includes>
+                                </filter>
+                                <filter>
+                                    <artifact>commons-lang:commons-lang</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/LICENSE.txt</exclude>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                        <exclude>META-INF/NOTICE.txt</exclude>
+                                        <exclude>org/apache/commons/lang/enum/**</exclude>
+                                    </excludes>
+                                </filter>
+                                <filter>
+                                    <artifact>org.apache.commons:commons-lang3</artifact>
                                     <excludes>
                                         <exclude>META-INF/LICENSE.txt</exclude>
                                         <exclude>META-INF/MANIFEST.MF</exclude>
@@ -373,45 +392,44 @@
                                     </excludes>
                                 </filter>
                                 <filter>
-                                    <artifact>org.openclover:clover-commons-lang3</artifact>
+                                    <artifact>it.unimi.dsi:fastutil</artifact>
                                     <excludes>
-                                        <exclude>META-INF/LICENSE.txt</exclude>
                                         <exclude>META-INF/MANIFEST.MF</exclude>
-                                        <exclude>META-INF/NOTICE.txt</exclude>
+                                        <exclude>**/booleans/**</exclude>
+                                        <exclude>**/shorts/**</exclude>
+                                        <exclude>**/floats/**</exclude>
+                                        <exclude>**/doubles/**</exclude>
+                                        <exclude>**/chars/**"</exclude>
                                     </excludes>
                                 </filter>
                                 <filter>
-                                    <artifact>org.openclover:clover-fastutil</artifact>
+                                    <artifact>com.lowagie:itext</artifact>
                                     <excludes>
                                         <exclude>META-INF/MANIFEST.MF</exclude>
+                                        <exclude>build.xml</exclude>
                                     </excludes>
                                 </filter>
                                 <filter>
-                                    <artifact>org.openclover:clover-itext</artifact>
+                                    <artifact>com.google.code.gson:gson</artifact>
                                     <excludes>
                                         <exclude>META-INF/MANIFEST.MF</exclude>
+                                        <exclude>**/assembly-descriptor.xml</exclude>
                                     </excludes>
                                 </filter>
                                 <filter>
-                                    <artifact>org.openclover:clover-gson</artifact>
-                                    <excludes>
-                                        <exclude>META-INF/MANIFEST.MF</exclude>
-                                    </excludes>
-                                </filter>
-                                <filter>
-                                    <artifact>org.openclover:clover-jcommon</artifact>
-                                    <excludes>
-                                        <exclude>META-INF/MANIFEST.MF</exclude>
-                                    </excludes>
-                                </filter>
-                                <filter>
-                                    <artifact>org.openclover:clover-jfreechart</artifact>
+                                    <artifact>org.jfree:jcommon</artifact>
                                     <excludes>
                                         <exclude>META-INF/MANIFEST.MF</exclude>
                                     </excludes>
                                 </filter>
                                 <filter>
-                                    <artifact>org.openclover:clover-velocity</artifact>
+                                    <artifact>org.jfree:jfreechart</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                    </excludes>
+                                </filter>
+                                <filter>
+                                    <artifact>org.apache.velocity:velocity</artifact>
                                     <excludes>
                                         <exclude>META-INF/MANIFEST.MF</exclude>
                                     </excludes>
@@ -423,6 +441,70 @@
                                     <shadedPattern>clover.antlr</shadedPattern>
                                     <includes>
                                         <include>antlr.**</include>
+                                    </includes>
+                                </relocation>
+                                <!-- note: we do not shade org.jetbrains:annotations -->
+                                <relocation>
+                                    <pattern>org.apache.commons.codec</pattern>
+                                    <shadedPattern>clover.org.apache.commons.codec</shadedPattern>
+                                    <includes>
+                                        <include>org.apache.commons.codec.**</include>
+                                    </includes>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.apache.commons.collections</pattern>
+                                    <shadedPattern>clover.org.apache.commons.collections</shadedPattern>
+                                    <includes>
+                                        <include>org.apache.commons.collections.**</include>
+                                    </includes>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.apache.commons.lang</pattern>
+                                    <shadedPattern>clover.org.apache.commons.lang</shadedPattern>
+                                    <includes>
+                                        <include>org.apache.commons.lang.**</include>
+                                    </includes>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.apache.commons.lang3</pattern>
+                                    <shadedPattern>clover.org.apache.commons.lang3</shadedPattern>
+                                    <includes>
+                                        <include>org.apache.commons.lang3.**</include>
+                                    </includes>
+                                </relocation>
+                                <relocation>
+                                    <pattern>it.unimi.dsi.fastutil</pattern>
+                                    <shadedPattern>clover.it.unimi.dsi.fastutil</shadedPattern>
+                                    <includes>
+                                        <include>it.unimi.dsi.fastutil.**</include>
+                                    </includes>
+                                </relocation>
+                                <relocation>
+                                    <pattern>com.google.gson</pattern>
+                                    <shadedPattern>clover.com.google.gson</shadedPattern>
+                                    <includes>
+                                        <include>com.google.gson.**</include>
+                                    </includes>
+                                </relocation>
+                                <relocation>
+                                    <pattern>com.lowagie</pattern>
+                                    <shadedPattern>clover.com.lowagie</shadedPattern>
+                                    <includes>
+                                        <include>com.lowagie.**</include>
+                                    </includes>
+                                </relocation>
+                                <relocation>
+                                    <pattern></pattern>
+                                    <shadedPattern>clover.</shadedPattern>
+                                    <includes>
+                                        <include>.**</include>
+                                    </includes>
+                                </relocation>
+                                <relocation>
+                                    <pattern></pattern>
+                                    <shadedPattern>clover.</shadedPattern>
+                                    <includes>
+                                        <include>.**</include>
                                     </includes>
                                 </relocation>
                             </relocations>

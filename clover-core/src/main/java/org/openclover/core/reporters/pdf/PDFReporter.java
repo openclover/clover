@@ -1,9 +1,9 @@
 package org.openclover.core.reporters.pdf;
 
-import clover.com.lowagie.text.Document;
-import clover.com.lowagie.text.DocumentException;
-import clover.com.lowagie.text.Rectangle;
-import clover.com.lowagie.text.pdf.PdfWriter;
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Rectangle;
+import com.lowagie.text.pdf.PdfWriter;
 import org.openclover.core.CodeType;
 import org.openclover.core.api.command.ArgProcessor;
 import org.openclover.core.api.command.HelpBuilder;
@@ -73,12 +73,12 @@ public class PDFReporter extends CloverReporter {
             join(mandatoryArgProcessors, optionalArgProcessors);
 
 
-    private static final Rectangle DEFAULT_PAGE_SIZE = clover.com.lowagie.text.PageSize.A4;
+    private static final Rectangle DEFAULT_PAGE_SIZE = com.lowagie.text.PageSize.A4;
     private static final Map<String, Rectangle> SUPPORTED_PAGE_SIZES = newHashMap();
 
     static {
-        SUPPORTED_PAGE_SIZES.put("A4", clover.com.lowagie.text.PageSize.A4);
-        SUPPORTED_PAGE_SIZES.put("LETTER", clover.com.lowagie.text.PageSize.LETTER);
+        SUPPORTED_PAGE_SIZES.put("A4", com.lowagie.text.PageSize.A4);
+        SUPPORTED_PAGE_SIZES.put("LETTER", com.lowagie.text.PageSize.LETTER);
     }
 
     private final Document document;

@@ -1,7 +1,7 @@
 package org.openclover.ant;
 
-import clover.org.apache.commons.lang3.ArrayUtils;
-import clover.org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.PatternSet;
