@@ -1,6 +1,6 @@
 package org.openclover.idea.report.treemap;
 
-import clover.net.sf.jtreemap.swing.ValuePercent;
+import net.sf.jtreemap.swing.ValuePercent;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
 

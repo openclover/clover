@@ -71,7 +71,6 @@
                 <module>clover-core-libs</module>
                 <module>clover-eclipse-libs</module>
                 <module>clover-idea-libs</module>
-                <module>clover-jtreemap</module>
             </modules>
         </profile>
     </profiles>

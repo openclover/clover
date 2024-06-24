@@ -63,7 +63,6 @@ See also:
 mvn install -f clover-core-libs/jarjar/pom.xml
 mvn install -Pworkspace-setup -f clover-core-libs/pom.xml
 mvn install -Pworkspace-setup -f clover-eclipse-libs/pom.xml
-mvn install -Pworkspace-setup -f clover-jtreemap/pom.xml
 mvn install -Pworkspace-setup -f clover-idea-libs/pom.xml
 ```
 
