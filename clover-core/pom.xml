@@ -429,6 +429,12 @@
                                     </excludes>
                                 </filter>
                                 <filter>
+                                    <artifact>jdom:jdom</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                    </excludes>
+                                </filter>
+                                <filter>
                                     <artifact>org.apache.velocity:velocity</artifact>
                                     <excludes>
                                         <exclude>META-INF/MANIFEST.MF</exclude>
@@ -491,20 +497,6 @@
                                     <shadedPattern>clover.com.lowagie</shadedPattern>
                                     <includes>
                                         <include>com.lowagie.**</include>
-                                    </includes>
-                                </relocation>
-                                <relocation>
-                                    <pattern></pattern>
-                                    <shadedPattern>clover.</shadedPattern>
-                                    <includes>
-                                        <include>.**</include>
-                                    </includes>
-                                </relocation>
-                                <relocation>
-                                    <pattern></pattern>
-                                    <shadedPattern>clover.</shadedPattern>
-                                    <includes>
-                                        <include>.**</include>
                                     </includes>
                                 </relocation>
                             </relocations>
