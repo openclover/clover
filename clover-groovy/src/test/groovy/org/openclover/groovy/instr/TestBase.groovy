@@ -191,7 +191,7 @@ abstract class TestBase
         new File("target/test-dependencies").listFiles(new FileFilter() {
             @Override
             boolean accept(File pathname) {
-                return pathname.name.matches("clover-.*\\.jar")
+                return pathname.name.matches("(antlr)-.*\\.jar")
             }
         }).toList()
     }

@@ -449,6 +449,20 @@
                                         <include>antlr.**</include>
                                     </includes>
                                 </relocation>
+                                <relocation>
+                                    <pattern>com.google.gson</pattern>
+                                    <shadedPattern>clover.com.google.gson</shadedPattern>
+                                    <includes>
+                                        <include>com.google.gson.**</include>
+                                    </includes>
+                                </relocation>
+                                <relocation>
+                                    <pattern>com.lowagie</pattern>
+                                    <shadedPattern>clover.com.lowagie</shadedPattern>
+                                    <includes>
+                                        <include>com.lowagie.**</include>
+                                    </includes>
+                                </relocation>
                                 <!-- note: we do not shade org.jetbrains:annotations -->
                                 <relocation>
                                     <pattern>org.apache.commons.codec</pattern>
@@ -479,24 +493,31 @@
                                     </includes>
                                 </relocation>
                                 <relocation>
+                                    <pattern>org.apache.velocity</pattern>
+                                    <shadedPattern>clover.org.apache.velocity</shadedPattern>
+                                    <includes>
+                                        <include>org.apache.velocity.**</include>
+                                    </includes>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.jdom</pattern>
+                                    <shadedPattern>clover.org.jdom</shadedPattern>
+                                    <includes>
+                                        <include>org.jdom.**</include>
+                                    </includes>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.jfree</pattern>
+                                    <shadedPattern>clover.org.jfree</shadedPattern>
+                                    <includes>
+                                        <include>org.jfree.**</include>
+                                    </includes>
+                                </relocation>
+                                <relocation>
                                     <pattern>it.unimi.dsi.fastutil</pattern>
                                     <shadedPattern>clover.it.unimi.dsi.fastutil</shadedPattern>
                                     <includes>
                                         <include>it.unimi.dsi.fastutil.**</include>
-                                    </includes>
-                                </relocation>
-                                <relocation>
-                                    <pattern>com.google.gson</pattern>
-                                    <shadedPattern>clover.com.google.gson</shadedPattern>
-                                    <includes>
-                                        <include>com.google.gson.**</include>
-                                    </includes>
-                                </relocation>
-                                <relocation>
-                                    <pattern>com.lowagie</pattern>
-                                    <shadedPattern>clover.com.lowagie</shadedPattern>
-                                    <includes>
-                                        <include>com.lowagie.**</include>
                                     </includes>
                                 </relocation>
                             </relocations>
