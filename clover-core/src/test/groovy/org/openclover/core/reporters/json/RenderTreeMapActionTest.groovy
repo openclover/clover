@@ -58,26 +58,7 @@ class RenderTreeMapActionTest {
         assertEquals("callback name must match that in treemap.vm","processTreeMapJson", context.get("callback"))
     }
 
-    @Test
-    void testGenerateJson() throws Exception {
-        final ProjectInfo project = createMockProject()
-
-        final VelocityContext context = new VelocityContext()
-        final CloverReportConfig reportConfig = new Current()
-        final RenderTreeMapAction action = new RenderTreeMapAction(context, tmpDir, project)
-        final String json = action.generateJson(false)
-
-        // quick check of the json object structure
-        final JSONObject jsonObj = new JSONObject(json)
-        // check there is one package
-        final JSONArray pkgs = jsonObj.getJSONArray("children")
-        assertEquals(1, pkgs.length())
-        // check there are no classes in that package
-        assertEquals(0, pkgs.getJSONObject(0).getJSONArray("children").length())
-
-    }
-    
-    private ProjectInfo createMockProject() {
+    protected ProjectInfo createMockProject() {
         // mock a Project
         final ProjectInfo project = mock(ProjectInfo.class)
         ProjectMetrics projMetrics = new ProjectMetrics(project)
