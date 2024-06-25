@@ -172,6 +172,51 @@
                                     <artifactId>junit-jupiter-engine</artifactId>
                                     <version>5.9.3</version>
                                 </artifactItem>
+                                <!-- libraries used by clover -->
+                                <artifactItem>
+                                    <groupId>org.jetbrains</groupId>
+                                    <artifactId>annotations</artifactId>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>commons-collections</groupId>
+                                    <artifactId>commons-collections</artifactId>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>commons-lang</groupId>
+                                    <artifactId>commons-lang</artifactId>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.commons</groupId>
+                                    <artifactId>commons-lang3</artifactId>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>it.unimi.dsi</groupId>
+                                    <artifactId>fastutil</artifactId>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.google.code.gson</groupId>
+                                    <artifactId>gson</artifactId>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.lowagie</groupId>
+                                    <artifactId>itext</artifactId>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.jfree</groupId>
+                                    <artifactId>jcommon</artifactId>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.jfree</groupId>
+                                    <artifactId>jfreechart</artifactId>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>gnu.cajo</groupId>
+                                    <artifactId>cajo</artifactId>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.velocity</groupId>
+                                    <artifactId>velocity</artifactId>
+                                </artifactItem>
                             </artifactItems>
                         </configuration>
                     </execution>

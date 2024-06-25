@@ -191,7 +191,8 @@ abstract class TestBase
         new File("target/test-dependencies").listFiles(new FileFilter() {
             @Override
             boolean accept(File pathname) {
-                return pathname.name.matches("(antlr)-.*\\.jar")
+                // skip groovy/spock/junit as we will test with specific versions
+                return !pathname.name.matches("(groovy|spock|junit|asm)-.*\\.jar")
             }
         }).toList()
     }
