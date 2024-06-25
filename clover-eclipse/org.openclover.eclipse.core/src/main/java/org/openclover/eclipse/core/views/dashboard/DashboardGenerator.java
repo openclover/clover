@@ -5,14 +5,18 @@ import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.VelocityEngine;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.reporters.Current;
-import org.openclover.core.reporters.html.HtmlReportUtil;
 import org.openclover.core.reporters.html.VelocityLogAdapter;
 import org.openclover.core.util.FileUtils;
 import org.openclover.runtime.Logger;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.MalformedURLException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 
 public class DashboardGenerator {
     private static final String DASHBOARD_FILE = "dashboard-eclipse.html";
@@ -69,7 +73,7 @@ public class DashboardGenerator {
         engine.setProperty("runtime.log.invalid.references", "false");
         engine.init();
 
-        HtmlReportUtil.mergeTemplateToFile(engine, outfile, context, template);
+        mergeTemplateToFile(engine, outfile, context, template);
     }
     
     public String getDashboardURL() {
@@ -89,7 +93,7 @@ public class DashboardGenerator {
     }
 
     private void createResources() throws Exception {
-        final String templatePath = HtmlReportUtil.getTemplatePath();
+        final String templatePath = getTemplatePath();
         copyStaticResource(templatePath, "aui/css/aui.min.css");
         copyStaticResource(templatePath, "aui/css/aui-experimental.min.css");
         copyStaticResource(templatePath, "aui/css/aui-ie9.min.css");
@@ -112,4 +116,20 @@ public class DashboardGenerator {
         FileUtils.resourceToFile(getClass().getClassLoader(), aLoadPath + "/" + aName, outfile);
     }
 
+    private static void mergeTemplateToFile(VelocityEngine engine, File outfile, VelocityContext context, String template) throws IOException {
+        mergeTemplateToStream(engine, Files.newOutputStream(outfile.toPath()), context, template);
+    }
+
+    private static void mergeTemplateToStream(VelocityEngine engine, OutputStream outputStream, VelocityContext context, String template) {
+        try (BufferedWriter out = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8))) {
+            engine.mergeTemplate(template, "ASCII", context, out);
+        } catch (Exception e) {
+            Logger.getInstance().warn("Failed to generate " + outputStream, e);
+        }
+    }
+
+    // see HtmlReportUtil#getTemplatePath()
+    private static String getTemplatePath() {
+        return "html_res/adg";
+    }
 }
