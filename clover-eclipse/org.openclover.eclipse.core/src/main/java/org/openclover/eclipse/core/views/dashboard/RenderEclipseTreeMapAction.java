@@ -1,21 +1,25 @@
-package org.openclover.core.reporters.json;
+package org.openclover.eclipse.core.views.dashboard;
 
 import org.apache.velocity.VelocityContext;
 import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.reporters.html.HtmlRenderingSupportImpl;
-import org.openclover.core.reporters.html.HtmlReportUtil;
+import org.openclover.core.reporters.json.RenderTreeMapJsonAction;
+import org.openclover.eclipse.core.velocity.VelocityUtil;
 
 import java.io.File;
 import java.util.concurrent.Callable;
 
-public class RenderTreeMapAction implements Callable<Object> {
+/**
+ * Same as RenderTreeMapAction but uses non-shaded Velocity.
+ */
+public class RenderEclipseTreeMapAction implements Callable<Object> {
 
     private final ProjectInfo project;
     private final File outdir;
     private final VelocityContext mContext;
     private final HtmlRenderingSupportImpl renderSupport = new HtmlRenderingSupportImpl();
 
-    public RenderTreeMapAction(VelocityContext context, File outdir, ProjectInfo project) {
+    public RenderEclipseTreeMapAction(VelocityContext context, File outdir, ProjectInfo project) {
         this.project = project;
         this.outdir = outdir;
         this.mContext = context;
@@ -40,7 +44,7 @@ public class RenderTreeMapAction implements Callable<Object> {
         mContext.put("testPagePresent", Boolean.TRUE);
         mContext.put("topLevel", Boolean.TRUE);
 
-        HtmlReportUtil.mergeTemplateToFile(new File(outdir, filename), mContext,
+        VelocityUtil.mergeTemplateToFile(VelocityUtil.getVelocityEngine(), new File(outdir, filename), mContext,
                 "treemap.vm");
 
         return jsonStr;
@@ -50,7 +54,7 @@ public class RenderTreeMapAction implements Callable<Object> {
         final String jsonStr = RenderTreeMapJsonAction.generateJson(project, renderSupport, classLevel);
         mContext.put("callback", callback);
         mContext.put("json", jsonStr);
-        HtmlReportUtil.mergeTemplateToFile(new File(outdir, filename), mContext,
+        VelocityUtil.mergeTemplateToFile(VelocityUtil.getVelocityEngine(), new File(outdir, filename), mContext,
                 "treemap-json.vm");
         return jsonStr;
     }

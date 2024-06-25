@@ -36,7 +36,6 @@ import org.openclover.core.util.CloverExecutor;
 import org.openclover.core.util.CloverExecutors;
 import org.openclover.core.util.CloverUtils;
 import org.openclover.core.util.FileUtils;
-import org.openclover.core.util.format.HtmlFormatter;
 import org.openclover.runtime.Logger;
 import org.openclover.runtime.api.CloverException;
 import org_openclover_runtime.CloverVersionInfo;
@@ -503,7 +502,7 @@ public class HtmlReporter extends CloverReporter {
     private void renderProjectTreeMapPage(CloverExecutor<Object> service) throws Exception {
         VelocityContext context = new VelocityContext();
         insertCommonPropsForCurrent(context, "");
-        service.submit(new RenderTreeMapAction(context, reportConfig, basePath, getConfiguredModel()));
+        service.submit(new RenderTreeMapAction(context, basePath, getConfiguredModel()));
     }
 
     protected ProjectInfo getConfiguredModel() {

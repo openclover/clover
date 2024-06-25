@@ -5,18 +5,19 @@ import org.openclover.core.CloverDatabase;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.api.registry.ProjectInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
-import org.openclover.core.reporters.CloudGenerator;
+import org.openclover.core.registry.metrics.HasMetricsSupport;
 import org.openclover.core.reporters.html.ClassInfoStatsCalculator;
-import org.openclover.core.reporters.html.HtmlReportUtil;
+import org.openclover.core.reporters.html.StatisticsClassInfoVisitor;
 import org.openclover.core.reporters.html.TestClassFilter;
+import org.openclover.core.spi.reporters.html.source.HtmlRenderingSupport;
 import org.openclover.core.util.CloverUtils;
 import org.openclover.eclipse.core.CloverEclipsePluginMessages;
+import org.openclover.eclipse.core.velocity.VelocityUtil;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.Files;
 import java.util.List;
 
 public class EclipseCloudGenerator {
@@ -97,7 +98,7 @@ public class EclipseCloudGenerator {
 
     private void createResources() throws Exception {
         VelocityContext context = new VelocityContext();
-        HtmlReportUtil.mergeTemplateToDir(basePath, "style.css", context);
+        VelocityUtil.mergeTemplateToDir(VelocityUtil.getVelocityEngine(), basePath, "style.css", context);
     }
 
     protected void createShallowReport(
@@ -109,9 +110,9 @@ public class EclipseCloudGenerator {
             ClassInfoStatsCalculator calcAxis1,
             ClassInfoStatsCalculator calcAxis2) throws IOException {
 
-        try (OutputStream outputStream = new FileOutputStream(new File(dir, fileName))) {
+        try (OutputStream outputStream = Files.newOutputStream(new File(dir, fileName).toPath())) {
             final EclipseEditorLinkingHtmlRenderingSupport shallowAxisRender = new EclipseEditorLinkingHtmlRenderingSupport(offsetFromRoot + fileName);
-            final CloudGenerator reportGenerator = createReportGenerator(pageTitle, outputStream, shallowAxisRender);
+            final ReportGenerator reportGenerator = createReportGenerator(pageTitle, outputStream, shallowAxisRender);
             reportGenerator.createReport(classes, calcAxis1, calcAxis2);
         }
     }
@@ -125,14 +126,14 @@ public class EclipseCloudGenerator {
             ClassInfoStatsCalculator calcAxis1,
             ClassInfoStatsCalculator calcAxis2) throws IOException {
 
-        try (OutputStream outputStream = new FileOutputStream(new File(dir, AGGREGATE_PREFIX + fileName))) {
+        try (OutputStream outputStream = Files.newOutputStream(new File(dir, AGGREGATE_PREFIX + fileName).toPath())) {
             final EclipseEditorLinkingHtmlRenderingSupport deepAxisRender = new EclipseEditorLinkingHtmlRenderingSupport(offsetFromRoot + AGGREGATE_PREFIX + fileName);
-            final CloudGenerator reportGenerator = createReportGenerator(pageTitle, outputStream, deepAxisRender);
+            final ReportGenerator reportGenerator = createReportGenerator(pageTitle, outputStream, deepAxisRender);
             reportGenerator.createReport(classes, calcAxis1, calcAxis2);
         }
     }
 
-    protected CloudGenerator createReportGenerator(
+    protected ReportGenerator createReportGenerator(
             String pageTitle,
             OutputStream outputStream,
             EclipseEditorLinkingHtmlRenderingSupport axisRenderer) throws IOException {
@@ -142,7 +143,7 @@ public class EclipseCloudGenerator {
         context.put("showSrc", Boolean.TRUE);
         context.put("title", pageTitle);
 
-        return new CloudGenerator(TEMPLATE, axisRenderer, outputStream, context);
+        return new ReportGenerator(TEMPLATE, axisRenderer, outputStream, context);
     }
 
     public static String getRisksURIFor(File outputDir, boolean showAggregate) {
@@ -151,5 +152,51 @@ public class EclipseCloudGenerator {
 
     public static String getQuickWinsURIFor(File outputDir, boolean showAggregate) {
         return new File(outputDir, (showAggregate ? AGGREGATE_PREFIX : "") + QUICK_WINS_FILE_NAME).toURI().toString();
+    }
+
+    private static final class ReportGenerator {
+        private static final String RENDER_UTIL = "renderUtil";
+        private static final String DEEPAXIS = "deepaxis";
+        private static final String DEEPAXIS_1 = "deepaxis1";
+        private static final String DEEPAXIS_2 = "deepaxis2";
+        private static final String SHOW_SRC = "showSrc";
+
+        private final String template;
+        private final HtmlRenderingSupport axisRendering;
+        private final OutputStream outputStream;
+        private final VelocityContext velocityContext;
+
+        ReportGenerator(String template, HtmlRenderingSupport axisRendering, OutputStream outputStream, VelocityContext velocityContext) {
+            this.template = template;
+            this.axisRendering = axisRendering;
+            this.outputStream = outputStream;
+            this.velocityContext = velocityContext;
+        }
+
+        void createReport(List<ClassInfo> classes,
+                                       ClassInfoStatsCalculator calcAxis1,
+                                       ClassInfoStatsCalculator calcAxis2) {
+            applyAxis(classes, calcAxis1, calcAxis2, velocityContext);
+            velocityContext.put(RENDER_UTIL, axisRendering);
+            velocityContext.put(SHOW_SRC, true);
+            VelocityUtil.mergeTemplateToStream(VelocityUtil.getVelocityEngine(), outputStream, velocityContext,
+                    template);
+        }
+
+        private void applyAxis(List<ClassInfo> classes,
+                               ClassInfoStatsCalculator axis1,
+                               ClassInfoStatsCalculator axis2,
+                               VelocityContext context) {
+            StatisticsClassInfoVisitor v2 = StatisticsClassInfoVisitor.visit(sort(classes), axis2);
+            StatisticsClassInfoVisitor v1 = StatisticsClassInfoVisitor.visit(v2.getClasses(), axis1);
+            context.put(DEEPAXIS, Boolean.TRUE);
+            context.put(DEEPAXIS_1, v1);
+            context.put(DEEPAXIS_2, v2);
+        }
+
+        private <T extends ClassInfo> List<T> sort(List<T> classes) {
+            classes.sort(HasMetricsSupport.CMP_LEX);
+            return classes;
+        }
     }
 }

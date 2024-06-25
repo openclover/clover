@@ -41,7 +41,7 @@ class RenderTreeMapActionTest {
         final VelocityContext context = new VelocityContext()
         final CloverReportConfig reportConfig = new Current()
         reportConfig.setFormat(Format.DEFAULT_HTML)
-        final Callable action = new RenderTreeMapAction(context, reportConfig, tmpDir, project)
+        final Callable action = new RenderTreeMapAction(context, tmpDir, project)
         final String json = (String) action.call()
 
         // quick check of the json object structure
@@ -64,7 +64,7 @@ class RenderTreeMapActionTest {
 
         final VelocityContext context = new VelocityContext()
         final CloverReportConfig reportConfig = new Current()
-        final RenderTreeMapAction action = new RenderTreeMapAction(context, reportConfig, tmpDir, project)
+        final RenderTreeMapAction action = new RenderTreeMapAction(context, tmpDir, project)
         final String json = action.generateJson(false)
 
         // quick check of the json object structure
