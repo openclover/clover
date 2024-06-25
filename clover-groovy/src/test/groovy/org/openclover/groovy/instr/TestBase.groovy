@@ -192,7 +192,7 @@ abstract class TestBase
             @Override
             boolean accept(File pathname) {
                 // skip groovy/spock/junit as we will test with specific versions
-                return !pathname.name.matches("(groovy|spock|junit|asm)-.*\\.jar")
+                return !pathname.name.matches("(groovy|spock|junit)-.*\\.jar")
             }
         }).toList()
     }
