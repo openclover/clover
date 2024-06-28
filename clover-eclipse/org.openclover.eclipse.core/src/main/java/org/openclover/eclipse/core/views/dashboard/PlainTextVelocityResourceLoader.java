@@ -1,7 +1,7 @@
 package org.openclover.eclipse.core.views.dashboard;
 
-import org.apache.velocity.exception.ResourceNotFoundException;
-import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
+import clover.org.apache.velocity.exception.ResourceNotFoundException;
+import clover.org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 
 import java.io.InputStream;
 import java.util.Set;

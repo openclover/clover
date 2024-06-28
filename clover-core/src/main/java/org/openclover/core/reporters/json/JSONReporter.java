@@ -1,6 +1,6 @@
 package org.openclover.core.reporters.json;
 
-import org.apache.velocity.VelocityContext;
+import clover.org.apache.velocity.VelocityContext;
 import org.openclover.core.api.command.ArgProcessor;
 import org.openclover.core.api.command.HelpBuilder;
 import org.openclover.core.api.registry.FileInfo;

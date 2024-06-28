@@ -1,12 +1,9 @@
 package org.openclover.core.reporters.json;
 
-import org.apache.velocity.VelocityContext;
+import clover.org.apache.velocity.VelocityContext;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.ProjectInfo;
-import org.openclover.core.registry.entities.FullFileInfo;
-import org.openclover.core.registry.entities.FullPackageInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.core.reporters.Current;
 import org.openclover.core.reporters.html.HtmlRenderingSupportImpl;

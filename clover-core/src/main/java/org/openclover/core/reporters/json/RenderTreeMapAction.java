@@ -1,6 +1,6 @@
 package org.openclover.core.reporters.json;
 
-import org.apache.velocity.VelocityContext;
+import clover.org.apache.velocity.VelocityContext;
 import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.reporters.html.HtmlRenderingSupportImpl;
 import org.openclover.core.reporters.html.HtmlReportUtil;

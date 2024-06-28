@@ -214,8 +214,8 @@
                                     <artifactId>cajo</artifactId>
                                 </artifactItem>
                                 <artifactItem>
-                                    <groupId>org.apache.velocity</groupId>
-                                    <artifactId>velocity</artifactId>
+                                    <groupId>org.openclover</groupId>
+                                    <artifactId>clover-velocity</artifactId>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>

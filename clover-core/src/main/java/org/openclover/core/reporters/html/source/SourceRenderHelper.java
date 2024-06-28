@@ -1,7 +1,7 @@
 package org.openclover.core.reporters.html.source;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.velocity.VelocityContext;
+import clover.org.apache.velocity.VelocityContext;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.api.registry.BranchInfo;
 import org.openclover.core.api.registry.ContextSet;
@@ -10,7 +10,6 @@ import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.SourceInfo;
 import org.openclover.core.api.registry.CoverageDataProvider;
 import org.openclover.core.api.registry.TestCaseInfo;
-import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.LineInfo;
 
 import org.openclover.core.reporters.Current;

@@ -91,8 +91,8 @@
             <artifactId>jfreechart</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.velocity</groupId>
-            <artifactId>velocity</artifactId>
+            <groupId>org.openclover</groupId>
+            <artifactId>clover-velocity</artifactId>
         </dependency>
         <!-- other libraries -->
         <dependency>
@@ -327,7 +327,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.4</version>
+                <version>3.6.0</version>
                 <executions>
                     <execution>
                         <id>package-jar</id>
@@ -350,7 +350,7 @@
                                     <include>org.jfree:jcommon</include>
                                     <include>jdom:jdom</include>
                                     <include>org.jfree:jfreechart</include>
-                                    <include>org.apache.velocity:velocity</include>
+                                    <include>org.openclover:clover-velocity</include>
                                 </includes>
                             </artifactSet>
                             <filters>
@@ -435,7 +435,7 @@
                                     </excludes>
                                 </filter>
                                 <filter>
-                                    <artifact>org.apache.velocity:velocity</artifact>
+                                    <artifact>org.openclover:clover-velocity</artifact>
                                     <excludes>
                                         <exclude>META-INF/MANIFEST.MF</exclude>
                                     </excludes>
@@ -490,13 +490,6 @@
                                     <shadedPattern>clover.org.apache.commons.lang3</shadedPattern>
                                     <includes>
                                         <include>org.apache.commons.lang3.**</include>
-                                    </includes>
-                                </relocation>
-                                <relocation>
-                                    <pattern>org.apache.velocity</pattern>
-                                    <shadedPattern>clover.org.apache.velocity</shadedPattern>
-                                    <includes>
-                                        <include>org.apache.velocity.**</include>
                                     </includes>
                                 </relocation>
                                 <relocation>

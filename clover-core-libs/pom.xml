@@ -29,6 +29,7 @@
             <modules>
                 <module>cajo</module>
                 <module>fastutil</module>
+                <module>clover-velocity</module>
             </modules>
         </profile>
     </profiles>

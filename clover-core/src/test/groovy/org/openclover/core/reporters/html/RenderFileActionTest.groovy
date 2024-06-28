@@ -1,6 +1,6 @@
 package org.openclover.core.reporters.html
 
-import org.apache.velocity.VelocityContext
+import clover.org.apache.velocity.VelocityContext
 import junit.framework.TestCase
 import org.openclover.core.CloverDatabase
 import org.openclover.core.api.registry.PackageInfo

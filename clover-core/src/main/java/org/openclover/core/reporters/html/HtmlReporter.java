@@ -1,7 +1,7 @@
 package org.openclover.core.reporters.html;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.velocity.VelocityContext;
+import clover.org.apache.velocity.VelocityContext;
 import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
