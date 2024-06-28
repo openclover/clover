@@ -11,8 +11,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 
 public class TaggedIO {
     private static final boolean DEBUG;
@@ -21,8 +19,7 @@ public class TaggedIO {
     static {
         boolean shouldDebug = false;
         try {
-            shouldDebug = Logger.isDebug() && AccessController.doPrivileged((PrivilegedAction<Boolean>) () ->
-                    Boolean.getBoolean(CloverNames.PROP_LOGGING_TAGGED_IO));
+            shouldDebug = Logger.isDebug() && Boolean.getBoolean(CloverNames.PROP_LOGGING_TAGGED_IO);
         } catch (Exception e) {
             Logger.getInstance().warn("Unable to query if tagged IO should be logged", e);
         }

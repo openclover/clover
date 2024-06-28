@@ -8,7 +8,6 @@ import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.File;
-import java.io.FilePermission;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,16 +17,11 @@ import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.Writer;
 import java.nio.file.Files;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.text.CharacterIterator;
 import java.text.StringCharacterIterator;
 import java.util.StringTokenizer;
 
 
-/**
- *
- */
 public class FileUtils {
 
     public static final String JAVA_IO_TMPDIR = "java.io.tmpdir";
@@ -55,13 +49,17 @@ public class FileUtils {
      * @throws java.lang.RuntimeException if java.io.tmpdir is not set
      */
     public static File getJavaTempDir() {
-        final String property = AccessController.doPrivileged((PrivilegedAction<String>) () ->
-                System.getProperty(JAVA_IO_TMPDIR));
-        if (property == null) {
-            throw new RuntimeException("The " + JAVA_IO_TMPDIR +
-                    " system property is not set. Please ensure this property is set before executing OpenClover.");
-        } else {
-            return new File(property);
+        try {
+            final String property = System.getProperty(JAVA_IO_TMPDIR);
+            if (property == null) {
+                throw new RuntimeException("The " + JAVA_IO_TMPDIR + " system property is not set. " +
+                        "Please ensure this property is set before executing OpenClover.");
+            } else {
+                return new File(property);
+            }
+        } catch (SecurityException ex) {
+            throw new RuntimeException("The " + JAVA_IO_TMPDIR + " system property could not be read. " +
+                    "Please ensure access to system properties is allowed before executing OpenClover.");
         }
     }
 
@@ -77,9 +75,6 @@ public class FileUtils {
             temp = File.createTempFile("clover_fs_rez_test", ".txt");
 
             try {
-                //If we can't delete or create, let's not bother
-                AccessController.checkPermission(new FilePermission(temp.getAbsolutePath(), "delete"));
-
                 //Limit resolution inquiry to 1s, just in case
                 while (rez <= 1000) {
                     temp.setLastModified(rez);
@@ -90,9 +85,7 @@ public class FileUtils {
                 }
                 return rez;
             } finally {
-                if (temp != null) {
-                    temp.delete();
-                }
+                temp.delete();
             }
         } catch (Exception e) {
             //Assume 1s resolution in worst case (OSX & Win95)

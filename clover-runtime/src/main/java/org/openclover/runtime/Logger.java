@@ -1,7 +1,5 @@
 package org.openclover.runtime;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 
 public abstract class Logger {
     //these values mirror Ant's values
@@ -29,12 +27,7 @@ public abstract class Logger {
     //Ensures logging level is always set if clover.logging.level is set as a sysprop
     static {
         try {
-            String level = AccessController.doPrivileged(new PrivilegedAction<String>() {
-                @Override
-                public String run() {
-                    return System.getProperty(CloverNames.PROP_LOGGING_LEVEL);
-                }
-            });
+            final String level = System.getProperty(CloverNames.PROP_LOGGING_LEVEL);
             if ("debug".equalsIgnoreCase(level)) {
                 setDebug(true);
             } else if ("verbose".equalsIgnoreCase(level)) {

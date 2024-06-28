@@ -2,8 +2,6 @@ package org.openclover.runtime;
 
 import org.openclover.runtime.api.CloverException;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -15,12 +13,7 @@ public class Environment {
     static {
         String propStart = null;
         try {
-            propStart = AccessController.doPrivileged(new PrivilegedAction<String>() {
-                @Override
-                public String run() {
-                    return System.getProperty(CloverNames.PROP_ENV_PROPREF_STARTCHAR, "$");
-                }
-            });
+            propStart = System.getProperty(CloverNames.PROP_ENV_PROPREF_STARTCHAR, "$");
         } catch (Exception e) {
             //Ignore
         }
@@ -50,12 +43,7 @@ public class Environment {
                     final String propertyName = j.next();
                     String replacement = null;
                     try {
-                        replacement = AccessController.doPrivileged(new PrivilegedAction<String>() {
-                            @Override
-                            public String run() {
-                                return System.getProperty(propertyName);
-                            }
-                        });
+                        replacement = System.getProperty(propertyName);
                         if(replacement == null) {
                             Logger.getInstance().verbose("System property \"" + propertyName + "\" was null and so was not set");
                         }

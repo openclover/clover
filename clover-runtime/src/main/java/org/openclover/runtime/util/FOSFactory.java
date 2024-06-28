@@ -7,8 +7,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 
 /**
  * Factory for FileOutputStreams so that we can vary behaviour
@@ -25,17 +23,11 @@ public class FOSFactory {
     static {
         Boolean useSyncIO = Boolean.FALSE;
         try {
-            useSyncIO =
-                AccessController.doPrivileged(new PrivilegedAction<Boolean>() {
-                    @Override
-                    public Boolean run() {
-                        return Boolean.getBoolean(CloverNames.PROP_SYNCHRONOUS_IO);
-                    }
-            });
+            useSyncIO = Boolean.getBoolean(CloverNames.PROP_SYNCHRONOUS_IO);
         } catch (SecurityException e) {
             Logger.getInstance().info("Unable to determine OpenClover IO mode", e);
         }
-        USE_SYNCHRONOUS_IO = useSyncIO != null ? useSyncIO : false;
+        USE_SYNCHRONOUS_IO = useSyncIO;
     }
 
     public static FileOutputStream newFOS(File file) throws FileNotFoundException {

@@ -1,7 +1,5 @@
 package org.openclover.runtime;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -22,12 +20,7 @@ public class CloverProperties {
     }
 
     public static String getSysProperty(final String name, final String defaultValue) {
-        return AccessController.doPrivileged(new PrivilegedAction<String>() {
-            @Override
-            public String run() {
-                return System.getProperty(name, defaultValue);
-            }
-        });
+        return System.getProperty(name, defaultValue);
     }
 
     public static boolean getBooleanSysProperty(String name, boolean defaultValue) {
@@ -59,13 +52,7 @@ public class CloverProperties {
     }
 
     private String getCloverSystemProperties() {
-        Properties systemProperties = AccessController.doPrivileged(new PrivilegedAction<Properties>() {
-            @Override
-            public Properties run() {
-                return System.getProperties();
-            }
-        });
-
+        Properties systemProperties = System.getProperties();
         Map<String, String> cloverSystemProperties = new HashMap<>();
         for (Map.Entry<Object, Object> entry : systemProperties.entrySet()) {
             if (((String) entry.getKey()).startsWith(CloverNames.PROP_PREFIX)) {
