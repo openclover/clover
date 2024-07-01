@@ -728,8 +728,6 @@ public final class Clover {
          *    NO: return <code>null</code>
          * </pre>
          *
-         * Note: call in AccessController.doPrivileged() as it reads system property.
-         *
          * @param profiles available profiles to choose from
          * @return CloverProfile or <code>null</code>
          */
