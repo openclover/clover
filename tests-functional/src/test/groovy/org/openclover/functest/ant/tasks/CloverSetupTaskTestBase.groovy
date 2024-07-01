@@ -1,8 +1,8 @@
 package org.openclover.functest.ant.tasks
 
-import clover.org.jdom.Document
-import clover.org.jdom.Element
-import clover.org.jdom.JDOMException
+import org.jdom.Document
+import org.jdom.Element
+import org.jdom.JDOMException
 import groovy.transform.CompileStatic
 import org.junit.After
 import org.junit.Rule

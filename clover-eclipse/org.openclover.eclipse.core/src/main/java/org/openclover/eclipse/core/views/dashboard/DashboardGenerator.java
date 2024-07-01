@@ -111,5 +111,4 @@ public class DashboardGenerator {
         final File outfile = new File(basePath, aName);
         FileUtils.resourceToFile(getClass().getClassLoader(), aLoadPath + "/" + aName, outfile);
     }
-
 }

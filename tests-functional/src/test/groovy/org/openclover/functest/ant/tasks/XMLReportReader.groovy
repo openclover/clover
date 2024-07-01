@@ -1,9 +1,9 @@
 package org.openclover.functest.ant.tasks
 
-import clover.org.jdom.Document
-import clover.org.jdom.Element
-import clover.org.jdom.JDOMException
-import clover.org.jdom.input.SAXBuilder
+import org.jdom.Document
+import org.jdom.Element
+import org.jdom.JDOMException
+import org.jdom.input.SAXBuilder
 import groovy.transform.CompileStatic
 import org.xml.sax.EntityResolver
 import org.xml.sax.InputSource

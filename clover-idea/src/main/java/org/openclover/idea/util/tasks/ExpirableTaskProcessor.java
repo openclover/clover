@@ -1,6 +1,6 @@
 package org.openclover.idea.util.tasks;
 
-import clover.org.apache.commons.collections.list.SetUniqueList;
+import org.apache.commons.collections.list.SetUniqueList;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.progress.ProcessCanceledException;

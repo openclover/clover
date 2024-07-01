@@ -71,7 +71,6 @@
                 <module>clover-core-libs</module>
                 <module>clover-eclipse-libs</module>
                 <module>clover-idea-libs</module>
-                <module>clover-jtreemap</module>
             </modules>
         </profile>
     </profiles>
@@ -79,73 +78,76 @@
         <dependencies>
             <!-- repacked versions of popular libraries -->
             <dependency>
-                <groupId>org.openclover</groupId>
-                <artifactId>clover-annotations</artifactId>
+                <groupId>org.jetbrains</groupId>
+                <artifactId>annotations</artifactId>
                 <version>13.0</version>
             </dependency>
             <dependency>
-                <groupId>org.openclover</groupId>
-                <artifactId>clover-antlr</artifactId>
+                <groupId>antlr</groupId>
+                <artifactId>antlr</artifactId>
                 <version>2.7.7</version>
             </dependency>
             <dependency>
-                <groupId>org.openclover</groupId>
-                <artifactId>clover-cajo</artifactId>
+                <groupId>gnu.cajo</groupId>
+                <artifactId>cajo</artifactId>
                 <version>1.117</version>
             </dependency>
             <dependency>
-                <groupId>org.openclover</groupId>
-                <artifactId>clover-commons-codec</artifactId>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
                 <version>1.9</version>
             </dependency>
             <dependency>
-                <groupId>org.openclover</groupId>
-                <artifactId>clover-commons-collections</artifactId>
+                <groupId>commons-collections</groupId>
+                <artifactId>commons-collections</artifactId>
                 <version>3.2.2</version>
             </dependency>
             <dependency>
-                <groupId>org.openclover</groupId>
-                <artifactId>clover-commons-lang</artifactId>
+                <groupId>commons-lang</groupId>
+                <artifactId>commons-lang</artifactId>
                 <version>2.6</version>
             </dependency>
             <dependency>
-                <groupId>org.openclover</groupId>
-                <artifactId>clover-commons-lang3</artifactId>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
                 <version>3.3.2</version>
             </dependency>
             <dependency>
-                <groupId>org.openclover</groupId>
-                <artifactId>clover-fastutil</artifactId>
+                <groupId>it.unimi.dsi</groupId>
+                <artifactId>fastutil</artifactId>
                 <version>4.4.3</version>
             </dependency>
             <dependency>
-                <groupId>org.openclover</groupId>
-                <artifactId>clover-gson</artifactId>
-                <version>1.3</version>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>2.10.1</version>
             </dependency>
             <dependency>
-                <groupId>org.openclover</groupId>
-                <artifactId>clover-itext</artifactId>
+                <!-- DO NOT UPGRADE iText library to version newer than 2.1.7.
+                This is the latest version which was released under LGPL license.
+                All newer versions are released under Affero GPL v3, which is a viral license -->
+                <groupId>com.lowagie</groupId>
+                <artifactId>itext</artifactId>
                 <version>2.0.1</version> <!-- don't upgrade above 2.1.7 -->
             </dependency>
             <dependency>
-                <groupId>org.openclover</groupId>
-                <artifactId>clover-jcommon</artifactId>
+                <groupId>org.jfree</groupId>
+                <artifactId>jcommon</artifactId>
                 <version>1.0.23</version>
             </dependency>
             <dependency>
-                <groupId>org.openclover</groupId>
-                <artifactId>clover-jdom</artifactId>
+                <groupId>jdom</groupId>
+                <artifactId>jdom</artifactId>
                 <version>1.0</version>
             </dependency>
             <dependency>
-                <groupId>org.openclover</groupId>
-                <artifactId>clover-jfreechart</artifactId>
+                <groupId>org.jfree</groupId>
+                <artifactId>jfreechart</artifactId>
                 <version>1.0.19</version>
             </dependency>
             <dependency>
-                <groupId>org.openclover</groupId>
-                <artifactId>clover-slf4j</artifactId>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
                 <version>1.7.36</version>
             </dependency>
             <dependency>
@@ -218,7 +220,7 @@
             <dependency>
                 <groupId>org.ow2.asm</groupId>
                 <artifactId>asm</artifactId>
-                <version>5.0.3</version>
+                <version>9.7</version>
             </dependency>
             <!-- ant -->
             <dependency>

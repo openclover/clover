@@ -5,7 +5,6 @@ import org.openclover.core.CloverDatabase;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.api.registry.ProjectInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.reporters.CloudGenerator;
 import org.openclover.core.reporters.html.ClassInfoStatsCalculator;
 import org.openclover.core.reporters.html.HtmlReportUtil;
@@ -14,9 +13,9 @@ import org.openclover.core.util.CloverUtils;
 import org.openclover.eclipse.core.CloverEclipsePluginMessages;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.Files;
 import java.util.List;
 
 public class EclipseCloudGenerator {
@@ -109,7 +108,7 @@ public class EclipseCloudGenerator {
             ClassInfoStatsCalculator calcAxis1,
             ClassInfoStatsCalculator calcAxis2) throws IOException {
 
-        try (OutputStream outputStream = new FileOutputStream(new File(dir, fileName))) {
+        try (OutputStream outputStream = Files.newOutputStream(new File(dir, fileName).toPath())) {
             final EclipseEditorLinkingHtmlRenderingSupport shallowAxisRender = new EclipseEditorLinkingHtmlRenderingSupport(offsetFromRoot + fileName);
             final CloudGenerator reportGenerator = createReportGenerator(pageTitle, outputStream, shallowAxisRender);
             reportGenerator.createReport(classes, calcAxis1, calcAxis2);
@@ -125,7 +124,7 @@ public class EclipseCloudGenerator {
             ClassInfoStatsCalculator calcAxis1,
             ClassInfoStatsCalculator calcAxis2) throws IOException {
 
-        try (OutputStream outputStream = new FileOutputStream(new File(dir, AGGREGATE_PREFIX + fileName))) {
+        try (OutputStream outputStream = Files.newOutputStream(new File(dir, AGGREGATE_PREFIX + fileName).toPath())) {
             final EclipseEditorLinkingHtmlRenderingSupport deepAxisRender = new EclipseEditorLinkingHtmlRenderingSupport(offsetFromRoot + AGGREGATE_PREFIX + fileName);
             final CloudGenerator reportGenerator = createReportGenerator(pageTitle, outputStream, deepAxisRender);
             reportGenerator.createReport(classes, calcAxis1, calcAxis2);

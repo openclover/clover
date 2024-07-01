@@ -11,7 +11,7 @@
             <outputDirectory>.</outputDirectory>
             <includes>
                 <include>org.openclover:clover</include>
-                <include>org.openclover:clover-jtreemap</include>
+                <include>net.sf.jtreemap:jtreemap</include>
             </includes>
             <unpack>true</unpack>
         </dependencySet>

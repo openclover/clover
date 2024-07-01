@@ -1,6 +1,6 @@
 package org.openclover.core;
 
-import clover.org.apache.commons.lang3.mutable.MutableLong;
+import org.apache.commons.lang3.mutable.MutableLong;
 import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.recorder.GlobalCoverageRecordingTranscript;
 import org.openclover.core.recorder.PerTestRecordingTranscript;

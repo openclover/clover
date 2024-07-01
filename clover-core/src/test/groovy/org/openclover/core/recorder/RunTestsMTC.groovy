@@ -6,10 +6,10 @@ import org.openclover.runtime.util.CloverBitSet
 /**
  * Base class for multi-threaded test cases
  */
-public abstract class RunTestsMTC extends MultithreadedTestCase {
+abstract class RunTestsMTC extends MultithreadedTestCase {
 
     /** How accurate our assertions shall be */
-    public static enum CoverageAssertionAccuracy {
+    static enum CoverageAssertionAccuracy {
         EXACT,   // check for exact true/false values in a bitmask
         MIN_MAX  // check using minimum and maximum boundary (subset and superset of a bitmask)
     }
@@ -19,7 +19,7 @@ public abstract class RunTestsMTC extends MultithreadedTestCase {
      * @param args arrays to be or-ed
      * @return boolean[] output
      */
-    public static boolean[] or(boolean[] ... args) {
+    static boolean[] or(boolean[] ... args) {
         // find the longest input array
         int maxLength = 0;
         for (boolean[] arg : args) {
@@ -41,9 +41,12 @@ public abstract class RunTestsMTC extends MultithreadedTestCase {
         return c;
     }
 
-    public abstract void assertPerTestHitCounts(final int testCaseNumber, final CloverBitSet perTestCoverage,
-                                                CoverageAssertionAccuracy accuracy);
-    public abstract void assertGlobalHitCounts(GlobalCoverageRecordingTranscript globalCoverage);
-    public abstract void assertGlobalAndPerTestRecordings(RecordingTranscripts.Filter filter) throws IOException;
-    public abstract void assertGlobalAndPerTestRecordingsInRange(RecordingTranscripts.Filter filter) throws IOException;
+    abstract void assertPerTestHitCounts(final int testCaseNumber, final CloverBitSet perTestCoverage,
+                                         CoverageAssertionAccuracy accuracy);
+
+    abstract void assertGlobalHitCounts(GlobalCoverageRecordingTranscript globalCoverage);
+
+    abstract void assertGlobalAndPerTestRecordings(RecordingTranscripts.Filter filter) throws IOException;
+
+    abstract void assertGlobalAndPerTestRecordingsInRange(RecordingTranscripts.Filter filter) throws IOException;
 }

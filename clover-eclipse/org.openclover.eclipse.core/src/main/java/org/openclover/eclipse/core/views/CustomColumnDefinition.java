@@ -1,11 +1,10 @@
 package org.openclover.eclipse.core.views;
 
-import clover.antlr.RecognitionException;
-import clover.antlr.collections.AST;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
 import org.openclover.core.registry.metrics.BlockMetrics;
+import org.openclover.core.reporters.CalcParser;
 import org.openclover.core.reporters.CalcTreeWalker;
 import org.openclover.core.reporters.ExpressionEvaluator;
 import org.openclover.core.util.MetricsFormatUtils;
@@ -34,7 +33,7 @@ public class CustomColumnDefinition
     }
 
     private final String expression;
-    private final AST expressionAST;
+    private final CalcParser calcParser;
     private final CalcTreeWalker expressionWalker;
     private final int format;
     private final Comparator appOnlyComparator;
@@ -45,16 +44,12 @@ public class CustomColumnDefinition
         super(id, ANY_COLUMN, alignment, title, abbreviatedTitle, "");
         this.format = (format == RAW_FORMAT || format == PC_FORMAT) ? format : RAW_FORMAT;
         this.expression = expression;
-        this.expressionAST = ExpressionEvaluator.parse(expression, title).getAST();
+        this.calcParser = ExpressionEvaluator.parse(expression, title);
         this.expressionWalker = new CalcTreeWalker();
         this.appOnlyComparator = new MyComparator(MetricsScope.APP_ONLY);
         this.testOnlyComparator = new MyComparator(MetricsScope.TEST_ONLY);
         this.fullComparator = new MyComparator(MetricsScope.FULL);
-        try {
-            this.expressionWalker.validate(this.expressionAST);
-        } catch (RecognitionException e) {
-            throw new CloverException(e);
-        }
+        this.expressionWalker.validate(calcParser);
     }
 
     public CustomColumnDefinition(String title, String abbreviatedTitle, String expression, int aligment, int format) throws CloverException {
@@ -74,8 +69,8 @@ public class CustomColumnDefinition
         return true;
     }
 
-    public double calculate(BlockMetrics metrics) throws RecognitionException {
-        return new CalcTreeWalker().expr(expressionAST, metrics);
+    public double calculate(BlockMetrics metrics) throws CloverException {
+        return expressionWalker.expr(calcParser, metrics);
     }
 
     @Override
@@ -101,10 +96,10 @@ public class CustomColumnDefinition
         BlockMetrics metrics = scope.getMetricsFor(element);
         if (metrics != null) {
             try {
-                Double result = format == CustomColumnDefinition.RAW_FORMAT
+                double result = format == CustomColumnDefinition.RAW_FORMAT
                         ? calculate(metrics)
                         : calculate(metrics) / 100.0d;
-                return (result.isNaN() || result.isInfinite()) ? NOT_AVAILABLE_DOUBLE : result;
+                return (Double.isNaN(result) || Double.isInfinite(result)) ? NOT_AVAILABLE_DOUBLE : result;
             } catch (Exception e) {
                 // swallow
             }

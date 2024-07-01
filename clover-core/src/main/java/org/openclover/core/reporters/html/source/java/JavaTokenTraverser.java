@@ -1,7 +1,7 @@
 package org.openclover.core.reporters.html.source.java;
 
-import clover.antlr.Token;
-import clover.antlr.TokenStreamException;
+import antlr.Token;
+import antlr.TokenStreamException;
 import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig;
 import org.openclover.core.instr.java.JavaLexer;

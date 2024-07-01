@@ -1,8 +1,6 @@
 package org.openclover.runtime;
 
 import java.lang.reflect.InvocationTargetException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 
 /**
  * This class manages setting up logging during recording
@@ -10,12 +8,7 @@ import java.security.PrivilegedAction;
 public class RecorderLogging {
     public static void init() {
         try {
-            String adapter = AccessController.doPrivileged(new PrivilegedAction<String>() {
-                @Override
-                public String run() {
-                    return System.getProperty(CloverNames.PROP_LOGGING_ADAPTER);
-                }
-            });
+            final String adapter = System.getProperty(CloverNames.PROP_LOGGING_ADAPTER);
             if (adapter != null && adapter.length() > 0) {
                 if ("slf4j".equalsIgnoreCase(adapter)) {
                     initSLF4JLogging();
@@ -65,9 +58,9 @@ public class RecorderLogging {
         } catch (ClassNotFoundException e) {
             errorMsg += "Class not found. ";
         } catch (ExceptionInInitializerError | InvocationTargetException e) {
-            errorMsg += "An error occured during class initialisation. ";
+            errorMsg += "An error occurred during class initialisation. ";
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException e) {
-            errorMsg += "An error occured during class initialisation. The class must provide a no-args" +
+            errorMsg += "An error occurred during class initialisation. The class must provide a no-args" +
                     " public constructor. ";
         }
 

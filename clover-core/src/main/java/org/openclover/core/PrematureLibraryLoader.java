@@ -1,18 +1,16 @@
 package org.openclover.core;
 
-import clover.org.jfree.chart.ChartFactory;
-import clover.org.jfree.chart.ChartUtilities;
-import clover.org.jfree.chart.JFreeChart;
-import clover.org.jfree.chart.plot.PlotOrientation;
-import clover.org.jfree.data.xy.XYSeriesCollection;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartUtilities;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.xy.XYSeriesCollection;
 import org.openclover.runtime.Logger;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.RandomAccessFile;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -52,32 +50,30 @@ public class PrematureLibraryLoader {
                     } catch (Exception e) {
                         //Ignore
                     }
-                    AccessController.doPrivileged((PrivilegedAction<Void>) () -> {
+
+                    try {
+                        //libraries: security (secure random)
+                        File tempFile = null;
                         try {
-                            //libraries: security (secure random)
-                            File tempFile = null;
-                            try {
-                                Logger.getInstance().debug("Causing library \"security\" to be initialized");
-                                tempFile = File.createTempFile("clover", "init");
-                            } catch (IOException e) {
-                                //Ignore
-                            }
-                            try {
-                                //libraries: nio, net
-                                if (tempFile != null) {
-                                    Logger.getInstance().debug("Causing libraries \"nio\" and \"net\" to be initialized");
-                                    new RandomAccessFile(tempFile.getAbsolutePath(), "r").getChannel();
-                                }
-                            } finally {
-                                if (tempFile != null) {
-                                    tempFile.delete();
-                                }
-                            }
+                            Logger.getInstance().debug("Causing library \"security\" to be initialized");
+                            tempFile = File.createTempFile("clover", "init");
                         } catch (IOException e) {
                             //Ignore
                         }
-                        return null;
-                    });
+                        try {
+                            //libraries: nio, net
+                            if (tempFile != null) {
+                                Logger.getInstance().debug("Causing libraries \"nio\" and \"net\" to be initialized");
+                                new RandomAccessFile(tempFile.getAbsolutePath(), "r").getChannel();
+                            }
+                        } finally {
+                            if (tempFile != null) {
+                                tempFile.delete();
+                            }
+                        }
+                    } catch (IOException e) {
+                        //Ignore
+                    }
                 } catch (Exception e) {
                     Logger.getInstance().warn("Failed to prematurely load security, nio, net, awt, fontmanager, jpeg or cmm libraries", e);
                 }
@@ -88,7 +84,12 @@ public class PrematureLibraryLoader {
     }
 
     private static boolean isWindows() {
-        String osName = AccessController.doPrivileged((PrivilegedAction<String>) () -> System.getProperty("os.name"));
-        return osName != null && osName.toLowerCase().indexOf("windows") == 0;
+        try {
+            final String osName = System.getProperty("os.name");
+            return osName != null && osName.toLowerCase().indexOf("windows") == 0;
+        } catch (SecurityException ex) {
+            Logger.getInstance().debug("Unable to read os.name property");
+            return false;
+        }
     }
 }

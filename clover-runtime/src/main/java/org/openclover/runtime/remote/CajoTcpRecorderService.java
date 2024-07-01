@@ -1,9 +1,9 @@
 package org.openclover.runtime.remote;
 
 
-import clover.gnu.cajo.invoke.Remote;
-import clover.gnu.cajo.utils.ItemServer;
-import clover.gnu.cajo.utils.extra.ClientProxy;
+import gnu.cajo.invoke.Remote;
+import gnu.cajo.utils.ItemServer;
+import gnu.cajo.utils.extra.ClientProxy;
 import org.openclover.runtime.Logger;
 import org.openclover.runtime.util.Formatting;
 

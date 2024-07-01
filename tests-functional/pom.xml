@@ -57,8 +57,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-jdom</artifactId>
+            <groupId>jdom</groupId>
+            <artifactId>jdom</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -157,7 +157,7 @@
                                         <artifactItem>
                                             <groupId>org.ow2.asm</groupId>
                                             <artifactId>asm</artifactId>
-                                            <version>4.1</version>
+                                            <version>9.7</version>
                                         </artifactItem>
                                         <artifactItem>
                                             <groupId>antlr</groupId>

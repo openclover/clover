@@ -1,6 +1,6 @@
 package org.openclover.ant.taskdefs;
 
-import clover.org.apache.commons.lang3.reflect.FieldUtils;
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Javac;

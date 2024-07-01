@@ -1,6 +1,6 @@
 package org.openclover.core.reporters.html.source.groovy;
 
-import clover.antlr.TokenStream;
+import antlr.TokenStream;
 import clover.org.codehaus.groovy.antlr.GroovySourceToken;
 import clover.org.codehaus.groovy.antlr.parser.GroovyLexer;
 import clover.org.codehaus.groovy.antlr.parser.GroovyTokenTypes;

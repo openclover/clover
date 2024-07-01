@@ -40,6 +40,15 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-antrun-plugin</artifactId>
+                        <dependencies>
+                            <dependency>
+                                <!-- This is not available in Maven Central. You can run 'mvn install' in the
+                                'jarjar' sub-module to have it locally. -->
+                                <groupId>com.tonicsystems</groupId>
+                                <artifactId>jarjar</artifactId>
+                                <version>1.4</version>
+                            </dependency>
+                        </dependencies>
                         <executions>
                             <execution>
                                 <phase>package</phase>
@@ -75,10 +84,11 @@
                                 <delete file="${project.build.directory}/temp.jar"/>
                                 <jarjar jarfile="${project.build.directory}/temp.jar">
                                     <fileset dir="${velocity.tmp.dir}"/>
-                                    <rule pattern="org.apache.commons.collections.**" result="clover.@0"/>
-                                    <rule pattern="org.apache.commons.lang.**" result="clover.@0"/>
                                     <rule pattern="org.apache.velocity.**" result="clover.@0"/>
-                                    <rule pattern="org.jdom.**" result="clover.@0"/>
+                                    <!--the following will be repacked later by maven-shade-plugin-->
+                                    <!--<rule pattern="org.apache.commons.collections.**" result="clover.@0"/>-->
+                                    <!--<rule pattern="org.apache.commons.lang.**" result="clover.@0"/>-->
+                                    <!--<rule pattern="org.jdom.**" result="clover.@0"/>-->
                                 </jarjar>
 
                                 <!-- delete empty directories (jarjar 1.4 bug workaround) -->

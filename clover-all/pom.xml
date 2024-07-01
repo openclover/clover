@@ -61,60 +61,52 @@
         </dependency>
         <!-- packaging into clover.jar via assembly plugin -->
         <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-annotations</artifactId>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-antlr</artifactId>
+            <groupId>gnu.cajo</groupId>
+            <artifactId>cajo</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-cajo</artifactId>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-commons-codec</artifactId>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-commons-collections</artifactId>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-commons-lang</artifactId>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-commons-lang3</artifactId>
+            <groupId>it.unimi.dsi</groupId>
+            <artifactId>fastutil</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-fastutil</artifactId>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-gson</artifactId>
+            <groupId>com.lowagie</groupId>
+            <artifactId>itext</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-itext</artifactId>
+            <groupId>org.jfree</groupId>
+            <artifactId>jcommon</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-jcommon</artifactId>
+            <groupId>jdom</groupId>
+            <artifactId>jdom</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-jdom</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-jfreechart</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-slf4j</artifactId>
+            <groupId>org.jfree</groupId>
+            <artifactId>jfreechart</artifactId>
         </dependency>
         <dependency>
             <groupId>org.openclover</groupId>
@@ -130,6 +122,17 @@
             </extension>
         </extensions>
         <plugins>
+            <!-- use assembly plugin instead of jar plugin to create an artifact -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>default-jar</id>
+                        <phase>none</phase>
+                    </execution>
+                </executions>
+            </plugin>
             <!-- generate clover.jar, a combination of clover-ant + clover-core + clover-runtime + clover+groovy +
                  repacked clover-* third-party libraries -->
             <plugin>
@@ -219,6 +222,16 @@
                                     <groupId>org.junit.platform</groupId>
                                     <artifactId>junit-platform-launcher</artifactId>
                                     <version>1.9.2</version>
+                                </additionalDependency>
+                                <additionalDependency>
+                                    <groupId>antlr</groupId>
+                                    <artifactId>antlr</artifactId>
+                                    <version>2.7.7</version>
+                                </additionalDependency>
+                                <additionalDependency>
+                                    <groupId>org.slf4j</groupId>
+                                    <artifactId>slf4j-api</artifactId>
+                                    <version>1.7.36</version>
                                 </additionalDependency>
                             </additionalDependencies>
                             <!-- clover-runtime contains a package in a folder different from package name, leading to warning -->

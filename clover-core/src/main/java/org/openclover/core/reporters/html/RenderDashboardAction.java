@@ -2,9 +2,7 @@ package org.openclover.core.reporters.html;
 
 import clover.org.apache.velocity.VelocityContext;
 import org.openclover.core.api.registry.ClassInfo;
-import org.openclover.core.api.registry.ClassMetadata;
 import org.openclover.core.api.registry.ProjectInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.registry.metrics.HasMetricsSupport;
 import org.openclover.core.reporters.Column;
 import org.openclover.core.reporters.Columns;
@@ -57,7 +55,7 @@ public class RenderDashboardAction implements Callable {
         // get data required for dashboard
         if (Boolean.TRUE != mContext.get("skipCoverageTreeMap")) {
             // render the package level treemap
-            final RenderTreeMapAction tree = new RenderTreeMapAction(new VelocityContext(), reportConfig, mBasePath, mConfiguredInfo);
+            final RenderTreeMapAction tree = new RenderTreeMapAction(new VelocityContext(), mBasePath, mConfiguredInfo);
             tree.renderTreeMapJson("treemap-dash-json.js", "processTreeMapDashJson", false);
         }
         final List<ClassInfo> classes = mConfiguredInfo.getClasses(new TestClassCoverageThresholdFilter());

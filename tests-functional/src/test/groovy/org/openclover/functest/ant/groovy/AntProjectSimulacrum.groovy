@@ -49,7 +49,7 @@ class AntProjectSimulacrum implements JavaExecutorMixin {
 
     private List<File> getAdditionalGroovyJars() {
         File antlrJar = new File(testDependenciesDir, "antlr-2.7.7.jar")
-        File asmJar = new File(testDependenciesDir, "asm-4.1.jar")
+        File asmJar = new File(testDependenciesDir, "asm-9.7.jar")
         File commonsCliJar = new File(testDependenciesDir, "commons-cli-1.2.jar")
         [ antlrJar, asmJar, commonsCliJar ]
     }

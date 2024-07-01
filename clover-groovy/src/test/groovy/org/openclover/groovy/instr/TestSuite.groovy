@@ -32,7 +32,7 @@ class TestSuite
     }
 
     static File getAsmJar() {
-        new File("target/test-dependencies/asm-4.1.jar")
+        new File("target/test-dependencies/asm-9.7.jar")
     }
 
     static File getAntlrJar() {

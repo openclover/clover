@@ -1,6 +1,6 @@
 package org.openclover.ant.tasks;
 
-import clover.org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.types.FileSet;
 import org.openclover.ant.AntCloverProfile;

@@ -4,8 +4,6 @@ import org.openclover.core.util.ClassPathUtil;
 import org.openclover.runtime.CloverNames;
 import org.openclover.runtime.Logger;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.List;
 
 /**
@@ -73,14 +71,13 @@ public class AntIntegrator implements Integrator {
     }
 
     private static boolean isWindows() {
-        final String osName = AccessController.doPrivileged((PrivilegedAction<String>) () -> {
-            try {
-                return System.getProperty("os.name");
-            } catch (SecurityException ex) {
-                return null;
-            }
-        });
-        return osName != null && osName.toLowerCase().indexOf("windows") == 0;
+        try {
+            final String osName = System.getProperty("os.name");
+            return osName != null && osName.toLowerCase().indexOf("windows") == 0;
+        } catch (SecurityException ex) {
+            Logger.getInstance().debug("Unable to read os.name property");
+            return false;
+        }
     }
 
 }

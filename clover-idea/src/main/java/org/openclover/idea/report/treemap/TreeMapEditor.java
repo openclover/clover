@@ -1,14 +1,14 @@
 package org.openclover.idea.report.treemap;
 
-import clover.net.sf.jtreemap.swing.DefaultToolTip;
-import clover.net.sf.jtreemap.swing.DefaultValue;
-import clover.net.sf.jtreemap.swing.IToolTipBuilder;
-import clover.net.sf.jtreemap.swing.JTreeMap;
-import clover.net.sf.jtreemap.swing.TreeMapNode;
-import clover.net.sf.jtreemap.swing.TreeMapNodeBuilder;
-import clover.net.sf.jtreemap.swing.Value;
-import clover.net.sf.jtreemap.swing.ValuePercent;
-import clover.net.sf.jtreemap.swing.provider.HSBTreeMapColorProvider;
+import net.sf.jtreemap.swing.DefaultToolTip;
+import net.sf.jtreemap.swing.DefaultValue;
+import net.sf.jtreemap.swing.IToolTipBuilder;
+import net.sf.jtreemap.swing.JTreeMap;
+import net.sf.jtreemap.swing.TreeMapNode;
+import net.sf.jtreemap.swing.TreeMapNodeBuilder;
+import net.sf.jtreemap.swing.Value;
+import net.sf.jtreemap.swing.ValuePercent;
+import net.sf.jtreemap.swing.provider.HSBTreeMapColorProvider;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
@@ -21,7 +21,7 @@ import javax.swing.JComponent;
 import javax.swing.JToolTip;
 import java.awt.Color;
 
-import static clover.net.sf.jtreemap.swing.provider.HSBTreeMapColorProvider.ColorDistributionTypes.SquareRoot;
+import static net.sf.jtreemap.swing.provider.HSBTreeMapColorProvider.ColorDistributionTypes.SQUARE_ROOT;
 
 public class TreeMapEditor extends DummyFileEditor implements CoverageListener {
     private final JTreeMap treeMap;
@@ -110,13 +110,13 @@ class ToolTipBuilder implements IToolTipBuilder {
 
 class HSBColorProvider extends HSBTreeMapColorProvider {
     HSBColorProvider(JTreeMap treeMap) {
-        super(treeMap, SquareRoot, Color.GREEN, Color.RED);
+        super(treeMap, SQUARE_ROOT, Color.GREEN, Color.RED);
     }
 
     /**
      * Rescales the 0:100 range to -50 : 50.
      *
-     * @see clover.net.sf.jtreemap.swing.ColorProvider#getColor(clover.net.sf.jtreemap.swing.Value)
+     * @see net.sf.jtreemap.swing.provider.ColorProvider#getColor(net.sf.jtreemap.swing.Value)
      */
     @Override
     public Color getColor(Value value) {

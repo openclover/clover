@@ -1,8 +1,8 @@
 package org.openclover.idea.report.treemap;
 
-import clover.net.sf.jtreemap.swing.JTreeMap;
-import clover.net.sf.jtreemap.swing.TreeMapNode;
-import clover.net.sf.jtreemap.swing.Value;
+import net.sf.jtreemap.swing.JTreeMap;
+import net.sf.jtreemap.swing.TreeMapNode;
+import net.sf.jtreemap.swing.Value;
 import com.intellij.openapi.project.Project;
 import org.openclover.core.api.registry.BlockMetrics;
 import org.openclover.core.api.registry.ClassInfo;

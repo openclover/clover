@@ -51,53 +51,48 @@
         </dependency>
         <!-- repacked libraries -->
         <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-annotations</artifactId>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-antlr</artifactId>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-commons-collections</artifactId>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-commons-lang</artifactId>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-commons-lang3</artifactId>
+            <groupId>it.unimi.dsi</groupId>
+            <artifactId>fastutil</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-fastutil</artifactId>
+            <groupId>jdom</groupId>
+            <artifactId>jdom</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-gson</artifactId>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-itext</artifactId>
+            <groupId>com.lowagie</groupId>
+            <artifactId>itext</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-jcommon</artifactId>
+            <groupId>org.jfree</groupId>
+            <artifactId>jcommon</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-jfreechart</artifactId>
+            <groupId>org.jfree</groupId>
+            <artifactId>jfreechart</artifactId>
         </dependency>
         <dependency>
             <groupId>org.openclover</groupId>
             <artifactId>clover-velocity</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-cajo</artifactId>
-            <scope>test</scope>
         </dependency>
         <!-- other libraries -->
         <dependency>
@@ -228,7 +223,7 @@
                             <goal>java</goal>
                         </goals>
                         <configuration>
-                            <mainClass>clover.antlr.Tool</mainClass>
+                            <mainClass>antlr.Tool</mainClass>
                             <arguments>
                                 <argument>-o</argument>
                                 <argument>${project.build.directory}/src-generated/clover/org/codehaus/groovy/antlr/parser</argument>
@@ -253,23 +248,23 @@
                         </goals>
                         <configuration>
                             <target>
-                                <replace dir="${project.build.directory}/src-generated" token="import antlr" value="import clover.antlr">
-                                    <include name="**/*.java" />
+                                <replace dir="${project.build.directory}/src-generated" token="public final void mIDENT"
+                                         value="public void mIDENT">
+                                    <include name="**/JavaLexer.java"/>
                                 </replace>
-                                <replace dir="${project.build.directory}/src-generated" token="extends antlr" value="extends clover.antlr">
-                                    <include name="**/*.java" />
+                                <replace dir="${project.build.directory}/src-generated" token="public final void mIDENT"
+                                         value="public /*final*/ void mIDENT">
+                                    <include name="**/JavaLexer.java"/>
                                 </replace>
-                                <replace dir="${project.build.directory}/src-generated" token="public final void mIDENT" value="public void mIDENT">
-                                    <include name="**/JavaLexer.java" />
+                                <replace dir="${project.build.directory}/src-generated"
+                                         token="public final void mSTRING_LITERAL"
+                                         value="public /*final*/ void mSTRING_LITERAL">
+                                    <include name="**/JavaLexer.java"/>
                                 </replace>
-                                <replace dir="${project.build.directory}/src-generated" token="public final void mIDENT" value="public /*final*/ void mIDENT">
-                                    <include name="**/JavaLexer.java" />
-                                </replace>
-                                <replace dir="${project.build.directory}/src-generated" token="public final void mSTRING_LITERAL" value="public /*final*/ void mSTRING_LITERAL">
-                                    <include name="**/JavaLexer.java" />
-                                </replace>
-                                <replace dir="${project.build.directory}/src-generated" token="public final void mCHAR_LITERAL" value="public /*final*/ void mCHAR_LITERAL">
-                                    <include name="**/JavaLexer.java" />
+                                <replace dir="${project.build.directory}/src-generated"
+                                         token="public final void mCHAR_LITERAL"
+                                         value="public /*final*/ void mCHAR_LITERAL">
+                                    <include name="**/JavaLexer.java"/>
                                 </replace>
                             </target>
                         </configuration>
@@ -328,6 +323,212 @@
                     </includes>
                 </configuration>
             </plugin>-->
+            <!-- pack main jar, including stripped and repacked third party libraries -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.6.0</version>
+                <executions>
+                    <execution>
+                        <id>package-jar</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <artifactSet>
+                                <includes>
+                                    <include>antlr:antlr</include>
+                                    <include>org.jetbrains:annotations</include>
+                                    <include>commons-codec:commons-codec</include>
+                                    <include>commons-collections:commons-collections</include>
+                                    <include>commons-lang:commons-lang</include>
+                                    <include>org.apache.commons:commons-lang3</include>
+                                    <include>it.unimi.dsi:fastutil</include>
+                                    <include>com.google.code.gson:gson</include>
+                                    <include>com.lowagie:itext</include>
+                                    <include>org.jfree:jcommon</include>
+                                    <include>jdom:jdom</include>
+                                    <include>org.jfree:jfreechart</include>
+                                    <include>org.openclover:clover-velocity</include>
+                                </includes>
+                            </artifactSet>
+                            <filters>
+                                <filter>
+                                    <artifact>antlr:antlr</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                    </excludes>
+                                </filter>
+                                <filter>
+                                    <artifact>commons-collections:commons-collections</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/LICENSE.txt</exclude>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                        <exclude>META-INF/NOTICE.txt</exclude>
+                                    </excludes>
+                                </filter>
+                                <filter>
+                                    <artifact>org.jetbrains:annotations</artifact>
+                                    <includes>
+                                        <include>org/jetbrains/annotations/**</include>
+                                    </includes>
+                                </filter>
+                                <filter>
+                                    <artifact>commons-lang:commons-lang</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/LICENSE.txt</exclude>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                        <exclude>META-INF/NOTICE.txt</exclude>
+                                        <exclude>org/apache/commons/lang/enum/**</exclude>
+                                    </excludes>
+                                </filter>
+                                <filter>
+                                    <artifact>org.apache.commons:commons-lang3</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/LICENSE.txt</exclude>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                        <exclude>META-INF/NOTICE.txt</exclude>
+                                    </excludes>
+                                </filter>
+                                <filter>
+                                    <artifact>it.unimi.dsi:fastutil</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                        <exclude>**/booleans/**</exclude>
+                                        <exclude>**/shorts/**</exclude>
+                                        <exclude>**/floats/**</exclude>
+                                        <exclude>**/doubles/**</exclude>
+                                        <exclude>**/chars/**"</exclude>
+                                    </excludes>
+                                </filter>
+                                <filter>
+                                    <artifact>com.lowagie:itext</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                        <exclude>build.xml</exclude>
+                                    </excludes>
+                                </filter>
+                                <filter>
+                                    <artifact>com.google.code.gson:gson</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                        <exclude>**/assembly-descriptor.xml</exclude>
+                                    </excludes>
+                                </filter>
+                                <filter>
+                                    <artifact>org.jfree:jcommon</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                    </excludes>
+                                </filter>
+                                <filter>
+                                    <artifact>org.jfree:jfreechart</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                    </excludes>
+                                </filter>
+                                <filter>
+                                    <artifact>jdom:jdom</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                    </excludes>
+                                </filter>
+                                <filter>
+                                    <artifact>org.openclover:clover-velocity</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                            <relocations>
+                                <relocation>
+                                    <pattern>antlr</pattern>
+                                    <shadedPattern>clover.antlr</shadedPattern>
+                                    <includes>
+                                        <include>antlr.**</include>
+                                    </includes>
+                                </relocation>
+                                <relocation>
+                                    <pattern>com.google.gson</pattern>
+                                    <shadedPattern>clover.com.google.gson</shadedPattern>
+                                    <includes>
+                                        <include>com.google.gson.**</include>
+                                    </includes>
+                                </relocation>
+                                <relocation>
+                                    <pattern>com.lowagie</pattern>
+                                    <shadedPattern>clover.com.lowagie</shadedPattern>
+                                    <includes>
+                                        <include>com.lowagie.**</include>
+                                    </includes>
+                                </relocation>
+                                <!-- note: we do not shade org.jetbrains:annotations -->
+                                <relocation>
+                                    <pattern>org.apache.commons.codec</pattern>
+                                    <shadedPattern>clover.org.apache.commons.codec</shadedPattern>
+                                    <includes>
+                                        <include>org.apache.commons.codec.**</include>
+                                    </includes>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.apache.commons.collections</pattern>
+                                    <shadedPattern>clover.org.apache.commons.collections</shadedPattern>
+                                    <includes>
+                                        <include>org.apache.commons.collections.**</include>
+                                    </includes>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.apache.commons.lang</pattern>
+                                    <shadedPattern>clover.org.apache.commons.lang</shadedPattern>
+                                    <includes>
+                                        <include>org.apache.commons.lang.**</include>
+                                    </includes>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.apache.commons.lang3</pattern>
+                                    <shadedPattern>clover.org.apache.commons.lang3</shadedPattern>
+                                    <includes>
+                                        <include>org.apache.commons.lang3.**</include>
+                                    </includes>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.jdom</pattern>
+                                    <shadedPattern>clover.org.jdom</shadedPattern>
+                                    <includes>
+                                        <include>org.jdom.**</include>
+                                    </includes>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.jfree</pattern>
+                                    <shadedPattern>clover.org.jfree</shadedPattern>
+                                    <includes>
+                                        <include>org.jfree.**</include>
+                                    </includes>
+                                </relocation>
+                                <relocation>
+                                    <pattern>it.unimi.dsi.fastutil</pattern>
+                                    <shadedPattern>clover.it.unimi.dsi.fastutil</shadedPattern>
+                                    <includes>
+                                        <include>it.unimi.dsi.fastutil.**</include>
+                                    </includes>
+                                </relocation>
+                            </relocations>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <manifestEntries>
+                                        <Specification-Title>OpenClover Core</Specification-Title>
+                                        <Specification-Version>${project.version}</Specification-Version>
+                                        <Specification-Vendor>OpenClover.org</Specification-Vendor>
+                                        <Implementation-Version>${project.version}</Implementation-Version>
+                                        <Implementation-Vendor>OpenClover.org</Implementation-Vendor>
+                                    </manifestEntries>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <!-- generate sources jar -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

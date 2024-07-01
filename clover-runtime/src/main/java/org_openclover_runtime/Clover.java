@@ -18,8 +18,6 @@ import org.openclover.runtime.remote.RpcMessage;
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -516,55 +514,50 @@ public final class Clover {
 
             final CloverProperties properties = new CloverProperties(nvpProperties);
 
-            return AccessController.doPrivileged(new PrivilegedAction<CoverageRecorder>() {
-                @Override
-                public CoverageRecorder run() {
-                    // find current profile (if any)
-                    final CloverProfile currentProfile = selectCloverProfile(profiles);
-                    // use proper key depending on coverage recorder type
-                    final String recorderKey =
-                            (currentProfile != null && currentProfile.getCoverageRecorder() == CloverProfile.CoverageRecorderType.SHARED) ?
-                                    initString + "_" + cfgbits                      // shared
-                                    : initString + "_" + dbVersion + "_" + cfgbits; // fixed or growable
+            // find current profile (if any)
+            final CloverProfile currentProfile = selectCloverProfile(profiles);
+            // use proper key depending on coverage recorder type
+            final String recorderKey =
+                    (currentProfile != null && currentProfile.getCoverageRecorder() == CloverProfile.CoverageRecorderType.SHARED) ?
+                            initString + "_" + cfgbits                      // shared
+                            : initString + "_" + dbVersion + "_" + cfgbits; // fixed or growable
 
-                    CoverageRecorder recorder;
-                    synchronized (RECORDERS) {
-                        // find existing recorder ...
-                        recorder = RECORDERS.get(recorderKey);
-                        if (recorder != null) {
-                            // ... and resize if necessary
-                            Logger.getInstance().debug("[found existing recorder for " + recorderKey + "]");
-                            recorder = recorder.withCapacityFor(maxNumElements);
-                        } else {
-                            // ... or create new one
-                            if (Logger.isDebug()) {
-                                Logger.getInstance().debug(
-                                        "Clover.getRecorder("
-                                                + initString + ", "
-                                                + dbVersion + ", "
-                                                + cfgbits + ", "
-                                                + maxNumElements + ", "
-                                                + properties + ") "
-                                                + "resulting in new recorder called from (first 10 stack elements):\n" +
-                                                callerChain(10));
-                            }
-
-                            Logger.getInstance().debug("[creating new recorder for " + recorderKey + "]");
-                            recorder = createRecorder(initString, dbVersion, cfgbits, maxNumElements, currentProfile, properties);
-                            recorder.startRun();
-                        }
-
-                        // growable/shared recorders may have emitted a new proxy so use this as the latest version
-                        RECORDERS.put(recorderKey, recorder);
-
-                        if (distributedRuntime == null) {
-                            distributedRuntime = new DistributedClover(properties, currentProfile);
-                        }
-
-                        return recorder;
+            CoverageRecorder recorder;
+            synchronized (RECORDERS) {
+                // find existing recorder ...
+                recorder = RECORDERS.get(recorderKey);
+                if (recorder != null) {
+                    // ... and resize if necessary
+                    Logger.getInstance().debug("[found existing recorder for " + recorderKey + "]");
+                    recorder = recorder.withCapacityFor(maxNumElements);
+                } else {
+                    // ... or create new one
+                    if (Logger.isDebug()) {
+                        Logger.getInstance().debug(
+                                "Clover.getRecorder("
+                                        + initString + ", "
+                                        + dbVersion + ", "
+                                        + cfgbits + ", "
+                                        + maxNumElements + ", "
+                                        + properties + ") "
+                                        + "resulting in new recorder called from (first 10 stack elements):\n" +
+                                        callerChain(10));
                     }
+
+                    Logger.getInstance().debug("[creating new recorder for " + recorderKey + "]");
+                    recorder = createRecorder(initString, dbVersion, cfgbits, maxNumElements, currentProfile, properties);
+                    recorder.startRun();
                 }
-            });
+
+                // growable/shared recorders may have emitted a new proxy so use this as the latest version
+                RECORDERS.put(recorderKey, recorder);
+
+                if (distributedRuntime == null) {
+                    distributedRuntime = new DistributedClover(properties, currentProfile);
+                }
+            }
+
+            return recorder;
         }
 
         private String callerChain(int maxDepth) {
@@ -623,67 +616,47 @@ public final class Clover {
 
         @Override
         public void allRecordersFlush() {
-            AccessController.doPrivileged(new PrivilegedAction<Void>() {
-                @Override
-                public Void run() {
-                    synchronized (RECORDERS) {
-                        for (CoverageRecorder recorder : RECORDERS.values()) {
-                            recorder.forceFlush();
-                        }
-                    }
-                    return null;
+            synchronized (RECORDERS) {
+                for (CoverageRecorder recorder : RECORDERS.values()) {
+                    recorder.forceFlush();
                 }
-            });
+            }
         }
 
         @Override
         public void allRecordersSliceStart(final String type, final int slice, final long startTime) {
-            AccessController.doPrivileged(new PrivilegedAction<Void>() {
-                @Override
-                public Void run() {
-                    synchronized (RECORDERS) {
-                        currentSlice = slice;
-                        currentSliceStart = startTime > 0 ? startTime : System.currentTimeMillis();
-                        currentType = type;
+            synchronized (RECORDERS) {
+                currentSlice = slice;
+                currentSliceStart = startTime > 0 ? startTime : System.currentTimeMillis();
+                currentType = type;
 
-                        for (CoverageRecorder recorder : RECORDERS.values()) {
-                            recorder.sliceStart(type, currentSliceStart, slice, testRunID);
-                        }
-                        if (distributedRuntime != null) {
-                            // see CajoTcpRecorderListener.allRecordersSliceStart signature
-                            distributedRuntime.remoteFlush(
-                                    RpcMessage.createMethodStart(type, slice, currentSliceStart));
-                        }
-                    }
-                    return null;
+                for (CoverageRecorder recorder : RECORDERS.values()) {
+                    recorder.sliceStart(type, currentSliceStart, slice, testRunID);
                 }
-            });
+                if (distributedRuntime != null) {
+                    // see CajoTcpRecorderListener.allRecordersSliceStart signature
+                    distributedRuntime.remoteFlush(
+                            RpcMessage.createMethodStart(type, slice, currentSliceStart));
+                }
+            }
         }
 
         @Override
         public void allRecordersSliceEnd(final String type, final String method, /*@Nullable*/ final String runtimeTestName,
                                          final int slice, final int p, final ErrorInfo ei) {
-            AccessController.doPrivileged(new PrivilegedAction<Void>() {
-                @Override
-                public Void run() {
-                    synchronized (RECORDERS) {
-                        currentSlice = NO_SLICE;
-                        long ts = System.currentTimeMillis();
-                        for (CoverageRecorder recorder : RECORDERS.values()) {
-                            recorder.sliceEnd(type, method, runtimeTestName, ts, slice, testRunID, p, ei);
-                        }
-                        if (distributedRuntime != null) {
-                            // see CajoTcpRecorderListener.allRecordersSliceEnd signature
-                            distributedRuntime.remoteFlush(
-                                    RpcMessage.createMethodEnd(type, method, runtimeTestName, slice, p, ei));
-                        }
-                        testRunID++;
-                    }
-
-                    return null;
+            synchronized (RECORDERS) {
+                currentSlice = NO_SLICE;
+                long ts = System.currentTimeMillis();
+                for (CoverageRecorder recorder : RECORDERS.values()) {
+                    recorder.sliceEnd(type, method, runtimeTestName, ts, slice, testRunID, p, ei);
                 }
-            });
-
+                if (distributedRuntime != null) {
+                    // see CajoTcpRecorderListener.allRecordersSliceEnd signature
+                    distributedRuntime.remoteFlush(
+                            RpcMessage.createMethodEnd(type, method, runtimeTestName, slice, p, ei));
+                }
+                testRunID++;
+            }
         }
 
         /**
@@ -754,8 +727,6 @@ public final class Clover {
          *            NO: return <code>null</code>
          *    NO: return <code>null</code>
          * </pre>
-         *
-         * Note: call in AccessController.doPrivileged() as it reads system property.
          *
          * @param profiles available profiles to choose from
          * @return CloverProfile or <code>null</code>

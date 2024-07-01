@@ -1,6 +1,6 @@
 package org.openclover.core.reporters.html;
 
-import clover.antlr.TokenStreamException;
+import antlr.TokenStreamException;
 import clover.org.apache.velocity.VelocityContext;
 import org.openclover.core.BitSetCoverageProvider;
 import org.openclover.core.CloverDatabase;

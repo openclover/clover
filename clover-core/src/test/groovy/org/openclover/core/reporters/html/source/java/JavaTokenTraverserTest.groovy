@@ -1,6 +1,6 @@
 package org.openclover.core.reporters.html.source.java
 
-import clover.antlr.TokenStreamException
+import antlr.TokenStreamException
 import org.junit.Test
 import org.openclover.core.util.UnicodeDecodingReader
 

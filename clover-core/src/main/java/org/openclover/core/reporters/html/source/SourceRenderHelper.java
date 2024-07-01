@@ -1,6 +1,6 @@
 package org.openclover.core.reporters.html.source;
 
-import clover.org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import clover.org.apache.velocity.VelocityContext;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.api.registry.BranchInfo;
@@ -10,7 +10,6 @@ import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.SourceInfo;
 import org.openclover.core.api.registry.CoverageDataProvider;
 import org.openclover.core.api.registry.TestCaseInfo;
-import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.LineInfo;
 
 import org.openclover.core.reporters.Current;
@@ -109,7 +108,7 @@ public class SourceRenderHelper {
      * @param emptyCoverageChar the String to use when there is no coverage
      * @return each line with rendering info added
      * @throws java.io.IOException if an error occurs rendering this file page
-     * @throws clover.antlr.TokenStreamException
+     * @throws antlr.TokenStreamException
      *                             if an error occurs reading the source file
      */
     public LineRenderInfo[] gatherSrcRenderInfo(VelocityContext vc, FileInfo finfo, ContextSet contextSet,

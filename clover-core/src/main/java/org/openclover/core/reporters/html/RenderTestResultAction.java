@@ -1,6 +1,6 @@
 package org.openclover.core.reporters.html;
 
-import clover.org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import clover.org.apache.velocity.VelocityContext;
 import org.openclover.core.BitSetCoverageProvider;
 import org.openclover.core.CloverDatabase;

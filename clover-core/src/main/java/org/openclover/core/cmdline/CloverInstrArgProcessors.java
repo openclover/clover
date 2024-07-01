@@ -1,6 +1,6 @@
 package org.openclover.core.cmdline;
 
-import clover.org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.openclover.core.api.command.ArgProcessor;
 import org.openclover.core.cfg.instr.MethodContextDef;
 import org.openclover.core.cfg.instr.StatementContextDef;

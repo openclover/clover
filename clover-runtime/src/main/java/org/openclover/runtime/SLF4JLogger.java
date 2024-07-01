@@ -3,10 +3,10 @@ package org.openclover.runtime;
 
 public class SLF4JLogger extends Logger {
 
-    private final clover.org.slf4j.Logger instance;
+    private final org.slf4j.Logger instance;
 
     public SLF4JLogger(String category) {
-        instance = clover.org.slf4j.LoggerFactory.getLogger(category);
+        instance = org.slf4j.LoggerFactory.getLogger(category);
     }
 
     @Override

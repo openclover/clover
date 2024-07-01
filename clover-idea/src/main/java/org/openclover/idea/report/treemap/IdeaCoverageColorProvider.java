@@ -1,7 +1,7 @@
 package org.openclover.idea.report.treemap;
 
-import clover.net.sf.jtreemap.swing.ColorProvider;
-import clover.net.sf.jtreemap.swing.Value;
+import net.sf.jtreemap.swing.provider.ColorProvider;
+import net.sf.jtreemap.swing.Value;
 import org.openclover.core.reporters.util.ReportColors;
 
 import javax.swing.JPanel;

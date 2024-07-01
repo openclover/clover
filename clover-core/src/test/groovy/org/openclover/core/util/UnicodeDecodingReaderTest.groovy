@@ -1,7 +1,7 @@
 package org.openclover.core.util
 
-import clover.antlr.Token
-import clover.antlr.TokenStreamException
+import antlr.Token
+import antlr.TokenStreamException
 import org.junit.Test
 import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig
 import org.openclover.core.cfg.instr.java.SourceLevel
