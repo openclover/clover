@@ -194,10 +194,6 @@
                                     <artifactId>fastutil</artifactId>
                                 </artifactItem>
                                 <artifactItem>
-                                    <groupId>com.google.code.gson</groupId>
-                                    <artifactId>gson</artifactId>
-                                </artifactItem>
-                                <artifactItem>
                                     <groupId>com.lowagie</groupId>
                                     <artifactId>itext</artifactId>
                                 </artifactItem>

@@ -1,7 +1,6 @@
 package org.openclover.core.reporters.json;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.openclover.core.api.registry.BlockMetrics;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.HasMetrics;
@@ -16,10 +15,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class RenderTreeMapJsonAction {
     public static String generateJson(ProjectInfo project, HtmlRenderingSupportImpl renderSupport, boolean classLevel) {
-        final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
         final List<PackageInfo> pkgInfos = project.getAllPackages();
 
@@ -44,7 +43,42 @@ public class RenderTreeMapJsonAction {
             }
         }
 
-        return gson.toJson(projectNode);
+        return toJsonObject(projectNode);
+    }
+
+    private static String toJsonObject(Node projectNode) {
+        return "{" +
+                toJsonAttr("id", projectNode.id) + "," +
+                toJsonAttr("name", projectNode.name) + "," +
+                toJsonAttr("data", toJsonObject(projectNode.data)) + "," +
+                toJsonAttr("children", toJsonArray(projectNode.children))
+                + "}";
+    }
+
+    private static String toJsonObject(Data projectNodeData) {
+        return "{" +
+                toJsonAttr("$area", projectNodeData.$area) + "," +
+                toJsonAttr("$color", projectNodeData.$color) + "," +
+                toJsonAttr("path", projectNodeData.path) + "," +
+                toJsonAttr("title", projectNodeData.title) +
+                "}";
+    }
+
+    private static String toJsonAttr(String name, float value) {
+        return "\"" + name + "\":" + value;
+    }
+
+    private static String toJsonAttr(String name, String value) {
+        return "\"" + name + "\":\"" + StringEscapeUtils.escapeJson(value) + "\"";
+    }
+
+    private static String toJsonArray(Collection<Node> projectNodes) {
+        return "[" +
+                projectNodes
+                        .stream()
+                        .map(RenderTreeMapJsonAction::toJsonObject)
+                        .collect(Collectors.joining(",")) +
+                "]";
     }
 
     private static Node createNode(HtmlRenderingSupportImpl renderSupport, int index, String nodeName,
