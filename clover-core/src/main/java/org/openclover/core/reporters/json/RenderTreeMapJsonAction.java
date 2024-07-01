@@ -48,10 +48,10 @@ public class RenderTreeMapJsonAction {
 
     private static String toJsonObject(Node projectNode) {
         return "{" +
-                toJsonAttr("id", projectNode.id) + "," +
-                toJsonAttr("name", projectNode.name) + "," +
-                toJsonAttr("data", toJsonObject(projectNode.data)) + "," +
-                toJsonAttr("children", toJsonArray(projectNode.children))
+                toJsonAttr("id", projectNode.id, true) + "," +
+                toJsonAttr("name", projectNode.name, true) + "," +
+                toJsonAttr("data", toJsonObject(projectNode.data), false) + "," +
+                toJsonAttr("children", toJsonArray(projectNode.children), false)
                 + "}";
     }
 
@@ -59,8 +59,8 @@ public class RenderTreeMapJsonAction {
         return "{" +
                 toJsonAttr("$area", projectNodeData.$area) + "," +
                 toJsonAttr("$color", projectNodeData.$color) + "," +
-                toJsonAttr("path", projectNodeData.path) + "," +
-                toJsonAttr("title", projectNodeData.title) +
+                toJsonAttr("path", projectNodeData.path, true) + "," +
+                toJsonAttr("title", projectNodeData.title, true) +
                 "}";
     }
 
@@ -68,8 +68,12 @@ public class RenderTreeMapJsonAction {
         return "\"" + name + "\":" + value;
     }
 
-    private static String toJsonAttr(String name, String value) {
-        return "\"" + name + "\":\"" + StringEscapeUtils.escapeJson(value) + "\"";
+    private static String toJsonAttr(String name, String value, boolean valueInQuotes) {
+        if (valueInQuotes) {
+            return "\"" + name + "\":\"" + StringEscapeUtils.escapeJson(value) + "\"";
+        } else {
+            return "\"" + name + "\":" + value;
+        }
     }
 
     private static String toJsonArray(Collection<Node> projectNodes) {
