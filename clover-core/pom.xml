@@ -441,6 +441,7 @@
                                     </excludes>
                                 </filter>
                             </filters>
+                            <minimizeJar>true</minimizeJar>
                             <relocations>
                                 <relocation>
                                     <pattern>antlr</pattern>
