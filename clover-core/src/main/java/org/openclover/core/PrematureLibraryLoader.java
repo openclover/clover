@@ -88,6 +88,7 @@ public class PrematureLibraryLoader {
             final String osName = System.getProperty("os.name");
             return osName != null && osName.toLowerCase().indexOf("windows") == 0;
         } catch (SecurityException ex) {
+            Logger.getInstance().debug("Unable to read os.name property");
             return false;
         }
     }
