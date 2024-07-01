@@ -34,7 +34,7 @@ class GroovySpockTestSuite
 
     // dependencies of groovy jar (older versions)
     private File commonsCliJar = new File(testDependenciesDir, "commons-cli-1.2.jar")
-    private File asmJar = new File(testDependenciesDir, "asm-4.1.jar")
+    private File asmJar = new File(testDependenciesDir, "asm-9.7.jar")
     private File antlrJar = new File(testDependenciesDir, "antlr-2.7.7.jar")
 
     static GroovySpockTestSuite suite() { return new GroovySpockTestSuite() }
