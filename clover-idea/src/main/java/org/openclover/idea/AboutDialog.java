@@ -109,9 +109,6 @@ public class AboutDialog extends DialogWrapper {
                 addProduct("FastUtil", "https://fastutil.dsi.unimi.it/", "FASTUTIL-4.4.3-LICENSE.TXT"),
                 addProduct("Groovy", "https://groovy.codehaus.org", "GROOVY-1.7.0-LICENSE.TXT"));
         addRow(sb,
-                addProduct("GSON", "https://code.google.com/p/google-gson", "GSON-1.3-LICENSE.TXT"),
-                addProduct("", "", ""));
-        addRow(sb,
                 addProduct("iText", "https://itextpdf.com", "ITEXT-2.0.1-LICENSE.TXT"),
                 addProduct("JCommon", "https://www.jfree.org/jfreechart/", "JCOMMON-1.0.23-LICENSE.TXT"));
         addRow(sb,

@@ -75,10 +75,6 @@
             <artifactId>jdom</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.lowagie</groupId>
             <artifactId>itext</artifactId>
         </dependency>
@@ -345,7 +341,6 @@
                                     <include>commons-lang:commons-lang</include>
                                     <include>org.apache.commons:commons-lang3</include>
                                     <include>it.unimi.dsi:fastutil</include>
-                                    <include>com.google.code.gson:gson</include>
                                     <include>com.lowagie:itext</include>
                                     <include>org.jfree:jcommon</include>
                                     <include>jdom:jdom</include>
@@ -410,13 +405,6 @@
                                     </excludes>
                                 </filter>
                                 <filter>
-                                    <artifact>com.google.code.gson:gson</artifact>
-                                    <excludes>
-                                        <exclude>META-INF/MANIFEST.MF</exclude>
-                                        <exclude>**/assembly-descriptor.xml</exclude>
-                                    </excludes>
-                                </filter>
-                                <filter>
                                     <artifact>org.jfree:jcommon</artifact>
                                     <excludes>
                                         <exclude>META-INF/MANIFEST.MF</exclude>
@@ -447,13 +435,6 @@
                                     <shadedPattern>clover.antlr</shadedPattern>
                                     <includes>
                                         <include>antlr.**</include>
-                                    </includes>
-                                </relocation>
-                                <relocation>
-                                    <pattern>com.google.gson</pattern>
-                                    <shadedPattern>clover.com.google.gson</shadedPattern>
-                                    <includes>
-                                        <include>com.google.gson.**</include>
                                     </includes>
                                 </relocation>
                                 <relocation>
