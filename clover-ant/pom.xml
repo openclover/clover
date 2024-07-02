@@ -143,6 +143,7 @@
                                     </excludes>
                                 </filter>
                             </filters>
+                            <minimizeJar>true</minimizeJar>
                             <relocations>
                                 <relocation>
                                     <pattern>org.apache.commons.lang3</pattern>
