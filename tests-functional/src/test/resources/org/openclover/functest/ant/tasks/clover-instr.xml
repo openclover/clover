@@ -132,8 +132,8 @@
     </target>
 
     <target name="defaultRelativeInitString">
-        <!-- default.relative.path = .clover\\clover4_ or .clover/clover4_ -->
-        <property name="default.relative.path" value="\u002e\u0063\u006c\u006f\u0076\u0065\u0072${file.separator.unicodevalue}\u0063\u006c\u006f\u0076\u0065\u0072\u0034\u005f"/>
+        <!-- default.relative.path = .clover\\clover5_ or .clover/clover5_ -->
+        <property name="default.relative.path" value="\u002e\u0063\u006c\u006f\u0076\u0065\u0072${file.separator.unicodevalue}\u0063\u006c\u006f\u0076\u0065\u0072\u0035\u005f"/>
         <echo message="${default.relative.path}"/>
         <clover-instr srcDir="${outdir}/src" destDir="${outdir}/instr" relative="true"/>
         <!-- ensure that files were instrumented with relative db locations: -->
