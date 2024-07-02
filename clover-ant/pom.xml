@@ -149,7 +149,7 @@
                                     <pattern>org.apache.commons.lang3</pattern>
                                     <shadedPattern>clover.org.apache.commons.lang3</shadedPattern>
                                     <includes>
-                                        <include>org.apache.commons.lang3.**</include>
+                                        <include>org.apache.commons.lang3.*</include>
                                     </includes>
                                 </relocation>
                             </relocations>
