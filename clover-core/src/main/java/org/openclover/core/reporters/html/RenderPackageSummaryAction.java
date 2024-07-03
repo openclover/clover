@@ -1,6 +1,5 @@
 package org.openclover.core.reporters.html;
 
-import org.apache.velocity.VelocityContext;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.PackageInfo;
@@ -15,7 +14,7 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 public class RenderPackageSummaryAction implements Callable<Object> {
-    private final VelocityContext context;
+    private final VelocityContextBuilder context;
     private final File basePath;
     private final PackageInfo pkg;
     private final boolean appPagePresent;
@@ -27,7 +26,7 @@ public class RenderPackageSummaryAction implements Callable<Object> {
     private final List<Column> columns;
     private final HtmlRenderingSupport helper;
     
-    public RenderPackageSummaryAction(VelocityContext context, File basePath, CloverReportConfig cfg, PackageInfo pkg,
+    public RenderPackageSummaryAction(VelocityContextBuilder context, File basePath, CloverReportConfig cfg, PackageInfo pkg,
                                       Comparator<HasMetrics> detailComparator, HtmlReporter.TreeInfo tree, HtmlRenderingSupport helper,
                                       boolean appPagePresent, boolean testPagePresent, boolean linkToClouds) {
         this.context = context;

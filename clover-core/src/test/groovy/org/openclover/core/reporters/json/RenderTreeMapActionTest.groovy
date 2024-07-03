@@ -1,6 +1,5 @@
 package org.openclover.core.reporters.json
 
-import org.apache.velocity.VelocityContext
 import org.junit.Before
 import org.junit.Test
 import org.openclover.core.TestUtils
@@ -16,6 +15,7 @@ import org.openclover.core.registry.metrics.ProjectMetrics
 import org.openclover.core.reporters.CloverReportConfig
 import org.openclover.core.reporters.Current
 import org.openclover.core.reporters.Format
+import org.openclover.core.reporters.html.VelocityContextBuilder
 
 import java.util.concurrent.Callable
 
@@ -38,7 +38,7 @@ class RenderTreeMapActionTest {
     void testCall() throws Exception {
         final ProjectInfo project = createMockProject()
 
-        final VelocityContext context = new VelocityContext()
+        final VelocityContextBuilder context = VelocityContextBuilder.create()
         final CloverReportConfig reportConfig = new Current()
         reportConfig.setFormat(Format.DEFAULT_HTML)
         final Callable action = new RenderTreeMapAction(context, tmpDir, project)

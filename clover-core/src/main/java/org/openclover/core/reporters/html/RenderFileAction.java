@@ -1,7 +1,6 @@
 package org.openclover.core.reporters.html;
 
 import antlr.TokenStreamException;
-import org.apache.velocity.VelocityContext;
 import org.openclover.core.BitSetCoverageProvider;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.CoverageData;
@@ -57,7 +56,7 @@ public class RenderFileAction implements Callable {
     protected final FileInfo fileInfo; // shared: call made to setDataProvider on local copy
     protected final HtmlRenderingSupportImpl renderingHelper; // shared - has static Pattern(thread safe) objects.
     protected final Current reportConfig; // shared - read only
-    protected final VelocityContext velocity; // not shared
+    protected final VelocityContextBuilder velocity; // not shared
     protected final CloverDatabase database; /// shared - read + write to cache in mDb.getRegistry().getContextsAsString - synchronized cache there.
     protected final ProjectInfo fullModel; // shared - call buildCaches first!
     protected final Map<Integer, CloverChartFactory.ChartInfo> charts;
@@ -67,7 +66,7 @@ public class RenderFileAction implements Callable {
         FileInfo fileInfo,
         HtmlRenderingSupportImpl renderingHelper,
         Current report,
-        VelocityContext velocity,
+        VelocityContextBuilder velocity,
         CloverDatabase database,
         ProjectInfo fullModel,
         Map<Integer, CloverChartFactory.ChartInfo> charts) {

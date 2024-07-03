@@ -1,20 +1,19 @@
 package org.openclover.core.reporters.html.source;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.velocity.VelocityContext;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.api.registry.BranchInfo;
 import org.openclover.core.api.registry.ContextSet;
+import org.openclover.core.api.registry.CoverageDataProvider;
 import org.openclover.core.api.registry.ElementInfo;
 import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.SourceInfo;
-import org.openclover.core.api.registry.CoverageDataProvider;
 import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.entities.LineInfo;
-
 import org.openclover.core.reporters.Current;
 import org.openclover.core.reporters.html.HtmlRenderingSupportImpl;
 import org.openclover.core.reporters.html.JSONObjectFactory;
+import org.openclover.core.reporters.html.VelocityContextBuilder;
 import org.openclover.core.spi.reporters.html.source.LineRenderInfo;
 import org.openclover.core.spi.reporters.html.source.SourceRenderer;
 import org.openclover.core.util.ChecksummingReader;
@@ -65,7 +64,7 @@ public class SourceRenderHelper {
         this.tabStr = StringUtils.repeat(spaceChar, report.getFormat().getTabWidth());
     }
 
-    public void insertLineInfosForFile(FileInfo fileInfo, VelocityContext context, ContextSet contextSet, String emptyChar, List[] testLineInfo) {
+    public void insertLineInfosForFile(FileInfo fileInfo, VelocityContextBuilder context, ContextSet contextSet, String emptyChar, List[] testLineInfo) {
         try {
             LineRenderInfo[] renderInfo = gatherSrcRenderInfo(context, fileInfo, contextSet, emptyChar, testLineInfo);
             context.put("renderInfo", renderInfo);
@@ -85,12 +84,12 @@ public class SourceRenderHelper {
         }
     }
 
-    private void putErrorMessage(VelocityContext context, String message) {
+    private void putErrorMessage(VelocityContextBuilder context, String message) {
         context.put("errormsg", message);
     }
 
     @SuppressWarnings("unchecked")
-    private void addWarning(VelocityContext context, String message) {
+    private void addWarning(VelocityContextBuilder context, String message) {
         List<String> warningMessages = (List<String>) context.get("warningMessages");
         if (warningMessages == null) {
             warningMessages = newArrayList();
@@ -111,7 +110,7 @@ public class SourceRenderHelper {
      * @throws antlr.TokenStreamException
      *                             if an error occurs reading the source file
      */
-    public LineRenderInfo[] gatherSrcRenderInfo(VelocityContext vc, FileInfo finfo, ContextSet contextSet,
+    public LineRenderInfo[] gatherSrcRenderInfo(VelocityContextBuilder vc, FileInfo finfo, ContextSet contextSet,
                                                 String emptyCoverageChar, List<TestCaseInfo>[] testLineInfo)
         throws Exception {
         // remove the failed test coverage filter at the file level...

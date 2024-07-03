@@ -1,9 +1,9 @@
 package org.openclover.core.reporters.json;
 
-import org.apache.velocity.VelocityContext;
 import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.reporters.html.HtmlRenderingSupportImpl;
 import org.openclover.core.reporters.html.HtmlReportUtil;
+import org.openclover.core.reporters.html.VelocityContextBuilder;
 
 import java.io.File;
 import java.util.concurrent.Callable;
@@ -12,10 +12,10 @@ public class RenderTreeMapAction implements Callable<Object> {
 
     private final ProjectInfo project;
     private final File outdir;
-    private final VelocityContext mContext;
+    private final VelocityContextBuilder mContext;
     private final HtmlRenderingSupportImpl renderSupport = new HtmlRenderingSupportImpl();
 
-    public RenderTreeMapAction(VelocityContext context, File outdir, ProjectInfo project) {
+    public RenderTreeMapAction(VelocityContextBuilder context, File outdir, ProjectInfo project) {
         this.project = project;
         this.outdir = outdir;
         this.mContext = context;

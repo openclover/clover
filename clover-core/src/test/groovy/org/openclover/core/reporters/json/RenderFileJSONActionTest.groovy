@@ -1,6 +1,5 @@
 package org.openclover.core.reporters.json
 
-import org.apache.velocity.VelocityContext
 import junit.framework.TestCase
 import org.openclover.core.CloverDatabase
 import org.openclover.core.api.registry.PackageInfo
@@ -10,6 +9,7 @@ import org.openclover.core.registry.metrics.HasMetricsTestFixture
 import org.openclover.core.registry.metrics.PackageMetrics
 import org.openclover.core.reporters.Current
 import org.openclover.core.reporters.html.HtmlRenderingSupportImpl
+import org.openclover.core.reporters.html.VelocityContextBuilder
 import org.openclover.core.util.CloverUtils
 import org.openclover.runtime.api.CloverException
 
@@ -44,7 +44,7 @@ class RenderFileJSONActionTest extends TestCase {
     void testRenderJSON() throws Exception {
         HtmlRenderingSupportImpl helper = new HtmlRenderingSupportImpl()
 
-        VelocityContext ctx = new VelocityContext()
+        VelocityContextBuilder ctx = VelocityContextBuilder.create()
 
         PackageInfo pinfo = fixture.newPackage("com.clover.test")
         FullFileInfo finfo = fixture.newFile(pinfo, "TestFileInfo.java")
@@ -63,7 +63,7 @@ class RenderFileJSONActionTest extends TestCase {
     void testRenderMetricsJSON() throws Exception {
         HtmlRenderingSupportImpl helper = new HtmlRenderingSupportImpl()
 
-        VelocityContext ctx = new VelocityContext()
+        VelocityContextBuilder ctx = VelocityContextBuilder.create()
 
         PackageInfo pinfo = fixture.newPackage("com.clover.test")
         fixture.newFile(pinfo, "TestFileInfo.java")

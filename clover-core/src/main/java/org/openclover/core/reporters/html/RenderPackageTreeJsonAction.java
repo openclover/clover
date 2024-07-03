@@ -1,6 +1,5 @@
 package org.openclover.core.reporters.html;
 
-import org.apache.velocity.VelocityContext;
 import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.registry.metrics.HasMetricsSupport;
@@ -20,12 +19,12 @@ public class RenderPackageTreeJsonAction implements Callable<Object> {
 
     private final ProjectInfo fullProjectInfo; // shared - read only
     private final ProjectInfo appProjectInfo;  // shared - read only
-    private final VelocityContext context; // not shared, read/write
+    private final VelocityContextBuilder context; // not shared, read/write
     private final Current reportConfig;
     private final File basePath;
 
 
-    public RenderPackageTreeJsonAction(VelocityContext ctx, File basePath,
+    public RenderPackageTreeJsonAction(VelocityContextBuilder ctx, File basePath,
                                        ProjectInfo fullProjectInfo, ProjectInfo appProjectInfo,
                                        Current reportConfig) {
         this.basePath = basePath;

@@ -1,6 +1,5 @@
 package org.openclover.core.reporters.html
 
-import org.apache.velocity.VelocityContext
 import junit.framework.TestCase
 import org.openclover.core.CloverDatabase
 import org.openclover.core.api.registry.PackageInfo
@@ -43,7 +42,7 @@ class RenderFileActionTest extends TestCase {
 
     void testInsertSrcFileProperties() throws Exception {
         HtmlRenderingSupportImpl helper = new HtmlRenderingSupportImpl()
-        VelocityContext ctx = new VelocityContext()
+        VelocityContextBuilder ctx = VelocityContextBuilder.create()
 
         PackageInfo pinfo = fixture.newPackage("com.clover.test")
         FullFileInfo finfo = fixture.newFile(pinfo, "TestFileInfo.java")

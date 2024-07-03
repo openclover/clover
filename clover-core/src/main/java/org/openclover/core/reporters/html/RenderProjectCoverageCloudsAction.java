@@ -1,6 +1,5 @@
 package org.openclover.core.reporters.html;
 
-import org.apache.velocity.VelocityContext;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.registry.metrics.HasMetricsSupport;
@@ -12,12 +11,12 @@ import java.util.List;
 public class RenderProjectCoverageCloudsAction extends RenderCoverageCloudAction {
     protected ProjectInfo projectInfo;
 
-    public RenderProjectCoverageCloudsAction(VelocityContext context, CloverReportConfig reportConfig,
+    public RenderProjectCoverageCloudsAction(VelocityContextBuilder context, CloverReportConfig reportConfig,
                                              File basePath, HtmlReporter.TreeInfo tree, ProjectInfo projectInfo) {
         this(context, reportConfig, basePath, tree, projectInfo, sortedAppClassesFor(projectInfo));
     }
 
-    public RenderProjectCoverageCloudsAction(VelocityContext context, CloverReportConfig reportConfig,
+    public RenderProjectCoverageCloudsAction(VelocityContextBuilder context, CloverReportConfig reportConfig,
                                              File basePath, HtmlReporter.TreeInfo tree, ProjectInfo projectInfo,
                                              List<ClassInfo> classes) {
         super(context, reportConfig, tree, classes, basePath);

@@ -1,6 +1,5 @@
 package org.openclover.core.reporters.html;
 
-import org.apache.velocity.VelocityContext;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.reporters.CloverReportConfig;
 
@@ -14,11 +13,11 @@ import static org.openclover.core.util.Lists.newArrayList;
 public abstract class RenderCoverageCloudAction implements Callable<Object> {
     protected final List<ClassInfo> classes;
     protected final File basePath;
-    protected final VelocityContext context;
+    protected final VelocityContextBuilder context;
     protected final CloverReportConfig reportConfig;
     protected final HtmlReporter.TreeInfo tree;
 
-    public RenderCoverageCloudAction(VelocityContext context, CloverReportConfig reportConfig,
+    public RenderCoverageCloudAction(VelocityContextBuilder context, CloverReportConfig reportConfig,
                                      HtmlReporter.TreeInfo tree, List<ClassInfo> classes, File basePath) {
         this.context = context;
         this.reportConfig = reportConfig;

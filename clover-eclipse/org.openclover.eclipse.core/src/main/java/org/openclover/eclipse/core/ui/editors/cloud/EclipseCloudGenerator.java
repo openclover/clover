@@ -1,6 +1,5 @@
 package org.openclover.eclipse.core.ui.editors.cloud;
 
-import org.apache.velocity.VelocityContext;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.PackageInfo;
@@ -9,6 +8,7 @@ import org.openclover.core.reporters.CloudGenerator;
 import org.openclover.core.reporters.html.ClassInfoStatsCalculator;
 import org.openclover.core.reporters.html.HtmlReportUtil;
 import org.openclover.core.reporters.html.TestClassFilter;
+import org.openclover.core.reporters.html.VelocityContextBuilder;
 import org.openclover.core.util.CloverUtils;
 import org.openclover.eclipse.core.CloverEclipsePluginMessages;
 
@@ -95,7 +95,7 @@ public class EclipseCloudGenerator {
     }
 
     private void createResources() throws Exception {
-        VelocityContext context = new VelocityContext();
+        VelocityContextBuilder context = VelocityContextBuilder.create();
         HtmlReportUtil.mergeTemplateToDir(basePath, "style.css", context);
     }
 
@@ -136,10 +136,10 @@ public class EclipseCloudGenerator {
             OutputStream outputStream,
             EclipseEditorLinkingHtmlRenderingSupport axisRenderer) throws IOException {
 
-        final VelocityContext context = new VelocityContext();
-        context.put("baseUrl", basePath.toURI().toURL().toExternalForm());
-        context.put("showSrc", Boolean.TRUE);
-        context.put("title", pageTitle);
+        final VelocityContextBuilder context = VelocityContextBuilder.create()
+                .put("baseUrl", basePath.toURI().toURL().toExternalForm())
+                .put("showSrc", Boolean.TRUE)
+                .put("title", pageTitle);
 
         return new CloudGenerator(TEMPLATE, axisRenderer, outputStream, context);
     }

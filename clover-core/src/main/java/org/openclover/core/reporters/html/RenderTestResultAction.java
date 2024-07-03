@@ -1,7 +1,6 @@
 package org.openclover.core.reporters.html;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.velocity.VelocityContext;
 import org.openclover.core.BitSetCoverageProvider;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.CoverageData;
@@ -34,7 +33,7 @@ public class RenderTestResultAction implements Callable<Object> {
     private final Current reportConfig; // read only
     private final ProjectInfo fullModel; // read only - put into velocity context for rendering
     private final TestCaseInfo testCaseInfo; // read only
-    private final VelocityContext velocity; // write only
+    private final VelocityContextBuilder velocity; // write only
 
     private final CloverDatabase database; // shared but read only
     private final ProjectInfo readOnlyModel; // gets copied in thread locals
@@ -44,7 +43,7 @@ public class RenderTestResultAction implements Callable<Object> {
             HtmlRenderingSupportImpl renderingHelper,
             Current reportConfig,
             ProjectInfo readOnlyModel,
-            VelocityContext velocity,
+            VelocityContextBuilder velocity,
             ProjectInfo fullModel,
             CloverDatabase database) {
 

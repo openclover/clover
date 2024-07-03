@@ -1,4 +1,4 @@
-package org.openclover.eclipse.core.views.dashboard;
+package org.openclover.core.reporters.html;
 
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;

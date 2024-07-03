@@ -1,10 +1,10 @@
 package org.openclover.core.reporters.json;
 
-import org.apache.velocity.VelocityContext;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.reporters.Column;
 import org.openclover.core.reporters.Columns;
 import org.openclover.core.reporters.html.HtmlReportUtil;
+import org.openclover.core.reporters.html.VelocityContextBuilder;
 import org.openclover.runtime.Logger;
 import org.openclover.runtime.api.CloverException;
 
@@ -60,7 +60,7 @@ public class JSONHistoricalReporter {
      * @param data the map of historical data points
      * @throws Exception if an error occurs while writing the JSON
      */
-    public void generateHistoricalJSON(VelocityContext context, Map<Long, HasMetrics> data, String title) throws Exception {
+    public void generateHistoricalJSON(VelocityContextBuilder context, Map<Long, HasMetrics> data, String title) throws Exception {
         final JSONObject json = generateJSON(data, title);
         final File jsonOutfile = new File(mBasePath, "historical-json.js");
         context.put("json", json.toString(2));

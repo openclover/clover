@@ -1,6 +1,5 @@
 package org.openclover.core.reporters.json;
 
-import org.apache.velocity.VelocityContext;
 import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.PackageInfo;
@@ -9,6 +8,7 @@ import org.openclover.core.reporters.CloverReportConfig;
 import org.openclover.core.reporters.Columns;
 import org.openclover.core.reporters.html.HtmlRenderingSupportImpl;
 import org.openclover.core.reporters.html.HtmlReportUtil;
+import org.openclover.core.reporters.html.VelocityContextBuilder;
 
 import java.io.File;
 import java.util.List;
@@ -24,11 +24,11 @@ public class RenderMetricsJSONAction implements Callable<Object> {
     private final File mFile;
     private final HtmlRenderingSupportImpl mHelper;
     private final CloverReportConfig mCfg;
-    private final VelocityContext mCtx;
+    private final VelocityContextBuilder mCtx;
 
     public RenderMetricsJSONAction(
-        VelocityContext ctx, HasMetrics configured,
-        CloverReportConfig current, File outfile, HtmlRenderingSupportImpl helper) {
+            VelocityContextBuilder ctx, HasMetrics configured,
+            CloverReportConfig current, File outfile, HtmlRenderingSupportImpl helper) {
         mInfo = configured;
         mCtx = ctx;
         mHelper = helper;

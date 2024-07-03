@@ -1,7 +1,6 @@
 package org.openclover.core.reporters.html;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.velocity.VelocityContext;
 import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
@@ -328,7 +327,7 @@ public class HtmlReporter extends CloverReporter {
         coverageTS = new Date(descriptor.getFirstTimestamp());
 
         filterLinkedReports();
-        final VelocityContext context = new VelocityContext();
+        final VelocityContextBuilder context = VelocityContextBuilder.create();
         insertCommonPropsForHistorical(context, "");
 
         HtmlReportUtil.mergeTemplateToDir(basePath, "style.css", context);
@@ -451,15 +450,15 @@ public class HtmlReporter extends CloverReporter {
         return 1;
     }
 
-    private VelocityContext insertCommonPropsForCurrent(VelocityContext context, String pkg) {
+    private VelocityContextBuilder insertCommonPropsForCurrent(VelocityContextBuilder context, String pkg) {
         return insertCommonProps(context, pkg);
     }
 
-    private VelocityContext insertCommonPropsForHistorical(VelocityContext context, String pkg) {
+    private VelocityContextBuilder insertCommonPropsForHistorical(VelocityContextBuilder context, String pkg) {
         return insertCommonProps(context, pkg);
     }
 
-    private VelocityContext insertCommonProps(VelocityContext context, String pkg) {
+    private VelocityContextBuilder insertCommonProps(VelocityContextBuilder context, String pkg) {
         context.put("fileUtils", FileUtils.getInstance());
         context.put("stringUtils", new StringUtils());
 
@@ -494,13 +493,13 @@ public class HtmlReporter extends CloverReporter {
     }
 
     private void renderProjectCoverageCloudPage(TreeInfo appCloudTree, CloverExecutor<Object> service) throws Exception {
-        VelocityContext cloudsContext = new VelocityContext();
+        VelocityContextBuilder cloudsContext = VelocityContextBuilder.create();
         insertCommonPropsForCurrent(cloudsContext, "");
         service.submit(new RenderProjectCoverageCloudsAction(cloudsContext, reportConfig, basePath, appCloudTree, getConfiguredModel()));
     }
 
     private void renderProjectTreeMapPage(CloverExecutor<Object> service) throws Exception {
-        VelocityContext context = new VelocityContext();
+        VelocityContextBuilder context = VelocityContextBuilder.create();
         insertCommonPropsForCurrent(context, "");
         service.submit(new RenderTreeMapAction(context, basePath, getConfiguredModel()));
     }
@@ -518,7 +517,7 @@ public class HtmlReporter extends CloverReporter {
     }
 
     private void renderPackageNodesTree(CloverExecutor<Object> queue) throws Exception {
-        VelocityContext ctx = new VelocityContext();
+        VelocityContextBuilder ctx = VelocityContextBuilder.create();
         insertCommonPropsForCurrent(ctx, "");
         RenderPackageTreeJsonAction action = new RenderPackageTreeJsonAction(ctx, basePath,
                 getFullModel(), getConfiguredModel(), reportAsCurrent());
@@ -526,7 +525,7 @@ public class HtmlReporter extends CloverReporter {
     }
 
     private void renderDashboard(CloverExecutor<Object> queue, CloverChartFactory.ChartInfo histogram, CloverChartFactory.ChartInfo scatter) throws Exception {
-        VelocityContext ctx = new VelocityContext();
+        final VelocityContextBuilder ctx = VelocityContextBuilder.create();
         insertCommonPropsForCurrent(ctx, "");
         final ProjectInfo configuredProject = getConfiguredModel();
         RenderDashboardAction action = new RenderDashboardAction(ctx, basePath, configuredProject, getFullModel(),
@@ -711,7 +710,7 @@ public class HtmlReporter extends CloverReporter {
                             file,
                             rederingHelper,
                             reportAsCurrent(),
-                            insertCommonPropsForCurrent(new VelocityContext(), file.getContainingPackage().getName()),
+                            insertCommonPropsForCurrent(VelocityContextBuilder.create(), file.getContainingPackage().getName()),
                             database,
                             projectInfo,
                             charts));
@@ -726,7 +725,7 @@ public class HtmlReporter extends CloverReporter {
                 continue;
             }
             for (TestCaseInfo test : classInfo.getTestCases()) {
-                VelocityContext context = new VelocityContext();
+                VelocityContextBuilder context = VelocityContextBuilder.create();
                 insertCommonPropsForCurrent(context, fileInfo.getContainingPackage().getName());
                 Callable<Object> testResultRenderer =
                         new RenderTestResultAction(
@@ -750,7 +749,7 @@ public class HtmlReporter extends CloverReporter {
         final String filename = tree.getPathPrefix() + "agg-pkgs.html";
 
         final File outfile = new File(basePath, filename);
-        final VelocityContext context = new VelocityContext();
+        final VelocityContextBuilder context = VelocityContextBuilder.create();
         context.put("linkToClouds", linkToClouds);
         context.put("currentPageURL", filename);
         context.put("headerMetrics", model.getMetrics());
@@ -778,7 +777,7 @@ public class HtmlReporter extends CloverReporter {
 
     private void renderBasePages() throws Exception {
         File outfile = new File(basePath, reportConfig.getMainFileName());
-        final VelocityContext context = new VelocityContext();
+        final VelocityContextBuilder context = VelocityContextBuilder.create();
         context.put("currentPageURL", reportConfig.getMainFileName());
 
         insertCommonPropsForCurrent(context, "");
@@ -804,7 +803,7 @@ public class HtmlReporter extends CloverReporter {
         return HTML_HOMEPAGE_VALUES.getOrDefault(homepageKey, homepageKey);
     }
 
-    private void renderPackagesSummaryPage(String name, String templateName, VelocityContext context,
+    private void renderPackagesSummaryPage(String name, String templateName, VelocityContextBuilder context,
                                            ProjectInfo model, TreeInfo tree, boolean linkToClouds) throws Exception {
         final String filename = tree.getPathPrefix() + name;
         final File outfile = new File(basePath, filename);
@@ -833,12 +832,12 @@ public class HtmlReporter extends CloverReporter {
     private void renderPackagesSummaryPage(ProjectInfo model, TreeInfo tree, boolean linkToClouds) throws Exception {
         renderPackagesSummaryPage("pkg-summary.html",
                 "pkgs-summary.vm",
-                new VelocityContext(), model, tree, linkToClouds);
+                VelocityContextBuilder.create(), model, tree, linkToClouds);
     }
 
     private void renderTestResultsPkgsSummaryPage() throws Exception {
         final File outfile = new File(basePath, "test-pkg-summary.html");
-        final VelocityContext context = new VelocityContext();
+        final VelocityContextBuilder context = VelocityContextBuilder.create();
 
         final ProjectInfo projectInfo = getFullModel().copy(
                 hasMetrics ->
@@ -863,7 +862,7 @@ public class HtmlReporter extends CloverReporter {
             String templateName,
             PackageInfo pkg,
             List<ClassInfo> classes,
-            VelocityContext context,
+            VelocityContextBuilder context,
             String currentTabName,
             boolean isTests) throws Exception {
 
@@ -892,20 +891,21 @@ public class HtmlReporter extends CloverReporter {
     public static String renderHtmlBarTable(float pcCovered, int width,
                                             String customClass, String customBarPositive, String customBarNegative) throws Exception {
 
-        final VelocityContext context = new VelocityContext();
-        context.put("empty", pcCovered < 0);
-        context.put("pccovered", pcCovered);
-        context.put("sortValue", pcCovered);
-        context.put("width", width);
-        context.put("customClass", customClass);
-        context.put("customBarPositive", customBarPositive);
-        context.put("customBarNegative", customBarNegative);
-        context.put("renderUtil", new HtmlRenderingSupportImpl());
+        final VelocityContextBuilder context = VelocityContextBuilder.create()
+                .put("empty", pcCovered < 0)
+                .put("pccovered", pcCovered)
+                .put("sortValue", pcCovered)
+                .put("width", width)
+                .put("customClass", customClass)
+                .put("customBarPositive", customBarPositive)
+                .put("customBarNegative", customBarNegative)
+                .put("renderUtil", new HtmlRenderingSupportImpl());
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         BufferedWriter out = new BufferedWriter(new OutputStreamWriter(baos, StandardCharsets.UTF_8));
-        HtmlReportUtil.getVelocityEngine().mergeTemplate(
-                HtmlReportUtil.getTemplatePath("bar-graph.vm"), "ASCII", context, out);
+        HtmlReportUtil
+                .getVelocityEngine()
+                .mergeTemplate(HtmlReportUtil.getTemplatePath("bar-graph.vm"), "ASCII", context.build(), out);
 
         out.close();
         return baos.toString();
@@ -914,7 +914,7 @@ public class HtmlReporter extends CloverReporter {
     private void renderPkgSummaryPage(PackageInfo pkg, TreeInfo tree,
                                       boolean appPagePresent, boolean testPagePresent, boolean linkToClouds,
                                       CloverExecutor<Object> queue) throws Exception {
-        VelocityContext context = new VelocityContext();
+        final VelocityContextBuilder context = VelocityContextBuilder.create();
         insertCommonPropsForCurrent(context, pkg.getName());
 
         queue.submit(
@@ -925,7 +925,7 @@ public class HtmlReporter extends CloverReporter {
     private void renderPkgCloudPages(PackageInfo pkg, TreeInfo tree,
                                      boolean appPagePresent, boolean testPagePresent,
                                      CloverExecutor<Object> queue) throws Exception {
-        VelocityContext context = new VelocityContext();
+        VelocityContextBuilder context = VelocityContextBuilder.create();
         insertCommonPropsForCurrent(context, pkg.getName());
 
         queue.submit(
@@ -953,7 +953,7 @@ public class HtmlReporter extends CloverReporter {
         classes.sort(TEST_SORT_ORDER);
 
         final File outfile = new File(outdir, "test-pkg-summary.html");
-        final VelocityContext context = new VelocityContext();
+        final VelocityContextBuilder context = VelocityContextBuilder.create();
 
         context.put("currentPageURL", "test-pkg-summary.html");
         context.put("projectInfo", getFullModel());
@@ -977,7 +977,7 @@ public class HtmlReporter extends CloverReporter {
 
         tests.sort(TEST_CASE_COMPARATOR);
 
-        final VelocityContext context = new VelocityContext();
+        final VelocityContextBuilder context = VelocityContextBuilder.create();
 
         context.put("currentPageURL", outName);
 
@@ -993,7 +993,7 @@ public class HtmlReporter extends CloverReporter {
     }
 
     private void insertCommonTestProps(
-            VelocityContext context,
+            VelocityContextBuilder context,
             List<?> entities,
             String childEntityType,
             PackageInfo pkg,
