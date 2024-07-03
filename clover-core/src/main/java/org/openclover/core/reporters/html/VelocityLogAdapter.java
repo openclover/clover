@@ -1,7 +1,7 @@
 package org.openclover.core.reporters.html;
 
-import clover.org.apache.velocity.runtime.RuntimeServices;
-import clover.org.apache.velocity.runtime.log.LogChute;
+import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.runtime.log.LogChute;
 import org.openclover.runtime.Logger;
 
 

@@ -1,6 +1,6 @@
 package org.openclover.eclipse.core.views.dashboard;
 
-import clover.org.apache.velocity.VelocityContext;
+import org.apache.velocity.VelocityContext;
 import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.reporters.Current;
 import org.openclover.core.reporters.html.RenderDashboardAction;

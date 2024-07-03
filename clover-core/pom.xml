@@ -87,8 +87,8 @@
             <artifactId>jfreechart</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-velocity</artifactId>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity</artifactId>
         </dependency>
         <!-- other libraries -->
         <dependency>
@@ -345,7 +345,7 @@
                                     <include>org.jfree:jcommon</include>
                                     <include>jdom:jdom</include>
                                     <include>org.jfree:jfreechart</include>
-                                    <include>org.openclover:clover-velocity</include>
+                                    <include>org.apache.velocity:velocity</include>
                                 </includes>
                             </artifactSet>
                             <filters>
@@ -423,9 +423,12 @@
                                     </excludes>
                                 </filter>
                                 <filter>
-                                    <artifact>org.openclover:clover-velocity</artifact>
+                                    <artifact>org.apache.velocity:velocity</artifact>
                                     <excludes>
                                         <exclude>META-INF/MANIFEST.MF</exclude>
+                                        <!-- we have shaded versions of these in src/main/resources -->
+                                        <exclude>**/directive.properties</exclude>
+                                        <exclude>**/velocity.properties</exclude>
                                     </excludes>
                                 </filter>
                             </filters>
@@ -435,14 +438,14 @@
                                     <pattern>antlr</pattern>
                                     <shadedPattern>clover.antlr</shadedPattern>
                                     <includes>
-                                        <include>antlr.*</include>
+                                        <include>antlr.**</include>
                                     </includes>
                                 </relocation>
                                 <relocation>
                                     <pattern>com.lowagie</pattern>
                                     <shadedPattern>clover.com.lowagie</shadedPattern>
                                     <includes>
-                                        <include>com.lowagie.*</include>
+                                        <include>com.lowagie.**</include>
                                     </includes>
                                 </relocation>
                                 <!-- note: we do not shade org.jetbrains:annotations -->
@@ -450,49 +453,56 @@
                                     <pattern>org.apache.commons.codec</pattern>
                                     <shadedPattern>clover.org.apache.commons.codec</shadedPattern>
                                     <includes>
-                                        <include>org.apache.commons.codec.*</include>
+                                        <include>org.apache.commons.codec.**</include>
                                     </includes>
                                 </relocation>
                                 <relocation>
                                     <pattern>org.apache.commons.collections</pattern>
                                     <shadedPattern>clover.org.apache.commons.collections</shadedPattern>
                                     <includes>
-                                        <include>org.apache.commons.collections.*</include>
+                                        <include>org.apache.commons.collections.**</include>
                                     </includes>
                                 </relocation>
                                 <relocation>
                                     <pattern>org.apache.commons.lang</pattern>
                                     <shadedPattern>clover.org.apache.commons.lang</shadedPattern>
                                     <includes>
-                                        <include>org.apache.commons.lang.*</include>
+                                        <include>org.apache.commons.lang.**</include>
                                     </includes>
                                 </relocation>
                                 <relocation>
                                     <pattern>org.apache.commons.lang3</pattern>
                                     <shadedPattern>clover.org.apache.commons.lang3</shadedPattern>
                                     <includes>
-                                        <include>org.apache.commons.lang3.*</include>
+                                        <include>org.apache.commons.lang3.**</include>
+                                    </includes>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.apache.velocity</pattern>
+                                    <shadedPattern>clover.org.apache.velocity</shadedPattern>
+                                    <includes>
+                                        <include>org.apache.velocity.**</include>
                                     </includes>
                                 </relocation>
                                 <relocation>
                                     <pattern>org.jdom</pattern>
                                     <shadedPattern>clover.org.jdom</shadedPattern>
                                     <includes>
-                                        <include>org.jdom.*</include>
+                                        <include>org.jdom.**</include>
                                     </includes>
                                 </relocation>
                                 <relocation>
                                     <pattern>org.jfree</pattern>
                                     <shadedPattern>clover.org.jfree</shadedPattern>
                                     <includes>
-                                        <include>org.jfree.*</include>
+                                        <include>org.jfree.**</include>
                                     </includes>
                                 </relocation>
                                 <relocation>
                                     <pattern>it.unimi.dsi.fastutil</pattern>
                                     <shadedPattern>clover.it.unimi.dsi.fastutil</shadedPattern>
                                     <includes>
-                                        <include>it.unimi.dsi.fastutil.*</include>
+                                        <include>it.unimi.dsi.fastutil.**</include>
                                     </includes>
                                 </relocation>
                             </relocations>

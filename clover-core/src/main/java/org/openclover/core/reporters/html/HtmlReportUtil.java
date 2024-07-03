@@ -1,8 +1,8 @@
 package org.openclover.core.reporters.html;
 
-import clover.org.apache.velocity.VelocityContext;
-import clover.org.apache.velocity.app.Velocity;
-import clover.org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.Velocity;
+import org.apache.velocity.app.VelocityEngine;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.reporters.Column;
 import org.openclover.core.reporters.ColumnFormat;
@@ -33,7 +33,7 @@ public class HtmlReportUtil {
             engine.setProperty("velocimacro.library", "");
             engine.setProperty(
                     "class.resource.loader.class",
-                    clover.org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader.class.getName());
+                    org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader.class.getName());
             engine.setProperty("class.resource.loader.cache", "true");
             engine.setProperty("class.resource.loader.modificationCheckInterval", "0");
             engine.setProperty("parser.pool.size", "1");

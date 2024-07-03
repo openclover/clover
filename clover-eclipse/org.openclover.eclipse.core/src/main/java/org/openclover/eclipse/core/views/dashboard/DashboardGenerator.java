@@ -1,8 +1,8 @@
 package org.openclover.eclipse.core.views.dashboard;
 
-import clover.org.apache.velocity.VelocityContext;
-import clover.org.apache.velocity.app.Velocity;
-import clover.org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.Velocity;
+import org.apache.velocity.app.VelocityEngine;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.reporters.Current;
 import org.openclover.core.reporters.html.HtmlReportUtil;

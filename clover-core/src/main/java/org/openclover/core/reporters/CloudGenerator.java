@@ -1,6 +1,6 @@
 package org.openclover.core.reporters;
 
-import clover.org.apache.velocity.VelocityContext;
+import org.apache.velocity.VelocityContext;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.registry.metrics.HasMetricsSupport;
 import org.openclover.core.reporters.html.ClassInfoStatsCalculator;
