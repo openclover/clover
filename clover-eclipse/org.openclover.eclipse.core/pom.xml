@@ -21,7 +21,7 @@
         </dependency>
         <dependency>
             <groupId>org.openclover</groupId>
-            <artifactId>clover-core</artifactId>
+            <artifactId>clover</artifactId>
             <version>${clover.version}</version>
         </dependency>
         <dependency>
