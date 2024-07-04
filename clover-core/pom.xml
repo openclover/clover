@@ -401,38 +401,58 @@
                                     <artifact>com.lowagie:itext</artifact>
                                     <excludes>
                                         <exclude>META-INF/MANIFEST.MF</exclude>
+                                        <exclude>ant/*</exclude>
                                         <exclude>build.xml</exclude>
                                     </excludes>
                                 </filter>
                                 <filter>
                                     <artifact>org.jfree:jcommon</artifact>
+                                    <!-- minification removes resource bundle classes, must include everything, unfortunately -->
+                                    <includes>
+                                        <include>org/jfree/**</include>
+                                    </includes>
                                     <excludes>
                                         <exclude>META-INF/MANIFEST.MF</exclude>
                                     </excludes>
                                 </filter>
                                 <filter>
                                     <artifact>org.jfree:jfreechart</artifact>
+                                    <!-- minification removes resource bundle classes, so we must include most packages, unfortunately -->
+                                    <includes>
+                                        <include>org/jfree/chart/**</include>
+                                        <include>org/jfree/data/**</include>
+                                    </includes>
                                     <excludes>
                                         <exclude>META-INF/MANIFEST.MF</exclude>
+                                        <!--<exclude>org/jfree/chart/needle</exclude>
+                                        <exclude>org/jfree/chart/panel</exclude>
+                                        <exclude>org/jfree/chart/servlet</exclude>
+                                        <exclude>org/jfree/data/io</exclude>
+                                        <exclude>org/jfree/data/jdbc</exclude>
+                                        <exclude>org/jfree/data/xml</exclude>-->
                                     </excludes>
                                 </filter>
                                 <filter>
                                     <artifact>jdom:jdom</artifact>
                                     <excludes>
                                         <exclude>META-INF/MANIFEST.MF</exclude>
+                                        <exclude>META-INF/LICENSE.txt</exclude>
+                                        <exclude>META-INF/info.xml</exclude>
                                     </excludes>
                                 </filter>
                                 <filter>
                                     <artifact>org.apache.velocity:velocity</artifact>
                                     <excludes>
                                         <exclude>META-INF/MANIFEST.MF</exclude>
+                                        <exclude>META-INF/NOTICE</exclude>
                                         <!-- we have shaded versions of these in src/main/resources -->
                                         <exclude>**/directive.properties</exclude>
                                         <exclude>**/velocity.properties</exclude>
+                                        <exclude>**/texen.properties</exclude>
                                     </excludes>
                                 </filter>
                             </filters>
-                            <minimizeJar>true</minimizeJar>
+                            <minimizeJar>false</minimizeJar>
                             <relocations>
                                 <relocation>
                                     <pattern>antlr</pattern>
