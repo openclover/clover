@@ -357,6 +357,9 @@
                                 </filter>
                                 <filter>
                                     <artifact>commons-collections:commons-collections</artifact>
+                                    <includes>
+                                        <include>org/apache/commons/collections/**</include>
+                                    </includes>
                                     <excludes>
                                         <exclude>META-INF/LICENSE.txt</exclude>
                                         <exclude>META-INF/MANIFEST.MF</exclude>
@@ -371,6 +374,12 @@
                                 </filter>
                                 <filter>
                                     <artifact>commons-lang:commons-lang</artifact>
+                                    <includes>
+                                        <!-- used by velocity -->
+                                        <include>org/apache/commons/lang/*</include>
+                                        <include>org/apache/commons/lang/builder/*</include>
+                                        <include>org/apache/commons/lang/text/*</include>
+                                    </includes>
                                     <excludes>
                                         <exclude>META-INF/LICENSE.txt</exclude>
                                         <exclude>META-INF/MANIFEST.MF</exclude>
@@ -424,12 +433,6 @@
                                     </includes>
                                     <excludes>
                                         <exclude>META-INF/MANIFEST.MF</exclude>
-                                        <!--<exclude>org/jfree/chart/needle</exclude>
-                                        <exclude>org/jfree/chart/panel</exclude>
-                                        <exclude>org/jfree/chart/servlet</exclude>
-                                        <exclude>org/jfree/data/io</exclude>
-                                        <exclude>org/jfree/data/jdbc</exclude>
-                                        <exclude>org/jfree/data/xml</exclude>-->
                                     </excludes>
                                 </filter>
                                 <filter>
@@ -442,6 +445,10 @@
                                 </filter>
                                 <filter>
                                     <artifact>org.apache.velocity:velocity</artifact>
+                                    <includes>
+                                        <!-- keep all classes from velocity -->
+                                        <include>org/apache/velocity/**</include>
+                                    </includes>
                                     <excludes>
                                         <exclude>META-INF/MANIFEST.MF</exclude>
                                         <exclude>META-INF/NOTICE</exclude>
@@ -452,7 +459,7 @@
                                     </excludes>
                                 </filter>
                             </filters>
-                            <minimizeJar>false</minimizeJar>
+                            <minimizeJar>true</minimizeJar>
                             <relocations>
                                 <relocation>
                                     <pattern>antlr</pattern>
