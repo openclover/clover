@@ -1,15 +1,15 @@
 package org.openclover.core.reporters.json;
 
-import clover.org.apache.velocity.VelocityContext;
 import org.openclover.core.api.registry.ClassInfo;
+import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.api.registry.ProjectInfo;
-import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.core.registry.metrics.HasMetricsSupport;
 import org.openclover.core.reporters.CloverReportConfig;
 import org.openclover.core.reporters.html.ClassInfoStatsCalculator;
 import org.openclover.core.reporters.html.HtmlReportUtil;
 import org.openclover.core.reporters.html.StatisticsClassInfoVisitor;
+import org.openclover.core.reporters.html.VelocityContextBuilder;
 
 import java.io.File;
 import java.util.List;
@@ -23,10 +23,10 @@ public abstract class RenderCloudsJSONAction implements Callable<Object> {
 
     protected final File dir;
     protected final CloverReportConfig cfg;
-    protected final VelocityContext ctx;
+    protected final VelocityContextBuilder ctx;
     protected final boolean aggregate;
 
-    public RenderCloudsJSONAction(VelocityContext ctx, CloverReportConfig cfg, File dir, boolean aggregate) {
+    public RenderCloudsJSONAction(VelocityContextBuilder ctx, CloverReportConfig cfg, File dir, boolean aggregate) {
         this.cfg = cfg;
         this.dir = dir;
         this.ctx = ctx;
@@ -74,13 +74,13 @@ public abstract class RenderCloudsJSONAction implements Callable<Object> {
     public abstract static class ForProjects extends RenderCloudsJSONAction {
         protected final ProjectInfo project;
 
-        protected ForProjects(ProjectInfo project, VelocityContext ctx, CloverReportConfig cfg, File dir) {
+        protected ForProjects(ProjectInfo project, VelocityContextBuilder ctx, CloverReportConfig cfg, File dir) {
             super(ctx, cfg, dir, false);
             this.project = project;
         }
 
         public static class OfTheirRisks extends ForProjects {
-            public OfTheirRisks(ProjectInfo project, VelocityContext ctx, CloverReportConfig cfg, File dir) {
+            public OfTheirRisks(ProjectInfo project, VelocityContextBuilder ctx, CloverReportConfig cfg, File dir) {
                 super(project, ctx, cfg, dir);
             }
 
@@ -95,7 +95,7 @@ public abstract class RenderCloudsJSONAction implements Callable<Object> {
             }
         }
         public static class OfTheirQuickWins extends ForProjects {
-            public OfTheirQuickWins(ProjectInfo project, VelocityContext ctx, CloverReportConfig cfg, File dir) {
+            public OfTheirQuickWins(ProjectInfo project, VelocityContextBuilder ctx, CloverReportConfig cfg, File dir) {
                 super(project, ctx, cfg, dir);
             }
 
@@ -114,13 +114,13 @@ public abstract class RenderCloudsJSONAction implements Callable<Object> {
     public abstract static class ForPackages extends RenderCloudsJSONAction {
         protected final PackageInfo pkg;
 
-        protected ForPackages(VelocityContext ctx, PackageInfo pkg, CloverReportConfig cfg, File dir, boolean aggregate) {
+        protected ForPackages(VelocityContextBuilder ctx, PackageInfo pkg, CloverReportConfig cfg, File dir, boolean aggregate) {
             super(ctx, cfg, dir, aggregate);
             this.pkg = pkg;
         }
 
         public static class OfTheirRisks extends ForPackages {
-            public OfTheirRisks(VelocityContext ctx, PackageInfo pkg, CloverReportConfig cfg, File dir, boolean aggregate) {
+            public OfTheirRisks(VelocityContextBuilder ctx, PackageInfo pkg, CloverReportConfig cfg, File dir, boolean aggregate) {
                 super(ctx, pkg, cfg, dir, aggregate);
             }
 
@@ -136,7 +136,7 @@ public abstract class RenderCloudsJSONAction implements Callable<Object> {
         }
 
         public static class OfTheirQuickWins extends ForPackages {
-            public OfTheirQuickWins(VelocityContext ctx, PackageInfo pkg, CloverReportConfig cfg, File dir, boolean aggregate) {
+            public OfTheirQuickWins(VelocityContextBuilder ctx, PackageInfo pkg, CloverReportConfig cfg, File dir, boolean aggregate) {
                 super(ctx, pkg, cfg, dir, aggregate);
             }
 

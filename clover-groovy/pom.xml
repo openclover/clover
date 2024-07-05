@@ -210,8 +210,8 @@
                                     <artifactId>cajo</artifactId>
                                 </artifactItem>
                                 <artifactItem>
-                                    <groupId>org.openclover</groupId>
-                                    <artifactId>clover-velocity</artifactId>
+                                    <groupId>org.apache.velocity</groupId>
+                                    <artifactId>velocity</artifactId>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>

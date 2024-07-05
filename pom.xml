@@ -146,8 +146,8 @@
                 <version>1.7.36</version>
             </dependency>
             <dependency>
-                <groupId>org.openclover</groupId>
-                <artifactId>clover-velocity</artifactId>
+                <groupId>org.apache.velocity</groupId>
+                <artifactId>velocity</artifactId>
                 <version>1.7</version>
             </dependency>
             <!-- test frameworks -->

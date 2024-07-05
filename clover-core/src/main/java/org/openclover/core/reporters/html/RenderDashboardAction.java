@@ -1,6 +1,5 @@
 package org.openclover.core.reporters.html;
 
-import clover.org.apache.velocity.VelocityContext;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.registry.metrics.HasMetricsSupport;
@@ -28,17 +27,17 @@ public class RenderDashboardAction implements Callable {
     private final File mBasePath; // share - read only
     private final ProjectInfo mConfiguredInfo; // shared - read only
     private final ProjectInfo mProjectInfo; // shared - read only
-    private final VelocityContext mContext; // not shared, read/write
+    private final VelocityContextBuilder mContext; // not shared, read/write
     private final CloverChartFactory.ChartInfo mHistogram;
     private final CloverChartFactory.ChartInfo mScatter;
     private final Current reportConfig;
 
-    public RenderDashboardAction(VelocityContext ctx, File basePath, ProjectInfo configured, ProjectInfo full,
+    public RenderDashboardAction(VelocityContextBuilder context, File basePath, ProjectInfo configured, ProjectInfo full,
                                  CloverChartFactory.ChartInfo histogram, CloverChartFactory.ChartInfo scatter, Current reportConfig) {
         mBasePath = basePath;
         mConfiguredInfo = configured;
         mProjectInfo = full;
-        mContext = ctx;
+        mContext = context;
         mHistogram = histogram;
         mScatter = scatter;
         this.reportConfig = reportConfig;
@@ -55,7 +54,7 @@ public class RenderDashboardAction implements Callable {
         // get data required for dashboard
         if (Boolean.TRUE != mContext.get("skipCoverageTreeMap")) {
             // render the package level treemap
-            final RenderTreeMapAction tree = new RenderTreeMapAction(new VelocityContext(), mBasePath, mConfiguredInfo);
+            final RenderTreeMapAction tree = new RenderTreeMapAction(VelocityContextBuilder.create(), mBasePath, mConfiguredInfo);
             tree.renderTreeMapJson("treemap-dash-json.js", "processTreeMapDashJson", false);
         }
         final List<ClassInfo> classes = mConfiguredInfo.getClasses(new TestClassCoverageThresholdFilter());

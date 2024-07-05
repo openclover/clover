@@ -1,6 +1,5 @@
 package org.openclover.core.reporters.json;
 
-import clover.org.apache.velocity.VelocityContext;
 import org.openclover.core.api.command.ArgProcessor;
 import org.openclover.core.api.command.HelpBuilder;
 import org.openclover.core.api.registry.FileInfo;
@@ -12,6 +11,7 @@ import org.openclover.core.reporters.CloverReporter;
 import org.openclover.core.reporters.Current;
 import org.openclover.core.reporters.Format;
 import org.openclover.core.reporters.html.HtmlRenderingSupportImpl;
+import org.openclover.core.reporters.html.VelocityContextBuilder;
 import org.openclover.core.util.CloverExecutor;
 import org.openclover.core.util.CloverExecutors;
 import org.openclover.core.util.CloverUtils;
@@ -86,11 +86,11 @@ public class JSONReporter extends CloverReporter {
             RenderMetricsJSONAction.initThreadLocals();
 
             service.submit(
-                new RenderColophonJSONAction(new VelocityContext(), new File(getConfigAsCurrent().getOutFile(), "colophon.js"), getConfigAsCurrent()));
+                new RenderColophonJSONAction(VelocityContextBuilder.create(), new File(getConfigAsCurrent().getOutFile(), "colophon.js"), getConfigAsCurrent()));
 
             service.submit(
                 new RenderMetricsJSONAction(
-                    new VelocityContext(),
+                    VelocityContextBuilder.create(),
                     projectInfo,
                     getConfigAsCurrent(),
                     new File(getConfigAsCurrent().getOutFile(), "project.js"),
@@ -99,13 +99,13 @@ public class JSONReporter extends CloverReporter {
             service.submit(
                 new RenderCloudsJSONAction.ForProjects.OfTheirRisks(
                     projectInfo,
-                    new VelocityContext(),
+                    VelocityContextBuilder.create(),
                     getConfigAsCurrent(),
                     getConfigAsCurrent().getOutFile()));
             service.submit(
                 new RenderCloudsJSONAction.ForProjects.OfTheirQuickWins(
                     projectInfo,
-                    new VelocityContext(),
+                    VelocityContextBuilder.create(),
                     getConfigAsCurrent(),
                     getConfigAsCurrent().getOutFile()));
 
@@ -156,16 +156,26 @@ public class JSONReporter extends CloverReporter {
         final File basedir = CloverUtils.createOutDir(pkg, getConfigAsCurrent().getOutFile());
         final File outfile = new File(basedir, "package.js");
 
-        service.submit(new RenderMetricsJSONAction(new VelocityContext(), pkg, getConfigAsCurrent(), outfile, renderingHelper));
-        service.submit(new RenderCloudsJSONAction.ForPackages.OfTheirRisks(new VelocityContext(), pkg, getConfigAsCurrent(), basedir, true));
-        service.submit(new RenderCloudsJSONAction.ForPackages.OfTheirRisks(new VelocityContext(), pkg, getConfigAsCurrent(), basedir, false));
-        service.submit(new RenderCloudsJSONAction.ForPackages.OfTheirQuickWins(new VelocityContext(), pkg, getConfigAsCurrent(), basedir, true));
-        service.submit(new RenderCloudsJSONAction.ForPackages.OfTheirQuickWins(new VelocityContext(), pkg, getConfigAsCurrent(), basedir, false));
+        service.submit(
+                new RenderMetricsJSONAction(
+                        VelocityContextBuilder.create(), pkg, getConfigAsCurrent(), outfile, renderingHelper));
+        service.submit(
+                new RenderCloudsJSONAction.ForPackages.OfTheirRisks(
+                        VelocityContextBuilder.create(), pkg, getConfigAsCurrent(), basedir, true));
+        service.submit(
+                new RenderCloudsJSONAction.ForPackages.OfTheirRisks(
+                        VelocityContextBuilder.create(), pkg, getConfigAsCurrent(), basedir, false));
+        service.submit(
+                new RenderCloudsJSONAction.ForPackages.OfTheirQuickWins(
+                        VelocityContextBuilder.create(), pkg, getConfigAsCurrent(), basedir, true));
+        service.submit(
+                new RenderCloudsJSONAction.ForPackages.OfTheirQuickWins(
+                        VelocityContextBuilder.create(), pkg, getConfigAsCurrent(), basedir, false));
 
         for (FileInfo file : files) {
             service.submit(
                     new RenderFileJSONAction(
-                            file, renderingHelper, getConfigAsCurrent(), new VelocityContext(), database, projectInfo));
+                            file, renderingHelper, getConfigAsCurrent(), VelocityContextBuilder.create(), database, projectInfo));
         }
     }
 

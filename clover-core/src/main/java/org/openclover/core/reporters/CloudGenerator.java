@@ -1,11 +1,11 @@
 package org.openclover.core.reporters;
 
-import clover.org.apache.velocity.VelocityContext;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.registry.metrics.HasMetricsSupport;
 import org.openclover.core.reporters.html.ClassInfoStatsCalculator;
 import org.openclover.core.reporters.html.HtmlReportUtil;
 import org.openclover.core.reporters.html.StatisticsClassInfoVisitor;
+import org.openclover.core.reporters.html.VelocityContextBuilder;
 import org.openclover.core.spi.reporters.html.source.HtmlRenderingSupport;
 
 import java.io.IOException;
@@ -24,13 +24,14 @@ public class CloudGenerator {
     protected final String template;
     protected final HtmlRenderingSupport axisRendering;
     protected final OutputStream outputStream;
-    protected final VelocityContext velocityContext;
+    protected final VelocityContextBuilder velocityContext;
 
     public CloudGenerator(String template, HtmlRenderingSupport axisRendering, OutputStream outputStream) {
-        this(template, axisRendering, outputStream, new VelocityContext());
+        this(template, axisRendering, outputStream, VelocityContextBuilder.create());
     }
 
-    public CloudGenerator(String template, HtmlRenderingSupport axisRendering, OutputStream outputStream, VelocityContext velocityContext) {
+    public CloudGenerator(String template, HtmlRenderingSupport axisRendering, OutputStream outputStream,
+                          VelocityContextBuilder velocityContext) {
         this.template = template;
         this.axisRendering = axisRendering;
         this.outputStream = outputStream;
@@ -50,7 +51,7 @@ public class CloudGenerator {
     protected final void applyAxis(List<ClassInfo> classes,
                                    ClassInfoStatsCalculator axis1,
                                    ClassInfoStatsCalculator axis2,
-                                   VelocityContext context) {
+                                   VelocityContextBuilder context) {
         StatisticsClassInfoVisitor v2 = StatisticsClassInfoVisitor.visit(sort(classes), axis2);
         StatisticsClassInfoVisitor v1 = StatisticsClassInfoVisitor.visit(v2.getClasses(), axis1);
         context.put(DEEPAXIS, Boolean.TRUE);

@@ -1,6 +1,5 @@
 package org.openclover.core.reporters.html
 
-import clover.org.apache.velocity.VelocityContext
 import junit.framework.TestCase
 import org.openclover.core.api.registry.BranchInfo
 import org.openclover.core.api.registry.ContextSet
@@ -16,11 +15,9 @@ import org.openclover.core.reporters.Current
 
 import static org.openclover.core.util.Lists.newArrayList
 
-/**
- */
 class RenderProjectCoverageCloudsActionTest extends TestCase {
 
-    private VelocityContext ctx
+    private VelocityContextBuilder ctx
     private HtmlReporter.TreeInfo tree
     private List classes
     private File basePath
@@ -44,7 +41,7 @@ class RenderProjectCoverageCloudsActionTest extends TestCase {
      * @throws java.io.IOException
      */
     protected void setUp() throws IOException {
-        ctx = new VelocityContext()
+        ctx = VelocityContextBuilder.create()
         reportConfig = new Current()
         tree = new HtmlReporter.TreeInfo("pathPrefix", "name")
         classes = newArrayList()

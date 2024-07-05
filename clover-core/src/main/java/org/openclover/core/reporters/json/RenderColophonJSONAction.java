@@ -1,8 +1,8 @@
 package org.openclover.core.reporters.json;
 
-import clover.org.apache.velocity.VelocityContext;
 import org.openclover.core.reporters.CloverReportConfig;
 import org.openclover.core.reporters.html.HtmlReportUtil;
+import org.openclover.core.reporters.html.VelocityContextBuilder;
 import org_openclover_runtime.CloverVersionInfo;
 
 import java.io.File;
@@ -12,11 +12,11 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 public class RenderColophonJSONAction implements Callable {
-    private final VelocityContext ctx;
+    private final VelocityContextBuilder ctx;
     private final File file;
     private final CloverReportConfig cfg;
 
-    public RenderColophonJSONAction(VelocityContext ctx, File file, CloverReportConfig cfg) {
+    public RenderColophonJSONAction(VelocityContextBuilder ctx, File file, CloverReportConfig cfg) {
         this.ctx = ctx;
         this.file = file;
         this.cfg = cfg;

@@ -87,8 +87,8 @@
             <artifactId>jfreechart</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.openclover</groupId>
-            <artifactId>clover-velocity</artifactId>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity</artifactId>
         </dependency>
         <!-- other libraries -->
         <dependency>
@@ -345,7 +345,7 @@
                                     <include>org.jfree:jcommon</include>
                                     <include>jdom:jdom</include>
                                     <include>org.jfree:jfreechart</include>
-                                    <include>org.openclover:clover-velocity</include>
+                                    <include>org.apache.velocity:velocity</include>
                                 </includes>
                             </artifactSet>
                             <filters>
@@ -357,6 +357,9 @@
                                 </filter>
                                 <filter>
                                     <artifact>commons-collections:commons-collections</artifact>
+                                    <includes>
+                                        <include>org/apache/commons/collections/**</include>
+                                    </includes>
                                     <excludes>
                                         <exclude>META-INF/LICENSE.txt</exclude>
                                         <exclude>META-INF/MANIFEST.MF</exclude>
@@ -371,6 +374,12 @@
                                 </filter>
                                 <filter>
                                     <artifact>commons-lang:commons-lang</artifact>
+                                    <includes>
+                                        <!-- used by velocity -->
+                                        <include>org/apache/commons/lang/*</include>
+                                        <include>org/apache/commons/lang/builder/*</include>
+                                        <include>org/apache/commons/lang/text/*</include>
+                                    </includes>
                                     <excludes>
                                         <exclude>META-INF/LICENSE.txt</exclude>
                                         <exclude>META-INF/MANIFEST.MF</exclude>
@@ -401,17 +410,27 @@
                                     <artifact>com.lowagie:itext</artifact>
                                     <excludes>
                                         <exclude>META-INF/MANIFEST.MF</exclude>
+                                        <exclude>ant/*</exclude>
                                         <exclude>build.xml</exclude>
                                     </excludes>
                                 </filter>
                                 <filter>
                                     <artifact>org.jfree:jcommon</artifact>
+                                    <!-- minification removes resource bundle classes, must include everything, unfortunately -->
+                                    <includes>
+                                        <include>org/jfree/**</include>
+                                    </includes>
                                     <excludes>
                                         <exclude>META-INF/MANIFEST.MF</exclude>
                                     </excludes>
                                 </filter>
                                 <filter>
                                     <artifact>org.jfree:jfreechart</artifact>
+                                    <!-- minification removes resource bundle classes, so we must include most packages, unfortunately -->
+                                    <includes>
+                                        <include>org/jfree/chart/**</include>
+                                        <include>org/jfree/data/**</include>
+                                    </includes>
                                     <excludes>
                                         <exclude>META-INF/MANIFEST.MF</exclude>
                                     </excludes>
@@ -420,12 +439,23 @@
                                     <artifact>jdom:jdom</artifact>
                                     <excludes>
                                         <exclude>META-INF/MANIFEST.MF</exclude>
+                                        <exclude>META-INF/LICENSE.txt</exclude>
+                                        <exclude>META-INF/info.xml</exclude>
                                     </excludes>
                                 </filter>
                                 <filter>
-                                    <artifact>org.openclover:clover-velocity</artifact>
+                                    <artifact>org.apache.velocity:velocity</artifact>
+                                    <includes>
+                                        <!-- keep all classes from velocity -->
+                                        <include>org/apache/velocity/**</include>
+                                    </includes>
                                     <excludes>
                                         <exclude>META-INF/MANIFEST.MF</exclude>
+                                        <exclude>META-INF/NOTICE</exclude>
+                                        <!-- we have shaded versions of these in src/main/resources -->
+                                        <exclude>**/directive.properties</exclude>
+                                        <exclude>**/velocity.properties</exclude>
+                                        <exclude>**/texen.properties</exclude>
                                     </excludes>
                                 </filter>
                             </filters>
@@ -472,6 +502,13 @@
                                     <shadedPattern>clover.org.apache.commons.lang3</shadedPattern>
                                     <includes>
                                         <include>org.apache.commons.lang3.**</include>
+                                    </includes>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.apache.velocity</pattern>
+                                    <shadedPattern>clover.org.apache.velocity</shadedPattern>
+                                    <includes>
+                                        <include>org.apache.velocity.**</include>
                                     </includes>
                                 </relocation>
                                 <relocation>

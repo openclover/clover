@@ -1,6 +1,5 @@
 package org.openclover.core.reporters.json;
 
-import clover.org.apache.velocity.VelocityContext;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.ProjectInfo;
@@ -9,6 +8,7 @@ import org.openclover.core.reporters.Current;
 import org.openclover.core.reporters.html.HtmlRenderingSupportImpl;
 import org.openclover.core.reporters.html.HtmlReportUtil;
 import org.openclover.core.reporters.html.RenderFileAction;
+import org.openclover.core.reporters.html.VelocityContextBuilder;
 import org.openclover.core.reporters.html.source.SourceRenderHelper;
 import org.openclover.core.spi.reporters.html.source.LineRenderInfo;
 import org.openclover.core.util.CloverUtils;
@@ -22,7 +22,7 @@ import static org.openclover.core.util.Lists.newArrayList;
 
 public class RenderFileJSONAction extends RenderFileAction {
     public RenderFileJSONAction(FileInfo fileInfo, HtmlRenderingSupportImpl renderingHelper, Current report,
-                                VelocityContext velocity, CloverDatabase database, ProjectInfo fullModel) {
+                                VelocityContextBuilder velocity, CloverDatabase database, ProjectInfo fullModel) {
         super(fileInfo, renderingHelper, report, velocity, database, fullModel, null);
     }
 

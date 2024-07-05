@@ -1,14 +1,11 @@
 package org.openclover.eclipse.core.views.dashboard;
 
-import clover.org.apache.velocity.VelocityContext;
-import clover.org.apache.velocity.app.Velocity;
-import clover.org.apache.velocity.app.VelocityEngine;
 import org.openclover.core.CloverDatabase;
 import org.openclover.core.reporters.Current;
 import org.openclover.core.reporters.html.HtmlReportUtil;
-import org.openclover.core.reporters.html.VelocityLogAdapter;
+import org.openclover.core.reporters.html.PlainTextVelocityResourceLoader;
+import org.openclover.core.reporters.html.VelocityContextBuilder;
 import org.openclover.core.util.FileUtils;
-import org.openclover.runtime.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,12 +33,11 @@ public class DashboardGenerator {
     
     public void execute() throws Exception {
         createResources();
-        final VelocityContext context = new VelocityContext();
-
-        context.put("baseUrl", getBaseURL());
-        context.put("rootRelPath", "");
-        context.put("showSrc", Boolean.TRUE);
-        context.put("skipCoverageTreeMap", Boolean.TRUE);
+        final VelocityContextBuilder context = VelocityContextBuilder.create()
+                .put("baseUrl", getBaseURL())
+                .put("rootRelPath", "")
+                .put("showSrc", Boolean.TRUE)
+                .put("skipCoverageTreeMap", Boolean.TRUE);
 
         final Current currentConfig = new Current();
         currentConfig.setShowLambdaFunctions(false);
@@ -54,22 +50,8 @@ public class DashboardGenerator {
         mergePlainTextTemplateToFile(dashboardFile, context, DASHBOARD_VM);
     }
     
-    static void mergePlainTextTemplateToFile(File outfile, VelocityContext context, String template) throws Exception {
-        final VelocityEngine engine = new VelocityEngine();
-        engine.setProperty("resource.loader", "class");
-        engine.setProperty("velocimacro.library", "");
-        engine.setProperty(
-                "class.resource.loader.class",
-                PlainTextVelocityResourceLoader.class.getName());
-        engine.setProperty("class.resource.loader.cache", "true");
-        engine.setProperty("class.resource.loader.modificationCheckInterval", "0");
-        engine.setProperty("parser.pool.size", "1");
-        engine.setProperty(Velocity.RUNTIME_LOG_LOGSYSTEM, new VelocityLogAdapter(Logger.getInstance()));
-        engine.setProperty("resource.manager.logwhenfound", "false");
-        engine.setProperty("runtime.log.invalid.references", "false");
-        engine.init();
-
-        HtmlReportUtil.mergeTemplateToFile(engine, outfile, context, template);
+    static void mergePlainTextTemplateToFile(File outfile, VelocityContextBuilder context, String template) throws Exception {
+        HtmlReportUtil.mergeTemplateToFile(HtmlReportUtil.newVelocityEngine(false), outfile, context, template);
     }
     
     public String getDashboardURL() {

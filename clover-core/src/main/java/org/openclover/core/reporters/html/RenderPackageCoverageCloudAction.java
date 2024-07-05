@@ -1,6 +1,5 @@
 package org.openclover.core.reporters.html;
 
-import clover.org.apache.velocity.VelocityContext;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.PackageInfo;
@@ -19,7 +18,7 @@ public class RenderPackageCoverageCloudAction extends RenderCoverageCloudAction 
     private final boolean appPagePresent;
     private final boolean testPagePresent;
 
-    public RenderPackageCoverageCloudAction(VelocityContext context, CloverReportConfig reportConfig,
+    public RenderPackageCoverageCloudAction(VelocityContextBuilder context, CloverReportConfig reportConfig,
                                             File basePath, HtmlReporter.TreeInfo tree,
                                             PackageInfo pkg, boolean appPagePresent, boolean testPagePresent) {
         super(context, reportConfig, tree, sortedClassesFor(pkg), basePath);

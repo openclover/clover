@@ -1,6 +1,5 @@
 package org.openclover.core.reporters.html
 
-import clover.org.apache.velocity.VelocityContext
 import junit.framework.TestCase
 import org.openclover.core.TestUtils
 import org.openclover.core.api.registry.ProjectInfo
@@ -12,13 +11,13 @@ import org.openclover.core.reporters.util.CloverChartFactory
 
 class RenderActionTest extends TestCase {
 
-    VelocityContext context
+    VelocityContextBuilder context
     Current config
     HasMetricsTestFixture fixture
     File basePath
     
     void setUp() throws IOException {
-        context = new VelocityContext()
+        context = VelocityContextBuilder.create()
         basePath = TestUtils.createEmptyDirFor(getClass(), getName())
         String initStr = basePath.getAbsolutePath() + "/clover.db"
 
