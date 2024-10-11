@@ -7,6 +7,7 @@ import org.codehaus.groovy.ast.ClassNode
 import org.codehaus.groovy.ast.ConstructorNode
 import org.codehaus.groovy.ast.DynamicVariable
 import org.codehaus.groovy.ast.FieldNode
+import org.codehaus.groovy.ast.GenericsType
 import org.codehaus.groovy.ast.GroovyClassVisitor
 import org.codehaus.groovy.ast.InnerClassNode
 import org.codehaus.groovy.ast.MethodNode
@@ -56,7 +57,8 @@ class NodePrinter {
                 "ConstructorNode - $it.name (${joinParameterTypes(it.parameters)})"
             },
             "org.codehaus.groovy.ast.MethodNode"                     : { MethodNode it ->
-                "MethodNode - $it.name (${joinParameterTypes(it.parameters)}) : $it.returnType - synthetic=$it.synthetic"
+                "MethodNode - $it.name (${printParameterTypes(it.parameters)}) : return=${printClassNode(it.returnType)} - synthetic=$it.synthetic - generics=${printGenericsTypes(it.genericsTypes)}"
+                //- descriptor=${it.typeDescriptor.toString()}
             },
             "org.codehaus.groovy.ast.FieldNode"                      : { FieldNode it ->
                 "FieldNode - $it.name : $it.type"
@@ -166,10 +168,94 @@ class NodePrinter {
     }
 
     static String joinParameterTypes(Parameter[] parameters) {
-        Arrays.asList(parameters).stream()
-                .map(typeToString)
-                .collect(Collectors.joining(", "))
+        if (parameters == null) {
+            return "<null>"
+        } else {
+            return Arrays.asList(parameters).stream()
+                    .map(typeToString)
+                    .collect(Collectors.joining(", "))
+        }
     }
+
+    static String printParameterType(Parameter param) {
+        return "Parameter { " +
+                "type : $param.type," +
+                "name : $param.name, " +
+                "originType : $param.originType, " +
+                "dynamicTyped : $param.dynamicTyped, " +
+//                "closureShare : $param.closureShare, " +
+                "defaultValue : $param.defaultValue, " +
+//                "hasDefaultValue : $param.hasDefaultValue, " +
+                "inStaticContext : $param.inStaticContext, " +
+                "modifiers : $param.modifiers " +
+                "} "
+    }
+
+    static String printParameterTypes(Parameter[] parameters) {
+        if (parameters == null) {
+            return "<null>"
+        } else {
+            return Arrays.asList(parameters).stream()
+                    .map(parameterToString)
+                    .collect(Collectors.joining(", "))
+        }
+    }
+
+    static String printGenericsTypes(GenericsType[] genericsTypes) {
+        if (genericsTypes == null) {
+            return "<null>"
+        } else {
+            return Arrays.asList(genericsTypes).stream()
+                    .map(genericsTypeToString)
+                    .collect(Collectors.joining(", "))
+        }
+    }
+
+    static String printGenericsType(GenericsType g) {
+        return "GenericsType { " +
+                "name : $g.name, " +
+                "type : $g.type, " +
+                "lowerBound : $g.lowerBound, " +
+                "upperBounds : $g.upperBounds, " +
+                "placeholder : $g.placeholder, " +
+                "resolved : $g.resolved, " +
+                "wildcard : $g.wildcard" +
+                "}"
+    }
+
+    static String printClassNode(ClassNode cn) {
+        return "ClassNode { " +
+                "name : $cn.name," +
+                "modifiers : $cn.modifiers," +
+                "interfaces : $cn.interfaces," +
+                "mixins : $cn.mixins," +
+                "superClass : $cn.superClass," +
+                "typeAnnotations : $cn.typeAnnotations," +
+                "componentType : $cn.componentType," +
+                "genericsTypes : $cn.genericsTypes," +
+
+//                "usesGenerics : $cn.usesGenerics," +
+//                "redirect : $cn.redirect," +
+                "}"
+    }
+
+    static class GenericsTypeToString implements Function<GenericsType, String> {
+        @Override
+        String apply(GenericsType type) {
+            return printGenericsType(type)
+        }
+    }
+
+    static GenericsTypeToString genericsTypeToString = new GenericsTypeToString();
+
+    static class ParameterToString implements Function<Parameter, String> {
+        @Override
+        String apply(Parameter parameter) {
+            return printParameterType(parameter)
+        }
+    }
+
+    static ParameterToString parameterToString = new ParameterToString()
 
     static class TypeToString implements Function<Parameter, String> {
         @Override

@@ -4,6 +4,7 @@ import org.codehaus.groovy.ast.ASTNode;
 import org.codehaus.groovy.ast.ClassHelper;
 import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.ast.FieldNode;
+import org.codehaus.groovy.ast.GenericsType;
 import org.codehaus.groovy.ast.MethodNode;
 import org.codehaus.groovy.ast.ModuleNode;
 import org.codehaus.groovy.ast.Parameter;
@@ -621,12 +622,19 @@ public class Grover implements ASTTransformation {
     }
 
     private void addExprEval(ClassNode clazz) {
-        //def exprEval(def expr, Integer index) {
+        //<T> T exprEval(T expr, Integer index) {
         //  RECORDERCLASS.R.inc(index)
         //  return expr
         //}
-        final Parameter expr = new Parameter(ClassHelper.DYNAMIC_TYPE, "expr");
-        final Parameter index = new Parameter(ClassHelper.Integer_TYPE, "index");
+        final ClassNode typeTClass = ClassHelper.make("T");
+        typeTClass.setGenericsPlaceHolder(true);
+        typeTClass.setRedirect(ClassHelper.OBJECT_TYPE);
+        final GenericsType typeT = new GenericsType(typeTClass);
+        typeT.setPlaceholder(true);
+        typeTClass.setGenericsTypes(new GenericsType[]{ typeT });
+
+        final Parameter expr = new Parameter(typeTClass, "expr");
+        final Parameter index = new Parameter(ClassHelper.int_TYPE, "index");
         final VariableScope methodScope = new VariableScope();
         final Statement methodCode = new BlockStatement(
                 new Statement[]{
@@ -639,22 +647,33 @@ public class Grover implements ASTTransformation {
                 },
                 methodScope);
 
-        clazz.addMethod(
-                CloverNames.namespace("exprEval"), ACC_STATIC | ACC_PUBLIC,
-                ClassHelper.DYNAMIC_TYPE,
+        final MethodNode methodNode = new MethodNode(
+                CloverNames.namespace("exprEval"),
+                ACC_STATIC | ACC_PUBLIC,
+                typeTClass,
                 new Parameter[]{expr, index},
                 new ClassNode[]{},
                 methodCode);
+        methodNode.setGenericsTypes(new GenericsType[]{ typeT });
+
+        clazz.addMethod(methodNode);
     }
 
     private void addEvalElvis(ClassNode clazz) {
-        //def elvisEval(def expr, Integer index) {
+        //<T> T elvisEval(T expr, int index) {
         //  boolean isTrue = expr as Boolean
         //  if (isTrue) { RECORDERCLASS.R.inc(index) } else { RECORDERCLASS.R.inc(index + 1) }
         //  return expr
         //}
-        final Parameter expr = new Parameter(ClassHelper.DYNAMIC_TYPE, "expr");
-        final Parameter index = new Parameter(ClassHelper.Integer_TYPE, "index");
+        final ClassNode typeTClass = ClassHelper.make("T");
+        typeTClass.setGenericsPlaceHolder(true);
+        typeTClass.setRedirect(ClassHelper.OBJECT_TYPE);
+        final GenericsType typeT = new GenericsType(typeTClass);
+        typeT.setPlaceholder(true);
+        typeTClass.setGenericsTypes(new GenericsType[]{ typeT });
+
+        final Parameter expr = new Parameter(typeTClass, "expr");
+        final Parameter index = new Parameter(ClassHelper.int_TYPE, "index");
         final VariableScope methodScope = new VariableScope();
         final Statement methodCode = new BlockStatement(
                 new Statement[]{
@@ -690,16 +709,19 @@ public class Grover implements ASTTransformation {
                 methodScope
         );
 
-        clazz.addMethod(
-                CloverNames.namespace("elvisEval"), ACC_STATIC | ACC_PUBLIC,
-                ClassHelper.DYNAMIC_TYPE,
+        final MethodNode methodNode = new MethodNode(CloverNames.namespace("elvisEval2"),
+                ACC_STATIC | ACC_PUBLIC,
+                typeTClass,
                 new Parameter[]{expr, index},
                 new ClassNode[]{},
                 methodCode);
+        methodNode.setGenericsTypes(new GenericsType[]{ typeT });
+
+        clazz.addMethod(methodNode);
     }
 
     private void addEvalTestException(ClassNode clazz) {
-        //def evalTestException(Throwable exception, def expected) {
+        //int evalTestException(Throwable exception, def expected) {
         //  boolean isExpected = false
         //  for (ex in expected) {
         //      isExpected = isExpected || (exception != null && ex.isAssignableFrom(exception.getClass()))
