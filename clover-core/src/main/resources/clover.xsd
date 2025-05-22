@@ -111,7 +111,7 @@
         <xs:annotation>
             <xs:documentation>
                 Line-specific information.
-                @line - the line number
+                @num - the line number
                 @type - the type of syntactic construct - one of method|stmt|cond
                 @complexity - only applicable if @type == 'method'; the cyclomatic complexity of the construct
                 @count - only applicable if @type == 'stmt' or 'method'; the number of times the construct was executed
