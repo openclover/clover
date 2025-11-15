@@ -18,6 +18,7 @@ import java.util.List;
 
 import static org.openclover.core.util.Lists.newArrayList;
 import static org.openclover.core.util.Lists.newLinkedList;
+import static org.openclover.groovy.instr.CloverAstTransformerBase.recorderInc;
 
 /**
  * Instrumenting statements.
@@ -152,7 +153,7 @@ public class StatementInstrumenter extends ClassInstumenter {
         } else if (statement instanceof TryCatchStatement) {
             complexity = ((TryCatchStatement)statement).getCatchStatements().size();
         }
-        return Grover.recorderInc(
+        return recorderInc(
                 classRef,
                 session.addStatement(
                         new ContextSetImpl(),

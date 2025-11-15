@@ -41,6 +41,7 @@ import java.util.Map;
 
 import static org.openclover.core.util.Lists.newArrayList;
 import static org.openclover.core.util.Lists.newLinkedList;
+import static org.openclover.groovy.instr.CloverAstTransformerBase.newRecorderExpression;
 
 /**
  * Wrapping test methods into a try-catch block.
@@ -132,7 +133,7 @@ public class MethodInstrumenter {
                     methodReplacement.addStatement(
                             new ExpressionStatement(
                                     new MethodCallExpression(
-                                            Grover.newRecorderExpression(classRef, method.getLineNumber(), method.getColumnNumber()),
+                                            newRecorderExpression(classRef, method.getLineNumber(), method.getColumnNumber()),
                                             "globalSliceStart",
                                             new ArgumentListExpression(
                                                     new Expression[]{
@@ -166,7 +167,7 @@ public class MethodInstrumenter {
                     finallyBlock.addStatement(
                             new ExpressionStatement(
                                     new MethodCallExpression(
-                                            Grover.newRecorderExpression(classRef, -1, -1),
+                                            newRecorderExpression(classRef, -1, -1),
                                             flushPolicy == CoverageRecorder.FLUSHPOLICY_INTERVAL
                                                     ? "maybeFlush"
                                                     : "flushNeeded",
@@ -195,7 +196,7 @@ public class MethodInstrumenter {
                     finallyBlock.addStatement(
                             new ExpressionStatement(
                                     new MethodCallExpression(
-                                            Grover.newRecorderExpression(classRef, -1, -1),
+                                            newRecorderExpression(classRef, -1, -1),
                                             "globalSliceEnd",
                                             new ArgumentListExpression(
                                                     new Expression[]{
