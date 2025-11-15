@@ -8,7 +8,7 @@ import java.util.zip.Checksum;
 
 
 public class ChecksummingReader extends FilterReader {
-    private Checksum checksum;
+    private final Checksum checksum;
 
     public ChecksummingReader(Reader in) {
         super(in);
@@ -18,6 +18,16 @@ public class ChecksummingReader extends FilterReader {
     @Override
     public boolean markSupported() {
         return false;
+    }
+
+    /**
+     * Read all characters till end of the stream. As checksum is being calculated during read,
+     * you can get the checksum after this method returns.
+     */
+    public void readAllCharacters() throws IOException {
+        while (read() != -1) {
+            // intentionally empty
+        }
     }
 
     @Override

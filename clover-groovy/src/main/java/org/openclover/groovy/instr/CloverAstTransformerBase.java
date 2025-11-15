@@ -49,6 +49,8 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 
+import static org.openclover.core.util.UnusedUtils.ignoreReturnedValue;
+
 public abstract class CloverAstTransformerBase implements ASTTransformation {
     protected static final String recorderFieldName = CloverNames.namespace("R");
     protected static final String recorderGetterName = CloverNames.namespace("R");
@@ -283,11 +285,6 @@ public abstract class CloverAstTransformerBase implements ASTTransformation {
         return new File(sourceUnitName);
     }
 
-
-    public CloverAstTransformerBase() throws IOException, CloverException {
-        this(newConfigFromResource());
-    }
-
     public CloverAstTransformerBase(InstrumentationConfig cfg) throws IOException, CloverException {
         config = cfg;
         registry = config == null ? null : Clover2Registry.createOrLoad(config.getRegistryFile(), config.getProjectName());
@@ -341,13 +338,13 @@ public abstract class CloverAstTransformerBase implements ASTTransformation {
         }
     }
 
-    protected boolean alreadyInstrumented(ModuleNode module) {
+    protected boolean isNotInstrumented(ModuleNode module) {
         for (ClassNode clazz : module.getClasses()) {
             if (clazz.getNameWithoutPackage().contains(CloverNames.CLOVER_RECORDER_PREFIX)) {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     protected int getLastLineNumber(List<ClassNode> classes) {
@@ -376,7 +373,7 @@ public abstract class CloverAstTransformerBase implements ASTTransformation {
                     File.createTempFile("clover", ".dump").getParentFile()
                     : config.getTmpDir();
             File dumpDir = new File(tmpDir, "ast/" + CloverUtils.packageNameToPath(module.getPackageName(), module.getPackageName() == null));
-            dumpDir.mkdirs();
+            ignoreReturnedValue(dumpDir.mkdirs());
             dumpAST(module, sourceUnit, description, extension, dumpDir);
         }
     }
@@ -384,7 +381,7 @@ public abstract class CloverAstTransformerBase implements ASTTransformation {
     protected void dumpAST(ModuleNode module, SourceUnit sourceUnit, String description, String extension, File dumpDir) {
         try {
             File file = new File(dumpDir, getSourceUnitFile(sourceUnit).getName() + extension);
-            file.createNewFile();
+            ignoreReturnedValue(file.createNewFile());
 
             Logger.getInstance().info(description + " for " + getSourceUnitFile(sourceUnit) + " written to " + file.getAbsolutePath());
             try (PrintWriter writer = new PrintWriter(new FileWriter(file))) {
@@ -422,7 +419,7 @@ public abstract class CloverAstTransformerBase implements ASTTransformation {
                 fileReader = new FileReader(file);
             }
             final ChecksummingReader chksumReader = new ChecksummingReader(fileReader);
-            while (chksumReader.read() != -1) { /*no-op*/ }
+            chksumReader.readAllCharacters();
             return chksumReader.getChecksum();
         } else {
             return -1L;

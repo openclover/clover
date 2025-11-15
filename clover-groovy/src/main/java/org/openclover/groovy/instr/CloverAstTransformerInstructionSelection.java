@@ -31,7 +31,6 @@ import org.codehaus.groovy.syntax.Token;
 import org.codehaus.groovy.syntax.Types;
 import org.codehaus.groovy.transform.GroovyASTTransformation;
 import org.openclover.core.api.registry.FileInfo;
-import org.openclover.core.cfg.instr.InstrumentationConfig;
 import org.openclover.core.instr.tests.TestDetector;
 import org.openclover.core.instr.tests.naming.JUnitParameterizedTestExtractor;
 import org.openclover.core.instr.tests.naming.SpockFeatureNameExtractor;
@@ -55,26 +54,23 @@ import static groovyjarjarasm.asm.Opcodes.ACC_SYNTHETIC;
 import static org.openclover.core.util.Maps.newHashMap;
 
 /**
- * Shizzler of the nizzle. This is where it all starts, baby.
  * We attach to the instruction selection phase because
  * most ast transformers occur in the canonicalization phase
  */
 @GroovyASTTransformation(phase = CompilePhase.INSTRUCTION_SELECTION)
 public class CloverAstTransformerInstructionSelection extends CloverAstTransformerBase {
 
+    /** See clover-groovy/src/main/assembly/META-INF/services/org.codehaus.groovy.transform.ASTTransformation */
+    @SuppressWarnings("unused")
     public CloverAstTransformerInstructionSelection() throws IOException, CloverException {
         super(newConfigFromResource());
-    }
-
-    CloverAstTransformerInstructionSelection(InstrumentationConfig cfg) throws IOException, CloverException {
-        super(cfg);
     }
 
     @Override
     public void visit(SourceUnit sourceUnit) {
         try {
             final ModuleNode module = sourceUnit.getAST();
-            if (config != null && config.isEnabled() && !alreadyInstrumented(module)) {
+            if (config != null && config.isEnabled() && isNotInstrumented(module)) {
                 if (!isIncluded(sourceUnit)) {
                     Logger.getInstance().verbose("Skipping " + getSourceUnitFile(sourceUnit));
                 } else {
@@ -196,20 +192,18 @@ public class CloverAstTransformerInstructionSelection extends CloverAstTransform
         ((BlockStatement) recorderGetter.getCode()).addStatement(new BytecodeSequence(bytecodeInstruction));
     }
 
-    private ClassNode createSafeEvalMethods(final ClassNode clazz, final GroovyInstrumentationResult flags) {
+    private void createSafeEvalMethods(final ClassNode clazz, final GroovyInstrumentationResult flags) {
         if (flags.safeExprUsed) {
             for (final MethodNode methodNode : flags.safeEvalMethods.values()) {
                 clazz.addMethod(methodNode);
             }
         }
-        return clazz;
     }
 
-    private ClassNode createEvalTestExceptionMethod(final ClassNode clazz, final GroovyInstrumentationResult flags) {
+    private void createEvalTestExceptionMethod(final ClassNode clazz, final GroovyInstrumentationResult flags) {
         if (flags.testResultsRecorded) {
             addEvalTestException(clazz);
         }
-        return clazz;
     }
 
     /**
@@ -217,27 +211,22 @@ public class CloverAstTransformerInstructionSelection extends CloverAstTransform
      *
      * @param clazz class to be extended
      * @param flags flags after first instrumentation pass
-     * @return ClassNode modified input class
      */
-    private ClassNode createTestNameSnifferField(final ClassNode clazz, final GroovyInstrumentationResult flags) {
+    private void createTestNameSnifferField(final ClassNode clazz, final GroovyInstrumentationResult flags) {
         if (flags.isTestClass) {
-            return createTestNameSnifferField(clazz,
+            createTestNameSnifferField(clazz,
                     flags.isSpockSpecification ? SnifferType.SPOCK
                             : (flags.isParameterizedJUnit ? SnifferType.JUNIT : SnifferType.NULL));
-        } else {
-            return clazz;
         }
-
     }
 
     /**
      * Add the field named {@link CloverNames#CLOVER_TEST_NAME_SNIFFER} to the class.
      *
-     * @param clazz class to be extended
+     * @param clazz       class to be extended
      * @param snifferType type of the sniffer to be embedded
-     * @return ClassNode modified input class
      */
-    private ClassNode createTestNameSnifferField(final ClassNode clazz, final SnifferType snifferType) {
+    private void createTestNameSnifferField(final ClassNode clazz, final SnifferType snifferType) {
         final Expression fieldInitializationExpr;
         switch (snifferType) {
             case JUNIT:
@@ -260,7 +249,6 @@ public class CloverAstTransformerInstructionSelection extends CloverAstTransform
                 ACC_STATIC | ACC_PUBLIC | ACC_SYNTHETIC | ACC_FINAL,
                         ClassHelper.make(org_openclover_runtime.TestNameSniffer.class),
                         fieldInitializationExpr);
-        return clazz;
     }
 
     /**
