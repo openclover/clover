@@ -486,6 +486,10 @@ class PrintingVisitor extends ClassCodeVisitorSupport {
     }
 
     void visitListOfExpressions(List<? extends Expression> list) {
+        // can happen e.g. for ArrayExpression.getSizeExpression
+        if (list == null) {
+            return
+        }
         for (Expression node : list) {
             if (node instanceof NamedArgumentListExpression) {
                 printNode(node, NamedArgumentListExpression, { NamedArgumentListExpression it ->

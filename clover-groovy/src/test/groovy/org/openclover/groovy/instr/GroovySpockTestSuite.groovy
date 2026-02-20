@@ -37,6 +37,9 @@ class GroovySpockTestSuite
     private File asmJar = new File(testDependenciesDir, "asm-9.7.jar")
     private File antlrJar = new File(testDependenciesDir, "antlr-2.7.7.jar")
 
+    // used by spock
+    private File opentest4jJar = new File(testDependenciesDir, "opentest4j-1.2.0.jar")
+
     static GroovySpockTestSuite suite() { return new GroovySpockTestSuite() }
 
     GroovySpockTestSuite() {
@@ -64,7 +67,7 @@ class GroovySpockTestSuite
                                             testMethod.name,
                                             "${testMethod.name}_For_Spock_${spockVersion}_and_Groovy_${groovyVersion}".toString(),
                                             groovyAllJar,
-                                            [ spockJar, commonsCliJar, asmJar, antlrJar ],
+                                            [ spockJar, opentest4jJar, commonsCliJar, asmJar, antlrJar ],
                                             withJUnit5).with {
                                                     addTest(it)
                                             }

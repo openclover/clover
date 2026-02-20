@@ -17,13 +17,18 @@ trait SpockCombinatorMixin {
         def isSpockJar = /^(spock-core-.*-groovy-.*)\.jar$/
         spockLibDir.list().findAll {
             Matcher matcher = it =~ isSpockJar
-            if (matcher) {
+            if (matcher.matches()) {
                 filter.call(matcher.group(1))
             } else {
                 false
             }
         }.collect {String name ->
-            [(name =~ isSpockJar).group(1), new File(spockLibDir, name)]
+            Matcher matcher = name =~ isSpockJar
+            if (matcher.matches()) {
+                [matcher.group(1), new File(spockLibDir, name)]
+            } else {
+                throw new RuntimeException("Unexpected file in spock lib dir: ${name}")
+            }
         }
     }
 }
