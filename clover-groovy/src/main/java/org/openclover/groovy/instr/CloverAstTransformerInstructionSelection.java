@@ -9,6 +9,7 @@ import org.codehaus.groovy.ast.VariableScope;
 import org.codehaus.groovy.ast.expr.ArgumentListExpression;
 import org.codehaus.groovy.ast.expr.BinaryExpression;
 import org.codehaus.groovy.ast.expr.BooleanExpression;
+import org.codehaus.groovy.ast.expr.CastExpression;
 import org.codehaus.groovy.ast.expr.ClassExpression;
 import org.codehaus.groovy.ast.expr.ConstantExpression;
 import org.codehaus.groovy.ast.expr.ConstructorCallExpression;
@@ -21,6 +22,7 @@ import org.codehaus.groovy.ast.expr.VariableExpression;
 import org.codehaus.groovy.ast.stmt.BlockStatement;
 import org.codehaus.groovy.ast.stmt.ExpressionStatement;
 import org.codehaus.groovy.ast.stmt.ForStatement;
+import org.codehaus.groovy.ast.stmt.IfStatement;
 import org.codehaus.groovy.ast.stmt.ReturnStatement;
 import org.codehaus.groovy.ast.stmt.Statement;
 import org.codehaus.groovy.classgen.BytecodeInstruction;
@@ -48,6 +50,7 @@ import java.util.List;
 import java.util.Map;
 
 import static groovyjarjarasm.asm.Opcodes.ACC_FINAL;
+import static groovyjarjarasm.asm.Opcodes.ACC_PRIVATE;
 import static groovyjarjarasm.asm.Opcodes.ACC_PUBLIC;
 import static groovyjarjarasm.asm.Opcodes.ACC_STATIC;
 import static groovyjarjarasm.asm.Opcodes.ACC_SYNTHETIC;
@@ -179,11 +182,46 @@ public class CloverAstTransformerInstructionSelection extends CloverAstTransform
             ClassNode clazz = entry.getKey();
             GroovyInstrumentationResult flags = entry.getValue();
 
-            fillRecorderGetterBytecode(clazz, sessionConfig);
+            createRecorderField(clazz);
+            createRecorderGetter(clazz, sessionConfig);
             createSafeEvalMethods(clazz, flags);
             createEvalTestExceptionMethod(clazz, flags);
             createTestNameSnifferField(clazz, flags);
+            createEvalElvisMethods(clazz);
+            createExprEvalMethod(clazz);
         }
+    }
+
+    /**
+     * Creates a static field for CoverageRecorder:
+     * <pre>
+     *     private static CoverageRecorder $CLV_R$ = null;
+     * </pre>
+     */
+    private void createRecorderField(final ClassNode clazz) {
+        // add field
+        clazz.addField(recorderFieldName, ACC_STATIC | ACC_PRIVATE | ACC_SYNTHETIC,
+                ClassHelper.make(org_openclover_runtime.CoverageRecorder.class),
+                ConstantExpression.NULL);
+    }
+
+    /**
+     * Creates a static method (lazy initialization) like:
+     * <pre>
+     *     private static CoverageRecorder $CLV_R$() {
+     *         ...
+     *     }
+     * </pre>
+     */
+    private void createRecorderGetter(final ClassNode clazz, GroovyInstrumentationConfig sessionConfig) {
+        // add method (no code yet)
+        clazz.addMethod(recorderGetterName, ACC_STATIC | ACC_PRIVATE | ACC_SYNTHETIC,
+                ClassHelper.make(org_openclover_runtime.CoverageRecorder.class),
+                new Parameter[]{}, new ClassNode[]{},
+                new BlockStatement());
+
+        // getter method will be filled with byte code in next stage, see CloverAstTransformerInstructionSelection
+        fillRecorderGetterBytecode(clazz, sessionConfig);
     }
 
     private void fillRecorderGetterBytecode(ClassNode clazz, GroovyInstrumentationConfig sessionConfig) {
@@ -256,6 +294,155 @@ public class CloverAstTransformerInstructionSelection extends CloverAstTransform
      */
     private ClassNode createSimpleSnifferClassNode() {
         return ClassHelper.make(TestNameSniffer.Simple.class);
+    }
+
+    private void createEvalElvisMethods(final ClassNode clazz) {
+        addEvalElvisPrimitive(clazz, ClassHelper.byte_TYPE);
+        addEvalElvisPrimitive(clazz, ClassHelper.short_TYPE);
+        addEvalElvisPrimitive(clazz, ClassHelper.int_TYPE);
+        addEvalElvisPrimitive(clazz, ClassHelper.long_TYPE);
+        addEvalElvisPrimitive(clazz, ClassHelper.float_TYPE);
+        addEvalElvisPrimitive(clazz, ClassHelper.double_TYPE);
+        addEvalElvisPrimitive(clazz, ClassHelper.boolean_TYPE);
+        addEvalElvisPrimitive(clazz, ClassHelper.char_TYPE);
+        addEvalElvisDef(clazz);
+    }
+
+    private void createExprEvalMethod(final ClassNode clazz) {
+        addExprEvalDef(clazz);
+    }
+
+    private void addExprEvalDef(ClassNode clazz) {
+        //def exprEval(def expr, Integer index) {
+        //  RECORDERCLASS.R.inc(index)
+        //  return expr
+        //}
+        final Parameter expr = new Parameter(ClassHelper.DYNAMIC_TYPE, "expr");
+        final Parameter index = new Parameter(ClassHelper.Integer_TYPE, "index");
+        final VariableScope methodScope = new VariableScope();
+        final Statement methodCode = new BlockStatement(
+                new Statement[]{
+                        new ExpressionStatement(
+                                new MethodCallExpression(
+                                        newRecorderExpression(clazz, -1, -1),
+                                        "inc",
+                                        new ArgumentListExpression(new VariableExpression(index)))),
+                        new ReturnStatement(new VariableExpression(expr))
+                },
+                methodScope);
+
+        clazz.addMethod(
+                CloverNames.namespace("exprEval"), ACC_STATIC | ACC_PUBLIC,
+                ClassHelper.DYNAMIC_TYPE,
+                new Parameter[]{expr, index},
+                new ClassNode[]{},
+                methodCode);
+    }
+
+    private void addEvalElvisPrimitive(ClassNode clazz, ClassNode primitiveType) {
+        //T = boolean|byte|char|short|int|long|float|double
+        //T elvisEval(T expr, int index) {
+        //  boolean isTrue = expr as Boolean
+        //  if (isTrue) { RECORDER_CLASS.R.inc(index) } else { RECORDER_CLASS.R.inc(index + 1) }
+        //  return expr
+        //}
+
+        final Parameter expr = new Parameter(primitiveType, "expr");
+        final Parameter index = new Parameter(ClassHelper.int_TYPE, "index");
+        final VariableScope methodScope = new VariableScope();
+        final Statement methodCode = new BlockStatement(
+                new Statement[]{
+                        new ExpressionStatement(
+                                new DeclarationExpression(
+                                        new VariableExpression("isTrue", ClassHelper.Boolean_TYPE),
+                                        Token.newSymbol(Types.EQUAL, -1, -1),
+                                        CastExpression.asExpression(ClassHelper.Boolean_TYPE, new VariableExpression(expr)))),
+                        new IfStatement(
+                                new BooleanExpression(new VariableExpression("isTrue", ClassHelper.Boolean_TYPE)),
+                                new BlockStatement(new Statement[]{
+                                        new ExpressionStatement(
+                                                new MethodCallExpression(
+                                                        newRecorderExpression(clazz, -1, -1),
+                                                        "inc",
+                                                        new ArgumentListExpression(new VariableExpression(index)))),
+                                        new ReturnStatement(new VariableExpression(expr))
+                                }, methodScope),
+                                new BlockStatement(new Statement[]{
+                                        new ExpressionStatement(
+                                                new MethodCallExpression(
+                                                        newRecorderExpression(clazz, -1, -1),
+                                                        "inc",
+                                                        new ArgumentListExpression(
+                                                                new BinaryExpression(
+                                                                        new VariableExpression(index),
+                                                                        Token.newSymbol(Types.PLUS, -1, -1),
+                                                                        new ConstantExpression(1))))),
+                                        new ReturnStatement(new VariableExpression(expr))
+                                }, methodScope))
+
+                },
+                methodScope
+        );
+
+        final MethodNode methodNode = new MethodNode(CloverNames.namespace("elvisEval"),
+                ACC_STATIC | ACC_PUBLIC,
+                primitiveType,
+                new Parameter[]{expr, index},
+                new ClassNode[]{},
+                methodCode);
+
+        clazz.addMethod(methodNode);
+    }
+
+    private void addEvalElvisDef(ClassNode clazz) {
+        //def elvisEval(def expr, Integer index) {
+        //  boolean isTrue = expr as Boolean
+        //  if (isTrue) { RECORDERCLASS.R.inc(index) } else { RECORDERCLASS.R.inc(index + 1) }
+        //  return expr
+        //}
+        final Parameter expr = new Parameter(ClassHelper.DYNAMIC_TYPE, "expr");
+        final Parameter index = new Parameter(ClassHelper.Integer_TYPE, "index");
+        final VariableScope methodScope = new VariableScope();
+        final Statement methodCode = new BlockStatement(
+                new Statement[]{
+                        new ExpressionStatement(
+                                new DeclarationExpression(
+                                        new VariableExpression("isTrue", ClassHelper.Boolean_TYPE),
+                                        Token.newSymbol(Types.EQUAL, -1, -1),
+                                        CastExpression.asExpression(ClassHelper.Boolean_TYPE, new VariableExpression(expr)))),
+                        new IfStatement(
+                                new BooleanExpression(new VariableExpression("isTrue", ClassHelper.Boolean_TYPE)),
+                                new BlockStatement(new Statement[]{
+                                        new ExpressionStatement(
+                                                new MethodCallExpression(
+                                                        newRecorderExpression(clazz, -1, -1),
+                                                        "inc",
+                                                        new ArgumentListExpression(new VariableExpression(index)))),
+                                        new ReturnStatement(new VariableExpression(expr))
+                                }, methodScope),
+                                new BlockStatement(new Statement[]{
+                                        new ExpressionStatement(
+                                                new MethodCallExpression(
+                                                        newRecorderExpression(clazz, -1, -1),
+                                                        "inc",
+                                                        new ArgumentListExpression(
+                                                                new BinaryExpression(
+                                                                        new VariableExpression(index),
+                                                                        Token.newSymbol(Types.PLUS, -1, -1),
+                                                                        new ConstantExpression(1))))),
+                                        new ReturnStatement(new VariableExpression(expr))
+                                }, methodScope))
+
+                },
+                methodScope
+        );
+
+        clazz.addMethod(
+                CloverNames.namespace("elvisEval"), ACC_STATIC | ACC_PUBLIC,
+                ClassHelper.DYNAMIC_TYPE,
+                new Parameter[]{expr, index},
+                new ClassNode[]{},
+                methodCode);
     }
 
     private void addEvalTestException(ClassNode clazz) {
