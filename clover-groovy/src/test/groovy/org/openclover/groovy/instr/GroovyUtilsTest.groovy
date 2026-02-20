@@ -1,12 +1,19 @@
 package org.openclover.groovy.instr
 
-import junit.framework.TestCase
 import org.codehaus.groovy.ast.ASTNode
 
 /**
  * Test for {@link org.openclover.groovy.instr.GroovyUtils}.
  */
-class GroovyUtilsTest extends TestCase {
+class GroovyUtilsTest extends TestBase {
+
+    GroovyUtilsTest(String testName) {
+        super(testName)
+    }
+
+    GroovyUtilsTest(String methodName, String specificName, File groovyAllJar, List<File> additionalGroovyJars) {
+        super(methodName, specificName, groovyAllJar, additionalGroovyJars)
+    }
 
     private class ASTNodeMock extends ASTNode {
         int startLine, startCol, endLine, endCol
