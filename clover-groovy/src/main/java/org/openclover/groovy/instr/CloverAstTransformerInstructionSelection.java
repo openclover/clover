@@ -70,12 +70,12 @@ public class CloverAstTransformerInstructionSelection extends CloverAstTransform
     public void visit(SourceUnit sourceUnit) {
         try {
             final ModuleNode module = sourceUnit.getAST();
-            if (config != null && config.isEnabled() && isNotInstrumented(module)) {
+            if (config != null && config.isEnabled() && !hasRecorderClass(module)) {
                 if (!isIncluded(sourceUnit)) {
                     Logger.getInstance().verbose("Skipping " + getSourceUnitFile(sourceUnit));
                 } else {
 
-                    maybeDumpAST(module, sourceUnit, "Original source", ".before.clovered");
+                    maybeDumpAST(module, sourceUnit, "Original source", ".before.instruction.txt");
 
                     final String pkg = sanitisePackageName(module.getPackageName());
                     final File srcFile = getSourceUnitFile(sourceUnit);
@@ -96,7 +96,7 @@ public class CloverAstTransformerInstructionSelection extends CloverAstTransform
                     // second pass - add helper stuff like recorderInc method, elvis wrapper etc
                     addHelperFieldsAndMethods(fileInfo, flagsForInstrumentedClasses);
 
-                    maybeDumpAST(module, sourceUnit, "Instrumented source", ".after.clovered");
+                    maybeDumpAST(module, sourceUnit, "Instrumented source", ".after.instruction.txt");
 
                     session.close();
                     registry.saveAndAppendToFile();

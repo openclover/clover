@@ -338,13 +338,16 @@ public abstract class CloverAstTransformerBase implements ASTTransformation {
         }
     }
 
-    protected boolean isNotInstrumented(ModuleNode module) {
-        for (ClassNode clazz : module.getClasses()) {
-            if (clazz.getNameWithoutPackage().contains(CloverNames.CLOVER_RECORDER_PREFIX)) {
-                return false;
-            }
-        }
-        return true;
+    /**
+     * Protect against double instrumentation of the same source file. Simply check for presence of
+     * the recorder class.
+     *
+     * @return true if recorder class is present, false otherwise
+     */
+    protected boolean hasRecorderClass(ModuleNode module) {
+        return module.getClasses().stream()
+                .map(ClassNode::getNameWithoutPackage)
+                .anyMatch(name -> name.contains(CloverNames.CLOVER_RECORDER_PREFIX));
     }
 
     protected int getLastLineNumber(List<ClassNode> classes) {
