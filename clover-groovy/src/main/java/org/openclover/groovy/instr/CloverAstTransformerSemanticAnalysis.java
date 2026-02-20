@@ -3,7 +3,6 @@ package org.openclover.groovy.instr;
 import org.codehaus.groovy.ast.ClassHelper;
 import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.ast.FieldNode;
-import org.codehaus.groovy.ast.GenericsType;
 import org.codehaus.groovy.ast.MethodNode;
 import org.codehaus.groovy.ast.ModuleNode;
 import org.codehaus.groovy.ast.Parameter;
@@ -127,11 +126,11 @@ public class CloverAstTransformerSemanticAnalysis extends CloverAstTransformerBa
     protected void addHelperFieldsAndMethods(final ClassNode clazz) {
         // check which classes have been instrumented and generate extra methods according to needs
         createRecorderFieldAndGetter(clazz);
-        createEvalElvisMethod(clazz);
+        createEvalElvisMethods(clazz);
         createExprEvalMethod(clazz);
     }
 
-    private void createEvalElvisMethod(final ClassNode clazz) {
+    private void createEvalElvisMethods(final ClassNode clazz) {
         addEvalElvisPrimitive(clazz, ClassHelper.byte_TYPE);
         addEvalElvisPrimitive(clazz, ClassHelper.short_TYPE);
         addEvalElvisPrimitive(clazz, ClassHelper.int_TYPE);
@@ -140,112 +139,39 @@ public class CloverAstTransformerSemanticAnalysis extends CloverAstTransformerBa
         addEvalElvisPrimitive(clazz, ClassHelper.double_TYPE);
         addEvalElvisPrimitive(clazz, ClassHelper.boolean_TYPE);
         addEvalElvisPrimitive(clazz, ClassHelper.char_TYPE);
-//        addEvalElvisGeneric(clazz);
         addEvalElvisDef(clazz);
     }
 
     private void createExprEvalMethod(final ClassNode clazz) {
-//        addExprEval(clazz);
+        addExprEvalDef(clazz);
     }
 
-//    private void addExprEval(ClassNode clazz) {
-//        //<T> T exprEval(T expr, Integer index) {
-//        //  RECORDER_CLASS.R.inc(index)
-//        //  return expr
-//        //}
-//        final ClassNode typeTClass = ClassHelper.make(CloverNames.namespace("TypeT"));
-//        typeTClass.setGenericsPlaceHolder(true);
-//        typeTClass.setRedirect(ClassHelper.OBJECT_TYPE);
-//        final GenericsType typeT = new GenericsType(typeTClass);
-//        typeT.setPlaceholder(true);
-//        typeTClass.setGenericsTypes(new GenericsType[]{ typeT });
-//
-//        final Parameter expr = new Parameter(typeTClass, "expr");
-//        final Parameter index = new Parameter(ClassHelper.int_TYPE, "index");
-//        final VariableScope methodScope = new VariableScope();
-//        final Statement methodCode = new BlockStatement(
-//                new Statement[]{
-//                        new ExpressionStatement(
-//                                new MethodCallExpression(
-//                                        newRecorderExpression(clazz, -1, -1),
-//                                        "inc",
-//                                        new ArgumentListExpression(new VariableExpression(index)))),
-//                        new ReturnStatement(new VariableExpression(expr))
-//                },
-//                methodScope);
-//
-//        final MethodNode methodNode = new MethodNode(
-//                CloverNames.namespace("exprEval"),
-//                ACC_STATIC | ACC_PUBLIC,
-//                typeTClass,
-//                new Parameter[]{expr, index},
-//                new ClassNode[]{},
-//                methodCode);
-//        methodNode.setGenericsTypes(new GenericsType[]{ typeT });
-//
-//        clazz.addMethod(methodNode);
-//    }
+    private void addExprEvalDef(ClassNode clazz) {
+        //def exprEval(def expr, Integer index) {
+        //  RECORDERCLASS.R.inc(index)
+        //  return expr
+        //}
+        final Parameter expr = new Parameter(ClassHelper.DYNAMIC_TYPE, "expr");
+        final Parameter index = new Parameter(ClassHelper.Integer_TYPE, "index");
+        final VariableScope methodScope = new VariableScope();
+        final Statement methodCode = new BlockStatement(
+                new Statement[]{
+                        new ExpressionStatement(
+                                new MethodCallExpression(
+                                        newRecorderExpression(clazz, -1, -1),
+                                        "inc",
+                                        new ArgumentListExpression(new VariableExpression(index)))),
+                        new ReturnStatement(new VariableExpression(expr))
+                },
+                methodScope);
 
-//    private void addEvalElvisGeneric(ClassNode clazz) {
-//        //<T> T elvisEval(T expr, int index) {
-//        //  boolean isTrue = expr as Boolean
-//        //  if (isTrue) { RECORDER_CLASS.R.inc(index) } else { RECORDER_CLASS.R.inc(index + 1) }
-//        //  return expr
-//        //}
-//        final ClassNode typeTClass = ClassHelper.make(CloverNames.namespace("TypeE"));
-//        typeTClass.setGenericsPlaceHolder(true);
-//        typeTClass.setRedirect(ClassHelper.OBJECT_TYPE);
-//        final GenericsType typeT = new GenericsType(typeTClass);
-//        typeT.setPlaceholder(true);
-////        typeTClass.setGenericsTypes(new GenericsType[]{ typeT });
-//
-//        final Parameter expr = new Parameter(typeTClass, "expr");
-//        final Parameter index = new Parameter(ClassHelper.int_TYPE, "index");
-//        final VariableScope methodScope = new VariableScope();
-//        final Statement methodCode = new BlockStatement(
-//                new Statement[]{
-//                        new ExpressionStatement(
-//                                new DeclarationExpression(
-//                                        new VariableExpression("isTrue", ClassHelper.Boolean_TYPE),
-//                                        Token.newSymbol(Types.EQUAL, -1, -1),
-//                                        CastExpression.asExpression(ClassHelper.Boolean_TYPE, new VariableExpression(expr)))),
-//                        new IfStatement(
-//                                new BooleanExpression(new VariableExpression("isTrue", ClassHelper.Boolean_TYPE)),
-//                                new BlockStatement(new Statement[]{
-//                                        new ExpressionStatement(
-//                                                new MethodCallExpression(
-//                                                        newRecorderExpression(clazz, -1, -1),
-//                                                        "inc",
-//                                                        new ArgumentListExpression(new VariableExpression(index)))),
-//                                        new ReturnStatement(new VariableExpression(expr))
-//                                }, methodScope),
-//                                new BlockStatement(new Statement[]{
-//                                        new ExpressionStatement(
-//                                                new MethodCallExpression(
-//                                                        newRecorderExpression(clazz, -1, -1),
-//                                                        "inc",
-//                                                        new ArgumentListExpression(
-//                                                                new BinaryExpression(
-//                                                                        new VariableExpression(index),
-//                                                                        Token.newSymbol(Types.PLUS, -1, -1),
-//                                                                        new ConstantExpression(1))))),
-//                                        new ReturnStatement(new VariableExpression(expr))
-//                                }, methodScope))
-//
-//                },
-//                methodScope
-//        );
-//
-//        final MethodNode methodNode = new MethodNode(CloverNames.namespace("elvisEval"),
-//                ACC_STATIC | ACC_PUBLIC,
-//                typeTClass,
-//                new Parameter[]{expr, index},
-//                new ClassNode[]{},
-//                methodCode);
-//        methodNode.setGenericsTypes(new GenericsType[]{ typeT });
-//
-//        clazz.addMethod(methodNode);
-//    }
+        clazz.addMethod(
+                CloverNames.namespace("exprEval"), ACC_STATIC | ACC_PUBLIC,
+                ClassHelper.DYNAMIC_TYPE,
+                new Parameter[]{expr, index},
+                new ClassNode[]{},
+                methodCode);
+    }
 
     private void addEvalElvisPrimitive(ClassNode clazz, ClassNode primitiveType) {
         //T = boolean|byte|char|short|int|long|float|double
