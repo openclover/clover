@@ -1,59 +1,25 @@
 package org.openclover.groovy.instr;
 
-import org.codehaus.groovy.ast.ClassHelper;
 import org.codehaus.groovy.ast.ClassNode;
-import org.codehaus.groovy.ast.MethodNode;
 import org.codehaus.groovy.ast.ModuleNode;
-import org.codehaus.groovy.ast.Parameter;
-import org.codehaus.groovy.ast.VariableScope;
-import org.codehaus.groovy.ast.expr.ArgumentListExpression;
-import org.codehaus.groovy.ast.expr.BinaryExpression;
-import org.codehaus.groovy.ast.expr.BooleanExpression;
-import org.codehaus.groovy.ast.expr.CastExpression;
-import org.codehaus.groovy.ast.expr.ClassExpression;
-import org.codehaus.groovy.ast.expr.ConstantExpression;
-import org.codehaus.groovy.ast.expr.ConstructorCallExpression;
-import org.codehaus.groovy.ast.expr.DeclarationExpression;
 import org.codehaus.groovy.ast.expr.Expression;
-import org.codehaus.groovy.ast.expr.MethodCallExpression;
-import org.codehaus.groovy.ast.expr.PropertyExpression;
-import org.codehaus.groovy.ast.expr.TernaryExpression;
-import org.codehaus.groovy.ast.expr.VariableExpression;
-import org.codehaus.groovy.ast.stmt.BlockStatement;
-import org.codehaus.groovy.ast.stmt.ExpressionStatement;
-import org.codehaus.groovy.ast.stmt.ForStatement;
-import org.codehaus.groovy.ast.stmt.IfStatement;
-import org.codehaus.groovy.ast.stmt.ReturnStatement;
-import org.codehaus.groovy.ast.stmt.Statement;
-import org.codehaus.groovy.classgen.BytecodeInstruction;
-import org.codehaus.groovy.classgen.BytecodeSequence;
 import org.codehaus.groovy.control.CompilePhase;
 import org.codehaus.groovy.control.SourceUnit;
-import org.codehaus.groovy.syntax.Token;
-import org.codehaus.groovy.syntax.Types;
 import org.codehaus.groovy.transform.GroovyASTTransformation;
 import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.instr.tests.TestDetector;
 import org.openclover.core.instr.tests.naming.JUnitParameterizedTestExtractor;
 import org.openclover.core.instr.tests.naming.SpockFeatureNameExtractor;
-import org.openclover.runtime.CloverNames;
 import org.openclover.runtime.Logger;
 import org.openclover.runtime.api.CloverException;
-import org.openclover.runtime.recorder.PerTestRecorder;
-import org.openclover.runtime.recorder.pertest.SnifferType;
 import org_openclover_runtime.CoverageRecorder;
-import org_openclover_runtime.TestNameSniffer;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
-import static groovyjarjarasm.asm.Opcodes.ACC_FINAL;
-import static groovyjarjarasm.asm.Opcodes.ACC_PRIVATE;
-import static groovyjarjarasm.asm.Opcodes.ACC_PUBLIC;
-import static groovyjarjarasm.asm.Opcodes.ACC_STATIC;
-import static groovyjarjarasm.asm.Opcodes.ACC_SYNTHETIC;
 import static org.openclover.core.util.Maps.newHashMap;
 
 /**
@@ -63,10 +29,25 @@ import static org.openclover.core.util.Maps.newHashMap;
 @GroovyASTTransformation(phase = CompilePhase.INSTRUCTION_SELECTION)
 public class CloverAstTransformerInstructionSelection extends CloverAstTransformerBase {
 
+    private final ClassNodeSafeEvalMethodsTransformer safeEvalMethodsTransformer;
+    private final ClassNodeElvisEvalTransformer elvisEvalTransformer;
+    private final ClassNodeExprEvalTransformer exprEvalTransformer;
+    private final ClassNodeTestSnifferTransformer testSnifferTransformer;
+    private final ClassNodeEvalTestExceptionTransformer testExceptionTransformer;
+
     /** See clover-groovy/src/main/assembly/META-INF/services/org.codehaus.groovy.transform.ASTTransformation */
     @SuppressWarnings("unused")
     public CloverAstTransformerInstructionSelection() throws IOException, CloverException {
         super(newConfigFromResource());
+
+        final Function<ClassRowColumn, Expression> newRecorder =
+                classRowColumn -> newRecorderExpression(classRowColumn.classRef, classRowColumn.row, classRowColumn.column);
+
+        safeEvalMethodsTransformer = new ClassNodeSafeEvalMethodsTransformer();
+        elvisEvalTransformer = new ClassNodeElvisEvalTransformer(newRecorder);
+        exprEvalTransformer = new ClassNodeExprEvalTransformer(newRecorder);
+        testSnifferTransformer = new ClassNodeTestSnifferTransformer();
+        testExceptionTransformer = new ClassNodeEvalTestExceptionTransformer();
     }
 
     @Override
@@ -160,7 +141,7 @@ public class CloverAstTransformerInstructionSelection extends CloverAstTransform
      *  <li>$CLV_R$ field and $CLV_R$() getter for CoverageRecorder</li>
      *  <li>elvis operator</li>
      *  <li>boolean expression</li>
-     *  <li>safe evalation</li>
+     *  <li>safe evaluation</li>
      *  <li>test result recording</li>
      * </ul>
      */
@@ -178,350 +159,19 @@ public class CloverAstTransformerInstructionSelection extends CloverAstTransform
                 fileInfo.getDataIndex() + fileInfo.getDataLength(),
                 config.getProfiles());
 
+        final ClassNodeRecorderTransformer recorderTransformer = new ClassNodeRecorderTransformer(sessionConfig, recorderFieldName, recorderGetterName);
+
         for (Map.Entry<ClassNode, GroovyInstrumentationResult> entry : flagsForInstrumentedClasses.entrySet()) {
             ClassNode clazz = entry.getKey();
             GroovyInstrumentationResult flags = entry.getValue();
 
-            createRecorderField(clazz);
-            createRecorderGetter(clazz, sessionConfig);
-            createSafeEvalMethods(clazz, flags);
-            createEvalTestExceptionMethod(clazz, flags);
-            createTestNameSnifferField(clazz, flags);
-            createEvalElvisMethods(clazz);
-            createExprEvalMethod(clazz);
+            recorderTransformer.transform(clazz, flags);
+            safeEvalMethodsTransformer.transform(clazz, flags);
+            testExceptionTransformer.transform(clazz, flags);
+            testSnifferTransformer.transform(clazz, flags);
+            elvisEvalTransformer.transform(clazz, null);
+            exprEvalTransformer.transform(clazz, null);
         }
-    }
-
-    /**
-     * Creates a static field for CoverageRecorder:
-     * <pre>
-     *     private static CoverageRecorder $CLV_R$ = null;
-     * </pre>
-     */
-    private void createRecorderField(final ClassNode clazz) {
-        // add field
-        clazz.addField(recorderFieldName, ACC_STATIC | ACC_PRIVATE | ACC_SYNTHETIC,
-                ClassHelper.make(org_openclover_runtime.CoverageRecorder.class),
-                ConstantExpression.NULL);
-    }
-
-    /**
-     * Creates a static method (lazy initialization) like:
-     * <pre>
-     *     private static CoverageRecorder $CLV_R$() {
-     *         ...
-     *     }
-     * </pre>
-     */
-    private void createRecorderGetter(final ClassNode clazz, GroovyInstrumentationConfig sessionConfig) {
-        // add method (no code yet)
-        clazz.addMethod(recorderGetterName, ACC_STATIC | ACC_PRIVATE | ACC_SYNTHETIC,
-                ClassHelper.make(org_openclover_runtime.CoverageRecorder.class),
-                new Parameter[]{}, new ClassNode[]{},
-                new BlockStatement());
-
-        // getter method will be filled with byte code in next stage, see CloverAstTransformerInstructionSelection
-        fillRecorderGetterBytecode(clazz, sessionConfig);
-    }
-
-    private void fillRecorderGetterBytecode(ClassNode clazz, GroovyInstrumentationConfig sessionConfig) {
-        final MethodNode recorderGetter = clazz.getMethod(recorderGetterName, new Parameter[0]);
-        final BytecodeInstruction bytecodeInstruction = newRecorderGetterBytecodeInstruction(clazz, sessionConfig);
-        ((BlockStatement) recorderGetter.getCode()).addStatement(new BytecodeSequence(bytecodeInstruction));
-    }
-
-    private void createSafeEvalMethods(final ClassNode clazz, final GroovyInstrumentationResult flags) {
-        if (flags.safeExprUsed) {
-            for (final MethodNode methodNode : flags.safeEvalMethods.values()) {
-                clazz.addMethod(methodNode);
-            }
-        }
-    }
-
-    private void createEvalTestExceptionMethod(final ClassNode clazz, final GroovyInstrumentationResult flags) {
-        if (flags.testResultsRecorded) {
-            addEvalTestException(clazz);
-        }
-    }
-
-    /**
-     * Add the field named {@link CloverNames#CLOVER_TEST_NAME_SNIFFER} to the class.
-     *
-     * @param clazz class to be extended
-     * @param flags flags after first instrumentation pass
-     */
-    private void createTestNameSnifferField(final ClassNode clazz, final GroovyInstrumentationResult flags) {
-        if (flags.isTestClass) {
-            createTestNameSnifferField(clazz,
-                    flags.isSpockSpecification ? SnifferType.SPOCK
-                            : (flags.isParameterizedJUnit ? SnifferType.JUNIT : SnifferType.NULL));
-        }
-    }
-
-    /**
-     * Add the field named {@link CloverNames#CLOVER_TEST_NAME_SNIFFER} to the class.
-     *
-     * @param clazz       class to be extended
-     * @param snifferType type of the sniffer to be embedded
-     */
-    private void createTestNameSnifferField(final ClassNode clazz, final SnifferType snifferType) {
-        final Expression fieldInitializationExpr;
-        switch (snifferType) {
-            case JUNIT:
-            case SPOCK:
-                // new TestNameSniffer.Simple()
-                fieldInitializationExpr = new ConstructorCallExpression(
-                        createSimpleSnifferClassNode(), ArgumentListExpression.EMPTY_ARGUMENTS);
-                break;
-            case NULL:
-            default:
-                // TestNameSniffer.NULL_INSTANCE
-                fieldInitializationExpr = new PropertyExpression(
-                        new ClassExpression(ClassHelper.make(TestNameSniffer.class)), "NULL_INSTANCE");
-                break;
-        }
-
-        // add field
-        // public static final __CLRx_y_z_TEST_NAME_SNIFFER = ...
-        clazz.addField( CloverNames.CLOVER_TEST_NAME_SNIFFER,
-                ACC_STATIC | ACC_PUBLIC | ACC_SYNTHETIC | ACC_FINAL,
-                        ClassHelper.make(org_openclover_runtime.TestNameSniffer.class),
-                        fieldInitializationExpr);
-    }
-
-    /**
-     * @return ClassNode representing TestNameSniffer.Simple class
-     */
-    private ClassNode createSimpleSnifferClassNode() {
-        return ClassHelper.make(TestNameSniffer.Simple.class);
-    }
-
-    private void createEvalElvisMethods(final ClassNode clazz) {
-        addEvalElvisPrimitive(clazz, ClassHelper.byte_TYPE);
-        addEvalElvisPrimitive(clazz, ClassHelper.short_TYPE);
-        addEvalElvisPrimitive(clazz, ClassHelper.int_TYPE);
-        addEvalElvisPrimitive(clazz, ClassHelper.long_TYPE);
-        addEvalElvisPrimitive(clazz, ClassHelper.float_TYPE);
-        addEvalElvisPrimitive(clazz, ClassHelper.double_TYPE);
-        addEvalElvisPrimitive(clazz, ClassHelper.boolean_TYPE);
-        addEvalElvisPrimitive(clazz, ClassHelper.char_TYPE);
-        addEvalElvisDef(clazz);
-    }
-
-    private void createExprEvalMethod(final ClassNode clazz) {
-        addExprEvalDef(clazz);
-    }
-
-    private void addExprEvalDef(ClassNode clazz) {
-        //def exprEval(def expr, Integer index) {
-        //  RECORDERCLASS.R.inc(index)
-        //  return expr
-        //}
-        final Parameter expr = new Parameter(ClassHelper.DYNAMIC_TYPE, "expr");
-        final Parameter index = new Parameter(ClassHelper.Integer_TYPE, "index");
-        final VariableScope methodScope = new VariableScope();
-        final Statement methodCode = new BlockStatement(
-                new Statement[]{
-                        new ExpressionStatement(
-                                new MethodCallExpression(
-                                        newRecorderExpression(clazz, -1, -1),
-                                        "inc",
-                                        new ArgumentListExpression(new VariableExpression(index)))),
-                        new ReturnStatement(new VariableExpression(expr))
-                },
-                methodScope);
-
-        clazz.addMethod(
-                CloverNames.namespace("exprEval"), ACC_STATIC | ACC_PUBLIC,
-                ClassHelper.DYNAMIC_TYPE,
-                new Parameter[]{expr, index},
-                new ClassNode[]{},
-                methodCode);
-    }
-
-    private void addEvalElvisPrimitive(ClassNode clazz, ClassNode primitiveType) {
-        //T = boolean|byte|char|short|int|long|float|double
-        //T elvisEval(T expr, int index) {
-        //  boolean isTrue = expr as Boolean
-        //  if (isTrue) { RECORDER_CLASS.R.inc(index) } else { RECORDER_CLASS.R.inc(index + 1) }
-        //  return expr
-        //}
-
-        final Parameter expr = new Parameter(primitiveType, "expr");
-        final Parameter index = new Parameter(ClassHelper.int_TYPE, "index");
-        final VariableScope methodScope = new VariableScope();
-        final Statement methodCode = new BlockStatement(
-                new Statement[]{
-                        new ExpressionStatement(
-                                new DeclarationExpression(
-                                        new VariableExpression("isTrue", ClassHelper.Boolean_TYPE),
-                                        Token.newSymbol(Types.EQUAL, -1, -1),
-                                        CastExpression.asExpression(ClassHelper.Boolean_TYPE, new VariableExpression(expr)))),
-                        new IfStatement(
-                                new BooleanExpression(new VariableExpression("isTrue", ClassHelper.Boolean_TYPE)),
-                                new BlockStatement(new Statement[]{
-                                        new ExpressionStatement(
-                                                new MethodCallExpression(
-                                                        newRecorderExpression(clazz, -1, -1),
-                                                        "inc",
-                                                        new ArgumentListExpression(new VariableExpression(index)))),
-                                        new ReturnStatement(new VariableExpression(expr))
-                                }, methodScope),
-                                new BlockStatement(new Statement[]{
-                                        new ExpressionStatement(
-                                                new MethodCallExpression(
-                                                        newRecorderExpression(clazz, -1, -1),
-                                                        "inc",
-                                                        new ArgumentListExpression(
-                                                                new BinaryExpression(
-                                                                        new VariableExpression(index),
-                                                                        Token.newSymbol(Types.PLUS, -1, -1),
-                                                                        new ConstantExpression(1))))),
-                                        new ReturnStatement(new VariableExpression(expr))
-                                }, methodScope))
-
-                },
-                methodScope
-        );
-
-        final MethodNode methodNode = new MethodNode(CloverNames.namespace("elvisEval"),
-                ACC_STATIC | ACC_PUBLIC,
-                primitiveType,
-                new Parameter[]{expr, index},
-                new ClassNode[]{},
-                methodCode);
-
-        clazz.addMethod(methodNode);
-    }
-
-    private void addEvalElvisDef(ClassNode clazz) {
-        //def elvisEval(def expr, Integer index) {
-        //  boolean isTrue = expr as Boolean
-        //  if (isTrue) { RECORDERCLASS.R.inc(index) } else { RECORDERCLASS.R.inc(index + 1) }
-        //  return expr
-        //}
-        final Parameter expr = new Parameter(ClassHelper.DYNAMIC_TYPE, "expr");
-        final Parameter index = new Parameter(ClassHelper.Integer_TYPE, "index");
-        final VariableScope methodScope = new VariableScope();
-        final Statement methodCode = new BlockStatement(
-                new Statement[]{
-                        new ExpressionStatement(
-                                new DeclarationExpression(
-                                        new VariableExpression("isTrue", ClassHelper.Boolean_TYPE),
-                                        Token.newSymbol(Types.EQUAL, -1, -1),
-                                        CastExpression.asExpression(ClassHelper.Boolean_TYPE, new VariableExpression(expr)))),
-                        new IfStatement(
-                                new BooleanExpression(new VariableExpression("isTrue", ClassHelper.Boolean_TYPE)),
-                                new BlockStatement(new Statement[]{
-                                        new ExpressionStatement(
-                                                new MethodCallExpression(
-                                                        newRecorderExpression(clazz, -1, -1),
-                                                        "inc",
-                                                        new ArgumentListExpression(new VariableExpression(index)))),
-                                        new ReturnStatement(new VariableExpression(expr))
-                                }, methodScope),
-                                new BlockStatement(new Statement[]{
-                                        new ExpressionStatement(
-                                                new MethodCallExpression(
-                                                        newRecorderExpression(clazz, -1, -1),
-                                                        "inc",
-                                                        new ArgumentListExpression(
-                                                                new BinaryExpression(
-                                                                        new VariableExpression(index),
-                                                                        Token.newSymbol(Types.PLUS, -1, -1),
-                                                                        new ConstantExpression(1))))),
-                                        new ReturnStatement(new VariableExpression(expr))
-                                }, methodScope))
-
-                },
-                methodScope
-        );
-
-        clazz.addMethod(
-                CloverNames.namespace("elvisEval"), ACC_STATIC | ACC_PUBLIC,
-                ClassHelper.DYNAMIC_TYPE,
-                new Parameter[]{expr, index},
-                new ClassNode[]{},
-                methodCode);
-    }
-
-    private void addEvalTestException(ClassNode clazz) {
-        //int evalTestException(Throwable exception, def expected) {
-        //  boolean isExpected = false
-        //  for (ex in expected) {
-        //      isExpected = isExpected || (exception != null && ex.isAssignableFrom(exception.getClass()))
-        //  }
-        //  return (isExpected || (exception == null && expected.isEmpty())) ? $PerTestRecorder.NORMAL_EXIT$ : $PerTestRecorder.ABNORMAL_EXIT$
-        //}
-        Parameter exceptionParam = new Parameter(ClassHelper.make(Throwable.class), "exception");
-        Parameter expectedParam = new Parameter(ClassHelper.DYNAMIC_TYPE, "expected");
-        VariableScope methodScope = new VariableScope();
-
-        VariableExpression isExpectedVar = new VariableExpression("isExpected", ClassHelper.Boolean_TYPE);
-        Parameter exVariable = new Parameter(ClassHelper.make(Class.class), "ex");
-
-        clazz.addMethod(
-                CloverNames.namespace("evalTestException"), ACC_STATIC | ACC_PUBLIC,
-                ClassHelper.int_TYPE,
-                new Parameter[]{exceptionParam, expectedParam},
-                new ClassNode[]{},
-                new BlockStatement(
-                        new Statement[]{
-                                new ExpressionStatement(
-                                        new DeclarationExpression(
-                                                isExpectedVar,
-                                                Token.newSymbol(Types.EQUAL, -1, -1),
-                                                ConstantExpression.FALSE
-                                        )),
-                                new ForStatement(
-                                        exVariable,
-                                        new VariableExpression(expectedParam),
-                                        new BlockStatement(
-                                                new Statement[]{
-                                                        new ExpressionStatement(
-                                                                new BinaryExpression(
-                                                                        isExpectedVar,
-                                                                        Token.newSymbol(Types.EQUAL, -1, -1),
-                                                                        new BinaryExpression(
-                                                                                isExpectedVar,
-                                                                                Token.newSymbol(Types.LOGICAL_OR, -1, -1),
-                                                                                new BinaryExpression(
-                                                                                        new BinaryExpression(
-                                                                                                new VariableExpression(exceptionParam),
-                                                                                                Token.newSymbol(Types.COMPARE_NOT_EQUAL, -1, -1),
-                                                                                                ConstantExpression.NULL),
-                                                                                        Token.newSymbol(Types.LOGICAL_AND, -1, -1),
-                                                                                        new MethodCallExpression(
-                                                                                                new VariableExpression(exVariable),
-                                                                                                "isAssignableFrom",
-                                                                                                new MethodCallExpression(
-                                                                                                        new VariableExpression(exceptionParam),
-                                                                                                        "getClass",
-                                                                                                        ArgumentListExpression.EMPTY_ARGUMENTS))))))
-                                                },
-                                                methodScope
-                                        )),
-                                new ReturnStatement(
-                                        new TernaryExpression(
-                                                new BooleanExpression(
-                                                        new BinaryExpression(
-                                                                isExpectedVar,
-                                                                Token.newSymbol(Types.LOGICAL_OR, -1, -1),
-                                                                new BinaryExpression(
-                                                                        new BinaryExpression(
-                                                                                new VariableExpression(exceptionParam),
-                                                                                Token.newSymbol(Types.COMPARE_EQUAL, -1, -1),
-                                                                                ConstantExpression.NULL),
-                                                                        Token.newSymbol(Types.LOGICAL_AND, -1, -1),
-                                                                        new MethodCallExpression(
-                                                                                new VariableExpression(expectedParam),
-                                                                                "isEmpty",
-                                                                                ArgumentListExpression.EMPTY_ARGUMENTS)))),
-                                                new ConstantExpression(PerTestRecorder.NORMAL_EXIT),
-                                                new ConstantExpression(PerTestRecorder.ABNORMAL_EXIT)
-                                        ))
-                        },
-                        methodScope));
     }
 
 }

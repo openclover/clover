@@ -11,7 +11,6 @@ import org.codehaus.groovy.ast.expr.MethodCallExpression;
 import org.codehaus.groovy.ast.expr.StaticMethodCallExpression;
 import org.codehaus.groovy.ast.stmt.ExpressionStatement;
 import org.codehaus.groovy.ast.stmt.Statement;
-import org.codehaus.groovy.classgen.BytecodeInstruction;
 import org.codehaus.groovy.control.SourceUnit;
 import org.codehaus.groovy.transform.ASTTransformation;
 import org.openclover.core.api.instrumentation.InstrumentationSession;
@@ -21,19 +20,11 @@ import org.openclover.core.instr.tests.naming.JUnitParameterizedTestExtractor;
 import org.openclover.core.instr.tests.naming.SpockFeatureNameExtractor;
 import org.openclover.core.registry.Clover2Registry;
 import org.openclover.core.registry.entities.FullElementInfo;
-import org.openclover.core.registry.entities.FullFileInfo;
-import org.openclover.core.registry.entities.Modifiers;
-import org.openclover.core.spi.lang.Language;
 import org.openclover.core.util.ChecksummingReader;
 import org.openclover.core.util.CloverUtils;
-import org.openclover.groovy.instr.bytecode.RecorderGetterBytecodeInstructionGroovy2;
 import org.openclover.runtime.CloverNames;
 import org.openclover.runtime.Logger;
 import org.openclover.runtime.api.CloverException;
-import org.openclover.runtime.recorder.FixedSizeCoverageRecorder;
-import org.openclover.runtime.remote.DistributedConfig;
-import org_openclover_runtime.CloverProfile;
-import org_openclover_runtime.CoverageRecorder;
 
 import java.io.File;
 import java.io.FileReader;
@@ -44,7 +35,6 @@ import java.io.PrintWriter;
 import java.io.Reader;
 import java.net.URL;
 import java.nio.file.Files;
-import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
@@ -58,157 +48,6 @@ public abstract class CloverAstTransformerBase implements ASTTransformation {
     protected final InstrumentationConfig config;
     protected InstrumentationSession session;
     protected final Clover2Registry registry;
-
-    /**
-     * Helper class containing configuration data which is being written into instrumented groovy classes.
-     * It contains excerpts from {@link InstrumentationConfig}, {@link InstrumentationSession} and
-     * {@link Clover2Registry}
-     */
-    static class GroovyInstrumentationConfig {
-        /**
-         * Path to Clover database.
-         */
-        final String initString;
-
-        /**
-         * Distributed Coverage configuration encoded as string
-         *
-         * @see DistributedConfig#getConfigString()
-         */
-        final String distConfig;
-
-        /**
-         * Clover registry version
-         *
-         * @see InstrumentationSession#getVersion()
-         */
-        final long registryVersion;
-
-        /**
-         * Bit mask containing recorder settings like flush policy etc.
-         *
-         * @see CoverageRecorder#getConfigBits
-         */
-        final long recorderConfig;
-
-        /**
-         * Required capacity of the coverage recorder (for the {@link FixedSizeCoverageRecorder})
-         *
-         * @see FullFileInfo#getDataIndex()
-         * @see FullFileInfo#getDataLength()
-         */
-        final int maxElements;
-
-        /**
-         * List of runtime profiles
-         */
-        final List<CloverProfile> profiles;
-
-        GroovyInstrumentationConfig(String initString, String distConfig, long registryVersion, long recorderConfig, int maxElements, List<CloverProfile> profiles) {
-            this.initString = initString;
-            this.distConfig = distConfig;
-            this.registryVersion = registryVersion;
-            this.recorderConfig = recorderConfig;
-            this.maxElements = maxElements;
-            this.profiles = profiles;
-        }
-    }
-
-    /**
-     * Helper configuration object which keeps result of the groovy source instrumentation.
-     * Whenever any specific statement or expression was instrumented, we need to add proper helper method
-     * to the instrumented class (for instance a wrapper for elvis operator).
-     */
-    static class GroovyInstrumentationResult {
-        final boolean elvisExprUsed;
-        final boolean fieldExprUsed;
-        final boolean safeExprUsed;
-        final boolean testResultsRecorded;
-        final boolean isTestClass;
-        final boolean isSpockSpecification;
-        final boolean isParameterizedJUnit;
-        final Map<String, MethodNode> safeEvalMethods;
-
-        /**
-         * @param elvisExprUsed        true if evlis expression was present in code
-         * @param fieldExprUsed        true if field expression was present in code
-         * @param safeExprUsed         true if save evaluation expression was present in code
-         * @param testResultsRecorded  true if test results are recorded by Clover (extra instrumentation code)
-         * @param safeEvalMethods      list of safeEval_X() methods to be addded to the class
-         * @param isTestClass          true if it's a test class according to test detector, false otherwise
-         * @param isSpockSpecification true if it's a Spock framework test class (Specification)
-         * @param isParameterizedJUnit true if it's a parameterized JUnit4 test class (@Parameterized annotation)
-         */
-        GroovyInstrumentationResult(boolean elvisExprUsed, boolean fieldExprUsed, boolean safeExprUsed,
-                                    boolean testResultsRecorded,
-                                    final Map<String, MethodNode> safeEvalMethods,
-                                    boolean isTestClass, boolean isSpockSpecification, boolean isParameterizedJUnit) {
-            this.elvisExprUsed = elvisExprUsed;
-            this.fieldExprUsed = fieldExprUsed;
-            this.safeExprUsed = safeExprUsed;
-            this.testResultsRecorded = testResultsRecorded;
-            this.safeEvalMethods = safeEvalMethods;
-            this.isTestClass = isTestClass;
-            this.isSpockSpecification = isSpockSpecification;
-            this.isParameterizedJUnit = isParameterizedJUnit;
-        }
-    }
-
-    static class GroovySourceContext implements TestDetector.SourceContext {
-        private final File srcFile;
-
-        GroovySourceContext(File srcFile) {
-            this.srcFile = srcFile;
-        }
-
-        @Override
-        public Language getLanguage() {
-            return Language.Builtin.GROOVY;
-        }
-
-        @Override
-        public boolean areAnnotationsSupported() {
-            return true;
-        }
-
-        @Override
-        public File getSourceFile() {
-            return srcFile;
-        }
-    }
-
-    static class GroovyClassTypeContext implements TestDetector.TypeContext {
-        private final ClassNode clazz;
-
-        GroovyClassTypeContext(final ClassNode clazz) {
-            this.clazz = clazz;
-        }
-
-        @Override
-        public String getPackageName() {
-            return clazz.getPackageName();
-        }
-
-        @Override
-        public String getTypeName() {
-            return clazz.getNameWithoutPackage();
-        }
-
-        @Override
-        public String getSuperTypeName() {
-            return clazz.getSuperClass().getName();
-        }
-
-        @Override
-        public Map<String, List<String>> getDocTags() {
-            return Collections.emptyMap();
-        }
-
-        @Override
-        public Modifiers getModifiers() {
-            return GroovyModelMiner.extractModifiers(clazz);
-        }
-    }
 
     public static InstrumentationConfig newConfigFromResource() {
         URL configURL = null;
@@ -402,16 +241,6 @@ public abstract class CloverAstTransformerBase implements ASTTransformation {
         return config.getIncludedFiles() != null && config.getIncludedFiles().contains(getSourceUnitFile(sourceUnit));
     }
 
-    /**
-     * @return BytecodeInstruction - an instance of RecorderGetterBytecodeInstructionGroovy2
-     */
-    protected BytecodeInstruction newRecorderGetterBytecodeInstruction(final ClassNode clazz, GroovyInstrumentationConfig sessionConfig) {
-        // Try Groovy2 with ASM4
-        return new RecorderGetterBytecodeInstructionGroovy2(
-                clazz, recorderFieldName,
-                sessionConfig.initString, sessionConfig.distConfig, sessionConfig.registryVersion,
-                sessionConfig.recorderConfig, sessionConfig.maxElements, sessionConfig.profiles);
-    }
 
     protected long calculateChecksum(File file) throws IOException {
         if (file.exists()) {
