@@ -73,8 +73,10 @@ class GroovyElvisOperatorTest extends TestBase {
                                     String c = a ?: b + b
                                 }
                                 void testElvisWithGenericType() {
-                                    List<String> l = new ArrayList<String>();
-                                    List<String> l2 = (l ?: l) ?: l
+                                    List<String> l = new ArrayList<String>()
+                                    List<String> l2 = (l?:l)?:l 
+                                    // no spaces above as different groovy versions may include or not a space character
+                                    // in the character range, this simplifies the assertions
                                 }
                             }
                         """
@@ -125,8 +127,11 @@ class GroovyElvisOperatorTest extends TestBase {
                         }) // &&
 
                         assertMethod(c, and(simplyNamed("testElvisWithGenericType")), { MethodInfo m ->
-                            assertBranch(m, at(44, 56, 44, 57), complexity(2)) // (>l< ?: l) ?: l
-                            assertBranch(m, at(44, 55, 44, 63), complexity(3)) // >(l ?: l)< ?: l
+                            // inner elvis - (>>>l<<< ?: l) ?: l
+                            assertBranch(m, at(44, 56, 44, 57), complexity(2))
+
+                            // outer elvis - >>>(l ?: l)<<< ?: l
+                            assertBranch(m, at(44, 55, 44, 61), complexity(3))
                         })
                     }
                 }

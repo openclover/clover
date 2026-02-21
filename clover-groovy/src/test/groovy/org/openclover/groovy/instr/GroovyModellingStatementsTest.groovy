@@ -359,4 +359,35 @@ class GroovyModellingStatementsTest extends TestBase {
         }
     }
 
+    /**
+     * Groovy 3.0 introduced EmptyExpression.INSTANCE, for variable declaration when it has no immediate
+     * assignment, that expression is immutable and can't be modified during instrumentation.
+     * See https://github.com/openclover/clover/issues/121
+     */
+    void testEmptyExpressionInstance() {
+        instrumentAndCompileWithGrover(["EmptyExpression.groovy":
+                '''class EmptyExpression {void one() {
+                    String[] list
+                    int code
+                    if (Math.random() > 0.5) {
+                        list = ["a", "b", "c"]
+                        code = 123
+                    }
+                }}'''])
+
+        assertRegistry db, { Clover2Registry reg ->
+            assertPackage reg.model.project, isDefaultPackage, { PackageInfo p ->
+                assertFile p, named("EmptyExpression.groovy"), { FullFileInfo f ->
+                    assertClass f, named("EmptyExpression"), { FullClassInfo c ->
+                        assertMethod c, simplyNamed("one"), { MethodInfo m ->
+                            m.statements.size() == 5 &&
+                                    assertStatement(m, at(2, 21, 2, 34)) && // 'String[] list'
+                                    assertStatement(m, at(3, 21, 3, 29))    // 'int code'
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 }
