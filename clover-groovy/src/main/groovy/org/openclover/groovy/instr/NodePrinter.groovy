@@ -101,12 +101,12 @@ class NodePrinter {
             },
             "org.codehaus.groovy.ast.expr.MethodCallExpression"      : { MethodCallExpression it ->
                 "MethodCall - $it.text (implicitThis=${it.implicitThis}, " +
-                        "receiver=${it.hasProperty('receiver') ? it.receiver : ''}, " + // receiver not present in Groovy 1.x
+                        "receiver=${valueIfNotMissingField(it, 'receiver')}, " + // receiver not present in Groovy 1.x
                         "safe={$it.safe}, spreadSafe=${it.spreadSafe})"
             },
             "org.codehaus.groovy.ast.expr.StaticMethodCallExpression": { StaticMethodCallExpression it ->
                 "StaticMethodCall - $it.text (" +
-                        "receiver=${it.hasProperty('receiver') ? it.receiver : ''}, " +  // receiver not present in Groovy 1.x
+                        "receiver=${valueIfNotMissingField(it, 'receiver')}, " +  // receiver not present in Groovy 1.x
                         "ownerType=${it.ownerType})"
             },
             "org.codehaus.groovy.ast.expr.GStringExpression"         : { GStringExpression it ->
@@ -183,9 +183,7 @@ class NodePrinter {
                 "name : $param.name, " +
                 "originType : $param.originType, " +
                 "dynamicTyped : $param.dynamicTyped, " +
-//                "closureShare : $param.closureShare, " +
-                "defaultValue : $param.defaultValue, " +
-//                "hasDefaultValue : $param.hasDefaultValue, " +
+                "defaultValue : ${valueIfNotMissingField(param, "defaultValue")}, " + // not present in Groovy 2.x
                 "inStaticContext : $param.inStaticContext, " +
                 "modifiers : $param.modifiers " +
                 "} "
@@ -230,13 +228,21 @@ class NodePrinter {
                 "interfaces : $cn.interfaces," +
                 "mixins : $cn.mixins," +
                 "superClass : $cn.superClass," +
-                "typeAnnotations : $cn.typeAnnotations," +
+                "typeAnnotations : ${valueIfNotMissingField(cn, "typeAnnotations")}," + // not present in Groovy 2.x
                 "componentType : $cn.componentType," +
                 "genericsTypes : $cn.genericsTypes," +
-
-//                "usesGenerics : $cn.usesGenerics," +
-//                "redirect : $cn.redirect," +
                 "}"
+    }
+
+    /**
+     * Some fields were introduced in later Groovy versions.
+     */
+    static String valueIfNotMissingField(Object param, String fieldName) {
+        if (param.hasProperty(fieldName)) {
+            return param[fieldName].toString()
+        } else {
+            return "<missing field>"
+        }
     }
 
     static class GenericsTypeToString implements Function<GenericsType, String> {
@@ -246,7 +252,7 @@ class NodePrinter {
         }
     }
 
-    static GenericsTypeToString genericsTypeToString = new GenericsTypeToString();
+    static GenericsTypeToString genericsTypeToString = new GenericsTypeToString()
 
     static class ParameterToString implements Function<Parameter, String> {
         @Override
@@ -264,7 +270,7 @@ class NodePrinter {
         }
     }
 
-    static TypeToString typeToString = new TypeToString();
+    static TypeToString typeToString = new TypeToString()
 
     static <T extends ASTNode> String toString(T node) {
         String nodeName = node.class.name

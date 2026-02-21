@@ -61,7 +61,7 @@ class GroovySpockTestSuite
                                         compareTo(new LibraryVersion(groovyVersion)) <= 0) {
 
                             // expected constructor signature: (methodName, specificName, groovyAllJar, [ spockJar ], withJUnit5)
-                            boolean withJUnit5 = spockVersion.startsWith("spock-core-2.")
+                            boolean withJUnit5 = spockVersion.startsWith("2.")
                             testClass.declaredConstructors.find { it.parameterTypes.length == 5 }
                                     .newInstance(
                                             testMethod.name,
@@ -113,7 +113,7 @@ class GroovySpockTestSuite
      * @return
      */
     static boolean doesGroovyMatchSpockVersion(String actualGroovyVersion, String spockVersion) {
-        def spockGroovyVersionMatcher = spockVersion =~ /spock-core-(.*)-groovy-(.*)/
+        def spockGroovyVersionMatcher = spockVersion =~ /(.*)-groovy-(.*)/
         String spockGroovyVersion = spockGroovyVersionMatcher[0][2]
         def groovyMajorVersionMatcher = actualGroovyVersion =~ /([0-9]*\.[0-9]*)(.*)/
         String groovyMajorVersion = groovyMajorVersionMatcher[0][1]
