@@ -430,7 +430,6 @@
                                 <configuration>
                                     <skipTests>${func.test.skip}</skipTests>
                                     <includes>
-                                        <include>**/GroovyUtilsTest.*</include>
                                         <include>**/*TestSuite.*</include>
                                     </includes>
                                 </configuration>

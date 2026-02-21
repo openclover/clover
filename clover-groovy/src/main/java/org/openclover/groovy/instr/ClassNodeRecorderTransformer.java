@@ -62,7 +62,7 @@ class ClassNodeRecorderTransformer implements ClassNodeTransformer {
                 new Parameter[]{}, new ClassNode[]{},
                 new BlockStatement());
 
-        // getter method will be filled with byte code in next stage, see CloverAstTransformerInstructionSelection
+        // fill with byte code
         fillRecorderGetterBytecode(clazz, sessionConfig);
     }
 
