@@ -37,7 +37,9 @@ class ClassNodeElvisEvalTransformer implements ClassNodeTransformer {
     }
 
     public void transform(ClassNode classNode, GroovyInstrumentationResult flags) {
-        createEvalElvisMethods(classNode);
+        if (flags.elvisExprUsed) {
+            createEvalElvisMethods(classNode);
+        }
     }
 
     private void createEvalElvisMethods(final ClassNode clazz) {

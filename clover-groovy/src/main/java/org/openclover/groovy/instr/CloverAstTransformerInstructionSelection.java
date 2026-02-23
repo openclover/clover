@@ -169,8 +169,8 @@ public class CloverAstTransformerInstructionSelection extends CloverAstTransform
             safeEvalMethodsTransformer.transform(clazz, flags);
             testExceptionTransformer.transform(clazz, flags);
             testSnifferTransformer.transform(clazz, flags);
-            elvisEvalTransformer.transform(clazz, null);
-            exprEvalTransformer.transform(clazz, null);
+            elvisEvalTransformer.transform(clazz, flags);
+            exprEvalTransformer.transform(clazz, flags);
         }
     }
 

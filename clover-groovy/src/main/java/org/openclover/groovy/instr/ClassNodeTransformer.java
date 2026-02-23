@@ -1,8 +1,10 @@
 package org.openclover.groovy.instr;
 
 import org.codehaus.groovy.ast.ClassNode;
-import org.jetbrains.annotations.Nullable;
 
+/**
+ * Perform modification of the {@link ClassNode} to add instrumentation code.
+ */
 interface ClassNodeTransformer {
-    void transform(ClassNode classNode, @Nullable GroovyInstrumentationResult flags);
+    void transform(ClassNode classNode, GroovyInstrumentationResult flags);
 }

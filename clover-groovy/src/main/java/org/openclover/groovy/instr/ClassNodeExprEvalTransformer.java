@@ -12,6 +12,7 @@ import org.codehaus.groovy.ast.stmt.BlockStatement;
 import org.codehaus.groovy.ast.stmt.ExpressionStatement;
 import org.codehaus.groovy.ast.stmt.ReturnStatement;
 import org.codehaus.groovy.ast.stmt.Statement;
+import org.jetbrains.annotations.Nullable;
 import org.openclover.runtime.CloverNames;
 
 import java.util.function.Function;
@@ -28,7 +29,7 @@ class ClassNodeExprEvalTransformer implements ClassNodeTransformer {
     }
 
     @Override
-    public void transform(ClassNode classNode, GroovyInstrumentationResult flags) {
+    public void transform(ClassNode classNode, @Nullable GroovyInstrumentationResult flags) {
         createExprEvalMethod(classNode);
     }
 
