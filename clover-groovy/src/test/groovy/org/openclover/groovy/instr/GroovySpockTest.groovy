@@ -165,9 +165,9 @@ class GroovySpockTest extends TestBase {
                     // check that three unrolled test cases were ran
                     assertEquals "number of test cases is incorrect", 3, classInfo.testCases.size()
                     // ... and that test names were dynamically updated at runtime by a TestNameSniffer
-                    assertTrue(testNameContains(classInfo.testCases, "maximum of two numbers [a: 3, b: 7, c: 7, #0]"))
-                    assertTrue(testNameContains(classInfo.testCases, "maximum of two numbers [a: 5, b: 4, c: 5, #1]"))
-                    assertTrue(testNameContains(classInfo.testCases, "maximum of two numbers [a: 9, b: 9, c: 9, #2]"))
+                    assertTrue(ifTestNameContains(classInfo.testCases, "maximum of two numbers [a: 3, b: 7, c: 7, #0]"))
+                    assertTrue(ifTestNameContains(classInfo.testCases, "maximum of two numbers [a: 5, b: 4, c: 5, #1]"))
+                    assertTrue(ifTestNameContains(classInfo.testCases, "maximum of two numbers [a: 9, b: 9, c: 9, #2]"))
 
                     // ... and that these tests have links to the original method
                     def featureMethod = classInfo.methods.find { it.simpleName == FEATURE_NAME }
@@ -185,7 +185,7 @@ class GroovySpockTest extends TestBase {
         }
     }
 
-    private static boolean testNameContains(Collection<TestCaseInfo> testCases, String value) {
+    private static boolean ifTestNameContains(Collection<TestCaseInfo> testCases, String value) {
         testCases.stream().anyMatch({ TestCaseInfo tci -> tci.testName.contains(value)})
     }
 
@@ -217,9 +217,9 @@ class GroovySpockTest extends TestBase {
                     // check that three unrolled test cases were ran
                     assertEquals 3, classInfo.testCases.size()
                     // ... and that test names were dynamically updated at runtime by a TestNameSniffer
-                    assertTrue testNameContains(classInfo.testCases, "minimum of 3 and 7 is 3")
-                    assertTrue testNameContains(classInfo.testCases, "minimum of 5 and 4 is 4")
-                    assertTrue testNameContains(classInfo.testCases, "minimum of 9 and 9 is 9")
+                    assertTrue ifTestNameContains(classInfo.testCases, "minimum of 3 and 7 is 3")
+                    assertTrue ifTestNameContains(classInfo.testCases, "minimum of 5 and 4 is 4")
+                    assertTrue ifTestNameContains(classInfo.testCases, "minimum of 9 and 9 is 9")
 
                     // ... and that these tests have links to the original method
                     def featureMethod = classInfo.methods.find { it.simpleName == FEATURE_NAME }
@@ -266,8 +266,8 @@ class GroovySpockTest extends TestBase {
                     // check that two unrolled test cases were ran
                     assertEquals 2, classInfo.testCases.size()
                     // ... and that test names were dynamically updated at runtime by a TestNameSniffer
-                    assertTrue testNameContains(classInfo.testCases, "Fred is a male person")
-                    assertTrue testNameContains(classInfo.testCases, "Wilma is a female person")
+                    assertTrue ifTestNameContains(classInfo.testCases, "Fred is a male person")
+                    assertTrue ifTestNameContains(classInfo.testCases, "Wilma is a female person")
 
                     // ... and that these tests have links to the original method
                     def featureMethod = classInfo.methods.find { it.simpleName == FEATURE_NAME }

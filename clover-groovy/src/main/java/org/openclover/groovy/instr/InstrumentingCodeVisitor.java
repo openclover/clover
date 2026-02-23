@@ -65,6 +65,8 @@ import java.util.Map;
 
 import static org.openclover.core.util.Lists.newLinkedList;
 import static org.openclover.core.util.Maps.newHashMap;
+import static org.openclover.groovy.instr.CloverAstTransformerBase.getSourceUnitFile;
+import static org.openclover.groovy.instr.CloverAstTransformerBase.recorderInc;
 
 /**
  * Note: do...while is not implemented in Groovy so DoWhileStatements are ignored
@@ -202,7 +204,7 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
         pushClass(clazz);
         session.enterClass(
                 GroovyUtils.isScriptClass(clazz) ?
-                        scriptClassNameForFileName(Grover.getSourceUnitFile(sourceUnit).getName())
+                        scriptClassNameForFileName(getSourceUnitFile(sourceUnit).getName())
                         : clazz.getNameWithoutPackage(),
                 GroovyUtils.newRegionFor(clazz, true),
                 GroovyModelMiner.extractModifiers(clazz),
@@ -245,7 +247,7 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
                 // and update it adding information about static name of a test
                 methodInfo.setStaticTestName(DefaultTestNameExtractor.INSTANCE.getTestNameForMethod(methodInfo));
 
-                methodEntry = Grover.recorderInc(classRef, methodInfo, method.getCode());
+                methodEntry = recorderInc(classRef, methodInfo, method.getCode());
                 matchContext(signature, methodInfo);
 
                 if (config.isStatementInstrEnabled()) {

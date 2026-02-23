@@ -7,6 +7,7 @@ import org.codehaus.groovy.ast.ClassNode
 import org.codehaus.groovy.ast.ConstructorNode
 import org.codehaus.groovy.ast.DynamicVariable
 import org.codehaus.groovy.ast.FieldNode
+import org.codehaus.groovy.ast.GenericsType
 import org.codehaus.groovy.ast.GroovyClassVisitor
 import org.codehaus.groovy.ast.InnerClassNode
 import org.codehaus.groovy.ast.MethodNode
@@ -56,7 +57,8 @@ class NodePrinter {
                 "ConstructorNode - $it.name (${joinParameterTypes(it.parameters)})"
             },
             "org.codehaus.groovy.ast.MethodNode"                     : { MethodNode it ->
-                "MethodNode - $it.name (${joinParameterTypes(it.parameters)}) : $it.returnType - synthetic=$it.synthetic"
+                "MethodNode - $it.name (${printParameterTypes(it.parameters)}) : return=${printClassNode(it.returnType)} - synthetic=$it.synthetic - generics=${printGenericsTypes(it.genericsTypes)}"
+                //- descriptor=${it.typeDescriptor.toString()}
             },
             "org.codehaus.groovy.ast.FieldNode"                      : { FieldNode it ->
                 "FieldNode - $it.name : $it.type"
@@ -99,12 +101,12 @@ class NodePrinter {
             },
             "org.codehaus.groovy.ast.expr.MethodCallExpression"      : { MethodCallExpression it ->
                 "MethodCall - $it.text (implicitThis=${it.implicitThis}, " +
-                        "receiver=${it.hasProperty('receiver') ? it.receiver : ''}, " + // receiver not present in Groovy 1.x
+                        "receiver=${valueIfNotMissingField(it, 'receiver')}, " + // receiver not present in Groovy 1.x
                         "safe={$it.safe}, spreadSafe=${it.spreadSafe})"
             },
             "org.codehaus.groovy.ast.expr.StaticMethodCallExpression": { StaticMethodCallExpression it ->
                 "StaticMethodCall - $it.text (" +
-                        "receiver=${it.hasProperty('receiver') ? it.receiver : ''}, " +  // receiver not present in Groovy 1.x
+                        "receiver=${valueIfNotMissingField(it, 'receiver')}, " +  // receiver not present in Groovy 1.x
                         "ownerType=${it.ownerType})"
             },
             "org.codehaus.groovy.ast.expr.GStringExpression"         : { GStringExpression it ->
@@ -166,10 +168,102 @@ class NodePrinter {
     }
 
     static String joinParameterTypes(Parameter[] parameters) {
-        Arrays.asList(parameters).stream()
-                .map(typeToString)
-                .collect(Collectors.joining(", "))
+        if (parameters == null) {
+            return "<null>"
+        } else {
+            return Arrays.asList(parameters).stream()
+                    .map(typeToString)
+                    .collect(Collectors.joining(", "))
+        }
     }
+
+    static String printParameterType(Parameter param) {
+        return "Parameter { " +
+                "type : $param.type," +
+                "name : $param.name, " +
+                "originType : $param.originType, " +
+                "dynamicTyped : $param.dynamicTyped, " +
+                "defaultValue : ${valueIfNotMissingField(param, "defaultValue")}, " + // not present in Groovy 2.x
+                "inStaticContext : $param.inStaticContext, " +
+                "modifiers : $param.modifiers " +
+                "} "
+    }
+
+    static String printParameterTypes(Parameter[] parameters) {
+        if (parameters == null) {
+            return "<null>"
+        } else {
+            return Arrays.asList(parameters).stream()
+                    .map(parameterToString)
+                    .collect(Collectors.joining(", "))
+        }
+    }
+
+    static String printGenericsTypes(GenericsType[] genericsTypes) {
+        if (genericsTypes == null) {
+            return "<null>"
+        } else {
+            return Arrays.asList(genericsTypes).stream()
+                    .map(genericsTypeToString)
+                    .collect(Collectors.joining(", "))
+        }
+    }
+
+    static String printGenericsType(GenericsType g) {
+        return "GenericsType { " +
+                "name : $g.name, " +
+                "type : $g.type, " +
+                "lowerBound : $g.lowerBound, " +
+                "upperBounds : $g.upperBounds, " +
+                "placeholder : $g.placeholder, " +
+                "resolved : $g.resolved, " +
+                "wildcard : $g.wildcard" +
+                "}"
+    }
+
+    static String printClassNode(ClassNode cn) {
+        return String.format("ClassNode { " +
+                "name : %s, modifiers : %s, interfaces : %s, mixins : %s, " +
+                "superClass : %s, typeAnnotations : %s, componentType : %s, " +
+                "genericsTypes : %s }",
+                cn.name,
+                cn.modifiers,
+                cn.interfaces,
+                cn.mixins,
+                cn.superClass,
+                valueIfNotMissingField(cn, "typeAnnotations"), // not present in Groovy 2.x
+                cn.componentType,
+                cn.genericsTypes);
+    }
+
+    /**
+     * Some fields were introduced in later Groovy versions.
+     */
+    static String valueIfNotMissingField(Object param, String fieldName) {
+        if (param.hasProperty(fieldName)) {
+            return param[fieldName].toString()
+        } else {
+            return "<missing field>"
+        }
+    }
+
+    static class GenericsTypeToString implements Function<GenericsType, String> {
+        @Override
+        String apply(GenericsType type) {
+            return printGenericsType(type)
+        }
+    }
+
+    static GenericsTypeToString genericsTypeToString = new GenericsTypeToString()
+
+    static class ParameterToString implements Function<Parameter, String> {
+        @Override
+        String apply(Parameter parameter) {
+            return printParameterType(parameter)
+        }
+    }
+
+    static ParameterToString parameterToString = new ParameterToString()
 
     static class TypeToString implements Function<Parameter, String> {
         @Override
@@ -178,7 +272,7 @@ class NodePrinter {
         }
     }
 
-    static TypeToString typeToString = new TypeToString();
+    static TypeToString typeToString = new TypeToString()
 
     static <T extends ASTNode> String toString(T node) {
         String nodeName = node.class.name

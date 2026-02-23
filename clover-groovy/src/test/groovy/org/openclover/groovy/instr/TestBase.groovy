@@ -16,13 +16,13 @@ import org.openclover.runtime.CloverNames
 abstract class TestBase
         extends DynamicallyNamedTestBase
         implements WorkingDirMixin, CloverDbTestMixin, TestPropertyMixin, JavaExecutorMixin {
-    protected File cloverAllResources = new File( "../clover-all/src/main/resources")
-    protected File cloverCoreClasses = new File( "../clover-core/target/classes")
-    protected File cloverRuntimeClasses = new File( "../clover-runtime/target/classes")
-    protected File groverClasses = new File( "target/classes")
+    protected File cloverAllResources = new File("../clover-all/src/main/resources")
+    protected File cloverCoreClasses = new File("../clover-core/target/classes")
+    protected File cloverRuntimeClasses = new File("../clover-runtime/target/classes")
+    protected File groverClasses = new File("target/classes")
     protected File groverMetaInfServices = new File("src/main/assembly")
-    protected File servicesFolder = new File( "../clover-ant/src/main/resources")
-    protected File loggingProperties = new File( "src/test/resources/logging.properties")
+    protected File servicesFolder = new File("../clover-ant/src/main/resources")
+    protected File loggingProperties = new File("src/test/resources/logging.properties")
     protected File junitJar = getJUnitJarFromProperty()
     /** Location of hamcrest-core required by JUnit 4.11+ */
     protected File hamcrestJar = getHamcrestJarFromProperty()
@@ -43,7 +43,7 @@ abstract class TestBase
     void setUp() {
         File workingDir = createWorkingDir()
         reserveCloverDbFile(workingDir)
-        groverConfigDir = (File) File.createTempFile("grover", "config", workingDir).with {File dir ->
+        groverConfigDir = (File) File.createTempFile("grover", "config", workingDir).with { File dir ->
             dir.delete()
             dir.mkdir()
             dir
@@ -106,20 +106,24 @@ abstract class TestBase
             }
         }
 
-       launchJava """
+        String remoteDebugArg = "" // -agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5006
+        String dumpAstArg = "" // -Dclover.grover.ast.dump=true
+        launchJava """
            ${props}
+           ${remoteDebugArg}
+           ${dumpAstArg} 
            -Djava.io.tmpdir=${System.getProperty("java.io.tmpdir")}
            -Dclover.logging.level=verbose
            -Djava.util.logging.config.file=${loggingProperties.absolutePath}
            -Dawt.headless=true
            -classpath
-           ${ ([groovyAllJar, calcRepkgJar()] + additionalGroovyJars).findAll { it != null }.join(File.pathSeparator)}
+           ${([groovyAllJar, calcRepkgJar()] + additionalGroovyJars).findAll { it != null }.join(File.pathSeparator)}
            org.codehaus.groovy.tools.FileSystemCompiler
            -classpath
-           ${calcCompilationClasspath([ groverConfigDir ] + extraClasspath)}
+           ${calcCompilationClasspath([groverConfigDir] + extraClasspath)}
            -d
            ${workingDir.getAbsolutePath()}
-           ${sourceFiles.collect {File f -> f.absolutePath }.join(" ")}
+           ${sourceFiles.collect { File f -> f.absolutePath }.join(" ")}
         """
     }
 
@@ -162,7 +166,7 @@ abstract class TestBase
         return (others + cloverLibs + [
                 groovyAllJar, cloverAllResources, cloverCoreClasses, cloverRuntimeClasses,
                 groverClasses, groverMetaInfServices, servicesFolder, junitJar, hamcrestJar
-            ])
+        ])
                 .findAll { it != null }
                 .collect { it.absolutePath }
                 .join(File.pathSeparator)

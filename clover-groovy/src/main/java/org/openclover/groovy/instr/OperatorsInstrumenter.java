@@ -40,6 +40,7 @@ import static groovyjarjarasm.asm.Opcodes.ACC_PUBLIC;
 import static groovyjarjarasm.asm.Opcodes.ACC_STATIC;
 import static org.openclover.core.util.Lists.newArrayList;
 import static org.openclover.core.util.Maps.newHashMap;
+import static org.openclover.groovy.instr.CloverAstTransformerBase.newRecorderExpression;
 
 /**
  * Instruments Groovy operators like:
@@ -254,14 +255,14 @@ public class OperatorsInstrumenter extends ClassInstumenter {
                                 new BlockStatement(new Statement[]{
                                         new ExpressionStatement(
                                                 new MethodCallExpression(
-                                                        Grover.newRecorderExpression(clazz, -1, -1),
+                                                        newRecorderExpression(clazz, -1, -1),
                                                         "inc",
                                                         new ArgumentListExpression(new VariableExpression(index))))
                                 }, methodScope),
                                 new BlockStatement(new Statement[]{
                                         new ExpressionStatement(
                                                 new MethodCallExpression(
-                                                        Grover.newRecorderExpression(clazz, -1, -1),
+                                                        newRecorderExpression(clazz, -1, -1),
                                                         "inc",
                                                         new ArgumentListExpression(
                                                                 new BinaryExpression(

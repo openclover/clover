@@ -16,6 +16,8 @@ import org.openclover.core.api.registry.ContextSet;
 import org.openclover.core.api.registry.SourceInfo;
 import org.openclover.core.spi.lang.LanguageConstruct;
 
+import static org.openclover.groovy.instr.CloverAstTransformerBase.newRecorderExpression;
+
 /**
  * Instrumenting code branches. Instantiate this class per every Groovy class instrumented.
  */
@@ -34,12 +36,12 @@ public class BranchInstrumenter extends ClassInstumenter {
                     1 + ExpressionComplexityCounter.count(exp), LanguageConstruct.Builtin.BRANCH);
 
             final MethodCallExpression iget_0 = new MethodCallExpression(
-                    Grover.newRecorderExpression(classRef, exp.getLineNumber(), exp.getColumnNumber()),
+                    newRecorderExpression(classRef, exp.getLineNumber(), exp.getColumnNumber()),
                     "iget",
                     new ArgumentListExpression(new ConstantExpression(branch.getDataIndex())));
             iget_0.setImplicitThis(false); // we don't need 'this' in our method call context
             final MethodCallExpression iget_1 = new MethodCallExpression(
-                    Grover.newRecorderExpression(classRef, exp.getLineNumber(), exp.getColumnNumber()),
+                    newRecorderExpression(classRef, exp.getLineNumber(), exp.getColumnNumber()),
                     "iget",
                     new ArgumentListExpression(new ConstantExpression(branch.getDataIndex() + 1)));
             iget_1.setImplicitThis(false); // we don't need 'this' in our method call context
