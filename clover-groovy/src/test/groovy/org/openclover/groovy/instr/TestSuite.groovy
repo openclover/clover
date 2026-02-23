@@ -16,11 +16,16 @@ class TestSuite
         implements GroovyCombinatorMixin, TestPropertyMixin, IncludeExcludeMixin, JavaVersionMixin {
 
     static Map<Class, Closure> TEST_CLASSES_AND_SELECTORS = [
+            (GroovyArraysTest)          : DefaultTestSelector.instance.closure,
             (GroovyCoverageTest)        : DefaultTestSelector.instance.closure,
             (GroovyElvisOperatorTest)   : DefaultTestSelector.instance.closure,
+            (GroovyLambdasTest)         : DefaultTestSelector.instance.closure,
+            (GroovyLoopsTest)           : DefaultTestSelector.instance.closure,
+            (GroovyMethodReferencesTest): DefaultTestSelector.instance.closure,
             (GroovyModellingMethodsTest): DefaultTestSelector.instance.closure,
             (GroovyModellingStatementsTest): DefaultTestSelector.instance.closure,
             (GroovyModellingTest)       : DefaultTestSelector.instance.closure,
+            (GroovyOperatorsTest)       : DefaultTestSelector.instance.closure,
             (GroovyProfilesTest)        : DefaultTestSelector.instance.closure,
             (GroovyReportTest)          : DefaultTestSelector.instance.closure,
             (GroovySafeEvalTest)        : DefaultTestSelector.instance.closure,
