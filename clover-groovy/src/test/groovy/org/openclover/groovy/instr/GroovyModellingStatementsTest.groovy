@@ -1,6 +1,7 @@
 package org.openclover.groovy.instr
 
 import groovy.transform.CompileStatic
+import org.junit.Ignore
 import org.openclover.buildutil.test.junit.GroovyVersionStart
 import org.openclover.core.api.registry.MethodInfo
 import org.openclover.core.api.registry.PackageInfo
@@ -174,6 +175,44 @@ class GroovyModellingStatementsTest extends TestBase {
         }
     }
 
+    @GroovyVersionStart("2.3.0")
+    @Ignore("CLOV-1960 instrument traits must be implemented")
+    void testStatementsInsideTraits() {
+        instrumentAndCompileWithGrover(["StatementsTrait.groovy":
+                                                '''
+                trait StatementsTrait {
+                    def z = 123
+                    def methodOne() {
+                        def b = 123
+                    }
+                    void methodTwo() {
+                        def c = 123
+                    }
+                }
+            '''])
+
+        assertRegistry db, { Clover2Registry reg ->
+            assertPackage reg.model.project, isDefaultPackage, { PackageInfo p ->
+                assertFile p, named("StatementsTrait.groovy"), { FullFileInfo f ->
+
+                    assertClass (f, { FullClassInfo c -> c.name == "StatementsTrait" }, { FullClassInfo c ->
+                        assertMethod(c, and(simplyNamed("field z"), at(0, 0, 0, 0), complexity(0)), { MethodInfo m ->
+                            m.statements.size() == 0 && m.branches.size() == 0
+                        }) &&
+
+                        assertMethod(c, and(simplyNamed("methodOne"), complexity(1)), { MethodInfo m ->
+                            m.statements.size() == 1 && m.branches.size() == 0 && assertStatement(m, at(0, 0, 0, 0), complexity(1))
+                        }) &&
+
+                        assertMethod(c, and(simplyNamed("methodTwo"), complexity(1)), { MethodInfo m ->
+                            m.statements.size() == 1 && m.branches.size() == 0 && assertStatement(m, at(0, 0, 0, 0), complexity(1))
+                        })
+                    })
+                }
+            }
+        }
+    }
+
     void testStatementsInsideConstructorsMethodsAndInitializerBlocks() {
         instrumentAndCompileWithGrover(["Statements.groovy":
             '''class StatementsClass {
@@ -194,15 +233,6 @@ class GroovyModellingStatementsTest extends TestBase {
                     StatementsEnum() {
                         def a = 123
                     }
-                    def methodOne() {
-                        def b = 123
-                    }
-                    void methodTwo() {
-                        def c = 123
-                    }
-                }
-                trait StatementsTrait {
-                    def z = 123
                     def methodOne() {
                         def b = 123
                     }
@@ -258,22 +288,7 @@ class GroovyModellingStatementsTest extends TestBase {
                     }) &&
 
                     // note: we don't instrument interfaces so we don't have information about it's methods
-                    assertClass (f, named("StatementsInterface")) //&&
-
-// TODO CLOV-1960 instrument traits
-//                    assertClass (f, { it.name == "StatementsTrait" }, { FullClassInfo c ->
-//                        assertMethod(c, and(simplyNamed("field z"), at(0, 0, 0, 0), complexity(0)), { MethodInfo m ->
-//                            m.statements.size() == 0 && m.branches.size() == 0
-//                        }) &&
-//
-//                        assertMethod(c, and(simplyNamed("methodOne"), complexity(1)), { MethodInfo m ->
-//                            m.statements.size() == 1 && m.branches.size() == 0 && assertStatement(m, at(0, 0, 0, 0), complexity(1))
-//                        }) &&
-//
-//                        assertMethod(c, and(simplyNamed("methodTwo"), complexity(1)), { MethodInfo m ->
-//                            m.statements.size() == 1 && m.branches.size() == 0 && assertStatement(m, at(0, 0, 0, 0), complexity(1))
-//                        })
-//                    })
+                    assertClass (f, named("StatementsInterface"))
                 }
             }
         }

@@ -222,16 +222,18 @@ class NodePrinter {
     }
 
     static String printClassNode(ClassNode cn) {
-        return "ClassNode { " +
-                "name : $cn.name," +
-                "modifiers : $cn.modifiers," +
-                "interfaces : $cn.interfaces," +
-                "mixins : $cn.mixins," +
-                "superClass : $cn.superClass," +
-                "typeAnnotations : ${valueIfNotMissingField(cn, "typeAnnotations")}," + // not present in Groovy 2.x
-                "componentType : $cn.componentType," +
-                "genericsTypes : $cn.genericsTypes," +
-                "}"
+        return String.format("ClassNode { " +
+                "name : %s, modifiers : %s, interfaces : %s, mixins : %s, " +
+                "superClass : %s, typeAnnotations : %s, componentType : %s, " +
+                "genericsTypes : %s }",
+                cn.name,
+                cn.modifiers,
+                cn.interfaces,
+                cn.mixins,
+                cn.superClass,
+                valueIfNotMissingField(cn, "typeAnnotations"), // not present in Groovy 2.x
+                cn.componentType,
+                cn.genericsTypes);
     }
 
     /**
