@@ -22,8 +22,7 @@ class GroovyMethodReferencesTest extends TestBase {
     void testBasicMethodReferences() {
         instrumentAndCompileWithGrover([
                 "BasicMethodReferences.groovy":
-                        '''
-            class BasicMethodReferences {
+                        '''class BasicMethodReferences {
                 static List<String> staticRef() {
                     def nums = [10, 20, 30]
                     nums.stream().map(Integer::toString).toList()
@@ -42,7 +41,7 @@ class GroovyMethodReferencesTest extends TestBase {
         assertRegistry db, { Clover2Registry reg ->
             assertPackage reg.model.project, isDefaultPackage, { PackageInfo p ->
                 assertFile p, named("BasicMethodReferences.groovy"), { FullFileInfo f ->
-                    assertClass(f, simplyNamed("BasicMethodReferences"), { FullClassInfo c ->
+                    assertClass(f, named("BasicMethodReferences"), { FullClassInfo c ->
                         assertMethod(c, simplyNamed("staticRef"), { MethodInfo m ->
                             m.statements.size() == 2
                         })
@@ -62,8 +61,8 @@ class GroovyMethodReferencesTest extends TestBase {
     void testConstructorReferences() {
         instrumentAndCompileWithGrover([
                 "ConstructorReferences.groovy":
-                        '''
-            class ConstructorReferences {
+                        '''class ConstructorReferences {
+                class Creature { String species }
                 static int randomValue() {
                     def randomGen = Random::new
                     randomGen().nextInt(100)
@@ -73,7 +72,6 @@ class GroovyMethodReferencesTest extends TestBase {
                     arr.class.name
                 }
                 static String customClassKind() {
-                    class Creature { String species }
                     def creator = Creature::new
                     creator("wolf").species
                 }
@@ -83,7 +81,7 @@ class GroovyMethodReferencesTest extends TestBase {
         assertRegistry db, { Clover2Registry reg ->
             assertPackage reg.model.project, isDefaultPackage, { PackageInfo p ->
                 assertFile p, named("ConstructorReferences.groovy"), { FullFileInfo f ->
-                    assertClass(f, simplyNamed("ConstructorReferences"), { FullClassInfo c ->
+                    assertClass(f, named("ConstructorReferences"), { FullClassInfo c ->
                         assertMethod(c, simplyNamed("randomValue"), { MethodInfo m ->
                             m.statements.size() == 2
                         })
@@ -103,10 +101,9 @@ class GroovyMethodReferencesTest extends TestBase {
     void testMultiDimensionalArrayConstructorReference() {
         instrumentAndCompileWithGrover([
                 "MultiDimArrayConstructorRef.groovy":
-                        '''
-            class MultiDimArrayConstructorRef {
+                        '''class MultiDimArrayConstructorRef {
+                def makeMatrix = Integer[][]::new
                 static String matrix() {
-                    def makeMatrix = Integer[][]::new
                     def grid = makeMatrix(2, 2)
                 }
             }
@@ -115,12 +112,14 @@ class GroovyMethodReferencesTest extends TestBase {
         assertRegistry db, { Clover2Registry reg ->
             assertPackage reg.model.project, isDefaultPackage, { PackageInfo p ->
                 assertFile p, named("MultiDimArrayConstructorRef.groovy"), { FullFileInfo f ->
-                    assertClass(f, simplyNamed("MultiDimArrayConstructorRef"), { FullClassInfo c ->
-                        assertMethod(c, simplyNamed("field_matrix"), { MethodInfo m ->
-                            m.statements.size() == 1
+                    assertClass(f, named("MultiDimArrayConstructorRef"), { FullClassInfo c ->
+                        assertMethod(c, simplyNamed("field makeMatrix"), { MethodInfo m ->
+                            m.statements.size() == 1 &&
+                                    assertStatement(m, at(2, 34, 2, 50)) // Integer[][]::new
                         })
-                        assertMethod(c, simplyNamed("field_grid"), { MethodInfo m ->
-                            m.statements.size() == 2
+                        assertMethod(c, simplyNamed("matrix"), { MethodInfo m ->
+                            m.statements.size() == 1 &&
+                                    assertStatement(m, at(4, 21, 4,48)) // def grid = makeMatrix(2, 2)
                         })
                     })
                 }

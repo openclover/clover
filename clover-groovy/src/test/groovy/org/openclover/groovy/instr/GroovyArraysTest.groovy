@@ -32,7 +32,7 @@ class GroovyArraysTest extends TestBase {
         assertRegistry db, { Clover2Registry reg ->
             assertPackage reg.model.project, isDefaultPackage, { PackageInfo p ->
                 assertFile p, named("GroovyStyleArrayInitializer.groovy"), { FullFileInfo f ->
-                    assertClass(f, simplyNamed("GroovyStyleArrayInitializer"), { FullClassInfo c ->
+                    assertClass(f, named("GroovyStyleArrayInitializer"), { FullClassInfo c ->
                         assertMethod(c, simplyNamed("array"), { MethodInfo m ->
                             m.statements.size() == 1
                         })
@@ -56,7 +56,7 @@ class GroovyArraysTest extends TestBase {
         assertRegistry db, { Clover2Registry reg ->
             assertPackage reg.model.project, isDefaultPackage, { PackageInfo p ->
                 assertFile p, named("JavaStyleArrayInitializer.groovy"), { FullFileInfo f ->
-                    assertClass(f, simplyNamed("JavaStyleArrayInitializer"), { FullClassInfo c ->
+                    assertClass(f, named("JavaStyleArrayInitializer"), { FullClassInfo c ->
                         assertMethod(c, simplyNamed("array"), { MethodInfo m ->
                             m.statements.size() == 1
                         })
@@ -88,7 +88,7 @@ class GroovyArraysTest extends TestBase {
         assertRegistry db, { Clover2Registry reg ->
             assertPackage reg.model.project, isDefaultPackage, { PackageInfo p ->
                 assertFile p, named("SafeIndexingArray.groovy"), { FullFileInfo f ->
-                    assertClass(f, simplyNamed("SafeIndexingArray"), { FullClassInfo c ->
+                    assertClass(f, named("SafeIndexingArray"), { FullClassInfo c ->
                         assertMethod(c, simplyNamed("test"), { MethodInfo m ->
                             m.statements.size() == 8
                         })
