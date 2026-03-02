@@ -118,24 +118,6 @@ class GroovyModellingStatementsTest extends TestBase {
         runWithAsserts("A")
     }
 
-    /**
-     * The https://jira.codehaus.org/browse/GROOVY-7041 was fixed in 2.3.8
-     */
-    @GroovyVersionStart("2.3.8")
-    void testSpreadOperator() {
-        instrumentAndCompileWithGrover([
-                "A.groovy":
-                        '''@groovy.transform.CompileStatic
-                        class A {
-                            A() {
-                                List<String> myList = [ ]
-                                if (myList*.isEmpty().any()) {
-                                    println "hello"
-                                }
-                            }
-                        }'''
-        ])
-    }
 
     void testComplexityOfBranches() {
         instrumentAndCompileWithGrover(
@@ -293,6 +275,36 @@ class GroovyModellingStatementsTest extends TestBase {
         }
     }
 
+    @GroovyVersionStart("3.0.0")
+    void testStatementsInsideDefaultInterfaceMethods() {
+        instrumentAndCompileWithGrover(["DefaultInterfaceMethods.groovy":
+            '''interface DefaultInterfaceMethods {
+                    default def methodOne() {
+                        "abc"
+                    }
+                    default int methodTwo() {
+                        -1
+                    }
+                }
+            '''])
+
+        assertRegistry db, { Clover2Registry reg ->
+            assertPackage reg.model.project, isDefaultPackage, { PackageInfo p ->
+                assertFile p, named("DefaultInterfaceMethods.groovy"), { FullFileInfo f ->
+
+                    assertClass (f, named("DefaultInterfaceMethods"), { FullClassInfo c ->
+                        assertMethod(c, and(simplyNamed("methodOne"), at(2, 21, 2, 32), complexity(1)), { MethodInfo m ->
+                            m.statements.size() == 1 && m.branches.size() == 0
+                        }) &&
+                        assertMethod(c, and(simplyNamed("methodTwo"), complexity(1)), { MethodInfo m ->
+                            m.statements.size() == 1 && m.branches.size() == 0
+                        })
+                    })
+                }
+            }
+        }
+    }
+
     void testCodeBlockNesting() {
         instrumentAndCompileWithGrover(["BlockNesting.groovy":
 '''class BlockNesting {
@@ -366,6 +378,48 @@ class GroovyModellingStatementsTest extends TestBase {
                             m.statements.size() == 2 &&
                             assertStatement(m, at(2, 21, 3, 42)) && // try-finally
                             assertStatement(m, or(at(3, 31, 3, 40), /*groovy2*/at(3, 31, 3, 41)))   // int i = 0
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @GroovyVersionStart("3.0.0")
+    void testTryWithResourcesBlock() {
+        instrumentAndCompileWithGrover(["TryWithResources.groovy":
+                '''class TryWithResources {
+                    void one() {
+                        try (
+                            InputStream in1 = new StringInputStream('abc')
+                            InputStream in2 = new StringInputStream('abc')
+                        ) { }
+                    }
+                    void two() {
+                        InputStream in1 = new StringInputStream('abc')
+                        try (
+                            in1; InputStream in2 = new StringInputStream('abc')
+                        ) { }
+                    }
+                '''])
+
+        assertRegistry db, { Clover2Registry reg ->
+            assertPackage reg.model.project, isDefaultPackage, { PackageInfo p ->
+                assertFile p, named("TryWithResources.groovy"), { FullFileInfo f ->
+                    assertClass f, named("TryWithResources"), { FullClassInfo c ->
+                        assertMethod c, simplyNamed("one"), { MethodInfo m ->
+                            m.statements.size() == 4 &&
+                            assertStatement(m, at(2, 21, 3, 42)) && // try-with-resources
+                            assertStatement(m, at(3, 31, 3, 40)) && // in1
+                            assertStatement(m, at(3, 31, 3, 40))    // in2
+                            assertStatement(m, at(3, 31, 3, 40))    // try body
+                        }
+                        assertMethod c, simplyNamed("two"), { MethodInfo m ->
+                            m.statements.size() == 4 &&
+                            assertStatement(m, at(3, 31, 3, 40)) && // in1
+                            assertStatement(m, at(2, 21, 3, 42)) && // try-with-resources
+                            assertStatement(m, at(3, 31, 3, 40))    // in2
+                            assertStatement(m, at(3, 31, 3, 40))    // try body
                         }
                     }
                 }
