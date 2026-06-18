@@ -30,6 +30,7 @@ import org.codehaus.groovy.ast.stmt.AssertStatement;
 import org.codehaus.groovy.ast.stmt.BlockStatement;
 import org.codehaus.groovy.ast.stmt.CaseStatement;
 import org.codehaus.groovy.ast.stmt.CatchStatement;
+import org.codehaus.groovy.ast.stmt.DoWhileStatement;
 import org.codehaus.groovy.ast.stmt.ExpressionStatement;
 import org.codehaus.groovy.ast.stmt.ForStatement;
 import org.codehaus.groovy.ast.stmt.IfStatement;
@@ -380,7 +381,7 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
 
         } else if (transformed instanceof MethodReferenceExpression) {
             final MethodReferenceExpression methodReference = (MethodReferenceExpression) transformed;
-            final Pair<MethodReferenceExpression, Boolean> ret = operatorsInstrumenter.transformMethodReference(
+            final Pair<Expression, Boolean> ret = operatorsInstrumenter.transformMethodReference(
                     methodReference, getCurrentClassNode(), currentMethodContext());
             transformed = ret.first;
             methodReferenceUsed |= ret.second;
@@ -695,7 +696,13 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
     public void visitClosureExpression(ClosureExpression expression) {
         pushVariableScope(expression.getVariableScope());
         expression.getCode().visit(this);
-        setClosureCode(expression, statementInstrumenter.instrumentBlockStatement(expression.getCode()));
+        Statement code = expression.getCode();
+        // Expression-body lambdas (e.g. "(Integer n) -> n > 0") have a ReturnStatement as their code
+        // rather than a BlockStatement. Wrap it so instrumentBlockStatement can count it as a statement.
+        if (!(code instanceof BlockStatement)) {
+            code = new BlockStatement(new Statement[]{code}, new VariableScope());
+        }
+        setClosureCode(expression, statementInstrumenter.instrumentBlockStatement(code));
         popVariableScope(expression.getVariableScope());
     }
 

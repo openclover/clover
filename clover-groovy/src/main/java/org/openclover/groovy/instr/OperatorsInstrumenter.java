@@ -157,69 +157,41 @@ public class OperatorsInstrumenter extends ClassInstumenter {
             @NotNull final LambdaExpression lambdaExpression,
             @NotNull final ClassNode currentClassNode,
             @NotNull final ContextSet currentMethodContext) {
-
-        FullStatementInfo statementInfo = session.addStatement(currentMethodContext,
-                countExpressionRegion(lambdaExpression),
-                0,
-                LanguageConstruct.Builtin.STATEMENT);
-
-        // transform:
-        //    (x, y, z) -> lambdaExpression
-        // into:
-        //   (x, y, z) -> {
-        //     RECORDERCLASS.R.inc(index)
-        //     return lambdaExpression.abc(x, y, z)
-        //   }
-        final Statement originalCode = lambdaExpression.getCode();
-
-        final VariableScope methodScope = new VariableScope();
-        final Statement lambdaWrapper = new BlockStatement(
-                new Statement[]{
-                        new ExpressionStatement(
-                                new MethodCallExpression(
-                                        newRecorderExpression(currentClassNode, -1, -1),
-                                        "inc",
-                                        new ArgumentListExpression(new ConstantExpression(statementInfo.getDataIndex())))),
-                        originalCode
-                },
-                methodScope);
-        lambdaExpression.setCode(lambdaWrapper);
-
+        // Lambda body statements are already instrumented by InstrumentingCodeVisitor.visitClosureExpression().
+        // In Groovy 3, LambdaExpression.visit() dispatches to visitLambdaExpression() which falls back to
+        // visitClosureExpression() via CodeVisitorSupport, so instrumentBlockStatement() is applied to the body.
+        // No additional transformation is needed here to avoid double-instrumentation.
         return Pair.of(lambdaExpression, false);
     }
 
     @NotNull
-    public Pair<MethodReferenceExpression, Boolean> transformMethodReference(
+    public Pair<Expression, Boolean> transformMethodReference(
             @NotNull final MethodReferenceExpression methodReference,
             @NotNull final ClassNode currentClassNode,
             @NotNull final ContextSet currentMethodContext) {
-        session.addStatement(currentMethodContext, countExpressionRegion(methodReference),
-                0, LanguageConstruct.Builtin.STATEMENT);
 
-
-        FullStatementInfo statementInfo = session.addStatement(currentMethodContext,
-                countExpressionRegion(methodReference),
-                0,
-                LanguageConstruct.Builtin.STATEMENT);
-
-        // transform:
-        //    abc::methodCall
-        // into:
-        //    RECORDERCLASS.R::lambdaInc(methodCall, index)
-        final Statement originalCode = methodReference.getCode();
-
-        final VariableScope methodScope = new VariableScope();
-        final Statement lambdaWrapper = new BlockStatement(
-                new Statement[]{
-                        new ExpressionStatement(
-                                new MethodCallExpression(
-                                        newRecorderExpression(currentClassNode, -1, -1),
-                                        "inc",
-                                        new ArgumentListExpression(new ConstantExpression(statementInfo.getDataIndex())))),
-                        originalCode
-                },
-                methodScope);
-        methodReference.setCode(lambdaWrapper);
+        // We must track each method reference separately: the enclosing statement may be reached while
+        // method reference not. For example in "nums.stream().map(Integer::toString)" the "nums.stream()"
+        // can be called (counted as covered), but if the stream is empty, the "Integer::toString" is
+        // never called. Without a separate statement, missing coverage is invisible.
+        //
+        // MethodReferenceExpression has no code body — we cannot inject recorder.inc() into it directly.
+        // Solution: wrap the method reference in exprEval(methodRef, stmtIdx). For field-level references
+        // (e.g. "static def makeMatrix = Integer[][]::new"), visitField() wraps
+        // the result in a second exprEval(result, methodIdx) for method-entry recording.
+        final SourceInfo srcRegion = countExpressionRegion(methodReference);
+        if (srcRegion != null) {
+            final FullStatementInfo statementInfo = session.addStatement(
+                    currentMethodContext, srcRegion, 0, LanguageConstruct.Builtin.STATEMENT);
+            return Pair.of(
+                    new StaticMethodCallExpression(
+                            classRef,
+                            CloverNames.namespace("exprEval"),
+                            new ArgumentListExpression(
+                                    methodReference,
+                                    new ConstantExpression(statementInfo.getDataIndex()))),
+                    true);
+        }
 
         return Pair.of(methodReference, false);
     }

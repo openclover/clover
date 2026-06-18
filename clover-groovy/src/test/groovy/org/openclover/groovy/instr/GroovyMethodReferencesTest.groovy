@@ -42,14 +42,16 @@ class GroovyMethodReferencesTest extends TestBase {
             assertPackage reg.model.project, isDefaultPackage, { PackageInfo p ->
                 assertFile p, named("BasicMethodReferences.groovy"), { FullFileInfo f ->
                     assertClass(f, named("BasicMethodReferences"), { FullClassInfo c ->
+                        // Each method reference is wrapped in exprEval(ref, stmtIdx) so it gets its own
+                        // statement in addition to the enclosing statement that contains it.
                         assertMethod(c, simplyNamed("staticRef"), { MethodInfo m ->
-                            m.statements.size() == 2
+                            m.statements.size() == 3  // def nums + stream call + Integer::toString
                         })
                         assertMethod(c, simplyNamed("instanceRef"), { MethodInfo m ->
-                            m.statements.size() == 2
+                            m.statements.size() == 3  // def words + stream call + String::toUpperCase
                         })
                         assertMethod(c, simplyNamed("constantRef"), { MethodInfo m ->
-                            m.statements.size() == 2
+                            m.statements.size() == 3  // def getLength (decl) + "hello world"::length + getLength()
                         })
                     })
                 }
@@ -83,13 +85,13 @@ class GroovyMethodReferencesTest extends TestBase {
                 assertFile p, named("ConstructorReferences.groovy"), { FullFileInfo f ->
                     assertClass(f, named("ConstructorReferences"), { FullClassInfo c ->
                         assertMethod(c, simplyNamed("randomValue"), { MethodInfo m ->
-                            m.statements.size() == 2
+                            m.statements.size() == 3  // def randomGen (decl) + Random::new + randomGen().nextInt(100)
                         })
                         assertMethod(c, simplyNamed("arrayType"), { MethodInfo m ->
-                            m.statements.size() == 2
+                            m.statements.size() == 3  // def arr (decl) + Integer[]::new + arr.class.name
                         })
                         assertMethod(c, simplyNamed("customClassKind"), { MethodInfo m ->
-                            m.statements.size() == 2
+                            m.statements.size() == 3  // def creator (decl) + Creature::new + creator("wolf").species
                         })
                     })
                 }
@@ -146,11 +148,13 @@ class GroovyMethodReferencesTest extends TestBase {
             assertPackage reg.model.project, isDefaultPackage, { PackageInfo p ->
                 assertFile p, named("MethodRefsCompileStatic.groovy"), { FullFileInfo f ->
                     assertClass(f, named("MethodRefsCompileStatic"), { FullClassInfo c ->
+                        // Each method reference gets its own statement (wrapped in exprEval),
+                        // plus the return statement that contains it.
                         assertMethod(c, simplyNamed("staticRef"), { MethodInfo m ->
-                            m.statements.size() == 1
+                            m.statements.size() == 2  // return stmt + Integer::toString
                         }) &&
                         assertMethod(c, simplyNamed("instanceRef"), { MethodInfo m ->
-                            m.statements.size() == 1
+                            m.statements.size() == 2  // return stmt + String::toUpperCase
                         })
                     })
                 }
