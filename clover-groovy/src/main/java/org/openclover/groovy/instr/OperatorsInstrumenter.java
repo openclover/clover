@@ -13,7 +13,9 @@ import org.codehaus.groovy.ast.expr.ConstantExpression;
 import org.codehaus.groovy.ast.expr.DeclarationExpression;
 import org.codehaus.groovy.ast.expr.ElvisOperatorExpression;
 import org.codehaus.groovy.ast.expr.Expression;
+import org.codehaus.groovy.ast.expr.LambdaExpression;
 import org.codehaus.groovy.ast.expr.MethodCallExpression;
+import org.codehaus.groovy.ast.expr.MethodReferenceExpression;
 import org.codehaus.groovy.ast.expr.PropertyExpression;
 import org.codehaus.groovy.ast.expr.StaticMethodCallExpression;
 import org.codehaus.groovy.ast.expr.TernaryExpression;
@@ -30,6 +32,7 @@ import org.openclover.core.api.instrumentation.InstrumentationSession;
 import org.openclover.core.api.registry.BranchInfo;
 import org.openclover.core.api.registry.ContextSet;
 import org.openclover.core.api.registry.SourceInfo;
+import org.openclover.core.registry.entities.FullStatementInfo;
 import org.openclover.core.spi.lang.LanguageConstruct;
 import org.openclover.core.util.collections.Pair;
 import org.openclover.runtime.CloverNames;
@@ -147,6 +150,78 @@ public class OperatorsInstrumenter extends ClassInstumenter {
         }
 
         return Pair.of(methodCallExpression, false);
+    }
+
+    @NotNull
+    public Pair<LambdaExpression, Boolean> transformLambda(
+            @NotNull final LambdaExpression lambdaExpression,
+            @NotNull final ClassNode currentClassNode,
+            @NotNull final ContextSet currentMethodContext) {
+
+        FullStatementInfo statementInfo = session.addStatement(currentMethodContext,
+                countExpressionRegion(lambdaExpression),
+                0,
+                LanguageConstruct.Builtin.STATEMENT);
+
+        // transform:
+        //    (x, y, z) -> lambdaExpression
+        // into:
+        //   (x, y, z) -> {
+        //     RECORDERCLASS.R.inc(index)
+        //     return lambdaExpression.abc(x, y, z)
+        //   }
+        final Statement originalCode = lambdaExpression.getCode();
+
+        final VariableScope methodScope = new VariableScope();
+        final Statement lambdaWrapper = new BlockStatement(
+                new Statement[]{
+                        new ExpressionStatement(
+                                new MethodCallExpression(
+                                        newRecorderExpression(currentClassNode, -1, -1),
+                                        "inc",
+                                        new ArgumentListExpression(new ConstantExpression(statementInfo.getDataIndex())))),
+                        originalCode
+                },
+                methodScope);
+        lambdaExpression.setCode(lambdaWrapper);
+
+        return Pair.of(lambdaExpression, false);
+    }
+
+    @NotNull
+    public Pair<MethodReferenceExpression, Boolean> transformMethodReference(
+            @NotNull final MethodReferenceExpression methodReference,
+            @NotNull final ClassNode currentClassNode,
+            @NotNull final ContextSet currentMethodContext) {
+        session.addStatement(currentMethodContext, countExpressionRegion(methodReference),
+                0, LanguageConstruct.Builtin.STATEMENT);
+
+
+        FullStatementInfo statementInfo = session.addStatement(currentMethodContext,
+                countExpressionRegion(methodReference),
+                0,
+                LanguageConstruct.Builtin.STATEMENT);
+
+        // transform:
+        //    abc::methodCall
+        // into:
+        //    RECORDERCLASS.R::lambdaInc(methodCall, index)
+        final Statement originalCode = methodReference.getCode();
+
+        final VariableScope methodScope = new VariableScope();
+        final Statement lambdaWrapper = new BlockStatement(
+                new Statement[]{
+                        new ExpressionStatement(
+                                new MethodCallExpression(
+                                        newRecorderExpression(currentClassNode, -1, -1),
+                                        "inc",
+                                        new ArgumentListExpression(new ConstantExpression(statementInfo.getDataIndex())))),
+                        originalCode
+                },
+                methodScope);
+        methodReference.setCode(lambdaWrapper);
+
+        return Pair.of(methodReference, false);
     }
 
     @NotNull

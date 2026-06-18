@@ -125,4 +125,76 @@ class GroovyLambdasTest extends TestBase {
         }
     }
 
+    @GroovyVersionStart("3.0.0")
+    void testLambdaInsideMethod() {
+        // Lambda body statements should be counted within the enclosing method,
+        // same as Groovy closure bodies (consistent with testCodeBlockNesting in GroovyModellingStatementsTest).
+        instrumentAndCompileWithGrover([
+                "LambdaInMethod.groovy":
+                        '''class LambdaInMethod {
+                static long countPositive(List<Integer> nums) {
+                    return nums.stream().filter((Integer n) -> n > 0).count()
+                }
+                static List<String> doubleAndConvert(List<Integer> nums) {
+                    def doubled = nums.stream().map((int n) -> n * 2).toList()
+                    return doubled.stream().map((Integer n) -> n.toString()).toList()
+                }
+            }'''
+        ])
+
+        assertRegistry db, { Clover2Registry reg ->
+            assertPackage reg.model.project, isDefaultPackage, { PackageInfo p ->
+                assertFile p, named("LambdaInMethod.groovy"), { FullFileInfo f ->
+                    assertClass(f, named("LambdaInMethod"), { FullClassInfo c ->
+                        assertMethod(c, simplyNamed("countPositive"), { MethodInfo m ->
+                            // 'return ...' + lambda body 'n > 0'
+                            m.statements.size() == 2
+                        }) &&
+                        assertMethod(c, simplyNamed("doubleAndConvert"), { MethodInfo m ->
+                            // 'def doubled = ...' + lambda body 'n * 2'
+                            // + 'return ...' + lambda body 'n.toString()'
+                            m.statements.size() == 4
+                        })
+                    })
+                }
+            }
+        }
+    }
+
+    @GroovyVersionStart("3.0.0")
+    void testLambdaWithCompileStatic() {
+        // @CompileStatic is a primary goal of OC-121 — instrumented code must survive strict type checking.
+        instrumentAndCompileWithGrover([
+                "LambdaCompileStatic.groovy":
+                        '''@groovy.transform.CompileStatic
+            class LambdaCompileStatic {
+                def doubleIt = (int x) -> x * 2
+                static List<String> convert(List<Integer> nums) {
+                    return nums.stream().map((Integer n) -> n.toString()).toList()
+                }
+                static long countPositive(List<Integer> nums) {
+                    return nums.stream().filter((Integer n) -> n > 0).count()
+                }
+            }'''
+        ])
+
+        assertRegistry db, { Clover2Registry reg ->
+            assertPackage reg.model.project, isDefaultPackage, { PackageInfo p ->
+                assertFile p, named("LambdaCompileStatic.groovy"), { FullFileInfo f ->
+                    assertClass(f, named("LambdaCompileStatic"), { FullClassInfo c ->
+                        assertMethod(c, simplyNamed("field doubleIt"), { MethodInfo m ->
+                            m.statements.size() == 1  // x * 2
+                        }) &&
+                        assertMethod(c, simplyNamed("convert"), { MethodInfo m ->
+                            m.statements.size() == 2  // return + lambda body 'n.toString()'
+                        }) &&
+                        assertMethod(c, simplyNamed("countPositive"), { MethodInfo m ->
+                            m.statements.size() == 2  // return + lambda body 'n > 0'
+                        })
+                    })
+                }
+            }
+        }
+    }
+
 }

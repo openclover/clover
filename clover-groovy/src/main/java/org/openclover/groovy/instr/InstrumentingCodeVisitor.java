@@ -20,7 +20,9 @@ import org.codehaus.groovy.ast.expr.ConstructorCallExpression;
 import org.codehaus.groovy.ast.expr.ElvisOperatorExpression;
 import org.codehaus.groovy.ast.expr.EmptyExpression;
 import org.codehaus.groovy.ast.expr.Expression;
+import org.codehaus.groovy.ast.expr.LambdaExpression;
 import org.codehaus.groovy.ast.expr.MethodCallExpression;
+import org.codehaus.groovy.ast.expr.MethodReferenceExpression;
 import org.codehaus.groovy.ast.expr.PropertyExpression;
 import org.codehaus.groovy.ast.expr.StaticMethodCallExpression;
 import org.codehaus.groovy.ast.expr.TernaryExpression;
@@ -100,6 +102,8 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
     private boolean elvisExprUsed;
     private boolean fieldExprUsed;
     private boolean safeExprUsed;
+    private boolean lambdaExprUsed;
+    private boolean methodReferenceUsed;
     private boolean testResultsRecorded;
 
     private final BranchInstrumenter branchInstrumenter;
@@ -144,6 +148,14 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
 
     public boolean isTestResultsRecorded() {
         return testResultsRecorded;
+    }
+
+    public boolean isLambdaExprUsed() {
+        return lambdaExprUsed;
+    }
+
+    public boolean isMethodReferenceUsed() {
+        return methodReferenceUsed;
     }
 
     public Map<String, MethodNode> getSafeEvalMethods() {
@@ -358,7 +370,23 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
                     field.setInitialValueExpression(transform(field.getInitialValueExpression()));
                 }
             }
-        } else if (transformed instanceof EmptyExpression) {
+
+        } else if (transformed instanceof LambdaExpression) {
+            final LambdaExpression lambdaExpression = (LambdaExpression) transformed;
+            final Pair<LambdaExpression, Boolean> ret = operatorsInstrumenter.transformLambda(
+                        lambdaExpression, getCurrentClassNode(), currentMethodContext());
+            transformed = ret.first;
+            lambdaExprUsed |= ret.second;
+
+        } else if (transformed instanceof MethodReferenceExpression) {
+            final MethodReferenceExpression methodReference = (MethodReferenceExpression) transformed;
+            final Pair<MethodReferenceExpression, Boolean> ret = operatorsInstrumenter.transformMethodReference(
+                    methodReference, getCurrentClassNode(), currentMethodContext());
+            transformed = ret.first;
+            methodReferenceUsed |= ret.second;
+        }
+
+        else if (transformed instanceof EmptyExpression) {
             // EmptyExpression.INSTANCE is immutable, we can't even modify source position
             // TODO inject our own MutableEmptyExpression
             return transformed;

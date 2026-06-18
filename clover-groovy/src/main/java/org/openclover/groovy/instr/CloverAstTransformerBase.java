@@ -4,10 +4,13 @@ import org.codehaus.groovy.ast.ASTNode;
 import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.ast.MethodNode;
 import org.codehaus.groovy.ast.ModuleNode;
+import org.codehaus.groovy.ast.Parameter;
 import org.codehaus.groovy.ast.expr.ArgumentListExpression;
 import org.codehaus.groovy.ast.expr.ConstantExpression;
 import org.codehaus.groovy.ast.expr.Expression;
+import org.codehaus.groovy.ast.expr.LambdaExpression;
 import org.codehaus.groovy.ast.expr.MethodCallExpression;
+import org.codehaus.groovy.ast.expr.MethodReferenceExpression;
 import org.codehaus.groovy.ast.expr.StaticMethodCallExpression;
 import org.codehaus.groovy.ast.stmt.ExpressionStatement;
 import org.codehaus.groovy.ast.stmt.Statement;
@@ -84,12 +87,20 @@ public abstract class CloverAstTransformerBase implements ASTTransformation {
         return config;
     }
 
+    /**
+     * Generate call to recorder getter method:
+     * RECORDER_CLASS.$CLV_R$()
+     */
     public static Expression newRecorderExpression(ClassNode classRef, int row, int column) {
         return setSourcePosition(new StaticMethodCallExpression(classRef, recorderGetterName,
                 setSourcePosition(new ArgumentListExpression(), row, column)
         ), row, column);
     }
 
+    /**
+     * Generate call to inc method on recorder for regular statements:
+     * RECORDER_CLASS.$CLV_R$().inc(m.getDataIndex())
+     */
     public static Statement recorderInc(final ClassNode clazz, final FullElementInfo m, final ASTNode originalNode) {
         int column = originalNode.getColumnNumber();
         int row = originalNode.getLineNumber();
@@ -104,6 +115,94 @@ public abstract class CloverAstTransformerBase implements ASTTransformation {
         ), row, column);
         methodInc.setImplicitThis(false); // we don't need 'this' in our method call context
         return setSourcePosition(new ExpressionStatement(methodInc), row, column);
+    }
+
+    /**
+     * Generate call to lambdaInc method on recorder for lambda expressions:
+     * () -> RECORDER_CLASS.$CLV_R$().lambdaInc(dataIndex1, () -> originalLambda, dataIndex2)
+     */
+    public static LambdaExpression recorderLambdaInc(
+            final ClassNode clazz, final FullElementInfo m, final LambdaExpression originalLambda) {
+        int column = originalLambda.getColumnNumber();
+        int row = originalLambda.getLineNumber();
+
+        // generate deferred lambda:
+        // '() -> originalLambda'
+        // (as we don't want to call lambda at the time we pass it as method argument)
+        final LambdaExpression deferredLambda = new LambdaExpression(originalLambda.getParameters(), originalLambda.getCode());
+
+        // generate args for lambdaInc:
+        // 'dataIndex1, () -> originalLambda, dataIndex2'
+        // (we use the same index twice, we don't know data index of the inner statement)
+        //
+        // setSourcePosition - imitate that it's a 0-length instruction inserted at the beginning of the one being
+        // instrumented: original (row1, col1, row2, col2) -> recInc (row1, col1, row1, col1); do it in all nodes
+        final ArgumentListExpression lambdaIncArgs = setSourcePosition(
+                new ArgumentListExpression(
+                        setSourcePosition(new ConstantExpression(m.getDataIndex()), row, column),
+                        setSourcePosition(deferredLambda, row, column),
+                        setSourcePosition(new ConstantExpression(m.getDataIndex()), row, column)), // TODO how to find index of the last statement?
+                row, column);
+
+        // generate method call:
+        // RECORDER_CLASS.$CLV_R$().lambdaInc(dataIndex1, () -> originalLambda, dataIndex2)
+        final MethodCallExpression lambdaIndMethodCall = setSourcePosition(
+                new MethodCallExpression(
+                        newRecorderExpression(clazz, row, column),
+                        "lambdaInc",
+                        lambdaIncArgs),
+                row, column);
+        lambdaIndMethodCall.setImplicitThis(false); // we don't need 'this' in our method call context
+
+        // now we must wrap the call in a lambda as well, to transparently swap the node being instrumented:
+        // () -> RECORDER_CLASS.$CLV_R$().lambdaInc(dataIndex1, () -> originalLambda, dataIndex2)
+        final LambdaExpression wrappedLambdaInc =
+                new LambdaExpression(new Parameter[0], new ExpressionStatement(lambdaIndMethodCall));
+        return setSourcePosition(wrappedLambdaInc, row, column);
+    }
+
+    /**
+     * Generate call to lambdaInc method on recorder for method references:
+     * RECORDER_CLASS.$CLV_R$()::lambdaInc(dataIndex1, originalMethodReference, dataIndex2)
+     */
+    public static LambdaExpression recorderLambdaInc(
+            final ClassNode clazz, final FullElementInfo m, final MethodReferenceExpression originalMethodReference) {
+        int column = originalMethodReference.getColumnNumber();
+        int row = originalMethodReference.getLineNumber();
+
+        // generate deferred lambda:
+        // '() -> originalLambda'
+        // (as we don't want to call lambda at the time we pass it as method argument)
+        final MethodReferenceExpression deferredLambda = new LambdaExpression(originalMethodReference.getParameters(), originalLambda.getCode());
+
+        // generate args for lambdaInc:
+        // 'dataIndex1, () -> originalLambda, dataIndex2'
+        // (we use the same index twice, we don't know data index of the inner statement)
+        //
+        // setSourcePosition - imitate that it's a 0-length instruction inserted at the beginning of the one being
+        // instrumented: original (row1, col1, row2, col2) -> recInc (row1, col1, row1, col1); do it in all nodes
+        final ArgumentListExpression lambdaIncArgs = setSourcePosition(
+                new ArgumentListExpression(
+                        setSourcePosition(new ConstantExpression(m.getDataIndex()), row, column),
+                        setSourcePosition(deferredLambda, row, column),
+                        setSourcePosition(new ConstantExpression(m.getDataIndex()), row, column)), // TODO how to find index of the last statement?
+                row, column);
+
+        // generate method call:
+        // RECORDER_CLASS.$CLV_R$().lambdaInc(dataIndex1, () -> originalLambda, dataIndex2)
+        final MethodCallExpression lambdaIndMethodCall = setSourcePosition(
+                new MethodCallExpression(
+                        newRecorderExpression(clazz, row, column),
+                        "lambdaInc",
+                        lambdaIncArgs),
+                row, column);
+        lambdaIndMethodCall.setImplicitThis(false); // we don't need 'this' in our method call context
+
+        // now we must wrap the call in a lambda as well, to transparently swap the node being instrumented:
+        // () -> RECORDER_CLASS.$CLV_R$().lambdaInc(dataIndex1, () -> originalLambda, dataIndex2)
+        final LambdaExpression wrappedLambdaInc =
+                new LambdaExpression(new Parameter[0], new ExpressionStatement(lambdaIndMethodCall));
+        return setSourcePosition(wrappedLambdaInc, row, column);
     }
 
     public static <T extends ASTNode> T setSourcePosition(T node, int row, int column) {
