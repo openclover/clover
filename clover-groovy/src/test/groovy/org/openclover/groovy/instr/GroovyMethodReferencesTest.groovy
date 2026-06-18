@@ -99,12 +99,13 @@ class GroovyMethodReferencesTest extends TestBase {
 
     @GroovyVersionStart("3.0.0")
     void testMultiDimensionalArrayConstructorReference() {
+        // Integer[][]::new takes a single int (row count), not two ints
         instrumentAndCompileWithGrover([
                 "MultiDimArrayConstructorRef.groovy":
                         '''class MultiDimArrayConstructorRef {
-                def makeMatrix = Integer[][]::new
-                static String matrix() {
-                    def grid = makeMatrix(2, 2)
+                static def makeMatrix = Integer[][]::new
+                static void matrix() {
+                    Integer[][] grid = makeMatrix(3)
                 }
             }
             '''
@@ -115,11 +116,41 @@ class GroovyMethodReferencesTest extends TestBase {
                     assertClass(f, named("MultiDimArrayConstructorRef"), { FullClassInfo c ->
                         assertMethod(c, simplyNamed("field makeMatrix"), { MethodInfo m ->
                             m.statements.size() == 1 &&
-                                    assertStatement(m, at(2, 34, 2, 50)) // Integer[][]::new
+                                    assertStatement(m, at(2, 41, 2, 57)) // Integer[][]::new
                         })
                         assertMethod(c, simplyNamed("matrix"), { MethodInfo m ->
                             m.statements.size() == 1 &&
-                                    assertStatement(m, at(4, 21, 4,48)) // def grid = makeMatrix(2, 2)
+                                    assertStatement(m, at(4, 21, 4, 53)) // Integer[][] grid = makeMatrix(3)
+                        })
+                    })
+                }
+            }
+        }
+    }
+
+    @GroovyVersionStart("3.0.0")
+    void testMethodReferencesWithCompileStatic() {
+        instrumentAndCompileWithGrover([
+                "MethodRefsCompileStatic.groovy":
+                        '''@groovy.transform.CompileStatic
+            class MethodRefsCompileStatic {
+                static List<String> staticRef(List<Integer> nums) {
+                    return nums.stream().map(Integer::toString).toList()
+                }
+                static List<String> instanceRef(List<String> words) {
+                    return words.stream().map(String::toUpperCase).toList()
+                }
+            }'''
+        ])
+        assertRegistry db, { Clover2Registry reg ->
+            assertPackage reg.model.project, isDefaultPackage, { PackageInfo p ->
+                assertFile p, named("MethodRefsCompileStatic.groovy"), { FullFileInfo f ->
+                    assertClass(f, named("MethodRefsCompileStatic"), { FullClassInfo c ->
+                        assertMethod(c, simplyNamed("staticRef"), { MethodInfo m ->
+                            m.statements.size() == 1
+                        }) &&
+                        assertMethod(c, simplyNamed("instanceRef"), { MethodInfo m ->
+                            m.statements.size() == 1
                         })
                     })
                 }

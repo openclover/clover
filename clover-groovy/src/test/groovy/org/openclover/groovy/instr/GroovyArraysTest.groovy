@@ -97,4 +97,68 @@ class GroovyArraysTest extends TestBase {
             }
         }
     }
+
+    @GroovyVersionStart("3.0.0")
+    void testSafeIndexingOnList() {
+        instrumentAndCompileWithGrover([
+                "SafeIndexingList.groovy":
+                        '''class SafeIndexingList {
+                static void test() {
+                    List<String> myList = ['a', 'b']
+                    assert myList?[1] == 'b'
+                    myList?[1] = 'c'
+                    assert myList?[1] == 'c'
+
+                    List<String> nullList = null
+                    assert nullList?[1] == null
+                    nullList?[1] = 'd'
+                    assert nullList?[1] == null
+                }
+            }'''
+        ])
+
+        assertRegistry db, { Clover2Registry reg ->
+            assertPackage reg.model.project, isDefaultPackage, { PackageInfo p ->
+                assertFile p, named("SafeIndexingList.groovy"), { FullFileInfo f ->
+                    assertClass(f, named("SafeIndexingList"), { FullClassInfo c ->
+                        assertMethod(c, simplyNamed("test"), { MethodInfo m ->
+                            m.statements.size() == 8
+                        })
+                    })
+                }
+            }
+        }
+    }
+
+    @GroovyVersionStart("3.0.0")
+    void testSafeIndexingOnMap() {
+        instrumentAndCompileWithGrover([
+                "SafeIndexingMap.groovy":
+                        '''class SafeIndexingMap {
+                static void test() {
+                    Map<String, Integer> myMap = [a: 1, b: 2]
+                    assert myMap?['a'] == 1
+                    myMap?['c'] = 3
+                    assert myMap?['c'] == 3
+
+                    Map<String, Integer> nullMap = null
+                    assert nullMap?['a'] == null
+                    nullMap?['x'] = 99
+                    assert nullMap?['x'] == null
+                }
+            }'''
+        ])
+
+        assertRegistry db, { Clover2Registry reg ->
+            assertPackage reg.model.project, isDefaultPackage, { PackageInfo p ->
+                assertFile p, named("SafeIndexingMap.groovy"), { FullFileInfo f ->
+                    assertClass(f, named("SafeIndexingMap"), { FullClassInfo c ->
+                        assertMethod(c, simplyNamed("test"), { MethodInfo m ->
+                            m.statements.size() == 8
+                        })
+                    })
+                }
+            }
+        }
+    }
 }

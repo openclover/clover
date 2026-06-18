@@ -52,6 +52,39 @@ class GroovyLoopsTest extends TestBase {
         }
     }
 
+    @GroovyVersionStart("3.0.0")
+    void testDoWhileLoopWithCompileStatic() {
+        instrumentAndCompileWithGrover([
+                "DoWhileLoopCompileStatic.groovy":
+                        '''@groovy.transform.CompileStatic
+                class DoWhileLoopCompileStatic {
+                    static int sumUpTo(int n) {
+                        int sum = 0
+                        int i = 0
+                        do {
+                            sum += i
+                            i++
+                        } while (i <= n)
+                        return sum
+                    }
+                }'''
+        ])
+
+        assertRegistry db, { Clover2Registry reg ->
+            assertPackage reg.model.project, isDefaultPackage, { PackageInfo p ->
+                assertFile p, named("DoWhileLoopCompileStatic.groovy"), { FullFileInfo f ->
+                    assertClass(f, named("DoWhileLoopCompileStatic"), { FullClassInfo c ->
+                        assertMethod(c, simplyNamed("sumUpTo"), { MethodInfo m ->
+                            // int sum, int i, do-while block, sum += i, i++, return sum
+                            m.statements.size() == 6 &&
+                                    m.branches.size() == 1  // i <= n
+                        })
+                    })
+                }
+            }
+        }
+    }
+
     void testWhileLoop() {
         instrumentAndCompileWithGrover([
                 "WhileLoop.groovy":
