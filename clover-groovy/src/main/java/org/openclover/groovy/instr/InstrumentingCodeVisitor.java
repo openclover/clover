@@ -72,7 +72,7 @@ import static org.openclover.groovy.instr.CloverAstTransformerBase.getSourceUnit
 import static org.openclover.groovy.instr.CloverAstTransformerBase.recorderInc;
 
 /**
- * Note: do...while is not implemented in Groovy so DoWhileStatements are ignored
+ * Note: do...while is available in Groovy 3+; handled by visitDoWhileLoop() below
  */
 public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
     private static final Logger LOG = Logger.getInstance();
@@ -663,6 +663,18 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
         );
         loop.getLoopBlock().visit(this);
         loop.setLoopBlock(statementInstrumenter.instrumentBlockStatementOrExpressionStatement(getCurrentVariableScope(), loop.getLoopBlock()));
+    }
+
+    @Override
+    public void visitDoWhileLoop(final DoWhileStatement loop) {
+        loop.getLoopBlock().visit(this);
+        loop.setLoopBlock(statementInstrumenter.instrumentBlockStatementOrExpressionStatement(getCurrentVariableScope(), loop.getLoopBlock()));
+        loop.getBooleanExpression().visit(this);
+        loop.setBooleanExpression(branchInstrumenter.transformBranch(
+                ClassInstumenter.countExpressionRegion(loop.getBooleanExpression()),
+                loop.getBooleanExpression(),
+                currentMethodContext())
+        );
     }
 
     @Override

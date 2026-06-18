@@ -40,8 +40,8 @@ class GroovyLoopsTest extends TestBase {
                         assertMethod(c, simplyNamed("loopMethod"), { MethodInfo m ->
 
                             assertStatement(m, at(3, 25, 3, 34), complexity(0)) && // int i
-                                    assertStatement(m, at(4, 25, 6, 40), complexity(1)) && // do-while with condition
-                                    assertStatement(m, at(4, 29, 4, 32), complexity(0)) && // i++
+                                    assertStatement(m, at(4, 25, 6, 40), complexity(0)) && // do-while block
+                                    assertStatement(m, at(5, 29, 5, 32), complexity(0)) && // i++
                                     assertBranch(m, at(6, 34, 6, 39)) && // i < 5
                                     m.statements.size() == 3 &&
                                     m.branches.size() == 1
