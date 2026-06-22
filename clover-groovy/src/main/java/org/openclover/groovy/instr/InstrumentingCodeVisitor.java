@@ -20,9 +20,7 @@ import org.codehaus.groovy.ast.expr.ConstructorCallExpression;
 import org.codehaus.groovy.ast.expr.ElvisOperatorExpression;
 import org.codehaus.groovy.ast.expr.EmptyExpression;
 import org.codehaus.groovy.ast.expr.Expression;
-import org.codehaus.groovy.ast.expr.LambdaExpression;
 import org.codehaus.groovy.ast.expr.MethodCallExpression;
-import org.codehaus.groovy.ast.expr.MethodReferenceExpression;
 import org.codehaus.groovy.ast.expr.PropertyExpression;
 import org.codehaus.groovy.ast.expr.StaticMethodCallExpression;
 import org.codehaus.groovy.ast.expr.TernaryExpression;
@@ -79,6 +77,11 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
     private static final Field CLOSURE_CODE_FIELD;
     private static final ContextSet EMPTY_CONTEXT = new ContextSetImpl();
 
+    // LambdaExpression and MethodReferenceExpression were introduced in Groovy 3.
+    // Load them lazily to avoid NoClassDefFoundError when running under Groovy 2.x.
+    private static final Class<?> GROOVY3_LAMBDA_EXPRESSION_CLASS;
+    private static final Class<?> GROOVY3_METHOD_REFERENCE_CLASS;
+
     static {
         Field closureField;
         try {
@@ -88,6 +91,13 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
             closureField = null;
         }
         CLOSURE_CODE_FIELD = closureField;
+
+        Class<?> lambdaClass = null;
+        Class<?> methodRefClass = null;
+        try { lambdaClass = Class.forName("org.codehaus.groovy.ast.expr.LambdaExpression"); } catch (ClassNotFoundException ignored) { }
+        try { methodRefClass = Class.forName("org.codehaus.groovy.ast.expr.MethodReferenceExpression"); } catch (ClassNotFoundException ignored) { }
+        GROOVY3_LAMBDA_EXPRESSION_CLASS = lambdaClass;
+        GROOVY3_METHOD_REFERENCE_CLASS = methodRefClass;
     }
 
     private final InstrumentationConfig config;
@@ -394,17 +404,18 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
                 }
             }
 
-        } else if (transformed instanceof LambdaExpression) {
-            final LambdaExpression lambdaExpression = (LambdaExpression) transformed;
-            final Pair<LambdaExpression, Boolean> ret = operatorsInstrumenter.transformLambda(
+        } else if (GROOVY3_LAMBDA_EXPRESSION_CLASS != null && GROOVY3_LAMBDA_EXPRESSION_CLASS.isInstance(transformed)) {
+            // LambdaExpression extends ClosureExpression; body is already instrumented via visitClosureExpression().
+            // Intercept here only to prevent it from falling through to the ClosureExpression branch (double-instr).
+            final ClosureExpression lambdaExpression = (ClosureExpression) transformed;
+            final Pair<ClosureExpression, Boolean> ret = operatorsInstrumenter.transformLambda(
                     lambdaExpression, getCurrentClassNode(), currentMethodContext());
             transformed = ret.first;
             lambdaExprUsed |= ret.second;
 
-        } else if (transformed instanceof MethodReferenceExpression) {
-            final MethodReferenceExpression methodReference = (MethodReferenceExpression) transformed;
+        } else if (GROOVY3_METHOD_REFERENCE_CLASS != null && GROOVY3_METHOD_REFERENCE_CLASS.isInstance(transformed)) {
             final Pair<Expression, Boolean> ret = operatorsInstrumenter.transformMethodReference(
-                    methodReference, getCurrentClassNode(), currentMethodContext());
+                    transformed, getCurrentClassNode(), currentMethodContext());
             transformed = ret.first;
             methodReferenceUsed |= ret.second;
         } else if (transformed instanceof EmptyExpression) {

@@ -12,10 +12,9 @@ import org.codehaus.groovy.ast.expr.BooleanExpression;
 import org.codehaus.groovy.ast.expr.ConstantExpression;
 import org.codehaus.groovy.ast.expr.DeclarationExpression;
 import org.codehaus.groovy.ast.expr.ElvisOperatorExpression;
+import org.codehaus.groovy.ast.expr.ClosureExpression;
 import org.codehaus.groovy.ast.expr.Expression;
-import org.codehaus.groovy.ast.expr.LambdaExpression;
 import org.codehaus.groovy.ast.expr.MethodCallExpression;
-import org.codehaus.groovy.ast.expr.MethodReferenceExpression;
 import org.codehaus.groovy.ast.expr.PropertyExpression;
 import org.codehaus.groovy.ast.expr.StaticMethodCallExpression;
 import org.codehaus.groovy.ast.expr.TernaryExpression;
@@ -153,22 +152,26 @@ public class OperatorsInstrumenter extends ClassInstumenter {
     }
 
     @NotNull
-    public Pair<LambdaExpression, Boolean> transformLambda(
-            @NotNull final LambdaExpression lambdaExpression,
+    public Pair<ClosureExpression, Boolean> transformLambda(
+            @NotNull final ClosureExpression lambdaExpression,
             @NotNull final ClassNode currentClassNode,
             @NotNull final ContextSet currentMethodContext) {
         // Lambda body statements are already instrumented by InstrumentingCodeVisitor.visitClosureExpression().
         // In Groovy 3, LambdaExpression.visit() dispatches to visitLambdaExpression() which falls back to
         // visitClosureExpression() via CodeVisitorSupport, so instrumentBlockStatement() is applied to the body.
         // No additional transformation is needed here to avoid double-instrumentation.
+        // Note: parameter type is ClosureExpression (parent of LambdaExpression) to avoid a static reference
+        // to LambdaExpression, which does not exist in Groovy 2.x and would cause NoClassDefFoundError.
         return Pair.of(lambdaExpression, false);
     }
 
     @NotNull
     public Pair<Expression, Boolean> transformMethodReference(
-            @NotNull final MethodReferenceExpression methodReference,
+            @NotNull final Expression methodReference,
             @NotNull final ClassNode currentClassNode,
             @NotNull final ContextSet currentMethodContext) {
+        // Note: parameter type is Expression (parent of MethodReferenceExpression) to avoid a static reference
+        // to MethodReferenceExpression, which does not exist in Groovy 2.x and would cause NoClassDefFoundError.
 
         // We must track each method reference separately: the enclosing statement may be reached while
         // method reference not. For example in "nums.stream().map(Integer::toString)" the "nums.stream()"
