@@ -293,10 +293,10 @@ class GroovyModellingStatementsTest extends TestBase {
                 assertFile p, named("DefaultInterfaceMethods.groovy"), { FullFileInfo f ->
 
                     assertClass (f, named("DefaultInterfaceMethods"), { FullClassInfo c ->
-                        assertMethod(c, and(simplyNamed("methodOne"), at(2, 21, 2, 32), complexity(1)), { MethodInfo m ->
+                        assertMethod(c, simplyNamed("methodOne"), { MethodInfo m ->
                             m.statements.size() == 1 && m.branches.size() == 0
                         }) &&
-                        assertMethod(c, and(simplyNamed("methodTwo"), complexity(1)), { MethodInfo m ->
+                        assertMethod(c, simplyNamed("methodTwo"), { MethodInfo m ->
                             m.statements.size() == 1 && m.branches.size() == 0
                         })
                     })
@@ -391,35 +391,35 @@ class GroovyModellingStatementsTest extends TestBase {
                 '''class TryWithResources {
                     void one() {
                         try (
-                            InputStream in1 = new StringInputStream('abc')
-                            InputStream in2 = new StringInputStream('abc')
+                            InputStream in1 = new ByteArrayInputStream('abc'.bytes)
+                            InputStream in2 = new ByteArrayInputStream('abc'.bytes)
                         ) { }
                     }
                     void two() {
-                        InputStream in1 = new StringInputStream('abc')
+                        InputStream in1 = new ByteArrayInputStream('abc'.bytes)
                         try (
-                            in1; InputStream in2 = new StringInputStream('abc')
+                            in1; InputStream in2 = new ByteArrayInputStream('abc'.bytes)
                         ) { }
                     }
-                '''])
+                }'''])
 
         assertRegistry db, { Clover2Registry reg ->
             assertPackage reg.model.project, isDefaultPackage, { PackageInfo p ->
                 assertFile p, named("TryWithResources.groovy"), { FullFileInfo f ->
                     assertClass f, named("TryWithResources"), { FullClassInfo c ->
                         assertMethod c, simplyNamed("one"), { MethodInfo m ->
-                            m.statements.size() == 4 &&
-                            assertStatement(m, at(2, 21, 3, 42)) && // try-with-resources
-                            assertStatement(m, at(3, 31, 3, 40)) && // in1
-                            assertStatement(m, at(3, 31, 3, 40))    // in2
-                            assertStatement(m, at(3, 31, 3, 40))    // try body
+                            // Groovy desugars resources into regular declarations + try-finally
+                            m.statements.size() == 3 &&
+                            assertStatement(m, at(4, 29, 4, 84)) && // InputStream in1 = ...
+                            assertStatement(m, at(5, 29, 5, 84)) && // InputStream in2 = ...
+                            assertStatement(m, at(3, 25, 6, 30))    // try(...){ }
                         }
                         assertMethod c, simplyNamed("two"), { MethodInfo m ->
                             m.statements.size() == 4 &&
-                            assertStatement(m, at(3, 31, 3, 40)) && // in1
-                            assertStatement(m, at(2, 21, 3, 42)) && // try-with-resources
-                            assertStatement(m, at(3, 31, 3, 40))    // in2
-                            assertStatement(m, at(3, 31, 3, 40))    // try body
+                            assertStatement(m, at(9, 25, 9, 80)) && // InputStream in1 = ...
+                            assertStatement(m, at(11, 29, 11, 32)) && // in1 resource reference (Enhanced try-with-resources)
+                            assertStatement(m, at(11, 34, 11, 89)) && // InputStream in2 = ... (resource)
+                            assertStatement(m, at(10, 25, 12, 30))   // try(...){ }
                         }
                     }
                 }

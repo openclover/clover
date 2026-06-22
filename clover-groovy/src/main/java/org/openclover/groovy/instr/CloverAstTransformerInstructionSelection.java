@@ -1,5 +1,6 @@
 package org.openclover.groovy.instr;
 
+import org.codehaus.groovy.ast.ClassHelper;
 import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.ast.ModuleNode;
 import org.codehaus.groovy.ast.expr.Expression;
@@ -16,10 +17,14 @@ import org_openclover_runtime.CoverageRecorder;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 
+import static groovyjarjarasm.asm.Opcodes.ACC_PUBLIC;
 import static org.openclover.core.util.Maps.newHashMap;
 
 /**
@@ -98,14 +103,41 @@ public class CloverAstTransformerInstructionSelection extends CloverAstTransform
                                        final Map<ClassNode, GroovyInstrumentationResult> flagsForInstrumentedClasses) {
         final List<ClassNode> classes = module.getClasses();
         if (classes != null) {
+            // Companion classes for interfaces are collected separately to avoid ConcurrentModificationException.
+            final List<ClassNode> companionClasses = new ArrayList<>();
+            // Fully-qualified names of interfaces whose default methods are already handled via $Trait$Helper.
+            final Set<String> traitBackedInterfaces = new HashSet<>();
+
             for (final ClassNode clazz : classes) {
                 if (!GroovyUtils.isReportable(clazz)) {
-                    // warn about non-instrumented class
-                    Logger.getInstance().verbose("Class " + clazz.getName() + " cannot not instrumented because "
-                            + "AST contains invalid source region definition ("
-                            + clazz.getLineNumber() + ":" + clazz.getColumnNumber()
-                            + " - " + clazz.getLastLineNumber() + ":" + clazz.getLastColumnNumber() + ")");
-                    break;
+                    // Groovy generates a synthetic $Trait$Helper class (with invalid source regions)
+                    // that holds the actual implementations of default interface methods.
+                    // Instrument those methods and register them under the parent interface's name.
+                    if (isTraitHelper(clazz)) {
+                        final String parentFullName = traitHelperParentName(clazz);
+                        final String parentSimpleName = simpleNameOf(parentFullName);
+                        final InstrumentingCodeVisitor instrumenter = new InstrumentingCodeVisitor(
+                                config, session, registry, sourceUnit,
+                                testSourceContext, false, clazz, parentSimpleName);
+                        if (instrumenter.instrument(clazz)) {
+                            flagsForInstrumentedClasses.put(clazz, new GroovyInstrumentationResult(
+                                    instrumenter.isElvisExprUsed(), instrumenter.isFieldExprUsed(),
+                                    instrumenter.isSafeExprUsed(), instrumenter.isTestResultsRecorded(),
+                                    instrumenter.getSafeEvalMethods(), false, false, false));
+                        }
+                        traitBackedInterfaces.add(parentFullName);
+                    } else {
+                        Logger.getInstance().verbose("Class " + clazz.getName() + " cannot not instrumented because "
+                                + "AST contains invalid source region definition ("
+                                + clazz.getLineNumber() + ":" + clazz.getColumnNumber()
+                                + " - " + clazz.getLastLineNumber() + ":" + clazz.getLastColumnNumber() + ")");
+                    }
+                    continue;
+                }
+
+                // Skip interfaces that have already been handled via their $Trait$Helper.
+                if (clazz.isInterface() && traitBackedInterfaces.contains(clazz.getName())) {
+                    continue;
                 }
 
                 // detect if we have a test class and of which kind
@@ -114,14 +146,25 @@ public class CloverAstTransformerInstructionSelection extends CloverAstTransform
                 final boolean isSpock = SpockFeatureNameExtractor.isClassWithSpecAnnotations(typeContext.getModifiers());
                 final boolean isJUnit = JUnitParameterizedTestExtractor.isParameterizedClass(typeContext.getModifiers());
 
+                // For remaining interfaces (without $Trait$Helper), use a synthetic companion class
+                // as the recorder target since interface fields cannot be private/mutable on Java 8.
+                final ClassNode classRef;
+                if (clazz.isInterface()) {
+                    classRef = createCompanionClass(clazz);
+                    companionClasses.add(classRef);
+                } else {
+                    classRef = clazz;
+                }
+
                 // perform instrumentation
                 final InstrumentingCodeVisitor instrumenter = new InstrumentingCodeVisitor(
                         config, session, registry, sourceUnit,
-                        testSourceContext, isTestClass, clazz);
+                        testSourceContext, isTestClass, classRef);
                 if (instrumenter.instrument(clazz)) {
                     // ... and store some flags for further class enhancements
+                    // For interfaces, enhancements go to the companion class (not the interface itself).
                     flagsForInstrumentedClasses.put(
-                            clazz,
+                            classRef,
                             new GroovyInstrumentationResult(
                                     instrumenter.isElvisExprUsed(),
                                     instrumenter.isFieldExprUsed(),
@@ -131,7 +174,37 @@ public class CloverAstTransformerInstructionSelection extends CloverAstTransform
                     );
                 }
             }
+
+            // Add companion classes to the module so Groovy compiles them alongside the interfaces.
+            for (final ClassNode companion : companionClasses) {
+                module.addClass(companion);
+            }
         }
+    }
+
+    /**
+     * Creates a synthetic companion class to hold the Clover recorder for an interface.
+     * The companion is named {@code InterfaceName$__clover$} and lives in the same package.
+     */
+    private ClassNode createCompanionClass(final ClassNode interfaceNode) {
+        return new ClassNode(interfaceNode.getName() + "$__clover$", ACC_PUBLIC, ClassHelper.OBJECT_TYPE);
+    }
+
+    /** Returns true if the class is a Groovy-generated trait helper (e.g. {@code Foo$Trait$Helper}). */
+    private boolean isTraitHelper(final ClassNode clazz) {
+        return clazz.getName().contains("$Trait$Helper");
+    }
+
+    /** Derives the fully-qualified parent interface name from a {@code $Trait$Helper} class name. */
+    private String traitHelperParentName(final ClassNode helper) {
+        final String name = helper.getName();
+        return name.substring(0, name.lastIndexOf("$Trait$Helper"));
+    }
+
+    /** Returns the simple (unqualified) name of a fully-qualified class name. */
+    private String simpleNameOf(final String fqName) {
+        final int dot = fqName.lastIndexOf('.');
+        return dot >= 0 ? fqName.substring(dot + 1) : fqName;
     }
 
     /**
