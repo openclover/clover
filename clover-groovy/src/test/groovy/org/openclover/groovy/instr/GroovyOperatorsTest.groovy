@@ -56,7 +56,7 @@ class GroovyOperatorsTest extends TestBase {
         assertRegistry db, { Clover2Registry reg ->
             assertPackage reg.model.project, isDefaultPackage, { PackageInfo p ->
                 assertFile p, named("NotInOperator.groovy"), { FullFileInfo f ->
-                    assertClass(f, simplyNamed("NotInOperator"), { FullClassInfo c ->
+                    assertClass(f, named("NotInOperator"), { FullClassInfo c ->
                         assertMethod(c, simplyNamed("test"), { MethodInfo m ->
                             m.statements.size() == 2
                         })
@@ -83,7 +83,7 @@ class GroovyOperatorsTest extends TestBase {
         assertRegistry db, { Clover2Registry reg ->
             assertPackage reg.model.project, isDefaultPackage, { PackageInfo p ->
                 assertFile p, named("NotInstanceOfOperator.groovy"), { FullFileInfo f ->
-                    assertClass(f, simplyNamed("NotInstanceOfOperator"), { FullClassInfo c ->
+                    assertClass(f, named("NotInstanceOfOperator"), { FullClassInfo c ->
                         assertMethod(c, simplyNamed("test"), { MethodInfo m ->
                             m.statements.size() == 2
                         })
@@ -109,7 +109,7 @@ class GroovyOperatorsTest extends TestBase {
         assertRegistry db, { Clover2Registry reg ->
             assertPackage reg.model.project, isDefaultPackage, { PackageInfo p ->
                 assertFile p, named("ElvisAssignmentOperator.groovy"), { FullFileInfo f ->
-                    assertClass(f, simplyNamed("ElvisAssignmentOperator"), { FullClassInfo c ->
+                    assertClass(f, named("ElvisAssignmentOperator"), { FullClassInfo c ->
                         assertMethod(c, simplyNamed("elvisAssignment"), { MethodInfo m ->
                             m.statements.size() == 1
                         })
@@ -138,7 +138,7 @@ class GroovyOperatorsTest extends TestBase {
         assertRegistry db, { Clover2Registry reg ->
             assertPackage reg.model.project, isDefaultPackage, { PackageInfo p ->
                 assertFile p, named("IdentityComparisonOperators.groovy"), { FullFileInfo f ->
-                    assertClass(f, simplyNamed("IdentityComparisonOperators"), { FullClassInfo c ->
+                    assertClass(f, named("IdentityComparisonOperators"), { FullClassInfo c ->
                         assertMethod(c, simplyNamed("test"), { MethodInfo m ->
                             m.statements.size() == 3
                         })
