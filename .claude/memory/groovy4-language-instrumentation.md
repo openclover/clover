@@ -1,13 +1,14 @@
-# OC-192: Groovy 4 Language Instrumentation Plan
+# OC-192: Groovy 4 Language Instrumentation — Implemented
 
 ## Context
 
 Branch: `OC-192-support-groovy-4`
 
 Groovy 4 was already adopted in the test infrastructure (pom.xml uses `org.apache.groovy:groovy:4.0.15`).
-The clover-groovy module already compiles and runs tests against Groovy 4.
-This ticket is about verifying and extending **Clover instrumentation** to correctly handle the new
-language constructs introduced in Groovy 4.
+The clover-groovy module already compiled and ran tests against Groovy 4.
+This ticket verified and extended **Clover instrumentation** to correctly handle new Groovy 4 constructs.
+
+---
 
 ## What Changed in Groovy 4 vs Groovy 3
 
@@ -29,408 +30,128 @@ New AST tooling classes are in `org.apache.groovy.ast.tools.*` but they are not 
 
 **Switch expressions** (`switch(x) { case 1 -> "one" ... }`)
 - Compiled to a `ClosureExpression` wrapping a `SwitchStatement`, immediately `.call()`ed.
-- The `switch` variable is saved to a synthetic `__$$sev0` local before the closure.
+- The `switch` variable is saved to a synthetic `__$$sev0` local inside the closure.
 - Pattern: `{ -> __$$sev0 = x; switch(__$$sev0) { case 1: return "one" ... } }.call()`
-- When no `default` is present, Groovyc **injects a synthetic default that returns null**.
-  That injected default statement has source coordinates `[-1:-1 .. -1:-1]` — no source position.
-- Void switch expression (side-effect cases, e.g. `case 1 -> println("one")`) is valid.
-  It compiles to an `ExpressionStatement` wrapping the closure `.call()`, rather than `ReturnStatement`.
+- When no `default` is present, Groovyc **injects `EmptyStatement.INSTANCE` as the default**.
+  That singleton has source coordinates `[-1:-1 .. -1:-1]` — no source position.
+- Void switch expression (side-effect cases, e.g. `case 1 -> println("one")`) compiles to an
+  `ExpressionStatement` wrapping the closure `.call()`, rather than a `ReturnStatement`.
 
 **Records** (`record Point(int x, int y) { ... }`)
 - Compile to regular `ClassNode` with annotations:
   `@RecordBase`, `@RecordOptions`, `@TupleConstructor`, `@KnownImmutable`, `@POJO`, `@CompileStatic`
-- Auto-generated methods (not `synthetic=true`): `toString`, `equals`, `hashCode`, `getAt`,
+- Auto-generated methods (NOT flagged `synthetic=true`): `toString`, `equals`, `hashCode`, `getAt`,
   `toList`, `toMap`, `size`
-- User-defined methods within the record body are also present.
-- Because these are not flagged `synthetic`, Clover will attempt to instrument them.
-  Their bodies do contain statements (Groovy generates real AST for them), so they will appear in
-  coverage reports. This is acceptable — they are real executable code.
+- Because these are not flagged `synthetic`, Clover instruments them normally.
+  They appear in coverage reports, which is acceptable — they are real executable code.
 
 **Sealed classes/interfaces** (`sealed interface Shape permits Circle, Square`)
 - Compile to `ClassNode` with `@groovy.transform.Sealed` annotation only.
-- No special AST nodes. The `permits` clause is encoded as annotation attributes, not as AST expressions
-  that would be visited by `InstrumentingCodeVisitor`.
-- No instrumentation changes needed; tests verify no crash.
+- No special AST nodes. The `permits` clause is annotation attributes, not visited expressions.
+- No instrumentation changes needed.
 
 **Enhanced range syntax** (`0<..<3`, `3<..5`, `0<..3`)
 - Parses to `RangeExpression` nodes (same class as before, with `exclusiveLeft`/`exclusiveRight` flags).
-- No instrumentation changes needed; tests verify correct handling.
+- No instrumentation changes needed.
 
 **Decimal literals without leading zero** (`.5` equals `0.5`)
 - Parses to `ConstantExpression` as before (value `0.5`).
-- No instrumentation changes needed; tests verify no crash.
+- No instrumentation changes needed.
 
 ### Features NOT in scope (experimental/incubating in Groovy 4)
 - GINQ (Groovy-Integrated Query) — incubating, not enabled by default
 - Macro methods (`SV()`, `SVI()`, etc.) — compiler debugging tools, not user-facing syntax
+
+---
+
+## Instrumentation Fix Implemented
+
+### The Problem
+Switch expressions (and ALL switches) without an explicit `default` use `EmptyStatement.INSTANCE`
+as the default branch. This singleton has coordinates `[-1:-1..-1:-1]`. The old `visitSwitch`
+called `instrumentBlockStatement(EmptyStatement.INSTANCE)`, which fell into the else-branch
+("don't know how to handle it") and returned unchanged — the fallthrough branch was never
+registered in the coverage model.
+
+### The Solution: `MutableEmptyStatement` + `== EmptyStatement.INSTANCE` check
+
+- **New `MutableEmptyStatement` class** (extends `EmptyStatement`) — a type-marker subclass
+  instantiated with synthesized coordinates. Extends rather than replaces `EmptyStatement` so
+  Groovy's own `instanceof EmptyStatement` checks in code generation continue to work. `ASTNode`
+  setters don't throw; no override needed.
+
+- **`InstrumentingCodeVisitor.visitSwitch`** — detects the injected sentinel with
+  `defaultStatement == EmptyStatement.INSTANCE` (reference equality, not `getLineNumber() == -1`).
+  The reference check is precise: `getLineNumber() == -1` would also fire for any future synthetic
+  statement without source info, incorrectly replacing its body with just `R.inc()`. `INSTANCE` is
+  `public static final`, stable across Groovy 2/3/4, and the same object identity in the same JVM
+  as Groovyc. When matched, creates a `MutableEmptyStatement` at synthesized coordinates
+  `(lastLine, lastCol-1, lastLine, lastCol)` — a 1-char span at the closing `}` — and passes it
+  to `instrumentBlockStatement`.
+
+- **`StatementInstrumenter.instrumentBlockStatement`** — new `MutableEmptyStatement` branch
+  (before `TryCatchStatement`): calls `instrumentStmt` to register it in the model, then returns
+  only the `R.inc()` call. No `BlockStatement` wrapper needed — the null-return for switch
+  expressions comes from the enclosing closure falling off the end, not from the default statement.
+
+### Scope: broader than Groovy 4 only
+This fix applies to ALL Groovy versions — traditional `switch` statements without explicit
+`default` also use `EmptyStatement.INSTANCE`. The fix correctly adds coverage tracking for
+those too. `GroovyCoverageTest.testImplicitReturnsArePreserved` was updated:
+- `m.statements.size()` changed from 3 → 4 for both `implicitReturns` and `explicitReturns`
+- Added `assertStatement(m, at(11, 29, 11, 30), hits(0))` and `assertStatement(m, at(20, 29, 20, 30), hits(0))`
+
+---
+
+## Files Changed
+
+```
+clover-groovy/src/main/java/org/openclover/groovy/instr/
+  MutableEmptyStatement.java          ← NEW
+  InstrumentingCodeVisitor.java       ← visitSwitch: == EmptyStatement.INSTANCE check
+  StatementInstrumenter.java          ← instrumentBlockStatement: MutableEmptyStatement branch
+
+clover-groovy/src/test/groovy/org/openclover/groovy/instr/
+  Groovy4CoverageRecordingTest.groovy ← NEW — 9 test methods (@GroovyVersionStart("4.0.0"))
+  TestSuite.groovy                    ← +Groovy4CoverageRecordingTest in TEST_CLASSES_AND_SELECTORS
+  GroovyCoverageTest.groovy           ← testImplicitReturnsArePreserved: updated statement counts
+```
+
+---
+
+## Test Coverage
+
+`Groovy4CoverageRecordingTest` (9 tests, all passing with Groovy 4.0.15):
+
+| Test method | What it verifies |
+|---|---|
+| `testSwitchArrowWithDefaultHitCounts` | Arrow switch with explicit default; classify method hit=3 |
+| `testSwitchArrowNoDefaultNullBranch` | Arrow switch, no default; synthesized default at `at(6,9,6,10)` hit=1 |
+| `testSwitchYieldWithDefaultHitCounts` | Yield switch with explicit default; method hit counts |
+| `testSwitchYieldNoDefaultNullBranch` | Yield switch, no default; synthesized default hit=1 |
+| `testSwitchVoidHitCounts` | Void/side-effect switch; synthesized default at `at(7,9,7,10)` hit=1 |
+| `testRecordGeneratedAndUserMethodHitCounts` | Record: origin() hit=1, no crash on generated methods |
+| `testSealedClassesDoNotCrash` | Sealed interface/class; no crash during instrumentation |
+| `testEnhancedRangeHitCounts` | `<..` and `<..<` ranges; method hit counts |
+| `testDecimalLiteralWithoutLeadingZero` | `.5` and `.25` literals; method hit counts |
+
+Run command:
+```
+mvn test -pl clover-groovy -Dtest="Groovy4CoverageRecordingTest" -Dclover.test.groovyversion.includes=4.0
+```
+
+---
 
 ## Backward Compatibility Strategy (Groovy 2 runtime)
 
 Pattern established in OC-121 for `LambdaExpression` and `MethodReferenceExpression`:
 - Do NOT `import` Groovy 4-only classes directly
 - Use `Class.forName(...)` with `catch (ClassNotFoundException ignored)` in a static initializer
-- Store in a `static final Class<?>` field
-- Check with `FIELDNAME != null && FIELDNAME.isInstance(expr)` before casting
 
-As of Groovy 4, no new AST expression/statement classes were introduced, so **no new Class.forName
-workarounds are needed for Groovy 4 specifically**. This remains a concern if a future version adds new nodes.
-
-## Scope: clover-groovy Module Only
-
-All changes are expected to stay within `clover-groovy/`:
-- `src/main/java/org/openclover/groovy/instr/` — instrumentation logic
-- `src/test/groovy/org/openclover/groovy/instr/` — integration tests
-- No changes expected in clover-core, clover-ant, or other modules.
-
-## Implementation Tasks
-
-### 1. Code Samples for Each Feature
-
-Each snippet is used twice in tests: once plain, once with `@groovy.transform.CompileStatic`
-on the class/method under test (see "Test Structure" below).
+**Not needed for Groovy 4** — no new AST expression/statement classes were introduced.
+`MutableEmptyStatement` extends a class present since Groovy 1.x and is safe on all versions.
 
 ---
-
-**Switch expression — arrow form with default** (value-returning)
-```groovy
-class SwitchArrow {
-    static String classify(int n) {
-        return switch (n) {
-            case 1 -> "one"
-            case 2 -> "two"
-            default -> "other"
-        }
-    }
-    static void main(String[] args) {
-        assert classify(1) == "one"
-        assert classify(2) == "two"
-        assert classify(99) == "other"
-    }
-}
-```
-Expected (call sequence: `classify(1)`, `classify(2)`, `classify(99)`):
-- closure wrapper: hit=3
-- case-1 body: hit=1
-- case-2 body: hit=1
-- default body: hit=1
-- synthetic null-branch (injected default when user writes `default ->`): not present (Groovyc does
-  not inject it when `default` is written)
-
----
-
-**Switch expression — arrow form without default** (value-returning, null fallthrough)
-```groovy
-class SwitchArrowNoDefault {
-    static String classify(int n) {
-        return switch (n) {
-            case 1 -> "one"
-            case 2 -> "two"
-        }
-    }
-    static void main(String[] args) {
-        assert classify(1) == "one"
-        assert classify(99) == null
-    }
-}
-```
-Expected (call sequence: `classify(1)`, `classify(99)`):
-- closure wrapper: hit=2
-- case-1 body: hit=1
-- case-2 body: hit=0
-- Groovyc-injected default (returns null): hit=1, but **source coordinates are `[-1:-1..-1:-1]`**.
-
-Instrumentation: The injected default has no source position. **Decision: synthesize a 1-character
-region at the closing `}` of the enclosing `SwitchStatement`.**
-
-Concretely, inside `InstrumentingCodeVisitor.visitSwitch(SwitchStatement statement)` we already have
-both the parent `SwitchStatement` (with valid coordinates) and the default `Statement` (with -1,-1)
-at the same time. When `statement.getDefaultStatement().getLineNumber() == -1`, before calling
-`statementInstrumenter.instrumentBlockStatement(...)`, patch or wrap the default statement with a
-synthesized source region:
-
-```
-synthesizedLine   = statement.getLastLineNumber()
-synthesizedCol    = statement.getLastColumnNumber() - 1   // the '}' character (1-indexed)
-synthesizedEndCol = statement.getLastColumnNumber()        // exclusive end, one past '}'
-```
-
-AST inspection confirms: `SwitchStatement` for a 7-line class has coordinates `[4:16 .. 7:10]`,
-so `lastColumnNumber=10` and the `}` sits at column 9. The synthesized region is `[7:9 .. 7:10]`,
-a single character.
-
-The `EmptyStatement` singleton (`EmptyStatement$1`) cannot have its coordinates mutated (it's shared).
-Instead, pass the synthesized region directly to whatever overload of `StatementInstrumenter` records
-the statement — or wrap the empty statement in a new `BlockStatement` with those coordinates before
-handing it to `instrumentBlockStatement`.
-
----
-
-**Switch expression — yield form with default**
-```groovy
-class SwitchYield {
-    static String classify(int n) {
-        return switch (n) {
-            case 1: yield "one"
-            case 2: yield "two"
-            default: yield "other"
-        }
-    }
-    static void main(String[] args) {
-        assert classify(1) == "one"
-        assert classify(99) == "other"
-    }
-}
-```
-Expected (call sequence: `classify(1)`, `classify(99)`):
-- closure wrapper: hit=2
-- case-1 body: hit=1 (case-2: hit=0, default: hit=1)
-- Groovyc does NOT inject a synthetic null-branch when `default` is present
-
----
-
-**Switch expression — yield form without default** (null fallthrough)
-```groovy
-class SwitchYieldNoDefault {
-    static String classify(int n) {
-        return switch (n) {
-            case 1: yield "one"
-            case 2: yield "two"
-        }
-    }
-    static void main(String[] args) {
-        assert classify(1) == "one"
-        assert classify(99) == null
-    }
-}
-```
-Expected: same null-branch consideration as arrow-no-default.
-
----
-
-**Switch expression — void (side-effect cases)**
-```groovy
-class SwitchVoid {
-    static List<String> log = []
-    static void classify(int n) {
-        switch (n) {
-            case 1 -> log.add("one")
-            case 2 -> log.add("two")
-        }
-    }
-    static void main(String[] args) {
-        classify(1)
-        classify(99)
-        assert log == ["one"]
-    }
-}
-```
-Note: void switch compiles to `ExpressionStatement` (not `ReturnStatement`) wrapping the closure call.
-The instrumentation path differs slightly from the value-returning form; verify both paths are covered.
-Expected:
-- closure wrapper: hit=2
-- case-1 body: hit=1
-- case-2 body: hit=0
-- injected null-default: hit=1 (same -1,-1 source position issue)
-
----
-
-**Record — generated and user-defined methods**
-```groovy
-record Point(int x, int y) {
-    static Point origin() { new Point(0, 0) }
-    static void main(String[] args) {
-        def p = new Point(3, 4)
-        assert p.x() == 3
-        assert p.y() == 4
-        assert p.toString() != null
-        def o = origin()
-        assert o.x() == 0
-    }
-}
-```
-Expected:
-- `origin()` method: 1 statement (`new Point(0,0)`), hit=1
-- `toString()` (generated): appears in coverage model; body has ≥1 statement; hit=1 because `main` calls `p.toString()`
-- `hashCode()` (generated): appears in coverage model; hit=0 (not called in main)
-- `equals()` (generated): appears in coverage model; hit=0 (not called in main)
-- Constructor (via `TupleConstructor`): may or may not appear depending on how Clover handles
-  `@TupleConstructor`-generated constructors; verify no crash
-
----
-
-**Sealed interface — basic verification**
-```groovy
-sealed interface Shape permits Circle, Square {}
-final class Circle implements Shape {
-    final float radius
-    Circle(float r) { this.radius = r }
-}
-final class Square implements Shape {
-    final float side
-    Square(float s) { this.side = s }
-}
-class SealedTest {
-    static String name(Shape s) {
-        if (s instanceof Circle) return "circle"
-        if (s instanceof Square) return "square"
-        return "unknown"
-    }
-    static void main(String[] args) {
-        assert name(new Circle(1.0f)) == "circle"
-        assert name(new Square(1.0f)) == "square"
-    }
-}
-```
-No special expected hit-count structure; test primarily verifies no crash during instrumentation and
-that regular method/branch counts are recorded correctly.
-
----
-
-**Enhanced range syntax**
-```groovy
-class RangeTest {
-    static List<Integer> leftOpen(int from, int to) {
-        return (from<..to).toList()
-    }
-    static List<Integer> bothOpen(int from, int to) {
-        return (from<..<to).toList()
-    }
-    static void main(String[] args) {
-        assert leftOpen(0, 3) == [1, 2, 3]
-        assert bothOpen(0, 3) == [1, 2]
-    }
-}
-```
-Expected: methods `leftOpen` and `bothOpen` each have 1 statement, hit=1.
-
----
-
-**Decimal literal without leading zero**
-```groovy
-class DecimalLiteralTest {
-    static double half() { .5 }
-    static double quarter() { .25 }
-    static void main(String[] args) {
-        assert half() == 0.5
-        assert quarter() == 0.25
-    }
-}
-```
-Expected: each method has 1 statement, hit=1.
-
----
-
-### 2. Test Class Structure
-
-```groovy
-package org.openclover.groovy.instr
-
-import groovy.transform.CompileStatic
-import org.openclover.buildutil.test.junit.GroovyVersionStart
-import org.openclover.core.CloverDatabase
-import org.openclover.core.CodeType
-import org.openclover.core.CoverageDataSpec
-import org.openclover.core.api.registry.MethodInfo
-import org.openclover.core.api.registry.PackageInfo
-import org.openclover.core.api.registry.StatementInfo
-import org.openclover.core.registry.entities.FullClassInfo
-import org.openclover.core.registry.entities.FullFileInfo
-
-@CompileStatic
-class Groovy4CoverageRecordingTest extends TestBase {
-
-    Groovy4CoverageRecordingTest(String testName) { super(testName) }
-    Groovy4CoverageRecordingTest(String methodName, String specificName,
-                                  File groovyAllJar, List<File> additionalGroovyJars) {
-        super(methodName, specificName, groovyAllJar, additionalGroovyJars)
-    }
-
-    // Each test method below is exercised twice by the TestSuite:
-    //   once with plain Groovy source, once with @CompileStatic added to the tested class.
-
-    @GroovyVersionStart("4.0.0")
-    void testSwitchArrowWithDefaultHitCounts() { ... }
-
-    @GroovyVersionStart("4.0.0")
-    void testSwitchArrowNoDefaultNullBranch() { ... }
-
-    @GroovyVersionStart("4.0.0")
-    void testSwitchYieldWithDefaultHitCounts() { ... }
-
-    @GroovyVersionStart("4.0.0")
-    void testSwitchYieldNoDefaultNullBranch() { ... }
-
-    @GroovyVersionStart("4.0.0")
-    void testSwitchVoidHitCounts() { ... }
-
-    @GroovyVersionStart("4.0.0")
-    void testRecordGeneratedAndUserMethodHitCounts() { ... }
-
-    @GroovyVersionStart("4.0.0")
-    void testSealedClassesDoNotCrash() { ... }
-
-    @GroovyVersionStart("4.0.0")
-    void testEnhancedRangeHitCounts() { ... }
-
-    @GroovyVersionStart("4.0.0")
-    void testDecimalLiteralWithoutLeadingZero() { ... }
-}
-```
-
-**Running each test with and without `@CompileStatic`**: look at how `Groovy3CoverageRecordingTest`
-achieves this via the `TestSuite` and the constructor that accepts `specificName`. The suite likely
-calls each test method twice with different `groovyAllJar` / configuration. Replicate that pattern.
-
-### 3. Register in TestSuite
-
-Find `TestSuite.groovy` (or `.java`) in `clover-groovy/src/test/groovy/org/openclover/groovy/instr/`
-and add `Groovy4CoverageRecordingTest` the same way `Groovy3CoverageRecordingTest` was added.
-
-### 4. Potential Instrumentation Issues to Investigate
-
-**Issue A: Injected default branch with `[-1:-1..-1:-1]` source position**
-Switch expressions without an explicit `default` have a Groovyc-injected `EmptyStatement` singleton
-with coordinates `[-1:-1..-1:-1]`. Fix: inside `InstrumentingCodeVisitor.visitSwitch()`, detect
-`getDefaultStatement().getLineNumber() == -1` and synthesize a 1-character region at the closing `}`
-of the `SwitchStatement` using `(lastLineNumber, lastColumnNumber-1) .. (lastLineNumber, lastColumnNumber)`.
-Because `EmptyStatement$1` is a singleton and immutable, create a wrapper (e.g. a new `BlockStatement`
-or pass the synthesized coordinates directly to the recording call) rather than mutating it.
-
-**Issue B: Record auto-generated methods with `@CompileStatic`**
-Records automatically get `@CompileStatic` on all generated methods. Their bodies run through the
-CompileStatic instrumentation path. Check for NPE in `CloverAstTransformerInstructionSelection`
-when processing generated method bodies that may have unusual AST shapes.
-
-**Issue C: Switch expression variable scope balance**
-The compiler introduces a synthetic `__$$sev0` local. Verify that `pushVariableScope` /
-`popVariableScope` calls in `InstrumentingCodeVisitor` remain balanced when visiting the wrapping closure.
-
-**Issue D: Sealed class `@Sealed` annotation on interfaces**
-Verify that the `visitAnnotations()` no-op override in `InstrumentingCodeVisitor` correctly suppresses
-visiting annotation attribute expressions (the `permits` class list is stored there).
-
-### 5. Key Files to Read Before Starting
-
-```
-clover-groovy/src/main/java/org/openclover/groovy/instr/InstrumentingCodeVisitor.java
-clover-groovy/src/main/java/org/openclover/groovy/instr/OperatorsInstrumenter.java
-clover-groovy/src/main/java/org/openclover/groovy/instr/StatementInstrumenter.java
-clover-groovy/src/main/java/org/openclover/groovy/instr/CloverAstTransformerInstructionSelection.java
-clover-groovy/src/main/java/org/openclover/groovy/instr/GroovyUtils.java
-clover-groovy/src/test/groovy/org/openclover/groovy/instr/Groovy3CoverageRecordingTest.groovy
-clover-groovy/src/test/groovy/org/openclover/groovy/instr/TestBase.groovy
-```
-
-### 6. Key Design Decisions
-
-- No new AST node classes in Groovy 4 — no new visitor methods needed in `InstrumentingCodeVisitor`.
-- Switch expressions desugar to closures wrapping `SwitchStatement`; instrumentation flows through
-  existing closure and switch paths.
-- Record-generated methods are instrumented like any other method; they appear in coverage reports.
-  No exclusion mechanism is planned (impossible to distinguish user-overridden vs generated when both
-  share the same name and class annotation).
-- The Groovy 2 Class.forName compatibility strategy is **not needed** for Groovy 4 features.
-- Focus: write tests, run them, fix whatever breaks.
 
 ## Reference Commits
 
