@@ -378,18 +378,20 @@ class GroovyCoverageTest extends TestBase {
                         assertClass f, named("Foo"), { FullClassInfo c ->
                             assertMethod(c, simplyNamed("implicitReturns"), { MethodInfo m ->
                                 m.hitCount == 2 &&
-                                        m.statements.size() == 3 &&
+                                        m.statements.size() == 4 &&
                                         assertStatement(m, at(4, 29, 11, 30), hits(2)) &&    // entire switch block
                                         assertStatement(m, at(6, 37, 6, 52), hits(1)) &&     // new Integer(10)
-                                        assertStatement(m, at(9, 37, 9, 54), hits(1))        // new String("abc")
+                                        assertStatement(m, at(9, 37, 9, 54), hits(1)) &&     // new String("abc")
+                                        assertStatement(m, at(11, 29, 11, 30), hits(0))      // synthesized default (no explicit default → injected EmptyStatement)
                             }) &&
 
                                     assertMethod(c, simplyNamed("explicitReturns"), { MethodInfo m ->
                                         m.hitCount == 2 &&
-                                                m.statements.size() == 3 &&
+                                                m.statements.size() == 4 &&
                                                 assertStatement(m, at(15, 29, 20, 30), hits(2)) &&     // entire switch block
                                                 assertStatement(m, at(17, 37, 17, 59), hits(1)) &&     // case true, return new Integer(10)
-                                                assertStatement(m, at(19, 37, 19, 61), hits(1))        // case false, return new String("abc")
+                                                assertStatement(m, at(19, 37, 19, 61), hits(1)) &&     // case false, return new String("abc")
+                                                assertStatement(m, at(20, 29, 20, 30), hits(0))        // synthesized default (no explicit default → injected EmptyStatement)
                                     })
                         }
                     }
