@@ -84,12 +84,20 @@ public abstract class CloverAstTransformerBase implements ASTTransformation {
         return config;
     }
 
+    /**
+     * Generate call to recorder getter method:
+     * RECORDER_CLASS.$CLV_R$()
+     */
     public static Expression newRecorderExpression(ClassNode classRef, int row, int column) {
         return setSourcePosition(new StaticMethodCallExpression(classRef, recorderGetterName,
                 setSourcePosition(new ArgumentListExpression(), row, column)
         ), row, column);
     }
 
+    /**
+     * Generate call to inc method on recorder for regular statements:
+     * RECORDER_CLASS.$CLV_R$().inc(m.getDataIndex())
+     */
     public static Statement recorderInc(final ClassNode clazz, final FullElementInfo m, final ASTNode originalNode) {
         int column = originalNode.getColumnNumber();
         int row = originalNode.getLineNumber();

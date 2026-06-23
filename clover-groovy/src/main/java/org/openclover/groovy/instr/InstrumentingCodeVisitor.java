@@ -28,6 +28,7 @@ import org.codehaus.groovy.ast.stmt.AssertStatement;
 import org.codehaus.groovy.ast.stmt.BlockStatement;
 import org.codehaus.groovy.ast.stmt.CaseStatement;
 import org.codehaus.groovy.ast.stmt.CatchStatement;
+import org.codehaus.groovy.ast.stmt.DoWhileStatement;
 import org.codehaus.groovy.ast.stmt.ExpressionStatement;
 import org.codehaus.groovy.ast.stmt.ForStatement;
 import org.codehaus.groovy.ast.stmt.IfStatement;
@@ -69,12 +70,17 @@ import static org.openclover.groovy.instr.CloverAstTransformerBase.getSourceUnit
 import static org.openclover.groovy.instr.CloverAstTransformerBase.recorderInc;
 
 /**
- * Note: do...while is not implemented in Groovy so DoWhileStatements are ignored
+ * Note: do...while is available in Groovy 3+; handled by visitDoWhileLoop() below
  */
 public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
     private static final Logger LOG = Logger.getInstance();
     private static final Field CLOSURE_CODE_FIELD;
     private static final ContextSet EMPTY_CONTEXT = new ContextSetImpl();
+
+    // LambdaExpression and MethodReferenceExpression were introduced in Groovy 3.
+    // Load them lazily to avoid NoClassDefFoundError when running under Groovy 2.x.
+    private static final Class<?> GROOVY3_LAMBDA_EXPRESSION_CLASS;
+    private static final Class<?> GROOVY3_METHOD_REFERENCE_CLASS;
 
     static {
         Field closureField;
@@ -85,6 +91,13 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
             closureField = null;
         }
         CLOSURE_CODE_FIELD = closureField;
+
+        Class<?> lambdaClass = null;
+        Class<?> methodRefClass = null;
+        try { lambdaClass = Class.forName("org.codehaus.groovy.ast.expr.LambdaExpression"); } catch (ClassNotFoundException ignored) { }
+        try { methodRefClass = Class.forName("org.codehaus.groovy.ast.expr.MethodReferenceExpression"); } catch (ClassNotFoundException ignored) { }
+        GROOVY3_LAMBDA_EXPRESSION_CLASS = lambdaClass;
+        GROOVY3_METHOD_REFERENCE_CLASS = methodRefClass;
     }
 
     private final InstrumentationConfig config;
@@ -94,12 +107,16 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
     private final TestDetector.SourceContext testSourceContext;
     private final boolean testClass;
     private final ClassNode classRef;
+    /** Optional override for the class name reported to the session (used for $Trait$Helper classes). */
+    private final String classNameOverride;
 
     private LinkedList<ClassNode> classUnderObservation = newLinkedList();
     private LinkedList<VariableScope> variableScopes = newLinkedList();
     private boolean elvisExprUsed;
     private boolean fieldExprUsed;
     private boolean safeExprUsed;
+    private boolean lambdaExprUsed;
+    private boolean methodReferenceUsed;
     private boolean testResultsRecorded;
 
     private final BranchInstrumenter branchInstrumenter;
@@ -115,6 +132,18 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
             TestDetector.SourceContext testSourceContext,
             boolean testClass,
             ClassNode classRef) {
+        this(config, session, registry, sourceUnit, testSourceContext, testClass, classRef, null);
+    }
+
+    public InstrumentingCodeVisitor(
+            InstrumentationConfig config,
+            InstrumentationSession session,
+            Clover2Registry registry,
+            SourceUnit sourceUnit,
+            TestDetector.SourceContext testSourceContext,
+            boolean testClass,
+            ClassNode classRef,
+            String classNameOverride) {
 
         this.config = config;
         this.session = session;
@@ -123,6 +152,7 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
         this.testSourceContext = testSourceContext;
         this.testClass = testClass;
         this.classRef = classRef;
+        this.classNameOverride = classNameOverride;
         this.branchInstrumenter = new BranchInstrumenter(session, classRef);
         this.statementInstrumenter = new StatementInstrumenter(session, classRef, config.isStatementInstrEnabled());
         this.methodInstrumenter = new MethodInstrumenter(classRef, config.isRecordTestResults(),
@@ -144,6 +174,14 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
 
     public boolean isTestResultsRecorded() {
         return testResultsRecorded;
+    }
+
+    public boolean isLambdaExprUsed() {
+        return lambdaExprUsed;
+    }
+
+    public boolean isMethodReferenceUsed() {
+        return methodReferenceUsed;
     }
 
     public Map<String, MethodNode> getSafeEvalMethods() {
@@ -183,12 +221,13 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
         return currentMethod != null ? currentMethod.getContext() : EMPTY_CONTEXT;
     }
 
-    ///CLOVER:OFF
+    /// CLOVER:OFF
     @Override
     protected SourceUnit getSourceUnit() {
         return sourceUnit;
     }
-    ///CLOVER:ON
+
+    /// CLOVER:ON
 
     private String scriptClassNameForFileName(String fileName) {
         return "script@" + fileName.replaceAll("\\s", "_");
@@ -202,10 +241,13 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
     @Override
     public void visitClass(ClassNode clazz) {
         pushClass(clazz);
+        final String className = classNameOverride != null
+                ? classNameOverride
+                : (GroovyUtils.isScriptClass(clazz)
+                   ? scriptClassNameForFileName(getSourceUnitFile(sourceUnit).getName())
+                   : clazz.getNameWithoutPackage());
         session.enterClass(
-                GroovyUtils.isScriptClass(clazz) ?
-                        scriptClassNameForFileName(getSourceUnitFile(sourceUnit).getName())
-                        : clazz.getNameWithoutPackage(),
+                className,
                 GroovyUtils.newRegionFor(clazz, true),
                 GroovyModelMiner.extractModifiers(clazz),
                 clazz.isInterface(), clazz.isDerivedFrom(ClassHelper.Enum_Type), clazz.isAnnotationDefinition());
@@ -226,9 +268,9 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
             boolean isScriptRun = GroovyUtils.isScriptClass(method.getDeclaringClass()) && "run".equals(method.getName());
 
             final FixedSourceRegion srcRegion =
-                isScriptRun
-                    ? GroovyUtils.newRegionFor(method.getDeclaringClass())
-                    : GroovyUtils.newRegionFor(method);
+                    isScriptRun
+                            ? GroovyUtils.newRegionFor(method.getDeclaringClass())
+                            : GroovyUtils.newRegionFor(method);
 
             final Statement methodEntry;
             //A null srcRegion indicates a synthetic method possibly for implementing default arguments
@@ -238,8 +280,8 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
                 final MethodSignature signature = GroovyModelMiner.extractMethodSignature(method, annotationClassNodes);
                 final boolean isLambda = false;
                 final boolean isTestMethod =
-                    testClass
-                        && config.getTestDetector().isMethodMatch(testSourceContext, JavaMethodContext.createFor(signature));
+                        testClass
+                                && config.getTestDetector().isMethodMatch(testSourceContext, JavaMethodContext.createFor(signature));
 
                 // register method in the model ...
                 final FullMethodInfo methodInfo = (FullMethodInfo) session.enterMethod(EMPTY_CONTEXT, srcRegion, signature,
@@ -283,7 +325,10 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
 
     public boolean isInstrumentable(ClassNode clazz) {
         // TODO: CLOV-1960 instrument traits
-        return !clazz.isAnnotationDefinition() && !clazz.isInterface();
+        // Interfaces are allowed so that default methods (via $Trait$Helper) and Java-style
+        // default interface methods (companion class path) can be registered in the model.
+        // Abstract interface method declarations are already filtered by isInstrumentable(MethodNode).
+        return !clazz.isAnnotationDefinition();
     }
 
     private boolean isInstrumentable(MethodNode method) {
@@ -328,7 +373,7 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
                 safeExprUsed |= ret.second;
             }
         } else if (transformed instanceof PropertyExpression) {
-            final PropertyExpression propertyExpression = (PropertyExpression)transformed;
+            final PropertyExpression propertyExpression = (PropertyExpression) transformed;
             if (propertyExpression.isSafe()) {
                 final Pair<PropertyExpression, Boolean> ret = operatorsInstrumenter.transformSafeProperty(
                         propertyExpression, getCurrentClassNode(), currentMethodContext());
@@ -358,6 +403,21 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
                     field.setInitialValueExpression(transform(field.getInitialValueExpression()));
                 }
             }
+
+        } else if (GROOVY3_LAMBDA_EXPRESSION_CLASS != null && GROOVY3_LAMBDA_EXPRESSION_CLASS.isInstance(transformed)) {
+            // LambdaExpression extends ClosureExpression; body is already instrumented via visitClosureExpression().
+            // Intercept here only to prevent it from falling through to the ClosureExpression branch (double-instr).
+            final ClosureExpression lambdaExpression = (ClosureExpression) transformed;
+            final Pair<ClosureExpression, Boolean> ret = operatorsInstrumenter.transformLambda(
+                    lambdaExpression, getCurrentClassNode(), currentMethodContext());
+            transformed = ret.first;
+            lambdaExprUsed |= ret.second;
+
+        } else if (GROOVY3_METHOD_REFERENCE_CLASS != null && GROOVY3_METHOD_REFERENCE_CLASS.isInstance(transformed)) {
+            final Pair<Expression, Boolean> ret = operatorsInstrumenter.transformMethodReference(
+                    transformed, getCurrentClassNode(), currentMethodContext());
+            transformed = ret.first;
+            methodReferenceUsed |= ret.second;
         } else if (transformed instanceof EmptyExpression) {
             // EmptyExpression.INSTANCE is immutable, we can't even modify source position
             // TODO inject our own MutableEmptyExpression
@@ -408,10 +468,10 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
 
     /**
      * Look for Grails' @Transactional synthetic methods. They:
-     *  - are named like "$tt__methodName"
-     *  - have (-1, -1, -1, -1) source region for the MethodNode
-     *  - have an extra TransactionStatus argument in their signature (last position)
-     *  - contain code of the original method
+     * - are named like "$tt__methodName"
+     * - have (-1, -1, -1, -1) source region for the MethodNode
+     * - have an extra TransactionStatus argument in their signature (last position)
+     * - contain code of the original method
      *
      * @param method a method for which we look for synthehic methods
      */
@@ -431,7 +491,8 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
     /**
      * Syntetic methods for methods having default values for their arguments shall contain a subset
      * of original arguments.
-     * @param parameters original method
+     *
+     * @param parameters     original method
      * @param likeParameters potential synthetic method
      * @return true if they "match"
      */
@@ -442,7 +503,7 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
             final Parameter parameter = parameters[i];
             final Parameter likeParameter = likeParameters[i];
             if (!parameter.getName().equals(likeParameter.getName())
-                || !parameter.getType().equals(likeParameter.getType())) {
+                    || !parameter.getType().equals(likeParameter.getType())) {
                 return false;
             }
         }
@@ -453,8 +514,9 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
     /**
      * Synthetic methods produced by @Transactional annotations have the org.springframework.transaction.TransactionStatus
      * as the first argument, followed by arguments of the original method
+     *
      * @param originalParameters list of parameters of the original method
-     * @param likeParameters list of parameters of the similar method, possibly synthetic
+     * @param likeParameters     list of parameters of the similar method, possibly synthetic
      * @return true if they "match"
      */
     private boolean sharesTransactionAndParameters(Parameter[] originalParameters, Parameter[] likeParameters) {
@@ -500,18 +562,18 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
                 field.getInitialValueExpression().visit(this);
 
                 final StaticMethodCallExpression exprEvalCall =
-                    new StaticMethodCallExpression(
-                        classRef,
-                        CloverNames.namespace("exprEval"),
-                        new ArgumentListExpression(
-                            transform(field.getInitialValueExpression()),
-                            new ConstantExpression(methodInfo.getDataIndex())));
+                        new StaticMethodCallExpression(
+                                classRef,
+                                CloverNames.namespace("exprEval"),
+                                new ArgumentListExpression(
+                                        transform(field.getInitialValueExpression()),
+                                        new ConstantExpression(methodInfo.getDataIndex())));
 
 
                 field.setInitialValueExpression(
-                    field.isDynamicTyped()
-                        ? exprEvalCall
-                        : new CastExpression(field.getType(), exprEvalCall));
+                        field.isDynamicTyped()
+                                ? exprEvalCall
+                                : new CastExpression(field.getType(), exprEvalCall));
 
                 session.exitMethod(srcRegion.getEndLine(), srcRegion.getEndColumn());
 
@@ -578,7 +640,7 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
     public void visitForLoop(ForStatement forLoop) {
         pushVariableScope(forLoop.getVariableScope());
         if (forLoop.getCollectionExpression() instanceof ClosureListExpression
-            && ((ClosureListExpression)forLoop.getCollectionExpression()).getExpressions().size() >= 3) {
+                && ((ClosureListExpression) forLoop.getCollectionExpression()).getExpressions().size() >= 3) {
             final ClosureListExpression closureList = (ClosureListExpression) forLoop.getCollectionExpression();
 
             //Middle expression is the conditional expression
@@ -637,6 +699,18 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
     }
 
     @Override
+    public void visitDoWhileLoop(final DoWhileStatement loop) {
+        loop.getLoopBlock().visit(this);
+        loop.setLoopBlock(statementInstrumenter.instrumentBlockStatementOrExpressionStatement(getCurrentVariableScope(), loop.getLoopBlock()));
+        loop.getBooleanExpression().visit(this);
+        loop.setBooleanExpression(branchInstrumenter.transformBranch(
+                ClassInstumenter.countExpressionRegion(loop.getBooleanExpression()),
+                loop.getBooleanExpression(),
+                currentMethodContext())
+        );
+    }
+
+    @Override
     public void visitExpressionStatement(ExpressionStatement es) {
         es.getExpression().visit(this);
         es.setExpression(transform(es.getExpression()));
@@ -650,6 +724,22 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
 
     @Override
     public void visitTryCatchFinally(TryCatchStatement statement) {
+        // Groovy 3+: visit resource expressions so sub-expressions (closures, lambdas) are instrumented,
+        // but do NOT register resources as statements in the model.
+        // Resources cannot have R().inc() injected before them without breaking the try-with-resources
+        // semantics (only variable declarations/references are allowed in that position).
+        // Registering them without injection would produce permanently-uncovered entries in the model,
+        // preventing users from ever reaching 100% coverage.
+        // TODO: introduce a NON_INSTRUMENTABLE statement state (alongside COVERED / NOT_COVERED)
+        try {
+            for (ExpressionStatement resource : statement.getResourceStatements()) {
+                resource.getExpression().visit(this);
+                resource.setExpression(transform(resource.getExpression()));
+            }
+        } catch (NoSuchMethodError e) {
+            // Groovy < 3: TryCatchStatement has no getResourceStatements()
+        }
+
         statement.getTryStatement().visit(this);
         statement.setTryStatement(statementInstrumenter.instrumentBlockStatement(statement.getTryStatement()));
 
@@ -667,7 +757,13 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
     public void visitClosureExpression(ClosureExpression expression) {
         pushVariableScope(expression.getVariableScope());
         expression.getCode().visit(this);
-        setClosureCode(expression, statementInstrumenter.instrumentBlockStatement(expression.getCode()));
+        Statement code = expression.getCode();
+        // Expression-body lambdas (e.g. "(Integer n) -> n > 0") have a ReturnStatement as their code
+        // rather than a BlockStatement. Wrap it so instrumentBlockStatement can count it as a statement.
+        if (!(code instanceof BlockStatement)) {
+            code = new BlockStatement(new Statement[]{code}, new VariableScope());
+        }
+        setClosureCode(expression, statementInstrumenter.instrumentBlockStatement(code));
         popVariableScope(expression.getVariableScope());
     }
 
