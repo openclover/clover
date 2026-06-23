@@ -68,10 +68,10 @@ class Groovy4CoverageRecordingTest extends TestBase {
                     assertFile p, named("SwitchArrow.groovy"), { FullFileInfo f ->
                         assertClass f, named("SwitchArrow"), { FullClassInfo c ->
                             assertMethod(c, simplyNamed("classify"), { MethodInfo m ->
-                                m.hitCount == 3
-                            }) &&
-                            assertMethod(c, simplyNamed("main"), { MethodInfo m ->
-                                m.hitCount == 1
+                                m.hitCount == 3 &&
+                                assertStatement(m, at(4, 23, 4, 28), hits(1)) &&
+                                assertStatement(m, at(5, 23, 5, 28), hits(1)) &&
+                                assertStatement(m, at(6, 24, 6, 31), hits(1))
                             })
                         }
                     }
@@ -114,6 +114,8 @@ class Groovy4CoverageRecordingTest extends TestBase {
                                 // classify called twice; the synthesized default (injected null branch)
                                 // appears at the closing '}' of the switch (line 6, col 9..10) with hit=1
                                 m.hitCount == 2 &&
+                                assertStatement(m, at(4, 23, 4, 28), hits(1)) &&
+                                assertStatement(m, at(5, 23, 5, 28), hits(0)) &&
                                 assertStatement(m, at(6, 9, 6, 10), hits(1))
                             })
                         }
@@ -148,10 +150,10 @@ class Groovy4CoverageRecordingTest extends TestBase {
                     assertFile p, named("SwitchYield.groovy"), { FullFileInfo f ->
                         assertClass f, named("SwitchYield"), { FullClassInfo c ->
                             assertMethod(c, simplyNamed("classify"), { MethodInfo m ->
-                                m.hitCount == 2
-                            }) &&
-                            assertMethod(c, simplyNamed("main"), { MethodInfo m ->
-                                m.hitCount == 1
+                                m.hitCount == 2 &&
+                                assertStatement(m, at(4, 21, 4, 32), hits(1)) &&
+                                assertStatement(m, at(5, 21, 5, 32), hits(0)) &&
+                                assertStatement(m, at(6, 22, 6, 35), hits(1))
                             })
                         }
                     }
@@ -188,6 +190,8 @@ class Groovy4CoverageRecordingTest extends TestBase {
                         assertClass f, named("SwitchYieldNoDefault"), { FullClassInfo c ->
                             assertMethod(c, simplyNamed("classify"), { MethodInfo m ->
                                 m.hitCount == 2 &&
+                                assertStatement(m, at(4, 21, 4, 32), hits(1)) &&
+                                assertStatement(m, at(5, 21, 5, 32), hits(0)) &&
                                 assertStatement(m, at(6, 9, 6, 10), hits(1))
                             })
                         }
@@ -232,6 +236,8 @@ class Groovy4CoverageRecordingTest extends TestBase {
                                 // classify called twice; injected default is at closing '}' of switch
                                 // (line 7 in the source, col 9..10)
                                 m.hitCount == 2 &&
+                                assertStatement(m, at(5, 23, 5, 37), hits(1)) &&
+                                assertStatement(m, at(6, 23, 6, 37), hits(0)) &&
                                 assertStatement(m, at(7, 9, 7, 10), hits(1))
                             })
                         }
@@ -269,10 +275,8 @@ class Groovy4CoverageRecordingTest extends TestBase {
                     assertFile p, named("Point.groovy"), { FullFileInfo f ->
                         assertClass f, named("Point"), { FullClassInfo c ->
                             assertMethod(c, simplyNamed("origin"), { MethodInfo m ->
-                                m.hitCount == 1
-                            }) &&
-                            assertMethod(c, simplyNamed("main"), { MethodInfo m ->
-                                m.hitCount == 1
+                                m.hitCount == 1 &&
+                                assertStatement(m, at(2, 29, 2, 44), hits(1))
                             })
                         }
                     }
@@ -341,10 +345,12 @@ class SealedTest {
                     assertFile p, named("RangeTest.groovy"), { FullFileInfo f ->
                         assertClass f, named("RangeTest"), { FullClassInfo c ->
                             assertMethod(c, simplyNamed("leftOpen"), { MethodInfo m ->
-                                m.hitCount == 1
+                                m.hitCount == 1 &&
+                                assertStatement(m, at(3, 9, 3, 36), hits(1))
                             }) &&
                             assertMethod(c, simplyNamed("bothOpen"), { MethodInfo m ->
-                                m.hitCount == 1
+                                m.hitCount == 1 &&
+                                assertStatement(m, at(6, 9, 6, 37), hits(1))
                             })
                         }
                     }
