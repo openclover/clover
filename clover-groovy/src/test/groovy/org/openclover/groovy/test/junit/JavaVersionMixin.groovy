@@ -16,7 +16,8 @@ trait JavaVersionMixin {
         Map<String, Pair<String, String>> GROOVY_TO_JAVA_VERSIONS = [
                 "2.": Pair.of(JAVA_8, JAVA_8),
                 "3.": Pair.of(JAVA_8, JAVA_11),
-                "4.": Pair.of(JAVA_8, JAVA_17)
+                "4.": Pair.of(JAVA_8, JAVA_17),
+                "5.": Pair.of(JAVA_11, JAVA_17)
         ]
 
         Pair<String, String> javaRange = null

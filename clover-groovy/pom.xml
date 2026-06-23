@@ -227,12 +227,21 @@
                         <configuration>
                             <excludes>
                                 <exclude>**/*TestSuite.*</exclude>
+                                <!-- Groovy 5 tests use Groovy-5-only syntax; they only compile with Groovy 5+ and
+                                     run via TestSuite (compatibility profile) with the correct groovy jar. -->
+                                <exclude>**/Groovy5CoverageRecordingTest.*</exclude>
                             </excludes>
                         </configuration>
                     </execution>
                 </executions>
                 <configuration>
                     <!--<argLine>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005</argLine>-->
+                    <!-- Groovy 5 tests use Groovy-5-only syntax and must only run via TestSuite
+                         (compatibility profile) where the correct Groovy jar is injected per version. -->
+                    <excludes>
+                        <exclude>**/*TestSuite.*</exclude>
+                        <exclude>**/Groovy5CoverageRecordingTest.*</exclude>
+                    </excludes>
                     <systemPropertyVariables>
                         <clover-groovy.test.junit.ver>${clover-groovy.test.junit.ver}</clover-groovy.test.junit.ver>
                         <clover-groovy.test.hamcrest.ver>${clover-groovy.test.hamcrest.ver}</clover-groovy.test.hamcrest.ver>
@@ -380,6 +389,11 @@
                                             <groupId>org.apache.groovy</groupId>
                                             <artifactId>groovy</artifactId>
                                             <version>4.0.15</version>
+                                        </artifactItem>
+                                        <artifactItem>
+                                            <groupId>org.apache.groovy</groupId>
+                                            <artifactId>groovy</artifactId>
+                                            <version>5.0.4</version>
                                         </artifactItem>
                                         <artifactItem>
                                             <groupId>org.spockframework</groupId>
