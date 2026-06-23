@@ -67,10 +67,21 @@ If this state is introduced, such sites should appear in HTML/XML reports as "no
 - Note: Groovy *interface default methods* (handled as `$Trait$Helper`) ARE now instrumented as of OC-121 work (branch `OC-121-support-groovy-3`). The remaining gap is actual `trait` keyword classes.
 - Ticket: CLOV-1960
 
-**8. Groovy method references — no body to inject into**
-- Construct: `Integer::toString`, `Integer[][]::new`
-- Why: A `MethodReferenceExpression` has no code body — it is a reference to a method, not an invocation. `R().inc()` cannot be inserted inside it.
-- Status: Already handled — wrapped in an `exprEval(methodRef, stmtIdx)` call in `OperatorsInstrumenter.java` lines 178–196. Listed here for completeness; the wrapper approach is the correct solution.
+**8. Groovy unbound method references — instrumented via closure wrapper**
+- Construct: `Integer::toString`, `String::toUpperCase`, `Random::new`, `String[]::new`
+- Why: A method reference has no code body — `R().inc()` cannot be inserted inside it. Instead, the reference is replaced with a closure that records the hit and delegates to the original call.
+- Status: **Fully instrumented** via two paths in `OperatorsInstrumenter.transformMethodReference`:
+  - `@CompileStatic` path: `StaticTypesMarker.CLOSURE_ARGUMENTS` node metadata provides exact parameter types → generates a fully typed closure (instance call, static call, constructor, or array constructor depending on method name and type).
+  - Dynamic path: no `CLOSURE_ARGUMENTS` present → generates `{ Object[] $CLV_args$ -> ReceiverClass.&"methodName".call($CLV_args$) }` using Groovy's `MethodClosure` and SAM coercion at runtime.
+- Not a non-instrumentable case — listed here for context.
+
+**9. Groovy bound method references — NOT instrumented (NON_INSTRUMENTABLE candidate)**
+- Construct: `s::toUpperCase`, `this::foo`, `"hello"::length`, `getObj()::method`
+- Why: The receiver is a runtime expression (not a class name). Reproducing it inside a wrapper closure is unsafe — it would double-evaluate side-effecting calls, capture the wrong `this`, or change evaluation order.
+- Detection: `!(receiverExpr instanceof ClassExpression)` in `transformMethodReference` → early return, no statement registered, original expression left untouched.
+- Effect: The enclosing statement (e.g. `def fn = s::toUpperCase`) is still instrumented as a whole. The method reference itself has no sub-statement in the registry.
+- Future: If `NON_INSTRUMENTABLE` is introduced to the Clover model, bound refs are natural candidates — they represent a genuine coverage gap.
+- Test: `Groovy3CoverageRecordingTest.testBoundMethodReferenceNotInstrumented`
 
 **9. Groovy classes / methods with invalid source regions**
 - Construct: Any synthetic class or method where `getLineNumber()` / `getColumnNumber()` returns `-1`
@@ -86,7 +97,8 @@ If this state is introduced, such sites should appear in HTML/XML reports as "no
 | **Variable scope leak** | `instanceof` pattern matching — variable declared inside condition would go out of scope after wrapping |
 | **Return-value contract** | Groovy `break` — prepending `inc()` changes the effective return value of the case block |
 | **Compile-phase ordering** | Groovy try-with-resources — desugared before instrumentation phase runs |
-| **No code body** | Method references — syntactic form has no executable body to inject into |
+| **No code body** | Unbound method references — wrapped via closure; not a true gap |
+| **Unsafe receiver reproduction** | Bound method refs (`s::toUpperCase`) — receiver is a runtime expression, cannot safely be re-evaluated inside a wrapper |
 | **Not yet implemented** | Groovy traits (CLOV-1960) |
 | **Constant folding** | Constant boolean/conditional expressions — instrumentation of always-true/false branches is meaningless |
 | **Assignment in condition** | `if (a = val)` — wrapping with boolean short-circuit would mis-sequence the assignment |
