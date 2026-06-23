@@ -29,6 +29,7 @@ import org.codehaus.groovy.ast.stmt.BlockStatement;
 import org.codehaus.groovy.ast.stmt.CaseStatement;
 import org.codehaus.groovy.ast.stmt.CatchStatement;
 import org.codehaus.groovy.ast.stmt.DoWhileStatement;
+import org.codehaus.groovy.ast.stmt.EmptyStatement;
 import org.codehaus.groovy.ast.stmt.ExpressionStatement;
 import org.codehaus.groovy.ast.stmt.ForStatement;
 import org.codehaus.groovy.ast.stmt.IfStatement;
@@ -541,8 +542,21 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
             caseStatement.visit(this);
         }
 
-        statement.getDefaultStatement().visit(this);
-        statement.setDefaultStatement(statementInstrumenter.instrumentBlockStatement(statement.getDefaultStatement()));
+        final Statement defaultStatement = statement.getDefaultStatement();
+        if (defaultStatement == EmptyStatement.INSTANCE) {
+            // Groovyc injects EmptyStatement.INSTANCE (shared singleton, coordinates [-1:-1..-1:-1])
+            // when a switch has no explicit default. Replace it with a MutableEmptyStatement at
+            // synthesized coordinates (the closing '}' of the SwitchStatement) so the fallthrough
+            // branch is registered in the coverage model.
+            final int synthLine = statement.getLastLineNumber();
+            final int synthCol = Math.max(1, statement.getLastColumnNumber() - 1);
+            final int synthEndCol = statement.getLastColumnNumber();
+            statement.setDefaultStatement(statementInstrumenter.instrumentBlockStatement(
+                    new MutableEmptyStatement(synthLine, synthCol, synthLine, synthEndCol)));
+        } else {
+            defaultStatement.visit(this);
+            statement.setDefaultStatement(statementInstrumenter.instrumentBlockStatement(defaultStatement));
+        }
     }
 
     @Override

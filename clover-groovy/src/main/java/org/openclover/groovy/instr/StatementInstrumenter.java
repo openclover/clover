@@ -64,6 +64,12 @@ public class StatementInstrumenter extends ClassInstumenter {
         if (maybeBlockStatement instanceof BlockStatement) {
             // method.getCode() usually returns BlockStatement
             return instrumentBlockStatement((BlockStatement)maybeBlockStatement, entryIncStatement);
+        } else if (maybeBlockStatement instanceof MutableEmptyStatement) {
+            // Synthesized default for a switch expression without an explicit default.
+            // Register it in the coverage model and return just the R.inc() call; the
+            // switch's null-return behaviour comes from the enclosing closure falling off the end.
+            final Statement instrStatement = instrumentStmt(maybeBlockStatement);
+            return instrStatement != null ? instrStatement : maybeBlockStatement;
         } else if (maybeBlockStatement instanceof TryCatchStatement
                 && entryIncStatement != null && currentVariableScope != null) {
             // Controllers in Grails have a TryCatchStatement instead of a BlockStatement in method.getCode()
