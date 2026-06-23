@@ -16,20 +16,22 @@ class TestSuite
         implements GroovyCombinatorMixin, TestPropertyMixin, IncludeExcludeMixin, JavaVersionMixin {
 
     static Map<Class, Closure> TEST_CLASSES_AND_SELECTORS = [
-            (GroovyArraysTest)          : DefaultTestSelector.instance.closure,
-            (GroovyCoverageTest)        : DefaultTestSelector.instance.closure,
-            (GroovyElvisOperatorTest)   : DefaultTestSelector.instance.closure,
-            (GroovyLambdasTest)         : DefaultTestSelector.instance.closure,
-            (GroovyLoopsTest)           : DefaultTestSelector.instance.closure,
-            (GroovyMethodReferencesTest): DefaultTestSelector.instance.closure,
-            (GroovyModellingMethodsTest): DefaultTestSelector.instance.closure,
+            (GroovyArraysTest)             : DefaultTestSelector.instance.closure,
+            (Groovy2CoverageRecordingTest) : DefaultTestSelector.instance.closure,
+            (Groovy3CoverageRecordingTest) : DefaultTestSelector.instance.closure,
+            (GroovyCoverageTest)           : DefaultTestSelector.instance.closure,
+            (GroovyElvisOperatorTest)      : DefaultTestSelector.instance.closure,
+            (GroovyLambdasTest)            : DefaultTestSelector.instance.closure,
+            (GroovyLoopsTest)              : DefaultTestSelector.instance.closure,
+            (GroovyMethodReferencesTest)   : DefaultTestSelector.instance.closure,
+            (GroovyModellingMethodsTest)   : DefaultTestSelector.instance.closure,
             (GroovyModellingStatementsTest): DefaultTestSelector.instance.closure,
-            (GroovyModellingTest)       : DefaultTestSelector.instance.closure,
-            (GroovyOperatorsTest)       : DefaultTestSelector.instance.closure,
-            (GroovyProfilesTest)        : DefaultTestSelector.instance.closure,
-            (GroovyReportTest)          : DefaultTestSelector.instance.closure,
-            (GroovySafeEvalTest)        : DefaultTestSelector.instance.closure,
-            (GroovyUtilsTest)           : DefaultTestSelector.instance.closure
+            (GroovyModellingTest)          : DefaultTestSelector.instance.closure,
+            (GroovyOperatorsTest)          : DefaultTestSelector.instance.closure,
+            (GroovyProfilesTest)           : DefaultTestSelector.instance.closure,
+            (GroovyReportTest)             : DefaultTestSelector.instance.closure,
+            (GroovySafeEvalTest)           : DefaultTestSelector.instance.closure,
+            (GroovyUtilsTest)              : DefaultTestSelector.instance.closure
     ]
 
     static List GROOVY_VERSION_INCLUDES = System.getProperty("clover.test.groovyversion.includes")

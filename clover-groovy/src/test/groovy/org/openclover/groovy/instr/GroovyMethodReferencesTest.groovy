@@ -42,8 +42,8 @@ class GroovyMethodReferencesTest extends TestBase {
             assertPackage reg.model.project, isDefaultPackage, { PackageInfo p ->
                 assertFile p, named("BasicMethodReferences.groovy"), { FullFileInfo f ->
                     assertClass(f, named("BasicMethodReferences"), { FullClassInfo c ->
-                        // Each method reference is wrapped in exprEval(ref, stmtIdx) so it gets its own
-                        // statement in addition to the enclosing statement that contains it.
+                        // Each unbound class-based method ref is replaced with a closure wrapper,
+                        // registering its own statement in addition to the enclosing statement.
                         assertMethod(c, simplyNamed("staticRef"), { MethodInfo m ->
                             m.statements.size() == 3  // def nums + stream call + Integer::toString
                         })
@@ -51,7 +51,8 @@ class GroovyMethodReferencesTest extends TestBase {
                             m.statements.size() == 3  // def words + stream call + String::toUpperCase
                         })
                         assertMethod(c, simplyNamed("constantRef"), { MethodInfo m ->
-                            m.statements.size() == 3  // def getLength (decl) + "hello world"::length + getLength()
+                            // "hello world"::length is a bound ref (non-ClassExpression receiver) — not instrumented
+                            m.statements.size() == 2  // def getLength (decl) + getLength()
                         })
                     })
                 }
