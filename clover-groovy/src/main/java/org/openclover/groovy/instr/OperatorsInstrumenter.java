@@ -447,6 +447,40 @@ public class OperatorsInstrumenter extends ClassInstumenter {
         return Pair.of(propertyExpression, false);
     }
 
+    /**
+     * Instruments {@code a ==> b} (Groovy 5 logical implication) as a branch on the left operand {@code a}.
+     * <ul>
+     *   <li>true branch (dataIndex):    {@code a} was true  → {@code b} will be evaluated</li>
+     *   <li>false branch (dataIndex+1): {@code a} was false → short-circuit to {@code true}</li>
+     * </ul>
+     */
+    @NotNull
+    public Pair<BinaryExpression, Boolean> transformImplication(
+            @NotNull final BinaryExpression implication,
+            @NotNull final ContextSet currentMethodContext) {
+
+        final Expression leftOperand = implication.getLeftExpression();
+        final SourceInfo srcRegion = countExpressionRegion(leftOperand);
+
+        if (srcRegion != null) {
+            final BranchInfo branch = session.addBranch(
+                    currentMethodContext,
+                    srcRegion,
+                    true,
+                    1 + ExpressionComplexityCounter.count(leftOperand),
+                    LanguageConstruct.Builtin.GROOVY_IMPLIES_OPERATOR);
+
+            return Pair.of(
+                    new BinaryExpression(
+                            wrapWithBranchCounters(leftOperand, branch),
+                            implication.getOperation(),
+                            implication.getRightExpression()),
+                    true);
+        }
+
+        return Pair.of(implication, false);
+    }
+
     @NotNull
     public TernaryExpression transformTernary(
             @NotNull final TernaryExpression ternary,

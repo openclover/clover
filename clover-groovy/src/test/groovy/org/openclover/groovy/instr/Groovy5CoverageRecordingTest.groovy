@@ -16,7 +16,8 @@ import org.openclover.core.registry.entities.FullFileInfo
  * Integration tests verifying Clover instrumentation of Groovy 5 language features.
  *
  * Groovy 5 key changes vs Groovy 4:
- *   - Logical implication operator (==>): BinaryExpression with new token; no special handling needed.
+ *   - Logical implication operator (==>): BinaryExpression with new Types.IMPLIES token; instrumented as a branch
+ *     on the left operand (true branch = left was true / b evaluated, false branch = left was false / short-circuit).
  *   - Pattern matching for instanceof (obj instanceof String s): BinaryExpression with DeclarationExpression
  *     on the RHS; branch wrapping by BranchInstrumenter preserves the binding — no code changes needed.
  *   - Index variable in for loops (for (int idx, var item in items)): ForStatement gains indexVariable field;
@@ -28,7 +29,8 @@ import org.openclover.core.registry.entities.FullFileInfo
  *     isInstrumentable(MethodNode) already returns true for non-abstract, non-synthetic methods.
  *   - Instance main() method: instrumented as a regular instance method.
  *
- * No changes were made to InstrumentingCodeVisitor or StatementInstrumenter for Groovy 5.
+ * InstrumentingCodeVisitor detects the ==> BinaryExpression via GROOVY5_IMPLIES_TYPE (resolved by reflection)
+ * and delegates to OperatorsInstrumenter.transformImplication() which wraps the left operand with the iget trick.
  */
 @CompileStatic
 class Groovy5CoverageRecordingTest extends TestBase {
@@ -45,9 +47,14 @@ class Groovy5CoverageRecordingTest extends TestBase {
     // -----------------------------------------------------------------------
     // Logical implication operator (==>)
     //
-    // a ==> b compiles to BinaryExpression(a, "==>", b) — same structure as any binary op.
-    // No special coverage tracking needed (same policy as && and ||).
-    // implies() called 4 times → hitCount == 4.
+    // implies() called 4 times:
+    //   implies(false, true)  → a=false, short-circuit → false branch (left was false)
+    //   implies(false, false) → a=false, short-circuit → false branch
+    //   implies(true, true)   → a=true, b evaluated   → true branch  (left was true)
+    //   implies(true, false)  → a=true, b evaluated   → true branch
+    //
+    // Branch: true (a was true, b evaluated) = 2, false (a was false, short-circuit) = 2
+    // ReturnStatement [3:9..3:23] hit 4 times.
     // -----------------------------------------------------------------------
     @GroovyVersionStart("5.0.0")
     void testLogicalImplicationHitCounts() {
@@ -71,7 +78,10 @@ class Groovy5CoverageRecordingTest extends TestBase {
                     assertFile p, named("ImplicationTest.groovy"), { FullFileInfo f ->
                         assertClass f, named("ImplicationTest"), { FullClassInfo c ->
                             assertMethod(c, simplyNamed("implies"), { MethodInfo m ->
-                                m.hitCount == 4
+                                m.hitCount == 4 &&
+                                m.branches.size() == 1 &&
+                                assertBranch(m, { BranchInfo b -> true }, hits(2, 2)) &&
+                                assertStatement(m, at(3, 9, 3, 23), hits(4))
                             })
                         }
                     }
@@ -113,7 +123,10 @@ class Groovy5CoverageRecordingTest extends TestBase {
                             assertMethod(c, simplyNamed("describe"), { MethodInfo m ->
                                 m.hitCount == 2 &&
                                 m.branches.size() == 1 &&
-                                assertBranch(m, { BranchInfo b -> true }, hits(1, 1))
+                                assertBranch(m, { BranchInfo b -> true }, hits(1, 1)) &&
+                                assertStatement(m, at(3, 9, 5, 10), hits(2)) &&
+                                assertStatement(m, at(4, 13, 4, 35), hits(1)) &&
+                                assertStatement(m, at(6, 9, 6, 23), hits(1))
                             })
                         }
                     }
@@ -153,8 +166,10 @@ class Groovy5CoverageRecordingTest extends TestBase {
                         assertClass f, named("IndexedForLoop"), { FullClassInfo c ->
                             assertMethod(c, simplyNamed("enumerate"), { MethodInfo m ->
                                 m.hitCount == 1 &&
-                                // loop body (result.add) hit once per element
-                                assertStatement(m, { StatementInfo s -> s.hitCount == 3 }, hits(3))
+                                assertStatement(m, at(3, 9, 3, 24), hits(1)) &&
+                                assertStatement(m, at(4, 9, 6, 10), hits(1)) &&
+                                assertStatement(m, at(5, 13, 5, 41), hits(3)) &&
+                                assertStatement(m, at(7, 9, 7, 22), hits(1))
                             })
                         }
                     }
@@ -187,7 +202,9 @@ class Groovy5CoverageRecordingTest extends TestBase {
                     assertFile p, named("MultiAssign.groovy"), { FullFileInfo f ->
                         assertClass f, named("MultiAssign"), { FullClassInfo c ->
                             assertMethod(c, simplyNamed("sumPair"), { MethodInfo m ->
-                                m.hitCount == 1
+                                m.hitCount == 1 &&
+                                assertStatement(m, at(3, 9, 3, 26), hits(1)) &&
+                                assertStatement(m, at(4, 9, 4, 21), hits(1))
                             })
                         }
                     }
@@ -220,7 +237,9 @@ class Groovy5CoverageRecordingTest extends TestBase {
                     assertFile p, named("UnderscorePlaceholder.groovy"), { FullFileInfo f ->
                         assertClass f, named("UnderscorePlaceholder"), { FullClassInfo c ->
                             assertMethod(c, simplyNamed("second"), { MethodInfo m ->
-                                m.hitCount == 1
+                                m.hitCount == 1 &&
+                                assertStatement(m, at(3, 9, 3, 31), hits(1)) &&
+                                assertStatement(m, at(4, 9, 4, 22), hits(1))
                             })
                         }
                     }
@@ -256,7 +275,8 @@ class InterfaceDefaultTest {
                     assertFile p, named("InterfaceDefault.groovy"), { FullFileInfo f ->
                         assertClass f, named("Greeter"), { FullClassInfo c ->
                             assertMethod(c, simplyNamed("greet"), { MethodInfo m ->
-                                m.hitCount == 1
+                                m.hitCount == 1 &&
+                                assertStatement(m, at(3, 9, 3, 32), hits(1))
                             })
                         }
                     }
@@ -267,11 +287,18 @@ class InterfaceDefaultTest {
     // Interface private method (Groovy 5: native JVM private interface method)
     //
     // Private interface methods (Java 9+) can only be called from other interface methods.
+    // @CompileStatic is required on the interface: without it, Groovy's dynamic dispatch
+    // (invokedynamic) looks up prefix() on the implementing class at runtime and throws
+    // MissingMethodException, because private methods are not inherited. With @CompileStatic,
+    // the compiler emits invokespecial targeting the interface directly — same as Java.
+    //
     // greet() calls private prefix() — both should be instrumented and recorded.
     // -----------------------------------------------------------------------
     @GroovyVersionStart("5.0.0")
     void testInterfacePrivateMethodHitCounts() {
-        instrumentAndCompileWithGrover(["InterfacePrivate.groovy": '''interface PrivateHelper {
+        instrumentAndCompileWithGrover(["InterfacePrivate.groovy": '''import groovy.transform.CompileStatic
+@CompileStatic
+interface PrivateHelper {
     default String greet(String name) {
         return prefix() + name
     }
@@ -294,10 +321,12 @@ class InterfacePrivateTest {
                     assertFile p, named("InterfacePrivate.groovy"), { FullFileInfo f ->
                         assertClass f, named("PrivateHelper"), { FullClassInfo c ->
                             assertMethod(c, simplyNamed("greet"), { MethodInfo m ->
-                                m.hitCount == 1
+                                m.hitCount == 1 &&
+                                assertStatement(m, at(5, 9, 5, 31), hits(1))
                             }) &&
                             assertMethod(c, simplyNamed("prefix"), { MethodInfo m ->
-                                m.hitCount == 1
+                                m.hitCount == 1 &&
+                                assertStatement(m, at(8, 9, 8, 22), hits(1))
                             })
                         }
                     }
@@ -331,7 +360,8 @@ class InterfaceStaticTest {
                     assertFile p, named("InterfaceStatic.groovy"), { FullFileInfo f ->
                         assertClass f, named("StaticUtil"), { FullClassInfo c ->
                             assertMethod(c, simplyNamed("utility"), { MethodInfo m ->
-                                m.hitCount == 1
+                                m.hitCount == 1 &&
+                                assertStatement(m, at(3, 9, 3, 30), hits(1))
                             })
                         }
                     }
@@ -348,11 +378,15 @@ class InterfaceStaticTest {
     @GroovyVersionStart("5.0.0")
     void testInstanceMainMethodHitCounts() {
         instrumentAndCompileWithGrover(["InstanceMain.groovy": '''class InstanceMain {
-    void main() {}
+    int callCount = 0
+    void main() {
+        callCount++
+    }
     static void main(String[] args) {
         def obj = new InstanceMain()
         obj.main()
         obj.main()
+        assert obj.callCount == 2
     }
 }'''])
         runWithAsserts("InstanceMain")
@@ -365,7 +399,8 @@ class InterfaceStaticTest {
                         assertClass f, named("InstanceMain"), { FullClassInfo c ->
                             // instance void main() called twice — distinguishes from static main (hitCount=1)
                             assertMethod(c, { MethodInfo m -> m.simpleName == "main" && m.hitCount == 2 }, { MethodInfo m ->
-                                m.hitCount == 2
+                                m.hitCount == 2 &&
+                                assertStatement(m, at(4, 9, 4, 20), hits(2))
                             })
                         }
                     }
@@ -398,7 +433,9 @@ class InterfaceStaticTest {
                     assertFile p, named("MultiDimArray.groovy"), { FullFileInfo f ->
                         assertClass f, named("MultiDimArray"), { FullClassInfo c ->
                             assertMethod(c, simplyNamed("main"), { MethodInfo m ->
-                                m.hitCount == 1
+                                m.hitCount == 1 &&
+                                assertStatement(m, at(3, 9, 3, 42), hits(1)) &&
+                                assertStatement(m, at(4, 9, 4, 50), hits(1))
                             })
                         }
                     }

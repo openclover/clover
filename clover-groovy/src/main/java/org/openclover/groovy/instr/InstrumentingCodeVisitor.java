@@ -11,6 +11,7 @@ import org.codehaus.groovy.ast.PropertyNode;
 import org.codehaus.groovy.ast.VariableScope;
 import org.codehaus.groovy.ast.expr.ArgumentListExpression;
 import org.codehaus.groovy.ast.expr.AttributeExpression;
+import org.codehaus.groovy.ast.expr.BinaryExpression;
 import org.codehaus.groovy.ast.expr.BooleanExpression;
 import org.codehaus.groovy.ast.expr.CastExpression;
 import org.codehaus.groovy.ast.expr.ClosureExpression;
@@ -83,6 +84,10 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
     private static final Class<?> GROOVY3_LAMBDA_EXPRESSION_CLASS;
     private static final Class<?> GROOVY3_METHOD_REFERENCE_CLASS;
 
+    // Types.IMPLIES (==> operator) was introduced in Groovy 5. Resolved via reflection
+    // to avoid a compile-time dependency on Groovy 5 that would break Groovy 2/3/4 builds.
+    private static final int GROOVY5_IMPLIES_TYPE;
+
     static {
         Field closureField;
         try {
@@ -95,10 +100,28 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
 
         Class<?> lambdaClass = null;
         Class<?> methodRefClass = null;
-        try { lambdaClass = Class.forName("org.codehaus.groovy.ast.expr.LambdaExpression"); } catch (ClassNotFoundException ignored) { }
-        try { methodRefClass = Class.forName("org.codehaus.groovy.ast.expr.MethodReferenceExpression"); } catch (ClassNotFoundException ignored) { }
+        try {
+            lambdaClass = Class.forName("org.codehaus.groovy.ast.expr.LambdaExpression");
+        } catch (ClassNotFoundException ignored) {
+            // null means no LambdaExpression in this Groovy version
+        }
         GROOVY3_LAMBDA_EXPRESSION_CLASS = lambdaClass;
+
+        try {
+            methodRefClass = Class.forName("org.codehaus.groovy.ast.expr.MethodReferenceExpression");
+        } catch (ClassNotFoundException ignored) {
+            // null means no MethodReferenceExpression in this Groovy version
+        }
+
         GROOVY3_METHOD_REFERENCE_CLASS = methodRefClass;
+
+        int impliesType = -1;
+        try {
+            impliesType = org.codehaus.groovy.syntax.Types.class.getField("IMPLIES").getInt(null);
+        } catch (Exception ignored) {
+            // -1 means IMPLIES operator is not present in this Groovy version
+        }
+        GROOVY5_IMPLIES_TYPE = impliesType;
     }
 
     private final InstrumentationConfig config;
@@ -419,6 +442,12 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
                     transformed, getCurrentClassNode(), currentMethodContext());
             transformed = ret.first;
             methodReferenceUsed |= ret.second;
+        } else if (transformed instanceof BinaryExpression
+                && GROOVY5_IMPLIES_TYPE != -1
+                && ((BinaryExpression) transformed).getOperation().getType() == GROOVY5_IMPLIES_TYPE) {
+            final Pair<BinaryExpression, Boolean> ret = operatorsInstrumenter.transformImplication(
+                    (BinaryExpression) transformed, currentMethodContext());
+            transformed = ret.first;
         } else if (transformed instanceof EmptyExpression) {
             // EmptyExpression.INSTANCE is immutable, we can't even modify source position
             // TODO inject our own MutableEmptyExpression
