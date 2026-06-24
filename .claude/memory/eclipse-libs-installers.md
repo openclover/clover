@@ -44,14 +44,14 @@ Eclipse has no formal LTS. The June SimRel is the "blessed" annual release — m
 
 | # | Release | pom version | Download subpath | Status |
 |---|---|---|---|---|
-| 1 | 2020-06 | `2020.06` | `2020-06/R` | TODO |
-| 2 | 2021-06 | `2021.06` | `2021-06/R` | TODO |
+| 1 | 2020-06 | `2020.06` | `2020-06/R` | **DONE** (tag `clover-eclipse-libs-2020.06`) |
+| 2 | 2021-06 | `2021.06` | `2021-06/R` | **DONE** (tag `clover-eclipse-libs-2021.06`) |
 | 3 | 2021-12 | `2021.12` | `2021-12/R` | **DONE** (tag `clover-eclipse-libs-2021.12`) — kept as bonus; superseded by 2021-06 for the annual slot |
-| 4 | 2022-06 | `2022.06` | `2022-06/R` | TODO |
-| 5 | 2023-06 | `2023.06` | `2023-06/R` | TODO |
-| 6 | 2024-06 | `2024.06` | `2024-06/R` | TODO |
-| 7 | 2025-06 | `2025.06` | `2025-06/R` | TODO |
-| 8 | 2026-03 | `2026.03` | `2026-03/R` | TODO — placeholder for 2026 annual slot until 2026-06 is available |
+| 4 | 2022-06 | `2022.06` | `2022-06/R` | **DONE** (tag `clover-eclipse-libs-2022.06`) |
+| 5 | 2023-06 | `2023.06` | `2023-06/R` | **DONE** (tag `clover-eclipse-libs-2023.06`) |
+| 6 | 2024-06 | `2024.06` | `2024-06/R` | **DONE** (tag `clover-eclipse-libs-2024.06`) |
+| 7 | 2025-06 | `2025.06` | `2025-06/R` | **DONE** (tag `clover-eclipse-libs-2025.06`) |
+| 8 | 2026-03 | `2026.03` | `2026-03/R` | **DONE** (tag `clover-eclipse-libs-2026.03`) — used fau.de mirror (not yet on archive.eclipse.org) |
 
 > The existing `luna-sr2` tag and the `photon-R` / `2024-03-R` commits are retained in git history but are not part of the active compatibility matrix.
 
