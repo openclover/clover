@@ -57,7 +57,7 @@ class ClassNodeRecorderTransformer implements ClassNodeTransformer {
      */
     private void createRecorderGetter(final ClassNode clazz, GroovyInstrumentationConfig sessionConfig) {
         // add method (no code yet)
-        clazz.addMethod(recorderGetterName, ACC_STATIC | ACC_PRIVATE | ACC_SYNTHETIC,
+        clazz.addMethod(recorderGetterName, ACC_STATIC | ACC_SYNTHETIC,
                 ClassHelper.make(org_openclover_runtime.CoverageRecorder.class),
                 new Parameter[]{}, new ClassNode[]{},
                 new BlockStatement());
