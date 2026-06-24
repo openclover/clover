@@ -4,9 +4,11 @@ import groovy.transform.CompileStatic
 import org.openclover.core.util.JavaEnvUtils
 import org.openclover.core.util.collections.Pair
 
+import static org.openclover.core.util.JavaEnvUtils.JAVA_8
 import static org.openclover.core.util.JavaEnvUtils.JAVA_11
 import static org.openclover.core.util.JavaEnvUtils.JAVA_17
-import static org.openclover.core.util.JavaEnvUtils.JAVA_8
+import static org.openclover.core.util.JavaEnvUtils.JAVA_21
+import static org.openclover.core.util.JavaEnvUtils.JAVA_25
 
 @CompileStatic
 trait JavaVersionMixin {
@@ -15,9 +17,9 @@ trait JavaVersionMixin {
         /** groovy version prefix - java version range */
         Map<String, Pair<String, String>> GROOVY_TO_JAVA_VERSIONS = [
                 "2.": Pair.of(JAVA_8, JAVA_8),
-                "3.": Pair.of(JAVA_8, JAVA_11),
-                "4.": Pair.of(JAVA_8, JAVA_17),
-                "5.": Pair.of(JAVA_11, JAVA_17)
+                "3.": Pair.of(JAVA_8, JAVA_17),
+                "4.": Pair.of(JAVA_8, JAVA_21),
+                "5.": Pair.of(JAVA_11, JAVA_25)
         ]
 
         Pair<String, String> javaRange = null
