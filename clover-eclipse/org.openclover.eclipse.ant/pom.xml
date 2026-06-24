@@ -16,7 +16,7 @@
         <dependency>
             <groupId>org.openclover.eclipse.libs</groupId>
             <artifactId>clover-eclipse-libs</artifactId>
-            <version>luna-sr2</version>
+            <version>2022.06</version>
             <type>pom</type>
         </dependency>
         <dependency>

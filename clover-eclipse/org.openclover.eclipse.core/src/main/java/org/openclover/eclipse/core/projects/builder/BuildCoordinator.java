@@ -436,9 +436,7 @@ public class BuildCoordinator {
         if (libraries.size() > 0) {
             for (String library : libraries) {
                 if (command.size() == 0) {
-                    //CEP-162: setting the bootclasspath of the compiler
-                    //so that the right JRE classes are used for compilation
-                    command.add("-bootclasspath");
+                    command.add(classpathFlag());
                     command.add(library);
                 } else {
                     appendToLast(command, File.pathSeparatorChar + library);
@@ -452,14 +450,20 @@ public class BuildCoordinator {
         String outputClasspath = projectPathMap.toClasspath();
         if (outputClasspath.length() > 0) {
             if (command.size() == 0) {
-                //CEP-162: setting the bootclasspath of the compiler
-                //so that the right JRE classes are used for compilation
-                command.add("-bootclasspath");
+                command.add(classpathFlag());
                 command.add(outputClasspath);
             } else {
                 appendToLast(command, File.pathSeparatorChar + outputClasspath);
             }
         }
+    }
+
+    /** Returns -bootclasspath for Java 8 and below, -classpath for Java 9 and above. */
+    private String classpathFlag() throws CoreException {
+        String source = project.getJavaProject().getOption(JavaCore.COMPILER_SOURCE, true);
+        // Java 8 and below: "1.8", "1.7", etc. Java 9+: "9", "10", "11", "14", "21", etc.
+        boolean isJava9Plus = !source.startsWith("1.");
+        return isJava9Plus ? "-classpath" : "-bootclasspath";
     }
 
     private void appendToLast(List<String> command, String value) {

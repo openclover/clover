@@ -9,6 +9,7 @@ for plugin in org.eclipse.ant.core \
   org.eclipse.e4.ui.workbench \
   org.eclipse.equinox.common \
   org.eclipse.equinox.preferences \
+  org.osgi.service.prefs \
   org.eclipse.equinox.registry \
   org.eclipse.jdt.core \
   org.eclipse.jdt.debug.ui \

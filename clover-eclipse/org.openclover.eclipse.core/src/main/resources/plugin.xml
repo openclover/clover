@@ -1110,8 +1110,8 @@
 			<adapter type="org.openclover.core.api.registry.HasMetrics"/>
 			<adapter type="org.openclover.core.registry.entities.FullProjectInfo"/>
 			<adapter type="org.openclover.core.registry.entities.FullClassInfo"/>
-            <adapter type="org.openclover.core.registry.entities.TestCaseInfo"/>
-            <adapter type="[Lorg.openclover.core.registry.entities.TestCaseInfo;"/>
+            <adapter type="org.openclover.core.api.registry.TestCaseInfo"/>
+            <adapter type="[Lorg.openclover.core.api.registry.TestCaseInfo;"/>
 			<adapter type="org.openclover.core.registry.entities.FullMethodInfo"/>
 			<adapter type="org.openclover.core.registry.entities.FullFileInfo"/>
 

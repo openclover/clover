@@ -61,3 +61,18 @@ Eclipse has no formal LTS. The June SimRel is the "blessed" annual release — m
 - Recent releases (2023+) may no longer be on `archive.eclipse.org` — check a live mirror (e.g. `https://ftp.fau.de/eclipse/technology/epp/downloads/release/`) or `download.eclipse.org` first.
 - The `clover-eclipse-libs` pom `<version>` in HEAD is `luna-sr2`. The tagged commits are the deliverables; HEAD version is not meaningful.
 - The SWT artifact name (`org.eclipse.swt.win32.win32.x86_64`) is hardcoded; if a newer Eclipse renames it, `get-plugin-versions.sh` may need updating.
+
+## Plugin compatibility fixes — Eclipse 2020.06 (first version after luna-sr2)
+
+Upgrading from `luna-sr2` (Eclipse 4.4, 2014) to `2020.06` (Eclipse 4.16, JDT 3.22) required the following source code changes in `clover-eclipse`:
+
+| File | Problem | Fix |
+|---|---|---|
+| `org.openclover.eclipse.{core,runtime,testopt,ant}/pom.xml` | `<version>luna-sr2</version>` | Change to `<version>2020.06</version>` |
+| `views/nodes/PackageFragmentAdapter.java` | JDT 3.22 added 4 abstract methods to `IPackageFragment`: `getOrdinaryClassFile(String)`, `getModularClassFile()`, `getAllClassFiles()`, `getOrdinaryClassFiles()` | Implement all 4 as delegates to `target.*` |
+| `views/actions/ToggleWorkingSetModeActionDelegate.java` | `InternalPlatform.getDefault().log(Status)` removed; `Messages.preferences_saveProblems` is internal API | Replace with `CloverPlugin.getInstance().getLog().log(status)` and an inline string |
+| `org.openclover.eclipse.core/pom.xml` Export-Package | `org.openclover.runtime.api` and `org.openclover.runtime.api.registry` not exported; `testopt` bundle can't load `CloverException` via OSGi | Add both packages to `<Export-Package>` in the manifest entries |
+| `projects/builder/BuildCoordinator.java` | `-bootclasspath` rejected by JDT batch compiler at compliance level ≥ 9 (Java 14 source level in use) | Detect source level: use `-classpath` when `!source.startsWith("1.")`, else `-bootclasspath` |
+| `org/eclipse/jdt/internal/compiler/batch/CloverCompiler.java` | `Opcodes.ASM5` in `RecorderInnerClassRemover` causes `UnsupportedOperationException: NestMember requires ASM7` on Java 14 class files | Change `Opcodes.ASM5` → `Opcodes.ASM9` (project already bundles asm-9.7.jar) |
+
+**Key insight on the build flow:** The PostJavaCloverBuilder only instruments files that were compiled in the current JDT build cycle (`dirtyFiles` populated by `CloverCompilationParticipant.buildStarting()`). After enabling Clover on a project, a **Project → Clean** is required to trigger a full rebuild; otherwise no files are dirty and instrumentation is silently skipped.

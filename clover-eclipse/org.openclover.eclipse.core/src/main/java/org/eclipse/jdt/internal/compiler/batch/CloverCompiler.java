@@ -324,7 +324,7 @@ public class CloverCompiler extends Main {
     public byte[] removeCloverInnerClassReferece(byte[] classBytes) throws IOException {
         final ClassReader reader = new ClassReader(new ByteArrayInputStream(classBytes));
         final ClassWriter writer = new ClassWriter(0);
-        reader.accept(new RecorderInnerClassRemover(Opcodes.ASM5, writer), 0);
+        reader.accept(new RecorderInnerClassRemover(Opcodes.ASM9, writer), 0);
         return writer.toByteArray();
     }
 
