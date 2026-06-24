@@ -90,7 +90,10 @@ class GroovySpockTestSuite
         shouldInclude(GROOVY_VERSION_INCLUDES, groovyVersion) && shouldRunInCurrentJava(groovyVersion)
     }
 
-    /** "groovy major version:spock's groovy version" map */
+    /**
+     * Maps Groovy major version to the Groovy suffix used in spock-core artifact names.
+     * Groovy 5+ is absent: no Spock release targets Groovy 5 yet.
+     */
     static def groovyVsSpock = [
             "1.6" : "1.6",
             "1.7" : "1.7",
@@ -106,19 +109,16 @@ class GroovySpockTestSuite
     ]
 
     /**
-     * Reads groovy version number from spock version (e.g. "spock-1.0-groovy-2.0" has "2.0") and matches against
-     * actual groovy version.
-     * @param actualGroovyVersion
-     * @param spockVersion
-     * @return
+     * Returns true when the spock-core jar's embedded Groovy version matches actualGroovyVersion.
+     * Returns false for Groovy versions not in the map (e.g. Groovy 5) so those tests are skipped.
      */
     static boolean doesGroovyMatchSpockVersion(String actualGroovyVersion, String spockVersion) {
         def spockGroovyVersionMatcher = spockVersion =~ /(.*)-groovy-(.*)/
         String spockGroovyVersion = spockGroovyVersionMatcher[0][2]
         def groovyMajorVersionMatcher = actualGroovyVersion =~ /([0-9]*\.[0-9]*)(.*)/
         String groovyMajorVersion = groovyMajorVersionMatcher[0][1]
-        // find proper version in a map (or use spock-x.x-core-groovy-4.0 if not found)
-        return groovyVsSpock.get(groovyMajorVersion, "4.0").equals(spockGroovyVersion)
+        // false if groovyVsSpock.get() returns null
+        return spockGroovyVersion == groovyVsSpock.get(groovyMajorVersion)
     }
 
 }
