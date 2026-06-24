@@ -441,11 +441,17 @@
                         <executions>
                             <execution>
                                 <id>run-test-suites</id>
+                                <goals>
+                                    <goal>test</goal>
+                                </goals>
                                 <configuration>
                                     <skipTests>${func.test.skip}</skipTests>
                                     <includes>
                                         <include>**/*TestSuite.*</include>
                                     </includes>
+                                    <excludes>
+                                        <exclude>none</exclude>
+                                    </excludes>
                                 </configuration>
                             </execution>
                         </executions>
