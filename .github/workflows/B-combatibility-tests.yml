@@ -53,3 +53,13 @@ jobs:
       - name: Run matrix tests for clover-groovy and tests-functional
         run: |
           mvn --batch-mode verify -pl clover-groovy,tests-functional -Pcompatibility
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-compatibility
+          path: |
+            **/target/surefire-reports/*.xml
+            **/target/failsafe-reports/*.xml
+          if-no-files-found: ignore
