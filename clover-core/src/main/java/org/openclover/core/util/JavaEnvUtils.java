@@ -18,6 +18,14 @@ public class JavaEnvUtils {
     public static final String JAVA_15 = "15";
     public static final String JAVA_16 = "16";
     public static final String JAVA_17 = "17";
+    public static final String JAVA_18 = "18";
+    public static final String JAVA_19 = "19";
+    public static final String JAVA_20 = "20";
+    public static final String JAVA_21 = "21";
+    public static final String JAVA_22 = "22";
+    public static final String JAVA_23 = "23";
+    public static final String JAVA_24 = "24";
+    public static final String JAVA_25 = "25";
 
     static {
         try {
@@ -40,6 +48,22 @@ public class JavaEnvUtils {
             javaVersion = JAVA_16;
             Class.forName("java.util.HexFormat");
             javaVersion = JAVA_17;
+            Class.forName("java.net.spi.InetAddressResolverProvider");
+            javaVersion = JAVA_18;
+            Thread.class.getMethod("threadId");
+            javaVersion = JAVA_19;
+            Float.class.getMethod("float16ToFloat", short.class);
+            javaVersion = JAVA_20;
+            Class.forName("java.util.SequencedCollection");
+            javaVersion = JAVA_21;
+            Class.forName("java.lang.classfile.ClassFile");
+            javaVersion = JAVA_22;
+            Class.forName("java.util.concurrent.StructuredTaskScope$Joiner");
+            javaVersion = JAVA_23;
+            Class.forName("javax.crypto.KDF");
+            javaVersion = JAVA_24;
+            Class.forName("java.lang.StableValue");
+            javaVersion = JAVA_25;
         } catch (Throwable t) {
             // ignore
         }

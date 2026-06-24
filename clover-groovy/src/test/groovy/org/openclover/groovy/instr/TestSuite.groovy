@@ -20,6 +20,7 @@ class TestSuite
             (Groovy2CoverageRecordingTest) : DefaultTestSelector.instance.closure,
             (Groovy3CoverageRecordingTest) : DefaultTestSelector.instance.closure,
             (Groovy4CoverageRecordingTest) : DefaultTestSelector.instance.closure,
+            (Groovy5CoverageRecordingTest) : DefaultTestSelector.instance.closure,
             (GroovyCoverageTest)           : DefaultTestSelector.instance.closure,
             (GroovyElvisOperatorTest)      : DefaultTestSelector.instance.closure,
             (GroovyLambdasTest)            : DefaultTestSelector.instance.closure,

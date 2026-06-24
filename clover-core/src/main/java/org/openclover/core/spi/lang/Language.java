@@ -42,7 +42,9 @@ public interface Language {
                 LanguageConstruct.Builtin.GROOVY_FIELD_EXPRESSION,
                 LanguageConstruct.Builtin.GROOVY_SAFE_METHOD,
                 LanguageConstruct.Builtin.GROOVY_SAFE_ATTRIBUTE,
-                LanguageConstruct.Builtin.GROOVY_SAFE_PROPERTY),
+                LanguageConstruct.Builtin.GROOVY_SAFE_PROPERTY,
+                LanguageConstruct.Builtin.GROOVY_ELVIS_OPERATOR,
+                LanguageConstruct.Builtin.GROOVY_IMPLIES_OPERATOR),
 
         // clover-aspectj-compiler
         ASPECTJ(".aj",

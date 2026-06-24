@@ -33,7 +33,8 @@ public interface LanguageConstruct {
         GROOVY_SAFE_METHOD("?()", "safe method call had non-null target {2} {2,choice,0#times|1#time|1<times}, had null target {3} {3,choice,0#times|1#time|1<times}."),
         GROOVY_SAFE_PROPERTY("?P", "safe property call had non-null target {2} {2,choice,0#times|1#time|1<times}, had null target {3} {3,choice,0#times|1#time|1<times}."),
         GROOVY_SAFE_ATTRIBUTE("?A", "safe attribute call had non-null target {2} {2,choice,0#times|1#time|1<times}, had null target {3} {3,choice,0#times|1#time|1<times}."),
-        GROOVY_ELVIS_OPERATOR("?:", "elvis expression defaulted {2} {2,choice,0#times|1#time|1<times}, evaluated alternate expression  {3} {3,choice,0#times|1#time|1<times}.");
+        GROOVY_ELVIS_OPERATOR("?:", "elvis expression defaulted {2} {2,choice,0#times|1#time|1<times}, evaluated alternate expression  {3} {3,choice,0#times|1#time|1<times}."),
+        GROOVY_IMPLIES_OPERATOR("==>", "implication: left operand true {2} {2,choice,0#times|1#time|1<times}, left operand false {3} {3,choice,0#times|1#time|1<times}.");
 
         private final String id;
         private final MessageFormat msgFormat;
