@@ -16,7 +16,7 @@
         <dependency>
             <groupId>org.openclover.eclipse.libs</groupId>
             <artifactId>clover-eclipse-libs</artifactId>
-            <version>2024.06</version>
+            <version>2025.06</version>
             <type>pom</type>
         </dependency>
         <dependency>
