@@ -153,9 +153,6 @@ public class CloverTokenStreamFilter extends TokenStreamHiddenTokenFilter {
         return rest;
     }
 
-    /**
-     * @see clover.antlr.TokenStream#nextToken
-     **/
     @Override
     public Token nextToken() throws TokenStreamException {
 

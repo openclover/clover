@@ -275,6 +275,7 @@
                     <configuration>
                         <doclint>-missing</doclint>
                         <quiet>true</quiet>
+                        <detectOfflineLinks>false</detectOfflineLinks>
                         <!--<release>8</release> option not available in JDK8 -->
                     </configuration>
                 </plugin>
