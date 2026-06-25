@@ -31,7 +31,7 @@ public abstract class BaseNature implements IProjectNature {
     }
 
     protected IJavaProject getJavaProject(IProject project) throws CoreException {
-        return (IJavaProject)project.getNature(JavaCore.NATURE_ID);
+        return JavaCore.create(project);
     }
 
     @Override
