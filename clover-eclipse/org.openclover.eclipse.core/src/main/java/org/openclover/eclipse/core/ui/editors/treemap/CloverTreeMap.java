@@ -26,7 +26,7 @@ import static org.openclover.eclipse.core.CloverPlugin.logError;
 import static org.openclover.eclipse.core.CloverPlugin.logWarning;
 
 public class CloverTreeMap extends KTreeMap {
-    private OpenJavaEditorAction openEditorAction;
+    private final OpenJavaEditorAction openEditorAction;
 
     public CloverTreeMap(final IJavaProject project, IWorkbenchPartSite site, Composite parent, int root, TreeMapNode strategy) {
         super(parent, root, strategy);
@@ -104,7 +104,7 @@ public class CloverTreeMap extends KTreeMap {
                     int nbChar = (label.length() * item.getWidth()) / stringWidth;
                     if (nbChar > 3) {
                         // and add "..." at the end
-                        label = "..." + label.substring(Math.max(0, (label.length() - 1) - (nbChar)), label.length());
+                        label = "..." + label.substring(Math.max(0, (label.length() - 1) - (nbChar)));
                         stringWidth = (nbChar - 1) * fm.getAverageCharWidth();
                     } else {
                         // if it is not enough large, we display nothing

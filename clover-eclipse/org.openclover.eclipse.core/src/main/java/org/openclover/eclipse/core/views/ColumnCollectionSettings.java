@@ -29,7 +29,7 @@ public class ColumnCollectionSettings
 
     private static final Integer DEFAULT_CUSTOM_COLUMN_WIDTH = 100;
     
-    private List<ColumnDefinition> allBuiltinColumns;
+    private final List<ColumnDefinition> allBuiltinColumns;
     private Map<String, ColumnDefinition> allColumnsById;
     private Set<ColumnDefinition> visibleColumns;
     private Map<ColumnDefinition, Integer> visibleColumnsToWidths;

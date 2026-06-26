@@ -307,7 +307,7 @@ public class GeneralPreferencesPage
             CloverPlugin.getInstance().getInstallationSettings().save();
         }
 
-        public boolean performOk() throws IOException {
+        public boolean performOk() {
             performApply();
             return true;
         }

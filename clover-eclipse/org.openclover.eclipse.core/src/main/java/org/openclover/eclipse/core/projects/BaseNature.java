@@ -38,11 +38,11 @@ public abstract class BaseNature implements IProjectNature {
         this.project = project;
     }
 
-    protected static List<ICommand> ensureBuilderAddedAfter(IProjectDescription description, List<ICommand> commands, String primaryId, String subsequentId, String absentId) throws CoreException {
+    protected static List<ICommand> ensureBuilderAddedAfter(IProjectDescription description, List<ICommand> commands, String primaryId, String subsequentId, String absentId) {
         return ensureBuilderAdded(description, commands, false, primaryId, subsequentId, absentId);
     }
 
-    protected static List<ICommand> ensureBuilderAddedBefore(IProjectDescription description, List<ICommand> commands, String primaryId, String subsequentId, String absentId) throws CoreException {
+    protected static List<ICommand> ensureBuilderAddedBefore(IProjectDescription description, List<ICommand> commands, String primaryId, String subsequentId, String absentId) {
         return ensureBuilderAdded(description, commands, true, primaryId, subsequentId, absentId);
     }
 

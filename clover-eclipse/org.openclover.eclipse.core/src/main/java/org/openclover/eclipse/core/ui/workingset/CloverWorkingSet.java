@@ -33,7 +33,7 @@ import static org.openclover.eclipse.core.CloverPlugin.logError;
  */
 public class CloverWorkingSet {
 
-    private String CLOVER_WORKING_SET_NAME = CloverEclipsePluginMessages.CLOVER_WORKING_SET();
+    private final String CLOVER_WORKING_SET_NAME = CloverEclipsePluginMessages.CLOVER_WORKING_SET();
 
     private final IWorkingSetManager workingSetManager;
     private IWorkingSet mCachedWorkingSet;

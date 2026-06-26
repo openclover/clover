@@ -23,7 +23,7 @@ class ExclusionFilterTest {
         List<SourceFolderPattern> list = new ArrayList<SourceFolderPattern>(testData.length)
         for (String[] testRow : testData) {
             list.add(new SourceFolderPattern(
-                    testRow[0], testRow[1], testRow[2], "+".equals(testRow[3])))
+                    testRow[0], testRow[1], testRow[2], "+" == testRow[3]))
         }
         return list
     }

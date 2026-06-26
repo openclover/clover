@@ -46,14 +46,14 @@ public class CloudEditor
     private static final int PROJECT_RISKS_PAGE = 0;
 
     private Map<String, PackageCloudStructure> perPackageCloudMappings;
-    private Browser[] browsers = new Browser[2];
+    private final Browser[] browsers = new Browser[2];
     private LocationListener locationListener = EditorLinkingLocationListener.NO_LINKING;
     private OpenJavaEditorAction openAction;
     private Combo focusDropDown;
     private Button aggregateCheckbox;
     private Button refreshButton;
 
-    private DatabaseChangeListener coverageListener = event -> {
+    private final DatabaseChangeListener coverageListener = event -> {
         if (event.isApplicableTo(((CloverProjectInput) getEditorInput()).getProject())
             && event.isSubstantiveProjectChange()) {
             Display.getDefault().asyncExec(CloudEditor.this::onCoverageChanged);

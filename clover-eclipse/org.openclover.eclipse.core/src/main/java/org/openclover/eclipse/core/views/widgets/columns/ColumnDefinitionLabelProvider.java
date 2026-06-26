@@ -17,7 +17,7 @@ import static org.openclover.eclipse.core.CloverPlugin.logError;
 import static org.openclover.eclipse.core.CloverPlugin.logWarning;
 
 public class ColumnDefinitionLabelProvider implements ITableLabelProvider, IDisposable {
-    private ResourceManager imageManager;
+    private final ResourceManager imageManager;
     private Image customColumnImage;
     private Image builtinColumnImage;
     private Image builtinLockedColumnImage;

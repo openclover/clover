@@ -34,8 +34,8 @@ public class ColumnSelectionDialog extends Dialog {
     private static final int TABLE_RHS_HEIGHT_HINT = 300;
     private static final int TABLE_LHS_HEIGHT_HINT = 200;
     
-    private ColumnDefinitionsModel model;
-    private String viewName;
+    private final ColumnDefinitionsModel model;
+    private final String viewName;
     private Table selectedColumnsTable;
     private TableViewer selectedColumnsTableViewer;
     private Table allBuiltinColumnsTable;

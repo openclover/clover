@@ -30,7 +30,7 @@ public class PhysicalTreePkgFragNodeToTreeMultiPkgFragNodeAndCURelationship exte
 
             final Map<String, Set<IPackageFragment>> pkgNamesToFragments = newHashMap();
 
-            for (IPackageFragmentRoot root : Arrays.asList(javaProject.getPackageFragmentRoots())) {
+            for (IPackageFragmentRoot root : javaProject.getPackageFragmentRoots()) {
                 if (root.getKind() == IPackageFragmentRoot.K_SOURCE) {
                     final IPackageFragment pkgFragmentForRoot = root.getPackageFragment(pkgName);
                     if (pkgFragmentForRoot != null) {

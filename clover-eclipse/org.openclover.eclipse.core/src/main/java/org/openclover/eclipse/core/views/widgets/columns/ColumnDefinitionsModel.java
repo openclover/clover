@@ -18,7 +18,7 @@ import static org.openclover.core.util.Sets.newHashSet;
 class ColumnDefinitionsModel {
     private LinkedHashSet<ColumnDefinition> remaining;
     private LinkedHashSet<ColumnDefinition> assigned;
-    private LinkedHashSet<PropertyChangeListener> listeners;
+    private final LinkedHashSet<PropertyChangeListener> listeners;
     private LinkedHashSet<ColumnDefinition> allColumns;
 
     public ColumnDefinitionsModel(ColumnDefinition[] selectedColumns, ColumnDefinition[] allColumns) {

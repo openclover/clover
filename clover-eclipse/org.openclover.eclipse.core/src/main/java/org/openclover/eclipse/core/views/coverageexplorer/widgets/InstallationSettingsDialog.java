@@ -98,12 +98,11 @@ public class InstallationSettingsDialog extends PopupDialog {
         });
 
         refreshIntervalCombo = new Combo(parent, SWT.READ_ONLY);
-        refreshIntervalCombo.setItems(new String[]{
-            CloverEclipsePluginMessages.TWO_SECONDS(),
-            CloverEclipsePluginMessages.FIVE_SECONDS(),
-            CloverEclipsePluginMessages.TEN_SECONDS(),
-            CloverEclipsePluginMessages.TWENTY_SECONDS()
-        });
+        refreshIntervalCombo.setItems(
+                CloverEclipsePluginMessages.TWO_SECONDS(),
+                CloverEclipsePluginMessages.FIVE_SECONDS(),
+                CloverEclipsePluginMessages.TEN_SECONDS(),
+                CloverEclipsePluginMessages.TWENTY_SECONDS());
         final long refreshPeriod = CloverPlugin.getInstance().getInstallationSettings().getCoverageRefreshPeriod();
         if (refreshPeriod == InstallationSettings.Values.FIVE_SECONDS_COVERAGE_REFRESH_PERIOD) {
             refreshIntervalCombo.select(1);

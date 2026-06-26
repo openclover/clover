@@ -15,8 +15,8 @@ import java.util.SortedSet;
 import static org.openclover.core.util.Lists.newLinkedList;
 
 class AnnotationSpaceWithFragments extends AnnotationSpace {
-    private AnnotationSpace parent;
-    protected List<AnnotationFragment> fragments = newLinkedList();
+    private final AnnotationSpace parent;
+    private final List<AnnotationFragment> fragments = newLinkedList();
 
     public AnnotationSpaceWithFragments(
         CloverDatabase database,

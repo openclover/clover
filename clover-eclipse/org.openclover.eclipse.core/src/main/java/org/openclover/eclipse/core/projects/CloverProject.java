@@ -533,7 +533,7 @@ public class CloverProject extends BaseNature {
         failures.add(originalFile);
     }
 
-    public BuildCoordinator getBuildCoordinator() throws CoreException {
+    public BuildCoordinator getBuildCoordinator() {
         return buildCoordinator;
     }
 

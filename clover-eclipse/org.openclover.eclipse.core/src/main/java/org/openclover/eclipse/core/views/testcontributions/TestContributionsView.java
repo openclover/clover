@@ -52,7 +52,7 @@ public class TestContributionsView extends CloverViewPart {
         createAllTestsWidget(mainContent);
         createLineTestsWidget(mainContent);
 
-        mainContent.setWeights(new int[] {5, 3});
+        mainContent.setWeights(5, 3);
 
         alertContainer.updateLinks();
 

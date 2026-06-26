@@ -306,19 +306,19 @@ public class BuildCoordinator {
         command.add("-nowarn");
     }
 
-    private void addSourceParam(List<String> command) throws CoreException {
+    private void addSourceParam(List<String> command) {
         command.add("-source");
         command.add(project.getJavaProject().getOption(JavaCore.COMPILER_SOURCE, true));
     }
 
-    private void addTargetParam(List<String> command) throws CoreException {
+    private void addTargetParam(List<String> command) {
         command.add("-target");
         command.add(
                 project.getJavaProject().getOption(
                         JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM, true));
     }
 
-    private void addMiscParams(List<String> command) throws CoreException {
+    private void addMiscParams(List<String> command) {
         List<String> debugOptions = newLinkedList();
         if (JavaCore.GENERATE.equals(
                 project.getJavaProject().getOption(
@@ -438,7 +438,7 @@ public class BuildCoordinator {
     /**
      * Returns -bootclasspath for Java 8 and below, -classpath for Java 9 and above.
      */
-    private String classpathFlag() throws CoreException {
+    private String classpathFlag() {
         String source = project.getJavaProject().getOption(JavaCore.COMPILER_SOURCE, true);
         // Java 8 and below: "1.8", "1.7", etc. Java 9+: "9", "10", "11", "14", "21", etc.
         boolean isJava9Plus = !source.startsWith("1.");

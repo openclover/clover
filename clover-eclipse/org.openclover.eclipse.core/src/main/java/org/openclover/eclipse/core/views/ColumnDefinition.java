@@ -17,11 +17,11 @@ public abstract class ColumnDefinition {
 
     private final String id;
     private final int lockedColumnIndex;
-    private int alignment;
-    private String title;
-    private String abbreviatedTitle;
-    private String tooltip;
-    private WeakHashMap renderers;
+    private final int alignment;
+    private final String title;
+    private final String abbreviatedTitle;
+    private final String tooltip;
+    private final WeakHashMap renderers;
 
     protected ColumnDefinition(String id, int pinndedIndex, int alignment, String title, String abbreviatedTitle, String tooltip) {
         this.id = id;

@@ -154,7 +154,6 @@ public class CoverageViewSettings
             case HIERARCHY_STYLE_PACKAGE_ROOTS:
                 return 3;
             case HIERARCHY_STYLE_NO_PACKAGE_ROOTS:
-                return 2;
             default:
                 return 2;
         }

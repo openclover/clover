@@ -23,9 +23,9 @@ public class CoverageAnnotationSpaceBuilder implements CoverageAnnotationBuilder
         DEBUG_ENABLED = CloverPlugin.isLoggingDebugFor("annotations");
     }
     
-    private CloverDatabase database;
-    private IDocument document;
-    private AnnotationSpace root;
+    private final CloverDatabase database;
+    private final IDocument document;
+    private final AnnotationSpace root;
     private AnnotationSpace currentSpace;
 
     public CoverageAnnotationSpaceBuilder(CloverDatabase database, IDocument document, Map<TestCaseInfo, BitSet> tcisAndHitsForFile) {
@@ -144,7 +144,7 @@ public class CoverageAnnotationSpaceBuilder implements CoverageAnnotationBuilder
             return
                 "\"" + flattenedString.substring(0, frontCharsToShow)
                 + "..."
-                + flattenedString.substring(flattenedString.length() - backCharsToShow, flattenedString.length()) + "\"";
+                + flattenedString.substring(flattenedString.length() - backCharsToShow) + "\"";
         }
     }
 

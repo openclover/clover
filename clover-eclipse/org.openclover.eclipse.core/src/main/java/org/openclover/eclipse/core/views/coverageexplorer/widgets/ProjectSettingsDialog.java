@@ -71,7 +71,7 @@ public class ProjectSettingsDialog extends PopupDialog {
 
         instrumentationLevel = new Combo(parent, SWT.CHECK | SWT.READ_ONLY);
         SwtUtils.gridDataFor(instrumentationLevel).horizontalSpan = 2;
-        instrumentationLevel.setItems(new String[] {"statement level", "method level"});
+        instrumentationLevel.setItems("statement level", "method level");
         instrumentationLevel.select(initialInstrumentationlevel == InstrumentationLevel.STATEMENT ? 0 : 1);
         instrumentationLevel.setToolTipText(
             "Statement level instrumentation is more accurate but has a runtime performance penalty." +

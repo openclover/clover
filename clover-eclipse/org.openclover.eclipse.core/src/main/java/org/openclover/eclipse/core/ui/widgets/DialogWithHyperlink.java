@@ -46,7 +46,7 @@ public class DialogWithHyperlink extends IconAndMessageDialog {
 
             final int lineHeight = convertHeightInCharsToPixels(1);
             final int minimumWidth = convertHorizontalDLUsToPixels(IDialogConstants.MINIMUM_MESSAGE_AREA_WIDTH);
-            final int computedMinimumHeight = link.computeSize(SWT.DEFAULT, SWT.DEFAULT, true).y + 1 * lineHeight;
+            final int computedMinimumHeight = link.computeSize(SWT.DEFAULT, SWT.DEFAULT, true).y + lineHeight;
 
             GridDataFactory
             .fillDefaults()

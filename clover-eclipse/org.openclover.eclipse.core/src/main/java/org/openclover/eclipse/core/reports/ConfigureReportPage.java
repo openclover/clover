@@ -172,7 +172,7 @@ public abstract class ConfigureReportPage extends WizardPage {
 
         threadCount = new Combo(threadCountComposite, SWT.READ_ONLY);
         threadCount.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        threadCount.setItems(new String[] {"1", "2", "3", "4", "8", "12", "16"});
+        threadCount.setItems("1", "2", "3", "4", "8", "12", "16");
         threadCount.select(0);
 
         String threadCountTooltip =
@@ -306,11 +306,10 @@ public abstract class ConfigureReportPage extends WizardPage {
         // drop-down
         showLambdaCombo = new Combo(showLambdaComposite, SWT.READ_ONLY);
         showLambdaCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        showLambdaCombo.setItems(new String[]{
+        showLambdaCombo.setItems(
                 ShowLambdaFunctions.NONE.getDescription(),
                 ShowLambdaFunctions.FIELDS_ONLY.getDescription(),
-                ShowLambdaFunctions.FIELDS_AND_INLINE.getDescription()
-        });
+                ShowLambdaFunctions.FIELDS_AND_INLINE.getDescription());
         showLambdaCombo.select(0);
 
     }

@@ -354,11 +354,11 @@ public class CoverageView extends ExplorerView implements IShowInTarget {
         super.updateMainContentSashOrientation(viewOrientation);
         switch(viewOrientation) {
             case SWT.VERTICAL :
-                mainContent.setWeights(new int[] {7, 3});
+                mainContent.setWeights(7, 3);
                 break;
             case SWT.HORIZONTAL :
             default :
-                mainContent.setWeights(new int[] {2, 1});
+                mainContent.setWeights(2, 1);
                 break;
         }
     }
@@ -581,8 +581,7 @@ public class CoverageView extends ExplorerView implements IShowInTarget {
     @Override
     public boolean show(ShowInContext showInContext) {
         ISelection selection = showInContext.getSelection();
-        if (selection != null
-            && selection instanceof IStructuredSelection) {
+        if (selection instanceof IStructuredSelection) {
             return selectInTree(((IStructuredSelection)selection).getFirstElement());
         } else {
             return selectInTree(showInContext.getInput());

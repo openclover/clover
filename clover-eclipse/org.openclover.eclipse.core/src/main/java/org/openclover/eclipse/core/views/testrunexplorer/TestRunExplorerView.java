@@ -601,13 +601,11 @@ public class TestRunExplorerView extends ExplorerView {
         super.updateMainContentSashOrientation(viewOrientation);
         switch (viewOrientation) {
             case SWT.VERTICAL:
-//                mainContent.setWeights(new int[]{1, 1, 1});
-                mainContent.setWeights(new int[]{1, 1});
+                mainContent.setWeights(1, 1);
                 break;
             case SWT.HORIZONTAL:
             default:
-                mainContent.setWeights(new int[]{4, 3});
-//                mainContent.setWeights(new int[]{4, 3, 3});
+                mainContent.setWeights(4, 3);
                 break;
         }
     }

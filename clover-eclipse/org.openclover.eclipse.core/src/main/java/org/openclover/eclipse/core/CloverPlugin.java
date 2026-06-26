@@ -60,7 +60,7 @@ public class CloverPlugin extends AbstractUIPlugin {
         return instance;
     }
 
-    private PluginLoggingAdapter cloverLogger;
+    private final PluginLoggingAdapter cloverLogger;
     private CoverageModelsMonitor coverageMonitor;
     private EditorCoverageSynchronizer editorSynchronizer;
     private CloverWorkingSet workingSet;
