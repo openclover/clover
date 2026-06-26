@@ -27,7 +27,7 @@ public class CloveredEclipseLauncherDelegate extends CloveredLauncherDelegate {
     }
 
     @Override
-    protected ILaunchConfigurationWorkingCopy bindCustomOutputDirToLaunchClasspath(ILaunchConfigurationWorkingCopy workingCopy) throws CoreException {
+    protected ILaunchConfigurationWorkingCopy bindCustomOutputDirToLaunchClasspath(ILaunchConfigurationWorkingCopy workingCopy) {
         return workingCopy;
     }
 }

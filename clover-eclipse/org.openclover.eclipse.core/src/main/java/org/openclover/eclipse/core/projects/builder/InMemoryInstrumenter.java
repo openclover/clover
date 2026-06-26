@@ -7,7 +7,6 @@ import org.openclover.core.instr.java.FileInstrumentationSource;
 import org.openclover.core.instr.java.InstrumentationSource;
 import org.openclover.core.registry.Clover2Registry;
 import org.openclover.eclipse.core.projects.CloverProject;
-import org.openclover.runtime.api.CloverException;
 
 import java.io.CharArrayWriter;
 import java.util.Iterator;
@@ -23,7 +22,7 @@ public class InMemoryInstrumenter extends BaseInstrumenter {
     }
 
     @Override
-    protected void instrumentSource(IFile originalFile) throws CloverException, CoreException {
+    protected void instrumentSource(IFile originalFile) throws CoreException {
         maybeInitialiseInstrumentation();
 
         removeMarkers(originalFile);
@@ -67,7 +66,7 @@ public class InMemoryInstrumenter extends BaseInstrumenter {
     }
 
     @Override
-    protected void copySource(IFile originalFile) throws CloverException, CoreException {
+    protected void copySource(IFile originalFile) {
         //TODO: implement
         throw new UnsupportedOperationException();
     }

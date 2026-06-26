@@ -68,7 +68,7 @@ public class ExclusionFilter {
         final List<String> list = new ArrayList<>(patterns.length);
         for (String pattern : patterns) {
             pattern = pattern.trim();
-            if (pattern.length() == 0) {
+            if (pattern.isEmpty()) {
                 continue;
             }
             final StringBuilder sb = new StringBuilder(folder.length() + 1 + pattern.length());

@@ -7,7 +7,7 @@ import java.util.List;
 import static org.openclover.core.util.Lists.newArrayList;
 
 public abstract class ExpressionElement implements TreeElement {
-    private TreeElement parent;
+    private final TreeElement parent;
 
     final List<TestClassElement> testClasses = newArrayList();
     
@@ -21,7 +21,7 @@ public abstract class ExpressionElement implements TreeElement {
         return testClass;
     }
 
-    public List getTestClasses() {
+    public List<TestClassElement> getTestClasses() {
         return testClasses;
     }
 

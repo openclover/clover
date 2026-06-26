@@ -103,7 +103,7 @@ public class LoadingDatabaseModel
      * deadlock where, on launch, an autobuild starts with (scheduling rule == project)
      * and there's a load coverage job (scheduling rule == project) but the
      * auto build needs the db loaded first.
-     *
+     * <br/>
      * This method does not change the status of the loading job, merely brings forward
      * the work it does. Subsequent execution of the job will (once scheduling permits)
      * will simply just reuse the work done here. 

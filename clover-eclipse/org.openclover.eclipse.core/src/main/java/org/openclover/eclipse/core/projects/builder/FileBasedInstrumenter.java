@@ -20,7 +20,7 @@ public class FileBasedInstrumenter extends BaseInstrumenter {
 
     public FileBasedInstrumenter(CloverProject project, Clover2Registry registry, InstrumentationProjectPathMap pathMap, IProgressMonitor monitor, int buildKind) throws CoreException {
         super(monitor, pathMap, project, registry, buildKind);
-        this.originalToInstrumentedFileAndEncoding = new LinkedHashMap();
+        this.originalToInstrumentedFileAndEncoding = new LinkedHashMap<>();
     }
 
     @Override
@@ -49,7 +49,7 @@ public class FileBasedInstrumenter extends BaseInstrumenter {
     }
 
     @Override
-    protected void instrumentSource(IFile originalFile) throws CloverException, CoreException {
+    protected void instrumentSource(IFile originalFile) throws CoreException {
         IPath instrumentedSourceRoot =
             instrumentationMapper.getDisplacedSourceRootFor(originalFile.getFullPath());
 

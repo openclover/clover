@@ -5,8 +5,8 @@ import java.util.List;
 import static org.openclover.core.util.Lists.newArrayList;
 
 public class TestMethodsElement implements TreeElement {
-    private TestClassElement parent;
-    private List<TestMethodElement> methods = newArrayList();
+    private final TestClassElement parent;
+    private final List<TestMethodElement> methods = newArrayList();
 
     public TestMethodsElement(TestClassElement parent) {
         this.parent = parent;

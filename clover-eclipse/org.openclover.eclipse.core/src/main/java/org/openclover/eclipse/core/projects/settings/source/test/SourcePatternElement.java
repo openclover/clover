@@ -1,8 +1,8 @@
 package org.openclover.eclipse.core.projects.settings.source.test;
 
 public class SourcePatternElement implements TreeElement {
-    private TestPackageRootElement parent;
-    private String pattern;
+    private final TestPackageRootElement parent;
+    private final String pattern;
 
     public SourcePatternElement(TestPackageRootElement parent, String pattern) {
         this.parent = parent;

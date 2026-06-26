@@ -76,7 +76,7 @@ public class ExclusionUtil {
                 settings.setExcludeFilter(newPattern);
             } else {
                 settings.setIncludeFilter(newPattern);
-                return existingPatterns == null || existingPatterns.length() == 0 || newPattern.length() == 0;
+                return existingPatterns == null || existingPatterns.isEmpty() || newPattern.isEmpty();
             }
         }
         
@@ -95,7 +95,7 @@ public class ExclusionUtil {
             }
             return sb.toString();
         } else {
-            return origPatterns.trim().length() == 0 ? pattern : (origPatterns + ", " + pattern);
+            return origPatterns.trim().isEmpty() ? pattern : (origPatterns + ", " + pattern);
         }
 
     }

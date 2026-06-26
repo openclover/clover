@@ -7,8 +7,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 public class CleaningVisitor implements IResourceVisitor {
-    private IFolder parent;
-    private IProgressMonitor monitor;
+    private final IFolder parent;
+    private final IProgressMonitor monitor;
 
     public CleaningVisitor(IFolder parent, IProgressMonitor monitor) {
         super();

@@ -61,10 +61,8 @@ public class LoadDatabaseJob extends Job {
         //and never when something interesting is happening in the project in question
         setRule(
             new MultiRule(
-                new ISchedulingRule[] {
                     MUTEX_SCHEDULING_RULE,
-                    project.getProject()
-                })
+                    project.getProject())
             );
 
         this.hasRun = new AtomicBoolean(false);

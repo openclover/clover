@@ -20,8 +20,10 @@ public class CoverageFilesUtils {
                 return false;
             };
             File[] filesToDelete = coverageDbFolder.listFiles(deleteFilter);
-            for (File toDelete : filesToDelete) {
-                toDelete.delete();
+            if (filesToDelete != null) {
+                for (File toDelete : filesToDelete) {
+                    toDelete.delete();
+                }
             }
         }
     }

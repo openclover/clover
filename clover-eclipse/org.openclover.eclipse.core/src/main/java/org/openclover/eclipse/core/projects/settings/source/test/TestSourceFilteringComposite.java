@@ -102,9 +102,9 @@ public class TestSourceFilteringComposite extends Composite {
         testRootFolders.setInput(contentProvider.getProject());
 
         final Set<String> selectedFolders = newHashSet(lastSelectedFolders);
-        for (SourceRootWithPattern srwp : contentProvider.getChildren(project)) {
-            if (selectedFolders.contains(srwp.getPattern().getSrcPath())) {
-                testRootFolders.setChecked(srwp, true);
+        for (SourceRootWithPattern rootWithPattern : contentProvider.getChildren(project)) {
+            if (selectedFolders.contains(rootWithPattern.getPattern().getSrcPath())) {
+                testRootFolders.setChecked(rootWithPattern, true);
             }
         }
         contentProvider.addChangeListener(labelProvider);
@@ -139,13 +139,13 @@ public class TestSourceFilteringComposite extends Composite {
         lastExclude = testExcludeFilterText.getText().trim();
         lastSelectedFolders = getCurrentSelectedTestFolders();
 
-        properties.setTestIncludeFilter(lastInclude.length() > 0 ? lastInclude : null);
-        properties.setTestExcludeFilter(lastExclude.length() > 0 ? lastExclude : null);
+        properties.setTestIncludeFilter(!lastInclude.isEmpty() ? lastInclude : null);
+        properties.setTestExcludeFilter(!lastExclude.isEmpty() ? lastExclude : null);
         properties.setTestSourceFolders(lastTestSourceFolders);
         properties.setSelectedTestFolders(lastSelectedFolders);
     }
 
-    private List<String> getCurrentSelectedTestFolders() throws JavaModelException {
+    private List<String> getCurrentSelectedTestFolders() {
         final Object[] selection = testRootFolders.getCheckedElements();
         final List<String> selectedFolders = new ArrayList<>(selection.length);
         for (Object aSelection : selection) {

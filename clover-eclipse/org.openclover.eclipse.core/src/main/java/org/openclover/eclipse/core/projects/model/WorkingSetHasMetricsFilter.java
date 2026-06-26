@@ -14,18 +14,14 @@ import org.openclover.eclipse.core.projects.CloverProject;
 import java.io.File;
 
 public class WorkingSetHasMetricsFilter implements HasMetricsFilter {
-    private CloverProject project;
-    private File projectLocation;
+    private final CloverProject project;
 
     public WorkingSetHasMetricsFilter(CloverProject project) {
         this.project = project;
-        this.projectLocation = project.getProject().getLocation().toFile();
     }
 
     @Override
     public boolean accept(HasMetrics metrics) {
-        IAdaptable resource = null;
-
         if (metrics instanceof ProjectInfo) {
             return CloverPlugin.getInstance().getCloverWorkingSet().includesJavaProject(project.getProject());
         } else if (metrics instanceof FileInfo) {
@@ -37,10 +33,4 @@ public class WorkingSetHasMetricsFilter implements HasMetricsFilter {
         }
     }
 
-    private String getPackageName(HasMetrics hasMetrics) {
-        return
-            PackageInfo.DEFAULT_PACKAGE_NAME.equals(hasMetrics.getName())
-                ? ""
-                : (hasMetrics.getName() + ".");
-    }
 }

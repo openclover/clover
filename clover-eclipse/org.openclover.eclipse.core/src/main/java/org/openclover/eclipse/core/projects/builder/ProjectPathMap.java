@@ -68,7 +68,7 @@ public class ProjectPathMap {
         return paths.toArray(new IPath[paths.size()]);
     }
 
-    public Set getOutputLocations() {
+    public Set<String> getOutputLocations() {
         Set<String> libraries = new LinkedHashSet<>();
         for (IClasspathEntry sourcePathEntry : sourcePathEntries) {
             IPath outputLocation = sourcePathEntry.getOutputLocation();

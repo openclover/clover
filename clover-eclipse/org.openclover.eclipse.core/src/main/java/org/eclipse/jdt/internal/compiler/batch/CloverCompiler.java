@@ -18,7 +18,6 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
-import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.builder.BaseInstrumenter;
 import org.openclover.eclipse.core.projects.builder.InstrumentationProjectPathMap;
 import org.openclover.eclipse.core.projects.builder.PathUtils;
@@ -59,19 +58,19 @@ public class CloverCompiler extends Main {
     }
 
     
-    private static interface ReleaseInvoker {
-        static ReleaseInvoker UNAVAILABLE = (compiler, classFile) -> {};
+    private interface ReleaseInvoker {
+        ReleaseInvoker UNAVAILABLE = (compiler, classFile) -> {};
 
-        public void release(CloverCompiler compiler, ClassFile classFile);
+        void release(CloverCompiler compiler, ClassFile classFile);
     }
 
     private static class ReflectionReleaseInvoker implements ReleaseInvoker {
         //TODO: By not using weakrefs are we in practice causing big memory retention here?
-        private Field ClassFile_isShared;
-        private Field Main_batchCompiler;
-        private Field Compiler_lookupEnvironment;
-        private Field LookupEnvironment_classFilePool;
-        private Method ClassFilePool_release;
+        private final Field ClassFile_isShared;
+        private final Field Main_batchCompiler;
+        private final Field Compiler_lookupEnvironment;
+        private final Field LookupEnvironment_classFilePool;
+        private final Method ClassFilePool_release;
 
         private ReflectionReleaseInvoker() throws NoSuchMethodException, NoSuchFieldException {
             ClassFile_isShared = ClassFile.class.getDeclaredField("isShared");
@@ -82,7 +81,7 @@ public class CloverCompiler extends Main {
             Compiler_lookupEnvironment.setAccessible(true);
             LookupEnvironment_classFilePool = LookupEnvironment.class.getDeclaredField("classFilePool");
             LookupEnvironment_classFilePool.setAccessible(true);
-            ClassFilePool_release = ClassFilePool.class.getDeclaredMethod("release", new Class[] {ClassFile.class});
+            ClassFilePool_release = ClassFilePool.class.getDeclaredMethod("release", ClassFile.class);
             ClassFilePool_release.setAccessible(true);
         }
 
@@ -94,7 +93,7 @@ public class CloverCompiler extends Main {
                     final Object batchCompiler = Main_batchCompiler.get(compiler);
                     final Object lookupEnvironment = Compiler_lookupEnvironment.get(batchCompiler);
                     final Object classFilePool = LookupEnvironment_classFilePool.get(lookupEnvironment);
-                    ClassFilePool_release.invoke(classFilePool, new Object[]{classFile});
+                    ClassFilePool_release.invoke(classFilePool, classFile);
                 }
             } catch (Throwable e) {
                 logError("Unable to release class " + classFile + " from pool", e);
@@ -138,15 +137,15 @@ public class CloverCompiler extends Main {
                     CompilationUnit compilationUnit = (CompilationUnit)unitResult.compilationUnit;
                     String cuFileName = new String(compilationUnit.getFileName());
                     IPath destinationPath = pathMap.getOutputRootForWorkignAreaSourceResource(new Path(cuFileName));
-                    IResource currentDestination = ensureOutputContainerCreated(destinationPath);
+                    IContainer currentDestination = ensureOutputContainerCreated(destinationPath);
 
-                    if (currentDestination != null && currentDestination instanceof IContainer) {
+                    if (currentDestination != null) {
                         for (ClassFile classFile : classFiles) {
                             String baseName = new String(classFile.fileName()).replace('/', File.separatorChar);
                             String classFileName = baseName + ".class";
                             try {
                                 writeToDisk(
-                                        (IContainer) currentDestination,
+                                        currentDestination,
                                         classFileName,
                                         classFile);
                                 RELEASE_INVOKER.release(this, classFile);
@@ -341,7 +340,4 @@ public class CloverCompiler extends Main {
         }
     }
 
-    private String classBaseNameOf(String fileName) {
-        return fileName.substring(0, fileName.indexOf(RECORDER_CLASS_INTERFIX) + RECORDER_CLASS_INTERFIX.length());
-    }
 }

@@ -7,7 +7,7 @@ import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.runtime.api.CloverException;
 
 public class InMemoryCurrentReportConfig extends Current {
-    private DatabaseModel inMemoryModel;
+    private final DatabaseModel inMemoryModel;
 
     public InMemoryCurrentReportConfig(DatabaseModel inMemoryModel) {
         super();
@@ -21,14 +21,8 @@ public class InMemoryCurrentReportConfig extends Current {
 
     /** We supply the already loaded and decorated CloverDatabase instance, no polishing needed */
     @Override
-    public CloverDatabase getCoverageDatabase() throws CloverException {
+    public CloverDatabase getCoverageDatabase() {
         return inMemoryModel.getDatabase();
     }
 
-    private HasMetricsFilter getWorkingSetFilter() {
-        return
-            CloverPlugin.getInstance().isInWorkingSetMode()
-                ? new WorkingSetHasMetricsFilter(inMemoryModel.getProject())
-                : HasMetricsFilter.ACCEPT_ALL;
-    }
 }

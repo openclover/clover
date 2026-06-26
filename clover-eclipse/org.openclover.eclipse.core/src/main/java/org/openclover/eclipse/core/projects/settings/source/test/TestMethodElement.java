@@ -7,7 +7,7 @@ import java.util.List;
 import static org.openclover.core.util.Lists.newArrayList;
 
 public class TestMethodElement implements TreeElement {
-    private TestMethodsElement parent;
+    private final TestMethodsElement parent;
 
     private String annotation;
     private String name;
@@ -61,7 +61,7 @@ public class TestMethodElement implements TreeElement {
         return parent;
     }
 
-    public class ReturnTypeNameConditionElement extends SpecificConditionElement {
+    public static class ReturnTypeNameConditionElement extends SpecificConditionElement {
         public ReturnTypeNameConditionElement(TestMethodElement parent, String value) {
             super(parent, value);
         }
@@ -84,7 +84,7 @@ public class TestMethodElement implements TreeElement {
         return result;
     }
 
-    public class AnyConditionElement extends org.openclover.eclipse.core.projects.settings.source.test.AnyConditionElement {
+    public static class AnyConditionElement extends org.openclover.eclipse.core.projects.settings.source.test.AnyConditionElement {
         public AnyConditionElement(TreeElement parent) {
             super(parent);
         }

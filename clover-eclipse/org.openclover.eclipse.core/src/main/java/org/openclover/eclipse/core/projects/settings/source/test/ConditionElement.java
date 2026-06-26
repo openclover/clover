@@ -1,7 +1,7 @@
 package org.openclover.eclipse.core.projects.settings.source.test;
 
 public abstract class ConditionElement implements TreeElement {
-    private TreeElement parent;
+    private final TreeElement parent;
 
     protected ConditionElement(TreeElement parent) {
         this.parent = parent;
