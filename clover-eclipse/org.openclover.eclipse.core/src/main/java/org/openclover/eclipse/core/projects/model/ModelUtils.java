@@ -20,7 +20,7 @@ public class ModelUtils {
     public static final int SEARCH_SELF = 0;
     public static final int SEARCH_SELF_AND_DEPENDENCIES = 1;
     
-    public static IType findTestCaseClass(int searchType, IJavaProject project, ClassInfo testClass) throws JavaModelException {
+    public static IType findTestCaseClass(int searchType, IJavaProject project, ClassInfo testClass) {
         IType type = null;
         if (project != null) {
             try {

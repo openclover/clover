@@ -89,14 +89,14 @@ public class DashboardView extends ViewPart implements ISelectionListener, Datab
         super.dispose();
     }
     
-    void projectSelected(IProject project) throws CloverException, IOException, Exception {
+    void projectSelected(IProject project) throws Exception {
         final CloverProject cloverProject = CloverProject.getFor(project);
         if (cloverProject != null && cloverProject != lastSelectedProject) {
             generateReport(null, cloverProject);
         }
     }
     
-    protected void generateReport(IProgressMonitor monitor, CloverProject cloverProject) throws Exception, CloverException, IOException {
+    protected void generateReport(IProgressMonitor monitor, CloverProject cloverProject) throws Exception {
         CloverDatabase database;
         if ( (cloverProject != null) && ((database = cloverProject.getModel().getDatabase()) != null) ) {
             final DashboardGenerator dashboardGenerator = new DashboardGenerator(
@@ -131,7 +131,7 @@ public class DashboardView extends ViewPart implements ISelectionListener, Datab
             final Object firstElement = ((IStructuredSelection)selection).getFirstElement();
             if (firstElement instanceof IAdaptable) {
                 final IAdaptable adaptable = (IAdaptable)firstElement;
-                final IResource resource = (IResource) adaptable.getAdapter(IResource.class);
+                final IResource resource = adaptable.getAdapter(IResource.class);
                 if (resource != null) {
                     try {
                         projectSelected(resource.getProject());
@@ -139,7 +139,7 @@ public class DashboardView extends ViewPart implements ISelectionListener, Datab
                         logError("Error creating the dashboard", e);
                     }
                 } else {
-                    final IJavaElement element = (IJavaElement) adaptable.getAdapter(IJavaElement.class);
+                    final IJavaElement element = adaptable.getAdapter(IJavaElement.class);
                     IJavaProject javaProject = element != null ? element.getJavaProject() : null; 
                     try {
                         projectSelected(javaProject != null ? javaProject.getProject() : null);

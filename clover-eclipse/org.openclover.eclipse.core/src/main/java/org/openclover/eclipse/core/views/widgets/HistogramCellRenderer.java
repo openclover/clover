@@ -25,7 +25,7 @@ public abstract class HistogramCellRenderer extends SelectionAwareCellRenderer {
     @Override
     protected void paint(Event event) {
         if (forThisColumn(event)) {
-            Widget item = (Widget) event.item;
+            Widget item = event.item;
             GC gc = event.gc;
             Display display = rendered.getDisplay();
 

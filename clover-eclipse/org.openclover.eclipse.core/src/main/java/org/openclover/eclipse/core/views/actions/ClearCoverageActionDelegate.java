@@ -11,7 +11,7 @@ public class ClearCoverageActionDelegate extends SingleCloverProjectActionDelega
 
     @Override
     public void run(IAction action) {
-        IProject project = (IProject)projects.iterator().next();
+        IProject project = projects.iterator().next();
 
         try {
             if (CloverProject.isAppliedTo(project)) {

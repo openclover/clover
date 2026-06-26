@@ -24,7 +24,7 @@ public abstract class PackageFragmentNode extends JavaElementNode {
     @Override
     public IJavaElement toJavaElement() {
         //Just take the first since it's only for workbench rendering
-        return packageFragments.isEmpty() ? null : (IJavaElement)packageFragments.iterator().next();
+        return packageFragments.isEmpty() ? null : packageFragments.iterator().next();
     }
 
     public String getElementName() {

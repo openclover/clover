@@ -80,7 +80,7 @@ public class AllTestContributionsComputation extends TestContributionsComputatio
         try {
             if (isInputChanged()) {
 
-                setTestCases(Collections.<TestCaseInfo>emptySet());
+                setTestCases(Collections.emptySet());
                 setCheckedTestCasesAndClasses(Collections.emptySet());
 
                 CoverageAnnotationModel annotationModel = getCoverageAnnotationModel();
@@ -101,7 +101,7 @@ public class AllTestContributionsComputation extends TestContributionsComputatio
     }
 
     private void updateTestCases(ICompilationUnit cu) {
-        CloverProject project = (CloverProject) cu.getAdapter(CloverProject.class);
+        CloverProject project = cu.getAdapter(CloverProject.class);
         if (project != null) {
             CloverDatabase database = project.getModel().getDatabase();
             if (database != null) {
@@ -138,7 +138,7 @@ public class AllTestContributionsComputation extends TestContributionsComputatio
     }
 
     private void clearTestCases() {
-        setTestCases(Collections.<TestCaseInfo>emptySet());
+        setTestCases(Collections.emptySet());
         setCheckedTestCasesAndClasses(Collections.singleton(AllTestCaseInfoProvider.ALL_TEST_CASES));
     }
 

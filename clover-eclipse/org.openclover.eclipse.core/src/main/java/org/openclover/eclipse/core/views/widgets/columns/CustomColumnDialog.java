@@ -236,12 +236,6 @@ public class CustomColumnDialog extends TitleAreaDialog {
         super.okPressed();
     }
 
-    @Override
-    public boolean close() {
-        return super.close();
-
-    }
-
     public CustomColumnDefinition getColumn() {
         return columnDef;
     }

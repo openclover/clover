@@ -1,6 +1,5 @@
 package org.openclover.eclipse.core.projects.builder;
 
-import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -365,7 +364,7 @@ public class BuildCoordinator {
         addVersionSpecificMiscParams(command);
     }
 
-    private void addVersionSpecificMiscParams(List<String> command) throws CoreException {
+    private void addVersionSpecificMiscParams(List<String> command) {
         Version version = JDTUtils.getJDTVersion();
         if (version.getMajor() == 3 && version.getMinor() >= 3) {
             //No annotation processing

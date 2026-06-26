@@ -96,7 +96,7 @@ public class LineTestContributionsComputation extends TestContributionsComputati
                 Position cursorPosition = getCursorPosition();
 
                 //No tests, by default
-                setTestCases(Collections.<TestCaseInfo>emptySet());
+                setTestCases(Collections.emptySet());
 
                 if (coverageAnnotationModel != null && coverageModel != null && cursorPosition != null) {
                     updateTestCases(coverageAnnotationModel, coverageModel, cursorPosition);

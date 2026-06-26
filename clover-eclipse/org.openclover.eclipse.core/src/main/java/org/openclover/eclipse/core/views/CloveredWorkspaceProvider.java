@@ -50,7 +50,7 @@ public abstract class CloveredWorkspaceProvider
     @Override
     public boolean hasChildren(Object object) {
         final Boolean result = nodeBuilder.hasChildren(object, getFilter());
-        return (result == null ? super.hasChildren(object) : result.booleanValue());
+        return (result == null ? super.hasChildren(object) : result);
     }
 
     @Override
@@ -72,7 +72,7 @@ public abstract class CloveredWorkspaceProvider
         }
     }
 
-    private class BreakDeltaProcessing extends Exception {};
+    private static class BreakDeltaProcessing extends Exception {};
 
     @Override
     public void elementChanged(ElementChangedEvent event) {

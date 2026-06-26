@@ -108,7 +108,6 @@ public class InstrumentationComposite extends Composite {
 
     /**
      * Returns whether user default or custom initstring value is selected.
-     * @return true if default, false if custom
      */
     public boolean isDefaultInitString() {
         return defaultInitStringButton.getSelection();
@@ -165,7 +164,6 @@ public class InstrumentationComposite extends Composite {
 
     /**
      * Returns whether any references to java.lang.* classes shall be fully qualified in instrumented code.
-     * @return true if shall be fully qualified, false otherwise
      */
     public boolean isQualifyJavaLangReferences() {
         return qualifyJavaLangButton.getSelection();

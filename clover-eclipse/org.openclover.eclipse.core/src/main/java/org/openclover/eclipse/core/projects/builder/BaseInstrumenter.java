@@ -16,7 +16,6 @@ import org.openclover.eclipse.core.exclusion.ExclusionFilter;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.runtime.api.CloverException;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Iterator;
 

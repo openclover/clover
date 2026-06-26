@@ -158,7 +158,6 @@ public abstract class OpenReportOperation {
      *  - org.eclipse.ui.IWorkbench in Eclipse 3.6-4.3
      *  - org.eclipse.ui.IWorkbench + org.eclipse.e4.ui.workbench.IWorkbench in Eclipse 4.4
      * As we compile Clover against Eclipse 3.6, it fails with class initialization error in Eclipse 4.4.
-     *
      * Workaround: a Workbench class is instantiated using reflections to avoid any bytecode dependencies in our code.
      */
     private static IEditorRegistry getEditorRegistryFromWorkbench() {

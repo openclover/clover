@@ -15,7 +15,7 @@ class AnnotationFragmentOnStart extends AnnotationFragment {
         SourceInfo region, Map<TestCaseInfo, BitSet> tcisAndHitsForFile,
         boolean hidden) throws BadLocationException {
 
-        super(database, document, region, tcisAndHitsForFile, hidden, DocumentUtils.lineColToOffset(document, region.getStartLine(), region.getStartColumn()));
+        super(document, region, tcisAndHitsForFile, hidden, DocumentUtils.lineColToOffset(document, region.getStartLine(), region.getStartColumn()));
     }
 
 }

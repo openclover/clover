@@ -19,8 +19,8 @@ public class SelectionUtils {
         final Set<IProject> projects = newHashSet();
         if (selection instanceof IStructuredSelection)
         {
-            for (Iterator iter = ((IStructuredSelection) selection).iterator(); iter.hasNext();) {
-                IJavaElement selectedJavaElement = asJavaElement(iter.next());
+            for (Object o : (IStructuredSelection) selection) {
+                IJavaElement selectedJavaElement = asJavaElement(o);
                 if (selectedJavaElement != null) {
                     projects.add(selectedJavaElement.getJavaProject().getProject());
                 }
@@ -35,7 +35,7 @@ public class SelectionUtils {
             javaElement = (IJavaElement)element;
         } else {
             if (element instanceof IAdaptable) {
-                javaElement = (IJavaElement)((IAdaptable) element).getAdapter(IJavaElement.class);
+                javaElement = ((IAdaptable) element).getAdapter(IJavaElement.class);
             }
         }
         return javaElement;

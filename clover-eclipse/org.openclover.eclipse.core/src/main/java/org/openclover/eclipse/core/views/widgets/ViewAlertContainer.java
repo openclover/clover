@@ -240,7 +240,7 @@ public class ViewAlertContainer extends Composite implements DatabaseChangeListe
         }
     }
 
-    private class AlertPopup extends PopupDialog {
+    private static class AlertPopup extends PopupDialog {
         private final String text;
         private Link link;
         private Point location;

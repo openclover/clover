@@ -591,7 +591,7 @@ public class CoverageView extends ExplorerView implements IShowInTarget {
 
     private boolean selectInTree(Object input) {
         if (input instanceof IAdaptable) {
-            IJavaElement javaElement = (IJavaElement)((IAdaptable)input).getAdapter(IJavaElement.class);
+            IJavaElement javaElement = ((IAdaptable)input).getAdapter(IJavaElement.class);
             if (javaElement != null) {
                 selectInTree(javaElement);
                 return true;
@@ -620,7 +620,7 @@ public class CoverageView extends ExplorerView implements IShowInTarget {
         Collections.reverse(path);
 
         //We're flying blind here, some of these nodes may not exist
-        //as the they may represent the path to a selection that is more
+        //as they may represent the path to a selection that is more
         //grainular than we show in the tree
         for (Iterator iterator = path.iterator(); iterator.hasNext();) {
             Object node = iterator.next();

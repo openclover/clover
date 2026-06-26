@@ -76,7 +76,7 @@ public class Nodes {
 
     public static final TypeCondition IS_TEST_CLASS_CONTAINER = new TypeCondition() {
         @Override
-        public boolean evaluate(IType type) throws CoreException {
+        public boolean evaluate(IType type) {
             return MetricsScope.TEST_ONLY.getHasMetricsFor(type, FullClassInfo.class) != null;
         }
 
@@ -98,7 +98,7 @@ public class Nodes {
 
     private static final TypeCondition IS_APP_CLASS_CONTAINER = new TypeCondition() {
         @Override
-        public boolean evaluate(IType type) throws CoreException {
+        public boolean evaluate(IType type) {
             return MetricsScope.APP_ONLY.getHasMetricsFor(type, FullClassInfo.class) != null;
         }
 
@@ -110,7 +110,7 @@ public class Nodes {
         }
 
         @Override
-        public Inference inferFor(IPackageFragment element) throws CoreException {
+        public Inference inferFor(IPackageFragment element)  {
             final CloverProject cloverProject = CloverProject.getFor(element.getJavaProject());
             final HasMetrics hasMetrics = cloverProject == null ? null : MetricsScope.APP_ONLY.getHasMetricsFor(element);
             final HasMetricsNode hasMetricsNode = hasMetrics instanceof HasMetricsNode ? (HasMetricsNode)hasMetrics : null;
@@ -126,10 +126,10 @@ public class Nodes {
         public abstract boolean evaluate(IType type) throws CoreException;
         /** An optimization to avoid walking the type tree if we have a high-level way of evaluating. */
         public Inference inferFor(IProject element) throws CoreException { return Inference.UNKNOWN; };
-        public Inference inferFor(IPackageFragmentRoot element) throws CoreException { return Inference.UNKNOWN; };
+        public Inference inferFor(IPackageFragmentRoot element) { return Inference.UNKNOWN; };
         public Inference inferFor(IPackageFragment element) throws CoreException { return Inference.UNKNOWN; };
-        public Inference inferFor(TreePackageFragmentNode element) throws CoreException { return Inference.UNKNOWN; };
-        public Inference inferFor(LeafPackageFragmentNode element) throws CoreException { return Inference.UNKNOWN; };
+        public Inference inferFor(TreePackageFragmentNode element) { return Inference.UNKNOWN; };
+        public Inference inferFor(LeafPackageFragmentNode element) { return Inference.UNKNOWN; };
     }
 
     private enum Inference {

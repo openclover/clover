@@ -134,7 +134,7 @@ public class InstallationSettingsDialog extends PopupDialog {
                 CloverPlugin.getInstance().getInstallationSettings().setTrackingPerTestCoverage(trackPerTestCoverageButton.getSelection());
                 CloverPlugin.getInstance().getInstallationSettings().setAutoRefreshingCoverage(refreshButton.getSelection());
                 CloverPlugin.getInstance().getInstallationSettings().setPerTestCoverageInMemory(inMemPerTestCoverageButton.getSelection());
-                long refreshPeriod = 0l;
+                long refreshPeriod = 0L;
                 switch (refreshIntervalCombo.getSelectionIndex()) {
                     case 1:
                         refreshPeriod = InstallationSettings.Values.FIVE_SECONDS_COVERAGE_REFRESH_PERIOD;

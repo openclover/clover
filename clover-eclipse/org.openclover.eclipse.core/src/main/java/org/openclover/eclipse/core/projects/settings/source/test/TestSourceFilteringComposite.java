@@ -132,7 +132,7 @@ public class TestSourceFilteringComposite extends Composite {
         adapter.widgetSelected(null);
     }
 
-    public void storeTo(ProjectSettings properties) throws JavaModelException {
+    public void storeTo(ProjectSettings properties) {
 
         lastTestSourceFolders = getCurrentTestSourceFolders();
         lastInclude = testIncludeFilterText.getText().trim();
@@ -160,7 +160,7 @@ public class TestSourceFilteringComposite extends Composite {
                 : /*default all*/ ProjectSettings.Values.ALL_FOLDERS;
     }
 
-    public boolean isModified() throws JavaModelException {
+    public boolean isModified() {
         if (lastTestSourceFolders != getCurrentTestSourceFolders()) {
             return true;
         }

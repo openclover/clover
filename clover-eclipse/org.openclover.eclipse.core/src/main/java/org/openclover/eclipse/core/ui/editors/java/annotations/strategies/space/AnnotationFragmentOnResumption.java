@@ -14,6 +14,6 @@ class AnnotationFragmentOnResumption extends AnnotationFragment {
         SourceInfo region, Map<TestCaseInfo, BitSet> tcisAndHitsForFile,
         boolean hidden, int startPos) {
         
-        super(database, document, region, tcisAndHitsForFile, hidden, startPos);
+        super(document, region, tcisAndHitsForFile, hidden, startPos);
     }
 }

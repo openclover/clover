@@ -1,7 +1,5 @@
 package org.openclover.eclipse.core.reports;
 
-import java.lang.reflect.InvocationTargetException;
-
 public abstract class ForkingReporter {
     public static final String FORKING_REPORTER_PROP = "clover.eclipse.forking.reporter";
 
@@ -16,7 +14,7 @@ public abstract class ForkingReporter {
         }
     }
 
-    public static void main(String[] args) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException, InstantiationException, ClassNotFoundException {
+    public static void main(String[] args) throws IllegalAccessException, InstantiationException, ClassNotFoundException {
         System.exit(newReporter().run(args));
     }
 

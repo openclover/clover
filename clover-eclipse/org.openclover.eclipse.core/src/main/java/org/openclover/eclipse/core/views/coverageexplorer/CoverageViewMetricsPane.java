@@ -244,7 +244,7 @@ public class CoverageViewMetricsPane extends Composite {
 
     private void setFormName(IStructuredSelection selection) {
         IAdaptable asAdaptable = selection == null ? null : (IAdaptable) selection.getFirstElement();
-        IJavaElement asJavaElement = asAdaptable == null ? null : (IJavaElement) asAdaptable.getAdapter(IJavaElement.class);
+        IJavaElement asJavaElement = asAdaptable == null ? null : asAdaptable.getAdapter(IJavaElement.class);
 
         String label = "-";
         if (asJavaElement != null) {

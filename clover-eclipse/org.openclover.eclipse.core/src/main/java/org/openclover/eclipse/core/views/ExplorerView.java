@@ -441,7 +441,7 @@ public abstract class ExplorerView extends CloverViewPart {
         return 2;
     }
 
-    protected abstract class JavaElementDblClickListener implements IDoubleClickListener {
+    protected abstract static class JavaElementDblClickListener implements IDoubleClickListener {
         private SelectionDispatchAction action;
 
         protected JavaElementDblClickListener(SelectionDispatchAction action) {
@@ -453,7 +453,7 @@ public abstract class ExplorerView extends CloverViewPart {
             IStructuredSelection selection = (IStructuredSelection) event.getSelection();
             Object selected = selection.getFirstElement();
             if (selected instanceof IAdaptable) {
-                IJavaElement selectedJavaElement = (IJavaElement) ((IAdaptable) selected).getAdapter(IJavaElement.class);
+                IJavaElement selectedJavaElement = ((IAdaptable) selected).getAdapter(IJavaElement.class);
 
                 if (shouldOpenEditor(event, selectedJavaElement)) {
                     action.run(new StructuredSelection(selectedJavaElement));

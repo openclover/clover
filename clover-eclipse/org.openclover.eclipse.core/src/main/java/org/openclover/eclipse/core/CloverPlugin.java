@@ -155,7 +155,7 @@ public class CloverPlugin extends AbstractUIPlugin {
 
         //Wait until the bundle is fully started before starting background jobs
         //as there is a real danger of classloader deadlock in Equinox when the bundle state changes
-        //or so it appears. See CEP-313. This may be a case of shadow boxing. Unclear ATM.
+        //or so it appears. See CEP-313. This may be a case of a shadow-boxing. Unclear ATM.
         final long thisBundleId = context.getBundle().getBundleId();
         startListener = bundleEvent -> {
             if (bundleEvent.getBundle().getBundleId() == thisBundleId

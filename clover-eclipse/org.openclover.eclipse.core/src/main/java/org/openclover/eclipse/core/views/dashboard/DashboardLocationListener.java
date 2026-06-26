@@ -44,14 +44,8 @@ import static org.openclover.eclipse.core.CloverPlugin.logVerbose;
 import static org.openclover.eclipse.core.CloverPlugin.logWarning;
 
 final class DashboardLocationListener extends LocationAdapter {
-    /**
-     *
-     */
     private final DashboardView dashboardView;
 
-    /**
-     * @param dashboardView
-     */
     DashboardLocationListener(DashboardView dashboardView) {
         this.dashboardView = dashboardView;
     }
@@ -146,7 +140,7 @@ final class DashboardLocationListener extends LocationAdapter {
         }
     }
 
-    private void handleJavaSrcLocation(LocationEvent event, URI uri) throws JavaModelException, CoreException,
+    private void handleJavaSrcLocation(LocationEvent event, URI uri) throws CoreException,
             BadLocationException {
         event.doit = false;
         final String relativePath = uri.getPath().substring(1);
@@ -156,7 +150,7 @@ final class DashboardLocationListener extends LocationAdapter {
 
         final IJavaElement element = this.dashboardView.lastSelectedProject.getJavaProject().findElement(
                 new Path(relativePath));
-        final Object resource = (element instanceof ICompilationUnit) ? ((ICompilationUnit) element)
+        final Object resource = (element instanceof ICompilationUnit) ? element
                 .getCorrespondingResource() : null;
         if (resource instanceof IFile) {
             final IEditorPart editor = IDE.openEditor(this.dashboardView.getSite().getPage(), (IFile) resource);
@@ -166,7 +160,7 @@ final class DashboardLocationListener extends LocationAdapter {
                 final int offset = doc.getLineOffset(line) + column;
                 ((ITextEditor) editor).selectAndReveal(offset, 0);
             }
-            final IShowInSource showInSource = (IShowInSource) editor.getAdapter(IShowInSource.class);
+            final IShowInSource showInSource = editor.getAdapter(IShowInSource.class);
             if (showInSource != null) {
                 final IWorkbenchPage page = this.dashboardView.getSite().getPage();
                 final IViewPart view = page.showView(CoverageView.ID);

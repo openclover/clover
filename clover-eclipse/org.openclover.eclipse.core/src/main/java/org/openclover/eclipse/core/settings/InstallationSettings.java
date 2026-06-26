@@ -41,7 +41,7 @@ public class InstallationSettings extends Settings {
         public static final String TRACK_PERTEST_COVERAGE = "track_pertest_coverage";
         public static final String PERTEST_COVERAGE_INMEM = "pertest_coverage_inmem";
         public static final String SHOW_EXCLUSION_ANNOTATIONS = "show_exclusion_annotations";
-        /** Whether coverage should include hits from from failed tests as well */
+        /** Whether coverage should include hits from failed tests as well */
         public static final String INCLUDE_FAILED_COVERAGE = "include_failed_coverage";
         /** Whether Clover should store instrumented sources in temporary directory */
         public static final String PRESERVE_INSTRUMENTED_SOURCES = "preserve_instrumented_sources";
@@ -109,7 +109,7 @@ public class InstallationSettings extends Settings {
     }
 
     public long getCoverageRefreshPeriod() {
-        return getLong(Keys.COVERAGE_REFRESH_PERIOD, 0l);
+        return getLong(Keys.COVERAGE_REFRESH_PERIOD, 0L);
     }
 
     public boolean isAutoRefreshingCoverage() {

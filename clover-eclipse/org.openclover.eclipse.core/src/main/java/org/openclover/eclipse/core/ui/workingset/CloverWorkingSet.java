@@ -336,7 +336,7 @@ public class CloverWorkingSet {
             return null;
         }
         IAdaptable a = (IAdaptable) o;
-        return (IJavaElement) a.getAdapter(IJavaElement.class);
+        return a.getAdapter(IJavaElement.class);
     }
 
     private void addChangeListener() {

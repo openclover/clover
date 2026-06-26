@@ -91,7 +91,7 @@ public abstract class TestContributionsWidget
                             ((TestCaseInfo)object1).getSourceMethod(),
                             ((TestCaseInfo)object2).getSourceMethod());
                 } else {
-                    //This shouldn't happen (as sorting is done on a column-by-column basis
+                    //This shouldn't happen as sorting is done on a column-by-column basis
                     //so let's not bother too much, heh?
                     result = 0;
                 }

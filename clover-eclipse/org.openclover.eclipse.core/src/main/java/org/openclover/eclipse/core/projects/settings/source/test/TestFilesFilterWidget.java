@@ -123,7 +123,7 @@ public class TestFilesFilterWidget extends Composite {
         filterGroup.setEnabled(enabled);
     }
 
-    public final class TestPackageRootContentProvider implements ITreeContentProvider {
+    public static final class TestPackageRootContentProvider implements ITreeContentProvider {
         private TestSourcesElement input;
 
         @Override
@@ -192,7 +192,7 @@ public class TestFilesFilterWidget extends Composite {
         }
     }
 
-    public class TestPackageRootLabelProvider implements ITableLabelProvider {
+    public static class TestPackageRootLabelProvider implements ITableLabelProvider {
 
         @Override
         public Image getColumnImage(Object object, int col) {

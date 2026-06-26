@@ -55,8 +55,7 @@ public class GeneralPreferencesPage
         private BooleanFieldEditor preserveInstrSourcesEditor;
         private BooleanFieldEditor autoOpenCloverViews;
 
-        public Panel(Composite parent)
-            throws CoreException {
+        public Panel(Composite parent) {
             super(parent, SWT.NONE);
 
             setLayout(new GridLayout(1, false));
@@ -303,7 +302,7 @@ public class GeneralPreferencesPage
             loadEditorDefaults(allConfigurationEditors());
         }
 
-        public void performApply() throws IOException {
+        public void performApply() {
             storeEditors(allConfigurationEditors());
             CloverPlugin.getInstance().getInstallationSettings().save();
         }

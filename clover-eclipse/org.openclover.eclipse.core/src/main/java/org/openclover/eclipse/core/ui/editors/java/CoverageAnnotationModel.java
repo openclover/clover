@@ -109,7 +109,7 @@ public class CoverageAnnotationModel implements IAnnotationModel, IDocumentListe
 
     private CoverageAnnotationFilter syncFilter(CloverDatabase database, FullFileInfo fileInfo,
                                                 Map<TestCaseInfo, BitSet> tcisAndHitsForFile, ContextSet blockFilter) {
-        IResource editedResource = (IResource) editor.getEditorInput().getAdapter(IResource.class);
+        IResource editedResource = editor.getEditorInput().getAdapter(IResource.class);
         if (editedResource != null) {
             return CoverageAnnotationFilter.loadFor(
                 database,
@@ -219,7 +219,7 @@ public class CoverageAnnotationModel implements IAnnotationModel, IDocumentListe
 
     private CloverProject cloverProjectFor(IJavaElement element) {
         return element != null
-            ? ((CloverProject) element.getAdapter(CloverProject.class))
+            ? element.getAdapter(CloverProject.class)
             : null;
     }
 
@@ -656,7 +656,7 @@ public class CoverageAnnotationModel implements IAnnotationModel, IDocumentListe
 
     public CoverageAnnotationFilter.TestFilter getExcludedTests() {
         return CoverageAnnotationFilter.TestFilter.loadFor(
-            (IResource) editor.getEditorInput().getAdapter(IResource.class),
+                editor.getEditorInput().getAdapter(IResource.class),
             CoverageAnnotationFilter.EXCLUDED_TEST_NAMES);
     }
 
@@ -664,12 +664,12 @@ public class CoverageAnnotationModel implements IAnnotationModel, IDocumentListe
 
         if (testNames.isEmpty()) {
             CoverageAnnotationFilter.TestFilter.removeFor(
-                ((IResource) editor.getEditorInput().getAdapter(IResource.class)),
+                    editor.getEditorInput().getAdapter(IResource.class),
                 CoverageAnnotationFilter.EXCLUDED_TEST_NAMES);
 
         } else {
             testNames.saveFor(
-                (IResource) editor.getEditorInput().getAdapter(IResource.class),
+                    editor.getEditorInput().getAdapter(IResource.class),
                 CoverageAnnotationFilter.EXCLUDED_TEST_NAMES);
 
         }

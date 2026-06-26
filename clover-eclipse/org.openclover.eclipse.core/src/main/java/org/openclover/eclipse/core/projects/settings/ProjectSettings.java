@@ -239,9 +239,9 @@ public class ProjectSettings extends Settings {
             } else {
                 final long lastClean = CloverProject.getLastCleanBuildStamp(project);
                 return
-                    (lastClean != 0l
+                    (lastClean != 0L
                         ? System.currentTimeMillis() - lastClean
-                        : 0l) + userSpan;
+                        : 0L) + userSpan;
             }
         } else {
             return userSpan;
@@ -485,7 +485,7 @@ public class ProjectSettings extends Settings {
     private <T> void setListProperty(String key, List<T> list, ListMarshaller<T> marshaller) {
         // need to convert each element of the list into a string, and
         // store them in indexed names. Note, there is a limit of 2K of data
-        // for each qualified name. Therefore use separate name for each
+        // for each qualified name. Therefore, use separate name for each
         // data element.
 
         for (int i = 0; ; i++) {

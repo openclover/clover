@@ -49,7 +49,7 @@ public class ToggleSingleCloverProjectNatureActionDelegate
     }
 
     @Override
-    protected boolean enableFor(IProject project) throws CoreException {
+    protected boolean enableFor(IProject project) {
         return project.isAccessible();
     }
 }

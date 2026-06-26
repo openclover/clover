@@ -76,8 +76,7 @@ public class SelectReportPage extends WizardPage {
     }
 
     /**
-     * Has the user requested an html style report?
-     * @return
+     * Has the user requested a html style report?
      */
     protected boolean isHtmlSelected() {
         return htmlSelection.getSelection();
@@ -85,7 +84,6 @@ public class SelectReportPage extends WizardPage {
 
     /**
      * Has the user requested a pdf style report?
-     * @return
      */
     protected boolean isPdfSelected() {
         return pdfSelection.getSelection();
@@ -93,7 +91,6 @@ public class SelectReportPage extends WizardPage {
 
     /**
      * Has the user requested an xml style report?
-     * @return
      */
     protected boolean isXmlSelected() {
         return xmlSelection.getSelection();

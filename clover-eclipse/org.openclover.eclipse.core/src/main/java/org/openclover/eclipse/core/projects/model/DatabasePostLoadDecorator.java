@@ -8,5 +8,5 @@ public interface DatabasePostLoadDecorator extends CoverageLoadDecorator {
     DatabasePostLoadDecorator[] NONE = new DatabasePostLoadDecorator[] {};
     DatabasePostLoadDecorator NULL = (project, database, monitor) -> {};
     
-    void decorate(CloverProject project, CloverDatabase database, IProgressMonitor monitor) throws Exception;
+    void decorate(CloverProject project, CloverDatabase database, IProgressMonitor monitor);
 }

@@ -3,7 +3,6 @@ package org.openclover.eclipse.core.ui;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.browser.IWebBrowser;
 import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
-import org.openclover.eclipse.core.CloverPlugin;
 
 import java.net.URL;
 

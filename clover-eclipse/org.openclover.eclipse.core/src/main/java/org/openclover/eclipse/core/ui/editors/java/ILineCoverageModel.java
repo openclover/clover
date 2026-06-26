@@ -22,45 +22,38 @@ import java.util.Set;
 public interface ILineCoverageModel {
     /**
      * Returns Entry object containing extra information about given line number
-     * @param lineNumber
-     * @return Entry
      */
     Entry getForLine(int lineNumber);
 
     /**
      * Returns true if given line number has any lacks of coverage.
-     * @param lineNumber
      * @return true if at least part of line is not covered, false otherwise
      */
     boolean hasMissesInLine(int lineNumber);
 
     /**
      * Returns true if given line number has any coverage.
-     * @param lineNumber
      * @return true if at least part of line is covered, false otherwise
      */
     boolean hasHitsInLine(int lineNumber);
 
     /**
      * Returns true if given line number has coverage resulting from at least one passed test case.
-     * @param lineNumber
      * @return true if at least part of line is covered due to passing test, false otherwise
      */
     boolean hasPassedHitsInLine(int lineNumber);
 
     /**
      * Returns true if given line number has coverage resulting from at least one failed test case.
-     * @param lineNumber
      * @return true if at least part of line is covered due to passing test, false otherwise
      */
     boolean hasFailedHitsInLine(int lineNumber);
 
     /**
      * Returns true if given line of given number has been filtered out by context filters.
-     * @param lineNumber
      * @return true if line is filtered-out
      */
-    public boolean isFilteredInLine(int lineNumber);
+    boolean isFilteredInLine(int lineNumber);
 
     interface Entry {
         ElementInfo getElementInfo();

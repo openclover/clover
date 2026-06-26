@@ -18,11 +18,6 @@ public class TestCaseTreeProvider
     }
 
     @Override
-    public void dispose() {
-        super.dispose();
-    }
-
-    @Override
     public void databaseChanged(DatabaseChangeEvent event) {
         // Use preserveExpandedPaths=false so that expandToLevel() is called after each
         // substantive change. This is required because the Clover DB loads asynchronously

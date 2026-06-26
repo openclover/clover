@@ -3,7 +3,6 @@ package org.openclover.eclipse.core.ui.editors.java.annotations.strategies.space
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.Position;
-import org.openclover.core.CloverDatabase;
 import org.openclover.core.CoverageData;
 import org.openclover.core.api.registry.ElementInfo;
 import org.openclover.core.api.registry.SourceInfo;
@@ -18,7 +17,6 @@ import java.util.Map;
 import java.util.Set;
 
 abstract class AnnotationFragment {
-    private final CloverDatabase database;
     private final IDocument document;
     private final SourceInfo region;
     private final Map<TestCaseInfo, BitSet> tcisAndHitsForFile;
@@ -28,11 +26,10 @@ abstract class AnnotationFragment {
     private int length = -1;
 
     public AnnotationFragment(
-        CloverDatabase database, IDocument document,
+        IDocument document,
         SourceInfo region, Map<TestCaseInfo, BitSet> tcisAndHitsForFile,
         boolean hidden, int startPos) {
 
-        this.database = database;
         this.document = document;
         this.region = region;
         this.tcisAndHitsForFile = tcisAndHitsForFile;
@@ -120,7 +117,6 @@ abstract class AnnotationFragment {
                 return
                     "[" +  startLine + "," + (startPos - document.getLineOffset(startLine)) + "]"
                     + "->[" + endLine + "," + (startPos + length - document.getLineOffset(endLine)) + "]";
-            } else {
             }
         } catch (BadLocationException e) {
         }

@@ -11,5 +11,5 @@ public interface CoverageAnnotationBuilder {
 
     void onEndOfSourceRegion(SourceInfo region, boolean hidden) throws BadLocationException;
 
-    SortedSet<CoverageAnnotation> toAnnotations(SortedSet<CoverageAnnotation> annotations) throws BadLocationException;
+    SortedSet<CoverageAnnotation> toAnnotations(SortedSet<CoverageAnnotation> annotations);
 }

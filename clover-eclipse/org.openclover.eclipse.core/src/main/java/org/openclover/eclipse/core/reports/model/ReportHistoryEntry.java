@@ -13,7 +13,7 @@ public class ReportHistoryEntry {
     private String path = "";
     private Type type = Type.HTML;
     private String name = "unknown";
-    private long when = -1l;
+    private long when = -1L;
 
     public ReportHistoryEntry(Current config, long when) {
         path = config.getMainOutFile().getAbsolutePath();

@@ -96,58 +96,52 @@ public class LineCoverageModelImpl implements ILineCoverageModel {
 
             // calculate filter for line; if at least one statement is not filtered, then the whole line is not filtered
             boolean isLineWithStatementsFiltered = true;
-            if (statements.length > 0) {
-                for (StatementInfo statementInfo : statements) {
-                    // check if the whole statement is not filtered-out (e.g. by statement regexp context or by block context)
-                    if ( !statementInfo.isFiltered(fileInfo.getContextFilter()) ) {
-                        isLineWithStatementsFiltered = false;
-                        break;
-                    }
+            for (StatementInfo statementInfo : statements) {
+                // check if the whole statement is not filtered-out (e.g. by statement regexp context or by block context)
+                if ( !statementInfo.isFiltered(fileInfo.getContextFilter()) ) {
+                    isLineWithStatementsFiltered = false;
+                    break;
                 }
             }
 
-            if (statements.length > 0) {
-                for (StatementInfo statementInfo : statements) {
-                    final Set<TestCaseInfo> testCaseInfos = cloverDatabase.getTestHits(statementInfo);
-                    final Entry entry = new EntryImpl(statementInfo, testCaseInfos);
+            for (StatementInfo statementInfo : statements) {
+                final Set<TestCaseInfo> testCaseInfos = cloverDatabase.getTestHits(statementInfo);
+                final Entry entry = new EntryImpl(statementInfo, testCaseInfos);
 
-                    // check if at least one test case has passed or failed for given statement
-                    searchForPassedAndFailed(testCaseInfos, isPassedFailed);
+                // check if at least one test case has passed or failed for given statement
+                searchForPassedAndFailed(testCaseInfos, isPassedFailed);
 
-                    for (int line = statementInfo.getStartLine(); line <= statementInfo.getEndLine(); line++) {
-                        entries[line] = entry;
-                        if (statementInfo.getHitCount() == 0) {
-                            hasMisses[line] = true;
-                        } else {
-                            hasHits[line] = true;
-                        }
-                        if (isPassedFailed.passed) {
-                            hasPassedHits[line] = true;
-                        }
-                        if (isPassedFailed.failed) {
-                            hasFailedHits[line] = true;
-                        }
-                        // overwrite values in non-filtered method by values resulting from statement filter
-                        if (!isFiltered[line]) {
-                            isFiltered[line] = isLineWithStatementsFiltered;
-                        }
+                for (int line = statementInfo.getStartLine(); line <= statementInfo.getEndLine(); line++) {
+                    entries[line] = entry;
+                    if (statementInfo.getHitCount() == 0) {
+                        hasMisses[line] = true;
+                    } else {
+                        hasHits[line] = true;
+                    }
+                    if (isPassedFailed.passed) {
+                        hasPassedHits[line] = true;
+                    }
+                    if (isPassedFailed.failed) {
+                        hasFailedHits[line] = true;
+                    }
+                    // overwrite values in non-filtered method by values resulting from statement filter
+                    if (!isFiltered[line]) {
+                        isFiltered[line] = isLineWithStatementsFiltered;
                     }
                 }
             }
 
             // get all branches present in given source line
             final BranchInfo[] branchInfos = lineInfo.getBranches();
-            if (branchInfos.length > 0) {
-                for (BranchInfo branchInfo : branchInfos) {
-                    // note: there is no need to check pass/fail hits for test cases, as the branch is always a part of
-                    // a statement, so it's already calculated in the code block above;
-                    // we don't also check for hasHits as 'hasHits(statement) => hasHits(branch)'
+            for (BranchInfo branchInfo : branchInfos) {
+                // note: there is no need to check pass/fail hits for test cases, as the branch is always a part of
+                // a statement, so it's already calculated in the code block above;
+                // we don't also check for hasHits as 'hasHits(statement) => hasHits(branch)'
 
-                    // check for partial branch coverage
-                    for (int line = branchInfo.getStartLine(); line <= branchInfo.getEndLine(); line++) {
-                        if (branchInfo.getTrueHitCount() == 0 || branchInfo.getFalseHitCount() == 0) {
-                            hasMisses[line] = true;
-                        }
+                // check for partial branch coverage
+                for (int line = branchInfo.getStartLine(); line <= branchInfo.getEndLine(); line++) {
+                    if (branchInfo.getTrueHitCount() == 0 || branchInfo.getFalseHitCount() == 0) {
+                        hasMisses[line] = true;
                     }
                 }
             }

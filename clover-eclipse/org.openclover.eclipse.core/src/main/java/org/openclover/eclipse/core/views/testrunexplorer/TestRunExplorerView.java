@@ -664,7 +664,7 @@ public class TestRunExplorerView extends ExplorerView {
     private void updateClassesTestedSorter() {
         classesTestedTreeViewer.getControl().setRedraw(false);
         try {
-            classesTestedTree.setSortColumn((TreeColumn) classesTestedTreeColumns.get(getSettings().getClassesTestedTreeSettings().getSortedColumn()));
+            classesTestedTree.setSortColumn(classesTestedTreeColumns.get(getSettings().getClassesTestedTreeSettings().getSortedColumn()));
             classesTestedTree.setSortDirection(getSettings().getClassesTestedTreeSettings().isReverseSort() ? SWT.UP : SWT.DOWN);
             classesTestedTreeViewer.setComparator(ClassesTestedTreeComparator.getFor(getSettings().getClassesTestedTreeSettings()));
         } finally {

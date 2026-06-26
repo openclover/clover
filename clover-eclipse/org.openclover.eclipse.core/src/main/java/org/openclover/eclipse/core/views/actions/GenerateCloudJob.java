@@ -45,7 +45,7 @@ public abstract class GenerateCloudJob extends Job {
 
     protected abstract IStatus activateEditor();
 
-    protected void generateReport(IProgressMonitor monitor) throws Exception, CloverException, IOException {
+    protected void generateReport(IProgressMonitor monitor) throws Exception {
         new EclipseCloudGenerator(
                 CloverProject.getFor(project).getModel().getDatabase(),
                 ensureReportFolderCreated(monitor)).execute();

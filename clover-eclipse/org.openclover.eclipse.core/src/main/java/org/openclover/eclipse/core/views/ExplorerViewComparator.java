@@ -19,15 +19,13 @@ public abstract class ExplorerViewComparator extends ViewerComparator {
     }
 
     private static String nameOf(Object value) {
-        String name1 =
-            (value instanceof IJavaElement
-                ? ((IJavaElement)value).getElementName()
-                : (value instanceof IProject)
-                    ? ((IProject)value).getName()
-                    : (value instanceof IAdaptable)
-                        ? nameOf(((IAdaptable)value).getAdapter(IJavaElement.class))
-                        : String.valueOf(value));
-        return name1;
+        return (value instanceof IJavaElement
+            ? ((IJavaElement)value).getElementName()
+            : (value instanceof IProject)
+                ? ((IProject)value).getName()
+                : (value instanceof IAdaptable)
+                    ? nameOf(((IAdaptable)value).getAdapter(IJavaElement.class))
+                    : String.valueOf(value));
     }
 
     protected int invert(boolean reverseIt, int comparisonResult) {
@@ -88,7 +86,7 @@ public abstract class ExplorerViewComparator extends ViewerComparator {
             (object instanceof IJavaElement)
                 ? (IJavaElement)object
                 : (object instanceof IAdaptable)
-                    ? (IJavaElement)((IAdaptable)object).getAdapter(IJavaElement.class)
+                    ? ((IAdaptable)object).getAdapter(IJavaElement.class)
                     : object;
     }
 }
