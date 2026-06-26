@@ -55,13 +55,13 @@ public class CloveredOptimizedLauncherDelegate extends JUnitLaunchConfigurationD
                 final IPreferenceStore pluginPreferences = TestOptimizationPlugin.getDefault().getPreferenceStore();
                 if (pluginPreferences.getBoolean(TestOptimizationPlugin.SHOW_NO_TESTS_FOUND_DIALOG)) {
                     Display.getDefault().asyncExec(() -> {
-                        MessageDialogWithToggle mdwt =
+                        MessageDialogWithToggle dialogWithToggle =
                                 MessageDialogWithToggle.openInformation(null,
                                                                         TestOptimizationPluginMessages.getPluginName(),
                                                                         msg,
                                                                         TestOptimizationPluginMessages.getString("launch.optimized.notestsfound.ask"),
                                                                         true, null, null);
-                        pluginPreferences.setValue(TestOptimizationPlugin.SHOW_NO_TESTS_FOUND_DIALOG, mdwt.getToggleState());
+                        pluginPreferences.setValue(TestOptimizationPlugin.SHOW_NO_TESTS_FOUND_DIALOG, dialogWithToggle.getToggleState());
                     });
                 }
                 final IStatus status = new Status(IStatus.INFO, TestOptimizationPlugin.ID, msg);

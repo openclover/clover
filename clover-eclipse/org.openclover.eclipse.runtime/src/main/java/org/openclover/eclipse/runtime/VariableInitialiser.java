@@ -34,19 +34,19 @@ public class VariableInitialiser extends ClasspathVariableInitializer {
                     String path = new File(local.getPath()).getAbsolutePath();
                     JavaCore.setClasspathVariable(variable, Path.fromOSString(path), null);
 
-                    CloverPlugin.getInstance().log(IStatus.INFO, "Setting classpath variable \"" +  variable + "\" to \"" + path + "\"", null);
+                    CloverPlugin.log(IStatus.INFO, "Setting classpath variable \"" +  variable + "\" to \"" + path + "\"", null);
                 } else {
-                    CloverPlugin.getInstance().log(IStatus.ERROR, "Unable to set \"" + variable + "\" classpath variable, unable to locate runtime jar", null);
+                    CloverPlugin.log(IStatus.ERROR, "Unable to set \"" + variable + "\" classpath variable, unable to locate runtime jar", null);
                 }
             } catch (Throwable e) {
-                CloverPlugin.getInstance().log(IStatus.ERROR, "Unable to set \"" + variable + "\" classpath variable", e);
+                CloverPlugin.log(IStatus.ERROR, "Unable to set \"" + variable + "\" classpath variable", e);
                 unsetVariable(variable);
             }
         }
     }
 
     private void unsetVariable(String variable) {
-        CloverPlugin.getInstance().log(IStatus.INFO, "Unsetting \"" + variable + "\" classpath variable", null);
+        CloverPlugin.log(IStatus.INFO, "Unsetting \"" + variable + "\" classpath variable", null);
         JavaCore.removeClasspathVariable(variable, null);
     }
 }

@@ -160,7 +160,7 @@ public class TestOptimizationPlugin extends AbstractUIPlugin {
         final Preferences prefs = InstanceScope.INSTANCE.getNode(CloverPlugin.ID);
         final String memento = prefs.get(LAST_LAUNCH_CONFIGURATION, "");
         try {
-            lastLaunchConfiguration = memento == null  || memento.length() == 0 ? null : DebugPlugin.getDefault().getLaunchManager().getLaunchConfiguration(memento);
+            lastLaunchConfiguration = memento == null  || memento.isEmpty() ? null : DebugPlugin.getDefault().getLaunchManager().getLaunchConfiguration(memento);
         } catch (CoreException e) {
             lastLaunchConfiguration = null;
             TestOptimizationPlugin.logWarning("Cannot read last launch configuration", e);

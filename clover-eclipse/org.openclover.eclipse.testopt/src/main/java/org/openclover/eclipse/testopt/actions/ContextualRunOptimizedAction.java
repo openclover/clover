@@ -18,8 +18,8 @@ import java.util.Map;
 import static org.openclover.core.util.Maps.newHashMap;
 
 public class ContextualRunOptimizedAction extends ContextualLaunchAction {
-    private ResourceManager imageManager;
-    private Map<String, Image> images;
+    private final ResourceManager imageManager;
+    private final Map<String, Image> images;
 
     public ContextualRunOptimizedAction() {
         super(OptimizedLaunchingConstants.OPTIMIZED_MODE);
