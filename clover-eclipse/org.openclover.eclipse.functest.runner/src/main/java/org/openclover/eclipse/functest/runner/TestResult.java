@@ -8,6 +8,7 @@ public class TestResult {
     private final String projectName;
     private final List<String> failures = new ArrayList<>();
     private long durationMs;
+    private String skipReason;
 
     public TestResult(String projectName) {
         this.projectName = projectName;
@@ -15,6 +16,18 @@ public class TestResult {
 
     public String getProjectName() {
         return projectName;
+    }
+
+    public void skip(String reason) {
+        this.skipReason = reason;
+    }
+
+    public boolean isSkipped() {
+        return skipReason != null;
+    }
+
+    public String getSkipReason() {
+        return skipReason;
     }
 
     public void fail(String message) {

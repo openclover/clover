@@ -7,7 +7,9 @@ import org.eclipse.equinox.app.IApplicationContext;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Eclipse IApplication entry point for functional tests.
@@ -18,6 +20,15 @@ import java.util.List;
 public class Application implements IApplication {
 
     private static final Integer EXIT_ERROR = 1;
+
+    /** Tier 3 projects: not imported or built; reported as skipped in XML output. */
+    private static final Map<String, String> SKIPPED_PROJECTS = new LinkedHashMap<>();
+    static {
+        SKIPPED_PROJECTS.put("TestAntBuild",          "Tier 3: requires Ant on PATH");
+        SKIPPED_PROJECTS.put("TestDynamicWebProject", "Tier 3: requires WTP bundles not present in Eclipse for Java");
+        SKIPPED_PROJECTS.put("TestEquinoxProject",    "Tier 3: OSGi classpath complications");
+        SKIPPED_PROJECTS.put("TestEquinoxTestsProject","Tier 3: OSGi classpath complications");
+    }
 
     @Override
     public Object start(IApplicationContext context) throws Exception {
@@ -43,7 +54,7 @@ public class Application implements IApplication {
 
         WorkspaceManager wm = new WorkspaceManager(projectsDir, cloverRuntime);
         wm.setCloverRuntimeVariable();
-        wm.importProjects();
+        wm.importProjects(SKIPPED_PROJECTS.keySet());
         wm.buildAll();
 
         List<TestResult> results = new ArrayList<>();
@@ -64,6 +75,12 @@ public class Application implements IApplication {
             }
 
             r.setDurationMs(System.currentTimeMillis() - start);
+            results.add(r);
+        }
+
+        for (Map.Entry<String, String> entry : SKIPPED_PROJECTS.entrySet()) {
+            TestResult r = new TestResult(entry.getKey());
+            r.skip(entry.getValue());
             results.add(r);
         }
 
@@ -90,10 +107,11 @@ public class Application implements IApplication {
     }
 
     private static void printSummary(List<TestResult> results) {
-        long passed = results.stream().filter(r -> !r.hasFailed()).count();
-        long failed = results.stream().filter(TestResult::hasFailed).count();
-        System.out.printf("%n[runner] Results: %d passed, %d failed out of %d projects%n",
-                passed, failed, results.size());
+        long skipped = results.stream().filter(TestResult::isSkipped).count();
+        long passed  = results.stream().filter(r -> !r.hasFailed() && !r.isSkipped()).count();
+        long failed  = results.stream().filter(TestResult::hasFailed).count();
+        System.out.printf("%n[runner] Results: %d passed, %d failed, %d skipped out of %d projects%n",
+                passed, failed, skipped, results.size());
         results.stream()
                .filter(TestResult::hasFailed)
                .forEach(r -> {

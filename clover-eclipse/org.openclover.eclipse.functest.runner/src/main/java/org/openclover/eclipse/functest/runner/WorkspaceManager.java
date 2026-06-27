@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 public class WorkspaceManager {
 
@@ -42,7 +43,7 @@ public class WorkspaceManager {
         Job.getJobManager().join(ResourcesPlugin.FAMILY_AUTO_BUILD, null);
     }
 
-    public void importProjects() throws Exception {
+    public void importProjects(Set<String> skipProjects) throws Exception {
         IWorkspace workspace = ResourcesPlugin.getWorkspace();
         File[] dirs = projectsDir.listFiles(File::isDirectory);
         if (dirs == null) {
@@ -58,6 +59,10 @@ public class WorkspaceManager {
               .forEach(ordered::add);
 
         for (String name : ordered) {
+            if (skipProjects.contains(name)) {
+                System.out.println("[runner] Skipping (Tier 3): " + name);
+                continue;
+            }
             File dir = new File(projectsDir, name);
             if (!dir.isDirectory()) {
                 continue;
