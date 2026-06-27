@@ -22,6 +22,11 @@
         <module>org.openclover.eclipse.updatesite</module>
     </modules>
     <properties>
+        <!-- Eclipse version in release-label format (dash separator) — used in download URLs -->
+        <eclipse.version>2026-03</eclipse.version>
+        <!-- Eclipse libs Maven artifact version (dot separator) — must match clover-eclipse-libs/pom.xml <version> -->
+        <eclipse.libs.version>2026.03</eclipse.libs.version>
+
         <!-- JAR signing is off by default; enable for releases with -Dclover.jarsigner.skip=false -->
         <clover.jarsigner.skip>true</clover.jarsigner.skip>
         <clover.keystore.path>${user.home}/.openclover/openclover.jks</clover.keystore.path>
