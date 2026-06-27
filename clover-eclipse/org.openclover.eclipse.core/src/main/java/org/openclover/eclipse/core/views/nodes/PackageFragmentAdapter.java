@@ -63,8 +63,9 @@ public class PackageFragmentAdapter
     }
 
     @Override
+    @Deprecated
     public IClassFile[] getClassFiles() throws JavaModelException {
-        return target.getClassFiles();
+        return target.getOrdinaryClassFiles();
     }
 
     @Override

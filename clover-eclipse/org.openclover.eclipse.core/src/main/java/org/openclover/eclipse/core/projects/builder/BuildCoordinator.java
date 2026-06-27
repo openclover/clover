@@ -355,12 +355,6 @@ public class BuildCoordinator {
             command.add("-preserveAllLocals");
         }
 
-        if (JavaCore.ENABLED.equals(
-                project.getJavaProject().getOption(
-                        JavaCore.COMPILER_CODEGEN_INLINE_JSR_BYTECODE, true))) {
-            command.add("-inlineJSR");
-        }
-
         addVersionSpecificMiscParams(command);
     }
 

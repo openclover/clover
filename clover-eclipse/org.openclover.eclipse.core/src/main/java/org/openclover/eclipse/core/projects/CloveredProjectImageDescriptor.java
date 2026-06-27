@@ -5,6 +5,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.resource.CompositeImageDescriptor;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.ImageDataProvider;
 import org.eclipse.swt.graphics.Point;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.ui.CloverPluginIcons;
@@ -20,15 +21,16 @@ public abstract class CloveredProjectImageDescriptor extends CompositeImageDescr
 
     @Override
     protected void drawCompositeImage(int width, int height) {
-        drawImage(originalImage.getImageData(), 0, 0);
-        drawImage(getOverlayImageData(), 0, 0);
+        drawImage(createCachedImageDataProvider(originalImage), 0, 0);
+        drawImage(getOverlayImageProvider(), 0, 0);
     }
 
-    protected abstract ImageData getOverlayImageData();
+    protected abstract ImageDataProvider getOverlayImageProvider();
 
     @Override
     protected Point getSize() {
-        return new Point(originalImage.getImageData().width, originalImage.getImageData().height);
+        ImageData data = createCachedImageDataProvider(originalImage).getImageData(100);
+        return new Point(data.width, data.height);
     }
 
     /** Important - required so we do not leak resources in WorkbenchLabelProvider */
@@ -65,15 +67,15 @@ public abstract class CloveredProjectImageDescriptor extends CompositeImageDescr
 
         return imageDescriptor;
     }
-    
+
     private static class OkState extends CloveredProjectImageDescriptor {
         public OkState(ImageDescriptor originalImage) {
             super(originalImage);
         }
 
         @Override
-        protected ImageData getOverlayImageData() {
-            return CloverPlugin.getImage(CloverPluginIcons.CLOVERED_OVERLAY_ICON).getImageData();
+        protected ImageDataProvider getOverlayImageProvider() {
+            return createCachedImageDataProvider(CloverPlugin.getImage(CloverPluginIcons.CLOVERED_OVERLAY_ICON));
         }
     }
 
@@ -83,8 +85,8 @@ public abstract class CloveredProjectImageDescriptor extends CompositeImageDescr
         }
 
         @Override
-        protected ImageData getOverlayImageData() {
-            return CloverPlugin.getImage(CloverPluginIcons.CLOVERED_ERROR_OVERLAY_ICON).getImageData();
+        protected ImageDataProvider getOverlayImageProvider() {
+            return createCachedImageDataProvider(CloverPlugin.getImage(CloverPluginIcons.CLOVERED_ERROR_OVERLAY_ICON));
         }
     }
 
@@ -94,8 +96,8 @@ public abstract class CloveredProjectImageDescriptor extends CompositeImageDescr
         }
 
         @Override
-        protected ImageData getOverlayImageData() {
-            return CloverPlugin.getImage(CloverPluginIcons.CLOVERED_NO_COMPILE_OVERLAY_ICON).getImageData();
+        protected ImageDataProvider getOverlayImageProvider() {
+            return createCachedImageDataProvider(CloverPlugin.getImage(CloverPluginIcons.CLOVERED_NO_COMPILE_OVERLAY_ICON));
         }
     }
 }

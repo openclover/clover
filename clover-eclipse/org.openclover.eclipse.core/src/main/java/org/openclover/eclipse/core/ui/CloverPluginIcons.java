@@ -40,7 +40,7 @@ public final class CloverPluginIcons {
             URL resourceURL = bundle.getResource(path);
             if (resourceURL != null) {
                 try {
-                    return imageManager.createImage(ImageDescriptor.createFromURL(resourceURL));
+                    return imageManager.create(ImageDescriptor.createFromURL(resourceURL));
                 } catch (Exception e) {
                     logError("Failed to create image '" + path + "' for bundle '" + bundleName + "'", e);
                 }

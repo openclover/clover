@@ -94,7 +94,7 @@ public class CloverTreeMap extends KTreeMap {
 
                 int y = (item.getHeight() - fm.getAscent() - fm.getLeading() + fm
                     .getDescent()) / 2;
-                int stringWidth = fm.getAverageCharWidth() * label.length();
+                int stringWidth = (int) (fm.getAverageCharacterWidth() * label.length());
                 // the width of the label depends on the font :
                 // if the width of the label is larger than the item
                 if (item.getWidth() - 5 <= stringWidth) {
@@ -104,7 +104,7 @@ public class CloverTreeMap extends KTreeMap {
                     if (nbChar > 3) {
                         // and add "..." at the end
                         label = "..." + label.substring(Math.max(0, (label.length() - 1) - (nbChar)));
-                        stringWidth = (nbChar - 1) * fm.getAverageCharWidth();
+                        stringWidth = (int) ((nbChar - 1) * fm.getAverageCharacterWidth());
                     } else {
                         // if it is not enough large, we display nothing
                         return;
