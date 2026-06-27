@@ -10,7 +10,7 @@
     </parent>
     <groupId>org.openclover.eclipse.libs</groupId>
     <artifactId>clover-eclipse-libs</artifactId>
-    <version>2026.03</version> <!-- matches Eclipse version -->
+    <version>2020.06</version> <!-- matches Eclipse version -->
     <packaging>pom</packaging>
     <description>
         This module contains a minimal subset of Eclipse's JAR files required to compile
@@ -89,23 +89,18 @@
                 </dependency>
                 <dependency>
                     <groupId>org.openclover.eclipse.libs</groupId>
-                    <artifactId>org.osgi.service.prefs</artifactId>
-                    <version>${org.osgi.service.prefs.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.openclover.eclipse.libs</groupId>
                     <artifactId>org.eclipse.equinox.registry</artifactId>
                     <version>${org.eclipse.equinox.registry.version}</version>
                 </dependency>
                 <dependency>
                     <groupId>org.openclover.eclipse.libs</groupId>
-                    <artifactId>org.eclipse.jdt.core</artifactId>
-                    <version>${org.eclipse.jdt.core.version}</version>
+                    <artifactId>org.eclipse.equinox.app</artifactId>
+                    <version>${org.eclipse.equinox.app.version}</version>
                 </dependency>
                 <dependency>
                     <groupId>org.openclover.eclipse.libs</groupId>
-                    <artifactId>org.eclipse.jdt.core.compiler.batch</artifactId>
-                    <version>${org.eclipse.jdt.core.compiler.batch.version}</version>
+                    <artifactId>org.eclipse.jdt.core</artifactId>
+                    <version>${org.eclipse.jdt.core.version}</version>
                 </dependency>
                 <dependency>
                     <groupId>org.openclover.eclipse.libs</groupId>
@@ -380,20 +375,6 @@
                                 </configuration>
                             </execution>
                             <execution>
-                                <id>install-org.osgi.service.prefs</id>
-                                <phase>install</phase>
-                                <goals>
-                                    <goal>install-file</goal>
-                                </goals>
-                                <configuration>
-                                    <file>${project.build.directory}/extract/org.osgi.service.prefs_${org.osgi.service.prefs.version}.jar</file>
-                                    <groupId>org.openclover.eclipse.libs</groupId>
-                                    <artifactId>org.osgi.service.prefs</artifactId>
-                                    <version>${org.osgi.service.prefs.version}</version>
-                                    <packaging>jar</packaging>
-                                </configuration>
-                            </execution>
-                            <execution>
                                 <id>install-org.eclipse.equinox.registry</id>
                                 <phase>install</phase>
                                 <goals>
@@ -408,6 +389,20 @@
                                 </configuration>
                             </execution>
                             <execution>
+                                <id>install-org.eclipse.equinox.app</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>install-file</goal>
+                                </goals>
+                                <configuration>
+                                    <file>${project.build.directory}/extract/org.eclipse.equinox.app_${org.eclipse.equinox.app.version}.jar</file>
+                                    <groupId>org.openclover.eclipse.libs</groupId>
+                                    <artifactId>org.eclipse.equinox.app</artifactId>
+                                    <version>${org.eclipse.equinox.app.version}</version>
+                                    <packaging>jar</packaging>
+                                </configuration>
+                            </execution>
+                            <execution>
                                 <id>install-org.eclipse.jdt.core</id>
                                 <phase>install</phase>
                                 <goals>
@@ -418,20 +413,6 @@
                                     <groupId>org.openclover.eclipse.libs</groupId>
                                     <artifactId>org.eclipse.jdt.core</artifactId>
                                     <version>${org.eclipse.jdt.core.version}</version>
-                                    <packaging>jar</packaging>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>install-org.eclipse.jdt.core.compiler.batch</id>
-                                <phase>install</phase>
-                                <goals>
-                                    <goal>install-file</goal>
-                                </goals>
-                                <configuration>
-                                    <file>${project.build.directory}/extract/org.eclipse.jdt.core.compiler.batch_${org.eclipse.jdt.core.compiler.batch.version}.jar</file>
-                                    <groupId>org.openclover.eclipse.libs</groupId>
-                                    <artifactId>org.eclipse.jdt.core.compiler.batch</artifactId>
-                                    <version>${org.eclipse.jdt.core.compiler.batch.version}</version>
                                     <packaging>jar</packaging>
                                 </configuration>
                             </execution>
@@ -652,39 +633,38 @@
         </profile>
     </profiles>
     <properties>
-        <eclipse.download.site>https://ftp.fau.de/eclipse</eclipse.download.site>
-        <eclipse.download.path>technology/epp/downloads/release/2026-03/R</eclipse.download.path>
-        <eclipse.download.file>eclipse-java-2026-03-R-win32-x86_64.zip</eclipse.download.file>
+        <eclipse.download.site>https://archive.eclipse.org</eclipse.download.site>
+        <eclipse.download.path>technology/epp/downloads/release/2020-06/R</eclipse.download.path>
+        <eclipse.download.file>eclipse-java-2020-06-R-win32-x86_64.zip</eclipse.download.file>
         <!-- plugin versions -->
-        <org.eclipse.ant.core.version>3.7.800.v20260130-1053</org.eclipse.ant.core.version>
-        <org.eclipse.core.commands.version>3.12.500.v20251103-0733</org.eclipse.core.commands.version>
-        <org.eclipse.core.contenttype.version>3.9.800.v20251105-1620</org.eclipse.core.contenttype.version>
-        <org.eclipse.core.jobs.version>3.15.700.v20250725-1147</org.eclipse.core.jobs.version>
-        <org.eclipse.core.resources.version>3.23.200.v20251217-0810</org.eclipse.core.resources.version>
-        <org.eclipse.core.runtime.version>3.34.200.v20251220-0953</org.eclipse.core.runtime.version>
-        <org.eclipse.debug.core.version>3.23.200.v20251107-0507</org.eclipse.debug.core.version>
-        <org.eclipse.debug.ui.version>3.20.0.v20260209-1220</org.eclipse.debug.ui.version>
-        <org.eclipse.e4.ui.workbench.version>1.18.200.v20260124-1751</org.eclipse.e4.ui.workbench.version>
-        <org.eclipse.equinox.common.version>3.20.300.v20251111-0312</org.eclipse.equinox.common.version>
-        <org.eclipse.equinox.preferences.version>3.12.100.v20251111-0704</org.eclipse.equinox.preferences.version>
-        <org.eclipse.equinox.registry.version>3.12.600.v20250906-0651</org.eclipse.equinox.registry.version>
-        <org.eclipse.jdt.core.version>3.45.0.v20260219-1233</org.eclipse.jdt.core.version>
-        <org.eclipse.jdt.core.compiler.batch.version>3.45.0.v20260224-0835</org.eclipse.jdt.core.compiler.batch.version>
-        <org.eclipse.jdt.debug.ui.version>3.15.300.v20260212-1456</org.eclipse.jdt.debug.ui.version>
-        <org.eclipse.jdt.junit.core.version>3.14.100.v20251223-2158</org.eclipse.jdt.junit.core.version>
-        <org.eclipse.jdt.junit.version>3.17.400.v20260117-0111</org.eclipse.jdt.junit.version>
-        <org.eclipse.jdt.launching.version>3.24.100.v20260218-1303</org.eclipse.jdt.launching.version>
-        <org.eclipse.jdt.ui.version>3.37.0.v20260213-1444</org.eclipse.jdt.ui.version>
-        <org.eclipse.jface.text.version>3.30.0.v20260203-0841</org.eclipse.jface.text.version>
-        <org.eclipse.jface.version>3.39.0.v20260122-1511</org.eclipse.jface.version>
-        <org.eclipse.osgi.version>3.24.100.v20251215-1416</org.eclipse.osgi.version>
-        <org.eclipse.swt.win32.win32.x86_64.version>3.133.0.v20260225-1014</org.eclipse.swt.win32.win32.x86_64.version>
-        <org.eclipse.text.version>3.14.600.v20260112-1806</org.eclipse.text.version>
-        <org.eclipse.ui.editors.version>3.21.0.v20260218-1452</org.eclipse.ui.editors.version>
-        <org.eclipse.ui.forms.version>3.14.0.v20260109-1454</org.eclipse.ui.forms.version>
-        <org.eclipse.ui.ide.version>3.23.0.v20260103-1639</org.eclipse.ui.ide.version>
-        <org.eclipse.ui.workbench.texteditor.version>3.20.0.v20260127-1637</org.eclipse.ui.workbench.texteditor.version>
-        <org.eclipse.ui.workbench.version>3.138.0.v20260204-1601</org.eclipse.ui.workbench.version>
-        <org.osgi.service.prefs.version>1.1.2.202109301733</org.osgi.service.prefs.version>
+        <org.eclipse.ant.core.version>3.5.700.v20191221-1203</org.eclipse.ant.core.version>
+        <org.eclipse.core.commands.version>3.9.700.v20191217-1850</org.eclipse.core.commands.version>
+        <org.eclipse.core.contenttype.version>3.7.700.v20200517-1644</org.eclipse.core.contenttype.version>
+        <org.eclipse.core.jobs.version>3.10.800.v20200421-0950</org.eclipse.core.jobs.version>
+        <org.eclipse.core.resources.version>3.13.700.v20200209-1624</org.eclipse.core.resources.version>
+        <org.eclipse.core.runtime.version>3.18.0.v20200506-2143</org.eclipse.core.runtime.version>
+        <org.eclipse.debug.core.version>3.15.100.v20200514-0816</org.eclipse.debug.core.version>
+        <org.eclipse.debug.ui.version>3.14.500.v20200520-0842</org.eclipse.debug.ui.version>
+        <org.eclipse.e4.ui.workbench.version>1.11.300.v20200514-1625</org.eclipse.e4.ui.workbench.version>
+        <org.eclipse.equinox.common.version>3.12.0.v20200504-1602</org.eclipse.equinox.common.version>
+        <org.eclipse.equinox.preferences.version>3.8.0.v20200422-1833</org.eclipse.equinox.preferences.version>
+        <org.eclipse.equinox.registry.version>3.8.800.v20200406-0956</org.eclipse.equinox.registry.version>
+        <org.eclipse.jdt.core.version>3.22.0.v20200530-2032</org.eclipse.jdt.core.version>
+        <org.eclipse.jdt.debug.ui.version>3.11.0.v20200525-2012</org.eclipse.jdt.debug.ui.version>
+        <org.eclipse.jdt.junit.core.version>3.10.700.v20200501-1429</org.eclipse.jdt.junit.core.version>
+        <org.eclipse.jdt.junit.version>3.11.800.v20200518-1033</org.eclipse.jdt.junit.version>
+        <org.eclipse.jdt.launching.version>3.17.100.v20200526-1503</org.eclipse.jdt.launching.version>
+        <org.eclipse.jdt.ui.version>3.21.100.v20200602-0959</org.eclipse.jdt.ui.version>
+        <org.eclipse.jface.text.version>3.16.300.v20200526-0811</org.eclipse.jface.text.version>
+        <org.eclipse.jface.version>3.20.0.v20200505-1952</org.eclipse.jface.version>
+        <org.eclipse.osgi.version>3.15.300.v20200520-1959</org.eclipse.osgi.version>
+        <org.eclipse.swt.win32.win32.x86_64.version>3.114.100.v20200604-0951</org.eclipse.swt.win32.win32.x86_64.version>
+        <org.eclipse.text.version>3.10.200.v20200428-0633</org.eclipse.text.version>
+        <org.eclipse.ui.editors.version>3.13.200.v20200501-2307</org.eclipse.ui.editors.version>
+        <org.eclipse.ui.forms.version>3.9.100.v20200413-1417</org.eclipse.ui.forms.version>
+        <org.eclipse.ui.ide.version>3.17.100.v20200530-0835</org.eclipse.ui.ide.version>
+        <org.eclipse.ui.workbench.texteditor.version>3.14.200.v20200421-1954</org.eclipse.ui.workbench.texteditor.version>
+        <org.eclipse.ui.workbench.version>3.119.0.v20200521-1247</org.eclipse.ui.workbench.version>
+        <org.eclipse.equinox.app.version>1.4.500.v20200422-1833</org.eclipse.equinox.app.version>
     </properties>
 </project>
