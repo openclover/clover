@@ -1,0 +1,121 @@
+package org.openclover.eclipse.functest.runner;
+
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.equinox.app.IApplication;
+import org.eclipse.equinox.app.IApplicationContext;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Eclipse IApplication entry point for functional tests.
+ * Invoked headlessly via:
+ *   eclipse -nosplash -application org.openclover.eclipse.functest.runner.application
+ *           -projectsDir &lt;dir&gt; -cloverRuntime &lt;jar&gt; -reportsDir &lt;dir&gt;
+ */
+public class Application implements IApplication {
+
+    private static final Integer EXIT_ERROR = 1;
+
+    @Override
+    public Object start(IApplicationContext context) throws Exception {
+        String[] args = (String[]) context.getArguments().get(IApplicationContext.APPLICATION_ARGS);
+        File projectsDir = arg(args, "-projectsDir");
+        File reportsDir  = arg(args, "-reportsDir");
+        String cloverRuntime = argString(args, "-cloverRuntime");
+        String eclipseVersion = argString(args, "-eclipseVersion");
+        if (eclipseVersion == null) {
+            eclipseVersion = "unknown";
+        }
+
+        if (projectsDir == null || cloverRuntime == null || reportsDir == null) {
+            System.err.println("Usage: -projectsDir <dir> -cloverRuntime <jar> -reportsDir <dir> [-eclipseVersion <ver>]");
+            return EXIT_ERROR;
+        }
+        reportsDir.mkdirs();
+
+        System.out.println("[runner] projectsDir   = " + projectsDir);
+        System.out.println("[runner] cloverRuntime = " + cloverRuntime);
+        System.out.println("[runner] reportsDir    = " + reportsDir);
+        System.out.println("[runner] eclipseVersion= " + eclipseVersion);
+
+        WorkspaceManager wm = new WorkspaceManager(projectsDir, cloverRuntime);
+        wm.setCloverRuntimeVariable();
+        wm.importProjects();
+        wm.buildAll();
+
+        List<TestResult> results = new ArrayList<>();
+        for (IProject project : wm.getProjects()) {
+            long start = System.currentTimeMillis();
+            TestResult r = new TestResult(project.getName());
+
+            BuildVerifier.verify(project, r);
+
+            if (!r.hasBuildErrors()) {
+                if (hasUnitTests(project)) {
+                    TestRunner.run(project, cloverRuntime, null, r);
+                    wm.refresh(project);
+                    CoverageVerifier.verify(project, r);
+                } else {
+                    CoverageVerifier.verifyDbOnly(project, r);
+                }
+            }
+
+            r.setDurationMs(System.currentTimeMillis() - start);
+            results.add(r);
+        }
+
+        SurefireReporter.write(results, reportsDir, eclipseVersion);
+        printSummary(results);
+
+        boolean anyFailed = results.stream().anyMatch(TestResult::hasFailed);
+        return anyFailed ? EXIT_ERROR : EXIT_OK;
+    }
+
+    @Override
+    public void stop() {
+    }
+
+    private static boolean hasUnitTests(IProject project) throws Exception {
+        // A project has unit tests if its .classpath contains JUNIT_CONTAINER.
+        IResource classpathFile = project.getFile(".classpath");
+        if (!classpathFile.exists()) {
+            return false;
+        }
+        File f = classpathFile.getLocation().toFile();
+        String content = new String(java.nio.file.Files.readAllBytes(f.toPath()));
+        return content.contains("JUNIT_CONTAINER");
+    }
+
+    private static void printSummary(List<TestResult> results) {
+        long passed = results.stream().filter(r -> !r.hasFailed()).count();
+        long failed = results.stream().filter(TestResult::hasFailed).count();
+        System.out.printf("%n[runner] Results: %d passed, %d failed out of %d projects%n",
+                passed, failed, results.size());
+        results.stream()
+               .filter(TestResult::hasFailed)
+               .forEach(r -> {
+                   System.out.println("[runner] FAILED: " + r.getProjectName());
+                   r.getFailures().forEach(msg -> System.out.println("         " + msg));
+               });
+    }
+
+    private static File arg(String[] args, String flag) {
+        String val = argString(args, flag);
+        return val != null ? new File(val) : null;
+    }
+
+    private static String argString(String[] args, String flag) {
+        if (args == null) {
+            return null;
+        }
+        for (int i = 0; i < args.length - 1; i++) {
+            if (flag.equals(args[i])) {
+                return args[i + 1];
+            }
+        }
+        return null;
+    }
+}
