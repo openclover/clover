@@ -32,6 +32,8 @@ public class CoverageVerifier {
         result.assertFalse(
                 db.getCoverageData().isEmpty(),
                 "Clover coverage data is empty — did the test run record hits?");
+        int covered = db.getRegistry().getProject().getMetrics().getNumCoveredElements();
+        result.assertTrue(covered > 0, "Zero covered elements in Clover registry after test run");
     }
 
     private static CloverDatabase loadDb(IProject project, TestResult result) {
