@@ -7,7 +7,6 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.openclover.core.api.registry.ClassInfo;
 
 import org.openclover.core.api.registry.TestCaseInfo;
-import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.model.MetricsScope;
 import org.openclover.eclipse.core.views.nodes.NodeRelationship;
 import org.openclover.eclipse.core.views.nodes.NodeRelationshipFilter;

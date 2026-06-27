@@ -29,7 +29,6 @@ import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.FixedSourceRegion;
 
-import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.model.ModelUtils;
 import org.openclover.eclipse.core.views.actions.OpenJavaEditorAction;
 

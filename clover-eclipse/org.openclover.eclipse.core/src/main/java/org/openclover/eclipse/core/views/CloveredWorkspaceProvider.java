@@ -72,7 +72,7 @@ public abstract class CloveredWorkspaceProvider
         }
     }
 
-    private static class BreakDeltaProcessing extends Exception {};
+    private static class BreakDeltaProcessing extends Exception {}
 
     @Override
     public void elementChanged(ElementChangedEvent event) {

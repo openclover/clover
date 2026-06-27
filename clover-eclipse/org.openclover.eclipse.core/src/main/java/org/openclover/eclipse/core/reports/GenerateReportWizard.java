@@ -18,7 +18,6 @@ import org.openclover.eclipse.core.ui.CloverPluginIcons;
 import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 
 import static org.openclover.eclipse.core.CloverPlugin.logError;
 

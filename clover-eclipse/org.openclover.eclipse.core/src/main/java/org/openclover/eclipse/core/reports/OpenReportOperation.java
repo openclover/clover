@@ -16,7 +16,6 @@ import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
 import org.eclipse.ui.ide.IDE;
 import org.openclover.core.reporters.Type;
 import org.openclover.eclipse.core.CloverEclipsePluginMessages;
-import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.reports.model.ReportHistoryEntry;
 
 import java.io.File;
@@ -69,7 +68,7 @@ public abstract class OpenReportOperation {
                 logError("Unable to launch Eclipse editor " + editorId, e);
             }
         }
-    };
+    }
 
     public static OpenReportOperation OPEN_PDF = new OpenReportWithSystemEditor() {
         @Override

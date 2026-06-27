@@ -4,7 +4,6 @@ import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
-import org.openclover.core.registry.entities.FullClassInfo;
 
 import java.util.Collections;
 import java.util.HashSet;

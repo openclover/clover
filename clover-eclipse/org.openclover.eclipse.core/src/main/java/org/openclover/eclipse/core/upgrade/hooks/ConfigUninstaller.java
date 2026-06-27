@@ -3,7 +3,6 @@ package org.openclover.eclipse.core.upgrade.hooks;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
-import org.openclover.eclipse.core.CloverPlugin;
 import org_openclover_runtime.CloverVersionInfo;
 
 import java.io.BufferedReader;

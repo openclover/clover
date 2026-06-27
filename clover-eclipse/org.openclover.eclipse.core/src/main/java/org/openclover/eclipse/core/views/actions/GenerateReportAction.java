@@ -130,7 +130,7 @@ public class GenerateReportAction
         viewItem.setText(CloverEclipsePluginMessages.PROJECT_VIEW_REPORT());
 
         List<ReportHistoryEntry> reportHistory = CloverPlugin.getInstance().getReportHistory();
-        if (reportHistory.size() > 0) {
+        if (!reportHistory.isEmpty()) {
             Menu viewItems = new Menu(viewItem);
             Collections.reverse(reportHistory);
             for (final ReportHistoryEntry report : reportHistory) {

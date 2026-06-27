@@ -4,7 +4,6 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ResourceManager;
 import org.eclipse.swt.graphics.Image;
-import org.openclover.eclipse.core.CloverPlugin;
 import org.osgi.framework.Bundle;
 
 import java.net.URL;

@@ -1,6 +1,5 @@
 package org.openclover.eclipse.core.settings;
 
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.preferences.ConfigurationScope;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditor;
@@ -20,9 +19,6 @@ import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.ui.GLH;
 import org.openclover.eclipse.core.ui.SwtUtils;
 
-import java.io.IOException;
-
-import static org.openclover.eclipse.core.CloverPlugin.logError;
 
 public class GeneralPreferencesPage
     extends BasePreferencePage {
@@ -31,12 +27,7 @@ public class GeneralPreferencesPage
 
     @Override
     protected Control createContents(Composite parent) {
-        try {
-            return panel = new Panel(parent);
-        } catch (CoreException e) {
-            logError("Error creating general preferences panel", e);
-            return null;
-        }
+        return panel = new Panel(parent);
     }
 
     private class Panel extends Composite {
@@ -315,11 +306,7 @@ public class GeneralPreferencesPage
 
     @Override
     protected void performApply() {
-        try {
-            panel.performApply();
-        } catch (IOException e) {
-            logError("Unable to persist preferences", e);
-        }
+        panel.performApply();
     }
 
 
@@ -330,11 +317,6 @@ public class GeneralPreferencesPage
 
     @Override
     public boolean performOk() {
-        try {
-            return panel.performOk();
-        } catch (IOException e) {
-            logError("Unable to persist preferences", e);
-            return true;
-        }
+        return panel.performOk();
     }
 }

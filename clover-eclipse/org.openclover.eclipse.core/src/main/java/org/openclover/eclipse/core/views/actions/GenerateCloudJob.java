@@ -12,10 +12,8 @@ import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.projects.builder.PathUtils;
 import org.openclover.eclipse.core.ui.editors.cloud.EclipseCloudGenerator;
-import org.openclover.runtime.api.CloverException;
 
 import java.io.File;
-import java.io.IOException;
 
 public abstract class GenerateCloudJob extends Job {
     private IProject project;

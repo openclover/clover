@@ -5,8 +5,6 @@ import org.eclipse.core.resources.IResource;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.registry.BaseInvertableFilter;
-import org.openclover.core.registry.entities.FullClassInfo;
-import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.api.registry.HasMetricsFilter;
 import org.openclover.core.reporters.filters.AntPatternTestFilter;
 import org.openclover.core.reporters.filters.DefaultTestFilter;

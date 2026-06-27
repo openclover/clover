@@ -6,7 +6,6 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
-import java.util.Iterator;
 import java.util.Set;
 
 import static org.openclover.core.util.Sets.newHashSet;

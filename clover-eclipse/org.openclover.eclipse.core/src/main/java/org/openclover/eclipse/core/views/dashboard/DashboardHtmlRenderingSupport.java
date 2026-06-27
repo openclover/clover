@@ -3,7 +3,6 @@ package org.openclover.eclipse.core.views.dashboard;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.registry.entities.FullMethodInfo;
 import org.openclover.core.reporters.html.HtmlRenderingSupportImpl;
-import org.openclover.eclipse.core.CloverPlugin;
 
 import java.net.URI;
 import java.net.URISyntaxException;

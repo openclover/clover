@@ -18,7 +18,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 import org.openclover.core.reporters.ShowLambdaFunctions;
-import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.ui.GLH;
 import org.openclover.eclipse.core.ui.SwtUtils;
@@ -46,7 +45,7 @@ public abstract class ConfigureReportPage extends WizardPage {
     }
 
     protected boolean isOutputPathEmpty() {
-        return ((outputPath.getText() == null) || (outputPath.getText().trim().length() == 0));
+        return ((outputPath.getText() == null) || (outputPath.getText().trim().isEmpty()));
     }
 
     protected Listener newValidationListener() {

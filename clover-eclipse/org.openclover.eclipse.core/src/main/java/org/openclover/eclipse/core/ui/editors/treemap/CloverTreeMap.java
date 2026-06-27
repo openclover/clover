@@ -17,7 +17,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchPartSite;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.PackageInfo;
-import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.views.actions.OpenJavaEditorAction;
 
 import java.util.List;

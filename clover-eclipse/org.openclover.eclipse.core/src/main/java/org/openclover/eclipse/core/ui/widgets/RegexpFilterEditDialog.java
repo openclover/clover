@@ -53,7 +53,7 @@ class RegexpFilterEditDialog extends Dialog {
     protected void okPressed() {
 
         String errorMessage = null;
-        if (nameField.getText().trim().length() == 0) {
+        if (nameField.getText().trim().isEmpty()) {
             errorMessage = "Context names must not be blank.";
         } else if (nameField.getText().indexOf(' ') != -1
             || nameField.getText().indexOf(',') != -1) {

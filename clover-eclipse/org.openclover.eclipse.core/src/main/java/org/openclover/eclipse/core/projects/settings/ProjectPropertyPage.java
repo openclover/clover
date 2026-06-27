@@ -293,7 +293,7 @@ public class ProjectPropertyPage extends BaseSettingsPage implements IWorkbenchP
 
             errorWithValue: {
                 if ( (instrumentationComposite.isDefaultInitString() == false)
-                        && (instrumentationComposite.getCustomInitStringValue().length() == 0) ) {
+                        && (instrumentationComposite.getCustomInitStringValue().isEmpty()) ) {
                     setMessage(CloverEclipsePluginMessages.ERROR_CUSTOM_INITSTRING_NOT_EMPTY(), IMessageProvider.ERROR);
                     break errorWithValue;
                 }
@@ -313,7 +313,7 @@ public class ProjectPropertyPage extends BaseSettingsPage implements IWorkbenchP
                 }
 
                 if ( (instrumentationComposite.isProjectOutputDir() == false)
-                        && (instrumentationComposite.getCustomOutputDir().length() == 0) ) {
+                        && (instrumentationComposite.getCustomOutputDir().isEmpty()) ) {
                     setMessage(CloverEclipsePluginMessages.ERROR_OUTPUT_DIR_NAME_IS_NULL(), IMessageProvider.ERROR);
                     break errorWithValue;
                 }
@@ -321,7 +321,7 @@ public class ProjectPropertyPage extends BaseSettingsPage implements IWorkbenchP
                 // CLOV-1083: Make sure that user will not set output directory for instrumented sources the same
                 // as original source dir. Otherwise, it would delete original files during project cleanup.
                 if ( (instrumentationComposite.isProjectOutputDir() == false)
-                        && (instrumentationComposite.getCustomOutputDir().length() > 0) ) {
+                        && (!instrumentationComposite.getCustomOutputDir().isEmpty()) ) {
 
                     IPath path;
                     IPackageFragment packageFragment;

@@ -103,7 +103,7 @@ public class ColumnCollectionSettings
             }
         }
         //There must be at least one column before we will override defaults
-        if (visibleColumnsToWidths.size() > 0) {
+        if (!visibleColumnsToWidths.isEmpty()) {
             this.visibleColumnsToWidths = visibleColumnsToWidths;
             this.visibleColumns = visibleColumns;
         }
@@ -173,7 +173,7 @@ public class ColumnCollectionSettings
     }
 
     private String prefixed(String name) {
-        return propertyPrefix + (propertyPrefix.length() > 0 ? "." : "") + name;
+        return propertyPrefix + (propertyPrefix.isEmpty() ? "" : ".") + name;
     }
 
     public void sortOn(ColumnDefinition columnDefinition) {

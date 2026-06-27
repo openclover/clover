@@ -27,10 +27,8 @@ import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.projects.builder.PathUtils;
 import org.openclover.eclipse.core.ui.projects.DatabaseChangeEvent;
 import org.openclover.eclipse.core.ui.projects.DatabaseChangeListener;
-import org.openclover.runtime.api.CloverException;
 
 import java.io.File;
-import java.io.IOException;
 
 import static org.openclover.eclipse.core.CloverPlugin.logError;
 import static org.openclover.eclipse.core.CloverPlugin.logWarning;

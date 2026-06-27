@@ -409,7 +409,7 @@ public class BuildCoordinator {
         return classpathEntries;
     }
 
-    private void outputLibrariesToClasspath(List<String> command, Set<String> libraries) throws CoreException {
+    private void outputLibrariesToClasspath(List<String> command, Set<String> libraries) {
         if (!libraries.isEmpty()) {
             for (String library : libraries) {
                 if (command.isEmpty()) {
@@ -422,7 +422,7 @@ public class BuildCoordinator {
         }
     }
 
-    private void addOutputPathToClasspath(ProjectPathMap projectPathMap, List<String> command) throws CoreException {
+    private void addOutputPathToClasspath(ProjectPathMap projectPathMap, List<String> command) {
         //Add output path to classpath for incremental builds
         String outputClasspath = projectPathMap.toClasspath();
         if (!outputClasspath.isEmpty()) {

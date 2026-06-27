@@ -25,7 +25,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Shell;
-import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.ui.CloverPluginIcons;
 import org.openclover.eclipse.core.ui.GLH;
 import org.openclover.eclipse.core.ui.SwtUtils;
@@ -144,7 +143,7 @@ public class ViewAlertContainer extends Composite implements DatabaseChangeListe
         private final int status;
         private final String iconPath;
 
-        private AlertStyle(int status, String iconPath) {
+        AlertStyle(int status, String iconPath) {
             this.status = status;
             this.iconPath = iconPath;
         }
@@ -222,7 +221,7 @@ public class ViewAlertContainer extends Composite implements DatabaseChangeListe
         }
 
         private void setText(String linkText, String explanation) {
-            if (explanation != null && explanation.length() != 0) {
+            if (explanation != null && !explanation.isEmpty()) {
                 link.setText(String.format("%s <a>More...</a>", linkText));
             } else {
                 link.setText(linkText);

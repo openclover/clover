@@ -113,7 +113,7 @@ public abstract class HistogramCellRenderer extends SelectionAwareCellRenderer {
 
                 drawBarOutline(gc, display, barWidth, barHeight);
 
-                if (text != null && text.trim().length() > 0) {
+                if (text != null && !text.trim().isEmpty()) {
                     drawText(text, gc, display, event, columnWidth, SWT.RIGHT);
                 }
             } finally {

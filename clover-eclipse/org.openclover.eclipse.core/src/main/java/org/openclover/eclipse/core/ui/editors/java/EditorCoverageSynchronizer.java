@@ -14,7 +14,6 @@ import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.services.IDisposable;
 import org.eclipse.ui.texteditor.ITextEditor;
-import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.SystemJob;
 import org.openclover.eclipse.core.settings.InstallationSettings;
 

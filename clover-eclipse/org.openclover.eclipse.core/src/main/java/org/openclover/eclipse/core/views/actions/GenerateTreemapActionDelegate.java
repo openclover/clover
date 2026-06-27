@@ -4,7 +4,6 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.ide.IDE;
-import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.ui.editors.treemap.TreemapEditor;
 import org.openclover.eclipse.core.ui.editors.treemap.TreemapInput;

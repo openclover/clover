@@ -14,7 +14,6 @@ import org.openclover.core.api.registry.CoverageDataRange;
 import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.entities.FullElementInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.eclipse.core.CloverPlugin;
 
 import java.util.BitSet;
@@ -113,7 +112,7 @@ public class CoverageAnnotationFilter {
                 //(filteredHits.size() == 0)
                 //Was this just because there were no
                 //hits to start with (hits.size() > 0)
-                if (filteredHits.size() == 0 && hittingTcis.size() > 0) {
+                if (filteredHits.isEmpty() && !hittingTcis.isEmpty()) {
                     break included;
                 }
             }
@@ -196,7 +195,7 @@ public class CoverageAnnotationFilter {
                 StringBuilder value = new StringBuilder();
                 for (Iterator<Integer> iterator = ids.iterator(); iterator.hasNext();) {
                     value.append(iterator.next());
-                    if (iterator.hasNext() || testClassNames.size() > 0) {
+                    if (iterator.hasNext() || !testClassNames.isEmpty()) {
                         value.append(',');
                     }
                 }

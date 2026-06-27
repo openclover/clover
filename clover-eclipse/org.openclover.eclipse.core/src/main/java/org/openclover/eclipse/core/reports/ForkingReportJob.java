@@ -295,7 +295,7 @@ public abstract class ForkingReportJob extends ReportJob {
     }
 
     protected void addParamOptionally(StringBuilder sb, String param, List<String> args) {
-        if (args.size() > 0) {
+        if (!args.isEmpty()) {
             String sep = "";
             final StringBuilder patterns = new StringBuilder();
             for (String includePattern : args) {

@@ -165,10 +165,10 @@ public class CustomColumnDialog extends TitleAreaDialog {
                         String charBefore = expressionText.getText(caretPos - 1, caretPos);
                         String charAfter = expressionText.getText(caretPos, caretPos + 1);
                         expressionText.insert(
-                                (charBefore.trim().length() == 0 ? "" : " ")
+                                (charBefore.trim().isEmpty() ? "" : " ")
                                         + (metricsColDef instanceof BuiltinPcMetricsColumnDefinition ? "%" : "")
                                         + metricsColDef.getPrototype().getName()
-                                        + (charAfter.trim().length() == 0 ? "" : " "));
+                                        + (charAfter.trim().isEmpty() ? "" : " "));
                     }
                 });
             }
@@ -188,12 +188,12 @@ public class CustomColumnDialog extends TitleAreaDialog {
 
     @Override
     protected void okPressed() {
-        if (nameText.getText().trim().length() == 0) {
+        if (nameText.getText().trim().isEmpty()) {
             setMessage("The column title must be non-blank.", IMessageProvider.ERROR);
             return;
         }
 
-        if (expressionText.getText().trim().length() == 0) {
+        if (expressionText.getText().trim().isEmpty()) {
             setMessage("The column expression must be non-blank.", IMessageProvider.ERROR);
             return;
         } else {
