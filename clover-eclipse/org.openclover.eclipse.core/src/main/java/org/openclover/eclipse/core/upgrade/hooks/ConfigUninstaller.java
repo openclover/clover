@@ -66,23 +66,22 @@ public class ConfigUninstaller {
     }
 
     private String removeExtensionFromLine(Matcher matcher) {
-        String line = null;
+        StringBuilder line = new StringBuilder();
         String extensionsString = matcher.group(4);
 
         List<String> extensions = newArrayList(extensionsString.split(CSV_TRIMMED_SEP));
         extensions.remove(HOOK_ID);
 
-        if (extensions.size() > 0) {
-            line = EXTENSION_LINE_START;
+        if (!extensions.isEmpty()) {
+            line.append(EXTENSION_LINE_START);
             for (int i = 0; i < extensions.size(); i++) {
-                String extension = extensions.get(i);
-                line += extension;
+                line.append(extensions.get(i));
                 if (i < extensions.size() - 1) {
-                    line += ",";
+                    line.append(",");
                 }
             }
         }
-        return line;
+        return line.toString();
     }
 
     private File getBackupConfigIni(File configArea) {
@@ -106,7 +105,7 @@ public class ConfigUninstaller {
                 }
 
                 File configArea = new File(configAreaUrl.getFile());
-                if (configArea == null || !configArea.exists() || !configArea.isDirectory() || !configArea.canWrite()) {
+                if (!configArea.exists() || !configArea.isDirectory() || !configArea.canWrite()) {
                     throw new ConfigUpdateAbortedException(
                             "OpenClover is unable to write to your Eclipse configuration directory.\n" +
                                     "No configuration updates were performed.");

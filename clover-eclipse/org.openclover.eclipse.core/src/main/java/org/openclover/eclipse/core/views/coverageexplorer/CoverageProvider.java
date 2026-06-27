@@ -98,11 +98,7 @@ public class CoverageProvider
                 && (metrics.getNumCoveredElements() == metrics.getNumElements())
                 //Always show the project so as not to confuse or users.
                 && !TypeUtils.isProject(element));
-        if (result) {
-            return true;
-        } else {
-            return false;
-        }
+        return result;
     }
 
     private boolean isCoverageUnavailable(Object element, BlockMetrics metrics) {

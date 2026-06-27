@@ -517,7 +517,7 @@ public class ProjectSettings extends Settings {
             String indexedKey = key + "[" + i + "]";
 
             String data = getString(indexedKey);
-            if (data == null || data.equals("")) { // no data means end of list.
+            if (data == null || data.isEmpty()) { // no data means end of list.
                 break;
             }
 

@@ -174,11 +174,7 @@ public class AllTestContributionsFilterWidget
 
         } else if (event.getElement() instanceof TestCaseInfo) {
             TestCaseInfo testCase = (TestCaseInfo) event.getElement();
-            if (event.getChecked()) {
-                getTestsViewer().setChecked(testCase, true);
-            } else {
-                getTestsViewer().setChecked(testCase, false);
-            }
+            getTestsViewer().setChecked(testCase, event.getChecked());
         }
     }
 

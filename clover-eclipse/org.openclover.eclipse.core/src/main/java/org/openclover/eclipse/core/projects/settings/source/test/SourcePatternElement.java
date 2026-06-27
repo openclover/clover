@@ -18,7 +18,7 @@ public class SourcePatternElement implements TreeElement {
     }
 
     public boolean isEmpty() {
-        return pattern.equals("");
+        return pattern.isEmpty();
     }
 
     @Override

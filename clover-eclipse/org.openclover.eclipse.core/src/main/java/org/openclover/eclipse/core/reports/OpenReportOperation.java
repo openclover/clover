@@ -28,7 +28,7 @@ import static org.openclover.eclipse.core.CloverPlugin.logWarning;
 
 public abstract class OpenReportOperation {
 
-    public static abstract class OpenReportWithSystemEditor extends OpenReportOperation {
+    private static abstract class OpenReportWithSystemEditor extends OpenReportOperation {
         @Override
         public void open(ReportHistoryEntry entry) {
             try {
@@ -36,6 +36,30 @@ public abstract class OpenReportOperation {
             } catch (Exception e) {
                 logError("Unable to launch system reader for " + entry.getPath(), e);
             }
+        }
+    }
+
+    private static class OpenPdfReportWithSystemEditor extends OpenReportWithSystemEditor {
+        @Override
+        public String getName() {
+            return CloverEclipsePluginMessages.SYSTEM_PDF_VIEWER();
+        }
+
+        @Override
+        public boolean supports(ReportHistoryEntry report) {
+            return report.getType() == Type.PDF;
+        }
+    }
+
+    private static class OpenXmlReportWithSystemEditor extends OpenReportWithSystemEditor {
+        @Override
+        public String getName() {
+            return CloverEclipsePluginMessages.SYSTEM_XML_VIEWER();
+        }
+
+        @Override
+        public boolean supports(ReportHistoryEntry report) {
+            return report.getType() == Type.XML;
         }
     }
 
@@ -70,29 +94,9 @@ public abstract class OpenReportOperation {
         }
     }
 
-    public static final OpenReportOperation OPEN_PDF = new OpenReportWithSystemEditor() {
-        @Override
-        public String getName() {
-            return CloverEclipsePluginMessages.SYSTEM_PDF_VIEWER();
-        }
+    public static final OpenReportOperation OPEN_PDF = new OpenPdfReportWithSystemEditor();
 
-        @Override
-        public boolean supports(ReportHistoryEntry report) {
-            return report.getType() == Type.PDF;
-        }
-    };
-
-    public static final OpenReportOperation OPEN_XML_WITH_SYSTEM_EDITOR = new OpenReportWithSystemEditor() {
-        @Override
-        public String getName() {
-            return CloverEclipsePluginMessages.SYSTEM_XML_VIEWER();
-        }
-
-        @Override
-        public boolean supports(ReportHistoryEntry report) {
-            return report.getType() == Type.XML;
-        }
-    };
+    public static final OpenReportOperation OPEN_XML_WITH_SYSTEM_EDITOR = new OpenXmlReportWithSystemEditor();
 
     public static final OpenReportOperation OPEN_HTML_WITH_SYSTEM_BROWSER = new OpenReportOperation() {
         @Override
@@ -162,7 +166,7 @@ public abstract class OpenReportOperation {
     private static IEditorRegistry getEditorRegistryFromWorkbench() {
         // call: Workbench.getInstance().getEditorRegistry()
         try {
-            final Class workbenchClass = Class.forName("org.eclipse.ui.internal.Workbench");
+            final Class<?> workbenchClass = Class.forName("org.eclipse.ui.internal.Workbench");
             final Object workbenchInstance  = workbenchClass.getMethod("getInstance").invoke(null);
             final Object editorRegistry = workbenchClass.getMethod("getEditorRegistry").invoke(workbenchInstance);
             return (IEditorRegistry)editorRegistry;
@@ -241,4 +245,5 @@ public abstract class OpenReportOperation {
             return new Path(file.getPath());
         }
     }
+
 }

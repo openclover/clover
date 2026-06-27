@@ -45,7 +45,7 @@ public class LineTestContributionsComputation extends TestContributionsComputati
 
         if (oldCoverageModel != newCoverageModel
             || oldCoverageAnnotationModel != newCoverageAnnotationModel
-            || !postionsEqual(oldPosition, newPosition)) {
+            || !positionsEqual(oldPosition, newPosition)) {
 
             setDatabaseModel(newCoverageModel);
             setCoverageAnnotationModel(newCoverageAnnotationModel);
@@ -63,7 +63,7 @@ public class LineTestContributionsComputation extends TestContributionsComputati
         setProperty(CURSOR_POSITION, newPosition);
     }
 
-    private boolean postionsEqual(Position oldPosition, Position newPosition) {
+    private boolean positionsEqual(Position oldPosition, Position newPosition) {
         return
             !(oldPosition == null ^ newPosition == null)
                 && (oldPosition == newPosition

@@ -24,7 +24,7 @@ class RegexpFilterEditDialog extends Dialog {
     private Text nameField;
     private Combo typeCombo;
     private Text regexpField;
-    private java.util.List<RegexpEntry> regexps;
+    private final java.util.List<RegexpEntry> regexps;
     private RegexpEntry data;
     private Label instructionsLabel;
 

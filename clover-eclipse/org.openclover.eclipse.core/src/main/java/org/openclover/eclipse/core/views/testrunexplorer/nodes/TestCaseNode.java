@@ -94,10 +94,7 @@ public class TestCaseNode extends JavaElementNode {
             return false;
         if (!Objects.equals(testCaseIcon, that.testCaseIcon))
             return false;
-        if (!Objects.equals(testMethod, that.testMethod))
-            return false;
-
-        return true;
+        return Objects.equals(testMethod, that.testMethod);
     }
 
     public int hashCode() {

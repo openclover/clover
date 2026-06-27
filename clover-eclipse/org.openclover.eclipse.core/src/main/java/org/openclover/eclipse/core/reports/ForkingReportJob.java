@@ -59,11 +59,7 @@ public abstract class ForkingReportJob extends ReportJob {
         ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
         ILaunchConfigurationType launchType =
             manager.getLaunchConfigurationType(IJavaLaunchConfigurationConstants.ID_JAVA_APPLICATION);
-        ILaunchConfiguration[] launchConfig =
-            manager.getLaunchConfigurations(launchType);
-        ILaunchConfigurationWorkingCopy launchConfigCopy =
-            launchType.newInstance(null, name);
-        return launchConfigCopy;
+        return launchType.newInstance(null, name);
     }
 
     protected URL calculateCorePluginJarURL() throws IOException {

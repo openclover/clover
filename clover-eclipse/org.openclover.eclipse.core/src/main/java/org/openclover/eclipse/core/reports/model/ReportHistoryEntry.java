@@ -78,10 +78,7 @@ public class ReportHistoryEntry {
         if (when != that.when) return false;
         if (!Objects.equals(name, that.name))
             return false;
-        if (!Objects.equals(path, that.path))
-            return false;
-
-        return true;
+        return Objects.equals(path, that.path);
     }
 
     public int hashCode() {

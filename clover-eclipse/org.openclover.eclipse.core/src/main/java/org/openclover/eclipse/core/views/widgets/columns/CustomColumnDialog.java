@@ -38,7 +38,7 @@ public class CustomColumnDialog extends TitleAreaDialog {
     private Combo formatCombo;
     private Combo alignmentCombo;
     private Button addColumnButton;
-    private Set<? extends ColumnDefinition> builtintColumns;
+    private final Set<? extends ColumnDefinition> builtintColumns;
 
     public CustomColumnDialog(Shell shell, Set<? extends ColumnDefinition> builtintColumns, CustomColumnDefinition customColumnDefinition) {
         this(shell, builtintColumns);

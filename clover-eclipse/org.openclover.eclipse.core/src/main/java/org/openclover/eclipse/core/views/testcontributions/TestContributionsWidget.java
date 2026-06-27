@@ -77,14 +77,13 @@ public abstract class TestContributionsWidget
         testsViewer.setComparator(new ViewerComparator() {
             @Override
             public int compare(Viewer viewer, Object object1, Object object2) {
-                int result = 0;
+                final int result;
 
                 if (object1 instanceof ClassInfo && object2 instanceof ClassInfo) {
                     result =
                         ((ClassInfo)object1).getQualifiedName().compareTo(
                             ((ClassInfo)object2).getQualifiedName());
-                }
-                else if (object1 instanceof TestCaseInfo && object2 instanceof TestCaseInfo) {
+                } else if (object1 instanceof TestCaseInfo && object2 instanceof TestCaseInfo) {
                     result =
                         FixedSourceRegion.SOURCE_ORDER_COMP.compare(
                             ((TestCaseInfo)object1).getSourceMethod(),

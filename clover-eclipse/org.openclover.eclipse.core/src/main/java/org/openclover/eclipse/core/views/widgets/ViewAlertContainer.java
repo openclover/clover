@@ -75,11 +75,8 @@ public class ViewAlertContainer extends Composite implements DatabaseChangeListe
     }
 
     private void updateHookUninstallAlert() {
-        if (new ConfigUninstaller().isHookInstalled()) {
-            SwtUtils.gridDataFor(hookUninstallLink).exclude = false;
-        } else {
-            SwtUtils.gridDataFor(hookUninstallLink).exclude = true;
-        }
+        boolean isHookInstalled = new ConfigUninstaller().isHookInstalled();
+        SwtUtils.gridDataFor(hookUninstallLink).exclude = !isHookInstalled;
         hookUninstallLink.setVisible(!SwtUtils.gridDataFor(hookUninstallLink).exclude);
     }
 

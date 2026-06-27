@@ -222,9 +222,7 @@ public class CoverageAnnotationFilter {
 
         public boolean matches(TestCaseInfo testCaseInfo) {
             return
-                (testCaseInfo.getRuntimeType() == null
-                    ? false
-                    : testClassNames.contains(testCaseInfo.getRuntimeType().getQualifiedName()))
+                (testCaseInfo.getRuntimeType() != null && testClassNames.contains(testCaseInfo.getRuntimeType().getQualifiedName()))
                 || ids.contains(testCaseInfo.getId());
         }
 

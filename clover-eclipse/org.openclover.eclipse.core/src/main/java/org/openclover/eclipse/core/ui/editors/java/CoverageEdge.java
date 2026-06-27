@@ -20,9 +20,7 @@ abstract class CoverageEdge {
         if (o == null || getClass() != o.getClass()) return false;
 
         CoverageEdge edge = (CoverageEdge) o;
-        if (info.equals(edge.info)) return false;
-
-        return true;
+        return !info.equals(edge.info);
     }
 
     public int hashCode() {

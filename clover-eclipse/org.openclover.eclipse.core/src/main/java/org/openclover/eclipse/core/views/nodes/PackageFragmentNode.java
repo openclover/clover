@@ -37,18 +37,12 @@ public abstract class PackageFragmentNode extends JavaElementNode {
 
         PackageFragmentNode that = (PackageFragmentNode)o;
 
-        if (!Objects.equals(name, that.name))
-            return false;
-//        if (packageFragments != null ? !packageFragments.containsAll(that.packageFragments) : that.packageFragments != null)
-//            return false;
-
-        return true;
+        return Objects.equals(name, that.name);
     }
 
     public int hashCode() {
         int result;
         result = (name != null ? name.hashCode() : 0);
-//        result = 31 * result + (packageFragments != null ? packageFragments.hashCode() : 0);
         return result;
     }
 }
