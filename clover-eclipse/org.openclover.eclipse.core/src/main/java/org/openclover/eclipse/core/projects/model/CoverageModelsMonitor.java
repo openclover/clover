@@ -106,8 +106,6 @@ public class CoverageModelsMonitor {
         @Override
         protected IStatus run(IProgressMonitor monitor) {
             try {
-                //CloverPlugin.logDebug("Job " + this.getName() + " running");
-
                 //If auto refresh turned off, we still run periodically, we just don't refresh
                 if (CloverPlugin.getInstance().getInstallationSettings().isAutoRefreshingCoverage()) {
                     refreshAllOpenCloverProjects();
@@ -124,20 +122,25 @@ public class CoverageModelsMonitor {
                 return Status.OK_STATUS;
             } finally {
                 if (!monitor.isCanceled()) {
-                    long msUntilNextRun = 0;
-                    if (CloverPlugin.getInstance().getInstallationSettings().isAutoRefreshingCoverage()) {
-                        //Ensure we only ever run at most every 5 seconds, regardless of what
-                        //the preferences say
-                        msUntilNextRun =
-                            Math.max(
-                                InstallationSettings.Values.FIVE_SECONDS_COVERAGE_REFRESH_PERIOD,
-                                CloverPlugin.getInstance().getInstallationSettings().getCoverageRefreshPeriod());
-                    } else {
-                        msUntilNextRun = InstallationSettings.Values.TEN_SECONDS_COVERAGE_REFRESH_PERIOD;
-                    }
+                    long msUntilNextRun = getMsUntilNextRun();
                     schedule(msUntilNextRun);
                 }
             }
         }
+    }
+
+    private static long getMsUntilNextRun() {
+        long msUntilNextRun = 0;
+        if (CloverPlugin.getInstance().getInstallationSettings().isAutoRefreshingCoverage()) {
+            //Ensure we only ever run at most every 5 seconds, regardless of what
+            //the preferences say
+            msUntilNextRun =
+                Math.max(
+                    InstallationSettings.Values.FIVE_SECONDS_COVERAGE_REFRESH_PERIOD,
+                    CloverPlugin.getInstance().getInstallationSettings().getCoverageRefreshPeriod());
+        } else {
+            msUntilNextRun = InstallationSettings.Values.TEN_SECONDS_COVERAGE_REFRESH_PERIOD;
+        }
+        return msUntilNextRun;
     }
 }

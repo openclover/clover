@@ -55,9 +55,6 @@ public class AllTestContributionsComputation extends TestContributionsComputatio
             setCompilationUnit(newCompilationUnit);
         } else {
             setInputChanged(false);
-//          setDatabaseModel(null);
-//          setCoverageAnnotationModel(null);
-//          setCompilationUnit(null);
         }
     }
 

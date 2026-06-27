@@ -415,8 +415,6 @@ public class TestRunExplorerView extends ExplorerView {
     private ClassesTestedTreeProvider classesTestedTreeProvider;
     private ClassesTestedTreeLabelProvider classesTestedTreeLabelProvider;
 
-    //    private Table coverageContribTable;
-//    private TreeColumn[] coverageContribTreeColumns;
     private TreeViewer coverageContribPaneViewer;
     private Composite explorerTreePane;
     private Map testCaseNodeCache;
@@ -499,7 +497,6 @@ public class TestRunExplorerView extends ExplorerView {
         classesTestedTreeViewer.setLabelProvider(new ClassesTestedTreeLabelProvider(getSettings()));
         classesTestedTreeViewer.setContentProvider(classesTestedTreeProvider);
         classesTestedTreeViewer.setAutoExpandLevel(TreeViewer.ALL_LEVELS);
-//        classesTestedTable.setMenu(newContextMenuManager().createContextMenu(classesTestedTable));
 
         updateClassesTestedSorter();
 
@@ -513,27 +510,6 @@ public class TestRunExplorerView extends ExplorerView {
         });
 
         treeViewer.addSelectionChangedListener(classesTestedTreeProvider);
-
-//        Composite contribPane = new Composite(mainContent, SWT.NONE);
-//        contribPane.setLayout(new GridLayout(1, false));
-//
-//        new Label(contribPane, SWT.NONE).setText("Test contributions:");
-//
-//        coverageContribTable = new Table(contribPane, SWT.NONE);
-//        coverageContribTable.setLayoutData(new GridData(GridData.FILL_BOTH));
-//        coverageContribTable.setLinesVisible(true);
-//        coverageContribTable.setHeaderVisible(true);
-//        coverageContribTreeColumns = new TreeColumn[1];
-//        coverageContribTreeColumns[0] = new TreeColumn(coverageContribTable, SWT.LEFT);
-//        coverageContribTreeColumns[0].setText("Class");
-//        coverageContribTreeColumns[0].setToolTipText("TODO");
-//        coverageContribTreeColumns[0].setWidth(100);
-//
-//        classesTestedTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-//            public void selectionChanged(SelectionChangedEvent event) {
-//
-//            }
-//        });
 
         updateMainContentSashOrientation(calcViewOrientation());
     }
@@ -636,11 +612,6 @@ public class TestRunExplorerView extends ExplorerView {
             } finally {
                 treeViewer.getControl().setRedraw(true);
             }
-
-            //Hack: expand items once updated
-//            if (treePaths != null) {
-//                getTreeViewer().setExpandedTreePaths(treePaths);
-//            }
 
             treeViewer.setSelection(selection);
         }

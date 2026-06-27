@@ -14,7 +14,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class InMemoryInstrumenter extends BaseInstrumenter {
-    private Map originalToInstrumentedSource;
+    private final Map originalToInstrumentedSource;
 
     public InMemoryInstrumenter(CloverProject project, Clover2Registry registry, InstrumentationProjectPathMap pathMap, IProgressMonitor monitor, int buildKind) throws CoreException {
         super(monitor, pathMap, project, registry, buildKind);

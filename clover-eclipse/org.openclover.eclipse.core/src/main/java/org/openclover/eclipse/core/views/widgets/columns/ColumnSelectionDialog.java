@@ -74,8 +74,6 @@ public class ColumnSelectionDialog extends Dialog {
 
     @Override
     protected void createButtonsForButtonBar(Composite parent) {
-//        createButton(parent, IMPORT_ID, "Import...", false);
-//        createButton(parent, EXPORT_ID, "Export...", false);
         super.createButtonsForButtonBar(parent);
     }
 

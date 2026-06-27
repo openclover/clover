@@ -175,7 +175,7 @@ public class CloudEditor
             focusDropDown.add(cloud.name);
         }
 
-        if (oldSelection != null && oldSelection.length() > 0) {
+        if (oldSelection != null && !oldSelection.isEmpty()) {
             focusDropDown.setText(oldSelection);
         } else {
             focusDropDown.select(0);

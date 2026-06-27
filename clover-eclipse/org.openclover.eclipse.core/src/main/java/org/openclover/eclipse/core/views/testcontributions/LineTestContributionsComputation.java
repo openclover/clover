@@ -52,9 +52,6 @@ public class LineTestContributionsComputation extends TestContributionsComputati
             setCursorPosition(newPosition);
             setInputChanged(true);
         } else {
-//          setCoverageModel(null);
-//          setCoverageAnnotationModel(null);
-//          setCursorPosition(null);
             setInputChanged(false);
         }
     }

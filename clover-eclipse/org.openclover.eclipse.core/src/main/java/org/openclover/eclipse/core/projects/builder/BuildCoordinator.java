@@ -337,7 +337,7 @@ public class BuildCoordinator {
         }
 
         StringBuilder debugSwitch = new StringBuilder("-g:");
-        if (debugOptions.size() == 0) {
+        if (debugOptions.isEmpty()) {
             debugSwitch.append("none");
         } else {
             for (Iterator<String> iterator = debugOptions.iterator(); iterator.hasNext(); ) {

@@ -62,14 +62,14 @@ public class ProjectPropertyPage extends BaseSettingsPage implements IWorkbenchP
     }
     
     public class Panel extends Composite {
-        private IJavaProject project;
+        private final IJavaProject project;
 
-        private Button enableButton;
+        private final Button enableButton;
 
-        private InstrumentationComposite instrumentationComposite;
-        private InstrumentSourceFilteringComposite instrumentSourceFilteringComposite;
-        private TestSourceFilteringComposite testSourceFilteringComposite;
-        private ContextFilterModificationWidget contextFilter;
+        private final InstrumentationComposite instrumentationComposite;
+        private final InstrumentSourceFilteringComposite instrumentSourceFilteringComposite;
+        private final TestSourceFilteringComposite testSourceFilteringComposite;
+        private final ContextFilterModificationWidget contextFilter;
         public static final int HORIZONTAL_INDENT = 30;
 
         public Panel(Composite composite, PropertyPage propertyPage) throws CoreException {

@@ -91,7 +91,7 @@ class AnnotationSpaceWithFragments extends AnnotationSpace {
     }
 
     private AnnotationFragment getLastFragment() {
-        return fragments.size() == 0 ? null : fragments.get(fragments.size() - 1);
+        return fragments.isEmpty() ? null : fragments.get(fragments.size() - 1);
     }
 
     public boolean currentFragmentCompatibleWith(SourceInfo region, boolean hidden) {

@@ -13,6 +13,7 @@ import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.openclover.eclipse.core.exclusion.ExclusionLabelDecorator;
 import org.openclover.eclipse.core.projects.model.CoverageModelsMonitor;
@@ -149,7 +150,7 @@ public class CloverPlugin extends AbstractUIPlugin {
         loadCustomColumns();
         buildWorkingSet();
 
-        editorSynchronizer = new EditorCoverageSynchronizer(getWorkbench());
+        editorSynchronizer = new EditorCoverageSynchronizer(PlatformUI.getWorkbench());
         coverageMonitor = new CoverageModelsMonitor();
 
         //Wait until the bundle is fully started before starting background jobs
@@ -187,7 +188,7 @@ public class CloverPlugin extends AbstractUIPlugin {
     }
 
     private void buildWorkingSet() {
-        workingSet = new CloverWorkingSet(getWorkbench().getWorkingSetManager());
+        workingSet = new CloverWorkingSet(PlatformUI.getWorkbench().getWorkingSetManager());
     }
 
     private void listenForSettingsChanges() {
