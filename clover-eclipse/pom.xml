@@ -21,6 +21,7 @@
         <module>org.openclover.eclipse.testopt</module>
         <module>org.openclover.eclipse.updatesite</module>
         <module>org.openclover.eclipse.functest.runner</module>
+        <module>org.openclover.eclipse.functest</module>
     </modules>
     <properties>
         <!-- Eclipse version in release-label format (dash separator) — used in download URLs -->
