@@ -100,10 +100,10 @@ public class InstrumentSourceFilteringComposite extends Composite {
         settings.setInstrumentSelectedSourceFolders(lastInstrumentSelectedSourceFolders);
 
         lastInclude = includeFilterText.getText().trim();
-        settings.setIncludeFilter(lastInclude.length() > 0 ? lastInclude : null);
+        settings.setIncludeFilter(lastInclude.isEmpty() ? null : lastInclude);
 
         lastExclude = excludeFilterText.getText().trim();
-        settings.setExcludeFilter(lastExclude.length() > 0 ? lastExclude : null);
+        settings.setExcludeFilter(lastExclude.isEmpty() ? null : lastExclude);
 
         instrumentSourcePatternsComponent.storeTo(settings);
     }

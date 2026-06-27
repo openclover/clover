@@ -56,11 +56,9 @@ public class CloverExcludableAdapterFactory implements IAdapterFactory {
         return null;
     }
 
-    @SuppressWarnings("unchecked")
-    private static Class[] ADAPTER_LIST = { ICloverExcludable.class };
+    private static final Class[] ADAPTER_LIST = { ICloverExcludable.class };
 
     @Override
-    @SuppressWarnings("unchecked")
     public Class[] getAdapterList() {
         return ADAPTER_LIST;
     }

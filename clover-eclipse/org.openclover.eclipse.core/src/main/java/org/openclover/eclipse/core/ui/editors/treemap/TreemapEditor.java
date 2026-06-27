@@ -4,7 +4,6 @@ import net.sf.jtreemap.ktreemap.ITreeMapProvider;
 import net.sf.jtreemap.ktreemap.KTreeMap;
 import net.sf.jtreemap.ktreemap.SplitSquarified;
 import net.sf.jtreemap.ktreemap.TreeMapNode;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jface.action.Action;
@@ -32,8 +31,6 @@ import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.ui.CloverPluginIcons;
 import org.openclover.eclipse.core.ui.GLH;
 import org.openclover.eclipse.core.ui.editors.CloverProjectInput;
-
-import static org.openclover.eclipse.core.CloverPlugin.logError;
 
 public class TreemapEditor extends EditorPart {
     public static final String ID = CloverPlugin.ID + ".editors.treemap";
@@ -137,12 +134,7 @@ public class TreemapEditor extends EditorPart {
     }
 
     private IJavaProject getJavaProject() {
-        try {
-            return ((CloverProjectInput)getEditorInput()).getProject().getJavaProject();
-        } catch (CoreException e) {
-            logError("Unable to retrieve Java project for treemap editor", e);
-            return null;
-        }
+        return ((CloverProjectInput)getEditorInput()).getProject().getJavaProject();
     }
 
     private void fillContextMenu(IMenuManager manager) {
@@ -196,7 +188,7 @@ public class TreemapEditor extends EditorPart {
     }
 
     private class ZoomAction extends Action {
-        private TreeMapNode node;
+        private final TreeMapNode node;
 
         /**
          * Constructor

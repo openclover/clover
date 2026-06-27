@@ -34,10 +34,10 @@ public class Nodes {
 
     public static final TestCaseConverter TO_IMETHOD = (tci, method) -> method;
 
-    public static class ToTestCaseNodeCoverter implements TestCaseConverter {
-        private TestCaseNodeFactory tcnFactory;
+    public static class ToTestCaseNodeConverter implements TestCaseConverter {
+        private final TestCaseNodeFactory tcnFactory;
 
-        public ToTestCaseNodeCoverter(TestCaseNodeFactory tcnFactory) {
+        public ToTestCaseNodeConverter(TestCaseNodeFactory tcnFactory) {
             this.tcnFactory = tcnFactory;
         }
 
@@ -45,14 +45,14 @@ public class Nodes {
         public Object convert(TestCaseInfo tci, IMethod method) {
             return tcnFactory.newNode(tci, method);
         }
-    };
+    }
 
     public static final TypeCondition CONTAINS_TEST_CASE = new TypeCondition() {
         @Override
         public boolean evaluate(IType type) throws CoreException {
             ClassInfo classInfo = (ClassInfo) MetricsScope.TEST_ONLY.getHasMetricsFor(type, FullClassInfo.class);
             if (classInfo != null && classInfo.isTestClass()) {
-                if (classInfo.getTestCases().size() > 0) {
+                if (!classInfo.getTestCases().isEmpty()) {
                     return true;
                 } else {
                     IType[] types = type.getTypes();
@@ -76,7 +76,7 @@ public class Nodes {
 
     public static final TypeCondition IS_TEST_CLASS_CONTAINER = new TypeCondition() {
         @Override
-        public boolean evaluate(IType type) throws CoreException {
+        public boolean evaluate(IType type) {
             return MetricsScope.TEST_ONLY.getHasMetricsFor(type, FullClassInfo.class) != null;
         }
 
@@ -91,14 +91,14 @@ public class Nodes {
         public Inference inferFor(IPackageFragment element) throws CoreException {
             final CloverProject cloverProject = CloverProject.getFor(element.getJavaProject());
             final HasMetrics hasMetrics = cloverProject == null ? null : MetricsScope.TEST_ONLY.getHasMetricsFor(element);
-            final HasMetricsNode hasMetricsNode = hasMetrics instanceof HasMetricsNode ? (HasMetricsNode)hasMetrics : null;
+            final HasMetricsNode hasMetricsNode = hasMetrics instanceof HasMetricsNode ? (HasMetricsNode) hasMetrics : null;
             return (hasMetricsNode == null || hasMetricsNode.isEmpty()) ? Inference.FALSE : Inference.TRUE;
         }
     };
 
     private static final TypeCondition IS_APP_CLASS_CONTAINER = new TypeCondition() {
         @Override
-        public boolean evaluate(IType type) throws CoreException {
+        public boolean evaluate(IType type) {
             return MetricsScope.APP_ONLY.getHasMetricsFor(type, FullClassInfo.class) != null;
         }
 
@@ -113,23 +113,40 @@ public class Nodes {
         public Inference inferFor(IPackageFragment element) throws CoreException {
             final CloverProject cloverProject = CloverProject.getFor(element.getJavaProject());
             final HasMetrics hasMetrics = cloverProject == null ? null : MetricsScope.APP_ONLY.getHasMetricsFor(element);
-            final HasMetricsNode hasMetricsNode = hasMetrics instanceof HasMetricsNode ? (HasMetricsNode)hasMetrics : null;
+            final HasMetricsNode hasMetricsNode = hasMetrics instanceof HasMetricsNode ? (HasMetricsNode) hasMetrics : null;
             return (hasMetricsNode == null || hasMetricsNode.isEmpty()) ? Inference.FALSE : Inference.TRUE;
         }
     };
 
     public interface TestCaseConverter {
-        public Object convert(TestCaseInfo tci, IMethod method);
+        Object convert(TestCaseInfo tci, IMethod method);
     }
 
     public static abstract class TypeCondition {
         public abstract boolean evaluate(IType type) throws CoreException;
-        /** An optimization to avoid walking the type tree if we have a high-level way of evaluating. */
-        public Inference inferFor(IProject element) throws CoreException { return Inference.UNKNOWN; };
-        public Inference inferFor(IPackageFragmentRoot element) throws CoreException { return Inference.UNKNOWN; };
-        public Inference inferFor(IPackageFragment element) throws CoreException { return Inference.UNKNOWN; };
-        public Inference inferFor(TreePackageFragmentNode element) throws CoreException { return Inference.UNKNOWN; };
-        public Inference inferFor(LeafPackageFragmentNode element) throws CoreException { return Inference.UNKNOWN; };
+
+        /**
+         * An optimization to avoid walking the type tree if we have a high-level way of evaluating.
+         */
+        public Inference inferFor(IProject element) throws CoreException {
+            return Inference.UNKNOWN;
+        }
+
+        public Inference inferFor(IPackageFragmentRoot element) {
+            return Inference.UNKNOWN;
+        }
+
+        public Inference inferFor(IPackageFragment element) throws CoreException {
+            return Inference.UNKNOWN;
+        }
+
+        public Inference inferFor(TreePackageFragmentNode element) {
+            return Inference.UNKNOWN;
+        }
+
+        public Inference inferFor(LeafPackageFragmentNode element) {
+            return Inference.UNKNOWN;
+        }
     }
 
     private enum Inference {
@@ -137,17 +154,20 @@ public class Nodes {
             @Override
             public boolean result() {
                 return false;
-            }},
+            }
+        },
         TRUE {
             @Override
             public boolean result() {
                 return true;
-            }},
+            }
+        },
         FALSE {
             @Override
             public boolean result() {
                 return false;
-            }};
+            }
+        };
 
         public abstract boolean result();
     }
@@ -160,23 +180,23 @@ public class Nodes {
                 return collectTestCases(cloverProject.getJavaProject(), testCases, converter);
             }
         } else if (mysteryMeat instanceof IJavaProject) {
-            return collectTestCases((IJavaProject)mysteryMeat, testCases, converter);
+            return collectTestCases((IJavaProject) mysteryMeat, testCases, converter);
         } else if (mysteryMeat instanceof IPackageFragmentRoot) {
-            return collectTestCases((IPackageFragmentRoot)mysteryMeat, testCases, converter);
+            return collectTestCases((IPackageFragmentRoot) mysteryMeat, testCases, converter);
         } else if (mysteryMeat instanceof IPackageFragment) {
-            return collectTestCases((IPackageFragment)mysteryMeat, testCases, converter);
+            return collectTestCases((IPackageFragment) mysteryMeat, testCases, converter);
         } else if (mysteryMeat instanceof LeafPackageFragmentNode) {
-            return collectTestCases((LeafPackageFragmentNode)mysteryMeat, testCases, converter);
+            return collectTestCases((LeafPackageFragmentNode) mysteryMeat, testCases, converter);
         } else if (mysteryMeat instanceof TreePackageFragmentNode) {
-            return collectTestCases((TreePackageFragmentNode)mysteryMeat, testCases, converter);
+            return collectTestCases((TreePackageFragmentNode) mysteryMeat, testCases, converter);
         } else if (mysteryMeat instanceof ICompilationUnit) {
-            return collectTestCases((ICompilationUnit)mysteryMeat, testCases, converter);
+            return collectTestCases((ICompilationUnit) mysteryMeat, testCases, converter);
         } else if (mysteryMeat instanceof IType) {
-            return collectTestCases((IType)mysteryMeat, testCases, converter);
+            return collectTestCases((IType) mysteryMeat, testCases, converter);
         } else if (mysteryMeat instanceof IMethod) {
-            return collectTestCases((IMethod)mysteryMeat, testCases, converter);
+            return collectTestCases((IMethod) mysteryMeat, testCases, converter);
         } else if (mysteryMeat instanceof TestCaseNode) {
-            return collectTestCases((TestCaseNode)mysteryMeat, testCases, converter);
+            return collectTestCases((TestCaseNode) mysteryMeat, testCases, converter);
         }
         return testCases;
     }
@@ -190,15 +210,15 @@ public class Nodes {
     }
 
     private static List collectTestCases(TreePackageFragmentNode treePackageFragmentNode, List testCases, TestCaseConverter converter) throws CoreException {
-        IPackageFragment packageFragment = (IPackageFragment)treePackageFragmentNode.toJavaElement();
+        IPackageFragment packageFragment = (IPackageFragment) treePackageFragmentNode.toJavaElement();
         packageFragment =
-            packageFragment instanceof JavaElementAdapter
-                ? (IPackageFragment)((JavaElementAdapter)packageFragment).getAdaptee()
-                : packageFragment;
+                packageFragment instanceof JavaElementAdapter
+                        ? (IPackageFragment) ((JavaElementAdapter) packageFragment).getAdaptee()
+                        : packageFragment;
         collectTestCases(packageFragment, testCases, converter);
 
         if (!packageFragment.isDefaultPackage()) {
-            final IJavaElement[] packages = ((IPackageFragmentRoot)packageFragment.getParent()).getChildren();
+            final IJavaElement[] packages = ((IPackageFragmentRoot) packageFragment.getParent()).getChildren();
             for (IJavaElement aPackage : packages) {
                 if (aPackage instanceof IPackageFragment
                         && aPackage.getElementName().indexOf(packageFragment.getElementName() + ".") == 0) {
@@ -313,21 +333,21 @@ public class Nodes {
 
     public static boolean evalOnTypes(TypeCondition condition, Object mysteryMeat) throws CoreException {
         if (mysteryMeat instanceof IProject) {
-            return evalOnTypes(condition, (IProject)mysteryMeat);
+            return evalOnTypes(condition, (IProject) mysteryMeat);
         } else if (mysteryMeat instanceof IJavaProject) {
-            return evalOnTypes(condition, ((IJavaProject)mysteryMeat).getProject());
+            return evalOnTypes(condition, ((IJavaProject) mysteryMeat).getProject());
         } else if (mysteryMeat instanceof IPackageFragmentRoot) {
-            return evalOnTypes(condition, (IPackageFragmentRoot)mysteryMeat);
+            return evalOnTypes(condition, (IPackageFragmentRoot) mysteryMeat);
         } else if (mysteryMeat instanceof TreePackageFragmentNode) {
-            return evalOnTypes(condition, (TreePackageFragmentNode)mysteryMeat);
+            return evalOnTypes(condition, (TreePackageFragmentNode) mysteryMeat);
         } else if (mysteryMeat instanceof LeafPackageFragmentNode) {
-            return evalOnTypes(condition, (LeafPackageFragmentNode)mysteryMeat);
+            return evalOnTypes(condition, (LeafPackageFragmentNode) mysteryMeat);
         } else if (mysteryMeat instanceof IPackageFragment) {
-            return evalOnTypes(condition, (IPackageFragment)mysteryMeat);
+            return evalOnTypes(condition, (IPackageFragment) mysteryMeat);
         } else if (mysteryMeat instanceof ICompilationUnit) {
-            return evalOnTypes(condition, (ICompilationUnit)mysteryMeat);
+            return evalOnTypes(condition, (ICompilationUnit) mysteryMeat);
         } else if (mysteryMeat instanceof IType) {
-            return condition.evaluate((IType)mysteryMeat);
+            return condition.evaluate((IType) mysteryMeat);
         }
         return false;
     }
@@ -346,7 +366,7 @@ public class Nodes {
             final CloverProject cloverProject = CloverProject.getFor(project);
             if (cloverProject != null) {
                 final IPackageFragmentRoot[] roots =
-                    cloverProject.getJavaProject().getPackageFragmentRoots();
+                        cloverProject.getJavaProject().getPackageFragmentRoots();
 
                 for (IPackageFragmentRoot root : roots) {
                     if (root.getKind() == IPackageFragmentRoot.K_SOURCE && evalOnTypes(condition, root)) {
@@ -373,15 +393,15 @@ public class Nodes {
     }
 
     public static boolean evalOnTypes(TypeCondition condition, TreePackageFragmentNode packageFragmentNode) throws CoreException {
-        IPackageFragment packageFragment = (IPackageFragment)packageFragmentNode.toJavaElement();
+        IPackageFragment packageFragment = (IPackageFragment) packageFragmentNode.toJavaElement();
         packageFragment =
-            packageFragment instanceof JavaElementAdapter
-                ? (IPackageFragment)((JavaElementAdapter)packageFragment).getAdaptee()
-                : packageFragment;
+                packageFragment instanceof JavaElementAdapter
+                        ? (IPackageFragment) ((JavaElementAdapter) packageFragment).getAdaptee()
+                        : packageFragment;
         if (evalOnTypes(condition, packageFragment)) {
             return true;
         } else if (!packageFragment.isDefaultPackage()) {
-            final IJavaElement[] packages = ((IPackageFragmentRoot)packageFragment.getParent()).getChildren();
+            final IJavaElement[] packages = ((IPackageFragmentRoot) packageFragment.getParent()).getChildren();
             for (IJavaElement aPackage : packages) {
                 if (aPackage instanceof IPackageFragment
                         && aPackage.getElementName().indexOf(packageFragment.getElementName() + ".") == 0) {

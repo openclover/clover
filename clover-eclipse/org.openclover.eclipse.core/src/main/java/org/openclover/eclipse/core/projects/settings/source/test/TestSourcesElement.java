@@ -5,7 +5,7 @@ import java.util.List;
 import static org.openclover.core.util.Lists.newArrayList;
 
 public class TestSourcesElement implements TreeElement {
-    private List<TestPackageRootElement> testPackageRoots = newArrayList();
+    private final List<TestPackageRootElement> testPackageRoots = newArrayList();
 
     public List<TestPackageRootElement> getTestPackageRoots() {
         return testPackageRoots;

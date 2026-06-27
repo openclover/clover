@@ -17,7 +17,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.model.WorkbenchContentProvider;
-import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.projects.CloveredProjectLabelProvider;
 
@@ -34,7 +33,7 @@ import static org.openclover.eclipse.core.CloverPlugin.logError;
 public class SelectProjectsPage extends WizardPage {
     private Table projectsTable;
     private TableViewer projectsTableViewer;
-    private CloverProject initialProject;
+    private final CloverProject initialProject;
     private CloverProject[] selectedProjects = new CloverProject[] {};
 
     public SelectProjectsPage(CloverProject project) {

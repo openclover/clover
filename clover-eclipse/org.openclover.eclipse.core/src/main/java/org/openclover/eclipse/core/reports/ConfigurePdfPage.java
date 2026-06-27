@@ -56,8 +56,4 @@ public class ConfigurePdfPage extends ConfigureReportPage {
         threadCount.addListener(SWT.Selection, listener);
     }
 
-    @Override
-    protected File getOutput() {
-        return new File(outputPath.getText());
-    }
 }

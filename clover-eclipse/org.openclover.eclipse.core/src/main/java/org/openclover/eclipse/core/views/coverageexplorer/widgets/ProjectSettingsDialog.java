@@ -16,7 +16,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.openclover.core.cfg.instr.InstrumentationLevel;
-import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.ui.SwtUtils;
 
@@ -71,7 +70,7 @@ public class ProjectSettingsDialog extends PopupDialog {
 
         instrumentationLevel = new Combo(parent, SWT.CHECK | SWT.READ_ONLY);
         SwtUtils.gridDataFor(instrumentationLevel).horizontalSpan = 2;
-        instrumentationLevel.setItems(new String[] {"statement level", "method level"});
+        instrumentationLevel.setItems("statement level", "method level");
         instrumentationLevel.select(initialInstrumentationlevel == InstrumentationLevel.STATEMENT ? 0 : 1);
         instrumentationLevel.setToolTipText(
             "Statement level instrumentation is more accurate but has a runtime performance penalty." +

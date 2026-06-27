@@ -26,9 +26,9 @@ public class SavingsNotificationContributionItem extends WorkbenchWindowControlC
 
     private final TestRunListener testRunListener = new TestRunListener() {
         @Override
-        public void sessionStarted(final ITestRunSession isession) {
+        public void sessionStarted(final ITestRunSession iSession) {
             Display.getDefault().asyncExec(() -> {
-                final TestRunSession session = (TestRunSession) isession;
+                final TestRunSession session = (TestRunSession) iSession;
                 dirty = true;
                 // this is a test run without Clover optimization, clear stats
                 if (!OptimizedLaunchingConstants.OPTIMIZED_MODE.equals(session.getLaunch().getLaunchMode())) {
@@ -79,8 +79,8 @@ public class SavingsNotificationContributionItem extends WorkbenchWindowControlC
 }
 
 class OptimizationSessionIcon extends Composite {
-    private Label label;
-    private Label image;
+    private final Label label;
+    private final Label image;
 
     OptimizationSessionIcon(Composite parent, OptimizationSession session) {
         super(parent, SWT.NONE);
@@ -100,7 +100,7 @@ class OptimizationSessionIcon extends Composite {
             label.setText("-/-");
             tooltipText = "No test optimization in effect";
         } else {
-            label.setText("" + session.getOptimizedTestableCount() + "/" + session.getOriginalTestableCount());
+            label.setText(session.getOptimizedTestableCount() + "/" + session.getOriginalTestableCount());
             tooltipText = session.getPlainSummary();
         }
         label.setLayoutData(GridDataFactory.fillDefaults().align(SWT.LEFT, SWT.CENTER).create());

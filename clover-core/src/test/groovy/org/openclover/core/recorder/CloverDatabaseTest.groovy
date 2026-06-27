@@ -314,7 +314,7 @@ class CloverDatabaseTest {
         prepareCoverageDataFile(registry, (len / 4) as int, (3 * len / 4) as int); // previous 50% + new 50% shifted by 25% = 75%
 
         CloverDatabase db2 = db1.copyForBackgroundCoverageDataLoad()
-        db2.loadCoverageData()
+        db2.loadCoverageData(generateCoverageDataSpec())
 
         assertEquals("Original database should remain at 50% coverage, coverage", 0.50, db1.getModel(CodeType.APPLICATION).getMetrics().getPcCoveredElements(), 0.01)
         assertEquals("New database should be at 75% coverage, coverage", 0.75, db2.getModel(CodeType.APPLICATION).getMetrics().getPcCoveredElements(), 0.01)

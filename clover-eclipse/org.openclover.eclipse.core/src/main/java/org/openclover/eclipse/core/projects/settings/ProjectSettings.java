@@ -101,7 +101,7 @@ public class ProjectSettings extends Settings {
     private static final ListMarshaller<String> STRING_LIST_MARSHALLER = new StringListMarshaller();
     private static final ListMarshaller<SourceFolderPattern> FOLDER_LIST_MARSHALLER = new FolderListMarshaller();
 
-    protected IProject project;
+    protected final IProject project;
     private IScopeContext[] scopeContext;
 
     public ProjectSettings(IProject project) {
@@ -239,9 +239,9 @@ public class ProjectSettings extends Settings {
             } else {
                 final long lastClean = CloverProject.getLastCleanBuildStamp(project);
                 return
-                    (lastClean != 0l
+                    (lastClean != 0L
                         ? System.currentTimeMillis() - lastClean
-                        : 0l) + userSpan;
+                        : 0L) + userSpan;
             }
         } else {
             return userSpan;
@@ -485,7 +485,7 @@ public class ProjectSettings extends Settings {
     private <T> void setListProperty(String key, List<T> list, ListMarshaller<T> marshaller) {
         // need to convert each element of the list into a string, and
         // store them in indexed names. Note, there is a limit of 2K of data
-        // for each qualified name. Therefore use separate name for each
+        // for each qualified name. Therefore, use separate name for each
         // data element.
 
         for (int i = 0; ; i++) {
@@ -517,7 +517,7 @@ public class ProjectSettings extends Settings {
             String indexedKey = key + "[" + i + "]";
 
             String data = getString(indexedKey);
-            if (data == null || data.equals("")) { // no data means end of list.
+            if (data == null || data.isEmpty()) { // no data means end of list.
                 break;
             }
 

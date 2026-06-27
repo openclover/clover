@@ -23,12 +23,12 @@ public class CoverageAnnotationSpaceBuilder implements CoverageAnnotationBuilder
         DEBUG_ENABLED = CloverPlugin.isLoggingDebugFor("annotations");
     }
     
-    private CloverDatabase database;
-    private IDocument document;
-    private AnnotationSpace root;
+    private final CloverDatabase database;
+    private final IDocument document;
+    private final AnnotationSpace root;
     private AnnotationSpace currentSpace;
 
-    public CoverageAnnotationSpaceBuilder(CloverDatabase database, IDocument document, Map<TestCaseInfo, BitSet> tcisAndHitsForFile) throws BadLocationException {
+    public CoverageAnnotationSpaceBuilder(CloverDatabase database, IDocument document, Map<TestCaseInfo, BitSet> tcisAndHitsForFile) {
         this.database = database;
         this.document = document;
         this.root = new RootAnnotationSpace(database, document, tcisAndHitsForFile);
@@ -144,12 +144,12 @@ public class CoverageAnnotationSpaceBuilder implements CoverageAnnotationBuilder
             return
                 "\"" + flattenedString.substring(0, frontCharsToShow)
                 + "..."
-                + flattenedString.substring(flattenedString.length() - backCharsToShow, flattenedString.length()) + "\"";
+                + flattenedString.substring(flattenedString.length() - backCharsToShow) + "\"";
         }
     }
 
     @Override
-    public SortedSet<CoverageAnnotation> toAnnotations(SortedSet<CoverageAnnotation> annotations) throws BadLocationException {
+    public SortedSet<CoverageAnnotation> toAnnotations(SortedSet<CoverageAnnotation> annotations) {
         return root.toAnnotations(annotations);
     }
 }

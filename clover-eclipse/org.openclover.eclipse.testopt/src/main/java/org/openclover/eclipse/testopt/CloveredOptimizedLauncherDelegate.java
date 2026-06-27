@@ -8,6 +8,7 @@ import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IMember;
+import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.junit.launcher.JUnitLaunchConfigurationDelegate;
 import org.eclipse.jdt.launching.IVMRunner;
@@ -34,7 +35,7 @@ public class CloveredOptimizedLauncherDelegate extends JUnitLaunchConfigurationD
 
     @Override
     protected IMember[] evaluateTests(ILaunchConfiguration configuration, IProgressMonitor monitor) throws CoreException {
-        final IMember[] allTests = super.evaluateTests(configuration, monitor);
+        final IMember[] allTests = super.evaluateTests(configuration, monitor); // IMember SourceMethod(IMethod) / IType
         final IJavaProject project = getJavaProject(configuration);
         OptimizationSession[] sessionHolder = new OptimizationSession[] {null};
         if (project == null) {
@@ -54,13 +55,13 @@ public class CloveredOptimizedLauncherDelegate extends JUnitLaunchConfigurationD
                 final IPreferenceStore pluginPreferences = TestOptimizationPlugin.getDefault().getPreferenceStore();
                 if (pluginPreferences.getBoolean(TestOptimizationPlugin.SHOW_NO_TESTS_FOUND_DIALOG)) {
                     Display.getDefault().asyncExec(() -> {
-                        MessageDialogWithToggle mdwt =
+                        MessageDialogWithToggle dialogWithToggle =
                                 MessageDialogWithToggle.openInformation(null,
                                                                         TestOptimizationPluginMessages.getPluginName(),
                                                                         msg,
                                                                         TestOptimizationPluginMessages.getString("launch.optimized.notestsfound.ask"),
                                                                         true, null, null);
-                        pluginPreferences.setValue(TestOptimizationPlugin.SHOW_NO_TESTS_FOUND_DIALOG, mdwt.getToggleState());
+                        pluginPreferences.setValue(TestOptimizationPlugin.SHOW_NO_TESTS_FOUND_DIALOG, dialogWithToggle.getToggleState());
                     });
                 }
                 final IStatus status = new Status(IStatus.INFO, TestOptimizationPlugin.ID, msg);
@@ -236,10 +237,17 @@ class IMemberAdapter implements Optimizable {
 
     @Override
     public String getName() {
+        // Match naming as stored in a Snapshot class
         if (iMember instanceof IType) {
+            // "com.foo.bar.Baz"
             return ((IType) iMember).getFullyQualifiedName('.');
+        } else if (iMember instanceof IMethod) {
+            // "com.foo.bar.Baz.testMethod"
+            String className =  iMember.getDeclaringType().getFullyQualifiedName('.');
+            String methodName = iMember.getElementName();
+            return className + "." + methodName;
         } else {
-            TestOptimizationPlugin.logError("Unexpected iMember type " + iMember.getClass().getName() + ": " + iMember.getElementName());
+            TestOptimizationPlugin.logWarning("Test Optimization - unexpected type " + iMember.getClass().getName() + ": " + iMember.getElementName());
             return iMember.getElementName();
         }
     }

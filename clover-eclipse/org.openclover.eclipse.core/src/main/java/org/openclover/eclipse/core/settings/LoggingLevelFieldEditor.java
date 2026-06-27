@@ -24,11 +24,10 @@ public class LoggingLevelFieldEditor extends FieldEditor {
          * Value as used in InstallationSettings
          * @see InstallationSettings
          */
-        private String installationValue;
+        private final String installationValue;
 
         /**
          * Associate enum with matching value from InstallationSettings class.
-         * @param installationValue
          */
         LoggingLevelCombo(String installationValue) {
             this.installationValue = installationValue;
@@ -36,7 +35,6 @@ public class LoggingLevelFieldEditor extends FieldEditor {
 
         /**
          * Converts logging level from installation settings into appropriate index in the combo box.
-         * @param value
          * @return int - index
          */
         static int fromInstallationSetting(String value) {
@@ -50,7 +48,6 @@ public class LoggingLevelFieldEditor extends FieldEditor {
 
         /**
          * Converts combo box index into logging value for installation settings.
-         * @param index
          * @return String - named value
          */
         static String toInstallationSetting(int index) {

@@ -32,8 +32,4 @@ public class BuiltinPcMetricsColumnDefinition extends BuiltinMetricsColumnDefini
         return new MetricsPcCellRenderer((Tree)composite, settings, settings.getTreeColumnSettings(), this);
     }
 
-    @Override
-    public boolean displaysSimpleLabel() {
-        return false;
-    }
 }

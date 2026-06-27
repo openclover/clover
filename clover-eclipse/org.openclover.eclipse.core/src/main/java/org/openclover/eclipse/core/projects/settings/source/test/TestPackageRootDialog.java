@@ -23,7 +23,7 @@ public class TestPackageRootDialog extends SelectionDialog {
     protected void configureShell(Shell shell) {
         super.configureShell(shell);
 
-        shell.setText("Test source, clases and methods");
+        shell.setText("Test source, classes and methods");
     }
 
     @Override

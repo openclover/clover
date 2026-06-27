@@ -96,7 +96,7 @@ public abstract class BuiltinMetricsColumnDefinition
     }
 
     public class MetricsComparator implements Comparator {
-        private MetricsScope scope;
+        private final MetricsScope scope;
 
         public MetricsComparator(MetricsScope scope) {
             this.scope = scope;

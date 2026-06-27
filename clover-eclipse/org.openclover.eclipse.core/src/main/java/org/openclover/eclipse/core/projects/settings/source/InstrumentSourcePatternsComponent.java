@@ -83,13 +83,13 @@ public class InstrumentSourcePatternsComponent extends Composite {
 
     private void doEdit() {
         StructuredSelection selection = (StructuredSelection) foldersListViewer.getSelection();
-        SourceRootWithPattern srwp = (SourceRootWithPattern) selection.getFirstElement();
-        if (srwp != null) {
-            EditSourceFolderPatternDialog dialog = new EditSourceFolderPatternDialog(getShell(), srwp.getPattern());
+        SourceRootWithPattern rootWithPattern = (SourceRootWithPattern) selection.getFirstElement();
+        if (rootWithPattern != null) {
+            EditSourceFolderPatternDialog dialog = new EditSourceFolderPatternDialog(getShell(), rootWithPattern.getPattern());
             if (dialog.open() == Dialog.OK) {
                 SourceFolderPattern newSfp = dialog.getResult();
-                srwp.setPattern(newSfp);
-                foldersListViewer.refresh(srwp);
+                rootWithPattern.setPattern(newSfp);
+                foldersListViewer.refresh(rootWithPattern);
             }
         }
 
@@ -99,8 +99,8 @@ public class InstrumentSourcePatternsComponent extends Composite {
         final SourceRootWithPattern[] elements = provider.getAllElements();
         final List<SourceFolderPattern> patterns = new ArrayList<>(elements.length);
 
-        for (SourceRootWithPattern srwp : elements) {
-            patterns.add(new SourceFolderPattern(srwp.getPattern()));
+        for (SourceRootWithPattern rootWithPattern : elements) {
+            patterns.add(new SourceFolderPattern(rootWithPattern.getPattern()));
         }
         return patterns;
     }

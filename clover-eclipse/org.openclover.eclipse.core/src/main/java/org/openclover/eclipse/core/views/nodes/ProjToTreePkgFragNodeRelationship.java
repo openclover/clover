@@ -6,10 +6,8 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaModelException;
-import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
 
-import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +27,7 @@ public class ProjToTreePkgFragNodeRelationship extends NodeRelationship {
 
                 Map<String, Set<IPackageFragment>> pkgNamesToFragments = newHashMap();
 
-                for (IPackageFragmentRoot root : Arrays.asList(javaProject.getPackageFragmentRoots())) {
+                for (IPackageFragmentRoot root : javaProject.getPackageFragmentRoots()) {
                     if (root.getKind() == IPackageFragmentRoot.K_SOURCE) {
                         IJavaElement[] packageFragments = root.getChildren();
                         for (IJavaElement packageFragment : packageFragments) {
@@ -68,7 +66,7 @@ public class ProjToTreePkgFragNodeRelationship extends NodeRelationship {
 
                 Map<String, Set<IPackageFragment>> pkgNamesToFragments = newHashMap();
 
-                for (IPackageFragmentRoot root : Arrays.asList(javaProject.getPackageFragmentRoots())) {
+                for (IPackageFragmentRoot root : javaProject.getPackageFragmentRoots()) {
                     if (root.getKind() == IPackageFragmentRoot.K_SOURCE) {
                         IJavaElement[] packageFragments = root.getChildren();
                         for (IJavaElement packageFragment : packageFragments) {

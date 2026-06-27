@@ -30,8 +30,7 @@ public abstract class BaseActionDelegate implements IObjectActionDelegate {
             final IStructuredSelection structured = (IStructuredSelection) selection;
             final Object firstElement = structured.getFirstElement();
             if (firstElement instanceof ICloverExcludable) {
-                final ICloverExcludable element = (ICloverExcludable) firstElement;
-                selectedElement = element;
+                selectedElement = (ICloverExcludable) firstElement;
             }
         }
         action.setEnabled(selectedElement != null);

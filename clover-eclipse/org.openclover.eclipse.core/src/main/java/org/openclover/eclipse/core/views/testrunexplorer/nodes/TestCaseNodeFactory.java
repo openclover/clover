@@ -5,5 +5,5 @@ import org.openclover.core.api.registry.TestCaseInfo;
 
 
 public interface TestCaseNodeFactory {
-    public TestCaseNode newNode(TestCaseInfo tci, IMethod method);
+    TestCaseNode newNode(TestCaseInfo tci, IMethod method);
 }

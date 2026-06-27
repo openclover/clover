@@ -25,7 +25,7 @@ public abstract class HistogramCellRenderer extends SelectionAwareCellRenderer {
     @Override
     protected void paint(Event event) {
         if (forThisColumn(event)) {
-            Widget item = (Widget) event.item;
+            Widget item = event.item;
             GC gc = event.gc;
             Display display = rendered.getDisplay();
 
@@ -113,7 +113,7 @@ public abstract class HistogramCellRenderer extends SelectionAwareCellRenderer {
 
                 drawBarOutline(gc, display, barWidth, barHeight);
 
-                if (text != null && text.trim().length() > 0) {
+                if (text != null && !text.trim().isEmpty()) {
                     drawText(text, gc, display, event, columnWidth, SWT.RIGHT);
                 }
             } finally {

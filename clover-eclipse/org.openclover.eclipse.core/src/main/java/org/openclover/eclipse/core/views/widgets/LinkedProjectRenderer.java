@@ -1,7 +1,6 @@
 package org.openclover.eclipse.core.views.widgets;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
@@ -13,18 +12,6 @@ import org.openclover.eclipse.core.views.ColumnDefinition;
 public class LinkedProjectRenderer extends SelectionAwareCellRenderer {
     public LinkedProjectRenderer(Composite rendered, ColumnCollectionSettings settings, ColumnDefinition column) {
         super(settings, column, rendered);
-    }
-
-    @Override
-    public void startListening(Composite composite) {
-        composite.addListener(SWT.PaintItem, paintListener);
-        composite.addListener(SWT.EraseItem, eraseListener);
-    }
-
-    @Override
-    public void stopListening(Composite composite) {
-        composite.removeListener(SWT.PaintItem, paintListener);
-        composite.removeListener(SWT.EraseItem, eraseListener);
     }
 
     @Override

@@ -20,37 +20,6 @@ public class QuickShowTestContributionsAction implements IEditorActionDelegate {
     @Override
     public void run(IAction action) {
         if (editorPart instanceof CompilationUnitEditor) {
-
-//          class QuickCoverageFilter {
-//              QuickCoverageFilter(Shell parent) {
-//                  final Shell shell = new Shell(SWT.TOOL);
-//                  shell.setForeground(shell.getDisplay().getSystemColor(SWT.COLOR_INFO_FOREGROUND));
-//                  shell.setBackground(shell.getDisplay().getSystemColor(SWT.COLOR_INFO_BACKGROUND));
-//                  shell.addFocusListener(new FocusListener() {
-//                      public void focusLost(FocusEvent focusEvent) {
-//                          shell.close();
-//                      }
-//
-//                      public void focusGained(FocusEvent focusEvent) {
-//
-//                      }
-//                  });
-//                  shell.setLayout(new FillLayout());
-//
-//                  TestContributionsTree tree =
-//                      new TestContributionsTree(
-//                          shell,
-//                          SWT.CHECK | SWT.H_SCROLL | SWT.V_SCROLL,
-//                          shell.getDisplay().getSystemColor(SWT.COLOR_INFO_FOREGROUND),
-//                          shell.getDisplay().getSystemColor(SWT.COLOR_INFO_BACKGROUND));
-//
-//                  tree.setInput(editorPart);
-//                  shell.pack();
-//
-//                  shell.setVisible(true);
-//              }
-//          }
-//
             QuickCoverageFilter filter = new QuickCoverageFilter(
                 editorPart.getSite().getShell(),
                 SWT.NONE,

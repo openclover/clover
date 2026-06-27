@@ -34,7 +34,7 @@ import java.nio.charset.StandardCharsets;
 
 public class ShowAboutCloverActionDelegate extends CloverProjectActionDelegate {
 
-    class AboutDialog extends Dialog {
+    static class AboutDialog extends Dialog {
         public AboutDialog(Shell parentShell) {
             super(parentShell);
         }
@@ -184,7 +184,7 @@ public class ShowAboutCloverActionDelegate extends CloverProjectActionDelegate {
                             }
 
                             Dialog d = new Dialog(getShell()) {
-                                private Font licenseFont = new Font(null, "Courier", 10, SWT.NONE);
+                                private final Font licenseFont = new Font(null, "Courier", 10, SWT.NONE);
 
                                 @Override
                                 protected void configureShell(Shell shell) {
@@ -233,7 +233,7 @@ public class ShowAboutCloverActionDelegate extends CloverProjectActionDelegate {
     @Override
     public void run(IAction action) {
         new AboutDialog(
-            view.getViewSite().getPart().getSite().getShell())
+                view.getViewSite().getPart().getSite().getShell())
             .open();
     }
 

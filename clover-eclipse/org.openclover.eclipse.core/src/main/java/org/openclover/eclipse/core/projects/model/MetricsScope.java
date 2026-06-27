@@ -8,7 +8,6 @@ import org.openclover.core.CloverDatabase;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.registry.metrics.BlockMetrics;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.views.nodes.Nodes;
@@ -96,7 +95,7 @@ public abstract class MetricsScope {
     public static final MetricsScope DEFAULT = FULL;
 
     public BlockMetrics getMetricsFor(Object target) {
-        return (BlockMetrics)Platform.getAdapterManager().getAdapter(new Qualification(target, this), BlockMetrics.class);
+        return Platform.getAdapterManager().getAdapter(new Qualification(target, this), BlockMetrics.class);
     }
 
     public HasMetrics getHasMetricsFor(Object target) {
@@ -104,25 +103,28 @@ public abstract class MetricsScope {
     }
 
     public HasMetrics getHasMetricsFor(Object target, Class clazz) {
-        return (HasMetrics)Platform.getAdapterManager().getAdapter(new Qualification(target, this), clazz);
+        return (HasMetrics) Platform.getAdapterManager().getAdapter(new Qualification(target, this), clazz);
     }
 
     public TestCaseInfo getTestCaseInfoFor(IMethod method) {
-        return (TestCaseInfo)Platform.getAdapterManager().getAdapter(new Qualification(method, this), TestCaseInfo.class);
+        return Platform.getAdapterManager().getAdapter(new Qualification(method, this), TestCaseInfo.class);
     }
 
     public TestCaseInfo[] getTestCaseInfosFor(IMethod method) {
-        return (TestCaseInfo[])Platform.getAdapterManager().getAdapter(new Qualification(method, this), TestCaseInfo[].class);
+        return Platform.getAdapterManager().getAdapter(new Qualification(method, this), TestCaseInfo[].class);
     }
 
     public abstract ProjectInfo getProjectInfoFor(CloverProject project);
+
     public abstract ProjectInfo getProjectInfoFor(CloverDatabase database);
+
     public abstract boolean isProjectInfoAvailable(CloverProject project);
+
     public abstract boolean isScopeClassContainer(Object element) throws CoreException;
 
     public static class Qualification implements IAdaptable {
-        private Object adaptable;
-        private MetricsScope scope;
+        private final Object adaptable;
+        private final MetricsScope scope;
 
         private Qualification(Object adaptable, MetricsScope scope) {
             this.adaptable = adaptable;
@@ -138,6 +140,8 @@ public abstract class MetricsScope {
         }
 
         @Override
-        public Object getAdapter(Class aClass) { return null; }
+        public Object getAdapter(Class aClass) {
+            return null;
+        }
     }
 }

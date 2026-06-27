@@ -6,7 +6,7 @@ import org.openclover.eclipse.core.views.actions.SelectionUntargetedCoverageView
 import org.openclover.eclipse.core.views.coverageexplorer.CoverageView;
 
 public abstract class SelectCoverageAction extends SelectionUntargetedCoverageViewActionDelegate {
-    private int coverageModel;
+    private final int coverageModel;
 
     public SelectCoverageAction(int style) {
         this.coverageModel = style;

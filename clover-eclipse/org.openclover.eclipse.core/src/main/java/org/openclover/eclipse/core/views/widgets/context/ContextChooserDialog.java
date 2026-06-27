@@ -9,7 +9,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
-import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.settings.ProjectSettings;
 import org.openclover.eclipse.core.ui.widgets.ContextFilterModificationWidget;
 
@@ -18,7 +17,7 @@ import static org.openclover.eclipse.core.CloverPlugin.logError;
 public class ContextChooserDialog extends Dialog {
 
     private ContextFilterModificationWidget contextControl;
-    private ProjectSettings properties;
+    private final ProjectSettings properties;
 
     public ContextChooserDialog(Shell parentShell, ProjectSettings properties) {
         super(parentShell);

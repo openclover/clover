@@ -7,7 +7,6 @@ import org.openclover.core.instr.java.FileInstrumentationSource;
 import org.openclover.core.instr.java.InstrumentationSource;
 import org.openclover.core.registry.Clover2Registry;
 import org.openclover.eclipse.core.projects.CloverProject;
-import org.openclover.runtime.api.CloverException;
 
 import java.io.CharArrayWriter;
 import java.util.Iterator;
@@ -15,7 +14,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class InMemoryInstrumenter extends BaseInstrumenter {
-    private Map originalToInstrumentedSource;
+    private final Map originalToInstrumentedSource;
 
     public InMemoryInstrumenter(CloverProject project, Clover2Registry registry, InstrumentationProjectPathMap pathMap, IProgressMonitor monitor, int buildKind) throws CoreException {
         super(monitor, pathMap, project, registry, buildKind);
@@ -23,7 +22,7 @@ public class InMemoryInstrumenter extends BaseInstrumenter {
     }
 
     @Override
-    protected void instrumentSource(IFile originalFile) throws CloverException, CoreException {
+    protected void instrumentSource(IFile originalFile) throws CoreException {
         maybeInitialiseInstrumentation();
 
         removeMarkers(originalFile);
@@ -47,7 +46,7 @@ public class InMemoryInstrumenter extends BaseInstrumenter {
     @Override
     public Iterator fileNamesAsCompilerArg() {
         return new Iterator() {
-            private Iterator iter = originalToInstrumentedSource.keySet().iterator();
+            private final Iterator iter = originalToInstrumentedSource.keySet().iterator();
 
             @Override
             public boolean hasNext() {
@@ -67,7 +66,7 @@ public class InMemoryInstrumenter extends BaseInstrumenter {
     }
 
     @Override
-    protected void copySource(IFile originalFile) throws CloverException, CoreException {
+    protected void copySource(IFile originalFile) {
         //TODO: implement
         throw new UnsupportedOperationException();
     }

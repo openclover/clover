@@ -42,13 +42,13 @@ public class TestFolderLabelProvider extends EventManager implements ILabelProvi
                 imageRegistry.put(NOT_INSTRUMENTED_ICON, new CompositeImageDescriptor() {
                     @Override
                     protected void drawCompositeImage(int width, int height) {
-                        drawImage(instrumentedFolder.getImageData(), 0, 0);
-                        drawImage(notInstrumentedFolderOverlay.getImageData(), 0, 0);
+                        drawImage(createCachedImageDataProvider(instrumentedFolder), 0, 0);
+                        drawImage(createCachedImageDataProvider(notInstrumentedFolderOverlay), 0, 0);
                     }
 
                     @Override
                     protected Point getSize() {
-                        final ImageData imgData = instrumentedFolder.getImageData();
+                        final ImageData imgData = createCachedImageDataProvider(instrumentedFolder).getImageData(100);
                         return new Point(imgData.width, imgData.height);
                     }
                 });

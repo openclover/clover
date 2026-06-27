@@ -9,9 +9,9 @@ import org.openclover.eclipse.core.views.widgets.ColumnController;
  * Listens to control resize events and updates settings accordingly
  */
 public class TreeColumnControlListener extends ColumnControlListener {
-    private TreeViewer treeViewer;
-    private TreeColumn column;
-    private TreeColumnLabeler labeler;
+    private final TreeViewer treeViewer;
+    private final TreeColumn column;
+    private final TreeColumnLabeler labeler;
 
     public TreeColumnControlListener(ColumnController rebuilder, TreeColumnLabeler labeler, TreeViewer treeViewer, ColumnCollectionSettings settings, TreeColumn column, int initialColumnIndex, ColumnDefinition columnDef) {
         super(rebuilder, settings, initialColumnIndex, columnDef);

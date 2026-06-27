@@ -10,7 +10,7 @@ public abstract class TestContributionsWidgetSettings
     public static final String REVERSE_SORT = "reverse.sort";
     private static final String SORTED_COLUMN = "sorted.column";
 
-    private int[] columnWidths;
+    private final int[] columnWidths;
     private int sortedColumn;
     private boolean reverseSort;
 

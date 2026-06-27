@@ -3,7 +3,6 @@ package org.openclover.eclipse.core.projects.settings.source;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
@@ -58,15 +57,15 @@ public class InstrumentationComposite extends Composite {
     private Button recreateOutputDirButton;
 
     /** A Clover project associated with this widget. Can be null if Clover is not enabled for given project. */
-    private CloverProject cloverProject;
-    private ProjectSettings projectSettings;
-    private CharDimensionConverter charDimensionConverter;
+    private final CloverProject cloverProject;
+    private final ProjectSettings projectSettings;
+    private final CharDimensionConverter charDimensionConverter;
     private Button compileWithCloverButton;
     private Combo instrumentationLevelCombo;
     private Combo instrumentLambdaCombo;
 
     public InstrumentationComposite(Composite parent, CharDimensionConverter converter, 
-                                    ProjectSettings properties, CloverProject cloverProject) throws CoreException {
+                                    ProjectSettings properties, CloverProject cloverProject) {
         super(parent, SWT.NONE);
         this.cloverProject = cloverProject;
         this.charDimensionConverter = converter;
@@ -109,7 +108,6 @@ public class InstrumentationComposite extends Composite {
 
     /**
      * Returns whether user default or custom initstring value is selected.
-     * @return true if default, false if custom
      */
     public boolean isDefaultInitString() {
         return defaultInitStringButton.getSelection();
@@ -130,7 +128,6 @@ public class InstrumentationComposite extends Composite {
      * returns false.
      * @see #isDefaultInitString()
      * @see #getCustomInitStringValue()
-     * @return
      */
     public boolean isCustomInitStringRelative() {
         return userInitStringRelativeButton.getSelection();
@@ -149,7 +146,6 @@ public class InstrumentationComposite extends Composite {
      * Returns a path relative to project root pointing to a directory where instrumented classes shall be stored.
      * Has meaning only if isProjectOutputDir() returns false.
      * @see #isProjectOutputDir()
-     * @return
      */
     public String getCustomOutputDir() {
         return (userOutputDirText.getText() != null) ? userOutputDirText.getText().trim() : "";
@@ -168,7 +164,6 @@ public class InstrumentationComposite extends Composite {
 
     /**
      * Returns whether any references to java.lang.* classes shall be fully qualified in instrumented code.
-     * @return true if shall be fully qualified, false otherwise
      */
     public boolean isQualifyJavaLangReferences() {
         return qualifyJavaLangButton.getSelection();
@@ -217,7 +212,7 @@ public class InstrumentationComposite extends Composite {
     }
 
 
-    private void createInitstringGroup(final ProjectSettings properties, final Composite panel) throws CoreException {
+    private void createInitstringGroup(final ProjectSettings properties, final Composite panel) {
         final Group initStringGroup = LayoutUtils.createGroup(panel, CloverEclipsePluginMessages.INITSTRING());
         initStringGroup.setLayout(new GLH().standardiseMargin().getGridLayout());
         initStringGroup.setLayoutData(new GridData(GridData.FILL_BOTH));
@@ -256,7 +251,7 @@ public class InstrumentationComposite extends Composite {
         userInitStringRelativeButton.setEnabled(!defaultInitString);
     }
 
-    private void createOutputDirGroup(final ProjectSettings properties, final Composite panel) throws CoreException {
+    private void createOutputDirGroup(final ProjectSettings properties, final Composite panel) {
         final Group outputDirGroup = LayoutUtils.createGroup(panel, CloverEclipsePluginMessages.OUTPUT_FOLDER_GROUP());
         outputDirGroup.setLayoutData(new GridData(GridData.FILL_BOTH));
         outputDirGroup.setLayout(new GLH(2, false).standardiseMargin().getGridLayout());
@@ -366,7 +361,7 @@ public class InstrumentationComposite extends Composite {
         compileWithCloverButton.setSelection(properties.isInstrumentationEnabled());
 
         instrumentationLevelCombo = new Combo(instrumentationComposite, SWT.CHECK | SWT.READ_ONLY);
-        instrumentationLevelCombo.setItems(new String[]{"statement level", "method level"});
+        instrumentationLevelCombo.setItems("statement level", "method level");
         instrumentationLevelCombo.select(properties.getInstrumentationLevel() == InstrumentationLevel.STATEMENT ? 0 : 1);
         instrumentationLevelCombo.setToolTipText(
                 "Statement level instrumentation is more accurate but has a runtime performance penalty." +
@@ -405,7 +400,7 @@ public class InstrumentationComposite extends Composite {
                 " * written in any form except method references, e.g. 'Math::abs'");
     }
 
-    private void createFlushGroup(final ProjectSettings properties, final Composite panel) throws CoreException {
+    private void createFlushGroup(final ProjectSettings properties, final Composite panel) {
         final Group flushPolicyGroup = LayoutUtils.createGroup(panel, CloverEclipsePluginMessages.FLUSH_POLICY());
         flushPolicyGroup.setLayout(new GLH(2, false).standardiseMargin().getGridLayout());
         flushPolicyGroup.setLayoutData(new GridData(GridData.FILL_BOTH));

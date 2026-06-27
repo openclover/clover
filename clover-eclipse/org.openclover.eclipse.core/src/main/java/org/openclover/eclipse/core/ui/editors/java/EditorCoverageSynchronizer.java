@@ -14,7 +14,6 @@ import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.services.IDisposable;
 import org.eclipse.ui.texteditor.ITextEditor;
-import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.SystemJob;
 import org.openclover.eclipse.core.settings.InstallationSettings;
 
@@ -24,7 +23,7 @@ import static org.openclover.core.util.Lists.newArrayList;
 import static org.openclover.eclipse.core.CloverPlugin.logError;
 
 public class EditorCoverageSynchronizer implements IWindowListener, IPartListener2, IDisposable {
-    private IWorkbench workbench;
+    private final IWorkbench workbench;
     private final List<AnnotationDisplayListener> annotationDisplayListeners;
     private volatile boolean started;
 

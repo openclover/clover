@@ -40,7 +40,7 @@ public class LoadDatabaseJob extends Job {
 
     public static final int LOAD_FAILED = 0;
 
-    protected AtomicBoolean hasRun;
+    protected final AtomicBoolean hasRun;
     protected volatile IStatus status;
     protected final CloverProject project;
     protected final DatabasePreLoadDecorator[] preLoadDecorators;
@@ -61,10 +61,8 @@ public class LoadDatabaseJob extends Job {
         //and never when something interesting is happening in the project in question
         setRule(
             new MultiRule(
-                new ISchedulingRule[] {
                     MUTEX_SCHEDULING_RULE,
-                    project.getProject()
-                })
+                    project.getProject())
             );
 
         this.hasRun = new AtomicBoolean(false);

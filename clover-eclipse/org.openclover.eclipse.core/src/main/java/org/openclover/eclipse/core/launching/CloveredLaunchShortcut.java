@@ -9,12 +9,11 @@ import org.eclipse.debug.ui.IDebugUIConstants;
 import org.eclipse.debug.ui.ILaunchShortcut;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IEditorPart;
-import org.openclover.eclipse.core.CloverPlugin;
 
 import static org.openclover.eclipse.core.CloverPlugin.logError;
 
 public class CloveredLaunchShortcut implements ILaunchShortcut, IExecutableExtension {
-    private static ILaunchShortcut EMPTY_SHORTCUT_DELEGATE = new ILaunchShortcut() {
+    private static final ILaunchShortcut EMPTY_SHORTCUT_DELEGATE = new ILaunchShortcut() {
         @Override
         public void launch(ISelection selection, String mode) { }
         @Override
@@ -24,7 +23,7 @@ public class CloveredLaunchShortcut implements ILaunchShortcut, IExecutableExten
     private ILaunchShortcut delegate;
 
     @Override
-    public void setInitializationData(IConfigurationElement config, String propertyName, Object data) throws CoreException {
+    public void setInitializationData(IConfigurationElement config, String propertyName, Object data) {
         String delegateId = String.valueOf(data);
 
         try {

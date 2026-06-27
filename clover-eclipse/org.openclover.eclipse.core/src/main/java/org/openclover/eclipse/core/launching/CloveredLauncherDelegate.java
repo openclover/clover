@@ -100,17 +100,15 @@ public abstract class CloveredLauncherDelegate
                                     JavaRuntime.newArchiveRuntimeClasspathEntry(outputPath).getMemento());
                         }
 
-                        final List<String> origLaunchClasspath = (List<String>)workingCopy.getAttribute(
-                                IJavaLaunchConfigurationConstants.ATTR_CLASSPATH, (List)null);
+                        final List<String> origLaunchClasspath = workingCopy.getAttribute(
+                                IJavaLaunchConfigurationConstants.ATTR_CLASSPATH, (List<String>)null);
                         if (origLaunchClasspath == null) {
                             final IRuntimeClasspathEntry[] classpathEntries = JavaRuntime.computeUnresolvedRuntimeClasspath(workingCopy);
                             for (IRuntimeClasspathEntry classpathEntry : classpathEntries) {
                                 launchClasspath.add(classpathEntry.getMemento());
                             }
                         } else {
-                            for (String cp : origLaunchClasspath) {
-                                launchClasspath.add(cp);
-                            }
+                            launchClasspath.addAll(origLaunchClasspath);
                         }
                         workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_DEFAULT_CLASSPATH, false);
                         workingCopy.setAttribute(IJavaLaunchConfigurationConstants.ATTR_CLASSPATH, launchClasspath);
@@ -122,7 +120,7 @@ public abstract class CloveredLauncherDelegate
     }
 
     @Override
-    public ILaunch getLaunch(ILaunchConfiguration config, String mode) throws CoreException {
+    public ILaunch getLaunch(ILaunchConfiguration config, String mode) {
         return new Launch(config, LaunchingConstants.CLOVER_MODE, null);
     }
 

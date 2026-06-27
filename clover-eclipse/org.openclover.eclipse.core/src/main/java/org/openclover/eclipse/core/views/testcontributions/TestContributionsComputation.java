@@ -60,7 +60,7 @@ public abstract class TestContributionsComputation extends Job {
         } else {
             CloverProject cloverProject =
                 element != null
-                    ? ((CloverProject) element.getAdapter(CloverProject.class))
+                    ? element.getAdapter(CloverProject.class)
                     : null;
 
             return cloverProject == null ? null : cloverProject.getModel();

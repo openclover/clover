@@ -18,7 +18,6 @@ import org.openclover.eclipse.core.ui.CloverPluginIcons;
 import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 
 import static org.openclover.eclipse.core.CloverPlugin.logError;
 
@@ -31,10 +30,10 @@ public class GenerateReportWizard extends Wizard {
     ConfigureXmlPage configureXmlPage;
     ConfigureFilterPage configureFilterPage;
     ConfigureJvmPage configureJvmPage;
-    CloverProject initiallySelectedProject;
-    IWorkbench workbench;
+    final CloverProject initiallySelectedProject;
+    final IWorkbench workbench;
 
-    public GenerateReportWizard(CloverProject project, IWorkbench workbench) throws MalformedURLException {
+    public GenerateReportWizard(CloverProject project, IWorkbench workbench) {
         this.initiallySelectedProject = project;
         this.workbench = workbench;
         setWindowTitle("Generate Report");
@@ -45,7 +44,7 @@ public class GenerateReportWizard extends Wizard {
     @Override
     public void addPages() {
         // initialise the wizards pages.
-        selectReportPage = new SelectReportPage(initiallySelectedProject);
+        selectReportPage = new SelectReportPage();
         selectProjectsPage = new SelectProjectsPage(initiallySelectedProject);
         configureHtmlPage = new ConfigureHtmlPage();
         configurePdfPage = new ConfigurePdfPage();
@@ -69,8 +68,6 @@ public class GenerateReportWizard extends Wizard {
      * <li>The current page is not the starting page.</li>
      * <li>The current page is complete.</li>
      * </ul>
-     *
-     * @return
      */
     @Override
     public boolean canFinish() {

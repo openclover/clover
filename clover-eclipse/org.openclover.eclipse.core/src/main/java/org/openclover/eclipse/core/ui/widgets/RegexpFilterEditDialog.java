@@ -24,7 +24,7 @@ class RegexpFilterEditDialog extends Dialog {
     private Text nameField;
     private Combo typeCombo;
     private Text regexpField;
-    private java.util.List<RegexpEntry> regexps;
+    private final java.util.List<RegexpEntry> regexps;
     private RegexpEntry data;
     private Label instructionsLabel;
 
@@ -53,7 +53,7 @@ class RegexpFilterEditDialog extends Dialog {
     protected void okPressed() {
 
         String errorMessage = null;
-        if (nameField.getText().trim().length() == 0) {
+        if (nameField.getText().trim().isEmpty()) {
             errorMessage = "Context names must not be blank.";
         } else if (nameField.getText().indexOf(' ') != -1
             || nameField.getText().indexOf(',') != -1) {

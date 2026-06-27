@@ -25,10 +25,8 @@ import static org.openclover.core.util.Lists.newArrayList;
 import static org.openclover.core.util.Maps.newHashMap;
 
 public class TestOptimizationPreferencesControl extends Composite {
-    private final BooleanFieldEditor showNoTestsEditor;
     private BooleanFieldEditor discardSnapshotEditor;
     private IntegerFieldEditor discardSnapshotAgeEditor;
-    private final BooleanFieldEditor minimizeTestsEditor;
     private final RadioGroupFieldEditor testReorderingEditor;
 
     private final Collection<FieldEditor> allEditors = newArrayList();
@@ -49,14 +47,14 @@ public class TestOptimizationPreferencesControl extends Composite {
         setLayout(new GridLayout());
 
         final Composite snteComposite = new Composite(this, SWT.NONE);
-        showNoTestsEditor = addEditor(new BooleanFieldEditor(TestOptimizationPlugin.SHOW_NO_TESTS_FOUND_DIALOG,
-                                                   TestOptimizationPluginMessages.getString("launch.optimized.prefs.shownotestsfound"),
-                                                   snteComposite), snteComposite);
+        addEditor(new BooleanFieldEditor(TestOptimizationPlugin.SHOW_NO_TESTS_FOUND_DIALOG,
+                TestOptimizationPluginMessages.getString("launch.optimized.prefs.shownotestsfound"),
+                snteComposite), snteComposite);
         createDiscardPanel();
         final Composite mteComposite = new Composite(this, SWT.NONE);
-        minimizeTestsEditor = addEditor(new BooleanFieldEditor(TestOptimizationPlugin.MINIMIZE_TESTS,
-                                                   TestOptimizationPluginMessages.getString("launch.optimized.prefs.testsminimize"),
-                                                   mteComposite), mteComposite);
+        addEditor(new BooleanFieldEditor(TestOptimizationPlugin.MINIMIZE_TESTS,
+                TestOptimizationPluginMessages.getString("launch.optimized.prefs.testsminimize"),
+                mteComposite), mteComposite);
 
         final Composite testReorderingParent = new Composite(this, SWT.NONE);
         final GridData layoutData1 = new GridData(GridData.FILL_HORIZONTAL);
@@ -131,7 +129,7 @@ public class TestOptimizationPreferencesControl extends Composite {
             if (editor == discardSnapshotEditor) {
                 discardSnapshotEditor.setPropertyChangeListener(listener == null
                         ? discardSnapshotAgeEnabler
-                        : (IPropertyChangeListener) event -> {
+                        : event -> {
                             discardSnapshotAgeEnabler.propertyChange(event);
                             listener.propertyChange(event);
                         });

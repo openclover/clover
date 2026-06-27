@@ -15,10 +15,10 @@ import java.util.SortedSet;
 import static org.openclover.core.util.Lists.newLinkedList;
 
 public abstract class AnnotationSpace {
-    protected CloverDatabase database;
-    protected IDocument document;
-    protected Map<TestCaseInfo, BitSet> tcisAndHitsForFile;
-    protected List<AnnotationSpaceWithFragments> childSpaces;
+    protected final CloverDatabase database;
+    protected final IDocument document;
+    protected final Map<TestCaseInfo, BitSet> tcisAndHitsForFile;
+    protected final List<AnnotationSpaceWithFragments> childSpaces;
     protected boolean sealed;
 
     protected AnnotationSpace(CloverDatabase database, IDocument document, Map<TestCaseInfo, BitSet> tcisAndHitsForFile) {

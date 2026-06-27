@@ -21,6 +21,15 @@
         <module>org.openclover.eclipse.testopt</module>
         <module>org.openclover.eclipse.updatesite</module>
     </modules>
+    <properties>
+        <!-- JAR signing is off by default; enable for releases with -Dclover.jarsigner.skip=false -->
+        <clover.jarsigner.skip>true</clover.jarsigner.skip>
+        <clover.keystore.path>${user.home}/.openclover/openclover.jks</clover.keystore.path>
+        <clover.keystore.alias>openclover</clover.keystore.alias>
+        <clover.keystore.storepass>openclover</clover.keystore.storepass>
+        <clover.keystore.keypass>openclover</clover.keystore.keypass>
+    </properties>
+
     <build>
         <plugins>
             <!-- don't deploy pom, eclipse zip is distributed via website -->
@@ -29,6 +38,26 @@
                 <artifactId>maven-deploy-plugin</artifactId>
                 <configuration>
                     <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jarsigner-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>sign</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <skip>${clover.jarsigner.skip}</skip>
+                    <keystore>${clover.keystore.path}</keystore>
+                    <alias>${clover.keystore.alias}</alias>
+                    <storepass>${clover.keystore.storepass}</storepass>
+                    <keypass>${clover.keystore.keypass}</keypass>
                 </configuration>
             </plugin>
         </plugins>

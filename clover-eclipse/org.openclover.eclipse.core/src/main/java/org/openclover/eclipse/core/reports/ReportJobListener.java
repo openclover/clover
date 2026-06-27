@@ -65,7 +65,7 @@ public class ReportJobListener extends JobChangeAdapter {
                         ((ReportJob) event.getJob()).getConfig(),
                         System.currentTimeMillis());
 
-        List availableMethods = OpenReportOperation.findFor(report);
+        List availableMethods = OpenReportOperations.findFor(report);
 
         OpenReportOperation chosenMethod =
                 OpenReportDialog.openOnGenerate(

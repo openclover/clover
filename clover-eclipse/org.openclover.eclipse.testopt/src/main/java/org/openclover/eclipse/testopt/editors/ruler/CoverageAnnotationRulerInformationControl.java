@@ -114,7 +114,7 @@ public class CoverageAnnotationRulerInformationControl extends
                 try {
                     searchEngine.search(searchPattern, new SearchParticipant[] {SearchEngine.getDefaultSearchParticipant()}, scope, requestor, null);
                 } catch (CoreException e) {
-                    e.printStackTrace();
+                    // e.printStackTrace();
                 }
             } else {
                 final TreePath[] paths = ((ITreeSelection)event.getViewer().getSelection()).getPaths();

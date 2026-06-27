@@ -13,32 +13,31 @@ public class PackageUtils {
     public static IProjectDescription duplicateProjectDescription(IProject sourceProject, IProject targetProject) throws CoreException {
         IProjectDescription userProjectDescription = sourceProject.getProject().getDescription();
         IProjectDescription thisProjectDescription =
-            sourceProject.getProject().getWorkspace().newProjectDescription(
-                "OpenClover internal instrumentation project for: \"" + targetProject.getName() + "\" (please don't modify this project)");
+                sourceProject.getProject().getWorkspace().newProjectDescription(
+                        "OpenClover internal instrumentation project for: \"" + targetProject.getName() + "\" (please don't modify this project)");
 
         IProject[] userProjectDynamicReferences = userProjectDescription.getReferencedProjects();
         IProject[] thisProjectDynamicReferences = new IProject[userProjectDynamicReferences.length];
         System.arraycopy(
-            userProjectDynamicReferences, 0,
-            thisProjectDynamicReferences, 0,
-            userProjectDynamicReferences.length);
+                userProjectDynamicReferences, 0,
+                thisProjectDynamicReferences, 0,
+                userProjectDynamicReferences.length);
 
         thisProjectDescription.setDynamicReferences(thisProjectDynamicReferences);
 
         IProject[] userProjectReferences = userProjectDescription.getReferencedProjects();
         IProject[] thisProjectReferences = new IProject[userProjectReferences.length];
         System.arraycopy(
-            userProjectReferences, 0,
-            thisProjectReferences, 0,
-            userProjectReferences.length);
+                userProjectReferences, 0,
+                thisProjectReferences, 0,
+                userProjectReferences.length);
 
         thisProjectDescription.setReferencedProjects(thisProjectReferences);
         return thisProjectDescription;
     }
 
-    public static void addToDynamicReference(
-        IProjectDescription sourceProjectDescription,
-        IProject targetProject) throws CoreException {
+    public static void addToDynamicReference(IProjectDescription sourceProjectDescription,
+                                             IProject targetProject) {
 
         List<IProject> dynamicReferences = newArrayList(sourceProjectDescription.getReferencedProjects()); // copy
         dynamicReferences.add(targetProject);
@@ -47,15 +46,14 @@ public class PackageUtils {
                 dynamicReferences.toArray(new IProject[dynamicReferences.size()]));
     }
 
-    public static void removeFromDynamicReference(
-        IProjectDescription sourceProjectDescription,
-        IProject targetProject) throws CoreException {
+    public static void removeFromDynamicReference(IProjectDescription sourceProjectDescription,
+                                                  IProject targetProject) {
 
         Collection<IProject> dynamicReferences = newArrayList(sourceProjectDescription.getReferencedProjects()); // copy
         dynamicReferences.removeIf(targetProject::equals);
 
         sourceProjectDescription.setDynamicReferences(
-            dynamicReferences.toArray(new IProject[dynamicReferences.size()]));
+                dynamicReferences.toArray(new IProject[dynamicReferences.size()]));
     }
 
 }

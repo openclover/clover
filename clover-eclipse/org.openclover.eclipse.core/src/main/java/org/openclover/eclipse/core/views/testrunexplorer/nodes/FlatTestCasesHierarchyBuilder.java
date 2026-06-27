@@ -5,7 +5,7 @@ import org.openclover.eclipse.core.views.nodes.NodeRelationship;
 import org.openclover.eclipse.core.views.nodes.WorkspaceToCloveredProjRelationship;
 
 public class FlatTestCasesHierarchyBuilder extends NodeHierarchyBuilder {
-    private TestCaseNodeFactory tcnFactory;
+    private final TestCaseNodeFactory tcnFactory;
 
     public FlatTestCasesHierarchyBuilder(TestCaseNodeFactory tcnFactory) {
         this.tcnFactory = tcnFactory;

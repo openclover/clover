@@ -98,12 +98,11 @@ public class InstallationSettingsDialog extends PopupDialog {
         });
 
         refreshIntervalCombo = new Combo(parent, SWT.READ_ONLY);
-        refreshIntervalCombo.setItems(new String[]{
-            CloverEclipsePluginMessages.TWO_SECONDS(),
-            CloverEclipsePluginMessages.FIVE_SECONDS(),
-            CloverEclipsePluginMessages.TEN_SECONDS(),
-            CloverEclipsePluginMessages.TWENTY_SECONDS()
-        });
+        refreshIntervalCombo.setItems(
+                CloverEclipsePluginMessages.TWO_SECONDS(),
+                CloverEclipsePluginMessages.FIVE_SECONDS(),
+                CloverEclipsePluginMessages.TEN_SECONDS(),
+                CloverEclipsePluginMessages.TWENTY_SECONDS());
         final long refreshPeriod = CloverPlugin.getInstance().getInstallationSettings().getCoverageRefreshPeriod();
         if (refreshPeriod == InstallationSettings.Values.FIVE_SECONDS_COVERAGE_REFRESH_PERIOD) {
             refreshIntervalCombo.select(1);
@@ -134,7 +133,7 @@ public class InstallationSettingsDialog extends PopupDialog {
                 CloverPlugin.getInstance().getInstallationSettings().setTrackingPerTestCoverage(trackPerTestCoverageButton.getSelection());
                 CloverPlugin.getInstance().getInstallationSettings().setAutoRefreshingCoverage(refreshButton.getSelection());
                 CloverPlugin.getInstance().getInstallationSettings().setPerTestCoverageInMemory(inMemPerTestCoverageButton.getSelection());
-                long refreshPeriod = 0l;
+                long refreshPeriod = 0L;
                 switch (refreshIntervalCombo.getSelectionIndex()) {
                     case 1:
                         refreshPeriod = InstallationSettings.Values.FIVE_SECONDS_COVERAGE_REFRESH_PERIOD;

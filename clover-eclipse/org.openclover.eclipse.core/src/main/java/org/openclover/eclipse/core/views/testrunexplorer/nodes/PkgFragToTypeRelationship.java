@@ -4,7 +4,6 @@ import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
-import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.views.nodes.NodeRelationship;
 import org.openclover.eclipse.core.views.nodes.NodeRelationshipFilter;
 import org.openclover.eclipse.core.views.nodes.PackageFragmentNode;

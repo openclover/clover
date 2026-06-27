@@ -129,7 +129,7 @@ public class CoverageAnnotationRulerColumn extends AbstractRulerColumn
     Set<TestCaseInfo> getPerTestInfo(Entry annotation) {
         CloverDatabase db = coverageAnnotationModel == null ? null : coverageAnnotationModel.cloverDatabaseForEditorInput();
         ElementInfo info = getInfo(annotation);
-        return db == null || info == null ? Collections.<TestCaseInfo>emptySet() : db.getTestHits((CoverageDataRange) info);
+        return db == null || info == null ? Collections.emptySet() : db.getTestHits((CoverageDataRange) info);
     }
 
     @Override
@@ -275,9 +275,7 @@ public class CoverageAnnotationRulerColumn extends AbstractRulerColumn
      * @return Color null / colorCoveredByFailedTest / colorCoveredByPassedTest
      */
     protected Color computeRightTestStrip(Entry annotation, int line) {
-        if (getPerTestInfo(annotation).isEmpty()) {
-            return null; // null = no coloring
-        } else {
+        if (!getPerTestInfo(annotation).isEmpty()) {
             if (coverageAnnotationModel != null) {
                 ILineCoverageModel lineCoverageModel = coverageAnnotationModel.getLineCoverageModel();
                 if (lineCoverageModel != null && lineCoverageModel.hasFailedHitsInLine(line)) {
@@ -286,8 +284,8 @@ public class CoverageAnnotationRulerColumn extends AbstractRulerColumn
                     return colorCoveredByPassedTest;
                 }
             }
-            return null;
         }
+        return null; // null = no coloring
     }
 
     @Override

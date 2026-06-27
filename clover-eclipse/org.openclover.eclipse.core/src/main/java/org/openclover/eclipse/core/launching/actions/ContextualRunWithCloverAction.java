@@ -16,8 +16,8 @@ import java.util.Map;
 import static org.openclover.core.util.Maps.newHashMap;
 
 public class ContextualRunWithCloverAction extends ContextualLaunchAction {
-    private ResourceManager imageManager;
-    private Map<String, Image> images;
+    private final ResourceManager imageManager;
+    private final Map<String, Image> images;
 
     public ContextualRunWithCloverAction() {
         super(LaunchingConstants.CLOVER_MODE);

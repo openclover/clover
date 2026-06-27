@@ -7,7 +7,6 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.openclover.core.api.registry.ClassInfo;
 
 import org.openclover.core.api.registry.TestCaseInfo;
-import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.model.MetricsScope;
 import org.openclover.eclipse.core.views.nodes.NodeRelationship;
 import org.openclover.eclipse.core.views.nodes.NodeRelationshipFilter;
@@ -20,7 +19,7 @@ import static org.openclover.eclipse.core.CloverPlugin.logError;
 
 public class TypeToTestInnerTypeAndTestMethodRelationship extends NodeRelationship {
 
-    private TestCaseNodeFactory tcnFactory;
+    private final TestCaseNodeFactory tcnFactory;
 
     public TypeToTestInnerTypeAndTestMethodRelationship(TestCaseNodeFactory tcnFactory) {
         this.tcnFactory = tcnFactory;
@@ -43,7 +42,7 @@ public class TypeToTestInnerTypeAndTestMethodRelationship extends NodeRelationsh
                     Nodes.collectTestCases(
                         (IType)object,
                         children,
-                        new Nodes.ToTestCaseNodeCoverter(tcnFactory)));
+                        new Nodes.ToTestCaseNodeConverter(tcnFactory)));
         } catch (CoreException e) {
             logError("Unable to collect inner-types in type " + object, e);
             return new Object[] {};

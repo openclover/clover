@@ -6,7 +6,7 @@ import org.eclipse.ui.IWorkbenchSite;
 
 /**
  * Action to open the currently selected object in the Java editor. If the current object
- * has no Java editor associated with it then opening does no proceed.
+ * has no Java editor associated with it then opening does not proceed.
  */
 public class OpenJavaEditorAction extends OpenAction {
 

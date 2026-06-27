@@ -13,7 +13,7 @@ import java.lang.ref.WeakReference;
 import java.util.Set;
 
 public class CoverageAnnotation extends Annotation {
-    public static enum Kind {
+    public enum Kind {
         NOT_COVERED("org.openclover.eclipse.core.coverageannotation.notcovered"),
         COVERED("org.openclover.eclipse.core.coverageannotation.covered"),
         FAILED(
@@ -105,7 +105,7 @@ public class CoverageAnnotation extends Annotation {
         }
     }
 
-    private WeakReference<FullElementInfo> info;
+    private final WeakReference<FullElementInfo> info;
     private Position position;
 
     private CoverageAnnotation(Kind kind, FullElementInfo info, Set<TestCaseInfo> hits, int offset, int length, boolean filtered) {
@@ -140,7 +140,7 @@ public class CoverageAnnotation extends Annotation {
                 message = "";
             }
             final String qualifier = kind.getQualifier();
-            return qualifier.length() == 0 ? message : (message + "\n" + qualifier);
+            return qualifier.isEmpty() ? message : (message + "\n" + qualifier);
         } else {
             return linePrefix(info) + "Excluded due to filter settings.";
         }

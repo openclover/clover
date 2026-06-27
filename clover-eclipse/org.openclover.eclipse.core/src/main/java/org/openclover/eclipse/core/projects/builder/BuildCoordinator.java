@@ -1,6 +1,5 @@
 package org.openclover.eclipse.core.projects.builder;
 
-import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -79,12 +78,12 @@ public class BuildCoordinator {
 
     private boolean isPreserveInstrumentedSources() {
         boolean preserve = CloverPlugin.getInstance().getInstallationSettings().isPreserveInstrumentedSources();
-        logVerbose("Instrumented sources will " + (preserve ? "" : "not" ) + " be preserved in temporary directory.");
+        logVerbose("Instrumented sources will " + (preserve ? "" : "not") + " be preserved in temporary directory.");
         return preserve;
     }
 
     public void onEndOfBuild(final int buildKind, final IProgressMonitor monitor) throws CoreException {
-        final Set dirtyFiles = project.getFilesNeedingCloverCompile();
+        final Set<IFile> dirtyFiles = project.getFilesNeedingCloverCompile();
 
         monitor.beginTask("Compiling with OpenClover", TOTAL_COMPILATION_PROGRESS);
         try {
@@ -108,19 +107,19 @@ public class BuildCoordinator {
                     final InstrumentationProjectPathMap workAreaPathMap = new InstrumentationProjectPathMap(project, workAreaPath);
 
                     final BaseInstrumenter instrumenter =
-                        instrument(
-                            registry,
-                            workAreaPathMap,
-                            dirtyFiles,
-                            SubMonitor.convert(monitor, INSTRUMENTATION_PROGRESS),
-                            buildKind);
+                            instrument(
+                                    registry,
+                                    workAreaPathMap,
+                                    dirtyFiles,
+                                    SubMonitor.convert(monitor, INSTRUMENTATION_PROGRESS),
+                                    buildKind);
 
                     ResourcesPlugin.getWorkspace().run(monitor1 -> {
                         try {
                             compile(
-                                workAreaPathMap,
-                                instrumenter,
-                                SubMonitor.convert(monitor1, COMPILATION_PROGRESS));
+                                    workAreaPathMap,
+                                    instrumenter,
+                                    SubMonitor.convert(monitor1, COMPILATION_PROGRESS));
                         } finally {
                             if (isPreserveInstrumentedSources()) {
                                 File copyArea = createInstrSourcesCopyWorkArea();
@@ -140,8 +139,8 @@ public class BuildCoordinator {
                     }, monitor);
 
                     final boolean includeFailedCoverage = CloverPlugin.getInstance().getInstallationSettings().isIncludeFailedCoverage();
-                    project.setModel( new LoadedDatabaseModel(
-                            project, database, CoverageModelChangeEvent.COMPILE(project), includeFailedCoverage) );
+                    project.setModel(new LoadedDatabaseModel(
+                            project, database, CoverageModelChangeEvent.COMPILE(project), includeFailedCoverage));
                 }
             }
         } finally {
@@ -150,37 +149,12 @@ public class BuildCoordinator {
         }
     }
 
-    private boolean shouldBuild(Set dirtyFiles) {
-        return dirtyFiles != null && dirtyFiles.size() > 0;
+    private boolean shouldBuild(Set<IFile> dirtyFiles) {
+        return dirtyFiles != null && !dirtyFiles.isEmpty();
     }
 
     private boolean isFullBuild(int buildKind) {
         return buildKind == IncrementalProjectBuilder.FULL_BUILD;
-    }
-
-    private Clover2Registry createEmptyRegistry() {
-        return new Clover2Registry(project.getRegistryFile(), project.getName());
-    }
-
-    private void refreshOutputLocations(IProgressMonitor monitor) throws CoreException {
-        monitor.subTask("Refreshing output folders");
-        final IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-        final IPath[] outputPaths = project.getPathMap().getAllOutputLocations();
-        for (IPath outputPath : outputPaths) {
-            IResource outputLocation = workspaceRoot.findMember(outputPath);
-            if (outputLocation != null && outputLocation instanceof IContainer) {
-                outputLocation.refreshLocal(IResource.DEPTH_INFINITE, monitor);
-            }
-        }
-        if (!project.getSettings().isOutputRootSameAsProject()) {
-            IContainer outputContainer =
-                PathUtils.containerFor(
-                    project.getProject().getFullPath().append(project.getSettings().getOutputRoot()));
-            if (outputContainer != null && outputContainer.exists()) {
-                outputContainer.refreshLocal(IResource.DEPTH_INFINITE, monitor);
-            }
-        }
-        monitor.worked(REFRESHING_OUTPUT_LOCATION_PROGRESS);
     }
 
     private BaseInstrumenter instrument(Clover2Registry registry,
@@ -190,7 +164,7 @@ public class BuildCoordinator {
                                         int buildKind) throws CoreException {
         monitor.beginTask("OpenClover: Instrumenting project source", 10);
         try {
-            if (filesNeedingCompile.size() > 0) {
+            if (!filesNeedingCompile.isEmpty()) {
                 boolean successful = true;
                 logVerbose("Starting instrumentation");
 
@@ -199,7 +173,8 @@ public class BuildCoordinator {
                 BaseInstrumenter instrumenter = new FileBasedInstrumenter(project, registry, workAreaPathMap,
                         SubMonitor.convert(monitor, 10), buildKind);
                 instrumenter.start(filesNeedingCompile.size());
-                instrumentFiles: {
+                instrumentFiles:
+                {
                     for (IFile file : filesNeedingCompile) {
                         try {
                             if (monitor.isCanceled()) {
@@ -245,6 +220,7 @@ public class BuildCoordinator {
      * Creates a temporary directory in which copy of instrumented sources will be stored.
      * We have one such folder per project and its name is constant between builds (as opposed
      * to <pre>createCompilationWorkArea()</pre>).
+     *
      * @return File - temporary directory
      */
     private File createInstrSourcesCopyWorkArea() {
@@ -253,7 +229,7 @@ public class BuildCoordinator {
         return workDir;
     }
 
-    private void compile(InstrumentationProjectPathMap workAreaPathMap, BaseInstrumenter instrumenter, IProgressMonitor monitor) throws CoreException {
+    private void compile(InstrumentationProjectPathMap workAreaPathMap, BaseInstrumenter instrumenter, IProgressMonitor monitor) {
         if (instrumenter != null && !monitor.isCanceled()) {
             monitor.subTask("Compiling OpenClover-instrumented source");
             logVerbose("Starting instrumented compilation");
@@ -264,14 +240,14 @@ public class BuildCoordinator {
 
                 addOutputPathToClasspath(project.getJavaProject(), command);
                 outputLibrariesToClasspath(
-                    command,
-                    collectClasspathEntries(
-                        /* set of projects used to detect project cycles */
-                        new HashSet(),
-                        /* oredered set of classpath entries */
-                        new LinkedHashSet(),
-                        project.getJavaProject(),
-                        false));
+                        command,
+                        collectClasspathEntries(
+                                /* set of projects used to detect project cycles */
+                                new HashSet<>(),
+                                /* oredered set of classpath entries */
+                                new LinkedHashSet<>(),
+                                project.getJavaProject(),
+                                false));
 
                 addMiscParams(command);
                 addTargetParam(command);
@@ -310,7 +286,7 @@ public class BuildCoordinator {
     }
 
     private void addSourceFilesToCompile(BaseInstrumenter instrumenter, List<String> command) {
-        for (Iterator<String> iterator = instrumenter.fileNamesAsCompilerArg(); iterator.hasNext();) {
+        for (Iterator<String> iterator = instrumenter.fileNamesAsCompilerArg(); iterator.hasNext(); ) {
             command.add(iterator.next());
         }
     }
@@ -330,41 +306,41 @@ public class BuildCoordinator {
         command.add("-nowarn");
     }
 
-    private void addSourceParam(List<String> command) throws CoreException {
+    private void addSourceParam(List<String> command) {
         command.add("-source");
         command.add(project.getJavaProject().getOption(JavaCore.COMPILER_SOURCE, true));
     }
 
-    private void addTargetParam(List<String> command) throws CoreException {
+    private void addTargetParam(List<String> command) {
         command.add("-target");
         command.add(
-            project.getJavaProject().getOption(
-                JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM, true));
+                project.getJavaProject().getOption(
+                        JavaCore.COMPILER_CODEGEN_TARGET_PLATFORM, true));
     }
 
-    private void addMiscParams(List<String> command) throws CoreException {
+    private void addMiscParams(List<String> command) {
         List<String> debugOptions = newLinkedList();
         if (JavaCore.GENERATE.equals(
-            project.getJavaProject().getOption(
-                JavaCore.COMPILER_LINE_NUMBER_ATTR, true))) {
+                project.getJavaProject().getOption(
+                        JavaCore.COMPILER_LINE_NUMBER_ATTR, true))) {
             debugOptions.add("lines");
         }
         if (JavaCore.GENERATE.equals(
-            project.getJavaProject().getOption(
-                JavaCore.COMPILER_LOCAL_VARIABLE_ATTR, true))) {
+                project.getJavaProject().getOption(
+                        JavaCore.COMPILER_LOCAL_VARIABLE_ATTR, true))) {
             debugOptions.add("vars");
         }
         if (JavaCore.GENERATE.equals(
-            project.getJavaProject().getOption(
-                JavaCore.COMPILER_SOURCE_FILE_ATTR, true))) {
+                project.getJavaProject().getOption(
+                        JavaCore.COMPILER_SOURCE_FILE_ATTR, true))) {
             debugOptions.add("source");
         }
 
         StringBuilder debugSwitch = new StringBuilder("-g:");
-        if (debugOptions.size() == 0) {
+        if (debugOptions.isEmpty()) {
             debugSwitch.append("none");
         } else {
-            for (Iterator<String> iterator = debugOptions.iterator(); iterator.hasNext();) {
+            for (Iterator<String> iterator = debugOptions.iterator(); iterator.hasNext(); ) {
                 debugSwitch.append(iterator.next());
                 if (iterator.hasNext()) {
                     debugSwitch.append(",");
@@ -374,21 +350,15 @@ public class BuildCoordinator {
         command.add(debugSwitch.toString());
 
         if (JavaCore.PRESERVE.equals(
-            project.getJavaProject().getOption(
-                JavaCore.COMPILER_CODEGEN_UNUSED_LOCAL, true))) {
+                project.getJavaProject().getOption(
+                        JavaCore.COMPILER_CODEGEN_UNUSED_LOCAL, true))) {
             command.add("-preserveAllLocals");
-        }
-
-        if (JavaCore.ENABLED.equals(
-            project.getJavaProject().getOption(
-                JavaCore.COMPILER_CODEGEN_INLINE_JSR_BYTECODE, true))) {
-            command.add("-inlineJSR");
         }
 
         addVersionSpecificMiscParams(command);
     }
 
-    private void addVersionSpecificMiscParams(List<String> command) throws CoreException {
+    private void addVersionSpecificMiscParams(List<String> command) {
         Version version = JDTUtils.getJDTVersion();
         if (version.getMajor() == 3 && version.getMinor() >= 3) {
             //No annotation processing
@@ -396,7 +366,8 @@ public class BuildCoordinator {
         }
     }
 
-    private Set collectClasspathEntries(Set projectSet, Set classpathEntries, IJavaProject currentProject, boolean checkExported) throws CoreException {
+    private Set<String> collectClasspathEntries(Set<IJavaProject> projectSet, Set<String> classpathEntries,
+                                                IJavaProject currentProject, boolean checkExported) throws CoreException {
         IWorkspaceRoot root = currentProject.getProject().getWorkspace().getRoot();
         //Ignore projects cycles if they exist
         if (projectSet.add(currentProject)) {
@@ -404,7 +375,7 @@ public class BuildCoordinator {
             for (IClasspathEntry entry : entries) {
                 if (entry.getEntryKind() == IClasspathEntry.CPE_LIBRARY) {
                     //Only process exported entries of dependent projects or all entries of the main project
-                    if (checkExported && entry.isExported() || !checkExported) {
+                    if (!checkExported || entry.isExported()) {
                         IPath absolutePath = entry.getPath();
 
                         //Workspace anchored paths e.g. /MyProject/myjar.jar
@@ -432,13 +403,11 @@ public class BuildCoordinator {
         return classpathEntries;
     }
 
-    private void outputLibrariesToClasspath(List<String> command, Set<String> libraries) throws CoreException {
-        if (libraries.size() > 0) {
+    private void outputLibrariesToClasspath(List<String> command, Set<String> libraries) {
+        if (!libraries.isEmpty()) {
             for (String library : libraries) {
-                if (command.size() == 0) {
-                    //CEP-162: setting the bootclasspath of the compiler
-                    //so that the right JRE classes are used for compilation
-                    command.add("-bootclasspath");
+                if (command.isEmpty()) {
+                    command.add(classpathFlag());
                     command.add(library);
                 } else {
                     appendToLast(command, File.pathSeparatorChar + library);
@@ -447,14 +416,12 @@ public class BuildCoordinator {
         }
     }
 
-    private void addOutputPathToClasspath(ProjectPathMap projectPathMap, List<String> command) throws CoreException {
+    private void addOutputPathToClasspath(ProjectPathMap projectPathMap, List<String> command) {
         //Add output path to classpath for incremental builds
         String outputClasspath = projectPathMap.toClasspath();
-        if (outputClasspath.length() > 0) {
-            if (command.size() == 0) {
-                //CEP-162: setting the bootclasspath of the compiler
-                //so that the right JRE classes are used for compilation
-                command.add("-bootclasspath");
+        if (!outputClasspath.isEmpty()) {
+            if (command.isEmpty()) {
+                command.add(classpathFlag());
                 command.add(outputClasspath);
             } else {
                 appendToLast(command, File.pathSeparatorChar + outputClasspath);
@@ -462,10 +429,20 @@ public class BuildCoordinator {
         }
     }
 
+    /**
+     * Returns -bootclasspath for Java 8 and below, -classpath for Java 9 and above.
+     */
+    private String classpathFlag() {
+        String source = project.getJavaProject().getOption(JavaCore.COMPILER_SOURCE, true);
+        // Java 8 and below: "1.8", "1.7", etc. Java 9+: "9", "10", "11", "14", "21", etc.
+        boolean isJava9Plus = !source.startsWith("1.");
+        return isJava9Plus ? "-classpath" : "-bootclasspath";
+    }
+
     private void appendToLast(List<String> command, String value) {
         command.set(
-            command.size() - 1,
-            (command.get(command.size() - 1) + value));
+                command.size() - 1,
+                (command.get(command.size() - 1) + value));
     }
 
     private void addOutputPathToClasspath(IJavaProject project, List<String> command) throws CoreException {
@@ -495,8 +472,8 @@ public class BuildCoordinator {
 
     public void onClean(IProgressMonitor monitor) {
         final boolean includeFailedCoverage = CloverPlugin.getInstance().getInstallationSettings().isIncludeFailedCoverage();
-        project.setModel( new LoadedDatabaseModel(
-                project, project.newEmptyDatabase(), CoverageModelChangeEvent.COMPILE(project), includeFailedCoverage) );
+        project.setModel(new LoadedDatabaseModel(
+                project, project.newEmptyDatabase(), CoverageModelChangeEvent.COMPILE(project), includeFailedCoverage));
 
         project.setLastCleanBuildStamp(System.currentTimeMillis());
 
@@ -504,12 +481,12 @@ public class BuildCoordinator {
         if (CloverPlugin.getInstance().getInstallationSettings().isPromptingOnRebuild()) {
             final MessageDialogWithCheckbox.Result result = new MessageDialogWithCheckbox.Result();
             Display.getDefault().syncExec(() -> MessageDialogWithCheckbox.openQuestion(
-                null,
-                "Delete existing OpenClover coverage data?",
-                "You are doing a rebuild, do you want delete the old coverage data for project \"" + project.getName() + "\"?",
-                true,
-                "Display this prompt again?", true,
-                result));
+                    null,
+                    "Delete existing OpenClover coverage data?",
+                    "You are doing a rebuild, do you want delete the old coverage data for project \"" + project.getName() + "\"?",
+                    true,
+                    "Display this prompt again?", true,
+                    result));
 
             shouldClearCoverage = result.isYesSelected();
 
@@ -533,7 +510,7 @@ public class BuildCoordinator {
                             //Resync with file system so deletes less likely to fail
                             instrumentationOutput.refreshLocal(IResource.DEPTH_INFINITE, monitor);
                             instrumentationOutput.accept(
-                                new CleaningVisitor(instrumentationOutput, monitor));
+                                    new CleaningVisitor(instrumentationOutput, monitor));
                         });
             }
         } catch (Exception e) {

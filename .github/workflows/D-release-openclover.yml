@@ -17,10 +17,10 @@ jobs:
         with:
           ref: 'openclover-${{ inputs.releaseVersion }}'
 
-      - name: Set up JDK 1.8
+      - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
-          java-version: 8.0
+          java-version: 21
           distribution: temurin
           cache: maven
           server-id: ossrh
@@ -41,9 +41,17 @@ jobs:
           wget https://packages.atlassian.com/mvn/maven-atlassian-external/net/sf/jtreemap/ktreemap/1.1.0-atlassian-01/ktreemap-1.1.0-atlassian-01.pom
           mvn --batch-mode install:install-file -Dfile=ktreemap-1.1.0-atlassian-01.jar -DpomFile=ktreemap-1.1.0-atlassian-01.pom
 
+      - name: Set up Eclipse JAR signing keystore
+        run: |
+          mkdir -p ~/.openclover
+          echo "${{ secrets.ECLIPSE_KEYSTORE_JKS_BASE64 }}" | base64 --decode > ~/.openclover/openclover.jks
+
       - name: Publish a release
         run: |
-          mvn --batch-mode deploy -Dgpg.skip=false -DskipTests=true
+          mvn --batch-mode deploy -Dgpg.skip=false -DskipTests=true \
+            -Dclover.jarsigner.skip=false \
+            -Dclover.keystore.storepass=${{ secrets.ECLIPSE_KEYSTORE_STOREPASS }} \
+            -Dclover.keystore.keypass=${{ secrets.ECLIPSE_KEYSTORE_KEYPASS }}
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}

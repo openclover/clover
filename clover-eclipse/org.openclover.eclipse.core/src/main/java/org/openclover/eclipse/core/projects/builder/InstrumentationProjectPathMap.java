@@ -7,7 +7,6 @@ import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
-import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.projects.settings.ProjectSettings;
 
@@ -18,9 +17,9 @@ import static org.openclover.core.util.Lists.newLinkedList;
 import static org.openclover.eclipse.core.CloverPlugin.logWarning;
 
 public class InstrumentationProjectPathMap extends ProjectPathMap {
-    private CloverProject project;
-    private ProjectPathMap userPathMap;
-    private IPath workingArea;
+    private final CloverProject project;
+    private final ProjectPathMap userPathMap;
+    private final IPath workingArea;
 
     public InstrumentationProjectPathMap(CloverProject project, IPath workingArea) throws CoreException {
         this(project, new ProjectPathMap(project.getJavaProject()), workingArea);

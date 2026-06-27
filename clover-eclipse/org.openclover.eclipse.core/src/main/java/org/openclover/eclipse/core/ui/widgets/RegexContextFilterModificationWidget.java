@@ -13,7 +13,6 @@ import org.openclover.core.api.registry.ContextSet;
 import org.openclover.core.context.ContextStore;
 import org.openclover.core.context.NamedContext;
 import org.openclover.eclipse.core.CloverEclipsePluginMessages;
-import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.settings.ProjectSettings;
 import org.openclover.eclipse.core.projects.settings.RegexpEntry;
 import org.openclover.eclipse.core.ui.SwtUtils;
@@ -26,14 +25,14 @@ import static org.openclover.core.util.Lists.newArrayList;
 import static org.openclover.eclipse.core.CloverPlugin.logError;
 
 public class RegexContextFilterModificationWidget extends Composite {
-    private Button addFilter;
-    private Button removeFilter;
-    private Button editFilter;
-    private Button copyFilter;
-    private List filterList;
+    private final Button addFilter;
+    private final Button removeFilter;
+    private final Button editFilter;
+    private final Button copyFilter;
+    private final List filterList;
     private java.util.List<RegexpEntry> regexps = newArrayList();
     private int regexpsLengthSinceLastStore;
-    private ProjectSettings properties;
+    private final ProjectSettings properties;
 
     public RegexContextFilterModificationWidget(final Composite parent, ProjectSettings props) {
         super(parent, SWT.NONE);

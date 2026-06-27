@@ -10,7 +10,6 @@ import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
-import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.projects.settings.ProjectSettings;
 import org.openclover.eclipse.core.projects.settings.source.SourceFolderPattern;
@@ -68,7 +67,7 @@ public abstract class BaseToggleActionDelegate extends BaseActionDelegate {
                 javaElement.getResource().touch(progressMonitor);
             } else {
                 final String rootName = javaElement instanceof IPackageFragmentRoot ? "" : javaElement.getElementName();
-                final String rootPrefix = rootName.length() == 0 ? "" : rootName + '.';
+                final String rootPrefix = rootName.isEmpty() ? "" : rootName + '.';
                 final Collection<IPackageFragmentRoot> roots = isSourceRootBased() ?
                         Collections.singleton(selectedElement.getPackageFragmentRoot())
                         : Arrays.asList(javaElement.getJavaProject().getAllPackageFragmentRoots());
@@ -77,7 +76,7 @@ public abstract class BaseToggleActionDelegate extends BaseActionDelegate {
                     final IJavaElement[] packageFragments = srcRoot.getChildren();
                     for (IJavaElement fragment: packageFragments) {
                         final String name = fragment.getElementName();
-                        if (rootName.length() == 0 || name.equals(rootName) || name.startsWith(rootPrefix)) {
+                        if (rootName.isEmpty() || name.equals(rootName) || name.startsWith(rootPrefix)) {
                             for (ICompilationUnit cu : ((IPackageFragment)fragment).getCompilationUnits()) {
                                 cu.getResource().touch(progressMonitor);
                             }

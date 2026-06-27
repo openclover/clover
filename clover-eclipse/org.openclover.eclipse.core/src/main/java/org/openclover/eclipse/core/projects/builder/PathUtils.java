@@ -7,7 +7,6 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
-import org.openclover.eclipse.core.CloverPlugin;
 
 import static org.openclover.eclipse.core.CloverPlugin.logDebug;
 

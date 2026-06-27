@@ -21,11 +21,8 @@ public abstract class CloveredWorkspaceProvider
     extends WorkbenchContentProvider
     implements IElementChangedListener, DatabaseChangeListener {
 
-    /** Duplicated here as it doesn't exist in Eclipse 3.2 so compilation against 3.2 libs fails */
-    private static final int IJAVAELEMENTDELTA_F_CLASSPATH_REORDER = 256;
-
-    protected ExplorerView part;
-    protected ExplorerViewSettings settings;
+    protected final ExplorerView part;
+    protected final ExplorerViewSettings settings;
     protected NodeHierarchyBuilder nodeBuilder;
 
     public CloveredWorkspaceProvider(ExplorerView part, ExplorerViewSettings settings) {
@@ -50,7 +47,7 @@ public abstract class CloveredWorkspaceProvider
     @Override
     public boolean hasChildren(Object object) {
         final Boolean result = nodeBuilder.hasChildren(object, getFilter());
-        return (result == null ? super.hasChildren(object) : result.booleanValue());
+        return (result == null ? super.hasChildren(object) : result);
     }
 
     @Override
@@ -72,7 +69,7 @@ public abstract class CloveredWorkspaceProvider
         }
     }
 
-    private class BreakDeltaProcessing extends Exception {};
+    private static class BreakDeltaProcessing extends Exception {}
 
     @Override
     public void elementChanged(ElementChangedEvent event) {

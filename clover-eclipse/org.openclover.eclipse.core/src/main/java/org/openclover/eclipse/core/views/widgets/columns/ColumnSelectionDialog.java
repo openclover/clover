@@ -34,8 +34,8 @@ public class ColumnSelectionDialog extends Dialog {
     private static final int TABLE_RHS_HEIGHT_HINT = 300;
     private static final int TABLE_LHS_HEIGHT_HINT = 200;
     
-    private ColumnDefinitionsModel model;
-    private String viewName;
+    private final ColumnDefinitionsModel model;
+    private final String viewName;
     private Table selectedColumnsTable;
     private TableViewer selectedColumnsTableViewer;
     private Table allBuiltinColumnsTable;
@@ -74,8 +74,6 @@ public class ColumnSelectionDialog extends Dialog {
 
     @Override
     protected void createButtonsForButtonBar(Composite parent) {
-//        createButton(parent, IMPORT_ID, "Import...", false);
-//        createButton(parent, EXPORT_ID, "Export...", false);
         super.createButtonsForButtonBar(parent);
     }
 
@@ -352,7 +350,7 @@ public class ColumnSelectionDialog extends Dialog {
     private void doExport() {
 
     }
-    
+
     private void updateButtonStates() {
         builtinRightButton.setEnabled(allBuiltinColumnsTable.getSelectionIndex() != -1);
         builtinAllRightButton.setEnabled(allBuiltinColumnsTable.getItemCount() > 0);
@@ -384,11 +382,9 @@ public class ColumnSelectionDialog extends Dialog {
                 ? (IStructuredSelection)event.getSelection()
                 : null;
 
-        ColumnDefinition definition =
-            selection == null
-                ? null
-                : (ColumnDefinition)selection.getFirstElement();
-        return definition;
+        return selection == null
+            ? null
+            : (ColumnDefinition)selection.getFirstElement();
     }
 
 }

@@ -29,7 +29,6 @@ import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.FixedSourceRegion;
 
-import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.model.ModelUtils;
 import org.openclover.eclipse.core.views.actions.OpenJavaEditorAction;
 
@@ -40,13 +39,13 @@ public abstract class TestContributionsWidget
     implements IDoubleClickListener, IPersistable {
     
     protected Tree tree;
-    protected TreeViewer testsViewer;
+    protected final TreeViewer testsViewer;
     protected ITextEditor editor;
-    protected SelectionDispatchAction openAction;
-    protected TestContributionsComputation testContributionsComputation;
-    protected TestCaseInfoProvider provider;
-    protected TestContributionsWidgetSettings settings;
-    protected ViewPart viewPart;
+    protected final SelectionDispatchAction openAction;
+    protected final TestContributionsComputation testContributionsComputation;
+    protected final TestCaseInfoProvider provider;
+    protected final TestContributionsWidgetSettings settings;
+    protected final ViewPart viewPart;
 
     public TestContributionsWidget(TestContributionsWidgetSettings settings, ViewPart viewPart, Composite parent, int style, boolean showLabel, int treeStyle) {
         super(parent, style);
@@ -78,20 +77,19 @@ public abstract class TestContributionsWidget
         testsViewer.setComparator(new ViewerComparator() {
             @Override
             public int compare(Viewer viewer, Object object1, Object object2) {
-                int result = 0;
+                final int result;
 
                 if (object1 instanceof ClassInfo && object2 instanceof ClassInfo) {
                     result =
                         ((ClassInfo)object1).getQualifiedName().compareTo(
                             ((ClassInfo)object2).getQualifiedName());
-                }
-                else if (object1 instanceof TestCaseInfo && object2 instanceof TestCaseInfo) {
+                } else if (object1 instanceof TestCaseInfo && object2 instanceof TestCaseInfo) {
                     result =
                         FixedSourceRegion.SOURCE_ORDER_COMP.compare(
                             ((TestCaseInfo)object1).getSourceMethod(),
                             ((TestCaseInfo)object2).getSourceMethod());
                 } else {
-                    //This shouldn't happen (as sorting is done on a column-by-column basis
+                    //This shouldn't happen as sorting is done on a column-by-column basis
                     //so let's not bother too much, heh?
                     result = 0;
                 }

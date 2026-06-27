@@ -11,7 +11,6 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
-import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
 
 import static org.openclover.eclipse.core.CloverPlugin.logError;
@@ -21,7 +20,7 @@ public class ModelUtils {
     public static final int SEARCH_SELF = 0;
     public static final int SEARCH_SELF_AND_DEPENDENCIES = 1;
     
-    public static IType findTestCaseClass(int searchType, IJavaProject project, ClassInfo testClass) throws JavaModelException {
+    public static IType findTestCaseClass(int searchType, IJavaProject project, ClassInfo testClass) {
         IType type = null;
         if (project != null) {
             try {

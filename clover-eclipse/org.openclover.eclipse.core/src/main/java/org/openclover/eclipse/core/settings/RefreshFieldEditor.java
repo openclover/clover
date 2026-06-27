@@ -101,12 +101,11 @@ public class RefreshFieldEditor extends FieldEditor {
             changeControl.setText(getLabelText());
 
             refreshIntervalCombo = new Combo(parent, SWT.READ_ONLY);
-            refreshIntervalCombo.setItems(new String[]{
-                CloverEclipsePluginMessages.TWO_SECONDS(),
-                CloverEclipsePluginMessages.FIVE_SECONDS(),
-                CloverEclipsePluginMessages.TEN_SECONDS(),
-                CloverEclipsePluginMessages.TWENTY_SECONDS()
-            });
+            refreshIntervalCombo.setItems(
+                    CloverEclipsePluginMessages.TWO_SECONDS(),
+                    CloverEclipsePluginMessages.FIVE_SECONDS(),
+                    CloverEclipsePluginMessages.TEN_SECONDS(),
+                    CloverEclipsePluginMessages.TWENTY_SECONDS());
 
             SwtUtils.setHorizontalSpan(refreshIntervalCombo, numColumns - 1);
         } else {

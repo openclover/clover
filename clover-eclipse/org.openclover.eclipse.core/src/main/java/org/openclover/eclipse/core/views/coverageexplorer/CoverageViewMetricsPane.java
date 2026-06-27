@@ -17,12 +17,11 @@ import org.openclover.core.util.MetricsFormatUtils;
 import org.openclover.eclipse.core.projects.CloveredProjectLabelProvider;
 
 public class CoverageViewMetricsPane extends Composite {
-    private TreeViewer projectTreeViewer;
-    private CoverageViewSettings settings;
-    private WorkbenchLabelProvider labelProvider;
+    private final CoverageViewSettings settings;
+    private final WorkbenchLabelProvider labelProvider;
 
-    private FormToolkit toolkit;
-    private Form form;
+    private final FormToolkit toolkit;
+    private final Form form;
     private Label passTestsValue;
     private Label failureTestsValue;
     private Label errorsValue;
@@ -45,7 +44,6 @@ public class CoverageViewMetricsPane extends Composite {
     public CoverageViewMetricsPane(Composite parent, int style, CoverageViewSettings settings, TreeViewer projectTreeViewer) {
         super(parent, style);
         this.settings = settings;
-        this.projectTreeViewer = projectTreeViewer;
 
         setLayout(new GridLayout(1, false));
 
@@ -244,7 +242,7 @@ public class CoverageViewMetricsPane extends Composite {
 
     private void setFormName(IStructuredSelection selection) {
         IAdaptable asAdaptable = selection == null ? null : (IAdaptable) selection.getFirstElement();
-        IJavaElement asJavaElement = asAdaptable == null ? null : (IJavaElement) asAdaptable.getAdapter(IJavaElement.class);
+        IJavaElement asJavaElement = asAdaptable == null ? null : asAdaptable.getAdapter(IJavaElement.class);
 
         String label = "-";
         if (asJavaElement != null) {

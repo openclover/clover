@@ -62,14 +62,14 @@ public class ProjectPropertyPage extends BaseSettingsPage implements IWorkbenchP
     }
     
     public class Panel extends Composite {
-        private IJavaProject project;
+        private final IJavaProject project;
 
-        private Button enableButton;
+        private final Button enableButton;
 
-        private InstrumentationComposite instrumentationComposite;
-        private InstrumentSourceFilteringComposite instrumentSourceFilteringComposite;
-        private TestSourceFilteringComposite testSourceFilteringComposite;
-        private ContextFilterModificationWidget contextFilter;
+        private final InstrumentationComposite instrumentationComposite;
+        private final InstrumentSourceFilteringComposite instrumentSourceFilteringComposite;
+        private final TestSourceFilteringComposite testSourceFilteringComposite;
+        private final ContextFilterModificationWidget contextFilter;
         public static final int HORIZONTAL_INDENT = 30;
 
         public Panel(Composite composite, PropertyPage propertyPage) throws CoreException {
@@ -114,7 +114,7 @@ public class ProjectPropertyPage extends BaseSettingsPage implements IWorkbenchP
             }
             tabFolder.addListener(SWT.Selection, event -> {
                 try {
-                    project.getProject().setSessionProperty(LAST_SELECTED_TAB_KEY, new Integer(tabFolder.getSelectionIndex()));
+                    project.getProject().setSessionProperty(LAST_SELECTED_TAB_KEY, tabFolder.getSelectionIndex());
                 } catch (CoreException e1) {
                     // ignore
                 }
@@ -142,8 +142,6 @@ public class ProjectPropertyPage extends BaseSettingsPage implements IWorkbenchP
 
         /**
          * Returns a Clover project associated with given element.
-         * @return
-         * @throws CoreException
          */
         private CloverProject getCloverProject() throws CoreException {
             return CloverProject.getFor((IProject)getElement());
@@ -151,10 +149,6 @@ public class ProjectPropertyPage extends BaseSettingsPage implements IWorkbenchP
 
         /**
          * Creates "Instrumentation" tab.
-         * @param properties
-         * @param tabFolder
-         * @return
-         * @throws CoreException
          */
         private InstrumentationComposite createInstrumentationTab(ProjectSettings properties, TabFolder tabFolder) throws CoreException {
             final TabItem compilationItem = new TabItem(tabFolder, SWT.NULL);
@@ -168,10 +162,6 @@ public class ProjectPropertyPage extends BaseSettingsPage implements IWorkbenchP
 
         /**
          * Creates "Source Files" tab.
-         * @param properties
-         * @param tabFolder
-         * @param contentProvider
-         * @return
          */
         private InstrumentSourceFilteringComposite createSourceTab(ProjectSettings properties, TabFolder tabFolder, SourceRootsWithPatternTreeContentProvider contentProvider) {
             final TabItem sourceItem = new TabItem(tabFolder, SWT.NULL, SOURCE_TAB_INDEX);
@@ -187,9 +177,6 @@ public class ProjectPropertyPage extends BaseSettingsPage implements IWorkbenchP
 
         /**
          * Creates "Test Classes" tab.
-         * @param properties
-         * @param tabFolder
-         * @param contentProvider
          * @return TestSourceFilteringComposite a composite object which is placed inside new tab
          */
         private TestSourceFilteringComposite createTestsTab(ProjectSettings properties, TabFolder tabFolder, SourceRootsWithPatternTreeContentProvider contentProvider) {
@@ -207,12 +194,8 @@ public class ProjectPropertyPage extends BaseSettingsPage implements IWorkbenchP
 
         /**
          * Creates "Contexts" tab.
-         * @param properties
-         * @param tabFolder
-         * @return
-         * @throws CoreException
          */
-        private ContextFilterModificationWidget createFilteringTab(ProjectSettings properties, TabFolder tabFolder) throws CoreException {
+        private ContextFilterModificationWidget createFilteringTab(ProjectSettings properties, TabFolder tabFolder) {
             TabItem filteringItem = new TabItem(tabFolder, SWT.NULL);
             filteringItem.setText(CloverEclipsePluginMessages.FILTERING());
 
@@ -309,8 +292,8 @@ public class ProjectPropertyPage extends BaseSettingsPage implements IWorkbenchP
             boolean okToLeave = false;
 
             errorWithValue: {
-                if ( (instrumentationComposite.isDefaultInitString() == false)
-                        && (instrumentationComposite.getCustomInitStringValue().length() == 0) ) {
+                if ( !instrumentationComposite.isDefaultInitString()
+                        && instrumentationComposite.getCustomInitStringValue().isEmpty() ) {
                     setMessage(CloverEclipsePluginMessages.ERROR_CUSTOM_INITSTRING_NOT_EMPTY(), IMessageProvider.ERROR);
                     break errorWithValue;
                 }
@@ -329,16 +312,16 @@ public class ProjectPropertyPage extends BaseSettingsPage implements IWorkbenchP
                     }
                 }
 
-                if ( (instrumentationComposite.isProjectOutputDir() == false)
-                        && (instrumentationComposite.getCustomOutputDir().length() == 0) ) {
+                if ( !instrumentationComposite.isProjectOutputDir()
+                        && instrumentationComposite.getCustomOutputDir().isEmpty() ) {
                     setMessage(CloverEclipsePluginMessages.ERROR_OUTPUT_DIR_NAME_IS_NULL(), IMessageProvider.ERROR);
                     break errorWithValue;
                 }
 
                 // CLOV-1083: Make sure that user will not set output directory for instrumented sources the same
-                // as original source dir. Otherwise it would delete original files during project cleanup.
-                if ( (instrumentationComposite.isProjectOutputDir() == false)
-                        && (instrumentationComposite.getCustomOutputDir().length() > 0) ) {
+                // as original source dir. Otherwise, it would delete original files during project cleanup.
+                if ( !instrumentationComposite.isProjectOutputDir()
+                        && !instrumentationComposite.getCustomOutputDir().isEmpty() ) {
 
                     IPath path;
                     IPackageFragment packageFragment;

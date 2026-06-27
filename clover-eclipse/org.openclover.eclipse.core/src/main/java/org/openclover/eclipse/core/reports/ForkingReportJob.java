@@ -40,8 +40,8 @@ public abstract class ForkingReportJob extends ReportJob {
     private static final long MAX_REPORT_DURATION = 1000 * 60 * 60;
 
     protected final Current config;
-    protected String mxSetting;
-    protected String vmArgs;
+    protected final String mxSetting;
+    protected final String vmArgs;
 
     public ForkingReportJob(Current config, String vmArgs, String mxSetting) {
         this.config = config;
@@ -59,11 +59,7 @@ public abstract class ForkingReportJob extends ReportJob {
         ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
         ILaunchConfigurationType launchType =
             manager.getLaunchConfigurationType(IJavaLaunchConfigurationConstants.ID_JAVA_APPLICATION);
-        ILaunchConfiguration[] launchConfig =
-            manager.getLaunchConfigurations(launchType);
-        ILaunchConfigurationWorkingCopy launchConfigCopy =
-            launchType.newInstance(null, name);
-        return launchConfigCopy;
+        return launchType.newInstance(null, name);
     }
 
     protected URL calculateCorePluginJarURL() throws IOException {
@@ -94,9 +90,7 @@ public abstract class ForkingReportJob extends ReportJob {
     protected void bindReportingSystemProperties(ILaunchConfigurationWorkingCopy launchConfigCopy) {
         launchConfigCopy.setAttribute(
             IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS,
-            userArgs()
-            + " -Djava.awt.headless=true"
-            + " -D" + ForkingReporter.FORKING_REPORTER_PROP + "=" + calculateReporterClass());
+            userArgs() + " -Djava.awt.headless=true");
     }
 
     private String userArgs() {
@@ -198,7 +192,7 @@ public abstract class ForkingReportJob extends ReportJob {
         bindCloverRequiredClasspath(launchConfigCopy);
         bindCloverRequiredJvm(launchConfigCopy);
         bindReportingSystemProperties(launchConfigCopy);
-        bindMainClassName(launchConfigCopy, ForkingReporter.class.getName());
+        bindMainClassName(launchConfigCopy, calculateReporterClass());
         bindMainClassArguments(launchConfigCopy, calculateProgramArgs());
 
         logVerbose(
@@ -295,7 +289,7 @@ public abstract class ForkingReportJob extends ReportJob {
     }
 
     protected void addParamOptionally(StringBuilder sb, String param, List<String> args) {
-        if (args.size() > 0) {
+        if (!args.isEmpty()) {
             String sep = "";
             final StringBuilder patterns = new StringBuilder();
             for (String includePattern : args) {

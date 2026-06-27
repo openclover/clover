@@ -22,6 +22,12 @@ public class OptimizedTestRunListener extends TestRunListener {
             return;
         }
         TestRunSession trs = (TestRunSession) session;
+        // getLaunch() returns null for sessions created via TestRunSession(String, IJavaProject)
+        // (e.g., imported/restored sessions introduced in Eclipse 2022-06).
+        if (trs.getLaunch() == null) {
+            TestOptimizationPlugin.logInfo("Cannot retrieve launch from TestRunSession " + trs.getTestRunName() + " — skipping snapshot update");
+            return;
+        }
         if (OptimizedLaunchingConstants.OPTIMIZED_MODE.equals(trs.getLaunch().getLaunchMode())) {
             final IJavaProject project = trs.getLaunchedProject();
             if (project == null) {

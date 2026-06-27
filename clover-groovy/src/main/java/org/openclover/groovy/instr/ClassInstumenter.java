@@ -41,9 +41,9 @@ public class ClassInstumenter {
 
     /**
      * Wraps {@code expr} with recorder calls that increment the true and false branch counters:
-     * <pre>
-     *   (expr && (iget(idx) != 0 | true)) || (iget(idx+1) == 0 &amp; false)
-     * </pre>
+     * <pre>{@code
+     *   (expr && (iget(idx) != 0 | true)) || (iget(idx+1) == 0 & false)
+     * }</pre>
      * When {@code expr} is truthy:  {@code iget(idx)}   is called (true branch, {@code branch.getDataIndex()}).<br>
      * When {@code expr} is falsy:   {@code iget(idx+1)} is called (false branch, {@code branch.getDataIndex() + 1}).
      * <p>

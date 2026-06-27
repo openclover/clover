@@ -1,8 +1,8 @@
 package org.openclover.eclipse.core.projects.builder;
 
 public class FileNameWithEncoding {
-    private String fileName;
-    private String encoding;
+    private final String fileName;
+    private final String encoding;
 
     public FileNameWithEncoding(String fileName, String encoding) {
         this.fileName = fileName;

@@ -22,8 +22,8 @@ public class TestRunExplorerViewSettings
     public static final int HIERARCHY_STYLE_FLAT_TEST_CASES = 2;
     public static final int HIERARCHY_STYLE_MAX = HIERARCHY_STYLE_FLAT_TEST_CASES;
 
-    private TestCaseNodeFactory tcnFactory;
-    private ColumnCollectionSettings classesTestedTreeSettings;
+    private final TestCaseNodeFactory tcnFactory;
+    private final ColumnCollectionSettings classesTestedTreeSettings;
 
     public TestRunExplorerViewSettings(IMemento memento, TestCaseNodeFactory tcnFactory) {
         super(memento);
@@ -92,7 +92,6 @@ public class TestRunExplorerViewSettings
             case HIERARCHY_STYLE_PACKAGES:
                 return 4;
             case HIERARCHY_STYLE_FLAT_TEST_CASES:
-                return 2;
             default:
                 return 2;
         }

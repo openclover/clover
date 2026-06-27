@@ -22,7 +22,7 @@ public class NoJavaCloverBuilder extends IncrementalProjectBuilder {
             "integrate using OpenClover Maven or Ant integration and OpenClover Eclipse plugin will show your coverage.",
             IMarker.SEVERITY_WARNING
         );
-        //Delete stale db marker as we may stil flag these errors
+        //Delete stale db marker as we may still flag these errors
         //during a background refresh and the only way
         //(as uncertain it is) to clear it is when we detect a full build.
         if (kind == IncrementalProjectBuilder.FULL_BUILD) {

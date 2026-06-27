@@ -16,7 +16,6 @@ import org.eclipse.ui.IMemento;
 import org.eclipse.ui.part.ViewPart;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
-import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotationFilter;
 import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotationModel;
 
@@ -175,11 +174,7 @@ public class AllTestContributionsFilterWidget
 
         } else if (event.getElement() instanceof TestCaseInfo) {
             TestCaseInfo testCase = (TestCaseInfo) event.getElement();
-            if (event.getChecked()) {
-                getTestsViewer().setChecked(testCase, true);
-            } else {
-                getTestsViewer().setChecked(testCase, false);
-            }
+            getTestsViewer().setChecked(testCase, event.getChecked());
         }
     }
 

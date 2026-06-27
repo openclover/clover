@@ -15,14 +15,14 @@ public class TestCaseNode extends JavaElementNode {
     public static final int STATUS_FAIL = 0;
     public static final int STATUS_ERROR = 1;
 
-    private IMethod testMethod;
-    private long tciId;
-    private long startTime;
-    private int status;
-    private double durationInSeconds;
-    private String failureMessage;
-    private String fullFailureMessage;
-    private Image testCaseIcon;
+    private final IMethod testMethod;
+    private final long tciId;
+    private final long startTime;
+    private final int status;
+    private final double durationInSeconds;
+    private final String failureMessage;
+    private final String fullFailureMessage;
+    private final Image testCaseIcon;
 
     public TestCaseNode(IMethod testMethod, TestCaseInfo tci) {
         this.testMethod = testMethod;
@@ -94,10 +94,7 @@ public class TestCaseNode extends JavaElementNode {
             return false;
         if (!Objects.equals(testCaseIcon, that.testCaseIcon))
             return false;
-        if (!Objects.equals(testMethod, that.testMethod))
-            return false;
-
-        return true;
+        return Objects.equals(testMethod, that.testMethod);
     }
 
     public int hashCode() {
@@ -106,7 +103,7 @@ public class TestCaseNode extends JavaElementNode {
         result = 31 * result + (int)(tciId ^ (tciId >>> 32));
         result = 31 * result + (int)(startTime ^ (startTime >>> 32));
         result = 31 * result + status;
-        result = 31 * result + (durationInSeconds != +0.0d ? (int)Double.doubleToLongBits(durationInSeconds) : 0);
+        result = 31 * result + (durationInSeconds != 0.0d ? (int)Double.doubleToLongBits(durationInSeconds) : 0);
         result = 31 * result + (failureMessage != null ? failureMessage.hashCode() : 0);
         result = 31 * result + (fullFailureMessage != null ? fullFailureMessage.hashCode() : 0);
         result = 31 * result + (testCaseIcon != null ? testCaseIcon.hashCode() : 0);

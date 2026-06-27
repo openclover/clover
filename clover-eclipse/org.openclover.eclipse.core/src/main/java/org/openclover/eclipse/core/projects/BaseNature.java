@@ -8,7 +8,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
-import org.openclover.eclipse.core.CloverPlugin;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -26,12 +25,12 @@ public abstract class BaseNature implements IProjectNature {
         return project;
     }
 
-    public IJavaProject getJavaProject() throws CoreException {
+    public IJavaProject getJavaProject() {
         return getJavaProject(project);
     }
 
-    protected IJavaProject getJavaProject(IProject project) throws CoreException {
-        return (IJavaProject)project.getNature(JavaCore.NATURE_ID);
+    protected IJavaProject getJavaProject(IProject project) {
+        return JavaCore.create(project);
     }
 
     @Override
@@ -39,15 +38,15 @@ public abstract class BaseNature implements IProjectNature {
         this.project = project;
     }
 
-    protected static List<ICommand> ensureBuilderAddedAfter(IProjectDescription description, List<ICommand> commands, String primaryId, String subsequentId, String absentId) throws CoreException {
+    protected static List<ICommand> ensureBuilderAddedAfter(IProjectDescription description, List<ICommand> commands, String primaryId, String subsequentId, String absentId) {
         return ensureBuilderAdded(description, commands, false, primaryId, subsequentId, absentId);
     }
 
-    protected static List<ICommand> ensureBuilderAddedBefore(IProjectDescription description, List<ICommand> commands, String primaryId, String subsequentId, String absentId) throws CoreException {
+    protected static List<ICommand> ensureBuilderAddedBefore(IProjectDescription description, List<ICommand> commands, String primaryId, String subsequentId, String absentId) {
         return ensureBuilderAdded(description, commands, true, primaryId, subsequentId, absentId);
     }
 
-    private static List<ICommand> ensureBuilderAdded(IProjectDescription description, List<ICommand> commands, boolean before, String primaryId, String subsequentId, String absentId) throws CoreException {
+    private static List<ICommand> ensureBuilderAdded(IProjectDescription description, List<ICommand> commands, boolean before, String primaryId, String subsequentId, String absentId) {
         logVerbose("adding builder " + subsequentId);
 
         boolean added = false;
@@ -140,7 +139,7 @@ public abstract class BaseNature implements IProjectNature {
     }
 
     protected boolean similarOrSame(IClasspathEntry entry1, IClasspathEntry entry2) {
-        //HACK: this is not precise but I can't see many other ways to compare variable entry classpath refs
+        //HACK: this is not precise, but I can't see many other ways to compare variable entry classpath refs
         return entry1.equals(entry2) || entry1.getPath().lastSegment().equals(entry2.getPath().lastSegment());
     }
 

@@ -13,12 +13,11 @@ import org.openclover.eclipse.core.views.widgets.HistogramCellRenderer;
 /**
  * Renders the coverage cell in the {@link CoverageView}. Will draw a nice green/red or grey
  * bar on the left (left justified) and add label text on the right (right justified).
- *
  * Minimising the column is handled by letting the coverage bar shrink to the minimum
  * width but no smaller, and ensuring the label is always to the right of the bar.
  */
 public class MetricsPcCellRenderer extends HistogramCellRenderer {
-    private ExplorerViewSettings viewSettings;
+    private final ExplorerViewSettings viewSettings;
 
     public MetricsPcCellRenderer(Tree tree, ExplorerViewSettings viewSettings, ColumnCollectionSettings columnSettings, NumericColumnDefinition column) {
         super(tree, columnSettings, (ColumnDefinition) column);

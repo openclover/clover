@@ -22,7 +22,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.model.WorkbenchContentProvider;
-import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.projects.CloveredProjectLabelProvider;
 import org.openclover.eclipse.core.ui.CloverPluginIcons;
@@ -41,7 +40,7 @@ public class ToggleCloverProjectsDialog extends Dialog {
 
     private Table projectTable;
     private TableViewer projectTableViewer;
-    private Set projectsToToggle = newHashSet();
+    private final Set projectsToToggle = newHashSet();
     private LocalResourceManager resourceManager;
     private Composite warningComposite;
     private Label prompt;

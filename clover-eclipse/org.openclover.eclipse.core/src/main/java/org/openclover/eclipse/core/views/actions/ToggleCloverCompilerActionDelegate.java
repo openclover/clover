@@ -1,6 +1,5 @@
 package org.openclover.eclipse.core.views.actions;
 
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.action.IAction;
@@ -15,7 +14,7 @@ public class ToggleCloverCompilerActionDelegate extends SingleCloverProjectActio
         super.updateStateForSelection(action);
         if (action.isEnabled()) {
             try {
-                CloverProject project = CloverProject.getFor((IProject)projects.iterator().next());
+                CloverProject project = CloverProject.getFor(projects.iterator().next());
                 action.setChecked(project.getSettings().isInstrumentationEnabled());
             } catch (CoreException e) {
                 logError("Unable to check/uncheck " + getClass().getName(), e);
@@ -26,7 +25,7 @@ public class ToggleCloverCompilerActionDelegate extends SingleCloverProjectActio
     @Override
     public void run(IAction action) {
         try {
-            CloverProject project = CloverProject.getFor((IProject)projects.iterator().next());
+            CloverProject project = CloverProject.getFor(projects.iterator().next());
             if (project != null) {
                 project.getSettings().setInstrumentationEnabled(action.isChecked());
                 CloverPlugin.getInstance().getCoverageMonitor().fireCoverageChange(project);

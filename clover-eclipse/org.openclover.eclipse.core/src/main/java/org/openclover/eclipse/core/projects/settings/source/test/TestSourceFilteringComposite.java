@@ -1,7 +1,6 @@
 package org.openclover.eclipse.core.projects.settings.source.test;
 
 import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -102,9 +101,9 @@ public class TestSourceFilteringComposite extends Composite {
         testRootFolders.setInput(contentProvider.getProject());
 
         final Set<String> selectedFolders = newHashSet(lastSelectedFolders);
-        for (SourceRootWithPattern srwp : contentProvider.getChildren(project)) {
-            if (selectedFolders.contains(srwp.getPattern().getSrcPath())) {
-                testRootFolders.setChecked(srwp, true);
+        for (SourceRootWithPattern rootWithPattern : contentProvider.getChildren(project)) {
+            if (selectedFolders.contains(rootWithPattern.getPattern().getSrcPath())) {
+                testRootFolders.setChecked(rootWithPattern, true);
             }
         }
         contentProvider.addChangeListener(labelProvider);
@@ -132,20 +131,20 @@ public class TestSourceFilteringComposite extends Composite {
         adapter.widgetSelected(null);
     }
 
-    public void storeTo(ProjectSettings properties) throws JavaModelException {
+    public void storeTo(ProjectSettings properties) {
 
         lastTestSourceFolders = getCurrentTestSourceFolders();
         lastInclude = testIncludeFilterText.getText().trim();
         lastExclude = testExcludeFilterText.getText().trim();
         lastSelectedFolders = getCurrentSelectedTestFolders();
 
-        properties.setTestIncludeFilter(lastInclude.length() > 0 ? lastInclude : null);
-        properties.setTestExcludeFilter(lastExclude.length() > 0 ? lastExclude : null);
+        properties.setTestIncludeFilter(!lastInclude.isEmpty() ? lastInclude : null);
+        properties.setTestExcludeFilter(!lastExclude.isEmpty() ? lastExclude : null);
         properties.setTestSourceFolders(lastTestSourceFolders);
         properties.setSelectedTestFolders(lastSelectedFolders);
     }
 
-    private List<String> getCurrentSelectedTestFolders() throws JavaModelException {
+    private List<String> getCurrentSelectedTestFolders() {
         final Object[] selection = testRootFolders.getCheckedElements();
         final List<String> selectedFolders = new ArrayList<>(selection.length);
         for (Object aSelection : selection) {
@@ -160,7 +159,7 @@ public class TestSourceFilteringComposite extends Composite {
                 : /*default all*/ ProjectSettings.Values.ALL_FOLDERS;
     }
 
-    public boolean isModified() throws JavaModelException {
+    public boolean isModified() {
         if (lastTestSourceFolders != getCurrentTestSourceFolders()) {
             return true;
         }

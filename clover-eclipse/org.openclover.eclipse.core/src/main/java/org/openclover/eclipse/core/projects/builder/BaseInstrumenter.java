@@ -16,7 +16,6 @@ import org.openclover.eclipse.core.exclusion.ExclusionFilter;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.runtime.api.CloverException;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Iterator;
 
@@ -153,24 +152,6 @@ public abstract class BaseInstrumenter {
 
     private boolean isIncremental() {
         return !fullBuild;
-    }
-
-    private Clover2Registry truncateRegistry() throws CloverException {
-        Clover2Registry reg;
-        try {
-            reg = Clover2Registry.createOrLoad(config.getRegistryFile(), config.getProjectName());
-        } catch (IOException e1) {
-            try {
-                Markers.deleteCloverStaleDbMarkers(project.getProject());
-                Markers.createCloverStaleDbMarker(
-                    project.getProject(),
-                    "OpenClover could not create a fresh instrumentation database:\n\n" + e1.getMessage());
-            } catch (CoreException e2) {
-                logError("Unable to create problem marker for database ", e2);
-            }
-            throw new CloverException("OpenClover could not create a fresh instrumentation database", e1);
-        }
-        return reg;
     }
 
     protected void addInstrumentationFailure(IFile originalFile, Exception e) throws CoreException {

@@ -22,10 +22,10 @@ import static org.openclover.core.util.Maps.newHashMap;
 public class BuiltinContextFilterSelectionWidget extends Composite {
     protected static final int CONTEXTS_PER_LINE = 3;
 
-    private HashMap blockCheckboxes;
-    private HashMap regexCheckboxes;
-    protected ContextStore contextStore;
-    protected ContextSet filter;
+    private final HashMap blockCheckboxes;
+    private final HashMap regexCheckboxes;
+    protected final ContextStore contextStore;
+    protected final ContextSet filter;
 
     public BuiltinContextFilterSelectionWidget(Composite parent, ContextStore contextStore, ContextSet filter) {
         super(parent, SWT.NONE);

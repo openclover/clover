@@ -2,8 +2,6 @@ package org.openclover.eclipse.core.views.testrunexplorer.nodes;
 
 import org.eclipse.core.resources.IProject;
 import org.openclover.core.api.registry.ProjectInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
-import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.views.nodes.NodeRelationship;
 import org.openclover.eclipse.core.views.nodes.NodeRelationshipFilter;
@@ -13,7 +11,7 @@ import static org.openclover.core.util.Lists.newLinkedList;
 import static org.openclover.eclipse.core.CloverPlugin.logError;
 
 public class ProjToTestCaseRelationship extends NodeRelationship {
-    private TestCaseNodeFactory tcnFactory;
+    private final TestCaseNodeFactory tcnFactory;
 
     public ProjToTestCaseRelationship(TestCaseNodeFactory tcnFactory) {
         this.tcnFactory = tcnFactory;
@@ -29,7 +27,7 @@ public class ProjToTestCaseRelationship extends NodeRelationship {
                     Nodes.collectTestCases(
                             (IProject) object,
                             newLinkedList(),
-                            new Nodes.ToTestCaseNodeCoverter(tcnFactory)));
+                            new Nodes.ToTestCaseNodeConverter(tcnFactory)));
             }
         } catch (Exception e) {
             logError("Unable to retrieve children for project " + object, e);

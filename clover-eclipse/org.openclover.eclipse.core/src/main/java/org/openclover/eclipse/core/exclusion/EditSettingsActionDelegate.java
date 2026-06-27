@@ -3,7 +3,6 @@ package org.openclover.eclipse.core.exclusion;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.preference.PreferenceDialog;
-import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.dialogs.PreferencesUtil;
 import org.openclover.eclipse.core.projects.settings.ProjectPropertyPage;
 
@@ -23,8 +22,4 @@ public class EditSettingsActionDelegate extends BaseActionDelegate {
         }
     }
 
-    @Override
-    public void setActivePart(IAction action, IWorkbenchPart targetPart) {
-        part = targetPart;
-    }
 }

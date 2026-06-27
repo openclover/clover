@@ -51,7 +51,7 @@ public class ToggleMultipleCloverProjectNaturesActionDelegate
                     // Automatically show Clover views if at least one project will have Clover enabled
                     // and "Auto open clover views" toggle in Preferences in enabled
                     if ( CloverPlugin.getInstance().getInstallationSettings().isAutoOpenCloverViews()
-                            && (toToggle.size() > 0) ) {
+                            && (!toToggle.isEmpty()) ) {
                         CloverPlugin.getInstance().showViews(getPage());
                     }
                 } catch (CoreException e) {

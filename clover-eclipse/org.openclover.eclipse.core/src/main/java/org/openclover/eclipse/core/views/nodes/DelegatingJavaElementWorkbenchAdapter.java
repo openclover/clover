@@ -26,7 +26,7 @@ public class DelegatingJavaElementWorkbenchAdapter implements IWorkbenchAdapter 
     @Override
     public ImageDescriptor getImageDescriptor(Object o) {
         IJavaElement javaElement = toJavaElement(o);
-        final IWorkbenchAdapter workbenchAdapter = (IWorkbenchAdapter)javaElement.getAdapter(IWorkbenchAdapter.class);
+        final IWorkbenchAdapter workbenchAdapter = javaElement.getAdapter(IWorkbenchAdapter.class);
         return
             workbenchAdapter == null
                 ? null
@@ -37,7 +37,7 @@ public class DelegatingJavaElementWorkbenchAdapter implements IWorkbenchAdapter 
     @Override
     public String getLabel(Object o) {
         IJavaElement javaElement = toJavaElement(o);
-        final IWorkbenchAdapter workbenchAdapter = (IWorkbenchAdapter)javaElement.getAdapter(IWorkbenchAdapter.class);
+        final IWorkbenchAdapter workbenchAdapter = javaElement.getAdapter(IWorkbenchAdapter.class);
         return
             workbenchAdapter == null
                 ? null
@@ -48,7 +48,7 @@ public class DelegatingJavaElementWorkbenchAdapter implements IWorkbenchAdapter 
     @Override
     public Object getParent(Object o) {
         IJavaElement javaElement = toJavaElement(o);
-        final IWorkbenchAdapter workbenchAdapter = (IWorkbenchAdapter)javaElement.getAdapter(IWorkbenchAdapter.class);
+        final IWorkbenchAdapter workbenchAdapter = javaElement.getAdapter(IWorkbenchAdapter.class);
         return
             workbenchAdapter == null
                 ? null

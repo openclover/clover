@@ -13,7 +13,7 @@ public class ReportHistoryEntry {
     private String path = "";
     private Type type = Type.HTML;
     private String name = "unknown";
-    private long when = -1l;
+    private long when = -1L;
 
     public ReportHistoryEntry(Current config, long when) {
         path = config.getMainOutFile().getAbsolutePath();
@@ -78,10 +78,7 @@ public class ReportHistoryEntry {
         if (when != that.when) return false;
         if (!Objects.equals(name, that.name))
             return false;
-        if (!Objects.equals(path, that.path))
-            return false;
-
-        return true;
+        return Objects.equals(path, that.path);
     }
 
     public int hashCode() {

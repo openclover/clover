@@ -17,7 +17,7 @@ import static org.openclover.eclipse.core.CloverPlugin.logError;
 import static org.openclover.eclipse.core.CloverPlugin.logWarning;
 
 public class ColumnDefinitionLabelProvider implements ITableLabelProvider, IDisposable {
-    private ResourceManager imageManager;
+    private final ResourceManager imageManager;
     private Image customColumnImage;
     private Image builtinColumnImage;
     private Image builtinLockedColumnImage;
@@ -45,12 +45,12 @@ public class ColumnDefinitionLabelProvider implements ITableLabelProvider, IDisp
                 if (builtinColumnOverlayImage == null) {
                     logWarning("Unable to find builtin overlay icon");
                 } else {
-                    builtinColumnImage = imageManager.createImage(
+                    builtinColumnImage = imageManager.create(
                         new CompositeImageDescriptor() {
                             @Override
                             protected void drawCompositeImage(int width, int height) {
-                                drawImage(customColumnImage.getImageData(), 0, 0);
-                                drawImage(builtinColumnOverlayImage.getImageData(), 0, 0);
+                                drawImage(createCachedImageDataProvider(customColumnImage), 0, 0);
+                                drawImage(createCachedImageDataProvider(builtinColumnOverlayImage), 0, 0);
                             }
 
                             @Override
@@ -68,13 +68,13 @@ public class ColumnDefinitionLabelProvider implements ITableLabelProvider, IDisp
             try {
                 lockedColumnOverlayImage = CloverPlugin.getImage(CloverPluginIcons.LOCKED_OVERLAY_ICON);
                 if (builtinColumnOverlayImage != null && lockedColumnOverlayImage != null) {
-                    builtinLockedColumnImage = imageManager.createImage(
+                    builtinLockedColumnImage = imageManager.create(
                         new CompositeImageDescriptor() {
                             @Override
                             protected void drawCompositeImage(int width, int height) {
-                                drawImage(customColumnImage.getImageData(), 0, 0);
-                                drawImage(builtinColumnOverlayImage.getImageData(), 0, 0);
-                                drawImage(lockedColumnOverlayImage.getImageData(), 0, 0);
+                                drawImage(createCachedImageDataProvider(customColumnImage), 0, 0);
+                                drawImage(createCachedImageDataProvider(builtinColumnOverlayImage), 0, 0);
+                                drawImage(createCachedImageDataProvider(lockedColumnOverlayImage), 0, 0);
                             }
 
                             @Override

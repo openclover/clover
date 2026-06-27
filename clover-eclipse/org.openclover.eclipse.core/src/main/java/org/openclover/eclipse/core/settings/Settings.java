@@ -80,7 +80,7 @@ public abstract class Settings {
     }
 
     public long getLong(String key) {
-        return getLong(key, -1l);
+        return getLong(key, -1L);
     }
 
     public boolean getBoolean(String key) {

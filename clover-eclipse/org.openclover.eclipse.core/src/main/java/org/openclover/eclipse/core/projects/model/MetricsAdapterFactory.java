@@ -17,7 +17,6 @@ import org.openclover.core.registry.metrics.ClassMetrics;
 import org.openclover.core.registry.metrics.FileMetrics;
 import org.openclover.core.registry.metrics.PackageMetrics;
 import org.openclover.core.registry.metrics.ProjectMetrics;
-import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
 
 import static org.openclover.eclipse.core.CloverPlugin.logError;

@@ -59,24 +59,24 @@ import static org.openclover.core.util.Maps.newLinkedHashMap;
 public class TestRunExplorerView extends ExplorerView {
     public static final String ID = "org.openclover.eclipse.core.views.testrunexplorer";
     //Not threadsafe but will only be ever accessed in the UI thread
-    private static DateFormat TIME_FORMAT = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
+    private static final DateFormat TIME_FORMAT = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
 
     public static final ColumnDefinition TESTCASE_COL_ELEMENT = new BuiltinColumnDefinition(
-        "TestCaseElementName",
-        0,
-        SWT.LEFT,
-        CloverEclipsePluginMessages.TEST_COL(),
-        CloverEclipsePluginMessages.TEST_ABBREVIATED_COL(),
-        CloverEclipsePluginMessages.TESTT_TOOL_TIP()) {
+            "TestCaseElementName",
+            0,
+            SWT.LEFT,
+            CloverEclipsePluginMessages.TEST_COL(),
+            CloverEclipsePluginMessages.TEST_ABBREVIATED_COL(),
+            CloverEclipsePluginMessages.TESTT_TOOL_TIP()) {
         @Override
         public String getLabel(ExplorerViewSettings settings, MetricsScope scope, ILabelProvider delegate, Object element) {
             if (element instanceof TestCaseNode
-                && settings.getHierarchyStyle() == TestRunExplorerViewSettings.HIERARCHY_STYLE_FLAT_TEST_CASES) {
+                    && settings.getHierarchyStyle() == TestRunExplorerViewSettings.HIERARCHY_STYLE_FLAT_TEST_CASES) {
 
                 IMethod method = ((TestCaseNode) element).getTestMethod();
                 return
-                    method.getDeclaringType().getElementName()
-                    + "." + delegate.getText(element);
+                        method.getDeclaringType().getElementName()
+                                + "." + delegate.getText(element);
             } else {
                 return delegate.getText(element);
             }
@@ -85,7 +85,7 @@ public class TestRunExplorerView extends ExplorerView {
         @Override
         public Image getImage(ExplorerViewSettings settings, MetricsScope scope, ILabelProvider delegate, Object element) {
             if (element instanceof TestCaseNode) {
-                return ((TestCaseNode)element).getTestCaseIcon();
+                return ((TestCaseNode) element).getTestCaseIcon();
             } else {
                 return delegate.getImage(element);
             }
@@ -116,17 +116,17 @@ public class TestRunExplorerView extends ExplorerView {
             TestRunExplorerTreeComparator.compareTestCaseName(object1, object2, false);
 
     public static final BuiltinColumnDefinition TESTCASE_COL_STARTED = new BuiltinColumnDefinition(
-        "TestCaseStarted",
-        BuiltinColumnDefinition.ANY_COLUMN,
-        SWT.RIGHT,
-        CloverEclipsePluginMessages.TEST_STARTED_COL(),
-        CloverEclipsePluginMessages.TEST_STARTED_ABBREVIATED_COL(),
-        CloverEclipsePluginMessages.TEST_STARTED_COL_TOOL_TIP()) {
+            "TestCaseStarted",
+            BuiltinColumnDefinition.ANY_COLUMN,
+            SWT.RIGHT,
+            CloverEclipsePluginMessages.TEST_STARTED_COL(),
+            CloverEclipsePluginMessages.TEST_STARTED_ABBREVIATED_COL(),
+            CloverEclipsePluginMessages.TEST_STARTED_COL_TOOL_TIP()) {
 
         @Override
         public String getLabel(ExplorerViewSettings settings, MetricsScope scope, ILabelProvider delegate, Object element) {
             if (element instanceof TestCaseNode) {
-                return TIME_FORMAT.format(new Date(((TestCaseNode)element).getStartTime()));
+                return TIME_FORMAT.format(new Date(((TestCaseNode) element).getStartTime()));
             } else {
                 return "";
             }
@@ -139,11 +139,11 @@ public class TestRunExplorerView extends ExplorerView {
                 protected void paint(Event event) {
                     if (forThisColumn(event)) {
                         renderText(
-                            getLabel(viewSettings, viewSettings.getMetricsScope(), null, event.item.getData()),
-                            event.gc,
-                            event,
-                            event.display,
-                            SWT.RIGHT);
+                                getLabel(viewSettings, viewSettings.getMetricsScope(), null, event.item.getData()),
+                                event.gc,
+                                event,
+                                event.display,
+                                SWT.RIGHT);
                     }
                 }
             };
@@ -157,12 +157,12 @@ public class TestRunExplorerView extends ExplorerView {
     public static final Comparator TESTCASE_COL_STARTED_COMPARATOR = TestRunExplorerTreeComparator::compareStarted;
 
     public static final BuiltinColumnDefinition TESTCASE_COL_STATUS = new BuiltinColumnDefinition(
-        "TestCaseStatus",
-        BuiltinColumnDefinition.ANY_COLUMN,
-        SWT.RIGHT,
-        CloverEclipsePluginMessages.TEST_STATUS_COL(),
-        CloverEclipsePluginMessages.TEST_STATUS_ABBREVIATED_COL(),
-        CloverEclipsePluginMessages.TEST_STATUS_COL_TOOL_TIP()) {
+            "TestCaseStatus",
+            BuiltinColumnDefinition.ANY_COLUMN,
+            SWT.RIGHT,
+            CloverEclipsePluginMessages.TEST_STATUS_COL(),
+            CloverEclipsePluginMessages.TEST_STATUS_ABBREVIATED_COL(),
+            CloverEclipsePluginMessages.TEST_STATUS_COL_TOOL_TIP()) {
 
         @Override
         public ListeningRenderer newRenderer(Composite composite, ExplorerViewSettings settings) {
@@ -183,12 +183,12 @@ public class TestRunExplorerView extends ExplorerView {
     public static final Comparator TESTCASE_COL_STATUS_COMPARATOR = TestRunExplorerTreeComparator::compareStatus;
 
     public static final BuiltinColumnDefinition TESTCASE_COL_TIME = new BuiltinColumnDefinition(
-        "TestCaseTime",
-        BuiltinColumnDefinition.ANY_COLUMN,
-        SWT.RIGHT,
-        CloverEclipsePluginMessages.TEST_TIME_COL(),
-        CloverEclipsePluginMessages.TEST_TIME_ABBREVIATED_COL(),
-        CloverEclipsePluginMessages.TEST_TIME_COL_TOOL_TIP()) {
+            "TestCaseTime",
+            BuiltinColumnDefinition.ANY_COLUMN,
+            SWT.RIGHT,
+            CloverEclipsePluginMessages.TEST_TIME_COL(),
+            CloverEclipsePluginMessages.TEST_TIME_ABBREVIATED_COL(),
+            CloverEclipsePluginMessages.TEST_TIME_COL_TOOL_TIP()) {
 
         @Override
         public String getLabel(ExplorerViewSettings settings, MetricsScope scope, ILabelProvider delegate, Object element) {
@@ -206,15 +206,16 @@ public class TestRunExplorerView extends ExplorerView {
                 protected void paint(Event event) {
                     if (forThisColumn(event)) {
                         renderText(
-                            getLabel(viewSettings, viewSettings.getMetricsScope(), null, event.item.getData()),
-                            event.gc,
-                            event,
-                            event.display,
-                            SWT.RIGHT);
+                                getLabel(viewSettings, viewSettings.getMetricsScope(), null, event.item.getData()),
+                                event.gc,
+                                event,
+                                event.display,
+                                SWT.RIGHT);
                     }
                 }
             };
         }
+
         @Override
         public Comparator getComparator(ExplorerViewSettings settings, MetricsScope scope) {
             return TESTCASE_COL_TIME_COMPARATOR;
@@ -223,27 +224,22 @@ public class TestRunExplorerView extends ExplorerView {
     public static final Comparator TESTCASE_COL_TIME_COMPARATOR = TestRunExplorerTreeComparator::compareTime;
 
     public static final BuiltinColumnDefinition TESTCASE_COL_MESSAGE = new BuiltinColumnDefinition(
-        "TestCaseMessage",
-        BuiltinColumnDefinition.ANY_COLUMN,
-        SWT.LEFT,
-        CloverEclipsePluginMessages.TEST_MESSAGE_COL(),
-        CloverEclipsePluginMessages.TEST_MESSAGE_ABBREVIATED_COL(),
-        CloverEclipsePluginMessages.TEST_MESSAGE_COL_TOOL_TIP()) {;
+            "TestCaseMessage",
+            BuiltinColumnDefinition.ANY_COLUMN,
+            SWT.LEFT,
+            CloverEclipsePluginMessages.TEST_MESSAGE_COL(),
+            CloverEclipsePluginMessages.TEST_MESSAGE_ABBREVIATED_COL(),
+            CloverEclipsePluginMessages.TEST_MESSAGE_COL_TOOL_TIP()) {
 
         @Override
         public String getLabel(ExplorerViewSettings settings, MetricsScope scope, ILabelProvider delegate, Object element) {
             if (element instanceof TestCaseNode) {
-                TestCaseNode testCaseNode = (TestCaseNode)element;
+                TestCaseNode testCaseNode = (TestCaseNode) element;
                 if (testCaseNode.getStatus() == TestCaseNode.STATUS_FAIL && testCaseNode.getFailureMessage() != null) {
                     return testCaseNode.getFailureMessage();
                 }
             }
             return "";
-        }
-
-        @Override
-        public boolean displaysSimpleLabel() {
-            return false;
         }
 
         @Override
@@ -253,11 +249,11 @@ public class TestRunExplorerView extends ExplorerView {
                 protected void paint(Event event) {
                     if (forThisColumn(event)) {
                         renderText(
-                            getLabel(viewSettings, viewSettings.getMetricsScope(), null, event.item.getData()),
-                            event.gc,
-                            event,
-                            event.display,
-                            SWT.LEFT);
+                                getLabel(viewSettings, viewSettings.getMetricsScope(), null, event.item.getData()),
+                                event.gc,
+                                event,
+                                event.display,
+                                SWT.LEFT);
                     }
                 }
             };
@@ -271,28 +267,28 @@ public class TestRunExplorerView extends ExplorerView {
     public static final Comparator TESTCASE_COL_MESSAGE_COMPARATOR = TestRunExplorerTreeComparator::compareMessage;
 
     public static final ColumnDefinition[] DEFAULT_TESTCASE_BUILTIN_COLUMN_DEFINITIONS = {
-        TESTCASE_COL_ELEMENT,
-        TESTCASE_COL_STARTED,
-        TESTCASE_COL_STATUS,
-        TESTCASE_COL_TIME,
-        TESTCASE_COL_MESSAGE,
+            TESTCASE_COL_ELEMENT,
+            TESTCASE_COL_STARTED,
+            TESTCASE_COL_STATUS,
+            TESTCASE_COL_TIME,
+            TESTCASE_COL_MESSAGE,
     };
 
     public static final ColumnDefinition[] TESTCASE_BUILTIN_COLUMN_DEFINITIONS = {
-        TESTCASE_COL_ELEMENT,
-        TESTCASE_COL_STARTED,
-        TESTCASE_COL_STATUS,
-        TESTCASE_COL_TIME,
-        TESTCASE_COL_MESSAGE,
+            TESTCASE_COL_ELEMENT,
+            TESTCASE_COL_STARTED,
+            TESTCASE_COL_STATUS,
+            TESTCASE_COL_TIME,
+            TESTCASE_COL_MESSAGE,
     };
 
     public static final ColumnDefinition CONTRIB_COL_CLASS = new BuiltinColumnDefinition(
-        "TestContribElementName",
-        0,
-        SWT.LEFT,
-        "Class",
-        "Class",
-        "The name of the class coverage by the test case") {
+            "TestContribElementName",
+            0,
+            SWT.LEFT,
+            "Class",
+            "Class",
+            "The name of the class coverage by the test case") {
 
         @Override
         public String getLabel(ExplorerViewSettings settings, MetricsScope scope, ILabelProvider delegate, Object element) {
@@ -310,7 +306,8 @@ public class TestRunExplorerView extends ExplorerView {
 
         @Override
         public ListeningRenderer newRenderer(Composite composite, ExplorerViewSettings settings) {
-            return new SelectionAwareCellRenderer(((TestRunExplorerViewSettings)settings).getClassesTestedTreeSettings(), this, composite) { };
+            return new SelectionAwareCellRenderer(((TestRunExplorerViewSettings) settings).getClassesTestedTreeSettings(), this, composite) {
+            };
         }
 
         @Override
@@ -331,29 +328,19 @@ public class TestRunExplorerView extends ExplorerView {
     public static final Comparator CONTRIB_COL_CLASS_COMPARATOR = ClassesTestedTreeComparator::compareName;
 
     public static final ColumnDefinition CONTRIB_COL_CONTRIB = new BuiltinColumnDefinition(
-        "TestContribCoverage",
-        ColumnDefinition.ANY_COLUMN,
-        SWT.LEFT,
-        "Contributed Coverage%",
-        "Contrib%",
-        "Percentage of the class's total code coverage provided by the test case") {
+            "TestContribCoverage",
+            ColumnDefinition.ANY_COLUMN,
+            SWT.LEFT,
+            "Contributed Coverage%",
+            "Contrib%",
+            "Percentage of the class's total code coverage provided by the test case") {
         @Override
         public ListeningRenderer newRenderer(Composite composite, ExplorerViewSettings settings) {
             return
-                new CoverageContributionCellRenderer(
-                    (Tree)composite,
-                    ((TestRunExplorerViewSettings)settings).getClassesTestedTreeSettings(),
-                    this);
-        }
-
-        @Override
-        public boolean displaysSimpleLabel() {
-            return false;
-        }
-
-        @Override
-        public boolean displaysImage() {
-            return false;
+                    new CoverageContributionCellRenderer(
+                            (Tree) composite,
+                            ((TestRunExplorerViewSettings) settings).getClassesTestedTreeSettings(),
+                            this);
         }
 
         @Override
@@ -369,12 +356,12 @@ public class TestRunExplorerView extends ExplorerView {
     public static final Comparator CONTRIB_COL_CONTRIB_COMPARATOR = ClassesTestedTreeComparator::compareContribCoverage;
 
     public static final ColumnDefinition CONTRIB_COL_UNIQUE = new BuiltinColumnDefinition(
-        "TestContribUniqueCoverage",
-        ColumnDefinition.ANY_COLUMN,
-        SWT.RIGHT,
-        "Unique Coverage%",
-        "Uniq%",
-        "Percentage of the class's code coverage provided by the test case and by no other test case") {
+            "TestContribUniqueCoverage",
+            ColumnDefinition.ANY_COLUMN,
+            SWT.RIGHT,
+            "Unique Coverage%",
+            "Uniq%",
+            "Percentage of the class's code coverage provided by the test case and by no other test case") {
 
         @Override
         public String getLabel(ExplorerViewSettings settings, MetricsScope scope, ILabelProvider delegate, Object element) {
@@ -387,16 +374,16 @@ public class TestRunExplorerView extends ExplorerView {
 
         @Override
         public ListeningRenderer newRenderer(Composite composite, final ExplorerViewSettings viewSettings) {
-            return new SelectionAwareCellRenderer(((TestRunExplorerViewSettings)viewSettings).getClassesTestedTreeSettings(), this, composite) {
+            return new SelectionAwareCellRenderer(((TestRunExplorerViewSettings) viewSettings).getClassesTestedTreeSettings(), this, composite) {
                 @Override
                 protected void paint(Event event) {
                     if (forThisColumn(event)) {
                         renderText(
-                            getLabel(viewSettings, viewSettings.getMetricsScope(), null, event.item.getData()), 
-                            event.gc,
-                            event,
-                            event.display,
-                            SWT.RIGHT);
+                                getLabel(viewSettings, viewSettings.getMetricsScope(), null, event.item.getData()),
+                                event.gc,
+                                event,
+                                event.display,
+                                SWT.RIGHT);
                     }
                 }
             };
@@ -410,15 +397,15 @@ public class TestRunExplorerView extends ExplorerView {
     public static final Comparator CONTRIB_COL_UNIQUE_COMPARATOR = ClassesTestedTreeComparator::compareUniqueCoverage;
 
     public static final ColumnDefinition[] DEFAULT_BUILTIN_CONTRIB_COLUMNS = {
-        CONTRIB_COL_CLASS,
-        CONTRIB_COL_CONTRIB,
-        CONTRIB_COL_UNIQUE
+            CONTRIB_COL_CLASS,
+            CONTRIB_COL_CONTRIB,
+            CONTRIB_COL_UNIQUE
     };
 
     public static final ColumnDefinition[] ALL_BUILTIN_CONTRIB_COLUMNS = {
-        CONTRIB_COL_CLASS,
-        CONTRIB_COL_CONTRIB,
-        CONTRIB_COL_UNIQUE
+            CONTRIB_COL_CLASS,
+            CONTRIB_COL_CONTRIB,
+            CONTRIB_COL_UNIQUE
     };
 
     private Tree classesTestedTree;
@@ -428,12 +415,10 @@ public class TestRunExplorerView extends ExplorerView {
     private ClassesTestedTreeProvider classesTestedTreeProvider;
     private ClassesTestedTreeLabelProvider classesTestedTreeLabelProvider;
 
-//    private Table coverageContribTable;
-//    private TreeColumn[] coverageContribTreeColumns;
     private TreeViewer coverageContribPaneViewer;
     private Composite explorerTreePane;
     private Map testCaseNodeCache;
-    private ColumnController classesTestColumnController = this::updateClassesTestedSorter;
+    private final ColumnController classesTestColumnController = this::updateClassesTestedSorter;
 
     @Override
     public void init(IViewSite site, IMemento memento) throws PartInitException {
@@ -512,7 +497,6 @@ public class TestRunExplorerView extends ExplorerView {
         classesTestedTreeViewer.setLabelProvider(new ClassesTestedTreeLabelProvider(getSettings()));
         classesTestedTreeViewer.setContentProvider(classesTestedTreeProvider);
         classesTestedTreeViewer.setAutoExpandLevel(TreeViewer.ALL_LEVELS);
-//        classesTestedTable.setMenu(newContextMenuManager().createContextMenu(classesTestedTable));
 
         updateClassesTestedSorter();
 
@@ -526,27 +510,6 @@ public class TestRunExplorerView extends ExplorerView {
         });
 
         treeViewer.addSelectionChangedListener(classesTestedTreeProvider);
-
-//        Composite contribPane = new Composite(mainContent, SWT.NONE);
-//        contribPane.setLayout(new GridLayout(1, false));
-//
-//        new Label(contribPane, SWT.NONE).setText("Test contributions:");
-//
-//        coverageContribTable = new Table(contribPane, SWT.NONE);
-//        coverageContribTable.setLayoutData(new GridData(GridData.FILL_BOTH));
-//        coverageContribTable.setLinesVisible(true);
-//        coverageContribTable.setHeaderVisible(true);
-//        coverageContribTreeColumns = new TreeColumn[1];
-//        coverageContribTreeColumns[0] = new TreeColumn(coverageContribTable, SWT.LEFT);
-//        coverageContribTreeColumns[0].setText("Class");
-//        coverageContribTreeColumns[0].setToolTipText("TODO");
-//        coverageContribTreeColumns[0].setWidth(100);
-//
-//        classesTestedTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-//            public void selectionChanged(SelectionChangedEvent event) {
-//
-//            }
-//        });
 
         updateMainContentSashOrientation(calcViewOrientation());
     }
@@ -601,13 +564,11 @@ public class TestRunExplorerView extends ExplorerView {
         super.updateMainContentSashOrientation(viewOrientation);
         switch (viewOrientation) {
             case SWT.VERTICAL:
-//                mainContent.setWeights(new int[]{1, 1, 1});
-                mainContent.setWeights(new int[]{1, 1});
+                mainContent.setWeights(1, 1);
                 break;
             case SWT.HORIZONTAL:
             default:
-                mainContent.setWeights(new int[]{4, 3});
-//                mainContent.setWeights(new int[]{4, 3, 3});
+                mainContent.setWeights(4, 3);
                 break;
         }
     }
@@ -652,11 +613,6 @@ public class TestRunExplorerView extends ExplorerView {
                 treeViewer.getControl().setRedraw(true);
             }
 
-            //Hack: expand items once updated
-//            if (treePaths != null) {
-//                getTreeViewer().setExpandedTreePaths(treePaths);
-//            }
-
             treeViewer.setSelection(selection);
         }
     }
@@ -664,7 +620,7 @@ public class TestRunExplorerView extends ExplorerView {
     private void updateClassesTestedSorter() {
         classesTestedTreeViewer.getControl().setRedraw(false);
         try {
-            classesTestedTree.setSortColumn((TreeColumn) classesTestedTreeColumns.get(getSettings().getClassesTestedTreeSettings().getSortedColumn()));
+            classesTestedTree.setSortColumn(classesTestedTreeColumns.get(getSettings().getClassesTestedTreeSettings().getSortedColumn()));
             classesTestedTree.setSortDirection(getSettings().getClassesTestedTreeSettings().isReverseSort() ? SWT.UP : SWT.DOWN);
             classesTestedTreeViewer.setComparator(ClassesTestedTreeComparator.getFor(getSettings().getClassesTestedTreeSettings()));
         } finally {

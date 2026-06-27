@@ -11,7 +11,6 @@ import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.ui.ILaunchConfigurationDialog;
 import org.eclipse.debug.ui.ILaunchConfigurationTab;
 import org.eclipse.debug.ui.ILaunchConfigurationTabGroup;
-import org.openclover.eclipse.core.CloverPlugin;
 
 import static org.openclover.eclipse.core.CloverPlugin.logAndThrowError;
 

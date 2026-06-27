@@ -21,7 +21,6 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.core.api.registry.ProjectInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.core.registry.metrics.BlockMetrics;
 import org.openclover.core.registry.metrics.HasMetricsSupport;
 import org.openclover.eclipse.core.CloverEclipsePluginMessages;
@@ -46,14 +45,14 @@ public class CloudEditor
     private static final int PROJECT_RISKS_PAGE = 0;
 
     private Map<String, PackageCloudStructure> perPackageCloudMappings;
-    private Browser[] browsers = new Browser[2];
+    private final Browser[] browsers = new Browser[2];
     private LocationListener locationListener = EditorLinkingLocationListener.NO_LINKING;
     private OpenJavaEditorAction openAction;
     private Combo focusDropDown;
     private Button aggregateCheckbox;
     private Button refreshButton;
 
-    private DatabaseChangeListener coverageListener = event -> {
+    private final DatabaseChangeListener coverageListener = event -> {
         if (event.isApplicableTo(((CloverProjectInput) getEditorInput()).getProject())
             && event.isSubstantiveProjectChange()) {
             Display.getDefault().asyncExec(CloudEditor.this::onCoverageChanged);
@@ -176,7 +175,7 @@ public class CloudEditor
             focusDropDown.add(cloud.name);
         }
 
-        if (oldSelection != null && oldSelection.length() > 0) {
+        if (oldSelection != null && !oldSelection.isEmpty()) {
             focusDropDown.setText(oldSelection);
         } else {
             focusDropDown.select(0);

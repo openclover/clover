@@ -15,8 +15,8 @@ import java.util.SortedSet;
 import static org.openclover.core.util.Lists.newLinkedList;
 
 class AnnotationSpaceWithFragments extends AnnotationSpace {
-    private AnnotationSpace parent;
-    protected List<AnnotationFragment> fragments = newLinkedList();
+    private final AnnotationSpace parent;
+    private final List<AnnotationFragment> fragments = newLinkedList();
 
     public AnnotationSpaceWithFragments(
         CloverDatabase database,
@@ -44,8 +44,7 @@ class AnnotationSpaceWithFragments extends AnnotationSpace {
     public void resumeWithNewAnnotationFragment(SourceInfo region) throws BadLocationException {
         fragments.add(
             new AnnotationFragmentOnResumption(
-                database,
-                document,
+                    document,
                 getFirstFragment().getRegion(),
                 tcisAndHitsForFile,
                 getFirstFragment().isHidden(),
@@ -92,7 +91,7 @@ class AnnotationSpaceWithFragments extends AnnotationSpace {
     }
 
     private AnnotationFragment getLastFragment() {
-        return fragments.size() == 0 ? null : fragments.get(fragments.size() - 1);
+        return fragments.isEmpty() ? null : fragments.get(fragments.size() - 1);
     }
 
     public boolean currentFragmentCompatibleWith(SourceInfo region, boolean hidden) {
@@ -108,7 +107,7 @@ class AnnotationSpaceWithFragments extends AnnotationSpace {
         //represents the continuation of the enclosing node after
         //the rupture caused by the child node
         if (getLastFragment() == null || getLastFragment().isClosed()) {
-            fragments.add(new AnnotationFragmentOnStart(database, document, region, tcisAndHitsForFile, hidden));
+            fragments.add(new AnnotationFragmentOnStart(document, region, tcisAndHitsForFile, hidden));
         }
     }
 

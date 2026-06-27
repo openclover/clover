@@ -7,7 +7,7 @@ import org.eclipse.jface.viewers.ISelection;
  * Selects a hierarchy style in the coverage view.
  */
 public abstract class SelectHierarchyStyleActionDelegate extends SelectionUntargetedCoverageViewActionDelegate {
-    private int style;
+    private final int style;
 
     public SelectHierarchyStyleActionDelegate(int style) {
         this.style = style;

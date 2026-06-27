@@ -55,14 +55,6 @@ public class ConfigureHtmlPage extends ConfigureReportPage {
         gd.horizontalAlignment = GridData.BEGINNING;
 
         createShowLambdaComposite(composite);
-//      useWorkingSetButton = new Button(composite, SWT.CHECK);
-//      useWorkingSetButton.setText("Restrict report to current Clover working set");
-//      useWorkingSetButton.setSelection(CloverPlugin.getInstance().isInWorkingSetMode());
-//      useWorkingSetButton.setEnabled(CloverPlugin.getInstance().isInWorkingSetMode());
-//      gd = new GridData();
-//      gd.horizontalSpan = 3;
-//      gd.horizontalAlignment = GridData.BEGINNING;
-//      useWorkingSetButton.setLayoutData(gd);
     }
 
     @Override

@@ -8,7 +8,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.part.ViewPart;
-import org.openclover.eclipse.core.CloverPlugin;
 
 import static org.openclover.eclipse.core.CloverPlugin.logError;
 

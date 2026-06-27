@@ -16,7 +16,7 @@ import java.util.List;
 import static org.openclover.core.util.Maps.newHashMap;
 
 public class ContextFilterSelectionWidget extends BuiltinContextFilterSelectionWidget {
-    protected HashMap<String, Button> customCheckboxes;
+    protected final HashMap<String, Button> customCheckboxes;
 
     public ContextFilterSelectionWidget(Composite parent, ContextStore contextStore, ContextSet filter) {
         super(parent, contextStore, filter);
@@ -27,7 +27,7 @@ public class ContextFilterSelectionWidget extends BuiltinContextFilterSelectionW
     public void buildContents() {
         super.buildContents();
 
-        if (contextStore.getAllUserContexts().size() > 0) {
+        if (!contextStore.getAllUserContexts().isEmpty()) {
             Label blockLabel = new Label(this, SWT.LEFT);
             blockLabel.setText(CloverEclipsePluginMessages.REGEXP_CONTEXT_FILTER_SELECTION_INSTRUCTIONS());
 

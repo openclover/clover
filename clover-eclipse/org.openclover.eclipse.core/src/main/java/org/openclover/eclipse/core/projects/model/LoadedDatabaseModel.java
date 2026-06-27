@@ -20,7 +20,6 @@ import org.openclover.core.api.registry.ParameterInfo;
 import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.entities.FullClassInfo;
-import org.openclover.core.registry.entities.FullMethodInfo;
 import org.openclover.eclipse.core.projects.CloverProject;
 
 import java.util.Arrays;
@@ -28,7 +27,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 public class LoadedDatabaseModel extends StableDatabaseModel {
-    protected CloverDatabase database;
+    protected final CloverDatabase database;
 
     public LoadedDatabaseModel(CloverProject project, CloverDatabase database, CoverageModelChangeEvent changeEvent, boolean includeFailedCoverage) {
         super(project, changeEvent);

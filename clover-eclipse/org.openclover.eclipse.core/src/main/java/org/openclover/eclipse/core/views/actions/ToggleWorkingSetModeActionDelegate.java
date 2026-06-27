@@ -1,7 +1,5 @@
 package org.openclover.eclipse.core.views.actions;
 
-import org.eclipse.core.internal.runtime.InternalPlatform;
-import org.eclipse.core.internal.runtime.Messages;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
@@ -26,8 +24,8 @@ public class ToggleWorkingSetModeActionDelegate extends UntargetedViewActionDele
             CloverPlugin.getInstance().setIsInWorkingSetMode(actionChecked);
         } catch (BackingStoreException exception) {
             Logger.getInstance().error(String.format("Could not write WorkingSetMode flag to %b", actionChecked));
-            final Status status = new Status(Status.ERROR, CloverPlugin.ID, Status.ERROR, Messages.preferences_saveProblems, exception);
-            InternalPlatform.getDefault().log(status);
+            final Status status = new Status(Status.ERROR, CloverPlugin.ID, Status.ERROR, "Could not save preferences", exception);
+            CloverPlugin.getInstance().getLog().log(status);
         }
         CloverProject.refreshAllModels(true, false);
     }

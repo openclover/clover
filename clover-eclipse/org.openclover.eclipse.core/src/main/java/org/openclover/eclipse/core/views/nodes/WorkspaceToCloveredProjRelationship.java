@@ -2,7 +2,6 @@ package org.openclover.eclipse.core.views.nodes;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspace;
-import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
 
 import java.util.Iterator;

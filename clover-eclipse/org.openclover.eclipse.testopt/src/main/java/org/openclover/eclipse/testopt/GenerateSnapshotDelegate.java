@@ -17,13 +17,15 @@ public class GenerateSnapshotDelegate extends AbstractJavaLaunchConfigurationDel
     public void launch(ILaunchConfiguration configuration, String mode, ILaunch launch, IProgressMonitor monitor) throws CoreException {
         final IJavaProject project = verifyJavaProject(configuration);
         final CloverProject cp = CloverProject.getFor(project);
-        final String initString = cp.getSettings().getInitString();
-        try {
-            Snapshot.generateFor(initString).store();
-        } catch (IOException e) {
-            TestOptimizationPlugin.logWarning("Error storing created snapshot file", e);
-        } catch (CloverException e) {
-            TestOptimizationPlugin.logWarning("Error loading OpenClover database", e);
+        if (cp != null) {
+            final String initString = cp.getSettings().getInitString();
+            try {
+                Snapshot.generateFor(initString).store();
+            } catch (IOException e) {
+                TestOptimizationPlugin.logWarning("Error storing created snapshot file", e);
+            } catch (CloverException e) {
+                TestOptimizationPlugin.logWarning("Error loading OpenClover database", e);
+            }
         }
     }
 }

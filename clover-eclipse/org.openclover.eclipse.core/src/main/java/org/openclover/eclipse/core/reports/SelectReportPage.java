@@ -7,7 +7,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
-import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.ui.GLH;
 
 public class SelectReportPage extends WizardPage {
@@ -16,13 +15,10 @@ public class SelectReportPage extends WizardPage {
     private Button pdfSelection = null;
     private Button xmlSelection = null;
 
-    private CloverProject project;
-
-    public SelectReportPage(CloverProject project) {
+    public SelectReportPage() {
         super("SelectReport");
         setTitle("Report Format");
         setDescription("Choose the type of report you want to generate.");
-        this.project = project;
     }
 
     @Override
@@ -76,8 +72,7 @@ public class SelectReportPage extends WizardPage {
     }
 
     /**
-     * Has the user requested an html style report?
-     * @return
+     * Has the user requested a html style report?
      */
     protected boolean isHtmlSelected() {
         return htmlSelection.getSelection();
@@ -85,7 +80,6 @@ public class SelectReportPage extends WizardPage {
 
     /**
      * Has the user requested a pdf style report?
-     * @return
      */
     protected boolean isPdfSelected() {
         return pdfSelection.getSelection();
@@ -93,7 +87,6 @@ public class SelectReportPage extends WizardPage {
 
     /**
      * Has the user requested an xml style report?
-     * @return
      */
     protected boolean isXmlSelected() {
         return xmlSelection.getSelection();

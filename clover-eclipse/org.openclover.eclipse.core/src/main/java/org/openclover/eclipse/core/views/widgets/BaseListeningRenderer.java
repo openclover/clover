@@ -13,18 +13,18 @@ public abstract class BaseListeningRenderer implements ListeningRenderer {
     /** 4 pixes each side for margin */
     protected static final int MARGIN = 4;
 
-    protected Composite rendered;
+    protected final Composite rendered;
     //HACK: there's no way to get row height from the paint event callback
     protected int lastRowHeight;
     //HACK: there's no way to get row top-left X from the paint event callback
     protected int lastRowX;
     //HACK: there's no way to get row top-left Y from the paint event callback
     protected int lastRowY;
-    protected ColumnDefinition column;
-    protected ColumnCollectionSettings settings;
+    protected final ColumnDefinition column;
+    protected final ColumnCollectionSettings settings;
 
-    protected Listener paintListener = this::paint;
-    protected Listener eraseListener = this::erase;
+    protected final Listener paintListener = this::paint;
+    protected final Listener eraseListener = this::erase;
 
     public BaseListeningRenderer(Composite rendered, ColumnCollectionSettings settings, ColumnDefinition column) {
         this.rendered = rendered;

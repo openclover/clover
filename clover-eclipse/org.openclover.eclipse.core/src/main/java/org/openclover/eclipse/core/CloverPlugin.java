@@ -13,6 +13,7 @@ import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.openclover.eclipse.core.exclusion.ExclusionLabelDecorator;
 import org.openclover.eclipse.core.projects.model.CoverageModelsMonitor;
@@ -60,11 +61,10 @@ public class CloverPlugin extends AbstractUIPlugin {
         return instance;
     }
 
-    private PluginLoggingAdapter cloverLogger;
+    private final PluginLoggingAdapter cloverLogger;
     private CoverageModelsMonitor coverageMonitor;
     private EditorCoverageSynchronizer editorSynchronizer;
     private CloverWorkingSet workingSet;
-    private List<CustomColumnDefinition> customColumns;
     private InstallationSettings installationSettings;
     private WorkspaceSettings workspaceSettings;
 
@@ -150,12 +150,12 @@ public class CloverPlugin extends AbstractUIPlugin {
         loadCustomColumns();
         buildWorkingSet();
 
-        editorSynchronizer = new EditorCoverageSynchronizer(getWorkbench());
+        editorSynchronizer = new EditorCoverageSynchronizer(PlatformUI.getWorkbench());
         coverageMonitor = new CoverageModelsMonitor();
 
         //Wait until the bundle is fully started before starting background jobs
         //as there is a real danger of classloader deadlock in Equinox when the bundle state changes
-        //or so it appears. See CEP-313. This may be a case of shadow boxing. Unclear ATM.
+        //or so it appears. See CEP-313. This may be a case of a shadow-boxing. Unclear ATM.
         final long thisBundleId = context.getBundle().getBundleId();
         startListener = bundleEvent -> {
             if (bundleEvent.getBundle().getBundleId() == thisBundleId
@@ -188,7 +188,7 @@ public class CloverPlugin extends AbstractUIPlugin {
     }
 
     private void buildWorkingSet() {
-        workingSet = new CloverWorkingSet(getWorkbench().getWorkingSetManager());
+        workingSet = new CloverWorkingSet(PlatformUI.getWorkbench().getWorkingSetManager());
     }
 
     private void listenForSettingsChanges() {
@@ -215,7 +215,7 @@ public class CloverPlugin extends AbstractUIPlugin {
     }
 
     private void loadCustomColumns() {
-        customColumns = installationSettings.getCustomColumns();
+        List<CustomColumnDefinition> customColumns = installationSettings.getCustomColumns();
     }
 
     private void buildSettings() {

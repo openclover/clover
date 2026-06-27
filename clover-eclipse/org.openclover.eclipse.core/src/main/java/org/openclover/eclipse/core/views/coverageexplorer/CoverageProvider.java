@@ -6,7 +6,6 @@ import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.openclover.core.registry.metrics.BlockMetrics;
-import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.projects.model.MetricsScope;
 import org.openclover.eclipse.core.views.CloveredWorkspaceProvider;
@@ -99,11 +98,7 @@ public class CoverageProvider
                 && (metrics.getNumCoveredElements() == metrics.getNumElements())
                 //Always show the project so as not to confuse or users.
                 && !TypeUtils.isProject(element));
-        if (result) {
-            return true;
-        } else {
-            return false;
-        }
+        return result;
     }
 
     private boolean isCoverageUnavailable(Object element, BlockMetrics metrics) {

@@ -7,7 +7,7 @@ import org.openclover.eclipse.core.projects.CloverProject;
 
 public abstract class CloverProjectInput implements IEditorInput {
 
-    private CloverProject project;
+    private final CloverProject project;
 
     public CloverProjectInput(CloverProject project) {
         this.project = project;

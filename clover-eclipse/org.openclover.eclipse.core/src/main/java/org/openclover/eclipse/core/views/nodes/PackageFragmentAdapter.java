@@ -10,7 +10,9 @@ import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaModel;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IModularClassFile;
 import org.eclipse.jdt.core.IOpenable;
+import org.eclipse.jdt.core.IOrdinaryClassFile;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.WorkingCopyOwner;
@@ -46,8 +48,29 @@ public class PackageFragmentAdapter
     }
 
     @Override
+    public IOrdinaryClassFile getOrdinaryClassFile(String s) {
+        return target.getOrdinaryClassFile(s);
+    }
+
+    @Override
+    public IModularClassFile getModularClassFile() {
+        return target.getModularClassFile();
+    }
+
+    @Override
+    public IClassFile[] getAllClassFiles() throws JavaModelException {
+        return target.getAllClassFiles();
+    }
+
+    @Override
+    @Deprecated
     public IClassFile[] getClassFiles() throws JavaModelException {
-        return target.getClassFiles();
+        return target.getOrdinaryClassFiles();
+    }
+
+    @Override
+    public IOrdinaryClassFile[] getOrdinaryClassFiles() throws JavaModelException {
+        return target.getOrdinaryClassFiles();
     }
 
     @Override

@@ -32,7 +32,7 @@ public class Markers {
     public static void createCloverBuilderProblemMarker(IResource resource, final String message, String markerId, final int severity) throws CoreException {
         MarkerUtilities.createMarker(
             resource,
-            new HashMap() {
+            new HashMap<String, Object>() {
                 {put(IMarker.SEVERITY, severity);}
                 {put(IMarker.MESSAGE, message);}
             }, markerId);

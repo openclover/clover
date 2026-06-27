@@ -7,7 +7,7 @@ import org.openclover.eclipse.core.views.nodes.NodeRelationshipFilter;
 import java.util.Collection;
 
 public class WorkingSetNodeFilter implements NodeRelationshipFilter {
-    private boolean inWorkingSetMode = CloverPlugin.getInstance().isInWorkingSetMode();
+    private final boolean inWorkingSetMode = CloverPlugin.getInstance().isInWorkingSetMode();
 
     @Override
     public Object[] perform(Collection elements) {

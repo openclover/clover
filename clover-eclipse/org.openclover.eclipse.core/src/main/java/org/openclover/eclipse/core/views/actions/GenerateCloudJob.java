@@ -12,13 +12,11 @@ import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.projects.builder.PathUtils;
 import org.openclover.eclipse.core.ui.editors.cloud.EclipseCloudGenerator;
-import org.openclover.runtime.api.CloverException;
 
 import java.io.File;
-import java.io.IOException;
 
 public abstract class GenerateCloudJob extends Job {
-    private IProject project;
+    private final IProject project;
 
     public GenerateCloudJob(IProject project) {
         super(CloverEclipsePluginMessages.GENERATING_CLOUD_FOR(project.getName()));
@@ -45,7 +43,7 @@ public abstract class GenerateCloudJob extends Job {
 
     protected abstract IStatus activateEditor();
 
-    protected void generateReport(IProgressMonitor monitor) throws Exception, CloverException, IOException {
+    protected void generateReport(IProgressMonitor monitor) throws Exception {
         new EclipseCloudGenerator(
                 CloverProject.getFor(project).getModel().getDatabase(),
                 ensureReportFolderCreated(monitor)).execute();

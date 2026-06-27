@@ -21,19 +21,14 @@ import java.util.List;
 import static org.openclover.core.util.Lists.newArrayList;
 
 public class TestFilesFilterWidget extends Composite {
-    private Tree sourceDirsTree;
-    private TreeViewer sourceDirsTreeViewer;
-    private Composite filterGroup;
-    private Button addButton;
-    private Button editButton;
-    private Button removeButton;
-    private TestSourcesElement testPackageRoots;
+    private final Tree sourceDirsTree;
+    private final Composite filterGroup;
 
     public TestFilesFilterWidget(ProjectSettings properties, Composite parent) {
         super(parent, SWT.NONE);
         setLayout(new GridLayout(2, false));
 
-        testPackageRoots = getTestPackageRoots(properties);
+        TestSourcesElement testPackageRoots = getTestPackageRoots(properties);
 
         sourceDirsTree = new Tree(this, SWT.BORDER);
         sourceDirsTree.setLayoutData(new GridData(GridData.FILL_BOTH));
@@ -43,7 +38,7 @@ public class TestFilesFilterWidget extends Composite {
 
             }
         });
-        sourceDirsTreeViewer = new TreeViewer(sourceDirsTree);
+        TreeViewer sourceDirsTreeViewer = new TreeViewer(sourceDirsTree);
         sourceDirsTreeViewer.setAutoExpandLevel(4);
         sourceDirsTreeViewer.setContentProvider(new TestPackageRootContentProvider());
         sourceDirsTreeViewer.setLabelProvider(new TestPackageRootLabelProvider());
@@ -53,7 +48,7 @@ public class TestFilesFilterWidget extends Composite {
         filterGroup.setLayoutData(new GridData(GridData.FILL_VERTICAL));
         filterGroup.setLayout(new GridLayout(1, true));
 
-        addButton = new Button(filterGroup, SWT.NONE);
+        Button addButton = new Button(filterGroup, SWT.NONE);
         addButton.setText("Add Folder");
         addButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         addButton.addSelectionListener(new SelectionAdapter() {
@@ -63,7 +58,7 @@ public class TestFilesFilterWidget extends Composite {
             }
         });
 
-        editButton = new Button(filterGroup, SWT.NONE);
+        Button editButton = new Button(filterGroup, SWT.NONE);
         editButton.setText("Edit Folder");
         editButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         editButton.addSelectionListener(new SelectionAdapter() {
@@ -73,7 +68,7 @@ public class TestFilesFilterWidget extends Composite {
             }
         });
 
-        removeButton = new Button(filterGroup, SWT.NONE);
+        Button removeButton = new Button(filterGroup, SWT.NONE);
         removeButton.setText("Remove Folder");
         removeButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         removeButton.addSelectionListener(new SelectionAdapter() {
@@ -128,7 +123,7 @@ public class TestFilesFilterWidget extends Composite {
         filterGroup.setEnabled(enabled);
     }
 
-    public final class TestPackageRootContentProvider implements ITreeContentProvider {
+    public static final class TestPackageRootContentProvider implements ITreeContentProvider {
         private TestSourcesElement input;
 
         @Override
@@ -197,7 +192,7 @@ public class TestFilesFilterWidget extends Composite {
         }
     }
 
-    public class TestPackageRootLabelProvider implements ITableLabelProvider {
+    public static class TestPackageRootLabelProvider implements ITableLabelProvider {
 
         @Override
         public Image getColumnImage(Object object, int col) {

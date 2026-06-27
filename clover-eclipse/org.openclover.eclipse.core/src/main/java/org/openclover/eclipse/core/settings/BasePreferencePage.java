@@ -8,11 +8,9 @@ public abstract class BasePreferencePage
     extends org.eclipse.jface.preference.PreferencePage
     implements IWorkbenchPreferencePage, CharDimensionConverter {
 
-    protected IWorkbench workbench;
-
     @Override
     public void init(IWorkbench workbench) {
-        this.workbench = workbench;
+
     }
 
     @Override

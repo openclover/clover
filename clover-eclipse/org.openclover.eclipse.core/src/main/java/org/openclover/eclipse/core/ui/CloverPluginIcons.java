@@ -4,7 +4,6 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ResourceManager;
 import org.eclipse.swt.graphics.Image;
-import org.openclover.eclipse.core.CloverPlugin;
 import org.osgi.framework.Bundle;
 
 import java.net.URL;
@@ -41,7 +40,7 @@ public final class CloverPluginIcons {
             URL resourceURL = bundle.getResource(path);
             if (resourceURL != null) {
                 try {
-                    return imageManager.createImage(ImageDescriptor.createFromURL(resourceURL));
+                    return imageManager.create(ImageDescriptor.createFromURL(resourceURL));
                 } catch (Exception e) {
                     logError("Failed to create image '" + path + "' for bundle '" + bundleName + "'", e);
                 }

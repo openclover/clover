@@ -9,8 +9,8 @@ import java.util.Objects;
 import java.util.Set;
 
 public abstract class PackageFragmentNode extends JavaElementNode {
-    protected String name;
-    protected Set<IPackageFragment> packageFragments;
+    protected final String name;
+    protected final Set<IPackageFragment> packageFragments;
 
     public PackageFragmentNode(String name, Set<? extends IPackageFragment> fragments) {
         this.name = name;
@@ -24,7 +24,7 @@ public abstract class PackageFragmentNode extends JavaElementNode {
     @Override
     public IJavaElement toJavaElement() {
         //Just take the first since it's only for workbench rendering
-        return packageFragments.isEmpty() ? null : (IJavaElement)packageFragments.iterator().next();
+        return packageFragments.isEmpty() ? null : packageFragments.iterator().next();
     }
 
     public String getElementName() {
@@ -37,18 +37,12 @@ public abstract class PackageFragmentNode extends JavaElementNode {
 
         PackageFragmentNode that = (PackageFragmentNode)o;
 
-        if (!Objects.equals(name, that.name))
-            return false;
-//        if (packageFragments != null ? !packageFragments.containsAll(that.packageFragments) : that.packageFragments != null)
-//            return false;
-
-        return true;
+        return Objects.equals(name, that.name);
     }
 
     public int hashCode() {
         int result;
         result = (name != null ? name.hashCode() : 0);
-//        result = 31 * result + (packageFragments != null ? packageFragments.hashCode() : 0);
         return result;
     }
 }

@@ -2,7 +2,6 @@ package org.openclover.eclipse.core.views.nodes;
 
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IPackageFragment;
-import org.openclover.eclipse.core.CloverPlugin;
 
 import java.util.Arrays;
 import java.util.Collections;

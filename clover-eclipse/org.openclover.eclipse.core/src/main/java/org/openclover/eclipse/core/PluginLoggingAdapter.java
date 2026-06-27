@@ -10,7 +10,7 @@ import org.openclover.runtime.Logger;
  */
 class PluginLoggingAdapter extends Logger {
 
-    private ILog log;
+    private final ILog log;
     private boolean enabled;
 
     PluginLoggingAdapter(ILog log, boolean enabled) {
@@ -28,10 +28,6 @@ class PluginLoggingAdapter extends Logger {
         if (enabled && !canIgnore(level)) {
             int eclipseLevel;
             switch (level) {
-                case Logger.LOG_DEBUG:
-                case Logger.LOG_VERBOSE:
-                    eclipseLevel = IStatus.OK;
-                    break;
                 case Logger.LOG_INFO:
                     eclipseLevel = IStatus.INFO;
                     break;
@@ -41,6 +37,8 @@ class PluginLoggingAdapter extends Logger {
                 case Logger.LOG_ERR:
                     eclipseLevel = IStatus.ERROR;
                     break;
+                case Logger.LOG_DEBUG:
+                case Logger.LOG_VERBOSE:
                 default:
                     eclipseLevel = IStatus.OK;
             }

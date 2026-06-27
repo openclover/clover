@@ -14,7 +14,6 @@ import org.openclover.core.api.registry.CoverageDataRange;
 import org.openclover.core.api.registry.TestCaseInfo;
 import org.openclover.core.registry.entities.FullElementInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
 import org.openclover.eclipse.core.CloverPlugin;
 
 import java.util.BitSet;
@@ -29,7 +28,7 @@ import static org.openclover.eclipse.core.CloverPlugin.logError;
 public class CoverageAnnotationFilter {
     public static final QualifiedName EXCLUDED_TEST_NAMES = new QualifiedName(CloverPlugin.ID, "CoverageAnnotationExcludedTestNames");
 
-    public static CoverageAnnotationFilter NULL = new CoverageAnnotationFilter() {
+    public static final CoverageAnnotationFilter NULL = new CoverageAnnotationFilter() {
         @Override
         public boolean includes(SourceInfo info) { return true; }
     };
@@ -113,7 +112,7 @@ public class CoverageAnnotationFilter {
                 //(filteredHits.size() == 0)
                 //Was this just because there were no
                 //hits to start with (hits.size() > 0)
-                if (filteredHits.size() == 0 && hittingTcis.size() > 0) {
+                if (filteredHits.isEmpty() && !hittingTcis.isEmpty()) {
                     break included;
                 }
             }
@@ -140,8 +139,8 @@ public class CoverageAnnotationFilter {
     }
 
     public static class TestFilter {
-        private Set<Integer> ids;
-        private Set<String> testClassNames;
+        private final Set<Integer> ids;
+        private final Set<String> testClassNames;
 
         public TestFilter() {
             this(new HashSet<>(), new HashSet<>());
@@ -196,7 +195,7 @@ public class CoverageAnnotationFilter {
                 StringBuilder value = new StringBuilder();
                 for (Iterator<Integer> iterator = ids.iterator(); iterator.hasNext();) {
                     value.append(iterator.next());
-                    if (iterator.hasNext() || testClassNames.size() > 0) {
+                    if (iterator.hasNext() || !testClassNames.isEmpty()) {
                         value.append(',');
                     }
                 }
@@ -223,9 +222,7 @@ public class CoverageAnnotationFilter {
 
         public boolean matches(TestCaseInfo testCaseInfo) {
             return
-                (testCaseInfo.getRuntimeType() == null
-                    ? false
-                    : testClassNames.contains(testCaseInfo.getRuntimeType().getQualifiedName()))
+                (testCaseInfo.getRuntimeType() != null && testClassNames.contains(testCaseInfo.getRuntimeType().getQualifiedName()))
                 || ids.contains(testCaseInfo.getId());
         }
 

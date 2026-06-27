@@ -6,7 +6,6 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.browser.LocationEvent;
 import org.eclipse.swt.browser.LocationListener;
-import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.views.actions.OpenJavaEditorAction;
 
@@ -16,8 +15,9 @@ import static org.openclover.eclipse.core.CloverPlugin.logVerbose;
 public class EditorLinkingLocationListener implements LocationListener {
     public static final String JAVAEDITOR_HREF_PREFIX = "#javaeditor:";
 
-    private CloverProject project;
-    private OpenJavaEditorAction action;
+    private final CloverProject project;
+    private final OpenJavaEditorAction action;
+
     public static final LocationListener NO_LINKING = new LocationListener() {
         @Override
         public void changing(LocationEvent locationEvent) { }

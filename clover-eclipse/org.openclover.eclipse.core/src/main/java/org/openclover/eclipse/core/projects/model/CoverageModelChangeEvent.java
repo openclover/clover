@@ -6,8 +6,8 @@ public class CoverageModelChangeEvent {
     private final String description;
     private final boolean userInitiated;
     private final long when;
-    private DatabasePreLoadDecorator[] preChangeDecorators;
-    private DatabasePostLoadDecorator[] postChangeDecorators;
+    private final DatabasePreLoadDecorator[] preChangeDecorators;
+    private final DatabasePostLoadDecorator[] postChangeDecorators;
 
     public static CoverageModelChangeEvent INIT(CloverProject project) {
         return new CoverageModelChangeEvent(project, "Initialisation", false);
