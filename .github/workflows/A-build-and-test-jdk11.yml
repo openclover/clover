@@ -40,8 +40,7 @@ jobs:
 
       - name: Compile and pack all modules
         run: |
-          mvn --batch-mode install -DskipTests=true --projects \
-              '!clover-eclipse,!clover-eclipse/org.openclover.eclipse.ant,!clover-eclipse/org.openclover.eclipse.ant.feature,!clover-eclipse/org.openclover.eclipse.branding,!clover-eclipse/org.openclover.eclipse.core,!clover-eclipse/org.openclover.eclipse.runtime,!clover-eclipse/org.openclover.eclipse.testopt,!clover-eclipse/org.openclover.eclipse.updatesite'
+          mvn --batch-mode install -DskipTests=true
 
       - name: Run tests for runtime, core, groovy, ant
         run: |
