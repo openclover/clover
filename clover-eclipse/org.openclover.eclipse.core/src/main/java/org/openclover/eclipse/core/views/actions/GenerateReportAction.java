@@ -20,6 +20,7 @@ import org.openclover.eclipse.core.projects.CloverProject;
 import org.openclover.eclipse.core.reports.GenerateReportWizard;
 import org.openclover.eclipse.core.reports.OpenReportDialog;
 import org.openclover.eclipse.core.reports.OpenReportOperation;
+import org.openclover.eclipse.core.reports.OpenReportOperations;
 import org.openclover.eclipse.core.reports.model.ReportHistoryEntry;
 import org.openclover.eclipse.core.ui.CloverPluginIcons;
 import org.openclover.eclipse.core.ui.projects.DatabaseChangeEvent;
@@ -139,7 +140,7 @@ public class GenerateReportAction
                 viewItemsItem.addSelectionListener(new SelectionAdapter() {
                     @Override
                     public void widgetSelected(SelectionEvent event) {
-                        List availableMethods = OpenReportOperation.findFor(report);
+                        List availableMethods = OpenReportOperations.findFor(report);
 
                         OpenReportOperation chosenMethod =
                                 availableMethods.size() == 1
