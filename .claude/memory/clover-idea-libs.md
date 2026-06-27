@@ -10,24 +10,23 @@ One IDEA major release per calendar year is targeted.
 
 ## IDEA versions to add as lib tags
 
-| IDEA version | Download URL filename         | Dir prefix in tarball | Build ver (example / TBD) | Tag                              |
-|--------------|-------------------------------|-----------------------|---------------------------|----------------------------------|
-| 15.0.6       | `ideaIC-15.0.6.tar.gz`        | `???`                 | `???` (discover)          | `clover-idea-libs-15.0.143xxxxx` |
-| 2016.3.8     | `ideaIC-2016.3.8.tar.gz`      | `idea-IC-163.x.x`     | `163.15529.8`             | **already tagged** `clover-idea-libs-2016.3.163155298` |
-| 2017.3.7     | `ideaIC-2017.3.7.tar.gz`      | `idea-IC-173.x.x`     | `173.x.x` (discover)      | `clover-idea-libs-2017.3.173xxxxx` |
-| 2018.3.6     | `ideaIC-2018.3.6.tar.gz`      | `idea-IC-183.x.x`     | `183.x.x` (discover)      | `clover-idea-libs-2018.3.183xxxxx` |
-| 2019.3.5     | `ideaIC-2019.3.5.tar.gz`      | `idea-IC-193.x.x`     | `193.x.x` (discover)      | `clover-idea-libs-2019.3.193xxxxx` |
-| 2020.3.4     | `ideaIC-2020.3.4.tar.gz`      | `idea-IC-203.x.x`     | `203.x.x` (discover)      | `clover-idea-libs-2020.3.203xxxxx` |
-| 2021.3.3     | `ideaIC-2021.3.3.tar.gz`      | `idea-IC-213.x.x`     | `213.x.x` (discover)      | `clover-idea-libs-2021.3.213xxxxx` |
-| 2022.3.3     | `ideaIC-2022.3.3.tar.gz`      | `idea-IC-223.x.x`     | `223.x.x` (discover)      | `clover-idea-libs-2022.3.223xxxxx` |
-| 2023.3.8     | `ideaIC-2023.3.8.tar.gz`      | `idea-IC-233.x.x`     | `233.x.x` (discover)      | `clover-idea-libs-2023.3.233xxxxx` |
-| 2024.3.7.1   | `ideaIC-2024.3.7.1.tar.gz`    | `idea-IC-243.x.x`     | `243.x.x` (discover)      | `clover-idea-libs-2024.3.243xxxxx` |
-| 2025.3.6     | `idea-2025.3.6.tar.gz`        | `idea-IC-253.x.x` (?) | `253.x.x` (discover)      | `clover-idea-libs-2025.3.253xxxxx` |
-| 2026.1.3     | `idea-2026.1.3.tar.gz`        | `idea-IC-261.x.x` (?) | `261.x.x` (discover)      | `clover-idea-libs-2026.1.261xxxxx` |
+| IDEA version | Download URL filename         | Extracted dir              | Build number     | Tag                                    |
+|--------------|-------------------------------|----------------------------|------------------|----------------------------------------|
+| 15.0.6       | `ideaIC-15.0.6.tar.gz`        | `idea-IC-143.2370.31`      | `143.2370.31`    | `clover-idea-libs-15.0.143237031`      |
+| 2016.3.8     | `ideaIC-2016.3.8.tar.gz`      | `idea-IC-163.15529.8`      | `163.15529.8`    | **already tagged** `clover-idea-libs-2016.3.163155298` |
+| 2017.3.7     | `ideaIC-2017.3.7.tar.gz`      | `idea-IC-173.4710.11`      | `173.4710.11`    | `clover-idea-libs-2017.3.173471011`    |
+| 2018.3.6     | `ideaIC-2018.3.6.tar.gz`      | `idea-IC-183.6156.11`      | `183.6156.11`    | `clover-idea-libs-2018.3.183615611`    |
+| 2019.3.5     | `ideaIC-2019.3.5.tar.gz`      | `idea-IC-193.7288.26`      | `193.7288.26`    | `clover-idea-libs-2019.3.193728826`    |
+| 2020.3.4     | `ideaIC-2020.3.4.tar.gz`      | `idea-IC-203.8084.24`      | `203.8084.24`    | `clover-idea-libs-2020.3.203808424`    |
+| 2021.3.3     | `ideaIC-2021.3.3.tar.gz`      | `idea-IC-213.7172.25`      | `213.7172.25`    | `clover-idea-libs-2021.3.213717225`    |
+| 2022.3.3     | `ideaIC-2022.3.3.tar.gz`      | `idea-IC-223.8836.41`      | `223.8836.41`    | `clover-idea-libs-2022.3.223883641`    |
+| 2023.3.8     | `ideaIC-2023.3.8.tar.gz`      | `idea-IC-233.15619.7`      | `233.15619.7`    | `clover-idea-libs-2023.3.233156197`    |
+| 2024.3.7.1   | `ideaIC-2024.3.7.1.tar.gz`    | `idea-IC-243.28141.41`     | `243.28141.41`   | `clover-idea-libs-2024.3.2432814141`   |
+| 2025.3.6     | `idea-2025.3.6.tar.gz`        | `idea-IU-253.33813.25`     | `253.33813.25`   | `clover-idea-libs-2025.3.2533381325`   |
+| 2026.1.3     | `idea-2026.1.3.tar.gz`        | `idea-IU-261.25134.95`     | `261.25134.95`   | `clover-idea-libs-2026.1.2612513495`   |
 
-**Note on filename prefix:** For IDEA 2025+ the archive is `idea-*.tar.gz` (no `IC` in name).
-**Note on build numbers:** Exact build numbers are discovered by inspecting the extracted
-`build.txt` or directory name inside the archive. The tag bugfix digit = build with dots stripped.
+**Note on filename prefix:** For IDEA 2025+ the archive is `idea-*.tar.gz` (no `IC`); extracted as `idea-IU-*` (Ultimate edition — superset of Community, fine for compilation classpath).
+**Note on devkit plugin:** Not present in 2025/2026 IU archives; omitted from those lib tags automatically by the generate scripts.
 
 **Tag version string format:** `<MAJOR>.<MINOR>.<BUILD_NODOTS>` e.g.
 `clover-idea-libs-2016.3.163155298` where `163155298` = `163.15529.8` with dots removed.
