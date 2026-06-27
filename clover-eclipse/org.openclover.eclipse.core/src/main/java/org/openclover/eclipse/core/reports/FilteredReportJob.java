@@ -50,6 +50,10 @@ public class FilteredReportJob extends ForkingReportJob {
         protected int run(String[] args) {
             return HtmlReporter.runReport(args);
         }
+
+        public static void main(String[] args) {
+            System.exit(new FilteredHtmlReporter().run(args));
+        }
     }
 
     public static class FilteredXMLReporter extends ForkingReporter {
@@ -57,12 +61,20 @@ public class FilteredReportJob extends ForkingReportJob {
         protected int run(String[] args) {
             return XMLReporter.runReport(args);
         }
+
+        public static void main(String[] args) {
+            System.exit(new FilteredXMLReporter().run(args));
+        }
     }
 
     public static class FilteredPDFReporter extends ForkingReporter {
         @Override
         protected int run(String[] args) {
             return PDFReporter.runReport(args);
+        }
+
+        public static void main(String[] args) {
+            System.exit(new FilteredPDFReporter().run(args));
         }
     }
 }

@@ -90,9 +90,7 @@ public abstract class ForkingReportJob extends ReportJob {
     protected void bindReportingSystemProperties(ILaunchConfigurationWorkingCopy launchConfigCopy) {
         launchConfigCopy.setAttribute(
             IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS,
-            userArgs()
-            + " -Djava.awt.headless=true"
-            + " -D" + ForkingReporter.FORKING_REPORTER_PROP + "=" + calculateReporterClass());
+            userArgs() + " -Djava.awt.headless=true");
     }
 
     private String userArgs() {
@@ -194,7 +192,7 @@ public abstract class ForkingReportJob extends ReportJob {
         bindCloverRequiredClasspath(launchConfigCopy);
         bindCloverRequiredJvm(launchConfigCopy);
         bindReportingSystemProperties(launchConfigCopy);
-        bindMainClassName(launchConfigCopy, ForkingReporter.class.getName());
+        bindMainClassName(launchConfigCopy, calculateReporterClass());
         bindMainClassArguments(launchConfigCopy, calculateProgramArgs());
 
         logVerbose(

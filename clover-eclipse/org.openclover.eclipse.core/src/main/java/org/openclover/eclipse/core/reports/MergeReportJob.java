@@ -21,9 +21,6 @@ import java.util.List;
 
 import static org.openclover.core.util.Lists.newArrayList;
 
-/**
- *
- */
 public class MergeReportJob extends ForkingReportJob {
     private final CloverProject[] projects;
 
@@ -161,6 +158,10 @@ public class MergeReportJob extends ForkingReportJob {
         protected int postMergeRun(String[] args) {
             return HtmlReporter.runReport(args);
         }
+
+        public static void main(String[] args) {
+            System.exit(new MergeAndReportHtml().run(args));
+        }
     }
 
     public static class MergeAndReportPdf extends MergeReportJob.MergeAndReport {
@@ -168,12 +169,20 @@ public class MergeReportJob extends ForkingReportJob {
         protected int postMergeRun(String[] args) {
             return PDFReporter.runReport(args);
         }
+
+        public static void main(String[] args) {
+            System.exit(new MergeAndReportPdf().run(args));
+        }
     }
-    
-    public static class MergeAndReportXml extends MergeAndReport{
+
+    public static class MergeAndReportXml extends MergeAndReport {
         @Override
         protected int postMergeRun(String[] args) {
             return XMLReporter.runReport(args);
+        }
+
+        public static void main(String[] args) {
+            System.exit(new MergeAndReportXml().run(args));
         }
     }
 }
