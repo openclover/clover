@@ -235,16 +235,17 @@ The update site directory is the expanded contents of `org.openclover.eclipse.up
 
 ## `org.openclover.eclipse.functest.runner` — Plugin Details
 
-### `META-INF/MANIFEST.MF`
+### OSGi manifest
+
+There is no separate `META-INF/MANIFEST.MF` file. The OSGi headers are generated inline by `maven-jar-plugin` `<manifestEntries>` in the runner's `pom.xml`:
+
 ```
 Bundle-SymbolicName: org.openclover.eclipse.functest.runner; singleton:=true
 Bundle-Version: 5.0.0
-Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.core.resources,
- org.eclipse.jdt.core,
- org.eclipse.jdt.launching,
- org.openclover.eclipse.core
+Require-Bundle: org.eclipse.core.runtime,org.eclipse.core.resources,org.eclipse.jdt.core,
+ org.eclipse.jdt.launching,org.openclover.eclipse.core;bundle-version=${project.version}
 Eclipse-LazyStart: false
+Bundle-Classpath: .
 ```
 
 No `Bundle-Activator` needed — the application entry point is the `IApplication` registered in `plugin.xml`.
@@ -262,97 +263,123 @@ No `Bundle-Activator` needed — the application entry point is the `IApplicatio
 
 ### `Application.java` — Key Logic
 
+`IApplication` does not define `EXIT_ERROR`; the class declares `private static final Integer EXIT_ERROR = 1`.
+
+Tier 3 projects are listed in a static `SKIPPED_PROJECTS` map (`LinkedHashMap<String, String>` of name → reason). They are passed to `importProjects()` so they are never opened in the workspace, and synthetic skipped `TestResult` entries are appended after the main loop.
+
+`hasUnitTests(project)` reads the `.classpath` file as text and checks for `JUNIT_CONTAINER` — Tier 1 projects have it, Tier 2 do not.
+
+`TestRunner.run()` takes a `File ignored` third parameter (the original plan passed `eclipseInstallDir` from WorkspaceManager, but WorkspaceManager has no such method; the runner locates the JUnit jar itself via `Platform.getInstallLocation()`).
+
+`printSummary()` reports `passed / failed / skipped out of N`.
+
 ```java
-public class Application implements IApplication {
-    public Object start(IApplicationContext context) throws Exception {
-        // Parse: -projectsDir, -cloverRuntime, -reportsDir from context.getArguments()
-        Map args = context.getArguments();
-        File projectsDir = ...;
-        String cloverRuntime = ...;
-        File reportsDir = ...;
-        reportsDir.mkdirs();
+private static final Integer EXIT_ERROR = 1;
 
-        WorkspaceManager wm = new WorkspaceManager(projectsDir, cloverRuntime);
-        wm.setCloverRuntimeVariable();
-        wm.importProjects();
-        wm.buildAll();
+private static final Map<String, String> SKIPPED_PROJECTS = new LinkedHashMap<>();
+static {
+    SKIPPED_PROJECTS.put("TestAntBuild",           "Tier 3: requires Ant on PATH");
+    SKIPPED_PROJECTS.put("TestDynamicWebProject",  "Tier 3: requires WTP bundles not present in Eclipse for Java");
+    SKIPPED_PROJECTS.put("TestEquinoxProject",     "Tier 3: OSGi classpath complications");
+    SKIPPED_PROJECTS.put("TestEquinoxTestsProject","Tier 3: OSGi classpath complications");
+}
 
-        List<TestResult> results = new ArrayList<>();
-        for (IProject project : wm.getProjects()) {
-            long start = System.currentTimeMillis();
-            TestResult r = new TestResult(project.getName());
+public Object start(IApplicationContext context) throws Exception {
+    // args parsed from context.getArguments().get(IApplicationContext.APPLICATION_ARGS)
+    // -projectsDir, -cloverRuntime, -reportsDir, -eclipseVersion
 
-            BuildVerifier.verify(project, r);
-            if (!r.hasBuildErrors() && hasUnitTests(project)) {
-                TestRunner.run(project, cloverRuntime, wm.getEclipseInstallDir(), r);
+    WorkspaceManager wm = new WorkspaceManager(projectsDir, cloverRuntime);
+    wm.setCloverRuntimeVariable();
+    wm.importProjects(SKIPPED_PROJECTS.keySet());   // Tier 3 projects are skipped
+    wm.buildAll();
+
+    List<TestResult> results = new ArrayList<>();
+    for (IProject project : wm.getProjects()) {
+        TestResult r = new TestResult(project.getName());
+        BuildVerifier.verify(project, r);
+        if (!r.hasBuildErrors()) {
+            if (hasUnitTests(project)) {              // reads .classpath for JUNIT_CONTAINER
+                TestRunner.run(project, cloverRuntime, null, r);
                 wm.refresh(project);
                 CoverageVerifier.verify(project, r);
-            } else if (!r.hasBuildErrors()) {
+            } else {
                 CoverageVerifier.verifyDbOnly(project, r);
             }
-
-            r.setDurationMs(System.currentTimeMillis() - start);
-            results.add(r);
         }
-
-        SurefireReporter.write(results, reportsDir, eclipseVersion);
-        printSummary(results);
-        return results.stream().anyMatch(TestResult::hasFailed) ? EXIT_ERROR : EXIT_OK;
+        r.setDurationMs(...);
+        results.add(r);
     }
+
+    // Append synthetic skipped entries for Tier 3
+    for (Map.Entry<String, String> e : SKIPPED_PROJECTS.entrySet()) {
+        TestResult r = new TestResult(e.getKey());
+        r.skip(e.getValue());
+        results.add(r);
+    }
+
+    SurefireReporter.write(results, reportsDir, eclipseVersion);
+    printSummary(results);   // "X passed, Y failed, Z skipped out of N projects"
+    return results.stream().anyMatch(TestResult::hasFailed) ? EXIT_ERROR : EXIT_OK;
 }
 ```
 
 ### `WorkspaceManager.java`
 - `setCloverRuntimeVariable()`: `JavaCore.setClasspathVariable("CLOVER_RUNTIME", new Path(cloverRuntime), null)` then join the resulting classpath init job before opening projects.
-- `importProjects()`: Sorted import to respect dependencies:
+- `importProjects(Set<String> skipProjects)`: Projects in the skip set are logged and skipped entirely. Sorted import to respect dependencies:
   1. `TestAllUnitTestsExternal` before `TestAllUnitTests`
   2. `TestDependenciesA` → `B` → `C`
-  3. Others in any order
+  3. Others alphabetically
   
   Per project: `workspace.loadProjectDescription(new Path(dir+"/.project"))` → `desc.setLocation(...)` → `project.create(desc, null)` → `project.open(null)`.
 - `buildAll()`: `workspace.build(IncrementalProjectBuilder.FULL_BUILD, null)` then `Job.getJobManager().join(ResourcesPlugin.FAMILY_AUTO_BUILD, null)` and `join(ResourcesPlugin.FAMILY_MANUAL_BUILD, null)`.
+- No `getEclipseInstallDir()` method — the eclipse install location is resolved inside `TestRunner` via `Platform.getInstallLocation()`.
 
 ### `BuildVerifier.java`
 After build, checks:
 1. No `IMarker.SEVERITY_ERROR` markers on the project (`project.findMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE)`)
-2. `project.getFolder(".clover").getFile("clover.db").exists()` — Clover database created
-3. Output folder (`bin/` by default, or per `.classpath` `kind="output"`) contains at least one `.class` file
+2. `CloverProject.getFor(project).getRegistryFile()` exists — resolves the actual DB path (default `.clover/coverage.db`, or per-project custom path); **not** `project.getFolder(".clover").getFile("clover.db")`
+3. Output folder (resolved via `JavaCore.create(project).getOutputLocation()`) contains at least one `.class` file (checked only when no build errors)
 
 ### `TestRunner.java`
-For projects with `JUNIT_CONTAINER` in `.classpath`:
+For projects with `JUNIT_CONTAINER` in `.classpath`. Signature: `run(IProject, String cloverRuntime, File ignored, TestResult)` — the third parameter is unused; JUnit JAR is located internally via `Platform.getInstallLocation().getURL()` (no caller-supplied install dir needed).
+
 ```java
-// Locate JUnit 4 JAR from eclipse/plugins/org.junit_4*.jar
-File junitJar = findJUnitJar(eclipseInstallDir);
-// Build classpath: output dir + clover-runtime + junit jar
+// Locate JUnit 4 JAR: Platform.getInstallLocation() → eclipse/plugins/org.junit_4*.jar
+File junitJar = findJUnitJar();
+// initString via CloverProject.getFor(project).getRegistryFile()
 String cp = outputDir + pathSep + cloverRuntime + pathSep + junitJar;
 ProcessBuilder pb = new ProcessBuilder(
     javaExe, "-cp", cp,
     "org.junit.runner.JUnitCore",
-    discoverTestClasses(project)  // scan bin/ for *Test.class / Test*.class
+    ...discoverTestClasses(outputDir)  // scan output dir for *Test.class / *Tests.class
 );
-pb.environment().put("CLOVER_INITSTRING", cloverDbPath);
+pb.environment().put("CLOVER_INITSTRING", initString);
 pb.redirectErrorStream(true);
 Process proc = pb.start();
-// Capture output for failure message
 String output = new String(proc.getInputStream().readAllBytes());
 int exit = proc.waitFor();
 if (exit != 0) r.fail("JUnit runner exited " + exit + ":\n" + output);
 ```
 
 ### `CoverageVerifier.java`
-```java
-// After build only (no tests run):
-String initString = project.getLocation().append(".clover/clover.db").toOSString();
-CloverDatabase db = CloverDatabase.loadWithCoverage(initString, new CoverageDataSpec());
-r.assertNotNull(db, "CloverDatabase is null");
-r.assertFalse(db.getRegistry().getProject()
-    .getPackages(new HasMetrics.Everything()).isEmpty(), "No packages in registry");
+initString resolved via `CloverProject.getFor(project).getRegistryFile().getAbsolutePath()` (not hardcoded `.clover/clover.db`). Load errors are caught and reported as failures; the method returns null on error (no `assertNotNull` call on the DB object itself).
 
-// Additional check after test run:
-r.assertNotNull(db.getCoverage(), "No coverage data");
-r.assertTrue(db.getCoverage().getProject()
-    .getMetrics().getNumCoveredElements() > 0, "Zero covered elements");
+```java
+// verifyDbOnly — after build, no tests run:
+CloverDatabase db = loadDb(project, result);   // returns null and records failure on error
+if (db == null) return;
+result.assertFalse(
+    db.getRegistry().getProject().getPackages(HasMetricsFilter.ACCEPT_ALL).isEmpty(),
+    "No packages found in Clover registry");
+
+// verify — after test run:
+result.assertFalse(db.getCoverageData().isEmpty(),
+    "Clover coverage data is empty");
+int covered = db.getRegistry().getProject().getMetrics().getNumCoveredElements();
+result.assertTrue(covered > 0, "Zero covered elements in Clover registry after test run");
 ```
+
+Note: `HasMetricsFilter.ACCEPT_ALL` (not `new HasMetrics.Everything()`); `db.getCoverageData().isEmpty()` (not `db.getCoverage()`).
 
 ### `SurefireReporter.java`
 
@@ -374,7 +401,7 @@ Writes one XML file per project in the standard Maven Surefire format, named `TE
 </testsuite>
 ```
 
-Also writes a text summary `target/functest.log` for human readability.
+Handles skipped projects: writes `<skipped message="..."/>` inside `<testcase>` and sets `skipped="1"` on `<testsuite>`. No separate `target/functest.log` text file — the summary is written to stdout by `Application.printSummary()`.
 
 ---
 
@@ -391,9 +418,10 @@ Also writes a text summary `target/functest.log` for human readability.
 - `TestRootSourceFolder` — source at project root
 
 ### Tier 2 — Build + DB assertion only (no JUnit subprocess)
+Detection: absence of `JUNIT_CONTAINER` in `.classpath`. Projects in this tier:
 - `TestExcludesProject` — no tests, verify instrumentation respects excludes
 - `TestEncodingsProject` — no test classes; verify build + DB
-- `TestJava13Project` / `TestJava14Project` / `TestJava15Project` — verify build at language level
+- `TestJava8Project` / `TestJava11Project` / `TestJava17Project` / `TestJava21Project` — verify build at language level
 
 ### Tier 3 — Deferred
 - `TestAntBuild` — Ant-based, different flow; requires Ant on PATH
@@ -468,8 +496,8 @@ jobs:
         with:
           name: clover-eclipse-build
           path: |
-            clover-eclipse/org.openclover.eclipse.updatesite/target/classes/
-            clover-eclipse/org.openclover.eclipse.functest.runner/target/*.jar
+            clover-eclipse/org.openclover.eclipse.updatesite/target/clover-eclipse-site-*.zip
+            clover-eclipse/org.openclover.eclipse.functest.runner/target/org.openclover.eclipse.functest.runner-*.jar
             clover-runtime/target/clover-runtime-*.jar
 
   functest:
@@ -512,21 +540,34 @@ jobs:
           path: clover-eclipse/org.openclover.eclipse.functest/target/download
           key: eclipse-download-${{ matrix.eclipse-version }}
 
+      - name: Cache Eclipse libs download (${{ matrix.eclipse-libs-version }})
+        uses: actions/cache@v4
+        with:
+          path: clover-eclipse-libs/target/download
+          key: ${{ runner.os }}-eclipse-libs-${{ matrix.eclipse-libs-version }}
+
+      - name: Cache Eclipse functest download (${{ matrix.eclipse-version }})
+        uses: actions/cache@v4
+        with:
+          path: clover-eclipse/org.openclover.eclipse.functest/target/download
+          key: ${{ runner.os }}-eclipse-functest-${{ matrix.eclipse-version }}
+
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
           name: clover-eclipse-build
-          path: clover-eclipse-build/
+          # No path specified — files land at their original workspace-relative paths,
+          # matching functest pom's default property values exactly.
 
       - name: Prepare Eclipse libs for ${{ matrix.eclipse-version }}
         run: |
-          mvn --batch-mode install -Pworkspace-setup \
-            -Declipse.version=${{ matrix.eclipse-version }} \
-            -Declipse.libs.version=${{ matrix.eclipse-libs-version }} \
+          # Overwrite with the version-tagged pom so Maven installs the correct artifact version
+          git show clover-eclipse-libs-${{ matrix.eclipse-libs-version }}:clover-eclipse-libs/pom.xml \
+            > clover-eclipse-libs/pom.xml
+          mvn --batch-mode install -Pworkspace-setup -f clover-eclipse-libs/pom.xml \
             -Declipse.download.site=${{ matrix.eclipse-download-site }} \
             -Declipse.download.path=technology/epp/downloads/release/${{ matrix.eclipse-version }}/R \
-            -Declipse.download.file=eclipse-java-${{ matrix.eclipse-version }}-R-linux-gtk-x86_64.tar.gz \
-            -f clover-eclipse-libs/pom.xml
+            -Declipse.download.file=eclipse-java-${{ matrix.eclipse-version }}-R-win32-x86_64.zip
 
       - name: Run functional tests against Eclipse ${{ matrix.eclipse-version }}
         run: |
@@ -558,7 +599,29 @@ Each matrix leg uploads a **separate artifact** named `test-results-eclipse-YYYY
 
 ### `eclipse.download.path` override
 
-The `eclipse.download.path` is overridden explicitly in both the workspace-setup step and the functest step rather than computed from `eclipse.version` within the pom. This is intentional: the path structure is stable but overriding it explicitly avoids complex property-composition logic in Maven. The CI matrix owns the full URL components.
+`eclipse.download.path` and `eclipse.download.file` are overridden in the workspace-setup step (which downloads the win32 zip to extract JARs) but not in the functest step — the functest pom derives both from `${eclipse.version}` for the Linux tar.gz. Only `eclipse.download.site` is overridden in the functest step (to switch between archive.eclipse.org and ftp.fau.de).
+
+### Root POM: `eclipse-jdk21plus` profile
+
+`clover-eclipse` is not in the default `<modules>` list of the root `pom.xml`. It is gated behind a profile `eclipse-jdk21plus` with `<activation><jdk>[21,)</jdk></activation>`. This means the A-build workflows (JDK 8/11/17) build the full reactor without any manual `--projects` exclusions; `clover-eclipse` simply does not appear on those JDK versions.
+
+### Workspace-setup version alignment
+
+`clover-eclipse-libs/pom.xml` always has the current Eclipse version hardcoded (e.g., `<version>2026.03</version>`). To install a different version for a matrix leg, the step first overwrites the file from the git tag:
+```bash
+git show clover-eclipse-libs-2023.06:clover-eclipse-libs/pom.xml > clover-eclipse-libs/pom.xml
+```
+This makes `mvn install -Pworkspace-setup` install `clover-eclipse-libs:pom:2023.06` (with 2023.06 JARs) to the local Maven repo, which is what the `clover-eclipse` parent BOM import needs. Workspace-setup downloads the **win32 zip** (not the Linux tar.gz) to extract individual JARs.
+
+---
+
+## `TestResult.java` — Skip Support
+
+In addition to `fail()` / `hasFailed()`, `TestResult` carries:
+- `skip(String reason)` — marks the result as skipped with a reason string
+- `isSkipped()` / `getSkipReason()` — read back the skip state
+
+Used for Tier 3 projects whose `TestResult` is created by `Application` (not by the main project loop) and passed directly to `SurefireReporter`.
 
 ---
 
