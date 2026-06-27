@@ -101,7 +101,7 @@ public class ProjectSettings extends Settings {
     private static final ListMarshaller<String> STRING_LIST_MARSHALLER = new StringListMarshaller();
     private static final ListMarshaller<SourceFolderPattern> FOLDER_LIST_MARSHALLER = new FolderListMarshaller();
 
-    protected IProject project;
+    protected final IProject project;
     private IScopeContext[] scopeContext;
 
     public ProjectSettings(IProject project) {

@@ -22,7 +22,7 @@ import static org.openclover.eclipse.core.CloverPlugin.logVerbose;
 public class LoadingDatabaseModel
     extends VolatileDatabaseModel {
 
-    protected StableDatabaseModel currentModel;
+    protected final StableDatabaseModel currentModel;
     protected LoadDatabaseJob loadingJob;
 
     public LoadingDatabaseModel(StableDatabaseModel currentModel, CoverageModelChangeEvent changeEvent) {

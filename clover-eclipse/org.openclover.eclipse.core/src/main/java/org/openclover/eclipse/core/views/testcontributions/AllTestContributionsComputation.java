@@ -45,7 +45,6 @@ public class AllTestContributionsComputation extends TestContributionsComputatio
         CoverageAnnotationModel oldAnnotationModel = getCoverageAnnotationModel();
         CoverageAnnotationModel newAnnotationModel = CoverageAnnotationModel.getModel(editor);
 
-        ICompilationUnit oldCompilationUnit = getCompilationUnit();
         ICompilationUnit newCompilationUnit = compilationUnitForEditor(editor);
 
         if (oldAnnotationModel != newAnnotationModel

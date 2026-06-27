@@ -184,7 +184,7 @@ public class ShowAboutCloverActionDelegate extends CloverProjectActionDelegate {
                             }
 
                             Dialog d = new Dialog(getShell()) {
-                                private Font licenseFont = new Font(null, "Courier", 10, SWT.NONE);
+                                private final Font licenseFont = new Font(null, "Courier", 10, SWT.NONE);
 
                                 @Override
                                 protected void configureShell(Shell shell) {

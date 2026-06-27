@@ -10,10 +10,6 @@ import java.util.List;
 import java.util.Set;
 
 public abstract class ConfigureColumnsActionDelegate extends CloverProjectActionDelegate {
-    @Override
-    protected void updateStateForSelection(IAction action) {
-        action.setEnabled(true);
-    }
 
     @Override
     public void run(IAction action) {

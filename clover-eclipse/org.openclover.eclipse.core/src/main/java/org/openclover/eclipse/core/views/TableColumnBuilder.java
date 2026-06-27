@@ -4,7 +4,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 
 public abstract class TableColumnBuilder {
-    private int id;
+    private final int id;
 
     public TableColumnBuilder(int id) {
         this.id = id;

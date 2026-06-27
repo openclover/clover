@@ -119,14 +119,6 @@ public class CustomColumnDefinition
                     double value = valueFor(item);
                     return MetricsFormatUtils.formatMetricsDecimal(value);
                 }
-
-                @Override
-                protected double valueFor(Object data) {
-                    return
-                        ((NumericColumnDefinition)column).getValue(
-                            viewSettings.getMetricsScope(),
-                            data).doubleValue();
-                }
             };
         }
         return renderer;
@@ -144,7 +136,7 @@ public class CustomColumnDefinition
     }
     
     private class MyComparator implements Comparator {
-        private MetricsScope scope;
+        private final MetricsScope scope;
 
         public MyComparator(MetricsScope scope) {
             this.scope = scope;

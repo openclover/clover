@@ -5,7 +5,7 @@ import org.openclover.core.api.registry.SourceInfo;
 import org.openclover.eclipse.core.ui.editors.java.annotations.strategies.CoverageAnnotationBuilder;
 
 abstract class CoverageEdge {
-    private SourceInfo info;
+    private final SourceInfo info;
 
     public CoverageEdge(SourceInfo info) {
         this.info = info;

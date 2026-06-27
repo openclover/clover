@@ -47,7 +47,6 @@ public class TestContributionsView extends CloverViewPart {
         alertContainer = new ViewAlertContainer(parent);
         mainContent = new SashForm(alertContainer, calcViewOrientation());
         mainContent.setLayoutData(new GridData(GridData.FILL_BOTH));
-        alertContainer.setContent(mainContent);
 
         createAllTestsWidget(mainContent);
         createLineTestsWidget(mainContent);

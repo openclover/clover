@@ -15,14 +15,14 @@ public class TestCaseNode extends JavaElementNode {
     public static final int STATUS_FAIL = 0;
     public static final int STATUS_ERROR = 1;
 
-    private IMethod testMethod;
-    private long tciId;
-    private long startTime;
-    private int status;
-    private double durationInSeconds;
-    private String failureMessage;
-    private String fullFailureMessage;
-    private Image testCaseIcon;
+    private final IMethod testMethod;
+    private final long tciId;
+    private final long startTime;
+    private final int status;
+    private final double durationInSeconds;
+    private final String failureMessage;
+    private final String fullFailureMessage;
+    private final Image testCaseIcon;
 
     public TestCaseNode(IMethod testMethod, TestCaseInfo tci) {
         this.testMethod = testMethod;

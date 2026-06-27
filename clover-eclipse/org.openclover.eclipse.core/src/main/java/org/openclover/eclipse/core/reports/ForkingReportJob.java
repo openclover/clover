@@ -40,8 +40,8 @@ public abstract class ForkingReportJob extends ReportJob {
     private static final long MAX_REPORT_DURATION = 1000 * 60 * 60;
 
     protected final Current config;
-    protected String mxSetting;
-    protected String vmArgs;
+    protected final String mxSetting;
+    protected final String vmArgs;
 
     public ForkingReportJob(Current config, String vmArgs, String mxSetting) {
         this.config = config;

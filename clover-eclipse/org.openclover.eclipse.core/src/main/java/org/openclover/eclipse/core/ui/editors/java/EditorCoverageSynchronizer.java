@@ -23,7 +23,7 @@ import static org.openclover.core.util.Lists.newArrayList;
 import static org.openclover.eclipse.core.CloverPlugin.logError;
 
 public class EditorCoverageSynchronizer implements IWindowListener, IPartListener2, IDisposable {
-    private IWorkbench workbench;
+    private final IWorkbench workbench;
     private final List<AnnotationDisplayListener> annotationDisplayListeners;
     private volatile boolean started;
 

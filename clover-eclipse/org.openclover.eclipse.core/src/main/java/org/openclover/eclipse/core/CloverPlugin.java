@@ -64,7 +64,6 @@ public class CloverPlugin extends AbstractUIPlugin {
     private CoverageModelsMonitor coverageMonitor;
     private EditorCoverageSynchronizer editorSynchronizer;
     private CloverWorkingSet workingSet;
-    private List<CustomColumnDefinition> customColumns;
     private InstallationSettings installationSettings;
     private WorkspaceSettings workspaceSettings;
 
@@ -215,7 +214,7 @@ public class CloverPlugin extends AbstractUIPlugin {
     }
 
     private void loadCustomColumns() {
-        customColumns = installationSettings.getCustomColumns();
+        List<CustomColumnDefinition> customColumns = installationSettings.getCustomColumns();
     }
 
     private void buildSettings() {

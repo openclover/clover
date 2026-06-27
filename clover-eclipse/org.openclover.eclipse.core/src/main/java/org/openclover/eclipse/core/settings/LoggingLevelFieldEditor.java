@@ -24,7 +24,7 @@ public class LoggingLevelFieldEditor extends FieldEditor {
          * Value as used in InstallationSettings
          * @see InstallationSettings
          */
-        private String installationValue;
+        private final String installationValue;
 
         /**
          * Associate enum with matching value from InstallationSettings class.

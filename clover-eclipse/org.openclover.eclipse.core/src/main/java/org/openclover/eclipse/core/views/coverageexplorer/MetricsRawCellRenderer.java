@@ -12,7 +12,7 @@ import org.openclover.eclipse.core.views.NumericColumnDefinition;
 import org.openclover.eclipse.core.views.widgets.SelectionAwareCellRenderer;
 
 public abstract class MetricsRawCellRenderer extends SelectionAwareCellRenderer {
-    protected ExplorerViewSettings viewSettings;
+    protected final ExplorerViewSettings viewSettings;
 
     public MetricsRawCellRenderer(Tree tree, ExplorerViewSettings viewSettings, ColumnCollectionSettings columnSettings, NumericColumnDefinition column) {
         super(columnSettings, (ColumnDefinition) column, tree);

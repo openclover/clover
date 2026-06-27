@@ -6,7 +6,6 @@ import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.resource.LocalResourceManager;
 import org.eclipse.jface.resource.ResourceManager;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -39,9 +38,8 @@ import static org.openclover.eclipse.core.CloverPlugin.logError;
 
 public class ViewAlertContainer extends Composite implements DatabaseChangeListener {
 
-    private Composite alerts;
-    private Composite content;
-    private Alert hookUninstallLink;
+    private final Composite alerts;
+    private final Alert hookUninstallLink;
 
     public ViewAlertContainer(Composite parent) {
         super(parent, SWT.NONE);
@@ -67,10 +65,6 @@ public class ViewAlertContainer extends Composite implements DatabaseChangeListe
                 }
             }
         });
-    }
-
-    public void setContent(SashForm content) {
-        this.content = content;
     }
 
     @Override
@@ -167,11 +161,9 @@ public class ViewAlertContainer extends Composite implements DatabaseChangeListe
         private final Label icon;
         private final ResourceManager imageManager;
         private final ViewAlertContainer.AlertPopup alertPopup;
-        private final boolean dismissable;
 
         private Alert(AlertStyle style, Composite parent, boolean dismissable, String text, String explanation) {
             super(parent, SWT.BORDER);
-            this.dismissable = dismissable;
             setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
             setLayout(new GridLayout(dismissable ? 3 : 2, false));
             
@@ -243,7 +235,7 @@ public class ViewAlertContainer extends Composite implements DatabaseChangeListe
         private final String text;
         private Link link;
         private Point location;
-        private Set<SelectionListener> pendingListeners = newHashSet();
+        private final Set<SelectionListener> pendingListeners = newHashSet();
 
         public AlertPopup(Shell parent, String text) {
             super(parent, INFOPOPUP_SHELLSTYLE, true, false, false, false, false, null, null);

@@ -34,10 +34,10 @@ public class Nodes {
 
     public static final TestCaseConverter TO_IMETHOD = (tci, method) -> method;
 
-    public static class ToTestCaseNodeCoverter implements TestCaseConverter {
-        private TestCaseNodeFactory tcnFactory;
+    public static class ToTestCaseNodeConverter implements TestCaseConverter {
+        private final TestCaseNodeFactory tcnFactory;
 
-        public ToTestCaseNodeCoverter(TestCaseNodeFactory tcnFactory) {
+        public ToTestCaseNodeConverter(TestCaseNodeFactory tcnFactory) {
             this.tcnFactory = tcnFactory;
         }
 

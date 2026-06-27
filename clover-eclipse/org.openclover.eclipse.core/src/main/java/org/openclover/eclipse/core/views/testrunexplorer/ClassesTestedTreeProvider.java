@@ -50,7 +50,6 @@ public class ClassesTestedTreeProvider
         implements ISelectionChangedListener {
 
     private final TreeViewer treeViewer;
-    private Object input;
     private List classes;
     private final Map<ClassInfo, List<CoverageContributionNode>> methods = newHashMap();
     private boolean includeCoverageFromFailedTests = true;
@@ -62,7 +61,6 @@ public class ClassesTestedTreeProvider
     @Override
     public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
         super.inputChanged(viewer, oldInput, newInput);
-        input = newInput;
         classes = null;
         methods.clear();
     }
@@ -77,7 +75,7 @@ public class ClassesTestedTreeProvider
                                 Nodes.collectTestCases(parent, Nodes.TO_TESTCASEINFO));
 
                 final CloverProject selectedTestCloverProject = CloverProject.getFor(asJavaElement(parent).getJavaProject());
-                if (selectedTestCloverProject != null && testCases.size() > 0) {
+                if (selectedTestCloverProject != null && !testCases.isEmpty()) {
                     classes = collectTestedClassesFor(newLinkedList(), testCases, selectedTestCloverProject);
                 } else {
                     classes = Collections.emptyList();
@@ -99,7 +97,6 @@ public class ClassesTestedTreeProvider
 
         final CloverDatabase database = project.getModel().getDatabase();
         final ProjectInfo appOnlyProject = database == null ? null : database.getAppOnlyModel();
-        final ProjectInfo fullProject = database == null ? null : database.getFullModel();
 
         if (database != null && appOnlyProject != null) {
             final HashSet<TestCaseInfo> testCasesSet = newHashSet(testCases);
@@ -114,7 +111,6 @@ public class ClassesTestedTreeProvider
                         //TODO: filter should be in accordance with global context filter
                         maybeAddCoverageContributionNode(
                                 NodeBuilder.FOR_CLASSES,
-                                classInfo,
                                 clazz,
                                 classInfo.copy(classInfo.getContainingFile(), HasMetricsFilter.ACCEPT_ALL),
                                 testHits,
@@ -147,7 +143,6 @@ public class ClassesTestedTreeProvider
                     if (methodInfo != null) {
                         maybeAddCoverageContributionNode(
                                 NodeBuilder.FOR_METHODS,
-                                methodInfo,
                                 method,
                                 methodInfo.copy(classInfo),
                                 testHits,
@@ -160,7 +155,7 @@ public class ClassesTestedTreeProvider
         return testedMethodInfos;
     }
 
-    private void maybeAddCoverageContributionNode(NodeBuilder builder, HasMetrics hasMetrics, IJavaElement element,
+    private void maybeAddCoverageContributionNode(NodeBuilder builder, IJavaElement element,
                                                   HasMetrics hasMetricsCopy, CoverageDataProvider testHits,
                                                   CoverageDataProvider uniqueTestHits,
                                                   List<CoverageContributionNode> testedClassInfos) {

@@ -4,7 +4,7 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 
 public class TreeColumnBuilder {
-    private ColumnDefinition columnDefinition;
+    private final ColumnDefinition columnDefinition;
 
     public TreeColumnBuilder(ColumnDefinition columnDefinition) {
         this.columnDefinition = columnDefinition;

@@ -28,7 +28,7 @@ import static org.openclover.eclipse.core.CloverPlugin.logError;
 public class CoverageAnnotationFilter {
     public static final QualifiedName EXCLUDED_TEST_NAMES = new QualifiedName(CloverPlugin.ID, "CoverageAnnotationExcludedTestNames");
 
-    public static CoverageAnnotationFilter NULL = new CoverageAnnotationFilter() {
+    public static final CoverageAnnotationFilter NULL = new CoverageAnnotationFilter() {
         @Override
         public boolean includes(SourceInfo info) { return true; }
     };
@@ -139,8 +139,8 @@ public class CoverageAnnotationFilter {
     }
 
     public static class TestFilter {
-        private Set<Integer> ids;
-        private Set<String> testClassNames;
+        private final Set<Integer> ids;
+        private final Set<String> testClassNames;
 
         public TestFilter() {
             this(new HashSet<>(), new HashSet<>());

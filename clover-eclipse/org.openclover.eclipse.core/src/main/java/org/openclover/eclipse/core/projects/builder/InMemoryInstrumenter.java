@@ -46,7 +46,7 @@ public class InMemoryInstrumenter extends BaseInstrumenter {
     @Override
     public Iterator fileNamesAsCompilerArg() {
         return new Iterator() {
-            private Iterator iter = originalToInstrumentedSource.keySet().iterator();
+            private final Iterator iter = originalToInstrumentedSource.keySet().iterator();
 
             @Override
             public boolean hasNext() {

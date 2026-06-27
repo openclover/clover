@@ -40,7 +40,7 @@ public class LoadDatabaseJob extends Job {
 
     public static final int LOAD_FAILED = 0;
 
-    protected AtomicBoolean hasRun;
+    protected final AtomicBoolean hasRun;
     protected volatile IStatus status;
     protected final CloverProject project;
     protected final DatabasePreLoadDecorator[] preLoadDecorators;

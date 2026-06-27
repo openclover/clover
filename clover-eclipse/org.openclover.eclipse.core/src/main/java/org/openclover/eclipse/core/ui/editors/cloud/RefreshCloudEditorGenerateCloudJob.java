@@ -7,7 +7,7 @@ import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.views.actions.GenerateCloudJob;
 
 class RefreshCloudEditorGenerateCloudJob extends GenerateCloudJob {
-    private CloudEditor cloudEditor;
+    private final CloudEditor cloudEditor;
 
     public RefreshCloudEditorGenerateCloudJob(CloudEditor cloudEditor, IProject project) {
         super(project);

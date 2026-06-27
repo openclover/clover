@@ -10,9 +10,9 @@ import org.openclover.eclipse.core.projects.settings.ProjectSettings;
 import org.openclover.eclipse.core.settings.InstallationSettings;
 
 public class ContextFilterModificationWidget extends Composite {
-    private BuiltinContextFilterSelectionWidget blockFilter;
-    private RegexContextFilterModificationWidget regexFilter;
-    private ProjectSettings properties;
+    private final BuiltinContextFilterSelectionWidget blockFilter;
+    private final RegexContextFilterModificationWidget regexFilter;
+    private final ProjectSettings properties;
 
     public ContextFilterModificationWidget(Composite composite, ProjectSettings properties) {
         super(composite, SWT.NONE);

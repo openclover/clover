@@ -105,7 +105,7 @@ public class CoverageAnnotation extends Annotation {
         }
     }
 
-    private WeakReference<FullElementInfo> info;
+    private final WeakReference<FullElementInfo> info;
     private Position position;
 
     private CoverageAnnotation(Kind kind, FullElementInfo info, Set<TestCaseInfo> hits, int offset, int length, boolean filtered) {

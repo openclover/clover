@@ -8,9 +8,9 @@ import org.openclover.eclipse.core.projects.model.StableDatabaseModel;
 
 public class DatabaseChangeEvent {
     private final CloverProject project;
-    private boolean forWorkspace;
-    private boolean stable;
-    private boolean substantive;
+    private final boolean forWorkspace;
+    private final boolean stable;
+    private final boolean substantive;
 
     public DatabaseChangeEvent(CloverProject project, DatabaseModel oldModel, DatabaseModel newModel) {
         this.project = project;

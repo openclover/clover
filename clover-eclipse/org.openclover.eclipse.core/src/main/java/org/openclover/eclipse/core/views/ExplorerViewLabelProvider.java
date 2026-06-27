@@ -14,9 +14,9 @@ public abstract class ExplorerViewLabelProvider implements ITableLabelProvider {
     /**
      * Delegates to standard workbench version for defaults
      */
-    protected ILabelProvider delegate = new CloveredProjectLabelProvider();
-    protected ColumnCollectionSettings columnSettings;
-    protected ExplorerViewSettings settings;
+    protected final ILabelProvider delegate = new CloveredProjectLabelProvider();
+    protected final ColumnCollectionSettings columnSettings;
+    protected final ExplorerViewSettings settings;
 
     public ExplorerViewLabelProvider(ExplorerViewSettings settings, ColumnCollectionSettings columnSettings) {
         this.settings = settings;

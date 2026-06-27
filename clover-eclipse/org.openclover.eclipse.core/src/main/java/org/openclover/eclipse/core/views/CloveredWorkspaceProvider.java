@@ -21,9 +21,6 @@ public abstract class CloveredWorkspaceProvider
     extends WorkbenchContentProvider
     implements IElementChangedListener, DatabaseChangeListener {
 
-    /** Duplicated here as it doesn't exist in Eclipse 3.2 so compilation against 3.2 libs fails */
-    private static final int IJAVAELEMENTDELTA_F_CLASSPATH_REORDER = 256;
-
     protected final ExplorerView part;
     protected final ExplorerViewSettings settings;
     protected NodeHierarchyBuilder nodeBuilder;

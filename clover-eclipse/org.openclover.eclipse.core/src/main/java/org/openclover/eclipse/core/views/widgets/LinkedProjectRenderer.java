@@ -16,18 +16,6 @@ public class LinkedProjectRenderer extends SelectionAwareCellRenderer {
     }
 
     @Override
-    public void startListening(Composite composite) {
-        composite.addListener(SWT.PaintItem, paintListener);
-        composite.addListener(SWT.EraseItem, eraseListener);
-    }
-
-    @Override
-    public void stopListening(Composite composite) {
-        composite.removeListener(SWT.PaintItem, paintListener);
-        composite.removeListener(SWT.EraseItem, eraseListener);
-    }
-
-    @Override
     protected void paint(Event event) {
         if (forThisColumn(event) && event.item.getData() instanceof IProject) {
             final TreeItem treeItem = (TreeItem)event.item;

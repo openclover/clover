@@ -69,11 +69,6 @@ public class ConfigureXmlPage extends ConfigureReportPage {
         threadCount.addListener(SWT.Selection, listener);
     }
 
-    @Override
-    protected File getOutput() {
-        return new File(outputPath.getText());
-    }
-
     public boolean isIncludingLineInfo() {
         return lineInfoButton.getSelection();
     }

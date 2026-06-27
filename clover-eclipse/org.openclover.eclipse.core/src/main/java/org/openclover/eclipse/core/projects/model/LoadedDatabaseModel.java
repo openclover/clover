@@ -27,7 +27,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 public class LoadedDatabaseModel extends StableDatabaseModel {
-    protected CloverDatabase database;
+    protected final CloverDatabase database;
 
     public LoadedDatabaseModel(CloverProject project, CloverDatabase database, CoverageModelChangeEvent changeEvent, boolean includeFailedCoverage) {
         super(project, changeEvent);

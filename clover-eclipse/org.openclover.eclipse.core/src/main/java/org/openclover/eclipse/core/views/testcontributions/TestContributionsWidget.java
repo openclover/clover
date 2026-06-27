@@ -39,13 +39,13 @@ public abstract class TestContributionsWidget
     implements IDoubleClickListener, IPersistable {
     
     protected Tree tree;
-    protected TreeViewer testsViewer;
+    protected final TreeViewer testsViewer;
     protected ITextEditor editor;
-    protected SelectionDispatchAction openAction;
-    protected TestContributionsComputation testContributionsComputation;
-    protected TestCaseInfoProvider provider;
-    protected TestContributionsWidgetSettings settings;
-    protected ViewPart viewPart;
+    protected final SelectionDispatchAction openAction;
+    protected final TestContributionsComputation testContributionsComputation;
+    protected final TestCaseInfoProvider provider;
+    protected final TestContributionsWidgetSettings settings;
+    protected final ViewPart viewPart;
 
     public TestContributionsWidget(TestContributionsWidgetSettings settings, ViewPart viewPart, Composite parent, int style, boolean showLabel, int treeStyle) {
         super(parent, style);

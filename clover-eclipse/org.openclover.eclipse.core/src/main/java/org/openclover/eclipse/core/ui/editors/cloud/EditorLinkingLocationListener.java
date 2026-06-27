@@ -15,8 +15,9 @@ import static org.openclover.eclipse.core.CloverPlugin.logVerbose;
 public class EditorLinkingLocationListener implements LocationListener {
     public static final String JAVAEDITOR_HREF_PREFIX = "#javaeditor:";
 
-    private CloverProject project;
-    private OpenJavaEditorAction action;
+    private final CloverProject project;
+    private final OpenJavaEditorAction action;
+
     public static final LocationListener NO_LINKING = new LocationListener() {
         @Override
         public void changing(LocationEvent locationEvent) { }

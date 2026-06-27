@@ -8,7 +8,7 @@ import org.openclover.eclipse.core.views.ColumnDefinition;
 import org.openclover.eclipse.core.views.widgets.ColumnController;
 
 public class TableColumnControlListener extends ColumnControlListener {
-    private TableColumn column;
+    private final TableColumn column;
 
     public TableColumnControlListener(ColumnController target, ColumnCollectionSettings settings, TableColumn column, int initialColumnIndex, ColumnDefinition columnDef) {
         super(target, settings, initialColumnIndex, columnDef);

@@ -40,8 +40,8 @@ public abstract class OpenReportOperation {
     }
 
     public static class OpenWithEditor extends OpenReportOperation {
-        private String editorId;
-        private Type type;
+        private final String editorId;
+        private final Type type;
         private final String name;
 
         protected OpenWithEditor(String editorId, Type type, String name) {
@@ -70,7 +70,7 @@ public abstract class OpenReportOperation {
         }
     }
 
-    public static OpenReportOperation OPEN_PDF = new OpenReportWithSystemEditor() {
+    public static final OpenReportOperation OPEN_PDF = new OpenReportWithSystemEditor() {
         @Override
         public String getName() {
             return CloverEclipsePluginMessages.SYSTEM_PDF_VIEWER();
@@ -82,7 +82,7 @@ public abstract class OpenReportOperation {
         }
     };
 
-    public static OpenReportOperation OPEN_XML_WITH_SYSTEM_EDITOR = new OpenReportWithSystemEditor() {
+    public static final OpenReportOperation OPEN_XML_WITH_SYSTEM_EDITOR = new OpenReportWithSystemEditor() {
         @Override
         public String getName() {
             return CloverEclipsePluginMessages.SYSTEM_XML_VIEWER();
@@ -94,7 +94,7 @@ public abstract class OpenReportOperation {
         }
     };
 
-    public static OpenReportOperation OPEN_HTML_WITH_SYSTEM_BROWSER = new OpenReportOperation() {
+    public static final OpenReportOperation OPEN_HTML_WITH_SYSTEM_BROWSER = new OpenReportOperation() {
         @Override
         public String getName() {
             return CloverEclipsePluginMessages.SYSTEM_BROWSER();
@@ -123,7 +123,7 @@ public abstract class OpenReportOperation {
         }
     };
 
-    public static OpenReportOperation OPEN_HTML_WITH_ECLIPSE_BROWSER = new OpenReportOperation() {
+    public static final OpenReportOperation OPEN_HTML_WITH_ECLIPSE_BROWSER = new OpenReportOperation() {
         @Override
         public String getName() {
             return CloverEclipsePluginMessages.ECLIPSE_BROWSER();

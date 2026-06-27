@@ -9,8 +9,8 @@ import java.util.Objects;
 import java.util.Set;
 
 public abstract class PackageFragmentNode extends JavaElementNode {
-    protected String name;
-    protected Set<IPackageFragment> packageFragments;
+    protected final String name;
+    protected final Set<IPackageFragment> packageFragments;
 
     public PackageFragmentNode(String name, Set<? extends IPackageFragment> fragments) {
         this.name = name;

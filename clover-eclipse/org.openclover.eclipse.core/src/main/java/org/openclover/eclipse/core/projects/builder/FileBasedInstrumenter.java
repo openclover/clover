@@ -85,7 +85,7 @@ public class FileBasedInstrumenter extends BaseInstrumenter {
     @Override
     public Iterator fileNamesAsCompilerArg() {
         return new Iterator() {
-            private Iterator iter = originalToInstrumentedFileAndEncoding.values().iterator();
+            private final Iterator iter = originalToInstrumentedFileAndEncoding.values().iterator();
 
             @Override
             public boolean hasNext() {

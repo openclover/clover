@@ -17,12 +17,11 @@ import org.openclover.core.util.MetricsFormatUtils;
 import org.openclover.eclipse.core.projects.CloveredProjectLabelProvider;
 
 public class CoverageViewMetricsPane extends Composite {
-    private TreeViewer projectTreeViewer;
-    private CoverageViewSettings settings;
-    private WorkbenchLabelProvider labelProvider;
+    private final CoverageViewSettings settings;
+    private final WorkbenchLabelProvider labelProvider;
 
-    private FormToolkit toolkit;
-    private Form form;
+    private final FormToolkit toolkit;
+    private final Form form;
     private Label passTestsValue;
     private Label failureTestsValue;
     private Label errorsValue;
@@ -45,7 +44,6 @@ public class CoverageViewMetricsPane extends Composite {
     public CoverageViewMetricsPane(Composite parent, int style, CoverageViewSettings settings, TreeViewer projectTreeViewer) {
         super(parent, style);
         this.settings = settings;
-        this.projectTreeViewer = projectTreeViewer;
 
         setLayout(new GridLayout(1, false));
 

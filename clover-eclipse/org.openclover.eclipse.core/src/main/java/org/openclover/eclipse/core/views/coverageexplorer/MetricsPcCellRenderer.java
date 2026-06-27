@@ -17,7 +17,7 @@ import org.openclover.eclipse.core.views.widgets.HistogramCellRenderer;
  * width but no smaller, and ensuring the label is always to the right of the bar.
  */
 public class MetricsPcCellRenderer extends HistogramCellRenderer {
-    private ExplorerViewSettings viewSettings;
+    private final ExplorerViewSettings viewSettings;
 
     public MetricsPcCellRenderer(Tree tree, ExplorerViewSettings viewSettings, ColumnCollectionSettings columnSettings, NumericColumnDefinition column) {
         super(tree, columnSettings, (ColumnDefinition) column);

@@ -59,7 +59,7 @@ import static org.openclover.core.util.Maps.newLinkedHashMap;
 public class TestRunExplorerView extends ExplorerView {
     public static final String ID = "org.openclover.eclipse.core.views.testrunexplorer";
     //Not threadsafe but will only be ever accessed in the UI thread
-    private static DateFormat TIME_FORMAT = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
+    private static final DateFormat TIME_FORMAT = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
 
     public static final ColumnDefinition TESTCASE_COL_ELEMENT = new BuiltinColumnDefinition(
             "TestCaseElementName",
@@ -243,11 +243,6 @@ public class TestRunExplorerView extends ExplorerView {
         }
 
         @Override
-        public boolean displaysSimpleLabel() {
-            return false;
-        }
-
-        @Override
         public ListeningRenderer newRenderer(Composite composite, final ExplorerViewSettings viewSettings) {
             return new SelectionAwareCellRenderer(viewSettings.getTreeColumnSettings(), this, composite) {
                 @Override
@@ -349,16 +344,6 @@ public class TestRunExplorerView extends ExplorerView {
         }
 
         @Override
-        public boolean displaysSimpleLabel() {
-            return false;
-        }
-
-        @Override
-        public boolean displaysImage() {
-            return false;
-        }
-
-        @Override
         public String getLabel(ExplorerViewSettings settings, MetricsScope scope, ILabelProvider delegate, Object element) {
             return null;
         }
@@ -435,7 +420,7 @@ public class TestRunExplorerView extends ExplorerView {
     private TreeViewer coverageContribPaneViewer;
     private Composite explorerTreePane;
     private Map testCaseNodeCache;
-    private ColumnController classesTestColumnController = this::updateClassesTestedSorter;
+    private final ColumnController classesTestColumnController = this::updateClassesTestedSorter;
 
     @Override
     public void init(IViewSite site, IMemento memento) throws PartInitException {

@@ -17,7 +17,7 @@ import static org.openclover.eclipse.core.CloverPlugin.logError;
 public class ContextChooserDialog extends Dialog {
 
     private ContextFilterModificationWidget contextControl;
-    private ProjectSettings properties;
+    private final ProjectSettings properties;
 
     public ContextChooserDialog(Shell parentShell, ProjectSettings properties) {
         super(parentShell);

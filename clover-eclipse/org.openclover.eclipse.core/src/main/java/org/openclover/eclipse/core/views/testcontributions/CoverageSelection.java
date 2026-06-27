@@ -4,10 +4,10 @@ import org.openclover.eclipse.core.projects.model.DatabaseModel;
 import org.openclover.eclipse.core.ui.editors.java.CoverageAnnotationModel;
 
 public class CoverageSelection {
-    private int offset;
-    private int length;
-    private DatabaseModel coverageModel;
-    private CoverageAnnotationModel annotationModel;
+    private final int offset;
+    private final int length;
+    private final DatabaseModel coverageModel;
+    private final CoverageAnnotationModel annotationModel;
 
     public CoverageSelection(int offset, int length, DatabaseModel coverageModel, CoverageAnnotationModel annotationModel) {
         this.offset = offset;

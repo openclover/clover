@@ -16,7 +16,7 @@ import org.openclover.eclipse.core.ui.editors.cloud.EclipseCloudGenerator;
 import java.io.File;
 
 public abstract class GenerateCloudJob extends Job {
-    private IProject project;
+    private final IProject project;
 
     public GenerateCloudJob(IProject project) {
         super(CloverEclipsePluginMessages.GENERATING_CLOUD_FOR(project.getName()));

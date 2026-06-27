@@ -30,8 +30,8 @@ public class GenerateReportWizard extends Wizard {
     ConfigureXmlPage configureXmlPage;
     ConfigureFilterPage configureFilterPage;
     ConfigureJvmPage configureJvmPage;
-    CloverProject initiallySelectedProject;
-    IWorkbench workbench;
+    final CloverProject initiallySelectedProject;
+    final IWorkbench workbench;
 
     public GenerateReportWizard(CloverProject project, IWorkbench workbench) {
         this.initiallySelectedProject = project;
@@ -44,7 +44,7 @@ public class GenerateReportWizard extends Wizard {
     @Override
     public void addPages() {
         // initialise the wizards pages.
-        selectReportPage = new SelectReportPage(initiallySelectedProject);
+        selectReportPage = new SelectReportPage();
         selectProjectsPage = new SelectProjectsPage(initiallySelectedProject);
         configureHtmlPage = new ConfigureHtmlPage();
         configurePdfPage = new ConfigurePdfPage();

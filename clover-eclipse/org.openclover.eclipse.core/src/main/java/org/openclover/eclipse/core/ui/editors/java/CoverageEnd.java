@@ -4,11 +4,11 @@ import org.eclipse.jface.text.BadLocationException;
 import org.openclover.eclipse.core.ui.editors.java.annotations.strategies.CoverageAnnotationBuilder;
 
 class CoverageEnd extends CoverageEdge {
-    public CoverageBeginning begining;
+    private final CoverageBeginning beginning;
 
     public CoverageEnd(CoverageBeginning beginning) {
         super(beginning.getInfo());
-        this.begining = beginning;
+        this.beginning = beginning;
     }
 
     @Override
@@ -22,7 +22,7 @@ class CoverageEnd extends CoverageEdge {
     }
 
     public boolean equals(Object o) {
-        return super.equals(o) && begining.equals(((CoverageEnd) o).begining);
+        return super.equals(o) && beginning.equals(((CoverageEnd) o).beginning);
     }
 
     @Override

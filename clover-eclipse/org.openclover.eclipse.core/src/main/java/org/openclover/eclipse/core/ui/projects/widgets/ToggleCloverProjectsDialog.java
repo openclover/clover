@@ -40,7 +40,7 @@ public class ToggleCloverProjectsDialog extends Dialog {
 
     private Table projectTable;
     private TableViewer projectTableViewer;
-    private Set projectsToToggle = newHashSet();
+    private final Set projectsToToggle = newHashSet();
     private LocalResourceManager resourceManager;
     private Composite warningComposite;
     private Label prompt;

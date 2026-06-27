@@ -11,7 +11,7 @@ public abstract class ExplorerViewSettings implements IPersistable {
     public static final String HIERARCHY_STYLE = "hierarchy.style";
 
     protected int hierarchyStyle;
-    protected ColumnCollectionSettings treeColumnSettings;
+    protected final ColumnCollectionSettings treeColumnSettings;
 
     public ExplorerViewSettings(IMemento memento) {
         hierarchyStyle = defaultHierarchyStyle();

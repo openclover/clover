@@ -79,7 +79,7 @@ public abstract class ExplorerView extends CloverViewPart {
     /**
      * Adapts column labels as columns are squeezed or stretched
      */
-    protected TreeColumnLabeler treeColumnLabeler = new TreeColumnLabeler();
+    protected final TreeColumnLabeler treeColumnLabeler = new TreeColumnLabeler();
     /**
      * Persisted settings for view
      */
@@ -103,8 +103,8 @@ public abstract class ExplorerView extends CloverViewPart {
 
     private ExplorerView.ActivationPartListener thisPartActivationListener;
 
-    protected ColumnController treeColumnController = this::buildTreeSorter;
-    private TreeColumnManager treeColumnManager = new TreeColumnManager();
+    private final ColumnController treeColumnController = this::buildTreeSorter;
+    private final TreeColumnManager treeColumnManager = new TreeColumnManager();
     private Map<TreeColumn, TreeColumnControlListener> columnListeners = newHashMap();
 
     /**
@@ -252,7 +252,6 @@ public abstract class ExplorerView extends CloverViewPart {
         alertContainer = new ViewAlertContainer(parent);
         mainContent = new SashForm(alertContainer, calcViewOrientation());
         mainContent.setLayoutData(new GridData(GridData.FILL_BOTH));
-        alertContainer.setContent(mainContent);
 
         //Beware! Ordering here is very important to avoid NPEs and cyclical dependencies!
         buildTree();
@@ -442,7 +441,7 @@ public abstract class ExplorerView extends CloverViewPart {
     }
 
     protected abstract static class JavaElementDblClickListener implements IDoubleClickListener {
-        private SelectionDispatchAction action;
+        private final SelectionDispatchAction action;
 
         protected JavaElementDblClickListener(SelectionDispatchAction action) {
             this.action = action;

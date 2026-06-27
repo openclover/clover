@@ -7,7 +7,7 @@ import org.openclover.eclipse.core.views.nodes.ProjToPkgFragRootRelationship;
 import org.openclover.eclipse.core.views.nodes.WorkspaceToCloveredProjRelationship;
 
 public class PackageRootsHierarchyBuilder extends NodeHierarchyBuilder {
-    private TestCaseNodeFactory tcnFactory;
+    private final TestCaseNodeFactory tcnFactory;
 
     public PackageRootsHierarchyBuilder(TestCaseNodeFactory tcnFactory) {
         this.tcnFactory = tcnFactory;

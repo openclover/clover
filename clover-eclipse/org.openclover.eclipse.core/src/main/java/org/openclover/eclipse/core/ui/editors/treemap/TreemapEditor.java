@@ -188,7 +188,7 @@ public class TreemapEditor extends EditorPart {
     }
 
     private class ZoomAction extends Action {
-        private TreeMapNode node;
+        private final TreeMapNode node;
 
         /**
          * Constructor

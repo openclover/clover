@@ -44,8 +44,7 @@ class AnnotationSpaceWithFragments extends AnnotationSpace {
     public void resumeWithNewAnnotationFragment(SourceInfo region) throws BadLocationException {
         fragments.add(
             new AnnotationFragmentOnResumption(
-                database,
-                document,
+                    document,
                 getFirstFragment().getRegion(),
                 tcisAndHitsForFile,
                 getFirstFragment().isHidden(),
@@ -108,7 +107,7 @@ class AnnotationSpaceWithFragments extends AnnotationSpace {
         //represents the continuation of the enclosing node after
         //the rupture caused by the child node
         if (getLastFragment() == null || getLastFragment().isClosed()) {
-            fragments.add(new AnnotationFragmentOnStart(database, document, region, tcisAndHitsForFile, hidden));
+            fragments.add(new AnnotationFragmentOnStart(document, region, tcisAndHitsForFile, hidden));
         }
     }
 
