@@ -10,7 +10,7 @@
     </parent>
     <groupId>org.openclover.idea.libs</groupId>
     <artifactId>clover-idea-all</artifactId>
-    <version>223.8836.41</version> <!-- major.minor.build (2022.3.3 build IC-223.8836.41) -->
+    <version>233.15619.7</version> <!-- major.minor.build (2023.3.8 build IC-233.15619.7) -->
     <packaging>pom</packaging>
     <name>IDEA Libraries as Maven Dependencies</name>
     <description>
@@ -23,173 +23,158 @@
         <!-- Generated automatically by ./generate-idea-dependencies.sh -->
         <dependency>
             <groupId>org.openclover.idea.libs</groupId>
-            <artifactId>3rd-party-native</artifactId>
-            <version>223.8836.41</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openclover.idea.libs</groupId>
-            <artifactId>3rd-party-rt</artifactId>
-            <version>223.8836.41</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openclover.idea.libs</groupId>
             <artifactId>annotations</artifactId>
-            <version>223.8836.41</version>
+            <version>233.15619.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover.idea.libs</groupId>
+            <artifactId>app-client</artifactId>
+            <version>233.15619.7</version>
         </dependency>
         <dependency>
             <groupId>org.openclover.idea.libs</groupId>
             <artifactId>app</artifactId>
-            <version>223.8836.41</version>
+            <version>233.15619.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover.idea.libs</groupId>
+            <artifactId>bouncy-castle</artifactId>
+            <version>233.15619.7</version>
         </dependency>
         <dependency>
             <groupId>org.openclover.idea.libs</groupId>
             <artifactId>byte-buddy-agent</artifactId>
-            <version>223.8836.41</version>
+            <version>233.15619.7</version>
         </dependency>
         <dependency>
             <groupId>org.openclover.idea.libs</groupId>
             <artifactId>error-prone-annotations</artifactId>
-            <version>223.8836.41</version>
+            <version>233.15619.7</version>
         </dependency>
         <dependency>
             <groupId>org.openclover.idea.libs</groupId>
             <artifactId>external-system-rt</artifactId>
-            <version>223.8836.41</version>
+            <version>233.15619.7</version>
         </dependency>
         <dependency>
             <groupId>org.openclover.idea.libs</groupId>
             <artifactId>externalProcess-rt</artifactId>
-            <version>223.8836.41</version>
+            <version>233.15619.7</version>
         </dependency>
         <dependency>
             <groupId>org.openclover.idea.libs</groupId>
             <artifactId>forms_rt</artifactId>
-            <version>223.8836.41</version>
+            <version>233.15619.7</version>
         </dependency>
         <dependency>
             <groupId>org.openclover.idea.libs</groupId>
             <artifactId>groovy</artifactId>
-            <version>223.8836.41</version>
+            <version>233.15619.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover.idea.libs</groupId>
+            <artifactId>grpc</artifactId>
+            <version>233.15619.7</version>
         </dependency>
         <dependency>
             <groupId>org.openclover.idea.libs</groupId>
             <artifactId>idea_rt</artifactId>
-            <version>223.8836.41</version>
+            <version>233.15619.7</version>
         </dependency>
         <dependency>
             <groupId>org.openclover.idea.libs</groupId>
-            <artifactId>intellij-coverage-agent-1.0.682</artifactId>
-            <version>223.8836.41</version>
+            <artifactId>intellij-coverage-agent-1.0.738</artifactId>
+            <version>233.15619.7</version>
         </dependency>
         <dependency>
             <groupId>org.openclover.idea.libs</groupId>
             <artifactId>intellij-test-discovery</artifactId>
-            <version>223.8836.41</version>
+            <version>233.15619.7</version>
         </dependency>
         <dependency>
             <groupId>org.openclover.idea.libs</groupId>
             <artifactId>jps-model</artifactId>
-            <version>223.8836.41</version>
+            <version>233.15619.7</version>
         </dependency>
         <dependency>
             <groupId>org.openclover.idea.libs</groupId>
             <artifactId>jsch-agent</artifactId>
-            <version>223.8836.41</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openclover.idea.libs</groupId>
-            <artifactId>jsp-base</artifactId>
-            <version>223.8836.41</version>
+            <version>233.15619.7</version>
         </dependency>
         <dependency>
             <groupId>org.openclover.idea.libs</groupId>
             <artifactId>junit</artifactId>
-            <version>223.8836.41</version>
+            <version>233.15619.7</version>
         </dependency>
         <dependency>
             <groupId>org.openclover.idea.libs</groupId>
             <artifactId>junit4</artifactId>
-            <version>223.8836.41</version>
+            <version>233.15619.7</version>
         </dependency>
         <dependency>
             <groupId>org.openclover.idea.libs</groupId>
-            <artifactId>platform-duplicates-analysis</artifactId>
-            <version>223.8836.41</version>
+            <artifactId>lib-client</artifactId>
+            <version>233.15619.7</version>
         </dependency>
         <dependency>
             <groupId>org.openclover.idea.libs</groupId>
-            <artifactId>platform-objectSerializer-annotations</artifactId>
-            <version>223.8836.41</version>
+            <artifactId>lib</artifactId>
+            <version>233.15619.7</version>
         </dependency>
         <dependency>
             <groupId>org.openclover.idea.libs</groupId>
-            <artifactId>platform-statistics-devkit</artifactId>
-            <version>223.8836.41</version>
+            <artifactId>modules</artifactId>
+            <version>233.15619.7</version>
         </dependency>
         <dependency>
             <groupId>org.openclover.idea.libs</groupId>
-            <artifactId>platform-structuralSearch</artifactId>
-            <version>223.8836.41</version>
+            <artifactId>platform-loader</artifactId>
+            <version>233.15619.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover.idea.libs</groupId>
+            <artifactId>product-client</artifactId>
+            <version>233.15619.7</version>
         </dependency>
         <dependency>
             <groupId>org.openclover.idea.libs</groupId>
             <artifactId>protobuf</artifactId>
-            <version>223.8836.41</version>
+            <version>233.15619.7</version>
         </dependency>
         <dependency>
             <groupId>org.openclover.idea.libs</groupId>
             <artifactId>rd</artifactId>
-            <version>223.8836.41</version>
+            <version>233.15619.7</version>
         </dependency>
         <dependency>
             <groupId>org.openclover.idea.libs</groupId>
             <artifactId>stats</artifactId>
-            <version>223.8836.41</version>
+            <version>233.15619.7</version>
         </dependency>
         <dependency>
             <groupId>org.openclover.idea.libs</groupId>
             <artifactId>testFramework</artifactId>
-            <version>223.8836.41</version>
+            <version>233.15619.7</version>
         </dependency>
         <dependency>
             <groupId>org.openclover.idea.libs</groupId>
-            <artifactId>tools-testsBootstrap</artifactId>
-            <version>223.8836.41</version>
+            <artifactId>util-8</artifactId>
+            <version>233.15619.7</version>
         </dependency>
         <dependency>
             <groupId>org.openclover.idea.libs</groupId>
             <artifactId>util</artifactId>
-            <version>223.8836.41</version>
+            <version>233.15619.7</version>
         </dependency>
         <dependency>
             <groupId>org.openclover.idea.libs</groupId>
             <artifactId>util_rt</artifactId>
-            <version>223.8836.41</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openclover.idea.libs</groupId>
-            <artifactId>xml-dom-impl</artifactId>
-            <version>223.8836.41</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openclover.idea.libs</groupId>
-            <artifactId>xml-dom</artifactId>
-            <version>223.8836.41</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openclover.idea.plugins</groupId>
-            <artifactId>devkit-jps</artifactId>
-            <version>223.8836.41</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openclover.idea.plugins</groupId>
-            <artifactId>devkit</artifactId>
-            <version>223.8836.41</version>
+            <version>233.15619.7</version>
         </dependency>
         <dependency>
             <groupId>org.openclover.idea.plugins</groupId>
             <artifactId>properties</artifactId>
-            <version>223.8836.41</version>
+            <version>233.15619.7</version>
         </dependency>
         <!-- End of generated by ./generate-idea-dependencies.sh -->
 
