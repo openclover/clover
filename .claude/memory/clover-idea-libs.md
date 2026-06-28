@@ -8,22 +8,22 @@ One IDEA major release per calendar year is targeted.
 
 ---
 
-## IDEA versions to add as lib tags
+## IDEA versions — lib tags and Phase 2 status
 
-| IDEA version | Download URL filename         | Extracted dir              | Build number     | Tag                                    |
-|--------------|-------------------------------|----------------------------|------------------|----------------------------------------|
-| 15.0.6       | `ideaIC-15.0.6.tar.gz`        | `idea-IC-143.2370.31`      | `143.2370.31`    | `clover-idea-libs-15.0.143237031`      |
-| 2016.3.8     | `ideaIC-2016.3.8.tar.gz`      | `idea-IC-163.15529.8`      | `163.15529.8`    | **already tagged** `clover-idea-libs-2016.3.163155298` |
-| 2017.3.7     | `ideaIC-2017.3.7.tar.gz`      | `idea-IC-173.4710.11`      | `173.4710.11`    | `clover-idea-libs-2017.3.173471011`    |
-| 2018.3.6     | `ideaIC-2018.3.6.tar.gz`      | `idea-IC-183.6156.11`      | `183.6156.11`    | `clover-idea-libs-2018.3.183615611`    |
-| 2019.3.5     | `ideaIC-2019.3.5.tar.gz`      | `idea-IC-193.7288.26`      | `193.7288.26`    | `clover-idea-libs-2019.3.193728826`    |
-| 2020.3.4     | `ideaIC-2020.3.4.tar.gz`      | `idea-IC-203.8084.24`      | `203.8084.24`    | `clover-idea-libs-2020.3.203808424`    |
-| 2021.3.3     | `ideaIC-2021.3.3.tar.gz`      | `idea-IC-213.7172.25`      | `213.7172.25`    | `clover-idea-libs-2021.3.213717225`    |
-| 2022.3.3     | `ideaIC-2022.3.3.tar.gz`      | `idea-IC-223.8836.41`      | `223.8836.41`    | `clover-idea-libs-2022.3.223883641`    |
-| 2023.3.8     | `ideaIC-2023.3.8.tar.gz`      | `idea-IC-233.15619.7`      | `233.15619.7`    | `clover-idea-libs-2023.3.233156197`    |
-| 2024.3.7.1   | `ideaIC-2024.3.7.1.tar.gz`    | `idea-IC-243.28141.41`     | `243.28141.41`   | `clover-idea-libs-2024.3.2432814141`   |
-| 2025.3.6     | `idea-2025.3.6.tar.gz`        | `idea-IU-253.33813.25`     | `253.33813.25`   | `clover-idea-libs-2025.3.2533381325`   |
-| 2026.1.3     | `idea-2026.1.3.tar.gz`        | `idea-IU-261.25134.95`     | `261.25134.95`   | `clover-idea-libs-2026.1.2612513495`   |
+| IDEA version | Build number     | Tag                                    | Phase 1 tag | Phase 2 clover-idea |
+|--------------|------------------|----------------------------------------|-------------|---------------------|
+| 15.0.6       | `143.2370.31`    | `clover-idea-libs-15.0.143237031`      | ✅ done      | ✅ done              |
+| 2016.3.8     | `163.15529.8`    | `clover-idea-libs-2016.3.163155298`    | ✅ done (force-updated — old tag pointed to OC-61 era commit) | ✅ done |
+| 2017.3.7     | `173.4710.11`    | `clover-idea-libs-2017.3.173471011`    | ✅ done      | ⬜ next              |
+| 2018.3.6     | `183.6156.11`    | `clover-idea-libs-2018.3.183615611`    | ✅ done      | ⬜                   |
+| 2019.3.5     | `193.7288.26`    | `clover-idea-libs-2019.3.193728826`    | ✅ done      | ⬜                   |
+| 2020.3.4     | `203.8084.24`    | `clover-idea-libs-2020.3.203808424`    | ✅ done      | ⬜                   |
+| 2021.3.3     | `213.7172.25`    | `clover-idea-libs-2021.3.213717225`    | ✅ done      | ⬜                   |
+| 2022.3.3     | `223.8836.41`    | `clover-idea-libs-2022.3.223883641`    | ✅ done      | ⬜                   |
+| 2023.3.8     | `233.15619.7`    | `clover-idea-libs-2023.3.233156197`    | ✅ done      | ⬜                   |
+| 2024.3.7.1   | `243.28141.41`   | `clover-idea-libs-2024.3.2432814141`   | ✅ done      | ⬜                   |
+| 2025.3.6     | `253.33813.25`   | `clover-idea-libs-2025.3.2533381325`   | ✅ done      | ⬜                   |
+| 2026.1.3     | `261.25134.95`   | `clover-idea-libs-2026.1.2612513495`   | ✅ done      | ⬜                   |
 
 **Note on filename prefix:** For IDEA 2025+ the archive is `idea-*.tar.gz` (no `IC`); extracted as `idea-IU-*` (Ultimate edition — superset of Community, fine for compilation classpath).
 **Note on devkit plugin:** Not present in 2025/2026 IU archives; omitted from those lib tags automatically by the generate scripts.
@@ -54,9 +54,13 @@ Useful when resolving API compatibility problems:
 
 ---
 
-## Phase 1 — Create Maven lib tags for each IDEA version
+## Phase 1 — Create Maven lib tags for each IDEA version (COMPLETE)
 
-Repeat the steps below for each IDEA version in the table above (skip 2016.3 — already done).
+All tags from IDEA 15.0 through 2026.1 exist on branch `OC-68-support-intellij-2018`. See table above.
+
+**Note on 2016.3 tag:** `clover-idea-libs-2016.3.163155298` existed from OC-61 era but pointed to an old commit that predated the `clover-idea-libs` Maven module. It was force-updated (`git tag -f`) to the correct commit in this effort.
+
+Repeat the steps below for each future IDEA version.
 
 ### Steps per version
 
@@ -111,38 +115,86 @@ Repeat the steps below for each IDEA version in the table above (skip 2016.3 —
 
 ---
 
-## Phase 2 — Bump clover-idea version and fix compilation
+## Phase 2 — Bump clover-idea version and fix compilation (IN PROGRESS)
 
-After all lib tags exist, bump `clover-idea` one IDEA version at a time.
+`clover-idea` currently compiles and tests against **IDEA 2016.3.8** (`163.15529.8`). **Next: 2017.3.**
+
+### Completed bumps
+
+| Bump | Test fixes required |
+|------|---------------------|
+| 14.1.7 → 15.0.6 | None |
+| 15.0.6 → 2016.3.8 | See below |
+
+**IDEA 2016.3 test fixes:**
+
+1. **`@NotNull` bytecode instrumentation** (`FileBasedJUnitClassListProcessorIdeaTest`):
+   IDEA 2016.3 runtime injects null-checks for `@NotNull`-annotated parameters at class load time.
+   `TestedProcessor.optimize()` had `@NotNull settings` but was called with `null` → `IllegalArgumentException`.
+   Fix: remove `@NotNull` from the parameter (it was on an internal test stub, never enforced before).
+
+2. **EDT deadlock in `Task.Backgroundable.queue()`** (`SockedBasedJUnitClassListProcessorIdeaTest`):
+   In IDEA 2016.3, headless non-EDT `Task.Backgroundable.queue()` ends with `invokeAndWait(finishTask)` dispatched to the EDT. The test's main thread IS the EDT; blocking it in `latch.await()` deadlocked.
+   Fix: replace `latch.await(timeout)` with a loop calling `UIUtil.dispatchAllInvocationEvents()` between `latch.await(10ms)` polls — drains pending EDT events so `invokeAndWait` can complete.
 
 ### Steps per bump
 
-1. **Update `clover-idea/pom.xml` properties:**
+1. Install version-specific IDEA libs (from Phase 1 tag):
+   ```
+   git show clover-idea-libs-YEAR.MINOR.BUILDNODOTS:clover-idea-libs/pom.xml > clover-idea-libs/pom.xml
+   git show clover-idea-libs-YEAR.MINOR.BUILDNODOTS:clover-idea-libs/clover-idea-all/pom.xml > clover-idea-libs/clover-idea-all/pom.xml
+   mvn install -Pworkspace-setup -f clover-idea-libs/pom.xml
+   ```
+
+2. **Update `clover-idea/pom.xml` properties:**
    ```xml
    <idea.version>BUILD</idea.version>
    <idea.version.short>YEAR.MINOR.PATCH</idea.version.short>
    ```
 
-2. **Compile:**
+3. **Compile and test:**
    ```
-   mvn compile -pl clover-idea -am -Didea.version=BUILD
+   mvn install -DskipTests -pl clover-idea -Didea.version=BUILD -Didea.version.short=YEAR.MINOR.PATCH
+   mvn test -pl clover-idea -Didea.version=BUILD -Didea.version.short=YEAR.MINOR.PATCH
    ```
 
-3. **Fix compilation errors.** Common categories:
+4. **Fix compilation errors.** Common categories:
    - Removed/renamed classes (use `javap -c` on the new lib JAR or the source archive)
    - Changed method signatures (add casts, update parameter types)
    - Deprecated API now removed
    - Plugin XML descriptor issues (EP names, extension points renamed)
+   - Test-infra changes (null-check instrumentation, EDT threading changes — see IDEA 2016.3 fixes above)
 
-4. **Run tests:**
-   ```
-   mvn test -pl clover-idea
-   ```
-   Fix failing tests; distinguish test-infra failures from real regressions.
+5. **Commit:** Two commits per bump:
+   - Libs poms only → tag `clover-idea-libs-YEAR.MINOR.BUILDNODOTS` (if tag needs updating, `git tag -f`)
+   - `clover-idea/pom.xml` + test fixes
 
-5. **Commit per fix** with message `OC-68: fix compatibility with IDEA YEAR.MINOR - <brief description>`
+6. **Add to CI matrix** in `.github/workflows/B-idea-compatibility-tests.yml`.
 
-6. **Repeat until all tests pass**, then move to next IDEA version.
+### Baseline failures (pre-existing, not regressions)
+
+These fail consistently regardless of IDEA version and can be ignored:
+- `CoverageTreeModelTest` — fixture uses old package names
+- `CoverageContributionTreeBuilderTest` — same
+- `TestRunExplorerTreeBuilderTest` — NullPointerException
+- `TestRunExplorerTreeBuilderIdeaTest` — assertNotNull fail
+- `WhenReplacingTestManifestFileTest.testMoveFileShouldCopeWithNonWritableDest` — skipped on exFAT (shows as Error in JUnit 3)
+
+Expected result: 124 tests, Failures: 3, Errors: 4, Skipped: 0
+
+---
+
+## CI — B-idea-compatibility-tests.yml
+
+`.github/workflows/B-idea-compatibility-tests.yml` runs `clover-idea` unit tests in a matrix, one job per IDEA version. Key points:
+
+- Checks out with `fetch-tags: true` (needed for `git show <tag>:…`)
+- Replaces `clover-idea-libs/pom.xml` and `clover-idea-all/pom.xml` from the Phase 1 tag
+- Cache key: `runner.os-idea-<idea-build>` — keyed by build number, NOT pom hash (pom is replaced)
+- Passes `-Didea.version` and `-Didea.version.short` overrides to Maven (no pom edit needed)
+- Add a new `include:` entry when each Phase 2 bump is complete
+
+Current matrix: IDEA 15.0.6 (JDK 8), IDEA 2016.3.8 (JDK 8).
 
 ---
 
