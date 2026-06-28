@@ -59,7 +59,7 @@ public class CoverageContributionTreeBuilderTest extends TestCase {
 
         DefaultMutableTreeNode pkgNode = (DefaultMutableTreeNode) rootNode.getChildAt(0);
         PackageInfo pkg = (PackageInfo) pkgNode.getUserObject();
-        assertEquals("com.cenqua.clovertest", pkg.getName());
+        assertEquals("org.openclover.idea.testproject", pkg.getName());
         assertEquals(2, pkgNode.getChildCount());
 
         model.sortByColumn(0);
@@ -109,10 +109,10 @@ public class CoverageContributionTreeBuilderTest extends TestCase {
         TestCaseInfo troublesome = findTestCase(cloverDb, "testAB");
         builder.processClassesFor(cloverDb, troublesome, false);
 
-        DefaultMutableTreeNode pkgNode = (DefaultMutableTreeNode) rootNode.getChildAt(0).getChildAt(0).getChildAt(0);
+        DefaultMutableTreeNode pkgNode = (DefaultMutableTreeNode) rootNode.getChildAt(0).getChildAt(0).getChildAt(0).getChildAt(0);
         SimplePackageFragment pkg = (SimplePackageFragment) pkgNode.getUserObject();
 
-        assertEquals("clovertest", pkg.getName());
+        assertEquals("testproject", pkg.getName());
         assertEquals(2, pkgNode.getChildCount());
 
     }
@@ -154,12 +154,12 @@ public class CoverageContributionTreeBuilderTest extends TestCase {
     }
 
     private void verifyAMStructure(boolean reverse) {
-        DefaultMutableTreeNode clovertestNode = (DefaultMutableTreeNode) rootNode.getChildAt(0).getChildAt(0).getChildAt(0);
-        SimplePackageFragment clovertestPkg = (SimplePackageFragment) clovertestNode.getUserObject();
-        DefaultMutableTreeNode subpackageNode = (DefaultMutableTreeNode) clovertestNode.getFirstChild();
+        DefaultMutableTreeNode testprojectNode = (DefaultMutableTreeNode) rootNode.getChildAt(0).getChildAt(0).getChildAt(0).getChildAt(0);
+        SimplePackageFragment testprojectPkg = (SimplePackageFragment) testprojectNode.getUserObject();
+        DefaultMutableTreeNode subpackageNode = (DefaultMutableTreeNode) testprojectNode.getFirstChild();
         SimplePackageFragment subPkg = (SimplePackageFragment) subpackageNode.getUserObject();
 
-        assertEquals("clovertest", clovertestPkg.getName());
+        assertEquals("testproject", testprojectPkg.getName());
         assertEquals("subpackage", subPkg.getName());
 
         final TreeNode mClass = subpackageNode.getFirstChild();
@@ -171,13 +171,13 @@ public class CoverageContributionTreeBuilderTest extends TestCase {
     }
 
     private void verifyABStructure(boolean reverse) {
-        DefaultMutableTreeNode clovertestNode = (DefaultMutableTreeNode) rootNode.getChildAt(0).getChildAt(0).getChildAt(0);
-        SimplePackageFragment clovertestPkg = (SimplePackageFragment) clovertestNode.getUserObject();
+        DefaultMutableTreeNode testprojectNode = (DefaultMutableTreeNode) rootNode.getChildAt(0).getChildAt(0).getChildAt(0).getChildAt(0);
+        SimplePackageFragment testprojectPkg = (SimplePackageFragment) testprojectNode.getUserObject();
 
-        assertEquals("clovertest", clovertestPkg.getName());
+        assertEquals("testproject", testprojectPkg.getName());
 
-        final TreeNode class1Node = clovertestNode.getFirstChild();
-        final TreeNode class2Node = clovertestNode.getLastChild();
+        final TreeNode class1Node = testprojectNode.getFirstChild();
+        final TreeNode class2Node = testprojectNode.getLastChild();
 
         CoverageDataHolder classA = (CoverageDataHolder) ((DefaultMutableTreeNode) (reverse ? class2Node : class1Node)).getUserObject();
         CoverageDataHolder classB = (CoverageDataHolder) ((DefaultMutableTreeNode) (reverse ? class1Node : class2Node)).getUserObject();

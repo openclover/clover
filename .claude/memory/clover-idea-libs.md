@@ -123,7 +123,7 @@ Repeat the steps below for each future IDEA version.
 
 | Bump | Test fixes required |
 |------|---------------------|
-| 14.1.7 → 15.0.6 | None |
+| 14.1.7 → 15.0.6 | 6 stale assertions (testproject package rename not reflected in tests — see "Baseline failures" below) |
 | 15.0.6 → 2016.3.8 | See below |
 
 **IDEA 2016.3 test fixes:**
@@ -171,16 +171,17 @@ Repeat the steps below for each future IDEA version.
 
 6. **Add to CI matrix** in `.github/workflows/B-idea-compatibility-tests.yml`.
 
-### Baseline failures (pre-existing, not regressions)
+### Baseline failures (pre-existing, now fixed)
 
-These fail consistently regardless of IDEA version and can be ignored:
-- `CoverageTreeModelTest` — fixture uses old package names
-- `CoverageContributionTreeBuilderTest` — same
-- `TestRunExplorerTreeBuilderTest` — NullPointerException
-- `TestRunExplorerTreeBuilderIdeaTest` — assertNotNull fail
-- `WhenReplacingTestManifestFileTest.testMoveFileShouldCopeWithNonWritableDest` — skipped on exFAT (shows as Error in JUnit 3)
+The 6 failures that appeared on IDEA 15.0.6 CI (5 failures + 1 error) were all caused by the same root cause: the testproject package was renamed from `com.cenqua.clovertest` to `org.openclover.idea.testproject` (commit `2d714e26`) but test assertions were never updated. They surfaced only when the CI workflow was added. Fixed in the 14.1.7 → 15.0.6 bump:
 
-Expected result: 124 tests, Failures: 3, Errors: 4, Skipped: 0
+- `CoverageContributionTreeBuilderTest` — updated package name `"com.cenqua.clovertest"` → `"org.openclover.idea.testproject"`, flat-tree leaf `"clovertest"` → `"testproject"`, navigation depth 3 → 4 `getChildAt(0)` calls (4 package segments now).
+- `TestRunExplorerTreeBuilderTest.testBuildTree` — NPE from `findNamedNode` returning null; updated both package lookup strings.
+- `CoverageTreeModelTest.testRecordedTestCases` — `"com"` → `"org"`, `"com.cenqua.clovertest"` → `"org.openclover.idea.testproject"`.
+- `TestRunExplorerTreeBuilderIdeaTest.testUniqueCoverage` — `findClass("com.cenqua.clovertest.A")` → `findClass("org.openclover.idea.testproject.A")`.
+
+**Expected result on Linux CI (all IDEA versions):** all tests pass except:
+- `WhenReplacingTestManifestFileTest.testMoveFileShouldCopeWithNonWritableDest` — skipped on exFAT (shows as Error in JUnit 3); passes on Linux ext4 (CI should be clean).
 
 ---
 

@@ -52,14 +52,14 @@ public class TestRunExplorerTreeBuilderTest extends TestCase {
         assertEquals(1, rootNode.getSiblingCount());
         assertEquals(2, rootNode.getChildCount());
 
-        DefaultMutableTreeNode parentPgkNode = findNamedNode(rootNode, "com.cenqua.clovertest");
+        DefaultMutableTreeNode parentPgkNode = findNamedNode(rootNode, "org.openclover.idea.testproject");
         assertEquals(4, parentPgkNode.getChildCount());
 
         DefaultMutableTreeNode aOnlyTestNode = findNamedNode(parentPgkNode, "AOnlyTest");
         assertEquals(4, aOnlyTestNode.getChildCount());
 
 
-        DefaultMutableTreeNode subpackageNode = findNamedNode(rootNode, "com.cenqua.clovertest.subpackage");
+        DefaultMutableTreeNode subpackageNode = findNamedNode(rootNode, "org.openclover.idea.testproject.subpackage");
         assertEquals(1, subpackageNode.getChildCount());
 
 

@@ -28,7 +28,7 @@ public class TestRunExplorerTreeBuilderIdeaTest extends LightIdeaTestCase {
     public void testUniqueCoverage() {
         ProjectInfo projectInfo = cloverDb.getFullModel();
 
-        ClassInfo aClass = projectInfo.findClass("com.cenqua.clovertest.A");
+        ClassInfo aClass = projectInfo.findClass("org.openclover.idea.testproject.A");
         assertNotNull(aClass);
 
         final CoverageManager coverageManager = Mockito.mock(CoverageManager.class);
@@ -55,7 +55,7 @@ public class TestRunExplorerTreeBuilderIdeaTest extends LightIdeaTestCase {
     }
 
     public void testObsoleteCalculation() throws CloverException {
-        ClassInfo aClass = cloverDb.getFullModel().findClass("com.cenqua.clovertest.A");
+        ClassInfo aClass = cloverDb.getFullModel().findClass("org.openclover.idea.testproject.A");
 
         final CoverageManager coverageManager = Mockito.mock(CoverageManager.class);
         Mockito.when(coverageManager.getCoverage()).thenReturn(new CloverDatabase(path));
