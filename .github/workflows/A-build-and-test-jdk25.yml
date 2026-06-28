@@ -53,3 +53,13 @@ jobs:
       - name: Run tests for runtime, core, groovy, ant
         run: |
           mvn --batch-mode verify -pl clover-runtime,clover-core,clover-groovy,clover-ant
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-jdk25
+          path: |
+            **/target/surefire-reports/*.xml
+            **/target/failsafe-reports/*.xml
+          if-no-files-found: ignore
