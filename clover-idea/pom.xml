@@ -306,7 +306,7 @@
         </plugins>
     </build>
     <properties>
-        <idea.version>143.2370.31</idea.version>
-        <idea.version.short>15.0.6</idea.version.short>
+        <idea.version>163.15529.8</idea.version>
+        <idea.version.short>2016.3.8</idea.version.short>
     </properties>
 </project>
