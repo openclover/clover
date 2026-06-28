@@ -1,6 +1,7 @@
 package org.openclover.runtime.registry.format;
 
 import java.io.IOException;
+import java.nio.Buffer;
 import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
@@ -22,7 +23,10 @@ public class BufferUtils {
         if (buffer.hasRemaining()) {
             throw new BufferUnderflowException();
         }
-        buffer.flip();
+        // Cast to Buffer before flip() so the call resolves to Buffer.flip():Buffer at compile time.
+        // Without the cast, JDK 9+ compilers resolve it to ByteBuffer.flip():ByteBuffer (covariant override),
+        // producing bytecode that fails with NoSuchMethodError on JDK 8 at runtime.
+        ((Buffer) buffer).flip();
         return buffer;
     }
 

@@ -23,6 +23,7 @@ import org.openclover.runtime.Logger;
 import org.openclover.runtime.registry.format.BufferUtils;
 
 import java.io.IOException;
+import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.Collection;
@@ -196,7 +197,7 @@ public class InstrSessionSegment {
         headerBuffer.putLong(startTs);                                      //8
         headerBuffer.putLong(version);                                      //8
         headerBuffer.putInt(Footer.MARKER);                                 //4
-        headerBuffer.flip();                                                //=40
+        ((Buffer) headerBuffer).flip();                                     //=40 (cast: see BufferUtils.readFully)
         BufferUtils.writeFully(channel, headerBuffer);
     }
 }
