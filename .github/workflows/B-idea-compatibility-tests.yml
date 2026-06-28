@@ -28,6 +28,10 @@ jobs:
             idea-libs-tag: "2017.3.173471011"
             idea-build: "173.4710.11"
             jdk-version: 8
+          - idea-version: "2018.3.6"
+            idea-libs-tag: "2018.3.183615611"
+            idea-build: "183.6156.11"
+            jdk-version: 8
 
     steps:
       - uses: actions/checkout@v4
@@ -59,12 +63,6 @@ jobs:
           git show clover-idea-libs-${{ matrix.idea-libs-tag }}:clover-idea-libs/clover-idea-all/pom.xml \
             > clover-idea-libs/clover-idea-all/pom.xml
           mvn --batch-mode install -Pworkspace-setup -f clover-idea-libs/pom.xml
-
-      - name: Download KTreemap fork
-        run: |
-          wget https://packages.atlassian.com/mvn/maven-atlassian-external/net/sf/jtreemap/ktreemap/1.1.0-atlassian-01/ktreemap-1.1.0-atlassian-01.jar
-          wget https://packages.atlassian.com/mvn/maven-atlassian-external/net/sf/jtreemap/ktreemap/1.1.0-atlassian-01/ktreemap-1.1.0-atlassian-01.pom
-          mvn --batch-mode install:install-file -Dfile=ktreemap-1.1.0-atlassian-01.jar -DpomFile=ktreemap-1.1.0-atlassian-01.pom
 
       - name: Build all modules
         run: |

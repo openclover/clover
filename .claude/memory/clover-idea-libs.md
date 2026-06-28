@@ -15,8 +15,8 @@ One IDEA major release per calendar year is targeted.
 | 15.0.6       | `143.2370.31`    | `clover-idea-libs-15.0.143237031`      | ✅ done      | ✅ done              |
 | 2016.3.8     | `163.15529.8`    | `clover-idea-libs-2016.3.163155298`    | ✅ done (force-updated — old tag pointed to OC-61 era commit) | ✅ done |
 | 2017.3.7     | `173.4710.11`    | `clover-idea-libs-2017.3.173471011`    | ✅ done      | ✅ done              |
-| 2018.3.6     | `183.6156.11`    | `clover-idea-libs-2018.3.183615611`    | ✅ done      | ⬜ next              |
-| 2019.3.5     | `193.7288.26`    | `clover-idea-libs-2019.3.193728826`    | ✅ done      | ⬜                   |
+| 2018.3.6     | `183.6156.11`    | `clover-idea-libs-2018.3.183615611`    | ✅ done      | ✅ done              |
+| 2019.3.5     | `193.7288.26`    | `clover-idea-libs-2019.3.193728826`    | ✅ done      | ⬜ next              |
 | 2020.3.4     | `203.8084.24`    | `clover-idea-libs-2020.3.203808424`    | ✅ done      | ⬜                   |
 | 2021.3.3     | `213.7172.25`    | `clover-idea-libs-2021.3.213717225`    | ✅ done      | ⬜                   |
 | 2022.3.3     | `223.8836.41`    | `clover-idea-libs-2022.3.223883641`    | ✅ done      | ⬜                   |
@@ -117,7 +117,7 @@ Repeat the steps below for each future IDEA version.
 
 ## Phase 2 — Bump clover-idea version and fix compilation (IN PROGRESS)
 
-`clover-idea` currently compiles and tests against **IDEA 2017.3.7** (`173.4710.11`). **Next: 2018.3.**
+`clover-idea` currently compiles and tests against **IDEA 2018.3.6** (`183.6156.11`). **Next: 2019.3.**
 
 ### Completed bumps
 
@@ -126,6 +126,16 @@ Repeat the steps below for each future IDEA version.
 | 14.1.7 → 15.0.6 | 6 stale assertions (testproject package rename not reflected in tests — see "Baseline failures" below) |
 | 15.0.6 → 2016.3.8 | See below |
 | 2016.3.8 → 2017.3.7 | None — clean pass |
+| 2017.3.7 → 2018.3.6 | See below |
+
+**IDEA 2018.3 compilation fixes:**
+
+1. **`@Storage(id=...)` removed** — IDEA 2018 dropped the `id` attribute from `@Storage`. Also migrated deprecated `file` attribute to `value` (positional shorthand). Six files changed:
+   `CloverPlugin`, `CloverModuleComponent`, `ProjectPlugin`, `AutoUpdateComponent`, `TestOptimizationGlobalSettings`, `ReportWizardWorkspaceSettings`.
+   Before: `@Storage(id = "other", file = "$APP_CONFIG$/other.xml")`
+   After: `@Storage("$APP_CONFIG$/other.xml")` (positional `value()`)
+
+   **Note:** Future IDEA versions may further change persistence API. Plugin DevKit documentation is the reference; DevKit itself was unbundled from IDEA IDE in version 2023.3 and must now be installed from JetBrains Marketplace — but the DevKit JAR is still present in IDEA archives up to 2022.x and is still included in our `clover-idea-libs` install.
 
 **IDEA 2016.3 test fixes:**
 
@@ -196,7 +206,9 @@ The 6 failures that appeared on IDEA 15.0.6 CI (5 failures + 1 error) were all c
 - Passes `-Didea.version` and `-Didea.version.short` overrides to Maven (no pom edit needed)
 - Add a new `include:` entry when each Phase 2 bump is complete
 
-Current matrix: IDEA 15.0.6 (JDK 8), IDEA 2016.3.8 (JDK 8), IDEA 2017.3.7 (JDK 8).
+Current matrix: IDEA 15.0.6 (JDK 8), IDEA 2016.3.8 (JDK 8), IDEA 2017.3.7 (JDK 8), IDEA 2018.3.6 (JDK 8).
+
+**KTreemap step removed:** The workflow no longer has a "Download KTreemap fork" step. `ktreemap` (Atlassian fork) is only needed by `clover-eclipse`, which is excluded from the CI build. `jtreemap:1.1.3` (used by `clover-idea`) is available from Maven Central and is resolved automatically.
 
 ---
 

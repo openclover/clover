@@ -21,7 +21,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 
-@State(name = IdeaXmlConfigConstants.MODULE_FILE_COMPONENT_NAME, storages = {@Storage(id = "module", file = "$MODULE_FILE$")})
+@State(name = IdeaXmlConfigConstants.MODULE_FILE_COMPONENT_NAME, storages = {@Storage("$MODULE_FILE$")})
 public class CloverModuleComponent implements ModuleComponent, Configurable,
         PersistentStateComponent<CloverModuleConfig> {
 
