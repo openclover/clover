@@ -16,10 +16,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - idea-version: "15.0.6"
-            idea-libs-tag: "15.0.143237031"
-            idea-build: "143.2370.31"
-            jdk-version: 8
           - idea-version: "2016.3.8"
             idea-libs-tag: "2016.3.163155298"
             idea-build: "163.15529.8"
