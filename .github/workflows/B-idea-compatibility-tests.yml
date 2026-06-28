@@ -24,6 +24,10 @@ jobs:
             idea-libs-tag: "2016.3.163155298"
             idea-build: "163.15529.8"
             jdk-version: 8
+          - idea-version: "2017.3.7"
+            idea-libs-tag: "2017.3.173471011"
+            idea-build: "173.4710.11"
+            jdk-version: 8
 
     steps:
       - uses: actions/checkout@v4
