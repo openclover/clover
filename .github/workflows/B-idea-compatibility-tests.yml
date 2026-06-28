@@ -1,0 +1,84 @@
+name: B IDEA Compatibility Tests
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: IDEA ${{ matrix.idea-version }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - idea-version: "15.0.6"
+            idea-libs-tag: "15.0.143237031"
+            idea-build: "143.2370.31"
+            jdk-version: 8
+          - idea-version: "2016.3.8"
+            idea-libs-tag: "2016.3.163155298"
+            idea-build: "163.15529.8"
+            jdk-version: 8
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-tags: true
+
+      - name: Set up JDK ${{ matrix.jdk-version }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ matrix.jdk-version }}
+          distribution: temurin
+          cache: maven
+
+      - name: Cache IDEA ${{ matrix.idea-version }} binaries
+        uses: actions/cache@v4
+        with:
+          path: clover-idea-libs/target/download
+          key: ${{ runner.os }}-idea-${{ matrix.idea-build }}
+
+      - name: Prepare third party libraries
+        run: |
+          mvn --batch-mode install -Pworkspace-setup -f clover-core-libs/pom.xml
+
+      - name: Prepare IDEA ${{ matrix.idea-version }} libs
+        run: |
+          git show clover-idea-libs-${{ matrix.idea-libs-tag }}:clover-idea-libs/pom.xml \
+            > clover-idea-libs/pom.xml
+          git show clover-idea-libs-${{ matrix.idea-libs-tag }}:clover-idea-libs/clover-idea-all/pom.xml \
+            > clover-idea-libs/clover-idea-all/pom.xml
+          mvn --batch-mode install -Pworkspace-setup -f clover-idea-libs/pom.xml
+
+      - name: Download KTreemap fork
+        run: |
+          wget https://packages.atlassian.com/mvn/maven-atlassian-external/net/sf/jtreemap/ktreemap/1.1.0-atlassian-01/ktreemap-1.1.0-atlassian-01.jar
+          wget https://packages.atlassian.com/mvn/maven-atlassian-external/net/sf/jtreemap/ktreemap/1.1.0-atlassian-01/ktreemap-1.1.0-atlassian-01.pom
+          mvn --batch-mode install:install-file -Dfile=ktreemap-1.1.0-atlassian-01.jar -DpomFile=ktreemap-1.1.0-atlassian-01.pom
+
+      - name: Build all modules
+        run: |
+          mvn --batch-mode install -DskipTests=true \
+            -Didea.version=${{ matrix.idea-build }} \
+            -Didea.version.short=${{ matrix.idea-version }} \
+            --projects \
+            '!clover-eclipse,!clover-eclipse/org.openclover.eclipse.ant,!clover-eclipse/org.openclover.eclipse.ant.feature,!clover-eclipse/org.openclover.eclipse.branding,!clover-eclipse/org.openclover.eclipse.core,!clover-eclipse/org.openclover.eclipse.runtime,!clover-eclipse/org.openclover.eclipse.testopt,!clover-eclipse/org.openclover.eclipse.updatesite'
+
+      - name: Test clover-idea against IDEA ${{ matrix.idea-version }}
+        run: |
+          mvn --batch-mode test -pl clover-idea \
+            -Didea.version=${{ matrix.idea-build }} \
+            -Didea.version.short=${{ matrix.idea-version }}
+
+      - name: Upload test results for IDEA ${{ matrix.idea-version }}
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-idea-${{ matrix.idea-version }}
+          path: clover-idea/target/surefire-reports/*.xml
+          if-no-files-found: warn
