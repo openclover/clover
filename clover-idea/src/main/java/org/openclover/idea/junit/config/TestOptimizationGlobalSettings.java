@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nls;
 
 import javax.swing.JComponent;
 
-@State(name = "CloverTestOptimization", storages = {@Storage(id = "other", file = "$APP_CONFIG$/other.xml")})
+@State(name = "CloverTestOptimization", storages = {@Storage("$APP_CONFIG$/other.xml")})
 public class TestOptimizationGlobalSettings implements PersistentStateComponent<TestOptimizationGlobalSettings>,
         Configurable {
     private boolean showAllTestsOptimizedOutDialog = true;

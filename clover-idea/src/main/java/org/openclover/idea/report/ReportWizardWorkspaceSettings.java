@@ -6,7 +6,7 @@ import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import org.openclover.core.reporters.ShowLambdaFunctions;
 
-@State(name = "CloverReportSettings", storages = {@Storage(id = "other", file = "$APP_CONFIG$/other.xml")})
+@State(name = "CloverReportSettings", storages = {@Storage("$APP_CONFIG$/other.xml")})
 public class ReportWizardWorkspaceSettings implements PersistentStateComponent<ReportWizardWorkspaceSettings> {
     private Boolean includeSources = true;
     private Boolean includeFailedCoverage = false;

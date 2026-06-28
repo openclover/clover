@@ -34,7 +34,7 @@ import java.io.InputStream;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-@State(name = "CloverAutoUpdate", storages = {@Storage(id = "other", file = "$APP_CONFIG$/other.xml")})
+@State(name = "CloverAutoUpdate", storages = {@Storage("$APP_CONFIG$/other.xml")})
 public class AutoUpdateComponent implements ApplicationComponent, Runnable, PersistentStateComponent<AutoUpdateConfiguration> {
     private static final long INIT_DELAY = 60; //Wait until the Intellij is well and truly up as checking for updates can cause deadlocks
     private static final long INTERVAL = 24 * 60 * 60;
