@@ -10,11 +10,9 @@ import org.openclover.eclipse.core.projects.CloverProject;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
 import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.URLClassLoader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -138,24 +136,18 @@ public class TestRunner {
 
     /**
      * Scans all output directories for top-level classes whose simple name starts or ends with
-     * "Test"/"Tests" and that declare at least one @Test method.  The @Test check filters out
-     * production classes whose names happen to match the pattern (e.g. AppClassEndingInTest).
+     * "Test"/"Tests" and whose bytecode contains the @Test annotation descriptor.
+     * The bytecode check filters out production classes whose names happen to match the
+     * pattern (e.g. AppClassEndingInTest) without any classloader dependency.
      */
     private static List<String> discoverTestClasses(List<File> outputDirs) {
-        List<String> candidates = new ArrayList<>();
+        List<String> classes = new ArrayList<>();
         for (File dir : outputDirs) {
             if (dir.isDirectory()) {
-                collectTestClasses(dir, dir, candidates);
+                collectTestClasses(dir, dir, classes);
             }
         }
-        List<String> confirmed = new ArrayList<>();
-        for (String className : candidates) {
-            // The output dirs that actually contain this class's .class file
-            if (hasJUnitTestMethods(outputDirs, className)) {
-                confirmed.add(className);
-            }
-        }
-        return confirmed;
+        return classes;
     }
 
     private static void collectTestClasses(File root, File dir, List<String> classes) {
@@ -173,38 +165,28 @@ public class TestRunner {
                     continue;
                 }
                 if (name.startsWith("Test") || name.endsWith("Test.class") || name.endsWith("Tests.class")) {
-                    String relative = root.toURI().relativize(f.toURI()).getPath();
-                    String className = relative.substring(0, relative.length() - 6).replace('/', '.');
-                    classes.add(className);
+                    if (hasJUnitTestAnnotation(f)) {
+                        String relative = root.toURI().relativize(f.toURI()).getPath();
+                        String className = relative.substring(0, relative.length() - 6).replace('/', '.');
+                        classes.add(className);
+                    }
                 }
             }
         }
     }
 
     /**
-     * Loads the class in a temporary URLClassLoader and checks for @org.junit.Test annotations.
-     * Uses annotation type-name comparison to avoid classloader identity mismatches.
-     * Returns true if we cannot inspect the class (safe default: let JUnit decide).
+     * Scans the compiled .class file's constant pool for the @Test annotation descriptor
+     * "Lorg/junit/Test;" — present whenever a method is annotated with @Test.
+     * ISO-8859-1 gives a 1-to-1 byte→char mapping so String.contains works on raw bytes.
+     * Returns true (safe default) if the file cannot be read.
      */
-    private static boolean hasJUnitTestMethods(List<File> outputDirs, String className) {
+    private static boolean hasJUnitTestAnnotation(File classFile) {
         try {
-            URL[] urls = new URL[outputDirs.size()];
-            for (int i = 0; i < outputDirs.size(); i++) {
-                urls[i] = outputDirs.get(i).toURI().toURL();
-            }
-            try (URLClassLoader cl = new URLClassLoader(urls, TestRunner.class.getClassLoader())) {
-                Class<?> clazz = cl.loadClass(className);
-                for (Method m : clazz.getMethods()) {
-                    for (Annotation a : m.getAnnotations()) {
-                        if ("org.junit.Test".equals(a.annotationType().getName())) {
-                            return true;
-                        }
-                    }
-                }
-            }
-            return false;
-        } catch (Exception | Error e) {
-            return true; // cannot inspect; pass through and let JUnit handle it
+            String constantPool = new String(Files.readAllBytes(classFile.toPath()), StandardCharsets.ISO_8859_1);
+            return constantPool.contains("Lorg/junit/Test;");
+        } catch (Exception e) {
+            return true;
         }
     }
 }
