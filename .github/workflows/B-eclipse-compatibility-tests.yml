@@ -86,8 +86,11 @@ jobs:
           distribution: temurin
           cache: maven
 
-      - name: Install Xvfb
-        run: sudo apt-get install -y xvfb
+      - name: Install and start Xvfb
+        run: |
+          sudo apt-get install -y xvfb
+          Xvfb :99 -screen 0 1024x768x24 &
+          echo "DISPLAY=:99" >> $GITHUB_ENV
 
       - name: Cache Eclipse libs download (${{ matrix.eclipse-libs-version }})
         uses: actions/cache@v4
