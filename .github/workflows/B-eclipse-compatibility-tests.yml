@@ -86,9 +86,6 @@ jobs:
           distribution: temurin
           cache: maven
 
-      - name: Install Xvfb
-        run: sudo apt-get install -y xvfb
-
       - name: Cache Eclipse libs download (${{ matrix.eclipse-libs-version }})
         uses: actions/cache@v6
         with:
@@ -116,9 +113,6 @@ jobs:
             -Declipse.download.file=eclipse-java-${{ matrix.eclipse-version }}-R-win32-x86_64.zip
 
       - name: Run functional tests against Eclipse ${{ matrix.eclipse-version }}
-        env:
-          NO_AT_BRIDGE: "1"
-          GTK_A11Y: none
         run: |
           mvn --batch-mode verify \
             -pl clover-eclipse/org.openclover.eclipse.functest \

@@ -190,17 +190,36 @@
                         <version>3.1.0</version>
                         <executions>
 
-                            <!-- 4a. Install clover-eclipse feature via p2 director — Linux: wrap with xvfb-run -->
+                            <!-- 4. Start Xvfb virtual display in background (Linux only; macOS uses Cocoa) -->
                             <execution>
-                                <id>p2-install-clover-linux</id>
+                                <id>start-xvfb</id>
                                 <phase>pre-integration-test</phase>
                                 <goals><goal>exec</goal></goals>
                                 <configuration>
                                     <skip>${eclipse.functest.skip.xvfb}</skip>
-                                    <executable>xvfb-run</executable>
-                                    <timeout>300000</timeout> <!-- 5 minutes -->
+                                    <executable>bash</executable>
+                                    <timeout>900000</timeout> <!-- 15 minutes -->
                                     <arguments>
-                                        <argument>${eclipse.exe}</argument>
+                                        <argument>-c</argument>
+                                        <argument>Xvfb :99 -screen 0 1280x1024x24 &amp; sleep 2 &amp;&amp; echo "[xvfb] display :99 ready"</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+
+                            <!-- 5. Install clover-eclipse feature via p2 director -->
+                            <execution>
+                                <id>p2-install-clover</id>
+                                <phase>pre-integration-test</phase>
+                                <goals><goal>exec</goal></goals>
+                                <configuration>
+                                    <executable>${eclipse.exe}</executable>
+                                    <timeout>300000</timeout> <!-- 5 minutes -->
+                                    <environmentVariables>
+                                        <DISPLAY>:99</DISPLAY>
+                                        <NO_AT_BRIDGE>1</NO_AT_BRIDGE>
+                                        <GTK_A11Y>none</GTK_A11Y>
+                                    </environmentVariables>
+                                    <arguments>
                                         <argument>-nosplash</argument>
                                         <argument>-consolelog</argument>
                                         <argument>-application</argument>
@@ -215,67 +234,19 @@
                                 </configuration>
                             </execution>
 
-                            <!-- 4b. Install clover-eclipse feature via p2 director — macOS/Windows: invoke eclipse directly -->
+                            <!-- 6. Run functional tests -->
                             <execution>
-                                <id>p2-install-clover-other</id>
-                                <phase>pre-integration-test</phase>
-                                <goals><goal>exec</goal></goals>
-                                <configuration>
-                                    <skip>${eclipse.functest.skip.direct}</skip>
-                                    <executable>${eclipse.exe}</executable>
-                                    <timeout>300000</timeout> <!-- 5 minutes -->
-                                    <arguments>
-                                        <argument>-nosplash</argument>
-                                        <argument>-consolelog</argument>
-                                        <argument>-application</argument>
-                                        <argument>org.eclipse.equinox.p2.director</argument>
-                                        <argument>-repository</argument>
-                                        <argument>file://${eclipse.site.dir}</argument>
-                                        <argument>-installIU</argument>
-                                        <argument>org.openclover.eclipse.feature.feature.group</argument>
-                                        <argument>-destination</argument>
-                                        <argument>${eclipse.destination}</argument>
-                                    </arguments>
-                                </configuration>
-                            </execution>
-
-                            <!-- 6a. Run functional tests — Linux: wrap with xvfb-run -->
-                            <execution>
-                                <id>run-functest-xvfb</id>
+                                <id>run-functest</id>
                                 <phase>integration-test</phase>
                                 <goals><goal>exec</goal></goals>
                                 <configuration>
-                                    <skip>${eclipse.functest.skip.xvfb}</skip>
-                                    <timeout>1800000</timeout> <!-- 30 minutes -->
-                                    <executable>xvfb-run</executable>
-                                    <arguments>
-                                        <argument>${eclipse.exe}</argument>
-                                        <argument>-nosplash</argument>
-                                        <argument>-application</argument>
-                                        <argument>org.openclover.eclipse.functest.runner.application</argument>
-                                        <argument>-data</argument>
-                                        <argument>${project.build.directory}/functest-workspace</argument>
-                                        <argument>-projectsDir</argument>
-                                        <argument>${project.basedir}/src/test/resources/projects</argument>
-                                        <argument>-cloverRuntime</argument>
-                                        <argument>${clover.runtime.jar}</argument>
-                                        <argument>-reportsDir</argument>
-                                        <argument>${project.build.directory}/surefire-reports</argument>
-                                        <argument>-eclipseVersion</argument>
-                                        <argument>${eclipse.version}</argument>
-                                    </arguments>
-                                </configuration>
-                            </execution>
-
-                            <!-- 6b. Run functional tests — macOS/Windows: invoke eclipse directly -->
-                            <execution>
-                                <id>run-functest-direct</id>
-                                <phase>integration-test</phase>
-                                <goals><goal>exec</goal></goals>
-                                <configuration>
-                                    <skip>${eclipse.functest.skip.direct}</skip>
-                                    <timeout>1800000</timeout> <!-- 30 minutes -->
+                                    <timeout>600000</timeout> <!-- 10 minutes -->
                                     <executable>${eclipse.exe}</executable>
+                                    <environmentVariables>
+                                        <DISPLAY>:99</DISPLAY>
+                                        <NO_AT_BRIDGE>1</NO_AT_BRIDGE>
+                                        <GTK_A11Y>none</GTK_A11Y>
+                                    </environmentVariables>
                                     <arguments>
                                         <argument>-nosplash</argument>
                                         <argument>-application</argument>
