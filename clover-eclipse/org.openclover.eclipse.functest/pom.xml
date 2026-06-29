@@ -197,8 +197,10 @@
                                 <goals><goal>exec</goal></goals>
                                 <configuration>
                                     <executable>${eclipse.exe}</executable>
+                                    <timeout>300000</timeout> <!-- 5 minutes -->
                                     <arguments>
                                         <argument>-nosplash</argument>
+                                        <argument>-consolelog</argument>
                                         <argument>-application</argument>
                                         <argument>org.eclipse.equinox.p2.director</argument>
                                         <argument>-repository</argument>
@@ -218,6 +220,7 @@
                                 <goals><goal>exec</goal></goals>
                                 <configuration>
                                     <skip>${eclipse.functest.skip.xvfb}</skip>
+                                    <timeout>1800000</timeout> <!-- 30 minutes -->
                                     <executable>xvfb-run</executable>
                                     <arguments>
                                         <argument>${eclipse.exe}</argument>
@@ -245,6 +248,7 @@
                                 <goals><goal>exec</goal></goals>
                                 <configuration>
                                     <skip>${eclipse.functest.skip.direct}</skip>
+                                    <timeout>1800000</timeout> <!-- 30 minutes -->
                                     <executable>${eclipse.exe}</executable>
                                     <arguments>
                                         <argument>-nosplash</argument>
