@@ -64,9 +64,7 @@ jobs:
         run: |
           mvn --batch-mode install -DskipTests=true \
             -Didea.version=${{ matrix.idea-build }} \
-            -Didea.version.short=${{ matrix.idea-version }} \
-            --projects \
-            '!clover-eclipse,!clover-eclipse/org.openclover.eclipse.ant,!clover-eclipse/org.openclover.eclipse.ant.feature,!clover-eclipse/org.openclover.eclipse.branding,!clover-eclipse/org.openclover.eclipse.core,!clover-eclipse/org.openclover.eclipse.runtime,!clover-eclipse/org.openclover.eclipse.testopt,!clover-eclipse/org.openclover.eclipse.updatesite'
+            -Didea.version.short=${{ matrix.idea-version }}
 
       - name: Test clover-idea against IDEA ${{ matrix.idea-version }}
         run: |

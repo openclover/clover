@@ -190,12 +190,38 @@
                         <version>3.1.0</version>
                         <executions>
 
-                            <!-- 4. Install clover-eclipse feature via p2 director -->
+                            <!-- 4a. Install clover-eclipse feature via p2 director — Linux: wrap with xvfb-run -->
                             <execution>
-                                <id>p2-install-clover</id>
+                                <id>p2-install-clover-linux</id>
                                 <phase>pre-integration-test</phase>
                                 <goals><goal>exec</goal></goals>
                                 <configuration>
+                                    <skip>${eclipse.functest.skip.xvfb}</skip>
+                                    <executable>xvfb-run</executable>
+                                    <timeout>300000</timeout> <!-- 5 minutes -->
+                                    <arguments>
+                                        <argument>${eclipse.exe}</argument>
+                                        <argument>-nosplash</argument>
+                                        <argument>-consolelog</argument>
+                                        <argument>-application</argument>
+                                        <argument>org.eclipse.equinox.p2.director</argument>
+                                        <argument>-repository</argument>
+                                        <argument>file://${eclipse.site.dir}</argument>
+                                        <argument>-installIU</argument>
+                                        <argument>org.openclover.eclipse.feature.feature.group</argument>
+                                        <argument>-destination</argument>
+                                        <argument>${eclipse.destination}</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+
+                            <!-- 4b. Install clover-eclipse feature via p2 director — macOS/Windows: invoke eclipse directly -->
+                            <execution>
+                                <id>p2-install-clover-other</id>
+                                <phase>pre-integration-test</phase>
+                                <goals><goal>exec</goal></goals>
+                                <configuration>
+                                    <skip>${eclipse.functest.skip.direct}</skip>
                                     <executable>${eclipse.exe}</executable>
                                     <timeout>300000</timeout> <!-- 5 minutes -->
                                     <arguments>
