@@ -89,7 +89,7 @@
                                         <untar src="${project.build.directory}/download/${eclipse.download.file}"
                                                dest="${eclipse.install.dir}"
                                                compression="gzip"
-                                               unless:set="eclipse.already.extracted"/>
+                                               unless="eclipse.already.extracted"/>
                                         <chmod file="${eclipse.exe}" perm="755"/>
 
                                         <!-- 3. Unzip update site -->
