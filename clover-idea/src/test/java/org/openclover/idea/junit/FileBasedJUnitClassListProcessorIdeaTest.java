@@ -175,7 +175,10 @@ public class FileBasedJUnitClassListProcessorIdeaTest extends LightIdeaTestCase 
 
         @NotNull
         @Override
-        Collection<Optimizable> optimize(@NotNull Project project, @NotNull OptimizedConfigurationSettings settings, @NotNull List<Optimizable> optimizables, OptimizationSession[] sessionHolder) {
+        Collection<Optimizable> optimize(@NotNull Project project,
+                                         OptimizedConfigurationSettings settings,
+                                         @NotNull List<Optimizable> optimizables,
+                                         OptimizationSession[] sessionHolder) {
             return optimizables;
         }
     }

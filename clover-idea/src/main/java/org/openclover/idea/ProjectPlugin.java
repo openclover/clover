@@ -48,7 +48,7 @@ import org.openclover.runtime.Logger;
 import java.io.File;
 
 @State(name = IdeaXmlConfigConstants.WORKSPACE_FILE_CLOVER_COMPONENT_NAME,
-        storages = {@Storage(id = "workspace", file = "$WORKSPACE_FILE$")})
+        storages = {@Storage("$WORKSPACE_FILE$")})
 public class ProjectPlugin implements IProjectPlugin, ProjectComponent, ModuleRootListener,
         PersistentStateComponent<Element> {
 

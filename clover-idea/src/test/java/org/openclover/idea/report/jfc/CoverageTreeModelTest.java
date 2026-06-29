@@ -27,7 +27,7 @@ public class CoverageTreeModelTest extends LightIdeaTestCase {
         assertEquals(TESTS_FAILING, rootObject.getTestPassInfo().getTestFailures());
 
         CoverageTreeModel.NodeWrapper pkgObject = (CoverageTreeModel.NodeWrapper) ((DefaultMutableTreeNode) rootNode.getFirstChild()).getUserObject();
-        assertEquals("com", pkgObject.getName());
+        assertEquals("org", pkgObject.getName());
         assertEquals(TESTS_RUN, pkgObject.getTestPassInfo().getTestsRun());
         assertEquals(TESTS_PASSING, pkgObject.getTestPassInfo().getTestPasses());
         assertEquals(TESTS_FAILING, pkgObject.getTestPassInfo().getTestFailures());
@@ -39,7 +39,7 @@ public class CoverageTreeModelTest extends LightIdeaTestCase {
         assertEquals(TESTS_FAILING, rootObject.getTestPassInfo().getTestFailures());
 
         pkgObject = (CoverageTreeModel.NodeWrapper) ((DefaultMutableTreeNode) rootNode.getFirstChild()).getUserObject();
-        assertEquals("com", pkgObject.getName());
+        assertEquals("org", pkgObject.getName());
         assertEquals(TESTS_RUN, pkgObject.getTestPassInfo().getTestsRun());
         assertEquals(TESTS_PASSING, pkgObject.getTestPassInfo().getTestPasses());
         assertEquals(TESTS_FAILING, pkgObject.getTestPassInfo().getTestFailures());
@@ -51,7 +51,7 @@ public class CoverageTreeModelTest extends LightIdeaTestCase {
         assertEquals(TESTS_FAILING, rootObject.getTestPassInfo().getTestFailures());
 
         pkgObject = (CoverageTreeModel.NodeWrapper) ((DefaultMutableTreeNode) rootNode.getFirstChild()).getUserObject();
-        assertEquals("com.cenqua.clovertest", pkgObject.getName());
+        assertEquals("org.openclover.idea.testproject", pkgObject.getName());
         assertEquals(TESTS_RUN, pkgObject.getTestPassInfo().getTestsRun());
         assertEquals(TESTS_PASSING, pkgObject.getTestPassInfo().getTestPasses());
         assertEquals(TESTS_FAILING, pkgObject.getTestPassInfo().getTestFailures());

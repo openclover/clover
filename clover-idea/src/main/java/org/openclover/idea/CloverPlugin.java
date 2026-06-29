@@ -20,7 +20,7 @@ import org.openclover.idea.config.IdeaXmlConfigConstants;
 import org.openclover.runtime.Logger;
 
 
-@State(name = IdeaXmlConfigConstants.OTHER_XML_FILE_COMPONENT_NAME, storages = {@Storage(id = "other", file = "$APP_CONFIG$/other.xml")})
+@State(name = IdeaXmlConfigConstants.OTHER_XML_FILE_COMPONENT_NAME, storages = {@Storage("$APP_CONFIG$/other.xml")})
 public class CloverPlugin implements ApplicationComponent, PersistentStateComponent<CloverGlobalConfig> {
 
     /**
