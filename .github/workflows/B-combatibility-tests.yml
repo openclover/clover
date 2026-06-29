@@ -1,4 +1,4 @@
-name: B Compatibility tests
+name: B Core Compatibility Tests
 
 on:
   push:
