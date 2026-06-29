@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-<listEntry value="/TestSeparateInstrOutputFolder/src/com/atlassian/clover/eclipse/test/HelloWorld.java"/>
+<listEntry value="/TestSeparateInstrOutputFolder/src/org/openclover/eclipse/test/HelloWorld.java"/>
 </listAttribute>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="1"/>

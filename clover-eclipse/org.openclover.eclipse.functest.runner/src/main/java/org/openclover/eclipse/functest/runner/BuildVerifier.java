@@ -3,10 +3,10 @@ package org.openclover.eclipse.functest.runner;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.jdt.core.JavaCore;
 import org.openclover.eclipse.core.projects.CloverProject;
 
 import java.io.File;
+import java.util.List;
 
 /** Checks that a project built cleanly and Clover instrumentation ran. */
 public class BuildVerifier {
@@ -46,11 +46,11 @@ public class BuildVerifier {
 
     private static void checkClassFiles(IProject project, TestResult result) {
         try {
-            org.eclipse.core.runtime.IPath outputPath =
-                    JavaCore.create(project).getOutputLocation();
-            File outputDir = project.getWorkspace().getRoot()
-                    .getFolder(outputPath).getLocation().toFile();
-            result.assertTrue(hasClassFile(outputDir), "No .class files found in " + outputDir);
+            List<File> outputDirs = TestRunner.resolveOutputDirs(project);
+            boolean found = outputDirs.stream().anyMatch(BuildVerifier::hasClassFile);
+            String dirs = outputDirs.stream().map(File::getAbsolutePath)
+                    .collect(java.util.stream.Collectors.joining(", "));
+            result.assertTrue(found, "No .class files found in " + dirs);
         } catch (Exception e) {
             result.fail("Could not check class files: " + e.getMessage());
         }
