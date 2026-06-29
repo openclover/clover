@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:unless="ant:unless">
+    <target name="extract-eclipse">
+        <condition property="eclipse.already.extracted">
+            <available type="dir" file="${eclipse.install.dir}/eclipse"/>
+        </condition>
+        <untar src="${eclipse.download.file.path}"
+               dest="${eclipse.install.dir}"
+               compression="gzip"
+               unless:set="eclipse.already.extracted"/>
+    </target>
+</project>

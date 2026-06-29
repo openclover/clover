@@ -83,13 +83,11 @@
 
                                         <!-- 2. Extract (skip if eclipse dir already present) -->
                                         <mkdir dir="${eclipse.install.dir}"/>
-                                        <condition property="eclipse.already.extracted">
-                                            <available type="dir" file="${eclipse.install.dir}/eclipse"/>
-                                        </condition>
-                                        <untar src="${project.build.directory}/download/${eclipse.download.file}"
-                                               dest="${eclipse.install.dir}"
-                                               compression="gzip"
-                                               unless="eclipse.already.extracted"/>
+                                        <ant antfile="${project.basedir}/src/ant/download-eclipse.xml"
+                                             target="extract-eclipse">
+                                            <property name="eclipse.install.dir" value="${eclipse.install.dir}"/>
+                                            <property name="eclipse.download.file.path" value="${project.build.directory}/download/${eclipse.download.file}"/>
+                                        </ant>
                                         <chmod file="${eclipse.exe}" perm="755"/>
 
                                         <!-- 3. Unzip update site -->
