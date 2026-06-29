@@ -116,6 +116,9 @@ jobs:
             -Declipse.download.file=eclipse-java-${{ matrix.eclipse-version }}-R-win32-x86_64.zip
 
       - name: Run functional tests against Eclipse ${{ matrix.eclipse-version }}
+        env:
+          NO_AT_BRIDGE: "1"
+          GTK_A11Y: none
         run: |
           mvn --batch-mode verify \
             -pl clover-eclipse/org.openclover.eclipse.functest \
@@ -131,4 +134,5 @@ jobs:
           path: |
             clover-eclipse/org.openclover.eclipse.functest/target/surefire-reports/TEST-eclipse-${{ matrix.eclipse-version }}-*.xml
             clover-eclipse/org.openclover.eclipse.functest/target/eclipse-workspace.log
+            clover-eclipse/org.openclover.eclipse.functest/target/functest-workspace/.metadata/.log
           if-no-files-found: warn
