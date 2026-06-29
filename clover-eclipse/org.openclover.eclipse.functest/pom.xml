@@ -201,7 +201,7 @@
                                     <timeout>900000</timeout> <!-- 15 minutes -->
                                     <arguments>
                                         <argument>-c</argument>
-                                        <argument>Xvfb :99 -screen 0 1280x1024x24 &amp; sleep 2 &amp;&amp; echo "[xvfb] display :99 ready"</argument>
+                                        <argument>Xvfb :99 -screen 0 1280x1024x24 &lt;/dev/null &gt;/dev/null 2&gt;&amp;1 &amp; sleep 2 &amp;&amp; echo "[xvfb] display :99 ready"</argument>
                                     </arguments>
                                 </configuration>
                             </execution>
