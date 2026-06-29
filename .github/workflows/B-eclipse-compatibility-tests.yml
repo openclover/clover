@@ -28,17 +28,10 @@ jobs:
           path: clover-eclipse-libs/target/download
           key: ${{ runner.os }}-eclipse-${{ hashFiles('clover-eclipse-libs/pom.xml') }}
 
-      - name: Cache IDEA binaries
-        uses: actions/cache@v4
-        with:
-          path: clover-idea-libs/target/download
-          key: ${{ runner.os }}-idea-${{ hashFiles('clover-idea-libs/pom.xml') }}
-
       - name: Prepare third party libraries
         run: |
           mvn --batch-mode install -Pworkspace-setup -f clover-core-libs/pom.xml
           mvn --batch-mode install -Pworkspace-setup -f clover-eclipse-libs/pom.xml
-          mvn --batch-mode install -Pworkspace-setup -f clover-idea-libs/pom.xml
 
       - name: Download KTreemap fork
         run: |
@@ -47,7 +40,7 @@ jobs:
           mvn --batch-mode install:install-file -Dfile=ktreemap-1.1.0-atlassian-01.jar -DpomFile=ktreemap-1.1.0-atlassian-01.pom
 
       - name: Build all modules
-        run: mvn --batch-mode install -DskipTests=true
+        run: mvn --batch-mode install -DskipTests=true -pl '!clover-idea'
 
       - name: Upload clover-eclipse artifacts
         uses: actions/upload-artifact@v4
@@ -83,6 +76,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          fetch-depth: 0
           fetch-tags: true
 
       - name: Set up JDK 21
