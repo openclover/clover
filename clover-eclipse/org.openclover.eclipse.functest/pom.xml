@@ -15,7 +15,6 @@
     <properties>
         <!-- Eclipse download coordinates; override per matrix entry on CI -->
         <eclipse.download.path>technology/epp/downloads/release/${eclipse.version}/R</eclipse.download.path>
-        <eclipse.download.file>eclipse-java-${eclipse.version}-R-linux-gtk-x86_64.tar.gz</eclipse.download.file>
         <eclipse.download.site>https://ftp.fau.de/eclipse</eclipse.download.site>
 
         <!-- Paths to previously-built artifacts; override on CI (artifacts downloaded separately) -->
@@ -28,7 +27,18 @@
         <!-- Internal paths (not overridden) -->
         <eclipse.install.dir>${project.build.directory}/eclipse-install</eclipse.install.dir>
         <eclipse.site.dir>${project.build.directory}/eclipse-site</eclipse.site.dir>
-        <eclipse.exe>${eclipse.install.dir}/eclipse/eclipse</eclipse.exe>
+
+        <!--
+            OS-specific properties set by the auto-activated os-* profiles below:
+              eclipse.download.file         - archive filename
+              eclipse.extract.type          - tar.gz | zip
+              eclipse.install.marker        - subdir whose presence means Eclipse is extracted
+              eclipse.exe                   - path to eclipse executable
+              eclipse.destination           - p2 director -destination value
+              eclipse.dropins.dir           - dropins directory for the runner JAR
+              eclipse.functest.skip.xvfb    - true/false: run via xvfb-run (Linux)
+              eclipse.functest.skip.direct  - true/false: run eclipse directly (macOS/Windows)
+        -->
     </properties>
 
     <build>
@@ -44,53 +54,96 @@
     </build>
 
     <profiles>
+
+        <!-- ============================================================
+             OS-SPECIFIC PROFILES (auto-activated, properties only)
+             ============================================================ -->
+
+        <profile>
+            <id>os-linux</id>
+            <activation><os><name>Linux</name></os></activation>
+            <properties>
+                <eclipse.download.file>eclipse-java-${eclipse.version}-R-linux-gtk-x86_64.tar.gz</eclipse.download.file>
+                <eclipse.extract.type>tar.gz</eclipse.extract.type>
+                <eclipse.install.marker>eclipse</eclipse.install.marker>
+                <eclipse.exe>${eclipse.install.dir}/eclipse/eclipse</eclipse.exe>
+                <eclipse.destination>${eclipse.install.dir}/eclipse</eclipse.destination>
+                <eclipse.dropins.dir>${eclipse.install.dir}/eclipse/dropins</eclipse.dropins.dir>
+                <eclipse.functest.skip.xvfb>false</eclipse.functest.skip.xvfb>
+                <eclipse.functest.skip.direct>true</eclipse.functest.skip.direct>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>os-mac</id>
+            <activation><os><family>mac</family></os></activation>
+            <properties>
+                <!-- ${os.arch} resolves to aarch64 on Apple Silicon, x86_64 on Intel -->
+                <eclipse.download.file>eclipse-java-${eclipse.version}-R-macosx-cocoa-${os.arch}.tar.gz</eclipse.download.file>
+                <eclipse.extract.type>tar.gz</eclipse.extract.type>
+                <eclipse.install.marker>Eclipse.app</eclipse.install.marker>
+                <eclipse.exe>${eclipse.install.dir}/Eclipse.app/Contents/MacOS/eclipse</eclipse.exe>
+                <eclipse.destination>${eclipse.install.dir}/Eclipse.app/Contents/Eclipse</eclipse.destination>
+                <eclipse.dropins.dir>${eclipse.install.dir}/Eclipse.app/Contents/Eclipse/dropins</eclipse.dropins.dir>
+                <eclipse.functest.skip.xvfb>true</eclipse.functest.skip.xvfb>
+                <eclipse.functest.skip.direct>false</eclipse.functest.skip.direct>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>os-windows</id>
+            <activation><os><family>windows</family></os></activation>
+            <properties>
+                <eclipse.download.file>eclipse-java-${eclipse.version}-R-win32-x86_64.zip</eclipse.download.file>
+                <eclipse.extract.type>zip</eclipse.extract.type>
+                <eclipse.install.marker>eclipse</eclipse.install.marker>
+                <eclipse.exe>${eclipse.install.dir}/eclipse/eclipse.exe</eclipse.exe>
+                <eclipse.destination>${eclipse.install.dir}/eclipse</eclipse.destination>
+                <eclipse.dropins.dir>${eclipse.install.dir}/eclipse/dropins</eclipse.dropins.dir>
+                <eclipse.functest.skip.xvfb>true</eclipse.functest.skip.xvfb>
+                <eclipse.functest.skip.direct>false</eclipse.functest.skip.direct>
+            </properties>
+        </profile>
+
+        <!-- ============================================================
+             MAIN PROFILE — all plugin configuration lives here.
+             Not auto-activated; combine with an os-* profile above.
+             Usage: mvn verify -Peclipse-functest
+                    [-Declipse.version=2025-06 ...]
+             ============================================================ -->
         <profile>
             <id>eclipse-functest</id>
-            <!--
-                Not auto-activated. Linux only.
-                Usage: mvn verify -Peclipse-functest
-                       [-Declipse.version=2025-06 -Declipse.libs.version=2025.06 ...]
-            -->
             <build>
                 <plugins>
 
-                    <!-- ============================================================
-                         PRE-INTEGRATION-TEST
-                         1. Download Eclipse tar.gz (skip if cached)
-                         2. Extract to target/eclipse-install/eclipse/
-                         3. Unzip update site to target/eclipse-site/
-                         4. Install clover-eclipse feature via p2 director
-                         5. Copy functest runner JAR into eclipse/dropins/
-                         ============================================================ -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-antrun-plugin</artifactId>
                         <version>3.0.0</version>
                         <executions>
+
+                            <!-- 1–3. Download archive, extract Eclipse, unzip update site -->
                             <execution>
                                 <id>download-and-extract-eclipse</id>
                                 <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
+                                <goals><goal>run</goal></goals>
                                 <configuration>
                                     <target>
-                                        <!-- 1. Download (skip if already present) -->
                                         <mkdir dir="${project.build.directory}/download"/>
                                         <get src="${eclipse.download.site}/${eclipse.download.path}/${eclipse.download.file}"
                                              dest="${project.build.directory}/download/${eclipse.download.file}"
                                              skipexisting="true"/>
 
-                                        <!-- 2. Extract (skip if eclipse dir already present) -->
                                         <mkdir dir="${eclipse.install.dir}"/>
                                         <ant antfile="${project.basedir}/src/ant/download-eclipse.xml"
                                              target="extract-eclipse">
-                                            <property name="eclipse.install.dir" value="${eclipse.install.dir}"/>
+                                            <property name="eclipse.install.dir"       value="${eclipse.install.dir}"/>
+                                            <property name="eclipse.install.marker"    value="${eclipse.install.marker}"/>
+                                            <property name="eclipse.extract.type"      value="${eclipse.extract.type}"/>
                                             <property name="eclipse.download.file.path" value="${project.build.directory}/download/${eclipse.download.file}"/>
                                         </ant>
                                         <chmod file="${eclipse.exe}" perm="755"/>
 
-                                        <!-- 3. Unzip update site -->
                                         <mkdir dir="${eclipse.site.dir}"/>
                                         <unzip src="${clover.site.zip}"
                                                dest="${eclipse.site.dir}"
@@ -99,38 +152,35 @@
                                 </configuration>
                             </execution>
 
+                            <!-- 5. Copy functest runner JAR into dropins/ -->
                             <execution>
                                 <id>copy-runner-jar</id>
                                 <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
+                                <goals><goal>run</goal></goals>
                                 <configuration>
                                     <target>
-                                        <!-- 5. Drop runner JAR into dropins/ -->
-                                        <mkdir dir="${eclipse.install.dir}/eclipse/dropins"/>
-                                        <copy todir="${eclipse.install.dir}/eclipse/dropins">
+                                        <mkdir dir="${eclipse.dropins.dir}"/>
+                                        <copy todir="${eclipse.dropins.dir}">
                                             <fileset dir="${clover.runner.jar.dir}" includes="*.jar"/>
                                         </copy>
                                     </target>
                                 </configuration>
                             </execution>
 
+                            <!-- 7. Preserve Eclipse workspace log for CI artifacts -->
                             <execution>
                                 <id>archive-log</id>
                                 <phase>post-integration-test</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
+                                <goals><goal>run</goal></goals>
                                 <configuration>
                                     <target>
-                                        <!-- 6. Preserve Eclipse workspace log for CI artifacts -->
                                         <copy file="${project.build.directory}/functest-workspace/.metadata/.log"
                                               tofile="${project.build.directory}/eclipse-workspace.log"
                                               failonerror="false"/>
                                     </target>
                                 </configuration>
                             </execution>
+
                         </executions>
                     </plugin>
 
@@ -139,13 +189,12 @@
                         <artifactId>exec-maven-plugin</artifactId>
                         <version>3.1.0</version>
                         <executions>
-                            <!-- 4. Install clover-eclipse via p2 director -->
+
+                            <!-- 4. Install clover-eclipse feature via p2 director -->
                             <execution>
                                 <id>p2-install-clover</id>
                                 <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
+                                <goals><goal>exec</goal></goals>
                                 <configuration>
                                     <executable>${eclipse.exe}</executable>
                                     <arguments>
@@ -157,19 +206,18 @@
                                         <argument>-installIU</argument>
                                         <argument>org.openclover.eclipse.feature.feature.group</argument>
                                         <argument>-destination</argument>
-                                        <argument>${eclipse.install.dir}/eclipse</argument>
+                                        <argument>${eclipse.destination}</argument>
                                     </arguments>
                                 </configuration>
                             </execution>
 
-                            <!-- 5. Run functional tests under Xvfb -->
+                            <!-- 6a. Run functional tests — Linux: wrap with xvfb-run -->
                             <execution>
-                                <id>run-functest</id>
+                                <id>run-functest-xvfb</id>
                                 <phase>integration-test</phase>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
+                                <goals><goal>exec</goal></goals>
                                 <configuration>
+                                    <skip>${eclipse.functest.skip.xvfb}</skip>
                                     <executable>xvfb-run</executable>
                                     <arguments>
                                         <argument>${eclipse.exe}</argument>
@@ -189,6 +237,33 @@
                                     </arguments>
                                 </configuration>
                             </execution>
+
+                            <!-- 6b. Run functional tests — macOS/Windows: invoke eclipse directly -->
+                            <execution>
+                                <id>run-functest-direct</id>
+                                <phase>integration-test</phase>
+                                <goals><goal>exec</goal></goals>
+                                <configuration>
+                                    <skip>${eclipse.functest.skip.direct}</skip>
+                                    <executable>${eclipse.exe}</executable>
+                                    <arguments>
+                                        <argument>-nosplash</argument>
+                                        <argument>-application</argument>
+                                        <argument>org.openclover.eclipse.functest.runner.application</argument>
+                                        <argument>-data</argument>
+                                        <argument>${project.build.directory}/functest-workspace</argument>
+                                        <argument>-projectsDir</argument>
+                                        <argument>${project.basedir}/src/test/resources/projects</argument>
+                                        <argument>-cloverRuntime</argument>
+                                        <argument>${clover.runtime.jar}</argument>
+                                        <argument>-reportsDir</argument>
+                                        <argument>${project.build.directory}/surefire-reports</argument>
+                                        <argument>-eclipseVersion</argument>
+                                        <argument>${eclipse.version}</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+
                         </executions>
                     </plugin>
 

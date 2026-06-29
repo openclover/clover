@@ -68,7 +68,7 @@ jobs:
             eclipse-download-site: "https://archive.eclipse.org"
           - eclipse-version: "2025-06"
             eclipse-libs-version: "2025.06"
-            eclipse-download-site: "https://ftp.fau.de/eclipse"
+            eclipse-download-site: "https://archive.eclipse.org"
           - eclipse-version: "2026-03"
             eclipse-libs-version: "2026.03"
             eclipse-download-site: "https://ftp.fau.de/eclipse"
