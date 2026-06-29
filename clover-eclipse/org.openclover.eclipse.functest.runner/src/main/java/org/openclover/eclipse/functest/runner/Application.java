@@ -47,34 +47,47 @@ public class Application implements IApplication {
         }
         reportsDir.mkdirs();
 
-        System.out.println("[runner] projectsDir   = " + projectsDir);
-        System.out.println("[runner] cloverRuntime = " + cloverRuntime);
-        System.out.println("[runner] reportsDir    = " + reportsDir);
-        System.out.println("[runner] eclipseVersion= " + eclipseVersion);
+        WorkspaceManager.log("projectsDir   = " + projectsDir);
+        WorkspaceManager.log("cloverRuntime = " + cloverRuntime);
+        WorkspaceManager.log("reportsDir    = " + reportsDir);
+        WorkspaceManager.log("eclipseVersion= " + eclipseVersion);
 
         WorkspaceManager wm = new WorkspaceManager(projectsDir, cloverRuntime);
+        WorkspaceManager.log("--- Phase 1: set classpath variable ---");
         wm.setCloverRuntimeVariable();
+        WorkspaceManager.log("--- Phase 2: import projects ---");
         wm.importProjects(SKIPPED_PROJECTS.keySet());
+        WorkspaceManager.log("--- Phase 3: build all ---");
         wm.buildAll();
+        WorkspaceManager.log("--- Phase 4: verify projects ---");
 
         List<TestResult> results = new ArrayList<>();
         for (IProject project : wm.getProjects()) {
             long start = System.currentTimeMillis();
+            WorkspaceManager.log("Verifying project: " + project.getName());
             TestResult r = new TestResult(project.getName());
 
+            WorkspaceManager.log("  BuildVerifier.verify: " + project.getName());
             BuildVerifier.verify(project, r);
 
             if (!r.hasBuildErrors()) {
                 if (hasUnitTests(project)) {
+                    WorkspaceManager.log("  TestRunner.run: " + project.getName());
                     TestRunner.run(project, cloverRuntime, null, r);
+                    WorkspaceManager.log("  refresh: " + project.getName());
                     wm.refresh(project);
+                    WorkspaceManager.log("  CoverageVerifier.verify: " + project.getName());
                     CoverageVerifier.verify(project, r);
                 } else {
+                    WorkspaceManager.log("  CoverageVerifier.verifyDbOnly: " + project.getName());
                     CoverageVerifier.verifyDbOnly(project, r);
                 }
+            } else {
+                WorkspaceManager.log("  Build errors in " + project.getName() + " — skipping tests");
             }
 
             r.setDurationMs(System.currentTimeMillis() - start);
+            WorkspaceManager.log("Done: " + project.getName() + " (" + r.getDurationMs() + " ms)");
             results.add(r);
         }
 
@@ -110,12 +123,12 @@ public class Application implements IApplication {
         long skipped = results.stream().filter(TestResult::isSkipped).count();
         long passed  = results.stream().filter(r -> !r.hasFailed() && !r.isSkipped()).count();
         long failed  = results.stream().filter(TestResult::hasFailed).count();
-        System.out.printf("%n[runner] Results: %d passed, %d failed, %d skipped out of %d projects%n",
-                passed, failed, skipped, results.size());
+        WorkspaceManager.log(String.format("Results: %d passed, %d failed, %d skipped out of %d projects",
+                passed, failed, skipped, results.size()));
         results.stream()
                .filter(TestResult::hasFailed)
                .forEach(r -> {
-                   System.out.println("[runner] FAILED: " + r.getProjectName());
+                   WorkspaceManager.log("FAILED: " + r.getProjectName());
                    r.getFailures().forEach(msg -> System.out.println("         " + msg));
                });
     }

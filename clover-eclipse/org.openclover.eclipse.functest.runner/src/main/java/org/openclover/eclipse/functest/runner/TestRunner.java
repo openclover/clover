@@ -42,14 +42,17 @@ public class TestRunner {
             pb.environment().put("CLOVER_INITSTRING", initString);
             pb.redirectErrorStream(true);
 
+            WorkspaceManager.log("Launching JUnit subprocess for " + project.getName() + ": " + String.join(" ", cmd));
             Process proc = pb.start();
+            WorkspaceManager.log("JUnit subprocess started (pid=" + proc.pid() + "); reading output...");
             String output = new String(proc.getInputStream().readAllBytes());
             int exit = proc.waitFor();
+            WorkspaceManager.log("JUnit subprocess finished for " + project.getName() + " (exit=" + exit + ")");
 
             if (exit != 0) {
                 result.fail("JUnit runner exited " + exit + ":\n" + output);
             } else {
-                System.out.println("[runner] JUnit output for " + project.getName() + ":\n" + output);
+                WorkspaceManager.log("JUnit output for " + project.getName() + ":\n" + output);
             }
         } catch (Exception e) {
             result.fail("TestRunner error: " + e.getMessage());

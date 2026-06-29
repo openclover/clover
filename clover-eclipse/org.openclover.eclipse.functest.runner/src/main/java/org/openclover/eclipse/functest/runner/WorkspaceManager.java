@@ -12,6 +12,8 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jdt.core.JavaCore;
 
 import java.io.File;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
@@ -39,8 +41,11 @@ public class WorkspaceManager {
     }
 
     public void setCloverRuntimeVariable() throws Exception {
+        log("Setting CLOVER_RUNTIME classpath variable to: " + cloverRuntime);
         JavaCore.setClasspathVariable("CLOVER_RUNTIME", new Path(cloverRuntime), new NullProgressMonitor());
+        log("Waiting for auto-build after CLOVER_RUNTIME variable set...");
         Job.getJobManager().join(ResourcesPlugin.FAMILY_AUTO_BUILD, null);
+        log("Auto-build after CLOVER_RUNTIME variable set: done");
     }
 
     public void importProjects(Set<String> skipProjects) throws Exception {
@@ -60,7 +65,7 @@ public class WorkspaceManager {
 
         for (String name : ordered) {
             if (skipProjects.contains(name)) {
-                System.out.println("[runner] Skipping (Tier 3): " + name);
+                log("Skipping (Tier 3): " + name);
                 continue;
             }
             File dir = new File(projectsDir, name);
@@ -69,7 +74,7 @@ public class WorkspaceManager {
             }
             File projectFile = new File(dir, ".project");
             if (!projectFile.exists()) {
-                System.out.println("[runner] Skipping " + name + " (no .project file)");
+                log("Skipping " + name + " (no .project file)");
                 continue;
             }
             IProjectDescription desc = workspace.loadProjectDescription(
@@ -77,20 +82,25 @@ public class WorkspaceManager {
             desc.setLocation(new Path(dir.getAbsolutePath()));
             IProject project = workspace.getRoot().getProject(desc.getName());
             if (!project.exists()) {
+                log("Creating project: " + name);
                 project.create(desc, new NullProgressMonitor());
             }
+            log("Opening project: " + name);
             project.open(new NullProgressMonitor());
             projects.add(project);
-            System.out.println("[runner] Imported: " + project.getName());
+            log("Imported: " + project.getName());
         }
     }
 
     public void buildAll() throws Exception {
         IWorkspace workspace = ResourcesPlugin.getWorkspace();
+        log("Starting full workspace build...");
         workspace.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
+        log("workspace.build() returned; waiting for FAMILY_MANUAL_BUILD jobs...");
         Job.getJobManager().join(ResourcesPlugin.FAMILY_MANUAL_BUILD, null);
+        log("FAMILY_MANUAL_BUILD done; waiting for FAMILY_AUTO_BUILD jobs...");
         Job.getJobManager().join(ResourcesPlugin.FAMILY_AUTO_BUILD, null);
-        System.out.println("[runner] Build complete");
+        log("Build complete");
     }
 
     public void refresh(IProject project) throws Exception {
@@ -99,5 +109,12 @@ public class WorkspaceManager {
 
     public List<IProject> getProjects() {
         return projects;
+    }
+
+    private static final DateTimeFormatter TIME_FMT = DateTimeFormatter.ofPattern("HH:mm:ss");
+
+    static void log(String msg) {
+        System.out.println("[runner " + LocalTime.now().format(TIME_FMT) + "] " + msg);
+        System.out.flush();
     }
 }
