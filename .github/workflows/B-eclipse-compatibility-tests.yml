@@ -13,17 +13,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Set up JDK 21
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: 21
           distribution: temurin
           cache: maven
 
       - name: Cache Eclipse binaries
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: clover-eclipse-libs/target/download
           key: ${{ runner.os }}-eclipse-${{ hashFiles('clover-eclipse-libs/pom.xml') }}
@@ -43,7 +43,7 @@ jobs:
         run: mvn --batch-mode install -DskipTests=true -pl '!clover-idea'
 
       - name: Upload clover-eclipse artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: clover-eclipse-build
           path: |
@@ -74,13 +74,13 @@ jobs:
             eclipse-download-site: "https://ftp.fau.de/eclipse"
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
           fetch-tags: true
 
       - name: Set up JDK 21
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: 21
           distribution: temurin
@@ -93,19 +93,19 @@ jobs:
           echo "DISPLAY=:99" >> $GITHUB_ENV
 
       - name: Cache Eclipse libs download (${{ matrix.eclipse-libs-version }})
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: clover-eclipse-libs/target/download
           key: ${{ runner.os }}-eclipse-libs-${{ matrix.eclipse-libs-version }}
 
       - name: Cache Eclipse functest download (${{ matrix.eclipse-version }})
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: clover-eclipse/org.openclover.eclipse.functest/target/download
           key: ${{ runner.os }}-eclipse-functest-${{ matrix.eclipse-version }}
 
       - name: Download build artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: clover-eclipse-build
 
@@ -128,7 +128,7 @@ jobs:
 
       - name: Upload test results for Eclipse ${{ matrix.eclipse-version }}
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: test-results-eclipse-${{ matrix.eclipse-version }}
           path: |

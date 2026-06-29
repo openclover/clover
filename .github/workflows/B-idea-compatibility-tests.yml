@@ -30,20 +30,20 @@ jobs:
             jdk-version: 8
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
           fetch-tags: true
 
       - name: Set up JDK ${{ matrix.jdk-version }}
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: ${{ matrix.jdk-version }}
           distribution: temurin
           cache: maven
 
       - name: Cache IDEA ${{ matrix.idea-version }} binaries
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: clover-idea-libs/target/download
           key: ${{ runner.os }}-idea-${{ matrix.idea-build }}
@@ -76,7 +76,7 @@ jobs:
 
       - name: Upload test results for IDEA ${{ matrix.idea-version }}
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: test-results-idea-${{ matrix.idea-version }}
           path: clover-idea/target/surefire-reports/*.xml
