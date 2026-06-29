@@ -112,6 +112,18 @@ jobs:
             -Declipse.download.path=technology/epp/downloads/release/${{ matrix.eclipse-version }}/R \
             -Declipse.download.file=eclipse-java-${{ matrix.eclipse-version }}-R-win32-x86_64.zip
 
+      - name: Install Eclipse GTK/X11 runtime dependencies
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y \
+            libgtk-3-0t64 \
+            libwebkit2gtk-4.1-0 \
+            libxrender1 libxtst6t64 libxi6t64 libxss1 \
+            dbus-x11 \
+            fonts-dejavu-core fontconfig \
+            xauth
+          fc-cache -f
+
       - name: Run functional tests against Eclipse ${{ matrix.eclipse-version }}
         run: |
           mvn --batch-mode verify \
@@ -127,6 +139,8 @@ jobs:
           name: test-results-eclipse-${{ matrix.eclipse-version }}
           path: |
             clover-eclipse/org.openclover.eclipse.functest/target/surefire-reports/TEST-eclipse-${{ matrix.eclipse-version }}-*.xml
+            clover-eclipse/org.openclover.eclipse.functest/target/eclipse-p2-workspace.log
             clover-eclipse/org.openclover.eclipse.functest/target/eclipse-workspace.log
+            clover-eclipse/org.openclover.eclipse.functest/target/p2-workspace/.metadata/.log
             clover-eclipse/org.openclover.eclipse.functest/target/functest-workspace/.metadata/.log
           if-no-files-found: warn

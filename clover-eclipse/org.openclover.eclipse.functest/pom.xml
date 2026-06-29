@@ -167,13 +167,16 @@
                                 </configuration>
                             </execution>
 
-                            <!-- 7. Preserve Eclipse workspace log for CI artifacts -->
+                            <!-- 7. Preserve Eclipse workspace logs for CI artifacts -->
                             <execution>
                                 <id>archive-log</id>
                                 <phase>post-integration-test</phase>
                                 <goals><goal>run</goal></goals>
                                 <configuration>
                                     <target>
+                                        <copy file="${project.build.directory}/p2-workspace/.metadata/.log"
+                                              tofile="${project.build.directory}/eclipse-p2-workspace.log"
+                                              failonerror="false"/>
                                         <copy file="${project.build.directory}/functest-workspace/.metadata/.log"
                                               tofile="${project.build.directory}/eclipse-workspace.log"
                                               failonerror="false"/>
@@ -198,10 +201,44 @@
                                 <configuration>
                                     <skip>${eclipse.functest.skip.xvfb}</skip>
                                     <executable>bash</executable>
-                                    <timeout>900000</timeout> <!-- 15 minutes -->
+                                    <timeout>30000</timeout>
                                     <arguments>
                                         <argument>-c</argument>
+                                        <!-- Redirect Xvfb I/O to /dev/null so it doesn't hold Maven's stream open -->
                                         <argument>Xvfb :99 -screen 0 1280x1024x24 &lt;/dev/null &gt;/dev/null 2&gt;&amp;1 &amp; sleep 2 &amp;&amp; echo "[xvfb] display :99 ready"</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+
+                            <!-- 4b. Verify display and environment before touching Eclipse (Linux only) -->
+                            <execution>
+                                <id>pre-check</id>
+                                <phase>pre-integration-test</phase>
+                                <goals><goal>exec</goal></goals>
+                                <configuration>
+                                    <skip>${eclipse.functest.skip.xvfb}</skip>
+                                    <executable>bash</executable>
+                                    <timeout>30000</timeout>
+                                    <environmentVariables>
+                                        <DISPLAY>:99</DISPLAY>
+                                        <NO_AT_BRIDGE>1</NO_AT_BRIDGE>
+                                        <GTK_A11Y>none</GTK_A11Y>
+                                        <GDK_BACKEND>x11</GDK_BACKEND>
+                                        <SWT_GTK3>1</SWT_GTK3>
+                                        <LIBGL_ALWAYS_SOFTWARE>1</LIBGL_ALWAYS_SOFTWARE>
+                                    </environmentVariables>
+                                    <arguments>
+                                        <argument>-c</argument>
+                                        <argument>
+                                            echo "=== Display ===" &amp;&amp;
+                                            xdpyinfo -display :99 2&gt;&amp;1 | head -5 || echo "[WARN] xdpyinfo failed" ;
+                                            echo "=== Eclipse binary ===" &amp;&amp;
+                                            ls -la ${eclipse.exe} &amp;&amp; file ${eclipse.exe} ;
+                                            echo "=== Java ===" &amp;&amp;
+                                            java -version 2&gt;&amp;1 ;
+                                            echo "=== Env ===" &amp;&amp;
+                                            env | grep -E 'DISPLAY|NO_AT|GTK|SWT|GDK|LIBGL|JAVA|HOME' | sort
+                                        </argument>
                                     </arguments>
                                 </configuration>
                             </execution>
@@ -212,24 +249,26 @@
                                 <phase>pre-integration-test</phase>
                                 <goals><goal>exec</goal></goals>
                                 <configuration>
-                                    <executable>${eclipse.exe}</executable>
-                                    <timeout>300000</timeout> <!-- 5 minutes -->
+                                    <!--
+                                        Use "bash -xc exec eclipse..." instead of running eclipse directly.
+                                        'exec' replaces bash with Eclipse so Maven's stream reader is wired
+                                        directly to Eclipse — no intermediate process holds the fd open.
+                                        '-x' traces the exact command line for CI logs.
+                                    -->
+                                    <executable>bash</executable>
+                                    <timeout>300000</timeout>
                                     <environmentVariables>
                                         <DISPLAY>:99</DISPLAY>
                                         <NO_AT_BRIDGE>1</NO_AT_BRIDGE>
                                         <GTK_A11Y>none</GTK_A11Y>
+                                        <GDK_BACKEND>x11</GDK_BACKEND>
+                                        <SWT_GTK3>1</SWT_GTK3>
+                                        <LIBGL_ALWAYS_SOFTWARE>1</LIBGL_ALWAYS_SOFTWARE>
                                     </environmentVariables>
                                     <arguments>
-                                        <argument>-nosplash</argument>
-                                        <argument>-consolelog</argument>
-                                        <argument>-application</argument>
-                                        <argument>org.eclipse.equinox.p2.director</argument>
-                                        <argument>-repository</argument>
-                                        <argument>file://${eclipse.site.dir}</argument>
-                                        <argument>-installIU</argument>
-                                        <argument>org.openclover.eclipse.feature.feature.group</argument>
-                                        <argument>-destination</argument>
-                                        <argument>${eclipse.destination}</argument>
+                                        <argument>-xc</argument>
+                                        <!-- Explicit -data keeps the p2 log at a known path and avoids sharing the config lock with run-functest -->
+                                        <argument>exec ${eclipse.exe} -nosplash -consolelog -debug -data ${project.build.directory}/p2-workspace -application org.eclipse.equinox.p2.director -repository file://${eclipse.site.dir} -installIU org.openclover.eclipse.feature.feature.group -destination ${eclipse.destination} -vmargs -Declipse.log.level=ALL</argument>
                                     </arguments>
                                 </configuration>
                             </execution>
@@ -240,27 +279,19 @@
                                 <phase>integration-test</phase>
                                 <goals><goal>exec</goal></goals>
                                 <configuration>
-                                    <timeout>600000</timeout> <!-- 10 minutes -->
-                                    <executable>${eclipse.exe}</executable>
+                                    <executable>bash</executable>
+                                    <timeout>600000</timeout>
                                     <environmentVariables>
                                         <DISPLAY>:99</DISPLAY>
                                         <NO_AT_BRIDGE>1</NO_AT_BRIDGE>
                                         <GTK_A11Y>none</GTK_A11Y>
+                                        <GDK_BACKEND>x11</GDK_BACKEND>
+                                        <SWT_GTK3>1</SWT_GTK3>
+                                        <LIBGL_ALWAYS_SOFTWARE>1</LIBGL_ALWAYS_SOFTWARE>
                                     </environmentVariables>
                                     <arguments>
-                                        <argument>-nosplash</argument>
-                                        <argument>-application</argument>
-                                        <argument>org.openclover.eclipse.functest.runner.application</argument>
-                                        <argument>-data</argument>
-                                        <argument>${project.build.directory}/functest-workspace</argument>
-                                        <argument>-projectsDir</argument>
-                                        <argument>${project.basedir}/src/test/resources/projects</argument>
-                                        <argument>-cloverRuntime</argument>
-                                        <argument>${clover.runtime.jar}</argument>
-                                        <argument>-reportsDir</argument>
-                                        <argument>${project.build.directory}/surefire-reports</argument>
-                                        <argument>-eclipseVersion</argument>
-                                        <argument>${eclipse.version}</argument>
+                                        <argument>-xc</argument>
+                                        <argument>exec ${eclipse.exe} -nosplash -consolelog -debug -application org.openclover.eclipse.functest.runner.application -data ${project.build.directory}/functest-workspace -projectsDir ${project.basedir}/src/test/resources/projects -cloverRuntime ${clover.runtime.jar} -reportsDir ${project.build.directory}/surefire-reports -eclipseVersion ${eclipse.version} -vmargs -Declipse.log.level=ALL</argument>
                                     </arguments>
                                 </configuration>
                             </execution>
