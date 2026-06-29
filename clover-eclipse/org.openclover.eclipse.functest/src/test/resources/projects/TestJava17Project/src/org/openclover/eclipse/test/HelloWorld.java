@@ -7,10 +7,13 @@ public class HelloWorld {
     record Rectangle(double width, double height) implements Shape {}
 
     public static double area(Shape shape) {
-        return switch (shape) {
-            case Circle c    -> Math.PI * c.radius() * c.radius();
-            case Rectangle r -> r.width() * r.height();
-        };
+        // instanceof pattern matching (standard in Java 16+, works in Java 17)
+        if (shape instanceof Circle c) {
+            return Math.PI * c.radius() * c.radius();
+        } else if (shape instanceof Rectangle r) {
+            return r.width() * r.height();
+        }
+        throw new IllegalArgumentException("Unknown shape: " + shape);
     }
 
     public static String greet(String name) {

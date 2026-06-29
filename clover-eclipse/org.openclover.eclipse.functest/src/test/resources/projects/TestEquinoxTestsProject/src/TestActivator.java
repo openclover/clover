@@ -1,9 +1,9 @@
 import testequinoxproject.Activator;
-import junit.framework.TestCase;
+import org.junit.Test;
 
-
-public class TestActivator extends TestCase {
+public class TestActivator {
+    @Test
     public void testFoo() {
         Activator.foo();
-    } 
+    }
 }

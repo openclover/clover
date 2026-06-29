@@ -1,7 +1,7 @@
-import junit.framework.TestCase;
+import org.junit.Test;
 
-
-public class TestClass3 extends TestCase {
+public class TestClass3 {
+	@Test
 	public void testMain() {
 		Class3.main(null);
 	}

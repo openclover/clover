@@ -1,10 +1,10 @@
 package org.openclover.eclipse.test;
 
 import org.openclover.eclipse.HelloWorld;
+import org.junit.Test;
 
-import junit.framework.TestCase;
-
-public class TestHelloWorld extends TestCase {
+public class TestHelloWorld {
+    @Test
     public void testMain() {
         HelloWorld.main(null);
     }
