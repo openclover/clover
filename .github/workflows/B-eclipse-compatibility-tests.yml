@@ -121,12 +121,13 @@ jobs:
             libxrender1 libxtst6 libxi6 libxss1 \
             dbus-x11 \
             fonts-dejavu-core fontconfig \
-            xauth
+            xauth \
+            x11-utils
           fc-cache -f
 
       - name: Run functional tests against Eclipse ${{ matrix.eclipse-version }}
         run: |
-          mvn --batch-mode verify \
+          dbus-run-session -- mvn --batch-mode verify \
             -pl clover-eclipse/org.openclover.eclipse.functest \
             -Peclipse-functest \
             -Declipse.version=${{ matrix.eclipse-version }} \
