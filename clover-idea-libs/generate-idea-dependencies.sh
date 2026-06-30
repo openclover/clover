@@ -29,12 +29,17 @@ scanLibraries() {
 scanPlugins() {
   groupId="org.openclover.idea.plugins"
   pluginsDir=$1/plugins
+  libDir=$1/lib
   version=$2
-  pluginIncludes="properties devkit"
+  pluginIncludes="properties devkit java"
   for pluginDir in `ls $pluginsDir`; do
     if [ `echo $pluginIncludes | grep -w $pluginDir | wc -l` -ne 0 ]; then
       for pluginFile in `ls $pluginsDir/$pluginDir/lib/$pluginDir*.jar`; do
         pluginFileName=`echo $pluginFile | sed 's/\.jar//' | sed 's/.*\///'`
+        # Skip if a JAR with the same name already exists in lib/ (avoid duplicate dependencies)
+        if [ -f "$libDir/$pluginFileName.jar" ]; then
+          continue
+        fi
         artifactId=$pluginFileName
         echoDependency $groupId $artifactId $version
       done
