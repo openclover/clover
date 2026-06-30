@@ -8,7 +8,7 @@
         <version>5.0.0-SNAPSHOT</version>
     </parent>
     <artifactId>clover-idea-libs</artifactId>
-    <version>233.15619.7</version> <!-- major.minor.build (2023.3.8 build IC-233.15619.7) -->
+    <version>243.28141.41</version> <!-- major.minor.build (2024.3.7.1 build IC-243.28141.41) -->
     <packaging>pom</packaging>
     <description>
         This module prepares a subset of IntelliJ IDEA's JAR files as Maven artifacts, using a downloaded
@@ -91,267 +91,239 @@
                             <execution>
                                 <id>install-idea-annotations</id><phase>install</phase><goals><goal>install-file</goal></goals>
                                 <configuration>
-                                    <file>target/extract/idea-IC-233.15619.7/lib/annotations.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
-                                    <groupId>org.openclover.idea.libs</groupId><artifactId>annotations</artifactId><version>233.15619.7</version>
+                                    <file>target/extract/idea-IC-243.28141.41/lib/annotations.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
+                                    <groupId>org.openclover.idea.libs</groupId><artifactId>annotations</artifactId><version>243.28141.41</version>
                                 </configuration>
                             </execution>
                             <execution>
                                 <id>install-idea-app-client</id><phase>install</phase><goals><goal>install-file</goal></goals>
                                 <configuration>
-                                    <file>target/extract/idea-IC-233.15619.7/lib/app-client.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
-                                    <groupId>org.openclover.idea.libs</groupId><artifactId>app-client</artifactId><version>233.15619.7</version>
+                                    <file>target/extract/idea-IC-243.28141.41/lib/app-client.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
+                                    <groupId>org.openclover.idea.libs</groupId><artifactId>app-client</artifactId><version>243.28141.41</version>
                                 </configuration>
                             </execution>
                             <execution>
                                 <id>install-idea-app</id><phase>install</phase><goals><goal>install-file</goal></goals>
                                 <configuration>
-                                    <file>target/extract/idea-IC-233.15619.7/lib/app.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
-                                    <groupId>org.openclover.idea.libs</groupId><artifactId>app</artifactId><version>233.15619.7</version>
+                                    <file>target/extract/idea-IC-243.28141.41/lib/app.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
+                                    <groupId>org.openclover.idea.libs</groupId><artifactId>app</artifactId><version>243.28141.41</version>
                                 </configuration>
                             </execution>
                             <execution>
                                 <id>install-idea-bouncy-castle</id><phase>install</phase><goals><goal>install-file</goal></goals>
                                 <configuration>
-                                    <file>target/extract/idea-IC-233.15619.7/lib/bouncy-castle.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
-                                    <groupId>org.openclover.idea.libs</groupId><artifactId>bouncy-castle</artifactId><version>233.15619.7</version>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>install-idea-byte-buddy-agent</id><phase>install</phase><goals><goal>install-file</goal></goals>
-                                <configuration>
-                                    <file>target/extract/idea-IC-233.15619.7/lib/byte-buddy-agent.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
-                                    <groupId>org.openclover.idea.libs</groupId><artifactId>byte-buddy-agent</artifactId><version>233.15619.7</version>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>install-idea-error-prone-annotations</id><phase>install</phase><goals><goal>install-file</goal></goals>
-                                <configuration>
-                                    <file>target/extract/idea-IC-233.15619.7/lib/error-prone-annotations.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
-                                    <groupId>org.openclover.idea.libs</groupId><artifactId>error-prone-annotations</artifactId><version>233.15619.7</version>
+                                    <file>target/extract/idea-IC-243.28141.41/lib/bouncy-castle.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
+                                    <groupId>org.openclover.idea.libs</groupId><artifactId>bouncy-castle</artifactId><version>243.28141.41</version>
                                 </configuration>
                             </execution>
                             <execution>
                                 <id>install-idea-external-system-rt</id><phase>install</phase><goals><goal>install-file</goal></goals>
                                 <configuration>
-                                    <file>target/extract/idea-IC-233.15619.7/lib/external-system-rt.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
-                                    <groupId>org.openclover.idea.libs</groupId><artifactId>external-system-rt</artifactId><version>233.15619.7</version>
+                                    <file>target/extract/idea-IC-243.28141.41/lib/external-system-rt.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
+                                    <groupId>org.openclover.idea.libs</groupId><artifactId>external-system-rt</artifactId><version>243.28141.41</version>
                                 </configuration>
                             </execution>
                             <execution>
                                 <id>install-idea-externalProcess-rt</id><phase>install</phase><goals><goal>install-file</goal></goals>
                                 <configuration>
-                                    <file>target/extract/idea-IC-233.15619.7/lib/externalProcess-rt.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
-                                    <groupId>org.openclover.idea.libs</groupId><artifactId>externalProcess-rt</artifactId><version>233.15619.7</version>
+                                    <file>target/extract/idea-IC-243.28141.41/lib/externalProcess-rt.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
+                                    <groupId>org.openclover.idea.libs</groupId><artifactId>externalProcess-rt</artifactId><version>243.28141.41</version>
                                 </configuration>
                             </execution>
                             <execution>
                                 <id>install-idea-forms_rt</id><phase>install</phase><goals><goal>install-file</goal></goals>
                                 <configuration>
-                                    <file>target/extract/idea-IC-233.15619.7/lib/forms_rt.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
-                                    <groupId>org.openclover.idea.libs</groupId><artifactId>forms_rt</artifactId><version>233.15619.7</version>
+                                    <file>target/extract/idea-IC-243.28141.41/lib/forms_rt.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
+                                    <groupId>org.openclover.idea.libs</groupId><artifactId>forms_rt</artifactId><version>243.28141.41</version>
                                 </configuration>
                             </execution>
                             <execution>
                                 <id>install-idea-groovy</id><phase>install</phase><goals><goal>install-file</goal></goals>
                                 <configuration>
-                                    <file>target/extract/idea-IC-233.15619.7/lib/groovy.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
-                                    <groupId>org.openclover.idea.libs</groupId><artifactId>groovy</artifactId><version>233.15619.7</version>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>install-idea-grpc</id><phase>install</phase><goals><goal>install-file</goal></goals>
-                                <configuration>
-                                    <file>target/extract/idea-IC-233.15619.7/lib/grpc.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
-                                    <groupId>org.openclover.idea.libs</groupId><artifactId>grpc</artifactId><version>233.15619.7</version>
+                                    <file>target/extract/idea-IC-243.28141.41/lib/groovy.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
+                                    <groupId>org.openclover.idea.libs</groupId><artifactId>groovy</artifactId><version>243.28141.41</version>
                                 </configuration>
                             </execution>
                             <execution>
                                 <id>install-idea-idea_rt</id><phase>install</phase><goals><goal>install-file</goal></goals>
                                 <configuration>
-                                    <file>target/extract/idea-IC-233.15619.7/lib/idea_rt.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
-                                    <groupId>org.openclover.idea.libs</groupId><artifactId>idea_rt</artifactId><version>233.15619.7</version>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>install-idea-intellij-coverage-agent-1.0.738</id><phase>install</phase><goals><goal>install-file</goal></goals>
-                                <configuration>
-                                    <file>target/extract/idea-IC-233.15619.7/lib/intellij-coverage-agent-1.0.738.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
-                                    <groupId>org.openclover.idea.libs</groupId><artifactId>intellij-coverage-agent-1.0.738</artifactId><version>233.15619.7</version>
+                                    <file>target/extract/idea-IC-243.28141.41/lib/idea_rt.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
+                                    <groupId>org.openclover.idea.libs</groupId><artifactId>idea_rt</artifactId><version>243.28141.41</version>
                                 </configuration>
                             </execution>
                             <execution>
                                 <id>install-idea-intellij-test-discovery</id><phase>install</phase><goals><goal>install-file</goal></goals>
                                 <configuration>
-                                    <file>target/extract/idea-IC-233.15619.7/lib/intellij-test-discovery.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
-                                    <groupId>org.openclover.idea.libs</groupId><artifactId>intellij-test-discovery</artifactId><version>233.15619.7</version>
+                                    <file>target/extract/idea-IC-243.28141.41/lib/intellij-test-discovery.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
+                                    <groupId>org.openclover.idea.libs</groupId><artifactId>intellij-test-discovery</artifactId><version>243.28141.41</version>
                                 </configuration>
                             </execution>
                             <execution>
                                 <id>install-idea-jps-model</id><phase>install</phase><goals><goal>install-file</goal></goals>
                                 <configuration>
-                                    <file>target/extract/idea-IC-233.15619.7/lib/jps-model.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
-                                    <groupId>org.openclover.idea.libs</groupId><artifactId>jps-model</artifactId><version>233.15619.7</version>
+                                    <file>target/extract/idea-IC-243.28141.41/lib/jps-model.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
+                                    <groupId>org.openclover.idea.libs</groupId><artifactId>jps-model</artifactId><version>243.28141.41</version>
                                 </configuration>
                             </execution>
                             <execution>
                                 <id>install-idea-jsch-agent</id><phase>install</phase><goals><goal>install-file</goal></goals>
                                 <configuration>
-                                    <file>target/extract/idea-IC-233.15619.7/lib/jsch-agent.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
-                                    <groupId>org.openclover.idea.libs</groupId><artifactId>jsch-agent</artifactId><version>233.15619.7</version>
+                                    <file>target/extract/idea-IC-243.28141.41/lib/jsch-agent.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
+                                    <groupId>org.openclover.idea.libs</groupId><artifactId>jsch-agent</artifactId><version>243.28141.41</version>
                                 </configuration>
                             </execution>
                             <execution>
-                                <id>install-idea-junit</id><phase>install</phase><goals><goal>install-file</goal></goals>
+                                <id>install-idea-kotlinx-coroutines-slf4j-1.8.0-intellij</id><phase>install</phase><goals><goal>install-file</goal></goals>
                                 <configuration>
-                                    <file>target/extract/idea-IC-233.15619.7/lib/junit.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
-                                    <groupId>org.openclover.idea.libs</groupId><artifactId>junit</artifactId><version>233.15619.7</version>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>install-idea-junit4</id><phase>install</phase><goals><goal>install-file</goal></goals>
-                                <configuration>
-                                    <file>target/extract/idea-IC-233.15619.7/lib/junit4.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
-                                    <groupId>org.openclover.idea.libs</groupId><artifactId>junit4</artifactId><version>233.15619.7</version>
+                                    <file>target/extract/idea-IC-243.28141.41/lib/kotlinx-coroutines-slf4j-1.8.0-intellij.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
+                                    <groupId>org.openclover.idea.libs</groupId><artifactId>kotlinx-coroutines-slf4j-1.8.0-intellij</artifactId><version>243.28141.41</version>
                                 </configuration>
                             </execution>
                             <execution>
                                 <id>install-idea-lib-client</id><phase>install</phase><goals><goal>install-file</goal></goals>
                                 <configuration>
-                                    <file>target/extract/idea-IC-233.15619.7/lib/lib-client.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
-                                    <groupId>org.openclover.idea.libs</groupId><artifactId>lib-client</artifactId><version>233.15619.7</version>
+                                    <file>target/extract/idea-IC-243.28141.41/lib/lib-client.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
+                                    <groupId>org.openclover.idea.libs</groupId><artifactId>lib-client</artifactId><version>243.28141.41</version>
                                 </configuration>
                             </execution>
                             <execution>
                                 <id>install-idea-lib</id><phase>install</phase><goals><goal>install-file</goal></goals>
                                 <configuration>
-                                    <file>target/extract/idea-IC-233.15619.7/lib/lib.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
-                                    <groupId>org.openclover.idea.libs</groupId><artifactId>lib</artifactId><version>233.15619.7</version>
+                                    <file>target/extract/idea-IC-243.28141.41/lib/lib.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
+                                    <groupId>org.openclover.idea.libs</groupId><artifactId>lib</artifactId><version>243.28141.41</version>
                                 </configuration>
                             </execution>
                             <execution>
-                                <id>install-idea-modules</id><phase>install</phase><goals><goal>install-file</goal></goals>
+                                <id>install-idea-nio-fs</id><phase>install</phase><goals><goal>install-file</goal></goals>
                                 <configuration>
-                                    <file>target/extract/idea-IC-233.15619.7/lib/modules.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
-                                    <groupId>org.openclover.idea.libs</groupId><artifactId>modules</artifactId><version>233.15619.7</version>
+                                    <file>target/extract/idea-IC-243.28141.41/lib/nio-fs.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
+                                    <groupId>org.openclover.idea.libs</groupId><artifactId>nio-fs</artifactId><version>243.28141.41</version>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>install-idea-opentelemetry</id><phase>install</phase><goals><goal>install-file</goal></goals>
+                                <configuration>
+                                    <file>target/extract/idea-IC-243.28141.41/lib/opentelemetry.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
+                                    <groupId>org.openclover.idea.libs</groupId><artifactId>opentelemetry</artifactId><version>243.28141.41</version>
                                 </configuration>
                             </execution>
                             <execution>
                                 <id>install-idea-platform-loader</id><phase>install</phase><goals><goal>install-file</goal></goals>
                                 <configuration>
-                                    <file>target/extract/idea-IC-233.15619.7/lib/platform-loader.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
-                                    <groupId>org.openclover.idea.libs</groupId><artifactId>platform-loader</artifactId><version>233.15619.7</version>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>install-idea-product-client</id><phase>install</phase><goals><goal>install-file</goal></goals>
-                                <configuration>
-                                    <file>target/extract/idea-IC-233.15619.7/lib/product-client.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
-                                    <groupId>org.openclover.idea.libs</groupId><artifactId>product-client</artifactId><version>233.15619.7</version>
+                                    <file>target/extract/idea-IC-243.28141.41/lib/platform-loader.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
+                                    <groupId>org.openclover.idea.libs</groupId><artifactId>platform-loader</artifactId><version>243.28141.41</version>
                                 </configuration>
                             </execution>
                             <execution>
                                 <id>install-idea-protobuf</id><phase>install</phase><goals><goal>install-file</goal></goals>
                                 <configuration>
-                                    <file>target/extract/idea-IC-233.15619.7/lib/protobuf.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
-                                    <groupId>org.openclover.idea.libs</groupId><artifactId>protobuf</artifactId><version>233.15619.7</version>
+                                    <file>target/extract/idea-IC-243.28141.41/lib/protobuf.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
+                                    <groupId>org.openclover.idea.libs</groupId><artifactId>protobuf</artifactId><version>243.28141.41</version>
                                 </configuration>
                             </execution>
                             <execution>
                                 <id>install-idea-rd</id><phase>install</phase><goals><goal>install-file</goal></goals>
                                 <configuration>
-                                    <file>target/extract/idea-IC-233.15619.7/lib/rd.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
-                                    <groupId>org.openclover.idea.libs</groupId><artifactId>rd</artifactId><version>233.15619.7</version>
+                                    <file>target/extract/idea-IC-243.28141.41/lib/rd.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
+                                    <groupId>org.openclover.idea.libs</groupId><artifactId>rd</artifactId><version>243.28141.41</version>
                                 </configuration>
                             </execution>
                             <execution>
                                 <id>install-idea-stats</id><phase>install</phase><goals><goal>install-file</goal></goals>
                                 <configuration>
-                                    <file>target/extract/idea-IC-233.15619.7/lib/stats.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
-                                    <groupId>org.openclover.idea.libs</groupId><artifactId>stats</artifactId><version>233.15619.7</version>
+                                    <file>target/extract/idea-IC-243.28141.41/lib/stats.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
+                                    <groupId>org.openclover.idea.libs</groupId><artifactId>stats</artifactId><version>243.28141.41</version>
                                 </configuration>
                             </execution>
                             <execution>
                                 <id>install-idea-testFramework</id><phase>install</phase><goals><goal>install-file</goal></goals>
                                 <configuration>
-                                    <file>target/extract/idea-IC-233.15619.7/lib/testFramework.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
-                                    <groupId>org.openclover.idea.libs</groupId><artifactId>testFramework</artifactId><version>233.15619.7</version>
+                                    <file>target/extract/idea-IC-243.28141.41/lib/testFramework.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
+                                    <groupId>org.openclover.idea.libs</groupId><artifactId>testFramework</artifactId><version>243.28141.41</version>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>install-idea-trove</id><phase>install</phase><goals><goal>install-file</goal></goals>
+                                <configuration>
+                                    <file>target/extract/idea-IC-243.28141.41/lib/trove.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
+                                    <groupId>org.openclover.idea.libs</groupId><artifactId>trove</artifactId><version>243.28141.41</version>
                                 </configuration>
                             </execution>
                             <execution>
                                 <id>install-idea-util-8</id><phase>install</phase><goals><goal>install-file</goal></goals>
                                 <configuration>
-                                    <file>target/extract/idea-IC-233.15619.7/lib/util-8.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
-                                    <groupId>org.openclover.idea.libs</groupId><artifactId>util-8</artifactId><version>233.15619.7</version>
+                                    <file>target/extract/idea-IC-243.28141.41/lib/util-8.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
+                                    <groupId>org.openclover.idea.libs</groupId><artifactId>util-8</artifactId><version>243.28141.41</version>
                                 </configuration>
                             </execution>
                             <execution>
                                 <id>install-idea-util</id><phase>install</phase><goals><goal>install-file</goal></goals>
                                 <configuration>
-                                    <file>target/extract/idea-IC-233.15619.7/lib/util.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
-                                    <groupId>org.openclover.idea.libs</groupId><artifactId>util</artifactId><version>233.15619.7</version>
+                                    <file>target/extract/idea-IC-243.28141.41/lib/util.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
+                                    <groupId>org.openclover.idea.libs</groupId><artifactId>util</artifactId><version>243.28141.41</version>
                                 </configuration>
                             </execution>
                             <execution>
                                 <id>install-idea-util_rt</id><phase>install</phase><goals><goal>install-file</goal></goals>
                                 <configuration>
-                                    <file>target/extract/idea-IC-233.15619.7/lib/util_rt.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
-                                    <groupId>org.openclover.idea.libs</groupId><artifactId>util_rt</artifactId><version>233.15619.7</version>
+                                    <file>target/extract/idea-IC-243.28141.41/lib/util_rt.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
+                                    <groupId>org.openclover.idea.libs</groupId><artifactId>util_rt</artifactId><version>243.28141.41</version>
                                 </configuration>
                             </execution>
                             <execution>
                                 <id>install-idea-java-frontback</id><phase>install</phase><goals><goal>install-file</goal></goals>
                                 <configuration>
-                                    <file>target/extract/idea-IC-233.15619.7/plugins/java/lib/java-frontback.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
-                                    <groupId>org.openclover.idea.plugins</groupId><artifactId>java-frontback</artifactId><version>233.15619.7</version>
+                                    <file>target/extract/idea-IC-243.28141.41/plugins/java/lib/java-frontback.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
+                                    <groupId>org.openclover.idea.plugins</groupId><artifactId>java-frontback</artifactId><version>243.28141.41</version>
                                 </configuration>
                             </execution>
                             <execution>
                                 <id>install-idea-java-impl</id><phase>install</phase><goals><goal>install-file</goal></goals>
                                 <configuration>
-                                    <file>target/extract/idea-IC-233.15619.7/plugins/java/lib/java-impl.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
-                                    <groupId>org.openclover.idea.plugins</groupId><artifactId>java-impl</artifactId><version>233.15619.7</version>
+                                    <file>target/extract/idea-IC-243.28141.41/plugins/java/lib/java-impl.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
+                                    <groupId>org.openclover.idea.plugins</groupId><artifactId>java-impl</artifactId><version>243.28141.41</version>
                                 </configuration>
                             </execution>
                             <execution>
                                 <id>install-idea-javac2</id><phase>install</phase><goals><goal>install-file</goal></goals>
                                 <configuration>
-                                    <file>target/extract/idea-IC-233.15619.7/plugins/java/lib/javac2.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
-                                    <groupId>org.openclover.idea.plugins</groupId><artifactId>javac2</artifactId><version>233.15619.7</version>
+                                    <file>target/extract/idea-IC-243.28141.41/plugins/java/lib/javac2.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
+                                    <groupId>org.openclover.idea.plugins</groupId><artifactId>javac2</artifactId><version>243.28141.41</version>
                                 </configuration>
                             </execution>
                             <execution>
                                 <id>install-idea-jps-builders-6</id><phase>install</phase><goals><goal>install-file</goal></goals>
                                 <configuration>
-                                    <file>target/extract/idea-IC-233.15619.7/plugins/java/lib/jps-builders-6.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
-                                    <groupId>org.openclover.idea.plugins</groupId><artifactId>jps-builders-6</artifactId><version>233.15619.7</version>
+                                    <file>target/extract/idea-IC-243.28141.41/plugins/java/lib/jps-builders-6.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
+                                    <groupId>org.openclover.idea.plugins</groupId><artifactId>jps-builders-6</artifactId><version>243.28141.41</version>
                                 </configuration>
                             </execution>
                             <execution>
                                 <id>install-idea-jps-builders</id><phase>install</phase><goals><goal>install-file</goal></goals>
                                 <configuration>
-                                    <file>target/extract/idea-IC-233.15619.7/plugins/java/lib/jps-builders.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
-                                    <groupId>org.openclover.idea.plugins</groupId><artifactId>jps-builders</artifactId><version>233.15619.7</version>
+                                    <file>target/extract/idea-IC-243.28141.41/plugins/java/lib/jps-builders.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
+                                    <groupId>org.openclover.idea.plugins</groupId><artifactId>jps-builders</artifactId><version>243.28141.41</version>
                                 </configuration>
                             </execution>
                             <execution>
                                 <id>install-idea-jps-javac-extension</id><phase>install</phase><goals><goal>install-file</goal></goals>
                                 <configuration>
-                                    <file>target/extract/idea-IC-233.15619.7/plugins/java/lib/jps-javac-extension.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
-                                    <groupId>org.openclover.idea.plugins</groupId><artifactId>jps-javac-extension</artifactId><version>233.15619.7</version>
+                                    <file>target/extract/idea-IC-243.28141.41/plugins/java/lib/jps-javac-extension.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
+                                    <groupId>org.openclover.idea.plugins</groupId><artifactId>jps-javac-extension</artifactId><version>243.28141.41</version>
                                 </configuration>
                             </execution>
                             <execution>
                                 <id>install-idea-jps-launcher</id><phase>install</phase><goals><goal>install-file</goal></goals>
                                 <configuration>
-                                    <file>target/extract/idea-IC-233.15619.7/plugins/java/lib/jps-launcher.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
-                                    <groupId>org.openclover.idea.plugins</groupId><artifactId>jps-launcher</artifactId><version>233.15619.7</version>
+                                    <file>target/extract/idea-IC-243.28141.41/plugins/java/lib/jps-launcher.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
+                                    <groupId>org.openclover.idea.plugins</groupId><artifactId>jps-launcher</artifactId><version>243.28141.41</version>
                                 </configuration>
                             </execution>
                             <execution>
                                 <id>install-idea-properties</id><phase>install</phase><goals><goal>install-file</goal></goals>
                                 <configuration>
-                                    <file>target/extract/idea-IC-233.15619.7/plugins/properties/lib/properties.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
-                                    <groupId>org.openclover.idea.plugins</groupId><artifactId>properties</artifactId><version>233.15619.7</version>
+                                    <file>target/extract/idea-IC-243.28141.41/plugins/properties/lib/properties.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
+                                    <groupId>org.openclover.idea.plugins</groupId><artifactId>properties</artifactId><version>243.28141.41</version>
                                 </configuration>
                             </execution>
                             <!-- End of generated by generate-install-file-calls.sh -->
@@ -365,7 +337,7 @@
     <properties>
         <idea.download.site>https://download.jetbrains.com</idea.download.site>
         <idea.download.path>idea</idea.download.path>
-        <idea.download.file>ideaIC-2023.3.8.tar.gz</idea.download.file>
-        <idea.download.dir>idea-IC-233.15619.7</idea.download.dir>
+        <idea.download.file>ideaIC-2024.3.7.1.tar.gz</idea.download.file>
+        <idea.download.dir>idea-IC-243.28141.41</idea.download.dir>
     </properties>
 </project>
