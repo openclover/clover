@@ -37,7 +37,17 @@ If this state is introduced, such sites should appear in HTML/XML reports as "no
 - Code: `java.g` around line 3147: `if (!constExpr) instrBoolExpr(...)`. `ExpressionInfo.scanForConstant()` via `ConstantExpressionDetector`.
 - Also applies to: switch case labels (`case 5 + 3:`) — `constExpr = true` is set before parsing `constantExpression` in the grammar.
 
-**4. Java try-with-resources — NOT a limitation (solved via AutoCloseable trick)**
+**4. Java `assert` statements — statement skipped, branch skipped for constant expressions**
+- Construct: `assert <expr>` and `assert <expr> : <message>`
+- Why (statement): The grammar rule for `ASSERT` sets `instrumentable = false`, so no `R.inc()` is injected before the assert statement. This has been present since the original Atlassian Clover open-source release.
+- Why (branch — constant case): Constant expressions (e.g. `assert true`) are also not instrumented for branch coverage because `constExpr = true` is set, and `if (!constExpr) instrBoolExpr(...)` in `conditionalExpression` rule skips them.
+- What IS instrumented: For non-constant expressions (`assert new Boolean(true)`), branch coverage IS recorded via `R.iget()` wrapping.
+- Code: `clover-core/src/main/java/com/atlassian/clover/instr/java/java.g` ~line 2229 (`instrumentable = false` in ASSERT rule) and ~line 2971 (`if (!constExpr) instrBoolExpr(...)` in `conditionalExpression`).
+- Note: Assert statements have a dedicated `CONTEXT_ASSERT` coverage context, usable to include/exclude them from reports — but this only affects branch coverage (statement coverage is never recorded).
+- Issue: https://github.com/openclover/clover/issues/232 (open, labelled documentation, assigned to marek-parfianowicz)
+- Suspected root cause for `instrumentable = false`: similar to `catch` blocks and `super()` constructor calls, there may be a grammar/JVM constraint. Investigation pending.
+
+**5. Java try-with-resources — NOT a limitation (solved via AutoCloseable trick)**
 - Construct: `try (InputStream in = new FileInputStream(f)) { ... }`
 - Status: **Fully instrumented.** A synthetic anonymous `AutoCloseable` class (e.g. `__CLR4_0_0_autocloseable0`) is created whose instance initializer calls `R.inc(n)`. This class is instantiated inside `try(...)` as an additional resource — syntactically valid, semantically correct.
 - Code: `ArmInstrEmitter.java`, `AutoCloseableEmitter.java`, called from `instrArmDecl()` in `java.g` around line 2747.
@@ -102,6 +112,7 @@ If this state is introduced, such sites should appear in HTML/XML reports as "no
 | **Not yet implemented** | Groovy traits (CLOV-1960) |
 | **Constant folding** | Constant boolean/conditional expressions — instrumentation of always-true/false branches is meaningless |
 | **Assignment in condition** | `if (a = val)` — wrapping with boolean short-circuit would mis-sequence the assignment |
+| **Grammar-level `instrumentable = false`** | `assert` statements — no statement coverage; constant assert expressions also lack branch coverage |
 
 ---
 
