@@ -87,7 +87,7 @@
                                 </configuration>
                             </execution>
 
-                                                                                    <!-- Generated automatically by generate-install-file-calls.sh -->
+                            <!-- Generated automatically by generate-install-file-calls.sh -->
                             <execution>
                                 <id>install-idea-FastInfoset-1.2.15</id><phase>install</phase><goals><goal>install-file</goal></goals>
                                 <configuration>
@@ -1528,6 +1528,27 @@
                                 <configuration>
                                     <file>target/extract/idea-IC-193.7288.26/plugins/java/lib/java_resources_en.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
                                     <groupId>org.openclover.idea.plugins</groupId><artifactId>java_resources_en</artifactId><version>193.7288.26</version>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>install-idea-jps-builders-6</id><phase>install</phase><goals><goal>install-file</goal></goals>
+                                <configuration>
+                                    <file>target/extract/idea-IC-193.7288.26/plugins/java/lib/jps-builders-6.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
+                                    <groupId>org.openclover.idea.plugins</groupId><artifactId>jps-builders-6</artifactId><version>193.7288.26</version>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>install-idea-jps-builders</id><phase>install</phase><goals><goal>install-file</goal></goals>
+                                <configuration>
+                                    <file>target/extract/idea-IC-193.7288.26/plugins/java/lib/jps-builders.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
+                                    <groupId>org.openclover.idea.plugins</groupId><artifactId>jps-builders</artifactId><version>193.7288.26</version>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>install-idea-jps-launcher</id><phase>install</phase><goals><goal>install-file</goal></goals>
+                                <configuration>
+                                    <file>target/extract/idea-IC-193.7288.26/plugins/java/lib/jps-launcher.jar</file><packaging>jar</packaging><generatePom>true</generatePom>
+                                    <groupId>org.openclover.idea.plugins</groupId><artifactId>jps-launcher</artifactId><version>193.7288.26</version>
                                 </configuration>
                             </execution>
                             <execution>

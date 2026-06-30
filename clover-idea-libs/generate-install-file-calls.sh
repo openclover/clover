@@ -35,7 +35,7 @@ scanPlugins() {
   pluginIncludes="properties devkit java"
   for pluginDir in `ls $pluginsDir`; do
     if [ `echo $pluginIncludes | grep -w $pluginDir | wc -l` -ne 0 ]; then
-      for pluginFile in `ls $pluginsDir/$pluginDir/lib/$pluginDir*.jar`; do
+      for pluginFile in $(ls $pluginsDir/$pluginDir/lib/$pluginDir*.jar $pluginsDir/$pluginDir/lib/jps-*.jar 2>/dev/null | sort -u); do
         pluginFileName=`echo $pluginFile | sed 's/\.jar//' | sed 's/.*\///'`
         # Skip if a JAR with the same name already exists in lib/ (avoid duplicate execution IDs)
         if [ -f "$libDir/$pluginFileName.jar" ]; then

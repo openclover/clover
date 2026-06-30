@@ -1053,6 +1053,21 @@
         </dependency>
         <dependency>
           <groupId>org.openclover.idea.plugins</groupId>
+          <artifactId>jps-builders-6</artifactId>
+          <version>193.7288.26</version>
+        </dependency>
+        <dependency>
+          <groupId>org.openclover.idea.plugins</groupId>
+          <artifactId>jps-builders</artifactId>
+          <version>193.7288.26</version>
+        </dependency>
+        <dependency>
+          <groupId>org.openclover.idea.plugins</groupId>
+          <artifactId>jps-launcher</artifactId>
+          <version>193.7288.26</version>
+        </dependency>
+        <dependency>
+          <groupId>org.openclover.idea.plugins</groupId>
           <artifactId>properties</artifactId>
           <version>193.7288.26</version>
         </dependency>
