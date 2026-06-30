@@ -99,6 +99,11 @@
                 </dependency>
                 <dependency>
                     <groupId>org.openclover.eclipse.libs</groupId>
+                    <artifactId>org.eclipse.equinox.app</artifactId>
+                    <version>${org.eclipse.equinox.app.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.openclover.eclipse.libs</groupId>
                     <artifactId>org.eclipse.jdt.core</artifactId>
                     <version>${org.eclipse.jdt.core.version}</version>
                 </dependency>
@@ -408,6 +413,20 @@
                                 </configuration>
                             </execution>
                             <execution>
+                                <id>install-org.eclipse.equinox.app</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>install-file</goal>
+                                </goals>
+                                <configuration>
+                                    <file>${project.build.directory}/extract/org.eclipse.equinox.app_${org.eclipse.equinox.app.version}.jar</file>
+                                    <groupId>org.openclover.eclipse.libs</groupId>
+                                    <artifactId>org.eclipse.equinox.app</artifactId>
+                                    <version>${org.eclipse.equinox.app.version}</version>
+                                    <packaging>jar</packaging>
+                                </configuration>
+                            </execution>
+                            <execution>
                                 <id>install-org.eclipse.jdt.core</id>
                                 <phase>install</phase>
                                 <goals>
@@ -686,5 +705,6 @@
         <org.eclipse.ui.workbench.texteditor.version>3.20.0.v20260127-1637</org.eclipse.ui.workbench.texteditor.version>
         <org.eclipse.ui.workbench.version>3.138.0.v20260204-1601</org.eclipse.ui.workbench.version>
         <org.osgi.service.prefs.version>1.1.2.202109301733</org.osgi.service.prefs.version>
+        <org.eclipse.equinox.app.version>1.7.600.v20251211-1038</org.eclipse.equinox.app.version>
     </properties>
 </project>

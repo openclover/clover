@@ -1,0 +1,62 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.openclover</groupId>
+        <artifactId>clover-eclipse</artifactId>
+        <version>5.0.0.v20260701000000</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <artifactId>org.openclover.eclipse.functest.runner</artifactId>
+    <name>OpenClover Eclipse Functional Test Runner</name>
+    <description>
+        An Eclipse IApplication plugin that imports test projects into a headless workspace,
+        triggers full builds (activating Clover's pre/post builders), and verifies coverage output.
+        Installed as a dropin into the Eclipse under test.
+    </description>
+    <dependencies>
+        <dependency>
+            <groupId>org.openclover.eclipse.libs</groupId>
+            <artifactId>clover-eclipse-libs</artifactId>
+            <version>${eclipse.libs.version}</version>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>org.openclover</groupId>
+            <artifactId>org.openclover.eclipse.core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
+                            <Bundle-Name>OpenClover Eclipse Functional Test Runner</Bundle-Name>
+                            <Bundle-Vendor>OpenClover.org</Bundle-Vendor>
+                            <Bundle-SymbolicName>org.openclover.eclipse.functest.runner; singleton:=true</Bundle-SymbolicName>
+                            <Bundle-Version>5.0.0</Bundle-Version>
+                            <Require-Bundle>org.eclipse.core.runtime,org.eclipse.core.resources,org.eclipse.jdt.core,org.eclipse.jdt.launching,org.openclover.eclipse.core;bundle-version=${project.version}</Require-Bundle>
+                            <Eclipse-LazyStart>false</Eclipse-LazyStart>
+                            <Bundle-Classpath>.</Bundle-Classpath>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

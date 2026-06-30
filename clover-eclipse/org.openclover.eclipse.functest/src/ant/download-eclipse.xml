@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:unless="ant:unless" xmlns:if="ant:if">
+    <target name="extract-eclipse">
+        <condition property="eclipse.already.extracted">
+            <available type="dir" file="${eclipse.install.dir}/${eclipse.install.marker}"/>
+        </condition>
+        <condition property="use.untar">
+            <and>
+                <not><isset property="eclipse.already.extracted"/></not>
+                <equals arg1="${eclipse.extract.type}" arg2="tar.gz"/>
+            </and>
+        </condition>
+        <condition property="use.unzip">
+            <and>
+                <not><isset property="eclipse.already.extracted"/></not>
+                <equals arg1="${eclipse.extract.type}" arg2="zip"/>
+            </and>
+        </condition>
+        <untar src="${eclipse.download.file.path}"
+               dest="${eclipse.install.dir}"
+               compression="gzip"
+               if:set="use.untar"/>
+        <unzip src="${eclipse.download.file.path}"
+               dest="${eclipse.install.dir}"
+               if:set="use.unzip"/>
+    </target>
+</project>

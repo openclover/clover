@@ -11,10 +11,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Set up JDK 1.8
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: 8.0
           distribution: temurin
@@ -22,7 +22,7 @@ jobs:
 
       - name: Cache IDEA binaries
         id: cache-idea
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: clover-idea-libs/target/download
           key: ${{ runner.os }}-idea-${{ hashFiles('clover-idea-libs/pom.xml') }}
@@ -40,8 +40,7 @@ jobs:
 
       - name: Compile and pack all modules
         run: |
-          mvn --batch-mode install -DskipTests=true --projects \
-              '!clover-eclipse,!clover-eclipse/org.openclover.eclipse.ant,!clover-eclipse/org.openclover.eclipse.ant.feature,!clover-eclipse/org.openclover.eclipse.branding,!clover-eclipse/org.openclover.eclipse.core,!clover-eclipse/org.openclover.eclipse.runtime,!clover-eclipse/org.openclover.eclipse.testopt,!clover-eclipse/org.openclover.eclipse.updatesite'
+          mvn --batch-mode install -DskipTests=true
 
       - name: Run tests for runtime, core, groovy, ant
         run: |
@@ -49,7 +48,7 @@ jobs:
 
       - name: Upload test results
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: test-results-jdk8
           path: |

@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.openclover</groupId>
+        <artifactId>clover-eclipse</artifactId>
+        <version>5.0.0.v20260701000000</version>
+    </parent>
+    <artifactId>org.openclover.eclipse.functest</artifactId>
+    <packaging>pom</packaging>
+    <name>OpenClover Eclipse Functional Tests</name>
+
+    <properties>
+        <!-- Eclipse download coordinates; override per matrix entry on CI -->
+        <eclipse.download.path>technology/epp/downloads/release/${eclipse.version}/R</eclipse.download.path>
+        <eclipse.download.site>https://ftp.fau.de/eclipse</eclipse.download.site>
+
+        <!-- Paths to previously-built artifacts; override on CI (artifacts downloaded separately) -->
+        <clover.site.zip>${project.basedir}/../org.openclover.eclipse.updatesite/target/clover-eclipse-site-${project.version}.zip</clover.site.zip>
+        <clover.runner.jar.dir>${project.basedir}/../org.openclover.eclipse.functest.runner/target</clover.runner.jar.dir>
+        <!-- clover-runtime version (parent group, not eclipse-versioned) -->
+        <clover.base.version>5.0.0-SNAPSHOT</clover.base.version>
+        <clover.runtime.jar>${project.basedir}/../../clover-runtime/target/clover-runtime-${clover.base.version}.jar</clover.runtime.jar>
+
+        <!-- Internal paths (not overridden) -->
+        <eclipse.install.dir>${project.build.directory}/eclipse-install</eclipse.install.dir>
+        <eclipse.site.dir>${project.build.directory}/eclipse-site</eclipse.site.dir>
+
+        <!--
+            OS-specific properties set by the auto-activated os-* profiles below:
+              eclipse.download.file         - archive filename
+              eclipse.extract.type          - tar.gz | zip
+              eclipse.install.marker        - subdir whose presence means Eclipse is extracted
+              eclipse.exe                   - path to eclipse executable
+              eclipse.destination           - p2 director -destination value
+              eclipse.dropins.dir           - dropins directory for the runner JAR
+              eclipse.functest.skip.xvfb    - true/false: run via xvfb-run (Linux)
+              eclipse.functest.skip.direct  - true/false: run eclipse directly (macOS/Windows)
+        -->
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+
+        <!-- ============================================================
+             OS-SPECIFIC PROFILES (auto-activated, properties only)
+             ============================================================ -->
+
+        <profile>
+            <id>os-linux</id>
+            <activation><os><name>Linux</name></os></activation>
+            <properties>
+                <eclipse.download.file>eclipse-java-${eclipse.version}-R-linux-gtk-x86_64.tar.gz</eclipse.download.file>
+                <eclipse.extract.type>tar.gz</eclipse.extract.type>
+                <eclipse.install.marker>eclipse</eclipse.install.marker>
+                <eclipse.exe>${eclipse.install.dir}/eclipse/eclipse</eclipse.exe>
+                <eclipse.plugins.dir>${eclipse.install.dir}/eclipse/plugins</eclipse.plugins.dir>
+                <eclipse.destination>${eclipse.install.dir}/eclipse</eclipse.destination>
+                <eclipse.dropins.dir>${eclipse.install.dir}/eclipse/dropins</eclipse.dropins.dir>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>os-mac</id>
+            <activation><os><family>mac</family></os></activation>
+            <properties>
+                <!-- ${os.arch} resolves to aarch64 on Apple Silicon, x86_64 on Intel -->
+                <eclipse.download.file>eclipse-java-${eclipse.version}-R-macosx-cocoa-${os.arch}.tar.gz</eclipse.download.file>
+                <eclipse.extract.type>tar.gz</eclipse.extract.type>
+                <eclipse.install.marker>Eclipse.app</eclipse.install.marker>
+                <eclipse.exe>${eclipse.install.dir}/Eclipse.app/Contents/MacOS/eclipse</eclipse.exe>
+                <eclipse.plugins.dir>${eclipse.install.dir}/Eclipse.app/Contents/Eclipse/plugins</eclipse.plugins.dir>
+                <eclipse.destination>${eclipse.install.dir}/Eclipse.app/Contents/Eclipse</eclipse.destination>
+                <eclipse.dropins.dir>${eclipse.install.dir}/Eclipse.app/Contents/Eclipse/dropins</eclipse.dropins.dir>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>os-windows</id>
+            <activation><os><family>windows</family></os></activation>
+            <properties>
+                <eclipse.download.file>eclipse-java-${eclipse.version}-R-win32-x86_64.zip</eclipse.download.file>
+                <eclipse.extract.type>zip</eclipse.extract.type>
+                <eclipse.install.marker>eclipse</eclipse.install.marker>
+                <eclipse.exe>${eclipse.install.dir}/eclipse/eclipse.exe</eclipse.exe>
+                <eclipse.plugins.dir>${eclipse.install.dir}/eclipse/plugins</eclipse.plugins.dir>
+                <eclipse.destination>${eclipse.install.dir}/eclipse</eclipse.destination>
+                <eclipse.dropins.dir>${eclipse.install.dir}/eclipse/dropins</eclipse.dropins.dir>
+            </properties>
+        </profile>
+
+        <!-- ============================================================
+             MAIN PROFILE — all plugin configuration lives here.
+             Not auto-activated; combine with an os-* profile above.
+             Usage: mvn verify -Peclipse-functest
+                    [-Declipse.version=2025-06 ...]
+             ============================================================ -->
+        <profile>
+            <id>eclipse-functest</id>
+            <build>
+                <plugins>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>3.0.0</version>
+                        <executions>
+
+                            <!-- 1–3. Download archive, extract Eclipse, unzip update site -->
+                            <execution>
+                                <id>download-and-extract-eclipse</id>
+                                <phase>pre-integration-test</phase>
+                                <goals><goal>run</goal></goals>
+                                <configuration>
+                                    <target>
+                                        <mkdir dir="${project.build.directory}/download"/>
+                                        <get src="${eclipse.download.site}/${eclipse.download.path}/${eclipse.download.file}"
+                                             dest="${project.build.directory}/download/${eclipse.download.file}"
+                                             skipexisting="true"/>
+
+                                        <mkdir dir="${eclipse.install.dir}"/>
+                                        <ant antfile="${project.basedir}/src/ant/download-eclipse.xml"
+                                             target="extract-eclipse">
+                                            <property name="eclipse.install.dir"       value="${eclipse.install.dir}"/>
+                                            <property name="eclipse.install.marker"    value="${eclipse.install.marker}"/>
+                                            <property name="eclipse.extract.type"      value="${eclipse.extract.type}"/>
+                                            <property name="eclipse.download.file.path" value="${project.build.directory}/download/${eclipse.download.file}"/>
+                                        </ant>
+                                        <chmod file="${eclipse.exe}" perm="755"/>
+
+                                        <mkdir dir="${eclipse.site.dir}"/>
+                                        <unzip src="${clover.site.zip}"
+                                               dest="${eclipse.site.dir}"
+                                               overwrite="false"/>
+                                    </target>
+                                </configuration>
+                            </execution>
+
+                            <!-- 5. Copy functest runner JAR into dropins/ -->
+                            <execution>
+                                <id>copy-runner-jar</id>
+                                <phase>pre-integration-test</phase>
+                                <goals><goal>run</goal></goals>
+                                <configuration>
+                                    <target>
+                                        <mkdir dir="${eclipse.dropins.dir}"/>
+                                        <copy todir="${eclipse.dropins.dir}">
+                                            <fileset dir="${clover.runner.jar.dir}" includes="*.jar"/>
+                                        </copy>
+                                    </target>
+                                </configuration>
+                            </execution>
+
+                            <!-- 7. Preserve Eclipse workspace logs for CI artifacts -->
+                            <execution>
+                                <id>archive-log</id>
+                                <phase>post-integration-test</phase>
+                                <goals><goal>run</goal></goals>
+                                <configuration>
+                                    <target>
+                                        <copy file="${project.build.directory}/p2-workspace/.metadata/.log"
+                                              tofile="${project.build.directory}/eclipse-p2-workspace.log"
+                                              failonerror="false"/>
+                                        <copy file="${project.build.directory}/functest-workspace/.metadata/.log"
+                                              tofile="${project.build.directory}/eclipse-workspace.log"
+                                              failonerror="false"/>
+                                    </target>
+                                </configuration>
+                            </execution>
+
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>3.1.0</version>
+                        <executions>
+
+                            <!--
+                                5. Install OpenClover feature via p2 director (headless, all platforms).
+
+                                We invoke the equinox launcher JAR directly with 'java -jar' rather than
+                                the native eclipse binary.  On Linux the native binary loads a GTK-linked
+                                launcher shared library before the JVM starts, which blocks silently in
+                                headless CI environments.  Using 'java -jar' bypasses that entirely.
+                            -->
+                            <execution>
+                                <id>p2-install-clover</id>
+                                <phase>pre-integration-test</phase>
+                                <goals><goal>exec</goal></goals>
+                                <configuration>
+                                    <executable>bash</executable>
+                                    <timeout>300000</timeout>
+                                    <arguments>
+                                        <argument>-c</argument>
+                                        <argument>LAUNCHER=$(ls ${eclipse.plugins.dir}/org.eclipse.equinox.launcher_*.jar | head -1) &amp;&amp; exec java -jar "$LAUNCHER" -nosplash -consolelog -data ${project.build.directory}/p2-workspace -application org.eclipse.equinox.p2.director -repository file://${eclipse.site.dir} -installIU org.openclover.eclipse.feature.feature.group -destination ${eclipse.destination}</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+
+                            <!-- 6. Run functional tests (all platforms) -->
+                            <execution>
+                                <id>run-functest</id>
+                                <phase>integration-test</phase>
+                                <goals><goal>exec</goal></goals>
+                                <configuration>
+                                    <executable>bash</executable>
+                                    <timeout>600000</timeout>
+                                    <arguments>
+                                        <argument>-c</argument>
+                                        <argument>LAUNCHER=$(ls ${eclipse.plugins.dir}/org.eclipse.equinox.launcher_*.jar | head -1) &amp;&amp; exec java -jar "$LAUNCHER" -nosplash -consolelog -application org.openclover.eclipse.functest.runner.application -data ${project.build.directory}/functest-workspace -projectsDir ${project.basedir}/src/test/resources/projects -cloverRuntime ${clover.runtime.jar} -reportsDir ${project.build.directory}/surefire-reports -eclipseVersion ${eclipse.version}</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+
+                        </executions>
+                    </plugin>
+
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>

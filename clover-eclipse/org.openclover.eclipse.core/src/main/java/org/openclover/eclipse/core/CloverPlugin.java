@@ -148,10 +148,12 @@ public class CloverPlugin extends AbstractUIPlugin {
 
         setLoggingLevel(getInstallationSettings().getLoggingLevel());
         loadCustomColumns();
-        buildWorkingSet();
-
-        editorSynchronizer = new EditorCoverageSynchronizer(PlatformUI.getWorkbench());
         coverageMonitor = new CoverageModelsMonitor();
+
+        if (PlatformUI.isWorkbenchRunning()) {
+            buildWorkingSet();
+            editorSynchronizer = new EditorCoverageSynchronizer(PlatformUI.getWorkbench());
+        }
 
         //Wait until the bundle is fully started before starting background jobs
         //as there is a real danger of classloader deadlock in Equinox when the bundle state changes
@@ -184,7 +186,9 @@ public class CloverPlugin extends AbstractUIPlugin {
     }
 
     private void startMonitorEditors() {
-        editorSynchronizer.syncWithCoverageSetting(installationSettings.getEditorCoverageStyle());
+        if (editorSynchronizer != null) {
+            editorSynchronizer.syncWithCoverageSetting(installationSettings.getEditorCoverageStyle());
+        }
     }
 
     private void buildWorkingSet() {
@@ -201,7 +205,9 @@ public class CloverPlugin extends AbstractUIPlugin {
                         setLoggingLevel(event.getNewValue() != null ? (String)event.getNewValue() : getInstallationSettings().getLoggingLevel());
                     } else if (InstallationSettings.Keys.COVERAGE_STYLE_IN_EDITORS.equals(propertyName)) {
                         try {
-                            editorSynchronizer.syncWithCoverageSetting(Integer.parseInt((String)event.getNewValue()));
+                            if (editorSynchronizer != null) {
+                                editorSynchronizer.syncWithCoverageSetting(Integer.parseInt((String)event.getNewValue()));
+                            }
                         } catch (ClassCastException e) {
                             logError("Coverage style setting invalid type: " + event.getNewValue().getClass().getName());
                         } catch (NumberFormatException e) {
@@ -233,7 +239,9 @@ public class CloverPlugin extends AbstractUIPlugin {
                 context.removeBundleListener(startListener);
             }
             
-            editorSynchronizer.dispose();
+            if (editorSynchronizer != null) {
+                editorSynchronizer.dispose();
+            }
             coverageMonitor.stop();
 
             installationSettings.save();

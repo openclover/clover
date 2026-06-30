@@ -1,0 +1,129 @@
+name: B Eclipse Compatibility Tests
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  build-plugins:
+    name: Build clover-eclipse plugins
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v5
+        with:
+          java-version: 21
+          distribution: temurin
+          cache: maven
+
+      - name: Cache Eclipse binaries
+        uses: actions/cache@v6
+        with:
+          path: clover-eclipse-libs/target/download
+          key: ${{ runner.os }}-eclipse-${{ hashFiles('clover-eclipse-libs/pom.xml') }}
+
+      - name: Prepare third party libraries
+        run: |
+          mvn --batch-mode install -Pworkspace-setup -f clover-core-libs/pom.xml
+          mvn --batch-mode install -Pworkspace-setup -f clover-eclipse-libs/pom.xml
+
+      - name: Download KTreemap fork
+        run: |
+          wget https://packages.atlassian.com/mvn/maven-atlassian-external/net/sf/jtreemap/ktreemap/1.1.0-atlassian-01/ktreemap-1.1.0-atlassian-01.jar
+          wget https://packages.atlassian.com/mvn/maven-atlassian-external/net/sf/jtreemap/ktreemap/1.1.0-atlassian-01/ktreemap-1.1.0-atlassian-01.pom
+          mvn --batch-mode install:install-file -Dfile=ktreemap-1.1.0-atlassian-01.jar -DpomFile=ktreemap-1.1.0-atlassian-01.pom
+
+      - name: Build all modules
+        run: mvn --batch-mode install -DskipTests=true -pl '!clover-idea'
+
+      - name: Upload clover-eclipse artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: clover-eclipse-build
+          path: |
+            clover-eclipse/org.openclover.eclipse.updatesite/target/clover-eclipse-site-*.zip
+            clover-eclipse/org.openclover.eclipse.functest.runner/target/org.openclover.eclipse.functest.runner-*.jar
+            clover-runtime/target/clover-runtime-*.jar
+
+  functest:
+    name: Eclipse ${{ matrix.eclipse-version }}
+    needs: build-plugins
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - eclipse-version: "2024-06"
+            eclipse-libs-version: "2024.06"
+            eclipse-download-site: "https://archive.eclipse.org"
+          - eclipse-version: "2025-06"
+            eclipse-libs-version: "2025.06"
+            eclipse-download-site: "https://archive.eclipse.org"
+          - eclipse-version: "2026-03"
+            eclipse-libs-version: "2026.03"
+            eclipse-download-site: "https://ftp.fau.de/eclipse"
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v5
+        with:
+          java-version: 21
+          distribution: temurin
+          cache: maven
+
+      - name: Cache Eclipse libs download (${{ matrix.eclipse-libs-version }})
+        uses: actions/cache@v6
+        with:
+          path: clover-eclipse-libs/target/download
+          key: ${{ runner.os }}-eclipse-libs-${{ matrix.eclipse-libs-version }}
+
+      - name: Cache Eclipse functest download (${{ matrix.eclipse-version }})
+        uses: actions/cache@v6
+        with:
+          path: clover-eclipse/org.openclover.eclipse.functest/target/download
+          key: ${{ runner.os }}-eclipse-functest-${{ matrix.eclipse-version }}
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v8
+        with:
+          name: clover-eclipse-build
+
+      - name: Prepare Eclipse libs for ${{ matrix.eclipse-version }}
+        run: |
+          git show clover-eclipse-libs-${{ matrix.eclipse-libs-version }}:clover-eclipse-libs/pom.xml \
+            > clover-eclipse-libs/pom.xml
+          mvn --batch-mode install -Pworkspace-setup -f clover-eclipse-libs/pom.xml \
+            -Declipse.download.site=${{ matrix.eclipse-download-site }} \
+            -Declipse.download.path=technology/epp/downloads/release/${{ matrix.eclipse-version }}/R \
+            -Declipse.download.file=eclipse-java-${{ matrix.eclipse-version }}-R-win32-x86_64.zip
+
+      - name: Run functional tests against Eclipse ${{ matrix.eclipse-version }}
+        run: |
+          mvn --batch-mode verify \
+            -pl clover-eclipse/org.openclover.eclipse.functest \
+            -Peclipse-functest \
+            -Declipse.version=${{ matrix.eclipse-version }} \
+            -Declipse.download.site=${{ matrix.eclipse-download-site }}
+
+      - name: Upload test results for Eclipse ${{ matrix.eclipse-version }}
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: test-results-eclipse-${{ matrix.eclipse-version }}
+          path: |
+            clover-eclipse/org.openclover.eclipse.functest/target/surefire-reports/TEST-eclipse-${{ matrix.eclipse-version }}-*.xml
+            clover-eclipse/org.openclover.eclipse.functest/target/eclipse-p2-workspace.log
+            clover-eclipse/org.openclover.eclipse.functest/target/eclipse-workspace.log
+          if-no-files-found: warn
