@@ -70,8 +70,6 @@
                 <eclipse.plugins.dir>${eclipse.install.dir}/eclipse/plugins</eclipse.plugins.dir>
                 <eclipse.destination>${eclipse.install.dir}/eclipse</eclipse.destination>
                 <eclipse.dropins.dir>${eclipse.install.dir}/eclipse/dropins</eclipse.dropins.dir>
-                <eclipse.functest.skip.xvfb>false</eclipse.functest.skip.xvfb>
-                <eclipse.functest.skip.direct>true</eclipse.functest.skip.direct>
             </properties>
         </profile>
 
@@ -87,8 +85,6 @@
                 <eclipse.plugins.dir>${eclipse.install.dir}/Eclipse.app/Contents/Eclipse/plugins</eclipse.plugins.dir>
                 <eclipse.destination>${eclipse.install.dir}/Eclipse.app/Contents/Eclipse</eclipse.destination>
                 <eclipse.dropins.dir>${eclipse.install.dir}/Eclipse.app/Contents/Eclipse/dropins</eclipse.dropins.dir>
-                <eclipse.functest.skip.xvfb>true</eclipse.functest.skip.xvfb>
-                <eclipse.functest.skip.direct>false</eclipse.functest.skip.direct>
             </properties>
         </profile>
 
@@ -103,8 +99,6 @@
                 <eclipse.plugins.dir>${eclipse.install.dir}/eclipse/plugins</eclipse.plugins.dir>
                 <eclipse.destination>${eclipse.install.dir}/eclipse</eclipse.destination>
                 <eclipse.dropins.dir>${eclipse.install.dir}/eclipse/dropins</eclipse.dropins.dir>
-                <eclipse.functest.skip.xvfb>true</eclipse.functest.skip.xvfb>
-                <eclipse.functest.skip.direct>false</eclipse.functest.skip.direct>
             </properties>
         </profile>
 
@@ -196,152 +190,39 @@
                         <version>3.1.0</version>
                         <executions>
 
-                            <!-- 4. Start Xvfb virtual display in background (Linux only; macOS uses Cocoa) -->
-                            <execution>
-                                <id>start-xvfb</id>
-                                <phase>pre-integration-test</phase>
-                                <goals><goal>exec</goal></goals>
-                                <configuration>
-                                    <skip>${eclipse.functest.skip.xvfb}</skip>
-                                    <executable>bash</executable>
-                                    <timeout>30000</timeout>
-                                    <arguments>
-                                        <argument>-c</argument>
-                                        <!-- Redirect Xvfb I/O to /dev/null so it doesn't hold Maven's stream open -->
-                                        <argument>Xvfb :99 -screen 0 1280x1024x24 &lt;/dev/null &gt;/dev/null 2&gt;&amp;1 &amp; sleep 2 &amp;&amp; echo "[xvfb] display :99 ready"</argument>
-                                    </arguments>
-                                </configuration>
-                            </execution>
-
-                            <!-- 4b. Verify display and environment before touching Eclipse (Linux only) -->
-                            <execution>
-                                <id>pre-check</id>
-                                <phase>pre-integration-test</phase>
-                                <goals><goal>exec</goal></goals>
-                                <configuration>
-                                    <skip>${eclipse.functest.skip.xvfb}</skip>
-                                    <executable>bash</executable>
-                                    <timeout>30000</timeout>
-                                    <environmentVariables>
-                                        <DISPLAY>:99</DISPLAY>
-                                        <NO_AT_BRIDGE>1</NO_AT_BRIDGE>
-                                        <GTK_A11Y>none</GTK_A11Y>
-                                        <GDK_BACKEND>x11</GDK_BACKEND>
-                                        <SWT_GTK3>1</SWT_GTK3>
-                                        <LIBGL_ALWAYS_SOFTWARE>1</LIBGL_ALWAYS_SOFTWARE>
-                                    </environmentVariables>
-                                    <arguments>
-                                        <argument>-c</argument>
-                                        <argument>
-                                            echo "=== Display ===" &amp;&amp;
-                                            xdpyinfo -display :99 2&gt;&amp;1 | head -5 || echo "[WARN] xdpyinfo failed" ;
-                                            echo "=== Eclipse binary ===" &amp;&amp;
-                                            ls -la ${eclipse.exe} &amp;&amp; file ${eclipse.exe} ;
-                                            echo "=== Native lib deps (last 20 lines) ===" &amp;&amp;
-                                            ldd ${eclipse.exe} 2&gt;&amp;1 | tail -20 ;
-                                            echo "=== eclipse.ini ===" &amp;&amp;
-                                            cat ${eclipse.plugins.dir}/../eclipse.ini 2&gt;&amp;1 || true ;
-                                            echo "=== Java ===" &amp;&amp;
-                                            java -version 2&gt;&amp;1 ;
-                                            echo "=== Env ===" &amp;&amp;
-                                            env | grep -E 'DISPLAY|NO_AT|GTK|SWT|GDK|LIBGL|JAVA|HOME|DBUS' | sort
-                                        </argument>
-                                    </arguments>
-                                </configuration>
-                            </execution>
-
                             <!--
-                                5. Install clover-eclipse feature via p2 director.
+                                5. Install OpenClover feature via p2 director (headless, all platforms).
 
-                                On Linux the native eclipse launcher binary links against
-                                org.eclipse.equinox.launcher.gtk.linux.x86_64_*.so which initialises GTK
-                                *before* the JVM starts.  On headless Ubuntu CI this causes a silent
-                                5-minute hang with zero output.
-
-                                Fix: bypass the native binary entirely on Linux and invoke the equinox
-                                launcher JAR directly with 'java -jar'.  The JVM starts immediately,
-                                SWT/GTK is never touched by the launcher (p2 director is headless), and
-                                consolelog output flows to Maven's stream reader from the first line.
-
-                                macOS/Windows use the native binary as before — no GTK on those platforms.
+                                We invoke the equinox launcher JAR directly with 'java -jar' rather than
+                                the native eclipse binary.  On Linux the native binary loads a GTK-linked
+                                launcher shared library before the JVM starts, which blocks silently in
+                                headless CI environments.  Using 'java -jar' bypasses that entirely.
                             -->
                             <execution>
                                 <id>p2-install-clover</id>
                                 <phase>pre-integration-test</phase>
                                 <goals><goal>exec</goal></goals>
                                 <configuration>
-                                    <!-- Linux only: java -jar equinox launcher, no native GTK binary -->
-                                    <skip>${eclipse.functest.skip.xvfb}</skip>
                                     <executable>bash</executable>
                                     <timeout>300000</timeout>
-                                    <environmentVariables>
-                                        <DISPLAY>:99</DISPLAY>
-                                        <NO_AT_BRIDGE>1</NO_AT_BRIDGE>
-                                        <GTK_A11Y>none</GTK_A11Y>
-                                        <GDK_BACKEND>x11</GDK_BACKEND>
-                                        <SWT_GTK3>1</SWT_GTK3>
-                                        <LIBGL_ALWAYS_SOFTWARE>1</LIBGL_ALWAYS_SOFTWARE>
-                                    </environmentVariables>
                                     <arguments>
-                                        <argument>-xc</argument>
-                                        <argument>LAUNCHER=$(ls ${eclipse.plugins.dir}/org.eclipse.equinox.launcher_*.jar | head -1) &amp;&amp; echo "[p2] launcher: $LAUNCHER" &amp;&amp; exec java -jar "$LAUNCHER" -nosplash -consolelog -debug -data ${project.build.directory}/p2-workspace -application org.eclipse.equinox.p2.director -repository file://${eclipse.site.dir} -installIU org.openclover.eclipse.feature.feature.group -destination ${eclipse.destination}</argument>
+                                        <argument>-c</argument>
+                                        <argument>LAUNCHER=$(ls ${eclipse.plugins.dir}/org.eclipse.equinox.launcher_*.jar | head -1) &amp;&amp; exec java -jar "$LAUNCHER" -nosplash -consolelog -data ${project.build.directory}/p2-workspace -application org.eclipse.equinox.p2.director -repository file://${eclipse.site.dir} -installIU org.openclover.eclipse.feature.feature.group -destination ${eclipse.destination}</argument>
                                     </arguments>
                                 </configuration>
                             </execution>
 
-                            <execution>
-                                <id>p2-install-clover-direct</id>
-                                <phase>pre-integration-test</phase>
-                                <goals><goal>exec</goal></goals>
-                                <configuration>
-                                    <!-- macOS/Windows: native eclipse binary works fine (no GTK on those platforms) -->
-                                    <skip>${eclipse.functest.skip.direct}</skip>
-                                    <executable>bash</executable>
-                                    <timeout>300000</timeout>
-                                    <arguments>
-                                        <argument>-xc</argument>
-                                        <argument>exec ${eclipse.exe} -nosplash -consolelog -debug -data ${project.build.directory}/p2-workspace -application org.eclipse.equinox.p2.director -repository file://${eclipse.site.dir} -installIU org.openclover.eclipse.feature.feature.group -destination ${eclipse.destination}</argument>
-                                    </arguments>
-                                </configuration>
-                            </execution>
-
-                            <!-- 6. Run functional tests — same Linux/non-Linux split as p2 above -->
+                            <!-- 6. Run functional tests (all platforms) -->
                             <execution>
                                 <id>run-functest</id>
                                 <phase>integration-test</phase>
                                 <goals><goal>exec</goal></goals>
                                 <configuration>
-                                    <!-- Linux only: java -jar equinox launcher -->
-                                    <skip>${eclipse.functest.skip.xvfb}</skip>
-                                    <executable>bash</executable>
-                                    <timeout>600000</timeout>
-                                    <environmentVariables>
-                                        <DISPLAY>:99</DISPLAY>
-                                        <NO_AT_BRIDGE>1</NO_AT_BRIDGE>
-                                        <GTK_A11Y>none</GTK_A11Y>
-                                        <GDK_BACKEND>x11</GDK_BACKEND>
-                                        <SWT_GTK3>1</SWT_GTK3>
-                                        <LIBGL_ALWAYS_SOFTWARE>1</LIBGL_ALWAYS_SOFTWARE>
-                                    </environmentVariables>
-                                    <arguments>
-                                        <argument>-xc</argument>
-                                        <argument>LAUNCHER=$(ls ${eclipse.plugins.dir}/org.eclipse.equinox.launcher_*.jar | head -1) &amp;&amp; echo "[functest] launcher: $LAUNCHER" &amp;&amp; exec java -jar "$LAUNCHER" -nosplash -consolelog -debug -application org.openclover.eclipse.functest.runner.application -data ${project.build.directory}/functest-workspace -projectsDir ${project.basedir}/src/test/resources/projects -cloverRuntime ${clover.runtime.jar} -reportsDir ${project.build.directory}/surefire-reports -eclipseVersion ${eclipse.version}</argument>
-                                    </arguments>
-                                </configuration>
-                            </execution>
-
-                            <execution>
-                                <id>run-functest-direct</id>
-                                <phase>integration-test</phase>
-                                <goals><goal>exec</goal></goals>
-                                <configuration>
-                                    <!-- macOS/Windows: native eclipse binary -->
-                                    <skip>${eclipse.functest.skip.direct}</skip>
                                     <executable>bash</executable>
                                     <timeout>600000</timeout>
                                     <arguments>
-                                        <argument>-xc</argument>
-                                        <argument>exec ${eclipse.exe} -nosplash -consolelog -debug -application org.openclover.eclipse.functest.runner.application -data ${project.build.directory}/functest-workspace -projectsDir ${project.basedir}/src/test/resources/projects -cloverRuntime ${clover.runtime.jar} -reportsDir ${project.build.directory}/surefire-reports -eclipseVersion ${eclipse.version}</argument>
+                                        <argument>-c</argument>
+                                        <argument>LAUNCHER=$(ls ${eclipse.plugins.dir}/org.eclipse.equinox.launcher_*.jar | head -1) &amp;&amp; exec java -jar "$LAUNCHER" -nosplash -consolelog -application org.openclover.eclipse.functest.runner.application -data ${project.build.directory}/functest-workspace -projectsDir ${project.basedir}/src/test/resources/projects -cloverRuntime ${clover.runtime.jar} -reportsDir ${project.build.directory}/surefire-reports -eclipseVersion ${eclipse.version}</argument>
                                     </arguments>
                                 </configuration>
                             </execution>
