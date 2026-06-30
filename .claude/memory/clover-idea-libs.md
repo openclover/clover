@@ -1,233 +1,133 @@
-# clover-idea-libs upgrade plan
+# clover-idea-libs — current state and refactoring plan
 
-## Goal
+## Current CI matrix (as of 2026-07-01)
 
-Restore binary compatibility between OpenClover's IntelliJ IDEA plugin (`clover-idea`) and
-modern IDEA versions, starting from the currently working IDEA 14.1.7 up through 2026.1.x.
-One IDEA major release per calendar year is targeted.
+Branch: `OC-109-support-idea-2019-to-2022`
+Workflow: `.github/workflows/B-idea-compatibility-tests.yml`
 
----
+Versions older than 2024 were dropped (IDEA 2019–2022 had unfixable test failures due to
+`com.intellij.java` plugin not loading in test mode; not worth maintaining).
 
-## IDEA versions — lib tags and Phase 2 status
+| IDEA version | Build number   | Tag (historical, pre-refactor) | JDK |
+|--------------|----------------|--------------------------------|-----|
+| 2024.3.7.1   | 243.28141.41   | clover-idea-libs-2024.3.2432814141 | 21 |
+| 2025.3.6     | 253.33813.25   | clover-idea-libs-2025.3.2533381325 | 21 |
+| 2026.1.3     | 261.25134.95   | clover-idea-libs-2026.1.2612513495 | 21 |
 
-| IDEA version | Build number     | Tag                                    | Phase 1 tag | Phase 2 clover-idea |
-|--------------|------------------|----------------------------------------|-------------|---------------------|
-| 15.0.6       | `143.2370.31`    | `clover-idea-libs-15.0.143237031`      | ✅ done      | ✅ done              |
-| 2016.3.8     | `163.15529.8`    | `clover-idea-libs-2016.3.163155298`    | ✅ done (force-updated — old tag pointed to OC-61 era commit) | ✅ done |
-| 2017.3.7     | `173.4710.11`    | `clover-idea-libs-2017.3.173471011`    | ✅ done      | ✅ done              |
-| 2018.3.6     | `183.6156.11`    | `clover-idea-libs-2018.3.183615611`    | ✅ done      | ✅ done              |
-| 2019.3.5     | `193.7288.26`    | `clover-idea-libs-2019.3.193728826`    | ✅ done      | ⬜ next              |
-| 2020.3.4     | `203.8084.24`    | `clover-idea-libs-2020.3.203808424`    | ✅ done      | ⬜                   |
-| 2021.3.3     | `213.7172.25`    | `clover-idea-libs-2021.3.213717225`    | ✅ done      | ⬜                   |
-| 2022.3.3     | `223.8836.41`    | `clover-idea-libs-2022.3.223883641`    | ✅ done      | ⬜                   |
-| 2023.3.8     | `233.15619.7`    | `clover-idea-libs-2023.3.233156197`    | ✅ done      | ⬜                   |
-| 2024.3.7.1   | `243.28141.41`   | `clover-idea-libs-2024.3.2432814141`   | ✅ done      | ⬜                   |
-| 2025.3.6     | `253.33813.25`   | `clover-idea-libs-2025.3.2533381325`   | ✅ done      | ⬜                   |
-| 2026.1.3     | `261.25134.95`   | `clover-idea-libs-2026.1.2612513495`   | ✅ done      | ⬜                   |
-
-**Note on filename prefix:** For IDEA 2025+ the archive is `idea-*.tar.gz` (no `IC`); extracted as `idea-IU-*` (Ultimate edition — superset of Community, fine for compilation classpath).
-**Note on devkit plugin:** Not present in 2025/2026 IU archives; omitted from those lib tags automatically by the generate scripts.
-
-**Tag version string format:** `<MAJOR>.<MINOR>.<BUILD_NODOTS>` e.g.
-`clover-idea-libs-2016.3.163155298` where `163155298` = `163.15529.8` with dots removed.
-
-**pom.xml `<version>` format:** `<build>` e.g. `163.15529.8`
-(comment: `<!-- major.minor.build (2016.3.8 build IC-163.15529.8) -->`).
+**Note on archive naming:** 2025+ archives use `idea-*.tar.gz` prefix (no `IC`), extracted as `idea-IU-*`.
+**Note on devkit plugin:** Not present in 2025/2026 IU archives; the generate scripts skip it automatically.
 
 ---
 
-## Source archives (for reading IDEA API without decompiling)
+## Why the current design is painful
 
-Useful when resolving API compatibility problems:
-
-| IDEA version | GitHub source archive                                                          |
-|--------------|--------------------------------------------------------------------------------|
-| 2017.3.x     | `https://github.com/JetBrains/intellij-community/archive/idea/173.4710.11.zip` |
-| 2018.3.x     | `https://github.com/JetBrains/intellij-community/archive/idea/183.6156.11.zip` |
-| 2019.3.5     | `https://github.com/JetBrains/intellij-community/archive/idea/2019.3.5.zip`    |
-| 2020.3.x     | `https://github.com/JetBrains/intellij-community/archive/idea/203.8084.24.zip` |
-| 2021.3.x     | `https://github.com/JetBrains/intellij-community/archive/idea/213.7172.25.zip` |
-| 2022.3.x     | `https://github.com/JetBrains/intellij-community/archive/idea/223.8836.41.zip` |
-| 2023.3.x     | `https://github.com/JetBrains/intellij-community/archive/idea/233.15619.7.zip` |
-| 2024.3.x     | `https://github.com/JetBrains/intellij-community/archive/idea/243.28141.41.zip`|
-| 2025.2.x     | `https://github.com/JetBrains/intellij-community/archive/idea/252.28539.54.zip`|
+1. `clover-idea-libs/pom.xml` contains ~400 hardcoded `install:install-file` executions, one per JAR.
+2. `clover-idea-all/pom.xml` contains ~400 hardcoded `<dependency>` entries.
+3. Both poms carry the IDEA build number as `<version>`.
+4. Every new IDEA version requires: regenerate snippets → manually splice into poms → commit → create git tag.
+5. Changing pom structure on an existing tag requires force-pushing that tag.
+6. The two `generate-*.sh` scripts produce **snippets only** — not complete poms — requiring manual splicing.
+7. CI uses `git show TAG:pom.xml > pom.xml` to restore the correct pom for each IDEA version.
 
 ---
 
-## Phase 1 — Create Maven lib tags for each IDEA version (COMPLETE)
+## Refactoring plan — Plan C (approved 2026-07-01)
 
-All tags from IDEA 15.0 through 2026.1 exist on branch `OC-68-support-intellij-2018`. See table above.
+### Goal
 
-**Note on 2016.3 tag:** `clover-idea-libs-2016.3.163155298` existed from OC-61 era but pointed to an old commit that predated the `clover-idea-libs` Maven module. It was force-updated (`git tag -f`) to the correct commit in this effort.
+`mvn install -Pworkspace-setup -Didea.version=261.25134.95 -Didea.download.file=idea-2026.1.3.tar.gz -Didea.download.dir=idea-IU-261.25134.95`
 
-Repeat the steps below for each future IDEA version.
+…generates and installs everything from the current branch. No git tags, no manual splicing,
+no per-version pom commits.
 
-### Steps per version
+### Key decision — how to install ~400 individual JARs
 
-1. **Update download properties** in `clover-idea-libs/pom.xml` (`<properties>` section):
-   ```xml
-   <idea.download.site>https://download.jetbrains.com</idea.download.site>
-   <idea.download.path>idea</idea.download.path>
-   <idea.download.file>ideaIC-X.Y.Z.tar.gz</idea.download.file>   <!-- or idea-X.Y.Z.tar.gz for 2025+ -->
-   <idea.download.dir>idea-IC-BUILD</idea.download.dir>
-   ```
+| Option | Mechanism | Decision |
+|--------|-----------|----------|
+| A | `mvn install:install-file` subprocess per JAR | Too slow — ~400 JVM startups |
+| B | Copy directly into `~/.m2` via antrun | Bypasses checksums/metadata — fragile |
+| **C** | **Generate helper pom + exec-maven-plugin** | **Chosen — one Maven process, correct semantics** |
 
-2. **Download and extract** (triggers via Maven workspace-setup profile):
-   ```
-   cd clover-idea-libs
-   mvn -Pworkspace-setup generate-resources -f pom.xml
-   ```
-   After extraction inspect `target/extract/` to confirm directory name and build number.
+Plan C: generate `target/generated/install-helper.pom` with all `install:install-file` executions, then
+`exec-maven-plugin` runs `mvn -f target/generated/install-helper.pom install` in one process.
 
-3. **Generate install-file executions** and replace the block between the `<!-- Generated -->` 
-   comments in `clover-idea-libs/pom.xml`:
-   ```
-   cd clover-idea-libs
-   bash generate-install-file-calls.sh target/extract/idea-IC-BUILD BUILD > /tmp/install-calls.xml
-   ```
-   Replace content between `<!-- Generated automatically by ./generate-install-file-calls.sh -->`
-   and `<!-- End of generated ... -->` in `clover-idea-libs/pom.xml`.
-   Also update `<version>BUILD</version>` in pom.xml header and both comments.
+### Scripts → output files
 
-4. **Generate dependency list** and replace the block in `clover-idea-libs/clover-idea-all/pom.xml`:
-   ```
-   bash generate-idea-dependencies.sh target/extract/idea-IC-BUILD BUILD > /tmp/deps.xml
-   ```
-   Replace content between `<!-- Generated -->` / `<!-- End of generated -->` markers.
-   Also update `<version>BUILD</version>` in pom header and comment.
+| Script | Current output | New output |
+|--------|---------------|------------|
+| `generate-install-file-calls.sh` | XML snippet (pasted into pom) | `target/generated/install-helper.pom` — **full standalone Maven pom** |
+| `generate-idea-dependencies.sh` | XML snippet (pasted into pom) | `target/generated/clover-idea-all.pom` — **full standalone BOM pom** |
 
-5. **Install JARs to local Maven repo:**
-   ```
-   mvn -Pworkspace-setup install -f pom.xml
-   ```
+Both scripts keep the same arguments: `<idea-dir> <idea-version>`.
 
-6. **Commit:**
-   ```
-   git add clover-idea-libs/pom.xml clover-idea-libs/clover-idea-all/pom.xml
-   git commit -m "OC-68: add IDEA YEAR.MINOR libs (build BUILD)"
-   ```
+### `clover-idea-libs/pom.xml` changes
 
-7. **Tag** (use three-digit tag form: `YEAR.MINOR.<BUILD_NODOTS>`):
-   ```
-   git tag clover-idea-libs-YEAR.MINOR.BUILDNODOTS
-   ```
-   Example: build `173.4321.50` → tag `clover-idea-libs-2017.3.173432150`
+- Remove all ~400 hardcoded `install:install-file` executions.
+- Remove IDEA build number from `<version>` — use `${project.parent.version}` (5.0.0-SNAPSHOT).
+- Add default properties: `idea.version`, `idea.download.file`, `idea.download.dir`,
+  `idea.download.site`, `idea.download.path` (all overridable via `-D`).
+- `workspace-setup` profile after extraction:
+  1. `exec-maven-plugin` (or antrun exec) runs `generate-install-file-calls.sh` → `target/generated/install-helper.pom`
+  2. `exec-maven-plugin` (or antrun exec) runs `generate-idea-dependencies.sh` → `target/generated/clover-idea-all.pom`
+  3. `exec-maven-plugin` runs `mvn -f target/generated/install-helper.pom install` (installs all JARs)
+  4. `exec-maven-plugin` runs `mvn -f target/generated/clover-idea-all.pom install` (installs BOM)
+  5. Existing `install-idea-zip` execution stays (installs idea.zip — already static).
 
----
+### `clover-idea-all/` directory
 
-## Phase 2 — Bump clover-idea version and fix compilation (IN PROGRESS)
+- `clover-idea-all/pom.xml` **deleted from git** — it is generated ephemerally to `target/generated/clover-idea-all.pom` and installed to `~/.m2`.
+- Remove `<module>clover-idea-all</module>` from `clover-idea-libs/pom.xml`.
+- `clover-idea/pom.xml` is **unchanged** — it depends on `clover-idea-all` at `${idea.version}` from `~/.m2`.
 
-`clover-idea` currently compiles and tests against **IDEA 2018.3.6** (`183.6156.11`). **Next: 2019.3.**
+### CI workflow changes
 
-### Completed bumps
+Remove:
+```yaml
+- name: Prepare IDEA ${{ matrix.idea-version }} libs
+  run: |
+    git show clover-idea-libs-${{ matrix.idea-libs-tag }}:clover-idea-libs/pom.xml \
+      > clover-idea-libs/pom.xml
+    git show clover-idea-libs-${{ matrix.idea-libs-tag }}:clover-idea-libs/clover-idea-all/pom.xml \
+      > clover-idea-libs/clover-idea-all/pom.xml
+```
 
-| Bump | Test fixes required |
-|------|---------------------|
-| 14.1.7 → 15.0.6 | 6 stale assertions (testproject package rename not reflected in tests — see "Baseline failures" below) |
-| 15.0.6 → 2016.3.8 | See below |
-| 2016.3.8 → 2017.3.7 | None — clean pass |
-| 2017.3.7 → 2018.3.6 | See below |
+Replace with direct `mvn install -Pworkspace-setup` passing download properties via `-D`.
+Remove `idea-libs-tag` from the matrix; add `idea-download-file` and `idea-download-dir` columns.
+No more tags to create after each version.
 
-**IDEA 2018.3 compilation fixes:**
+### Files to touch
 
-1. **`@Storage(id=...)` removed** — IDEA 2018 dropped the `id` attribute from `@Storage`. Also migrated deprecated `file` attribute to `value` (positional shorthand). Six files changed:
-   `CloverPlugin`, `CloverModuleComponent`, `ProjectPlugin`, `AutoUpdateComponent`, `TestOptimizationGlobalSettings`, `ReportWizardWorkspaceSettings`.
-   Before: `@Storage(id = "other", file = "$APP_CONFIG$/other.xml")`
-   After: `@Storage("$APP_CONFIG$/other.xml")` (positional `value()`)
+| File | Change |
+|------|--------|
+| `clover-idea-libs/pom.xml` | Remove install-file executions; add generation + exec-maven-plugin steps |
+| `clover-idea-all/pom.xml` | **Delete from git** |
+| `generate-install-file-calls.sh` | Rewrite to emit a full standalone pom to `target/generated/install-helper.pom` |
+| `generate-idea-dependencies.sh` | Rewrite to emit a full standalone pom to `target/generated/clover-idea-all.pom` |
+| `.github/workflows/B-idea-compatibility-tests.yml` | Remove tag restore steps; add download props to matrix |
 
-   **Note:** Future IDEA versions may further change persistence API. Plugin DevKit documentation is the reference; DevKit itself was unbundled from IDEA IDE in version 2023.3 and must now be installed from JetBrains Marketplace — but the DevKit JAR is still present in IDEA archives up to 2022.x and is still included in our `clover-idea-libs` install.
+### What stays unchanged
 
-**IDEA 2016.3 test fixes:**
-
-1. **`@NotNull` bytecode instrumentation** (`FileBasedJUnitClassListProcessorIdeaTest`):
-   IDEA 2016.3 runtime injects null-checks for `@NotNull`-annotated parameters at class load time.
-   `TestedProcessor.optimize()` had `@NotNull settings` but was called with `null` → `IllegalArgumentException`.
-   Fix: remove `@NotNull` from the parameter (it was on an internal test stub, never enforced before).
-
-2. **EDT deadlock in `Task.Backgroundable.queue()`** (`SockedBasedJUnitClassListProcessorIdeaTest`):
-   In IDEA 2016.3, headless non-EDT `Task.Backgroundable.queue()` ends with `invokeAndWait(finishTask)` dispatched to the EDT. The test's main thread IS the EDT; blocking it in `latch.await()` deadlocked.
-   Fix: replace `latch.await(timeout)` with a loop calling `UIUtil.dispatchAllInvocationEvents()` between `latch.await(10ms)` polls — drains pending EDT events so `invokeAndWait` can complete.
-
-### Steps per bump
-
-1. Install version-specific IDEA libs (from Phase 1 tag):
-   ```
-   git show clover-idea-libs-YEAR.MINOR.BUILDNODOTS:clover-idea-libs/pom.xml > clover-idea-libs/pom.xml
-   git show clover-idea-libs-YEAR.MINOR.BUILDNODOTS:clover-idea-libs/clover-idea-all/pom.xml > clover-idea-libs/clover-idea-all/pom.xml
-   mvn install -Pworkspace-setup -f clover-idea-libs/pom.xml
-   ```
-
-2. **Update `clover-idea/pom.xml` properties:**
-   ```xml
-   <idea.version>BUILD</idea.version>
-   <idea.version.short>YEAR.MINOR.PATCH</idea.version.short>
-   ```
-
-3. **Compile and test:**
-   ```
-   mvn install -DskipTests -pl clover-idea -Didea.version=BUILD -Didea.version.short=YEAR.MINOR.PATCH
-   mvn test -pl clover-idea -Didea.version=BUILD -Didea.version.short=YEAR.MINOR.PATCH
-   ```
-
-4. **Fix compilation errors.** Common categories:
-   - Removed/renamed classes (use `javap -c` on the new lib JAR or the source archive)
-   - Changed method signatures (add casts, update parameter types)
-   - Deprecated API now removed
-   - Plugin XML descriptor issues (EP names, extension points renamed)
-   - Test-infra changes (null-check instrumentation, EDT threading changes — see IDEA 2016.3 fixes above)
-
-5. **Commit:** Two commits per bump:
-   - Libs poms only → tag `clover-idea-libs-YEAR.MINOR.BUILDNODOTS` (if tag needs updating, `git tag -f`)
-   - `clover-idea/pom.xml` + test fixes
-
-6. **Add to CI matrix** in `.github/workflows/B-idea-compatibility-tests.yml`.
-
-### Baseline failures (pre-existing, now fixed)
-
-The 6 failures that appeared on IDEA 15.0.6 CI (5 failures + 1 error) were all caused by the same root cause: the testproject package was renamed from `com.cenqua.clovertest` to `org.openclover.idea.testproject` (commit `2d714e26`) but test assertions were never updated. They surfaced only when the CI workflow was added. Fixed in the 14.1.7 → 15.0.6 bump:
-
-- `CoverageContributionTreeBuilderTest` — updated package name `"com.cenqua.clovertest"` → `"org.openclover.idea.testproject"`, flat-tree leaf `"clovertest"` → `"testproject"`, navigation depth 3 → 4 `getChildAt(0)` calls (4 package segments now).
-- `TestRunExplorerTreeBuilderTest.testBuildTree` — NPE from `findNamedNode` returning null; updated both package lookup strings.
-- `CoverageTreeModelTest.testRecordedTestCases` — `"com"` → `"org"`, `"com.cenqua.clovertest"` → `"org.openclover.idea.testproject"`.
-- `TestRunExplorerTreeBuilderIdeaTest.testUniqueCoverage` — `findClass("com.cenqua.clovertest.A")` → `findClass("org.openclover.idea.testproject.A")`.
-
-**Expected result on Linux CI (all IDEA versions):** all tests pass except:
-- `WhenReplacingTestManifestFileTest.testMoveFileShouldCopeWithNonWritableDest` — skipped on exFAT (shows as Error in JUnit 3); passes on Linux ext4 (CI should be clean).
+- `clover-idea/pom.xml` — depends on `clover-idea-all` at `${idea.version}` (from `~/.m2`)
+- The `idea.zip` install execution in `clover-idea-libs/pom.xml`
+- The set of JARs scanned: `lib/*.jar` + `plugins/java`, `devkit`, `properties`
 
 ---
 
-## CI — B-idea-compatibility-tests.yml
+## Source archives (for resolving API compatibility without decompiling)
 
-`.github/workflows/B-idea-compatibility-tests.yml` runs `clover-idea` unit tests in a matrix, one job per IDEA version. Key points:
-
-- Checks out with `fetch-tags: true` (needed for `git show <tag>:…`)
-- Replaces `clover-idea-libs/pom.xml` and `clover-idea-all/pom.xml` from the Phase 1 tag
-- Cache key: `runner.os-idea-<idea-build>` — keyed by build number, NOT pom hash (pom is replaced)
-- Passes `-Didea.version` and `-Didea.version.short` overrides to Maven (no pom edit needed)
-- Add a new `include:` entry when each Phase 2 bump is complete
-
-Current matrix: IDEA 15.0.6 (JDK 8), IDEA 2016.3.8 (JDK 8), IDEA 2017.3.7 (JDK 8), IDEA 2018.3.6 (JDK 8).
-
-**KTreemap step removed:** The workflow no longer has a "Download KTreemap fork" step. `ktreemap` (Atlassian fork) is only needed by `clover-eclipse`, which is excluded from the CI build. `jtreemap:1.1.3` (used by `clover-idea`) is available from Maven Central and is resolved automatically.
+| IDEA version | GitHub source archive |
+|--------------|-----------------------|
+| 2024.3.x     | `https://github.com/JetBrains/intellij-community/archive/idea/243.28141.41.zip` |
+| 2025.2.x     | `https://github.com/JetBrains/intellij-community/archive/idea/252.28539.54.zip` |
 
 ---
 
 ## Key files
 
-| File                                      | Purpose                                          |
-|-------------------------------------------|--------------------------------------------------|
-| `clover-idea-libs/pom.xml`                | Downloads IDEA, installs JARs; update per version|
-| `clover-idea-libs/clover-idea-all/pom.xml`| BOM-style dep list consumed by clover-idea       |
-| `clover-idea-libs/generate-install-file-calls.sh` | Generates install-file executions        |
-| `clover-idea-libs/generate-idea-dependencies.sh`  | Generates `<dependency>` list            |
-| `clover-idea/pom.xml`                     | `idea.version` property pins which lib set to use|
-
----
-
-## Tagging convention (from existing tag)
-
-Existing: `clover-idea-libs-2016.3.163155298`
-- `2016.3` = IDEA major.minor version
-- `163155298` = build `163.15529.8` with all dots removed (concatenated digits only)
-
-So build `173.4321.50` → `clover-idea-libs-2017.3.173432150`
+| File | Purpose |
+|------|---------|
+| `clover-idea-libs/pom.xml` | Downloads IDEA, drives workspace-setup; will become fully static after refactor |
+| `clover-idea-libs/generate-install-file-calls.sh` | Generates `install-helper.pom` (full standalone pom post-refactor) |
+| `clover-idea-libs/generate-idea-dependencies.sh` | Generates `clover-idea-all.pom` (full standalone BOM post-refactor) |
+| `clover-idea/pom.xml` | `idea.version` property pins which lib set to use |
+| `.github/workflows/B-idea-compatibility-tests.yml` | CI matrix, one job per IDEA version |
