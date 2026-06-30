@@ -26,7 +26,9 @@ public class TestRunner {
         try {
             List<File> outputDirs = resolveOutputDirs(project);
             File junitJar    = findPluginJar("org.junit_4");
-            File hamcrestJar = findPluginJar("org.hamcrest_");
+            // Eclipse 2024+ ships org.hamcrest_3.0.0.jar; older versions ship org.hamcrest.core_*.jar.
+            // Either way hamcrest may also be bundled inside the junit jar, so treat it as optional.
+            File hamcrestJar = findPluginJarOptional("org.hamcrest_", "org.hamcrest.core_");
             String initString = CloverProject.getFor(project).getRegistryFile().getAbsolutePath();
             List<String> testClasses = discoverTestClasses(outputDirs);
 
@@ -44,7 +46,9 @@ public class TestRunner {
             }
             cp.append(File.pathSeparator).append(cloverRuntime);
             cp.append(File.pathSeparator).append(junitJar.getAbsolutePath());
-            cp.append(File.pathSeparator).append(hamcrestJar.getAbsolutePath());
+            if (hamcrestJar != null) {
+                cp.append(File.pathSeparator).append(hamcrestJar.getAbsolutePath());
+            }
 
             List<String> cmd = new ArrayList<>();
             cmd.add(javaExe);
@@ -122,16 +126,29 @@ public class TestRunner {
     }
 
     private static File findPluginJar(String prefix) throws IOException, URISyntaxException {
+        File jar = findPluginJarOptional(prefix);
+        if (jar == null) {
+            File pluginsDir = new File(Platform.getInstallLocation().getURL().toURI())
+                    .toPath().resolve("plugins").toFile();
+            throw new IOException("Could not find " + prefix + "*.jar in " + pluginsDir);
+        }
+        return jar;
+    }
+
+    /** Returns the first matching jar for any of the given prefixes, or null if none found. */
+    private static File findPluginJarOptional(String... prefixes) throws URISyntaxException {
         File pluginsDir = new File(Platform.getInstallLocation().getURL().toURI())
                 .toPath().resolve("plugins").toFile();
         if (pluginsDir.isDirectory()) {
-            File[] candidates = pluginsDir.listFiles(
-                    f -> f.getName().startsWith(prefix) && f.getName().endsWith(".jar"));
-            if (candidates != null && candidates.length > 0) {
-                return candidates[0];
+            for (String prefix : prefixes) {
+                File[] candidates = pluginsDir.listFiles(
+                        f -> f.getName().startsWith(prefix) && f.getName().endsWith(".jar"));
+                if (candidates != null && candidates.length > 0) {
+                    return candidates[0];
+                }
             }
         }
-        throw new IOException("Could not find " + prefix + "*.jar in " + pluginsDir);
+        return null;
     }
 
     /**
