@@ -60,9 +60,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - eclipse-version: "2023-06"
-            eclipse-libs-version: "2023.06"
-            eclipse-download-site: "https://archive.eclipse.org"
           - eclipse-version: "2024-06"
             eclipse-libs-version: "2024.06"
             eclipse-download-site: "https://archive.eclipse.org"
