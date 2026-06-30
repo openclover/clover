@@ -306,8 +306,8 @@
         </plugins>
     </build>
     <properties>
-        <idea.version>203.8084.24</idea.version>
-        <idea.version.short>2020.3.4</idea.version.short>
+        <idea.version>213.7172.25</idea.version>
+        <idea.version.short>2021.3.3</idea.version.short>
         <!-- Plugin IDs to load during tests. IDEA 2019+ needs com.intellij.java since Java support moved to a plugin -->
         <idea.plugins.to.load>org.openclover.idea,com.intellij.java</idea.plugins.to.load>
     </properties>

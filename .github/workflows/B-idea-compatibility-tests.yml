@@ -36,6 +36,10 @@ jobs:
             idea-libs-tag: "2020.3.203808424"
             idea-build: "203.8084.24"
             jdk-version: 11
+          - idea-version: "2021.3.3"
+            idea-libs-tag: "2021.3.213717225"
+            idea-build: "213.7172.25"
+            jdk-version: 11
 
     steps:
       - uses: actions/checkout@v7
