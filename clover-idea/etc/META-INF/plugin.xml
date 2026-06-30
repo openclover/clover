@@ -28,6 +28,7 @@ OpenClover is licensed under the Apache License 2.0.
     <!-- Compatible with IDEA 14.0.0 or higher (build 139.xx),
     see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html -->
 	<idea-version since-build="139" />
+	<depends>com.intellij.java</depends>
 
 	<change-notes><![CDATA[<html>
 OpenClover for IDEA is free and open-source code coverage tool based on the open-sourced Atlassian Clover(R).
