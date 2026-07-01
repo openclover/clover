@@ -64,7 +64,9 @@ public class CloverSerializerExtension extends JpsModelSerializerExtension {
 
     @Override
     public void loadModuleOptions(@NotNull JpsModule module, @NotNull Element rootElement) {
-        if (module.getModuleType() instanceof JpsJavaModuleType) {
+        // JpsPluginModuleType check uses class name to avoid compile-time dependency on DevKit (Ultimate-only)
+        if (module.getModuleType() instanceof JpsJavaModuleType ||
+                "org.jetbrains.jps.devkit.model.JpsPluginModuleType".equals(module.getModuleType().getClass().getName())) {
             // search for <component name="Clover"> tag in *.iml
             Element componentElement = JDomSerializationUtil.findComponent(rootElement, IdeaXmlConfigConstants.MODULE_FILE_COMPONENT_NAME);
 
