@@ -59,7 +59,6 @@
         <module>clover-ant</module>
         <module>clover-all</module>
         <module>clover-ant-zip</module>
-        <module>clover-idea</module>
         <module>tests-functional</module>
     </modules>
     <profiles>
@@ -70,6 +69,16 @@
                 <module>clover-core-libs</module>
                 <module>clover-eclipse-libs</module>
                 <module>clover-idea-libs</module>
+            </modules>
+        </profile>
+        <profile>
+            <!-- IDEA plugin requires JDK 21+; activated automatically on JDK 21 and above -->
+            <id>idea-jdk21plus</id>
+            <activation>
+                <jdk>[21,)</jdk>
+            </activation>
+            <modules>
+                <module>clover-idea</module>
             </modules>
         </profile>
         <profile>

@@ -61,7 +61,7 @@ jobs:
 
       - name: Build all modules
         run: |
-          mvn --batch-mode install -DskipTests=true \
+          mvn --batch-mode install -DskipTests=true -P!eclipse-jdk21plus \
             -Didea.version=${{ matrix.idea-build }} \
             -Didea.version.short=${{ matrix.idea-version }}
 
