@@ -47,7 +47,7 @@ scanPlugins() {
   pluginIncludes="properties devkit java"
   for pluginDir in $(ls "$pluginsDir"); do
     if [ "$(echo "$pluginIncludes" | grep -w "$pluginDir" | wc -l)" -ne 0 ]; then
-      for pluginFile in $(ls "$pluginsDir/$pluginDir/lib/$pluginDir"*.jar "$pluginsDir/$pluginDir/lib/jps-"*.jar 2>/dev/null | sort -u); do
+      for pluginFile in $(ls "$pluginsDir/$pluginDir/lib/"*.jar 2>/dev/null | sort -u); do
         pluginFileName=$(echo "$pluginFile" | sed 's/\.jar//' | sed 's/.*\///')
         if [ -f "$libDir/$pluginFileName.jar" ]; then
           continue

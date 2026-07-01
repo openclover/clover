@@ -30,6 +30,11 @@
         <idea.download.path>idea</idea.download.path>
         <idea.download.file>idea-2026.1.3.tar.gz</idea.download.file>
         <idea.download.dir>idea-IU-261.25134.95</idea.download.dir>
+        <!-- Fallback test-framework coordinates for IDEA distributions that no longer bundle
+             testFramework.jar (2026+). These are fetched from JetBrains Maven repo when absent.
+             Not every IDEA build is published there; pin to the nearest available version. -->
+        <testFramework.repo.base>https://www.jetbrains.com/intellij-repository/releases</testFramework.repo.base>
+        <testFramework.repo.version>261.25134.95</testFramework.repo.version>
     </properties>
     <profiles>
         <profile>
@@ -48,7 +53,7 @@
                                     <goal>run</goal>
                                 </goals>
                                 <configuration>
-                                    <target>
+                                    <target xmlns:if="ant:if">
                                         <!-- download -->
                                         <echo message="Downloading IDEA ..."/>
                                         <mkdir dir="${project.build.directory}/download"/>
@@ -62,6 +67,23 @@
                                         <untar src="${project.build.directory}/download/${idea.download.file}"
                                                dest="${project.build.directory}/extract"
                                                compression="gzip"/>
+
+                                        <!-- IDEA 2026+ no longer ships testFramework.jar; fetch replacements
+                                             from the JetBrains Maven repository and drop them into lib/ so that
+                                             the zip and install scripts pick them up automatically. -->
+                                        <condition property="testFramework.missing">
+                                            <not><available file="${project.build.directory}/extract/${idea.download.dir}/lib/testFramework.jar"/></not>
+                                        </condition>
+                                        <echo if:set="testFramework.missing"
+                                              message="testFramework.jar absent; fetching from JetBrains Maven repo (${testFramework.repo.version}) ..."/>
+                                        <get if:set="testFramework.missing"
+                                             src="${testFramework.repo.base}/com/jetbrains/intellij/platform/test-framework/${testFramework.repo.version}/test-framework-${testFramework.repo.version}.jar"
+                                             dest="${project.build.directory}/extract/${idea.download.dir}/lib/test-framework.jar"
+                                             skipexisting="true"/>
+                                        <get if:set="testFramework.missing"
+                                             src="${testFramework.repo.base}/com/jetbrains/intellij/java/java-test-framework/${testFramework.repo.version}/java-test-framework-${testFramework.repo.version}.jar"
+                                             dest="${project.build.directory}/extract/${idea.download.dir}/lib/java-test-framework.jar"
+                                             skipexisting="true"/>
 
                                         <!-- pack into zip for use by clover-idea tests -->
                                         <zip destfile="${project.build.directory}/merge/idea.zip"
