@@ -12,7 +12,7 @@ import com.intellij.openapi.roots.libraries.LibraryTable;
 import com.intellij.openapi.roots.libraries.LibraryTablesRegistrar;
 import com.intellij.openapi.util.Computable;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.testFramework.IdeaTestCase;
+import com.intellij.testFramework.HeavyPlatformTestCase;
 import org.openclover.core.util.FileUtils;
 
 import java.net.URL;
@@ -23,7 +23,7 @@ import static org.hamcrest.CoreMatchers.startsWith;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
 
-public class LibrarySupportIdeaTest extends IdeaTestCase {
+public class LibrarySupportIdeaTest extends HeavyPlatformTestCase {
     public static final String LIB_NAME = "CloverLibrarySupportTestLibraryName";
 
     private Library testLibrary;
@@ -70,6 +70,7 @@ public class LibrarySupportIdeaTest extends IdeaTestCase {
 
         final OrderEntry[] orderEntries = ModuleRootManager.getInstance(module).getOrderEntries();
         assertEquals(testLibrary, ((LibraryOrderEntry)orderEntries[0]).getLibrary());
+        deleteTestLibrary(existing);
     }
 
     public void testOrderExistingLibrary() {
@@ -90,6 +91,7 @@ public class LibrarySupportIdeaTest extends IdeaTestCase {
         wrapAdd(module);
         final OrderEntry[] orderEntries2 = ModuleRootManager.getInstance(module).getOrderEntries();
         assertEquals(testLibrary, ((LibraryOrderEntry)orderEntries2[0]).getLibrary());
+        deleteTestLibrary(existing);
     }
 
     private boolean isIdea13_0_x() {

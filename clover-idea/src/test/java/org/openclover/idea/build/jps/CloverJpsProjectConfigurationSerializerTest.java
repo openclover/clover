@@ -5,7 +5,6 @@ import org.jdom.Element;
 import org.jetbrains.jps.model.JpsProject;
 import org.jetbrains.jps.model.JpsSimpleElement;
 import org.jetbrains.jps.model.impl.JpsModelImpl;
-import org.jetbrains.jps.model.impl.JpsProjectImpl;
 import org.junit.Test;
 import org.openclover.idea.config.CloverPluginConfig;
 import org.openclover.idea.config.ProjectRebuild;
@@ -26,7 +25,7 @@ public class CloverJpsProjectConfigurationSerializerTest {
     @Test
     public void testLoadExtension() {
         final CloverJpsProjectConfigurationSerializer serializer = new CloverJpsProjectConfigurationSerializer();
-        final JpsProject jpsProject = new JpsProjectImpl(new JpsModelImpl(null), null);
+        final JpsProject jpsProject = new JpsModelImpl().getProject();
 
         // serialize data
         serializer.loadExtension(jpsProject, createSampleData());

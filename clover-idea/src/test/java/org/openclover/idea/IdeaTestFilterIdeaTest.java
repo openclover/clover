@@ -6,7 +6,7 @@ import com.intellij.openapi.roots.ModifiableRootModel;
 import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.testFramework.IdeaTestCase;
+import com.intellij.testFramework.HeavyPlatformTestCase;
 import org.mockito.Mockito;
 import org.openclover.core.api.registry.ClassInfo;
 import org.openclover.core.api.registry.HasMetrics;
@@ -19,20 +19,23 @@ import org.openclover.core.registry.entities.FullPackageInfo;
 import java.io.File;
 import java.io.IOException;
 
-public class IdeaTestFilterIdeaTest extends IdeaTestCase {
+public class IdeaTestFilterIdeaTest extends HeavyPlatformTestCase {
     private VirtualFile src;
     private VirtualFile test;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        // getTempDir().createVirtualDir() used instead of module.getModuleFile().getParent()
+        // because getModuleFile() returns null in IDEA 2024+ (Workspace Model has no .iml files)
+        final VirtualFile tempRoot = getTempDir().createVirtualDir("root");
         ApplicationTestHelper.runWriteAction(() -> {
             final Module module = createModule("test module");
             final ModifiableRootModel model = ModuleRootManager.getInstance(module).getModifiableModel();
 
             final ContentEntry contentEntry;
             try {
-                contentEntry = model.addContentEntry(module.getModuleFile().getParent().createChildDirectory(null, "root"));
+                contentEntry = model.addContentEntry(tempRoot);
                 src = contentEntry.getFile().createChildDirectory(null, "src");
                 test = contentEntry.getFile().createChildDirectory(null, "test");
             } catch (IOException e) {

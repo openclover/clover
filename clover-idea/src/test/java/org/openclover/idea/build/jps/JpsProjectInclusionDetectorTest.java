@@ -1,12 +1,9 @@
 package org.openclover.idea.build.jps;
 
-import org.jetbrains.jps.devkit.model.JpsPluginModuleProperties;
-import org.jetbrains.jps.devkit.model.JpsPluginModuleType;
 import org.jetbrains.jps.model.JpsElementFactory;
 import org.jetbrains.jps.model.JpsModel;
 import org.jetbrains.jps.model.JpsProject;
 import org.jetbrains.jps.model.impl.JpsModelImpl;
-import org.jetbrains.jps.model.impl.JpsSimpleElementImpl;
 import org.jetbrains.jps.model.java.JavaSourceRootType;
 import org.jetbrains.jps.model.java.JpsJavaModuleType;
 import org.jetbrains.jps.model.module.JpsModule;
@@ -138,7 +135,7 @@ public class JpsProjectInclusionDetectorTest {
         cloverPluginConfig.setInstrumentTests(false);
         sampleProject.getContainer().setChild(
                 CloverJpsProjectConfigurationSerializer.CloverProjectConfigurationRole.INSTANCE,
-                new JpsSimpleElementImpl<>(cloverPluginConfig));
+                JpsElementFactory.getInstance().createSimpleElement(cloverPluginConfig));
 
         // find regular file in an app source folder, in a nested module, where parent has excluded directory set
         JpsProjectInclusionDetector detector = (JpsProjectInclusionDetector) JpsProjectInclusionDetector.processFile(
@@ -206,7 +203,7 @@ public class JpsProjectInclusionDetectorTest {
      * @return JpsProject
      */
     protected JpsProject createSampleProject(CloverPluginConfig cloverPluginConfig) {
-        final JpsModel jpsModel = new JpsModelImpl(null);
+        final JpsModel jpsModel = new JpsModelImpl();
         final JpsProject jpsProject = jpsModel.getProject();
         final JpsElementFactory elementFactory = JpsElementFactory.getInstance();
 
@@ -235,10 +232,9 @@ public class JpsProjectInclusionDetectorTest {
                 elementFactory.createSimpleElement(new CloverModuleConfig(true))); // excluded from instrumentation
         jpsProject.addModule(moduleAB);
 
-        // ModuleB
-        final JpsModule moduleB = elementFactory.createModule("ModuleB", JpsPluginModuleType.INSTANCE,
-                elementFactory.createSimpleElement(
-                        new JpsPluginModuleProperties("file://plugin.xml", "file://MANIFEST.MF")));
+        // ModuleB (was PLUGIN_MODULE type, but DevKit is only in IU; using JAVA_MODULE; excluded via CloverModuleConfig)
+        final JpsModule moduleB = elementFactory.createModule("ModuleB", JpsJavaModuleType.INSTANCE,
+                elementFactory.createDummyElement());
         moduleB.addSourceRoot("file://Project/ModuleB/src", JavaSourceRootType.SOURCE);
         moduleB.addSourceRoot("file://Project/ModuleB/test", JavaSourceRootType.TEST_SOURCE);
         moduleB.getContainer().setChild(CloverSerializerExtension.CloverModuleConfigurationRole.INSTANCE,
@@ -249,7 +245,7 @@ public class JpsProjectInclusionDetectorTest {
         // add project-level configuration for Clover
         jpsProject.getContainer().setChild(
                 CloverJpsProjectConfigurationSerializer.CloverProjectConfigurationRole.INSTANCE,
-                new JpsSimpleElementImpl<>(cloverPluginConfig));
+                elementFactory.createSimpleElement(cloverPluginConfig));
 
         return jpsProject;
     }
