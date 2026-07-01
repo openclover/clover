@@ -300,6 +300,14 @@
                         <java.io.tmpdir>${project.build.directory}/idea/tmp</java.io.tmpdir>
                         <idea.load.plugins.id>${idea.plugins.to.load}</idea.load.plugins.id>
                     </systemProperties>
+                    <classpathDependencyExcludes>
+                        <!-- Plugin JARs must NOT be on the test execution classpath.
+                             IDEA loads them from target/idea/plugins/ via dedicated plugin classloaders.
+                             Having them also on the system classpath causes IDEA 2025+ to fail with
+                             "jarFiles is not set for PluginMainDescriptor" when resolving content modules
+                             (ClassLoaderConfigurator.configureMainPluginModule added this strict check). -->
+                        <classpathDependencyExclude>org.openclover.idea.plugins:*</classpathDependencyExclude>
+                    </classpathDependencyExcludes>
                     <useManifestOnlyJar>false</useManifestOnlyJar>
                 </configuration>
             </plugin>
