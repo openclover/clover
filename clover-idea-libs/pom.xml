@@ -66,7 +66,7 @@
                                         <!-- pack into zip for use by clover-idea tests -->
                                         <zip destfile="${project.build.directory}/merge/idea.zip"
                                              basedir="${project.build.directory}/extract/${idea.download.dir}"
-                                             includes="bin/**,lib/*.jar,plugins/devkit/**,plugins/java/**,plugins/properties/**">
+                                             includes="bin/**,lib/*.jar,lib/modules/*.jar,plugins/devkit/**,plugins/java/**,plugins/properties/**">
                                         </zip>
 
                                         <!-- generate install-helper.pom: one install:install-file execution per JAR -->

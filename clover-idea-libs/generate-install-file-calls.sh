@@ -27,6 +27,14 @@ scanLibraries() {
     artifactId=$(echo "$libFile" | sed 's/\.jar//' | sed 's/.*\///')
     echoExecution "$groupId" "$artifactId" "$version" "$libFile"
   done
+
+  # scan lib/modules/*.jar (present in IDEA 2024+)
+  if [ -d "$libDir/modules" ]; then
+    for libFile in $libDir/modules/*.jar; do
+      artifactId=$(echo "$libFile" | sed 's/\.jar//' | sed 's/.*\///')
+      echoExecution "$groupId" "$artifactId" "$version" "$libFile"
+    done
+  fi
 }
 
 # $1 idea folder (absolute path)
@@ -46,6 +54,13 @@ scanPlugins() {
         fi
         echoExecution "$groupId" "$pluginFileName" "$version" "$pluginFile"
       done
+      # scan lib/modules/*.jar (plugin sub-modules, present in IDEA 2024+)
+      if [ -d "$pluginsDir/$pluginDir/lib/modules" ]; then
+        for pluginFile in "$pluginsDir/$pluginDir/lib/modules/"*.jar; do
+          pluginFileName=$(echo "$pluginFile" | sed 's/\.jar//' | sed 's/.*\///')
+          echoExecution "$groupId" "$pluginFileName" "$version" "$pluginFile"
+        done
+      fi
     fi
   done
 }
