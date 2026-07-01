@@ -238,6 +238,15 @@
                         <additionalClasspathElement>${project.build.directory}/idea/bin</additionalClasspathElement>
                         <!-- some tests load files from this location as resources -->
                         <additionalClasspathElement>${project.build.directory}/testproject</additionalClasspathElement>
+                        <!-- Plugin JARs added from the extracted IDEA plugins directory rather than
+                             the Maven repo (which is excluded via classpathDependencyExcludes below).
+                             This ensures the classpath path is under idea.home.path/plugins/, so IDEA
+                             2025+ deduplicates against the plugins-directory scan and sets jarFiles
+                             correctly — avoiding "jarFiles is not set for PluginMainDescriptor". -->
+                        <additionalClasspathElement>${project.build.directory}/idea/plugins/java/lib/*</additionalClasspathElement>
+                        <additionalClasspathElement>${project.build.directory}/idea/plugins/java/lib/modules/*</additionalClasspathElement>
+                        <additionalClasspathElement>${project.build.directory}/idea/plugins/properties/lib/*</additionalClasspathElement>
+                        <additionalClasspathElement>${project.build.directory}/idea/plugins/devkit/lib/*</additionalClasspathElement>
                     </additionalClasspathElements>
                     <argLine>
                         -Djava.library.path=${project.build.directory}/idea/bin
@@ -287,6 +296,7 @@
                         --add-opens=jdk.attach/sun.tools.attach=ALL-UNNAMED
                         --add-opens=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED
                         --add-opens=jdk.internal.jvmstat/sun.jvmstat.monitor=ALL-UNNAMED
+                        --add-opens=java.base/jdk.internal.ref=ALL-UNNAMED
                         --add-opens=jdk.jdi/com.sun.tools.jdi=ALL-UNNAMED
                         -Dnet.bytebuddy.experimental=true
                     </argLine>
