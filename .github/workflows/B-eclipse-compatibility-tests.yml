@@ -40,7 +40,7 @@ jobs:
           mvn --batch-mode install:install-file -Dfile=ktreemap-1.1.0-atlassian-01.jar -DpomFile=ktreemap-1.1.0-atlassian-01.pom
 
       - name: Build all modules
-        run: mvn --batch-mode install -DskipTests=true -pl '!clover-idea'
+        run: mvn --batch-mode install -DskipTests=true -P!idea-jdk21plus
 
       - name: Upload clover-eclipse artifacts
         uses: actions/upload-artifact@v7

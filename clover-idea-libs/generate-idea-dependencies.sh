@@ -27,6 +27,14 @@ scanLibraries() {
     artifactId=$(echo "$libFile" | sed 's/\.jar//' | sed 's/.*\///')
     echoDependency "$groupId" "$artifactId" "$version"
   done
+
+  # scan lib/modules/*.jar (present in IDEA 2024+)
+  if [ -d "$libDir/modules" ]; then
+    for libFile in $libDir/modules/*.jar; do
+      artifactId=$(echo "$libFile" | sed 's/\.jar//' | sed 's/.*\///')
+      echoDependency "$groupId" "$artifactId" "$version"
+    done
+  fi
 }
 
 # $1 idea folder (absolute path)
@@ -39,13 +47,20 @@ scanPlugins() {
   pluginIncludes="properties devkit java"
   for pluginDir in $(ls "$pluginsDir"); do
     if [ "$(echo "$pluginIncludes" | grep -w "$pluginDir" | wc -l)" -ne 0 ]; then
-      for pluginFile in $(ls "$pluginsDir/$pluginDir/lib/$pluginDir"*.jar "$pluginsDir/$pluginDir/lib/jps-"*.jar 2>/dev/null | sort -u); do
+      for pluginFile in $(ls "$pluginsDir/$pluginDir/lib/"*.jar 2>/dev/null | sort -u); do
         pluginFileName=$(echo "$pluginFile" | sed 's/\.jar//' | sed 's/.*\///')
         if [ -f "$libDir/$pluginFileName.jar" ]; then
           continue
         fi
         echoDependency "$groupId" "$pluginFileName" "$version"
       done
+      # scan lib/modules/*.jar (plugin sub-modules, present in IDEA 2024+)
+      if [ -d "$pluginsDir/$pluginDir/lib/modules" ]; then
+        for pluginFile in "$pluginsDir/$pluginDir/lib/modules/"*.jar; do
+          pluginFileName=$(echo "$pluginFile" | sed 's/\.jar//' | sed 's/.*\///')
+          echoDependency "$groupId" "$pluginFileName" "$version"
+        done
+      fi
     fi
   done
 }

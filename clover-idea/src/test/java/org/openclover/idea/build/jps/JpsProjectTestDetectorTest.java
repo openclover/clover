@@ -1,7 +1,5 @@
 package org.openclover.idea.build.jps;
 
-import org.jetbrains.jps.devkit.model.JpsPluginModuleProperties;
-import org.jetbrains.jps.devkit.model.JpsPluginModuleType;
 import org.jetbrains.jps.model.JpsElementFactory;
 import org.jetbrains.jps.model.JpsProject;
 import org.jetbrains.jps.model.impl.JpsModelImpl;
@@ -129,7 +127,7 @@ public class JpsProjectTestDetectorTest {
      * @return JpsProject
      */
     protected JpsProject createSampleProject() {
-        final JpsProject jpsProject = new JpsModelImpl(null).getProject();
+        final JpsProject jpsProject = new JpsModelImpl().getProject();
         final JpsElementFactory factory = JpsElementFactory.getInstance();
 
         // ModuleA
@@ -139,10 +137,9 @@ public class JpsProjectTestDetectorTest {
         moduleA.addSourceRoot("file://Project/ModuleA/test", JavaSourceRootType.TEST_SOURCE);
         jpsProject.addModule(moduleA);
 
-        // ModuleB
-        final JpsModule moduleB = factory.createModule("ModuleB", JpsPluginModuleType.INSTANCE,
-                factory.createSimpleElement(
-                        new JpsPluginModuleProperties("file://plugin.xml", "file://MANIFEST.MF")));
+        // ModuleB (was PLUGIN_MODULE type, but DevKit is only available in IU; using JAVA_MODULE here)
+        final JpsModule moduleB = factory.createModule("ModuleB", JpsJavaModuleType.INSTANCE,
+                factory.createDummyElement());
         moduleB.addSourceRoot("file://Project/ModuleB/src", JavaSourceRootType.SOURCE);
         moduleB.addSourceRoot("file://Project/ModuleB/test", JavaSourceRootType.TEST_SOURCE);
         jpsProject.addModule(moduleB);

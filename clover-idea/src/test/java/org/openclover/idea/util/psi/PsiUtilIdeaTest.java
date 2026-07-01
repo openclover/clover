@@ -1,6 +1,8 @@
 package org.openclover.idea.util.psi;
 
-import com.intellij.psi.JavaDirectoryService;
+import com.intellij.openapi.command.WriteCommandAction;
+import com.intellij.openapi.vfs.VfsUtil;
+import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiPackage;
@@ -9,10 +11,16 @@ import com.intellij.testFramework.LightIdeaTestCase;
 public class PsiUtilIdeaTest extends LightIdeaTestCase {
 
     public void testFindClasses() throws Exception {
-        // create a class
-        JavaDirectoryService.getInstance().createClass(
-                getPsiManager().findDirectory(getSourceRoot()),
-                "TheClass");
+        // create a .java file directly (avoids dependency on Java file templates which
+        // may not be available when the Java plugin is loaded from the classpath in tests)
+        WriteCommandAction.runWriteCommandAction(getProject(), () -> {
+            try {
+                VirtualFile file = getSourceRoot().createChildData(null, "TheClass.java");
+                VfsUtil.saveText(file, "public class TheClass {}");
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         // and find it
         final PsiClass[] cls = PsiUtil.findClasses("TheClass", getProject());

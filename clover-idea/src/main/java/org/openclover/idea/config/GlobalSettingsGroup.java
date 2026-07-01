@@ -28,7 +28,6 @@ public class GlobalSettingsGroup extends UnnamedConfigurableGroup implements Con
         };
     }
 
-    @Override
     public String getShortName() {
         //TODO depracated since 15
         return "OpenClover (global settings)";

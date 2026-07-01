@@ -145,6 +145,14 @@
                                 <taskdef resource="net/sf/antcontrib/antcontrib.properties" classpathref="maven.plugin.classpath" />
                                 <taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask" classpathref="maven.plugin.classpath" />
 
+                                <!-- IDEA 2022.3+ moved jdkAnnotations.jar to plugins/java/lib/resources/,
+                                     but JavaSdkImpl also looks at lib/resources/ relative to idea.home.path -->
+                                <mkdir dir="${project.build.directory}/idea/lib/resources"/>
+                                <copy todir="${project.build.directory}/idea/lib/resources" failonerror="false">
+                                    <fileset dir="${project.build.directory}/idea/plugins/java/lib/resources"
+                                             includes="jdkAnnotations.jar" erroronmissingdir="false"/>
+                                </copy>
+
                                 <property name="testproject.base" location="${project.basedir}/src/test/resources/testproject" />
                                 <property name="testproject.output" location="${project.build.directory}/testproject" />
                                 <property name="testproject.db" location="${testproject.output}/clover/coverage.db" />
@@ -230,6 +238,15 @@
                         <additionalClasspathElement>${project.build.directory}/idea/bin</additionalClasspathElement>
                         <!-- some tests load files from this location as resources -->
                         <additionalClasspathElement>${project.build.directory}/testproject</additionalClasspathElement>
+                        <!-- Plugin JARs added from the extracted IDEA plugins directory rather than
+                             the Maven repo (which is excluded via classpathDependencyExcludes below).
+                             This ensures the classpath path is under idea.home.path/plugins/, so IDEA
+                             2025+ deduplicates against the plugins-directory scan and sets jarFiles
+                             correctly — avoiding "jarFiles is not set for PluginMainDescriptor". -->
+                        <additionalClasspathElement>${project.build.directory}/idea/plugins/java/lib/*</additionalClasspathElement>
+                        <additionalClasspathElement>${project.build.directory}/idea/plugins/java/lib/modules/*</additionalClasspathElement>
+                        <additionalClasspathElement>${project.build.directory}/idea/plugins/properties/lib/*</additionalClasspathElement>
+                        <additionalClasspathElement>${project.build.directory}/idea/plugins/devkit/lib/*</additionalClasspathElement>
                     </additionalClasspathElements>
                     <argLine>
                         -Djava.library.path=${project.build.directory}/idea/bin
@@ -237,6 +254,51 @@
                         -Xmx512M
                         -ea
                         <!-- -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005-->
+                        --add-opens=java.base/java.io=ALL-UNNAMED
+                        --add-opens=java.base/java.lang=ALL-UNNAMED
+                        --add-opens=java.base/java.lang.ref=ALL-UNNAMED
+                        --add-opens=java.base/java.lang.reflect=ALL-UNNAMED
+                        --add-opens=java.base/java.net=ALL-UNNAMED
+                        --add-opens=java.base/java.nio=ALL-UNNAMED
+                        --add-opens=java.base/java.nio.charset=ALL-UNNAMED
+                        --add-opens=java.base/java.text=ALL-UNNAMED
+                        --add-opens=java.base/java.time=ALL-UNNAMED
+                        --add-opens=java.base/java.util=ALL-UNNAMED
+                        --add-opens=java.base/java.util.concurrent=ALL-UNNAMED
+                        --add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED
+                        --add-opens=java.base/java.util.concurrent.locks=ALL-UNNAMED
+                        --add-opens=java.base/jdk.internal.vm=ALL-UNNAMED
+                        --add-opens=java.base/sun.net.dns=ALL-UNNAMED
+                        --add-opens=java.base/sun.nio.ch=ALL-UNNAMED
+                        --add-opens=java.base/sun.nio.fs=ALL-UNNAMED
+                        --add-opens=java.base/sun.security.ssl=ALL-UNNAMED
+                        --add-opens=java.base/sun.security.util=ALL-UNNAMED
+                        --add-opens=java.desktop/com.sun.java.swing=ALL-UNNAMED
+                        --add-opens=java.desktop/com.sun.java.swing.plaf.gtk=ALL-UNNAMED
+                        --add-opens=java.desktop/java.awt=ALL-UNNAMED
+                        --add-opens=java.desktop/java.awt.dnd.peer=ALL-UNNAMED
+                        --add-opens=java.desktop/java.awt.event=ALL-UNNAMED
+                        --add-opens=java.desktop/java.awt.font=ALL-UNNAMED
+                        --add-opens=java.desktop/java.awt.image=ALL-UNNAMED
+                        --add-opens=java.desktop/java.awt.peer=ALL-UNNAMED
+                        --add-opens=java.desktop/javax.swing=ALL-UNNAMED
+                        --add-opens=java.desktop/javax.swing.plaf.basic=ALL-UNNAMED
+                        --add-opens=java.desktop/javax.swing.text=ALL-UNNAMED
+                        --add-opens=java.desktop/javax.swing.text.html=ALL-UNNAMED
+                        --add-opens=java.desktop/sun.awt=ALL-UNNAMED
+                        --add-opens=java.desktop/sun.awt.X11=ALL-UNNAMED
+                        --add-opens=java.desktop/sun.awt.datatransfer=ALL-UNNAMED
+                        --add-opens=java.desktop/sun.awt.image=ALL-UNNAMED
+                        --add-opens=java.desktop/sun.font=ALL-UNNAMED
+                        --add-opens=java.desktop/sun.java2d=ALL-UNNAMED
+                        --add-opens=java.desktop/sun.swing=ALL-UNNAMED
+                        --add-opens=java.management/sun.management=ALL-UNNAMED
+                        --add-opens=jdk.attach/sun.tools.attach=ALL-UNNAMED
+                        --add-opens=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED
+                        --add-opens=jdk.internal.jvmstat/sun.jvmstat.monitor=ALL-UNNAMED
+                        --add-opens=java.base/jdk.internal.ref=ALL-UNNAMED
+                        --add-opens=jdk.jdi/com.sun.tools.jdi=ALL-UNNAMED
+                        -Dnet.bytebuddy.experimental=true
                     </argLine>
                     <systemProperties>
                         <java.awt.headless>true</java.awt.headless>
@@ -248,6 +310,14 @@
                         <java.io.tmpdir>${project.build.directory}/idea/tmp</java.io.tmpdir>
                         <idea.load.plugins.id>${idea.plugins.to.load}</idea.load.plugins.id>
                     </systemProperties>
+                    <classpathDependencyExcludes>
+                        <!-- Plugin JARs must NOT be on the test execution classpath.
+                             IDEA loads them from target/idea/plugins/ via dedicated plugin classloaders.
+                             Having them also on the system classpath causes IDEA 2025+ to fail with
+                             "jarFiles is not set for PluginMainDescriptor" when resolving content modules
+                             (ClassLoaderConfigurator.configureMainPluginModule added this strict check). -->
+                        <classpathDependencyExclude>org.openclover.idea.plugins:*</classpathDependencyExclude>
+                    </classpathDependencyExcludes>
                     <useManifestOnlyJar>false</useManifestOnlyJar>
                 </configuration>
             </plugin>

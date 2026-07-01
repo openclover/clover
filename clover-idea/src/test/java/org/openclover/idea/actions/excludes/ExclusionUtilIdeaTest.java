@@ -7,12 +7,12 @@ import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiPackage;
-import com.intellij.testFramework.PsiTestCase;
+import com.intellij.testFramework.JavaPsiTestCase;
 import com.intellij.testFramework.PsiTestUtil;
 import org.openclover.idea.ApplicationTestHelper;
 import org.openclover.idea.util.psi.PsiUtil;
 
-public class ExclusionUtilIdeaTest extends PsiTestCase {
+public class ExclusionUtilIdeaTest extends JavaPsiTestCase {
     private VirtualFile orgOpenCloverDir;
     private PsiClass psiClass;
     private VirtualFile contentRoot;

@@ -4,8 +4,6 @@ import org.hamcrest.core.IsCollectionContaining;
 import org.jetbrains.jps.model.JpsElementFactory;
 import org.jetbrains.jps.model.JpsProject;
 import org.jetbrains.jps.model.impl.JpsModelImpl;
-import org.jetbrains.jps.model.impl.JpsProjectImpl;
-import org.jetbrains.jps.model.impl.JpsSimpleElementImpl;
 import org.jetbrains.jps.model.java.JavaSourceRootType;
 import org.jetbrains.jps.model.java.JpsJavaModuleType;
 import org.jetbrains.jps.model.module.JpsModule;
@@ -238,7 +236,7 @@ public class JpsModelUtilTest {
      */
     @Test
     public void testFindModuleForFile_NoModuleFound() {
-        final JpsProject project = new JpsModelImpl(null).getProject();
+        final JpsProject project = new JpsModelImpl().getProject();
         final JpsModule moduleA = factory.createModule("ModuleA", JpsJavaModuleType.INSTANCE, factory.createDummyElement());
         moduleA.addSourceRoot("file://ModuleA/src", JavaSourceRootType.SOURCE);
 
@@ -263,7 +261,7 @@ public class JpsModelUtilTest {
      */
     @Test
     public void testFindModuleForFile_SiblingModules() {
-        final JpsProject project = new JpsModelImpl(null).getProject();
+        final JpsProject project = new JpsModelImpl().getProject();
         final JpsModule moduleA = factory.createModule("ModuleA", JpsJavaModuleType.INSTANCE, factory.createDummyElement());
         moduleA.addSourceRoot("file://ModuleA/src", JavaSourceRootType.SOURCE);
         project.addModule(moduleA);
@@ -300,7 +298,7 @@ public class JpsModelUtilTest {
      */
     @Test
     public void testFindModuleForFile_NestedModules() {
-        final JpsProject project = new JpsModelImpl(null).getProject();
+        final JpsProject project = new JpsModelImpl().getProject();
         final JpsModule moduleA = factory.createModule("ModuleA", JpsJavaModuleType.INSTANCE, factory.createDummyElement());
         moduleA.addSourceRoot("file://ModuleA/src", JavaSourceRootType.SOURCE);
         project.addModule(moduleA);
@@ -335,10 +333,10 @@ public class JpsModelUtilTest {
         final CloverPluginConfig config = new MappedCloverPluginConfig();
         config.setEnabled(isCloverEnabled);
         config.setBuildWithClover(isBuildWithCloverEnabled);
-        final JpsProject jpsProject = new JpsProjectImpl(new JpsModelImpl(null), null);
+        final JpsProject jpsProject = new JpsModelImpl().getProject();
         jpsProject.getContainer().setChild(
                 CloverJpsProjectConfigurationSerializer.CloverProjectConfigurationRole.INSTANCE,
-                new JpsSimpleElementImpl<>(config));
+                JpsElementFactory.getInstance().createSimpleElement(config));
         return jpsProject;
     }
 
@@ -348,7 +346,7 @@ public class JpsModelUtilTest {
      * @return JpsProject
      */
     protected JpsProject createProjectWithoutCloverConfig() {
-        return new JpsProjectImpl(new JpsModelImpl(null), null);
+        return new JpsModelImpl().getProject();
     }
 
 }

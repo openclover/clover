@@ -8,18 +8,17 @@ import com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode;
 import com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode;
 import com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode;
 import com.intellij.ide.util.treeView.AbstractTreeNode;
-import com.intellij.openapi.components.ProjectComponent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class ProjectViewDecorator implements TreeStructureProvider, ProjectComponent {
+public class ProjectViewDecorator implements TreeStructureProvider {
     @Override
-    public Collection<AbstractTreeNode> modify(AbstractTreeNode parent, Collection<AbstractTreeNode> children, ViewSettings settings) {
-        final Collection<AbstractTreeNode> newChildren = new ArrayList<>(children.size());
+    public Collection<AbstractTreeNode<?>> modify(@NotNull AbstractTreeNode<?> parent, @NotNull Collection<AbstractTreeNode<?>> children, ViewSettings settings) {
+        final Collection<AbstractTreeNode<?>> newChildren = new ArrayList<>(children.size());
         boolean modified = false;
-        for (AbstractTreeNode child : children) {
+        for (AbstractTreeNode<?> child : children) {
             if (PackageElementNodeWrapper.canAnnotate(child)) {
                 newChildren.add(new PackageElementNodeWrapper((PackageElementNode) child));
                 modified = true;
@@ -44,29 +43,7 @@ public class ProjectViewDecorator implements TreeStructureProvider, ProjectCompo
     }
 
     @Override
-    public Object getData(Collection<AbstractTreeNode> selected, String dataName) {
+    public Object getData(@NotNull Collection<? extends AbstractTreeNode<?>> selected, @NotNull String dataName) {
         return null;
-    }
-
-    @Override
-    public void projectOpened() {
-    }
-
-    @Override
-    public void projectClosed() {
-    }
-
-    @Override
-    @NotNull
-    public String getComponentName() {
-        return "OpenClover Project View Decorator";
-    }
-
-    @Override
-    public void initComponent() {
-    }
-
-    @Override
-    public void disposeComponent() {
     }
 }

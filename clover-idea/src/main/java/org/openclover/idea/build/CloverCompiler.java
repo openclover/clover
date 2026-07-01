@@ -10,7 +10,7 @@ import com.intellij.openapi.compiler.CompileTask;
 import com.intellij.openapi.compiler.CompilerManager;
 import com.intellij.openapi.compiler.CompilerMessageCategory;
 import com.intellij.openapi.compiler.CompilerTopics;
-import com.intellij.openapi.compiler.JavaSourceTransformingCompiler;
+import com.intellij.openapi.compiler.Compiler;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.module.LanguageLevelUtil;
 import com.intellij.openapi.module.Module;
@@ -77,7 +77,7 @@ import java.util.Map;
  * @see org.openclover.idea.build.jps.CloverJavaBuilder
  * @see org.openclover.idea.build.jps.CloverJavaSourceTransformer
  */
-public class CloverCompiler implements JavaSourceTransformingCompiler {
+public class CloverCompiler implements Compiler {
 
     /**
      * Compilation status listener for a build performed in the same process as IDEA IDE
@@ -379,7 +379,6 @@ public class CloverCompiler implements JavaSourceTransformingCompiler {
     /**
      * Returns true if the specified file should be instrumented.
      */
-    @Override
     public boolean isTransformable(VirtualFile file) {
 
         LOG.debug("isTransformable: " + file);
@@ -424,7 +423,6 @@ public class CloverCompiler implements JavaSourceTransformingCompiler {
      * @param origVf  an original file (it is passed for reference purposes only)
      * @return true if transformation was successful, false on error
      */
-    @Override
     public boolean transform(final CompileContext context, final VirtualFile vf, final VirtualFile origVf) {
         final Application app = ApplicationManager.getApplication();
 

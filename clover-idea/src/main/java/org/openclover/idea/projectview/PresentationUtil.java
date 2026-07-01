@@ -18,22 +18,12 @@ public class PresentationUtil {
     public static void overlayPresentation(PresentationData presentation, boolean enabled) {
         final Icon overlay = enabled ? CloverIcons.CLOVER_ENABLED_OVL : CloverIcons.CLOVER_DISABLED_OVL;
 
-        final Icon baseOpenIcon = presentation.getIcon(true);
-        if (baseOpenIcon != null) {
-            final LayeredIcon openIcon = new LayeredIcon(2);
-            openIcon.setIcon(baseOpenIcon, 0);
-            openIcon.setIcon(overlay, 1, 0, baseOpenIcon.getIconHeight() - overlay.getIconHeight());
-            // TODO: setOpenIcon is deprecated since IDEA13, replace by setIcon()
-            presentation.setOpenIcon(openIcon);
-        }
-
-        final Icon baseClosedIcon = presentation.getIcon(false);
-        if (baseClosedIcon != null) {
-            final LayeredIcon closedIcon = new LayeredIcon(2);
-            closedIcon.setIcon(baseClosedIcon, 0);
-            closedIcon.setIcon(overlay, 1, 0, baseClosedIcon.getIconHeight() - overlay.getIconHeight());
-            // TODO: setClosedIcon is deprecated since IDEA13, replace by setIcon()
-            presentation.setClosedIcon(closedIcon);
+        final Icon baseIcon = presentation.getIcon(false);
+        if (baseIcon != null) {
+            final LayeredIcon icon = new LayeredIcon(2);
+            icon.setIcon(baseIcon, 0);
+            icon.setIcon(overlay, 1, 0, baseIcon.getIconHeight() - overlay.getIconHeight());
+            presentation.setIcon(icon);
         }
     }
 
