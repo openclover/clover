@@ -84,6 +84,10 @@
                                              src="${testFramework.repo.base}/com/jetbrains/intellij/java/java-test-framework/${testFramework.repo.version}/java-test-framework-${testFramework.repo.version}.jar"
                                              dest="${project.build.directory}/extract/${idea.download.dir}/lib/java-test-framework.jar"
                                              skipexisting="true"/>
+                                        <get if:set="testFramework.missing"
+                                             src="${testFramework.repo.base}/com/jetbrains/intellij/platform/test-framework-core/${testFramework.repo.version}/test-framework-core-${testFramework.repo.version}.jar"
+                                             dest="${project.build.directory}/extract/${idea.download.dir}/lib/test-framework-core.jar"
+                                             skipexisting="true"/>
 
                                         <!-- pack into zip for use by clover-idea tests -->
                                         <zip destfile="${project.build.directory}/merge/idea.zip"
