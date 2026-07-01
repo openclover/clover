@@ -4,7 +4,6 @@ import com.intellij.ide.BrowserUtil;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.Messages;
-import com.intellij.openapi.util.SystemInfo;
 import com.intellij.ui.IdeBorderFactory;
 import org.jetbrains.annotations.Nullable;
 import org.openclover.idea.config.IdeaCloverConfig;
@@ -24,7 +23,6 @@ import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Insets;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -169,7 +167,7 @@ public class AboutDialog extends DialogWrapper {
         final JPanel panel = new JPanel(new BorderLayout());
         panel.add(super.createSouthPanel(), BorderLayout.EAST);
         enabledCheckbox.setVerticalAlignment(SwingConstants.CENTER);
-        enabledCheckbox.setBorder(IdeBorderFactory.createEmptyBorder(new Insets(SystemInfo.isMacOSLeopard ? 8 : 16, 0, 0, 0)));
+        enabledCheckbox.setBorder(IdeBorderFactory.createEmptyBorder(10, 0, 0, 0));
         panel.add(enabledCheckbox, BorderLayout.WEST);
 
         return panel;

@@ -26,7 +26,7 @@ jobs:
 
       - name: Compile and pack all modules
         run: |
-          mvn --batch-mode install -DskipTests=true --projects '!clover-idea'
+          mvn --batch-mode install -DskipTests=true
 
       - name: Run matrix tests for clover-groovy and tests-functional
         run: |
