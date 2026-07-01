@@ -3,7 +3,6 @@ package org.openclover.idea.build.jps;
 import com.intellij.openapi.util.JDOMExternalizerUtil;
 import org.jdom.Element;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.jps.devkit.model.JpsPluginModuleType;
 import org.jetbrains.jps.model.JpsElementChildRole;
 import org.jetbrains.jps.model.JpsElementFactory;
 import org.jetbrains.jps.model.JpsSimpleElement;
@@ -65,8 +64,7 @@ public class CloverSerializerExtension extends JpsModelSerializerExtension {
 
     @Override
     public void loadModuleOptions(@NotNull JpsModule module, @NotNull Element rootElement) {
-        if (module.getModuleType() instanceof JpsJavaModuleType ||
-                module.getModuleType() instanceof JpsPluginModuleType) {
+        if (module.getModuleType() instanceof JpsJavaModuleType) {
             // search for <component name="Clover"> tag in *.iml
             Element componentElement = JDomSerializationUtil.findComponent(rootElement, IdeaXmlConfigConstants.MODULE_FILE_COMPONENT_NAME);
 

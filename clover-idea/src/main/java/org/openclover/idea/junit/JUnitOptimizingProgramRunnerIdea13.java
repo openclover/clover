@@ -1,6 +1,7 @@
 package org.openclover.idea.junit;
 
 import com.intellij.execution.ExecutionException;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.execution.ExecutionResult;
 import com.intellij.execution.Executor;
 import com.intellij.execution.configurations.ConfigurationInfoProvider;
@@ -25,16 +26,22 @@ public class JUnitOptimizingProgramRunnerIdea13 extends DefaultJavaProgramRunner
 
     private static final String RUNNER_ID = "OpenClover Optimizing Runner IDEA 13+";
 
+    private static final Logger LOG = Logger.getInstance(JUnitOptimizingProgramRunnerIdea13.class);
+
     // using composition instead of inheritance because JUnitOptimizingProgramRunnerIdea13 must extend
     // DefaultJavaProgramRunner from a specific IDEA version (due to method signatures)
     private final JUnitOptimizingProgramRunnerBase runnerBase = new JUnitOptimizingProgramRunnerBase();
 
     @Override
-    public void patch(JavaParameters javaParameters, RunnerSettings runnerSettings, RunProfile runProfile, boolean b) throws ExecutionException {
+    public void patch(JavaParameters javaParameters, RunnerSettings runnerSettings, RunProfile runProfile, boolean b) {
         // fallback to default settings in case when runnerSettings does not have what we expect
         final OptimizedConfigurationSettings configurationSettings = runnerSettings instanceof OptimizedConfigurationSettings
                 ? (OptimizedConfigurationSettings) runnerSettings : new OptimizedConfigurationSettings();
-        runnerBase.patchImpl(javaParameters, runProfile, configurationSettings);
+        try {
+            runnerBase.patchImpl(javaParameters, runProfile, configurationSettings);
+        } catch (ExecutionException e) {
+            LOG.error("Failed to patch Java parameters for Clover test optimization", e);
+        }
     }
 
     @Override

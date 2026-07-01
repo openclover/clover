@@ -63,9 +63,6 @@ Learn about new features and bug-fixes in this release in the <a href="https://o
 			<implementation-class>org.openclover.idea.RefreshIconsComponent</implementation-class>
 		</component>
 		<component>
-			<implementation-class>org.openclover.idea.projectview.ProjectViewDecorator</implementation-class>
-		</component>
-		<component>
 			<implementation-class>org.openclover.idea.autoupdater.NewVersionNotifier</implementation-class>
 		</component>
 	</project-components>

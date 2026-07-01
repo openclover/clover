@@ -17,7 +17,7 @@ import java.net.URL;
 /**
  * Utility class to help work with the openapis' vfs package.
  */
-public class VfsUtil extends com.intellij.openapi.vfs.VfsUtil {
+public class VfsUtil {
 
     /**
      * Convert the specified file instance into an equivalent java.net.URL instance
@@ -31,7 +31,7 @@ public class VfsUtil extends com.intellij.openapi.vfs.VfsUtil {
             return null;
         }
         Application app = ApplicationManager.getApplication();
-        return (URL) app.runReadAction((Computable) () -> convertToURL(file.getUrl()));
+        return (URL) app.runReadAction((Computable) () -> com.intellij.openapi.vfs.VfsUtil.convertToURL(file.getUrl()));
     }
 
     /**
@@ -107,7 +107,7 @@ public class VfsUtil extends com.intellij.openapi.vfs.VfsUtil {
      * @return project root relative path
      */
     public static String calcRelativeToProjectPath(VirtualFile sourceVirtualFile, Project project) {
-        final String relative = getRelativePath(sourceVirtualFile, project.getBaseDir(), '/');
+        final String relative = com.intellij.openapi.vfs.VfsUtil.getRelativePath(sourceVirtualFile, project.getBaseDir(), '/');
         return relative != null ? relative : sourceVirtualFile.getPath();
     }
 }

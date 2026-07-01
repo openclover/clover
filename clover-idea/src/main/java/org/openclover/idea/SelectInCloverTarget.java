@@ -2,6 +2,7 @@ package org.openclover.idea;
 
 import com.intellij.ide.SelectInContext;
 import com.intellij.ide.SelectInTarget;
+import org.jetbrains.annotations.Nullable;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
 
@@ -12,8 +13,9 @@ import static org.openclover.core.util.Maps.newTreeMap;
 public class SelectInCloverTarget implements SelectInTarget {
     private final Map<Priority, SelectInCloverView> views = newTreeMap();
 
+    @Nullable
     public static SelectInCloverTarget getInstance(@NotNull Project project) {
-        return (SelectInCloverTarget) project.getPicoContainer().getComponentInstanceOfType(SelectInCloverTarget.class);
+        return SelectInTarget.EP_NAME.findExtension(SelectInCloverTarget.class, project);
     }
 
     public void addView(SelectInCloverView view, int priority) {
