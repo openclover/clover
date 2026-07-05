@@ -116,6 +116,8 @@
                         </goals>
                         <configuration>
                             <outputDirectory>${project.build.directory}/idea</outputDirectory>
+                            <!-- Always overwrite so switching between IDEA versions re-extracts fully -->
+                            <overWrite>true</overWrite>
                             <artifactItems>
                                 <artifactItem>
                                     <groupId>org.openclover.idea.libs</groupId>
@@ -151,6 +153,48 @@
                                 <copy todir="${project.build.directory}/idea/lib/resources" failonerror="false">
                                     <fileset dir="${project.build.directory}/idea/plugins/java/lib/resources"
                                              includes="jdkAnnotations.jar" erroronmissingdir="false"/>
+                                </copy>
+
+                                <!-- Copy ALL plugins from the workspace-setup extraction so that
+                                     target/idea/plugins/ mirrors the full IDEA installation.
+                                     failonerror="false" / erroronmissingdir="false" make this a
+                                     no-op on CI where the extracted folder is absent. -->
+                                <copy todir="${project.build.directory}/idea/plugins"
+                                      overwrite="false" failonerror="false">
+                                    <fileset dir="${project.basedir}/../clover-idea-libs/target/extract/${idea.download.dir}/plugins"
+                                             erroronmissingdir="false"/>
+                                </copy>
+
+                                <!-- Remove product-info.json from the extracted IDEA tree. Its
+                                     presence makes IDEA use the product-modules loading strategy
+                                     (PathBasedProductLoadingStrategy via IntellijLoader) instead of
+                                     the classpath strategy. Under Surefire that strategy fails to
+                                     register CORE content-module services such as
+                                     com.intellij.platform.settings.SettingsController, crashing
+                                     ApplicationLoader.initConfigurationStore. Without it, CORE loads
+                                     its content modules from lib/modules/*.jar on the classpath and
+                                     SettingsController registers correctly. -->
+                                <delete file="${project.build.directory}/idea/product-info.json"
+                                        failonerror="false"/>
+
+                                <!-- Stage lib/module-*.jar (IDEA bundled-library module JARs:
+                                     fastutil, ktor, etc.) into idea-lib-modules/ so a dir/* glob can
+                                     put them on the Surefire test classpath. Needed because
+                                     PathClassLoader's module-descriptors Bootstrap-Class-Path is not
+                                     effective for surefire's class-init loader. -->
+                                <mkdir dir="${project.build.directory}/idea-lib-modules"/>
+                                <copy todir="${project.build.directory}/idea-lib-modules"
+                                      overwrite="false" failonerror="false">
+                                    <!-- Only the third-party library modules (fastutil, guava, asm,
+                                         etc.). Deliberately EXCLUDE module-intellij.platform.*.jar and
+                                         module-intellij.xml.*.jar / regexp: those are CORE content
+                                         modules with their own descriptors, and placing them on the
+                                         flat classpath disrupts CORE content-module loading (breaks
+                                         intellij.platform.settings.local -> SettingsController). -->
+                                    <fileset dir="${project.build.directory}/idea/lib"
+                                             includes="module-intellij.libraries.*.jar"
+                                             erroronmissingdir="false"/>
+                                    <flattenmapper/>
                                 </copy>
 
                                 <property name="testproject.base" location="${project.basedir}/src/test/resources/testproject" />
@@ -235,24 +279,84 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <additionalClasspathElements>
+                        <!-- native library path -->
                         <additionalClasspathElement>${project.build.directory}/idea/bin</additionalClasspathElement>
                         <!-- some tests load files from this location as resources -->
                         <additionalClasspathElement>${project.build.directory}/testproject</additionalClasspathElement>
-                        <!-- Plugin JARs added from the extracted IDEA plugins directory rather than
-                             the Maven repo (which is excluded via classpathDependencyExcludes below).
-                             This ensures the classpath path is under idea.home.path/plugins/, so IDEA
-                             2025+ deduplicates against the plugins-directory scan and sets jarFiles
-                             correctly — avoiding "jarFiles is not set for PluginMainDescriptor". -->
+                        <!-- Use EXACTLY the same JARs that idea.sh puts on the classpath.
+                             Rationale: lib/* would also put product-backend.jar on AppCL, which
+                             causes collectPluginFilesInClassPath to discover it and feed it to
+                             loadCoreModules.  loadCoreModules' XmlReader does not handle the
+                             loading="embedded" attribute present in IDEA 2025+ product-backend.jar.
+                             In production IDEA, product-backend.jar is not on the classpath; it is
+                             opened directly from $idea.home/lib/ by loadCoreProductPlugin, which uses
+                             a code path that tolerates embedded content modules.
+                             PathClassLoader reads module-descriptors.jar and adds Bootstrap-Class-Path
+                             JARs (module-intellij.*.jar etc.) to its URL list automatically, so those
+                             do not need to be listed here. -->
+                        <additionalClasspathElement>${project.build.directory}/idea/lib/platform-loader.jar</additionalClasspathElement>
+                        <additionalClasspathElement>${project.build.directory}/idea/lib/util-8.jar</additionalClasspathElement>
+                        <additionalClasspathElement>${project.build.directory}/idea/lib/util.jar</additionalClasspathElement>
+                        <additionalClasspathElement>${project.build.directory}/idea/lib/app-client.jar</additionalClasspathElement>
+                        <additionalClasspathElement>${project.build.directory}/idea/lib/util_rt.jar</additionalClasspathElement>
+                        <additionalClasspathElement>${project.build.directory}/idea/lib/opentelemetry.jar</additionalClasspathElement>
+                        <additionalClasspathElement>${project.build.directory}/idea/lib/app.jar</additionalClasspathElement>
+                        <additionalClasspathElement>${project.build.directory}/idea/lib/lib-client.jar</additionalClasspathElement>
+                        <additionalClasspathElement>${project.build.directory}/idea/lib/stats.jar</additionalClasspathElement>
+                        <additionalClasspathElement>${project.build.directory}/idea/lib/jps-model.jar</additionalClasspathElement>
+                        <additionalClasspathElement>${project.build.directory}/idea/lib/external-system-rt.jar</additionalClasspathElement>
+                        <additionalClasspathElement>${project.build.directory}/idea/lib/rd.jar</additionalClasspathElement>
+                        <additionalClasspathElement>${project.build.directory}/idea/lib/bouncy-castle.jar</additionalClasspathElement>
+                        <additionalClasspathElement>${project.build.directory}/idea/lib/protobuf.jar</additionalClasspathElement>
+                        <additionalClasspathElement>${project.build.directory}/idea/lib/intellij-test-discovery.jar</additionalClasspathElement>
+                        <additionalClasspathElement>${project.build.directory}/idea/lib/forms_rt.jar</additionalClasspathElement>
+                        <additionalClasspathElement>${project.build.directory}/idea/lib/lib.jar</additionalClasspathElement>
+                        <additionalClasspathElement>${project.build.directory}/idea/lib/externalProcess-rt.jar</additionalClasspathElement>
+                        <additionalClasspathElement>${project.build.directory}/idea/lib/groovy.jar</additionalClasspathElement>
+                        <additionalClasspathElement>${project.build.directory}/idea/lib/annotations.jar</additionalClasspathElement>
+                        <additionalClasspathElement>${project.build.directory}/idea/lib/idea_rt.jar</additionalClasspathElement>
+                        <additionalClasspathElement>${project.build.directory}/idea/lib/jsch-agent.jar</additionalClasspathElement>
+                        <additionalClasspathElement>${project.build.directory}/idea/lib/${idea.lib.kotlinx.coroutines.slf4j}</additionalClasspathElement>
+                        <additionalClasspathElement>${project.build.directory}/idea/lib/nio-fs.jar</additionalClasspathElement>
+                        <additionalClasspathElement>${project.build.directory}/idea/lib/trove.jar</additionalClasspathElement>
+                        <!-- lib/module-*.jar: IDEA 2025+ bundled-library module JARs (fastutil, ktor,
+                             etc.), staged into idea-lib-modules/ by the antrun copy below. Needed on
+                             the test classpath because module-descriptors.jar's Bootstrap-Class-Path
+                             (which PathClassLoader consults) is not effective for surefire's class-init
+                             loader — e.g. UsefulTestCase.<clinit> needs Object2IntOpenHashMap. A dir/*
+                             glob is used because surefire/JVM only expands the dir/* form, not
+                             filename globs like module-*.jar. None carry META-INF/plugin.xml. -->
+                        <additionalClasspathElement>${project.build.directory}/idea-lib-modules/*</additionalClasspathElement>
+                        <!-- testFramework.jar (no plugin.xml) is needed for JavaPsiTestCase and
+                             the other test-framework superclasses of InclusionDetectorIdeaTest. -->
+                        <additionalClasspathElement>${project.build.directory}/idea/lib/testFramework.jar</additionalClasspathElement>
+                        <!-- Java plugin JARs WITH META-INF/plugin.xml. In unit-test mode IDEA
+                             discovers plugins by scanning the classpath for META-INF/plugin.xml
+                             (not the plugins/ directory), so java-impl.jar's plugin.xml must be
+                             present here for com.intellij.java to load. -->
                         <additionalClasspathElement>${project.build.directory}/idea/plugins/java/lib/*</additionalClasspathElement>
+                        <!-- Java plugin content-module JARs. In IDEA 2025+ the java plugin is split
+                             into content modules (intellij.java.*) whose descriptors java-impl.jar's
+                             plugin.xml references; ClassPathXmlPathResolver.resolveModuleFile needs
+                             them on the classpath or the whole java plugin fails to load. None carry
+                             META-INF/plugin.xml, so they are not treated as separate plugins. -->
                         <additionalClasspathElement>${project.build.directory}/idea/plugins/java/lib/modules/*</additionalClasspathElement>
-                        <additionalClasspathElement>${project.build.directory}/idea/plugins/properties/lib/*</additionalClasspathElement>
-                        <additionalClasspathElement>${project.build.directory}/idea/plugins/devkit/lib/*</additionalClasspathElement>
+                        <!-- All content-module JARs (lib/modules/*.jar). The working Gradle
+                             IntelliJ-Platform setup puts ALL of these on java.class.path so that
+                             ClassPathXmlPathResolver can resolve content-module descriptors
+                             (e.g. intellij.platform.settings.local -> SettingsController service)
+                             at bootstrap. module-descriptors.jar's Bootstrap-Class-Path does NOT
+                             list these, so they must be added explicitly. None contain
+                             META-INF/plugin.xml, so collectPluginFilesInClassPath ignores them. -->
+                        <additionalClasspathElement>${project.build.directory}/idea/lib/modules/*</additionalClasspathElement>
                     </additionalClasspathElements>
                     <argLine>
                         -Djava.library.path=${project.build.directory}/idea/bin
-                        -Xbootclasspath/a:${project.build.directory}/idea/lib/boot.jar
+                        -Xbootclasspath/a:${project.build.directory}/idea/lib/nio-fs.jar
+                        -Djava.system.class.loader=com.intellij.util.lang.PathClassLoader
                         -Xmx512M
                         -ea
+                        -Xverify:none
                         <!-- -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005-->
                         --add-opens=java.base/java.io=ALL-UNNAMED
                         --add-opens=java.base/java.lang=ALL-UNNAMED
@@ -309,14 +413,40 @@
                         <cij.idea.expected.version>${idea.version.short}</cij.idea.expected.version>
                         <java.io.tmpdir>${project.build.directory}/idea/tmp</java.io.tmpdir>
                         <idea.load.plugins.id>${idea.plugins.to.load}</idea.load.plugins.id>
+                        <!-- IDEA 2025+ runtime module repository (used by PathClassLoader, set via
+                             java.system.class.loader). Points at the binary module-descriptors.dat,
+                             matching the working Gradle IntelliJ-Platform test setup. -->
+                        <intellij.platform.runtime.repository.path>${project.build.directory}/idea/modules/module-descriptors.dat</intellij.platform.runtime.repository.path>
+                        <!-- Skip plugin compatibility checks (since-build/until-build in plugin.xml).
+                             The bundled java plugin has until-build="243" but is valid for IDEA 2025+;
+                             without this flag it gets rejected and com.intellij.java is "not installed". -->
+                        <idea.ignore.plugin.compatibility>true</idea.ignore.plugin.compatibility>
+                        <!-- The working Gradle IntelliJ-Platform test setup sets this. It forces
+                             content-module descriptors of the CORE plugin to be loaded through the
+                             core classloader (the $2 / META-INF/IdeaPlugin.xml CDATA path) instead
+                             of expecting product-backend.jar's plugin.xml on the classpath. Required
+                             for SettingsController (intellij.platform.settings.local) to register. -->
+                        <idea.force.use.core.classloader>true</idea.force.use.core.classloader>
                     </systemProperties>
                     <classpathDependencyExcludes>
-                        <!-- Plugin JARs must NOT be on the test execution classpath.
-                             IDEA loads them from target/idea/plugins/ via dedicated plugin classloaders.
-                             Having them also on the system classpath causes IDEA 2025+ to fail with
-                             "jarFiles is not set for PluginMainDescriptor" when resolving content modules
-                             (ClassLoaderConfigurator.configureMainPluginModule added this strict check). -->
+                        <!-- Exclude ALL IDEA JARs from the Maven-managed classpath.  For compilation
+                             they are needed (as regular Maven deps); for testing we use the real
+                             extracted IDEA tree via additionalClasspathElements above so that jar
+                             paths carry the correct relative structure (lib/*.jar, lib/modules/*.jar,
+                             plugins/<name>/lib/*.jar) that IDEA's classloader infrastructure expects. -->
+                        <classpathDependencyExclude>org.openclover.idea.libs:*</classpathDependencyExclude>
                         <classpathDependencyExclude>org.openclover.idea.plugins:*</classpathDependencyExclude>
+                        <!-- Exclude old fastutil 4.4.3 (transitive from org.openclover:clover) — it
+                             pre-dates ObjectOpenHashSet.addOrGet() which IDEA 2025+ XmlReader calls.
+                             Clover shades fastutil as clover.it.unimi.dsi.fastutil so it needs no
+                             runtime fastutil on classpath; IDEA supplies new fastutil via the staged
+                             module-intellij.libraries.fastutil.jar (see idea-lib-modules above). -->
+                        <classpathDependencyExclude>it.unimi.dsi:fastutil</classpathDependencyExclude>
+                        <!-- Exclude old jdom 1.0 (transitive from org.openclover:clover). IDEA 2025+
+                             ships a patched jdom in util-8.jar with Element.initAttributeList(int)
+                             which jdom:1.0 lacks (NoSuchMethodError in FileTypeManagerImpl). Clover
+                             needs jdom only at compile time; IDEA supplies it at runtime. -->
+                        <classpathDependencyExclude>jdom:jdom</classpathDependencyExclude>
                     </classpathDependencyExcludes>
                     <useManifestOnlyJar>false</useManifestOnlyJar>
                 </configuration>
@@ -378,7 +508,12 @@
     <properties>
         <idea.version>261.25134.95</idea.version>
         <idea.version.short>2026.1.3</idea.version.short>
+        <!-- Directory name of the extracted IDEA in clover-idea-libs/target/extract/ -->
+        <idea.download.dir>idea-IU-${idea.version}</idea.download.dir>
         <!-- Plugin IDs to load during tests. IDEA 2019+ needs com.intellij.java since Java support moved to a plugin -->
         <idea.plugins.to.load>org.openclover.idea,com.intellij.java</idea.plugins.to.load>
+        <!-- Version-specific kotlinx-coroutines-slf4j JAR (filename changes per IDEA version).
+             Override this property when testing with a different IDEA version. -->
+        <idea.lib.kotlinx.coroutines.slf4j>kotlinx-coroutines-slf4j-1.8.0-intellij.jar</idea.lib.kotlinx.coroutines.slf4j>
     </properties>
 </project>

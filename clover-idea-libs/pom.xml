@@ -89,10 +89,12 @@
                                              dest="${project.build.directory}/extract/${idea.download.dir}/lib/test-framework-core.jar"
                                              skipexisting="true"/>
 
-                                        <!-- pack into zip for use by clover-idea tests -->
+                                        <!-- pack into zip for use by clover-idea tests; include all
+                                             plugins so target/idea/ mirrors the real IDEA installation
+                                             layout (plugins/<name>/lib/*.jar and lib/modules/*.jar). -->
                                         <zip destfile="${project.build.directory}/merge/idea.zip"
                                              basedir="${project.build.directory}/extract/${idea.download.dir}"
-                                             includes="bin/**,lib/*.jar,lib/modules/*.jar,plugins/devkit/**,plugins/java/**,plugins/properties/**">
+                                             includes="bin/**,lib/**,modules/**,product-info.json,plugins/**">
                                         </zip>
 
                                         <!-- generate install-helper.pom: one install:install-file execution per JAR -->
