@@ -1,8 +1,10 @@
 package org.openclover.core.reporters.xml
 
 import org.junit.Test
+import org.openclover.core.reporters.DonationMessageGenerator
 
 import static org.junit.Assert.assertEquals
+import static org.junit.Assert.assertTrue
 import static org.openclover.core.util.Maps.newHashMap
 import static org.openclover.core.util.Maps.newTreeMap
 
@@ -68,6 +70,26 @@ class XMLWriterTest {
         xml.writeElementEnd("foo")
         xml.close()
         assertEquals("</foo>", out.toString().trim())
+    }
+
+    @Test
+    void testWriteComment() throws IOException {
+        StringWriter out = new StringWriter()
+        XMLWriter xml = new XMLWriter(out)
+        xml.writeComment("hello world")
+        xml.close()
+        assertEquals("<!-- hello world -->", out.toString().trim())
+    }
+
+    @Test
+    void testWriteDonationMessageAsComment() throws IOException {
+        StringWriter out = new StringWriter()
+        XMLWriter xml = new XMLWriter(out)
+        String donationMessage = DonationMessageGenerator.asText()
+        xml.writeComment(donationMessage)
+        xml.close()
+        assertEquals("<!-- " + donationMessage + " -->", out.toString().trim())
+        assertTrue(out.toString().contains(DonationMessageGenerator.DONATE_LABEL))
     }
 
     @Test

@@ -18,6 +18,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
+import org.openclover.core.reporters.DonationMessageGenerator;
 import org.openclover.eclipse.core.CloverEclipsePluginMessages;
 import org.openclover.eclipse.core.CloverPlugin;
 import org.openclover.eclipse.core.PluginVersionInfo;
@@ -91,7 +92,24 @@ public class ShowAboutCloverActionDelegate extends CloverProjectActionDelegate {
                     CloverEclipsePluginMessages.CLOVER_COPYRIGHT(),
                     convertWidthInCharsToPixels(60));
 
+            // 5th row - donation message
+            new Label(aboutComposite, SWT.NONE); // empty label
+            createDonationLink(aboutComposite);
+
             return aboutComposite;
+        }
+
+        private void createDonationLink(Composite parent) {
+            Link donationLink = new Link(parent, SWT.WRAP);
+            donationLink.setText(DonationMessageGenerator.pickMessage() + "<a href=\""
+                    + DonationMessageGenerator.DONATE_URL + "\">" + DonationMessageGenerator.DONATE_LABEL + "</a>");
+            donationLink.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+            donationLink.addSelectionListener(new SelectionAdapter() {
+                @Override
+                public void widgetSelected(SelectionEvent event) {
+                    BrowserUtils.openExternalBrowser(event.text);
+                }
+            });
         }
 
         private void createAckTab(TabFolder tabFolder) {

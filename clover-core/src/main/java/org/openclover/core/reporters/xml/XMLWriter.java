@@ -63,6 +63,14 @@ public class XMLWriter {
         out.write("?>");
     }
 
+    public void writeComment(String text) throws IOException {
+        if (pretty && !inText) {
+            out.write(NL);
+            writeIndent();
+        }
+        out.write("<!-- " + text + " -->");
+    }
+
 
     public void writeElementStart(String name, Map<String, String> attribs) throws IOException {
         writeElementStart(name, attribs, false);
