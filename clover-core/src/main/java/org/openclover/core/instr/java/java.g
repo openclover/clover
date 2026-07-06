@@ -2538,7 +2538,7 @@ statement [CloverToken owningLabel] returns [CloverToken last]
         SEMI!
     |
         // a classic switch/case with colons
-        ( SWITCH LPAREN expression RPAREN LCURLY (CASE expression | DEFAULT) COLON) =>
+        ( SWITCH LPAREN expression RPAREN LCURLY (CASE constantExpression (COMMA constantExpression)* | DEFAULT) COLON) =>
         contextAndComplexity = colonSwitchExpression[owningLabel, false]
         {
             saveContext = contextAndComplexity.getContext();

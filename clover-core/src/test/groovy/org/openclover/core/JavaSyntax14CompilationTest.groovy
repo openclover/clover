@@ -102,8 +102,10 @@ class JavaSyntax14CompilationTest extends JavaSyntaxCompilationTestBase {
         // this is a regression test, using break in switch statements must be allowed
         assertFileMatches(fileName, R_INC + quote("k++;") + R_INC + quote("break;"))
         assertFileMatches(fileName, quote("default:") + ".*" + R_INC + quote("break;"))
-    }
 
+        // comma-separated case labels combined with the old colon syntax
+        assertFileMatches(fileName, quote("case A, B, C, D:") + "[\\s\\S]*" + R_INC + quote("a = true;"))
+    }
 
     @Test
     void switchExpressionWithCaseAndDefaultCanUseLambdasReturningValues() {
