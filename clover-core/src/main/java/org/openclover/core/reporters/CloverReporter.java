@@ -6,6 +6,7 @@ import org.openclover.core.reporters.html.HtmlReporter;
 import org.openclover.core.reporters.json.JSONReporter;
 import org.openclover.core.reporters.pdf.PDFReporter;
 import org.openclover.core.reporters.xml.XMLReporter;
+import org.openclover.runtime.Logger;
 import org.openclover.runtime.api.CloverException;
 
 /**
@@ -27,7 +28,11 @@ public abstract class CloverReporter {
 
     public final int execute() throws CloverException {
         validate();
-        return executeImpl();
+        final int result = executeImpl();
+        if (result == 0) {
+            Logger.getInstance().info(DonationMessageGenerator.asText());
+        }
+        return result;
     }
 
     protected void validate() throws CloverException {

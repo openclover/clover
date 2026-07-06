@@ -14,6 +14,7 @@ import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfPageEventHelper;
 import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfWriter;
+import org.openclover.core.reporters.DonationMessageGenerator;
 import org.openclover.core.util.format.PDFFormatter;
 import org.openclover.runtime.util.Formatting;
 import org_openclover_runtime.CloverVersionInfo;
@@ -88,6 +89,7 @@ public class PageFooterRenderer
                     FontFactory.getFont(FontFactory.HELVETICA, 8, Font.ITALIC)));
 
             footerTab.addCell(licText);
+            footerTab.addCell(createDonationText());
 
             footerTab.getDefaultCell().setBorder(Rectangle.NO_BORDER);
             footerTab.getDefaultCell().setPaddingRight(2f);
@@ -107,6 +109,16 @@ public class PageFooterRenderer
         }
     }
 
+
+    private Phrase createDonationText() {
+        Phrase donationText = new Phrase(DonationMessageGenerator.pickMessage(),
+                FontFactory.getFont(FontFactory.HELVETICA, 8, Font.ITALIC));
+        donationText.add(new Chunk(DonationMessageGenerator.DONATE_LABEL,
+                FontFactory.getFont(
+                        FontFactory.HELVETICA, 8, Font.ITALIC,
+                        colours.COL_LINK_TEXT)).setAnchor(DonationMessageGenerator.DONATE_URL));
+        return donationText;
+    }
 
     // we override the onEndPage method
     @Override

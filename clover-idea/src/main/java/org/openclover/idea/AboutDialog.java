@@ -6,6 +6,7 @@ import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.ui.IdeBorderFactory;
 import org.jetbrains.annotations.Nullable;
+import org.openclover.core.reporters.DonationMessageGenerator;
 import org.openclover.idea.config.IdeaCloverConfig;
 import org.openclover.idea.util.l10n.CloverIdeaPluginMessages;
 import org.openclover.idea.util.ui.CloverIcons;
@@ -164,13 +165,21 @@ public class AboutDialog extends DialogWrapper {
 
     @Override
     protected JComponent createSouthPanel() {
-        final JPanel panel = new JPanel(new BorderLayout());
-        panel.add(super.createSouthPanel(), BorderLayout.EAST);
+        final JPanel controlsRow = new JPanel(new BorderLayout());
+        controlsRow.add(super.createSouthPanel(), BorderLayout.EAST);
         enabledCheckbox.setVerticalAlignment(SwingConstants.CENTER);
         enabledCheckbox.setBorder(IdeBorderFactory.createEmptyBorder(10, 0, 0, 0));
-        panel.add(enabledCheckbox, BorderLayout.WEST);
+        controlsRow.add(enabledCheckbox, BorderLayout.WEST);
+
+        final JPanel panel = new JPanel(new BorderLayout());
+        panel.add(getDonationPanel(), BorderLayout.NORTH);
+        panel.add(controlsRow, BorderLayout.SOUTH);
 
         return panel;
+    }
+
+    private Component getDonationPanel() {
+        return makeEditorPane("<p>" + DonationMessageGenerator.asHtml() + "</p>");
     }
 
     @Override

@@ -23,6 +23,7 @@ import org.openclover.core.registry.metrics.ProjectMetrics;
 import org.openclover.core.reporters.CloverReportConfig;
 import org.openclover.core.reporters.CloverReporter;
 import org.openclover.core.reporters.Current;
+import org.openclover.core.reporters.DonationMessageGenerator;
 import org.openclover.core.reporters.Format;
 import org.openclover.runtime.Logger;
 import org.openclover.runtime.api.CloverException;
@@ -101,6 +102,7 @@ public class XMLReporter extends CloverReporter {
                 Logger.getInstance().info("Writing report to '" + reportConfig.getOutFile() + "'");
 
                 out.writeXMLDecl();
+                out.writeComment(DonationMessageGenerator.asText());
 
                 Map<String, String> attribs = newHashMap();
                 attribs.put(XmlNames.A_CLOVER, CloverVersionInfo.RELEASE_NUM);

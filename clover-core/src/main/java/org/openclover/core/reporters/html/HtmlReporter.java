@@ -21,6 +21,7 @@ import org.openclover.core.registry.metrics.HasMetricsSupport;
 import org.openclover.core.reporters.CloverReportConfig;
 import org.openclover.core.reporters.CloverReporter;
 import org.openclover.core.reporters.Current;
+import org.openclover.core.reporters.DonationMessageGenerator;
 import org.openclover.core.reporters.Format;
 import org.openclover.core.reporters.Historical;
 import org.openclover.core.reporters.TestSelectionHelper;
@@ -164,6 +165,7 @@ public class HtmlReporter extends CloverReporter {
     private final File baseImagePath;
     private final HtmlRenderingSupportImpl rederingHelper;
     private final String reportTimeStamp;
+    private final String donationMessage;
     private final Comparator<HasMetrics> listComparator;
     private final String pageTitle;
     private final String pageTitleAnchor;
@@ -177,6 +179,7 @@ public class HtmlReporter extends CloverReporter {
         basePath = this.reportConfig.getOutFile();
         baseImagePath = new File(basePath, "img");
         reportTimeStamp = dateFormat.format(new Date(System.currentTimeMillis()));
+        donationMessage = DonationMessageGenerator.asHtml();
         pageTitleAnchor = (config.getTitleAnchor() != null ? config.getTitleAnchor() : "");
         pageTitleTarget = (config.getTitleTarget() != null ? config.getTitleTarget() : "_top");
         pageTitle = config.getTitle();
@@ -478,6 +481,7 @@ public class HtmlReporter extends CloverReporter {
         context.put("cloverURL", cloverURL);
         context.put("cloverReleaseNum", CloverVersionInfo.RELEASE_NUM);
         context.put("reportTimestamp", reportTimeStamp);
+        context.put("donationMessage", donationMessage);
         context.put("showEmpty", reportConfig.getFormat().getShowEmpty());
         context.put("showSrc", reportConfig.getFormat().getSrcLevel());
         context.put("showBars", reportConfig.getFormat().getShowBars());
