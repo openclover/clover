@@ -34,6 +34,19 @@ class JavaSyntax15CompilationTest extends JavaSyntaxCompilationTestBase {
     }
 
     @Test
+    void testTextBlockWithTrailingWhitespaceAfterOpeningDelimiter() {
+        assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_15))
+
+        // instrumentation used to fail when the opening """ delimiter was followed by
+        // trailing whitespace before the line terminator (legal per JLS), because the fixed lookahead
+        // used to distinguish a text block from a single-line string literal only checked for a line
+        // terminator immediately after the three opening quotes
+        final String fileName = "Java15TextBlockWithTrailingWhitespace.java"
+        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_15)
+        assertFileMatches(fileName, R_INC + "return", false)
+    }
+
+    @Test
     void testTextBlockInvalid() {
         assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_15))
 
