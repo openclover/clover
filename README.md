@@ -62,8 +62,10 @@ See also:
 ```
 mvn install -Pworkspace-setup -f clover-core-libs/pom.xml
 mvn install -Pworkspace-setup -f clover-eclipse-libs/pom.xml
-mvn install -Pworkspace-setup -f clover-idea-libs/pom.xml
 ```
+
+Note: `clover-idea` (the IntelliJ IDEA plugin) is built with Gradle, which downloads the IDE
+distribution it needs on its own — no separate "prepare libs" step required.
 
 ### Download KTremap and install it
 

@@ -68,7 +68,6 @@
             <modules>
                 <module>clover-core-libs</module>
                 <module>clover-eclipse-libs</module>
-                <module>clover-idea-libs</module>
             </modules>
         </profile>
         <profile>

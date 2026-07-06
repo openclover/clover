@@ -43,6 +43,9 @@
              On an exFAT working copy override locally to APFS, e.g.:
              -Dgradle.project.cache.dir=$HOME/.gradle-clover-idea/cache (exFAT has no file locking). -->
         <gradle.project.cache.dir>${project.basedir}/.gradle</gradle.project.cache.dir>
+        <!-- clover-idea is distributed via scp to openclover.org, not OSSRH/Maven Central; the old
+             pom skipped maven-deploy-plugin, so D-release's `mvn deploy` doesn't try to push it. -->
+        <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
 
     <dependencies>
@@ -62,7 +65,30 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.1.0</version>
                 <executions>
-                    <!-- Run the plugin tests under the IntelliJ Platform test framework. -->
+                    <!-- mvn compile -> compile the plugin sources via Gradle. -->
+                    <execution>
+                        <id>gradle-compile</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>${project.basedir}/gradlew</executable>
+                            <workingDirectory>${project.basedir}</workingDirectory>
+                            <arguments>
+                                <argument>--no-daemon</argument>
+                                <argument>--console=plain</argument>
+                                <argument>--project-cache-dir=${gradle.project.cache.dir}</argument>
+                                <argument>classes</argument>
+                                <argument>-PideaType=${idea.gradle.type}</argument>
+                                <argument>-PideaVersion=${idea.version.short}</argument>
+                                <argument>-PcloverVersion=${project.version}</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <!-- mvn test / mvn verify -> run the plugin tests under the IntelliJ Platform
+                         test framework (skipped with -DskipTests). There is no separate
+                         integration-test phase; `mvn verify` runs these tests via the test phase. -->
                     <execution>
                         <id>gradle-test</id>
                         <phase>test</phase>
@@ -84,9 +110,10 @@
                             </arguments>
                         </configuration>
                     </execution>
-                    <!-- Compile the plugin and assemble its distribution zip. -->
+                    <!-- mvn package -> build the fat plugin jar (build/dist/clover-idea-<v>.jar) and
+                         the autoupdate descriptor (build/autoupdate/latestStableVersion.xml). -->
                     <execution>
-                        <id>gradle-build</id>
+                        <id>gradle-package</id>
                         <phase>package</phase>
                         <goals>
                             <goal>exec</goal>
@@ -98,13 +125,38 @@
                                 <argument>--no-daemon</argument>
                                 <argument>--console=plain</argument>
                                 <argument>--project-cache-dir=${gradle.project.cache.dir}</argument>
-                                <argument>buildPlugin</argument>
+                                <argument>mavenArtifacts</argument>
                                 <argument>-x</argument>
                                 <argument>test</argument>
                                 <argument>-PideaType=${idea.gradle.type}</argument>
                                 <argument>-PideaVersion=${idea.version.short}</argument>
                                 <argument>-PcloverVersion=${project.version}</argument>
                             </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- mvn install -> install the Gradle-built fat jar into ~/.m2 as
+                 org.openclover:clover-idea:<version>:jar (in addition to the pom installed by the
+                 default pom-packaging lifecycle). -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>install-fat-jar</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>${project.basedir}/build/dist/clover-idea-${project.version}.jar</file>
+                            <groupId>org.openclover</groupId>
+                            <artifactId>clover-idea</artifactId>
+                            <version>${project.version}</version>
+                            <packaging>jar</packaging>
+                            <pomFile>${project.basedir}/pom.xml</pomFile>
                         </configuration>
                     </execution>
                 </executions>

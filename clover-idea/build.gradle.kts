@@ -31,19 +31,15 @@ dependencies {
         testFramework(TestFrameworkType.Plugin.Java)
     }
 
-    // clover core + jtreemap are bundled into the plugin jar (fat jar), matching the previous
-    // Maven assembly. Resolved from mavenLocal (installed by the reactor build).
-    implementation("org.openclover:clover:$version") {
-        // clover shades fastutil as clover.it.unimi.dsi.fastutil, so it does not need the real
-        // fastutil at runtime. The old transitive fastutil 4.4.3 conflicts with IDEA's bundled
-        // fastutil (VerifyError: ObjectOpenCustomHashSet vs AbstractCollection in CollectionFactory).
-        exclude(group = "it.unimi.dsi", module = "fastutil")
-        // Old jdom 1.0 lacks Element.initAttributeList(int) that IDEA's patched jdom has.
-        exclude(group = "jdom", module = "jdom")
-    }
-    implementation("net.sf.jtreemap:jtreemap:1.1.3") {
-        exclude(group = "org.projectlombok", module = "lombok")
-    }
+    // clover core + jtreemap are the ONLY libraries bundled into the plugin jar (matching the old
+    // Maven assembly: it packed exactly org.openclover:clover + net.sf.jtreemap:jtreemap).
+    // isTransitive=false is deliberate: org.openclover:clover is a self-contained shaded jar (it
+    // bundles antlr, cajo, fastutil-as-clover.it.unimi.dsi, etc.), so pulling transitives would both
+    // bloat the plugin (clover-ant/clover-groovy/asm/ant/...) and re-introduce the old fastutil 4.4.3
+    // and jdom 1.0 that conflict with IDEA's bundled copies (VerifyError in CollectionFactory / jdom
+    // NoSuchMethod).
+    implementation("org.openclover:clover:$version") { isTransitive = false }
+    implementation("net.sf.jtreemap:jtreemap:1.1.3") { isTransitive = false }
 
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.mockito:mockito-core:5.11.0")
@@ -70,6 +66,38 @@ tasks.processResources {
     filesMatching("META-INF/plugin.xml") {
         filter { line -> line.replace("\${project.version}", version.toString()) }
     }
+}
+
+// --- Fat plugin jar: clover-idea classes + clover.jar + jtreemap.jar, matching the old Maven
+// assembly (single self-contained jar). Produced at build/dist/clover-idea-<version>.jar and
+// uploaded by the D-release workflow. ---
+val fatJar by tasks.registering(Jar::class) {
+    archiveFileName.set("clover-idea-$version.jar")
+    destinationDirectory.set(layout.buildDirectory.dir("dist"))
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    val composed = tasks.named("composedJar")
+    dependsOn(composed)
+    // clover-idea's own classes + patched META-INF/plugin.xml + services + PluginVersionInfo
+    from({ zipTree(composed.get().outputs.files.singleFile) })
+    // clover.jar + jtreemap.jar contents (self-contained; non-transitive — see dependencies above)
+    from({
+        configurations.runtimeClasspath.get().files
+            .filter { it.name.startsWith("clover-") || it.name.startsWith("jtreemap-") }
+            .map { zipTree(it) }
+    })
+    exclude("META-INF/*.SF", "META-INF/*.DSA", "META-INF/*.RSA")
+}
+
+// --- version-filtered autoupdate descriptor for the openclover.org web server (D-release). ---
+val generateAutoUpdate by tasks.registering(Copy::class) {
+    from("src/main/resources-filtered/autoupdate")
+    into(layout.buildDirectory.dir("autoupdate"))
+    filter { line -> line.replace("\${project.version}", version.toString()) }
+}
+
+// Aggregate the release artifacts (invoked from the Maven wrapper's package/install phases).
+val mavenArtifacts by tasks.registering {
+    dependsOn(fatJar, generateAutoUpdate)
 }
 
 intellijPlatform {
