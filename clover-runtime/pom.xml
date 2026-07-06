@@ -158,20 +158,16 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <configuration>
-                            <source>1.8</source>
-                            <target>1.8</target>
-                            <!-- enable annotation processor to generate org.openclover.runtime.instr.Bindings -->
-                            <proc>full</proc>
-                            <excludes>
-                                <!-- No non-runtime generated source -->
-                                <exclude>**/package-info.java</exclude>
-                            </excludes>
-                        </configuration>
-                    </execution>
-                </executions>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <!-- enable annotation processor to generate org.openclover.runtime.instr.Bindings -->
+                    <proc>full</proc>
+                    <excludes>
+                        <!-- No non-runtime generated source -->
+                        <exclude>**/package-info.java</exclude>
+                    </excludes>
+                </configuration>
             </plugin>
             <!-- generate bytecode for a CoverageRecorder.rethrow() method -->
             <plugin>
