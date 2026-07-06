@@ -39,22 +39,22 @@ jobs:
 
       - name: Prepare third party libraries
         run: |
-          mvn --batch-mode install -Pworkspace-setup -f clover-core-libs/pom.xml
-          mvn --batch-mode install -Pworkspace-setup -f clover-eclipse-libs/pom.xml
+          mvn -ntp --batch-mode install -Pworkspace-setup -f clover-core-libs/pom.xml
+          mvn -ntp --batch-mode install -Pworkspace-setup -f clover-eclipse-libs/pom.xml
 
       - name: Download KTreemap fork
         run: |
           wget https://packages.atlassian.com/mvn/maven-atlassian-external/net/sf/jtreemap/ktreemap/1.1.0-atlassian-01/ktreemap-1.1.0-atlassian-01.jar
           wget https://packages.atlassian.com/mvn/maven-atlassian-external/net/sf/jtreemap/ktreemap/1.1.0-atlassian-01/ktreemap-1.1.0-atlassian-01.pom
-          mvn --batch-mode install:install-file -Dfile=ktreemap-1.1.0-atlassian-01.jar -DpomFile=ktreemap-1.1.0-atlassian-01.pom
+          mvn -ntp --batch-mode install:install-file -Dfile=ktreemap-1.1.0-atlassian-01.jar -DpomFile=ktreemap-1.1.0-atlassian-01.pom
 
       - name: Compile and pack all modules
         run: |
-          mvn --batch-mode install -DskipTests=true
+          mvn -ntp --batch-mode install -DskipTests=true
 
       - name: Run tests for runtime, core, groovy, ant
         run: |
-          mvn --batch-mode verify -pl clover-runtime,clover-core,clover-groovy,clover-ant
+          mvn -ntp --batch-mode verify -pl clover-runtime,clover-core,clover-groovy,clover-ant
 
       - name: Upload test results
         if: always()

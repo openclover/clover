@@ -45,16 +45,16 @@ jobs:
 
       - name: Prepare third party libraries
         run: |
-          mvn --batch-mode install -Pworkspace-setup -f clover-core-libs/pom.xml
+          mvn -ntp --batch-mode install -Pworkspace-setup -f clover-core-libs/pom.xml
 
       - name: Build all modules
         run: |
-          mvn --batch-mode install -DskipTests=true -P!eclipse-jdk21plus \
+          mvn -ntp --batch-mode install -DskipTests=true -P!eclipse-jdk21plus \
             -Didea.version.short=${{ matrix.idea-version }}
 
       - name: Test clover-idea against IDEA ${{ matrix.idea-version }}
         run: |
-          mvn --batch-mode test -pl clover-idea \
+          mvn -ntp --batch-mode test -pl clover-idea \
             -Didea.version.short=${{ matrix.idea-version }}
 
       - name: Upload test results for IDEA ${{ matrix.idea-version }}

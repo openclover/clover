@@ -31,7 +31,7 @@
         <dependency>
             <groupId>org.apache.groovy</groupId>
             <artifactId>groovy</artifactId>
-            <version>4.0.15</version>
+            <version>4.0.32</version>
         </dependency>
         <dependency>
             <groupId>org.spockframework</groupId>
@@ -158,18 +158,14 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <configuration>
-                            <source>1.8</source>
-                            <target>1.8</target>
-                            <excludes>
-                                <!-- No non-runtime generated source -->
-                                <exclude>**/package-info.java</exclude>
-                            </excludes>
-                        </configuration>
-                    </execution>
-                </executions>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <excludes>
+                        <!-- No non-runtime generated source -->
+                        <exclude>**/package-info.java</exclude>
+                    </excludes>
+                </configuration>
             </plugin>
             <!-- generate bytecode for a CoverageRecorder.rethrow() method -->
             <plugin>
@@ -359,4 +355,26 @@
             </plugin>
         </plugins>
     </build>
+    <profiles>
+        <!-- JDK 23+ disabled classpath annotation processor by default (-proc:none)
+             The InstrumentationBindingAPF generates org.openclover.runtime.instr.Bindings.
+             JDK 8 doesn't recognize -proc:full; flag must be activated by jdk version. -->
+        <profile>
+            <id>jdk23-plus-annotation-processing</id>
+            <activation>
+                <jdk>[23,)</jdk>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <configuration>
+                            <proc>full</proc>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

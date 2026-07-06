@@ -30,17 +30,17 @@ jobs:
 
       - name: Prepare third party libraries
         run: |
-          mvn --batch-mode install -Pworkspace-setup -f clover-core-libs/pom.xml
-          mvn --batch-mode install -Pworkspace-setup -f clover-eclipse-libs/pom.xml
+          mvn -ntp --batch-mode install -Pworkspace-setup -f clover-core-libs/pom.xml
+          mvn -ntp --batch-mode install -Pworkspace-setup -f clover-eclipse-libs/pom.xml
 
       - name: Download KTreemap fork
         run: |
           wget https://packages.atlassian.com/mvn/maven-atlassian-external/net/sf/jtreemap/ktreemap/1.1.0-atlassian-01/ktreemap-1.1.0-atlassian-01.jar
           wget https://packages.atlassian.com/mvn/maven-atlassian-external/net/sf/jtreemap/ktreemap/1.1.0-atlassian-01/ktreemap-1.1.0-atlassian-01.pom
-          mvn --batch-mode install:install-file -Dfile=ktreemap-1.1.0-atlassian-01.jar -DpomFile=ktreemap-1.1.0-atlassian-01.pom
+          mvn -ntp --batch-mode install:install-file -Dfile=ktreemap-1.1.0-atlassian-01.jar -DpomFile=ktreemap-1.1.0-atlassian-01.pom
 
       - name: Build all modules
-        run: mvn --batch-mode install -DskipTests=true -P!idea-jdk21plus
+        run: mvn -ntp --batch-mode install -DskipTests=true -P!idea-jdk21plus
 
       - name: Upload clover-eclipse artifacts
         uses: actions/upload-artifact@v7
@@ -104,14 +104,14 @@ jobs:
         run: |
           git show clover-eclipse-libs-${{ matrix.eclipse-libs-version }}:clover-eclipse-libs/pom.xml \
             > clover-eclipse-libs/pom.xml
-          mvn --batch-mode install -Pworkspace-setup -f clover-eclipse-libs/pom.xml \
+          mvn -ntp --batch-mode install -Pworkspace-setup -f clover-eclipse-libs/pom.xml \
             -Declipse.download.site=${{ matrix.eclipse-download-site }} \
             -Declipse.download.path=technology/epp/downloads/release/${{ matrix.eclipse-version }}/R \
             -Declipse.download.file=eclipse-java-${{ matrix.eclipse-version }}-R-win32-x86_64.zip
 
       - name: Run functional tests against Eclipse ${{ matrix.eclipse-version }}
         run: |
-          mvn --batch-mode verify \
+          mvn -ntp --batch-mode verify \
             -pl clover-eclipse/org.openclover.eclipse.functest \
             -Peclipse-functest \
             -Declipse.version=${{ matrix.eclipse-version }} \

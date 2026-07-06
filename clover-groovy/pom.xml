@@ -388,7 +388,7 @@
                                         <artifactItem>
                                             <groupId>org.apache.groovy</groupId>
                                             <artifactId>groovy</artifactId>
-                                            <version>4.0.15</version>
+                                            <version>4.0.32</version>
                                         </artifactItem>
                                         <artifactItem>
                                             <groupId>org.apache.groovy</groupId>
@@ -474,6 +474,6 @@
         <clover-groovy.test.junit.ver>4.12</clover-groovy.test.junit.ver>
         <clover-groovy.test.hamcrest.ver>1.3</clover-groovy.test.hamcrest.ver>
         <clover-groovy.test.spock.ver>2.3-groovy-4.0</clover-groovy.test.spock.ver>
-        <clover-groovy.test.groovy.ver>4.0.15</clover-groovy.test.groovy.ver>
+        <clover-groovy.test.groovy.ver>4.0.32</clover-groovy.test.groovy.ver>
     </properties>
 </project>
