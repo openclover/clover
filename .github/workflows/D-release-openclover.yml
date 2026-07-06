@@ -33,8 +33,6 @@ jobs:
         run: |
           mvn --batch-mode install -Pworkspace-setup -f clover-core-libs/pom.xml
           mvn --batch-mode install -Pworkspace-setup -f clover-eclipse-libs/pom.xml
-          # clover-idea is built by Gradle (IntelliJ Platform plugin), which downloads the IDE
-          # itself, so the former clover-idea-libs workspace-setup is no longer needed.
 
       - name: Download KTreemap fork
         run: |

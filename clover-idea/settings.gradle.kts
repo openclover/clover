@@ -1,8 +1,7 @@
 // Standalone Gradle build for the clover-idea module.
 // Invoked directly (./gradlew ...) or via the Maven wrapper pom (exec-maven-plugin).
 // Uses the IntelliJ Platform Gradle Plugin, the officially supported way to build and
-// TEST JetBrains plugins — it launches the platform correctly so CORE services register
-// (which the Maven Surefire setup could not do for IDEA 2025+).
+// test JetBrains plugins.
 
 import org.jetbrains.intellij.platform.gradle.extensions.intellijPlatform
 

@@ -27,8 +27,6 @@ jobs:
           path: clover-eclipse-libs/target/download
           key: ${{ runner.os }}-eclipse-${{ hashFiles('clover-eclipse-libs/pom.xml') }}
 
-      # clover-idea is built by Gradle (IntelliJ Platform Gradle Plugin), which downloads the IDE
-      # distribution itself as a regular dependency, cached in Gradle's own dependency cache.
       - name: Cache Gradle IntelliJ Platform downloads
         uses: actions/cache@v6
         with:

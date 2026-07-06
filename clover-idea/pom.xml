@@ -33,18 +33,16 @@
     -->
 
     <properties>
-        <!-- Target IntelliJ IDEA version for the Gradle build (short form, e.g. 2025.3.6).
-             CI overrides via -Didea.version.short from the build matrix. -->
+        <!-- Target IntelliJ IDEA version for the Gradle build (short form, e.g. 2025.3.6) -->
         <idea.version.short>2025.3.6</idea.version.short>
-        <!-- IntelliJ IDEA product type passed to Gradle: IU (Ultimate) or IC (Community). -->
+        <!-- IntelliJ IDEA product type passed to Gradle: IU (Ultimate) or IC (Community) -->
         <idea.gradle.type>IU</idea.gradle.type>
         <skipTests>false</skipTests>
         <!-- Gradle project cache location. Default (in-module .gradle) is fine on CI/Linux.
-             On an exFAT working copy override locally to APFS, e.g.:
-             -Dgradle.project.cache.dir=$HOME/.gradle-clover-idea/cache (exFAT has no file locking). -->
+             On exFAT (exFAT has no posix file locking) working copy override locally, e.g.:
+             -Dgradle.project.cache.dir=$HOME/.gradle-clover-idea/cache -->
         <gradle.project.cache.dir>${project.basedir}/.gradle</gradle.project.cache.dir>
-        <!-- clover-idea is distributed via scp to openclover.org, not OSSRH/Maven Central; the old
-             pom skipped maven-deploy-plugin, so D-release's `mvn deploy` doesn't try to push it. -->
+        <!-- clover-idea is distributed via scp to openclover.org, not OSSRH/Maven Central -->
         <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
 

@@ -34,23 +34,17 @@ dependencies {
     // clover core + jtreemap are the ONLY libraries bundled into the plugin jar (matching the old
     // Maven assembly: it packed exactly org.openclover:clover + net.sf.jtreemap:jtreemap).
     // isTransitive=false is deliberate: org.openclover:clover is a self-contained shaded jar (it
-    // bundles antlr, cajo, fastutil-as-clover.it.unimi.dsi, etc.), so pulling transitives would both
+    // bundles antlr, cajo, fastutil, etc.), so pulling transitives would both
     // bloat the plugin (clover-ant/clover-groovy/asm/ant/...) and re-introduce the old fastutil 4.4.3
-    // and jdom 1.0 that conflict with IDEA's bundled copies (VerifyError in CollectionFactory / jdom
-    // NoSuchMethod).
+    // and jdom 1.0 that conflict with IDEA's bundled copies
     implementation("org.openclover:clover:$version") { isTransitive = false }
     implementation("net.sf.jtreemap:jtreemap:1.1.3") { isTransitive = false }
 
     testImplementation("junit:junit:4.13.2")
-    // Tests run on the JetBrains Runtime bundled with the target IDE, not the JDK 21 toolchain
-    // above: IDEA 2026 ships JBR 25, and mockito-core 5.11.0's Byte Buddy only officially
-    // supports up to Java 22, so mocking any class fails outright on 2026. Newer Mockito bundles
-    // a Byte Buddy that recognizes JDK 25 class files.
     testImplementation("org.mockito:mockito-core:5.18.0")
 }
 
-// --- version-filtered generated Java source (PluginVersionInfo.java) ---
-// Mirrors the Maven resources-filtered -> generated-sources step (${project.version}).
+// version-filtered generated Java source (PluginVersionInfo.java)
 val generateVersionSource by tasks.registering(Copy::class) {
     from("src/main/resources-filtered") { include("**/*.java") }
     into(layout.buildDirectory.dir("generated/java"))
@@ -60,7 +54,7 @@ val generateVersionSource by tasks.registering(Copy::class) {
 sourceSets {
     main {
         java.srcDir(generateVersionSource)
-        // plugin.xml lives under etc/META-INF/ (was a filtered Maven resource dir).
+        // plugin.xml lives under etc/META-INF
         resources.srcDir("etc")
     }
 }
@@ -72,9 +66,8 @@ tasks.processResources {
     }
 }
 
-// --- Fat plugin jar: clover-idea classes + clover.jar + jtreemap.jar, matching the old Maven
-// assembly (single self-contained jar). Produced at build/dist/clover-idea-<version>.jar and
-// uploaded by the D-release workflow. ---
+// Fat plugin jar: clover-idea classes + clover.jar + jtreemap.jar
+// Produced at build/dist/clover-idea-<version>.jar and uploaded by the 'D-release-openclover'
 val fatJar by tasks.registering(Jar::class) {
     archiveFileName.set("clover-idea-$version.jar")
     destinationDirectory.set(layout.buildDirectory.dir("dist"))
@@ -83,7 +76,7 @@ val fatJar by tasks.registering(Jar::class) {
     dependsOn(composed)
     // clover-idea's own classes + patched META-INF/plugin.xml + services + PluginVersionInfo
     from({ zipTree(composed.get().outputs.files.singleFile) })
-    // clover.jar + jtreemap.jar contents (self-contained; non-transitive — see dependencies above)
+    // clover.jar + jtreemap.jar contents (self-contained; non-transitive)
     from({
         configurations.runtimeClasspath.get().files
             .filter { it.name.startsWith("clover-") || it.name.startsWith("jtreemap-") }
@@ -92,7 +85,7 @@ val fatJar by tasks.registering(Jar::class) {
     exclude("META-INF/*.SF", "META-INF/*.DSA", "META-INF/*.RSA")
 }
 
-// --- version-filtered autoupdate descriptor for the openclover.org web server (D-release). ---
+// version-filtered autoupdate descriptor for the openclover.org web server
 val generateAutoUpdate by tasks.registering(Copy::class) {
     from("src/main/resources-filtered/autoupdate")
     into(layout.buildDirectory.dir("autoupdate"))
@@ -117,11 +110,7 @@ intellijPlatform {
     buildSearchableOptions = false
 }
 
-// --- testproject coverage fixture (build/testproject/clover/coverage.db) ---
-// Mirrors the former Maven antrun: instrument a small sample project with clover, compile it, run
-// its tests to record coverage, and expose the resulting coverage.db to the IDEA tests, which load
-// it as the classpath resource /clover/coverage.db (DefaultCoverageManagerTest, CoverageTreeModel,
-// TestRunExplorer, ...). Independent of IDEA; runs in plain forked JVMs via the clover core tools.
+// testproject coverage fixture (build/testproject/clover/coverage.db)
 val testProjectTool: Configuration by configurations.creating
 dependencies {
     testProjectTool("org.openclover:clover:$version") {
@@ -194,9 +183,7 @@ tasks.test {
     maxHeapSize = "1g"
     // IdeaVersionVerificationIdeaTest compares ApplicationInfo major.minor against this.
     systemProperty("cij.idea.expected.version", ideaVersion)
-    // Fallback for when the JetBrains Runtime bundled with the target IDE is newer than what
-    // Byte Buddy officially lists as supported (e.g. IDEA 2026's JBR 25); Byte Buddy still works
-    // in practice, it just refuses to try without this flag.
+    // Byte Buddy flag for Java 25 (used by IDEA 2026 runtime)
     systemProperty("net.bytebuddy.experimental", "true")
     testLogging {
         events("passed", "skipped", "failed")

@@ -64,9 +64,6 @@ mvn install -Pworkspace-setup -f clover-core-libs/pom.xml
 mvn install -Pworkspace-setup -f clover-eclipse-libs/pom.xml
 ```
 
-Note: `clover-idea` (the IntelliJ IDEA plugin) is built with Gradle, which downloads the IDE
-distribution it needs on its own — no separate "prepare libs" step required.
-
 ### Download KTremap and install it
 
 Add https://packages.atlassian.com/mvn/maven-atlassian-external to your list of Maven repositories in settings.xml

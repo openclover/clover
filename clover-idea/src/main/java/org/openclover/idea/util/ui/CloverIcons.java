@@ -24,7 +24,6 @@ public class CloverIcons {
     public static final Icon CLOVER_LOGO = load("/icons/clover_logo.png");
     public static final Icon CLOVER_MDL = load("/icons/clover_mdl.gif");
 
-    // fileTypes/xml.png and fileTypes/html.png were removed from IDEA 2022.3+ (replaced by SVGs)
     public static final Icon XML_FILETYPE = load("/icons/xml.png");
     public static final Icon HTML_FILETYPE = load("/icons/html.png");
     public static final Icon PDF_FILETYPE = load("/icons/pdf.png");
