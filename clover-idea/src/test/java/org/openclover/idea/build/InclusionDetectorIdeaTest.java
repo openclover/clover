@@ -1,6 +1,7 @@
 package org.openclover.idea.build;
 
 import com.intellij.openapi.module.Module;
+import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiFile;
@@ -41,8 +42,17 @@ public class InclusionDetectorIdeaTest extends JavaPsiTestCase {
 
                 foreignRoot = getVirtualFile(createTempDirectory());
                 subDir = foreignRoot.createChildDirectory(this, "org").createChildDirectory(this, "openclover");
-                foreignFile = createFile("ForeignFile.java", "package org.openclover;\\npublic class ForeignFile {}");
-                foreignFile.getVirtualFile().move(this, subDir);
+                // The foreign file must live under subDir, which is deliberately NOT a source/content
+                // root of the module. We create it straight through the VFS here rather than the old
+                // "createFile(name, text) in the shared default project, then VirtualFile.move() into
+                // subDir" dance: that cross-project move fires a global PSI move listener which, on
+                // 2025.3+, non-deterministically trips a hard project-model integrity assertion
+                // ("Trying to get PSI for a file that is not included in the project model"). Note we
+                // must NOT use the createFile(module, dir, ...) overload either — it calls
+                // addSourceContentToRoots(module, dir), which would wrongly pull subDir into the model.
+                final VirtualFile foreignVf = subDir.createChildData(this, "ForeignFile.java");
+                VfsUtil.saveText(foreignVf, "package org.openclover;\npublic class ForeignFile {}");
+                foreignFile = getPsiManager().findFile(foreignVf);
             }
         });
     }

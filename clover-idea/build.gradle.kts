@@ -42,7 +42,11 @@ dependencies {
     implementation("net.sf.jtreemap:jtreemap:1.1.3") { isTransitive = false }
 
     testImplementation("junit:junit:4.13.2")
-    testImplementation("org.mockito:mockito-core:5.11.0")
+    // Tests run on the JetBrains Runtime bundled with the target IDE, not the JDK 21 toolchain
+    // above: IDEA 2026 ships JBR 25, and mockito-core 5.11.0's Byte Buddy only officially
+    // supports up to Java 22, so mocking any class fails outright on 2026. Newer Mockito bundles
+    // a Byte Buddy that recognizes JDK 25 class files.
+    testImplementation("org.mockito:mockito-core:5.18.0")
 }
 
 // --- version-filtered generated Java source (PluginVersionInfo.java) ---
@@ -190,8 +194,15 @@ tasks.test {
     maxHeapSize = "1g"
     // IdeaVersionVerificationIdeaTest compares ApplicationInfo major.minor against this.
     systemProperty("cij.idea.expected.version", ideaVersion)
+    // Fallback for when the JetBrains Runtime bundled with the target IDE is newer than what
+    // Byte Buddy officially lists as supported (e.g. IDEA 2026's JBR 25); Byte Buddy still works
+    // in practice, it just refuses to try without this flag.
+    systemProperty("net.bytebuddy.experimental", "true")
     testLogging {
         events("passed", "skipped", "failed")
         showStandardStreams = false
+        exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
+        showCauses = true
+        showStackTraces = true
     }
 }

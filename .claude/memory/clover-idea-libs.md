@@ -82,6 +82,51 @@ better" but "stop using Surefire for this module."
 - `mvn install -DskipTests` end-to-end validated locally: wrapper compile/test/package/install
   phases all delegate to Gradle correctly, fat jar lands in `~/.m2`.
 
+## Failing-test fixes (2026-07-06, all 3 versions now green locally)
+
+After the infra landed, 2024 & 2025 were green on CI but 2026 had 9 failures on CI, and 2025 had
+6 failures locally on macOS (green on Linux CI). All fixed; every version now passes all 125 tests
+locally (2024 IU, 2025.3.6 IU, 2026.1.3 IU). Two root causes, both in test code / build config —
+no production change:
+
+1. **`createFile(name,text)` + `VirtualFile.move()` foreign-file pattern** (in
+   `ExclusionUtilIdeaTest` and `InclusionDetectorIdeaTest` `setUp`). Creating a PSI file in IDEA's
+   shared default project and then moving its VirtualFile into the test's own project tree fires a
+   global PSI move listener that, on 2025.3+, **non-deterministically** trips a hard project-model
+   integrity assertion: "Trying to get PSI for a file that is not included in the project model of
+   this project." Non-determinism is why it varied by env/version (green CI-2025, red local-2025,
+   red CI-2026 for InclusionDetector but green CI-2026 for ExclusionUtil despite identical setUp).
+   - Fix: create the foreign file straight through the VFS in the (deliberately non-source-root)
+     `subDir` and get its PSI via `getPsiManager().findFile(vf)`:
+     `subDir.createChildData(this, name)` + `VfsUtil.saveText(vf, text)` + `findFile`.
+   - Do NOT use the `createFile(module, dir, ...)` overload as a shortcut — it calls
+     `addSourceContentToRoots(module, dir)`, which pulls `subDir` into the module and breaks the
+     tests' premise (foreignRoot/subDir must stay outside the project model). Verified by decompile.
+   - This single fix also cured the 3 **CharsetUtilIdeaTest** failures (`testProjectEncoding...`,
+     `testGetFileEncodingFallsBackToSystem...`, `testGetFileEncodingFallsProject...`), which were a
+     **cascade**: the failing heavy tests leaked open projects, so `EncodingManager.getInstance()`'s
+     internal `guessProject(LightVirtualFile)` (which only resolves when `getOpenProjects().length
+     == 1`) returned null → per-file `setEncoding/getEncoding` silently no-op'd → fell back to the
+     project default. With the leaks gone, exactly one project is open and encoding get/set works.
+
+2. **Mockito can't mock anything on IDEA 2026 (JBR 25).** 2026's bundled JetBrains Runtime is Java
+   25; mockito-core 5.11.0's Byte Buddy officially supports only up to Java 22 and throws
+   "Java 25 (69) is not supported… set net.bytebuddy.experimental as a VM property" for every
+   `mock()` (hit EventListenerInstallatorTest, IdeaTestFilterIdeaTest×2, LibrarySupportIdeaTest.
+   testReorder, AggregatingFilterTest×4). Fix in `build.gradle.kts`: bump `mockito-core` to
+   `5.18.0` **and** set `systemProperty("net.bytebuddy.experimental", "true")` on the test task
+   (belt-and-suspenders: the flag also covers future JBRs newer than Mockito's declared support).
+
+Also in `build.gradle.kts`: `testLogging.exceptionFormat = FULL` + `showCauses`/`showStackTraces`
+kept on purpose — the original terse CI output ("MockitoException at line 39", no cause) is what
+made 2026 hard to diagnose from logs.
+
+Tests are run locally with `JAVA_HOME=/Library/Java/JavaVirtualMachines/temurin-21.jdk/...`; the
+Gradle IntelliJ plugin then launches the target IDE on that IDE's own bundled JBR. Concurrent
+Gradle test invocations against the same sandbox corrupt its index (`PersistentEnumerator storage
+corrupted …/system-test/index`); run serially or `rm -rf .intellijPlatform/sandbox/.../system-test`
+between overlapping runs.
+
 ## Known local caveat (exFAT)
 
 exFAT (this machine's working-copy filesystem) has no POSIX file locking, which breaks Gradle's
