@@ -17,16 +17,18 @@ import javax.swing.JFrame;
 
 public class NewVersionNotifier implements ProjectComponent {
     private final Project project;
-    private final AutoUpdateComponent autoUpdateComponent;
     private StatusBarWidget notificationIconWidget;
 
-    public NewVersionNotifier(Project project, AutoUpdateComponent autoUpdate) {
+    public NewVersionNotifier(Project project) {
         this.project = project;
-        autoUpdateComponent = autoUpdate;
+    }
+
+    private AutoUpdateComponent getAutoUpdateComponent() {
+        return AutoUpdateComponent.getInstance();
     }
 
     public void update() {
-        if (autoUpdateComponent.showNewVersionAvailable()) {
+        if (getAutoUpdateComponent().showNewVersionAvailable()) {
             addNotification();
         } else {
             removeNotification();
@@ -59,9 +61,9 @@ public class NewVersionNotifier implements ProjectComponent {
     }
 
     private void popNotificationDialog() {
-        final LatestVersionInfo latestVersionInfo = autoUpdateComponent.getLastVersion();
+        final LatestVersionInfo latestVersionInfo = getAutoUpdateComponent().getLastVersion();
         if (latestVersionInfo != null) {
-            autoUpdateComponent.resetLastVersion();
+            getAutoUpdateComponent().resetLastVersion();
             popNotificationDialog(latestVersionInfo);
         }
     }
@@ -71,10 +73,10 @@ public class NewVersionNotifier implements ProjectComponent {
         dialog.show();
         switch (dialog.getExitCode()) {
             case NewVersionDialog.OK_EXIT_CODE:
-                autoUpdateComponent.performUpdate(latestVersionInfo.getDownloadUrl());
+                getAutoUpdateComponent().performUpdate(latestVersionInfo.getDownloadUrl());
                 break;
             case NewVersionDialog.SKIP_VERSION_EXIT_CODE:
-                autoUpdateComponent.addIgnoredVersion(latestVersionInfo.getNumber());
+                getAutoUpdateComponent().addIgnoredVersion(latestVersionInfo.getNumber());
                 break;
         }
     }

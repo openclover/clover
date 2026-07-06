@@ -22,7 +22,7 @@ public class TestViewScopeAction extends ComboBoxAction {
     public TestViewScopeAction() {
         actionGroup = (DefaultActionGroup) ActionManager.getInstance().getAction("CloverPlugin.TestCaseScopeCombo");
 
-        for (AnAction action : actionGroup.getChildren(null)) {
+        for (AnAction action : actionGroup.getChildren(ActionManager.getInstance())) {
             if (action instanceof AbstractTestViewScopeAction) {
                 AbstractTestViewScopeAction a = (AbstractTestViewScopeAction) action;
                 index.put(a.getActionType(), a.getTemplatePresentation().getText());

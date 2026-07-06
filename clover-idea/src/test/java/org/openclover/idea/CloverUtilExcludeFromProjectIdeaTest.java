@@ -3,12 +3,12 @@ package org.openclover.idea;
 import com.intellij.openapi.roots.ModifiableRootModel;
 import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.testFramework.IdeaTestCase;
+import com.intellij.testFramework.HeavyPlatformTestCase;
 import org.openclover.idea.util.ProjectUtil;
 
 import java.io.IOException;
 
-public class CloverUtilExcludeFromProjectIdeaTest extends IdeaTestCase {
+public class CloverUtilExcludeFromProjectIdeaTest extends HeavyPlatformTestCase {
     private VirtualFile dir1;
     private VirtualFile dir2;
     private VirtualFile subdir1;

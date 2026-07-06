@@ -1,10 +1,11 @@
 package org.openclover.idea.build;
 
 import com.intellij.openapi.module.Module;
+import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiFile;
-import com.intellij.testFramework.PsiTestCase;
+import com.intellij.testFramework.JavaPsiTestCase;
 import com.intellij.testFramework.PsiTestUtil;
 import org.mockito.Mockito;
 import org.openclover.idea.ApplicationTestHelper;
@@ -12,7 +13,7 @@ import org.openclover.idea.config.IdeaCloverConfig;
 
 import static org.mockito.Mockito.when;
 
-public class InclusionDetectorIdeaTest extends PsiTestCase {
+public class InclusionDetectorIdeaTest extends JavaPsiTestCase {
     private VirtualFile orgOpenCloverDir;
     private PsiClass psiClass;
     private VirtualFile contentRoot;
@@ -41,8 +42,9 @@ public class InclusionDetectorIdeaTest extends PsiTestCase {
 
                 foreignRoot = getVirtualFile(createTempDirectory());
                 subDir = foreignRoot.createChildDirectory(this, "org").createChildDirectory(this, "openclover");
-                foreignFile = createFile("ForeignFile.java", "package org.openclover;\\npublic class ForeignFile {}");
-                foreignFile.getVirtualFile().move(this, subDir);
+                final VirtualFile foreignVf = subDir.createChildData(this, "ForeignFile.java");
+                VfsUtil.saveText(foreignVf, "package org.openclover;\npublic class ForeignFile {}");
+                foreignFile = getPsiManager().findFile(foreignVf);
             }
         });
     }

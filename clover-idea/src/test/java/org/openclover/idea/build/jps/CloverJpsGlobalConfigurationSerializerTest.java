@@ -22,7 +22,7 @@ public class CloverJpsGlobalConfigurationSerializerTest {
     @Test
     public void testLoadExtension() {
         final CloverJpsGlobalConfigurationSerializer serializer = new CloverJpsGlobalConfigurationSerializer();
-        final JpsModel jpsModel = new JpsModelImpl(null);
+        final JpsModel jpsModel = new JpsModelImpl();
 
         // put sample data into model
         serializer.loadExtension(jpsModel.getGlobal(), createSampleData());

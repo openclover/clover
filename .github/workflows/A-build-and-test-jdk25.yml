@@ -27,18 +27,20 @@ jobs:
           path: clover-eclipse-libs/target/download
           key: ${{ runner.os }}-eclipse-${{ hashFiles('clover-eclipse-libs/pom.xml') }}
 
-      - name: Cache IDEA binaries
-        id: cache-idea
+      - name: Cache Gradle IntelliJ Platform downloads
         uses: actions/cache@v6
         with:
-          path: clover-idea-libs/target/download
-          key: ${{ runner.os }}-idea-${{ hashFiles('clover-idea-libs/pom.xml') }}
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-idea-${{ hashFiles('clover-idea/build.gradle.kts', 'clover-idea/gradle.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-idea-
 
       - name: Prepare third party libraries
         run: |
           mvn --batch-mode install -Pworkspace-setup -f clover-core-libs/pom.xml
           mvn --batch-mode install -Pworkspace-setup -f clover-eclipse-libs/pom.xml
-          mvn --batch-mode install -Pworkspace-setup -f clover-idea-libs/pom.xml
 
       - name: Download KTreemap fork
         run: |

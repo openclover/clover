@@ -8,307 +8,157 @@
     </parent>
     <artifactId>clover-idea</artifactId>
     <name>OpenClover IntelliJ IDEA Plugin</name>
+    <packaging>pom</packaging>
     <description>
         OpenClover IntelliJ IDEA Plugin is a free and open-source code coverage tool based on the
         open-sourced Atlassian Clover(R).
     </description>
+
+    <!--
+        This module is built by GRADLE (build.gradle.kts), using the IntelliJ Platform Gradle
+        Plugin — the officially supported way to build and TEST JetBrains plugins. Gradle launches
+        the platform correctly so CORE services register, which the Maven Surefire setup could not
+        do for IDEA 2025+.
+
+        This pom.xml is a thin WRAPPER kept only so the whole OpenClover reactor still builds from a
+        single Maven command (`mvn install`). It delegates compile/test/package to Gradle via
+        exec-maven-plugin:
+          - `test`    phase -> ./gradlew test        (skipped when -DskipTests)
+          - `package` phase -> ./gradlew buildPlugin  (compile + assemble the plugin distribution)
+
+        The target IDE is selected from Maven properties (overridable via -D, as CI's matrix does):
+          -Didea.version.short=<x.y.z>  -> Gradle -PideaVersion
+        Note: local `mvn install` on an exFAT working copy will fail on Gradle's cache locking; run
+        Gradle directly there with a project cache dir on a non-exFAT disk. CI (Linux) is fine.
+    -->
+
+    <properties>
+        <!-- Target IntelliJ IDEA version for the Gradle build (short form, e.g. 2025.3.6) -->
+        <idea.version.short>2025.3.6</idea.version.short>
+        <!-- IntelliJ IDEA product type passed to Gradle: IU (Ultimate) or IC (Community) -->
+        <idea.gradle.type>IU</idea.gradle.type>
+        <skipTests>false</skipTests>
+        <!-- Gradle project cache location. Default (in-module .gradle) is fine on CI/Linux.
+             On exFAT (exFAT has no posix file locking) working copy override locally, e.g.:
+             -Dgradle.project.cache.dir=$HOME/.gradle-clover-idea/cache -->
+        <gradle.project.cache.dir>${project.basedir}/.gradle</gradle.project.cache.dir>
+        <!-- clover-idea is distributed via scp to openclover.org, not OSSRH/Maven Central -->
+        <maven.deploy.skip>true</maven.deploy.skip>
+    </properties>
+
     <dependencies>
-        <!-- Minimal set of IntelliJ IDEA dependencies, for compilation -->
-        <dependency>
-            <groupId>org.openclover.idea.libs</groupId>
-            <artifactId>clover-idea-all</artifactId>
-            <version>${idea.version}</version>
-            <type>pom</type>
-        </dependency>
-        <dependency>
-            <groupId>org.openclover.idea.libs</groupId>
-            <artifactId>idea-zip</artifactId>
-            <version>${idea.version}</version>
-            <type>zip</type>
-        </dependency>
-        <!-- main clover jar -->
+        <!-- Declared solely for Maven reactor ordering: the Gradle build resolves clover core from
+             the local Maven repo, so clover must be built and installed before this module. -->
         <dependency>
             <groupId>org.openclover</groupId>
             <artifactId>clover</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <!-- repacked third party libraries -->
-        <dependency>
-            <groupId>net.sf.jtreemap</groupId>
-            <artifactId>jtreemap</artifactId>
-            <version>1.1.3</version>
-            <exclusions>
-                <exclusion>
-                    <!-- messes up annotation processing on JDK17+ -->
-                    <groupId>org.projectlombok</groupId>
-                    <artifactId>lombok</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <!-- test dependencies -->
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
+
     <build>
-        <resources>
-            <resource>
-                <directory>etc</directory>
-                <filtering>true</filtering>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
-            </resource>
-            <resource>
-                <directory>src/main/resources-filtered</directory>
-                <filtering>true</filtering>
-                <targetPath>${project.build.directory}/generated-sources</targetPath>
-                <excludes>
-                    <exclude>autoupdate/**</exclude>
-                </excludes>
-            </resource>
-            <resource>
-                <directory>src/main/resources-filtered</directory>
-                <filtering>true</filtering>
-                <targetPath>${project.build.directory}</targetPath>
-                <includes>
-                    <include>autoupdate/**</include>
-                </includes>
-            </resource>
-        </resources>
         <plugins>
-            <!-- add target/generated-sources folder -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>add-generated-sources</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>add-source</goal>
-                        </goals>
-                        <configuration>
-                            <sources>
-                                <source>${project.build.directory}/generated-sources</source>
-                            </sources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <!-- configure tests to run with IntelliJ IDEA runtime -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>install-intellij-zip</id>
-                        <phase>process-test-resources</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/idea</outputDirectory>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.openclover.idea.libs</groupId>
-                                    <artifactId>idea-zip</artifactId>
-                                    <version>${idea.version}</version>
-                                    <type>zip</type>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <!-- run a test project before executing tests as some JUnits rely on it -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
+                <artifactId>exec-maven-plugin</artifactId>
                 <version>3.1.0</version>
                 <executions>
+                    <!-- mvn compile -> compile the plugin sources via Gradle. -->
                     <execution>
-                        <id>run-test-project</id>
-                        <phase>process-test-resources</phase>
+                        <id>gradle-compile</id>
+                        <phase>compile</phase>
                         <goals>
-                            <goal>run</goal>
+                            <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <target>
-                                <taskdef resource="net/sf/antcontrib/antcontrib.properties" classpathref="maven.plugin.classpath" />
-                                <taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask" classpathref="maven.plugin.classpath" />
-
-                                <property name="testproject.base" location="${project.basedir}/src/test/resources/testproject" />
-                                <property name="testproject.output" location="${project.build.directory}/testproject" />
-                                <property name="testproject.db" location="${testproject.output}/clover/coverage.db" />
-
-                                <if>
-                                    <not><available file="${testproject.db}" /></not>
-                                    <then>
-                                        <!-- instrument -->
-                                        <java classname="org.openclover.core.CloverInstr"
-                                              classpath="${org.openclover:clover:jar}"
-                                              fork="true">
-                                            <arg value="-s" />
-                                            <arg value="${testproject.base}" />
-                                            <arg value="-d" />
-                                            <arg value="${testproject.output}/instr" />
-                                            <arg value="-i" />
-                                            <arg value="${testproject.db}" />
-                                        </java>
-                                        <!-- compile instrumented -->
-                                        <mkdir dir="${testproject.output}/classes" />
-                                        <javac srcdir="${testproject.output}/instr" debug="on" includeantruntime="false" destdir="${testproject.output}/classes">
-                                            <classpath>
-                                                <pathelement location="${org.openclover:clover:jar}" />
-                                                <pathelement location="${junit:junit:jar}" />
-                                            </classpath>
-                                        </javac>
-                                        <!-- run tests -->
-                                        <mkdir dir="${testproject.output}/report" />
-                                        <junit fork="true" forkmode="once" logfailedtests="false">
-                                            <classpath>
-                                                <pathelement location="${testproject.output}/classes" />
-                                                <pathelement location="${org.openclover:clover:jar}" />
-                                                <pathelement location="${junit:junit:jar}" />
-                                            </classpath>
-                                            <batchtest todir="${testproject.output}/report">
-                                                <fileset dir="${testproject.output}/classes" includes="**/*Test.class" />
-                                                <formatter type="plain" />
-                                            </batchtest>
-                                        </junit>
-                                        <!-- generate reports -->
-                                        <java classname="org.openclover.core.reporters.html.HtmlReporter"
-                                              classpath="${org.openclover:clover:jar}"
-                                              fork="true">
-                                            <arg value="-i" />
-                                            <arg value="${testproject.db}" />
-                                            <arg value="-o" />
-                                            <arg value="${testproject.output}/clover-report" />
-                                        </java>
-                                    </then>
-                                    <else>
-                                        <echo message="Skipping testproject build as ${testproject.db} already exists." />
-                                    </else>
-                                </if>
-                            </target>
+                            <executable>${project.basedir}/gradlew</executable>
+                            <workingDirectory>${project.basedir}</workingDirectory>
+                            <arguments>
+                                <argument>--no-daemon</argument>
+                                <argument>--console=plain</argument>
+                                <argument>--project-cache-dir=${gradle.project.cache.dir}</argument>
+                                <argument>classes</argument>
+                                <argument>-PideaType=${idea.gradle.type}</argument>
+                                <argument>-PideaVersion=${idea.version.short}</argument>
+                                <argument>-PcloverVersion=${project.version}</argument>
+                            </arguments>
                         </configuration>
                     </execution>
-                </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.apache.ant</groupId>
-                        <artifactId>ant-junit</artifactId>
-                        <version>1.10.14</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>ant-contrib</groupId>
-                        <artifactId>ant-contrib</artifactId>
-                        <version>1.0b3</version>
-                        <exclusions>
-                            <exclusion>
-                                <groupId>ant</groupId>
-                                <artifactId>ant</artifactId>
-                            </exclusion>
-                        </exclusions>
-                    </dependency>
-                </dependencies>
-            </plugin>
-            <!-- run tests for IDEA -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <additionalClasspathElements>
-                        <additionalClasspathElement>${project.build.directory}/idea/bin</additionalClasspathElement>
-                        <!-- some tests load files from this location as resources -->
-                        <additionalClasspathElement>${project.build.directory}/testproject</additionalClasspathElement>
-                    </additionalClasspathElements>
-                    <argLine>
-                        -Djava.library.path=${project.build.directory}/idea/bin
-                        -Xbootclasspath/a:${project.build.directory}/idea/lib/boot.jar
-                        -Xmx512M
-                        -ea
-                        <!-- -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005-->
-                    </argLine>
-                    <systemProperties>
-                        <java.awt.headless>true</java.awt.headless>
-                        <java.compiler>NONE</java.compiler>
-                        <idea.home.path>${project.build.directory}/idea</idea.home.path>
-                        <idea.config.path>${project.build.directory}/idea-test/config</idea.config.path>
-                        <idea.system.path>${project.build.directory}/idea-test/system</idea.system.path>
-                        <cij.idea.expected.version>${idea.version.short}</cij.idea.expected.version>
-                        <java.io.tmpdir>${project.build.directory}/idea/tmp</java.io.tmpdir>
-                        <idea.load.plugins.id>${idea.plugins.to.load}</idea.load.plugins.id>
-                    </systemProperties>
-                    <useManifestOnlyJar>false</useManifestOnlyJar>
-                </configuration>
-            </plugin>
-            <!-- generate plugin jar -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <executions>
+                    <!-- mvn test / mvn verify -> run the plugin tests under the IntelliJ Platform
+                         test framework (skipped with -DskipTests). There is no separate
+                         integration-test phase; `mvn verify` runs these tests via the test phase. -->
                     <execution>
-                        <id>package-jar</id>
+                        <id>gradle-test</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${skipTests}</skip>
+                            <executable>${project.basedir}/gradlew</executable>
+                            <workingDirectory>${project.basedir}</workingDirectory>
+                            <arguments>
+                                <argument>--no-daemon</argument>
+                                <argument>--console=plain</argument>
+                                <argument>--project-cache-dir=${gradle.project.cache.dir}</argument>
+                                <argument>test</argument>
+                                <argument>-PideaType=${idea.gradle.type}</argument>
+                                <argument>-PideaVersion=${idea.version.short}</argument>
+                                <argument>-PcloverVersion=${project.version}</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <!-- mvn package -> build the fat plugin jar (build/dist/clover-idea-<v>.jar) and
+                         the autoupdate descriptor (build/autoupdate/latestStableVersion.xml). -->
+                    <execution>
+                        <id>gradle-package</id>
                         <phase>package</phase>
                         <goals>
-                            <goal>single</goal>
+                            <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <appendAssemblyId>false</appendAssemblyId>
-                            <descriptors>
-                                <descriptor>src/assembly/clover-idea-jar.xml</descriptor>
-                            </descriptors>
+                            <executable>${project.basedir}/gradlew</executable>
+                            <workingDirectory>${project.basedir}</workingDirectory>
+                            <arguments>
+                                <argument>--no-daemon</argument>
+                                <argument>--console=plain</argument>
+                                <argument>--project-cache-dir=${gradle.project.cache.dir}</argument>
+                                <argument>mavenArtifacts</argument>
+                                <argument>-x</argument>
+                                <argument>test</argument>
+                                <argument>-PideaType=${idea.gradle.type}</argument>
+                                <argument>-PideaVersion=${idea.version.short}</argument>
+                                <argument>-PcloverVersion=${project.version}</argument>
+                            </arguments>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
-            <!-- generate sources jar -->
+
+            <!-- mvn install -> install the Gradle-built fat jar into ~/.m2 as
+                 org.openclover:clover-idea:<version>:jar (in addition to the pom installed by the
+                 default pom-packaging lifecycle). -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
+                <artifactId>maven-install-plugin</artifactId>
                 <executions>
                     <execution>
+                        <id>install-fat-jar</id>
+                        <phase>install</phase>
                         <goals>
-                            <goal>jar-no-fork</goal>
+                            <goal>install-file</goal>
                         </goals>
+                        <configuration>
+                            <file>${project.basedir}/build/dist/clover-idea-${project.version}.jar</file>
+                            <groupId>org.openclover</groupId>
+                            <artifactId>clover-idea</artifactId>
+                            <version>${project.version}</version>
+                            <packaging>jar</packaging>
+                            <pomFile>${project.basedir}/pom.xml</pomFile>
+                        </configuration>
                     </execution>
                 </executions>
-            </plugin>
-            <!-- generate javadoc jar -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <!-- don't deploy IDEA plugin to maven central -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
             </plugin>
         </plugins>
     </build>
-    <properties>
-        <idea.version>261.25134.95</idea.version>
-        <idea.version.short>2026.1.3</idea.version.short>
-        <!-- Plugin IDs to load during tests. IDEA 2019+ needs com.intellij.java since Java support moved to a plugin -->
-        <idea.plugins.to.load>org.openclover.idea,com.intellij.java</idea.plugins.to.load>
-    </properties>
 </project>

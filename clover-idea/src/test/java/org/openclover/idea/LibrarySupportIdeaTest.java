@@ -12,7 +12,7 @@ import com.intellij.openapi.roots.libraries.LibraryTable;
 import com.intellij.openapi.roots.libraries.LibraryTablesRegistrar;
 import com.intellij.openapi.util.Computable;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.testFramework.IdeaTestCase;
+import com.intellij.testFramework.HeavyPlatformTestCase;
 import org.openclover.core.util.FileUtils;
 
 import java.net.URL;
@@ -23,7 +23,7 @@ import static org.hamcrest.CoreMatchers.startsWith;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
 
-public class LibrarySupportIdeaTest extends IdeaTestCase {
+public class LibrarySupportIdeaTest extends HeavyPlatformTestCase {
     public static final String LIB_NAME = "CloverLibrarySupportTestLibraryName";
 
     private Library testLibrary;
@@ -62,14 +62,19 @@ public class LibrarySupportIdeaTest extends IdeaTestCase {
         final LibraryTable table = LibraryTablesRegistrar.getInstance().getLibraryTable();
         final Library existing = ApplicationManager.getApplication()
                 .runWriteAction((Computable<Library>) () -> table.createLibrary("Existing Library"));
-        ApplicationManager.getApplication().runWriteAction(() -> {
-            LibrarySupport.addLibraryTo(existing, module);
-        });
+        // ensure the "Existing Library" is always removed, otherwise it leaks into the shared library table
+        try {
+            ApplicationManager.getApplication().runWriteAction(() -> {
+                LibrarySupport.addLibraryTo(existing, module);
+            });
 
-        wrapAdd(module);
+            wrapAdd(module);
 
-        final OrderEntry[] orderEntries = ModuleRootManager.getInstance(module).getOrderEntries();
-        assertEquals(testLibrary, ((LibraryOrderEntry)orderEntries[0]).getLibrary());
+            final OrderEntry[] orderEntries = ModuleRootManager.getInstance(module).getOrderEntries();
+            assertEquals(testLibrary, ((LibraryOrderEntry)orderEntries[0]).getLibrary());
+        } finally {
+            deleteTestLibrary(existing);
+        }
     }
 
     public void testOrderExistingLibrary() {
@@ -79,17 +84,22 @@ public class LibrarySupportIdeaTest extends IdeaTestCase {
         wrapAdd(module);
         final Library existing = ApplicationManager.getApplication()
                 .runWriteAction((Computable<Library>) () -> table.createLibrary("Existing Library"));
-        ApplicationManager.getApplication().runWriteAction(() -> {
-            LibrarySupport.addLibraryTo(existing, module);
-        });
+        // ensure the "Existing Library" is always removed, otherwise it leaks into the shared library table
+        try {
+            ApplicationManager.getApplication().runWriteAction(() -> {
+                LibrarySupport.addLibraryTo(existing, module);
+            });
 
-        // check preconditions
-        final OrderEntry[] orderEntries = ModuleRootManager.getInstance(module).getOrderEntries();
-        assertEquals(existing, ((LibraryOrderEntry)orderEntries[0]).getLibrary());
+            // check preconditions
+            final OrderEntry[] orderEntries = ModuleRootManager.getInstance(module).getOrderEntries();
+            assertEquals(existing, ((LibraryOrderEntry)orderEntries[0]).getLibrary());
 
-        wrapAdd(module);
-        final OrderEntry[] orderEntries2 = ModuleRootManager.getInstance(module).getOrderEntries();
-        assertEquals(testLibrary, ((LibraryOrderEntry)orderEntries2[0]).getLibrary());
+            wrapAdd(module);
+            final OrderEntry[] orderEntries2 = ModuleRootManager.getInstance(module).getOrderEntries();
+            assertEquals(testLibrary, ((LibraryOrderEntry)orderEntries2[0]).getLibrary());
+        } finally {
+            deleteTestLibrary(existing);
+        }
     }
 
     private boolean isIdea13_0_x() {

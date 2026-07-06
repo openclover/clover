@@ -100,6 +100,6 @@ public class ProjectUtil {
 
         return !Arrays.asList(entry.getExcludeFolderFiles()).contains(excludedDir)
                 && contentEntryFile != null
-                && VfsUtil.isAncestor(contentEntryFile, excludedDir, false);
+                && com.intellij.openapi.vfs.VfsUtil.isAncestor(contentEntryFile, excludedDir, false);
     }
 }

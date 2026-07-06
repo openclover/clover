@@ -1,7 +1,6 @@
 package org.openclover.idea.build.jps;
 
 import org.jdom.Element;
-import org.jetbrains.jps.devkit.model.JpsPluginModuleProperties;
 import org.jetbrains.jps.devkit.model.JpsPluginModuleType;
 import org.jetbrains.jps.model.JpsElementFactory;
 import org.jetbrains.jps.model.JpsSimpleElement;
@@ -99,16 +98,16 @@ public class CloverSerializerExtensionTest {
         assertFalse(simpleElement.getData().isExcluded());
     }
 
-
     protected JpsModule createJavaModuleStub() {
         return JpsElementFactory.getInstance().createModule("JavaModule", JpsJavaModuleType.INSTANCE,
                 JpsElementFactory.getInstance().createDummyElement());
     }
 
+    // A Plugin module from DevKit plugin is a Java module with extra metadata; as DevKit is no longer
+    // bundled with IDEA, we use a same-named test stub.
     protected JpsModule createPluginModuleStub() {
         return JpsElementFactory.getInstance().createModule("PluginModule", JpsPluginModuleType.INSTANCE,
-                JpsElementFactory.getInstance().createSimpleElement(
-                        new JpsPluginModuleProperties("file://plugin.xml", "file://MANIFEST.MF")));
+                JpsElementFactory.getInstance().createDummyElement());
     }
 
     protected JpsSimpleElement<CloverModuleConfig> loadJavaModuleAndGetCloverConfig(boolean isExcluded, boolean isCloverMissing) {

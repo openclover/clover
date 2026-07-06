@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE idea-plugin PUBLIC "" "http://plugins.intellij.net/plugin.dtd">
 <idea-plugin url="https://openclover.org">
 
 	<name>OpenClover for IDEA</name>
@@ -61,9 +60,6 @@ Learn about new features and bug-fixes in this release in the <a href="https://o
 		</component>
 		<component>
 			<implementation-class>org.openclover.idea.RefreshIconsComponent</implementation-class>
-		</component>
-		<component>
-			<implementation-class>org.openclover.idea.projectview.ProjectViewDecorator</implementation-class>
 		</component>
 		<component>
 			<implementation-class>org.openclover.idea.autoupdater.NewVersionNotifier</implementation-class>

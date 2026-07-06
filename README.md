@@ -62,7 +62,6 @@ See also:
 ```
 mvn install -Pworkspace-setup -f clover-core-libs/pom.xml
 mvn install -Pworkspace-setup -f clover-eclipse-libs/pom.xml
-mvn install -Pworkspace-setup -f clover-idea-libs/pom.xml
 ```
 
 ### Download KTremap and install it
