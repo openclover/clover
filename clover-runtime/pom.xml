@@ -163,6 +163,8 @@
                         <configuration>
                             <source>1.8</source>
                             <target>1.8</target>
+                            <!-- enable annotation processor to generate org.openclover.runtime.instr.Bindings -->
+                            <proc>full</proc>
                             <excludes>
                                 <!-- No non-runtime generated source -->
                                 <exclude>**/package-info.java</exclude>
