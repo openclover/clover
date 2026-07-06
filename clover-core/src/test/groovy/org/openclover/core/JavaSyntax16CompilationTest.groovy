@@ -41,6 +41,9 @@ class JavaSyntax16CompilationTest extends JavaSyntaxCompilationTestBase {
         // Record4 method is instrumented
         assertFileMatches(fileName, R_INC + "return input\\.toString\\(\\);", false)
 
+        // Record5 compact constructor (with a parameterized/generic type parameter bound) is instrumented
+        assertFileMatches(fileName, "Record5 \\{" + R_INC, false)
+
         // RecordIsNotAReservedKeyword method with 'record' as symbols is instrumented
         assertFileMatches(fileName, R_INC + "this\\.record = record;", false)
         assertFileMatches(fileName, R_INC + "System\\.out\\.println\\(record\\);", false)

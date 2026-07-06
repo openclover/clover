@@ -40,6 +40,17 @@ class ParseGenericsTest {
         assertSourceOkay("GenericsTestcase-2_2.java.txt")
     }
 
+    @Test
+    void testRecordWithParameterizedTypeParameterBound() throws Exception {
+        // type parameter bound itself being a parameterized (generic) type, e.g. Key<?>
+        checkParsing([
+            "interface Key<K> {}",
+            "interface Keyed<T> { T key(); }",
+            "record DefaultKeyResult<T extends Key<?>>(T key) implements Keyed<T> { " +
+                "DefaultKeyResult { java.util.Objects.requireNonNull(key); } }"
+        ] as String[])
+    }
+
     static class TestInstrumentationSource implements InstrumentationSource {
         private File sourceFile
         private File mTestcasesSrcDir
