@@ -62,15 +62,19 @@ public class LibrarySupportIdeaTest extends HeavyPlatformTestCase {
         final LibraryTable table = LibraryTablesRegistrar.getInstance().getLibraryTable();
         final Library existing = ApplicationManager.getApplication()
                 .runWriteAction((Computable<Library>) () -> table.createLibrary("Existing Library"));
-        ApplicationManager.getApplication().runWriteAction(() -> {
-            LibrarySupport.addLibraryTo(existing, module);
-        });
+        // ensure the "Existing Library" is always removed, otherwise it leaks into the shared library table
+        try {
+            ApplicationManager.getApplication().runWriteAction(() -> {
+                LibrarySupport.addLibraryTo(existing, module);
+            });
 
-        wrapAdd(module);
+            wrapAdd(module);
 
-        final OrderEntry[] orderEntries = ModuleRootManager.getInstance(module).getOrderEntries();
-        assertEquals(testLibrary, ((LibraryOrderEntry)orderEntries[0]).getLibrary());
-        deleteTestLibrary(existing);
+            final OrderEntry[] orderEntries = ModuleRootManager.getInstance(module).getOrderEntries();
+            assertEquals(testLibrary, ((LibraryOrderEntry)orderEntries[0]).getLibrary());
+        } finally {
+            deleteTestLibrary(existing);
+        }
     }
 
     public void testOrderExistingLibrary() {
@@ -80,18 +84,22 @@ public class LibrarySupportIdeaTest extends HeavyPlatformTestCase {
         wrapAdd(module);
         final Library existing = ApplicationManager.getApplication()
                 .runWriteAction((Computable<Library>) () -> table.createLibrary("Existing Library"));
-        ApplicationManager.getApplication().runWriteAction(() -> {
-            LibrarySupport.addLibraryTo(existing, module);
-        });
+        // ensure the "Existing Library" is always removed, otherwise it leaks into the shared library table
+        try {
+            ApplicationManager.getApplication().runWriteAction(() -> {
+                LibrarySupport.addLibraryTo(existing, module);
+            });
 
-        // check preconditions
-        final OrderEntry[] orderEntries = ModuleRootManager.getInstance(module).getOrderEntries();
-        assertEquals(existing, ((LibraryOrderEntry)orderEntries[0]).getLibrary());
+            // check preconditions
+            final OrderEntry[] orderEntries = ModuleRootManager.getInstance(module).getOrderEntries();
+            assertEquals(existing, ((LibraryOrderEntry)orderEntries[0]).getLibrary());
 
-        wrapAdd(module);
-        final OrderEntry[] orderEntries2 = ModuleRootManager.getInstance(module).getOrderEntries();
-        assertEquals(testLibrary, ((LibraryOrderEntry)orderEntries2[0]).getLibrary());
-        deleteTestLibrary(existing);
+            wrapAdd(module);
+            final OrderEntry[] orderEntries2 = ModuleRootManager.getInstance(module).getOrderEntries();
+            assertEquals(testLibrary, ((LibraryOrderEntry)orderEntries2[0]).getLibrary());
+        } finally {
+            deleteTestLibrary(existing);
+        }
     }
 
     private boolean isIdea13_0_x() {

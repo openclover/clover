@@ -1,6 +1,7 @@
 package org.openclover.idea.build.jps;
 
 import org.jdom.Element;
+import org.jetbrains.jps.devkit.model.JpsPluginModuleType;
 import org.jetbrains.jps.model.JpsElementFactory;
 import org.jetbrains.jps.model.JpsSimpleElement;
 import org.jetbrains.jps.model.java.JpsJavaModuleType;
@@ -76,8 +77,36 @@ public class CloverSerializerExtensionTest {
         assertFalse(simpleElement.getData().isExcluded());
     }
 
+    /**
+     * @see CloverSerializerExtension#loadModuleOptions(org.jetbrains.jps.model.module.JpsModule, org.jdom.Element)
+     */
+    @Test
+    public void testLoadModuleOptions_PluginModule() {
+        // with true
+        JpsSimpleElement<CloverModuleConfig> simpleElement = loadPluginModuleAndGetCloverConfig(true, false);
+        assertNotNull(simpleElement.getData());
+        assertTrue(simpleElement.getData().isExcluded());
+
+        // with false
+        simpleElement = loadPluginModuleAndGetCloverConfig(false, false);
+        assertNotNull(simpleElement.getData());
+        assertFalse(simpleElement.getData().isExcluded());
+
+        // with null
+        simpleElement = loadPluginModuleAndGetCloverConfig(false, true);
+        assertNotNull(simpleElement.getData());
+        assertFalse(simpleElement.getData().isExcluded());
+    }
+
     protected JpsModule createJavaModuleStub() {
         return JpsElementFactory.getInstance().createModule("JavaModule", JpsJavaModuleType.INSTANCE,
+                JpsElementFactory.getInstance().createDummyElement());
+    }
+
+    // A Plugin module from DevKit plugin is a Java module with extra metadata; as DevKit is no longer
+    // bundled with IDEA, we use a same-named test stub.
+    protected JpsModule createPluginModuleStub() {
+        return JpsElementFactory.getInstance().createModule("PluginModule", JpsPluginModuleType.INSTANCE,
                 JpsElementFactory.getInstance().createDummyElement());
     }
 
@@ -85,6 +114,12 @@ public class CloverSerializerExtensionTest {
         final JpsModule javaModule = createJavaModuleStub();
         new CloverSerializerExtension().loadModuleOptions(javaModule, createSampleData("JAVA_MODULE", isExcluded, isCloverMissing));
         return javaModule.getContainer().getChild(CloverSerializerExtension.CloverModuleConfigurationRole.INSTANCE);
+    }
+
+    protected JpsSimpleElement<CloverModuleConfig> loadPluginModuleAndGetCloverConfig(boolean isExcluded, boolean isCloverMissing) {
+        final JpsModule pluginModule = createPluginModuleStub();
+        new CloverSerializerExtension().loadModuleOptions(pluginModule, createSampleData("PLUGIN_MODULE", isExcluded, isCloverMissing));
+        return pluginModule.getContainer().getChild(CloverSerializerExtension.CloverModuleConfigurationRole.INSTANCE);
     }
 
     /**

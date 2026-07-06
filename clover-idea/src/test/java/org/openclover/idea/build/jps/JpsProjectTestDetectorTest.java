@@ -1,5 +1,6 @@
 package org.openclover.idea.build.jps;
 
+import org.jetbrains.jps.devkit.model.JpsPluginModuleType;
 import org.jetbrains.jps.model.JpsElementFactory;
 import org.jetbrains.jps.model.JpsProject;
 import org.jetbrains.jps.model.impl.JpsModelImpl;
@@ -130,15 +131,16 @@ public class JpsProjectTestDetectorTest {
         final JpsProject jpsProject = new JpsModelImpl().getProject();
         final JpsElementFactory factory = JpsElementFactory.getInstance();
 
-        // ModuleA
+        // ModuleA - Java
         final JpsModule moduleA = factory.createModule("ModuleA", JpsJavaModuleType.INSTANCE,
                 factory.createDummyElement());
         moduleA.addSourceRoot("file://Project/ModuleA/src", JavaSourceRootType.SOURCE);
         moduleA.addSourceRoot("file://Project/ModuleA/test", JavaSourceRootType.TEST_SOURCE);
         jpsProject.addModule(moduleA);
 
-        // ModuleB (was PLUGIN_MODULE type, but DevKit is only available in IU; using JAVA_MODULE here)
-        final JpsModule moduleB = factory.createModule("ModuleB", JpsJavaModuleType.INSTANCE,
+        // ModuleB - a plugin module from DevKit. A plugin module is a Java module with
+        // extra metadata, and OpenClover must treat it like any other Java module.
+        final JpsModule moduleB = factory.createModule("ModuleB", JpsPluginModuleType.INSTANCE,
                 factory.createDummyElement());
         moduleB.addSourceRoot("file://Project/ModuleB/src", JavaSourceRootType.SOURCE);
         moduleB.addSourceRoot("file://Project/ModuleB/test", JavaSourceRootType.TEST_SOURCE);
