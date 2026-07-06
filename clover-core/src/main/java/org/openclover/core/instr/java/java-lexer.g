@@ -217,8 +217,11 @@ CHAR_LITERAL
  * quotes not led with a backslash.
  */
 STRING_LITERAL
-    : STRING_LITERAL_SINGLE_LINE
-    | STRING_LITERAL_TEXT_BLOCK
+    // the opening delimiter of a text block may be followed by some (unbounded) amount of whitespace
+    // before the mandatory line terminator, so a fixed lookahead cannot tell it apart from an empty/short
+    // single-line string literal - a syntactic predicate (with backtracking) is used instead
+    : ( '"' '"' '"' (' '|'\t'|'\f')* ('\r'|'\n') ) => STRING_LITERAL_TEXT_BLOCK
+    | STRING_LITERAL_SINGLE_LINE
     ;
 
 protected STRING_LITERAL_SINGLE_LINE
@@ -226,7 +229,11 @@ protected STRING_LITERAL_SINGLE_LINE
     ;
 
 protected STRING_LITERAL_TEXT_BLOCK
-    : {nc();} '"' '"' '"' ( '\r' | '\n' ) 
+    : {nc();} '"' '"' '"' (' '|'\t'|'\f')*
+        (   ( '\r' '\n' ) => '\r' '\n' {newline();}
+          | '\r'                       {newline();}
+          | '\n'                       {newline();}
+        )
         (   ( (BACKSLASH)? '"' '"' ~'"' ) => (BACKSLASH)? '"' '"'
           | ( (BACKSLASH)? '"'     ~'"' ) => (BACKSLASH)? '"'
           | ( '\r' '\n' ) => '\r' '\n' {newline();}
