@@ -43,6 +43,17 @@ record Record4<I extends Number>(I input) {
     }
 }
 
+/** A generic record whose type parameter has a parameterized (generic) bound, see OC-270 */
+interface Key<K> {}
+interface Keyed<T> {
+    T key();
+}
+record Record5<T extends Key<?>>(T key) implements Keyed<T> {
+    Record5 {
+        java.util.Objects.requireNonNull(key, "Key cannot be null.");
+    }
+}
+
 /** Despite introducing records in Java16, you can still use it for symbols, sic! */
 class RecordIsNotAReservedKeyword {
     int record = 0;
