@@ -8,512 +8,107 @@
     </parent>
     <artifactId>clover-idea</artifactId>
     <name>OpenClover IntelliJ IDEA Plugin</name>
+    <packaging>pom</packaging>
     <description>
         OpenClover IntelliJ IDEA Plugin is a free and open-source code coverage tool based on the
         open-sourced Atlassian Clover(R).
     </description>
+
+    <!--
+        This module is built by GRADLE (build.gradle.kts), using the IntelliJ Platform Gradle
+        Plugin — the officially supported way to build and TEST JetBrains plugins. Gradle launches
+        the platform correctly so CORE services register, which the Maven Surefire setup could not
+        do for IDEA 2025+.
+
+        This pom.xml is a thin WRAPPER kept only so the whole OpenClover reactor still builds from a
+        single Maven command (`mvn install`). It delegates compile/test/package to Gradle via
+        exec-maven-plugin:
+          - `test`    phase -> ./gradlew test        (skipped when -DskipTests)
+          - `package` phase -> ./gradlew buildPlugin  (compile + assemble the plugin distribution)
+
+        The target IDE is selected from Maven properties (overridable via -D, as CI's matrix does):
+          -Didea.version.short=<x.y.z>  -> Gradle -PideaVersion
+        Note: local `mvn install` on an exFAT working copy will fail on Gradle's cache locking; run
+        Gradle directly there with a project cache dir on a non-exFAT disk. CI (Linux) is fine.
+    -->
+
+    <properties>
+        <!-- Target IntelliJ IDEA version for the Gradle build (short form, e.g. 2025.3.6).
+             CI overrides via -Didea.version.short from the build matrix. -->
+        <idea.version.short>2025.3.6</idea.version.short>
+        <!-- IntelliJ IDEA product type passed to Gradle: IU (Ultimate) or IC (Community). -->
+        <idea.gradle.type>IU</idea.gradle.type>
+        <skipTests>false</skipTests>
+        <!-- Gradle project cache location. Default (in-module .gradle) is fine on CI/Linux.
+             On an exFAT working copy override locally to APFS, e.g.:
+             -Dgradle.project.cache.dir=$HOME/.gradle-clover-idea/cache (exFAT has no file locking). -->
+        <gradle.project.cache.dir>${project.basedir}/.gradle</gradle.project.cache.dir>
+    </properties>
+
     <dependencies>
-        <!-- Minimal set of IntelliJ IDEA dependencies, for compilation -->
-        <dependency>
-            <groupId>org.openclover.idea.libs</groupId>
-            <artifactId>clover-idea-all</artifactId>
-            <version>${idea.version}</version>
-            <type>pom</type>
-        </dependency>
-        <dependency>
-            <groupId>org.openclover.idea.libs</groupId>
-            <artifactId>idea-zip</artifactId>
-            <version>${idea.version}</version>
-            <type>zip</type>
-        </dependency>
-        <!-- main clover jar -->
+        <!-- Declared solely for Maven reactor ordering: the Gradle build resolves clover core from
+             the local Maven repo, so clover must be built and installed before this module. -->
         <dependency>
             <groupId>org.openclover</groupId>
             <artifactId>clover</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <!-- repacked third party libraries -->
-        <dependency>
-            <groupId>net.sf.jtreemap</groupId>
-            <artifactId>jtreemap</artifactId>
-            <version>1.1.3</version>
-            <exclusions>
-                <exclusion>
-                    <!-- messes up annotation processing on JDK17+ -->
-                    <groupId>org.projectlombok</groupId>
-                    <artifactId>lombok</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <!-- test dependencies -->
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
+
     <build>
-        <resources>
-            <resource>
-                <directory>etc</directory>
-                <filtering>true</filtering>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
-            </resource>
-            <resource>
-                <directory>src/main/resources-filtered</directory>
-                <filtering>true</filtering>
-                <targetPath>${project.build.directory}/generated-sources</targetPath>
-                <excludes>
-                    <exclude>autoupdate/**</exclude>
-                </excludes>
-            </resource>
-            <resource>
-                <directory>src/main/resources-filtered</directory>
-                <filtering>true</filtering>
-                <targetPath>${project.build.directory}</targetPath>
-                <includes>
-                    <include>autoupdate/**</include>
-                </includes>
-            </resource>
-        </resources>
         <plugins>
-            <!-- add target/generated-sources folder -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>add-generated-sources</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>add-source</goal>
-                        </goals>
-                        <configuration>
-                            <sources>
-                                <source>${project.build.directory}/generated-sources</source>
-                            </sources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <!-- configure tests to run with IntelliJ IDEA runtime -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>install-intellij-zip</id>
-                        <phase>process-test-resources</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/idea</outputDirectory>
-                            <!-- Always overwrite so switching between IDEA versions re-extracts fully -->
-                            <overWrite>true</overWrite>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.openclover.idea.libs</groupId>
-                                    <artifactId>idea-zip</artifactId>
-                                    <version>${idea.version}</version>
-                                    <type>zip</type>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <!-- run a test project before executing tests as some JUnits rely on it -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
+                <artifactId>exec-maven-plugin</artifactId>
                 <version>3.1.0</version>
                 <executions>
+                    <!-- Run the plugin tests under the IntelliJ Platform test framework. -->
                     <execution>
-                        <id>run-test-project</id>
-                        <phase>process-test-resources</phase>
+                        <id>gradle-test</id>
+                        <phase>test</phase>
                         <goals>
-                            <goal>run</goal>
+                            <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <target>
-                                <taskdef resource="net/sf/antcontrib/antcontrib.properties" classpathref="maven.plugin.classpath" />
-                                <taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask" classpathref="maven.plugin.classpath" />
-
-                                <!-- IDEA 2022.3+ moved jdkAnnotations.jar to plugins/java/lib/resources/,
-                                     but JavaSdkImpl also looks at lib/resources/ relative to idea.home.path -->
-                                <mkdir dir="${project.build.directory}/idea/lib/resources"/>
-                                <copy todir="${project.build.directory}/idea/lib/resources" failonerror="false">
-                                    <fileset dir="${project.build.directory}/idea/plugins/java/lib/resources"
-                                             includes="jdkAnnotations.jar" erroronmissingdir="false"/>
-                                </copy>
-
-                                <!-- Copy ALL plugins from the workspace-setup extraction so that
-                                     target/idea/plugins/ mirrors the full IDEA installation.
-                                     failonerror="false" / erroronmissingdir="false" make this a
-                                     no-op on CI where the extracted folder is absent. -->
-                                <copy todir="${project.build.directory}/idea/plugins"
-                                      overwrite="false" failonerror="false">
-                                    <fileset dir="${project.basedir}/../clover-idea-libs/target/extract/${idea.download.dir}/plugins"
-                                             erroronmissingdir="false"/>
-                                </copy>
-
-                                <!-- Remove product-info.json from the extracted IDEA tree. Its
-                                     presence makes IDEA use the product-modules loading strategy
-                                     (PathBasedProductLoadingStrategy via IntellijLoader) instead of
-                                     the classpath strategy. Under Surefire that strategy fails to
-                                     register CORE content-module services such as
-                                     com.intellij.platform.settings.SettingsController, crashing
-                                     ApplicationLoader.initConfigurationStore. Without it, CORE loads
-                                     its content modules from lib/modules/*.jar on the classpath and
-                                     SettingsController registers correctly. -->
-                                <delete file="${project.build.directory}/idea/product-info.json"
-                                        failonerror="false"/>
-
-                                <!-- Stage lib/module-*.jar (IDEA bundled-library module JARs:
-                                     fastutil, ktor, etc.) into idea-lib-modules/ so a dir/* glob can
-                                     put them on the Surefire test classpath. Needed because
-                                     PathClassLoader's module-descriptors Bootstrap-Class-Path is not
-                                     effective for surefire's class-init loader. -->
-                                <mkdir dir="${project.build.directory}/idea-lib-modules"/>
-                                <copy todir="${project.build.directory}/idea-lib-modules"
-                                      overwrite="false" failonerror="false">
-                                    <!-- Only the third-party library modules (fastutil, guava, asm,
-                                         etc.). Deliberately EXCLUDE module-intellij.platform.*.jar and
-                                         module-intellij.xml.*.jar / regexp: those are CORE content
-                                         modules with their own descriptors, and placing them on the
-                                         flat classpath disrupts CORE content-module loading (breaks
-                                         intellij.platform.settings.local -> SettingsController). -->
-                                    <fileset dir="${project.build.directory}/idea/lib"
-                                             includes="module-intellij.libraries.*.jar"
-                                             erroronmissingdir="false"/>
-                                    <flattenmapper/>
-                                </copy>
-
-                                <property name="testproject.base" location="${project.basedir}/src/test/resources/testproject" />
-                                <property name="testproject.output" location="${project.build.directory}/testproject" />
-                                <property name="testproject.db" location="${testproject.output}/clover/coverage.db" />
-
-                                <if>
-                                    <not><available file="${testproject.db}" /></not>
-                                    <then>
-                                        <!-- instrument -->
-                                        <java classname="org.openclover.core.CloverInstr"
-                                              classpath="${org.openclover:clover:jar}"
-                                              fork="true">
-                                            <arg value="-s" />
-                                            <arg value="${testproject.base}" />
-                                            <arg value="-d" />
-                                            <arg value="${testproject.output}/instr" />
-                                            <arg value="-i" />
-                                            <arg value="${testproject.db}" />
-                                        </java>
-                                        <!-- compile instrumented -->
-                                        <mkdir dir="${testproject.output}/classes" />
-                                        <javac srcdir="${testproject.output}/instr" debug="on" includeantruntime="false" destdir="${testproject.output}/classes">
-                                            <classpath>
-                                                <pathelement location="${org.openclover:clover:jar}" />
-                                                <pathelement location="${junit:junit:jar}" />
-                                            </classpath>
-                                        </javac>
-                                        <!-- run tests -->
-                                        <mkdir dir="${testproject.output}/report" />
-                                        <junit fork="true" forkmode="once" logfailedtests="false">
-                                            <classpath>
-                                                <pathelement location="${testproject.output}/classes" />
-                                                <pathelement location="${org.openclover:clover:jar}" />
-                                                <pathelement location="${junit:junit:jar}" />
-                                            </classpath>
-                                            <batchtest todir="${testproject.output}/report">
-                                                <fileset dir="${testproject.output}/classes" includes="**/*Test.class" />
-                                                <formatter type="plain" />
-                                            </batchtest>
-                                        </junit>
-                                        <!-- generate reports -->
-                                        <java classname="org.openclover.core.reporters.html.HtmlReporter"
-                                              classpath="${org.openclover:clover:jar}"
-                                              fork="true">
-                                            <arg value="-i" />
-                                            <arg value="${testproject.db}" />
-                                            <arg value="-o" />
-                                            <arg value="${testproject.output}/clover-report" />
-                                        </java>
-                                    </then>
-                                    <else>
-                                        <echo message="Skipping testproject build as ${testproject.db} already exists." />
-                                    </else>
-                                </if>
-                            </target>
+                            <skip>${skipTests}</skip>
+                            <executable>${project.basedir}/gradlew</executable>
+                            <workingDirectory>${project.basedir}</workingDirectory>
+                            <arguments>
+                                <argument>--no-daemon</argument>
+                                <argument>--console=plain</argument>
+                                <argument>--project-cache-dir=${gradle.project.cache.dir}</argument>
+                                <argument>test</argument>
+                                <argument>-PideaType=${idea.gradle.type}</argument>
+                                <argument>-PideaVersion=${idea.version.short}</argument>
+                                <argument>-PcloverVersion=${project.version}</argument>
+                            </arguments>
                         </configuration>
                     </execution>
-                </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.apache.ant</groupId>
-                        <artifactId>ant-junit</artifactId>
-                        <version>1.10.14</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>ant-contrib</groupId>
-                        <artifactId>ant-contrib</artifactId>
-                        <version>1.0b3</version>
-                        <exclusions>
-                            <exclusion>
-                                <groupId>ant</groupId>
-                                <artifactId>ant</artifactId>
-                            </exclusion>
-                        </exclusions>
-                    </dependency>
-                </dependencies>
-            </plugin>
-            <!-- run tests for IDEA -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <additionalClasspathElements>
-                        <!-- native library path -->
-                        <additionalClasspathElement>${project.build.directory}/idea/bin</additionalClasspathElement>
-                        <!-- some tests load files from this location as resources -->
-                        <additionalClasspathElement>${project.build.directory}/testproject</additionalClasspathElement>
-                        <!-- Use EXACTLY the same JARs that idea.sh puts on the classpath.
-                             Rationale: lib/* would also put product-backend.jar on AppCL, which
-                             causes collectPluginFilesInClassPath to discover it and feed it to
-                             loadCoreModules.  loadCoreModules' XmlReader does not handle the
-                             loading="embedded" attribute present in IDEA 2025+ product-backend.jar.
-                             In production IDEA, product-backend.jar is not on the classpath; it is
-                             opened directly from $idea.home/lib/ by loadCoreProductPlugin, which uses
-                             a code path that tolerates embedded content modules.
-                             PathClassLoader reads module-descriptors.jar and adds Bootstrap-Class-Path
-                             JARs (module-intellij.*.jar etc.) to its URL list automatically, so those
-                             do not need to be listed here. -->
-                        <additionalClasspathElement>${project.build.directory}/idea/lib/platform-loader.jar</additionalClasspathElement>
-                        <additionalClasspathElement>${project.build.directory}/idea/lib/util-8.jar</additionalClasspathElement>
-                        <additionalClasspathElement>${project.build.directory}/idea/lib/util.jar</additionalClasspathElement>
-                        <additionalClasspathElement>${project.build.directory}/idea/lib/app-client.jar</additionalClasspathElement>
-                        <additionalClasspathElement>${project.build.directory}/idea/lib/util_rt.jar</additionalClasspathElement>
-                        <additionalClasspathElement>${project.build.directory}/idea/lib/opentelemetry.jar</additionalClasspathElement>
-                        <additionalClasspathElement>${project.build.directory}/idea/lib/app.jar</additionalClasspathElement>
-                        <additionalClasspathElement>${project.build.directory}/idea/lib/lib-client.jar</additionalClasspathElement>
-                        <additionalClasspathElement>${project.build.directory}/idea/lib/stats.jar</additionalClasspathElement>
-                        <additionalClasspathElement>${project.build.directory}/idea/lib/jps-model.jar</additionalClasspathElement>
-                        <additionalClasspathElement>${project.build.directory}/idea/lib/external-system-rt.jar</additionalClasspathElement>
-                        <additionalClasspathElement>${project.build.directory}/idea/lib/rd.jar</additionalClasspathElement>
-                        <additionalClasspathElement>${project.build.directory}/idea/lib/bouncy-castle.jar</additionalClasspathElement>
-                        <additionalClasspathElement>${project.build.directory}/idea/lib/protobuf.jar</additionalClasspathElement>
-                        <additionalClasspathElement>${project.build.directory}/idea/lib/intellij-test-discovery.jar</additionalClasspathElement>
-                        <additionalClasspathElement>${project.build.directory}/idea/lib/forms_rt.jar</additionalClasspathElement>
-                        <additionalClasspathElement>${project.build.directory}/idea/lib/lib.jar</additionalClasspathElement>
-                        <additionalClasspathElement>${project.build.directory}/idea/lib/externalProcess-rt.jar</additionalClasspathElement>
-                        <additionalClasspathElement>${project.build.directory}/idea/lib/groovy.jar</additionalClasspathElement>
-                        <additionalClasspathElement>${project.build.directory}/idea/lib/annotations.jar</additionalClasspathElement>
-                        <additionalClasspathElement>${project.build.directory}/idea/lib/idea_rt.jar</additionalClasspathElement>
-                        <additionalClasspathElement>${project.build.directory}/idea/lib/jsch-agent.jar</additionalClasspathElement>
-                        <additionalClasspathElement>${project.build.directory}/idea/lib/${idea.lib.kotlinx.coroutines.slf4j}</additionalClasspathElement>
-                        <additionalClasspathElement>${project.build.directory}/idea/lib/nio-fs.jar</additionalClasspathElement>
-                        <additionalClasspathElement>${project.build.directory}/idea/lib/trove.jar</additionalClasspathElement>
-                        <!-- lib/module-*.jar: IDEA 2025+ bundled-library module JARs (fastutil, ktor,
-                             etc.), staged into idea-lib-modules/ by the antrun copy below. Needed on
-                             the test classpath because module-descriptors.jar's Bootstrap-Class-Path
-                             (which PathClassLoader consults) is not effective for surefire's class-init
-                             loader — e.g. UsefulTestCase.<clinit> needs Object2IntOpenHashMap. A dir/*
-                             glob is used because surefire/JVM only expands the dir/* form, not
-                             filename globs like module-*.jar. None carry META-INF/plugin.xml. -->
-                        <additionalClasspathElement>${project.build.directory}/idea-lib-modules/*</additionalClasspathElement>
-                        <!-- testFramework.jar (no plugin.xml) is needed for JavaPsiTestCase and
-                             the other test-framework superclasses of InclusionDetectorIdeaTest. -->
-                        <additionalClasspathElement>${project.build.directory}/idea/lib/testFramework.jar</additionalClasspathElement>
-                        <!-- Java plugin JARs WITH META-INF/plugin.xml. In unit-test mode IDEA
-                             discovers plugins by scanning the classpath for META-INF/plugin.xml
-                             (not the plugins/ directory), so java-impl.jar's plugin.xml must be
-                             present here for com.intellij.java to load. -->
-                        <additionalClasspathElement>${project.build.directory}/idea/plugins/java/lib/*</additionalClasspathElement>
-                        <!-- Java plugin content-module JARs. In IDEA 2025+ the java plugin is split
-                             into content modules (intellij.java.*) whose descriptors java-impl.jar's
-                             plugin.xml references; ClassPathXmlPathResolver.resolveModuleFile needs
-                             them on the classpath or the whole java plugin fails to load. None carry
-                             META-INF/plugin.xml, so they are not treated as separate plugins. -->
-                        <additionalClasspathElement>${project.build.directory}/idea/plugins/java/lib/modules/*</additionalClasspathElement>
-                        <!-- All content-module JARs (lib/modules/*.jar). The working Gradle
-                             IntelliJ-Platform setup puts ALL of these on java.class.path so that
-                             ClassPathXmlPathResolver can resolve content-module descriptors
-                             (e.g. intellij.platform.settings.local -> SettingsController service)
-                             at bootstrap. module-descriptors.jar's Bootstrap-Class-Path does NOT
-                             list these, so they must be added explicitly. None contain
-                             META-INF/plugin.xml, so collectPluginFilesInClassPath ignores them. -->
-                        <additionalClasspathElement>${project.build.directory}/idea/lib/modules/*</additionalClasspathElement>
-                    </additionalClasspathElements>
-                    <argLine>
-                        -Djava.library.path=${project.build.directory}/idea/bin
-                        -Xbootclasspath/a:${project.build.directory}/idea/lib/nio-fs.jar
-                        -Djava.system.class.loader=com.intellij.util.lang.PathClassLoader
-                        -Xmx512M
-                        -ea
-                        -Xverify:none
-                        <!-- -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005-->
-                        --add-opens=java.base/java.io=ALL-UNNAMED
-                        --add-opens=java.base/java.lang=ALL-UNNAMED
-                        --add-opens=java.base/java.lang.ref=ALL-UNNAMED
-                        --add-opens=java.base/java.lang.reflect=ALL-UNNAMED
-                        --add-opens=java.base/java.net=ALL-UNNAMED
-                        --add-opens=java.base/java.nio=ALL-UNNAMED
-                        --add-opens=java.base/java.nio.charset=ALL-UNNAMED
-                        --add-opens=java.base/java.text=ALL-UNNAMED
-                        --add-opens=java.base/java.time=ALL-UNNAMED
-                        --add-opens=java.base/java.util=ALL-UNNAMED
-                        --add-opens=java.base/java.util.concurrent=ALL-UNNAMED
-                        --add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED
-                        --add-opens=java.base/java.util.concurrent.locks=ALL-UNNAMED
-                        --add-opens=java.base/jdk.internal.vm=ALL-UNNAMED
-                        --add-opens=java.base/sun.net.dns=ALL-UNNAMED
-                        --add-opens=java.base/sun.nio.ch=ALL-UNNAMED
-                        --add-opens=java.base/sun.nio.fs=ALL-UNNAMED
-                        --add-opens=java.base/sun.security.ssl=ALL-UNNAMED
-                        --add-opens=java.base/sun.security.util=ALL-UNNAMED
-                        --add-opens=java.desktop/com.sun.java.swing=ALL-UNNAMED
-                        --add-opens=java.desktop/com.sun.java.swing.plaf.gtk=ALL-UNNAMED
-                        --add-opens=java.desktop/java.awt=ALL-UNNAMED
-                        --add-opens=java.desktop/java.awt.dnd.peer=ALL-UNNAMED
-                        --add-opens=java.desktop/java.awt.event=ALL-UNNAMED
-                        --add-opens=java.desktop/java.awt.font=ALL-UNNAMED
-                        --add-opens=java.desktop/java.awt.image=ALL-UNNAMED
-                        --add-opens=java.desktop/java.awt.peer=ALL-UNNAMED
-                        --add-opens=java.desktop/javax.swing=ALL-UNNAMED
-                        --add-opens=java.desktop/javax.swing.plaf.basic=ALL-UNNAMED
-                        --add-opens=java.desktop/javax.swing.text=ALL-UNNAMED
-                        --add-opens=java.desktop/javax.swing.text.html=ALL-UNNAMED
-                        --add-opens=java.desktop/sun.awt=ALL-UNNAMED
-                        --add-opens=java.desktop/sun.awt.X11=ALL-UNNAMED
-                        --add-opens=java.desktop/sun.awt.datatransfer=ALL-UNNAMED
-                        --add-opens=java.desktop/sun.awt.image=ALL-UNNAMED
-                        --add-opens=java.desktop/sun.font=ALL-UNNAMED
-                        --add-opens=java.desktop/sun.java2d=ALL-UNNAMED
-                        --add-opens=java.desktop/sun.swing=ALL-UNNAMED
-                        --add-opens=java.management/sun.management=ALL-UNNAMED
-                        --add-opens=jdk.attach/sun.tools.attach=ALL-UNNAMED
-                        --add-opens=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED
-                        --add-opens=jdk.internal.jvmstat/sun.jvmstat.monitor=ALL-UNNAMED
-                        --add-opens=java.base/jdk.internal.ref=ALL-UNNAMED
-                        --add-opens=jdk.jdi/com.sun.tools.jdi=ALL-UNNAMED
-                        -Dnet.bytebuddy.experimental=true
-                    </argLine>
-                    <systemProperties>
-                        <java.awt.headless>true</java.awt.headless>
-                        <java.compiler>NONE</java.compiler>
-                        <idea.home.path>${project.build.directory}/idea</idea.home.path>
-                        <idea.config.path>${project.build.directory}/idea-test/config</idea.config.path>
-                        <idea.system.path>${project.build.directory}/idea-test/system</idea.system.path>
-                        <cij.idea.expected.version>${idea.version.short}</cij.idea.expected.version>
-                        <java.io.tmpdir>${project.build.directory}/idea/tmp</java.io.tmpdir>
-                        <idea.load.plugins.id>${idea.plugins.to.load}</idea.load.plugins.id>
-                        <!-- IDEA 2025+ runtime module repository (used by PathClassLoader, set via
-                             java.system.class.loader). Points at the binary module-descriptors.dat,
-                             matching the working Gradle IntelliJ-Platform test setup. -->
-                        <intellij.platform.runtime.repository.path>${project.build.directory}/idea/modules/module-descriptors.dat</intellij.platform.runtime.repository.path>
-                        <!-- Skip plugin compatibility checks (since-build/until-build in plugin.xml).
-                             The bundled java plugin has until-build="243" but is valid for IDEA 2025+;
-                             without this flag it gets rejected and com.intellij.java is "not installed". -->
-                        <idea.ignore.plugin.compatibility>true</idea.ignore.plugin.compatibility>
-                        <!-- The working Gradle IntelliJ-Platform test setup sets this. It forces
-                             content-module descriptors of the CORE plugin to be loaded through the
-                             core classloader (the $2 / META-INF/IdeaPlugin.xml CDATA path) instead
-                             of expecting product-backend.jar's plugin.xml on the classpath. Required
-                             for SettingsController (intellij.platform.settings.local) to register. -->
-                        <idea.force.use.core.classloader>true</idea.force.use.core.classloader>
-                    </systemProperties>
-                    <classpathDependencyExcludes>
-                        <!-- Exclude ALL IDEA JARs from the Maven-managed classpath.  For compilation
-                             they are needed (as regular Maven deps); for testing we use the real
-                             extracted IDEA tree via additionalClasspathElements above so that jar
-                             paths carry the correct relative structure (lib/*.jar, lib/modules/*.jar,
-                             plugins/<name>/lib/*.jar) that IDEA's classloader infrastructure expects. -->
-                        <classpathDependencyExclude>org.openclover.idea.libs:*</classpathDependencyExclude>
-                        <classpathDependencyExclude>org.openclover.idea.plugins:*</classpathDependencyExclude>
-                        <!-- Exclude old fastutil 4.4.3 (transitive from org.openclover:clover) — it
-                             pre-dates ObjectOpenHashSet.addOrGet() which IDEA 2025+ XmlReader calls.
-                             Clover shades fastutil as clover.it.unimi.dsi.fastutil so it needs no
-                             runtime fastutil on classpath; IDEA supplies new fastutil via the staged
-                             module-intellij.libraries.fastutil.jar (see idea-lib-modules above). -->
-                        <classpathDependencyExclude>it.unimi.dsi:fastutil</classpathDependencyExclude>
-                        <!-- Exclude old jdom 1.0 (transitive from org.openclover:clover). IDEA 2025+
-                             ships a patched jdom in util-8.jar with Element.initAttributeList(int)
-                             which jdom:1.0 lacks (NoSuchMethodError in FileTypeManagerImpl). Clover
-                             needs jdom only at compile time; IDEA supplies it at runtime. -->
-                        <classpathDependencyExclude>jdom:jdom</classpathDependencyExclude>
-                    </classpathDependencyExcludes>
-                    <useManifestOnlyJar>false</useManifestOnlyJar>
-                </configuration>
-            </plugin>
-            <!-- generate plugin jar -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <executions>
+                    <!-- Compile the plugin and assemble its distribution zip. -->
                     <execution>
-                        <id>package-jar</id>
+                        <id>gradle-build</id>
                         <phase>package</phase>
                         <goals>
-                            <goal>single</goal>
+                            <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <appendAssemblyId>false</appendAssemblyId>
-                            <descriptors>
-                                <descriptor>src/assembly/clover-idea-jar.xml</descriptor>
-                            </descriptors>
+                            <executable>${project.basedir}/gradlew</executable>
+                            <workingDirectory>${project.basedir}</workingDirectory>
+                            <arguments>
+                                <argument>--no-daemon</argument>
+                                <argument>--console=plain</argument>
+                                <argument>--project-cache-dir=${gradle.project.cache.dir}</argument>
+                                <argument>buildPlugin</argument>
+                                <argument>-x</argument>
+                                <argument>test</argument>
+                                <argument>-PideaType=${idea.gradle.type}</argument>
+                                <argument>-PideaVersion=${idea.version.short}</argument>
+                                <argument>-PcloverVersion=${project.version}</argument>
+                            </arguments>
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-            <!-- generate sources jar -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>jar-no-fork</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <!-- generate javadoc jar -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <!-- don't deploy IDEA plugin to maven central -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
             </plugin>
         </plugins>
     </build>
-    <properties>
-        <idea.version>261.25134.95</idea.version>
-        <idea.version.short>2026.1.3</idea.version.short>
-        <!-- Directory name of the extracted IDEA in clover-idea-libs/target/extract/ -->
-        <idea.download.dir>idea-IU-${idea.version}</idea.download.dir>
-        <!-- Plugin IDs to load during tests. IDEA 2019+ needs com.intellij.java since Java support moved to a plugin -->
-        <idea.plugins.to.load>org.openclover.idea,com.intellij.java</idea.plugins.to.load>
-        <!-- Version-specific kotlinx-coroutines-slf4j JAR (filename changes per IDEA version).
-             Override this property when testing with a different IDEA version. -->
-        <idea.lib.kotlinx.coroutines.slf4j>kotlinx-coroutines-slf4j-1.8.0-intellij.jar</idea.lib.kotlinx.coroutines.slf4j>
-    </properties>
 </project>

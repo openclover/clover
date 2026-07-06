@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE idea-plugin PUBLIC "" "http://plugins.intellij.net/plugin.dtd">
 <idea-plugin url="https://openclover.org">
 
 	<name>OpenClover for IDEA</name>
