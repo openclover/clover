@@ -55,7 +55,7 @@ jobs:
           # clover-idea is built by Gradle; bump its plugin version too (not covered by versions:set)
           echo "Updating Gradle files for IDEA to version ${{ inputs.nextReleaseVersion }}"
           sed -i $SED_I "s@^cloverVersion=.*@cloverVersion=${{ inputs.nextReleaseVersion }}@" clover-idea/gradle.properties
-          ECLIPSE_VER=`echo ${{ inputs.nextReleaseVersion }} | cut -f 1 -d '-'`.v20230101000000
+          ECLIPSE_VER=`echo ${{ inputs.nextReleaseVersion }} | cut -f 1 -d '-'`.v`date +%Y%m%d`000000
           echo "Updating pom.xml files for Eclipse to version $ECLIPSE_VER"
           mvn --batch-mode versions:set "-DnewVersion=$ECLIPSE_VER" -DgenerateBackupPoms=false -pl clover-eclipse
           git add .

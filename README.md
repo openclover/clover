@@ -14,6 +14,8 @@
 [![GitHub milestone details](https://img.shields.io/github/milestones/progress-percent/openclover/clover/14)](https://github.com/openclover/clover/milestone/14)
 [![GitHub milestone details](https://img.shields.io/github/milestones/progress-percent/openclover/clover/15)](https://github.com/openclover/clover/milestone/15)
 [![GitHub milestone details](https://img.shields.io/github/milestones/progress-percent/openclover/clover/4)](https://github.com/openclover/clover/milestone/4)
+[![GitHub milestone details](https://img.shields.io/github/milestones/progress-percent/openclover/clover/16)](https://github.com/openclover/clover/milestone/16)
+[![GitHub milestone details](https://img.shields.io/github/milestones/progress-percent/openclover/clover/12)](https://github.com/openclover/clover/milestone/12)
 
 # About #
 
@@ -101,5 +103,5 @@ mvn test -pl clover-ant,clover-core,clover-groovy
 
 Copyright @ 2002 - 2017 Atlassian Pty Ltd
 
-Copyright @ 2017 - 2023 modifications by OpenClover.org
+Copyright @ 2017 - 2026 modifications by OpenClover.org
 
