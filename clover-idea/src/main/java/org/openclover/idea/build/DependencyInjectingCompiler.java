@@ -9,6 +9,7 @@ import com.intellij.openapi.compiler.ValidityState;
 import com.intellij.openapi.fileTypes.StdFileTypes;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.Computable;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiFile;
@@ -29,17 +30,19 @@ public class DependencyInjectingCompiler implements SourceInstrumentingCompiler 
     @Override
     @NotNull
     public ProcessingItem[] getProcessingItems(final CompileContext context) {
-        final VirtualFile[] files = context.getCompileScope().getFiles(StdFileTypes.JAVA, true);
-        final ProcessingItem[] items = new ProcessingItem[files.length];
-        ApplicationManager.getApplication().runReadAction(() -> {
+        // getFiles() iterates the workspace/project file index; since IDEA 2026 this runs on a
+        // background pooled thread (not the EDT) and requires read access - so the whole thing,
+        // including collecting the files, must be wrapped in a read action.
+        return ApplicationManager.getApplication().runReadAction((Computable<ProcessingItem[]>) () -> {
+            final VirtualFile[] files = context.getCompileScope().getFiles(StdFileTypes.JAVA, true);
+            final ProcessingItem[] items = new ProcessingItem[files.length];
             for (int i = 0; i < files.length; i++) {
                 final VirtualFile file = files[i];
                 final boolean included = ProjectInclusionDetector.processFile(context.getProject(), file).isIncluded();
                 items[i] = new CloverDependencyProcessingItem(file, new CloverValidityState(included));
             }
-
+            return items;
         });
-        return items;
     }
 
     @Override

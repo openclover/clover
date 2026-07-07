@@ -127,30 +127,37 @@ public class CloverJavaSourceTransformer extends JavaSourceTransformer {
         return (closestSourceRoot.getValue() != null ? closestSourceRoot.getValue() : LanguageLevel.JDK_1_9);
     }
 
-    // Note: it's similar to org.openclover.idea.build.CloverCompiler.LANGUAGE_LEVEL_TO_SOURCE_LEVEL
-    // but converts org.jetbrains.jps.model.java.LanguageLevel
+    // Converts org.jetbrains.jps.model.java.LanguageLevel to Clover's SourceLevel. This is the single
+    // source of truth for the mapping; the in-process CloverCompiler copy was removed together with the
+    // retired JavaSourceTransformingCompiler path.
     protected static final Map<LanguageLevel, SourceLevel> LANGUAGE_LEVEL_TO_SOURCE_LEVEL
             = new HashMap<LanguageLevel, SourceLevel>() {{
-        put(LanguageLevel.JDK_1_9, SourceLevel.JAVA_9);
-        put(LanguageLevel.JDK_1_8, SourceLevel.JAVA_8);
-        put(LanguageLevel.JDK_1_7, SourceLevel.JAVA_8);
-        put(LanguageLevel.JDK_1_6, SourceLevel.JAVA_8);
-        put(LanguageLevel.JDK_1_5, SourceLevel.JAVA_8);
-        put(LanguageLevel.JDK_1_4, SourceLevel.JAVA_8);
+        // Java 7 and below are instrumented at the lowest source level Clover supports (Java 8)
         put(LanguageLevel.JDK_1_3, SourceLevel.JAVA_8);
+        put(LanguageLevel.JDK_1_4, SourceLevel.JAVA_8);
+        put(LanguageLevel.JDK_1_5, SourceLevel.JAVA_8);
+        put(LanguageLevel.JDK_1_6, SourceLevel.JAVA_8);
+        put(LanguageLevel.JDK_1_7, SourceLevel.JAVA_8);
+        put(LanguageLevel.JDK_1_8, SourceLevel.JAVA_8);
+        put(LanguageLevel.JDK_1_9, SourceLevel.JAVA_9);
+        put(LanguageLevel.JDK_10, SourceLevel.JAVA_10);
+        put(LanguageLevel.JDK_11, SourceLevel.JAVA_11);
+        put(LanguageLevel.JDK_12, SourceLevel.JAVA_12);
+        put(LanguageLevel.JDK_13, SourceLevel.JAVA_13);
+        put(LanguageLevel.JDK_14, SourceLevel.JAVA_14);
+        put(LanguageLevel.JDK_15, SourceLevel.JAVA_15);
+        put(LanguageLevel.JDK_16, SourceLevel.JAVA_16);
+        put(LanguageLevel.JDK_17, SourceLevel.JAVA_17);
     }};
 
     /**
      * Convert IDEA's LanguageLevel to ours SourceLevel
      */
     public SourceLevel languageLevelToSourceLevel(final LanguageLevel level) {
-        // TODO LanguageLevel#getComplianceOption was introduced in IDEA 15
-        // TODO simplify the code once IDEA 14 is dropped
-        // TODO return SourceLevel.fromString(level.getComplianceOption());
-
-        // if a map returned null then probably JDK 10 or higher was used, assume Java 9 then
+        // If the map has no entry then a language level newer than Clover's highest supported
+        // (Java 17) was requested - instrument at the highest level we know about.
         final SourceLevel sourceLevel = LANGUAGE_LEVEL_TO_SOURCE_LEVEL.get(level);
-        return sourceLevel == null ? SourceLevel.JAVA_9 : sourceLevel;
+        return sourceLevel == null ? SourceLevel.JAVA_17 : sourceLevel;
     }
 
     private void debugTransform(final File file, final CharSequence charSequence,

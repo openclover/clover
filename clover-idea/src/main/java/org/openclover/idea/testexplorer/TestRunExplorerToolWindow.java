@@ -83,11 +83,15 @@ public class TestRunExplorerToolWindow extends JPanel implements CoverageListene
 
         final ActionGroup actionGroup = (ActionGroup) ActionManager.getInstance().getAction("CloverPlugin.TestExplorerToolBar");
         final ActionToolbar toolbar = ActionManager.getInstance().createActionToolbar("CloverTestExplorer", actionGroup, true);
-        add(toolbar.getComponent(), BorderLayout.NORTH);
 
         final CoverageContributionPanel coverageContributionPanel = new CoverageContributionPanel(project);
         testRunBrowserPanel = new TestRunBrowserPanel(project);
         testRunBrowserPanel.addTestCaseSelectionListener(coverageContributionPanel);
+
+        // anchor action updates to the test browser rather than the (arbitrary) focused component;
+        // required since IDEA 2020+ to avoid context-dependent actions being wrongly disabled
+        toolbar.setTargetComponent(testRunBrowserPanel);
+        add(toolbar.getComponent(), BorderLayout.NORTH);
 
         final Splitter splitPane = new Splitter(true);
         splitPane.setFirstComponent(testRunBrowserPanel);

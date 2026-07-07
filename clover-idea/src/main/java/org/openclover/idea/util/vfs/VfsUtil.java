@@ -107,7 +107,13 @@ public class VfsUtil {
      * @return project root relative path
      */
     public static String calcRelativeToProjectPath(VirtualFile sourceVirtualFile, Project project) {
-        final String relative = com.intellij.openapi.vfs.VfsUtil.getRelativePath(sourceVirtualFile, project.getBaseDir(), '/');
+        // Project.getBaseDir() is deprecated and unreliable (resolves to filesystem root when the
+        // project has no base path); use Project.getBasePath() via ProjectUtil instead.
+        final String basePath = org.openclover.idea.util.ProjectUtil.getProjectDirectory(project).getPath();
+        final VirtualFile baseDir = com.intellij.openapi.vfs.LocalFileSystem.getInstance().findFileByPath(basePath);
+        final String relative = baseDir != null
+                ? com.intellij.openapi.vfs.VfsUtil.getRelativePath(sourceVirtualFile, baseDir, '/')
+                : null;
         return relative != null ? relative : sourceVirtualFile.getPath();
     }
 }
