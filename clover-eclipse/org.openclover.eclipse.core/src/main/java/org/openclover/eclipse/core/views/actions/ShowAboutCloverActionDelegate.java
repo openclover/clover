@@ -50,20 +50,24 @@ public class ShowAboutCloverActionDelegate extends CloverProjectActionDelegate {
         protected Control createDialogArea(Composite parent) {
             Composite top = new Composite(parent, SWT.NULL);
             top.setLayout(new GridLayout(1, false));
+            createLargeOpenCloverLogo(top);
+            createInstallationAndLicensesTabPanel(top);
+            createDonationLink(top);
+            return top;
+        }
 
+        private void createLargeOpenCloverLogo(Composite top) {
             Label iconLabel = new Label(top, SWT.NONE);
             iconLabel.setImage(CloverPlugin.getImage(CloverPluginIcons.CLOVER_LOGO_ICON));
             iconLabel.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_CENTER));
+        }
 
+        private void createInstallationAndLicensesTabPanel(Composite top) {
             TabFolder tabFolder = new TabFolder(top, SWT.NONE);
-            tabFolder.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_CENTER));
-
+            tabFolder.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
             createInstallationTab(tabFolder);
             createAckTab(tabFolder);
-
             tabFolder.pack();
-            
-            return tabFolder;
         }
 
         private Composite createInstallationTab(TabFolder tabFolder) {
@@ -91,10 +95,6 @@ public class ShowAboutCloverActionDelegate extends CloverProjectActionDelegate {
                     aboutComposite,
                     CloverEclipsePluginMessages.CLOVER_COPYRIGHT(),
                     convertWidthInCharsToPixels(60));
-
-            // 5th row - donation message
-            new Label(aboutComposite, SWT.NONE); // empty label
-            createDonationLink(aboutComposite);
 
             return aboutComposite;
         }
