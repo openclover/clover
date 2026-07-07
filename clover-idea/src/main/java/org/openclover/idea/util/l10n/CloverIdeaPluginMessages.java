@@ -9,7 +9,7 @@ import java.util.ResourceBundle;
  */
 public final class CloverIdeaPluginMessages {
 
-    private static final String BUNDLE_NAME = "/l10n/plugin";
+    private static final String BUNDLE_NAME = "l10n.plugin";
 
     private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
 

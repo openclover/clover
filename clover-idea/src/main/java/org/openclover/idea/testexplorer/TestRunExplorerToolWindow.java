@@ -323,7 +323,12 @@ public class TestRunExplorerToolWindow extends JPanel implements CoverageListene
             projectPlugin.getCoverageManager().removeCoverageListener(this);
             projectPlugin.getConfig().removeConfigChangeListener(this);
 
-            ToolWindowManager.getInstance(project).unregisterToolWindow(TOOL_WINDOW_ID);
+            // during project close, the project (and its message bus) may already be disposed
+            // by the time this is called; unregistering is then both impossible and unnecessary,
+            // as the platform tears down the tool window along with the project itself
+            if (!project.isDisposed()) {
+                ToolWindowManager.getInstance(project).unregisterToolWindow(TOOL_WINDOW_ID);
+            }
         }
     }
 

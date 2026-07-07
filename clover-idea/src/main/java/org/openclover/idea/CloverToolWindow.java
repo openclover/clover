@@ -243,8 +243,13 @@ public class CloverToolWindow extends JPanel implements ConfigChangeListener, No
         if (!isRegistered()) {
             return; // not registered
         }
-        final ToolWindowManager tManager = ToolWindowManager.getInstance(project);
-        tManager.unregisterToolWindow(CloverToolWindowId.TOOL_WINDOW_ID);
+        // during project close, the project (and its message bus) may already be disposed
+        // by the time this is called; unregistering is then both impossible and unnecessary,
+        // as the platform tears down the tool window along with the project itself
+        if (!project.isDisposed()) {
+            final ToolWindowManager tManager = ToolWindowManager.getInstance(project);
+            tManager.unregisterToolWindow(CloverToolWindowId.TOOL_WINDOW_ID);
+        }
         toolWindow = null;
     }
 }
