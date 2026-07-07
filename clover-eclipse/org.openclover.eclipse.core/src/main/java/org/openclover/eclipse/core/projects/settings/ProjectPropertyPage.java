@@ -137,7 +137,13 @@ public class ProjectPropertyPage extends BaseSettingsPage implements IWorkbenchP
         }
 
         private IJavaProject getJavaProject() throws CoreException {
-            return (IJavaProject)((IProject)getElement()).getNature(JavaCore.NATURE_ID);
+            final IProject project = (IProject) getElement();
+            if (!project.hasNature(JavaCore.NATURE_ID)) {
+                throw new CoreException(new org.eclipse.core.runtime.Status(
+                        org.eclipse.core.runtime.IStatus.ERROR, CloverPlugin.ID,
+                        "Project " + project.getName() + " is not a Java project"));
+            }
+            return JavaCore.create(project);
         }
 
         /**

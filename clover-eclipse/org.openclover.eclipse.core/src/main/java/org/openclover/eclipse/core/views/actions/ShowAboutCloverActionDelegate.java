@@ -237,6 +237,13 @@ public class ShowAboutCloverActionDelegate extends CloverProjectActionDelegate {
 
                                     return composite;
                                 }
+
+                                @Override
+                                public boolean close() {
+                                    boolean closed = super.close();
+                                    licenseFont.dispose();
+                                    return closed;
+                                }
                             };
 
                             d.open();

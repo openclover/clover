@@ -1019,11 +1019,6 @@
 			class="org.openclover.eclipse.core.settings.GeneralPreferencesPage"
 			id="org.openclover.eclipse.core.preferences.cloverGeneralPreferencesPage"
 			name="%clover.name"/>
-		<page
-			class="org.openclover.eclipse.core.settings.LicensePreferencesPage"
-			id="org.openclover.eclipse.core.preferences.cloverLicensePreferencesPage"
-			category="org.openclover.eclipse.core.preferences.cloverGeneralPreferencesPage"
-			name="%clover.license"/>
 	</extension>
 
 	<!-- ===================== -->
