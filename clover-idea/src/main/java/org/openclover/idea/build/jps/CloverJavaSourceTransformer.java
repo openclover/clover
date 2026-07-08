@@ -2,7 +2,9 @@ package org.openclover.idea.build.jps;
 
 import com.intellij.openapi.diagnostic.Logger;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.jps.builders.java.JavaSourceTransformer;
+import org.jetbrains.jps.incremental.CompileContext;
 import org.jetbrains.jps.incremental.messages.BuildMessage;
 import org.jetbrains.jps.model.JpsEncodingConfigurationService;
 import org.jetbrains.jps.model.JpsEncodingProjectConfiguration;
@@ -36,42 +38,61 @@ public class CloverJavaSourceTransformer extends JavaSourceTransformer {
     /**
      * Returns true if the specified file should be instrumented.
      */
-    public boolean isTransformable(final @NotNull File file) throws TransformError {
-        LOG.debug("isTransformable: " + file);
+    public boolean isTransformable(final @NotNull File file) {
+        final String skipReason = getSkipReason(file);
+        if (skipReason != null) {
+            LOG.info("OpenClover: not instrumenting " + file + " - " + skipReason);
+            return false;
+        } else {
+            LOG.info("OpenClover: file is transformable and will be instrumented: " + file);
+            return true;
+        }
+    }
 
+    /**
+     * Analyze the file and return a human-readable reason why it must NOT be instrumented, or
+     * <code>null</code> if the file is eligible for instrumentation. The reason string is used for
+     * diagnostic logging so a user can understand why a given source file was (not) instrumented.
+     *
+     * @param file source file to check
+     * @return reason for skipping the file, or <code>null</code> when the file should be instrumented
+     */
+    @Nullable
+    private String getSkipReason(final @NotNull File file) {
         // check if "build with clover" option was selected
         if (!JpsModelUtil.isBuildWithCloverEnabled(jpsProject)) {
-            return false;
+            return "the 'Build project with OpenClover' option is disabled in project settings";
         }
 
         // analyze current file
         final InclusionDetector inclusion = JpsProjectInclusionDetector.processFile(jpsProject, file);
         if (inclusion.isCloverDisabled()) {
-            LOG.debug("Instrumentation is disabled");
-            return false;
+            return "instrumentation is disabled for this project";
         }
 
         // only want to deal with java source files
         if (inclusion.isNotJava()) {
-            LOG.debug("Ignoring non-java file: " + file);
-            return false;
+            return "it is not a Java source file";
         }
+
         if (inclusion.isModuleExcluded()) {
-            LOG.debug("File belongs to excluded module: " + file);
-            return false;
+            return "it belongs to a module excluded from instrumentation";
         }
 
         if (inclusion.isPatternExcluded()) {
-            LOG.debug("Ignoring excluded file: " + file);
-            return false;
+            return "it matches an exclusion pattern (or does not match any inclusion pattern)";
         }
 
         if (inclusion.isInNoninstrumentedTestSources()) {
-            LOG.debug("Ignoring marked test case: " + file);
-            return false;
+            return "it resides in test sources marked as non-instrumented";
         }
 
-        return inclusion.isIncluded();
+        if (!inclusion.isIncluded()) {
+            return "it is not included by the current inclusion/exclusion configuration";
+        }
+
+        // no reason to skip the file
+        return null;
     }
 
     /**
@@ -84,13 +105,27 @@ public class CloverJavaSourceTransformer extends JavaSourceTransformer {
      */
     @Override
     public CharSequence transform(final File file, final CharSequence charSequence) throws TransformError {
+        // the builder must have started and published its compile context before any file is transformed;
+        // if it hasn't (e.g. the CloverJavaBuilder was not loaded into the external build process), we
+        // cannot instrument and must return the original source unchanged
+        final CompileContext compileContext = CloverJavaBuilder.getInstance().getCompileContext();
+        if (compileContext == null) {
+            LOG.info("OpenClover: no active build context, returning source unchanged for " + file);
+            return charSequence;
+        }
+
         // get current project
-        jpsProject = CloverJavaBuilder.getInstance().getCompileContext().getProjectDescriptor().getProject();
+        jpsProject = compileContext.getProjectDescriptor().getProject();
 
         if (isTransformable(file)) {
             try {
                 final LanguageLevel level = getLanguageLevelForFile(file);
                 final Instrumenter instrumenter = CloverJavaBuilder.getInstance().getInstrumenter();
+                if (instrumenter == null) {
+                    LOG.info("OpenClover: instrumenter is not available (instrumentation session not started), "
+                            + "returning source unchanged for " + file);
+                    return charSequence;
+                }
                 // TODO CLOV-1284 parallel build - this instrumenter is shared, make language level local
                 final SourceLevel sourceLevel = languageLevelToSourceLevel(level);
                 instrumenter.getConfig().setSourceLevel(sourceLevel);
@@ -107,7 +142,7 @@ public class CloverJavaSourceTransformer extends JavaSourceTransformer {
                 throw new CloverInstrumentationException(ex);
             }
         } else {
-            LOG.info("CloverSourceTransformer.transform skipping file " + file);
+            // isTransformable() already logged the concrete reason for skipping this file
             // return original sequence
             return charSequence;
         }

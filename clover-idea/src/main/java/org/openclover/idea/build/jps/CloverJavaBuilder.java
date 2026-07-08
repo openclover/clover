@@ -213,9 +213,17 @@ public class CloverJavaBuilder extends ModuleLevelBuilder {
      * @return Instrumenter
      */
     private Instrumenter createInstrumenter() {
-        if (!isCloverInstrumentationEnabled()) {
+        final JpsProject project = compileContext.getProjectDescriptor().getProject();
+        final boolean buildWithClover = JpsModelUtil.isBuildWithCloverEnabled(project);
+        final boolean cloverEnabled = JpsModelUtil.isCloverEnabled(project);
+        if (!buildWithClover || !cloverEnabled) {
+            LOG.info("OpenClover: instrumentation is disabled for this build"
+                    + " (build with OpenClover toggle = " + buildWithClover
+                    + ", OpenClover enabled for project = " + cloverEnabled
+                    + ") - no source files will be instrumented.");
             return null;
         }
+        LOG.info("OpenClover: instrumentation is enabled for this build");
 
         if (instr == null) {
             // fetch serialized configuration associated with current compilation context
