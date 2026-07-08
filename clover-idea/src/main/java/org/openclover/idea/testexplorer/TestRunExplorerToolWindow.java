@@ -88,8 +88,8 @@ public class TestRunExplorerToolWindow extends JPanel implements CoverageListene
         testRunBrowserPanel = new TestRunBrowserPanel(project);
         testRunBrowserPanel.addTestCaseSelectionListener(coverageContributionPanel);
 
-        // anchor action updates to the test browser rather than the (arbitrary) focused component;
-        // required since IDEA 2020+ to avoid context-dependent actions being wrongly disabled
+        // anchor action updates to the test browser rather than the (arbitrary) focused component,
+        // otherwise context-dependent actions may be wrongly disabled
         toolbar.setTargetComponent(testRunBrowserPanel);
         add(toolbar.getComponent(), BorderLayout.NORTH);
 
@@ -361,20 +361,9 @@ public class TestRunExplorerToolWindow extends JPanel implements CoverageListene
 
     @Override
     public void caretPositionChanged(CaretEvent event) {
-        // TODO what about multiple cursors and "show per line" ???
         if (testViewScope != TestViewScope.GLOBAL && testViewScope != TestViewScope.FILE) {
             scheduleUpdate();
         }
-    }
-
-    /** @since IDEA 13.1 in CaretListener */
-    public void caretAdded(CaretEvent caretEvent) {
-
-    }
-
-    /** @since IDEA 13.1 in CaretListener */
-    public void caretRemoved(CaretEvent caretEvent) {
-
     }
 
     interface TestCaseSelectionListener {

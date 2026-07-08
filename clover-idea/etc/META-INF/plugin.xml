@@ -82,7 +82,7 @@ Learn about new features and bug-fixes in this release in the <a href="https://o
 		<applicationService serviceInterface="org.openclover.idea.coverage.SnapshotFileMutex"
 				        serviceImplementation="org.openclover.idea.coverage.SnapshotFileMutexService"/>
 		<executor implementation="org.openclover.idea.junit.CloverTestOptimizationExecutor"/>
-		<programRunner implementation="org.openclover.idea.junit.JUnitOptimizingProgramRunnerIdea13"/>
+		<programRunner implementation="org.openclover.idea.junit.JUnitOptimizingProgramRunnerIdea"/>
 		<applicationService serviceInterface="org.openclover.idea.junit.config.TestOptimizationGlobalSettings"
 		                    serviceImplementation="org.openclover.idea.junit.config.TestOptimizationGlobalSettings"/>
 		<!-- Single page composing Auto Update + Test Optimization -->

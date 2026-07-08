@@ -169,8 +169,8 @@ public class CloverToolWindow extends JPanel implements ConfigChangeListener, No
         if (toolbar == null) {
             ActionGroup actionGroup = (ActionGroup) ActionManager.getInstance().getAction("CloverToolBar");
             toolbar = ActionManager.getInstance().createActionToolbar("OpenClover", actionGroup, true);
-            // anchor action updates to the coverage view rather than the (arbitrary) focused component;
-            // required since IDEA 2020+ to avoid context-dependent actions being wrongly disabled
+            // anchor action updates to the coverage view rather than the (arbitrary) focused component,
+            // otherwise context-dependent actions may be wrongly disabled
             toolbar.setTargetComponent(getCoveragePane());
         }
         return toolbar.getComponent();

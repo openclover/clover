@@ -22,14 +22,14 @@ import org.openclover.idea.junit.config.OptimizedConfigurationSettingsEditor;
 
 import java.io.File;
 
-public class JUnitOptimizingProgramRunnerIdea13 extends DefaultJavaProgramRunner implements JUnitOptimizingProgramRunner, SavingsReporter {
+public class JUnitOptimizingProgramRunnerIdea extends DefaultJavaProgramRunner implements JUnitOptimizingProgramRunner, SavingsReporter {
 
-    private static final String RUNNER_ID = "OpenClover Optimizing Runner IDEA 13+";
+    private static final String RUNNER_ID = "OpenClover Optimizing Runner";
 
-    private static final Logger LOG = Logger.getInstance(JUnitOptimizingProgramRunnerIdea13.class);
+    private static final Logger LOG = Logger.getInstance(JUnitOptimizingProgramRunnerIdea.class);
 
-    // using composition instead of inheritance because JUnitOptimizingProgramRunnerIdea13 must extend
-    // DefaultJavaProgramRunner from a specific IDEA version (due to method signatures)
+    // using composition instead of inheritance because this runner must extend the platform's
+    // DefaultJavaProgramRunner (whose method signatures we cannot change)
     private final JUnitOptimizingProgramRunnerBase runnerBase = new JUnitOptimizingProgramRunnerBase();
 
     @Override
@@ -98,7 +98,7 @@ public class JUnitOptimizingProgramRunnerIdea13 extends DefaultJavaProgramRunner
      * Retrieves the Idea-specific JUnit runner synchronization socket.
      *
      * @param javaParameters configured by Idea test runner guts for current test run
-     * @return configured synchronization socket or -1 if not found (eg. Idea pre-9)
+     * @return configured synchronization socket or -1 if not found
      */
     @Override
     public int retrieveJUnitSychSocket(@NotNull JavaParameters javaParameters) {

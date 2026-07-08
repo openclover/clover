@@ -120,8 +120,8 @@ public class CloverPlugin implements ApplicationComponent, PersistentStateCompon
 
         activateCloverForProjects();
 
-        // TODO As we dropped IDEA 10.x we could add the <add-to-group group-id="CompilerErrorViewPopupMenu" anchor="last"/>
-        // TODO for <action id="CloverPlugin.JumpToActualSource" ...> and remove the following lines.
+        // TODO We could declare <add-to-group group-id="CompilerErrorViewPopupMenu" anchor="last"/> for
+        // TODO <action id="CloverPlugin.JumpToActualSource" ...> and remove the following lines.
         // TODO However, the LightIdeaTestCase does not register the CompilerErrorViewPopupMenu group which causes
         // TODO errors in our tests if we remove these lines and use the add-to-group.
         final ActionManager actionManager = ActionManager.getInstance();

@@ -175,8 +175,7 @@ public class LibrarySupport {
     }
 
     /**
-     * Returns a list of virtual files containing compilation classes for specified module. We use reflections
-     * due to differences between IDEA11 and IDEA12 API.
+     * Returns a list of virtual files (source roots) containing compilation classes for the specified module.
      * @param module - idea module
      * @return VirtualFile[]
      */

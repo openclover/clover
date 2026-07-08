@@ -149,7 +149,6 @@ public class MappedCloverPluginConfig extends AbstractCloverPluginConfig {
     }
 
     private static boolean isUnderDarcula() {
-        // note: com.intellij.util.ui.UIUtil.isUnderDarcula() became available since IDEA12
         return UIManager.getLookAndFeel().getName().contains("Darcula");
     }
 

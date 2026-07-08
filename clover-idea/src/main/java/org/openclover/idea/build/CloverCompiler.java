@@ -33,15 +33,9 @@ import java.io.File;
 import java.text.MessageFormat;
 
 /**
- * Integrates OpenClover with the IDEA build system.
- *
- * The actual source instrumentation happens in the external build process (JPS) via
- * {@link org.openclover.idea.build.jps.CloverJavaBuilder} / {@link org.openclover.idea.build.jps.CloverJavaSourceTransformer}.
- * The in-process ("classic") build pipeline - based on the now-removed
- * {@code com.intellij.openapi.compiler.JavaSourceTransformingCompiler} - was retired by JetBrains in
- * IDEA 14, so this class no longer implements {@code Compiler} and no longer instruments sources itself.
- *
- * What it still does, entirely through non-deprecated APIs:
+ * Integrates OpenClover with the IDEA build system. The actual source instrumentation happens in the external build
+ * process (JPS) via {@link org.openclover.idea.build.jps.CloverJavaBuilder} /
+ * {@link org.openclover.idea.build.jps.CloverJavaSourceTransformer}. What this class does:
  * <ul>
  *     <li>registers pre-build {@link CompileTask}s (clean stale coverage, validate the initstring and
  *     coverage database, exclude the {@code .clover} work directory);</li>
@@ -55,8 +49,7 @@ import java.text.MessageFormat;
 public class CloverCompiler {
 
     /**
-     * Compilation status listener for a project build performed in the external process
-     * (this feature is available since IDEA12).
+     * Compilation status listener for a project build performed in the external process.
      */
     class ExternalCompilationStatusListener implements CompilationStatusListener {
         /**

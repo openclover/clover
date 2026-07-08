@@ -164,7 +164,7 @@ public class JUnitClassListProcessor {
             final List<Optimizable> optimizables = newArrayList();
 
             for (String s = reader.readLine(); s != null; s = reader.readLine()) {
-                // IDEA14 may return two empty lines at the beginning
+                // IDEA may return empty lines at the beginning
                 if (s.isEmpty()) {
                     headerHolder.add(s);
                 } else {

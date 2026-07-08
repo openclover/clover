@@ -12,9 +12,9 @@ import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
- * Test for {@link JUnitOptimizingProgramRunnerIdea13}
+ * Test for {@link JUnitOptimizingProgramRunnerIdea}
  */
-public class JUnitOptimizingProgramRunnerIdea13Test extends LightIdeaTestCase {
+public class JUnitOptimizingProgramRunnerIdeaTest extends LightIdeaTestCase {
 
     private static final String[] POSITIVE_TEST_CASES = {
             "@TMP",
@@ -35,7 +35,7 @@ public class JUnitOptimizingProgramRunnerIdea13Test extends LightIdeaTestCase {
             "@w@/somefiledir.tmp"
     };
 
-    private final JUnitOptimizingProgramRunner optimizingProgramRunner = new JUnitOptimizingProgramRunnerIdea13();
+    private final JUnitOptimizingProgramRunner optimizingProgramRunner = new JUnitOptimizingProgramRunnerIdea();
 
     private File tmpFile;
 
