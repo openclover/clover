@@ -121,7 +121,7 @@ class CloverChartFactoryTest extends TestCase {
     }
 
     void assertExtraNumEquals(int expected, Map srcFileCharts, double covered) {
-        assertEquals(expected, ((CloverChartFactory.ChartInfo) srcFileCharts.get(new Integer(CloverChartFactory.getDataIndex(covered)))).getExtraNum())
+        assertEquals(expected, ((CloverChartFactory.ChartInfo) srcFileCharts.get(Integer.valueOf(CloverChartFactory.getDataIndex(covered)))).getExtraNum())
     }
 
     void testCreateHistogram() throws IOException, InterruptedException {
@@ -209,9 +209,9 @@ class CloverChartFactoryTest extends TestCase {
 
 
         Map<Long, HasMetrics> data = newHashMap()
-        data.put(new Long(0), new MockHasMetrics(metrics))
-        data.put(new Long(1000), new MockHasMetrics(metrics2))
-        data.put(new Long(2000), new MockHasMetrics(metrics3))
+        data.put(Long.valueOf(0), new MockHasMetrics(metrics))
+        data.put(Long.valueOf(1000), new MockHasMetrics(metrics2))
+        data.put(Long.valueOf(2000), new MockHasMetrics(metrics3))
 
         Columns columns = new Columns()
         columns.addConfiguredComplexity(new Columns.Complexity())

@@ -28,10 +28,10 @@ class JSONObjectFactoryTest extends TestCase {
         JSONObject json = new JSONObject()
 
         List methodsList1 = newArrayList()
-        methodsList1.add(Collections.singletonMap("sl", new Integer(0)))
+        methodsList1.add(Collections.singletonMap("sl", Integer.valueOf(0)))
 
         List statementsList1 = newArrayList()
-        statementsList1.add(Collections.singletonMap("sl", new Integer(1)))
+        statementsList1.add(Collections.singletonMap("sl", Integer.valueOf(1)))
 
         Map classMap1 = newHashMap()
         classMap1.put("statements", statementsList1)
@@ -40,8 +40,8 @@ class JSONObjectFactoryTest extends TestCase {
         classMap1.put("name", "test1-runtime")
 
         List methodsList2 = newArrayList()
-        methodsList2.add(Collections.singletonMap("sl", new Integer(0)))
-        methodsList2.add(Collections.singletonMap("sl", new Integer(1)))
+        methodsList2.add(Collections.singletonMap("sl", Integer.valueOf(0)))
+        methodsList2.add(Collections.singletonMap("sl", Integer.valueOf(1)))
 
         Map classMap2 = newHashMap()
         classMap2.put("statements", newArrayList())
@@ -60,7 +60,7 @@ class JSONObjectFactoryTest extends TestCase {
         JSONObject json = new JSONObject()
 
         List methodsList1 = newArrayList()
-        methodsList1.add(Collections.singletonMap("sl", new Integer(0)))
+        methodsList1.add(Collections.singletonMap("sl", Integer.valueOf(0)))
 
         List statementsList1 = newArrayList()
 
@@ -81,13 +81,13 @@ class JSONObjectFactoryTest extends TestCase {
         list.add(newArrayList())
 
         List listInner1 = newArrayList()
-        listInner1.add(new Integer(0))
+        listInner1.add(Integer.valueOf(0))
         list.add(listInner1)
 
         List listInner2 = newArrayList()
-        listInner2.add(new Integer(0))
-        listInner2.add(new Integer(1))
-        listInner2.add(new Integer(2))
+        listInner2.add(Integer.valueOf(0))
+        listInner2.add(Integer.valueOf(1))
+        listInner2.add(Integer.valueOf(2))
         list.add(listInner2)
 
         return list
@@ -105,24 +105,24 @@ class JSONObjectFactoryTest extends TestCase {
         List classesList = newArrayList()
 
         Map classMap1 = newHashMap()
-        classMap1.put("sl", new Integer(8))
-        classMap1.put("el", new Integer(12))
+        classMap1.put("sl", Integer.valueOf(8))
+        classMap1.put("el", Integer.valueOf(12))
         classMap1.put("name", "TestClass2")
-        classMap1.put("id", new Integer(1))
+        classMap1.put("id", Integer.valueOf(1))
         classMap1.put("methods", newArrayList())
 
         List methodsList2 = newArrayList()
         Map methodsMap2 = newHashMap()
-        methodsMap2.put("sl", new Integer(3))
-        methodsMap2.put("el", new Integer(3))
-        methodsMap2.put("sc", new Integer(1))
+        methodsMap2.put("sl", Integer.valueOf(3))
+        methodsMap2.put("el", Integer.valueOf(3))
+        methodsMap2.put("sc", Integer.valueOf(1))
         methodsList2.add(methodsMap2)
 
         Map classMap2 = newHashMap()
-        classMap2.put("sl", new Integer(2))
-        classMap2.put("el", new Integer(6))
+        classMap2.put("sl", Integer.valueOf(2))
+        classMap2.put("el", Integer.valueOf(6))
         classMap2.put("name", "TestClass1")
-        classMap2.put("id", new Integer(0))
+        classMap2.put("id", Integer.valueOf(0))
         classMap2.put("methods", methodsList2)
 
         classesList.add(classMap2)
@@ -159,12 +159,12 @@ class JSONObjectFactoryTest extends TestCase {
         renderInfo[0] = new LineRenderInfo()
         renderInfo[0].setTestHits(newArrayList(testList))
 
-        testList.add(new FullTestCaseInfo(new Integer(0), null, fixtureMethod("test0"), "test0-runtime"))
+        testList.add(new FullTestCaseInfo(Integer.valueOf(0), null, fixtureMethod("test0"), "test0-runtime"))
         renderInfo[1] = new LineRenderInfo()
         renderInfo[1].setTestHits(newArrayList(testList))
 
-        testList.add(new FullTestCaseInfo(new Integer(1), null, fixtureMethod("test1"), "test1-runtime"))
-        testList.add(new FullTestCaseInfo(new Integer(2), null, fixtureMethod("test2"), "test2-runtime"))
+        testList.add(new FullTestCaseInfo(Integer.valueOf(1), null, fixtureMethod("test1"), "test1-runtime"))
+        testList.add(new FullTestCaseInfo(Integer.valueOf(2), null, fixtureMethod("test2"), "test2-runtime"))
         renderInfo[2] = new LineRenderInfo()
         renderInfo[2].setTestHits(newArrayList(testList))
 
@@ -173,8 +173,8 @@ class JSONObjectFactoryTest extends TestCase {
     }
 
     void testGetJSONTestTargets() throws JSONException {
-        TestCaseInfo testcase0 = new FullTestCaseInfo(new Integer(0), null, fixtureMethod("test0"), "test0-runtime")
-        TestCaseInfo testcase1 = new FullTestCaseInfo(new Integer(1), null, fixtureMethod("test1"), "test1-runtime")
+        TestCaseInfo testcase0 = new FullTestCaseInfo(Integer.valueOf(0), null, fixtureMethod("test0"), "test0-runtime")
+        TestCaseInfo testcase1 = new FullTestCaseInfo(Integer.valueOf(1), null, fixtureMethod("test1"), "test1-runtime")
 
         BitSet mbs0 = new BitSet(2)
         mbs0.set(0, true)
@@ -205,7 +205,7 @@ class JSONObjectFactoryTest extends TestCase {
     }
 
     void testGetJSONTestTargetsWithEmptyElements() throws JSONException {
-        TestCaseInfo testcase0 = new FullTestCaseInfo(new Integer(0), null, fixtureMethod("test0"), "test0-runtime")
+        TestCaseInfo testcase0 = new FullTestCaseInfo(Integer.valueOf(0), null, fixtureMethod("test0"), "test0-runtime")
         Map targetMethods = newHashMap()
         Map targetElements = newHashMap()
 
