@@ -164,11 +164,14 @@ public class JUnitOptimizingProgramRunnerBase implements SavingsReporter {
 
     @Nullable
     private String findSocketParamValue(@NotNull JavaParameters javaParameters) {
-        Pattern pattern = Pattern.compile("^-socket(\\d+)$");
+        // https://github.com/JetBrains/intellij-community/blob/master/plugins/junit_rt/src/com/intellij/rt/junit/JUnitStarter.java
+        // "-socket[<host>:]<port>" for example
+        // "-sockethost.docker.internal:12345" or "-socket54321"
+        Pattern pattern = Pattern.compile("^-socket([^:]+:)?(\\d+)$");
         for (String param : javaParameters.getProgramParametersList().getList()) {
             final Matcher matcher = pattern.matcher(param);
             if (matcher.matches()) {
-                return matcher.group(1);
+                return matcher.group(2);
             }
         }
         return null;

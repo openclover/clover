@@ -49,7 +49,9 @@ public class JUnitOptimizingProgramRunnerIdeaTest extends LightIdeaTestCase {
     @Override
     @SuppressWarnings({"ResultOfMethodCallIgnored"})
     public void tearDown() throws Exception {
-        tmpFile.delete();
+        if (tmpFile != null) {
+            tmpFile.delete();
+        }
         super.tearDown();
     }
 
@@ -79,6 +81,7 @@ public class JUnitOptimizingProgramRunnerIdeaTest extends LightIdeaTestCase {
         verifyRetrieveSynchSocket(-1, "-ideVersion5 @/tmp/idea_junit665630085301222824.tmp");
         verifyRetrieveSynchSocket(1234, "-socket1234");
         verifyRetrieveSynchSocket(36162, "-ideVersion5 @/tmp/idea_junit665630085301222824.tmp -socket36162");
+        verifyRetrieveSynchSocket(12345, "-socketmy.host.name:12345");
     }
 
     @SuppressWarnings({"MagicNumber"})
