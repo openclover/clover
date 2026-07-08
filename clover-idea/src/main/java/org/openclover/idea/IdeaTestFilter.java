@@ -1,5 +1,6 @@
 package org.openclover.idea;
 
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.vfs.VfsUtil;
@@ -13,6 +14,7 @@ import org.openclover.core.reporters.filters.DefaultTestFilter;
 
 import java.io.File;
 import java.net.MalformedURLException;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class IdeaTestFilter extends DefaultTestFilter {
     protected final Project project;
@@ -38,7 +40,16 @@ public class IdeaTestFilter extends DefaultTestFilter {
         } catch (MalformedURLException e) {
             throw new RuntimeException("Cannot convert File to VirtualFile (" + file + ")", e);
         }
-        return virtualFile != null && ProjectRootManager.getInstance(project).getFileIndex().isInTestSourceContent(virtualFile);
+        if (virtualFile == null) {
+            return false;
+        }
+
+        // the file-index query touches the workspace model; since IDEA 2026 this is invoked from a
+        // background pooled thread (database reload) and requires read access, so run it in a read action
+        final AtomicBoolean inTestFolder = new AtomicBoolean();
+        ApplicationManager.getApplication().runReadAction(() ->
+                inTestFolder.set(ProjectRootManager.getInstance(project).getFileIndex().isInTestSourceContent(virtualFile)));
+        return inTestFolder.get();
     }
 
     @Override
