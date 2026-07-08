@@ -16,7 +16,7 @@ import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.openclover.core.optimization.OptimizationSession;
-import org.openclover.idea.ProjectPluginViaReflection;
+import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.junit.config.OptimizedConfigurationSettings;
 import org.openclover.idea.junit.config.OptimizedConfigurationSettingsEditor;
 
@@ -68,7 +68,7 @@ public class JUnitOptimizingProgramRunnerIdea extends DefaultJavaProgramRunner i
     public boolean canRun(@NotNull String executorId, @NotNull RunProfile profile) {
         if (profile instanceof RunConfiguration) {
             final Project project = ((RunConfiguration) profile).getProject();
-            return executorId.equals(CloverTestOptimizationExecutor.EXECUTOR_ID) && ProjectPluginViaReflection.getPlugin(project).getConfig().isEnabled();
+            return executorId.equals(CloverTestOptimizationExecutor.EXECUTOR_ID) && ProjectPlugin.getPlugin(project).getConfig().isEnabled();
         } else {
             return false;
         }

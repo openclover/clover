@@ -99,10 +99,10 @@ val mavenArtifacts by tasks.registering {
 
 intellijPlatform {
     pluginConfiguration {
-        // Keep the existing broad compatibility; do not let the plugin narrow until-build so
-        // the same artifact loads across 2024/2025/2026.
+        // Minimum supported IDEA is 2024.2 (build 242, first release on Java 21); do not narrow
+        // until-build so the same artifact loads across 2024/2025/2026.
         ideaVersion {
-            sinceBuild = "139"
+            sinceBuild = "242"
             untilBuild = provider { null }
         }
     }

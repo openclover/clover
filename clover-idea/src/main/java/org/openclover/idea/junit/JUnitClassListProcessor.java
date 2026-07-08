@@ -16,7 +16,7 @@ import org.openclover.core.optimization.LocalSnapshotOptimizer;
 import org.openclover.core.optimization.OptimizationSession;
 import org.openclover.core.optimization.Snapshot;
 import org.openclover.idea.CloverToolWindowId;
-import org.openclover.idea.ProjectPluginViaReflection;
+import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.coverage.SnapshotFileMutex;
 import org.openclover.idea.junit.config.OptimizedConfigurationSettings;
 import org.openclover.runtime.Logger;
@@ -76,7 +76,7 @@ public class JUnitClassListProcessor {
 
     @NotNull
     Collection<Optimizable> optimize(@NotNull final Project project, @NotNull OptimizedConfigurationSettings settings, @NotNull List<Optimizable> optimizables, OptimizationSession[] sessionHolder) {
-        final CloverDatabase database = ProjectPluginViaReflection.getPlugin(project).getCoverageManager().getCoverage();
+        final CloverDatabase database = ProjectPlugin.getPlugin(project).getCoverageManager().getCoverage();
         if (database == null) {
             final String msg = "OpenClover coverage database not found for project '" + project.getName() + "'\n\n"
                     + "Have you enabled Build with OpenClover on this project?";
