@@ -1,6 +1,5 @@
 package org.openclover.idea.actions;
 
-import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.project.Project;
@@ -16,7 +15,7 @@ import org.openclover.idea.feature.CloverFeatures;
 import java.io.File;
 import java.net.URISyntaxException;
 
-public class DeleteAction extends AnAction {
+public class DeleteAction extends CloverAnAction {
     @Override
     public void actionPerformed(AnActionEvent event) {
         final Project project = DataKeys.PROJECT.getData(event.getDataContext());

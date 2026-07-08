@@ -2,12 +2,12 @@ package org.openclover.idea.actions.view;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;
-import com.intellij.openapi.actionSystem.ToggleAction;
+import org.openclover.idea.actions.CloverToggleAction;
 import com.intellij.openapi.project.Project;
 import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.config.IdeaCloverConfig;
 
-public class AutoScrollFromSourceToggleAction extends ToggleAction {
+public class AutoScrollFromSourceToggleAction extends CloverToggleAction {
 
     @Override
     public boolean isSelected(AnActionEvent event) {

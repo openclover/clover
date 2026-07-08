@@ -1,6 +1,6 @@
 package org.openclover.idea.actions.excludes;
 
-import com.intellij.openapi.actionSystem.AnAction;
+import org.openclover.idea.actions.CloverAnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.options.ShowSettingsUtil;
@@ -9,7 +9,7 @@ import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.config.CloverProjectConfigurable;
 import org.openclover.idea.config.ProjectConfigPanel;
 
-public class EditSettingsAction extends AnAction {
+public class EditSettingsAction extends CloverAnAction {
     @Override
     public void actionPerformed(AnActionEvent e) {
         final IProjectPlugin plugin = ProjectPlugin.getPlugin(e);

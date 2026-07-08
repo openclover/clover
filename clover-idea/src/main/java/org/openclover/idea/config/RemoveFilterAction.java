@@ -1,11 +1,11 @@
 package org.openclover.idea.config;
 
-import com.intellij.openapi.actionSystem.AnAction;
+import org.openclover.idea.actions.CloverAnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.project.Project;
 
-public class RemoveFilterAction extends AnAction {
+public class RemoveFilterAction extends CloverAnAction {
 
     @Override
     public void actionPerformed(AnActionEvent event) {

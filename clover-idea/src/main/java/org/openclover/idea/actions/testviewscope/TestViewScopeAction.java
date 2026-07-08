@@ -1,6 +1,7 @@
 package org.openclover.idea.actions.testviewscope;
 
 import com.intellij.openapi.actionSystem.ActionManager;
+import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DefaultActionGroup;
@@ -45,5 +46,11 @@ public class TestViewScopeAction extends ComboBoxAction {
 
         e.getPresentation().setText(index.get(scope));
 
+    }
+
+    // update() only reads the OpenClover config from the data context, so it is safe on a background thread
+    @Override
+    public ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.BGT;
     }
 }

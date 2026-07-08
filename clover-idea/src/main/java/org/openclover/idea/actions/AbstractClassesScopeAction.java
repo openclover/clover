@@ -1,6 +1,5 @@
 package org.openclover.idea.actions;
 
-import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.Presentation;
 import org.openclover.idea.IProjectPlugin;
@@ -11,7 +10,7 @@ import org.openclover.idea.util.ui.CloverIcons;
 
 import javax.swing.Icon;
 
-public abstract class AbstractClassesScopeAction extends AnAction {
+public abstract class AbstractClassesScopeAction extends CloverAnAction {
 
     protected abstract ModelScope getActionType();
 

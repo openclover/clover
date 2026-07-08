@@ -1,12 +1,12 @@
 package org.openclover.idea.actions.testexplorer;
 
-import com.intellij.openapi.actionSystem.AnAction;
+import org.openclover.idea.actions.CloverAnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import org.openclover.idea.IProjectPlugin;
 import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.util.ui.CloverIcons;
 
-public class LoadPerTestDataAction extends AnAction {
+public class LoadPerTestDataAction extends CloverAnAction {
     public LoadPerTestDataAction() {
         getTemplatePresentation().setIcon(CloverIcons.LOAD_COVERAGE_DATA);
     }

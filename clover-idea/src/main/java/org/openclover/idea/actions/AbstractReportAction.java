@@ -1,12 +1,11 @@
 package org.openclover.idea.actions;
 
-import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.Presentation;
 import org.openclover.idea.IProjectPlugin;
 import org.openclover.idea.ProjectPlugin;
 
-public abstract class AbstractReportAction extends AnAction {
+public abstract class AbstractReportAction extends CloverAnAction {
     @Override
     public void update(AnActionEvent event) {
         super.update(event);

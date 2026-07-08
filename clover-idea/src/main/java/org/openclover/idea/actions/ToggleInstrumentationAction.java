@@ -2,12 +2,11 @@ package org.openclover.idea.actions;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;
-import com.intellij.openapi.actionSystem.ToggleAction;
 import com.intellij.openapi.project.Project;
 import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.feature.CloverFeatures;
 
-public class ToggleInstrumentationAction extends ToggleAction {
+public class ToggleInstrumentationAction extends CloverToggleAction {
 
     @Override
     public boolean isSelected(final AnActionEvent event) {
