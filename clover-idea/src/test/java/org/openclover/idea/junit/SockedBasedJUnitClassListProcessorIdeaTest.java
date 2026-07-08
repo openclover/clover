@@ -44,9 +44,9 @@ public class SockedBasedJUnitClassListProcessorIdeaTest extends LightIdeaTestCas
         test.start();
 
         // Pump the EDT while waiting for the "test" thread to finish.
-        // In IDEA 2016+, Task.Backgroundable.queue() calls invokeAndWait(finishTask) from the "test" thread
-        // back to the EDT. If we block the EDT with latch.await(), it deadlocks. Dispatching EDT events here
-        // allows invokeAndWait to complete, which unblocks the "test" thread so it can decrement the latch.
+        // Task.Backgroundable.queue() calls invokeAndWait(finishTask) from the "test" thread back to the
+        // EDT. If we block the EDT with latch.await(), it deadlocks. Dispatching EDT events here allows
+        // invokeAndWait to complete, which unblocks the "test" thread so it can decrement the latch.
         long deadline = System.currentTimeMillis() + READ_TIMEOUT * 20;
         while (timeoutLatch.getCount() > 0 && System.currentTimeMillis() < deadline) {
             UIUtil.dispatchAllInvocationEvents();

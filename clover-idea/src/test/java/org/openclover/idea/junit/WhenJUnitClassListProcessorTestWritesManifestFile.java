@@ -41,8 +41,8 @@ public class WhenJUnitClassListProcessorTestWritesManifestFile {
     }
 
     @Test
-    public void testShouldReadBackAsExpectedIdea11AndAbove() throws Exception {
-        for (String[] testCase : FileBasedJUnitClassListProcessorIdeaTest.TEST_CASES_IDEA_11_TO_13) {
+    public void testShouldReadBackAsExpectedWithSingleHeaderLine() throws Exception {
+        for (String[] testCase : FileBasedJUnitClassListProcessorIdeaTest.TEST_CASES_SINGLE_HEADER_LINE) {
             List<String> header = Arrays.asList(testCase[0]);
             final List<Optimizable> optimizables = new ArrayList<>(testCase.length - 1);
             for (int i = 1; i < testCase.length; i++) {

@@ -39,8 +39,8 @@ public class WhenJUnitClassListProcessorReadsOptimizablesTest {
     }
 
     @Test
-    public void testShouldReadValidFilesIdea11To13() throws Exception {
-        for (String[] testCase : FileBasedJUnitClassListProcessorIdeaTest.TEST_CASES_IDEA_11_TO_13) {
+    public void testShouldReadValidFilesWithSingleHeaderLine() throws Exception {
+        for (String[] testCase : FileBasedJUnitClassListProcessorIdeaTest.TEST_CASES_SINGLE_HEADER_LINE) {
             fillTmpFile(testCase);
             List<String> header = newArrayList();
             final List<Optimizable> optimizables = JUnitClassListProcessor.readOptimizables(tmpFile, header);
@@ -57,8 +57,8 @@ public class WhenJUnitClassListProcessorReadsOptimizablesTest {
     }
 
     @Test
-    public void testShouldReadValidFilesIdea14AndAbove() throws Exception {
-        for (String[] testCase : FileBasedJUnitClassListProcessorIdeaTest.TEST_CASES_IDEA_14_AND_ABOVE) {
+    public void testShouldReadValidFilesWithLeadingEmptyLines() throws Exception {
+        for (String[] testCase : FileBasedJUnitClassListProcessorIdeaTest.TEST_CASES_LEADING_EMPTY_LINES) {
             fillTmpFile(testCase);
             final List<String> header = newArrayList();
             final List<Optimizable> optimizables = JUnitClassListProcessor.readOptimizables(tmpFile, header);

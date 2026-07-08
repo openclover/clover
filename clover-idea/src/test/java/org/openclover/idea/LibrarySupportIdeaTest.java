@@ -1,6 +1,5 @@
 package org.openclover.idea;
 
-import com.intellij.openapi.application.ApplicationInfo;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.roots.LibraryOrderEntry;
@@ -13,14 +12,10 @@ import com.intellij.openapi.roots.libraries.LibraryTablesRegistrar;
 import com.intellij.openapi.util.Computable;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.testFramework.HeavyPlatformTestCase;
-import org.openclover.core.util.FileUtils;
 
 import java.net.URL;
 import java.util.Arrays;
-import java.util.Locale;
 
-import static org.hamcrest.CoreMatchers.startsWith;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
 
 public class LibrarySupportIdeaTest extends HeavyPlatformTestCase {
@@ -102,54 +97,24 @@ public class LibrarySupportIdeaTest extends HeavyPlatformTestCase {
         }
     }
 
-    private boolean isIdea13_0_x() {
-        return ApplicationInfo.getInstance().getMajorVersion().equals("13") &&
-                ApplicationInfo.getInstance().getMinorVersion().startsWith("0");
-    }
-
-    public void testGetValidatedCloverLibrary_NormalBehaviour() throws Exception {
+    public void testGetValidatedCloverLibrary() throws Exception {
         // running test inside write action because getValidatedCloverLibrary can call createCloverLibrary which is a
         // write operation; in real application we call getValidatedCloverLibrary from the addCloverLibrary which is
         // encapsulated already
         ApplicationTestHelper.runWriteAction(() -> {
-            if (!isIdea13_0_x()) { // normal behaviour for all versions != IDEA 13.0.x
-                Library library = LibrarySupport.getValidatedCloverLibrary();
-                VirtualFile[] virtualFiles = library.getRootProvider().getFiles(OrderRootType.CLASSES);
-                assertEquals(1, virtualFiles.length);
+            Library library = LibrarySupport.getValidatedCloverLibrary();
+            VirtualFile[] virtualFiles = library.getRootProvider().getFiles(OrderRootType.CLASSES);
+            assertEquals(1, virtualFiles.length);
 
-                // check that the library path has matches the location of the CoverageRecorder.class, i.e.:
-                // recorderClassUrl=file:/{virtualFiles[0].getPath()}/org_openclover_runtime/CoverageRecorder.class
-                final Class recorderClass = org_openclover_runtime.CoverageRecorder.class;
-                final String path = "/" + recorderClass.getName().replace('.', '/') + ".class";
-                final URL recorderClassUrl = recorderClass.getResource(path);
-                assertTrue(recorderClassUrl.toString().contains(virtualFiles[0].getPath()));
+            // check that the library path has matches the location of the CoverageRecorder.class, i.e.:
+            // recorderClassUrl=file:/{virtualFiles[0].getPath()}/org_openclover_runtime/CoverageRecorder.class
+            final Class recorderClass = org_openclover_runtime.CoverageRecorder.class;
+            final String path = "/" + recorderClass.getName().replace('.', '/') + ".class";
+            final URL recorderClassUrl = recorderClass.getResource(path);
+            assertTrue(recorderClassUrl.toString().contains(virtualFiles[0].getPath()));
 
-                // cleanup
-                deleteTestLibrary(library);
-            }
-        });
-    }
-
-    public void testGetValidatedCloverLibrary_Workaround() throws Exception {
-        // running test inside write action because getValidatedCloverLibrary can call createCloverLibrary which is a
-        // write operation; in real application we call getValidatedCloverLibrary from the addCloverLibrary which is
-        // encapsulated already
-        ApplicationTestHelper.runWriteAction(() -> {
-            if (isIdea13_0_x()) { // workaround is for IDEA 13.0.x only
-                Library library = LibrarySupport.getValidatedCloverLibrary();
-                VirtualFile[] virtualFiles = library.getRootProvider().getFiles(OrderRootType.CLASSES);
-                assertEquals(1, virtualFiles.length);
-
-                // check that the library path is located in the temporary directory, i.e.:
-                // virtualFiles[0].getPath={java.io.tmpdir}/clover-idea.jar
-                // ignore file separator ("\" vs "/") and a letter case ("C:" vs "c:" on windows) in this test
-                assertThat(FileUtils.getNormalizedPath(virtualFiles[0].getPath()).toLowerCase(Locale.ENGLISH),
-                        startsWith(
-                                FileUtils.getNormalizedPath(System.getProperty("java.io.tmpdir")).toLowerCase(Locale.ENGLISH)));
-
-                // cleanup
-                deleteTestLibrary(library);
-            }
+            // cleanup
+            deleteTestLibrary(library);
         });
     }
 

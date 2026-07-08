@@ -53,7 +53,7 @@ public class JUnitOptimizingProgramRunnerIdeaTest extends LightIdeaTestCase {
         super.tearDown();
     }
 
-    public void testRetrieveTmpFile() throws Exception {
+    public void testRetrieveTmpFile() {
         for (String testCase : NEGATIVE_TEST_CASES) {
             verifyRetrieveTmpFileResult(null, testCase);
         }
@@ -65,7 +65,7 @@ public class JUnitOptimizingProgramRunnerIdeaTest extends LightIdeaTestCase {
     }
 
     @SuppressWarnings({"ResultOfMethodCallIgnored"})
-    public void testRetrieveNonExistentFile() throws Exception {
+    public void testRetrieveNonExistentFile() {
         tmpFile.delete();
         for (String testCase : POSITIVE_TEST_CASES) {
             final String paramString = testCase.replace("TMP", tmpFile.getPath());
@@ -74,7 +74,7 @@ public class JUnitOptimizingProgramRunnerIdeaTest extends LightIdeaTestCase {
     }
 
     @SuppressWarnings({"MagicNumber"})
-    public void testRetrieveSynchSocket() throws Exception {
+    public void testRetrieveSynchSocket() {
         verifyRetrieveSynchSocket(-1, "");
         verifyRetrieveSynchSocket(-1, "-ideVersion5 @/tmp/idea_junit665630085301222824.tmp");
         verifyRetrieveSynchSocket(1234, "-socket1234");
@@ -82,7 +82,7 @@ public class JUnitOptimizingProgramRunnerIdeaTest extends LightIdeaTestCase {
     }
 
     @SuppressWarnings({"MagicNumber"})
-    public void testReplaceTmpFile() throws Exception {
+    public void testReplaceTmpFile() {
         final JavaParameters javaParameters = new JavaParameters();
         final ParametersList parametersList = javaParameters.getProgramParametersList();
         parametersList.addParametersString("-ideVersion5 @/tmp/idea_junit665630085301222824.tmp -socket36162");
@@ -97,7 +97,7 @@ public class JUnitOptimizingProgramRunnerIdeaTest extends LightIdeaTestCase {
 
 
     @SuppressWarnings({"MagicNumber"})
-    public void testReplaceSynchSocket() throws Exception {
+    public void testReplaceSynchSocket() {
         verifyRetrieveSynchSocket(-1, "");
         verifyRetrieveSynchSocket(-1, "-ideVersion5 @/tmp/idea_junit665630085301222824.tmp");
         verifyRetrieveSynchSocket(1234, "-socket1234");
@@ -105,9 +105,9 @@ public class JUnitOptimizingProgramRunnerIdeaTest extends LightIdeaTestCase {
     }
 
     /**
-     * Test that in IDEA13 or newer we get configuration object of a proper type
+     * Test that we get a configuration object of a proper type
      */
-    public void testCreateConfigurationDataSinceIdea13() throws Exception {
+    public void testCreateConfigurationData() {
         final RunnerSettings data = optimizingProgramRunner.createConfigurationData(null);
         assertNotNull(data);
         assertThat(data, instanceOf(RunnerSettings.class));

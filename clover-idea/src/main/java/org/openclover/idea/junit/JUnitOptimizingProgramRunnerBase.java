@@ -141,7 +141,7 @@ public class JUnitOptimizingProgramRunnerBase implements SavingsReporter {
      * Retrieves the Idea-specific JUnit runner synchronization socket.<p>
      *
      * @param javaParameters configured by Idea test runner guts for current test run
-     * @return configured synchronization socket or -1 if not found (eg. Idea pre-9)
+     * @return configured synchronization socket or -1 if not found
      */
     int retrieveJUnitSychSocket(@NotNull JavaParameters javaParameters) {
         final String param = findSocketParamValue(javaParameters);
