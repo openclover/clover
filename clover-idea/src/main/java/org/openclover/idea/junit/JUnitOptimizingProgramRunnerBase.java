@@ -86,6 +86,8 @@ public class JUnitOptimizingProgramRunnerBase implements SavingsReporter {
         }
         final File tmpFile = retrieveTmpFile(javaParameters);
         if (tmpFile != null) {
+            Logger.getInstance().info("JUnitOptimizingProgramRunnerBase Java parameters: " +
+                    String.join(" ", javaParameters.getProgramParametersList().getList()));
             final int jUnitSychSocket = retrieveJUnitSychSocket(javaParameters);
             if (jUnitSychSocket == -1) {
                 final FileBasedJUnitClassListProcessor processor = new FileBasedJUnitClassListProcessor(

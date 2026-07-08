@@ -6,13 +6,14 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.time.Duration;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 public class SockedBasedJUnitClassListProcessorIdeaTest extends LightIdeaTestCase {
 
-    /** Socket read timeout - a value is smaller than default for faster test execution (ms) */
-    private static final int READ_TIMEOUT = 100;
+    /** Socket read timeout - a value smaller than the default, for faster test execution. */
+    private static final Duration READ_TIMEOUT = Duration.ofMillis(100);
 
     /**
      * The SocketBasedJUnitClassListProcessor should wait until a boolean value is written by a server in a socket
@@ -47,7 +48,7 @@ public class SockedBasedJUnitClassListProcessorIdeaTest extends LightIdeaTestCas
         // Task.Backgroundable.queue() calls invokeAndWait(finishTask) from the "test" thread back to the
         // EDT. If we block the EDT with latch.await(), it deadlocks. Dispatching EDT events here allows
         // invokeAndWait to complete, which unblocks the "test" thread so it can decrement the latch.
-        long deadline = System.currentTimeMillis() + READ_TIMEOUT * 20;
+        long deadline = System.currentTimeMillis() + READ_TIMEOUT.toMillis() * 20;
         while (timeoutLatch.getCount() > 0 && System.currentTimeMillis() < deadline) {
             UIUtil.dispatchAllInvocationEvents();
             timeoutLatch.await(10, TimeUnit.MILLISECONDS);
