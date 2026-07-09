@@ -45,7 +45,9 @@ dependencies {
 }
 
 // version-filtered generated Java source (PluginVersionInfo.java)
-val generateVersionSource by tasks.registering(Copy::class) {
+val generateVersionSource = tasks.register<Copy>("generateVersionSource") {
+    group = "build"
+    description = "Generates PluginVersionInfo.java with the current plugin version substituted in."
     from("src/main/resources-filtered") { include("**/*.java") }
     into(layout.buildDirectory.dir("generated/java"))
     filter { line -> line.replace("\${project.version}", version.toString()) }
@@ -68,7 +70,9 @@ tasks.processResources {
 
 // Fat plugin jar: clover-idea classes + clover.jar + jtreemap.jar
 // Produced at build/dist/clover-idea-<version>.jar and uploaded by the 'D-release-openclover'
-val fatJar by tasks.registering(Jar::class) {
+val fatJar = tasks.register<Jar>("fatJar") {
+    group = "build"
+    description = "Assembles the self-contained clover-idea plugin jar (plugin classes + clover.jar + jtreemap.jar)."
     archiveFileName.set("clover-idea-$version.jar")
     destinationDirectory.set(layout.buildDirectory.dir("dist"))
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
@@ -86,14 +90,18 @@ val fatJar by tasks.registering(Jar::class) {
 }
 
 // version-filtered autoupdate descriptor for the openclover.org web server
-val generateAutoUpdate by tasks.registering(Copy::class) {
+val generateAutoUpdate = tasks.register<Copy>("generateAutoUpdate") {
+    group = "build"
+    description = "Generates the version-filtered autoupdate descriptor for the openclover.org web server."
     from("src/main/resources-filtered/autoupdate")
     into(layout.buildDirectory.dir("autoupdate"))
     filter { line -> line.replace("\${project.version}", version.toString()) }
 }
 
 // Aggregate the release artifacts (invoked from the Maven wrapper's package/install phases).
-val mavenArtifacts by tasks.registering {
+val mavenArtifacts = tasks.register("mavenArtifacts") {
+    group = "build"
+    description = "Aggregates the release artifacts (fat plugin jar + autoupdate descriptor) for the Maven package/install phases."
     dependsOn(fatJar, generateAutoUpdate)
 }
 
@@ -111,7 +119,7 @@ intellijPlatform {
 }
 
 // testproject coverage fixture (build/testproject/clover/coverage.db)
-val testProjectTool: Configuration by configurations.creating
+val testProjectTool: Configuration = configurations.create("testProjectTool")
 dependencies {
     testProjectTool("org.openclover:clover:$version") {
         exclude(group = "it.unimi.dsi", module = "fastutil")
@@ -126,7 +134,9 @@ val testProjectClasses = layout.buildDirectory.dir("testproject/classes")
 val testProjectDb = layout.buildDirectory.file("testproject/clover/coverage.db")
 
 // 1) instrument the sample sources with clover
-val instrumentTestProject by tasks.registering(JavaExec::class) {
+val instrumentTestProject = tasks.register<JavaExec>("instrumentTestProject") {
+    group = "verification"
+    description = "Instruments the sample test project sources with OpenClover (test coverage fixture)."
     inputs.dir(testProjectBase)
     outputs.dir(testProjectInstr)
     outputs.file(testProjectDb)
@@ -144,7 +154,9 @@ val instrumentTestProject by tasks.registering(JavaExec::class) {
 }
 
 // 2) compile the instrumented sources
-val compileTestProject by tasks.registering(Exec::class) {
+val compileTestProject = tasks.register<Exec>("compileTestProject") {
+    group = "verification"
+    description = "Compiles the Clover-instrumented sample test project sources (test coverage fixture)."
     dependsOn(instrumentTestProject)
     inputs.dir(testProjectInstr)
     outputs.dir(testProjectClasses)
@@ -158,7 +170,9 @@ val compileTestProject by tasks.registering(Exec::class) {
 }
 
 // 3) run the sample tests to record coverage into coverage.db (one test is intentionally failing)
-val buildTestProject by tasks.registering(JavaExec::class) {
+val buildTestProject = tasks.register<JavaExec>("buildTestProject") {
+    group = "verification"
+    description = "Runs the sample test project to record coverage into coverage.db (test fixture)."
     dependsOn(compileTestProject)
     outputs.dir(testProjectOut)
     isIgnoreExitValue = true
