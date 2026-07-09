@@ -295,15 +295,6 @@ Learn about new features and bug-fixes in this release in the <a href="https://o
 		        id="CloverPlugin.AboutAction" icon="/icons/about_clover.png"
 		        description="About OpenClover"/>
 
-		<!-- A trick to promote "Run optimized" to a top-level button next to Run / Debug (the run widget's
-		     top-level buttons are hard-coded to Run and Debug, so we sit immediately after the widget). -->
-		<action id="CloverPlugin.RunOptimizedToolbar"
-		        class="org.openclover.idea.actions.RunOptimizedToolbarAction"
-		        icon="/icons/run_optimized.png" text="Run Optimized"
-		        description="Run the selected configuration optimized with OpenClover">
-			<add-to-group group-id="MainToolbarRight" anchor="after" relative-to-action="NewUiRunWidget"/>
-		</action>
-
 		<action class="org.openclover.idea.actions.ShowAllClassesAction"
 		        id="CloverPlugin.Scope.ShowAllClasses"
                 icon="/icons/nodes_TreeClosed.png" text="Show All Classes"/>
