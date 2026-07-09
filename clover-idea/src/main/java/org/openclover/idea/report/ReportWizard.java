@@ -27,12 +27,9 @@ public class ReportWizard {
     public static final int CANCELLED_EXIT_CODE = 1;
 
     private final Stack<ReportWizardPage> previousPageStack = new Stack<>();
-
     private final String defaultContextSpec;
-
-    private WizardConfig wizardConfig;
-
-    private ReportWizardDialog dialog;
+    private final WizardConfig wizardConfig;
+    private final ReportWizardDialog dialog;
 
     public ReportWizard(IDEContext context) {
         defaultContextSpec = context.getContextFilterSpec();
@@ -63,7 +60,7 @@ public class ReportWizard {
     }
 
     public Window getDialogWindow() {
-        return dialog.getOwner();
+        return dialog.getWindow();
     }
 
     public CloverReportConfig getReportConfiguration() {
@@ -78,7 +75,7 @@ public class ReportWizard {
     }
 
     void refreshState(boolean nextEnabled) {
-        dialog.getPreviousAction().setEnabled(previousPageStack.size() > 0);
+        dialog.getPreviousAction().setEnabled(!previousPageStack.isEmpty());
         dialog.getNextAction().setEnabled(nextEnabled);
         dialog.getFinishAction().setEnabled(canFinish());
 
@@ -129,11 +126,7 @@ public class ReportWizard {
         return true;
     }
 
-    /**
-     *
-     */
     protected void doNext() {
-
         ReportWizardPage currentPage = dialog.getCurrentPage();
 
         // Validate current page. If all is okay, then we can proceed.
@@ -143,31 +136,11 @@ public class ReportWizard {
             return;
         }
 
-
         currentPage.writeConfig(wizardConfig);
         previousPageStack.push(currentPage);
 
         // Determine the next page.
-        final ReportWizardPage nextPage;
-        if (currentPage instanceof SelectReportUI) {
-            switch (wizardConfig.getType()) {
-                case WizardConfig.HTML:
-                    nextPage = new ConfigureHtmlUI(this);
-                    break;
-                case WizardConfig.PDF:
-                    nextPage = new ConfigurePdfUI(this);
-                    break;
-                case WizardConfig.XML:
-                    nextPage = new ConfigureXmlUI(this);
-                    break;
-                default:
-                    throw new IllegalStateException("Invalid config type: " + wizardConfig.getType());
-            }
-        } else if (!(currentPage instanceof ConfigureFilterUI)) {
-            nextPage = new ConfigureFilterUI(this);
-        } else {
-            throw new IllegalStateException("Invalid wizard state: currentPage is " + currentPage.getClass());
-        }
+        final ReportWizardPage nextPage = getNextReportWizardPage(currentPage);
 
         if (nextPage instanceof ConfigureFilterUI) {
             // handling transition to filter page.
@@ -187,13 +160,29 @@ public class ReportWizard {
         refreshState();
     }
 
+    private ReportWizardPage getNextReportWizardPage(ReportWizardPage currentPage) {
+        final ReportWizardPage nextPage;
+        if (currentPage instanceof SelectReportUI) {
+            nextPage = switch (wizardConfig.getType()) {
+                case WizardConfig.HTML -> new ConfigureHtmlUI(this);
+                case WizardConfig.PDF -> new ConfigurePdfUI(this);
+                case WizardConfig.XML -> new ConfigureXmlUI(this);
+                default -> throw new IllegalStateException("Invalid config type: " + wizardConfig.getType());
+            };
+        } else if (!(currentPage instanceof ConfigureFilterUI)) {
+            nextPage = new ConfigureFilterUI(this);
+        } else {
+            throw new IllegalStateException("Invalid wizard state: currentPage is " + currentPage.getClass());
+        }
+        return nextPage;
+    }
+
     protected void doPrevious() {
         dialog.getCurrentPage().writeConfig(wizardConfig);
 
         ReportWizardPage previousPage = previousPageStack.pop();
         previousPage.readConfig(wizardConfig);
         dialog.setCurrentPage(previousPage);
-
 
         refreshState();
     }
@@ -237,14 +226,13 @@ public class ReportWizard {
         }
 
         if (!reportFile.exists()
-                || JOptionPane.YES_OPTION == MessageDialogs.showYesNoDialog(dialog.getOwner(), existsMessage, "Overwrite?")) {
+                || JOptionPane.YES_OPTION == MessageDialogs.showYesNoDialog(dialog.getWindow(), existsMessage, "Overwrite?")) {
             dialog.close(FINISHED_EXIT_CODE);
         }
     }
 
     public void show() {
-        dialog.setLocationRelativeTo(dialog.getOwner());
-        dialog.setVisible(true);
+        dialog.show();
     }
 
     public int getExitCode() {
