@@ -1,7 +1,7 @@
 package org.openclover.idea.actions.excludes;
 
 import com.intellij.ide.projectView.ProjectView;
-import org.openclover.idea.actions.CloverAnAction;
+import org.openclover.idea.actions.CloverEdtAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.module.Module;
@@ -10,7 +10,7 @@ import org.openclover.idea.IProjectPlugin;
 import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.config.CloverModuleConfig;
 
-public class ToggleModuleExclusionAction extends CloverAnAction {
+public class ToggleModuleExclusionAction extends CloverEdtAction {
     @Override
     public void actionPerformed(AnActionEvent e) {
         final Module module = e.getData(DataKeys.MODULE_CONTEXT);

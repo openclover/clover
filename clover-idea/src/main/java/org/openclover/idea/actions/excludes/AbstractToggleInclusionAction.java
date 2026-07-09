@@ -2,14 +2,14 @@ package org.openclover.idea.actions.excludes;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;
-import org.openclover.idea.actions.CloverToggleAction;
+import org.openclover.idea.actions.CloverEdtToggleAction;
 import com.intellij.psi.PsiElement;
 import org.jetbrains.annotations.Nullable;
 import org.openclover.idea.IProjectPlugin;
 import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.config.IdeaCloverConfig;
 
-public abstract class AbstractToggleInclusionAction extends CloverToggleAction {
+public abstract class AbstractToggleInclusionAction extends CloverEdtToggleAction {
 
     abstract String getExistingPattern(IdeaCloverConfig config);
     abstract void setPattern(IdeaCloverConfig config, String pattern);

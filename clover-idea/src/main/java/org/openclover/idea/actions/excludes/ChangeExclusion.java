@@ -4,9 +4,9 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;
 import org.openclover.idea.IProjectPlugin;
 import org.openclover.idea.ProjectPlugin;
-import org.openclover.idea.actions.BgtActionGroup;
+import org.openclover.idea.actions.EdtActionGroup;
 
-public class ChangeExclusion extends BgtActionGroup {
+public class ChangeExclusion extends EdtActionGroup {
 
     @Override
     public void update(AnActionEvent e) {
