@@ -36,6 +36,7 @@ public class CloudEditor extends DummyFileEditor implements CloudReportView, Dat
     private final CloudEditorController controller;
 
     public CloudEditor(Project project, CloudVirtualFile virtualFile) {
+        super(virtualFile);
         controller = new CloudEditorController(project, virtualFile, this);
 
         riskEditorPane = createEditorPane(project);
@@ -125,14 +126,22 @@ public class CloudEditor extends DummyFileEditor implements CloudReportView, Dat
     }
 
 
+    /**
+     * Loads HTML into the pane using a fresh document.
+     */
+    private static void setHtml(JEditorPane pane, String html) {
+        pane.setDocument(pane.getEditorKit().createDefaultDocument());
+        pane.setText(html);
+    }
+
     @Override
     public void setRisksHtml(String risks) {
-        riskEditorPane.setText(risks);
+        setHtml(riskEditorPane, risks);
     }
 
     @Override
     public void setWinsHtml(String wins) {
-        winsEditorPane.setText(wins);
+        setHtml(winsEditorPane, wins);
     }
 
     @Override
@@ -147,8 +156,8 @@ public class CloudEditor extends DummyFileEditor implements CloudReportView, Dat
 
     @Override
     public void clean() {
-        riskEditorPane.setText("");
-        winsEditorPane.setText("");
+        setHtml(riskEditorPane, "");
+        setHtml(winsEditorPane, "");
         nodeViewer.clearNode();
         subjectLabel.setIcon(null);
         subjectLabel.setText("");

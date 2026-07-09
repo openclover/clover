@@ -7,12 +7,25 @@ import com.intellij.openapi.fileEditor.FileEditorLocation;
 import com.intellij.openapi.fileEditor.FileEditorState;
 import com.intellij.openapi.fileEditor.FileEditorStateLevel;
 import com.intellij.openapi.util.UserDataHolderBase;
+import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.JComponent;
 import java.beans.PropertyChangeListener;
 
 public abstract class DummyFileEditor extends UserDataHolderBase implements FileEditor {
+    private final VirtualFile file;
+
+    protected DummyFileEditor(@NotNull VirtualFile file) {
+        this.file = file;
+    }
+
+    @Override
+    @NotNull
+    public VirtualFile getFile() {
+        return file;
+    }
+
     @Override
     public JComponent getPreferredFocusedComponent() {
         return getComponent();
