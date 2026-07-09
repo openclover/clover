@@ -12,7 +12,7 @@ import org.openclover.idea.report.ReportWizard;
  * The show report wizard action handles the report wizard integration into
  * IDEA.
  */
-public class ShowReportWizardAction extends CloverAnAction {
+public class ShowReportWizardAction extends CloverEdtAction {
 
     /**
      * The update method manages the 'enabled' state of this action.

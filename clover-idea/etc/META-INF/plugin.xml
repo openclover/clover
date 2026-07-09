@@ -237,6 +237,10 @@ Learn about new features and bug-fixes in this release in the <a href="https://o
 
 		<group id="CloverToolBar"/>
 
+		<action class="org.openclover.idea.actions.AboutAction" text="About OpenClover"
+		        id="CloverPlugin.AboutAction" icon="/icons/about_clover.png"
+		        description="About OpenClover"/>
+
 		<group id="CloverPlugin.MainToolbarNewUI" class="org.openclover.idea.CloverActionGroupWrapper"
 		       icon="/icons/clover_lge.png" popup="true"
 		       text="OpenClover" description="OpenClover actions">
@@ -290,10 +294,6 @@ Learn about new features and bug-fixes in this release in the <a href="https://o
 			<separator/>
 			<reference ref="CloverPlugin.RefreshAction"/>
 		</group>
-
-		<action class="org.openclover.idea.actions.AboutAction" text="About OpenClover"
-		        id="CloverPlugin.AboutAction" icon="/icons/about_clover.png"
-		        description="About OpenClover"/>
 
 		<action class="org.openclover.idea.actions.ShowAllClassesAction"
 		        id="CloverPlugin.Scope.ShowAllClasses"

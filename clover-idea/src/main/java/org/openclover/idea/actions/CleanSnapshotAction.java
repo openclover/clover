@@ -7,7 +7,7 @@ import org.openclover.idea.ProjectPlugin;
 
 import java.io.File;
 
-public class CleanSnapshotAction extends CloverAnAction {
+public class CleanSnapshotAction extends CloverEdtAction {
 
     private File findSnapshotFile(AnActionEvent e) {
         final IProjectPlugin plugin = ProjectPlugin.getPlugin(e);

@@ -15,7 +15,7 @@ import org.openclover.idea.feature.CloverFeatures;
 import java.io.File;
 import java.net.URISyntaxException;
 
-public class DeleteAction extends CloverAnAction {
+public class DeleteAction extends CloverEdtAction {
     @Override
     public void actionPerformed(AnActionEvent event) {
         final Project project = DataKeys.PROJECT.getData(event.getDataContext());

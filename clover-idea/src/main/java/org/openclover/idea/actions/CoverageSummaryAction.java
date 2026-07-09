@@ -7,7 +7,7 @@ import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.report.jfc.PercentBarIcon;
 import org.openclover.runtime.util.Formatting;
 
-public class CoverageSummaryAction extends CloverAnAction {
+public class CoverageSummaryAction extends CloverEdtAction {
 
     public CoverageSummaryAction() {
         super("", "", null);

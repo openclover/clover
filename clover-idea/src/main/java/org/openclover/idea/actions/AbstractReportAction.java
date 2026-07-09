@@ -5,7 +5,7 @@ import com.intellij.openapi.actionSystem.Presentation;
 import org.openclover.idea.IProjectPlugin;
 import org.openclover.idea.ProjectPlugin;
 
-public abstract class AbstractReportAction extends CloverAnAction {
+public abstract class AbstractReportAction extends CloverEdtAction {
     @Override
     public void update(AnActionEvent event) {
         super.update(event);
