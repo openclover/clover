@@ -1,14 +1,14 @@
 package org.openclover.idea.actions.testexplorer;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.DefaultActionGroup;
 import org.openclover.idea.IProjectPlugin;
 import org.openclover.idea.ProjectPlugin;
+import org.openclover.idea.actions.BgtActionGroup;
 import org.openclover.idea.util.ui.CloverIcons;
 
 import javax.swing.Icon;
 
-public class ChooseTestCaseLayoutAction extends DefaultActionGroup {
+public class ChooseTestCaseLayoutAction extends BgtActionGroup {
     @Override
     public void update(AnActionEvent event) {
         super.update(event);

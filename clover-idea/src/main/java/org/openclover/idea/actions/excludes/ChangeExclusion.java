@@ -2,11 +2,11 @@ package org.openclover.idea.actions.excludes;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;
-import com.intellij.openapi.actionSystem.DefaultActionGroup;
 import org.openclover.idea.IProjectPlugin;
 import org.openclover.idea.ProjectPlugin;
+import org.openclover.idea.actions.BgtActionGroup;
 
-public class ChangeExclusion extends DefaultActionGroup {
+public class ChangeExclusion extends BgtActionGroup {
 
     @Override
     public void update(AnActionEvent e) {
