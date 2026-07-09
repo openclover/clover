@@ -24,17 +24,14 @@ import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 
 public class AboutDialog extends DialogWrapper {
     private final Project project;
-    private JTabbedPane tabs;
     private final JCheckBox enabledCheckbox = new JCheckBox("Enable for current project");
 
     public AboutDialog(Project project) {
@@ -62,10 +59,9 @@ public class AboutDialog extends DialogWrapper {
     @Override
     @Nullable
     protected JComponent createCenterPanel() {
-        tabs = new JTabbedPane();
+        final JTabbedPane tabs = new JTabbedPane();
         tabs.addTab("Installation", getInstallationPanel());
         tabs.addTab("Acknowledgements", getAcknowledgementsPanel());
-
         return tabs;
     }
 
@@ -126,10 +122,10 @@ public class AboutDialog extends DialogWrapper {
         addRow(sb,
                 "<td colspan=\"4\">OpenClover also reuses some icons from:</td>");
         addRow(sb,
-                addProduct("IntelliJ IDEA", "http://www.jetbrains.com/", "INTELLIJ-9.0-ICONS-LICENSE.TXT"),
+                addProduct("IntelliJ IDEA", "https://www.jetbrains.com/", "INTELLIJ-9.0-ICONS-LICENSE.TXT"),
                 "<td colspan=\"2\">&nbsp;</td>");
         sb.append("</table>");
-        sb.append("<p>This product includes software developed by the<br/>Apache Software Foundation (<a href=\"http://www.apache.org/\">http://www.apache.org/</a>)</p>");
+        sb.append("<p>This product includes software developed by the<br/>Apache Software Foundation (<a href=\"https://www.apache.org/\">https://www.apache.org/</a>)</p>");
 
         return sb.toString();
     }
@@ -200,10 +196,12 @@ class MyHyperlinkListener implements HyperlinkListener {
     public void hyperlinkUpdate(HyperlinkEvent e) {
         if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
             final URL url = e.getURL();
-            if ("file".equals(url.getProtocol())) {
-                displayFile(url);
-            } else {
-                BrowserUtil.browse(url);
+            if (url != null) {
+                if ("file".equals(url.getProtocol())) {
+                    displayFile(url);
+                } else {
+                    BrowserUtil.browse(url);
+                }
             }
         }
     }
@@ -212,27 +210,21 @@ class MyHyperlinkListener implements HyperlinkListener {
         // use the file://title/path hack
         final String title = url.getHost() + " license";
         final String path = url.getPath();
+        final String contents = getStringFromResource(path);
+        Messages.showMessageDialog(contents, title, null);
+    }
 
-        Reader reader;
-        reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(path), StandardCharsets.UTF_8));
-        final StringBuilder sb = new StringBuilder();
-        char[] buf = new char[1024];
-        int read = 0;
-        try {
-            try {
-                while (read != -1) {
-                    sb.append(buf, 0, read);
-                    read = reader.read(buf);
-                }
-            } finally {
-                reader.close();
+    private String getStringFromResource(String path) {
+        final String contents;
+        try (InputStream in = getClass().getResourceAsStream(path)) {
+            if (in == null) {
+                throw new IOException("License resource not found: " + path);
             }
+            contents = new String(in.readAllBytes(), StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        Messages.showMessageDialog(sb.toString(), title, null);
-
+        return contents;
     }
 
 }
