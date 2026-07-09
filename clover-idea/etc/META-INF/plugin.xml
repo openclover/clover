@@ -41,12 +41,6 @@ Learn about new features and bug-fixes in this release in the <a href="https://o
 			<interface-class>org.openclover.idea.CloverPlugin</interface-class>
 		</component>
 		<component>
-			<implementation-class>org.openclover.idea.report.treemap.TreeMapEditorProvider</implementation-class>
-		</component>
-		<component>
-			<implementation-class>org.openclover.idea.report.cloud.CloudEditorProvider</implementation-class>
-		</component>
-		<component>
 			<implementation-class>org.openclover.idea.autoupdater.AutoUpdateComponent</implementation-class>
 		</component>
 	</application-components>
@@ -72,6 +66,8 @@ Learn about new features and bug-fixes in this release in the <a href="https://o
 	</module-components>
 	<extensions defaultExtensionNs="com.intellij">
 		<errorHandler implementation="org.openclover.idea.util.BlameClover"/>
+		<fileEditorProvider implementation="org.openclover.idea.report.treemap.TreeMapEditorProvider"/>
+		<fileEditorProvider implementation="org.openclover.idea.report.cloud.CloudEditorProvider"/>
 		<selectInTarget implementation="org.openclover.idea.SelectInCloverTarget"/>
 		<projectService serviceInterface="org.openclover.idea.util.tmp.TmpPathResolver"
 		                serviceImplementation="org.openclover.idea.util.tmp.TmpPathResolverImpl"/>

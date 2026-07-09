@@ -1,6 +1,5 @@
 package org.openclover.idea.util.vfs;
 
-import com.intellij.openapi.components.ApplicationComponent;
 import com.intellij.openapi.fileEditor.FileEditor;
 import com.intellij.openapi.fileEditor.FileEditorPolicy;
 import com.intellij.openapi.fileEditor.FileEditorProvider;
@@ -12,7 +11,7 @@ import org.jdom.Element;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class AbstractEditorProvider implements ApplicationComponent, FileEditorProvider {
+public abstract class AbstractEditorProvider implements FileEditorProvider {
     private final String editorName;
 
     protected AbstractEditorProvider(String editorName) {
@@ -46,22 +45,5 @@ public abstract class AbstractEditorProvider implements ApplicationComponent, Fi
     @NotNull
     public FileEditorPolicy getPolicy() {
         return FileEditorPolicy.HIDE_DEFAULT_EDITOR;
-    }
-
-    @Override
-    @NonNls
-    @NotNull
-    public String getComponentName() {
-        return editorName + "EditorProvider";
-    }
-
-    @Override
-    @SuppressWarnings({"NoopMethodInAbstractClass"})
-    public void initComponent() {
-    }
-
-    @Override
-    @SuppressWarnings({"NoopMethodInAbstractClass"})
-    public void disposeComponent() {
     }
 }
