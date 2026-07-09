@@ -59,13 +59,9 @@ Learn about new features and bug-fixes in this release in the <a href="https://o
 			<implementation-class>org.openclover.idea.autoupdater.NewVersionNotifier</implementation-class>
 		</component>
 	</project-components>
-	<module-components>
-		<component>
-			<implementation-class>org.openclover.idea.CloverModuleComponent</implementation-class>
-		</component>
-	</module-components>
 	<extensions defaultExtensionNs="com.intellij">
 		<errorHandler implementation="org.openclover.idea.util.BlameClover"/>
+		<moduleService serviceImplementation="org.openclover.idea.CloverModuleComponent"/>
 		<fileEditorProvider implementation="org.openclover.idea.report.treemap.TreeMapEditorProvider"/>
 		<fileEditorProvider implementation="org.openclover.idea.report.cloud.CloudEditorProvider"/>
 		<selectInTarget implementation="org.openclover.idea.SelectInCloverTarget"/>
