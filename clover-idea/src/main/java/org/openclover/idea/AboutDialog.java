@@ -27,6 +27,8 @@ import java.awt.Component;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 
@@ -130,9 +132,12 @@ public class AboutDialog extends DialogWrapper {
         return sb.toString();
     }
 
-    // Notice the file://title/path hack used to display dialog title
+    // The license file is referenced by a well-formed file: URL: the path points at the bundled
+    // license resource, and the (URL-encoded) product name is carried in the query so it can be
+    // reused as the dialog title. Smuggling the name in the URL host - as done previously - produced
+    // malformed URLs whenever the name contained a space, and those links silently did nothing.
     private static final MessageFormat LICENSE_ROW = new MessageFormat(
-            "<td><a href=\"{1}\">{0}</a></td><td align=\"right\"><a href=\"file://{0}/licenses/{2}\">License</a></td>\n");
+            "<td><a href=\"{1}\">{0}</a></td><td align=\"right\"><a href=\"file:///licenses/{2}?{3}\">License</a></td>\n");
 
     private void addRow(StringBuffer sb, String ... cells) {
         sb.append("<tr>");
@@ -142,7 +147,8 @@ public class AboutDialog extends DialogWrapper {
         sb.append("</tr>");
     }
     private String addProduct(String name, String url, String license) {
-        return LICENSE_ROW.format(new Object[]{name, url, license});
+        final String encodedName = URLEncoder.encode(name, StandardCharsets.UTF_8);
+        return LICENSE_ROW.format(new Object[]{name, url, license, encodedName});
     }
 
     private String getInstallationText() {
@@ -207,8 +213,7 @@ class MyHyperlinkListener implements HyperlinkListener {
     }
 
     private void displayFile(URL url) {
-        // use the file://title/path hack
-        final String title = url.getHost() + " license";
+        final String title = URLDecoder.decode(url.getQuery(), StandardCharsets.UTF_8) + " license";
         final String path = url.getPath();
         final String contents = getStringFromResource(path);
         Messages.showMessageDialog(contents, title, null);
