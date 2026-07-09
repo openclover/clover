@@ -99,20 +99,21 @@ Learn about new features and bug-fixes in this release in the <a href="https://o
         <compileServer.plugin classpath="clover-idea"/>
 	</extensions>
 	<actions>
+		<!-- No icons on these toggle actions: in the New UI popup menu their on/off state is shown as a
+		     checkmark, and an icon on a toggle action leaves an empty icon slot when unchecked. -->
 		<action id="CloverPlugin.ViewCoverageAction" class="org.openclover.idea.actions.ViewCoverageAction"
-		        text="Toggle View Coverage" description="" icon="/icons/view_with_clover2.png"/>
+		        text="Toggle View Coverage" description=""/>
 		<action id="CloverPlugin.ViewAllCoverageAction" class="org.openclover.idea.actions.ViewAllCoverageAction"
-		        text="Turn on coverage highlight" description="" icon="/icons/all_editor_coverage.gif"/>
+		        text="Turn on coverage highlight" description=""/>
 		<action id="CloverPlugin.ViewUncoveredCoverageAction"
 		        class="org.openclover.idea.actions.ViewUncoveredCoverageAction"
-		        text="Turn on coverage highlight for uncovered code only" description=""
-		        icon="/icons/uncovered_editor_coverage.gif"/>
+		        text="Turn on coverage highlight for uncovered code only" description=""/>
 		<action id="CloverPlugin.ViewNoCoverageAction" class="org.openclover.idea.actions.ViewNoCoverageAction"
-		        text="Turn off coverage highlight" description="" icon="/icons/no_editor_coverage.gif"/>
+		        text="Turn off coverage highlight" description=""/>
 
 		<action id="CloverPlugin.ToggleInstrumentationAction"
 		        class="org.openclover.idea.actions.ToggleInstrumentationAction" text="Toggle Build with OpenClover"
-		        description="" icon="/icons/compile_with_clover.png"/>
+		        description=""/>
 		<action id="CloverPlugin.CoverageSummaryAction" class="org.openclover.idea.actions.CoverageSummaryAction"
 		        text="Coverage Summary" description="Coverage Summary"/>
 		<action id="CloverPlugin.FlattenPackageAction"
@@ -188,8 +189,7 @@ Learn about new features and bug-fixes in this release in the <a href="https://o
 		        description="Select Application only/Test only/All classes coverage scope"/>
 		<action class="org.openclover.idea.actions.IncludePassedTestsCoverageOnlyAction"
 		        text="Include coverage from passed tests only"
-		        description="Include coverage from passed tests only" id="CloverPlugin.IncludePassedTestCoverageOnly"
-		        icon="/icons/include_passed_only.png"/>
+		        description="Include coverage from passed tests only" id="CloverPlugin.IncludePassedTestCoverageOnly"/>
 		<action class="org.openclover.idea.actions.testviewscope.TestViewScopeAction"
 		        id="CloverPlugin.TestViewScope" text=""/>
 		<action class="org.openclover.idea.actions.testexplorer.CalculateTestCoverage"
@@ -197,7 +197,7 @@ Learn about new features and bug-fixes in this release in the <a href="https://o
 		        description="Toggle calculating test coverage for display in the tree view (may be slow)"
 		        id="CloverPlugin.CalculateTestCoverage" icon="/icons/calccoverage.png"/>
 		<action id="CloverPlugin.ToggleMarkIncludedFiles" class="org.openclover.idea.actions.excludes.ToggleMarkIncludedFiles"
-		        text="Annotate icons of files included/excluded in instrumentation" icon="/icons/clover_annotate_included.png"/>
+		        text="Annotate icons of files included/excluded in instrumentation"/>
 		<action id="CloverPlugin.ExcludeModule" class="org.openclover.idea.actions.excludes.ToggleModuleExclusionAction"
 				        text="Exclude module from instrumentation" icon="/icons/clover_annotate_included.png">
 			<add-to-group group-id="ProjectViewPopupMenu" anchor="before"
