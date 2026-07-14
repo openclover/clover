@@ -95,21 +95,20 @@ Learn about new features and bug-fixes in this release in the <a href="https://o
         <compileServer.plugin classpath="clover-idea"/>
 	</extensions>
 	<actions>
-		<!-- No icons on these toggle actions: in the New UI popup menu their on/off state is shown as a
-		     checkmark, and an icon on a toggle action leaves an empty icon slot when unchecked. -->
 		<action id="CloverPlugin.ViewCoverageAction" class="org.openclover.idea.actions.ViewCoverageAction"
-		        text="Toggle View Coverage" description=""/>
+		        text="Toggle View Coverage" description="" icon="/icons/view_with_clover2.png"/>
 		<action id="CloverPlugin.ViewAllCoverageAction" class="org.openclover.idea.actions.ViewAllCoverageAction"
-		        text="Turn on coverage highlight" description=""/>
+		        text="Turn on coverage highlight" description="" icon="/icons/all_editor_coverage.gif"/>
 		<action id="CloverPlugin.ViewUncoveredCoverageAction"
 		        class="org.openclover.idea.actions.ViewUncoveredCoverageAction"
-		        text="Turn on coverage highlight for uncovered code only" description=""/>
+		        text="Turn on coverage highlight for uncovered code only" description=""
+                icon="/icons/uncovered_editor_coverage.gif"/>
 		<action id="CloverPlugin.ViewNoCoverageAction" class="org.openclover.idea.actions.ViewNoCoverageAction"
-		        text="Turn off coverage highlight" description=""/>
+		        text="Turn off coverage highlight" description="" icon="/icons/no_editor_coverage.gif"/>
 
 		<action id="CloverPlugin.ToggleInstrumentationAction"
 		        class="org.openclover.idea.actions.ToggleInstrumentationAction" text="Toggle Build with OpenClover"
-		        description=""/>
+		        description="" icon="/icons/compile_with_clover.png"/>
 		<action id="CloverPlugin.CoverageSummaryAction" class="org.openclover.idea.actions.CoverageSummaryAction"
 		        text="Coverage Summary" description="Coverage Summary"/>
 		<action id="CloverPlugin.FlattenPackageAction"
@@ -133,8 +132,10 @@ Learn about new features and bug-fixes in this release in the <a href="https://o
 		        description="Delete the OpenClover Coverage Database" icon="/icons/delete.png"/>
 		<action id="CloverPlugin.CleanAction" class="org.openclover.idea.actions.CleanAction" text="Clean Coverage"
 		        description="Clean gathered coverage information" icon="/icons/general_reset.png"/>
-		<action id="CloverPlugin.CleanSnapshotAction" class="org.openclover.idea.actions.CleanSnapshotAction" text="Clean Snapshot"
-		        description="Delete the coverage snapshot file used for Test Optimization" icon="/icons/delete_snapshot.png"/>
+		<action id="CloverPlugin.CleanSnapshotAction" class="org.openclover.idea.actions.CleanSnapshotAction"
+                text="Clean Snapshot"
+		        description="Delete the coverage snapshot file used for Test Optimization"
+                icon="/icons/delete_snapshot.png"/>
 
 		<action id="CloverPlugin.AddFilterAction" class="org.openclover.idea.config.AddFilterAction"
 		        text="Add (Insert)" description="Add a new filter" icon="/icons/general_add.png"/>
@@ -175,34 +176,44 @@ Learn about new features and bug-fixes in this release in the <a href="https://o
 		        text="Cloud report for the project" icon="/icons/cloud_report.png"/>
 		<action id="CloverPlugin.CloudPackageReport"
 		        class="org.openclover.idea.actions.cloudreport.CloudPackageReportAction"
-		        text="Cloud report for selected package" icon="/icons/package_cloud.png"/>
+		        text="Cloud report for selected package"
+                icon="/icons/package_cloud.png"/>
 		<action id="CloverPlugin.AutoCloudPackageReport"
 		        class="org.openclover.idea.actions.cloudreport.AutoCloudPackageReportAction"
 		        text="Always view currently selected package in the cloud report (if already open)"
 		        icon="/icons/auto_cloud.png"/>
-		<action class="org.openclover.idea.actions.ModelScopeAction" text="Model scope action"
-		        id="CloverPlugin.ModelScopeAction"
+		<action id="CloverPlugin.ModelScopeAction"
+                class="org.openclover.idea.actions.ModelScopeAction"
+                text="Model scope action"
 		        description="Select Application only/Test only/All classes coverage scope"/>
-		<action class="org.openclover.idea.actions.IncludePassedTestsCoverageOnlyAction"
+		<action id="CloverPlugin.IncludePassedTestCoverageOnly"
+                class="org.openclover.idea.actions.IncludePassedTestsCoverageOnlyAction"
 		        text="Include coverage from passed tests only"
-		        description="Include coverage from passed tests only" id="CloverPlugin.IncludePassedTestCoverageOnly"/>
-		<action class="org.openclover.idea.actions.testviewscope.TestViewScopeAction"
-		        id="CloverPlugin.TestViewScope" text=""/>
-		<action class="org.openclover.idea.actions.testexplorer.CalculateTestCoverage"
+		        description="Include coverage from passed tests only"
+                icon="/icons/include_passed_only.png"/>
+        <action id="CloverPlugin.TestViewScope"
+                class="org.openclover.idea.actions.testviewscope.TestViewScopeAction"
+                text=""/>
+		<action id="CloverPlugin.CalculateTestCoverage"
+                class="org.openclover.idea.actions.testexplorer.CalculateTestCoverage"
 		        text="Toggle calculating test coverage for display in the tree view (may be slow)"
 		        description="Toggle calculating test coverage for display in the tree view (may be slow)"
-		        id="CloverPlugin.CalculateTestCoverage" icon="/icons/calccoverage.png"/>
-		<action id="CloverPlugin.ToggleMarkIncludedFiles" class="org.openclover.idea.actions.excludes.ToggleMarkIncludedFiles"
-		        text="Annotate icons of files included/excluded in instrumentation"/>
-		<action id="CloverPlugin.ExcludeModule" class="org.openclover.idea.actions.excludes.ToggleModuleExclusionAction"
-				        text="Exclude module from instrumentation" icon="/icons/clover_annotate_included.png">
+                icon="/icons/calccoverage.png"/>
+		<action id="CloverPlugin.ToggleMarkIncludedFiles"
+                class="org.openclover.idea.actions.excludes.ToggleMarkIncludedFiles"
+		        text="Annotate icons of files included/excluded in instrumentation"
+                icon="/icons/clover_annotate_included.png"/>
+		<action id="CloverPlugin.ExcludeModule"
+                class="org.openclover.idea.actions.excludes.ToggleModuleExclusionAction"
+		        text="Exclude module from instrumentation"
+                icon="/icons/clover_annotate_included.png">
 			<add-to-group group-id="ProjectViewPopupMenu" anchor="before"
 			              relative-to-action="ProjectViewPopupMenuRunGroup"/>
 		</action>
 		<action id="CloverPlugin.HideFullyCovered"
 		        class="org.openclover.idea.actions.view.HideFullyCoveredToggleAction"
 		        text="Hide elements with full coverage" description="Hide elements with full coverage"
-				icon="/icons/hierarchy_hide_fully_covered.gif"/>
+                icon="/icons/hierarchy_hide_fully_covered.gif"/>
 		<action id="CloverPlugin.LoadPerTestData"
 		        class="org.openclover.idea.actions.testexplorer.LoadPerTestDataAction"
 		        text="Load coverage data" description="Load coverage data"/>
@@ -213,8 +224,10 @@ Learn about new features and bug-fixes in this release in the <a href="https://o
 		        text="Change Exclusion" popup="true" icon="/icons/clover_annotate_included.png">
 			<add-to-group group-id="ProjectViewPopupMenu" anchor="before"
 			              relative-to-action="ProjectViewPopupMenuRunGroup"/>
-			<action id="CloverPlugin.ChangeExclusion.ToggleInclude" class="org.openclover.idea.actions.excludes.ToggleIncludeAction" text=""/>
-			<action id="CloverPlugin.ChangeExclusion.ToggleExclude" class="org.openclover.idea.actions.excludes.ToggleExcludeAction" text=""/>
+			<action id="CloverPlugin.ChangeExclusion.ToggleInclude"
+                    class="org.openclover.idea.actions.excludes.ToggleIncludeAction" text=""/>
+			<action id="CloverPlugin.ChangeExclusion.ToggleExclude"
+                    class="org.openclover.idea.actions.excludes.ToggleExcludeAction" text=""/>
 			<separator/>
 			<action id="CloverPlugin.ChangeExclusions.EditSettings"
 			        class="org.openclover.idea.actions.excludes.EditSettingsAction" text="Edit Settings"
