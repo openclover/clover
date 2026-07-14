@@ -8,6 +8,7 @@ import java.io.DataInputStream;
 import java.io.EOFException;
 import java.io.File;
 import java.io.IOException;
+import java.nio.Buffer;
 import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
@@ -170,7 +171,10 @@ public class RegHeader {
                                                                                //---------
                                                                                //=180 bytes
 
-        buffer.flip();
+        // Cast to Buffer before flip() so the call resolves to Buffer.flip():Buffer at compile time.
+        // Without the cast, JDK 9+ compilers resolve it to ByteBuffer.flip():ByteBuffer (covariant override),
+        // which does not exist on JDK 8 and causes a NoSuchMethodError at runtime.
+        ((Buffer) buffer).flip();
 
         BufferUtils.writeFully(channel, buffer);
     }

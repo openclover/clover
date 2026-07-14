@@ -12,6 +12,7 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.nio.channels.Channels;
@@ -40,7 +41,10 @@ public class CoverageSegment {
             headerBuffer.putLong(covByteLen);                               //8 +
             headerBuffer.putLong(perTestCovByteLen);                        //8 +
             headerBuffer.putInt(Footer.MARKER);                             //4 = 20
-            headerBuffer.flip();
+            // Cast to Buffer before flip() so the call resolves to Buffer.flip():Buffer at compile time.
+            // Without the cast, JDK 9+ compilers resolve it to ByteBuffer.flip():ByteBuffer (covariant override),
+            // which does not exist on JDK 8 and causes a NoSuchMethodError at runtime.
+            ((Buffer) headerBuffer).flip();
             BufferUtils.writeFully(channel, headerBuffer);
             Logger.getInstance().debug("Wrote coverage segment: " + this);
         }
