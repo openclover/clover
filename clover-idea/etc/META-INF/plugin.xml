@@ -109,8 +109,6 @@ Learn about new features and bug-fixes in this release in the <a href="https://o
 		<action id="CloverPlugin.ToggleInstrumentationAction"
 		        class="org.openclover.idea.actions.ToggleInstrumentationAction" text="Toggle Build with OpenClover"
 		        description="" icon="/icons/compile_with_clover.png"/>
-		<action id="CloverPlugin.CoverageSummaryAction" class="org.openclover.idea.actions.CoverageSummaryAction"
-		        text="Coverage Summary" description="Coverage Summary"/>
 		<action id="CloverPlugin.FlattenPackageAction"
 		        class="org.openclover.idea.actions.view.FlattenPackageToggleAction" text="Flatten Packages"
 		        description="Flatten Packages" icon="/icons/objectBrowser_flattenPackages.png"/>
@@ -256,7 +254,6 @@ Learn about new features and bug-fixes in this release in the <a href="https://o
 			<reference ref="CloverPlugin.ViewAllCoverageAction"/>
 			<reference ref="CloverPlugin.ViewUncoveredCoverageAction"/>
 			<reference ref="CloverPlugin.ViewNoCoverageAction"/>
-			<reference ref="CloverPlugin.CoverageSummaryAction"/>
 			<reference ref="CloverPlugin.IncludePassedTestCoverageOnly"/>
 			<reference ref="CloverPlugin.CleanSnapshotAction"/>
 			<separator/>
