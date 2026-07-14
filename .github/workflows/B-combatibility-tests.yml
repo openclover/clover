@@ -13,10 +13,10 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - name: Set up JDK 11
+      - name: Set up JDK 21
         uses: actions/setup-java@v5
         with:
-          java-version: 11
+          java-version: 21
           distribution: temurin
           cache: maven
 
@@ -24,19 +24,85 @@ jobs:
         run: |
           mvn -ntp --batch-mode install -Pworkspace-setup -f clover-core-libs/pom.xml
 
-      - name: Compile and pack all modules
+      - name: Compile, pack and stage compatibility test fixtures (JDK 21)
         run: |
-          mvn -ntp --batch-mode install -DskipTests=true
+          mvn -ntp --batch-mode install -DskipTests=true -Dfunc.test.skip=true -Pcompatibility
 
-      - name: Run matrix tests for clover-groovy and tests-functional
+      # The whole point of this workflow is to catch binary-compatibility bugs where
+      # code compiled by a newer JDK silently binds against a JDK9+-only method overload
+      # (e.g. ByteBuffer.flip():ByteBuffer vs Buffer.flip():Buffer) and then breaks when
+      # that same class is loaded/run by an older JDK. That only shows up if the classes
+      # tested in the matrix job below are the exact same ones built here with JDK 21 -
+      # so we archive them now instead of letting each matrix leg recompile with its own JDK.
+      - name: Archive module build output for matrix jobs
         run: |
-          mvn -ntp --batch-mode verify -pl clover-groovy,tests-functional -Pcompatibility
+          tar -czf module-targets.tar.gz \
+            clover-runtime/target clover-core/target clover-groovy/target \
+            clover-ant/target clover-buildutil/target clover-all/target tests-functional/target
+
+      - name: Archive installed OpenClover snapshot artifacts for matrix jobs
+        run: |
+          tar -czf m2-openclover.tar.gz -C "$HOME/.m2/repository" org/openclover
+
+      - name: Upload build output
+        uses: actions/upload-artifact@v7
+        with:
+          name: compiled-jdk21
+          path: |
+            module-targets.tar.gz
+            m2-openclover.tar.gz
+          retention-days: 1
+
+  test-matrix:
+    needs: build
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        jdk: [ 8, 11, 17, 21 ]
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Download build output from the JDK 21 build job
+        uses: actions/download-artifact@v8
+        with:
+          name: compiled-jdk21
+
+      - name: Restore module build output (compiled once, with JDK 21)
+        run: |
+          tar -xzf module-targets.tar.gz
+          mkdir -p "$HOME/.m2/repository"
+          tar -xzf m2-openclover.tar.gz -C "$HOME/.m2/repository"
+
+      - name: Set up JDK ${{ matrix.jdk }}
+        uses: actions/setup-java@v5
+        with:
+          java-version: ${{ matrix.jdk }}
+          distribution: temurin
+          cache: maven
+
+      - name: Prepare third party libraries
+        run: |
+          mvn -ntp --batch-mode install -Pworkspace-setup -f clover-core-libs/pom.xml
+
+      # These invoke the test-runner goals directly (not the "test"/"verify" lifecycle
+      # phases), so Maven does NOT recompile anything under JDK ${{ matrix.jdk }} - it
+      # just runs the classes restored above, which were compiled once with JDK 21.
+      - name: Run tests for clover-core and clover-ant (no recompilation)
+        run: |
+          mvn -ntp --batch-mode surefire:test -pl clover-core,clover-ant
+
+      - name: Run matrix tests for clover-groovy and tests-functional (no recompilation)
+        run: |
+          mvn -ntp --batch-mode -Pcompatibility failsafe:integration-test failsafe:verify -pl clover-groovy,tests-functional
 
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: test-results-compatibility
+          name: test-results-compatibility-jdk${{ matrix.jdk }}
           path: |
             **/target/surefire-reports/*.xml
             **/target/failsafe-reports/*.xml

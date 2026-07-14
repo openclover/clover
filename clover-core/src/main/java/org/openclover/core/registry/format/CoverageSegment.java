@@ -12,6 +12,7 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.nio.channels.Channels;
@@ -40,7 +41,9 @@ public class CoverageSegment {
             headerBuffer.putLong(covByteLen);                               //8 +
             headerBuffer.putLong(perTestCovByteLen);                        //8 +
             headerBuffer.putInt(Footer.MARKER);                             //4 = 20
-            headerBuffer.flip();
+            // cast to resolve to Buffer.flip():Buffer and not ByteBuffer.flip():ByteBuffer
+            // (covariant override from JDK9+), which would lead to NoSuchMethodError
+            ((Buffer) headerBuffer).flip();
             BufferUtils.writeFully(channel, headerBuffer);
             Logger.getInstance().debug("Wrote coverage segment: " + this);
         }
@@ -95,7 +98,7 @@ public class CoverageSegment {
     private InMemPerTestCoverage loadPerTestCoverage(FileChannel channel) throws IOException {
         ObjectInputStream miis = new ObjectInputStream(new BufferedInputStream(Channels.newInputStream(channel)));
         try {
-             return (InMemPerTestCoverage)miis.readObject();
+            return (InMemPerTestCoverage)miis.readObject();
         } catch (ClassNotFoundException e) {
             final IOException exception = new IOException("Failed to read PerTestCoverage from stream");
             exception.initCause(e);
@@ -119,10 +122,12 @@ public class CoverageSegment {
         for (long curByteCount = 0; curByteCount < covByteLen; curByteCount += Integer.MAX_VALUE) {
             //Handle the case where the last page is smaller than Integer.MAX_VALUE
             int bytesToRead = Math.min(hitCountBufferSize, (int) (covByteLen - curByteCount));
-            hitCountsBuffer.limit(bytesToRead);
+            // cast to resolve to Buffer.limit(int):Buffer and not ByteBuffer.limit(int):ByteBuffer
+            ((Buffer) hitCountsBuffer).limit(bytesToRead);
             BufferUtils.readFully(channel, hitCountsBuffer);
             hitCountsBuffer.asIntBuffer().get(hitCounts, (int)(curByteCount / 4), bytesToRead / 4);
-            hitCountsBuffer.clear();
+            // cast to resolve to Buffer.clear():Buffer and not ByteBuffer.clear():ByteBuffer
+            ((Buffer) hitCountsBuffer).clear();
         }
         return hitCounts;
     }
@@ -137,10 +142,12 @@ public class CoverageSegment {
         //Write each page of bytes
         for(int curHitCountIdx = 0; curHitCountIdx < hitCountsVal.length; curHitCountIdx += Integer.MAX_VALUE / 4) {
             int intsToWrite = Math.min(Integer.MAX_VALUE / 4, hitCountsVal.length - curHitCountIdx);
-            hitCountIntBuffer.limit(intsToWrite);
+            // cast to resolve to Buffer.limit(int):Buffer and not IntBuffer.limit(int):IntBuffer
+            ((Buffer) hitCountIntBuffer).limit(intsToWrite);
             hitCountIntBuffer.put(hitCountsVal, curHitCountIdx, intsToWrite);
             BufferUtils.writeFully(channel, hitCountByteBuffer);
-            hitCountIntBuffer.clear();
+            // cast to resolve to Buffer.clear():Buffer and not IntBuffer.clear():IntBuffer
+            ((Buffer) hitCountIntBuffer).clear();
         }
 
         final long afterCovPos = channel.position();
