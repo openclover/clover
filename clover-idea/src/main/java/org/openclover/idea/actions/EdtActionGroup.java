@@ -4,10 +4,9 @@ import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.DefaultActionGroup;
 
 /**
- * Base class for OpenClover's action groups whose {@code update()} reads selection/PSI data that the
- * platform only supplies on the Event Dispatch Thread - for example a Project View context-menu group
- * whose visibility depends on {@code DataKeys.PSI_ELEMENT} / {@code DataKeys.MODULE_CONTEXT}.
- * It is the EDT counterpart of {@link BgtActionGroup}.
+ * Base class for OpenClover's action groups whose {@code update()} must touch Swing components
+ * directly (not just presentation/config/PSI data) and therefore genuinely needs the Event Dispatch
+ * Thread. It is the EDT counterpart of {@link BgtActionGroup}.
  */
 public abstract class EdtActionGroup extends DefaultActionGroup {
 
