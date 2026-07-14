@@ -38,7 +38,7 @@ jobs:
         run: |
           tar -czf module-targets.tar.gz \
             clover-runtime/target clover-core/target clover-groovy/target \
-            clover-ant/target clover-buildutil/target tests-functional/target
+            clover-ant/target clover-buildutil/target clover-all/target tests-functional/target
 
       - name: Archive installed OpenClover snapshot artifacts for matrix jobs
         run: |
