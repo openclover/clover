@@ -6,6 +6,7 @@ import com.intellij.openapi.actionSystem.ActionToolbar;
 import com.intellij.openapi.actionSystem.DataProvider;
 import com.intellij.openapi.project.Project;
 import com.intellij.ui.components.panels.VerticalBox;
+import com.intellij.util.ui.HTMLEditorKitBuilder;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -75,7 +76,12 @@ public class CloudEditor extends DummyFileEditor implements CloudReportView, Dat
     private static JEditorPane createEditorPane(Project project) {
         final JEditorPane editorPane = new JEditorPane();
         editorPane.setEditable(false);
-        editorPane.setContentType("text/html");
+        // Use IntelliJ's HTMLEditorKit with its own StyleSheet instead of the plain
+        // setContentType("text/html"), which installs Swing's default HTMLEditorKit whose
+        // StyleSheet is a JVM-wide singleton shared with every other HTML pane in the IDE.
+        // In IDEA 2026 that shared state gets corrupted and setText() throws
+        // EmptyStackException / CSS "conv is null" NPEs. An isolated kit avoids both.
+        editorPane.setEditorKit(HTMLEditorKitBuilder.simple());
         editorPane.addHyperlinkListener(new ClassHyperlinkListener(project));
 
         return editorPane;
@@ -126,22 +132,14 @@ public class CloudEditor extends DummyFileEditor implements CloudReportView, Dat
     }
 
 
-    /**
-     * Loads HTML into the pane using a fresh document.
-     */
-    private static void setHtml(JEditorPane pane, String html) {
-        pane.setDocument(pane.getEditorKit().createDefaultDocument());
-        pane.setText(html);
-    }
-
     @Override
     public void setRisksHtml(String risks) {
-        setHtml(riskEditorPane, risks);
+        riskEditorPane.setText(risks);
     }
 
     @Override
     public void setWinsHtml(String wins) {
-        setHtml(winsEditorPane, wins);
+        winsEditorPane.setText(wins);
     }
 
     @Override
@@ -156,8 +154,8 @@ public class CloudEditor extends DummyFileEditor implements CloudReportView, Dat
 
     @Override
     public void clean() {
-        setHtml(riskEditorPane, "");
-        setHtml(winsEditorPane, "");
+        riskEditorPane.setText("");
+        winsEditorPane.setText("");
         nodeViewer.clearNode();
         subjectLabel.setIcon(null);
         subjectLabel.setText("");
