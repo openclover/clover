@@ -13,7 +13,7 @@
         within the plugin. Utilized by runtime configuration for tests or applications.
     </description>
     <properties>
-        <clover.version>5.0.0-SNAPSHOT</clover.version>
+        <clover.version>5.0.0-RC2</clover.version>
     </properties>
     <dependencies>
         <dependency>
