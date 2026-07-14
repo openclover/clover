@@ -12,6 +12,7 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.nio.channels.Channels;
@@ -40,7 +41,9 @@ public class CoverageSegment {
             headerBuffer.putLong(covByteLen);                               //8 +
             headerBuffer.putLong(perTestCovByteLen);                        //8 +
             headerBuffer.putInt(Footer.MARKER);                             //4 = 20
-            headerBuffer.flip();
+            // cast to resolve to Buffer.flip():Buffer and not ByteBuffer.flip():ByteBuffer
+            // (covariant override from JDK9+), which would lead to NoSuchMethodError
+            ((Buffer) headerBuffer).flip();
             BufferUtils.writeFully(channel, headerBuffer);
             Logger.getInstance().debug("Wrote coverage segment: " + this);
         }
@@ -95,7 +98,7 @@ public class CoverageSegment {
     private InMemPerTestCoverage loadPerTestCoverage(FileChannel channel) throws IOException {
         ObjectInputStream miis = new ObjectInputStream(new BufferedInputStream(Channels.newInputStream(channel)));
         try {
-             return (InMemPerTestCoverage)miis.readObject();
+            return (InMemPerTestCoverage)miis.readObject();
         } catch (ClassNotFoundException e) {
             final IOException exception = new IOException("Failed to read PerTestCoverage from stream");
             exception.initCause(e);
