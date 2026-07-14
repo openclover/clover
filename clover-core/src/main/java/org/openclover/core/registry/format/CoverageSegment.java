@@ -122,10 +122,12 @@ public class CoverageSegment {
         for (long curByteCount = 0; curByteCount < covByteLen; curByteCount += Integer.MAX_VALUE) {
             //Handle the case where the last page is smaller than Integer.MAX_VALUE
             int bytesToRead = Math.min(hitCountBufferSize, (int) (covByteLen - curByteCount));
-            hitCountsBuffer.limit(bytesToRead);
+            // cast to resolve to Buffer.limit(int):Buffer and not ByteBuffer.limit(int):ByteBuffer
+            ((Buffer) hitCountsBuffer).limit(bytesToRead);
             BufferUtils.readFully(channel, hitCountsBuffer);
             hitCountsBuffer.asIntBuffer().get(hitCounts, (int)(curByteCount / 4), bytesToRead / 4);
-            hitCountsBuffer.clear();
+            // cast to resolve to Buffer.clear():Buffer and not ByteBuffer.clear():ByteBuffer
+            ((Buffer) hitCountsBuffer).clear();
         }
         return hitCounts;
     }
@@ -140,10 +142,12 @@ public class CoverageSegment {
         //Write each page of bytes
         for(int curHitCountIdx = 0; curHitCountIdx < hitCountsVal.length; curHitCountIdx += Integer.MAX_VALUE / 4) {
             int intsToWrite = Math.min(Integer.MAX_VALUE / 4, hitCountsVal.length - curHitCountIdx);
-            hitCountIntBuffer.limit(intsToWrite);
+            // cast to resolve to Buffer.limit(int):Buffer and not IntBuffer.limit(int):IntBuffer
+            ((Buffer) hitCountIntBuffer).limit(intsToWrite);
             hitCountIntBuffer.put(hitCountsVal, curHitCountIdx, intsToWrite);
             BufferUtils.writeFully(channel, hitCountByteBuffer);
-            hitCountIntBuffer.clear();
+            // cast to resolve to Buffer.clear():Buffer and not IntBuffer.clear():IntBuffer
+            ((Buffer) hitCountIntBuffer).clear();
         }
 
         final long afterCovPos = channel.position();
