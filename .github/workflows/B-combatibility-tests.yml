@@ -24,9 +24,12 @@ jobs:
         run: |
           mvn -ntp --batch-mode install -Pworkspace-setup -f clover-core-libs/pom.xml
 
+      # idea-jdk21plus/eclipse-jdk21plus activate automatically on JDK 21 regardless of -P, which
+      # would otherwise pull in clover-idea/clover-eclipse here too - out of scope for this workflow,
+      # and their libs (clover-eclipse-libs) aren't prepared by the step above, so exclude them.
       - name: Compile, pack and stage compatibility test fixtures (JDK 21)
         run: |
-          mvn -ntp --batch-mode install -DskipTests=true -Dfunc.test.skip=true -Pcompatibility
+          mvn -ntp --batch-mode install -DskipTests=true -Dfunc.test.skip=true -Pcompatibility,\!idea-jdk21plus,\!eclipse-jdk21plus
 
       # The whole point of this workflow is to catch binary-compatibility bugs where
       # code compiled by a newer JDK silently binds against a JDK9+-only method overload
