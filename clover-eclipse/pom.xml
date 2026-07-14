@@ -24,6 +24,10 @@
         <module>org.openclover.eclipse.functest</module>
     </modules>
     <properties>
+        <!-- Override the base POM's maven.compiler.release=8, because the supported Eclipse versions
+             are built with JDK 21 and the plugin uses JDK 9+ APIs -->
+        <maven.compiler.release>21</maven.compiler.release>
+
         <!-- Eclipse version in release-label format (dash separator) — used in download URLs -->
         <eclipse.version>2026-03</eclipse.version>
         <!-- Eclipse libs Maven artifact version (dot separator) — must match clover-eclipse-libs/pom.xml <version> -->
