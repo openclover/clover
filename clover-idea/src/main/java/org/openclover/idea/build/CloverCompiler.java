@@ -232,7 +232,10 @@ public class CloverCompiler {
     }
 
     private void notifyWarning(Project project, String message) {
-        ToolWindowManager.getInstance(project).notifyByBalloon(CloverToolWindowId.TOOL_WINDOW_ID, MessageType.WARNING, message);
+        // compile tasks run off the EDT; the tool window balloon must be shown from the EDT.
+        // No result needs to be read back here, so dispatch asynchronously
+        ApplicationManager.getApplication().invokeLater(() ->
+                ToolWindowManager.getInstance(project).notifyByBalloon(CloverToolWindowId.TOOL_WINDOW_ID, MessageType.WARNING, message));
     }
 
     /**
