@@ -12,9 +12,9 @@ import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
- * Test for {@link JUnitOptimizingProgramRunnerIdea13}
+ * Test for {@link JUnitOptimizingProgramRunnerIdea}
  */
-public class JUnitOptimizingProgramRunnerIdea13Test extends LightIdeaTestCase {
+public class JUnitOptimizingProgramRunnerIdeaTest extends LightIdeaTestCase {
 
     private static final String[] POSITIVE_TEST_CASES = {
             "@TMP",
@@ -35,7 +35,7 @@ public class JUnitOptimizingProgramRunnerIdea13Test extends LightIdeaTestCase {
             "@w@/somefiledir.tmp"
     };
 
-    private final JUnitOptimizingProgramRunner optimizingProgramRunner = new JUnitOptimizingProgramRunnerIdea13();
+    private final JUnitOptimizingProgramRunner optimizingProgramRunner = new JUnitOptimizingProgramRunnerIdea();
 
     private File tmpFile;
 
@@ -49,11 +49,13 @@ public class JUnitOptimizingProgramRunnerIdea13Test extends LightIdeaTestCase {
     @Override
     @SuppressWarnings({"ResultOfMethodCallIgnored"})
     public void tearDown() throws Exception {
-        tmpFile.delete();
+        if (tmpFile != null) {
+            tmpFile.delete();
+        }
         super.tearDown();
     }
 
-    public void testRetrieveTmpFile() throws Exception {
+    public void testRetrieveTmpFile() {
         for (String testCase : NEGATIVE_TEST_CASES) {
             verifyRetrieveTmpFileResult(null, testCase);
         }
@@ -65,7 +67,7 @@ public class JUnitOptimizingProgramRunnerIdea13Test extends LightIdeaTestCase {
     }
 
     @SuppressWarnings({"ResultOfMethodCallIgnored"})
-    public void testRetrieveNonExistentFile() throws Exception {
+    public void testRetrieveNonExistentFile() {
         tmpFile.delete();
         for (String testCase : POSITIVE_TEST_CASES) {
             final String paramString = testCase.replace("TMP", tmpFile.getPath());
@@ -74,15 +76,16 @@ public class JUnitOptimizingProgramRunnerIdea13Test extends LightIdeaTestCase {
     }
 
     @SuppressWarnings({"MagicNumber"})
-    public void testRetrieveSynchSocket() throws Exception {
+    public void testRetrieveSynchSocket() {
         verifyRetrieveSynchSocket(-1, "");
         verifyRetrieveSynchSocket(-1, "-ideVersion5 @/tmp/idea_junit665630085301222824.tmp");
         verifyRetrieveSynchSocket(1234, "-socket1234");
         verifyRetrieveSynchSocket(36162, "-ideVersion5 @/tmp/idea_junit665630085301222824.tmp -socket36162");
+        verifyRetrieveSynchSocket(12345, "-socketmy.host.name:12345");
     }
 
     @SuppressWarnings({"MagicNumber"})
-    public void testReplaceTmpFile() throws Exception {
+    public void testReplaceTmpFile() {
         final JavaParameters javaParameters = new JavaParameters();
         final ParametersList parametersList = javaParameters.getProgramParametersList();
         parametersList.addParametersString("-ideVersion5 @/tmp/idea_junit665630085301222824.tmp -socket36162");
@@ -97,7 +100,7 @@ public class JUnitOptimizingProgramRunnerIdea13Test extends LightIdeaTestCase {
 
 
     @SuppressWarnings({"MagicNumber"})
-    public void testReplaceSynchSocket() throws Exception {
+    public void testReplaceSynchSocket() {
         verifyRetrieveSynchSocket(-1, "");
         verifyRetrieveSynchSocket(-1, "-ideVersion5 @/tmp/idea_junit665630085301222824.tmp");
         verifyRetrieveSynchSocket(1234, "-socket1234");
@@ -105,9 +108,9 @@ public class JUnitOptimizingProgramRunnerIdea13Test extends LightIdeaTestCase {
     }
 
     /**
-     * Test that in IDEA13 or newer we get configuration object of a proper type
+     * Test that we get a configuration object of a proper type
      */
-    public void testCreateConfigurationDataSinceIdea13() throws Exception {
+    public void testCreateConfigurationData() {
         final RunnerSettings data = optimizingProgramRunner.createConfigurationData(null);
         assertNotNull(data);
         assertThat(data, instanceOf(RunnerSettings.class));

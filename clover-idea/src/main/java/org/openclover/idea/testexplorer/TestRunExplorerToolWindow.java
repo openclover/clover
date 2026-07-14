@@ -83,11 +83,15 @@ public class TestRunExplorerToolWindow extends JPanel implements CoverageListene
 
         final ActionGroup actionGroup = (ActionGroup) ActionManager.getInstance().getAction("CloverPlugin.TestExplorerToolBar");
         final ActionToolbar toolbar = ActionManager.getInstance().createActionToolbar("CloverTestExplorer", actionGroup, true);
-        add(toolbar.getComponent(), BorderLayout.NORTH);
 
         final CoverageContributionPanel coverageContributionPanel = new CoverageContributionPanel(project);
         testRunBrowserPanel = new TestRunBrowserPanel(project);
         testRunBrowserPanel.addTestCaseSelectionListener(coverageContributionPanel);
+
+        // anchor action updates to the test browser rather than the (arbitrary) focused component,
+        // otherwise context-dependent actions may be wrongly disabled
+        toolbar.setTargetComponent(testRunBrowserPanel);
+        add(toolbar.getComponent(), BorderLayout.NORTH);
 
         final Splitter splitPane = new Splitter(true);
         splitPane.setFirstComponent(testRunBrowserPanel);
@@ -323,7 +327,12 @@ public class TestRunExplorerToolWindow extends JPanel implements CoverageListene
             projectPlugin.getCoverageManager().removeCoverageListener(this);
             projectPlugin.getConfig().removeConfigChangeListener(this);
 
-            ToolWindowManager.getInstance(project).unregisterToolWindow(TOOL_WINDOW_ID);
+            // during project close, the project (and its message bus) may already be disposed
+            // by the time this is called; unregistering is then both impossible and unnecessary,
+            // as the platform tears down the tool window along with the project itself
+            if (!project.isDisposed()) {
+                ToolWindowManager.getInstance(project).unregisterToolWindow(TOOL_WINDOW_ID);
+            }
         }
     }
 
@@ -352,20 +361,9 @@ public class TestRunExplorerToolWindow extends JPanel implements CoverageListene
 
     @Override
     public void caretPositionChanged(CaretEvent event) {
-        // TODO what about multiple cursors and "show per line" ???
         if (testViewScope != TestViewScope.GLOBAL && testViewScope != TestViewScope.FILE) {
             scheduleUpdate();
         }
-    }
-
-    /** @since IDEA 13.1 in CaretListener */
-    public void caretAdded(CaretEvent caretEvent) {
-
-    }
-
-    /** @since IDEA 13.1 in CaretListener */
-    public void caretRemoved(CaretEvent caretEvent) {
-
     }
 
     interface TestCaseSelectionListener {

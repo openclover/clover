@@ -1,13 +1,13 @@
 package org.openclover.idea.actions.testexplorer;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.ToggleAction;
+import org.openclover.idea.actions.CloverToggleAction;
 import org.openclover.idea.IProjectPlugin;
 import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.config.IdeaCloverConfig;
 import org.openclover.idea.util.ui.CloverIcons;
 
-public class LoadPerTestDataToggleAction extends ToggleAction {
+public class LoadPerTestDataToggleAction extends CloverToggleAction {
     public LoadPerTestDataToggleAction() {
         getTemplatePresentation().setIcon(CloverIcons.ALWAYS_LOAD_PER_TEST_COVERAGE);
     }

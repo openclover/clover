@@ -4,13 +4,11 @@ import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleComponent;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.openclover.idea.build.ProjectRebuilder;
 import org.openclover.idea.config.CloverModuleConfig;
@@ -21,8 +19,11 @@ import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 
+/**
+ * Per-module OpenClover settings. Registered as a module-level service (see plugin.xml).
+ */
 @State(name = IdeaXmlConfigConstants.MODULE_FILE_COMPONENT_NAME, storages = {@Storage("$MODULE_FILE$")})
-public class CloverModuleComponent implements ModuleComponent, Configurable,
+public class CloverModuleComponent implements Configurable,
         PersistentStateComponent<CloverModuleConfig> {
 
     private CloverModuleConfig config = new CloverModuleConfig();
@@ -31,42 +32,17 @@ public class CloverModuleComponent implements ModuleComponent, Configurable,
 
     private final Project project;
 
-    public CloverModuleComponent(Project project) {
-        this.project = project;
+    public CloverModuleComponent(Module module) {
+        this.project = module.getProject();
     }
 
     @Nullable
     public static CloverModuleComponent getInstance(Module module) {
-        return module == null ? null : module.getComponent(CloverModuleComponent.class);
+        return module == null ? null : module.getService(CloverModuleComponent.class);
     }
 
     public CloverModuleConfig getConfig() {
         return config;
-    }
-
-
-    public void projectOpened() {
-    }
-
-    public void projectClosed() {
-    }
-
-    public void moduleAdded() {
-    }
-
-    @Override
-    @NonNls
-    @NotNull
-    public String getComponentName() {
-        return "OpenClover";
-    }
-
-    @Override
-    public void initComponent() {
-    }
-
-    @Override
-    public void disposeComponent() {
     }
 
     @Override

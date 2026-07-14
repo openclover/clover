@@ -1,6 +1,5 @@
 package org.openclover.idea.actions;
 
-import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.options.ShowSettingsUtil;
@@ -10,7 +9,7 @@ import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.config.CloverProjectConfigurable;
 import org.openclover.idea.config.ProjectConfigPanel;
 
-public class ShowFilterSettingsAction extends AnAction {
+public class ShowFilterSettingsAction extends CloverAnAction {
     @Override
     public void actionPerformed(AnActionEvent event) {
         Project project = DataKeys.PROJECT.getData(event.getDataContext());

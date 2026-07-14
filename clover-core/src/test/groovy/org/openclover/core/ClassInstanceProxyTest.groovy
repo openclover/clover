@@ -67,7 +67,7 @@ class ClassInstanceProxyTest {
         final Field hashCodeField = ClassInstanceProxy.class.getDeclaredField("hashCode")
         hashCodeField.setAccessible(true)
         
-        hashCodeField.set(string, new Integer(Object.class.hashCode()))
+        hashCodeField.set(string, Integer.valueOf(Object.class.hashCode()))
         assertFalse(object == string)
     }
 }

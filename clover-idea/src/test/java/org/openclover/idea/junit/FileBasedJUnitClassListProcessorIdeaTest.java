@@ -29,7 +29,7 @@ public class FileBasedJUnitClassListProcessorIdeaTest extends LightIdeaTestCase 
             {"-junit3", "package.name", "a.b.c.Test1", "a.b.c.Test2"},
     };
 
-    static final String[][] TEST_CASES_IDEA_11_TO_13 = {
+    static final String[][] TEST_CASES_SINGLE_HEADER_LINE = {
             {""},
             {"package.name1"},
             {"", "a.b.c.Test1"},
@@ -37,7 +37,7 @@ public class FileBasedJUnitClassListProcessorIdeaTest extends LightIdeaTestCase 
             {"package.name", "a.b.c.Test1", "a.b.c.Test2"},
     };
 
-    static final String[][] TEST_CASES_IDEA_14_AND_ABOVE = {
+    static final String[][] TEST_CASES_LEADING_EMPTY_LINES = {
             {"", ""},
             {"", "", "a.b.c.Test1"},
             {"", "", "a.b.c.Test1", "a.b.c.Test2"},

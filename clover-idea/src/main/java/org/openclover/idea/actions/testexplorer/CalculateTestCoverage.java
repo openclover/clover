@@ -1,12 +1,12 @@
 package org.openclover.idea.actions.testexplorer;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.ToggleAction;
+import org.openclover.idea.actions.CloverToggleAction;
 import org.openclover.idea.IProjectPlugin;
 import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.config.IdeaCloverConfig;
 
-public class CalculateTestCoverage extends ToggleAction {
+public class CalculateTestCoverage extends CloverToggleAction {
     @Override
     public boolean isSelected(AnActionEvent event) {
         final IProjectPlugin projectPlugin = ProjectPlugin.getPlugin(event);

@@ -184,8 +184,8 @@ class SnapshotTest extends TestOptimizationBase {
         Snapshot Snapshot2 =
             Snapshot.loadFor(registry.getInitstring())
         assertEquals(Snapshot2.getDbVersions().size(), 2)
-        assertTrue(Snapshot2.getDbVersions().contains(new Long(startVersion)))
-        assertTrue(Snapshot2.getDbVersions().contains(new Long(endVersion)))
+        assertTrue(Snapshot2.getDbVersions().contains(Long.valueOf(startVersion)))
+        assertTrue(Snapshot2.getDbVersions().contains(Long.valueOf(endVersion)))
     }
 
     @Test
@@ -322,7 +322,7 @@ class SnapshotTest extends TestOptimizationBase {
         if (tests != null) {
             durations = new LinkedHashSet()
             for (Iterator<TestMethodCall> iterator = tests.iterator(); iterator.hasNext();) {
-                durations.add(new Long(snapshot.calculateDurationOf(Collections.singleton(iterator.next()))))
+                durations.add(Long.valueOf(snapshot.calculateDurationOf(Collections.singleton(iterator.next()))))
             }
         }
         return durations

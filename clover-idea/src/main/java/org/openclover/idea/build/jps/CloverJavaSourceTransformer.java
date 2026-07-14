@@ -2,7 +2,9 @@ package org.openclover.idea.build.jps;
 
 import com.intellij.openapi.diagnostic.Logger;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.jps.builders.java.JavaSourceTransformer;
+import org.jetbrains.jps.incremental.CompileContext;
 import org.jetbrains.jps.incremental.messages.BuildMessage;
 import org.jetbrains.jps.model.JpsEncodingConfigurationService;
 import org.jetbrains.jps.model.JpsEncodingProjectConfiguration;
@@ -36,42 +38,61 @@ public class CloverJavaSourceTransformer extends JavaSourceTransformer {
     /**
      * Returns true if the specified file should be instrumented.
      */
-    public boolean isTransformable(final @NotNull File file) throws TransformError {
-        LOG.debug("isTransformable: " + file);
+    public boolean isTransformable(final @NotNull File file) {
+        final String skipReason = getSkipReason(file);
+        if (skipReason != null) {
+            LOG.info("OpenClover: not instrumenting " + file + " - " + skipReason);
+            return false;
+        } else {
+            LOG.info("OpenClover: file is transformable and will be instrumented: " + file);
+            return true;
+        }
+    }
 
+    /**
+     * Analyze the file and return a human-readable reason why it must NOT be instrumented, or
+     * <code>null</code> if the file is eligible for instrumentation. The reason string is used for
+     * diagnostic logging so a user can understand why a given source file was (not) instrumented.
+     *
+     * @param file source file to check
+     * @return reason for skipping the file, or <code>null</code> when the file should be instrumented
+     */
+    @Nullable
+    private String getSkipReason(final @NotNull File file) {
         // check if "build with clover" option was selected
         if (!JpsModelUtil.isBuildWithCloverEnabled(jpsProject)) {
-            return false;
+            return "the 'Build project with OpenClover' option is disabled in project settings";
         }
 
         // analyze current file
         final InclusionDetector inclusion = JpsProjectInclusionDetector.processFile(jpsProject, file);
         if (inclusion.isCloverDisabled()) {
-            LOG.debug("Instrumentation is disabled");
-            return false;
+            return "instrumentation is disabled for this project";
         }
 
         // only want to deal with java source files
         if (inclusion.isNotJava()) {
-            LOG.debug("Ignoring non-java file: " + file);
-            return false;
+            return "it is not a Java source file";
         }
+
         if (inclusion.isModuleExcluded()) {
-            LOG.debug("File belongs to excluded module: " + file);
-            return false;
+            return "it belongs to a module excluded from instrumentation";
         }
 
         if (inclusion.isPatternExcluded()) {
-            LOG.debug("Ignoring excluded file: " + file);
-            return false;
+            return "it matches an exclusion pattern (or does not match any inclusion pattern)";
         }
 
         if (inclusion.isInNoninstrumentedTestSources()) {
-            LOG.debug("Ignoring marked test case: " + file);
-            return false;
+            return "it resides in test sources marked as non-instrumented";
         }
 
-        return inclusion.isIncluded();
+        if (!inclusion.isIncluded()) {
+            return "it is not included by the current inclusion/exclusion configuration";
+        }
+
+        // no reason to skip the file
+        return null;
     }
 
     /**
@@ -84,13 +105,27 @@ public class CloverJavaSourceTransformer extends JavaSourceTransformer {
      */
     @Override
     public CharSequence transform(final File file, final CharSequence charSequence) throws TransformError {
+        // the builder must have started and published its compile context before any file is transformed;
+        // if it hasn't (e.g. the CloverJavaBuilder was not loaded into the external build process), we
+        // cannot instrument and must return the original source unchanged
+        final CompileContext compileContext = CloverJavaBuilder.getInstance().getCompileContext();
+        if (compileContext == null) {
+            LOG.info("OpenClover: no active build context, returning source unchanged for " + file);
+            return charSequence;
+        }
+
         // get current project
-        jpsProject = CloverJavaBuilder.getInstance().getCompileContext().getProjectDescriptor().getProject();
+        jpsProject = compileContext.getProjectDescriptor().getProject();
 
         if (isTransformable(file)) {
             try {
                 final LanguageLevel level = getLanguageLevelForFile(file);
                 final Instrumenter instrumenter = CloverJavaBuilder.getInstance().getInstrumenter();
+                if (instrumenter == null) {
+                    LOG.info("OpenClover: instrumenter is not available (instrumentation session not started), "
+                            + "returning source unchanged for " + file);
+                    return charSequence;
+                }
                 // TODO CLOV-1284 parallel build - this instrumenter is shared, make language level local
                 final SourceLevel sourceLevel = languageLevelToSourceLevel(level);
                 instrumenter.getConfig().setSourceLevel(sourceLevel);
@@ -107,7 +142,7 @@ public class CloverJavaSourceTransformer extends JavaSourceTransformer {
                 throw new CloverInstrumentationException(ex);
             }
         } else {
-            LOG.info("CloverSourceTransformer.transform skipping file " + file);
+            // isTransformable() already logged the concrete reason for skipping this file
             // return original sequence
             return charSequence;
         }
@@ -127,30 +162,37 @@ public class CloverJavaSourceTransformer extends JavaSourceTransformer {
         return (closestSourceRoot.getValue() != null ? closestSourceRoot.getValue() : LanguageLevel.JDK_1_9);
     }
 
-    // Note: it's similar to org.openclover.idea.build.CloverCompiler.LANGUAGE_LEVEL_TO_SOURCE_LEVEL
-    // but converts org.jetbrains.jps.model.java.LanguageLevel
+    // Converts org.jetbrains.jps.model.java.LanguageLevel to Clover's SourceLevel. This is the single
+    // source of truth for the mapping; the in-process CloverCompiler copy was removed together with the
+    // retired JavaSourceTransformingCompiler path.
     protected static final Map<LanguageLevel, SourceLevel> LANGUAGE_LEVEL_TO_SOURCE_LEVEL
             = new HashMap<LanguageLevel, SourceLevel>() {{
-        put(LanguageLevel.JDK_1_9, SourceLevel.JAVA_9);
-        put(LanguageLevel.JDK_1_8, SourceLevel.JAVA_8);
-        put(LanguageLevel.JDK_1_7, SourceLevel.JAVA_8);
-        put(LanguageLevel.JDK_1_6, SourceLevel.JAVA_8);
-        put(LanguageLevel.JDK_1_5, SourceLevel.JAVA_8);
-        put(LanguageLevel.JDK_1_4, SourceLevel.JAVA_8);
+        // Java 7 and below are instrumented at the lowest source level Clover supports (Java 8)
         put(LanguageLevel.JDK_1_3, SourceLevel.JAVA_8);
+        put(LanguageLevel.JDK_1_4, SourceLevel.JAVA_8);
+        put(LanguageLevel.JDK_1_5, SourceLevel.JAVA_8);
+        put(LanguageLevel.JDK_1_6, SourceLevel.JAVA_8);
+        put(LanguageLevel.JDK_1_7, SourceLevel.JAVA_8);
+        put(LanguageLevel.JDK_1_8, SourceLevel.JAVA_8);
+        put(LanguageLevel.JDK_1_9, SourceLevel.JAVA_9);
+        put(LanguageLevel.JDK_10, SourceLevel.JAVA_10);
+        put(LanguageLevel.JDK_11, SourceLevel.JAVA_11);
+        put(LanguageLevel.JDK_12, SourceLevel.JAVA_12);
+        put(LanguageLevel.JDK_13, SourceLevel.JAVA_13);
+        put(LanguageLevel.JDK_14, SourceLevel.JAVA_14);
+        put(LanguageLevel.JDK_15, SourceLevel.JAVA_15);
+        put(LanguageLevel.JDK_16, SourceLevel.JAVA_16);
+        put(LanguageLevel.JDK_17, SourceLevel.JAVA_17);
     }};
 
     /**
      * Convert IDEA's LanguageLevel to ours SourceLevel
      */
     public SourceLevel languageLevelToSourceLevel(final LanguageLevel level) {
-        // TODO LanguageLevel#getComplianceOption was introduced in IDEA 15
-        // TODO simplify the code once IDEA 14 is dropped
-        // TODO return SourceLevel.fromString(level.getComplianceOption());
-
-        // if a map returned null then probably JDK 10 or higher was used, assume Java 9 then
+        // If the map has no entry then a language level newer than Clover's highest supported
+        // (Java 17) was requested - instrument at the highest level we know about.
         final SourceLevel sourceLevel = LANGUAGE_LEVEL_TO_SOURCE_LEVEL.get(level);
-        return sourceLevel == null ? SourceLevel.JAVA_9 : sourceLevel;
+        return sourceLevel == null ? SourceLevel.JAVA_17 : sourceLevel;
     }
 
     private void debugTransform(final File file, final CharSequence charSequence,

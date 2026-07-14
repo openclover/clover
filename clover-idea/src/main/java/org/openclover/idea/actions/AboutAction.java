@@ -1,6 +1,5 @@
 package org.openclover.idea.actions;
 
-import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.actionSystem.Presentation;
@@ -9,7 +8,7 @@ import org.openclover.idea.util.ui.CloverIcons;
 
 import javax.swing.Icon;
 
-public class AboutAction extends AnAction {
+public class AboutAction extends CloverAnAction {
     @Override
     public void actionPerformed(AnActionEvent e) {
         new AboutDialog(DataKeys.PROJECT.getData(e.getDataContext())).show();

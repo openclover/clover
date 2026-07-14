@@ -60,7 +60,7 @@ class ColumnTest {
 
         col = new Columns.SUM()
         col.init(m)
-        assertTrue(new Float(36.782997f).equals(col.getNumber()))
+        assertTrue(Float.valueOf(36.782997f).equals(col.getNumber()))
 
         Columns cols = new Columns()
         col = new Columns.Expression()

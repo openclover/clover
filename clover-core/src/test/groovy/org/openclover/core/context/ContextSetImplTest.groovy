@@ -101,7 +101,7 @@ class ContextSetImplTest {
     void testMappedBitset() {
         ContextSet src = new ContextSetImpl().set(1).set(2).set(3)
         Map<Integer, Integer> mapping = newHashMap()
-        mapping.put(new Integer(1), new Integer(10))
+        mapping.put(Integer.valueOf(1), Integer.valueOf(10))
 
         ContextSet dest = ContextSetImpl.remap(src, mapping)
 

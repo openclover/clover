@@ -2,14 +2,14 @@ package org.openclover.idea;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;
-import com.intellij.openapi.actionSystem.DefaultActionGroup;
 import com.intellij.openapi.project.Project;
+import org.openclover.idea.actions.BgtActionGroup;
 
 /**
  * A simple ActionGroup wrapper that becomes visible / invisible depending upon
  * whether or not Clover is enabled for the current project.
  */
-public class CloverActionGroupWrapper extends DefaultActionGroup {
+public class CloverActionGroupWrapper extends BgtActionGroup {
 
     public CloverActionGroupWrapper() {
     }

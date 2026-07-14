@@ -1,11 +1,11 @@
 package org.openclover.idea.config;
 
-import com.intellij.openapi.actionSystem.AnAction;
+import org.openclover.idea.actions.CloverAnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.project.Project;
 
-public class CopyFilterAction extends AnAction {
+public class CopyFilterAction extends CloverAnAction {
 
 
     @Override

@@ -40,15 +40,11 @@ public class CloverLibraryInjector implements ConfigChangeListener {
     }
 
     private void addCloverLibrary(final Module[] modules) {
+        final boolean[] isModified = new boolean[1];
         final Runnable addLibrary = () -> {
             final Library cloverLibrary = LibrarySupport.getValidatedCloverLibrary();
-            boolean isModified = false;
             for (Module module : modules) {
-                isModified |= LibrarySupport.addLibraryTo(cloverLibrary, module);
-            }
-            // force saving project changes into disk (for external build)
-            if (isModified) {
-                project.save();
+                isModified[0] |= LibrarySupport.addLibraryTo(cloverLibrary, module);
             }
         };
 
@@ -59,17 +55,19 @@ public class CloverLibraryInjector implements ConfigChangeListener {
         } else {
             ApplicationManager.getApplication().runWriteAction(addLibrary);
         }
+
+        // force saving project changes into disk (for external build); must run outside
+        // the write action, as project.save() may show a modal progress
+        if (isModified[0]) {
+            project.save();
+        }
     }
 
     private void removeCloverLibrary(final Module[] modules) {
+        final boolean[] isModified = new boolean[1];
         final Runnable removeLibrary = () -> {
-            boolean isModified = false;
             for (Module module : modules) {
-                isModified |= LibrarySupport.removeCloverLibraryFrom(module);
-            }
-            // force saving project changes into disk (for external build)
-            if (isModified) {
-                project.save();
+                isModified[0] |= LibrarySupport.removeCloverLibraryFrom(module);
             }
         };
 
@@ -79,6 +77,12 @@ public class CloverLibraryInjector implements ConfigChangeListener {
             MiscUtils.invokeWriteActionAndWait(removeLibrary);
         } else {
             ApplicationManager.getApplication().runWriteAction(removeLibrary);
+        }
+
+        // force saving project changes into disk (for external build); must run outside
+        // the write action, as project.save() may show a modal progress
+        if (isModified[0]) {
+            project.save();
         }
     }
 

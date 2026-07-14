@@ -1,7 +1,7 @@
 package org.openclover.idea.actions.excludes;
 
 import com.intellij.ide.projectView.ProjectView;
-import com.intellij.openapi.actionSystem.AnAction;
+import org.openclover.idea.actions.CloverAnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.module.Module;
@@ -10,7 +10,7 @@ import org.openclover.idea.IProjectPlugin;
 import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.config.CloverModuleConfig;
 
-public class ToggleModuleExclusionAction extends AnAction {
+public class ToggleModuleExclusionAction extends CloverAnAction {
     @Override
     public void actionPerformed(AnActionEvent e) {
         final Module module = e.getData(DataKeys.MODULE_CONTEXT);
@@ -24,9 +24,11 @@ public class ToggleModuleExclusionAction extends AnAction {
 
     @Override
     public void update(AnActionEvent e) {
-        final CloverModuleComponent component = CloverModuleComponent.getInstance(e.getData(DataKeys.MODULE_CONTEXT));
+        final Module module = e.getData(DataKeys.MODULE_CONTEXT);
+        final CloverModuleComponent component = CloverModuleComponent.getInstance(module);
         final IProjectPlugin plugin = ProjectPlugin.getPlugin(e);
-        e.getPresentation().setVisible(component != null && plugin != null && plugin.isEnabled());
+        final boolean visible = component != null && plugin != null && plugin.isEnabled();
+        e.getPresentation().setVisible(visible);
         if (component != null) {
             e.getPresentation().setText(component.getConfig().isExcluded() ?
                     "Include module in OpenClover instrumentation" :

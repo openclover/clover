@@ -350,7 +350,6 @@ public class CoverageViewPanel extends TreeTablePanel implements ConfigChangeLis
 
         @Override
         public void caretPositionChanged(CaretEvent e) {
-            // TODO what about multiple cursors introduced in IDEA 13.1 ?
             if (autoScrollFromSource && isShowing()) {
                 final DataContext dataContext = DataManager.getInstance().getDataContext(e.getEditor().getComponent());
                 final PsiFile psiFile = DataKeys.PSI_FILE.getData(dataContext);
@@ -360,16 +359,6 @@ public class CoverageViewPanel extends TreeTablePanel implements ConfigChangeLis
                     selectHasMetrics(getElement(selectedPsi));
                 }
             }
-        }
-
-        /** @since IDEA 13.1 in CaretListener */
-        public void caretAdded(CaretEvent caretEvent) {
-
-        }
-
-        /** @since IDEA 13.1 in CaretListener */
-        public void caretRemoved(CaretEvent caretEvent) {
-
         }
 
         @Override

@@ -6,6 +6,7 @@ import com.intellij.openapi.actionSystem.ActionToolbar;
 import com.intellij.openapi.actionSystem.DataProvider;
 import com.intellij.openapi.project.Project;
 import com.intellij.ui.components.panels.VerticalBox;
+import com.intellij.util.ui.HTMLEditorKitBuilder;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -36,6 +37,7 @@ public class CloudEditor extends DummyFileEditor implements CloudReportView, Dat
     private final CloudEditorController controller;
 
     public CloudEditor(Project project, CloudVirtualFile virtualFile) {
+        super(virtualFile);
         controller = new CloudEditorController(project, virtualFile, this);
 
         riskEditorPane = createEditorPane(project);
@@ -74,7 +76,12 @@ public class CloudEditor extends DummyFileEditor implements CloudReportView, Dat
     private static JEditorPane createEditorPane(Project project) {
         final JEditorPane editorPane = new JEditorPane();
         editorPane.setEditable(false);
-        editorPane.setContentType("text/html");
+        // Use IntelliJ's HTMLEditorKit with its own StyleSheet instead of the plain
+        // setContentType("text/html"), which installs Swing's default HTMLEditorKit whose
+        // StyleSheet is a JVM-wide singleton shared with every other HTML pane in the IDE.
+        // In IDEA 2026 that shared state gets corrupted and setText() throws
+        // EmptyStackException / CSS "conv is null" NPEs. An isolated kit avoids both.
+        editorPane.setEditorKit(HTMLEditorKitBuilder.simple());
         editorPane.addHyperlinkListener(new ClassHyperlinkListener(project));
 
         return editorPane;

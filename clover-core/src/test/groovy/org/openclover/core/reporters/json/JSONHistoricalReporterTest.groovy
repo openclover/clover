@@ -17,7 +17,7 @@ class JSONHistoricalReporterTest extends TestCase {
         Map data = newHashMap() // Long, HasMetrics
 
         HasMetricsTestFixture fixture = new HasMetricsTestFixture(getName())
-        data.put(new Long(0), fixture.getProject())
+        data.put(Long.valueOf(0), fixture.getProject())
         final String name = "Project Name"
         final JSONObject json = reporter.generateJSON(data, name)
         assertNotNull(json)

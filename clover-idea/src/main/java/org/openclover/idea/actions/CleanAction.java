@@ -1,6 +1,5 @@
 package org.openclover.idea.actions;
 
-import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.project.Project;
@@ -10,7 +9,7 @@ import org.openclover.idea.CloverToolWindowId;
 import org.openclover.idea.IProjectPlugin;
 import org.openclover.idea.ProjectPlugin;
 
-public class CleanAction extends AnAction {
+public class CleanAction extends CloverAnAction {
 
     @Override
     public void actionPerformed(AnActionEvent event) {

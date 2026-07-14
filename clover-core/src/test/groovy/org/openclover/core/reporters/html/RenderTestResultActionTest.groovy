@@ -45,7 +45,7 @@ class RenderTestResultActionTest extends TestCase {
         FullClassInfo classInfo = fixture.newClass(finfo, "TestClass", 2)
         FullMethodInfo methodInfo = fixture.newMethod(classInfo, "testing", 3)
         methodInfo.setStaticTestName("testing-static")
-        FullTestCaseInfo test = new FullTestCaseInfo(new Integer(1), classInfo, methodInfo, "testing-runtime")
+        FullTestCaseInfo test = new FullTestCaseInfo(Integer.valueOf(1), classInfo, methodInfo, "testing-runtime")
 
         RenderTestResultAction action = new RenderTestResultAction(test, helper, config, fixture.getProject(), ctx, fixture.getProject(), cloverDatabase)
         action.call()
@@ -72,7 +72,7 @@ class RenderTestResultActionTest extends TestCase {
         FullClassInfo classInfo = fixture.newClass(finfo, "TestClass", 2)
         FullMethodInfo methodInfo = fixture.newMethod(classInfo, "testing", 3)
         methodInfo.setStaticTestName("testing-static")
-        FullTestCaseInfo test = new FullTestCaseInfo(new Integer(1), classInfo, methodInfo, "testing-runtime")
+        FullTestCaseInfo test = new FullTestCaseInfo(Integer.valueOf(1), classInfo, methodInfo, "testing-runtime")
 
         RenderTestResultAction action = new RenderTestResultAction(test, helper, config, fixture.getProject(), ctx, fixture.getProject(), cloverDatabase)
         action.call()

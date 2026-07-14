@@ -39,12 +39,12 @@ public class ProjectUtil {
         if (project == null) {
             throw new IllegalArgumentException("Project argument can not be null.");
         }
-        Application app = ApplicationManager.getApplication();
-        return app.runReadAction((Computable<File>) () -> {
-            final VirtualFile baseDir = project.getBaseDir();
-            final String basePath = baseDir != null ? baseDir.getPath() : FileUtil.getTempDirectory();
-            return new File(basePath);
-        });
+        // Project.getBaseDir() is deprecated and, for projects without a base path (e.g. the
+        // default/template project), resolves to the filesystem root rather than null - which
+        // then makes the coverage database resolve to "/.clover". Project.getBasePath() is the
+        // supported replacement and returns null cleanly in that case.
+        final String basePath = project.getBasePath();
+        return new File(basePath != null ? basePath : FileUtil.getTempDirectory());
     }
 
     /**

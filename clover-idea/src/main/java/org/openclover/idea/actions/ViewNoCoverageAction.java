@@ -2,13 +2,12 @@ package org.openclover.idea.actions;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;
-import com.intellij.openapi.actionSystem.ToggleAction;
 import com.intellij.openapi.project.Project;
 import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.config.IdeaCloverConfig;
 import org.openclover.idea.feature.CloverFeatures;
 
-public class ViewNoCoverageAction extends ToggleAction {
+public class ViewNoCoverageAction extends CloverToggleAction {
     @Override
     public boolean isSelected(AnActionEvent event) {
         Project project = DataKeys.PROJECT.getData(event.getDataContext());

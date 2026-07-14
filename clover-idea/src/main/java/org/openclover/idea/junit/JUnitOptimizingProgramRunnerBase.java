@@ -86,6 +86,8 @@ public class JUnitOptimizingProgramRunnerBase implements SavingsReporter {
         }
         final File tmpFile = retrieveTmpFile(javaParameters);
         if (tmpFile != null) {
+            Logger.getInstance().info("JUnitOptimizingProgramRunnerBase Java parameters: " +
+                    String.join(" ", javaParameters.getProgramParametersList().getList()));
             final int jUnitSychSocket = retrieveJUnitSychSocket(javaParameters);
             if (jUnitSychSocket == -1) {
                 final FileBasedJUnitClassListProcessor processor = new FileBasedJUnitClassListProcessor(
@@ -141,7 +143,7 @@ public class JUnitOptimizingProgramRunnerBase implements SavingsReporter {
      * Retrieves the Idea-specific JUnit runner synchronization socket.<p>
      *
      * @param javaParameters configured by Idea test runner guts for current test run
-     * @return configured synchronization socket or -1 if not found (eg. Idea pre-9)
+     * @return configured synchronization socket or -1 if not found
      */
     int retrieveJUnitSychSocket(@NotNull JavaParameters javaParameters) {
         final String param = findSocketParamValue(javaParameters);
@@ -164,11 +166,14 @@ public class JUnitOptimizingProgramRunnerBase implements SavingsReporter {
 
     @Nullable
     private String findSocketParamValue(@NotNull JavaParameters javaParameters) {
-        Pattern pattern = Pattern.compile("^-socket(\\d+)$");
+        // https://github.com/JetBrains/intellij-community/blob/master/plugins/junit_rt/src/com/intellij/rt/junit/JUnitStarter.java
+        // "-socket[<host>:]<port>" for example
+        // "-sockethost.docker.internal:12345" or "-socket54321"
+        Pattern pattern = Pattern.compile("^-socket([^:]+:)?(\\d+)$");
         for (String param : javaParameters.getProgramParametersList().getList()) {
             final Matcher matcher = pattern.matcher(param);
             if (matcher.matches()) {
-                return matcher.group(1);
+                return matcher.group(2);
             }
         }
         return null;

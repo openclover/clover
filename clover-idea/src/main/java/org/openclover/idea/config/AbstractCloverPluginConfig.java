@@ -120,7 +120,7 @@ public abstract class AbstractCloverPluginConfig implements CloverPluginConfig {
      * @param i    int
      */
     public void putProperty(String name, int i) {
-        putProperty(name, new Integer(i));
+        putProperty(name, Integer.valueOf(i));
     }
 
     /**
@@ -131,7 +131,7 @@ public abstract class AbstractCloverPluginConfig implements CloverPluginConfig {
      * @param l    long
      */
     public void putProperty(String name, long l) {
-        putProperty(name, new Long(l));
+        putProperty(name, Long.valueOf(l));
     }
 
     /**
@@ -142,7 +142,7 @@ public abstract class AbstractCloverPluginConfig implements CloverPluginConfig {
      * @param f    float
      */
     public void putProperty(String name, float f) {
-        putProperty(name, new Float(f));
+        putProperty(name, Float.valueOf(f));
     }
 
     /**
@@ -153,7 +153,7 @@ public abstract class AbstractCloverPluginConfig implements CloverPluginConfig {
      * @param d    double
      */
     public void putProperty(String name, double d) {
-        putProperty(name, new Double(d));
+        putProperty(name, Double.valueOf(d));
     }
 
     /**
@@ -164,7 +164,7 @@ public abstract class AbstractCloverPluginConfig implements CloverPluginConfig {
      * @param b    byte
      */
     public void putProperty(String name, byte b) {
-        putProperty(name, new Byte(b));
+        putProperty(name, Byte.valueOf(b));
     }
 
     /**
@@ -175,7 +175,7 @@ public abstract class AbstractCloverPluginConfig implements CloverPluginConfig {
      * @param s    short
      */
     public void putProperty(String name, short s) {
-        putProperty(name, new Short(s));
+        putProperty(name, Short.valueOf(s));
     }
 
     /**

@@ -28,6 +28,7 @@ public class TreeMapEditor extends DummyFileEditor implements CoverageListener {
     private final CoverageManager coverageManager;
 
     public TreeMapEditor(Project project, TreeMapVirtualFile virtualFile) {
+        super(virtualFile);
         coverageManager = virtualFile.getCoverageManager();
         final TreeMapNode root = new ProjectHeapMapBuilder().buildTree(coverageManager.getCoverage());
         treeMap = new JTreeMap(root);

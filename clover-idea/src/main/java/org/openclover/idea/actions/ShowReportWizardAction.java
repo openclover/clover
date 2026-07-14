@@ -1,6 +1,5 @@
 package org.openclover.idea.actions;
 
-import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.project.Project;
@@ -13,7 +12,7 @@ import org.openclover.idea.report.ReportWizard;
  * The show report wizard action handles the report wizard integration into
  * IDEA.
  */
-public class ShowReportWizardAction extends AnAction {
+public class ShowReportWizardAction extends CloverEdtAction {
 
     /**
      * The update method manages the 'enabled' state of this action.

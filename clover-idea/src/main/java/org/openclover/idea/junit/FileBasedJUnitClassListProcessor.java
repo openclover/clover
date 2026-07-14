@@ -19,7 +19,7 @@ public class FileBasedJUnitClassListProcessor extends JUnitClassListProcessor {
 
     public File processWhenFileNotEmpty() {
         if (ideaGeneratedFile.length() > 0) {
-            // idea 8.0- behavior
+            // file already populated - process it synchronously
             processFile();
             return null;
         } else {

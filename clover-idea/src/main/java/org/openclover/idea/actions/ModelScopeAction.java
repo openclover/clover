@@ -1,6 +1,7 @@
 package org.openclover.idea.actions;
 
 import com.intellij.openapi.actionSystem.ActionManager;
+import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DefaultActionGroup;
 import com.intellij.openapi.actionSystem.Presentation;
@@ -56,5 +57,11 @@ public class ModelScopeAction extends ComboBoxAction {
                 ModelScope.ALL_CLASSES;
 
         event.getPresentation().setText(AbstractClassesScopeAction.getText(scope));
+    }
+
+    // update() only reads the OpenClover config from the data context, so it is safe on a background thread
+    @Override
+    public ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.BGT;
     }
 }

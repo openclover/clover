@@ -1,6 +1,5 @@
 package org.openclover.idea.actions;
 
-import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.components.ServiceManager;
@@ -10,7 +9,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.pom.Navigatable;
 import org.openclover.idea.util.tmp.TmpPathResolver;
 
-public class JumpToActualSourceAction extends AnAction {
+public class JumpToActualSourceAction extends CloverAnAction {
 
     @Override
     public void actionPerformed(AnActionEvent e) {

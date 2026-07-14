@@ -1,6 +1,6 @@
 package org.openclover.idea.actions.cloudreport;
 
-import com.intellij.openapi.actionSystem.AnAction;
+import org.openclover.idea.actions.CloverAnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.fileEditor.FileEditorManager;
@@ -11,7 +11,7 @@ import org.openclover.core.api.registry.PackageInfo;
 import org.openclover.idea.actions.Constants;
 import org.openclover.idea.report.cloud.CloudVirtualFile;
 
-public class CloudPackageReportAction extends AnAction {
+public class CloudPackageReportAction extends CloverAnAction {
     @Override
     public void actionPerformed(AnActionEvent e) {
         final HasMetrics hasMetrics = Constants.SELECTED_HAS_METRICS.getData(e.getDataContext());

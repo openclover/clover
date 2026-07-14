@@ -5,7 +5,6 @@ import com.intellij.execution.ExecutionManager;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.compiler.CompilerManager;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.ProjectComponent;
 import com.intellij.openapi.components.State;
@@ -127,8 +126,11 @@ public class ProjectPlugin implements IProjectPlugin, ProjectComponent, ModuleRo
         }
         new ProjectEnabledListener().register(featureManager);
 
+        // CloverCompiler registers its own pre-build CompileTasks and a compilation-status listener
+        // from its constructor; it is no longer registered as a Compiler (that API, and the
+        // JavaSourceTransformingCompiler path it relied on, were removed by JetBrains - instrumentation
+        // now happens exclusively in the external JPS build).
         compiler = new CloverCompiler(project);
-        CompilerManager.getInstance(project).addCompiler(compiler);
 
         EventListenerInstallator.install(project, ProjectTopics.PROJECT_ROOTS, this);
 
@@ -159,7 +161,6 @@ public class ProjectPlugin implements IProjectPlugin, ProjectComponent, ModuleRo
             return;
         }
 
-        CompilerManager.getInstance(project).removeCompiler(compiler);
         CloverToolWindow.getInstance(project).cleanup();
         TestRunExplorerToolWindow.getInstance(project).unregister();
         compiler.cleanup();

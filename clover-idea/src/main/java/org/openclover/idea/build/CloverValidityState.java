@@ -24,7 +24,8 @@ public class CloverValidityState implements ValidityState {
     }
 
     /**
-     * A workaround for http://youtrack.jetbrains.com/issue/IDEA-122924 (for IDEA 13.1.x)
+     * Defensive equals() delegating to {@link #equalsTo(ValidityState)} so that OpenClover validity
+     * states compare by value regardless of how the platform invokes equality checks.
      */
     @Override
     public boolean equals(Object other) {

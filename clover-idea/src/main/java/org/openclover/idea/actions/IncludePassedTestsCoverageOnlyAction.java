@@ -1,12 +1,11 @@
 package org.openclover.idea.actions;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.ToggleAction;
 import org.openclover.idea.IProjectPlugin;
 import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.config.IdeaCloverConfig;
 
-public class IncludePassedTestsCoverageOnlyAction extends ToggleAction {
+public class IncludePassedTestsCoverageOnlyAction extends CloverToggleAction {
     /**
      * Returns the selected (checked, pressed) state of the action.
      *

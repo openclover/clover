@@ -1,11 +1,10 @@
 package org.openclover.idea.actions;
 
-import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import org.openclover.idea.IProjectPlugin;
 import org.openclover.idea.ProjectPlugin;
 
-public class RefreshAction extends AnAction {
+public class RefreshAction extends CloverAnAction {
 
     @Override
     public void actionPerformed(AnActionEvent event) {

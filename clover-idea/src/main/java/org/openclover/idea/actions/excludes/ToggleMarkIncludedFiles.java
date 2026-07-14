@@ -1,12 +1,12 @@
 package org.openclover.idea.actions.excludes;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.ToggleAction;
+import org.openclover.idea.actions.CloverToggleAction;
 import org.openclover.idea.IProjectPlugin;
 import org.openclover.idea.ProjectPlugin;
 import org.openclover.idea.config.IdeaCloverConfig;
 
-public class ToggleMarkIncludedFiles extends ToggleAction {
+public class ToggleMarkIncludedFiles extends CloverToggleAction {
     @Override
     public boolean isSelected(AnActionEvent e) {
         final IProjectPlugin plugin = ProjectPlugin.getPlugin(e);
