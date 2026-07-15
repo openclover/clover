@@ -14,99 +14,122 @@
         It integrates easily with Maven, Ant, Grails, Eclipse and IntelliJ IDEA
         as well as with continuous integration servers such as Bamboo, Jenkins or Hudson.
     </description>
+    <!-- Everything below is bundled into the clover.jar uber-jar by the assembly plugin, so a consumer of
+         org.openclover:clover needs none of it on the classpath. All deps are 'optional' to keep them out of
+         consumers' dependency trees. -->
     <dependencies>
         <dependency>
             <groupId>org.openclover</groupId>
             <artifactId>clover-ant</artifactId>
             <version>${project.version}</version>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.openclover</groupId>
             <artifactId>clover-ant</artifactId>
             <version>${project.version}</version>
             <classifier>sources</classifier>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.openclover</groupId>
             <artifactId>clover-runtime</artifactId>
             <version>${project.version}</version>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.openclover</groupId>
             <artifactId>clover-runtime</artifactId>
             <version>${project.version}</version>
             <classifier>sources</classifier>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.openclover</groupId>
             <artifactId>clover-core</artifactId>
             <version>${project.version}</version>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.openclover</groupId>
             <artifactId>clover-core</artifactId>
             <version>${project.version}</version>
             <classifier>sources</classifier>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.openclover</groupId>
             <artifactId>clover-groovy</artifactId>
             <version>${project.version}</version>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.openclover</groupId>
             <artifactId>clover-groovy</artifactId>
             <version>${project.version}</version>
             <classifier>sources</classifier>
+            <optional>true</optional>
         </dependency>
         <!-- packaging into clover.jar via assembly plugin -->
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>gnu.cajo</groupId>
             <artifactId>cajo</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>it.unimi.dsi</groupId>
             <artifactId>fastutil</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>com.lowagie</groupId>
             <artifactId>itext</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.jfree</groupId>
             <artifactId>jcommon</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>jdom</groupId>
             <artifactId>jdom</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.jfree</groupId>
             <artifactId>jfreechart</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.apache.velocity</groupId>
             <artifactId>velocity</artifactId>
+            <optional>true</optional>
         </dependency>
     </dependencies>
     <build>

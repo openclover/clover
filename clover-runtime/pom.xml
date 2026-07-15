@@ -20,34 +20,31 @@
             <groupId>org.openclover</groupId>
             <artifactId>clover-buildutil</artifactId>
             <version>${project.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.ow2.asm</groupId>
             <artifactId>asm</artifactId>
             <version>9.7</version>
+            <scope>provided</scope>
         </dependency>
-        <!-- test frameworks supported by the clover-runtime -->
-        <!-- override groovy-all version from a transitive dependency from spock-core -->
-        <dependency>
-            <groupId>org.apache.groovy</groupId>
-            <artifactId>groovy</artifactId>
-            <version>4.0.32</version>
-        </dependency>
-        <dependency>
-            <groupId>org.spockframework</groupId>
-            <artifactId>spock-core</artifactId>
-        </dependency>
+        <!-- Test frameworks supported by the clover-runtime. The listeners below are loaded only when the
+             instrumented code actually runs under that framework, so the framework is always supplied by the
+             build being measured. Keep these 'provided' - they must not leak onto a consumer's classpath. -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-engine</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-launcher</artifactId>
+            <scope>provided</scope>
         </dependency>
         <!-- repacked third party libraries used by the clover-runtime -->
         <dependency>
@@ -186,6 +183,8 @@
                             <goal>java</goal>
                         </goals>
                         <configuration>
+                            <!-- using 'compile' scope to pull-in clover-buildutil and asm -->
+                            <classpathScope>compile</classpathScope>
                             <mainClass>org.openclover.buildutil.codegen.WriteRethrowMethod</mainClass>
                             <commandlineArgs>
                                 ${project.build.outputDirectory}/org_openclover_runtime/CoverageRecorder.class
