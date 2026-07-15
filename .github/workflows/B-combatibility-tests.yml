@@ -73,18 +73,18 @@ jobs:
         with:
           name: compiled-jdk21
 
-      - name: Restore module build output (compiled once, with JDK 21)
-        run: |
-          tar -xzf module-targets.tar.gz
-          mkdir -p "$HOME/.m2/repository"
-          tar -xzf m2-openclover.tar.gz -C "$HOME/.m2/repository"
-
       - name: Set up JDK ${{ matrix.jdk }}
         uses: actions/setup-java@v5
         with:
           java-version: ${{ matrix.jdk }}
           distribution: temurin
           cache: maven
+
+      - name: Restore module build output (compiled once, with JDK 21)
+        run: |
+          tar -xzf module-targets.tar.gz
+          mkdir -p "$HOME/.m2/repository"
+          tar -xzf m2-openclover.tar.gz -C "$HOME/.m2/repository"
 
       - name: Prepare third party libraries
         run: |
