@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.openclover</groupId>
         <artifactId>clover-eclipse</artifactId>
-        <version>5.0.0.v20260714000000</version>
+        <version>5.0.0.v20260715000000</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>org.openclover.eclipse.ant.feature</artifactId>
