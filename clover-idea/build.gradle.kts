@@ -34,12 +34,9 @@ sourceSets {
     }
     // Classes loaded directly into IntelliJ's external JPS build process (CloverSerializerExtension,
     // CloverJavaBuilder, and the config/util classes they need), plus their transitive JPS-safe
-    // dependencies. Kept in a separate source set — compiled to Java 11 bytecode with an isolated
+    // dependencies. Kept in a separate source set — compiled to Java 8 bytecode with an isolated
     // classpath — because JPS runs the *project being built*'s own build process, on whatever JDK
-    // that project needs (observed as low as Java 11 in practice), NOT the JDK IntelliJ itself runs
-    // on. This mirrors how IntelliJ's own JPS extension modules (plugins/maven/jps,
-    // plugins/gradle/jps-plugin, etc.) are built: LANGUAGE_LEVEL="JDK_11", no dependency on the full
-    // Platform SDK (which is bytecode 65 / Java 21 and unreadable by an older JPS host JVM).
+    // that project needs (observed as low as Java 8 in practice), NOT the JDK IntelliJ itself runs on.
     create("jps") {
         java.srcDir("src/jps/java")
     }
@@ -108,10 +105,10 @@ sourceSets.test {
     runtimeClasspath += sourceSets["jps"].output
 }
 
-// The JPS host JVM can be as old as Java 8/11 (see the 'jps' source set comment above), so its
-// classes are cross-compiled to Java 11 bytecode regardless of the project's Java 21 toolchain.
+// The JPS host JVM can be as old as Java 8 (see the 'jps' source set comment above), so its
+// classes are cross-compiled to Java 8 bytecode regardless of the project's Java 21 toolchain.
 tasks.named<JavaCompile>("compileJpsJava") {
-    options.release.set(11)
+    options.release.set(8)
 }
 
 // version-substitute plugin.xml (<version>idea-${project.version}</version>).
