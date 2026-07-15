@@ -72,15 +72,19 @@ dependencies {
     testImplementation("org.mockito:mockito-core:5.18.0")
 
     // util-8.jar (bytecode 52, also bundles org.jdom.* used by the JPS model API), jps-model.jar,
-    // intellij.platform.jps.build.jar (JPS builder/incremental-compiler API), annotations.jar,
-    // intellij.libraries.commons.lang3.jar, and java-impl.jar (only used for its bytecode-52
-    // org.jetbrains.jps.builders.java.JavaSourceTransformer) are the only pieces of the platform
-    // the 'jps' source set is allowed to see.
+    // the JPS builder/incremental-compiler API jar (jps-builders.jar pre-2026, renamed to
+    // intellij.platform.jps.build.jar in 2026.1+), annotations.jar, the commons-lang3 jar, and
+    // java-impl.jar (only used for its bytecode-52 org.jetbrains.jps.builders.java.JavaSourceTransformer)
+    // are the only pieces of the platform the 'jps' source set is allowed to see. Matched by
+    // substring rather than exact name: the intellijPlatform Gradle plugin prefixes/suffixes these
+    // jars differently across IDE versions (e.g. "module-intellij.libraries.commons.lang3.jar" on
+    // 2025.3.6 vs "intellij.libraries.commons.lang3.jar" on 2026.1.3, "jps-builders.jar" vs
+    // "jps-builders-6.jar").
     // Sourced from 'compileClasspath' before main's own compileClasspath is extended with the
     // jps source set's output below, to avoid a jps -> main -> jps classpath cycle.
     "jpsCompileOnly"(files(provider {
         configurations["compileClasspath"].filter { jar ->
-            jar.name.matches(Regex("(util-8|jps-model|intellij\\.platform\\.jps\\.build|annotations|intellij\\.libraries\\.commons\\.lang3|java-impl)(-.*)?\\.jar"))
+            jar.name.matches(Regex(".*(util-8|jps-model|jps-builders|jps\\.build|annotations|commons\\.lang3|java-impl)[^/]*\\.jar"))
         }
     }))
     "jpsImplementation"("org.openclover:clover:$version") { isTransitive = false }
