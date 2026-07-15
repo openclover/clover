@@ -9,7 +9,7 @@ import java.util.Vector;
  * MoneyBag is represented as a list of Monies and provides different constructors to create a MoneyBag.
  */
 class MoneyBag implements IMoney {
-    private Vector<IMoney> fMonies = new Vector<IMoney>(5);
+    private final Vector<IMoney> fMonies = new Vector<>(5);
 
     static IMoney create(IMoney m1, IMoney m2) {
         MoneyBag result = new MoneyBag();
@@ -31,8 +31,8 @@ class MoneyBag implements IMoney {
     }
 
     void appendBag(MoneyBag aBag) {
-        for (IMoney fMony : aBag.fMonies) {
-            appendMoney((Money) fMony);
+        for (final IMoney money : aBag.fMonies) {
+            appendMoney((Money) money);
         }
     }
 
@@ -67,8 +67,8 @@ class MoneyBag implements IMoney {
                 return false;
             }
 
-            for (IMoney fMony : fMonies) {
-                Money m = (Money) fMony;
+            for (final IMoney money : fMonies) {
+                Money m = (Money) money;
                 if (!aMoneyBag.contains(m)) {
                     return false;
                 }
@@ -79,8 +79,8 @@ class MoneyBag implements IMoney {
     }
 
     private Money findMoney(String currency) {
-        for (IMoney fMony : fMonies) {
-            Money m = (Money) fMony;
+        for (final IMoney money : fMonies) {
+            Money m = (Money) money;
             if (m.currency().equals(currency)) {
                 return m;
             }
@@ -102,14 +102,14 @@ class MoneyBag implements IMoney {
     }
 
     public boolean isZero() {
-        return fMonies.size() == 0;
+        return fMonies.isEmpty();
     }
 
     public IMoney multiply(int factor) {
         MoneyBag result = new MoneyBag();
         if (factor != 0) {
-            for (IMoney fMony : fMonies) {
-                Money m = (Money) fMony;
+            for (final IMoney money : fMonies) {
+                Money m = (Money) money;
                 result.appendMoney((Money) m.multiply(factor));
             }
         }
@@ -118,8 +118,8 @@ class MoneyBag implements IMoney {
 
     public IMoney negate() {
         MoneyBag result = new MoneyBag();
-        for (IMoney fMony : fMonies) {
-            Money m = (Money) fMony;
+        for (final IMoney money : fMonies) {
+            Money m = (Money) money;
             result.appendMoney((Money) m.negate());
         }
         return result;
@@ -139,8 +139,8 @@ class MoneyBag implements IMoney {
     public String toString() {
         StringBuilder buffer = new StringBuilder();
         buffer.append("{");
-        for (IMoney fMony : fMonies) {
-            buffer.append(fMony);
+        for (final IMoney money : fMonies) {
+            buffer.append(money);
         }
         buffer.append("}");
         return buffer.toString();

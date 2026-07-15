@@ -17,7 +17,7 @@ class HipPocket {
         }
     }
 
-    def boolean isEmpty() {
+    boolean isEmpty() {
         // find any non-zero entries in the map.
         return pocket.isEmpty() || pocket.findAll { !it.value.isZero() }.isEmpty()
 
