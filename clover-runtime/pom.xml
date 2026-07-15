@@ -206,6 +206,8 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <!-- flatten-maven-plugin generates the pom we publish, so shade must not rewrite it -->
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
                             <artifactSet>
                                 <includes>
                                     <include>antlr:antlr</include>
@@ -305,15 +307,35 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- install artifact with pom-reduced.xml (with no dependencies) -->
+            <!-- generate the pom we publish, with no dependences (as they're shaded in the jar) -->
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-install-plugin</artifactId>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <version>1.6.0</version>
                 <configuration>
-                    <pomFile>${project.basedir}/pom-reduced.xml</pomFile>
+                    <flattenMode>ossrh</flattenMode>
+                    <pomElements>
+                        <dependencies>remove</dependencies>
+                    </pomElements>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>flatten-clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
-            <!-- deploy artifact with pom-reduced.xml (with no dependencies) -->
+            <!-- deploy artifact with the generated .flattened-pom.xml (with no dependencies) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
@@ -334,7 +356,7 @@
                         </goals>
                         <phase>deploy</phase>
                         <configuration>
-                            <pomFile>${project.basedir}/pom-reduced.xml</pomFile>
+                            <pomFile>${project.basedir}/.flattened-pom.xml</pomFile>
                             <file>${project.build.directory}/${project.artifactId}-${project.version}.jar</file>
                             <javadoc>${project.build.directory}/${project.artifactId}-${project.version}-javadoc.jar</javadoc>
                             <sources>${project.build.directory}/${project.artifactId}-${project.version}-sources.jar</sources>

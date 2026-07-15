@@ -14,122 +14,102 @@
         It integrates easily with Maven, Ant, Grails, Eclipse and IntelliJ IDEA
         as well as with continuous integration servers such as Bamboo, Jenkins or Hudson.
     </description>
-    <!-- Everything below is bundled into the clover.jar uber-jar by the assembly plugin, so a consumer of
-         org.openclover:clover needs none of it on the classpath. All deps are 'optional' to keep them out of
-         consumers' dependency trees. -->
+    <!-- Everything below is bundled into the clover.jar uber-jar by the assembly plugin and is needed only to
+         build it; a consumer of org.openclover:clover needs none of it. The published pom therefore declares no
+         dependencies at all - see flatten-maven-plugin below. -->
     <dependencies>
         <dependency>
             <groupId>org.openclover</groupId>
             <artifactId>clover-ant</artifactId>
             <version>${project.version}</version>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.openclover</groupId>
             <artifactId>clover-ant</artifactId>
             <version>${project.version}</version>
             <classifier>sources</classifier>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.openclover</groupId>
             <artifactId>clover-runtime</artifactId>
             <version>${project.version}</version>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.openclover</groupId>
             <artifactId>clover-runtime</artifactId>
             <version>${project.version}</version>
             <classifier>sources</classifier>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.openclover</groupId>
             <artifactId>clover-core</artifactId>
             <version>${project.version}</version>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.openclover</groupId>
             <artifactId>clover-core</artifactId>
             <version>${project.version}</version>
             <classifier>sources</classifier>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.openclover</groupId>
             <artifactId>clover-groovy</artifactId>
             <version>${project.version}</version>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.openclover</groupId>
             <artifactId>clover-groovy</artifactId>
             <version>${project.version}</version>
             <classifier>sources</classifier>
-            <optional>true</optional>
         </dependency>
         <!-- packaging into clover.jar via assembly plugin -->
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>gnu.cajo</groupId>
             <artifactId>cajo</artifactId>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>it.unimi.dsi</groupId>
             <artifactId>fastutil</artifactId>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>com.lowagie</groupId>
             <artifactId>itext</artifactId>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.jfree</groupId>
             <artifactId>jcommon</artifactId>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>jdom</groupId>
             <artifactId>jdom</artifactId>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.jfree</groupId>
             <artifactId>jfreechart</artifactId>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.apache.velocity</groupId>
             <artifactId>velocity</artifactId>
-            <optional>true</optional>
         </dependency>
     </dependencies>
     <build>
@@ -259,15 +239,35 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- install artifact with pom-reduced.xml (with no dependencies) -->
+            <!-- generate the pom we publish, with no dependencie (as we bundle them via assembly plugin) -->
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-install-plugin</artifactId>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <version>1.6.0</version>
                 <configuration>
-                    <pomFile>${project.basedir}/pom-reduced.xml</pomFile>
+                    <flattenMode>ossrh</flattenMode>
+                    <pomElements>
+                        <dependencies>remove</dependencies>
+                    </pomElements>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>flatten-clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
-            <!-- deploy artifact with pom-reduced.xml (with no dependencies) -->
+            <!-- deploy artifact with the generated .flattened-pom.xml (with no dependencies) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
@@ -287,7 +287,7 @@
                         </goals>
                         <phase>deploy</phase>
                         <configuration>
-                            <pomFile>${project.basedir}/pom-reduced.xml</pomFile>
+                            <pomFile>${project.basedir}/.flattened-pom.xml</pomFile>
                             <file>${project.build.directory}/${project.artifactId}-${project.version}.jar</file>
                             <javadoc>${project.build.directory}/${project.artifactId}-${project.version}-javadoc.jar</javadoc>
                             <sources>${project.build.directory}/${project.artifactId}-${project.version}-sources.jar</sources>
