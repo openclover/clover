@@ -34,9 +34,13 @@ sourceSets {
     }
     // Classes loaded directly into IntelliJ's external JPS build process (CloverSerializerExtension,
     // CloverJavaBuilder, and the config/util classes they need), plus their transitive JPS-safe
-    // dependencies. Kept in a separate source set — compiled to Java 8 bytecode with an isolated
+    // dependencies. Kept in a separate source set — compiled to Java 11 bytecode with an isolated
     // classpath — because JPS runs the *project being built*'s own build process, on whatever JDK
-    // that project needs (observed as low as Java 8 in practice), NOT the JDK IntelliJ itself runs on.
+    // that project needs, NOT the JDK IntelliJ itself runs on. Java 11 (not 8) is the practical floor:
+    // jps-model.jar is itself bytecode 11, and these classes are loaded via ServiceLoader directly on
+    // the external javac process's classpath, so they can't be older than the platform jars they use.
+    // Projects with a Java 8 project SDK are therefore not supported for JPS-based (make/rebuild)
+    // instrumentation with the IDEA plugin — see the supported-platforms manual page.
     create("jps") {
         java.srcDir("src/jps/java")
     }
@@ -105,10 +109,12 @@ sourceSets.test {
     runtimeClasspath += sourceSets["jps"].output
 }
 
-// The JPS host JVM can be as old as Java 8 (see the 'jps' source set comment above), so its
-// classes are cross-compiled to Java 8 bytecode regardless of the project's Java 21 toolchain.
+// The JPS host JVM must be at least Java 11: jps-model.jar itself (LanguageLevel and friends) is
+// bytecode 11, and JavaSourceTransformer implementations are loaded via ServiceLoader directly on
+// the external javac process's classpath, so they can never be older than the platform jars they
+// reference. Cross-compiled to Java 11 bytecode regardless of the project's own Java 21 toolchain.
 tasks.named<JavaCompile>("compileJpsJava") {
-    options.release.set(8)
+    options.release.set(11)
 }
 
 // version-substitute plugin.xml (<version>idea-${project.version}</version>).
