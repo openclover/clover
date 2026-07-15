@@ -1,7 +1,9 @@
 package org.openclover.idea.report.cloud;
 
 
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.Computable;
 import com.intellij.psi.PsiClass;
 import org.openclover.idea.util.psi.PsiUtil;
 
@@ -23,12 +25,16 @@ public class ClassHyperlinkListener implements HyperlinkListener {
     }
 
     private void focusClass(String className) {
-        final PsiClass[] matchingClasses = PsiUtil.findClasses(className, project);
-        for (PsiClass aClass : matchingClasses) {
-            if (aClass.canNavigate()) {
-                aClass.navigate(true);
-                break;
+        final PsiClass classToNavigate = ApplicationManager.getApplication().runReadAction((Computable<PsiClass>) () -> {
+            for (PsiClass aClass : PsiUtil.findClasses(className, project)) {
+                if (aClass.canNavigate()) {
+                    return aClass;
+                }
             }
+            return null;
+        });
+        if (classToNavigate != null) {
+            classToNavigate.navigate(true);
         }
     }
 }
