@@ -5,19 +5,19 @@ package org.openclover.tutorial.money;
  */
 public class Money implements IMoney {
 
-    private int fAmount;
-    private String fCurrency;
+    private final int fAmount;
+    private final String fCurrency;
 
     /**
-     * Constructs a money from the given amount and currency.
+     * Constructs money from the given amount and currency.
      */
-    public Money(int amount, String currency) {
+    public Money(final int amount, final String currency) {
         fAmount = amount;
         fCurrency = currency;
     }
 
     /**
-     * Adds a money to this money. Forwards the request to the addMoney helper.
+     * Adds money to this money. Forwards the request to the addMoney helper.
      */
     public IMoney add(IMoney m) {
         return m.addMoney(this);

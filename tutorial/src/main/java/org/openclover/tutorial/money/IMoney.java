@@ -5,12 +5,12 @@ package org.openclover.tutorial.money;
  */
 public interface IMoney {
     /**
-     * Adds a money to this money.
+     * Adds money to this money.
      */
     IMoney add(IMoney m);
 
     /**
-     * Adds a simple Money to this money. This is a helper method for
+     * Adds simple Money to this money. This is a helper method for
      * implementing double dispatch
      */
     IMoney addMoney(Money m);
@@ -27,7 +27,7 @@ public interface IMoney {
     boolean isZero();
 
     /**
-     * Multiplies a money by the given factor.
+     * Multiplies money by the given factor.
      */
     IMoney multiply(int factor);
 
@@ -37,7 +37,7 @@ public interface IMoney {
     IMoney negate();
 
     /**
-     * Subtracts a money from this money.
+     * Subtracts money from this money.
      */
     IMoney subtract(IMoney m);
 

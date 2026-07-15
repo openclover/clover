@@ -5,7 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 
@@ -13,7 +13,6 @@ public class MoneyBagTest {
     private Money f12CHF;
     private Money f14CHF;
     private Money f7USD;
-    private Money f21USD;
 
     private IMoney fMB1;
     private IMoney fMB2;
@@ -23,15 +22,15 @@ public class MoneyBagTest {
         f12CHF = new Money(12, "CHF");
         f14CHF = new Money(14, "CHF");
         f7USD = new Money(7, "USD");
-        f21USD = new Money(21, "USD");
+        Money f21USD = new Money(21, "USD");
 
         fMB1 = MoneyBag.create(f12CHF, f7USD);
         fMB2 = MoneyBag.create(f14CHF, f21USD);
     }
 
     @After
-    public void tearDown() throws Exception {
-        // call toString, guranteed to be only called from here.
+    public void tearDown() {
+        // call toString, guaranteed to be only called from here.
         // this is for testing, coverage by test.
         fMB1.toString();
     }
@@ -89,19 +88,19 @@ public class MoneyBagTest {
     @Test
     public void testBagNotEquals() {
         IMoney bag = MoneyBag.create(f12CHF, f7USD);
-        assertFalse(bag.equals(new Money(12, "DEM").add(f7USD)));
+        assertNotEquals(bag, new Money(12, "DEM").add(f7USD));
     }
 
     @Test
     public void testMoneyBagEquals() {
-        assertTrue(!fMB1.equals(null));
+        assertNotEquals(fMB1, null);
 
         assertEquals(fMB1, fMB1);
         IMoney equal = MoneyBag.create(new Money(12, "CHF"), new Money(7, "USD"));
-        assertTrue(fMB1.equals(equal));
-        assertTrue(!fMB1.equals(f12CHF));
-        assertTrue(!f12CHF.equals(fMB1));
-        assertTrue(!fMB1.equals(fMB2));
+        assertEquals(fMB1, equal);
+        assertNotEquals(fMB1, f12CHF);
+        assertNotEquals(f12CHF, fMB1);
+        assertNotEquals(fMB1, fMB2);
     }
 
     @Test
@@ -112,17 +111,17 @@ public class MoneyBagTest {
 
     @Test
     public void testMoneyEquals() {
-        assertTrue(!f12CHF.equals(null));
+        assertNotEquals(f12CHF, null);
         Money equalMoney = new Money(12, "CHF");
         assertEquals(f12CHF, f12CHF);
         assertEquals(f12CHF, equalMoney);
         assertEquals(f12CHF.hashCode(), equalMoney.hashCode());
-        assertTrue(!f12CHF.equals(f14CHF));
+        assertNotEquals(f12CHF, f14CHF);
     }
 
     @Test
     public void testMoneyHash() {
-        assertTrue(!f12CHF.equals(null));
+        assertNotEquals(f12CHF, null);
         Money equal = new Money(12, "CHF");
         assertEquals(f12CHF.hashCode(), equal.hashCode());
     }

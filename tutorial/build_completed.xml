@@ -4,9 +4,9 @@
     <property name="build.testclasses" location="build/testclasses"/>
     <property name="build.testresults" location="build/testresults"/>
 
-    <property name="junit.jar" location="lib/junit-4.12.jar"/>
-    <property name="hamcrest.jar" location="lib/hamcrest-core-1.3.jar"/>
-    <property name="groovy-all.jar" location="lib/groovy-all-2.4.15.jar"/>
+    <property name="junit.jar" location="lib/junit-4.13.2.jar"/>
+    <property name="hamcrest.jar" location="lib/hamcrest-2.2.jar"/>
+    <property name="groovy-all.jar" location="lib/groovy-4.0.32.jar"/>
     <!-- Ensure you have copied clover.jar to this location -->
     <property name="clover.jar" location="${user.home}/.ant/lib/clover.jar"/>
 
@@ -29,17 +29,17 @@
         <taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc" classpath="${groovy-all.jar}"/>
 
         <mkdir dir="${build.classes}"/>
-        <groovyc destdir="${build.classes}">
+        <groovyc destdir="${build.classes}" source="1.8" target="1.8">
             <src path="src/main/java"/>
             <src path="src/main/groovy"/>
-            <javac classpathref="build.classpath"/>
+            <javac classpathref="build.classpath" source="1.8" target="1.8"/>
         </groovyc>
 
         <mkdir dir="${build.testclasses}"/>
-        <groovyc destdir="${build.testclasses}">
+        <groovyc destdir="${build.testclasses}" source="1.8" target="1.8">
             <src path="src/test/java"/>
             <src path="src/test/groovy"/>
-            <javac classpathref="testbuild.classpath"/>
+            <javac classpathref="testbuild.classpath" source="1.8" target="1.8"/>
         </groovyc>
     </target>
 
