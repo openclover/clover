@@ -35,8 +35,6 @@ jobs:
           echo "Updating pom.xml files to version ${{ inputs.releaseVersion }}"
           mvn --batch-mode versions:set "-DnewVersion=${{ inputs.releaseVersion }}" -DgenerateBackupPoms=false
           mvn --batch-mode versions:set-property -Dproperty=clover.version "-DnewVersion=${{ inputs.releaseVersion }}" -DgenerateBackupPoms=false
-          sed -i $SED_I "s@<version>.*</version>@<version>${{ inputs.releaseVersion }}</version>@" clover-runtime/pom-reduced.xml
-          sed -i $SED_I "s@<version>.*</version>@<version>${{ inputs.releaseVersion }}</version>@" clover-all/pom-reduced.xml
           # clover-idea is built by Gradle; bump its plugin version too (not covered by versions:set)
           echo "Updating Gradle files for IDEA to version ${{ inputs.releaseVersion }}"
           sed -i $SED_I "s@^cloverVersion=.*@cloverVersion=${{ inputs.releaseVersion }}@" clover-idea/gradle.properties
@@ -50,8 +48,6 @@ jobs:
           echo "Updating pom.xml files to version ${{ inputs.nextReleaseVersion }}"
           mvn --batch-mode versions:set "-DnewVersion=${{ inputs.nextReleaseVersion }}" -DgenerateBackupPoms=false
           mvn --batch-mode versions:set-property -Dproperty=clover.version "-DnewVersion=${{ inputs.nextReleaseVersion }}" -DgenerateBackupPoms=false
-          sed -i $SED_I "s@<version>.*</version>@<version>${{ inputs.nextReleaseVersion }}</version>@" clover-runtime/pom-reduced.xml
-          sed -i $SED_I "s@<version>.*</version>@<version>${{ inputs.nextReleaseVersion }}</version>@" clover-all/pom-reduced.xml
           # clover-idea is built by Gradle; bump its plugin version too (not covered by versions:set)
           echo "Updating Gradle files for IDEA to version ${{ inputs.nextReleaseVersion }}"
           sed -i $SED_I "s@^cloverVersion=.*@cloverVersion=${{ inputs.nextReleaseVersion }}@" clover-idea/gradle.properties

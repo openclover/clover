@@ -20,34 +20,31 @@
             <groupId>org.openclover</groupId>
             <artifactId>clover-buildutil</artifactId>
             <version>${project.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.ow2.asm</groupId>
             <artifactId>asm</artifactId>
             <version>9.7</version>
+            <scope>provided</scope>
         </dependency>
-        <!-- test frameworks supported by the clover-runtime -->
-        <!-- override groovy-all version from a transitive dependency from spock-core -->
-        <dependency>
-            <groupId>org.apache.groovy</groupId>
-            <artifactId>groovy</artifactId>
-            <version>4.0.32</version>
-        </dependency>
-        <dependency>
-            <groupId>org.spockframework</groupId>
-            <artifactId>spock-core</artifactId>
-        </dependency>
+        <!-- Test frameworks supported by the clover-runtime. The listeners below are loaded only when the
+             instrumented code actually runs under that framework, so the framework is always supplied by the
+             build being measured. Keep these 'provided' - they must not leak onto a consumer's classpath. -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-engine</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-launcher</artifactId>
+            <scope>provided</scope>
         </dependency>
         <!-- repacked third party libraries used by the clover-runtime -->
         <dependency>
@@ -186,6 +183,8 @@
                             <goal>java</goal>
                         </goals>
                         <configuration>
+                            <!-- using 'compile' scope to pull-in clover-buildutil and asm -->
+                            <classpathScope>compile</classpathScope>
                             <mainClass>org.openclover.buildutil.codegen.WriteRethrowMethod</mainClass>
                             <commandlineArgs>
                                 ${project.build.outputDirectory}/org_openclover_runtime/CoverageRecorder.class
@@ -207,6 +206,8 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <!-- flatten-maven-plugin generates the pom we publish, so shade must not rewrite it -->
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
                             <artifactSet>
                                 <includes>
                                     <include>antlr:antlr</include>
@@ -306,15 +307,35 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- install artifact with pom-reduced.xml (with no dependencies) -->
+            <!-- generate the pom we publish, with no dependences (as they're shaded in the jar) -->
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-install-plugin</artifactId>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <version>1.6.0</version>
                 <configuration>
-                    <pomFile>${project.basedir}/pom-reduced.xml</pomFile>
+                    <flattenMode>ossrh</flattenMode>
+                    <pomElements>
+                        <dependencies>remove</dependencies>
+                    </pomElements>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>flatten-clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
-            <!-- deploy artifact with pom-reduced.xml (with no dependencies) -->
+            <!-- deploy artifact with the generated .flattened-pom.xml (with no dependencies) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
@@ -335,7 +356,7 @@
                         </goals>
                         <phase>deploy</phase>
                         <configuration>
-                            <pomFile>${project.basedir}/pom-reduced.xml</pomFile>
+                            <pomFile>${project.basedir}/.flattened-pom.xml</pomFile>
                             <file>${project.build.directory}/${project.artifactId}-${project.version}.jar</file>
                             <javadoc>${project.build.directory}/${project.artifactId}-${project.version}-javadoc.jar</javadoc>
                             <sources>${project.build.directory}/${project.artifactId}-${project.version}-sources.jar</sources>
