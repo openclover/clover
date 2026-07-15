@@ -10,7 +10,7 @@
     <name>OpenClover Eclipse Ant Plugin</name>
     <description>An Eclipse plugin providing integration of OpenClover with Ant-based projects.</description>
     <properties>
-        <clover.version>5.0.0-RC3</clover.version>
+        <clover.version>5.0.0-SNAPSHOT</clover.version>
     </properties>
     <dependencies>
         <dependency>
