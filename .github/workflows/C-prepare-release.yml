@@ -30,14 +30,14 @@ jobs:
         run: |
           git config user.name "Marek Parfianowicz (github-actions)"
           git config user.email "marek.parfianowicz+github-actions@gmail.com"
-          # macOS requires empty '' for sed -i, linux does not
-          if [ `uname` = 'Darwin' ]; then SED_I="''"; else SED_I=""; fi
           echo "Updating pom.xml files to version ${{ inputs.releaseVersion }}"
           mvn --batch-mode versions:set "-DnewVersion=${{ inputs.releaseVersion }}" -DgenerateBackupPoms=false
           mvn --batch-mode versions:set-property -Dproperty=clover.version "-DnewVersion=${{ inputs.releaseVersion }}" -DgenerateBackupPoms=false
           # clover-idea is built by Gradle; bump its plugin version too (not covered by versions:set)
+          # -i.bak with the suffix attached is the one form both GNU and BSD/macOS sed accept
           echo "Updating Gradle files for IDEA to version ${{ inputs.releaseVersion }}"
-          sed -i $SED_I "s@^cloverVersion=.*@cloverVersion=${{ inputs.releaseVersion }}@" clover-idea/gradle.properties
+          sed -i.bak "s@^cloverVersion=.*@cloverVersion=${{ inputs.releaseVersion }}@" clover-idea/gradle.properties
+          rm -f clover-idea/gradle.properties.bak
           ECLIPSE_VER=`echo ${{ inputs.releaseVersion }} | cut -f 1 -d '-'`.v`date +%Y%m%d`000000
           echo "Updating pom.xml files for Eclipse to version $ECLIPSE_VER"
           mvn --batch-mode versions:set "-DnewVersion=$ECLIPSE_VER" -DgenerateBackupPoms=false -pl clover-eclipse
@@ -49,8 +49,10 @@ jobs:
           mvn --batch-mode versions:set "-DnewVersion=${{ inputs.nextReleaseVersion }}" -DgenerateBackupPoms=false
           mvn --batch-mode versions:set-property -Dproperty=clover.version "-DnewVersion=${{ inputs.nextReleaseVersion }}" -DgenerateBackupPoms=false
           # clover-idea is built by Gradle; bump its plugin version too (not covered by versions:set)
+          # -i.bak with the suffix attached is the one form both GNU and BSD/macOS sed accept
           echo "Updating Gradle files for IDEA to version ${{ inputs.nextReleaseVersion }}"
-          sed -i $SED_I "s@^cloverVersion=.*@cloverVersion=${{ inputs.nextReleaseVersion }}@" clover-idea/gradle.properties
+          sed -i.bak "s@^cloverVersion=.*@cloverVersion=${{ inputs.nextReleaseVersion }}@" clover-idea/gradle.properties
+          rm -f clover-idea/gradle.properties.bak
           ECLIPSE_VER=`echo ${{ inputs.nextReleaseVersion }} | cut -f 1 -d '-'`.v`date +%Y%m%d`000000
           echo "Updating pom.xml files for Eclipse to version $ECLIPSE_VER"
           mvn --batch-mode versions:set "-DnewVersion=$ECLIPSE_VER" -DgenerateBackupPoms=false -pl clover-eclipse
