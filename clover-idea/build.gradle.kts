@@ -17,6 +17,35 @@ java {
     }
 }
 
+// version-filtered generated Java source (PluginVersionInfo.java)
+val generateVersionSource = tasks.register<Copy>("generateVersionSource") {
+    group = "build"
+    description = "Generates PluginVersionInfo.java with the current plugin version substituted in."
+    from("src/main/resources-filtered") { include("**/*.java") }
+    into(layout.buildDirectory.dir("generated/java"))
+    filter { line -> line.replace("\${project.version}", version.toString()) }
+}
+
+sourceSets {
+    main {
+        java.srcDir(generateVersionSource)
+        // plugin.xml lives under etc/META-INF
+        resources.srcDir("etc")
+    }
+    // Classes loaded directly into IntelliJ's external JPS build process (CloverSerializerExtension,
+    // CloverJavaBuilder, and the config/util classes they need), plus their transitive JPS-safe
+    // dependencies. Kept in a separate source set — compiled to Java 11 bytecode with an isolated
+    // classpath — because JPS runs the *project being built*'s own build process, on whatever JDK
+    // that project needs, NOT the JDK IntelliJ itself runs on. Java 11 (not 8) is the practical floor:
+    // jps-model.jar is itself bytecode 11, and these classes are loaded via ServiceLoader directly on
+    // the external javac process's classpath, so they can't be older than the platform jars they use.
+    // Projects with a Java 8 project SDK are therefore not supported for JPS-based (make/rebuild)
+    // instrumentation with the IDEA plugin — see the supported-platforms manual page.
+    create("jps") {
+        java.srcDir("src/jps/java")
+    }
+}
+
 dependencies {
     intellijPlatform {
         create(ideaType, ideaVersion)
@@ -42,23 +71,50 @@ dependencies {
 
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.mockito:mockito-core:5.18.0")
+
+    // util-8.jar (bytecode 52, also bundles org.jdom.* used by the JPS model API), jps-model.jar,
+    // the JPS builder/incremental-compiler API jar (jps-builders.jar pre-2026, renamed to
+    // intellij.platform.jps.build.jar in 2026.1+), annotations.jar, the commons-lang3 jar, and
+    // java-impl.jar (only used for its bytecode-52 org.jetbrains.jps.builders.java.JavaSourceTransformer)
+    // are the only pieces of the platform the 'jps' source set is allowed to see. Matched by
+    // substring rather than exact name: the intellijPlatform Gradle plugin prefixes/suffixes these
+    // jars differently across IDE versions (e.g. "module-intellij.libraries.commons.lang3.jar" on
+    // 2025.3.6 vs "intellij.libraries.commons.lang3.jar" on 2026.1.3, "jps-builders.jar" vs
+    // "jps-builders-6.jar").
+    // Sourced from 'compileClasspath' before main's own compileClasspath is extended with the
+    // jps source set's output below, to avoid a jps -> main -> jps classpath cycle.
+    "jpsCompileOnly"(files(provider {
+        configurations["compileClasspath"].filter { jar ->
+            jar.name.matches(Regex(".*(util-8|jps-model|jps-builders|jps\\.build|annotations|commons\\.lang3|java-impl)[^/]*\\.jar"))
+        }
+    }))
+    "jpsImplementation"("org.openclover:clover:$version") { isTransitive = false }
 }
 
-// version-filtered generated Java source (PluginVersionInfo.java)
-val generateVersionSource = tasks.register<Copy>("generateVersionSource") {
-    group = "build"
-    description = "Generates PluginVersionInfo.java with the current plugin version substituted in."
-    from("src/main/resources-filtered") { include("**/*.java") }
-    into(layout.buildDirectory.dir("generated/java"))
-    filter { line -> line.replace("\${project.version}", version.toString()) }
+// main needs the JPS-loadable serializer/config classes too (e.g. UI panels read CloverModuleConfig).
+// Wired directly onto the sourceSet's compile/runtime classpath (not via the 'implementation'
+// configuration) so 'configurations["compileClasspath"]', used above to build the jps source set's
+// own isolated classpath, doesn't end up including the jps source set's output — that would be a
+// circular classpath dependency.
+sourceSets.main {
+    compileClasspath += sourceSets["jps"].output
+    runtimeClasspath += sourceSets["jps"].output
 }
 
-sourceSets {
-    main {
-        java.srcDir(generateVersionSource)
-        // plugin.xml lives under etc/META-INF
-        resources.srcDir("etc")
-    }
+// 'test' doesn't inherit compileClasspath/runtimeClasspath additions made directly on the sourceSet
+// object above (only main.output, not main.compileClasspath, flows into it by default), so it needs
+// the same jps output added explicitly.
+sourceSets.test {
+    compileClasspath += sourceSets["jps"].output
+    runtimeClasspath += sourceSets["jps"].output
+}
+
+// The JPS host JVM must be at least Java 11: jps-model.jar itself (LanguageLevel and friends) is
+// bytecode 11, and JavaSourceTransformer implementations are loaded via ServiceLoader directly on
+// the external javac process's classpath, so they can never be older than the platform jars they
+// reference. Cross-compiled to Java 11 bytecode regardless of the project's own Java 21 toolchain.
+tasks.named<JavaCompile>("compileJpsJava") {
+    options.release.set(11)
 }
 
 // version-substitute plugin.xml (<version>idea-${project.version}</version>).
@@ -80,6 +136,10 @@ val fatJar = tasks.register<Jar>("fatJar") {
     dependsOn(composed)
     // clover-idea's own classes + patched META-INF/plugin.xml + services + PluginVersionInfo
     from({ zipTree(composed.get().outputs.files.singleFile) })
+    // JPS-loadable classes (see the 'jps' source set above) — compiled separately, so composedJar
+    // doesn't already contain them; must be merged into the same jar since the JPS build process
+    // loads this exact plugin jar off its classpath.
+    from({ sourceSets["jps"].output })
     // clover.jar + jtreemap.jar contents (self-contained; non-transitive)
     from({
         configurations.runtimeClasspath.get().files
@@ -193,6 +253,10 @@ sourceSets.test {
 
 tasks.test {
     dependsOn(buildTestProject)
+    // The IntelliJ Platform Gradle Plugin builds its own runtime classpath for this task rather than
+    // using sourceSets.test.runtimeClasspath directly, so the jps source set's output (added to that
+    // sourceSet property above) doesn't reach the test JVM unless added here too.
+    classpath += files(sourceSets["jps"].output)
     // JetBrains platform tests need a large heap.
     maxHeapSize = "1g"
     // IdeaVersionVerificationIdeaTest compares ApplicationInfo major.minor against this.
