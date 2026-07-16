@@ -102,7 +102,11 @@ jobs:
 
       - name: Prepare Eclipse libs for ${{ matrix.eclipse-version }}
         run: |
+          # The tagged pom pins the parent version that was current when the tag was cut,
+          # which no longer matches the root pom. clover-eclipse-libs needs nothing from
+          # the parent, so drop the block and build it standalone.
           git show clover-eclipse-libs-${{ matrix.eclipse-libs-version }}:clover-eclipse-libs/pom.xml \
+            | sed '/<parent>/,/<\/parent>/d' \
             > clover-eclipse-libs/pom.xml
           mvn -ntp --batch-mode install -Pworkspace-setup -f clover-eclipse-libs/pom.xml \
             -Declipse.download.site=${{ matrix.eclipse-download-site }} \
