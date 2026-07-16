@@ -21,8 +21,8 @@
         <clover.site.zip>${project.basedir}/../org.openclover.eclipse.updatesite/target/clover-eclipse-site-${project.version}.zip</clover.site.zip>
         <clover.runner.jar.dir>${project.basedir}/../org.openclover.eclipse.functest.runner/target</clover.runner.jar.dir>
         <!-- clover-runtime version (parent group, not eclipse-versioned) -->
-        <clover.base.version>5.0.0-SNAPSHOT</clover.base.version>
-        <clover.runtime.jar>${project.basedir}/../../clover-runtime/target/clover-runtime-${clover.base.version}.jar</clover.runtime.jar>
+        <clover.version>5.0.1-SNAPSHOT</clover.version>
+        <clover.runtime.jar>${project.basedir}/../../clover-runtime/target/clover-runtime-${clover.version}.jar</clover.runtime.jar>
 
         <!-- Internal paths (not overridden) -->
         <eclipse.install.dir>${project.build.directory}/eclipse-install</eclipse.install.dir>

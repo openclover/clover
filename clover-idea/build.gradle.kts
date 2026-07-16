@@ -6,7 +6,8 @@ plugins {
 }
 
 group = "org.openclover.idea"
-version = providers.gradleProperty("cloverVersion").getOrElse("5.0.0-SNAPSHOT")
+version = providers.gradleProperty("cloverVersion").orNull?.takeIf { it.isNotBlank() }
+    ?: error("cloverVersion is not set - define it in clover-idea/gradle.properties or pass -PcloverVersion=<version>")
 
 val ideaType = providers.gradleProperty("ideaType").getOrElse("IU")
 val ideaVersion = providers.gradleProperty("ideaVersion").getOrElse("2025.3.6")
