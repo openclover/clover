@@ -56,6 +56,17 @@ jobs:
           MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
           GPG_PASSPHRASE: ${{ secrets.ARTIFACT_SIGNING_GPG_PASSPHRASE }}
 
+      # Must run in this job: the staging API only accepts the promotion
+      # request from the IP that uploaded the artifacts.
+      - name: Publish staging repository to Central Portal
+        run: |
+          curl -sS -f -X POST \
+            -H "Authorization: Bearer $(printf '%s:%s' "$MAVEN_USERNAME" "$MAVEN_PASSWORD" | base64 -w0)" \
+            "https://ossrh-staging-api.central.sonatype.com/manual/upload/defaultRepository/org.openclover"
+        env:
+          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+
       - name: Upload non-Maven artifacts
         run: |
           SSH_ID=id_ed25519
