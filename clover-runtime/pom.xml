@@ -361,7 +361,7 @@
                             <javadoc>${project.build.directory}/${project.artifactId}-${project.version}-javadoc.jar</javadoc>
                             <sources>${project.build.directory}/${project.artifactId}-${project.version}-sources.jar</sources>
                             <repositoryId>ossrh</repositoryId>
-                            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+                            <url>https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/</url>
                         </configuration>
                     </execution>
                 </executions>
