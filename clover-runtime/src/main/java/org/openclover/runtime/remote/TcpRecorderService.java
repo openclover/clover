@@ -94,19 +94,26 @@ public class TcpRecorderService implements RecorderService {
                 }
                 return;
             }
-            try {
-                final ClientConnection connection = ClientConnection.accept(socket);
-                clients.add(connection);
-                Logger.getInstance().debug("Accepted connection from client: " + connection);
-                synchronized (barrier) {
-                    barrier.notifyAll();
-                }
-            } catch (IOException e) {
-                // bad magic/version or a stray process - never dispatch, just drop it
-                Logger.getInstance().info("Rejecting connection from " + socket.getRemoteSocketAddress()
-                        + ": " + e.getMessage());
-                closeQuietly(socket);
+            // Handshake off the accept thread and under a read timeout, so a peer that connects but never
+            // sends its handshake cannot stall the accept loop (and thus the start() barrier) for everyone.
+            fanoutPool.execute(() -> registerClient(socket));
+        }
+    }
+
+    private void registerClient(Socket socket) {
+        try {
+            socket.setSoTimeout(config.getTimeout());
+            final ClientConnection connection = ClientConnection.accept(socket);
+            clients.add(connection);
+            Logger.getInstance().debug("Accepted connection from client: " + connection);
+            synchronized (barrier) {
+                barrier.notifyAll();
             }
+        } catch (IOException e) {
+            // bad magic/version, a stalled peer, or a stray process - never dispatch, just drop it
+            Logger.getInstance().info("Rejecting connection from " + socket.getRemoteSocketAddress()
+                    + ": " + e.getMessage());
+            closeQuietly(socket);
         }
     }
 
@@ -114,7 +121,8 @@ public class TcpRecorderService implements RecorderService {
      * Encodes the event once, then broadcasts it to every client in parallel and blocks until all have
      * acknowledged (or are dropped on timeout). Latency is the slowest client, not the sum.
      *
-     * @return the number of clients that successfully applied the event
+     * @return an {@link Integer}: the number of clients that successfully applied the event (the
+     *         {@link RecorderService#sendMessage} contract is {@code Object}, but this is always a count)
      */
     @Override
     public Object sendMessage(RpcMessage message) {
@@ -123,12 +131,12 @@ public class TcpRecorderService implements RecorderService {
             frame = MessageCodec.encode(message);
         } catch (IOException e) {
             Logger.getInstance().error("Could not encode remote coverage message: " + e.getMessage(), e);
-            return 0;
+            return Integer.valueOf(0);
         }
 
         final List<ClientConnection> snapshot = new ArrayList<>(clients);
         if (snapshot.isEmpty()) {
-            return 0;
+            return Integer.valueOf(0);
         }
 
         final int timeout = config.getTimeout();

@@ -102,6 +102,22 @@ class TcpRecorderServiceTest {
     }
 
     @Test
+    void testStalledClientDoesNotBlockAcceptOfOthers() {
+        // short handshake timeout so the stalled peer is dropped quickly
+        service = (TcpRecorderService) RemoteFactory.getInstance().createService(config(500, 0))
+        service.start()
+
+        // connects but never sends the handshake bytes - must not wedge the accept loop
+        final Socket stalled = new Socket()
+        stalled.connect(new InetSocketAddress("localhost", Integer.parseInt(TEST_PORT)), 2000)
+        clientSockets.add(stalled)
+
+        // a well-behaved client that connects afterwards still registers
+        connectRawClient("good")
+        waitForRegistered(service, 1)
+    }
+
+    @Test
     void testStartBlocksUntilNumClientsConnect() {
         service = (TcpRecorderService) RemoteFactory.getInstance().createService(config(2000, 1))
 
