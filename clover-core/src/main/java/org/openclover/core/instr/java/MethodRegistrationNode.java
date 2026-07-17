@@ -59,7 +59,9 @@ public class MethodRegistrationNode extends Emitter {
     @Override
     public void init(InstrumentationState state) {
         final JavaInstrumentationConfig cfg = state.getCfg();
-        final boolean isTestMethod = state.isDetectTests() && state.getTestDetector().isMethodMatch(state, JavaMethodContext.createFor(signature));
+        final boolean isTestMethod = state.isDetectTests()
+                && !signature.isConstructorLike()
+                && state.getTestDetector().isMethodMatch(state, JavaMethodContext.createFor(signature));
         final String javaLangPrefix = cfg.getJavaLangPrefix();
 
         boolean addTestRewriteInstr = state.isInstrEnabled() && cfg.isRecordTestResults() && isTestMethod;

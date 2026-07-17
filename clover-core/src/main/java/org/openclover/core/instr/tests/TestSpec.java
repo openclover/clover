@@ -103,7 +103,8 @@ public class TestSpec implements TestDetector {
     @Override
     public boolean isMethodMatch(SourceContext sourceContext, MethodContext methodContext) {
         final MethodSignature signature = methodContext.getSignature();
-        return methodMatches(signature.getName()) &&
+        return !signature.isConstructorLike() && // constructors can't be treated as test methods — see OC-249
+                methodMatches(signature.getName()) &&
                 methodAnnotationMatches(signature.getModifiers()) &&
                 methodReturnPatternMatches(signature.getReturnType()) &&
                 methodTagMatches(signature.getTags());

@@ -1,7 +1,14 @@
 package org.openclover.core.instr.java
 
 import org.junit.Test
+import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig
+import org.openclover.core.instr.tests.TestSpec
 import org.openclover.runtime.CloverNames
+
+import java.util.regex.Pattern
+
+import static org.junit.Assert.assertFalse
+import static org.junit.Assert.assertTrue
 
 class InstrumentationTestMethodsTest extends InstrumentationTestBase {
 
@@ -90,5 +97,30 @@ class InstrumentationTestMethodsTest extends InstrumentationTestBase {
                 [ "public class MyTestP { @Test(expected=Foo.class) public void foo() throws Foo, Bar {} }",
                   "public class MyTestP {$testClassField$snifferField @Test(expected=Foo.class) public void foo() throws Foo, Bar {RECORDER.R.globalSliceStart(getClass().getName(),0);int " + CloverNames.namespace("p") + "=0;java.lang.Throwable " + CloverNames.namespace("t") + "=null;try{RECORDER();"+ CloverNames.namespace("p")+"=0;"+ CloverNames.namespace("t")+"=new java.lang.RuntimeException(new String(new char[] {69,120,112,101,99,116,101,100,32,111,110,101,32,111,102,32,116,104,101,32,102,111,108,108,111,119,105,110,103,32,101,120,99,101,112,116,105,111,110,115,32,116,111,32,98,101,32,116,104,114,111,119,110,32,102,114,111,109,32,116,101,115,116,32,109,101,116,104,111,100,32,102,111,111,58,32,91,70,111,111,93,}));}catch(java.lang.Throwable "+ CloverNames.namespace("t2")+"){if("+ CloverNames.namespace("t2")+" instanceof Foo){"+ CloverNames.namespace("p")+"=1;" + CloverNames.namespace("t") + "=null;}else{"+ CloverNames.namespace("p")+"=0;"+ CloverNames.namespace("t")+"="+ CloverNames.namespace("t2")+";}if("+ CloverNames.namespace("p")+"==0&&"+ CloverNames.namespace("t")+"==null){"+ CloverNames.namespace("t")+"="+ CloverNames.namespace("t2")+";}RECORDER.R.rethrow("+ CloverNames.namespace("t2")+");}finally{RECORDER.R.globalSliceEnd(getClass().getName(),\"MyTestP.foo\",SNIFFER.getTestName(),0,"+ CloverNames.namespace("p")+","+ CloverNames.namespace("t")+");}}private void  RECORDER() throws Foo, Bar{RECORDER.R.inc(0);} }" ],
         ] as String[][])
+    }
+
+    /**
+     * A constructor must never be treated as a test method and rewritten,
+     * even when a user-supplied {@link TestSpec} has a permissive method pattern. Rewriting a
+     * constructor would move its {@code super(...)} call into a synthetic helper method, producing
+     * source that does not compile.
+     */
+    @Test
+    void testConstructorNotRewrittenAsTestMethod() throws Exception {
+        JavaInstrumentationConfig config = getInstrConfig(newDbTempFile().getAbsolutePath(), false, true, false)
+
+        // a test spec that matches every method by name and has no return-type restriction -
+        // without the fix this also matches constructors
+        TestSpec spec = new TestSpec()
+        spec.setMethodPattern(Pattern.compile(".*"))
+        config.setTestDetector(spec)
+
+        String instr = getInstrumentedVersion(
+                "public class MyTest { static class Inner { Inner(String value){ super(); } } }", config)
+
+        // the constructor keeps its explicit super() call in place (not moved into a helper)
+        assertTrue("super() must be preserved in the constructor body", instr.contains("super();"))
+        // and no per-test rewrite scaffold (Throwable capture) is emitted for the constructor
+        assertFalse("constructor must not be rewritten as a test method", instr.contains("java.lang.Throwable"))
     }
 }

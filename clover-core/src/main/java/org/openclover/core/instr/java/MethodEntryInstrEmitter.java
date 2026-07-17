@@ -11,7 +11,7 @@ import static org.openclover.runtime.instr.Bindings.$CoverageRecorder$globalSlic
 import static org.openclover.runtime.instr.Bindings.$CoverageRecorder$inc;
 
 public class MethodEntryInstrEmitter extends Emitter {
-    private MethodRegistrationNode methodNode;
+    private final MethodRegistrationNode methodNode;
     private boolean addTestInstr;
     private boolean needsFinally = false;
 
@@ -29,6 +29,7 @@ public class MethodEntryInstrEmitter extends Emitter {
         addTestInstr =
             !state.getCfg().isRecordTestResults() // if recording test results, we need to rewrite the tests which occurs external to the method
                 && state.isDetectTests()
+                && !methodNode.getSignature().isConstructorLike()
                 && state.getTestDetector().isMethodMatch(state, JavaMethodContext.createFor(methodNode.getSignature()));
         StringBuilder instr = new StringBuilder();
 
