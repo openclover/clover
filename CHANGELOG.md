@@ -5,12 +5,74 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased 4.5.0]
+## [5.0.0] 2026-07-16
+
+### Added
+
+- Production-ready support for Java 17 with full instrumentation capabilities.
+- Runtime verification for Java 21 and Java 25.
+- Groovy: added support for Groovy 3.x through 5.x.
+- Groovy: instrumentation of lambda functions and method references in functional chains.
+- Groovy: synthetic default branch instrumentation for switch statements.
+- IntelliJ IDEA plugin support for versions 2024.2 through 2026.1.
+- Eclipse plugin support for versions 2024-06 through 2026-03.
+
+### Changed
+
+- Package namespace refactoring: all `com.atlassian.*` references replaced with `org.openclover.*`.
+- Maven minimum version requirement increased to 3.3.1.
+- Groovy: helper method visibility changed from private to package-private.
+- Use maven-shade-plugin to reduce JAR size.
+
+### Fixed
+
+- Over 40 issues resolved, including fixes for pattern matching, generic records, text blocks, switch statements, and try-with-resources parsing.
+
+### Removed
+
+- Deprecated Java 1.7 support; it is now treated as Java 8 with warnings.
+- Drop support for Groovy 2.x.
+- Remove Gson dependency.
+
+## [4.5.2] 2024-01-31
+
+### Added
+
+- Maven plugin: `recordTestResults` configuration option.
+- Instrumentation support for Java 14 switch expressions.
+- Instrumentation support for Java 14 instanceof pattern matching.
+- Support for Java 17 sealed types.
+
+### Fixed
+
+- OC-224: "File name too long" IOException when generating HTML reports for Spock-based tests.
+- OC-230: JavaSyntax7CompilationTest failures occurring in non-English locales.
+- Test compatibility issues in clover-maven-plugin for Java 17 environments.
+- Migrated test framework from jMock to Mockito for improved compatibility.
+
+## [4.5.1] 2023-10-29
+
+### Added
+
+- Java 16-17 source level options.
+
+### Fixed
+
+- Record instrumentation errors.
+
+## [4.5.0] 2023-10-04
 
 ### Added
 
 - Support for Java 10-17 (experimental). Not supported: switch expressions, instrumentation of module-info.java.
 - Support for annotations on data types.
+
+### Changed
+
+- Migrated repositories from Mercurial (Bitbucket) to Git (GitHub).
+- Migrated build system from Ant to Maven.
+- Java 1.7 is now mandatory; versions 1.3-1.6 are treated as 1.7.
+- Groovy minimum version raised to 2.0.1.
 
 ### Fixed
 
