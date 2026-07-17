@@ -66,7 +66,7 @@ Also switch DefaultTestDetector.java:53 to the new accessor so the convention li
 
 Both Java call sites compute isTestMethod independently and must agree:
 
-- MethodRegistrationNode.init (line 62) — state.isDetectTests() && !signature.isConstructorLike() && state.getTestDetector().isMethodMatch(...)
+- MethodRegistrationNode.init (line 62) — state.isDetectTests() && !signature.isConstructorLike() && state.getTestDetector().isMethodMatch(...)
 - MethodEntryInstrEmitter.init (line 29-32) — same additional condition
 
 This makes the broken rewrite unreachable for constructors regardless of the detector in use. The Groovy path
