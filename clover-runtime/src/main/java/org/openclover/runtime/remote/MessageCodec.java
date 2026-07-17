@@ -90,30 +90,37 @@ final class MessageCodec {
     static byte[] encode(RpcMessage message) throws IOException {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         final DataOutputStream out = new DataOutputStream(baos);
-        final Object[] args = message.getMethodArgs();
         switch (message.getMethodId()) {
             case RpcMessage.METHOD_START:
-                // allRecordersSliceStart(String type, int slice, long startTime)
-                out.writeByte(OP_SLICE_START);
-                out.writeUTF((String) args[0]);
-                out.writeInt((Integer) args[1]);
-                out.writeLong((Long) args[2]);
+                encodeSliceStart(out, message.getMethodArgs());
                 break;
             case RpcMessage.METHOD_END:
-                // allRecordersSliceEnd(String type, String method, String runtimeTestName, int slice, int p, ErrorInfo ei)
-                out.writeByte(OP_SLICE_END);
-                out.writeUTF((String) args[0]);
-                writeNullableUTF(out, (String) args[1]);
-                writeNullableUTF(out, (String) args[2]);
-                out.writeInt((Integer) args[3]);
-                out.writeInt((Integer) args[4]);
-                writeErrorInfo(out, (ErrorInfo) args[5]);
+                encodeSliceEnd(out, message.getMethodArgs());
                 break;
             default:
                 throw new IOException("Unknown opcode: " + message.getMethodId());
         }
         out.flush();
         return baos.toByteArray();
+    }
+
+    /** allRecordersSliceStart(String type, int slice, long startTime) */
+    private static void encodeSliceStart(DataOutputStream out, Object[] args) throws IOException {
+        out.writeByte(OP_SLICE_START);
+        out.writeUTF((String) args[0]);
+        out.writeInt((Integer) args[1]);
+        out.writeLong((Long) args[2]);
+    }
+
+    /** allRecordersSliceEnd(String type, String method, String runtimeTestName, int slice, int p, ErrorInfo ei) */
+    private static void encodeSliceEnd(DataOutputStream out, Object[] args) throws IOException {
+        out.writeByte(OP_SLICE_END);
+        out.writeUTF((String) args[0]);
+        writeNullableUTF(out, (String) args[1]);
+        writeNullableUTF(out, (String) args[2]);
+        out.writeInt((Integer) args[3]);
+        out.writeInt((Integer) args[4]);
+        writeErrorInfo(out, (ErrorInfo) args[5]);
     }
 
     /**
@@ -123,26 +130,32 @@ final class MessageCodec {
     static void decodeAndDispatch(DataInputStream in) throws IOException {
         final byte opcode = in.readByte();
         switch (opcode) {
-            case OP_SLICE_START: {
-                final String type = in.readUTF();
-                final int slice = in.readInt();
-                final long startTime = in.readLong();
-                Clover.allRecordersSliceStart(type, slice, startTime);
+            case OP_SLICE_START:
+                dispatchSliceStart(in);
                 break;
-            }
-            case OP_SLICE_END: {
-                final String type = in.readUTF();
-                final String method = readNullableUTF(in);
-                final String runtimeTestName = readNullableUTF(in);
-                final int slice = in.readInt();
-                final int p = in.readInt();
-                final ErrorInfo ei = readErrorInfo(in);
-                Clover.allRecordersSliceEnd(type, method, runtimeTestName, slice, p, ei);
+            case OP_SLICE_END:
+                dispatchSliceEnd(in);
                 break;
-            }
             default:
                 throw new IOException("Unknown opcode: " + opcode);
         }
+    }
+
+    private static void dispatchSliceStart(DataInputStream in) throws IOException {
+        final String type = in.readUTF();
+        final int slice = in.readInt();
+        final long startTime = in.readLong();
+        Clover.allRecordersSliceStart(type, slice, startTime);
+    }
+
+    private static void dispatchSliceEnd(DataInputStream in) throws IOException {
+        final String type = in.readUTF();
+        final String method = readNullableUTF(in);
+        final String runtimeTestName = readNullableUTF(in);
+        final int slice = in.readInt();
+        final int p = in.readInt();
+        final ErrorInfo ei = readErrorInfo(in);
+        Clover.allRecordersSliceEnd(type, method, runtimeTestName, slice, p, ei);
     }
 
     // --- helpers ---

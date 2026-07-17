@@ -75,17 +75,7 @@ public class TcpRecorderListener implements RecorderListener {
             Logger.getInstance().debug("Attempting connection to: " + host + ":" + port);
             newSocket = new Socket();
             newSocket.connect(new InetSocketAddress(host, port));
-
-            final DataInputStream in = new DataInputStream(new BufferedInputStream(newSocket.getInputStream()));
-            final DataOutputStream out = new DataOutputStream(new BufferedOutputStream(newSocket.getOutputStream()));
-            MessageCodec.writeClientHandshake(out, config.getName());
-            MessageCodec.readServerHandshake(in);
-
-            this.socket = newSocket;
-            final Socket connected = newSocket;
-            readerThread = new Thread(() -> readerLoop(connected, in, out), "clover-remote-reader");
-            readerThread.setDaemon(true);
-            readerThread.start();
+            handshakeAndStartReader(newSocket);
             Logger.getInstance().debug("Connected to distributed coverage server at " + host + ":" + port);
             return true;
         } catch (IOException e) {
@@ -95,12 +85,22 @@ public class TcpRecorderListener implements RecorderListener {
         }
     }
 
+    private void handshakeAndStartReader(Socket newSocket) throws IOException {
+        final DataInputStream in = new DataInputStream(new BufferedInputStream(newSocket.getInputStream()));
+        final DataOutputStream out = new DataOutputStream(new BufferedOutputStream(newSocket.getOutputStream()));
+        MessageCodec.writeClientHandshake(out, config.getName());
+        MessageCodec.readServerHandshake(in);
+
+        this.socket = newSocket;
+        readerThread = new Thread(() -> readerLoop(newSocket, in, out), "clover-remote-reader");
+        readerThread.setDaemon(true);
+        readerThread.start();
+    }
+
     private void readerLoop(Socket connected, DataInputStream in, DataOutputStream out) {
         try {
             while (!stopped.get() && !connected.isClosed()) {
-                MessageCodec.decodeAndDispatch(in);
-                out.writeByte(MessageCodec.ACK);
-                out.flush();
+                applyAndAck(in, out);
             }
         } catch (EOFException e) {
             Logger.getInstance().debug("Distributed coverage server closed the connection.");
@@ -108,11 +108,22 @@ public class TcpRecorderListener implements RecorderListener {
             Logger.getInstance().debug("Distributed coverage connection lost: " + e.getMessage());
         } finally {
             closeQuietly(connected);
-            if (!stopped.get()) {
-                // server may have restarted - resume the reconnect loop
-                reconnecting.set(false);
-                reconnect();
-            }
+            resumeReconnectUnlessStopped();
+        }
+    }
+
+    /** Applies one slice event locally, then acknowledges it so the server's barrier can proceed. */
+    private void applyAndAck(DataInputStream in, DataOutputStream out) throws IOException {
+        MessageCodec.decodeAndDispatch(in);
+        out.writeByte(MessageCodec.ACK);
+        out.flush();
+    }
+
+    private void resumeReconnectUnlessStopped() {
+        if (!stopped.get()) {
+            // server may have restarted - resume the reconnect loop
+            reconnecting.set(false);
+            reconnect();
         }
     }
 

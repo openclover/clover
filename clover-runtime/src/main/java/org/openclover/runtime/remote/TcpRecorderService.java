@@ -26,7 +26,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class TcpRecorderService implements RecorderService {
 
-    private static final int ACCEPT_BACKLOG = 128;
+    private static final int MIN_ACCEPT_BACKLOG = 128;
     private static final int BARRIER_POLL_MILLIS = 500;
 
     private DistributedConfig config;
@@ -46,20 +46,29 @@ public class TcpRecorderService implements RecorderService {
     public void start() {
         try {
             Logger.getInstance().debug("About to start service with config: " + config);
-            serverSocket = new ServerSocket();
-            serverSocket.setReuseAddress(true);
-            serverSocket.bind(new InetSocketAddress(config.getHost(), config.getPort()), ACCEPT_BACKLOG);
+            bindServerSocket();
             running = true;
             fanoutPool = Executors.newCachedThreadPool(new DaemonThreadFactory("clover-remote-broadcast"));
-
-            acceptThread = new DaemonThreadFactory("clover-remote-accept").newThread(this::acceptLoop);
-            acceptThread.start();
+            startAcceptThread();
             Logger.getInstance().debug("Started coverage service: " + config.getName());
 
             awaitClients();
         } catch (IOException e) {
             Logger.getInstance().error("Error starting recorder service: " + config, e);
         }
+    }
+
+    private void bindServerSocket() throws IOException {
+        // size the backlog so a burst of clients connecting at once is not refused
+        final int backlog = Math.max(MIN_ACCEPT_BACKLOG, config.getNumClients());
+        serverSocket = new ServerSocket();
+        serverSocket.setReuseAddress(true);
+        serverSocket.bind(new InetSocketAddress(config.getHost(), config.getPort()), backlog);
+    }
+
+    private void startAcceptThread() {
+        acceptThread = new DaemonThreadFactory("clover-remote-accept").newThread(this::acceptLoop);
+        acceptThread.start();
     }
 
     private void awaitClients() {
@@ -121,43 +130,64 @@ public class TcpRecorderService implements RecorderService {
      * Encodes the event once, then broadcasts it to every client in parallel and blocks until all have
      * acknowledged (or are dropped on timeout). Latency is the slowest client, not the sum.
      *
-     * @return an {@link Integer}: the number of clients that successfully applied the event (the
-     *         {@link RecorderService#sendMessage} contract is {@code Object}, but this is always a count)
+     * @return the number of clients that successfully applied the event
      */
     @Override
-    public Object sendMessage(RpcMessage message) {
-        final byte[] frame;
-        try {
-            frame = MessageCodec.encode(message);
-        } catch (IOException e) {
-            Logger.getInstance().error("Could not encode remote coverage message: " + e.getMessage(), e);
-            return Integer.valueOf(0);
+    public int sendMessage(RpcMessage message) {
+        final byte[] frame = encodeFrame(message);
+        if (frame == null) {
+            return 0;
         }
 
         final List<ClientConnection> snapshot = new ArrayList<>(clients);
         if (snapshot.isEmpty()) {
-            return Integer.valueOf(0);
+            return 0;
         }
 
+        final int numSuccess = broadcastAndAwait(frame, snapshot);
+        Logger.getInstance().debug("Applied " + message.getName() + " on " + numSuccess + " remote clients.");
+        return numSuccess;
+    }
+
+    /** Encodes the event once, or returns {@code null} (logged) if it cannot be encoded. */
+    private byte[] encodeFrame(RpcMessage message) {
+        try {
+            return MessageCodec.encode(message);
+        } catch (IOException e) {
+            Logger.getInstance().error("Could not encode remote coverage message: " + e.getMessage(), e);
+            return null;
+        }
+    }
+
+    /** Fans the frame out to every client concurrently and blocks until all have ACKed or been dropped. */
+    private int broadcastAndAwait(byte[] frame, List<ClientConnection> recipients) {
         final int timeout = config.getTimeout();
-        final CountDownLatch latch = new CountDownLatch(snapshot.size());
+        final CountDownLatch latch = new CountDownLatch(recipients.size());
         final AtomicInteger successes = new AtomicInteger(0);
-        for (final ClientConnection connection : snapshot) {
-            fanoutPool.execute(() -> {
-                try {
-                    connection.sendAndAwaitAck(frame, timeout);
-                    successes.incrementAndGet();
-                } catch (Exception e) {
-                    Logger.getInstance().warn("Error during remote flush to " + connection
-                            + ": " + e.getMessage() + " - dropping client", e);
-                    clients.remove(connection);
-                    connection.closeQuietly();
-                } finally {
-                    latch.countDown();
-                }
-            });
+        for (final ClientConnection connection : recipients) {
+            fanoutPool.execute(() -> sendToClient(connection, frame, timeout, successes, latch));
         }
+        awaitAcks(latch, timeout);
+        return successes.get();
+    }
 
+    /** Sends the frame to one client and counts its ACK, dropping the client on any failure. */
+    private void sendToClient(ClientConnection connection, byte[] frame, int timeout,
+                              AtomicInteger successes, CountDownLatch latch) {
+        try {
+            connection.sendAndAwaitAck(frame, timeout);
+            successes.incrementAndGet();
+        } catch (Exception e) {
+            Logger.getInstance().warn("Error during remote flush to " + connection
+                    + ": " + e.getMessage() + " - dropping client", e);
+            clients.remove(connection);
+            connection.closeQuietly();
+        } finally {
+            latch.countDown();
+        }
+    }
+
+    private void awaitAcks(CountDownLatch latch, int timeout) {
         try {
             // each task self-terminates within `timeout` via the socket read timeout; the extra margin
             // just guards against scheduling latency before we proceed (fail-soft).
@@ -167,10 +197,6 @@ public class TcpRecorderService implements RecorderService {
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
-
-        final int numSuccess = successes.get();
-        Logger.getInstance().debug("Applied " + message.getName() + " on " + numSuccess + " remote clients.");
-        return numSuccess;
     }
 
     @Override
