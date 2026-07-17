@@ -146,4 +146,18 @@ class TestSpecTest {
         assertTrue(spec.isMethodMatch(null, JavaMethodContext.createFor(sig)))
     }
 
+    @Test
+    void testIsMethodMatchExcludesConstructors() {
+        // permissive method pattern, no return-type pattern - matches any method name
+        spec.setMethodPattern(Pattern.compile(".*"))
+
+        // a regular method still matches
+        MethodSignature method = new MethodSignature(null, null, null, null, mods, "MyInnerClass", null, "void", null, null)
+        assertTrue(spec.isMethodMatch(null, JavaMethodContext.createFor(method)))
+
+        // but a constructor (null return type) must not match - see OC-249
+        MethodSignature ctor = new MethodSignature(null, null, null, null, mods, "MyInnerClass", null, null, null, null)
+        assertFalse(spec.isMethodMatch(null, JavaMethodContext.createFor(ctor)))
+    }
+
 }

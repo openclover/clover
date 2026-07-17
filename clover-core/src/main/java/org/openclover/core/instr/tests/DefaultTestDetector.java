@@ -45,13 +45,13 @@ public class DefaultTestDetector implements TestDetector {
     @Override
     public boolean isMethodMatch(SourceContext sourceContext, MethodContext methodContext) {
         final MethodSignature signature = methodContext.getSignature();
-        if (methodContext != null
+        if (signature != null
                 //Concrete methods
                 && !Modifier.isAbstract(signature.getBaseModifiersMask())
                 //TestNG/JUnit5 require at least non private. i.e. public, package private, protected are okay.
                 && !Modifier.isPrivate(signature.getBaseModifiersMask())
                 // no ctors
-                && signature.getReturnType() != null) {
+                && !signature.isConstructorLike()) {
 
             // annotations or tags trump other heuristics
             if ( (sourceContext.areAnnotationsSupported() && hasTestAnnotations(signature.getModifiers()))

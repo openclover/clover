@@ -125,6 +125,14 @@ public class MethodSignature implements TaggedPersistent, MethodSignatureInfo {
         return returnType;
     }
 
+    /**
+     * Is method a constructor or an initializer.
+     */
+    public boolean isConstructorLike() {
+        // constructors and initializers have a null return type
+        return returnType == null;
+    }
+
     @Override
     public String getTypeParams() {
         return typeParams;
