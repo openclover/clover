@@ -22,6 +22,7 @@ class DistributedCloverTest {
     final Logger origLogger = Logger.getInstance()
     final RecordingLogger logger = new RecordingLogger()
     DistributedClover dClover
+    DistributedClover serverClover
 
     @Before
     void setUp() {
@@ -32,6 +33,7 @@ class DistributedCloverTest {
     @After
     void tearDown() throws Exception {
         dClover.stop()
+        serverClover?.stop()
         Logger.setInstance(origLogger)
         System.getProperties().remove(CloverNames.PROP_DISTRIBUTED_CONFIG)
         System.getProperties().remove(CloverNames.PROP_SERVER)
@@ -78,7 +80,7 @@ class DistributedCloverTest {
 
     @Test
     void testInitClientServer() throws InterruptedException {
-        final String config = String.format("%s=%s;%s=%s", DistributedConfig.PORT, CajoTcpRecorderServiceTest.TEST_PORT,
+        final String config = String.format("%s=%s;%s=%s", DistributedConfig.PORT, TcpRecorderServiceTest.TEST_PORT,
                 DistributedConfig.NUM_CLIENTS, 1)
 
         // start a client
@@ -87,12 +89,12 @@ class DistributedCloverTest {
 
         // start a server - which will block until the client connects
         System.setProperty(CloverNames.PROP_SERVER, "true")
-        DistributedClover serverClover = new DistributedClover(
+        serverClover = new DistributedClover(
                 new CloverProperties(CloverNames.PROP_DISTRIBUTED_CONFIG, config), null)
 
         assertTrue(serverClover.isServiceMode())
 
-        // send a message, that will ultimitately fail, due to no registry being available.
-        serverClover.remoteFlush(new RpcMessage(RpcMessage.METHOD_START, "testMethod", 2, System.currentTimeMillis()))
+        // send a message; with no client connected this is a no-op broadcast (fail-soft).
+        serverClover.remoteFlush(RpcMessage.createMethodStart("testMethod", 2, System.currentTimeMillis()))
     }
 }

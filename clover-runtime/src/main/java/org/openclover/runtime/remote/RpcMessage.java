@@ -3,14 +3,15 @@ package org.openclover.runtime.remote;
 
 import org.openclover.runtime.ErrorInfo;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RpcMessage implements Serializable {
+/**
+ * In-process value holder for a distributed-coverage event: an opcode plus its arguments in declared order.
+ * It is never serialized as an object - {@link MessageCodec} encodes it field-by-field onto the wire.
+ */
+public class RpcMessage {
 
-    public static final long serialVersionUID = 1L;
-    
     private final Integer methodId;
     private final Object[] methodArgs;
 
@@ -40,9 +41,8 @@ public class RpcMessage implements Serializable {
         this.methodArgs = methodArgs;
     }
 
-    private RpcMessage() {
-        methodId = null;
-        methodArgs = null;
+    public int getMethodId() {
+        return methodId;
     }
 
     public String getName() {

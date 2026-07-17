@@ -63,7 +63,7 @@ public class DistributedConfig implements Config, Serializable {
 
     @Override
     public String getName() {
-        return data.get(NAME, CloverNames.CAJO_TCP_SERVER_NAME);
+        return data.get(NAME, CloverNames.TCP_SERVER_NAME);
     }
 
     public void setName(String value) {

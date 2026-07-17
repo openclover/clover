@@ -21,7 +21,7 @@ public class RemoteFactory implements RemoteServiceProvider {
 
     @Override
     public RecorderService createService(Config config) {
-        final String className = "org.openclover.runtime.remote.CajoTcpRecorderService";
+        final String className = "org.openclover.runtime.remote.TcpRecorderService";
         
         Logger.getInstance().verbose("Creating service " + className + " for config: " + config.getName());
         final RecorderService service = (RecorderService) instantiate(className);
@@ -31,7 +31,7 @@ public class RemoteFactory implements RemoteServiceProvider {
 
     @Override
     public RecorderListener createListener(Config config) {
-        final String className = "org.openclover.runtime.remote.CajoTcpRecorderListener";
+        final String className = "org.openclover.runtime.remote.TcpRecorderListener";
         Logger.getInstance().verbose("Creating listener " + className + "  for config: " + config.getName());
         final RecorderListener listener =  (RecorderListener) instantiate(className);
         listener.init(config);

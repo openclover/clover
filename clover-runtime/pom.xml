@@ -55,10 +55,6 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
         </dependency>
-        <dependency>
-            <groupId>gnu.cajo</groupId>
-            <artifactId>cajo</artifactId>
-        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -211,7 +207,6 @@
                             <artifactSet>
                                 <includes>
                                     <include>antlr:antlr</include>
-                                    <include>gnu.cajo:cajo</include>
                                     <include>org.slf4j:slf4j-api</include>
                                 </includes>
                             </artifactSet>
@@ -230,12 +225,6 @@
                                     </excludes>
                                 </filter>
                                 <filter>
-                                    <artifact>gnu.cajo:cajo</artifact>
-                                    <excludes>
-                                        <exclude>META-INF/MANIFEST.MF</exclude>
-                                    </excludes>
-                                </filter>
-                                <filter>
                                     <artifact>org.slf4j:slf4j-api</artifact>
                                     <excludes>
                                         <exclude>META-INF/MANIFEST.MF</exclude>
@@ -248,13 +237,6 @@
                                     <shadedPattern>clover.antlr</shadedPattern>
                                     <includes>
                                         <include>antlr.**</include>
-                                    </includes>
-                                </relocation>
-                                <relocation>
-                                    <pattern>gnu.cajo</pattern>
-                                    <shadedPattern>clover.gnu.cajo</shadedPattern>
-                                    <includes>
-                                        <include>gnu.cajo.**</include>
                                     </includes>
                                 </relocation>
                                 <relocation>

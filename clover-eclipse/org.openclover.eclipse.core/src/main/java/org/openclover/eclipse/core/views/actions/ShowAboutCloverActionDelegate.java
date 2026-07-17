@@ -135,7 +135,6 @@ public class ShowAboutCloverActionDelegate extends CloverProjectActionDelegate {
             linkAndLicense("ANTLR2 Library", "https://www.antlr2.org", "ANTLR-2.7.7-LICENSE.TXT", ackComposite);
             linkAndLicense("ANTLR3 Java Grammar", "https://www.antlr3.org", "ANTLR-JAVA-GRAMMAR-3.0-LICENSE.TXT", ackComposite);
             linkAndLicense("ASM", "https://asm.ow2.org", "ASM-5.0.3-LICENSE.TXT", ackComposite);
-            linkAndLicense("Cajo", "https://java.net/projects/cajo/pages/Home", "CAJO-1.117-LICENSE.TXT", ackComposite);
             linkAndLicense("Commons Codec", "https://commons.apache.org", "COMMONS-CODEC-1.9-LICENSE.TXT", ackComposite);
             linkAndLicense("Commons Collections", "https://commons.apache.org", "COMMONS-COLLECTIONS-3.2.2-LICENSE.TXT", ackComposite);
             linkAndLicense("Commons Lang", "https://commons.apache.org", "COMMONS-LANG3-3.3.2-LICENSE.TXT", ackComposite);

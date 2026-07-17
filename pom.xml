@@ -101,11 +101,6 @@
                 <version>2.7.7</version>
             </dependency>
             <dependency>
-                <groupId>gnu.cajo</groupId>
-                <artifactId>cajo</artifactId>
-                <version>1.117</version>
-            </dependency>
-            <dependency>
                 <groupId>commons-codec</groupId>
                 <artifactId>commons-codec</artifactId>
                 <version>1.9</version>

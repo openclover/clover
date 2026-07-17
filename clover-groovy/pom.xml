@@ -206,10 +206,6 @@
                                     <artifactId>jfreechart</artifactId>
                                 </artifactItem>
                                 <artifactItem>
-                                    <groupId>gnu.cajo</groupId>
-                                    <artifactId>cajo</artifactId>
-                                </artifactItem>
-                                <artifactItem>
                                     <groupId>org.apache.velocity</groupId>
                                     <artifactId>velocity</artifactId>
                                 </artifactItem>

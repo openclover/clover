@@ -27,7 +27,6 @@
         <profile>
             <id>workspace-setup</id>
             <modules>
-                <module>cajo</module>
                 <module>fastutil</module>
             </modules>
         </profile>
