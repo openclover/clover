@@ -125,8 +125,8 @@ class CloverSetupTaskGrowableTest extends CloverSetupTaskTestBase {
 
         // Check if distributed coverage client has started in the 'java' process
         assertStringContains("Starting distributed coverage client: name=execute-growable-distributed;host=127.0.0.1", getJavaOut(1), false)
-        assertStringContains("Attempting connection to: //127.0.0.1:1198/execute-growable-distributed", getJavaOut(1), false)
-        assertStringContains("Received remote item: Remote_Stub", getJavaOut(1), false)
+        assertStringContains("Attempting connection to: 127.0.0.1:1198", getJavaOut(1), false)
+        assertStringContains("Connected to distributed coverage server at 127.0.0.1:1198", getJavaOut(1), false)
         assertStringContains("Say foo", getJavaOut(1), false)
         assertStringContains("Say goo", getJavaOut(1), false)
         assertStringContains("Ho ho ho", getJavaOut(1), false)

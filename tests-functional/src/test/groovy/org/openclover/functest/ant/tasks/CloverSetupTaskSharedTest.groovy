@@ -164,8 +164,8 @@ class CloverSetupTaskSharedTest extends CloverSetupTaskTestBase {
 
         // Check if distributed coverage client has started in the 'java' process
         assertStringContains("Starting distributed coverage client: name=clover.tcp.server;host=127.0.0.1;port=1199;", getJavaOut(1), false)
-        assertStringContains("Attempting connection to: //127.0.0.1:1199/clover.tcp.server", getJavaOut(1), false)
-        assertStringContains("Received remote item: Remote_Stub", getJavaOut(1), false)
+        assertStringContains("Attempting connection to: 127.0.0.1:1199", getJavaOut(1), false)
+        assertStringContains("Connected to distributed coverage server at 127.0.0.1:1199", getJavaOut(1), false)
         assertStringContains("Say foo once", getJavaOut(1), false)
         assertStringContains("Say goo once", getJavaOut(1), false)
 
