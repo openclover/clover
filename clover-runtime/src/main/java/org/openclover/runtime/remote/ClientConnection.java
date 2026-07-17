@@ -1,9 +1,7 @@
 package org.openclover.runtime.remote;
 
-import org.openclover.runtime.Logger;
+import org.openclover.runtime.util.IOStreamUtils;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -22,7 +20,7 @@ class ClientConnection {
     private final DataOutputStream out;
     final String name;
 
-    ClientConnection(Socket socket, DataInputStream in, DataOutputStream out, String name) {
+    ClientConnection(final Socket socket, final DataInputStream in, final DataOutputStream out, final String name) {
         this.socket = socket;
         this.in = in;
         this.out = out;
@@ -33,9 +31,9 @@ class ClientConnection {
      * Accepts a client socket: reads and validates the client handshake, replies with the server handshake,
      * and returns a ready {@link ClientConnection}.
      */
-    static ClientConnection accept(Socket socket) throws IOException {
-        final DataInputStream in = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
-        final DataOutputStream out = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+    static ClientConnection accept(final Socket socket) throws IOException {
+        final DataInputStream in = IOStreamUtils.bufferedDataInput(socket);
+        final DataOutputStream out = IOStreamUtils.bufferedDataOutput(socket);
         final String name = MessageCodec.readClientHandshake(in);
         MessageCodec.writeServerHandshake(out);
         return new ClientConnection(socket, in, out, name);
@@ -49,7 +47,7 @@ class ClientConnection {
      * @param frame   the encoded slice event
      * @param timeout maximum time to wait for the ACK, in milliseconds
      */
-    void sendAndAwaitAck(byte[] frame, int timeout) throws IOException {
+    void sendAndAwaitAck(final byte[] frame, final int timeout) throws IOException {
         socket.setSoTimeout(timeout);
         out.write(frame);
         out.flush();
@@ -60,11 +58,7 @@ class ClientConnection {
     }
 
     void closeQuietly() {
-        try {
-            socket.close();
-        } catch (IOException e) {
-            Logger.getInstance().debug("Error closing client connection " + name + ": " + e.getMessage());
-        }
+        IOStreamUtils.close(socket);
     }
 
     @Override

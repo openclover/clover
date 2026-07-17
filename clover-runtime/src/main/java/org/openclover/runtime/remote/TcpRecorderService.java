@@ -2,6 +2,7 @@ package org.openclover.runtime.remote;
 
 import org.openclover.runtime.Logger;
 import org.openclover.runtime.util.Formatting;
+import org.openclover.runtime.util.IOStreamUtils;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -38,7 +39,7 @@ public class TcpRecorderService implements RecorderService {
     private final Object barrier = new Object();
 
     @Override
-    public void init(Config config) {
+    public void init(final Config config) {
         this.config = (DistributedConfig) config;
     }
 
@@ -109,7 +110,7 @@ public class TcpRecorderService implements RecorderService {
         }
     }
 
-    private void registerClient(Socket socket) {
+    private void registerClient(final Socket socket) {
         try {
             socket.setSoTimeout(config.getTimeout());
             final ClientConnection connection = ClientConnection.accept(socket);
@@ -122,7 +123,7 @@ public class TcpRecorderService implements RecorderService {
             // bad magic/version, a stalled peer, or a stray process - never dispatch, just drop it
             Logger.getInstance().info("Rejecting connection from " + socket.getRemoteSocketAddress()
                     + ": " + e.getMessage());
-            closeQuietly(socket);
+            IOStreamUtils.close(socket);
         }
     }
 
@@ -133,7 +134,7 @@ public class TcpRecorderService implements RecorderService {
      * @return the number of clients that successfully applied the event
      */
     @Override
-    public int sendMessage(RpcMessage message) {
+    public int sendMessage(final RpcMessage message) {
         final byte[] frame = encodeFrame(message);
         if (frame == null) {
             return 0;
@@ -150,7 +151,7 @@ public class TcpRecorderService implements RecorderService {
     }
 
     /** Encodes the event once, or returns {@code null} (logged) if it cannot be encoded. */
-    private byte[] encodeFrame(RpcMessage message) {
+    private byte[] encodeFrame(final RpcMessage message) {
         try {
             return MessageCodec.encode(message);
         } catch (IOException e) {
@@ -160,34 +161,41 @@ public class TcpRecorderService implements RecorderService {
     }
 
     /** Fans the frame out to every client concurrently and blocks until all have ACKed or been dropped. */
-    private int broadcastAndAwait(byte[] frame, List<ClientConnection> recipients) {
+    private int broadcastAndAwait(final byte[] frame, final List<ClientConnection> recipients) {
         final int timeout = config.getTimeout();
         final CountDownLatch latch = new CountDownLatch(recipients.size());
         final AtomicInteger successes = new AtomicInteger(0);
         for (final ClientConnection connection : recipients) {
-            fanoutPool.execute(() -> sendToClient(connection, frame, timeout, successes, latch));
+            fanoutPool.execute(() -> {
+                if (sendToClient(connection, frame, timeout)) {
+                    successes.incrementAndGet();
+                }
+                latch.countDown();
+            });
         }
         awaitAcks(latch, timeout);
         return successes.get();
     }
 
-    /** Sends the frame to one client and counts its ACK, dropping the client on any failure. */
-    private void sendToClient(ClientConnection connection, byte[] frame, int timeout,
-                              AtomicInteger successes, CountDownLatch latch) {
+    /**
+     * Sends the frame to one client and awaits its ACK, dropping the client on any failure.
+     *
+     * @return {@code true} if the client acknowledged the event
+     */
+    private boolean sendToClient(final ClientConnection connection, final byte[] frame, final int timeout) {
         try {
             connection.sendAndAwaitAck(frame, timeout);
-            successes.incrementAndGet();
+            return true;
         } catch (Exception e) {
             Logger.getInstance().warn("Error during remote flush to " + connection
                     + ": " + e.getMessage() + " - dropping client", e);
             clients.remove(connection);
             connection.closeQuietly();
-        } finally {
-            latch.countDown();
+            return false;
         }
     }
 
-    private void awaitAcks(CountDownLatch latch, int timeout) {
+    private void awaitAcks(final CountDownLatch latch, final int timeout) {
         try {
             // each task self-terminates within `timeout` via the socket read timeout; the extra margin
             // just guards against scheduling latency before we proceed (fail-soft).
@@ -202,11 +210,11 @@ public class TcpRecorderService implements RecorderService {
     @Override
     public void stop() {
         running = false;
-        closeQuietly(serverSocket);
+        IOStreamUtils.close(serverSocket);
         synchronized (barrier) {
             barrier.notifyAll();
         }
-        for (ClientConnection connection : clients) {
+        for (final ClientConnection connection : clients) {
             connection.closeQuietly();
         }
         clients.clear();
@@ -220,15 +228,5 @@ public class TcpRecorderService implements RecorderService {
 
     public int getNumRegisteredListeners() {
         return clients.size();
-    }
-
-    private static void closeQuietly(java.io.Closeable closeable) {
-        if (closeable != null) {
-            try {
-                closeable.close();
-            } catch (IOException e) {
-                Logger.getInstance().debug("Error closing " + closeable + ": " + e.getMessage());
-            }
-        }
     }
 }

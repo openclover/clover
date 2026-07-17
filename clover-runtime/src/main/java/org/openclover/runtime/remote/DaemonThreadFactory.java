@@ -12,12 +12,12 @@ class DaemonThreadFactory implements ThreadFactory {
     private final String namePrefix;
     private final AtomicInteger counter = new AtomicInteger(0);
 
-    DaemonThreadFactory(String namePrefix) {
+    DaemonThreadFactory(final String namePrefix) {
         this.namePrefix = namePrefix;
     }
 
     @Override
-    public Thread newThread(Runnable r) {
+    public Thread newThread(final Runnable r) {
         final Thread thread = new Thread(r, namePrefix + "-" + counter.incrementAndGet());
         thread.setDaemon(true);
         return thread;

@@ -1,9 +1,8 @@
 package org.openclover.runtime.remote;
 
 import org.openclover.runtime.Logger;
+import org.openclover.runtime.util.IOStreamUtils;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
@@ -13,6 +12,9 @@ import java.net.Socket;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import static org.openclover.runtime.util.IOStreamUtils.bufferedDataInput;
+import static org.openclover.runtime.util.IOStreamUtils.bufferedDataOutput;
 
 /**
  * Client side of distributed coverage. Connects to a {@link TcpRecorderService}, then receives slice events
@@ -31,7 +33,7 @@ public class TcpRecorderListener implements RecorderListener {
     private volatile Thread readerThread;
 
     @Override
-    public void init(Config config) {
+    public void init(final Config config) {
         this.config = (DistributedConfig) config;
     }
 
@@ -55,7 +57,7 @@ public class TcpRecorderListener implements RecorderListener {
      * loop, not through this method. Dead once the interface can drop it.
      */
     @Override
-    public Object handleMessage(RpcMessage message) {
+    public Object handleMessage(final RpcMessage message) {
         return "SUCCESS";
     }
 
@@ -80,14 +82,14 @@ public class TcpRecorderListener implements RecorderListener {
             return true;
         } catch (IOException e) {
             Logger.getInstance().debug("Could not connect to server at " + host + ":" + port + ". " + e.getMessage());
-            closeQuietly(newSocket);
+            IOStreamUtils.close(newSocket);
             return false;
         }
     }
 
-    private void handshakeAndStartReader(Socket newSocket) throws IOException {
-        final DataInputStream in = new DataInputStream(new BufferedInputStream(newSocket.getInputStream()));
-        final DataOutputStream out = new DataOutputStream(new BufferedOutputStream(newSocket.getOutputStream()));
+    private void handshakeAndStartReader(final Socket newSocket) throws IOException {
+        final DataInputStream in = bufferedDataInput(newSocket);
+        final DataOutputStream out = bufferedDataOutput(newSocket);
         MessageCodec.writeClientHandshake(out, config.getName());
         MessageCodec.readServerHandshake(in);
 
@@ -97,7 +99,7 @@ public class TcpRecorderListener implements RecorderListener {
         readerThread.start();
     }
 
-    private void readerLoop(Socket connected, DataInputStream in, DataOutputStream out) {
+    private void readerLoop(final Socket connected, final DataInputStream in, final DataOutputStream out) {
         try {
             while (!stopped.get() && !connected.isClosed()) {
                 applyAndAck(in, out);
@@ -107,13 +109,13 @@ public class TcpRecorderListener implements RecorderListener {
         } catch (IOException e) {
             Logger.getInstance().debug("Distributed coverage connection lost: " + e.getMessage());
         } finally {
-            closeQuietly(connected);
+            IOStreamUtils.close(connected);
             resumeReconnectUnlessStopped();
         }
     }
 
     /** Applies one slice event locally, then acknowledges it so the server's barrier can proceed. */
-    private void applyAndAck(DataInputStream in, DataOutputStream out) throws IOException {
+    private void applyAndAck(final DataInputStream in, final DataOutputStream out) throws IOException {
         MessageCodec.decodeAndDispatch(in);
         out.writeByte(MessageCodec.ACK);
         out.flush();
@@ -128,20 +130,7 @@ public class TcpRecorderListener implements RecorderListener {
     }
 
     private void closeSocket() {
-        final Socket current = socket;
-        if (current != null) {
-            closeQuietly(current);
-        }
-    }
-
-    private static void closeQuietly(Socket socket) {
-        if (socket != null) {
-            try {
-                socket.close();
-            } catch (IOException e) {
-                Logger.getInstance().debug("Error closing socket: " + e.getMessage());
-            }
-        }
+        IOStreamUtils.close(socket);
     }
 
     private class ReconnectTimerTask extends TimerTask {

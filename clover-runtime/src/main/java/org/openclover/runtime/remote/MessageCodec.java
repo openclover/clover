@@ -43,32 +43,35 @@ final class MessageCodec {
     // --- handshake (once, on connect) ---
 
     /** client&rarr;server: MAGIC, VERSION, client name. */
-    static void writeClientHandshake(DataOutputStream out, String name) throws IOException {
-        out.writeInt(MAGIC);
-        out.writeInt(VERSION);
+    static void writeClientHandshake(final DataOutputStream out, final String name) throws IOException {
+        writeMagicAndVersion(out);
         out.writeUTF(name == null ? "" : name);
         out.flush();
     }
 
     /** server side: validate the client handshake and return the client name; throws on mismatch. */
-    static String readClientHandshake(DataInputStream in) throws IOException {
+    static String readClientHandshake(final DataInputStream in) throws IOException {
         readMagicAndVersion(in, "client");
         return in.readUTF();
     }
 
     /** server&rarr;client: MAGIC, VERSION reply, proving a real Clover server answered. */
-    static void writeServerHandshake(DataOutputStream out) throws IOException {
-        out.writeInt(MAGIC);
-        out.writeInt(VERSION);
+    static void writeServerHandshake(final DataOutputStream out) throws IOException {
+        writeMagicAndVersion(out);
         out.flush();
     }
 
     /** client side: validate the server reply; throws on mismatch. */
-    static void readServerHandshake(DataInputStream in) throws IOException {
+    static void readServerHandshake(final DataInputStream in) throws IOException {
         readMagicAndVersion(in, "server");
     }
 
-    private static void readMagicAndVersion(DataInputStream in, String peer) throws IOException {
+    private static void writeMagicAndVersion(final DataOutputStream out) throws IOException {
+        out.writeInt(MAGIC);
+        out.writeInt(VERSION);
+    }
+
+    private static void readMagicAndVersion(final DataInputStream in, final String peer) throws IOException {
         final int magic = in.readInt();
         if (magic != MAGIC) {
             throw new IOException("Bad magic from " + peer + ": 0x" + Integer.toHexString(magic)
@@ -87,7 +90,7 @@ final class MessageCodec {
      * Encodes a single slice event into a self-delimiting frame. Reads the arguments in the fixed,
      * declared order for the message's opcode; never serializes the {@link RpcMessage} object itself.
      */
-    static byte[] encode(RpcMessage message) throws IOException {
+    static byte[] encode(final RpcMessage message) throws IOException {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         final DataOutputStream out = new DataOutputStream(baos);
         switch (message.getMethodId()) {
@@ -105,7 +108,7 @@ final class MessageCodec {
     }
 
     /** allRecordersSliceStart(String type, int slice, long startTime) */
-    private static void encodeSliceStart(DataOutputStream out, Object[] args) throws IOException {
+    private static void encodeSliceStart(final DataOutputStream out, final Object[] args) throws IOException {
         out.writeByte(OP_SLICE_START);
         out.writeUTF((String) args[0]);
         out.writeInt((Integer) args[1]);
@@ -113,7 +116,7 @@ final class MessageCodec {
     }
 
     /** allRecordersSliceEnd(String type, String method, String runtimeTestName, int slice, int p, ErrorInfo ei) */
-    private static void encodeSliceEnd(DataOutputStream out, Object[] args) throws IOException {
+    private static void encodeSliceEnd(final DataOutputStream out, final Object[] args) throws IOException {
         out.writeByte(OP_SLICE_END);
         out.writeUTF((String) args[0]);
         writeNullableUTF(out, (String) args[1]);
@@ -127,7 +130,7 @@ final class MessageCodec {
      * Reads exactly one slice event and applies it locally by calling the whitelisted {@link Clover} method.
      * An unknown opcode throws {@link IOException} (the caller closes the connection); no other method is reachable.
      */
-    static void decodeAndDispatch(DataInputStream in) throws IOException {
+    static void decodeAndDispatch(final DataInputStream in) throws IOException {
         final byte opcode = in.readByte();
         switch (opcode) {
             case OP_SLICE_START:
@@ -141,14 +144,14 @@ final class MessageCodec {
         }
     }
 
-    private static void dispatchSliceStart(DataInputStream in) throws IOException {
+    private static void dispatchSliceStart(final DataInputStream in) throws IOException {
         final String type = in.readUTF();
         final int slice = in.readInt();
         final long startTime = in.readLong();
         Clover.allRecordersSliceStart(type, slice, startTime);
     }
 
-    private static void dispatchSliceEnd(DataInputStream in) throws IOException {
+    private static void dispatchSliceEnd(final DataInputStream in) throws IOException {
         final String type = in.readUTF();
         final String method = readNullableUTF(in);
         final String runtimeTestName = readNullableUTF(in);
@@ -161,7 +164,7 @@ final class MessageCodec {
     // --- helpers ---
 
     /** Writes a nullable string as a present-flag byte followed by the UTF payload when present. */
-    static void writeNullableUTF(DataOutputStream out, String s) throws IOException {
+    static void writeNullableUTF(final DataOutputStream out, final String s) throws IOException {
         out.writeBoolean(s != null);
         if (s != null) {
             out.writeUTF(s);
@@ -169,12 +172,12 @@ final class MessageCodec {
     }
 
     /** Reads a {@link #writeNullableUTF} value; keeps {@code null} distinct from {@code ""}. */
-    static String readNullableUTF(DataInputStream in) throws IOException {
+    static String readNullableUTF(final DataInputStream in) throws IOException {
         return in.readBoolean() ? in.readUTF() : null;
     }
 
     /** Writes an optional {@link ErrorInfo} as a present-flag byte plus two nullable UTF fields. */
-    static void writeErrorInfo(DataOutputStream out, ErrorInfo ei) throws IOException {
+    static void writeErrorInfo(final DataOutputStream out, final ErrorInfo ei) throws IOException {
         out.writeBoolean(ei != null);
         if (ei != null) {
             writeNullableUTF(out, ei.getMessage());
@@ -183,7 +186,7 @@ final class MessageCodec {
     }
 
     /** Reads a {@link #writeErrorInfo} value; absent present-flag yields {@code null}. */
-    static ErrorInfo readErrorInfo(DataInputStream in) throws IOException {
+    static ErrorInfo readErrorInfo(final DataInputStream in) throws IOException {
         if (!in.readBoolean()) {
             return null;
         }
