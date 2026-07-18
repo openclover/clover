@@ -23,7 +23,7 @@ public class RemoteFactory implements RemoteServiceProvider {
     public RecorderService createService(Config config) {
         final String className = "org.openclover.runtime.remote.TcpRecorderService";
         
-        Logger.getInstance().verbose("Creating service " + className + " for config: " + config.getName());
+        Logger.getInstance().verbose("Creating service " + className + " for config: " + config);
         final RecorderService service = (RecorderService) instantiate(className);
         service.init(config);
         return service;
@@ -32,7 +32,7 @@ public class RemoteFactory implements RemoteServiceProvider {
     @Override
     public RecorderListener createListener(Config config) {
         final String className = "org.openclover.runtime.remote.TcpRecorderListener";
-        Logger.getInstance().verbose("Creating listener " + className + "  for config: " + config.getName());
+        Logger.getInstance().verbose("Creating listener " + className + "  for config: " + config);
         final RecorderListener listener =  (RecorderListener) instantiate(className);
         listener.init(config);
         return listener;

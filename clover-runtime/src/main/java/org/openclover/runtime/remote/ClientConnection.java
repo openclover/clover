@@ -18,13 +18,11 @@ class ClientConnection {
     private final Socket socket;
     private final DataInputStream in;
     private final DataOutputStream out;
-    final String name;
 
-    ClientConnection(final Socket socket, final DataInputStream in, final DataOutputStream out, final String name) {
+    ClientConnection(final Socket socket, final DataInputStream in, final DataOutputStream out) {
         this.socket = socket;
         this.in = in;
         this.out = out;
-        this.name = name;
     }
 
     /**
@@ -34,9 +32,9 @@ class ClientConnection {
     static ClientConnection accept(final Socket socket) throws IOException {
         final DataInputStream in = IOStreamUtils.bufferedDataInput(socket);
         final DataOutputStream out = IOStreamUtils.bufferedDataOutput(socket);
-        final String name = MessageCodec.readClientHandshake(in);
+        MessageCodec.readClientHandshake(in);
         MessageCodec.writeServerHandshake(out);
-        return new ClientConnection(socket, in, out, name);
+        return new ClientConnection(socket, in, out);
     }
 
     /**
@@ -45,15 +43,16 @@ class ClientConnection {
      * caller can drop this connection.
      *
      * @param frame   the encoded slice event
-     * @param timeout maximum time to wait for the ACK, in milliseconds
+     * @param msTimeout maximum time to wait for the ACK, in milliseconds
      */
-    void sendAndAwaitAck(final byte[] frame, final int timeout) throws IOException {
-        socket.setSoTimeout(timeout);
+    void sendAndAwaitAck(final byte[] frame, final int msTimeout) throws IOException {
+        socket.setSoTimeout(msTimeout);
         out.write(frame);
         out.flush();
         final byte ack = in.readByte();
         if (ack != MessageCodec.ACK) {
-            throw new IOException("Unexpected acknowledgement byte from client " + name + ": " + ack);
+            throw new IOException("Unexpected acknowledgement byte from client "
+                    + socket.getRemoteSocketAddress() + ": " + ack);
         }
     }
 
@@ -63,6 +62,6 @@ class ClientConnection {
 
     @Override
     public String toString() {
-        return "ClientConnection{name=" + name + ", remote=" + socket.getRemoteSocketAddress() + "}";
+        return "ClientConnection{remote=" + socket.getRemoteSocketAddress() + "}";
     }
 }

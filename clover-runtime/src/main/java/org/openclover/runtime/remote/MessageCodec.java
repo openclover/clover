@@ -23,16 +23,16 @@ import java.io.IOException;
 final class MessageCodec {
 
     /** Fixed marker ("CLVR") exchanged in the handshake so a stray/non-Clover peer fails fast. */
-    static final int MAGIC = 0x434C5652;
+    private static final int MAGIC = 0x434C5652;
 
     /**
      * Protocol version. Bump this on any wire-format change so mismatched OpenClover versions
      * fail fast at the handshake instead of misinterpreting bytes.
      */
-    static final int VERSION = 1;
+    private static final int VERSION = 1;
 
-    static final byte OP_SLICE_START = 1;
-    static final byte OP_SLICE_END = 2;
+    private static final byte OP_SLICE_START = 1;
+    private static final byte OP_SLICE_END = 2;
 
     /** Single byte a client writes back once it has applied a slice event (the barrier acknowledgement). */
     static final byte ACK = 0x06;
@@ -42,17 +42,15 @@ final class MessageCodec {
 
     // --- handshake (once, on connect) ---
 
-    /** client&rarr;server: MAGIC, VERSION, client name. */
-    static void writeClientHandshake(final DataOutputStream out, final String name) throws IOException {
+    /** client&rarr;server: MAGIC, VERSION. */
+    static void writeClientHandshake(final DataOutputStream out) throws IOException {
         writeMagicAndVersion(out);
-        out.writeUTF(name == null ? "" : name);
         out.flush();
     }
 
-    /** server side: validate the client handshake and return the client name; throws on mismatch. */
-    static String readClientHandshake(final DataInputStream in) throws IOException {
+    /** server side: validate the client handshake; throws on mismatch. */
+    static void readClientHandshake(final DataInputStream in) throws IOException {
         readMagicAndVersion(in, "client");
-        return in.readUTF();
     }
 
     /** server&rarr;client: MAGIC, VERSION reply, proving a real Clover server answered. */

@@ -132,7 +132,7 @@ class TcpRecorderServicePerformanceTest {
             socket.connect(new InetSocketAddress("localhost", port), 5000)
             input = new DataInputStream(new BufferedInputStream(socket.getInputStream()))
             output = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()))
-            MessageCodec.writeClientHandshake(output, "perf")
+            MessageCodec.writeClientHandshake(output)
             MessageCodec.readServerHandshake(input)
         }
 

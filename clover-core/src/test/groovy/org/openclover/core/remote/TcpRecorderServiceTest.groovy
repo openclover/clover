@@ -8,6 +8,7 @@ import org.openclover.runtime.remote.MessageCodec
 import org.openclover.runtime.remote.RemoteFactory
 import org.openclover.runtime.remote.RpcMessage
 import org.openclover.runtime.remote.TcpRecorderService
+import org.openclover.runtime.util.IOStreamUtils
 
 import java.util.concurrent.Executors
 import java.util.concurrent.Future
@@ -41,13 +42,13 @@ class TcpRecorderServiceTest {
     }
 
     /** Opens a raw socket, performs the client handshake and returns it registered in {@link #clientSockets}. */
-    private RawClient connectRawClient(String name) {
+    private RawClient connectRawClient() {
         final Socket socket = new Socket()
         socket.connect(new InetSocketAddress("localhost", Integer.parseInt(TEST_PORT)), 2000)
         clientSockets.add(socket)
-        final DataInputStream input = new DataInputStream(new BufferedInputStream(socket.getInputStream()))
-        final DataOutputStream output = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()))
-        MessageCodec.writeClientHandshake(output, name)
+        final DataInputStream input = IOStreamUtils.bufferedDataInput(socket)
+        final DataOutputStream output = IOStreamUtils.bufferedDataOutput(socket)
+        MessageCodec.writeClientHandshake(output)
         MessageCodec.readServerHandshake(input)
         new RawClient(input, output)
     }
@@ -65,8 +66,8 @@ class TcpRecorderServiceTest {
         service = (TcpRecorderService) RemoteFactory.getInstance().createService(config(2000, 0))
         service.start()
 
-        final RawClient a = connectRawClient("a")
-        final RawClient b = connectRawClient("b")
+        final RawClient a = connectRawClient()
+        final RawClient b = connectRawClient()
         waitForRegistered(service, 2)
 
         final RpcMessage msg = RpcMessage.createMethodStart("test.Type", 5, 987654321L)
@@ -86,8 +87,8 @@ class TcpRecorderServiceTest {
         service = (TcpRecorderService) RemoteFactory.getInstance().createService(config(500, 0))
         service.start()
 
-        final RawClient good = connectRawClient("good")
-        connectRawClient("slow")    // never ACKs
+        final RawClient good = connectRawClient()
+        connectRawClient() // second slow client, never ACKs
         waitForRegistered(service, 2)
 
         final def pool = Executors.newSingleThreadExecutor()
@@ -113,7 +114,7 @@ class TcpRecorderServiceTest {
         clientSockets.add(stalled)
 
         // a well-behaved client that connects afterwards still registers
-        connectRawClient("good")
+        connectRawClient()
         waitForRegistered(service, 1)
     }
 
@@ -128,7 +129,7 @@ class TcpRecorderServiceTest {
         Thread.sleep(500)
         assertTrue("start() should still be blocking on the barrier", !started.isDone())
 
-        connectRawClient("late")
+        connectRawClient() // late client
         started.get(5, TimeUnit.SECONDS)    // the barrier releases once the client is registered
         assertEquals(1, service.getNumRegisteredListeners())
         pool.shutdownNow()

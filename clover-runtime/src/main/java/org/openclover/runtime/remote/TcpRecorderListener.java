@@ -90,7 +90,7 @@ public class TcpRecorderListener implements RecorderListener {
     private void handshakeAndStartReader(final Socket newSocket) throws IOException {
         final DataInputStream in = bufferedDataInput(newSocket);
         final DataOutputStream out = bufferedDataOutput(newSocket);
-        MessageCodec.writeClientHandshake(out, config.getName());
+        MessageCodec.writeClientHandshake(out);
         MessageCodec.readServerHandshake(in);
 
         this.socket = newSocket;

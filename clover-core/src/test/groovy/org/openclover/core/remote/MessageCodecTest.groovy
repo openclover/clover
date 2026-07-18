@@ -94,8 +94,8 @@ class MessageCodecTest {
     @Test
     void testHandshakeRoundTrip() {
         final ByteArrayOutputStream clientBytes = new ByteArrayOutputStream()
-        MessageCodec.writeClientHandshake(new DataOutputStream(clientBytes), "client-1")
-        assertEquals("client-1", MessageCodec.readClientHandshake(reader(clientBytes.toByteArray())))
+        MessageCodec.writeClientHandshake(new DataOutputStream(clientBytes))
+        MessageCodec.readClientHandshake(reader(clientBytes.toByteArray()))   // must not throw
 
         final ByteArrayOutputStream serverBytes = new ByteArrayOutputStream()
         MessageCodec.writeServerHandshake(new DataOutputStream(serverBytes))

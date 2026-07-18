@@ -15,7 +15,6 @@ class DistributedConfigTest {
     @Test
     void testSetters() {
         final DistributedConfig config = new DistributedConfig()
-        config.setName("my.name")
         config.setHost("myhost")
         config.setPort(1111)
         config.setNumClients(2)
@@ -23,7 +22,6 @@ class DistributedConfigTest {
         config.setRetryPeriod(500)
 
         assertTrue(config.isEnabled())
-        assertEquals("my.name", config.getName())
         assertEquals("myhost", config.getHost())
         assertEquals(1111, config.getPort())
         assertEquals(2, config.getNumClients())

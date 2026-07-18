@@ -51,7 +51,7 @@ public class TcpRecorderService implements RecorderService {
             running = true;
             fanoutPool = Executors.newCachedThreadPool(new DaemonThreadFactory("clover-remote-broadcast"));
             startAcceptThread();
-            Logger.getInstance().debug("Started coverage service: " + config.getName());
+            Logger.getInstance().debug("Started coverage service: " + config);
 
             awaitClients();
         } catch (IOException e) {
