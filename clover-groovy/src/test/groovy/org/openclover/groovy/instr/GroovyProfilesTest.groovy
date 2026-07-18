@@ -105,7 +105,7 @@ class GroovyProfilesTest extends TestBase {
                     it.addProfile(new CloverProfile(
                             "remote",
                             "FIXED",
-                            new DistributedConfig("name=tcp-config;port=7777;host=myhost.com;timeout=500;numClients=10;retryPeriod=500").configString))
+                            new DistributedConfig("port=7777;host=myhost.com;timeout=500;numClients=10;retryPeriod=500").configString))
                     it
                 }
         )

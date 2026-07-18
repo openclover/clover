@@ -119,12 +119,12 @@ class CloverSetupTaskGrowableTest extends CloverSetupTaskTestBase {
         testBase.assertLogContains("GrowableCoverageRecorder[coverage=CoverageMatrix")
 
         // Check if distributed coverage server has started in the 'junit' process
-        testBase.assertLogContains("Distributed coverage is enabled with: name=execute-growable-distributed;host=127.0.0.1")
-        testBase.assertLogContains("Started coverage service: execute-growable-distributed")
+        testBase.assertLogContains("Distributed coverage is enabled with: host=127.0.0.1")
+        testBase.assertLogContains("Started coverage service: host=127.0.0.1")
         testBase.assertLogContains("Recording proceeding now that 1 client are connected")
 
         // Check if distributed coverage client has started in the 'java' process
-        assertStringContains("Starting distributed coverage client: name=execute-growable-distributed;host=127.0.0.1", getJavaOut(1), false)
+        assertStringContains("Starting distributed coverage client: host=127.0.0.1", getJavaOut(1), false)
         assertStringContains("Attempting connection to: 127.0.0.1:1198", getJavaOut(1), false)
         assertStringContains("Connected to distributed coverage server at 127.0.0.1:1198", getJavaOut(1), false)
         assertStringContains("Say foo", getJavaOut(1), false)

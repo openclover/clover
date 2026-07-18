@@ -23,8 +23,8 @@ class RecorderInstrEmitterTest {
     String sharedAsUnicode = "\\u0073\\u0068\\u0061\\u0072\\u0065\\u0064"
 
     /** Sample configuration string */
-    String distributedConfigStr = "name=my-config;host=myhost;port=1111;timeout=555;numClients=10;retryPeriod=111"
-    String distributedConfigStrSorted = "host=myhost;name=my-config;numClients=10;port=1111;retryPeriod=111;timeout=555"
+    String distributedConfigStr = "host=myhost;port=1111;timeout=555;numClients=10;retryPeriod=111"
+    String distributedConfigStrSorted = "host=myhost;numClients=10;port=1111;retryPeriod=111;timeout=555"
 
     /**
      * Test for {@link RecorderInstrEmitter#asUnicodeString(String)}
