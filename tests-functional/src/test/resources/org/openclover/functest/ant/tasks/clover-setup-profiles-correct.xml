@@ -63,7 +63,7 @@
                 <profile name="local"/>
                 <profile name="default" coverageRecorder="fixed"/>
                 <profile name="remote">
-                    <distributedCoverage name="tcp-config"
+                    <distributedCoverage
                                          port="7777" host="myhost.com"
                                          timeout="500" numClients="10" retryPeriod="500"/>
                 </profile>
@@ -105,7 +105,7 @@
                 <profile name="default" coverageRecorder="growable"/>
                 <profile name="other" coverageRecorder="shared"/>
                 <profile name="remote">
-                    <distributedCoverage name="tcp-config"
+                    <distributedCoverage
                                          port="7777" host="myhost.com"
                                          timeout="500" numClients="10" retryPeriod="500"/>
                 </profile>
