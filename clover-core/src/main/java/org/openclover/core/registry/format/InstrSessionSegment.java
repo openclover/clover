@@ -5,6 +5,7 @@ import org.openclover.core.context.ContextStore;
 import org.openclover.core.context.MethodRegexpContext;
 import org.openclover.core.context.StatementRegexpContext;
 import org.openclover.core.io.tags.ObjectReader;
+import org.openclover.core.io.tags.TaggedBitSet;
 import org.openclover.core.io.tags.TaggedIO;
 import org.openclover.core.io.tags.Tags;
 import org.openclover.core.recorder.InMemPerTestCoverage;
@@ -55,7 +56,8 @@ public class InstrSessionSegment {
                 .registerTag(StatementRegexpContext.class.getName(), Tags.NEXT_TAG + 14, (ObjectReader<StatementRegexpContext>) StatementRegexpContext::read)
                 .registerTag(MethodRegexpContext.class.getName(), Tags.NEXT_TAG + 15, (ObjectReader<MethodRegexpContext>) MethodRegexpContext::read)
                 .registerTag(InMemPerTestCoverage.class.getName(), Tags.NEXT_TAG + 16, (ObjectReader<InMemPerTestCoverage>) InMemPerTestCoverage::read)
-                .registerTag(FullTestCaseInfo.class.getName(), Tags.NEXT_TAG + 17, (ObjectReader<FullTestCaseInfo>) FullTestCaseInfo::read);
+                .registerTag(FullTestCaseInfo.class.getName(), Tags.NEXT_TAG + 17, (ObjectReader<FullTestCaseInfo>) FullTestCaseInfo::read)
+                .registerTag(TaggedBitSet.class.getName(), Tags.NEXT_TAG + 18, (ObjectReader<TaggedBitSet>) TaggedBitSet::read);
 
     private final long version;
     private final long startTs;

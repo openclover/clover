@@ -4,6 +4,7 @@ import org.openclover.core.CoverageDataSpec
 import org.openclover.core.CoverageDataTestBase
 import org.openclover.core.api.registry.TestCaseInfo
 import org.openclover.core.io.tags.ObjectReader
+import org.openclover.core.io.tags.TaggedBitSet
 import org.openclover.core.io.tags.TaggedInputReader
 import org.openclover.core.io.tags.TaggedOutputWriter
 import org.openclover.core.io.tags.Tags
@@ -23,6 +24,7 @@ class InMemPerTestCoveragePersistenceTest extends CoverageDataTestBase {
     private static final Tags TAGS = new Tags()
             .registerTag(InMemPerTestCoverage.name, Tags.NEXT_TAG + 16, InMemPerTestCoverage.&read as ObjectReader)
             .registerTag(FullTestCaseInfo.name, Tags.NEXT_TAG + 17, FullTestCaseInfo.&read as ObjectReader)
+            .registerTag(TaggedBitSet.name, Tags.NEXT_TAG + 18, TaggedBitSet.&read as ObjectReader)
 
     protected CoverageDataSpec newCoverageDataSpec() {
         return new CoverageDataSpec(null, 0, false, true, false, true, PerTestCoverageStrategy.IN_MEMORY)

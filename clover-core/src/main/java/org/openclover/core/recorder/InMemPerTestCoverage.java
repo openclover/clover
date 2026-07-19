@@ -3,6 +3,7 @@ package org.openclover.core.recorder;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import org.openclover.core.api.registry.TestCaseInfo;
+import org.openclover.core.io.tags.TaggedBitSet;
 import org.openclover.core.io.tags.TaggedDataInput;
 import org.openclover.core.io.tags.TaggedDataOutput;
 import org.openclover.core.io.tags.TaggedPersistent;
@@ -51,7 +52,7 @@ public class InMemPerTestCoverage extends BasePerTestCoverage implements TaggedP
         // stays consistent with the tciIDToTCIMap rebuild
         for (Map.Entry<TestCaseInfo, BitSet> entry : tciToHits.entrySet()) {
             out.write(FullTestCaseInfo.class, (FullTestCaseInfo) entry.getKey());
-            writeBitSet(out, entry.getValue());
+            out.write(TaggedBitSet.class, new TaggedBitSet(entry.getValue()));
         }
     }
 
@@ -61,27 +62,10 @@ public class InMemPerTestCoverage extends BasePerTestCoverage implements TaggedP
         final int count = in.readInt();
         for (int i = 0; i < count; i++) {
             final FullTestCaseInfo tci = in.read(FullTestCaseInfo.class);
-            coverage.tciToHits.put(tci, readBitSet(in));
+            coverage.tciToHits.put(tci, in.read(TaggedBitSet.class).getBitSet());
         }
         coverage.rebuildTCIIDMap();
         return coverage;
-    }
-
-    private static void writeBitSet(TaggedDataOutput out, BitSet bitSet) throws IOException {
-        final long[] words = bitSet.toLongArray();
-        out.writeInt(words.length);
-        for (long word : words) {
-            out.writeLong(word);
-        }
-    }
-
-    private static BitSet readBitSet(TaggedDataInput in) throws IOException {
-        final int length = in.readInt();
-        final long[] words = new long[length];
-        for (int i = 0; i < length; i++) {
-            words[i] = in.readLong();
-        }
-        return BitSet.valueOf(words);
     }
 
     /**
