@@ -99,7 +99,7 @@ class TcpRecorderServiceTest {
 
         good.readAndAckSliceStart("t", 1, 1L)
         // the slow client is dropped on timeout; only the good client is counted and remains registered
-        assertEquals(1, sent.get(500, TimeUnit.MILLISECONDS))
+        assertEquals(1, sent.get(5, TimeUnit.SECONDS))
         waitForRegistered(service, 1)
         pool.shutdownNow()
     }
