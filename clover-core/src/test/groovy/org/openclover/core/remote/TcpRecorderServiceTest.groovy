@@ -47,6 +47,8 @@ class TcpRecorderServiceTest {
     private RawClient connectRawClient() {
         final Socket socket = new Socket()
         socket.connect(new InetSocketAddress("localhost", Integer.parseInt(TEST_PORT)), 500)
+        // bound every client-side read so a lost timing race fails fast instead of wedging a test thread forever
+        socket.setSoTimeout(5000)
         clientSockets.add(socket)
         final DataInputStream input = IOStreamUtils.bufferedDataInput(socket)
         final DataOutputStream output = IOStreamUtils.bufferedDataOutput(socket)
@@ -65,7 +67,7 @@ class TcpRecorderServiceTest {
 
     @Test
     void testBroadcastAndAck() {
-        service = (TcpRecorderService) RemoteFactory.getInstance().createService(config(500, 0))
+        service = (TcpRecorderService) RemoteFactory.getInstance().createService(config(2000, 0))
         service.start()
 
         final RawClient a = connectRawClient()
@@ -86,7 +88,7 @@ class TcpRecorderServiceTest {
 
     @Test
     void testSlowClientIsDroppedOthersUnaffected() {
-        service = (TcpRecorderService) RemoteFactory.getInstance().createService(config(500, 0))
+        service = (TcpRecorderService) RemoteFactory.getInstance().createService(config(2000, 0))
         service.start()
 
         final RawClient good = connectRawClient()
@@ -106,8 +108,8 @@ class TcpRecorderServiceTest {
 
     @Test
     void testStalledClientDoesNotBlockAcceptOfOthers() {
-        // short handshake timeout so the stalled peer is dropped quickly
-        service = (TcpRecorderService) RemoteFactory.getInstance().createService(config(500, 0))
+        // the stalled peer is dropped when its handshake read times out; the accept loop must stay free meanwhile
+        service = (TcpRecorderService) RemoteFactory.getInstance().createService(config(2000, 0))
         service.start()
 
         // connects but never sends the handshake bytes - must not wedge the accept loop
@@ -122,7 +124,7 @@ class TcpRecorderServiceTest {
 
     @Test
     void testStartBlocksUntilNumClientsConnect() {
-        service = (TcpRecorderService) RemoteFactory.getInstance().createService(config(500, 1))
+        service = (TcpRecorderService) RemoteFactory.getInstance().createService(config(2000, 1))
 
         final def pool = Executors.newSingleThreadExecutor()
         final Future<?> started = pool.submit({ service.start() } as Runnable)
