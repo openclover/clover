@@ -2,14 +2,15 @@ package org.openclover.core.optimization;
 
 import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
-import org.openclover.core.registry.entities.FullProjectInfo;
+import org.openclover.core.io.tags.TaggedDataInput;
+import org.openclover.core.io.tags.TaggedDataOutput;
+import org.openclover.core.io.tags.TaggedPersistent;
 
-import java.io.Serializable;
+import java.io.IOException;
 import java.util.Objects;
 
 /** Package-internal representation of a recorded call to a test method */
-class TestMethodCall implements Serializable {
-    private static final long serialVersionUID = 9075409289508758000L;
+class TestMethodCall implements TaggedPersistent {
 
     private final String runtimeTypeName;
     private final String sourceMethodName;
@@ -36,6 +37,20 @@ class TestMethodCall implements Serializable {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public void write(TaggedDataOutput out) throws IOException {
+        out.writeUTF(runtimeTypeName);
+        out.writeUTF(sourceMethodName);
+        out.writeUTF(packagePath);
+    }
+
+    public static TestMethodCall read(TaggedDataInput in) throws IOException {
+        final String runtimeTypeName = in.readUTF();
+        final String sourceMethodName = in.readUTF();
+        final String packagePath = in.readUTF();
+        return new TestMethodCall(runtimeTypeName, sourceMethodName, packagePath);
     }
 
     public String getPackagePath() {

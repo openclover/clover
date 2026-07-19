@@ -7,6 +7,13 @@ import org.openclover.core.CoverageDataSpec;
 import org.openclover.core.api.registry.FileInfo;
 import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
+import org.openclover.core.io.tags.ObjectReader;
+import org.openclover.core.io.tags.TaggedDataInput;
+import org.openclover.core.io.tags.TaggedDataOutput;
+import org.openclover.core.io.tags.TaggedIO;
+import org.openclover.core.io.tags.TaggedPersistent;
+import org.openclover.core.io.tags.Tags;
+import org.openclover.core.io.tags.UnknownTagException;
 import org.openclover.core.registry.Clover2Registry;
 import org.openclover.core.api.registry.CoverageDataRange;
 import org.openclover.core.registry.entities.FullFileInfo;
@@ -18,17 +25,17 @@ import org_openclover_runtime.CloverVersionInfo;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InvalidClassException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.nio.file.Files;
+import java.nio.channels.FileChannel;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
+import static java.nio.file.StandardOpenOption.CREATE;
+import static java.nio.file.StandardOpenOption.READ;
+import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
+import static java.nio.file.StandardOpenOption.WRITE;
 import static org.openclover.core.util.Maps.newHashMap;
 import static org.openclover.core.util.Sets.newHashSet;
 
@@ -36,10 +43,33 @@ import static org.openclover.core.util.Sets.newHashSet;
  * A snapshot of the known state of testing activity relating to a Clover-enabled project
  * and its database.
  **/
-public class Snapshot implements Serializable {
-    private static final long serialVersionUID = 6684083217918243192L;
+public class Snapshot implements TaggedPersistent {
 
     public static final long UNKNOWN_DURATION = Long.MIN_VALUE;
+
+    /**
+     * On-disk format version. Bump whenever the persisted field layout changes so
+     * that snapshots written by an incompatible version are rejected cleanly rather
+     * than mis-decoded. Kept in step with the registry format version.
+     */
+    private static final int SNAPSHOT_FORMAT_VERSION = 50001;
+
+    /**
+     * Whitelist of the types that can appear in a serialized snapshot. Only these
+     * types can ever be instantiated by the reader; anything else fails with
+     * {@link UnknownTagException}.
+     * <p>
+     * The tag numbers deliberately start at {@code NEXT_TAG + 100} to occupy a
+     * distinct range from other tag tables (e.g. {@code InstrSessionSegment.TAGS}
+     * uses {@code NEXT_TAG + 0..}), so that accidentally reading a stream with the
+     * wrong table fails fast with an {@link UnknownTagException} instead of
+     * silently mis-decoding.
+     */
+    static final Tags TAGS =
+        new Tags()
+            .registerTag(Snapshot.class.getName(), Tags.NEXT_TAG + 100, (ObjectReader<Snapshot>) Snapshot::read)
+            .registerTag(TestMethodCall.class.getName(), Tags.NEXT_TAG + 101, (ObjectReader<TestMethodCall>) TestMethodCall::read)
+            .registerTag(SourceState.class.getName(), Tags.NEXT_TAG + 102, (ObjectReader<SourceState>) SourceState::read);
 
     /**
      * Record the version this snapshot was created with as subsequent
@@ -94,17 +124,39 @@ public class Snapshot implements Serializable {
         initString = db.getInitstring();
         testLookup = newHashMap();
         perTestSourceStates = newHashMap();
-        durationsForTests = new Object2LongOpenHashMap() {
-            private static final long serialVersionUID = 6851581250481388361L;
+        durationsForTests = newDurationsMap();
+        failingTests = newHashSet();
+        location = locationTosnapshot;
+        updateFor(db);
+    }
 
+    /**
+     * Field-assigning constructor used when reconstructing a snapshot from disk
+     * (see {@link #read(TaggedDataInput)}). {@link #location} is set by the caller.
+     */
+    private Snapshot(String cloverVersionInfo, Set<Long> dbVersions, String initString,
+                     Map<String, Set<TestMethodCall>> testLookup,
+                     Object2LongMap/*<TestMethodCall, long>*/ durationsForTests,
+                     Set<TestMethodCall> failingTests,
+                     Map<TestMethodCall, Map<String, SourceState>> perTestSourceStates,
+                     long avgSetupTeardownDuration) {
+        this.cloverVersionInfo = cloverVersionInfo;
+        this.dbVersions = dbVersions;
+        this.initString = initString;
+        this.testLookup = testLookup;
+        this.durationsForTests = durationsForTests;
+        this.failingTests = failingTests;
+        this.perTestSourceStates = perTestSourceStates;
+        this.avgSetupTeardownDuration = avgSetupTeardownDuration;
+    }
+
+    private static Object2LongMap newDurationsMap() {
+        return new Object2LongOpenHashMap() {
             @Override
             public long defaultReturnValue() {
                 return UNKNOWN_DURATION;
             }
         };
-        failingTests = newHashSet();
-        location = locationTosnapshot;
-        updateFor(db);
     }
 
     public static void setDebug(boolean debug) {
@@ -255,16 +307,124 @@ public class Snapshot implements Serializable {
         return tests;
     }
 
-    public void store() throws IOException {
-        if (!location.exists()) {
-            if (location.getParentFile() != null && !location.getParentFile().exists()) {
-                location.getParentFile().mkdirs();
-            }
-            location.createNewFile();
+    @Override
+    @SuppressWarnings("unchecked")
+    public void write(TaggedDataOutput out) throws IOException {
+        out.writeInt(SNAPSHOT_FORMAT_VERSION);
+        out.writeUTF(cloverVersionInfo);
+        out.writeUTF(initString);
+        out.writeLong(avgSetupTeardownDuration);
+
+        // dbVersions
+        out.writeInt(dbVersions.size());
+        for (Long version : dbVersions) {
+            out.writeLong(version);
         }
-        ObjectOutputStream oos = new ObjectOutputStream(Files.newOutputStream(location.toPath()));
-        oos.writeObject(this);
-        oos.close();
+
+        // testLookup: Map<String, Set<TestMethodCall>>
+        out.writeInt(testLookup.size());
+        for (Map.Entry<String, Set<TestMethodCall>> entry : testLookup.entrySet()) {
+            out.writeUTF(entry.getKey());
+            final Set<TestMethodCall> tests = entry.getValue();
+            out.writeInt(tests.size());
+            for (TestMethodCall test : tests) {
+                out.write(TestMethodCall.class, test);
+            }
+        }
+
+        // durationsForTests: Object2LongMap<TestMethodCall>
+        out.writeInt(durationsForTests.size());
+        for (Object key : durationsForTests.keySet()) {
+            final TestMethodCall test = (TestMethodCall) key;
+            out.write(TestMethodCall.class, test);
+            out.writeLong(durationsForTests.getLong(test));
+        }
+
+        // failingTests: Set<TestMethodCall>
+        out.writeInt(failingTests.size());
+        for (TestMethodCall test : failingTests) {
+            out.write(TestMethodCall.class, test);
+        }
+
+        // perTestSourceStates: Map<TestMethodCall, Map<String, SourceState>>
+        out.writeInt(perTestSourceStates.size());
+        for (Map.Entry<TestMethodCall, Map<String, SourceState>> entry : perTestSourceStates.entrySet()) {
+            out.write(TestMethodCall.class, entry.getKey());
+            final Map<String, SourceState> states = entry.getValue();
+            out.writeInt(states.size());
+            for (Map.Entry<String, SourceState> stateEntry : states.entrySet()) {
+                out.writeUTF(stateEntry.getKey());
+                out.write(SourceState.class, stateEntry.getValue());
+            }
+        }
+    }
+
+    public static Snapshot read(TaggedDataInput in) throws IOException {
+        final int formatVersion = in.readInt();
+        if (formatVersion != SNAPSHOT_FORMAT_VERSION) {
+            throw new IOException("Unsupported snapshot format version " + formatVersion
+                + " (expected " + SNAPSHOT_FORMAT_VERSION + ")");
+        }
+        final String cloverVersionInfo = in.readUTF();
+        final String initString = in.readUTF();
+        final long avgSetupTeardownDuration = in.readLong();
+
+        final int dbVersionCount = in.readInt();
+        final Set<Long> dbVersions = new LinkedHashSet<>();
+        for (int i = 0; i < dbVersionCount; i++) {
+            dbVersions.add(in.readLong());
+        }
+
+        final int testLookupSize = in.readInt();
+        final Map<String, Set<TestMethodCall>> testLookup = newHashMap();
+        for (int i = 0; i < testLookupSize; i++) {
+            final String key = in.readUTF();
+            final int testCount = in.readInt();
+            final Set<TestMethodCall> tests = newHashSet();
+            for (int j = 0; j < testCount; j++) {
+                tests.add(in.read(TestMethodCall.class));
+            }
+            testLookup.put(key, tests);
+        }
+
+        final int durationsSize = in.readInt();
+        final Object2LongMap durationsForTests = newDurationsMap();
+        for (int i = 0; i < durationsSize; i++) {
+            final TestMethodCall test = in.read(TestMethodCall.class);
+            final long duration = in.readLong();
+            durationsForTests.put(test, duration);
+        }
+
+        final int failingCount = in.readInt();
+        final Set<TestMethodCall> failingTests = newHashSet();
+        for (int i = 0; i < failingCount; i++) {
+            failingTests.add(in.read(TestMethodCall.class));
+        }
+
+        final int perTestSize = in.readInt();
+        final Map<TestMethodCall, Map<String, SourceState>> perTestSourceStates = newHashMap();
+        for (int i = 0; i < perTestSize; i++) {
+            final TestMethodCall test = in.read(TestMethodCall.class);
+            final int stateCount = in.readInt();
+            final Map<String, SourceState> states = newHashMap();
+            for (int j = 0; j < stateCount; j++) {
+                final String path = in.readUTF();
+                states.put(path, in.read(SourceState.class));
+            }
+            perTestSourceStates.put(test, states);
+        }
+
+        return new Snapshot(cloverVersionInfo, dbVersions, initString, testLookup,
+            durationsForTests, failingTests, perTestSourceStates, avgSetupTeardownDuration);
+    }
+
+    public void store() throws IOException {
+        if (location.getParentFile() != null && !location.getParentFile().exists()) {
+            location.getParentFile().mkdirs();
+        }
+        try (FileChannel channel = FileChannel.open(location.toPath(), WRITE, CREATE, TRUNCATE_EXISTING)) {
+            TaggedIO.write(channel, TAGS, Snapshot.class, this);
+        }
     }
 
     public static Snapshot generateFor(CloverDatabase db) {
@@ -298,14 +458,14 @@ public class Snapshot implements Serializable {
     public static Snapshot loadFromFile(File file) {
         if (file.exists() && file.isFile() && file.canRead()) {
             try {
-                try (ObjectInputStream ois = new ObjectInputStream(Files.newInputStream(file.toPath()))) {
+                try (FileChannel channel = FileChannel.open(file.toPath(), READ)) {
                     long start = System.currentTimeMillis();
-                    Snapshot snapshot = (Snapshot) ois.readObject();
+                    Snapshot snapshot = TaggedIO.read(channel, TAGS, Snapshot.class);
                     Logger.getInstance().verbose("Took " + (System.currentTimeMillis() - start) + "ms to load the snapshot file");
                     snapshot.location = file;
                     return snapshot;
                 }
-            } catch (InvalidClassException e) {
+            } catch (UnknownTagException e) {
                 Logger.getInstance().debug("Failed to load snapshot file at " + file.getAbsolutePath(), e);
                 Logger.getInstance().warn("Failed to load snapshot file at " + file.getAbsolutePath() +
                         " because it is no longer valid for this version of OpenClover");
@@ -515,15 +675,25 @@ public class Snapshot implements Serializable {
     }
 
     /** Records the interesting bits of a FullFileInfo for later comparison. Only used in this source file. */
-    private static final class SourceState implements Serializable {
-        private static final long serialVersionUID = -3186007190113270192L;
-
+    static final class SourceState implements TaggedPersistent {
         private final long checksum;
         private final long filesize;
 
         SourceState(long checksum, long filesize) {
             this.checksum = checksum;
             this.filesize = filesize;
+        }
+
+        @Override
+        public void write(TaggedDataOutput out) throws IOException {
+            out.writeLong(checksum);
+            out.writeLong(filesize);
+        }
+
+        public static SourceState read(TaggedDataInput in) throws IOException {
+            final long checksum = in.readLong();
+            final long filesize = in.readLong();
+            return new SourceState(checksum, filesize);
         }
 
         @Override

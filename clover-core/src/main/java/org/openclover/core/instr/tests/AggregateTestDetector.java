@@ -1,5 +1,9 @@
 package org.openclover.core.instr.tests;
 
+import org.openclover.core.io.tags.TaggedDataInput;
+import org.openclover.core.io.tags.TaggedDataOutput;
+
+import java.io.IOException;
 import java.util.List;
 
 import static org.openclover.core.util.Lists.newArrayList;
@@ -19,6 +23,35 @@ public class AggregateTestDetector implements TestDetector {
 
     public void addDetector(TestDetector detector) {
         detectors.add(detector);
+    }
+
+    @Override
+    public void write(TaggedDataOutput out) throws IOException {
+        // strategy stored by name so new BooleanStrategy implementations can be added later
+        out.writeUTF(strategy.getClass().getSimpleName());
+        out.writeInt(detectors.size());
+        for (TestDetector detector : detectors) {
+            TestDetectorIO.writeDetector(out, detector);
+        }
+    }
+
+    public static AggregateTestDetector read(TaggedDataInput in) throws IOException {
+        final BooleanStrategy strategy = strategyForName(in.readUTF());
+        final AggregateTestDetector aggregate = new AggregateTestDetector(strategy);
+        final int count = in.readInt();
+        for (int i = 0; i < count; i++) {
+            aggregate.addDetector(in.read(TestDetector.class));
+        }
+        return aggregate;
+    }
+
+    private static BooleanStrategy strategyForName(String name) throws IOException {
+        if (AndStrategy.class.getSimpleName().equals(name)) {
+            return new AndStrategy();
+        } else if (OrStrategy.class.getSimpleName().equals(name)) {
+            return new OrStrategy();
+        }
+        throw new IOException("Unknown boolean strategy: " + name);
     }
     
     public boolean isEmpty() {

@@ -1,13 +1,16 @@
 package org.openclover.core.instr.tests;
 
+import org.openclover.core.io.tags.TaggedDataInput;
+import org.openclover.core.io.tags.TaggedDataOutput;
+
 import java.io.File;
-import java.io.Serializable;
+import java.io.IOException;
 import java.util.List;
 
 import static org.openclover.core.util.Lists.newArrayList;
 
 
-public class FileMappedTestDetector implements TestDetector, Serializable {
+public class FileMappedTestDetector implements TestDetector {
 
     private List<TestSourceMatcher> testFileMatchers = newArrayList();
 
@@ -22,6 +25,25 @@ public class FileMappedTestDetector implements TestDetector, Serializable {
 
     public void addTestSourceMatcher(TestSourceMatcher matcher) {
         testFileMatchers.add(matcher);
+    }
+
+    @Override
+    public void write(TaggedDataOutput out) throws IOException {
+        out.writeInt(testFileMatchers.size());
+        for (TestSourceMatcher matcher : testFileMatchers) {
+            TestDetectorIO.writeMatcher(out, matcher);
+        }
+        TestDetectorIO.writeDetector(out, defaultDetector);
+    }
+
+    public static FileMappedTestDetector read(TaggedDataInput in) throws IOException {
+        final FileMappedTestDetector detector = new FileMappedTestDetector();
+        final int count = in.readInt();
+        for (int i = 0; i < count; i++) {
+            detector.addTestSourceMatcher(in.read(TestSourceMatcher.class));
+        }
+        detector.defaultDetector = in.read(TestDetector.class);
+        return detector;
     }
 
     public TestDetector getDetectorForFile(File f) {

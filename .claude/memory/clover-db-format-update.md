@@ -182,28 +182,171 @@ document — a stale/unreadable snapshot only costs one unoptimized test run. So
 ## 5. Apply the same treatment to `InstrumentationConfig`
 
 `cfg/instr/InstrumentationConfig.java` also round-trips itself through
-`ObjectInputStream`/`ObjectOutputStream` (~L349). Convert it the same way:
+`ObjectInputStream`/`ObjectOutputStream` (`saveToFile` ~L338 / `loadFromStream`
+~L348).
 
-1. `implements TaggedPersistent` with `write` + `static read`.
-2. Enumerate its persisted fields (primitives + a handful of enum/String config
-   values) and encode them explicitly; enums as `writeUTF(name())` + `valueOf`.
-3. Register a single-entry (or small) `Tags` table and swap the read/write helpers
-   to `TaggedIO`.
+**Investigation findings (2026-07-19) — the plan's original "shallow, mostly
+primitive/enum, lower-risk" framing was wrong.** What was learned:
 
-This is lower-risk than `Snapshot` because the config graph is shallow and mostly
-primitive/enum.
+- The object actually serialized is an **`AntInstrumentationConfig`** (in
+  `clover-ant`), written by `ant/groovy/GroovycSupport.newConfigDir` →
+  `saveToFile`. It is read back in a **different module** (`clover-groovy`,
+  `CloverAstTransformerBase.loadConfig`) as a base `InstrumentationConfig`. So
+  native serialization is relied on for **cross-module polymorphic** read.
+- Class hierarchy: `AntInstrumentationConfig extends JavaInstrumentationConfig
+  extends InstrumentationConfig`. The subclasses add:
+  - **Persisted scalars** — Java: `sourceLevel`, `fullyQualifiedJavaNames`,
+    `instrFileExtension`, `instrumentLambda`, `sourceDir`, `destDir`,
+    `sourceFiles`; Ant: `preserve`, `compilerDelegate`, `groverJar`,
+    `skipGroverJar`.
+  - **`transient` Ant-runtime state** — `Project`, `List<FileSet>`,
+    `List<TestSourceSet>`, `PatternSet` (never serialized) + Ant-coupled behavior
+    (`resolveInitString` override, `EnumeratedAttribute` nested helpers,
+    `addConfiguredFileSet`, `configureIncludedFiles`).
+- **The `clover-groovy` reader consumes ONLY base-class accessors** (verified):
+  `getEncoding/getFlushPolicy/getFlushInterval/getIncludedFiles/getInitString/
+  getProfiles/getProjectName/getRegistryFile/getTestDetector/getTmpDir/
+  getDistributedConfigString/isEnabled/isIntervalBasedFlushing/
+  isRecordTestResults/isSliceRecording/isStatementInstrEnabled`. No
+  subclass-specific field is ever read back. The only `saveToFile` caller is
+  `GroovycSupport`; the only `loadFromStream` caller is the Groovy transformer.
+
+### 5.1 DESIGN DECISION — flatten persistence to the base class
+
+Because (a) no Ant-typed field is persisted (all `transient`) and (b) the reader
+only reads base-class state, **persistence flattens to the single base
+`InstrumentationConfig` type**:
+
+- Make **`InstrumentationConfig implements TaggedPersistent`**, `write`ing only its
+  own fields; register **one** tag for it. The Ant/Java subclasses inherit
+  `write()` and are **not** registered — no discriminator, no cross-module
+  polymorphism, no Ant dependency dragged into `clover-core`.
+- On read, reconstruct a plain `InstrumentationConfig` carrying exactly the state
+  the Groovy side uses. This realizes the "one class" intuition at the persistence
+  layer rather than by physically collapsing the classes (which is blocked — the
+  Ant runtime members require `org.apache.tools.ant.*`, unavailable in
+  `clover-core`).
+- Encode scalars directly; enums as `writeUTF(name())` + `valueOf`; nullable
+  strings are fine (`TaggedOutputWriter.writeUTF` already handles null).
+- **`DistributedConfig`** → persist as its **string form** (has
+  `DistributedConfig(String)` ctor + `toString()`); no dedicated tag needed.
+
+### 5.2 DESIGN DECISION — persist the RESOLVED `TestDetector`, reinstantiate on read
+
+`getTestDetector()` **is** consumed by the Groovy side and must round-trip. The
+detector is a graph, but by serialization time it has already been **resolved**
+(Ant `FileSet`/`TestSourceSet`/`BooleanSpec`/`AndSpec`/`OrSpec`/`TestClassSpec`
+builders are consumed during `buildTestDetector()` + directory scan). So we
+persist only the resolved data and **reinstantiate the concrete class on read**
+(a per-type tag; each type writes its own fields). Types + fields:
+
+| Persisted type | Fields | Reinstantiate as |
+|---|---|---|
+| `NoTestDetector` | none | `new NoTestDetector()` |
+| `DefaultTestDetector` | none | `new DefaultTestDetector()` |
+| `TestSpec` | 9 regex **strings** (`pkg`, `class`, `classAnnotation`, `super`, `classTag`, `method`, `methodAnnotation`, `methodReturnType`, `methodTag`), each nullable | `new TestSpec()` + setters (`Pattern.compile` on read) |
+| `AggregateTestDetector` | strategy discriminator (`And`/`Or`) + child detector list | `new AggregateTestDetector(strategy)` + `addDetector` |
+| `FileMappedTestDetector` | matcher list + `defaultDetector` | `new FileMappedTestDetector()` |
+| test-source matcher | resolved `Set<File> includedFiles` + its `TestDetector` | core matcher (see 5.3) |
+
+The `BooleanSpec` builder graph and Ant `FileSet` machinery are **not** persisted.
+
+### 5.3 DESIGN DECISION — matcher wrinkle → new core `SimpleTestSourceMatcher`
+
+`FileMappedTestDetector.testFileMatchers` currently holds Ant `TestSourceSet`
+(in `clover-ant`) instances, and the `TestSourceMatcher` interface exposes only
+`matchesFile(f)`/`getDetector()` — not the resolved file set. The `Tags` table +
+`write()` live in `clover-core` and cannot reference the Ant class.
+
+**Chosen (option 1):** introduce a core
+`instr/tests/SimpleTestSourceMatcher implements TestSourceMatcher,
+TaggedPersistent` holding `Set<File> includedFiles` + `TestDetector detector`, and
+change `GroovycSupport` to add a `SimpleTestSourceMatcher` (built from the
+`TestSourceSet`'s already-resolved `getIncludedFiles()` + `getDetector()`) to the
+`FileMappedTestDetector` instead of the raw Ant `TestSourceSet`. Keeps all
+persistence in `clover-core`; small, contained behavior change in `GroovycSupport`.
+(Rejected option 2: widen `TestSourceMatcher` with `getIncludedFiles()` + convert
+at `write()` time — avoids the `GroovycSupport` change but grows the interface and
+does type-narrowing in the codec.)
+
+### 5.4 Tag table for the config
+
+One `Tags` table (on `InstrumentationConfig`) registering: `InstrumentationConfig`,
+`NoTestDetector`, `DefaultTestDetector`, `TestSpec`, `AggregateTestDetector`,
+`FileMappedTestDetector`, `SimpleTestSourceMatcher`. `TestDetector` fields are
+written via `out.write(TestDetector.class, detector)` so the whitelist enforces the
+allowed concrete types.
+
+### 5.5 Files touched for step 8
+
+- `cfg/instr/InstrumentationConfig.java` — `TaggedPersistent`, `TAGS`,
+  `saveToFile`/`loadFromStream` → `TaggedIO`.
+- `instr/tests/{TestSpec,AggregateTestDetector,FileMappedTestDetector,
+  NoTestDetector,DefaultTestDetector}.java` — `TaggedPersistent` + `read`.
+- **new** `instr/tests/SimpleTestSourceMatcher.java`.
+- `ant/groovy/GroovycSupport.java` — build `SimpleTestSourceMatcher` instead of
+  adding the Ant `TestSourceSet` as the matcher.
+- Remove `implements Serializable`/`serialVersionUID` from converted types.
 
 ## 6. Step-by-step execution order
 
-1. Add null-safe `writeUTF`/`readUTF` helpers if needed (small util or inline).
-2. Convert `TestMethodCall` → `TaggedPersistent` (+ unit round-trip test).
-3. Convert `Snapshot.SourceState` → `TaggedPersistent` (promote visibility) (+ test).
-4. Add field-assigning private constructor + `write`/`read` to `Snapshot`.
-5. Define the `Snapshot.TAGS` whitelist.
-6. Rewrite `Snapshot.store()` / `loadFromFile()` to use `TaggedIO` + `FileChannel`.
-7. Add a schema-version marker and graceful-fallback handling for old/invalid files.
-8. Repeat 1-7 (scaled down) for `InstrumentationConfig`.
-9. Remove `implements Serializable` / `serialVersionUID` from all converted types.
+**Snapshot conversion — DONE (2026-07-19), all `optimization` tests green:**
+
+1. ~~null-safe UTF helpers~~ — not needed; `TaggedOutputWriter.writeUTF` already
+   handles null.
+2. ✅ `TestMethodCall` → `TaggedPersistent` (`write` persists 3 fields;
+   `runtimeMethodName` is derived by the 3-arg ctor, not stored).
+3. ✅ `Snapshot.SourceState` → `TaggedPersistent` (promoted `private`→package).
+4. ✅ Field-assigning private ctor + `write`/`read` on `Snapshot`
+   (`durationsForTests` custom-default map rebuilt via `newDurationsMap()`).
+5. ✅ `Snapshot.TAGS` whitelist (`Snapshot`, `TestMethodCall`, `SourceState`).
+6. ✅ `store()`/`loadFromFile()` use `TaggedIO` + `FileChannel`
+   (`WRITE,CREATE,TRUNCATE_EXISTING` / `READ`).
+7. ✅ `FORMAT_VERSION` marker (int, first field) + graceful fallback: old
+   native-serialized files hit `UnknownTagException` (magic `0xAC` byte is not a
+   valid tag) → "no longer valid for this version" warn + `null`.
+9. ✅ Removed `implements Serializable` / `serialVersionUID` from the three types.
+
+**InstrumentationConfig conversion — DONE (2026-07-19), all relevant tests green:**
+
+8. ✅ Per §5.1–5.5: base-flatten `InstrumentationConfig` (`TaggedPersistent`,
+   `CONFIG_FORMAT_VERSION = 50001`, `TAGS` at `NEXT_TAG + 50..56`,
+   `saveToFile`/`loadFromStream` → `TaggedIO`; scalars/strings/enums inline,
+   `DistributedConfig`/`CloverProfile`/`MethodContextDef`/`StatementContextDef`
+   inline, `TestDetector` via the whitelist). New `SimpleTestSourceMatcher`;
+   `GroovycSupport` now wraps each resolved `TestSourceSet` into one.
+   `NoTestDetector`/`DefaultTestDetector`/`TestSpec`/`AggregateTestDetector`/
+   `FileMappedTestDetector` made `TaggedPersistent`; `TestDetector`/
+   `TestSourceMatcher` interfaces now extend `TaggedPersistent` with a default
+   `write` that throws (non-persistable impls fail fast).
+
+   **Key implementation gotcha:** `TaggedOutputWriter.write(Class,obj)` keys the
+   on-disk tag off the **declared Class argument, not the runtime type** — so
+   `out.write(TestDetector.class, d)` fails with `UnknownTagException` (only
+   concrete types are registered). Writing polymorphic detectors requires
+   dispatching to the concrete class; centralized in new
+   `instr/tests/TestDetectorIO.{writeDetector,writeMatcher}`. Reading stays
+   polymorphic (`in.read(TestDetector.class)` — the stream tag selects the reader).
+   `AggregateTestDetector` strategy stored by simple-class-name string (future-proof
+   for new `BooleanStrategy` impls), not a boolean.
+
+**Format-version bumps (defensive, so new OpenClover rejects old data):**
+
+- `RegHeader.REG_FORMAT_VERSION` 40502 → **50001** (drives `BaseCoverageRecording`
+  too) — `.db` registry + coverage recordings.
+- `Snapshot.SNAPSHOT_FORMAT_VERSION` = **50001** (renamed from `FORMAT_VERSION`).
+- `InstrumentationConfig.CONFIG_FORMAT_VERSION` = **50001**.
+- Distinct tag ranges per table to fail fast on wrong-table reads:
+  `InstrSessionSegment` `NEXT_TAG+0..`, config `NEXT_TAG+50..`, `Snapshot`
+  `NEXT_TAG+100..`.
+
+**Tests added:** `instr/tests/TestDetectorPersistenceTest.groovy` (per-type
+round-trip for every new `TaggedPersistent` detector/matcher);
+`InstrumentationConfigSerializationTest.groovy` expanded to full save/load
+round-trips (scalars, nullables, `DistributedConfig`, context defs, profiles, and
+an **Ant→Groovy-shaped** `FileMappedTestDetector`+`SimpleTestSourceMatcher` graph);
+`SnapshotTest.groovy` +2 (failing-test/lookup reload identity; corrupt/old-file →
+null).
 
 ## 7. Testing
 

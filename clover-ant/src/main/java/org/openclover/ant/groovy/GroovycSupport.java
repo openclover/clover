@@ -22,6 +22,7 @@ import org.openclover.core.instr.java.Instrumenter;
 import org.openclover.core.instr.tests.DefaultTestDetector;
 import org.openclover.core.instr.tests.FileMappedTestDetector;
 import org.openclover.core.instr.tests.NoTestDetector;
+import org.openclover.core.instr.tests.SimpleTestSourceMatcher;
 import org.openclover.core.instr.tests.TestDetector;
 import org.openclover.core.util.ClassPathUtil;
 import org.openclover.core.util.FileUtils;
@@ -258,10 +259,12 @@ public class GroovycSupport implements BuildListener {
                 // otherwise build detector based on file set and class/method pattern
                 final FileMappedTestDetector fileMappedTestDetector = new FileMappedTestDetector();
                 for (TestSourceSet testSourceSet : config.getTestSources()) {
-                    // call these getters to force directory scan
-                    testSourceSet.getIncludedFiles();
+                    // force directory scan, then hand off the resolved (file set + detector)
+                    // as a persistable matcher - the Ant TestSourceSet itself is not serializable
+                    // via the tag-based format (it extends Ant's FileSet)
                     testSourceSet.getExcludedFiles();
-                    fileMappedTestDetector.addTestSourceMatcher(testSourceSet);
+                    fileMappedTestDetector.addTestSourceMatcher(
+                        new SimpleTestSourceMatcher(testSourceSet.getIncludedFiles(), testSourceSet.getDetector()));
                 }
                 // test detector based of file+class+method matching
                 testDetector = fileMappedTestDetector;
