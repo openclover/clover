@@ -1,8 +1,11 @@
 package org.openclover.core.instr.tests;
 
+import org.openclover.core.io.tags.TaggedDataInput;
+import org.openclover.core.io.tags.TaggedDataOutput;
 import org.openclover.core.registry.entities.MethodSignature;
 import org.openclover.core.registry.entities.Modifiers;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -36,6 +39,42 @@ public class TestSpec implements TestDetector {
         methodTagPattern = spec.methodTagPattern;
 
 
+    }
+
+    @Override
+    public void write(TaggedDataOutput out) throws IOException {
+        writePattern(out, pkgPattern);
+        writePattern(out, classAnnotationPattern);
+        writePattern(out, classPattern);
+        writePattern(out, superPattern);
+        writePattern(out, classTagPattern);
+        writePattern(out, methodAnnotationPattern);
+        writePattern(out, methodPattern);
+        writePattern(out, methodReturnTypePattern);
+        writePattern(out, methodTagPattern);
+    }
+
+    public static TestSpec read(TaggedDataInput in) throws IOException {
+        final TestSpec spec = new TestSpec();
+        spec.pkgPattern = readPattern(in);
+        spec.classAnnotationPattern = readPattern(in);
+        spec.classPattern = readPattern(in);
+        spec.superPattern = readPattern(in);
+        spec.classTagPattern = readPattern(in);
+        spec.methodAnnotationPattern = readPattern(in);
+        spec.methodPattern = readPattern(in);
+        spec.methodReturnTypePattern = readPattern(in);
+        spec.methodTagPattern = readPattern(in);
+        return spec;
+    }
+
+    private static void writePattern(TaggedDataOutput out, Pattern pattern) throws IOException {
+        out.writeUTF(pattern == null ? null : pattern.pattern());
+    }
+
+    private static Pattern readPattern(TaggedDataInput in) throws IOException {
+        final String regexp = in.readUTF();
+        return regexp == null ? null : Pattern.compile(regexp);
     }
 
     public void setPkgPattern(Pattern pkgPattern) {

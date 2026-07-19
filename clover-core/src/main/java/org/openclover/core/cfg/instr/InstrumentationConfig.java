@@ -1,29 +1,43 @@
 package org.openclover.core.cfg.instr;
 
+import org.openclover.core.instr.tests.AggregateTestDetector;
 import org.openclover.core.instr.tests.DefaultTestDetector;
+import org.openclover.core.instr.tests.FileMappedTestDetector;
+import org.openclover.core.instr.tests.NoTestDetector;
+import org.openclover.core.instr.tests.SimpleTestSourceMatcher;
 import org.openclover.core.instr.tests.TestDetector;
+import org.openclover.core.instr.tests.TestDetectorIO;
+import org.openclover.core.instr.tests.TestSpec;
+import org.openclover.core.io.tags.ObjectReader;
+import org.openclover.core.io.tags.TaggedDataInput;
+import org.openclover.core.io.tags.TaggedDataOutput;
+import org.openclover.core.io.tags.TaggedIO;
+import org.openclover.core.io.tags.TaggedPersistent;
+import org.openclover.core.io.tags.Tags;
 import org.openclover.runtime.Logger;
 import org.openclover.runtime.api.CloverException;
 import org.openclover.runtime.remote.DistributedConfig;
 import org_openclover_runtime.CloverProfile;
 import org_openclover_runtime.CloverVersionInfo;
 
+import java.io.DataInputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.nio.channels.FileChannel;
 import java.util.Collection;
 import java.util.List;
 
+import static java.nio.file.StandardOpenOption.CREATE;
+import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
+import static java.nio.file.StandardOpenOption.WRITE;
 import static org.openclover.core.util.Lists.newLinkedList;
+import static org.openclover.core.util.Sets.newHashSet;
 
 /**
  * Instrumentation settings common for Java and Groovy.
  */
-public class InstrumentationConfig implements Serializable {
+public class InstrumentationConfig implements TaggedPersistent {
     public static final int DIRECTED_FLUSHING = 0;  //todo - remove these and use the ones defined in CoverageRecorder
     public static final int INTERVAL_FLUSHING = 1;
     public static final int THREADED_FLUSHING = 2;
@@ -38,6 +52,34 @@ public class InstrumentationConfig implements Serializable {
 
     public static final String DEFAULT_DB_DIR = ".clover";
     public static final String DEFAULT_DB_FILE = "clover"+ CloverVersionInfo.RELEASE_NUM.replace('.','_')+".db";
+
+    /**
+     * On-disk format version. Bump whenever the persisted field layout changes so
+     * that configs written by an incompatible version are rejected cleanly rather
+     * than mis-decoded. Kept in step with the registry / snapshot format versions.
+     */
+    private static final int CONFIG_FORMAT_VERSION = 50001;
+
+    /**
+     * Whitelist of the types that can appear in a serialized instrumentation config.
+     * Only the base config itself and the resolved {@link TestDetector} graph are
+     * registered - the Ant/Java config subclasses carry no persisted state of their
+     * own and are always read/written as the base {@code InstrumentationConfig}.
+     * <p>
+     * Tag numbers start at {@code NEXT_TAG + 50} to occupy a distinct range from
+     * other tag tables (e.g. {@code InstrSessionSegment.TAGS} at {@code NEXT_TAG + 0}
+     * and {@code Snapshot.TAGS} at {@code NEXT_TAG + 100}), so reading a stream with
+     * the wrong table fails fast with an {@code UnknownTagException}.
+     */
+    static final Tags TAGS =
+        new Tags()
+            .registerTag(InstrumentationConfig.class.getName(), Tags.NEXT_TAG + 50, (ObjectReader<InstrumentationConfig>) InstrumentationConfig::read)
+            .registerTag(NoTestDetector.class.getName(), Tags.NEXT_TAG + 51, (ObjectReader<NoTestDetector>) NoTestDetector::read)
+            .registerTag(DefaultTestDetector.class.getName(), Tags.NEXT_TAG + 52, (ObjectReader<DefaultTestDetector>) DefaultTestDetector::read)
+            .registerTag(TestSpec.class.getName(), Tags.NEXT_TAG + 53, (ObjectReader<TestSpec>) TestSpec::read)
+            .registerTag(AggregateTestDetector.class.getName(), Tags.NEXT_TAG + 54, (ObjectReader<AggregateTestDetector>) AggregateTestDetector::read)
+            .registerTag(FileMappedTestDetector.class.getName(), Tags.NEXT_TAG + 55, (ObjectReader<FileMappedTestDetector>) FileMappedTestDetector::read)
+            .registerTag(SimpleTestSourceMatcher.class.getName(), Tags.NEXT_TAG + 56, (ObjectReader<SimpleTestSourceMatcher>) SimpleTestSourceMatcher::read);
 
     private boolean enabled = true;
 
@@ -338,23 +380,222 @@ public class InstrumentationConfig implements Serializable {
     public void saveToFile(File file) throws IOException {
         Logger.getInstance().verbose("Saving instrumentation config to " + file.getAbsolutePath());
         Logger.getInstance().verbose("Files included for instrumentation: " + getIncludedFiles());
-        FileOutputStream fos = new FileOutputStream(file);
-        try (ObjectOutputStream oos = new ObjectOutputStream(fos)) {
-            oos.writeObject(this);
-            oos.flush();
+        try (FileChannel channel = FileChannel.open(file.toPath(), WRITE, CREATE, TRUNCATE_EXISTING)) {
+            TaggedIO.write(channel, TAGS, InstrumentationConfig.class, this);
         }
     }
 
-    public static InstrumentationConfig loadFromStream(InputStream stream) throws IOException, ClassNotFoundException {
-        ObjectInputStream ois = new ObjectInputStream(stream);
-        InstrumentationConfig config = null;
-        try {
-            config = (InstrumentationConfig) ois.readObject();
-        } finally {
-            ois.close();
-        }
+    public static InstrumentationConfig loadFromStream(InputStream stream) throws IOException {
+        final InstrumentationConfig config =
+            TaggedIO.read(new DataInputStream(stream), TAGS, InstrumentationConfig.class);
         Logger.getInstance().verbose("Files included for instrumentation: " + config.getIncludedFiles());
         return config;
+    }
+
+    @Override
+    public void write(TaggedDataOutput out) throws IOException {
+        out.writeInt(CONFIG_FORMAT_VERSION);
+
+        out.writeBoolean(enabled);
+        out.writeInt(flushPolicy);
+        out.writeBoolean(sliceRecording);
+        out.writeInt(flushInterval);
+        out.writeBoolean(classInstrStrategy);
+        out.writeBoolean(reportInitErrors);
+        out.writeBoolean(recordTestResults);
+        out.writeInt(instrLevel);
+        out.writeBoolean(relative);
+
+        out.writeUTF(initString);
+        out.writeUTF(projectName);
+        out.writeUTF(encoding);
+        out.writeUTF(classNotFoundMsg);
+        out.writeUTF(validationFailureReason);
+
+        writeFile(out, registryFile);
+        writeFile(out, defaultBaseDir);
+        writeFile(out, tmpDir);
+
+        writeIncludedFiles(out, includedFiles);
+
+        // testDetector - resolved detector graph, via the whitelist
+        TestDetectorIO.writeDetector(out, testDetector);
+
+        // distributedConfig - persisted as its round-trippable config string
+        out.writeUTF(distributedConfig == null ? null : distributedConfig.getConfigString());
+
+        writeContextDefs(out, methodContexts, statementContexts);
+        writeProfiles(out, runtimeProfiles);
+    }
+
+    public static InstrumentationConfig read(TaggedDataInput in) throws IOException {
+        final int formatVersion = in.readInt();
+        if (formatVersion != CONFIG_FORMAT_VERSION) {
+            throw new IOException("Unsupported instrumentation config format version " + formatVersion
+                + " (expected " + CONFIG_FORMAT_VERSION + ")");
+        }
+
+        final InstrumentationConfig config = new InstrumentationConfig();
+        config.enabled = in.readBoolean();
+        config.flushPolicy = in.readInt();
+        config.sliceRecording = in.readBoolean();
+        config.flushInterval = in.readInt();
+        config.classInstrStrategy = in.readBoolean();
+        config.reportInitErrors = in.readBoolean();
+        config.recordTestResults = in.readBoolean();
+        config.instrLevel = in.readInt();
+        config.relative = in.readBoolean();
+
+        config.initString = in.readUTF();
+        config.projectName = in.readUTF();
+        config.encoding = in.readUTF();
+        config.classNotFoundMsg = in.readUTF();
+        config.validationFailureReason = in.readUTF();
+
+        config.registryFile = readFile(in);
+        config.defaultBaseDir = readFile(in);
+        config.tmpDir = readFile(in);
+
+        config.includedFiles = readIncludedFiles(in);
+
+        config.testDetector = in.read(TestDetector.class);
+
+        final String distributedConfigString = in.readUTF();
+        config.distributedConfig = distributedConfigString == null ? null : new DistributedConfig(distributedConfigString);
+
+        readContextDefs(in, config);
+        readProfiles(in, config);
+
+        return config;
+    }
+
+    private static void writeFile(TaggedDataOutput out, File file) throws IOException {
+        out.writeUTF(file == null ? null : file.getPath());
+    }
+
+    private static File readFile(TaggedDataInput in) throws IOException {
+        final String path = in.readUTF();
+        return path == null ? null : new File(path);
+    }
+
+    private static void writeIncludedFiles(TaggedDataOutput out, Collection<File> includedFiles) throws IOException {
+        out.writeBoolean(includedFiles != null);
+        if (includedFiles != null) {
+            out.writeInt(includedFiles.size());
+            for (final File file : includedFiles) {
+                writeFile(out, file);
+            }
+        }
+    }
+
+    private static Collection<File> readIncludedFiles(TaggedDataInput in) throws IOException {
+        if (!in.readBoolean()) {
+            return null;
+        }
+        final int count = in.readInt();
+        final Collection<File> files = newHashSet();
+        for (int i = 0; i < count; i++) {
+            files.add(readFile(in));
+        }
+        return files;
+    }
+
+    private static void writeContextDefs(TaggedDataOutput out, List<MethodContextDef> methodContexts,
+                                         List<StatementContextDef> statementContexts) throws IOException {
+        writeMethodContextDefs(out, methodContexts);
+        writeStatementContextDefs(out, statementContexts);
+    }
+
+    private static void writeMethodContextDefs(TaggedDataOutput out, List<MethodContextDef> methodContexts) throws IOException {
+        out.writeBoolean(methodContexts != null);
+        if (methodContexts != null) {
+            out.writeInt(methodContexts.size());
+            for (final MethodContextDef def : methodContexts) {
+                out.writeUTF(def.getName());
+                out.writeUTF(def.getRegexp());
+                out.writeInt(def.getMaxComplexity());
+                out.writeInt(def.getMaxStatements());
+                out.writeInt(def.getMaxAggregatedComplexity());
+                out.writeInt(def.getMaxAggregatedStatements());
+            }
+        }
+    }
+
+    private static void writeStatementContextDefs(TaggedDataOutput out, List<StatementContextDef> statementContexts) throws IOException {
+        out.writeBoolean(statementContexts != null);
+        if (statementContexts != null) {
+            out.writeInt(statementContexts.size());
+            for (final StatementContextDef def : statementContexts) {
+                out.writeUTF(def.getName());
+                out.writeUTF(def.getRegexp());
+            }
+        }
+    }
+
+    private static void readContextDefs(TaggedDataInput in, InstrumentationConfig config) throws IOException {
+        readMethodContextDefs(in, config);
+        readStatementContextDefs(in, config);
+    }
+
+    private static void readMethodContextDefs(TaggedDataInput in, InstrumentationConfig config) throws IOException {
+        if (in.readBoolean()) {
+            final int count = in.readInt();
+            for (int i = 0; i < count; i++) {
+                final MethodContextDef def = new MethodContextDef();
+                def.setName(in.readUTF());
+                def.setRegexp(in.readUTF());
+                def.setMaxComplexity(in.readInt());
+                def.setMaxStatements(in.readInt());
+                def.setMaxAggregatedComplexity(in.readInt());
+                def.setMaxAggregatedStatements(in.readInt());
+                config.addMethodContext(def);
+            }
+        }
+    }
+
+    private static void readStatementContextDefs(TaggedDataInput in, InstrumentationConfig config) throws IOException {
+        if (in.readBoolean()) {
+            final int count = in.readInt();
+            for (int i = 0; i < count; i++) {
+                final StatementContextDef def = new StatementContextDef();
+                def.setName(in.readUTF());
+                def.setRegexp(in.readUTF());
+                config.addStatementContext(def);
+            }
+        }
+    }
+
+    private static void writeProfiles(TaggedDataOutput out, List<CloverProfile> profiles) throws IOException {
+        out.writeBoolean(profiles != null);
+        if (profiles != null) {
+            out.writeInt(profiles.size());
+            for (final CloverProfile profile : profiles) {
+                writeProfile(out, profile);
+            }
+        }
+    }
+
+    private static void writeProfile(TaggedDataOutput out, CloverProfile profile) throws IOException {
+        out.writeUTF(profile.getName());
+        out.writeUTF(profile.getCoverageRecorder().name());
+        final DistributedConfig distributed = profile.getDistributedCoverage();
+        out.writeUTF(distributed == null ? null : distributed.getConfigString());
+    }
+
+    private static void readProfiles(TaggedDataInput in, InstrumentationConfig config) throws IOException {
+        if (in.readBoolean()) {
+            final int count = in.readInt();
+            for (int i = 0; i < count; i++) {
+                config.addProfile(readProfile(in));
+            }
+        }
+    }
+
+    private static CloverProfile readProfile(TaggedDataInput in) throws IOException {
+        final String name = in.readUTF();
+        final String coverageRecorder = in.readUTF();
+        final String distributedCoverage = in.readUTF();
+        return new CloverProfile(name, coverageRecorder, distributedCoverage);
     }
 
     /**

@@ -143,6 +143,43 @@ class SnapshotTest extends TestOptimizationBase {
     }
 
     @Test
+    void testFailingTestsAndLookupsSurviveStoreAndReload() throws Exception {
+        runNoAppClassTest_testMain()
+        runAppClass2Test_testMain()
+        runFailingTest_testFail()
+
+        Snapshot original = Snapshot.generateFor(
+            CloverDatabase.loadWithCoverage(
+                registry.getInitstring(),
+                new CoverageDataSpec()))
+        original.store()
+
+        Snapshot reloaded = Snapshot.loadFor(registry.getInitstring())
+        assertNotNull(reloaded)
+
+        // failing tests (a Set<TestMethodCall>) survive the tag-based round-trip
+        assertFalse(original.getFailingTestPaths().isEmpty())
+        assertEquals(original.getFailingTestPaths(), reloaded.getFailingTestPaths())
+
+        // TestMethodCall identity as map keys survives: the same lookup keys resolve
+        String failingPath = THIS_PACKAGE.replace('.', '/') + "/FailingTest.java"
+        assertNotNull(reloaded.lookupTests(failingPath))
+        assertEquals(original.lookupTests(failingPath), reloaded.lookupTests(failingPath))
+
+        assertEquals(original.getDbVersions(), reloaded.getDbVersions())
+        assertEquals(original.getCloverVersionInfo(), reloaded.getCloverVersionInfo())
+    }
+
+    @Test
+    void testLoadingCorruptSnapshotYieldsNull() throws Exception {
+        File corrupt = new File(tmpDir, "corrupt.snapshot")
+        // bytes that are not a valid tag stream (mimics an old native-serialized file)
+        corrupt.bytes = [0xAC, 0xED, 0x00, 0x05, 0x01, 0x02, 0x03] as byte[]
+
+        assertNull(Snapshot.loadFrom(corrupt.getAbsolutePath()))
+    }
+
+    @Test
     void testStoringWithoutUpdatingDoesNotUpdateDbVersion() throws Exception {
         Snapshot Snapshot1 =
             Snapshot.generateFor(

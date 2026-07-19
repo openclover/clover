@@ -1,6 +1,7 @@
 package org.openclover.core.registry.format;
 
 import org.openclover.core.CoverageData;
+import org.openclover.core.io.tags.TaggedIO;
 import org.openclover.core.recorder.InMemPerTestCoverage;
 import org.openclover.core.recorder.PerTestCoverage;
 import org.openclover.runtime.Logger;
@@ -8,14 +9,10 @@ import org.openclover.runtime.registry.CorruptedRegistryException;
 import org.openclover.runtime.registry.RegistryFormatException;
 import org.openclover.runtime.registry.format.BufferUtils;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
-import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 
 public class CoverageSegment {
@@ -96,14 +93,7 @@ public class CoverageSegment {
     }
 
     private InMemPerTestCoverage loadPerTestCoverage(FileChannel channel) throws IOException {
-        ObjectInputStream miis = new ObjectInputStream(new BufferedInputStream(Channels.newInputStream(channel)));
-        try {
-            return (InMemPerTestCoverage)miis.readObject();
-        } catch (ClassNotFoundException e) {
-            final IOException exception = new IOException("Failed to read PerTestCoverage from stream");
-            exception.initCause(e);
-            throw exception;
-        }
+        return TaggedIO.read(channel, InstrSessionSegment.TAGS, InMemPerTestCoverage.class);
     }
 
     private int[] loadHitCounts(FileChannel channel, long covByteLen) throws IOException, RegistryFormatException {
@@ -152,12 +142,7 @@ public class CoverageSegment {
 
         final long afterCovPos = channel.position();
 
-        final ObjectOutputStream oos = new ObjectOutputStream(Channels.newOutputStream(channel));
-        try {
-            oos.writeObject(perTestCoverage.get());
-        } finally {
-            oos.flush();
-        }
+        TaggedIO.write(channel, InstrSessionSegment.TAGS, InMemPerTestCoverage.class, perTestCoverage.get());
         final long afterPerTestCovPos = channel.position();
 
         new Footer(afterCovPos - startPos, afterPerTestCovPos - afterCovPos).write(channel);

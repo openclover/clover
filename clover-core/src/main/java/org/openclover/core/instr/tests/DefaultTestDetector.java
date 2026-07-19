@@ -1,8 +1,11 @@
 package org.openclover.core.instr.tests;
 
+import org.openclover.core.io.tags.TaggedDataInput;
+import org.openclover.core.io.tags.TaggedDataOutput;
 import org.openclover.core.registry.entities.MethodSignature;
 import org.openclover.core.registry.entities.Modifiers;
 
+import java.io.IOException;
 import java.lang.reflect.Modifier;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +14,16 @@ import java.util.Map;
   * default test detector. Will detect test classes &amp; methods for junit3.8, junit 4.x, junit5.x, TestNG 4, Instinct 0.1.6 and Spring 3 Annotations
  */
 public class DefaultTestDetector implements TestDetector {
+
+    @Override
+    public void write(TaggedDataOutput out) throws IOException {
+        // stateless
+    }
+
+    public static DefaultTestDetector read(TaggedDataInput in) throws IOException {
+        return new DefaultTestDetector();
+    }
+
     @Override
     public boolean isTypeMatch(SourceContext sourceContext, TypeContext typeContext) {
         // check annotations first

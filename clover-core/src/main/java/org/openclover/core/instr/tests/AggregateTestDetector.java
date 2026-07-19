@@ -1,5 +1,9 @@
 package org.openclover.core.instr.tests;
 
+import org.openclover.core.io.tags.TaggedDataInput;
+import org.openclover.core.io.tags.TaggedDataOutput;
+
+import java.io.IOException;
 import java.util.List;
 
 import static org.openclover.core.util.Lists.newArrayList;
@@ -13,23 +17,52 @@ public class AggregateTestDetector implements TestDetector {
     private final BooleanStrategy strategy;
 
 
-    public AggregateTestDetector(BooleanStrategy strategy) {
+    public AggregateTestDetector(final BooleanStrategy strategy) {
         this.strategy = strategy;
     }
 
-    public void addDetector(TestDetector detector) {
+    public void addDetector(final TestDetector detector) {
         detectors.add(detector);
     }
-    
+
+    @Override
+    public void write(final TaggedDataOutput out) throws IOException {
+        // strategy stored by name so new BooleanStrategy implementations can be added later
+        out.writeUTF(strategy.getClass().getSimpleName());
+        out.writeInt(detectors.size());
+        for (final TestDetector detector : detectors) {
+            TestDetectorIO.writeDetector(out, detector);
+        }
+    }
+
+    public static AggregateTestDetector read(final TaggedDataInput in) throws IOException {
+        final BooleanStrategy strategy = strategyForName(in.readUTF());
+        final AggregateTestDetector aggregate = new AggregateTestDetector(strategy);
+        final int count = in.readInt();
+        for (int i = 0; i < count; i++) {
+            aggregate.addDetector(in.read(TestDetector.class));
+        }
+        return aggregate;
+    }
+
+    private static BooleanStrategy strategyForName(final String name) throws IOException {
+        if (AndStrategy.class.getSimpleName().equals(name)) {
+            return new AndStrategy();
+        } else if (OrStrategy.class.getSimpleName().equals(name)) {
+            return new OrStrategy();
+        }
+        throw new IOException("Unknown boolean strategy: " + name);
+    }
+
     public boolean isEmpty() {
         return detectors.isEmpty();
     }
 
     @Override
     public boolean isTypeMatch(SourceContext sourceContext, TypeContext typeContext) {
-        boolean[] values = new boolean[detectors.size()];
+        final boolean[] values = new boolean[detectors.size()];
         for (int i = 0; i < detectors.size(); i++) {
-            TestDetector detector = detectors.get(i);
+            final TestDetector detector = detectors.get(i);
             values[i] = detector.isTypeMatch(sourceContext, typeContext);
         }
         return strategy.process(values);
@@ -37,9 +70,9 @@ public class AggregateTestDetector implements TestDetector {
 
     @Override
     public boolean isMethodMatch(SourceContext sourceContext, MethodContext methodContext) {
-        boolean[] values = new boolean[detectors.size()];        
+        final boolean[] values = new boolean[detectors.size()];
         for (int i = 0; i < detectors.size(); i++) {
-            TestDetector detector = detectors.get(i);
+            final TestDetector detector = detectors.get(i);
             values[i] = detector.isMethodMatch(sourceContext, methodContext);
         }
         return strategy.process(values);

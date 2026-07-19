@@ -2,14 +2,12 @@ package org.openclover.core.recorder;
 
 import org.openclover.core.api.registry.TestCaseInfo;
 
-import java.io.Serializable;
 import java.util.BitSet;
 import java.util.Set;
 
 import static org.openclover.core.util.Sets.newHashSet;
 
-public abstract class BasePerTestCoverage implements PerTestCoverage, Serializable {
-    private static final long serialVersionUID = 8596722259646445122L;
+public abstract class BasePerTestCoverage implements PerTestCoverage {
 
     protected final int coverageSize;
 

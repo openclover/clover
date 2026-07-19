@@ -3,13 +3,16 @@ package org.openclover.core.recorder;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import org.openclover.core.api.registry.TestCaseInfo;
+import org.openclover.core.io.tags.TaggedBitSet;
+import org.openclover.core.io.tags.TaggedDataInput;
+import org.openclover.core.io.tags.TaggedDataOutput;
+import org.openclover.core.io.tags.TaggedPersistent;
 import org.openclover.core.registry.Clover2Registry;
 import org.openclover.core.api.registry.CoverageDataRange;
 import org.openclover.core.registry.entities.FullFileInfo;
+import org.openclover.core.registry.entities.FullTestCaseInfo;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
 import java.util.BitSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -25,8 +28,7 @@ import static org.openclover.core.util.Sets.newHashSet;
  * and not intended to be so. Slots are implemented as
  * BitSets which are very space efficient.
  */
-public class InMemPerTestCoverage extends BasePerTestCoverage implements Serializable {
-    private static final long serialVersionUID = 0L;
+public class InMemPerTestCoverage extends BasePerTestCoverage implements TaggedPersistent {
 
     private final Map<TestCaseInfo,BitSet> tciToHits;
 
@@ -42,9 +44,28 @@ public class InMemPerTestCoverage extends BasePerTestCoverage implements Seriali
         this(registry.getDataLength());
     }
 
-    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
-        ois.defaultReadObject();
-        rebuildTCIIDMap();
+    @Override
+    public void write(TaggedDataOutput out) throws IOException {
+        out.writeInt(coverageSize);
+        out.writeInt(tciToHits.size());
+        // iterate in insertion order (LinkedHashMap) so the slice id assignment on read
+        // stays consistent with the tciIDToTCIMap rebuild
+        for (Map.Entry<TestCaseInfo, BitSet> entry : tciToHits.entrySet()) {
+            out.write(FullTestCaseInfo.class, (FullTestCaseInfo) entry.getKey());
+            out.write(TaggedBitSet.class, new TaggedBitSet(entry.getValue()));
+        }
+    }
+
+    public static InMemPerTestCoverage read(TaggedDataInput in) throws IOException {
+        final int coverageSize = in.readInt();
+        final InMemPerTestCoverage coverage = new InMemPerTestCoverage(coverageSize);
+        final int count = in.readInt();
+        for (int i = 0; i < count; i++) {
+            final FullTestCaseInfo tci = in.read(FullTestCaseInfo.class);
+            coverage.tciToHits.put(tci, in.read(TaggedBitSet.class).getBitSet());
+        }
+        coverage.rebuildTCIIDMap();
+        return coverage;
     }
 
     /**
