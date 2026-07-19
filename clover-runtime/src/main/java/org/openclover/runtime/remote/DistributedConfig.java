@@ -1,6 +1,5 @@
 package org.openclover.runtime.remote;
 
-import org.openclover.runtime.CloverNames;
 import org.openclover.runtime.Logger;
 
 import java.io.Serializable;
@@ -15,7 +14,6 @@ public class DistributedConfig implements Config, Serializable {
     public static final String ON = "ON" ;
 
     private final InitStringData data;
-    public static final String NAME = "name";
     public static final String PORT = "port";
     public static final String HOST = "host";
     public static final String TIMEOUT = "timeout";
@@ -30,7 +28,7 @@ public class DistributedConfig implements Config, Serializable {
         return new DistributedConfig(OFF);
     }
     /**
-     * Parses a String of the form: "ON|OFF|name=name;host=host;port=port;timeout=timeout;numclients=2;".
+     * Parses a String of the form: "ON|OFF|host=host;port=port;timeout=timeout;numclients=2;".
      * <p/>
      * If str is "ON" or "on", then this config be enabled with default values for all properties.
      * If str is "OFF" or "off", then this config will be disabled, and no values should be queuried.
@@ -59,15 +57,6 @@ public class DistributedConfig implements Config, Serializable {
     @Override
     public boolean isEnabled() {
         return data != null;
-    }
-
-    @Override
-    public String getName() {
-        return data.get(NAME, CloverNames.CAJO_TCP_SERVER_NAME);
-    }
-
-    public void setName(String value) {
-        data.set(NAME, value);
     }
 
     public int getPort() {
@@ -118,8 +107,7 @@ public class DistributedConfig implements Config, Serializable {
         if (!isEnabled()) {
             return null;
         }
-        return String.format("%s=%s;%s=%s;%s=%d;%s=%d;%s=%d;%s=%d",
-                NAME, getName(),
+        return String.format("%s=%s;%s=%d;%s=%d;%s=%d;%s=%d",
                 HOST, getHost(),
                 PORT, getPort(),
                 TIMEOUT, getTimeout(),

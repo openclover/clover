@@ -105,7 +105,7 @@ class GroovyProfilesTest extends TestBase {
                     it.addProfile(new CloverProfile(
                             "remote",
                             "FIXED",
-                            new DistributedConfig("name=tcp-config;port=7777;host=myhost.com;timeout=500;numClients=10;retryPeriod=500").configString))
+                            new DistributedConfig("port=7777;host=myhost.com;timeout=500;numClients=10;retryPeriod=500").configString))
                     it
                 }
         )
@@ -188,7 +188,7 @@ class GroovyProfilesTest extends TestBase {
         assertStringContains(
                 String.format(USING_PROFILE_MSG, "default", "FIXED distributedCoverage=host=host.from.profile;timeout=10]"),
                 result.stdOut, false)
-        assertStringMatches("Distributed coverage is enabled with: name=clover.tcp.server;host=host.from.profile",
+        assertStringMatches("Distributed coverage is enabled with: host=host.from.profile",
                 result.stdOut, false)
     }
 
@@ -223,7 +223,7 @@ class GroovyProfilesTest extends TestBase {
         assertStringContains(
                 String.format(USING_PROFILE_MSG, "default", "FIXED"),
                 result.stdOut, false)
-        assertStringMatches("Distributed coverage is enabled with: name=clover.tcp.server;host=host.from.top.level",
+        assertStringMatches("Distributed coverage is enabled with: host=host.from.top.level",
                 result.stdOut, false)
     }
 
@@ -253,7 +253,7 @@ class GroovyProfilesTest extends TestBase {
 
         // check execution log
         assertStringContains(String.format(USING_PROFILE_MSG, "default", "FIXED"), result.stdOut, false)
-        assertStringMatches("Distributed coverage is enabled with: name=clover.tcp.server;host=host.from.profile",
+        assertStringMatches("Distributed coverage is enabled with: host=host.from.profile",
                 result.stdOut, false)
     }
 

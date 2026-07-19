@@ -59,7 +59,6 @@ public class CloverNames {
     public static final String PROP_SERVER = PROP_PREFIX + "server";
 
     public static final String PROP_DISTRIBUTED_CONFIG = PROP_PREFIX + "distributed.coverage";
-    public static final String CAJO_TCP_SERVER_NAME = PROP_PREFIX + "tcp.server";
 
     public static final String PROP_GROVER_PREFIX = PROP_PREFIX + "grover.";
     public static final String PROP_GROVER_NO_POSTBUILD_CLEANUP = PROP_GROVER_PREFIX + "no.postbuild.cleanup";

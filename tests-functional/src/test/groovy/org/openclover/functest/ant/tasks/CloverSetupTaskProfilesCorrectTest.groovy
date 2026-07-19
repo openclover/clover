@@ -254,7 +254,7 @@ class CloverSetupTaskProfilesCorrectTest extends CloverSetupTaskTestBase {
         assertStringContains(
                 String.format(USING_PROFILE_MSG, "default", "FIXED distributedCoverage=host=host.from.profile;timeout=10]"),
                 getJavaOut(), false)
-        assertStringMatches("Distributed coverage is enabled with: name=clover.tcp.server;host=host.from.profile",
+        assertStringMatches("Distributed coverage is enabled with: host=host.from.profile",
                 getJavaOut(), false)
     }
 
@@ -288,7 +288,7 @@ class CloverSetupTaskProfilesCorrectTest extends CloverSetupTaskTestBase {
         assertStringContains(
                 String.format(USING_PROFILE_MSG, "default", "FIXED"),
                 getJavaOut(), false)
-        assertStringMatches("Distributed coverage is enabled with: name=clover.tcp.server;host=host.from.top.level",
+        assertStringMatches("Distributed coverage is enabled with: host=host.from.top.level",
                 getJavaOut(), false)
     }
 
@@ -318,7 +318,7 @@ class CloverSetupTaskProfilesCorrectTest extends CloverSetupTaskTestBase {
 
         // check execution log
         assertStringContains(String.format(USING_PROFILE_MSG, "default", "FIXED"), getJavaOut(), false)
-        assertStringMatches("Distributed coverage is enabled with: name=clover.tcp.server;host=host.from.profile",
+        assertStringMatches("Distributed coverage is enabled with: host=host.from.profile",
                 getJavaOut(), false)
     }
 

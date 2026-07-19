@@ -69,7 +69,6 @@ class CloverInstrArgProcessorsTest {
                     JavaInstrumentationConfig config -> config.getDistributedConfigString()
                 },
                 allOf(
-                        containsString("name=clover.tcp.server"),
                         containsString("host=localhost"),
                         containsString("port=1198"),
                         containsString("timeout=5000"),
@@ -78,13 +77,12 @@ class CloverInstrArgProcessorsTest {
                 )
         )
 
-        assertConfig(["--distributedCoverage", "name=name;host=host;port=80;timeout=123;numClients=2"],
+        assertConfig(["--distributedCoverage", "host=host;port=80;timeout=123;numClients=2"],
                 CloverInstrArgProcessors.DistributedCoverage,
                 {
                     JavaInstrumentationConfig config -> config.getDistributedConfigString()
                 },
                 allOf(
-                        containsString("name=name"),
                         containsString("host=host"),
                         containsString("port=80"),
                         containsString("timeout=123"),

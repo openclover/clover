@@ -11,6 +11,12 @@ public interface RecorderService {
     void init(Config config);
     void start();
     void stop();
-    Object sendMessage(RpcMessage message);
+
+    /**
+     * Broadcasts a coverage event to all connected clients.
+     *
+     * @return the number of clients that successfully applied the event
+     */
+    int sendMessage(RpcMessage message);
     
 }

@@ -3,28 +3,17 @@ package org.openclover.runtime.remote;
 
 import org.openclover.runtime.ErrorInfo;
 
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
+/**
+ * In-process value holder for a distributed-coverage event: an opcode plus its arguments in declared order.
+ * It is never serialized as an object - {@link MessageCodec} encodes it field-by-field onto the wire.
+ */
+public class RpcMessage {
 
-public class RpcMessage implements Serializable {
-
-    public static final long serialVersionUID = 1L;
-    
     private final Integer methodId;
     private final Object[] methodArgs;
 
     public static final int METHOD_START = 1;
     public static final int METHOD_END = 2;
-
-    private static final Map<Integer, MethodDescriptor> METHODS = new HashMap<>();
-
-    static {
-        METHODS.put(METHOD_START, new MethodDescriptor("allRecordersSliceStart",
-                String.class, int.class, long.class));
-        METHODS.put(METHOD_END, new MethodDescriptor("allRecordersSliceEnd",
-                String.class, String.class, String.class, int.class, int.class, ErrorInfo.class));
-    }
 
     public static RpcMessage createMethodStart(String type, int slice, long currentSliceStart) {
         return new RpcMessage(RpcMessage.METHOD_START, type, slice, currentSliceStart);
@@ -40,28 +29,24 @@ public class RpcMessage implements Serializable {
         this.methodArgs = methodArgs;
     }
 
-    private RpcMessage() {
-        methodId = null;
-        methodArgs = null;
+    public int getMethodId() {
+        return methodId;
     }
 
+    /** Human-readable name of the whitelisted {@link org_openclover_runtime.Clover} method - used for debug logging only. */
     public String getName() {
-        MethodDescriptor desc = METHODS.get(methodId);
-        return desc.name;
+        switch (methodId) {
+            case METHOD_START:
+                return "allRecordersSliceStart";
+            case METHOD_END:
+                return "allRecordersSliceEnd";
+            default:
+                return "unknown(" + methodId + ")";
+        }
     }
 
     public Object[] getMethodArgs() {
         return methodArgs;
-    }
-
-    static class MethodDescriptor {
-        final String name;
-        final Class<?>[] argTypes;
-
-        MethodDescriptor(String name, Class<?>... argTypes) {
-            this.name = name;
-            this.argTypes = argTypes;
-        }
     }
 
 }

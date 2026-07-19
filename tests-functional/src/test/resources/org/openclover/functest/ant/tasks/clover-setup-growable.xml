@@ -225,7 +225,7 @@ public class FooTest {
             <fileset dir="${build.dir}" includes="Foo.java"/>
             <profiles>
                 <profile name="default" coverageRecorder="growable">
-                    <distributedCoverage name="execute-growable-distributed" host="127.0.0.1" numClients="1"/>
+                    <distributedCoverage host="127.0.0.1" numClients="1"/>
                 </profile>
             </profiles>
         </clover-instr>
@@ -236,7 +236,7 @@ public class FooTest {
             <fileset dir="${build.dir}" includes="Hoo.java"/>
             <profiles>
                 <profile name="default" coverageRecorder="growable">
-                    <distributedCoverage name="execute-growable-distributed" host="127.0.0.1" numClients="1"/>
+                    <distributedCoverage host="127.0.0.1" numClients="1"/>
                 </profile>
             </profiles>
         </clover-instr>
@@ -247,7 +247,7 @@ public class FooTest {
             <fileset dir="${build.dir}" includes="FooTest.java"/>
             <profiles>
                 <profile name="default" coverageRecorder="growable">
-                    <distributedCoverage name="execute-growable-distributed" host="127.0.0.1" numClients="1"/>
+                    <distributedCoverage host="127.0.0.1" numClients="1"/>
                 </profile>
             </profiles>
         </clover-instr>

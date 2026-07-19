@@ -127,14 +127,16 @@ public final class Clover {
     }
 
     /**
-     * Remebmer to update {@link RpcMessage#METHODS} if you change method's signature.
+     * Remember to update {@link org.openclover.runtime.remote.MessageCodec} if you change this method's signature
+     * (a drift-guard test asserts this signature still exists).
      */
     public static void allRecordersSliceStart(final String type, final int slice, final long startTime) {
         ensureInitialised().allRecordersSliceStart(type, slice, startTime);
     }
 
     /**
-     * Remebmer to update {@link RpcMessage#METHODS} if you change method signature.
+     * Remember to update {@link org.openclover.runtime.remote.MessageCodec} if you change this method's signature
+     * (a drift-guard test asserts this signature still exists).
      */
     public static void allRecordersSliceEnd(final String type, final String method, final String runtimeTestName,
                                             final int slice, final int p, final ErrorInfo ei) {
@@ -634,7 +636,7 @@ public final class Clover {
                     recorder.sliceStart(type, currentSliceStart, slice, testRunID);
                 }
                 if (distributedRuntime != null) {
-                    // see CajoTcpRecorderListener.allRecordersSliceStart signature
+                    // see MessageCodec START encoding
                     distributedRuntime.remoteFlush(
                             RpcMessage.createMethodStart(type, slice, currentSliceStart));
                 }
@@ -651,7 +653,7 @@ public final class Clover {
                     recorder.sliceEnd(type, method, runtimeTestName, ts, slice, testRunID, p, ei);
                 }
                 if (distributedRuntime != null) {
-                    // see CajoTcpRecorderListener.allRecordersSliceEnd signature
+                    // see MessageCodec END encoding
                     distributedRuntime.remoteFlush(
                             RpcMessage.createMethodEnd(type, method, runtimeTestName, slice, p, ei));
                 }
