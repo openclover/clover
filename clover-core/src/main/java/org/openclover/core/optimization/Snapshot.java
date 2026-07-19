@@ -308,51 +308,63 @@ public class Snapshot implements TaggedPersistent {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public void write(TaggedDataOutput out) throws IOException {
         out.writeInt(SNAPSHOT_FORMAT_VERSION);
         out.writeUTF(cloverVersionInfo);
         out.writeUTF(initString);
         out.writeLong(avgSetupTeardownDuration);
 
-        // dbVersions
+        writeDbVersions(out, dbVersions);
+        writeTestLookups(out, testLookup);
+        writeDurationsForTests(out, durationsForTests);
+        writeFailingTests(out, failingTests);
+        writePerTestSourceStates(out, perTestSourceStates);
+    }
+
+    private static void writeDbVersions(TaggedDataOutput out, Set<Long> dbVersions) throws IOException {
         out.writeInt(dbVersions.size());
-        for (Long version : dbVersions) {
+        for (final Long version : dbVersions) {
             out.writeLong(version);
         }
+    }
 
-        // testLookup: Map<String, Set<TestMethodCall>>
+    private static void writeTestLookups(TaggedDataOutput out, Map<String, Set<TestMethodCall>> testLookup) throws IOException {
         out.writeInt(testLookup.size());
-        for (Map.Entry<String, Set<TestMethodCall>> entry : testLookup.entrySet()) {
+        for (final Map.Entry<String, Set<TestMethodCall>> entry : testLookup.entrySet()) {
             out.writeUTF(entry.getKey());
             final Set<TestMethodCall> tests = entry.getValue();
             out.writeInt(tests.size());
-            for (TestMethodCall test : tests) {
+            for (final TestMethodCall test : tests) {
                 out.write(TestMethodCall.class, test);
             }
         }
+    }
 
-        // durationsForTests: Object2LongMap<TestMethodCall>
+    @SuppressWarnings("unchecked")
+    private static void writeDurationsForTests(TaggedDataOutput out, Object2LongMap durationsForTests) throws IOException {
         out.writeInt(durationsForTests.size());
-        for (Object key : durationsForTests.keySet()) {
+        for (final Object key : durationsForTests.keySet()) {
             final TestMethodCall test = (TestMethodCall) key;
             out.write(TestMethodCall.class, test);
             out.writeLong(durationsForTests.getLong(test));
         }
+    }
 
-        // failingTests: Set<TestMethodCall>
+    private static void writeFailingTests(TaggedDataOutput out, Set<TestMethodCall> failingTests) throws IOException {
         out.writeInt(failingTests.size());
-        for (TestMethodCall test : failingTests) {
+        for (final TestMethodCall test : failingTests) {
             out.write(TestMethodCall.class, test);
         }
+    }
 
-        // perTestSourceStates: Map<TestMethodCall, Map<String, SourceState>>
+    private static void writePerTestSourceStates(TaggedDataOutput out,
+                                                 Map<TestMethodCall, Map<String, SourceState>> perTestSourceStates) throws IOException {
         out.writeInt(perTestSourceStates.size());
-        for (Map.Entry<TestMethodCall, Map<String, SourceState>> entry : perTestSourceStates.entrySet()) {
+        for (final Map.Entry<TestMethodCall, Map<String, SourceState>> entry : perTestSourceStates.entrySet()) {
             out.write(TestMethodCall.class, entry.getKey());
             final Map<String, SourceState> states = entry.getValue();
             out.writeInt(states.size());
-            for (Map.Entry<String, SourceState> stateEntry : states.entrySet()) {
+            for (final Map.Entry<String, SourceState> stateEntry : states.entrySet()) {
                 out.writeUTF(stateEntry.getKey());
                 out.write(SourceState.class, stateEntry.getValue());
             }
@@ -369,15 +381,29 @@ public class Snapshot implements TaggedPersistent {
         final String initString = in.readUTF();
         final long avgSetupTeardownDuration = in.readLong();
 
-        final int dbVersionCount = in.readInt();
+        final Set<Long> dbVersions = readDbVersions(in);
+        final Map<String, Set<TestMethodCall>> testLookup = readTestLookups(in);
+        final Object2LongMap durationsForTests = readDurationsForTests(in);
+        final Set<TestMethodCall> failingTests = readFailingTests(in);
+        final Map<TestMethodCall, Map<String, SourceState>> perTestSourceStates = readPerTestSourceStates(in);
+
+        return new Snapshot(cloverVersionInfo, dbVersions, initString, testLookup,
+            durationsForTests, failingTests, perTestSourceStates, avgSetupTeardownDuration);
+    }
+
+    private static Set<Long> readDbVersions(TaggedDataInput in) throws IOException {
+        final int count = in.readInt();
         final Set<Long> dbVersions = new LinkedHashSet<>();
-        for (int i = 0; i < dbVersionCount; i++) {
+        for (int i = 0; i < count; i++) {
             dbVersions.add(in.readLong());
         }
+        return dbVersions;
+    }
 
-        final int testLookupSize = in.readInt();
+    private static Map<String, Set<TestMethodCall>> readTestLookups(TaggedDataInput in) throws IOException {
+        final int count = in.readInt();
         final Map<String, Set<TestMethodCall>> testLookup = newHashMap();
-        for (int i = 0; i < testLookupSize; i++) {
+        for (int i = 0; i < count; i++) {
             final String key = in.readUTF();
             final int testCount = in.readInt();
             final Set<TestMethodCall> tests = newHashSet();
@@ -386,24 +412,34 @@ public class Snapshot implements TaggedPersistent {
             }
             testLookup.put(key, tests);
         }
+        return testLookup;
+    }
 
-        final int durationsSize = in.readInt();
+    @SuppressWarnings("unchecked")
+    private static Object2LongMap readDurationsForTests(TaggedDataInput in) throws IOException {
+        final int count = in.readInt();
         final Object2LongMap durationsForTests = newDurationsMap();
-        for (int i = 0; i < durationsSize; i++) {
+        for (int i = 0; i < count; i++) {
             final TestMethodCall test = in.read(TestMethodCall.class);
             final long duration = in.readLong();
             durationsForTests.put(test, duration);
         }
+        return durationsForTests;
+    }
 
-        final int failingCount = in.readInt();
+    private static Set<TestMethodCall> readFailingTests(TaggedDataInput in) throws IOException {
+        final int count = in.readInt();
         final Set<TestMethodCall> failingTests = newHashSet();
-        for (int i = 0; i < failingCount; i++) {
+        for (int i = 0; i < count; i++) {
             failingTests.add(in.read(TestMethodCall.class));
         }
+        return failingTests;
+    }
 
-        final int perTestSize = in.readInt();
+    private static Map<TestMethodCall, Map<String, SourceState>> readPerTestSourceStates(TaggedDataInput in) throws IOException {
+        final int count = in.readInt();
         final Map<TestMethodCall, Map<String, SourceState>> perTestSourceStates = newHashMap();
-        for (int i = 0; i < perTestSize; i++) {
+        for (int i = 0; i < count; i++) {
             final TestMethodCall test = in.read(TestMethodCall.class);
             final int stateCount = in.readInt();
             final Map<String, SourceState> states = newHashMap();
@@ -413,9 +449,7 @@ public class Snapshot implements TaggedPersistent {
             }
             perTestSourceStates.put(test, states);
         }
-
-        return new Snapshot(cloverVersionInfo, dbVersions, initString, testLookup,
-            durationsForTests, failingTests, perTestSourceStates, avgSetupTeardownDuration);
+        return perTestSourceStates;
     }
 
     public void store() throws IOException {
@@ -675,7 +709,7 @@ public class Snapshot implements TaggedPersistent {
     }
 
     /** Records the interesting bits of a FullFileInfo for later comparison. Only used in this source file. */
-    static final class SourceState implements TaggedPersistent {
+    private static final class SourceState implements TaggedPersistent {
         private final long checksum;
         private final long filesize;
 

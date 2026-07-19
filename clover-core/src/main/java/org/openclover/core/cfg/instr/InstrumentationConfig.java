@@ -416,14 +416,7 @@ public class InstrumentationConfig implements TaggedPersistent {
         writeFile(out, defaultBaseDir);
         writeFile(out, tmpDir);
 
-        // includedFiles (nullable collection)
-        out.writeBoolean(includedFiles != null);
-        if (includedFiles != null) {
-            out.writeInt(includedFiles.size());
-            for (File file : includedFiles) {
-                out.writeUTF(file.getPath());
-            }
-        }
+        writeIncludedFiles(out, includedFiles);
 
         // testDetector - resolved detector graph, via the whitelist
         TestDetectorIO.writeDetector(out, testDetector);
@@ -463,14 +456,7 @@ public class InstrumentationConfig implements TaggedPersistent {
         config.defaultBaseDir = readFile(in);
         config.tmpDir = readFile(in);
 
-        if (in.readBoolean()) {
-            final int count = in.readInt();
-            final Collection<File> files = newHashSet();
-            for (int i = 0; i < count; i++) {
-                files.add(new File(in.readUTF()));
-            }
-            config.includedFiles = files;
-        }
+        config.includedFiles = readIncludedFiles(in);
 
         config.testDetector = in.read(TestDetector.class);
 
@@ -492,12 +478,39 @@ public class InstrumentationConfig implements TaggedPersistent {
         return path == null ? null : new File(path);
     }
 
+    private static void writeIncludedFiles(TaggedDataOutput out, Collection<File> includedFiles) throws IOException {
+        out.writeBoolean(includedFiles != null);
+        if (includedFiles != null) {
+            out.writeInt(includedFiles.size());
+            for (final File file : includedFiles) {
+                writeFile(out, file);
+            }
+        }
+    }
+
+    private static Collection<File> readIncludedFiles(TaggedDataInput in) throws IOException {
+        if (!in.readBoolean()) {
+            return null;
+        }
+        final int count = in.readInt();
+        final Collection<File> files = newHashSet();
+        for (int i = 0; i < count; i++) {
+            files.add(readFile(in));
+        }
+        return files;
+    }
+
     private static void writeContextDefs(TaggedDataOutput out, List<MethodContextDef> methodContexts,
                                          List<StatementContextDef> statementContexts) throws IOException {
+        writeMethodContextDefs(out, methodContexts);
+        writeStatementContextDefs(out, statementContexts);
+    }
+
+    private static void writeMethodContextDefs(TaggedDataOutput out, List<MethodContextDef> methodContexts) throws IOException {
         out.writeBoolean(methodContexts != null);
         if (methodContexts != null) {
             out.writeInt(methodContexts.size());
-            for (MethodContextDef def : methodContexts) {
+            for (final MethodContextDef def : methodContexts) {
                 out.writeUTF(def.getName());
                 out.writeUTF(def.getRegexp());
                 out.writeInt(def.getMaxComplexity());
@@ -506,11 +519,13 @@ public class InstrumentationConfig implements TaggedPersistent {
                 out.writeInt(def.getMaxAggregatedStatements());
             }
         }
+    }
 
+    private static void writeStatementContextDefs(TaggedDataOutput out, List<StatementContextDef> statementContexts) throws IOException {
         out.writeBoolean(statementContexts != null);
         if (statementContexts != null) {
             out.writeInt(statementContexts.size());
-            for (StatementContextDef def : statementContexts) {
+            for (final StatementContextDef def : statementContexts) {
                 out.writeUTF(def.getName());
                 out.writeUTF(def.getRegexp());
             }
@@ -518,14 +533,17 @@ public class InstrumentationConfig implements TaggedPersistent {
     }
 
     private static void readContextDefs(TaggedDataInput in, InstrumentationConfig config) throws IOException {
+        readMethodContextDefs(in, config);
+        readStatementContextDefs(in, config);
+    }
+
+    private static void readMethodContextDefs(TaggedDataInput in, InstrumentationConfig config) throws IOException {
         if (in.readBoolean()) {
             final int count = in.readInt();
             for (int i = 0; i < count; i++) {
-                final String name = in.readUTF();
-                final String regexp = in.readUTF();
                 final MethodContextDef def = new MethodContextDef();
-                def.setName(name);
-                def.setRegexp(regexp);
+                def.setName(in.readUTF());
+                def.setRegexp(in.readUTF());
                 def.setMaxComplexity(in.readInt());
                 def.setMaxStatements(in.readInt());
                 def.setMaxAggregatedComplexity(in.readInt());
@@ -533,7 +551,9 @@ public class InstrumentationConfig implements TaggedPersistent {
                 config.addMethodContext(def);
             }
         }
+    }
 
+    private static void readStatementContextDefs(TaggedDataInput in, InstrumentationConfig config) throws IOException {
         if (in.readBoolean()) {
             final int count = in.readInt();
             for (int i = 0; i < count; i++) {
@@ -549,25 +569,33 @@ public class InstrumentationConfig implements TaggedPersistent {
         out.writeBoolean(profiles != null);
         if (profiles != null) {
             out.writeInt(profiles.size());
-            for (CloverProfile profile : profiles) {
-                out.writeUTF(profile.getName());
-                out.writeUTF(profile.getCoverageRecorder().name());
-                final DistributedConfig distributed = profile.getDistributedCoverage();
-                out.writeUTF(distributed == null ? null : distributed.getConfigString());
+            for (final CloverProfile profile : profiles) {
+                writeProfile(out, profile);
             }
         }
+    }
+
+    private static void writeProfile(TaggedDataOutput out, CloverProfile profile) throws IOException {
+        out.writeUTF(profile.getName());
+        out.writeUTF(profile.getCoverageRecorder().name());
+        final DistributedConfig distributed = profile.getDistributedCoverage();
+        out.writeUTF(distributed == null ? null : distributed.getConfigString());
     }
 
     private static void readProfiles(TaggedDataInput in, InstrumentationConfig config) throws IOException {
         if (in.readBoolean()) {
             final int count = in.readInt();
             for (int i = 0; i < count; i++) {
-                final String name = in.readUTF();
-                final String coverageRecorder = in.readUTF();
-                final String distributedCoverage = in.readUTF();
-                config.addProfile(new CloverProfile(name, coverageRecorder, distributedCoverage));
+                config.addProfile(readProfile(in));
             }
         }
+    }
+
+    private static CloverProfile readProfile(TaggedDataInput in) throws IOException {
+        final String name = in.readUTF();
+        final String coverageRecorder = in.readUTF();
+        final String distributedCoverage = in.readUTF();
+        return new CloverProfile(name, coverageRecorder, distributedCoverage);
     }
 
     /**

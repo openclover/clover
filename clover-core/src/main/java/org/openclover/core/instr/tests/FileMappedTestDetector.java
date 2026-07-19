@@ -31,7 +31,7 @@ public class FileMappedTestDetector implements TestDetector {
     public void write(TaggedDataOutput out) throws IOException {
         out.writeInt(testFileMatchers.size());
         for (TestSourceMatcher matcher : testFileMatchers) {
-            TestDetectorIO.writeMatcher(out, matcher);
+            TestSourceMatcherIO.writeMatcher(out, matcher);
         }
         TestDetectorIO.writeDetector(out, defaultDetector);
     }
