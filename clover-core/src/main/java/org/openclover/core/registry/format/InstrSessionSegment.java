@@ -51,9 +51,9 @@ public class InstrSessionSegment {
                 .registerTag(AnnotationImpl.class.getName(), Tags.NEXT_TAG + 10, (ObjectReader<AnnotationImpl>) AnnotationImpl::read)
                 .registerTag(ArrayAnnotationValue.class.getName(), Tags.NEXT_TAG + 11, (ObjectReader<ArrayAnnotationValue>) ArrayAnnotationValue::read)
                 .registerTag(StringifiedAnnotationValue.class.getName(), Tags.NEXT_TAG + 12, (ObjectReader<StringifiedAnnotationValue>) StringifiedAnnotationValue::read)
-                .registerTag(ContextStore.class.getName(), (byte)(Tags.NEXT_TAG + 13), (ObjectReader<ContextStore>) ContextStore::read)
-                .registerTag(StatementRegexpContext.class.getName(), (byte)(Tags.NEXT_TAG + 14), (ObjectReader<StatementRegexpContext>) StatementRegexpContext::read)
-                .registerTag(MethodRegexpContext.class.getName(), (byte)(Tags.NEXT_TAG + 15), (ObjectReader<MethodRegexpContext>) MethodRegexpContext::read)
+                .registerTag(ContextStore.class.getName(), Tags.NEXT_TAG + 13, (ObjectReader<ContextStore>) ContextStore::read)
+                .registerTag(StatementRegexpContext.class.getName(), Tags.NEXT_TAG + 14, (ObjectReader<StatementRegexpContext>) StatementRegexpContext::read)
+                .registerTag(MethodRegexpContext.class.getName(), Tags.NEXT_TAG + 15, (ObjectReader<MethodRegexpContext>) MethodRegexpContext::read)
                 .registerTag(InMemPerTestCoverage.class.getName(), Tags.NEXT_TAG + 16, (ObjectReader<InMemPerTestCoverage>) InMemPerTestCoverage::read)
                 .registerTag(FullTestCaseInfo.class.getName(), Tags.NEXT_TAG + 17, (ObjectReader<FullTestCaseInfo>) FullTestCaseInfo::read);
 
