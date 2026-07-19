@@ -529,7 +529,7 @@ public class Snapshot implements TaggedPersistent {
         return
             fileReference != null
             && file instanceof FullFileInfo
-            && ((FullFileInfo)file).changedFrom(fileReference.checksum, fileReference.filesize);
+            && ((FullFileInfo)file).changedFrom(fileReference.getChecksum(), fileReference.getFilesize());
     }
 
     private Set<String> pathsFor(Set<TestMethodCall> tests) {
@@ -708,34 +708,4 @@ public class Snapshot implements TaggedPersistent {
         }
     }
 
-    /** Records the interesting bits of a FullFileInfo for later comparison. Only used in this source file. */
-    private static final class SourceState implements TaggedPersistent {
-        private final long checksum;
-        private final long filesize;
-
-        SourceState(long checksum, long filesize) {
-            this.checksum = checksum;
-            this.filesize = filesize;
-        }
-
-        @Override
-        public void write(TaggedDataOutput out) throws IOException {
-            out.writeLong(checksum);
-            out.writeLong(filesize);
-        }
-
-        public static SourceState read(TaggedDataInput in) throws IOException {
-            final long checksum = in.readLong();
-            final long filesize = in.readLong();
-            return new SourceState(checksum, filesize);
-        }
-
-        @Override
-        public String toString() {
-            return "SourceState{" +
-                "checksum=" + checksum +
-                ", filesize=" + filesize +
-                '}';
-        }
-    }
 }
