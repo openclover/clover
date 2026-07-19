@@ -6,12 +6,12 @@ import org.openclover.core.api.registry.MethodInfo;
 import org.openclover.core.api.registry.ProjectInfo;
 import org.openclover.core.api.registry.StackTraceInfo;
 import org.openclover.core.api.registry.TestCaseInfo;
+import org.openclover.core.io.tags.TaggedDataInput;
+import org.openclover.core.io.tags.TaggedDataOutput;
+import org.openclover.core.io.tags.TaggedPersistent;
 import org.openclover.core.recorder.PerTestRecordingTranscript;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectStreamException;
-import java.io.Serializable;
 import java.lang.ref.WeakReference;
 import java.util.Map;
 import java.util.Objects;
@@ -20,8 +20,7 @@ import java.util.Set;
 import static org.openclover.core.util.Maps.newHashMap;
 import static org.openclover.core.util.Sets.newHashSet;
 
-public class FullTestCaseInfo implements TestCaseInfo, Serializable {
-    static final long serialVersionUID = 0L;
+public class FullTestCaseInfo implements TestCaseInfo, TaggedPersistent {
 
     public static final int DEFAULT_SLICE_ID_OFFSET = 0;
 
@@ -184,21 +183,62 @@ public class FullTestCaseInfo implements TestCaseInfo, Serializable {
         return isResolved();
     }
 
-    public Object readResolve() throws ObjectStreamException {
+    /** No-arg constructor used when reconstructing from the tag-based format. */
+    private FullTestCaseInfo() {
+    }
+
+    /**
+     * Resolves this freshly-read instance against the {@link Factory} cache, assigning
+     * a slice id and de-duplicating by key.
+     */
+    private FullTestCaseInfo resolveInstance() {
         FullTestCaseInfo info = Factory.getInstance(this);
         StackTraceInfo strace = info.getStackTrace();
         if (strace != null) {
             // make sure the correct parent reference is used
-           strace.setOriginatingTest(info); 
+           strace.setOriginatingTest(info);
         }
         return info;
     }
 
-    private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
-        stream.defaultReadObject();
-        if (failFullMessage != null) {
-            stackTrace = new FullStackTraceInfo(this, failFullMessage);
+    @Override
+    public void write(TaggedDataOutput out) throws IOException {
+        out.writeUTF(runtimeTypeName);
+        out.writeUTF(sourceMethodName);
+        out.writeBoolean(hasResult);
+        out.writeLong(startTime);
+        out.writeLong(endTime);
+        out.writeDouble(duration);
+        out.writeBoolean(error);
+        out.writeBoolean(failure);
+        out.writeUTF(failMessage);
+        out.writeUTF(failType);
+        out.writeUTF(failFullMessage);
+        out.writeUTF(staticTestName);
+        out.writeUTF(runtimeTestName);
+    }
+
+    public static FullTestCaseInfo read(TaggedDataInput in) throws IOException {
+        final FullTestCaseInfo tci = new FullTestCaseInfo();
+        tci.runtimeTypeName = in.readUTF();
+        tci.sourceMethodName = in.readUTF();
+        tci.hasResult = in.readBoolean();
+        tci.startTime = in.readLong();
+        tci.endTime = in.readLong();
+        tci.duration = in.readDouble();
+        tci.error = in.readBoolean();
+        tci.failure = in.readBoolean();
+        tci.failMessage = in.readUTF();
+        tci.failType = in.readUTF();
+        tci.failFullMessage = in.readUTF();
+        tci.staticTestName = in.readUTF();
+        tci.runtimeTestName = in.readUTF();
+        // hashCode is a derived cache and recomputes identically; stackTrace is rebuilt
+        // from failFullMessage - both as the previous readObject/readResolve did.
+        if (tci.failFullMessage != null) {
+            tci.stackTrace = new FullStackTraceInfo(tci, tci.failFullMessage);
         }
+        return tci.resolveInstance();
     }
 
     @Override

@@ -7,6 +7,7 @@ import org.openclover.core.context.StatementRegexpContext;
 import org.openclover.core.io.tags.ObjectReader;
 import org.openclover.core.io.tags.TaggedIO;
 import org.openclover.core.io.tags.Tags;
+import org.openclover.core.recorder.InMemPerTestCoverage;
 import org.openclover.core.registry.FixedSourceRegion;
 import org.openclover.core.registry.entities.AnnotationImpl;
 import org.openclover.core.registry.entities.ArrayAnnotationValue;
@@ -15,6 +16,7 @@ import org.openclover.core.registry.entities.FullClassInfo;
 import org.openclover.core.registry.entities.FullFileInfo;
 import org.openclover.core.registry.entities.FullMethodInfo;
 import org.openclover.core.registry.entities.FullStatementInfo;
+import org.openclover.core.registry.entities.FullTestCaseInfo;
 import org.openclover.core.registry.entities.MethodSignature;
 import org.openclover.core.registry.entities.Modifiers;
 import org.openclover.core.registry.entities.Parameter;
@@ -51,7 +53,9 @@ public class InstrSessionSegment {
                 .registerTag(StringifiedAnnotationValue.class.getName(), Tags.NEXT_TAG + 12, (ObjectReader<StringifiedAnnotationValue>) StringifiedAnnotationValue::read)
                 .registerTag(ContextStore.class.getName(), (byte)(Tags.NEXT_TAG + 13), (ObjectReader<ContextStore>) ContextStore::read)
                 .registerTag(StatementRegexpContext.class.getName(), (byte)(Tags.NEXT_TAG + 14), (ObjectReader<StatementRegexpContext>) StatementRegexpContext::read)
-                .registerTag(MethodRegexpContext.class.getName(), (byte)(Tags.NEXT_TAG + 15), (ObjectReader<MethodRegexpContext>) MethodRegexpContext::read);
+                .registerTag(MethodRegexpContext.class.getName(), (byte)(Tags.NEXT_TAG + 15), (ObjectReader<MethodRegexpContext>) MethodRegexpContext::read)
+                .registerTag(InMemPerTestCoverage.class.getName(), Tags.NEXT_TAG + 16, (ObjectReader<InMemPerTestCoverage>) InMemPerTestCoverage::read)
+                .registerTag(FullTestCaseInfo.class.getName(), Tags.NEXT_TAG + 17, (ObjectReader<FullTestCaseInfo>) FullTestCaseInfo::read);
 
     private final long version;
     private final long startTs;

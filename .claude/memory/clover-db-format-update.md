@@ -377,12 +377,38 @@ null).
   `TaggedPersistent`, `ObjectReader`)
 - new tests under the matching `src/test` packages
 
-## 9. Coverage segment: `CoverageSegment` / `InMemPerTestCoverage` (PENDING)
+## 9. Coverage segment: `CoverageSegment` / `InMemPerTestCoverage` (DONE 2026-07-19)
 
 The last on-disk artifact still using native Java serialization. Converting it to
 the tag-based format brings the whole `clover.db` under one reader/writer stack and
 makes the coverage read path self-describing and whitelist-driven, consistent with
 `InstrSessionSegment`.
+
+**Implemented as designed below.** Notes on how it landed:
+- `CoverageSegment.TAGS` registers `InMemPerTestCoverage` (`NEXT_TAG + 16`) +
+  `FullTestCaseInfo` (`NEXT_TAG + 17`), continuing `InstrSessionSegment`'s numbering
+  (ends at `+15`) so the `.db` shares one coherent namespace (per §9.3/§6).
+- Only the per-test sub-block changed: `loadPerTestCoverage`/`write` now use
+  `TaggedIO.read/write(channel, TAGS, InMemPerTestCoverage.class)`; the hit-counts
+  `int[]`, `Footer`, and `LazyLoader`s are untouched.
+- `BitSet` persisted as `long[]` (`toLongArray()` / `BitSet.valueOf`) with a length
+  prefix; map keys written as the concrete `FullTestCaseInfo.class` (write keys off
+  the declared class — the §6 gotcha).
+- `FullTestCaseInfo`: the old `readObject`/`readResolve` post-processing is preserved
+  in `read` — `stackTrace` rebuilt from `failFullMessage`, then `resolveInstance()`
+  (the former `readResolve` body) runs `Factory.getInstance` to assign the slice `id`
+  and de-dup by key. `hashCode` is not persisted (derived cache, recomputes
+  identically). `InMemPerTestCoverage.read` rebuilds `tciIDToTCIMap` via the existing
+  `rebuildTCIIDMap()`.
+- `Serializable`/`serialVersionUID`/`readObject` removed from `InMemPerTestCoverage`,
+  `BasePerTestCoverage`, `FullTestCaseInfo`. No per-segment version marker added — the
+  `.db` is already guarded by `RegHeader.REG_FORMAT_VERSION` (50001).
+- Tests: `recorder/InMemPerTestCoveragePersistenceTest.groovy` (tag round-trip:
+  tests/hits/`BitSet` fidelity, `getTestById`, unique-mask, empty case). The base
+  `CoverageDataTestBase.newPrefabReg`/`newPerTestTranscript` were widened
+  `private`→`protected` for reuse. Existing `Clover2RegistryTest` /
+  `InMemPerTestCoverageTest` / `CoverageDataCollatorTest` (89 tests total) stay green,
+  covering the end-to-end `.db` save/load path.
 
 ### 9.1 Where the native serialization lives
 

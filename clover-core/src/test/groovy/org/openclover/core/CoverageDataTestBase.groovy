@@ -566,7 +566,7 @@ abstract class CoverageDataTestBase extends TestCase {
     protected abstract PerTestCoverage newPerTestCoverage(Clover2Registry registry)
 
 
-    private PerTestRecordingTranscript newPerTestTranscript(Clover2Registry registry, CloverBitSet perTestCoverage, String className, String testName, long start, int test, int sliceId, int exitStatus, ErrorInfo ei) throws IOException, CloverException {
+    protected PerTestRecordingTranscript newPerTestTranscript(Clover2Registry registry, CloverBitSet perTestCoverage, String className, String testName, long start, int test, int sliceId, int exitStatus, ErrorInfo ei) throws IOException, CloverException {
         final RuntimeType type = new RuntimeType(className)
 
         // Save to disk, in case needed by a PerTestCoverage instance
@@ -593,7 +593,7 @@ abstract class CoverageDataTestBase extends TestCase {
         return new Clover2Registry(newTempFile(".db"), "Registry")
     }
 
-    private Clover2Registry newPrefabReg(int slotCount) throws IOException, CloverException {
+    protected Clover2Registry newPrefabReg(int slotCount) throws IOException, CloverException {
         final Clover2Registry reg = new Clover2Registry(newTempFile(".db"), "Registry")
         final ContextSet context = new ContextSetImpl()
 
