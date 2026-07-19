@@ -52,15 +52,6 @@ public class TcpRecorderListener implements RecorderListener {
         closeSocket();
     }
 
-    /**
-     * Retained only to satisfy {@link RecorderListener}; slice events are applied directly by the reader
-     * loop, not through this method. Dead once the interface can drop it.
-     */
-    @Override
-    public Object handleMessage(final RpcMessage message) {
-        return "SUCCESS";
-    }
-
     private void reconnect() {
         if (stopped.get() || reconnecting.getAndSet(true)) {
             return;

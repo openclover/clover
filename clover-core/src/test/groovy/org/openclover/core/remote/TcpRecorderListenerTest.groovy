@@ -53,9 +53,9 @@ class TcpRecorderListenerTest {
         listener = (TcpRecorderListener) RemoteFactory.getInstance().createListener(config)
         listener.connect()
 
-        final long deadline = System.currentTimeMillis() + 5000
+        final long deadline = System.currentTimeMillis() + 500
         while (service.getNumRegisteredListeners() < 1 && System.currentTimeMillis() < deadline) {
-            Thread.sleep(50)
+            Thread.sleep(10)
         }
         assertEquals(1, service.getNumRegisteredListeners())
     }

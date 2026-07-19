@@ -2,7 +2,6 @@ package org.openclover.core.remote
 
 import org.junit.After
 import org.junit.Test
-import org.openclover.runtime.Logger
 import org.openclover.runtime.remote.DistributedConfig
 import org.openclover.runtime.remote.MessageCodec
 import org.openclover.runtime.remote.RemoteFactory
@@ -10,6 +9,7 @@ import org.openclover.runtime.remote.RpcMessage
 import org.openclover.runtime.remote.TcpRecorderService
 import org.openclover.runtime.util.IOStreamUtils
 
+import java.util.concurrent.Callable
 import java.util.concurrent.Executors
 import java.util.concurrent.Future
 import java.util.concurrent.TimeUnit
@@ -36,15 +36,17 @@ class TcpRecorderServiceTest {
         service?.stop()
     }
 
-    private DistributedConfig config(int timeout, int numClients) {
+    private static DistributedConfig config(int timeout, int numClients) {
         (DistributedConfig) RemoteFactory.getInstance().createConfig(
-                "${DistributedConfig.PORT}=${TEST_PORT};${DistributedConfig.TIMEOUT}=${timeout};${DistributedConfig.NUM_CLIENTS}=${numClients}")
+                "${DistributedConfig.PORT}=${TEST_PORT};" +
+                        "${DistributedConfig.TIMEOUT}=${timeout};" +
+                        "${DistributedConfig.NUM_CLIENTS}=${numClients}")
     }
 
     /** Opens a raw socket, performs the client handshake and returns it registered in {@link #clientSockets}. */
     private RawClient connectRawClient() {
         final Socket socket = new Socket()
-        socket.connect(new InetSocketAddress("localhost", Integer.parseInt(TEST_PORT)), 2000)
+        socket.connect(new InetSocketAddress("localhost", Integer.parseInt(TEST_PORT)), 500)
         clientSockets.add(socket)
         final DataInputStream input = IOStreamUtils.bufferedDataInput(socket)
         final DataOutputStream output = IOStreamUtils.bufferedDataOutput(socket)
@@ -54,16 +56,16 @@ class TcpRecorderServiceTest {
     }
 
     private static void waitForRegistered(TcpRecorderService service, int expected) {
-        final long deadline = System.currentTimeMillis() + 5000
+        final long deadline = System.currentTimeMillis() + 500
         while (service.getNumRegisteredListeners() < expected && System.currentTimeMillis() < deadline) {
-            Thread.sleep(50)
+            Thread.sleep(10)
         }
         assertEquals(expected, service.getNumRegisteredListeners())
     }
 
     @Test
     void testBroadcastAndAck() {
-        service = (TcpRecorderService) RemoteFactory.getInstance().createService(config(2000, 0))
+        service = (TcpRecorderService) RemoteFactory.getInstance().createService(config(500, 0))
         service.start()
 
         final RawClient a = connectRawClient()
@@ -73,12 +75,12 @@ class TcpRecorderServiceTest {
         final RpcMessage msg = RpcMessage.createMethodStart("test.Type", 5, 987654321L)
 
         final def pool = Executors.newSingleThreadExecutor()
-        final Future<Object> sent = pool.submit({ service.sendMessage(msg) } as java.util.concurrent.Callable)
+        final Future<Object> sent = pool.submit({ service.sendMessage(msg) } as Callable)
 
         // both clients receive the same ordered START frame, then ACK
         [a, b].each { it.readAndAckSliceStart("test.Type", 5, 987654321L) }
 
-        assertEquals(2, sent.get(5, TimeUnit.SECONDS))
+        assertEquals(2, sent.get(500, TimeUnit.MILLISECONDS))
         pool.shutdownNow()
     }
 
@@ -93,11 +95,11 @@ class TcpRecorderServiceTest {
 
         final def pool = Executors.newSingleThreadExecutor()
         final Future<Object> sent = pool.submit(
-                { service.sendMessage(RpcMessage.createMethodStart("t", 1, 1L)) } as java.util.concurrent.Callable)
+                { service.sendMessage(RpcMessage.createMethodStart("t", 1, 1L)) } as Callable)
 
         good.readAndAckSliceStart("t", 1, 1L)
         // the slow client is dropped on timeout; only the good client is counted and remains registered
-        assertEquals(1, sent.get(5, TimeUnit.SECONDS))
+        assertEquals(1, sent.get(500, TimeUnit.MILLISECONDS))
         waitForRegistered(service, 1)
         pool.shutdownNow()
     }
@@ -110,7 +112,7 @@ class TcpRecorderServiceTest {
 
         // connects but never sends the handshake bytes - must not wedge the accept loop
         final Socket stalled = new Socket()
-        stalled.connect(new InetSocketAddress("localhost", Integer.parseInt(TEST_PORT)), 2000)
+        stalled.connect(new InetSocketAddress("localhost", Integer.parseInt(TEST_PORT)), 500)
         clientSockets.add(stalled)
 
         // a well-behaved client that connects afterwards still registers
@@ -120,17 +122,17 @@ class TcpRecorderServiceTest {
 
     @Test
     void testStartBlocksUntilNumClientsConnect() {
-        service = (TcpRecorderService) RemoteFactory.getInstance().createService(config(2000, 1))
+        service = (TcpRecorderService) RemoteFactory.getInstance().createService(config(500, 1))
 
         final def pool = Executors.newSingleThreadExecutor()
         final Future<?> started = pool.submit({ service.start() } as Runnable)
 
         // start() must not complete until a client attaches
-        Thread.sleep(500)
+        Thread.sleep(100)
         assertTrue("start() should still be blocking on the barrier", !started.isDone())
 
         connectRawClient() // late client
-        started.get(5, TimeUnit.SECONDS)    // the barrier releases once the client is registered
+        started.get(100, TimeUnit.MILLISECONDS)    // the barrier releases once the client is registered
         assertEquals(1, service.getNumRegisteredListeners())
         pool.shutdownNow()
     }
