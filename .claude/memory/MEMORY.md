@@ -6,4 +6,3 @@
 - [Eclipse Libs Installer Plan](eclipse-libs-installers.md) — Plan for processing all Eclipse versions (Luna SR2 → 2026-03) into tagged clover-eclipse-libs pom+JAR installs for compatibility matrix
 - [Eclipse Functional Testing Plan](eclipse-functional-testing.md) — Implementation plan for org.openclover.eclipse.functest + functest.runner: module layout, download pipeline, IApplication runner, test project triage, CI workflow
 - [clover-idea build migrated to Gradle](clover-idea-libs.md) — clover-idea-libs deleted; clover-idea now built/tested/packaged by Gradle (IntelliJ Platform Gradle Plugin); pom.xml is a thin wrapper
-- [Snapshot/config tag-based format migration](clover-db-format-update.md) — OC-310: plan to move Snapshot (.snapshot) and InstrumentationConfig onto the TaggedPersistent/TaggedIO format
