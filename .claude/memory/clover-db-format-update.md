@@ -336,9 +336,12 @@ allowed concrete types.
   too) — `.db` registry + coverage recordings.
 - `Snapshot.SNAPSHOT_FORMAT_VERSION` = **50001** (renamed from `FORMAT_VERSION`).
 - `InstrumentationConfig.CONFIG_FORMAT_VERSION` = **50001**.
-- Distinct tag ranges per table to fail fast on wrong-table reads:
-  `InstrSessionSegment` `NEXT_TAG+0..`, config `NEXT_TAG+50..`, `Snapshot`
-  `NEXT_TAG+100..`.
+- Distinct tag ranges **per file format** to fail fast on wrong-table reads:
+  `clover.db` (`InstrSessionSegment`) `NEXT_TAG+0..`, config stream `NEXT_TAG+50..`,
+  `.snapshot` `NEXT_TAG+100..`. Note the distinct-range rule is *cross-file*; within
+  one file the segments should share a single coherent namespace — so the pending
+  coverage-segment conversion (§9) continues the `.db` numbering (`+16..`) rather
+  than opening a new range.
 
 **Tests added:** `instr/tests/TestDetectorPersistenceTest.groovy` (per-type
 round-trip for every new `TaggedPersistent` detector/matcher);
@@ -374,6 +377,106 @@ null).
   `TaggedPersistent`, `ObjectReader`)
 - new tests under the matching `src/test` packages
 
-Related: [[clover-db-read-rce]] tracks the coverage-segment read path
-(`CoverageSegment` / `InMemPerTestCoverage`), which should receive the identical
-tag-based treatment as a follow-up.
+## 9. Coverage segment: `CoverageSegment` / `InMemPerTestCoverage` (PENDING)
+
+The last on-disk artifact still using native Java serialization. Converting it to
+the tag-based format brings the whole `clover.db` under one reader/writer stack and
+makes the coverage read path self-describing and whitelist-driven, consistent with
+`InstrSessionSegment`.
+
+### 9.1 Where the native serialization lives
+
+`registry/format/CoverageSegment.java` stores two sub-blocks inside the `.db`
+coverage segment (footer at `CoverageSegment.Footer`, marker `0xb4b00`):
+
+- **hit counts** — an `int[]`, already written/read as raw bytes via `BufferUtils`
+  (`loadHitCounts` / `write`). **Safe; leave as-is.**
+- **per-test coverage** — `InMemPerTestCoverage`, written with
+  `ObjectOutputStream.writeObject` (`write` ~L155-160) and read with
+  `ObjectInputStream.readObject` (`loadPerTestCoverage` ~L98-107). **This is the
+  block to replace.**
+
+Only the per-test sub-block changes; the footer, the two `LazyLoader`s, and the
+hit-counts path stay. `CoverageSegment` already works channel-based (like
+`InstrSessionSegment`), so the perTest block just switches from `Object*Stream` to
+`TaggedIO.read/write(channel, TAGS, InMemPerTestCoverage.class[, obj])`. The tag
+stream is self-delimiting (length-prefixed counts, as `ContextStore` in
+`InstrSessionSegment`), so the `LazyLoader` positioned at the block start reads
+without over-running into the hit-counts region.
+
+### 9.2 Object graph to convert
+
+| Type | Location | Persisted state |
+|------|----------|-----------------|
+| `InMemPerTestCoverage` | `recorder/InMemPerTestCoverage.java:28` | `coverageSize:int` (from `BasePerTestCoverage`); `tciToHits: LinkedHashMap<TestCaseInfo,BitSet>` (**insertion order matters**). `tciIDToTCIMap` + `uniqueCoverageMask` are `transient`, rebuilt on read (`rebuildTCIIDMap()` in the current `readObject`) |
+| `FullTestCaseInfo` | `registry/entities/FullTestCaseInfo.java:23` | non-transient: `runtimeTypeName`, `sourceMethodName`, `hasResult`, `startTime`, `endTime`, `duration`, `error`, `failure`, `failMessage`, `failType`, `failFullMessage`, `staticTestName`, `runtimeTestName`, `hashCode:Integer` (nullable). `transient`: `sourceMethod`/`runtimeType` (`WeakReference`s), `id:Integer`, `stackTrace` (rebuilt from `failFullMessage`) |
+| `BitSet` (value) | JDK | encode as `long[]` via `BitSet.toLongArray()` + length prefix; rebuild with `BitSet.valueOf(long[])` (no tag needed — inline) |
+
+`TestCaseInfo` is the map-key interface; the only concrete persisted impl is
+`FullTestCaseInfo`. As with `TestDetector` (§5.2), make `TestCaseInfo` (or just the
+codec helper) route writes through the concrete class — recall the write-side tag is
+keyed off the **declared `Class`** (§6 gotcha), so write `FullTestCaseInfo.class`
+explicitly.
+
+### 9.3 Design (mirror §5 / Snapshot)
+
+1. `InMemPerTestCoverage implements TaggedPersistent`:
+   - `write`: `writeInt(coverageSize)`, then `writeInt(tciToHits.size())` and, **in
+     LinkedHashMap iteration order**, for each entry `out.write(FullTestCaseInfo.class,
+     tci)` followed by the `BitSet` as `long[]` (`writeInt(len)` + `writeLong` loop).
+   - `static read`: rebuild the `LinkedHashMap` in order, then call the existing
+     `rebuildTCIIDMap()` post-processing (add a field-assigning/rebuild path since the
+     current logic lives in `readObject`). Reconstruct via a load-oriented ctor.
+2. `FullTestCaseInfo implements TaggedPersistent` with `write` + `static read` over
+   the non-transient fields; on read, leave `sourceMethod`/`runtimeType`/`stackTrace`
+   to be lazily rebuilt exactly as `readObject` does today (`stackTrace` from
+   `failFullMessage`). **Watch the `id`/slice-offset logic:** `id` is `transient` and
+   assigned from the static `instanceCache`/`sliceOffset`; `tciIDToTCIMap` keys on
+   `tci.getId()`, so `read` must preserve the current id-assignment semantics
+   (verify `getId()` lazy assignment + `rebuildTCIIDMap()` ordering — the one real
+   subtlety in this conversion).
+3. Coverage tag whitelist — register `InMemPerTestCoverage` + `FullTestCaseInfo`.
+   **Because the coverage segment lives in the same `clover.db` as
+   `InstrSessionSegment`, keep one coherent tag namespace for the file**: do NOT
+   invent a far-off range — either share a single `.db`-wide `Tags` table with
+   `InstrSessionSegment`, or continue its numbering by appending the coverage types
+   at `NEXT_TAG + 16..` (its table currently ends at `+15`). Numeric collision is not
+   a correctness issue (the two segments are separate tag streams), but a single
+   namespace means a tag byte means the same thing everywhere in the `.db`.
+   Preferred: a shared table (e.g. lift `InstrSessionSegment.TAGS` to a common
+   `registry/format` constant registering both segments' types) so the whole file has
+   one registry. Distinct ranges are reserved for the genuinely separate *file*
+   formats (config `+50`, `.snapshot` `+100`), where reading with the wrong table
+   should fail fast.
+4. Rewrite `CoverageSegment.loadPerTestCoverage`/`write` to use `TaggedIO` over the
+   channel; keep the `Footer`/byte-length bookkeeping unchanged.
+5. Remove `implements Serializable`/`serialVersionUID`/`readObject` from
+   `InMemPerTestCoverage`, `BasePerTestCoverage`, `FullTestCaseInfo` once converted.
+
+### 9.4 Compatibility & versioning
+
+The coverage segment lives in the `.db`, already guarded by
+`RegHeader.REG_FORMAT_VERSION` (bumped to **50001**), so old/new `.db` files are
+already rejected cleanly with "Please regenerate" — **no separate per-segment
+version marker needed** (unlike the standalone `.snapshot`/config files). An old
+`.db` never reaches the coverage reader because the header check fails first.
+
+### 9.5 Files touched
+
+- `registry/format/CoverageSegment.java` — `TAGS` + `TaggedIO` for the perTest block.
+- `recorder/InMemPerTestCoverage.java` — `TaggedPersistent` + `read` + rebuild.
+- `recorder/BasePerTestCoverage.java` — drop `Serializable`/`serialVersionUID`.
+- `registry/entities/FullTestCaseInfo.java` — `TaggedPersistent` + `read`.
+- new tests: round-trip `InMemPerTestCoverage` (incl. `BitSet` fidelity, tci ordering,
+  id/`getTestById` after reload) + an invalid-tag rejection test.
+
+### 9.6 Testing
+
+- **Round-trip**: build an `InMemPerTestCoverage` with several `FullTestCaseInfo`
+  keys and non-trivial `BitSet`s, write via `TaggedOutputWriter`/read via
+  `TaggedInputReader`, assert `getTests()`, `getHitsFor(tci)`, `getTestById(id)`,
+  `hasPerTestData()`, and unique-mask (`initMasks`) all match the original.
+- **End-to-end**: save a `Clover2Registry` with coverage, reload via
+  `Clover2Registry.fromFile`, assert per-test coverage identical.
+- **Robustness**: feed a coverage segment containing a non-whitelisted tag and
+  assert it fails cleanly (`UnknownTagException` / `CorruptedRegistryException`).
