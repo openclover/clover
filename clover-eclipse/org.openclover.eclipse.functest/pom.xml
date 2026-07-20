@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.openclover</groupId>
         <artifactId>clover-eclipse</artifactId>
-        <version>5.0.1.v20260720000000</version>
+        <version>5.0.2.v20260720000000</version>
     </parent>
     <artifactId>org.openclover.eclipse.functest</artifactId>
     <packaging>pom</packaging>
@@ -21,7 +21,7 @@
         <clover.site.zip>${project.basedir}/../org.openclover.eclipse.updatesite/target/clover-eclipse-site-${project.version}.zip</clover.site.zip>
         <clover.runner.jar.dir>${project.basedir}/../org.openclover.eclipse.functest.runner/target</clover.runner.jar.dir>
         <!-- clover-runtime version (parent group, not eclipse-versioned) -->
-        <clover.version>5.0.1</clover.version>
+        <clover.version>5.0.2-SNAPSHOT</clover.version>
         <clover.runtime.jar>${project.basedir}/../../clover-runtime/target/clover-runtime-${clover.version}.jar</clover.runtime.jar>
 
         <!-- Internal paths (not overridden) -->
