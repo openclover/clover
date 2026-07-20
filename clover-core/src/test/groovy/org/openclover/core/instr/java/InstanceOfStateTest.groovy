@@ -6,6 +6,7 @@ import static org.junit.Assert.assertEquals
 import static org.openclover.core.instr.java.JavaTokenTypes.DOT
 import static org.openclover.core.instr.java.JavaTokenTypes.IDENT
 import static org.openclover.core.instr.java.JavaTokenTypes.INSTANCEOF
+import static org.openclover.core.instr.java.JavaTokenTypes.INT
 import static org.openclover.core.instr.java.JavaTokenTypes.LBRACK
 import static org.openclover.core.instr.java.JavaTokenTypes.RBRACK
 
@@ -62,6 +63,21 @@ class InstanceOfStateTest {
         state = state.nextToken(new CloverToken(IDENT, "A"))
         state = state.nextToken(new CloverToken(DOT, "."))
         state = state.nextToken(new CloverToken(IDENT, "B"))
+        state = state.nextToken(new CloverToken(LBRACK, "["))
+        state = state.nextToken(new CloverToken(RBRACK, "]"))
+        state = state.nextToken(new CloverToken(IDENT, "arr"))
+
+        assertEquals(InstanceOfState.VARIABLE, state)
+    }
+
+    @Test
+    void detectPrimitiveArrayTypeWithPatternMatching() {
+        InstanceOfState state = InstanceOfState.NOTHING;
+
+        // obj instanceof int[] arr
+        state = state.nextToken(new CloverToken(IDENT, "obj"))
+        state = state.nextToken(new CloverToken(INSTANCEOF, "instanceof"))
+        state = state.nextToken(new CloverToken(INT, "int"))
         state = state.nextToken(new CloverToken(LBRACK, "["))
         state = state.nextToken(new CloverToken(RBRACK, "]"))
         state = state.nextToken(new CloverToken(IDENT, "arr"))

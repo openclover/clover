@@ -13,6 +13,7 @@ public class Java16InstanceOfPatternMatching {
         instanceOfCasting();
         instanceOfCastingWithFinal();
         instanceOfCastingWithArray();
+        instanceOfCastingWithPrimitiveArray();
         instanceOfCastingWithGenerics();
         instanceOfCastingWithGenericsWildcard();
         instanceOfInExpressions();
@@ -42,6 +43,16 @@ public class Java16InstanceOfPatternMatching {
         Object obj = new String[] { "a string array" };
         if (obj instanceof String[] str) {
             System.out.println("obj is String[] = " + str);
+        } else {
+            System.out.println("obj is Object = " + obj);
+        }
+    }
+
+    private static void instanceOfCastingWithPrimitiveArray() {
+        Object obj = new int[] { 1, 2, 3 };
+        // primitive array type with pattern matching - do not instrument
+        if (obj instanceof int[] arr) {
+            System.out.println("obj is int[] = " + java.util.Arrays.toString(arr));
         } else {
             System.out.println("obj is Object = " + obj);
         }
@@ -114,6 +125,7 @@ public class Java16InstanceOfPatternMatching {
         Object o2 = new Object();
         Object o3 = new Object();
         Object o4 = new Object();
+        Object o5 = new Object();
 
         // no pattern matching - can be branch-instrumented
         if (o1 instanceof String) { }
@@ -126,6 +138,9 @@ public class Java16InstanceOfPatternMatching {
 
         // nested type with array - do not instrument
         if (o4 instanceof A.B[] arr) { }
+
+        // primitive type with array - do not instrument
+        if (o5 instanceof int[] arr) { }
     }
 
     /*private static int iget(int i) {
