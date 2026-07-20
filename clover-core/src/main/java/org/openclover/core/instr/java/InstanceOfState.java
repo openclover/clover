@@ -61,8 +61,8 @@ public abstract class InstanceOfState {
             if (token.getType() == JavaTokenTypes.FINAL) {
                 return FINAL;
             }
-            // "o instanceof A"
-            return token.getType() == JavaTokenTypes.IDENT
+            // "o instanceof A" or "o instanceof int[]" (primitive array type)
+            return token.getType() == JavaTokenTypes.IDENT || isPrimitiveType(token)
                     ? FULL_TYPE
                     : NOTHING;
         }
@@ -71,12 +71,32 @@ public abstract class InstanceOfState {
     final static InstanceOfState FINAL = new InstanceOfState() {
         @Override
         InstanceOfState nextToken(CloverToken token) {
-            // "o instanceof final A"
-            return token.getType() == JavaTokenTypes.IDENT
+            // "o instanceof final A" or "o instanceof final int[]" (primitive array type)
+            return token.getType() == JavaTokenTypes.IDENT || isPrimitiveType(token)
                     ? FULL_TYPE
                     : NOTHING;
         }
     };
+
+    /**
+     * Whether the token is a primitive type keyword. A primitive type can be used in instanceof
+     * pattern matching only as an array component, e.g. "o instanceof int[] arr".
+     */
+    private static boolean isPrimitiveType(CloverToken token) {
+        switch (token.getType()) {
+            case JavaTokenTypes.BOOLEAN:
+            case JavaTokenTypes.BYTE:
+            case JavaTokenTypes.CHAR:
+            case JavaTokenTypes.SHORT:
+            case JavaTokenTypes.INT:
+            case JavaTokenTypes.LONG:
+            case JavaTokenTypes.FLOAT:
+            case JavaTokenTypes.DOUBLE:
+                return true;
+            default:
+                return false;
+        }
+    }
 
     final static InstanceOfState FULL_TYPE = new InstanceOfState() {
         @Override
