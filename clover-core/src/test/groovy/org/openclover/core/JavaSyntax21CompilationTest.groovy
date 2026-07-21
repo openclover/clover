@@ -93,6 +93,19 @@ class JavaSyntax21CompilationTest extends JavaSyntaxCompilationTestBase {
     }
 
     @Test
+    void testRecordPatternWithGuard() {
+        assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_21))
+
+        final String fileName = "Java21RecordPatternGuard.java"
+        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_21)
+
+        executeMainClasses("Java21RecordPatternGuard")
+        assertExecOutputContains("\\(3,4\\) -> positive sum", false)
+        assertExecOutputContains("\\(0,0\\) -> non-positive sum", false)
+        assertExecOutputContains("other -> not a point", false)
+    }
+
+    @Test
     void testNestedRecordPattern() {
         assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_21))
 

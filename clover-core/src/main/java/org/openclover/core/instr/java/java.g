@@ -2537,17 +2537,9 @@ statement [CloverToken owningLabel] returns [CloverToken last]
         )?
         SEMI!
     |
-        // a classic switch/case with colons
-        ( SWITCH LPAREN expression RPAREN LCURLY (CASE patternMatch | DEFAULT) COLON) =>
-        contextAndComplexity = colonSwitchExpression[owningLabel, false]
-        {
-            saveContext = contextAndComplexity.getContext();
-            complexity += contextAndComplexity.getComplexity();
-        }
-    |
-        // a new switch/case with lambdas
-        ( SWITCH LPAREN expression RPAREN LCURLY (CASE patternMatch | DEFAULT) LAMBDA) =>
-        contextAndComplexity = lambdaSwitchExpression[owningLabel, false]
+        // a switch/case statement - the shared rule selects the classic "case:" or the arrow
+        // "case ->" form; it is uniquely started by the SWITCH keyword
+        contextAndComplexity = switchExpressionOrStatement[owningLabel, false]
         {
             saveContext = contextAndComplexity.getContext();
             complexity += contextAndComplexity.getComplexity();
@@ -3517,13 +3509,32 @@ primaryExpressionPart returns [ContextSetAndComplexity ret]
         // hack: "non-sealed" in expression means "non - sealed", allow this to parse
         NON_SEALED
     |
-        // a new lambda switch can be a part of an expression
-        ( SWITCH LPAREN expression RPAREN LCURLY (CASE patternMatch | DEFAULT) LAMBDA) =>
-        ret = lambdaSwitchExpression[null, true]
-    |
-        // even the old one colon switch has been retrofitted
+        // a switch expression - the shared rule below selects the colon ("case:") or the arrow
+        // ("case ->") form; it is uniquely started by the SWITCH keyword
+        ret = switchExpressionOrStatement[null, true]
+    ;
+
+/**
+ * Selects between the two switch forms - "case ... :" (colonSwitchExpression) and "case ... ->"
+ * (lambdaSwitchExpression) - and is shared by the statement and the expression contexts. The two
+ * forms differ only in the token that terminates the first case label, so a syntactic predicate
+ * that looks ahead to that ':' or '->' is used to choose.
+ *
+ * @param owningLabel a label before switch or null if not present
+ * @param isInsideExpression true if the switch is part of an expression, false if a standalone statement
+ */
+switchExpressionOrStatement[CloverToken owningLabel, boolean isInsideExpression] returns [ContextSetAndComplexity ret]
+{
+    ret = ContextSetAndComplexity.empty();
+}
+    :
+        // a classic switch/case with colons - only this form needs a look-ahead predicate;
+        // any other switch is necessarily the arrow form, so it is the (cheaper) default branch
         ( SWITCH LPAREN expression RPAREN LCURLY (CASE patternMatch | DEFAULT) COLON) =>
-        ret = colonSwitchExpression[null, true]
+        ret = colonSwitchExpression[owningLabel, isInsideExpression]
+    |
+        // a switch/case with lambdas ("case ->")
+        ret = lambdaSwitchExpression[owningLabel, isInsideExpression]
     ;
 
 /**
@@ -3704,7 +3715,8 @@ patternGuard
  */
 recordPattern
     :
-        typeSpec LPAREN (pattern (COMMA pattern)*)? RPAREN (IDENT)?
+        // the optional binding name after ')' must not swallow a following 'when' guard keyword
+        typeSpec LPAREN (pattern (COMMA pattern)*)? RPAREN ( { !isNextKeyword("when") }? IDENT )?
     ;
 
 /**
