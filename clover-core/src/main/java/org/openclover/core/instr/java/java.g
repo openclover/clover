@@ -12,6 +12,7 @@ import org.openclover.core.Contract;
 import org.openclover.core.api.registry.ContextSet;
 import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig;
 import org.openclover.core.cfg.instr.java.LambdaInstrumentation;
+import org.openclover.core.cfg.instr.java.LanguageFeature;
 import org.openclover.core.context.ContextStore;
 import org.openclover.core.registry.*;
 import org.openclover.core.registry.entities.*;
@@ -442,6 +443,39 @@ tokens {
             fileInfo.addStatementMarker(start, end);
         }
         return tok;
+    }
+
+    /**
+     * Statement-instrument an explicit constructor invocation (super(...)/this(...)).
+     *
+     * Ordinary statements are instrumented with the RECORDER.inc() placed BEFORE the statement, so
+     * that a statement which throws while evaluating is still recorded as entered. An explicit
+     * constructor invocation could not follow that rule before Java 25, because no statement was
+     * allowed to precede super()/this() - so its inc() had to be emitted AFTER the invocation.
+     *
+     * JEP 513 (flexible constructor bodies, Java 25) removes that restriction: statements are now
+     * legal in the constructor prologue. On source level 25+ we therefore place the invocation's
+     * statement inc() BEFORE super()/this(), consistent with every other statement; below 25 we
+     * keep the historical after-placement so the instrumented code still compiles.
+     *
+     * @param start the this/super keyword token
+     * @param end   the trailing SEMI token
+     * @return the token that terminates the invocation (its SEMI) - used as the pre-25 method-entry anchor
+     */
+    private CloverToken instrExplicitConstructorInvocation(CloverToken start, CloverToken end, int complexity) {
+        if (cfg.getSourceLevel().supportsFeature(LanguageFeature.FLEXIBLE_CONSTRUCTORS)) {
+            if (cfg.isStatementInstrEnabled()) {
+                start.addPreEmitter(
+                        new StatementInstrEmitter(
+                                getCurrentContext(), start.getLine(), start.getColumn(),
+                                end.getLine(), end.getColumn() + end.getText().length(), complexity));
+                end.addPostEmitter(new DirectedFlushEmitter());
+                fileInfo.addStatementMarker(start, end);
+            }
+            return end;
+        }
+        // pre-25: statements before super()/this() are illegal - place the inc() after the invocation
+        return instrInlineAfter(end, start, end, complexity);
     }
 
     private CloverToken instrInlineBefore(CloverToken start, CloverToken end, ContextSet context, int complexity) {
@@ -1943,7 +1977,16 @@ constructorBody[MethodSignature signature, CloverToken start, CloverToken endSig
 
         {
             // special case for instrumenting entry to ctors - HACK add ctor sig for completeness
-            MethodEntryInstrEmitter entry = instrEnterMethod(signature, start, ct(lc), endOfInv);
+            // Entry-instrumentation anchor:
+            //  - pre-Java-25: the inc() must be placed AFTER an explicit super()/this()
+            //    invocation (endOfInv), because statements were illegal before it
+            //  - Java 25+ statements are allowed before the explicit invocation,
+            //    so we anchor the inc() right after '{'
+            CloverToken ctorEntryAnchor =
+                cfg.getSourceLevel().supportsFeature(LanguageFeature.FLEXIBLE_CONSTRUCTORS)
+                    ? null        // anchor entry inc() at '{' (leftCurly)
+                    : endOfInv;   // anchor entry inc() after super()/this()
+            MethodEntryInstrEmitter entry = instrEnterMethod(signature, start, ct(lc), ctorEntryAnchor);
             instrExitMethod(entry, ct(rc));
             exitContext();
             fileInfo.addMethodMarker(entry, start, endSig, ct(rc));
@@ -1969,13 +2012,13 @@ explicitConstructorInvocation returns [CloverToken t]
 
             pos1:THIS! LPAREN argListComplexity=argList RPAREN! t1:SEMI!
             {
-                t=instrInlineAfter(ct(t1), ct(pos1), ct(t1), argListComplexity);
+                t=instrExplicitConstructorInvocation(ct(pos1), ct(t1), argListComplexity);
             }
 
         |
             pos2:SUPER! lp2:LPAREN^ argListComplexity=argList RPAREN! t2:SEMI!
             {
-                t=instrInlineAfter(ct(t2), ct(pos2), ct(t2), argListComplexity);
+                t=instrExplicitConstructorInvocation(ct(pos2), ct(t2), argListComplexity);
             }
 
         |
@@ -1984,7 +2027,7 @@ explicitConstructorInvocation returns [CloverToken t]
             (DOT! THIS)? // HACK see CCD-264 - explicit ctor invocation can have form ClassName.this.super(..)
             DOT! pos3:SUPER! lp3:LPAREN^ argListComplexity=argList RPAREN! t3:SEMI!
             {
-                t=instrInlineAfter(ct(t3), ct(pos3), ct(t3), argListComplexity);
+                t=instrExplicitConstructorInvocation(ct(pos3), ct(t3), argListComplexity);
             }
         )
     ;
