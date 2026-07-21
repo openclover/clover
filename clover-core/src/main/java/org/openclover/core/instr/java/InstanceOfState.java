@@ -12,7 +12,7 @@ package org.openclover.core.instr.java;
  *                                             v |
  * NOTHING -> INSTANCEOF --------------> FULL_TYPE --------------------> VARIABLE
  *                     |                 ^     ^ | \
- *                     +---- FINAL ------+     | |  \--(  )--> RECORD_DECONSTRUCTION
+ *                     +---- FINAL ------+     | |  \------------(  )--> RECORD_DECONSTRUCTION
  *                                             | +----> PARTIAL_TYPE
  *                                             |          |
  *                                             +----------+

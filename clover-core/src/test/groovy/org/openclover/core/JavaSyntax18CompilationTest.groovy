@@ -8,9 +8,8 @@ import static org.junit.Assume.assumeTrue
 
 /**
  * The purpose of this test is to
- * a) make sure Clover accepts '--source 18' (SourceLevel wiring, see OC-229)
+ * a) make sure Clover accepts '--source 18'
  * b) make sure an ordinary Java 18 class is instrumented and still compiles.
- *
  * Java 18 introduced no permanent language syntax, so there is no feature to exercise here.
  */
 class JavaSyntax18CompilationTest extends JavaSyntaxCompilationTestBase {

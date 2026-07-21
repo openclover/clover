@@ -10,13 +10,9 @@ import static org.junit.Assume.assumeTrue
  * The purpose of this test is to
  * a) make sure the code compiles under a JDK21
  * b) make sure that when that code is instrumented, it still compiles and runs.
- *
- * Java 21 finalized two language syntax features (OC-229):
+ * Java 21 finalized two language syntax features:
  *  - JEP 441 Pattern Matching for switch (type patterns, guarded 'when', 'case null')
  *  - JEP 440 Record Patterns (deconstruction in switch and instanceof)
- *
- * NOTE: until the grammar (java.g) is extended for these patterns, the pattern-based
- * tests below are expected to fail - this is intentional; they drive the grammar work.
  */
 class JavaSyntax21CompilationTest extends JavaSyntaxCompilationTestBase {
 

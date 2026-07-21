@@ -32,7 +32,6 @@ public enum SourceLevel {
     JAVA_18("18", newHashSet("18"), newHashSet(LAMBDA, MODULES, SWITCH_EXPRESSIONS, TEXT_BLOCKS, RECORDS)),
     JAVA_19("19", newHashSet("19"), newHashSet(LAMBDA, MODULES, SWITCH_EXPRESSIONS, TEXT_BLOCKS, RECORDS)),
     JAVA_20("20", newHashSet("20"), newHashSet(LAMBDA, MODULES, SWITCH_EXPRESSIONS, TEXT_BLOCKS, RECORDS)),
-    // Pattern matching for switch (JEP 441) and record patterns (JEP 440) were finalized in Java 21
     JAVA_21("21", newHashSet("21"), newHashSet(LAMBDA, MODULES, SWITCH_EXPRESSIONS, TEXT_BLOCKS, RECORDS, PATTERN_MATCHING));
 
     private static final Set<String> unsupportedSourceLevels =
