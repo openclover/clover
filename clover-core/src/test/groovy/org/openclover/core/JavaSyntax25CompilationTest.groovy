@@ -76,12 +76,32 @@ class JavaSyntax25CompilationTest extends JavaSyntaxCompilationTestBase {
     }
 
     /**
-     * JEP 513 placement (Java 25+): BOTH inc() calls for a constructor land BEFORE the explicit
-     * super()/this() invocation - the method-entry inc() right after '{', and the invocation's own
-     * statement inc() immediately before super()/this() (so a throw while evaluating its arguments
-     * still records the statement as entered, like every other statement). These are instrument-only
-     * (parse+rewrite) assertions using a classic constructor fixture, so they run on any JDK - the
-     * placement is gated purely by the '25' source level (FLEXIBLE_CONSTRUCTORS), not the runtime JDK.
+     * A file with a top-level method is a COMPACT source file even when it also contains a top-level
+     * type declaration (the type becomes a member class of the implicit class). Asserts the
+     * file is treated as compact (recorder injected as a top-level member) and that the member class's
+     * method is instrumented against the same top-level recorder, then compiles and runs.
+     */
+    @Test
+    void testCompactSourceFileWithTypeDeclaration() {
+        assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_25))
+
+        final String fileName = "Java25CompactWithType.java"
+        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_25)
+
+        // treated as compact: the recorder inner class is injected as a top-level member...
+        assertFileMatches(fileName, "public static class __CLR[a-zA-Z0-9_]+\\{", false)
+        // ...and the member class 'Box' method is instrumented against that same top-level recorder
+        assertFileMatches(fileName, "(?s)int count\\(\\) \\{" + R_INC, false)
+
+        executeMainClasses("Java25CompactWithType")
+        assertExecOutputContains("count = 2", false)
+        assertExecOutputContains("first = <a>", false)
+    }
+
+    /**
+     * Java 25+: BOTH inc() calls for a constructor land BEFORE the explicit super()/this() invocation
+     * - the method-entry inc() right after '{', and the invocation's own statement inc() immediately
+     * before super()/this().
      */
     @Test
     void testConstructorEntryAndStatementIncPlacedBeforeSuperAndThisAtJava25() {
@@ -99,7 +119,7 @@ class JavaSyntax25CompilationTest extends JavaSyntaxCompilationTestBase {
     }
 
     /**
-     * Regression: at source levels below 25 both the method-entry inc() and the invocation's
+     * At source levels below 25 both the method-entry inc() and the invocation's
      * statement inc() must remain in their classic position - AFTER super()/this() - since
      * statements before the explicit invocation were illegal there.
      */
