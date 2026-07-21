@@ -8,9 +8,8 @@ import static org.junit.Assume.assumeTrue
 
 /**
  * The purpose of this test is to
- * a) make sure Clover accepts '--source 20' (SourceLevel wiring, see OC-229)
+ * a) make sure Clover accepts '--source 20'
  * b) make sure an ordinary Java 20 class is instrumented and still compiles.
- *
  * Java 20 introduced no finalized language syntax, so there is no feature to exercise here.
  */
 class JavaSyntax20CompilationTest extends JavaSyntaxCompilationTestBase {

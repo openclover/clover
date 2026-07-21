@@ -6,10 +6,6 @@ import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertFalse
 import static org.junit.Assert.assertTrue
 
-/**
- * Unit tests for {@link SourceLevel} version parsing and feature sets, focusing on the
- * Java 18-21 levels added for OC-229.
- */
 class SourceLevelTest {
 
     @Test

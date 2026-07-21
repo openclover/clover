@@ -3625,19 +3625,22 @@ lambdaCase[ContextSet context, boolean insideExpression] returns [int complexity
     CaseExpressionEntryEmitter expressionEntryEmitter = null;
     CaseExpressionEntryEmitter throwEntryEmitter = null;
     int exprComplexity = 0;
+    int labelComplexity = 0;
     complexity = 1;
 }
     :
         (
             si1:CASE
             {
-                // case labels (constants and patterns, including any 'when' guard) are not instrumented
+                // the pattern binding itself is not instrumented (patternMatch sets constExpr); a 'when'
+                // guard, however, is branch-instrumented and contributes to the case complexity
                 constExpr = true;
             }
-            patternMatch
+            labelComplexity=patternMatch
             {
                 constExpr = false;
                 pos = si1;
+                complexity = labelComplexity;
             }
         |
             si2:DEFAULT
@@ -3670,11 +3673,13 @@ lambdaCase[ContextSet context, boolean insideExpression] returns [int complexity
 patternMatch returns [int complexity]
 {
     complexity = 0;
+    int labelComplexity = 0;
 }
     :
-        // one or more case label elements, separated by comma
-        caseLabelElement { complexity++; }
-        (COMMA caseLabelElement { complexity++; })*
+        // one or more case label elements, separated by comma. Each element is a decision point (+1);
+        // a 'when' guard on an element contributes its own complexity on top of that.
+        labelComplexity=caseLabelElement { complexity += 1 + labelComplexity; }
+        (COMMA labelComplexity=caseLabelElement { complexity += 1 + labelComplexity; })*
     ;
 
 /**
@@ -3686,13 +3691,17 @@ patternMatch returns [int complexity]
  *  - a record deconstruction pattern, e.g. 'Point(int x, int y)' (JEP 440),
  * each optionally followed by a 'when' guard.
  */
-caseLabelElement
+caseLabelElement returns [int complexity]
+{
+    complexity = 0;
+    int guardComplexity = 0;
+}
     :
         // a record deconstruction pattern - the '(' after a type disambiguates it from a constant
-        (typeSpec LPAREN) => recordPattern (patternGuard)?
+        (typeSpec LPAREN) => recordPattern (guardComplexity=patternGuard { complexity += guardComplexity; })?
     |
         // a type pattern 'Type binding' - the trailing IDENT disambiguates it from a constant name
-        (typeSpec IDENT) => typeSpec IDENT (patternGuard)?
+        (typeSpec IDENT) => typeSpec IDENT (guardComplexity=patternGuard { complexity += guardComplexity; })?
     |
         // a constant label (also matches 'null' and 'default')
         constantExpression
@@ -3701,10 +3710,35 @@ caseLabelElement
 /**
  * A guard for a switch pattern label: 'when &lt;boolean expression&gt;' (JEP 441). 'when' is a
  * contextual keyword (lexed as IDENT), so it remains usable as an ordinary identifier elsewhere.
+ *
+ * Unlike the pattern binding (which is a declaration and must never be instrumented), the guard is
+ * an ordinary boolean expression, so it is branch-instrumented for true/false coverage exactly like
+ * an 'if'/'while' condition. We temporarily clear the 'constExpr' flag - which the enclosing case
+ * label set to suppress instrumentation of the pattern - so that the guard, and any nested
+ * conditional expressions within it, are instrumented.
  */
-patternGuard
+patternGuard returns [int complexity]
+{
+    CloverToken startOfGuard = null;
+    boolean saveConstExpr = constExpr;
+    int exprComplexity = 0;
+    complexity = 0;
+}
     :
-        { isNextKeyword("when") }? IDENT expression
+        { isNextKeyword("when") }? IDENT
+        {
+            startOfGuard = lt(1);
+            constExpr = false;
+        }
+        exprComplexity=expression
+        {
+            constExpr = saveConstExpr;
+            // 'end' is the token after the guard expression (the '->' or ':'); instrBoolExpr emits
+            // the closing ')' of the branch wrapper immediately before it
+            instrBoolExpr(startOfGuard, lt(1));
+            // the guard is a boolean condition; its complexity is exactly what 'expression' already reports
+            complexity = exprComplexity;
+        }
     ;
 
 /**

@@ -197,6 +197,47 @@ class InstrumentationMethodMetricsTest extends InstrumentationTestBase {
     }
 
     @Test
+    void testCyclomaticComplexityForGuardedSwitchPatterns() throws Exception {
+        // a 'when' guard is a boolean expression, so it is branch-instrumented and adds a
+        // decision point (+1 complexity, +1 branch), while the pattern binding is not instrumented.
+
+        // lambda form: one guarded case + one plain case + default
+        //   complexity = method(1) + guarded case(1 label + 1 guard) + plain case(1) + default(0*) = 4
+        //   (*lambda 'default' contributes via the case base, the switch carries a -1 offset)
+        //   branches = 2 (the guard as a boolean expression, true + false)
+        checkMethodMetrics(
+                """void A(Object o) {
+                    switch (o) {
+                        case Integer x when x > 10 -> a();
+                        case Integer x -> b();
+                        default -> c();
+                    }
+                }""", 4, 2, 4)
+
+        // colon form: same shape; the guard adds the same +1 complexity and +2 branches on top of the
+        // per-label counting of the colon form
+        checkMethodMetrics(
+                """void A(Object o) {
+                    switch (o) {
+                        case Integer x when x > 10: a(); break;
+                        case Integer x: b(); break;
+                        default: c();
+                    }
+                }""", 9, 2, 4)
+
+        // a guard containing a boolean operator contributes the extra operator complexity too
+        //   complexity = method(1) + guarded case(1 label + guard(1 + 1 for '&&')) + default(0) = 4
+        //   branches = 2 (the guard as a whole, true + false)
+        checkMethodMetrics(
+                """void A(Object o) {
+                    switch (o) {
+                        case Integer x when x > 10 && x < 100 -> a();
+                        default -> c();
+                    }
+                }""", 3, 2, 4)
+    }
+
+    @Test
     void testCyclomaticComplexityForColonBasedSwitchStatementsWithHiddenPaths() throws Exception {
         // colon-based switch statements with hidden branches
         // the colon-based switch does not require to cover all possible values,
