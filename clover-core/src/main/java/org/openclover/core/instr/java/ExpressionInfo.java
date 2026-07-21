@@ -7,7 +7,7 @@ public class ExpressionInfo {
 
     private boolean constant = false;
     private boolean containsAssign = false;
-    private boolean containsInstanceOfWithVariable = false;
+    private boolean containsInstanceOfWithPattern = false;
     private int complexity = 0;
 
     public static ExpressionInfo fromTokens(CloverToken start, CloverToken end) {
@@ -18,7 +18,7 @@ public class ExpressionInfo {
         if (!info.constant) {
             // detector of "a = some_value" in the expression
             AssignmentDetector assignmentDetector = new AssignmentDetector();
-            // detector of "o instanceof A a" case, which cannot be instrumented
+            // detector of "o instanceof A a" and "o instanceof A(...)" cases, which cannot be instrumented
             InstanceOfStateDetector instanceOfState = new InstanceOfStateDetector();
             // any expression reaching here represents a "branch"
             ExpressionComplexityCounter complexityCounter = new ExpressionComplexityCounter(1);
@@ -36,7 +36,7 @@ public class ExpressionInfo {
 
             info.containsAssign = assignmentDetector.containsAssign();
             info.complexity = complexityCounter.getComplexity();
-            info.containsInstanceOfWithVariable = instanceOfState.hasVariableDeclaration();
+            info.containsInstanceOfWithPattern = instanceOfState.hasPatternBinding();
         }
         return info;
     }
@@ -57,7 +57,7 @@ public class ExpressionInfo {
     }
 
     public boolean isInstrumentable() {
-        return !constant && !containsAssign && !containsInstanceOfWithVariable;
+        return !constant && !containsAssign && !containsInstanceOfWithPattern;
     }
 
     public int getComplexity() {
