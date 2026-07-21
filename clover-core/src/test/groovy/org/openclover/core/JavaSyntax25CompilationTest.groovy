@@ -116,6 +116,15 @@ class JavaSyntax25CompilationTest extends JavaSyntaxCompilationTestBase {
         // ...so the explicit invocation is no longer the first thing after '{' (it was, pre-25)
         assertFileMatches(fileName, "(?s)\\{\\s*super\\(x\\)", true)
         assertFileMatches(fileName, "(?s)\\{\\s*this\\(x, 0\\)", true)
+
+        // sanity check: with the entry inc() in the prologue the instrumented source still compiles
+        // and runs - but only where a JDK 25 is available (the placement assertions above run on any JDK)
+        if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_25)) {
+            compileSources(mGenSrcDir, [ fileName ] as String[], JavaEnvUtils.JAVA_25)
+            executeMainClasses("Java25ConstructorPlacement")
+            assertExecOutputContains("a.y = 2", false)
+            assertExecOutputContains("b.y = 0", false)
+        }
     }
 
     /**
@@ -126,8 +135,8 @@ class JavaSyntax25CompilationTest extends JavaSyntaxCompilationTestBase {
     @Test
     void testConstructorEntryAndStatementIncPlacedAfterSuperAndThisBeforeJava25() {
         final String fileName = "Java25ConstructorPlacement.java"
-        final File srcFile = new File(srcDir, fileName)
-        instrumentSourceFile(srcFile, JavaEnvUtils.JAVA_21)
+        // instrument AND compile at source 21 - the classic-constructor fixture builds on any JDK
+        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_21)
 
         // the explicit super()/this() invocation is the first thing after '{' (no prologue inc())
         assertFileMatches(fileName, "(?s)\\{\\s*super\\(x\\)", false)
@@ -136,5 +145,10 @@ class JavaSyntax25CompilationTest extends JavaSyntaxCompilationTestBase {
         // ...both inc() calls trail the explicit invocation
         assertFileMatches(fileName, "(?s)super\\(x\\);\\s*" + R_INC + "\\s*" + R_INC, false)
         assertFileMatches(fileName, "(?s)this\\(x, 0\\);\\s*" + R_INC + "\\s*" + R_INC, false)
+
+        // sanity check that the instrumented (<25) source actually runs
+        executeMainClasses("Java25ConstructorPlacement")
+        assertExecOutputContains("a.y = 2", false)
+        assertExecOutputContains("b.y = 0", false)
     }
 }

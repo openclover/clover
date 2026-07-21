@@ -120,4 +120,31 @@ class InstanceOfStateTest {
 
         assertEquals(InstanceOfState.RECORD_DECONSTRUCTION, state)
     }
+
+    @Test
+    void detectInstanceOfWithNestedRecordPattern() {
+        InstanceOfState state = InstanceOfState.NOTHING;
+
+        // obj instanceof Line(Point(int x, int y), Point p) - a nested record deconstruction pattern;
+        // the first '(' after the outer type switches to RECORD_DECONSTRUCTION and it must stay there
+        // through the nested pattern so no component (nested or not) is branch-instrumented
+        state = state.nextToken(new CloverToken(IDENT, "obj"))
+        state = state.nextToken(new CloverToken(INSTANCEOF, "instanceof"))
+        state = state.nextToken(new CloverToken(IDENT, "Line"))
+        state = state.nextToken(new CloverToken(LPAREN, "("))
+        state = state.nextToken(new CloverToken(IDENT, "Point"))
+        state = state.nextToken(new CloverToken(LPAREN, "("))
+        state = state.nextToken(new CloverToken(INT, "int"))
+        state = state.nextToken(new CloverToken(IDENT, "x"))
+        state = state.nextToken(new CloverToken(COMMA, ","))
+        state = state.nextToken(new CloverToken(INT, "int"))
+        state = state.nextToken(new CloverToken(IDENT, "y"))
+        state = state.nextToken(new CloverToken(RPAREN, ")"))
+        state = state.nextToken(new CloverToken(COMMA, ","))
+        state = state.nextToken(new CloverToken(IDENT, "Point"))
+        state = state.nextToken(new CloverToken(IDENT, "p"))
+        state = state.nextToken(new CloverToken(RPAREN, ")"))
+
+        assertEquals(InstanceOfState.RECORD_DECONSTRUCTION, state)
+    }
 }
