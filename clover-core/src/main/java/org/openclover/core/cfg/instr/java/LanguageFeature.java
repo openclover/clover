@@ -10,5 +10,8 @@ public enum LanguageFeature {
     /** Record classes and compact canonical constructors */
     RECORDS,
     /** Switch treated as expressions */
-    SWITCH_EXPRESSIONS
+    SWITCH_EXPRESSIONS,
+    /** Pattern matching for switch and record deconstruction patterns (type patterns, guarded
+     *  {@code when} clauses, {@code case null}, record patterns in switch and instanceof) */
+    PATTERN_MATCHING
 }

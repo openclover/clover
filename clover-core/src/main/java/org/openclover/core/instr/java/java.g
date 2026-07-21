@@ -2537,17 +2537,9 @@ statement [CloverToken owningLabel] returns [CloverToken last]
         )?
         SEMI!
     |
-        // a classic switch/case with colons
-        ( SWITCH LPAREN expression RPAREN LCURLY (CASE constantExpression (COMMA constantExpression)* | DEFAULT) COLON) =>
-        contextAndComplexity = colonSwitchExpression[owningLabel, false]
-        {
-            saveContext = contextAndComplexity.getContext();
-            complexity += contextAndComplexity.getComplexity();
-        }
-    |
-        // a new switch/case with lambdas
-        ( SWITCH LPAREN expression RPAREN LCURLY (CASE patternMatch | DEFAULT) LAMBDA) =>
-        contextAndComplexity = lambdaSwitchExpression[owningLabel, false]
+        // a switch/case statement - the shared rule selects the classic "case:" or the arrow
+        // "case ->" form; it is uniquely started by the SWITCH keyword
+        contextAndComplexity = switchExpressionOrStatement[owningLabel, false]
         {
             saveContext = contextAndComplexity.getContext();
             complexity += contextAndComplexity.getComplexity();
@@ -2634,6 +2626,7 @@ colonCasesGroup[FlagDeclEmitter flag] returns [int complexity]
 colonCase[FlagDeclEmitter flag] returns [int complexity]
 {
     Token pos = null;
+    int caseComplexity = 0;
     complexity = 0;
 }
     :
@@ -2642,23 +2635,12 @@ colonCase[FlagDeclEmitter flag] returns [int complexity]
             {
                 constExpr = true;
             }
-            constantExpression
+            caseComplexity=patternMatch
             {
                 constExpr = false;
                 pos = si1;
-                complexity++;
+                complexity += caseComplexity;
             }
-            (
-                COMMA
-                {
-                    constExpr = true;
-                }
-                constantExpression
-                {
-                    constExpr = false;
-                    complexity++;
-                }
-            )*
         |
             si2:DEFAULT
             {
@@ -3282,6 +3264,10 @@ relationalExpression returns [int complexity]
             (INSTANCEOF type=typeSpec IDENT) =>
             INSTANCEOF type=typeSpec IDENT
         |
+            // a record deconstruction pattern, e.g. "o instanceof Point(int x, int y)" (JEP 440)
+            (INSTANCEOF typeSpec LPAREN) =>
+            INSTANCEOF recordPattern
+        |
             INSTANCEOF type=typeSpec
         )
     ;
@@ -3523,13 +3509,32 @@ primaryExpressionPart returns [ContextSetAndComplexity ret]
         // hack: "non-sealed" in expression means "non - sealed", allow this to parse
         NON_SEALED
     |
-        // a new lambda switch can be a part of an expression
-        ( SWITCH LPAREN expression RPAREN LCURLY (CASE patternMatch | DEFAULT) LAMBDA) =>
-        ret = lambdaSwitchExpression[null, true]
+        // a switch expression - the shared rule below selects the colon ("case:") or the arrow
+        // ("case ->") form; it is uniquely started by the SWITCH keyword
+        ret = switchExpressionOrStatement[null, true]
+    ;
+
+/**
+ * Selects between the two switch forms - "case ... :" (colonSwitchExpression) and "case ... ->"
+ * (lambdaSwitchExpression) - and is shared by the statement and the expression contexts. The two
+ * forms differ only in the token that terminates the first case label, so a syntactic predicate
+ * that looks ahead to that ':' or '->' is used to choose.
+ *
+ * @param owningLabel a label before switch or null if not present
+ * @param isInsideExpression true if the switch is part of an expression, false if a standalone statement
+ */
+switchExpressionOrStatement[CloverToken owningLabel, boolean isInsideExpression] returns [ContextSetAndComplexity ret]
+{
+    ret = ContextSetAndComplexity.empty();
+}
+    :
+        // a classic switch/case with colons - only this form needs a look-ahead predicate;
+        // any other switch is necessarily the arrow form, so it is the (cheaper) default branch
+        ( SWITCH LPAREN expression RPAREN LCURLY (CASE patternMatch | DEFAULT) COLON) =>
+        ret = colonSwitchExpression[owningLabel, isInsideExpression]
     |
-        // even the old one colon switch has been retrofitted
-        ( SWITCH LPAREN expression RPAREN LCURLY (CASE constantExpression (COMMA constantExpression)* | DEFAULT) COLON) =>
-        ret = colonSwitchExpression[null, true]
+        // a switch/case with lambdas ("case ->")
+        ret = lambdaSwitchExpression[owningLabel, isInsideExpression]
     ;
 
 /**
@@ -3620,14 +3625,22 @@ lambdaCase[ContextSet context, boolean insideExpression] returns [int complexity
     CaseExpressionEntryEmitter expressionEntryEmitter = null;
     CaseExpressionEntryEmitter throwEntryEmitter = null;
     int exprComplexity = 0;
+    int labelComplexity = 0;
     complexity = 1;
 }
     :
         (
             si1:CASE
-            patternMatch
             {
+                // the pattern binding itself is not instrumented (patternMatch sets constExpr); a 'when'
+                // guard, however, is branch-instrumented and contributes to the case complexity
+                constExpr = true;
+            }
+            labelComplexity=patternMatch
+            {
+                constExpr = false;
                 pos = si1;
+                complexity = labelComplexity;
             }
         |
             si2:DEFAULT
@@ -3657,12 +3670,98 @@ lambdaCase[ContextSet context, boolean insideExpression] returns [int complexity
         )
     ;
 
-patternMatch
+patternMatch returns [int complexity]
+{
+    complexity = 0;
+    int labelComplexity = 0;
+}
     :
-        // just constants, string literals, true/false, null etc; also constant expressions
-        // can be more than one, separated by comma
+        // one or more case label elements, separated by comma. Each element is a decision point (+1);
+        // a 'when' guard on an element contributes its own complexity on top of that.
+        labelComplexity=caseLabelElement { complexity += 1 + labelComplexity; }
+        (COMMA labelComplexity=caseLabelElement { complexity += 1 + labelComplexity; })*
+    ;
+
+/**
+ * A single element of a switch case label. Historically this was only a constant (string literal,
+ * true/false, null, an enum/constant name etc). Since Java 21 it may also be:
+ *  - the 'null' literal or 'default' (handled by constantExpression, which accepts both) - allows
+ *    'case null' and the combined 'case null, default' (JEP 441),
+ *  - a type pattern, e.g. 'Integer i' (JEP 441),
+ *  - a record deconstruction pattern, e.g. 'Point(int x, int y)' (JEP 440),
+ * each optionally followed by a 'when' guard.
+ */
+caseLabelElement returns [int complexity]
+{
+    complexity = 0;
+    int guardComplexity = 0;
+}
+    :
+        // a record deconstruction pattern - the '(' after a type disambiguates it from a constant
+        (typeSpec LPAREN) => recordPattern (guardComplexity=patternGuard { complexity += guardComplexity; })?
+    |
+        // a type pattern 'Type binding' - the trailing IDENT disambiguates it from a constant name
+        (typeSpec IDENT) => typeSpec IDENT (guardComplexity=patternGuard { complexity += guardComplexity; })?
+    |
+        // a constant label (also matches 'null' and 'default')
         constantExpression
-        (COMMA constantExpression)*
+    ;
+
+/**
+ * A guard for a switch pattern label: 'when &lt;boolean expression&gt;' (JEP 441). 'when' is a
+ * contextual keyword (lexed as IDENT), so it remains usable as an ordinary identifier elsewhere.
+ *
+ * Unlike the pattern binding (which is a declaration and must never be instrumented), the guard is
+ * an ordinary boolean expression, so it is branch-instrumented for true/false coverage exactly like
+ * an 'if'/'while' condition. We temporarily clear the 'constExpr' flag - which the enclosing case
+ * label set to suppress instrumentation of the pattern - so that the guard, and any nested
+ * conditional expressions within it, are instrumented.
+ */
+patternGuard returns [int complexity]
+{
+    CloverToken startOfGuard = null;
+    boolean saveConstExpr = constExpr;
+    int exprComplexity = 0;
+    complexity = 0;
+}
+    :
+        { isNextKeyword("when") }? IDENT
+        {
+            startOfGuard = lt(1);
+            constExpr = false;
+        }
+        exprComplexity=expression
+        {
+            constExpr = saveConstExpr;
+            // 'end' is the token after the guard expression (the '->' or ':'); instrBoolExpr emits
+            // the closing ')' of the branch wrapper immediately before it
+            instrBoolExpr(startOfGuard, lt(1));
+            // the guard is a boolean condition; its complexity is exactly what 'expression' already reports
+            complexity = exprComplexity;
+        }
+    ;
+
+/**
+ * A record deconstruction pattern (JEP 440): a type followed by a parenthesised list of nested
+ * component patterns, e.g. 'Point(int x, int y)' or
+ * 'Line(Point(var x1, var y1), Point(var x2, var y2))'. An optional binding name may follow the
+ * closing parenthesis. Used both in switch case labels and in instanceof expressions.
+ */
+recordPattern
+    :
+        // the optional binding name after ')' must not swallow a following 'when' guard keyword
+        typeSpec LPAREN (pattern (COMMA pattern)*)? RPAREN ( { !isNextKeyword("when") }? IDENT )?
+    ;
+
+/**
+ * A pattern used as a record component: either a nested record pattern, or a type pattern
+ * 'Type binding' (including 'var binding', where 'var' is lexed as an IDENT type name).
+ */
+pattern
+    :
+        (typeSpec LPAREN) => recordPattern
+    |
+        typeSpec IDENT
     ;
 
 /**

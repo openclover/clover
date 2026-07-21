@@ -9,6 +9,7 @@ import java.util.Set;
 
 import static org.openclover.core.cfg.instr.java.LanguageFeature.LAMBDA;
 import static org.openclover.core.cfg.instr.java.LanguageFeature.MODULES;
+import static org.openclover.core.cfg.instr.java.LanguageFeature.PATTERN_MATCHING;
 import static org.openclover.core.cfg.instr.java.LanguageFeature.RECORDS;
 import static org.openclover.core.cfg.instr.java.LanguageFeature.SWITCH_EXPRESSIONS;
 import static org.openclover.core.cfg.instr.java.LanguageFeature.TEXT_BLOCKS;
@@ -27,7 +28,11 @@ public enum SourceLevel {
     JAVA_14("14", newHashSet("14"), newHashSet(LAMBDA, MODULES, SWITCH_EXPRESSIONS)),
     JAVA_15("15", newHashSet("15"), newHashSet(LAMBDA, MODULES, SWITCH_EXPRESSIONS, TEXT_BLOCKS)),
     JAVA_16("16", newHashSet("16"), newHashSet(LAMBDA, MODULES, SWITCH_EXPRESSIONS, TEXT_BLOCKS, RECORDS)),
-    JAVA_17("17", newHashSet("17"), newHashSet(LAMBDA, MODULES, SWITCH_EXPRESSIONS, TEXT_BLOCKS, RECORDS));
+    JAVA_17("17", newHashSet("17"), newHashSet(LAMBDA, MODULES, SWITCH_EXPRESSIONS, TEXT_BLOCKS, RECORDS)),
+    JAVA_18("18", newHashSet("18"), newHashSet(LAMBDA, MODULES, SWITCH_EXPRESSIONS, TEXT_BLOCKS, RECORDS)),
+    JAVA_19("19", newHashSet("19"), newHashSet(LAMBDA, MODULES, SWITCH_EXPRESSIONS, TEXT_BLOCKS, RECORDS)),
+    JAVA_20("20", newHashSet("20"), newHashSet(LAMBDA, MODULES, SWITCH_EXPRESSIONS, TEXT_BLOCKS, RECORDS)),
+    JAVA_21("21", newHashSet("21"), newHashSet(LAMBDA, MODULES, SWITCH_EXPRESSIONS, TEXT_BLOCKS, RECORDS, PATTERN_MATCHING));
 
     private static final Set<String> unsupportedSourceLevels =
             newHashSet("1.0", "1.1", "1.2", "1.3", "1.4", "1.5", "5", "1.6", "6", "1.7", "7");
@@ -50,6 +55,18 @@ public enum SourceLevel {
      * @return SourceLevel
      */
     public static SourceLevel fromString(@NotNull String source) {
+        if (JAVA_21.matchesVersion(source)) {
+            return JAVA_21;
+        }
+        if (JAVA_20.matchesVersion(source)) {
+            return JAVA_20;
+        }
+        if (JAVA_19.matchesVersion(source)) {
+            return JAVA_19;
+        }
+        if (JAVA_18.matchesVersion(source)) {
+            return JAVA_18;
+        }
         if (JAVA_17.matchesVersion(source)) {
             return JAVA_17;
         }

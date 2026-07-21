@@ -11,11 +11,16 @@ package org.openclover.core.instr.java;
  *                                             | +----GENERIC_TYPE(n)
  *                                             v |
  * NOTHING -> INSTANCEOF --------------> FULL_TYPE --------------------> VARIABLE
- *                     |                 ^     ^ |
- *                     +---- FINAL ------+     | +----> PARTIAL_TYPE
+ *                     |                 ^     ^ | \
+ *                     +---- FINAL ------+     | |  \------------(  )--> RECORD_DECONSTRUCTION
+ *                                             | +----> PARTIAL_TYPE
  *                                             |          |
  *                                             +----------+
  * </pre>
+ *
+ * The VARIABLE and RECORD_DECONSTRUCTION end states both mean the instanceof introduces a pattern
+ * binding (a type pattern variable or a record deconstruction pattern), which must not be
+ * branch-instrumented.
  *
  * Why it's a class and not an enum? Because we need GENERIC_TYPE with variable 'depth' attribute, see below.
  */
@@ -111,6 +116,9 @@ public abstract class InstanceOfState {
             } else if (token.getType() == JavaTokenTypes.IDENT) {
                 // "o instanceof (final) A a"
                 return VARIABLE;
+            } else if (token.getType() == JavaTokenTypes.LPAREN) {
+                // "o instanceof A(...)" - the '(' begins a record deconstruction pattern (JEP 440)
+                return RECORD_DECONSTRUCTION;
             } else {
                 return NOTHING;
             }
@@ -145,6 +153,19 @@ public abstract class InstanceOfState {
         InstanceOfState nextToken(CloverToken token) {
             // we don't care about further tokens, lock on this state
             return VARIABLE;
+        }
+    };
+
+    /**
+     * A record deconstruction pattern, e.g. "o instanceof Point(int x, int y)" (JEP 440). Like a
+     * pattern variable, the bound components are variable declarations, so an instanceof expression
+     * containing a record pattern must not be branch-instrumented. We don't care about the tokens
+     * that follow (nested patterns, an optional trailing binding name), so we lock on this state.
+     */
+    final static InstanceOfState RECORD_DECONSTRUCTION = new InstanceOfState() {
+        @Override
+        InstanceOfState nextToken(CloverToken token) {
+            return RECORD_DECONSTRUCTION;
         }
     };
 

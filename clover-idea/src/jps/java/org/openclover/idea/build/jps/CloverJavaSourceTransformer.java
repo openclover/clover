@@ -183,6 +183,10 @@ public class CloverJavaSourceTransformer extends JavaSourceTransformer {
         put(LanguageLevel.JDK_15, SourceLevel.JAVA_15);
         put(LanguageLevel.JDK_16, SourceLevel.JAVA_16);
         put(LanguageLevel.JDK_17, SourceLevel.JAVA_17);
+        put(LanguageLevel.JDK_18, SourceLevel.JAVA_18);
+        put(LanguageLevel.JDK_19, SourceLevel.JAVA_19);
+        put(LanguageLevel.JDK_20, SourceLevel.JAVA_20);
+        put(LanguageLevel.JDK_21, SourceLevel.JAVA_21);
     }};
 
     /**
@@ -190,9 +194,10 @@ public class CloverJavaSourceTransformer extends JavaSourceTransformer {
      */
     public SourceLevel languageLevelToSourceLevel(final LanguageLevel level) {
         // If the map has no entry then a language level newer than Clover's highest supported
-        // (Java 17) was requested - instrument at the highest level we know about.
+        // (Java 21) - or a preview/experimental level such as JDK_21_PREVIEW or JDK_X - was
+        // requested; instrument at the highest level we know about.
         final SourceLevel sourceLevel = LANGUAGE_LEVEL_TO_SOURCE_LEVEL.get(level);
-        return sourceLevel == null ? SourceLevel.JAVA_17 : sourceLevel;
+        return sourceLevel == null ? SourceLevel.JAVA_21 : sourceLevel;
     }
 
     private void debugTransform(final File file, final CharSequence charSequence,

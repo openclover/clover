@@ -8,7 +8,10 @@ import static org.openclover.core.instr.java.JavaTokenTypes.IDENT
 import static org.openclover.core.instr.java.JavaTokenTypes.INSTANCEOF
 import static org.openclover.core.instr.java.JavaTokenTypes.INT
 import static org.openclover.core.instr.java.JavaTokenTypes.LBRACK
+import static org.openclover.core.instr.java.JavaTokenTypes.LPAREN
+import static org.openclover.core.instr.java.JavaTokenTypes.COMMA
 import static org.openclover.core.instr.java.JavaTokenTypes.RBRACK
+import static org.openclover.core.instr.java.JavaTokenTypes.RPAREN
 
 class InstanceOfStateTest {
     @Test
@@ -96,5 +99,25 @@ class InstanceOfStateTest {
         state = state.nextToken(new CloverToken(IDENT, "str"))
 
         assertEquals(InstanceOfState.VARIABLE, state)
+    }
+
+    @Test
+    void detectInstanceOfWithRecordPattern() {
+        InstanceOfState state = InstanceOfState.NOTHING;
+
+        // obj instanceof Point(int x, int y) - a record deconstruction pattern (JEP 440);
+        // the '(' after the type must switch to RECORD_DECONSTRUCTION so it is not branch-instrumented
+        state = state.nextToken(new CloverToken(IDENT, "obj"))
+        state = state.nextToken(new CloverToken(INSTANCEOF, "instanceof"))
+        state = state.nextToken(new CloverToken(IDENT, "Point"))
+        state = state.nextToken(new CloverToken(LPAREN, "("))
+        state = state.nextToken(new CloverToken(INT, "int"))
+        state = state.nextToken(new CloverToken(IDENT, "x"))
+        state = state.nextToken(new CloverToken(COMMA, ","))
+        state = state.nextToken(new CloverToken(INT, "int"))
+        state = state.nextToken(new CloverToken(IDENT, "y"))
+        state = state.nextToken(new CloverToken(RPAREN, ")"))
+
+        assertEquals(InstanceOfState.RECORD_DECONSTRUCTION, state)
     }
 }
