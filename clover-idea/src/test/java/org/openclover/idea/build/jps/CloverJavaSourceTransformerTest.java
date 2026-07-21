@@ -25,7 +25,7 @@ public class CloverJavaSourceTransformerTest {
         assertEquals(SourceLevel.JAVA_8, transformer.languageLevelToSourceLevel(LanguageLevel.JDK_1_7));
         assertEquals(SourceLevel.JAVA_8, transformer.languageLevelToSourceLevel(LanguageLevel.JDK_1_8));
 
-        // Java 9 through 17 map one-to-one
+        // Java 9 through 21 map one-to-one
         assertEquals(SourceLevel.JAVA_9, transformer.languageLevelToSourceLevel(LanguageLevel.JDK_1_9));
         assertEquals(SourceLevel.JAVA_10, transformer.languageLevelToSourceLevel(LanguageLevel.JDK_10));
         assertEquals(SourceLevel.JAVA_11, transformer.languageLevelToSourceLevel(LanguageLevel.JDK_11));
@@ -35,11 +35,13 @@ public class CloverJavaSourceTransformerTest {
         assertEquals(SourceLevel.JAVA_15, transformer.languageLevelToSourceLevel(LanguageLevel.JDK_15));
         assertEquals(SourceLevel.JAVA_16, transformer.languageLevelToSourceLevel(LanguageLevel.JDK_16));
         assertEquals(SourceLevel.JAVA_17, transformer.languageLevelToSourceLevel(LanguageLevel.JDK_17));
+        assertEquals(SourceLevel.JAVA_18, transformer.languageLevelToSourceLevel(LanguageLevel.JDK_18));
+        assertEquals(SourceLevel.JAVA_19, transformer.languageLevelToSourceLevel(LanguageLevel.JDK_19));
+        assertEquals(SourceLevel.JAVA_20, transformer.languageLevelToSourceLevel(LanguageLevel.JDK_20));
+        assertEquals(SourceLevel.JAVA_21, transformer.languageLevelToSourceLevel(LanguageLevel.JDK_21));
 
-        // levels newer than Clover's highest supported (Java 17) and the open-ended JDK_X
-        // fall back to Java 17
-        assertEquals(SourceLevel.JAVA_17, transformer.languageLevelToSourceLevel(LanguageLevel.JDK_18));
-        assertEquals(SourceLevel.JAVA_17, transformer.languageLevelToSourceLevel(LanguageLevel.JDK_21));
-        assertEquals(SourceLevel.JAVA_17, transformer.languageLevelToSourceLevel(LanguageLevel.JDK_X));
+        // levels newer than Clover's highest supported (Java 21) and the open-ended JDK_X
+        // fall back to Java 21
+        assertEquals(SourceLevel.JAVA_21, transformer.languageLevelToSourceLevel(LanguageLevel.JDK_X));
     }
 }
