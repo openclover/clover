@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.openclover.core.cfg.instr.java.LanguageFeature.FLEXIBLE_CONSTRUCTORS;
 import static org.openclover.core.cfg.instr.java.LanguageFeature.LAMBDA;
 import static org.openclover.core.cfg.instr.java.LanguageFeature.MODULES;
 import static org.openclover.core.cfg.instr.java.LanguageFeature.PATTERN_MATCHING;
@@ -33,7 +34,15 @@ public enum SourceLevel {
     JAVA_19("19", newHashSet("19"), newHashSet(LAMBDA, MODULES, SWITCH_EXPRESSIONS, TEXT_BLOCKS, RECORDS)),
     JAVA_20("20", newHashSet("20"), newHashSet(LAMBDA, MODULES, SWITCH_EXPRESSIONS, TEXT_BLOCKS, RECORDS)),
     // Pattern matching for switch (JEP 441) and record patterns (JEP 440) were finalized in Java 21
-    JAVA_21("21", newHashSet("21"), newHashSet(LAMBDA, MODULES, SWITCH_EXPRESSIONS, TEXT_BLOCKS, RECORDS, PATTERN_MATCHING));
+    JAVA_21("21", newHashSet("21"), newHashSet(LAMBDA, MODULES, SWITCH_EXPRESSIONS, TEXT_BLOCKS, RECORDS, PATTERN_MATCHING)),
+    // Java 22 (JEP 456 unnamed variables & patterns) - parsed unconditionally, no new feature flag needed
+    JAVA_22("22", newHashSet("22"), newHashSet(LAMBDA, MODULES, SWITCH_EXPRESSIONS, TEXT_BLOCKS, RECORDS, PATTERN_MATCHING)),
+    // Java 23 (JEP 467 markdown doc comments) - no parser-visible change
+    JAVA_23("23", newHashSet("23"), newHashSet(LAMBDA, MODULES, SWITCH_EXPRESSIONS, TEXT_BLOCKS, RECORDS, PATTERN_MATCHING)),
+    // Java 24 - no finalized language syntax, pure version pass-through
+    JAVA_24("24", newHashSet("24"), newHashSet(LAMBDA, MODULES, SWITCH_EXPRESSIONS, TEXT_BLOCKS, RECORDS, PATTERN_MATCHING)),
+    // Java 25 adds module imports (JEP 511), compact source files (JEP 512) and flexible constructor bodies (JEP 513)
+    JAVA_25("25", newHashSet("25"), newHashSet(LAMBDA, MODULES, SWITCH_EXPRESSIONS, TEXT_BLOCKS, RECORDS, PATTERN_MATCHING, FLEXIBLE_CONSTRUCTORS));
 
     private static final Set<String> unsupportedSourceLevels =
             newHashSet("1.0", "1.1", "1.2", "1.3", "1.4", "1.5", "5", "1.6", "6", "1.7", "7");
@@ -56,6 +65,18 @@ public enum SourceLevel {
      * @return SourceLevel
      */
     public static SourceLevel fromString(@NotNull String source) {
+        if (JAVA_25.matchesVersion(source)) {
+            return JAVA_25;
+        }
+        if (JAVA_24.matchesVersion(source)) {
+            return JAVA_24;
+        }
+        if (JAVA_23.matchesVersion(source)) {
+            return JAVA_23;
+        }
+        if (JAVA_22.matchesVersion(source)) {
+            return JAVA_22;
+        }
         if (JAVA_21.matchesVersion(source)) {
             return JAVA_21;
         }
