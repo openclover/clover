@@ -5,4 +5,5 @@
 - [Groovy 5 Language Instrumentation Plan](groovy5-language-instrumentation.md) — Groovy 5
 - [Eclipse Libs Installer Plan](eclipse-libs-installers.md) — Plan for processing all Eclipse versions (Luna SR2 → 2026-03) into tagged clover-eclipse-libs pom+JAR installs for compatibility matrix
 - [Eclipse Functional Testing Plan](eclipse-functional-testing.md) — Implementation plan for org.openclover.eclipse.functest + functest.runner: module layout, download pipeline, IApplication runner, test project triage, CI workflow
+- [Eclipse p2 Update Site Migration Plan](eclipse-plugin-site.md) — OC-134: plan to migrate the Eclipse update site from legacy site.xml to a p2 repository (no Tycho), served over HTTPS
 - [clover-idea build migrated to Gradle](clover-idea-libs.md) — clover-idea-libs deleted; clover-idea now built/tested/packaged by Gradle (IntelliJ Platform Gradle Plugin); pom.xml is a thin wrapper
