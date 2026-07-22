@@ -40,6 +40,75 @@ A p2 repo needs `content.xml`/`artifacts.xml` (usually jar-compressed:
 features. The legacy `site.xml` alone does not provide this; modern Eclipse
 (Oiomon/2020-06+) increasingly assumes p2.
 
+## STATUS: implemented on branch OC-134-eclipse-p2-plugin-site (2026-07-22)
+
+Done in `org.openclover.eclipse.updatesite`:
+- Deleted `src/main/resources/site.xml`.
+- Added `src/main/resources/category.xml` (p2 category "openclover" →
+  "OpenClover ${project.version}"; filtered).
+- (Composite files are NOT built here — generated server-side at release time;
+  see the coexistence/composite sections below.)
+- `pom.xml`: added `org.reficio:p2-maven-plugin:3.0.0` `site` goal bound to
+  `prepare-package`; `<artifacts>` = 5 bundles, `<features>` = 2 features (all
+  `transitive=false`). `categoryFileURL` MUST be **relative** (`target/classes/category.xml`)
+  — the plugin prepends `${project.basedir}`, an absolute `file:` URL double-prefixes and fails.
+- Assembly rewritten to zip `target/repository/` (the real p2 repo) + README/LICENSE/licenses.
+- Verified build: `mvn -pl …updatesite -am package -Dclover.jarsigner.skip=false`
+  produces `target/repository/{content.jar,artifacts.jar,plugins/,features/}` and
+  `clover-eclipse-site-<version>.zip`. Confirmed feature.group IU requires all 4
+  bundles and all bundle IUs are present. The "Cannot find plugin ..." lines during
+  the build are benign reficio feature-dir lookup noise, not repo errors.
+
+### Live server layout (confirmed 2026-07-22) + coexistence strategy (DECIDED)
+The CURRENT live `https://openclover.org/update/` is a SINGLE FLAT classic
+update site: one shared `plugins/` + `features/` holding ALL versions' jars,
+plus root `site.xml`, `README.html`, `LICENSE.txt`, `licenses/`,
+`latestStableVersion.xml`, two old `...updatesite_*.zip` archives, etc. There are
+NO per-version subdirectories today.
+
+**Old and new coexist side-by-side, no migration of old versions needed.** The two
+formats key off different files, so both can live under `update/` at once:
+- OLD flat classic site stays exactly as-is (`update/site.xml` + shared
+  `update/plugins/` + `update/features/` + readme/licenses). Legacy clients keep
+  using `update/` and read `site.xml`; they ignore everything else.
+- NEW p2 repos go under `update/p2/<full-version>/`, each a self-contained p2 repo
+  (`content.jar`, `artifacts.jar`, `plugins/`, `features/`). A composite at
+  `update/p2/` (compositeContent.xml + compositeArtifacts.xml) aggregates them.
+  New stable p2 URL for users: **`https://openclover.org/update/p2/`**.
+
+Final directory shape:
+```
+update/
+  site.xml, features/, plugins/, licenses/, README.html, ...   <- OLD, untouched
+  p2/                                                           <- NEW
+    compositeContent.xml
+    compositeArtifacts.xml
+    5.0.2.v20260720000000/   (content.jar, artifacts.jar, plugins/, features/)
+    5.1.0.v.../
+```
+Children are named by the **full OSGi qualifier** (matches the jar suffixes) and
+are plain dir names relative to `p2/` (no `../`). Historical 4.x/5.0.x versions are
+NOT p2-ified — they remain only in the old flat site. Composite starts empty of
+history and accumulates p2 versions from 5.0.2 onward.
+
+### Composite generation: SERVER-SIDE at release time (DECIDED — changed from build-time)
+Build-time composite generation was DROPPED (removed `src/main/resources/composite/`
+and the `p2.timestamp`/`maven.build.timestamp` props): the build can't know its
+sibling versions, so it can't produce a complete composite. Instead the composite
+is regenerated on the server during release by listing the `update/p2/*/` dirs — so
+it is always complete with zero manual per-release edits.
+
+Implemented in `.github/workflows/D-release-openclover.yml` (the "D-release"
+workflow, "Upload non-Maven artifacts" step):
+- still scp the site zip to the download path as an archived update site;
+- `ssh ... bash -s <<'REMOTE'` heredoc: `mkdir update/p2/$ECLIPSE_VERSION`,
+  `unzip` the site zip into it, then `cd update/p2`, list `*/` subdirs, and write
+  both composite files (a `write_composite` shell fn emits the XML with a
+  `p2.timestamp` of `date +%s`000 and one `<child location='<dir>'/>` per subdir).
+- `$ECLIPSE_VERSION` = `<marketing>.v<yyyymmdd>000000` (already computed in the step).
+- Local runner vars (`P2_PATH`, `NEWVER`, `ZIP`) are injected on the ssh command
+  line; the heredoc is single-quoted so its body runs entirely on the server.
+
 ## Chosen approach: `org.reficio:p2-maven-plugin` (DECIDED)
 
 Do **not** rewrite the Eclipse build into Tycho — plugins already produce correct

@@ -9,7 +9,10 @@
     <artifactId>org.openclover.eclipse.updatesite</artifactId>
     <name>OpenClover Eclipse Update Site</name>
     <packaging>pom</packaging>
-    <description>An update site archive for OpenClover for Eclipse.</description>
+    <description>A p2 update site (software repository) for OpenClover for Eclipse.</description>
+
+    <!-- Dependencies are declared to force reactor build order: all plugins/features
+         must be built (and, for releases, signed) before p2-maven-plugin resolves them. -->
     <dependencies>
         <dependency>
             <groupId>org.openclover</groupId>
@@ -67,6 +70,62 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- Generate the p2 repository (content.jar, artifacts.jar, p2.index, plugins/, features/, category.xml)
+                 into target/repository/. The eclipse plugin/feature JARs are already valid OSGi bundles, so
+                 no bnd re-wrapping happens; source/transitive are disabled. -->
+            <plugin>
+                <groupId>org.reficio</groupId>
+                <artifactId>p2-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <id>generate-p2-site</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>site</goal>
+                        </goals>
+                        <configuration>
+                            <!-- Resolved relative to ${project.basedir} by the plugin, so keep it relative -->
+                            <categoryFileURL>target/classes/category.xml</categoryFileURL>
+                            <artifacts>
+                                <artifact>
+                                    <id>org.openclover:org.openclover.eclipse.branding:${project.version}</id>
+                                    <transitive>false</transitive>
+                                </artifact>
+                                <artifact>
+                                    <id>org.openclover:org.openclover.eclipse.core:${project.version}</id>
+                                    <transitive>false</transitive>
+                                </artifact>
+                                <artifact>
+                                    <id>org.openclover:org.openclover.eclipse.ant:${project.version}</id>
+                                    <transitive>false</transitive>
+                                </artifact>
+                                <artifact>
+                                    <id>org.openclover:org.openclover.eclipse.runtime:${project.version}</id>
+                                    <transitive>false</transitive>
+                                </artifact>
+                                <artifact>
+                                    <id>org.openclover:org.openclover.eclipse.testopt:${project.version}</id>
+                                    <transitive>false</transitive>
+                                </artifact>
+                            </artifacts>
+                            <features>
+                                <artifact>
+                                    <id>org.openclover:org.openclover.eclipse.feature:${project.version}</id>
+                                    <source>false</source>
+                                    <transitive>false</transitive>
+                                </artifact>
+                                <artifact>
+                                    <id>org.openclover:org.openclover.eclipse.ant.feature:${project.version}</id>
+                                    <source>false</source>
+                                    <transitive>false</transitive>
+                                </artifact>
+                            </features>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Package the p2 repository as an archived update site zip. -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
@@ -91,7 +150,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-deploy-plugin</artifactId>
                 <configuration>
-                    <!-- The update site ZIP is being uploaded to website, not Maven Central -->
+                    <!-- The update site is uploaded to the website, not Maven Central -->
                     <skip>true</skip>
                 </configuration>
             </plugin>
@@ -99,7 +158,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jarsigner-plugin</artifactId>
                 <configuration>
-                    <!-- The ZIP is not a plugin JAR -->
+                    <!-- This module produces a zip, not a plugin JAR; the plugin/feature
+                         JARs are signed in their own modules before p2 consumes them. -->
                     <skip>true</skip>
                 </configuration>
             </plugin>
