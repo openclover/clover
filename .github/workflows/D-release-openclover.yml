@@ -82,10 +82,39 @@ jobs:
           echo "Uploading IDEA jar and latestStableVersion.xml to openclover.org"
           scp -i $SSH_ID -P $SSH_PORT clover-idea/build/dist/clover-idea-$VERSION.jar $SSH_USERNAME@$OPENCLOVER_ORG_HOST:$OPENCLOVER_ORG_DOWNLOAD_PATH
           scp -i $SSH_ID -P $SSH_PORT clover-idea/build/autoupdate/latestStableVersion.xml $SSH_USERNAME@$OPENCLOVER_ORG_HOST:$OPENCLOVER_ORG_UPDATE_PATH
-          echo "Uploading Eclipse zip to openclover.org"
+          echo "Uploading Eclipse p2 update site to openclover.org"
           ECLIPSE_VERSION=`echo $VERSION | cut -f 1 -d '-'`.v`date +%Y%m%d`000000
+          # 1) Keep offering the archived update site as a downloadable zip (unchanged)
           scp -i $SSH_ID -P $SSH_PORT clover-eclipse/org.openclover.eclipse.updatesite/target/clover-eclipse-site-$ECLIPSE_VERSION.zip $SSH_USERNAME@$OPENCLOVER_ORG_HOST:$OPENCLOVER_ORG_DOWNLOAD_PATH/org.openclover.eclipse.updatesite_$ECLIPSE_VERSION.zip
-          ssh -i $SSH_ID -p $SSH_PORT $SSH_USERNAME@$OPENCLOVER_ORG_HOST "unzip -o $OPENCLOVER_ORG_DOWNLOAD_PATH/org.openclover.eclipse.updatesite_$ECLIPSE_VERSION.zip -d $OPENCLOVER_ORG_UPDATE_PATH"
+          # 2) Publish the p2 repository into its own per-version subdir under update/p2/
+          #    and (re)generate the composite so the single URL update/p2/ aggregates
+          #    every published p2 version. The old flat site (update/site.xml, update/plugins,
+          #    update/features) is left untouched and keeps serving legacy clients.
+          ssh -i $SSH_ID -p $SSH_PORT $SSH_USERNAME@$OPENCLOVER_ORG_HOST \
+            "P2_PATH='$OPENCLOVER_ORG_UPDATE_PATH/p2' NEWVER='$ECLIPSE_VERSION' ZIP='$OPENCLOVER_ORG_DOWNLOAD_PATH/org.openclover.eclipse.updatesite_$ECLIPSE_VERSION.zip' bash -s" <<'REMOTE'
+          set -e
+          mkdir -p "$P2_PATH/$NEWVER"
+          unzip -o "$ZIP" -d "$P2_PATH/$NEWVER"
+          cd "$P2_PATH"
+          TS="$(date +%s)000"
+          CHILDREN="$(ls -d */ 2>/dev/null | sed 's#/##')"
+          N="$(printf '%s\n' $CHILDREN | grep -c .)"
+          write_composite() {
+            REPO_TYPE="$1"; PROC_INSTR="$2"; OUT="$3"
+            {
+              echo "<?xml version='1.0' encoding='UTF-8'?>"
+              echo "<?$PROC_INSTR version='1.0.0'?>"
+              echo "<repository name='OpenClover Update Site' type='$REPO_TYPE' version='1.0.0'>"
+              echo "  <properties size='1'><property name='p2.timestamp' value='$TS'/></properties>"
+              echo "  <children size='$N'>"
+              for c in $CHILDREN; do echo "    <child location='$c'/>"; done
+              echo "  </children>"
+              echo "</repository>"
+            } > "$OUT"
+          }
+          write_composite 'org.eclipse.equinox.internal.p2.metadata.repository.CompositeMetadataRepository' 'compositeMetadataRepository' compositeContent.xml
+          write_composite 'org.eclipse.equinox.internal.p2.artifact.repository.CompositeArtifactRepository' 'compositeArtifactRepository' compositeArtifacts.xml
+          REMOTE
           rm -f $SSH_ID
         env:
           SSH_PORT: ${{ secrets.sshPort }}

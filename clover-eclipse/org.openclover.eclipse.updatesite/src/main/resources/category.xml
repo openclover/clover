@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+    <feature id="org.openclover.eclipse.feature" version="${project.version}">
+        <category name="openclover"/>
+    </feature>
+    <feature id="org.openclover.eclipse.ant.feature" version="${project.version}">
+        <category name="openclover"/>
+    </feature>
+    <category-def name="openclover" label="OpenClover ${project.version}">
+        <description>OpenClover code coverage tool for Eclipse.</description>
+    </category-def>
+</site>
