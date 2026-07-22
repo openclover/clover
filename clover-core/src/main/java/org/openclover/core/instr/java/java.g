@@ -3925,12 +3925,15 @@ recordPattern
     ;
 
 /**
- * A pattern used as a record component: either a nested record pattern, or a type pattern
- * 'Type binding' (including 'var binding', where 'var' is lexed as an IDENT type name).
+ * A pattern used as a record component: either a nested record pattern, a type pattern
+ * 'Type binding' (including 'var binding', where 'var' is lexed as an IDENT type name), or an
+ * unnamed pattern '_'.
  */
 pattern
     :
         (typeSpec LPAREN) => recordPattern
+    |
+        { isNextKeyword("_") }? IDENT
     |
         typeSpec IDENT
     ;

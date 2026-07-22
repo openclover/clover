@@ -135,8 +135,9 @@ class JavaSyntax25CompilationTest extends JavaSyntaxCompilationTestBase {
     @Test
     void testConstructorEntryAndStatementIncPlacedAfterSuperAndThisBeforeJava25() {
         final String fileName = "Java25ConstructorPlacement.java"
-        // instrument AND compile at source 21 - the classic-constructor fixture builds on any JDK
-        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_21)
+        // instrument AND compile at source 8 - the classic-constructor fixture (and its <25 placement)
+        // builds and runs on every JDK, so no version gate is needed
+        instrumentAndCompileSourceFile(srcDir, mGenSrcDir, fileName, JavaEnvUtils.JAVA_8)
 
         // the explicit super()/this() invocation is the first thing after '{' (no prologue inc())
         assertFileMatches(fileName, "(?s)\\{\\s*super\\(x\\)", false)
