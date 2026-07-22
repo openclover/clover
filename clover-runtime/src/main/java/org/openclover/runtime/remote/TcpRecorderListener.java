@@ -12,6 +12,7 @@ import java.net.Socket;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static org.openclover.runtime.util.IOStreamUtils.bufferedDataInput;
 import static org.openclover.runtime.util.IOStreamUtils.bufferedDataOutput;
@@ -29,7 +30,13 @@ public class TcpRecorderListener implements RecorderListener {
     private final Timer reconnectionTimer = new Timer(true);
     private final AtomicBoolean reconnecting = new AtomicBoolean(false);
     private final AtomicBoolean stopped = new AtomicBoolean(false);
-    private volatile Socket socket;
+    // Sentinel published by disconnect(): once present, no further socket may be registered. Its identity
+    // is all that matters (it is never read from or written to), so an unconnected Socket is fine.
+    private static final Socket DISCONNECTED = new Socket();
+    // Holds the live socket, or DISCONNECTED once disconnect() has run. A CAS against this reference makes
+    // the hand-off of a freshly connected socket atomic w.r.t. disconnect(), so a connect attempt that
+    // completes after disconnect() cannot leak an established socket and reader thread past teardown.
+    private final AtomicReference<Socket> socket = new AtomicReference<>();
     private volatile Thread readerThread;
 
     @Override
@@ -49,7 +56,8 @@ public class TcpRecorderListener implements RecorderListener {
     public void disconnect() {
         stopped.set(true);
         reconnectionTimer.cancel();
-        closeSocket();
+        // atomically claim the terminal state and close whatever socket was live (null / live / sentinel)
+        IOStreamUtils.close(socket.getAndSet(DISCONNECTED));
     }
 
     private void reconnect() {
@@ -84,7 +92,18 @@ public class TcpRecorderListener implements RecorderListener {
         MessageCodec.writeClientHandshake(out);
         MessageCodec.readServerHandshake(in);
 
-        this.socket = newSocket;
+        // Publish the connection unless disconnect() has already run. The CAS loop makes the
+        // "not disconnected -> register" decision atomic against a concurrent disconnect(): if the
+        // sentinel is (or becomes) present we abandon this socket instead of leaking it.
+        Socket previous;
+        do {
+            previous = socket.get();
+            if (previous == DISCONNECTED) {
+                IOStreamUtils.close(newSocket);
+                throw new IOException("listener disconnected during handshake");
+            }
+        } while (!socket.compareAndSet(previous, newSocket));
+
         readerThread = new Thread(() -> readerLoop(newSocket, in, out), "clover-remote-reader");
         readerThread.setDaemon(true);
         readerThread.start();
@@ -118,10 +137,6 @@ public class TcpRecorderListener implements RecorderListener {
             reconnecting.set(false);
             reconnect();
         }
-    }
-
-    private void closeSocket() {
-        IOStreamUtils.close(socket);
     }
 
     private class ReconnectTimerTask extends TimerTask {
