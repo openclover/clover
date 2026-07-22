@@ -20,13 +20,6 @@ jobs:
           distribution: temurin
           cache: maven
 
-      - name: Cache Eclipse binaries
-        id: cache-eclipse
-        uses: actions/cache@v6
-        with:
-          path: clover-eclipse-libs/target/download
-          key: ${{ runner.os }}-eclipse-${{ hashFiles('clover-eclipse-libs/pom.xml') }}
-
       - name: Cache Gradle IntelliJ Platform downloads
         uses: actions/cache@v6
         with:
@@ -40,7 +33,6 @@ jobs:
       - name: Prepare third party libraries
         run: |
           mvn -ntp --batch-mode install -Pworkspace-setup -f clover-core-libs/pom.xml
-          mvn -ntp --batch-mode install -Pworkspace-setup -f clover-eclipse-libs/pom.xml
 
       - name: Download KTreemap fork
         run: |

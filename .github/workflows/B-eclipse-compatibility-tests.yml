@@ -22,16 +22,9 @@ jobs:
           distribution: temurin
           cache: maven
 
-      - name: Cache Eclipse binaries
-        uses: actions/cache@v6
-        with:
-          path: clover-eclipse-libs/target/download
-          key: ${{ runner.os }}-eclipse-${{ hashFiles('clover-eclipse-libs/pom.xml') }}
-
       - name: Prepare third party libraries
         run: |
           mvn -ntp --batch-mode install -Pworkspace-setup -f clover-core-libs/pom.xml
-          mvn -ntp --batch-mode install -Pworkspace-setup -f clover-eclipse-libs/pom.xml
 
       - name: Download KTreemap fork
         run: |
@@ -61,13 +54,10 @@ jobs:
       matrix:
         include:
           - eclipse-version: "2024-06"
-            eclipse-libs-version: "2024.06"
             eclipse-download-site: "https://archive.eclipse.org"
           - eclipse-version: "2025-06"
-            eclipse-libs-version: "2025.06"
             eclipse-download-site: "https://archive.eclipse.org"
           - eclipse-version: "2026-03"
-            eclipse-libs-version: "2026.03"
             eclipse-download-site: "https://ftp.fau.de/eclipse"
 
     steps:
@@ -83,12 +73,6 @@ jobs:
           distribution: temurin
           cache: maven
 
-      - name: Cache Eclipse libs download (${{ matrix.eclipse-libs-version }})
-        uses: actions/cache@v6
-        with:
-          path: clover-eclipse-libs/target/download
-          key: ${{ runner.os }}-eclipse-libs-${{ matrix.eclipse-libs-version }}
-
       - name: Cache Eclipse functest download (${{ matrix.eclipse-version }})
         uses: actions/cache@v6
         with:
@@ -99,19 +83,6 @@ jobs:
         uses: actions/download-artifact@v8
         with:
           name: clover-eclipse-build
-
-      - name: Prepare Eclipse libs for ${{ matrix.eclipse-version }}
-        run: |
-          # The tagged pom pins the parent version that was current when the tag was cut,
-          # which no longer matches the root pom. clover-eclipse-libs needs nothing from
-          # the parent, so drop the block and build it standalone.
-          git show clover-eclipse-libs-${{ matrix.eclipse-libs-version }}:clover-eclipse-libs/pom.xml \
-            | sed '/<parent>/,/<\/parent>/d' \
-            > clover-eclipse-libs/pom.xml
-          mvn -ntp --batch-mode install -Pworkspace-setup -f clover-eclipse-libs/pom.xml \
-            -Declipse.download.site=${{ matrix.eclipse-download-site }} \
-            -Declipse.download.path=technology/epp/downloads/release/${{ matrix.eclipse-version }}/R \
-            -Declipse.download.file=eclipse-java-${{ matrix.eclipse-version }}-R-win32-x86_64.zip
 
       - name: Run functional tests against Eclipse ${{ matrix.eclipse-version }}
         run: |
