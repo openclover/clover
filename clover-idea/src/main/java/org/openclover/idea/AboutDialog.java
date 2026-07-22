@@ -95,31 +95,28 @@ public class AboutDialog extends DialogWrapper {
                 addProduct("Ant", "https://ant.apache.org", "ANT-1.5.2-LICENSE.TXT"));
         addRow(sb,
                 addProduct("ANTLR2 Library", "https://www.antlr2.org", "ANTLR-2.7.7-LICENSE.TXT"),
-                addProduct("ANTLR3 Java Grammar", "https://www.antlr3.org", "ANTLR-JAVA-GRAMMAR-3.0-LICENSE.TXT"));
+                addProduct("Commons Codec", "https://commons.apache.org", "COMMONS-CODEC-1.9-LICENSE.TXT"));
         addRow(sb,
-                addProduct("Commons Codec", "https://commons.apache.org", "COMMONS-CODEC-1.9-LICENSE.TXT"),
-                addProduct("Commons Collections", "https://commons.apache.org", "COMMONS-COLLECTIONS-3.2.2-LICENSE.TXT"));
+                addProduct("Commons Collections", "https://commons.apache.org", "COMMONS-COLLECTIONS-3.2.2-LICENSE.TXT"),
+                addProduct("Commons Lang", "https://commons.apache.org", "COMMONS-LANG3-3.3.2-LICENSE.TXT"));
         addRow(sb,
-                addProduct("Commons Lang", "https://commons.apache.org", "COMMONS-LANG3-3.3.2-LICENSE.TXT"),
-                addProduct("FastUtil", "https://fastutil.dsi.unimi.it/", "FASTUTIL-4.4.3-LICENSE.TXT"));
+                addProduct("FastUtil", "https://fastutil.dsi.unimi.it/", "FASTUTIL-4.4.3-LICENSE.TXT"),
+                addProduct("Groovy", "https://groovy.codehaus.org", "GROOVY-1.7.0-LICENSE.TXT"));
         addRow(sb,
-                addProduct("Groovy", "https://groovy.codehaus.org", "GROOVY-1.7.0-LICENSE.TXT"),
-                addProduct("iText", "https://itextpdf.com", "ITEXT-2.0.1-LICENSE.TXT"));
+                addProduct("iText", "https://itextpdf.com", "ITEXT-2.0.1-LICENSE.TXT"),
+                addProduct("JCommon", "https://www.jfree.org/jfreechart/", "JCOMMON-1.0.23-LICENSE.TXT"));
         addRow(sb,
-                addProduct("JCommon", "https://www.jfree.org/jfreechart/", "JCOMMON-1.0.23-LICENSE.TXT"),
-                addProduct("JDOM", "https://www.jdom.org/", "JDOM-1.0-LICENSE.TXT"));
+                addProduct("JDOM", "https://www.jdom.org/", "JDOM-1.0-LICENSE.TXT"),
+                addProduct("JFreeChart", "https://www.jfree.org/jfreechart/", "JFREECHART-1.0.19-LICENSE.TXT"));
         addRow(sb,
-                addProduct("JFreeChart", "https://www.jfree.org/jfreechart/", "JFREECHART-1.0.19-LICENSE.TXT"),
-                addProduct("JTreemap", "https://jtreemap.sourceforge.net/", "JTREEMAP-1.1.0-LICENSE.TXT"));
+                addProduct("JTreemap", "https://jtreemap.sourceforge.net/", "JTREEMAP-1.1.0-LICENSE.TXT"),
+                addProduct("JIT", "https://thejit.org/", "JIT-1.1.2-LICENSE.TXT"));
         addRow(sb,
-                addProduct("JIT", "https://thejit.org/", "JIT-1.1.2-LICENSE.TXT"),
-                addProduct("JSON", "https://www.json.org", "JSON-LICENSE.TXT"));
+                addProduct("JSON", "https://www.json.org", "JSON-LICENSE.TXT"),
+                addProduct("jQuery", "https://jquery.com", "JQUERY-1.8.3-LICENSE.TXT"));
         addRow(sb,
-                addProduct("jQuery", "https://jquery.com", "JQUERY-1.8.3-LICENSE.TXT"),
-                addProduct("SLF4J", "https://www.slf4j.org", "SLF4J-1.7.36-LICENSE.TXT"));
-        addRow(sb,
-                addProduct("Velocity", "https://velocity.apache.org/", "VELOCITY-1.7-LICENSE.TXT"),
-                addEmpty());
+                addProduct("SLF4J", "https://www.slf4j.org", "SLF4J-1.7.36-LICENSE.TXT"),
+                addProduct("Velocity", "https://velocity.apache.org/", "VELOCITY-1.7-LICENSE.TXT"));
 
         addRow(sb,
                 "<td colspan=\"4\">OpenClover also reuses some icons from:</td>");
@@ -149,11 +146,6 @@ public class AboutDialog extends DialogWrapper {
     private String addProduct(String name, String url, String license) {
         final String encodedName = URLEncoder.encode(name, StandardCharsets.UTF_8);
         return LICENSE_ROW.format(new Object[]{name, url, license, encodedName});
-    }
-
-    private String addEmpty() {
-        // like addProduct but empty
-        return "<td></td><td></td>";
     }
 
     private String getInstallationText() {
