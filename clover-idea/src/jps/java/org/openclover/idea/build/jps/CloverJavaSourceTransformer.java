@@ -187,17 +187,38 @@ public class CloverJavaSourceTransformer extends JavaSourceTransformer {
         put(LanguageLevel.JDK_19, SourceLevel.JAVA_19);
         put(LanguageLevel.JDK_20, SourceLevel.JAVA_20);
         put(LanguageLevel.JDK_21, SourceLevel.JAVA_21);
+        // Java 22-25 are resolved reflectively: the LanguageLevel enum constants JDK_22..JDK_25 do not
+        // exist in older IntelliJ SDKs (e.g. 2024.3) that this module may be compiled against, so a
+        // direct reference would break the build. Any constant that is missing at runtime is simply
+        // skipped and handled by the fallback in languageLevelToSourceLevel().
+        putIfPresent(this, "JDK_22", SourceLevel.JAVA_22);
+        putIfPresent(this, "JDK_23", SourceLevel.JAVA_23);
+        putIfPresent(this, "JDK_24", SourceLevel.JAVA_24);
+        putIfPresent(this, "JDK_25", SourceLevel.JAVA_25);
     }};
+
+    /**
+     * Reflectively resolve a {@link LanguageLevel} enum constant by name and, when present in the
+     * current IntelliJ SDK, register its mapping. Constants absent from the running SDK are ignored.
+     */
+    private static void putIfPresent(final Map<LanguageLevel, SourceLevel> map,
+                                     final String languageLevelName, final SourceLevel sourceLevel) {
+        try {
+            map.put(LanguageLevel.valueOf(languageLevelName), sourceLevel);
+        } catch (IllegalArgumentException notInThisSdk) {
+            // this IntelliJ SDK predates the given JDK language level - rely on the fallback
+        }
+    }
 
     /**
      * Convert IDEA's LanguageLevel to ours SourceLevel
      */
     public SourceLevel languageLevelToSourceLevel(final LanguageLevel level) {
         // If the map has no entry then a language level newer than Clover's highest supported
-        // (Java 21) - or a preview/experimental level such as JDK_21_PREVIEW or JDK_X - was
+        // (Java 25) - or a preview/experimental level such as JDK_25_PREVIEW or JDK_X - was
         // requested; instrument at the highest level we know about.
         final SourceLevel sourceLevel = LANGUAGE_LEVEL_TO_SOURCE_LEVEL.get(level);
-        return sourceLevel == null ? SourceLevel.JAVA_21 : sourceLevel;
+        return sourceLevel == null ? SourceLevel.JAVA_25 : sourceLevel;
     }
 
     private void debugTransform(final File file, final CharSequence charSequence,

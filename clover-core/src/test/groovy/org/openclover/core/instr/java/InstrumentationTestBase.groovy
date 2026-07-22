@@ -150,6 +150,19 @@ class InstrumentationTestBase {
         return cfg
     }
 
+    /**
+     * Instrument a source string as if it came from the named file at the given source level, and
+     * return the populated registry so tests can inspect the model (classes/methods/statements/
+     * branches and their source regions). The file name matters for e.g. the implicit class of a
+     * compact source file, whose name is derived from it.
+     */
+    protected Clover2Registry instrumentToRegistry(String fileName, String src, SourceLevel level) throws Exception {
+        final JavaInstrumentationConfig cfg = getInstrConfig(newDbTempFile().getAbsolutePath(), false, true, false)
+        cfg.setSourceLevel(level)
+        final File srcFile = new File(workingDir, fileName)
+        return performInstrumentation(cfg, new StringInstrumentationSource(srcFile, src), new StringWriter())
+    }
+
     protected Clover2Registry checkMetrics(JavaInstrumentationConfig instrConfig, String src, int numClasses, int numMethods, int numStatements, int numBranches, int totalComplexity) throws Exception {
         final InstrumentationSource input = new StringInstrumentationSource(newDbTempFile(), src)
         final Clover2Registry registry = performInstrumentation(instrConfig,

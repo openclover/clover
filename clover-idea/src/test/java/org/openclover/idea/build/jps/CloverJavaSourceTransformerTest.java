@@ -40,8 +40,26 @@ public class CloverJavaSourceTransformerTest {
         assertEquals(SourceLevel.JAVA_20, transformer.languageLevelToSourceLevel(LanguageLevel.JDK_20));
         assertEquals(SourceLevel.JAVA_21, transformer.languageLevelToSourceLevel(LanguageLevel.JDK_21));
 
-        // levels newer than Clover's highest supported (Java 21) and the open-ended JDK_X
-        // fall back to Java 21
-        assertEquals(SourceLevel.JAVA_21, transformer.languageLevelToSourceLevel(LanguageLevel.JDK_X));
+        // Java 22-25 map one-to-one, but only on IntelliJ SDKs that actually define these constants
+        // (older SDKs such as 2024.3 lack JDK_24/JDK_25); resolve reflectively and skip when absent.
+        assertMappingIfPresent("JDK_22", SourceLevel.JAVA_22);
+        assertMappingIfPresent("JDK_23", SourceLevel.JAVA_23);
+        assertMappingIfPresent("JDK_24", SourceLevel.JAVA_24);
+        assertMappingIfPresent("JDK_25", SourceLevel.JAVA_25);
+
+        // levels newer than Clover's highest supported (Java 25) and the open-ended JDK_X
+        // fall back to Java 25
+        assertEquals(SourceLevel.JAVA_25, transformer.languageLevelToSourceLevel(LanguageLevel.JDK_X));
+    }
+
+    private void assertMappingIfPresent(final String languageLevelName, final SourceLevel expected) {
+        final LanguageLevel level;
+        try {
+            level = LanguageLevel.valueOf(languageLevelName);
+        } catch (IllegalArgumentException notInThisSdk) {
+            // this IntelliJ SDK predates the given JDK language level - nothing to assert
+            return;
+        }
+        assertEquals(expected, transformer.languageLevelToSourceLevel(level));
     }
 }

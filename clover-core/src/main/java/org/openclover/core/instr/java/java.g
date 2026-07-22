@@ -1,6 +1,7 @@
 header {
 package org.openclover.core.instr.java;
 
+import java.io.File;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.LinkedList;
@@ -12,6 +13,7 @@ import org.openclover.core.Contract;
 import org.openclover.core.api.registry.ContextSet;
 import org.openclover.core.cfg.instr.java.JavaInstrumentationConfig;
 import org.openclover.core.cfg.instr.java.LambdaInstrumentation;
+import org.openclover.core.cfg.instr.java.LanguageFeature;
 import org.openclover.core.context.ContextStore;
 import org.openclover.core.registry.*;
 import org.openclover.core.registry.entities.*;
@@ -159,6 +161,20 @@ tokens {
     }
 
     private void instrStaticRecorderMember(boolean isEnum) {
+        instrStaticRecorderMember(isEnum, false);
+    }
+
+    /**
+     * Inject the static coverage-recorder inner class at the top-level class's recorder insert point.
+     *
+     * @param isEnum      whether the enclosing type is an enum (the recorder must follow the enum
+     *                    constants, hence a leading ';' and pre-emitter placement)
+     * @param emitBefore  when {@code true}, emit the recorder as a pre-emitter (i.e. right BEFORE the
+     *                    insert-point token) instead of after it. Used for JEP 512 compact source
+     *                    files, whose insert point is the first member token (there is no '{' to
+     *                    place the recorder after), so the recorder becomes the first member.
+     */
+    private void instrStaticRecorderMember(boolean isEnum, boolean emitBefore) {
         if (currentTopLevelClassEntry != null && currentTopLevelClassEntry.getRecorderInsertPoint() != null) {
 
             RecorderInstrEmitter recorderInstr = new RecorderInstrEmitter(isEnum);
@@ -166,10 +182,69 @@ tokens {
             if (isEnum) {
                 currentTopLevelClassEntry.getRecorderInsertPoint().addPreEmitter(new SimpleEmitter(";"));
                 currentTopLevelClassEntry.getRecorderInsertPoint().addPreEmitter(recorderInstr);
+            } else if (emitBefore) {
+                currentTopLevelClassEntry.getRecorderInsertPoint().addPreEmitter(recorderInstr);
             } else {
                 currentTopLevelClassEntry.getRecorderInsertPoint().addPostEmitter(recorderInstr);
             }
         }
+    }
+
+    /**
+     * JEP 512 (Java 25) compact source file: the whole compilation unit is a stream of top-level
+     * members with no explicit enclosing class. javac compiles it into a class named after the
+     * source file's base name (in the unnamed package). We mirror that by synthesizing an implicit
+     * top-level {@link ClassEntryNode} named after the file, so every top-level method/field nests
+     * under it in the coverage model exactly like the members of an ordinary class.
+     *
+     * A compact source file has exactly one implicit class, and it is always the top-level class - so
+     * this unconditionally becomes the {@code currentTopLevelClassEntry}. The first member token doubles
+     * as the recorder insert point (the analogue of an ordinary class body's '{'), set here via the same
+     * {@link #setRecorderMemberInsertPoint} used for real classes.
+     *
+     * @param tok the first member token - the ClassEntryNode is attached here as a pre-emitter
+     * @return the synthesized implicit-class entry
+     */
+    private ClassEntryNode enterImplicitClass(CloverToken tok) {
+        String classname = deriveImplicitClassName(fileInfo.getFile());
+        classnameList.add(classname);
+        String fullName = getClassname(classnameList);
+        Modifiers mods = Modifiers.createFrom(0, null);
+        ClassEntryNode node = new ClassEntryNode(null, mods, fullName, fileInfo.getPackageName(), null,
+                getCurrentContext(), tok.getLine(), tok.getColumn(), true /* always top-level */, false, false, false);
+        tok.addPreEmitter(node);
+        currentTopLevelClassEntry = node;
+        setRecorderMemberInsertPoint(node, tok);
+        return node;
+    }
+
+    /**
+     * Derive the implicit class name of a compact source file from the source file name, per JLS 7.3:
+     * it is the file name with the ".java" extension removed. javac requires that base name to be a
+     * legal Java identifier and rejects the file otherwise ("bad file name"), so no sanitisation or
+     * mangling is applied here - a file Clover instruments as a compact source file will only compile
+     * if its name is already a valid identifier, and we use it verbatim to match the class javac emits.
+     */
+    private String deriveImplicitClassName(File file) {
+        String base = (file != null) ? file.getName() : "";
+        final String ext = ".java";
+        if (base.endsWith(ext)) {
+            base = base.substring(0, base.length() - ext.length());
+        }
+        return base;
+    }
+
+    /**
+     * Close the synthetic implicit class of a compact source file (JEP 512). A compact file has no
+     * closing '}', so the {@link ClassExitNode} (which does model bookkeeping and stamps the recorder
+     * with the final data index - it emits no source text) is attached as a post-emitter on the last
+     * member token, so its init() runs after every member has been processed.
+     */
+    private void exitImplicitClass(CloverToken tok, ClassEntryNode entry) {
+        Contract.pre(classnameList.size() > 0);
+        classnameList.removeLast();
+        tok.addPostEmitter(new ClassExitNode(entry, getClassname(classnameList),
+                tok.getLine(), tok.getColumn() + tok.getText().length()));
     }
 
     private void instrSuppressWarnings(CloverToken instrPoint) {
@@ -444,6 +519,39 @@ tokens {
         return tok;
     }
 
+    /**
+     * Statement-instrument an explicit constructor invocation (super(...)/this(...)).
+     *
+     * Ordinary statements are instrumented with the RECORDER.inc() placed BEFORE the statement, so
+     * that a statement which throws while evaluating is still recorded as entered. An explicit
+     * constructor invocation could not follow that rule before Java 25, because no statement was
+     * allowed to precede super()/this() - so its inc() had to be emitted AFTER the invocation.
+     *
+     * JEP 513 (flexible constructor bodies, Java 25) removes that restriction: statements are now
+     * legal in the constructor prologue. On source level 25+ we therefore place the invocation's
+     * statement inc() BEFORE super()/this(), consistent with every other statement; below 25 we
+     * keep the historical after-placement so the instrumented code still compiles.
+     *
+     * @param start the this/super keyword token
+     * @param end   the trailing SEMI token
+     * @return the token that terminates the invocation (its SEMI) - used as the pre-25 method-entry anchor
+     */
+    private CloverToken instrExplicitConstructorInvocation(CloverToken start, CloverToken end, int complexity) {
+        if (cfg.getSourceLevel().supportsFeature(LanguageFeature.FLEXIBLE_CONSTRUCTORS)) {
+            if (cfg.isStatementInstrEnabled()) {
+                start.addPreEmitter(
+                        new StatementInstrEmitter(
+                                getCurrentContext(), start.getLine(), start.getColumn(),
+                                end.getLine(), end.getColumn() + end.getText().length(), complexity));
+                end.addPostEmitter(new DirectedFlushEmitter());
+                fileInfo.addStatementMarker(start, end);
+            }
+            return end;
+        }
+        // pre-25: statements before super()/this() are illegal - place the inc() after the invocation
+        return instrInlineAfter(end, start, end, complexity);
+    }
+
     private CloverToken instrInlineBefore(CloverToken start, CloverToken end, ContextSet context, int complexity) {
         if (cfg.isStatementInstrEnabled()) {
             start.addPreEmitter(
@@ -534,7 +642,11 @@ tokens {
      * Usage: <pre>{isCurrentKeyword("abc")}?</pre>
      */
     private boolean isCurrentKeyword(String keyword) throws TokenStreamException {
-        return LT(0).getText().equals(keyword);
+        // LT(0) may be null (and its text null) when this validating predicate is hoisted into a
+        // decision evaluated before any token has been consumed, e.g. the compilationUnit type-vs-
+        // compact-source-file choice at the very start of a file with no package/imports.
+        final antlr.Token prev = LT(0);
+        return prev != null && keyword.equals(prev.getText());
     }
 
     /**
@@ -733,8 +845,7 @@ providesDirective
     ;
 
 
-// Compilation Unit: In Java, this is a single file.  This is the start
-//   rule for this parser
+// Compilation Unit: In Java, this is a single file. This is the start rule for this parser
 compilationUnit
     :
         // A compilation unit starts with an optional package definition
@@ -749,22 +860,62 @@ compilationUnit
         ( importDefinition )*
 
         // JLS specifies two kinds of compilation unit: ordinary and modular, but we can keep it simple and just
-        // have module declaration as an alternative to declarations of types
+        // have module declaration as an alternative to declarations of types. Java 25 adds a third shape -
+        // the compact source file (JEP 512): top-level members with no enclosing class.
         (
             (moduleDeclarationPredicate) =>
             moduleDeclaration
         |
-            // Wrapping things up with any number of class or interface
-            //    definitions
+            // An ordinary compilation unit begins with a top-level type declaration
+            // (class/interface/enum/record/@interface). An empty file, or one with only a package and
+            // imports, also takes this path (matching zero typeDefinitions).
+            ( classOrInterfaceModifiers[false] ( CLASS | INTERFACE | AT INTERFACE | ENUM | { isCurrentKeyword("record") }? ) ) =>
             ( typeDefinition[false]
                 {
                     topLevelClass=true;
                     existingFallthroughSuppression = false;
                 }
             )*
+        |
+            // Java 25 compact source file: the top level is a stream of members (fields/methods, possibly nested types)
+            // belonging to an implicit class. Reached only when the file is non-empty and does not start with a type.
+            compactSourceFileMembers
+        |
+            // empty compilation unit (nothing, or only a package/imports)
+            /* nothing */
         )
 
         EOF!
+    ;
+
+// Compact source file: top-level members with no explicit enclosing class. We synthesize an implicit top-level class,
+// named after the file, so the members nest under it in the coverage model, and inject the static recorder as its
+// first member.
+compactSourceFileMembers
+    options {defaultErrorHandler = false;}
+{
+    ClassEntryNode classEntry = null;
+    CloverToken first = null;
+}
+    :
+        {
+            first = lt(1);
+            topLevelClass = true;
+            existingFallthroughSuppression = false;
+            classEntry = enterImplicitClass(first);
+        }
+        (
+            field[classEntry]
+        |
+            SEMI!
+        )+
+        {
+            CloverToken last = lt(0);
+            // emit the recorder as the implicit class's first member (pre-emitter)
+            instrStaticRecorderMember(false, true);
+            instrSuppressWarnings(first);
+            exitImplicitClass(last, classEntry);
+        }
     ;
 
 
@@ -785,8 +936,19 @@ packageDefinition
 //    or a "static" method import
 importDefinition
     options {defaultErrorHandler = false;}
+{
+    String moduleName = null;
+}
     :
-        IMPORT (STATIC)? identifierStar SEMI!
+        IMPORT
+        (
+            // Java 25 module import. The 'module' is a contextual keyword, so we must accept both
+            // 'import module abc.def' and 'import module.abc.def' (a regular package).
+            ( { isNextKeyword("module") }? IDENT IDENT ) =>
+            IDENT moduleName=identifier SEMI!
+        |
+            (STATIC)? identifierStar SEMI!
+        )
     ;
 
 // A type definition in a file is either a class or interface definition.
@@ -1943,7 +2105,16 @@ constructorBody[MethodSignature signature, CloverToken start, CloverToken endSig
 
         {
             // special case for instrumenting entry to ctors - HACK add ctor sig for completeness
-            MethodEntryInstrEmitter entry = instrEnterMethod(signature, start, ct(lc), endOfInv);
+            // Entry-instrumentation anchor:
+            //  - pre-Java-25: the inc() must be placed AFTER an explicit super()/this()
+            //    invocation (endOfInv), because statements were illegal before it
+            //  - Java 25+ statements are allowed before the explicit invocation,
+            //    so we anchor the inc() right after '{'
+            CloverToken ctorEntryAnchor =
+                cfg.getSourceLevel().supportsFeature(LanguageFeature.FLEXIBLE_CONSTRUCTORS)
+                    ? null        // anchor entry inc() at '{' (leftCurly)
+                    : endOfInv;   // anchor entry inc() after super()/this()
+            MethodEntryInstrEmitter entry = instrEnterMethod(signature, start, ct(lc), ctorEntryAnchor);
             instrExitMethod(entry, ct(rc));
             exitContext();
             fileInfo.addMethodMarker(entry, start, endSig, ct(rc));
@@ -1969,13 +2140,13 @@ explicitConstructorInvocation returns [CloverToken t]
 
             pos1:THIS! LPAREN argListComplexity=argList RPAREN! t1:SEMI!
             {
-                t=instrInlineAfter(ct(t1), ct(pos1), ct(t1), argListComplexity);
+                t=instrExplicitConstructorInvocation(ct(pos1), ct(t1), argListComplexity);
             }
 
         |
             pos2:SUPER! lp2:LPAREN^ argListComplexity=argList RPAREN! t2:SEMI!
             {
-                t=instrInlineAfter(ct(t2), ct(pos2), ct(t2), argListComplexity);
+                t=instrExplicitConstructorInvocation(ct(pos2), ct(t2), argListComplexity);
             }
 
         |
@@ -1984,7 +2155,7 @@ explicitConstructorInvocation returns [CloverToken t]
             (DOT! THIS)? // HACK see CCD-264 - explicit ctor invocation can have form ClassName.this.super(..)
             DOT! pos3:SUPER! lp3:LPAREN^ argListComplexity=argList RPAREN! t3:SEMI!
             {
-                t=instrInlineAfter(ct(t3), ct(pos3), ct(t3), argListComplexity);
+                t=instrExplicitConstructorInvocation(ct(pos3), ct(t3), argListComplexity);
             }
         )
     ;
@@ -3754,12 +3925,15 @@ recordPattern
     ;
 
 /**
- * A pattern used as a record component: either a nested record pattern, or a type pattern
- * 'Type binding' (including 'var binding', where 'var' is lexed as an IDENT type name).
+ * A pattern used as a record component: either a nested record pattern, a type pattern
+ * 'Type binding' (including 'var binding', where 'var' is lexed as an IDENT type name), or an
+ * unnamed pattern '_'.
  */
 pattern
     :
         (typeSpec LPAREN) => recordPattern
+    |
+        { isNextKeyword("_") }? IDENT
     |
         typeSpec IDENT
     ;

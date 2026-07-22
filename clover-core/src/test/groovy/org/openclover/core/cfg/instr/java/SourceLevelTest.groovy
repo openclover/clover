@@ -17,6 +17,29 @@ class SourceLevelTest {
     }
 
     @Test
+    void testFromStringResolvesJava22To25() {
+        assertEquals(SourceLevel.JAVA_22, SourceLevel.fromString("22"))
+        assertEquals(SourceLevel.JAVA_23, SourceLevel.fromString("23"))
+        assertEquals(SourceLevel.JAVA_24, SourceLevel.fromString("24"))
+        assertEquals(SourceLevel.JAVA_25, SourceLevel.fromString("25"))
+    }
+
+    @Test
+    void testFlexibleConstructorsFeatureIsJava25Only() {
+        assertFalse(SourceLevel.JAVA_21.supportsFeature(LanguageFeature.FLEXIBLE_CONSTRUCTORS))
+        assertFalse(SourceLevel.JAVA_24.supportsFeature(LanguageFeature.FLEXIBLE_CONSTRUCTORS))
+        assertTrue(SourceLevel.JAVA_25.supportsFeature(LanguageFeature.FLEXIBLE_CONSTRUCTORS))
+    }
+
+    @Test
+    void testJava22To25RetainPatternMatching() {
+        assertTrue(SourceLevel.JAVA_22.supportsFeature(LanguageFeature.PATTERN_MATCHING))
+        assertTrue(SourceLevel.JAVA_23.supportsFeature(LanguageFeature.PATTERN_MATCHING))
+        assertTrue(SourceLevel.JAVA_24.supportsFeature(LanguageFeature.PATTERN_MATCHING))
+        assertTrue(SourceLevel.JAVA_25.supportsFeature(LanguageFeature.PATTERN_MATCHING))
+    }
+
+    @Test
     void testFromStringStillResolvesEarlierLevels() {
         assertEquals(SourceLevel.JAVA_17, SourceLevel.fromString("17"))
         assertEquals(SourceLevel.JAVA_8, SourceLevel.fromString("1.8"))
