@@ -63,7 +63,6 @@
             <id>workspace-setup</id>
             <modules>
                 <module>clover-core-libs</module>
-                <module>clover-eclipse-libs</module>
             </modules>
         </profile>
         <profile>
@@ -83,6 +82,7 @@
                 <jdk>[21,)</jdk>
             </activation>
             <modules>
+                <module>clover-eclipse-libs</module>
                 <module>clover-eclipse</module>
             </modules>
         </profile>
