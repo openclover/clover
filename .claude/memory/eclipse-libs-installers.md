@@ -1,70 +1,80 @@
-# Eclipse Libs Installer Plan
+# Eclipse Libs — Maven Central migration (OC-97)
 
-## Purpose
+## Current state (OC-97, superseded the installer/tag mechanism)
 
-Convert each major "Eclipse for Java Developers" release into a committed+tagged `clover-eclipse-libs` pom.xml with JARs installed locally in `.m2`. These snapshots form a compatibility matrix for building the Clover Eclipse plugin against different Eclipse versions.
+`clover-eclipse-libs` no longer downloads or locally-installs Eclipse JARs. It is now a thin
+**aggregator POM** that declares Eclipse bundles as ordinary Maven Central dependencies. The
+`clover-eclipse/*` modules still import it via `<type>pom</type>`, so nothing changed on the
+consumer side.
 
-## How it works
+Eclipse publishes its bundles to Maven Central under two groupIds — `org.eclipse.platform` and
+`org.eclipse.jdt` — using the bundle symbolic name as the artifactId and a three-segment version
+(the `.vYYYYMMDD-HHMM` qualifier is dropped). Two bundles use different coordinates:
+- `org.eclipse.jdt.core.compiler.batch` → `org.eclipse.jdt:ecj`
+- `org.osgi.service.prefs` → `org.osgi:org.osgi.service.prefs`
 
-`clover-eclipse-libs/pom.xml` has a `workspace-setup` profile that:
-1. Downloads the Eclipse win32-x86_64 zip from `${eclipse.download.site}/${eclipse.download.path}/${eclipse.download.file}`
-2. Extracts all JARs flat into `target/extract/`
-3. Installs each JAR as a Maven artifact under `org.openclover.eclipse.libs` group
+**No usable aggregator/BOM exists.** The feature-level artifacts (`org.eclipse.platform`,
+`org.eclipse.sdk`, `org.eclipse.jdt`) declare only a handful of, often `optional=true`,
+dependencies and carry no JDT API closure — verified `org.eclipse.sdk`'s transitive closure
+contains zero JDT bundles. So the aggregator instead lists a **small set of top-level bundles**
+and relies on the (correct) transitive deps of the individual bundle POMs to bring the rest:
+`org.eclipse.jdt.ui` transitively pulls jdt.core, jface, swt, text, ui.workbench, core.*, etc.
+12 direct deps transitively resolve the full ~31-bundle API set the plugins compile against.
+`org.eclipse.swt.win32.win32.x86_64` is kept explicit so the compile classpath stays
+platform-independent (a bare `org.eclipse.swt` resolves the build host's native fragment).
 
-Steps for each version:
-1. Update `pom.xml`: set `<version>`, `eclipse.download.site`, `eclipse.download.path`, `eclipse.download.file`
-2. Run `mvn generate-resources -P workspace-setup` to download and extract JARs
-3. Run `./get-plugin-versions.sh` to get updated `<*.version>` property values, paste into pom.xml
-4. Run `mvn install -P workspace-setup` to install JARs into local `.m2`
-5. Commit: `git commit -m "eclipse-libs: install Eclipse {version}"`
-6. Tag: `git tag clover-eclipse-libs-{version}`
+Verified: all three CI-tested trains (2024-06, 2025-06, 2026-03) have their full bundle sets on
+Maven Central; the reduced 12-dep set clean-compiles all five clover-eclipse code modules.
 
-## URL patterns
+## Bumping to a newer Eclipse release
 
-**Date-based versions** (2020 onwards):
-```
-site:  https://archive.eclipse.org  (recent: use a live mirror, e.g. https://ftp.fau.de)
-path:  eclipse/technology/epp/downloads/release/{YYYY-MM}/{R|1|2}
-file:  eclipse-java-{YYYY-MM}-{R|1|2}-win32-x86_64.zip
-```
-Use the highest-numbered service release available for each cycle (check archive.eclipse.org directory listing). Most releases only have `R`.
+Edit the 12 `<*.version>` properties in `clover-eclipse-libs/pom.xml` to the three-segment
+versions shipped in that "Eclipse for Java Developers" distribution (look them up on
+https://central.sonatype.com). Also update `eclipse.version` / `eclipse.libs.version` in
+`clover-eclipse/pom.xml` and the `<version>` of `clover-eclipse-libs` itself. No download, no
+extract, no `install-file`, no git tag.
 
-## Naming conventions
+## The `clover-eclipse-libs-*` git tags — now inert
 
-Dotted `YYYY.MM` for pom `<version>` and git tag, consistent with the existing `clover-eclipse-libs-2021.12` tag.
+Tags `clover-eclipse-libs-{2020.06 … 2026.03, luna-sr2}` captured, per release, the old pom with
+its per-JAR `<*.version>` properties. Their **only** consumer was the removed functest step
+`git show clover-eclipse-libs-<v>:clover-eclipse-libs/pom.xml | mvn install -Pworkspace-setup`.
+Nothing reads them anymore. They are harmless historical snapshots — no regeneration needed, and
+no new tag on future Eclipse bumps.
 
-| pom `<version>` | git tag |
-|---|---|
-| `2021.12` | `clover-eclipse-libs-2021.12` |
-| `2024.06` | `clover-eclipse-libs-2024.06` |
+## How Eclipse *runtime* compatibility testing fetches older versions (unchanged, no tags)
 
-## Version list — one annual June SimRel per year, from 2020
+The functest job downloads the full "Eclipse for Java Developers" distribution purely from the
+matrix `eclipse-version` — `org.openclover.eclipse.functest/pom.xml` derives the URL from
+`${eclipse.version}` (path `technology/epp/downloads/release/${eclipse.version}/R`, file
+`eclipse-java-${eclipse.version}-R-linux-gtk-x86_64.tar.gz`, site via `eclipse.download.site`
+matrix override). p2-installs the Clover feature and runs the runner. This is independent of
+`clover-eclipse-libs` and of any git tag; multi-version *runtime* coverage is fully preserved.
 
-Eclipse has no formal LTS. The June SimRel is the "blessed" annual release — most tested and most widely referenced.
+## What was removed (the OLD mechanism)
 
-| # | Release | pom version | Download subpath | Status |
-|---|---|---|---|---|
-| 1 | 2020-06 | `2020.06` | `2020-06/R` | **DONE** (tag `clover-eclipse-libs-2020.06`) |
-| 2 | 2021-06 | `2021.06` | `2021-06/R` | **DONE** (tag `clover-eclipse-libs-2021.06`) |
-| 3 | 2021-12 | `2021.12` | `2021-12/R` | **DONE** (tag `clover-eclipse-libs-2021.12`) — kept as bonus; superseded by 2021-06 for the annual slot |
-| 4 | 2022-06 | `2022.06` | `2022-06/R` | **DONE** (tag `clover-eclipse-libs-2022.06`) |
-| 5 | 2023-06 | `2023.06` | `2023-06/R` | **DONE** (tag `clover-eclipse-libs-2023.06`) |
-| 6 | 2024-06 | `2024.06` | `2024-06/R` | **DONE** (tag `clover-eclipse-libs-2024.06`) |
-| 7 | 2025-06 | `2025.06` | `2025-06/R` | **DONE** (tag `clover-eclipse-libs-2025.06`) |
-| 8 | 2026-03 | `2026.03` | `2026-03/R` | **DONE** (tag `clover-eclipse-libs-2026.03`) — used fau.de mirror (not yet on archive.eclipse.org) |
+- `clover-eclipse-libs/pom.xml`: `default`/`workspace-setup` profiles, antrun download+unzip,
+  30+ `maven-install-plugin` `install-file` executions, hardcoded win32-zip download coordinates.
+- `clover-eclipse-libs/get-plugin-versions.sh` (parsed `target/extract/`).
+- `B-eclipse-compatibility-tests.yml`: eclipse-libs binary cache + the per-version `git show <tag>`
+  install step in the functest job + the unused `eclipse-libs-version` matrix field.
+- `A-build-and-test-jdk21.yml`, `A-build-and-test-jdk25.yml`, `D-release-openclover.yml`,
+  `README.md`: the `install -Pworkspace-setup -f clover-eclipse-libs/pom.xml` line (+ the eclipse
+  binary caches in the A-* workflows).
 
-> The existing `luna-sr2` tag and the `photon-R` / `2024-03-R` commits are retained in git history but are not part of the active compatibility matrix.
+## Historical: the OLD installer mechanism (pre-OC-97, no longer in the repo)
 
-## Notes
-
-- The `get-plugin-versions.sh` script reads from `target/extract/` — run it after the unzip step but before `mvn install`.
-- Recent releases (2023+) may no longer be on `archive.eclipse.org` — check a live mirror (e.g. `https://ftp.fau.de/eclipse/technology/epp/downloads/release/`) or `download.eclipse.org` first.
-- The `clover-eclipse-libs` pom `<version>` in HEAD is `luna-sr2`. The tagged commits are the deliverables; HEAD version is not meaningful.
-- The SWT artifact name (`org.eclipse.swt.win32.win32.x86_64`) is hardcoded; if a newer Eclipse renames it, `get-plugin-versions.sh` may need updating.
+Each "Eclipse for Java Developers" release was converted into a committed+tagged
+`clover-eclipse-libs/pom.xml` whose `workspace-setup` profile downloaded the win32-x86_64 zip,
+extracted all JARs flat into `target/extract/`, and installed each under the fake
+`org.openclover.eclipse.libs` group. `get-plugin-versions.sh` read `target/extract/` to emit the
+`<*.version>` values. This was a workaround for Eclipse JARs not being on Maven — exactly what
+OC-97 resolves.
 
 ## Plugin compatibility fixes — Eclipse 2020.06 (first version after luna-sr2)
 
-Upgrading from `luna-sr2` (Eclipse 4.4, 2014) to `2020.06` (Eclipse 4.16, JDT 3.22) required the following source code changes in `clover-eclipse`:
+Still-relevant history: upgrading from `luna-sr2` (Eclipse 4.4, 2014) to `2020.06`
+(Eclipse 4.16, JDT 3.22) required these source changes in `clover-eclipse`:
 
 | File | Problem | Fix |
 |---|---|---|

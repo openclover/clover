@@ -1,5 +1,12 @@
 # Eclipse Functional Test Infrastructure — Implementation Plan
 
+> **SUPERSEDED IN PART (OC-97):** the compile-time Eclipse libs are now pulled from Maven Central
+> — `clover-eclipse-libs` is a thin aggregator POM, there is no `workspace-setup` download/install,
+> no `get-plugin-versions.sh`, and no per-version `git show <tag>` step. See
+> [[eclipse-libs-installers]]. Everything about the **functest runner itself** (module layout,
+> Application.java, verifiers, tiers, download-full-Eclipse-by-`${eclipse.version}`, p2 install,
+> xvfb) below is STILL ACCURATE. The obsolete parts are flagged inline with ⚠️ OC-97 notes.
+
 ## Goal
 
 Automate end-to-end testing of the `clover-eclipse` plugin by installing it into a real Eclipse runtime and running the existing test projects through the full instrumentation/build/coverage cycle. No Tycho migration; stays within the existing plain-Maven build.
@@ -129,6 +136,12 @@ JUnit 5 requires the vintage engine for backward-compat with JUnit 3/4, the Plat
 ---
 
 ## Eclipse Version Parameterization
+
+> ⚠️ **OC-97:** the compile-time libs now come from Maven Central. `clover-eclipse-libs/pom.xml`
+> no longer has any download file/path — it is an aggregator POM. The `eclipse.version` /
+> `eclipse.libs.version` properties in `clover-eclipse/pom.xml` still exist (used by functest
+> downloads and by the consumers' `${eclipse.libs.version}` dependency version), but there is no
+> `-Declipse.libs.version` matrix override anymore. See [[eclipse-libs-installers]].
 
 ### Problem
 `clover-eclipse-libs` version (`2026.03`) is hardcoded in every plugin's `pom.xml`. The download file/path in `clover-eclipse-libs/pom.xml` is also hardcoded for Windows.
@@ -461,6 +474,11 @@ Detection: absence of `JUNIT_CONTAINER` in `.classpath`. Projects in this tier:
 
 Full filename: `.github/workflows/B-eclipse-compatibility-tests.yml`
 
+> ⚠️ **OC-97:** the YAML below is the ORIGINAL plan. The current workflow has dropped: the
+> eclipse-libs binary cache, the "Prepare Eclipse libs" `git show <tag>` install step, the
+> `eclipse-libs-version` matrix field, and `-Declipse.libs.version`. The functest legs now just
+> download the full Eclipse (`${eclipse.version}`) and run — read the live file for the real steps.
+
 ```yaml
 name: B Eclipse Compatibility Tests
 
@@ -607,6 +625,11 @@ Each matrix leg uploads a **separate artifact** named `test-results-eclipse-YYYY
 
 ### Workspace-setup version alignment
 
+> ⚠️ **OC-97: REMOVED.** There is no longer a `workspace-setup` install of `clover-eclipse-libs`,
+> no `git show clover-eclipse-libs-<v>:...` overwrite, and no win32-zip extraction. Compile-time
+> libs resolve from Maven Central at a single version. The `clover-eclipse-libs-*` tags are inert.
+> The old behaviour is described below for historical context only.
+
 `clover-eclipse-libs/pom.xml` always has the current Eclipse version hardcoded (e.g., `<version>2026.03</version>`). To install a different version for a matrix leg, the step first overwrites the file from the git tag:
 ```bash
 git show clover-eclipse-libs-2023.06:clover-eclipse-libs/pom.xml > clover-eclipse-libs/pom.xml
@@ -672,7 +695,9 @@ Profile is explicitly activated (`-Peclipse-functest`) rather than OS-auto-activ
 
 6. **Classpath variable race**: `JavaCore.setClasspathVariable()` is async. Join the resulting job before calling `project.open()`.
 
-7. **`eclipse-libs` version mismatch in matrix**: The `workspace-setup` profile must install the correct version of eclipse-libs that matches the Eclipse being tested. The matrix step does this by passing `-Declipse.libs.version` to the workspace-setup invocation.
+7. ~~**`eclipse-libs` version mismatch in matrix**~~: ⚠️ **OC-97: no longer applies.** Compile-time
+   libs come from Maven Central at a single version; the functest matrix only varies the *runtime*
+   Eclipse it downloads (via `${eclipse.version}`), which never depended on eclipse-libs.
 
 ---
 
