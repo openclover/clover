@@ -26,6 +26,8 @@
     </licenses>
     <name>Eclipse Libraries for Clover</name>
     <properties>
+        <!-- aggregator POM for the compile classpath only, not published to a repository -->
+        <maven.deploy.skip>true</maven.deploy.skip>
         <!-- org.eclipse.jdt bundles -->
         <org.eclipse.jdt.ui.version>3.37.0</org.eclipse.jdt.ui.version>
         <org.eclipse.jdt.debug.ui.version>3.15.300</org.eclipse.jdt.debug.ui.version>
