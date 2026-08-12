@@ -163,7 +163,7 @@
                         $tpcColumn.init($pkgMetrics)
                         #set($link = "${renderUtil.getPkgURLPath($pkg.name)}pkg-summary.html")
                         <tr>
-                            <td>$velocityCount. </td>
+                            <td>${foreach.count}. </td>
                             <td>$tpcColumn.render()</td>
                             <td>
                                 <a href="${link}">$pkg.name</a>
@@ -186,7 +186,7 @@
                         $tpcColumn.init($classMetrics)
                         #set($link = $renderUtil.getSrcFileLink(true, false, $class))
                         <tr>
-                            <td>$velocityCount. </td>
+                            <td>${foreach.count}. </td>
                             <td>$tpcColumn.render()</td>
                             <td>
                                 <a #if ($showSrc) href="${link}" #else class="nolink" #end title="$class.qualifiedName">$class.name</a>
@@ -210,7 +210,7 @@
                         $tpcColumn.init($methodMetrics)
 
                     <tr>
-                        <td align="right">${velocityCount}.</td>
+                        <td align="right">${foreach.count}.</td>
                         <td align="right">$tpcColumn.render()</td>
                         <td>
                             #if ($method.containingClass)

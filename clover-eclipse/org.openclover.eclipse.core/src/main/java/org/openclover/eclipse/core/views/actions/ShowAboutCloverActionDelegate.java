@@ -148,7 +148,7 @@ public class ShowAboutCloverActionDelegate extends CloverProjectActionDelegate {
             linkAndLicense("JSON", "https://www.json.org", "JSON-LICENSE.TXT", ackComposite);
             linkAndLicense("KTreemap", "https://jtreemap.sourceforge.net/", "KTREEMAP-1.1.0-LICENSE.TXT", ackComposite);
             linkAndLicense("SLF4J", "https://www.slf4j.org/", "SLF4J-1.7.36-LICENSE.TXT", ackComposite);
-            linkAndLicense("Velocity", "https://velocity.apache.org/", "VELOCITY-1.7-LICENSE.TXT", ackComposite);
+            linkAndLicense("Velocity", "https://velocity.apache.org/", "VELOCITY-2.4.1-LICENSE.TXT", ackComposite);
 
             TabItem ackTab = new TabItem(tabFolder, SWT.NONE);
             ackTab.setText("Acknowledgements");

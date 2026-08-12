@@ -65,7 +65,7 @@
 #foreach ($childEntity in $entities)
    #if ($showEmpty || $childEntity.metrics.numTests != 0)
 
-    #set ($entityText = ${$childEntity.name})
+    #set ($entityText = ${childEntity.name})
      #set($entityName = $childEntity.name)
 
     #if($childEntityType == "class")

@@ -1,7 +1,7 @@
 package org.openclover.core.reporters.html;
 
-import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.openclover.core.api.registry.HasMetrics;
 import org.openclover.core.reporters.Column;
@@ -20,6 +20,10 @@ import java.nio.file.Files;
 import java.util.List;
 
 public class HtmlReportUtil {
+    /** Prefix of per-loader configuration keys of the 'class' resource loader, i.e. "resource.loader.class." */
+    private static final String RESOURCE_LOADER_PREFIX =
+            RuntimeConstants.RESOURCE_LOADER + ".class.";
+
     private static final ThreadLocal<VelocityEngine> ve = ThreadLocal.withInitial(() -> HtmlReportUtil.newVelocityEngine(true));
 
     public static VelocityEngine getVelocityEngine() {
@@ -29,19 +33,22 @@ public class HtmlReportUtil {
     public static VelocityEngine newVelocityEngine(boolean withClasspathLoader) {
         VelocityEngine engine = new VelocityEngine();
         try {
-            engine.setProperty("resource.loader", "class");
-            engine.setProperty("velocimacro.library", "");
+            engine.setProperty(RuntimeConstants.RESOURCE_LOADERS, "class");
+            engine.setProperty(RuntimeConstants.VM_LIBRARY, "");
             engine.setProperty(
-                    "class.resource.loader.class",
+                    RESOURCE_LOADER_PREFIX + RuntimeConstants.RESOURCE_LOADER_CLASS,
                     withClasspathLoader
                             ? ClasspathResourceLoader.class.getName()
                             : PlainTextVelocityResourceLoader.class.getName());
-            engine.setProperty("class.resource.loader.cache", "true");
-            engine.setProperty("class.resource.loader.modificationCheckInterval", "0");
-            engine.setProperty("parser.pool.size", "1");
-            engine.setProperty(Velocity.RUNTIME_LOG_LOGSYSTEM, new VelocityLogAdapter(Logger.getInstance()));
-            engine.setProperty("resource.manager.logwhenfound", "false");
-            engine.setProperty("runtime.log.invalid.references", "false");
+            engine.setProperty(RESOURCE_LOADER_PREFIX + RuntimeConstants.RESOURCE_LOADER_CACHE, "true");
+            engine.setProperty(RESOURCE_LOADER_PREFIX + RuntimeConstants.RESOURCE_LOADER_CHECK_INTERVAL, "0");
+            engine.setProperty(RuntimeConstants.PARSER_POOL_SIZE, "1");
+            // keep the Velocity 1.x semantics of #if(), in which every non-null object is true;
+            // otherwise empty strings and collections as well as zero numbers would evaluate to false
+            engine.setProperty(RuntimeConstants.CHECK_EMPTY_OBJECTS, "false");
+            engine.setProperty(RuntimeConstants.RUNTIME_LOG_INSTANCE, new VelocityLogAdapter(Logger.getInstance()));
+            engine.setProperty(RuntimeConstants.RESOURCE_MANAGER_LOGWHENFOUND, "false");
+            engine.setProperty(RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID, "false");
             engine.init();
         } catch (Exception e) {
             Logger.getInstance().error("Could not load templating engine. " + e.getMessage(), e);

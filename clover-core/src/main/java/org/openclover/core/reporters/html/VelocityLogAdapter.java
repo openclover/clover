@@ -1,66 +1,181 @@
 package org.openclover.core.reporters.html;
 
-import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.log.LogChute;
 import org.openclover.runtime.Logger;
+import org.slf4j.helpers.FormattingTuple;
+import org.slf4j.helpers.MarkerIgnoringBase;
+import org.slf4j.helpers.MessageFormatter;
 
+/**
+ * Bridges the SLF4J API, which Velocity 2.x logs through, to the OpenClover {@link Logger}.
+ */
+public class VelocityLogAdapter extends MarkerIgnoringBase {
 
-public class VelocityLogAdapter implements LogChute {
-    private Logger mLogger;
+    private final Logger delegate;
 
-    public VelocityLogAdapter(Logger aLogger) {
-        mLogger = aLogger;
+    public VelocityLogAdapter(Logger delegate) {
+        this.delegate = delegate;
+        this.name = "velocity";
     }
 
-    /**
-     * This init() will be invoked once by the LogManager
-     * to give you current RuntimeServices intance
-     */
-    @Override
-    public void init(RuntimeServices rsvc) {
-        // do nothing
+    private void log(int logLevel, String message, Throwable t) {
+        delegate.log(logLevel, "[Velocity] " + message, t);
     }
 
-    /**
-     * This is the method that you implement for Velocity to call
-     * with log messages.
-     */
-    @Override
-    public void log(int level, String message, Throwable t) {
-
-        final int logLevel;
-        switch (level) {
-            case LogChute.DEBUG_ID:
-                logLevel = Logger.LOG_DEBUG;
-                break;
-            case LogChute.INFO_ID:
-                logLevel = Logger.LOG_DEBUG; // Due to VelocimacroFactory:360 logging too much information
-                break;
-            case LogChute.WARN_ID:
-                logLevel = Logger.LOG_WARN;
-                break;
-            case LogChute.ERROR_ID:
-                logLevel = Logger.LOG_ERR;
-                break;
-            case LogChute.TRACE_ID:
-                logLevel = Logger.LOG_VERBOSE;
-                break;
-            default:
-                logLevel = Logger.LOG_DEBUG;
-        }
-        mLogger.log(logLevel, "[Velocity] " + message, t);
+    private void logFormatted(int logLevel, String format, Object... arguments) {
+        final FormattingTuple tuple = MessageFormatter.arrayFormat(format, arguments);
+        log(logLevel, tuple.getMessage(), tuple.getThrowable());
     }
 
     @Override
-    public void log(int level, String message) {
-        log(level, message, null);
+    public boolean isTraceEnabled() {
+        return Logger.isVerbose();
     }
 
     @Override
-    public boolean isLevelEnabled(int level) {
-        if (level == LogChute.DEBUG_ID) {
-            return Logger.isDebug() || Logger.isVerbose();
-        }
+    public void trace(String msg) {
+        log(Logger.LOG_VERBOSE, msg, null);
+    }
+
+    @Override
+    public void trace(String format, Object arg) {
+        logFormatted(Logger.LOG_VERBOSE, format, arg);
+    }
+
+    @Override
+    public void trace(String format, Object arg1, Object arg2) {
+        logFormatted(Logger.LOG_VERBOSE, format, arg1, arg2);
+    }
+
+    @Override
+    public void trace(String format, Object... arguments) {
+        logFormatted(Logger.LOG_VERBOSE, format, arguments);
+    }
+
+    @Override
+    public void trace(String msg, Throwable t) {
+        log(Logger.LOG_VERBOSE, msg, t);
+    }
+
+    @Override
+    public boolean isDebugEnabled() {
+        return Logger.isDebug() || Logger.isVerbose();
+    }
+
+    @Override
+    public void debug(String msg) {
+        log(Logger.LOG_DEBUG, msg, null);
+    }
+
+    @Override
+    public void debug(String format, Object arg) {
+        logFormatted(Logger.LOG_DEBUG, format, arg);
+    }
+
+    @Override
+    public void debug(String format, Object arg1, Object arg2) {
+        logFormatted(Logger.LOG_DEBUG, format, arg1, arg2);
+    }
+
+    @Override
+    public void debug(String format, Object... arguments) {
+        logFormatted(Logger.LOG_DEBUG, format, arguments);
+    }
+
+    @Override
+    public void debug(String msg, Throwable t) {
+        log(Logger.LOG_DEBUG, msg, t);
+    }
+
+    // note: info messages are logged at the debug level, as Velocity is quite verbose
+    // about macro definitions and resource loading
+
+    @Override
+    public boolean isInfoEnabled() {
+        return isDebugEnabled();
+    }
+
+    @Override
+    public void info(String msg) {
+        log(Logger.LOG_DEBUG, msg, null);
+    }
+
+    @Override
+    public void info(String format, Object arg) {
+        logFormatted(Logger.LOG_DEBUG, format, arg);
+    }
+
+    @Override
+    public void info(String format, Object arg1, Object arg2) {
+        logFormatted(Logger.LOG_DEBUG, format, arg1, arg2);
+    }
+
+    @Override
+    public void info(String format, Object... arguments) {
+        logFormatted(Logger.LOG_DEBUG, format, arguments);
+    }
+
+    @Override
+    public void info(String msg, Throwable t) {
+        log(Logger.LOG_DEBUG, msg, t);
+    }
+
+    @Override
+    public boolean isWarnEnabled() {
         return true;
+    }
+
+    @Override
+    public void warn(String msg) {
+        log(Logger.LOG_WARN, msg, null);
+    }
+
+    @Override
+    public void warn(String format, Object arg) {
+        logFormatted(Logger.LOG_WARN, format, arg);
+    }
+
+    @Override
+    public void warn(String format, Object arg1, Object arg2) {
+        logFormatted(Logger.LOG_WARN, format, arg1, arg2);
+    }
+
+    @Override
+    public void warn(String format, Object... arguments) {
+        logFormatted(Logger.LOG_WARN, format, arguments);
+    }
+
+    @Override
+    public void warn(String msg, Throwable t) {
+        log(Logger.LOG_WARN, msg, t);
+    }
+
+    @Override
+    public boolean isErrorEnabled() {
+        return true;
+    }
+
+    @Override
+    public void error(String msg) {
+        log(Logger.LOG_ERR, msg, null);
+    }
+
+    @Override
+    public void error(String format, Object arg) {
+        logFormatted(Logger.LOG_ERR, format, arg);
+    }
+
+    @Override
+    public void error(String format, Object arg1, Object arg2) {
+        logFormatted(Logger.LOG_ERR, format, arg1, arg2);
+    }
+
+    @Override
+    public void error(String format, Object... arguments) {
+        logFormatted(Logger.LOG_ERR, format, arguments);
+    }
+
+    @Override
+    public void error(String msg, Throwable t) {
+        log(Logger.LOG_ERR, msg, t);
     }
 }

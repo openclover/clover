@@ -116,7 +116,7 @@ public class AboutDialog extends DialogWrapper {
                 addProduct("jQuery", "https://jquery.com", "JQUERY-1.8.3-LICENSE.TXT"));
         addRow(sb,
                 addProduct("SLF4J", "https://www.slf4j.org", "SLF4J-1.7.36-LICENSE.TXT"),
-                addProduct("Velocity", "https://velocity.apache.org/", "VELOCITY-1.7-LICENSE.TXT"));
+                addProduct("Velocity", "https://velocity.apache.org/", "VELOCITY-2.4.1-LICENSE.TXT"));
 
         addRow(sb,
                 "<td colspan=\"4\">OpenClover also reuses some icons from:</td>");

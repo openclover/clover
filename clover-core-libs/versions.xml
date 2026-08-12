@@ -11,5 +11,5 @@
     <property name="jdom.ver" value="1.0"/>
     <property name="jfreechart.ver" value="1.0.19"/>
     <property name="slf4j.ver" value="1.7.36"/>
-    <property name="velocity.ver" value="1.7"/>
+    <property name="velocity.ver" value="2.4.1"/>
 </project>

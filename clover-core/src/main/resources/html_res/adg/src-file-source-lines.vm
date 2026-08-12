@@ -89,11 +89,11 @@
 <td class="coverageCount"><a name="$start.startLine" class="nolink">&#160;</a></td>
 #summaryStats($start)
 </tr>
-#else #set ($overTitle = "Tests that hit line # $velocityCount") #end
-<tr id="l$velocityCount">
-<td align="right" class="$line.lineNumberCSS"><a class="lineNumHref" href="?line=$velocityCount#src-$velocityCount">$velocityCount</a></td>
-<td align="right" class="$line.coverageCountCSS $line.testHitCSS" #if ($start) #testsOverLine($hitCount $velocityCount $overTitle) #else #testsOverLine($line.testHits.size() $velocityCount $overTitle) #end>#if ($line.Hilight)<span title="$line.Msg" class="nolink">&#160;$line.CoverageStr</span>#else&#160;${line.CoverageStr}#end</td>
-<td class="#if($line.methodStart) methodStart #end srcCell" #if ($start)id="id-${start.startLine}"#end>#if($line.methodStart)<img title="Method Statistics" onclick="toggleSrcRowVis(this, $start.startLine,$start.endLine);" id="img-${start.startLine}" src="${rootRelPath}img/collapse.gif"  alt="toggle" class="icon"/>#elseif(${line.failedStackEntries})#renderTracesPopupControl($velocityCount ${line.failedStackEntries})#else<span class="spacer"></span>#end<span id="src-$velocityCount" class="${line.sourceCSS}">#if($line.Hilight || $line.filtered)<span class="nolink" title="$line.msg">$!{line.Src}</span>#else$!{line.Src}#end#if($line.methodStart)<span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-$start.startLine'), $start.startLine,$start.endLine);" id="e$velocityCount" style="display:none;border:none;">...</span>#end</span></td>
+#else #set ($overTitle = "Tests that hit line # ${foreach.count}") #end
+<tr id="l${foreach.count}">
+<td align="right" class="$line.lineNumberCSS"><a class="lineNumHref" href="?line=${foreach.count}#src-${foreach.count}">${foreach.count}</a></td>
+<td align="right" class="$line.coverageCountCSS $line.testHitCSS" #if ($start) #testsOverLine($hitCount ${foreach.count} $overTitle) #else #testsOverLine($line.testHits.size() ${foreach.count} $overTitle) #end>#if ($line.Hilight)<span title="$line.Msg" class="nolink">&#160;$line.CoverageStr</span>#else&#160;${line.CoverageStr}#end</td>
+<td class="#if($line.methodStart) methodStart #end srcCell" #if ($start)id="id-${start.startLine}"#end>#if($line.methodStart)<img title="Method Statistics" onclick="toggleSrcRowVis(this, $start.startLine,$start.endLine);" id="img-${start.startLine}" src="${rootRelPath}img/collapse.gif"  alt="toggle" class="icon"/>#elseif(${line.failedStackEntries})#renderTracesPopupControl(${foreach.count} ${line.failedStackEntries})#else<span class="spacer"></span>#end<span id="src-${foreach.count}" class="${line.sourceCSS}">#if($line.Hilight || $line.filtered)<span class="nolink" title="$line.msg">$!{line.Src}</span>#else$!{line.Src}#end#if($line.methodStart)<span class="foldControl" onclick="toggleSrcRowVis(document.getElementById('img-$start.startLine'), $start.startLine,$start.endLine);" id="e${foreach.count}" style="display:none;border:none;">...</span>#end</span></td>
 </tr>
 #set($start = false)
 #end ## foreach

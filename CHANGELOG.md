@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased 5.0.1]
 
+- Issue #324: Upgraded Apache Velocity from 1.7 to velocity-engine-core 2.4.1. HTML reports are rendered
+  with slightly less whitespace; the `commons-lang` 2.6 dependency, needed by Velocity 1.7 only, was dropped.
 - Issue #249: Constructors in test classes were instrumented as test methods, producing uncompilable code.
 
 ## [5.0.0] 2026-07-16

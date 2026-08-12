@@ -15,7 +15,7 @@
 <table  cellspacing="0" cellpadding="0" class="srcView">
     #foreach ($line in $srclines)
     <tr>
-        <td align="right" class="lineCount NoHilight">$velocityCount</td>
+        <td align="right" class="lineCount NoHilight">${foreach.count}</td>
         <td align="right" class="lineCount NoHilight">&#160;</td>
         <td class="srcCell"><code>$line</code></td>
     </tr>

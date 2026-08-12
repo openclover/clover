@@ -82,9 +82,9 @@
     <td><span class="sortValue">$testCase.duration</span>$renderUtil.format3d($testCase.duration)</td>
     <td style="width:50%">
     #if($testCase.failMessage)<span class="sortValue">${renderUtil.htmlEscapeStr($testCase.failMessage)}</span>
-        <span class="expand" id="togglebut$velocityCount" onclick="toggleNodeExpansion('togglebut$velocityCount', 'msgc$velocityCount', 'msge$velocityCount');return false;">&#160;</span>
-        <div class="errorMessage" id="msgc$velocityCount">${renderUtil.htmlEscapeStr($testCase.failMessage)}</div>
-        <div class="errorMessage" id="msge$velocityCount" style="display:none;">#if($showSrc) ${renderUtil.linkifyStackTrace($rootRelPath,${testCase.stackTrace})}#else ${renderUtil.htmlEscapeStr($testCase.failFullMessage)}#end</div>
+        <span class="expand" id="togglebut${foreach.count}" onclick="toggleNodeExpansion('togglebut${foreach.count}', 'msgc${foreach.count}', 'msge${foreach.count}');return false;">&#160;</span>
+        <div class="errorMessage" id="msgc${foreach.count}">${renderUtil.htmlEscapeStr($testCase.failMessage)}</div>
+        <div class="errorMessage" id="msge${foreach.count}" style="display:none;">#if($showSrc) ${renderUtil.linkifyStackTrace($rootRelPath,${testCase.stackTrace})}#else ${renderUtil.htmlEscapeStr($testCase.failFullMessage)}#end</div>
     #else &#160; #end
     </td>
 </tr>

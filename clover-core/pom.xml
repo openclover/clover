@@ -59,10 +59,6 @@
             <artifactId>commons-collections</artifactId>
         </dependency>
         <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
@@ -88,7 +84,12 @@
         </dependency>
         <dependency>
             <groupId>org.apache.velocity</groupId>
-            <artifactId>velocity</artifactId>
+            <artifactId>velocity-engine-core</artifactId>
+        </dependency>
+        <dependency>
+            <!-- logging API used by velocity; classes are bundled by clover-runtime -->
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
         </dependency>
         <!-- other libraries -->
         <dependency>
@@ -338,14 +339,13 @@
                                     <include>org.jetbrains:annotations</include>
                                     <include>commons-codec:commons-codec</include>
                                     <include>commons-collections:commons-collections</include>
-                                    <include>commons-lang:commons-lang</include>
                                     <include>org.apache.commons:commons-lang3</include>
                                     <include>it.unimi.dsi:fastutil</include>
                                     <include>com.lowagie:itext</include>
                                     <include>org.jfree:jcommon</include>
                                     <include>jdom:jdom</include>
                                     <include>org.jfree:jfreechart</include>
-                                    <include>org.apache.velocity:velocity</include>
+                                    <include>org.apache.velocity:velocity-engine-core</include>
                                 </includes>
                             </artifactSet>
                             <filters>
@@ -371,21 +371,6 @@
                                     <includes>
                                         <include>org/jetbrains/annotations/**</include>
                                     </includes>
-                                </filter>
-                                <filter>
-                                    <artifact>commons-lang:commons-lang</artifact>
-                                    <includes>
-                                        <!-- used by velocity -->
-                                        <include>org/apache/commons/lang/*</include>
-                                        <include>org/apache/commons/lang/builder/*</include>
-                                        <include>org/apache/commons/lang/text/*</include>
-                                    </includes>
-                                    <excludes>
-                                        <exclude>META-INF/LICENSE.txt</exclude>
-                                        <exclude>META-INF/MANIFEST.MF</exclude>
-                                        <exclude>META-INF/NOTICE.txt</exclude>
-                                        <exclude>org/apache/commons/lang/enum/**</exclude>
-                                    </excludes>
                                 </filter>
                                 <filter>
                                     <artifact>org.apache.commons:commons-lang3</artifact>
@@ -444,7 +429,7 @@
                                     </excludes>
                                 </filter>
                                 <filter>
-                                    <artifact>org.apache.velocity:velocity</artifact>
+                                    <artifact>org.apache.velocity:velocity-engine-core</artifact>
                                     <includes>
                                         <!-- keep all classes from velocity -->
                                         <include>org/apache/velocity/**</include>
@@ -452,10 +437,12 @@
                                     <excludes>
                                         <exclude>META-INF/MANIFEST.MF</exclude>
                                         <exclude>META-INF/NOTICE</exclude>
+                                        <exclude>META-INF/DEPENDENCIES</exclude>
+                                        <exclude>META-INF/LICENSE</exclude>
+                                        <exclude>**/*.jjt</exclude>
                                         <!-- we have shaded versions of these in src/main/resources -->
                                         <exclude>**/directive.properties</exclude>
                                         <exclude>**/velocity.properties</exclude>
-                                        <exclude>**/texen.properties</exclude>
                                     </excludes>
                                 </filter>
                             </filters>
@@ -491,17 +478,19 @@
                                     </includes>
                                 </relocation>
                                 <relocation>
-                                    <pattern>org.apache.commons.lang</pattern>
-                                    <shadedPattern>clover.org.apache.commons.lang</shadedPattern>
-                                    <includes>
-                                        <include>org.apache.commons.lang.**</include>
-                                    </includes>
-                                </relocation>
-                                <relocation>
                                     <pattern>org.apache.commons.lang3</pattern>
                                     <shadedPattern>clover.org.apache.commons.lang3</shadedPattern>
                                     <includes>
                                         <include>org.apache.commons.lang3.**</include>
+                                    </includes>
+                                </relocation>
+                                <relocation>
+                                    <!-- slf4j-api classes are bundled and relocated by clover-runtime,
+                                         here we only rewrite references made by velocity and by our code -->
+                                    <pattern>org.slf4j</pattern>
+                                    <shadedPattern>clover.org.slf4j</shadedPattern>
+                                    <includes>
+                                        <include>org.slf4j.**</include>
                                     </includes>
                                 </relocation>
                                 <relocation>
