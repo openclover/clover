@@ -136,7 +136,7 @@ public class ShowAboutCloverActionDelegate extends CloverProjectActionDelegate {
             linkAndLicense("ASM", "https://asm.ow2.org", "ASM-5.0.3-LICENSE.TXT", ackComposite);
             linkAndLicense("Commons Codec", "https://commons.apache.org", "COMMONS-CODEC-1.9-LICENSE.TXT", ackComposite);
             linkAndLicense("Commons Collections", "https://commons.apache.org", "COMMONS-COLLECTIONS-3.2.2-LICENSE.TXT", ackComposite);
-            linkAndLicense("Commons Lang", "https://commons.apache.org", "COMMONS-LANG3-3.3.2-LICENSE.TXT", ackComposite);
+            linkAndLicense("Commons Lang", "https://commons.apache.org", "COMMONS-LANG3-3.18.0-LICENSE.TXT", ackComposite);
             linkAndLicense("FastUtil", "https://fastutil.dsi.unimi.it/", "FASTUTIL-4.4.3-LICENSE.TXT", ackComposite);
             linkAndLicense("Groovy", "https://groovy.codehaus.org", "GROOVY-1.7.0-LICENSE.TXT", ackComposite);
             linkAndLicense("iText", "https://itextpdf.com", "ITEXT-2.0.1-LICENSE.TXT", ackComposite);
