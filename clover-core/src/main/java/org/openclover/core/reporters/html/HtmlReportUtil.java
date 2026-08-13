@@ -46,6 +46,8 @@ public class HtmlReportUtil {
             // keep the Velocity 1.x semantics of #if(), in which every non-null object is true;
             // otherwise empty strings and collections as well as zero numbers would evaluate to false
             engine.setProperty(RuntimeConstants.CHECK_EMPTY_OBJECTS, "false");
+            // keep the Velocity 1.x whitespace handling, so that generated reports are not reformatted
+            engine.setProperty(RuntimeConstants.SPACE_GOBBLING, "bc");
             engine.setProperty(RuntimeConstants.RUNTIME_LOG_INSTANCE, new VelocityLogAdapter(Logger.getInstance()));
             engine.setProperty(RuntimeConstants.RESOURCE_MANAGER_LOGWHENFOUND, "false");
             engine.setProperty(RuntimeConstants.RUNTIME_LOG_REFERENCE_LOG_INVALID, "false");
