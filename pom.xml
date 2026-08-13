@@ -149,6 +149,13 @@
                 <version>1.7.36</version>
             </dependency>
             <dependency>
+                <!-- no-operation binding; keeps SLF4J quiet, as OpenClover routes all
+                     logging through org.openclover.runtime.Logger -->
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-nop</artifactId>
+                <version>1.7.36</version>
+            </dependency>
+            <dependency>
                 <groupId>org.apache.velocity</groupId>
                 <artifactId>velocity-engine-core</artifactId>
                 <version>2.4.1</version>

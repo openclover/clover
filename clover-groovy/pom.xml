@@ -205,6 +205,16 @@
                                     <groupId>org.apache.velocity</groupId>
                                     <artifactId>velocity-engine-core</artifactId>
                                 </artifactItem>
+                                <artifactItem>
+                                    <!-- required by velocity-engine-core; note that tests use
+                                         unshaded clover classes, so it's not relocated here -->
+                                    <groupId>org.slf4j</groupId>
+                                    <artifactId>slf4j-api</artifactId>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.slf4j</groupId>
+                                    <artifactId>slf4j-nop</artifactId>
+                                </artifactItem>
                             </artifactItems>
                         </configuration>
                     </execution>
