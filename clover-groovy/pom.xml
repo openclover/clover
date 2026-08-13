@@ -182,10 +182,6 @@
                                     <artifactId>commons-collections</artifactId>
                                 </artifactItem>
                                 <artifactItem>
-                                    <groupId>commons-lang</groupId>
-                                    <artifactId>commons-lang</artifactId>
-                                </artifactItem>
-                                <artifactItem>
                                     <groupId>org.apache.commons</groupId>
                                     <artifactId>commons-lang3</artifactId>
                                 </artifactItem>
@@ -207,7 +203,17 @@
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.apache.velocity</groupId>
-                                    <artifactId>velocity</artifactId>
+                                    <artifactId>velocity-engine-core</artifactId>
+                                </artifactItem>
+                                <artifactItem>
+                                    <!-- required by velocity-engine-core; note that tests use
+                                         unshaded clover classes, so it's not relocated here -->
+                                    <groupId>org.slf4j</groupId>
+                                    <artifactId>slf4j-api</artifactId>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.slf4j</groupId>
+                                    <artifactId>slf4j-nop</artifactId>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>

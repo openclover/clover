@@ -98,7 +98,7 @@ public class AboutDialog extends DialogWrapper {
                 addProduct("Commons Codec", "https://commons.apache.org", "COMMONS-CODEC-1.9-LICENSE.TXT"));
         addRow(sb,
                 addProduct("Commons Collections", "https://commons.apache.org", "COMMONS-COLLECTIONS-3.2.2-LICENSE.TXT"),
-                addProduct("Commons Lang", "https://commons.apache.org", "COMMONS-LANG3-3.3.2-LICENSE.TXT"));
+                addProduct("Commons Lang", "https://commons.apache.org", "COMMONS-LANG3-3.18.0-LICENSE.TXT"));
         addRow(sb,
                 addProduct("FastUtil", "https://fastutil.dsi.unimi.it/", "FASTUTIL-4.4.3-LICENSE.TXT"),
                 addProduct("Groovy", "https://groovy.codehaus.org", "GROOVY-1.7.0-LICENSE.TXT"));
@@ -116,7 +116,7 @@ public class AboutDialog extends DialogWrapper {
                 addProduct("jQuery", "https://jquery.com", "JQUERY-1.8.3-LICENSE.TXT"));
         addRow(sb,
                 addProduct("SLF4J", "https://www.slf4j.org", "SLF4J-1.7.36-LICENSE.TXT"),
-                addProduct("Velocity", "https://velocity.apache.org/", "VELOCITY-1.7-LICENSE.TXT"));
+                addProduct("Velocity", "https://velocity.apache.org/", "VELOCITY-2.4.1-LICENSE.TXT"));
 
         addRow(sb,
                 "<td colspan=\"4\">OpenClover also reuses some icons from:</td>");

@@ -123,7 +123,7 @@
                         #set($pkgMetrics = ${renderUtil.metricsFor($pkg)})
                         $tpcColumn.init($pkgMetrics)
                         #set($link = "${renderUtil.getPkgURLPath($pkg.name)}")
-                        <tr><td>$velocityCount. </td><td>$tpcColumn.render()</td><td><a class="tag" href="${link}">$pkg.name</a> ($pkgMetrics.complexity)</td></tr>
+                        <tr><td>${foreach.count}. </td><td>$tpcColumn.render()</td><td><a class="tag" href="${link}">$pkg.name</a> ($pkgMetrics.complexity)</td></tr>
                     #end
                 </table>
             </div>
@@ -144,7 +144,7 @@
                         #set($classMetrics = ${renderUtil.metricsFor($class)})
                         $tpcColumn.init($classMetrics)
                         #set($link = $renderUtil.getSrcFileLink(true, false, $class))
-                        <tr><td>$velocityCount. </td><td>$tpcColumn.render()</td><td>
+                        <tr><td>${foreach.count}. </td><td>$tpcColumn.render()</td><td>
                             <a #if ($showSrc) class="tag" href="${link}" #else class="nolink" #end title="$class.qualifiedName">$class.name</a>
                             ($classMetrics.complexity)
                         </td></tr>
@@ -201,7 +201,7 @@
                     #foreach($method in $leastTestedMethods)
                         #set($methodMetrics = ${renderUtil.metricsFor($method)})
                         <tr>
-                            <td align="right">${velocityCount}.</td>
+                            <td align="right">${foreach.count}.</td>
                             <td align="right">$renderUtil.getPercentStr($methodMetrics.pcCoveredElements)</td>
                             <td style="padding-left:25px; text-indent:-25px;">#set($methodName = "${method.containingClass.name}.${method.name}")
                                 <a class="tag" title="${renderUtil.htmlEscapeStr($methodName)}" href="$renderUtil.getMethodLink(true, $method)">$renderUtil.formatMethodName($methodName)</a> ($methodMetrics.complexity)

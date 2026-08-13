@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased 5.0.1]
 
+- Issue #324: Upgraded Apache Velocity from 1.7 to velocity-engine-core 2.4.1. HTML reports are rendered
+  exactly as before; the `commons-lang` 2.6 dependency, needed by Velocity 1.7 only, was dropped.
+  Velocity 2 logs via SLF4J, so `slf4j-nop` is bundled (and relocated) next to `slf4j-api` to keep OpenClover
+  from printing SLF4J's "Failed to load class StaticLoggerBinder" warning on stderr.
 - Issue #249: Constructors in test classes were instrumented as test methods, producing uncompilable code.
 
 ## [5.0.0] 2026-07-16
