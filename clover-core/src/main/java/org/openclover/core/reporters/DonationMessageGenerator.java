@@ -7,6 +7,9 @@ public class DonationMessageGenerator {
     public static final String DONATE_URL = "https://openclover.org/donate";
     public static final String DONATE_LABEL = "☕openclover.org/donate";
 
+    /** The label without the emoji - the PDF reports embed a text font, which covers no emoji. */
+    public static final String DONATE_LABEL_PLAIN = "openclover.org/donate";
+
     private static final String TEXT_LINK = DONATE_LABEL;
     private static final String HTML_LINK = "<a href=\"" + DONATE_URL + "\">" + DONATE_LABEL + "</a>";
 

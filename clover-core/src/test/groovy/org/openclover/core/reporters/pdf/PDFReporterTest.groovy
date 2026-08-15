@@ -20,8 +20,9 @@ class PDFReporterTest extends TestCase {
     }
 
     void testGenerateCurrentReportWithoutData() throws CloverException, IOException {
-        testGenerateCurrentReport(true, 1)
-        testGenerateCurrentReport(false, 0)
+        // with alwaysReport the empty report is still written, without it nothing is generated
+        testGenerateCurrentReport(true, 0)
+        testGenerateCurrentReport(false, 1)
     }
 
     private void testGenerateCurrentReport(boolean alwaysReport, int expectedReturnValue) throws IOException, CloverException {
@@ -34,7 +35,7 @@ class PDFReporterTest extends TestCase {
         config.setAlwaysReport(alwaysReport)
         config.setFormat(Format.DEFAULT_PDF)
         config.setOutFile(outFile)
-        assertFalse(new PDFReporter(config).execute() == expectedReturnValue)
+        assertEquals(expectedReturnValue, new PDFReporter(config).execute())
     }
 
     void testGenerateHistoryReportWithoutData() throws IOException, CloverException {

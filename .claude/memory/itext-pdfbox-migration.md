@@ -1,5 +1,8 @@
 # OC-326: Migrate iText 2.0.1 → Apache PDFBox 3.x
 
+> **Status: implemented.** This document is the plan as approved; the notes below record where
+> the implementation departed from it. See the "Implementation notes" section at the end.
+
 Issue: https://github.com/openclover/clover/issues/326
 Branch: `OC-326-migrate-itext-to-pdfbox`
 
@@ -235,3 +238,78 @@ exist; keep it green as a smoke test.
    donation links).
 6. Put the contact sheets in the PR description, then discard the scripts and revert the
    `DonationMessageGenerator` hack.
+
+
+## Implementation notes
+
+What the plan got right is not repeated here; these are the deviations and the things only the
+running code could settle.
+
+### Fonts
+
+Liberation Sans Regular/Bold/Italic are bundled under
+`clover-core/src/main/resources/pdf_res/fonts` — **1.22 MB** for the three faces, close to the
+1.0 MB the plan estimated, so Roboto was not needed. They are loaded through
+`FontRegistry` as `PDType0Font` (Identity-H) and subset on save.
+
+Two things the plan did not anticipate:
+
+- **Missing glyphs must be handled, not assumed away.** `PDType0Font` throws on a codepoint the
+  face has no glyph for, which would abort the whole report for a CJK package name.
+  `FontRegistry.sanitise` substitutes `?` instead. The plan's proposed CJK round-trip assertion
+  was therefore wrong — Liberation Sans covers Latin/Greek/Cyrillic, not CJK. The Unicode test
+  asserts on Polish, Cyrillic and Greek, and a separate test asserts CJK degrades without failing.
+- **The donate label starts with a coffee emoji**, which no text font carries. Rather than print
+  `?` in every report footer, `DonationMessageGenerator.DONATE_LABEL_PLAIN` was added and the PDF
+  footer uses it. HTML and console output are untouched.
+
+PDFBox's own bundled `LiberationSans-Regular.ttf` cannot be excluded from the shaded jar:
+`FontMappers`' static initialiser reads it, and dropping it breaks report generation outright.
+
+### Table engine
+
+One rule the audit missed: **a nested table with no width of its own fills its cell**, rather than
+falling back to the 80% default. `createHeaderStats` and the historical `leftTab` rely on it.
+`PdfTable.hasExplicitWidth()` distinguishes the two cases.
+
+`PdfPageSize.A4` is **595 x 842**, not the ISO 595.276 x 841.89 — iText rounded, and matching it
+keeps every page identical.
+
+Pages are created **lazily**. The report flow ends each section with `newPage()`, which otherwise
+leaves a trailing blank page in every document.
+
+### Widgets
+
+`CoverageDiffBarWidget` reproduces the old geometry exactly, which is mirrored: a coverage *gain*
+draws the bar from the left edge with the label after it; a *loss* puts the label first and the bar
+against the right edge. The plan misread `PCBarRenderer(int column, ...)` and had this backwards.
+The widget also reserves the vertical padding the throwaway nested table used to contribute, so
+movers rows keep their height.
+
+### Dependencies
+
+`org.apache.pdfbox:pdfbox:3.0.8` pulls `pdfbox-io`, `fontbox` and `commons-logging:1.4.0` (not
+log4j). All four plus `de.rototor.pdfbox:graphics2d:3.0.3` are shaded and relocated under
+`clover.`. `minimizeJar` is in force, so each needs explicit `<includes>`.
+
+The `Uni*` and `Adobe-*` predefined CJK CMaps are excluded — they are only needed to *read* PDFs
+that use them. **`org/apache/fontbox/cmap/**` as a whole must not be excluded**: the cmap classes
+live in the same package, and `Identity-H`, which we write with, is itself a resource file there.
+
+Shaded jar: **7.69 MB → 9.77 MB**. About 1.22 MB of that is the embedded fonts.
+
+### Tests
+
+`PdfDocumentTest` (11 tests) exercises the engine directly — tables, pagination, Unicode
+round-trip, missing glyphs, links, widget geometry, page sizes, the decorator's page count and the
+no-blank-page rule — rather than going through a coverage database. `PDFReporterTest`'s inverted
+`assertFalse(... == expected)` is fixed; the expected values were themselves inverted, which is why
+the double negation passed.
+
+The functional fixture was `CloverReportTaskTest`, run via
+`mvn -pl tests-functional verify -Pcompatibility -Dit.test=CloverReportTaskTest`
+(the surefire `skip` in that module is hardcoded; failsafe under the `compatibility` profile is the
+way in). It caught both over-aggressive shade exclusions.
+
+Visual comparison artefacts are kept, not discarded, at
+`<scratchpad>/pdf-regression/` — see the README there.

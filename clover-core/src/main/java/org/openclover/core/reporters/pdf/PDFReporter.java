@@ -1,9 +1,5 @@
 package org.openclover.core.reporters.pdf;
 
-import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.Rectangle;
-import com.lowagie.text.pdf.PdfWriter;
 import org.openclover.core.CodeType;
 import org.openclover.core.api.command.ArgProcessor;
 import org.openclover.core.api.command.HelpBuilder;
@@ -16,11 +12,17 @@ import org.openclover.core.reporters.CloverReporter;
 import org.openclover.core.reporters.Current;
 import org.openclover.core.reporters.Format;
 import org.openclover.core.reporters.Historical;
+import org.openclover.core.reporters.pdf.api.PdfDocument;
+import org.openclover.core.reporters.pdf.api.PdfDocumentFactory;
+import org.openclover.core.reporters.pdf.api.PdfMargins;
+import org.openclover.core.reporters.pdf.api.PdfPageSize;
+import org.openclover.core.reporters.pdf.pdfbox.PdfBoxDocumentFactory;
 import org.openclover.core.reporters.util.HistoricalReportDescriptor;
 import org.openclover.runtime.Logger;
 import org.openclover.runtime.api.CloverException;
 import org_openclover_runtime.CloverVersionInfo;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Collections;
 import java.util.Iterator;
@@ -73,20 +75,24 @@ public class PDFReporter extends CloverReporter {
             join(mandatoryArgProcessors, optionalArgProcessors);
 
 
-    private static final Rectangle DEFAULT_PAGE_SIZE = com.lowagie.text.PageSize.A4;
-    private static final Map<String, Rectangle> SUPPORTED_PAGE_SIZES = newHashMap();
+    private static final PdfPageSize DEFAULT_PAGE_SIZE = PdfPageSize.A4;
+    private static final Map<String, PdfPageSize> SUPPORTED_PAGE_SIZES = newHashMap();
 
     static {
-        SUPPORTED_PAGE_SIZES.put("A4", com.lowagie.text.PageSize.A4);
-        SUPPORTED_PAGE_SIZES.put("LETTER", com.lowagie.text.PageSize.LETTER);
+        SUPPORTED_PAGE_SIZES.put("A4", PdfPageSize.A4);
+        SUPPORTED_PAGE_SIZES.put("LETTER", PdfPageSize.LETTER);
     }
 
-    private final Document document;
+    /** Page margins; the bottom one is larger to leave room for the footer. */
+    private static final PdfMargins MARGINS = new PdfMargins(25, 25, 25, 35);
+
+    private static final PdfDocumentFactory DOCUMENT_FACTORY = new PdfBoxDocumentFactory();
+
+    private final PdfDocument document;
     private final PDFColours colours;
     private final String reportTitle;
     private final String titleAnchor;
-    private final Rectangle docsize;
-    private final PdfWriter docWriter;
+    private final PdfPageSize docsize;
     private final CloverReportConfig[] secondaryConfigs;
 
     public PDFReporter(CloverReportConfig config) throws CloverException {
@@ -102,12 +108,13 @@ public class PDFReporter extends CloverReporter {
             this.colours = config.getFormat().getBw() ? PDFColours.BW_COLOURS : PDFColours.COL_COLOURS;
 
             this.docsize = getConfiguredPageSize(config);
-            this.document = new Document(docsize, 25, 25, 25, 35); //##HACK - magic - bottom bigger for footer
+            this.document = DOCUMENT_FACTORY.create(
+                    Files.newOutputStream(config.getOutFile().toPath()), docsize, MARGINS,
+                    new PageFooterRenderer(System.currentTimeMillis(), colours));
 
-            this.document.addTitle("OpenClover Coverage Report");
-            this.document.addCreator("OpenClover " + CloverVersionInfo.RELEASE_NUM + " using iText v2.0.1");
-            this.docWriter = PdfWriter.getInstance(document, Files.newOutputStream(config.getOutFile().toPath()));
-            this.docWriter.setPageEvent(new PageFooterRenderer(docsize, System.currentTimeMillis(), colours));
+            this.document.setTitle("OpenClover Coverage Report");
+            this.document.setCreator("OpenClover " + CloverVersionInfo.RELEASE_NUM
+                    + " using " + PdfBoxDocumentFactory.PDF_LIBRARY_VERSION);
         } catch (Exception e) {
             throw new CloverException("Report rendering error: " + e.getMessage());
         }
@@ -115,7 +122,6 @@ public class PDFReporter extends CloverReporter {
 
     @Override
     protected int executeImpl() throws CloverException {
-        open();
         boolean written = write(reportConfig);
         for (CloverReportConfig secondaryConfig : secondaryConfigs) {
             write(secondaryConfig);
@@ -138,16 +144,16 @@ public class PDFReporter extends CloverReporter {
         }
     }
 
-    private void open() {
-        document.open();
+    private void close() throws CloverException {
+        try {
+            document.close();
+        } catch (IOException e) {
+            throw new CloverException("Report rendering error: " + e.getMessage(), e);
+        }
     }
 
-    private void close() {
-        document.close();
-    }
-
-    private Rectangle getConfiguredPageSize(CloverReportConfig cfg) {
-        Rectangle size;
+    private PdfPageSize getConfiguredPageSize(CloverReportConfig cfg) {
+        PdfPageSize size;
         final String sizeStr = cfg.getFormat().getPageSize();
         if (sizeStr != null) {
             size = SUPPORTED_PAGE_SIZES.get(sizeStr);
@@ -188,13 +194,13 @@ public class PDFReporter extends CloverReporter {
         return true;
     }
 
-    private void newPage() throws DocumentException {
+    private void newPage() throws IOException {
         document.newPage();
         document.add(RenderingSupport.createHistoricalPageHeader(reportTitle, titleAnchor, colours));
         document.add(RenderingSupport.getSpacerRow());
     }
 
-    private void generateHistoricalReport(Historical historicalConfig, HistoricalReportDescriptor desc) throws DocumentException {
+    private void generateHistoricalReport(Historical historicalConfig, HistoricalReportDescriptor desc) throws IOException {
         document.add(
             RenderingSupport.createHistoricalReportHeader(
                 desc.getSubjectMetrics(), desc.getFirstTimestamp(), desc.getLastTimestamp(),
@@ -218,7 +224,7 @@ public class PDFReporter extends CloverReporter {
                 newPage();
                 chartsOnPage = 0;
             }
-            chart.setHeight((int) (0.33f * docsize.height()));
+            chart.setHeight((int) (0.33f * docsize.getHeight()));
             document.add(RenderingSupport.createChart(chart, data, colours));
             document.add(RenderingSupport.getSpacerRow());
             chartsOnPage++;
@@ -249,7 +255,7 @@ public class PDFReporter extends CloverReporter {
         document.newPage();
     }
 
-    private void generateCurrentReport(Current currentConfig) throws DocumentException {
+    private void generateCurrentReport(Current currentConfig) throws IOException {
         final ProjectInfo project = database.getModel(CodeType.APPLICATION);
 
         HasMetrics parent;

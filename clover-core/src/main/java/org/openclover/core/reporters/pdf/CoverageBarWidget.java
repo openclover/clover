@@ -1,0 +1,62 @@
+package org.openclover.core.reporters.pdf;
+
+import org.openclover.core.reporters.pdf.api.PdfCanvas;
+import org.openclover.core.reporters.pdf.api.PdfRect;
+import org.openclover.core.reporters.pdf.api.PdfWidget;
+
+/**
+ * The covered/uncovered coverage bar shown in the last column of the coverage tables.
+ */
+public class CoverageBarWidget implements PdfWidget {
+
+    private static final float BAR_LINE_WIDTH = 0.5f;
+
+    /** The bar is drawn slightly shorter than the font height it is sized from. */
+    private static final float HEIGHT_ADJUSTMENT = 2f;
+
+    private final float coveredPc;
+    private final float height;
+    private final float horizontalPaddingRatio;
+    private final PDFColours colours;
+
+    /**
+     * @param coveredPc              fraction covered in the range [0..1], or a negative value when
+     *                               there is nothing to report
+     * @param fontHeight             height of the surrounding text, which the bar is sized against
+     * @param horizontalPaddingRatio fraction of the available width left blank on each side
+     */
+    public CoverageBarWidget(float coveredPc, float fontHeight, float horizontalPaddingRatio,
+                             PDFColours colours) {
+        // prevent rendering nasties when a metric overshoots
+        this.coveredPc = Math.min(coveredPc, 1f);
+        this.height = fontHeight - HEIGHT_ADJUSTMENT;
+        this.horizontalPaddingRatio = horizontalPaddingRatio;
+        this.colours = colours;
+    }
+
+    @Override
+    public float preferredHeight() {
+        return height;
+    }
+
+    @Override
+    public void draw(PdfCanvas canvas, PdfRect bounds) {
+        final float hMargin = bounds.getWidth() * horizontalPaddingRatio;
+        final float barX = bounds.getX() + hMargin;
+        final float barWidth = bounds.getWidth() - 2 * hMargin;
+        final float barY = bounds.getY() + (bounds.getHeight() - height) / 2f;
+        final PdfRect bar = new PdfRect(barX, barY, barWidth, height);
+
+        canvas.setLineWidth(BAR_LINE_WIDTH);
+        if (coveredPc >= 0) {
+            canvas.fillRect(bar, colours.COL_BAR_UNCOVERED);
+
+            final PdfRect covered = new PdfRect(barX, barY, barWidth * coveredPc, height);
+            canvas.fillRect(covered, colours.COL_BAR_COVERED);
+            canvas.strokeRect(covered, colours.COL_BAR_BORDER);
+        } else {
+            canvas.fillRect(bar, colours.COL_BAR_NA);
+        }
+        canvas.strokeRect(bar, colours.COL_BAR_BORDER);
+    }
+}
