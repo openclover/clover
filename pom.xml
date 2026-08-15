@@ -121,12 +121,15 @@
                 <version>4.4.3</version>
             </dependency>
             <dependency>
-                <!-- DO NOT UPGRADE iText library to version newer than 2.1.7.
-                This is the latest version which was released under LGPL license.
-                All newer versions are released under Affero GPL v3, which is a viral license -->
-                <groupId>com.lowagie</groupId>
-                <artifactId>itext</artifactId>
-                <version>2.0.1</version> <!-- don't upgrade above 2.1.7 -->
+                <groupId>org.apache.pdfbox</groupId>
+                <artifactId>pdfbox</artifactId>
+                <version>3.0.8</version>
+            </dependency>
+            <dependency>
+                <!-- Graphics2D bridge, used to embed JFreeChart graphs into PDF reports -->
+                <groupId>de.rototor.pdfbox</groupId>
+                <artifactId>graphics2d</artifactId>
+                <version>3.0.3</version>
             </dependency>
             <dependency>
                 <groupId>org.jfree</groupId>

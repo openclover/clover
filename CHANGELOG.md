@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased 5.0.1]
 
+- Issue #326: Replaced iText 2.0.1 with Apache PDFBox 3.0.8 for PDF report generation, resolving
+  a security advisory against a library that has had no release since 2007 and could not be upgraded,
+  as every later version is licensed under the Affero GPL. PDF reports now embed a Unicode font 
+  (Liberation Sans, SIL OFL 1.1) instead of relying on the CP1252 encoding, so package names and report titles 
+  containing non-Latin-1 characters are no longer mangled.
+
 - Issue #324: Upgraded Apache Velocity from 1.7 to velocity-engine-core 2.4.1. HTML reports are rendered
   exactly as before; the `commons-lang` 2.6 dependency, needed by Velocity 1.7 only, was dropped.
   Velocity 2 logs via SLF4J, so `slf4j-nop` is bundled (and relocated) next to `slf4j-api` to keep OpenClover

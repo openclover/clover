@@ -84,8 +84,12 @@
             <artifactId>fastutil</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.lowagie</groupId>
-            <artifactId>itext</artifactId>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>de.rototor.pdfbox</groupId>
+            <artifactId>graphics2d</artifactId>
         </dependency>
         <dependency>
             <groupId>org.jfree</groupId>

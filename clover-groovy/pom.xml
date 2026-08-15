@@ -190,8 +190,12 @@
                                     <artifactId>fastutil</artifactId>
                                 </artifactItem>
                                 <artifactItem>
-                                    <groupId>com.lowagie</groupId>
-                                    <artifactId>itext</artifactId>
+                                    <groupId>org.apache.pdfbox</groupId>
+                                    <artifactId>pdfbox</artifactId>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>de.rototor.pdfbox</groupId>
+                                    <artifactId>graphics2d</artifactId>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.jfree</groupId>

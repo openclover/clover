@@ -71,8 +71,12 @@
             <artifactId>jdom</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.lowagie</groupId>
-            <artifactId>itext</artifactId>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>de.rototor.pdfbox</groupId>
+            <artifactId>graphics2d</artifactId>
         </dependency>
         <dependency>
             <groupId>org.jfree</groupId>
@@ -341,7 +345,11 @@
                                     <include>commons-collections:commons-collections</include>
                                     <include>org.apache.commons:commons-lang3</include>
                                     <include>it.unimi.dsi:fastutil</include>
-                                    <include>com.lowagie:itext</include>
+                                    <include>org.apache.pdfbox:pdfbox</include>
+                                    <include>org.apache.pdfbox:pdfbox-io</include>
+                                    <include>org.apache.pdfbox:fontbox</include>
+                                    <include>de.rototor.pdfbox:graphics2d</include>
+                                    <include>commons-logging:commons-logging</include>
                                     <include>org.jfree:jcommon</include>
                                     <include>jdom:jdom</include>
                                     <include>org.jfree:jfreechart</include>
@@ -392,11 +400,45 @@
                                     </excludes>
                                 </filter>
                                 <filter>
-                                    <artifact>com.lowagie:itext</artifact>
+                                    <artifact>org.apache.pdfbox:*</artifact>
+                                    <!-- minification would strip classes loaded reflectively by PDFBox
+                                         (font mappers, filters, parsers), so keep everything -->
+                                    <includes>
+                                        <include>org/apache/pdfbox/**</include>
+                                        <include>org/apache/fontbox/**</include>
+                                    </includes>
                                     <excludes>
                                         <exclude>META-INF/MANIFEST.MF</exclude>
-                                        <exclude>ant/*</exclude>
-                                        <exclude>build.xml</exclude>
+                                        <exclude>META-INF/NOTICE.txt</exclude>
+                                        <exclude>META-INF/LICENSE.txt</exclude>
+                                        <exclude>META-INF/DEPENDENCIES</exclude>
+                                        <!-- predefined CJK CMaps are only needed to read PDFs that use
+                                             them; we write Identity-H, whose CMap must be kept. Note
+                                             this excludes data files only - the cmap classes, which
+                                             live in the same package, are needed. -->
+                                        <exclude>org/apache/fontbox/cmap/Uni*</exclude>
+                                        <exclude>org/apache/fontbox/cmap/Adobe-*</exclude>
+                                    </excludes>
+                                </filter>
+                                <filter>
+                                    <!-- logging API used by PDFBox; no binding is bundled, so it falls back to JUL -->
+                                    <artifact>commons-logging:commons-logging</artifact>
+                                    <includes>
+                                        <include>org/apache/commons/logging/**</include>
+                                    </includes>
+                                    <excludes>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                        <exclude>META-INF/NOTICE.txt</exclude>
+                                        <exclude>META-INF/LICENSE.txt</exclude>
+                                    </excludes>
+                                </filter>
+                                <filter>
+                                    <artifact>de.rototor.pdfbox:graphics2d</artifact>
+                                    <includes>
+                                        <include>de/rototor/pdfbox/**</include>
+                                    </includes>
+                                    <excludes>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
                                     </excludes>
                                 </filter>
                                 <filter>
@@ -456,10 +498,31 @@
                                     </includes>
                                 </relocation>
                                 <relocation>
-                                    <pattern>com.lowagie</pattern>
-                                    <shadedPattern>clover.com.lowagie</shadedPattern>
+                                    <pattern>org.apache.commons.logging</pattern>
+                                    <shadedPattern>clover.org.apache.commons.logging</shadedPattern>
                                     <includes>
-                                        <include>com.lowagie.**</include>
+                                        <include>org.apache.commons.logging.**</include>
+                                    </includes>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.apache.pdfbox</pattern>
+                                    <shadedPattern>clover.org.apache.pdfbox</shadedPattern>
+                                    <includes>
+                                        <include>org.apache.pdfbox.**</include>
+                                    </includes>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.apache.fontbox</pattern>
+                                    <shadedPattern>clover.org.apache.fontbox</shadedPattern>
+                                    <includes>
+                                        <include>org.apache.fontbox.**</include>
+                                    </includes>
+                                </relocation>
+                                <relocation>
+                                    <pattern>de.rototor.pdfbox</pattern>
+                                    <shadedPattern>clover.de.rototor.pdfbox</shadedPattern>
+                                    <includes>
+                                        <include>de.rototor.pdfbox.**</include>
                                     </includes>
                                 </relocation>
                                 <!-- note: we do not shade org.jetbrains:annotations -->
