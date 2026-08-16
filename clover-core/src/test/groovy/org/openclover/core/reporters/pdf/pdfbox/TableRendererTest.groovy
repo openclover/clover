@@ -2,6 +2,7 @@ package org.openclover.core.reporters.pdf.pdfbox
 
 import junit.framework.TestCase
 import org.apache.pdfbox.pdmodel.PDDocument
+import org.openclover.core.reporters.pdf.RecordingCanvas
 import org.openclover.core.reporters.pdf.api.PdfAlign
 import org.openclover.core.reporters.pdf.api.PdfBorder
 import org.openclover.core.reporters.pdf.api.PdfCanvas
@@ -25,72 +26,6 @@ class TableRendererTest extends TestCase {
     private static final double CONTENT_WIDTH = 500d
     private static final double PADDING = 2d
     private static final PdfFontSpec FONT = PdfFontSpec.sans(10)
-
-    /** A rectangle the renderer asked to be filled or stroked. */
-    private static class DrawnRect {
-        PdfRect rect
-        Color colour
-        boolean filled
-    }
-
-    private static class DrawnLine {
-        double x1, y1, x2, y2
-    }
-
-    private static class DrawnText {
-        PdfText text
-        PdfRect bounds
-        PdfAlign.Horizontal alignment
-    }
-
-    /**
-     * Records drawing calls instead of writing them to a page. Only the methods the table renderer
-     * uses need to do anything.
-     */
-    private static class RecordingCanvas implements PdfCanvas {
-        List<DrawnRect> rects = []
-        List<DrawnLine> lines = []
-        List<DrawnText> texts = []
-
-        @Override
-        void setLineWidth(double width) {
-        }
-
-        @Override
-        void fillRect(PdfRect rect, Color colour) {
-            rects.add(new DrawnRect(rect: rect, colour: colour, filled: true))
-        }
-
-        @Override
-        void strokeRect(PdfRect rect, Color colour) {
-            rects.add(new DrawnRect(rect: rect, colour: colour, filled: false))
-        }
-
-        @Override
-        void drawLine(double x1, double y1, double x2, double y2, Color colour) {
-            lines.add(new DrawnLine(x1: x1, y1: y1, x2: x2, y2: y2))
-        }
-
-        @Override
-        void drawImage(String resourcePath, PdfRect bounds) {
-        }
-
-        @Override
-        void drawText(PdfText text, PdfRect bounds, PdfAlign.Horizontal alignment) {
-            texts.add(new DrawnText(text: text, bounds: bounds, alignment: alignment))
-        }
-
-        @Override
-        void drawText(PdfText text, PdfRect bounds, PdfAlign.Horizontal horizontal,
-                      PdfAlign.Vertical vertical, double fixedLeading, double multipliedLeading) {
-            texts.add(new DrawnText(text: text, bounds: bounds, alignment: horizontal))
-        }
-
-        @Override
-        PdfCanvas.GraphicsScope beginGraphics(PdfRect bounds) {
-            throw new UnsupportedOperationException()
-        }
-    }
 
     private PDDocument document
     private TableRenderer renderer
@@ -273,7 +208,7 @@ class TableRendererTest extends TestCase {
 
         double rowHeight = 20d + 2 * PADDING
         double rowBottom = 100d - rowHeight
-        PdfRect widgetBounds = canvas.rects.find { it.filled }.rect
+        PdfRect widgetBounds = canvas.filled()[0].rect
         // equal gaps above and below the 4pt widget inside the padded cell
         assertEquals(rowBottom + PADDING + (20d - 4d) / 2, widgetBounds.y, 0.001d)
     }
@@ -323,7 +258,7 @@ class TableRendererTest extends TestCase {
 
         renderer.drawTable(canvas, table, 0d, 100d, CONTENT_WIDTH)
 
-        DrawnRect background = canvas.rects.find { it.filled }
+        RecordingCanvas.DrawnRect background = canvas.filled()[0]
         assertNotNull(background)
         assertEquals(Color.BLUE, background.colour)
         assertEquals(CONTENT_WIDTH, background.rect.width, 0.001d)
@@ -367,7 +302,7 @@ class TableRendererTest extends TestCase {
 
         renderer.drawTable(canvas, table, 0d, 100d, CONTENT_WIDTH)
 
-        assertEquals(PdfAlign.Horizontal.CENTER, canvas.texts[0].alignment)
+        assertEquals(PdfAlign.Horizontal.CENTER, canvas.texts[0].horizontal)
     }
 
     /**

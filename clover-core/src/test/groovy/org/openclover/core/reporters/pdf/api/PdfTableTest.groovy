@@ -1,0 +1,200 @@
+package org.openclover.core.reporters.pdf.api
+
+import junit.framework.TestCase
+
+import java.awt.Color
+
+/**
+ * Cell grouping and the width model, both of which the layout engine reads before it draws
+ * anything.
+ */
+class PdfTableTest extends TestCase {
+
+    private static final PdfFontSpec FONT = PdfFontSpec.sans(10)
+
+    private static PdfText text(String value) {
+        return PdfText.of(value, FONT)
+    }
+
+    void testATableNeedsAtLeastOneColumn() {
+        try {
+            new PdfTable(0)
+            fail("expected a table without columns to be rejected")
+        } catch (IllegalArgumentException expected) {
+            // as intended
+        }
+    }
+
+    void testCellsWrapIntoRowsOnceTheColumnsAreFull() {
+        PdfTable table = new PdfTable(2)
+        4.times { table.addCell(text("cell ${it}")) }
+
+        List<List<PdfCell>> rows = table.rows
+
+        assertEquals(2, rows.size())
+        rows.each { assertEquals(2, it.size()) }
+    }
+
+    /**
+     * A spanned cell fills several columns at once, so the row wraps sooner.
+     */
+    void testColspanFillsSeveralColumns() {
+        PdfTable table = new PdfTable(3)
+        table.defaultStyle.setColspan(2)
+        table.addCell(text("wide"))
+        table.defaultStyle.setColspan(1)
+        table.addCell(text("narrow"))
+        table.addCell(text("next row"))
+
+        List<List<PdfCell>> rows = table.rows
+
+        assertEquals(2, rows.size())
+        assertEquals(2, rows[0].size())
+        assertEquals(1, rows[1].size())
+    }
+
+    /**
+     * A trailing partial row is kept; the layout engine treats the missing columns as empty.
+     */
+    void testTrailingPartialRowIsKept() {
+        PdfTable table = new PdfTable(3)
+        table.addCell(text("a"))
+        table.addCell(text("b"))
+
+        assertEquals(1, table.rows.size())
+        assertEquals(2, table.rows[0].size())
+    }
+
+    /**
+     * A colspan wider than the table must still terminate the row rather than swallowing every
+     * cell that follows.
+     */
+    void testColspanWiderThanTheTableStillEndsTheRow() {
+        PdfTable table = new PdfTable(2)
+        table.defaultStyle.setColspan(5)
+        table.addCell(text("very wide"))
+        table.addCell(text("second row"))
+
+        assertEquals(2, table.rows.size())
+    }
+
+    /**
+     * Rows are cached, so adding a cell afterwards has to invalidate the grouping.
+     */
+    void testAddingACellInvalidatesTheCachedRows() {
+        PdfTable table = new PdfTable(1)
+        table.addCell(text("first"))
+        assertEquals(1, table.rows.size())
+
+        table.addCell(text("second"))
+        assertEquals(2, table.rows.size())
+    }
+
+    void testRowsAreNotModifiableFromTheOutside() {
+        PdfTable table = new PdfTable(1)
+        table.addCell(text("a"))
+
+        try {
+            table.rows.add([])
+            fail("expected the row grouping to be immutable")
+        } catch (UnsupportedOperationException expected) {
+            // as intended
+        }
+    }
+
+    /**
+     * The style template is copied into each cell as it is added, so editing it afterwards must
+     * not reach back into the cells already there.
+     */
+    void testCellsSnapshotTheDefaultStyle() {
+        PdfTable table = new PdfTable(1)
+        table.defaultStyle.setBackgroundColour(Color.RED)
+        table.addCell(text("red"))
+        table.defaultStyle.setBackgroundColour(Color.GREEN)
+        table.addCell(text("green"))
+
+        assertEquals(Color.RED, table.cells[0].style.backgroundColour)
+        assertEquals(Color.GREEN, table.cells[1].style.backgroundColour)
+    }
+
+    void testAnEmptyCellIsStillACell() {
+        PdfTable table = new PdfTable(1)
+        table.addCell()
+
+        assertEquals(1, table.cells.size())
+        assertNull(table.cells[0].content)
+    }
+
+    void testWidthsMustMatchTheColumnCount() {
+        try {
+            new PdfTable(3).setWidths([50, 50] as int[])
+            fail("expected a mismatched column width array to be rejected")
+        } catch (IllegalArgumentException expected) {
+            assertTrue(expected.message, expected.message.contains("3"))
+        }
+    }
+
+    void testColumnsAreEquallyProportionedUntilWidthsAreGiven() {
+        double[] widths = new PdfTable(4).relativeWidths
+
+        assertEquals(4, widths.length)
+        widths.each { assertEquals(1d, it, 0.001d) }
+    }
+
+    void testWidthsAreCopiedFromTheCallersArray() {
+        double[] given = [1d, 2d] as double[]
+        PdfTable table = new PdfTable(2).setWidths(given)
+
+        given[0] = 99d
+
+        assertEquals(1d, table.relativeWidths[0], 0.001d)
+    }
+
+    void testAutoWidthFillsACellButTakesTheDefaultShareOfAPage() {
+        PdfTable table = new PdfTable(1)
+
+        assertEquals(PdfTable.WidthMode.AUTO, table.widthMode)
+        assertEquals(100d, table.resolveWidth(100d, true), 0.001d)
+        assertEquals(PdfTable.DEFAULT_WIDTH_PERCENTAGE, table.resolveWidth(100d, false), 0.001d)
+    }
+
+    void testPercentageWidthAppliesWhetherNestedOrNot() {
+        PdfTable table = new PdfTable(1).setWidthPercentage(25d)
+
+        assertEquals(PdfTable.WidthMode.PERCENTAGE, table.widthMode)
+        assertEquals(25d, table.resolveWidth(100d, false), 0.001d)
+        assertEquals(25d, table.resolveWidth(100d, true), 0.001d)
+    }
+
+    void testAbsoluteWidthIgnoresWhatIsAvailable() {
+        PdfTable table = new PdfTable(1).setTotalWidth(123d)
+
+        assertEquals(PdfTable.WidthMode.ABSOLUTE, table.widthMode)
+        assertEquals(123d, table.resolveWidth(100d, false), 0.001d)
+        assertEquals(123d, table.resolveWidth(10d, true), 0.001d)
+    }
+
+    /**
+     * The last width asked for wins, so that a table can be re-pinned without carrying a stale
+     * mode around.
+     */
+    void testTheMostRecentlySetWidthWins() {
+        PdfTable table = new PdfTable(1).setTotalWidth(123d).setWidthPercentage(50d)
+        assertEquals(50d, table.resolveWidth(100d, false), 0.001d)
+
+        table.setTotalWidth(60d)
+        assertEquals(60d, table.resolveWidth(100d, false), 0.001d)
+    }
+
+    void testNegativeWidthsAreRejected() {
+        [{ new PdfTable(1).setTotalWidth(-1d) },
+         { new PdfTable(1).setWidthPercentage(-1d) }].each { attempt ->
+            try {
+                attempt()
+                fail("expected a negative width to be rejected")
+            } catch (IllegalArgumentException expected) {
+                // as intended
+            }
+        }
+    }
+}
