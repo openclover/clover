@@ -2,6 +2,7 @@ package org.openclover.core.reporters.pdf.api;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.util.function.Consumer;
 
 /**
  * Drawing surface handed to a {@link PdfWidget} so it can paint into a rectangle the layout
@@ -39,8 +40,23 @@ public interface PdfCanvas {
                   PdfAlign.Vertical vertical, double fixedLeading, double multipliedLeading);
 
     /**
+     * Paints into an AWT drawing context mapped onto the given rectangle, and commits the drawing
+     * to the page once the action returns — whether it returned normally or threw.
+     *
+     * <p>This is how the scope is meant to be used; {@link #beginGraphics} exists for
+     * implementations to provide and is only worth calling directly when the painting cannot be
+     * expressed as a single action.
+     */
+    default void inGraphicsScope(PdfRect bounds, Consumer<Graphics2D> drawAction) {
+        try (GraphicsScope scope = beginGraphics(bounds)) {
+            drawAction.accept(scope.getGraphics());
+        }
+    }
+
+    /**
      * Opens an AWT drawing context mapped onto the given rectangle. The returned scope must be
-     * closed once the caller is done painting, which is when the drawing is committed to the page.
+     * closed once the caller is done painting, which is when the drawing is committed to the page
+     * — so prefer {@link #inGraphicsScope}, which cannot be left open.
      */
     GraphicsScope beginGraphics(PdfRect bounds);
 

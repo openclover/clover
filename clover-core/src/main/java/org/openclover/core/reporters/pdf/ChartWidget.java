@@ -28,9 +28,8 @@ public class ChartWidget implements PdfWidget {
 
     @Override
     public void draw(PdfCanvas canvas, PdfRect bounds) {
-        try (PdfCanvas.GraphicsScope scope = canvas.beginGraphics(bounds)) {
-            chart.draw(scope.getGraphics(),
-                    new Rectangle2D.Double(0, 0, bounds.getWidth(), bounds.getHeight()));
-        }
+        // the chart paints in its own coordinates, starting at the origin of the scope's context
+        canvas.inGraphicsScope(bounds, graphics -> chart.draw(graphics,
+                new Rectangle2D.Double(0, 0, bounds.getWidth(), bounds.getHeight())));
     }
 }
