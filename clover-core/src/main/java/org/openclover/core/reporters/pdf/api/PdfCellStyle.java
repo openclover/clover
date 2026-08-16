@@ -1,6 +1,9 @@
 package org.openclover.core.reporters.pdf.api;
 
 import java.awt.Color;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -105,11 +108,49 @@ public final class PdfCellStyle {
         return verticalAlignment;
     }
 
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (!(other instanceof PdfCellStyle)) {
+            return false;
+        }
+        final PdfCellStyle that = (PdfCellStyle) other;
+        return colspan == that.colspan
+                && Double.compare(paddingTop, that.paddingTop) == 0
+                && Double.compare(paddingBottom, that.paddingBottom) == 0
+                && Double.compare(paddingLeft, that.paddingLeft) == 0
+                && Double.compare(paddingRight, that.paddingRight) == 0
+                && Double.compare(minimumHeight, that.minimumHeight) == 0
+                && Double.compare(fixedLeading, that.fixedLeading) == 0
+                && Double.compare(multipliedLeading, that.multipliedLeading) == 0
+                && borders.equals(that.borders)
+                && Objects.equals(borderColour, that.borderColour)
+                && Objects.equals(backgroundColour, that.backgroundColour)
+                && horizontalAlignment == that.horizontalAlignment
+                && verticalAlignment == that.verticalAlignment;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(colspan, borders, borderColour, backgroundColour,
+                paddingTop, paddingBottom, paddingLeft, paddingRight,
+                minimumHeight, fixedLeading, multipliedLeading,
+                horizontalAlignment, verticalAlignment);
+    }
+
     /**
      * Assembles {@link PdfCellStyle}s. A builder is mutable and reusable: {@link #build()} may be
      * called any number of times, each call taking an independent snapshot.
+     *
+     * <p>Consecutive builds with nothing changed in between return the same instance, so a table
+     * of many identically styled cells holds one style rather than one per cell.
      */
     public static final class Builder {
+
+        /** The style last built, discarded as soon as any setter runs. */
+        private PdfCellStyle cached;
 
         private int colspan = 1;
         private Set<PdfBorder> borders = PdfBorder.BOX;
@@ -145,17 +186,36 @@ public final class PdfCellStyle {
         }
 
         public PdfCellStyle build() {
-            return new PdfCellStyle(this);
+            if (cached == null) {
+                cached = new PdfCellStyle(this);
+            }
+            return cached;
         }
 
+        /** Invalidates the last build; every setter goes through here. */
+        private Builder changed() {
+            cached = null;
+            return this;
+        }
+
+        /**
+         * @throws IllegalArgumentException if the cell would span fewer than one column, which
+         *                                  would leave the row unable to fill its columns
+         */
         public Builder setColspan(int colspan) {
+            if (colspan < 1) {
+                throw new IllegalArgumentException("a cell must span at least one column: " + colspan);
+            }
             this.colspan = colspan;
-            return this;
+            return changed();
         }
 
+        /** The edges are copied, so the style cannot be altered through the caller's set. */
         public Builder setBorders(Set<PdfBorder> borders) {
-            this.borders = borders;
-            return this;
+            this.borders = borders.isEmpty()
+                    ? PdfBorder.NONE
+                    : Collections.unmodifiableSet(EnumSet.copyOf(borders));
+            return changed();
         }
 
         /** Convenience for {@code setBorders(PdfBorder.of(edges))}. */
@@ -165,12 +225,12 @@ public final class PdfCellStyle {
 
         public Builder setBorderColour(Color borderColour) {
             this.borderColour = borderColour;
-            return this;
+            return changed();
         }
 
         public Builder setBackgroundColour(Color backgroundColour) {
             this.backgroundColour = backgroundColour;
-            return this;
+            return changed();
         }
 
         public Builder setPadding(double padding) {
@@ -178,32 +238,32 @@ public final class PdfCellStyle {
             this.paddingBottom = padding;
             this.paddingLeft = padding;
             this.paddingRight = padding;
-            return this;
+            return changed();
         }
 
         public Builder setPaddingTop(double padding) {
             this.paddingTop = padding;
-            return this;
+            return changed();
         }
 
         public Builder setPaddingBottom(double padding) {
             this.paddingBottom = padding;
-            return this;
+            return changed();
         }
 
         public Builder setPaddingLeft(double padding) {
             this.paddingLeft = padding;
-            return this;
+            return changed();
         }
 
         public Builder setPaddingRight(double padding) {
             this.paddingRight = padding;
-            return this;
+            return changed();
         }
 
         public Builder setMinimumHeight(double minimumHeight) {
             this.minimumHeight = minimumHeight;
-            return this;
+            return changed();
         }
 
         /**
@@ -213,17 +273,17 @@ public final class PdfCellStyle {
         public Builder setLeading(double fixed, double multiplied) {
             this.fixedLeading = fixed;
             this.multipliedLeading = multiplied;
-            return this;
+            return changed();
         }
 
         public Builder setHorizontalAlignment(PdfAlign.Horizontal horizontalAlignment) {
             this.horizontalAlignment = horizontalAlignment;
-            return this;
+            return changed();
         }
 
         public Builder setVerticalAlignment(PdfAlign.Vertical verticalAlignment) {
             this.verticalAlignment = verticalAlignment;
-            return this;
+            return changed();
         }
     }
 }

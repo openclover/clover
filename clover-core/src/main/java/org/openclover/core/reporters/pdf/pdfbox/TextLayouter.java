@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
  * Breaks a {@link PdfText} — a sequence of differently-styled runs — into lines that fit a given
  * width. Newlines inside a run break the line explicitly; everything else wraps on whitespace.
  *
- * <p>Run text is sanitised against the font once, when the paragraph is split, so neither
+ * <p>Run text is sanitized against the font once, when the paragraph is split, so neither
  * measuring nor drawing has to repeat that work: {@link Piece#text} is always drawable as-is.
  */
 class TextLayouter {
@@ -33,6 +33,14 @@ class TextLayouter {
     private static final Pattern LEADING_SPACES = Pattern.compile("^ +");
 
     private static final Pattern NEWLINE = Pattern.compile("\n", Pattern.LITERAL);
+
+    /**
+     * Any of the three line ending conventions. Text reaching a report comes from file paths, class
+     * names and user-supplied titles, so a lone CR or a CRLF is entirely possible; both are folded
+     * to a single break here, because a CR that survived this far has no glyph in the report font
+     * and would fail the whole document when written to the content stream.
+     */
+    private static final Pattern LINE_BREAK = Pattern.compile("\r\n|\r");
 
     /** A stretch of a single line sharing one font. */
     static class Piece {
@@ -76,7 +84,8 @@ class TextLayouter {
         Line current = new Line();
 
         for (PdfTextRun run : text.getRuns()) {
-            final String[] paragraphs = NEWLINE.split(fonts.sanitise(run.getText(), run.getFont()), -1);
+            final String normalised = LINE_BREAK.matcher(run.getText()).replaceAll("\n");
+            final String[] paragraphs = NEWLINE.split(fonts.sanitise(normalised, run.getFont()), -1);
             for (int p = 0; p < paragraphs.length; p++) {
                 if (p > 0) {
                     lines.add(current);
@@ -97,9 +106,9 @@ class TextLayouter {
     }
 
     /**
-     * Appends one paragraph's worth of sanitised text, wrapping as needed.
+     * Appends one paragraph's worth of sanitized text, wrapping as needed.
      *
-     * @return the line that is still open afterwards
+     * @return the line that is still open afterward
      */
     private Line appendWrapped(List<Line> lines, Line current, String content,
                                PdfTextRun run, double maxWidth) {
@@ -115,7 +124,7 @@ class TextLayouter {
     /**
      * Places a single word, starting a new line first if it does not fit on the current one.
      *
-     * @return the line that is still open afterwards
+     * @return the line that is still open afterward
      */
     private Line appendWord(List<Line> lines, Line current, String word,
                             PdfTextRun run, double maxWidth) {
@@ -140,7 +149,7 @@ class TextLayouter {
      * then adds that remainder. A word wider than a whole line is broken mid-word rather than
      * allowed to spill out of its cell — long column headers rely on this.
      *
-     * @return the line that is still open afterwards, with the remainder already on it
+     * @return the line that is still open afterward, with the remainder already on it
      */
     private Line breakOverlongWord(List<Line> lines, Line current, String word, double width,
                                    PdfTextRun run, double maxWidth) {

@@ -2,7 +2,7 @@ package org.openclover.core.reporters.pdf.api;
 
 /**
  * An immutable rectangle in PDF user space: the origin is the bottom-left corner of the page and
- * the y axis grows upwards.
+ * the y-axis grows upwards.
  */
 public class PdfRect {
 

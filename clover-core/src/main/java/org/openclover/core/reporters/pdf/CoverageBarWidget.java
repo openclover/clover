@@ -2,6 +2,7 @@ package org.openclover.core.reporters.pdf;
 
 import org.openclover.core.reporters.pdf.api.PdfCanvas;
 import org.openclover.core.reporters.pdf.api.PdfRect;
+import org.openclover.core.reporters.pdf.api.PdfStroke;
 import org.openclover.core.reporters.pdf.api.PdfWidget;
 
 /**
@@ -9,14 +10,13 @@ import org.openclover.core.reporters.pdf.api.PdfWidget;
  */
 public class CoverageBarWidget implements PdfWidget {
 
-    private static final double BAR_LINE_WIDTH = 0.5;
 
     /** The bar is drawn slightly shorter than the font height it is sized from. */
     private static final double HEIGHT_ADJUSTMENT = 2.0;
 
     /**
      * A coverage below this means there is nothing to report - the bar is then drawn in the "not
-     * applicable" colour instead of being split into a covered and an uncovered part.
+     * applicable" color instead of being split into a covered and an uncovered part.
      */
     private static final double NOT_APPLICABLE = 0.0;
 
@@ -33,7 +33,7 @@ public class CoverageBarWidget implements PdfWidget {
      */
     public CoverageBarWidget(double coveredPc, double fontHeight, double horizontalPaddingRatio,
                              PDFColours colours) {
-        // prevent rendering nasties when a metric overshoots
+        // prevent rendering problems when a metric overshoots
         this.coveredPc = Math.min(coveredPc, 1.0);
         this.height = fontHeight - HEIGHT_ADJUSTMENT;
         this.horizontalPaddingRatio = horizontalPaddingRatio;
@@ -53,7 +53,7 @@ public class CoverageBarWidget implements PdfWidget {
         final double barY = bounds.getY() + (bounds.getHeight() - height) / 2.0;
         final PdfRect bar = new PdfRect(barX, barY, barWidth, height);
 
-        canvas.setLineWidth(BAR_LINE_WIDTH);
+        canvas.setLineWidth(PdfStroke.THIN_BORDER_WIDTH);
         if (coveredPc >= NOT_APPLICABLE) {
             canvas.fillRect(bar, colours.COL_BAR_UNCOVERED);
 

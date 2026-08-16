@@ -25,6 +25,7 @@ import org_openclover_runtime.CloverVersionInfo;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -89,12 +90,16 @@ public class PDFReporter extends CloverReporter {
 
     private static final PdfDocumentFactory DOCUMENT_FACTORY = new PdfBoxDocumentFactory();
 
+    /** Appended to the destination file name while the report is being rendered. */
+    private static final String WORK_FILE_SUFFIX = ".tmp";
+
     private final PdfDocument document;
     private final PDFColours colours;
     private final String reportTitle;
     private final String titleAnchor;
     private final PdfPageSize docsize;
     private final Path outFile;
+    private final Path workFile;
     private final CloverReportConfig[] secondaryConfigs;
 
     public PDFReporter(CloverReportConfig config) throws CloverException {
@@ -110,9 +115,12 @@ public class PDFReporter extends CloverReporter {
             this.colours = config.getFormat().getBw() ? PDFColours.BW_COLOURS : PDFColours.COL_COLOURS;
 
             this.outFile = config.getOutFile().toPath();
+            // rendered beside the destination and moved over it only once the report is complete,
+            // so that a failed or empty run cannot destroy an existing report
+            this.workFile = outFile.resolveSibling(outFile.getFileName() + WORK_FILE_SUFFIX);
             this.docsize = getConfiguredPageSize(config);
             this.document = DOCUMENT_FACTORY.create(
-                    Files.newOutputStream(outFile), docsize, MARGINS,
+                    Files.newOutputStream(workFile), docsize, MARGINS,
                     new PageFooterRenderer(System.currentTimeMillis(), colours));
 
             this.document.setTitle("OpenClover Coverage Report");
@@ -133,8 +141,8 @@ public class PDFReporter extends CloverReporter {
             close();
             return 0;
         }
-        // nothing was rendered, so the output file only ever received the empty document the
-        // stream was opened with; it is closed and removed rather than left behind
+        // nothing was rendered, so the work file only ever received the empty document the stream
+        // was opened with; it is closed and removed, and the destination is left untouched
         abandon();
         return 1;
     }
@@ -149,19 +157,23 @@ public class PDFReporter extends CloverReporter {
         }
     }
 
+    /**
+     * Finishes the document and puts it in place of any report already at the destination.
+     */
     private void close() throws CloverException {
         try {
             document.close();
+            Files.move(workFile, outFile, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
-            // the half-written file is not a readable PDF, so it is removed rather than left
-            // behind to be mistaken for a report
+            // a half-written file is not a readable PDF, and the destination has not been touched
             discardPartialReport();
             throw new CloverException("Report rendering error: " + e.getMessage(), e);
         }
     }
 
     /**
-     * Closes the document without keeping its output, used when there is nothing to report.
+     * Closes the document without keeping its output, used when there is nothing to report. Any
+     * report already at the destination is left as it was.
      */
     private void abandon() {
         try {
@@ -174,9 +186,9 @@ public class PDFReporter extends CloverReporter {
 
     private void discardPartialReport() {
         try {
-            Files.deleteIfExists(outFile);
+            Files.deleteIfExists(workFile);
         } catch (IOException e) {
-            Logger.getInstance().warn("Unable to remove the incomplete PDF report " + outFile, e);
+            Logger.getInstance().warn("Unable to remove the incomplete PDF report " + workFile, e);
         }
     }
 
@@ -232,7 +244,7 @@ public class PDFReporter extends CloverReporter {
         document.add(
             RenderingSupport.createHistoricalReportHeader(
                 desc.getSubjectMetrics(), desc.getFirstTimestamp(), desc.getLastTimestamp(),
-                reportTitle, titleAnchor, !desc.isPackageLevel(), colours));
+                reportTitle, titleAnchor, colours));
         document.add(RenderingSupport.getSpacerRow());
 
         if (desc.showOverview()) {

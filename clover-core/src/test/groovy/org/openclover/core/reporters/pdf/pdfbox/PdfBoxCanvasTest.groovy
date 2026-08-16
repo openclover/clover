@@ -6,7 +6,6 @@ import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.pdmodel.PDPage
 import org.apache.pdfbox.pdmodel.PDPageContentStream
 import org.apache.pdfbox.pdmodel.common.PDRectangle
-import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject
 import org.apache.pdfbox.pdmodel.interactive.annotation.PDAnnotationLink
 import org.apache.pdfbox.text.PDFTextStripper
 import org.apache.pdfbox.text.TextPosition
@@ -32,7 +31,7 @@ class PdfBoxCanvasTest extends TestCase {
     private PDPage page
     private PDPageContentStream stream
     private FontRegistry fonts
-    private Map<String, PDImageXObject> imageCache
+    private ImageRegistry images
     private PdfBoxCanvas canvas
 
     void setUp() {
@@ -41,11 +40,18 @@ class PdfBoxCanvasTest extends TestCase {
         document.addPage(page)
         stream = new PDPageContentStream(document, page)
         fonts = new FontRegistry(document)
-        imageCache = new HashMap<>()
-        canvas = new PdfBoxCanvas(document, page, stream, fonts, new TextLayouter(fonts), imageCache)
+        images = new ImageRegistry(document)
+        canvas = new PdfBoxCanvas(document, page, stream, fonts, new TextLayouter(fonts), images)
     }
 
     void tearDown() {
+        // a test that fails before closing the stream itself would otherwise leave PDFBox
+        // complaining about it while the document closes, burying the real failure
+        try {
+            stream.close()
+        } catch (IOException ignored) {
+            // already closed by the test
+        }
         document.close()
     }
 
@@ -134,7 +140,10 @@ class PdfBoxCanvasTest extends TestCase {
     }
 
     void testLinkAnnotationCoversTheDrawnText() {
-        canvas.drawText(PdfText.of("see ", FONT).addLink("OpenClover", FONT, "https://openclover.org"),
+        canvas.drawText(PdfText.builder()
+                .add("see ", FONT)
+                .addLink("OpenClover", FONT, "https://openclover.org")
+                .build(),
                 new PdfRect(100d, 700d, 300d, 20d), PdfAlign.Horizontal.LEFT)
         stream.close()
 
@@ -184,8 +193,7 @@ class PdfBoxCanvasTest extends TestCase {
         canvas.drawImage(LOGO, new PdfRect(10d, 10d, 32d, 32d))
         canvas.drawImage(LOGO, new PdfRect(50d, 10d, 32d, 32d))
 
-        assertEquals(1, imageCache.size())
-        assertNotNull(imageCache.get(LOGO))
+        assertEquals(1, images.size())
     }
 
     /**

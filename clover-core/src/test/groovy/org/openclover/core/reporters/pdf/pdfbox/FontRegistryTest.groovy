@@ -106,11 +106,20 @@ class FontRegistryTest extends TestCase {
     }
 
     /**
-     * Line breaks are the layouter's business and never reach the content stream, so they must
-     * survive sanitising even though no glyph is drawn for them.
+     * A newline is the layouter's business and never reaches the content stream, so it must
+     * survive sanitising even though no glyph is drawn for it.
      */
-    void testLineBreaksSurviveSanitising() {
-        assertEquals("first\nsecond\r\nthird",
-                fonts.sanitise("first\nsecond\r\nthird", PdfFontSpec.sans(10d)))
+    void testNewlinesSurviveSanitising() {
+        assertEquals("first\nsecond\nthird",
+                fonts.sanitise("first\nsecond\nthird", PdfFontSpec.sans(10d)))
+    }
+
+    /**
+     * A carriage return has no glyph and would fail the whole document if it reached the content
+     * stream, so it is replaced like any other unsupported character. The layouter folds line
+     * endings into newlines before sanitising, so one never gets this far in practice.
+     */
+    void testCarriageReturnsAreReplacedRatherThanPassedThrough() {
+        assertEquals("first?second", fonts.sanitise("first\rsecond", PdfFontSpec.sans(10d)))
     }
 }

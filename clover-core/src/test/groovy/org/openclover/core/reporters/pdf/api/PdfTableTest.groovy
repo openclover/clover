@@ -197,4 +197,62 @@ class PdfTableTest extends TestCase {
             }
         }
     }
+
+    /**
+     * The style protocol: a table's default style is configured once, and a cell that deviates
+     * says so at the point it is added, without disturbing the cells added after it.
+     */
+    void testACellCustomiserAppliesToThatCellAlone() {
+        PdfTable table = new PdfTable(3)
+        table.getDefaultStyle().setHorizontalAlignment(PdfAlign.Horizontal.LEFT).setPadding(2d)
+
+        table.addCell(text("plain"))
+        table.addCell(text("centred"), { it.setHorizontalAlignment(PdfAlign.Horizontal.CENTER) })
+        table.addCell(text("plain again"))
+
+        assertEquals(PdfAlign.Horizontal.LEFT, table.cells[0].style.horizontalAlignment)
+        assertEquals(PdfAlign.Horizontal.CENTER, table.cells[1].style.horizontalAlignment)
+        assertEquals("the deviation must not leak forward",
+                PdfAlign.Horizontal.LEFT, table.cells[2].style.horizontalAlignment)
+        // everything the customiser did not touch still comes from the default
+        assertEquals(2d, table.cells[1].style.paddingTop, 0.001d)
+    }
+
+    void testAnEmptyCellCanDeviateToo() {
+        PdfTable table = new PdfTable(2)
+
+        table.addEmptyCell { it.setColspan(2) }
+
+        assertNull(table.cells[0].content)
+        assertEquals(2, table.cells[0].colspan)
+    }
+
+    /**
+     * Identically styled cells share one style instance rather than holding a copy each.
+     */
+    void testCellsInTheDefaultStyleShareIt() {
+        PdfTable table = new PdfTable(1)
+        table.getDefaultStyle().setPadding(3d)
+
+        table.addCell(text("a"))
+        table.addCell(text("b"))
+
+        assertSame(table.cells[0].style, table.cells[1].style)
+    }
+
+    void testRelativeWidthsAreReportedAsAnImmutableList() {
+        PdfTable table = new PdfTable(2)
+
+        assertEquals([1d, 1d], table.relativeWidths)
+
+        table.setWidths([30d, 70d] as double[])
+        assertEquals([30d, 70d], table.relativeWidths)
+
+        try {
+            table.relativeWidths.set(0, 99d)
+            fail("expected the column proportions to be immutable")
+        } catch (UnsupportedOperationException expected) {
+            // as intended
+        }
+    }
 }

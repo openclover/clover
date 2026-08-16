@@ -4,8 +4,6 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
-import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
-import org.openclover.core.reporters.pdf.api.PdfBlock;
 import org.openclover.core.reporters.pdf.api.PdfCanvas;
 import org.openclover.core.reporters.pdf.api.PdfDocument;
 import org.openclover.core.reporters.pdf.api.PdfMargins;
@@ -17,12 +15,10 @@ import org.openclover.core.reporters.pdf.api.PdfTable;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
- * Content flow on top of PDFBox: blocks are appended down the page, rows spill onto the next page
+ * Content flow on top of PDFBox: tables are appended down the page, rows spill onto the next page
  * when they no longer fit, and the page decorator runs over the finished document just before it
  * is written out — which is why the footer can print a page total without the template patching
  * the old iText-based implementation needed.
@@ -37,7 +33,7 @@ class PdfBoxDocument implements PdfDocument {
     private final FontRegistry fonts;
     private final TextLayouter layouter;
     private final TableRenderer tables;
-    private final Map<String, PDImageXObject> imageCache = new HashMap<>();
+    private final ImageRegistry images;
     private final List<PDPage> pages = new ArrayList<>();
 
     private PDPage currentPage;
@@ -48,12 +44,13 @@ class PdfBoxDocument implements PdfDocument {
     private boolean closed;
 
     PdfBoxDocument(OutputStream out, PdfPageSize pageSize, PdfMargins margins,
-                   PdfPageDecorator decorator) throws IOException {
+                   PdfPageDecorator decorator) {
         this.out = out;
         this.pageSize = pageSize;
         this.margins = margins;
         this.decorator = decorator;
         this.fonts = new FontRegistry(document);
+        this.images = new ImageRegistry(document);
         // one layouter per document: it is stateless apart from the fonts it measures against
         this.layouter = new TextLayouter(fonts);
         this.tables = new TableRenderer(layouter);
@@ -83,12 +80,8 @@ class PdfBoxDocument implements PdfDocument {
     }
 
     @Override
-    public void add(PdfBlock block) throws IOException {
-        if (!(block instanceof PdfTable)) {
-            throw new IllegalArgumentException(
-                    "Unsupported PDF block type: " + block.getClass().getName());
-        }
-        final TableLayout layout = tables.layout((PdfTable) block, contentWidth(), false);
+    public void add(PdfTable table) throws IOException {
+        final TableLayout layout = tables.layout(table, contentWidth(), false);
 
         for (TableLayout.Row row : layout.getRows()) {
             ensurePage();
@@ -98,7 +91,7 @@ class PdfBoxDocument implements PdfDocument {
                 newPage();
                 ensurePage();
             }
-            tables.drawRow(currentCanvas, row, layout.getColumnWidths(), margins.getLeft(), cursorY);
+            tables.drawRow(currentCanvas, row, margins.getLeft(), cursorY);
             cursorY -= row.getHeight();
             pageIsEmpty = false;
         }
@@ -124,7 +117,7 @@ class PdfBoxDocument implements PdfDocument {
         document.addPage(currentPage);
         pages.add(currentPage);
         currentStream = new PDPageContentStream(document, currentPage);
-        currentCanvas = new PdfBoxCanvas(document, currentPage, currentStream, fonts, layouter, imageCache);
+        currentCanvas = new PdfBoxCanvas(document, currentPage, currentStream, fonts, layouter, images);
         cursorY = contentTop();
         pageIsEmpty = true;
     }
@@ -165,7 +158,7 @@ class PdfBoxDocument implements PdfDocument {
             try (PDPageContentStream stream = new PDPageContentStream(
                     document, page, PDPageContentStream.AppendMode.APPEND, true, true)) {
                 final PdfCanvas canvas =
-                        new PdfBoxCanvas(document, page, stream, fonts, layouter, imageCache);
+                        new PdfBoxCanvas(document, page, stream, fonts, layouter, images);
                 decorator.decoratePage(new PageContext(canvas, i + 1, pages.size()));
             }
         }
@@ -204,6 +197,11 @@ class PdfBoxDocument implements PdfDocument {
         @Override
         public double getPageHeight() {
             return pageSize.getHeight();
+        }
+
+        @Override
+        public PdfMargins getMargins() {
+            return margins;
         }
 
         @Override

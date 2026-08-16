@@ -88,4 +88,71 @@ class PdfCellStyleTest extends TestCase {
         assertEquals(Color.BLUE, derived.backgroundColour)
         assertEquals(PdfAlign.Vertical.MIDDLE, derived.verticalAlignment)
     }
+
+    /**
+     * The style is handed out to cells, so a caller that keeps its own mutable set of edges must
+     * not be able to restyle cells through it afterwards.
+     */
+    void testTheBorderSetIsCopiedOnTheWayIn() {
+        Set<PdfBorder> mutable = EnumSet.of(PdfBorder.TOP)
+        PdfCellStyle style = PdfCellStyle.builder().setBorders(mutable).build()
+
+        mutable.add(PdfBorder.BOTTOM)
+
+        assertEquals(PdfBorder.of(PdfBorder.TOP), style.borders)
+        try {
+            style.borders.add(PdfBorder.LEFT)
+            fail("expected the style's borders to be immutable")
+        } catch (UnsupportedOperationException expected) {
+            // as intended
+        }
+    }
+
+    void testACellMustSpanAtLeastOneColumn() {
+        [0, -1].each { colspan ->
+            try {
+                PdfCellStyle.builder().setColspan(colspan)
+                fail("expected a colspan of ${colspan} to be rejected")
+            } catch (IllegalArgumentException expected) {
+                // as intended
+            }
+        }
+        assertEquals(1, PdfCellStyle.builder().setColspan(1).build().colspan)
+    }
+
+    /**
+     * A table of many identically styled cells should hold one style, not one per cell.
+     */
+    void testBuildingTwiceWithNothingChangedReturnsTheSameStyle() {
+        PdfCellStyle.Builder builder = PdfCellStyle.builder().setPadding(4d)
+
+        PdfCellStyle first = builder.build()
+        assertSame(first, builder.build())
+
+        builder.setPadding(5d)
+        assertNotSame("a change must invalidate the cached style", first, builder.build())
+        assertEquals(4d, first.paddingTop, 0.001d)
+    }
+
+    void testStylesWithTheSameValuesAreEqual() {
+        Closure<PdfCellStyle.Builder> template = {
+            PdfCellStyle.builder()
+                    .setPadding(3d)
+                    .setColspan(2)
+                    .setBorders(PdfBorder.TOP, PdfBorder.BOTTOM)
+                    .setBackgroundColour(Color.BLUE)
+                    .setLeading(1d, 0.9d)
+                    .setHorizontalAlignment(PdfAlign.Horizontal.CENTER)
+        }
+
+        PdfCellStyle one = template().build()
+        PdfCellStyle other = template().build()
+
+        assertEquals(one, other)
+        assertEquals(one.hashCode(), other.hashCode())
+        assertFalse(one == template().setPadding(4d).build())
+        assertFalse(one == template().setBorders(PdfBorder.TOP).build())
+        assertFalse(one == template().setBackgroundColour(Color.RED).build())
+        assertFalse(one.equals(null))
+    }
 }

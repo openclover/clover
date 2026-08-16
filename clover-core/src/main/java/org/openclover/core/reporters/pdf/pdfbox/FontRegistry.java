@@ -60,7 +60,7 @@ class FontRegistry {
      */
     double stringWidth(String text, PdfFontSpec spec) {
         if (text.isEmpty()) {
-            return 0;
+            return 0.0;
         }
         final Face face = face(spec.getStyle());
         try {
@@ -89,9 +89,9 @@ class FontRegistry {
         while (i < text.length()) {
             final int codePoint = text.codePointAt(i);
             final int charCount = Character.charCount(codePoint);
-            // control characters never reach the content stream, they are handled by the layouter
-            final boolean supported = codePoint == '\n' || codePoint == '\r'
-                    || cmap.getGlyphId(codePoint) != 0;
+            // a newline never reaches the content stream, the layouter breaks the line on it;
+            // every other control character has no glyph and is replaced like any other
+            final boolean supported = codePoint == '\n' || cmap.getGlyphId(codePoint) != 0;
             if (!supported && cleaned == null) {
                 cleaned = new StringBuilder(text.length()).append(text, 0, i);
             }

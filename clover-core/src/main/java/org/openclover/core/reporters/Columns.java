@@ -22,7 +22,6 @@ import java.util.Locale;
 import java.util.Set;
 
 import static org.openclover.core.util.Lists.newLinkedList;
-import static org.openclover.core.util.Sets.newHashSet;
 import static org.openclover.core.util.Sets.newLinkedHashSet;
 
 /**

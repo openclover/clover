@@ -84,4 +84,23 @@ class TextLayouterTest extends TestCase {
         assertEquals(1, lines.size())
         assertEquals("a  b   c", textOf(lines).join(""))
     }
+
+    /**
+     * A carriage return has no glyph in the report font, so one that reached the content stream
+     * would fail the whole document. Every line ending convention is folded into a single break
+     * before the text is measured.
+     */
+    void testEveryLineEndingConventionBreaksExactlyOneLine() {
+        assertEquals(["a", "b"], textOf(layouter.layout(PdfText.of("a\nb", FONT), 500d)))
+        assertEquals(["a", "b"], textOf(layouter.layout(PdfText.of("a\r\nb", FONT), 500d)))
+        assertEquals(["a", "b"], textOf(layouter.layout(PdfText.of("a\rb", FONT), 500d)))
+    }
+
+    void testNoCarriageReturnSurvivesIntoAPiece() {
+        List<TextLayouter.Line> lines = layouter.layout(PdfText.of("first\r\nsecond\rthird", FONT), 500d)
+
+        String drawn = lines.collect { line -> line.pieces.collect { it.text }.join("") }.join("")
+        assertFalse(drawn, drawn.contains("\r"))
+        assertFalse("a replaced CR would show up as a question mark", drawn.contains("?"))
+    }
 }

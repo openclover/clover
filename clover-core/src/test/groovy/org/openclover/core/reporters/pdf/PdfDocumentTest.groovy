@@ -224,8 +224,10 @@ class PdfDocumentTest extends TestCase {
         PdfDocument doc = newDocument()
         PdfTable table = new PdfTable(1)
         table.setWidthPercentage(100f)
-        table.addCell(PdfText.of("see ", PdfFontSpec.sans(10))
-                .addLink("OpenClover", PdfFontSpec.sans(10, PdfFontStyle.BOLD), "https://openclover.org"))
+        table.addCell(PdfText.builder()
+                .add("see ", PdfFontSpec.sans(10))
+                .addLink("OpenClover", PdfFontSpec.sans(10, PdfFontStyle.BOLD), "https://openclover.org")
+                .build())
         doc.add(table)
         doc.close()
 
@@ -314,5 +316,59 @@ class PdfDocumentTest extends TestCase {
         } catch (IllegalArgumentException expected) {
             // as intended
         }
+    }
+
+    /**
+     * A row taller than a whole page cannot be broken, so it is moved to a fresh page and allowed
+     * to run over rather than being dropped or looping forever looking for room.
+     */
+    void testARowTallerThanAPageIsDrawnOnceOnAPageOfItsOwn() {
+        PdfDocument doc = newDocument()
+
+        PdfTable first = new PdfTable(1)
+        first.setWidthPercentage(100)
+        first.addCell(PdfText.of("before the giant", PdfFontSpec.sans(10)))
+        doc.add(first)
+
+        PdfTable giant = new PdfTable(1)
+        giant.setWidthPercentage(100)
+        giant.getDefaultStyle().setMinimumHeight(PdfPageSize.A4.height * 2)
+        giant.addCell(PdfText.of("the giant row", PdfFontSpec.sans(10)))
+        doc.add(giant)
+
+        PdfTable last = new PdfTable(1)
+        last.setWidthPercentage(100)
+        last.addCell(PdfText.of("after the giant", PdfFontSpec.sans(10)))
+        doc.add(last)
+
+        doc.close()
+
+        String text = extractText()
+        assertEquals("the giant row must be drawn exactly once",
+                1, text.count("the giant row"))
+        assertTrue(text, text.contains("before the giant"))
+        assertTrue("content after an over-tall row must still be drawn", text.contains("after the giant"))
+        // the giant starts a page of its own, and the row after it starts another
+        assertEquals(3, pageCount())
+    }
+
+    /**
+     * A carriage return has no glyph in the report font. One reaching the content stream would
+     * fail the whole document, so line endings are folded before the text is drawn.
+     */
+    void testWindowsLineEndingsRenderAsLineBreaks() {
+        PdfDocument doc = newDocument()
+        PdfTable table = new PdfTable(1)
+        table.setWidthPercentage(100)
+        table.addCell(PdfText.of("first line\r\nsecond line\rthird line", PdfFontSpec.sans(10)))
+
+        doc.add(table)
+        doc.close()
+
+        String text = extractText()
+        assertTrue(text, text.contains("first line"))
+        assertTrue(text, text.contains("second line"))
+        assertTrue(text, text.contains("third line"))
+        assertFalse("a carriage return must not survive as a missing glyph", text.contains("?"))
     }
 }

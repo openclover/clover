@@ -15,6 +15,9 @@ public interface PdfPageContext {
 
     double getPageHeight();
 
+    /** @return the margins the document body is laid out with, so decorators can line up with it */
+    PdfMargins getMargins();
+
     PdfCanvas getCanvas();
 
     /**

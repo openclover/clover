@@ -21,12 +21,9 @@ import org.openclover.core.reporters.pdf.api.PdfText;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Drawing primitives on top of a single PDFBox page. Everything the layout engine and the widgets
@@ -34,23 +31,21 @@ import java.util.Map;
  */
 class PdfBoxCanvas implements PdfCanvas {
 
-    private static final int RESOURCE_BUFFER_SIZE = 8192;
-
     private final PDDocument document;
     private final PDPage page;
     private final PDPageContentStream stream;
     private final FontRegistry fonts;
     private final TextLayouter layouter;
-    private final Map<String, PDImageXObject> imageCache;
+    private final ImageRegistry images;
 
     PdfBoxCanvas(PDDocument document, PDPage page, PDPageContentStream stream, FontRegistry fonts,
-                 TextLayouter layouter, Map<String, PDImageXObject> imageCache) {
+                 TextLayouter layouter, ImageRegistry images) {
         this.document = document;
         this.page = page;
         this.stream = stream;
         this.fonts = fonts;
         this.layouter = layouter;
-        this.imageCache = imageCache;
+        this.images = images;
     }
 
     /**
@@ -120,7 +115,7 @@ class PdfBoxCanvas implements PdfCanvas {
 
     @Override
     public void drawImage(String resourcePath, PdfRect bounds) {
-        final PDImageXObject image = loadImage(resourcePath);
+        final PDImageXObject image = images.get(resourcePath);
         draw(() -> stream.drawImage(image,
                 f(bounds.getX()), f(bounds.getY()), f(bounds.getWidth()), f(bounds.getHeight())));
     }
@@ -277,31 +272,4 @@ class PdfBoxCanvas implements PdfCanvas {
         }
     }
 
-    /**
-     * Loads an image bundled on the classpath. A report resource that is missing or unreadable is
-     * a packaging fault rather than a condition to render around, so it fails the report.
-     */
-    private PDImageXObject loadImage(String resourcePath) {
-        return imageCache.computeIfAbsent(resourcePath, path -> {
-            try (InputStream in = getClass().getClassLoader().getResourceAsStream(path)) {
-                if (in == null) {
-                    throw new IllegalStateException(
-                            "PDF report image not found on the classpath: " + path);
-                }
-                return PDImageXObject.createFromByteArray(document, readFully(in), path);
-            } catch (IOException e) {
-                throw new IllegalStateException("Unable to read the PDF report image " + path, e);
-            }
-        });
-    }
-
-    private static byte[] readFully(InputStream in) throws IOException {
-        final ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-        final byte[] chunk = new byte[RESOURCE_BUFFER_SIZE];
-        int read;
-        while ((read = in.read(chunk)) != -1) {
-            buffer.write(chunk, 0, read);
-        }
-        return buffer.toByteArray();
-    }
 }

@@ -13,13 +13,20 @@ public interface PdfWidget extends PdfCellContent {
 
     void draw(PdfCanvas canvas, PdfRect bounds);
 
+    /** A widget's size does not depend on the width it is given, so there is nothing to keep. */
     @Override
-    default double height(PdfLayout layout, PdfCellStyle style, double contentWidth) {
-        return preferredHeight();
-    }
+    default PdfMeasuredContent measure(PdfLayout layout, PdfCellStyle style, double contentWidth) {
+        return new PdfMeasuredContent() {
 
-    @Override
-    default void draw(PdfLayout layout, PdfCanvas canvas, PdfCellStyle style, PdfRect bounds) {
-        draw(canvas, bounds);
+            @Override
+            public double getHeight() {
+                return preferredHeight();
+            }
+
+            @Override
+            public void draw(PdfCanvas canvas, PdfRect bounds) {
+                PdfWidget.this.draw(canvas, bounds);
+            }
+        };
     }
 }

@@ -9,6 +9,7 @@ import org.openclover.core.reporters.pdf.api.PdfCanvas
 import org.openclover.core.reporters.pdf.api.PdfCellStyle
 import org.openclover.core.reporters.pdf.api.PdfFontSpec
 import org.openclover.core.reporters.pdf.api.PdfLayout
+import org.openclover.core.reporters.pdf.api.PdfMeasuredContent
 import org.openclover.core.reporters.pdf.api.PdfRect
 import org.openclover.core.reporters.pdf.api.PdfTable
 import org.openclover.core.reporters.pdf.api.PdfText
@@ -313,13 +314,19 @@ class TableRendererTest extends TestCase {
         PdfRect drawn = null
         def custom = new org.openclover.core.reporters.pdf.api.PdfCellContent() {
             @Override
-            double height(PdfLayout layout, PdfCellStyle style, double contentWidth) {
-                return 25d
-            }
+            PdfMeasuredContent measure(PdfLayout layout, PdfCellStyle style, double contentWidth) {
+                return new PdfMeasuredContent() {
 
-            @Override
-            void draw(PdfLayout layout, PdfCanvas canvas, PdfCellStyle style, PdfRect bounds) {
-                drawn = bounds
+                    @Override
+                    double getHeight() {
+                        return 25d
+                    }
+
+                    @Override
+                    void draw(PdfCanvas canvas, PdfRect bounds) {
+                        drawn = bounds
+                    }
+                }
             }
         }
 
@@ -332,5 +339,97 @@ class TableRendererTest extends TestCase {
         assertEquals(25d + 2 * PADDING, layout.getRows()[0].getHeight(), 0.001d)
         assertNotNull(drawn)
         assertEquals(25d, drawn.height, 0.001d)
+    }
+
+    /**
+     * The cell is taller than its content, so the vertical alignment decides where in the cell the
+     * content sits. All three settings are honoured; before the measured layout existed, BOTTOM
+     * quietly behaved like TOP.
+     */
+    void testVerticalAlignmentPlacesContentInsideATallCell() {
+        Closure<Double> topOfContent = { PdfAlign.Vertical alignment ->
+            RecordingCanvas own = new RecordingCanvas()
+            PdfTable table = newTable(1)
+            table.getDefaultStyle().setMinimumHeight(100d).setVerticalAlignment(alignment)
+            table.addCell(PdfText.of("x", FONT))
+
+            renderer.drawTable(own, table, 0d, 100d, CONTENT_WIDTH)
+            return own.texts[0].bounds.top
+        }
+
+        double top = topOfContent(PdfAlign.Vertical.TOP)
+        double middle = topOfContent(PdfAlign.Vertical.MIDDLE)
+        double bottom = topOfContent(PdfAlign.Vertical.BOTTOM)
+
+        assertTrue("TOP should sit highest, got ${top} vs ${middle}", top > middle)
+        assertTrue("BOTTOM should sit lowest, got ${middle} vs ${bottom}", middle > bottom)
+
+        // the row is 100pt tall and drawn from y=100 down, so its bottom edge sits at y=0
+        assertEquals("inset from the top edge by the padding", 100d - PADDING, top, 0.001d)
+        assertEquals("inset from the bottom edge by the padding",
+                PADDING + heightOfOneLine(), bottom, 0.001d)
+    }
+
+    /** @return the height one line of the test font occupies, as the renderer measures it */
+    private double heightOfOneLine() {
+        PdfTable table = newTable(1)
+        table.addCell(PdfText.of("x", FONT))
+        return renderer.layout(table, CONTENT_WIDTH, false).rows[0].cells[0].contentHeight
+    }
+
+    /**
+     * Measuring produces something drawable, so a nested table is laid out once however deeply it
+     * is nested - the alternative costs 2^depth layouts of the innermost content.
+     */
+    void testNestedTablesAreLaidOutOnlyOnce() {
+        int[] measured = [0]
+        def counting = new org.openclover.core.reporters.pdf.api.PdfCellContent() {
+
+            @Override
+            PdfMeasuredContent measure(PdfLayout layout, PdfCellStyle style, double contentWidth) {
+                measured[0]++
+                return new PdfMeasuredContent() {
+
+                    @Override
+                    double getHeight() {
+                        return 10d
+                    }
+
+                    @Override
+                    void draw(PdfCanvas canvas, PdfRect bounds) {
+                        // nothing to paint
+                    }
+                }
+            }
+        }
+
+        PdfTable innermost = newTable(1)
+        innermost.addCell(counting)
+        PdfTable middle = newTable(1)
+        middle.addCell(innermost)
+        PdfTable outer = newTable(1)
+        outer.addCell(middle)
+
+        renderer.drawTable(canvas, outer, 0d, 500d, CONTENT_WIDTH)
+
+        assertEquals("the innermost content should be measured exactly once", 1, measured[0])
+    }
+
+    /**
+     * Drawing an already-measured table reuses the measurement rather than starting over, which is
+     * what lets the document flow break a table across pages row by row.
+     */
+    void testAMeasuredTableIsDrawnWithoutRemeasuring() {
+        PdfTable table = newTable(2, [50, 50] as int[])
+        table.addCell(PdfText.of("left", FONT))
+        table.addCell(PdfText.of("right", FONT))
+
+        TableLayout layout = renderer.layout(table, CONTENT_WIDTH, false)
+        renderer.draw(canvas, layout, 10d, 400d)
+
+        assertEquals(2, canvas.texts.size())
+        assertEquals(10d + PADDING, canvas.texts[0].bounds.x, 0.001d)
+        assertEquals(10d + CONTENT_WIDTH / 2 + PADDING, canvas.texts[1].bounds.x, 0.001d)
+        assertEquals(400d - PADDING, canvas.texts[0].bounds.top, 0.001d)
     }
 }

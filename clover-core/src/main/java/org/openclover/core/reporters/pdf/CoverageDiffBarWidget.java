@@ -4,6 +4,7 @@ import org.openclover.core.reporters.pdf.api.PdfAlign;
 import org.openclover.core.reporters.pdf.api.PdfCanvas;
 import org.openclover.core.reporters.pdf.api.PdfFontSpec;
 import org.openclover.core.reporters.pdf.api.PdfRect;
+import org.openclover.core.reporters.pdf.api.PdfStroke;
 import org.openclover.core.reporters.pdf.api.PdfText;
 import org.openclover.core.reporters.pdf.api.PdfWidget;
 import org.openclover.runtime.util.Formatting;
@@ -18,7 +19,6 @@ import org.openclover.runtime.util.Formatting;
  */
 public class CoverageDiffBarWidget implements PdfWidget {
 
-    private static final double BAR_LINE_WIDTH = 0.5;
     private static final double HEIGHT_ADJUSTMENT = 2.0;
 
     /** Fraction of the width the bar always occupies, before the change is added to it. */
@@ -80,7 +80,7 @@ public class CoverageDiffBarWidget implements PdfWidget {
         final PdfRect bar = lostCoverage ? right : left;
         final PdfRect labelBounds = lostCoverage ? left : right;
 
-        canvas.setLineWidth(BAR_LINE_WIDTH);
+        canvas.setLineWidth(PdfStroke.THIN_BORDER_WIDTH);
         canvas.fillRect(bar, lostCoverage ? colours.COL_BAR_UNCOVERED : colours.COL_BAR_COVERED);
         canvas.strokeRect(bar, colours.COL_BAR_BORDER);
 

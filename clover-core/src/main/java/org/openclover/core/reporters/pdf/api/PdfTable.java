@@ -1,19 +1,21 @@
 package org.openclover.core.reporters.pdf.api;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
+import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 
 /**
  * A grid of {@link PdfCell}s. Cells are appended left to right and wrap to the next row once
- * their colspans fill the column count.
+ * their column spans fill the column count.
  *
  * <p>Column widths are relative proportions of the table width; how wide the table itself is comes
  * from its {@link WidthMode}.
  */
-public class PdfTable implements PdfBlock, PdfCellContent {
+public class PdfTable implements PdfCellContent {
 
     /** Table width as a percentage of the available width, unless overridden. */
     public static final double DEFAULT_WIDTH_PERCENTAGE = 80.0;
@@ -38,7 +40,7 @@ public class PdfTable implements PdfBlock, PdfCellContent {
     private final List<PdfCell> cells = new ArrayList<>();
     private final PdfCellStyle.Builder defaultStyle = PdfCellStyle.builder();
 
-    private double[] relativeWidths;
+    private List<Double> relativeWidths;
     private WidthMode widthMode = WidthMode.AUTO;
     private double widthPercentage = DEFAULT_WIDTH_PERCENTAGE;
     private double totalWidth;
@@ -51,8 +53,8 @@ public class PdfTable implements PdfBlock, PdfCellContent {
             throw new IllegalArgumentException("a table needs at least one column");
         }
         this.numColumns = numColumns;
-        this.relativeWidths = new double[numColumns];
-        Arrays.fill(relativeWidths, 1.0);
+        // equal proportions until told otherwise
+        this.relativeWidths = Collections.nCopies(numColumns, 1.0);
     }
 
     public int getNumColumns() {
@@ -60,7 +62,12 @@ public class PdfTable implements PdfBlock, PdfCellContent {
     }
 
     /**
-     * @return the style template applied to each cell added afterwards
+     * The style every cell of this table is given, meant to be configured once when the table is
+     * created. A cell that has to deviate passes a customiser to
+     * {@link #addCell(PdfCellContent, Consumer)} instead, which applies it to a copy and so leaves
+     * this template — and every other cell — alone.
+     *
+     * @return the style template applied to each cell added afterward
      */
     public PdfCellStyle.Builder getDefaultStyle() {
         return defaultStyle;
@@ -75,14 +82,15 @@ public class PdfTable implements PdfBlock, PdfCellContent {
             throw new IllegalArgumentException(
                     "expected " + numColumns + " column widths, got " + widths.length);
         }
-        this.relativeWidths = widths.clone();
+        this.relativeWidths = Collections.unmodifiableList(
+                DoubleStream.of(widths).boxed().collect(Collectors.toList()));
         return this;
     }
 
     /**
-     * @return the column proportions; the array belongs to the table and must not be modified
+     * @return the column proportions, relative to their own sum
      */
-    public double[] getRelativeWidths() {
+    public List<Double> getRelativeWidths() {
         return relativeWidths;
     }
 
@@ -137,11 +145,38 @@ public class PdfTable implements PdfBlock, PdfCellContent {
 
     /** Adds an empty cell, used as a spacer. */
     public PdfTable addCell() {
-        return addCell(null);
+        return addCell((PdfCellContent) null);
     }
 
+    /** Adds a cell in the table's default style. */
     public PdfTable addCell(PdfCellContent content) {
-        cells.add(new PdfCell(defaultStyle.build(), content));
+        return addCell(new PdfCell(defaultStyle.build(), content));
+    }
+
+    /**
+     * Adds a cell whose style deviates from the table's default. The customiser is applied to a
+     * copy of the default style, so the deviation lasts for this one cell.
+     *
+     * @param customiser applied to a copy of {@link #getDefaultStyle()}
+     */
+    public PdfTable addCell(PdfCellContent content, Consumer<PdfCellStyle.Builder> customiser) {
+        final PdfCellStyle.Builder style = defaultStyle.build().toBuilder();
+        customiser.accept(style);
+        return addCell(new PdfCell(style.build(), content));
+    }
+
+    /**
+     * Adds an empty cell whose style deviates from the table's default. Named apart from
+     * {@link #addCell(PdfCellContent, Consumer)} because both {@link Consumer} and
+     * {@link PdfCellContent} have a single method, which makes a one-argument overload ambiguous
+     * for a lambda.
+     */
+    public PdfTable addEmptyCell(Consumer<PdfCellStyle.Builder> customiser) {
+        return addCell(null, customiser);
+    }
+
+    private PdfTable addCell(PdfCell cell) {
+        cells.add(cell);
         rows = null;
         return this;
     }
@@ -181,12 +216,7 @@ public class PdfTable implements PdfBlock, PdfCellContent {
     }
 
     @Override
-    public double height(PdfLayout layout, PdfCellStyle style, double contentWidth) {
-        return layout.nestedTableHeight(this, contentWidth);
-    }
-
-    @Override
-    public void draw(PdfLayout layout, PdfCanvas canvas, PdfCellStyle style, PdfRect bounds) {
-        layout.drawNestedTable(canvas, this, bounds.getX(), bounds.getTop(), bounds.getWidth());
+    public PdfMeasuredContent measure(PdfLayout layout, PdfCellStyle style, double contentWidth) {
+        return layout.measureTable(this, contentWidth);
     }
 }

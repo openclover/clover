@@ -15,10 +15,12 @@ import org.openclover.core.reporters.ColumnFormat;
 import org.openclover.core.reporters.Historical;
 import org.openclover.core.reporters.pdf.api.PdfAlign;
 import org.openclover.core.reporters.pdf.api.PdfBorder;
+import org.openclover.core.reporters.pdf.api.PdfCellStyle;
 import org.openclover.core.reporters.pdf.api.PdfFontSpec;
 import org.openclover.core.reporters.pdf.api.PdfFontStyle;
 import org.openclover.core.reporters.pdf.api.PdfTable;
 import org.openclover.core.reporters.pdf.api.PdfText;
+import org.openclover.core.reporters.pdf.api.PdfTextBuilder;
 import org.openclover.core.reporters.util.CloverChartFactory;
 import org.openclover.core.reporters.util.HistoricalReportDescriptor;
 import org.openclover.core.reporters.util.MetricsDiffSummary;
@@ -29,6 +31,7 @@ import java.awt.Color;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
 /**
@@ -50,22 +53,32 @@ public class RenderingSupport {
     /** Height of the coverage bars, in points. */
     private static final double BAR_HEIGHT = 10.0;
 
+    /** Style deviations used often enough to be worth naming. */
+    private static final Consumer<PdfCellStyle.Builder> CENTERED =
+            style -> style.setHorizontalAlignment(PdfAlign.Horizontal.CENTER);
+
+    private static final Consumer<PdfCellStyle.Builder> RIGHT_ALIGNED =
+            style -> style.setHorizontalAlignment(PdfAlign.Horizontal.RIGHT);
+
+    /** A cell spanning both columns of a two column table. */
+    private static final Consumer<PdfCellStyle.Builder> FULL_WIDTH = style -> style.setColspan(2);
+
     public static PdfTable getSpacerRow() {
         final PdfTable spacer = new PdfTable(1);
         spacer.getDefaultStyle().setBorders(PdfBorder.NONE);
-        spacer.setWidthPercentage(100);
+        spacer.setWidthPercentage(100.0);
         spacer.addCell(PdfText.of(" ", TEXT_10));
         return spacer;
     }
 
-    public static PdfTable createReportHeader(ProjectInfo hasmetrics, long ts, String title,
+    public static PdfTable createReportHeader(ProjectInfo hasMetrics, long ts, String title,
                                               String titleAnchor, PDFColours colours) {
-        return createReportHeader(hasmetrics, ts, title, titleAnchor, true, colours);
+        return createReportHeader((HasMetrics) hasMetrics, ts, title, titleAnchor, colours);
     }
 
-    public static PdfTable createReportHeader(PackageInfo hasmetrics, long ts, String title,
+    public static PdfTable createReportHeader(PackageInfo hasMetrics, long ts, String title,
                                               String titleAnchor, PDFColours colours) {
-        return createReportHeader(hasmetrics, ts, title, titleAnchor, false, colours);
+        return createReportHeader((HasMetrics) hasMetrics, ts, title, titleAnchor, colours);
     }
 
     public static PdfTable createCoverageDataTable(final CloverReportConfig cfg, final String col0Title,
@@ -73,17 +86,20 @@ public class RenderingSupport {
                                                    final PDFColours colours) {
         final PdfTable stats = createCoverageDataHeader(cfg, col0Title, colours);
 
+        // the style every data row is drawn in; the few cells that deviate say so themselves
+        stats.getDefaultStyle()
+                .setBorderColour(colours.COL_TABLE_BORDER)
+                .setBorders(PdfBorder.BOX)
+                .setBackgroundColour(Color.white)
+                .setHorizontalAlignment(PdfAlign.Horizontal.LEFT)
+                .setVerticalAlignment(PdfAlign.Vertical.MIDDLE);
+
         for (HasMetrics item : items) {
             final BlockMetrics met = item.getMetrics();
 
             if (!cfg.getFormat().getShowEmpty() && met.getNumElements() == 0) {
                 continue;
             }
-
-            stats.getDefaultStyle().setBorderColour(colours.COL_TABLE_BORDER);
-            stats.getDefaultStyle().setBorders(PdfBorder.BOX);
-            stats.getDefaultStyle().setHorizontalAlignment(PdfAlign.Horizontal.LEFT);
-            stats.getDefaultStyle().setVerticalAlignment(PdfAlign.Vertical.MIDDLE);
 
             // project or package name - always add
             String name = item.getName();
@@ -94,15 +110,17 @@ public class RenderingSupport {
 
             if (!cfg.isColumnsSet()) {
                 // use standard set of columns
-                stats.getDefaultStyle().setHorizontalAlignment(PdfAlign.Horizontal.CENTER);
-                stats.addCell(PdfText.of(Formatting.getPercentStr(met.getPcCoveredBranches()), TEXT_10));
-                stats.addCell(PdfText.of(Formatting.getPercentStr(met.getPcCoveredStatements()), TEXT_10));
+                stats.addCell(PdfText.of(Formatting.getPercentStr(met.getPcCoveredBranches()), TEXT_10), CENTERED);
+                stats.addCell(PdfText.of(Formatting.getPercentStr(met.getPcCoveredStatements()), TEXT_10), CENTERED);
                 stats.addCell(PdfText.of(
-                        Formatting.getPercentStr(((ClassMetrics) met).getPcCoveredMethods()), TEXT_10));
-                stats.getDefaultStyle().setBorders(PdfBorder.TOP, PdfBorder.BOTTOM);
-                stats.addCell(PdfText.of(Formatting.getPercentStr(met.getPcCoveredElements()), BOLD_10));
-                stats.getDefaultStyle().setBorders(PdfBorder.TOP, PdfBorder.BOTTOM, PdfBorder.RIGHT);
-                stats.addCell(createPCBar(met.getPcCoveredElements(), BAR_HEIGHT, colours));
+                        Formatting.getPercentStr(((ClassMetrics) met).getPcCoveredMethods()), TEXT_10), CENTERED);
+                // the total and its bar share a cell border, so the two are ruled top and bottom
+                // only and the bar closes the row off on the right
+                stats.addCell(PdfText.of(Formatting.getPercentStr(met.getPcCoveredElements()), BOLD_10),
+                        style -> style.setHorizontalAlignment(PdfAlign.Horizontal.CENTER)
+                                .setBorders(PdfBorder.TOP, PdfBorder.BOTTOM));
+                stats.addCell(createPCBar(met.getPcCoveredElements(), BAR_HEIGHT, colours),
+                        style -> style.setBorders(PdfBorder.TOP, PdfBorder.BOTTOM, PdfBorder.RIGHT));
             } else {
                 // use user-defined set of columns
                 for (Column column : cfg.getColumns().getPkgColumns()) {
@@ -151,13 +169,15 @@ public class RenderingSupport {
     public static PdfTable createChart(Historical.Chart chartCfg, Map<Long, ? extends HasMetrics> data,
                                        PDFColours colours) {
         final PdfTable coverage = new PdfTable(1);
-        coverage.setWidthPercentage(100);
-        coverage.getDefaultStyle().setBorderColour(colours.COL_TABLE_BORDER);
-        coverage.getDefaultStyle().setBackgroundColour(colours.COL_HEADER_BG);
-        coverage.getDefaultStyle().setPaddingLeft(2);
-        coverage.addCell(PdfText.of(" ", BOLD_12));
+        coverage.setWidthPercentage(100.0);
+        coverage.getDefaultStyle()
+                .setBorderColour(colours.COL_TABLE_BORDER)
+                .setBackgroundColour(Color.white)
+                .setPaddingLeft(2.0);
 
-        coverage.getDefaultStyle().setBackgroundColour(Color.white);
+        // a shaded strip above the graph, matching the header of the tables around it
+        coverage.addCell(PdfText.of(" ", BOLD_12),
+                style -> style.setBackgroundColour(colours.COL_HEADER_BG));
 
         final JFreeChart graph = CloverChartFactory.createJFreeChart(chartCfg, data);
         coverage.addCell(new ChartWidget(graph, chartCfg.getHeight()));
@@ -169,8 +189,9 @@ public class RenderingSupport {
 
         final PdfTable projStats = new PdfTable(5);
         projStats.setWidths(new int[]{30, 17, 18, 20, 15});
-        projStats.getDefaultStyle().setBorders(PdfBorder.NONE);
-        projStats.getDefaultStyle().setHorizontalAlignment(PdfAlign.Horizontal.RIGHT);
+        projStats.getDefaultStyle()
+                .setBorders(PdfBorder.NONE)
+                .setHorizontalAlignment(PdfAlign.Horizontal.RIGHT);
         projStats.addCell(PdfText.of(level + " stats:", BOLD_10));
         projStats.addCell(PdfText.of("LOC:", BOLD_10));
         projStats.addCell(PdfText.of(Formatting.formatInt(metrics.getLineCount()), TEXT_10));
@@ -195,36 +216,37 @@ public class RenderingSupport {
         return projStats;
     }
 
-    public static PdfTable createReportHeader(HasMetrics hasmetrics, long timestamp, String title,
-                                              String titleAnchor, boolean isProject, PDFColours colours) {
-        final PdfTable titlebar = new PdfTable(2);
-        final BlockMetrics metrics = hasmetrics.getMetrics();
+    public static PdfTable createReportHeader(HasMetrics hasMetrics, long timestamp, String title,
+                                              String titleAnchor, PDFColours colours) {
+        final PdfTable titleBar = new PdfTable(2);
+        final BlockMetrics metrics = hasMetrics.getMetrics();
 
-        titlebar.setWidths(new int[]{50, 50});
-        titlebar.setWidthPercentage(100);
-        titlebar.getDefaultStyle().setBorderColour(colours.COL_TABLE_BORDER);
-        titlebar.getDefaultStyle().setBackgroundColour(colours.COL_HEADER_BG);
-        titlebar.getDefaultStyle().setPaddingLeft(2);
-        titlebar.getDefaultStyle().setLeading(2, 0.9);
+        titleBar.setWidths(new int[]{50, 50});
+        titleBar.setWidthPercentage(100.0);
+        titleBar.getDefaultStyle()
+                .setBorderColour(colours.COL_TABLE_BORDER)
+                .setBackgroundColour(colours.COL_HEADER_BG)
+                .setPaddingLeft(2.0)
+                .setLeading(2.0, 0.9);
 
-        final PdfText titleText = PdfText.of("OpenClover Coverage Report", BOLD_14);
+        final PdfTextBuilder titleText = PdfText.builder().add("OpenClover Coverage Report", BOLD_14);
         appendReportTitle(titleText, title, titleAnchor, colours);
 
         titleText.add("\nCoverage timestamp: ", BOLD_10);
         titleText.add(Formatting.formatDate(new Date(timestamp)), TEXT_10);
 
-        titlebar.addCell(titleText);
-        titlebar.addCell(createHeaderStats((PackageMetrics) metrics, colours));
-        return titlebar;
+        titleBar.addCell(titleText.build());
+        titleBar.addCell(createHeaderStats((PackageMetrics) metrics, colours));
+        return titleBar;
     }
 
     /**
      * Appends the user-supplied report title, as a link when a title anchor was configured.
      */
-    private static void appendReportTitle(PdfText target, String title, String titleAnchor,
+    private static void appendReportTitle(PdfTextBuilder target, String title, String titleAnchor,
                                           PDFColours colours) {
-        if (title != null && title.trim().length() > 0) {
-            if (titleAnchor != null && titleAnchor.trim().length() > 0) {
+        if (title != null && !title.trim().isEmpty()) {
+            if (titleAnchor != null && !titleAnchor.trim().isEmpty()) {
                 target.addLink("\n" + title,
                         PdfFontSpec.sans(12, PdfFontStyle.BOLD, colours.COL_LINK_TEXT), titleAnchor);
             } else {
@@ -234,64 +256,63 @@ public class RenderingSupport {
     }
 
     public static PdfTable createHistoricalPageHeader(String title, String titleAnchor, PDFColours colours) {
-        final PdfTable titlebar = new PdfTable(1);
+        final PdfTable titleBar = new PdfTable(1);
 
-        titlebar.setWidths(new int[]{100});
-        titlebar.setWidthPercentage(100);
-        titlebar.getDefaultStyle().setBorderColour(colours.COL_TABLE_BORDER);
-        titlebar.getDefaultStyle().setBackgroundColour(colours.COL_HEADER_BG);
+        titleBar.setWidths(new int[]{100});
+        titleBar.setWidthPercentage(100.0);
+        titleBar.getDefaultStyle()
+                .setBorderColour(colours.COL_TABLE_BORDER)
+                .setBackgroundColour(colours.COL_HEADER_BG);
 
         final PdfTable leftTab = new PdfTable(1);
         leftTab.setWidths(new int[]{100});
-        leftTab.getDefaultStyle().setBorders(PdfBorder.NONE);
-        leftTab.getDefaultStyle().setBackgroundColour(colours.COL_HEADER_BG);
-        leftTab.getDefaultStyle().setPaddingLeft(2);
-        leftTab.getDefaultStyle().setLeading(2, 0.9);
+        leftTab.getDefaultStyle()
+                .setBorders(PdfBorder.NONE)
+                .setBackgroundColour(colours.COL_HEADER_BG)
+                .setPaddingLeft(2.0)
+                .setLeading(2.0, 0.9);
 
-        final PdfText titleText = PdfText.of("Historical Coverage Report", BOLD_14);
+        final PdfTextBuilder titleText = PdfText.builder().add("Historical Coverage Report", BOLD_14);
         appendReportTitle(titleText, title, titleAnchor, colours);
 
-        leftTab.addCell(titleText);
-        titlebar.addCell(leftTab);
-        return titlebar;
+        leftTab.addCell(titleText.build());
+        titleBar.addCell(leftTab);
+        return titleBar;
     }
 
-    public static PdfTable createHistoricalReportHeader(HasMetrics hasmetrics, long ts1, long ts2,
+    public static PdfTable createHistoricalReportHeader(HasMetrics hasMetrics, long ts1, long ts2,
                                                         String title, String titleAnchor,
-                                                        boolean isProject, PDFColours colours) {
-        final PdfTable titlebar = new PdfTable(2);
-        final BlockMetrics metrics = hasmetrics.getMetrics();
+                                                        PDFColours colours) {
+        final PdfTable titleBar = new PdfTable(2);
+        final BlockMetrics metrics = hasMetrics.getMetrics();
 
-        titlebar.setWidths(new int[]{50, 50});
-        titlebar.setWidthPercentage(100);
-        titlebar.getDefaultStyle().setBorderColour(colours.COL_TABLE_BORDER);
-        titlebar.getDefaultStyle().setBackgroundColour(colours.COL_HEADER_BG);
+        titleBar.setWidths(new int[]{50, 50});
+        titleBar.setWidthPercentage(100.0);
+        titleBar.getDefaultStyle()
+                .setBorderColour(colours.COL_TABLE_BORDER)
+                .setBackgroundColour(colours.COL_HEADER_BG);
 
         final PdfTable leftTab = new PdfTable(2);
         leftTab.setWidths(new int[]{15, 85});
-        leftTab.getDefaultStyle().setBorders(PdfBorder.NONE);
-        leftTab.getDefaultStyle().setBackgroundColour(colours.COL_HEADER_BG);
-        leftTab.getDefaultStyle().setPaddingLeft(2);
-        leftTab.getDefaultStyle().setLeading(2, 0.9);
-        leftTab.getDefaultStyle().setColspan(2);
+        leftTab.getDefaultStyle()
+                .setBorders(PdfBorder.NONE)
+                .setBackgroundColour(colours.COL_HEADER_BG)
+                .setPaddingLeft(2.0)
+                .setLeading(2.0, 0.9);
 
-        final PdfText titleText = PdfText.of("Historical Coverage Report", BOLD_14);
+        final PdfTextBuilder titleText = PdfText.builder().add("Historical Coverage Report", BOLD_14);
         appendReportTitle(titleText, title, titleAnchor, colours);
-        leftTab.addCell(titleText);
+        // the title spans both columns; the timestamps below it are label/value pairs
+        leftTab.addCell(titleText.build(), FULL_WIDTH);
 
-        leftTab.getDefaultStyle().setColspan(1);
-        leftTab.getDefaultStyle().setHorizontalAlignment(PdfAlign.Horizontal.RIGHT);
-        leftTab.addCell(PdfText.of("From: ", BOLD_10));
-        leftTab.getDefaultStyle().setHorizontalAlignment(PdfAlign.Horizontal.LEFT);
+        leftTab.addCell(PdfText.of("From: ", BOLD_10), RIGHT_ALIGNED);
         leftTab.addCell(PdfText.of(Formatting.formatDate(new Date(ts1)), TEXT_10));
-        leftTab.getDefaultStyle().setHorizontalAlignment(PdfAlign.Horizontal.RIGHT);
-        leftTab.addCell(PdfText.of("To: ", BOLD_10));
-        leftTab.getDefaultStyle().setHorizontalAlignment(PdfAlign.Horizontal.LEFT);
+        leftTab.addCell(PdfText.of("To: ", BOLD_10), RIGHT_ALIGNED);
         leftTab.addCell(PdfText.of(Formatting.formatDate(new Date(ts2)), TEXT_10));
 
-        titlebar.addCell(leftTab);
-        titlebar.addCell(createHeaderStats((PackageMetrics) metrics, colours));
-        return titlebar;
+        titleBar.addCell(leftTab);
+        titleBar.addCell(createHeaderStats((PackageMetrics) metrics, colours));
+        return titleBar;
     }
 
     public static PdfTable createMoversTable(HistoricalReportDescriptor.MoversDescriptor moversDesc,
@@ -305,38 +326,34 @@ public class RenderingSupport {
 
         final PdfTable movers = newMoversTable(colours);
 
-        final PdfText title = PdfText.of("Top movers over the last " + requestedPeriod, BOLD_12);
-        title.add(" (Actual Interval: " + period + ", Range: " + range
-                + ", Threshold: +/-" + threshold + ")", ITALIC_8);
+        final PdfText title = PdfText.builder()
+                .add("Top movers over the last " + requestedPeriod, BOLD_12)
+                .add(" (Actual Interval: " + period + ", Range: " + range
+                        + ", Threshold: +/-" + threshold + ")", ITALIC_8)
+                .build();
 
-        movers.addCell(title);
-        movers.getDefaultStyle().setBackgroundColour(Color.white);
+        addMoversTitle(movers, title, colours);
 
         if (gainers.isEmpty() && losers.isEmpty()) {
-            movers.getDefaultStyle().setColspan(2);
             movers.addCell(PdfText.of("No changes in coverage are outside the specified threshold (+/-"
-                    + threshold + ")", ITALIC_10));
+                    + threshold + ")", ITALIC_10), FULL_WIDTH);
             return movers;
         }
 
-        movers.getDefaultStyle().setColspan(1);
         if (gainers.isEmpty()) {
             // there are no gainers.
-            movers.getDefaultStyle().setColspan(2);
             movers.addCell(PdfText.of("No classes have gained coverage over threshold (+"
-                    + threshold + ")", ITALIC_10));
+                    + threshold + ")", ITALIC_10), FULL_WIDTH);
         } else {
             for (MetricsDiffSummary diff : gainers) {
                 movers.addCell(PdfText.of(diff.getName(), TEXT_8));
                 movers.addCell(createPCDiffBar(diff, colours));
             }
         }
-        movers.getDefaultStyle().setColspan(1);
         if (losers.isEmpty()) {
             // there are no losers.
-            movers.getDefaultStyle().setColspan(2);
             movers.addCell(PdfText.of("No classes have lost coverage over threshold (-"
-                    + threshold + ")", ITALIC_10));
+                    + threshold + ")", ITALIC_10), FULL_WIDTH);
         } else {
             // losers are laid out mirrored: the bar first, then the class name
             for (MetricsDiffSummary diff : losers) {
@@ -356,19 +373,18 @@ public class RenderingSupport {
 
         final PdfTable added = newMoversTable(colours);
 
-        final PdfText title = PdfText.of("Classes added over the last " + requestedPeriod, BOLD_12);
-        title.add(" (Actual Interval: " + period + ", Range: " + range + ")", ITALIC_8);
+        final PdfText title = PdfText.builder()
+                .add("Classes added over the last " + requestedPeriod, BOLD_12)
+                .add(" (Actual Interval: " + period + ", Range: " + range + ")", ITALIC_8)
+                .build();
 
-        added.addCell(title);
-        added.getDefaultStyle().setBackgroundColour(Color.white);
+        addMoversTitle(added, title, colours);
 
         if (gainers.isEmpty()) {
-            added.getDefaultStyle().setColspan(2);
-            added.addCell(PdfText.of("No new classes", ITALIC_10));
+            added.addCell(PdfText.of("No new classes", ITALIC_10), FULL_WIDTH);
             return added;
         }
 
-        added.getDefaultStyle().setColspan(1);
         for (MetricsDiffSummary diff : gainers) {
             added.addCell(PdfText.of(diff.getName(), TEXT_8));
             added.addCell(createPCDiffBar(diff, colours));
@@ -376,14 +392,24 @@ public class RenderingSupport {
         return added;
     }
 
+    /**
+     * A two column table of class names and their coverage bars, in the style shared by the
+     * "top movers" and "classes added" sections.
+     */
     private static PdfTable newMoversTable(PDFColours colours) {
         final PdfTable movers = new PdfTable(2);
-        movers.setWidthPercentage(100);
-        movers.getDefaultStyle().setBorderColour(colours.COL_TABLE_BORDER);
-        movers.getDefaultStyle().setBackgroundColour(colours.COL_HEADER_BG);
+        movers.setWidthPercentage(100.0);
         movers.setWidths(new int[]{50, 50});
-        movers.getDefaultStyle().setColspan(2);
+        // the body of the table; the title row above it is shaded and spans both columns
+        movers.getDefaultStyle()
+                .setBorderColour(colours.COL_TABLE_BORDER)
+                .setBackgroundColour(Color.white);
         return movers;
+    }
+
+    private static void addMoversTitle(PdfTable movers, PdfText title, PDFColours colours) {
+        movers.addCell(title, style -> style.setColspan(2)
+                .setBackgroundColour(colours.COL_HEADER_BG));
     }
 
     private static CoverageDiffBarWidget createPCDiffBar(MetricsDiffSummary diff, PDFColours colours) {
@@ -398,21 +424,22 @@ public class RenderingSupport {
                                                      final PDFColours colours) {
         final int numColumns = !cfg.isColumnsSet() ? 6 : 1 + cfg.getColumns().getPkgColumns().size();
         final PdfTable header = new PdfTable(numColumns);
-        header.setWidthPercentage(100);
-        header.getDefaultStyle().setBorderColour(colours.COL_TABLE_BORDER);
-        header.getDefaultStyle().setBackgroundColour(colours.COL_HEADER_BG);
+        header.setWidthPercentage(100.0);
+        // the shading applies to the header row only, so it is asked for per cell; the data rows
+        // added afterwards set their own default style
+        header.getDefaultStyle()
+                .setBorderColour(colours.COL_TABLE_BORDER)
+                .setBackgroundColour(colours.COL_HEADER_BG);
 
         if (!cfg.isColumnsSet()) {
             // use standard set of columns: package name, Branch, Stmt, Method, Total
             header.setWidths(new int[]{50, 10, 10, 10, 7, 13});
             header.addCell(PdfText.of(col0Title, BOLD_10));
-            header.getDefaultStyle().setHorizontalAlignment(PdfAlign.Horizontal.CENTER);
-            header.addCell(PdfText.of("Branch", BOLD_10));
-            header.addCell(PdfText.of("Stmt", BOLD_10));
-            header.addCell(PdfText.of("Method", BOLD_10));
-            header.getDefaultStyle().setColspan(2);
-            header.getDefaultStyle().setHorizontalAlignment(PdfAlign.Horizontal.LEFT);
-            header.addCell(PdfText.of("Total", BOLD_10));
+            header.addCell(PdfText.of("Branch", BOLD_10), CENTERED);
+            header.addCell(PdfText.of("Stmt", BOLD_10), CENTERED);
+            header.addCell(PdfText.of("Method", BOLD_10), CENTERED);
+            // "Total" heads both the percentage and the bar beside it
+            header.addCell(PdfText.of("Total", BOLD_10), FULL_WIDTH);
         } else {
             header.setWidths(calculateEqualColumnWidths(numColumns));
 
@@ -421,10 +448,6 @@ public class RenderingSupport {
             cfg.getColumns().getPkgColumns()
                     .forEach(column -> header.addCell(PdfText.of(column.getName(), BOLD_10)));
         }
-
-        // leave the table in a friendly state for additions
-        header.getDefaultStyle().setColspan(1);
-        header.getDefaultStyle().setBackgroundColour(Color.white);
 
         return header;
     }

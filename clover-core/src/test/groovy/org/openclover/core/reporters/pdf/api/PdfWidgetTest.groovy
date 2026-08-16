@@ -26,12 +26,15 @@ class PdfWidgetTest extends TestCase {
         }
     }
 
+    private static PdfMeasuredContent measure(PdfWidget widget, double width) {
+        return widget.measure(null, PdfCellStyle.builder().build(), width)
+    }
+
     void testHeightIsThePreferredHeightWhateverTheWidth() {
         SizedWidget widget = new SizedWidget()
-        PdfCellStyle style = PdfCellStyle.builder().build()
 
-        assertEquals(12d, widget.height(null, style, 500d), 0.001d)
-        assertEquals(12d, widget.height(null, style, 1d), 0.001d)
+        assertEquals(12d, measure(widget, 500d).height, 0.001d)
+        assertEquals(12d, measure(widget, 1d).height, 0.001d)
     }
 
     void testDrawingIsForwardedToTheCanvasAndRectangle() {
@@ -39,7 +42,7 @@ class PdfWidgetTest extends TestCase {
         RecordingCanvas canvas = new RecordingCanvas()
         PdfRect bounds = new PdfRect(1d, 2d, 3d, 4d)
 
-        widget.draw(null, canvas, PdfCellStyle.builder().build(), bounds)
+        measure(widget, 3d).draw(canvas, bounds)
 
         assertSame(canvas, widget.paintedOn)
         assertSame(bounds, widget.paintedIn)

@@ -25,17 +25,50 @@ class PDFReporterTest extends TestCase {
         testGenerateCurrentReport(false, 1)
     }
 
-    private void testGenerateCurrentReport(boolean alwaysReport, int expectedReturnValue) throws IOException, CloverException {
+    private File testGenerateCurrentReport(boolean alwaysReport, int expectedReturnValue) throws IOException, CloverException {
         final File outFile = File.createTempFile(getName(), ".pdf", TestUtils.createEmptyDirFor(getClass(), getName()))
         outFile.delete()
 
+        assertEquals(expectedReturnValue, runReport(outFile, alwaysReport))
+        return outFile
+    }
+
+    private int runReport(File outFile, boolean alwaysReport) throws CloverException {
         Current config = new Current()
         config.setSummary(true)
         config.setInitString(fixture.getInitStr())
         config.setAlwaysReport(alwaysReport)
         config.setFormat(Format.DEFAULT_PDF)
         config.setOutFile(outFile)
-        assertEquals(expectedReturnValue, new PDFReporter(config).execute())
+        return new PDFReporter(config).execute()
+    }
+
+    /**
+     * The report is rendered beside its destination and moved into place only once it is complete,
+     * so a run that produces nothing leaves whatever was already there untouched.
+     */
+    void testAFailedRunLeavesTheExistingReportAlone() throws IOException, CloverException {
+        final File outFile = new File(TestUtils.createEmptyDirFor(getClass(), getName()), "coverage.pdf")
+        outFile.text = "yesterday's report"
+
+        assertEquals("no coverage, so nothing should be reported", 1, runReport(outFile, false))
+
+        assertTrue("the previous report must survive", outFile.exists())
+        assertEquals("yesterday's report", outFile.text)
+        assertFalse("the work file must not be left behind",
+                new File(outFile.parentFile, outFile.name + ".tmp").exists())
+    }
+
+    void testASuccessfulRunReplacesTheExistingReport() throws IOException, CloverException {
+        final File outFile = new File(TestUtils.createEmptyDirFor(getClass(), getName()), "coverage.pdf")
+        outFile.text = "yesterday's report"
+
+        assertEquals(0, runReport(outFile, true))
+
+        assertTrue("a PDF should have replaced the old file",
+                outFile.bytes.length > 0 && new String(outFile.bytes, 0, 5, "ISO-8859-1") == "%PDF-")
+        assertFalse("the work file must not be left behind",
+                new File(outFile.parentFile, outFile.name + ".tmp").exists())
     }
 
     void testGenerateHistoryReportWithoutData() throws IOException, CloverException {

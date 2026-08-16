@@ -1,7 +1,6 @@
 package org.openclover.core.reporters.pdf.api
 
 import junit.framework.TestCase
-import org.openclover.core.reporters.pdf.RecordingCanvas
 
 import java.awt.Color
 
@@ -10,36 +9,70 @@ class PdfTextTest extends TestCase {
     private static final PdfFontSpec FONT = PdfFontSpec.sans(10)
 
     void testRunsAreKeptInTheOrderTheyWereAdded() {
-        PdfText text = PdfText.of("one ", FONT)
+        PdfText text = PdfText.builder()
+                .add("one ", FONT)
                 .add("two ", FONT)
                 .addLink("three", FONT, "https://openclover.org")
+                .build()
 
         assertEquals(["one ", "two ", "three"], text.runs.collect { it.text })
     }
 
     void testOnlyLinkRunsCarryAnAnchor() {
-        PdfText text = PdfText.of("plain", FONT).addLink("link", FONT, "https://openclover.org")
+        PdfText text = PdfText.builder()
+                .add("plain", FONT)
+                .addLink("link", FONT, "https://openclover.org")
+                .build()
 
         assertNull(text.runs[0].anchor)
         assertEquals("https://openclover.org", text.runs[1].anchor)
     }
 
     void testAppendingAnotherTextTakesOverItsRuns() {
-        PdfText first = PdfText.of("a", FONT)
-        PdfText second = PdfText.of("b", FONT).add("c", FONT)
-
-        first.add(second)
+        PdfText second = PdfText.builder().add("b", FONT).add("c", FONT).build()
+        PdfText first = PdfText.builder().add("a", FONT).add(second).build()
 
         assertEquals(["a", "b", "c"], first.runs.collect { it.text })
         assertEquals("the appended text is left alone", 2, second.runs.size())
     }
 
+    /**
+     * The point of the builder: a text handed to a cell keeps the runs it had at that moment,
+     * however much the builder that produced it goes on to be used.
+     */
+    void testABuiltTextIsUnaffectedByFurtherBuilding() {
+        PdfTextBuilder builder = PdfText.builder().add("first", FONT)
+        PdfText snapshot = builder.build()
+
+        builder.add(" second", FONT)
+
+        assertEquals(["first"], snapshot.runs.collect { it.text })
+        assertEquals(["first", " second"], builder.build().runs.collect { it.text })
+    }
+
+    void testToBuilderDerivesALongerTextWithoutTouchingTheOriginal() {
+        PdfText original = PdfText.of("head", FONT)
+
+        PdfText derived = original.toBuilder().add(" tail", FONT).build()
+
+        assertEquals(["head"], original.runs.collect { it.text })
+        assertEquals(["head", " tail"], derived.runs.collect { it.text })
+    }
+
+    void testSingleRunFactories() {
+        assertEquals(["only"], PdfText.of("only", FONT).runs.collect { it.text })
+
+        PdfText link = PdfText.ofLink("click", FONT, "https://openclover.org")
+        assertEquals(1, link.runs.size())
+        assertEquals("https://openclover.org", link.runs[0].anchor)
+    }
+
     void testIsEmptyOnlyWhenNoRunCarriesAnyText() {
-        assertTrue(new PdfText().isEmpty())
+        assertTrue(PdfText.builder().build().isEmpty())
         assertTrue(PdfText.of("", FONT).isEmpty())
-        assertTrue(PdfText.of("", FONT).add("", FONT).isEmpty())
+        assertTrue(PdfText.builder().add("", FONT).add("", FONT).build().isEmpty())
         assertFalse(PdfText.of(" ", FONT).isEmpty())
-        assertFalse(PdfText.of("", FONT).add("x", FONT).isEmpty())
+        assertFalse(PdfText.builder().add("", FONT).add("x", FONT).build().isEmpty())
     }
 
     void testRunsAreNotModifiableFromTheOutside() {
@@ -74,31 +107,25 @@ class PdfTextTest extends TestCase {
     }
 
     /**
-     * Text measures and draws itself through the layout it is handed, passing on the leading and
-     * alignment its cell was styled with.
+     * Text measures itself through the layout it is handed, passing on the leading and alignment
+     * its cell was styled with.
      */
-    void testTextDelegatesToTheLayout() {
+    void testTextMeasuresItselfThroughTheLayout() {
         PdfText text = PdfText.of("hello", FONT)
         PdfCellStyle style = PdfCellStyle.builder()
                 .setLeading(2d, 0.9d)
                 .setHorizontalAlignment(PdfAlign.Horizontal.RIGHT)
                 .build()
         RecordingLayout layout = new RecordingLayout()
-        RecordingCanvas canvas = new RecordingCanvas()
-        PdfRect bounds = new PdfRect(1d, 2d, 30d, 40d)
 
-        assertEquals(RecordingLayout.TEXT_HEIGHT, text.height(layout, style, 30d), 0.001d)
-        text.draw(layout, canvas, style, bounds)
+        PdfMeasuredContent measured = text.measure(layout, style, 30d)
 
+        assertSame(text, layout.measuredText)
         assertEquals(30d, layout.measuredWidth, 0.001d)
+        assertEquals(PdfAlign.Horizontal.RIGHT, layout.measuredAlignment)
         assertEquals(2d, layout.measuredFixedLeading, 0.001d)
         assertEquals(0.9d, layout.measuredMultipliedLeading, 0.001d)
-
-        assertSame(text, layout.drawnText)
-        assertSame(bounds, layout.drawnBounds)
-        assertEquals(PdfAlign.Horizontal.RIGHT, layout.drawnAlignment)
-        assertEquals(2d, layout.drawnFixedLeading, 0.001d)
-        assertEquals(0.9d, layout.drawnMultipliedLeading, 0.001d)
+        assertEquals(RecordingLayout.TEXT_HEIGHT, measured.height, 0.001d)
     }
 
     /** Records what content asked of it, so delegation can be asserted without a real engine. */
@@ -106,38 +133,34 @@ class PdfTextTest extends TestCase {
 
         static final double TEXT_HEIGHT = 17d
 
+        PdfText measuredText
         double measuredWidth, measuredFixedLeading, measuredMultipliedLeading
-        PdfText drawnText
-        PdfRect drawnBounds
-        PdfAlign.Horizontal drawnAlignment
-        double drawnFixedLeading, drawnMultipliedLeading
+        PdfAlign.Horizontal measuredAlignment
 
         @Override
-        double textHeight(PdfText text, double width, double fixedLeading, double multipliedLeading) {
+        PdfMeasuredContent measureText(PdfText text, double width, PdfAlign.Horizontal alignment,
+                                       double fixedLeading, double multipliedLeading) {
+            measuredText = text
             measuredWidth = width
+            measuredAlignment = alignment
             measuredFixedLeading = fixedLeading
             measuredMultipliedLeading = multipliedLeading
-            return TEXT_HEIGHT
+            return new PdfMeasuredContent() {
+
+                @Override
+                double getHeight() {
+                    return TEXT_HEIGHT
+                }
+
+                @Override
+                void draw(PdfCanvas canvas, PdfRect bounds) {
+                    throw new UnsupportedOperationException()
+                }
+            }
         }
 
         @Override
-        void drawText(PdfCanvas canvas, PdfText text, PdfRect bounds,
-                      PdfAlign.Horizontal alignment, double fixedLeading, double multipliedLeading) {
-            drawnText = text
-            drawnBounds = bounds
-            drawnAlignment = alignment
-            drawnFixedLeading = fixedLeading
-            drawnMultipliedLeading = multipliedLeading
-        }
-
-        @Override
-        double nestedTableHeight(PdfTable table, double availableWidth) {
-            throw new UnsupportedOperationException()
-        }
-
-        @Override
-        void drawNestedTable(PdfCanvas canvas, PdfTable table, double x, double topY,
-                             double availableWidth) {
+        PdfMeasuredContent measureTable(PdfTable table, double availableWidth) {
             throw new UnsupportedOperationException()
         }
     }

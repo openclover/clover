@@ -4,6 +4,7 @@ import junit.framework.TestCase
 import org.openclover.core.reporters.DonationMessageGenerator
 import org.openclover.core.reporters.pdf.api.PdfAlign
 import org.openclover.core.reporters.pdf.api.PdfCanvas
+import org.openclover.core.reporters.pdf.api.PdfMargins
 import org.openclover.core.reporters.pdf.api.PdfPageContext
 import org.openclover.core.reporters.pdf.api.PdfPageSize
 import org.openclover.core.reporters.pdf.api.PdfTable
@@ -15,6 +16,7 @@ import org.openclover.core.reporters.pdf.api.PdfTable
 class PageFooterRendererTest extends TestCase {
 
     private static final double PAGE_MARGIN = 25d
+    private static final PdfMargins MARGINS = new PdfMargins(PAGE_MARGIN, PAGE_MARGIN, PAGE_MARGIN, 35d)
     private static final double LOGO_SIZE = 32d
 
     private RecordingCanvas canvas
@@ -147,6 +149,11 @@ class PageFooterRendererTest extends TestCase {
         @Override
         double getPageHeight() {
             return PdfPageSize.A4.height
+        }
+
+        @Override
+        PdfMargins getMargins() {
+            return MARGINS
         }
 
         @Override
