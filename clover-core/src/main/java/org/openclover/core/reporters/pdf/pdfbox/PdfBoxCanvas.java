@@ -7,12 +7,10 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
-import org.apache.pdfbox.pdmodel.graphics.form.PDFormXObject;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.apache.pdfbox.pdmodel.interactive.action.PDActionURI;
 import org.apache.pdfbox.pdmodel.interactive.annotation.PDAnnotationLink;
 import org.apache.pdfbox.pdmodel.interactive.annotation.PDBorderStyleDictionary;
-import org.apache.pdfbox.util.Matrix;
 import org.openclover.core.reporters.pdf.api.PdfAlign;
 import org.openclover.core.reporters.pdf.api.PdfCanvas;
 import org.openclover.core.reporters.pdf.api.PdfFontSpec;
@@ -20,7 +18,6 @@ import org.openclover.core.reporters.pdf.api.PdfRect;
 import org.openclover.core.reporters.pdf.api.PdfText;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.List;
@@ -229,47 +226,9 @@ class PdfBoxCanvas implements PdfCanvas {
             // render glyphs as vector outlines, so chart labels do not depend on any font being
             // resolvable at render time
             graphics.setFontTextDrawer(new PdfBoxGraphics2DFontTextForcedDrawer());
-            return new PdfBoxGraphicsScope(graphics, bounds);
+            return new PdfBoxGraphicsScope(graphics, stream, bounds);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
     }
-
-    /**
-     * Holds an open AWT context together with the rectangle it is mapped onto, so the two cannot
-     * come apart: closing the scope stamps the drawing onto the page at those coordinates.
-     */
-    private class PdfBoxGraphicsScope implements GraphicsScope {
-
-        private final PdfBoxGraphics2D graphics;
-        private final PdfRect bounds;
-        private boolean closed;
-
-        PdfBoxGraphicsScope(PdfBoxGraphics2D graphics, PdfRect bounds) {
-            this.graphics = graphics;
-            this.bounds = bounds;
-        }
-
-        @Override
-        public Graphics2D getGraphics() {
-            return graphics;
-        }
-
-        @Override
-        public void close() {
-            if (closed) {
-                return;
-            }
-            closed = true;
-            graphics.dispose();
-            final PDFormXObject form = graphics.getXFormObject();
-            draw(() -> {
-                stream.saveGraphicsState();
-                stream.transform(Matrix.getTranslateInstance(f(bounds.getX()), f(bounds.getY())));
-                stream.drawForm(form);
-                stream.restoreGraphicsState();
-            });
-        }
-    }
-
 }

@@ -1,8 +1,6 @@
 package org.openclover.core.reporters.pdf.api;
 
 import java.awt.Color;
-import java.util.Collections;
-import java.util.EnumSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -11,8 +9,8 @@ import java.util.Set;
  * alignment and line spacing.
  *
  * <p>Immutable, so a style can be shared by any number of cells. Styles are assembled with a
- * {@link Builder}, which is also what {@link PdfTable#getDefaultStyle()} hands out as the template
- * for the cells added after it.
+ * {@link PdfCellStyleBuilder}, which is also what {@link PdfTable#getDefaultStyle()} hands out as
+ * the template for the cells added after it.
  */
 public final class PdfCellStyle {
 
@@ -30,7 +28,7 @@ public final class PdfCellStyle {
     private final PdfAlign.Horizontal horizontalAlignment;
     private final PdfAlign.Vertical verticalAlignment;
 
-    private PdfCellStyle(Builder builder) {
+    PdfCellStyle(PdfCellStyleBuilder builder) {
         this.colspan = builder.colspan;
         this.borders = builder.borders;
         this.borderColour = builder.borderColour;
@@ -46,13 +44,13 @@ public final class PdfCellStyle {
         this.verticalAlignment = builder.verticalAlignment;
     }
 
-    public static Builder builder() {
-        return new Builder();
+    public static PdfCellStyleBuilder builder() {
+        return new PdfCellStyleBuilder();
     }
 
     /** @return a builder initialised with this style's values */
-    public Builder toBuilder() {
-        return new Builder(this);
+    public PdfCellStyleBuilder toBuilder() {
+        return new PdfCellStyleBuilder(this);
     }
 
     public int getColspan() {
@@ -138,152 +136,5 @@ public final class PdfCellStyle {
                 paddingTop, paddingBottom, paddingLeft, paddingRight,
                 minimumHeight, fixedLeading, multipliedLeading,
                 horizontalAlignment, verticalAlignment);
-    }
-
-    /**
-     * Assembles {@link PdfCellStyle}s. A builder is mutable and reusable: {@link #build()} may be
-     * called any number of times, each call taking an independent snapshot.
-     *
-     * <p>Consecutive builds with nothing changed in between return the same instance, so a table
-     * of many identically styled cells holds one style rather than one per cell.
-     */
-    public static final class Builder {
-
-        /** The style last built, discarded as soon as any setter runs. */
-        private PdfCellStyle cached;
-
-        private int colspan = 1;
-        private Set<PdfBorder> borders = PdfBorder.BOX;
-        private Color borderColour = Color.black;
-        private Color backgroundColour;
-        private double paddingTop = 2.0;
-        private double paddingBottom = 2.0;
-        private double paddingLeft = 2.0;
-        private double paddingRight = 2.0;
-        private double minimumHeight;
-        private double fixedLeading;
-        private double multipliedLeading = 1.0;
-        private PdfAlign.Horizontal horizontalAlignment = PdfAlign.Horizontal.LEFT;
-        private PdfAlign.Vertical verticalAlignment = PdfAlign.Vertical.TOP;
-
-        private Builder() {
-        }
-
-        private Builder(PdfCellStyle style) {
-            this.colspan = style.colspan;
-            this.borders = style.borders;
-            this.borderColour = style.borderColour;
-            this.backgroundColour = style.backgroundColour;
-            this.paddingTop = style.paddingTop;
-            this.paddingBottom = style.paddingBottom;
-            this.paddingLeft = style.paddingLeft;
-            this.paddingRight = style.paddingRight;
-            this.minimumHeight = style.minimumHeight;
-            this.fixedLeading = style.fixedLeading;
-            this.multipliedLeading = style.multipliedLeading;
-            this.horizontalAlignment = style.horizontalAlignment;
-            this.verticalAlignment = style.verticalAlignment;
-        }
-
-        public PdfCellStyle build() {
-            if (cached == null) {
-                cached = new PdfCellStyle(this);
-            }
-            return cached;
-        }
-
-        /** Invalidates the last build; every setter goes through here. */
-        private Builder changed() {
-            cached = null;
-            return this;
-        }
-
-        /**
-         * @throws IllegalArgumentException if the cell would span fewer than one column, which
-         *                                  would leave the row unable to fill its columns
-         */
-        public Builder setColspan(int colspan) {
-            if (colspan < 1) {
-                throw new IllegalArgumentException("a cell must span at least one column: " + colspan);
-            }
-            this.colspan = colspan;
-            return changed();
-        }
-
-        /** The edges are copied, so the style cannot be altered through the caller's set. */
-        public Builder setBorders(Set<PdfBorder> borders) {
-            this.borders = borders.isEmpty()
-                    ? PdfBorder.NONE
-                    : Collections.unmodifiableSet(EnumSet.copyOf(borders));
-            return changed();
-        }
-
-        /** Convenience for {@code setBorders(PdfBorder.of(edges))}. */
-        public Builder setBorders(PdfBorder... edges) {
-            return setBorders(PdfBorder.of(edges));
-        }
-
-        public Builder setBorderColour(Color borderColour) {
-            this.borderColour = borderColour;
-            return changed();
-        }
-
-        public Builder setBackgroundColour(Color backgroundColour) {
-            this.backgroundColour = backgroundColour;
-            return changed();
-        }
-
-        public Builder setPadding(double padding) {
-            this.paddingTop = padding;
-            this.paddingBottom = padding;
-            this.paddingLeft = padding;
-            this.paddingRight = padding;
-            return changed();
-        }
-
-        public Builder setPaddingTop(double padding) {
-            this.paddingTop = padding;
-            return changed();
-        }
-
-        public Builder setPaddingBottom(double padding) {
-            this.paddingBottom = padding;
-            return changed();
-        }
-
-        public Builder setPaddingLeft(double padding) {
-            this.paddingLeft = padding;
-            return changed();
-        }
-
-        public Builder setPaddingRight(double padding) {
-            this.paddingRight = padding;
-            return changed();
-        }
-
-        public Builder setMinimumHeight(double minimumHeight) {
-            this.minimumHeight = minimumHeight;
-            return changed();
-        }
-
-        /**
-         * Sets line spacing as {@code fixed + multiplied * fontSize}, matching the leading model
-         * the PDF reports were originally written against.
-         */
-        public Builder setLeading(double fixed, double multiplied) {
-            this.fixedLeading = fixed;
-            this.multipliedLeading = multiplied;
-            return changed();
-        }
-
-        public Builder setHorizontalAlignment(PdfAlign.Horizontal horizontalAlignment) {
-            this.horizontalAlignment = horizontalAlignment;
-            return changed();
-        }
-
-        public Builder setVerticalAlignment(PdfAlign.Vertical verticalAlignment) {
-            this.verticalAlignment = verticalAlignment;
-            return changed();
-        }
     }
 }

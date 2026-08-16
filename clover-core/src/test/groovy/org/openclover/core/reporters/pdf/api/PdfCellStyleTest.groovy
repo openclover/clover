@@ -29,7 +29,7 @@ class PdfCellStyleTest extends TestCase {
      * added.
      */
     void testEachBuildIsAnIndependentSnapshot() {
-        PdfCellStyle.Builder builder = PdfCellStyle.builder().setPadding(4d)
+        PdfCellStyleBuilder builder = PdfCellStyle.builder().setPadding(4d)
         PdfCellStyle first = builder.build()
 
         builder.setPadding(9d).setColspan(3)
@@ -124,7 +124,7 @@ class PdfCellStyleTest extends TestCase {
      * A table of many identically styled cells should hold one style, not one per cell.
      */
     void testBuildingTwiceWithNothingChangedReturnsTheSameStyle() {
-        PdfCellStyle.Builder builder = PdfCellStyle.builder().setPadding(4d)
+        PdfCellStyleBuilder builder = PdfCellStyle.builder().setPadding(4d)
 
         PdfCellStyle first = builder.build()
         assertSame(first, builder.build())
@@ -135,7 +135,7 @@ class PdfCellStyleTest extends TestCase {
     }
 
     void testStylesWithTheSameValuesAreEqual() {
-        Closure<PdfCellStyle.Builder> template = {
+        Closure<PdfCellStyleBuilder> template = {
             PdfCellStyle.builder()
                     .setPadding(3d)
                     .setColspan(2)

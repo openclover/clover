@@ -6,14 +6,12 @@ import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.pdmodel.interactive.action.PDActionURI
 import org.apache.pdfbox.pdmodel.interactive.annotation.PDAnnotationLink
 import org.apache.pdfbox.text.PDFTextStripper
-import org.openclover.core.reporters.pdf.api.PdfAlign
 import org.openclover.core.reporters.pdf.api.PdfBorder
 import org.openclover.core.reporters.pdf.api.PdfCanvas
 import org.openclover.core.reporters.pdf.api.PdfDocument
 import org.openclover.core.reporters.pdf.api.PdfFontSpec
 import org.openclover.core.reporters.pdf.api.PdfFontStyle
 import org.openclover.core.reporters.pdf.api.PdfMargins
-import org.openclover.core.reporters.pdf.api.PdfPageContext
 import org.openclover.core.reporters.pdf.api.PdfPageDecorator
 import org.openclover.core.reporters.pdf.api.PdfPageSize
 import org.openclover.core.reporters.pdf.api.PdfRect
@@ -23,11 +21,10 @@ import org.openclover.core.reporters.pdf.api.PdfWidget
 import org.openclover.core.reporters.pdf.pdfbox.PdfBoxDocumentFactory
 
 /**
- * Exercises the PDF layout engine that replaced iText: text, tables, pagination, links, embedded
- * fonts and widgets. Assertions are made against the text extracted back out of the generated
- * document, so they describe what a reader actually sees.
+ * What ends up on the page: table text, embedded fonts, wrapped headers, links and widgets, read
+ * back out of the generated document so the assertions describe what a reader actually sees.
  */
-class PdfDocumentTest extends TestCase {
+class PdfDocumentContentTest extends TestCase {
 
     private static final PdfMargins MARGINS = new PdfMargins(25, 25, 25, 35)
 
@@ -124,79 +121,6 @@ class PdfDocumentTest extends TestCase {
         assertTrue("expected the surrounding text to survive, got:\n${text}", text.contains("name"))
     }
 
-    void testLongTableFlowsOntoFurtherPages() {
-        PdfDocument doc = newDocument()
-        PdfTable table = new PdfTable(1)
-        table.setWidthPercentage(100f)
-        200.times { table.addCell(PdfText.of("row ${it}", PdfFontSpec.sans(10))) }
-        doc.add(table)
-        doc.close()
-
-        assertTrue("expected the table to span several pages", pageCount() > 1)
-        String text = extractText()
-        assertTrue(text.contains("row 0"))
-        assertTrue(text.contains("row 199"))
-    }
-
-    /**
-     * The footer needs the final page count, which is why decorators run after the body has been
-     * laid out rather than while each page is being written.
-     */
-    void testDecoratorSeesFinalPageCount() {
-        List<String> footers = []
-        PdfDocument doc = newDocument(new PdfPageDecorator() {
-            @Override
-            void decoratePage(PdfPageContext context) {
-                String footer = "Page ${context.pageNumber} of ${context.totalPages}"
-                footers.add(footer)
-                context.canvas.drawText(PdfText.of(footer, PdfFontSpec.sans(8)),
-                        new PdfRect(25, 10, 200, 10), PdfAlign.Horizontal.LEFT)
-            }
-        })
-        PdfTable table = new PdfTable(1)
-        table.setWidthPercentage(100f)
-        200.times { table.addCell(PdfText.of("row ${it}", PdfFontSpec.sans(10))) }
-        doc.add(table)
-        doc.close()
-
-        int pages = pageCount()
-        assertEquals(pages, footers.size())
-        assertEquals("Page 1 of ${pages}".toString(), footers[0])
-
-        String text = extractText()
-        assertTrue("expected the page counter in the footer, got:\n${text}",
-                text.contains("Page 1 of ${pages}"))
-    }
-
-    /**
-     * The report flow ends every section with a page break; that must not leave a blank page
-     * behind, so pages are only materialised once something is actually drawn on them.
-     */
-    void testTrailingPageBreakLeavesNoBlankPage() {
-        PdfDocument doc = newDocument()
-        PdfTable table = new PdfTable(1)
-        table.addCell(PdfText.of("only page", PdfFontSpec.sans(10)))
-        doc.add(table)
-        doc.newPage()
-        doc.close()
-
-        assertEquals(1, pageCount())
-    }
-
-    void testRepeatedPageBreaksDoNotAccumulateBlankPages() {
-        PdfDocument doc = newDocument()
-        3.times {
-            PdfTable table = new PdfTable(1)
-            table.addCell(PdfText.of("section ${it}", PdfFontSpec.sans(10)))
-            doc.add(table)
-            doc.newPage()
-            doc.newPage()
-        }
-        doc.close()
-
-        assertEquals(3, pageCount())
-    }
-
     /**
      * A word wider than its column is broken mid-word rather than allowed to spill out of the
      * cell. Long user-defined column headers such as "CoveredBranches" depend on this.
@@ -218,6 +142,26 @@ class PdfDocumentTest extends TestCase {
         String text = extractText().replaceAll("\\s+", "")
         assertTrue("expected the wrapped header text, got:\n${extractText()}",
                 text.contains("CoveredBranches"))
+    }
+
+    /**
+     * A carriage return has no glyph in the report font. One reaching the content stream would
+     * fail the whole document, so line endings are folded before the text is drawn.
+     */
+    void testWindowsLineEndingsRenderAsLineBreaks() {
+        PdfDocument doc = newDocument()
+        PdfTable table = new PdfTable(1)
+        table.setWidthPercentage(100)
+        table.addCell(PdfText.of("first line\r\nsecond line\rthird line", PdfFontSpec.sans(10)))
+
+        doc.add(table)
+        doc.close()
+
+        String text = extractText()
+        assertTrue(text, text.contains("first line"))
+        assertTrue(text, text.contains("second line"))
+        assertTrue(text, text.contains("third line"))
+        assertFalse("a carriage return must not survive as a missing glyph", text.contains("?"))
     }
 
     void testLinksBecomeAnnotations() {
@@ -273,104 +217,5 @@ class PdfDocumentTest extends TestCase {
         // half the content width, less the cell padding on both sides
         double expectedWidth = (PdfPageSize.A4.width - 50) / 2 - 4
         assertEquals(expectedWidth, drawn.width, 0.5d)
-    }
-
-    void testLetterPageSizeIsHonoured() {
-        PdfDocument doc = newDocument(null, PdfPageSize.LETTER)
-        PdfTable table = new PdfTable(1)
-        table.addCell(PdfText.of("hello", PdfFontSpec.sans(10)))
-        doc.add(table)
-        doc.close()
-
-        PDDocument read = Loader.loadPDF(out.toByteArray())
-        try {
-            assertEquals(612f, read.getPage(0).getMediaBox().getWidth(), 0.01f)
-            assertEquals(792f, read.getPage(0).getMediaBox().getHeight(), 0.01f)
-        } finally {
-            read.close()
-        }
-    }
-
-    /**
-     * A top-level table that was not given a width takes 80% of the available width, which
-     * several report elements rely on without setting a width explicitly, while the same table
-     * nested inside a cell fills that cell.
-     */
-    void testAutoWidthDependsOnNesting() {
-        PdfTable table = new PdfTable(1)
-
-        assertEquals(PdfTable.WidthMode.AUTO, table.getWidthMode())
-        assertEquals(80d, table.resolveWidth(100d, false), 0.001d)
-        assertEquals(100d, table.resolveWidth(100d, true), 0.001d)
-    }
-
-    void testExplicitWidthsOverrideNesting() {
-        assertEquals(50d, new PdfTable(1).setWidthPercentage(50).resolveWidth(100d, true), 0.001d)
-        assertEquals(123d, new PdfTable(1).setTotalWidth(123).resolveWidth(100d, true), 0.001d)
-    }
-
-    void testNonPositiveWidthsAreRejected() {
-        [-1d, 0d].each { width ->
-            try {
-                new PdfTable(1).setTotalWidth(width)
-                fail("expected a total width of ${width} to be rejected")
-            } catch (IllegalArgumentException expected) {
-                // as intended
-            }
-        }
-    }
-
-    /**
-     * A row taller than a whole page cannot be broken, so it is moved to a fresh page and allowed
-     * to run over rather than being dropped or looping forever looking for room.
-     */
-    void testARowTallerThanAPageIsDrawnOnceOnAPageOfItsOwn() {
-        PdfDocument doc = newDocument()
-
-        PdfTable first = new PdfTable(1)
-        first.setWidthPercentage(100)
-        first.addCell(PdfText.of("before the giant", PdfFontSpec.sans(10)))
-        doc.add(first)
-
-        PdfTable giant = new PdfTable(1)
-        giant.setWidthPercentage(100)
-        giant.getDefaultStyle().setMinimumHeight(PdfPageSize.A4.height * 2)
-        giant.addCell(PdfText.of("the giant row", PdfFontSpec.sans(10)))
-        doc.add(giant)
-
-        PdfTable last = new PdfTable(1)
-        last.setWidthPercentage(100)
-        last.addCell(PdfText.of("after the giant", PdfFontSpec.sans(10)))
-        doc.add(last)
-
-        doc.close()
-
-        String text = extractText()
-        assertEquals("the giant row must be drawn exactly once",
-                1, text.count("the giant row"))
-        assertTrue(text, text.contains("before the giant"))
-        assertTrue("content after an over-tall row must still be drawn", text.contains("after the giant"))
-        // the giant starts a page of its own, and the row after it starts another
-        assertEquals(3, pageCount())
-    }
-
-    /**
-     * A carriage return has no glyph in the report font. One reaching the content stream would
-     * fail the whole document, so line endings are folded before the text is drawn.
-     */
-    void testWindowsLineEndingsRenderAsLineBreaks() {
-        PdfDocument doc = newDocument()
-        PdfTable table = new PdfTable(1)
-        table.setWidthPercentage(100)
-        table.addCell(PdfText.of("first line\r\nsecond line\rthird line", PdfFontSpec.sans(10)))
-
-        doc.add(table)
-        doc.close()
-
-        String text = extractText()
-        assertTrue(text, text.contains("first line"))
-        assertTrue(text, text.contains("second line"))
-        assertTrue(text, text.contains("third line"))
-        assertFalse("a carriage return must not survive as a missing glyph", text.contains("?"))
     }
 }

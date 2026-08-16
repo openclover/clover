@@ -38,7 +38,7 @@ public class PdfTable implements PdfCellContent {
 
     private final int numColumns;
     private final List<PdfCell> cells = new ArrayList<>();
-    private final PdfCellStyle.Builder defaultStyle = PdfCellStyle.builder();
+    private final PdfCellStyleBuilder defaultStyle = PdfCellStyle.builder();
 
     private List<Double> relativeWidths;
     private WidthMode widthMode = WidthMode.AUTO;
@@ -69,7 +69,7 @@ public class PdfTable implements PdfCellContent {
      *
      * @return the style template applied to each cell added afterward
      */
-    public PdfCellStyle.Builder getDefaultStyle() {
+    public PdfCellStyleBuilder getDefaultStyle() {
         return defaultStyle;
     }
 
@@ -167,8 +167,8 @@ public class PdfTable implements PdfCellContent {
      *
      * @param customiser applied to a copy of {@link #getDefaultStyle()}
      */
-    public PdfTable addCell(PdfCellContent content, Consumer<PdfCellStyle.Builder> customiser) {
-        final PdfCellStyle.Builder style = defaultStyle.build().toBuilder();
+    public PdfTable addCell(PdfCellContent content, Consumer<PdfCellStyleBuilder> customiser) {
+        final PdfCellStyleBuilder style = defaultStyle.build().toBuilder();
         customiser.accept(style);
         return addCell(new PdfCell(style.build(), content));
     }
@@ -179,7 +179,7 @@ public class PdfTable implements PdfCellContent {
      * {@link PdfCellContent} have a single method, which makes a one-argument overload ambiguous
      * for a lambda.
      */
-    public PdfTable addEmptyCell(Consumer<PdfCellStyle.Builder> customiser) {
+    public PdfTable addEmptyCell(Consumer<PdfCellStyleBuilder> customiser) {
         return addCell(null, customiser);
     }
 
