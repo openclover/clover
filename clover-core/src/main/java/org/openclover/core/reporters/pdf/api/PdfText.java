@@ -39,11 +39,6 @@ public class PdfText implements PdfCellContent {
     }
 
     public boolean isEmpty() {
-        for (PdfTextRun run : runs) {
-            if (!run.getText().isEmpty()) {
-                return false;
-            }
-        }
-        return true;
+        return runs.stream().allMatch(run -> run.getText().isEmpty());
     }
 }

@@ -11,9 +11,9 @@ public interface PdfPageContext {
 
     int getTotalPages();
 
-    float getPageWidth();
+    double getPageWidth();
 
-    float getPageHeight();
+    double getPageHeight();
 
     PdfCanvas getCanvas();
 
@@ -21,7 +21,5 @@ public interface PdfPageContext {
      * Renders a table at an absolute position, with {@code topY} being the top edge of its first
      * row. The table must have an absolute width set via {@link PdfTable#setTotalWidth}.
      */
-    void drawTable(PdfTable table, float x, float topY);
-
-    float measureTextWidth(String text, PdfFontSpec font);
+    void drawTable(PdfTable table, double x, double topY);
 }

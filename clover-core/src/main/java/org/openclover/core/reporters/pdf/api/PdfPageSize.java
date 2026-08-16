@@ -5,22 +5,22 @@ package org.openclover.core.reporters.pdf.api;
  */
 public enum PdfPageSize {
     /** Rounded to whole points, the way the PDF reports have always been sized. */
-    A4(595f, 842f),
-    LETTER(612f, 792f);
+    A4(595, 842),
+    LETTER(612, 792);
 
-    private final float width;
-    private final float height;
+    private final double width;
+    private final double height;
 
-    PdfPageSize(float width, float height) {
+    PdfPageSize(double width, double height) {
         this.width = width;
         this.height = height;
     }
 
-    public float getWidth() {
+    public double getWidth() {
         return width;
     }
 
-    public float getHeight() {
+    public double getHeight() {
         return height;
     }
 }

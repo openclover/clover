@@ -19,10 +19,6 @@ import java.util.Map;
  * Loads the bundled Liberation Sans faces and embeds them into a document as Identity-H composite
  * fonts, so that report text is not limited to a single-byte encoding the way the previous
  * WinAnsi/CP1252 setup was.
- *
- * <p>Liberation Sans is metric-compatible with Arial, which is in turn metric-compatible with
- * Helvetica — the font the reports used to be laid out with — so line breaks and column fits stay
- * where they were.
  */
 class FontRegistry {
 
@@ -34,10 +30,10 @@ class FontRegistry {
     private static class Face {
         final PDType0Font font;
         final CmapLookup cmap;
-        final float ascent;
-        final float descent;
+        final double ascent;
+        final double descent;
 
-        Face(PDType0Font font, CmapLookup cmap, float ascent, float descent) {
+        Face(PDType0Font font, CmapLookup cmap, double ascent, double descent) {
             this.font = font;
             this.cmap = cmap;
             this.ascent = ascent;
@@ -59,24 +55,24 @@ class FontRegistry {
     /**
      * @return width of the text in points at the spec's size
      */
-    float stringWidth(String text, PdfFontSpec spec) {
+    double stringWidth(String text, PdfFontSpec spec) {
         if (text.isEmpty()) {
-            return 0f;
+            return 0;
         }
         final Face face = face(spec.getStyle());
         try {
-            return face.font.getStringWidth(sanitise(text, spec)) / 1000f * spec.getSize();
+            return face.font.getStringWidth(sanitise(text, spec)) / 1000 * spec.getSize();
         } catch (IOException e) {
             throw new IllegalStateException("Unable to measure text in the PDF report", e);
         }
     }
 
-    float ascent(PdfFontSpec spec) {
-        return face(spec.getStyle()).ascent / 1000f * spec.getSize();
+    double ascent(PdfFontSpec spec) {
+        return face(spec.getStyle()).ascent / 1000 * spec.getSize();
     }
 
-    float descent(PdfFontSpec spec) {
-        return face(spec.getStyle()).descent / 1000f * spec.getSize();
+    double descent(PdfFontSpec spec) {
+        return face(spec.getStyle()).descent / 1000 * spec.getSize();
     }
 
     /**
@@ -122,8 +118,8 @@ class FontRegistry {
             final TrueTypeFont ttf = new TTFParser().parse(new RandomAccessReadBuffer(in));
             final PDType0Font font = PDType0Font.load(document, ttf, true);
             return new Face(font, ttf.getUnicodeCmapLookup(),
-                    ttf.getHorizontalHeader().getAscender() * 1000f / ttf.getUnitsPerEm(),
-                    ttf.getHorizontalHeader().getDescender() * 1000f / ttf.getUnitsPerEm());
+                    ttf.getHorizontalHeader().getAscender() * 1000 / ttf.getUnitsPerEm(),
+                    ttf.getHorizontalHeader().getDescender() * 1000 / ttf.getUnitsPerEm());
         } catch (IOException e) {
             throw new IllegalStateException("Unable to load the bundled PDF font " + resource, e);
         }

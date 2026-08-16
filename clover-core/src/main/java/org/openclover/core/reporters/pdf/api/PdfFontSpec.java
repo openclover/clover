@@ -8,23 +8,23 @@ import java.awt.Color;
 public class PdfFontSpec {
 
     private final PdfFontFamily family;
-    private final float size;
+    private final double size;
     private final PdfFontStyle style;
     private final Color colour;
 
-    public static PdfFontSpec sans(float size) {
+    public static PdfFontSpec sans(double size) {
         return new PdfFontSpec(PdfFontFamily.SANS, size, PdfFontStyle.REGULAR, Color.black);
     }
 
-    public static PdfFontSpec sans(float size, PdfFontStyle style) {
+    public static PdfFontSpec sans(double size, PdfFontStyle style) {
         return new PdfFontSpec(PdfFontFamily.SANS, size, style, Color.black);
     }
 
-    public static PdfFontSpec sans(float size, PdfFontStyle style, Color colour) {
+    public static PdfFontSpec sans(double size, PdfFontStyle style, Color colour) {
         return new PdfFontSpec(PdfFontFamily.SANS, size, style, colour);
     }
 
-    public PdfFontSpec(PdfFontFamily family, float size, PdfFontStyle style, Color colour) {
+    public PdfFontSpec(PdfFontFamily family, double size, PdfFontStyle style, Color colour) {
         this.family = family;
         this.size = size;
         this.style = style;
@@ -35,7 +35,7 @@ public class PdfFontSpec {
         return family;
     }
 
-    public float getSize() {
+    public double getSize() {
         return size;
     }
 

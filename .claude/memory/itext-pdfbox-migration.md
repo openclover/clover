@@ -313,3 +313,66 @@ way in). It caught both over-aggressive shade exclusions.
 
 Visual comparison artefacts are kept, not discarded, at
 `<scratchpad>/pdf-regression/` — see the README there.
+
+
+## Review follow-ups
+
+Changes made after the first round of review.
+
+### `double` throughout
+
+The layout engine and the API now compute in `double`. PDFBox's own API is `float`, so the
+narrowing happens in exactly two places — `PdfBoxCanvas.f(double)` at the point each coordinate
+is written to a content stream, and the `PDRectangle` that sizes a page. Rounding therefore
+cannot accumulate through the layout. Two call-outs into pre-existing OpenClover APIs
+(`Formatting.getPercentStr/format1d`, `MetricsDiffSummary.getPc2float`) still take `float` and
+are cast at the call site rather than being changed.
+
+### `PdfBorder`
+
+`has(borders, NONE)` was meaningless — it answered `false` for every input, including for a cell
+that genuinely had no border, which is exactly the question a caller writing it would be asking.
+`NONE` is now rejected with a message pointing at `isNone(borders)`. A combination such as
+`has(borders, TOP | LEFT)` is allowed and means "all of these edges".
+
+### Streams
+
+Converted where a stream is shorter *and* clearer: reductions (`totalHeight`, `tableHeight`,
+`spannedWidth`, `descentOf`, column-width scaling), `PdfText.isEmpty`, `firstFontSize`,
+`calculateEqualColumnWidths`, `setWidths(int[])`. Deliberately left as loops: `PdfTable.getRows`,
+`rowHeight`, `drawRow` and `drawTable` (running column/cursor accumulators), the text-drawing
+loops in `PdfBoxCanvas` (running baseline and pen position), and `decoratePages` (checked
+`IOException`). `splitKeepingTrailingSpaces` became a one-line regex split.
+
+### Long words no longer overflow their column
+
+iText broke a word wider than its column mid-word; the first implementation emitted it whole,
+so a long user-defined header such as `CoveredBranches` spilled out of its cell. `TextLayouter`
+now breaks mid-word, matching iText's break points, and guarantees forward progress when not
+even one character fits. A `FIT_TOLERANCE` of 0.01pt absorbs the rounding difference between a
+line's summed piece widths and a single measurement of the same string — without it, text laid
+out into a box measured to its own width could wrap against itself, which is what briefly split
+the footer's "Page 1 of 1" across two lines.
+
+### Chart series order was never deterministic
+
+`Columns.getProjectColumns()` collected four insertion-ordered lists into a `HashSet`, and
+`Column` overrides neither `equals` nor `hashCode` — so the set iterated in identity-hash order,
+which varies from one JVM run to the next. The historical chart legend was therefore already
+shuffled at random on master; it is not a migration regression. Fixed with a `LinkedHashSet`, so
+the series follow declaration order. This also stabilises the JSON reports, which reach the same
+method through `getProjectColumnsCopy()`. Verified by generating the same report in two separate
+JVMs and diffing: the chart pages are now pixel-identical apart from the timestamp.
+
+Because no canonical order ever existed, the new order will not match any particular previous
+run — including the one in the archived `old/` baseline.
+
+### Shaded artifacts
+
+All five entries are load-bearing. `pdfbox` is the library; `fontbox` (`TTFParser`,
+`TrueTypeFont`, `CmapLookup`) and `pdfbox-io` (`RandomAccessReadBuffer`) are imported directly
+by `FontRegistry` — PDFBox 3.x split both out of the main artifact; `graphics2d` is the
+JFreeChart bridge. `commons-logging` is not referenced by OpenClover code at all, but `PDDocument`
+and `PDType0Font` hold hard bytecode references to `Log`/`LogFactory`; removing it from the shade
+was tried and fails at runtime with
+`NoClassDefFoundError: clover/org/apache/commons/logging/LogFactory`.

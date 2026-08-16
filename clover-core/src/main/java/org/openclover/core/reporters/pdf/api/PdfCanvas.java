@@ -9,13 +9,13 @@ import java.awt.Graphics2D;
  */
 public interface PdfCanvas {
 
-    void setLineWidth(float width);
+    void setLineWidth(double width);
 
     void fillRect(PdfRect rect, Color colour);
 
     void strokeRect(PdfRect rect, Color colour);
 
-    void drawLine(float x1, float y1, float x2, float y2, Color colour);
+    void drawLine(double x1, double y1, double x2, double y2, Color colour);
 
     /**
      * Draws an image loaded from the classpath, scaled to fill the given rectangle.

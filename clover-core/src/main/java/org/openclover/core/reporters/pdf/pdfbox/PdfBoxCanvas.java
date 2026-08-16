@@ -55,6 +55,14 @@ class PdfBoxCanvas implements PdfCanvas {
         this.imageCache = imageCache;
     }
 
+    /**
+     * Narrows a coordinate to the {@code float} PDFBox works in. The layout engine computes in
+     * {@code double}; only the final write-out is narrowed, so rounding cannot accumulate.
+     */
+    private static float f(double value) {
+        return (float) value;
+    }
+
     FontRegistry getFonts() {
         return fonts;
     }
@@ -64,9 +72,9 @@ class PdfBoxCanvas implements PdfCanvas {
     }
 
     @Override
-    public void setLineWidth(float width) {
+    public void setLineWidth(double width) {
         try {
-            stream.setLineWidth(width);
+            stream.setLineWidth(f(width));
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
@@ -74,12 +82,12 @@ class PdfBoxCanvas implements PdfCanvas {
 
     @Override
     public void fillRect(PdfRect rect, Color colour) {
-        if (rect.getWidth() <= 0f || rect.getHeight() <= 0f) {
+        if (rect.getWidth() <= 0 || rect.getHeight() <= 0) {
             return;
         }
         try {
             stream.setNonStrokingColor(colour);
-            stream.addRect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+            stream.addRect(f(rect.getX()), f(rect.getY()), f(rect.getWidth()), f(rect.getHeight()));
             stream.fill();
         } catch (IOException e) {
             throw new UncheckedIOException(e);
@@ -88,12 +96,12 @@ class PdfBoxCanvas implements PdfCanvas {
 
     @Override
     public void strokeRect(PdfRect rect, Color colour) {
-        if (rect.getWidth() <= 0f || rect.getHeight() <= 0f) {
+        if (rect.getWidth() <= 0 || rect.getHeight() <= 0) {
             return;
         }
         try {
             stream.setStrokingColor(colour);
-            stream.addRect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+            stream.addRect(f(rect.getX()), f(rect.getY()), f(rect.getWidth()), f(rect.getHeight()));
             stream.stroke();
         } catch (IOException e) {
             throw new UncheckedIOException(e);
@@ -101,11 +109,11 @@ class PdfBoxCanvas implements PdfCanvas {
     }
 
     @Override
-    public void drawLine(float x1, float y1, float x2, float y2, Color colour) {
+    public void drawLine(double x1, double y1, double x2, double y2, Color colour) {
         try {
             stream.setStrokingColor(colour);
-            stream.moveTo(x1, y1);
-            stream.lineTo(x2, y2);
+            stream.moveTo(f(x1), f(y1));
+            stream.lineTo(f(x2), f(y2));
             stream.stroke();
         } catch (IOException e) {
             throw new UncheckedIOException(e);
@@ -117,7 +125,7 @@ class PdfBoxCanvas implements PdfCanvas {
         try {
             final PDImageXObject image = loadImage(resourcePath);
             if (image != null) {
-                stream.drawImage(image, bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight());
+                stream.drawImage(image, f(bounds.getX()), f(bounds.getY()), f(bounds.getWidth()), f(bounds.getHeight()));
             }
         } catch (IOException e) {
             throw new UncheckedIOException(e);
@@ -127,20 +135,20 @@ class PdfBoxCanvas implements PdfCanvas {
     @Override
     public void drawText(PdfText text, PdfRect bounds, PdfAlign.Horizontal alignment) {
         final List<TextLayouter.Line> lines = layouter.layout(text, bounds.getWidth());
-        final float totalHeight = layouter.totalHeight(lines, 0f, 1f);
-        float baseline = bounds.getY() + (bounds.getHeight() + totalHeight) / 2f;
+        final double totalHeight = layouter.totalHeight(lines, 0, 1);
+        double baseline = bounds.getY() + (bounds.getHeight() + totalHeight) / 2;
         for (TextLayouter.Line line : lines) {
-            baseline -= TextLayouter.leadingOf(line, 0f, 1f);
+            baseline -= TextLayouter.leadingOf(line, 0, 1);
             drawLine(line, alignedX(line, bounds, alignment), baseline);
         }
     }
 
-    private static float alignedX(TextLayouter.Line line, PdfRect bounds, PdfAlign.Horizontal alignment) {
+    private static double alignedX(TextLayouter.Line line, PdfRect bounds, PdfAlign.Horizontal alignment) {
         switch (alignment) {
             case RIGHT:
                 return bounds.getRight() - line.width;
             case CENTER:
-                return bounds.getX() + (bounds.getWidth() - line.width) / 2f;
+                return bounds.getX() + (bounds.getWidth() - line.width) / 2;
             default:
                 return bounds.getX();
         }
@@ -150,35 +158,35 @@ class PdfBoxCanvas implements PdfCanvas {
      * Draws one laid-out line starting at {@code x}, registering a link annotation for any piece
      * that carries an anchor.
      */
-    void drawLine(TextLayouter.Line line, float x, float baselineY) {
-        float penX = x;
+    void drawLine(TextLayouter.Line line, double x, double baselineY) {
+        double penX = x;
         for (TextLayouter.Piece piece : line.pieces) {
             drawPiece(piece, penX, baselineY);
             penX += piece.width;
         }
     }
 
-    private void drawPiece(TextLayouter.Piece piece, float x, float baselineY) {
+    private void drawPiece(TextLayouter.Piece piece, double x, double baselineY) {
         final PdfFontSpec font = piece.font;
         final String text = fonts.sanitise(piece.text, font);
         if (!text.trim().isEmpty()) {
             try {
                 stream.beginText();
-                stream.setFont(fonts.getFont(font), font.getSize());
+                stream.setFont(fonts.getFont(font), f(font.getSize()));
                 stream.setNonStrokingColor(font.getColour());
-                stream.newLineAtOffset(x, baselineY);
+                stream.newLineAtOffset(f(x), f(baselineY));
                 stream.showText(text);
                 stream.endText();
             } catch (IOException e) {
                 throw new UncheckedIOException(e);
             }
         }
-        if (piece.anchor != null && !piece.anchor.isEmpty() && piece.width > 0f) {
+        if (piece.anchor != null && !piece.anchor.isEmpty() && piece.width > 0) {
             addLinkAnnotation(piece, x, baselineY);
         }
     }
 
-    private void addLinkAnnotation(TextLayouter.Piece piece, float x, float baselineY) {
+    private void addLinkAnnotation(TextLayouter.Piece piece, double x, double baselineY) {
         final PdfFontSpec font = piece.font;
         final PDAnnotationLink link = new PDAnnotationLink();
         // an invisible border, so that the link is not boxed the way viewers do by default
@@ -187,10 +195,10 @@ class PdfBoxCanvas implements PdfCanvas {
         link.setBorderStyle(border);
 
         final PDRectangle rect = new PDRectangle();
-        rect.setLowerLeftX(x);
-        rect.setLowerLeftY(baselineY + fonts.descent(font));
-        rect.setUpperRightX(x + piece.width);
-        rect.setUpperRightY(baselineY + fonts.ascent(font));
+        rect.setLowerLeftX(f(x));
+        rect.setLowerLeftY(f(baselineY + fonts.descent(font)));
+        rect.setUpperRightX(f(x + piece.width));
+        rect.setUpperRightY(f(baselineY + fonts.ascent(font)));
         link.setRectangle(rect);
 
         final PDActionURI action = new PDActionURI();
@@ -208,7 +216,7 @@ class PdfBoxCanvas implements PdfCanvas {
     public Graphics2D beginGraphics(PdfRect bounds) {
         try {
             final PdfBoxGraphics2D graphics =
-                    new PdfBoxGraphics2D(document, bounds.getWidth(), bounds.getHeight());
+                    new PdfBoxGraphics2D(document, f(bounds.getWidth()), f(bounds.getHeight()));
             // render glyphs as vector outlines, so chart labels do not depend on any font being
             // resolvable at render time
             graphics.setFontTextDrawer(new PdfBoxGraphics2DFontTextForcedDrawer());
@@ -227,7 +235,7 @@ class PdfBoxCanvas implements PdfCanvas {
         final PDFormXObject form = pdfGraphics.getXFormObject();
         try {
             stream.saveGraphicsState();
-            stream.transform(Matrix.getTranslateInstance(bounds.getX(), bounds.getY()));
+            stream.transform(Matrix.getTranslateInstance(f(bounds.getX()), f(bounds.getY())));
             stream.drawForm(form);
             stream.restoreGraphicsState();
         } catch (IOException e) {

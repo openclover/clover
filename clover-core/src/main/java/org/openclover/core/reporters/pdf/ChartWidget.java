@@ -15,15 +15,15 @@ import java.awt.geom.Rectangle2D;
 public class ChartWidget implements PdfWidget {
 
     private final JFreeChart chart;
-    private final float height;
+    private final double height;
 
-    public ChartWidget(JFreeChart chart, float height) {
+    public ChartWidget(JFreeChart chart, double height) {
         this.chart = chart;
         this.height = height;
     }
 
     @Override
-    public float preferredHeight() {
+    public double preferredHeight() {
         return height;
     }
 
@@ -31,7 +31,7 @@ public class ChartWidget implements PdfWidget {
     public void draw(PdfCanvas canvas, PdfRect bounds) {
         final Graphics2D graphics = canvas.beginGraphics(bounds);
         try {
-            chart.draw(graphics, new Rectangle2D.Float(0, 0, bounds.getWidth(), bounds.getHeight()));
+            chart.draw(graphics, new Rectangle2D.Double(0, 0, bounds.getWidth(), bounds.getHeight()));
         } finally {
             canvas.endGraphics(graphics);
         }

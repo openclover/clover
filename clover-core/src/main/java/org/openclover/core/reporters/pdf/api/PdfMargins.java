@@ -5,31 +5,31 @@ package org.openclover.core.reporters.pdf.api;
  */
 public class PdfMargins {
 
-    private final float left;
-    private final float right;
-    private final float top;
-    private final float bottom;
+    private final double left;
+    private final double right;
+    private final double top;
+    private final double bottom;
 
-    public PdfMargins(float left, float right, float top, float bottom) {
+    public PdfMargins(double left, double right, double top, double bottom) {
         this.left = left;
         this.right = right;
         this.top = top;
         this.bottom = bottom;
     }
 
-    public float getLeft() {
+    public double getLeft() {
         return left;
     }
 
-    public float getRight() {
+    public double getRight() {
         return right;
     }
 
-    public float getTop() {
+    public double getTop() {
         return top;
     }
 
-    public float getBottom() {
+    public double getBottom() {
         return bottom;
     }
 }

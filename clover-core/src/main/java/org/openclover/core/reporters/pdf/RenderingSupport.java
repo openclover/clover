@@ -29,6 +29,7 @@ import java.awt.Color;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.IntStream;
 
 /**
  * Builds the tables the PDF reports are made of. One static factory per report element.
@@ -44,12 +45,12 @@ public class RenderingSupport {
     private static final PdfFontSpec BOLD_14 = PdfFontSpec.sans(14, PdfFontStyle.BOLD);
 
     /** Fraction of a cell's width left blank on either side of a coverage bar. */
-    private static final float BAR_PADDING_RATIO = 0.01f;
+    private static final double BAR_PADDING_RATIO = 0.01;
 
     public static PdfTable getSpacerRow() {
         final PdfTable spacer = new PdfTable(1);
         spacer.getDefaultCell().setBorders(PdfBorder.NONE);
-        spacer.setWidthPercentage(100f);
+        spacer.setWidthPercentage(100);
         spacer.addCell(PdfText.of(" ", TEXT_10));
         return spacer;
     }
@@ -130,16 +131,16 @@ public class RenderingSupport {
      * Returns percentage as a range [0.0 ... 1.0]
      * @param column metric column
      * @param metrics    metric data
-     * @return float [0.0 ... 1.0] or -1.0 in case of error
+     * @return double [0.0 ... 1.0] or -1.0 in case of error
      */
-    private static float fetchPercentageValue(Column column, BlockMetrics metrics) {
-        float value;
+    private static double fetchPercentageValue(Column column, BlockMetrics metrics) {
+        double value;
         try {
             column.init(metrics);
-            value = column.getNumber().floatValue() / 100.0f;
+            value = column.getNumber().doubleValue() / 100.0;
             column.reset();
         } catch (CloverException ex) {
-            value = -1.0f;
+            value = -1.0;
         }
         return value;
     }
@@ -201,7 +202,7 @@ public class RenderingSupport {
         titlebar.getDefaultCell().setBorderColour(colours.COL_TABLE_BORDER);
         titlebar.getDefaultCell().setBackgroundColour(colours.COL_HEADER_BG);
         titlebar.getDefaultCell().setPaddingLeft(2);
-        titlebar.getDefaultCell().setLeading(2, 0.9f);
+        titlebar.getDefaultCell().setLeading(2, 0.9);
 
         final PdfText titleText = PdfText.of("OpenClover Coverage Report", BOLD_14);
         appendReportTitle(titleText, title, titleAnchor, colours);
@@ -242,7 +243,7 @@ public class RenderingSupport {
         leftTab.getDefaultCell().setBorders(PdfBorder.NONE);
         leftTab.getDefaultCell().setBackgroundColour(colours.COL_HEADER_BG);
         leftTab.getDefaultCell().setPaddingLeft(2);
-        leftTab.getDefaultCell().setLeading(2, 0.9f);
+        leftTab.getDefaultCell().setLeading(2, 0.9);
 
         final PdfText titleText = PdfText.of("Historical Coverage Report", BOLD_14);
         appendReportTitle(titleText, title, titleAnchor, colours);
@@ -268,7 +269,7 @@ public class RenderingSupport {
         leftTab.getDefaultCell().setBorders(PdfBorder.NONE);
         leftTab.getDefaultCell().setBackgroundColour(colours.COL_HEADER_BG);
         leftTab.getDefaultCell().setPaddingLeft(2);
-        leftTab.getDefaultCell().setLeading(2, 0.9f);
+        leftTab.getDefaultCell().setLeading(2, 0.9);
         leftTab.getDefaultCell().setColspan(2);
 
         final PdfText titleText = PdfText.of("Historical Coverage Report", BOLD_14);
@@ -374,7 +375,7 @@ public class RenderingSupport {
 
     private static PdfTable newMoversTable(PDFColours colours) {
         final PdfTable movers = new PdfTable(2);
-        movers.setWidthPercentage(100f);
+        movers.setWidthPercentage(100);
         movers.getDefaultCell().setBorderColour(colours.COL_TABLE_BORDER);
         movers.getDefaultCell().setBackgroundColour(colours.COL_HEADER_BG);
         movers.setWidths(new int[]{50, 50});
@@ -386,7 +387,7 @@ public class RenderingSupport {
         return new CoverageDiffBarWidget(diff.getPcDiff(), diff.getPc2float(), 8, colours);
     }
 
-    private static CoverageBarWidget createPCBar(float pc, float height, PDFColours colours) {
+    private static CoverageBarWidget createPCBar(double pc, double height, PDFColours colours) {
         return new CoverageBarWidget(pc, height, BAR_PADDING_RATIO, colours);
     }
 
@@ -394,7 +395,7 @@ public class RenderingSupport {
                                                      final PDFColours colours) {
         final int numColumns = !cfg.isColumnsSet() ? 6 : 1 + cfg.getColumns().getPkgColumns().size();
         final PdfTable header = new PdfTable(numColumns);
-        header.setWidthPercentage(100f);
+        header.setWidthPercentage(100);
         header.getDefaultCell().setBorderColour(colours.COL_TABLE_BORDER);
         header.getDefaultCell().setBackgroundColour(colours.COL_HEADER_BG);
 
@@ -414,9 +415,8 @@ public class RenderingSupport {
 
             // use user-defined set of columns + one for a package name
             header.addCell(PdfText.of(col0Title, BOLD_10));
-            for (Column column : cfg.getColumns().getPkgColumns()) {
-                header.addCell(PdfText.of(column.getName(), BOLD_10));
-            }
+            cfg.getColumns().getPkgColumns()
+                    .forEach(column -> header.addCell(PdfText.of(column.getName(), BOLD_10)));
         }
 
         // leave the table in a friendly state for additions
@@ -427,12 +427,10 @@ public class RenderingSupport {
     }
 
     private static int[] calculateEqualColumnWidths(int numColumns) {
-        // first column =  50%, others = same width
-        final int[] columnWidths = new int[numColumns];
-        columnWidths[0] = 50;
-        for (int i = 1; i < columnWidths.length; i++) {
-            columnWidths[i] = 50 / (columnWidths.length - 1);
-        }
-        return columnWidths;
+        // first column = 50%, the rest share the other 50% equally
+        final int rest = 50 / (numColumns - 1);
+        return IntStream.range(0, numColumns)
+                .map(i -> i == 0 ? 50 : rest)
+                .toArray();
     }
 }

@@ -8,7 +8,6 @@ import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.openclover.core.reporters.pdf.api.PdfBlock;
 import org.openclover.core.reporters.pdf.api.PdfCell;
 import org.openclover.core.reporters.pdf.api.PdfDocument;
-import org.openclover.core.reporters.pdf.api.PdfFontSpec;
 import org.openclover.core.reporters.pdf.api.PdfMargins;
 import org.openclover.core.reporters.pdf.api.PdfPageContext;
 import org.openclover.core.reporters.pdf.api.PdfPageDecorator;
@@ -43,7 +42,7 @@ class PdfBoxDocument implements PdfDocument {
     private PDPage currentPage;
     private PDPageContentStream currentStream;
     private PdfBoxCanvas currentCanvas;
-    private float cursorY;
+    private double cursorY;
     private boolean pageIsEmpty = true;
     private boolean closed;
 
@@ -68,15 +67,15 @@ class PdfBoxDocument implements PdfDocument {
         document.getDocumentInformation().setProducer(creator);
     }
 
-    private float contentWidth() {
+    private double contentWidth() {
         return pageSize.getWidth() - margins.getLeft() - margins.getRight();
     }
 
-    private float contentTop() {
+    private double contentTop() {
         return pageSize.getHeight() - margins.getTop();
     }
 
-    private float contentBottom() {
+    private double contentBottom() {
         return margins.getBottom();
     }
 
@@ -87,11 +86,11 @@ class PdfBoxDocument implements PdfDocument {
                     "Unsupported PDF block type: " + block.getClass().getName());
         }
         final PdfTable table = (PdfTable) block;
-        final float width = tables.tableWidth(table, contentWidth());
-        final float[] columnWidths = tables.columnWidths(table, width);
+        final double width = tables.tableWidth(table, contentWidth());
+        final double[] columnWidths = tables.columnWidths(table, width);
 
         for (List<PdfCell> row : table.getRows()) {
-            final float height = tables.rowHeight(row, columnWidths);
+            final double height = tables.rowHeight(row, columnWidths);
             ensurePage();
             // a row taller than a whole page cannot be split, so it is drawn on a fresh page and
             // allowed to run over rather than being dropped
@@ -121,7 +120,7 @@ class PdfBoxDocument implements PdfDocument {
         if (currentPage != null) {
             return;
         }
-        currentPage = new PDPage(new PDRectangle(pageSize.getWidth(), pageSize.getHeight()));
+        currentPage = new PDPage(new PDRectangle((float) pageSize.getWidth(), (float) pageSize.getHeight()));
         document.addPage(currentPage);
         pages.add(currentPage);
         currentStream = new PDPageContentStream(document, currentPage);
@@ -201,12 +200,12 @@ class PdfBoxDocument implements PdfDocument {
         }
 
         @Override
-        public float getPageWidth() {
+        public double getPageWidth() {
             return pageSize.getWidth();
         }
 
         @Override
-        public float getPageHeight() {
+        public double getPageHeight() {
             return pageSize.getHeight();
         }
 
@@ -216,13 +215,8 @@ class PdfBoxDocument implements PdfDocument {
         }
 
         @Override
-        public void drawTable(PdfTable table, float x, float topY) {
+        public void drawTable(PdfTable table, double x, double topY) {
             tables.drawTable(canvas, table, x, topY, contentWidth());
-        }
-
-        @Override
-        public float measureTextWidth(String text, PdfFontSpec font) {
-            return fonts.stringWidth(text, font);
         }
     }
 }

@@ -224,7 +224,7 @@ public class PDFReporter extends CloverReporter {
                 newPage();
                 chartsOnPage = 0;
             }
-            chart.setHeight((int) (0.33f * docsize.getHeight()));
+            chart.setHeight((int) (0.33 * docsize.getHeight()));
             document.add(RenderingSupport.createChart(chart, data, colours));
             document.add(RenderingSupport.getSpacerRow());
             chartsOnPage++;

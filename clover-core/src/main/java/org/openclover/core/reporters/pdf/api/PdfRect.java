@@ -6,39 +6,39 @@ package org.openclover.core.reporters.pdf.api;
  */
 public class PdfRect {
 
-    private final float x;
-    private final float y;
-    private final float width;
-    private final float height;
+    private final double x;
+    private final double y;
+    private final double width;
+    private final double height;
 
-    public PdfRect(float x, float y, float width, float height) {
+    public PdfRect(double x, double y, double width, double height) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
     }
 
-    public float getX() {
+    public double getX() {
         return x;
     }
 
-    public float getY() {
+    public double getY() {
         return y;
     }
 
-    public float getWidth() {
+    public double getWidth() {
         return width;
     }
 
-    public float getHeight() {
+    public double getHeight() {
         return height;
     }
 
-    public float getTop() {
+    public double getTop() {
         return y + height;
     }
 
-    public float getRight() {
+    public double getRight() {
         return x + width;
     }
 }

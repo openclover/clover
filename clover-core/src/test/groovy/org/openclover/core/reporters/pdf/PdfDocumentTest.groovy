@@ -197,6 +197,29 @@ class PdfDocumentTest extends TestCase {
         assertEquals(3, pageCount())
     }
 
+    /**
+     * A word wider than its column is broken mid-word rather than allowed to spill out of the
+     * cell. Long user-defined column headers such as "CoveredBranches" depend on this.
+     */
+    void testOverlongHeaderWrapsInsideItsColumn() {
+        PdfDocument doc = newDocument()
+        PdfTable table = new PdfTable(4)
+        table.setWidthPercentage(100f)
+        table.setWidths([50, 17, 17, 16] as int[])
+        table.addCell(PdfText.of("Packages", PdfFontSpec.sans(10, PdfFontStyle.BOLD)))
+        table.addCell(PdfText.of("CoveredBranches", PdfFontSpec.sans(10, PdfFontStyle.BOLD)))
+        table.addCell(PdfText.of("CoveredStatements", PdfFontSpec.sans(10, PdfFontStyle.BOLD)))
+        table.addCell(PdfText.of("CoveredMethods", PdfFontSpec.sans(10, PdfFontStyle.BOLD)))
+        doc.add(table)
+        doc.close()
+
+        assertEquals(1, pageCount())
+        // the header survives; PDFTextStripper reports the wrapped fragments
+        String text = extractText().replaceAll("\\s+", "")
+        assertTrue("expected the wrapped header text, got:\n${extractText()}",
+                text.contains("CoveredBranches"))
+    }
+
     void testLinksBecomeAnnotations() {
         PdfDocument doc = newDocument()
         PdfTable table = new PdfTable(1)
@@ -222,8 +245,8 @@ class PdfDocumentTest extends TestCase {
         PdfRect drawn = null
         PdfWidget widget = new PdfWidget() {
             @Override
-            float preferredHeight() {
-                return 8f
+            double preferredHeight() {
+                return 8d
             }
 
             @Override
@@ -244,10 +267,10 @@ class PdfDocumentTest extends TestCase {
         doc.close()
 
         assertNotNull("the widget should have been drawn", drawn)
-        assertEquals(8f, drawn.height, 0.01f)
+        assertEquals(8d, drawn.height, 0.01d)
         // half the content width, less the cell padding on both sides
-        float expectedWidth = (PdfPageSize.A4.width - 50) / 2 - 4
-        assertEquals(expectedWidth, drawn.width, 0.5f)
+        double expectedWidth = (PdfPageSize.A4.width - 50) / 2 - 4
+        assertEquals(expectedWidth, drawn.width, 0.5d)
     }
 
     void testLetterPageSizeIsHonoured() {
@@ -271,7 +294,7 @@ class PdfDocumentTest extends TestCase {
      * without setting a width explicitly.
      */
     void testDefaultTableWidthIsEightyPercent() {
-        assertEquals(80f, PdfTable.DEFAULT_WIDTH_PERCENTAGE, 0.001f)
-        assertEquals(80f, new PdfTable(1).getWidthPercentage(), 0.001f)
+        assertEquals(80d, PdfTable.DEFAULT_WIDTH_PERCENTAGE, 0.001d)
+        assertEquals(80d, new PdfTable(1).getWidthPercentage(), 0.001d)
     }
 }

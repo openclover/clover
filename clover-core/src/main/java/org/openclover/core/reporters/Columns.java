@@ -23,6 +23,7 @@ import java.util.Set;
 
 import static org.openclover.core.util.Lists.newLinkedList;
 import static org.openclover.core.util.Sets.newHashSet;
+import static org.openclover.core.util.Sets.newLinkedHashSet;
 
 /**
  * A holder of Column objects. Columns are added (usually via
@@ -1286,9 +1287,15 @@ public class Columns {
 
 
 
+    /**
+     * @return every column applicable to a project, in the order the columns were declared
+     *         (since ProjectMetrics extends from MethodMetrics, all metrics apply)
+     */
     public Set<Column> getProjectColumns() {
-        // since ProjectMetrics extends from MethodMetrics, add all metrics
-        Set<Column> allColumns = newHashSet(projectColumns);
+        // must preserve insertion order: this drives the series order of historical charts, and
+        // Column does not override hashCode, so a HashSet here would order by identity hash and
+        // shuffle the chart legend from one JVM run to the next
+        final Set<Column> allColumns = newLinkedHashSet(projectColumns);
         allColumns.addAll(pkgColumns);
         allColumns.addAll(classColumns);
         allColumns.addAll(methodColumns);

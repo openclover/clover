@@ -9,7 +9,7 @@ public interface PdfWidget extends PdfCellContent {
     /**
      * @return height in points this widget needs, excluding cell padding
      */
-    float preferredHeight();
+    double preferredHeight();
 
     void draw(PdfCanvas canvas, PdfRect bounds);
 }

@@ -1,8 +1,10 @@
 package org.openclover.core.reporters.pdf.api;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * A grid of {@link PdfCell}s. Cells are appended left to right and wrap to the next row once
@@ -15,15 +17,15 @@ import java.util.List;
 public class PdfTable implements PdfBlock, PdfCellContent {
 
     /** Table width as a percentage of the available width, unless overridden. */
-    public static final float DEFAULT_WIDTH_PERCENTAGE = 80f;
+    public static final double DEFAULT_WIDTH_PERCENTAGE = 80;
 
     private final int numColumns;
     private final List<PdfCell> cells = new ArrayList<>();
     private final PdfCell defaultCell = new PdfCell();
 
-    private float[] relativeWidths;
-    private float widthPercentage = DEFAULT_WIDTH_PERCENTAGE;
-    private float totalWidth = -1f;
+    private double[] relativeWidths;
+    private double widthPercentage = DEFAULT_WIDTH_PERCENTAGE;
+    private double totalWidth = -1;
     private boolean widthSetExplicitly;
 
     public PdfTable(int numColumns) {
@@ -31,10 +33,8 @@ public class PdfTable implements PdfBlock, PdfCellContent {
             throw new IllegalArgumentException("a table needs at least one column");
         }
         this.numColumns = numColumns;
-        this.relativeWidths = new float[numColumns];
-        for (int i = 0; i < numColumns; i++) {
-            relativeWidths[i] = 1f;
-        }
+        this.relativeWidths = new double[numColumns];
+        Arrays.fill(relativeWidths, 1);
     }
 
     public int getNumColumns() {
@@ -49,14 +49,10 @@ public class PdfTable implements PdfBlock, PdfCellContent {
     }
 
     public PdfTable setWidths(int[] widths) {
-        final float[] asFloats = new float[widths.length];
-        for (int i = 0; i < widths.length; i++) {
-            asFloats[i] = widths[i];
-        }
-        return setWidths(asFloats);
+        return setWidths(IntStream.of(widths).asDoubleStream().toArray());
     }
 
-    public PdfTable setWidths(float[] widths) {
+    public PdfTable setWidths(double[] widths) {
         if (widths.length != numColumns) {
             throw new IllegalArgumentException(
                     "expected " + numColumns + " column widths, got " + widths.length);
@@ -65,15 +61,15 @@ public class PdfTable implements PdfBlock, PdfCellContent {
         return this;
     }
 
-    public float[] getRelativeWidths() {
+    public double[] getRelativeWidths() {
         return relativeWidths.clone();
     }
 
-    public float getWidthPercentage() {
+    public double getWidthPercentage() {
         return widthPercentage;
     }
 
-    public PdfTable setWidthPercentage(float widthPercentage) {
+    public PdfTable setWidthPercentage(double widthPercentage) {
         this.widthPercentage = widthPercentage;
         this.widthSetExplicitly = true;
         return this;
@@ -87,21 +83,21 @@ public class PdfTable implements PdfBlock, PdfCellContent {
         return widthSetExplicitly;
     }
 
-    public float getTotalWidth() {
+    public double getTotalWidth() {
         return totalWidth;
     }
 
     /**
      * Pins the table to an absolute width, ignoring {@link #setWidthPercentage}.
      */
-    public PdfTable setTotalWidth(float totalWidth) {
+    public PdfTable setTotalWidth(double totalWidth) {
         this.totalWidth = totalWidth;
         this.widthSetExplicitly = true;
         return this;
     }
 
     public boolean hasTotalWidth() {
-        return totalWidth >= 0f;
+        return totalWidth >= 0;
     }
 
     /** Adds an empty cell, used as a spacer. */

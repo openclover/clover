@@ -13,13 +13,13 @@ public class PdfCell {
     private int borders = PdfBorder.BOX;
     private Color borderColour = Color.black;
     private Color backgroundColour;
-    private float paddingTop = 2f;
-    private float paddingBottom = 2f;
-    private float paddingLeft = 2f;
-    private float paddingRight = 2f;
-    private float minimumHeight;
-    private float fixedLeading;
-    private float multipliedLeading = 1f;
+    private double paddingTop = 2;
+    private double paddingBottom = 2;
+    private double paddingLeft = 2;
+    private double paddingRight = 2;
+    private double minimumHeight;
+    private double fixedLeading;
+    private double multipliedLeading = 1;
     private PdfAlign.Horizontal horizontalAlignment = PdfAlign.Horizontal.LEFT;
     private PdfAlign.Vertical verticalAlignment = PdfAlign.Vertical.TOP;
 
@@ -87,23 +87,23 @@ public class PdfCell {
         return this;
     }
 
-    public float getPaddingTop() {
+    public double getPaddingTop() {
         return paddingTop;
     }
 
-    public float getPaddingBottom() {
+    public double getPaddingBottom() {
         return paddingBottom;
     }
 
-    public float getPaddingLeft() {
+    public double getPaddingLeft() {
         return paddingLeft;
     }
 
-    public float getPaddingRight() {
+    public double getPaddingRight() {
         return paddingRight;
     }
 
-    public PdfCell setPadding(float padding) {
+    public PdfCell setPadding(double padding) {
         this.paddingTop = padding;
         this.paddingBottom = padding;
         this.paddingLeft = padding;
@@ -111,25 +111,25 @@ public class PdfCell {
         return this;
     }
 
-    public PdfCell setPaddingLeft(float padding) {
+    public PdfCell setPaddingLeft(double padding) {
         this.paddingLeft = padding;
         return this;
     }
 
-    public float getMinimumHeight() {
+    public double getMinimumHeight() {
         return minimumHeight;
     }
 
-    public PdfCell setMinimumHeight(float minimumHeight) {
+    public PdfCell setMinimumHeight(double minimumHeight) {
         this.minimumHeight = minimumHeight;
         return this;
     }
 
-    public float getFixedLeading() {
+    public double getFixedLeading() {
         return fixedLeading;
     }
 
-    public float getMultipliedLeading() {
+    public double getMultipliedLeading() {
         return multipliedLeading;
     }
 
@@ -137,7 +137,7 @@ public class PdfCell {
      * Sets line spacing as {@code fixed + multiplied * fontSize}, matching the leading model the
      * PDF reports were originally written against.
      */
-    public PdfCell setLeading(float fixed, float multiplied) {
+    public PdfCell setLeading(double fixed, double multiplied) {
         this.fixedLeading = fixed;
         this.multipliedLeading = multiplied;
         return this;

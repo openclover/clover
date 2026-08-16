@@ -9,14 +9,14 @@ import org.openclover.core.reporters.pdf.api.PdfWidget;
  */
 public class CoverageBarWidget implements PdfWidget {
 
-    private static final float BAR_LINE_WIDTH = 0.5f;
+    private static final double BAR_LINE_WIDTH = 0.5;
 
     /** The bar is drawn slightly shorter than the font height it is sized from. */
-    private static final float HEIGHT_ADJUSTMENT = 2f;
+    private static final double HEIGHT_ADJUSTMENT = 2;
 
-    private final float coveredPc;
-    private final float height;
-    private final float horizontalPaddingRatio;
+    private final double coveredPc;
+    private final double height;
+    private final double horizontalPaddingRatio;
     private final PDFColours colours;
 
     /**
@@ -25,26 +25,26 @@ public class CoverageBarWidget implements PdfWidget {
      * @param fontHeight             height of the surrounding text, which the bar is sized against
      * @param horizontalPaddingRatio fraction of the available width left blank on each side
      */
-    public CoverageBarWidget(float coveredPc, float fontHeight, float horizontalPaddingRatio,
+    public CoverageBarWidget(double coveredPc, double fontHeight, double horizontalPaddingRatio,
                              PDFColours colours) {
         // prevent rendering nasties when a metric overshoots
-        this.coveredPc = Math.min(coveredPc, 1f);
+        this.coveredPc = Math.min(coveredPc, 1);
         this.height = fontHeight - HEIGHT_ADJUSTMENT;
         this.horizontalPaddingRatio = horizontalPaddingRatio;
         this.colours = colours;
     }
 
     @Override
-    public float preferredHeight() {
+    public double preferredHeight() {
         return height;
     }
 
     @Override
     public void draw(PdfCanvas canvas, PdfRect bounds) {
-        final float hMargin = bounds.getWidth() * horizontalPaddingRatio;
-        final float barX = bounds.getX() + hMargin;
-        final float barWidth = bounds.getWidth() - 2 * hMargin;
-        final float barY = bounds.getY() + (bounds.getHeight() - height) / 2f;
+        final double hMargin = bounds.getWidth() * horizontalPaddingRatio;
+        final double barX = bounds.getX() + hMargin;
+        final double barWidth = bounds.getWidth() - 2 * hMargin;
+        final double barY = bounds.getY() + (bounds.getHeight() - height) / 2;
         final PdfRect bar = new PdfRect(barX, barY, barWidth, height);
 
         canvas.setLineWidth(BAR_LINE_WIDTH);

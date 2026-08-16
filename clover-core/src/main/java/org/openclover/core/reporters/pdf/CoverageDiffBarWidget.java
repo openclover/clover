@@ -18,21 +18,21 @@ import org.openclover.runtime.util.Formatting;
  */
 public class CoverageDiffBarWidget implements PdfWidget {
 
-    private static final float BAR_LINE_WIDTH = 0.5f;
-    private static final float HEIGHT_ADJUSTMENT = 2f;
+    private static final double BAR_LINE_WIDTH = 0.5;
+    private static final double HEIGHT_ADJUSTMENT = 2;
 
     /** Fraction of the width the bar always occupies, before the change is added to it. */
-    private static final float BASE_WIDTH_PC = 20f;
-    private static final float VARIABLE_WIDTH_PC = 80f;
+    private static final double BASE_WIDTH_PC = 20;
+    private static final double VARIABLE_WIDTH_PC = 80;
 
     /**
      * Vertical padding the table this widget replaces used to contribute, kept so that the movers
      * rows keep the height they have always had.
      */
-    private static final float ROW_PADDING = 4f;
+    private static final double ROW_PADDING = 4;
 
-    private final float pcDiff;
-    private final float barHeight;
+    private final double pcDiff;
+    private final double barHeight;
     private final PdfFontSpec labelFont;
     private final String label;
     private final PDFColours colours;
@@ -42,34 +42,37 @@ public class CoverageDiffBarWidget implements PdfWidget {
      * @param pcNow   coverage after the change, in the range [0..1]
      * @param fontSize size of the label next to the bar
      */
-    public CoverageDiffBarWidget(float pcDiff, float pcNow, float fontSize, PDFColours colours) {
-        this.pcDiff = pcDiff / 100f;
+    public CoverageDiffBarWidget(double pcDiff, double pcNow, double fontSize, PDFColours colours) {
+        this.pcDiff = pcDiff / 100;
         this.barHeight = fontSize - HEIGHT_ADJUSTMENT;
         this.labelFont = PdfFontSpec.sans(fontSize);
         this.colours = colours;
+        // Formatting still works in float; narrow only when handing the value over
+        final String now = Formatting.getPercentStr((float) pcNow);
+        final String delta = Formatting.format1d((float) (this.pcDiff * 100));
         this.label = this.pcDiff < 0
-                ? "(" + Formatting.getPercentStr(pcNow) + ") " + Formatting.format1d(this.pcDiff * 100)
-                : "+" + Formatting.format1d(this.pcDiff * 100) + " (" + Formatting.getPercentStr(pcNow) + ")";
+                ? "(" + now + ") " + delta
+                : "+" + delta + " (" + now + ")";
     }
 
     @Override
-    public float preferredHeight() {
+    public double preferredHeight() {
         return barHeight + HEIGHT_ADJUSTMENT + ROW_PADDING;
     }
 
     @Override
     public void draw(PdfCanvas canvas, PdfRect bounds) {
         final boolean lostCoverage = pcDiff < 0;
-        final float magnitude = Math.abs(pcDiff);
+        final double magnitude = Math.abs(pcDiff);
 
         // a loss puts the label first and grows the bar leftwards from the right edge; a gain
         // grows the bar from the left edge and puts the label after it
-        final float labelFraction = lostCoverage
-                ? (BASE_WIDTH_PC + VARIABLE_WIDTH_PC * (1 - magnitude)) / 100f
-                : VARIABLE_WIDTH_PC * magnitude / 100f;
-        final float split = bounds.getWidth() * labelFraction;
+        final double labelFraction = lostCoverage
+                ? (BASE_WIDTH_PC + VARIABLE_WIDTH_PC * (1 - magnitude)) / 100
+                : VARIABLE_WIDTH_PC * magnitude / 100;
+        final double split = bounds.getWidth() * labelFraction;
 
-        final float barY = bounds.getY() + (bounds.getHeight() - barHeight) / 2f;
+        final double barY = bounds.getY() + (bounds.getHeight() - barHeight) / 2;
         final PdfRect left = new PdfRect(bounds.getX(), barY, split, barHeight);
         final PdfRect right = new PdfRect(bounds.getX() + split, barY,
                 bounds.getWidth() - split, barHeight);
