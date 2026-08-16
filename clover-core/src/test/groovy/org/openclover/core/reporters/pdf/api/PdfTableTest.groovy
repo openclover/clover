@@ -186,12 +186,18 @@ class PdfTableTest extends TestCase {
         assertEquals(60d, table.resolveWidth(100d, false), 0.001d)
     }
 
-    void testNegativeWidthsAreRejected() {
+    /**
+     * A table of no width is not a table that draws nothing: every word wraps onto its own line,
+     * so the row grows without bound while nothing of it is visible.
+     */
+    void testWidthsMustBePositive() {
         [{ new PdfTable(1).setTotalWidth(-1d) },
-         { new PdfTable(1).setWidthPercentage(-1d) }].each { attempt ->
+         { new PdfTable(1).setTotalWidth(0d) },
+         { new PdfTable(1).setWidthPercentage(-1d) },
+         { new PdfTable(1).setWidthPercentage(0d) }].each { attempt ->
             try {
                 attempt()
-                fail("expected a negative width to be rejected")
+                fail("expected a non-positive width to be rejected")
             } catch (IllegalArgumentException expected) {
                 // as intended
             }

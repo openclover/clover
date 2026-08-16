@@ -309,12 +309,14 @@ class PdfDocumentTest extends TestCase {
         assertEquals(123d, new PdfTable(1).setTotalWidth(123).resolveWidth(100d, true), 0.001d)
     }
 
-    void testNegativeWidthsAreRejected() {
-        try {
-            new PdfTable(1).setTotalWidth(-1d)
-            fail("expected a negative total width to be rejected")
-        } catch (IllegalArgumentException expected) {
-            // as intended
+    void testNonPositiveWidthsAreRejected() {
+        [-1d, 0d].each { width ->
+            try {
+                new PdfTable(1).setTotalWidth(width)
+                fail("expected a total width of ${width} to be rejected")
+            } catch (IllegalArgumentException expected) {
+                // as intended
+            }
         }
     }
 

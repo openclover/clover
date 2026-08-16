@@ -102,9 +102,14 @@ public class PdfTable implements PdfCellContent {
         return widthPercentage;
     }
 
+    /**
+     * @throws IllegalArgumentException if the percentage is not positive; a table of no width
+     *                                  wraps every word onto its own line and draws it into a
+     *                                  column nothing is visible in
+     */
     public PdfTable setWidthPercentage(double widthPercentage) {
-        if (widthPercentage < 0.0) {
-            throw new IllegalArgumentException("width percentage must not be negative: " + widthPercentage);
+        if (widthPercentage <= 0.0) {
+            throw new IllegalArgumentException("width percentage must be positive: " + widthPercentage);
         }
         this.widthPercentage = widthPercentage;
         this.widthMode = WidthMode.PERCENTAGE;
@@ -117,10 +122,13 @@ public class PdfTable implements PdfCellContent {
 
     /**
      * Pins the table to an absolute width, ignoring {@link #setWidthPercentage}.
+     *
+     * @throws IllegalArgumentException if the width is not positive, for the reason given on
+     *                                  {@link #setWidthPercentage}
      */
     public PdfTable setTotalWidth(double totalWidth) {
-        if (totalWidth < 0.0) {
-            throw new IllegalArgumentException("total width must not be negative: " + totalWidth);
+        if (totalWidth <= 0.0) {
+            throw new IllegalArgumentException("total width must be positive: " + totalWidth);
         }
         this.totalWidth = totalWidth;
         this.widthMode = WidthMode.ABSOLUTE;
