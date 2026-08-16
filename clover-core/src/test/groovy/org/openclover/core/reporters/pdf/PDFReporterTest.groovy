@@ -71,6 +71,42 @@ class PDFReporterTest extends TestCase {
                 new File(outFile.parentFile, outFile.name + ".tmp").exists())
     }
 
+    /**
+     * A run that fails part way through has already opened the work file and rendered into it; the
+     * document is closed and the work file removed, so neither the stream nor the incomplete file
+     * outlives the failure.
+     */
+    void testAFailedRunLeavesNoWorkFileBehind() throws IOException, CloverException {
+        final File outFile = new File(TestUtils.createEmptyDirFor(getClass(), getName()), "coverage.pdf")
+        outFile.text = "yesterday's report"
+
+        // the primary report renders, then a secondary one pointing at a database that is not
+        // there fails the run
+        Current config = new Current()
+        config.setSummary(true)
+        config.setInitString(fixture.getInitStr())
+        config.setAlwaysReport(true)
+        config.setFormat(Format.DEFAULT_PDF)
+        config.setOutFile(outFile)
+
+        Current broken = new Current()
+        broken.setSummary(true)
+        broken.setInitString(new File(outFile.parentFile, "there-is-no-such.db").absolutePath)
+        broken.setFormat(Format.DEFAULT_PDF)
+        broken.setOutFile(outFile)
+
+        try {
+            new PDFReporter(config, [broken] as Current[]).execute()
+            fail("expected the missing database to fail the report")
+        } catch (CloverException expected) {
+            // the run failed, which is the point
+        }
+
+        assertFalse("the work file must not be left behind",
+                new File(outFile.parentFile, outFile.name + ".tmp").exists())
+        assertEquals("the previous report must survive", "yesterday's report", outFile.text)
+    }
+
     void testGenerateHistoryReportWithoutData() throws IOException, CloverException {
         Historical config = new Historical()
         config.setAlwaysReport(false)

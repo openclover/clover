@@ -133,9 +133,18 @@ public class PDFReporter extends CloverReporter {
 
     @Override
     protected int executeImpl() throws CloverException {
-        boolean written = write(reportConfig);
-        for (CloverReportConfig secondaryConfig : secondaryConfigs) {
-            write(secondaryConfig);
+        final boolean written;
+        try {
+            written = write(reportConfig);
+            for (CloverReportConfig secondaryConfig : secondaryConfigs) {
+                write(secondaryConfig);
+            }
+        } catch (CloverException | RuntimeException e) {
+            // the document is still open on the work file, holding both the stream and whatever
+            // was rendered so far; let go of all of it rather than leave the incomplete file
+            // beside the report the run failed to replace
+            abandon();
+            throw e;
         }
         if (written) {
             close();
@@ -172,8 +181,8 @@ public class PDFReporter extends CloverReporter {
     }
 
     /**
-     * Closes the document without keeping its output, used when there is nothing to report. Any
-     * report already at the destination is left as it was.
+     * Closes the document and removes its output, used when there is nothing to report and when
+     * rendering fails. Any report already at the destination is left as it was.
      */
     private void abandon() {
         try {
