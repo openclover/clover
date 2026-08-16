@@ -1,5 +1,6 @@
 package org.openclover.core.reporters.pdf.pdfbox;
 
+import org.apache.pdfbox.util.Version;
 import org.openclover.core.reporters.pdf.api.PdfDocument;
 import org.openclover.core.reporters.pdf.api.PdfDocumentFactory;
 import org.openclover.core.reporters.pdf.api.PdfMargins;
@@ -15,12 +16,15 @@ import java.io.OutputStream;
  */
 public class PdfBoxDocumentFactory implements PdfDocumentFactory {
 
-    /** Version of the PDF library, reported in the document metadata. */
-    public static final String PDF_LIBRARY_VERSION = "Apache PDFBox 3.0.8";
-
     @Override
     public PdfDocument create(OutputStream out, PdfPageSize pageSize, PdfMargins margins,
                               PdfPageDecorator decorator) throws IOException {
         return new PdfBoxDocument(out, pageSize, margins, decorator);
+    }
+
+    @Override
+    public String getLibraryDescription() {
+        // asked of the library itself, so that it cannot drift from the version actually bundled
+        return "Apache PDFBox " + Version.getVersion();
     }
 }

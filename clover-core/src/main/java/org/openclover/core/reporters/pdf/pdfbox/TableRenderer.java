@@ -2,15 +2,19 @@ package org.openclover.core.reporters.pdf.pdfbox;
 
 import org.openclover.core.reporters.pdf.api.PdfAlign;
 import org.openclover.core.reporters.pdf.api.PdfBorder;
+import org.openclover.core.reporters.pdf.api.PdfCanvas;
 import org.openclover.core.reporters.pdf.api.PdfCell;
 import org.openclover.core.reporters.pdf.api.PdfCellContent;
+import org.openclover.core.reporters.pdf.api.PdfCellStyle;
+import org.openclover.core.reporters.pdf.api.PdfLayout;
 import org.openclover.core.reporters.pdf.api.PdfRect;
 import org.openclover.core.reporters.pdf.api.PdfTable;
 import org.openclover.core.reporters.pdf.api.PdfText;
-import org.openclover.core.reporters.pdf.api.PdfWidget;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 
@@ -18,48 +22,41 @@ import java.util.stream.IntStream;
  * Measures and draws {@link PdfTable}s. This is the part iText provided and PDFBox does not: cells
  * are measured against their resolved column widths, rows take the height of their tallest cell,
  * and nested tables recurse.
+ *
+ * <p>Cell content measures and draws itself through the {@link PdfLayout} this class implements,
+ * so no part of the renderer needs to know which kinds of content exist.
  */
-class TableRenderer {
+class TableRenderer implements PdfLayout {
 
     private static final double BORDER_LINE_WIDTH = 0.5;
 
-    private final FontRegistry fonts;
     private final TextLayouter layouter;
 
-    TableRenderer(FontRegistry fonts) {
-        this.fonts = fonts;
-        this.layouter = new TextLayouter(fonts);
+    TableRenderer(TextLayouter layouter) {
+        this.layouter = layouter;
     }
 
     /**
-     * @param available width the table may occupy
-     * @return the width the table actually takes
+     * Measures a table against the width available to it.
+     *
+     * @param nested whether the table sits inside a cell
      */
-    double tableWidth(PdfTable table, double available) {
-        return tableWidth(table, available, false);
-    }
-
-    /**
-     * @param nested whether the table sits inside a cell; a nested table with no width of its own
-     *               fills that cell, which is how the reports have always been laid out
-     */
-    double tableWidth(PdfTable table, double available, boolean nested) {
-        if (table.hasTotalWidth()) {
-            return table.getTotalWidth();
+    TableLayout layout(PdfTable table, double available, boolean nested) {
+        final double[] columnWidths = columnWidths(table, table.resolveWidth(available, nested));
+        final List<TableLayout.Row> rows = new ArrayList<>();
+        for (List<PdfCell> cells : table.getRows()) {
+            rows.add(new TableLayout.Row(cells, rowHeight(cells, columnWidths)));
         }
-        if (nested && !table.hasExplicitWidth()) {
-            return available;
-        }
-        return available * table.getWidthPercentage() / 100;
+        return new TableLayout(columnWidths, rows);
     }
 
     /**
      * Turns the relative column proportions into absolute widths.
      */
-    double[] columnWidths(PdfTable table, double tableWidth) {
+    private double[] columnWidths(PdfTable table, double tableWidth) {
         final double[] relative = table.getRelativeWidths();
         final double sum = DoubleStream.of(relative).sum();
-        if (sum <= 0) {
+        if (sum <= 0.0) {
             final double[] equal = new double[relative.length];
             Arrays.fill(equal, tableWidth / relative.length);
             return equal;
@@ -67,8 +64,8 @@ class TableRenderer {
         return DoubleStream.of(relative).map(width -> tableWidth * width / sum).toArray();
     }
 
-    double rowHeight(List<PdfCell> row, double[] columnWidths) {
-        double height = 0;
+    private double rowHeight(List<PdfCell> row, double[] columnWidths) {
+        double height = 0.0;
         int column = 0;
         for (PdfCell cell : row) {
             final double cellWidth = spannedWidth(columnWidths, column, cell.getColspan());
@@ -78,158 +75,95 @@ class TableRenderer {
         return height;
     }
 
-    double tableHeight(PdfTable table, double available, boolean nested) {
-        final double[] columnWidths = columnWidths(table, tableWidth(table, available, nested));
-        return table.getRows().stream()
-                .mapToDouble(row -> rowHeight(row, columnWidths))
-                .sum();
-    }
-
     private double cellHeight(PdfCell cell, double cellWidth) {
-        final double contentWidth = Math.max(0,
-                cellWidth - cell.getPaddingLeft() - cell.getPaddingRight());
-        final double contentHeight = contentHeight(cell, contentWidth);
-        return Math.max(cell.getMinimumHeight(),
-                contentHeight + cell.getPaddingTop() + cell.getPaddingBottom());
+        final double contentHeight = contentHeight(cell, cell.contentWidth(cellWidth));
+        return Math.max(cell.getStyle().getMinimumHeight(),
+                contentHeight + cell.getStyle().getPaddingTop() + cell.getStyle().getPaddingBottom());
     }
 
     private double contentHeight(PdfCell cell, double contentWidth) {
         final PdfCellContent content = cell.getContent();
-        if (content == null) {
-            return 0;
-        }
-        if (content instanceof PdfText) {
-            return layouter.totalHeight(
-                    layouter.layout((PdfText) content, contentWidth),
-                    cell.getFixedLeading(), cell.getMultipliedLeading());
-        }
-        if (content instanceof PdfTable) {
-            return tableHeight((PdfTable) content, contentWidth, true);
-        }
-        if (content instanceof PdfWidget) {
-            return ((PdfWidget) content).preferredHeight();
-        }
-        return 0;
+        return content == null ? 0.0 : content.height(this, cell.getStyle(), contentWidth);
     }
 
     /**
      * Draws a whole table with its top-left corner at {@code (x, topY)}.
      */
-    void drawTable(PdfBoxCanvas canvas, PdfTable table, double x, double topY, double available) {
+    void drawTable(PdfCanvas canvas, PdfTable table, double x, double topY, double available) {
         drawTable(canvas, table, x, topY, available, false);
     }
 
-    private void drawTable(PdfBoxCanvas canvas, PdfTable table, double x, double topY,
+    private void drawTable(PdfCanvas canvas, PdfTable table, double x, double topY,
                            double available, boolean nested) {
-        final double[] columnWidths = columnWidths(table, tableWidth(table, available, nested));
+        final TableLayout layout = layout(table, available, nested);
         double cursorY = topY;
-        for (List<PdfCell> row : table.getRows()) {
-            final double height = rowHeight(row, columnWidths);
-            drawRow(canvas, row, columnWidths, x, cursorY, height);
-            cursorY -= height;
+        for (TableLayout.Row row : layout.getRows()) {
+            drawRow(canvas, row, layout.getColumnWidths(), x, cursorY);
+            cursorY -= row.getHeight();
         }
     }
 
-    void drawRow(PdfBoxCanvas canvas, List<PdfCell> row, double[] columnWidths,
-                 double x, double topY, double rowHeight) {
+    void drawRow(PdfCanvas canvas, TableLayout.Row row, double[] columnWidths, double x, double topY) {
         double cellX = x;
         int column = 0;
-        for (PdfCell cell : row) {
+        for (PdfCell cell : row.getCells()) {
             final double cellWidth = spannedWidth(columnWidths, column, cell.getColspan());
-            drawCell(canvas, cell, new PdfRect(cellX, topY - rowHeight, cellWidth, rowHeight));
+            drawCell(canvas, cell, new PdfRect(cellX, topY - row.getHeight(), cellWidth, row.getHeight()));
             cellX += cellWidth;
             column += cell.getColspan();
         }
     }
 
-    private void drawCell(PdfBoxCanvas canvas, PdfCell cell, PdfRect bounds) {
-        if (cell.getBackgroundColour() != null) {
-            canvas.fillRect(bounds, cell.getBackgroundColour());
+    private void drawCell(PdfCanvas canvas, PdfCell cell, PdfRect bounds) {
+        final PdfCellStyle style = cell.getStyle();
+        if (style.getBackgroundColour() != null) {
+            canvas.fillRect(bounds, style.getBackgroundColour());
         }
-        drawBorders(canvas, cell, bounds);
+        drawBorders(canvas, style, bounds);
 
         final PdfCellContent content = cell.getContent();
         if (content == null) {
             return;
         }
 
-        final double contentWidth = Math.max(0,
-                bounds.getWidth() - cell.getPaddingLeft() - cell.getPaddingRight());
-        final double contentX = bounds.getX() + cell.getPaddingLeft();
-        final double paddedTop = bounds.getTop() - cell.getPaddingTop();
-        final double paddedHeight = Math.max(0,
-                bounds.getHeight() - cell.getPaddingTop() - cell.getPaddingBottom());
+        final double contentWidth = cell.contentWidth(bounds.getWidth());
+        final double contentX = bounds.getX() + style.getPaddingLeft();
+        final double paddedTop = bounds.getTop() - style.getPaddingTop();
+        final double paddedHeight = cell.contentHeight(bounds.getHeight());
         final double contentHeight = contentHeight(cell, contentWidth);
-        final double top = cell.getVerticalAlignment() == PdfAlign.Vertical.MIDDLE
-                ? paddedTop - (paddedHeight - contentHeight) / 2
+        final double top = style.getVerticalAlignment() == PdfAlign.Vertical.MIDDLE
+                ? paddedTop - (paddedHeight - contentHeight) / 2.0
                 : paddedTop;
 
-        if (content instanceof PdfText) {
-            drawText(canvas, cell, (PdfText) content, contentX, top, contentWidth);
-        } else if (content instanceof PdfTable) {
-            drawTable(canvas, (PdfTable) content, contentX, top, contentWidth, true);
-        } else if (content instanceof PdfWidget) {
-            final PdfWidget widget = (PdfWidget) content;
-            widget.draw(canvas, new PdfRect(contentX, top - contentHeight, contentWidth, contentHeight));
-        }
+        content.draw(this, canvas,
+                style, new PdfRect(contentX, top - contentHeight, contentWidth, contentHeight));
     }
 
-    private void drawText(PdfBoxCanvas canvas, PdfCell cell, PdfText text,
-                          double x, double top, double width) {
-        final List<TextLayouter.Line> lines = layouter.layout(text, width);
-        double cursorY = top;
-        for (TextLayouter.Line line : lines) {
-            cursorY -= TextLayouter.leadingOf(line, cell.getFixedLeading(), cell.getMultipliedLeading());
-            final double lineX;
-            switch (cell.getHorizontalAlignment()) {
-                case RIGHT:
-                    lineX = x + width - line.width;
-                    break;
-                case CENTER:
-                    lineX = x + (width - line.width) / 2;
-                    break;
-                default:
-                    lineX = x;
-            }
-            canvas.drawLine(line, lineX, cursorY - descentOf(line));
-        }
-    }
-
-    /**
-     * Descent is negative, so subtracting it lifts the baseline off the bottom of the line box.
-     */
-    private double descentOf(TextLayouter.Line line) {
-        return line.pieces.stream()
-                .mapToDouble(piece -> fonts.descent(piece.font))
-                .min()
-                .orElse(0);
-    }
-
-    private void drawBorders(PdfBoxCanvas canvas, PdfCell cell, PdfRect bounds) {
-        final int borders = cell.getBorders();
-        if (PdfBorder.isNone(borders)) {
+    private void drawBorders(PdfCanvas canvas, PdfCellStyle style, PdfRect bounds) {
+        final Set<PdfBorder> borders = style.getBorders();
+        if (borders.isEmpty()) {
             return;
         }
         canvas.setLineWidth(BORDER_LINE_WIDTH);
-        if (borders == PdfBorder.BOX) {
-            canvas.strokeRect(bounds, cell.getBorderColour());
+        if (borders.containsAll(PdfBorder.BOX)) {
+            canvas.strokeRect(bounds, style.getBorderColour());
             return;
         }
-        if (PdfBorder.has(borders, PdfBorder.TOP)) {
+        if (borders.contains(PdfBorder.TOP)) {
             canvas.drawLine(bounds.getX(), bounds.getTop(), bounds.getRight(), bounds.getTop(),
-                    cell.getBorderColour());
+                    style.getBorderColour());
         }
-        if (PdfBorder.has(borders, PdfBorder.BOTTOM)) {
+        if (borders.contains(PdfBorder.BOTTOM)) {
             canvas.drawLine(bounds.getX(), bounds.getY(), bounds.getRight(), bounds.getY(),
-                    cell.getBorderColour());
+                    style.getBorderColour());
         }
-        if (PdfBorder.has(borders, PdfBorder.LEFT)) {
+        if (borders.contains(PdfBorder.LEFT)) {
             canvas.drawLine(bounds.getX(), bounds.getY(), bounds.getX(), bounds.getTop(),
-                    cell.getBorderColour());
+                    style.getBorderColour());
         }
-        if (PdfBorder.has(borders, PdfBorder.RIGHT)) {
+        if (borders.contains(PdfBorder.RIGHT)) {
             canvas.drawLine(bounds.getRight(), bounds.getY(), bounds.getRight(), bounds.getTop(),
-                    cell.getBorderColour());
+                    style.getBorderColour());
         }
     }
 
@@ -237,5 +171,27 @@ class TableRenderer {
         return IntStream.range(firstColumn, Math.min(firstColumn + colspan, columnWidths.length))
                 .mapToDouble(i -> columnWidths[i])
                 .sum();
+    }
+
+    @Override
+    public double textHeight(PdfText text, double width, double fixedLeading, double multipliedLeading) {
+        return layouter.totalHeight(layouter.layout(text, width), fixedLeading, multipliedLeading);
+    }
+
+    @Override
+    public void drawText(PdfCanvas canvas, PdfText text, PdfRect bounds,
+                         PdfAlign.Horizontal alignment, double fixedLeading, double multipliedLeading) {
+        canvas.drawText(text, bounds, alignment, PdfAlign.Vertical.TOP, fixedLeading, multipliedLeading);
+    }
+
+    @Override
+    public double nestedTableHeight(PdfTable table, double availableWidth) {
+        return layout(table, availableWidth, true).getHeight();
+    }
+
+    @Override
+    public void drawNestedTable(PdfCanvas canvas, PdfTable table, double x, double topY,
+                                double availableWidth) {
+        drawTable(canvas, table, x, topY, availableWidth, true);
     }
 }

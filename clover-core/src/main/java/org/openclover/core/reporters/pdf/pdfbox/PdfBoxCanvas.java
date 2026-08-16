@@ -2,6 +2,7 @@ package org.openclover.core.reporters.pdf.pdfbox;
 
 import de.rototor.pdfbox.graphics2d.PdfBoxGraphics2D;
 import de.rototor.pdfbox.graphics2d.PdfBoxGraphics2DFontTextForcedDrawer;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
@@ -17,26 +18,23 @@ import org.openclover.core.reporters.pdf.api.PdfCanvas;
 import org.openclover.core.reporters.pdf.api.PdfFontSpec;
 import org.openclover.core.reporters.pdf.api.PdfRect;
 import org.openclover.core.reporters.pdf.api.PdfText;
-import org.openclover.runtime.Logger;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.imageio.ImageIO;
 
 /**
  * Drawing primitives on top of a single PDFBox page. Everything the layout engine and the widgets
  * put on a page goes through here.
  */
 class PdfBoxCanvas implements PdfCanvas {
+
+    private static final int RESOURCE_BUFFER_SIZE = 8192;
 
     private final PDDocument document;
     private final PDPage page;
@@ -46,12 +44,12 @@ class PdfBoxCanvas implements PdfCanvas {
     private final Map<String, PDImageXObject> imageCache;
 
     PdfBoxCanvas(PDDocument document, PDPage page, PDPageContentStream stream, FontRegistry fonts,
-                 Map<String, PDImageXObject> imageCache) {
+                 TextLayouter layouter, Map<String, PDImageXObject> imageCache) {
         this.document = document;
         this.page = page;
         this.stream = stream;
         this.fonts = fonts;
-        this.layouter = new TextLayouter(fonts);
+        this.layouter = layouter;
         this.imageCache = imageCache;
     }
 
@@ -63,83 +61,101 @@ class PdfBoxCanvas implements PdfCanvas {
         return (float) value;
     }
 
-    FontRegistry getFonts() {
-        return fonts;
+    /** A drawing operation on the content stream, which PDFBox declares as throwing. */
+    @FunctionalInterface
+    private interface StreamOp {
+        void run() throws IOException;
     }
 
-    TextLayouter getLayouter() {
-        return layouter;
+    /**
+     * Runs a drawing operation, turning PDFBox's checked {@link IOException} into an unchecked one:
+     * a content stream that cannot be written to is not something a widget can recover from.
+     */
+    private static void draw(StreamOp op) {
+        try {
+            op.run();
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 
     @Override
     public void setLineWidth(double width) {
-        try {
-            stream.setLineWidth(f(width));
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
+        draw(() -> stream.setLineWidth(f(width)));
     }
 
     @Override
     public void fillRect(PdfRect rect, Color colour) {
-        if (rect.getWidth() <= 0 || rect.getHeight() <= 0) {
+        if (rect.getWidth() <= 0.0 || rect.getHeight() <= 0.0) {
             return;
         }
-        try {
+        draw(() -> {
             stream.setNonStrokingColor(colour);
             stream.addRect(f(rect.getX()), f(rect.getY()), f(rect.getWidth()), f(rect.getHeight()));
             stream.fill();
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
+        });
     }
 
     @Override
     public void strokeRect(PdfRect rect, Color colour) {
-        if (rect.getWidth() <= 0 || rect.getHeight() <= 0) {
+        if (rect.getWidth() <= 0.0 || rect.getHeight() <= 0.0) {
             return;
         }
-        try {
+        draw(() -> {
             stream.setStrokingColor(colour);
             stream.addRect(f(rect.getX()), f(rect.getY()), f(rect.getWidth()), f(rect.getHeight()));
             stream.stroke();
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
+        });
     }
 
     @Override
     public void drawLine(double x1, double y1, double x2, double y2, Color colour) {
-        try {
+        draw(() -> {
             stream.setStrokingColor(colour);
             stream.moveTo(f(x1), f(y1));
             stream.lineTo(f(x2), f(y2));
             stream.stroke();
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
+        });
     }
 
     @Override
     public void drawImage(String resourcePath, PdfRect bounds) {
-        try {
-            final PDImageXObject image = loadImage(resourcePath);
-            if (image != null) {
-                stream.drawImage(image, f(bounds.getX()), f(bounds.getY()), f(bounds.getWidth()), f(bounds.getHeight()));
-            }
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
+        final PDImageXObject image = loadImage(resourcePath);
+        draw(() -> stream.drawImage(image,
+                f(bounds.getX()), f(bounds.getY()), f(bounds.getWidth()), f(bounds.getHeight())));
     }
 
     @Override
     public void drawText(PdfText text, PdfRect bounds, PdfAlign.Horizontal alignment) {
+        drawText(text, bounds, alignment, PdfAlign.Vertical.MIDDLE, 0.0, 1.0);
+    }
+
+    @Override
+    public void drawText(PdfText text, PdfRect bounds, PdfAlign.Horizontal horizontal,
+                         PdfAlign.Vertical vertical, double fixedLeading, double multipliedLeading) {
         final List<TextLayouter.Line> lines = layouter.layout(text, bounds.getWidth());
-        final double totalHeight = layouter.totalHeight(lines, 0, 1);
-        double baseline = bounds.getY() + (bounds.getHeight() + totalHeight) / 2;
+        final double totalHeight = layouter.totalHeight(lines, fixedLeading, multipliedLeading);
+
+        double lineTop = topOf(bounds, totalHeight, vertical);
         for (TextLayouter.Line line : lines) {
-            baseline -= TextLayouter.leadingOf(line, 0, 1);
-            drawLine(line, alignedX(line, bounds, alignment), baseline);
+            lineTop -= TextLayouter.leadingOf(line, fixedLeading, multipliedLeading);
+            // the descent is negative, so subtracting it lifts the baseline off the line box's
+            // bottom edge and keeps descenders inside the box
+            drawTextLine(line, alignedX(line, bounds, horizontal), lineTop - layouter.descentOf(line));
+        }
+    }
+
+    /**
+     * @return the top edge of the first line box, once the whole text block is aligned in its box
+     */
+    private static double topOf(PdfRect bounds, double totalHeight, PdfAlign.Vertical vertical) {
+        switch (vertical) {
+            case MIDDLE:
+                return bounds.getY() + (bounds.getHeight() + totalHeight) / 2.0;
+            case BOTTOM:
+                return bounds.getY() + totalHeight;
+            default:
+                return bounds.getTop();
         }
     }
 
@@ -148,7 +164,7 @@ class PdfBoxCanvas implements PdfCanvas {
             case RIGHT:
                 return bounds.getRight() - line.width;
             case CENTER:
-                return bounds.getX() + (bounds.getWidth() - line.width) / 2;
+                return bounds.getX() + (bounds.getWidth() - line.width) / 2.0;
             default:
                 return bounds.getX();
         }
@@ -158,7 +174,7 @@ class PdfBoxCanvas implements PdfCanvas {
      * Draws one laid-out line starting at {@code x}, registering a link annotation for any piece
      * that carries an anchor.
      */
-    void drawLine(TextLayouter.Line line, double x, double baselineY) {
+    private void drawTextLine(TextLayouter.Line line, double x, double baselineY) {
         double penX = x;
         for (TextLayouter.Piece piece : line.pieces) {
             drawPiece(piece, penX, baselineY);
@@ -168,20 +184,18 @@ class PdfBoxCanvas implements PdfCanvas {
 
     private void drawPiece(TextLayouter.Piece piece, double x, double baselineY) {
         final PdfFontSpec font = piece.font;
-        final String text = fonts.sanitise(piece.text, font);
-        if (!text.trim().isEmpty()) {
-            try {
+        // blank text produces no marks, so the whole text object is skipped
+        if (StringUtils.isNotBlank(piece.text)) {
+            draw(() -> {
                 stream.beginText();
                 stream.setFont(fonts.getFont(font), f(font.getSize()));
                 stream.setNonStrokingColor(font.getColour());
                 stream.newLineAtOffset(f(x), f(baselineY));
-                stream.showText(text);
+                stream.showText(piece.text);
                 stream.endText();
-            } catch (IOException e) {
-                throw new UncheckedIOException(e);
-            }
+            });
         }
-        if (piece.anchor != null && !piece.anchor.isEmpty() && piece.width > 0) {
+        if (StringUtils.isNotEmpty(piece.anchor) && piece.width > 0.0) {
             addLinkAnnotation(piece, x, baselineY);
         }
     }
@@ -213,54 +227,81 @@ class PdfBoxCanvas implements PdfCanvas {
     }
 
     @Override
-    public Graphics2D beginGraphics(PdfRect bounds) {
+    public GraphicsScope beginGraphics(PdfRect bounds) {
         try {
             final PdfBoxGraphics2D graphics =
                     new PdfBoxGraphics2D(document, f(bounds.getWidth()), f(bounds.getHeight()));
             // render glyphs as vector outlines, so chart labels do not depend on any font being
             // resolvable at render time
             graphics.setFontTextDrawer(new PdfBoxGraphics2DFontTextForcedDrawer());
-            pendingGraphicsBounds.put(graphics, bounds);
+            return new PdfBoxGraphicsScope(graphics, bounds);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
+    /**
+     * Holds an open AWT context together with the rectangle it is mapped onto, so the two cannot
+     * come apart: closing the scope stamps the drawing onto the page at those coordinates.
+     */
+    private class PdfBoxGraphicsScope implements GraphicsScope {
+
+        private final PdfBoxGraphics2D graphics;
+        private final PdfRect bounds;
+        private boolean closed;
+
+        PdfBoxGraphicsScope(PdfBoxGraphics2D graphics, PdfRect bounds) {
+            this.graphics = graphics;
+            this.bounds = bounds;
+        }
+
+        @Override
+        public Graphics2D getGraphics() {
             return graphics;
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
         }
-    }
 
-    @Override
-    public void endGraphics(Graphics2D graphics) {
-        final PdfBoxGraphics2D pdfGraphics = (PdfBoxGraphics2D) graphics;
-        final PdfRect bounds = pendingGraphicsBounds.remove(pdfGraphics);
-        pdfGraphics.dispose();
-        final PDFormXObject form = pdfGraphics.getXFormObject();
-        try {
-            stream.saveGraphicsState();
-            stream.transform(Matrix.getTranslateInstance(f(bounds.getX()), f(bounds.getY())));
-            stream.drawForm(form);
-            stream.restoreGraphicsState();
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
-    }
-
-    private final Map<Graphics2D, PdfRect> pendingGraphicsBounds = new HashMap<>();
-
-    private PDImageXObject loadImage(String resourcePath) throws IOException {
-        if (imageCache.containsKey(resourcePath)) {
-            return imageCache.get(resourcePath);
-        }
-        PDImageXObject image = null;
-        try (InputStream in = getClass().getClassLoader().getResourceAsStream(resourcePath)) {
-            if (in == null) {
-                Logger.getInstance().warn("PDF report resource not found on the classpath: " + resourcePath);
-            } else {
-                final BufferedImage buffered = ImageIO.read(in);
-                final ByteArrayOutputStream png = new ByteArrayOutputStream();
-                ImageIO.write(buffered, "png", png);
-                image = PDImageXObject.createFromByteArray(document, png.toByteArray(), resourcePath);
+        @Override
+        public void close() {
+            if (closed) {
+                return;
             }
+            closed = true;
+            graphics.dispose();
+            final PDFormXObject form = graphics.getXFormObject();
+            draw(() -> {
+                stream.saveGraphicsState();
+                stream.transform(Matrix.getTranslateInstance(f(bounds.getX()), f(bounds.getY())));
+                stream.drawForm(form);
+                stream.restoreGraphicsState();
+            });
         }
-        imageCache.put(resourcePath, image);
-        return image;
+    }
+
+    /**
+     * Loads an image bundled on the classpath. A report resource that is missing or unreadable is
+     * a packaging fault rather than a condition to render around, so it fails the report.
+     */
+    private PDImageXObject loadImage(String resourcePath) {
+        return imageCache.computeIfAbsent(resourcePath, path -> {
+            try (InputStream in = getClass().getClassLoader().getResourceAsStream(path)) {
+                if (in == null) {
+                    throw new IllegalStateException(
+                            "PDF report image not found on the classpath: " + path);
+                }
+                return PDImageXObject.createFromByteArray(document, readFully(in), path);
+            } catch (IOException e) {
+                throw new IllegalStateException("Unable to read the PDF report image " + path, e);
+            }
+        });
+    }
+
+    private static byte[] readFully(InputStream in) throws IOException {
+        final ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        final byte[] chunk = new byte[RESOURCE_BUFFER_SIZE];
+        int read;
+        while ((read = in.read(chunk)) != -1) {
+            buffer.write(chunk, 0, read);
+        }
+        return buffer.toByteArray();
     }
 }

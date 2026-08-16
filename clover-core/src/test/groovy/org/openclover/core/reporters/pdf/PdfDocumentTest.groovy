@@ -260,7 +260,7 @@ class PdfDocumentTest extends TestCase {
         PdfTable table = new PdfTable(2)
         table.setWidthPercentage(100f)
         table.setWidths([50, 50] as int[])
-        table.getDefaultCell().setBorders(PdfBorder.NONE)
+        table.getDefaultStyle().setBorders(PdfBorder.NONE)
         table.addCell(PdfText.of("coverage", PdfFontSpec.sans(10)))
         table.addCell(widget)
         doc.add(table)
@@ -290,11 +290,29 @@ class PdfDocumentTest extends TestCase {
     }
 
     /**
-     * Tables default to 80% of the available width, which several report elements rely on
-     * without setting a width explicitly.
+     * A top-level table that was not given a width takes 80% of the available width, which
+     * several report elements rely on without setting a width explicitly, while the same table
+     * nested inside a cell fills that cell.
      */
-    void testDefaultTableWidthIsEightyPercent() {
-        assertEquals(80d, PdfTable.DEFAULT_WIDTH_PERCENTAGE, 0.001d)
-        assertEquals(80d, new PdfTable(1).getWidthPercentage(), 0.001d)
+    void testAutoWidthDependsOnNesting() {
+        PdfTable table = new PdfTable(1)
+
+        assertEquals(PdfTable.WidthMode.AUTO, table.getWidthMode())
+        assertEquals(80d, table.resolveWidth(100d, false), 0.001d)
+        assertEquals(100d, table.resolveWidth(100d, true), 0.001d)
+    }
+
+    void testExplicitWidthsOverrideNesting() {
+        assertEquals(50d, new PdfTable(1).setWidthPercentage(50).resolveWidth(100d, true), 0.001d)
+        assertEquals(123d, new PdfTable(1).setTotalWidth(123).resolveWidth(100d, true), 0.001d)
+    }
+
+    void testNegativeWidthsAreRejected() {
+        try {
+            new PdfTable(1).setTotalWidth(-1d)
+            fail("expected a negative total width to be rejected")
+        } catch (IllegalArgumentException expected) {
+            // as intended
+        }
     }
 }

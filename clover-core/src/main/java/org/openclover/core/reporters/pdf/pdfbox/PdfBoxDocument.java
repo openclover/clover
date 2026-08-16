@@ -6,7 +6,7 @@ import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.openclover.core.reporters.pdf.api.PdfBlock;
-import org.openclover.core.reporters.pdf.api.PdfCell;
+import org.openclover.core.reporters.pdf.api.PdfCanvas;
 import org.openclover.core.reporters.pdf.api.PdfDocument;
 import org.openclover.core.reporters.pdf.api.PdfMargins;
 import org.openclover.core.reporters.pdf.api.PdfPageContext;
@@ -35,13 +35,14 @@ class PdfBoxDocument implements PdfDocument {
     private final PdfMargins margins;
     private final PdfPageDecorator decorator;
     private final FontRegistry fonts;
+    private final TextLayouter layouter;
     private final TableRenderer tables;
     private final Map<String, PDImageXObject> imageCache = new HashMap<>();
     private final List<PDPage> pages = new ArrayList<>();
 
     private PDPage currentPage;
     private PDPageContentStream currentStream;
-    private PdfBoxCanvas currentCanvas;
+    private PdfCanvas currentCanvas;
     private double cursorY;
     private boolean pageIsEmpty = true;
     private boolean closed;
@@ -53,7 +54,9 @@ class PdfBoxDocument implements PdfDocument {
         this.margins = margins;
         this.decorator = decorator;
         this.fonts = new FontRegistry(document);
-        this.tables = new TableRenderer(fonts);
+        // one layouter per document: it is stateless apart from the fonts it measures against
+        this.layouter = new TextLayouter(fonts);
+        this.tables = new TableRenderer(layouter);
     }
 
     @Override
@@ -85,21 +88,18 @@ class PdfBoxDocument implements PdfDocument {
             throw new IllegalArgumentException(
                     "Unsupported PDF block type: " + block.getClass().getName());
         }
-        final PdfTable table = (PdfTable) block;
-        final double width = tables.tableWidth(table, contentWidth());
-        final double[] columnWidths = tables.columnWidths(table, width);
+        final TableLayout layout = tables.layout((PdfTable) block, contentWidth(), false);
 
-        for (List<PdfCell> row : table.getRows()) {
-            final double height = tables.rowHeight(row, columnWidths);
+        for (TableLayout.Row row : layout.getRows()) {
             ensurePage();
             // a row taller than a whole page cannot be split, so it is drawn on a fresh page and
             // allowed to run over rather than being dropped
-            if (cursorY - height < contentBottom() && !pageIsEmpty) {
+            if (cursorY - row.getHeight() < contentBottom() && !pageIsEmpty) {
                 newPage();
                 ensurePage();
             }
-            tables.drawRow(currentCanvas, row, columnWidths, margins.getLeft(), cursorY, height);
-            cursorY -= height;
+            tables.drawRow(currentCanvas, row, layout.getColumnWidths(), margins.getLeft(), cursorY);
+            cursorY -= row.getHeight();
             pageIsEmpty = false;
         }
     }
@@ -124,7 +124,7 @@ class PdfBoxDocument implements PdfDocument {
         document.addPage(currentPage);
         pages.add(currentPage);
         currentStream = new PDPageContentStream(document, currentPage);
-        currentCanvas = new PdfBoxCanvas(document, currentPage, currentStream, fonts, imageCache);
+        currentCanvas = new PdfBoxCanvas(document, currentPage, currentStream, fonts, layouter, imageCache);
         cursorY = contentTop();
         pageIsEmpty = true;
     }
@@ -142,7 +142,7 @@ class PdfBoxDocument implements PdfDocument {
             return;
         }
         closed = true;
-        try {
+        try (PDDocument closeMe = document; OutputStream target = out) {
             if (currentStream != null) {
                 endPage();
             }
@@ -152,10 +152,7 @@ class PdfBoxDocument implements PdfDocument {
                 endPage();
             }
             decoratePages();
-            document.save(out);
-        } finally {
-            document.close();
-            out.close();
+            closeMe.save(target);
         }
     }
 
@@ -167,8 +164,8 @@ class PdfBoxDocument implements PdfDocument {
             final PDPage page = pages.get(i);
             try (PDPageContentStream stream = new PDPageContentStream(
                     document, page, PDPageContentStream.AppendMode.APPEND, true, true)) {
-                final PdfBoxCanvas canvas =
-                        new PdfBoxCanvas(document, page, stream, fonts, imageCache);
+                final PdfCanvas canvas =
+                        new PdfBoxCanvas(document, page, stream, fonts, layouter, imageCache);
                 decorator.decoratePage(new PageContext(canvas, i + 1, pages.size()));
             }
         }
@@ -179,11 +176,11 @@ class PdfBoxDocument implements PdfDocument {
      */
     private class PageContext implements PdfPageContext {
 
-        private final PdfBoxCanvas canvas;
+        private final PdfCanvas canvas;
         private final int pageNumber;
         private final int totalPages;
 
-        PageContext(PdfBoxCanvas canvas, int pageNumber, int totalPages) {
+        PageContext(PdfCanvas canvas, int pageNumber, int totalPages) {
             this.canvas = canvas;
             this.pageNumber = pageNumber;
             this.totalPages = totalPages;
@@ -210,7 +207,7 @@ class PdfBoxDocument implements PdfDocument {
         }
 
         @Override
-        public PdfBoxCanvas getCanvas() {
+        public PdfCanvas getCanvas() {
             return canvas;
         }
 

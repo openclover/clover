@@ -53,6 +53,9 @@ class FontRegistry {
     }
 
     /**
+     * Measures already-{@link #sanitise(String, PdfFontSpec) sanitised} text, which is what the
+     * layouter stores in its pieces.
+     *
      * @return width of the text in points at the spec's size
      */
     double stringWidth(String text, PdfFontSpec spec) {
@@ -61,18 +64,18 @@ class FontRegistry {
         }
         final Face face = face(spec.getStyle());
         try {
-            return face.font.getStringWidth(sanitise(text, spec)) / 1000 * spec.getSize();
+            return face.font.getStringWidth(text) / 1000.0 * spec.getSize();
         } catch (IOException e) {
             throw new IllegalStateException("Unable to measure text in the PDF report", e);
         }
     }
 
     double ascent(PdfFontSpec spec) {
-        return face(spec.getStyle()).ascent / 1000 * spec.getSize();
+        return face(spec.getStyle()).ascent / 1000.0 * spec.getSize();
     }
 
     double descent(PdfFontSpec spec) {
-        return face(spec.getStyle()).descent / 1000 * spec.getSize();
+        return face(spec.getStyle()).descent / 1000.0 * spec.getSize();
     }
 
     /**
@@ -118,8 +121,8 @@ class FontRegistry {
             final TrueTypeFont ttf = new TTFParser().parse(new RandomAccessReadBuffer(in));
             final PDType0Font font = PDType0Font.load(document, ttf, true);
             return new Face(font, ttf.getUnicodeCmapLookup(),
-                    ttf.getHorizontalHeader().getAscender() * 1000 / ttf.getUnitsPerEm(),
-                    ttf.getHorizontalHeader().getDescender() * 1000 / ttf.getUnitsPerEm());
+                    ttf.getHorizontalHeader().getAscender() * 1000.0 / ttf.getUnitsPerEm(),
+                    ttf.getHorizontalHeader().getDescender() * 1000.0 / ttf.getUnitsPerEm());
         } catch (IOException e) {
             throw new IllegalStateException("Unable to load the bundled PDF font " + resource, e);
         }

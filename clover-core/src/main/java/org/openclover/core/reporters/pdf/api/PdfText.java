@@ -41,4 +41,16 @@ public class PdfText implements PdfCellContent {
     public boolean isEmpty() {
         return runs.stream().allMatch(run -> run.getText().isEmpty());
     }
+
+    @Override
+    public double height(PdfLayout layout, PdfCellStyle style, double contentWidth) {
+        return layout.textHeight(this, contentWidth,
+                style.getFixedLeading(), style.getMultipliedLeading());
+    }
+
+    @Override
+    public void draw(PdfLayout layout, PdfCanvas canvas, PdfCellStyle style, PdfRect bounds) {
+        layout.drawText(canvas, this, bounds, style.getHorizontalAlignment(),
+                style.getFixedLeading(), style.getMultipliedLeading());
+    }
 }

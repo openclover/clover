@@ -26,8 +26,14 @@ import java.util.Date;
  */
 public class PageFooterRenderer implements PdfPageDecorator {
 
-    private static final int SCALED_LOGO_SIZE = 32;
-    private static final int FOOTER_FONT_SIZE = 8;
+    private static final double SCALED_LOGO_SIZE = 32.0;
+    private static final double FOOTER_FONT_SIZE = 8.0;
+
+    /** Hairline used for the footer dividers. */
+    private static final double DIVIDER_LINE_WIDTH = 0.5;
+
+    /** Gap between the logo and the text block beside it. */
+    private static final double LOGO_TEXT_GAP = 2.0;
 
     /** Page margin, matching the one the document body is laid out with. */
     private static final double PAGE_MARGIN = 25;
@@ -62,7 +68,7 @@ public class PageFooterRenderer implements PdfPageDecorator {
         canvas.drawImage("pdf_res/logo1.png",
                 new PdfRect(PAGE_MARGIN, 0, SCALED_LOGO_SIZE, SCALED_LOGO_SIZE));
 
-        canvas.setLineWidth(0.5);
+        canvas.setLineWidth(DIVIDER_LINE_WIDTH);
         // horizontal divider above the footer
         canvas.drawLine(PAGE_MARGIN, SCALED_LOGO_SIZE, PAGE_MARGIN + footerWidth, SCALED_LOGO_SIZE,
                 colours.COL_TABLE_BORDER);
@@ -84,14 +90,15 @@ public class PageFooterRenderer implements PdfPageDecorator {
                 DonationMessageGenerator.DONATE_URL);
 
         final PdfTable footerTab = new PdfTable(1);
-        footerTab.setTotalWidth(textBlockWidth - SCALED_LOGO_SIZE - 6);
-        footerTab.getDefaultCell().setBorders(PdfBorder.NONE);
-        footerTab.getDefaultCell().setPadding(2);
-        footerTab.getDefaultCell().setPaddingLeft(6);
-        footerTab.getDefaultCell().setLeading(2, 0.9);
+        footerTab.setTotalWidth(textBlockWidth - SCALED_LOGO_SIZE - 6.0);
+        footerTab.getDefaultStyle().setBorders(PdfBorder.NONE);
+        footerTab.getDefaultStyle().setPadding(2.0);
+        footerTab.getDefaultStyle().setPaddingLeft(6.0);
+        footerTab.getDefaultStyle().setLeading(2.0, 0.9);
         footerTab.addCell(licText);
 
-        context.drawTable(footerTab, PAGE_MARGIN + SCALED_LOGO_SIZE + 2, SCALED_LOGO_SIZE - 2);
+        context.drawTable(footerTab, PAGE_MARGIN + SCALED_LOGO_SIZE + LOGO_TEXT_GAP,
+                SCALED_LOGO_SIZE - LOGO_TEXT_GAP);
     }
 
     private void drawPageNumber(PdfPageContext context, double footerWidth, double textBlockWidth) {
@@ -100,7 +107,7 @@ public class PageFooterRenderer implements PdfPageDecorator {
 
         // centre the "Page X of Y" text within the reserved right-hand section of the footer
         final double sectionWidth = footerWidth - textBlockWidth;
-        final double baselineY = SCALED_LOGO_SIZE - FOOTER_FONT_SIZE - 2;
+        final double baselineY = SCALED_LOGO_SIZE - FOOTER_FONT_SIZE - 2.0;
 
         context.getCanvas().drawText(PdfText.of(text, font),
                 new PdfRect(PAGE_MARGIN + textBlockWidth, baselineY, sectionWidth, FOOTER_FONT_SIZE),

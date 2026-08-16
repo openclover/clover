@@ -12,4 +12,14 @@ public interface PdfWidget extends PdfCellContent {
     double preferredHeight();
 
     void draw(PdfCanvas canvas, PdfRect bounds);
+
+    @Override
+    default double height(PdfLayout layout, PdfCellStyle style, double contentWidth) {
+        return preferredHeight();
+    }
+
+    @Override
+    default void draw(PdfLayout layout, PdfCanvas canvas, PdfCellStyle style, PdfRect bounds) {
+        draw(canvas, bounds);
+    }
 }

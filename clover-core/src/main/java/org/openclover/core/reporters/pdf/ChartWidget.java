@@ -5,7 +5,6 @@ import org.openclover.core.reporters.pdf.api.PdfCanvas;
 import org.openclover.core.reporters.pdf.api.PdfRect;
 import org.openclover.core.reporters.pdf.api.PdfWidget;
 
-import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 
 /**
@@ -29,11 +28,9 @@ public class ChartWidget implements PdfWidget {
 
     @Override
     public void draw(PdfCanvas canvas, PdfRect bounds) {
-        final Graphics2D graphics = canvas.beginGraphics(bounds);
-        try {
-            chart.draw(graphics, new Rectangle2D.Double(0, 0, bounds.getWidth(), bounds.getHeight()));
-        } finally {
-            canvas.endGraphics(graphics);
+        try (PdfCanvas.GraphicsScope scope = canvas.beginGraphics(bounds)) {
+            chart.draw(scope.getGraphics(),
+                    new Rectangle2D.Double(0, 0, bounds.getWidth(), bounds.getHeight()));
         }
     }
 }

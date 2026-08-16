@@ -17,4 +17,10 @@ public interface PdfDocumentFactory {
      */
     PdfDocument create(OutputStream out, PdfPageSize pageSize, PdfMargins margins,
                        PdfPageDecorator decorator) throws IOException;
+
+    /**
+     * @return name and version of the backing PDF library, as reported by the library itself and
+     *         recorded in the document metadata, e.g. {@code "Apache PDFBox 3.0.8"}
+     */
+    String getLibraryDescription();
 }

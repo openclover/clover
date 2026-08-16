@@ -24,6 +24,7 @@ import org_openclover_runtime.CloverVersionInfo;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -93,6 +94,7 @@ public class PDFReporter extends CloverReporter {
     private final String reportTitle;
     private final String titleAnchor;
     private final PdfPageSize docsize;
+    private final Path outFile;
     private final CloverReportConfig[] secondaryConfigs;
 
     public PDFReporter(CloverReportConfig config) throws CloverException {
@@ -107,16 +109,17 @@ public class PDFReporter extends CloverReporter {
             this.titleAnchor = (config.getTitleAnchor() != null ? config.getTitleAnchor() : "");
             this.colours = config.getFormat().getBw() ? PDFColours.BW_COLOURS : PDFColours.COL_COLOURS;
 
+            this.outFile = config.getOutFile().toPath();
             this.docsize = getConfiguredPageSize(config);
             this.document = DOCUMENT_FACTORY.create(
-                    Files.newOutputStream(config.getOutFile().toPath()), docsize, MARGINS,
+                    Files.newOutputStream(outFile), docsize, MARGINS,
                     new PageFooterRenderer(System.currentTimeMillis(), colours));
 
             this.document.setTitle("OpenClover Coverage Report");
             this.document.setCreator("OpenClover " + CloverVersionInfo.RELEASE_NUM
-                    + " using " + PdfBoxDocumentFactory.PDF_LIBRARY_VERSION);
+                    + " using " + DOCUMENT_FACTORY.getLibraryDescription());
         } catch (Exception e) {
-            throw new CloverException("Report rendering error: " + e.getMessage());
+            throw new CloverException("Report rendering error: " + e.getMessage(), e);
         }
     }
 
@@ -129,9 +132,11 @@ public class PDFReporter extends CloverReporter {
         if (written) {
             close();
             return 0;
-        } else {
-            return 1;
         }
+        // nothing was rendered, so the output file only ever received the empty document the
+        // stream was opened with; it is closed and removed rather than left behind
+        abandon();
+        return 1;
     }
 
     @Override
@@ -148,7 +153,30 @@ public class PDFReporter extends CloverReporter {
         try {
             document.close();
         } catch (IOException e) {
+            // the half-written file is not a readable PDF, so it is removed rather than left
+            // behind to be mistaken for a report
+            discardPartialReport();
             throw new CloverException("Report rendering error: " + e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Closes the document without keeping its output, used when there is nothing to report.
+     */
+    private void abandon() {
+        try {
+            document.close();
+        } catch (IOException e) {
+            Logger.getInstance().debug("Failed to close the abandoned PDF report", e);
+        }
+        discardPartialReport();
+    }
+
+    private void discardPartialReport() {
+        try {
+            Files.deleteIfExists(outFile);
+        } catch (IOException e) {
+            Logger.getInstance().warn("Unable to remove the incomplete PDF report " + outFile, e);
         }
     }
 

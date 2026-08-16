@@ -25,15 +25,34 @@ public interface PdfCanvas {
     void drawImage(String resourcePath, PdfRect bounds);
 
     /**
-     * Draws text inside the given rectangle, vertically centred.
+     * Draws text inside the given rectangle, vertically centred and single-spaced.
      */
     void drawText(PdfText text, PdfRect bounds, PdfAlign.Horizontal alignment);
 
     /**
-     * Opens an AWT drawing context mapped onto the given rectangle. The caller must pass the
-     * returned object to {@link #endGraphics} once it is done painting.
+     * Draws text wrapped to the width of {@code bounds}.
+     *
+     * @param fixedLeading      line spacing is {@code fixed + multiplied * fontSize}
+     * @param multipliedLeading see {@code fixedLeading}
      */
-    Graphics2D beginGraphics(PdfRect bounds);
+    void drawText(PdfText text, PdfRect bounds, PdfAlign.Horizontal horizontal,
+                  PdfAlign.Vertical vertical, double fixedLeading, double multipliedLeading);
 
-    void endGraphics(Graphics2D graphics);
+    /**
+     * Opens an AWT drawing context mapped onto the given rectangle. The returned scope must be
+     * closed once the caller is done painting, which is when the drawing is committed to the page.
+     */
+    GraphicsScope beginGraphics(PdfRect bounds);
+
+    /**
+     * An open AWT drawing context. Closing it commits what was painted onto the page, so it is
+     * meant to be used in a try-with-resources block.
+     */
+    interface GraphicsScope extends AutoCloseable {
+
+        Graphics2D getGraphics();
+
+        @Override
+        void close();
+    }
 }
