@@ -137,9 +137,12 @@ public class ShowAboutCloverActionDelegate extends CloverProjectActionDelegate {
             linkAndLicense("Commons Codec", "https://commons.apache.org", "COMMONS-CODEC-1.9-LICENSE.TXT", ackComposite);
             linkAndLicense("Commons Collections", "https://commons.apache.org", "COMMONS-COLLECTIONS-3.2.2-LICENSE.TXT", ackComposite);
             linkAndLicense("Commons Lang", "https://commons.apache.org", "COMMONS-LANG3-3.18.0-LICENSE.TXT", ackComposite);
+            linkAndLicense("Commons Logging", "https://commons.apache.org", "COMMONS-LOGGING-1.4.0-LICENSE.TXT", ackComposite);
             linkAndLicense("FastUtil", "https://fastutil.dsi.unimi.it/", "FASTUTIL-4.4.3-LICENSE.TXT", ackComposite);
             linkAndLicense("Groovy", "https://groovy.codehaus.org", "GROOVY-1.7.0-LICENSE.TXT", ackComposite);
-            linkAndLicense("iText", "https://itextpdf.com", "ITEXT-2.0.1-LICENSE.TXT", ackComposite);
+            linkAndLicense("Apache PDFBox", "https://pdfbox.apache.org", "PDFBOX-3.0.8-LICENSE.TXT", ackComposite);
+            linkAndLicense("PdfBox-Graphics2D", "https://github.com/rototor/pdfbox-graphics2d", "PDFBOX-GRAPHICS2D-3.0.3-LICENSE.TXT", ackComposite);
+            linkAndLicense("Liberation Fonts", "https://github.com/liberationfonts/liberation-fonts", "LIBERATION-FONTS-2.1.5-LICENSE.TXT", ackComposite);
             linkAndLicense("JCommon", "https://www.jfree.org/jfreechart/", "JCOMMON-1.0.23-LICENSE.TXT", ackComposite);
             linkAndLicense("JDOM", "https://www.jdom.org", "JDOM-1.0-LICENSE.TXT", ackComposite);
             linkAndLicense("JFreechart", "https://www.jfree.org/jfreechart/", "JFREECHART-1.0.19-LICENSE.TXT", ackComposite);

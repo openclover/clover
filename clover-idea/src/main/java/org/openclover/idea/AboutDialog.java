@@ -100,10 +100,15 @@ public class AboutDialog extends DialogWrapper {
                 addProduct("Commons Collections", "https://commons.apache.org", "COMMONS-COLLECTIONS-3.2.2-LICENSE.TXT"),
                 addProduct("Commons Lang", "https://commons.apache.org", "COMMONS-LANG3-3.18.0-LICENSE.TXT"));
         addRow(sb,
-                addProduct("FastUtil", "https://fastutil.dsi.unimi.it/", "FASTUTIL-4.4.3-LICENSE.TXT"),
+                addProduct("Commons Logging", "https://commons.apache.org", "COMMONS-LOGGING-1.4.0-LICENSE.TXT"),
+                addProduct("PdfBox-Graphics2D", "https://github.com/rototor/pdfbox-graphics2d", "PDFBOX-GRAPHICS2D-3.0.3-LICENSE.TXT"));
+        addRow(sb,
+                addProduct("Liberation Fonts", "https://github.com/liberationfonts/liberation-fonts", "LIBERATION-FONTS-2.1.5-LICENSE.TXT"),
+                addProduct("FastUtil", "https://fastutil.dsi.unimi.it/", "FASTUTIL-4.4.3-LICENSE.TXT"));
+        addRow(sb,
                 addProduct("Groovy", "https://groovy.codehaus.org", "GROOVY-1.7.0-LICENSE.TXT"));
         addRow(sb,
-                addProduct("iText", "https://itextpdf.com", "ITEXT-2.0.1-LICENSE.TXT"),
+                addProduct("Apache PDFBox", "https://pdfbox.apache.org", "PDFBOX-3.0.8-LICENSE.TXT"),
                 addProduct("JCommon", "https://www.jfree.org/jfreechart/", "JCOMMON-1.0.23-LICENSE.TXT"));
         addRow(sb,
                 addProduct("JDOM", "https://www.jdom.org/", "JDOM-1.0-LICENSE.TXT"),

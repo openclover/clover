@@ -142,18 +142,56 @@
 			<td>&nbsp;</td>
         </tr>
         <tr>
-            <td>iText</td>
-            <td>2.0.1</td>
-            <td>LGPL ***</td>
-            <td><a href="http://itextpdf.com">itextpdf.com</a></td>
+            <td>Apache PDFBox</td>
+            <td>3.0.8</td>
+            <td>Apache 2.0</td>
+            <td><a href="https://pdfbox.apache.org">pdfbox.apache.org</a></td>
             <td>clover-core</td>
             <td>no</td>
             <td>clover. prefix</td>
             <td>Maven Central repository</td>
             <td>N/A</td>
-            <td>clover-core/src/main/resources/licenses/ITEXT-2.0.1-LICENSE.TXT</td>
-			<td class="red">*** = WARNING DO NOT upgrade iText to library version later than 2.1.7. This is the latest version which was released under LGPL license.
-All newer versions are released under Affero GPL v3, which is a viral license.</td>
+            <td>clover-core/src/main/resources/licenses/PDFBOX-3.0.8-LICENSE.TXT</td>
+			<td>Includes pdfbox-io and fontbox from the same release.</td>
+        </tr>
+        <tr>
+            <td>PdfBox-Graphics2D</td>
+            <td>3.0.3</td>
+            <td>Apache 2.0</td>
+            <td><a href="https://github.com/rototor/pdfbox-graphics2d">github.com/rototor/pdfbox-graphics2d</a></td>
+            <td>clover-core</td>
+            <td>no</td>
+            <td>clover. prefix</td>
+            <td>Maven Central repository</td>
+            <td>N/A</td>
+            <td>clover-core/src/main/resources/licenses/PDFBOX-GRAPHICS2D-3.0.3-LICENSE.TXT</td>
+			<td>Used to embed JFreeChart graphs into PDF reports.</td>
+        </tr>
+        <tr>
+            <td>Commons Logging</td>
+            <td>1.4.0</td>
+            <td>Apache 2.0</td>
+            <td><a href="https://commons.apache.org">commons.apache.org</a></td>
+            <td>clover-core</td>
+            <td>no</td>
+            <td>clover. prefix</td>
+            <td>Maven Central repository</td>
+            <td>N/A</td>
+            <td>clover-core/src/main/resources/licenses/COMMONS-LOGGING-1.4.0-LICENSE.TXT</td>
+			<td>Logging API required by Apache PDFBox.</td>
+        </tr>
+        <tr>
+            <td>Liberation Sans fonts</td>
+            <td>2.1.5</td>
+            <td>SIL OFL 1.1</td>
+            <td><a href="https://github.com/liberationfonts/liberation-fonts">liberationfonts</a></td>
+            <td>clover-core</td>
+            <td>no</td>
+            <td>N/A - font files, not classes</td>
+            <td>Bundled font files</td>
+            <td>N/A</td>
+            <td>clover-core/src/main/resources/licenses/LIBERATION-FONTS-2.1.5-LICENSE.TXT</td>
+			<td>Embedded, as a subset, into generated PDF reports.</td>
         </tr>
         <tr>
             <td>JCommon</td>
