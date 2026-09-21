@@ -26,6 +26,7 @@ public class JavaEnvUtils {
     public static final String JAVA_23 = "23";
     public static final String JAVA_24 = "24";
     public static final String JAVA_25 = "25";
+    public static final String JAVA_26 = "26";
 
     static {
         try {
@@ -62,8 +63,10 @@ public class JavaEnvUtils {
             javaVersion = JAVA_23;
             Class.forName("javax.crypto.KDF");
             javaVersion = JAVA_24;
-            Class.forName("java.lang.StableValue");
+            java.io.Reader.class.getMethod("readAllLines");
             javaVersion = JAVA_25;
+            Class.forName("java.net.http.HttpOption");
+            javaVersion = JAVA_26;
         } catch (Throwable t) {
             // ignore
         }
