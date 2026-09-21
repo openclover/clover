@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased 5.0.1]
 
+- Issue #328: Fixed instrumentation of constructors on language level 25 with the `threaded` or `interval` flush policy.
+  The explicit `super(...)` / `this(...)` invocation was enclosed in the `try` block added around the constructor body,
+  which `javac` rejects with "explicit constructor invocation not allowed here". The `try` block now starts right after
+  the invocation, also when the invocation is preceded by statements (JEP 513).
+
 - Issue #326: Replaced iText 2.0.1 with Apache PDFBox 3.0.8 for PDF report generation, resolving
   a security advisory against a library that has had no release since 2007 and could not be upgraded,
   as every later version is licensed under the Affero GPL. PDF reports now embed a Unicode font 

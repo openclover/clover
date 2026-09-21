@@ -63,6 +63,47 @@ class JavaSyntax25CompilationTest extends JavaSyntaxCompilationTestBase {
         assertExecOutputContains("p2 = Bob 30", false)
     }
 
+    /**
+     * OC-328: with the 'threaded' or 'interval' flush policy a constructor is wrapped in try-finally. The explicit
+     * super()/this() invocation must stay outside of that try block, or javac rejects the instrumented code with
+     * "explicit constructor invocation not allowed here".
+     */
+    @Test
+    void testExplicitConstructorInvocationOutsideOfTryBlockWithThreadedFlushing() {
+        assertConstructorInvocationOutsideOfTryBlock("threaded", "flushNeeded")
+    }
+
+    @Test
+    void testExplicitConstructorInvocationOutsideOfTryBlockWithIntervalFlushing() {
+        assertConstructorInvocationOutsideOfTryBlock("interval", "maybeFlush")
+    }
+
+    private void assertConstructorInvocationOutsideOfTryBlock(String flushPolicy, String flushMethod) {
+        final String fileName = "Java25ConstructorWithFlushing.java"
+        final File srcFile = new File(srcDir, fileName)
+        resetAntOutput()
+        instrumentSourceFile(srcFile, JavaEnvUtils.JAVA_25, [ "--flushpolicy", flushPolicy, "--flushinterval", "100" ] as String[])
+
+        // no try block opens between '{' (or a prologue statement) and the explicit invocation
+        assertFileMatches(fileName, "(?s)try\\{[^;]*;[^;]*;\\s*super\\(x\\)", true)
+        assertFileMatches(fileName, "(?s)try\\{[^;]*;[^;]*;\\s*this\\(x, 0\\)", true)
+        // ...instead it starts right after the invocation and ends with a flush
+        assertFileMatches(fileName, "(?s)super\\(x\\);\\s*try\\{", false)
+        assertFileMatches(fileName, "(?s)this\\(x, 0\\);\\s*try\\{", false)
+        assertFileMatches(fileName, "(?s)super\\(message\\);\\s*try\\{\\s*\\}finally\\{[^}]*" + flushMethod, false)
+
+        // sanity check: the instrumented source compiles and runs - but only where a JDK 25 is available
+        if (JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_25)) {
+            compileSources(mGenSrcDir, [ fileName ] as String[], JavaEnvUtils.JAVA_25)
+            executeMainClasses("Java25ConstructorWithFlushing")
+            assertExecOutputContains("a = 1 2", false)
+            assertExecOutputContains("b = 5 0", false)
+            assertExecOutputContains("c = 7 14", false)
+            assertExecOutputContains("d = 9 1", false)
+            assertExecOutputContains("message = expired", false)
+        }
+    }
+
     @Test
     void testCompactSourceFileWithInstanceMain() {
         assumeTrue(JavaEnvUtils.isAtLeastJavaVersion(JavaEnvUtils.JAVA_25))
