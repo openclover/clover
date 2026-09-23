@@ -14,6 +14,12 @@ public class MethodEntryInstrEmitter extends Emitter {
     private final MethodRegistrationNode methodNode;
     private boolean addTestInstr;
     private boolean needsFinally = false;
+    /**
+     * When true, the 'try{' opening the try-finally block is not emitted here but by a separate
+     * {@link MethodTryBlockStartEmitter}. Used for constructors in Java 25+, where the entry inc() is
+     * placed before an explicit super()/this() invocation, which must not be enclosed in a try block.
+     */
+    private boolean tryBlockStartDeferred = false;
 
     public MethodEntryInstrEmitter(MethodRegistrationNode node) {
         this.methodNode = node;
@@ -47,7 +53,9 @@ public class MethodEntryInstrEmitter extends Emitter {
                 needsFinally = true;
             }
             else if (state.getCfg().isIntervalBasedFlushing()) {
-                instr.append("try{");
+                if (!tryBlockStartDeferred) {
+                    instr.append("try{");
+                }
                 needsFinally = true;
             }
 
@@ -67,6 +75,10 @@ public class MethodEntryInstrEmitter extends Emitter {
 
     public MethodInfo getMethod() {
         return methodNode.getMethod();
+    }
+
+    public void setTryBlockStartDeferred(boolean tryBlockStartDeferred) {
+        this.tryBlockStartDeferred = tryBlockStartDeferred;
     }
 
     public boolean needsFinally() {

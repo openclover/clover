@@ -520,6 +520,13 @@ tokens {
     }
 
     /**
+     * @return true if statements are allowed before super()/this() in a constructor (JEP 513, Java 25+)
+     */
+    private boolean isFlexibleConstructorBodySupported() {
+        return cfg.getSourceLevel().supportsFeature(LanguageFeature.FLEXIBLE_CONSTRUCTORS);
+    }
+
+    /**
      * Statement-instrument an explicit constructor invocation (super(...)/this(...)).
      *
      * Ordinary statements are instrumented with the RECORDER.inc() placed BEFORE the statement, so
@@ -537,7 +544,7 @@ tokens {
      * @return the token that terminates the invocation (its SEMI) - used as the pre-25 method-entry anchor
      */
     private CloverToken instrExplicitConstructorInvocation(CloverToken start, CloverToken end, int complexity) {
-        if (cfg.getSourceLevel().supportsFeature(LanguageFeature.FLEXIBLE_CONSTRUCTORS)) {
+        if (isFlexibleConstructorBodySupported()) {
             if (cfg.isStatementInstrEnabled()) {
                 start.addPreEmitter(
                         new StatementInstrEmitter(
@@ -2100,7 +2107,14 @@ constructorBody[MethodSignature signature, CloverToken start, CloverToken endSig
         |
             /* empty */
         )
-        (tmp=statement[null])*
+        (
+            // JEP 513 (Java 25+): the explicit invocation may follow statements of the prologue
+            { endOfInv == null && isFlexibleConstructorBodySupported() }?
+            (explicitConstructorInvocation) =>
+            endOfInv = explicitConstructorInvocation
+        |
+            tmp=statement[null]
+        )*
         rc:RCURLY!
 
         {
@@ -2111,10 +2125,16 @@ constructorBody[MethodSignature signature, CloverToken start, CloverToken endSig
             //  - Java 25+ statements are allowed before the explicit invocation,
             //    so we anchor the inc() right after '{'
             CloverToken ctorEntryAnchor =
-                cfg.getSourceLevel().supportsFeature(LanguageFeature.FLEXIBLE_CONSTRUCTORS)
+                isFlexibleConstructorBodySupported()
                     ? null        // anchor entry inc() at '{' (leftCurly)
                     : endOfInv;   // anchor entry inc() after super()/this()
             MethodEntryInstrEmitter entry = instrEnterMethod(signature, start, ct(lc), ctorEntryAnchor);
+            if (isFlexibleConstructorBodySupported() && endOfInv != null) {
+                // the entry inc() precedes the explicit invocation, which must not be enclosed in a try block:
+                // open the try block (if needed) right after the invocation instead of after '{'
+                entry.setTryBlockStartDeferred(true);
+                endOfInv.addPostEmitter(new MethodTryBlockStartEmitter(entry));
+            }
             instrExitMethod(entry, ct(rc));
             exitContext();
             fileInfo.addMethodMarker(entry, start, endSig, ct(rc));
