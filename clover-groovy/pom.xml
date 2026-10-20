@@ -349,7 +349,8 @@
                         <artifactId>maven-dependency-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>copy-groovy-jars</id>
+                                <!-- distinct id: reusing copy-groovy-jars would replace, not extend, the default artifactItems -->
+                                <id>copy-groovy-matrix-jars</id>
                                 <goals>
                                     <goal>copy</goal>
                                 </goals>
