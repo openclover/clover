@@ -58,9 +58,7 @@ class Groovy6CoverageRecordingTest extends TestBase {
         m.statements.every { StatementInfo s -> s.startLine != line }
     }
 
-    // -----------------------------------------------------------------------
-    // Switch expression without default: unmatched selector throws, no default region
-    // -----------------------------------------------------------------------
+    /** Switch expression without default: unmatched selector throws, no default region */
     @GroovyVersionStart("6.0.0")
     void testSwitchArrowNoDefaultThrows() {
         instrumentAndCompileWithGrover(["SwitchNoDefault.groovy": '''class SwitchNoDefault {
@@ -89,9 +87,7 @@ class Groovy6CoverageRecordingTest extends TestBase {
         })
     }
 
-    // -----------------------------------------------------------------------
-    // Default arm as a block: the arm and the statements inside it are recorded
-    // -----------------------------------------------------------------------
+    /** Default arm as a block: the arm and the statements inside it are recorded */
     @GroovyVersionStart("6.0.0")
     void testSwitchDefaultBlockArm() {
         instrumentAndCompileWithGrover(["SwitchDefaultBlock.groovy": '''class SwitchDefaultBlock {
@@ -120,9 +116,7 @@ class Groovy6CoverageRecordingTest extends TestBase {
         })
     }
 
-    // -----------------------------------------------------------------------
-    // Statically compiled switch expressions (int table switch and String switch)
-    // -----------------------------------------------------------------------
+    /** Statically compiled switch expressions (int table switch and String switch) */
     @GroovyVersionStart("6.0.0")
     void testCompileStaticSwitchWithDefault() {
         instrumentAndCompileWithGrover(["SwitchStatic.groovy": '''@groovy.transform.CompileStatic
@@ -172,9 +166,7 @@ class SwitchStatic {
                 })
     }
 
-    // -----------------------------------------------------------------------
-    // Complete enum switch without default
-    // -----------------------------------------------------------------------
+    /** Complete enum switch without default */
     @GroovyVersionStart("6.0.0")
     void testEnumSwitchWithoutDefault() {
         instrumentAndCompileWithGrover(["SwitchEnum.groovy": '''enum Color { RED, GREEN }
@@ -201,9 +193,7 @@ class SwitchEnum {
         })
     }
 
-    // -----------------------------------------------------------------------
-    // A branch in the selector is recorded once, not once per transformation of the switch expression
-    // -----------------------------------------------------------------------
+    /** A branch in the selector is recorded once, not once per transformation of the switch expression */
     @GroovyVersionStart("6.0.0")
     void testSelectorBranchCountedOnce() {
         instrumentAndCompileWithGrover(["SwitchSelector.groovy": '''class SwitchSelector {
@@ -228,9 +218,7 @@ class SwitchEnum {
         })
     }
 
-    // -----------------------------------------------------------------------
-    // A switch expression nested in a default arm, assigned to a variable
-    // -----------------------------------------------------------------------
+    /** A switch expression nested in a default arm, assigned to a variable */
     @GroovyVersionStart("6.0.0")
     void testNestedSwitchInDefaultArm() {
         instrumentAndCompileWithGrover(["SwitchNested.groovy": '''class SwitchNested {
@@ -261,9 +249,7 @@ class SwitchEnum {
         })
     }
 
-    // -----------------------------------------------------------------------
-    // A switch expression inside a closure
-    // -----------------------------------------------------------------------
+    /** A switch expression inside a closure */
     @GroovyVersionStart("6.0.0")
     void testSwitchInClosure() {
         instrumentAndCompileWithGrover(["SwitchClosure.groovy": '''class SwitchClosure {
@@ -287,9 +273,7 @@ class SwitchEnum {
         })
     }
 
-    // -----------------------------------------------------------------------
-    // Closures within switch expression arms (arrow arms are yield statements)
-    // -----------------------------------------------------------------------
+    /** Closures within switch expression arms (arrow arms are yield statements) */
     @GroovyVersionStart("6.0.0")
     void testClosureInArm() {
         instrumentAndCompileWithGrover(["SwitchArmClosure.groovy": '''class SwitchArmClosure {
@@ -314,10 +298,10 @@ class SwitchEnum {
         })
     }
 
-    // -----------------------------------------------------------------------
-    // val declarations and rest/map-key multi-assignment (dynamic): the parser and class generator rely on
-    // modifiers and node metadata that must survive instrumentation
-    // -----------------------------------------------------------------------
+    /**
+     * val declarations and rest/map-key multi-assignment (dynamic): the parser and class generator rely on
+     * modifiers and node metadata that must survive instrumentation
+     */
     @GroovyVersionStart("6.0.0")
     void testValAndDestructuring() {
         instrumentAndCompileWithGrover(["Destructure.groovy": '''class Destructure {
@@ -338,10 +322,10 @@ class SwitchEnum {
         })
     }
 
-    // -----------------------------------------------------------------------
-    // val declarations and rest/map-key multi-assignment (static): the parser and class generator rely on
-    // modifiers and node metadata that must survive instrumentation
-    // -----------------------------------------------------------------------
+    /**
+     * val declarations and rest/map-key multi-assignment (static): the parser and class generator rely on
+     * modifiers and node metadata that must survive instrumentation
+     */
     @GroovyVersionStart("6.0.0")
     void testValAndDestructuringStatic() {
         instrumentAndCompileWithGrover(["DestructureStatic.groovy": '''@groovy.transform.CompileStatic class DestructureStatic {
@@ -362,10 +346,10 @@ class SwitchEnum {
         })
     }
 
-    // -----------------------------------------------------------------------
-    // Opt-in closure packing (GEP-27) hoists closure bodies into methods of the enclosing class;
-    // statements inside the instrumented closure body are still recorded
-    // -----------------------------------------------------------------------
+    /**
+     * Opt-in closure packing (GEP-27) hoists closure bodies into methods of the enclosing class;
+     * statements inside the instrumented closure body are still recorded
+     */
     @GroovyVersionStart("6.0.0")
     void testPackedClosures() {
         instrumentAndCompileWithGrover(["Packed.groovy": '''@groovy.transform.PackedClosures

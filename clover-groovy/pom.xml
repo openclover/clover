@@ -248,7 +248,7 @@
                     <excludes>
                         <exclude>**/*TestSuite.*</exclude>
                         <exclude>**/Groovy5CoverageRecordingTest.*</exclude>
-                                <exclude>**/Groovy6CoverageRecordingTest.*</exclude>
+                        <exclude>**/Groovy6CoverageRecordingTest.*</exclude>
                     </excludes>
                     <systemPropertyVariables>
                         <clover-groovy.test.junit.ver>${clover-groovy.test.junit.ver}</clover-groovy.test.junit.ver>

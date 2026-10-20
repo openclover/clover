@@ -147,6 +147,9 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
         } catch (Exception ignored) {
             // null means no SwitchExpression in this Groovy version
             switchExprClass = null;
+            getDefault = null;
+            setDefault = null;
+            getCases = null;
         }
         GROOVY6_SWITCH_EXPRESSION_CLASS = switchExprClass;
         GROOVY6_SWITCH_GET_DEFAULT = getDefault;
