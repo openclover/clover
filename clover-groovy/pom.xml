@@ -236,6 +236,7 @@
                                 <!-- Groovy 5 tests use Groovy-5-only syntax; they only compile with Groovy 5+ and
                                      run via TestSuite (compatibility profile) with the correct groovy jar. -->
                                 <exclude>**/Groovy5CoverageRecordingTest.*</exclude>
+                                <exclude>**/Groovy6CoverageRecordingTest.*</exclude>
                             </excludes>
                         </configuration>
                     </execution>
@@ -247,6 +248,7 @@
                     <excludes>
                         <exclude>**/*TestSuite.*</exclude>
                         <exclude>**/Groovy5CoverageRecordingTest.*</exclude>
+                                <exclude>**/Groovy6CoverageRecordingTest.*</exclude>
                     </excludes>
                     <systemPropertyVariables>
                         <clover-groovy.test.junit.ver>${clover-groovy.test.junit.ver}</clover-groovy.test.junit.ver>
@@ -394,12 +396,17 @@
                                         <artifactItem>
                                             <groupId>org.apache.groovy</groupId>
                                             <artifactId>groovy</artifactId>
-                                            <version>4.0.32</version>
+                                            <version>4.0.33</version>
                                         </artifactItem>
                                         <artifactItem>
                                             <groupId>org.apache.groovy</groupId>
                                             <artifactId>groovy</artifactId>
-                                            <version>5.0.4</version>
+                                            <version>5.1.3</version>
+                                        </artifactItem>
+                                        <artifactItem>
+                                            <groupId>org.apache.groovy</groupId>
+                                            <artifactId>groovy</artifactId>
+                                            <version>6.0.0</version>
                                         </artifactItem>
                                         <artifactItem>
                                             <groupId>org.spockframework</groupId>
@@ -480,6 +487,6 @@
         <clover-groovy.test.junit.ver>4.12</clover-groovy.test.junit.ver>
         <clover-groovy.test.hamcrest.ver>1.3</clover-groovy.test.hamcrest.ver>
         <clover-groovy.test.spock.ver>2.3-groovy-4.0</clover-groovy.test.spock.ver>
-        <clover-groovy.test.groovy.ver>4.0.32</clover-groovy.test.groovy.ver>
+        <clover-groovy.test.groovy.ver>4.0.33</clover-groovy.test.groovy.ver>
     </properties>
 </project>
