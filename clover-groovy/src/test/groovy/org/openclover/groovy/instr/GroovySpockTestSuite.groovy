@@ -38,7 +38,21 @@ class GroovySpockTestSuite
     private File antlrJar = new File(testDependenciesDir, "antlr-2.7.7.jar")
 
     // used by spock
-    private File opentest4jJar = new File(testDependenciesDir, "opentest4j-1.2.0.jar")
+    private File opentest4jJar = new File(testDependenciesDir, "opentest4j-1.3.0.jar")
+    // compile-time dependencies of Spock 1.x, which is built on JUnit 4
+    private File junit4Jar = new File(testDependenciesDir, "junit-4.12.jar")
+    private File hamcrestJar = new File(testDependenciesDir, "hamcrest-core-1.3.jar")
+
+    /** Spock 2.x on Groovy 2.5 needs spock-groovy2-compat, e.g. for MethodReferenceExpression */
+    private List<File> extraSpockJars(String spockVersion) {
+        if (spockVersion.startsWith("1.")) {
+            return [junit4Jar, hamcrestJar]
+        }
+        if (spockVersion.endsWith("-groovy-2.5")) {
+            return [new File(testDependenciesDir, "spock-groovy2-compat-${spockVersion}.jar")]
+        }
+        return []
+    }
 
     static GroovySpockTestSuite suite() { return new GroovySpockTestSuite() }
 
@@ -67,7 +81,7 @@ class GroovySpockTestSuite
                                             testMethod.name,
                                             "${testMethod.name}_For_Spock_${spockVersion}_and_Groovy_${groovyVersion}".toString(),
                                             groovyAllJar,
-                                            [ spockJar, opentest4jJar, commonsCliJar, asmJar, antlrJar ],
+                                            [ spockJar, opentest4jJar, commonsCliJar, asmJar, antlrJar ] + extraSpockJars(spockVersion),
                                             withJUnit5).with {
                                                     addTest(it)
                                             }
@@ -92,7 +106,7 @@ class GroovySpockTestSuite
 
     /**
      * Maps Groovy major version to the Groovy suffix used in spock-core artifact names.
-     * Groovy 5+ is absent: no Spock release targets Groovy 5 yet.
+     * Groovy versions without a matching spock-core release are absent.
      */
     static def groovyVsSpock = [
             "1.6" : "1.6",
@@ -105,12 +119,15 @@ class GroovySpockTestSuite
             "2.4" : "2.4",
             "2.5" : "2.5",
             "3.0" : "3.0",
-            "4.0" : "4.0"
+            "4.0" : "4.0",
+            "5.0" : "5.0",
+            "5.1" : "5.0",
+            "6.0" : "6.0"
     ]
 
     /**
      * Returns true when the spock-core jar's embedded Groovy version matches actualGroovyVersion.
-     * Returns false for Groovy versions not in the map (e.g. Groovy 5) so those tests are skipped.
+     * Returns false for Groovy versions not in the map so those tests are skipped.
      */
     static boolean doesGroovyMatchSpockVersion(String actualGroovyVersion, String spockVersion) {
         def spockGroovyVersionMatcher = spockVersion =~ /(.*)-groovy-(.*)/

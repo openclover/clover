@@ -52,20 +52,20 @@ class GroovySpockTest extends TestBase {
     }
 
     private static File getSpockJarFromProperty() {
-        def spockVer = System.getProperty("clover-groovy.test.spock.ver") ?: "2.3-groovy-4.0"
+        def spockVer = System.getProperty("clover-groovy.test.spock.ver") ?: "2.5-groovy-4.0"
         new File("target/test-dependencies/spock-core-${spockVer}.jar")
     }
 
     private static File getOpenTest4J() {
-        new File("target/test-dependencies/opentest4j-1.2.0.jar")
+        new File("target/test-dependencies/opentest4j-1.3.0.jar")
     }
 
     private static File getJUnitPlatformLauncher() {
-        new File("target/test-dependencies/junit-platform-console-standalone-1.9.2.jar")
+        new File("target/test-dependencies/junit-platform-console-standalone-1.14.4.jar")
     }
 
     private static File getJUnitJupiterEngine() {
-        new File("target/test-dependencies/junit-jupiter-engine-5.9.3.jar")
+        new File("target/test-dependencies/junit-jupiter-engine-5.14.4.jar")
     }
 
     protected Result instrumentAndCompileWithGroovyAndSpock(List<String> files) {
@@ -165,24 +165,27 @@ class GroovySpockTest extends TestBase {
                     // check that three unrolled test cases were ran
                     assertEquals "number of test cases is incorrect", 3, classInfo.testCases.size()
                     // ... and that test names were dynamically updated at runtime by a TestNameSniffer
-                    assertTrue(ifTestNameContains(classInfo.testCases, "maximum of two numbers [a: 3, b: 7, c: 7, #0]"))
-                    assertTrue(ifTestNameContains(classInfo.testCases, "maximum of two numbers [a: 5, b: 4, c: 5, #1]"))
-                    assertTrue(ifTestNameContains(classInfo.testCases, "maximum of two numbers [a: 9, b: 9, c: 9, #2]"))
-
-                    // ... and that these tests have links to the original method
                     def featureMethod = classInfo.methods.find { it.simpleName == FEATURE_NAME }
-                    assertTestCase classInfo, { TestCaseInfo it -> it.testName == "maximum of two numbers [a: 3, b: 7, c: 7, #0]" }, { TestCaseInfo testInfo ->
-                        featureMethod == testInfo.sourceMethod
+                    seqNumberTestNames().each { String testName ->
+                        assertTrue(testName, ifTestNameContains(classInfo.testCases, testName))
+                        // ... and that these tests have links to the original method
+                        assertTestCase classInfo, { TestCaseInfo it -> it.testName == testName }, { TestCaseInfo testInfo ->
+                            featureMethod == testInfo.sourceMethod
+                        }
                     }
-                    assertTestCase classInfo, { TestCaseInfo it -> it.testName == "maximum of two numbers [a: 5, b: 4, c: 5, #1]" }, { TestCaseInfo testInfo ->
-                        featureMethod == testInfo.sourceMethod
-                    }
-                    assertTestCase classInfo, { TestCaseInfo it -> it.testName == "maximum of two numbers [a: 9, b: 9, c: 9, #2]" }, { TestCaseInfo testInfo ->
-                        featureMethod == testInfo.sourceMethod
-                    }
+                    true
                 }
             }
         }
+    }
+
+    /** Spock 2 unrolls by default and names iterations after their data values; Spock 1 appends an index */
+    private List<String> seqNumberTestNames() {
+        withJUnit5 ?
+                ["maximum of two numbers [a: 3, b: 7, c: 7, #0]",
+                 "maximum of two numbers [a: 5, b: 4, c: 5, #1]",
+                 "maximum of two numbers [a: 9, b: 9, c: 9, #2]"] :
+                ["maximum of two numbers[0]", "maximum of two numbers[1]", "maximum of two numbers[2]"]
     }
 
     private static boolean ifTestNameContains(Collection<TestCaseInfo> testCases, String value) {
@@ -298,6 +301,13 @@ class GroovySpockTest extends TestBase {
         assertTrue helloSpockHtml.exists()
 
         // ... and that we've got 3 test results
+        if (!withJUnit5) {
+            // Spock 1 doesn't unroll a feature without @Unroll, so all iterations share the feature name; test cases
+            // are keyed by name and start time (ms), so iterations starting in the same millisecond are merged
+            assertTestResultPages(1..3, "HelloSpock_length_of_Spock_s_and_his_friends__names_[0-9]+\\.html",
+                    "<a  href=\"../default-pkg/HelloSpock.html?line=20#src-20\" >length of Spock's and his friends' names</a>")
+            return
+        }
         assertTestResultPage([0] as String[],
                 "HelloSpock_length_of_Spock_s_and_his_friends__names__name__Kirk__length__4_.*\\.html",
                 "<a  href=\"../default-pkg/HelloSpock.html?line=20#src-20\" >length of Spock's and his friends' names [name: Kirk, length: 4")
@@ -325,6 +335,15 @@ class GroovySpockTest extends TestBase {
         assertTrue htmlSourcePage.exists()
 
         // ... and that we've got 3 test results
+        if (!withJUnit5) {
+            // Spock 1 names an @Unroll iteration without a name template "feature[index]"
+            (0..2).each { int i ->
+                assertTestResultPage([i] as String[],
+                        "${CLASS_NAME}_maximum_of_two_numbers_${i}__[0-9]+\\.html",
+                        "<a  href=\"../default-pkg/${CLASS_NAME}.html?line=23#src-23\" >maximum of two numbers[${i}]</a>")
+            }
+            return
+        }
         assertTestResultPage([0] as String[],
                 "${CLASS_NAME}_maximum_of_two_numbers.*___0__.*\\.html",
                 "<a  href=\"../default-pkg/${CLASS_NAME}.html?line=23#src-23\" >maximum of two numbers [a: 3, b: 7, c: 7, #0]</a>")
@@ -392,6 +411,17 @@ class GroovySpockTest extends TestBase {
      * @param resultPageName  regular expression for matching file name with test results
      * @param expectedLink    exact string which shall be present in the content of the test result page
      */
+    void assertTestResultPages(IntRange expectedCount, String resultPageName, String expectedLink) {
+        File[] resultPages = new File(htmlReportDir, "default-pkg").listFiles(new FilenameFilter() {
+            boolean accept(File dir, String name) {
+                name.matches(resultPageName)
+            }
+        })
+        assertTrue("Number of test result pages matching ${resultPageName} is ${resultPages.length}, expected ${expectedCount}",
+                expectedCount.contains(resultPages.length))
+        resultPages.each { File page -> assertFileContains expectedLink, page, false }
+    }
+
     void assertTestResultPage(String[] row, String resultPageName, String expectedLink) {
         // find html report page for each row of input data
         File[] resultPages = new File(htmlReportDir, "default-pkg").listFiles(new FilenameFilter() {
@@ -401,7 +431,8 @@ class GroovySpockTest extends TestBase {
         })
 
         // exactly one page for each test iteration
-        assertEquals("Number of test result pages is ${resultPages.length} for inputs ${Arrays.toString(row)}",
+        assertEquals("Number of test result pages is ${resultPages.length} for inputs ${Arrays.toString(row)}; " +
+                "pages: ${new File(htmlReportDir, "default-pkg").list().sort()}",
                 1, resultPages.length)
 
         // which href in it points to the spock feature method (file and line number)
