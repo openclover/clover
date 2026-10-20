@@ -83,6 +83,17 @@ class TestSuite
         }
     }
 
+/** Run the test if groovy start version is not specified or if it is and we're >= to it */
+private static boolean isStartVersionSatisfied(Method m, String version) {
+    return !m.isAnnotationPresent(GroovyVersionStart.class)
+            || new LibraryVersion(m.getAnnotation(GroovyVersionStart.class).value()).compareTo(new LibraryVersion(version)) <= 0
+}
+
+/** Run the test if groovy end version is not specified or if it is and we're below it (exclusive) */
+private static boolean isEndVersionSatisfied(Method m, String version) {
+    return !m.isAnnotationPresent(GroovyVersionEnd.class)
+            || new LibraryVersion(m.getAnnotation(GroovyVersionEnd.class).value()).compareTo(new LibraryVersion(version)) > 0
+}
     boolean shouldTestWithGroovyJar(String version) {
         shouldInclude(GROOVY_VERSION_INCLUDES, version) && shouldRunInCurrentJava(version)
     }
