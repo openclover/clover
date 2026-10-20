@@ -62,9 +62,13 @@ import org.openclover.runtime.CloverNames;
 import org.openclover.runtime.Logger;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.Collections;
+import java.util.IdentityHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static org.openclover.core.util.Lists.newLinkedList;
 import static org.openclover.core.util.Maps.newHashMap;
@@ -87,6 +91,14 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
     // Types.IMPLIES (==> operator) was introduced in Groovy 5. Resolved via reflection
     // to avoid a compile-time dependency on Groovy 5 that would break Groovy 2/3/4 builds.
     private static final int GROOVY5_IMPLIES_TYPE;
+
+    // SwitchExpression (a first-class AST node replacing the closure-wrapped SwitchStatement) was
+    // introduced in Groovy 6. Its case arms are reached via visitCaseStatement(), but its default arm
+    // must be instrumented explicitly. Accessed via reflection to avoid a compile-time dependency on Groovy 6.
+    private static final Class<?> GROOVY6_SWITCH_EXPRESSION_CLASS;
+    private static final Method GROOVY6_SWITCH_GET_DEFAULT;
+    private static final Method GROOVY6_SWITCH_SET_DEFAULT;
+    private static final Method GROOVY6_SWITCH_GET_CASES;
 
     static {
         Field closureField;
@@ -122,6 +134,24 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
             // -1 means IMPLIES operator is not present in this Groovy version
         }
         GROOVY5_IMPLIES_TYPE = impliesType;
+
+        Class<?> switchExprClass = null;
+        Method getDefault = null;
+        Method setDefault = null;
+        Method getCases = null;
+        try {
+            switchExprClass = Class.forName("org.codehaus.groovy.ast.expr.SwitchExpression");
+            getDefault = switchExprClass.getMethod("getDefaultStatement");
+            setDefault = switchExprClass.getMethod("setDefaultStatement", Statement.class);
+            getCases = switchExprClass.getMethod("getCaseStatements");
+        } catch (Exception ignored) {
+            // null means no SwitchExpression in this Groovy version
+            switchExprClass = null;
+        }
+        GROOVY6_SWITCH_EXPRESSION_CLASS = switchExprClass;
+        GROOVY6_SWITCH_GET_DEFAULT = getDefault;
+        GROOVY6_SWITCH_SET_DEFAULT = setDefault;
+        GROOVY6_SWITCH_GET_CASES = getCases;
     }
 
     private final InstrumentationConfig config;
@@ -141,6 +171,11 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
     private boolean safeExprUsed;
     private boolean lambdaExprUsed;
     private boolean methodReferenceUsed;
+    /** Default arms of Groovy 6 switch expressions already instrumented; the arm is shared by transformed copies */
+    private final Set<Statement> instrumentedSwitchDefaults = Collections.newSetFromMap(new IdentityHashMap<>());
+    /** Closures and case arms already visited; Groovy 6 yield statements transform their expression unvisited */
+    private final Set<ClosureExpression> visitedClosures = Collections.newSetFromMap(new IdentityHashMap<>());
+    private final Set<CaseStatement> visitedCases = Collections.newSetFromMap(new IdentityHashMap<>());
     private boolean testResultsRecorded;
 
     private final BranchInstrumenter branchInstrumenter;
@@ -379,6 +414,9 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
 
     @Override
     public Expression transform(Expression expr) {
+        if (GROOVY6_SWITCH_EXPRESSION_CLASS != null) {
+            visitIfNotYetVisited(expr);
+        }
         Expression transformed = super.transform(expr);
         if (transformed instanceof ElvisOperatorExpression) {
             final Pair<ElvisOperatorExpression, Boolean> ret = operatorsInstrumenter.transformElvis(
@@ -448,6 +486,8 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
             final Pair<BinaryExpression, Boolean> ret = operatorsInstrumenter.transformImplication(
                     (BinaryExpression) transformed, currentMethodContext());
             transformed = ret.first;
+        } else if (GROOVY6_SWITCH_EXPRESSION_CLASS != null && GROOVY6_SWITCH_EXPRESSION_CLASS.isInstance(transformed)) {
+            instrumentSwitchExpressionDefault(transformed);
         } else if (transformed instanceof EmptyExpression) {
             // EmptyExpression.INSTANCE is immutable, we can't even modify source position
             // TODO inject our own MutableEmptyExpression
@@ -456,6 +496,49 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
 
         transformed.setSourcePosition(expr);
         return transformed;
+    }
+
+    /**
+     * Groovy 6 visits a yield statement (the body of every switch expression arm) by transforming its expression
+     * without visiting it first, so closures and switch expressions within an arm would be left uninstrumented.
+     * Visit them here, before they are transformed.
+     */
+    private void visitIfNotYetVisited(Expression expr) {
+        if (expr instanceof ClosureExpression) {
+            if (!visitedClosures.contains(expr)) {
+                expr.visit(this);
+            }
+        } else if (GROOVY6_SWITCH_EXPRESSION_CLASS.isInstance(expr)) {
+            try {
+                final List<?> cases = (List<?>) GROOVY6_SWITCH_GET_CASES.invoke(expr);
+                if (!cases.isEmpty() && !visitedCases.contains(cases.get(0))) {
+                    expr.visit(this);
+                }
+            } catch (Exception e) {
+                LOG.debug("Failed to visit switch expression " + expr, e);
+            }
+        }
+    }
+
+    /**
+     * Instruments the explicit default arm of a Groovy 6 SwitchExpression, like visitCaseStatement() does for
+     * case arms. A missing default is left alone: Groovy 6 throws for an unmatched selector, and a
+     * synthesized default would change which exception a complete enum switch throws.
+     */
+    private void instrumentSwitchExpressionDefault(Expression switchExpression) {
+        try {
+            final Statement defaultStatement = (Statement) GROOVY6_SWITCH_GET_DEFAULT.invoke(switchExpression);
+            if (defaultStatement == null || defaultStatement.isEmpty()
+                    || instrumentedSwitchDefaults.contains(defaultStatement)) {
+                return;
+            }
+            final Statement instrumented = statementInstrumenter.instrumentBlockStatementOrExpressionStatement(
+                    getCurrentVariableScope(), defaultStatement);
+            instrumentedSwitchDefaults.add(instrumented);
+            GROOVY6_SWITCH_SET_DEFAULT.invoke(switchExpression, instrumented);
+        } catch (Exception e) {
+            LOG.debug("Failed to instrument default arm of switch expression " + switchExpression, e);
+        }
     }
 
     private boolean isAnonymousInnerClassCall(ConstructorCallExpression call) {
@@ -672,6 +755,7 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
 
     @Override
     public void visitCaseStatement(CaseStatement statement) {
+        visitedCases.add(statement);
         statement.getExpression().visit(this);
         statement.setExpression(transform(statement.getExpression()));
         statement.getCode().visit(this);
@@ -798,6 +882,7 @@ public class InstrumentingCodeVisitor extends ClassCodeExpressionTransformer {
 
     @Override
     public void visitClosureExpression(ClosureExpression expression) {
+        visitedClosures.add(expression);
         pushVariableScope(expression.getVariableScope());
         expression.getCode().visit(this);
         Statement code = expression.getCode();

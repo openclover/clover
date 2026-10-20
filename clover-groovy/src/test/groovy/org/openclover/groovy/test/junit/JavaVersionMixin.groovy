@@ -8,7 +8,7 @@ import static org.openclover.core.util.JavaEnvUtils.JAVA_8
 import static org.openclover.core.util.JavaEnvUtils.JAVA_11
 import static org.openclover.core.util.JavaEnvUtils.JAVA_17
 import static org.openclover.core.util.JavaEnvUtils.JAVA_21
-import static org.openclover.core.util.JavaEnvUtils.JAVA_25
+import static org.openclover.core.util.JavaEnvUtils.JAVA_27
 
 @CompileStatic
 trait JavaVersionMixin {
@@ -19,7 +19,8 @@ trait JavaVersionMixin {
                 "2.": Pair.of(JAVA_8, JAVA_8),
                 "3.": Pair.of(JAVA_8, JAVA_17),
                 "4.": Pair.of(JAVA_8, JAVA_21),
-                "5.": Pair.of(JAVA_11, JAVA_25)
+                "5.": Pair.of(JAVA_11, JAVA_27),
+                "6.": Pair.of(JAVA_17, JAVA_27)
         ]
 
         Pair<String, String> javaRange = null

@@ -1,6 +1,7 @@
 package org.openclover.groovy.instr
 
 import org.openclover.buildutil.test.junit.DefaultTestSelector
+import org.openclover.buildutil.test.junit.GroovyVersionEnd
 import org.openclover.buildutil.test.junit.GroovyVersionStart
 import org.openclover.buildutil.test.junit.GroovyVersions
 import org.openclover.core.versions.LibraryVersion
@@ -21,6 +22,7 @@ class TestSuite
             (Groovy3CoverageRecordingTest) : DefaultTestSelector.instance.closure,
             (Groovy4CoverageRecordingTest) : DefaultTestSelector.instance.closure,
             (Groovy5CoverageRecordingTest) : DefaultTestSelector.instance.closure,
+            (Groovy6CoverageRecordingTest) : DefaultTestSelector.instance.closure,
             (GroovyCoverageTest)           : DefaultTestSelector.instance.closure,
             (GroovyElvisOperatorTest)      : DefaultTestSelector.instance.closure,
             (GroovyLambdasTest)            : DefaultTestSelector.instance.closure,
@@ -62,6 +64,10 @@ class TestSuite
                     //Run the test if groovy start version is not specified or if it is and we're >= to it
                     if (!m.isAnnotationPresent(GroovyVersionStart.class)
                             || new LibraryVersion(m.getAnnotation(GroovyVersionStart.class).value()).compareTo(new LibraryVersion(version)) <= 0) {
+                        if (m.isAnnotationPresent(GroovyVersionEnd.class)
+                                && new LibraryVersion(m.getAnnotation(GroovyVersionEnd.class).value()).compareTo(new LibraryVersion(version)) <= 0) {
+                            return
+                        }
                         List<File> additionalLibraries = [commonsCliJar, asmJar, antlrJar]
                         testClass.declaredConstructors
                                 .find { it.parameterTypes.length == 4 }
