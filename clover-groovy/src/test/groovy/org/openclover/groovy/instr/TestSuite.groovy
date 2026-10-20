@@ -61,30 +61,16 @@ class TestSuite
         eachGroovy(groovyLibDir, { shouldTestWithGroovyJar(it) }) { String version, File groovyAllJar ->
             TEST_CLASSES_AND_SELECTORS.each { Class testClass, Closure selector ->
                 testClass.getDeclaredMethods().findAll(selector).each { Method m ->
-                    //Run the test if groovy start version is not specified or if it is and we're >= to it
-                    if (!m.isAnnotationPresent(GroovyVersionStart.class)
-                            || new LibraryVersion(m.getAnnotation(GroovyVersionStart.class).value()).compareTo(new LibraryVersion(version)) <= 0) {
-                        if (m.isAnnotationPresent(GroovyVersionEnd.class)
-                                && new LibraryVersion(m.getAnnotation(GroovyVersionEnd.class).value()).compareTo(new LibraryVersion(version)) <= 0) {
-                            return
+                    if (isStartVersionSatisfied(m, version)) {
+                        if (isEndVersionSatisfied(m, version)) {
+                            List<File> additionalLibraries = [commonsCliJar, asmJar, antlrJar]
+                            testClass.declaredConstructors
+                                    .find { it.parameterTypes.length == 4 }
+                                    .newInstance(m.name, "${m.name}_For_Groovy_${version}".toString(), groovyAllJar, additionalLibraries)
+                                    .with { addTest(it) }
                         }
-                        List<File> additionalLibraries = [commonsCliJar, asmJar, antlrJar]
-                        testClass.declaredConstructors
-                                .find { it.parameterTypes.length == 4 }
-                                .newInstance(m.name, "${m.name}_For_Groovy_${version}".toString(), groovyAllJar, additionalLibraries)
-                                .with { addTest(it) }
                     }
-testClass.getDeclaredMethods().findAll(selector).each { Method m ->
-    if (isStartVersionSatisfied(m, version)) {
-        if (isEndVersionSatisfied(m, version)) {
-            List<File> additionalLibraries = [commonsCliJar, asmJar, antlrJar]
-            testClass.declaredConstructors
-                    .find { it.parameterTypes.length == 4 }
-                    .newInstance(m.name, "${m.name}_For_Groovy_${version}".toString(), groovyAllJar, additionalLibraries)
-                    .with { addTest(it) }
-        }
-    }
-}
+                }
             }
         }
         if (countTestCases() == 0) {
@@ -93,17 +79,18 @@ testClass.getDeclaredMethods().findAll(selector).each { Method m ->
         }
     }
 
-/** Run the test if groovy start version is not specified or if it is and we're >= to it */
-private static boolean isStartVersionSatisfied(Method m, String version) {
-    return !m.isAnnotationPresent(GroovyVersionStart.class)
-            || new LibraryVersion(m.getAnnotation(GroovyVersionStart.class).value()).compareTo(new LibraryVersion(version)) <= 0
-}
+    /** Run the test if groovy start version is not specified or if it is and we're >= to it */
+    private static boolean isStartVersionSatisfied(Method m, String version) {
+        return !m.isAnnotationPresent(GroovyVersionStart.class) ||
+                new LibraryVersion(m.getAnnotation(GroovyVersionStart.class).value()).compareTo(new LibraryVersion(version)) <= 0
+    }
 
-/** Run the test if groovy end version is not specified or if it is and we're below it (exclusive) */
-private static boolean isEndVersionSatisfied(Method m, String version) {
-    return !m.isAnnotationPresent(GroovyVersionEnd.class)
-            || new LibraryVersion(m.getAnnotation(GroovyVersionEnd.class).value()).compareTo(new LibraryVersion(version)) > 0
-}
+    /** Run the test if groovy end version is not specified or if it is and we're below it (exclusive) */
+    private static boolean isEndVersionSatisfied(Method m, String version) {
+        return !m.isAnnotationPresent(GroovyVersionEnd.class) ||
+                new LibraryVersion(m.getAnnotation(GroovyVersionEnd.class).value()).compareTo(new LibraryVersion(version)) > 0
+    }
+
     boolean shouldTestWithGroovyJar(String version) {
         shouldInclude(GROOVY_VERSION_INCLUDES, version) && shouldRunInCurrentJava(version)
     }
