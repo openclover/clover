@@ -74,7 +74,17 @@ class TestSuite
                                 .newInstance(m.name, "${m.name}_For_Groovy_${version}".toString(), groovyAllJar, additionalLibraries)
                                 .with { addTest(it) }
                     }
-                }
+testClass.getDeclaredMethods().findAll(selector).each { Method m ->
+    if (isStartVersionSatisfied(m, version)) {
+        if (isEndVersionSatisfied(m, version)) {
+            List<File> additionalLibraries = [commonsCliJar, asmJar, antlrJar]
+            testClass.declaredConstructors
+                    .find { it.parameterTypes.length == 4 }
+                    .newInstance(m.name, "${m.name}_For_Groovy_${version}".toString(), groovyAllJar, additionalLibraries)
+                    .with { addTest(it) }
+        }
+    }
+}
             }
         }
         if (countTestCases() == 0) {
