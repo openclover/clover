@@ -27,6 +27,7 @@ public class JavaEnvUtils {
     public static final String JAVA_24 = "24";
     public static final String JAVA_25 = "25";
     public static final String JAVA_26 = "26";
+    public static final String JAVA_27 = "27";
 
     static {
         try {
@@ -67,6 +68,8 @@ public class JavaEnvUtils {
             javaVersion = JAVA_25;
             Class.forName("java.net.http.HttpOption");
             javaVersion = JAVA_26;
+            Class.forName("java.time.format.DateTimeFormatterPatternProvider");
+            javaVersion = JAVA_27;
         } catch (Throwable t) {
             // ignore
         }
