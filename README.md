@@ -16,6 +16,9 @@
 [![GitHub milestone details](https://img.shields.io/github/milestones/progress-percent/openclover/clover/4)](https://github.com/openclover/clover/milestone/4)
 [![GitHub milestone details](https://img.shields.io/github/milestones/progress-percent/openclover/clover/16)](https://github.com/openclover/clover/milestone/16)
 [![GitHub milestone details](https://img.shields.io/github/milestones/progress-percent/openclover/clover/12)](https://github.com/openclover/clover/milestone/12)
+[![GitHub milestone details](https://img.shields.io/github/milestones/progress-percent/openclover/clover/17)](https://github.com/openclover/clover/milestone/17)
+[![GitHub milestone details](https://img.shields.io/github/milestones/progress-percent/openclover/clover/19)](https://github.com/openclover/clover/milestone/19)
+[![GitHub milestone details](https://img.shields.io/github/milestones/progress-percent/openclover/clover/13)](https://github.com/openclover/clover/milestone/13)
 
 # About #
 
