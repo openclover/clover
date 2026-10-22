@@ -1,6 +1,7 @@
 package org.openclover.groovy.instr
 
 import org.openclover.buildutil.test.junit.DefaultTestSelector
+import org.openclover.buildutil.test.junit.GroovyVersionEnd
 import org.openclover.buildutil.test.junit.GroovyVersionStart
 import org.openclover.buildutil.test.junit.GroovyVersions
 import org.openclover.core.versions.LibraryVersion
@@ -21,6 +22,7 @@ class TestSuite
             (Groovy3CoverageRecordingTest) : DefaultTestSelector.instance.closure,
             (Groovy4CoverageRecordingTest) : DefaultTestSelector.instance.closure,
             (Groovy5CoverageRecordingTest) : DefaultTestSelector.instance.closure,
+            (Groovy6CoverageRecordingTest) : DefaultTestSelector.instance.closure,
             (GroovyCoverageTest)           : DefaultTestSelector.instance.closure,
             (GroovyElvisOperatorTest)      : DefaultTestSelector.instance.closure,
             (GroovyLambdasTest)            : DefaultTestSelector.instance.closure,
@@ -59,14 +61,14 @@ class TestSuite
         eachGroovy(groovyLibDir, { shouldTestWithGroovyJar(it) }) { String version, File groovyAllJar ->
             TEST_CLASSES_AND_SELECTORS.each { Class testClass, Closure selector ->
                 testClass.getDeclaredMethods().findAll(selector).each { Method m ->
-                    //Run the test if groovy start version is not specified or if it is and we're >= to it
-                    if (!m.isAnnotationPresent(GroovyVersionStart.class)
-                            || new LibraryVersion(m.getAnnotation(GroovyVersionStart.class).value()).compareTo(new LibraryVersion(version)) <= 0) {
-                        List<File> additionalLibraries = [commonsCliJar, asmJar, antlrJar]
-                        testClass.declaredConstructors
-                                .find { it.parameterTypes.length == 4 }
-                                .newInstance(m.name, "${m.name}_For_Groovy_${version}".toString(), groovyAllJar, additionalLibraries)
-                                .with { addTest(it) }
+                    if (isStartVersionSatisfied(m, version)) {
+                        if (isEndVersionSatisfied(m, version)) {
+                            List<File> additionalLibraries = [commonsCliJar, asmJar, antlrJar]
+                            testClass.declaredConstructors
+                                    .find { it.parameterTypes.length == 4 }
+                                    .newInstance(m.name, "${m.name}_For_Groovy_${version}".toString(), groovyAllJar, additionalLibraries)
+                                    .with { addTest(it) }
+                        }
                     }
                 }
             }
@@ -75,6 +77,18 @@ class TestSuite
             throw new IllegalArgumentException(
                     "No tests configured to run. Included Groovy versions: ${GROOVY_VERSION_INCLUDES}. Groovy versions seen: ${findGroovyAllVersionsAndJars(groovyLibDir)}")
         }
+    }
+
+    /** Run the test if groovy start version is not specified or if it is and we're >= to it */
+    private static boolean isStartVersionSatisfied(Method m, String version) {
+        return !m.isAnnotationPresent(GroovyVersionStart.class) ||
+                new LibraryVersion(m.getAnnotation(GroovyVersionStart.class).value()).compareTo(new LibraryVersion(version)) <= 0
+    }
+
+    /** Run the test if groovy end version is not specified or if it is and we're below it (exclusive) */
+    private static boolean isEndVersionSatisfied(Method m, String version) {
+        return !m.isAnnotationPresent(GroovyVersionEnd.class) ||
+                new LibraryVersion(m.getAnnotation(GroovyVersionEnd.class).value()).compareTo(new LibraryVersion(version)) > 0
     }
 
     boolean shouldTestWithGroovyJar(String version) {

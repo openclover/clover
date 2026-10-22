@@ -63,7 +63,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        jdk: [ 8, 11, 17, 21 ]
+        jdk: [ 8, 11, 17, 21, 25 ]
 
     steps:
       - uses: actions/checkout@v7
@@ -97,9 +97,16 @@ jobs:
         run: |
           mvn -ntp --batch-mode surefire:test -pl clover-core,clover-ant
 
-      - name: Run matrix tests for clover-groovy and tests-functional (no recompilation)
+      # clover-groovy runs its cross-version suites (TestSuite, GroovySpockTestSuite) from the
+      # compatibility profile's surefire execution; it has no failsafe tests. Each suite picks
+      # the Groovy versions that support JDK ${{ matrix.jdk }} (see JavaVersionMixin).
+      - name: Run matrix tests for clover-groovy (no recompilation)
         run: |
-          mvn -ntp --batch-mode -Pcompatibility failsafe:integration-test failsafe:verify -pl clover-groovy,tests-functional
+          mvn -ntp --batch-mode -Pcompatibility surefire:test@run-test-suites -pl clover-groovy
+
+      - name: Run matrix tests for tests-functional (no recompilation)
+        run: |
+          mvn -ntp --batch-mode -Pcompatibility failsafe:integration-test failsafe:verify -pl tests-functional
 
       - name: Upload test results
         if: always()

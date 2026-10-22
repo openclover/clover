@@ -28,15 +28,28 @@ public class CloverSpockIterationInterceptor implements IMethodInterceptor {
                 // and call it in order to record current test name
                 IterationInfo iterationInfo = invocation.getIteration();
                 if (iterationInfo != null) {
+                    final String displayName = getDisplayName(iterationInfo);
                     Logger.getInstance().debug("CloverSpockIterationInterceptor test name=" + iterationInfo.getName()
-                            + " display name=" + iterationInfo.getDisplayName());
-                    spockSniffer.setTestName(iterationInfo.getDisplayName());
+                            + " display name=" + displayName);
+                    spockSniffer.setTestName(displayName);
                 }
             }
         }
 
         // allow Spock to continue
         invocation.proceed();
+    }
+
+    /**
+     * IterationInfo.getDisplayName() was added in Spock 2.0; in Spock 1.x, getName() holds the
+     * (possibly unrolled) iteration name.
+     */
+    private static String getDisplayName(IterationInfo iterationInfo) {
+        try {
+            return iterationInfo.getDisplayName();
+        } catch (NoSuchMethodError e) {
+            return iterationInfo.getName();
+        }
     }
 
 }

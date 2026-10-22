@@ -1,6 +1,7 @@
 package org.openclover.groovy.instr
 
 import groovy.transform.CompileStatic
+import org.openclover.buildutil.test.junit.GroovyVersionEnd
 import org.openclover.buildutil.test.junit.GroovyVersionStart
 import org.openclover.core.CloverDatabase
 import org.openclover.core.CodeType
@@ -88,7 +89,9 @@ class Groovy4CoverageRecordingTest extends TestBase {
     // classify(1)  → case-1 branch, default NOT hit
     // classify(99) → no case matches, injected null-default IS hit
     // -----------------------------------------------------------------------
+    // Groovy 6 throws for an unmatched selector instead; see Groovy6CoverageRecordingTest
     @GroovyVersionStart("4.0.0")
+    @GroovyVersionEnd("6.0.0")
     void testSwitchArrowNoDefaultNullBranch() {
         instrumentAndCompileWithGrover(["SwitchArrowNoDefault.groovy": '''class SwitchArrowNoDefault {
     static String classify(int n) {
@@ -167,6 +170,7 @@ class Groovy4CoverageRecordingTest extends TestBase {
     // classify(1)  → case-1 hit; classify(99) → injected default hit.
     // -----------------------------------------------------------------------
     @GroovyVersionStart("4.0.0")
+    @GroovyVersionEnd("6.0.0")
     void testSwitchYieldNoDefaultNullBranch() {
         instrumentAndCompileWithGrover(["SwitchYieldNoDefault.groovy": '''class SwitchYieldNoDefault {
     static String classify(int n) {
