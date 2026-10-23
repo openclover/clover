@@ -14,6 +14,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -29,6 +30,7 @@ public class TcpRecorderService implements RecorderService {
 
     private static final int MIN_ACCEPT_BACKLOG = 128;
     private static final int BARRIER_POLL_MILLIS = 500;
+    private static final int ACCEPT_THREAD_JOIN_MILLIS = 2000;
 
     private DistributedConfig config;
     private ServerSocket serverSocket;
@@ -106,7 +108,17 @@ public class TcpRecorderService implements RecorderService {
             }
             // Handshake off the accept thread and under a read timeout, so a peer that connects but never
             // sends its handshake cannot stall the accept loop (and thus the start() barrier) for everyone.
-            fanoutPool.execute(() -> registerClient(socket));
+            try {
+                if (!running) {
+                    IOStreamUtils.close(socket);
+                    return;
+                }
+                fanoutPool.execute(() -> registerClient(socket));
+            } catch (RejectedExecutionException e) {
+                // stop() raced with accept(): don't leave the peer hanging waiting for a handshake
+                IOStreamUtils.close(socket);
+                return;
+            }
         }
     }
 
@@ -223,6 +235,14 @@ public class TcpRecorderService implements RecorderService {
         }
         if (acceptThread != null) {
             acceptThread.interrupt();
+            // Wait until the accept loop has really left accept(): until then the kernel may keep the old
+            // listening socket alive, so a service restarted on the same port could fail to bind and a new
+            // client could be accepted by this (stopped) service and never get a handshake.
+            try {
+                acceptThread.join(ACCEPT_THREAD_JOIN_MILLIS);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
         }
     }
 
