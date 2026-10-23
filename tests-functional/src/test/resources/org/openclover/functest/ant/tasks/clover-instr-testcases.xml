@@ -51,7 +51,7 @@
             <classpath refid="all.test.path"/>
         </javac>
 
-        <clover-instrument destDir="${testrun.dir}/location1.instr">
+        <clover-instrument source="1.8" destDir="${testrun.dir}/location1.instr">
             <fileset dir="${project.src.location1}"/>
         </clover-instrument>
 
@@ -59,7 +59,7 @@
             <classpath refid="all.test.path"/>
         </javac>
 
-        <clover-instrument destDir="${testrun.dir}/location2.instr">
+        <clover-instrument source="1.8" destDir="${testrun.dir}/location2.instr">
             <fileset dir="${project.src.location2}"/>
         </clover-instrument>
 
